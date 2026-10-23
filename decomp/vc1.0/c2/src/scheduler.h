@@ -141,4 +141,5 @@ int __fastcall scheduled_address_registers_stable(MachineInstruction *first, Mac
     MachineOperand *operand, int forward);
 SymbolHeader *__fastcall infer_scheduled_address_symbol(MachineOperand *operand, int conservative);
 int __fastcall scheduled_instruction_changes_register(MachineInstruction *instruction, unsigned short reg);
+int __fastcall pentium_flags_live_after(MachineInstruction *instruction);
 #endif

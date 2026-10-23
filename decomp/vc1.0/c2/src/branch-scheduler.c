@@ -117,3 +117,110 @@ void __fastcall schedule_pentium_branch_edge(MachineInstruction *branch,
         insert_machine_after(candidate->previous, nop);
     }
 }
+
+#define EDGE_MACHINE(i) (BRANCH_KIND(i) == 0 || (BRANCH_KIND(i) >= 8 && BRANCH_KIND(i) <= 10))
+#define EDGE_BLOCKS_SCAN(op) ((op) == MC_JCC || (op) == MC_JMP || (op) == MC_LEAVE || (op) == MC_RET)
+#define EDGE_CANDIDATE_MARK 0x200000UL
+/* Original [00047850,00047d78). Fill taken-edge pairing slots by moving
+   predecessors and cloning them after the target label. Stop the first scan
+   at flag writers, then try at most six further candidates with flag liveness
+   and dependence checks. Arena/undo/flush ordering is phase-owned state. */
+int __fastcall pair_pentium_taken_edge(MachineInstruction *branch, MachineInstruction **middle,
+    MachineInstruction *label, int *changed)
+{
+    MachineInstruction *block, *instruction, *previous, *copy;
+    unsigned operation, kind;
+    int count = 0, attempts;
+    fflush(stdout);
+    block = label;
+    while (BRANCH_KIND(block) != 7) block = block->previous;
+    if (!block || (((MachineBlockHeader *)block)->flags & 3)) return 0;
+    instruction = branch->previous;
+    scheduler_undo = 0;
+    branch->record.scheduling = new_instruction_schedule();
+    while (instruction) {
+        kind = BRANCH_KIND(instruction);
+        operation = BRANCH_OPERATION(instruction);
+        if (EDGE_MACHINE(instruction) &&
+            ((machine_selection_properties[operation] & MC_WRITES_FLAGS) || operation == MC_CALL)) break;
+        if ((EDGE_MACHINE(instruction) && EDGE_BLOCKS_SCAN(operation)) || kind == 1) break;
+        previous = instruction->previous;
+        if (EDGE_MACHINE(instruction)) {
+            ++count;
+            if (count == 1) {
+                instruction->record.scheduling = new_instruction_schedule();
+                scheduler_branch_pipe = 2;
+                if (!classify_pentium_pipe(instruction, &scheduler_branch_pipe) &&
+                    !(instruction->opcode & EDGE_CANDIDATE_MARK)) {
+                    fflush(stdout);
+                    place_scheduled_instruction(branch, instruction);
+                    copy = clone_machine_record(instruction);
+                    ++*changed;
+                    insert_machine_after(label, copy);
+                    if (*changed == 1) *middle = copy;
+                    reset_arena(3);
+                    return 1;
+                }
+            } else if (!(instruction->opcode & EDGE_CANDIDATE_MARK)) {
+                instruction->record.scheduling = new_instruction_schedule();
+                scheduler_undo = 0;
+                if (scan_schedule_interval(instruction, branch, 0, 0, 0, 0, 0)) {
+                    fflush(stdout);
+                    place_scheduled_instruction(branch, instruction);
+                    instruction->opcode |= EDGE_CANDIDATE_MARK;
+                    copy = clone_machine_record(instruction);
+                    insert_machine_after(label, copy);
+                    ++*changed;
+                    scheduler_branch_pipe = 2;
+                    if (*middle || !classify_pentium_pipe(copy, &scheduler_branch_pipe)) {
+                        if (*changed == 1) *middle = copy;
+                        reset_arena(3);
+                        return 1;
+                    }
+                    if (*changed == 1) *middle = copy;
+                }
+            }
+        }
+        instruction = previous;
+    }
+    if (!instruction || (EDGE_MACHINE(instruction) && EDGE_BLOCKS_SCAN(BRANCH_OPERATION(instruction))) ||
+        BRANCH_KIND(instruction) == 1) return 0;
+    previous = instruction->previous;
+    instruction->record.scheduling = new_instruction_schedule();
+    instruction = previous;
+    for (attempts = 0; attempts <= 5; ++attempts) {
+        while (instruction && !EDGE_MACHINE(instruction) && BRANCH_KIND(instruction) != 1)
+            instruction = instruction->previous;
+        if (!instruction) return 0;
+        kind = BRANCH_KIND(instruction);
+        operation = BRANCH_OPERATION(instruction);
+        if ((EDGE_MACHINE(instruction) && EDGE_BLOCKS_SCAN(operation)) || kind == 1 || operation == MC_CALL)
+            return 0;
+        previous = instruction->previous;
+        if (!(instruction->opcode & EDGE_CANDIDATE_MARK) ||
+            (((machine_selection_properties[operation] & MC_WRITES_FLAGS) || operation == MC_CALL) &&
+             (pentium_flags_live_after(branch) || pentium_flags_live_after(label)))) {
+            fflush(stdout);
+            instruction->record.scheduling = new_instruction_schedule();
+        } else {
+            instruction->record.scheduling = new_instruction_schedule();
+            scheduler_undo = 0;
+            if (scan_schedule_interval(instruction, branch, 0, 0, 0, 0, 0)) {
+                place_scheduled_instruction(branch, instruction);
+                instruction->opcode |= EDGE_CANDIDATE_MARK;
+                copy = clone_machine_record(instruction);
+                fflush(stdout);
+                insert_machine_after(label, copy);
+                ++*changed;
+                if (*middle || !classify_pentium_pipe(copy, &scheduler_branch_pipe)) {
+                    if (*changed == 1) *middle = copy;
+                    reset_arena(3);
+                    return 1;
+                }
+                if (*changed == 1) *middle = copy;
+            }
+        }
+        instruction = previous;
+    }
+    return 0;
+}

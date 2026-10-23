@@ -841,7 +841,9 @@
     "@memory_displacements_overlap@16",
     "@scheduled_address_registers_stable@16",
     "@scheduled_instruction_changes_register@8",
-    "@remove_pentium_ready_candidate@4"
+    "@remove_pentium_ready_candidate@4",
+    "@pair_pentium_taken_edge@16",
+    "@alignment_lookahead@4"
   ],
   "driver": [
     {
@@ -3658,8 +3660,7 @@
     {
       "name": "@alignment_lookahead@4",
       "start": 208576,
-      "end": 208577,
-      "provisional": true
+      "end": 208687
     },
     {
       "name": "@extend_previous_instruction@8",
@@ -5957,8 +5958,7 @@
     {
       "name": "@pair_pentium_taken_edge@16",
       "start": 292944,
-      "end": 292945,
-      "provisional": true
+      "end": 294264
     },
     {
       "name": "@redirect_pentium_branch_labels@8",
@@ -6504,6 +6504,12 @@
       "name": "@scheduled_instruction_changes_register@8",
       "start": 270752,
       "end": 270932
+    },
+    {
+      "name": "@pentium_flags_live_after@4",
+      "start": 294768,
+      "end": 294769,
+      "provisional": true
     }
   ],
   "cases": {

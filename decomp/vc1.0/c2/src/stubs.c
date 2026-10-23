@@ -213,7 +213,6 @@ void __fastcall optimize_sahf(MachineInstruction *instruction) { __asm int 3 }
 
 #include "instruction-encoding.h"
 #include <recon.h>
-int __fastcall alignment_lookahead(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall extend_previous_instruction(MachineInstruction *instruction, unsigned bytes) { __asm int 3 }
 unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
     unsigned char storage, unsigned offset, unsigned short type, unsigned fallback,
@@ -401,7 +400,6 @@ int __fastcall scheduled_float_conflict(MachineInstruction *first, MachineInstru
 int __fastcall scheduled_float_latency(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall scheduler_instruction_cycles(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall pair_pentium_fallthrough_jump(MachineInstruction *jump, MachineInstruction **middle) { __asm int 3 }
-int __fastcall pair_pentium_taken_edge(MachineInstruction *branch, MachineInstruction **middle, MachineInstruction *label, int *changed) { __asm int 3 }
 void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, MachineInstruction *middle) { __asm int 3 }
 void __fastcall coff_write_word(unsigned short value) { __asm int 3 }
 void __fastcall coff_write_dword(unsigned value) { __asm int 3 }
@@ -465,3 +463,4 @@ void __fastcall transform_machine_region_blocks(MachineFlowRegion *region) { __a
 int __fastcall instruction_precedes_region_entry(MachineInstruction *instruction) { __asm int 3 }
 unsigned __fastcall stack_adjustment_between(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
 SymbolHeader *__fastcall infer_scheduled_address_symbol(MachineOperand *operand, int conservative) { __asm int 3 }
+int __fastcall pentium_flags_live_after(MachineInstruction *instruction) { __asm int 3 }

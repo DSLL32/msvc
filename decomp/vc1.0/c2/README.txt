@@ -2117,3 +2117,13 @@ properties confirm the implicit-register flag mapping. Native/original agree at
 pair_pentium_taken_edge47850 after general scheduling.759 graph/extent checks,
 canonical/W3 and native fixtures pass. Branch pairing/final hello output remain
 incomplete; see cases/hello-pentium-scheduling-complete.json for evidence/timings.
+
+Branch scheduling and layout passed: checkpoint839
+--------------------------------------------------
+Whole taken-edge pairing and alignment lookahead now pass WinMain scheduling,
+layout and code emission to coff_write_relocations6f110. Actual instruction
+cloning/movement branches are not independently claimed exercised. All231 opcode
+flag words confirm the reused flag-writing property.761 source graph checks,
+canonical/native builds, two modules W3 and native fixtures pass. Extent union
+230628/399693=57.7013%, not branch coverage. Final object remains incomplete;
+see cases/hello-branch-layout-complete.json for evidence and measured timings.

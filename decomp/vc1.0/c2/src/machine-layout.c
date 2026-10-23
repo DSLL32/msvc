@@ -237,3 +237,22 @@ void __fastcall finish_machine_lowering(MachineContext *context)
         }
     } while (changed);
 }
+
+/* Original [00032ec0,00032f2f). A marked label benefits from alignment
+   when a later direct branch returns to it before another marked label. */
+int __fastcall alignment_lookahead(MachineInstruction *instruction)
+{
+    MachineInstruction *scan;
+    unsigned kind, operation;
+    if (!(instruction->labels.flags & 1)) return 0;
+    for (scan = instruction->next; scan; scan = scan->next) {
+        kind = scan->opcode & 15;
+        if (kind == 1 && (scan->labels.flags & 1)) return 0;
+        if (kind != 0) continue;
+        operation = (unsigned char)(scan->opcode >> 8);
+        if ((operation == MC_JCC || operation == MC_JMP) &&
+            (scan->operands[0].flags & 15) == OPERAND_SYMBOL &&
+            scan->operands[0].value.symbol == instruction->record.symbol) return 1;
+    }
+    return 0;
+}

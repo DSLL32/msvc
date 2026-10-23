@@ -2,7 +2,7 @@
   "schema": 1,
   "description": "Cached original application-entry projection; no capture or Wine",
   "metadata_sha256": {
-    "functions.json": "faf496d4346d883b85aeec59d18ac5b9708d7a20edf9b11120afa555016c26a6",
+    "functions.json": "063529c767bf61a49d17e0bbeee068202e53e171e97451fd8b43a82fedf37176",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -100,7 +100,7 @@
     },
     "alignment_lookahead": {
       "logical": "@alignment_lookahead@4",
-      "source": "src/stubs.c"
+      "source": "src/machine-layout.c"
     },
     "allocate_descriptor": {
       "logical": "@allocate_descriptor@8",
@@ -2852,7 +2852,7 @@
     },
     "pair_pentium_taken_edge": {
       "logical": "@pair_pentium_taken_edge@16",
-      "source": "src/stubs.c"
+      "source": "src/branch-scheduler.c"
     },
     "parse_number": {
       "logical": "@parse_number@4",
@@ -2872,6 +2872,10 @@
     },
     "peephole_selected_block": {
       "logical": "@peephole_selected_block@8",
+      "source": "src/stubs.c"
+    },
+    "pentium_flags_live_after": {
+      "logical": "@pentium_flags_live_after@4",
       "source": "src/stubs.c"
     },
     "pentium_pair_dependency": {
@@ -15771,6 +15775,136 @@
               "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/ready-candidate-removal-after"
             }
           }
+        },
+        {
+          "accepted_function": "@pair_pentium_taken_edge@16",
+          "accepted_kind": "application",
+          "previous_logical": "@pair_pentium_taken_edge@16",
+          "original_extent": [
+            "0x47850",
+            "0x47d78"
+          ],
+          "before": {
+            "path": "cases/hello-original-837-renamed.json",
+            "sha256": "e41870b49f38ce750ad6231a04fbd742aac2714737ce3680ec8e0e19fafb0363",
+            "capture": {
+              "label": "ready-candidate-name-refined",
+              "accepted": 837,
+              "logical": "@pair_pentium_taken_edge@16",
+              "original_va": "0x47850",
+              "events": "exception 80000003 rva 00037850 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.1995109273120761,
+              "execution_check_seconds": 0.6936048185452819,
+              "total_seconds": 0.8931161826476455,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "6785d39167f4a6d969bdc5ff409328087972c365d4eb1f51982c9a766ec26d72",
+              "config_sha256": "faf496d4346d883b85aeec59d18ac5b9708d7a20edf9b11120afa555016c26a6",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/ready-candidate-name-refined"
+            }
+          },
+          "after": {
+            "path": "cases/hello-original-838.json",
+            "sha256": "3f7cd83a05a21f0a27b8e83b406daac5a0d67ce851d10c0ad64a7db91d7919ea",
+            "capture": {
+              "label": "pair-taken-edge-after",
+              "accepted": 838,
+              "logical": "@alignment_lookahead@4",
+              "original_va": "0x32ec0",
+              "events": "exception 80000003 rva 00022ec0 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.19724630936980247,
+              "execution_check_seconds": 1.1300079198554158,
+              "total_seconds": 1.3272546594962478,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "0c350e7aa62786006e0bf17927aa0f21fdbb8ccc66bdae3d066d4b33097a1d72",
+              "config_sha256": "a65836d1e4b184f8847fab3092e2cb05f6e5582fda1a6faf183091c7a591804d",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/pair-taken-edge-after"
+            }
+          }
+        },
+        {
+          "accepted_function": "@alignment_lookahead@4",
+          "accepted_kind": "application",
+          "previous_logical": "@alignment_lookahead@4",
+          "original_extent": [
+            "0x32ec0",
+            "0x32f2f"
+          ],
+          "before": {
+            "path": "cases/hello-original-838.json",
+            "sha256": "3f7cd83a05a21f0a27b8e83b406daac5a0d67ce851d10c0ad64a7db91d7919ea",
+            "capture": {
+              "label": "pair-taken-edge-after",
+              "accepted": 838,
+              "logical": "@alignment_lookahead@4",
+              "original_va": "0x32ec0",
+              "events": "exception 80000003 rva 00022ec0 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.19724630936980247,
+              "execution_check_seconds": 1.1300079198554158,
+              "total_seconds": 1.3272546594962478,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "0c350e7aa62786006e0bf17927aa0f21fdbb8ccc66bdae3d066d4b33097a1d72",
+              "config_sha256": "a65836d1e4b184f8847fab3092e2cb05f6e5582fda1a6faf183091c7a591804d",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/pair-taken-edge-after"
+            }
+          },
+          "after": {
+            "path": "cases/hello-original-839.json",
+            "sha256": "1acb85746768a80853a2bca12ac5eadcda7eba9c6a63996571c0a5d6d3247a42",
+            "capture": {
+              "label": "alignment-lookahead-after",
+              "accepted": 839,
+              "logical": "@coff_write_relocations@8",
+              "original_va": "0x6f110",
+              "events": "exception 80000003 rva 0005f110 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.19289917312562466,
+              "execution_check_seconds": 1.1741821924224496,
+              "total_seconds": 1.3670820435509086,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "4f87ea4f324a7eb2ed186610d0a82f9ed7a753525968e42bfe86bd9d0523dfe9",
+              "config_sha256": "063529c767bf61a49d17e0bbeee068202e53e171e97451fd8b43a82fedf37176",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/alignment-lookahead-after"
+            }
+          }
         }
       ],
       "extent_corrections": [
@@ -16407,7 +16541,7 @@
     },
     "hello": {
       "first": 352,
-      "last": 837,
+      "last": 839,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -17165,9 +17299,11 @@
         "scheduled_address_registers_stable",
         "scheduled_instruction_changes_register",
         "remove_pentium_ready_candidate",
-        "pair_pentium_taken_edge"
+        "pair_pentium_taken_edge",
+        "alignment_lookahead",
+        "coff_write_relocations"
       ],
-      "terminal": "@pair_pentium_taken_edge@16",
+      "terminal": "@coff_write_relocations@8",
       "returncode": -5,
       "terminal_kind": "application"
     }
