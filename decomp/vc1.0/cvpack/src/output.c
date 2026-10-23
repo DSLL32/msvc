@@ -246,4 +246,51 @@ void write_subsection(unsigned long index)
     output_padding = 4-(entry->size & 3);
     if (output_padding != 4) OUTPUT_BYTES(output_zeroes, output_padding);
 }
+
+/* The packed symbol subsection precedes its name and address hash streams. */
+typedef struct SymbolHashHeader {
+    unsigned short name_kind, address_kind;
+    unsigned long symbols, names, addresses;
+} SymbolHashHeader;
+typedef char SymbolHashHeaderSize[(sizeof(SymbolHashHeader)==16)?1:-1];
+
+void write_global_publics(CvDirectoryEntry *entry, unsigned long offset)
+{
+    unsigned long zero = 0, bucket, bytes, padding;
+    SymbolHashHeader header;
+    GrowingBuffer names, addresses;
+    PublicSymbol *symbol;
+    BufferBlock *block;
+
+    header.name_kind = header.address_kind = 0;
+    header.symbols = header.names = header.addresses = 0;
+    public_symbols_size += pad_symbols(public_symbol_hash, 4);
+    header.symbols = public_symbols_size;
+    build_symbol_name_hash(hash_public, &header.name_kind, &header.names,
+                           &names, public_symbols_count, public_symbol_hash);
+    build_symbol_address_hash(&header.address_kind, &header.addresses,
+                              &addresses, public_symbols_count, public_symbol_hash);
+    entry->subsection = 0x12a;
+    entry->module = 0xffff;
+    entry->location.offset = offset;
+    entry->size = header.symbols+header.names+header.addresses+sizeof(header);
+    OUTPUT_BYTES(&header, sizeof(header));
+    for (bucket = 0; bucket < 4096; ++bucket) {
+        for (symbol = public_symbol_hash[bucket]; symbol; symbol = symbol->next) {
+            bytes = *(unsigned short *)symbol->record+2;
+            OUTPUT_BYTES(symbol->record, bytes);
+        }
+    }
+    if (header.name_kind) {
+        for (block = first_buffer_block(&names); block; block = next_buffer_block(block))
+            OUTPUT_BYTES(block->data, block->used);
+    }
+    if (header.address_kind) {
+        for (block = first_buffer_block(&addresses); block; block = next_buffer_block(block))
+            OUTPUT_BYTES(block->data, block->used);
+    }
+    padding = 4-(entry->size & 3);
+    if (padding != 4) OUTPUT_BYTES(&zero, padding);
+    if (verbose == 1) printf("Public symbol size\t\t= %8.1ld\n", header.symbols);
+}
 #undef OUTPUT_BYTES

@@ -148,6 +148,11 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
         ' if not base or not base<=pointer<base+capacity*12 or (pointer-base)%12: raise RuntimeError("argument outside live directory allocation")\n'
         ' argument["array"]=dict(base=base,count=count,index=(pointer-base)//12,stride=12,capacity=capacity);argument["bytes"]=bytes(gdb.selected_inferior().read_memory(pointer,12)).hex()\n'
         'for description in frontier.get("parameters",[]):\n'
+        ' if description["kind"]!="global-owner": continue\n'
+        ' root=int(gdb.parse_and_eval(description["root"]));argument=parameters[description["name"]]\n'
+        ' if not root or root!=argument["address"]: raise RuntimeError("argument differs from published table owner")\n'
+        ' argument["owner"]=dict(root=description["root"],address=root,requested_size=description["requested_size"])\n'
+        'for description in frontier.get("parameters",[]):\n'
         ' if description["kind"]!="transient-pointer": continue\n'
         ' proof=json.load(open('+repr(str(BINARY))+'+"/"+description["evidence"]))\n'
         ' owner=current.older()\n'
@@ -260,7 +265,7 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
     if expected.get('proof_mode')=='entry-flow'and not(reference_completion or scalar_completion):
         marker='set argv[0] = recon_pgmptr\n';text=script.read_text();prefix=text[:text.index(marker)+len(marker)]
         frontier=next(r for r in config['functions']if r['native']==expected['native_function'])
-        assert all(r['kind']in('integer','stack-output','stack-input','allocation-output','counted-string','directory-key','directory-output')or(r['kind']=='pointer'and r.get('null_only'))for r in frontier['parameters']),'new frontier requires concrete typed pointer observation'
+        assert all(r['kind']in('integer','stack-output','stack-input','allocation-output','counted-string','directory-key','directory-output','global-owner')or(r['kind']=='pointer'and r.get('null_only'))for r in frontier['parameters']),'new frontier requires concrete typed pointer observation'
         observed=[r for r in data if r['name']in expected.get('observed_globals',[])]
         assert len(observed)==len(expected.get('observed_globals',[])),'unknown observed global'
         prefix+='python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_sopen_observer"]('+repr(str(directory/'crt-returns.json'))+','+repr(str(directory/'debug-work'))+','+repr(policies)+')\nend\ncontinue\npython\nimport json\nf=gdb.newest_frame();frames=[];frame=f\nwhile frame:frames.append(frame.name());frame=frame.older()\n'

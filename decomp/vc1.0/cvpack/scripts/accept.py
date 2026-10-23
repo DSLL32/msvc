@@ -40,6 +40,15 @@ def compare_integer(item,descriptions,words,parameters):
     assert value&mask==actual&mask,('ABI integer differs',item['name'],value,actual)
     return None
 
+def compare_global_owner(item,words,actual,events):
+    assert (item['root'],item['original_root'],item['requested_size'])==('public_symbol_hash',0x3717c,0x4000),'unreviewed published table allocation'
+    matches=re.findall(r'^memory %08x ([0-9a-f]+)$'%item['original_root'],events,re.M)
+    assert len(matches)==1 and len(bytes.fromhex(matches[0]))==4,'missing original table root'
+    root=int.from_bytes(bytes.fromhex(matches[0]),'little');owner=actual['owner']
+    assert root==words[item['slot']]!=0,'original argument differs from published table owner'
+    assert owner['root']==item['root']and owner['requested_size']==item['requested_size']and owner['address']==actual['address']!=0 and not actual['null'],'native argument differs from published table owner'
+    return dict(original_address=root,native_address=actual['address'],owner=item['root'],requested_size=item['requested_size'],scope='Published checked_zero(0x4000) table identity and requested extent; no bucket/node heap equality claimed at this entry')
+
 def compare_directory_key(item,words,actual,events):
     def scalar(address):
         matches=re.findall(r'^memory %08x ([0-9a-f]+)$'%address,events,re.M)
@@ -101,6 +110,7 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
     assert set(state['parameters'])=={r['name']for r in frontier['parameters']},'new frontier ABI observation incomplete'
     for item in frontier['parameters']:
         if item['kind']=='integer':parameters[item['name']]=compare_integer(item,frontier['parameters'],words,state['parameters'])
+        elif item['kind']=='global-owner':parameters[item['name']]=compare_global_owner(item,words,state['parameters'][item['name']],events)
         elif item['kind']in('directory-key','directory-output'):parameters[item['name']]=compare_directory_key(item,words,state['parameters'][item['name']],events)
         elif item['kind']=='counted-string':parameters[item['name']]=compare_counted_name(item,words,state['parameters'][item['name']],events)
         elif item['kind']=='pointer'and item.get('null_only'):parameters[item['name']]=compare_null_pointer(words[item['slot']],state['parameters'][item['name']])

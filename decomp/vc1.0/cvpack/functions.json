@@ -6838,13 +6838,16 @@
       "native": "write_global_publics",
       "symbol": "_write_global_publics",
       "original": 112336,
-      "source": "src/stubs.c",
+      "source": "src/output.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        112336,
+        113157
+      ],
       "abi": "void write_global_publics(CvDirectoryEntry *,unsigned long)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0131-write_global_publics/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -6859,7 +6862,21 @@
           "kind": "integer",
           "bits": 32
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "write_global_symbols",
@@ -6964,6 +6981,97 @@
           }
         ]
       }
+    },
+    {
+      "name": "pad_symbols",
+      "native": "pad_symbols",
+      "symbol": "_pad_symbols",
+      "original": 122336,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned long pad_symbols(void **,unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "buckets",
+          "slot": 1,
+          "kind": "global-owner",
+          "root": "public_symbol_hash",
+          "original_root": 225660,
+          "requested_size": 16384
+        },
+        {
+          "name": "alignment",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 16
+        }
+      ]
+    },
+    {
+      "name": "build_symbol_name_hash",
+      "native": "build_symbol_name_hash",
+      "symbol": "_build_symbol_name_hash",
+      "original": 117648,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void build_symbol_name_hash(SymbolHash,unsigned short *,unsigned long *,GrowingBuffer *,unsigned long,void **)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "build_symbol_address_hash",
+      "native": "build_symbol_address_hash",
+      "symbol": "_build_symbol_address_hash",
+      "original": 118896,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void build_symbol_address_hash(unsigned short *,unsigned long *,GrowingBuffer *,unsigned long,void **)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "first_buffer_block",
+      "native": "first_buffer_block",
+      "symbol": "_first_buffer_block",
+      "original": 143584,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "BufferBlock *first_buffer_block(const GrowingBuffer *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "next_buffer_block",
+      "native": "next_buffer_block",
+      "symbol": "_next_buffer_block",
+      "original": 143600,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "BufferBlock *next_buffer_block(const BufferBlock *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
     }
   ],
   "review": {
@@ -7770,6 +7878,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 130
+    },
+    {
+      "function": "write_global_publics",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 131
     }
   ],
   "support_unmasked": [
@@ -8380,7 +8494,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "0c2b7f13ab1573d0f2482d7ad71ce2ea65ea15fc9e2486862634b44ffab1adbd"
+    "evidence_sha256": "69098b8936f18b74734b0ea23a22a8e9c9dcec6d42b2582c4540d0618c0dc329"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -8456,6 +8570,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "418b5eafb87f01b8c5afce567bf46dcf898988b0eb52cffa5ebae4d7e1f49991"
+    "sha256": "8f0ea7f5d90ce87e8d142c2044c92e71542961ad42a5ef2912c1a4c6a34541c6"
   }
 }
