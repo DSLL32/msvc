@@ -92,11 +92,8 @@ Node *__fastcall fold_floating_comparison(Node *node) { __asm int 3 }
 Node *__fastcall fold_floating_node(Node *node) { __asm int 3 }
 #include "algebra.h"
 int __fastcall is_nonnegative_tree(Node *node) { __asm int 3 }
-int __fastcall can_combine_constants(Node *node, unsigned first, unsigned second) { __asm int 3 }
-int __fastcall constant_as_integer(Node *node, int *value) { __asm int 3 }
 Node *__fastcall remove_left_wrapper(Node *node) { __asm int 3 }
 Node *__fastcall lift_right_unary(Node *node) { __asm int 3 }
-int __fastcall distribute_constant(Node *node, unsigned opcode) { __asm int 3 }
 int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 #include "work-prepare.h"
 void __fastcall prepare_generated_intrinsic(Node *node, int mode) { __asm int 3 }
@@ -239,12 +236,11 @@ int extended_to_integer(const Extended *number, int *result) { __asm int 3 }
 Node *__fastcall simplify_reciprocal(Node *node) { __asm int 3 }
 Node *__fastcall distribute_unary_tree(Node *node) { __asm int 3 }
 
-void __fastcall reduce_multiplicative_chain(Node *node) { __asm int 3 }
+Node *__fastcall copy_factor_exponent(Node *node) { __asm int 3 }
 void __fastcall reduce_bitwise_terms(Node *node, unsigned identity) { __asm int 3 }
 void __fastcall factor_bitwise_chain(Node *node, unsigned opcode) { __asm int 3 }
 
 
-void __fastcall cancel_unary_factors(Node *node, unsigned unary, unsigned combine) { __asm int 3 }
 
 
 Node *__fastcall push_unary_below_conversion(Node *node) { __asm int 3 }
@@ -402,7 +398,6 @@ void __fastcall append_intrinsic_expression(Node *expression) { __asm int 3 }
 void __fastcall release_intrinsic_operands(Node *node) { __asm int 3 }
 unsigned __fastcall intrinsic_operator(unsigned intrinsic) { __asm int 3 }
 unsigned short __fastcall intrinsic_argument_width(Node *node, int skip_first) { __asm int 3 }
-unsigned __fastcall combine_factor_constants(Node *operation, unsigned first, unsigned second) { __asm int 3 }
 int __fastcall adjust_factor_constant(Node *node, Node *factor, unsigned *value) { __asm int 3 }
 Node *__fastcall push_unary_into_left(Node *node) { __asm int 3 }
 Node *__fastcall push_unary_into_right(Node *node) { __asm int 3 }

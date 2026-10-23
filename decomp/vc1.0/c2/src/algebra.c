@@ -735,3 +735,74 @@ Node *__fastcall simplify_masked_tree(Node *node, unsigned mask)
     }
     return node;
 }
+
+/* Original [00054db0,00054df9). Distribute a constant right operand over
+   the requested binary operator, retaining node reuse and folding order. */
+int __fastcall distribute_constant(Node *node, unsigned opcode)
+{
+    Node *left = node->left.node, *constant;
+    unsigned operation;
+    if (left->opcode != opcode) return 0;
+    constant = node->second.node;
+    if (constant->opcode != 0x33) return 0;
+    operation = node->opcode;
+    build_tree("PCOLYFPPNYFOL", left->left.node, constant, operation, left,
+               left->second.node, constant, operation, opcode, node);
+    tree_changed = 1;
+    return 1;
+}
+
+/* Original [00055a00,00055a45). Accept integer-valued scalar constants,
+   checking a floating conversion by comparing its exact original value. */
+int __fastcall constant_as_integer(Node *node, int *value)
+{
+    if (node->opcode != 0x33) return 0;
+    if (node->attributes.words.type & 0xf00) {
+        *value = (int)node->left.value;
+        return 1;
+    }
+    if (extended_to_integer(node->left.pointer, value)) return 0;
+    return is_constant_value(node, *value);
+}
+
+/* Original [00056060,00056150), including its nine-entry dispatch table.
+   Test whether factoring preserves an exact quotient, shift width or mask. */
+int __fastcall can_combine_constants(Node *node, unsigned first, unsigned second)
+{
+    switch (node->opcode) {
+    case 4: case 7:
+        if (!second) return 0;
+        if (node->attributes.words.type & 0x200) return first % second == 0;
+        return (int)first % (int)second == 0;
+    case 9: case 10:
+        if ((int)second > (int)first) return 0;
+        if (is_subword_mask_pattern(node, first) &&
+            !is_subword_mask_pattern(node, first - second)) return 0;
+        return 1;
+    case 0xb:
+        return (first & second) == first;
+    case 0xc:
+        return (first | second) == first;
+    default:
+        compiler_internal_error("@(#)optimize.c:1.144", 0x468);
+        return 0;
+    }
+}
+
+/* Original [00055fe0,00056054), including its nine-entry dispatch table.
+   The compatibility query owns the guards for the factored operation. */
+unsigned __fastcall combine_factor_constants(Node *operation, unsigned first, unsigned second)
+{
+    switch (operation->opcode) {
+    case 4: case 7:
+        if (!second) return 0;
+        if (operation->attributes.words.type & 0x200) return first / second;
+        return (unsigned)((int)first / (int)second);
+    case 9: case 10:
+        return first - second;
+    case 0xc:
+        return first ^ second;
+    default:
+        return first;
+    }
+}

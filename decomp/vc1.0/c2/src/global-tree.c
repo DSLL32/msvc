@@ -28,6 +28,7 @@ Node *__fastcall distribute_unary_tree(Node *node);
 int __fastcall is_negatable_negative_constant(Node *node);
 void __fastcall reduce_additive_chain(Node *node);
 void __fastcall reduce_multiplicative_chain(Node *node);
+Node *__fastcall copy_factor_exponent(Node *node);
 void __fastcall reduce_bitwise_terms(Node *node, unsigned identity);
 void __fastcall factor_bitwise_chain(Node *node, unsigned opcode);
 Node *__fastcall fold_address_offset(Node *node);
@@ -789,5 +790,61 @@ void __fastcall combine_complementary_masks(Node *node)
     base = primary->left.node;
     build_tree("PPOLPLDOL", base, secondary->left.node, 0xd, primary,
                secondary->second.node, secondary, base, 0xd, node);
+    tree_changed = 1;
+}
+
+/* Original [00055620,00055717). Find a repeatable factor along the left
+   product spine, looking through power and reciprocal wrappers. Combine one
+   matching pair by adding their exponents, then leave the next pass to fold. */
+void __fastcall reduce_multiplicative_chain(Node *node)
+{
+    Node *right = node->second.node, *right_base = right, *left_base;
+    Node *right_exponent, *left_exponent;
+    Node **chain = &node->left.node, **factor;
+    if (right_base->opcode == 7) right_base = right_base->left.node;
+    if (right_base->opcode == 0xaa) right_base = right_base->left.node;
+    for (;;) {
+        factor = (*chain)->opcode == 4 ? &(*chain)->second.node : chain;
+        if (node->opcode == 4 && (node->attributes.words.type & 0x1000) &&
+            optimize_precision) return;
+        left_base = *factor;
+        if (left_base->opcode == 7) left_base = left_base->left.node;
+        if (left_base->opcode == 0xaa) left_base = left_base->left.node;
+        if (trees_equal(left_base, right_base, 1) && can_repeat_tree(left_base)) {
+            right_exponent = copy_factor_exponent(right);
+            left_exponent = copy_factor_exponent(*factor);
+            build_tree("PDPPNYNYL", node->left.node, right_base, left_exponent,
+                       right_exponent, 2, 7, node);
+            release_tree(right);
+            release_tree(*factor);
+            *factor = typed_integer_node(node, 1);
+            tree_changed = 1;
+            return;
+        }
+        if (chain == factor) return;
+        chain = &(*chain)->left.node;
+    }
+}
+
+/* Original [00055e10,00055e8e). Combine matching unary factors across
+   an associative left spine, replacing the removed wrapper by its identity. */
+void __fastcall cancel_unary_factors(Node *node, unsigned unary, unsigned combine)
+{
+    Node *right = node->second.node, *left, *old;
+    Node **chain, **factor;
+    if (right->opcode != unary) return;
+    chain = &node->left.node;
+    for (;;) {
+        left = *chain;
+        factor = left->opcode == node->opcode ? &left->second.node : chain;
+        if ((*factor)->opcode == unary) break;
+        if (factor == chain) return;
+        chain = &left->left.node;
+    }
+    if (operator_identity(node) == 0x2a) return;
+    build_tree("PPNYL", (*factor)->left.node, right->left.node, combine, right);
+    old = *factor;
+    *factor = operator_identity_node(node, old);
+    release_node(old);
     tree_changed = 1;
 }

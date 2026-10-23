@@ -2161,3 +2161,11 @@ The reducer transformation body is not independently claimed exercised after
 its initial false guard. Native/original now agree at distribute_constant54db0.
 771 source graphs, canonical/native/W3 and all three native fixtures pass.
 See cases/loops-bit-masks.json; final loop object remains incomplete.
+
+Loop common factors: checkpoint855
+-------------------
+6 whole functions pass fresh original/native matching; current frontier
+@operator_identity_node@8. 777 graph checks, canonical/native/W3 and all three
+native fixtures pass. See cases/loops-factor.json for extent union, limits
+and measured timing splits. Minimal/hello objects remain exact after timestamp;
+loop620-byte final object is incomplete.

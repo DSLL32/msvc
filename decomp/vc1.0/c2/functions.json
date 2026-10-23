@@ -853,7 +853,13 @@
     "@integer_log2@4",
     "@shift_discard_mask@4",
     "@integer_type_limit@8",
-    "@simplify_masked_tree@8"
+    "@simplify_masked_tree@8",
+    "@distribute_constant@8",
+    "@reduce_multiplicative_chain@4",
+    "@cancel_unary_factors@12",
+    "@constant_as_integer@8",
+    "@can_combine_constants@12",
+    "@combine_factor_constants@12"
   ],
   "driver": [
     {
@@ -2797,8 +2803,7 @@
     {
       "name": "@can_combine_constants@12",
       "start": 352352,
-      "end": 352353,
-      "provisional": true
+      "end": 352592
     },
     {
       "name": "@integer_log2@4",
@@ -2818,8 +2823,7 @@
     {
       "name": "@constant_as_integer@8",
       "start": 350720,
-      "end": 350721,
-      "provisional": true
+      "end": 350789
     },
     {
       "name": "@lift_left_unary@4",
@@ -2875,8 +2879,7 @@
     {
       "name": "@distribute_constant@8",
       "start": 347568,
-      "end": 347569,
-      "provisional": true
+      "end": 347641
     },
     {
       "name": "@conversion_loses_value@8",
@@ -3980,8 +3983,7 @@
     {
       "name": "@reduce_multiplicative_chain@4",
       "start": 349728,
-      "end": 349729,
-      "provisional": true
+      "end": 349975
     },
     {
       "name": "@reduce_bitwise_terms@8",
@@ -4013,8 +4015,7 @@
     {
       "name": "@cancel_unary_factors@12",
       "start": 351760,
-      "end": 351761,
-      "provisional": true
+      "end": 351886
     },
     {
       "name": "@reduce_global_node@4",
@@ -6062,8 +6063,7 @@
     {
       "name": "@combine_factor_constants@12",
       "start": 352224,
-      "end": 352225,
-      "provisional": true
+      "end": 352340
     },
     {
       "name": "@adjust_factor_constant@12",
@@ -6515,6 +6515,12 @@
       "name": "@lift_right_unary@4",
       "start": 355920,
       "end": 355921,
+      "provisional": true
+    },
+    {
+      "name": "@copy_factor_exponent@4",
+      "start": 350800,
+      "end": 350801,
       "provisional": true
     }
   ],
