@@ -1,0 +1,24 @@
+{
+  "label": "combine-inductions-after",
+  "accepted": 803,
+  "logical": "@collect_selected_region_values@4",
+  "original_va": "0x5fb00",
+  "events": "exception 80000003 rva 0004fb00 base 00010000 first 1\nexit 99\n",
+  "setup_seconds": 0.18810386955738068,
+  "execution_check_seconds": 1.3188772276043892,
+  "total_seconds": 1.5069816540926695,
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "masked_sha256": "74723a030bf8248d5248dea7de7b8be83d98ec48e6567665509b77a7255b1bfb",
+  "config_sha256": "6ea8ac5f4f3b0c99f3633f21bb5fd9bcda5af9d545adf0daf0a5d8bf4f50fffa",
+  "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+  "inputs": {
+    "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+    "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+    "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+    "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+  },
+  "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/combine-inductions-after"
+}

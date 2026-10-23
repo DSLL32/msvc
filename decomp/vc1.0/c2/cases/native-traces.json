@@ -2,7 +2,7 @@
   "schema": 1,
   "description": "Cached original application-entry projection; no capture or Wine",
   "metadata_sha256": {
-    "functions.json": "023b046ebf211a9b2a9ed5fe5f9bc59ca6c74733a6448256265bf08bc35de3d4",
+    "functions.json": "763249c0feed57097dc22aee8dcd3aa2ce2e908ba13364d591d3f93c5506fb77",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -373,6 +373,10 @@
     "can_repeat_tree": {
       "logical": "@can_repeat_tree@4",
       "source": "src/tree-types.c"
+    },
+    "can_rewrite_induction_comparison": {
+      "logical": "@can_rewrite_induction_comparison@12",
+      "source": "src/stubs.c"
     },
     "can_schedule_pentium": {
       "logical": "@can_schedule_pentium@8",
@@ -838,6 +842,10 @@
       "logical": "@collect_register_affinities@4",
       "source": "src/physical-coalescing.c"
     },
+    "collect_selected_region_values": {
+      "logical": "@collect_selected_region_values@4",
+      "source": "src/region-motion.c"
+    },
     "collect_work_memory_reads": {
       "logical": "@collect_work_memory_reads@4",
       "source": "src/work-optimizer.c"
@@ -864,7 +872,7 @@
     },
     "combine_region_inductions": {
       "logical": "_combine_region_inductions",
-      "source": "src/stubs.c"
+      "source": "src/region-motion.c"
     },
     "common_node_type": {
       "logical": "@common_node_type@8",
@@ -1040,6 +1048,10 @@
     },
     "count_shared_register_conflicts": {
       "logical": "@count_shared_register_conflicts@8",
+      "source": "src/stubs.c"
+    },
+    "create_region_induction_counter": {
+      "logical": "_create_region_induction_counter",
       "source": "src/stubs.c"
     },
     "create_register_variable": {
@@ -1258,6 +1270,10 @@
       "logical": "@exclude_exception_registers@4",
       "source": "src/global-registers.c"
     },
+    "exclude_region_memory_operations": {
+      "logical": "@exclude_region_memory_operations@4",
+      "source": "src/stubs.c"
+    },
     "expand_constant_multiply": {
       "logical": "@expand_constant_multiply@4",
       "source": "src/stubs.c"
@@ -1360,7 +1376,7 @@
     },
     "find_basic_induction_load": {
       "logical": "@find_basic_induction_load@4",
-      "source": "src/stubs.c"
+      "source": "src/region-motion.c"
     },
     "find_block_terminator": {
       "logical": "@find_block_terminator@4",
@@ -1401,6 +1417,10 @@
     "find_numbered_expression": {
       "logical": "@find_numbered_expression@4",
       "source": "src/work-optimizer.c"
+    },
+    "find_region_memory_induction": {
+      "logical": "@find_region_memory_induction@16",
+      "source": "src/stubs.c"
     },
     "find_register_allocation": {
       "logical": "@find_register_allocation@8",
@@ -1870,6 +1890,10 @@
       "logical": "@insert_pentium_stall@4",
       "source": "src/stubs.c"
     },
+    "insert_region_memory_operation": {
+      "logical": "@insert_region_memory_operation@28",
+      "source": "src/stubs.c"
+    },
     "insert_register_affinity": {
       "logical": "@insert_register_affinity@8",
       "source": "src/physical-coalescing.c"
@@ -2308,6 +2332,10 @@
     },
     "materialize_numbered_tree": {
       "logical": "@materialize_numbered_tree@4",
+      "source": "src/stubs.c"
+    },
+    "materialize_region_value": {
+      "logical": "@materialize_region_value@4",
       "source": "src/stubs.c"
     },
     "memory_displacements_overlap": {
@@ -3172,7 +3200,7 @@
     },
     "reduce_region_induction_strength": {
       "logical": "_reduce_region_induction_strength",
-      "source": "src/stubs.c"
+      "source": "src/region-motion.c"
     },
     "reference_assembly_flow_symbol": {
       "logical": "@reference_assembly_flow_symbol@8",
@@ -3333,6 +3361,10 @@
     "remove_allocation_live_register": {
       "logical": "@remove_allocation_live_register@8",
       "source": "src/physical-conflicts.c"
+    },
+    "remove_basic_induction": {
+      "logical": "@remove_basic_induction@4",
+      "source": "src/stubs.c"
     },
     "remove_flow_reference": {
       "logical": "@remove_flow_reference@8",
@@ -3538,9 +3570,17 @@
       "logical": "@rewrite_numbered_tree@4",
       "source": "src/work-expressions.c"
     },
+    "rewrite_region_exit_counter": {
+      "logical": "@rewrite_region_exit_counter@4",
+      "source": "src/stubs.c"
+    },
+    "rewrite_region_induction_tree": {
+      "logical": "@rewrite_region_induction_tree@4",
+      "source": "src/region-motion.c"
+    },
     "rewrite_region_inductions": {
       "logical": "_rewrite_region_inductions",
-      "source": "src/stubs.c"
+      "source": "src/region-motion.c"
     },
     "rewrite_register_block": {
       "logical": "@rewrite_register_block@8",
@@ -3557,6 +3597,10 @@
     "rewrite_scheduled_stack": {
       "logical": "@rewrite_scheduled_stack@8",
       "source": "src/scheduler.c"
+    },
+    "rewrite_selected_region_values": {
+      "logical": "@rewrite_selected_region_values@4",
+      "source": "src/region-motion.c"
     },
     "rewrite_shift_as_multiply": {
       "logical": "@rewrite_shift_as_multiply@4",
@@ -3902,6 +3946,10 @@
       "logical": "@summarize_work_memory@4",
       "source": "src/work-optimizer.c"
     },
+    "supports_region_memory_operations": {
+      "logical": "_supports_region_memory_operations",
+      "source": "src/stubs.c"
+    },
     "swap_comparison_for_match": {
       "logical": "@swap_comparison_for_match@12",
       "source": "src/comparison-branches.c"
@@ -4013,6 +4061,10 @@
     "work_dominates_region_exits": {
       "logical": "@work_dominates_region_exits@4",
       "source": "src/region-motion.c"
+    },
+    "work_dominates_region_paths": {
+      "logical": "@work_dominates_region_paths@4",
+      "source": "src/stubs.c"
     },
     "work_dominates_target_predecessors": {
       "logical": "@work_dominates_target_predecessors@8",
@@ -13332,6 +13384,461 @@
               "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/find-induction-after"
             }
           }
+        },
+        {
+          "accepted_function": "_combine_region_inductions",
+          "accepted_kind": "application",
+          "previous_logical": "_combine_region_inductions",
+          "original_extent": [
+            "0x5e680",
+            "0x5e786"
+          ],
+          "before": {
+            "path": "cases/hello-original-802.json",
+            "sha256": "763cfd3a4b68fa65e2cff0bf60a7bc299efcf82e6c1649ee5ffb7f38b61cf4d1",
+            "capture": {
+              "label": "find-induction-after",
+              "accepted": 802,
+              "logical": "_combine_region_inductions",
+              "original_va": "0x5e680",
+              "events": "exception 80000003 rva 0004e680 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.18803271278738976,
+              "execution_check_seconds": 1.3614063346758485,
+              "total_seconds": 1.5494394833222032,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "3dbbec7b1ab267d1ef7b94b3657b1e499af2167cc56f274e9da1417282db126a",
+              "config_sha256": "023b046ebf211a9b2a9ed5fe5f9bc59ca6c74733a6448256265bf08bc35de3d4",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/find-induction-after"
+            }
+          },
+          "after": {
+            "path": "cases/hello-original-803.json",
+            "sha256": "05d4b4646f4cb73f4b55b5a79d8671b97f2dc1fd6769b2db10d0ed0f9f0d038a",
+            "capture": {
+              "label": "combine-inductions-after",
+              "accepted": 803,
+              "logical": "@collect_selected_region_values@4",
+              "original_va": "0x5fb00",
+              "events": "exception 80000003 rva 0004fb00 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.18810386955738068,
+              "execution_check_seconds": 1.3188772276043892,
+              "total_seconds": 1.5069816540926695,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "74723a030bf8248d5248dea7de7b8be83d98ec48e6567665509b77a7255b1bfb",
+              "config_sha256": "6ea8ac5f4f3b0c99f3633f21bb5fd9bcda5af9d545adf0daf0a5d8bf4f50fffa",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/combine-inductions-after"
+            }
+          }
+        },
+        {
+          "accepted_function": "@collect_selected_region_values@4",
+          "accepted_kind": "application",
+          "previous_logical": "@collect_selected_region_values@4",
+          "original_extent": [
+            "0x5fb00",
+            "0x5fb78"
+          ],
+          "before": {
+            "path": "cases/hello-original-803.json",
+            "sha256": "05d4b4646f4cb73f4b55b5a79d8671b97f2dc1fd6769b2db10d0ed0f9f0d038a",
+            "capture": {
+              "label": "combine-inductions-after",
+              "accepted": 803,
+              "logical": "@collect_selected_region_values@4",
+              "original_va": "0x5fb00",
+              "events": "exception 80000003 rva 0004fb00 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.18810386955738068,
+              "execution_check_seconds": 1.3188772276043892,
+              "total_seconds": 1.5069816540926695,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "74723a030bf8248d5248dea7de7b8be83d98ec48e6567665509b77a7255b1bfb",
+              "config_sha256": "6ea8ac5f4f3b0c99f3633f21bb5fd9bcda5af9d545adf0daf0a5d8bf4f50fffa",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/combine-inductions-after"
+            }
+          },
+          "after": {
+            "path": "cases/hello-original-804.json",
+            "sha256": "9e5f507c655fd1335f04757c3cf42915fc7498fe9603a1de6d4e78f76f1756d4",
+            "capture": {
+              "label": "select-region-after",
+              "accepted": 804,
+              "logical": "@rewrite_selected_region_values@4",
+              "original_va": "0x5fa90",
+              "events": "exception 80000003 rva 0004fa90 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.18696748185902834,
+              "execution_check_seconds": 1.2946763997897506,
+              "total_seconds": 1.4816443482413888,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "55f89e4ab0982098a92384e815b25277d4fe1c978e3b632ce5ad2b3e136be59f",
+              "config_sha256": "5de4197275a7aa4e08313f1a84f03cfdc3077f3f7c6b6011f2005bf0f34ff2dd",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/select-region-after"
+            }
+          }
+        },
+        {
+          "accepted_function": "@rewrite_selected_region_values@4",
+          "accepted_kind": "application",
+          "previous_logical": "@rewrite_selected_region_values@4",
+          "original_extent": [
+            "0x5fa90",
+            "0x5fafd"
+          ],
+          "before": {
+            "path": "cases/hello-original-804.json",
+            "sha256": "9e5f507c655fd1335f04757c3cf42915fc7498fe9603a1de6d4e78f76f1756d4",
+            "capture": {
+              "label": "select-region-after",
+              "accepted": 804,
+              "logical": "@rewrite_selected_region_values@4",
+              "original_va": "0x5fa90",
+              "events": "exception 80000003 rva 0004fa90 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.18696748185902834,
+              "execution_check_seconds": 1.2946763997897506,
+              "total_seconds": 1.4816443482413888,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "55f89e4ab0982098a92384e815b25277d4fe1c978e3b632ce5ad2b3e136be59f",
+              "config_sha256": "5de4197275a7aa4e08313f1a84f03cfdc3077f3f7c6b6011f2005bf0f34ff2dd",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/select-region-after"
+            }
+          },
+          "after": {
+            "path": "cases/hello-original-805.json",
+            "sha256": "c654b820a96f27cd591b6c8c914c001445e7ed68f72f444a13c909496c260cee",
+            "capture": {
+              "label": "rewrite-region-after",
+              "accepted": 805,
+              "logical": "_reduce_region_induction_strength",
+              "original_va": "0x5e430",
+              "events": "exception 80000003 rva 0004e430 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.1911162929609418,
+              "execution_check_seconds": 1.2448932910338044,
+              "total_seconds": 1.4360100952908397,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "001cdac9f6ddbd24fb3fc26ddd8add69fb9a22be1b90a9c1231f71caf0ab6e64",
+              "config_sha256": "f4bf942bca25eab2964d479a3aecb43263e536dc170cd6ed63bdda1700d08420",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/rewrite-region-after"
+            }
+          }
+        },
+        {
+          "accepted_function": "_reduce_region_induction_strength",
+          "accepted_kind": "application",
+          "previous_logical": "_reduce_region_induction_strength",
+          "original_extent": [
+            "0x5e430",
+            "0x5e67d"
+          ],
+          "before": {
+            "path": "cases/hello-original-805.json",
+            "sha256": "c654b820a96f27cd591b6c8c914c001445e7ed68f72f444a13c909496c260cee",
+            "capture": {
+              "label": "rewrite-region-after",
+              "accepted": 805,
+              "logical": "_reduce_region_induction_strength",
+              "original_va": "0x5e430",
+              "events": "exception 80000003 rva 0004e430 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.1911162929609418,
+              "execution_check_seconds": 1.2448932910338044,
+              "total_seconds": 1.4360100952908397,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "001cdac9f6ddbd24fb3fc26ddd8add69fb9a22be1b90a9c1231f71caf0ab6e64",
+              "config_sha256": "f4bf942bca25eab2964d479a3aecb43263e536dc170cd6ed63bdda1700d08420",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/rewrite-region-after"
+            }
+          },
+          "after": {
+            "path": "cases/hello-original-806.json",
+            "sha256": "731b733fc7fb4b18c881e3c69ab6d26fc9345cd0aad40868b1d03c6c706f84be",
+            "capture": {
+              "label": "region-memory-after",
+              "accepted": 806,
+              "logical": "_rewrite_region_inductions",
+              "original_va": "0x5e350",
+              "events": "exception 80000003 rva 0004e350 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.18817225843667984,
+              "execution_check_seconds": 1.416496591642499,
+              "total_seconds": 1.604669338092208,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "8d586ee4b8f7fcf125a064ae847a186d689767e991f5a801b58495afe26512c2",
+              "config_sha256": "04fbc0b642c7dcea90e42eb4b27446bc8c253338af492c169f3eed0b88f1b98f",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/region-memory-after"
+            }
+          }
+        },
+        {
+          "accepted_function": "_rewrite_region_inductions",
+          "accepted_kind": "application",
+          "previous_logical": "_rewrite_region_inductions",
+          "original_extent": [
+            "0x5e350",
+            "0x5e42d"
+          ],
+          "before": {
+            "path": "cases/hello-original-806.json",
+            "sha256": "731b733fc7fb4b18c881e3c69ab6d26fc9345cd0aad40868b1d03c6c706f84be",
+            "capture": {
+              "label": "region-memory-after",
+              "accepted": 806,
+              "logical": "_rewrite_region_inductions",
+              "original_va": "0x5e350",
+              "events": "exception 80000003 rva 0004e350 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.18817225843667984,
+              "execution_check_seconds": 1.416496591642499,
+              "total_seconds": 1.604669338092208,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "8d586ee4b8f7fcf125a064ae847a186d689767e991f5a801b58495afe26512c2",
+              "config_sha256": "04fbc0b642c7dcea90e42eb4b27446bc8c253338af492c169f3eed0b88f1b98f",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/region-memory-after"
+            }
+          },
+          "after": {
+            "path": "cases/hello-original-807.json",
+            "sha256": "1ba6576ba4661314cdf4a46bf8e06df811fd462cf90aba70f6f6ba75dda40013",
+            "capture": {
+              "label": "rewrite-inductions-after",
+              "accepted": 807,
+              "logical": "@rewrite_region_induction_tree@4",
+              "original_va": "0x61080",
+              "events": "exception 80000003 rva 00051080 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.19082392659038305,
+              "execution_check_seconds": 0.740346441976726,
+              "total_seconds": 0.931187404319644,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "752d5bdec0a0d7017e37a19fee5fd6695f9f72905c3f0de06b683da5969f0f30",
+              "config_sha256": "7c8ff0c590dc68aeae9abdd1fd727a8debf0d40226d632d361d5059013c2596e",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/rewrite-inductions-after"
+            }
+          }
+        },
+        {
+          "accepted_function": "@rewrite_region_induction_tree@4",
+          "accepted_kind": "application",
+          "previous_logical": "@rewrite_region_induction_tree@4",
+          "original_extent": [
+            "0x61080",
+            "0x611ea"
+          ],
+          "before": {
+            "path": "cases/hello-original-807.json",
+            "sha256": "1ba6576ba4661314cdf4a46bf8e06df811fd462cf90aba70f6f6ba75dda40013",
+            "capture": {
+              "label": "rewrite-inductions-after",
+              "accepted": 807,
+              "logical": "@rewrite_region_induction_tree@4",
+              "original_va": "0x61080",
+              "events": "exception 80000003 rva 00051080 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.19082392659038305,
+              "execution_check_seconds": 0.740346441976726,
+              "total_seconds": 0.931187404319644,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "752d5bdec0a0d7017e37a19fee5fd6695f9f72905c3f0de06b683da5969f0f30",
+              "config_sha256": "7c8ff0c590dc68aeae9abdd1fd727a8debf0d40226d632d361d5059013c2596e",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/rewrite-inductions-after"
+            }
+          },
+          "after": {
+            "path": "cases/hello-original-808.json",
+            "sha256": "8971f13a9c7382bab0dc8eac6e25c49c0969777dc43cc1f469f3102307a193d3",
+            "capture": {
+              "label": "rewrite-induction-comparison-after",
+              "accepted": 808,
+              "logical": "@find_basic_induction_load@4",
+              "original_va": "0x5f5c0",
+              "events": "exception 80000003 rva 0004f5c0 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.19042731821537018,
+              "execution_check_seconds": 1.388026850298047,
+              "total_seconds": 1.5784552954137325,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "9b8bd0614227e10d75ddf3fa02b9043f95d1ee800c0769fd5e9073e9123dd927",
+              "config_sha256": "de94013439df2148d383706fa35fdee564c9615069d4572a44daee4e95741158",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/rewrite-induction-comparison-after"
+            }
+          }
+        },
+        {
+          "accepted_function": "@find_basic_induction_load@4",
+          "accepted_kind": "application",
+          "previous_logical": "@find_basic_induction_load@4",
+          "original_extent": [
+            "0x5f5c0",
+            "0x5f5f3"
+          ],
+          "before": {
+            "path": "cases/hello-original-808.json",
+            "sha256": "8971f13a9c7382bab0dc8eac6e25c49c0969777dc43cc1f469f3102307a193d3",
+            "capture": {
+              "label": "rewrite-induction-comparison-after",
+              "accepted": 808,
+              "logical": "@find_basic_induction_load@4",
+              "original_va": "0x5f5c0",
+              "events": "exception 80000003 rva 0004f5c0 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.19042731821537018,
+              "execution_check_seconds": 1.388026850298047,
+              "total_seconds": 1.5784552954137325,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "9b8bd0614227e10d75ddf3fa02b9043f95d1ee800c0769fd5e9073e9123dd927",
+              "config_sha256": "de94013439df2148d383706fa35fdee564c9615069d4572a44daee4e95741158",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/rewrite-induction-comparison-after"
+            }
+          },
+          "after": {
+            "path": "cases/hello-original-809.json",
+            "sha256": "a415ebfc016c4aa4826f7be0cb67f26039348dd4a14d4bc27dd3a631457e0912",
+            "capture": {
+              "label": "find-induction-load-after",
+              "accepted": 809,
+              "logical": "_simplify_region_exit",
+              "original_va": "0x5e1d0",
+              "events": "exception 80000003 rva 0004e1d0 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.1903785550966859,
+              "execution_check_seconds": 1.1805860670283437,
+              "total_seconds": 1.3709651175886393,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "83c6244c2710af2b0defd4cbdfd5c4617d3be381657902702242d9104d2e8a85",
+              "config_sha256": "763249c0feed57097dc22aee8dcd3aa2ce2e908ba13364d591d3f93c5506fb77",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/find-induction-load-after"
+            }
+          }
         }
       ],
       "extent_corrections": [
@@ -13729,7 +14236,7 @@
     },
     "hello": {
       "first": 352,
-      "last": 802,
+      "last": 809,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -14452,9 +14959,16 @@
         "collect_derived_induction_tree",
         "integer_node",
         "find_basic_induction",
-        "combine_region_inductions"
+        "combine_region_inductions",
+        "collect_selected_region_values",
+        "rewrite_selected_region_values",
+        "reduce_region_induction_strength",
+        "rewrite_region_inductions",
+        "rewrite_region_induction_tree",
+        "find_basic_induction_load",
+        "simplify_region_exit"
       ],
-      "terminal": "_combine_region_inductions",
+      "terminal": "_simplify_region_exit",
       "returncode": -5,
       "terminal_kind": "application"
     }

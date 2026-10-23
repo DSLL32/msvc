@@ -1,5 +1,5 @@
 C2 ACTIVE: finish /O2 /G5 hello, then cases/queue.json optimizer stress.
-Verified802 acceptances/724 source graphs; matching combine_region_inductions5e680.
-Extent union218544/399693=54.6779653384%, not branch coverage.
+Verified809 acceptances/731 source graphs; matching simplify_region_exit5e1d0.
+Extent union220258/399693=55.1067944648%, not branch coverage.
 Canonical/W3, audit and native fixtures pass; full hello incomplete.
-See cases/hello-affine-inductions.json. No shared shim requests.
+See cases/hello-induction-rewriting.json. No shared shim requests.

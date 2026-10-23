@@ -327,9 +327,6 @@ int __fastcall equal_chain_value_ids(Node *left, Node *right) { __asm int 3 }
 void __fastcall invalidate_work_tree(Node *node) { __asm int 3 }
 int __fastcall has_no_later_work_store(Expression *expression) { __asm int 3 }
 
-void combine_region_inductions(void) { __asm int 3 }
-void reduce_region_induction_strength(void) { __asm int 3 }
-void rewrite_region_inductions(void) { __asm int 3 }
 int simplify_region_exit(void) { __asm int 3 }
 void finish_region_motion(void) { __asm int 3 }
 void rebuild_region_header_references(void) { __asm int 3 }
@@ -446,7 +443,6 @@ struct BasicInduction *__fastcall new_basic_induction(Node *assignment, Node *st
 int __fastcall induction_is_dead_on_exit(Node *assignment) { __asm int 3 }
 void remove_region_blocks(void) { __asm int 3 }
 void __fastcall remove_region_block(WorkItem *work) { __asm int 3 }
-BasicInduction *__fastcall find_basic_induction_load(Node *node) { __asm int 3 }
 Node *__fastcall find_induction_initial_value(Node *assignment) { __asm int 3 }
 int __fastcall basic_induction_increment(BasicInduction *induction) { __asm int 3 }
 int __fastcall choose_derived_induction_representative(Node *difference, Node *left,
@@ -455,3 +451,15 @@ int __fastcall derived_induction_is_profitable(Node *node) { __asm int 3 }
 void __fastcall rewrite_derived_induction_group(DerivedInduction *candidates, Node *representative) { __asm int 3 }
 void __fastcall add_derived_induction(Node *tree, Node *parent, BasicInduction *basic,
     Node *factor, int negative, int blocked) { __asm int 3 }
+Node *__fastcall materialize_region_value(Node *node) { __asm int 3 }
+int supports_region_memory_operations(void) { __asm int 3 }
+int __fastcall work_dominates_region_paths(WorkItem *work) { __asm int 3 }
+BasicInduction *__fastcall find_region_memory_induction(Node *address, Node *assignment,
+    unsigned bytes, unsigned *reverse) { __asm int 3 }
+void __fastcall exclude_region_memory_operations(Node *node) { __asm int 3 }
+void create_region_induction_counter(void) { __asm int 3 }
+void __fastcall insert_region_memory_operation(Expression *anchor, Node *value, Node *address,
+    unsigned opcode, Node *counter, unsigned bytes, Node *assignment) { __asm int 3 }
+void __fastcall remove_basic_induction(BasicInduction *induction) { __asm int 3 }
+void __fastcall rewrite_region_exit_counter(Node *count) { __asm int 3 }
+int __fastcall can_rewrite_induction_comparison(BasicInduction *induction, Node *bound, Node *adjustment) { __asm int 3 }

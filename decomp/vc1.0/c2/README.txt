@@ -2016,3 +2016,14 @@ distinct functions. Native/original agree at combine_region_inductions5e680;
 currently has no basic induction records: grouping, trip-count synthesis and
 rewrite bodies are not claimed exercised. Full hello output remains incomplete.
 See cases/hello-affine-inductions.json for layouts, references, limits and timing.
+
+Induction rewriting: checkpoint809
+----------------------------------
+Invariant selection and dominated expression rewriting reuse the original pair
+of numbered-expression indexes. The memory-strength reducer, induction pass,
+comparison redirection and transparent-load lookup are whole reconstructed
+functions with named children retained. Native/original agree at
+simplify_region_exit5e1d0;731 graph/extent checks, canonical/W3 and native fixtures
+pass. Hello establishes neither a trip count nor a basic induction, so bulk
+replacement, actual materialization and comparison adjustment are explicitly
+unvisited. Full object remains incomplete; see cases/hello-induction-rewriting.json.

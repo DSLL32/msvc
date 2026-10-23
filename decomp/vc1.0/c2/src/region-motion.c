@@ -617,3 +617,235 @@ BasicInduction *__fastcall find_basic_induction(Node *address)
         if (trees_equal(induction->assignment->left.node, address, 1)) return induction;
     return 0;
 }
+
+
+static BitSet *hoist_materialized_values; /*0007be68: insertion deduplication*/
+/* Original [0005e680,0005e786). Select invariant numbered values, rewrite
+   dominated expressions and materialize selected assignment operands, then
+   discard both numbered-expression indices and the per-region insertion set. */
+void combine_region_inductions(void)
+{
+    WorkItem *work;
+    Expression *expression;
+    NumberedExpression *numbered;
+    Node *node;
+    unsigned i;
+    for (work = hoist_first_work; work != hoist_after_work; work = work->next)
+        for (expression = work->body.expressions; expression; expression = expression->next)
+            collect_selected_region_values(expression->tree);
+    hoist_materialized_values = 0;
+    for (work = hoist_first_work; work != hoist_after_work; work = work->next) {
+        if (!relaxed_induction_motion &&
+            !(work_dominates_region_exits(work) && work_dominates_region_backedges(work))) continue;
+        current_expression_work = work;
+        for (expression = work->body.expressions; expression; expression = expression->next) {
+            node = expression->tree;
+            rewrite_selected_region_values(node);
+            if (node->opcode == 0x32 && (node->attributes.words.flags & 0x400)) {
+                node->left.node = materialize_region_value(node->left.node);
+                node->second.node = materialize_region_value(node->second.node);
+            }
+        }
+    }
+    for (i = 0; i < NUMBERED_EXPRESSION_BUCKETS; ++i) {
+        for (numbered = numbered_expressions_by_id[i]; numbered; numbered = numbered->identifier_next)
+            release_node(numbered->canonical);
+        numbered_expressions[i] = 0;
+        numbered_expressions_by_id[i] = 0;
+    }
+    release_bitset(hoist_materialized_values);
+}
+
+/* Original [0005fb00,0005fb78). Select the outermost numbered invariant
+   computation in each subtree; descend only when the current value is not
+   selected. Keep the right-child tail traversal. */
+void __fastcall collect_selected_region_values(Node *node)
+{
+    unsigned shape;
+    for (;;) {
+        shape = node_shapes[node->opcode];
+        if ((shape & NODE_VALUE_EXPRESSION) && (shape & NODE_ARITY) != NODE_LEAF &&
+            bitset_contains(hoist_invariant_values, (short)node->info.words.identifier)) {
+            hoist_selected_values = bitset_include(hoist_selected_values,
+                (short)node->info.words.identifier);
+            return;
+        }
+        if ((shape & NODE_ARITY) == NODE_LEAF) return;
+        collect_selected_region_values(node->left.node);
+        if (!(node_shapes[node->opcode] & NODE_HAS_SECOND)) return;
+        node = node->second.node;
+    }
+}
+
+/* Original [0005fa90,0005fafd). Rewrite children before replacing a
+   selected numbered expression with its materialized region value. */
+Node *__fastcall rewrite_selected_region_values(Node *node)
+{
+    if ((node_shapes[node->opcode] & NODE_ARITY) == NODE_LEAF) return node;
+    node->left.node = rewrite_selected_region_values(node->left.node);
+    if (node_shapes[node->opcode] & NODE_HAS_SECOND)
+        node->second.node = rewrite_selected_region_values(node->second.node);
+    if ((node_shapes[node->opcode] & NODE_VALUE_EXPRESSION) && node->info.words.identifier &&
+        bitset_contains(hoist_selected_values, (short)node->info.words.identifier))
+        node = materialize_region_value(node);
+    return node;
+}
+
+
+/* Original0007bb84: candidate bulk memory operations, arena4/40bytes. */
+static RegionMemoryOperation *region_memory_operations;
+/* Original [0005e430,0005e67d). Recognize repeated stores/copies with a
+   usable loop count, exclude intervening effects and replace each candidate by
+   the target bulk-memory operation while retaining original use accounting. */
+void reduce_region_induction_strength(void)
+{
+    WorkItem *work;
+    Expression *expression;
+    RegionMemoryOperation *operation;
+    BasicInduction *destination, *source;
+    FunctionSymbol *symbol;
+    Node *node, *value;
+    unsigned bytes, opcode, reverse_destination, reverse_source, type;
+    if (!region_trip_count || !supports_region_memory_operations()) return;
+    region_memory_operations = 0;
+    for (work = hoist_first_work; work != hoist_after_work; work = work->next) {
+        if (!work_dominates_region_paths(work)) continue;
+        for (expression = work->body.expressions; expression; expression = expression->next) {
+            node = expression->tree;
+            if (node->opcode != 0x32) continue;
+            symbol = (FunctionSymbol *)node->right.symbol;
+            if ((node->attributes.words.flags & 1) && symbol && symbol->symbol.kind != 0x13 &&
+                (symbol->field24 & 15) == 9)
+                bytes = (symbol->field24 & 0x10000) ? symbol->field2c : symbol->symbol.value;
+            else bytes = node->attributes.words.type & 255;
+            destination = find_region_memory_induction(node->left.node, node, bytes, &reverse_destination);
+            if (!destination) continue;
+            source = 0; /* This slot is unused for fills; original stack contents are indeterminate. */
+            if (is_region_invariant_value(node->second.node)) opcode = 0x97;
+            else {
+                value = node->second.node;
+                if (value->opcode != 0x30) continue;
+                source = find_region_memory_induction(value->left.node, node, bytes, &reverse_source);
+                if (!source || reverse_source != reverse_destination) continue;
+                opcode = 0x96;
+            }
+            operation = arena_alloc(4, sizeof(RegionMemoryOperation));
+            operation->assignment = node;
+            operation->reverse = reverse_destination;
+            operation->opcode = opcode;
+            operation->bytes = bytes;
+            operation->destination = destination;
+            operation->source = source;
+            operation->original_assignment = node;
+            operation->value = node->second.node;
+            operation->expression = expression;
+            operation->next = region_memory_operations;
+            region_memory_operations = operation;
+        }
+    }
+    for (work = hoist_first_work; work != hoist_after_work; work = work->next)
+        for (expression = work->body.expressions; expression; expression = expression->next)
+            exclude_region_memory_operations(expression->tree);
+    if (!region_memory_operations) return;
+    create_region_induction_counter();
+    for (operation = region_memory_operations; operation; operation = operation->next) {
+        node = operation->assignment;
+        if (operation->reverse) node->attributes.words.flags |= 0x80;
+        --operation->destination->total_uses;
+        value = node->second.node;
+        if (operation->opcode == 0x96) {
+            value = value->left.node;
+            --operation->source->total_uses;
+        } else {
+            type = (value->attributes.words.type & 0xff00) | operation->bytes;
+            if (type != value->attributes.words.type) value = integer_node(value->left.value, type);
+        }
+        insert_region_memory_operation(transformation_cursor.expression, value, node->left.node,
+            operation->opcode, region_induction_counter, operation->bytes, node);
+        release_node_children(node);
+        node->opcode = 1;
+    }
+}
+
+/* Original [0005e350,0005e42d). Rewrite induction uses, eliminate singly
+   used basic updates, and replace a remaining terminal induction by the
+   prepared trip counter when its type and liveness permit it. */
+void rewrite_region_inductions(void)
+{
+    WorkItem *work;
+    Expression *expression;
+    BasicInduction *induction, *next;
+    Node *comparison, *count;
+    for (work = hoist_first_work; work != hoist_after_work; work = work->next)
+        for (expression = work->body.expressions; expression; expression = expression->next)
+            rewrite_region_induction_tree(expression->tree);
+    for (induction = basic_region_inductions; induction; induction = next) {
+        next = induction->next;
+        if (induction->total_uses == 1) remove_basic_induction(induction);
+    }
+    if (!region_exit_branch || (!region_trip_count && !multiple_exit_trip_count)) return;
+    comparison = region_exit_branch->left.node;
+    induction = find_basic_induction_load(comparison->left.node);
+    if (!induction) return;
+    if (basic_induction_increment(induction) == -1 && is_constant_value(comparison->second.node, 0)) return;
+    count = region_trip_count ? region_trip_count : multiple_exit_trip_count;
+    if ((count->attributes.words.type & 0x3000) || induction->total_uses != 2) return;
+    if (region_trip_count || induction_is_dead_on_exit(induction->assignment))
+        rewrite_region_exit_counter(count);
+    if (induction->total_uses == 2) remove_basic_induction(induction);
+}
+
+/* Original [00061080,000611ea). Redirect a constant-bound comparison to
+   a compatible derived induction, adjusting its bound and comparison direction
+   only when the separate representability/termination check succeeds. */
+void __fastcall rewrite_region_induction_tree(Node *node)
+{
+    Node *comparison, *bound, *old_value, *adjustment;
+    BasicInduction *basic, *candidate;
+    unsigned candidate_type;
+    if (node->opcode != 0x38) return;
+    comparison = node->left.node;
+    bound = comparison->second.node;
+    old_value = comparison->left.node;
+    if (bound->opcode != 0x33) return;
+    basic = find_basic_induction_load(old_value);
+    if (!basic || basic->parent || basic->step->opcode != 0x33) return;
+    for (candidate = basic_region_inductions; candidate; candidate = candidate->next) {
+        if (candidate->parent != basic) continue;
+        candidate_type = candidate->assignment->attributes.words.type;
+        if ((basic->assignment->attributes.words.type & 255U) < (candidate_type & 255U) ||
+            (candidate_type & 0x3000) || candidate->total_uses < 2 || candidate->step->opcode != 0x33)
+            continue;
+        adjustment = optimize_tree_global(build_tree("DDNSTDNYNY", candidate->left,
+            basic->assignment->left.node, 0x30, basic->assignment, candidate->right, 4, 3));
+        if (can_rewrite_induction_comparison(candidate, bound, adjustment)) break;
+        release_tree(adjustment);
+    }
+    if (!candidate) return;
+    --basic->total_uses;
+    ++candidate->total_uses;
+    release_tree(old_value);
+    comparison->left.node = build_tree("DNST", candidate->assignment->left.node,
+        0x30, candidate->assignment);
+    comparison->second.node = optimize_tree_global(build_tree("PDNYPNY", bound,
+        candidate->right, 4, adjustment, 2));
+    comparison->attributes.words.type = candidate->assignment->attributes.words.type;
+    if (basic->assignment->second.node->opcode != candidate->assignment->second.node->opcode ||
+        (int)(candidate->step->left.value ^ basic->step->left.value) < 0)
+        comparison->opcode = map_comparison_opcode(comparison->opcode, 0);
+}
+
+/* Original [0005f5c0,0005f5f3). Transparent conversions may surround a
+   basic induction load; reject a narrowing conversion except pointer type404. */
+BasicInduction *__fastcall find_basic_induction_load(Node *node)
+{
+    Node *child;
+    while (node->opcode == 0x34) {
+        child = node->left.node;
+        if ((child->attributes.words.type & 255) > (node->attributes.words.type & 255) &&
+            node->attributes.words.type != 0x404) return 0;
+        node = child;
+    }
+    if (node->opcode == 0x30) return find_basic_induction(node->left.node);
+    return 0;
+}

@@ -806,7 +806,14 @@
     "_collect_derived_region_inductions",
     "@collect_derived_induction_tree@8",
     "@integer_node@8",
-    "@find_basic_induction@4"
+    "@find_basic_induction@4",
+    "_combine_region_inductions",
+    "@collect_selected_region_values@4",
+    "@rewrite_selected_region_values@4",
+    "_reduce_region_induction_strength",
+    "_rewrite_region_inductions",
+    "@rewrite_region_induction_tree@4",
+    "@find_basic_induction_load@4"
   ],
   "driver": [
     {
@@ -4659,20 +4666,17 @@
     {
       "name": "_combine_region_inductions",
       "start": 386688,
-      "end": 386689,
-      "provisional": true
+      "end": 386950
     },
     {
       "name": "_reduce_region_induction_strength",
       "start": 386096,
-      "end": 386097,
-      "provisional": true
+      "end": 386685
     },
     {
       "name": "_rewrite_region_inductions",
       "start": 385872,
-      "end": 385873,
-      "provisional": true
+      "end": 386093
     },
     {
       "name": "_simplify_region_exit",
@@ -6210,8 +6214,7 @@
     {
       "name": "@find_basic_induction_load@4",
       "start": 390592,
-      "end": 390593,
-      "provisional": true
+      "end": 390643
     },
     {
       "name": "@find_induction_initial_value@4",
@@ -6257,6 +6260,81 @@
       "name": "@add_derived_induction@24",
       "start": 392544,
       "end": 392545,
+      "provisional": true
+    },
+    {
+      "name": "@collect_selected_region_values@4",
+      "start": 391936,
+      "end": 392056
+    },
+    {
+      "name": "@rewrite_selected_region_values@4",
+      "start": 391824,
+      "end": 391933
+    },
+    {
+      "name": "@materialize_region_value@4",
+      "start": 391440,
+      "end": 391441,
+      "provisional": true
+    },
+    {
+      "name": "_supports_region_memory_operations",
+      "start": 161056,
+      "end": 161057,
+      "provisional": true
+    },
+    {
+      "name": "@work_dominates_region_paths@4",
+      "start": 390144,
+      "end": 390145,
+      "provisional": true
+    },
+    {
+      "name": "@find_region_memory_induction@16",
+      "start": 396384,
+      "end": 396385,
+      "provisional": true
+    },
+    {
+      "name": "@exclude_region_memory_operations@4",
+      "start": 396160,
+      "end": 396161,
+      "provisional": true
+    },
+    {
+      "name": "_create_region_induction_counter",
+      "start": 395936,
+      "end": 395937,
+      "provisional": true
+    },
+    {
+      "name": "@insert_region_memory_operation@28",
+      "start": 161072,
+      "end": 161073,
+      "provisional": true
+    },
+    {
+      "name": "@rewrite_region_induction_tree@4",
+      "start": 397440,
+      "end": 397802
+    },
+    {
+      "name": "@remove_basic_induction@4",
+      "start": 396704,
+      "end": 396705,
+      "provisional": true
+    },
+    {
+      "name": "@rewrite_region_exit_counter@4",
+      "start": 397040,
+      "end": 397041,
+      "provisional": true
+    },
+    {
+      "name": "@can_rewrite_induction_comparison@12",
+      "start": 397808,
+      "end": 397809,
       "provisional": true
     }
   ],

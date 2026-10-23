@@ -75,4 +75,28 @@ void __fastcall rewrite_derived_induction_group(DerivedInduction *candidates, No
 BasicInduction *__fastcall find_basic_induction(Node *address);
 void __fastcall add_derived_induction(Node *tree, Node *parent, BasicInduction *basic,
     Node *factor, int negative, int blocked);
+void __fastcall collect_selected_region_values(Node *node);
+Node *__fastcall rewrite_selected_region_values(Node *node);
+Node *__fastcall materialize_region_value(Node *node);
+typedef struct RegionMemoryOperation {
+    struct RegionMemoryOperation *next;
+    Node *assignment;
+    unsigned reverse, opcode, bytes;
+    BasicInduction *destination, *source;
+    Node *original_assignment, *value;
+    Expression *expression;
+} RegionMemoryOperation;
+typedef char RegionMemoryOperationSizeCheck[sizeof(RegionMemoryOperation) == 40 ? 1 : -1];
+int supports_region_memory_operations(void);
+int __fastcall work_dominates_region_paths(WorkItem *work);
+BasicInduction *__fastcall find_region_memory_induction(Node *address, Node *assignment,
+    unsigned bytes, unsigned *reverse);
+void __fastcall exclude_region_memory_operations(Node *node);
+void create_region_induction_counter(void);
+void __fastcall insert_region_memory_operation(Expression *anchor, Node *value, Node *address,
+    unsigned opcode, Node *counter, unsigned bytes, Node *assignment);
+void __fastcall rewrite_region_induction_tree(Node *node);
+void __fastcall remove_basic_induction(BasicInduction *induction);
+void __fastcall rewrite_region_exit_counter(Node *count);
+int __fastcall can_rewrite_induction_comparison(BasicInduction *induction, Node *bound, Node *adjustment);
 #endif
