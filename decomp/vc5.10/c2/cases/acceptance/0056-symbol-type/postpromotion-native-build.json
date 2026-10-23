@@ -1,0 +1,7 @@
+{
+  "captured_elf_sha256": "5db4e9512d9cdfd63c30be78d36f71390dbb4b7cbbc52954c5fa593746873f5f",
+  "fixture_elf_sha256": "a435421ff6d114254aee7a15d67b9a0a1b33676075ffb746399bd3cb17c409c1",
+  "shared_input_drift": [
+    "lib/recon/src/crt.c"
+  ]
+}

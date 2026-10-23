@@ -172,14 +172,6 @@
     "evidence": null
   },
   {
-    "name": "@copy_symbol_type@4",
-    "start": 4359092,
-    "end": 4359093,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@lookup_global_symbol@4",
     "start": 4322387,
     "end": 4322388,
@@ -239,6 +231,14 @@
     "name": "@uppercase_symbol_name@4",
     "start": 4745583,
     "end": 4745584,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_input_type",
+    "start": 4326187,
+    "end": 4326188,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

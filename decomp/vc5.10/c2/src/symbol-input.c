@@ -354,3 +354,16 @@ char *__fastcall arena_strdup(char *name, int pool)
     strcpy(copy, name);
     return copy;
 }
+
+void __fastcall copy_symbol_type(C2Symbol *symbol)
+{
+    unsigned char type = (unsigned char)(input_type() & 0x1f);
+    C2FunctionSymbol *record = (C2FunctionSymbol *)symbol;
+
+    if (type & 0x10) {
+        type &= ~0x10;
+        if (type == 6)
+            record->attributes |= 0x4000;
+    }
+    record->attributes = (record->attributes & ~0xfU) | (type & 0xf);
+}

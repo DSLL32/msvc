@@ -1,0 +1,46 @@
+{
+  "builds": {
+    "native": {
+      "seconds": 2.881846801377833,
+      "status": 0
+    },
+    "original": {
+      "seconds": 5.151396452449262,
+      "status": 0
+    },
+    "helper": {
+      "seconds": 1.2806592425331473,
+      "status": 0
+    }
+  },
+  "original_capture": {
+    "setup": 0.2043312769383192,
+    "execution": 1.5805704295635223,
+    "total": 1.8275505555793643
+  },
+  "native_gdb_capture": {
+    "execution": 0.3806716734543443,
+    "total": 0.4920443883165717
+  },
+  "audit_seconds": 0.12974345590919256,
+  "rejection_control": {
+    "control_and_rejections": 3.951252406463027
+  },
+  "fresh_rejections": 9,
+  "reused_rejections": 117,
+  "cached_native_fixture": {
+    "case": "unsupported-help-diagnostic",
+    "status": "PASS",
+    "application_entries": 19,
+    "stdout_bytes": 0,
+    "stderr_bytes": 51,
+    "seconds": {
+      "setup": 0.008689701557159424,
+      "execution": 0.0036518778651952744,
+      "checks": 0.0002330327406525612,
+      "total": 0.013045744970440865
+    },
+    "transport": "native ELF32 only; frozen original reference",
+    "make_total_seconds": 1.9460623189806938
+  }
+}

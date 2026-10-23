@@ -117,7 +117,6 @@ unsigned __fastcall resolve_diagnostic_location(unsigned location, char **file)
 long input_compact_signed(void) { __asm { int 3 } return 0; }
 short input_compact_short(void) { __asm { int 3 } return 0; }
 unsigned input_extended_flags(void) { __asm { int 3 } return 0; }
-void __fastcall copy_symbol_type(C2Symbol *symbol) { __asm { int 3 } }
 C2Symbol *__fastcall lookup_global_symbol(unsigned serial) { __asm { int 3 } return NULL; }
 void __fastcall clone_alias_symbol(C2Symbol *symbol) { __asm { int 3 } }
 void __fastcall read_qualified_symbol(C2Symbol *symbol, int pool) { __asm { int 3 } }
@@ -126,3 +125,4 @@ void __fastcall read_module_directive(int kind) { __asm { int 3 } }
 int __fastcall register_source_file(char *name) { __asm { int 3 } return 0; }
 char *__fastcall lookup_source_file(char *name, unsigned *bytes) { __asm { int 3 } return NULL; }
 void __fastcall uppercase_symbol_name(char *name) { __asm { int 3 } }
+unsigned short input_type(void) { __asm { int 3 } return 0; }

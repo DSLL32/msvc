@@ -130,7 +130,8 @@ def main():
             path=root/'n/receipt.json';receipt=json_at(path);receipt['gdb_outputs']['gdb.stdout']=sha((root/'n/gdb.stdout').read_bytes());write_json(path,receipt)
         def changed_type_raw(root,name,index):
             path=root/'o'/name;data=bytearray(path.read_bytes());data[index]^=1;path.write_bytes(data)
-        mutations += [('type reader omits actual symbol formal',lambda r:changed_type_input(r,'formals',[])),
+        formal_control=('type reader omits actual symbol formal',lambda r:changed_type_input(r,'formals',[]))if current_state['symbol_type_input']['formals']else('type-code reader invents actual formal',lambda r:changed_type_input(r,'formals',[{'name':'symbol','type':'C2Symbol *'}]))
+        mutations += [formal_control,
                       ('type reader actual symbol pool offset differs',lambda r:changed_type_input(r,'symbol_offset',552)),
                       ('type reader loses actual caller-symbol alias',lambda r:changed_type_input(r,'caller_symbol_alias',False)),
                       ('type reader caller record kind differs',lambda r:changed_type_input(r,'caller_kind',4)),

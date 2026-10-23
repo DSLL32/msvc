@@ -292,6 +292,7 @@ C2Symbol *__fastcall read_symbol(int retain_locals);
 long input_compact_signed(void);
 short input_compact_short(void);
 unsigned input_varuint(void);
+unsigned short input_type(void);
 unsigned input_extended_flags(void);
 void __fastcall input_string(char *buffer, unsigned capacity);
 void __fastcall copy_symbol_type(C2Symbol *symbol);
