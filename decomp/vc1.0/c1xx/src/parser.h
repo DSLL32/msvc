@@ -31,7 +31,6 @@ typedef struct LabelStack {
     IrToken *label;
 } LabelStack;
 extern ClassContext class_contexts[16];
-extern unsigned char expression_storage[2052];
 extern unsigned char *text_work_cursor;
 extern int initializer_list_started;
 extern int declarator_nesting;

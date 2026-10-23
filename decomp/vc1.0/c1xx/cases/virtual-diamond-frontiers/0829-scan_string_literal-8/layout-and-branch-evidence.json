@@ -1,0 +1,48 @@
+{
+  "function": "_scan_string_literal@8",
+  "original_extent": [
+    151200,
+    151756
+  ],
+  "raw_disassembly": "evidence/literal-conversion-original-disassembly.txt",
+  "literal_metadata": {
+    "text": "0x8c150",
+    "length": "0x8c154",
+    "flags": "0x8c156",
+    "source_type": "StringTokenValue: char* text, unsigned short length, unsigned short flags",
+    "sizeof": 8,
+    "asserted_offsets": {
+      "length": 4,
+      "flags": 6
+    },
+    "flag_meanings": {
+      "0": "wide",
+      "1": "Pascal"
+    }
+  },
+  "workspace_alias": {
+    "browser_filename": "0x8c404",
+    "expression_storage": "0x8c408",
+    "typed_storage": "LiteralWorkspace: four-byte browser pointer followed by2052 text bytes; union byte view includes established prefix",
+    "asserted_size": 2056,
+    "cursor_minus_one": "Original newline/captured-delimiter branches read previous byte before checking the literal start bound. At first workspace byte this aliases browser_filename high byte.",
+    "zero_default_audit": "evidence/literal-workspace-alias-audit.json",
+    "original_check_cursor_limit": "0x8cc08"
+  },
+  "ABI": {
+    "arguments": [
+      "int wide",
+      "signed char delimiter; stack slot4bytes"
+    ],
+    "cleanup": 8,
+    "raw_delimiter_read": "MOVSX byte [stack delimiter]",
+    "unreconstructed_callees": "Named check/encoder/Pascal/escape functions; each retained separately."
+  },
+  "branch_preservation": [
+    "DBCS lead/trail bytes and captured quote backslash parity",
+    "wide escaped units above255 bypass segment conversion",
+    "Pascal p/P prefix only at literal start under /m",
+    "newline CR trim and original segment base retained",
+    "16bit length wrap; metadata flag bits beyond wide/Pascal retained"
+  ]
+}

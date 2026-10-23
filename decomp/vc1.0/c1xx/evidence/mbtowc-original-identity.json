@@ -1,0 +1,114 @@
+{
+  "records": [
+    {
+      "name": "_mbtowc",
+      "record": {
+        "name": "_mbtowc",
+        "start": 533408,
+        "end": 533664,
+        "object": "convert\\obj\\i386\\MBTOWC.OBJ",
+        "library": "LIBC.LIB"
+      },
+      "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+      "object_sha256": "b96993596ca312cd4978a8c58d184d096c550243a6697ef987673c0dd55d73a0",
+      "member_bytes": 256,
+      "member_sha256": "eb22b5002e4b258874b03817d20bd49281389eaffd53343be4e896de3de4ef6a",
+      "original_body_sha256": "43b09e876d28d2584177a16c48f00b1e533e10536135bf9840cb47da5ce56e52",
+      "relocation_identity": "exact nonrelocation bytes, named direct/indirect call edges, shared DIR32 globals and canonical public data targets",
+      "relocations": [
+        {
+          "offset": 50,
+          "symbol": "__lc_handle",
+          "kind": 6
+        },
+        {
+          "offset": 98,
+          "symbol": "__pctype",
+          "kind": 6
+        },
+        {
+          "offset": 117,
+          "symbol": "___mb_cur_max",
+          "kind": 6
+        },
+        {
+          "offset": 126,
+          "symbol": "___mb_cur_max",
+          "kind": 6
+        },
+        {
+          "offset": 145,
+          "symbol": "___mb_cur_max",
+          "kind": 6
+        },
+        {
+          "offset": 154,
+          "symbol": "__lc_codepage",
+          "kind": 6
+        },
+        {
+          "offset": 160,
+          "symbol": "_MultiByteToWideChar@24",
+          "kind": 20
+        },
+        {
+          "offset": 169,
+          "symbol": "___mb_cur_max",
+          "kind": 6
+        },
+        {
+          "offset": 178,
+          "symbol": "_errno",
+          "kind": 6
+        },
+        {
+          "offset": 211,
+          "symbol": "__lc_codepage",
+          "kind": 6
+        },
+        {
+          "offset": 217,
+          "symbol": "_MultiByteToWideChar@24",
+          "kind": 20
+        },
+        {
+          "offset": 227,
+          "symbol": "_errno",
+          "kind": 6
+        }
+      ],
+      "call_targets": [
+        "import:MultiByteToWideChar"
+      ]
+    }
+  ],
+  "original_crt_globals": {
+    "__lc_handle": 700408,
+    "__pctype": 697936,
+    "___mb_cur_max": 698460,
+    "__lc_codepage": 700432,
+    "_errno": 698956
+  },
+  "analysis": {
+    "original_extent": "0x823a0..0x824a0",
+    "last_return": "0x8249c",
+    "padding": "0x8249d..0x8249f",
+    "calling_convention": "cdecl; three stack words; int return",
+    "destination": "16-bit WORD store at0x823c7 for NUL and0x823e5 for nonzero default-C input",
+    "default_C_locale_predicate": "__lc_handle[LC_CTYPE] at0xab000 equals0",
+    "default_C_semantics": [
+      "NULL source or zero byte limit: return0, do not touch destination or errno",
+      "NUL first byte: optionally store16-bit0, return0, preserve errno",
+      "Nonzero first byte: optionally store unsigned byte as16-bit word, return1, preserve errno"
+    ],
+    "nondefault_locale": "__pctype lead-bit0x8000; mb_cur_max bounds; MultiByteToWideChar(codepage,1,source,input_length,destination,destination!=NULL); conversion failure or short lead sets original errno42 and returns-1",
+    "status": "Static exact member/relocation proof only. Not a dynamically reached or accepted runtime seam. No nondefault-locale native equivalence claim.",
+    "raw_disassembly": "evidence/literal-conversion-original-disassembly.txt"
+  },
+  "shared_native_support": {
+    "commit": "af02923",
+    "receipt": "lib/recon/mbtowc-validation.json",
+    "scope": "514 original-compiler/native probe rows; all256 input bytes with real/null destinations, NULL source, zero capacity, WORD-only writes, unchanged errno; nondefault conversion explicitly rejected",
+    "application_status": "encode_literal_segment narrow path accepted; wide branch compiles but has not run in this application case"
+  }
+}

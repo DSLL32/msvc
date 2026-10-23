@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "4fe44ebb7f3169cf143547c23da78fa65c04c50447a2d5048dd6741dd126d090",
+    "functions.json": "28715d3d4c44ee49b3007cf3849f71204e97a24872727ded417e203421b26fa0",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
     "evidence/fast-replay-verification-receipt.json": "c31482ee4affd1e136825beb31be9913d71a704a1e90d58019c14ff6aa5ee3a9",
-    "cases/canonical-map.txt": "6348cfe9141d4a53b3da718d33089649f56cbfca721652069082e7c2e3be081d",
+    "cases/canonical-map.txt": "2389f1e648cec23a7d6d88af3b08c278c6023cb17e5f82d09c3ef9ba31a29208",
     "cases/object-initializer-trial/frontier-extension.json": "becd7ed4c01caf94840212178315dc3408afe064c6015a7e8bc018fc351b5e94",
     "cases/object-initializer-trial/original-after-receipt.json": "176547f9f659647df53a08f0fecd273770df2d835b4024ee89dcfc75f492ccc3",
     "cases/object-initializer-trial/original-after-events.txt": "a83f5c103dc0cb7c85479b1e6a0cbb6e65de66cf376c0cc858d2c075f45ddc17",
@@ -1188,7 +1188,27 @@
     "cases/virtual-diamond-frontiers/0828-classify_directive-4/original-configuration.json": "f196a0b1de85d2949a5dd4f0b8acb2d327b74f361d40275f555446a630347c21",
     "cases/virtual-diamond-frontiers/0828-classify_directive-4/frontier-extension.json": "00be57df2ecc216aa3d4e24ff32a308d27077191cf0e7f2e97c97828057e4f42",
     "cases/virtual-diamond-frontiers/0828-classify_directive-4/original-receipt.json": "c487b9945d65a2065d63c167aa1dc6dc8a2807a23526fd0a0e51124ff5f5534e",
-    "cases/virtual-diamond-frontiers/0828-classify_directive-4/original-events.txt": "5a78dd2ee2f3b133a948a4814ccbffe0ed1316eb82fe40d2c0729131f12bc498"
+    "cases/virtual-diamond-frontiers/0828-classify_directive-4/original-events.txt": "5a78dd2ee2f3b133a948a4814ccbffe0ed1316eb82fe40d2c0729131f12bc498",
+    "cases/virtual-diamond-frontiers/0829-scan_string_literal-8/original-configuration.json": "be92e70ffd769b6f105ff05d7b06db4c48f1af7abd14ca182c1b06bf3a8c75cd",
+    "cases/virtual-diamond-frontiers/0829-scan_string_literal-8/frontier-extension.json": "d66197686ccfed947e914d345197b57d9aaa7f80dec5cd80d0e83d823341bd29",
+    "cases/virtual-diamond-frontiers/0829-scan_string_literal-8/original-receipt.json": "b884dc611a288ad52bedcaf5a7ced7b5fa14ea4d58ea5ffb2cb34fabdea3024e",
+    "cases/virtual-diamond-frontiers/0829-scan_string_literal-8/original-events.txt": "849de2a33ce628190bf5b5160464fa28e595eaee5a8031169fb555423330c638",
+    "cases/virtual-diamond-frontiers/0830-check_literal_cursor-4/original-configuration.json": "1055d7bcad0f91e5f184c9385941afa27e826524f16e97e54049195a91cf1b66",
+    "cases/virtual-diamond-frontiers/0830-check_literal_cursor-4/frontier-extension.json": "93493634e56aa8b1ed755dea5ef392e6dac6838d23e966b0ae04461c76cd14c1",
+    "cases/virtual-diamond-frontiers/0830-check_literal_cursor-4/original-receipt.json": "4f21edc85aee260345a92426ade21194cdeacc13a94078e24654e60c1abdca72",
+    "cases/virtual-diamond-frontiers/0830-check_literal_cursor-4/original-events.txt": "1e362677bbc4b48383a8338fdd3c954fc632e08b9024995f8f307d4dd691e0f1",
+    "cases/virtual-diamond-frontiers/0831-encode_literal_segment-12/original-configuration.json": "59715a723480d61656b8561ab1e989fb6c09c8a3588c6b6370c0b00333b8a291",
+    "cases/virtual-diamond-frontiers/0831-encode_literal_segment-12/frontier-extension.json": "0bed156376a69c5ca9f314ba4b20727b317d3e01de0ee43c77654e9fd7280a11",
+    "cases/virtual-diamond-frontiers/0831-encode_literal_segment-12/original-receipt.json": "48f26cf88249b865615aa0a8276e10997c6596e2d28ea39bbbc40f2b29067243",
+    "cases/virtual-diamond-frontiers/0831-encode_literal_segment-12/original-events.txt": "a1ec7693086a5987f8769a8d40cf0e93b8c45934f8e4d34794dfc3c167acdb2f",
+    "cases/virtual-diamond-frontiers/0832-finish_directive-4/original-configuration.json": "34c0cb68914d354c3d974a61c5594a1818e8868a497225f8fb5f40bc19dbd2f6",
+    "cases/virtual-diamond-frontiers/0832-finish_directive-4/frontier-extension.json": "9a5fdc11e46d8c42ef297e4364a43b8bc9fa0041116c5a4655bf2f335ad95f30",
+    "cases/virtual-diamond-frontiers/0832-finish_directive-4/original-receipt.json": "693eb52a3c4153fe2ae6ba435d5c64c1416edfbf867abc653898b8c1e38f31de",
+    "cases/virtual-diamond-frontiers/0832-finish_directive-4/original-events.txt": "9ea3aef4480ee11ba50b807d44679eda7cd22f3bf28e8aa0bf747fe3a35aa7d9",
+    "cases/virtual-diamond-frontiers/0833-next_directive_character/original-configuration.json": "867e4152c5649740e4165f91f0158e3a1b5f0eec835aea8327013511569f5d8a",
+    "cases/virtual-diamond-frontiers/0833-next_directive_character/frontier-extension.json": "7a82a91ef79be97ffab14784fcb2ad76daf4a74825fa38ca59f73ae9fdbf9882",
+    "cases/virtual-diamond-frontiers/0833-next_directive_character/original-receipt.json": "a8fefe5a5e25e9582724c4a822ae05eebfe01197daed39b6df2207f5ce370f04",
+    "cases/virtual-diamond-frontiers/0833-next_directive_character/original-events.txt": "7a8b0af2f116aa4d6b712f23b5b638d5297ff5bfad2ef98efdd34a7e26b2ddda"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1851,6 +1871,10 @@
       "logical": "_check_inheritance_model@4",
       "source": "src/tags.c"
     },
+    "check_literal_cursor": {
+      "logical": "_check_literal_cursor@4",
+      "source": "src/literals.c"
+    },
     "check_missing_defaults": {
       "logical": "_check_missing_defaults@20",
       "source": "src/declaration-lookup.c"
@@ -2431,6 +2455,10 @@
       "logical": "_declaring_class_for_symbol@4",
       "source": "src/member-access.c"
     },
+    "decode_literal_escape": {
+      "logical": "_decode_literal_escape@8",
+      "source": "src/stubs.c"
+    },
     "defer_generated_member": {
       "logical": "_defer_generated_member@4",
       "source": "src/special-members.c"
@@ -2710,6 +2738,10 @@
     "emit_warning_controls": {
       "logical": "_emit_warning_controls@4",
       "source": "src/control-ir.c"
+    },
+    "encode_literal_segment": {
+      "logical": "_encode_literal_segment@12",
+      "source": "src/literals.c"
     },
     "encode_type_name": {
       "logical": "_encode_type_name@4",
@@ -3117,7 +3149,7 @@
     },
     "finish_directive": {
       "logical": "_finish_directive@4",
-      "source": "src/stubs.c"
+      "source": "src/directives.c"
     },
     "finish_expression_output": {
       "logical": "_finish_expression_output",
@@ -3182,6 +3214,10 @@
     "finish_parameter_scope": {
       "logical": "_finish_parameter_scope",
       "source": "src/declarations.c"
+    },
+    "finish_pascal_literal": {
+      "logical": "_finish_pascal_literal@4",
+      "source": "src/stubs.c"
     },
     "finish_pch_capture": {
       "logical": "_finish_pch_capture",
@@ -4477,7 +4513,7 @@
     },
     "next_directive_character": {
       "logical": "_next_directive_character",
-      "source": "src/stubs.c"
+      "source": "src/directives.c"
     },
     "next_enumerator_value": {
       "logical": "_next_enumerator_value@8",
@@ -5453,7 +5489,7 @@
     },
     "scan_string_literal": {
       "logical": "_scan_string_literal@8",
-      "source": "src/stubs.c"
+      "source": "src/literals.c"
     },
     "scan_token": {
       "logical": "_scan_token",
@@ -6648,7 +6684,12 @@
     "read_work_stack",
     "reset_pushed_tokens",
     "preprocess_directive",
-    "classify_directive"
+    "classify_directive",
+    "scan_string_literal",
+    "check_literal_cursor",
+    "encode_literal_segment",
+    "finish_directive",
+    "next_directive_character"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -7317,7 +7358,7 @@
     },
     "virtual_diamond": {
       "first": 643,
-      "last": 829,
+      "last": 834,
       "seen": [
         "main",
         "message_text",
@@ -8057,12 +8098,17 @@
         "reset_pushed_tokens",
         "preprocess_directive",
         "classify_directive",
-        "scan_string_literal"
+        "scan_string_literal",
+        "check_literal_cursor",
+        "encode_literal_segment",
+        "finish_directive",
+        "next_directive_character",
+        "emit_deleting_destructor_body"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_scan_string_literal@8",
-        "native": "scan_string_literal",
+        "logical": "_emit_deleting_destructor_body@4",
+        "native": "emit_deleting_destructor_body",
         "signal": 5
       }
     }

@@ -13,7 +13,7 @@ unsigned syntax_diagnostic_count; /* original 0x914cc */
 short parser_recovery_count; /* original 0x9eba4 */
 
 ClassContext class_contexts[16]; /* original 0x8c1fc..0x8c3fc */
-unsigned char expression_storage[2052]; /* original 0x8c408..0x8cc0c */
+LiteralWorkspace literal_workspace; /* original 0x8c404..0x8cc0c */
 unsigned char *text_work_cursor = expression_storage; /* original 0x9fc48 */
 int initializer_list_started; /* original 0xa0a24 */
 int declarator_nesting; /* original 0x91894 */

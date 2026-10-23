@@ -5,8 +5,16 @@
 
 /* yacc copies exactly two words for each token/reduction value. Its typed
    views overlap; declaration storage uses the same three bytes as symbols. */
+typedef struct StringTokenValue {
+    char *text;
+    unsigned short length, flags;
+} StringTokenValue;
+typedef char StringTokenValueSizeMustBe8[(sizeof(StringTokenValue) == 8) ? 1 : -1];
+typedef char StringTokenLengthOffsetMustBe4[(offsetof(StringTokenValue, length) == 4) ? 1 : -1];
+typedef char StringTokenFlagsOffsetMustBe6[(offsetof(StringTokenValue, flags) == 6) ? 1 : -1];
 typedef union ParserValue {
     struct { unsigned low, high; } words;
+    StringTokenValue string;
     DeclarationType declaration;
     struct { CppSymbol *symbol; CType *type; } type_name;
     unsigned char bytes[8];

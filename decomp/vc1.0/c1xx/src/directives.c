@@ -197,13 +197,13 @@ dispatch_directive:
                 skip_source_line();
                 goto directive_done;
             }
-            if (current_token_value.bytes[6] & 1) report_syntax_error(2);
-            left = current_token_value.name;
+            if (current_token_value.string.flags & 1) report_syntax_error(2);
+            left = current_token_value.string.text;
             right = source_filename;
             while (*left == *right && *left) { ++left; ++right; }
             if (*left != *right) {
                 source_buffer_cursor = source_filename;
-                text_work_cursor = (unsigned char *)current_token_value.name;
+                text_work_cursor = (unsigned char *)current_token_value.string.text;
                 do { *source_buffer_cursor++ = *text_work_cursor++; }
                 while (source_buffer_cursor[-1]);
                 if (!options.option_E) {
@@ -216,7 +216,7 @@ dispatch_directive:
                     }
                 }
             }
-            text_work_cursor = (unsigned char *)current_token_value.name;
+            text_work_cursor = (unsigned char *)current_token_value.string.text;
         }
         if (!options.option_E) record_line_information(1);
         else emit_line_directive();
@@ -252,7 +252,7 @@ dispatch_directive:
         options.option_E = saved_output;
         if (current_token_code == 3) {
             pending_pragma_kind = 3;
-            pending_pragma_text = (unsigned char *)current_token_value.name;
+            pending_pragma_text = (unsigned char *)current_token_value.string.text;
             record_line_information(11);
         } else warn_ident_requires_string();
 finish_error_directive:
@@ -299,4 +299,42 @@ unsigned char __stdcall classify_directive(char *name)
         if (*keyword == *input) return directive_keywords[index].kind;
     }
     return PP_UNKNOWN;
+}
+
+/* Original 0x243c0..0x243ef, stdcall4. Leave the newline unread for
+   the main lexer; extra directive text warns with its caller's context. */
+void __stdcall finish_directive(char *name)
+{
+    if (next_directive_character() != '\n') {
+        compiler_warning(1, 67, name);
+        skip_source_line();
+    } else {
+        --source_text_cursor;
+    }
+}
+
+/* Original 0x25f90..0x26007. Skip horizontal/CR whitespace, comments,
+   source-buffer escapes and continued lines, leaving a real newline visible. */
+unsigned char next_directive_character(void)
+{
+    unsigned char character, classification;
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        if (character <= '/') {
+            if (character == '/') {
+                if (skip_source_comment()) continue;
+                return '/';
+            }
+            if (character > ' ') return character;
+            classification = character_class[character];
+            if (classification <= CC_CARRIAGE_RETURN) continue;
+            if (classification == CC_ESCAPE_OR_END) {
+                recover_special_character();
+                continue;
+            }
+            return character;
+        }
+        if (character == '\\' && consume_line_escape()) continue;
+        return character;
+    }
 }

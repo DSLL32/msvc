@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 829 accepted frontiers, including 736 frontend
+PARTIAL binary reconstruction: 834 accepted frontiers, including 741 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1920,3 +1920,32 @@ grammar audits and 32 boundary rejections pass in 5.011777 seconds. Per-function
 build/reference/debug/fixture timings and raw branch evidence remain separate.
 Accepted extent union 227212/476418 bytes is 47.691733%, not branch coverage.
 virtual_diamond remains incomplete at scan_string_literal 0x24ea0.
+
+Literal/directive replay checkpoint: 834 accepted frontiers, 748 source functions.
+Five whole functions beyond 0bc51ba recover string scanning, the workspace limit
+check, narrow/wide segment encoding, directive termination and directive character
+scanning. Generated member text now reaches emit_deleting_destructor_body 0x382d0.
+All five fresh acceptances match traps, four pending buffers, fourteen state
+fields, streams and visible files; completed cpp_basic remains byte-exact.
+
+StringTokenValue explicitly recovers the text pointer, 16-bit length and flag
+fields. The text workspace's previous-byte reads overlap the preceding browser
+filename pointer: a typed union preserves that established alias, with explicit
+size/offset assertions and original-default/address auditing. Raw literal and
+metadata branch evidence retains captured delimiter parity, DBCS pairs, Pascal
+prefixes, signed delimiter ABI, wide escape units and newline recovery.
+
+Wide segment conversion retains the original mbtowc API and WORD-sized temporary.
+The original LIBC member identity, relocated globals/callee and raw body are
+recorded in evidence/mbtowc-original-identity.json and the companion disassembly.
+The shared native API has its own original/GCC/Clang probe evidence; this narrow
+application case does not execute or accept that CRT seam. Nondefault conversion
+is explicitly unsupported by the shared layer, without host wchar substitution.
+
+The next-directive graph check rejected a duplicate provisional name for the
+existing consume_line_escape stub before acceptance. Its failed build/timing and
+correction are retained; the corrected graph passed a fresh capture. All full
+canonical graph/state/default/alias/callback/data/vocabulary/grammar audits, both
+cached native cases and 32 boundary rejections pass in 5.094780 seconds. Individual
+build/reference/debug/fixture costs remain separate in the acceptance receipts.
+Accepted extent union 228093/476418 bytes is 47.876655%, not branch coverage.

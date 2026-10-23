@@ -107,7 +107,7 @@ void skip_source_line(void);
 int __stdcall write_work_character(int character, WorkingStack *stack);
 void __stdcall write_work_bytes(const void *source, unsigned bytes, unsigned count, WorkingStack *stack);
 unsigned char __stdcall scan_character_literal(int wide);
-void __stdcall scan_string_literal(int wide, unsigned char delimiter);
+void __stdcall scan_string_literal(int wide, char delimiter);
 void __stdcall copy_quoted_literal(unsigned char delimiter);
 unsigned __stdcall read_number_text(char *destination);
 unsigned char __stdcall scan_number(unsigned char first_character);

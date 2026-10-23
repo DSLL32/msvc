@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_finish_directive@4",
+    "start": 148416,
+    "end": 148464
+  },
+  "distinct_direct_callees": [
+    "_compiler_warning",
+    "_next_directive_character",
+    "_skip_source_line"
+  ],
+  "next_frontier": "_next_directive_character",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5213439268991351,
+  "total_operation_seconds": 7.285575287416577,
+  "original_capture_seconds": 3.974733161740005
+}

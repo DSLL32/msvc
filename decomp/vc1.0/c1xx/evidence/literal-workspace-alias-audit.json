@@ -1,0 +1,9 @@
+{
+  "command": [
+    "python3",
+    "scripts/audit-data.py"
+  ],
+  "status": 0,
+  "seconds": 0.25030399672687054,
+  "log": "evidence/literal-workspace-alias-audit.log"
+}

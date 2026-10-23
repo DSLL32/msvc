@@ -833,7 +833,12 @@
     "_read_work_stack@12",
     "_reset_pushed_tokens",
     "_preprocess_directive",
-    "_classify_directive@4"
+    "_classify_directive@4",
+    "_scan_string_literal@8",
+    "_check_literal_cursor@4",
+    "_encode_literal_segment@12",
+    "_finish_directive@4",
+    "_next_directive_character"
   ],
   "driver": [
     {
@@ -3061,7 +3066,7 @@
     {
       "name": "_scan_string_literal@8",
       "start": 151200,
-      "end": 151201
+      "end": 151756
     },
     {
       "name": "_copy_quoted_literal@4",
@@ -6804,12 +6809,12 @@
     {
       "name": "_finish_directive@4",
       "start": 148416,
-      "end": 148417
+      "end": 148464
     },
     {
       "name": "_next_directive_character",
       "start": 155536,
-      "end": 155537
+      "end": 155656
     },
     {
       "name": "_record_pch_condition@4",
@@ -6825,6 +6830,26 @@
       "name": "_warn_ident_requires_string",
       "start": 248048,
       "end": 248049
+    },
+    {
+      "name": "_check_literal_cursor@4",
+      "start": 151040,
+      "end": 151069
+    },
+    {
+      "name": "_encode_literal_segment@12",
+      "start": 151072,
+      "end": 151200
+    },
+    {
+      "name": "_finish_pascal_literal@4",
+      "start": 149680,
+      "end": 149681
+    },
+    {
+      "name": "_decode_literal_escape@8",
+      "start": 153856,
+      "end": 153857
     }
   ],
   "cases": {
@@ -6950,7 +6975,7 @@
       "native_reference": "cases/native-virtual-diamond",
       "frontiers": "cases/virtual-diamond-frontiers",
       "accepted_from": 643,
-      "terminal": "_scan_string_literal@8",
+      "terminal": "_emit_deleting_destructor_body@4",
       "frontier_extensions": [
         "cases/virtual-diamond-frontiers/0643-complete_declaration-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0644-add_storage_specifier-16/frontier-extension.json",
@@ -7137,9 +7162,14 @@
         "cases/virtual-diamond-frontiers/0825-read_work_stack-12/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0826-reset_pushed_tokens/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0827-preprocess_directive/frontier-extension.json",
-        "cases/virtual-diamond-frontiers/0828-classify_directive-4/frontier-extension.json"
+        "cases/virtual-diamond-frontiers/0828-classify_directive-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0829-scan_string_literal-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0830-check_literal_cursor-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0831-encode_literal_segment-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0832-finish_directive-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0833-next_directive_character/frontier-extension.json"
       ],
-      "terminal_evidence": "cases/virtual-diamond-frontiers/0828-classify_directive-4/original-events.txt",
+      "terminal_evidence": "cases/virtual-diamond-frontiers/0833-next_directive_character/original-events.txt",
       "original_seed": "cases/virtual_diamond-seed"
     }
   },
@@ -7638,16 +7668,12 @@
           "bytes": 512
         },
         {
-          "name": "_expression_storage",
-          "original": 574472,
-          "bytes": 2052
-        },
-        {
           "name": "_text_work_cursor",
           "original": 654408,
           "bytes": 4,
-          "pointer_to": "_expression_storage",
-          "original_target": 574472
+          "pointer_to": "_literal_workspace",
+          "original_target": 574472,
+          "target_offset": 4
         },
         {
           "name": "_initializer_list_started",
@@ -7813,11 +7839,6 @@
           "name": "_pch_output_written",
           "original": 654012,
           "bytes": 1
-        },
-        {
-          "name": "_browser_filename",
-          "original": 574468,
-          "bytes": 4
         },
         {
           "name": "_compiler_stack",
@@ -9137,6 +9158,18 @@
       "count": 13,
       "groups": 647744,
       "ids": 647776
+    },
+    {
+      "name": "_literal_workspace",
+      "original": 574468,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_literal_workspace",
+          "original": 574468,
+          "bytes": 2056
+        }
+      ]
     }
   ],
   "buffered_streams": [

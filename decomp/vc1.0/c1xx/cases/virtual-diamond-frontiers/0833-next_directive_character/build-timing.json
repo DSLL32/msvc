@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 8.804444531910121,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-next-directive-corrected-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 6.153941468335688,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-next-directive-corrected-canonical.log"
+  }
+]

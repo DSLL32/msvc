@@ -1,0 +1,20 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655b348 in check_literal_cursor (cursor=0x565e7d34 <literal_workspace+4> "") at src/stubs.c:640
+640	unsigned char *__stdcall check_literal_cursor(unsigned char *cursor) { __asm { int 3 } return 0; }
+#0  0x5655b348 in check_literal_cursor (cursor=0x565e7d34 <literal_workspace+4> "") at src/stubs.c:640
+#1  0x56587e68 in scan_string_literal (wide=0, delimiter=34 '"') at src/literals.c:58
+#2  0x565a5c92 in read_lexical_token () at src/lexer.c:616
+#3  0x565a3465 in scan_token () at src/lexer.c:226
+#4  0x565a279b in read_parser_token () at src/lexer.c:48
+#5  0x5658765a in preprocess_directive () at src/directives.c:192
+#6  0x565a5ed9 in begin_source_line () at src/lexer.c:661
+#7  0x565a5023 in read_lexical_token () at src/lexer.c:468
+#8  0x565a3465 in scan_token () at src/lexer.c:226
+#9  0x565a2945 in read_parser_token () at src/lexer.c:67
+#10 0x5659bc47 in parse_translation_unit () at src/parser.c:83
+#11 0x5655e2bf in compile_translation_unit () at src/frontend.c:73
+#12 0x565587e6 in guarded_compile () at src/c1xx.c:28
+#13 0x565587b4 in main (argc=1, argv=0xffffd8d4, environment=0xffffd8dc) at src/c1xx.c:20

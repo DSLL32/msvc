@@ -40,6 +40,7 @@
 #include "text-format.h"
 #include "type-diagnostics-internal.h"
 #include "directives-internal.h"
+#include "literals-internal.h"
 #include <recon.h>
 void interrupt_compile(int signal_number) { __asm { int 3 } }
 void initialize_japanese_characters(void) { __asm { int 3 } }
@@ -284,7 +285,6 @@ void chain_initializer_function(void) { __asm { int 3 } }
 void __stdcall register_initializer_function(CppSymbol *function) { __asm { int 3 } }
 void skip_source_line(void) { __asm { int 3 } }
 unsigned char __stdcall scan_character_literal(int wide) { __asm { int 3 } return 0; }
-void __stdcall scan_string_literal(int wide, unsigned char delimiter) { __asm { int 3 } }
 void __stdcall copy_quoted_literal(unsigned char delimiter) { __asm { int 3 } }
 unsigned __stdcall read_number_text(char *destination) { __asm { int 3 } return 0; }
 unsigned char __stdcall scan_float_tail(char *destination) { __asm { int 3 } return 0; }
@@ -631,8 +631,9 @@ int push_conditional_state(void) { __asm { int 3 } return 0; }
 void capture_directive_text(void) { __asm { int 3 } }
 char *read_include_name(void) { __asm { int 3 } return 0; }
 int __stdcall skip_conditional_block(unsigned flags) { __asm { int 3 } return 0; }
-void __stdcall finish_directive(char *name) { __asm { int 3 } }
-unsigned char next_directive_character(void) { __asm { int 3 } return 0; }
 int __stdcall record_pch_condition(int condition) { __asm { int 3 } return 0; }
 int process_pch_directive(void) { __asm { int 3 } return 0; }
 void warn_ident_requires_string(void) { __asm { int 3 } }
+
+void __stdcall finish_pascal_literal(ParserValue *literal) { __asm { int 3 } }
+unsigned __stdcall decode_literal_escape(unsigned char character, int wide) { __asm { int 3 } return 0; }

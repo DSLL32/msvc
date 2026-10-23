@@ -1,6 +1,7 @@
 #ifndef INITIALIZATION_H
 #define INITIALIZATION_H
 #include "frontend.h"
+#include "literal-workspace.h"
 #include <recon.h>
 
 typedef struct WorkingStack {
@@ -30,7 +31,6 @@ extern int normalized_Oq, normalized_Gn, normalized_Ol;
 extern int target_cpu, target_cpu_mask;
 extern char token_buffer[7936];
 extern char *source_filename, *source_buffer_cursor;
-extern char *browser_filename;
 extern FILE *diagnostic_trace_file, *listing_file;
 /* Source number/literal workspace ends at the preprocessor FILE pointer.
    Long text uses that same four-byte boundary, as in the original layout. */
