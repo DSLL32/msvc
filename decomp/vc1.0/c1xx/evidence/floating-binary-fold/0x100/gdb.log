@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x1477f: file src/constants.c, line 302.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, fold_floating_binary (expression=0x5664f948, left=0xffffd48c, right=0xffffd480) at src/constants.c:302
+302	{
+Breakpoint 2 at 0x565606cf: file src/stubs.c, line 611.
+
+Breakpoint 2, multiply_extended (left=0xffffd48c, right=0xffffd480, result=0xffffd408) at src/stubs.c:611
+611	int multiply_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56569b24 in fold_floating_binary (expression=0x5664f948, left=0xffffd48c, right=0xffffd480) at src/constants.c:359
+359	        __asm { int 3 }

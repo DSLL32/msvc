@@ -294,3 +294,71 @@ Extended *__stdcall save_extended_in_arena(Extended value, int arena)
     *result = value;
     return result;
 }
+
+/* Original 0x2d090..0x2d367, operation table 0x2d368..0x2d3e7.
+   Floating arithmetic retains the original range-warning and rounding order. */
+IrToken *__stdcall fold_floating_binary(IrToken *expression, Extended *left,
+    Extended *right)
+{
+    unsigned short comparison = 0, type;
+    unsigned char kind;
+    int overflow;
+    Extended result;
+    float single;
+    double real;
+    switch (expression->kind) {
+    case 0x3b:
+        integer_constant_scratch = compare_extended(6, left, &extended_zero) &&
+            compare_extended(6, right, &extended_zero);
+        return new_literal_constant(7, &integer_constant_scratch);
+    case 0x58:
+        integer_constant_scratch = compare_extended(6, left, &extended_zero) ||
+            compare_extended(6, right, &extended_zero);
+        return new_literal_constant(7, &integer_constant_scratch);
+    case 0x42:
+        if (!compare_extended(6, right, &extended_zero)) {
+            expression->flags = 0x40;
+            return expression;
+        }
+        overflow = divide_extended(left, right, &result);
+        break;
+    case 0x44: comparison = 1; break;
+    case 0x47: comparison = 2; break;
+    case 0x48: comparison = 3; break;
+    case 0x4d: comparison = 4; break;
+    case 0x4e: comparison = 5; break;
+    case 0x55: comparison = 6; break;
+    case 0x4f: overflow = subtract_extended(left, right, &result); break;
+    case 0x53: overflow = multiply_extended(left, right, &result); break;
+    case 0x5a: overflow = add_extended(left, right, &result); break;
+    default: return expression;
+    }
+    if (comparison) {
+        integer_constant_scratch = compare_extended(comparison, left, right);
+        return new_literal_constant(7, &integer_constant_scratch);
+    }
+    if (overflow) compiler_warning(2, 0x38);
+    if (normalized_Op) {
+        if (result.format == 4) {
+            extended_to_float(&result, &single);
+            float_to_extended(&single, &result);
+        } else if (result.format == 8) {
+            extended_to_double(&result, &real);
+            double_to_extended(&real, &result);
+        }
+    }
+    integer_constant_scratch = (unsigned)save_extended_constant(&result);
+    type = expression->type->flags & 0xefff;
+    if (type == 0x104) kind = 4;
+    else if (type == 0x108) kind = 5;
+    else if (type == 0x128) kind = 6;
+    else {
+        /* Original 0x2d343 reads unwritten entryESP-25 here. Preserve
+           that Win32 source bug; public reachability remains unknown. */
+#if defined(RECON_NATIVE_TEST) && defined(__linux__)
+        __asm { int 3 }
+        return expression;
+#endif
+    }
+    return new_literal_constant(kind, &integer_constant_scratch);
+}

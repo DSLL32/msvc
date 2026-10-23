@@ -1,0 +1,29 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_fold_floating_binary@12",
+    "start": 184464,
+    "end": 185320
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1157-fold_floating_binary-12/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_add_extended",
+    "_compare_extended",
+    "_compiler_warning",
+    "_divide_extended",
+    "_double_to_extended",
+    "_extended_to_double",
+    "_extended_to_float",
+    "_float_to_extended",
+    "_multiply_extended",
+    "_new_literal_constant@8",
+    "_save_extended_constant@4",
+    "_subtract_extended"
+  ],
+  "next_frontier": "_multiply_extended",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.7763066114857793,
+  "total_operation_seconds": 4.3018056601285934,
+  "original_capture_seconds": 1.0675224121659994
+}

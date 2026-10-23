@@ -1161,7 +1161,8 @@
     "_double_to_extended",
     "_store_extended",
     "_save_extended_constant@4",
-    "_save_extended_in_arena@16"
+    "_save_extended_in_arena@16",
+    "_fold_floating_binary@12"
   ],
   "driver": [
     {
@@ -6280,7 +6281,7 @@
     {
       "name": "_fold_floating_binary@12",
       "start": 184464,
-      "end": 184465
+      "end": 185320
     },
     {
       "name": "_multiplication_overflows@16",
@@ -8339,6 +8340,21 @@
       "name": "_store_extended",
       "start": 479393,
       "end": 479397
+    },
+    {
+      "name": "_add_extended",
+      "start": 478361,
+      "end": 478362
+    },
+    {
+      "name": "_multiply_extended",
+      "start": 478519,
+      "end": 478520
+    },
+    {
+      "name": "_divide_extended",
+      "start": 478598,
+      "end": 478599
     }
   ],
   "cases": {
@@ -8539,7 +8555,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_fold_floating_binary@12",
+      "terminal": "_multiply_extended",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8562,7 +8578,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1156-save_extended_in_arena-16/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1157-fold_floating_binary-12/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8724,7 +8740,8 @@
         "cases/frontiers/state_machine_debug/1153-double_to_extended/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1154-store_extended/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1155-save_extended_constant-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1156-save_extended_in_arena-16/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1156-save_extended_in_arena-16/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1157-fold_floating_binary-12/frontier-extension.json"
       ]
     }
   },
@@ -11474,6 +11491,19 @@
       "authorization": "Established precise native uninitialized-read policy after independent whole-body def-use/frame check",
       "evidence": "evidence/member-pointer-model-domain/analysis.json",
       "coverage_note": "Both fallback loads4a0e4/4a18a read adjustedESP+24 after SUB16/save12; no writer exists to that local. Public reachability UNKNOWN; no invalid-model or original stack equivalence claim."
+    },
+    {
+      "function": "_fold_floating_binary@12",
+      "original": [
+        184464,
+        185320
+      ],
+      "condition": "arithmetic-result path with (expression->type->flags & 0xefff) outside 0x104/0x108/0x128",
+      "behavior": "exact native-only INT3 before original unwritten entryESP-25 literal-kind read",
+      "win32": "original-style uninitialized unsigned char kind retained",
+      "authorization": "Parent approved established precise original-bug policy after independent whole-body frame/def-use check",
+      "evidence": "evidence/floating-binary-fold/analysis.json",
+      "coverage_note": "The byte at adjustedESP+11 has no writer in whole728Bbody; result and conversion output spans do not overlap it. Public reachability UNKNOWN; no undefined-kind or original stack equivalence claim."
     }
   ]
 }

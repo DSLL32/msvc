@@ -1,0 +1,38 @@
+{
+  "scope": "Read-only production argument preflight with frozen original configuration; synthetic corruptions, no promotion or original execution",
+  "proof": "cases/argument-observations/state_machine_debug/1157-fold_floating_binary-12/validation.json",
+  "proof_sha256": "03f40ee9f3c1d763820cc205b2739bdb36267fcdc7b7d6bb052e65315253079b",
+  "checks": [
+    {
+      "test": "control",
+      "result": "verified",
+      "output": "fresh application arguments verified: _fold_floating_binary@12"
+    },
+    {
+      "test": "missing-anchor",
+      "result": "held",
+      "reason": "missing actual owner register anchor"
+    },
+    {
+      "test": "wrong-offset",
+      "result": "held",
+      "reason": "original caller owner plus offset differs"
+    },
+    {
+      "test": "swapped-output-addresses",
+      "result": "held",
+      "reason": "native actual caller local owner differs"
+    },
+    {
+      "test": "wrong-native-owner",
+      "result": "held",
+      "reason": "actual native owner differs"
+    },
+    {
+      "test": "read-output-prestate",
+      "result": "held",
+      "reason": "only defined caller input addresses are observed"
+    }
+  ],
+  "elapsed_seconds": 0.1897400189191103
+}

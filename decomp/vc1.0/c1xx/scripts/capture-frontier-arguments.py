@@ -140,6 +140,9 @@ def main():
             assert item['native_raw'] == binding['native_owner_value'], 'native actual caller local owner differs'
             if 'original_stack_offset' in binding and name=='_resolve_member_pointer_path@12':
                 validate_member_path_output(name, item, owner)
+            elif 'original_stack_offset' in binding and name=='_fold_floating_binary@12':
+                from floating_binary_owners import validate as validate_floating_binary_owner
+                validate_floating_binary_owner(name, item, owner)
             elif 'original_stack_offset' in binding and name=='_double_to_extended':
                 assert offset==28 and binding['original_register']=='esp' and binding['native_owner_address'], 'wrong rounded double input stack owner'
                 assert binding['original_caller_rva']==0x64c43 and binding['original_owner_function']=='_convert_floating_literal@8'

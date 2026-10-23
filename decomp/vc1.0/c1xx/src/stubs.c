@@ -417,7 +417,6 @@ int __stdcall report_operator_resolution_failure(unsigned char operation, unsign
 
 void __stdcall type_warning(unsigned level, unsigned code, CType *type) { __asm { int 3 } }
 IrToken *__stdcall make_address_temporary(IrToken *expression) { __asm { int 3 } return 0; }
-IrToken *__stdcall fold_floating_binary(IrToken *expression, Extended *left, Extended *right) { __asm { int 3 } return 0; }
 int __stdcall subtraction_overflows(int left, int right, short unsigned_arithmetic, unsigned short bytes) { __asm { int 3 } return 0; }
 int compare_extended(unsigned short mask, const Extended *left, const Extended *right) { __asm { int 3 } return 0; }
 IrToken * __stdcall apply_member_pointer(IrToken *expression) { __asm { int 3 } return 0; }
@@ -608,3 +607,6 @@ void __stdcall save_macro_argument_text(char *start, char *end) { __asm { int 3 
 void advance_macro_argument(void) { __asm { int 3 } }
 void browser_end_macro_expansion(void) { __asm { int 3 } }
 char *__stdcall encode_literal_name_byte(char *cursor, signed char character) { __asm { int 3 } return 0; }
+int add_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
+int multiply_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
+int divide_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }

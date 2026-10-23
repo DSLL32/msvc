@@ -1,0 +1,70 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0002cf1e <.text+0x15f1e>:
+   2cf1e:	8b 4e 0c             	mov    ecx,DWORD PTR [esi+0xc]
+   2cf21:	8d 54 24 28          	lea    edx,[esp+0x28]
+   2cf25:	8b 01                	mov    eax,DWORD PTR [ecx]
+   2cf27:	89 02                	mov    DWORD PTR [edx],eax
+   2cf29:	8b 41 04             	mov    eax,DWORD PTR [ecx+0x4]
+   2cf2c:	89 42 04             	mov    DWORD PTR [edx+0x4],eax
+   2cf2f:	8b 41 08             	mov    eax,DWORD PTR [ecx+0x8]
+   2cf32:	89 42 08             	mov    DWORD PTR [edx+0x8],eax
+   2cf35:	eb 31                	jmp    0x2cf68
+   2cf37:	f6 c7 40             	test   bh,0x40
+   2cf3a:	8d 44 24 28          	lea    eax,[esp+0x28]
+   2cf3e:	50                   	push   eax
+   2cf3f:	74 0b                	je     0x2cf4c
+   2cf41:	83 c6 0c             	add    esi,0xc
+   2cf44:	56                   	push   esi
+   2cf45:	e8 84 7f 04 00       	call   0x74ece
+   2cf4a:	eb 09                	jmp    0x2cf55
+   2cf4c:	83 c6 0c             	add    esi,0xc
+   2cf4f:	56                   	push   esi
+   2cf50:	e8 57 7f 04 00       	call   0x74eac
+   2cf55:	83 c4 08             	add    esp,0x8
+   2cf58:	0b c0                	or     eax,eax
+   2cf5a:	74 0c                	je     0x2cf68
+   2cf5c:	6a 38                	push   0x38
+   2cf5e:	6a 02                	push   0x2
+   2cf60:	e8 4b 64 04 00       	call   0x733b0
+   2cf65:	83 c4 08             	add    esp,0x8
+   2cf68:	0b ff                	or     edi,edi
+   2cf6a:	74 19                	je     0x2cf85
+   2cf6c:	8b 4d 0c             	mov    ecx,DWORD PTR [ebp+0xc]
+   2cf6f:	8d 54 24 34          	lea    edx,[esp+0x34]
+   2cf73:	8b 01                	mov    eax,DWORD PTR [ecx]
+   2cf75:	89 02                	mov    DWORD PTR [edx],eax
+   2cf77:	8b 41 04             	mov    eax,DWORD PTR [ecx+0x4]
+   2cf7a:	89 42 04             	mov    DWORD PTR [edx+0x4],eax
+   2cf7d:	8b 41 08             	mov    eax,DWORD PTR [ecx+0x8]
+   2cf80:	89 42 08             	mov    DWORD PTR [edx+0x8],eax
+   2cf83:	eb 33                	jmp    0x2cfb8
+   2cf85:	f6 44 24 15 40       	test   BYTE PTR [esp+0x15],0x40
+   2cf8a:	8d 44 24 34          	lea    eax,[esp+0x34]
+   2cf8e:	50                   	push   eax
+   2cf8f:	74 0b                	je     0x2cf9c
+   2cf91:	83 c5 0c             	add    ebp,0xc
+   2cf94:	55                   	push   ebp
+   2cf95:	e8 34 7f 04 00       	call   0x74ece
+   2cf9a:	eb 09                	jmp    0x2cfa5
+   2cf9c:	83 c5 0c             	add    ebp,0xc
+   2cf9f:	55                   	push   ebp
+   2cfa0:	e8 07 7f 04 00       	call   0x74eac
+   2cfa5:	83 c4 08             	add    esp,0x8
+   2cfa8:	0b c0                	or     eax,eax
+   2cfaa:	74 0c                	je     0x2cfb8
+   2cfac:	6a 38                	push   0x38
+   2cfae:	6a 02                	push   0x2
+   2cfb0:	e8 fb 63 04 00       	call   0x733b0
+   2cfb5:	83 c4 08             	add    esp,0x8
+   2cfb8:	8d 44 24 34          	lea    eax,[esp+0x34]
+   2cfbc:	50                   	push   eax
+   2cfbd:	8d 44 24 2c          	lea    eax,[esp+0x2c]
+   2cfc1:	50                   	push   eax
+   2cfc2:	8b 44 24 58          	mov    eax,DWORD PTR [esp+0x58]
+   2cfc6:	50                   	push   eax
+   2cfc7:	e8 c4 00 00 00       	call   0x2d090

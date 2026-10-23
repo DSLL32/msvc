@@ -160,6 +160,9 @@ def main():
             assert formal['native_raw']==binding['native_owner_value']==actual_native_owner, 'native actual caller local owner differs'
             if 'original_stack_offset' in binding and args.candidate=='_resolve_member_pointer_path@12':
                 validate_member_path_output(args.candidate, formal, owner)
+            elif 'original_stack_offset' in binding and args.candidate=='_fold_floating_binary@12':
+                from floating_binary_owners import validate as validate_floating_binary_owner
+                validate_floating_binary_owner(args.candidate, formal, owner)
             elif 'original_stack_offset' in binding and args.candidate=='_double_to_extended':
                 assert offset==28 and binding['original_register']=='esp' and binding['native_owner_address'], 'wrong rounded double input stack owner'
                 assert binding['original_caller_rva']==0x64c43 and binding['original_owner_function']=='_convert_floating_literal@8'
@@ -322,6 +325,7 @@ def main():
     current['graceful_pause'].update(paused=False, current_frontier=original['terminal'],
         original_va=current['original_frontier_va'])
     coverage=json.loads(subprocess.check_output([sys.executable,str(BINARY/'scripts/coverage.py')],cwd=BINARY,text=True))
+    current['native_limitations']=config.get('native_limitations', [])
     current['coverage']=coverage
     current['accepted_extent_coverage']=coverage
     current['next_operation']='Seed the next approved C++ queue case' if complete else 'Continue '+current['current_frontier']+' reconstruction'

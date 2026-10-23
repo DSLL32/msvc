@@ -1,0 +1,122 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_fold_floating_binary@12",
+  "case": "state_machine_debug",
+  "accepted_before": 1157,
+  "configuration_sha256": "99463c630a5c138339d6b4ee0dbb22b2fac8728ac17421092a82a97aa72bd131",
+  "native_entry": "fold_floating_binary",
+  "declared_formal_count": 3,
+  "formals": [
+    {
+      "name": "expression",
+      "stack_index": 0,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 118732,
+        "original_owner_function": "_fold_binary_constant@12",
+        "native_owner_function": "fold_binary_constant",
+        "native_owner_field": "caller_expression",
+        "native_owner_local": "expression",
+        "identity": "Caller baselineESP=entry-76. LEAright+52/PUSH2cfbc, LEAleftatESP+44=>baseline+40/PUSH2cfc1; loadactualexpression intoEAX2cfc2/PUSH2cfc6; CALL2cfc7ret2cfcc meanscalleeESP=baseline-16. Thus left+56/right+68 actualsamecontextaddresses; nativeimmediatecaller actual expression/left_value/right_value owners, no rawframeequality.",
+        "original_owner_value": 8365024,
+        "native_owner_value": 1449367976
+      },
+      "original_raw": 8365024,
+      "native_raw": 1449367976,
+      "result": "match"
+    },
+    {
+      "name": "left",
+      "stack_index": 1,
+      "native_field": "raw_left",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esp",
+        "original_caller_rva": 118732,
+        "original_owner_function": "_fold_binary_constant@12",
+        "native_owner_function": "fold_binary_constant",
+        "native_owner_field": "caller_left",
+        "native_owner_local": "left_value",
+        "original_stack_offset": 56,
+        "native_owner_address": true,
+        "address_only": true,
+        "identity": "Caller baselineESP=entry-76. LEAright+52/PUSH2cfbc, LEAleftatESP+44=>baseline+40/PUSH2cfc1; loadactualexpression intoEAX2cfc2/PUSH2cfc6; CALL2cfc7ret2cfcc meanscalleeESP=baseline-16. Thus left+56/right+68 actualsamecontextaddresses; nativeimmediatecaller actual expression/left_value/right_value owners, no rawframeequality.",
+        "original_owner_value": 2948560,
+        "native_owner_value": 4294956140
+      },
+      "original_raw": 2948560,
+      "native_raw": 4294956140,
+      "result": "match"
+    },
+    {
+      "name": "right",
+      "stack_index": 2,
+      "native_field": "raw_right",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esp",
+        "original_caller_rva": 118732,
+        "original_owner_function": "_fold_binary_constant@12",
+        "native_owner_function": "fold_binary_constant",
+        "native_owner_field": "caller_right",
+        "native_owner_local": "right_value",
+        "original_stack_offset": 68,
+        "native_owner_address": true,
+        "address_only": true,
+        "identity": "Caller baselineESP=entry-76. LEAright+52/PUSH2cfbc, LEAleftatESP+44=>baseline+40/PUSH2cfc1; loadactualexpression intoEAX2cfc2/PUSH2cfc6; CALL2cfc7ret2cfcc meanscalleeESP=baseline-16. Thus left+56/right+68 actualsamecontextaddresses; nativeimmediatecaller actual expression/left_value/right_value owners, no rawframeequality.",
+        "original_owner_value": 2948572,
+        "native_owner_value": 4294956128
+      },
+      "original_raw": 2948572,
+      "native_raw": 4294956128,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      184464,
+      185320
+    ],
+    "argument_bytes": 12,
+    "convention": "stdcall12 pointerreturn",
+    "proof": "Whole728Bcode+32row128Bdispatch, SUB28/saveESI+EDI ->threepointerformals atadjustedESP40/44/48; RET12/EAXtoken. No incomingGPR/x87/CPUflagsformal. Alloperatorrowsandfallbacks reviewed; originalrightzero flagsbyte overwrite40 andearlyreturn, shortcircuit logicalcomparison6, sixcomparisonmasks, arithmetic overflowwarning2/56 thenoptionalnormalized_Op roundtrip, savevaluebeforetypedispatch. Exactfallback2d343 readsunwritten adjustedESP+11=entryESP-25; resultdefinedspanentry-12..-1, singleentry-24..-21,doubleentry-20..-13 cannotwrite it. Win32keepsuninitializedkind,nativeexactunsupportedtrap/publicUNKNOWN. Existingglobals/types/callees only; actualcallerEAXexpression and real left/right localaddresses boundfromsamecontextselector, no frozenframeaddress equality or pointedobjectdump.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "32032469e40600998235a9f1d216c22fefb895e4c13a5656f930615c9b76cc9e",
+  "capture_timing": {
+    "original_capture_seconds": 0.7160416394472122,
+    "native_capture_seconds": 0.19253197312355042,
+    "total_operation_seconds": 1.1898252796381712
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "5e811c56b64aa192ddcb6284c353567f3656e40daf5586c8156905b9fe92ca07",
+    "native-commands.gdb": "1920257cd57178908401cf3b6826b5c15c9037f31c7cb543d40efc6f06497943",
+    "native-gdb.log": "fb43424770713f0670cb78857c184337c31f48c810527295f1937e1c3188ce73",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "42d5395a7d4b1153c4aa923867e6c706b7760378f5d94c226baef111713ba1c4",
+    "original-configuration.json": "99463c630a5c138339d6b4ee0dbb22b2fac8728ac17421092a82a97aa72bd131",
+    "original-disassembly.txt": "9b0a1f4b43f6afaef3c8074aa28ca2f0170489007baa7562f38d98945a4ba1ed",
+    "original-entries.plan": "11cc2c210b6a409f73c1958e8a10368d9a59ae12a3cb2bc34faaa5e1937ff5f1",
+    "original-events.txt": "4eb3714abc5223ca6c848bd01cc38d438d8c43582ca71611ff1c8f0a8b923812",
+    "original-ownership-caller-disassembly.txt": "71d0f155930c8a5cd82173962daa97335643393f931b9fea242abb585451f045",
+    "original-receipt.json": "b6d0cbecfb4cebf95892d6aa3052185159edc622f7253db190e668452d9f24b5",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "5a8403a061e95a4896763aed478d789f1dc95935d2e79c18ecf7f4ef1382d17b"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

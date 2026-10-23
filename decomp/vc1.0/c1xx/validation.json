@@ -1,18 +1,18 @@
 {
-  "accepted_frontiers": 1157,
-  "driver_functions": 1052,
+  "accepted_frontiers": 1158,
+  "driver_functions": 1053,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 1059,
-  "current_frontier": "_fold_floating_binary@12",
-  "original_frontier_va": "0x2d090",
+  "reconstructed_source_functions": 1060,
+  "current_frontier": "_multiply_extended",
+  "original_frontier_va": "0x74d37",
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_fold_floating_binary@12",
-    "original_va": "0x2d090"
+    "current_frontier": "_multiply_extended",
+    "original_va": "0x74d37"
   },
-  "current_native_application_entries": 150,
+  "current_native_application_entries": 151,
   "active_queue": [
     "finish cpp_basic",
     "inheritance and virtual dispatch",
@@ -20,12 +20,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 294158,
+    "accepted_code_bytes": 295014,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 61.743678870235804,
-    "accepted_frontiers": 1157,
-    "source_functions": 1059,
-    "accepted_source_text_and_switch_bytes": 278641,
+    "accepted_code_percent": 61.923353021926125,
+    "accepted_frontiers": 1158,
+    "source_functions": 1060,
+    "accepted_source_text_and_switch_bytes": 279497,
     "section_ranges": [
       [
         94208,
@@ -175,16 +175,29 @@
         "authorization": "Established precise native uninitialized-read policy after independent whole-body def-use/frame check",
         "evidence": "evidence/member-pointer-model-domain/analysis.json",
         "coverage_note": "Both fallback loads4a0e4/4a18a read adjustedESP+24 after SUB16/save12; no writer exists to that local. Public reachability UNKNOWN; no invalid-model or original stack equivalence claim."
+      },
+      {
+        "function": "_fold_floating_binary@12",
+        "original": [
+          184464,
+          185320
+        ],
+        "condition": "arithmetic-result path with (expression->type->flags & 0xefff) outside 0x104/0x108/0x128",
+        "behavior": "exact native-only INT3 before original unwritten entryESP-25 literal-kind read",
+        "win32": "original-style uninitialized unsigned char kind retained",
+        "authorization": "Parent approved established precise original-bug policy after independent whole-body frame/def-use check",
+        "evidence": "evidence/floating-binary-fold/analysis.json",
+        "coverage_note": "The byte at adjustedESP+11 has no writer in whole728Bbody; result and conversion output spans do not overlap it. Public reachability UNKNOWN; no undefined-kind or original stack equivalence claim."
       }
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 294158,
+    "accepted_code_bytes": 295014,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 61.743678870235804,
-    "accepted_frontiers": 1157,
-    "source_functions": 1059,
-    "accepted_source_text_and_switch_bytes": 278641,
+    "accepted_code_percent": 61.923353021926125,
+    "accepted_frontiers": 1158,
+    "source_functions": 1060,
+    "accepted_source_text_and_switch_bytes": 279497,
     "section_ranges": [
       [
         94208,
@@ -334,13 +347,26 @@
         "authorization": "Established precise native uninitialized-read policy after independent whole-body def-use/frame check",
         "evidence": "evidence/member-pointer-model-domain/analysis.json",
         "coverage_note": "Both fallback loads4a0e4/4a18a read adjustedESP+24 after SUB16/save12; no writer exists to that local. Public reachability UNKNOWN; no invalid-model or original stack equivalence claim."
+      },
+      {
+        "function": "_fold_floating_binary@12",
+        "original": [
+          184464,
+          185320
+        ],
+        "condition": "arithmetic-result path with (expression->type->flags & 0xefff) outside 0x104/0x108/0x128",
+        "behavior": "exact native-only INT3 before original unwritten entryESP-25 literal-kind read",
+        "win32": "original-style uninitialized unsigned char kind retained",
+        "authorization": "Parent approved established precise original-bug policy after independent whole-body frame/def-use check",
+        "evidence": "evidence/floating-binary-fold/analysis.json",
+        "coverage_note": "The byte at adjustedESP+11 has no writer in whole728Bbody; result and conversion output spans do not overlap it. Public reachability UNKNOWN; no undefined-kind or original stack equivalence claim."
       }
     ]
   },
   "complete_frontend_case": false,
   "active_case": "state_machine_debug",
   "status": "state_machine_debug reconstruction in progress",
-  "latest_verification": "cases/frontiers/state_machine_debug/1156-save_extended_in_arena-16/validation.json",
+  "latest_verification": "cases/frontiers/state_machine_debug/1157-fold_floating_binary-12/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -368,11 +394,11 @@
     },
     "state_machine_debug": {
       "status": "partial",
-      "frontier": "_fold_floating_binary@12",
-      "latest_verification": "cases/frontiers/state_machine_debug/1156-save_extended_in_arena-16/validation.json"
+      "frontier": "_multiply_extended",
+      "latest_verification": "cases/frontiers/state_machine_debug/1157-fold_floating_binary-12/validation.json"
     }
   },
-  "next_operation": "Continue _fold_floating_binary@12 reconstruction",
+  "next_operation": "Continue _multiply_extended reconstruction",
   "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json",
   "native_limitations": [
     {
@@ -387,6 +413,149 @@
       "authorization": "User explicitly selected faithful Win32 source bug plus unsupported native-path trap",
       "evidence": "evidence/implicit-scope-lookahead/analysis.json",
       "coverage_note": "accepted original extent does not claim native malformed-input-path equivalence"
+    },
+    {
+      "function": "_multiplication_overflows@16",
+      "original": [
+        477232,
+        477505
+      ],
+      "condition": "!unsigned_arithmetic && ((int)left>0)!=((int)right>0) && bytes not in {1,2,4}",
+      "behavior": "explicit native-only INT3; unsupported original unwritten-threshold path for malformed/internal type widths",
+      "win32": "original uninitialized threshold switch fallback retained",
+      "authorization": "Root approved preserving Win32 source bug with exact native unsupported-path trap; no universal caller invariant claimed",
+      "evidence": "evidence/multiply-boundary/receipt.json",
+      "coverage_note": "accepted extent will not claim malformed/internal unsupported-width native equivalence"
+    },
+    {
+      "function": "_search_include_directories@4",
+      "original": [
+        148112,
+        148413
+      ],
+      "condition": "directory != NULL && directory != \"./\" && *directory == 0",
+      "behavior": "explicit native-only INT3 before the original unwritten-last-pointer dereference",
+      "win32": "original-style uninitialized last-character pointer retained",
+      "authorization": "Root approved exact guard under preserve-Win32-bug policy after successful public empty-I original probe",
+      "evidence": "evidence/empty-include-directory/analysis.json",
+      "coverage_note": "Valid public -I \"\" input is unsupported natively; original can succeed using caller-derived stale strchr input. No universal stack-origin invariant or malformed-only characterization."
+    },
+    {
+      "function": "_has_single_function@4",
+      "original": [
+        199840,
+        200012
+      ],
+      "condition": "symbol == NULL",
+      "behavior": "explicit native-only INT3 before the original unwritten declaration cursor read",
+      "win32": "original-style uninitialized cursor retained",
+      "authorization": "Root approved exact guard under established preserve-Win32-bug policy",
+      "evidence": "evidence/single-function-null/analysis.json",
+      "coverage_note": "NULL input public reachability is unknown; no caller-derived stack equivalence or malformed-only classification."
+    },
+    {
+      "function": "_primitive_debug_type@4",
+      "original": [
+        448800,
+        448951
+      ],
+      "condition": "!(flags & 0x80) && (flags & 0x140) && (flags & 15) >= ((flags & 0x100) ? 11 : 9)",
+      "behavior": "explicit native-only INT3 before an out-of-domain logical predefined-type table access",
+      "win32": "original flags&15 indexing retained, without invented zero padding or neighbouring literal bytes",
+      "authorization": "Root approved exact native unsupported-domain guard and logical float[11]/integral[9] tables",
+      "evidence": "evidence/primitive-debug-width/receipt.json",
+      "coverage_note": "Unknown descriptor domain is unsupported natively; no public reachability, original-bug or invalid-width equivalence claim."
+    },
+    {
+      "function": "_count_debug_methods@8",
+      "original": [
+        449920,
+        450431
+      ],
+      "condition": "overloads == NULL",
+      "behavior": "explicit native-only INT3 before the original unwritten next-method cursor read",
+      "win32": "original-style uninitialized cursor retained on NULL-overloads branch",
+      "authorization": "Established root-approved exact uninitialized-cursor guard policy after independent raw def-use/offset check",
+      "evidence": "evidence/debug-methods-null/analysis.json",
+      "coverage_note": "Original cursor at entryESP-20 is unwritten on NULL branch. Public NULL reachability unknown; no caller-stack equivalence or malformed-only/CRT classification."
+    },
+    {
+      "function": "_emit_debug_class@12",
+      "original": [
+        452064,
+        453017
+      ],
+      "condition": "tag->type->flags is not 0x402,0x404,0x408 and lacks 0x200",
+      "behavior": "explicit native-only INT3 before the original unwritten record-length local read",
+      "win32": "original uninitialized length retained on unsupported descriptor fallback",
+      "authorization": "Established root-approved original-uninitialized-local guard policy after independent raw condition/offset/writer review",
+      "evidence": "evidence/debug-class-domain/analysis.json",
+      "coverage_note": "Fallback loads entryESP-24, with no local writer. Public reachability unknown; no malformed-only, CRT or stale-stack equivalence claim."
+    },
+    {
+      "function": "_emit_debug_base_fields@12",
+      "original": [
+        455808,
+        456940
+      ],
+      "condition": "query_virtual_base_pointer returns false on direct/inherited virtual-base emission",
+      "behavior": "exact native-only INT3 before reading uninitialized output locals",
+      "win32": "original ignored query return and uninitialized output reads retained",
+      "authorization": "Root approved after full call/output-writer proof; no blanket guard",
+      "evidence": "evidence/debug-base-query-failure/analysis.json",
+      "coverage_note": "Missing-group public reachability UNKNOWN; no malformed-only or stale-stack equivalence claim. pointer_offset/table_offset/pointer_type at entryESP-68/-72/-76 independently checked."
+    },
+    {
+      "function": "_count_emitted_overloads@4",
+      "original": [
+        199600,
+        199825
+      ],
+      "condition": "overloads == NULL",
+      "behavior": "exact native-only INT3 before original unwritten cursor read",
+      "win32": "original uninitialized next cursor retained for NULL input",
+      "authorization": "Existing root-approved exact uninitialized-cursor policy after independent raw branch/frame/writer proof",
+      "evidence": "evidence/overload-count-null/analysis.json",
+      "coverage_note": "Cursor entryESP-8 unwritten on NULL branch; public NULL reachability UNKNOWN, no malformed-only or stale-stack equivalence claim."
+    },
+    {
+      "function": "_emit_debug_method_list@4",
+      "original": [
+        457392,
+        457837
+      ],
+      "condition": "overloads == NULL",
+      "behavior": "explicit native-only INT3 before original unwritten next-method cursor read",
+      "win32": "original-style uninitialized cursor retained on NULL overload-set branch",
+      "authorization": "Established exact native uninitialized-cursor guard policy after independent raw def-use/frame check",
+      "evidence": "evidence/debug-method-list-null/analysis.json",
+      "coverage_note": "NULL jumps6facd to6fb30, skipping cursor stores6fb1b/6fb28; cursor entryESP-8 is unwritten. Public reachability UNKNOWN; no malformed-only/CRT/stale-stack equivalence claim."
+    },
+    {
+      "function": "_member_pointer_expression@4",
+      "original": [
+        303040,
+        303607
+      ],
+      "condition": "inheritance model outside 1..4, in either data-member or method branch",
+      "behavior": "exact native-only INT3 before original unwritten entryESP-4 result read",
+      "win32": "original-style uninitialized result local retained",
+      "authorization": "Established precise native uninitialized-read policy after independent whole-body def-use/frame check",
+      "evidence": "evidence/member-pointer-model-domain/analysis.json",
+      "coverage_note": "Both fallback loads4a0e4/4a18a read adjustedESP+24 after SUB16/save12; no writer exists to that local. Public reachability UNKNOWN; no invalid-model or original stack equivalence claim."
+    },
+    {
+      "function": "_fold_floating_binary@12",
+      "original": [
+        184464,
+        185320
+      ],
+      "condition": "arithmetic-result path with (expression->type->flags & 0xefff) outside 0x104/0x108/0x128",
+      "behavior": "exact native-only INT3 before original unwritten entryESP-25 literal-kind read",
+      "win32": "original-style uninitialized unsigned char kind retained",
+      "authorization": "Parent approved established precise original-bug policy after independent whole-body frame/def-use check",
+      "evidence": "evidence/floating-binary-fold/analysis.json",
+      "coverage_note": "The byte at adjustedESP+11 has no writer in whole728Bbody; result and conversion output spans do not overlap it. Public reachability UNKNOWN; no undefined-kind or original stack equivalence claim."
     }
   ],
   "shared_pin_refresh": {

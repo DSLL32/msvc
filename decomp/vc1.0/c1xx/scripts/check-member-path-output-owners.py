@@ -28,9 +28,9 @@ def main():
     args=parser.parse_args()
     started=time.perf_counter()
     original=json.loads(args.proof.read_text())
-    assert original['function'] in ('_resolve_member_pointer_path@12','_extended_to_double','_double_to_extended')
-    formals=[row for row in original['formals'] if row['binding']['kind']=='caller-owned-pointer']
-    assert len(formals)==(2 if original['function']=='_resolve_member_pointer_path@12' else 1) and all(row['binding']['original_register']=='esp' for row in formals)
+    assert original['function'] in ('_resolve_member_pointer_path@12','_extended_to_double','_double_to_extended','_fold_floating_binary@12')
+    formals=[row for row in original['formals'] if row['binding']['kind']=='caller-owned-pointer' and row['binding']['original_register']=='esp']
+    assert len(formals)==(2 if original['function'] in ('_resolve_member_pointer_path@12','_fold_floating_binary@12') else 1) and all(row['binding']['original_register']=='esp' for row in formals)
     registers=['esp']
     directory=Path(tempfile.mkdtemp(prefix='member-path-output-negatives-',dir=CAPTURE_ROOT))
     (directory/'functions.json').write_bytes((args.proof.parent/'original-configuration.json').read_bytes())
@@ -51,10 +51,10 @@ def main():
         if name=='missing-anchor':
             receipt['ownership_register_observations']=[row for row in receipt['ownership_register_observations'] if row['register']!=registers[0]]
         if name=='wrong-offset':
-            next(row for row in proof['formals'] if row['binding']['kind']=='caller-owned-pointer')['binding']['original_stack_offset']+=4
+            next(row for row in proof['formals'] if 'original_stack_offset' in row['binding'])['binding']['original_stack_offset']+=4
         if name=='swapped-output-addresses':
             native=json.loads((target/'native-checkpoint.json').read_text())
-            left=native['caller_locals']['caller_virtual_base'];right=native['caller_locals']['caller_displacement']
+            left=native['caller_locals'][formals[0]['binding']['native_owner_field']];right=native['caller_locals'][formals[1]['binding']['native_owner_field']]
             left['address'],right['address']=right['address'],left['address']
             (target/'native-checkpoint.json').write_text(json.dumps(native,indent=2)+'\n')
         if name=='read-output-prestate':
