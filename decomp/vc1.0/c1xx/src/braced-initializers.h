@@ -30,4 +30,5 @@ void __stdcall emit_initializer_padding(CppSymbol *symbol);
 int __stdcall is_initializer_data_member(CppSymbol *symbol);
 unsigned finish_implicit_initializers(void);
 unsigned remaining_braced_initializer_bytes(void);
+void __stdcall finish_braced_initializer(CppSymbol *symbol);
 #endif

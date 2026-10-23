@@ -175,7 +175,6 @@ void emit_inline_assembly(void) { __asm { int 3 } }
 void emit_pending_function_cleanup(void) { __asm { int 3 } }
 void __stdcall emit_seh_filter(IrToken *expression) { __asm { int 3 } }
 void emit_seh_leave(void) { __asm { int 3 } }
-void __stdcall end_braced_initializer(CppSymbol *symbol) { __asm { int 3 } }
 void end_do_statement(void) { __asm { int 3 } }
 void end_else_statement(void) { __asm { int 3 } }
 
@@ -633,3 +632,4 @@ IrToken *__stdcall initializer_object_expression(CType *type) { __asm { int 3 } 
 void __stdcall emit_initializer_padding(CppSymbol *symbol) { __asm { int 3 } }
 void emit_runtime_zero_initializer(void) { __asm { int 3 } }
 unsigned remaining_braced_initializer_bytes(void) { __asm { int 3 } return 0; }
+void __stdcall finish_braced_initializer(CppSymbol *symbol) { __asm { int 3 } }

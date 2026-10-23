@@ -587,3 +587,14 @@ unsigned finish_implicit_initializers(void)
     }
     return bytes;
 }
+
+/* Original 0x47bb0..0x47bd5. Close the declaration and restore the
+   one-declaration initialization suppression flag set by its parser action. */
+void __stdcall end_braced_initializer(CppSymbol *symbol)
+{
+    finish_braced_initializer(symbol);
+    if (cpp_parser_flags & 0x20000000UL) {
+        cpp_parser_flags &= ~0x20000000UL;
+        symbol->attributes &= ~4U;
+    }
+}
