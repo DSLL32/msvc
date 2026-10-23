@@ -1264,7 +1264,9 @@
     "@omf_find_record@8",
     "@omf_allocate_record@8",
     "@omf_initialize_record@12",
-    "@omf_append_string@8"
+    "@omf_append_string@8",
+    "@omf_append_bytes@12",
+    "_omf_flush_records"
   ],
   "driver": [
     {
@@ -8458,8 +8460,15 @@
     {
       "name": "_omf_flush_records",
       "start": 436208,
-      "end": 436209,
-      "provisional": true
+      "end": 436219,
+      "abi": {
+        "convention": "cdecl",
+        "parameters": [],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-flush-records-abi/validation.json",
+        "return_value": "EAX OmfRecord pointer forwarded from child tail transfer"
+      }
     },
     {
       "name": "@omf_write_module_header@4",
@@ -8683,8 +8692,30 @@
     {
       "name": "@omf_append_bytes@12",
       "start": 439888,
-      "end": 439889,
-      "provisional": true
+      "end": 439963,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "record",
+            "location": "ECX",
+            "type": "OmfRecord pointer"
+          },
+          {
+            "name": "bytes",
+            "location": "EDX",
+            "type": "char pointer"
+          },
+          {
+            "name": "count",
+            "location": "entryESP+4",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 4,
+        "entry_observation": "cases/omf-append-bytes-abi/validation.json"
+      }
     }
   ],
   "cases": {

@@ -285,6 +285,24 @@ void __fastcall omf_append_string(OmfRecord *record, char *text)
     ++record->cursor;
     omf_append_bytes(record, text, length);
 }
+/* Original [0006b650,0006b69b). The capacity comparison is signed32-bit;
+   the copy count is the original unsigned decrement-to-zero sequence. */
+void __fastcall omf_append_bytes(OmfRecord *record, char *bytes, unsigned count)
+{
+    long remaining = (long)((unsigned)record - (unsigned)record->cursor + 998);
+    if (remaining < (long)count) compiler_internal_error("@(#)omf.c:1.10", 0x727);
+    while (count--) {
+        ++record->count;
+        *record->cursor = *bytes++;
+        ++record->cursor;
+    }
+}
+/* Original [0006a7f0,0006a7fb): load the current slot and tail-transfer to
+   its writer. Preserve the child's EAX pointer even where callers ignore it. */
+OmfRecord *omf_flush_records(void)
+{
+    return omf_flush_record(omf_current_record);
+}
 /* Original [0006a350,0006a7e5); eleven following bytes are alignment.
    The four tail words of Segment have format-specific meanings: OMF names,
    header end positions and class indexes share the COFF descriptor layout. */

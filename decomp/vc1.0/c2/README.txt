@@ -485,3 +485,14 @@ named trap;15 native cases pass (14 complete). Original/W3 and graph/extent/ABI/
 data checks pass.339603/399693 accepted extent bytes, app/support321303B and1145
 functions excluding5 historical CRT bodies. Split timings and branch/mock limits:
 cases/omf-initialize-string-checkpoint.json.
+
+Checkpoint1262 adds75-byte OMF byte append and11-byte current-record flush
+wrapper.79 bounded original/canonical copy/error controls and32 tail-transfer
+controls pass. The wrapper now explicitly returns the child EAX pointer; original
+callers may ignore it. Actual byte-source/stackcount10 and current34-byte record
+header/payload/cursor/owner inputs are observed independently. Capacity-error
+controls stop at actual diagnostic727, not an invented returning handler or
+unsafe oversized copy. Original/W3, graph/extent/ABI/data and15 native cases
+pass (14 complete); next omf_flush_record6c330 with full pointer input already
+observed.339689/399693 accepted extent bytes; app/support321389B and1147functions
+exclude5 historical CRT bodies. Timings: cases/omf-bytes-wrapper-checkpoint.json.

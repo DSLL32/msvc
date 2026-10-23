@@ -25,7 +25,7 @@ extern OmfFixupThreads omf_fixup_threads;
 extern unsigned omf_empty_name, omf_next_group, omf_next_segment;
 extern unsigned omf_next_frame_thread, omf_next_target_thread;
 void omf_initialize_records(void);
-void omf_flush_records(void);
+OmfRecord *omf_flush_records(void);
 void __fastcall omf_write_module_header(char *source);
 unsigned __fastcall omf_name_index(char *name);
 void __fastcall omf_write_segment_definition(Segment *segment);

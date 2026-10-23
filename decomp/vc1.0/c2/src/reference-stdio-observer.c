@@ -246,6 +246,17 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
             read_word(process,image_base+0x6b88c),image_base+0x6a8dc);log_line(line);
         for(i=0;i<4;++i)dump_bytes(process,"omf_pool_header_hex",image_base+0x6a8dc+i*1004,20);
     }
+    if(!strcmp(call->name,"_omf_flush_records") ||
+       !strcmp(call->name,"@omf_flush_record@4") ||
+       !strcmp(call->name,"@omf_write_record@4")) {
+        DWORD current=read_word(process,image_base+0x6b88c);
+        DWORD record=!strcmp(call->name,"_omf_flush_records")?current:call->args[0];
+        DWORD cursor=read_word(process,record+16),bytes=cursor-record;
+        if(bytes<20||bytes>1004)exit(281);
+        sprintf(line,"omf_record pointer %08lx current %08lx base %08lx bytes %lu\n",
+            record,current,image_base+0x6a8dc,bytes);log_line(line);
+        dump_bytes(process,"omf_record_hex",record,bytes);
+    }
     log_line("entry_end\n");
 }
 static void numeric_snapshot(HANDLE process,ObservedCall *call,char *stage,CONTEXT *context)
