@@ -1,0 +1,37 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+C2-PROCESS-INPUT {"MSC_CMD_FLAGS": "-il .\\a01068 -f numeric-control-flow.c -W 1 -dos -Fonumeric-control-flow.obj -ML -Fdvc50.idb -Bd -Gs4096 -Gy -G5 ", "arguments": []}
+C2-SOURCE-ENTRY _c2_crt_startup 0x56557e19
+C2-SOURCE-ENTRY _c2_set_argv 0x56557fa7
+C2-SOURCE-ENTRY _c2_set_default_precision 0x56558067
+C2-SOURCE-ENTRY _c2_main 0x565580e0
+C2-SOURCE-ENTRY _c2_register_exit 0x56558009
+C2-SOURCE-ENTRY _c2_register_onexit 0x565582b9
+C2-SOURCE-ENTRY @c2_read_environment@4 0x565583f9
+C2-SOURCE-ENTRY _c2_copy_arguments 0x56558347
+C2-SOURCE-ENTRY _c2_initialize_options 0x56558598
+C2-SOURCE-ENTRY _c2_next_argument 0x56558877
+C2-SOURCE-ENTRY @c2_match_option@16 0x565589a2
+C2-SOURCE-ENTRY @c2_apply_option@12 0x56558be1
+C2-SOURCE-ENTRY @parse_option_integer@4 0x56558fe9
+C2-SOURCE-ENTRY @c2_validate_alignment@4 0x56558929
+C2-SOURCE-ENTRY @c2_open_intermediate@16 0x5655912e
+C2-SOURCE-ENTRY _c2_read_header 0x56559257
+C2-SOURCE-ENTRY _c2_read_il_byte 0x565594b7
+C2-SOURCE-ENTRY _c2_read_il_word 0x56559567
+C2-SOURCE-ENTRY _c2_read_il_long 0x56559677
+C2-SOURCE-ENTRY _c2_reset_symbol_table 0x5655a587
+C2-SOURCE-ENTRY _c2_create_type_table 0x5655a607
+C2-SOURCE-ENTRY @c2_allocate_node@8 0x5655a74c
+C2-SOURCE-ENTRY @c2_node_size@4 0x5655a679
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56557921 in c2_pool_allocate (pool=0, bytes=64) at src/stubs.c:23
+23	    __asm { int 3 }
+eip            0x56557921          0x56557921 <c2_pool_allocate+65>
+c2_pool_allocate + 65 in section .text of /root/msvc2/decomp/vc5.10/c2/build/native/c2
+   0x56557920 <c2_pool_allocate+64>:	int3
+Last stopped for thread 1 (Thread 0xf7fc0580 (LWP 1337660)).
+	Using the running image of child process 1337660.
+Program stopped at 0x56557920.
+It stopped with signal SIGTRAP, Trace/breakpoint trap.

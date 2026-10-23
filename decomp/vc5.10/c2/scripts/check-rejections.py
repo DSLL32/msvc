@@ -107,6 +107,19 @@ def main():
         mutations += [('changed native option kind',changed_native_table),('different logical destination alias',changed_native_alias),
                       ('different initial CPU option',changed_native_default),('changed raw original table with matching hash',changed_original_data),
                       ('changed contextual data receipt with matching hash',changed_data_receipt)]
+    if 'pool_allocate'in current_state:
+        def changed_pool_argument(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['pool_allocate'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        def changed_pool_count(root):
+            path=root/'n/state.json';state=json_at(path);state['globals']['0x491040']=68;write_json(path,state);raw_changed(root,'n','state.json')
+        def changed_node_dispatch(root):
+            path=audit_directory(root)/'data-evidence.json';data=json_at(path);data['node_size_dispatch'][0]['cases'][0]=68;write_json(path,data)
+            path=audit_path(root);receipt=json_at(path);receipt['data_evidence_sha256']=sha((audit_directory(root)/'data-evidence.json').read_bytes());write_json(path,receipt);bind_audit(root)
+        mutations += [('pool allocation size differs',lambda r:changed_pool_argument(r,'bytes',68)),
+                      ('pool allocator index differs',lambda r:changed_pool_argument(r,'pool',1)),
+                      ('pool allocator saved kind differs',lambda r:changed_pool_argument(r,'caller_kind',2)),
+                      ('node bytes accounted incorrectly',changed_pool_count),
+                      ('node dispatch semantic table differs with rebound hash',changed_node_dispatch)]
     if 'node_size'in current_state:
         def changed_size_argument(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['node_size'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

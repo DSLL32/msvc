@@ -64,6 +64,15 @@ def main():
                 'evidence':{'original_scope_table':hex(table),'rebuilt_scope_table':hex(rebuilt_table),
                             'source':'explicit -1 enclosing scope, filter and handler roots from actual compiled PE scope tables'}}
     for record in config['driver']:
+        if record.get('rebuilt_dispatch_table_offsets'):
+            function=metadata['functions'].setdefault(record['name'],{})
+            function.setdefault('original',{})['text_data']=[[r['start'],r['end']]for r in config['text_data']if r.get('owner')==record['name']]
+            start=symbols[record.get('symbol',record['name'])]
+            intervals=[[start+a,start+b]for a,b in record['rebuilt_dispatch_table_offsets']]
+            assert len(intervals)==1 and intervals[0][1]-intervals[0][0]==64
+            assert read(intervals[0][0]-1,1)==b'\xc3','node-size table must follow final RET'
+            assert all(start<=target<intervals[0][0]for target in struct.unpack('<16I',read(intervals[0][0],64)))
+            function.setdefault('rebuilt',{})['text_data']=intervals
         if record.get('rebuilt_text_data_offsets'):
             function=metadata['functions'].setdefault(record['name'],{})
             function.setdefault('original',{})['text_data']=[[r['start'],r['end']]for r in config['text_data']if r.get('owner')==record['name']]

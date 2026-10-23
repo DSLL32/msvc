@@ -1,0 +1,59 @@
+{
+  "function": "@c2_node_size@4",
+  "match": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/size-original-3/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/size-original-3/graph-audit.json",
+    "matched": "@c2_pool_allocate@8",
+    "original": "0x401000",
+    "native": "c2_pool_allocate",
+    "argument_state": "pool-allocate",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "c2_pool_allocate",
+      "symbol_start": "0x28e0",
+      "symbol_size": 200,
+      "static_pc": "0x2921",
+      "int3_sites": [
+        "0x2920"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit",
+      "_c2_register_onexit",
+      "@c2_read_environment@4",
+      "_c2_copy_arguments",
+      "_c2_initialize_options",
+      "_c2_next_argument",
+      "@c2_match_option@16",
+      "@c2_apply_option@12",
+      "@parse_option_integer@4",
+      "@c2_validate_alignment@4",
+      "@c2_open_intermediate@16",
+      "_c2_read_header",
+      "_c2_read_il_byte",
+      "_c2_read_il_word",
+      "_c2_read_il_long",
+      "_c2_reset_symbol_table",
+      "_c2_create_type_table",
+      "@c2_allocate_node@8",
+      "@c2_node_size@4"
+    ],
+    "candidates": [
+      "@c2_node_size@4"
+    ],
+    "acceptance": false
+  },
+  "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/size-original-3",
+  "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/size-native-3",
+  "base_configuration_sha256": "98f4b2ece1db6891dedf3c1e44290ed13ef903e62711132c1900c9ac8a9a3cd8",
+  "review": {
+    "approved": true,
+    "scope": "Completed unsupported /? diagnostic retained; root-authorized numeric-control-flow compilation case",
+    "status": "First case independently passed including32 completion negatives; root/orchestrator released next optimized compilation case autonomously",
+    "review_id": "orchestrator-c2-numeric-release-2026-10-23"
+  }
+}

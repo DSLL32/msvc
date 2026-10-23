@@ -51,6 +51,28 @@ def verify(config):
     value=model(config)
     if value is None:return None
     maps={m[1]:int(m[2],16)for m in re.finditer(r'^\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})',(BINARY/'build/c2.map').read_text(),re.M)}
+    node_sizes=[]
+    if '@c2_node_size@4'in config['accepted']:
+        original_targets=[0x40d54d,0x40d547,0x40d54d,0x40d553,0x46719d,0x4671a3,0x40d547,0x46719d,
+                          0x40d553,0x4671a3,0x40d54d,0x4671a3,0x4671a3,0x40d559,0x4671a3,0x40d55f]
+        rebuilt_offsets=[40,47,40,54,61,82,47,61,54,82,40,82,82,68,82,75]
+        sizes=[64,68,64,86,70,None,68,70,86,None,64,None,None,110,None,90]
+        for side,path in [('original',TARGET),('rebuilt',BINARY/'build/c2.exe')]:
+            read=reader(path);start=0x40d534 if side=='original'else maps['@c2_node_size@4']
+            table=0x40d568 if side=='original'else start+103
+            targets=struct.unpack('<16I',read(table,64))
+            expected=original_targets if side=='original'else[start+n for n in rebuilt_offsets]
+            assert list(targets)==expected,'node-size dispatch target identities differ'
+            for target,size in zip(targets,sizes):
+                if size is not None:
+                    assert read(target,5)==b'\xb8'+struct.pack('<I',size),'node-size case result differs'
+                    if side=='original':assert read(target+5,1)==b'\xc3'
+                else:
+                    assert read(target,5)==b'\xba'+struct.pack('<I',1514),'node-size invalid-kind line differs'
+                    assert read(target+5,1)==b'\xb9'
+                    source=struct.unpack('<I',read(target+6,4))[0]
+                    assert cstring(read,source)==r'E:\utc\src\\P2\p2symtab.c','node-size invalid-kind source differs'
+            node_sizes.append({'side':side,'table':table,'sha256':sha(read(table,64)),'cases':sizes})
     for side,path in [('original',TARGET),('rebuilt',BINARY/'build/c2.exe')]:
         read=reader(path)
         def address(name):
@@ -85,7 +107,7 @@ def verify(config):
             else:assert cstring(read,actual)==cstring(original_read,row['initial'])
     return {'model_sha256':sha((BINARY/config['data_model']).read_bytes()),'option_records':53,
             'selector_records':sum(len(t['entries'])for t in value['selectors']),
-            'objects':len(value['objects']),'sides':['original PE','rebuilt Win32 PE'],
+            'objects':len(value['objects']),'node_size_dispatch':node_sizes,'sides':['original PE','rebuilt Win32 PE'],
             'checks':['pattern text','destination logical aliases','result/kind/record ABI','selector contents','initial scalar/string values']}
 
 
