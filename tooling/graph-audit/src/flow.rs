@@ -9,6 +9,7 @@ use std::collections::{BTreeMap, BTreeSet, HashMap};
 #[derive(Clone, Default)]
 pub struct Options {
     pub roots: Vec<u32>,
+    pub imports: Option<std::sync::Arc<crate::imports::Catalog>>,
     pub code_chunks: Vec<(u32, u32)>,
     pub fallthrough_entries: Vec<u32>,
     pub data: Vec<(u32, u32)>,
@@ -24,6 +25,7 @@ pub struct Options {
 #[derive(Default)]
 pub struct Graph {
     pub calls: BTreeSet<u32>,
+    pub imports: BTreeSet<crate::imports::Identity>,
     pub references: BTreeSet<u32>,
     pub returns: BTreeSet<u32>,
     pub indirect: bool,
@@ -127,7 +129,17 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
         }
         if operation == "call" || operation == "lcall" {
             if let Some(t) = i.imm() {
-                out.calls.insert(t);
+                if let Some(identity) = options.imports.as_ref().and_then(|c| c.thunks.get(&t)) {
+                    out.imports.insert(identity.clone());
+                } else {
+                    out.calls.insert(t);
+                }
+            } else if let Some(identity) = options
+                .imports
+                .as_ref()
+                .and_then(|c| c.absolute_transfer(&i))
+            {
+                out.imports.insert(identity.clone());
             } else {
                 out.indirect = true
             }
@@ -137,9 +149,20 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
                 if inside(t) {
                     pending.push(t)
                 } else {
-                    out.calls.insert(t);
-                    out.tails.insert(t);
+                    if let Some(identity) = options.imports.as_ref().and_then(|c| c.thunks.get(&t))
+                    {
+                        out.imports.insert(identity.clone());
+                    } else {
+                        out.calls.insert(t);
+                        out.tails.insert(t);
+                    }
                 }
+            } else if let Some(identity) = options
+                .imports
+                .as_ref()
+                .and_then(|c| c.absolute_transfer(&i))
+            {
+                out.imports.insert(identity.clone());
             } else if let Some(targets) = options.switches.get(&a) {
                 pending.extend(targets);
             } else {
@@ -179,8 +202,12 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
                 pending.push(t)
             } else {
                 ensure!(!options.strict, "conditional target outside extent");
-                out.calls.insert(t);
-                out.tails.insert(t);
+                if let Some(identity) = options.imports.as_ref().and_then(|c| c.thunks.get(&t)) {
+                    out.imports.insert(identity.clone());
+                } else {
+                    out.calls.insert(t);
+                    out.tails.insert(t);
+                }
             }
         }
         if i.next() == chunk_end && options.allow_extent_end {

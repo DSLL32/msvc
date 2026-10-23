@@ -467,6 +467,10 @@ pub fn run(a: &Args) -> Result<Value> {
         "CVPACK uses explicit application/support ownership metadata; indexed-runtime flags are for standalone profiles"
     );
     ensure!(
+        !a.check_imports,
+        "CVPACK's distinct import/ABI policy is not yet adapted to --check-imports; standalone profiles support it"
+    );
+    ensure!(
         a.metadata.is_none(),
         "CVPACK graph metadata comes from functions.json; --metadata is for standalone profiles"
     );

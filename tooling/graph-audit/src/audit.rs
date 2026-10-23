@@ -795,8 +795,15 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
     let d = Decoder::new()?;
     let oa = aliases(&x.oi);
     let ra = aliases(&x.ri);
-    let on = first_names(&x.oi);
-    let rn = first_names(&x.ri);
+    let mut on = first_names(&x.oi);
+    let mut rn = first_names(&x.ri);
+    if a.check_imports {
+        for (index, names) in [(&x.oi, &mut on), (&x.ri, &mut rn)] {
+            for record in index.iter().filter(|r| !r.name.starts_with("import:")) {
+                names.insert(record.start, record.name.clone());
+            }
+        }
+    }
     let mut report = BTreeMap::new();
     let metadata = if let Some(path) = &a.metadata {
         crate::index::json(path)?
@@ -816,6 +823,16 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             }
         }
     }
+    let import_catalog = |catalog: &Option<crate::imports::Catalog>, index: &[Record]| {
+        catalog.clone().map(|mut catalog| {
+            for record in index.iter().filter(|r| !r.name.starts_with("import:")) {
+                catalog.thunks.remove(&record.start);
+            }
+            std::sync::Arc::new(catalog)
+        })
+    };
+    let original_imports = import_catalog(&x.original_imports, &x.oi);
+    let rebuilt_imports = import_catalog(&x.rebuilt_imports, &x.ri);
     for f in &progress {
         if !x.accepted.contains(&f.name) {
             continue;
@@ -827,6 +844,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         let options = Options {
             infer_switches: true,
             infer_seh: true,
+            imports: original_imports.clone(),
             code_chunks: f.code_chunks.clone(),
             fallthrough_entries: f
                 .code_ranges()
@@ -844,6 +862,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         let mut rebuilt_options = Options {
             infer_switches: true,
             infer_seh: true,
+            imports: rebuilt_imports.clone(),
             code_chunks: other.code_chunks.clone(),
             fallthrough_entries: other
                 .code_ranges()
@@ -872,6 +891,13 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
                 .iter()
                 .map(|a| identity(&rn, *a))
                 .collect::<BTreeSet<_>>()
+        );
+        ensure!(
+            l.imports == r.imports,
+            "{} import graph differs: original {:?}; reconstruction {:?}",
+            f.name,
+            l.imports,
+            r.imports
         );
         ensure!(
             l.indirect == r.indirect,
@@ -930,7 +956,11 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         if l.indirect {
             edges.insert("indirect".into());
         }
-        report.insert(f.name.clone(), json!({"edges":edges}));
+        let mut function_report = json!({"edges":edges});
+        if a.check_imports {
+            function_report["imports"] = json!(l.imports);
+        }
+        report.insert(f.name.clone(), function_report);
     }
     if a.check_callbacks {
         callback_tables(x, &metadata, &oa, &ra)?;
@@ -962,6 +992,9 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         None
     };
     let mut result = json!({"profile":a.profile,"discovery":"cfg","checked_functions":report.len(),"checked_accepted_extents":accepted.as_ref().map(|v|&v.0),"checked_unique_accepted_extents":accepted.as_ref().map(|v|&v.1),"original_accepted_graphs":accepted.as_ref().map(|v|&v.2),"functions":report});
+    if a.check_imports {
+        result["import_catalogs"] = json!({"original":{"slots":original_imports.as_ref().map(|c|&c.slots),"normalizable_thunks":original_imports.as_ref().map(|c|c.thunks.len())},"rebuilt":{"slots":rebuilt_imports.as_ref().map(|c|&c.slots),"normalizable_thunks":rebuilt_imports.as_ref().map(|c|c.thunks.len())}});
+    }
     if x.oi.iter().chain(&x.ri).any(|r| !r.code_chunks.is_empty()) {
         let mut domains = BTreeMap::new();
         for (side, index) in [("original", &x.oi), ("rebuilt", &x.ri)] {

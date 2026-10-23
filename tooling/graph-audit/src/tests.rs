@@ -418,3 +418,124 @@ fn real_pgo_functions_preserve_cross_chunk_calls_and_return_abis() {
         }
     }
 }
+
+fn imported_image(code: &[u8], dll: &str, name: &str) -> Pe {
+    let mut bytes = image(code).data;
+    let put = |bytes: &mut Vec<u8>, at: usize, value: u32| {
+        bytes[at..at + 4].copy_from_slice(&value.to_le_bytes())
+    };
+    put(&mut bytes, 0x98 + 92, 16);
+    put(&mut bytes, 0x98 + 104, 0x1100);
+    put(&mut bytes, 0x98 + 108, 40);
+    put(&mut bytes, 0x300, 0x1140);
+    put(&mut bytes, 0x30c, 0x1180);
+    put(&mut bytes, 0x310, 0x1150);
+    put(&mut bytes, 0x340, 0x11c0);
+    put(&mut bytes, 0x350, 0x11c0);
+    bytes[0x380..0x380 + dll.len()].copy_from_slice(dll.as_bytes());
+    bytes[0x380 + dll.len()] = 0;
+    bytes[0x3c2..0x3c2 + name.len()].copy_from_slice(name.as_bytes());
+    bytes[0x3c2 + name.len()] = 0;
+    Pe::parse(bytes).unwrap()
+}
+#[test]
+fn known_import_direct_iat_and_thunk_calls_share_identity() {
+    let d = Decoder::new().unwrap();
+    let direct = imported_image(
+        &[0xff, 0x15, 0x50, 0x11, 0x40, 0, 0xc3],
+        r"C:\WINNT\SYSTEM32\MSVCRT.DLL",
+        "Foo",
+    );
+    let mut code = vec![0xcc; 0x16];
+    code[..6].copy_from_slice(&[0xe8, 0x0b, 0, 0, 0, 0xc3]);
+    code[0x10..].copy_from_slice(&[0xff, 0x25, 0x50, 0x11, 0x40, 0]);
+    let thunk = imported_image(&code, "msvcrt.dll", "Foo");
+    let graph = |pe: &Pe, end| {
+        walk(
+            &d,
+            pe,
+            0x401000,
+            end,
+            &Options {
+                imports: Some(std::sync::Arc::new(
+                    crate::imports::Catalog::load(pe).unwrap(),
+                )),
+                ..Options::default()
+            },
+        )
+        .unwrap()
+    };
+    let a = graph(&direct, 0x401007);
+    let b = graph(&thunk, 0x401006);
+    let tail = imported_image(&[0xff, 0x25, 0x50, 0x11, 0x40, 0], "msvcrt.dll", "Foo");
+    let tail = graph(&tail, 0x401006);
+    assert_eq!(tail.imports, a.imports);
+    assert!(tail.calls.is_empty() && !tail.indirect && tail.returns.is_empty());
+
+    assert_eq!(a.imports, b.imports);
+    assert_eq!(a.imports.len(), 1);
+    assert!(a.calls.is_empty() && b.calls.is_empty() && !a.indirect && !b.indirect);
+    let ordinal = imported_image(&[0xc3], "msvcrt.dll", "ordinal_17");
+    let mut bytes = ordinal.data.clone();
+    bytes[0x340..0x344].copy_from_slice(&0x80000011u32.to_le_bytes());
+    assert_ne!(
+        crate::imports::Catalog::load(&ordinal).unwrap().slots,
+        crate::imports::Catalog::load(&Pe::parse(bytes).unwrap())
+            .unwrap()
+            .slots
+    );
+}
+#[test]
+fn imports_preserve_provider_name_case_and_unknown_indirection() {
+    let a = imported_image(&[0xc3], "one.dll", "Foo");
+    let b = imported_image(&[0xc3], "two.dll", "Foo");
+    let c = imported_image(&[0xc3], "ONE.DLL", "foo");
+    assert_ne!(
+        crate::imports::Catalog::load(&a).unwrap().slots,
+        crate::imports::Catalog::load(&b).unwrap().slots
+    );
+    assert_ne!(
+        crate::imports::Catalog::load(&a).unwrap().slots,
+        crate::imports::Catalog::load(&c).unwrap().slots
+    );
+    let d = Decoder::new().unwrap();
+    for code in [
+        vec![0xff, 0xd0, 0xc3],
+        vec![0xff, 0x15, 0x54, 0x11, 0x40, 0, 0xc3],
+        vec![0x64, 0xff, 0x15, 0x50, 0x11, 0x40, 0, 0xc3],
+    ] {
+        let pe = imported_image(&code, "one.dll", "Foo");
+        let catalog = crate::imports::Catalog::load(&pe).unwrap();
+        let g = walk(
+            &d,
+            &pe,
+            0x401000,
+            0x401000 + code.len() as u32,
+            &Options {
+                imports: Some(std::sync::Arc::new(catalog)),
+                ..Options::default()
+            },
+        )
+        .unwrap();
+        assert!(g.indirect && g.imports.is_empty());
+    }
+}
+#[test]
+fn malformed_import_tables_fail_without_guessing() {
+    let image = imported_image(&[0xc3], "one.dll", "Foo");
+    for (offset, value) in [
+        (0x98 + 108, 20u32),
+        (0x300, 0xfffff000),
+        (0x310, 0x1400),
+        (0x340, 0x80010001),
+        (0x340, 0xfffff000),
+    ] {
+        let mut bytes = image.data.clone();
+        bytes[offset..offset + 4].copy_from_slice(&value.to_le_bytes());
+        assert!(crate::imports::Catalog::load(&Pe::parse(bytes).unwrap()).is_err());
+    }
+    // OriginalFirstThunk=0 is valid when the on-disk IAT still contains lookup RVAs.
+    let mut bytes = image.data.clone();
+    bytes[0x300..0x304].fill(0);
+    assert!(crate::imports::Catalog::load(&Pe::parse(bytes).unwrap()).is_ok());
+}

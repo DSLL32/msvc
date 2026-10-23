@@ -64,33 +64,46 @@ pub fn map(path: &Path, first: bool) -> Result<BTreeMap<String, u32>> {
     }
     Ok(out)
 }
-pub fn imports(pe: &Pe, raw: bool) -> Result<Vec<Record>> {
+pub fn imports(
+    pe: &Pe,
+    raw: bool,
+    strict: Option<&crate::imports::Catalog>,
+) -> Result<Vec<Record>> {
     let directory = u32_at(&pe.data, pe.optional + 104)?;
     if directory == 0 {
         return Ok(Vec::new());
     }
-    let mut p = pe.base + directory;
-    let mut lookup = HashMap::new();
-    for _ in 0..10000 {
-        if pe.word(p + 12)? == 0 {
-            break;
-        }
-        let names = pe.word(p)?;
-        let iat = pe.word(p + 16)?;
-        for n in 0..10000 {
-            let v = pe.word(pe.base + names + 4 * n)?;
-            if v == 0 {
+    let lookup = if let Some(catalog) = strict {
+        catalog
+            .slots
+            .iter()
+            .map(|(&slot, id)| (slot, id.legacy_name()))
+            .collect::<HashMap<_, _>>()
+    } else {
+        let mut p = pe.base + directory;
+        let mut lookup = HashMap::new();
+        for _ in 0..10000 {
+            if pe.word(p + 12)? == 0 {
                 break;
             }
-            let name = if v & 0x80000000 != 0 {
-                format!("ordinal_{}", v & 65535)
-            } else {
-                pe.string(pe.base + v + 2)?
-            };
-            lookup.insert(pe.base + iat + 4 * n, name);
+            let names = pe.word(p)?;
+            let iat = pe.word(p + 16)?;
+            for n in 0..10000 {
+                let v = pe.word(pe.base + names + 4 * n)?;
+                if v == 0 {
+                    break;
+                }
+                let name = if v & 0x80000000 != 0 {
+                    format!("ordinal_{}", v & 65535)
+                } else {
+                    pe.string(pe.base + v + 2)?
+                };
+                lookup.insert(pe.base + iat + 4 * n, name);
+            }
+            p += 20;
         }
-        p += 20;
-    }
+        lookup
+    };
     let mut result = Vec::new();
     for s in &pe.sections {
         if s.flags & 0x20 == 0 {
@@ -128,6 +141,8 @@ pub struct Inputs {
     pub drivers: Vec<Record>,
     pub accepted: BTreeSet<String>,
     pub publics: BTreeMap<String, u32>,
+    pub original_imports: Option<crate::imports::Catalog>,
+    pub rebuilt_imports: Option<crate::imports::Catalog>,
 }
 impl Inputs {
     pub fn load(a: &Args) -> Result<Self> {
@@ -167,6 +182,16 @@ impl Inputs {
                 .clone()
                 .unwrap_or(a.project.join(format!("build/{name}.exe"))),
         )?;
+        let original_imports = a
+            .check_imports
+            .then(|| crate::imports::Catalog::load(&o))
+            .transpose()
+            .context("original PE imports")?;
+        let rebuilt_imports = a
+            .check_imports
+            .then(|| crate::imports::Catalog::load(&r))
+            .transpose()
+            .context("rebuilt PE imports")?;
         let mut publics = map(
             &a.map
                 .clone()
@@ -254,7 +279,11 @@ impl Inputs {
                 _ => true,
             })
             .collect();
-        oi.extend(imports(&o, a.profile == Profile::Rcpp)?);
+        oi.extend(imports(
+            &o,
+            a.profile == Profile::Rcpp,
+            original_imports.as_ref(),
+        )?);
         oi.extend(drivers.clone());
         let mut ri = if a.profile == Profile::Rcpp {
             Vec::new()
@@ -268,7 +297,11 @@ impl Inputs {
         if a.profile == Profile::Rc {
             ri.retain(|r| !driver_names.contains(r.name.as_str()));
         }
-        ri.extend(imports(&r, a.profile == Profile::Rcpp)?);
+        ri.extend(imports(
+            &r,
+            a.profile == Profile::Rcpp,
+            rebuilt_imports.as_ref(),
+        )?);
         let driver_publics: BTreeSet<_> = drivers
             .iter()
             .filter_map(|r| publics.get(&r.name).copied())
@@ -378,6 +411,8 @@ impl Inputs {
             drivers,
             accepted,
             publics,
+            original_imports,
+            rebuilt_imports,
         })
     }
 }

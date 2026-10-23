@@ -2,6 +2,7 @@ mod audit;
 mod cvpack;
 mod decode;
 mod flow;
+mod imports;
 mod index;
 mod pe;
 use anyhow::Result;
@@ -38,6 +39,11 @@ pub struct Args {
     pub discovery: Discovery,
     #[arg(long)]
     pub check_ret: bool,
+    #[arg(
+        long,
+        help = "Compare verified DLL/name-or-ordinal identities of direct IAT and import-thunk transfers"
+    )]
+    pub check_imports: bool,
     #[arg(long)]
     pub check_references: bool,
     #[arg(long)]
@@ -90,7 +96,8 @@ fn run() -> Result<()> {
     let args = Args::parse();
     anyhow::ensure!(
         args.discovery != Discovery::Legacy
-            || !(args.check_ret
+            || !(args.check_imports
+                || args.check_ret
                 || args.check_references
                 || args.check_callbacks
                 || args.check_ownership
@@ -116,6 +123,7 @@ fn run() -> Result<()> {
         let mut checks = vec!["call_graph"];
         for (enabled, name) in [
             (args.check_ret, "ret_cleanup"),
+            (args.check_imports, "known_imports"),
             (args.check_references, "function_references"),
             (args.check_callbacks, "callback_tables"),
             (args.check_ownership, "extent_ownership"),

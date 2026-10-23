@@ -81,6 +81,7 @@ are opt-in:
 
 | Flag | Check |
 | --- | --- |
+| `--check-imports` | Compare verified DLL+name/ordinal import transfers, normalizing direct IAT calls and proven import thunks while retaining declared source/runtime vertices. Standalone profiles only. |
 | `--check-ret` | Compare RET cleanup sets, inheriting identified direct tail callees; unknown indirect tail ABIs and cycles fail. CVPACK also checks declared cleanup. |
 | `--check-references` | Compare immediate references to indexed function entries, with alias bijection. Available for the seven standalone profiles. |
 | `--check-callbacks` | Compare ordered, non-null callback table entries and acceptance requirements from metadata. RC has supplied table metadata; other profiles require `--metadata`. |
@@ -117,6 +118,24 @@ and remain unreachable in the final CFG including derived compiler roots. The
 original image hash binds these bytes. This is an extent-policy declaration, not
 a general permission to omit unrooted code; it is checked with `--check-extents`
 or the legacy CVPACK preset.
+
+`--check-imports` reads the standard PE32 import directory with bounded, file-backed
+lookup/IAT/string validation. Exact unprefixed absolute `FF 15` calls and `FF 25`
+jumps resolve to structured `{dll,name}` or `{dll,ordinal}` identities. Direct
+transfers through proven six-byte import thunks use the same identities. Named
+source/runtime graph vertices remain function edges even if their bodies begin
+with a thunk. DLL basename and ASCII case are normalized; export name case and
+ordinals are preserved. Unresolved register/indexed/segment-relative transfers
+remain indirect, and malformed import tables fail. This opt-in check leaves the
+default and legacy reports unchanged.
+
+Per-function `imports` fields and the `import_catalogs` slot maps record the
+verified identities separately from function edges. No loader is invoked. Import
+data references, delay imports and external DLL function ABIs are not inferred;
+retain applicable separate policy. `--check-ret` still requires an actual or
+separately proven return convention, so imported tail thunks may need a scoped
+support ABI check. The PE structures follow Microsoft's
+[PE format specification](https://learn.microsoft.com/en-us/windows/win32/debug/pe-format#the-idata-section).
 
 Fragmented functions retain their primary `start`/`end` and may declare additional
 `code_chunks: [[start,end], ...]` in standalone driver/runtime index records.
@@ -288,3 +307,12 @@ python3 tooling/graph-audit/check-chunks.py \
 The real PGO fixtures pin the repository's VC5.10 C1XX/C2 original image hashes;
 these tests require those originals to be present. The CLI fixture audits an
 original against itself to verify discovery/policy, not reconstruction acceptance.
+
+Synthetic import-identity controls (provider/name/ordinal, thunk equivalence,
+ordinary indirection, malformed bounds and declared-vertex protection):
+
+```sh
+python3 tooling/graph-audit/check-imports.py \
+  --scratch ~/.ai-tmp/graph-audit/import-cli \
+  --report ~/.ai-tmp/graph-audit/import-cli-validation.json
+```
