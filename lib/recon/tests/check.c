@@ -28,6 +28,27 @@ int main(void)
     assert(sizeof(IMAGE_SECTION_HEADER)==40);
     assert(sizeof(IMAGE_SYMBOL)==18 && sizeof(IMAGE_AUX_SYMBOL)==18);
     assert(sizeof(IMAGE_RELOCATION)==10 && sizeof(IMAGE_LINENUMBER)==6);
+    /* Original VC1 bounded formatting: all ten bytes, including untouched
+     * sentinels, were independently probed for capacities zero through six. */
+    {
+        char bounded[10];
+        int capacity,result;
+        for (capacity=0;capacity<=6;++capacity) {
+            memset(bounded,'!',sizeof(bounded)); errno=0;
+            result=_snprintf(bounded,capacity,"%s","abcd");
+            assert(result==(capacity<4?-1:4) && errno==0);
+            for (i=0;i<10;++i)
+                assert(bounded[i]==(i<capacity && i<4?"abcd"[i]:
+                    i==4 && capacity>4?0:'!'));
+        }
+        memset(bounded,'!',sizeof(bounded));
+        assert(_snprintf(bounded,0,"")==0 && bounded[0]=='!');
+        assert(_snprintf(bounded,1,"")==0 && bounded[0]==0 && bounded[1]=='!');
+        assert(_snprintf(bounded,sizeof(bounded),"%s%s\n","ab","cd")==5);
+        assert(!memcmp(bounded,"abcd\n\0",6));
+        assert(_snprintf(bounded,sizeof(bounded),"%d %x",-12,0x2a)==6);
+        assert(!strcmp(bounded,"-12 2a"));
+    }
     assert(getenv("HOME"));
     assert(snprintf(directory,sizeof(directory),"%s/.ai-tmp/recon-check-XXXXXX",getenv("HOME"))<(int)sizeof(directory));
     assert(mkdtemp(directory));
@@ -78,6 +99,29 @@ int main(void)
     assert(_read(fd,bytes,4)==4 && !memcmp(bytes,"\ntwo",4));
     assert(recon_osfile[fd]&4); /* VC1's first-byte-LF positioning flag */
     assert(_close(fd)==0);
+    fd=_open("N:\\sample.txt",0x8000); assert(fd>=0);
+    {
+        unsigned char flags=recon_osfile[fd];
+        recon_osfile[fd]|=0x26; /* Preserve EOF/first-LF/append bits verbatim. */
+        errno=0;
+        assert(_setmode(fd,0x4000)==0x8000 && errno==0);
+        assert(recon_osfile[fd]==(unsigned char)(flags|0xa6));
+        assert(_setmode(fd,0x4000)==0x4000);
+        assert(_setmode(fd,0x8000)==0x4000);
+        assert(recon_osfile[fd]==(unsigned char)(flags|0x26));
+        errno=0;
+        assert(_setmode(fd,0)==-1 && errno==EINVAL);
+        assert(recon_osfile[fd]==(unsigned char)(flags|0x26));
+        recon_osfile[fd]=flags;
+    }
+    assert(_setmode(fd,0x4000)==0x8000);
+    assert(_read(fd,bytes,4)==3 && !memcmp(bytes,"one",3));
+    assert(_setmode(fd,0x8000)==0x4000 && _lseek(fd,0,SEEK_SET)==0);
+    assert(_read(fd,bytes,4)==4 && !memcmp(bytes,"one\r",4));
+    assert(_close(fd)==0);
+    errno=0;
+    assert(_setmode(fd,0)==-1 && errno==EBADF);
+    assert(_setmode(-1,0x4000)==-1 && errno==EBADF);
     assert(sscanf("4294967296","%ld",&integer)==1 && integer==0);
     assert(sscanf("65537","%hd",&small)==1 && small==1);
     assert(sscanf("0x100000001,tail","%li%s",&integer,remainder)==2);

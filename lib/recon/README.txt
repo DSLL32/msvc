@@ -72,7 +72,11 @@ handles close. Truncation fails while a mapping handle is open, preserving the
 mapped file sizes seen in the captured outputs. Text reads are bounded by raw
 bytes so reconstructed ftell/fseek keep their original buffer-position rules.
 Formatting delegates to host libc after stream adaptation, with the encountered
-VC1 trailing-percent behavior preserved. Integer scanning wraps at 32 bits as
+VC1 trailing-percent behavior preserved. `_snprintf` retains the VC1 exact-fit
+nontermination and -1 truncation result. Its ordinary conversions use host
+formatting; `%n` explicitly fails until its stop-on-overflow side effects are
+implemented. `_setmode` changes only the legacy descriptor text bit and returns
+the previous mode. Integer scanning wraps at 32 bits as
 the old CRT does. qsort preserves the VC1 pivot/shortsort tie ordering because
 equal-key ordering affects LINK's serialized import tables.
 

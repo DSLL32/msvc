@@ -158,6 +158,18 @@ static int valid_descriptor(int fd)
     if ((unsigned)fd<recon_nhandle && (recon_osfile[fd]&1)) return 1;
     errno=EBADF; return 0;
 }
+/* VC1 __setmode changes only the descriptor's text bit, without flushing
+ * a FILE or resetting its input state. Descriptor errors precede mode errors. */
+WEAK int recon_setmode(int fd,int mode)
+{
+    unsigned char previous;
+    if (!valid_descriptor(fd)) return -1;
+    previous=recon_osfile[fd];
+    if (mode==0x8000) recon_osfile[fd]&=~0x80;
+    else if (mode==0x4000) recon_osfile[fd]|=0x80;
+    else { errno=EINVAL; return -1; }
+    return previous&0x80?0x4000:0x8000;
+}
 WEAK int recon_sopen(const char *name,int mode,int sharing,...)
 {
     DWORD access,disposition;
@@ -419,6 +431,41 @@ int recon_fprintf(ShimFILE *s,const char *format,...)
 int recon_printf(const char *format,...)
 {
     va_list args; int n; va_start(args,format); n=recon_vfprintf(&recon_iob[1],format,args); va_end(args); return n;
+}
+/* VC1 _snprintf permits an exact fit without a NUL; overflow returns -1.
+ * Host formatting is safe for the encountered ordinary conversions. A %n
+ * after a failed write must not execute, unlike host snprintf, so reject that
+ * unsupported conversion before any formatting or caller-memory writes. */
+WEAK int recon_snprintf(char *buffer,size_t capacity,const char *format,...)
+{
+    const char *cursor;
+    char *text,*copy=NULL;
+    size_t length,percent=0,used;
+    va_list arguments;
+    int result;
+    for (cursor=format;*cursor;++cursor) if (*cursor=='%') {
+        ++cursor;
+        while (*cursor && !strchr("diouxXeEfFgGaAcCsSpn%",*cursor)) ++cursor;
+        if (*cursor=='n') recon_unsupported("_snprintf %n");
+        if (!*cursor) break;
+    }
+    length=strlen(format);
+    while (percent<length && format[length-percent-1]=='%') ++percent;
+    if (percent&1) {
+        copy=strdup(format);
+        if (!copy) return -1;
+        copy[length-1]=0; format=copy;
+    }
+    va_start(arguments,format);
+    result=vasprintf(&text,format,arguments);
+    va_end(arguments);
+    free(copy);
+    if (result<0) return -1;
+    used=(size_t)result<capacity?(size_t)result:capacity;
+    if (used) memcpy(buffer,text,used);
+    if ((size_t)result<capacity) buffer[result]=0;
+    free(text);
+    return (size_t)result>capacity?-1:result;
 }
 WEAK ShimFILE *recon_openfile(const char *name,const char *mode,int sharing,ShimFILE *s)
 {

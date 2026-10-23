@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "scope": "Additive reached CVPACK CRT shims. Native fixtures never capture references or invoke Wine.",
+  "original": {
+    "executable": "toolchains/1.0-nt/bin/CVPACK.EXE",
+    "sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+    "setmode_extent": [
+      "0x2cd00",
+      "0x2cd91"
+    ],
+    "snprintf_extent": [
+      "0x2c960",
+      "0x2c9c7"
+    ],
+    "probe_source": "lib/recon/tests/crt-bounds-probe.c",
+    "probe_source_sha256": "2fb5ddcf83b8c273bf910b3542d3b1cf442aa14f4172544bf7455eccfc3c3467",
+    "captured_probe_sha256": "672228f71988dc5d65d2b2b813b4ff52d81b92baec327eccf69bda5a61725b4c",
+    "capture": {
+      "exit": 0,
+      "build_seconds": 3.9750842712819576,
+      "execution_seconds": 3.373298227787018,
+      "exact_prior_probe": true,
+      "source": "lib/recon/tests/crt-bounds-probe.c"
+    },
+    "stdout_sha256": "285333caac6ccf921b23e64b2255e84ba9a716e236b27899716a7e3244a02f42",
+    "stdout": "bound 0 4 -1 0 21212121212121212121\r\nbound 1 4 -1 0 61212121212121212121\r\nbound 2 4 -1 0 61622121212121212121\r\nbound 3 4 -1 0 61626321212121212121\r\nbound 4 4 4 0 61626364212121212121\r\nbound 5 4 4 0 61626364002121212121\r\nbound 6 4 4 0 61626364002121212121\r\nbound 0 0 0 0 21212121212121212121\r\nbound 1 0 0 0 00212121212121212121\r\ncount 0 -1 99 99 0 21212121212121212121\r\ncount 1 -1 99 99 0 61212121212121212121\r\ncount 2 -1 99 99 0 61622121212121212121\r\ncount 3 -1 99 99 0 61626321212121212121\r\ncount 4 -1 4 99 0 61626364212121212121\r\ncount 5 5 4 5 0 61626364582121212121\r\ncount 6 5 4 5 0 61626364580021212121\r\nmode 3 16384 1 32768 129 0\r\nmode 3 16384 129 16384 129 0\r\nmode 3 32768 129 16384 1 0\r\nmode 3 0 1 -1 1 22\r\nclosed -1 9\r\nnegative -1 9\r\n",
+    "stderr": ""
+  },
+  "native": [
+    {
+      "compiler": "gcc",
+      "build_seconds": 0.7576403878629208,
+      "execution_seconds": 0.001700121909379959,
+      "exact_original_rows": true,
+      "rows": 15
+    },
+    {
+      "compiler": "clang",
+      "build_seconds": 1.043297286145389,
+      "execution_seconds": 0.0016867304220795631,
+      "exact_original_rows": true,
+      "rows": 15
+    }
+  ],
+  "negative": {
+    "percent_n_exit": 125,
+    "reason": "Original stops formatting at first overflowing character, so later %n stores must not execute; host full-format delegation cannot reproduce this. Fail explicitly before formatting rather than silently writing counts."
+  },
+  "unit_checks": "make -j4 check (GCC i386) and independently compiled Clang i386 check pass; includes text/binary actual reads and preservation of all descriptor flags, error precedence, exact-fit/no-terminator/truncation/zero-capacity sentinel checks."
+}

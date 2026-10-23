@@ -93,12 +93,14 @@ char *recon_fgets(char *,int,ShimFILE *);
 int recon_fputs(const char *,ShimFILE *),recon_puts(const char *);
 int recon_fprintf(ShimFILE *,const char *,...),recon_printf(const char *,...);
 int recon_vfprintf(ShimFILE *,const char *,va_list);
+int recon_snprintf(char *,size_t,const char *,...);
 int recon_sscanf(const char *,const char *,...);
 void recon_qsort(void *,size_t,size_t,int (*)(const void *,const void *));
 int recon_ungetc(int,ShimFILE *),recon_ferror(ShimFILE *),recon_feof(ShimFILE *);
 void recon_clearerr(ShimFILE *),recon_rewind(ShimFILE *);
 int recon_fileno(ShimFILE *);
 int recon_open(const char *,int,...),recon_sopen(const char *,int,int,...);
+int recon_setmode(int,int);
 ShimFILE *recon_openfile(const char *,const char *,int,ShimFILE *);
 int recon_read(int,void *,unsigned),recon_write(int,const void *,unsigned),recon_close(int);
 long recon_lseek(int,long,int),recon_tell(int),recon_filelength(int);
@@ -236,6 +238,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define fprintf recon_fprintf
 #define printf recon_printf
 #define vfprintf recon_vfprintf
+#define _snprintf recon_snprintf
 #define sscanf recon_sscanf
 #define qsort recon_qsort
 #define ungetc recon_ungetc
@@ -250,6 +253,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define exit recon_exit
 #define _open recon_open
 #define _sopen recon_sopen
+#define _setmode recon_setmode
 #define strcpy recon_strcpy
 #define _openfile recon_openfile
 #define _read recon_read
