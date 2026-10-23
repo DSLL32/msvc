@@ -1,0 +1,880 @@
+{
+  "checkpoint": 1172,
+  "source_graphs": 1081,
+  "previous_checkpoint": 1162,
+  "application_extent_delta": 2072,
+  "crt_acceptance_delta": 0,
+  "functions": [
+    {
+      "name": "@write_segment_listing@8",
+      "start": "0x28510",
+      "end": "0x28674",
+      "bytes": 356
+    },
+    {
+      "name": "@close_segment_listing@4",
+      "start": "0x288e0",
+      "end": "0x2891a",
+      "bytes": 58
+    },
+    {
+      "name": "@listing_segment_name@4",
+      "start": "0x288d0",
+      "end": "0x288da",
+      "bytes": 10
+    },
+    {
+      "name": "@listing_alignment_name@4",
+      "start": "0x29700",
+      "end": "0x2973c",
+      "bytes": 60
+    },
+    {
+      "name": "@write_public_listing@4",
+      "start": "0x28dc0",
+      "end": "0x28e97",
+      "bytes": 215
+    },
+    {
+      "name": "@write_external_listing@4",
+      "start": "0x28cc0",
+      "end": "0x28db4",
+      "bytes": 244
+    },
+    {
+      "name": "@write_common_listing@4",
+      "start": "0x28a30",
+      "end": "0x28cc0",
+      "bytes": 656
+    },
+    {
+      "name": "@mark_listing_symbols@4",
+      "start": "0x28a10",
+      "end": "0x28a21",
+      "bytes": 17
+    },
+    {
+      "name": "@coff_write_word@4",
+      "start": "0x6eff0",
+      "end": "0x6f00a",
+      "bytes": 26
+    },
+    {
+      "name": "@coff_fill_bytes@8",
+      "start": "0x6f1c0",
+      "end": "0x6f36e",
+      "bytes": 430
+    }
+  ],
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1172,
+    "accepted_code_bytes": 318796,
+    "original_code_bytes": 399693,
+    "percentage": 79.76021596575372,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 548
+  },
+  "current_frontier": {
+    "logical": "@write_initializer_assembly@4",
+    "original": "cases/dbglist-original-1172.json",
+    "native": "cases/dbglist-original-1172-native.json"
+  },
+  "native_cases": {
+    "total": 14,
+    "complete": 13,
+    "expected_named_trap": 1,
+    "fixture_seconds": 0.5735320197418332,
+    "suite_setup_seconds": 0.15677750669419765,
+    "negative_check_seconds": 0.024464819580316544,
+    "receipt": "cases/native-all-validation.json"
+  },
+  "checks": {
+    "abi": "cases/listing-output-abi-validation.json",
+    "coff_fill": "cases/coff-fill-validation.json",
+    "coff_fill_contract": "cases/coff-fill-contract.json",
+    "warnings": "cases/shared-prefix-warnings.json"
+  },
+  "source_hashes": {
+    "src/listing.c": "da40688ebfddfb414a5b31bd1e5733e37ccd3018a72f28263e37ce4c6387f977",
+    "src/coff-writer.c": "5195bf3721770cc9e6b201cea2f7afb25d999020a079b8a43e76a0fab35cbe96",
+    "src/check-coff-fill.c": "1ef6057aaa38ed6f4e4f3d5cb1d92b9c05203d54e6dcb587f03e30d4c23f3f29",
+    "scripts/check-coff-fill.py": "e63f31d4c22b7c98a2846861b48207ec36273af683560cb15bd37a4824bca8ac"
+  },
+  "limits": [
+    "Current debug/listing case remains incomplete: thirteen completed native object cases and one matching named application trap. Complete object/listing/PDB oracle still required at exit.",
+    "Public/external/common declaration callbacks initially exit through their existing flag guards. Their whole positive bodies are reconstructed and graph-checked; no positive-body execution is claimed from those first returns. Later case processing may reach them.",
+    "New shared-buffer object is only named80-byte scratch beside coff_fill_bytes, extent backed by original20-DWORD stores and native symbol size. No adjacent data imported.",
+    "Direct-file <=80 comparison is preserved literally.102 actual-C/original-machine probes compare buffered ring contents/counters, count-only behavior and mocked direct fwrite counts plus80 defined scratch bytes/identity. Oversized actual reads and failure callbacks are not claimed tested.",
+    "C2 normal private scope construction uses zeroed arena7 sections; constructors/open/close do not introduce state4. All literal section-vector/active-scope references are covered by true CFG operands with no address escape; caller/state alias review documented. The invariant does not cover arbitrary externally fabricated/corrupted heap states.",
+    "Unaccepted coff_write_comment was analyzed read-only to account for its explicit kind1 trailer scope; it remains a named trap with no unmask/credit.",
+    "Measured original-build/audit wrappers occasionally rebuilt all canonical modules after shared include changes.54.918s final audit wrapper includes such rebuild; no pure graph-time claim.1163 build/audit wrappers overlapped briefly with identical frozen sources; final audit ran after both builds and passed, timings are not additive wallclock.",
+    "Analysis/edit time unmeasured. All measured intermediate builds, proof failures and repeated checks are retained in timing dictionary; no best-run-only accounting.",
+    "Receipt-generation command initially used repository cwd and failed before writing the receipt; source/evidence commit1ea88c26 remains verified. Documentation was repaired in a scoped followup, without new execution or changing acceptance."
+  ],
+  "timing": {
+    "dbglist1163-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1162.json",
+        "--extend-after",
+        "cases/dbglist-original-1163.json"
+      ],
+      "seconds": 0.2791297025978565,
+      "returncode": 0,
+      "log_sha256": "a032be66bd575727f036f3be07d0a8c3b6d80a5a6d27230f257940487a448287"
+    },
+    "dbglist1165-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1165.json"
+      ],
+      "seconds": 1.7537008607760072,
+      "returncode": 0,
+      "log_sha256": "a43b4f3d61a13b0e852ee9099ef7bebcc2990bb2b9c74872c56f93abca8bb392"
+    },
+    "dbglist1163-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1163.json"
+      ],
+      "seconds": 1.0478582382202148,
+      "returncode": 0,
+      "log_sha256": "b28e17fa33376084fe5ba431ed04cf1f82ac088bf317b7abfe9e1ff3508b66fb"
+    },
+    "dbglist1168-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1167.json",
+        "--extend-after",
+        "cases/dbglist-original-1168.json"
+      ],
+      "seconds": 0.3012018194422126,
+      "returncode": 0,
+      "log_sha256": "7c7fa35cd3ee0ecee2f5986038ba48c90cfe26389c6d7314f32bed9089093a1a"
+    },
+    "dbglist-coff-fill-contract-with-readonly-helper-timing": {
+      "command": [
+        "python3",
+        "scripts/check-coff-fill-contract.py"
+      ],
+      "seconds": 3.8454373693093657,
+      "returncode": 0,
+      "log_sha256": "939216b1ab66958e2ec3ace92a858d4a81a7d62eedc6119d75b99df2f46fdcfa"
+    },
+    "dbglist1171-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.4663987569510937,
+      "returncode": 0,
+      "log_sha256": "20d5e37fac1b7196b1054cee622418e4d7cd31d13afa0d3967253c584951d5a6"
+    },
+    "dbglist1169-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1169.json"
+      ],
+      "seconds": 2.020156864076853,
+      "returncode": 0,
+      "log_sha256": "f773eeb1afac446649efbe4cf7d1b6cee27442ec57e773904e17a4831a64d6b9"
+    },
+    "dbglist1164-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 10.508897637017071,
+      "returncode": 0,
+      "log_sha256": "c770e8b534b58c848c42427b91be45c80c8bb3da21d087f770a1452d7ce3b966"
+    },
+    "dbglist1167-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1167.json"
+      ],
+      "seconds": 0.21627083513885736,
+      "returncode": 0,
+      "log_sha256": "ab139561deba3ba0d2e23a68b621109aa58c2c84d972aa3bbd1ba2b78d0636cc"
+    },
+    "dbglist1166-graph-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 31.44197001401335,
+      "returncode": 0,
+      "log_sha256": "0d4721ab0bb2cde34360675190d52d1df72fc288ede20034d5715ddb46a8292d"
+    },
+    "dbglist1169-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.8900557616725564,
+      "returncode": 0,
+      "log_sha256": "4f92776ce6545221459871ca287a0e99e1d95e1952cfe100b077d4f13feec457"
+    },
+    "dbglist1172-checkpoint-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 6.454157339408994,
+      "returncode": 0,
+      "log_sha256": "6fe4eaf0de87090d08946a6a12cc599ddedb146d86a384c153e4d2dce9caaee8"
+    },
+    "dbglist1165-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1164.json",
+        "--extend-after",
+        "cases/dbglist-original-1165.json"
+      ],
+      "seconds": 0.28059450909495354,
+      "returncode": 0,
+      "log_sha256": "a032be66bd575727f036f3be07d0a8c3b6d80a5a6d27230f257940487a448287"
+    },
+    "dbglist1170-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1169.json",
+        "--extend-after",
+        "cases/dbglist-original-1170.json"
+      ],
+      "seconds": 0.2966278353706002,
+      "returncode": 0,
+      "log_sha256": "8c46a2a840950693dd35658c6ca7c319f939c0a8b192580f0510a6f340946d63"
+    },
+    "dbglist1164-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1164.json"
+      ],
+      "seconds": 1.1478473199531436,
+      "returncode": 0,
+      "log_sha256": "fadcf6f83e2cf4d0531571ba583992802be165fb90cf0019b0c1713036fe3c27"
+    },
+    "dbglist1169-reload-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 38.99014936666936,
+      "returncode": 0,
+      "log_sha256": "5cf22756ad96839fd10b843851be359d0c2822a31ad2bb685268138bb675cb1b"
+    },
+    "dbglist1169-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1168.json",
+        "--extend-after",
+        "cases/dbglist-original-1169.json"
+      ],
+      "seconds": 0.30957365315407515,
+      "returncode": 0,
+      "log_sha256": "8c46a2a840950693dd35658c6ca7c319f939c0a8b192580f0510a6f340946d63"
+    },
+    "dbglist-coff-fill-contract-timing": {
+      "command": [
+        "python3",
+        "scripts/check-coff-fill-contract.py"
+      ],
+      "seconds": 3.7989334370940924,
+      "returncode": 1,
+      "log_sha256": "c581ef92c19ced5440b3129d21598b977f23024b8e861371543e9e6dfbebbec2"
+    },
+    "dbglist1170-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 3.1512747406959534,
+      "returncode": 0,
+      "log_sha256": "b07f86a814b2f37fdf776b7d2093fa38bebec7d8421eaa3c5d2d86dd0d1945a6"
+    },
+    "dbglist1165-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.0786277558654547,
+      "returncode": 0,
+      "log_sha256": "17193e47377ddb197813b37ceabd13b0c0ed5eb9b70bae1225f7600aba1038fc"
+    },
+    "dbglist1168-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1168.json"
+      ],
+      "seconds": 2.1300885938107967,
+      "returncode": 0,
+      "log_sha256": "13d6fd10681d122b40c476de0ae55fb4f3975b5689b0ca9fa186c52a1dbbc396"
+    },
+    "dbglist1171-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1171.json"
+      ],
+      "seconds": 0.22944574896246195,
+      "returncode": 0,
+      "log_sha256": "b0d00e4bca12f8f2589a1d79941e6695a04a128506c3410da344c27bd102e4bc"
+    },
+    "dbglist1165-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1165.json"
+      ],
+      "seconds": 0.22367994766682386,
+      "returncode": 0,
+      "log_sha256": "76d58c692c145c8bf7bb86894c49a194ab2553f29efbf7d2916e8f508cf0c57f"
+    },
+    "dbglist1168-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.7314543314278126,
+      "returncode": 0,
+      "log_sha256": "cbef7b1d11b7e588a19504a3b5a92d404b9e606d0ff94e9c45901ba79d504ff8"
+    },
+    "dbglist1172-graph-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.6656724559143186,
+      "returncode": 0,
+      "log_sha256": "38b88fe69ede49a7839970510f89fa37d03363d3f0e9670d4555cda774cd2ef4"
+    },
+    "dbglist-coff-fill-defined-prefix-shapes-timing": {
+      "command": [
+        "python3",
+        "scripts/check-coff-fill.py"
+      ],
+      "seconds": 0.8358848029747605,
+      "returncode": 0,
+      "log_sha256": "0736c40b664bfa619459682c82edaa12034526345b70b71364924abe9c363f80"
+    },
+    "dbglist1163-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 39.41133468784392,
+      "returncode": 0,
+      "log_sha256": "093b58793e077a5173758e542b1a7117825ae92f968444d335853a792b7a3ee3"
+    },
+    "dbglist1167-graph-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.7393046021461487,
+      "returncode": 0,
+      "log_sha256": "2dde2f54454bb595dd9693e2b7b4d1dd2cb72671cc1b2340e62d5b1a5b9c4f5a"
+    },
+    "dbglist1164-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1163.json",
+        "--extend-after",
+        "cases/dbglist-original-1164.json"
+      ],
+      "seconds": 0.29156335908919573,
+      "returncode": 0,
+      "log_sha256": "a032be66bd575727f036f3be07d0a8c3b6d80a5a6d27230f257940487a448287"
+    },
+    "dbglist1172-checkpoint-audits-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage",
+        "audit-data",
+        "audit-negatives"
+      ],
+      "seconds": 54.91833472903818,
+      "returncode": 0,
+      "log_sha256": "51f92ef42407331511019491e24aabdd76eda19bbfdfaa34eadca610409258cf"
+    },
+    "dbglist1171-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1170.json",
+        "--extend-after",
+        "cases/dbglist-original-1171.json"
+      ],
+      "seconds": 0.31189839262515306,
+      "returncode": 0,
+      "log_sha256": "8c46a2a840950693dd35658c6ca7c319f939c0a8b192580f0510a6f340946d63"
+    },
+    "dbglist1172-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1172.json"
+      ],
+      "seconds": 1.2065679775550961,
+      "returncode": 0,
+      "log_sha256": "13f193cd3d99f57c4e8167cc8fc22cc82913a1d0dc986d5c6cdad63ca7342fbb"
+    },
+    "dbglist1169-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1169.json"
+      ],
+      "seconds": 0.23729348089545965,
+      "returncode": 0,
+      "log_sha256": "3fc6e4bfbdf195e867889398b1b747ca425cdf2e9dc1323afea184e174ad9dc1"
+    },
+    "dbglist1166-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 3.103740352205932,
+      "returncode": 0,
+      "log_sha256": "cbef7b1d11b7e588a19504a3b5a92d404b9e606d0ff94e9c45901ba79d504ff8"
+    },
+    "dbglist1172-checkpoint-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "listing",
+        "coff-writer"
+      ],
+      "seconds": 4.601745853200555,
+      "returncode": 0,
+      "log_sha256": "f51623ae3f65c1cc4ca845f31ab170b34913c61496e6b5cad042ef122d854bed"
+    },
+    "dbglist-coff-fill-probe-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/native/check-coff-fill"
+      ],
+      "seconds": 0.6530902832746506,
+      "returncode": 0,
+      "log_sha256": "73edcea38149f1d0b63dbabfdbe254b76655d17dac997b6755f49c87f8612c28"
+    },
+    "dbglist1164-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1164.json"
+      ],
+      "seconds": 0.22375173214823008,
+      "returncode": 0,
+      "log_sha256": "4d55b142bc646a5c52b139db92309c067d907999b6d44686a9dd627eb1cf3e7a"
+    },
+    "dbglist1167-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1167.json"
+      ],
+      "seconds": 0.9695202810689807,
+      "returncode": 0,
+      "log_sha256": "6517f8f85daede66830cf89c1033809201c7ece8e2ab7569ce1225f20faeec5a"
+    },
+    "dbglist1169-graph-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.6819694582372904,
+      "returncode": 0,
+      "log_sha256": "04508ba96866861f9eb2f4bda3f80b5a8eb03a56d2fa1aceea5eb5d59acb3db8"
+    },
+    "dbglist1168-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1168.json"
+      ],
+      "seconds": 0.2199991988018155,
+      "returncode": 0,
+      "log_sha256": "63ca3fa0a908f697645e5906d3686c0a61391ccbf20f112298609cd8e1a003ad"
+    },
+    "dbglist-coff-fill-extent-contract-timing": {
+      "command": [
+        "python3",
+        "scripts/check-coff-fill-contract.py"
+      ],
+      "seconds": 3.8191027399152517,
+      "returncode": 0,
+      "log_sha256": "939216b1ab66958e2ec3ace92a858d4a81a7d62eedc6119d75b99df2f46fdcfa"
+    },
+    "dbglist1172-checkpoint-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 38.51282126363367,
+      "returncode": 0,
+      "log_sha256": "aeb24a26ed6f0e729ac3f38fd6ebd618d37a2707aa7706b2b1f65c798bf5ac09"
+    },
+    "dbglist1172-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1171.json",
+        "--extend-after",
+        "cases/dbglist-original-1172.json"
+      ],
+      "seconds": 0.29406078811734915,
+      "returncode": 0,
+      "log_sha256": "8c46a2a840950693dd35658c6ca7c319f939c0a8b192580f0510a6f340946d63"
+    },
+    "dbglist1167-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1166.json",
+        "--extend-after",
+        "cases/dbglist-original-1167.json"
+      ],
+      "seconds": 0.3104221858084202,
+      "returncode": 0,
+      "log_sha256": "a032be66bd575727f036f3be07d0a8c3b6d80a5a6d27230f257940487a448287"
+    },
+    "dbglist1163-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1163.json"
+      ],
+      "seconds": 0.2170112356543541,
+      "returncode": 0,
+      "log_sha256": "8d9b7f64449160363cdc04744685baf3a23c4054e0ca1674915c28a8b9847f02"
+    },
+    "dbglist1170-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1170.json"
+      ],
+      "seconds": 0.2270816070958972,
+      "returncode": 0,
+      "log_sha256": "3ca0afd8a3752fc606b3896cda4ffd59d4e16b54c17b3a0f3b745aee4775e3f5"
+    },
+    "dbglist1167-read-order-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 2.5817846236750484,
+      "returncode": 0,
+      "log_sha256": "8d057bd8f75e27de87c220f4f99f64f10d11d0eff4dc5390ce8f02d6dc9a1fa4"
+    },
+    "dbglist1171-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1171.json"
+      ],
+      "seconds": 2.045930979773402,
+      "returncode": 0,
+      "log_sha256": "2a1cb5f5276b0657ea3407aa5759df0879b1b8d8c515cdda5cc9dd8811e40c33"
+    },
+    "dbglist1164-graph-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.671774012967944,
+      "returncode": 0,
+      "log_sha256": "7a1e3b2bbd1f81b8cdb59ca9e87b8ed1b8f87e3fbcae867c17e40891e76fcd2a"
+    },
+    "dbglist1171-graph-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.681570729240775,
+      "returncode": 0,
+      "log_sha256": "01a8afe73d44e4f7c0570a8f24929605716f576bba2a90d655ec701ea83935d1"
+    },
+    "dbglist1168-graph-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.6997272754088044,
+      "returncode": 0,
+      "log_sha256": "5699901352da2177f72bfe6478812649075e97f468251d0b17d8f23b45de1511"
+    },
+    "dbglist1166-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1166.json"
+      ],
+      "seconds": 0.21963768545538187,
+      "returncode": 0,
+      "log_sha256": "bf819fbc3436aa872608e747f1924de88564f1c36527701aea2872fe9785a75d"
+    },
+    "dbglist1163-graph-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 16.11081265192479,
+      "returncode": 0,
+      "log_sha256": "f0d11952f4998e4967832cfb6982aed6e2de2b373c90f84ae510da1ed45894f3"
+    },
+    "dbglist1167-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 38.483341412618756,
+      "returncode": 0,
+      "log_sha256": "67b4190e49cd85bf614d9edf4b445799f62a287623831557536363b69323fbd9"
+    },
+    "dbglist1166-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1166.json"
+      ],
+      "seconds": 1.5850262129679322,
+      "returncode": 0,
+      "log_sha256": "9f07902d6cf7cc760f220406072576a2ca641239b1659c4caa66a4e2f1ded066"
+    },
+    "dbglist1172-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "win32"
+      ],
+      "seconds": 39.736677441746,
+      "returncode": 0,
+      "log_sha256": "7d107fe130d7791991b72309e2236ca63e02b78ef44306fd8a154d7ab1a8ba57"
+    },
+    "dbglist-coff-fill-defined-prefix-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/native/check-coff-fill"
+      ],
+      "seconds": 0.6461092326790094,
+      "returncode": 0,
+      "log_sha256": "73edcea38149f1d0b63dbabfdbe254b76655d17dac997b6755f49c87f8612c28"
+    },
+    "dbglist1166-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1165.json",
+        "--extend-after",
+        "cases/dbglist-original-1166.json"
+      ],
+      "seconds": 0.29195436835289,
+      "returncode": 0,
+      "log_sha256": "a032be66bd575727f036f3be07d0a8c3b6d80a5a6d27230f257940487a448287"
+    },
+    "dbglist-coff-fill-shapes-timing": {
+      "command": [
+        "python3",
+        "scripts/check-coff-fill.py"
+      ],
+      "seconds": 3.4017483852803707,
+      "returncode": 0,
+      "log_sha256": "0736c40b664bfa619459682c82edaa12034526345b70b71364924abe9c363f80"
+    },
+    "dbglist1165-graph-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.6851313188672066,
+      "returncode": 0,
+      "log_sha256": "ceab8ffc9f9eb2d9b51f5f7def82e62d39d990a766f002eb9c896f622017b637"
+    },
+    "dbglist1172-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1172.json"
+      ],
+      "seconds": 0.21988473366945982,
+      "returncode": 0,
+      "log_sha256": "c45ba3a915618578e1f9bb44f4252183adcc243594e0652388749171a0aefa3b"
+    },
+    "dbglist1170-graph-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.6561181945726275,
+      "returncode": 0,
+      "log_sha256": "c124fef2e846c67ce49a1253294e79058eec5e814119f9ecbd2e1ab3b449e9a2"
+    },
+    "dbglist1170-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1170.json"
+      ],
+      "seconds": 1.9227604875341058,
+      "returncode": 0,
+      "log_sha256": "3c83754e04c2d2b05a29ddb938ccd213da4cf8ec3e0b30d62c5f56dd4b6dd552"
+    }
+  }
+}

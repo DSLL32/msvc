@@ -203,3 +203,16 @@ frontier evidence; native ABI matching is only at the public printf seam. Actual
 FILE,24 buffered bytes, descriptorposition0 and result24 match; ten proof
 negatives pass. Thirteen cases complete and dbglist still traps as expected.
 Full receipts, failed attempts and timing limits: cases/dbglist-codeview-checkpoint.json.
+
+Listing/output checkpoint1172 adds ten application bodies (2072 bytes), reaching
+write_initializer_assembly with fresh original/native evidence. All14 native
+cases pass (13 completed objects, one expected debug/listing trap); selected
+original /W3 modules and ten cleanup ABI checks pass. The full common-data
+writer retains unvisited declaration/alignment paths and typed element-size data.
+COFF fill uses one contextual80-byte scratch. Its unusual original <=80 direct
+write loop is preserved;102 isolated actual-C/original probes compare buffered
+block rings/counters and mocked direct-write requests/80 defined scratch bytes.
+Oversized reads are not claimed matching. A separate closed-target scope/operand
+contract and readonly unaccepted trailer-helper analysis document the limit.
+Coverage is318796/399693 original code bytes (79.760216%), not branch coverage.
+See cases/dbglist-listing-checkpoint.json for split timings, repetitions and limits.

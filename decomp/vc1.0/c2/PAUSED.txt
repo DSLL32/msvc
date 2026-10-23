@@ -1,3 +1,8 @@
+C2 ACTIVE1172 accepted /1081 source graphs, matching write_initializer_assembly29810.
+318796/399693 code-extent union bytes (79.760216%); not branch coverage.
+See cases/dbglist-listing-checkpoint.json. All14 native cases pass:13 completed+debug named trap.
+Next continue initializer listing, CodeView and inline assembler within the approved case.
+
 C2 ACTIVE1162 accepted /1071 source graphs, matching write_segment_listing28510.
 See cases/dbglist-codeview-checkpoint.json. Four CodeView bodies accepted, strict CRTpublicstdio seam passed.
 All14 native cases pass:13 complete outputs plus debug/listing named trap.
