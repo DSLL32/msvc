@@ -5,8 +5,8 @@ spelling `cvppack` is retained. The first `/help` case is complete:
 native and masked-original runs produce exit 1, exactly 193 stdout bytes and
 empty stderr, with the same six application entries. The second, genuine
 embedded-debug GUI DLL case is now authorized and in progress; its current
-matching frontier is `symbol_record_key`. Forty-six application functions are accepted
-overall, covering 11,526 extent bytes (18.39% of the same whole-text denominator).
+matching frontier is `initialize_module_type_storage`. Fifty application functions are accepted
+overall, covering 13,832 extent bytes (22.07% of the same whole-text denominator).
 The type-table initialization and complete PE/COFF debug-reader body have
 also been recovered; the PE and CodeView directory reads, complete subsection sort and owned
 segment-map/library loads now match. Module-node creation, scratch setup and the per-module dispatcher are
@@ -82,7 +82,7 @@ ownership. Fourteen semantic mutations fail. Original 33,280 input bytes plus
 2,063,872 zero-extension bytes match the live native view completely. All eleven
 initialized type-table allocations and the nested empty type record are compared.
 
-Twenty-one completed reads now compare their actual caller/local or owned-heap
+Twenty-three completed reads now compare their actual caller/local or owned-heap
 identity, capacity, count, logical positions, LastError and initialized output
 bytes. Seventeen read mutations and eight initialized-storage mutations fail.
 Uninitialized allocation tails are excluded from initialized input claims; the
@@ -94,7 +94,7 @@ for an approved immutable auditor. Function 34 additionally has a static sidecar
 revalidation with the published pre-edit auditor hash, retaining its unchanged
 original/native raw captures. No reference was rerun for that tool-version check.
 
-The current prefix verifies 94 object identities, 21 completed reads and seven
+The current prefix verifies 99 object identities, 23 completed reads and seven
 actual allocator requests. Six work buffers have checked capacities and aliases;
 their uninitialized bytes are not treated as defined inputs. Twenty further
 module/allocation mutation controls fail, including payload contents, capacities,
@@ -120,3 +120,26 @@ the caller-owned record, four distinct output locals and their widths, the two
 initialized zero inputs and the bucket divisor. Twelve ABI mutation controls pass.
 Primitive conversion has a separate 517-input native check against the original
 semantic tables, taking 1.4 ms after a 215 ms standalone build.
+
+At the 50-function review checkpoint, 13,832 application extent bytes and 353
+associated switch-data bytes are reconstructed. These are accepted extents, not
+executed-branch coverage. Four CRT bodies (400 bytes) and four import thunks
+(24 bytes) are separate support. The current boundary precedes type-table
+initialization; the complete streamed-type reader is reconstructed but has not
+yet proceeded beyond that child boundary. No WidenTi factory or method has been
+executed by this reconstructed prefix.
+
+Checkpoint validation freshly ran eleven semantic-control suites: 131 distinct
+rejections, 517 primitive inputs and the 21-lifetime provider positive test.
+The parallel batch took 2.81 s; adding an exact public-padding mutation required
+a supplemental 0.94 s public-state run. The historical help completion also
+passed 24 protocol rejection checks (1.11 s), native capture (0.11 s), audit
+(0.25 s) and pair comparison (0.12 s). The help fixture took 13.6 ms and the
+partial debug fixture about 0.72 s, including GDB. No original was rerun for
+these checkpoint regressions. Hashes, exact reports and fresh/reused accounting
+are in `cases/hello-debug-dll/checkpoint50-controls.json`.
+
+Historical source-status auditing distinguishes old masked stubs from bodies
+accepted later: those later bodies remain excluded from the historical mask and
+checked-function set. Current genuine stubs must still contain INT3. The new
+status note identifies the later acceptance proofs explicitly.

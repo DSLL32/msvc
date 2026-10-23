@@ -14,6 +14,7 @@ typedef struct WidenOutput {
 extern "C" {
 #endif
 int create_widen(WidenTi **object);
+int record_widen(WidenTi *object, void *output, const void *input, unsigned *size);
 void release_widen(WidenTi *object);
 int query_widen(WidenTi *object, WidenOutput *output, const void *input, unsigned size);
 int emit_widen(WidenTi *object, WidenOutput *output, const void *input, unsigned size, unsigned flags);

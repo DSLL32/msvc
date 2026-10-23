@@ -101,8 +101,10 @@ def install(configuration):
                 if site['owner']!=owner.name():continue
                 local=gdb.parse_and_eval(site['local']) if site.get('global_buffer') or (site.get('heap_buffer') and not site.get('count_parameter')) else owner.read_var(site['local'])
                 if site.get('allocated_global'):
-                    capacity=int(gdb.parse_and_eval(site['capacity_global']));entry=owner.read_var(site['count_parameter'])
-                    matches=int(local)==buffer and size==int(entry.dereference()[site['count_member']]) and size<=capacity
+                    capacity=int(gdb.parse_and_eval(site['capacity_global']))
+                    if 'capacity_max' in site:capacity=min(capacity,site['capacity_max'])
+                    count=site['count_literal'] if 'count_literal' in site else int(owner.read_var(site['count_parameter']).dereference()[site['count_member']])
+                    matches=int(local)==buffer and size==count and size<=capacity
                 elif site.get('count_parameter'):
                     local=gdb.parse_and_eval(site['local']) if site.get('global_buffer') else owner.read_var(site['local']);entry=owner.read_var(site['count_parameter'])
                     capacity=int(entry.dereference()[site['count_member']])
@@ -327,6 +329,19 @@ def capture(configuration,data_file,output):
                 if not child or 'allocation' in pointer:continue
                 if 'shape' in pointer:linked(child,pointer['shape'])
                 else:memory[str(child)]=bytes(inferior.read_memory(child,pointer['size'])).hex()
+    for item in data:
+        if not item.get('public_buckets'):continue
+        address=int.from_bytes(bytes.fromhex(state['globals'][item['name']]),'little')
+        if not address:continue
+        raw=bytes(inferior.read_memory(address,4096*4));memory[str(address)]=raw.hex();visited=set()
+        for offset in range(0,len(raw),4):
+            node=int.from_bytes(raw[offset:offset+4],'little')
+            while node:
+                assert node not in visited and len(visited)<512,'aliased/circular public-symbol nodes'
+                visited.add(node);header=bytes(inferior.read_memory(node,18));length=int.from_bytes(header[16:18],'little')
+                assert length<=1024
+                memory[str(node)]=bytes(inferior.read_memory(node,16+length+2)).hex()
+                node=int.from_bytes(header[:4],'little')
     state['memory']=memory
     state['strings']=strings
     state['file_handles']=handles

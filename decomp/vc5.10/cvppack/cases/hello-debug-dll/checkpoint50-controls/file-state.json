@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "positive": {
+    "parameters": {
+      "file": {
+        "null": false,
+        "object_id": 33
+      }
+    },
+    "globals": [
+      "input_file",
+      "show_logo",
+      "banner_pending",
+      "checksum_required",
+      "module_count",
+      "statistics_enabled",
+      "debug_directory",
+      "line_data",
+      "symbol_data",
+      "type_data",
+      "module_data",
+      "minimum_pack",
+      "verbose",
+      "resource_library",
+      "load_string",
+      "resource_module",
+      "message_buffer",
+      "maximum_files",
+      "file_increment",
+      "page_increment",
+      "maximum_pages",
+      "mapped_files",
+      "free_pages",
+      "free_files",
+      "cached_files",
+      "mapped_file_slots",
+      "file_allocations",
+      "input_name",
+      "closed_files",
+      "last_closed_file",
+      "active_files",
+      "closed_file_count"
+    ],
+    "aliased_objects_checked": 34,
+    "file_handles_checked": 1,
+    "mapped_views_checked": 0,
+    "reads_checked": 0,
+    "uninitialized_allocations_checked": 0,
+    "allocator_requests_checked": 0,
+    "initialized_module_buffers_checked": 0
+  },
+  "rejected": [
+    "changed-file-position",
+    "changed-file-size",
+    "changed-file-type",
+    "changed-file-access_mode",
+    "changed-file-pathname",
+    "changed-file-sha256",
+    "changed-create-access",
+    "changed-create-sharing",
+    "changed-create-path",
+    "wrong-handle-ownership",
+    "lost-handle-state",
+    "changed-last-error",
+    "lost-mapped-file-registry-alias"
+  ],
+  "seconds": 0.21730155870318413
+}

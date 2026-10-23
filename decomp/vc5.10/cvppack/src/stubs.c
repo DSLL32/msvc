@@ -22,7 +22,6 @@ void release_cached_file(CachedFile *file) { __asm { int 3 } }
 int seek_stream_file(CachedFile *file, int offset, int origin) { __asm { int 3 } return 0; }
 int grow_mapping(CachedFile *file, int size) { __asm { int 3 } return 0; }
 unsigned stream_read(CachedFile *file, void *buffer, unsigned size) { __asm { int 3 } return 0; }
-void read_module_types(CodeViewDirectoryEntry *entry, int precompiled) { __asm { int 3 } }
 void prepare_precompiled_types(ModuleInfo *info) { __asm { int 3 } }
 void read_module_lines(unsigned index, CodeViewDirectoryEntry *entry) { __asm { int 3 } }
 void read_module_global_types(unsigned index, CodeViewDirectoryEntry *entry) { __asm { int 3 } }
@@ -41,7 +40,6 @@ int emit_widen(WidenTi *object, WidenOutput *output, const void *input, unsigned
 void *resize_bytes(void *buffer, unsigned size) { __asm { int 3 } return NULL; }
 
 unsigned __fastcall map_type_index(unsigned index) { __asm { int 3 } return 0; }
-unsigned short symbol_record_key(const unsigned char *record, unsigned *hash, unsigned short *name, unsigned short *segment, unsigned *offset, unsigned flags) { __asm { int 3 } return 0; }
 
 
 TypeRecord *lookup_global_type(unsigned index, unsigned char *from_global) { __asm { int 3 } return NULL; }
@@ -55,4 +53,14 @@ void __fastcall intern_type(TypeRecord *record) { __asm { int 3 } }
 
 unsigned __fastcall compact_type_index(unsigned index) { __asm { int 3 } return 0; }
 
-PublicSymbol *allocate_public_block(unsigned size) { __asm { int 3 } return NULL; }
+
+unsigned short numeric_leaf_size(const unsigned char *record) { __asm { int 3 } return 0; }
+
+void read_legacy_module_types(void *types, unsigned size) { __asm { int 3 } }
+void build_type_record_index(void) { __asm { int 3 } }
+
+void initialize_module_type_storage(void) { __asm { int 3 } }
+int record_widen(WidenTi *object, void *output, const void *input, unsigned *size) { __asm { int 3 } return 0; }
+void use_precompiled_types(void *leaf) { __asm { int 3 } }
+void register_type_server(void *leaf) { __asm { int 3 } }
+void __fastcall find_type_server(void *name, unsigned mode, void *first, void *second, void *third) { __asm { int 3 } }

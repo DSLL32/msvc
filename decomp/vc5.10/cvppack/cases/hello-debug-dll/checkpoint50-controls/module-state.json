@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "positive_objects": 94,
+  "uninitialized_owned_allocations": 6,
+  "initialized_module_buffers": 1,
+  "payload_policy": "Compare initialized storage only; actual malloc capacities and live aliases cover uninitialized work buffers.",
+  "rejected": [
+    "changed-real-malloc-capacity",
+    "lost-real-malloc-result",
+    "aliased-distinct-work-buffers",
+    "lost-module-node-link",
+    "changed-module-node-id",
+    "lost-module-index-alias",
+    "wrong-indexed-module",
+    "non-NULL-unallocated-segment-slot",
+    "changed-subsection-allocation-size",
+    "wrong-subsection-allocation-source",
+    "wrong-subsection-global-alias",
+    "wrong-module-allocation-size",
+    "wrong-module-allocation-source",
+    "missing-module-allocation",
+    "lost-current-module-buffer",
+    "lost-module-payload-alias",
+    "changed-module-payload-length",
+    "changed-module-payload-bytes",
+    "lost-directory-resident-pointer",
+    "wrong-directory-resident-pointer"
+  ],
+  "seconds": 1.0388354565948248
+}

@@ -294,6 +294,22 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
                 memory(log, process, item, blob_child_size[i]);
         }
     }
+    if (full_graphs && read_bytes(process, 0x412cf4, &value, 4) && value) {
+        DWORD bucket, node, next_node, visited;
+        WORD length;
+        memory(log, process, value, 4096 * 4);
+        for (bucket = 0; bucket < 4096; ++bucket) {
+            if (!read_bytes(process, value + bucket * 4, &node, 4)) continue;
+            visited = 0;
+            while (node && visited++ < 128) {
+                if (!read_bytes(process, node + 16, &length, 2) || length > 1024 ||
+                    !read_bytes(process, node, &next_node, 4)) { fprintf(log, "public-node-observation-failed\n"); break; }
+                memory(log, process, node, 16 + (DWORD)length + 2);
+                node = next_node;
+            }
+            if (node) fprintf(log, "public-node-observation-failed\n");
+        }
+    }
     for (i = 0; i < argument_count; ++i) if (argument_entry[i] == entry) {
         if (!read_bytes(process, context->Esp + argument_slot[i] * 4, &value, 4)) continue;
         if (argument_kind[i] == 'S' && value) string(log, process, value);

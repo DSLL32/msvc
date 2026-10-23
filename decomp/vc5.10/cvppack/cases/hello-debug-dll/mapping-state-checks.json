@@ -40,7 +40,10 @@
     "aliased_objects_checked": 34,
     "file_handles_checked": 1,
     "mapped_views_checked": 1,
-    "reads_checked": 0
+    "reads_checked": 0,
+    "uninitialized_allocations_checked": 0,
+    "allocator_requests_checked": 0,
+    "initialized_module_buffers_checked": 0
   },
   "original_prefix_bytes": 33280,
   "zero_extension_bytes": 2063872,
@@ -60,5 +63,5 @@
     "changed-full-capacity-tail-with-refreshed-hash",
     "truncated-original-full-view"
   ],
-  "seconds": 0.2747713839635253
+  "seconds": 0.28336511086672544
 }

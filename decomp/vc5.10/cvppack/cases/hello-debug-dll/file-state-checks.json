@@ -45,7 +45,10 @@
     "aliased_objects_checked": 34,
     "file_handles_checked": 1,
     "mapped_views_checked": 0,
-    "reads_checked": 0
+    "reads_checked": 0,
+    "uninitialized_allocations_checked": 0,
+    "allocator_requests_checked": 0,
+    "initialized_module_buffers_checked": 0
   },
   "rejected": [
     "changed-file-position",
@@ -62,5 +65,5 @@
     "changed-last-error",
     "lost-mapped-file-registry-alias"
   ],
-  "seconds": 0.20340521074831486
+  "seconds": 0.21730155870318413
 }

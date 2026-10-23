@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0046-insert-public-symbol/original",
-  "reference_receipt_sha256": "6b014a853b7d06c3e15cfca415d363327e51ab70b0126989614bbca42bd1448f",
+  "reference": "cases/hello-debug-dll/evidence/0050-read-new-module-types/original",
+  "reference_receipt_sha256": "b906e5789881e764d87cfc706e3b698aae2cd90f39a7f85e9ead0f263b68c8c3",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -52,6 +52,10 @@
     "map_primitive_type",
     "flush_type_stack",
     "insert_public_symbol",
-    "symbol_record_key"
+    "symbol_record_key",
+    "allocate_public_block",
+    "read_module_types",
+    "read_new_module_types",
+    "initialize_module_type_storage"
   ]
 }

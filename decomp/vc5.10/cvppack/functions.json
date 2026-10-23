@@ -52,7 +52,11 @@
     "compact_legacy_index",
     "map_primitive_type",
     "flush_type_stack",
-    "insert_public_symbol"
+    "insert_public_symbol",
+    "symbol_record_key",
+    "allocate_public_block",
+    "read_module_types",
+    "read_new_module_types"
   ],
   "functions": [
     {
@@ -1278,10 +1282,28 @@
       "symbol": "_read_module_types",
       "native_symbol": "read_module_types",
       "original": 4214496,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4214496,
+        4214893
+      ],
       "ret": 0,
-      "parameters": []
+      "parameters": [
+        {
+          "name": "entry",
+          "slot": 1,
+          "kind": "blob-element-pointer",
+          "root": "directory_entries",
+          "count": "directory_count",
+          "element_size": 12
+        },
+        {
+          "name": "precompiled",
+          "slot": 2,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0049-read-module-types/promotion.json"
     },
     {
       "name": "prepare_precompiled_types",
@@ -1514,7 +1536,19 @@
       "status": "stub",
       "extent": null,
       "ret": 0,
-      "parameters": []
+      "parameters": [
+        {
+          "name": "object",
+          "slot": 1,
+          "kind": "caller-local-pointer",
+          "owner": "widen_subsection",
+          "local": "object",
+          "width": 4,
+          "owner_return": 4215447,
+          "original_delta": 48,
+          "initialized": true
+        }
+      ]
     },
     {
       "name": "release_widen",
@@ -1600,8 +1634,11 @@
       "source_name": "symbol_record_key",
       "native_symbol": "symbol_record_key",
       "original": 4247376,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4247376,
+        4247801
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -1663,7 +1700,14 @@
           "slot": 6,
           "kind": "integer"
         }
-      ]
+      ],
+      "text_data": [
+        [
+          4247804,
+          4247848
+        ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0047-symbol-record-key/promotion.json"
     },
     {
       "name": "insert_public_symbol",
@@ -1877,8 +1921,11 @@
       "symbol": "_allocate_public_block",
       "native_symbol": "allocate_public_block",
       "original": 4239824,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4239824,
+        4239885
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -1886,7 +1933,124 @@
           "slot": 1,
           "kind": "integer"
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0048-allocate-public-block/promotion.json"
+    },
+    {
+      "name": "numeric_leaf_size",
+      "symbol": "_numeric_leaf_size",
+      "native_symbol": "numeric_leaf_size",
+      "original": 4258992,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "read_new_module_types",
+      "symbol": "_read_new_module_types",
+      "native_symbol": "read_new_module_types",
+      "original": 4243712,
+      "status": "accepted",
+      "extent": [
+        4243712,
+        4245135
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "size",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "precompiled",
+          "slot": 2,
+          "kind": "integer"
+        }
+      ],
+      "text_data": [
+        [
+          4245136,
+          4245152
+        ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0050-read-new-module-types/promotion.json"
+    },
+    {
+      "name": "read_legacy_module_types",
+      "symbol": "_read_legacy_module_types",
+      "native_symbol": "read_legacy_module_types",
+      "original": 4245152,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "build_type_record_index",
+      "symbol": "_build_type_record_index",
+      "native_symbol": "build_type_record_index",
+      "original": 4245344,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "initialize_module_type_storage",
+      "symbol": "_initialize_module_type_storage",
+      "source_name": "initialize_module_type_storage",
+      "native_symbol": "initialize_module_type_storage",
+      "original": 4245280,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "record_widen",
+      "symbol": "_record_widen",
+      "source_name": "record_widen",
+      "native_symbol": "record_widen",
+      "original": 4260544,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "use_precompiled_types",
+      "symbol": "_use_precompiled_types",
+      "source_name": "use_precompiled_types",
+      "native_symbol": "use_precompiled_types",
+      "original": 4245808,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "register_type_server",
+      "symbol": "_register_type_server",
+      "source_name": "register_type_server",
+      "native_symbol": "register_type_server",
+      "original": 4242592,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "find_type_server",
+      "symbol": "@find_type_server@20",
+      "source_name": "find_type_server",
+      "native_symbol": "find_type_server",
+      "original": 4245424,
+      "status": "stub",
+      "extent": null,
+      "ret": 12,
+      "parameters": []
     }
   ],
   "support_unmasked": [
@@ -2070,6 +2234,16 @@
       "capacity_global": "symbol_capacity",
       "count_parameter": "entry",
       "count_member": "size"
+    },
+    {
+      "return_pc": 4214577,
+      "owner": "read_module_types",
+      "local": "line_data",
+      "global_buffer": true,
+      "allocated_global": "line_data",
+      "capacity_global": "type_segment_bytes",
+      "capacity_max": 65512,
+      "count_literal": 4
     }
   ]
 }

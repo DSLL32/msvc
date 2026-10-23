@@ -59,6 +59,8 @@ def run(config_path, candidates=(), output=None):
     assert len({r['name'] for r in functions}) == len(functions)
     assert len({r['symbol'] for r in functions}) == len(functions)
     source = '\n'.join(path.read_text() for path in (BINARY / 'src').glob('*.c'))
+    live={row['name']:row for row in json.loads((BINARY/'functions.json').read_text())['functions']}
+    historical_bodies=[]
     for record in functions:
         native_name = record['native_symbol']
         declaration = record.get('source_name','main' if record['symbol'] == '_main' else record['symbol'].lstrip('_').split('@')[0])
@@ -66,7 +68,14 @@ def run(config_path, candidates=(), output=None):
         assert native_name
         if record['status']=='stub':
             stub = re.search(r'\b'+re.escape(declaration)+r'\s*\([^;{}]*\)\s*\{\s*__asm\s*\{\s*int\s+3\s*\}\s*(?:return\s+(?:0|NULL);\s*)?\}',source)
-            assert stub, ('stub is not a named INT3 boundary',record['name'])
+            if not stub:
+                current=live.get(record['name'],{})
+                assert config_path.resolve()!=(BINARY/'functions.json').resolve() and current.get('status')=='accepted' and current.get('original')==record['original'], ('stub is not a named INT3 boundary',record['name'])
+                proof=BINARY/current['acceptance_proof']
+                assert proof.is_file()
+                historical_bodies.append(dict(name=record['name'],historical_status='stub',current_status='accepted',
+                    proof=current['acceptance_proof'],proof_sha256=sha(proof),
+                    scope='Current body exists; excluded from this historical mask and checked-function set.'))
     checked = [r for r in functions if r['status'] == 'accepted' or r['name'] in candidates]
     assert all(r['status'] != 'stub' and r['extent'] for r in checked), 'candidate not reconstructed'
     graph_config = {
@@ -117,7 +126,7 @@ def run(config_path, candidates=(), output=None):
         switch_data_validator_sha256=sha(BINARY/'scripts/switch-data.py'), data_sha256=sha(BINARY/'data.json'),
         runtime_sha256=sha(BINARY/'runtime.json'), graph_runtime_sha256=sha(empty),
         audit_wrapper_sha256=sha(BINARY/'scripts/audit.py'),
-        data_objects_checked=len(data), resource_strings_checked=len(actual),
+        data_objects_checked=len(data), resource_strings_checked=len(actual), historical_reconstructed_bodies=historical_bodies,
         resource_evidence_sha256=sha(BINARY/'cases/help/resources.json'),
         candidates=list(candidates), checked_functions=[r['name'] for r in checked],
         owned_ranges=len(intervals), graph_command=command, graph=graph,

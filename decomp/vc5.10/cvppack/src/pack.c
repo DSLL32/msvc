@@ -184,3 +184,36 @@ void pack_symbols(void *symbols, CodeViewDirectoryEntry *entry)
         cursor += length;
     }
 }
+
+/* Read the signature and select the module type-record format [00404ee0,0040506d). */
+unsigned module_type_entries, module_type_list_used, module_precompiled_limit;
+void read_module_types(CodeViewDirectoryEntry *entry, int precompiled)
+{
+    unsigned size;
+    unsigned char *buffer;
+    line_data = type_segments[0];
+    if (entry->offset != image_read_mode) {
+        image_read_mode = entry->offset;
+        seek_cached_file(input_file, codeview_file_offset + entry->offset, 0);
+    }
+    if (read_cached_file(input_file, line_data, 4) != 4) fatal_error(1005, NULL, NULL);
+    module_type_entries = module_type_list_used = 0;
+    module_type_low = *(unsigned *)line_data;
+    if (module_type_low && module_type_low <= 2) {
+        module_type_base = 0x1000;
+        read_new_module_types(entry->size - 4, precompiled);
+        image_read_mode += entry->size;
+    } else {
+        size = entry->size - 4;
+        buffer = line_data;
+        if (buffer[0] != 1 && !(buffer[0] == 0 && (buffer[3] == 0xa6 || buffer[3] == 0xa7)))
+            fatal_error(1007, "Types", module_name(current_module_info));
+        module_type_low = 0;
+        module_type_base = 0x200;
+        if (read_cached_file(input_file, buffer + 4, size) != size) fatal_error(1005, NULL, NULL);
+        image_read_mode += entry->size;
+        read_legacy_module_types(line_data, entry->size);
+    }
+    if (!module_precompiled_limit) module_precompiled_limit = type_record_count;
+    if (!module_type_entries) build_type_record_index();
+}

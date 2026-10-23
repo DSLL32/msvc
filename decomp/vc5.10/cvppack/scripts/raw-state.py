@@ -184,6 +184,8 @@ def compare(config,data,events,native,artifacts=None,views=None):
         if site.get('allocated_global'):
             item=next(item for item in data if item['name']==site['allocated_global']);address=int.from_bytes(original['memory'][item['original']],'little')
             item=next(item for item in data if item['name']==site['capacity_global']);capacity=int.from_bytes(original['memory'][item['original']],'little')
+            if 'capacity_max' in site:capacity=min(capacity,site['capacity_max'])
+            if 'count_literal' in site:assert row['size']==site['count_literal']
             assert captured['buffer']==address and any(row['address']==address and row['size']==capacity for row in original['image_allocations']),'read buffer allocation/global ownership differs'
         elif site.get('count_parameter'):
             allocations=[allocation for allocation in original['module_allocations' if site.get('allocation_kind')=='module' else 'subsection_allocations'] if allocation['address']==captured['buffer']]
@@ -381,7 +383,42 @@ def compare(config,data,events,native,artifacts=None,views=None):
             for index in range(count):
                 linked(int.from_bytes(raw[index*4:index*4+4],'little'),int.from_bytes(actual[index*4:index*4+4],'little'),shape)
         elif item['kind'] == 'pointer':
-            if item.get('module_buffer'):
+            if item.get('segment_buffer'):
+                address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
+                assert bool(address)==bool(other),'type segment buffer NULL state differs'
+                if address:
+                    row=next(row for row in data if row['name']=='type_segments');table=int.from_bytes(original['memory'][row['original']],'little')
+                    base=int.from_bytes(original['memory'][table][:4],'little')
+                    assert address==base and image_aliases[base]==other,'type segment buffer/allocator alias differs'
+                    left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
+                    assert len(left)==len(right)==item['blob']['size'] and left==right,'initialized type segment prefix differs'
+                    pair(address,other)
+            elif item.get('public_buckets'):
+                address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
+                if pair(address,other):
+                    left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
+                    assert len(left)==len(right)==4096*4
+                    for offset in range(0,len(left),4):
+                        source=int.from_bytes(left[offset:offset+4],'little');destination=int.from_bytes(right[offset:offset+4],'little')
+                        while pair(source,destination):
+                            owners=[base for base,size in image_sizes.items() if size==0x1fa4 and base<=source<base+size]
+                            assert len(owners)==1,'public node has no actual arena ownership'
+                            owner=owners[0];assert destination==image_aliases[owner]+source-owner,'public node arena/offset differs'
+                            a=original['memory'][source];b=bytes.fromhex(native['memory'][str(destination)])
+                            assert len(a)==len(b)==18+int.from_bytes(a[16:18],'little') and source+len(a)<=owner+image_sizes[owner]
+                            assert a[4:]==b[4:],'initialized public node header/record/padding differs'
+                            source=int.from_bytes(a[:4],'little');destination=int.from_bytes(b[:4],'little')
+            elif item.get('interior_allocation'):
+                address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little');spec=item['interior_allocation']
+                assert bool(address)==bool(other),'arena cursor NULL state differs'
+                if address:
+                    owners=[base for base,size in image_sizes.items() if size==spec['size'] and base<=address<=base+size]
+                    assert len(owners)==1,'arena cursor ownership differs'
+                    owner=owners[0];row=next(row for row in data if row['name']==spec['remaining'])
+                    remaining=int.from_bytes(original['memory'][row['original']],'little')
+                    assert address-owner+remaining==spec['size'] and other==image_aliases[owner]+address-owner,'arena cursor/capacity/offset differs'
+                    used_uninitialized.add(owner)
+            elif item.get('module_buffer'):
                 module_buffer(int.from_bytes(raw,'little'),int.from_bytes(actual,'little'))
             elif 'allocation' in item:
                 allocation(int.from_bytes(raw,'little'),int.from_bytes(actual,'little'),item['allocation'])

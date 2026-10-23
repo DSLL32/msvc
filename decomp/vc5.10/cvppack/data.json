@@ -48,7 +48,11 @@
     "name": "line_data",
     "original": 4281980,
     "size": 4,
-    "kind": "pointer"
+    "kind": "pointer",
+    "segment_buffer": true,
+    "blob": {
+      "size": 4
+    }
   },
   {
     "name": "symbol_data",
@@ -320,9 +324,7 @@
     "original": 4271348,
     "size": 4,
     "kind": "pointer",
-    "blob": {
-      "size": 16384
-    }
+    "public_buckets": true
   },
   {
     "name": "type_table_forward",
@@ -930,6 +932,58 @@
   {
     "name": "duplicate_public_symbols",
     "original": 4271688,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "public_arena_remaining",
+    "original": 4271364,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "public_arena_cursor",
+    "original": 4271368,
+    "size": 4,
+    "kind": "pointer",
+    "interior_allocation": {
+      "size": 8100,
+      "remaining": "public_arena_remaining"
+    }
+  },
+  {
+    "name": "module_type_entries",
+    "original": 4272844,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "module_type_list_used",
+    "original": 4272764,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "module_precompiled_limit",
+    "original": 4272748,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "type_record_capacity",
+    "original": 4272864,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "source_type_input_bytes",
+    "original": 4281096,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "current_type_server",
+    "original": 4281588,
     "size": 4,
     "kind": "integer"
   }

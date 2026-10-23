@@ -52,3 +52,76 @@ int insert_public_symbol(unsigned char *record, SymbolKeyProc key)
     free(conflict);
     return 2;
 }
+
+/* Locate the Pascal name and produce its case-folded hash [0040cf50,0040d0f9).
+ * Output fields retain their individual original WORD/DWORD widths. */
+unsigned short symbol_record_key(const unsigned char *record, unsigned *hash,
+    unsigned short *name, unsigned short *segment, unsigned *offset, unsigned flags)
+{
+    unsigned short kind = *(const unsigned short *)(record + 2), section = 0;
+    unsigned address = 0, folded = 0, tail = 0, value, length, count;
+    const unsigned char *text;
+    if (kind >= 0x101 && kind <= 0x103) {
+        section = *(const unsigned short *)(record + 6);
+        address = *(const unsigned short *)(record + 4);
+        text = record + 10;
+    } else if (kind == 0x104 || kind == 0x105) {
+        section = *(const unsigned short *)(record + 24);
+        address = *(const unsigned short *)(record + 22);
+        text = record + 29;
+    } else if (kind == 0x1002) {
+        text = record + 8;
+        text += *(const unsigned short *)text < 0x8000 ? 2 : numeric_leaf_size(text);
+    } else if (kind == 0x1003) {
+        text = record + 8;
+    } else if ((kind >= 0x1007 && kind <= 0x1009) || kind == 0x100e || kind == 0x100f) {
+        section = *(const unsigned short *)(record + 12);
+        address = *(const unsigned *)(record + 8);
+        text = record + 14;
+    } else if (kind == 0x100a || kind == 0x100b) {
+        section = *(const unsigned short *)(record + 36);
+        address = *(const unsigned *)(record + 32);
+        text = record + 39;
+    } else if (kind == 0x1010 || kind == 0x1011) {
+        section = *(const unsigned short *)(record + 52);
+        address = *(const unsigned *)(record + 48);
+        text = record + 56;
+    } else {
+        *segment = 0;
+        *offset = *hash = 0;
+        return 0;
+    }
+    *name = (unsigned short)(text - record);
+    length = *text++;
+    while (length & 3) {
+        tail = (tail | (text[length - 1] & 0xdf)) << 8;
+        --length;
+    }
+    count = length / 4;
+    while (count--) {
+        value = (*(const unsigned *)text & 0xdfdfdfdf) ^ folded;
+        folded = (value << 4) | (value >> 28);
+        text += 4;
+    }
+    folded ^= tail;
+    *segment = section;
+    *offset = address;
+    *hash = folded;
+    return (unsigned short)(folded % (unsigned short)flags);
+}
+
+/* Original bump allocation for public-symbol nodes [0040b1d0,0040b20d). */
+unsigned public_arena_remaining;
+unsigned char *public_arena_cursor;
+PublicSymbol *allocate_public_block(unsigned size)
+{
+    unsigned char *result;
+    unsigned remaining = public_arena_remaining;
+    if (remaining < size) {
+        result = allocate_bytes(0x1fa4);
+        remaining = 0x1fa4;
+    } else result = public_arena_cursor;
+    public_arena_cursor = result + size;
+    public_arena_remaining = remaining - size;
+    return (PublicSymbol *)result;
+}

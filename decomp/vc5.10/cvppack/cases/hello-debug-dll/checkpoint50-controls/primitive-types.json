@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "original_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+  "table_extent": [
+    4268056,
+    4268312
+  ],
+  "basic_extent": [
+    4268048,
+    4268054
+  ],
+  "checked": 517,
+  "source_sha256": "6266837166b6046651851517ae76d6fbdfe2aa2e1bc9882a92c30760a71afdb2",
+  "seconds": {
+    "build": 0.2043906282633543,
+    "execution": 0.0015337541699409485,
+    "total": 0.20695669949054718
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "schema": 1,
+  "tables": [
+    {
+      "owner": "_pack_module",
+      "object_sha256": "9b1eeef585832428514fe408649dbbe7e701dd5aa5162c2409b3d16aa1c41e6f",
+      "object": "pack-switch.obj",
+      "rebuilt_sha256": "3675697c7c40e7fabf3c1229dbd6dbfb38bedfd30f76f908bf7246b785ac8748",
+      "map_sha256": "4521125a767bbfc1ac28d357bd3930fa7c746bf5ccb3d4f8e10d77caa0c94381",
+      "coff_function": {
+        "name": "_pack_module",
+        "value": 0,
+        "section": 2,
+        "type": 32,
+        "storage": 2
+      },
+      "coff_next_function": {
+        "name": "_initialize_single_module",
+        "value": 886,
+        "section": 2,
+        "type": 32,
+        "storage": 2
+      },
+      "coff_pointer_table": {
+        "name": "$L22377",
+        "value": 847,
+        "section": 2,
+        "type": 0,
+        "storage": 6
+      },
+      "coff_class_map": {
+        "name": "$L22376",
+        "value": 871,
+        "section": 2,
+        "type": 0,
+        "storage": 6
+      },
+      "pointer_relocations": [
+        {
+          "offset": 847,
+          "symbol": {
+            "name": "$L22292",
+            "value": 363,
+            "section": 2,
+            "type": 0,
+            "storage": 6
+          },
+          "kind": 6
+        },
+        {
+          "offset": 851,
+          "symbol": {
+            "name": "$L22294",
+            "value": 419,
+            "section": 2,
+            "type": 0,
+            "storage": 6
+          },
+          "kind": 6
+        },
+        {
+          "offset": 855,
+          "symbol": {
+            "name": "$L22295",
+            "value": 437,
+            "section": 2,
+            "type": 0,
+            "storage": 6
+          },
+          "kind": 6
+        },
+        {
+          "offset": 859,
+          "symbol": {
+            "name": "$L22296",
+            "value": 455,
+            "section": 2,
+            "type": 0,
+            "storage": 6
+          },
+          "kind": 6
+        },
+        {
+          "offset": 863,
+          "symbol": {
+            "name": "$L22293",
+            "value": 379,
+            "section": 2,
+            "type": 0,
+            "storage": 6
+          },
+          "kind": 6
+        },
+        {
+          "offset": 867,
+          "symbol": {
+            "name": "$L22289",
+            "value": 471,
+            "section": 2,
+            "type": 0,
+            "storage": 6
+          },
+          "kind": 6
+        }
+      ],
+      "rebuilt_data": [
+        4211007,
+        4211046
+      ],
+      "rebuilt_targets": [
+        4210523,
+        4210579,
+        4210597,
+        4210615,
+        4210539,
+        4210631
+      ],
+      "class_map": "000501020505030505050505050504",
+      "original_class_map": [
+        4214472,
+        4214487
+      ]
+    }
+  ]
+}

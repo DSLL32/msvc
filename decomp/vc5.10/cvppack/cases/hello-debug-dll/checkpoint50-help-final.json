@@ -1,0 +1,238 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "reused_original_receipt_sha256": "a55251ff7652c5146d63e73004c183cad25a7196b23947e19300b0453081f688",
+  "native_sha256": "15d30b8725af92a3eb7c28d2244ed24195afe1f2547fed02bf51d63aa084adca",
+  "rebuilt_sha256": "f898ba406fe981f69b7435bc443f68771e4585b70ff7ece9281deff43fda84aa",
+  "result": {
+    "terminal": "exit",
+    "exit_status": 1,
+    "application_trace": [
+      "cvpack_main",
+      "initialize_messages",
+      "parse_options",
+      "fatal_error",
+      "print_banner",
+      "message_text"
+    ],
+    "stdout_bytes": 193,
+    "stderr_bytes": 0
+  },
+  "audit": {
+    "schema": 1,
+    "config_sha256": "f0a0df0d306457327487f026f9a930bd10ecc2ea2a4ebf1bb181951947f17446",
+    "graph_config_sha256": "b8666908cc4814927ea19f6eafdae194dcc81b27e7fefaaa922b771445dff5cb",
+    "original_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+    "rebuilt_sha256": "f898ba406fe981f69b7435bc443f68771e4585b70ff7ece9281deff43fda84aa",
+    "native_sha256": "15d30b8725af92a3eb7c28d2244ed24195afe1f2547fed02bf51d63aa084adca",
+    "map_sha256": "2298ecf1154517c88c20123414471719d228e24d4a950d4278744e9a4352c00e",
+    "graph_tool_sha256": "fc5c81f2771c5b6e488ad72529a90c862ef6744083d6e8270b88218105fa844f",
+    "graph_metadata_sha256": "3aab17bedb7d9c00694ccd74a73f973e766443eb9c7adc96f78e468f10e8a433",
+    "graph_metadata_proof_sha256": "05f9241f26108c12a2bdf15804b6fba0f1c88d448e54ff2a768a7e7029cee90e",
+    "switch_data_validator_sha256": "3a0a394a0a72b3ea003d9b4efd1467093ecf269823f49da245deeec7058254af",
+    "data_sha256": "b9faa09f9e397ae59a454f0e1e8dba7aaea426d0507f23a391f04cf424d40df9",
+    "runtime_sha256": "45bed7b37cc8171159533760fe4d1d62ec97f16d098c27ec474f5cd9ed9790bf",
+    "graph_runtime_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "audit_wrapper_sha256": "09522475f3a8b1c03092e3980bb1279940fad5a8edffbd29512bf285800120b2",
+    "data_objects_checked": 130,
+    "resource_strings_checked": 3,
+    "historical_reconstructed_bodies": [
+      {
+        "name": "files_initialize",
+        "historical_status": "stub",
+        "current_status": "accepted",
+        "proof": "cases/hello-debug-dll/evidence/0007-files-initialize/promotion.json",
+        "proof_sha256": "2a4a2fd533ffc303e9ec19d3a042c8781cb54042a9e8bd3200ea5945d7de05e7",
+        "scope": "Current body exists; excluded from this historical mask and checked-function set."
+      },
+      {
+        "name": "select_input_name",
+        "historical_status": "stub",
+        "current_status": "accepted",
+        "proof": "cases/hello-debug-dll/evidence/0011-select-input-name/promotion.json",
+        "proof_sha256": "749055437acf40f6979ea600f36a6f757153d50f00a896981ef0d5596a7fe7ac",
+        "scope": "Current body exists; excluded from this historical mask and checked-function set."
+      },
+      {
+        "name": "initialize_type_tables",
+        "historical_status": "stub",
+        "current_status": "accepted",
+        "proof": "cases/hello-debug-dll/evidence/0020-initialize-type-tables/promotion.json",
+        "proof_sha256": "5fbc63634bcc51544b7d42765cac75218e1ac375bd86bd91759d63653281bcd8",
+        "scope": "Current body exists; excluded from this historical mask and checked-function set."
+      },
+      {
+        "name": "read_image_debug",
+        "historical_status": "stub",
+        "current_status": "accepted",
+        "proof": "cases/hello-debug-dll/evidence/0024-read-image-debug-typed/promotion.json",
+        "proof_sha256": "5604880d6240cf804dbe46231e58130f7a8befde2d9e0ba3ff6ef8a064bad500",
+        "scope": "Current body exists; excluded from this historical mask and checked-function set."
+      },
+      {
+        "name": "initialize_module_pack",
+        "historical_status": "stub",
+        "current_status": "accepted",
+        "proof": "cases/hello-debug-dll/evidence/0036-initialize-module-pack/promotion.json",
+        "proof_sha256": "719576a27ae2220cdd6efd3041235563f7ae2a1606846ed29367889dcb0d70f2",
+        "scope": "Current body exists; excluded from this historical mask and checked-function set."
+      },
+      {
+        "name": "pack_module",
+        "historical_status": "stub",
+        "current_status": "accepted",
+        "proof": "cases/hello-debug-dll/evidence/0037-pack-module/promotion.json",
+        "proof_sha256": "b4aab72594b49cb63e22b7d97373e68ff7d5457f0eabf5fe0baa58694832a91b",
+        "scope": "Current body exists; excluded from this historical mask and checked-function set."
+      }
+    ],
+    "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de",
+    "candidates": [
+      "message_text"
+    ],
+    "checked_functions": [
+      "cvpack_main",
+      "initialize_messages",
+      "parse_options",
+      "print_banner",
+      "fatal_error",
+      "message_text"
+    ],
+    "owned_ranges": 15,
+    "graph_command": [
+      "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+      "--profile",
+      "cl",
+      "--project",
+      "/root/msvc2/decomp/vc5.10/cvppack",
+      "--repo",
+      "/root/msvc2",
+      "--original",
+      "/root/msvc2/toolchains/5.10/bin/CVPACK.EXE",
+      "--rebuilt",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/CVPACK.EXE",
+      "--map",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/cvpack.map",
+      "--config",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/final-native-validation/current-audit/graph-config.json",
+      "--runtime",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/final-native-validation/current-audit/graph-runtime.json",
+      "--rebuilt-runtime",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/final-native-validation/current-audit/graph-runtime.json",
+      "--metadata",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/final-native-validation/current-audit/graph-metadata.json",
+      "--discovery",
+      "cfg",
+      "--check-ret",
+      "--check-references",
+      "--check-ownership",
+      "--check-extents"
+    ],
+    "graph": {
+      "checked_accepted_extents": null,
+      "checked_functions": 6,
+      "checked_unique_accepted_extents": null,
+      "checks": [
+        "call_graph",
+        "ret_cleanup",
+        "function_references",
+        "extent_ownership",
+        "whole_extent_boundaries"
+      ],
+      "discovery": "cfg",
+      "functions": {
+        "_fatal_error": {
+          "edges": [
+            "_close_file",
+            "_message_text",
+            "_print_banner",
+            "indirect"
+          ]
+        },
+        "_initialize_messages": {
+          "edges": []
+        },
+        "_main": {
+          "edges": [
+            "_close_file",
+            "_files_initialize",
+            "_flush_packed_file",
+            "_free_type_tables",
+            "_get_file_size",
+            "_initialize_messages",
+            "_initialize_module_pack",
+            "_initialize_type_tables",
+            "_map_file_region",
+            "_pack_module",
+            "_parse_options",
+            "_print_banner",
+            "_print_statistics",
+            "_read_image_debug",
+            "_select_input_name",
+            "_warning",
+            "_write_debug_directory",
+            "indirect"
+          ]
+        },
+        "_message_text": {
+          "edges": [
+            "indirect"
+          ]
+        },
+        "_parse_options": {
+          "edges": [
+            "_fatal_error",
+            "_print_banner",
+            "_warning",
+            "indirect"
+          ]
+        },
+        "_print_banner": {
+          "edges": [
+            "_message_text",
+            "indirect"
+          ]
+        }
+      },
+      "original_accepted_graphs": null,
+      "profile": "cl"
+    },
+    "seconds": 0.1860928935930133
+  },
+  "negatives": {
+    "schema": 1,
+    "rejected": [
+      "stale-original-snapshot",
+      "stale-native-snapshot",
+      "matching-stale-snapshots",
+      "wrong-trial-config",
+      "changed-raw-original",
+      "changed-raw-native-output",
+      "both-missing-frontiers-even-with-matching-receipt-hashes",
+      "wrong-real-original-frontier",
+      "wrong-provider",
+      "unknown-candidate",
+      "stale-native-binary",
+      "stale-Win32-binary",
+      "unmasked-not-acceptance",
+      "wrong-mask",
+      "wrong-actual-provider-bytes-despite-canonical-claim-and-refreshed-file-hash",
+      "missing-actual-native-exit",
+      "wrong-actual-native-exit",
+      "missing-real-original-completion",
+      "wrong-real-original-completion",
+      "historical-audit-detached-from-trial",
+      "accepted-prefix-audit-is-not-candidate-audit",
+      "omitted-native-candidate-entry",
+      "candidate-never-entered-original",
+      "overlapping-application-owners"
+    ],
+    "count": 24
+  },
+  "seconds": {
+    "native_capture": 0.11090842168778181,
+    "candidate_audit": 0.2520408071577549,
+    "pair_check": 0.12153247836977243,
+    "negative_checks": 1.1084125619381666
+  }
+}
