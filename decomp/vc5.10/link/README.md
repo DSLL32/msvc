@@ -2,15 +2,15 @@
 
 Target: `toolchains/5.10/bin/LINK.EXE`, PE32 i386, image base `0x400000`,
 entry RVA `0x65280`. There are no exports or TLS directory. Root approved the scaffold and exact
-shipped CRT startup boundary. Thirty-eight application functions are accepted,
-including the complete option dispatcher and switch parser. The first `/?` case
-now reaches `duplicate_argument("?")` with an independently owned parsed record,
-matching context/hash/arena state and 90 semantic rejection controls. Common
-Rust checks all 147 cached plus 50 direct dispatcher import calls against 197
-rebuilt calls, and all five cached parser calls. Six CRT preservation contracts
-serve the dispatcher; the parser additionally needs `strchr` and one reviewed
-fatal-diagnostic callee. Unknown calls remain barriers. Hello and DLL cases are
-queued after help; debug/PDB and resource themes remain source-only.
+shipped CRT startup boundary. Forty-one application functions are accepted,
+including the full option dispatcher, switch parser, owned argument duplication,
+help output and banner. The first `/?` case now reaches its first exit callback,
+`close_timing`: both sides have flushed the same 123 banner bytes and retain an
+identical 1257-byte help payload in stdout, with matching typed FILE state and 92
+semantic rejection controls. Common Rust verifies all cached imports in the
+dispatcher/parser/banner, with only needed hash-bound CRT and helper contracts;
+unknown calls remain barriers. Hello and DLL cases are queued after help;
+debug/PDB and resource themes remain source-only.
 Native i386 and original 5.10 `/MD /Od /Z7` builds pass with `make -j4`.
 
 `make inspect` prints the read-only PE inventory. `make native` builds the same

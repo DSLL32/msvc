@@ -1,0 +1,16 @@
+{
+  "status": "accepted",
+  "function": "_duplicate_argument@4",
+  "application_functions": 39,
+  "application_extent_bytes": 19287,
+  "original": "/root/.ai-tmp/msvc2/vc5.10/link/masked-125whd2o",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/link/native-4xn76db3",
+  "typed_negative_count": 88,
+  "timing_seconds": {
+    "parallel_original_native_build": 1.4263922488316894,
+    "original_reference": 1.2647111508995295,
+    "native_capture": 0.2251793658360839,
+    "whole_audit": 0.33391681872308254
+  },
+  "acceptance": "cases/help/frontiers/39-duplicate-argument/validation.json"
+}

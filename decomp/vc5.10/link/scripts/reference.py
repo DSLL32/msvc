@@ -91,6 +91,7 @@ def main():
         ('target',0x7efd8,4,'argument-tail.bin'),
         ('target',0x7f040,12,'option-arguments.bin'),
         ('target',0x672d0,1,'logo-pending.bin'),
+        ('target',0x94888,12,'logo-text.bin'),
         ('target',0x7f01c,1,'incremental-enabled.bin'),
         ('target',0x7f14c,4,'member-header-size.bin'),
         ('target',0x7f0f8,4,'member-write-section.bin'),

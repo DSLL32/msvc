@@ -1,0 +1,2746 @@
+{
+  "schema": 1,
+  "target": {
+    "path": "toolchains/5.10/bin/LINK.EXE",
+    "sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579"
+  },
+  "accepted": [
+    "_mainCRTStartup",
+    "__setargv",
+    "__matherr",
+    "__setdefaultprecision",
+    "_initialize_buffer12",
+    "_allocate_buffer12",
+    "_atexit",
+    "__onexit",
+    "_register_buffer12_cleanup",
+    "_initialize_buffer8",
+    "_allocate_buffer8",
+    "_register_buffer8_cleanup",
+    "_initialize_buffer4",
+    "_allocate_buffer4",
+    "_register_buffer4_cleanup",
+    "_initialize_timing",
+    "_setup_timing",
+    "_register_timing_cleanup",
+    "_main",
+    "_initialize_debug@8",
+    "_initialize_file_cache@16",
+    "_get_debug_flag@4",
+    "_zero_allocate@4",
+    "_new_file_record",
+    "_initialize_memory",
+    "_run_linker@8",
+    "_initialize_repro",
+    "_collect_file_arguments@16",
+    "_parse_command_line@16",
+    "_parse_argument@8",
+    "_is_libpath@4",
+    "_append_argument@8",
+    "_append_argument_record@12",
+    "_has_switch@4",
+    "_allocate_link_memory@8",
+    "LinkContext::Initialize",
+    "_create_string_table@12",
+    "_initialize_hash_table@20",
+    "_hash_allocate@16",
+    "_reserve_memory@8",
+    "_create_memory_arena@4",
+    "_allocate_memory@4",
+    "_configure_link_options@12",
+    "_parse_switch@8",
+    "_duplicate_argument@4"
+  ],
+  "driver": [
+    {
+      "name": "_main",
+      "start": 4251280,
+      "end": 4252242,
+      "source": "src/driver.c",
+      "status": "implemented",
+      "abi": "cdecl int(int,char**,char**); original normal body+SEH filter/handler",
+      "pending_extent": false
+    },
+    {
+      "name": "_initialize_buffer12",
+      "start": 4345440,
+      "end": 4345450,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_initialize_buffer8",
+      "start": 4398448,
+      "end": 4398458,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_initialize_buffer4",
+      "start": 4398560,
+      "end": 4398570,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_initialize_timing",
+      "start": 4476512,
+      "end": 4476522,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_allocate_buffer12",
+      "start": 4345456,
+      "end": 4345494,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_register_buffer12_cleanup",
+      "start": 4345504,
+      "end": 4345518,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_free_buffer12",
+      "start": 4345520,
+      "end": 4345539,
+      "source": "src/initializers.c",
+      "status": "stub",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_allocate_buffer8",
+      "start": 4398464,
+      "end": 4398502,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_register_buffer8_cleanup",
+      "start": 4398512,
+      "end": 4398526,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_free_buffer8",
+      "start": 4398528,
+      "end": 4398547,
+      "source": "src/initializers.c",
+      "status": "stub",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_allocate_buffer4",
+      "start": 4398576,
+      "end": 4398614,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_register_buffer4_cleanup",
+      "start": 4398624,
+      "end": 4398638,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_free_buffer4",
+      "start": 4398640,
+      "end": 4398659,
+      "source": "src/initializers.c",
+      "status": "stub",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_setup_timing",
+      "start": 4476528,
+      "end": 4476570,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_register_timing_cleanup",
+      "start": 4476576,
+      "end": 4476590,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_close_timing",
+      "start": 4476592,
+      "end": 4476691,
+      "source": "src/initializers.c",
+      "status": "stub",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_console_control@4",
+      "start": 4250784,
+      "end": 4250817,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "console_control",
+      "pending_extent": false
+    },
+    {
+      "name": "_initialize_debug@8",
+      "start": 4280880,
+      "end": 4281071,
+      "source": "src/driver-stubs.c",
+      "status": "implemented",
+      "abi": "stdcall",
+      "native_symbol": "initialize_debug",
+      "pending_extent": false
+    },
+    {
+      "name": "_initialize_file_cache@16",
+      "start": 4240736,
+      "end": 4240919,
+      "source": "src/files.c",
+      "status": "implemented",
+      "abi": "stdcall",
+      "native_symbol": "initialize_file_cache",
+      "pending_extent": false
+    },
+    {
+      "name": "_initialize_memory",
+      "start": 4519264,
+      "end": 4519338,
+      "source": "src/memory.c",
+      "status": "implemented",
+      "abi": "cdecl",
+      "native_symbol": "initialize_memory",
+      "pending_extent": false
+    },
+    {
+      "name": "_run_linker@8",
+      "start": 4492464,
+      "end": 4494016,
+      "source": "src/link-driver.cpp",
+      "status": "implemented",
+      "abi": "stdcall",
+      "native_symbol": "run_linker",
+      "pending_extent": false
+    },
+    {
+      "name": "_run_librarian@8",
+      "start": 4443680,
+      "end": 4443681,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "run_librarian",
+      "pending_extent": true
+    },
+    {
+      "name": "_run_dumper@8",
+      "start": 4382800,
+      "end": 4383205,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "run_dumper",
+      "pending_extent": false
+    },
+    {
+      "name": "_run_editor@8",
+      "start": 4388480,
+      "end": 4388481,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "run_editor",
+      "pending_extent": true
+    },
+    {
+      "name": "_run_helper@8",
+      "start": 4252256,
+      "end": 4252337,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "run_helper",
+      "pending_extent": false
+    },
+    {
+      "name": "_save_exception@24",
+      "start": 4250832,
+      "end": 4251050,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "save_exception",
+      "pending_extent": false
+    },
+    {
+      "name": "_report_delayed_import@12",
+      "start": 4251056,
+      "end": 4251275,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "report_delayed_import",
+      "pending_extent": false
+    },
+    {
+      "name": "_print_logo",
+      "start": 4593072,
+      "end": 4593258,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "cdecl",
+      "native_symbol": "print_logo",
+      "pending_extent": false
+    },
+    {
+      "name": "_get_debug_flag@4",
+      "start": 4281072,
+      "end": 4281086,
+      "source": "src/driver-stubs.c",
+      "status": "implemented",
+      "native_symbol": "get_debug_flag",
+      "abi": "stdcall"
+    },
+    {
+      "name": "_new_file_record",
+      "start": 4240992,
+      "end": 4241006,
+      "source": "src/files.c",
+      "status": "implemented",
+      "native_symbol": "new_file_record",
+      "abi": "cdecl"
+    },
+    {
+      "name": "_zero_allocate@4",
+      "start": 4521584,
+      "end": 4521618,
+      "source": "src/files.c",
+      "status": "implemented",
+      "native_symbol": "zero_allocate",
+      "abi": "stdcall"
+    },
+    {
+      "name": "_out_of_memory",
+      "start": 4391632,
+      "end": 4391648,
+      "source": "src/files.c",
+      "status": "stub",
+      "native_symbol": "out_of_memory",
+      "abi": "cdecl"
+    },
+    {
+      "name": "_linker_usage",
+      "start": 4476800,
+      "end": 4476801,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "linker_usage"
+    },
+    {
+      "name": "_initialize_repro",
+      "start": 4475664,
+      "end": 4475955,
+      "source": "src/reproduction.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "initialize_repro"
+    },
+    {
+      "name": "_collect_file_arguments@16",
+      "start": 4573856,
+      "end": 4573970,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "collect_file_arguments"
+    },
+    {
+      "name": "_parse_command_line@16",
+      "start": 4573984,
+      "end": 4574134,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "parse_command_line"
+    },
+    {
+      "name": "_has_switch@4",
+      "start": 4476704,
+      "end": 4476796,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "has_switch"
+    },
+    {
+      "name": "_allocate_link_memory@8",
+      "start": 4521280,
+      "end": 4521343,
+      "source": "src/memory.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "allocate_link_memory"
+    },
+    {
+      "name": "_configure_link_options@12",
+      "start": 4477232,
+      "end": 4490793,
+      "source": "src/options.cpp",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "configure_link_options",
+      "abi": "stdcall void(LinkContext*,Module*,constchar*file); stack12/RET12; body+post-RET cold tail"
+    },
+    {
+      "name": "_link_warning",
+      "start": 4391680,
+      "end": 4391681,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "link_warning"
+    },
+    {
+      "name": "_link_fatal",
+      "start": 4391472,
+      "end": 4391473,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "link_fatal"
+    },
+    {
+      "name": "_link_error",
+      "start": 4391648,
+      "end": 4391649,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "link_error"
+    },
+    {
+      "name": "_validate_debug_options@4",
+      "start": 4490800,
+      "end": 4490801,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "validate_debug_options"
+    },
+    {
+      "name": "_load_incremental_state@4",
+      "start": 4407024,
+      "end": 4407025,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "load_incremental_state"
+    },
+    {
+      "name": "_initialize_incremental_inputs",
+      "start": 4411712,
+      "end": 4411713,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "initialize_incremental_inputs"
+    },
+    {
+      "name": "_incremental_link@4",
+      "start": 4420608,
+      "end": 4420609,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "incremental_link"
+    },
+    {
+      "name": "_abort_incremental@4",
+      "start": 4491536,
+      "end": 4491537,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "abort_incremental"
+    },
+    {
+      "name": "_write_image_map@8",
+      "start": 4517872,
+      "end": 4517873,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "write_image_map"
+    },
+    {
+      "name": "_save_incremental_state@4",
+      "start": 4492000,
+      "end": 4492001,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "save_incremental_state"
+    },
+    {
+      "name": "_close_files",
+      "start": 4243104,
+      "end": 4243105,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "close_files"
+    },
+    {
+      "name": "_cleanup_pdb",
+      "start": 4261680,
+      "end": 4261681,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "cleanup_pdb"
+    },
+    {
+      "name": "_run_cvpack",
+      "start": 4492128,
+      "end": 4492129,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "run_cvpack"
+    },
+    {
+      "name": "_close_repro",
+      "start": 4476496,
+      "end": 4476497,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "close_repro"
+    },
+    {
+      "name": "LinkContext::Initialize",
+      "start": 4405200,
+      "end": 4405604,
+      "source": "src/link-driver.cpp",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "LinkContext::Initialize",
+      "symbol": "?Initialize@LinkContext@@QAEPAULinkAuxiliaryData@@H@Z",
+      "abi": "thiscall LinkAuxiliaryData*(int); ECX receiver, stack4/RET4, EAX auxiliary allocation; caller ignores result"
+    },
+    {
+      "name": "?FullLink@LinkContext@@QAEHPAE@Z",
+      "start": 4468560,
+      "end": 4468561,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::FullLink"
+    },
+    {
+      "name": "_parse_switch@8",
+      "start": 4247744,
+      "end": 4248125,
+      "pending_extent": false,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "native_symbol": "parse_switch",
+      "abi": "stdcall SwitchInfo*(const char*file,const char*text); stack8/RET8"
+    },
+    {
+      "name": "_duplicate_argument@4",
+      "start": 4521680,
+      "end": 4521712,
+      "pending_extent": false,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "native_symbol": "duplicate_argument"
+    },
+    {
+      "name": "_tokenize_arguments@4",
+      "start": 4573376,
+      "end": 4573377,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "tokenize_arguments"
+    },
+    {
+      "name": "_release_memory@4",
+      "start": 4521520,
+      "end": 4521521,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "release_memory"
+    },
+    {
+      "name": "_read_response_file@4",
+      "start": 4573568,
+      "end": 4573569,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "read_response_file"
+    },
+    {
+      "name": "_parse_argument@8",
+      "start": 4573056,
+      "end": 4573361,
+      "pending_extent": false,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "native_symbol": "parse_argument"
+    },
+    {
+      "name": "_is_libpath@4",
+      "start": 4573008,
+      "end": 4573053,
+      "pending_extent": false,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "native_symbol": "is_libpath"
+    },
+    {
+      "name": "_expand_wildcards@4",
+      "start": 4572336,
+      "end": 4572337,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "expand_wildcards"
+    },
+    {
+      "name": "_canonicalize_argument@8",
+      "start": 4572752,
+      "end": 4572753,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "canonicalize_argument"
+    },
+    {
+      "name": "_open_argument_file@12",
+      "start": 4241392,
+      "end": 4241393,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "open_argument_file"
+    },
+    {
+      "name": "_is_archive@8",
+      "start": 4574528,
+      "end": 4574529,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "is_archive"
+    },
+    {
+      "name": "_close_argument_file@8",
+      "start": 4242704,
+      "end": 4242705,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "close_argument_file"
+    },
+    {
+      "name": "_append_argument@8",
+      "start": 4574368,
+      "end": 4574387,
+      "pending_extent": false,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "native_symbol": "append_argument"
+    },
+    {
+      "name": "_append_argument_record@12",
+      "start": 4574208,
+      "end": 4574283,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/arguments.c",
+      "native_symbol": "append_argument_record"
+    },
+    {
+      "name": "_allocate_incremental@4",
+      "start": 4521184,
+      "end": 4521185,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/memory.c",
+      "native_symbol": "allocate_incremental"
+    },
+    {
+      "name": "LinkContext::InitializeVxd",
+      "symbol": "?InitializeVxd@LinkContext@@QAEXXZ",
+      "start": 4602944,
+      "end": 4602945,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::InitializeVxd"
+    },
+    {
+      "name": "LinkContext::PeHeaderSize",
+      "symbol": "?PeHeaderSize@LinkContext@@QAEKPAK@Z",
+      "start": 4562176,
+      "end": 4562177,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::PeHeaderSize"
+    },
+    {
+      "name": "LinkContext::VxdHeaderSize",
+      "symbol": "?VxdHeaderSize@LinkContext@@QAEKPAK@Z",
+      "start": 4603024,
+      "end": 4603025,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::VxdHeaderSize"
+    },
+    {
+      "name": "LinkContext::PeWriteSection",
+      "symbol": "?PeWriteSection@LinkContext@@QAEXHPAX0@Z",
+      "start": 4562256,
+      "end": 4562257,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::PeWriteSection"
+    },
+    {
+      "name": "LinkContext::VxdWriteSection",
+      "symbol": "?VxdWriteSection@LinkContext@@QAEXHPAX0@Z",
+      "start": 4603088,
+      "end": 4603089,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::VxdWriteSection"
+    },
+    {
+      "name": "LinkContext::PeWriteHeaders",
+      "symbol": "?PeWriteHeaders@LinkContext@@QAEXH@Z",
+      "start": 4562288,
+      "end": 4562289,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::PeWriteHeaders"
+    },
+    {
+      "name": "LinkContext::VxdWriteHeaders",
+      "symbol": "?VxdWriteHeaders@LinkContext@@QAEXH@Z",
+      "start": 4605040,
+      "end": 4605041,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::VxdWriteHeaders"
+    },
+    {
+      "name": "_create_string_table@12",
+      "start": 4596256,
+      "end": 4596316,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/symbols.c",
+      "native_symbol": "create_string_table"
+    },
+    {
+      "name": "_allocate_memory@4",
+      "start": 4521552,
+      "end": 4521584,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/memory.c",
+      "native_symbol": "allocate_memory"
+    },
+    {
+      "name": "_initialize_hash_table@20",
+      "start": 4394096,
+      "end": 4394275,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/symbols.c",
+      "native_symbol": "initialize_hash_table"
+    },
+    {
+      "name": "_string_key_name@8",
+      "start": 4596448,
+      "end": 4596489,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/symbols.c",
+      "native_symbol": "string_key_name"
+    },
+    {
+      "name": "_hash_allocate@16",
+      "start": 4394032,
+      "end": 4394084,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/symbols.c",
+      "native_symbol": "hash_allocate"
+    },
+    {
+      "name": "_reserve_memory@8",
+      "start": 4519392,
+      "end": 4519482,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/memory.c",
+      "native_symbol": "reserve_memory"
+    },
+    {
+      "name": "_create_memory_arena@4",
+      "start": 4519488,
+      "end": 4519554,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/memory.c",
+      "native_symbol": "create_memory_arena"
+    },
+    {
+      "name": "_switch_number@12",
+      "start": 4248128,
+      "end": 4248180,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "switch_number",
+      "abi": "stdcall stack12/RET12"
+    },
+    {
+      "name": "_valid_section_name@4",
+      "start": 4257296,
+      "end": 4257349,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "valid_section_name",
+      "abi": "stdcall stack4/RET4"
+    },
+    {
+      "name": "_find_library@12",
+      "start": 4257360,
+      "end": 4257682,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "find_library",
+      "abi": "stdcall stack12/RET12"
+    },
+    {
+      "name": "_exclude_default_library@8",
+      "start": 4287200,
+      "end": 4287377,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "exclude_default_library",
+      "abi": "stdcall stack8/RET8"
+    },
+    {
+      "name": "_add_default_library@8",
+      "start": 4287392,
+      "end": 4287523,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "add_default_library",
+      "abi": "stdcall stack8/RET8"
+    },
+    {
+      "name": "_disallow_library@12",
+      "start": 4287536,
+      "end": 4287667,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "disallow_library",
+      "abi": "stdcall stack12/RET12"
+    },
+    {
+      "name": "_add_delay_library@4",
+      "start": 4323696,
+      "end": 4323720,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "add_delay_library",
+      "abi": "stdcall stack4/RET4"
+    },
+    {
+      "name": "_remove_delay_library@4",
+      "start": 4323728,
+      "end": 4323752,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "remove_delay_library",
+      "abi": "stdcall stack4/RET4"
+    },
+    {
+      "name": "_has_delay_library@4",
+      "start": 4324304,
+      "end": 4324331,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "has_delay_library",
+      "abi": "stdcall stack4/RET4"
+    },
+    {
+      "name": "_enable_warning_errors",
+      "start": 4390688,
+      "end": 4390696,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "enable_warning_errors",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_disable_warning@4",
+      "start": 4390896,
+      "end": 4390939,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "disable_warning",
+      "abi": "stdcall stack4/RET4"
+    },
+    {
+      "name": "_add_librarian_export@16",
+      "start": 4393504,
+      "end": 4393990,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "add_librarian_export",
+      "abi": "stdcall stack16/RET16"
+    },
+    {
+      "name": "_record_incremental_include@8",
+      "start": 4409040,
+      "end": 4409075,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "record_incremental_include",
+      "abi": "stdcall stack8/RET8"
+    },
+    {
+      "name": "_copy_repro_file@8",
+      "start": 4475968,
+      "end": 4476493,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "copy_repro_file",
+      "abi": "stdcall stack8/RET8"
+    },
+    {
+      "name": "_add_mac_data@12",
+      "start": 4514240,
+      "end": 4514527,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "add_mac_data",
+      "abi": "stdcall stack12/RET12"
+    },
+    {
+      "name": "_append_bytes@12",
+      "start": 4519136,
+      "end": 4519213,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "append_bytes",
+      "abi": "stdcall stack12/RET12"
+    },
+    {
+      "name": "_set_mac_initializer@8",
+      "start": 4526256,
+      "end": 4526424,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "set_mac_initializer",
+      "abi": "stdcall stack8/RET8"
+    },
+    {
+      "name": "_set_mac_terminator@8",
+      "start": 4526432,
+      "end": 4526600,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "set_mac_terminator",
+      "abi": "stdcall stack8/RET8"
+    },
+    {
+      "name": "_add_mac_import@16",
+      "start": 4544992,
+      "end": 4545386,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "add_mac_import",
+      "abi": "stdcall stack16/RET16"
+    },
+    {
+      "name": "_set_mac_import_versions@16",
+      "start": 4545760,
+      "end": 4546909,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "set_mac_import_versions",
+      "abi": "stdcall stack16/RET16"
+    },
+    {
+      "name": "_enable_order_file",
+      "start": 4555088,
+      "end": 4555096,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "enable_order_file",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_find_argument@8",
+      "start": 4574288,
+      "end": 4574366,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "find_argument",
+      "abi": "stdcall stack8/RET8"
+    },
+    {
+      "name": "_parse_machine@8",
+      "start": 4594560,
+      "end": 4594894,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "parse_machine",
+      "abi": "stdcall stack8/RET8"
+    },
+    {
+      "name": "_record_symbol_reference@8",
+      "start": 4595824,
+      "end": 4595981,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "record_symbol_reference",
+      "abi": "stdcall stack8/RET8"
+    },
+    {
+      "name": "StringTable::Lookup",
+      "start": 4595424,
+      "end": 4595473,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/options.cpp",
+      "native_symbol": "StringTable::Lookup",
+      "symbol": "?Lookup@StringTable@@QAEPAUStringNode@@PBEPAE@Z",
+      "abi": "thiscall StringNode*(const unsigned char*,BYTE*); ECX receiver, stack8/RET8"
+    }
+  ],
+  "text_data": [
+    {
+      "start": 4232232,
+      "end": 4232244,
+      "accepted": true,
+      "reason": "CRTEXE.OBJ contextual SEH scope table",
+      "evidence": "cases/runtime-entry-identity.json",
+      "sha256": "71cd0e84dd60b732f51a5f49fd8f67f26908a0567e4cbba001a09b86b89b5614"
+    },
+    {
+      "start": 4200424,
+      "end": 4200436,
+      "accepted": true,
+      "reason": "main SEH scope table: previous scope -1, filter 40e0e1, handler 40e10e",
+      "sha256": "42feff862ada3b71b3431d6e557a595dac60b8aec2f567ae008fdd500bc6c688",
+      "evidence": "original main prologue and complete SEH filter/handler disassembly"
+    },
+    {
+      "start": 4199740,
+      "end": 4199747,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'Linker\\x00'",
+      "sha256": "d290aea9d523db3ae358d16a8d1114fab6159787a4c99d574d3d67b45e92746a",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4199724,
+      "end": 4199740,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'Library Manager\\x00'",
+      "sha256": "98d7bbb928df4e36a0cfad259cc13f08f2ba1b99b3af4263f440d8ec418a40ef",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4199716,
+      "end": 4199723,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'Dumper\\x00'",
+      "sha256": "936775867db1c5a7b1a773140d8f923d31b2b6f0a4a7f8f648e9acb6bd9ebb95",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4199708,
+      "end": 4199715,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'Editor\\x00'",
+      "sha256": "7570cbbfb02e45c2192ab3fe939ca9b1dce249927f81f47927b872c275e0d8ca",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4199700,
+      "end": 4199707,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'Helper\\x00'",
+      "sha256": "1ec47ae778c26c1bc3250da6614c28b399667b10f2e03309aaaaaa8fcad5db70",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4200416,
+      "end": 4200424,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'LINK_DB\\x00'",
+      "sha256": "00400638b4d8662a9999ae2284344468ac866c959fedfcbaeab42586794bdb5a",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4200376,
+      "end": 4200416,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'\\n%s : error : Internal error during %s\\n\\x00'",
+      "sha256": "58dd088874d8129091f216f3eef59b71313ff08ab172cb5e8e1b07e9f738a19a",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4200232,
+      "end": 4200374,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'\\n  ExceptionCode            = %08lX\\n  Excepti'",
+      "sha256": "4b1e469b5cce5c8823b7491dba3fc12a8e563493eff7303b645271b5145c17c6",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4200192,
+      "end": 4200229,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'  ExceptionInformation[%2u] = %08lX\\n\\x00'",
+      "sha256": "2a2858608d2c3d96c56ed654551c05058a836e2deb30d7e68de73b77d1df24b7",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4199816,
+      "end": 4200190,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'\\nCONTEXT:\\n  Eax    = %08lX  Esp    = %08lX\\n  '",
+      "sha256": "36805a3ead385b67378328497b9c154e34ae769d573a842897e7ec13bbba4bf3",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4202228,
+      "end": 4202239,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'SetupPhase\\x00'",
+      "sha256": "1a8cd746a5553c7dc6f70d7d46f901ab90396a3344c1713d8f00fbabb22f5e5e",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4203100,
+      "end": 4203103,
+      "accepted": true,
+      "reason": "initialize_debug sscanf format literal",
+      "evidence": "direct format argument at original 415280/4152d9",
+      "sha256": "0b782fc3030dbdf3756f17e7adf2ce5808dfc513ca7589adeb679c7d25eaef6f"
+    },
+    {
+      "start": 4199572,
+      "end": 4199578,
+      "accepted": true,
+      "reason": "file-cache environment probe literal",
+      "sha256": "86bb1a20f3ae296d8b3ff86cf62f0fb21fab388a7dbc2185278e7f2fd78293cd",
+      "evidence": "direct GetModuleHandleA/GetProcAddress arguments at 40b563/40b572"
+    },
+    {
+      "start": 4199580,
+      "end": 4199593,
+      "accepted": true,
+      "reason": "file-cache environment probe literal",
+      "sha256": "d89b4bfe0229ab034c8597fbd9c4b70af3690382b8c700ec05d6923da518275c",
+      "evidence": "direct GetModuleHandleA/GetProcAddress arguments at 40b563/40b572"
+    },
+    {
+      "start": 4228368,
+      "end": 4228375,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'_LINK_\\x00'",
+      "sha256": "861668a45b2939017e7534d68749f18ef9efda299dc0bc3af864d76f6df57036",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228360,
+      "end": 4228365,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'LINK\\x00'",
+      "sha256": "1c6aceb44cb2a2757128f8dba294cf6c2aa6aab8018305a3b40db08bfe461aef",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4205360,
+      "end": 4205364,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'vxd\\x00'",
+      "sha256": "b7ca8f3c5a4f9d14a5b7942468f169e83548ca9277be22b273681c155e68c345",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4222496,
+      "end": 4222503,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'nologo\\x00'",
+      "sha256": "637847bec75326bb5aedbee72a6d54ab27a6f744552c2bd989963fb003640ca1",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228040,
+      "end": 4228049,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'PDB:NONE\\x00'",
+      "sha256": "35ff8dccfa4552ddf6261914571781155c31f4a58ec532e7f416cae02e4d72b7",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228344,
+      "end": 4228360,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'DEBUGTYPE:FIXUP\\x00'",
+      "sha256": "b686dd6cde938beb8ba28c9a0d5a07bca73aae7f89ab82edc6fa54b44975b3f3",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228324,
+      "end": 4228341,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'SUBSYSTEM:NATIVE\\x00'",
+      "sha256": "f0093f3176bd94ff847efd42f372207c1348c6d0aa256102d6e9ba2ccca9ca07",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228304,
+      "end": 4228322,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'SUBSYSTEM:CONSOLE\\x00'",
+      "sha256": "0839263ca3f8a7f5b3788ce3edbc19171ba85e2041406352abef2a81010448e2",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228284,
+      "end": 4228302,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'SUBSYSTEM:WINDOWS\\x00'",
+      "sha256": "d914f3b281fe40fc3c539cea87fff57fa40e476d92285f9446cae77535c5ee15",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4207612,
+      "end": 4207628,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'SUBSYSTEM:POSIX\\x00'",
+      "sha256": "e337d197ec1bc15cb8f068d2ccc08b441ec6977479591eed8452d4da38191bfd",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228264,
+      "end": 4228284,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'SUBSYSTEM:WINDOWSCE\\x00'",
+      "sha256": "289033954f8bae5c5bb51d9ce4288adeae47a130492baa2f60fcaf19b2f71246",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4204884,
+      "end": 4204888,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'VXD\\x00'",
+      "sha256": "6939ec1bd4035320b0bed26a1625c3540442055a71448fbc6fd991fda3489531",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4199468,
+      "end": 4199472,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'ROM\\x00'",
+      "sha256": "d43ddf525ff2f63209f5a3861e305064980c7d96553ecab3e2024810418dfb9e",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228244,
+      "end": 4228264,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'WINDOWSCE:EMULATION\\x00'",
+      "sha256": "01848e4f93a4b8e9c97c26f566c72aceaa0c9d9cfcd2056bfa6f6497466861d4",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228224,
+      "end": 4228244,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'WINDOWSCE:NOCONVERT\\x00'",
+      "sha256": "d3125c600f1da6b4d335897915ac3a9665ae7c92e1294a2727b2d3c724232062",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228076,
+      "end": 4228084,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'PROFILE\\x00'",
+      "sha256": "64add6d5ba628476907bce37eabaa77830652f86e7f1cbfb9eeb327203c19d73",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4204668,
+      "end": 4204674,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'FIXED\\x00'",
+      "sha256": "5add6c1c5bb7aad84a32b01c35ebeeedd230334e8869872cffb321af5eeac063",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4494016,
+      "end": 4494052,
+      "accepted": true,
+      "reason": "run_linker nine-entry subsystem switch table",
+      "sha256": "d800a5e4f0fde92598efaef7ec51df91ec09ff4c0e36eda63a32666672e737bf",
+      "evidence": "bounded eax=Subsystem-1 in0..8 at448e2c..448e32"
+    },
+    {
+      "start": 4225652,
+      "end": 4225663,
+      "accepted": true,
+      "reason": "initialize_repro contextual literal b'LINK_REPRO\\x00'",
+      "sha256": "0044f291a74f02137d19db274de8a74f81e475b5c1c7a306c3183f525a17e28a",
+      "evidence": "complete original444b10..444c33 body direct argument reference"
+    },
+    {
+      "start": 4225384,
+      "end": 4225386,
+      "accepted": true,
+      "reason": "initialize_repro contextual literal b'.\\x00'",
+      "sha256": "075d3ddf5a3a826e13a92288e853bc4b2cb17fb05367ae865f401a4bb11f05ce",
+      "evidence": "complete original444b10..444c33 body direct argument reference"
+    },
+    {
+      "start": 4225636,
+      "end": 4225652,
+      "accepted": true,
+      "reason": "initialize_repro contextual literal b'LINK_REPRO_NAME\\x00'",
+      "sha256": "f886943103de3419adf94cdd306cd73090bf50de1ff56e6c1ddf362bbbf1b666",
+      "evidence": "complete original444b10..444c33 body direct argument reference"
+    },
+    {
+      "start": 4225624,
+      "end": 4225634,
+      "accepted": true,
+      "reason": "initialize_repro contextual literal b'\\\\link.rsp\\x00'",
+      "sha256": "c03d393ef0158a769d579f61e9f90f57b1e70648f3773d2f9e97bc994d2301c2",
+      "evidence": "complete original444b10..444c33 body direct argument reference"
+    },
+    {
+      "start": 4213652,
+      "end": 4213655,
+      "accepted": true,
+      "reason": "initialize_repro contextual literal b'wt\\x00'",
+      "sha256": "15eec7f94fc5b359e2a9946d8603f6d2e201c84dcea1bb8fa5b8d77e12c06138",
+      "evidence": "complete original444b10..444c33 body direct argument reference"
+    },
+    {
+      "start": 4231688,
+      "end": 4231691,
+      "accepted": true,
+      "reason": "parse_argument contextual literal b'?*\\x00'",
+      "sha256": "633e7f26429008c87353e3deb50a6548e437ce98fcfed7e51ef76e6158a4f1a6",
+      "evidence": "complete original45c780..45c8b1 disassembly"
+    },
+    {
+      "start": 4231680,
+      "end": 4231685,
+      "accepted": true,
+      "reason": "parse_argument contextual literal b'.obj\\x00'",
+      "sha256": "d564b4b04cee6d2a8763f04ebb2fa40b080ec83af3d9fbc0af4d4afa5b8f04b5",
+      "evidence": "complete original45c780..45c8b1 disassembly"
+    },
+    {
+      "start": 4227552,
+      "end": 4227560,
+      "accepted": true,
+      "reason": "libpath predicate contextual prefix literal",
+      "sha256": "304d9a53460e990cb8735bd026cbedb4409cf026fded3266c76d88ca9fb4c61e",
+      "evidence": "45c751 literal and45c76b _mbsnbicmp argument"
+    },
+    {
+      "start": 4202448,
+      "end": 4202468,
+      "accepted": true,
+      "reason": "Initialize contextual IMAGE_FILE_HEADER defaults",
+      "sha256": "fc61576d401581c42b708714c15f5590135b5a8008515c81f59cf8b0bff75c8b",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
+    },
+    {
+      "start": 4202472,
+      "end": 4202696,
+      "accepted": true,
+      "reason": "Initialize contextual IMAGE_OPTIONAL_HEADER defaults",
+      "sha256": "ceef4d4e76a60f04150b8b47789c0b172ffe5ba4b15ad4b946edd610dc9f6bf0",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
+    },
+    {
+      "start": 4202296,
+      "end": 4202404,
+      "accepted": true,
+      "reason": "Initialize contextual typed linker option defaults",
+      "sha256": "321d7c20d5ce69afd652473c08b0f8b681d1c86b6a27974ea80b89129cd87c77",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
+    },
+    {
+      "start": 4202408,
+      "end": 4202444,
+      "accepted": true,
+      "reason": "Initialize specified-switch defaults",
+      "sha256": "6db65fd59fd356f6729140571b5bcd6bb3b83492a16e1bf0a3884442fc3c8a0e",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
+    },
+    {
+      "start": 4223196,
+      "end": 4223225,
+      "accepted": true,
+      "reason": "Initialize database signature literal",
+      "sha256": "a72538b0ead687ca6ce23ed2bc133db3bda48d4d7b5f6cbdbbdbb7ec6ede2eca",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
+    },
+    {
+      "start": 4203048,
+      "end": 4203053,
+      "accepted": true,
+      "reason": "Initialize .dll extension literal",
+      "sha256": "831bc40a30efc6335070e9ae1872c6aa2df874a2c28ddbc4646a9fda2b4506d5",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
+    },
+    {
+      "start": 4223064,
+      "end": 4223192,
+      "accepted": true,
+      "reason": "Initialize contextual DOS output-image template; typed header, output-only bootstrap and message",
+      "sha256": "7e7b7dec8f657dc691ca06c3bf23956976a3c6727e9fadb7c2bfd8df4d55246f",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
+    },
+    {
+      "start": 4213812,
+      "end": 4213814,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal '?'",
+      "sha256": "b813d21bdb2ae744a65ad78d0695cbf15a7750ca8a4828b4518913a26849bd05",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4228004,
+      "end": 4228010,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'align'",
+      "sha256": "d569abcc8f47c0743d719aee4175629043eb011a1bf1e6c65559b59ff51f2773",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222480,
+      "end": 4222485,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'base'",
+      "sha256": "297373ad8cebefdc9f7648df22c5316809ffa1ae8fac7f7d28ef03c85cb1e25e",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227996,
+      "end": 4228001,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal '.txt'",
+      "sha256": "f9cbcb482cb31907715e0b16c0310c3a13cd0fc92b0701f480b3cf2dd4659bfb",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227976,
+      "end": 4227994,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'base:@\".\\\\%s%s,%s\"'",
+      "sha256": "324b3d0640d3cdb766e8980e9935b204ce62a0928a609a966203f0fb702fb454",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4205648,
+      "end": 4205651,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'rt'",
+      "sha256": "f04a469196fadbe6f55ca596cbfc2ea7c7ff05ea257d50c1959b2bc00345280d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4205152,
+      "end": 4205156,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal '%li'",
+      "sha256": "445c3507486e72738146dc8495758e5b60d11eb02007153c2b5f7bf45b7c7dc7",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227968,
+      "end": 4227975,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'brepro'",
+      "sha256": "7a297b0e0bb892848fc878643361fc85061d217b98e1b1af3b2374651231a77d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227960,
+      "end": 4227968,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'comment'",
+      "sha256": "2b7ee7611fca22c02e0a837a89abe2c95ef0951ec6d9beddce2eb675ee689eca",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227948,
+      "end": 4227958,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'dbgimplib'",
+      "sha256": "fcb4e7a75d81265c01f3385714d55e9c6c567c4737bbc6db2503d5ad9c85ad27",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4212592,
+      "end": 4212598,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'debug'",
+      "sha256": "177a1b555afd40494e5cd58db6c3967b46042c609063351be9644922d3081960",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227940,
+      "end": 4227947,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'mapped'",
+      "sha256": "8199d18278f74341ae8193b1731974425c6f8ea567b5a231ad7dd76a4c16929c",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227928,
+      "end": 4227938,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'notmapped'",
+      "sha256": "62a796001da6f31da385a813e940f02028edf461caed29a8fd570634950aec1c",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227920,
+      "end": 4227925,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'full'",
+      "sha256": "69930da8bc5a41363d32ba24b3377e27a9b137f6e1d8ea0aba6d4c3750a0305c",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227912,
+      "end": 4227920,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'partial'",
+      "sha256": "9aa33b4484ca49e1892892a39f9f4c89ff3e5e7568648ffa4009c03c9ba1b18c",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227904,
+      "end": 4227912,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'minimal'",
+      "sha256": "966953f710ac89d51ee9703ac13504f3f872dd164317730d8b04b4b816cf4883",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4213604,
+      "end": 4213609,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'none'",
+      "sha256": "fdbb9db68f1db204d7823d5cbd2ff3eee530677fc945b6304356e1c6658b9ca2",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227892,
+      "end": 4227902,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'debugtype'",
+      "sha256": "9dc78926a5f1d2c7fbcfff400da9a8ac9212635db63ce17f9b7a064ba50ff5cf",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224712,
+      "end": 4224717,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'coff'",
+      "sha256": "60b4731445bdd94306b7c4331eb3984dc902ed391f36fff8eddfb5d534b5acda",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224708,
+      "end": 4224711,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'cv'",
+      "sha256": "3eeaf3ddb1601d8d01ca0bcadaa56fc0fafba4dfb4702e81107c6a1e3616d1f0",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224700,
+      "end": 4224705,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'both'",
+      "sha256": "aae2ea33ba5303dc634ce0e6afb0d30b928b14e641f6d5160ab18256f0a161c7",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4212848,
+      "end": 4212852,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'fpo'",
+      "sha256": "df6692bc4c35adaaac6649358895ff5c71a74d84f50cfda50301bf1fca71820f",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4213728,
+      "end": 4213734,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'fixup'",
+      "sha256": "33b3ac1a0829375ba8ac616522a44576dbb126a555ee86aaabd5ccbd966f0ce1",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4213680,
+      "end": 4213684,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'map'",
+      "sha256": "b05bd841612e8e14bab58c4c500b2d238f16bf548166ec95fac3e45d21c1987b",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227888,
+      "end": 4227892,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'def'",
+      "sha256": "85db65e24c43b8de66c72435b845378aa7e5fcba7900bdf847dd066b9eb7e478",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224676,
+      "end": 4224689,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'def:\".\\\\%s%s\"'",
+      "sha256": "1c1a8048eb5c04f8758b751d9f7e447b2b72275a68a0d4726ce4d5e4a27f57d3",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227876,
+      "end": 4227887,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'defaultlib'",
+      "sha256": "5976ce94dc5e9a4b0261c1167d1fea1fdbafb9564b03a0512e8638b88b8a9402",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227868,
+      "end": 4227874,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'delay'",
+      "sha256": "25f636016bfc589ee20496c8891c6aebb3ab2e31f9ff00a131ab2e5372781cbd",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227860,
+      "end": 4227867,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'nobind'",
+      "sha256": "1879665a488a4b79cd61a0373f5a779165e108bba58098e4240df8be1a07874f",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227852,
+      "end": 4227859,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'unload'",
+      "sha256": "2f52621e7da8e9b89b0a5d503a68a36f6e14d2f2056fd25d8ea0d5497ce21e7f",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227840,
+      "end": 4227850,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'delayload'",
+      "sha256": "9a07f3afa0d3a1a0ac0a44a03fcda076b97828be55aeb408e44db44a5539f10a",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227828,
+      "end": 4227840,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'disallowlib'",
+      "sha256": "d3fb056836d0e1560bbb379d3c02df403c4238e30cdf0ff9e1a0cd5c83444bd4",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227824,
+      "end": 4227828,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'dll'",
+      "sha256": "9d584a04e6725df967fb1beedf058a76a2ee7985edf427e930d1144ed4a909ea",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227816,
+      "end": 4227823,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'system'",
+      "sha256": "4640409de0d747cb8301bbb401176ab3c93490258a4c5acfca3189a6686f1e08",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227808,
+      "end": 4227816,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'dllchar'",
+      "sha256": "fd50a682361f50cf643999cf507a3213f7b0000940eab85db9083619d75279e1",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227796,
+      "end": 4227805,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'x86thunk'",
+      "sha256": "817f2a9c91c0a2a3fe3ff232b749b0f81a1846d5ce12e8405e6a5672dc975116",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227788,
+      "end": 4227795,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'driver'",
+      "sha256": "6b2223c6c75d72fe4bd43ffc5a5aa427f68822c5b228e99d1e29e8fd088bb8b8",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227780,
+      "end": 4227787,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'uponly'",
+      "sha256": "1132befece120c7f085760f7b090deac29a6a2fe9a0395a5196f5b2b981002d6",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227776,
+      "end": 4227780,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'wdm'",
+      "sha256": "569674c3e18909432f0fd01c404210899e35b11eb00a305b9939b7eedefe6029",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227760,
+      "end": 4227776,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'editandcontinue'",
+      "sha256": "8c55478b4da1c0bf0c93fa580bfc4f5e8fec2109bd0654488d86b0305b6b05d5",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227748,
+      "end": 4227759,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'encpadsize'",
+      "sha256": "9fda5ab36ab82b1ad42926b4868b0334a9b8f3ef36df5e3c6208635cd09116ca",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227740,
+      "end": 4227746,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'entry'",
+      "sha256": "af81a8087ca76f9e723bb29329051299a1b55c3c50b44269e61eb24bcd42aaf5",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227732,
+      "end": 4227740,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'exetype'",
+      "sha256": "51b473bd9eac7a8068c8219191a7120f07731f551856fe4f58ad3cf55b1a2952",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227724,
+      "end": 4227732,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'dynamic'",
+      "sha256": "7def7880e134d59823b67d1b8805af3d6eb5d1c69089df7968176ade0f2f26be",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4205568,
+      "end": 4205575,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'dev386'",
+      "sha256": "7df7376132c94e5e81f3fb544561e1e7b9f74a5191b4c851f400c4041b18ee84",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227716,
+      "end": 4227723,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'export'",
+      "sha256": "cb19252e8d590a4fe23b4463dfbe8b161c13d072d65b4c081a56cb3983e5ae3d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227708,
+      "end": 4227714,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'fixed'",
+      "sha256": "f350bdc2b8eab6da871df6aff24f5410e1d8df0c1bb8a8ed5caf44a1371a96c4",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222364,
+      "end": 4222367,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'no'",
+      "sha256": "db907db790b1cdbb7c068ba83647f6599a0a182d649bb878905964a650e4f5cd",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227700,
+      "end": 4227706,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'force'",
+      "sha256": "af11d3cdc71c9b9be6788cbaed92606027d872561a9ed16846891b46820fe405",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227688,
+      "end": 4227697,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'multiple'",
+      "sha256": "6ddd18e36111d7c3301e856ab9794db81996e3113d21c3ae29a2c5826e3e7a26",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227676,
+      "end": 4227687,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'unresolved'",
+      "sha256": "085f2fb6b439ae53b2eb29b3dbe4f98b33663aa8094c992404961f26dac70990",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227664,
+      "end": 4227674,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'fullbuild'",
+      "sha256": "29de72c52ffa39d79611bb226f953bc77b28a8397c8ffbb6e06ba374d891b16b",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227656,
+      "end": 4227663,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'gpsize'",
+      "sha256": "a625dc736f095fe0bde43b35e3797c3b364047fc1687965c27f303ccc2121a11",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227648,
+      "end": 4227656,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'hdrsize'",
+      "sha256": "e084464f5a0624d7e97126433704be4933c1ec6713059730c03864a1b8e9739d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222388,
+      "end": 4222393,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'heap'",
+      "sha256": "c0c802500e7bdd0d9f2ff30eeb7392c8897964cb51acbffbde6dfbcbb187236b",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227640,
+      "end": 4227647,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'ignore'",
+      "sha256": "b5ef1088d357197b5397bf38393cd3de6ef2ac8015cdf3194e82665ba1419ece",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227632,
+      "end": 4227639,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'implib'",
+      "sha256": "37f75756b386204fa5f02a93d6540f72ed6e2693494e2813c8f4fe7e5b4c115b",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227624,
+      "end": 4227632,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'implib:'",
+      "sha256": "07b932f60f6e487cb20d58cd7843107225dfe324f14d2ecd0e9c118fc5c2ed36",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227620,
+      "end": 4227624,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal '\".\\\\'",
+      "sha256": "66eef61535e8fcfa01e36398ce5fee84ccf2c2d6fa3b410d8219e5e27dd0c121",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4200792,
+      "end": 4200794,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal '\"'",
+      "sha256": "37aa3970b6801c9d286464f7d86e50bf41c88e54c7b4d08f3ff61935b3f59c3c",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227612,
+      "end": 4227619,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'import'",
+      "sha256": "5fc2c569c38e680c102a50d3fde709f701a29a7847f038a1a6b053fcfe2b5061",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227604,
+      "end": 4227609,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'glue'",
+      "sha256": "8368f21606a40a8926ce2f034613f59efa7bb637b479214d8ca8592666f16b9a",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227600,
+      "end": 4227602,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal '1'",
+      "sha256": "e79e418e48623569d75e2a7b09ae88ed9b77b126a445b9ff9dc6989a08efa079",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227596,
+      "end": 4227600,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'lib'",
+      "sha256": "02a284a32e7da515fd28e835d8968d50675e0277e5e5a92effe858e7ef925392",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227588,
+      "end": 4227593,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'weak'",
+      "sha256": "793ab6b274e99070089a8f036162960914b5386566478da6543da512f87bf78b",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224596,
+      "end": 4224607,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'currentver'",
+      "sha256": "b92c243748b1bf43ce4f0d2658363878da86f2019c8cbfb924d477b573125e96",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224584,
+      "end": 4224594,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'oldapiver'",
+      "sha256": "2e3c678f3f6a51b00dbe82cc644e33f8a86a3b3aeac90efb1769167c1507a74d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224572,
+      "end": 4224583,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'oldcodever'",
+      "sha256": "a41434da97e4baca5057b70022a03248e30aca606375dba38b8eca7c00ea9034",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227584,
+      "end": 4227586,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal '_'",
+      "sha256": "090c554bb6a344300e5690ce6f80c4ef6ee6cf5bd0fef3fde87a079dee2fa70c",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227576,
+      "end": 4227584,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'include'",
+      "sha256": "d7cac338892e5c53493f6c2ce65999a9e8a00c45fcb3f6819d279e919ca53bd9",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227564,
+      "end": 4227576,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'incremental'",
+      "sha256": "3ed7a59c3876b11c208f27e3a0e80d941b7f979a8f44a2ef452e8503d476dcc3",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227560,
+      "end": 4227564,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'yes'",
+      "sha256": "357c2320b43a6c0482a5da2f108e4de667fbf36fcb00d4a8a8c1e7b47f914dd7",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222368,
+      "end": 4222386,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'largeaddressaware'",
+      "sha256": "df5ff767b6d56d177a0343d097c6945363ffe1012f4591bc35be51ecd387855c",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224532,
+      "end": 4224545,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'link50compat'",
+      "sha256": "ae10ac91241687284303a320fee019390720f2b93ca8c79ba575bbca3b6036d0",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227548,
+      "end": 4227552,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'mac'",
+      "sha256": "83d9b795453c19781f134f79b7faddafd0a3217854ef2e07a4555d2f2a2e8d82",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227540,
+      "end": 4227545,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'type'",
+      "sha256": "04f69a0edb2f94586d5c7530adf4e471a14739d72addd4f09b2ba21019596682",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227532,
+      "end": 4227540,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'creator'",
+      "sha256": "c18a8ff502ed2bd777be247c9a1c8da0ec47a478928dfc8da285f5fc504ebbdc",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224488,
+      "end": 4224493,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'init'",
+      "sha256": "188bf19ddb43055ad711c808677db47b443964734bc65717fd3fd37b820e3eae",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224480,
+      "end": 4224485,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'term'",
+      "sha256": "8aa9b8549de1e366497982790a914e180aeb8afb7b8056798aa071e9fc27d132",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227524,
+      "end": 4227531,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'bundle'",
+      "sha256": "a64ea2b3ec2149702a9adb53116087ba9c791eef9159603a2d200e0de35f46b2",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227512,
+      "end": 4227521,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'nobundle'",
+      "sha256": "f185e8591a86de4e99fdfc19ecad15452babeb613e993b86bf7c9df1fb5246b0",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227500,
+      "end": 4227509,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'mfilepad'",
+      "sha256": "73f97733d5cf2dbb06342b10d6add1f0b40e4c738b0dd519266b899b3edda6f1",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227488,
+      "end": 4227499,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'nomfilepad'",
+      "sha256": "895db81684de138692251ac92a9baea9e2c3ba77836f9f68fc8555e4868e08ca",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227480,
+      "end": 4227488,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'macdata'",
+      "sha256": "5aaaf4b0dec08bfbfbb5e907bee9b44eca4fbdece4019b25cb1ed39e42edb838",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227472,
+      "end": 4227480,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'machine'",
+      "sha256": "a9077603d9ab13fb0ac6cb78ab8789af210d87804c057b10ee50691c2e7fc9bd",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224416,
+      "end": 4224468,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'IX86, ALPHA, ARM, MIPS, MIPSR41XX, PPC, SH3, or SH4'",
+      "sha256": "2501881cb082e656fc76e1ea26f2e5f71fe6bc2c274c72508ad701d08652b409",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227464,
+      "end": 4227471,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'macres'",
+      "sha256": "17b0cc7bdaf15465eaebc5e91d2491e885ecd141caca016a01ee7255f3e443ad",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227444,
+      "end": 4227464,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'resntBinaryResource'",
+      "sha256": "5ffc180554299318f5f9e9e83acab5ac5633a29adfc0d2b2b0ac703a1916d52d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227428,
+      "end": 4227441,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'map:\".\\\\%s%s\"'",
+      "sha256": "fe5635b120648b7eb751031a709c92c17214b7944a6ac22bf17ea9eec33035ed",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227420,
+      "end": 4227428,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'mapinfo'",
+      "sha256": "de3e55367f9e4a476c70b342e7d0a30c8b11ff2a2edc8fa27d4a27f0a6a5f19b",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4213736,
+      "end": 4213744,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'exports'",
+      "sha256": "756bbac62fcca7689fcd15bcb1354d257aa8c71912513fce18b0590628769a94",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227412,
+      "end": 4227418,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'lines'",
+      "sha256": "311af96d255c64d07137fc952138e68ea032e0ce2a3c916b601ad02de2ef066d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227404,
+      "end": 4227411,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'fixups'",
+      "sha256": "1afec4f0ffc7b55d83f55cace556e26228b04f4d852ebf24528878399b3c0b11",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227396,
+      "end": 4227402,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'merge'",
+      "sha256": "bb3f134e05a408aed7b60c53d886a359913213f01f77cbfb7170b89245ffb173",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227384,
+      "end": 4227394,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'miscrdata'",
+      "sha256": "84be7393c497d6a1afe2832bdf955a4042563a4924832fa412c777bf30a7d49b",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227368,
+      "end": 4227383,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'mppc32bittypes'",
+      "sha256": "c6e12b4c90e4e3ddb8b1a76a4811b9529b727d47e7526ead82d50e8346f9baa3",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4221056,
+      "end": 4221061,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'name'",
+      "sha256": "182da4ba21ba19c3353926df75ed3f18aabd2d126e1233a9746593b751cddee6",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227360,
+      "end": 4227368,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'newglue'",
+      "sha256": "1ae3a4f6cef98f1077f29ed95e6e8d3fc5bff6e3020d6bfeb7483625d20b2d7b",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224396,
+      "end": 4224406,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'newimplib'",
+      "sha256": "aa194578369a351ad4c1ece47c4d7c5c6f268a9fc2416935e8bd06e254b585e9",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227348,
+      "end": 4227358,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'newrelocs'",
+      "sha256": "a4531a2db8c0aa94da41c6a5844c5f0cd8cd5db44fbee368a7ef901e52021a2b",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224380,
+      "end": 4224393,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'nodefaultlib'",
+      "sha256": "dec732582e0765337a3868953748524b95a577fec478d48c4323d3b799105274",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227344,
+      "end": 4227348,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'nod'",
+      "sha256": "17a21625d72832cf36707983fadf6c8b2890ec8bc3ecb8df85ba47f854627db4",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227332,
+      "end": 4227344,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'nodelayload'",
+      "sha256": "586466c100dc4e2986c0cb9f2f61e1b3325a9e979b7fdb5c14268b5c8be42019",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227324,
+      "end": 4227332,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'noentry'",
+      "sha256": "95df78fa3ebcefd4bd8286aa336f28815d3b367e867e0f7bcf02dc312030d1d8",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227312,
+      "end": 4227323,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'nooptidata'",
+      "sha256": "96bb270e114e8354f6d6dee32c4e3d17fb991cc2e4c632e70dacfb369fd161d8",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227304,
+      "end": 4227311,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'nopack'",
+      "sha256": "d43a6666f56bb1d114cbb1598d01eb80c397858c5c3841d59ca93920782917f9",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227300,
+      "end": 4227304,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'opt'",
+      "sha256": "96f0e8cd380605328e1d64ebe96304732dd0f4f1a98b562df655da95f2b9e25f",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227296,
+      "end": 4227300,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'icf'",
+      "sha256": "65d24851a19edc51cd0820f048f29d29df6f78e17b2e3c3c04a371ea7e422fb9",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227288,
+      "end": 4227294,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'noicf'",
+      "sha256": "39ea288e426bd38df9c9647abd0f952070ce231da85f69295d92e5983137737a",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227280,
+      "end": 4227286,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'noref'",
+      "sha256": "cd17ac08911c83337b5e4d48e983cc49018bcf4ec217c0503ff5caa6c78bb865",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227276,
+      "end": 4227280,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'ref'",
+      "sha256": "f3096edac8e9fd4d4ffb03da2664c9c0884299580c016f37921f1974520ea0dc",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227264,
+      "end": 4227273,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'optidata'",
+      "sha256": "ce58b9b1b96a3edff208e5cab0cffccacfcd7448fc635f86237ff6856c3bea6f",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222344,
+      "end": 4222354,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'osversion'",
+      "sha256": "d8b0a50811ca0fddfd34bd9131839bab484b6cc3b68c1b6fde0d1995d5413fd0",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227260,
+      "end": 4227264,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'out'",
+      "sha256": "9fa08a0adfa661d19d078477b29d287bd556130ddbb88d8204382802869d5cff",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227244,
+      "end": 4227257,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'out:\".\\\\%s%s\"'",
+      "sha256": "a57e44754a5364e865612bab7b49f7e00a5f12df464398270d7e0137404b6252",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227240,
+      "end": 4227244,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'pdb'",
+      "sha256": "115641e55cc9fb81a4f8eb7cbbe7f769097d565f405146f1ed6eb4e0b61c2eda",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227224,
+      "end": 4227237,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'pdb:\".\\\\%s%s\"'",
+      "sha256": "0b4ff12128f5dff55d721066dd76ddd4769f4cafefbc95eb22a8314123dc0446",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227216,
+      "end": 4227224,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'pdbtype'",
+      "sha256": "ee2158c9afb62d4ce4156e114fdb890878740054dacf20ca3e079fec5cb2b8e6",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227212,
+      "end": 4227216,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'con'",
+      "sha256": "1360fa2fb09adca5ae31490aa15b1eb941be293bb48034b39c87f3a2dae50247",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227200,
+      "end": 4227212,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'consolidate'",
+      "sha256": "6e6d9c9b42a9d103fbb491135a9e4c0ec9ad151f959161f7a4e199f8c4dd03d1",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227192,
+      "end": 4227197,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'sept'",
+      "sha256": "8fb086cd3d6e038d632ed98b20f3def0b910bd351a108d13750d3193cbe5aa10",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227180,
+      "end": 4227189,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'septypes'",
+      "sha256": "9e18e8b78efe05550d4d391b8abb68fd7b5f3aa46b26863c47603195d1917a14",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227172,
+      "end": 4227180,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'profile'",
+      "sha256": "adf7e4d2568c6bda66dccb487657db7bed575c3b361df8fab0f3400263791efe",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222328,
+      "end": 4222336,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'release'",
+      "sha256": "223fd92aee4114c9131ceeb2b7a680b33667523d112ebe58199861a9ec8d8d17",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227168,
+      "end": 4227171,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 're'",
+      "sha256": "6dd31f94d0f794e32660d36d7cf8c8af400d50fb2e23146dcae0b0890447155c",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227164,
+      "end": 4227168,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'rom'",
+      "sha256": "dfcf7454187a828f09768591fbc2a4602fa29c53655fe55093291ec362f9e41d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222320,
+      "end": 4222328,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'section'",
+      "sha256": "8a97e2fa206e9be0bae7abc30cfd87e62d29b0c9e985e253d2ae056a23a089ac",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222312,
+      "end": 4222318,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'stack'",
+      "sha256": "12cafa3004497abdbb5fde3c284a00d676bad3cd03ee14ae16fe7a1be897532c",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227156,
+      "end": 4227161,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'stub'",
+      "sha256": "64b8608696a2615954fa5ff67610b60cc65c5bdbcfb33c516057e863312fd106",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4202212,
+      "end": 4202215,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'rb'",
+      "sha256": "ef4a3d25250e72708f6f82d59e29b96880728d971ae0b4862d37c9cd927bb082",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222300,
+      "end": 4222310,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'subsystem'",
+      "sha256": "6145686d43f4a6a437462e5b9133d66d22ccaf235ba91e697a0441536f4739a3",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222292,
+      "end": 4222300,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'console'",
+      "sha256": "77b4934366ecb91b4ba1ad57e87319d33ac558876ac0f96d46f3f9d9b701c8f7",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222284,
+      "end": 4222291,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'native'",
+      "sha256": "5b0d677c3c31c29d1ee44ada0cfa796beae3285469a0e7799c9e696515b3c830",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222276,
+      "end": 4222282,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'posix'",
+      "sha256": "294fc4f95d430352cafb2ca956bc96ba2945469a2ad91a6a83722313d3baa55d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4205560,
+      "end": 4205568,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'windows'",
+      "sha256": "0af3b079ba856a2613c10570c9141a0a8c25ccbc34927f9a336bd675a3fe7b33",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222264,
+      "end": 4222274,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'windowsce'",
+      "sha256": "aeb58c413d6237a2d668226613be98ab6b9cb8f86c431a493a4304cd93a7fdd8",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222256,
+      "end": 4222264,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'swaprun'",
+      "sha256": "a9705ffc2509330e20b07d5fd42a52c64abce62107c5e5a90ee5a236917c85e6",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222252,
+      "end": 4222255,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'cd'",
+      "sha256": "f9da4e1ef734ef4ae90b5c6b764ff245a85fc95c46a8b772cfd5d55ee1ec1d8d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222248,
+      "end": 4222252,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'net'",
+      "sha256": "529e770884e4ba60824c0449ef23df7f087a6a2f58b895d01904e07863c13431",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227148,
+      "end": 4227153,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'test'",
+      "sha256": "ceb73749c899693706ede1e30c9929b3fd5dd926163831c2fb8bd41e6efb1126",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227140,
+      "end": 4227145,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'time'",
+      "sha256": "68d981999c72f09a05600e1cfc825be16ebc49e51ceba4bc73a90a0c4c69efba",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224628,
+      "end": 4224638,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'vc6compat'",
+      "sha256": "76d9cbf9e72ff4c2a1f022d607d829c10a6af93e8b45fc205620fa6c91e8e475",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224620,
+      "end": 4224628,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'verbose'",
+      "sha256": "614be95335ee857bcf69f306d3c10e444ec9f90b973c93771b9d54f52d65a750",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222228,
+      "end": 4222236,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'version'",
+      "sha256": "51e4f61e075a2e46b61b2ecac253a0b6ccbf9aca8d1afebcb7e196f49174383b",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227128,
+      "end": 4227137,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'liborder'",
+      "sha256": "da0406a2bdce6beea270b1fcc78cddda5a09116e57995ca8f6b6ad371d520006",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227120,
+      "end": 4227127,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'before'",
+      "sha256": "37d9c830e637e2c7878943723f87aa2057db902a960353334ab23a57990e72ee",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227112,
+      "end": 4227117,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'warn'",
+      "sha256": "3e05cf706f979ec8ae089ee5b6d10e5f6f961db0b64a74b1f22664d6f56ef8a5",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224616,
+      "end": 4224619,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'WX'",
+      "sha256": "6b09f36da9f8f76113142eb90ff1feb674a678374b4ff0244553d9d8dc07e47c",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227100,
+      "end": 4227110,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'emulation'",
+      "sha256": "b9c38f0a9394b906e52a18ac2e2a032ef0e4f4628a70a6852974753b13110498",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227088,
+      "end": 4227098,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'noconvert'",
+      "sha256": "800cf6e9335487167ae3f45da26c2276af7ca82b65d2dd53561667163b879816",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222224,
+      "end": 4222227,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'ws'",
+      "sha256": "77d0998f48e904f8de6dcf3b59ad122335408a5a5c8d177fa9b826ce32e8e4c5",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222212,
+      "end": 4222223,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'aggressive'",
+      "sha256": "d0a286bfe3c30be847a74b253adce1414aca0897ea6d747d2eae73c91d66a832",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4213556,
+      "end": 4213561,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'xoff'",
+      "sha256": "281774016580b31e7530ec35d402146ad1c8b00b2542fee60ba9e3ad2fef2397",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227080,
+      "end": 4227088,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'order:@'",
+      "sha256": "98dbbc8fd3f22a8acf651fd91c3ddd16f9c195a8d202a52274b9caf96ce099aa",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227064,
+      "end": 4227080,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'order:@\".\\\\%s%s\"'",
+      "sha256": "dbd330b37f9092cfc1af1fda058d2f222e80b7ce0d5339923832087af63af35e",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224608,
+      "end": 4224613,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal '/%s\\n'",
+      "sha256": "a3032bef3e4788316b2f46594c4a72c1ba7841ab1c2046aada9c4321e17edb61",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4202244,
+      "end": 4202247,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal ' \\t'",
+      "sha256": "451c192acc363f9450510d3b649ebe486b4158d6e0f5020eb5e6c40ba5377d44",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4202240,
+      "end": 4202241,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal ''",
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    }
+  ],
+  "cases": {
+    "help": {
+      "arguments": [
+        "/?"
+      ],
+      "complete": false
+    }
+  },
+  "review_gate": "approved"
+}

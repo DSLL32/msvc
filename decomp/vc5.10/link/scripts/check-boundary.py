@@ -140,7 +140,7 @@ if args.frontier in ('_create_memory_arena@4','_allocate_memory@4'):
     negative('wrong rounded arena size',lambda s:s.__setitem__('arena_creation_bytes',512))
 if args.frontier=='_allocate_memory@4':
     negative('wrong arena-descriptor size',lambda s:s.__setitem__('allocation_bytes',8))
-if args.frontier in ('_configure_link_options@12','_parse_switch@8','_duplicate_argument@4'):
+if args.frontier in ('_configure_link_options@12','_parse_switch@8','_duplicate_argument@4','_linker_usage','_print_logo','_close_timing'):
     def patch(state,key,offset,value):
         data=bytearray.fromhex(state[key]);data[offset:offset+4]=struct.pack('<I',value);state[key]=data.hex()
     negative('wrong configuration receiver',lambda s:s['configuration_arguments'].__setitem__('context',0))
@@ -187,5 +187,17 @@ if args.frontier=='_duplicate_argument@4':
     negative('wrong parser name pointer',lambda s:s.__setitem__('parsed_switch','00000000'+s['parsed_switch'][8:]))
     negative('wrong parser count',lambda s:s.__setitem__('parsed_switch',s['parsed_switch'][:8]+'0100'+s['parsed_switch'][12:]))
     negative('wrong parser copied text',lambda s:s.__setitem__('parsed_switch',s['parsed_switch'][:16]+'2100'))
+if args.frontier in ('_linker_usage','_print_logo','_close_timing'):
+    negative('wrong duplicated text bytes',lambda s:s.__setitem__('duplicated_option','2100'))
+    negative('lost duplicate ownership',lambda s:s.__setitem__('duplicate_result',s['parsed_switch_address']))
+    negative('wrong strdup input',lambda s:s['duplicate_calls'][0].__setitem__('text','help'))
+    negative('lost strdup input alias',lambda s:s['duplicate_calls'][0].__setitem__('input',0))
+    negative('lost strdup returned owner',lambda s:s['duplicate_calls'][0].__setitem__('result',0))
+    negative('missing duplicate call',lambda s:s['duplicate_calls'].clear())
+if args.frontier=='_close_timing':
+    negative('wrong pending help output',lambda s:s.__setitem__('stdout_pending','00'+s['stdout_pending'][2:]))
+    negative('lost pending help bytes',lambda s:s.__setitem__('stdout_pending',s['stdout_pending'][:-2]))
+    negative('logo remains pending',lambda s:s.__setitem__('logo_pending',1))
+    negative('unexpected logo text',lambda s:s.__setitem__('logo_text','01'+s['logo_text'][2:]))
 args.report.write_text(json.dumps(dict(frontier=args.frontier,positive=True,negative_count=len(checks),rejected=checks),indent=2)+'\n')
 print('Typed boundary passes; %d semantic negatives rejected.'%len(checks))

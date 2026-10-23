@@ -46,7 +46,7 @@ def main():
             targets.append((record['name'], record.get('native_symbol','link_main' if record['name']=='_main' else record['name'].lstrip('_'))))
     script = '''
 import gdb,json,struct
-state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[],'mbsnbicmp_calls':[],'virtual_alloc_calls':[],'parser_allocations':[]}
+state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[],'mbsnbicmp_calls':[],'virtual_alloc_calls':[],'parser_allocations':[],'duplicate_calls':[]}
 class NewReturned(gdb.FinishBreakpoint):
     def __init__(self,frame,size):
         super().__init__(frame,internal=True);self.size=size
@@ -157,6 +157,18 @@ class ParserAllocationEntry(gdb.Breakpoint):
             ParserAllocationReturned(frame,int(gdb.parse_and_eval('((unsigned*)$esp)[1]')))
         return False
 ParserAllocationEntry('*allocate_memory',internal=True)
+class DuplicateReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,text,address):super().__init__(frame,internal=True);self.text=text;self.address=address
+    def stop(self):
+        state['duplicate_calls'].append(dict(text=self.text,input=self.address,result=int(self.return_value)))
+        return False
+class DuplicateEntry(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();text=frame.read_var('text')
+        DuplicateReturned(frame,text.string(),int(text))
+        return False
+DuplicateEntry('duplicate_argument',internal=True)
+
 
 def callback_names(begin,count):
     result=[]
@@ -196,6 +208,11 @@ def stopped(event):
     stdout_address=int(gdb.parse_and_eval('&recon_iob[1]'))
     state['crt_stdout_address']=stdout_address
     state['crt_stdout_bytes']=gdb.selected_inferior().read_memory(stdout_address,32).tobytes().hex()
+    stdout_words=struct.unpack('<8I',bytes.fromhex(state['crt_stdout_bytes']))
+    if stdout_words[2] and stdout_words[0]>=stdout_words[2] and stdout_words[0]-stdout_words[2]<=stdout_words[6]:
+        state['stdout_pending']=gdb.selected_inferior().read_memory(stdout_words[2],stdout_words[0]-stdout_words[2]).tobytes().hex()
+    state['logo_text']=gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&logo_text')),12).tobytes().hex()
+
     state['initializers']=[gdb.execute('info symbol '+str(int(gdb.parse_and_eval('application_initializers[%%d]'%%i))),to_string=True).strip().split(' ')[0] if i else None for i in range(5)]
     state['diagnostic_output']=int(gdb.parse_and_eval('diagnostic_output'))
     if state['function']=='initialize_debug':
@@ -210,7 +227,7 @@ def stopped(event):
         state['selected_tool_name_address']=int(gdb.parse_and_eval('selected_tool_name'))
         state['first_tool_name_address']=int(gdb.parse_and_eval('tool_modes[0].name'))
         state['selected_tool_kind']=int(gdb.parse_and_eval('selected_tool_kind'))
-    if state['function'] in ('configure_link_options','parse_switch','duplicate_argument'):
+    if state['function'] in ('configure_link_options','parse_switch','duplicate_argument','linker_usage','print_logo','close_timing'):
         configuration=frame
         while configuration and configuration.name()!='configure_link_options':configuration=configuration.older()
         assert configuration
@@ -282,11 +299,16 @@ def stopped(event):
     if state['option_arguments'][0]:state['option_node']=gdb.selected_inferior().read_memory(state['option_arguments'][0],24).tobytes().hex()
     if state['function']=='has_switch':state['argument_detail']=dict(text=frame.read_var('name').string(),address=int(frame.read_var('name')))
     if state['function']=='parse_switch':state['argument_detail']=dict(file=int(frame.read_var('file')),text=frame.read_var('text').string(),address=int(frame.read_var('text')))
-    if state['function']=='duplicate_argument':
-        state['argument_detail']=dict(text=frame.read_var('text').string(),address=int(frame.read_var('text')))
+    if state['function'] in ('duplicate_argument','linker_usage','print_logo','close_timing'):
+        if state['function']=='duplicate_argument':state['argument_detail']=dict(text=frame.read_var('text').string(),address=int(frame.read_var('text')))
         info=configuration.read_var('info')
         state['parsed_switch_address']=int(info)
         state['parsed_switch']=gdb.selected_inferior().read_memory(int(info),10).tobytes().hex()
+        if state['function'] in ('linker_usage','print_logo','close_timing'):
+            copy=configuration.read_var('repro_option')
+            state['duplicate_result']=int(copy)
+            state['duplicated_option']=gdb.selected_inferior().read_memory(int(copy),2).tobytes().hex()
+
 
     if state['function']=='allocate_link_memory':state['allocation_arguments']=dict(count=int(frame.read_var('count')),size=int(frame.read_var('size')))
     state['logo_pending']=int(gdb.parse_and_eval('logo_pending'))

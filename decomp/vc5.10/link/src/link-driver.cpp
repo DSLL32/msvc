@@ -260,7 +260,63 @@ int RECON_THISCALL LinkContext::FullLink(BYTE *pack_requested)
 
 /* Named original callees remain trapping until reached. */
 extern "C" {
-void __cdecl linker_usage(void) { __asm { int 3 }  }
+void __cdecl linker_usage(void)
+{
+    if (logo_pending) print_logo();
+    puts(
+        "usage: LINK [options] [files] [@commandfile]\n"
+        "\n"
+        "   options:\n"
+        "\n"
+        "      /ALIGN:#\n"
+        "      /BASE:{address|@filename,key}\n"
+        "      /COMMENT:comment\n"
+        "      /DEBUG\n"
+        "      /DEBUGTYPE:{CV|COFF}\n"
+        "      /DEF:filename\n"
+        "      /DEFAULTLIB:library\n"
+        "      /DLL\n"
+        "      /DRIVER[:{UPONLY|WDM}]\n"
+        "      /ENTRY:symbol\n"
+        "      /EXETYPE:DYNAMIC\n"
+        "      /EXPORT:symbol\n"
+        "      /FIXED[:NO]\n"
+        "      /FORCE[:{MULTIPLE|UNRESOLVED}]\n"
+        "      /GPSIZE:#\n"
+        "      /HEAP:reserve[,commit]\n"
+        "      /IMPLIB:filename\n"
+        "      /INCLUDE:symbol\n"
+        "      /INCREMENTAL:{YES|NO}\n"
+        "      /LARGEADDRESSAWARE\n"
+        "      /LIBPATH:dir\n"
+        "      /MACHINE:{IX86|ALPHA|ARM|MIPS|MIPSR41XX|PPC|SH3|SH4}\n"
+        "      /MAP[:filename]\n"
+        "      /MAPINFO:{EXPORTS|FIXUPS|LINES}\n"
+        "      /MERGE:from=to\n"
+        "      /NODEFAULTLIB[:library]\n"
+        "      /NOENTRY\n"
+        "      /NOLOGO\n"
+        "      /OPT:{ICF[,iterations]|NOICF|NOREF|REF}\n"
+        "      /ORDER:@filename\n"
+        "      /OUT:filename\n"
+        "      /PDB:{filename|NONE}\n"
+        "      /PDBTYPE:{CON[SOLIDATE]|SEPT[YPES]}\n"
+        "      /PROFILE\n"
+        "      /RELEASE\n"
+        "      /SECTION:name,[E][R][W][S][D][K][L][P][X]\n"
+        "      /STACK:reserve[,commit]\n"
+        "      /STUB:filename\n"
+        "      /SUBSYSTEM:{NATIVE|WINDOWS|CONSOLE|WINDOWSCE|POSIX}[,#[.##]]\n"
+        "      /SWAPRUN:{CD|NET}\n"
+        "      /VERBOSE[:LIB]\n"
+        "      /VERSION:#[.#]\n"
+        "      /VXD\n"
+        "      /WARN[:warninglevel]\n"
+        "      /WINDOWSCE:{EMULATION|NOCONVERT}\n"
+        "      /WS:AGGRESSIVE"
+    );
+    exit(1100);
+}
 void __cdecl link_warning(const char *file,unsigned message,...) { __asm { int 3 }  }
 void __cdecl link_fatal(const char *file,unsigned message,...) { __asm { int 3 }  }
 void __cdecl link_error(const char *file,unsigned message,...) { __asm { int 3 }  }

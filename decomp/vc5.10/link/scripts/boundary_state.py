@@ -12,11 +12,11 @@ STAGES = {
     '_initialize_buffer4': (3,2,2), '_allocate_buffer4': (3,2,2),
     '_register_buffer4_cleanup': (3,3,2),
     '_initialize_timing': (4,3,3), '_setup_timing': (4,3,3),
-    '_register_timing_cleanup': (4,3,3), '_main': (None,3,4), '_initialize_debug@8':(None,3,4), '_initialize_file_cache@16':(None,3,4), '_get_debug_flag@4':(None,3,4), '_zero_allocate@4':(None,3,4), '_new_file_record':(None,3,4), '_initialize_memory':(None,3,4), '_run_linker@8':(None,3,4), '_initialize_repro':(None,3,4), '_collect_file_arguments@16':(None,3,4), '_parse_command_line@16':(None,3,4), '_parse_argument@8':(None,3,4), '_is_libpath@4':(None,3,4), '_append_argument@8':(None,3,4), '_append_argument_record@12':(None,3,4), '_has_switch@4':(None,3,4), '_allocate_link_memory@8':(None,3,4), 'LinkContext::Initialize':(None,3,4), '_create_string_table@12':(None,3,4), '_initialize_hash_table@20':(None,3,4), '_hash_allocate@16':(None,3,4), '_reserve_memory@8':(None,3,4), '_create_memory_arena@4':(None,3,4), '_allocate_memory@4':(None,3,4), '_configure_link_options@12':(None,3,4), '_parse_switch@8':(None,3,4), '_duplicate_argument@4':(None,3,4),
+    '_register_timing_cleanup': (4,3,3), '_main': (None,3,4), '_initialize_debug@8':(None,3,4), '_initialize_file_cache@16':(None,3,4), '_get_debug_flag@4':(None,3,4), '_zero_allocate@4':(None,3,4), '_new_file_record':(None,3,4), '_initialize_memory':(None,3,4), '_run_linker@8':(None,3,4), '_initialize_repro':(None,3,4), '_collect_file_arguments@16':(None,3,4), '_parse_command_line@16':(None,3,4), '_parse_argument@8':(None,3,4), '_is_libpath@4':(None,3,4), '_append_argument@8':(None,3,4), '_append_argument_record@12':(None,3,4), '_has_switch@4':(None,3,4), '_allocate_link_memory@8':(None,3,4), 'LinkContext::Initialize':(None,3,4), '_create_string_table@12':(None,3,4), '_initialize_hash_table@20':(None,3,4), '_hash_allocate@16':(None,3,4), '_reserve_memory@8':(None,3,4), '_create_memory_arena@4':(None,3,4), '_allocate_memory@4':(None,3,4), '_configure_link_options@12':(None,3,4), '_parse_switch@8':(None,3,4), '_duplicate_argument@4':(None,3,4), '_linker_usage':(None,3,4), '_print_logo':(None,3,4), '_close_timing':(None,3,4),
 }
 MEMORY_READY={ '_run_linker@8','_initialize_repro','_collect_file_arguments@16',
-               '_parse_command_line@16','_parse_argument@8','_is_libpath@4','_append_argument@8','_append_argument_record@12','_has_switch@4','_allocate_link_memory@8','LinkContext::Initialize','_create_string_table@12','_initialize_hash_table@20','_hash_allocate@16','_reserve_memory@8','_create_memory_arena@4','_allocate_memory@4','_configure_link_options@12','_parse_switch@8','_duplicate_argument@4' }
-OPTION_READY={'_has_switch@4','_allocate_link_memory@8','LinkContext::Initialize','_create_string_table@12','_initialize_hash_table@20','_hash_allocate@16','_reserve_memory@8','_create_memory_arena@4','_allocate_memory@4','_configure_link_options@12','_parse_switch@8','_duplicate_argument@4'}
+               '_parse_command_line@16','_parse_argument@8','_is_libpath@4','_append_argument@8','_append_argument_record@12','_has_switch@4','_allocate_link_memory@8','LinkContext::Initialize','_create_string_table@12','_initialize_hash_table@20','_hash_allocate@16','_reserve_memory@8','_create_memory_arena@4','_allocate_memory@4','_configure_link_options@12','_parse_switch@8','_duplicate_argument@4','_linker_usage','_print_logo','_close_timing' }
+OPTION_READY={'_has_switch@4','_allocate_link_memory@8','LinkContext::Initialize','_create_string_table@12','_initialize_hash_table@20','_hash_allocate@16','_reserve_memory@8','_create_memory_arena@4','_allocate_memory@4','_configure_link_options@12','_parse_switch@8','_duplicate_argument@4','_linker_usage','_print_logo','_close_timing'}
 CACHE_READY=MEMORY_READY | {'_initialize_memory'}
 DEBUG_READY=CACHE_READY | {'_get_debug_flag@4','_zero_allocate@4','_new_file_record'}
 
@@ -89,9 +89,15 @@ def compare(name, original, native, original_state, native_state):
         nstdout=bytes.fromhex(native_state['crt_stdout_bytes'])
         if name in MEMORY_READY:
             original_file=struct.unpack('<8I',stdout);native_file=struct.unpack('<8I',nstdout)
-            assert original_file[0]==original_file[2] and original_file[0]
-            assert native_file[0]==native_file[2] and native_file[0]
-            assert original_file[1:2]+original_file[3:]==native_file[1:2]+native_file[3:]==(0,0x40a,1,0,2048,0)
+            if name=='_close_timing':
+                assert original_file[0]-original_file[2]==native_file[0]-native_file[2]==1257
+                assert original_file[1:2]+original_file[3:]==native_file[1:2]+native_file[3:]==(791,0x40a,1,0,2048,0)
+                assert (original/'stdout-pending.bin').read_bytes()==bytes.fromhex(native_state['stdout_pending'])
+                assert len(bytes.fromhex(native_state['stdout_pending']))==1257
+            else:
+                assert original_file[0]==original_file[2] and original_file[0]
+                assert native_file[0]==native_file[2] and native_file[0]
+                assert original_file[1:2]+original_file[3:]==native_file[1:2]+native_file[3:]==(0,0x40a,1,0,2048,0)
         else:
             assert stdout==nstdout
             assert struct.unpack('<8I',stdout)==(0,0,0,2,1,0,0,0)
@@ -359,9 +365,12 @@ def compare(name, original, native, original_state, native_state):
         assert observations==[dict(event='configuration_arguments',context=context,module=0,file=0)]
         from context_heap import compare as compare_context_heap
         compare_context_heap(original,native_state,original_state,configuration_context=context)
-    if name=='_duplicate_argument@4':
+    if name in ('_linker_usage','_print_logo','_close_timing'):
+        from context_heap import compare as compare_context_heap
+        compare_context_heap(original,native_state,original_state,configuration_context=original_state['configuration_context'])
+    if name in ('_duplicate_argument@4','_linker_usage','_print_logo','_close_timing'):
         observations=[event for event in events if event['event']=='parser_allocation']
-        allocation=original_state['ebp']
+        allocation=original_state.get('parsed_switch_pointer',original_state['ebp'])
         nallocation=native_state['parsed_switch_address']
         assert allocation and nallocation
         assert observations==[dict(event='parser_allocation',name='observe:parser_alloc_call',site=0x40d149,bytes=10,result=0),dict(event='parser_allocation',name='observe:parser_alloc_return',site=0x40d14e,bytes=10,result=allocation)]
@@ -375,4 +384,19 @@ def compare(name, original, native, original_state, native_state):
         assert data[8:]==ndata[8:]==b'?\0'
         # WORD6..7 is uninitialized and unconsumed on this path. Its raw bytes
         # remain in both captures; neither byte is asserted to be zero.
-        assert allocation!=original_state['argument_pointer'] and nallocation!=native_state['argument_detail']['address']
+        assert allocation!=original_state['crt_first_argument_pointer']+1 and nallocation!=native_state['crt_first_argument_address']+1
+
+    if name in ('_linker_usage','_print_logo','_close_timing'):
+        returned=[event for event in events if event['event']=='duplicate_return']
+        assert len(returned)==1 and returned[0]['site']==0x4451ab
+        copy=returned[0]['result'];ncopy=native_state['duplicate_result']
+        assert copy and ncopy
+        assert native_state['duplicate_calls']==[dict(text='?',input=native_state['crt_first_argument_address']+1,result=ncopy)]
+        assert copy not in (original_state.get('parsed_switch_pointer',original_state['ebp']),original_state['crt_first_argument_pointer']+1)
+        assert ncopy not in (native_state['parsed_switch_address'],native_state['crt_first_argument_address']+1)
+        assert (original/'duplicated-option.bin').read_bytes()==bytes.fromhex(native_state['duplicated_option'])==b'?\0'
+        assert (original/'logo-pending.bin').read_bytes()==bytes([native_state['logo_pending']])==(b'\0'if name=='_close_timing'else b'\1')
+
+    if name=='_close_timing':
+        assert (original/'logo-text.bin').read_bytes()==bytes.fromhex(native_state['logo_text'])==bytes(12)
+        assert (original/'stdout.bin').stat().st_size==(native/'stdout.bin').stat().st_size==123

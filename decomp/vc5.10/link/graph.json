@@ -29,6 +29,19 @@
         "roots": [],
         "text_data": []
       }
+    },
+    "_print_logo": {
+      "original": {
+        "text_data": [
+          [
+            4593260,
+            4593280
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": []
+      }
     }
   },
   "callback_tables": [

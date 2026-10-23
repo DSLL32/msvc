@@ -12,7 +12,7 @@ static unsigned char *mask;
 typedef struct Entry { DWORD rva; unsigned byte, seen; char name[128]; } Entry;
 static Entry entries[2048];
 static unsigned entry_count;
-static DWORD crt_base, main_frame_base, configuration_context, parser_allocation_bytes, parser_allocation, virtual_arguments[4];
+static DWORD crt_base, main_frame_base, configuration_context, parser_allocation_bytes, parser_allocation, duplicate_result, virtual_arguments[4];
 typedef struct StateRequest { char scope[16], name[128]; DWORD rva, size; } StateRequest;
 static StateRequest requests[64];
 static unsigned request_count;
@@ -179,6 +179,8 @@ static int snapshot(DWORD address)
         if(!remote_string(pointer,value,sizeof(value)))return 0;
         fprintf(events,",\"argument_pointer\":%lu,\"argument_text\":",pointer);quoted(value);
     }
+    if(parser_allocation)fprintf(events,",\"parsed_switch_pointer\":%lu",parser_allocation);
+    if(duplicate_result)fprintf(events,",\"duplicate_pointer\":%lu",duplicate_result);
     if(configuration_context)fprintf(events,",\"configuration_context\":%lu",configuration_context);
     fprintf(events,"}\n");
     for (index = 0; index < request_count; ++index) {
@@ -231,12 +233,19 @@ static int snapshot(DWORD address)
             }
         }
     }
-    if(address==base+0x45130 || ((address==base+0xd0c0 || address==base+0x4fed0) && configuration_context)) {
+    if(address==base+0x45130 || ((address==base+0xd0c0 || address==base+0x4fed0 || address==base+0x44f80 || address==base+0x615b0 || address==base+0x44eb0) && configuration_context)) {
         pointer=address==base+0x45130?stack[1]:configuration_context;
         if(!save_memory(pointer,664,"link-context.bin") || !save_context_heap(pointer))return 0;
     }
-    if(address==base+0x4fed0) {
-        if(!parser_allocation || context.Ebp!=parser_allocation || !save_memory(parser_allocation,parser_allocation_bytes,"parsed-switch.bin"))return 0;
+    if(address==base+0x4fed0 || address==base+0x44f80 || address==base+0x615b0 || address==base+0x44eb0) {
+        if(!parser_allocation || (address!=base+0x44eb0 && context.Ebp!=parser_allocation) || !save_memory(parser_allocation,parser_allocation_bytes,"parsed-switch.bin"))return 0;
+    }
+    if((address==base+0x44f80 || address==base+0x615b0 || address==base+0x44eb0) && (!duplicate_result || !save_memory(duplicate_result,2,"duplicated-option.bin")))return 0;
+    if(address==base+0x44eb0) {
+        DWORD file_state[8];
+        if(!ReadProcessMemory(process,(void *)(crt_base+0x3f590),file_state,sizeof(file_state),&got)||got!=sizeof(file_state) ||
+           file_state[0]<file_state[2] || file_state[0]-file_state[2]>file_state[6] ||
+           !save_memory(file_state[2],file_state[0]-file_state[2],"stdout-pending.bin"))return 0;
     }
     fflush(events);
     return 1;
@@ -378,6 +387,9 @@ int main(int argc, char **argv)
                             fprintf(events,",\"requested\":");quoted(requested);
                         }
                         fprintf(events,"}\n");
+                    } else if(!strcmp(entries[index].name,"observe:duplicate_return")) {
+                        duplicate_result=context.Eax;
+                        fprintf(events,"{\"event\":\"duplicate_return\",\"site\":%lu,\"result\":%lu}\n",site,duplicate_result);
                     } else if(!strncmp(entries[index].name,"observe:parser_alloc_",21)) {
                         DWORD got;
                         if(!strcmp(entries[index].name,"observe:parser_alloc_call")) {

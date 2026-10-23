@@ -70,15 +70,20 @@ def check_resolution(report, rebuilt):
     contracts = bound['preservation_contracts']
     expected = {i['identity'] for i in packet['imports']}
     parser_checked='_parse_switch@8' in report['functions']
+    logo_checked='_print_logo' in report['functions']
     if parser_checked:expected.add('msvcrt.dll!strchr')
-    assert len(contracts) == len(expected)+(1 if parser_checked else 0)
-    assert {c['target']['function']for c in contracts if 'function'in c['target']}==({'_link_fatal'}if parser_checked else set())
+    if logo_checked:expected.add('msvcrt.dll!printf')
+    assert len(contracts) == len(expected)+(1 if parser_checked else 0)+(1 if logo_checked else 0)
+    assert {c['target']['function']for c in contracts if 'function'in c['target']}==(({'_link_fatal'}if parser_checked else set())|({'_append_bytes@12'}if logo_checked else set()))
     assert {c['target']['import']['dll']+'!'+c['target']['import']['name'] for c in contracts if 'import' in c['target']} == expected
     evidence = dict(path='cases/help/options-import-preservation.json',sha256=sha(PACKET.read_bytes()))
     parser_path=BINARY/'cases/help/parser-import-preservation.json'
     parser_evidence=dict(path='cases/help/parser-import-preservation.json',sha256=sha(parser_path.read_bytes())) if parser_checked else None
+    logo_path=BINARY/'cases/help/logo-import-preservation.json'
+    logo_evidence=dict(path='cases/help/logo-import-preservation.json',sha256=sha(logo_path.read_bytes())) if logo_checked else None
     for contract in contracts:
         required_evidence=parser_evidence if 'function' in contract['target'] or contract['target']['import']['name']=='strchr' else evidence
+        if contract['target'].get('function')=='_append_bytes@12' or contract['target'].get('import',{}).get('name')=='printf':required_evidence=logo_evidence
         assert contract['evidence']==required_evidence and contract['preserves']==['ebx','esi','edi']
     function = report['functions']['_configure_link_options@12']
     sites = function['register_imports']
@@ -109,7 +114,18 @@ def check_resolution(report, rebuilt):
         assert len(parser_sites['rebuilt']['direct_import_calls'])==5
         assert all(i==dict(dll='msvcrt.dll',name='strchr')for i in parser_sites['rebuilt']['direct_import_calls'].values())
         parser_inventory=dict(original_register_calls=5,rebuilt_direct_calls=5,qualified_imports=1)
-    return dict(parser=parser_inventory,original_register_calls=147,original_direct_calls=50,rebuilt_direct_calls=197,qualified_imports=19,required_preservation_contracts=7 if parser_checked else 6,application_helper_contracts=1 if parser_checked else 0,unresolved=0)
+    logo_inventory=None
+    if logo_checked:
+        logo_packet=json.loads(logo_path.read_text());logo_sites=report['functions']['_print_logo']['register_imports']
+        assert logo_sites['original']['resolved_register_calls']=={str(site):dict(dll='msvcrt.dll',name='printf')for site in logo_packet['register_sites']}
+        assert logo_sites['original']['direct_import_calls']=={str(site):dict(dll='msvcrt.dll',name='fflush')for site in logo_packet['direct_import_sites']}
+        for side in ['original','rebuilt']:assert not logo_sites[side]['unresolved_register_calls'] and not logo_sites[side]['other_unresolved_calls']
+        assert not logo_sites['rebuilt']['resolved_register_calls']
+        assert len(logo_sites['rebuilt']['direct_import_calls'])==3
+        assert list(logo_sites['rebuilt']['direct_import_calls'].values()).count(dict(dll='msvcrt.dll',name='printf'))==2
+        assert list(logo_sites['rebuilt']['direct_import_calls'].values()).count(dict(dll='msvcrt.dll',name='fflush'))==1
+        logo_inventory=dict(original_register_calls=2,original_direct_calls=1,rebuilt_direct_calls=3)
+    return dict(logo=logo_inventory,parser=parser_inventory,original_register_calls=147,original_direct_calls=50,rebuilt_direct_calls=197,qualified_imports=19,required_preservation_contracts=6+int(parser_checked)+int(logo_checked),application_helper_contracts=int(parser_checked)+int(logo_checked),unresolved=0)
 
 
 def check_parser_helper(original,rebuilt,map_text):
@@ -125,3 +141,17 @@ def check_parser_helper(original,rebuilt,map_text):
     data=bytes.fromhex(function['rebuilt_named_stub']['bytes'])
     assert rebuilt.read(addresses[0],len(data))==data,'named stub changed; refresh actual callee ABI review'
     return dict(function='_link_fatal',classification='needed parser-only ordinary callee preservation; no body acceptance')
+
+
+def check_logo_helper(original,rebuilt,map_text):
+    packet=json.loads((BINARY/'cases/help/logo-import-preservation.json').read_text());function=packet['function_contract']
+    assert function['name']=='_append_bytes@12' and function['standard_abi']=='stdcall, ret 0xc'
+    assert sha(original.read(function['original_begin'],function['original_end']-function['original_begin']))==function['original_body_sha256']
+    for register in ['ebx','esi','edi']:
+        witness=function['preservation'][register]
+        assert witness['save']['instruction']=='push '+register
+        for item in [witness['save']]+witness['writes']+[r['restore']for r in witness['returns']]:
+            data=bytes.fromhex(item['bytes']);assert original.read(item['address'],len(data))==data
+    symbol=function['rebuilt_named_stub']['symbol'];addresses=[int(address,16)for name,address in re.findall(r'^\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})',map_text,re.M)if name==symbol];assert len(addresses)==1
+    data=bytes.fromhex(function['rebuilt_named_stub']['bytes']);assert rebuilt.read(addresses[0],len(data))==data,'append_bytes named stub changed; review actual ABI'
+    return dict(function=symbol,classification='needed logo-only ordinary callee preservation; no body acceptance')

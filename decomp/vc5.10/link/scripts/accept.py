@@ -132,7 +132,7 @@ def audit_trial(path):
     inputs += [BINARY/'scripts'/name for name in ['accept.py','boundary_state.py','mask.py','observers.py','environment_profile.py','binary.py','context_heap.py']]
     cached_bodies={'_main','_initialize_debug@8','_initialize_repro','_parse_command_line@16','_has_switch@4'} & set(trial['accepted'])
     imported=copy.deepcopy(trial)
-    register_candidates=[name for name in ['_configure_link_options@12','_parse_switch@8']if name in trial['accepted']]
+    register_candidates=[name for name in ['_configure_link_options@12','_parse_switch@8','_print_logo']if name in trial['accepted']]
     register_candidate=bool(register_candidates)
     imported['accepted']=[name for name in imported['accepted'] if name not in cached_bodies and name not in register_candidates]
     import_path=path.parent/'direct-import-config.json'
@@ -169,6 +169,15 @@ def audit_trial(path):
             contracts.append({'target':{'function':'_link_fatal'},'preserves':['ebx','esi','edi'],'evidence':{'path':'cases/help/parser-import-preservation.json','sha256':sha(parser_path.read_bytes())}})
             inputs.append(parser_path)
             inputs += [ROOT/d['path']for api in parser_packet['imports']for d in api['declarations']]
+        if '_print_logo' in register_candidates:
+            logo_path=BINARY/'cases/help/logo-import-preservation.json'
+            logo_packet=json.loads(logo_path.read_text())
+            witness.check(PE(ROOT/'toolchains/5.10/bin/LINK.EXE'),logo_packet,{'printf'})
+            witness.check_logo_helper(PE(ROOT/'toolchains/5.10/bin/LINK.EXE'),PE(BINARY/'build/link.exe'),(BINARY/'build/link.map').read_text())
+            for target in [{'import':{'dll':'msvcrt.dll','name':'printf'}},{'function':'_append_bytes@12'}]:
+                contracts.append(dict(target=target,preserves=['ebx','esi','edi'],evidence=dict(path='cases/help/logo-import-preservation.json',sha256=sha(logo_path.read_bytes()))))
+            inputs.append(logo_path)
+            inputs += [ROOT/d['path']for api in logo_packet['imports']for d in api['declarations']]
         register_metadata['register_imports']={'preservation_contracts':contracts}
         register_metadata_path=path.parent/'register-import-metadata.json'
         register_metadata_path.write_text(json.dumps(register_metadata,indent=2)+'\n')

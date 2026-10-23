@@ -54,7 +54,10 @@
     "_create_memory_arena@4",
     "_allocate_memory@4",
     "_configure_link_options@12",
-    "_parse_switch@8"
+    "_parse_switch@8",
+    "_duplicate_argument@4",
+    "_linker_usage",
+    "_print_logo"
   ],
   "driver": [
     {
@@ -309,10 +312,16 @@
       "start": 4593072,
       "end": 4593258,
       "source": "src/driver-stubs.c",
-      "status": "stub",
+      "status": "implemented",
       "abi": "cdecl",
       "native_symbol": "print_logo",
-      "pending_extent": false
+      "pending_extent": false,
+      "shared": [
+        [
+          4593260,
+          4593280
+        ]
+      ]
     },
     {
       "name": "_get_debug_flag@4",
@@ -353,10 +362,10 @@
     {
       "name": "_linker_usage",
       "start": 4476800,
-      "end": 4476801,
+      "end": 4476843,
       "source": "src/link-driver.cpp",
-      "status": "stub",
-      "pending_extent": true,
+      "status": "implemented",
+      "pending_extent": false,
       "native_symbol": "linker_usage"
     },
     {
@@ -573,10 +582,10 @@
     {
       "name": "_duplicate_argument@4",
       "start": 4521680,
-      "end": 4521681,
-      "pending_extent": true,
+      "end": 4521712,
+      "pending_extent": false,
       "source": "src/arguments.c",
-      "status": "stub",
+      "status": "implemented",
       "native_symbol": "duplicate_argument"
     },
     {
@@ -1079,6 +1088,15 @@
       "native_symbol": "StringTable::Lookup",
       "symbol": "?Lookup@StringTable@@QAEPAUStringNode@@PBEPAE@Z",
       "abi": "thiscall StringNode*(const unsigned char*,BYTE*); ECX receiver, stack8/RET8"
+    },
+    {
+      "name": "_clear_buffer@4",
+      "start": 4519216,
+      "end": 4519217,
+      "pending_extent": true,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "native_symbol": "clear_buffer"
     }
   ],
   "text_data": [
@@ -2737,6 +2755,86 @@
       "reason": "configure_link_options contextual literal ''",
       "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
       "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4225804,
+      "end": 4227061,
+      "accepted": true,
+      "reason": "inline linker_usage puts help text",
+      "evidence": "src/link-driver.cpp: linker_usage; original PUSH407b0c at444f8e",
+      "sha256": "5fe566cb44f86fc43318743c009d000626ee9ec6c02817d4cbd0c58836d0dbd3"
+    },
+    {
+      "start": 4231980,
+      "end": 4232004,
+      "accepted": true,
+      "reason": "inline print_logo literal",
+      "evidence": "src/driver-stubs.c: print_logo; original immediate string reference",
+      "sha256": "7507dccb492743bbece4c812ad4553426c1a99f182a1b16905e60924c90ed42c"
+    },
+    {
+      "start": 4231952,
+      "end": 4231978,
+      "accepted": true,
+      "reason": "inline print_logo literal",
+      "evidence": "src/driver-stubs.c: print_logo; original immediate string reference",
+      "sha256": "cd3209fbec3b1bfcfa4bcd269e8dbf5f3130f1cbcd1f7a5022aa813e07957b5b"
+    },
+    {
+      "start": 4231928,
+      "end": 4231951,
+      "accepted": true,
+      "reason": "inline print_logo literal",
+      "evidence": "src/driver-stubs.c: print_logo; original immediate string reference",
+      "sha256": "451ec22c6212732dfd1d9b3c79354431e21e2be6a0e8049932ea20c5c86abd17"
+    },
+    {
+      "start": 4231904,
+      "end": 4231928,
+      "accepted": true,
+      "reason": "inline print_logo literal",
+      "evidence": "src/driver-stubs.c: print_logo; original immediate string reference",
+      "sha256": "e266bb8ec23e70096f47b79ed1aff0e7c7240f035c79df631d8f2d3bc3a5ec9d"
+    },
+    {
+      "start": 4231872,
+      "end": 4231904,
+      "accepted": true,
+      "reason": "inline print_logo literal",
+      "evidence": "src/driver-stubs.c: print_logo; original immediate string reference",
+      "sha256": "fb8ac401f5a64e63a21eb50a9dd2037b925d7a6ca30a48b7ca7b7f1d0348afbe"
+    },
+    {
+      "start": 4231772,
+      "end": 4231870,
+      "accepted": true,
+      "reason": "inline print_logo literal",
+      "evidence": "src/driver-stubs.c: print_logo; original immediate string reference",
+      "sha256": "24e67cdae610b31518a92464e458cf7999f985e56426e99e7da8bdd670e417eb"
+    },
+    {
+      "start": 4205732,
+      "end": 4205734,
+      "accepted": true,
+      "reason": "inline print_logo literal",
+      "evidence": "src/driver-stubs.c: print_logo; original immediate string reference",
+      "sha256": "102b51b9765a56a3e899f7cf0ee38e5251f9c503b357b330a49183eb7b155604"
+    },
+    {
+      "start": 4216240,
+      "end": 4216243,
+      "accepted": true,
+      "reason": "inline print_logo literal",
+      "evidence": "src/driver-stubs.c: print_logo; original immediate string reference",
+      "sha256": "2f3a3f9b55f5df846abf81c7d13ff74998bdda8664df664173220675150020ff"
+    },
+    {
+      "start": 4593260,
+      "end": 4593280,
+      "accepted": true,
+      "reason": "print_logo five-kind dispatch table",
+      "evidence": "src/driver-stubs.c: print_logo switch; original JMP4615bc bounded EAX0..4, five in-function targets",
+      "sha256": "e04fd6a040c8ebd778807a6d44db192b7102f0b750445db7ee8c63d7045a64ab"
     }
   ],
   "cases": {

@@ -1,0 +1,22 @@
+{
+  "status": "accepted",
+  "function": "_print_logo",
+  "application_functions": 41,
+  "application_extent_bytes": 19516,
+  "original": "/root/.ai-tmp/msvc2/vc5.10/link/masked-7zz2vzjf",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/link/native-793dz57o",
+  "typed_negative_count": 92,
+  "timing_seconds": {
+    "parallel_original_native_build": 1.5985507387667894,
+    "original_reference": 1.050354397855699,
+    "native_capture": 0.23225099314004183,
+    "whole_audit": 0.32058532256633043
+  },
+  "acceptance": "cases/help/frontiers/41-print-logo/validation.json",
+  "stdout_flushed_bytes": 123,
+  "stdout_pending_bytes": 1257,
+  "crt_stdout_remaining": 791,
+  "logo_text_zero_bytes": 12,
+  "import_ablation": "cases/help/logo-import-ablation.json",
+  "source_fix": "Use existing crt-imports.h to retain direct _iob data import instead of SDK __p__iob convenience call."
+}

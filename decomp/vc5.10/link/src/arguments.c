@@ -100,7 +100,12 @@ void __stdcall parse_command_line(int argc,char **argv,
         release_memory(copy);
     }
 }
-char *__stdcall duplicate_argument(const char *text) { __asm { int 3 } return NULL; }
+char *__stdcall duplicate_argument(const char *text)
+{
+    char *copy=_strdup(text);
+    if (!copy) out_of_memory();
+    return copy;
+}
 void __stdcall tokenize_arguments(char *text) { __asm { int 3 } }
 void __stdcall release_memory(void *memory) { __asm { int 3 } }
 void __stdcall read_response_file(const char *name) { __asm { int 3 } }

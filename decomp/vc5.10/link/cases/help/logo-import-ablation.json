@@ -1,0 +1,17 @@
+{
+  "positive": true,
+  "controls": [
+    {
+      "label": "append_bytes helper",
+      "error": "graph-audit: original _print_logo register imports: unresolved register import calls: {4593216}\n",
+      "rejected": true,
+      "seconds": 0.01235865242779255
+    },
+    {
+      "label": "printf import",
+      "error": "graph-audit: original _print_logo register imports: unresolved register import calls: {4593216}\n",
+      "rejected": true,
+      "seconds": 0.012399875558912754
+    }
+  ]
+}
