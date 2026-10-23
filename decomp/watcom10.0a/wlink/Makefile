@@ -11,7 +11,7 @@ ORIGINAL_OBJECTS := $(patsubst src/%.c,build/original/%.obj,$(SOURCES))
 SHIMS := $(wildcard $(RECON)/src/*.c)
 TOOL := $(PYTHON) scripts/wine-tool.py
 
-.PHONY: inspect native original fixtures
+.PHONY: inspect native original fixtures prefix-fixtures
 inspect:
 	$(PYTHON) scripts/inventory.py
 
@@ -32,3 +32,7 @@ build/original/WLINK.EXE build/original/wlink.map &: $(ORIGINAL_OBJECTS) scripts
 fixtures:
 	@echo 'HOLD: native help implementation and accepted entry trace are incomplete.' >&2
 	@exit 2
+
+# Native-only cached accepted prefix, not full help completion.
+prefix-fixtures: native
+	$(PYTHON) scripts/verify-main-prefix.py

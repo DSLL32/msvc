@@ -1,0 +1,66 @@
+{
+  "purpose": "First bounded actual fully masked application main\u2192Spawn frontier; CRT-only bootstrap precedes whole-code mask at actual main; no CRT body restored after mask",
+  "plan_sha256": "119f178ae5dcacd354a54e630c5750158d2963448c107e294ff57b185195cd1d",
+  "command": [
+    "wine",
+    "S:\\watcom10.0a\\wlink\\main-observer-source-01\\observe-main.exe",
+    "R:\\toolchains\\watcom10.0a\\.patched\\WLINK.EXE",
+    "?",
+    "S:\\watcom10.0a\\wlink\\main-prefix-01\\work",
+    "S:\\watcom10.0a\\wlink\\main-prefix-01\\stdout.bin",
+    "S:\\watcom10.0a\\wlink\\main-prefix-01\\stderr.bin",
+    "S:\\watcom10.0a\\wlink\\main-prefix-01\\events.private.txt",
+    "S:\\watcom10.0a\\wlink\\observer-static-03\\sites.txt",
+    "30000",
+    "NUL"
+  ],
+  "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/main-prefix-01/work",
+  "host_environment_sha256": "6a7c39034cd9335ed92c5e8b3655647f1cb782aacb8d66d77ab2339ce40fe6a6",
+  "helper_sha256": "3e5684b1dcce2f52d1c84471308b1104839ad3c0f97c7f06cbe4da4a67003c9c",
+  "target_sha256": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
+  "config_sha256": "ea46eaa75cfb3d1d2930e98fcac498b06d7d9552b27f750479d32ac5d632faf3",
+  "launcher_unix_pid": 1853052,
+  "launcher_status": 151,
+  "outer_timeout": false,
+  "execution_seconds": 0.7160241091623902,
+  "raw_events_private": {
+    "path": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/main-prefix-01/events.private.txt",
+    "bytes": 25466,
+    "sha256": "3eb960e84b9a3d08e8119d18a93783930393e1b623b137388274cb523d9a47a9",
+    "mode": "0o600"
+  },
+  "artifacts": {
+    "stdout.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "launcher.stdout.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "launcher.stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "case_files": [],
+  "application_acceptance": false,
+  "derived_view": {
+    "file": "events.derived-redacted.txt.gz",
+    "uncompressed_bytes": 21498,
+    "uncompressed_sha256": "4545d8b0e2ff60d95dcf2b288f6d818a461fd7682e8738104ed2ff25d65c264a",
+    "stored_sha256": "5a334ef6b4d47c695346c8531d213749f79de952b92ed3529d93457fdfcfd1a2",
+    "redactions": [
+      {
+        "raw_line": 117,
+        "bytes": 2084,
+        "sha256": "e0608489472bf28c1129809578d802260132bd3fc54116e2bcc6bd4c9edf42ef"
+      }
+    ],
+    "raw_private_unchanged": true
+  }
+}
