@@ -1,0 +1,37 @@
+{
+  "probes": [
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/setlocale-surface/gcc-target",
+      "sha256": "6c5bb91b99349a67a3b79905f116b4b994d849f7ce99aedc2b843db27b5db258",
+      "returncode": 125
+    },
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/setlocale-surface/gcc-host",
+      "sha256": "ba0146a05849c56dacb213ee09871bf6e0656ef30b6150fbc3928c8b730aebc3",
+      "returncode": 0
+    },
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/setlocale-surface/clang-target",
+      "sha256": "3ccd51875f1fbc89a4dda54f9715749f760b8bdb71b1d3bfff36c23a1dfa3bc1",
+      "returncode": 125
+    },
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/setlocale-surface/clang-host",
+      "sha256": "2561f1b48efdda8ba270b3f2292317cc0deb93e6ee8d1c38c131852ed04c56e0",
+      "returncode": 0
+    }
+  ],
+  "sources": {
+    "src/crt.c": "e7ffcaea6a7084332f204ace662afdfc0bf8a8ae0fd84831c5c2ca8af92da0e2",
+    "include/recon.h": "6bf30af95dd3a1bdecd5753d010c71f8e8a421e1af11a82db60dec9e9da3d6b3",
+    "native/locale.h": "a4bcba0ad40ff971717170453d1725d8b4452ddfd8411d1a8ed309809d55a13c"
+  },
+  "scope": "Typed unvisited setlocale boundary only; every target call denies125, no host libc locale selection. Exact Microsoft SDK categories0..5; implementation host constants preserved, Watcom category values not asserted.",
+  "canonical_header": {
+    "path": "toolchains/5.10/include/LOCALE.H",
+    "sha256": "7f35f46b3400639560f70b1eff5d4be4b11a0ebe791b90abeef27731a9b83680",
+    "declaration": "char * __cdecl setlocale(int,const char *);",
+    "LC_CTYPE": 2
+  },
+  "default_check": "passed"
+}

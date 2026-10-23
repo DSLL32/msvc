@@ -38,6 +38,7 @@
 #include <ctype.h>
 #include <errno.h>
 #include <time.h>
+#include <locale.h>
 #include <setjmp.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -134,6 +135,7 @@ typedef struct ReconCrtLocaleProfile {
  const unsigned short *ctype; size_t ctype_count;
 } ReconCrtLocaleProfile;
 void recon_crt_apply_locale_profile(const ReconCrtLocaleProfile *);
+char *recon_setlocale(int,const char *);
 extern char *recon_pgmptr,*recon_aenvptr;
 extern long recon_timezone;
 extern int recon_daylight;
@@ -400,6 +402,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define __try if (1)
 #define __except(filter) else if (0)
 #define FILE ShimFILE
+#define setlocale recon_setlocale
 #define wcscmp recon_wcscmp
 #define wcschr recon_wcschr
 #define wcslen recon_wcslen

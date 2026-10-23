@@ -2321,6 +2321,14 @@ WEAK size_t recon_mbsspn(const unsigned char *text,const unsigned char *accept)
     return (size_t)(cursor-text);
 }
 
+/* Typed link surface only: locale selection needs its reached provider/state
+ * contract; never forward Microsoft category numbers to host libc. */
+WEAK char *recon_setlocale(int category,const char *locale)
+{
+    (void)category;(void)locale;
+    recon_unsupported("unreviewed setlocale selection");return NULL;
+}
+
 WEAK WCHAR *recon_wcschr(const WCHAR *text,WCHAR character)
 {
     if (!text) recon_unsupported("NULL UTF16 wcschr input");
