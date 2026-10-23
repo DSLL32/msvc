@@ -1,0 +1,17 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56558dcb in reconcile_typedef (existing=0x56624da4, declaration=0x56625f40) at src/stubs.c:118
+118	CppSymbol *__stdcall reconcile_typedef(CppSymbol *existing, CppSymbol *declaration) { __asm { int 3 } return 0; }
+#0  0x56558dcb in reconcile_typedef (existing=0x56624da4, declaration=0x56625f40) at src/stubs.c:118
+#1  0x56568098 in reconcile_declaration (existing=0x56624da4, declaration=0x56625f40) at src/declaration-lookup.c:207
+#2  0x56567d18 in lookup_scope_declaration (symbol=0x56625f40, scope=0x56622048) at src/declaration-lookup.c:59
+#3  0x56567ca6 in lookup_declaration (symbol=0x56625f40) at src/declaration-lookup.c:42
+#4  0x5656e013 in resolve_declaration (context=0x5660ba50 <declaration_spec_storage+8>, declaration=0x56625f40) at src/resolve-declaration.c:166
+#5  0x565674ce in apply_declaration_type (context=0x5660ba50 <declaration_spec_storage+8>, declaration=0x56625f40) at src/declaration-bind.c:111
+#6  0x56567b9d in complete_declaration (context=0x5660ba50 <declaration_spec_storage+8>, declaration=0x56625f40) at src/declaration-bind.c:205
+#7  0x565b3b34 in parse_translation_unit () at src/parser-declaration-actions.inc:306
+#8  0x5655e11f in compile_translation_unit () at src/frontend.c:73
+#9  0x565588b6 in guarded_compile () at src/c1xx.c:28
+#10 0x56558884 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20

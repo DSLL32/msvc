@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x69b41: file src/tags.c, line 13.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, reference_tag_symbol (name=0x5661db07 "Counter", kind=1032, insert=0x56569e60 <insert_symbol>) at src/tags.c:13
+13	    CppSymbol *symbol = lookup_tag_name(name);
+#0  reference_tag_symbol (name=0x5661db07 "Counter", kind=1032, insert=0x56569e60 <insert_symbol>) at src/tags.c:13
+#1  0x565bdfb7 in read_tag_specifier (kind=1032, attributes=0xffffd55a) at src/type-specifiers.c:261
+#2  0x565bccc1 in read_type_specifier (token=30 '\036') at src/type-specifiers.c:59
+#3  0x565b8ece in read_parser_token () at src/lexer.c:79
+#4  0x565b2187 in parse_translation_unit () at src/parser.c:83
+#5  0x5655e11f in compile_translation_unit () at src/frontend.c:73
+#6  0x565588b6 in guarded_compile () at src/c1xx.c:28
+#7  0x56558884 in main (argc=1, argv=0xffffd7b4, environment=0xffffd7bc) at src/c1xx.c:20

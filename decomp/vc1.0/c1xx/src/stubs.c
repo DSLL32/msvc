@@ -287,8 +287,6 @@ void scan_identifier_continuation(char *begin, unsigned hash) { __asm { int 3 } 
 void read_declspec_attributes(StorageSpec *storage) { __asm { int 3 } }
 CType *__stdcall copy_unfinished_type(CType *type) { __asm { int 3 } return 0; }
 
-CppSymbol *__stdcall reference_tag_symbol(char *name, unsigned short kind,
-                                         void (__stdcall *insert)(CppSymbol *)) { __asm { int 3 } return 0; }
 
 void __stdcall flush_current_function(int retain) { __asm { int 3 } }
 CppSymbol *__stdcall find_tag_in_chain(char *name, CppSymbol *first) { __asm { int 3 } return 0; }

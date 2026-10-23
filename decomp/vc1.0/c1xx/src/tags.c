@@ -1,7 +1,22 @@
 /* C++ class/enum tag definitions and their surrounding symbol context. */
 #include "lexer.h"
+#include "linkage.h"
+#include <recon.h>
 
 CppSymbol *current_enum_symbol; /* original 0x948f8 */
+
+/* Original 0x2dd50..0x2ddac. A reference reuses a visible tag
+   or declares one through the caller's scope inserter. */
+CppSymbol *__stdcall reference_tag_symbol(char *name, unsigned short kind,
+    void (__stdcall *insert)(CppSymbol *))
+{
+    CppSymbol *symbol = lookup_tag_name(name);
+    if (symbol) symbol = match_tag_symbol(symbol, kind);
+    else symbol = allocate_tag_symbol(name, kind, insert, 0);
+    if (browser_filename && (!declaration_mode || options.option_FR))
+        browser_type_reference(symbol);
+    return symbol;
+}
 
 /* Original 0xa0b20: shared by inheritance-model diagnostics. */
 static char *inheritance_model_names[] = {
@@ -96,8 +111,6 @@ CppSymbol *__stdcall define_tag_symbol(char *name, unsigned short kind, unsigned
     return symbol;
 }
 
-#include "linkage.h"
-#include <recon.h>
 int tag_declaration_seen; /* original 0x9187c */
 
 /* Original 0x2d8d0..0x2db11. Assign a tag's identity/type, merge a visible

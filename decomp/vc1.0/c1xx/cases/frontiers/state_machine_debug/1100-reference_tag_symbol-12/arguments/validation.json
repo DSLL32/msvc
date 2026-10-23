@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_reference_tag_symbol@12",
+  "case": "state_machine_debug",
+  "accepted_before": 1100,
+  "configuration_sha256": "6769a367bbf21043c47e0e1a23ebbd47ec00f75a664b88fcbc9e9c731a849077",
+  "native_entry": "reference_tag_symbol",
+  "declared_formal_count": 3,
+  "formals": [
+    {
+      "name": "name",
+      "stack_index": 0,
+      "native_field": "raw_name",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 41025,
+        "original_owner_function": "_read_tag_specifier@8",
+        "native_owner_function": "read_tag_specifier",
+        "native_owner_field": "caller_name",
+        "native_owner_local": "name",
+        "identity": "Accepted read_tag_specifier identifier name retained in EDI, PUSH EDI1a03b/CALL1a03c return1a041. Native immediate caller actual name local selects same identifier, no raw heap identity.",
+        "original_owner_value": 8272647,
+        "native_owner_value": 1449253639
+      },
+      "original_raw": 8272647,
+      "native_raw": 1449253639,
+      "result": "match"
+    },
+    {
+      "name": "kind",
+      "stack_index": 1,
+      "native_field": "raw_kind",
+      "binding": {
+        "kind": "scalar",
+        "bits": 16
+      },
+      "original_raw": 1032,
+      "native_raw": 1032,
+      "result": "match"
+    },
+    {
+      "name": "insert",
+      "stack_index": 2,
+      "native_field": "raw_insert",
+      "binding": {
+        "kind": "object-offset",
+        "original_object": 346592,
+        "native_anchor_field": "inserter",
+        "offset": 0,
+        "identity": "Exact accepted insert_symbol@4 callback at original549e0, PUSH immediate1a035. Actual native function address resolved from insert_symbol; no remapping to a different inserter.",
+        "native_object_address": 1448517216
+      },
+      "original_raw": 346592,
+      "native_raw": 1448517216,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      187728,
+      187820
+    ],
+    "argument_bytes": 12,
+    "proof": "SaveESI4B: nameESP+8,kindWORD+12,inserter+16; RET12. Lookup2d4c0 then match2dc30 or allocate2d8d0 withdefinition0; optional browser2c420 under existing audited browser_filename/declaration_mode/option_FR globals; returnactualsymbolEAX. No semantic register/hiddeninput; EDI is caller name ownership only. All four direct callees independently mapped.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "f426cc31aa122d66f9a44ddcf865307c24e2f14ce90928e108552686c8861602",
+  "capture_timing": {
+    "original_capture_seconds": 1.8691138038411736,
+    "native_capture_seconds": 0.20508385729044676,
+    "total_operation_seconds": 2.382203657180071
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "f5cceb5fd0df30280b418ed345d9016afb0e8f79c91a410a91c0d1c66a10d2a4",
+    "native-commands.gdb": "22625bfbc09cb86a377827ed07c58ccb5d34af731adc8512d91322cac686759d",
+    "native-gdb.log": "84b8371a0b8973ab630694904b778a53abaae9f3af8c507222b2a498665c0fab",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "7c2436e126171b6220cfea1c59c95138c6c8afe4b2cf4916015d76a3d86792d1",
+    "original-configuration.json": "6769a367bbf21043c47e0e1a23ebbd47ec00f75a664b88fcbc9e9c731a849077",
+    "original-disassembly.txt": "3b24064cf789a0073cbdc73a4c296f352f0d4eb9dcd3f30fe6cab304862b5095",
+    "original-entries.plan": "c05784666cae1035c4af9f74a1ca4ea8f938c663b641f49a5834decde3ccedf0",
+    "original-events.txt": "4ddda48959523c5d53cc171a81e31d83ac7b60000538f93a23797f20e7e85d89",
+    "original-ownership-caller-disassembly.txt": "49466d589887afac4eeea5ef6f19cc0f6fa9b7fa0bfe3b6b65082d5cb4924eee",
+    "original-receipt.json": "c87e025d2bb2df64ca9cd8b11967705802be9fe9b2eb8087a45139bd513a1ddf",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "5b1615b79e3a441c5d27e51f1996bfe9ac2e148299f9b3edf76156d34c95f7c1"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}
