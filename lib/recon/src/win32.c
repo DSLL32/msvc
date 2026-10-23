@@ -126,7 +126,9 @@ void recon_register_module_memory(HMODULE handle,const ReconModuleMemorySpec *pr
     NativeModuleMemory *entry; unsigned n; int saved_errno=errno; DWORD saved_error=last_error;
     if (!module || !proof || !proof->sha256 || strcmp(module->sha256,proof->sha256) ||
         !proof->original_rva || !proof->size || proof->size!=bytes ||
-        proof->original_rva>0xffffffffUL-proof->size || !address ||
+        !proof->original_image_base || proof->original_image_base>0xffffffffUL-proof->original_rva ||
+        proof->original_image_base+proof->original_rva!=proof->original_va ||
+        proof->original_va>0xffffffffUL-proof->size || !address ||
         (uintptr_t)address>UINTPTR_MAX-bytes || module_memory_count==32)
         recon_unsupported("module memory proof identity/extent");
     span.begin=(uintptr_t)address; span.end=span.begin+bytes; span.found=0;

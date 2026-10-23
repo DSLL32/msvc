@@ -1,7 +1,27 @@
 {
-  "scope": "Explicit module hash/RVA/size/native writable mainELF span registration; exact-base zero-size image-backed flush only",
+  "scope": "Hash-bound host module proof plus checked VA=imagebase+RVA, exact size/writable mainELF span; exact original .bss/global identity validated by owner reference adapter",
   "native_build_checks_seconds": {
-    "gcc": 2.0247926395386457,
-    "clang": 2.4793829461559653
+    "gcc": 1.9746020659804344,
+    "clang": 2.517112967558205
+  },
+  "independent_LINK_reference_check": {
+    "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+    "original_image_base": 65536,
+    "original_va": 447600,
+    "original_rva": 382064,
+    "size": 36,
+    "section": {
+      "name": ".bss",
+      "rva": 311296,
+      "virtual_size": 115849,
+      "characteristics": "c0000080"
+    },
+    "data_symbol": {
+      "name": "editor_workspace",
+      "owner": "src/editor-rebase.c",
+      "size": 36
+    },
+    "old_label": "VA6d470 was incorrectly called RVA; no target fixture executed that registration",
+    "consistent_shift_negative_owner": "LINK reference validator must reject consistently shifted spec against this independently bound global/section evidence"
   }
 }

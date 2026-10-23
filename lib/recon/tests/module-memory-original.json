@@ -1,8 +1,16 @@
 {
-  "source_sha256": "46b1733b0b957ba6cdf5e493bfc019b4911846e7ce497c55755ad7069932c480",
-  "build_seconds": 2.957639491185546,
-  "execution_seconds": 1.0780952768400311,
+  "source_sha256": "72a59fff702e1677cd7d3adfa2ce93269a1a51b5c712f35c381bae01ade53028",
+  "build_seconds": 2.72714966814965,
+  "execution_seconds": 1.2093113511800766,
   "status": 0,
   "stdout_hex": "696d61676520302031203020300d0a696d616765203120312030203330353431393839360d0a696d616765203220312031313120300d0a696d6167652033203120313131203330353431393839360d0a",
-  "scope": "Image-global36 bytes flush success without persisting private image; actual LINK bind-apis original rva6d470 corroborates"
+  "scope": "Image-global36 bytes flush success without persisting private image; actual LINK VA6d470/base10000/RVA5d470 in writable zero-init image section",
+  "coordinate_correction": {
+    "supersedes_sha256": "af54cf774b85e4b0e34f6ece30ecd10234918a47861946108bd955df12d0b717",
+    "previous_label": "VA6d470 mislabeled as RVA",
+    "verified_rva": "5d470",
+    "image_base": "10000",
+    "original_va": "6d470",
+    "target_executed_wrong_registration": false
+  }
 }

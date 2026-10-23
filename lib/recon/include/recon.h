@@ -215,7 +215,7 @@ void recon_unsupported(const char *);
 
 int __cdecl recon_wsprintfA(LPSTR,LPCSTR,...);
 typedef struct ReconModuleMemorySpec {
- const char *sha256; DWORD original_rva,size;
+ const char *sha256; DWORD original_rva,size,original_image_base,original_va;
 } ReconModuleMemorySpec;
 void recon_register_module_memory(HMODULE,const ReconModuleMemorySpec *,void *,size_t);
 void recon_load_module_resources(HMODULE,const char *);

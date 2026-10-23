@@ -11,15 +11,16 @@ int main(int argc,char **argv)
 #ifdef RECON_NATIVE_TEST
     const char *mode=argc>1?argv[1]:"good";
     ReconModuleSpec spec={"LINK.EXE","R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",RECON_MODULE_PRIMARY|RECON_MODULE_NO_TLS};
-    ReconModuleMemorySpec proof={spec.sha256,0x6d470,36};
+    ReconModuleMemorySpec proof={spec.sha256,0x5d470,36,0x10000,0x6d470};
     HMODULE module=recon_register_module(&spec); void *base=image_data;
     assert(sizeof(IMAGE_EXPORT_DIRECTORY)==40 && offsetof(IMAGE_EXPORT_DIRECTORY,AddressOfNameOrdinals)==36);
     if(!strcmp(mode,"hash")) proof.sha256="0000000000000000000000000000000000000000000000000000000000000000";
     if(!strcmp(mode,"owner")) module=(HMODULE)2;
     if(!strcmp(mode,"range")) proof.original_rva=0xfffffff0;
+    if(!strcmp(mode,"rva-as-va")) proof.original_rva=0x6d470;
     if(!strcmp(mode,"heap")) base=malloc(36);
     if(strcmp(mode,"unregistered")) recon_register_module_memory(module,&proof,base,!strcmp(mode,"size")?35:36);
-    if(!strcmp(mode,"overlap")) { proof.original_rva++;proof.size--; recon_register_module_memory(module,&proof,image_data+1,35); }
+    if(!strcmp(mode,"overlap")) { proof.original_rva++;proof.original_va++;proof.size--; recon_register_module_memory(module,&proof,image_data+1,35); }
 #else
     (void)argc; (void)argv;
 #endif

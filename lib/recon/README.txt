@@ -467,10 +467,13 @@ current-1 (including a leading NUL sentinel), or NULL at/before start. Preserve
 errors and reject null/non-ASCII/unknown-state inputs rather than guessing DBCS.
 
 A verified host can register encountered module data through
-ReconModuleMemorySpec {sha256,original_rva,size} and recon_register_module_memory
+ReconModuleMemorySpec {sha256,original_rva,size,original_image_base,original_va} and recon_register_module_memory
 (module,proof,native_base,native_size). Registration checks module identity, exact
-extent, nonoverlap and main ELF writable PT_LOAD membership. It lives outside
-the target graph and is bound to original .data/source evidence in the receipt.
+extent, checked image_base+rva==va, nonoverlap and main ELF writable PT_LOAD
+membership. It lives outside
+the target graph and is bound to original image-data/source evidence in the receipt (including .bss).
+Coordinate consistency is checked in the library; exact original section/global
+identity comes from the host hash-bound reference validator, not from SHA lookup.
 FlushViewOfFile accepts only the exact registered base with zero size, preserving
 observed errors without persisting private image memory. Other image pointers
 remain unsupported. This reproduces LINK's actual successful global-record flush;
