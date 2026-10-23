@@ -951,7 +951,10 @@
     "_omf_record_symbol_lines",
     "_omf_lookup_relocation_symbol",
     "_omf_warning",
-    "_vfprintf"
+    "_vfprintf",
+    "_display_legacy_strings",
+    "_display_legacy_menu",
+    "_display_legacy_dialog"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -8117,26 +8120,35 @@
     {
       "name": "_display_legacy_strings",
       "start": 281088,
-      "end": 281089,
-      "implementation": "stub-C",
+      "end": 281304,
+      "implementation": "C",
       "source": "src/resource-legacy.c",
-      "abi": "cdecl void(const unsigned char *,unsigned long)"
+      "abi": "cdecl void(const unsigned char *,unsigned long)",
+      "evidence": "Whole216-byte callback. Direct external typed-table test, not public CLI; actual two cdecl formals, C-locale used indices/stdout/errors match at fresh first entry, saved registers/stack/payload/guards and complete123-byte output match. cases/legacy-resource-diagnostics/acceptance/strings. Unconsumed native TAB ctype difference retained, no table equivalence claim."
     },
     {
       "name": "_display_legacy_menu",
       "start": 281312,
-      "end": 281313,
-      "implementation": "stub-C",
+      "end": 281681,
+      "implementation": "C",
       "source": "src/resource-legacy.c",
-      "abi": "cdecl void(const unsigned char *,unsigned long)"
+      "abi": "cdecl void(const unsigned char *,unsigned long)",
+      "evidence": "Whole366 instruction bytes+3 internal alignment; external typed-table diagnostic callback, not CLI. Two actual cdecl formals and32-byte owned payload/guards, stdout/errors, fresh first-entry and complete349-byte original/native output/return ABI. cases/legacy-resource-diagnostics/acceptance/menu."
     },
     {
       "name": "_display_legacy_dialog",
       "start": 281696,
-      "end": 281697,
-      "implementation": "stub-C",
+      "end": 282670,
+      "implementation": "C",
       "source": "src/resource-legacy.c",
-      "abi": "cdecl void(const unsigned char *,unsigned long)"
+      "abi": "cdecl void(const unsigned char *,unsigned long)",
+      "shared": [
+        [
+          282672,
+          282696
+        ]
+      ],
+      "evidence": "Whole967 instruction bytes+7 internal alignment and24-byte six-way class table. External direct typed-table callback, not public CLI; actual cdecl payload/size, stdout/errors, guards and return ABI, complete910-byte output. Signed high-byte class yields UNKNOWN65410 as original; statically included class labels are not exercised. cases/legacy-resource-diagnostics/acceptance/dialog."
     },
     {
       "name": "_omf_expand_iterated_block",
@@ -9281,6 +9293,9 @@
     "omf-continuation-continued",
     "omf-continuation-continued",
     "omf-continuation-use16",
-    "omf-continuation-use16-controlled"
+    "omf-continuation-use16-controlled",
+    "legacy-resource-diagnostics-strings",
+    "legacy-resource-diagnostics-menu",
+    "legacy-resource-diagnostics-dialog"
   ]
 }

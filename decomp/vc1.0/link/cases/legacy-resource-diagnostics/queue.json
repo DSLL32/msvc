@@ -1,0 +1,17 @@
+{
+  "status": "completed",
+  "order": [
+    "strings",
+    "menu",
+    "dialog"
+  ],
+  "boundary": "External direct cdecl diagnostic callback tests. Public CLI dormant; original typed-table selection. No cancellation execution. No new CRT.",
+  "application_instruction_bytes": 1549,
+  "inline_bytes": 24,
+  "alignment_bytes": 10,
+  "accepted_frontiers": 955,
+  "app_instruction_bytes": 1549,
+  "accepted_extent_bytes_added": 1583,
+  "cached_cases": 77,
+  "scope": "74publicCLI regressions plus3external direct callback tests; not public diagnostic CLI reachability"
+}

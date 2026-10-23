@@ -1284,3 +1284,22 @@ Accepted extent88.1097% is not branch coverage or onlyCRT completion. Remaining
 6996knownOMFdebug-gated bytes and16827unclassified bytes need honest reachability/
 classification. Read-only16localCRT inventory records prior work, not new credit.
 See cases/omf-continuation for exact source/ELF/clock/callback bindings and timing.
+
+Direct Win16 callback checkpoint955
+
+Original typed resource table4/5/6 selects menu/dialog/strings. The normal LINK
+adapter constructs argc5 without-d/-v; independent raw table/xrefs/full listings
+freeze dormancy. An external minimal driver runs real original CRT startup then
+calls the actual table callback with owned valid payload and two cdecl formals.
+Its sentinel/fflush are external test operations, not invented original callers.
+Fresh mask/native entries and complete returns/streams/input/guards match.
+Whole C functions preserve the signed dialog class quirk and separate24B switch
+ownership. No executable assembly implementation/bulk image data/new CRT source.
+
+The initial full ctype TAB28/68 discrepancy is retained with consumed-index scope;
+shared29b61167 fixes the proved default table bit. Final native observations match
+all257 entries against unchanged originals. GDB acceptance is separate from77
+Wine-free cached fixtures. Independent20 host mutation denials plus canonical
+794CFG/778callback/490data/41ECX checks pass. Scope/timings/actual source inventory
+are under cases/legacy-resource-diagnostics. Cancellation remains transport HOLD,
+not cleanup coverage. Unknown remaining15244 bytes require classification.

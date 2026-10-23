@@ -1,0 +1,35 @@
+
+Dialog Resource: dumping 106 bytes
+    Dialog Header
+            lStyle = 0x90c800c0
+    bNumberOfItems = 2
+                 x = 10
+                 y = 10
+                cx = 160
+                cy = 75
+        szMenuName = "ÿg"
+       szClassName = ""
+         szCaption = "Legacy dialog"
+        wPointSize = 9
+         szCaption = "Arial"
+    Control Data #0
+                 x = 8
+                 y = 8
+                cx = 140
+                cy = 12
+               wID = 201
+            lStyle = 0x50000000
+         ClassType = UNKNOWN( 65410 )
+            szText ="Win16 resource conversion"
+           cbParms = 0
+    Control Data #1
+                 x = 55
+                 y = 45
+                cx = 50
+                cy = 14
+               wID = 1
+            lStyle = 0x50010001
+           szClass ="BUTTON"
+            szText ="OK"
+           cbParms = 0
+

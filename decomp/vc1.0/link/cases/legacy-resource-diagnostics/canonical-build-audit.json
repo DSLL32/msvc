@@ -1,0 +1,10 @@
+{
+  "command": [
+    "make",
+    "-j4",
+    "all",
+    "audit"
+  ],
+  "seconds": 8.925717107951641,
+  "status": 0
+}

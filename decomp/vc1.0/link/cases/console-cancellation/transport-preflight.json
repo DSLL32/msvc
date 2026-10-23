@@ -1,0 +1,184 @@
+{
+  "scope": "Explicit original-only public API transport; owned private Xserver/helperconsole/childgroup. No sleeps, internalcallbackdispatch or sharedprocess signals.",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/link/console-cancellation-preflight-ab_a2m8h",
+  "xvfb": {
+    "command": [
+      "Xvfb",
+      "-displayfd",
+      "4",
+      "-screen",
+      "0",
+      "1024x768x24",
+      "-nolisten",
+      "tcp"
+    ],
+    "pid": 1660682,
+    "executable_sha256": "14e8ec7d8209bbaf105f9ade27a80b65f01709346690d18fbadb6116ada34912",
+    "display": ":2",
+    "readiness_seconds": 0.08139342442154884,
+    "exit": 0
+  },
+  "runs": [
+    {
+      "command": [
+        "python3",
+        "scripts/capture-case.py",
+        "--spec",
+        "/root/msvc2/decomp/vc1.0/link/cases/console-cancellation/preflight-spec.json",
+        "--mode",
+        "original",
+        "--sample",
+        "0x26b99:analysis_cancel_register_before",
+        "--sample",
+        "0x26b9e:analysis_cancel_register_after",
+        "--sample",
+        "0x1c700:analysis_cancel_boundary",
+        "--sample",
+        "0x270f0:analysis_decoder_cancel_handler",
+        "--sample",
+        "0x3d670:analysis_decoder_cancel_cleanup"
+      ],
+      "returncode": 0,
+      "seconds": 3.735136347822845,
+      "capture_directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/console-cancellation/original-a01j4j2r",
+      "receipt": {
+        "mode": "original",
+        "analysis_samples": [
+          "0x26b99:analysis_cancel_register_before",
+          "0x26b9e:analysis_cancel_register_after",
+          "0x1c700:analysis_cancel_boundary",
+          "0x270f0:analysis_decoder_cancel_handler",
+          "0x3d670:analysis_decoder_cancel_cleanup"
+        ],
+        "helper_sha256": "1eaccdc647b37a0e52d920411b436df77e7aee4c66d728eb5bfe9dc43f0ad150",
+        "helper_source_sha256": "6b24e45a985468418d1fec6d4572894dec917c3ae4c047021876ba616bf79299",
+        "working_files": {
+          "cancel.dll": {
+            "bytes": 2097152,
+            "sha256": "a22196980bf47422caa6f18aae9577b4013bb29afb9fc3db680d9ffbca187c3b"
+          },
+          "large.obj": {
+            "bytes": 3146640,
+            "sha256": "3c72d7154b534ff88f2cc87856e6564caa7a47f6b688f232441e9dff48e13f74"
+          }
+        },
+        "case": "console-cancellation",
+        "helper_exit": 0,
+        "summary": {
+          "event": "summary",
+          "root_exit": 1,
+          "failed": 0,
+          "packers": 0,
+          "packer_stdout_start": 0,
+          "packer_stdout_end": 0,
+          "packer_stderr_start": 0,
+          "packer_stderr_end": 0
+        },
+        "events_sha256": "75d942cd91e87209b2e71c8aa53eb6dafb1bba91883e77e0c426a6c8353ba3b8",
+        "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+        "accepted_count": 952,
+        "accepted_sha256": "be3458baa3c1fc3dffd1318a1a038a8586e54687987ad60ec4cc9a27a0492762",
+        "environment": {
+          "LIB": "R:\\toolchains\\1.0-nt\\lib",
+          "LINK32_DB": null,
+          "LINK_REPRO": null,
+          "TMP": "S:\\vc1.0\\link\\console-cancellation",
+          "TEMP": "S:\\vc1.0\\link\\console-cancellation"
+        },
+        "command": [
+          "wine",
+          "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+          "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+          "-link /dll /nodefaultlib /entry:E /out:cancel.dll large.obj",
+          "S:\\vc1.0\\link\\new-captures\\console-cancellation\\original-a01j4j2r\\stdout.bin",
+          "S:\\vc1.0\\link\\new-captures\\console-cancellation\\original-a01j4j2r\\stderr.bin",
+          "S:\\vc1.0\\link\\new-captures\\console-cancellation\\original-a01j4j2r\\events.jsonl",
+          "S:\\vc1.0\\link\\console-cancellation",
+          "S:\\vc1.0\\link\\new-captures\\console-cancellation\\original-a01j4j2r\\text.bin",
+          "S:\\vc1.0\\link\\new-captures\\console-cancellation\\original-a01j4j2r\\entries.txt",
+          "S:\\vc1.0\\link\\new-captures\\console-cancellation\\original-a01j4j2r\\before.dll",
+          "S:\\vc1.0\\link\\new-captures\\console-cancellation\\original-a01j4j2r\\after.dll",
+          "-"
+        ],
+        "seconds": 3.5667641600593925
+      },
+      "transport_events": [
+        {
+          "event": "cancel_owned_console",
+          "helper_pid": 664,
+          "detached": 1,
+          "allocated": 1,
+          "last_error": 0
+        },
+        {
+          "event": "cancel_registration_before",
+          "pid": 640,
+          "tid": 412,
+          "handler": 159984,
+          "add": 1
+        },
+        {
+          "event": "cancel_registration_after",
+          "result": 1
+        },
+        {
+          "event": "cancel_safe_boundary",
+          "pid": 640,
+          "tid": 412,
+          "site": 116480,
+          "fp_control": 4294902399,
+          "fp_status": 4294902016,
+          "fp_tag": 4294967295,
+          "slots": [
+            {
+              "pointer": 8188880,
+              "name": "cancel.dll",
+              "words": [
+                8207124,
+                27,
+                15,
+                512,
+                76,
+                84,
+                9175040,
+                2097152,
+                512,
+                0
+              ]
+            },
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "active_owned_output": 1
+        },
+        {
+          "event": "cancel_suspend_main",
+          "tid": 412,
+          "previous_count": 0
+        },
+        {
+          "event": "cancel_public_dispatch",
+          "caller_pid": 664,
+          "group": 640,
+          "control": 1,
+          "result": 1,
+          "last_error": 0
+        }
+      ]
+    }
+  ],
+  "status": "HOLD-public-transport-failed"
+}

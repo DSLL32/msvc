@@ -1,0 +1,53 @@
+{
+  "mode": "masked",
+  "trial": false,
+  "function": "dialog",
+  "boundary": "External minimal cdecl code test; not public CLI or original application caller",
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-legacy-diagnostics.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "R:\\decomp\\vc1.0\\link\\cases\\legacy-resource-diagnostics\\inputs\\dialog.bin",
+    "5",
+    "0x44c60",
+    "S:\\vc1.0\\link\\new-captures\\legacy-resource-diagnostics\\dialog-masked-thwunpfc\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\legacy-resource-diagnostics\\dialog-masked-thwunpfc\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\legacy-resource-diagnostics\\dialog-masked-thwunpfc\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\legacy-resource-diagnostics\\dialog-masked-thwunpfc\\events.jsonl",
+    "S:\\vc1.0\\link\\legacy-resource-diagnostics"
+  ],
+  "helper_exit": 0,
+  "seconds": 1.049682144075632,
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "helper_sha256": "25085d642591995e644d816b38564951fc0b5f62bc64026d73e14bf575e7155a",
+  "helper_source_sha256": "d6619555ff7051af0dddeadcece31c437990ab9adf7fcaeae0c028f8c21c99ff",
+  "provenance_sha256": "3ca71de0cd2188fe7e3b2bf3aaaab2e1885f5e0627ffe05061143fc45b6e5692",
+  "input_sha256": "4e3a6333f5b72d795269bb7e1a159005686d05af62e44b4c20e3d6fcdfa15ec8",
+  "accepted_count": 954,
+  "accepted_sha256": "79a468ecf81cfc040eabb4045404f1d9b1d32583fdf6dc56c453787b12633306",
+  "files": {},
+  "summary": {
+    "event": "summary",
+    "failed": 0,
+    "stopped": 2,
+    "exit": 17,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0
+  },
+  "stdout.bin": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr.bin": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "events.jsonl": {
+    "bytes": 2912,
+    "sha256": "a5baa28b367561a48f5c49ec16137272d8f2a561f497930e4311d9a87fbd9fa0"
+  },
+  "text.bin": {
+    "bytes": 282120,
+    "sha256": "626b33439f033be4ae9ca8b127535d7ea2eaa71cf022891ae6b50c9921606fc5"
+  }
+}

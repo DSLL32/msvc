@@ -522,7 +522,7 @@
     }
   },
   "metadata_sha256": {
-    "functions.json": "744b74830bea86ffd65b2901178b984aa47dba2e60666beca8612b2771252ded",
+    "functions.json": "c948f26431cd741598047effdfaa8974dbe18faa4b2112838e64093d6ded8bfe",
     "runtime.json": "66d9b98b4e9819622266f974ad10d446f42ef52de3204544beca788bd8251ec0",
     "replay-cases.json": "7917cd8dc1c964b39204545c7e4d0ea8e81c848fbc16d374d455dcc084748d60"
   },
@@ -2085,17 +2085,17 @@
     "display_legacy_dialog": {
       "source": "src/resource-legacy.c",
       "logical": "_display_legacy_dialog",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "display_legacy_menu": {
       "source": "src/resource-legacy.c",
       "logical": "_display_legacy_menu",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "display_legacy_strings": {
       "source": "src/resource-legacy.c",
       "logical": "_display_legacy_strings",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "driver_usage": {
       "source": "src/stubs.c",
@@ -5221,7 +5221,10 @@
     "omf_extend_section",
     "omf_record_symbol_lines",
     "omf_lookup_relocation_symbol",
-    "omf_warning"
+    "omf_warning",
+    "display_legacy_strings",
+    "display_legacy_menu",
+    "display_legacy_dialog"
   ],
   "excluded_accepted": {
     "CRT": [

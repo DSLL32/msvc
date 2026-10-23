@@ -1,0 +1,34 @@
+{
+  "status": "pass",
+  "checks": {
+    "entry": {
+      "formals": "two actual cdecl DWORDs: owned payload pointer and exact byte count",
+      "payload_sha256": "fa4118f9aa7f8008e292c8300156b26d942ccc3e5c6c62ce16291116c697871b",
+      "size": 49,
+      "guards": "64bytes A5 unchanged",
+      "locale": "All257 original/native C ctype entries and mb_cur_max1 match",
+      "errors": [
+        0,
+        0,
+        0
+      ],
+      "stdout": "complete defined FILE fields, logical buffer occupancy and pending bytes match"
+    },
+    "return": {
+      "formals": "two actual cdecl DWORDs: owned payload pointer and exact byte count",
+      "payload_sha256": "fa4118f9aa7f8008e292c8300156b26d942ccc3e5c6c62ce16291116c697871b",
+      "size": 49,
+      "guards": "64bytes A5 unchanged",
+      "locale": "All257 original/native C ctype entries and mb_cur_max1 match",
+      "errors": [
+        0,
+        0,
+        0
+      ],
+      "stdout": "complete defined FILE fields, logical buffer occupancy and pending bytes match"
+    }
+  },
+  "state_sha256": "87bf9e0b1dcce865bdae567eb7ec4454ccce26125fce523b086bbd6fb032a9ea",
+  "validator_sha256": "793d415f9b0f463335e436609479f14ba47af1e5ca0ab01b2f7870c202b4a5dd",
+  "scope": "Host-only revalidation of actual final GDB packets, not a new execution"
+}

@@ -1,0 +1,12 @@
+{"event":"cancel_owned_console","helper_pid":664,"detached":1,"allocated":1,"last_error":0}
+{"event":"create","pid":640,"parent":664,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -link /dll /nodefaultlib /entry:E /out:cancel.dll large.obj"}
+{"event":"entry","pid":640,"rva":93081,"name":"analysis_cancel_register_before","crt_errno":0}
+{"event":"cancel_registration_before","pid":640,"tid":412,"handler":159984,"add":1}
+{"event":"entry","pid":640,"rva":93086,"name":"analysis_cancel_register_after","crt_errno":0}
+{"event":"cancel_registration_after","result":1}
+{"event":"entry","pid":640,"rva":50944,"name":"analysis_cancel_boundary","crt_errno":0}
+{"event":"cancel_safe_boundary","pid":640,"tid":412,"site":116480,"fp_control":4294902399,"fp_status":4294902016,"fp_tag":4294967295,"slots":[{"pointer":8188880,"name":"cancel.dll","words":[8207124,27,15,512,76,84,9175040,2097152,512,0]},null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"active_owned_output":1}
+{"event":"cancel_suspend_main","tid":412,"previous_count":0}
+{"event":"cancel_public_dispatch","caller_pid":664,"group":640,"control":1,"result":1,"last_error":0}
+{"event":"exit","pid":640,"code":1,"packer":0}
+{"event":"summary","root_exit":1,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

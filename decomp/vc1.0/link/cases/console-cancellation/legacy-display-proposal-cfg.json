@@ -1,0 +1,80 @@
+[
+  {
+    "name": "display_legacy_strings",
+    "start": "0x44a00",
+    "end": "0x44ad8",
+    "instruction_bytes": 216,
+    "alignment_bytes": 0,
+    "gaps": [],
+    "inline_data": [],
+    "calls": [
+      "0x50f60",
+      "0x531b0"
+    ],
+    "unresolved": [],
+    "scope": "StaticwholefunctionCFG inclall6embeddedtable destinations; notactualcasebranchcoverage. Signedbyteclassdispatchmaymakepredefinedclasslabelsunreachable; preserveactualnative/originalquirk."
+  },
+  {
+    "name": "display_legacy_menu",
+    "start": "0x44ae0",
+    "end": "0x44c51",
+    "instruction_bytes": 366,
+    "alignment_bytes": 3,
+    "gaps": [
+      [
+        "0x44b4d",
+        "0x44b50",
+        "8d4900"
+      ]
+    ],
+    "inline_data": [],
+    "calls": [
+      "0x50f60"
+    ],
+    "unresolved": [],
+    "scope": "StaticwholefunctionCFG inclall6embeddedtable destinations; notactualcasebranchcoverage. Signedbyteclassdispatchmaymakepredefinedclasslabelsunreachable; preserveactualnative/originalquirk."
+  },
+  {
+    "name": "display_legacy_dialog",
+    "start": "0x44c60",
+    "end": "0x4502e",
+    "instruction_bytes": 967,
+    "alignment_bytes": 7,
+    "gaps": [
+      [
+        "0x44d3e",
+        "0x44d40",
+        "8bff"
+      ],
+      [
+        "0x44d4e",
+        "0x44d50",
+        "8bff"
+      ],
+      [
+        "0x44ead",
+        "0x44eb0",
+        "8d4900"
+      ]
+    ],
+    "inline_data": [
+      {
+        "address": "0x45030",
+        "bytes": 24,
+        "targets": [
+          "0x44eb0",
+          "0x44ec3",
+          "0x44ed3",
+          "0x44ee3",
+          "0x44ef3",
+          "0x44f03"
+        ]
+      }
+    ],
+    "calls": [
+      "0x50f60"
+    ],
+    "unresolved": [],
+    "scope": "StaticwholefunctionCFG inclall6embeddedtable destinations; notactualcasebranchcoverage. Signedbyteclassdispatchmaymakepredefinedclasslabelsunreachable; preserveactualnative/originalquirk."
+  }
+]

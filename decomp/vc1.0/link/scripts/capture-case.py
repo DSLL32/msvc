@@ -76,6 +76,8 @@ def main():
         environment['TMP']=environment['TEMP']=windows(work)
         for key,value in spec.get('environment',{}).items():environment[key]=value.replace('{lib}',LIBRARY)
         environment.pop('LINK_CAPTURE_TMP',None)
+        environment.pop('LINK_CAPTURE_BREAK',None)
+        if spec.get('public_console_break'):environment['LINK_CAPTURE_BREAK']='1'
         if spec.get('controlled_tmp'):environment['LINK_CAPTURE_TMP']=windows(work)
         command=['wine',windows(base/'tooling/capture-original.exe'),PROGRAM,subprocess.list2cmdline(spec['arguments']),windows(capture/'stdout.bin'),windows(capture/'stderr.bin'),windows(capture/'events.jsonl'),windows(work),windows(capture/'text.bin'),windows(capture/'entries.txt'),windows(capture/'before.dll'),windows(capture/'after.dll'),'-']
         if spec.get('external_copies'):

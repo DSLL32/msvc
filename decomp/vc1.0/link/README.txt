@@ -322,3 +322,22 @@ outputs match. All74native cases/758entries pass6.037s, build1.841s separately.
 791CFG/775callback/490data/41ECX checks pass. Extent248147/281634=88.1097%;6996known
 OMF debug-gated bytes and16827unclassified bytes remain pending, not CRT. See
 cases/omf-continuation for scope, whole-body evidence, failures and split timing.
+
+Win16 resource diagnostic callback checkpoint (955 frontiers)
+
+Three whole readable-C callbacks add1549 instruction bytes+10alignment+24inline
+class-table bytes. These are explicitly external direct code tests; the public
+LINK adapter never enables embedded CVTRES diagnostics. Typed original table,
+two actual cdecl formals, complete payload/guards/CRT/stdout/errors and saved-
+register/ESP return evidence match. Signed predefined-class bug is preserved.
+Twice originals and fresh masked/native runs produce exact123/349/910byte streams.
+The initial unusedTAB ctype mismatch is retained; maintainer correction29b61167
+now makes all257 original/native table entries match without recapturing refs.
+All77cached native cases/761appentries pass (74CLI+3direct); prior74 external6.080s,
+direct3trace.342s, output-only3.090s. Build1.861s and GDB.754s separate; canonical
+8.926s/794graphs/778callbacks/490data/41ECX and negativecontrols pass. Extent is
+249730/281634=88.6718%, not branch coverage or onlyCRT completion. Remaining15244
+unaccepted unclassified bytes are not CRT. See cases/legacy-resource-diagnostics
+for raw proof, exact scope, failures, split timing and cached-only commands.
+Separate public cancellation transport remains HOLD with no handler/cleanup
+coverage; read-only Wine source diagnosis is not target evidence.

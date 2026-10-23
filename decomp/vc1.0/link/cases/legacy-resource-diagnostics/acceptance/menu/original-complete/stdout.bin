@@ -1,0 +1,15 @@
+
+Menu Resource: dumping 32 bytes
+    Menu Header = { 0x0000,0x0000 }
+    Popup menu item
+        Flags = MF_END 
+        szItemText = "&File"
+    Normal menu item
+        wMenuId = 0x0065
+        Flags = 
+        szItemText = "&Open"
+    Normal menu item
+        wMenuId = 0x0066
+        Flags = MF_END 
+        szItemText = "E&xit"
+

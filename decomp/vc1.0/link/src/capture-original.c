@@ -23,6 +23,8 @@ static FILE *log_file;
 typedef struct CopyPlan { char image[4096],command[4096],cwd[4096],source[4096],destination[4096]; } CopyPlan;
 static CopyPlan copy_plans[8];
 static unsigned copy_count,next_copy;
+static int cancel_public,cancel_dispatched,cancel_registered;
+static DWORD cancel_handler,cancel_main_tid;
 
 static void quoted(const char *s)
 {
@@ -520,6 +522,63 @@ static void context_log(Process *process,HANDLE thread)
     }
 }
 
+/* Opt-in public-console cancellation preflight. Only an owned child group is
+ * signalled. The original registered callback is observed, never invoked here. */
+static int cancellation_sample(Process *process,Thread *thread,DWORD site,DWORD root_pid)
+{
+    CONTEXT context;DWORD got,args[3],slots[16],fields[10],i,n,active=0,error,suspended;
+    char name[512];BOOL result;
+    if(!cancel_public)return 1;
+    memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL|CONTEXT_FLOATING_POINT;
+    if(!GetThreadContext(thread->handle,&context))return 0;
+    if(site==0x26b99){
+        if(!ReadProcessMemory(process->handle,(void *)context.Esp,args,8,&got)||got!=8)return 0;
+        cancel_handler=args[0];
+        fprintf(log_file,"{\"event\":\"cancel_registration_before\",\"pid\":%lu,\"tid\":%lu,\"handler\":%lu,\"add\":%lu}\n",process->pid,thread->tid,args[0],args[1]);fflush(log_file);
+        return cancel_handler==0x270f0 && args[1]==1;
+    }
+    if(site==0x26b9e){
+        cancel_registered=context.Eax!=0;
+        fprintf(log_file,"{\"event\":\"cancel_registration_after\",\"result\":%lu}\n",context.Eax);fflush(log_file);
+        return cancel_registered;
+    }
+    if(site==0x270f0 || site==0x3d670){
+        DWORD registration,last,crt,dos;
+        if(!ReadProcessMemory(process->handle,(void *)context.Esp,args,8,&got)||got!=8)return 0;
+        ReadProcessMemory(process->handle,(void *)thread->teb,&registration,4,&got);
+        ReadProcessMemory(process->handle,(void *)(thread->teb+0x34),&last,4,&got);
+        ReadProcessMemory(process->handle,(void *)0x852d8,&crt,4,&got);
+        ReadProcessMemory(process->handle,(void *)0x852dc,&dos,4,&got);
+        fprintf(log_file,"{\"event\":\"cancel_callback_context\",\"site\":%lu,\"pid\":%lu,\"tid\":%lu,\"main_tid\":%lu,\"teb\":%lu,\"registration\":%lu,\"return_address\":%lu,\"first_stack_word\":%lu,\"esp\":%lu,\"errno\":%lu,\"doserrno\":%lu,\"last_error\":%lu,\"fp_control\":%lu,\"fp_status\":%lu,\"fp_tag\":%lu}\n",site,process->pid,thread->tid,cancel_main_tid,thread->teb,registration,args[0],args[1],context.Esp,crt,dos,last,context.FloatSave.ControlWord,context.FloatSave.StatusWord,context.FloatSave.TagWord);fflush(log_file);
+        if(!cancel_dispatched || thread->tid==cancel_main_tid || (site==0x270f0 && args[1]!=CTRL_BREAK_EVENT))return 0;
+        return 1;
+    }
+    if(site!=0x1c700)return 1;
+    if(process->pid!=root_pid || !cancel_registered || cancel_dispatched)return 0;
+    if(!ReadProcessMemory(process->handle,(void *)0x6ed40,slots,64,&got)||got!=64)return 0;
+    fprintf(log_file,"{\"event\":\"cancel_safe_boundary\",\"pid\":%lu,\"tid\":%lu,\"site\":%lu,\"fp_control\":%lu,\"fp_status\":%lu,\"fp_tag\":%lu,\"slots\":[",process->pid,thread->tid,site,context.FloatSave.ControlWord,context.FloatSave.StatusWord,context.FloatSave.TagWord);
+    for(i=0;i<16;++i){
+        if(i)fprintf(log_file,",");
+        if(!slots[i]){fprintf(log_file,"null");continue;}
+        if(!ReadProcessMemory(process->handle,(void *)slots[i],fields,40,&got)||got!=40)return 0;
+        memset(name,0,sizeof(name));ReadProcessMemory(process->handle,(void *)fields[0],name,511,&got);
+        fprintf(log_file,"{\"pointer\":%lu,\"name\":",slots[i]);quoted(name);fprintf(log_file,",\"words\":[");
+        for(n=0;n<10;++n)fprintf(log_file,"%s%lu",n?",":"",fields[n]);fprintf(log_file,"]}");
+        if(!strcmp(name,"cancel.dll") && (fields[1]&2) && fields[4] && fields[5] && fields[6])++active;
+    }
+    fprintf(log_file,"],\"active_owned_output\":%lu}\n",active);fflush(log_file);
+    if(active!=1)return 0;
+    suspended=SuspendThread(thread->handle);
+    fprintf(log_file,"{\"event\":\"cancel_suspend_main\",\"tid\":%lu,\"previous_count\":%lu}\n",thread->tid,suspended);fflush(log_file);
+    if(suspended!=0)return 0;
+    cancel_main_tid=thread->tid;
+    SetLastError(0);result=GenerateConsoleCtrlEvent(CTRL_BREAK_EVENT,root_pid);error=GetLastError();
+    fprintf(log_file,"{\"event\":\"cancel_public_dispatch\",\"caller_pid\":%lu,\"group\":%lu,\"control\":1,\"result\":%d,\"last_error\":%lu}\n",GetCurrentProcessId(),root_pid,result,error);fflush(log_file);
+    if(!result)return 0;
+    cancel_dispatched=1;
+    return 1;
+}
+
 int main(int argc,char **argv)
 {
     STARTUPINFOA startup;
@@ -541,7 +600,8 @@ int main(int argc,char **argv)
     void *parameters;
     char command[8192],image[4096],child_command[4096],child_cwd[4096],dll[4096];
     char line[4096];
-    DWORD parent_errno;
+    DWORD parent_errno,creation_flags=DEBUG_PROCESS;
+    cancel_public=getenv("LINK_CAPTURE_BREAK")!=NULL;
     if (argc!=12 && argc!=13) return 2;
     if (argc==13) {
         file=fopen(argv[12],"rt");
@@ -599,11 +659,19 @@ int main(int argc,char **argv)
             quoted(temporary);fprintf(log_file,"}\n");fflush(log_file);
         }
     }
-    if (!CreateProcessA(argv[1],command,NULL,NULL,TRUE,DEBUG_PROCESS,NULL,argv[6],&startup,&launched))
+    if(cancel_public){
+        BOOL detached,allocated;DWORD console_error;
+        detached=FreeConsole();SetLastError(0);allocated=AllocConsole();console_error=GetLastError();
+        fprintf(log_file,"{\"event\":\"cancel_owned_console\",\"helper_pid\":%lu,\"detached\":%d,\"allocated\":%d,\"last_error\":%lu}\n",GetCurrentProcessId(),detached,allocated,console_error);fflush(log_file);
+        if(!allocated){fclose(log_file);CloseHandle(output);CloseHandle(error);return 13;}
+        startup.hStdInput=GetStdHandle(STD_INPUT_HANDLE);
+        creation_flags|=CREATE_NEW_PROCESS_GROUP;
+    }
+    if (!CreateProcessA(argv[1],command,NULL,NULL,TRUE,creation_flags,NULL,argv[6],&startup,&launched))
         return 5;
     root_pid=launched.dwProcessId;CloseHandle(launched.hProcess);CloseHandle(launched.hThread);
     do {
-        if (!WaitForDebugEvent(&event,30000)) {failed=6;break;}
+        if (!WaitForDebugEvent(&event,cancel_dispatched?5000:30000)) {failed=6;break;}
         status=DBG_CONTINUE;process=NULL;thread=NULL;
         for(n=0;n<64;++n)if(processes[n].active && processes[n].pid==event.dwProcessId)process=&processes[n];
         for(n=0;n<256;++n)if(threads[n].active && threads[n].tid==event.dwThreadId)thread=&threads[n];
@@ -653,6 +721,7 @@ int main(int argc,char **argv)
             threads[n].handle=event.u.CreateProcessInfo.hThread;threads[n].active=1;
             if(event.u.CreateProcessInfo.hFile)CloseHandle(event.u.CreateProcessInfo.hFile);
         } else if (event.dwDebugEventCode==CREATE_THREAD_DEBUG_EVENT) {
+            if(cancel_public){fprintf(log_file,"{\"event\":\"cancel_create_thread\",\"pid\":%lu,\"tid\":%lu,\"start\":%lu,\"teb\":%lu,\"after_dispatch\":%d}\n",event.dwProcessId,event.dwThreadId,(DWORD)event.u.CreateThread.lpStartAddress,(DWORD)event.u.CreateThread.lpThreadLocalBase,cancel_dispatched);fflush(log_file);}
             for(n=0;n<256 && threads[n].active;++n);
             if(n==256){failed=7;break;}
             threads[n].pid=event.dwProcessId;threads[n].tid=event.dwThreadId;
@@ -718,6 +787,10 @@ int main(int argc,char **argv)
                 relocation_sample(process,&context,site);
                 strtoul_sample(process,&context,site);
                 bind_api_sample(process,thread,&context,site);
+                if(!cancellation_sample(process,thread,site,root_pid)){failed=14;break;}
+            } else if(cancel_public && cancel_dispatched && (code==0x40010005 || code==0x40010008)){
+                fprintf(log_file,"{\"event\":\"cancel_debug_console_exception\",\"code\":%lu,\"tid\":%lu,\"first_chance\":%lu}\n",code,event.dwThreadId,event.u.Exception.dwFirstChance);fflush(log_file);
+                status=DBG_EXCEPTION_NOT_HANDLED;
             } else {failed=10;context_log(process,thread->handle);break;}
         } else if(event.dwDebugEventCode==EXIT_PROCESS_DEBUG_EVENT) {
             if(!process){failed=7;break;}
@@ -747,5 +820,6 @@ int main(int argc,char **argv)
     fprintf(log_file,"{\"event\":\"summary\",\"root_exit\":%lu,\"failed\":%d,\"packers\":%lu,\"packer_stdout_start\":%lu,\"packer_stdout_end\":%lu,\"packer_stderr_start\":%lu,\"packer_stderr_end\":%lu}\n",
         root_exit,failed,packers,before_output,after_output,before_error,after_error);fclose(log_file);
     CloseHandle(output);CloseHandle(error);free(text);
+    if(cancel_public)FreeConsole();
     return failed;
 }

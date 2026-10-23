@@ -1,0 +1,33 @@
+{
+  "status": "independent static proof",
+  "initial_frozen_proof_sha256": "3ca71de0cd2188fe7e3b2bf3aaaab2e1885f5e0627ffe05061143fc45b6e5692",
+  "debug_writer": {
+    "address": "0x428f6",
+    "operation": "resource_debug=1",
+    "condition": "only converter driver -d match"
+  },
+  "actual_table_selection": {
+    "address": "0x440c6",
+    "operation": "LEA type*16+legacy_resource_types",
+    "indirect_call": "0x44172",
+    "field": "display_input +8"
+  },
+  "public_adapter": {
+    "call": "0x21092",
+    "argc": 5,
+    "argv": [
+      "cvtres",
+      "-i386 or -mips",
+      "-o",
+      "temporary output",
+      "input resource"
+    ],
+    "debug_option_absent": true
+  },
+  "extent_inputs": {
+    "strings": "two cdecl formals; payload bytes; stdout; MB_CUR_MAX and _pctype indexed only for nonnegative ASCII bytes, mask0x157",
+    "menu": "two cdecl formals; serialized payload; stdout; ordinary format literals",
+    "dialog": "two cdecl formals; serialized payload; stdout; six-way contextual class table; no incoming general-purpose register used before definition/save"
+  },
+  "limits": "No CLI diagnostic reachability. Original display_legacy_dialog signed high-bit class values take default; unvisited switch labels are statically reconstructed, not exercised."
+}

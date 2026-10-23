@@ -1,4 +1,5 @@
 /* Win16 resource templates converted to their Win32 representation. */
+#include <ctype.h>
 #include "resources.h"
 #include <recon.h>
 
@@ -286,6 +287,152 @@ unsigned long convert_legacy_strings(const unsigned char *input,unsigned long si
     }
     return destination-output;
 }
-void display_legacy_strings(const unsigned char *input,unsigned long size) { __asm { int 3 } }
-void display_legacy_menu(const unsigned char *input,unsigned long size) { __asm { int 3 } }
-void display_legacy_dialog(const unsigned char *input,unsigned long size) { __asm { int 3 } }
+/* Original [00044a00,00044ad8). The signed-byte range check precedes
+ * the C-locale table lookup; bytes with the high bit set print as dots. */
+void display_legacy_strings(const unsigned char *input,unsigned long size)
+{
+    unsigned long remaining=size;
+    int length,column,character,printable;
+    printf("Number of bytes = %ld\n",size);
+    while (remaining) {
+        length=*input++;
+        --remaining;
+        if (!length) continue;
+        printf("    String = \"");
+        remaining-=length;
+        for (column=0;column<length;++column,++input) {
+            if (column && !(column%55)) printf("\n              ");
+            character=(signed char)*input;
+            printable=0;
+            if ((unsigned)character<0x80)
+                printable=MB_CUR_MAX>1 ? _isctype(character,0x157) :
+                    _pctype[character]&0x157;
+            if (printable) printf("%c",character);
+            else printf(".",character);
+        }
+        printf("\"\n");
+    }
+}
+/* Original [00044ae0,00044c51). Win16 menus are byte-packed and this
+ * diagnostic walks the serialized menu items without expanding a tree. */
+void display_legacy_menu(const unsigned char *input,unsigned long size)
+{
+    unsigned long offset=4;
+    unsigned short flags;
+    printf("\nMenu Resource: dumping %ld bytes\n",size);
+    printf("    Menu Header = { 0x%4.4x,",*(const unsigned short *)input);
+    printf("0x%4.4x }\n",*(const unsigned short *)(input+2));
+    while (offset<size) {
+        flags=*(const unsigned short *)(input+offset);
+        offset+=2;
+        if (flags&0x10) printf("    Popup menu item\n");
+        else {
+            printf("    Normal menu item\n");
+            printf("        wMenuId = 0x%4.4x\n",
+                   *(const unsigned short *)(input+offset));
+            offset+=2;
+        }
+        printf("        Flags = ");
+        if (flags&1) printf("MF_GRAYED ");
+        if (flags&2) printf("MF_DISABLED ");
+        if (flags&8) printf("MF_CHECKED ");
+        if (flags&0x20) printf("MF_MENUBARBREAK ");
+        if (flags&0x40) printf("MF_MENUBREAK ");
+        if (flags&0x80) printf("MF_END ");
+        printf("\n        szItemText = \"");
+        while (input[offset]) printf("%c",(signed char)input[offset++]);
+        printf("\"\n");
+        ++offset;
+    }
+    printf("\n");
+}
+/* Original [00044c60,0004502e), class switch data [00045030,00045048).
+ * This is the old template diagnostic, including its ANSI menu-name display
+ * and signed-byte predefined-class dispatch. Conversion has separate logic. */
+void display_legacy_dialog(const unsigned char *input,unsigned long size)
+{
+    const LegacyDialog *header=(const LegacyDialog *)input;
+    unsigned long offset=sizeof(LegacyDialog),style=header->style;
+    unsigned short class_id;
+    unsigned char count=header->controls,parameters;
+    int field,fields=(style&0x40)?4:3,item,remaining;
+    printf("\nDialog Resource: dumping %ld bytes\n",size);
+    printf("    Dialog Header\n");
+    printf("            lStyle = 0x%8.8x\n",style);
+    printf("    bNumberOfItems = %d\n",count);
+    printf("                 x = %d\n",(unsigned short)header->x);
+    printf("                 y = %d\n",(unsigned short)header->y);
+    printf("                cx = %d\n",(unsigned short)header->cx);
+    printf("                cy = %d\n",(unsigned short)header->cy);
+    for (field=0;field<fields;++field) {
+        switch (field) {
+        case 0: printf("        szMenuName = \""); break;
+        case 1: printf("       szClassName = \""); break;
+        case 2: printf("         szCaption = \""); break;
+        case 3:
+            printf("        wPointSize = %d\n",
+                   *(const unsigned short *)(input+offset));
+            offset+=2;
+            printf("         szCaption = \"");
+            break;
+        }
+        while (input[offset]) printf("%c",(signed char)input[offset++]);
+        ++offset;
+        printf("\"\n");
+    }
+    for (item=0;item<count;++item) {
+        printf("    Control Data #%d\n",item);
+        printf("                 x = %d\n",*(const unsigned short *)(input+offset));
+        offset+=2;
+        printf("                 y = %d\n",*(const unsigned short *)(input+offset));
+        offset+=2;
+        printf("                cx = %d\n",*(const unsigned short *)(input+offset));
+        offset+=2;
+        printf("                cy = %d\n",*(const unsigned short *)(input+offset));
+        offset+=2;
+        printf("               wID = %d\n",*(const unsigned short *)(input+offset));
+        offset+=2;
+        printf("            lStyle = 0x%8.8lx\n",*(const unsigned long *)(input+offset));
+        offset+=4;
+        if (input[offset]&0x80) {
+            printf("         ClassType = ");
+            /* MOVSX byte -> short -> int is deliberate. The historical
+             * predefined labels are retained despite this signed quirk. */
+            class_id=(short)(signed char)input[offset];
+            switch ((short)class_id) {
+            case 0x80: printf("Button\n"); break;
+            case 0x81: printf("Edit\n"); break;
+            case 0x82: printf("Static\n"); break;
+            case 0x83: printf("List Box\n"); break;
+            case 0x84: printf("Scroll bar\n"); break;
+            case 0x85: printf("Combo box\n"); break;
+            default: printf("UNKNOWN( %d )\n",class_id); break;
+            }
+            ++offset;
+        } else {
+            printf("           szClass =\"");
+            while (input[offset]) printf("%c",(signed char)input[offset++]);
+            ++offset;
+            printf("\"\n");
+        }
+        if (input[offset]==0xff) {
+            ++offset;
+            printf("            Index = 0x%4.4x\n",*(const unsigned short *)(input+offset));
+            offset+=2;
+        } else {
+            printf("            szText =\"");
+            while (input[offset]) printf("%c",(signed char)input[offset++]);
+            ++offset;
+            printf("\"\n");
+        }
+        parameters=input[offset++];
+        printf("           cbParms = %d\n",parameters);
+        if (parameters) {
+            printf("             Parms = ");
+            for (remaining=parameters;remaining;--remaining)
+                printf("%d ",(unsigned short)(short)(signed char)input[offset++]);
+            printf("\n");
+        }
+    }
+    printf("\n");
+}

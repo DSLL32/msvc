@@ -1,0 +1,47 @@
+{
+  "status": "pass",
+  "function": "menu",
+  "external_caller": true,
+  "return_checked": false,
+  "seconds": 0.15603307262063026,
+  "checks": {
+    "entry": {
+      "formals": "two cdecl DWORDs: owned payload pointer and exact byte count",
+      "payload_sha256": "e316c5492799945bb6053cc0063cebbc219095fb5b74d7992a17ab0e844c6550",
+      "size": 32,
+      "guards": "64bytes A5 unchanged",
+      "locale": {
+        "mb_cur_max": 1,
+        "consumed_entries": [],
+        "unconsumed_differences": [
+          [
+            9,
+            40,
+            104
+          ]
+        ],
+        "scope": "full raw tables retained; only known unconsumed TAB differs"
+      },
+      "errors": [
+        0,
+        0,
+        0
+      ],
+      "stdout": "full defined FILE state and complete pending bytes match"
+    }
+  },
+  "elf_sha256": "74dc6df68931d859800462df5aee73b65603ffaec278536dba710ebe54063ac5",
+  "source_sha256": "eeda560ea9feee37d6d3e421c929a2ba35d8ce37d85da54545da5305448d4be9",
+  "command": [
+    "gdb",
+    "-q",
+    "-nx",
+    "-batch",
+    "-ex",
+    "file /root/msvc2/decomp/vc1.0/link/build/native/legacy-diagnostics",
+    "-ex",
+    "set args 4 /root/msvc2/decomp/vc1.0/link/cases/legacy-resource-diagnostics/inputs/menu.bin",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc1.0/link/diagnostic-native-observations/menu-to3edtty/observe.py"
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "mode": "original",
+  "analysis_samples": [
+    "0x26b99:analysis_cancel_register_before",
+    "0x26b9e:analysis_cancel_register_after",
+    "0x1c700:analysis_cancel_boundary",
+    "0x270f0:analysis_decoder_cancel_handler",
+    "0x3d670:analysis_decoder_cancel_cleanup"
+  ],
+  "helper_sha256": "1eaccdc647b37a0e52d920411b436df77e7aee4c66d728eb5bfe9dc43f0ad150",
+  "helper_source_sha256": "6b24e45a985468418d1fec6d4572894dec917c3ae4c047021876ba616bf79299",
+  "working_files": {
+    "cancel.dll": {
+      "bytes": 2097152,
+      "sha256": "a22196980bf47422caa6f18aae9577b4013bb29afb9fc3db680d9ffbca187c3b"
+    },
+    "large.obj": {
+      "bytes": 3146640,
+      "sha256": "3c72d7154b534ff88f2cc87856e6564caa7a47f6b688f232441e9dff48e13f74"
+    }
+  },
+  "case": "console-cancellation",
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "root_exit": 1,
+    "failed": 0,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "75d942cd91e87209b2e71c8aa53eb6dafb1bba91883e77e0c426a6c8353ba3b8",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 952,
+  "accepted_sha256": "be3458baa3c1fc3dffd1318a1a038a8586e54687987ad60ec4cc9a27a0492762",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": null,
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\console-cancellation",
+    "TEMP": "S:\\vc1.0\\link\\console-cancellation"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-link /dll /nodefaultlib /entry:E /out:cancel.dll large.obj",
+    "S:\\vc1.0\\link\\new-captures\\console-cancellation\\original-a01j4j2r\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\console-cancellation\\original-a01j4j2r\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\console-cancellation\\original-a01j4j2r\\events.jsonl",
+    "S:\\vc1.0\\link\\console-cancellation",
+    "S:\\vc1.0\\link\\new-captures\\console-cancellation\\original-a01j4j2r\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\console-cancellation\\original-a01j4j2r\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\console-cancellation\\original-a01j4j2r\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\console-cancellation\\original-a01j4j2r\\after.dll",
+    "-"
+  ],
+  "seconds": 3.5667641600593925
+}

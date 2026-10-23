@@ -1,0 +1,54 @@
+{
+  "target_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "function_count": 3,
+  "functions": {
+    "_display_legacy_strings": {
+      "start": 281088,
+      "end": 281304,
+      "internal_tables": []
+    },
+    "_display_legacy_menu": {
+      "start": 281312,
+      "end": 281681,
+      "internal_tables": []
+    },
+    "_display_legacy_dialog": {
+      "start": 281696,
+      "end": 282670,
+      "internal_tables": [
+        {
+          "address": 282672,
+          "targets": [
+            282288,
+            282307,
+            282323,
+            282339,
+            282355,
+            282371
+          ]
+        }
+      ]
+    }
+  },
+  "instruction_bytes": 1549,
+  "extent_gap_ranges": [
+    [
+      281421,
+      281424
+    ],
+    [
+      281918,
+      281920
+    ],
+    [
+      281934,
+      281936
+    ],
+    [
+      282285,
+      282288
+    ]
+  ],
+  "unresolved_jumps": [],
+  "scope": "Whole static instruction bodies; not branch coverage or public CLI reachability. Explicit six-target class switch and separate24-byte table; signed-class default actually exercised."
+}
