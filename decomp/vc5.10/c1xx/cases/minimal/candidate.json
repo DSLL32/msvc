@@ -83,7 +83,7 @@
     "_initialize_pool_arenas",
     "CompilerPool::BindArena"
   ],
-  "trial": null,
+  "trial": "CompilerPool::Refill",
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -721,7 +721,19 @@
       "start_rva": 233364,
       "end_rva": 233389,
       "entry": 1
+    },
+    {
+      "owner": "CompilerPool::Refill",
+      "start_rva": 126505,
+      "end_rva": 126552,
+      "entry": 1
+    },
+    {
+      "owner": "CompilerPool::Refill",
+      "start_rva": 402451,
+      "end_rva": 402458,
+      "entry": 0
     }
   ],
-  "stage": "CompilerPool::BindArena accepted; next frontier CompilerPool::Refill"
+  "stage": "ceil/max page count to real arena AllocatePages with remaining-byte output"
 }

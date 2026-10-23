@@ -963,12 +963,27 @@
     {
       "name": "CompilerPool::Refill",
       "start": 272756265,
-      "end": 272756266,
+      "end": 272756312,
       "source": "src/pools.cpp",
-      "pending_extent": true,
       "abi": "thiscall4",
       "symbol": "?Refill@CompilerPool@@QAEPAEI@Z",
-      "native_symbol": "_ZN12CompilerPool6RefillEj"
+      "native_symbol": "_ZN12CompilerPool6RefillEj",
+      "code_chunks": [
+        [
+          273032211,
+          273032218
+        ]
+      ]
+    },
+    {
+      "name": "CompilerArena::AllocatePages",
+      "start": 272756312,
+      "end": 272756313,
+      "source": "src/arenas.cpp",
+      "pending_extent": true,
+      "abi": "thiscall8",
+      "symbol": "?AllocatePages@CompilerArena@@QAEPAEIPAI@Z",
+      "native_symbol": "_ZN13CompilerArena13AllocatePagesEjPj"
     }
   ],
   "status": "autonomous minimal C++ reconstruction active",

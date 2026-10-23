@@ -1,0 +1,84 @@
+{
+  "schema": 1,
+  "trial": "CompilerPool::Refill",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pool-refill-original-1",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pool-refill-native-1",
+  "original_receipt_sha256": "4371f3b9b3389ab758f96e84bf3251b20315a30a433deb6f6b27c55bff4624ea",
+  "native_receipt_sha256": "26b4e582813d3ca6fea0a8f156a8181adfa87730a6a848b3aa0766728175af5e",
+  "status": "accepted;54B sole app member; actual allocator body pending",
+  "code_bytes": 54,
+  "code_chunks": [
+    [
+      126505,
+      126552
+    ],
+    [
+      402451,
+      402458
+    ]
+  ],
+  "source": "unsigned ceil(request/page_size), maximum with minimum_pages, real arena AllocatePages(pages,&remaining), cursor assignment and return",
+  "dynamic_scope": "request1/page_size4096/minimum_pages1 computes one page; no target state written before actual pending allocator",
+  "frontier": {
+    "name": "CompilerArena::AllocatePages",
+    "rva": 126552,
+    "this_original": 273442048,
+    "pages": 1,
+    "remaining_out_pointer_original": 273418260,
+    "output_initial_value": 0,
+    "output_alias": "actual pool10.remaining DWORD,4 bytes",
+    "caller_return_rva": 126546,
+    "ABI": "ECX this, pages and unsigned*remaining stack arguments; allocator body/RET8 not dynamically accepted"
+  },
+  "new_data_fields": 0,
+  "prior_controls_reused": {
+    "path": "cases/minimal/pool-bind-member-trial.json",
+    "sha256": "ab267a4d6a64b0926ca9f80900992d002d0ba954aa81204f45b286b8bb68c797"
+  },
+  "limits": [
+    "Only natural first Refilling call executed so far",
+    "Cold max branch retained/audited, not dynamically claimed",
+    "Cursor assignment/return await genuine callee return in subsequent reconstruction",
+    "No committed region payload read or new CRT/support body"
+  ],
+  "controls": {
+    "result": "PASS",
+    "count": 10,
+    "seconds": 3.1586659168824553,
+    "scope": "ten affected page/out-pointer semantic controls after mandatory full paired strict graph/provenance validation; no binary execution",
+    "rejected": [
+      "pages",
+      "output-pointer",
+      "output-initial-value",
+      "formal-inventory",
+      "arena-receiver",
+      "caller-return",
+      "native-state-write",
+      "original-output-pointer",
+      "original-unknown-BSS",
+      "named-output-alias"
+    ]
+  },
+  "fixture": {
+    "case": "dll-lifecycle-and-exports",
+    "result": "PASS",
+    "wine_invocations": 0,
+    "seconds": {
+      "build": 0.00581206101924181,
+      "setup": 0.0010105501860380173,
+      "execution": 0.002353356219828129,
+      "checks": 0.0040412042289972305,
+      "total": 0.014043277129530907
+    }
+  },
+  "validation_sources": {
+    "scripts/pool_bind_state.py": "7832aef0e598446f6f0f0281f4e4386e8abb904f2290a806bf21da50fa07b504",
+    "scripts/check-pool-refill-negative.py": "6f33550326b1dba81b04a80efb3a994f24617dc6b31ced0b72c81970c1ec7039",
+    "scripts/scaler_probe.py": "4af848c3d07390f492bd691b11f1694472078ada570e6559431322d94b82d484",
+    "scripts/dll-capture.c": "fb04bb8fbfcbb618d257c89ce69b11831ca8b1dd345bf5b40911c70314d71b81"
+  },
+  "timing": {
+    "original": 16.051647054962814,
+    "native": 5.590714649297297
+  }
+}

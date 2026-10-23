@@ -115,6 +115,7 @@ typedef struct CompilerArena {
 #ifdef __cplusplus
     int RECON_THISCALL Reserve(const ArenaDescriptor *descriptor, BYTE *address);
     void RECON_THISCALL Reset(void);
+    unsigned char *RECON_THISCALL AllocatePages(unsigned pages, unsigned *remaining_bytes);
 #endif
 } CompilerArena;
 

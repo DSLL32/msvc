@@ -13,11 +13,11 @@ compares its graph/ABI/imports using the shared Rust auditor. Audit/build target
 may use Wine explicitly; fixture dependencies do not. Fixtures inspect the
 already-built Win32 DLL's exports without executing it.
 
-Accepted code is **75 application functions (3,312 bytes)**, **two historical CRT
+Accepted code is **76 application functions (3,366 bytes)**, **two historical CRT
 support functions (451 bytes)** and **two compiler/linker-generated import thunks (12 bytes)**.
-The 3,775 accepted code bytes are 0.5025% of the 751,216-byte code extent; this is not
+The 3,829 accepted code bytes are 0.5097% of the 751,216-byte code extent; this is not
 a non-CRT coverage percentage. The real minimal compilation remains unfinished,
-stopping in the first real pool-refill member after nine arena reservations.
+stopping in the first real page allocator after nine arena reservations.
 
 ## Target and ABI
 
@@ -298,3 +298,14 @@ reject mask/case/rebuilt/candidate/other trial changes. Both execution/source
 snapshots and trial hashes are retained. `cases/minimal/pool-bind-member-trial.json`
 records15.39s original/5.54s refreshed native and13.86ms native-only lifecycle
 fixture (2.10ms execution). No new data fields or support bodies are credited.
+
+The54-byte split Refill member is accepted (47hot+7cold). Its actual request1,
+SDK page_size4096 and existing minimum_pages1 produce one page, passed to the
+real arena0 with a4-byte output pointer aliasing pool10.remaining (initial0).
+Raw ECX/stack2, complete formals, actual CALL/caller, whole original BSS and
+native modeled/padding/saved/external guards match at the named AllocatePages
+frontier. Ten affected controls take3.16s; unchanged earlier state/protocol
+controls remain hash-referenced. `cases/minimal/pool-refill-trial.json` records
+16.05s original/5.59s native and14.04ms native-only lifecycle fixture. No new
+fields/support are introduced. The cold max branch is preserved/audited, while
+its dynamic outcome and the post-callee cursor/return await later execution.

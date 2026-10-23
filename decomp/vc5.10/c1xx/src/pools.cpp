@@ -69,9 +69,12 @@ void RECON_THISCALL CompilerPool::BindArena(unsigned arena_index)
     Refill(1);
 }
 
-/* Pending: receives the actual pool and requested byte count. */
 unsigned char *RECON_THISCALL CompilerPool::Refill(unsigned request_bytes)
 {
-    __asm { int 3 }
-    return NULL;
+    unsigned pages;
+    pages = (request_bytes - 1) / frontend_data.system_info.dwPageSize + 1;
+    if (minimum_pages > pages)
+        pages = minimum_pages;
+    cursor = arena->AllocatePages(pages, &remaining);
+    return cursor;
 }

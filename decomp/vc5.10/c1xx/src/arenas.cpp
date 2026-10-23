@@ -86,3 +86,11 @@ extern "C" void initialize_pool_arenas(void)
     frontend_bss.pools[6].BindArena(0);
     frontend_bss.pools[7].BindArena(0);
 }
+
+/* Pending: actual arena receiver, page count and remaining-byte output. */
+unsigned char *RECON_THISCALL CompilerArena::AllocatePages(unsigned pages,
+        unsigned *remaining_bytes)
+{
+    __asm { int 3 }
+    return NULL;
+}
