@@ -1,0 +1,32 @@
+[
+  {
+    "test": "missing-eax",
+    "status": "rejected before original invocation",
+    "seconds": 0.10584010276943445,
+    "message": "AssertionError: missing actual owner register anchor"
+  },
+  {
+    "test": "missing-esp",
+    "status": "rejected before original invocation",
+    "seconds": 0.10655034705996513,
+    "message": "AssertionError: missing actual owner register anchor"
+  },
+  {
+    "test": "wrong-word-offset",
+    "status": "rejected before original invocation",
+    "seconds": 0.11174407601356506,
+    "message": "AssertionError: original caller owner plus offset differs"
+  },
+  {
+    "test": "wrong-local-address",
+    "status": "rejected before original invocation",
+    "seconds": 0.1027801688760519,
+    "message": "AssertionError: native actual caller local owner differs"
+  },
+  {
+    "test": "invented-output-prestate",
+    "status": "rejected before original invocation",
+    "seconds": 0.10446405317634344,
+    "message": "AssertionError: unwritten output local must be address-only"
+  }
+]

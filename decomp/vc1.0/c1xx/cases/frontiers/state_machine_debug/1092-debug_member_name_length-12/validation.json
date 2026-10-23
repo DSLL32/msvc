@@ -1,0 +1,24 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_debug_member_name_length@12",
+    "start": 453184,
+    "end": 453594
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1092-debug_member_name_length-12/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_begin_type_diagnostic",
+    "_end_type_diagnostic",
+    "_format_declarator@8",
+    "_format_diagnostic_symbol@8",
+    "_intern_type@4",
+    "_reserve_type_diagnostic",
+    "_type_diagnostic_text@4"
+  ],
+  "next_frontier": "_write_debug_member_name@20",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4162122681736946,
+  "total_operation_seconds": 3.421978804282844,
+  "original_capture_seconds": 1.0168525129556656
+}

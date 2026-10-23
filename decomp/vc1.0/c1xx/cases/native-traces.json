@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "5030fc98e34a1aa32f82eaa0a874f740913270d33e6b84b828af94ce38db4f88",
+    "functions.json": "985d0f474d0a3e96365ebd742b62764fcf6a27b734bb60c01b63949d659e9f05",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "59c74bb228780ad7e86ab6a037ac77b3dc303e08dc1e6108c1e43cd59d3eb1e1",
-    "cases/canonical-map.txt": "8e763f35ccbf170e0548b33092d95fba6a25085be532db163792e11bc9535f1b",
+    "cases/original-entry-references.json": "8e30dbbdf693a668d972c2c15958585d7edaad6db9a5c55ba461318432ad90ed",
+    "cases/canonical-map.txt": "175c7e60296e7c1ade4d87c3887f76f0fb5bc00a9be436bdac6ff1aeb0154e34",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1091-count_emitted_overloads-4/entry-reference/original-receipt.json": "f716b8b81a3b2d4f6760b75a0ed6957a9891b8147ce4fb89cd8fe6fefa969640",
-    "cases/frontiers/state_machine_debug/1091-count_emitted_overloads-4/entry-reference/original-events.txt": "c668802f26d265aa5780add66d3cc9f6d6b7f065afc660dfd174997e148e8c98",
-    "cases/frontiers/state_machine_debug/1091-count_emitted_overloads-4/entry-reference/original-entries.plan": "4df84c76447acb7c938dfc2f60911b142986db2624b432342a21d8f57feeabbd"
+    "cases/frontiers/state_machine_debug/1092-debug_member_name_length-12/entry-reference/original-receipt.json": "1e7c7fa6cf921d523d892c50e31fee45ec4c5f1bd0655d47a71d5cded5d7dc54",
+    "cases/frontiers/state_machine_debug/1092-debug_member_name_length-12/entry-reference/original-events.txt": "b4c32192e1edf16c497c12450fffa36ca59e626fc07e739c7d1b600d47903404",
+    "cases/frontiers/state_machine_debug/1092-debug_member_name_length-12/entry-reference/original-entries.plan": "73ce2d3bab04ce6f3c2879a2f7c42c8899f4fe473cda548d4f62fb8251de41ad"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1325,7 +1325,7 @@
     },
     "debug_member_name_length": {
       "logical": "_debug_member_name_length@12",
-      "source": "src/stubs.c"
+      "source": "src/debug-fields.c"
     },
     "debug_tag_type": {
       "logical": "_debug_tag_type@4",
@@ -6550,7 +6550,8 @@
     "debug_calling_convention",
     "emit_debug_field_list",
     "emit_debug_base_fields",
-    "count_emitted_overloads"
+    "count_emitted_overloads",
+    "debug_member_name_length"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10662,7 +10663,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1092,
+      "last": 1093,
       "seen": [
         "main",
         "message_text",
@@ -11664,12 +11665,13 @@
         "emit_debug_field_list",
         "emit_debug_base_fields",
         "count_emitted_overloads",
-        "debug_member_name_length"
+        "debug_member_name_length",
+        "write_debug_member_name"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_debug_member_name_length@12",
-        "native": "debug_member_name_length",
+        "logical": "_write_debug_member_name@20",
+        "native": "write_debug_member_name",
         "signal": 5
       }
     }

@@ -6,9 +6,57 @@
 #include "class-lookup.h"
 #include "member-expressions.h"
 #include "member-access.h"
+#include "inline-capture.h"
 #include <recon.h>
 
 unsigned debug_field_bytes; /* original0x8ccac */
+
+/* Original0x6ea40..0x6ebda. Measure the debug spelling of a member,
+   optionally qualifying its owner. Only conversions write the text handle. */
+unsigned __stdcall debug_member_name_length(CppSymbol *symbol,
+    short *conversion_text, int qualified)
+{
+    unsigned count = 0, length;
+    short text;
+    char *name;
+    CType description;
+    if (!(symbol->declaration_flags & 0x400)) {
+        for (length = 0; symbol->name[length]; ++length) ;
+        return length;
+    }
+    if (qualified) {
+        begin_type_diagnostic();
+        text = reserve_type_diagnostic();
+        format_diagnostic_symbol(text,
+            cpp_context_stack->items[symbol->auxiliary.declaring_class]);
+        name = type_diagnostic_text(text);
+        for (count = 0; name[count]; ++count) ;
+        end_type_diagnostic();
+    }
+    if (symbol->cpp.parts.token != 1) {
+        count += 8;
+        if (symbol->cpp.parts.token == 0x97 || symbol->cpp.parts.token == 0x98) ++count;
+        if (symbol->declaration_flags & 0x4000) {
+            description = *symbol->type;
+            description.related = symbol->type->related->related;
+            ++count;
+            *conversion_text = format_declarator(0, intern_type((TypeDescription *)&description));
+            name = type_diagnostic_text(*conversion_text);
+            for (length = 0; name[length]; ++length) ;
+            count += length;
+            if (name[length - 1] == ' ') --count;
+            return count;
+        }
+        name = symbol->name;
+    } else if (symbol->declaration_flags & 0x1000)
+        name = ((CppSymbol *)cpp_context_stack->items[symbol->auxiliary.declaring_class])->name;
+    else if (symbol->declaration_flags & 0x2000) {
+        name = ((CppSymbol *)cpp_context_stack->items[symbol->auxiliary.declaring_class])->name;
+        ++count;
+    } else name = symbol->name;
+    for (length = 0; name[length]; ++length) ;
+    return count + length;
+}
 
 /* Original0x6f480..0x6f8ec. Direct nonvirtual bases precede direct
    virtual bases, followed by inherited virtual bases not already emitted. */
@@ -132,7 +180,7 @@ void __stdcall emit_debug_field_list(CppSymbol *tag, unsigned first_member,
     CppSymbol *member, *functions;
     unsigned member_index = 0, kind, length, name_length, count, record;
     unsigned padding, i;
-    unsigned short name_flags;
+    short conversion_text;
     int offset;
     debug_field_bytes = 0;
     *(unsigned short *)leaf = 0x204;
@@ -168,7 +216,7 @@ void __stdcall emit_debug_field_list(CppSymbol *tag, unsigned first_member,
             functions = ((OverloadSet *)member)->functions;
             count = count_emitted_overloads((OverloadSet *)member);
             if (functions && count) {
-                name_length = debug_member_name_length(functions, &name_flags, 0);
+                name_length = debug_member_name_length(functions, &conversion_text, 0);
                 FIELD_SPACE(name_length + 7);
                 field = leaf + debug_field_bytes + 2;
                 *(unsigned short *)field = 0x408;
@@ -176,7 +224,7 @@ void __stdcall emit_debug_field_list(CppSymbol *tag, unsigned first_member,
                 *(unsigned short *)(field + 4) = next_debug_type_index;
                 record = reserve_debug_type(1);
                 debug_types[record].subject.symbol = member;
-                write_debug_member_name(field + 6, functions, name_length, name_flags, 0);
+                write_debug_member_name(field + 6, functions, name_length, conversion_text, 0);
                 debug_field_bytes += name_length + 7;
             }
         } else if (kind == 4 || (member->storage[0] & 7) == 7) {

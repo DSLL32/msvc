@@ -109,12 +109,17 @@ def main():
             assert item['original_raw'] == binding['original_owner_value'], 'original caller owner plus offset differs'
             assert item['native_raw'] == binding['native_owner_value'], 'native actual caller local owner differs'
             if 'original_stack_offset' in binding:
-                assert offset==36 and binding['original_register']=='esp' and binding['native_owner_address'], 'unsupported caller stack owner offset'
-                assert owner['function']=='emit_debug_field_list' and owner['local']=='member_index'
-                word=anchors[binding['original_prestate_word_anchor']]
-                assert word['bytes']==word['read_bytes']==4 and word['read_succeeded'], 'missing readable caller counter prestate'
-                assert word['original']==item['original_raw'], 'caller counter observation address differs'
-                assert word['value']==owner['value']==checkpoint[binding['native_pointee_field']]==0, 'defined caller counter prestate differs'
+                assert offset in (34,36) and binding['original_register']=='esp' and binding['native_owner_address'], 'unsupported caller stack owner offset'
+                if offset==34:
+                    assert owner['function']=='emit_debug_field_list' and owner['local']=='conversion_text', 'actual output local owner differs'
+                    assert owner['value'] is None and binding['output_only'], 'unwritten output local must be address-only'
+                    assert 'original_prestate_word_anchor' not in binding, 'unwritten output prestate is not observed'
+                else:
+                    assert owner['function']=='emit_debug_field_list' and owner['local']=='member_index'
+                    word=anchors[binding['original_prestate_word_anchor']]
+                    assert word['bytes']==word['read_bytes']==4 and word['read_succeeded'], 'missing readable caller counter prestate'
+                    assert word['original']==item['original_raw'], 'caller counter observation address differs'
+                    assert word['value']==owner['value']==checkpoint[binding['native_pointee_field']]==0, 'defined caller counter prestate differs'
         elif binding['kind'] == 'pointee-word':
             anchor = anchors[binding['original_observation_name']]
             assert item['original_raw'] + binding.get('word_offset', 0) == anchor['original'] == binding['original_pointee_address'], 'actual argument no longer names observed word'

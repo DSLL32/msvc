@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_debug_member_name_length@12",
+  "case": "state_machine_debug",
+  "accepted_before": 1092,
+  "configuration_sha256": "642863265f965440e3aa1a66941cace00089beae2c80ee8526e208cdef7e0342",
+  "native_entry": "debug_member_name_length",
+  "declared_formal_count": 3,
+  "formals": [
+    {
+      "name": "symbol",
+      "stack_index": 0,
+      "native_field": "raw_symbol",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_caller_rva": 389117,
+        "original_owner_function": "_emit_debug_field_list@12",
+        "native_owner_function": "emit_debug_field_list",
+        "original_register": "eax",
+        "native_owner_field": "caller_function",
+        "native_owner_local": "functions",
+        "identity": "Actual first function in current overload set, caller local functions atoriginalESP+0x1c loadedEAX0x6eff3/PUSH EAX0x6eff7/CALL0x6eff8 return0x6effd. Native actual caller functions local is matched to same EAX owner; no recursive record dump.",
+        "original_owner_value": 8303640,
+        "native_owner_value": 1449280536
+      },
+      "original_raw": 8303640,
+      "native_raw": 1449280536,
+      "result": "match"
+    },
+    {
+      "name": "conversion_text",
+      "stack_index": 1,
+      "native_field": "raw_output",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_caller_rva": 389117,
+        "original_owner_function": "_emit_debug_field_list@12",
+        "native_owner_function": "emit_debug_field_list",
+        "original_register": "esp",
+        "original_stack_offset": 34,
+        "native_owner_address": true,
+        "native_owner_field": "caller_conversion_text",
+        "native_owner_local": "conversion_text",
+        "output_only": true,
+        "identity": "Caller WORD conversion_text atbaselineESP+0x12=callerentryESP-26. LEA EAX,[ESP+0x12]0x6efec/PUSH0x6eff2 afterqualified0 push. CalleeESP=callerentryESP-60, actual output=calleeESP+34. This WORD is unwritten on ordinary member paths; only actual local address is observed, no prior WORD value read/compared/initialized. Native local address is used without frame equality.",
+        "original_owner_value": 2948502,
+        "native_owner_value": 4294955994
+      },
+      "original_raw": 2948502,
+      "native_raw": 4294955994,
+      "result": "match"
+    },
+    {
+      "name": "qualified",
+      "stack_index": 2,
+      "native_field": "raw_qualified",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      },
+      "original_raw": 0,
+      "native_raw": 0,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      453184,
+      453594
+    ],
+    "argument_bytes": 12,
+    "proof": "SUB ESP12/save3registers, formals symbol=[ESP+28], short*conversion_text=[ESP+32], qualified=[ESP+36], RET12 throughout. The output WORD is NEVER read as prestate: sole writeMOV[ECX],AX0x6eaed in conversion branch; subsequent reading is defined onlyafterwrite. Ordinary name/ctor/dtor paths leave output untouched. Source refines guessedname_flags to signed type-diagnostic conversion_text handle. Same-context EAX+ESP anchor for two actual caller owners; neither is extra callee ABI input. All direct callees independently mapped infunctions.json; no helperguess.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "50d081b11ac8c02f43d5d122e2d262b0eedd6ef57eccef9a651e2164caf56be6",
+  "capture_timing": {
+    "original_capture_seconds": 1.5676984963938594,
+    "native_capture_seconds": 0.1978411776944995,
+    "total_operation_seconds": 2.0439361156895757
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "95d533849a3fc0daf3b328bb2cf0587ab7e927fd302b90947f1b026c834cca94",
+    "native-commands.gdb": "4f394d0921901804387f3baec1420560ca90cc6179707245b070dcc653f9ac3e",
+    "native-gdb.log": "d63583f550626936e90edbef73589092ad1d7bd145995a8d178bf5201e5f6dee",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "84ccdd7ccc7b4666e1430f459626388371d0d928848fa5ad0fc87109f2768350",
+    "original-configuration.json": "642863265f965440e3aa1a66941cace00089beae2c80ee8526e208cdef7e0342",
+    "original-disassembly.txt": "b451d2f6e3b08f80b5e9b6456b4d64be47b4e4130b4a09e60023c34fb578727e",
+    "original-entries.plan": "cac13f2686daa7f51c9020f334abbd4923368c2ea07a5f4ec3f05be2b9b79ac0",
+    "original-events.txt": "3de8713e0eef2bec7c87d21ef82b59ea17231ab57386a61a4ffd95c6d2569985",
+    "original-ownership-caller-disassembly.txt": "d8aeee9757f6459bd5aaf721b2f96f76a6aa574487062b5c3bc26ee56de6327e",
+    "original-receipt.json": "a5d7653b034bc17a6b31f6630c9c258614d15616a837caa606dad87c00273265",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "5849f9c21e2666cb373f37d2f3b33d80a15b80cc855b05457b1404d6d1616a27"
+  },
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": [],
+  "analysis_note": "Corrected prose callee-count typo: six diagnostic helpers plus intern_type, seven distinct direct callees. Raw original/native receipts, argument values and ownership evidence are unchanged."
+}

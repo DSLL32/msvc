@@ -104,17 +104,22 @@ static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
     if (ownership_register) {
         char *register_name;
         DWORD value;
-        switch (ownership_register) {
-        case 6: register_name = "esp"; value = context_read ? context.Esp : 0; break;
-        case 5: register_name = "ebp"; value = context_read ? context.Ebp : 0; break;
-        case 4: register_name = "eax"; value = context_read ? context.Eax : 0; break;
-        case 3: register_name = "edi"; value = context_read ? context.Edi : 0; break;
-        case 2: register_name = "ebx"; value = context_read ? context.Ebx : 0; break;
-        default: register_name = "esi"; value = context_read ? context.Esi : 0; break;
+        unsigned selected = ownership_register == 7 ? 4 : ownership_register;
+        for (;;) {
+            switch (selected) {
+            case 6: register_name = "esp"; value = context_read ? context.Esp : 0; break;
+            case 5: register_name = "ebp"; value = context_read ? context.Ebp : 0; break;
+            case 4: register_name = "eax"; value = context_read ? context.Eax : 0; break;
+            case 3: register_name = "edi"; value = context_read ? context.Edi : 0; break;
+            case 2: register_name = "ebx"; value = context_read ? context.Ebx : 0; break;
+            default: register_name = "esi"; value = context_read ? context.Esi : 0; break;
+            }
+            if (context_read) sprintf(line, "ownership-anchor %s %08lx\n", register_name, value);
+            else sprintf(line, "ownership-anchor %s unreadable\n", register_name);
+            WriteFile(log, line, strlen(line), &written, 0);
+            if (ownership_register != 7 || selected == 6) break;
+            selected = 6;
         }
-        if (context_read) sprintf(line, "ownership-anchor %s %08lx\n", register_name, value);
-        else sprintf(line, "ownership-anchor %s unreadable\n", register_name);
-        WriteFile(log, line, strlen(line), &written, 0);
     }
 }
 
@@ -152,7 +157,8 @@ int main(int argc, char **argv)
         else if (strcmp(argument_option, "4")) return 2;
     }
     if (ownership_option) {
-        if (!strcmp(ownership_option, "esp")) ownership_register = 6;
+        if (!strcmp(ownership_option, "eax,esp")) ownership_register = 7;
+        else if (!strcmp(ownership_option, "esp")) ownership_register = 6;
         else if (!strcmp(ownership_option, "ebp")) ownership_register = 5;
         else if (!strcmp(ownership_option, "eax")) ownership_register = 4;
         else if (!strcmp(ownership_option, "edi")) ownership_register = 3;
