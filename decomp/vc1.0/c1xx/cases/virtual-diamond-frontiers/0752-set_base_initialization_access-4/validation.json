@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_set_base_initialization_access@4",
+    "start": 204912,
+    "end": 204924
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_emit_virtual_base_initializers@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.41125694289803505,
+  "total_operation_seconds": 2.5977427884936333,
+  "original_capture_seconds": 4.625733764842153,
+  "original_capture_reused": true,
+  "original_capture_charged_seconds": 0,
+  "timing_note": "The original capture seconds belong to the failed attempt; corrected total_operation_seconds excludes this reused reference. Build timings remain separate."
+}

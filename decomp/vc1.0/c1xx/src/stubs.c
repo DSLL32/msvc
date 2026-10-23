@@ -531,18 +531,14 @@ int __stdcall emit_string_intrinsic(IrToken *expression) { __asm { int 3 } retur
 
 unsigned __stdcall complete_type_size(CType *type) { __asm { int 3 } return 0; }
 unsigned __stdcall member_pointer_inheritance_model(CType *type) { __asm { int 3 } return 0; }
-void __stdcall begin_destructor_body(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall emit_deleting_destructor_body(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall emit_vector_deleting_destructor_body(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall emit_default_ctor_closure_body(CppSymbol *tag) { __asm { int 3 } }
-void __stdcall set_base_initialization_access(int enabled) { __asm { int 3 } }
 void __stdcall emit_virtual_base_initializers(CppSymbol *tag, IrToken **initializers, unsigned short attributes) { __asm { int 3 } }
 void __stdcall emit_array_copy_initialization(CppSymbol *member, unsigned displacement, IrToken *initializers, unsigned short attributes) { __asm { int 3 } }
 void __stdcall emit_class_array_initialization(CppSymbol *member, CppSymbol *tag, IrToken *initializers, unsigned displacement, int copying, unsigned short attributes) { __asm { int 3 } }
 IrToken *__stdcall make_subobject_pointer(CppSymbol *tag, unsigned short attributes, unsigned displacement) { __asm { int 3 } return 0; }
 IrToken *__stdcall clear_most_derived_argument(IrToken *call) { __asm { int 3 } return 0; }
-QualifierBinding * __stdcall make_table_qualifier_path(VirtualTable *table, CppSymbol *tag) { __asm { int 3 } return 0; }
-void __stdcall initialize_qualified_member(QualifierBinding *path, IrToken *value) { __asm { int 3 } }
 IrToken * __stdcall make_vtordisp_value(CppSymbol *tag, VirtualTableGroup *group) { __asm { int 3 } return 0; }
 QualifierBinding * __stdcall make_vtordisp_qualifier_path(CppSymbol *tag, VirtualTableGroup *group) { __asm { int 3 } return 0; }
 void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols) { __asm { int 3 } }
@@ -570,7 +566,6 @@ unsigned __stdcall scan_return_paths(FrontendRecord **cursor, unsigned char stop
 
 
 
-void __stdcall emit_member_and_base_destructors(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall emit_vbase_destructor_epilogue(CppSymbol *tag) { __asm { int 3 } }
 
 void finish_inline_function(void) { __asm { int 3 } }
@@ -653,3 +648,5 @@ int __cdecl equal_resolved_declarations(void *left, void *right) { __asm { int 3
 int __cdecl equal_word_triplets(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_word_pairs(void *left, void *right) { __asm { int 3 } return 0; }
 int __stdcall vector_contains(Vector *vector, void *item) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_destructor_call(CppSymbol *tag, IrToken *object, int kind, int direct, int flags) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_array_destructor_call(IrToken *object) { __asm { int 3 } return 0; }

@@ -125,6 +125,8 @@ typedef struct ClassInfo {
     ClassSpecialTraits special_members;
 } ClassInfo;
 
+typedef char ClassInfoAlignmentFlagsOffsetMustBe50[(offsetof(ClassInfo, alignment_flags) == 50) ? 1 : -1];
+typedef char ClassInfoFlagsOffsetMustBe51[(offsetof(ClassInfo, flags) == 51) ? 1 : -1];
 typedef char ClassInfoVbptrOffsetMustBe44[(offsetof(ClassInfo, virtual_base_pointer_offset) == 44) ? 1 : -1];
 typedef char ClassInfoMemberIndexOffsetMustBe32[(offsetof(ClassInfo, member_index) == 32) ? 1 : -1];
 typedef char ClassInfoMemberMaskOffsetMustBe36[(offsetof(ClassInfo, member_index_mask) == 36) ? 1 : -1];

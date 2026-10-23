@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_initialize_qualified_member@8",
+    "start": 222688,
+    "end": 222730
+  },
+  "distinct_direct_callees": [
+    "_adjust_member_binding_object@20",
+    "_adjusted_this_expression@4",
+    "_initialize_lvalue@8"
+  ],
+  "next_frontier": "_begin_destructor_body@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.37054681219160557,
+  "total_operation_seconds": 6.741644113324583,
+  "original_capture_seconds": 4.075124287046492
+}

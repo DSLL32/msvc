@@ -1,0 +1,13 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655aaf7 in begin_destructor_body (tag=0x565f10ec) at src/stubs.c:534
+534	void __stdcall begin_destructor_body(CppSymbol *tag) { __asm { int 3 } }
+#0  0x5655aaf7 in begin_destructor_body (tag=0x565f10ec) at src/stubs.c:534
+#1  0x5658dc11 in enter_compound_scope () at src/statement-scopes.c:55
+#2  0x5658d936 in begin_compound_statement () at src/statement-scopes.c:13
+#3  0x56599505 in parse_translation_unit () at src/parser-statement-actions.inc:8
+#4  0x5655ddc6 in compile_translation_unit () at src/frontend.c:75
+#5  0x565587e6 in guarded_compile () at src/c1xx.c:28
+#6  0x565587b4 in main (argc=1, argv=0xffffd8d4, environment=0xffffd8dc) at src/c1xx.c:20

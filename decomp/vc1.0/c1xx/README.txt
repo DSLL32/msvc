@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 748 accepted frontiers, including 656 frontend
+PARTIAL binary reconstruction: 753 accepted frontiers, including 661 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1667,3 +1667,33 @@ checks pass. Combined measured wall: 4.964778 seconds.
 
 Accepted extent union 213747/476418 bytes is 44.865433%, not branch coverage.
 virtual_diamond remains incomplete at make_table_qualifier_path 0x7b9e0.
+
+Virtual-base hidden-parameter checkpoint: 753 accepted frontiers, 668 source
+functions. Five whole functions beyond faf92c2 build table qualification paths,
+initialize qualified subobjects, start destructor bodies, collect reverse member/
+base destruction and share the existing base-access context word.
+
+Fresh acceptance at the access setter first failed: the native continuation
+reached the same emit_virtual_base_initializers trap but had symbol index 210
+instead of 211 and 333 pending expression bytes instead of 343. The earlier
+begin_function_definition body incorrectly tested ClassInfo.alignment_flags
+(+50) for virtual inheritance. Original instruction 0x33c89 tests flags (+51),
+bit 0x10, before adding $initVBases. Source now uses that exact field; both
+original/native builds assert both offsets. Related alignment-field consumers
+were inspected: this constructor bit was the incorrect access.
+
+The failed buffers, states, visible files, captures, timing components and raw
+instruction evidence remain in evidence/virtual-base-hidden-parameter-failure.
+The same frozen original reference was reused because functions.json was
+unchanged. Corrected native buffers are 343/120/9/27 bytes and symbol index 211,
+all raw bytes and all 14 state observations exact. Both cached native cases pass
+in the corrected acceptance (0.411257 seconds); its 2.597743-second operation
+excludes reused original capture time, which is charged only to the failed
+attempt. Full 668-function canonical graph, data/default/callback and grammar
+audits pass in 4.866045 seconds. The unchanged validator's 25 negative checks
+last passed at faf92c2; they were not repeated for this source-only correction.
+
+Accepted extent union 214300/476418 bytes is 44.981508%, not branch coverage.
+The corrected branch is within a previously accepted function and adds no
+extent bytes. virtual_diamond remains incomplete at
+emit_virtual_base_initializers 0x36400.

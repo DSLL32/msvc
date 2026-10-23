@@ -1,0 +1,15 @@
+{
+  "status": 0,
+  "seconds": 4.86604477558285,
+  "command": [
+    "make",
+    "-j4",
+    "audit"
+  ],
+  "log": "evidence/virtual-base-hidden-parameter-checkpoint.log",
+  "raw_log_sha256": "45ac0e68d3aa7fd154d86785c180a07b21151200d24676cae832add87ef485b9",
+  "log_format": "display CRLF to LF; raw bytes in .raw.log.gz",
+  "timing_scope": "combined parallel audit wall; fresh-reference/build/debug/fixture timings separate",
+  "native_case_validation": "cases/virtual-diamond-frontiers/0752-set_base_initialization_access-4/native-fixture-receipt.json",
+  "failure_evidence": "evidence/virtual-base-hidden-parameter-failure/receipt.json"
+}

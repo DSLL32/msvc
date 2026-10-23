@@ -108,7 +108,7 @@ void __stdcall begin_function_definition(DeclarationType *context, CppSymbol *de
     }
     if (token_allocation_flags & 0x100) {
         if ((declaration->declaration_flags & 0x1000) &&
-            (qualified_definition_class->detail.class_info->alignment_flags & 0x10))
+            (qualified_definition_class->detail.class_info->flags & 0x10))
             add_declaration_parameter(1, &parsed_parameter_symbols, name_init_vbases,
                 type_4064_first);
         if (!function_declaration_kind) declaration->cpp.parts.member_flags &= ~1;

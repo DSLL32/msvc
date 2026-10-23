@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_begin_destructor_body@4",
+    "start": 229344,
+    "end": 229376
+  },
+  "distinct_direct_callees": [
+    "_emit_class_table_initializers@8",
+    "_prepare_class_initialization@4"
+  ],
+  "next_frontier": "_emit_member_and_base_destructors@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.39894580468535423,
+  "total_operation_seconds": 7.56111868750304,
+  "original_capture_seconds": 4.776810762472451
+}

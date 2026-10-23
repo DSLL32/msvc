@@ -2,6 +2,8 @@
 #include "constructor-initializers.h"
 #include "statement-scopes.h"
 #include "class-members.h"
+#include "class-type-sets.h"
+#include "member-expressions.h"
 #include "cpp-context.h"
 #include "inline-vector.h"
 #include "class-lookup.h"
@@ -885,4 +887,104 @@ int __stdcall is_class_or_reference_type(CType *type)
     if (!shape) return 1;
     if (!(shape->flags & 0x40)) return 0;
     return shape->related == 0;
+}
+
+/* Original 0x7b9e0..0x7ba29. Build an arena-two qualification chain
+   from the current class back through each inherited table's direct path.
+   Every hop owns a new resolution whose parent is the preceding binding. */
+QualifierBinding *__stdcall make_table_qualifier_path(VirtualTable *table, CppSymbol *tag)
+{
+    QualifierResolution *resolution;
+    begin_qualification_allocation(2);
+    resolution = append_qualifier_reference(0, 0, tag);
+    while (table->inheritance_path) {
+        resolution = append_qualifier_reference(0, resolution->binding,
+            (CppSymbol *)table->inheritance_path);
+        table = table->source_table;
+    }
+    end_qualification_allocation();
+    return resolution->binding;
+}
+
+/* Original 0x365e0..0x36609. Capture the value type before obtaining
+   adjusted this, select the qualified subobject and initialize that lvalue. */
+void __stdcall initialize_qualified_member(QualifierBinding *path, IrToken *value)
+{
+    CType *type = value->type;
+    IrToken *object = adjusted_this_expression(0);
+    IrToken *target = adjust_member_binding_object(object, path, 0, 1, type);
+    initialize_lvalue(target, value);
+}
+
+/* Original 0x37fe0..0x37fff. An explicitly supplied destructor resets
+   this class's table pointers and vtordisp values before its body executes. */
+void __stdcall begin_destructor_body(CppSymbol *tag)
+{
+    if (!(tag->detail.class_info->implicit_member_requirements & 8)) {
+        prepare_class_initialization(tag);
+        emit_class_table_initializers(tag, 1);
+    }
+}
+
+IrToken *__stdcall make_destructor_call(CppSymbol *tag, IrToken *object,
+    int kind, int direct, int flags);
+IrToken *__stdcall make_array_destructor_call(IrToken *object);
+
+/* Original 0x38000..0x38188. Collect nontrivial direct-base and member
+   destruction calls in declaration order, then emit them in reverse. Virtual
+   bases are handled separately; hidden alignment members carry no lifetime. */
+void __stdcall emit_member_and_base_destructors(CppSymbol *tag)
+{
+    InlineVector *calls;
+    IrToken *object, *call, *member_object, *member_name;
+    CppSymbol *member, *member_class;
+    BaseClassLink *base;
+    CType *pointer_type;
+    unsigned kind;
+    short index;
+    if (!tag) return;
+    calls = new_type_set();
+    object = adjusted_this_expression(0);
+    for (member = tag->auxiliary.scope_members; member; member = member->next) {
+        kind = member->kind & 31;
+        if (kind == 15) {
+            base = (BaseClassLink *)member;
+            if (base->state & 1) goto finish_member;
+            member_class = cpp_context_stack->items[base->context_index];
+            set_base_initialization_access(1);
+        } else if (kind == 3 && member->name != name_alignment &&
+                !is_static_data_member(member)) {
+            member_class = class_type_of_member(member);
+            if (!member_class) goto finish_member;
+        } else goto finish_member;
+        if (!(member_class->detail.class_info->trivial_special_members & 8)) {
+            if (kind == 15) {
+                pointer_type = make_class_pointer_type(member_class,
+                    (unsigned short)(object->type->related->attributes & 7));
+                member_object = convert_initializer(1, pointer_type, object);
+                call = make_destructor_call(member_class, member_object, 1, 1, 0);
+            } else {
+                member_object = begin_member_lookup(0x5c, object, 1);
+                member_name = identifier_expression(member->name);
+                member_object = member_expression(0x5c, member_object, member_name);
+                if (member->type->related && (member->type->related->flags & 0x77) == 2)
+                    call = make_array_destructor_call(member_object);
+                else {
+                    member_object = builtin_unary_expression(0x3a, member_object);
+                    call = make_destructor_call(member_class, member_object, 3, 1, 0);
+                }
+            }
+            if (call) {
+                if (calls->capacity == calls->count) calls = grow_inline_vector(calls);
+                calls->items[calls->count] = call;
+                ++calls->count;
+            }
+        }
+finish_member:
+        set_base_initialization_access(0);
+    }
+    index = -1;
+    if (calls) index = (short)(calls->count - 1);
+    for (; index >= 0; --index) emit_expression_statement(calls->items[index]);
+    release_inline_vector(calls);
 }

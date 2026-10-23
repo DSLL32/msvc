@@ -157,3 +157,10 @@ unsigned char __stdcall combine_member_access(unsigned char member_access,
 {
     return inherited_access_levels[member_access][base_access];
 }
+
+/* Original 0x32070..0x3207b. Share the existing access-context word
+   read by get_base_initialization_access; it is not a Boolean-normalized flag. */
+void __stdcall set_base_initialization_access(int enabled)
+{
+    base_initialization_access = enabled;
+}
