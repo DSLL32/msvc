@@ -1,0 +1,62 @@
+{
+  "application_functions": 86,
+  "application_bytes": 30513,
+  "next": "publish_recursive_type",
+  "source": "Whole commit_recursive_type1eac0..1ed60: two forward resolution stages, existing saved flags, name lookup/copy selection, recursive publication, marked recursive-field fixups, optional original record copy, ordinary type publication and class derivation. Original Win32 C graph preserved; native bounds/expanded offset ownership remain guarded.",
+  "ownership": "72 actual copies/1860 defined bytes with72 exact TypeRecord pointer/index publications and288 bytes of page pointers. Existing71 ordinary hash nodes remain fully required. Exact newglobal1047/root4209 is copied before its ordinary TypeHashEntry is created later19c20; only this index may be unpublished at19ca0, not a missing-node waiver. Twelfth fullcalloc16 global-name cache node owns root copy, primary provider cache retains original pointer. Same single32512-byte allocation and59 exact provider PDB writes; untouched own tails retained.",
+  "caller": "Actual name lookup result0 observed in original saved local and nativecommit.result; undefined named output not read or equated. Packed original pointer equals observed rootcopy/currentTypeRecord.data. Nextpublish_recursive_type ECX root4209 is independently observed with its complete callee ABI reviewed19ca0..19d0f, no hidden scratch inputs, RET0. Parent hash bucket/cacheC46 and original/current type1047 retain exact identities.",
+  "rejection_controls": 523,
+  "new_controls": 7,
+  "checks": {
+    "incremental-build": {
+      "command": [
+        "make",
+        "-j4",
+        "all",
+        "native",
+        "build/debug-run.exe",
+        "graph-identities",
+        "graph-audit-tool"
+      ],
+      "status": 0,
+      "elapsed": 0.39910579565912485
+    },
+    "audit": {
+      "command": [
+        "python3",
+        "scripts/audit.py"
+      ],
+      "status": 0,
+      "elapsed": 0.5768909500911832
+    },
+    "negatives": {
+      "command": [
+        "python3",
+        "scripts/check-rejections.py"
+      ],
+      "status": 0,
+      "elapsed": 17.053464194759727
+    },
+    "fixtures": {
+      "command": [
+        "python3",
+        "scripts/check-native.py"
+      ],
+      "status": 0,
+      "elapsed": 0.4013981157913804
+    }
+  },
+  "native_acceptance_seconds": {
+    "setup": 0.185730985365808,
+    "execution": 0.016490750946104527,
+    "debugging": 2.521527706645429,
+    "checks": 0.03323795460164547,
+    "total": 2.756997087970376
+  },
+  "original_acceptance_seconds": {
+    "setup": 0.2729125805199146,
+    "execution": 2.325927627272904,
+    "total": 2.6221752734854817
+  },
+  "remaining": "Initial DLL case remains partial. Recursive node pool itself not yet allocated/reconstructed at this frontier. No CRT/shared shim expansion; four resolver outputs remain mandatory."
+}

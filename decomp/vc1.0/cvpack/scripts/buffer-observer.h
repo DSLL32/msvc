@@ -72,11 +72,26 @@ static int rearm_buffer(HANDLE child,HANDLE log,HANDLE thread,DWORD address,DWOR
     return SetThreadContext(thread,&c);
 }
 
+static DWORD expected_buffer_count(DWORD frontier,int nodes)
+{
+    switch(frontier) {
+    case 0x262d0:return 3;
+    case 0x1ad40:case 0x1af10:case 0x1ae40:return 6;
+    case 0x19770:return 8;
+    case 0x256f0:return 26;
+    case 0x1e700:return 35;
+    case 0x27b10:return 70;
+    case 0x1ac80:case 0x1c640:case 0x1eac0:return 71;
+    case 0x19ca0:return nodes?71:72;
+    default:return 0;
+    }
+}
+
 static int dump_buffer(HANDLE child,HANDLE log,DWORD frontier)
 {
     DWORD bytes,pointer,record[3],bucket,j,total=0,seen[256];char label[64];
     if(!buffer_initialized)return 1;
-    if((frontier!=0x262d0 && frontier!=0x1ad40 && frontier!=0x1af10 && frontier!=0x1ae40 && frontier!=0x19770 && frontier!=0x256f0 && frontier!=0x1e700 && frontier!=0x27b10 && frontier!=0x1ac80 && frontier!=0x1c640 && frontier!=0x1eac0) || buffer_step || buffer_pending || buffer_sequence!=(frontier==0x262d0?3:(frontier==0x19770?8:(frontier==0x256f0?26:(frontier==0x1e700?35:(frontier==0x27b10?70:((frontier==0x1ac80 || frontier==0x1c640 || frontier==0x1eac0)?71:6)))))) ||
+    if(!expected_buffer_count(frontier,0) || buffer_step || buffer_pending || buffer_sequence!=expected_buffer_count(frontier,0) ||
         !buffer_hex(child,log,"frontier-root",0x3301c,24) || !buffer_hex(child,log,"frontier-node",buffer_node,12) ||
         !buffer_hex(child,log,"frontier-payload",buffer_base,sizeof(buffer_before)))return 0;
     if(!ReadProcessMemory(child,(void *)0x37170,&pointer,4,&bytes) || bytes!=4 ||
@@ -93,5 +108,5 @@ static int dump_buffer(HANDLE child,HANDLE log,DWORD frontier)
             pointer=record[2];
         }
     }
-    return total==(frontier==0x262d0?3:(frontier==0x19770?8:(frontier==0x256f0?26:(frontier==0x1e700?35:(frontier==0x27b10?70:((frontier==0x1ac80 || frontier==0x1c640 || frontier==0x1eac0)?71:6))))));
+    return total==expected_buffer_count(frontier,1);
 }

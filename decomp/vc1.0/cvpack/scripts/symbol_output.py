@@ -32,12 +32,13 @@ def validate(config,pe):
            'add_recursive_offset':(0x27b10,40,2227,0x2792f,100,30,33),
            'intern_type':(0x1ac80,40,2227,0x26f9d,60,20,23),
            'hash_recursive_type':(0x1c640,40,2227,0x1ac8e,76,24,27),
-           'commit_recursive_type':(0x1eac0,40,2227,0x1ad37,76,24,27)}
+           'commit_recursive_type':(0x1eac0,40,2227,0x1ad37,76,24,27),
+           'publish_recursive_type':(0x19ca0,40,2227,0x1ec0e,116,34,37)}
     assert p.get('frontiers'),'missing packed symbol frontier contracts'
     for name,site in p['frontiers'].items():
         assert name in known and tuple(site[k]for k in('original','defined','input_offset','return_address','allocation_esp_delta','buffer_slot','input_slot'))==known[name],'unreviewed packed symbol initialized range/frame'
         if name!='write_search_symbol':
-            assert (site['kind'],site['record_length'],site['callback_index'])==((4,24,27)if name in('add_recursive_offset','intern_type','hash_recursive_type','commit_recursive_type')else(4,29,27)if name=='get_type_record'else(0x202,43,12)if name=='convert_global_data32'else(4,21,27)if name in('find_named_type','find_global_type','find_local_type','record_derived_types')else((9,24,31)if name=='convert_object_name'else((4,28,27)if name in('compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer','finish_recursive_types')else(4,34,27)))),'unreviewed packed symbol callback selection'
+            assert (site['kind'],site['record_length'],site['callback_index'])==((4,24,27)if name in('add_recursive_offset','intern_type','hash_recursive_type','commit_recursive_type','publish_recursive_type')else(4,29,27)if name=='get_type_record'else(0x202,43,12)if name=='convert_global_data32'else(4,21,27)if name in('find_named_type','find_global_type','find_local_type','record_derived_types')else((9,24,31)if name=='convert_object_name'else((4,28,27)if name in('compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer','finish_recursive_types')else(4,34,27)))),'unreviewed packed symbol callback selection'
     for region in p['original_regions']:
         assert pe.read(region['start'],region['end']-region['start']).hex()==region['bytes'],'packed symbol instruction proof differs'
     for source,digest in p['sources'].items():assert hashlib.sha256((BINARY/source).read_bytes()).hexdigest()==digest,'packed symbol source changed'
@@ -83,15 +84,26 @@ def compare(config,pe,events,native,old_walks,new_walks,required,native_state):
     old_cursor=int.from_bytes(bytes(memory[0x335f0+i]for i in range(4)),'little')
     assert old_cursor==post['cursor']and native_state['globals']['symbol_output']['address']==b['cursor'],'packed symbol observed cursor differs from actual global'
     assert old_input==a['input']+site['input_offset']and native_state['globals']['symbol_input']['address']==b['input']+site['input_offset'],'wrong actual packed symbol source cursor'
-    if name in('convert_object_name','convert_udt_symbol','intern_global','compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer','finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32','get_type_record','add_recursive_offset','intern_type','hash_recursive_type','commit_recursive_type'):
+    if name in('convert_object_name','convert_udt_symbol','intern_global','compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer','finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32','get_type_record','add_recursive_offset','intern_type','hash_recursive_type','commit_recursive_type','publish_recursive_type'):
         registers=re.search(r'^registers (.*)$',events,re.M)[1].split();registers={k:int(v,16)for k,v in zip(registers[::2],registers[1::2])}
-        length_slot={'compact_pointer':1,'compact_type_list':16,'store_type':28,'hash_type':34,'save_type':34,'append_buffer':44,'find_named_type':2,'find_global_type':9,'find_local_type':31,'record_derived_types':30,'get_type_record':24,'add_recursive_offset':13,'intern_type':3,'hash_recursive_type':7,'commit_recursive_type':7}.get(name)
+        length_slot={'compact_pointer':1,'compact_type_list':16,'store_type':28,'hash_type':34,'save_type':34,'append_buffer':44,'find_named_type':2,'find_global_type':9,'find_local_type':31,'record_derived_types':30,'get_type_record':24,'add_recursive_offset':13,'intern_type':3,'hash_recursive_type':7,'commit_recursive_type':7,'publish_recursive_type':17}.get(name)
         length=words[length_slot]if length_slot is not None else registers['ebp']
         assert length&0xffff==site['record_length'],'wrong original callback record length'
         if name=='intern_global':
             assert site['nested_return_slot']==2 and site['nested_return_address']==0x25172 and words[2]==0x25172,'wrong original nested symbol frame'
             assert registers['edx']==0x1afe0 and registers['ecx']==old_input,'wrong original nested symbol callback arguments'
             assert b['nested_caller']=='convert_udt_symbol','wrong native nested symbol frame'
+        elif name=='publish_recursive_type':
+            expected={'10':0x1ad37,'14':0x26f9d,'25':0x26509,'27':0x25830,'29':0x25172}
+            assert site['nested_returns']==expected and all(words[int(k)]==v for k,v in expected.items()),'wrong recursive-publication nested frames'
+            assert b['nested_callers']==['commit_recursive_type','intern_type','compact_new_type','convert_new_type','convert_udt_symbol']and b['type_index']==4209,'wrong recursive-publication owner path'
+            old_table,new_table=old_walks['local_type_records'][0],new_walks['local_type_records'][0];offset=(4209-0x1000)*28
+            assert registers['ecx']==registers['esi']==words[2]==old_table['address']+offset and b['type_record']==new_table['address']+offset,'wrong recursive-publication ECX owner'
+            a_record=bytes.fromhex(old_table['bytes'])[offset:offset+28];b_record=bytes.fromhex(new_table['bytes'])[offset:offset+28]
+            assert registers['edi']==int.from_bytes(a_record[:4],'little')and b['packed_original']==int.from_bytes(b_record[:4],'little'),'wrong recursive-publication packed original owner'
+            assert words[8]==b['named_lookup_result']==0,'recursive-publication uninitialized named output would be consumed'
+            assert int.from_bytes(a_record[4:6],'little')==int.from_bytes(b_record[4:6],'little')==0x1047,'wrong pending recursive global type index'
+            assert int.from_bytes(a_record[10:12],'little')==int.from_bytes(b_record[10:12],'little')==b['hash_bucket'],'recursive-publication hash cache differs from actual parent bucket'
         elif name=='commit_recursive_type':
             expected={'4':0x26f9d,'15':0x26509,'17':0x25830,'19':0x25172}
             assert site['nested_returns']==expected and all(words[int(k)]==v for k,v in expected.items()),'wrong recursive-commit nested frames'

@@ -1663,3 +1663,67 @@ unsigned long __fastcall hash_recursive_type(TypeRecord *entry)
     entry->hash_value = hash&0xfff;
     return entry->hash_value;
 }
+
+unsigned short __fastcall commit_recursive_type(unsigned short type)
+{
+    TypeRecord *entry;
+    TypeCacheEntry *named;
+    unsigned short relative, unused, unused_second, i, offset, *field;
+    unsigned char *original, *record, marks;
+    int result;
+    relative = type-first_user_type;
+    if (!type_signature && relative == (unsigned short)(0xffff-first_user_type))
+        entry = empty_type;
+    else {
+#ifdef RECON_NATIVE_TEST
+        if (relative >= local_type_capacity) __asm { int 3 }
+#endif
+        entry = &local_type_records[relative];
+        if (entry->flags & 0x1000)
+            entry = get_type_record((unsigned short)(entry->forward_index-0x1000), &unused);
+    }
+    if (entry->flags & 0x1000) {
+        relative = entry->forward_index-first_user_type;
+        if (!type_signature && relative == (unsigned short)(0xffff-first_user_type))
+            entry = empty_type;
+        else {
+#ifdef RECON_NATIVE_TEST
+            if (relative >= local_type_capacity) __asm { int 3 }
+#endif
+            entry = &local_type_records[relative];
+            if (entry->flags & 0x1000)
+                entry = get_type_record((unsigned short)(entry->forward_index-0x1000), &unused_second);
+        }
+    }
+    if (entry->flags & 0x806) return entry->index;
+    result = find_named_type(entry, &named, 0);
+    if (result == 3) {
+        original = entry->data;
+        entry->index = named->index;
+        entry->data = named->type;
+    } else {
+        save_type(entry);
+        original = entry->data;
+    }
+    entry->flags |= 4;
+    publish_recursive_type(entry);
+    for (i = 0; i < entry->recursive_count; ++i) {
+#ifdef RECON_NATIVE_TEST
+        /* Expanded offsets/mark allocation ownership is not yet reached. */
+        if ((entry->flags & 0x100) || i >= 12) __asm { int 3 }
+#endif
+        marks = entry->flags & 0x100 ? entry->recursion.large.marks[i>>3] : entry->recursion.small[8];
+        if (marks & (0x80>>(i&7))) continue;
+        offset = entry->flags & 0x100 ? entry->recursion.large.offsets[i] : entry->recursion.small[i];
+        field = (unsigned short *)(original+offset);
+        *field = commit_recursive_type(*field);
+        if (entry->flags & 0x100) entry->recursion.large.marks[i>>3] |= 0x80>>(i&7);
+        else entry->recursion.small[8] |= 0x80>>(i&7);
+    }
+    if (result == 3) memcpy(named->type, original, *(unsigned short *)original+2);
+    record = entry->data;
+    publish_packed_type(record, entry->index);
+    if (*(unsigned short *)(record+2) >= 4 && *(unsigned short *)(record+2) <= 5)
+        record_derived_types(entry->index, *(unsigned short *)(record+6));
+    return entry->index;
+}

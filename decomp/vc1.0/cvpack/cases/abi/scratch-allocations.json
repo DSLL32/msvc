@@ -2,7 +2,7 @@
   "schema": 1,
   "owner": "read_image_debug",
   "allowed_frontiers": [
-    "commit_recursive_type"
+    "publish_recursive_type"
   ],
   "allowed_case": "hello-debug-dll",
   "first_module_only": false,
@@ -18,9 +18,9 @@
     "src/options.c": "09d36a0bbb3ddc97a6a749250f2881d5a1967bdb5c34d4cd7b6f1178d31d2c34",
     "src/pdb.c": "138d0d5a929ca27aa86e5835482bd5e36c9e13f70e661ecf4497b98f7c2f75d2",
     "src/pdb.h": "4985c836921a7bc48a27baf3647ffc9b967c49c17ec63b75d31ecc8934068e73",
-    "src/stubs.c": "d1e09490bdda9aa88bbc7211b3bec56f63cf74af41a6ffc4a7a370f99f2d1261",
-    "src/types.c": "5415bdd88ed16238dc81e11e35204b2eabfb46a8ab8c1e458a66146a2dea408c",
-    "src/types.h": "ca9958ff6dcbd12ca591c091af3b8e26da933f2bea4523df99ba055af2559e48"
+    "src/stubs.c": "b776d3b07ad823bef3194a9714f172e70dac0885bba05e5d85068628cb92e45c",
+    "src/types.c": "478e1859ff4f840885edf27e349251e51e0e34b955b6c5039fd37aed8b212769",
+    "src/types.h": "cdd1b4fab2d6b23173c4aa5b5fef2e3157aa6fc52334af58ef7bdd822e03fa26"
   },
   "allocations": [
     {
@@ -103,7 +103,7 @@
   "first_module_mode": "explicit_module_index",
   "allowed_module_boundaries": [
     {
-      "frontier": "commit_recursive_type",
+      "frontier": "publish_recursive_type",
       "index": 2,
       "module": 3
     }

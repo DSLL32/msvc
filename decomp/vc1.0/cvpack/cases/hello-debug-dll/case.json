@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "commit_recursive_type",
-    "native_function": "commit_recursive_type",
+    "logical": "publish_recursive_type",
+    "native_function": "publish_recursive_type",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -103,7 +103,8 @@
       "add_recursive_offset",
       "intern_type",
       "hash_recursive_type",
-      "commit_recursive_type"
+      "commit_recursive_type",
+      "publish_recursive_type"
     ]
   },
   "complete_reference": {

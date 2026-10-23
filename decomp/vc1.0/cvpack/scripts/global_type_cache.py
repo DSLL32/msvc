@@ -15,7 +15,7 @@ def validate(config,pe,rebuilt=None,linked=None):
     assert spec or not required,'missing global cache constructor proof'
     if not spec:return
     assert spec['root']==0x37164 and spec['size']==16 and spec['owner']=='save_type'and spec['original_allocation']==0x19ba4
-    assert spec['publication']==[0x19bc0,0x19be1]and spec['input_types']==[4114, 4171, 4177, 4185, 4192, 4197, 4213, 4216, 4220, 4222, 4225]
+    assert spec['publication']==[0x19bc0,0x19be1]and spec['input_types']==[4114, 4171, 4177, 4185, 4192, 4197, 4209, 4213, 4216, 4220, 4222, 4225]
     assert pe.read(0x19ba2,7)==bytes.fromhex('6a10e8b7540000'),'global cache calloc size/callee differs'
     # Whole save_type, including this publication, is already bound in the
     # buffer lifetime proof; retain a second exact site binding here.

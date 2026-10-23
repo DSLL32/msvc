@@ -89,6 +89,8 @@ unsigned long __fastcall hash_recursive_type(TypeRecord *);
 unsigned short __fastcall hash_referenced_type(TypeRecord *, unsigned short);
 int __fastcall compare_recursive_type(TypeRecord *, unsigned short, unsigned char *, unsigned short);
 unsigned short __fastcall commit_recursive_type(unsigned short);
+void __fastcall publish_recursive_type(TypeRecord *);
+void __fastcall publish_packed_type(unsigned char *, unsigned short);
 void __fastcall store_type(TypeRecord *);
 unsigned short __fastcall hash_type(const unsigned char *);
 void release_type_data(TypeRecord *);

@@ -4993,13 +4993,16 @@
       "native": "commit_recursive_type",
       "symbol": "@commit_recursive_type@4",
       "original": 125632,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        125632,
+        126304
+      ],
       "abi": "unsigned short __fastcall commit_recursive_type(unsigned short)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0086-commit_recursive_type/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -5010,7 +5013,25 @@
           "register": "ecx"
         }
       ],
-      "return_bits": 16
+      "return_bits": 16,
+      "required_pdb_record_proof": true,
+      "required_symbol_output_observation": true,
+      "required_type_page_observation": true,
+      "required_buffer_storage_observation": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "hash_referenced_type",
@@ -5041,6 +5062,58 @@
         }
       ],
       "return_bits": 16
+    },
+    {
+      "name": "publish_recursive_type",
+      "native": "publish_recursive_type",
+      "symbol": "@publish_recursive_type@4",
+      "original": 105632,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void __fastcall publish_recursive_type(TypeRecord *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "entry",
+          "register": "ecx",
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "publish_packed_type",
+      "native": "publish_packed_type",
+      "symbol": "@publish_packed_type@8",
+      "original": 105504,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void __fastcall publish_packed_type(unsigned char *,unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "record",
+          "register": "ecx",
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "type",
+          "register": "edx",
+          "kind": "integer",
+          "bits": 16
+        }
+      ]
     }
   ],
   "review": {
@@ -5577,6 +5650,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 85
+    },
+    {
+      "function": "commit_recursive_type",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 86
     }
   ],
   "support_unmasked": [
@@ -6171,11 +6250,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "584ae1f9e76399c2a1b81a3737064f4e873fbe9746ec6f6c1eed6c0f125bb93a"
+    "evidence_sha256": "7c192a0b9abb410c430d70a41c808b15db433b112642fd7771328c7ce91e4382"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "ed56cdbc3f520161d7714c9cda70e692337a380b5521d43d8cae3301b64c15f8"
+    "evidence_sha256": "60586917cc3db4f8ac5e0851906b1dca77a997ae7b7bb4345c667f8a8614d94e"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -6207,26 +6286,26 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "e21784439e2ce0c3b35921fda4e16db37b701770a20d939f96a41189ffe2f25d"
+    "evidence_sha256": "4260c401b9015bd84be0e31a1c00281051595d2c0b2391bd6c626fd087da9d3d"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "f81c8f8341b1cdd30ab04bab251e3a714643913101b736e8881b4adaff281f93"
+    "evidence_sha256": "812323c43c8d813dfe69d5c2e59e484281ddebb5a26cb9a952e97f5a7a35b24f"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
-    "evidence_sha256": "0b1bbac6360bc0ba01c77d25fa5fe5f606ca80212d75fb4ca88ec81567da7dda"
+    "evidence_sha256": "abf7eca45c57485e4d735502e893241dd28ab34335e87ccdacd712cbb20f3fa8"
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "d2ecb0f58b31bc4cb9f9a3f3d1dbfa5a43dabc91677efb496f3f97b15aa001c4"
+    "evidence_sha256": "a79332c2d7e8698fdd9a74aec469697df98b51e63b870e4cc69f961e281cc66d"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
-    "evidence_sha256": "3afd1506d31dbc06d3938f67c3fa635fa4e355bcad33785028efeda370fd66a0"
+    "evidence_sha256": "6168faf59072ad32a1885f55d7966add6e57c64a6625180f9f3f627a1d384f46"
   },
   "resolver_return_observations": {
     "evidence": "cases/abi/resolver-returns.json",
-    "evidence_sha256": "921f1a0fa79518d8e694be448b00134c725ff41fbcc22711fef09a54c7409c3e"
+    "evidence_sha256": "58475807aaa050b90b12fdad89bd7afd26c38904de053bd798ccc03f53e29c67"
   }
 }

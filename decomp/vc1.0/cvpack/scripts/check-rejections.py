@@ -119,6 +119,10 @@ def main():
     if recursive_hash_pair.is_dir():
         from recursive_hash_checks import check as check_recursive_hash
         check_recursive_hash(recursive_hash_pair)
+    recursive_publish_pair=BINARY/'cases/hello-debug-dll/evidence/0086-commit_recursive_type'
+    if recursive_publish_pair.is_dir():
+        from recursive_publish_checks import check as check_recursive_publish
+        check_recursive_publish(recursive_publish_pair)
     from buffer_storage_checks import check as check_buffer_storage
     buffer_directory=BINARY/'cases/hello-debug-dll/evidence/0075-append_buffer'
     if buffer_directory.is_dir():check_buffer_storage(buffer_directory)

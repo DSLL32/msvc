@@ -115,4 +115,5 @@ void release_type_data(TypeRecord *entry) { __asm { int 3 } }
 void add_derived_type(unsigned short type, unsigned short base) { __asm { int 3 } }
 unsigned short __fastcall hash_referenced_type(TypeRecord *entry, unsigned short number) { __asm { int 3 } return 0; }
 int __fastcall compare_recursive_type(TypeRecord *entry, unsigned short type, unsigned char *record, unsigned short index) { __asm { int 3 } return 0; }
-unsigned short __fastcall commit_recursive_type(unsigned short type) { __asm { int 3 } return 0; }
+void __fastcall publish_recursive_type(TypeRecord *entry) { __asm { int 3 } }
+void __fastcall publish_packed_type(unsigned char *record, unsigned short type) { __asm { int 3 } }
