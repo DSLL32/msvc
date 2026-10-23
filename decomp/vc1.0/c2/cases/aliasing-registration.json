@@ -1,0 +1,208 @@
+{
+  "status": "registered; no new function accepted",
+  "accepted": 925,
+  "reference": "cases/aliasing-initial.json",
+  "native_match": {
+    "executable_sha256": "3b09a67ef438e53af3310853df9b5b83e8dc3ba106be657783c39b1012fb3d00",
+    "config_sha256": "956e47a029daa736683119fdf9c52557248371086f0fecc59901319d04cf2807",
+    "seconds": 0.13653104100376368,
+    "logical": "@is_register_return_size@4",
+    "matched": true,
+    "log_sha256": "677d6988ceaef14a6138d14a945bb5890fe8805789bc8e8018206cf2ded30344",
+    "directory": "/root/.ai-tmp/vc1.0-c2/aliasing-gdb-53vg7iab"
+  },
+  "frontier": "@is_register_return_size@4",
+  "original_va": "0x6f590",
+  "fixture": "../fixtures/c2-optimizer-aliasing/manifest.json",
+  "capture_validation": {
+    "timing": {
+      "capture-compile": {
+        "seconds": 1.7981671299785376,
+        "returncode": 0,
+        "stdout_sha256": "90785e1be7ae0e3c3b5d69969bf52ee4db9d68f48a99abc9023d61142888de32",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "capture-link": {
+        "seconds": 0.8129744725301862,
+        "returncode": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "pipeline": {
+        "seconds": 2.3167043924331665,
+        "returncode": 0,
+        "stdout_sha256": "8fdea7222ccde557da47cc73288c50a299fe58748109db50dd05492d33e90d97",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "standalone": {
+        "seconds": 1.1936960779130459,
+        "returncode": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "standalone": "exit0, empty streams, object matches pipeline after only timestamp",
+    "scratch": "/root/.ai-tmp/vc1.0-c2/c2-optimizer-aliasing-capture-ewxpi4i1"
+  },
+  "native_fixtures": {
+    "method": "native application entry and captured-output check",
+    "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
+    "executable_sha256": "8c47534571347dbc7de18c1eef68808b12cee266eda46af11f7aa3fd6e99ec3e",
+    "trace_enabled": true,
+    "shared_hashes": {
+      "lib/recon/include/recon.h": "2d6b8af6087cfd2156516d0b93ef1f69e36166114ee147df8779f837d7823284",
+      "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+      "lib/recon/include/win32.h": "bd9921fc58eca8020c9a26db68fc4cd228934ed07dd169a1dc8f1bd5f9ede3dd",
+      "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+      "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+      "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+      "lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+      "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+      "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+      "lib/recon/native/setjmp.h": "59e06ebb4df3a9242f62c136608bc2a2c45729d91b41e8ed5df4ba5dc646f210",
+      "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+      "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+      "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+      "lib/recon/src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
+      "lib/recon/src/crt.c": "1cf556f3771c59820a69a56c38e78cf95080d395f387f3e252d9be9dd100d8d3",
+      "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "lib/recon/src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
+      "lib/recon/src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
+      "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "lib/recon/src/win32.c": "46d7275bdbb5ba6011fd79e3420f63a2c749d5b6a1ba34955af75159351d361d"
+    },
+    "results": [
+      {
+        "profile": "minimal",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 270,
+        "seeded_entries": 0,
+        "output": {
+          "name": "test.obj",
+          "bytes": 286,
+          "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.0178107600659132,
+        "execution_seconds": 0.00534462183713913,
+        "check_seconds": 0.001580728217959404,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-x_qjlvja/minimal"
+      },
+      {
+        "profile": "hello",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 487,
+        "seeded_entries": 270,
+        "output": {
+          "name": "hello.obj",
+          "bytes": 2289,
+          "normalized_sha256": "84561a86af4bf3bdc3d8683da7c04be170caae4ca011d20402394e8a032cd6d0",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.014907017350196838,
+        "execution_seconds": 0.0111313471570611,
+        "check_seconds": 0.0016724560409784317,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-x_qjlvja/hello"
+      },
+      {
+        "profile": "loops",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 77,
+        "seeded_entries": 757,
+        "output": {
+          "name": "loops.obj",
+          "bytes": 620,
+          "normalized_sha256": "cafbb33726695b60d2e92d4173682de0f4ae47c401ecfcbe3b8ce38a54568f87",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.013360990211367607,
+        "execution_seconds": 0.009395982138812542,
+        "check_seconds": 0.0012668156996369362,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-x_qjlvja/loops"
+      },
+      {
+        "profile": "pressure",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 8,
+        "seeded_entries": 834,
+        "output": {
+          "name": "pressure.obj",
+          "bytes": 879,
+          "normalized_sha256": "692d3dbb7de8c5e16843d6f9c658bbcc9e1753cc111e281cc4c0b3ffa016a6e3",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.013475027866661549,
+        "execution_seconds": 0.010798885487020016,
+        "check_seconds": 0.0015606870874762535,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-x_qjlvja/pressure"
+      },
+      {
+        "profile": "aliasing",
+        "terminal": "@is_register_return_size@4",
+        "returncode": -5,
+        "application_entries": 1,
+        "seeded_entries": 842,
+        "output": null,
+        "setup_seconds": 0.01829314325004816,
+        "execution_seconds": 0.00438760407269001,
+        "check_seconds": 0.000711558386683464,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-x_qjlvja/aliasing"
+      }
+    ],
+    "rejected": [
+      "wrong expected application entry",
+      "non-clock object corruption",
+      "changed captured IR input"
+    ],
+    "fixture_seconds": 0.3000160586088896,
+    "suite_setup_seconds": 0.14363420382142067,
+    "negative_check_seconds": 0.02117493376135826,
+    "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
+  },
+  "timing": {
+    "aliasing-capture-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-stress.py",
+        "--fixture",
+        "../fixtures/c2-optimizer-aliasing",
+        "--stem",
+        "aliasing"
+      ],
+      "seconds": 6.2371340580284595,
+      "returncode": 0,
+      "log_sha256": "ae00b3f83811091fbd39b7b0adeb1119ab77cb65541b9428cb12e50c2d4b6714"
+    },
+    "aliasing-registration-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.40207406133413315,
+      "returncode": 0,
+      "log_sha256": "51841a453e01074a84e6aa5990c9a0c95ba5b45326a10625af221662f25277ab"
+    }
+  },
+  "limits": [
+    "Independent actual original CL/C1/C2 inputs and600-byte output captured and standalone verified. No frontend reconstruction dependency.",
+    "Metadata-only case registration retains all925 existing acceptances; current canonical/static audit9250ce4 reused.",
+    "All5 native fixtures pass:4 completed output oracles and aliasing named trap."
+  ]
+}

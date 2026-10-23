@@ -1,0 +1,9 @@
+{
+  "executable_sha256": "3b09a67ef438e53af3310853df9b5b83e8dc3ba106be657783c39b1012fb3d00",
+  "config_sha256": "956e47a029daa736683119fdf9c52557248371086f0fecc59901319d04cf2807",
+  "seconds": 0.13653104100376368,
+  "logical": "@is_register_return_size@4",
+  "matched": true,
+  "log_sha256": "677d6988ceaef14a6138d14a945bb5890fe8805789bc8e8018206cf2ded30344",
+  "directory": "/root/.ai-tmp/vc1.0-c2/aliasing-gdb-53vg7iab"
+}

@@ -2331,3 +2331,11 @@ object oracles pass; four malformed completion receipts rejected.
 Accepted extent union249682/399693=62.4684445312%, not branch coverage.
 See cases/pressure-completion.json for ordered references, limits and timings.
 Next approved case: independent original pointer-alias/structure-copy capture.
+
+Pointer-alias/structure-copy stress registered
+---------------------------------------------
+Independent original CL/C1/C2 capture pins24-byte structure copies plus
+interleaved integer/byte pointer aliases. Standalone600-byte original object
+matches pipeline after timestamp only. Fresh original/native initial frontier
+is is_register_return_size6f590, bytes24. All5 native fixtures pass.
+See cases/aliasing-registration.json and ../fixtures/c2-optimizer-aliasing.

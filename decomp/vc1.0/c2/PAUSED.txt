@@ -1,6 +1,4 @@
-C2 ACTIVE: register pressure COMPLETE at925 acceptances/847 source graphs.
-Extent union249682/399693=62.4684445312%, not branch coverage.
-Four completed object cases exact after timestamp only: minimal,hello,loops,pressure.
-Next approved: independent original aliasing/struct-copy capture, then floating point.
-Canonical/W3, graph/mask audits and all4 native fixtures pass.
-No shim requests. See cases/pressure-completion.json and queue.json.
+C2 ACTIVE: aliasing stress at925 acceptances/847 source functions.
+Fresh matching frontier is_register_return_size6f590, bytes24; BEFORE cases/aliasing-initial.json.
+Four completed object regressions pass. Extent249682/399693=62.4684445312%, not branch coverage.
+All5 native fixtures pass; approved floating-point case follows aliasing. No shim requests.
