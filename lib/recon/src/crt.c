@@ -1273,3 +1273,6 @@ WEAK void recon_mbccpy(unsigned char *destination,const unsigned char *source)
 { (void)destination; (void)source; recon_unsupported("unreviewed _mbccpy"); }
 WEAK int recon_ismbcspace(unsigned int value)
 { (void)value; recon_unsupported("unreviewed _ismbcspace"); return 0; }
+
+WEAK unsigned char *recon_mbschr(const unsigned char *text,unsigned int value)
+{ (void)text; (void)value; recon_unsupported("unreviewed _mbschr"); return NULL; }
