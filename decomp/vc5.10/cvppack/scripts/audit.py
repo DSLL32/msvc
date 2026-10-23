@@ -80,11 +80,15 @@ def run(config_path, candidates=(), output=None):
     generated.write_text(json.dumps(graph_config, indent=2) + '\n')
     empty = destination / 'graph-runtime.json'
     empty.write_text('[]\n')
+    import importlib.util
+    spec=importlib.util.spec_from_file_location('switch_data',BINARY/'scripts/switch-data.py')
+    switches=importlib.util.module_from_spec(spec);spec.loader.exec_module(switches)
+    metadata,metadata_proof=switches.prepare(checked,destination)
     tool = Path(os.environ.get('GRAPH_AUDIT_BIN',str(ROOT/'tooling/graph-audit/target/release/graph-audit'))).resolve()
     command = [str(tool), '--profile', 'cl', '--project', str(BINARY), '--repo', str(ROOT),
                '--original', str(ROOT / config['target']['path']), '--rebuilt', str(BINARY / 'build/CVPACK.EXE'),
                '--map', str(BINARY / 'build/cvpack.map'), '--config', str(generated),
-               '--runtime', str(empty), '--rebuilt-runtime', str(empty), '--discovery', 'cfg',
+               '--runtime', str(empty), '--rebuilt-runtime', str(empty), '--metadata',str(metadata),'--discovery', 'cfg',
                '--check-ret', '--check-references', '--check-ownership', '--check-extents']
     result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=15)
     assert result.returncode == 0, result.stderr.decode()
@@ -109,7 +113,8 @@ def run(config_path, candidates=(), output=None):
     receipt = dict(schema=1, config_sha256=sha(config_path), graph_config_sha256=sha(generated),
         original_sha256=sha(ROOT / config['target']['path']), rebuilt_sha256=sha(BINARY / 'build/CVPACK.EXE'),
         native_sha256=sha(BINARY / 'build/native/CVPACK'), map_sha256=sha(BINARY / 'build/cvpack.map'),
-        graph_tool_sha256=sha(tool), data_sha256=sha(BINARY/'data.json'),
+        graph_tool_sha256=sha(tool),graph_metadata_sha256=sha(metadata),graph_metadata_proof_sha256=sha(metadata_proof),
+        switch_data_validator_sha256=sha(BINARY/'scripts/switch-data.py'), data_sha256=sha(BINARY/'data.json'),
         runtime_sha256=sha(BINARY/'runtime.json'), graph_runtime_sha256=sha(empty),
         audit_wrapper_sha256=sha(BINARY/'scripts/audit.py'),
         data_objects_checked=len(data), resource_strings_checked=len(actual),

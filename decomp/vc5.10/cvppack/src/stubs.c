@@ -21,7 +21,6 @@ void release_cached_file(CachedFile *file) { __asm { int 3 } }
 int seek_stream_file(CachedFile *file, int offset, int origin) { __asm { int 3 } return 0; }
 int grow_mapping(CachedFile *file, int size) { __asm { int 3 } return 0; }
 unsigned stream_read(CachedFile *file, void *buffer, unsigned size) { __asm { int 3 } return 0; }
-void initialize_single_module(CodeViewDirectoryEntry *entry, ModuleInfo *info) { __asm { int 3 } }
 void read_module_types(CodeViewDirectoryEntry *entry, int precompiled) { __asm { int 3 } }
 void prepare_precompiled_types(ModuleInfo *info) { __asm { int 3 } }
 void read_module_symbols(unsigned index, CodeViewDirectoryEntry *entry) { __asm { int 3 } }

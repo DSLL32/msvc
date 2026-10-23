@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/capture-original.py", line 151, in <module>
+    main()
+    ~~~~^^
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/capture-original.py", line 37, in main
+    audit_candidate(output / 'configuration.json', args.candidate, output / 'audit.json')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/audit.py", line 90, in run
+    assert result.returncode == 0, result.stderr.decode()
+           ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: graph-audit: _pack_module extent truncates add at 4036e3 (end 4036e6)
+

@@ -12,9 +12,14 @@ def decode(events):
     assert len(frontiers) == 1, 'expected one raw original frontier'
     index,address = frontiers[0]
     memory,strings = {},{}
-    file_calls=[];all_strings={};last_error=None;handles={};mapping_calls=[];mapped_views={};file_reads=[];directory_allocation={};subsection_allocations=[];image_allocations=[];checked_allocations=[]
+    file_calls=[];all_strings={};last_error=None;handles={};mapping_calls=[];mapped_views={};file_reads=[];directory_allocation={};subsection_allocations=[];image_allocations=[];checked_allocations=[];module_allocations=[]
     for line in lines:
-        if line.startswith('checked-allocation-call '):
+        if line.startswith('module-allocation-call '):
+            _,entry,size=line.split();module_allocations.append(dict(entry=int(entry,16),size=int(size)))
+        elif line.startswith('module-allocation-return '):
+            assert module_allocations and 'address' not in module_allocations[-1]
+            module_allocations[-1]['address']=int(line.split()[1],16)
+        elif line.startswith('checked-allocation-call '):
             checked_allocations.append(dict(size=int(line.split()[1])))
         elif line.startswith('checked-allocation-return '):
             assert checked_allocations and 'address' not in checked_allocations[-1]
@@ -94,7 +99,7 @@ def decode(events):
     stack = memory[registers[-1]]
     assert len(stack) == 128
     return dict(address=address,memory=memory,strings=strings,
-                esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations)
+                esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations)
 
 
 def compare(config,data,events,native,artifacts=None,views=None):
@@ -149,7 +154,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
         assert len(sites)==1,'unknown actual original read caller'
         site=sites[0];row.pop('buffer')
         if site.get('count_parameter'):
-            allocations=[allocation for allocation in original['subsection_allocations'] if allocation['address']==captured['buffer']]
+            allocations=[allocation for allocation in original['module_allocations' if site.get('allocation_kind')=='module' else 'subsection_allocations'] if allocation['address']==captured['buffer']]
             assert len(allocations)==1,'subsection allocation ownership missing/ambiguous'
             allocation=allocations[0];capacity=allocation['size']
             item=next(item for item in data if item['name']=='directory_entries');root=int.from_bytes(original['memory'][item['original']],'little')
@@ -182,6 +187,15 @@ def compare(config,data,events,native,artifacts=None,views=None):
             assert left['size']==right['size'] and (left['entry']-root)//12==right['entry_index'],'subsection allocation source/size differs'
             assert left['address'] and right['address'] and left['address'] not in allocation_aliases and right['address'] not in allocation_aliases.values(),'live subsection allocation identity reused'
             allocation_aliases[left['address']]=right['address']
+    module_aliases={};module_sizes={}
+    assert len(original['module_allocations'])==len(native.get('module_allocations',[])),'module allocation inventory differs'
+    if original['module_allocations']:
+        row=next(row for row in data if row['name']=='directory_entries');root=int.from_bytes(original['memory'][row['original']],'little')
+        for left,right in zip(original['module_allocations'],native['module_allocations']):
+            assert left['entry']>=root and (left['entry']-root)%12==0
+            assert left['size']==right['size'] and (left['entry']-root)//12==right['entry_index'],'module allocation source/size differs'
+            assert left['address'] and right['address'] and left['address'] not in module_aliases and right['address'] not in module_aliases.values(),'live module buffer identity reused'
+            module_aliases[left['address']]=right['address'];module_sizes[left['address']]=left['size']
     image_aliases={};image_sizes={}
     assert len(original['image_allocations'])==len(native.get('image_allocations',[])),'image allocation inventory differs'
     for left,right in zip(original['image_allocations'],native.get('image_allocations',[])):
@@ -289,6 +303,15 @@ def compare(config,data,events,native,artifacts=None,views=None):
         assert image_aliases[address]==other and image_sizes[address]==size,'uninitialized allocation ownership/capacity differs'
         used_uninitialized.add(address)
         pair(address,other)
+    def module_buffer(address,other,length=None):
+        assert bool(address)==bool(other),'module buffer NULL state differs'
+        if not address:return
+        assert module_aliases[address]==other,'module payload allocation alias differs'
+        if length is None:length=module_sizes[address]
+        assert module_sizes[address]==length,'module payload capacity differs'
+        left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
+        assert len(left)==len(right)==length and left==right,'complete initialized module payload differs'
+        pair(address,other)
     def linked(address,other,shape):
         while pair(address,other):
             assert len(aliases)<=512,'unbounded object graph'
@@ -308,6 +331,9 @@ def compare(config,data,events,native,artifacts=None,views=None):
             if 'view' in shape:
                 spec=shape['view'];offset_view=spec['offset'];excluded.update(range(offset_view,offset_view+4))
                 mapped_view(int.from_bytes(left[offset_view:offset_view+4],'little'),int.from_bytes(right[offset_view:offset_view+4],'little'),int.from_bytes(left[spec['length_offset']:spec['length_offset']+4],'little'))
+            if 'payload' in shape:
+                spec=shape['payload'];payload_offset=spec['offset'];excluded.update(range(payload_offset,payload_offset+4))
+                module_buffer(int.from_bytes(left[payload_offset:payload_offset+4],'little'),int.from_bytes(right[payload_offset:payload_offset+4],'little'),int.from_bytes(left[spec['length_offset']:spec['length_offset']+4],'little'))
             assert all(a==b for i,(a,b) in enumerate(zip(left,right)) if i not in excluded),'target object bytes differ'
             address=int.from_bytes(left[offset:offset+4],'little')
             other=int.from_bytes(right[offset:offset+4],'little')
@@ -323,7 +349,9 @@ def compare(config,data,events,native,artifacts=None,views=None):
             for index in range(count):
                 linked(int.from_bytes(raw[index*4:index*4+4],'little'),int.from_bytes(actual[index*4:index*4+4],'little'),shape)
         elif item['kind'] == 'pointer':
-            if 'allocation' in item:
+            if item.get('module_buffer'):
+                module_buffer(int.from_bytes(raw,'little'),int.from_bytes(actual,'little'))
+            elif 'allocation' in item:
                 allocation(int.from_bytes(raw,'little'),int.from_bytes(actual,'little'),item['allocation'])
             elif 'blob' in item:
                 address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
@@ -347,6 +375,11 @@ def compare(config,data,events,native,artifacts=None,views=None):
                                     assert image_aliases[source]==destination and image_sizes[source]==pointer['size'],'initialized checked allocation ownership/capacity differs'
                                 child=original['memory'][source];actual_child=bytes.fromhex(native['memory'][str(destination)])
                                 assert len(child)==len(actual_child)==pointer['size'] and child==actual_child,'nested initialized allocation bytes differ'
+                    for relocation in spec.get('relocations',[]):
+                        for offset in range(relocation['offset'],size,relocation['stride']):
+                            source=int.from_bytes(left[offset:offset+4],'little');destination=int.from_bytes(right[offset:offset+4],'little')
+                            if source in module_aliases or destination in module_aliases.values():
+                                excluded.update(range(offset,offset+4));module_buffer(source,destination)
                     assert all(a==b for i,(a,b) in enumerate(zip(left,right)) if i not in excluded),'allocated initialized bytes differ'
             elif 'shape' not in item:
                 assert not any(raw) and not any(actual), ('non-NULL pointer needs an evidenced role',item['name'])
@@ -376,4 +409,4 @@ def compare(config,data,events,native,artifacts=None,views=None):
             parameters[item['name']]=native_parameters[item['name']]=dict(null=True)
     assert parameters == native_parameters, ('typed ABI arguments differ',parameters,native_parameters)
     if original_calls:assert original['last_error']==native['last_error'],'frontier LastError differs'
-    return dict(parameters=parameters,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases))
+    return dict(parameters=parameters,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases))

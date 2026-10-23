@@ -14,6 +14,7 @@ directory_allocation={}
 subsection_allocations=[]
 image_allocations=[]
 checked_allocations=[]
+module_allocations=[]
 live_mappings={}
 def install(configuration):
     config=json.loads(Path(configuration).read_text())
@@ -100,10 +101,10 @@ def install(configuration):
                 if site['owner']!=owner.name():continue
                 local=gdb.parse_and_eval(site['local']) if site.get('global_buffer') or (site.get('heap_buffer') and not site.get('count_parameter')) else owner.read_var(site['local'])
                 if site.get('count_parameter'):
-                    local=owner.read_var(site['local']);entry=owner.read_var(site['count_parameter'])
+                    local=gdb.parse_and_eval(site['local']) if site.get('global_buffer') else owner.read_var(site['local']);entry=owner.read_var(site['count_parameter'])
                     capacity=int(entry.dereference()[site['count_member']])
                     entry_index=(int(entry)-int(gdb.parse_and_eval('directory_entries')))//12
-                    matches=int(local)==buffer and size==capacity and dict(address=buffer,size=capacity,entry_index=entry_index) in subsection_allocations
+                    matches=int(local)==buffer and size==capacity and dict(address=buffer,size=capacity,entry_index=entry_index) in (module_allocations if site.get('allocation_kind')=='module' else subsection_allocations)
                 elif site.get('heap_buffer'):
                     local=gdb.parse_and_eval(site['local']);count=int(gdb.parse_and_eval(site['count']))
                     capacity=(count+site['spare_elements'])*site['element_size']
@@ -130,7 +131,7 @@ def install(configuration):
         def __init__(self):super().__init__('*malloc',internal=True)
         def stop(self):
             frame=gdb.newest_frame();owner=frame.older()
-            if owner is None or owner.name() not in ('read_codeview_directory','load_debug_subsection','read_image_debug','allocate_bytes'):return False
+            if owner is None or owner.name() not in ('read_codeview_directory','load_debug_subsection','read_image_debug','allocate_bytes','initialize_single_module'):return False
             stack=int(gdb.parse_and_eval('$esp'))
             size=int.from_bytes(bytes(gdb.selected_inferior().read_memory(stack+4,4)),'little')
             if owner.name()=='read_codeview_directory':
@@ -143,7 +144,7 @@ def install(configuration):
             else:
                 entry=int(owner.read_var('entry'));root=int(gdb.parse_and_eval('directory_entries'))
                 assert entry>=root and (entry-root)%12==0
-                record=dict(size=size,entry_index=(entry-root)//12);subsection_allocations.append(record)
+                record=dict(size=size,entry_index=(entry-root)//12);(module_allocations if owner.name()=='initialize_single_module' else subsection_allocations).append(record)
             AllocationReturned(record);return False
     AllocationEntered()
 
@@ -190,13 +191,14 @@ def capture(configuration,data_file,output):
     state['subsection_allocations']=subsection_allocations
     state['image_allocations']=image_allocations
     state['checked_allocations']=checked_allocations
+    state['module_allocations']=module_allocations
     state['globals']={item['name']:bytes(inferior.read_memory(gdb.parse_and_eval('&'+item['name']),item['size'])).hex() for item in data}
     memory={};strings={};handles={};mapped_views={};captured_shapes={}
     state["last_error"]=int(gdb.parse_and_eval("'win32.c'::last_error"))
     def linked(head,shape):
         visited=set()
         while head:
-            signature={key:shape[key] for key in ('size','link','string','handle','view') if key in shape}
+            signature={key:shape[key] for key in ('size','link','string','handle','view','payload') if key in shape}
             if head in captured_shapes:
                 assert captured_shapes[head]==signature,'same live object observed through incompatible layouts'
                 return
@@ -262,6 +264,11 @@ def capture(configuration,data_file,output):
                     mapped_views[str(address)]=dict(length=length,permissions=fields[1],
                         offset=int(fields[2],16)+address-first,pathname=pathname,call_index=ordinal,
                         file=view_name,sha256=hashlib.sha256(raw_view).hexdigest())
+            if 'payload' in shape:
+                spec=shape['payload'];address=int.from_bytes(raw[spec['offset']:spec['offset']+4],'little');size=int.from_bytes(raw[spec['length_offset']:spec['length_offset']+4],'little')
+                if address:
+                    assert 0<size<=65536
+                    memory[str(address)]=bytes(inferior.read_memory(address,size)).hex()
             head=int.from_bytes(raw[shape['link']:shape['link']+4],'little')
     for item in data:
         if 'shape' not in item:continue

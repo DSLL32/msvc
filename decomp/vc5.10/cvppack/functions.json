@@ -43,7 +43,8 @@
     "load_debug_subsection",
     "find_module_info",
     "initialize_module_pack",
-    "pack_module"
+    "pack_module",
+    "initialize_single_module"
   ],
   "functions": [
     {
@@ -1233,8 +1234,11 @@
       "symbol": "_initialize_single_module",
       "native_symbol": "initialize_single_module",
       "original": 4213584,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4213584,
+        4213767
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -1251,10 +1255,15 @@
           "kind": "object-pointer",
           "shape": {
             "size": 48,
-            "link": 44
+            "link": 44,
+            "payload": {
+              "offset": 12,
+              "length_offset": 16
+            }
           }
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0038-initialize-single-module-exact-switch/promotion.json"
     },
     {
       "name": "read_module_types",
@@ -1284,7 +1293,21 @@
       "status": "stub",
       "extent": null,
       "ret": 0,
-      "parameters": []
+      "parameters": [
+        {
+          "name": "index",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "blob-element-pointer",
+          "root": "directory_entries",
+          "count": "directory_count",
+          "element_size": 12
+        }
+      ]
     },
     {
       "name": "read_module_lines",
@@ -1528,6 +1551,16 @@
       "heap_buffer": true,
       "count_parameter": "entry",
       "count_member": "size"
+    },
+    {
+      "return_pc": 4213693,
+      "owner": "initialize_single_module",
+      "local": "current_module_buffer",
+      "global_buffer": true,
+      "heap_buffer": true,
+      "count_parameter": "entry",
+      "count_member": "size",
+      "allocation_kind": "module"
     }
   ]
 }

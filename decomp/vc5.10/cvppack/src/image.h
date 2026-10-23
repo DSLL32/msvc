@@ -15,14 +15,18 @@ typedef struct CodeViewDirectoryHeader {
 } CodeViewDirectoryHeader;
 typedef struct CodeViewDirectoryEntry {
     unsigned short subsection, module;
-    unsigned offset, size;
+    union { unsigned offset; unsigned char *data; };
+    unsigned size;
 } CodeViewDirectoryEntry;
 extern CodeViewDirectoryHeader codeview_directory_header;
 extern CodeViewDirectoryEntry *directory_entries;
 extern unsigned directory_relative_offset, directory_count;
 typedef struct ModuleInfo {
     unsigned short module, reserved;
-    unsigned fields[10];
+    unsigned fields_before[2];
+    unsigned char *data;
+    unsigned size;
+    unsigned fields_after[6];
     struct ModuleInfo *next;
 } ModuleInfo;
 typedef struct ModuleIndex {

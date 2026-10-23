@@ -22,7 +22,7 @@ static DWORD watched_address[256], watched_size[256], watch_count;
 static DWORD argument_entry[64], argument_slot[64], argument_count;
 static char argument_kind[64];
 static DWORD graph_address[64], graph_size[64], graph_link[64], graph_count_address[64], graph_count;
-static DWORD graph_string[64], graph_literal[64], graph_handle[64];
+static DWORD graph_string[64], graph_literal[64], graph_handle[64], graph_payload[64], graph_payload_length[64];
 static DWORD file_open_arguments[7];
 static char event_path[MAX_PATH];
 static DWORD captured_views[128], captured_view_count;
@@ -71,9 +71,10 @@ static void configure(void)
     value = getenv("VC510_CVPACK_GRAPHS");
     while (value && *value && graph_count < 64) {
         graph_string[graph_count] = graph_handle[graph_count] = 0xffffffffUL;
-        if (sscanf(value, "%lx:%lu:%lu:%lx:%lu:%lu:%lu", &graph_address[graph_count], &graph_size[graph_count],
+        graph_payload[graph_count] = graph_payload_length[graph_count] = 0xffffffffUL;
+        if (sscanf(value, "%lx:%lu:%lu:%lx:%lu:%lu:%lu:%lu:%lu", &graph_address[graph_count], &graph_size[graph_count],
                    &graph_link[graph_count], &graph_count_address[graph_count], &graph_string[graph_count],
-                   &graph_literal[graph_count], &graph_handle[graph_count]) < 4) break;
+                   &graph_literal[graph_count], &graph_handle[graph_count], &graph_payload[graph_count], &graph_payload_length[graph_count]) < 4) break;
         ++graph_count;
         next = strchr(value, ',');
         value = next ? next + 1 : NULL;
@@ -168,7 +169,7 @@ static void mapped_view(FILE *log, HANDLE process, DWORD address, DWORD size)
         information.State, information.Type, i);
 }
 
-static void linked_memory(FILE *log, HANDLE process, DWORD head, DWORD size, DWORD link, DWORD text, DWORD handle)
+static void linked_memory(FILE *log, HANDLE process, DWORD head, DWORD size, DWORD link, DWORD text, DWORD handle, DWORD payload, DWORD payload_length)
 {
     DWORD seen[128], count = 0, i, value;
     while (head && count < 128) {
@@ -182,6 +183,11 @@ static void linked_memory(FILE *log, HANDLE process, DWORD head, DWORD size, DWO
         if (size == 40 && text == 0 && handle == 16 && read_bytes(process, head + 20, &value, 4) && value) {
             DWORD length;
             if (read_bytes(process, head + 24, &length, 4)) mapped_view(log, process, value, length);
+        }
+        if (payload <= size - 4 && payload_length <= size - 4 &&
+            read_bytes(process, head + payload, &value, 4) && value) {
+            DWORD length;
+            if (read_bytes(process, head + payload_length, &length, 4)) memory(log, process, value, length);
         }
         if (!read_bytes(process, head + link, &head, 4)) return;
     }
@@ -264,11 +270,11 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         if (graph_literal[i]) value = graph_address[i];
         else if (!read_bytes(process, graph_address[i], &value, 4)) continue;
         if (!graph_count_address[i] && !graph_literal[i])
-            linked_memory(log, process, value, graph_size[i], graph_link[i], graph_string[i], graph_handle[i]);
+            linked_memory(log, process, value, graph_size[i], graph_link[i], graph_string[i], graph_handle[i], graph_payload[i], graph_payload_length[i]);
         else if (((count = graph_literal[i]) || read_bytes(process, graph_count_address[i], &count, 4)) && count <= 128) {
             memory(log, process, value, count * 4);
             for (j = 0; j < count; ++j) if (read_bytes(process, value + j * 4, &item, 4))
-                linked_memory(log, process, item, graph_size[i], graph_link[i], graph_string[i], graph_handle[i]);
+                linked_memory(log, process, item, graph_size[i], graph_link[i], graph_string[i], graph_handle[i], graph_payload[i], graph_payload_length[i]);
         }
     }
     for (i = 0; full_graphs && i < blob_count; ++i) {
@@ -357,6 +363,9 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
     if (entry == 0x40fb66 && read_bytes(process, context->Esp, &value, 4))
         fprintf(log, "checked-allocation-call %lu\n", value);
     else if (entry == 0x40fb6c) fprintf(log, "checked-allocation-return %08lx\n", context->Eax);
+    if (entry == 0x404b59 && read_bytes(process, context->Esp, &value, 4))
+        fprintf(log, "module-allocation-call %08lx %lu\n", context->Esi, value);
+    else if (entry == 0x404b5f) fprintf(log, "module-allocation-return %08lx\n", context->Eax);
     widen_state(log, process, context, entry);
 }
 

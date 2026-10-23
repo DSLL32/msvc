@@ -71,6 +71,10 @@ def validate_pair(config_path, original_dir, native_dir, audit_path=None):
                      ('graph_config_sha256',audit_path.parent/'graph-config.json'),
                      ('graph_runtime_sha256',audit_path.parent/'graph-runtime.json')]:
         assert audit[key] == sha(path), ('stale candidate audit input',key)
+    if 'graph_metadata_sha256' in original:
+        for key,name in [('graph_metadata_sha256','graph-metadata.json'),('graph_metadata_proof_sha256','graph-metadata-proof.json')]:
+            assert original[key]==sha(original_dir/name)==audit[key]==sha(audit_path.parent/name),'stale/mismatched exact switch metadata'
+        assert audit['switch_data_validator_sha256']==sha(BINARY/'scripts/switch-data.py')
     assert original['graph_config_sha256'] == sha(original_dir/'graph-config.json')
     assert original['graph_runtime_sha256'] == sha(original_dir/'graph-runtime.json')
     assert (original_dir/'graph-config.json').read_bytes()==(audit_path.parent/'graph-config.json').read_bytes(), 'audit refresh changed trial projection'

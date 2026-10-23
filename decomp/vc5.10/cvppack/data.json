@@ -598,7 +598,14 @@
     "blob": {
       "count": "directory_count",
       "element_size": 12,
-      "spare_elements": 6
+      "spare_elements": 6,
+      "relocations": [
+        {
+          "offset": 4,
+          "stride": 12,
+          "allocation_kind": "module"
+        }
+      ]
     }
   },
   {
@@ -664,7 +671,11 @@
           "size": 48,
           "shape": {
             "size": 48,
-            "link": 44
+            "link": 44,
+            "payload": {
+              "offset": 12,
+              "length_offset": 16
+            }
           }
         }
       ]
@@ -677,7 +688,11 @@
     "kind": "pointer",
     "shape": {
       "size": 48,
-      "link": 44
+      "link": 44,
+      "payload": {
+        "offset": 12,
+        "length_offset": 16
+      }
     }
   },
   {
@@ -817,7 +832,8 @@
     "name": "current_module_buffer",
     "original": 4281596,
     "size": 4,
-    "kind": "pointer"
+    "kind": "pointer",
+    "module_buffer": true
   },
   {
     "name": "current_module_info",
@@ -826,7 +842,11 @@
     "kind": "pointer",
     "shape": {
       "size": 48,
-      "link": 44
+      "link": 44,
+      "payload": {
+        "offset": 12,
+        "length_offset": 16
+      }
     }
   }
 ]

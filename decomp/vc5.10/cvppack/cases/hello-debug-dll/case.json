@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0037-pack-module/original",
-  "reference_receipt_sha256": "91bb5849b93af801c7334dd26fa4ec131ed5bbfa5405b90ede927ea9bc629f7f",
+  "reference": "cases/hello-debug-dll/evidence/0038-initialize-single-module-exact-switch/original",
+  "reference_receipt_sha256": "163d10fe9eacd6bcbb926602940e40f5e7339056b5f114e866fbb3435caab8b3",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -43,6 +43,7 @@
     "find_module_info",
     "initialize_module_pack",
     "pack_module",
-    "initialize_single_module"
+    "initialize_single_module",
+    "read_module_symbols"
   ]
 }

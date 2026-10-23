@@ -75,9 +75,10 @@ def main():
     if case['name']=='hello-debug-dll':env['VC510_CVPACK_PDB_PROVIDER']=tool.windows(work/'loaded-mspdb50.dll')
     data = json.loads((output / 'data.json').read_text())
     env['VC510_CVPACK_DATA'] = ','.join('%x:%d' % (item['original'],item['size']) for item in data)
-    env['VC510_CVPACK_GRAPHS'] = ','.join('%x:%d:%d:%x:%d:%d:%d' % (item['original'],item['shape']['size'],item['shape']['link'],
+    env['VC510_CVPACK_GRAPHS'] = ','.join('%x:%d:%d:%x:%d:%d:%d:%d:%d' % (item['original'],item['shape']['size'],item['shape']['link'],
         next((row['original'] for row in data if row['name']==item['shape'].get('count')),0),item['shape'].get('string',0xffffffff),
-        item['shape'].get('count_literal',0),item['shape'].get('handle',0xffffffff)) for item in data if 'shape' in item)
+        item['shape'].get('count_literal',0),item['shape'].get('handle',0xffffffff),
+        item['shape'].get('payload',{}).get('offset',0xffffffff),item['shape'].get('payload',{}).get('length_offset',0xffffffff)) for item in data if 'shape' in item)
     if any(r['name']=='open_mapped_file' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
         env['VC510_CVPACK_PROBES']='4021bd:file-open-call,4021c3:file-open-return'
     if any(r['name']=='create_mapping' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
@@ -92,6 +93,8 @@ def main():
         env['VC510_CVPACK_PROBES']+=',4062b0:image-allocation-entry,4062b2:image-allocation-result,4062d3:image-allocation-entry,4062d5:image-allocation-result,4062f7:image-allocation-entry,4062f9:image-allocation-result,40631b:image-allocation-entry,40631d:image-allocation-result,40639d:image-allocation-entry,40639f:image-allocation-result'
     if any(r['name']=='allocate_bytes' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
         env['VC510_CVPACK_PROBES']+=',40fb66:checked-allocation-entry,40fb6c:checked-allocation-result'
+    if any(r['name']=='initialize_single_module' and (r['status']=='accepted' or r['name'] in args.candidate) for r in config['functions']):
+        env['VC510_CVPACK_PROBES']+=',404b59:module-allocation-entry,404b5f:module-allocation-result'
     env['VC510_CVPACK_BLOBS']=','.join('%x:%d:%d:%d:%x:%d:%d'%(item['original'],item['blob'].get('size',0),
         item['blob'].get('pointers',[dict(offset=0xffffffff)])[0]['offset'],
         item['blob'].get('pointers',[dict(size=0)])[0].get('size',0),
@@ -111,6 +114,9 @@ def main():
     artifact_records = artifacts(case,work,output)
     for path in sorted(output.glob('events-view-*.bin')):
         artifact_records.append(dict(name=path.name,bytes=path.stat().st_size,sha256=sha(path)))
+    for name in ('graph-metadata.json','graph-metadata-proof.json','pack-switch.obj'):
+        path=output/name
+        if path.exists():artifact_records.append(dict(name=name,bytes=path.stat().st_size,sha256=sha(path)))
     receipt = dict(schema=1, case=args.case, unmasked=args.unmasked, candidates=args.candidate,
         case_definition_sha256=sha(output/'case-definition.json'),
         debugger_source_sha256=sha(BINARY/'scripts/debug-run.c'),
@@ -131,6 +137,7 @@ def main():
         data_sha256=sha(output / 'data.json'), runtime_sha256=sha(output / 'runtime.json'),
         audit_sha256=sha(output / 'audit.json'), graph_config_sha256=sha(output / 'graph-config.json'),
         graph_runtime_sha256=sha(output / 'graph-runtime.json'),
+        graph_metadata_sha256=sha(output/'graph-metadata.json'),graph_metadata_proof_sha256=sha(output/'graph-metadata-proof.json'),
         compiled_sources_sha256=sha(output/'compiled-sources.json'),
         outputs=[dict(name=name, bytes=(output / name).stat().st_size, sha256=sha(output / name))
                  for name in ('stdout', 'stderr', 'events', 'audit.json', 'graph-config.json', 'graph-runtime.json','case-definition.json')]+artifact_records,

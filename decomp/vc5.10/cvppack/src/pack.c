@@ -68,3 +68,20 @@ int pack_module(unsigned short module)
     }
     return 1;
 }
+
+/* Original module payload ownership setup [00404b50,00404c07). */
+void initialize_single_module(CodeViewDirectoryEntry *entry, ModuleInfo *info)
+{
+    current_module_buffer = malloc(entry->size);
+    if (!current_module_buffer) fatal_error(1001, NULL, NULL);
+    if (entry->offset != image_read_mode) {
+        image_read_mode = entry->offset;
+        seek_cached_file(input_file, codeview_file_offset + entry->offset, 0);
+    }
+    if (read_cached_file(input_file, current_module_buffer, entry->size) != entry->size)
+        fatal_error(1005, NULL, NULL);
+    image_read_mode += entry->size;
+    entry->data = current_module_buffer;
+    info->size = entry->size;
+    info->data = current_module_buffer;
+}
