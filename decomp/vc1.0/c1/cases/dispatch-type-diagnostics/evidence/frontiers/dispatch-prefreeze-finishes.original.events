@@ -1,0 +1,9 @@
+flag-words 0 entry 00280000 00008000
+function-symbol 0 entry 07 01 0000006d 00000080 validate_header
+flag-words 0 finish 00200000 00008000
+function-symbol 0 finish absent
+flag-words 1 entry 00280000 00008000
+function-symbol 1 entry 07 01 00000079 00000080 recovered_tail
+flag-words 1 finish 00200000 00008000
+function-symbol 1 finish absent
+exit 4

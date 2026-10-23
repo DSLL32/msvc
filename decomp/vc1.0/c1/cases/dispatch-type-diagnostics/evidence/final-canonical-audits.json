@@ -1,0 +1,9 @@
+{
+  "seconds": 8.134797923266888,
+  "exit": 0,
+  "command": [
+    "make",
+    "-j4",
+    "audit-win32"
+  ]
+}

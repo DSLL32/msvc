@@ -192,6 +192,10 @@
     "hdrstop-use": {
       "receipt": "cases/pragma-hdrstop-pch/evidence/hdrstop-use-entries-1004.receipt.json",
       "sha256": "df97b3d3482f499267cacedd21066d8cb6bdf647f2a7cc6ad17765fb75f8fc49"
+    },
+    "dispatch-type-diagnostics": {
+      "receipt": "cases/dispatch-type-diagnostics/evidence/dispatch-entries-1007.receipt.json",
+      "sha256": "73889685a363cf455a9e963bb6680cab2ad7808ec2f3b378b759b6497a5f7235"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

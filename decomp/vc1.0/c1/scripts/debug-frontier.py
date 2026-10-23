@@ -201,7 +201,11 @@ if gdb.selected_inferior().pid:
     for item in %r:
         slot=item['stack_slot']
         value=struct.unpack('<I',bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('$ebp'))+4*(slot+1),4)))[0]
-        row=dict(name=item['name'],stack_slot=slot,value=value,kind=item.get('kind','u32'))
+        raw_slot=value
+        bits=item.get('bits',32)
+        assert bits in (8,16,32)
+        value &= (1 << bits)-1
+        row=dict(name=item['name'],stack_slot=slot,value=value,raw_slot=raw_slot,bits=bits,kind=item.get('kind','u32'))
         if item.get('formal'):
             row['formal_value']=int(gdb.parse_and_eval(item['formal'])) & 0xffffffff
             assert row['formal_value']==value,('native formal/ABI slot differs',row)
@@ -238,6 +242,21 @@ if gdb.selected_inferior().pid:
             name=symbol.dereference()['name'].string()
         state['asm_operand_state']=row
         state['asm_operand_symbol_name']=name
+    if %r:
+        state['type_pair']={}
+        for name in ['target','source']:
+            descriptor=gdb.parse_and_eval(name).dereference()
+            chain=[];shape=descriptor['related']
+            while int(shape):
+                assert len(chain)<8
+                node=shape.dereference()
+                chain.append([int(node['flags']),int(node['attributes']),int(node['field08'])])
+                shape=node['related']
+            state['type_pair'][name]=dict(flags=int(descriptor['flags']),attributes=int(descriptor['attributes']),shapes=chain)
+    if %r:
+        descriptor=gdb.parse_and_eval('type').dereference()
+        tag=descriptor['field08'].cast(gdb.lookup_type('FrontendSymbol').pointer())
+        state['complete_type']=dict(type=int(gdb.parse_and_eval('type')),tag=int(tag),flags=int(tag.dereference()['flags']) if int(tag) else 0,name=tag.dereference()['name'].string(encoding='latin1') if int(tag) else None)
     state['label_stack_count']=int(gdb.parse_and_eval('label_stack_count'))
     state['scanner_flags']=int(gdb.parse_and_eval('scanner_flags'))
     state['exception_scope_depth']=[int(gdb.parse_and_eval('exception_scope_depth[%%d]'%%i)) for i in range(3)]
@@ -245,7 +264,7 @@ else:
     state['frontier']=None
 with open(%r,'w') as out:json.dump(state,out,indent=2)
 end
-''' % (runtime_break+callback_commands+flag_commands,redirection,abi_inputs,abi_globals,abi_strings,names,bool(options.reference and 'asm-state stop ' in (options.reference.resolve()/'events').read_text()),str(directory/'state.json'))
+''' % (runtime_break+callback_commands+flag_commands,redirection,abi_inputs,abi_globals,abi_strings,names,bool(options.reference and 'asm-state stop ' in (options.reference.resolve()/'events').read_text()),bool(expected_record and expected_record['name']=='_report_conversion_mismatch@12'),bool(expected_record and expected_record['name']=='_require_complete_type@4'),str(directory/'state.json'))
     (directory/'commands.gdb').write_text(script)
     prepared = time.perf_counter()-start
     run_start = time.perf_counter()
@@ -270,7 +289,8 @@ end
                     assert bool(item['value'])==bool(original_stack[item['stack_slot']]),('pointer nullness differs',item)
                     item['original_pointer']=original_stack[item['stack_slot']]
                 else:
-                    assert item['value']==original_stack[item['stack_slot']],('original/native ABI input differs',item,original_stack[item['stack_slot']])
+                    item['original_raw_slot']=original_stack[item['stack_slot']]
+                    assert item['value']==(item['original_raw_slot'] & ((1 << item['bits'])-1)),('original/native ABI input differs',item,item['original_raw_slot'])
             if abi_inputs: state['abi_inputs_original_match']=True
             original_base=int(match[2],16)
             for item in state['abi_globals']:
@@ -286,6 +306,23 @@ end
                 assert item['value']==value,('ABI string differs',item,value)
                 item['original_pointer']=pointer
             if abi_strings: state['abi_strings_original_match']=True
+            if 'type_pair' in state:
+                for name in ['target','source']:
+                    found=re.search(r'^type-pair '+name+r' (\d+) (\d+)$',events,re.M)
+                    assert found,'Original type pair not observed'
+                    shapes=[[int(x)for x in row]for row in re.findall(r'^type-shape '+name+r' \d+ (\d+) (\d+) (\d+)$',events,re.M)]
+                    expected=dict(flags=int(found[1]),attributes=int(found[2]),shapes=shapes)
+                    assert state['type_pair'][name]==expected,('type pair differs',name,state['type_pair'][name],expected)
+                state['type_pair_original_match']=True
+            if 'complete_type' in state:
+                matched=re.search(r'^complete-type ([0-9a-f]+) ([0-9a-f]+) (\d+)$',events,re.M)
+                assert matched, 'Original complete-type inputs not observed'
+                raw=state['complete_type']
+                assert bool(raw['type'])==bool(int(matched[1],16)) and bool(raw['tag'])==bool(int(matched[2],16)) and raw['flags']==int(matched[3])
+                original_name=re.search(r'^pointer-text complete-tag-name [0-9a-f]+ ([0-9a-f]+)$',events,re.M)
+                assert (None if not original_name else bytes.fromhex(original_name[1])[:-1].decode('latin1'))==raw['name']
+                state['complete_type_original_match']=True
+
             if 'asm_operand_state' in state:
                 row=next(line for line in events.splitlines()if line.startswith('asm-state stop '))
                 assert state['asm_operand_state']==[int(x)for x in row.split()[2:]],('asm operand state differs',state['asm_operand_state'],row)

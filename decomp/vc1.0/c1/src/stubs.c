@@ -101,7 +101,6 @@ void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
 
 
 
-void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
 
 
 void report_ide_source(void) { __asm { int 3 } }
@@ -405,7 +404,6 @@ void __stdcall record_inline_parameter(FrontendSymbol *parameter) { __asm { int 
 
 
 
-void __stdcall report_conversion_mismatch(unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
 
 
 
@@ -611,7 +609,6 @@ void __stdcall convert_pascal_string(StringToken *string) { __asm { int 3 } }
 /* Original 0x3ddf0. */
 /* Original 0x3e2e0. */
 /* Original 0x3f4f0. */
-void __stdcall report_function_operand(unsigned char operation, int argument) { __asm { int 3 } }
 /* Original 0x3f5c0. */
 /* Original 0x3f670. */
 /* Original 0x419a0. */

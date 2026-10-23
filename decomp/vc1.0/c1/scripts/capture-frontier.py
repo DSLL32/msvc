@@ -36,6 +36,7 @@ def main():
     parser.add_argument('--direct-body',action='store_true',help='Restore exactly selected candidate body/shared text for explicit direct verification')
     parser.add_argument('--trace-enum-callbacks', action='store_true',help='Explicit debugger-only all-call enum comparator proof')
     parser.add_argument('--trace-flags',help='Logical function whose full scanner/parser words are observed at entry/return')
+    parser.add_argument('--trace-complete-type',action='store_true',help='Explicit original tag flag byte and stdcall return observation')
     parser.add_argument('--trace-strdup',action='store_true',help='Explicit original-only strdup input/returned copied text')
     parser.add_argument('--trace-asm-segment',action='store_true',help='Explicit original-only segment operand entry/return ABI/state')
     parser.add_argument('--trace-return8',action='store_true',help='Explicit original-only recovery-value register/stack observation')
@@ -56,6 +57,9 @@ def main():
     if options.trace_return8:
         assert options.unmasked and options.trace_flags is None
         options.trace_flags = '_recovery_token_value@4'
+    if options.trace_complete_type:
+        assert options.unmasked and options.trace_flags is None
+        options.trace_flags='_require_complete_type@4'
     if options.trace_strdup:
         assert options.unmasked and options.trace_flags is None
         options.trace_flags='__strdup'
@@ -174,6 +178,8 @@ def main():
     host_environment.pop('C1_ASM_SEGMENT_PROBE',None)
     host_environment.pop('C1_DIRECT_CALL',None)
     host_environment.pop('C1_STRDUP_PROBE',None)
+    host_environment.pop('C1_COMPLETE_TYPE_RETURN',None)
+    if options.trace_complete_type:host_environment['C1_COMPLETE_TYPE_RETURN']='1'
     if options.trace_strdup:host_environment['C1_STRDUP_PROBE']='1'
     if direct:
         args = options.direct_arguments + [0]*(2-len(options.direct_arguments))
@@ -229,7 +235,7 @@ def main():
         assert 'entry-divergence' not in events
     if canonical:
         shutil.copytree(work,directory/'work',copy_function=shutil.copy2)
-    receipt = dict(strdup_probe=options.trace_strdup,direct_call=dict(function=direct['name'],arguments=options.direct_arguments,body_restored=options.direct_body,public_reachability=False)if direct else None,asm_segment_probe=options.trace_asm_segment,return8_probe=options.trace_return8,stop_function=options.stop_function,terminal_exit=terminal_exit,expected_exit=phase['expected_exit'],case=str(case), phase=options.phase, unmasked=options.unmasked,
+    receipt = dict(complete_type_probe=options.trace_complete_type,strdup_probe=options.trace_strdup,direct_call=dict(function=direct['name'],arguments=options.direct_arguments,body_restored=options.direct_body,public_reachability=False)if direct else None,asm_segment_probe=options.trace_asm_segment,return8_probe=options.trace_return8,stop_function=options.stop_function,terminal_exit=terminal_exit,expected_exit=phase['expected_exit'],case=str(case), phase=options.phase, unmasked=options.unmasked,
                    enum_callback_trace=options.trace_enum_callbacks,enum_callback_function=enum_callback if options.trace_enum_callbacks else None,flag_word_probe=options.trace_flags,function_finish_probe=options.trace_function_finishes,timestamp_probe=options.trace_timestamps,
                    accepted_count=len(config['accepted']), accepted_sha256=hashlib.sha256(
                        json.dumps(config['accepted']).encode()).hexdigest(),

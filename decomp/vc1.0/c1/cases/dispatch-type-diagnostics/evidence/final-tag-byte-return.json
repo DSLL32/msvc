@@ -1,0 +1,49 @@
+{
+  "status": "pass",
+  "seconds": 0.15828407928347588,
+  "native": {
+    "before": {
+      "esp": 4287940220,
+      "return_address": 1448662648,
+      "argument": 1462802424,
+      "tag": 1462801904,
+      "flags": 2,
+      "errors": 1,
+      "registers": {
+        "ebx": 1449107444,
+        "esi": 0,
+        "edi": 1459617824,
+        "ebp": 4287940248
+      }
+    },
+    "esp": 4287940228,
+    "tag": 1462801904,
+    "flags": 130,
+    "errors": 2,
+    "caller": "complete_type_size",
+    "registers": {
+      "ebx": 1449107444,
+      "esi": 0,
+      "edi": 1459617824,
+      "ebp": 4287940248
+    }
+  },
+  "original_entry": [
+    2751956,
+    8099832
+  ],
+  "original_finish": [
+    2751964,
+    2,
+    0
+  ],
+  "original_tag_before": [
+    "007b95f0",
+    "2"
+  ],
+  "original_tag_after": [
+    "007b95f0",
+    "130"
+  ],
+  "contract": "Fresh original/native actual tagowner stable, rawBYTE flags2\u2192130; stdcallRET4/callerESPdelta8; nativeerror_count1\u21922/nonvolatilepreservation and complete_type_size caller. Full original stdout/status4 independently proves exact diagnostic sequence/count."
+}

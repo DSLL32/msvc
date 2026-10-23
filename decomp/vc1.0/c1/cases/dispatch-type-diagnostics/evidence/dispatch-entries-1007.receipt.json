@@ -1,0 +1,103 @@
+{
+  "complete_type_probe": false,
+  "strdup_probe": false,
+  "direct_call": null,
+  "asm_segment_probe": false,
+  "return8_probe": false,
+  "stop_function": null,
+  "terminal_exit": 4,
+  "expected_exit": 4,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/dispatch-type-diagnostics",
+  "phase": "c1",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "enum_callback_function": null,
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "timestamp_probe": false,
+  "accepted_count": 1007,
+  "accepted_sha256": "a8c5460b131f4d006d23ae8d0e8e1ab394ab509dc38096509f59bdd666cc3b36",
+  "executable_sha256": "34c0252c76dd7ff39e6f1e4c5d0f5b26430bbbf14294da550b661e50b61a41ef",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "bbde1a5d9c2a07c52a9e2012a90de858255f07bb12e3101fbafa1d7050a3d164",
+  "debugger_memory_request": "4b024:4,4b148:1,4b228:4,4b244:4,5bb44:4",
+  "debugger_string_request": "5be68:100",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f audit.c -Ze -Zp8 -Gs -Foaudit.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR audit.sbr -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\dispatch-type-diagnostics",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL aliases fd2 to fd1 before child launch; exact captured child intervals."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/dispatch-type-diagnostics",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.05478213634341955,
+  "execution_seconds": 0.7449538456276059,
+  "total_seconds": 0.7997388821095228,
+  "files": [
+    {
+      "name": "audit.c",
+      "bytes": 434,
+      "sha256": "7088db4225a97a0ad349e60a3eeadbe930c4833204fe26e1518ef87678e3bc2d"
+    },
+    {
+      "name": "audit.sbr",
+      "bytes": 466,
+      "sha256": "ad75460c6230a91cd28f97932ecfc3e4031d190bf9781656b952eca7bdd5e618"
+    },
+    {
+      "name": "irdb",
+      "bytes": 11,
+      "sha256": "008a3c8db329cffa3250d9c0ed7be51cc5c4305501dd4ebbd7b9ffd4febdc94b"
+    },
+    {
+      "name": "irex",
+      "bytes": 941,
+      "sha256": "8822b3c10b3e540c99f18e7be6ad88e4abdb8ec8da8769850082c3c9c0debde0"
+    },
+    {
+      "name": "irgl",
+      "bytes": 23,
+      "sha256": "c041c85760d0c5e88967115ccd56c5d1e79eb33ea377c86bb90a9dc201a41ce6"
+    },
+    {
+      "name": "irin",
+      "bytes": 6,
+      "sha256": "5e7c445bc27c934f1f4e2a736b63784937c9b088d1a23170c5f0b24d997bdb34"
+    },
+    {
+      "name": "irsy",
+      "bytes": 2,
+      "sha256": "53bd9133146631a2a2a89188f7d799e4ab85b473b7e927dd8b7782d91fe4ee0c"
+    },
+    {
+      "name": "protocol.h",
+      "bytes": 299,
+      "sha256": "f1da7becf5daeecc0aa77b24897bf8101b472af07ac2d1267b92bbf652dd8d17"
+    }
+  ],
+  "first_entry_projection": {
+    "accepted_from": 1004,
+    "accepted_count": 1007,
+    "expected": [
+      "_require_complete_type@4",
+      "_report_conversion_mismatch@12",
+      "_report_function_operand@8"
+    ],
+    "observed": [
+      "_require_complete_type@4",
+      "_report_conversion_mismatch@12",
+      "_report_function_operand@8"
+    ],
+    "seeded_prefix_sha256": "e29e959b6556ae9e79a456b4aab39785fde5f70169a90040f4717c8cbf2b8dc8",
+    "plan_sha256": "07d9bb5560a37810a8012c0a04d2b7dc2b9f71774a0955739db9a8e6eb1b0992",
+    "source": "Explicit fresh shared-prefix original first-entry traps; one-byte restore/EIP rewind, complete accepted function bodies/shared text."
+  }
+}

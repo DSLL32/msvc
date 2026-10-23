@@ -1,0 +1,70 @@
+{
+  "provenance": "Derived full boundary inventory from preserved raw before/after snapshots; raw receipt/events unchanged",
+  "raw_receipt_sha256": "d239445a57b6044f04c77c7292c8d8fb09bb6f6bb600cc3bd78dbd18aec175bb",
+  "sets": {
+    "001-before": [
+      {
+        "name": "audit.c",
+        "bytes": 434,
+        "sha256": "7088db4225a97a0ad349e60a3eeadbe930c4833204fe26e1518ef87678e3bc2d",
+        "mtime_ns": 1792783481227311700
+      },
+      {
+        "name": "protocol.h",
+        "bytes": 299,
+        "sha256": "f1da7becf5daeecc0aa77b24897bf8101b472af07ac2d1267b92bbf652dd8d17",
+        "mtime_ns": 1792783481227311700
+      }
+    ],
+    "001-after": [
+      {
+        "name": "001408db",
+        "bytes": 11,
+        "sha256": "008a3c8db329cffa3250d9c0ed7be51cc5c4305501dd4ebbd7b9ffd4febdc94b",
+        "mtime_ns": 1792783482435287700
+      },
+      {
+        "name": "001408ex",
+        "bytes": 941,
+        "sha256": "8822b3c10b3e540c99f18e7be6ad88e4abdb8ec8da8769850082c3c9c0debde0",
+        "mtime_ns": 1792783482435287700
+      },
+      {
+        "name": "001408gl",
+        "bytes": 23,
+        "sha256": "c041c85760d0c5e88967115ccd56c5d1e79eb33ea377c86bb90a9dc201a41ce6",
+        "mtime_ns": 1792783482435287700
+      },
+      {
+        "name": "001408in",
+        "bytes": 6,
+        "sha256": "5e7c445bc27c934f1f4e2a736b63784937c9b088d1a23170c5f0b24d997bdb34",
+        "mtime_ns": 1792783482435287700
+      },
+      {
+        "name": "001408sy",
+        "bytes": 2,
+        "sha256": "53bd9133146631a2a2a89188f7d799e4ab85b473b7e927dd8b7782d91fe4ee0c",
+        "mtime_ns": 1792783482435287700
+      },
+      {
+        "name": "audit.c",
+        "bytes": 434,
+        "sha256": "7088db4225a97a0ad349e60a3eeadbe930c4833204fe26e1518ef87678e3bc2d",
+        "mtime_ns": 1792783481227311700
+      },
+      {
+        "name": "audit.sbr",
+        "bytes": 466,
+        "sha256": "ad75460c6230a91cd28f97932ecfc3e4031d190bf9781656b952eca7bdd5e618",
+        "mtime_ns": 1792783482435287700
+      },
+      {
+        "name": "protocol.h",
+        "bytes": 299,
+        "sha256": "f1da7becf5daeecc0aa77b24897bf8101b472af07ac2d1267b92bbf652dd8d17",
+        "mtime_ns": 1792783481227311700
+      }
+    ]
+  }
+}

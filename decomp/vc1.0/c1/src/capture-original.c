@@ -150,6 +150,52 @@ static void dump_pointer_text(HANDLE process, HANDLE log, const char *label, DWO
     line[length++]='\n'; WriteFile(log,line,length,&written,0);
 }
 
+/* Raw input descriptor proof for the reached incomplete-type diagnostic.
+   Only the fields read by32b90 are interpreted; remaining bytes stay raw. */
+static void dump_complete_type(HANDLE process, HANDLE thread, HANDLE log)
+{
+    CONTEXT context;
+    DWORD type, tag, got, written;
+    unsigned char description[16], declaration[12];
+    char line[200];
+    if (!getenv("C1_COMPLETE_TYPE_PROBE")) return;
+    memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL;
+    if (!GetThreadContext(thread,&context) ||
+        !ReadProcessMemory(process,(void *)(context.Esp+4),&type,4,&got) || got!=4 ||
+        !ReadProcessMemory(process,(void *)type,description,sizeof(description),&got) || got!=sizeof(description)) return;
+    tag=*(DWORD *)(description+8);
+    memset(declaration,0,sizeof(declaration));
+    if (tag && (!ReadProcessMemory(process,(void *)tag,declaration,sizeof(declaration),&got) || got!=sizeof(declaration))) return;
+    sprintf(line,"complete-type %08lx %08lx %u\n",type,tag,declaration[1]);
+    WriteFile(log,line,strlen(line),&written,0);
+    if (tag) dump_pointer_text(process,log,"complete-tag-name",*(DWORD *)(declaration+8));
+}
+
+static void dump_type_pair(HANDLE process, HANDLE thread, HANDLE log)
+{
+    CONTEXT context;
+    DWORD stack[4], got, written, descriptor[4], shape[3], pointer;
+    unsigned which, depth;
+    char line[200], *name;
+    if (!getenv("C1_TYPE_PAIR_PROBE")) return;
+    memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL;
+    if (!GetThreadContext(thread,&context) ||
+        !ReadProcessMemory(process,(void *)context.Esp,stack,sizeof(stack),&got) || got!=sizeof(stack)) return;
+    for(which=0;which<2;++which) {
+        name=which?"source":"target";
+        if (!ReadProcessMemory(process,(void *)stack[which+2],descriptor,sizeof(descriptor),&got) || got!=sizeof(descriptor)) return;
+        sprintf(line,"type-pair %s %u %u\n",name,descriptor[0]&65535,descriptor[0]>>16);
+        WriteFile(log,line,strlen(line),&written,0);
+        pointer=descriptor[1];depth=0;
+        while(pointer && depth<8) {
+            if (!ReadProcessMemory(process,(void *)pointer,shape,sizeof(shape),&got) || got!=sizeof(shape)) return;
+            sprintf(line,"type-shape %s %u %u %u %lu\n",name,depth,shape[0]&65535,shape[0]>>16,shape[2]);
+            WriteFile(log,line,strlen(line),&written,0);
+            pointer=shape[1];++depth;
+        }
+    }
+}
+
 /* Keep caller/register evidence for diagnosing a logical-trap divergence. */
 static void dump_context(HANDLE process, HANDLE thread, HANDLE log)
 {
@@ -229,7 +275,8 @@ static int dump_function_symbol(HANDLE process, HANDLE log, const char *boundary
     }
     return WriteFile(log,line,strlen(line),&written,0);
 }
-static int return8_probe, segment_probe, strdup_probe;
+static int return8_probe, segment_probe, strdup_probe, complete_probe;
+static DWORD complete_pointer;
 
 static int dump_flag_words(HANDLE process, HANDLE log, const char *boundary)
 {
@@ -245,6 +292,7 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
 {
     CONTEXT context;
     DWORD got, arguments[3], timestamp, written;
+    unsigned char instruction;
     char line[128];
     if (!flag_entry) return 0;
     if (flag_step && code == EXCEPTION_SINGLE_STEP) {
@@ -260,11 +308,18 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
     if (!GetThreadContext(thread,&context)) return -1;
     if (site == flag_entry) {
         if (segment_probe) dump_asm_operand(process,log,base,"entry");
-        if (return8_probe || segment_probe || strdup_probe) {
+        if (return8_probe || segment_probe || strdup_probe || complete_probe) {
             if (!ReadProcessMemory(process,(void *)context.Esp,arguments,sizeof(arguments),&got) || got != sizeof(arguments)) return -1;
-            sprintf(line,"%s-entry %u %08lx %08lx\n",strdup_probe?"strdup":segment_probe?"segment":"return8",flag_count,context.Esp,arguments[1]);
+            sprintf(line,"%s-entry %u %08lx %08lx\n",complete_probe?"type":strdup_probe?"strdup":segment_probe?"segment":"return8",flag_count,context.Esp,arguments[1]);
             if (!WriteFile(log,line,strlen(line),&written,0)) return -1;
             if (strdup_probe) dump_pointer_text(process,log,"entry",arguments[1]);
+            if (complete_probe) {
+                complete_pointer=arguments[1];
+                if (!ReadProcessMemory(process,(void *)(complete_pointer+8),&arguments[2],4,&got) || got!=4 ||
+                    !ReadProcessMemory(process,(void *)(arguments[2]+1),&instruction,1,&got) || got!=1) return -1;
+                sprintf(line,"tag-byte entry %08lx %u\n",arguments[2],instruction);
+                WriteFile(log,line,strlen(line),&written,0);
+            }
         }
         if (timestamp_probe) {
             if (!ReadProcessMemory(process,(void *)context.Esp,arguments,sizeof(arguments),&got) || got != sizeof(arguments)) return -1;
@@ -281,10 +336,16 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
         context.EFlags |= 0x100;
     } else {
         if (segment_probe) dump_asm_operand(process,log,base,"finish");
-        if (return8_probe || segment_probe || strdup_probe) {
-            sprintf(line,"%s-finish %u %08lx %08lx %08lx\n",strdup_probe?"strdup":segment_probe?"segment":"return8",flag_count,context.Esp,context.Eax,context.Edx);
+        if (return8_probe || segment_probe || strdup_probe || complete_probe) {
+            sprintf(line,"%s-finish %u %08lx %08lx %08lx\n",complete_probe?"type":strdup_probe?"strdup":segment_probe?"segment":"return8",flag_count,context.Esp,context.Eax,context.Edx);
             if (!WriteFile(log,line,strlen(line),&written,0)) return -1;
             if (strdup_probe) dump_pointer_text(process,log,"finish",context.Eax);
+            if (complete_probe) {
+                if (!ReadProcessMemory(process,(void *)(complete_pointer+8),&arguments[2],4,&got) || got!=4 ||
+                    !ReadProcessMemory(process,(void *)(arguments[2]+1),&instruction,1,&got) || got!=1) return -1;
+                sprintf(line,"tag-byte finish %08lx %u\n",arguments[2],instruction);
+                WriteFile(log,line,strlen(line),&written,0);
+            }
         }
         if (timestamp_probe) {
             if (!ReadProcessMemory(process,(void *)timestamp_pointer,&timestamp,4,&got) || got != 4) return -1;
@@ -411,6 +472,8 @@ int main(int argc, char **argv)
     flag_option = getenv("C1_FUNCTION_SYMBOL_RVA");
     if (flag_option) flag_symbol_rva = strtoul(flag_option,0,16);
     if (flag_symbol_rva && !flag_entry_rva) return 2;
+    complete_probe = getenv("C1_COMPLETE_TYPE_RETURN") != 0;
+    if (complete_probe && !flag_entry_rva) return 2;
     strdup_probe = getenv("C1_STRDUP_PROBE") != 0;
     if (strdup_probe && !flag_entry_rva) return 2;
     segment_probe = getenv("C1_ASM_SEGMENT_PROBE") != 0;
@@ -558,6 +621,8 @@ int main(int argc, char **argv)
                 dump_context(pi.hProcess, pi.hThread, log);
                 dump_requested_memory(pi.hProcess,log,base);
                 dump_requested_strings(pi.hProcess,log,base);
+                dump_complete_type(pi.hProcess,pi.hThread,log);
+                dump_type_pair(pi.hProcess,pi.hThread,log);
                 dump_asm_operand(pi.hProcess,log,base,"stop");
                 if (argc >= 9) dump_stream_buffers(pi.hProcess, log, base, argv[8]);
                 TerminateProcess(pi.hProcess, 99);

@@ -1,0 +1,25 @@
+{
+  "buffers": {},
+  "frames": [],
+  "exit": 4,
+  "frontier": null,
+  "fresh_original_match": true,
+  "reference_clock_observation": null,
+  "preparation_seconds": 0.004369971342384815,
+  "execution_seconds": 0.1616059672087431,
+  "total_seconds": 0.16806229297071695,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f audit.c -Ze -Zp8 -Gs -Foaudit.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR audit.sbr -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2",
+    "RECON_DRIVE_S": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/dispatch-complete-1007",
+    "RECON_CANONICAL_CWD": "S:\\vc1.0\\c1\\dispatch-type-diagnostics"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL aliases fd2 to fd1 before child launch; exact captured child intervals."
+  },
+  "executable_sha256": "e43d73e185fe4e3ffe4f761dd20f7cf5a5859019babcf053de95ad7d0fc4a6c5"
+}

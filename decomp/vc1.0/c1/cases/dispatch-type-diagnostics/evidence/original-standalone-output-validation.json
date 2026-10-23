@@ -1,0 +1,36 @@
+{
+  "phase": "c1",
+  "exit": 4,
+  "outputs": [
+    {
+      "name": "irdb",
+      "bytes": 11,
+      "sha256": "008a3c8db329cffa3250d9c0ed7be51cc5c4305501dd4ebbd7b9ffd4febdc94b"
+    },
+    {
+      "name": "irex",
+      "bytes": 941,
+      "sha256": "8822b3c10b3e540c99f18e7be6ad88e4abdb8ec8da8769850082c3c9c0debde0"
+    },
+    {
+      "name": "irgl",
+      "bytes": 23,
+      "sha256": "c041c85760d0c5e88967115ccd56c5d1e79eb33ea377c86bb90a9dc201a41ce6"
+    },
+    {
+      "name": "irin",
+      "bytes": 6,
+      "sha256": "5e7c445bc27c934f1f4e2a736b63784937c9b088d1a23170c5f0b24d997bdb34"
+    },
+    {
+      "name": "irsy",
+      "bytes": 2,
+      "sha256": "53bd9133146631a2a2a89188f7d799e4ab85b473b7e927dd8b7782d91fe4ee0c"
+    },
+    {
+      "name": "audit.sbr",
+      "bytes": 466,
+      "sha256": "ad75460c6230a91cd28f97932ecfc3e4031d190bf9781656b952eca7bdd5e618"
+    }
+  ]
+}

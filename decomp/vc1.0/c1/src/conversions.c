@@ -867,3 +867,10 @@ void __stdcall report_type_syntax_error(unsigned code, CType *type)
     report_syntax_error(code, name);
     end_declaration_text();
 }
+
+/* Original0x3e710..0x3e72b, RET12. Preserve the one-byte operation
+   and the two owned type descriptors for the common conversion formatter. */
+void __stdcall report_conversion_mismatch(unsigned char operation, CType *target, CType *source)
+{
+    conversion_diagnostic(47,1,operation,target,source);
+}

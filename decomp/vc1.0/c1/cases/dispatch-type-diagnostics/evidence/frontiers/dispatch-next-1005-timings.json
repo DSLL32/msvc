@@ -1,0 +1,51 @@
+[
+  {
+    "name": "native-build",
+    "command": [
+      "make",
+      "-j4",
+      "RECON=/root/.ai-tmp/msvc2/vc1.0/c1/shared-inputs/hdrstop/lib/recon",
+      "native",
+      "native-trace"
+    ],
+    "seconds": 1.9328727424144745,
+    "exit": 0,
+    "compiled_source_snapshot": "/root/.ai-tmp/msvc2/vc1.0/c1/dispatch-next-1005-compiled-shared-inputs.json",
+    "compiled_source_snapshot_sha256": "6af606a02dd99d08449225474223fa73e5e5a9857f396c5b39868ed136d843c9",
+    "compiled_inputs_stable": true
+  },
+  {
+    "name": "original-capture",
+    "command": [
+      "python3",
+      "scripts/capture-frontier.py",
+      "--case",
+      "cases/dispatch-type-diagnostics",
+      "--phase",
+      "c1",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/dispatch-next-1005",
+      "--debugger",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+    ],
+    "seconds": 1.9036156898364425,
+    "exit": 0
+  },
+  {
+    "name": "native-frontier",
+    "command": [
+      "python3",
+      "scripts/debug-frontier.py",
+      "--case",
+      "cases/dispatch-type-diagnostics",
+      "--phase",
+      "c1",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/validation/dispatch-next-1005",
+      "--reference",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/dispatch-next-1005"
+    ],
+    "seconds": 0.2700716648250818,
+    "exit": 0
+  }
+]

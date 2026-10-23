@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "355944e683922462d3e6a64d84e0d8e999d6359f3497b4b136802134bb71f025",
+    "functions.json": "1061bcab032423e0ab702904f6d5db261a14256d095c3406ca66dd17e61872ca",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "325e1aa01797d64a7d867d831d40739372730fa6ef8962ecdc4c17863131d5e4"
+    "sha256": "36bc18a928d6384a83aa439b511add05a2b27a59a9408ad83bdb791e8f11ffbd"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "01917034e55cc8716e916d5e2696c7f6bdb20c3555e38e87ae061dd2f523f343"
+    "sha256": "263bed46f3c52ef4672fd68cb44ddf7b3a59eb19e3733c69ad7d984e5f56b3a7"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -3035,7 +3035,7 @@
     },
     "report_conversion_mismatch": {
       "logical": "_report_conversion_mismatch@12",
-      "source": "src/stubs.c"
+      "source": "src/conversions.c"
     },
     "report_declaration_context_error": {
       "logical": "_report_declaration_context_error",
@@ -3059,7 +3059,7 @@
     },
     "report_function_operand": {
       "logical": "_report_function_operand@8",
-      "source": "src/stubs.c"
+      "source": "src/expressions.c"
     },
     "report_ide_file_end": {
       "logical": "_report_ide_file_end",
@@ -3103,7 +3103,7 @@
     },
     "require_complete_type": {
       "logical": "_require_complete_type@4",
-      "source": "src/stubs.c"
+      "source": "src/types.c"
     },
     "reserve_declaration_text": {
       "logical": "_reserve_declaration_text@12",
@@ -4518,7 +4518,10 @@
     "report_asm_expected_token",
     "asm_recovery_value",
     "synchronize_pch_pragma",
-    "clear_packing"
+    "clear_packing",
+    "require_complete_type",
+    "report_conversion_mismatch",
+    "report_function_operand"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6050,6 +6053,20 @@
       "terminal": {
         "kind": "exit",
         "code": 0
+      }
+    },
+    "dispatch-type-diagnostics": {
+      "first": 1004,
+      "last": 1007,
+      "seen_count": 860,
+      "expected": [
+        "require_complete_type",
+        "report_conversion_mismatch",
+        "report_function_operand"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 4
       }
     }
   }

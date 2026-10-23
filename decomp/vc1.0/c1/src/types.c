@@ -2,6 +2,7 @@
 #include "types.h"
 #include "lexer.h"
 #include "builtins.h"
+#include "parser.h"
 #include <recon.h>
 
 TypeEntry **type_descriptor_buckets; /* original 0x6b7d0 */
@@ -697,6 +698,22 @@ CType *__stdcall qualify_member_type(CType *type, unsigned short model)
     result = intern_type(description);
     --type_description_depth;
     return result;
+}
+
+/* Original0x32b90..0x32bd4, RET4. A tag is diagnosed once, except
+   prototype-only scanning suppresses the text while retaining the tag mark. */
+void __stdcall require_complete_type(CType *type)
+{
+    FrontendSymbol *tag = (FrontendSymbol *)type->field08;
+    if (tag) {
+        if (tag->flags & 0x80) return;
+        if (!(tag->flags & 1)) {
+            if (!options.prototypes_only) report_syntax_error(27,tag->name);
+            tag->flags |= 0x80;
+            return;
+        }
+    }
+    report_type_syntax_error(36,type);
 }
 
 /* Original 0x32be0..0x32c0a. The inner-size calculation has its own

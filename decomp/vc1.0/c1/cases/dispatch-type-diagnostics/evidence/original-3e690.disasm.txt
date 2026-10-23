@@ -1,0 +1,50 @@
+
+/root/msvc2/toolchains/1.0-nt/bin/C13232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0003e690 <.text+0x27690>:
+   3e690:	74 08                	je     0x3e69a
+   3e692:	c7 44 24 14 01 00 00 	mov    DWORD PTR [esp+0x14],0x1
+   3e699:	00 
+   3e69a:	83 7c 24 1c 00       	cmp    DWORD PTR [esp+0x1c],0x0
+   3e69f:	74 11                	je     0x3e6b2
+   3e6a1:	6a 33                	push   0x33
+   3e6a3:	6a 02                	push   0x2
+   3e6a5:	e8 56 c5 00 00       	call   0x4ac00
+   3e6aa:	83 c4 08             	add    esp,0x8
+   3e6ad:	e9 bd fd ff ff       	jmp    0x3e46f
+   3e6b2:	83 7c 24 10 00       	cmp    DWORD PTR [esp+0x10],0x0
+   3e6b7:	75 0b                	jne    0x3e6c4
+   3e6b9:	83 7c 24 14 00       	cmp    DWORD PTR [esp+0x14],0x0
+   3e6be:	0f 84 ab fd ff ff    	je     0x3e46f
+   3e6c4:	66 81 e7 00 01       	and    di,0x100
+   3e6c9:	66 83 ff 01          	cmp    di,0x1
+   3e6cd:	1b c0                	sbb    eax,eax
+   3e6cf:	05 88 00 00 00       	add    eax,0x88
+   3e6d4:	83 7c 24 10 01       	cmp    DWORD PTR [esp+0x10],0x1
+   3e6d9:	50                   	push   eax
+   3e6da:	1b c0                	sbb    eax,eax
+   3e6dc:	83 e0 01             	and    eax,0x1
+   3e6df:	83 c0 03             	add    eax,0x3
+   3e6e2:	50                   	push   eax
+   3e6e3:	e8 18 c5 00 00       	call   0x4ac00
+   3e6e8:	83 c4 08             	add    esp,0x8
+   3e6eb:	e9 7f fd ff ff       	jmp    0x3e46f
+   3e6f0:	8b 44 24 18          	mov    eax,DWORD PTR [esp+0x18]
+   3e6f4:	5d                   	pop    ebp
+   3e6f5:	5f                   	pop    edi
+   3e6f6:	5e                   	pop    esi
+   3e6f7:	5b                   	pop    ebx
+   3e6f8:	83 c4 14             	add    esp,0x14
+   3e6fb:	c2 0c 00             	ret    0xc
+   3e6fe:	8b ff                	mov    edi,edi
+   3e700:	8b 44 24 18          	mov    eax,DWORD PTR [esp+0x18]
+   3e704:	5d                   	pop    ebp
+   3e705:	5f                   	pop    edi
+   3e706:	5e                   	pop    esi
+   3e707:	5b                   	pop    ebx
+   3e708:	83 c4 14             	add    esp,0x14
+   3e70b:	c2 0c 00             	ret    0xc
+   3e70e:	8b ff                	mov    edi,edi

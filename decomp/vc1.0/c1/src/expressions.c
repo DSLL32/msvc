@@ -1431,3 +1431,11 @@ IrToken *__stdcall fold_floating_binary(IrToken *expression, Extended *left, Ext
     else if (flags == 0x128) kind = TOK_LONG_DOUBLE_CONSTANT;
     return make_constant_token(kind,&constant_one);
 }
+
+/* Original0x3f4f0..0x3f524, RET8. Only operandone selects the left
+   operand text; all other argument values use the right operand wording. */
+void __stdcall report_function_operand(unsigned char operation, int argument)
+{
+    char *operand = message_text(argument == 1 ? 301 : 302);
+    report_syntax_error(121,token_names[operation],operand);
+}

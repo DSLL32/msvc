@@ -1,17 +1,14 @@
 {
-  "authorization": "Root approved SINGLE public pragma-hdrstop bareYc/Yu PCH producer/consumer checksum, posthdrstop namedpack reuse. Originalfullcompile/link/runtime0 plus actualtransport/PCH/path/mtime beforefreeze. Optionalfilename/browser only if supported. No retiredpackingpointer workaround/privateflags.",
-  "baseline_commit": "ff5df66c3b54b2ef89e6a1643255fcdea18a0b23",
-  "baseline_accepted_count": 999,
+  "authorization": "Root approved one bounded damageddispatch-header expression/type diagnostic case with actual incomplete-record/function-designator/nestedpointer gates, recovered_tail/browser proof. Untouchedexactdiagnostics/status/fullpartialfiles beforefreeze; no runtime-success/privateflags.",
+  "baseline_commit": "7148f23ea5a3298513c9466670e348f9e559af73",
+  "baseline_accepted_count": 1004,
   "status": "complete",
   "cases": [
     {
-      "case": "pragma-hdrstop-pch",
-      "phases": [
-        "c1-create",
-        "c1-use"
-      ],
-      "status": "complete;999 through1004; two frontend bodies218B + originalLIBC261B, bothphases exact"
+      "case": "dispatch-type-diagnostics",
+      "phase": "c1",
+      "status": "complete;1004 through1007;three frontend bodies147B;exact expected-error terminal"
     }
   ],
-  "completion": "cases/pragma-hdrstop-pch/validation.json"
+  "completion": "cases/dispatch-type-diagnostics/validation.json"
 }

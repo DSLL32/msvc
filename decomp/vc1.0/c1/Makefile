@@ -80,14 +80,15 @@ native-direct-check: native
 native-check: native
 	$(PYTHON) scripts/check-native.py $(NATIVE_CASES)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-direct.py,@true)
-native-trace-check: native-trace
+native-trace-check: native native-trace
 	$(PYTHON) scripts/check-native.py --trace $(NATIVE_CASES)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-direct.py,@true)
 
 # Private oracle mutations; no new fixture inputs or original execution.
-native-adoption-check: native-trace
+native-adoption-check: native native-trace
 	$(PYTHON) scripts/check-native-rejections.py
 	$(PYTHON) scripts/check-direct-rejections.py
+	$(PYTHON) scripts/check-frontier-abi.py
 
 # Grammar generation consumes only named source and precedence, never the PE.
 src/asm-grammar.c: src/asm-grammar.y scripts/generate-asm-grammar.py scripts/grammar.py

@@ -505,6 +505,30 @@ def main():
     rejects('hdrstop-historical-entry-order','native trace hdrstop-create index 0: expected',
             lambda:checker.run_case('hdrstop-create',executable,private_root,(wrong,filter_path)))
 
+    _, dispatch = checker.run_case('dispatch-type-diagnostics',executable,directory,(cache,filter_path))
+    dispatch_fixture = checker.BINARY/'cases/dispatch-type-diagnostics'
+    dispatch_phase = json.loads((dispatch_fixture/'manifest.json').read_text())['phases']['c1']
+    dispatch_messages = dispatch_phase['expected_stdout'].encode('latin1')
+    rejects('dispatch-unexpected-success','native status',
+            lambda:checker.validate_result('dispatch-type-diagnostics',0,dispatch_messages,b'',dispatch_phase))
+    lines = dispatch_messages.splitlines(keepends=True)
+    warning = next(i for i,line in enumerate(lines)if b'warning C4047' in line)
+    reordered = b''.join(lines[:warning]+lines[warning+1:]+[lines[warning]])
+    rejects('dispatch-warning-order','stdout differs',
+            lambda:checker.validate_result('dispatch-type-diagnostics',4,reordered,b'',dispatch_phase))
+    browser = bytearray((dispatch/'audit.sbr').read_bytes())
+    assert browser.count(b'recovered_tail\0')==1 and browser[-1]==14
+    browser[browser.index(b'recovered_tail\0')]=ord('x')
+    (dispatch/'audit.sbr').write_bytes(browser)
+    rejects('dispatch-recovered-tail-browser','output bytes differ: audit.sbr',
+            lambda:checker.validate_artifacts(dispatch,dispatch_fixture,dispatch_phase))
+    wrong = copy.deepcopy(cache)
+    wrong['cases']['dispatch-type-diagnostics']['expected']=list(reversed(wrong['cases']['dispatch-type-diagnostics']['expected']))
+    private_root=directory/'wrong-dispatch-order'
+    private_root.mkdir()
+    rejects('dispatch-historical-entry-order','native trace dispatch-type-diagnostics index 0: expected',
+            lambda:checker.run_case('dispatch-type-diagnostics',executable,private_root,(wrong,filter_path)))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

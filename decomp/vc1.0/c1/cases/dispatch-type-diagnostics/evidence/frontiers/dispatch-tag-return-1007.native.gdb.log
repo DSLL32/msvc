@@ -1,0 +1,11 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x24570: file src/types.c, line 706.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, require_complete_type (type=0x573097f8) at src/types.c:706
+706	{
+Temporary breakpoint 2 at 0x5658d678: file src/types.c, line 724.
+
+Temporary breakpoint 2, 0x5658d678 in complete_type_size (type=0x573097f8) at src/types.c:724
+724	    if (!bytes) require_complete_type(type);

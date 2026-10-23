@@ -1,0 +1,51 @@
+[
+  {
+    "name": "native-build",
+    "command": [
+      "make",
+      "-j4",
+      "RECON=/root/.ai-tmp/msvc2/vc1.0/c1/shared-inputs/hdrstop/lib/recon",
+      "native",
+      "native-trace"
+    ],
+    "seconds": 0.023039836436510086,
+    "exit": 0,
+    "compiled_source_snapshot": "/root/.ai-tmp/msvc2/vc1.0/c1/dispatch-operand-abi-1006-compiled-shared-inputs.json",
+    "compiled_source_snapshot_sha256": "bbfd317273936c6d6967351c395fc989a8e21d9aad44cced5d9a4eed191043a9",
+    "compiled_inputs_stable": true
+  },
+  {
+    "name": "original-capture",
+    "command": [
+      "python3",
+      "scripts/capture-frontier.py",
+      "--case",
+      "cases/dispatch-type-diagnostics",
+      "--phase",
+      "c1",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/dispatch-operand-abi-1006",
+      "--debugger",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+    ],
+    "seconds": 1.422479297965765,
+    "exit": 0
+  },
+  {
+    "name": "native-frontier",
+    "command": [
+      "python3",
+      "scripts/debug-frontier.py",
+      "--case",
+      "cases/dispatch-type-diagnostics",
+      "--phase",
+      "c1",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/validation/dispatch-operand-abi-1006",
+      "--reference",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/dispatch-operand-abi-1006"
+    ],
+    "seconds": 0.24563987739384174,
+    "exit": 0
+  }
+]

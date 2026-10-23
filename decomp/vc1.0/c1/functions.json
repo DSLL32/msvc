@@ -1008,7 +1008,10 @@
     "__strdup",
     "_strlen",
     "_strcpy",
-    "_clear_packing"
+    "_clear_packing",
+    "_require_complete_type@4",
+    "_report_conversion_mismatch@12",
+    "_report_function_operand@8"
   ],
   "driver": [
     {
@@ -1662,7 +1665,28 @@
     {
       "name": "_require_complete_type@4",
       "start": 207760,
-      "end": 207761
+      "end": 207828,
+      "abi_inputs": [
+        {
+          "name": "type",
+          "formal": "type",
+          "stack_slot": 1,
+          "kind": "pointer_identity"
+        }
+      ],
+      "abi_globals": [
+        {
+          "name": "options.prototypes_only",
+          "original": 373316,
+          "bytes": 4
+        },
+        {
+          "name": "error_count",
+          "original": 373288,
+          "bytes": 4
+        }
+      ],
+      "abi_contract": "stdcallRET4; owned CType input: field08 links tag, only tagflags+name consumed on current path; raw independent observer32b95/32b9c/32bb2 proves exact flagbyte/name owner. Optional fallback passes fulltype to existing diagnostic."
     },
     {
       "name": "_symbol_element_size@4",
@@ -2881,7 +2905,28 @@
     {
       "name": "_report_conversion_mismatch@12",
       "start": 255760,
-      "end": 255761
+      "end": 255787,
+      "abi_inputs": [
+        {
+          "name": "operation",
+          "formal": "operation",
+          "stack_slot": 1,
+          "bits": 8
+        },
+        {
+          "name": "target",
+          "formal": "target",
+          "stack_slot": 2,
+          "kind": "pointer_identity"
+        },
+        {
+          "name": "source",
+          "formal": "source",
+          "stack_slot": 3,
+          "kind": "pointer_identity"
+        }
+      ],
+      "abi_contract": "stdcallRET12; operation only low8bits consumed (3e71a MOV AL thenpush; downstream formal likewisebyte). Original actualslot007b9833 retains upper24 caller garbage, not definedpayload. Pointerinputs forwarded unchanged; independently raw initial CType/shape owner projection observed."
     },
     {
       "name": "_node_alignment@4",
@@ -3824,7 +3869,21 @@
     {
       "name": "_report_function_operand@8",
       "start": 259312,
-      "end": 259313
+      "end": 259364,
+      "abi_inputs": [
+        {
+          "name": "operation",
+          "formal": "operation",
+          "stack_slot": 1,
+          "bits": 8
+        },
+        {
+          "name": "argument",
+          "formal": "argument",
+          "stack_slot": 2
+        }
+      ],
+      "abi_contract": "stdcallRET8; 3f50b reads operationBYTE at originalslot1; argument slot2 fullDWORD chooses301 iff1 else302. High operation slot bytes are not definedpayload; complete raw slots preserved in observations."
     },
     {
       "name": "_check_expression_operands@16",
@@ -6144,6 +6203,11 @@
       "accepted_from": 1004,
       "accepted_count": 1004,
       "expected_exit": 0
+    },
+    "dispatch-type-diagnostics": {
+      "accepted_from": 1004,
+      "accepted_count": 1007,
+      "expected_exit": 4
     }
   },
   "buffered_streams": [
