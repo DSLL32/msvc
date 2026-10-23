@@ -1,0 +1,52 @@
+{
+  "table_sha256": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725",
+  "type": "257 unsigned short values, EOF at0; exposed pointer base+1",
+  "providers": [
+    {
+      "library": "toolchains/1.0-nt/lib/LIBC.LIB",
+      "sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+      "member": "misc/obj/i386/CTYPE.OBJ",
+      "member_sha256": "ce79c13cb652db4dfea4884b0e58491ac1f375521b4ed1e4dd0ebccc81c2c6fc",
+      "symbol": "__ctype",
+      "offset": 8,
+      "tab": 40,
+      "space": 72,
+      "table_sha256": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725"
+    },
+    {
+      "library": "toolchains/1.0-nt/lib/LIBCMT.LIB",
+      "sha256": "9dcf7b0aa9fa3005fc1f6d3ebf0da662f8da37ca15f5a914a0f11da20d873496",
+      "member": "misc/obj/i386/CTYPE.OBJ",
+      "member_sha256": "c1abd3db259190d2969ce9a8cb56deb45037af3563e7860666caf46a95feaeca",
+      "symbol": "__ctype",
+      "offset": 8,
+      "tab": 40,
+      "space": 72,
+      "table_sha256": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725"
+    },
+    {
+      "library": "toolchains/5.10/lib/LIBC.LIB",
+      "sha256": "f81440dd014ca4ce7ef8b4d60ed1ee4ad544601b07fbdb4fca54a1dfca31f9b0",
+      "member": "build/intel/st_obj/ctype.obj",
+      "member_sha256": "5f56da2f6d3913fe99d805535877b793c540a43fb3ad9588ad79d1fc00cab815",
+      "symbol": "__ctype",
+      "offset": 8,
+      "tab": 40,
+      "space": 72,
+      "table_sha256": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725"
+    },
+    {
+      "library": "toolchains/5.10/lib/LIBCMT.LIB",
+      "sha256": "1f18290e7cc8419f2d343d7c262b1b04146c244b58e23dfac95c6a1d684cfd4f",
+      "member": "build/intel/mt_obj/ctype.obj",
+      "member_sha256": "d99fcd950985d20f9bccb6e5cd5a1cf3d7bb021d827d4af5a5b8dccff3583f02",
+      "symbol": "__ctype",
+      "offset": 8,
+      "tab": 40,
+      "space": 72,
+      "table_sha256": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725"
+    }
+  ],
+  "runtime_reference": "decomp/vc1.0/link/cases/legacy-resource-diagnostics/baseline/strings/1/events.jsonl",
+  "scope": "Only TAB _BLANK cleared; SPACE retains _BLANK; allother256 entries unchanged; no broader locale claim"
+}

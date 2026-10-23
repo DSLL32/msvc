@@ -1,0 +1,75 @@
+{
+  "scope": "One-bit default-C TAB correction: _BLANK onlyspace, allother256 entries unchanged; redundant510compensation removed; post1252TAB268 unchanged",
+  "source_sha256": "ab8e3b3c0e9e778f7ae9684b9d34ab66b88b9fc4dfd1ecfc97f7d4c0aba95d99",
+  "static_tables_reference": "tests/ctype-default-reference.json",
+  "native": {
+    "gcc-default": {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/ctype-default/gcc-default",
+      "sha256": "bc59f1080adb8811db6fa6b329fc919885293e1a30fc7d84a02a3f35d7930c1b",
+      "entries": 257,
+      "mask_error_checks": 131584
+    },
+    "gcc-510": {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/ctype-default/gcc-510",
+      "sha256": "5054f74e5bdcabe1e0d9a02d232fc432290a05eb013a9d987370b0b58ce6e5c3",
+      "entries": 257,
+      "mask_error_checks": 131584
+    },
+    "clang-default": {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/ctype-default/clang-default",
+      "sha256": "96cab9e68bfd188adc7262c78f2089826926143fab19bf2f5cfb0a9596cae5cf",
+      "entries": 257,
+      "mask_error_checks": 131584
+    },
+    "clang-510": {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/ctype-default/clang-510",
+      "sha256": "b9757b9d65eb80559222389323b3cdbf38ec20bbd5ad9b3f26635e785bc666ed",
+      "entries": 257,
+      "mask_error_checks": 131584
+    }
+  },
+  "affected_checks": [
+    "default",
+    "startup",
+    "stdio510",
+    "CP0ASCII",
+    "ASCIIspace",
+    "localeprofile/14denials",
+    "environmentmutation/29denials",
+    "post1252ASCII68624rows/23denials"
+  ],
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/ctype-default/orchestrator-review.json",
+    "sha256": "3ccf1366b7f31f4c76a9ab00992cd05aa0f97d0d68138c5afeec98c44b3e3602"
+  },
+  "cached_native_regression": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/ctype-default-regression/receipt.json",
+    "sha256": "8e00a59d8941366dbf7a2320df339476fbb77a9f02c9970bcba655377d64862e",
+    "cases": 95,
+    "sources_stable": true,
+    "runs": [
+      {
+        "binary": "cl",
+        "build_seconds": 1.4007299803197384,
+        "fixture_wrapper_seconds": 3.356402264907956
+      },
+      {
+        "binary": "rc",
+        "build_seconds": 1.5164311844855547,
+        "fixture_wrapper_seconds": 2.67788509093225
+      },
+      {
+        "binary": "rcpp",
+        "build_seconds": 1.5003803009167314,
+        "fixture_wrapper_seconds": 0.37736739963293076
+      }
+    ]
+  },
+  "actual_LINK_native_only": {
+    "path": "decomp/vc1.0/link/cases/legacy-resource-diagnostics/ctype-reobserve.json",
+    "sha256": "9e6db53f787431bff05dfab967d3e821ccadbed801c33462485932f44477890e",
+    "scope": "unchangedoriginal/full257entry+returntable,123Boutput/FILE/errors/guards/nonvolatiles/ESP",
+    "rebuild_seconds": 1.554
+  },
+  "original_runs": 0
+}

@@ -1712,13 +1712,11 @@ __attribute__((constructor)) static void initialize_crt(void)
         if (isspace(i)) bits|=8;
         if (ispunct(i)) bits|=16;
         if (iscntrl(i)) bits|=32;
-        if (i==' ' || i=='\t') bits|=64;
+        if (i==' ') bits|=64;
         if (isxdigit(i)) bits|=128;
         recon_pctype[i]=bits;
     }
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
-    /* Actual canonical default-C table has CONTROL|SPACE at TAB, not BLANK. */
-    recon_pctype['\t']&=~0x40;
     memcpy(initial_ctype_510,character_flags,sizeof(character_flags));
     msvcrt510_mb_flags(recon_mbctype);
 #endif

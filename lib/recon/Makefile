@@ -404,3 +404,11 @@ build/unlink-state-probe: tests/unlink-state-probe.c $(SOURCES) $(HEADERS) | bui
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_DEFAULT_FMODE=0 tests/unlink-state-probe.c $(SOURCES) -o $@
 unlink-state-check: build/unlink-state-probe
 	$(PYTHON) tests/check-unlink-state.py build/unlink-state-probe
+
+.PHONY: ctype-default-check
+build/ctype-default-probe: tests/ctype-default-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) tests/ctype-default-probe.c $(SOURCES) -o $@
+build/ctype-default-510: tests/ctype-default-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 tests/ctype-default-probe.c $(SOURCES) -o $@
+ctype-default-check: build/ctype-default-probe build/ctype-default-510
+	$(PYTHON) tests/check-ctype-default.py build/ctype-default-probe build/ctype-default-510

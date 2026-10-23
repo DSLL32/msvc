@@ -691,8 +691,9 @@ The tables are reconstructed as character flag properties, not a section image.
 Period WINNLS/CTYPE flag meanings are retained; the captured uniform0200 NLS
 bit is preserved without inventing a meaning absent from the period header.
 This profile describes the encountered reference environment, not all Windows
-CP1252 installations. VC5 default TAB is CONTROL|SPACE(28), then captured locale
-TAB268; VC1/default other profiles are unchanged. Existing multibyte/getenv
+CP1252 installations. The encountered default-C table in shipped VC1/VC5 LIBC and LIBCMT, and
+canonical MSVCRT510, classifies TAB as CONTROL|SPACE(28), without BLANK.
+Only ordinary SPACE has BLANK. Captured CP1252 locale TAB remains268. Existing multibyte/getenv
 CP0 guards remain strict except for the separately verified ASCII API subset below.
 
 Bounded target environment mutation
