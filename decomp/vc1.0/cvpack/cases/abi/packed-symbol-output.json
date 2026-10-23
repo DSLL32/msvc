@@ -25,12 +25,17 @@
       "start": 153600,
       "end": 153678,
       "bytes": "56833de8350300007414a1e435030066c740020800833de835030000752e8b35e4350300668b4e0483c604e8b00c0000668906833dec350300007510bae0af01008b0de4350300e8b45cffff5ec3"
+    },
+    {
+      "start": 156896,
+      "end": 156950,
+      "bytes": "566681f90010730e66c705d03503000000668bc15ec3833d88710300007405662bc05ec3e817000000668bf0e8bffdffff668bc65ec3"
     }
   ],
   "sources": {
-    "src/types.c": "3c98cba90041b231a902dcb83b307ecc12e0d430ddf9b32b3f2aa9ffb238203c",
-    "src/types.h": "1550f8ff69cdb7cb329781def2b6437459649f5e91a3dbde420998ed3cb4cd78",
-    "src/image.h": "6143ab95271272a8776b720f4052ffce85ce429f2f98615732068af475c122cf"
+    "src/types.c": "c90cce098cc971a2a0da0ec6253e4830ef1d4976a02673ed692527c4ad33f056",
+    "src/types.h": "2a773c592b5c2c4d971d5b45e41c1a005d05551f28a7b83adbf75ebc11885e39",
+    "src/image.h": "3db3018bf316e791bb96d567eaf5c092bfb0e3b71254ab77d84e6f68b73e2e96"
   },
   "scope": "Same actual module3 allocation5113. Header4; search12 yields16; then completed24-byte S_OBJNAME copy yields40. Exact first respectivecallbacks/parentframes/sourcecursor; later writes not inferred.",
   "frontiers": {
@@ -81,6 +86,23 @@
       "kind": 4,
       "nested_return_address": 151922,
       "nested_return_slot": 2
+    },
+    "compact_new_type": {
+      "original": 156960,
+      "defined": 40,
+      "input_offset": 202,
+      "return_address": 156937,
+      "allocation_esp_delta": 16,
+      "buffer_slot": 9,
+      "input_slot": 12,
+      "record_length": 28,
+      "callback_index": 27,
+      "kind": 4,
+      "type_index": 4134,
+      "nested_returns": {
+        "2": 153648,
+        "4": 151922
+      }
     }
   }
 }

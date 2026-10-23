@@ -5,7 +5,7 @@
 
 void **name_hash_buckets, **type_hash_buckets;
 unsigned short *name_hash_counts, *type_hash_counts;
-void **type_hash_extra_a, **public_symbol_hash, **type_hash_extra_c, **type_hash_extra_d;
+void **global_symbol_hash, **public_symbol_hash, **type_hash_extra_c, **type_hash_extra_d;
 TypeDerivation *derived_types;
 unsigned short derived_type_capacity, type_page_count;
 unsigned char *type_work_a, *type_work_b;
@@ -19,7 +19,7 @@ void initialize_type_tables(void)
     name_hash_counts = checked_zero(0x2000);
     type_hash_buckets = checked_zero(0x4000);
     type_hash_counts = checked_zero(0x2000);
-    type_hash_extra_a = checked_zero(0x4000);
+    global_symbol_hash = checked_zero(0x4000);
     public_symbol_hash = checked_zero(0x4000);
     type_hash_extra_c = checked_zero(0x4000);
     type_hash_extra_d = checked_zero(0x4000);

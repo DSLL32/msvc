@@ -182,7 +182,7 @@
     "limit": 1
   },
   {
-    "name": "type_hash_extra_a",
+    "name": "global_symbol_hash",
     "original": 225656,
     "size": 16384,
     "next": 4294967295,

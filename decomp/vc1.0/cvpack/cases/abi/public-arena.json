@@ -7,10 +7,10 @@
     ]
   ],
   "allocation": "allocate_symbol truncates size to16 bits and calls checked_alloc(8100) on exhaustion; one currently live block, no unsupported previous block ownership.",
-  "initialized": "Completed intern_public writes next/name_offset,hash/offset/segment and full record including explicit pad bytes. Reserved header bytes6..7 and allocation suffix2 bytes remain undefined; retain their raw evidence.",
+  "initialized": "Completed intern_public and intern_global share allocate_symbol: same next/name_offset/hash/offset/segment/full record/padding writes; same reserved6..7 and suffix2 remain undefined, raw retained. Distinct public/global bucket families/counts/recordbytes must completely partition the one current block.",
   "sources": {
-    "src/modules.c": "93376a195343107758161e17cfbce6ebc480d435a668a6d92bfffc74366ab0a1",
-    "src/image.h": "6143ab95271272a8776b720f4052ffce85ce429f2f98615732068af475c122cf"
+    "src/modules.c": "d5926487184cd14294c96f0f197ebc02310cf8b25fecd3cb22a4fe0d702b5d42",
+    "src/image.h": "3db3018bf316e791bb96d567eaf5c092bfb0e3b71254ab77d84e6f68b73e2e96"
   },
   "instructions": [
     {
@@ -22,6 +22,11 @@
       "start": 111376,
       "end": 111872,
       "sha256": "715c1d561ecdbff7d4fe921dc569764181fe4091a13e837b5b8aa618dea69949"
+    },
+    {
+      "start": 111872,
+      "end": 112322,
+      "sha256": "b92693ca18980e0a448e1dc579ec0a332e3ce50e696c7d619f1a2e1c6b8f0502"
     }
   ],
   "review": "Root approved narrow typed block design, bounded cursor arithmetic, initialized-only comparison, fail on unowned/overlapping/incomplete/second block; zero CRT exemption."

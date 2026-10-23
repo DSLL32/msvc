@@ -14,12 +14,13 @@ def validate(config,pe):
     known={'write_search_symbol':(0x1bee0,4,4,0x250d2,8,7,10),
            'convert_object_name':(0x255c0,16,4,0x25172,0,5,8),
            'convert_udt_symbol':(0x25800,40,28,0x25172,0,5,8),
-           'intern_global':(0x1b500,40,28,0x2584c,8,7,10)}
+           'intern_global':(0x1b500,40,28,0x2584c,8,7,10),
+           'compact_new_type':(0x26520,40,202,0x26509,16,9,12)}
     assert p.get('frontiers'),'missing packed symbol frontier contracts'
     for name,site in p['frontiers'].items():
         assert name in known and tuple(site[k]for k in('original','defined','input_offset','return_address','allocation_esp_delta','buffer_slot','input_slot'))==known[name],'unreviewed packed symbol initialized range/frame'
         if name!='write_search_symbol':
-            assert (site['kind'],site['record_length'],site['callback_index'])==((9,24,31)if name=='convert_object_name'else(4,34,27)),'unreviewed packed symbol callback selection'
+            assert (site['kind'],site['record_length'],site['callback_index'])==((9,24,31)if name=='convert_object_name'else((4,28,27)if name=='compact_new_type'else(4,34,27))),'unreviewed packed symbol callback selection'
     for region in p['original_regions']:
         assert pe.read(region['start'],region['end']-region['start']).hex()==region['bytes'],'packed symbol instruction proof differs'
     for source,digest in p['sources'].items():assert hashlib.sha256((BINARY/source).read_bytes()).hexdigest()==digest,'packed symbol source changed'
@@ -65,13 +66,17 @@ def compare(config,pe,events,native,old_walks,new_walks,required,native_state):
     old_cursor=int.from_bytes(bytes(memory[0x335f0+i]for i in range(4)),'little')
     assert old_cursor==post['cursor']and native_state['globals']['symbol_output']['address']==b['cursor'],'packed symbol observed cursor differs from actual global'
     assert old_input==a['input']+site['input_offset']and native_state['globals']['symbol_input']['address']==b['input']+site['input_offset'],'wrong actual packed symbol source cursor'
-    if name in('convert_object_name','convert_udt_symbol','intern_global'):
+    if name in('convert_object_name','convert_udt_symbol','intern_global','compact_new_type'):
         registers=re.search(r'^registers (.*)$',events,re.M)[1].split();registers={k:int(v,16)for k,v in zip(registers[::2],registers[1::2])}
         assert registers['ebp']&0xffff==site['record_length'],'wrong original callback record length'
         if name=='intern_global':
             assert site['nested_return_slot']==2 and site['nested_return_address']==0x25172 and words[2]==0x25172,'wrong original nested symbol frame'
             assert registers['edx']==0x1afe0 and registers['ecx']==old_input,'wrong original nested symbol callback arguments'
             assert b['nested_caller']=='convert_udt_symbol','wrong native nested symbol frame'
+        elif name=='compact_new_type':
+            assert site['nested_returns']=={'2':0x25830,'4':0x25172}and all(words[int(slot)]==value for slot,value in site['nested_returns'].items()),'wrong original compact nested frames'
+            assert site['type_index']==4134 and registers['ecx']&0xffff==4134,'wrong original compact type argument'
+            assert b['nested_callers']==['convert_new_type','convert_udt_symbol']and b['type_index']==4134,'wrong native compact nested frames/type'
         else:assert registers['edx']&0xffff==site['kind']and registers['ecx']==0x38110+site['callback_index']*8 and registers['eax']==site['original'],'wrong original callback context'
         assert (b['record_kind'],b['record_length'],b['callback_index'])==(site['kind'],site['record_length'],site['callback_index']),'wrong native callback context'
     for r,walks,after,cursor in ((a,old_walks,post['bytes'],post['cursor']),(b,new_walks,b['postbytes'],b['cursor'])):

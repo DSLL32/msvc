@@ -44,7 +44,7 @@ typedef char TypeDerivationSize[(sizeof(TypeDerivation)==12)?1:-1];
 
 extern void **name_hash_buckets, **type_hash_buckets;
 extern unsigned short *name_hash_counts, *type_hash_counts;
-extern void **type_hash_extra_a, **public_symbol_hash, **type_hash_extra_c, **type_hash_extra_d;
+extern void **global_symbol_hash, **public_symbol_hash, **type_hash_extra_c, **type_hash_extra_d;
 extern TypeDerivation *derived_types;
 extern unsigned short derived_type_capacity, type_page_count;
 extern unsigned char *type_work_a, *type_work_b;

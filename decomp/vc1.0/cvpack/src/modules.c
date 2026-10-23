@@ -178,7 +178,7 @@ void pack_public_symbols(void *symbols, CvDirectoryEntry *entry)
     }
 }
 
-unsigned long public_symbols_count, public_symbols_size, duplicate_publics;
+unsigned long public_symbols_count, public_symbols_size, duplicate_symbols;
 
 int intern_public(unsigned char *record, SymbolHash hash)
 {
@@ -220,7 +220,7 @@ duplicate:
         if (record[2+i] != node->record[2+i]) { same = 0; break; }
     if (same) {
         *(unsigned short *)(record+2) = 8;
-        ++duplicate_publics;
+        ++duplicate_symbols;
         return 0;
     }
     warning(2, (char *)record+11, module_name(current_module));
@@ -352,4 +352,49 @@ void read_types(unsigned long directory, const CvDirectoryEntry *entry)
     cv_read_offset += entry->size;
     module_type_buffer = type_data;
     type_directory = directory;
+}
+
+unsigned long global_symbols_count, global_symbols_size;
+
+int __fastcall intern_global(unsigned char *record, SymbolHash hash)
+{
+    unsigned short segment = 0, name_offset, name_length, bucket, padding;
+    unsigned long symbol_offset = 0, full_hash, count, i;
+    const unsigned char *name;
+    PublicSymbol *node;
+    int same;
+
+    bucket = hash(record, &full_hash, &name_offset, &segment, &symbol_offset, 0x1000);
+    name = record+name_offset;
+    name_length = *name;
+    for (node = global_symbol_hash[bucket]; node; node = node->next) {
+        if (node->hash != full_hash) continue;
+        same = 1;
+        for (i = 0; i < (unsigned long)name_length+1; ++i)
+            if (name[i] != node->record[node->name_offset+i]) { same = 0; break; }
+        if (same) goto duplicate;
+    }
+    padding = 3-((*(unsigned short *)record+1)&3);
+    node = allocate_symbol(*(unsigned short *)record+padding+0x16);
+    node->hash = full_hash;
+    node->name_offset = name_offset;
+    node->segment = segment;
+    node->offset = symbol_offset;
+    count = *(unsigned short *)record+2;
+    for (i = 0; i < count; ++i) node->record[i] = record[i];
+    *(unsigned short *)node->record += padding;
+    global_symbols_size += *(unsigned short *)record+padding+2;
+    ++global_symbols_count;
+    for (i = 0; i < padding; ++i) node->record[count+i] = 0;
+    node->next = global_symbol_hash[bucket];
+    global_symbol_hash[bucket] = node;
+    *(unsigned short *)(record+2) = 8;
+    return 1;
+duplicate:
+    count = *(unsigned short *)record;
+    for (i = 0; i < count; ++i)
+        if (record[i+2] != node->record[i+2]) return 2;
+    *(unsigned short *)(record+2) = 8;
+    ++duplicate_symbols;
+    return 0;
 }

@@ -1,0 +1,27 @@
+{
+  "application_functions": 68,
+  "next": "compact_new_type",
+  "source": "Global-symbol interning with original duplicate/conflict return values, input marker8, independent37178 global buckets and3739c/373a0 count/recordbytes; public/global nodes share the same finite8100 arena.",
+  "ownership": "Seven public and nine global nodes independently counted/linked in one complete nonoverlapping block. Full defined headers/record/padding compared; reserved6..7/two-byte allocation suffix and unused capacity retained raw without equality credit.",
+  "frontier": "First nonprimitive UDT type4134 at inputoffset202; actual packed output40 definedbytes unchanged through compact_new_type\u2192convert_new_type\u2192convert_udt_symbol\u2192pack_new_types; exact nested original returns26509/25830/25172 and allocation frame bound.",
+  "rejection_controls": 278,
+  "new_controls": 13,
+  "native_acceptance_seconds": {
+    "setup": 0.15739441756159067,
+    "execution": 0.01602434180676937,
+    "debugging": 1.949072152376175,
+    "checks": 0.02861974760890007,
+    "total": 2.1511275144293904
+  },
+  "fixtures": "Both native-only fixtures pass, help0.143s/hello-debug-dll0.137s; build/setup/execution/checks in logs. No output completion claimed for partial DLL case.",
+  "retained_limitations": [
+    "Single live symbol allocator block only; second block fails until ownership separately proven.",
+    "Existing conditional CRT guards/undefined-field consumed-value limitations remain explicit; no new CRT equivalence claim."
+  ],
+  "post_acceptance_whitespace_cleanup": "Removed surplus empty EOF line in stubs.c; refreshed current source proofs and rebuilt both targets. Historical accepted68 source/config snapshots are unchanged.",
+  "final_check_seconds": {
+    "audit": 0.48126805294305086,
+    "negatives": 5.790909604169428,
+    "fixtures": 0.35985357593744993
+  }
+}

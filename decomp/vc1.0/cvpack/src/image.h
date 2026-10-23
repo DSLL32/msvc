@@ -136,7 +136,7 @@ typedef struct PublicSymbol {
     unsigned char record[1];
 } PublicSymbol;
 void *allocate_symbol(unsigned long);
-extern unsigned long public_symbols_count, public_symbols_size, duplicate_publics;
+extern unsigned long public_symbols_count, public_symbols_size, duplicate_symbols;
 unsigned short numeric_leaf_size(const unsigned char *);
 extern unsigned long public_symbol_available;
 extern unsigned char *public_symbol_cursor;

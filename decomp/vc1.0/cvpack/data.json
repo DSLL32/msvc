@@ -338,11 +338,12 @@
     "source": "src/types.c"
   },
   {
-    "name": "type_hash_extra_a",
-    "symbol": "_type_hash_extra_a",
+    "name": "global_symbol_hash",
+    "symbol": "_global_symbol_hash",
     "original": 225656,
     "size": 4,
-    "source": "src/types.c"
+    "source": "src/types.c",
+    "provenance": "37178: separate global symbol buckets used by intern_global; shared allocation arena with public_symbol_hash."
   },
   {
     "name": "public_symbol_hash",
@@ -789,10 +790,11 @@
     "size": 4
   },
   {
-    "name": "duplicate_publics",
-    "symbol": "_duplicate_publics",
+    "name": "duplicate_symbols",
+    "symbol": "_duplicate_symbols",
     "original": 226220,
-    "size": 4
+    "size": 4,
+    "provenance": "373ac: shared duplicate counter used by public/global interning."
   },
   {
     "name": "public_symbol_available",
@@ -977,5 +979,19 @@
     "original": 225532,
     "size": 4,
     "source": "src/types.c"
+  },
+  {
+    "name": "global_symbols_count",
+    "symbol": "_global_symbols_count",
+    "original": 226204,
+    "size": 4,
+    "source": "src/modules.c"
+  },
+  {
+    "name": "global_symbols_size",
+    "symbol": "_global_symbols_size",
+    "original": 226208,
+    "size": 4,
+    "source": "src/modules.c"
   }
 ]

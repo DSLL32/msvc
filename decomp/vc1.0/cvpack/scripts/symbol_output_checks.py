@@ -108,3 +108,24 @@ def check_nested_udt(pair):
     deny('nested UDT wrong native parent frame',lambda:run(n=changed))
     changed=copy.deepcopy(rows);changed[0].pop('nested_caller')
     deny('nested UDT missing native frame witness',lambda:run(n=changed))
+
+
+def check_compact(pair):
+    pair=Path(pair);config,pe=load();events=(pair/'original-events').read_text();state=json.loads((pair/'native-gdb.json').read_text());rows=json.loads((pair/'native-symbol-output.json').read_text())
+    spec=json.loads((pair/'walks.json').read_text());old=original_walks(events,spec)
+    def run(e=events,n=rows):return compare(config,pe,e,n,old,state['walks'],True,state)
+    assert run()['defined']==40
+    def deny(label,action):
+        try:action()
+        except (AssertionError,KeyError):print('rejected:',label);return
+        raise AssertionError('accepted invalid '+label)
+    for slot,address in[(0,0x26509),(2,0x25830),(4,0x25172)]:
+        deny('compact wrong nested return '+str(slot),lambda slot=slot,address=address:run(events.replace('stack %d %08x'%(slot,address),'stack %d %08x'%(slot,address+1))))
+    changed=copy.deepcopy(rows);changed[0]['nested_callers'].reverse()
+    deny('compact wrong native nested frames',lambda:run(n=changed))
+    changed=copy.deepcopy(rows);changed[0]['type_index']+=1
+    deny('compact wrong actual native type',lambda:run(n=changed))
+    changed=copy.deepcopy(rows);changed[0]['record_length']=34
+    deny('compact stale earlier UDT length',lambda:run(n=changed))
+    changed=copy.deepcopy(rows);raw=bytearray.fromhex(changed[0]['postbytes']);raw[40]^=1;changed[0]['postbytes']=raw.hex()
+    deny('compact changed own untouched output tail',lambda:run(n=changed))

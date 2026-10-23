@@ -71,6 +71,9 @@ def main():
     config,original=load()
     from pdb_checks import check as pdb_checks
     pdb_checks(config,original,reject)
+    from symbol_output_checks import check_compact
+    compact_symbols=BINARY/'cases/hello-debug-dll/evidence/0068-intern_global'
+    if compact_symbols.is_dir():check_compact(compact_symbols)
     from symbol_output_checks import check_nested_udt
     nested_symbols=BINARY/'cases/hello-debug-dll/evidence/0067-convert_udt_symbol'
     if nested_symbols.is_dir():check_nested_udt(nested_symbols)
@@ -371,6 +374,19 @@ def main():
     reject('public arena byte total differs',lambda:arena_layout(arena,0x1000,8048,heads,1,33))
     changed_heads=bytearray(heads);struct.pack_into('<I',changed_heads,0x235*4,0x1000)
     reject('public arena duplicate bucket ownership',lambda:arena_layout(arena,0x1000,8048,changed_heads,1,32))
+    # Same allocator block, independent roots/counts: both families must fully
+    # partition the used region, and no family may borrow the other's node.
+    shared=bytearray(arena);shared[52:104]=arena[:52]
+    globals_head=bytearray(16384);struct.pack_into('<I',globals_head,0x234*4,0x1034)
+    family=dict(name='global',heads=globals_head,count=1,total=32)
+    arena_layout(shared,0x1000,7996,heads,1,32,[family])
+    reject('shared symbol global family omitted',lambda:arena_layout(shared,0x1000,7996,heads,1,32))
+    reject('shared symbol duplicated family ownership',lambda:arena_layout(shared,0x1000,7996,heads,1,32,[dict(family,heads=heads)]))
+    reject('shared symbol wrong independent count',lambda:arena_layout(shared,0x1000,7996,heads,1,32,[dict(family,count=2)]))
+    reject('shared symbol wrong independent bytes',lambda:arena_layout(shared,0x1000,7996,heads,1,32,[dict(family,total=33)]))
+    reject('shared symbol unknown family',lambda:arena_layout(shared,0x1000,7996,heads,1,32,[dict(family,name='unidentified')]))
+    changed_heads=bytearray(globals_head);struct.pack_into('<I',changed_heads,0x234*4,0x1038)
+    reject('shared symbol shifted global owner',lambda:arena_layout(shared,0x1000,7996,heads,1,32,[dict(family,heads=changed_heads)]))
     # Uninitialized reserved/tail bytes remain raw evidence; defined payload bytes
     # are still compared after masking and typed pointer normalization.
     changed=bytearray(arena);changed[6:8]=b'xy';changed[50:52]=b'zz';changed[100:103]=b'uvw'
