@@ -17,11 +17,6 @@ long __stdcall rc_seek(FILE *file, long offset, int origin)
     __asm int 3
     return 0;
 }
-int __stdcall rc_prepare_input(char *path)
-{
-    __asm int 3
-    return 0;
-}
 int __stdcall rc_preprocess(int count, char **arguments, int unused)
 {
     __asm int 3
@@ -53,6 +48,48 @@ unsigned __stdcall rc_align_output(FILE *file)
     return 0;
 }
 void __stdcall rc_cleanup(void)
+{
+    __asm int 3
+}
+
+unsigned __stdcall rc_write_bytes(FILE *file,const void *data,unsigned bytes)
+{
+    __asm int 3
+    return 0;
+}
+int __stdcall rc_detect_encoding(FILE *file)
+{
+    __asm int 3
+    return 0;
+}
+int __stdcall rc_read_wide_line(WCHAR *line,unsigned capacity,int wide,FILE *file)
+{
+    __asm int 3
+    return 0;
+}
+WCHAR *__stdcall rc_skip_white(WCHAR *text,int terminate)
+{
+    __asm int 3
+    return NULL;
+}
+int __stdcall rc_prefix_equal(const WCHAR *prefix,const WCHAR *text)
+{
+    __asm int 3
+    return 0;
+}
+void __stdcall rc_notify_progress(WPARAM kind,LPARAM value)
+{
+    __asm int 3
+}
+void __stdcall rc_input_error(unsigned code)
+{
+    __asm int 3
+}
+void __stdcall rc_input_fatal(unsigned code)
+{
+    __asm int 3
+}
+void __stdcall rc_input_warning(unsigned code)
 {
     __asm int 3
 }

@@ -11,7 +11,7 @@ import time
 HERE=Path(__file__).resolve().parents[1]
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--argv0',required=True);p.add_argument('--module-path',required=True);p.add_argument('--negative-module-sha');p.add_argument('--configuration',type=Path);p.add_argument('--reference',type=Path);p.add_argument('--original-inputs',type=Path)
+    p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--argv0',required=True);p.add_argument('--module-path',required=True);p.add_argument('--negative-module-sha');p.add_argument('--configuration',type=Path);p.add_argument('--reference',type=Path);p.add_argument('--original-inputs',type=Path);p.add_argument('--compiler-frame',action='store_true')
     a=p.parse_args();out=a.output.resolve()
     if out.exists():p.error('output must be new')
     out.mkdir(parents=True)
@@ -68,7 +68,12 @@ def main():
                 env['RECON_MKTEMP_SUFFIX']=suffixes[0]
         target_args=manifest['args']
         (out/'case-reference.json').write_text(json.dumps(dict(manifest=str(reference/'manifest.json'),sha256=sha(reference/'manifest.json'),profile_sha256=sha(profile_path),original_inputs=str(a.original_inputs)if a.original_inputs else None,original_receipt_sha256=sha(a.original_inputs/'receipt.json')if a.original_inputs else None),indent=2)+'\n')
-    command=['gdb','--batch','-q',str(native),'-ex','set pagination off','-ex','handle SIGTRAP stop print nopass','-ex','set breakpoint pending on','-ex','source '+str(HERE/'scripts/native-observers.py'),'-ex','run '+str(out/'events.txt')+(' '+' '.join(target_args) if target_args else '')+' > '+str(out/'stdout.bin')+' 2> '+str(out/'stderr.bin'),'-ex','source '+str(HERE/'scripts/native-gdb.py')]
+    command=['gdb','--batch','-q',str(native),'-ex','set pagination off','-ex','handle SIGTRAP stop print nopass','-ex','set breakpoint pending on','-ex','source '+str(HERE/'scripts/native-observers.py')]
+    script=HERE/'scripts/native-gdb.py'
+    if a.compiler_frame:
+        command+=['-ex','break recon_IsDBCSLeadByteEx']
+        script=out/'compiler-frame-gdb.py';shutil.copyfile(HERE/'scripts/compiler-frame-gdb.py',script)
+    command+=['-ex','run '+str(out/'events.txt')+(' '+' '.join(target_args) if target_args else '')+' > '+str(out/'stdout.bin')+' 2> '+str(out/'stderr.bin'),'-ex','source '+str(script)]
     active=read_configuration(config);names=[f['name']for f in active['functions']if f['kind']=='application' and f['name'] in active['accepted']+[active.get('trial_function')]]
     (out/'trace-filter.txt').write_text(''.join(native_name(name)+'\n'for name in names));(out/'trace-seen.txt').write_text('')
     with (out/'trace.txt').open('wb') as trace:

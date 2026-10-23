@@ -25,6 +25,8 @@ static DWORD callback_text,callback_bytes,lifecycle_reason,format_dest,format_ca
 static DWORD export_storage[256],export_lengths[256];
 static DWORD heap_allocation_size;
 static DWORD character_pointer;
+static CONTEXT probe_context;
+static DWORD probe_return;
 static unsigned heap_limit=1,free_limit,character_limit,heap_observed,free_observed,characters_observed;
 
 static void fail(const char *what)
@@ -194,6 +196,7 @@ static void snapshot_and_mask(void)
             fclose(file);
         }
         for(n=0;n<range_count;++n)if(ranges[n].kind)point(base+ranges[n].start,2);
+        for(n=0;n<range_count;++n)if(ranges[n].start==0x12df0&&ranges[n].end==0x12e1f&&!ranges[n].kind)point(base+0x12df0,28);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x12bb0 && ranges[n].kind)point(base+0x12c30,11);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x7443 && ranges[n].kind)point(base+0x7466,13);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x7443 && ranges[n].kind)point(base+0x7b77,22);
@@ -284,6 +287,15 @@ static int trap(HANDLE thread,DWORD address)
         else if(p->kind==25){DWORD error;readmem(initial_teb+0x34,&error,4);fprintf(events,"heap-free-result %lu last-error=%08lx\n",c.Eax,error);if(++free_observed<free_limit)point(base+0x10a11,24);}
         else if(p->kind==26){DWORD error;readmem(initial_teb+0x34,&error,4);readmem(c.Esp,&character_pointer,4);fprintf(events,"charnext-call %08lx last-error=%08lx\n",character_pointer,error);hexbytes("charnext-input",character_pointer,string_bytes(character_pointer));point(base+0x821b,27);}
         else if(p->kind==27){DWORD error;readmem(initial_teb+0x34,&error,4);fprintf(events,"charnext-result %08lx delta=%ld last-error=%08lx\n",c.Eax,(long)(c.Eax-character_pointer),error);if(++characters_observed<character_limit)point(base+0x8215,26);}
+        else if(p->kind==28){
+            readmem(c.Esp,&probe_return,4);probe_context=c;
+            fprintf(events,"compiler-probe-entry eax=%08lx esp=%08lx return=%08lx ecx=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",c.Eax,c.Esp,probe_return,c.Ecx,c.Ebx,c.Esi,c.Edi,c.Ebp);
+            if(c.Eax!=0x42c4||probe_return!=base+0x8576)fail("compiler-probe-scope");point(probe_return,29);
+        }else if(p->kind==29){
+            fprintf(events,"compiler-probe-return eax=%08lx esp=%08lx ecx=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",c.Eax,c.Esp,c.Ecx,c.Ebx,c.Esi,c.Edi,c.Ebp);
+            if(c.Esp!=probe_context.Esp+4-probe_context.Eax||c.Eax!=probe_return||c.Ecx!=probe_context.Ecx||c.Ebx!=probe_context.Ebx||c.Esi!=probe_context.Esi||c.Edi!=probe_context.Edi||c.Ebp!=probe_context.Ebp)fail("compiler-probe-return");
+            hexbytes("compiler-probe-lowest-stack",c.Esp,4);
+        }
         else if(p->kind==21){
             readmem(c.Esp,words,16);
             fprintf(events,"driver-main %08lx caller=%08lx argc=%lu argv=%08lx envp=%08lx\n",address,words[0],words[1],words[2],words[3]);
@@ -304,6 +316,13 @@ static int trap(HANDLE thread,DWORD address)
         fprintf(events,"frontier %08lx eax=%08lx ecx=%08lx edx=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx esp=%08lx\n",address-base,c.Eax,c.Ecx,c.Edx,c.Ebx,c.Esi,c.Edi,c.Ebp,c.Esp);
         fprintf(events,"stack");for(n=0;n<12;++n)fprintf(events," %08lx",words[n]);fprintf(events,"\n");
         if(export_vector)vector_state("frontier");
+        if(address==base+0x10a84){
+            DWORD pointer;
+            if(words[3]>8196)fail("write-checkpoint-size");
+            hexbytes("write-payload",words[2],words[3]);
+            hexbytes("write-file-state",words[1],32);
+            readmem(base+0x149c4,&pointer,4);hexbytes("write-filename",pointer,514);
+        }
         if(address==base+0x109fd){
             DWORD include;readmem(base+0x25588,&include,4);
             hexbytes("release-block",words[1]-8,528);
@@ -369,7 +388,7 @@ int main(int argc,char **argv)
         if(heap_limit>8192||free_limit>8192||character_limit>8192)return 125;
         SetEnvironmentVariableA("RCDLL_CAPTURE_HEAP_LIMIT",NULL);SetEnvironmentVariableA("RCDLL_CAPTURE_FREE_LIMIT",NULL);SetEnvironmentVariableA("RCDLL_CAPTURE_CHARACTER_LIMIT",NULL);
     }
-    baseline=!strcmp(argv[1],"baseline");
+    baseline=!strcmp(argv[1],"baseline")||!strcmp(argv[1],"api-probe");
     if(!baseline&&strcmp(argv[1],"masked"))return 125;
     file=fopen(argv[3],"rb");if(!file)return 125;
     while(range_count<MAX_RANGES&&fscanf(file,"%lx %lx %lu",&ranges[range_count].start,&ranges[range_count].end,&ranges[range_count].kind)==3)++range_count;

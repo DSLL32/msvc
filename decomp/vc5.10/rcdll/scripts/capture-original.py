@@ -74,6 +74,8 @@ def main():
             for r in f.get('text_data',[]):ranges.append('%x %x 0\n'%(int(r[0],16),int(r[1],16)))
     for f in config.get('support_imports',[]):
         if f['accepted']:ranges.append('%x %x 1\n'%(int(f['start'],16),int(f['end'],16)))
+    for f in config.get('support_compiler',[]):
+        if f.get('accepted')or f.get('trial'):ranges.append('%x %x 0\n'%(int(f['start'],16),int(f['end'],16)))
     (out/'ranges.txt').write_text(''.join(ranges))
     shutil.copyfile(HERE/'build/original-source.json',out/'compiled-source.json')
     (out/'functions.json').write_bytes((HERE/'functions.json').read_bytes())

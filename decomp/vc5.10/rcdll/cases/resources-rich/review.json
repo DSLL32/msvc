@@ -4,5 +4,5 @@
   "reference": "reference/manifest.json",
   "trial_promotions": {},
   "shared_runtime_owner": "/root/recon_lib_maintenance",
-  "compiler_stack_probe_scope": "Root approved exact47-byte compiler support boundary only, separate from application source credit; proof still pending."
+  "compiler_stack_probe_scope": "Root approved exact47-byte compiler support boundary, separate from application source credit; archive/MAP/custom EAX-ESP proof and actual native frame bounds recorded in compiler-support.json and acceptance-0013.json."
 }

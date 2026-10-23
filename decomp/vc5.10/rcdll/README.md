@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Ten application functions (4,657 original code bytes), two embedded CRT functions
+Eleven application functions (5,800 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_prepare_input`.
+currently matches at the next named trap, `rc_write_bytes`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -84,7 +84,7 @@ is checked separately.
 ## Counts, timing and future inputs
 
 The provisional Ghidra inventory discovers 299 application functions / 66,295 code
-bytes. Current accepted application extent coverage is 7.02% (10 functions). This denominator
+bytes. Current accepted application extent coverage is 8.75% (11 functions). This denominator
 is analysis discovery, not a claim that every remaining original extent has passed
 an ownership audit. [Inventory](cases/function-inventory.json) excludes separately
 identified embedded CRT and import thunks; switch/literal data is excluded from
@@ -109,7 +109,7 @@ input hashes are under [cases/resources-rich/reference](cases/resources-rich/ref
 The capture includes actual loaded RC/RCDLL/CRT identities, the six export slots,
 mutable argument pointers, Windows environment and working directory. RC and
 CVTRES consume this verified reference independently of RCDLL reconstruction.
-Its original capture took 0.666 seconds; no new target function is accepted yet.
+Its original capture took 0.666 seconds; reconstruction progress is recorded below.
 
 Current entry names use the conventional `main`, `DllMain`,
 `_DllMainCRTStartup` and `_CRT_INIT` identities. These names are inferred from
@@ -131,3 +131,13 @@ caught masked string data; no data section is copied into source.
 The detailed original API census is opt-in (`--api-census`), separately accounted
 in [api-census.json](cases/resources-rich/api-census.json). Ordinary captures use
 finite observer counts; native fixtures never run that census or Wine.
+
+`rc_prepare_input` is now accepted (1,143 bytes). Its first 46-byte UTF-16
+`#line` directive, complete filename buffer, file state and empty temporary output
+match at `rc_write_bytes`. [Verification](cases/resources-rich/prepare-verification.json)
+records the 1.618-second original pair, 0.228-second native GDB capture and 27
+rejection controls. The provided 47-byte `__chkstk` is separate compiler support:
+its archive object matches both PEs, and actual original entry/return state proves
+its custom EAX/ESP ABI. Native execution uses its own compiler-owned frame and
+checked local-array bounds; it makes no synthetic helper call. This covers normal
+non-overflow execution, without claiming Windows stack-overflow/SEH behavior.

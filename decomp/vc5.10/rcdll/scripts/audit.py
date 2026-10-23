@@ -7,6 +7,7 @@ from pathlib import Path
 import subprocess
 import time
 from protocol import HERE, ROOT, candidate, sha, normalize_configuration
+from importlib.util import spec_from_file_location,module_from_spec
 
 ENGINE=ROOT/'tooling/graph-audit/target/release/graph-audit'
 def prepare(config,out):
@@ -22,7 +23,15 @@ def prepare(config,out):
     imported=[f['name']for f in config.get('support_imports',[])if f['accepted']]
     result=dict(target=dict(path='toolchains/5.10/bin/RCDLL.DLL',sha256=sha(ROOT/'toolchains/5.10/bin/RCDLL.DLL')),accepted=accepted+imported,driver=driver,crt_defaults={})
     (out/'graph-input.json').write_text(json.dumps(result,indent=2)+'\n')
-    (out/'empty-runtime.json').write_text('[]\n')
+    original_runtime=[];rebuilt_runtime=[]
+    if config.get('support_compiler'):
+        spec=spec_from_file_location('compiler_support',HERE/'scripts/check-compiler-support.py');module=module_from_spec(spec);spec.loader.exec_module(module)
+        support=module.verify();rebuilt=support['rebuilt']
+        original_runtime=[dict(name='__chkstk',start=0x71c32df0,end=0x71c32e1f,evidence=dict(abi='custom-eax-esp',provider=support['member_sha256']))]
+        rebuilt_runtime=[dict(name='__chkstk',start=int(rebuilt['address'],16),end=int(rebuilt['end'],16),evidence=dict(abi='custom-eax-esp',provider=support['member_sha256']))]
+        (out/'compiler-support-identity.json').write_text(json.dumps(support,indent=2)+'\n')
+    (out/'original-runtime.json').write_text(json.dumps(original_runtime,indent=2)+'\n')
+    (out/'rebuilt-runtime.json').write_text(json.dumps(rebuilt_runtime,indent=2)+'\n')
     (out/'graph-metadata.json').write_text('{"schema":1,"functions":{},"callback_tables":[]}\n')
     return accepted
 
@@ -30,7 +39,7 @@ def run(config_path=None,out=None):
     config_path=config_path or HERE/'functions.json';out=out or HERE/'build'
     out.mkdir(parents=True,exist_ok=True)
     accepted=prepare(json.loads(config_path.read_text()),out)
-    command=[str(ENGINE),'--profile','link','--repo',str(ROOT),'--project',str(HERE),'--original',str(ROOT/'toolchains/5.10/bin/RCDLL.DLL'),'--rebuilt',str(HERE/'build/RCDLL.DLL'),'--map',str(HERE/'build/rcdll.map'),'--config',str(out/'graph-input.json'),'--runtime',str(out/'empty-runtime.json'),'--rebuilt-runtime',str(out/'empty-runtime.json'),'--metadata',str(out/'graph-metadata.json'),'--discovery','cfg','--check-ret','--check-references','--check-ownership','--check-extents','--check-accepted-extents']
+    command=[str(ENGINE),'--profile','link','--repo',str(ROOT),'--project',str(HERE),'--original',str(ROOT/'toolchains/5.10/bin/RCDLL.DLL'),'--rebuilt',str(HERE/'build/RCDLL.DLL'),'--map',str(HERE/'build/rcdll.map'),'--config',str(out/'graph-input.json'),'--runtime',str(out/'original-runtime.json'),'--rebuilt-runtime',str(out/'rebuilt-runtime.json'),'--metadata',str(out/'graph-metadata.json'),'--discovery','cfg','--check-ret','--check-references','--check-ownership','--check-extents','--check-accepted-extents']
     started=time.perf_counter();p=subprocess.run(command,capture_output=True,text=True);elapsed=time.perf_counter()-started
     (out/'graph-audit.stdout').write_text(p.stdout);(out/'graph-audit.stderr').write_text(p.stderr)
     receipt=dict(command=command,status=p.returncode,elapsed_seconds=elapsed,functions=accepted,input_sha256=sha(config_path),candidate=candidate())

@@ -90,6 +90,11 @@ def original_raw(snapshot,complete=False):
         if function['accepted']:
             start,end=int(function['start'],16),int(function['end'],16)
             expected[start-0x1000:end-0x1000]=relocated[start-0x1000:end-0x1000]
+    for function in active.get('support_compiler',[]):
+        if function.get('accepted')or function.get('trial'):
+            start,end=int(function['start'],16),int(function['end'],16)
+            assert (start,end)==(0x12df0,0x12e1f)and function['abi']=='custom-eax-esp'
+            expected[start-0x1000:end-0x1000]=relocated[start-0x1000:end-0x1000]
     assert masked==bytes(expected),'actual mask readback differs from exact candidate snapshot ranges'
     assert 'error ' not in text and 'exception ' not in text,'unhandled original exception'
     match=re.findall(r'^frontier ([0-9a-f]{8}) .*$',text,re.M)
@@ -100,12 +105,14 @@ def original_raw(snapshot,complete=False):
     assert len(match)==1,'need exactly one raw-derived original frontier'
     rva=int(match[0],16)
     config=read_configuration(snapshot/'functions.json')
-    functions=[f for f in config['functions'] if int(f['start'],16)==rva]
+    functions=[f for f in config['functions']+config.get('support_compiler',[]) if int(f['start'],16)==rva]
     assert len(functions)==1,'unindexed original frontier'
     stack=re.findall(r'^stack((?: [0-9a-f]{8}){12})$',text,re.M)
     assert len(stack)==1
     words=[int(v,16)for v in stack[0].split()]
-    return dict(function=functions[0]['name'],rva=rva,words=words)
+    registers={name:int(value,16)for name,value in re.findall(r'\b(eax|ecx|edx|ebx|esi|edi|ebp|esp)=([0-9a-f]{8})',next(line for line in text.splitlines()if line.startswith('frontier ')))}
+    assert len(registers)==8
+    return dict(function=functions[0]['name'],rva=rva,words=words,registers=registers)
 
 def native_raw(snapshot):
     receipt=bind_current(snapshot,'native')

@@ -1,0 +1,56 @@
+dbcs byte=114 before-error=0 before-errno=0 result=0 after-error=0 after-errno=0
+dbcs byte=101 before-error=0 before-errno=0 result=0 after-error=0 after-errno=0
+dbcs byte=115 before-error=0 before-errno=0 result=0 after-error=0 after-errno=0
+dbcs byte=111 before-error=0 before-errno=0 result=0 after-error=0 after-errno=0
+dbcs byte=117 before-error=0 before-errno=0 result=0 after-error=0 after-errno=0
+dbcs byte=114 before-error=0 before-errno=0 result=0 after-error=0 after-errno=0
+dbcs byte=99 before-error=0 before-errno=0 result=0 after-error=0 after-errno=0
+dbcs byte=101 before-error=0 before-errno=0 result=0 after-error=0 after-errno=0
+dbcs byte=115 before-error=0 before-errno=0 result=0 after-error=0 after-errno=0
+dbcs byte=46 before-error=0 before-errno=0 result=0 after-error=0 after-errno=0
+dbcs byte=114 before-error=0 before-errno=0 result=0 after-error=0 after-errno=0
+dbcs byte=99 before-error=0 before-errno=0 result=0 after-error=0 after-errno=0
+dbcs byte=0 before-error=0 before-errno=0 result=0 after-error=0 after-errno=0
+wcscat before-error=0 before-errno=0 same-pointer=1 after-error=0 after-errno=0
+dbcs byte=114 before-error=0 before-errno=111 result=0 after-error=0 after-errno=111
+dbcs byte=101 before-error=0 before-errno=111 result=0 after-error=0 after-errno=111
+dbcs byte=115 before-error=0 before-errno=111 result=0 after-error=0 after-errno=111
+dbcs byte=111 before-error=0 before-errno=111 result=0 after-error=0 after-errno=111
+dbcs byte=117 before-error=0 before-errno=111 result=0 after-error=0 after-errno=111
+dbcs byte=114 before-error=0 before-errno=111 result=0 after-error=0 after-errno=111
+dbcs byte=99 before-error=0 before-errno=111 result=0 after-error=0 after-errno=111
+dbcs byte=101 before-error=0 before-errno=111 result=0 after-error=0 after-errno=111
+dbcs byte=115 before-error=0 before-errno=111 result=0 after-error=0 after-errno=111
+dbcs byte=46 before-error=0 before-errno=111 result=0 after-error=0 after-errno=111
+dbcs byte=114 before-error=0 before-errno=111 result=0 after-error=0 after-errno=111
+dbcs byte=99 before-error=0 before-errno=111 result=0 after-error=0 after-errno=111
+dbcs byte=0 before-error=0 before-errno=111 result=0 after-error=0 after-errno=111
+wcscat before-error=0 before-errno=111 same-pointer=1 after-error=0 after-errno=111
+dbcs byte=114 before-error=305419896 before-errno=0 result=0 after-error=305419896 after-errno=0
+dbcs byte=101 before-error=305419896 before-errno=0 result=0 after-error=305419896 after-errno=0
+dbcs byte=115 before-error=305419896 before-errno=0 result=0 after-error=305419896 after-errno=0
+dbcs byte=111 before-error=305419896 before-errno=0 result=0 after-error=305419896 after-errno=0
+dbcs byte=117 before-error=305419896 before-errno=0 result=0 after-error=305419896 after-errno=0
+dbcs byte=114 before-error=305419896 before-errno=0 result=0 after-error=305419896 after-errno=0
+dbcs byte=99 before-error=305419896 before-errno=0 result=0 after-error=305419896 after-errno=0
+dbcs byte=101 before-error=305419896 before-errno=0 result=0 after-error=305419896 after-errno=0
+dbcs byte=115 before-error=305419896 before-errno=0 result=0 after-error=305419896 after-errno=0
+dbcs byte=46 before-error=305419896 before-errno=0 result=0 after-error=305419896 after-errno=0
+dbcs byte=114 before-error=305419896 before-errno=0 result=0 after-error=305419896 after-errno=0
+dbcs byte=99 before-error=305419896 before-errno=0 result=0 after-error=305419896 after-errno=0
+dbcs byte=0 before-error=305419896 before-errno=0 result=0 after-error=305419896 after-errno=0
+wcscat before-error=305419896 before-errno=0 same-pointer=1 after-error=305419896 after-errno=0
+dbcs byte=114 before-error=305419896 before-errno=111 result=0 after-error=305419896 after-errno=111
+dbcs byte=101 before-error=305419896 before-errno=111 result=0 after-error=305419896 after-errno=111
+dbcs byte=115 before-error=305419896 before-errno=111 result=0 after-error=305419896 after-errno=111
+dbcs byte=111 before-error=305419896 before-errno=111 result=0 after-error=305419896 after-errno=111
+dbcs byte=117 before-error=305419896 before-errno=111 result=0 after-error=305419896 after-errno=111
+dbcs byte=114 before-error=305419896 before-errno=111 result=0 after-error=305419896 after-errno=111
+dbcs byte=99 before-error=305419896 before-errno=111 result=0 after-error=305419896 after-errno=111
+dbcs byte=101 before-error=305419896 before-errno=111 result=0 after-error=305419896 after-errno=111
+dbcs byte=115 before-error=305419896 before-errno=111 result=0 after-error=305419896 after-errno=111
+dbcs byte=46 before-error=305419896 before-errno=111 result=0 after-error=305419896 after-errno=111
+dbcs byte=114 before-error=305419896 before-errno=111 result=0 after-error=305419896 after-errno=111
+dbcs byte=99 before-error=305419896 before-errno=111 result=0 after-error=305419896 after-errno=111
+dbcs byte=0 before-error=305419896 before-errno=111 result=0 after-error=305419896 after-errno=111
+wcscat before-error=305419896 before-errno=111 same-pointer=1 after-error=305419896 after-errno=111

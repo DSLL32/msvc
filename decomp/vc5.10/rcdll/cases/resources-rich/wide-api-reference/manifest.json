@@ -1,0 +1,19 @@
+{
+  "raw_source": "/root/.ai-tmp/msvc2/vc5.10/rcdll/wide-api-probe-01",
+  "scope": "Encountered ASCII1252 IsDBCSLeadByteEx and UTF16 wcscat behavior; original provider verified through actual loaded hFile.",
+  "files": {
+    "after-1-1.bin": "c8abc63e21774fc94f3116862e1d7096034479d0e18775f75c553a991fce786b",
+    "compiled-source.c": "c09927f749020a4ca0fef277bd700cede2285cc0793082005dbcb4666fcec8fb",
+    "after-0-1.bin": "c8abc63e21774fc94f3116862e1d7096034479d0e18775f75c553a991fce786b",
+    "after-1-0.bin": "c8abc63e21774fc94f3116862e1d7096034479d0e18775f75c553a991fce786b",
+    "after-0-0.bin": "c8abc63e21774fc94f3116862e1d7096034479d0e18775f75c553a991fce786b",
+    "before-0-1.bin": "e18d6055434dee4eb2321cb468bc396481d0087a827b38c91ec90a4bb144b207",
+    "stdout.bin": "f9490e4fbe90c89c1f34b357ca9cf91c5d3fe74f231812ba53822581c69c0139",
+    "stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before-1-1.bin": "e18d6055434dee4eb2321cb468bc396481d0087a827b38c91ec90a4bb144b207",
+    "events.txt": "09284e860b2d84806b0301ca22e63d8e58dc307e213340e40e11e86e592266b7",
+    "before-0-0.bin": "e18d6055434dee4eb2321cb468bc396481d0087a827b38c91ec90a4bb144b207",
+    "receipt.json": "0de03e4d272460e425e3e2e989cccc3c66a22b813dee373a84def004823f57d9",
+    "before-1-0.bin": "e18d6055434dee4eb2321cb468bc396481d0087a827b38c91ec90a4bb144b207"
+  }
+}

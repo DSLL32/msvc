@@ -1,0 +1,55 @@
+{
+  "function": "rc_prepare_input",
+  "original_start": "0x856c",
+  "original_end": "0x89e3",
+  "original_code_bytes": 1143,
+  "abi": "stdcall1/ret4",
+  "accepted_application_functions": 11,
+  "accepted_application_bytes": 5800,
+  "provisional_application_denominator": 66295,
+  "provisional_coverage_percent": 8.748774417376875,
+  "crt_functions": 2,
+  "crt_bytes": 555,
+  "compiler_support_bytes": 47,
+  "import_thunk_bytes": 12,
+  "matched_frontier": "rc_write_bytes",
+  "raw_original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/prepare-trial-original-02",
+  "raw_native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/prepare-trial-native-04",
+  "original_seconds": 1.6183894639834762,
+  "native_gdb_seconds": 0.2278214981779456,
+  "audit_seconds": 0.04583451617509127,
+  "negative_controls": 27,
+  "gate_sha256": "1187e2d37feeb6c56142887e362f18b612018e72c4e66fcc3f8274586b1b3b10",
+  "graph_audit_record": "audit-0013.json",
+  "builds": {
+    "original": "pass; incremental build not separately timed",
+    "native": "pass; incremental build not separately timed"
+  },
+  "help_fixture": {
+    "logical_name_aliases": {
+      "rcdll_main": "DllMain",
+      "recon_dll_entry": "_DllMainCRTStartup",
+      "rcdll_crt_init": "_CRT_INIT",
+      "rc_main": "main",
+      "rcdll_command_main": "main"
+    },
+    "case": "help",
+    "status": "pass",
+    "stdout_bytes": 589,
+    "application_entries": 9,
+    "seconds": {
+      "setup": 0.003670581616461277,
+      "execution": 0.0038413237780332565,
+      "checks": 0.0011283103376626968,
+      "total": 0.009266819804906845
+    },
+    "native_sha256": "bc87b41f8b1edb2a6fb0a5675a479a05f06a08533555421124e27307216a963e",
+    "reference_manifest_sha256": "387c741bdb3fa4d388da034d339b5d21e872667d27934bb570e03d448db05524"
+  },
+  "notes": [
+    "Exact first46-byte UTF16 directive and514-byte filename; FILE32 and empty temporary artifact match.",
+    "Provided47-byte compiler helper has zero application source credit; archive body/MAP/custom-EAX-ESP original proof and real native parent-array bounds retained.",
+    "Earlier analysis value0x42c0 corrected to actual prologue/epilogue0x42c4 before acceptance.",
+    "No stack-overflow/SEH equivalence claim; original uses its shipped helper, native uses actual compiler frame."
+  ]
+}

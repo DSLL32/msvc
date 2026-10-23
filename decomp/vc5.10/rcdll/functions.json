@@ -15,7 +15,8 @@
     "rc_emit",
     "rc_message",
     "rc_format",
-    "rc_release"
+    "rc_release",
+    "rc_prepare_input"
   ],
   "functions": [
     {
@@ -260,7 +261,57 @@
       "abi": "stdcall",
       "stack_bytes": 4,
       "kind": "application",
-      "stub": true
+      "stub": false,
+      "text_data": [
+        [
+          "0x1230",
+          "0x1236"
+        ],
+        [
+          "0x1244",
+          "0x1247"
+        ],
+        [
+          "0x1264",
+          "0x1268"
+        ],
+        [
+          "0x13bc",
+          "0x13c2"
+        ],
+        [
+          "0x1508",
+          "0x151e"
+        ],
+        [
+          "0x1520",
+          "0x1530"
+        ],
+        [
+          "0x1530",
+          "0x1544"
+        ],
+        [
+          "0x1544",
+          "0x1554"
+        ],
+        [
+          "0x1554",
+          "0x156a"
+        ],
+        [
+          "0x156c",
+          "0x1580"
+        ],
+        [
+          "0x1580",
+          "0x1588"
+        ],
+        [
+          "0x1588",
+          "0x159a"
+        ]
+      ]
     },
     {
       "name": "rc_preprocess",
@@ -324,6 +375,87 @@
       "stack_bytes": 0,
       "kind": "application",
       "stub": true
+    },
+    {
+      "name": "rc_write_bytes",
+      "start": "0x10a84",
+      "end": "0x10ab0",
+      "abi": "stdcall",
+      "stack_bytes": 12,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_detect_encoding",
+      "start": "0x1087c",
+      "end": "0x10913",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_read_wide_line",
+      "start": "0x9041",
+      "end": "0x91a4",
+      "abi": "stdcall",
+      "stack_bytes": 16,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_skip_white",
+      "start": "0x8512",
+      "end": "0x856c",
+      "abi": "stdcall",
+      "stack_bytes": 8,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_prefix_equal",
+      "start": "0x10bcf",
+      "end": "0x10c24",
+      "abi": "stdcall",
+      "stack_bytes": 8,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_notify_progress",
+      "start": "0x8c70",
+      "end": "0x8c9e",
+      "abi": "stdcall",
+      "stack_bytes": 8,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_input_error",
+      "start": "0x2716",
+      "end": "0x2767",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_input_fatal",
+      "start": "0x2767",
+      "end": "0x2784",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_input_warning",
+      "start": "0x2784",
+      "end": "0x279a",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
     }
   ],
   "loader_text_metadata": [
@@ -358,6 +490,18 @@
       "provider": "MSVCRT.dll",
       "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
       "evidence": "Canonical full count0 body and actual CRT-format-original raw64/TEB observation; shared cc1f20b4 opaque save with caller-frame host setjmp; nonzero count and target longjmp/unwind reject"
+    }
+  ],
+  "support_compiler": [
+    {
+      "name": "__chkstk",
+      "start": "0x12df0",
+      "end": "0x12e1f",
+      "accepted": true,
+      "abi": "custom-eax-esp",
+      "scope": "provided compiler helper; no application C source credit",
+      "entry_eax": "0x42c4",
+      "return_esp": "entry_esp+4-entry_eax"
     }
   ]
 }

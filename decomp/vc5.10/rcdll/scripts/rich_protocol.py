@@ -1,5 +1,6 @@
 """Typed resource-case checkpoints, built on the common immutable raw gate."""
 import json
+import hashlib
 import re
 import struct
 from pathlib import Path
@@ -166,4 +167,66 @@ def release_trial(original,native):
     assert all(block['bytes']!=528 or block['payload']!=free['payload']for block in blocks)
     assert proof['application_trace'][-1]=='rc_release'
     proof.update(trial='rc_release',private_free=dict(flags=1,result=1,original_base=int(old_frees[0][2],16),native_base=free['payload'],freed_generation_absent=True,base_reused=any(block['payload']==free['payload']for block in blocks)),preprocessor_arguments=arguments,next_input_file=b['arguments']['path'],artifact=dict(name='resources.res',bytes=0),registered_module=b['module'])
+    return proof
+
+
+def prepare_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_prepare_input'and len(config['accepted'])==12
+    a,b,proof=checkpoint(original,native,'rc_write_bytes',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c286d6 and a['words'][3]==46
+    text=(original/'events.txt').read_text();arguments=b['arguments']
+    expected='#line 1"resources.rc"\r\n'.encode('utf-16le')
+    assert arguments['bytes']==len(expected)==46
+    assert raw_bytes(text,'write-payload')==bytes.fromhex(arguments['payload'])==expected
+    assert raw_bytes(text,'write-filename')==bytes.fromhex(arguments['filename'])=='resources.rc'.encode('utf-16le')+b'\0'*(514-24)
+    raw=(original/'globals.bin').read_bytes()
+    assert struct.unpack_from('<I',raw,0x149c4-0x14000)[0]==0x71c37f08
+    assert raw[0x17f08-0x14000:0x17f08-0x14000+514]==raw_bytes(text,'write-filename')
+    old=struct.unpack('<8I',raw_bytes(text,'write-file-state'));new=struct.unpack('<8I',bytes.fromhex(arguments['file_state']))
+    assert old[:4]+old[5:]==new[:4]+new[5:]==(0,0,0,128,0,0,0)and old[4]>=3 and new[4]>=3
+    receipt=json.loads((native/'receipt.json').read_text())
+    temporary=raw_bytes(text,'input-temporary')[:-1].decode('ascii')
+    assert temporary.startswith(receipt['canonical_cwd']+'\\')
+    temporary_name=temporary[len(receipt['canonical_cwd'])+1:];assert '/'not in temporary_name and '\\'not in temporary_name
+    assert arguments['file_host_path']==receipt['case_cwd']+'/'+temporary_name
+    assert re.findall(r'^pos:\s*(\d+)$',arguments['file_fdinfo'],re.M)==['0']
+    assert receipt['case_files'][temporary_name]==dict(bytes=0,sha256=hashlib.sha256(b'').hexdigest())
+    assert all(not info['bytes']for name,info in receipt['case_files'].items()if name not in json.loads((HERE/'cases/resources-rich/reference/manifest.json').read_text())['source_inputs'])
+    identity=b['heap_identity'];blocks=identity['blocks'];assert len(blocks)==3
+    assert identity['options']==1 and identity['initial']==identity['maximum']==0
+    for field,label,size in [('rc_include_paths','include-current-block',528),('rc_input_temporary','input-temporary-block',268),('rc_output_temporary','output-temporary-block',268)]:
+        pointer=int.from_bytes(bytes.fromhex(b['globals'][field]),'little')
+        block=next(block for block in blocks if block['payload']+8==pointer)
+        assert block['owner']==identity['handle']and block['flags']==9 and block['bytes']==size
+        assert bytes.fromhex(block['contents'])==raw_bytes(text,label)
+    assert proof['application_trace'][-1]=='rc_prepare_input'
+    gdb=(native/'gdb.stdout').read_text()
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_prepare_input\s*\(',gdb,re.M)
+    frame=arguments['parent_frame'];assert frame['caller']=='rc_prepare_input'
+    records=re.findall(r'^RCDLL_PARENT_FRAME=([0-9a-f]+) ([0-9a-f]+) ([0-9a-f]+)$',gdb,re.M)
+    assert records==[tuple('%08x'%frame[key]for key in ['pc','esp','ebp'])]
+    assert frame['esp']==b['registers']['esp']and 0<frame['ebp']-frame['esp']<65536
+    objects=frame['objects'];assert [(row['name'],row['bytes'])for row in objects]==[('escaped',520),('directive',8196),('line',8354)]
+    assert re.findall(r'^RCDLL_FRAME_OBJECT (\w+)=([0-9a-f]+) (\d+)$',gdb,re.M)==[(row['name'],'%08x'%row['address'],str(row['bytes']))for row in objects]
+    assert all(frame['esp']<=row['address']<row['address']+row['bytes']<=frame['ebp']for row in objects)
+    ordered=sorted(objects,key=lambda row:row['address'])
+    assert all(x['address']+x['bytes']<=y['address']for x,y in zip(ordered,ordered[1:]))
+    assert arguments['data']==next(row['address']for row in objects if row['name']=='directive')
+    low,high=[int(value,16)for value in frame['stack_mapping'].split()[0].split('-')]
+    assert frame['stack_mapping'].endswith('[stack]')and low<=frame['esp']<frame['ebp']<high
+    entry=re.findall(r'^compiler-probe-entry eax=([0-9a-f]+) esp=([0-9a-f]+) return=([0-9a-f]+) ecx=([0-9a-f]+) ebx=([0-9a-f]+) esi=([0-9a-f]+) edi=([0-9a-f]+) ebp=([0-9a-f]+)$',text,re.M)
+    leave=re.findall(r'^compiler-probe-return eax=([0-9a-f]+) esp=([0-9a-f]+) ecx=([0-9a-f]+) ebx=([0-9a-f]+) esi=([0-9a-f]+) edi=([0-9a-f]+) ebp=([0-9a-f]+)$',text,re.M)
+    assert len(entry)==len(leave)==1
+    before=[int(value,16)for value in entry[0]];after=[int(value,16)for value in leave[0]]
+    assert before[0]==0x42c4 and before[2]==0x71c28576
+    assert after==[before[2],before[1]+4-before[0]]+before[3:]
+    assert len(raw_bytes(text,'compiler-probe-lowest-stack'))==4
+    import importlib.util
+    spec=importlib.util.spec_from_file_location('compiler_support',HERE/'scripts/check-compiler-support.py')
+    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    provider=module.verify()
+    support=config['support_compiler'];assert len(support)==1
+    assert support[0]['name']=='__chkstk'and support[0]['trial']and not support[0]['accepted']and support[0]['entry_eax']=='0x42c4'
+    proof.update(trial='rc_prepare_input',write=dict(bytes=46,payload=expected.hex(),filename=arguments['filename']),compiler_support=dict(provider=provider,original_entry=before,original_return=after,native_frame=frame,application_source_credit=0),file=dict(position=0,temporary=temporary))
     return proof

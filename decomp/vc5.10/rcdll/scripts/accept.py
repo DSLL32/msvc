@@ -6,12 +6,12 @@ import shutil
 from pathlib import Path
 from protocol import HERE,entry_trial_pair,crt_init_pair,dll_main_pair,rc_entry_pair,rc_main_pair,rc_initialize_pair,rc_allocate_pair,rc_is_option_pair,rc_emit_pair,rc_message_pair,rc_format_pair,sha,validation_versions
 from audit import run
-from rich_protocol import release_trial
+from rich_protocol import release_trial,prepare_trial
 p=argparse.ArgumentParser();p.add_argument('--original',type=Path,required=True);p.add_argument('--native',type=Path,required=True);p.add_argument('--check-only',action='store_true');p.add_argument('--case',choices=['help','resources-rich'],default='help')
 a=p.parse_args()
 config=json.loads((HERE/'functions.json').read_text())
 contracts={'_DllMainCRTStartup':entry_trial_pair,'_CRT_INIT':crt_init_pair,'DllMain':dll_main_pair,'RC':rc_entry_pair,'main':rc_main_pair,'rc_initialize':rc_initialize_pair,'rc_allocate':rc_allocate_pair,'rc_is_option':rc_is_option_pair,'rc_emit':rc_emit_pair,'rc_message':rc_message_pair,'rc_format':rc_format_pair}
-if a.case=='resources-rich':contracts={'rc_release':release_trial}
+if a.case=='resources-rich':contracts={'rc_release':release_trial,'rc_prepare_input':prepare_trial}
 assert config.get('trial_function') in contracts,'no implemented typed contract for this trial'
 proof=contracts[config['trial_function']](a.original,a.native)
 report=run()
@@ -29,6 +29,9 @@ if not a.check_only:
     assert not audit_history.exists();shutil.copyfile(HERE/'build/graph-audit-receipt.json',audit_history)
     proof['graph_audit_record']=str(audit_history.relative_to(HERE))
     history.write_text(json.dumps(dict(configuration=config,proof=proof,review=review,original=str(a.original),native=str(a.native)),indent=2)+'\n')
+    if config['trial_function']=='rc_prepare_input':
+        for support in config.get('support_compiler',[]):
+            if support.get('trial'):support['accepted']=True;support.pop('trial')
     config['accepted'].append(config.pop('trial_function'))
     config['status']=a.case+' case in progress'
     plan=json.loads((HERE/'cases/plan.json').read_text());plan['accepted_functions']=config['accepted'];(HERE/'cases/plan.json').write_text(json.dumps(plan,indent=2)+'\n')

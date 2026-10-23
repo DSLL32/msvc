@@ -64,3 +64,8 @@ build/resources-api-probe.obj: scripts/resources-api-probe.c | build
 	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
 build/resources-api-probe.exe: build/resources-api-probe.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
+
+build/wide-api-probe.obj: scripts/wide-api-probe.c | build
+	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
+build/wide-api-probe.exe: build/wide-api-probe.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib

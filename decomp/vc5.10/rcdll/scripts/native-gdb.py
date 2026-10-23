@@ -82,6 +82,26 @@ def capture():
             arguments['message']=bytes(gdb.selected_inferior().read_memory(int(message),length)).hex()
         if name=='rc_message':arguments['id']=int(frame.read_var('id'))
         if name=='rc_prepare_input':arguments['path']=frame.read_var('path').string()
+        if name=='rc_write_bytes':
+            file=frame.read_var('file');data=frame.read_var('data');size=int(frame.read_var('bytes'))
+            assert 0<size<=8196
+            arguments.update(file=int(file),data=int(data),bytes=size,payload=bytes(gdb.selected_inferior().read_memory(int(data),size)).hex(),file_state=bytes(gdb.selected_inferior().read_memory(int(file),32)).hex())
+            parent=frame.older();assert parent.name()=='rc_prepare_input'
+            sp=registers['esp'];bp=int(parent.read_register('ebp'))&0xffffffff
+            gdb.execute('printf "RCDLL_PARENT_FRAME=%08x %08x %08x\\n", '+str(int(parent.pc())&0xffffffff)+', '+str(sp)+', '+str(bp))
+            objects=[]
+            for field,size in [('escaped',520),('directive',8196),('line',8354)]:
+                value=parent.read_var(field);address=int(value.address)&0xffffffff
+                assert value.type.sizeof==size and sp<=address<address+size<=bp
+                objects.append(dict(name=field,address=address,bytes=size))
+                gdb.execute('printf "RCDLL_FRAME_OBJECT '+field+'=%08x %u\\n", '+str(address)+', '+str(size))
+            maps=Path('/proc/%d/maps'%gdb.selected_inferior().pid).read_text().splitlines()
+            stack=[line for line in maps if line.endswith('[stack]')];assert len(stack)==1
+            low,high=[int(value,16)for value in stack[0].split()[0].split('-')];assert low<=sp<bp<high
+            ordered=sorted(objects,key=lambda value:value['address'])
+            assert all(a['address']+a['bytes']<=b['address']for a,b in zip(ordered,ordered[1:]))
+            descriptor=int(file.dereference()['_file']);handle=int(gdb.parse_and_eval('recon_osfhnd[%d]'%descriptor))-1
+            arguments.update(parent_frame=dict(caller=parent.name(),pc=int(parent.pc())&0xffffffff,esp=sp,ebp=bp,objects=objects,stack_mapping=stack[0]),file_host_path=os.readlink('/proc/%d/fd/%d'%(gdb.selected_inferior().pid,handle)),file_fdinfo=Path('/proc/%d/fdinfo/%d'%(gdb.selected_inferior().pid,handle)).read_text(),filename=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('rc_filename')),514)).hex())
         if name=='rc_format':
             arguments['capacity']=int(frame.read_var('capacity'))
             template=frame.read_var('format').cast(gdb.lookup_type('char').pointer())
