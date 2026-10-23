@@ -2,7 +2,7 @@
   "schema": 1,
   "owner": "read_image_debug",
   "allowed_frontiers": [
-    "convert_new_type"
+    "index_new_types"
   ],
   "allowed_case": "hello-debug-dll",
   "first_module_only": false,
@@ -18,9 +18,9 @@
     "src/options.c": "09d36a0bbb3ddc97a6a749250f2881d5a1967bdb5c34d4cd7b6f1178d31d2c34",
     "src/pdb.c": "138d0d5a929ca27aa86e5835482bd5e36c9e13f70e661ecf4497b98f7c2f75d2",
     "src/pdb.h": "4985c836921a7bc48a27baf3647ffc9b967c49c17ec63b75d31ecc8934068e73",
-    "src/stubs.c": "ecfc7fbacbdecc0e73566665db59ae2f379b8b897c4dad4c34889d2d371cd2b1",
-    "src/types.c": "0083f0ef43673e5c1387fe93960bcbec6a7401e6694551d0003c765143b9ab81",
-    "src/types.h": "7bb0fbdd081fc52c0ca4783c3e0906ebb3812ee858c85fc97024775d1bec5791"
+    "src/stubs.c": "7253e7dcaeb442b7a7fb49ee277805426094a558d300128f196047913cee75d4",
+    "src/types.c": "d3e1b8af7ab981054f96e4eb6f4654b6e079648abccd6a119d26cd436d3c49d0",
+    "src/types.h": "00e8637dbf4d16058f5b63d0d42068a26bcae20f95e69ca91b0d5eb5a4c86c1a"
   },
   "allocations": [
     {
@@ -103,7 +103,7 @@
   "first_module_mode": "explicit_module_index",
   "allowed_module_boundaries": [
     {
-      "frontier": "convert_new_type",
+      "frontier": "index_new_types",
       "index": 2,
       "module": 3
     }

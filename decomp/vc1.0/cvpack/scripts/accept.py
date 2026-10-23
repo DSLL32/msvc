@@ -49,6 +49,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--function',required=True)
     parser.add_argument('--check-only',action='store_true',help='validate the complete fresh pair without accepting or copying evidence')
+    parser.add_argument('--original-rebind',type=Path,help='explicit audited native-only source-line rebind sidecar')
     parser.add_argument('--case',required=True)
     parser.add_argument('--original',required=True,type=Path)
     parser.add_argument('--native',required=True,type=Path)
@@ -60,8 +61,13 @@ def main():
     native=args.native.resolve()
     captured=json.loads((original/'receipt.json').read_text())
     native_receipt=json.loads((native/'receipt.json').read_text())[0]
-    validate_snapshot(config,BINARY/'functions.json',original,native/args.case,captured,native_receipt,
-                      ROOT/config['target']['path'],BINARY/'build/native/CVPACK.EXE')
+    rebind=None
+    if args.original_rebind:
+        from native_line_rebind import validate as validate_rebind
+        rebind=validate_rebind(original,config,BINARY/'functions.json',native/args.case,native_receipt,args.original_rebind)
+    else:
+        validate_snapshot(config,BINARY/'functions.json',original,native/args.case,captured,native_receipt,
+                          ROOT/config['target']['path'],BINARY/'build/native/CVPACK.EXE')
     assert captured['case']==native_receipt['case']==args.case
     assert captured['candidates']==[args.function]
     assert not captured.get('guard_probe'),'guard controller evidence cannot accept application functions'
@@ -225,6 +231,7 @@ def main():
             identity=identities[(a,b)]
             support.append(dict(name=identity['name'],start=a,end=b))
     if frontier:entries.append(frontier['native'])
+    assert function['native']in entries,'candidate function was not reached'
     native_entries=(native/args.case/'trace').read_text().splitlines()
     assert entries==native_entries,('entry trace mismatch',entries,native_entries)
     subprocess.run(['python3',str(BINARY/'scripts/audit.py')],check=True)
@@ -242,6 +249,8 @@ def main():
     for side,source in (('original',original),('native',native/args.case)):
         if (source/'runtime-support.json').exists():shutil.copyfile(source/'runtime-support.json',directory/(side+'-runtime-support.json'))
     shutil.copyfile(native/'receipt.json',directory/'native-receipt.json')
+    if rebind:
+        shutil.copytree(args.original_rebind.parent,directory/'native-line-rebind')
     proof_path=str(directory.relative_to(BINARY)/'proof.json')
     prior={(r['start'],r['end'])for r in config.get('support_unmasked',[])}
     for record in support:
@@ -259,6 +268,7 @@ def main():
         process_boundary=native_receipt.get('process_boundary'),
         graph_ABI_data='Complete original/compiler CFG/callee/RET ABI and contextual initial data passed',
         seconds=native_receipt['seconds'])
+    if rebind:proof['original_native_line_rebind']=dict(path='native-line-rebind/rebind.json',sha256=sha(args.original_rebind))
     (directory/'proof.json').write_text(json.dumps(proof,indent=2)+'\n')
     function['status']='accepted';function['evidence']=proof_path
     config['accepted_order'].append(dict(function=args.function,case=args.case,kind='application',sequence=sequence))

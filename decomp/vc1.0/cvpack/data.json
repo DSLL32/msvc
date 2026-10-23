@@ -916,5 +916,12 @@
     "size": 4,
     "source": "src/modules.c",
     "provenance": "read_types assigns type_data at17dfc..17e01; separate from current_type_map3304c, which remainsNULL here."
+  },
+  {
+    "name": "recursive_type_reference",
+    "symbol": "_recursive_type_reference",
+    "original": 210384,
+    "size": 2,
+    "source": "src/types.c"
   }
 ]

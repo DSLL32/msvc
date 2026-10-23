@@ -1,0 +1,248 @@
+{
+  "owner": "read_image_debug",
+  "callee": "read_file",
+  "sites": [
+    {
+      "call": 127631,
+      "returned": 127636,
+      "call_bytes": "e86cb10000",
+      "return_bytes": "83c40c",
+      "native_line": 46,
+      "native_local": "dos",
+      "size": 64
+    },
+    {
+      "call": 127737,
+      "returned": 127742,
+      "call_bytes": "e802b10000",
+      "return_bytes": "83c40c",
+      "native_line": 51,
+      "native_local": "signature",
+      "size": 4
+    },
+    {
+      "call": 127767,
+      "returned": 127772,
+      "call_bytes": "e8e4b00000",
+      "return_bytes": "83c40c",
+      "native_line": 52,
+      "native_local": "file",
+      "size": 20
+    },
+    {
+      "call": 127832,
+      "returned": 127837,
+      "call_bytes": "e8a3b00000",
+      "return_bytes": "83c40c",
+      "native_line": 55,
+      "native_local": "optional",
+      "size": 224
+    },
+    {
+      "call": 128003,
+      "returned": 128008,
+      "call_bytes": "e8f8af0000",
+      "return_bytes": "83c40c",
+      "native_line": 65,
+      "native_local": "file",
+      "size": 20
+    },
+    {
+      "call": 128068,
+      "returned": 128073,
+      "call_bytes": "e8b7af0000",
+      "return_bytes": "83c40c",
+      "native_line": 68,
+      "native_local": "optional",
+      "size": 224
+    },
+    {
+      "call": 128224,
+      "returned": 128229,
+      "call_bytes": "e81baf0000",
+      "return_bytes": "83c40c",
+      "native_line": 79,
+      "native_local": "section",
+      "size": 40
+    },
+    {
+      "call": 128442,
+      "returned": 128447,
+      "call_bytes": "e841ae0000",
+      "return_bytes": "83c40c",
+      "native_line": 94,
+      "native_local": "section",
+      "size": 40
+    },
+    {
+      "call": 128649,
+      "returned": 128654,
+      "call_bytes": "e872ad0000",
+      "return_bytes": "83c40c",
+      "native_line": 109,
+      "native_local": "debug",
+      "size": 28
+    },
+    {
+      "call": 128833,
+      "returned": 128838,
+      "call_bytes": "e8baac0000",
+      "return_bytes": "83c40c",
+      "native_line": 122,
+      "native_local": "length",
+      "size": 4
+    },
+    {
+      "call": 129267,
+      "returned": 129272,
+      "call_bytes": "e808ab0000",
+      "return_bytes": "83c40c",
+      "native_line": 146,
+      "native_local": "buffer",
+      "size": 4096
+    },
+    {
+      "call": 134621,
+      "returned": 134626,
+      "call_bytes": "e81e960000",
+      "return_bytes": "83c40c",
+      "owner": "read_cv_signature",
+      "native_line": 199,
+      "native_local": "cv_signature",
+      "global_buffer": true,
+      "size": 4
+    },
+    {
+      "call": 136530,
+      "returned": 136535,
+      "call_bytes": "e8a98e0000",
+      "return_bytes": "83c40c",
+      "owner": "read_new_directory",
+      "native_line": 222,
+      "native_local": "cv_directory_offset",
+      "global_buffer": true,
+      "size": 4
+    },
+    {
+      "call": 136589,
+      "returned": 136594,
+      "call_bytes": "e86e8e0000",
+      "return_bytes": "83c40c",
+      "owner": "read_new_directory",
+      "native_line": 224,
+      "native_local": "cv_directory_header",
+      "global_buffer": true,
+      "size": 16
+    },
+    {
+      "call": 136693,
+      "returned": 136698,
+      "call_bytes": "e8068e0000",
+      "return_bytes": "83c40c",
+      "owner": "read_new_directory",
+      "native_line": 229,
+      "native_local": "directory_entries",
+      "global_buffer": true,
+      "size": 0,
+      "heap_buffer": true,
+      "count_global": "directory_entry_count",
+      "element_size": 12
+    },
+    {
+      "call": 131032,
+      "returned": 131037,
+      "call_bytes": "e823a40000",
+      "return_bytes": "83c40c",
+      "owner": "read_subsection",
+      "native_line": 377,
+      "native_local": "buffer",
+      "heap_buffer": true,
+      "count_local": "entry",
+      "count_field": "size",
+      "count_bits": 16,
+      "size": 0
+    },
+    {
+      "call": 98386,
+      "returned": 98391,
+      "call_bytes": "e8a9230100",
+      "return_bytes": "83c40c",
+      "owner": "read_module",
+      "native_source": "src/modules.c",
+      "native_line": 123,
+      "native_local": "module_record_buffer",
+      "global_buffer": true,
+      "heap_buffer": true,
+      "count_local": "entry",
+      "count_field": "size",
+      "count_bits": 32,
+      "size": 0
+    },
+    {
+      "call": 97897,
+      "returned": 97902,
+      "call_bytes": "e892250100",
+      "return_bytes": "83c40c",
+      "owner": "read_publics",
+      "native_line": 138,
+      "native_local": "symbol_data",
+      "global_buffer": true,
+      "heap_buffer": true,
+      "count_local": "entry",
+      "count_field": "size",
+      "count_bits": 32,
+      "size": 0
+    },
+    {
+      "call": 97203,
+      "returned": 97208,
+      "call_bytes": "e848280100",
+      "return_bytes": "83c40c",
+      "owner": "read_global_types",
+      "native_source": "src/modules.c",
+      "native_line": 319,
+      "native_local": "global_type_data",
+      "global_buffer": true,
+      "heap_buffer": true,
+      "count_native": "4",
+      "size": 4
+    },
+    {
+      "call": 106172,
+      "returned": 106177,
+      "call_bytes": "e83f050100",
+      "return_bytes": "83c40c",
+      "owner": "read_new_global_types",
+      "native_source": "src/types.c",
+      "native_line": 136,
+      "native_local": "record",
+      "heap_buffer": true,
+      "count_local_value": "count",
+      "size": 0,
+      "scope": "Reached first block carry0; any later carry requires separate typed interior proof."
+    },
+    {
+      "call": 97737,
+      "returned": 97742,
+      "call_bytes": "e832260100",
+      "return_bytes": "83c40c",
+      "owner": "read_types",
+      "native_line": 350,
+      "native_local": "type_data",
+      "global_buffer": true,
+      "heap_buffer": true,
+      "count_local": "entry",
+      "count_field": "size",
+      "count_bits": 32,
+      "size": 0,
+      "maximum_count": 4746
+    }
+  ],
+  "scope": "Synchronous buffered disk reads of the approved independent DLL; raw pre/post buffers retained. Defined output extent is max(return,0), bounded by requested count; unwritten bytes must equal their own entry bytes. No equality claim for unrelated undefined input bytes.",
+  "source": "src/image.c",
+  "source_sha256": "24317f37706b277c40b92fb1963a414dbc84c31e0c6a9ef77022128ab99ad9a4",
+  "additional_sources": {
+    "src/modules.c": "980401f576db12845ffd1dbdb5a69ef7112700c6e9c4146074a29bdd84fc3fab",
+    "src/types.c": "d3e1b8af7ab981054f96e4eb6f4654b6e079648abccd6a119d26cd436d3c49d0"
+  }
+}

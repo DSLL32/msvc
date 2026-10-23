@@ -57,6 +57,7 @@ void initialize_buffer(GrowingBuffer *,unsigned long);
 extern int type_recursion_error;
 unsigned short map_primitive(unsigned short);
 unsigned short __fastcall compact_old_type(unsigned short);
+unsigned short __fastcall compact_new_type(unsigned short);
 void finish_recursive_types(void);
 extern TypeRecord *local_type_records;
 extern unsigned short local_type_capacity;

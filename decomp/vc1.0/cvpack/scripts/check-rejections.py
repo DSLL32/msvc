@@ -67,6 +67,14 @@ def main():
     config,original=load()
     from pdb_checks import check as pdb_checks
     pdb_checks(config,original,reject)
+    from native_line_rebind import validate_native_fields
+    historical=BINARY/'cases/hello-debug-dll/evidence/0060-convert_new_type/native-line-rebind'
+    if historical.is_dir():
+        before=json.loads((historical/'old-read-proof.json').read_text());after=json.loads((historical/'new-read-proof.json').read_text())
+        validate_native_fields(before,after)
+        for field in ('call','returned','owner','size'):
+            changed=copy.deepcopy(after);changed['sites'][0][field]='wrong'if field=='owner'else changed['sites'][0][field]+1
+            reject('native-line rebind changes original '+field,lambda:validate_native_fields(before,changed))
     from read_progress_checks import check as progress_checks,check_nested,check_types
     progress_checks(config,original,reject)
     check_nested(config,original,reject)

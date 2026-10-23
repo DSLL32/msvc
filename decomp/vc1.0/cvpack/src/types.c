@@ -75,6 +75,22 @@ unsigned short __fastcall convert_old_type(unsigned short type)
     return converted;
 }
 
+/* A compacted index can still refer to a recursive type under construction. */
+unsigned short recursive_type_reference;
+
+unsigned short __fastcall convert_new_type(unsigned short type)
+{
+    unsigned short converted;
+    if (type < 0x1000) {
+        recursive_type_reference = 0;
+        return type;
+    }
+    if (type_recursion_error) return 0;
+    converted = compact_new_type(type);
+    finish_recursive_types();
+    return converted;
+}
+
 /* Old primitive encodings: numeric, Boolean and special types, repeated for
    direct, near, far and huge pointer modes. Unsupported slots remain zero. */
 #define OLD_NUMERIC(p) (p)|0x10,(p)|0x11,(p)|0x12,0, \

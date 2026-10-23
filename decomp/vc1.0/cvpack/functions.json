@@ -2278,13 +2278,16 @@
       "native": "convert_new_type",
       "symbol": "@convert_new_type@4",
       "original": 156896,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        156896,
+        156950
+      ],
       "abi": "unsigned short __fastcall convert_new_type(unsigned short)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0060-convert_new_type/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -2294,7 +2297,23 @@
           "kind": "integer",
           "bits": 16
         }
-      ]
+      ],
+      "return_bits": 16,
+      "required_pdb_record_proof": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "intern_public",
@@ -3231,6 +3250,30 @@
           }
         ]
       }
+    },
+    {
+      "name": "compact_new_type",
+      "native": "compact_new_type",
+      "symbol": "@compact_new_type@4",
+      "original": 156960,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned short __fastcall compact_new_type(unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "return_bits": 16,
+      "parameters": [
+        {
+          "name": "type",
+          "register": "ecx",
+          "kind": "integer",
+          "bits": 16
+        }
+      ]
     }
   ],
   "review": {
@@ -3611,6 +3654,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 59
+    },
+    {
+      "function": "convert_new_type",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 60
     }
   ],
   "support_unmasked": [
@@ -4205,11 +4254,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "dc2df1c77d97ee3253751510a34cf358316bf679427436b1716458fde7e46c84"
+    "evidence_sha256": "e7c765162e5870abe72ff10241ba52166f94d8f821484598441ddbfb9a9e9a5b"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "6c2ce76d817fdbfc292686f7f8b7f85a2bd856875e62f9233df49df4e556fcac"
+    "evidence_sha256": "0b11de2b3f92f5e4600f054da38b45b06175d2f7513afe43886543d10c43e1c6"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",

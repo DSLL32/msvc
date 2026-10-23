@@ -64,7 +64,7 @@ void pack_new_lines(void * lines,CvDirectoryEntry * entry,ModuleInfo * module) {
 
 void pack_old_lines(void * lines,CvDirectoryEntry * entry,ModuleInfo * module) { __asm { int 3 } }
 
-unsigned short __fastcall convert_new_type(unsigned short type) { __asm { int 3 } return 0; }
+unsigned short __fastcall compact_new_type(unsigned short type) { __asm { int 3 } return 0; }
 
 unsigned short __fastcall compact_old_type(unsigned short type) { __asm { int 3 } return 0; }
 void finish_recursive_types(void) { __asm { int 3 } }
