@@ -1,0 +1,7 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x6860f: file src/inline-query.c, line 320.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, find_inline_parameter_slot (slots=0x56677338 <inline_parameters>, count=2, symbol_index=125) at src/inline-query.c:320
+320	    for (i = 0; i < count; ++i)

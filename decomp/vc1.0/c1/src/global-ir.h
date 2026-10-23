@@ -64,18 +64,17 @@ extern int plmf_pragma_seen, plmn_pragma_seen;
 extern unsigned pragma_record_number;
 extern char *pragma_text;
 extern PragmaValue *pragma_values;
-/* Serialized inline-analysis regions; only the encountered slot fields
-   have established meanings so far. */
+/* Serialized inline-analysis regions and their selected parameter symbols. */
 typedef struct InlineRegion {
-    unsigned field00;
-    unsigned short field04;
+    unsigned short next_sibling, first_child;
+    unsigned char parameter_count, flags;
     unsigned char left_slot, right_slot;
-    unsigned field08, field0c;
+    unsigned left_symbol, right_symbol;
 } InlineRegion;
 #pragma pack(2)
 typedef struct InlineScope {
-    unsigned field00, field04;
-    unsigned short field08, region;
+    unsigned char parameter_attributes[10];
+    unsigned short region;
     unsigned char flags, reserved;
 } InlineScope;
 #pragma pack()
@@ -85,9 +84,18 @@ extern InlineRegion *inline_regions;
 extern InlineScope *inline_scopes;
 extern int inline_scope_depth;
 extern unsigned short inline_base_region;
-extern unsigned inline_parameter_slots[20];
+typedef struct InlineParameters {
+    unsigned indices[10];
+    FrontendSymbol *symbols[10];
+} InlineParameters;
+typedef char InlineParameters_must_be_80_bytes[sizeof(InlineParameters) == 80 ? 1 : -1];
+extern InlineParameters inline_parameters;
+#define inline_parameter_slots inline_parameters.indices
 extern unsigned char inline_slot_count;
 extern unsigned short inline_region_index;
+void allocate_inline_query_tables(void);
+void reconcile_inline_regions(void);
+void __stdcall propagate_inline_regions(unsigned short index);
 extern unsigned *source_file_index, source_file_counter;
 extern char last_record_source[256];
 int __stdcall type_size(CType *type);

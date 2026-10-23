@@ -1,8 +1,8 @@
 {
-  "authorization": "Root approved separate legacy PDB object open/reload/owned cleanup workflow; public malformed constructor cleanup reach now independently proved.",
-  "baseline_commit": "0a2f078d99e5144d89c96d559762e11b3a67ce89",
-  "baseline_accepted_count": 1012,
-  "status": "complete public cleanup and two direct methods; next substantial residual proposal pending review",
+  "authorization": "Root approved substantial standalone C1 QuickC-mode case using actual parsed -qc/-Ol/-Oe; exact untouched preflights precede normal reconstruction.",
+  "baseline_commit": "160ef1dcc8e61a9227cfdee0ffaa43102f1cec27",
+  "baseline_accepted_count": 1015,
+  "status": "QuickC complete and verified; checkpoint pending",
   "cases": [
     {
       "case": "legacy-pdb-object",
@@ -13,6 +13,11 @@
       "case": "legacy-pdb-object",
       "phase": "direct object open/reload",
       "status": "whole353B/52B methods, six owned units, two original baselines, fresh native entry/return proofs, exact outputs/errors and cached regressions complete"
+    },
+    {
+      "case": "quickc-regions",
+      "phase": "c1",
+      "status": "22 functions/4520B, exact complete outputs and fresh original/native first-entry order"
     }
   ]
 }

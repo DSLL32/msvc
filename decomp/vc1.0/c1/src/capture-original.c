@@ -375,12 +375,24 @@ static DWORD complete_pointer;
 
 static int dump_flag_words(HANDLE process, HANDLE log, const char *boundary)
 {
-    DWORD scanner, parser, got, written;
+    DWORD scanner, parser, got, written, base, values[4], locations[4];
+    unsigned i;
     char line[128];
     if (!ReadProcessMemory(process,(void *)flag_scanner,&scanner,4,&got) || got != 4 ||
         !ReadProcessMemory(process,(void *)flag_parser,&parser,4,&got) || got != 4) return 0;
     sprintf(line,"flag-words %u %s %08lx %08lx\n",flag_count,boundary,scanner,parser);
-    return WriteFile(log,line,strlen(line),&written,0) && dump_function_symbol(process,log,boundary);
+    if(!WriteFile(log,line,strlen(line),&written,0)||!dump_function_symbol(process,log,boundary))return 0;
+    if(getenv("C1_QC_OPTIONS")) {
+        /* Four actual option/normalization words; no target state is changed. */
+        base=flag_scanner-0x5bb44;
+        locations[0]=base+0x5bc1c;locations[1]=base+0x5bbec;
+        locations[2]=base+0x5c044;locations[3]=base+0x4b200;
+        for(i=0;i<4;++i)
+            if(!ReadProcessMemory(process,(void *)locations[i],values+i,4,&got)||got!=4)return 0;
+        sprintf(line,"qc-options %s %08lx %08lx %08lx %08lx\n",boundary,values[0],values[1],values[2],values[3]);
+        if(!WriteFile(log,line,strlen(line),&written,0))return 0;
+    }
+    return 1;
 }
 static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
                                  DWORD code, DWORD site, DWORD base)

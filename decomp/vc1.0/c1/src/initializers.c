@@ -3,7 +3,10 @@
 #include "initializer-records.h"
 #include "literal-names.h"
 #include "global-ir.h"
+#include "expressions.h"
 #include <recon.h>
+
+CType *__stdcall make_pointer_base_type(unsigned short flags, unsigned short kind, unsigned short attributes);
 
 FrontendSymbol *initializer_symbol; /* original 0x6023c */
 unsigned initializer_offset; /* original 0x60244 */
@@ -985,4 +988,71 @@ FrontendSymbol *__stdcall skip_initializer_anonymous_members(FrontendSymbol *mem
         member = member->next;
     }
     return member;
+}
+
+/* Original0x2f870..0x2f8c0. QuickC memory initialization uses pointer
+   arguments and a byte count, preserving the argument-list call graph. */
+void __stdcall emit_inline_memory_initializer(unsigned operation, IrToken *target,
+    IrToken *value, IrToken *bytes)
+{
+    ArgumentNode *arguments;
+    if (operation != 173) value = convert_initializer_pointer(value);
+    target = convert_initializer_pointer(target);
+    arguments = append_argument(0, target, 2);
+    arguments = append_argument(arguments, value, 2);
+    arguments = append_argument(arguments, bytes, 1);
+    emit_initializer_builtin_call(operation, 2, arguments);
+}
+
+/* Original0x2f850..0x2f865. */
+IrToken *__stdcall convert_initializer_pointer(IrToken *value)
+{
+    return convert_scalar_expression(1, type_indirect_0080_2, value);
+}
+
+/* Original0x2f8e0..0x2fa3e. Only memory-copy/set operations initialize
+   name/base in the original. Its default path reads uninitialized stack
+   locals at2f900/2f904; retain that Win32 source bug. The native guard is
+   deliberately limited to this statically established undefined path. */
+void __stdcall emit_initializer_builtin_call(unsigned operation, unsigned model,
+    ArgumentNode *arguments)
+{
+    char *name;
+    CType *base;
+    FrontendSymbol *symbol;
+    IrToken *reference;
+    unsigned char storage;
+#ifdef RECON_NATIVE_TEST
+    if (operation != 172 && operation != 173)
+        recon_unsupported("emit_initializer_builtin_call: uninitialized original default");
+#endif
+    if (operation == 172) {
+        name = "_fmemcpy";
+        base = make_pointer_base_type(0x41, 1, 2);
+    } else if (operation == 173) {
+        name = "_fmemset";
+        base = make_pointer_base_type(0x41, 1, 2);
+    }
+    symbol = find_identifier_symbol(intern_identifier(name));
+    if (!symbol) {
+        symbol = allocate_permanent(sizeof(FrontendSymbol));
+        symbol->storage[0] = (symbol->storage[0] & 0xf9) | 1;
+        storage = symbol->storage[0] & 7;
+        symbol->storage[0] = (current_storage[0] & ~7) | storage;
+        symbol->storage[1] = current_storage[1];
+        symbol->storage[2] = current_storage[2];
+        symbol->kind = 7;
+        symbol->name = interned_name;
+        if (next_symbol_index >= 0x7fffffff) fatal_error(55);
+        if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_index_overflow();
+        symbol->index = next_symbol_index++;
+        symbol->references = 0;
+        symbol->type = make_function_type((unsigned short)model | 0x10, base);
+        found_scope_depth = 0;
+        insert_scope_symbol(global_scope, symbol);
+    }
+    reference = make_symbol_reference(symbol);
+    reference->type = prepend_expression_type_shape(symbol->type, 3,
+        symbol->type->related->attributes & 0xf77, 0);
+    emit_expression_statement(make_ir_expression(TOK_ARGUMENT_END, reference, (IrToken *)arguments));
 }

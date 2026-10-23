@@ -212,6 +212,10 @@
     "legacy-pdb-cleanup": {
       "receipt": "cases/legacy-pdb-object/evidence/cleanup-entries-1013.receipt.json",
       "sha256": "5462270d7dc131c0dbade6671fe21cb00f177103b0234a4d91a3df5b470d61e8"
+    },
+    "quickc-regions": {
+      "receipt": "cases/quickc-regions/evidence/entries-1037/receipt.json",
+      "sha256": "c1fdc7aaa30a6a38a4b26667650f3e573319f8b9edd1cc2ca371f295e282059f"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

@@ -34,6 +34,8 @@ build/%.obj: src/%.c $(RECON)/include/recon.h scripts/wine-tool.py scripts/case_
 
 OBJECTS = build/c1.obj build/stubs.obj build/diagnostics.obj build/options.obj build/option-data.obj build/option-state.obj build/packing.obj build/memory.obj build/hash-table.obj build/checksums.obj build/characters.obj build/arguments.obj build/vectors.obj build/frontend.obj build/initialization.obj build/preprocessor.obj build/preprocessor-directives.obj build/pch.obj build/pch-auto.obj build/pch-files.obj build/pch-relocate.obj build/pch-reader.obj build/pp-expression.obj build/pragma.obj build/keywords.obj build/floating.obj build/intermediate.obj build/runtime.obj build/constants.obj build/ir.obj build/ir-formats.obj build/types.obj build/based-pointers.obj build/scopes.obj build/parameters.obj build/builtins.obj build/builtin-data.obj build/macros.obj build/macro-expand.obj build/global-ir.obj build/global-formats.obj build/source-input.obj build/lexer.obj build/token-data.obj build/parser.obj build/asm.obj build/asm-lexer.obj build/asm-mnemonics.obj build/asm-instructions.obj build/asm-registers.obj build/asm-symbols.obj build/asm-validation.obj build/asm-output.obj build/asm-numbers.obj build/asm-expressions.obj build/asm-parser.obj build/asm-grammar.obj build/asm-stubs.obj build/seh.obj build/parser-grammar.obj build/declarations.obj build/declaration-text.obj build/control-ir.obj build/control-formats.obj build/expression-records.obj build/conversions.obj build/expressions.obj build/calls.obj build/literal-names.obj build/initializer-records.obj build/initializers.obj build/debug-info.obj build/debug-legacy.obj build/browser.obj build/browser-stubs.obj build/program-database.obj
 
+OBJECTS += build/inline-query.obj
+
 build/c1.exe: $(OBJECTS) $(TC)/lib/BINMODE.OBJ Makefile
 	$(TOOL) LINK.EXE /nologo /subsystem:console /map:build/c1.map /out:$@ $(OBJECTS) $(TC)/lib/BINMODE.OBJ
 
@@ -91,13 +93,14 @@ native-trace-check: native native-trace native-expression-tests native-pdb-tests
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-pdb-objects.py,@true)
 
 # Private oracle mutations; no new fixture inputs or original execution.
-native-adoption-check: native native-trace native-expression-tests native-pdb-tests
+native-adoption-check: native native-trace native-expression-tests native-pdb-tests native-quickc-tests
 	$(PYTHON) scripts/check-native-rejections.py
 	$(PYTHON) scripts/check-direct-rejections.py
 	$(PYTHON) scripts/check-frontier-abi.py
 	$(PYTHON) scripts/check-expression-rejections.py
 	$(PYTHON) scripts/check-pdb-cleanup.py
 	$(PYTHON) scripts/check-pdb-object-rejections.py
+	$(PYTHON) scripts/check-quickc-guard.py
 
 # Grammar generation consumes only named source and precedence, never the PE.
 src/asm-grammar.c: src/asm-grammar.y scripts/generate-asm-grammar.py scripts/grammar.py
@@ -123,3 +126,13 @@ build/expression-tests/external.o: cases/expression-templates/external-native.c 
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
 build/expression-tests/C13232.EXE: $(NATIVE_OBJECTS) build/expression-tests/external.o $(NATIVE_SHIMS) $(NATIVE_HEADERS) Makefile
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) build/expression-tests/external.o $(NATIVE_SHIMS) -Wl,--wrap=main,--wrap=finish_declarations -o $@
+
+# A precise guard for the original builtin helper's undefined default path.
+.PHONY: native-quickc-tests
+native-quickc-tests: build/quickc-tests/C13232.EXE
+build/quickc-tests:
+	mkdir -p $@
+build/quickc-tests/guard.o: cases/quickc-regions/native-guard.c $(NATIVE_HEADERS) Makefile | build/quickc-tests
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
+build/quickc-tests/C13232.EXE: $(NATIVE_OBJECTS) build/quickc-tests/guard.o $(NATIVE_SHIMS) $(NATIVE_HEADERS) Makefile
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) build/quickc-tests/guard.o $(NATIVE_SHIMS) -Wl,--wrap=main -o $@

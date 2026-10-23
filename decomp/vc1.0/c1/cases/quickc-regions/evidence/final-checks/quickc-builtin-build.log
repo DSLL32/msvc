@@ -1,0 +1,8 @@
+python3 scripts/dependencies.py
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/stubs.c -o build/native/stubs.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/initializers.c -o build/native/initializers.o
+src/initializers.c:1057:50: error: use of undeclared identifier 'TOK_CALL'
+ 1057 |     emit_expression_statement(make_ir_expression(TOK_CALL, reference, (IrToken *)arguments));
+      |                                                  ^
+1 error generated.
+make: *** [Makefile:68: build/native/initializers.o] Error 1

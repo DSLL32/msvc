@@ -1,0 +1,82 @@
+{
+  "restored_functions": [],
+  "pdb_cleanup_probe": false,
+  "expression_unit": null,
+  "aborted_function_probe": false,
+  "browser_limit_probe": false,
+  "declaration_scope_probe": false,
+  "complete_type_probe": false,
+  "strdup_probe": false,
+  "direct_call": null,
+  "asm_segment_probe": false,
+  "return8_probe": false,
+  "stop_function": null,
+  "terminal_exit": 0,
+  "expected_exit": 0,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/quickc-regions",
+  "phase": "c1",
+  "unmasked": true,
+  "enum_callback_trace": false,
+  "enum_callback_function": null,
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "timestamp_probe": false,
+  "accepted_count": 1015,
+  "accepted_sha256": "cb46e7d67f14f4198098160e52d866718c0e4b1dcf2de1e322c9e95035beb980",
+  "executable_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "70ba0449ba870a13b0bc3a0be5664dc7c9d9ce4cc3d6f4e225c2566f51fac1da",
+  "debugger_memory_request": "4b024:4,4b140:4,4b148:1,4b228:4,4b244:4,4ff14:4,50064:4,50228:4,50798:4,5b7f4:4,5b7f8:4,5bb44:4,5bb48:4,5ce6c:1",
+  "debugger_string_request": "4b588:100,4d5b8:100,5be68:100",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f quickc.c -Ze -Zp8 -Gs -Foquickc.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob2 -Ot -D_M_IX86=500 -G4 -W 3 -qc -Ol -Oe -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\quickc-regions",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/quickc-regions",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.007542606443166733,
+  "execution_seconds": 1.4652239428833127,
+  "total_seconds": 1.4727690108120441,
+  "files": [
+    {
+      "name": "irdb",
+      "bytes": 327,
+      "sha256": "481cd7fb10de9cb075e95e850bdfaa8149625cc0c2553c7551bf6b1430970758"
+    },
+    {
+      "name": "irex",
+      "bytes": 3032,
+      "sha256": "028a7967259a37a6854f98952e9e096e65f85339d1240059fb47545a09d763f1"
+    },
+    {
+      "name": "irgl",
+      "bytes": 334,
+      "sha256": "4ccfe9acb201cd2655b65fc545f6a3810dd8774b86a58319308f36dbab042336"
+    },
+    {
+      "name": "irin",
+      "bytes": 70,
+      "sha256": "dec57a5fbedcc29042c674e73a29418a2346361a2c906b16918b53a2438b8361"
+    },
+    {
+      "name": "irsy",
+      "bytes": 1181,
+      "sha256": "8b017aa3e7515aa1af79c19e66692fa52659b9c29d556a6d081289dd2dc7ca65"
+    },
+    {
+      "name": "quickc.c",
+      "bytes": 2196,
+      "sha256": "0bc677383871aa9c94b9c388d12a06bf87956c88224e3adfebdcc2237af7da98"
+    }
+  ]
+}

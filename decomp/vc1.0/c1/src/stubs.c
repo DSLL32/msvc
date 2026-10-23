@@ -63,7 +63,6 @@ void initialize_japanese_characters(void) { __asm { int 3 } }
 /* Original 0x36b30. */
 
 /* Original 0x2e414. */
-void generate_inline_queries(void) { __asm { int 3 } }
 
 /* Original 0x4bb60. */
 
@@ -80,8 +79,7 @@ void report_error(unsigned code, ...) { __asm { int 3 } }
 /* Original 0x271a0. */
 
 
-/* Original 0x2e370. */
-void initialize_inline_queries(void) { __asm { int 3 } }
+/* QuickC allocator and initialization veneer live in inline-query.c. */
 
 /* Original 0x4aa90. */
 
@@ -245,13 +243,11 @@ unsigned short __stdcall based_type_modifier(unsigned short kind) { __asm { int 
 /* Original 0x2d150. */
 
 /* Original 0x2e419. */
-void __stdcall begin_inline_region(unsigned flags) { __asm { int 3 } }
+/* QuickC region entry lives in inline-query.c. */
 
 /* Original 0x2e603. */
-void finish_inline_region(void) { __asm { int 3 } }
 
 /* Original 0x2ed95. */
-void __stdcall emit_inline_jump(int kind) { __asm { int 3 } }
 
 /* Original 0x2f310. */
 
@@ -379,21 +375,14 @@ void __stdcall copy_shape_prefix(FrontendSymbol *symbol, TypeShape *shape, TypeS
 
 
 
-void reset_inline_function_state(void) { __asm { int 3 } }
+/* QuickC per-function reset lives in inline-query.c. */
 
 
 
 
 
 
-void __stdcall record_inline_parameter(FrontendSymbol *parameter) { __asm { int 3 } }
-
-
-
-
-
-
-
+/* QuickC parameter-slot bookkeeping lives in inline-query.c. */
 
 
 
@@ -410,7 +399,13 @@ void __stdcall record_inline_parameter(FrontendSymbol *parameter) { __asm { int 
 
 
 
-void finish_inline_function(void) { __asm { int 3 } }
+
+
+
+
+
+
+
 
 
 void report_ide_file_end(void) { __asm { int 3 } }
@@ -661,7 +656,6 @@ CType *__stdcall function_designator_type(CType *type) { __asm { int 3 } return 
 /* Original 0x2c450. */
 /* Original 0x3d500. */
 /* Original 0x2ee64. */
-int __stdcall find_inline_parameter_slot(unsigned *slots, unsigned count, unsigned symbol_index) { __asm { int 3 } return 0; }
 /* Original 0x3c1b0. */
 /* Original 0x4c538. */
 /* Original 0x284f0. */
@@ -682,7 +676,6 @@ void write_ir_double(double *value) { __asm { int 3 } }
 
 
 
-void __stdcall emit_inline_memory_initializer(unsigned operation, IrToken *target, IrToken *value, IrToken *bytes) { __asm { int 3 } }
 
 /* Original 0x31230. */
 
@@ -729,10 +722,8 @@ CType *__stdcall clear_type_attributes(CType *type, unsigned short attributes) {
 /* Original 0x4c6b8. */
 
 /* Original 0x2efb0. */
-int __stdcall recognize_qc_loop(IrToken *condition, IrToken *increment, LabelStack *entry) { __asm { int 3 } }
 
 /* Original 0x2f250. */
-void finish_qc_loop(void) { __asm { int 3 } }
 
 /* Original 0x48fe0. */
 /* Original 0x48d90. */

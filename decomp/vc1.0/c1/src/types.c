@@ -786,3 +786,22 @@ CType *__stdcall change_function_reference_kind(CType *type, int kind)
     copy->related = replacement;
     return copy;
 }
+
+/* Original0x40ae0..0x40b51. The base descriptor and its single shape
+   use the temporary expression arena; untouched descriptor fields remain so. */
+CType *__stdcall make_pointer_base_type(unsigned short flags, unsigned short kind,
+    unsigned short attributes)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    TypeDescription *description;
+    if (pool->remaining < (int)sizeof(TypeDescription)) refill_arena(&compiler_arena, pool);
+    description = (TypeDescription *)pool->next;
+    pool->remaining -= sizeof(TypeDescription);
+    pool->next += sizeof(TypeDescription);
+    description->attributes = 0;
+    description->field08 = 0;
+    description->flags = flags;
+    description->related = intern_type_shape(new_type_shape(kind,
+        normalize_type_attributes(kind, attributes), 0));
+    return intern_type(description);
+}

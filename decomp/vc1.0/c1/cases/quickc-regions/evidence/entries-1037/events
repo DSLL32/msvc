@@ -1,0 +1,23 @@
+entry _initialize_inline_queries rva 0001e370 byte e9
+entry _allocate_inline_query_tables rva 0001edef byte 57
+entry _reset_inline_function_state rva 0001e375 byte 66
+entry _record_inline_parameter@4 rva 0001eab7 byte 56
+entry _begin_inline_region@4 rva 0001e419 byte 53
+entry _finish_inline_region rva 0001e603 byte 53
+entry _finish_inline_function rva 0001e401 byte e8
+entry _reconcile_inline_regions rva 0001eb5c byte 56
+entry _propagate_inline_regions@4 rva 0001eb9a byte 83
+entry _align_inline_slots@8 rva 0001ed14 byte 53
+entry _find_inline_parameter_slot@12 rva 0001ee64 byte 56
+entry _recognize_qc_loop@12 rva 0001efb0 byte 83
+entry _describe_qc_operand@8 rva 0001ee90 byte 53
+entry _emit_inline_memory_initializer@16 rva 0001f870 byte 56
+entry _convert_initializer_pointer@4 rva 0001f850 byte 8b
+entry _emit_initializer_builtin_call@12 rva 0001f8e0 byte 83
+entry _make_pointer_base_type@12 rva 00030ae0 byte 56
+entry _emit_inline_jump@4 rva 0001ed95 byte 8b
+entry _finish_qc_loop rva 0001f250 byte 53
+entry _expand_qc_operand@4 rva 0001f1b0 byte 83
+entry _generate_inline_queries rva 0001e414 byte e9
+entry _free_inline_query_tables rva 0001ee47 byte ff
+exit 0

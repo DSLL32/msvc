@@ -1,0 +1,61 @@
+{
+  "status": "passed",
+  "executable": "/root/msvc2/decomp/vc1.0/c1/build/quickc-tests/C13232.EXE",
+  "executable_sha256": "78d57435479f9502fdc859fe8ade666fd0209c0e90f9bb26e5f2618f38108ce0",
+  "trace": false,
+  "trace_prepare_seconds": 1.0617077350616455e-06,
+  "cases": [
+    {
+      "case": "quickc-regions",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/quickc-guard-p5uog927/control/quickc-regions/vc1.0/c1/quickc-regions",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0028163855895400047,
+      "execution_seconds": 0.003395858220756054,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/quickc-regions/manifest.json",
+      "manifest_sha256": "00e3bc93a8032aa4236c4afc37f458b1ae4e400cd1b1cb130457ad748238d7f8",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 351,
+          "sha256": "f330d095229fe36a90ea5f2af9d9451d8143dff002a55877040b6da389c8f20a"
+        },
+        {
+          "name": "irex",
+          "bytes": 3344,
+          "sha256": "e774bb5ccd67e50ac4ba7b7e3fe78a36436d4c2fc1951a28e9296adf7adaf35a"
+        },
+        {
+          "name": "irgl",
+          "bytes": 369,
+          "sha256": "ec66081512c9b854cab8f8fb3ee33c899cb29474c53cb0180cc900050fed8276"
+        },
+        {
+          "name": "irin",
+          "bytes": 73,
+          "sha256": "6bd6e55f23c823a8e0ff20b1b2303aaeb05e132d8f62a122a733463e98052556"
+        },
+        {
+          "name": "irsy",
+          "bytes": 1382,
+          "sha256": "dd1c168d243610b371cdb0e3abef6aade7667c811538a02e23f0a38e4469ae55"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0015280600637197495,
+      "total_seconds": 0.008238661102950573
+    }
+  ],
+  "fixture_total_seconds": 0.008238661102950573,
+  "execution_policy": "Only native i386 ELF; immutable reference metadata/bytes; no Wine or original execution.",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/quickc-guard-p5uog927/control"
+}

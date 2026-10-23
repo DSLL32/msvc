@@ -1,0 +1,31 @@
+{
+  "buffers": {
+    "expression_file": "00",
+    "symbol_file": "",
+    "line_file": "",
+    "global_file": "",
+    "debug_file": "",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "initialize_inline_queries",
+    "initialize_frontend",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "exit": null,
+  "frontier": "initialize_inline_queries",
+  "pc": 1448757491,
+  "abi_inputs": [],
+  "abi_globals": [],
+  "abi_strings": [],
+  "label_stack_count": 0,
+  "scanner_flags": 0,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ]
+}

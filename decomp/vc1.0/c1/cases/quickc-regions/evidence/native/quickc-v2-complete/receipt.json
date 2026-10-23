@@ -1,0 +1,25 @@
+{
+  "buffers": {},
+  "frames": [],
+  "exit": 0,
+  "frontier": null,
+  "fresh_original_match": true,
+  "reference_clock_observation": null,
+  "preparation_seconds": 0.004175563342869282,
+  "execution_seconds": 0.1590829361230135,
+  "total_seconds": 0.16513620223850012,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f quickc.c -Ze -Zp8 -Gs -Foquickc.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob2 -Ot -D_M_IX86=500 -G4 -W 3 -qc -Ol -Oe -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2",
+    "RECON_DRIVE_S": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/quickc-v2-complete",
+    "RECON_CANONICAL_CWD": "S:\\vc1.0\\c1\\quickc-regions"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+  },
+  "executable_sha256": "5f198d6078f49e3ab823586d0050a02eeb7958f41bdd93ccb34ee89717d449aa"
+}

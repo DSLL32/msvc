@@ -359,6 +359,16 @@ extern unsigned constant_one;
 extern unsigned char expression_storage[2052];
 extern unsigned char *text_work_cursor;
 
+typedef struct QcOperand {
+    unsigned char operation, reserved[3];
+    union { unsigned integer; FrontendSymbol *symbol; struct QcOperand *pair; } value;
+} QcOperand;
+typedef struct QcLoopState {
+    unsigned char condition, increment, reserved[2];
+    QcOperand left, right, target, step;
+} QcLoopState;
+typedef char QcOperand_must_be_8_bytes[sizeof(QcOperand) == 8 ? 1 : -1];
+typedef char QcLoopState_must_be_36_bytes[sizeof(QcLoopState) == 36 ? 1 : -1];
 extern LabelStack *qc_loop_labels, *qc_loop_work;
 int __stdcall recognize_qc_loop(IrToken *condition, IrToken *increment, LabelStack *entry);
 void finish_qc_loop(void);

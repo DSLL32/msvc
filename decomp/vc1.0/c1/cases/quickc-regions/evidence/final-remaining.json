@@ -1,0 +1,12 @@
+{
+  "remaining_not_in_accepted_or_identified_CRT_import": 13045,
+  "known_CRT_import_total": 37227,
+  "remaining_total": 31682,
+  "unaccepted_driver_names": 30,
+  "caveat": "Remaining outside identified CRT/imports includes application functions, unresolved support, shared data and padding; no claim all bytes are reachable application instructions. Accepted source count and extent do not establish branch completion.",
+  "classification_source": {
+    "runtime": "runtime.json",
+    "runtime_sha256": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9",
+    "imports": "Exact original PE import thunks; raw matched runtime extents including driver-address aliases, clipped union."
+  }
+}

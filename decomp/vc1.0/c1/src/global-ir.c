@@ -33,7 +33,8 @@ InlineRegion *inline_regions; /* original 0x5ffd4 */
 InlineScope *inline_scopes; /* original 0x5ffdc */
 int inline_scope_depth; /* original 0x5ffd8 */
 unsigned short inline_base_region; /* original 0x5ffd0 */
-unsigned inline_parameter_slots[20]; /* original 0x5ffe4..0x60034 */
+/* Two parallel10-entry arrays, original0x5ffe4/0x6000c..0x60034. */
+InlineParameters inline_parameters;
 unsigned char inline_slot_count; /* original 0x60034 */
 unsigned short inline_region_index; /* original 0x5ffe0 */
 unsigned *source_file_index; /* original 0x6005c */

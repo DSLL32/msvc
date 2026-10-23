@@ -38,6 +38,7 @@ def main():
     parser.add_argument('--restore-function',action='append',default=[],help='Explicit candidate body/shared-text restoration, without accepting it')
     parser.add_argument('--pdb-cleanup-probe',action='store_true',help='Observe real PDB list owner and free sequence at cleanup')
     parser.add_argument('--pdb-unit',type=int,choices=range(6),help='External owned database open/reload unit at the natural constructor')
+    parser.add_argument('--trace-qc-options',action='store_true',help='Untouched preflight: observe four real QuickC option words at initializer entry/return')
     parser.add_argument('--trace-enum-callbacks', action='store_true',help='Explicit debugger-only all-call enum comparator proof')
     parser.add_argument('--trace-flags',help='Logical function whose full scanner/parser words are observed at entry/return')
     parser.add_argument('--trace-aborted-function',action='store_true',help='Explicit original-only aborted definition globals/word masks/return observation')
@@ -58,6 +59,9 @@ def main():
     if options.trace_function_finishes:
         assert options.trace_flags is None
         options.trace_flags = '_finish_function_definition'
+    if options.trace_qc_options:
+        assert options.unmasked and options.trace_flags is None
+        options.trace_flags='_initialize_inline_queries'
     if options.trace_timestamps:
         assert options.trace_flags is None and not options.trace_function_finishes
         options.trace_flags = '_get_file_timestamp@8'
@@ -218,6 +222,8 @@ def main():
     host_environment.pop('C1_TEMPLATE_UNIT',None)
     host_environment.pop('C1_PDB_CLEANUP',None)
     host_environment.pop('C1_PDB_UNIT',None)
+    host_environment.pop('C1_QC_OPTIONS',None)
+    if options.trace_qc_options:host_environment['C1_QC_OPTIONS']='1'
     if options.pdb_unit is not None:host_environment['C1_PDB_UNIT']=str(options.pdb_unit)
     if options.pdb_cleanup_probe:host_environment['C1_PDB_CLEANUP']='1'
     if options.expression_unit is not None:
@@ -256,7 +262,7 @@ def main():
     if options.trace_flags:
         assert not entry_mode and not options.trace_enum_callbacks
         probe = next(r for r in config['driver']+json.loads((BINARY/'runtime.json').read_text()) if r['name']==options.trace_flags)
-        assert probe['name'] in config['accepted'] or probe['name'] in options.restore_function or ((options.trace_return8 or options.trace_asm_segment or options.trace_strdup or options.trace_declaration_scope or options.trace_browser_limit or options.trace_aborted_function) and options.unmasked)
+        assert probe['name'] in config['accepted'] or probe['name'] in options.restore_function or ((options.trace_return8 or options.trace_asm_segment or options.trace_strdup or options.trace_declaration_scope or options.trace_browser_limit or options.trace_aborted_function or options.trace_qc_options) and options.unmasked)
         # Identity derived and checked against raw operand bytes by audit-flags.py.
         host_environment['C1_FLAG_PROBE_RVAS'] = '%x,%x,%x' % (probe['start']-original.base,0x6bb44-original.base,0x6bb48-original.base)
     if options.trace_enum_callbacks:
@@ -300,6 +306,8 @@ def main():
                    preparation_seconds=preparation, execution_seconds=time.perf_counter()-run_start,
                    total_seconds=time.perf_counter()-start,
                    files=[dict(name=p.name,bytes=p.stat().st_size,sha256=sha(p)) for p in sorted(work.iterdir())])
+    if options.trace_qc_options:
+        receipt['qc_options_probe']=dict(words=['qc','Ol','Oe','normalized_Ol'],scope='Four real DWORDs at actual QuickC initializer entry/return; no target-global writes.')
     if options.pdb_unit is not None:
         receipt['pdb_unit']=dict(unit=options.pdb_unit,signature=0x31415926,
             external_input=pdb_external_input,public_reachability=False,

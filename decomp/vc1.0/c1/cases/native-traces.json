@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "01503f0236e56da0815bcee4a8cd1fb81017d8c8f7edd290d0f2cb7b8c2a4559",
+    "functions.json": "c247d317811a92417e9a8f93bdae3ebf3072239e5359d8b95993d05dc2e20ff8",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "698b9f0e08ed3841485809d9816fd65fc3972e9dcadd1bf96ceef480ecf8c467"
+    "sha256": "31cd1299516a4acbbabce75402a74ace2a0985903bba6c77c70a13a628b58491"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "bdc131714e05402865d2656e341c6bc081cb56a9fdec3a06d981aac8aedfd3a6"
+    "sha256": "d755714a0d59667a0fc28bf60d6a1ead40c8e4ef9fe7f75d58f6e5b668948932"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -93,6 +93,10 @@
       "logical": "_align_aggregate_member@4",
       "source": "src/declarations.c"
     },
+    "align_inline_slots": {
+      "logical": "_align_inline_slots@8",
+      "source": "src/inline-query.c"
+    },
     "allocate_extended_value": {
       "logical": "_allocate_extended_value@16",
       "source": "src/constants.c"
@@ -100,6 +104,10 @@
     "allocate_frontend_symbol": {
       "logical": "_allocate_frontend_symbol@4",
       "source": "src/declarations.c"
+    },
+    "allocate_inline_query_tables": {
+      "logical": "_allocate_inline_query_tables",
+      "source": "src/inline-query.c"
     },
     "allocate_permanent": {
       "logical": "_allocate_permanent@4",
@@ -335,7 +343,7 @@
     },
     "begin_inline_region": {
       "logical": "_begin_inline_region@4",
-      "source": "src/stubs.c"
+      "source": "src/inline-query.c"
     },
     "begin_legacy_field_continuation": {
       "logical": "_begin_legacy_field_continuation",
@@ -749,6 +757,10 @@
       "logical": "_convert_expression@12",
       "source": "src/conversions.c"
     },
+    "convert_initializer_pointer": {
+      "logical": "_convert_initializer_pointer@4",
+      "source": "src/initializers.c"
+    },
     "convert_integer_constant": {
       "logical": "_convert_integer_constant@20",
       "source": "src/expressions.c"
@@ -949,6 +961,10 @@
       "logical": "_descend_initializer_target@4",
       "source": "src/initializers.c"
     },
+    "describe_qc_operand": {
+      "logical": "_describe_qc_operand@8",
+      "source": "src/inline-query.c"
+    },
     "destroy_pdb_buffer_list": {
       "logical": "@destroy_pdb_buffer_list@4",
       "source": "src/program-database.c"
@@ -1045,17 +1061,21 @@
       "logical": "_emit_initializer_assignment@8",
       "source": "src/initializers.c"
     },
+    "emit_initializer_builtin_call": {
+      "logical": "_emit_initializer_builtin_call@12",
+      "source": "src/initializers.c"
+    },
     "emit_initializer_constant": {
       "logical": "_emit_initializer_constant@4",
       "source": "src/initializers.c"
     },
     "emit_inline_jump": {
       "logical": "_emit_inline_jump@4",
-      "source": "src/stubs.c"
+      "source": "src/inline-query.c"
     },
     "emit_inline_memory_initializer": {
       "logical": "_emit_inline_memory_initializer@16",
-      "source": "src/stubs.c"
+      "source": "src/initializers.c"
     },
     "emit_intrinsic_expression": {
       "logical": "_emit_intrinsic_expression@4",
@@ -1197,6 +1217,10 @@
       "logical": "_expand_macro_arguments@8",
       "source": "src/macro-expand.c"
     },
+    "expand_qc_operand": {
+      "logical": "_expand_qc_operand@4",
+      "source": "src/inline-query.c"
+    },
     "expression_type_alignment": {
       "logical": "_expression_type_alignment@4",
       "source": "src/ir.c"
@@ -1311,7 +1335,7 @@
     },
     "find_inline_parameter_slot": {
       "logical": "_find_inline_parameter_slot@12",
-      "source": "src/stubs.c"
+      "source": "src/inline-query.c"
     },
     "find_label": {
       "logical": "_find_label@4",
@@ -1415,11 +1439,11 @@
     },
     "finish_inline_function": {
       "logical": "_finish_inline_function",
-      "source": "src/stubs.c"
+      "source": "src/inline-query.c"
     },
     "finish_inline_region": {
       "logical": "_finish_inline_region",
-      "source": "src/stubs.c"
+      "source": "src/inline-query.c"
     },
     "finish_label_symbols": {
       "logical": "_finish_label_symbols",
@@ -1455,7 +1479,7 @@
     },
     "finish_qc_loop": {
       "logical": "_finish_qc_loop",
-      "source": "src/stubs.c"
+      "source": "src/inline-query.c"
     },
     "finish_scalar_cast": {
       "logical": "_finish_scalar_cast@12",
@@ -1521,6 +1545,10 @@
       "logical": "_format_timestamp@4",
       "source": "src/macros.c"
     },
+    "free_inline_query_tables": {
+      "logical": "_free_inline_query_tables",
+      "source": "src/inline-query.c"
+    },
     "frontend_time": {
       "logical": "_frontend_time@4",
       "source": "src/macros.c"
@@ -1535,7 +1563,7 @@
     },
     "generate_inline_queries": {
       "logical": "_generate_inline_queries",
-      "source": "src/stubs.c"
+      "source": "src/inline-query.c"
     },
     "get_debug_index_cursor": {
       "logical": "_get_debug_index_cursor",
@@ -1635,7 +1663,7 @@
     },
     "initialize_inline_queries": {
       "logical": "_initialize_inline_queries",
-      "source": "src/stubs.c"
+      "source": "src/inline-query.c"
     },
     "initialize_intermediate_output": {
       "logical": "_initialize_intermediate_output",
@@ -1980,6 +2008,10 @@
     "make_parameter": {
       "logical": "_make_parameter@4",
       "source": "src/declarations.c"
+    },
+    "make_pointer_base_type": {
+      "logical": "_make_pointer_base_type@12",
+      "source": "src/types.c"
     },
     "make_qualified_type": {
       "logical": "_make_qualified_type@16",
@@ -2769,6 +2801,10 @@
       "logical": "_promote_integer_expression@4",
       "source": "src/expressions.c"
     },
+    "propagate_inline_regions": {
+      "logical": "_propagate_inline_regions@4",
+      "source": "src/inline-query.c"
+    },
     "push_call_context": {
       "logical": "_push_call_context@4",
       "source": "src/calls.c"
@@ -2911,11 +2947,15 @@
     },
     "recognize_qc_loop": {
       "logical": "_recognize_qc_loop@12",
-      "source": "src/stubs.c"
+      "source": "src/inline-query.c"
     },
     "reconcile_declarations": {
       "logical": "_reconcile_declarations@8",
       "source": "src/declarations.c"
+    },
+    "reconcile_inline_regions": {
+      "logical": "_reconcile_inline_regions",
+      "source": "src/inline-query.c"
     },
     "record_function_definition": {
       "logical": "_record_function_definition@4",
@@ -2923,7 +2963,7 @@
     },
     "record_inline_parameter": {
       "logical": "_record_inline_parameter@4",
-      "source": "src/stubs.c"
+      "source": "src/inline-query.c"
     },
     "record_line_information": {
       "logical": "_record_line_information@4",
@@ -3143,7 +3183,7 @@
     },
     "reset_inline_function_state": {
       "logical": "_reset_inline_function_state",
-      "source": "src/stubs.c"
+      "source": "src/inline-query.c"
     },
     "reset_work_stack": {
       "logical": "_reset_work_stack@4",
@@ -4545,7 +4585,29 @@
     "copy_expression_tree",
     "destroy_pdb_buffer_list",
     "open_program_database_object",
-    "reload_program_database"
+    "reload_program_database",
+    "initialize_inline_queries",
+    "allocate_inline_query_tables",
+    "reset_inline_function_state",
+    "record_inline_parameter",
+    "begin_inline_region",
+    "finish_inline_region",
+    "finish_inline_function",
+    "reconcile_inline_regions",
+    "propagate_inline_regions",
+    "align_inline_slots",
+    "find_inline_parameter_slot",
+    "recognize_qc_loop",
+    "describe_qc_operand",
+    "emit_inline_memory_initializer",
+    "convert_initializer_pointer",
+    "emit_initializer_builtin_call",
+    "make_pointer_base_type",
+    "emit_inline_jump",
+    "finish_qc_loop",
+    "expand_qc_operand",
+    "generate_inline_queries",
+    "free_inline_query_tables"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6139,6 +6201,39 @@
       "terminal": {
         "kind": "exit",
         "code": 1
+      }
+    },
+    "quickc-regions": {
+      "first": 1015,
+      "last": 1037,
+      "seen_count": 871,
+      "expected": [
+        "initialize_inline_queries",
+        "allocate_inline_query_tables",
+        "reset_inline_function_state",
+        "record_inline_parameter",
+        "begin_inline_region",
+        "finish_inline_region",
+        "finish_inline_function",
+        "reconcile_inline_regions",
+        "propagate_inline_regions",
+        "align_inline_slots",
+        "find_inline_parameter_slot",
+        "recognize_qc_loop",
+        "describe_qc_operand",
+        "emit_inline_memory_initializer",
+        "convert_initializer_pointer",
+        "emit_initializer_builtin_call",
+        "make_pointer_base_type",
+        "emit_inline_jump",
+        "finish_qc_loop",
+        "expand_qc_operand",
+        "generate_inline_queries",
+        "free_inline_query_tables"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
       }
     }
   }

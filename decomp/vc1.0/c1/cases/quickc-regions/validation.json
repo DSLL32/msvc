@@ -1,0 +1,131 @@
+{
+  "status": "complete",
+  "baseline_commit": "160ef1dcc8e61a9227cfdee0ffaa43102f1cec27",
+  "accepted_from": 1015,
+  "accepted_count": 1037,
+  "new_application_functions": 22,
+  "new_application_bytes": 4520,
+  "new_CRT_functions": 0,
+  "accepted_application_functions": 893,
+  "historical_CRT": {
+    "runtime_c": 10,
+    "floating_c": 1,
+    "changed": false
+  },
+  "coverage": {
+    "public_case_accepted_union_bytes": 244456,
+    "direct_only_accepted_union_bytes": 1096,
+    "direct_only_functions": [
+      "@open_program_database_object@20",
+      "@reload_program_database@4",
+      "_asm_recovery_value@4",
+      "_copy_expression_tree@8",
+      "_make_reusable_zero",
+      "_report_asm_expected_token@8"
+    ],
+    "accepted_union_bytes": 245552,
+    "original_code_bytes": 277234,
+    "accepted_by_origin_bytes": {
+      "frontend_source": 222814,
+      "CRT": 22552,
+      "import_thunks": 186
+    },
+    "origin_classification": "Frontend: accepted application source. CRT: runtime.c overrides, explicit CRT variants elsewhere in source, and matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes accepted reconstruction origins, not a complete original linker map.",
+    "percent": 88.57210876010879,
+    "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage.",
+    "application_only_percent_of_total_code": 80.37037304226754
+  },
+  "checks": {
+    "public_native_phases": 54,
+    "old_assembler_direct_units": 15,
+    "expression_direct_units": 6,
+    "PDB_direct_units": 6,
+    "original_baselines_per_revision": 2,
+    "fresh_original_first_entries": 22,
+    "native_first_entries": 22,
+    "original_compiler_graph_ABI_extents_state_grammar": "pass",
+    "graph_mutation_controls": 6,
+    "flag_mutation_controls": 3,
+    "undefined_default_guard_exit": 125,
+    "genuine_valid_control": "pass",
+    "native_only_fixtures": true
+  },
+  "timings": {
+    "final_commands": [
+      {
+        "label": "quickc-stable-build",
+        "command": [
+          "make",
+          "-j4",
+          "audit-win32",
+          "native",
+          "native-trace",
+          "native-expression-tests",
+          "native-pdb-tests",
+          "native-quickc-tests"
+        ],
+        "exit": 0,
+        "total_seconds": 22.97945458907634
+      },
+      {
+        "label": "quickc-stable-suite",
+        "command": [
+          "make",
+          "-j4",
+          "native-trace-check",
+          "native-adoption-check"
+        ],
+        "exit": 0,
+        "total_seconds": 7.5618976298719645
+      },
+      {
+        "label": "quickc-stable-graph-controls",
+        "command": [
+          "python3",
+          "scripts/check-graph-audit.py"
+        ],
+        "exit": 0,
+        "total_seconds": 4.197767643257976
+      },
+      {
+        "label": "quickc-stable-flag-controls",
+        "command": [
+          "python3",
+          "scripts/check-flag-words.py",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/validation/quickc-stable-flag-controls"
+        ],
+        "exit": 0,
+        "total_seconds": 9.740184087306261
+      }
+    ],
+    "full_public_fixture_seconds": 1.2280524540692568,
+    "public_trace_prepare_seconds": 0.12159415148198605,
+    "quickc_seconds": {
+      "setup_seconds": 0.003150230273604393,
+      "execution_seconds": 0.005920959636569023,
+      "oracle_seconds": 0.0016079293563961983,
+      "total_seconds": 0.011163164861500263
+    },
+    "guard_and_valid_control_seconds": 0.09008702915161848,
+    "original_first_entry_seconds": 1.8519272422417998,
+    "final_manifest_quickc_seconds": 0.013278489001095295
+  },
+  "shared_publication": "525d34e37",
+  "shared_source_policy": "Published stable C/H held through final checks; exact before/after SHA set is in evidence/final-checks/quickc-stable-validation.json. Earlier coherent-candidate checks are retained and not relabelled.",
+  "failure_history": [
+    "Native loop descriptor initially used expression arena2; zero recycled state and pending-buffer divergence caught before final acceptance; original pool3 addresses and corrected fresh continuation retained.",
+    "Ordinary missing header/declaration-scope/token-enum build errors retained with successful corrected build logs.",
+    "One premature V1 native debug attempted before original capture completion; workspace failure retained, existing original reused."
+  ],
+  "scope": "Standalone C1 frontend -qc/-Ol/-Oe interface; no CL producer or C2 compatibility claim, no target-global seeding. Unknown/support/padding remains unclassified; not CRT-only.",
+  "source_revision_policy": "Original v1 raw/source/oracles stay pinned; v2 adds actually used short parameters and has fresh exact original baselines before native oracle.",
+  "evidence_policy": "Ordinary owned files/path+hash bindings; no copied executable/toolchain/auditor/build bundle. Raw logs unchanged.",
+  "evidence_storage": {
+    "files": 760,
+    "raw_bytes": 1238304,
+    "individually_gzip_bytes": 394478,
+    "file_index": "evidence/files.json"
+  },
+  "final_manifest_fixture_receipt": "evidence/native/final-manifest/receipt.json"
+}

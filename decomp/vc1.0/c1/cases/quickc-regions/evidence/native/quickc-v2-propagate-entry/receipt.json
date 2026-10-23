@@ -1,0 +1,68 @@
+{
+  "buffers": {
+    "expression_file": "004f1f80000098244f20084f020a004f010d5353266f00462d6e002d6d004c4f1153934f010e266d0030864133a641002238710033a641004186413a70004f010f297100266d00308641266e0030864124387200266e003086414186413a70004f0110297200266d003086414186413a70004f01119454024f01112970004f12475401",
+    "symbol_file": "030272001e000101030271001e000101030170001f0003010d0101016e00007570706572008601000304048000017401016d000076616c756500860100030404800001740d02",
+    "line_file": "006c00000102010101020103010201070102010f0102011f0102013f0102017f010201ff07",
+    "global_file": "1186032e1d30016900000000120a00717569636b632e6300",
+    "debug_file": "0c000a00030401000000",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "propagate_inline_regions",
+    "reconcile_inline_regions",
+    "finish_inline_function",
+    "finish_function_records",
+    "end_function_context",
+    "finish_function_definition",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "exit": null,
+  "frontier": "propagate_inline_regions",
+  "pc": 1448598535,
+  "abi_inputs": [
+    {
+      "name": "index",
+      "value": 0,
+      "raw_slot": 0,
+      "bits": 16,
+      "kind": "u32",
+      "stack_slot": 1,
+      "formal_value": 0,
+      "original_raw_slot": 0
+    }
+  ],
+  "abi_globals": [],
+  "abi_strings": [],
+  "label_stack_count": 0,
+  "scanner_flags": 1572864,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ],
+  "original_logical": "_propagate_inline_regions@4",
+  "abi_inputs_original_match": true,
+  "fresh_original_match": true,
+  "reference_clock_observation": null,
+  "preparation_seconds": 0.0043847039341926575,
+  "execution_seconds": 0.16868920717388391,
+  "total_seconds": 0.17660617269575596,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f quickc.c -Ze -Zp8 -Gs -Foquickc.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob2 -Ot -D_M_IX86=500 -G4 -W 3 -qc -Ol -Oe -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2",
+    "RECON_DRIVE_S": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/quickc-v2-propagate-entry",
+    "RECON_CANONICAL_CWD": "S:\\vc1.0\\c1\\quickc-regions"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+  },
+  "executable_sha256": "e4c83c9e75fd28ff8c2d0e959eef5c6d7d7b9724823d4ebb5abf333183b50f56"
+}

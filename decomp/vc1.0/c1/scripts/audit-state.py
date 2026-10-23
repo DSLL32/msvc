@@ -9,6 +9,8 @@ original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
+    ("_inline_regions_changed",0x60470,4),
+    ("_inline_unused_parameter",0x6623c,4),
     ("_fatal_error_depth",0x68348,4),
     ("_asm_code_alignment",0x5b020,2),
     ("_symbol_aliases",0x6ce74,4),
@@ -188,7 +190,12 @@ STATE = [
     ('_inline_scope_depth', 0x5ffd8, 4),
     ('_inline_scopes', 0x5ffdc, 4),
     ('_inline_region_index', 0x5ffe0, 2),
-    ('_inline_parameter_slots', 0x5ffe4, 80),
+    ('_inline_current_region', 0x60480, 2),
+    ('_inline_last_region', 0x60474, 2),
+    ('_inline_jump_count', 0x60478, 4),
+    ('_inline_parent_region', 0x6047c, 2),
+    ('_inline_saved_slot_count', 0x6046c, 1),
+    ('_inline_parameters', 0x5ffe4, 80),
     ('_inline_slot_count', 0x60034, 1),
     ('_case_magnitude_limit', 0x6bfd8, 20),
     ('_scope_serial', 0x6bff0, 4),

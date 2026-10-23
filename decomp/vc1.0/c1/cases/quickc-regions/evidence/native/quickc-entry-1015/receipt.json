@@ -1,0 +1,51 @@
+{
+  "buffers": {
+    "expression_file": "00",
+    "symbol_file": "",
+    "line_file": "",
+    "global_file": "",
+    "debug_file": "",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "initialize_inline_queries",
+    "initialize_frontend",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "exit": null,
+  "frontier": "initialize_inline_queries",
+  "pc": 1448757491,
+  "abi_inputs": [],
+  "abi_globals": [],
+  "abi_strings": [],
+  "label_stack_count": 0,
+  "scanner_flags": 0,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ],
+  "original_logical": "_initialize_inline_queries",
+  "fresh_original_match": true,
+  "reference_clock_observation": null,
+  "preparation_seconds": 0.0043633198365569115,
+  "execution_seconds": 0.16429189033806324,
+  "total_seconds": 0.1732335528358817,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f quickc.c -Ze -Zp8 -Gs -Foquickc.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob2 -Ot -D_M_IX86=500 -G4 -W 3 -qc -Ol -Oe -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2",
+    "RECON_DRIVE_S": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/quickc-entry-1015",
+    "RECON_CANONICAL_CWD": "S:\\vc1.0\\c1\\quickc-regions"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+  },
+  "executable_sha256": "1c6e50aef8c4d17f46d0763be407597b0c31e316008158f81fcaa0bdb2787c81"
+}

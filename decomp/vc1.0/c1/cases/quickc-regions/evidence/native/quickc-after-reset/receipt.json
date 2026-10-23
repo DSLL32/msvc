@@ -1,0 +1,53 @@
+{
+  "buffers": {
+    "expression_file": "004f1f80000098244f20084f020a004f010d5353266f00462d6e002d6d004c",
+    "symbol_file": "",
+    "line_file": "006c00000102010101020103010201070102010f0102011f0102013f0102017f010201ff07",
+    "global_file": "1186032e1d30016900000000120a00717569636b632e6300",
+    "debug_file": "0c000a00030401000000",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "record_inline_parameter",
+    "start_function_ir",
+    "begin_function_definition",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "exit": null,
+  "frontier": "record_inline_parameter",
+  "pc": 1448778294,
+  "abi_inputs": [],
+  "abi_globals": [],
+  "abi_strings": [],
+  "label_stack_count": 0,
+  "scanner_flags": 1048576,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ],
+  "original_logical": "_record_inline_parameter@4",
+  "fresh_original_match": true,
+  "reference_clock_observation": null,
+  "preparation_seconds": 0.004265141673386097,
+  "execution_seconds": 0.16440576408058405,
+  "total_seconds": 0.17117309011518955,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f quickc.c -Ze -Zp8 -Gs -Foquickc.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob2 -Ot -D_M_IX86=500 -G4 -W 3 -qc -Ol -Oe -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2",
+    "RECON_DRIVE_S": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/quickc-after-reset",
+    "RECON_CANONICAL_CWD": "S:\\vc1.0\\c1\\quickc-regions"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+  },
+  "executable_sha256": "84fea16e56f44dadd426f2f3df002675e033b22c4a114e4ed7735e6daa56b267"
+}

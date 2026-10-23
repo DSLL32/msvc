@@ -1,0 +1,7 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x4c0b: file src/stubs.c, line 895.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, align_inline_slots (first=0, second=1) at src/stubs.c:895
+895	int __stdcall align_inline_slots(unsigned short first, unsigned short second) { __asm { int 3 } }

@@ -1,0 +1,17 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x690f7: file src/inline-query.c, line 441.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, finish_qc_loop () at src/inline-query.c:441
+441	    QcLoopState *loop = qc_loop_work->value.qc_loop;
+$1 = {condition = 0 '\000', increment = 0 '\000', reserved = "\000", left = {operation = 0 '\000', reserved = "\000\000", value = {integer = 0, symbol = 0x0, pair = 0x0}}, right = {operation = 0 '\000', reserved = "\000\000", value = {integer = 0, symbol = 0x0, pair = 0x0}}, target = {operation = 0 '\000', reserved = "\000\000", value = {integer = 0, symbol = 0x0, pair = 0x0}}, step = {operation = 0 '\000', reserved = "\000\000", value = {integer = 0, symbol = 0x0, pair = 0x0}}}
+0x5664f520:	0x00000000	0x00000000	0x00000000	0x00000000
+0x5664f530:	0x00000000	0x00000000	0x00000000	0x00000000
+0x5664f540:	0x00000000
+#0  finish_qc_loop () at src/inline-query.c:441
+#1  0x5658ffac in finish_for_statement () at src/parser.c:1757
+#2  0x5658d1d5 in parse_translation_unit () at src/parser.c:678
+#3  0x5655e586 in compile_translation_unit () at src/frontend.c:83
+#4  0x565598b6 in guarded_compile () at src/c1.c:29
+#5  0x5655987e in main (argc=1, argv=0xffffdc54, envp=0xffffdc5c) at src/c1.c:21

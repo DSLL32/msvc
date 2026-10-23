@@ -1,0 +1,7 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x4af7: file src/stubs.c, line 728.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, expand_qc_operand (operand=0x56c47374) at src/stubs.c:728
+728	IrToken *__stdcall expand_qc_operand(QcOperand *operand) { __asm { int 3 } }

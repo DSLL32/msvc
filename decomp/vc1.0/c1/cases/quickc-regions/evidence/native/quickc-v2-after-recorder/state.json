@@ -1,0 +1,33 @@
+{
+  "buffers": {
+    "expression_file": "004f1f80000098244f20084f020a004f010d5353266f00462d6e002d6d004c4f1153",
+    "symbol_file": "",
+    "line_file": "006c00000102010101020103010201070102010f0102011f0102013f0102017f010201ff07",
+    "global_file": "1186032e1d30016900000000120a00717569636b632e6300",
+    "debug_file": "0c000a00030401000000",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "begin_inline_region",
+    "enter_compound_scope",
+    "begin_compound_statement",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "exit": null,
+  "frontier": "begin_inline_region",
+  "pc": 1449306550,
+  "abi_inputs": [],
+  "abi_globals": [],
+  "abi_strings": [],
+  "label_stack_count": 0,
+  "scanner_flags": 1572864,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ]
+}

@@ -51,6 +51,8 @@ FrontendSymbol *__stdcall next_initializer_member(FrontendSymbol *container, Fro
 void __stdcall emit_member_padding(FrontendSymbol *member);
 IrToken *__stdcall make_initializer_lvalue(CType *type);
 void __stdcall emit_memory_initializer_call(unsigned operation, ArgumentNode *arguments);
+IrToken *__stdcall convert_initializer_pointer(IrToken *value);
+void __stdcall emit_initializer_builtin_call(unsigned operation, unsigned model, ArgumentNode *arguments);
 void __stdcall emit_inline_memory_initializer(unsigned operation, IrToken *target, IrToken *value, IrToken *bytes);
 int __stdcall emit_initializer_assignment(IrToken *target, IrToken *value);
 int __stdcall emit_checked_initializer_assignment(IrToken *target, IrToken *value);

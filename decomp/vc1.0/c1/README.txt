@@ -1,7 +1,7 @@
 C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
 ========================================================
 
-Fifty-three native phases are complete: minimal C, optimized Win32 hello, DLL,
+Fifty-four native phases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
 assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
 automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
@@ -9,15 +9,15 @@ automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
 enum/long-record/literal/floating case, debug-bearing PCH creation/reuse, and
 richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
 automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
-the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, typed packet-view/callback adapters, normal/expected-error arena API prototype phases, portability-header diagnostics, explicit-base/goto traversal, typed x87/bit-scan arithmetic, generated-header shutdown failures, protocol-header parser repair, and assembler operand diagnostics/SEG.
+the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, typed packet-view/callback adapters, normal/expected-error arena API prototype phases, portability-header diagnostics, explicit-base/goto traversal, typed x87/bit-scan arithmetic, generated-header shutdown failures, protocol-header parser repair, assembler operand diagnostics/SEG, and standalone QuickC regions/loops/memory initialization.
 
-There are 882 accepted source functions and 1015 accepted original entries.
-Of these,871 are application functions; ten historical runtime.c bodies and
+There are 904 accepted source functions and 1037 accepted original entries.
+Of these,893 are application functions; ten historical runtime.c bodies and
 the historical __strgtold12 body in floating.c are CRT, with no application credit.
-Accepted original extents cover 241032/277234 code-section bytes (86.941717%):
-218294 application bytes,22552 CRT bytes and186 import-thunk bytes. This is a
+Accepted original extents cover 245552/277234 code-section bytes (88.572109%):
+222814 application bytes,22552 CRT bytes and186 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
-not branch coverage. Of this union,239936bytes have public-case evidence and
+not branch coverage. Of this union,244456bytes have public-case evidence and
 1096 bytes have separate direct-test evidence for assembler support, expression
 templates and database object methods; no public trigger is established for
 those six functions. Unvisited
@@ -487,3 +487,32 @@ affected reload baselines were repeated after fixing the external frame builder.
 The earlier coverage origin label placed1824 bytes of old __strgtold12 in its
 frontend bucket; current accounting correctly classifies it as CRT. No CRT body
 was added or changed, and historical receipts remain unchanged.
+
+Standalone QuickC region and loop workflow
+-----------------------------------------
+cases/quickc-regions is a direct C1 frontend-interface case with genuine parsed
+-qc/-Ol/-Oe, nested loops, branches, inline functions, tracked short parameters,
+aggregate initialization and floating-point expressions. It makes no CL producer
+or C2 dialect compatibility claim. Two original runs pin each source revision;
+v1 remains unchanged and v2 adds an actually used short-parameter helper.
+Four observed option/normalization words are all1. No target globals are seeded.
+
+The case adds22 application functions/4520 bytes: query ownership, parameter
+tracking, nested region selection/propagation, compact loop operands/back edges,
+and inline memory initialization. Complete original/native IR, status, streams
+and fresh22-function first-entry order match. Total accepted application count
+is893; total code-extent coverage is245552/277234 bytes(88.57%), including CRT and
+imports. Application-only accepted extents are222814 bytes; no CRT body changed.
+
+The first loop-exit continuation caught an incorrect descriptor arena assignment:
+the original uses pool3 with loop lifetime, not recycled expression pool2. Failed
+raw observations and the corrected continuation remain in the case evidence.
+The builtin helper has a separate original undefined default for operations other
+than172/173: two local stack words are consumed uninitialized. Win32 source keeps
+that bug; the exact native path exits125. A small compiled guard and genuine
+QuickC control check it without inventing values or claiming public reachability.
+
+Run the ordinary native fixture with make -j4 check CASE=quickc-regions. All
+fixtures use cached references; explicit capture/debug scripts remain acceptance
+analysis tools. No private prefix, original child execution, or Wine is involved
+in fixture runs. See the case validation receipt for elapsed accounting.
