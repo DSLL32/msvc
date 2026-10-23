@@ -12,6 +12,19 @@ static void profile(const char *directory)
     assert(file && fread(ctype,1,sizeof(ctype),file)==sizeof(ctype));fclose(file);
     recon_crt_apply_locale_profile(&p);
 }
+#ifdef RECON_TEST_SPAWN_CP0
+static void initial_tables(const char *directory)
+{
+    unsigned char mb[261];unsigned short ctype[257];char path[1024];FILE *file;
+    snprintf(path,sizeof(path),"%s/invoke-before-mb-state.bin",directory);file=fopen(path,"rb");
+    assert(file && fread(mb,1,sizeof(mb),file)==sizeof(mb));fclose(file);
+    snprintf(path,sizeof(path),"%s/invoke-before-ctype.bin",directory);file=fopen(path,"rb");
+    assert(file && fread(ctype,1,sizeof(ctype),file)==sizeof(ctype));fclose(file);
+    /* Same full initial tables independently retained in the LINK-only call. */
+    assert(!memcmp(mb+4,recon_mbctype,257));
+    assert(!memcmp(ctype,recon_pctype-1,sizeof(ctype)));
+}
+#endif
 int main(int argc,char **argv)
 {
     char env0[]="PATH=CRT_ONLY",env1[]="VALUE=crt-value";
@@ -22,27 +35,65 @@ int main(int argc,char **argv)
     unsigned n;WCHAR os[sizeof(os_text)];int result,wait_mode=0;
     unsigned char before[108],after[108];const char *mode;
     assert(argc==3);mode=argv[2];
+#ifdef RECON_TEST_SPAWN_CP0
+    initial_tables(argv[1]);
+#endif
     for(n=0;n<sizeof(os_text);++n)os[n]=(unsigned char)os_text[n];
     if(strcmp(mode,"unbound")){
         recon_crt_bind_arguments(1,target_argv,environment);
         if(strcmp(mode,"missing-os"))recon_crt_bind_os_environment(os,sizeof(os_text),provider);
+        #ifdef RECON_TEST_SPAWN_CP0
+        if(!strcmp(mode,"locale"))profile(argv[1]);
+#else
         if(strcmp(mode,"locale"))profile(argv[1]);
+#endif
     }
+    #ifdef RECON_TEST_SPAWN_CP0
+    if(!strcmp(mode,"mb-table"))recon_mbctype[0]=1;
+    if(!strcmp(mode,"ctype-table"))recon_pctype[9]^=64;
+    if(!strcmp(mode,"ctype-eof"))recon_pctype[-1]=1;
+    if(!strcmp(mode,"pctype"))++recon_pctype;
+    if(!strcmp(mode,"mbcp"))recon_mb_codepage=1252;
+    if(!strcmp(mode,"lccp"))recon_lc_codepage=1252;
+    if(!strcmp(mode,"mbmax"))recon_mb_cur_max=2;
+    if(!strcmp(mode,"handle"))recon_lc_handle[0]=1033;
+    if(!strcmp(mode,"updates"))recon_crt_environment_updates=1;
+#endif
     if(!strcmp(mode,"nonascii-os"))os[1]=128;
     if(!strcmp(mode,"early-os-nul"))os[1]=os[2]=0;
     if(!strcmp(mode,"mode"))wait_mode=1;
     errno=!strcmp(mode,"errno")?1:0;recon_doserrno=!strcmp(mode,"dos")?1:2;
+    #ifdef RECON_TEST_SPAWN_CP0
+    recon_SetLastError(!strcmp(mode,"last")?2:0);
+#else
     recon_SetLastError(!strcmp(mode,"last")?0:2);
+#endif
     memset(before,0,sizeof(before));memset(after,0,sizeof(after));
     __asm__ __volatile__("fld1\n\tfnsave %0\n\tfrstor %0":"=m"(before));
     if(!strcmp(mode,"explicit") || !strcmp(mode,"rsp1-explicit"))
         result=recon_spawnve(wait_mode,child_argv[0],child_argv,explicit_env);
     else result=recon_spawnvp(wait_mode,child_argv[0],child_argv);
     __asm__ __volatile__("fnsave %0\n\tfrstor %0":"=m"(after));
-    assert(!memcmp(before,after,sizeof(before)));
+    /* Blocking native transport has also been observed to change only FCS
+     * 0023 to0000 on unchanged RSP1/old RSP2 routes. Retain raw images and
+     * qualify this native representation field; every other byte is strict. */
+    if(before[16]==0x23 && !before[17] && !after[16] && !after[17]) {
+        assert(!memcmp(before,after,16));
+        assert(!memcmp(before+17,after+17,sizeof(before)-17));
+    } else assert(!memcmp(before,after,sizeof(before)));
     __asm__ __volatile__("fstp %%st(0)":::"st");
     assert(result==0);
-    if(!strcmp(mode,"positive"))assert(errno==0 && recon_doserrno==0 && recon_GetLastError()==2);
+    if(!strcmp(mode,"positive"))assert(errno==0 && recon_doserrno==0 &&
+#ifdef RECON_TEST_SPAWN_CP0
+        recon_GetLastError()==0);
+#else
+        recon_GetLastError()==2);
+#endif
     else assert(errno==0 && recon_doserrno==2);
+    if(getenv("RECON_TEST_FP_RECORD")) {
+        FILE *record=fopen(getenv("RECON_TEST_FP_RECORD"),"wb");
+        assert(record && fwrite(before,1,108,record)==108 && fwrite(after,1,108,record)==108);
+        assert(!fclose(record));
+    }
     return 0;
 }

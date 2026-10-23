@@ -106,10 +106,13 @@ static int spawn_request(int mode,const char *file,const char *const *argv,
     char *end,*cwd; long descriptor; size_t size; unsigned n;
     uint32_t header[2],fields[4],response[3],lengths[2],failure_errno=0;
     if(state_profile){
-        if(!allow_state_profile || strcmp(profile,"msvcrt510-wait-success-v1") ||
-            mode!=_P_WAIT || environment_source!=2 || entry.error || entry.dos!=2 || entry.last!=2)
+        int cp0=!strcmp(profile,"msvcrt510-cp0-wait-success-v1");
+        if(!allow_state_profile || (!cp0 && strcmp(profile,"msvcrt510-wait-success-v1")) ||
+            mode!=_P_WAIT || environment_source!=2 || entry.error || entry.dos!=2 ||
+            entry.last!=(cp0?0:2))
             process_error("unreviewed spawn state profile/precondition");
-        recon_crt_validate_spawn_profile();
+        if(cp0)recon_crt_validate_spawn_cp0_profile();
+        else recon_crt_validate_spawn_profile();
     }
     if (!value) {if(state_profile)process_error("spawn state profile requires broker");return 0;}
     errno=0; descriptor=strtol(value,&end,10);
@@ -145,7 +148,7 @@ static int spawn_request(int mode,const char *file,const char *const *argv,
     if(state_profile){
         socket_read((int)descriptor,effect,sizeof(effect));
         if(response[2] || effect[0]!=(uint32_t)entry.error || effect[1]!=entry.dos || effect[2]!=entry.last ||
-            effect[3]!=0 || effect[4]!=0 || effect[5]!=2)
+            effect[3]!=0 || effect[4]!=0 || effect[5]!=entry.last)
             process_error("unreviewed spawn response parent state/result");
     }
     if (response[1]==4) {

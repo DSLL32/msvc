@@ -490,3 +490,9 @@ build/file-retention-510: tests/file-retention-probe.c $(SOURCES) $(HEADERS) | b
 file-retention-check: build/file-retention-probe build/file-retention-510
 	$(PYTHON) tests/check-file-retention.py build/file-retention-probe
 	$(PYTHON) tests/check-file-retention.py build/file-retention-510
+
+.PHONY: spawn-cp0-check
+build/spawn-cp0-probe: tests/spawn-state-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_TEST_SPAWN_CP0 $< $(SOURCES) -o $@
+spawn-cp0-check: build/spawn-cp0-probe
+	$(PYTHON) tests/check-spawn-state.py build/spawn-cp0-probe cp0

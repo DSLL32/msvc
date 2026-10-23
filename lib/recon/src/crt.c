@@ -2098,6 +2098,28 @@ void recon_crt_validate_spawn_profile(void)
         recon_unsupported("spawn profile target namespace/locale");
     ascii_encountered_locale_scope();
 }
+/* Separately observed LINK-only child: initial static default-C tables and
+ * borrowed namespaces, without the C1 locale/environment transition. */
+void recon_crt_validate_spawn_cp0_profile(void)
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    unsigned char mb[257];unsigned n;
+    if (!recon_crt_arguments_bound || !os_environment_bound ||
+        recon_crt_os_environment!=initial_os_environment ||
+        recon_crt_environment_updates || locale_profile_applied ||
+        recon_mb_codepage || recon_lc_codepage || recon_mb_cur_max!=1 ||
+        recon_pctype!=character_flags+1)
+        recon_unsupported("CP0 spawn target namespace/locale");
+    for(n=0;n<6;++n) if(recon_lc_handle[n])
+        recon_unsupported("CP0 spawn locale handles");
+    msvcrt510_mb_flags(mb);
+    if(memcmp(recon_mbctype,mb,sizeof(mb)) ||
+        memcmp(character_flags,initial_ctype_510,sizeof(initial_ctype_510)))
+        recon_unsupported("CP0 spawn initial tables");
+#else
+    recon_unsupported("CP0 spawn requires MSVCRT510 profile");
+#endif
+}
 WEAK int recon_mbsncmp(const unsigned char *left,const unsigned char *right,size_t count)
 {
     unsigned char a,b;

@@ -161,6 +161,7 @@ extern ReconCrtEnvironmentVector recon_crt_environment_vectors[3];
 void recon_crt_bind_os_environment(const WCHAR *,size_t,const char *);
 #ifdef RECON_SHIM_IMPL
 void recon_crt_validate_spawn_profile(void);
+void recon_crt_validate_spawn_cp0_profile(void);
 #endif
 
 void recon_set_app_type(int);

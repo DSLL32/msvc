@@ -15,10 +15,12 @@ A captured failure to start a process uses {'status': -1, 'errno': int}, where
 errno is 1..4095; optional stdout/stderr byte strings default to empty. This
 restores the caller's CRT errno before returning -1 and never launches a child.
 Positive-status dictionaries still require exactly status/stdout/stderr. The
-explicit RECON_SPAWN_STATE_PROFILE=msvcrt510-wait-success-v1 uses RSP2 with actual
+explicit RECON_SPAWN_STATE_PROFILE=msvcrt510-wait-success-v1 (1252/Last2)
+or msvcrt510-cp0-wait-success-v1 (initial CP0/Last0) uses RSP2 with actual
 outer-entry parent_state and environment_source='target-os'. It requires the
 exact status/stdout/stderr/parent_state response; parent_state has before/after
-errno/doserrno/last_error maps, exactly0/2/2 ->0/0/2 and status0. Unknown states,
+errno/doserrno/last_error maps, exactly0/2/2 ->0/0/2 (1252) or
+0/2/0 ->0/0/0 (initial CP0), and status0. Unknown states,
 namespace, result, shapes or types reject; RSP1 behavior is unchanged. Bare
 integer -1, unknown keys and invalid errno values are rejected.
 """
@@ -71,7 +73,7 @@ class SpawnBroker:
                 raise ValueError('short spawn state profile request')
             error, dos, last, source = struct.unpack_from('<IIII', payload, offset)
             offset += 16
-            if mode != 0 or (error, dos, last, source) != (0, 2, 2, 2):
+            if mode != 0 or (error, dos, last, source) not in ((0, 2, 2, 2), (0, 2, 0, 2)):
                 raise ValueError('unreviewed spawn request state/namespace')
             state = dict(errno=error, doserrno=dos, last_error=last)
 
@@ -127,7 +129,7 @@ class SpawnBroker:
                         if type(row) is not dict or set(row) != {'errno', 'doserrno', 'last_error'} or any(type(x) is not int for x in row.values()):
                             raise ValueError('RSP2 parent state shape/types')
                     if (parent_effect['before'] != request['parent_state'] or
-                        parent_effect['after'] != dict(errno=0, doserrno=0, last_error=2) or
+                        parent_effect['after'] != dict(errno=0, doserrno=0, last_error=request['parent_state']['last_error']) or
                         type(result['status']) is not int or result['status'] != 0):
                         raise ValueError('unreviewed RSP2 result/state effect')
                     result = {k:v for k,v in result.items() if k != 'parent_state'}

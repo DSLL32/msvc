@@ -1,0 +1,59 @@
+{
+  "scope": "Explicit MSVCRT510 CP0/default-C WAIT success via existing RSP2; exact parent0/2/0 to0/0/0. Existing1252 0/2/2 to0/0/2 and RSP1 preserved.",
+  "profile": "msvcrt510-cp0-wait-success-v1",
+  "actual_packet": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-response-packet-v1.json",
+    "sha256": "0ec292852f0cc8e32beeee5987202e779d91d2c40d4d20a3ce12c49f5e91ddb7"
+  },
+  "actual_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-response-orchestrator-review.json",
+    "sha256": "88c3bcb18bcf170e5b085ec9225fc33ab2e1cbfb0b71a67ad90916ecf308e031"
+  },
+  "initial_tables": {
+    "mb": {
+      "actual": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-1-original/mb-state.bin",
+      "reference": "lib/recon/tests/locale-profile-reference/invoke-before-mb-state.bin",
+      "sha256": "3ae4207e40d5e3e931dedc0c56702c08fec7fb5c058383496297268b76b592ed"
+    },
+    "ctype": {
+      "actual": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-1-original/observer/spawn-before-ctype.bin",
+      "reference": "lib/recon/tests/locale-profile-reference/invoke-before-ctype.bin",
+      "sha256": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725"
+    }
+  },
+  "proof": "/root/.ai-tmp/msvc2/recon-maintenance/spawn-cp0/receipt.json",
+  "FP_scope": "All108 native FSAVE bytes retained. Compare strictly except the observed native FCS0023-to0000 transition at byte16 across blocking transport; FDS/FIP/FDP/control/status/tags/TOP/ST payload and every other byte remain strict. Same transition observed on unchanged old RSP1/RSP2 routes. No scheduler causality or production preservation change claimed. Prior exact108 assertion failures/logs retained.",
+  "focused": [
+    {
+      "name": "gcc-1252-final",
+      "sha256": "4a0d9052c64457734fcc8f701f82b3170b09e7392b87e915010c310b70dd26a7",
+      "seconds": 1.6434351094067097,
+      "passed": true
+    },
+    {
+      "name": "gcc-cp0-final",
+      "sha256": "a948a7b1f3ade294d3c82668b1c80e8e4ffca32f834dff679ee22ca9322933f8",
+      "seconds": 1.6538038346916437,
+      "passed": true
+    },
+    {
+      "name": "clang-1252-final",
+      "sha256": "43e8556fe7a16de419e3db315e649df3547a1cbbf075576b8deabfa920655453",
+      "seconds": 1.7732166703790426,
+      "passed": true
+    },
+    {
+      "name": "clang-cp0-final",
+      "sha256": "305cd5b689e147b6f6f5eaf15e7d5786ab0cf5b30b29f48ce4832f02ee89181c",
+      "seconds": 1.78658087272197,
+      "passed": true
+    }
+  ],
+  "compatibility": "default check;8 native process and72 stream controls passed; no Wine/original calls",
+  "unsupported": "Unknown profile/mode/namespace/errors/tables/locale mutation/environment mutation/status/response shape deny125. Full actual child/input/output matching remains CL-owned.",
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/spawn-cp0/orchestrator-review.json",
+    "sha256": "866f8a9f8afd6ed09cc0fc1c1ee5e6bff85afe4c3e2a5435963b467b9f1029cf"
+  },
+  "retained_native_FCS_observation": "/root/.ai-tmp/msvc2/recon-maintenance/spawn-cp0/fcs-observation/receipt.json"
+}
