@@ -9,7 +9,8 @@
     "_DllMain@12",
     "_InvokeCompilerPass@12",
     "_initialize_compiler_pass",
-    "_checked_malloc"
+    "_checked_malloc",
+    "_initialize_frontend_01"
   ],
   "trial": null,
   "ranges": [
@@ -84,7 +85,13 @@
       "start_rva": 417889,
       "end_rva": 417904,
       "entry": 0
+    },
+    {
+      "owner": "_initialize_frontend_01",
+      "start_rva": 230928,
+      "end_rva": 230946,
+      "entry": 1
     }
   ],
-  "stage": "_checked_malloc accepted; next frontier _initialize_frontend_01"
+  "stage": "_initialize_frontend_01 accepted; next frontier _initialize_frontend_02"
 }

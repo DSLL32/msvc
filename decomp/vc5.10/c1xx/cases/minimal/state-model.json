@@ -1,5 +1,5 @@
 {
-  "schema": 1,
+  "schema": 2,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -60,6 +60,15 @@
       "bytes": 4,
       "native_expression": "compiler_mode",
       "original_default": 0
+    },
+    {
+      "name": "context_stack",
+      "class": "bss",
+      "original_address": 273393920,
+      "bytes": 12,
+      "native_expression": "frontend_bss.context_stack",
+      "original_default": "3 NULL pointers",
+      "evidence": "callback38610 zeros3DWORD; contextual reads use third field as linked stack frame and restore first two from frame+8/+12"
     }
   ],
   "initializers": [

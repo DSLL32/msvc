@@ -12,7 +12,8 @@
     "_DllMain@12",
     "_InvokeCompilerPass@12",
     "_initialize_compiler_pass",
-    "_checked_malloc"
+    "_checked_malloc",
+    "_initialize_frontend_01"
   ],
   "driver": [
     {
@@ -80,8 +81,8 @@
     {
       "name": "_initialize_frontend_01",
       "start": 272860688,
-      "end": 272860689,
-      "pending_extent": true,
+      "end": 272860706,
+      "pending_extent": false,
       "source": "src/initializers.c",
       "abi": "cdecl0"
     },
@@ -712,6 +713,42 @@
         "whole_mask_bytes_checked": 751216,
         "original_seconds": 1.4179146131500602,
         "native_seconds": 0.26561779249459505
+      }
+    },
+    {
+      "name": "_initialize_frontend_01",
+      "classification": "application source",
+      "source": "src/initializers.c",
+      "source_sha256": "1a982df47d093db7a0c3bc7b6d950e9b9ace68ecfddbebf55ea910579719e174",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback01-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback01-native-1",
+      "original_receipt_sha256": "3369bd2571015de61a0fdcc3af787dd45c00a584ae3383e23de85b633c2a8106",
+      "native_receipt_sha256": "1a52ad3531879dee7f601565f06eb6bcc2d052c0694006faf25fcd4b487c4703",
+      "trial_sha256": "c37872523587f4624c15343ca88c8d9b82c4d8ed450b439439163ead9627533a",
+      "audit_sha256": "707bdb592828fd1e25f960c43447b818543a321388bd29c29078294885f3b3c8",
+      "code_chunks": [
+        [
+          230928,
+          230946
+        ]
+      ],
+      "comparison": {
+        "trial": "_initialize_frontend_01",
+        "frontier": "_initialize_frontend_02",
+        "seed": null,
+        "new_context_fields": 3,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 148,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "original_seconds": 1.2172991270199418,
+        "native_seconds": 0.23653508815914392
       }
     }
   ],

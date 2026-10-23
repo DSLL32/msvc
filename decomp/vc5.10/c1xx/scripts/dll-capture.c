@@ -216,6 +216,8 @@ static void save_frontend_state(const char *suffix)
     readmem(base + 0xcb06c, values + 3, 4);
     readmem(base + 0xc4d58, values + 4, 128);
     sprintf(name, "frontend-state-%s.bin", suffix); save_blob(name, values, sizeof(values));
+    readmem(base + 0xba900, data, 12);
+    sprintf(name, "context-stack-%s.bin", suffix); save_blob(name, data, 12);
     readmem(base + 0xcc000, data, sizeof(data));
     sprintf(name, "frontend-data-%s.bin", suffix); save_blob(name, data, sizeof(data));
     if (values[1]) {
@@ -273,6 +275,7 @@ static void seed_frontend_restore(void)
     value = 32; write_mem(base + 0xc4d54, &value, 4);
     for (i = 0; i < 32; ++i) callbacks[i] = base + 0x38610;
     write_mem(base + 0xc4d58, callbacks, sizeof(callbacks));
+    for (i = 0; i < 3; ++i) write_mem(base + 0xba900 + 4 * i, &allocated, 4);
     value = 9; write_mem(base + 0xcb06c, &value, 4);
     value = !strcmp(seed, "restore-zero") ? 0 : 3; write_mem(base + 0xcb008, &value, 4);
     fprintf(events, "restore-seed mode=%s allocation=%08lx bytes=8520 cleanup-count=32 mocked-cleanup-callback=_initialize_frontend_01 slots=32\n", seed, allocated);

@@ -11,10 +11,18 @@ typedef struct FrontendData {
     int first_invocation;
 } FrontendData;
 
+/* A linked context stack saves the first two values in each stack frame. */
+typedef struct FrontendContextStack {
+    void *begin;
+    void *end;
+    void *top;
+} FrontendContextStack;
+
 typedef struct FrontendBss {
     FrontendData *saved_state;
     int cleanup_count;
     Initializer cleanup_callbacks[32];
+    FrontendContextStack context_stack;
 } FrontendBss;
 
 extern FrontendData frontend_data;

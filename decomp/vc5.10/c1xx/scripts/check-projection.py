@@ -38,6 +38,10 @@ def field_map(model,observed):
            'cleanup_callbacks':(0x104c4d58,128,'bss','frontend_bss.cleanup_callbacks'),
            'restore_mode':(0x104cb06c,4,'external','restore_mode'),
            'compiler_mode':(0x104cb008,4,'external','compiler_mode')}
+    if model['schema']==2:
+        known['context_stack']=(0x104ba900,12,'bss','frontend_bss.context_stack')
+        s.require(observed['context_stack_fields']==['begin','end','top'],'unmodeled context stack field')
+    else:s.require(model['schema']==1,'unknown state-model schema')
     s.require(names==set(known),'field mapping is not the encountered typed projection')
     original=[];native=[]
     for row in model['fields']:
@@ -56,9 +60,10 @@ def field_map(model,observed):
         else:s.require(not any(a<=first<z for a,z in (model['original_initialized_region'],model['original_bss_region'])),
                        'external field aliases copied/cleared region')
     s.require(disjoint(original) and disjoint(native),'modeled fields overlap/alias storage')
-    s.require(observed['declared_fields']=={'initialized':['first_invocation'],
-              'bss':['saved_state','cleanup_count','cleanup_callbacks']} and
-              observed['known_sizes']=={'initialized':4,'bss':136},'typed structs contain unmodeled/omitted storage')
+    fields=['saved_state','cleanup_count','cleanup_callbacks']+(['context_stack'] if model['schema']==2 else [])
+    s.require(observed['declared_fields']=={'initialized':['first_invocation'],'bss':fields} and
+              observed['known_sizes']=={'initialized':4,'bss':148 if model['schema']==2 else 136},
+              'typed structs contain unmodeled/omitted storage')
     for kind in ('initialized','bss'):
         s.require(sum(row['bytes'] for row in model['fields'] if row['class']==kind)==observed['known_sizes'][kind],
                   'typed field-map does not cover all modeled struct storage')
@@ -335,8 +340,11 @@ def main():
     decoder=sys.modules[__name__]
     for row in packet['trials']:
         original,native=Path(row['original']),Path(row['native'])
-        audit=history.configure(decoder,original,native,saved_record=row)
-        results.append(check(original,native,audit_path=audit))
+        active=decoder
+        if json.loads((native/'trial.json').read_text())['trial']=='_initialize_frontend_01':
+            active=history.module('callback_packet','check-callback.py')
+        audit=history.configure(active,original,native,saved_record=row)
+        results.append(active.check(original,native,audit_path=audit))
     print(json.dumps({'result':'PASS','projection_trials':results},indent=2))
 
 

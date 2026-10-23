@@ -81,7 +81,7 @@ def prepare():
         trial["case_inputs"] = {item: sha(PROJECT / item) for item in (
             "cases/minimal/contract.json", "cases/minimal/invoke-argv.bin", "cases/sources/minimal.cpp", "cases/minimal/state-model.json")}
     trial["test_seed"] = candidate.get("test_seed")
-    if trial["test_seed"] or trial_name == '_checked_malloc':
+    if trial["test_seed"] or trial_name in ('_checked_malloc','_initialize_frontend_01'):
         trial["validation_observers"] = [{"owner":"_initialize_compiler_pass", "original_rva":0x385be,
             "original_byte":0x89,"purpose":"observe typed copy/restore before first-flag reset"}]
     if trial["test_seed"] == "first-copy-aux":

@@ -98,6 +98,9 @@ int main(void)
             frontend_bss.cleanup_count = 32;
             for (i = 0; i < 32; ++i)
                 frontend_bss.cleanup_callbacks[i] = frontend_initializers[1];
+            frontend_bss.context_stack.begin = frontend_bss.saved_state;
+            frontend_bss.context_stack.end = frontend_bss.saved_state;
+            frontend_bss.context_stack.top = frontend_bss.saved_state;
             restore_mode = 9;
             compiler_mode = !strcmp(seed, "restore-zero") ? 0 : 3;
         }

@@ -22,6 +22,9 @@ int initialize_compiler_pass(void)
         frontend_bss.cleanup_count = 0;
         for (i = 0; i < 32; ++i)
             frontend_bss.cleanup_callbacks[i] = NULL;
+        frontend_bss.context_stack.begin = NULL;
+        frontend_bss.context_stack.end = NULL;
+        frontend_bss.context_stack.top = NULL;
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;
     }
