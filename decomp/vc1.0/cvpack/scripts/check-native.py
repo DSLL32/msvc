@@ -43,6 +43,10 @@ def run_case(name, directory, debug=False):
     from audit import publics
     from binary import PE
     recursive_proof=validate_recursive_arena(config,original,PE(BINARY/'build/CVPACK.EXE'),publics())if name=='hello-debug-dll'else None
+    from packed_arena import validate as validate_packed_arena
+    packed_proof=validate_packed_arena(config,original,PE(BINARY/'build/CVPACK.EXE'),publics())if name=='hello-debug-dll'else None
+    from symbol_blocks import validate as validate_symbol_blocks
+    blocks_proof=validate_symbol_blocks(config,original,PE(BINARY/'build/CVPACK.EXE'),publics())if name=='hello-debug-dll'else None
     from inputs import namespace as input_namespace,relative as input_relative
     from seams import approved as approved_seams
     policies=[]
@@ -62,6 +66,8 @@ def run_case(name, directory, debug=False):
         ('python\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_symbol_allocation_observer"]('+repr(str(BINARY/'src/types.c'))+','+str(symbol_proof['native_allocation_line'])+')\nend\n'if symbol_proof else '')+
         ('python\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_type_page_observer"]('+repr(str(BINARY/'src/types.c'))+','+str(page_proof['native_allocation_line'])+')\nend\n'if page_proof else '')+
         ('python\nrunpy.run_path('+repr(str(BINARY/'scripts/buffer-debug.py'))+')["install"]('+repr(str(BINARY/'src/types.c'))+','+str(buffer_proof['native_allocation_line'])+')\nend\n'if buffer_proof else '')+
+        ('python\nrunpy.run_path('+repr(str(BINARY/'scripts/symbol-block-debug.py'))+')["install"]('+repr(str(BINARY/'src/modules.c'))+','+str(blocks_proof['native_allocation_line'])+')\nend\n'if blocks_proof else '')+
+        ('python\nrunpy.run_path('+repr(str(BINARY/'scripts/packed-arena-debug.py'))+')["install"]('+repr(str(BINARY/'src/types.c'))+','+str(packed_proof['native_allocation_line'])+')\nend\n'if packed_proof else '')+
         ('python\nrunpy.run_path('+repr(str(BINARY/'scripts/recursive-arena-debug.py'))+')["install"]('+repr(str(BINARY/'src/types.c'))+','+str(recursive_proof['native_allocation_line'])+')\nend\n'if recursive_proof else '')+
         ('python\nrunpy.run_path('+repr(str(BINARY/'scripts/resolver-debug.py'))+')["install"]()\nend\n'if any(r['name']=='get_type_record'and r['status']!='stub'for r in config['functions'])else '')+
         'continue\npython\n'
@@ -76,6 +82,10 @@ def run_case(name, directory, debug=False):
         'json.dump(pages,open('+repr(str(directory/'type-pages.json'))+',"w"))\n'
         'buffer_storage=runpy.run_path('+repr(str(BINARY/'scripts/buffer-debug.py'))+')["capture"]()\n'
         'json.dump(buffer_storage,open('+repr(str(directory/'buffer-storage.json'))+',"w"))\n'
+        'symbol_blocks=runpy.run_path('+repr(str(BINARY/'scripts/symbol-block-debug.py'))+')["capture"]()\n'
+        'json.dump(symbol_blocks,open('+repr(str(directory/'symbol-blocks.json'))+',"w"))\n'
+        'packed_arena=runpy.run_path('+repr(str(BINARY/'scripts/packed-arena-debug.py'))+')["capture"]()\n'
+        'json.dump(packed_arena,open('+repr(str(directory/'packed-arena.json'))+',"w"))\n'
         'recursive_arena=runpy.run_path('+repr(str(BINARY/'scripts/recursive-arena-debug.py'))+')["capture"]()\n'
         'json.dump(recursive_arena,open('+repr(str(directory/'recursive-arena.json'))+',"w"))\n'
         'resolver=runpy.run_path('+repr(str(BINARY/'scripts/resolver-debug.py'))+')["capture"]()\n'

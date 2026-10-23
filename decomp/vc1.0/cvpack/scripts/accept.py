@@ -132,21 +132,33 @@ def main():
     progress_path=native/args.case/'read-progress.json'
     progress_proof=compare_read_progress(config,pe,events,json.loads(progress_path.read_text())if progress_path.exists()else [],frontier,state)
     object_proof={}
-    buffer_proof=None;recursive_proof=None
+    buffer_proof=None;recursive_proof=None;packed_proof=None;blocks_proof=None
     if not completed and (BINARY/'walks.json').exists():
         specifications=json.loads((BINARY/'walks.json').read_text())
         from allocations import context as allocation_context
         definitions=allocation_context(config,pe,events,state,frontier,args.case,native_reads,progress_proof)
         from public_arena import context as public_arena_context
         arena_context=public_arena_context(config,pe,events,state)
+        from symbol_blocks import context as retained_symbol_blocks
+        blocks_path=native/args.case/'symbol-blocks.json'
+        blocks_proof=retained_symbol_blocks(config,pe,events,json.loads(blocks_path.read_text())if blocks_path.exists()else None,original_walks(events,specifications),state,arena_context)
         from buffer_storage import compare as compare_buffer_storage
         buffer_path=native/args.case/'buffer-storage.json'
-        buffer_proof=compare_buffer_storage(config,pe,events,json.loads(buffer_path.read_text())if buffer_path.exists()else None,original_walks(events,specifications),state['walks'],state,args.case)
+        from packed_arena import compare as compare_packed_arena
+        from buffer_storage import parse as parse_buffer_storage
+        packed_path=native/args.case/'packed-arena.json'
+        buffer_native=json.loads(buffer_path.read_text())if buffer_path.exists()else None
+        packed_proof=compare_packed_arena(config,pe,events,json.loads(packed_path.read_text())if packed_path.exists()else None,original_walks(events,specifications),state['walks'],state,args.case,parse_buffer_storage(events),buffer_native)
+        buffer_proof=compare_buffer_storage(config,pe,events,buffer_native,original_walks(events,specifications),state['walks'],state,args.case,packed_proof)
         from recursive_arena import compare as compare_recursive_arena
         recursive_path=native/args.case/'recursive-arena.json'
         recursive_proof=compare_recursive_arena(config,pe,events,json.loads(recursive_path.read_text())if recursive_path.exists()else None,original_walks(events,specifications),state['walks'],state,args.case,buffer_proof)
         old_extra=dict(buffer_proof['original_namespace'])if buffer_proof else {};new_extra=dict(buffer_proof['native_namespace'])if buffer_proof else {}
+        if blocks_proof:old_extra.update(blocks_proof['original_namespace']);new_extra.update(blocks_proof['native_namespace'])
         if recursive_proof:old_extra.update(recursive_proof['original_namespace']);new_extra.update(recursive_proof['native_namespace'])
+        if blocks_proof:
+            from symbol_blocks import check_disjoint as check_symbol_block_owners
+            check_symbol_block_owners(blocks_proof,old_extra,new_extra)
         object_proof=compare_walks(specifications,original_walks(events,specifications),state['walks'],definitions,arena_context,consumed_proof,old_extra or None,new_extra or None,buffer_proof['comparison']['pdb_writes']if buffer_proof else None,buffer_proof)
     original_objects=original_walks(events,specifications)if not completed else {}
     native_objects=dict(state['walks'])if not completed else {}
@@ -154,6 +166,8 @@ def main():
         original_objects.update(buffer_proof['original_namespace']);native_objects.update(buffer_proof['native_namespace'])
     if recursive_proof:
         original_objects.update(recursive_proof['original_namespace']);native_objects.update(recursive_proof['native_namespace'])
+    if blocks_proof:
+        original_objects.update(blocks_proof['original_namespace']);native_objects.update(blocks_proof['native_namespace'])
     from resolver_returns import compare as compare_resolver_returns
     resolver_path=native/args.case/'resolver-returns.json'
     resolver_proof=compare_resolver_returns(config,pe,events,json.loads(resolver_path.read_text())if resolver_path.exists()else None,original_objects,native_objects,args.case)if args.case=='hello-debug-dll'else None
@@ -298,7 +312,7 @@ def main():
     directory.mkdir(parents=True,exist_ok=False)
     for name in ('events','receipt.json','stdout','stderr','runtime-plan','configuration.json'):
         shutil.copyfile(original/name,directory/('original-'+name))
-    for name in ('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','stdout','stderr','crt-returns.json','read-returns.json','pdb-read-returns.json','pdb-consumed.json','read-progress.json','symbol-output.json','type-pages.json','buffer-storage.json','resolver-returns.json','recursive-arena.json'):
+    for name in ('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','stdout','stderr','crt-returns.json','read-returns.json','pdb-read-returns.json','pdb-consumed.json','read-progress.json','symbol-output.json','type-pages.json','buffer-storage.json','resolver-returns.json','recursive-arena.json','packed-arena.json','symbol-blocks.json'):
         if (native/args.case/name).is_file():shutil.copyfile(native/args.case/name,directory/('native-'+name))
     shutil.copyfile(native/args.case/'configuration.json',directory/'native-configuration.json')
     for side,source in (('original',original),('native',native/args.case)):
@@ -320,7 +334,7 @@ def main():
         conditionally_inactive_parameters=inactive,
         conditional_CRT_support=crt_proof,
         read_return_observations=read_proof,partial_read_observations=progress_proof,packed_symbol_output=symbol_proof,type_page_lifetime=page_proof,buffer_storage=buffer_proof,
-        observed_objects=object_proof,resolver_returns=resolver_proof,recursive_arena=recursive_proof,
+        observed_objects=object_proof,resolver_returns=resolver_proof,recursive_arena=recursive_proof,packed_arena=packed_proof,symbol_blocks=blocks_proof,
         process_boundary=native_receipt.get('process_boundary'),
         graph_ABI_data='Complete original/compiler CFG/callee/RET ABI and contextual initial data passed',
         seconds=native_receipt['seconds'])

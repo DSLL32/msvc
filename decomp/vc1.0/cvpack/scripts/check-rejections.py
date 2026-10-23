@@ -131,6 +131,10 @@ def main():
     if recursive_pointer_pair.is_dir():
         from recursive_pointer_checks import check as check_recursive_pointer
         check_recursive_pointer(recursive_pointer_pair)
+    packed_publication_pair=BINARY/'cases/hello-debug-dll/evidence/0089-publish_packed_type'
+    if packed_publication_pair.is_dir():
+        from packed_publication_checks import check as check_packed_publication
+        check_packed_publication(packed_publication_pair)
     from buffer_storage_checks import check as check_buffer_storage
     buffer_directory=BINARY/'cases/hello-debug-dll/evidence/0075-append_buffer'
     if buffer_directory.is_dir():check_buffer_storage(buffer_directory)

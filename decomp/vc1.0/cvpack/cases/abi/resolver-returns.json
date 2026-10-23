@@ -35,8 +35,31 @@
     }
   ],
   "sources": {
-    "src/types.c": "307423182c3bd7ac0b554fd9aa73ff7da273f833c3df01f1526f2b98ee972dd7",
-    "src/types.h": "77c8609390e2e4f6f1530e2a32b5355b89bf80580ca4364bcbd41e8fa6b10b28"
+    "src/types.c": "c961eb87068ff2203e4b26744b08dfadb297fd7670b55774b7f93929e5ad1bfe",
+    "src/types.h": "8b1a7ecb12346e3b9e0faeb36411ff6f0cd7ea65be039b9652c2f91f0c5f8644"
   },
-  "scope": "Four actual direct resolved-type paths. All arguments/raw undefined beforebytes retained; output2 bytes newly defined zero and exact returned TypeRecord owner compared before consuming caller ADD. Recursive get_type_record/other callers or outcomes fail until separately reached/proved."
+  "scope": "Four actual direct resolved-type paths. All arguments/raw undefined beforebytes retained; output2 bytes newly defined zero and exact returned TypeRecord owner compared before consuming caller ADD. Recursive get_type_record/other callers or outcomes fail until separately reached/proved.",
+  "procedure_frontier": {
+    "original": 153504,
+    "types": [
+      126,
+      124,
+      117,
+      120,
+      132,
+      129,
+      129,
+      113
+    ],
+    "caller_types": [
+      4218,
+      4210,
+      4144,
+      4125,
+      4204,
+      4217,
+      4217,
+      4198
+    ]
+  }
 }

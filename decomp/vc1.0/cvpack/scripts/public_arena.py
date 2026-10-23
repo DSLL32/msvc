@@ -58,6 +58,14 @@ def layout(raw,base,available,heads,count,total,families=()):
 
 def comparison(left,right,old,new,context):
     assert context['original_available']==context['native_available'],'public available bytes differ'
+    retained=context.get('retained_blocks')
+    if retained:
+        assert old['address']==retained['original'][-1]['base']and new['address']==retained['native'][-1]['base']
+        assert old['bytes']==retained['original'][-1]['bytes']and new['bytes']==retained['native'][-1]['bytes'],'retained/current block dump differs'
+        defined=retained['defined'][-1];pointers=retained['pointers'][-1];x=bytearray(len(left));y=bytearray(len(right))
+        for lo,hi in defined:x[lo:hi]=left[lo:hi];y[lo:hi]=right[lo:hi]
+        left[:]=x;right[:]=y
+        return pointers,dict(nodes=retained['nodes'],retained_blocks=2,defined_ranges=defined,original_sha256=hashlib.sha256(bytes.fromhex(old['bytes'])).hexdigest(),native_sha256=hashlib.sha256(bytes.fromhex(new['bytes'])).hexdigest())
     a=layout(left,old['address'],context['original_available'],context['original_heads'],context['count'],context['total'],context.get('original_families',()))
     b=layout(right,new['address'],context['native_available'],context['native_heads'],context['count'],context['total'],context.get('native_families',()))
     assert sorted(a.values(),key=lambda n:n['offset'])==sorted(b.values(),key=lambda n:n['offset']),'public node ownership differs'

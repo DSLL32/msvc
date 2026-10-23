@@ -32,7 +32,7 @@
   "counts": 225644,
   "allocation_return": 105654,
   "sources": {
-    "src/types.c": "307423182c3bd7ac0b554fd9aa73ff7da273f833c3df01f1526f2b98ee972dd7"
+    "src/types.c": "c961eb87068ff2203e4b26744b08dfadb297fd7670b55774b7f93929e5ad1bfe"
   },
   "native_allocation_line": 1740,
   "instructions": [
@@ -43,7 +43,7 @@
     }
   ],
   "scope": "First actual malloc12288 recursive-node slab; one published12-byte node. Data/index/next defined; reserved6..7 and unused suffix remain each side own unchanged bytes without equality credit. Exact requested size, constructor callsite and compiled def-use ownership; no allocator usable-size inference.",
-  "data.json_sha256": "0935fd27cf32c0b0e5a95a16c0ef019fc3d06c2ac958ce79b5f5abbc66be36e9",
+  "data.json_sha256": "f5264f909069b6b6addadaa381ccf26238f9cc0fbf370794f8b048f1aa405dc4",
   "walks.json_sha256": "9e8c4574a364950e57c2288a044b2e2653010d17fbb9d411d41171e686a19549",
   "packed_type_frontier": {
     "original": 105504,

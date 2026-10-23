@@ -1776,3 +1776,25 @@ unsigned short __fastcall hash_referenced_type(TypeRecord *entry, unsigned short
     if (referenced->flags & 4) return referenced->hash_value;
     return (unsigned short)hash_recursive_type(referenced);
 }
+
+unsigned long packed_type_slots;
+TypeHashEntry *packed_type_cursor;
+
+void __fastcall publish_packed_type(unsigned char *record, unsigned short type)
+{
+    TypeHashEntry *block, *node;
+    unsigned short bucket;
+    if (!packed_type_slots) {
+        block = checked_alloc(0x3000);
+        packed_type_cursor = block;
+        packed_type_slots = 0x400;
+    }
+    --packed_type_slots;
+    node = packed_type_cursor++;
+    bucket = hash_type(record);
+    node->data = record;
+    node->index = type;
+    node->next = (TypeHashEntry *)type_hash_buckets[bucket];
+    type_hash_buckets[bucket] = node;
+    ++type_hash_counts[bucket];
+}

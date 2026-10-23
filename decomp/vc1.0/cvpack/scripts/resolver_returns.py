@@ -1,5 +1,5 @@
 """Exact reached type resolver calls: caller local, defined flag and result owner."""
-import hashlib,json
+import hashlib,json,re
 from state import BINARY
 
 def required(config,case):
@@ -15,6 +15,7 @@ def validate(config,pe):
     for region in proof['instructions']:assert hashlib.sha256(pe.read(region['start'],region['end']-region['start'])).hexdigest()==region['sha256'],'resolver output instruction proof differs'
     for source,digest in proof['sources'].items():assert hashlib.sha256((BINARY/source).read_bytes()).hexdigest()==digest,'resolver output source binding differs'
     lines=(BINARY/'src/types.c').read_text().splitlines();assert lines[proof['native_line']-1].strip()=='entry = get_type_record((unsigned short)(entry->forward_index-0x1000), &unused);','resolver native caller differs'
+    if 'procedure_frontier'in proof:assert proof['procedure_frontier']==dict(original=0x257a0,types=[126,124,117,120,132,129,129,113],caller_types=[4218,4210,4144,4125,4204,4217,4217,4198]),'unreviewed additional resolver inventory'
     return proof
 
 def parse(events):
@@ -35,11 +36,13 @@ def compare(config,pe,events,native,old_walks,new_walks,case):
         assert not required(config,case),'missing native resolver returns'
         return
     assert proof and not native.get('error'),'resolver observer failed'
-    original=parse(events);count=len(proof['types']);assert len(original['entries'])==len(original['returns'])==len(native['entries'])==len(native['returns'])==count,'missing/extra resolver calls or returns'
+    original=parse(events);types=proof['types'];parents=proof['caller_types']
+    if re.search(r'^exception 80000003 va 000257a0 ',events,re.M):types=proof['procedure_frontier']['types'];parents=proof['procedure_frontier']['caller_types']
+    count=len(types);assert len(original['entries'])==len(original['returns'])==len(native['entries'])==len(native['returns'])==count,'missing/extra resolver calls or returns'
     assert events.splitlines().count('resolver-rearm 0001e700 0001e703')==count and events.splitlines().count('resolver-rearm 000265c5 000265c8')==count,'resolver per-call rearm missing'
     result=[]
     for i,(old,new,a,b)in enumerate(zip(original['entries'],native['entries'],original['returns'],native['returns'])):
-        expected=proof['types'][i];parent=proof['caller_types'][i]
+        expected=types[i];parent=parents[i]
         assert old['sequence']==new['sequence']==a['sequence']==b['sequence']==i+1 and old['type']&0xffff==new['type']==expected,'resolver actual argument/inventory differs'
         assert old['returned']==proof['returned']and old['flag']==old['esp']+proof['esp_offset']and a['esp']==old['esp']+4 and a['flag']==old['flag'],'resolver original caller/output local differs'
         assert new['flag']==new['local_address']==b['flag']and(new['caller'],new['caller_line'],new['local'],new['size'],new['parent_type'])==(proof['owner'],proof['native_line'],proof['local'],2,parent),'resolver native typed caller/local differs'

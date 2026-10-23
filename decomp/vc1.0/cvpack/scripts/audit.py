@@ -228,6 +228,10 @@ def main():
     functions=config['functions']
     from resolver_returns import validate as validate_resolver_returns
     validate_resolver_returns(config,original)
+    from symbol_blocks import validate as validate_symbol_blocks
+    validate_symbol_blocks(config,original,rebuilt,linked)
+    from packed_arena import validate as validate_packed_arena
+    validate_packed_arena(config,original,rebuilt,linked)
     from recursive_arena import validate as validate_recursive_arena
     validate_recursive_arena(config,original,rebuilt,linked)
     from buffer_storage import validate as validate_buffer_storage,compiled_provenance as buffer_provenance

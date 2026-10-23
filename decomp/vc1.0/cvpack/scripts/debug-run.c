@@ -369,7 +369,7 @@ static DWORD symbol_padding,symbol_skipped,symbol_step,symbol_tf,symbol_thread;
 static unsigned char symbol_before[8192];
 static DWORD type_page_base,type_page_step,type_page_tf,type_page_thread;
 static int buffer_enabled;
-static DWORD recursive_arena_enabled;
+static DWORD recursive_arena_enabled,packed_arena_enabled,symbol_blocks_enabled;
 static unsigned char type_page_before[2048];
 static DWORD pdb_read_enabled, pdb_read_step, pdb_read_tf, pdb_read_site;
 static DWORD read_site_count, read_step_site, read_step_address, read_saved_tf;
@@ -408,6 +408,10 @@ static int restore_runtime(HANDLE child, HANDLE original, HANDLE log,
             if (!WriteProcessMemory(child,(void *)0x199d7,&trap,1,&bytes) || bytes!=1) return -1;
         if(recursive_arena_enabled && address<=0x19cb6 && 0x19cb6<address+length)
             if(!WriteProcessMemory(child,(void *)0x19cb6,&trap,1,&bytes) || bytes!=1)return -1;
+        if(symbol_blocks_enabled && address<=0x1954f && 0x1954f<address+length)
+            if(!WriteProcessMemory(child,(void *)0x1954f,&trap,1,&bytes) || bytes!=1)return -1;
+        if(packed_arena_enabled && address<=0x19c3b && 0x19c3b<address+length)
+            if(!WriteProcessMemory(child,(void *)0x19c3b,&trap,1,&bytes) || bytes!=1)return -1;
         if (buffer_enabled) {
             DWORD sites[2];sites[0]=0x22f6d;sites[1]=0x19a65;
             for(j=0;j<2;++j)if(address<=sites[j] && sites[j]<address+length)
@@ -743,6 +747,11 @@ static int dump_symbol_allocation(HANDLE child,HANDLE log,DWORD frontier)
     else if(frontier==0x1e700) { defined=40;offset=1321; }
     else if(frontier==0x27b10) { defined=40;offset=2227; }
     else if(frontier==0x1ac80 || frontier==0x1c640 || frontier==0x1eac0 || frontier==0x19ca0 || frontier==0x1c880 || frontier==0x19c20) { defined=40;offset=2227; }
+    else if(frontier==0x257a0) {
+        if(!ReadProcessMemory(child,(void *)0x335e4,&input,4,&bytes) || bytes!=4 || input<symbol_input_base || input>symbol_input_base+4746 ||
+           !ReadProcessMemory(child,(void *)0x335f0,&cursor,4,&bytes) || bytes!=4 || cursor<symbol_base || cursor>symbol_base+symbol_size)return 0;
+        defined=cursor-symbol_base;offset=input-symbol_input_base;
+    }
     else return 0;
     if(symbol_step || symbol_size!=5113 ||
        !ReadProcessMemory(child,(void *)0x335e4,&input,4,&bytes) || bytes!=4 || input!=symbol_input_base+offset ||
@@ -798,7 +807,7 @@ static int dump_type_page(HANDLE child,HANDLE log,DWORD frontier)
 {
     DWORD roots[120],bytes,written,i;int used;
     if(!type_page_base)return 1;
-    if(type_page_step || (frontier!=0x22f40 && frontier!=0x262d0 && frontier!=0x1ad40 && frontier!=0x1af10 && frontier!=0x1ae40 && frontier!=0x19770 && frontier!=0x256f0 && frontier!=0x1e700 && frontier!=0x27b10 && frontier!=0x1ac80 && frontier!=0x1c640 && frontier!=0x1eac0 && frontier!=0x19ca0 && frontier!=0x1c880 && frontier!=0x19c20) ||
+    if(type_page_step || (frontier!=0x22f40 && frontier!=0x262d0 && frontier!=0x1ad40 && frontier!=0x1af10 && frontier!=0x1ae40 && frontier!=0x19770 && frontier!=0x256f0 && frontier!=0x1e700 && frontier!=0x27b10 && frontier!=0x1ac80 && frontier!=0x1c640 && frontier!=0x1eac0 && frontier!=0x19ca0 && frontier!=0x1c880 && frontier!=0x19c20 && frontier!=0x257a0) ||
        !ReadProcessMemory(child,(void *)0x37198,roots,sizeof(roots),&bytes) || bytes!=sizeof(roots) || roots[0]!=type_page_base) return 0;
     for(i=1;i<120;++i)if(roots[i])return 0;
     if(!ReadProcessMemory(child,(void *)type_page_base,array_bytes,2048,&bytes) || bytes!=2048)return 0;
@@ -1056,6 +1065,8 @@ static int dump_walks(HANDLE child, HANDLE log)
 #include "buffer-observer.h"
 #include "resolver-observer.h"
 #include "recursive-arena-observer.h"
+#include "packed-arena-observer.h"
+#include "symbol-block-observer.h"
 
 int main(int argc, char **argv)
 {
@@ -1100,6 +1111,8 @@ int main(int argc, char **argv)
     sprintf(command, "\"%s\" %s", program, argv[2]);
     if (GetEnvironmentVariableA("CVPACK_CAPTURE_WATCH_SPAWN", program, sizeof(program)))
         watched_spawn = strtoul(program, 0, 16);
+    symbol_blocks_enabled = GetEnvironmentVariableA("CVPACK_CAPTURE_SYMBOL_BLOCKS", program, sizeof(program)) != 0;
+    packed_arena_enabled = GetEnvironmentVariableA("CVPACK_CAPTURE_PACKED_ARENA", program, sizeof(program)) != 0;
     recursive_arena_enabled = GetEnvironmentVariableA("CVPACK_CAPTURE_RECURSIVE_ARENA", program, sizeof(program)) != 0;
     resolver_enabled = GetEnvironmentVariableA("CVPACK_CAPTURE_RESOLVER", program, sizeof(program)) != 0;
     buffer_enabled = GetEnvironmentVariableA("CVPACK_CAPTURE_BUFFER", program, sizeof(program)) != 0;
@@ -1168,6 +1181,24 @@ int main(int argc, char **argv)
                 loader_break = 1;
             } else {
                 thread = event.dwThreadId == child.dwThreadId ? child.hThread : 0;
+                if(symbol_blocks_enabled && symbol_block_step && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_SINGLE_STEP) {
+                    if(!rearm_symbol_block(child.hProcess,log,thread,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,event.dwThreadId))return 47;
+                    ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
+                }
+                if(symbol_blocks_enabled && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
+                   (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==0x1954f) {
+                    if(!observe_symbol_block(child.hProcess,log,thread,event.dwThreadId))return 46;
+                    ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
+                }
+                if(packed_arena_enabled && packed_arena_step && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_SINGLE_STEP) {
+                    if(!rearm_packed_arena(child.hProcess,log,thread,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,event.dwThreadId))return 44;
+                    ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
+                }
+                if(packed_arena_enabled && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
+                   (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==0x19c3b) {
+                    if(!observe_packed_arena(child.hProcess,log,thread,event.dwThreadId))return 43;
+                    ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
+                }
                 if(recursive_arena_enabled && recursive_arena_step && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_SINGLE_STEP) {
                     if(!rearm_recursive_arena(child.hProcess,log,thread,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,event.dwThreadId))return 41;
                     ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
@@ -1310,6 +1341,8 @@ int main(int argc, char **argv)
                         }
                     }
                 }
+                if(!dump_symbol_blocks(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress))return 48;
+                if(!dump_packed_arena(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress))return 45;
                 if(!dump_recursive_arena(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress))return 42;
                 if(!dump_buffer(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress))return 37;
                 if(!dump_type_page(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress)) return 34;

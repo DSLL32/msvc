@@ -1127,5 +1127,19 @@
     "original": 217784,
     "size": 4,
     "source": "src/types.c"
+  },
+  {
+    "name": "packed_type_slots",
+    "symbol": "_packed_type_slots",
+    "original": 217256,
+    "size": 4,
+    "source": "src/types.c"
+  },
+  {
+    "name": "packed_type_cursor",
+    "symbol": "_packed_type_cursor",
+    "original": 217260,
+    "size": 4,
+    "source": "src/types.c"
   }
 ]

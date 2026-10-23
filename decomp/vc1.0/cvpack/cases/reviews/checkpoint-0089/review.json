@@ -1,0 +1,65 @@
+{
+  "application_functions": 89,
+  "application_bytes": 30952,
+  "next": "convert_procedure32",
+  "source": "publish_packed_type19c20..19c95: distinct1024*12-byte TypeHashEntry pool, malloc12288, decrement/advance BEFORE hash_type, index/data/next assignment and ordinary hash-head/count publication. No source ABI or runtime graph substitution.",
+  "packed_pool": "One actual malloc12288 birth, exact source/canonical def-use and oldglobalszero;3 nodes in order1049/1048/1047 point to owned copies4199/4208/4209. All index0..1/data4..7/next8..11 defined, reserved2..3 and unused suffix own unchanged. One complete allocation owner with typed contained nodes; never3 fictitious malloc12 owners. Separate recursive slab remains3 actual nodes.",
+  "retained_symbols": "Newly reached second8100-byte public/global block required actual two malloc8100 birth observations. First public request52 from empty; second global request40 with firstblock residual12 and cursorbase+8088. Exact old and current identities retained; all242 public/global nodes partition8088+1500 used bytes, full defined fields/records/next identities/counts/sizes match. Own reserved6..7, record suffix2 and unused tails remain unchanged. Old block disjoint from every other typed allocation; missing/wrongfamily/expired/alias ownership rejects. Root approved this concrete two-block extension; historical one-block policy/tests retained.",
+  "typed_state": "113 actual type copies3268 defined bytes,113 ordinary nodes,452 page-pointer bytes,17 calloc16 global names,88 exact provider PDB word writes. Exactly3 recursive fixup words at source1ecaf are proved before copy74:4209+6\u21921048,4208+54\u21921049,4199+6\u21921047; all other prefix/tail bytes unchanged. Existing same typed resolver callsite/2-byte caller local now has8 exact calls [126,124,117,120,132,129,129,113], complete results/output/records compare. Packed symbol output108 defined bytes, inputoffset4283, callbackkind205/length53/index7.",
+  "abi": "Whole nextcallee convert_procedure32257a0..257f7 reviewed: no formal/hidden register/stack input, source inputs loaded from globals, RET0; exact original/native callback registers/owner/frame verified before trap.",
+  "checks": {
+    "incremental-build": {
+      "command": [
+        "make",
+        "-j4",
+        "all",
+        "native",
+        "build/debug-run.exe",
+        "graph-identities",
+        "graph-audit-tool"
+      ],
+      "status": 0,
+      "elapsed": 1.4545387402176857
+    },
+    "audit": {
+      "command": [
+        "python3",
+        "scripts/audit.py"
+      ],
+      "status": 0,
+      "elapsed": 0.6691818004474044
+    },
+    "negatives": {
+      "command": [
+        "python3",
+        "scripts/check-rejections.py"
+      ],
+      "status": 0,
+      "elapsed": 20.355668020434678
+    },
+    "fixtures": {
+      "command": [
+        "python3",
+        "scripts/check-native.py"
+      ],
+      "status": 0,
+      "elapsed": 0.5035151820629835
+    }
+  },
+  "rejection_controls": 584,
+  "new_controls": 25,
+  "native_acceptance_seconds": {
+    "setup": 0.23885979503393173,
+    "execution": 0.01590465009212494,
+    "debugging": 2.4372933516278863,
+    "checks": 0.01780619937926531,
+    "total": 2.7098695803433657
+  },
+  "original_acceptance_seconds": {
+    "setup": 0.2797735510393977,
+    "execution": 1.8874982362613082,
+    "total": 2.1909510251134634
+  },
+  "limitations": "Initial DLL case remains partial. No CRT or shared changes. Existing guarded CRT and unsupported expanded recursion limitations retained. Scope remains concrete2 symbol blocks/3 recursive nodes/3 packed nodes, not a generic heap tracker.",
+  "failed_attempts": "Original compiler rejected a header extern using the private TypeHashEntry type; kept cursor declaration with its contextual private type in types.c. Bounded original capture stopped at unreviewed new frontier as expected. First expanded paired proof correctly failed previously unsupported old symbol-block ownership; added actual birth capture rather than nearby inference. Validator caught four additional same-site resolver calls; exact inventory extended to8, fresh final pair captured. Checker local next shadowed builtin; renamed local without changing raw execution. All scratch failures retained."
+}

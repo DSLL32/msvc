@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "publish_packed_type",
-    "native_function": "publish_packed_type",
+    "logical": "convert_procedure32",
+    "native_function": "convert_procedure32",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -106,7 +106,8 @@
       "commit_recursive_type",
       "publish_recursive_type",
       "hash_referenced_type",
-      "publish_packed_type"
+      "publish_packed_type",
+      "convert_procedure32"
     ]
   },
   "complete_reference": {
