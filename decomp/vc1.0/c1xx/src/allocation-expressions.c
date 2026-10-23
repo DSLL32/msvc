@@ -225,3 +225,22 @@ IrToken *__stdcall initialize_allocated_class(int allocated, CppSymbol *tag,
     if (allocated) object = guard_allocation_result(saved, object);
     return object;
 }
+
+/* Original 0x4f860..0x4f8e1. A based allocation temporarily supplies
+   its base symbol while constructor-call formation builds the expression. */
+IrToken *__stdcall new_expression(unsigned char operation, TypeShape *modifier,
+    IrToken *placement, CppSymbol *type, IrToken *initializer, unsigned bound)
+{
+    IrToken *result;
+    if (modifier && (modifier->attributes & 4)) {
+        if (modifier->attributes != 5 || modifier->flags || !modifier->data.based_symbol)
+            return 0;
+        allocation_base_symbol = modifier->data.based_symbol;
+        result = make_object_constructor_call(2, 5, placement, type, initializer,
+            0, (IrToken *)bound);
+        allocation_base_symbol = 0;
+        return result;
+    }
+    return make_object_constructor_call(operation, modifier->attributes,
+        placement, type, initializer, 0, (IrToken *)bound);
+}

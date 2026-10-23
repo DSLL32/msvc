@@ -1,0 +1,14 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655941a in capture_allocation_pointer (saved=0xffffd558, object=0xffffd578) at src/stubs.c:199
+199	void __stdcall capture_allocation_pointer(IrToken **saved, IrToken **object) { __asm { int 3 } }
+#0  0x5655941a in capture_allocation_pointer (saved=0xffffd558, object=0xffffd578) at src/stubs.c:199
+#1  0x5659101e in initialize_allocated_class (allocated=1, tag=0x5661535c, object=0x566252d4, arguments=0x0) at src/allocation-expressions.c:221
+#2  0x56590f72 in make_object_constructor_call (mode=151 '\227', attributes=1, placement=0x566252ac, symbol=0x566251b8, arguments=0x0, object=0x0, array_bound=0x0) at src/allocation-expressions.c:208
+#3  0x565911e4 in new_expression (operation=151 '\227', modifier=0x566251ac, placement=0x0, type=0x566251b8, initializer=0x0, bound=0) at src/allocation-expressions.c:244
+#4  0x565adc79 in parse_translation_unit () at src/parser-allocation-actions.inc:48
+#5  0x5655e21f in compile_translation_unit () at src/frontend.c:73
+#6  0x56558886 in guarded_compile () at src/c1xx.c:28
+#7  0x56558854 in main (argc=1, argv=0xffffd844, environment=0xffffd84c) at src/c1xx.c:20
