@@ -1872,3 +1872,130 @@ FloatStreamUse *__fastcall find_resident_float_use(MachineOperand *operand)
         if (operands_equal(operand, use->operand)) break;
     return use;
 }
+
+/* Original [0003b4e0,0003b52c). Only recorded branch edges need a
+   resident-value exit sequence; flags distinguish split and direct targets. */
+void __fastcall process_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context)
+{
+    FloatStreamBranch *branch;
+    if (!float_stream_uses) return;
+    for (branch = context->branches; branch; branch = branch->next)
+        if ((SymbolHeader *)branch->label == instruction->operands[0].value.symbol) break;
+    if (!branch) return;
+    if (branch->flags & 1) split_float_motion_branch(instruction, context);
+    else if (branch->flags & 2) finish_float_motion_branch(instruction, context);
+}
+
+/* Original [0003b530,0003b563). A nested context owns a referenced
+   label only while its recorded incoming-reference count remains exact. */
+int __fastcall label_in_float_context_chain(MemoryMotionContext *context, MachineInstruction *instruction)
+{
+    FloatStreamBranch *branch;
+    LabelSymbol *label = (LabelSymbol *)instruction->record.symbol;
+    if (!context) return 0;
+    for (branch = context->branches; branch; branch = branch->next)
+        if (branch->label == label) return label->references == branch->references;
+    return 0;
+}
+
+/* Original [0003aec0,0003b2de). Drain promoted values on every range
+   exit. A single live expression result first exchanges with the oldest
+   resident value so that the result survives the subsequent stores. */
+void __fastcall finish_float_context_motion(MemoryMotionContext *context)
+{
+    MachineInstruction *anchor, *scan, *instruction = 0, *copy;
+    MachineBlockHeader *block = 0;
+    FloatStreamUse *use, *oldest = 0;
+    FloatStreamTarget *target;
+    MachineOperand *destination;
+    MachineAddress *address;
+    unsigned kind;
+    if (!context->reverse_uses) return;
+    if (context->stack_depth != 0 && context->stack_depth != 1)
+        compiler_internal_error("@(#)fltreg.c:1.31", 0xa36);
+    scan = context->last;
+    anchor = scan->next;
+    if (FM_KIND(scan) == 1) {
+        scan = scan->previous;
+        while (FM_KIND(scan) == 4) scan = scan->previous;
+        if (FM_KIND(scan) == 7) block = (MachineBlockHeader *)scan;
+    } else {
+        while (FM_KIND(anchor) == 4) anchor = anchor->next;
+        if (FM_KIND(anchor) == 7) {
+            block = (MachineBlockHeader *)anchor;
+            anchor = anchor->next;
+        }
+    }
+    if (context->stack_depth == 1) {
+        for (use = context->reverse_uses; use; use = use->previous_selected) {
+            ++use->stack_slot;
+            oldest = use;
+        }
+        instruction = new_machine_instruction(0);
+        instruction->opcode = (instruction->opcode & ~0xfff0U) | (MC_FXCH << 8) | 0x80;
+        FM_SET_STACK_OPERAND(instruction->operands[0], oldest->stack_slot);
+        insert_machine_after(anchor->previous, instruction);
+        for (target = context->targets; target; target = target->next) {
+            copy = clone_machine_record(instruction);
+            insert_machine_after(target->instruction->previous, copy);
+        }
+    }
+    /* With an expression result, store the exchanged oldest value first;
+       then use the same body for the remaining reverse selection chain. */
+    use = oldest ? oldest : context->reverse_uses;
+    do {
+        instruction = new_machine_instruction(0);
+        if (!context->first_store || use == oldest) context->first_store = instruction;
+        instruction->opcode = (instruction->opcode & ~0xfff0U) | (MC_FSTP << 8) | ((use->width << 4) & 0xf0);
+        instruction->operands[1] = operand_st0;
+        destination = &instruction->operands[0];
+        if ((use->flags & 0x20) && !(use->flags & 1)) {
+            assign_machine_operand(destination, use->operand);
+            if (block) {
+                kind = destination->flags & 15;
+                if (kind == OPERAND_INDEXED) {
+                    address = destination->value.address;
+                    if (address->index.words.number & 0x4000) {
+                        bitset_include(block->uses, address->index.words.number & 0x3fff);
+                        include_register_block_use(address->index.words.number, block->number);
+                    }
+                }
+                if (kind == OPERAND_BASED || (kind == OPERAND_INDEXED && destination->value.address->base.words.number != 27)) {
+                    address = destination->value.address;
+                    if (address->base.words.number & 0x4000) {
+                        bitset_include(block->uses, address->base.words.number & 0x3fff);
+                        include_register_block_use(address->base.words.number, block->number);
+                    }
+                }
+            }
+        } else *destination = operand_st0;
+        insert_machine_after(anchor->previous, instruction);
+        for (target = context->targets; target; target = target->next) {
+            copy = clone_machine_record(instruction);
+            copy->record.float_flags |= 0x400;
+            insert_machine_after(target->instruction->previous, copy);
+        }
+        remove_resident_float_use(use);
+        use = use == oldest ? context->reverse_uses : use->previous_selected;
+    } while (use != oldest);
+    if (instruction) {
+        context->rewrite_end = anchor->previous;
+        if (float_stream_context == context) float_stream_next = instruction->next;
+    }
+}
+
+/* Original [0003bba0,0003bbf0). Remove a drained value and lower every
+   other resident slot. Preserve the original fixed head unlink anchor. */
+void __fastcall remove_resident_float_use(FloatStreamUse *use)
+{
+    FloatStreamUse *current = float_stream_uses, *anchor = current;
+    while (current) {
+        if (current == use) {
+            if (float_stream_uses == current) float_stream_uses = current->hash_next;
+            else anchor->hash_next = current->hash_next;
+        } else {
+            if (--current->stack_slot < 0) compiler_internal_error("@(#)fltreg.c:1.31", 0x8fa);
+        }
+        current = current->hash_next;
+    }
+}

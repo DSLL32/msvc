@@ -397,10 +397,10 @@ void finish_float_stream_uses(void) { __asm int 3 }
 void __fastcall process_float_stream_protected_block(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall process_float_stream_call(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall process_float_stream_return(MachineInstruction *instruction) { __asm int 3 }
-void __fastcall finish_float_context_motion(MemoryMotionContext *context) { __asm int 3 }
-void __fastcall process_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context) { __asm int 3 }
+void __fastcall include_register_block_use(unsigned short number, int block) { __asm int 3 }
+void __fastcall split_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context) { __asm int 3 }
+void __fastcall finish_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context) { __asm int 3 }
 unsigned __fastcall float_register_arithmetic_opcode(unsigned operation) { __asm int 3 }
-int __fastcall label_in_float_context_chain(MemoryMotionContext *context, MachineInstruction *instruction) { __asm int 3 }
 void __fastcall mark_float_branch_targets(FloatStreamBranch *branches) { __asm int 3 }
 int __fastcall can_merge_float_branch(FloatStreamBranch *branch, MachineInstruction *previous, MachineInstruction *target) { __asm int 3 }
 int __fastcall can_reuse_float_branch_target(MachineInstruction *target) { __asm int 3 }

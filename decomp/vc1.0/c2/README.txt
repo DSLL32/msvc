@@ -2584,3 +2584,9 @@ Resident floating loads and operand substitution: checkpoint1035
 @process_float_motion_branch@8. 956 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating1035.json for extent union, limits and measured timings.
+
+Floating context exits and resident value cleanup: checkpoint1039
+4 acceptances pass fresh original/native matching; current frontier
+@process_float_stream_call@4. 960 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating1039.json for extent union, limits and measured timings.

@@ -63,7 +63,7 @@ typedef struct MemoryMotionContext {
     struct MemoryMotionContext *previous, *next;
     LabelSymbol *label;
     MachineInstruction *first_load, *last_load;
-    unsigned field14;
+    MachineInstruction *first_store;
     MachineInstruction *rewrite_end;
     MachineInstruction *boundary, *last;
     struct FloatStreamUse *uses;
@@ -119,6 +119,8 @@ extern MemoryMotionContext *float_stream_active_context;
 void __fastcall initialize_float_context_uses(MemoryMotionContext *context);
 void __fastcall finish_float_context_motion(MemoryMotionContext *context);
 void __fastcall process_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context);
+void __fastcall split_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context);
+void __fastcall finish_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context);
 void __fastcall rewrite_float_motion_operation(MachineInstruction *instruction);
 int __fastcall label_in_float_context_chain(MemoryMotionContext *context, MachineInstruction *instruction);
 extern LabelSymbol *float_motion_split_label;
@@ -155,6 +157,8 @@ FloatStreamUse *__fastcall find_float_stream_use(MachineOperand *operand, int cr
 void __fastcall update_float_use_access(FloatStreamUse *use, unsigned access);
 unsigned __fastcall float_operand_hash(MachineOperand *operand);
 unsigned __fastcall float_symbol_name_hash(char *name);
+void __fastcall remove_resident_float_use(FloatStreamUse *use);
+void __fastcall include_register_block_use(unsigned short number, int block);
 FloatStreamUse *__fastcall find_resident_float_use(MachineOperand *operand);
 unsigned __fastcall float_register_arithmetic_opcode(unsigned operation);
 int __fastcall float_use_promotion_cost(FloatStreamUse *use);
