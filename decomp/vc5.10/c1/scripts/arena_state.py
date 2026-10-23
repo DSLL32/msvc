@@ -41,7 +41,7 @@ def boundary(original,native,state,sequence,module):
 
 def validate(original,native,fields,entry,state,entry_sequence,sequence,module,candidate,probe):
  expected_fields(fields);assert candidate['restore_probe']['arenas']==PLAN
- assert candidate['expected_frontier']['kind']in ('arena-initialization','arena-reservation')
+ assert candidate['expected_frontier']['kind']in ('arena-initialization','arena-reservation','arena-size-calculation')
  assert state['symbol']in ('initialize_primary_arenas','initialize_primary_arenas()')
  assert state['compiler_state']==entry['compiler_state']
  assert state['args']=={} and state['formal_inventory']==[] and state['caller']['symbol']=='initialize_compiler_arenas'
@@ -86,8 +86,8 @@ def primary_boundary(original,native,state,sequence,module):
  return entry,at
 
 def validate_primary(original,native,entry,state,entry_sequence,sequence,module,candidate):
- expected=candidate['expected_frontier'];assert (expected['rva'],expected['kind'],expected['calling_convention'])==(0x12a18,'arena-reservation','thiscall-arena')
- assert expected['native_args']==['this','descriptor','address']
+ expected=candidate['expected_frontier'];assert (expected['rva'],expected['kind'])in [(0x12a18,'arena-reservation'),(0x12a7a,'arena-size-calculation')]
+ if expected['kind']=='arena-reservation':assert expected['native_args']==['this','descriptor','address'] and expected['calling_convention']=='thiscall-arena'
  assert state['symbol']=='CompilerArena::Initialize' and state['caller']['symbol']=='initialize_primary_arenas'
  names=symbols(captured_native_binary(native));method='_ZN13CompilerArena10InitializeEP23CompilerArenaDescriptorPv'
  assert state['args']=={'this':names['c1_bss'][0]+804,'descriptor':names['c1_arena_descriptors'][0],'address':0}
@@ -109,3 +109,28 @@ def validate_primary(original,native,entry,state,entry_sequence,sequence,module,
   assert(original/('%s-%03d.bin'%(region,entry_sequence))).read_bytes()==(original/('%s-%03d.bin'%(region,sequence))).read_bytes()
  for key,value in entry['crt_state'].items():assert state[key]==value
  assert RECORDS[0]['flags']&1 and all(not(record['flags']&1)for record in RECORDS[1:])
+
+def member_boundary(original,native,state,sequence,module):
+ events=(original/'events.txt').read_text();rows=re.findall(r'^trap seq=(\d+) rva=00012a18 esp=([0-9a-f]+) eax=[0-9a-f]+ ecx=([0-9a-f]+) stack=([0-9a-f,]+)$',events,re.M);assert len(rows)==1
+ at=int(rows[0][0]);assert at<sequence
+ observations=json.loads((native/'arena-member-entry-observations.json').read_text());assert len(observations)==1;entry=copy.deepcopy(observations[0]);entry.update(entry['crt_state'])
+ assert entry['invocation']==state['invocation']
+ return entry,at
+
+def validate_member_writes(original,native,entry,state,entry_sequence,sequence,module,candidate):
+ assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])==('arena-size-calculation',0x12a7a)
+ names=symbols(captured_native_binary(native));descriptor=names['c1_arena_descriptors'][0]
+ assert state['symbol']=='arena_reservation_bytes' and state['args']=={'descriptor':descriptor}
+ assert state['formal_inventory']==[dict(name='descriptor',type='CompilerArenaDescriptor *')]
+ assert state['caller']['symbol']=='CompilerArena::Initialize' and state['caller']['args']==entry['args']
+ call(captured_native_binary(native),state['caller']['pc'],names['arena_reservation_bytes'][0])
+ expected=copy.deepcopy(entry['compiler_state']);expected['bss']['arenas'][0]['descriptor']=descriptor
+ assert state['compiler_state']==expected
+ for region in ('compiler-data','compiler-snapshot','state'):
+  assert(original/('%s-%03d.bin'%(region,entry_sequence))).read_bytes()==(original/('%s-%03d.bin'%(region,sequence))).read_bytes()
+ before=(original/('compiler-bss-%03d.bin'%entry_sequence)).read_bytes();wanted=bytearray(before);struct.pack_into('<I',wanted,0x8fc0,module+0x65780)
+ assert(original/('compiler-bss-%03d.bin'%sequence)).read_bytes()==bytes(wanted)
+ raw=(original/'relocated-text.bin').read_bytes();assert raw[0x12a18-0x1000:0x12a29-0x1000]==b'\x56\x57\x8b\x7c\x24\x0c\x8b\xf1\x57\x89\x7e\x10\xe8\x51\0\0\0'
+ events=(original/'events.txt').read_text();rows=re.findall(r'^trap seq=%d rva=00012a7a .*stack=([0-9a-f,]+)$'%sequence,events,re.M);assert len(rows)==1
+ assert [int(x,16)for x in rows[0].split(',')][:2]==[module+0x12a29,module+0x65780]
+ for key,value in entry['crt_state'].items():assert state[key]==value

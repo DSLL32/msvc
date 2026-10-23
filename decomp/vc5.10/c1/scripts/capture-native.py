@@ -110,6 +110,8 @@ if caller.name()=='InvokeCompilerPass':
 if caller.name()=='c1_main':
     value['caller']['pc']=int(caller.pc())
     value['caller']['args']={name:int(caller.read_var(name).cast(gdb.lookup_type('unsigned int'))) for name in ('argc','argv')}
+if caller.name()=='CompilerArena::Initialize':
+    value['caller']['args']={name:int(caller.read_var(name).cast(gdb.lookup_type('unsigned int')))for name in ('this','descriptor','address')}
 if frame.name()=='recon_initterm':
     value['caller']['args']={name:int(caller.read_var(name).cast(gdb.lookup_type('unsigned int'))) for name in ('module','reason','reserved')}
 identity=gdb.parse_and_eval('*c1_host_identity')
@@ -441,7 +443,21 @@ class ActualArenaMemberEntry(gdb.Breakpoint):
         while block and not block.function:block=block.superblock
         assert block and block.function
         formals=[{'name':symbol.name,'type':str(symbol.type)}for symbol in block if symbol.is_argument]
-        arena_member_entries.append({'pc':pc,'ecx':int(gdb.parse_and_eval('(unsigned int)$ecx')),'esp':esp,'return':words[0],
+        frame=gdb.newest_frame();caller=frame.older();ancestor=frame
+        while ancestor and ancestor.name()!='InvokeCompilerPass':ancestor=ancestor.older()
+        assert ancestor
+        actual={key:int(ancestor.read_var(key).cast(gdb.lookup_type('unsigned int')))for key in ('argc','argv','mode')}
+        invocation={'symbol':ancestor.name(),'args':actual,'argv':[ancestor.read_var('argv')[i].string()for i in range(actual['argc'])],
+          'argv_pointers':[int(ancestor.read_var('argv')[i].cast(gdb.lookup_type('unsigned int')))for i in range(actual['argc'])],
+          'argv_terminator':int(ancestor.read_var('argv')[actual['argc']].cast(gdb.lookup_type('unsigned int')))}
+        crt_state={'win32_last_error':int(gdb.parse_and_eval('last_error')),'x87_control':int(gdb.parse_and_eval('$fctrl')),
+          'crt_attached':int(gdb.parse_and_eval('c1_crt_attached')),'raw_dllmain':int(gdb.parse_and_eval('(unsigned int)c1_raw_dllmain')),
+          'onexit_begin':int(gdb.parse_and_eval('(unsigned int)c1_onexit_begin')),'onexit_end':int(gdb.parse_and_eval('(unsigned int)c1_onexit_end')),
+          'onexit_first':int(gdb.parse_and_eval('(unsigned int)*c1_onexit_begin')),'crt_adjust_fdiv':int(gdb.parse_and_eval('c1_crt_adjust_fdiv')),
+          'dll_instance':int(gdb.parse_and_eval('(unsigned int)c1_dll_instance')),'module_token':int(gdb.parse_and_eval('(unsigned int)c1_host_module'))}
+        arena_member_entries.append({'symbol':frame.name(),'invocation':invocation,'crt_state':crt_state,'caller':{'symbol':caller.name(),'pc':int(caller.pc()),'args':{}},
+          'args':{'this':int(gdb.parse_and_eval('(unsigned int)$ecx')),'descriptor':words[1],'address':words[2]},
+          'pc':pc,'ecx':int(gdb.parse_and_eval('(unsigned int)$ecx')),'esp':esp,'return':words[0],
           'descriptor':words[1],'address':words[2],'formal_inventory':formals,'compiler_state':capture_modeled()})
         return False
 ActualArenaMemberEntry('*0x%x')

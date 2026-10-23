@@ -421,6 +421,16 @@
       "start_rva": 197904,
       "end_rva": 197919,
       "entry": 0
+    },
+    {
+      "start_rva": 76312,
+      "end_rva": 76410,
+      "entry": 1
+    },
+    {
+      "start_rva": 197919,
+      "end_rva": 197924,
+      "entry": 0
     }
   ],
   "functions": [
@@ -1295,6 +1305,24 @@
         ]
       ],
       "source": "src/arenas.cpp",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "CompilerArena::Initialize",
+      "native_symbol": "CompilerArena::Initialize",
+      "native_linkage_symbol": "_ZN13CompilerArena10InitializeEP23CompilerArenaDescriptorPv",
+      "role": "application",
+      "chunks": [
+        [
+          76312,
+          76410
+        ],
+        [
+          197919,
+          197924
+        ]
+      ],
+      "source": "src/arenas.cpp",
       "status": "sole-new-candidate"
     }
   ],
@@ -1317,19 +1345,15 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 76312,
-    "native_symbol": "CompilerArena::Initialize",
-    "native_linkage_symbol": "_ZN13CompilerArena10InitializeEP23CompilerArenaDescriptorPv",
-    "kind": "arena-reservation",
-    "calling_convention": "thiscall-arena",
+    "rva": 76410,
+    "native_symbol": "arena_reservation_bytes",
+    "kind": "arena-size-calculation",
     "native_args": [
-      "this",
-      "descriptor",
-      "address"
+      "descriptor"
     ],
     "caller": {
-      "native_symbol": "initialize_primary_arenas",
-      "return_rva": 76303
+      "native_symbol": "CompilerArena::Initialize",
+      "return_rva": 76329
     }
   },
   "imports": [
@@ -1600,7 +1624,7 @@
       "scope": "owned snapshot interior sentinels and labeled nonzero ints before BSS clear; never dereferenced"
     }
   },
-  "staging_role": "sole primary arena initializer candidate; first real ECX arena/descriptor/NULL member entry, no allocation executed",
+  "staging_role": "sole actual thiscall arena initializer; descriptor store then genuine reserve-size-helper trap before any allocation",
   "registered_cleanup": [
     {
       "original_rva": 145728,

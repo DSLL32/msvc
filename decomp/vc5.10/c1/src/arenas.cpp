@@ -38,8 +38,27 @@ void __cdecl initialize_primary_arenas(void)
 int RECON_THISCALL CompilerArena::Initialize(CompilerArenaDescriptor *descriptor,
                                           void *address)
 {
+    this->descriptor = descriptor;
+    reserve_bytes = arena_reservation_bytes(descriptor);
+    base = (BYTE *)VirtualAlloc(address, reserve_bytes,
+                               MEM_RESERVE | ((descriptor->flags & 1) ? MEM_TOP_DOWN : 0),
+                               PAGE_READWRITE);
+    if (!base)
+        return 0;
+    mapped_view = 0;
+    Reset();
+    return 1;
+}
+
+unsigned __cdecl arena_reservation_bytes(CompilerArenaDescriptor *descriptor)
+{
     __asm { int 3 }
     return 0;
+}
+
+void RECON_THISCALL CompilerArena::Reset(void)
+{
+    __asm { int 3 }
 }
 
 void __cdecl initialize_default_pools(void)

@@ -64,7 +64,8 @@
     "_parse_internal_switch",
     "_initialize_state_12998",
     "_initialize_compiler_arenas",
-    "_initialize_primary_arenas"
+    "_initialize_primary_arenas",
+    "CompilerArena::Initialize"
   ],
   "driver": [
     {
@@ -565,6 +566,19 @@
         [
           274924816,
           274924831
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "CompilerArena::Initialize",
+      "symbol": "?Initialize@CompilerArena@@QAEHPAUCompilerArenaDescriptor@@PAX@Z",
+      "start": 274803224,
+      "end": 274803322,
+      "code_chunks": [
+        [
+          274924831,
+          274924836
         ]
       ],
       "role": "application"

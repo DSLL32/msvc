@@ -62,6 +62,7 @@ typedef struct CompilerArena {
     int mapped_view;
 #ifdef __cplusplus
     int RECON_THISCALL Initialize(CompilerArenaDescriptor *, void *);
+    void RECON_THISCALL Reset(void);
 #endif
 } CompilerArena;
 /* Genuine thiscall POD. Only four encountered fields are modeled; no
@@ -210,6 +211,7 @@ void __cdecl initialize_state_12998(void);
 void __cdecl initialize_compiler_arenas(void);
 void __cdecl initialize_primary_arenas(void);
 void __cdecl initialize_default_pools(void);
+unsigned __cdecl arena_reservation_bytes(CompilerArenaDescriptor *);
 extern CompilerArenaDescriptor c1_arena_descriptors[6];
 void __cdecl parse_command_line(int, char **);
 int __cdecl compile_translation_unit(void);

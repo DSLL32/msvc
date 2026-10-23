@@ -126,11 +126,18 @@
     "evidence": "actual arena initializer callee; named INT3 only"
   },
   {
-    "name": "CompilerArena::Initialize",
-    "symbol": "?Initialize@CompilerArena@@QAEHPAUCompilerArenaDescriptor@@PAX@Z",
-    "start": 274803224,
-    "end": 274803225,
+    "name": "_arena_reservation_bytes",
+    "start": 274803322,
+    "end": 274803323,
     "pending_extent": true,
-    "evidence": "actual ECX receiver and two stack slots, RET8 member; named INT3 only"
+    "evidence": "actual cdecl descriptor input; named INT3 only"
+  },
+  {
+    "name": "CompilerArena::Reset",
+    "symbol": "?Reset@CompilerArena@@QAEXXZ",
+    "start": 274803378,
+    "end": 274803379,
+    "pending_extent": true,
+    "evidence": "actual ECX-only reset member RET0; named INT3 only"
   }
 ]
