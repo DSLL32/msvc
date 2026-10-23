@@ -1,0 +1,17 @@
+{
+  "status": "pass",
+  "checks": {
+    "name": "read_ide_flags",
+    "phase": 10,
+    "formal_count": 1,
+    "callback_owner": "exact typed external callback symbols and owned buffer",
+    "probe": "all nonpointer bytes match, four pointer fields have mandatory logical ownership",
+    "errors": [
+      0,
+      0,
+      0
+    ],
+    "locale": "all257ctype entries/mb_cur_max match",
+    "stdout": "complete defined FILE fields/pending bytes match"
+  }
+}

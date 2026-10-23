@@ -1,0 +1,14 @@
+{
+  "command": [
+    "python3",
+    "scripts/wine-tool.py",
+    "LINK.EXE",
+    "/nologo",
+    "/dll",
+    "/map:S:\\vc1.0\\link\\tooling\\ide-probe.map",
+    "/out:S:\\vc1.0\\link\\tooling\\ide-probe.dll",
+    "S:\\vc1.0\\link\\tooling\\ide-probe.obj"
+  ],
+  "seconds": 1.3074451861903071,
+  "exit": 0
+}

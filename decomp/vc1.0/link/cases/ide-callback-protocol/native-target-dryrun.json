@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "command": [
+    "make",
+    "-n",
+    "-j4",
+    "check",
+    "replay"
+  ],
+  "scope": "Host-only dry run, no new fixture timing; normal commands contain native build and cached checks only",
+  "stdout_sha256": "1d6a9aa937f3502969e49c98ca076b448908359de1f098efe9a65d127aef597d"
+}

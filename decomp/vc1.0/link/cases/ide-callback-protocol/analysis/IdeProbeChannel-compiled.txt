@@ -1,0 +1,18 @@
+00401000 55 push     ebp
+00401001 8bec mov      ebp, esp
+00401003 53 push     ebx
+00401004 56 push     esi
+00401005 57 push     edi
+00401006 ff0578374000 inc      dword ptr [0x403778]
+0040100c 8b4508 mov      eax, dword ptr [ebp + 8]
+0040100f a37c374000 mov      dword ptr [0x40377c], eax
+00401014 837d0802 cmp      dword ptr [ebp + 8], 2
+00401018 0f8406000000 je       0x401024
+0040101e ff0588374000 inc      dword ptr [0x403788]
+00401024 b807000000 mov      eax, 7
+00401029 e900000000 jmp      0x40102e
+0040102e 5f pop      edi
+0040102f 5e pop      esi
+00401030 5b pop      ebx
+00401031 c9 leave
+00401032 c3 ret

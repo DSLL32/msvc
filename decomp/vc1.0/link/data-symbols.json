@@ -4492,5 +4492,17 @@
     "name": "import_mips",
     "size": 36,
     "owner": "src/import-library.c"
+  },
+  {
+    "address": 453796,
+    "name": "ide_api",
+    "size": 4,
+    "owner": "src/ide.c"
+  },
+  {
+    "address": 518996,
+    "name": "ide_channel",
+    "size": 4,
+    "owner": "src/ide.c"
   }
 ]

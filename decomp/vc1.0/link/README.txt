@@ -341,3 +341,18 @@ unaccepted unclassified bytes are not CRT. See cases/legacy-resource-diagnostics
 for raw proof, exact scope, failures, split timing and cached-only commands.
 Separate public cancellation transport remains HOLD with no handler/cleanup
 coverage; read-only Wine source diagnosis is not target evidence.
+
+IDE callback-protocol checkpoint (958 frontiers)
+
+Three bundled IDE functions now reconstruct channel initialization, valid tagged
+message formatting/sink delivery and actual _MSC_IDE_FLAGS pointer output. This
+is an explicitly external direct test, with a VC1-compiled C callback DLL loaded
+through a named driver phase for original capture; it is not public CLI coverage.
+Native cached fixtures link the same external C callbacks directly. Complete
+1392-byte protocol, real callback formals/owners/returns, all buffer bytes/guards,
+CRT environment alias and ABI state match; invalid/assertion paths stay unvisited.
+All78cached native cases/764appentries pass, external6.544s including the new
+trace fixture.306s (actual ELF4.84ms). Canonical797CFG/781callbacks/492data/41ECX
+checks and36 host-only negative controls pass. Extent250163/281634=88.8256%;
+14811 unaccepted unclassified bytes remain pending, not CRT. See
+cases/ide-callback-protocol/README.txt and timings.json for scope/evidence/splits.

@@ -1,0 +1,50 @@
+00401151 55 push     ebp
+00401152 8bec mov      ebp, esp
+00401154 83ec08 sub      esp, 8
+00401157 53 push     ebx
+00401158 56 push     esi
+00401159 57 push     edi
+0040115a c745fc20334000 mov      dword ptr [ebp - 4], 0x403320
+00401161 c745f800000000 mov      dword ptr [ebp - 8], 0
+00401168 e903000000 jmp      0x401170
+0040116d ff45f8 inc      dword ptr [ebp - 8]
+00401170 817df8b0070000 cmp      dword ptr [ebp - 8], 0x7b0
+00401177 0f830f000000 jae      0x40118c
+0040117d 8b45f8 mov      eax, dword ptr [ebp - 8]
+00401180 8b4dfc mov      ecx, dword ptr [ebp - 4]
+00401183 c6040800 mov      byte ptr [eax + ecx], 0
+00401187 e9e1ffffff jmp      0x40116d
+0040118c c745f800000000 mov      dword ptr [ebp - 8], 0
+00401193 e903000000 jmp      0x40119b
+00401198 ff45f8 inc      dword ptr [ebp - 8]
+0040119b 837df820 cmp      dword ptr [ebp - 8], 0x20
+0040119f 0f8321000000 jae      0x4011c6
+004011a5 8b45f8 mov      eax, dword ptr [ebp - 8]
+004011a8 c68058374000a5 mov      byte ptr [eax + 0x403758], 0xa5
+004011af 8b45f8 mov      eax, dword ptr [ebp - 8]
+004011b2 8a8058374000 mov      al, byte ptr [eax + 0x403758]
+004011b8 8b4df8 mov      ecx, dword ptr [ebp - 8]
+004011bb 888138334000 mov      byte ptr [ecx + 0x403338], al
+004011c1 e9d2ffffff jmp      0x401198
+004011c6 c745f800000000 mov      dword ptr [ebp - 8], 0
+004011cd e903000000 jmp      0x4011d5
+004011d2 ff45f8 inc      dword ptr [ebp - 8]
+004011d5 817df800040000 cmp      dword ptr [ebp - 8], 0x400
+004011dc 0f830f000000 jae      0x4011f1
+004011e2 8b45f8 mov      eax, dword ptr [ebp - 8]
+004011e5 c68058334000a5 mov      byte ptr [eax + 0x403358], 0xa5
+004011ec e9e1ffffff jmp      0x4011d2
+004011f1 c7052033400000104000 mov      dword ptr [0x403320], 0x401000
+004011fb c7052433400033104000 mov      dword ptr [0x403324], 0x401033
+00401205 c7052c3340003a114000 mov      dword ptr [0x40332c], 0x40113a
+0040120f b820334000 mov      eax, 0x403320
+00401214 83c038 add      eax, 0x38
+00401217 a330334000 mov      dword ptr [0x403330], eax
+0040121c c7053433400000040000 mov      dword ptr [0x403334], 0x400
+00401226 b820334000 mov      eax, 0x403320
+0040122b e900000000 jmp      0x401230
+00401230 5f pop      edi
+00401231 5e pop      esi
+00401232 5b pop      ebx
+00401233 c9 leave
+00401234 c3 ret

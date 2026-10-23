@@ -954,7 +954,10 @@
     "_vfprintf",
     "_display_legacy_strings",
     "_display_legacy_menu",
-    "_display_legacy_dialog"
+    "_display_legacy_dialog",
+    "_initialize_ide_api",
+    "_emit_ide_message",
+    "_read_ide_flags"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -8336,6 +8339,33 @@
       "source": "src/resources.c",
       "abi": "cdecl unsigned(unsigned short)",
       "evidence": "Whole55-byte451e0..45217, no callees; character<=127 returnsit, then firstmatch shared129-WORD high ANSI map, failureFFFF. Fresh masked-original/native GDB resource-identity-duplicate-resource_unicode_to_ansi_byte-yyk64xhz proves actual U+00e9. Shared forward conversion uses same typed table+2 slice; placeholderFFFF still mapsfirst80 in reverse as original. Typed ABI primary resource-identity-duplicate-resource_unicode_to_ansi_byte-3pyk03ve: characterWORD00e9/fullargumentDWORD00e9, caller resource_name_to_ansi at451b9, no pointer/register/out formal. Initial logical-only receipt retained as superseded evidence."
+    },
+    {
+      "name": "_initialize_ide_api",
+      "start": 218880,
+      "end": 218902,
+      "implementation": "C",
+      "source": "src/ide.c",
+      "abi": "cdecl unsigned long(IdeApi *api)",
+      "evidence": "Whole22-byte registration function, typed24-byte caller-owned callback API. Fresh original35700/native actual one-pointer formal matches complete owned table/payload/guards/CRT/errors; old API/channel globals overwritten before any read. External direct test only, not public CLI. cases/ide-callback-protocol/acceptance/initialize_ide_api."
+    },
+    {
+      "name": "_emit_ide_message",
+      "start": 218528,
+      "end": 218877,
+      "implementation": "C",
+      "source": "src/ide.c",
+      "abi": "cdecl int(unsigned long tag,unsigned long value)",
+      "evidence": "Whole346 instruction bytes+3 internal alignment. Actual two-DWORD tagged interface:0unused,1..4owned ANSI text,5..6unsigned number;24-byte external callback context, actual writer/channel/buffer ownership and precise cdecl return. External direct test only. cases/ide-callback-protocol/acceptance/emit_ide_message."
+    },
+    {
+      "name": "_read_ide_flags",
+      "start": 218912,
+      "end": 218974,
+      "implementation": "C",
+      "source": "src/ide.c",
+      "abi": "cdecl int(char **output)",
+      "evidence": "Whole62-byte env-output helper. Actual one char** formal and owned4-byte slot/64guards; stores actual CRT environment value pointer, returns0/1. Present captured input alpha.obj,beta.lib and pointer-owner/result/errors observed, not global seed/copy. External direct test only. cases/ide-callback-protocol/acceptance/read_ide_flags."
     }
   ],
   "c_stub_references": [
@@ -9296,6 +9326,9 @@
     "omf-continuation-use16-controlled",
     "legacy-resource-diagnostics-strings",
     "legacy-resource-diagnostics-menu",
-    "legacy-resource-diagnostics-dialog"
+    "legacy-resource-diagnostics-dialog",
+    "ide-callback-protocol",
+    "ide-callback-protocol",
+    "ide-callback-protocol"
   ]
 }

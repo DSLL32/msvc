@@ -1,0 +1,51 @@
+{
+  "status": "retained failed instrumentation, not accepted target behavior",
+  "failures": [
+    {
+      "directory": "analysis/observer-failures/emit_ide_message-_vcciwid",
+      "files": {
+        "gdb.stderr": "17174d741bf8f941f32f5a033883a8a5a196266a3410a8aeba8e40b86911c5d4",
+        "observe.py": "efb5bff3e17481613573641dff9e285ec28c13c5c6662c1c4da77e7213246983",
+        "state.json": "eb280c95d164b37b59edf926f9ce536170efd7cecc00030be1ddf021c0b20603",
+        "gdb.stdout": "a1a49ebab207201de2d45b6de00746f38cb31a980e5273d1569431104aa9f4cb"
+      },
+      "acceptance": false,
+      "seconds": null
+    },
+    {
+      "directory": "analysis/observer-failures/emit_ide_message-cndjht6n",
+      "files": {
+        "observe.py": "b38b621d5f143256a59b1fc60db16e4a4b8bf9388cc1a6e6846991e29db4a7f2",
+        "gdb.stderr": "a8fe941c27bc97517739b8c81af393b36ee7018f650dcfab8f389e31d7ddfbbe",
+        "gdb.stdout": "052818a61513228a3dd54866a1cf2d1bb59a65f7c06c6183cef7eb3a11187dfc",
+        "state.json": "b1220a564daa0af86bf2618937100694b2fae49a63ac7d50e7577451a787a304"
+      },
+      "acceptance": false,
+      "seconds": null
+    },
+    {
+      "directory": "analysis/observer-failures/emit_ide_message-codi1b5k",
+      "files": {
+        "gdb.stdout": "a1a49ebab207201de2d45b6de00746f38cb31a980e5273d1569431104aa9f4cb",
+        "gdb.stderr": "936b4596941b2756496a67ce588b931012473414bf1f5fe1bbdf410413261785",
+        "observe.py": "a3c3d6109c019b1b4efe579052b76789ea125fc5820aa1e52a8ee7c1546d0b3c"
+      },
+      "acceptance": false,
+      "seconds": null
+    },
+    {
+      "directory": "analysis/observer-failures/emit_ide_message-umva8_zb",
+      "files": {
+        "state.json": "1a29f3db743d224ab9ab37e1a7716f50cad795d99484fd581ac9514b4fb6f576",
+        "gdb.stdout": "05be26aa44bed68663b694c580ae012c7ac14440fabb20ad1a8a4495e4c3c4b7",
+        "gdb.stderr": "31e22b609d7f45e036408a6b519ccc3d71b196cc571cf7eee45405a71979501f",
+        "observe.py": "b1c8be3d516bf40ddbaf5fe5ffa377c05fcd0ff66d199f3d914b7b23f7f47f10"
+      },
+      "acceptance": false,
+      "seconds": null
+    }
+  ],
+  "cause": "Temporary return breakpoint continued after its first no-stop hit, then reused old tag0 entry at tag1. Mandatory phase/nonvolatile checks rejected it. Deleting the breakpoint inside stop caused GDB internal SIGSEGV; using reserved pending property failed before target execution.",
+  "correction": "Persistent breakpoint per actual return site, fresh LIFO actual-entry record for each invocation; mandatory paired_entry_phase==active_target_phase==phase, empty queues/terminal checks and native+original cdecl return/nonvolatile verification. No application/CRT workaround or original recapture.",
+  "timing": "Failed debugger attempts unmeasured; successful final observation separately timed."
+}

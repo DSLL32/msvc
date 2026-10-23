@@ -1,0 +1,12 @@
+0040113a 55 push     ebp
+0040113b 8bec mov      ebp, esp
+0040113d 53 push     ebx
+0040113e 56 push     esi
+0040113f 57 push     edi
+00401140 ff0584374000 inc      dword ptr [0x403784]
+00401146 ff0588374000 inc      dword ptr [0x403788]
+0040114c 5f pop      edi
+0040114d 5e pop      esi
+0040114e 5b pop      ebx
+0040114f c9 leave
+00401150 c3 ret

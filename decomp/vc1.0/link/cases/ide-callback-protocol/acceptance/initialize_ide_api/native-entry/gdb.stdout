@@ -1,0 +1,5 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint -1, initialize_ide_api (api=0x2) at src/ide.c:4
+4	unsigned long initialize_ide_api(IdeApi *api) { __asm { int 3 } return 0; }

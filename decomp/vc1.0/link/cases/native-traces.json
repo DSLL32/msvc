@@ -522,7 +522,7 @@
     }
   },
   "metadata_sha256": {
-    "functions.json": "c948f26431cd741598047effdfaa8974dbe18faa4b2112838e64093d6ded8bfe",
+    "functions.json": "a7568aa12af59913af4820b9efd6693e961a9ecee13be4af2b57221ff06d03cd",
     "runtime.json": "66d9b98b4e9819622266f974ad10d446f42ef52de3204544beca788bd8251ec0",
     "replay-cases.json": "7917cd8dc1c964b39204545c7e4d0ea8e81c848fbc16d374d455dcc084748d60"
   },
@@ -2232,6 +2232,11 @@
       "logical": "_emit_externals",
       "implementation": "C"
     },
+    "emit_ide_message": {
+      "source": "src/ide.c",
+      "logical": "_emit_ide_message",
+      "implementation": "C"
+    },
     "emit_module_publics": {
       "source": "src/codeview.c",
       "logical": "_emit_module_publics",
@@ -2645,6 +2650,11 @@
     "initialize_hash": {
       "source": "src/symbols.c",
       "logical": "_initialize_hash",
+      "implementation": "C"
+    },
+    "initialize_ide_api": {
+      "source": "src/ide.c",
+      "logical": "_initialize_ide_api",
       "implementation": "C"
     },
     "initialize_library_enumerator": {
@@ -3660,6 +3670,11 @@
     "read_file_page": {
       "source": "src/files.c",
       "logical": "_read_file_page",
+      "implementation": "C"
+    },
+    "read_ide_flags": {
+      "source": "src/ide.c",
+      "logical": "_read_ide_flags",
       "implementation": "C"
     },
     "read_mapped_file": {
@@ -5224,7 +5239,10 @@
     "omf_warning",
     "display_legacy_strings",
     "display_legacy_menu",
-    "display_legacy_dialog"
+    "display_legacy_dialog",
+    "initialize_ide_api",
+    "emit_ide_message",
+    "read_ide_flags"
   ],
   "excluded_accepted": {
     "CRT": [

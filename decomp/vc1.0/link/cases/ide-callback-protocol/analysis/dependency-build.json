@@ -1,0 +1,14 @@
+{
+  "command": [
+    "make",
+    "-j4",
+    "capture-ide-dependency"
+  ],
+  "seconds": 2.972034892067313,
+  "exit": 0,
+  "source_sha256": {
+    "cases/ide-callback-protocol/sources/ide-probe.c": "3a20277d84fa0b50b11f984dfc453933b8f11b92990fb0fc199f5dc21f4f3f66",
+    "cases/ide-callback-protocol/sources/ide-probe.h": "b95f267d3bdde29ea3c7023ed85ffb09b6cde674ddd1209569e7a0f1ad3b7edf"
+  },
+  "scope": "Explicit original-toolchain external C dependency build, not fixture execution"
+}

@@ -1,0 +1,5 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint -2, emit_ide_message (tag=2, value=4294957188) at src/ide.c:17
+17	int emit_ide_message(unsigned long tag,unsigned long value) { __asm { int 3 } return 0; }

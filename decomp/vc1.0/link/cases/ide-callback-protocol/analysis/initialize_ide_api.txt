@@ -1,0 +1,7 @@
+00035700 8b442404 mov      eax, dword ptr [esp + 4]
+00035704 a3a4ec0600 mov      dword ptr [0x6eca4], eax
+00035709 6a02 push     2
+0003570b ff10 call     dword ptr [eax]
+0003570d 83c404 add      esp, 4
+00035710 a354eb0700 mov      dword ptr [0x7eb54], eax
+00035715 c3 ret

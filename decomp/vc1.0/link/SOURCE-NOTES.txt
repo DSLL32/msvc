@@ -1303,3 +1303,25 @@ Wine-free cached fixtures. Independent20 host mutation denials plus canonical
 794CFG/778callback/490data/41ECX checks pass. Scope/timings/actual source inventory
 are under cases/legacy-resource-diagnostics. Cancellation remains transport HOLD,
 not cleanup coverage. Unknown remaining15244 bytes require classification.
+
+Direct IDE callback checkpoint958
+
+Bundled coff/ideapi.c functions355a0..356fd/35700..35716/35720..3575e add430
+application instruction bytes and3 alignment. No discovered immutable incoming
+CLI/data references: explicit external minimal test only.24-byte IdeApi typed
+cdecl getter/writer/assertion slots, opaque unconsumed DWORD, buffer/capacity;
+initializer channel2 returns7, valid tags0..6 write77 total bytes, environment
+helper aliases actual CRT getenv storage. Original C external dependency loaded
+with public LoadLibrary driver phase, native dependency linked directly; neither
+callbacks/sentinel/serializer nor shipped CRT earn target application credit.
+Six explicit original captures/two raw baselines outside fixtures,34 mandatory
+actual typed state packets, cdecl ESP/nonvolatile/EAX, all257 ctype and FILE/errors,
+1392-byte protocol including full defined buffer tail and environment alias pass.
+GDB observer return-site reuse/deletion failures retained; fresh LIFO entry
+records fix instrumentation without target ABI concessions. Immutable initial
+proof's raw .bss read mistake documented in global-storage-correction.json;
+actual loaded zero state/section layout/data audit are independent and correct.
+78cached native cases/764entries,797CFG/781callbacks/492data/41ECX and36 host
+negative controls pass. Scope/timing/source pins: cases/ide-callback-protocol.
+Remaining14811 unaccepted unclassified bytes and6996 gated OMF instruction bytes
+are pending; cancellation transport remains HOLD, no cleanup coverage claim.

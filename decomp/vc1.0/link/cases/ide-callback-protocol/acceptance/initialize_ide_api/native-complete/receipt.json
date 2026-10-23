@@ -1,0 +1,21 @@
+{
+  "status": "observed; typed state validation separate",
+  "selected": "initialize_ide_api",
+  "complete": true,
+  "allowed": [
+    "initialize_ide_api"
+  ],
+  "seconds": 0.15905719250440598,
+  "command": [
+    "gdb",
+    "-q",
+    "-nx",
+    "-batch",
+    "-ex",
+    "file /root/msvc2/decomp/vc1.0/link/build/native/ide-protocol",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc1.0/link/initialize_ide_api-3qwnj4zb/observe.py"
+  ],
+  "elf_sha256": "a5377a2084d188cd15591cbe4af5841866e6e93f8a51170495a43e5d5719b538",
+  "source_sha256": "e3a3910eb8a3e7908d42fd445646138e0298e1ad12095c42d7fdf069edae272e"
+}

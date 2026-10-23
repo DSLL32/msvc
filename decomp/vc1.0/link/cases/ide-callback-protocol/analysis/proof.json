@@ -1,0 +1,280 @@
+{
+  "status": "static proof prepared before original execution",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "source_provenance": "Embedded assertion literal C:\\cudabld\\1\\build\\utils32\\coff\\ideapi.c, retained as target data evidence, not reconstructed file requirement",
+  "functions": [
+    {
+      "name": "emit_ide_message",
+      "start": 218528,
+      "end": 218877,
+      "bytes": 349,
+      "instruction_bytes": 346,
+      "alignment": [
+        [
+          218637,
+          218640
+        ]
+      ],
+      "abi": "cdecl int(unsigned long tag,unsigned long value); value interpreted as ANSI pointer for tags1..4 or DWORD for5..6; not consumed for0",
+      "direct_calls": [
+        "0x514e0",
+        "0x51990"
+      ],
+      "indirect_calls": [
+        {
+          "address": "0x355b5",
+          "operand": "dword ptr [eax + 0xc]",
+          "caller_cleanup": "0x355b8"
+        },
+        {
+          "address": "0x355e3",
+          "operand": "dword ptr [eax + 0xc]",
+          "caller_cleanup": "0x355e6"
+        },
+        {
+          "address": "0x3568a",
+          "operand": "dword ptr [eax + 0xc]",
+          "caller_cleanup": "0x3568d"
+        },
+        {
+          "address": "0x356a4",
+          "operand": "dword ptr [eax + 0xc]",
+          "caller_cleanup": "0x356a7"
+        },
+        {
+          "address": "0x356d5",
+          "operand": "dword ptr [eax + 0xc]",
+          "caller_cleanup": "0x356d8"
+        },
+        {
+          "address": "0x356f0",
+          "operand": "dword ptr [eax + 4]",
+          "caller_cleanup": "0x356f3"
+        }
+      ],
+      "strings": {
+        "0x7eb58": "C:\\cudabld\\1\\build\\utils32\\coff\\ideapi.c",
+        "0x7eba8": "C:\\cudabld\\1\\build\\utils32\\coff\\ideapi.c",
+        "0x7eb84": "@I",
+        "0x7eb88": "%s%d",
+        "0x7eb90": "@I",
+        "0x7eb94": "%s%d%s",
+        "0x7eb9c": "@I",
+        "0x7eba0": "%s%d%lu",
+        "0x7ebd4": "C:\\cudabld\\1\\build\\utils32\\coff\\ideapi.c",
+        "0x7ec00": "C:\\cudabld\\1\\build\\utils32\\coff\\ideapi.c",
+        "0x7ec2c": "@I",
+        "0x7ec30": "C:\\cudabld\\1\\build\\utils32\\coff\\ideapi.c"
+      },
+      "sha256": "34924e44507954d1fb51bd9d3f6c58d0e9d1f9dd55d5bb0377e49e2618840987"
+    },
+    {
+      "name": "initialize_ide_api",
+      "start": 218880,
+      "end": 218902,
+      "bytes": 22,
+      "instruction_bytes": 22,
+      "alignment": [],
+      "abi": "cdecl unsigned long(IDEApi *api); defined machine EAX is getter result after storing channel; preserve it",
+      "direct_calls": [],
+      "indirect_calls": [
+        {
+          "address": "0x3570b",
+          "operand": "dword ptr [eax]",
+          "caller_cleanup": "0x3570d"
+        }
+      ],
+      "strings": {},
+      "sha256": "df0c2e9273c5bdca0d44fb3140ed1184e24285c90f9fcce93d62eed8679a5e05"
+    },
+    {
+      "name": "read_ide_flags",
+      "start": 218912,
+      "end": 218974,
+      "bytes": 62,
+      "instruction_bytes": 62,
+      "alignment": [],
+      "abi": "cdecl int(char **output); stores actual getenv pointer, returns1 if nonNULL else0",
+      "direct_calls": [
+        "0x52200"
+      ],
+      "indirect_calls": [
+        {
+          "address": "0x3573b",
+          "operand": "dword ptr [eax + 0xc]",
+          "caller_cleanup": "0x3573e"
+        }
+      ],
+      "strings": {
+        "0x7ec5c": "C:\\cudabld\\1\\build\\utils32\\coff\\ideapi.c",
+        "0x7ec88": "_MSC_IDE_FLAGS"
+      },
+      "sha256": "eec844d8b0fbed159c0095575f7b3b5dce1df250bb9d2551521e15fd0e4c5093"
+    }
+  ],
+  "application_globals": [
+    {
+      "va": "0x6eca4",
+      "initial_u32": 1750487046
+    },
+    {
+      "va": "0x7eb54",
+      "initial_u32": 0
+    }
+  ],
+  "whole_text_immediate_xrefs": [],
+  "nontext_pointer_xrefs": {
+    "0x355a0": [],
+    "0x35700": [],
+    "0x35720": []
+  },
+  "global_xrefs": [
+    {
+      "site": "0x355a2",
+      "instruction": "mov eax, dword ptr [0x6eca4]",
+      "global_va": "0x6eca4"
+    },
+    {
+      "site": "0x355d9",
+      "instruction": "mov eax, dword ptr [0x6eca4]",
+      "global_va": "0x6eca4"
+    },
+    {
+      "site": "0x355f5",
+      "instruction": "mov eax, dword ptr [0x6eca4]",
+      "global_va": "0x6eca4"
+    },
+    {
+      "site": "0x3563a",
+      "instruction": "mov eax, dword ptr [0x6eca4]",
+      "global_va": "0x6eca4"
+    },
+    {
+      "site": "0x35661",
+      "instruction": "mov eax, dword ptr [0x6eca4]",
+      "global_va": "0x6eca4"
+    },
+    {
+      "site": "0x35680",
+      "instruction": "mov eax, dword ptr [0x6eca4]",
+      "global_va": "0x6eca4"
+    },
+    {
+      "site": "0x35690",
+      "instruction": "mov eax, dword ptr [0x6eca4]",
+      "global_va": "0x6eca4"
+    },
+    {
+      "site": "0x356ac",
+      "instruction": "mov eax, dword ptr [0x6eca4]",
+      "global_va": "0x6eca4"
+    },
+    {
+      "site": "0x356cb",
+      "instruction": "mov eax, dword ptr [0x6eca4]",
+      "global_va": "0x6eca4"
+    },
+    {
+      "site": "0x356db",
+      "instruction": "mov eax, dword ptr [0x6eca4]",
+      "global_va": "0x6eca4"
+    },
+    {
+      "site": "0x356e5",
+      "instruction": "mov eax, dword ptr [0x7eb54]",
+      "global_va": "0x7eb54"
+    },
+    {
+      "site": "0x356eb",
+      "instruction": "mov eax, dword ptr [0x6eca4]",
+      "global_va": "0x6eca4"
+    },
+    {
+      "site": "0x35704",
+      "instruction": "mov dword ptr [0x6eca4], eax",
+      "global_va": "0x6eca4"
+    },
+    {
+      "site": "0x35710",
+      "instruction": "mov dword ptr [0x7eb54], eax",
+      "global_va": "0x7eb54"
+    },
+    {
+      "site": "0x35731",
+      "instruction": "mov eax, dword ptr [0x6eca4]",
+      "global_va": "0x6eca4"
+    }
+  ],
+  "table_layout": {
+    "size": 24,
+    "fields": [
+      {
+        "offset": 0,
+        "kind": "cdecl unsigned long get_channel(unsigned long kind)"
+      },
+      {
+        "offset": 4,
+        "kind": "cdecl int write(unsigned long channel,const char *bytes,unsigned long count)"
+      },
+      {
+        "offset": 8,
+        "kind": "DWORD reserved; unconsumed by all3 complete bodies, no callback interpretation claimed"
+      },
+      {
+        "offset": 12,
+        "kind": "cdecl void assertion(const char *source,unsigned long line), return ignored, invalid paths unexercised"
+      },
+      {
+        "offset": 16,
+        "kind": "char * owned formatting buffer"
+      },
+      {
+        "offset": 20,
+        "kind": "unsigned long capacity, compared unsigned to strlen"
+      }
+    ]
+  },
+  "scope": "External direct code tests only. No target export or incoming code/data pointer xref for these entries in scanned immutable image; empty xrefs are dormancy evidence, not absence of all hypothetical external users. Callback ABI inferred from exact pushes/cleanup/returns, actual positive formals remain to be captured. Static unknown reserved field is never read.",
+  "external_callback_source": {
+    "cases/ide-callback-protocol/sources/ide-probe.c": "3a20277d84fa0b50b11f984dfc453933b8f11b92990fb0fc199f5dc21f4f3f66",
+    "cases/ide-callback-protocol/sources/ide-probe.h": "b95f267d3bdde29ea3c7023ed85ffb09b6cde674ddd1209569e7a0f1ad3b7edf"
+  },
+  "external_dependency_contract": {
+    "kind": 2,
+    "returned_channel": 7,
+    "write_result": "actual byte count",
+    "write_sink": "owned512-byte in-memory append-only sink;16 bounded records; no provider/stdout/file/errno APIs",
+    "buffer": "owned1024bytes with32A5bytes before/after, initialized A5",
+    "valid_tags": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "errors": "callbacks make no CRT/Win32 calls and do not set error slots; actual entry/return still must be observed",
+    "unknown_paths": "assertion callback is an unexpected-dependency failure; no invalid target-input behavior claimed",
+    "file_effects": "No target-created files. External controller serializes address-free sink records; full raw memory/pointer ownership retained separately.",
+    "loader": "Named external public LoadLibrary after original CRT startup, compiled readable-C test DLL; not target application vertex. Native directly links same callback source."
+  },
+  "external_callback_source_initial": {
+    "cases/ide-callback-protocol/sources/ide-probe.c": "5feb7f77fb8b1dcf4f72362b37a27fc3b8e8ca1e6a435a39e43d60c32476535c",
+    "cases/ide-callback-protocol/sources/ide-probe.h": "bdfe7fb466cbe4e96f80b7ada7d293379e47c31a42666acc3767391388d7fb66"
+  },
+  "external_dependency_abi": "compiled-dependency.json",
+  "controller": {
+    "source": "src/capture-ide-protocol.c",
+    "sha256": "1b8c81af8909a69ebbc2ca8157f26d609e88d723bcf58e1f057d98d3092294be",
+    "phases": [
+      "named public LoadLibraryA via already accepted target IAT",
+      "external exported GetIdeProbe",
+      "actual target initialize_ide_api (one realformal) and observed external get_channel(2)",
+      "seven actual target emit_ide_message calls (two realformals) and observed external write(channel,buffer,count)",
+      "actual read_ide_flags (one real outpointer) with pointer identity into target CRT environment"
+    ],
+    "callback_observation": "Actual callback entry/return breakpoints verify target caller3570d/356f3, exact cdecl formals, saved registers/ESP/result and full errors/probe ownership; source and plainRET proof independently frozen.",
+    "target_execution": "not yet performed"
+  }
+}

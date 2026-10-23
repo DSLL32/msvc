@@ -1,0 +1,45 @@
+
+
+Fatal signal: Segmentation fault
+----- Backtrace -----
+0x55dffd45e139 ???
+0x55dffd58f1ae ???
+0x55dffd58f3b0 ???
+0x7f53dce4bd6f ???
+0x55dffd437785 ???
+0x55dffd61e2bb ???
+0x55dffd61f5d7 ???
+0x55dffd621391 ???
+0x55dffd9a60f5 ???
+0x55dffd9a6e86 ???
+0x55dffd829e63 ???
+0x55dffd82cf2a ???
+0x55dffd4a9552 ???
+0x55dffd4a99b9 ???
+0x55dffd72d47e ???
+0x7f53dd76f098 ???
+0x7f53dd70f319 _PyObject_MakeTpCall
+0x7f53dd842862 _PyEval_EvalFrameDefault
+0x7f53dd8417c6 PyEval_EvalCode
+0x55dffd72d9ba ???
+0x55dffd72e602 ???
+0x55dffd49a543 ???
+0x55dffd49a7a7 ???
+0x55dffd49e074 ???
+0x55dffd82d3cf ???
+0x55dffd670dc7 ???
+0x55dffd670e94 ???
+0x55dffd6733e2 ???
+0x55dffd6742ee ???
+0x55dffd3a5489 ???
+0x7f53dce35ca7 ???
+0x7f53dce35d64 __libc_start_main
+0x55dffd3b1cb0 ???
+0xffffffffffffffff ???
+---------------------
+A fatal error internal to GDB has been detected, further
+debugging is not possible.  GDB will now terminate.
+
+This is a bug, please report it.  For instructions, see:
+<https://www.gnu.org/software/gdb/bugs/>.
+

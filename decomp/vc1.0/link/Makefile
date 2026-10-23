@@ -3,7 +3,7 @@ TOOL = $(PYTHON) scripts/wine-tool.py
 TC = ../../../toolchains/1.0-nt
 RECON = ../../../lib/recon
 HEADERS = $(filter-out src/omf.h src/demangle.h,$(wildcard src/*.h)) $(RECON)/include/recon.h
-OBJECTS = $(addprefix build/,$(addsuffix .obj,link demangle demangle-stubs omf omf-stubs checksum editor editor-rebase editor-bind edit-stubs dump disassembler disassembly-output opcode-table disassembler-stubs dump-stubs resources resource-legacy codeview debug-symbols map-file definition-file definition-stubs stubs driver files runtime crt-anchors linker repro image symbols external-output section-layout base-relocations arguments options exports export-directives export-resolution export-object library library-output library-options library-stubs import-library import-library-stubs import-archive import-members imports ordering parse-switch usage dos-stub link-pass pass-one pass-two machine i386-relocations m68k-relocations archive coff-io object mac-object mac-debug comdat comdat-selection arena modules mac-sections mac-fixups text-buffer diagnostics argument-stubs files-stubs module-stubs driver-stubs machine-stubs pass-stubs object-stubs option-stubs link-pass-stubs pass-two-stubs))
+OBJECTS = $(addprefix build/,$(addsuffix .obj,link ide demangle demangle-stubs omf omf-stubs checksum editor editor-rebase editor-bind edit-stubs dump disassembler disassembly-output opcode-table disassembler-stubs dump-stubs resources resource-legacy codeview debug-symbols map-file definition-file definition-stubs stubs driver files runtime crt-anchors linker repro image symbols external-output section-layout base-relocations arguments options exports export-directives export-resolution export-object library library-output library-options library-stubs import-library import-library-stubs import-archive import-members imports ordering parse-switch usage dos-stub link-pass pass-one pass-two machine i386-relocations m68k-relocations archive coff-io object mac-object mac-debug comdat comdat-selection arena modules mac-sections mac-fixups text-buffer diagnostics argument-stubs files-stubs module-stubs driver-stubs machine-stubs pass-stubs object-stubs option-stubs link-pass-stubs pass-two-stubs))
 
 .PHONY: all clean check prefix replay audit native native-check native-trace native-trace-check
 all: build/link.exe
@@ -116,9 +116,10 @@ build/native/%.o: src/%.c $(NATIVE_HEADERS) | build/native
 build/native/LINK.EXE: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_HEADERS) Makefile
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_HOST_LDFLAGS) -o $@
 
-native-check: native build/native/legacy-diagnostics
+native-check: native build/native/legacy-diagnostics build/native/ide-protocol
 	$(PYTHON) scripts/check-native.py
 	$(PYTHON) scripts/check-legacy-diagnostics.py
+	$(PYTHON) scripts/check-ide-protocol.py
 
 # Application entry tracing is separate from the uninstrumented A/B target.
 # The reconstructed CRT override and shared shims remain uninstrumented.
@@ -139,9 +140,10 @@ build/native-trace/runtime.o: src/runtime.c $(NATIVE_HEADERS) | build/native-tra
 build/native-trace/LINK.EXE: $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_HEADERS) Makefile
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_HOST_LDFLAGS) -o $@
 
-native-trace-check: native-trace build/native-trace/legacy-diagnostics
+native-trace-check: native-trace build/native-trace/legacy-diagnostics build/native-trace/ide-protocol
 	$(PYTHON) scripts/check-native.py --trace
 	$(PYTHON) scripts/check-legacy-diagnostics.py --trace
+	$(PYTHON) scripts/check-ide-protocol.py --trace
 
 # Explicit original-only analysis helper. Never a native fixture dependency.
 .PHONY: capture-helper
@@ -166,3 +168,22 @@ build/native/legacy-diagnostics: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_DIAGNOSTIC_HOST) $(NATIVE_HOST_LDFLAGS) -Wl,--wrap=main -o $@
 build/native-trace/legacy-diagnostics: $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_DIAGNOSTIC_HOST) $(NATIVE_HEADERS) Makefile
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_DIAGNOSTIC_HOST) $(NATIVE_HOST_LDFLAGS) -Wl,--wrap=main -o $@
+
+# External C callback dependency for explicit original-only IDE unit captures.
+# Native fixtures link this same source directly; they never build/load this PE.
+.PHONY: capture-ide-dependency
+capture-ide-dependency: prefix
+	mkdir -p $(HOME)/.ai-tmp/msvc2/vc1.0/link/tooling
+	$(TOOL) CL.EXE /nologo /Od /G3 /MT /LD /I$(RECON)/include '/FeS:\vc1.0\link\tooling\ide-probe.dll' '/FoS:\vc1.0\link\tooling\ide-probe.obj' cases/ide-callback-protocol/sources/ide-probe.c
+
+.PHONY: capture-ide-helper
+capture-ide-helper: prefix
+	mkdir -p $(HOME)/.ai-tmp/msvc2/vc1.0/link/tooling
+	$(TOOL) CL.EXE /nologo /Od /G3 /I$(RECON)/include '/FeS:\vc1.0\link\tooling\capture-ide-protocol.exe' '/FoS:\vc1.0\link\tooling\capture-ide-protocol.obj' src/capture-ide-protocol.c
+
+NATIVE_IDE_HOST = scripts/native-ide-protocol.c cases/ide-callback-protocol/sources/ide-probe.c
+NATIVE_IDE_HEADERS = cases/ide-callback-protocol/sources/ide-probe.h
+build/native/ide-protocol: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_IDE_HOST) $(NATIVE_IDE_HEADERS) $(NATIVE_HEADERS) Makefile
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_IDE_HOST) $(NATIVE_HOST_LDFLAGS) -Wl,--wrap=main -o $@
+build/native-trace/ide-protocol: $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_IDE_HOST) $(NATIVE_IDE_HEADERS) $(NATIVE_HEADERS) Makefile
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_IDE_HOST) $(NATIVE_HOST_LDFLAGS) -Wl,--wrap=main -o $@
