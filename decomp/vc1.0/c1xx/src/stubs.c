@@ -17,6 +17,7 @@
 #include "initialization.h"
 #include "inline-vector.h"
 #include "class-lookup.h"
+#include "virtual-table-output.h"
 #include "lookahead.h"
 #include "ir.h"
 #include "hash-table.h"
@@ -33,6 +34,7 @@
 #include "class-finalization.h"
 #include "class-type-sets.h"
 #include "special-members.h"
+#include "special-member-lookup.h"
 #include "inline-capture.h"
 #include "type-sizes.h"
 #include "object-initializers.h"
@@ -59,7 +61,6 @@ void __stdcall begin_hash_iteration(HashIterator *iterator, HashTable *table) { 
 int __stdcall next_hash_entry(HashIterator *iterator) { __asm { int 3 } return 0; }
 void __stdcall emit_declaration_thunk(void *description, CppSymbol *function) { __asm { int 3 } }
 void __stdcall emit_deferred_type_table(void *description, CppSymbol *symbol) { __asm { int 3 } }
-void __stdcall emit_class_virtual_table(VirtualTable *table, CppSymbol *tag) { __asm { int 3 } }
 void finish_debug_info(void) { __asm { int 3 } }
 void generate_inline_queries(void) { __asm { int 3 } }
 void finish_browser_output(void) { __asm { int 3 } }
@@ -200,7 +201,6 @@ void __stdcall finish_implicit_statement_scope(IrToken *label, unsigned opened) 
 int __stdcall has_cv_qualifiers(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall initialize_element(IrToken *value, int mode) { __asm { int 3 } }
 CppSymbol *__stdcall lookup_destructor_member(CType *type) { __asm { int 3 } return 0; }
-CppSymbol *__stdcall lookup_vector_delete_destructor(CType *type) { __asm { int 3 } return 0; }
 IrToken *__stdcall initialize_allocated_scalar(IrToken *object, IrToken *initializer) { __asm { int 3 } return 0; }
 void __stdcall capture_allocation_pointer(IrToken **saved, IrToken **object) { __asm { int 3 } }
 IrToken *__stdcall guard_allocation_result(IrToken *saved, IrToken *object) { __asm { int 3 } return 0; }
@@ -635,3 +635,9 @@ unsigned __stdcall decode_literal_escape(unsigned char character, int wide) { __
 
 
 IrToken *__stdcall make_class_delete_call(QualifiedDeclarator *declaration, IrToken *object, CppSymbol *tag) { __asm { int 3 } return 0; }
+
+IrToken *__stdcall pure_virtual_table_expression(CppSymbol *function) { __asm { int 3 } return 0; }
+int __stdcall virtual_base_table_entry_offset(VirtualBaseEntry *entry, CppSymbol *tag, VirtualTable *table) { __asm { int 3 } return 0; }
+void __stdcall write_initializer_value(CppSymbol *symbol, IrToken *value, void *context) { __asm { int 3 } }
+
+CppSymbol *__stdcall get_virtual_adjustment_thunk(unsigned kind, CppSymbol *function, int displacement, int virtual_displacement) { __asm { int 3 } return 0; }

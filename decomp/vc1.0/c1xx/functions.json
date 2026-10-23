@@ -846,7 +846,14 @@
     "_new_abstract_declarator@4",
     "_apply_declarator_modifier@8",
     "_emit_vbase_destructor_epilogue@4",
-    "_emit_virtual_base_destructors@8"
+    "_emit_virtual_base_destructors@8",
+    "_emit_class_virtual_table@8",
+    "_prepare_virtual_table_functions@8",
+    "_resolve_virtual_table_function@12",
+    "_virtual_entry_this_displacement@12",
+    "_virtual_adjustment_offset@8",
+    "_lookup_vector_delete_destructor@4",
+    "_lookup_special_member@12"
   ],
   "driver": [
     {
@@ -5617,7 +5624,7 @@
     {
       "name": "_lookup_vector_delete_destructor@4",
       "start": 231296,
-      "end": 231297
+      "end": 231317
     },
     {
       "name": "_initialize_allocated_scalar@8",
@@ -6027,7 +6034,7 @@
     {
       "name": "_emit_class_virtual_table@8",
       "start": 505248,
-      "end": 505249
+      "end": 505567
     },
     {
       "name": "_write_function_directory",
@@ -6878,6 +6885,51 @@
       "name": "_emit_virtual_base_destructors@8",
       "start": 229840,
       "end": 230086
+    },
+    {
+      "name": "_prepare_virtual_table_functions@8",
+      "start": 505152,
+      "end": 505240
+    },
+    {
+      "name": "_resolve_virtual_table_function@12",
+      "start": 494800,
+      "end": 494922
+    },
+    {
+      "name": "_pure_virtual_table_expression@4",
+      "start": 505568,
+      "end": 505569
+    },
+    {
+      "name": "_virtual_base_table_entry_offset@12",
+      "start": 494992,
+      "end": 494993
+    },
+    {
+      "name": "_write_initializer_value@12",
+      "start": 376448,
+      "end": 376449
+    },
+    {
+      "name": "_virtual_entry_this_displacement@12",
+      "start": 494752,
+      "end": 494791
+    },
+    {
+      "name": "_get_virtual_adjustment_thunk@16",
+      "start": 506688,
+      "end": 506689
+    },
+    {
+      "name": "_virtual_adjustment_offset@8",
+      "start": 493744,
+      "end": 493802
+    },
+    {
+      "name": "_lookup_special_member@12",
+      "start": 228560,
+      "end": 228792
     }
   ],
   "cases": {
@@ -7003,7 +7055,7 @@
       "native_reference": "cases/native-virtual-diamond",
       "frontiers": "cases/virtual-diamond-frontiers",
       "accepted_from": 643,
-      "terminal": "_emit_class_virtual_table@8",
+      "terminal": "_write_literal_initializer@12",
       "frontier_extensions": [
         "cases/virtual-diamond-frontiers/0643-complete_declaration-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0644-add_storage_specifier-16/frontier-extension.json",
@@ -7203,9 +7255,16 @@
         "cases/virtual-diamond-frontiers/0838-new_abstract_declarator-4/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0839-apply_declarator_modifier-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0840-emit_vbase_destructor_epilogue-4/frontier-extension.json",
-        "cases/virtual-diamond-frontiers/0841-emit_virtual_base_destructors-8/frontier-extension.json"
+        "cases/virtual-diamond-frontiers/0841-emit_virtual_base_destructors-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0842-emit_class_virtual_table-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0843-prepare_virtual_table_functions-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0844-resolve_virtual_table_function-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0845-virtual_entry_this_displacement-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0846-virtual_adjustment_offset-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0847-lookup_vector_delete_destructor-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0848-lookup_special_member-12/frontier-extension.json"
       ],
-      "terminal_evidence": "cases/virtual-diamond-frontiers/0841-emit_virtual_base_destructors-8/original-events.txt",
+      "terminal_evidence": "cases/virtual-diamond-frontiers/0848-lookup_special_member-12/original-events.txt",
       "original_seed": "cases/virtual_diamond-seed"
     }
   },

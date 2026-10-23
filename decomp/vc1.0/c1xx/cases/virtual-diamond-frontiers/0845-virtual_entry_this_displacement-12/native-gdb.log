@@ -1,0 +1,15 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655b38b in virtual_adjustment_offset (adjustment=0x565fb508, tag=0x565fb0ec) at src/stubs.c:645
+645	unsigned __stdcall virtual_adjustment_offset(VirtualAdjustment *adjustment, CppSymbol *tag) { __asm { int 3 } return 0; }
+#0  0x5655b38b in virtual_adjustment_offset (adjustment=0x565fb508, tag=0x565fb0ec) at src/stubs.c:645
+#1  0x56589028 in virtual_entry_this_displacement (entry=0x565fb504, tag=0x565fb0ec, table=0x565fb4c0) at src/virtual-table-output.c:106
+#2  0x56588f01 in resolve_virtual_table_function (entry=0x565fb504, tag=0x565fb0ec, table=0x565fb4c0) at src/virtual-table-output.c:81
+#3  0x56588ea6 in prepare_virtual_table_functions (table=0x565fb4c0, tag=0x565fb0ec) at src/virtual-table-output.c:70
+#4  0x56588c75 in emit_class_virtual_table (table=0x565fb4c0, tag=0x565fb0ec) at src/virtual-table-output.c:25
+#5  0x565b662f in finish_inline_functions () at src/class-finalization.c:579
+#6  0x5655e2ef in compile_translation_unit () at src/frontend.c:78
+#7  0x56558816 in guarded_compile () at src/c1xx.c:28
+#8  0x565587e4 in main (argc=1, argv=0xffffd8d4, environment=0xffffd8dc) at src/c1xx.c:20

@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_resolve_virtual_table_function@12",
+    "start": 494800,
+    "end": 494922
+  },
+  "distinct_direct_callees": [
+    "_get_virtual_adjustment_thunk@16",
+    "_lookup_vector_delete_destructor@4",
+    "_virtual_base_entry_width",
+    "_virtual_entry_this_displacement@12"
+  ],
+  "next_frontier": "_virtual_entry_this_displacement@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5277673276141286,
+  "total_operation_seconds": 7.06233718059957,
+  "original_capture_seconds": 3.6762152332812548
+}

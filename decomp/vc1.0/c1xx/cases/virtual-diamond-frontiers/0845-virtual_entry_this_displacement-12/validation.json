@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_virtual_entry_this_displacement@12",
+    "start": 494752,
+    "end": 494791
+  },
+  "distinct_direct_callees": [
+    "_virtual_adjustment_offset@8",
+    "_virtual_table_object_offset@4"
+  ],
+  "next_frontier": "_virtual_adjustment_offset@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5156605020165443,
+  "total_operation_seconds": 7.748844527639449,
+  "original_capture_seconds": 4.375281047075987
+}

@@ -1,0 +1,27 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_emit_class_virtual_table@8",
+    "start": 505248,
+    "end": 505567
+  },
+  "distinct_direct_callees": [
+    "_builtin_unary_expression@8",
+    "_flush_initializer_records",
+    "_make_integer_constant@4",
+    "_prepare_virtual_table_functions@8",
+    "_pure_virtual_table_expression@4",
+    "_refill_arena@8",
+    "_resolve_virtual_table_function@12",
+    "_symbol_reference@4",
+    "_virtual_base_table_entry_offset@12",
+    "_write_initializer_value@12",
+    "_write_literal_initializer@12"
+  ],
+  "next_frontier": "_prepare_virtual_table_functions@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5015543699264526,
+  "total_operation_seconds": 6.778661808930337,
+  "original_capture_seconds": 3.4231271063908935
+}
