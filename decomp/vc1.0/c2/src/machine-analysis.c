@@ -2,6 +2,7 @@
 #include "machine-analysis.h"
 #include "backend-passes.h"
 #include "instruction-selection.h"
+#include "machine-layout.h"
 #include <recon.h>
 MachineFlowRegion *active_machine_region; /* 000830c8 */
 MachineFlowRegion *machine_region_root; /* 000830c4 */
@@ -240,4 +241,94 @@ void __fastcall replace_machine_region_suffix(MachineFlowRegion *parent,
         previous->next = regions;
     }
     for (region = regions; region; region = region->next) region->parent = parent;
+}
+
+/* Original [00048690,00048783). Mark outward target labels, preserve a
+   unique common exit, merge outgoing reference chains into the parent, and
+   update the region's block-number bounds while skipping nested regions. */
+void __fastcall finish_closed_machine_region(MachineFlowRegion *region, MachineFlowRegion *parent)
+{
+    MachineRegionEdge *edge;
+    MachineFlowRegion *children;
+    SymbolHeader *common = 0;
+    MachineInstruction *instruction;
+    int multiple = 0, number;
+    edge = region->references[2];
+    if (edge) {
+        region->flags |= 0x10;
+        common = edge->label;
+        for (; edge; edge = edge->next) {
+            label_machine_instruction((LabelSymbol *)edge->label)->labels.flags |= 2;
+            if (edge->label != common) multiple = 1;
+        }
+    }
+    edge = region->references[0];
+    if (edge) {
+        region->flags |= 0x10;
+        if (!common) common = edge->label;
+        for (; edge; edge = edge->next) {
+            label_machine_instruction((LabelSymbol *)edge->label)->labels.flags |= 2;
+            if (edge->label != common) multiple = 1;
+        }
+    }
+    if ((region->flags & 0x10) && !multiple)
+        region->exit_label = label_machine_instruction((LabelSymbol *)common);
+    transfer_machine_region_references(region, parent);
+    children = region->children;
+    instruction = next_machine_region_record(7, region, region->first, &children);
+    while (instruction && instruction != region->last) {
+        number = ((MachineBlockHeader *)instruction)->number;
+        if (number != -1) {
+            if (region->first_block >= number) region->first_block = number;
+            if (region->last_block <= number) region->last_block = number;
+        }
+        instruction = next_machine_region_record(7, region, instruction, &children);
+    }
+}
+
+/* Original [00048920,00048962). Move both pending outgoing chains into
+   the parent's open or closed reference bucket, preserving each chain order. */
+void __fastcall transfer_machine_region_references(MachineFlowRegion *region, MachineFlowRegion *parent)
+{
+    unsigned chain = parent->last ? 1 : 0, i;
+    MachineRegionEdge *head, *tail;
+    for (i = 0; i < 2; ++i) {
+        head = region->references[i];
+        if (head) {
+            for (tail = head; tail->next; tail = tail->next) ;
+            tail->next = parent->references[chain];
+            parent->references[chain] = head;
+            region->references[i] = 0;
+        }
+    }
+}
+
+/* Original [00048970,00048a1c). Scan after previous, skipping nested
+   unremoved regions through a caller-owned child cursor. Kind0 also accepts
+   the three extended machine instruction kinds8/9/10. */
+MachineInstruction *__fastcall next_machine_region_record(unsigned kind, MachineFlowRegion *region,
+    MachineInstruction *previous, MachineFlowRegion **children)
+{
+    MachineInstruction *instruction, *boundary;
+    MachineFlowRegion *child;
+    unsigned candidate_kind;
+    while (*children && ((*children)->flags & 2)) *children = (*children)->next;
+    boundary = *children ? (*children)->first : region->last->next;
+    instruction = previous->next;
+    for (;;) {
+        while (instruction == boundary) {
+            if (instruction == region->last->next) return 0;
+            child = *children;
+            instruction = child->last->next;
+            *children = child->next;
+            while (*children && ((*children)->flags & 2)) *children = (*children)->next;
+            /* The original retains the last boundary when the cursor empties;
+               callers stop on their region's last matching record. */
+            if (*children) boundary = (*children)->first;
+        }
+        candidate_kind = instruction->opcode & 15;
+        if (candidate_kind == kind || (!kind && candidate_kind >= 8 && candidate_kind <= 10))
+            return instruction;
+        instruction = instruction->next;
+    }
 }

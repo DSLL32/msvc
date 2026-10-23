@@ -823,7 +823,10 @@
     "@select_replicated_fill_operand@12",
     "@select_block_operation@36",
     "@register_mentioned_between@12",
-    "@replace_machine_region_suffix@12"
+    "@replace_machine_region_suffix@12",
+    "@finish_closed_machine_region@8",
+    "@transfer_machine_region_references@8",
+    "@next_machine_region_record@16"
   ],
   "driver": [
     {
@@ -5093,8 +5096,7 @@
     {
       "name": "@finish_closed_machine_region@8",
       "start": 296592,
-      "end": 296593,
-      "provisional": true
+      "end": 296835
     },
     {
       "name": "@process_special_machine_region_reference@8",
@@ -6420,6 +6422,16 @@
       "start": 121488,
       "end": 121489,
       "provisional": true
+    },
+    {
+      "name": "@transfer_machine_region_references@8",
+      "start": 297248,
+      "end": 297314
+    },
+    {
+      "name": "@next_machine_region_record@16",
+      "start": 297328,
+      "end": 297500
     }
   ],
   "cases": {

@@ -2062,3 +2062,13 @@ native/original agree at finish_closed_machine_region48690.741 graph checks,
 canonical/three modules-W3 and native fixtures pass. Explicit/reverse short
 transfers remain unvisited named child traps. Final hello object incomplete;
 see cases/hello-machine-selection-complete.json for evidence/timings.
+
+Structured machine regions: checkpoint822
+------------------------------------------
+Closed regions mark outward labels, preserve a unique exit and merge reference
+chains into their parent. The original scanner skips nested/removed regions
+through a caller-owned cursor and updates block bounds. Existing typed layouts
+and label attachments are shared. Native/original agree at
+analyze_machine_regions48070;744 graph/extent checks, canonical/W3 and native
+fixtures pass. Nested/multiple-target alternatives are not claimed all exercised.
+Full hello object remains incomplete; see cases/hello-machine-regions.json.

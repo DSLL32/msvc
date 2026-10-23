@@ -1,6 +1,6 @@
 C2 ACTIVE: finish /O2 /G5 hello, then cases/queue.json optimizer stress.
-Verified819 acceptances/741 source graphs; matching finish_closed_machine_region48690.
-WinMain instruction selection and finishing passed; machine region analysis active.
-Extent union225400/399693=56.3932818438%, not branch coverage.
+Verified822 acceptances/744 source graphs; matching analyze_machine_regions48070.
+WinMain machine regions constructed/closed; region transformations next.
+Extent union225881/399693=56.5136242066%, not branch coverage.
 Canonical/W3, audit and native fixtures pass; full hello incomplete.
-See cases/hello-machine-selection-complete.json. No shared shim requests.
+See cases/hello-machine-regions.json. No shared shim requests.

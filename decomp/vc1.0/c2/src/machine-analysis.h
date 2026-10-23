@@ -41,4 +41,7 @@ void __fastcall prepare_region_insertion(MachineFlowRegion *region);
 void __fastcall replace_machine_definition(unsigned identifier, MachineInstruction *previous, MachineInstruction *replacement);
 void __fastcall record_machine_definition_range(unsigned short number, MachineInstruction *first, MachineInstruction *last);
 void __fastcall record_region_register(MachineFlowRegion *region, unsigned short number, int definition, int use);
+void __fastcall transfer_machine_region_references(MachineFlowRegion *region, MachineFlowRegion *parent);
+MachineInstruction *__fastcall next_machine_region_record(unsigned kind, MachineFlowRegion *region,
+    MachineInstruction *previous, MachineFlowRegion **children);
 #endif
