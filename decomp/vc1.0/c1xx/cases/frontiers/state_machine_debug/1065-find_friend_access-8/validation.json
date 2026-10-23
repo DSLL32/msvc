@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_find_friend_access@8",
+    "start": 204784,
+    "end": 204884
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1065-find_friend_access-8/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_find_friend_record@4"
+  ],
+  "next_frontier": "_equal_first_words",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.39518956933170557,
+  "total_operation_seconds": 3.9000008022412658,
+  "original_capture_seconds": 1.5674567613750696
+}

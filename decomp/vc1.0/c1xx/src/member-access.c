@@ -3,6 +3,7 @@
 #include "constructor-initializers.h"
 #include "class-lookup.h"
 #include "lexer.h"
+#include "class-members.h"
 #include <recon.h>
 
 int base_initialization_access; /* original 0x97bc8 */
@@ -11,6 +12,21 @@ CppSymbol *access_failure_member; /* original 0x97bd4 */
 unsigned char access_failure_protection; /* original 0x97be0 */
 CppSymbol *access_failure_owner; /* original 0x97bcc */
 int access_through_virtual_base; /* original 0x97bd0 */
+
+/* Original 0x31ff0..0x32054. Class friends match the candidate tag;
+   function friends match the current function independently of that tag. */
+int __stdcall find_friend_access(CppSymbol *candidate, CppSymbol *owner)
+{
+    unsigned owner_index = owner->index;
+    FriendRecord *record = find_friend_record(&owner_index);
+    while (record) {
+        if ((record->symbol->kind & 31) == 4) {
+            if (record->symbol == candidate) return 1;
+        } else if (record->symbol == function_symbol) return 2;
+        record = record->next;
+    }
+    return 0;
+}
 
 /* Original 0x320c0..0x32105, stdcall 8. The lookup finds the enclosing
    path; access must be checked against the selected conversion overload. */

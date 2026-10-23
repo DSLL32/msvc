@@ -500,7 +500,6 @@ IrToken *make_error_expression(void) { __asm { int 3 } return 0; }
 
 void report_denied_member_access(void) { __asm { int 3 } }
 
-int __stdcall find_friend_access(CppSymbol *candidate, CppSymbol *owner) { __asm { int 3 } return 0; }
 int __stdcall has_member_access_declaration(CppSymbol *owner, BaseClassLink *base,
     CppSymbol *member) { __asm { int 3 } return 0; }
 void __stdcall set_inherited_member_access_failure(CppSymbol *member, CppSymbol *base,

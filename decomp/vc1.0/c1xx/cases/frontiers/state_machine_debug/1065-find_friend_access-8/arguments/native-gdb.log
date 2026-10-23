@@ -1,0 +1,16 @@
+Breakpoint 1 at 0x48f7c: file src/member-access.c, line 20.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, find_friend_access (candidate=0x5661fc84, owner=0x5661fc84) at src/member-access.c:20
+20	    unsigned owner_index = owner->index;
+#0  find_friend_access (candidate=0x5661fc84, owner=0x5661fc84) at src/member-access.c:20
+#1  0x5659e3f6 in qualified_member_is_accessible (reference_pointer=0x56646214) at src/member-access.c:96
+#2  0x5659f17d in check_qualified_member_access (reference=0x56646214) at src/member-expressions.c:181
+#3  0x565acb9d in resolve_symbol_expression (symbol=0x56646214) at src/identifier-expressions.c:81
+#4  0x565ac97d in symbol_expression (symbol=0x56646214) at src/identifier-expressions.c:36
+#5  0x565ac8eb in identifier_expression (name=0x56618b2b "entries") at src/identifier-expressions.c:23
+#6  0x565b39b9 in parse_translation_unit () at src/parser-expression-actions.inc:213
+#7  0x5655e01f in compile_translation_unit () at src/frontend.c:73
+#8  0x565588a6 in guarded_compile () at src/c1xx.c:28
+#9  0x56558874 in main (argc=1, argv=0xffffd7b4, environment=0xffffd7bc) at src/c1xx.c:20
