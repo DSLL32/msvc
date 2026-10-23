@@ -115,7 +115,7 @@ if caller.name()=='InvokeCompilerPass':
     value['caller']['args']={name:int(caller.read_var(name).cast(gdb.lookup_type('unsigned int'))) for name in ('argc','argv','mode')}
     value['caller']['argv']=[caller.read_var('argv')[i].string() for i in range(value['caller']['args']['argc'])]
     value['caller']['argv_terminator']=int(caller.read_var('argv')[value['caller']['args']['argc']].cast(gdb.lookup_type('unsigned int')))
-if caller.name()=='c1_main':
+if caller.name() in ('c1_main','parse_command_line'):
     value['caller']['pc']=int(caller.pc())
     value['caller']['args']={name:int(caller.read_var(name).cast(gdb.lookup_type('unsigned int'))) for name in ('argc','argv')}
 if caller.name()=='CompilerArena::AllocatePages':
@@ -137,6 +137,7 @@ value['compiler_state']={
  'pdb_context_layout':{'address':int(gdb.parse_and_eval('(unsigned int)&c1_pdb_context')),'size':int(gdb.parse_and_eval('sizeof(c1_pdb_context)')),'members':{key:int(gdb.parse_and_eval('(char*)&c1_pdb_context.'+key+'-(char*)&c1_pdb_context')) for key in ('database','names','types','minimal_rebuild','rebuild_state','read_mode')}},
  'output_pdb_context':{key:int(gdb.parse_and_eval(('(int)' if key=='read_mode' else '(unsigned int)')+'c1_output_pdb_context.'+key)) for key in ('database','names','types','minimal_rebuild','rebuild_state','read_mode')},
  'output_pdb_context_layout':{'address':int(gdb.parse_and_eval('(unsigned int)&c1_output_pdb_context')),'size':int(gdb.parse_and_eval('sizeof(c1_output_pdb_context)')),'members':{key:int(gdb.parse_and_eval('(char*)&c1_output_pdb_context.'+key+'-(char*)&c1_output_pdb_context')) for key in ('database','names','types','minimal_rebuild','rebuild_state','read_mode')}},
+ 'option_state':capture_command_line_state(),
  'live_addresses':{'initialized':int(gdb.parse_and_eval('(unsigned int)&c1_data')),'bss':int(gdb.parse_and_eval('(unsigned int)&c1_bss'))},
  'initialized':{'first_call':int(gdb.parse_and_eval('c1_data.first_call')),'compiler_phase':int(gdb.parse_and_eval('c1_data.compiler_phase')),'c9_il':int(gdb.parse_and_eval('c1_data.c9_il')),'compiler_flags':int(gdb.parse_and_eval('(unsigned int)c1_data.compiler_flags')),'system_info':{key:int(gdb.parse_and_eval('(unsigned int)c1_data.system_info.'+key)) for key in SYS_KEYS},'internal_bm_flags':int(gdb.parse_and_eval('c1_data.internal_bm_flags')),'internal_zb_value':int(gdb.parse_and_eval('c1_data.internal_zb_value')),'memory_percent':int(gdb.parse_and_eval('c1_data.memory_percent'))},
  'bss':{'arenas':[{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.arenas[%%d].'%%i+key))for key in ('cursor','committed_limit','base','committed_bytes','descriptor','reserve_bytes','reset_value','mapped_view')}for i in range(6)],'work_buffers':[{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.work_buffers[%%d].'%%i+key)) for key in ('data','limit')} for i in range(2)],'debug_break':int(gdb.parse_and_eval('c1_bss.debug_break')),'command_argc':int(gdb.parse_and_eval('c1_bss.command_argc')),'command_argv':int(gdb.parse_and_eval('(unsigned int)c1_bss.command_argv')),'pch_state':{key:([int(gdb.parse_and_eval('(unsigned int)c1_bss.pch_state.mapping_handles[%%d]'%%i)) for i in range(6)] if key=='mapping_handles' else int(gdb.parse_and_eval(('(int)' if key in ('image_count','loaded_image_count') else '(unsigned int)')+'c1_bss.pch_state.'+key))) for key in PCH_KEYS},'empty_record_prototype':[int(gdb.parse_and_eval('c1_bss.empty_record_prototype[%%d]'%%i)) for i in range(20)],'pools':[{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.pools[%%d].'%%i+key)) for key in ('cursor','remaining','minimum_pages','arena')} for i in range(POOL_COUNT)],'pdb_signature':int(gdb.parse_and_eval('c1_bss.pdb_signature')),'literal':int(gdb.parse_and_eval('c1_bss.literal.integer')),'saved_literal':int(gdb.parse_and_eval('c1_bss.saved_literal.integer')),'saved_literal_available':int(gdb.parse_and_eval('c1_bss.saved_literal_available')),'saved_data':int(gdb.parse_and_eval('(unsigned int)c1_bss.saved_data')),
@@ -309,6 +310,13 @@ class ActualMainEntry(gdb.Breakpoint):
         return False
 ActualMainEntry('*0x%x')
 """%main_address
+            if field_map.get('command_line'):
+                command_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] parse_command_line$',table,re.M)[1],16)
+                command_probe=main_probe.replace('main_entries','command_line_entries').replace('ActualMainEntry','ActualCommandLineEntry').replace('0x127a7','0x12b49').replace("'*0x%x'"%main_address,"'*0x%x'"%command_address)
+                command_probe=command_probe.replace("'args':dict(argc=words[1],argv=words[2]),'formal_inventory':formals,'compiler_state':capture_modeled()}","'args':dict(argc=words[1],argv=words[2]),'formal_inventory':formals,'compiler_state':capture_modeled(),'invocation':capture_invocation(),'fp':capture_x87(),'caller':{'symbol':gdb.newest_frame().older().name(),'pc':words[0],'args':{key:int(gdb.newest_frame().older().read_var(key).cast(gdb.lookup_type('unsigned int')))for key in ('argc','argv')}}}")
+                main_probe+=command_probe
+                save_line="open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json')
+                commands=commands.replace(save_line,"open(%r,'w').write(json.dumps(command_line_entries,indent=2)+'\\n')\n"%str(output/'command-line-entry-observations.json')+save_line)
             work_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] initialize_work_buffers$',table,re.M)[1],16)
             work_probe="""work_entries=[]
 class ActualWorkEntry(gdb.Breakpoint):
@@ -496,7 +504,7 @@ ActualArenaMemberEntry('*0x%x')
                     from pool_cycle_probe import record_returns
                     pool_probe=record_returns(pool_probe,'set-arena','pool_arena_entries')
                 default_probe+=pool_probe
-                if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry'):
+                if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry','command-line-helper'):
                     refill_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] _ZN12CompilerPool6RefillEj$',table,re.M)[1],16)
                     refill_base=pool_probe
                     if candidate.get('pool_cycle_observers'):
@@ -506,7 +514,7 @@ ActualArenaMemberEntry('*0x%x')
                     if candidate.get('pool_cycle_observers'):
                         refill_probe=record_returns(refill_probe,'refill','pool_refill_entries')
                     default_probe+=refill_probe
-                    if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry'):
+                    if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry','command-line-helper'):
                         page_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] _ZN13CompilerArena13AllocatePagesEjPj$',table,re.M)[1],16)
                         page_base=refill_probe
                         if candidate.get('pool_cycle_observers'):
@@ -537,9 +545,9 @@ ActualArenaMemberEntry('*0x%x')
         if candidate.get('default_pool_order'):
             for name,expression in [('default-pools-entry.json','default_pool_entries'),('pool-arena-entries.json','pool_arena_entries')]:
                 commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')\n"%(str(output/name),expression)+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
-        if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry'):
+        if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry','command-line-helper'):
             commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(pool_refill_entries,indent=2)+'\\n')\n"%str(output/'pool-refill-entries.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
-        if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry'):
+        if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry','command-line-helper'):
             commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(arena_page_entries,indent=2)+'\\n')\n"%str(output/'arena-page-entries.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         if candidate.get('pool_cycle_observers'):
             for name,expression in [('pool-cycle-events.json','pool_cycle_events'),('pool-cycle-returns.json','pool_cycle_returns'),('pool-commit-entries.json','pool_commit_entries'),('pool-commit-api-entries.json','pool_commit_api_entries'),('pool-commit-api-returns.json','pool_commit_api_returns')]:
@@ -839,6 +847,7 @@ for i in range(POOL_COUNT):
     gdb.execute('set var '+prefix+'arena = (void *)((char *)c1_bss.saved_data + '+str(512+i*16)+')')
 gdb.execute('set var c1_pass_mode = 1')
 gdb.execute('set var c1_reuse_state = 9')
+seed_command_line_restore()
 restore_observations['before']=capture_modeled()
 end
 break %s:%d
@@ -950,6 +959,14 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
     commands=commands.replace('MAIN_FIELDS_PLAN',repr(candidate.get('restore_probe',{}).get('main_fields',{}))).replace('SYS_KEYS',repr(tuple(SYSTEM_MEMBERS)))
     commands=commands.replace("PCH_KEYS",repr(tuple(field_map.get("pch_state",{}).get("members",PCH_MEMBERS))))
     commands = commands.replace("BUFFER_COUNT", str(len(buffer_models))).replace("POOL_COUNT", str(len(field_map.get("pools", []))))
+    import shutil
+    for script in ('command_line_probe.py','command_line_fields.py'):
+        shutil.copy2(PROJECT/'scripts'/script,output/script)
+    command_line_setup="python\nimport sys\nsys.path.insert(0,%r)\nfrom command_line_probe import capture as capture_command_line_state,seed_restore as seed_command_line_restore,invocation as capture_invocation\nend\n"%str(output)
+    commands=command_line_setup+commands
+    if field_map.get('command_line'):
+        save_line="open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json')
+        commands=commands.replace(save_line,"value['command_line_fp']=capture_x87()\n"+save_line)
     (output / "commands.gdb").write_text(commands)
     started = time.perf_counter()
     if args.case == "minimal":
@@ -973,7 +990,7 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
         environment['RECON_C1_SYSTEM_INFO_REFERENCE']=system_reference
     result = subprocess.run(["gdb", "--batch", "-x", str(output / "commands.gdb"),
                              "--args", str(binary)] + (["minimal"] if args.case == "minimal" else []), cwd=output,
-                            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=15,env=environment)
+                            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=30 if field_map.get('command_line')else 15,env=environment)
     elapsed = time.perf_counter() - started
     (output / "gdb.txt").write_bytes(result.stdout)
     assert result.returncode == 0

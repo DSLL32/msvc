@@ -73,7 +73,8 @@
     "CompilerPool::SetArena",
     "CompilerPool::Refill",
     "CompilerArena::AllocatePages",
-    "CompilerArena::CommitExtent"
+    "CompilerArena::CommitExtent",
+    "_parse_command_line"
   ],
   "driver": [
     {
@@ -652,6 +653,18 @@
         [
           274905240,
           274905270
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_parse_command_line",
+      "start": 274803529,
+      "end": 274804214,
+      "code_chunks": [
+        [
+          274924843,
+          274925489
         ]
       ],
       "role": "application"

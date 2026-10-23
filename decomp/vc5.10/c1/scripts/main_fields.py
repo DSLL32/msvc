@@ -22,13 +22,16 @@ def seeded(which,allocation,first):
  return result
 
 def expected_fields(fields):
- assert {r['name']:(r['original_rva'],r['bytes'],r['native_offset']) for r in fields['modeled_initialized']}==INITIALIZED
+ assert {r['name']:(r['original_rva'],r['bytes'],r['native_offset']) for r in fields['modeled_initialized']if not r['name'].startswith('options.')}==INITIALIZED
  rows={r['name']:r for r in fields['modeled_initialized']}
  for name,(rva,size,native) in INITIALIZED.items():
   row=rows[name];assert row['native_field']=='c1_data.'+name and row['snapshot_original_offset']==rva-0x5e000 and row['snapshot_native_offset']==native
   assert row['default']==DEFAULT[name]
- model=fields['main_fields'];assert model['system_info_members']==SYSTEM_MEMBERS and model['initialized_known_bytes']==64 and model['initialized_unknown_bytes']==6484
- assert (model['system_info_original_rva'],model['system_info_native_offset'],model['native_initialized_size'],model['native_bss_size'])==(0x5f508,16,64,996)
+ model=fields['main_fields'];assert model['system_info_members']==SYSTEM_MEMBERS
+ from command_line_fields import INITIALIZED_SIZE,BSS_SIZE
+ initialized,bss=(INITIALIZED_SIZE,BSS_SIZE)if fields.get('command_line')else(64,996)
+ assert model['initialized_known_bytes']==initialized and model['initialized_unknown_bytes']==6548-initialized
+ assert (model['system_info_original_rva'],model['system_info_native_offset'],model['native_initialized_size'],model['native_bss_size'])==(0x5f508,16,initialized,bss)
  for name,(rva,size,native) in COMMAND.items():
   row=next(r for r in fields['modeled_bss'] if r['name']==name)
   assert (row['original_rva'],row['bytes'],row['native_offset'],row['default'],row['native_field'])==(rva,size,native,0,'c1_bss.'+name)

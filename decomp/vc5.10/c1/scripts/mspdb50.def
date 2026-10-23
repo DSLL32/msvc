@@ -1,0 +1,3 @@
+LIBRARY mspdb50.dll
+EXPORTS
+    SigForPbCb

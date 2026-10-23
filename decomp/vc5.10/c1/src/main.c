@@ -33,11 +33,6 @@ void __cdecl initialize_state_12998(void)
 {
 }
 
-void __cdecl parse_command_line(int argc, char **argv)
-{
-    __asm { int 3 }
-}
-
 int __cdecl compile_translation_unit(void)
 {
     __asm { int 3 }

@@ -32,7 +32,7 @@
     {
       "order": 2,
       "id": "minimal",
-      "status": "reconstructing; CommitExtent117B accepted, all9 pool call/return sequences and64KiB committed zeros proved; actual parse_command_line12b49(argc11,sameargv) frontier",
+      "status": "reconstructing; complete1331B command-line parser accepted,1836 typed initialized bytes/4712 UNMODELED; actual noarg initialize_include_aliases12df6 frontier",
       "proposed_driver_argv": [
         "/nologo",
         "/c",

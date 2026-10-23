@@ -36,6 +36,13 @@ static DWORD pool_objects[16];
 static unsigned pool_count;
 static int prototype_probe, prototype_seeded;
 static int main_fields_probe;
+typedef struct CommandLineSeed {
+    char region;
+    DWORD rva, bytes;
+    unsigned kind, index;
+} CommandLineSeed;
+static CommandLineSeed command_line_seeds[96];
+static unsigned command_line_seed_count;
 static int pch_state_probe, pch_member_probe, pch_member_seeded, pch_return_active;
 static DWORD pch_return_address, pch_entry_esp, pch_entry_edi;
 static BYTE pch_return_saved;
@@ -589,6 +596,75 @@ static void seed_output_buffer(unsigned index, DWORD rva)
             index, rva, saved, values[3]);
 }
 
+/* Explicit semantic field inputs, not an initialized-section replacement.
+ * Unknown original bytes remain in their original snapshot unchanged. */
+static void read_command_line_seeds(void)
+{
+    FILE *file = fopen("command-line-seeds.txt", "r");
+    CommandLineSeed row;
+    int result;
+    if (!file) return;
+    while ((result = fscanf(file, " %c %lx %lx %u %u", &row.region,
+                            &row.rva, &row.bytes, &row.kind, &row.index)) == 5) {
+        DWORD first = row.region == 'D' ? 0x5e000 : 0x50000;
+        DWORD last = row.region == 'D' ? 0x5f994 : 0x5a06c;
+        if ((row.region != 'D' && row.region != 'B') || !row.bytes ||
+            row.bytes > 1000 || row.kind > 2 || row.index > 80 ||
+            row.rva < first || row.rva >= last || row.bytes > last - row.rva ||
+            (row.kind != 2 && row.bytes != 4) || command_line_seed_count == 96)
+            fail("command line seed metadata");
+        command_line_seeds[command_line_seed_count++] = row;
+    }
+    if (result != EOF || !command_line_seed_count) fail("command line seed file");
+    fclose(file);
+}
+
+static void seed_command_line_initialized(BYTE *data, DWORD saved, int snapshot_copy)
+{
+    unsigned i, j;
+    DWORD value;
+    CommandLineSeed *row;
+    for (i = 0; i < command_line_seed_count; ++i) {
+        row = &command_line_seeds[i];
+        if (row->region != 'D') continue;
+        if (row->kind == 2) {
+            for (j = 0; j < row->bytes; ++j)
+                data[row->rva - 0x5e000 + j] =
+                    (BYTE)((row->index + 1) * 7 + j + (snapshot_copy ? 11 : 31));
+        } else {
+            if (row->kind == 1)
+                value = snapshot_copy && row->rva == 0x5e414 ? 0 :
+                    saved + 5200 + row->index * 4 + (snapshot_copy ? 0 : 400);
+            else
+                value = 101 + row->index * 3 + (snapshot_copy ? 0 : 1000);
+            memcpy(data + row->rva - 0x5e000, &value, 4);
+        }
+    }
+}
+
+static void seed_command_line_live(BYTE *data, DWORD saved)
+{
+    unsigned i;
+    DWORD value;
+    CommandLineSeed *row;
+    if (!command_line_seed_count) return;
+    seed_command_line_initialized(data, saved, 0);
+    for (i = 0; i < command_line_seed_count; ++i) {
+        row = &command_line_seeds[i];
+        if (row->region == 'D')
+            write_mem(base + row->rva, data + row->rva - 0x5e000, row->bytes);
+        else {
+            value = row->kind == 1 ? saved + 5800 + row->index * 4 :
+                301 + row->index * 3;
+            write_mem(base + row->rva, &value, 4);
+        }
+    }
+    value = base + 0x5c048;
+    write_mem(base + 0x5c068, &value, 4);
+    fprintf(events, "command-line-seed fields=%u snapshot=%08lx persistent=normal-pdb\n",
+            command_line_seed_count, saved);
+}
+
 static void seed_main_initialized(BYTE *data, DWORD saved, int snapshot_copy)
 {
     DWORD phase = snapshot_copy ? 7 : 11;
@@ -637,6 +713,7 @@ static void seed_restore_state(void)
     saved = (DWORD)VirtualAllocEx(child, NULL, 6548, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
     if (!saved) fail("restore seed remote allocation");
     if (main_fields_probe) seed_main_initialized(data, saved, 1);
+    seed_command_line_initialized(data, saved, 1);
     file = fopen("restore-original-input.bin", "wb");
     if (!file || fwrite(data, 1, 6548, file) != 6548) fail("restore seed record");
     fclose(file);
@@ -652,6 +729,7 @@ static void seed_restore_state(void)
         write_mem(base + 0x5f978, data + 0x1978, 4);
         fprintf(events, "main-fields-seed bytes=64 snapshot-phase=7 live-phase=11 snapshot=%08lx pointers=owned\n", saved);
     }
+    seed_command_line_live(data, saved);
     free(data);
     write_mem(base + 0x57818, &saved, 4);
     write_mem(base + 0x5f530, &zero, 4);
@@ -962,6 +1040,7 @@ int main(int argc, char **argv)
         FILE *probe;
         DWORD object, bytes, first, callback;
         read_buffer_probes(); read_value_probe(); read_signature_probe(); read_pdb_probe(); read_pool_probes();
+        read_command_line_seeds();
         probe = fopen("prototype-probe.txt", "r");
         if (probe) {
             if (fscanf(probe, "%lx %lx %lx %lx", &object, &bytes, &first, &callback) != 4 || object != 0x58f50 || bytes != 20 || first != 1 || callback != 0xa0) fail("prototype probe metadata");

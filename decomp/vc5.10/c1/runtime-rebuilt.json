@@ -98,23 +98,128 @@
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_parse_command_line",
+    "name": "_compile_translation_unit",
     "start": 268443135,
     "end": 268443136,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_compile_translation_unit",
-    "start": 268443147,
-    "end": 268443148,
+    "name": "_next_internal_token",
+    "start": 268443879,
+    "end": 268443880,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_next_internal_token",
-    "start": 268443895,
-    "end": 268443896,
+    "name": "_initialize_include_aliases",
+    "start": 268446065,
+    "end": 268446066,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_initialize_checksums",
+    "start": 268446077,
+    "end": 268446078,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_initialize_option_input_12f08",
+    "start": 268446089,
+    "end": 268446090,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_initialize_option_input_12f3e",
+    "start": 268446101,
+    "end": 268446102,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_read_env_arguments",
+    "start": 268446113,
+    "end": 268446114,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_duplicate_argument",
+    "start": 268446125,
+    "end": 268446126,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_report_response_error",
+    "start": 268446139,
+    "end": 268446140,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_stop_compiler",
+    "start": 268446151,
+    "end": 268446152,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_new_option_vector",
+    "start": 268446163,
+    "end": 268446164,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_next_argument",
+    "start": 268446177,
+    "end": 268446178,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_match_option",
+    "start": 268446191,
+    "end": 268446192,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_resolve_option_path",
+    "start": 268446205,
+    "end": 268446206,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_disable_multibyte_identifiers",
+    "start": 268446219,
+    "end": 268446220,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_initialize_packing",
+    "start": 268446231,
+    "end": 268446232,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_compare_pch_paths",
+    "start": 268446243,
+    "end": 268446244,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_free_argument_allocation",
+    "start": 268446257,
+    "end": 268446258,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   }

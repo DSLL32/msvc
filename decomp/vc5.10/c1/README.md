@@ -3,16 +3,16 @@
 Target: `toolchains/5.10/bin/C1.DLL`, SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`.
 The lifecycle-only first case is complete. Minimal C compilation is in progress,
-all initialization callbacks and main are complete; internal-switch parsing and the captured GetSystemInfo response and arena initializers reach the command-line parser12b49 after all nine pool bindings and a proved64KiB commit. The native i386
+all initialization callbacks and main are complete. After internal-switch parsing, the captured GetSystemInfo response, all nine pool bindings and a proved64KiB commit, the full command-line parser now reaches the include-alias initializer12df6. Its contextual option fields and complete grammar are modeled with individual defaults, snapshot/restore and BSS-reset proofs; initialized state is1836 known/4712 UNMODELED bytes. The native i386
 harness and actual Win32 DLL compile the same reconstructed source; genuine
 thiscall members and their callers use small C++ translation units. The lifecycle
 fixture resolves both compiler exports; the minimal case calls InvokeCompilerPass.
 AbortCompilerPass remains a named INT3 stub.
 
-Accepted ownership is66 application functions /3117 original code bytes plus16
+Accepted ownership is67 application functions /4448 original code bytes plus16
 owned switch-table bytes,2 CRT support
-functions /451 bytes and two6-byte import thunks:3596 of the `.text` virtual
-extent's322288 bytes (1.116%). That denominator includes CRT and unclassified
+functions /451 bytes and two6-byte import thunks:4927 of the `.text` virtual
+extent's322288 bytes (1.529%). That denominator includes CRT and unclassified
 code; it is not non-CRT coverage. The original17-DWORD PCH-context initializer
 and its tail wrapper were explicitly accepted as one ordered JOINT two-function
 closure after separate non-promotable prospective input evidence.

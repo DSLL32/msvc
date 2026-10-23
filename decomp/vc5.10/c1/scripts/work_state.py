@@ -15,7 +15,7 @@ def values(bss):return [struct.unpack_from('<I',bss,rva-0x50000)[0] for rva,size
 def native_values(state):return [row[key] for row in state['bss']['work_buffers'] for key in ('data','limit')]
 def validate_fields(original,native,fields,entry,state,entry_sequence,sequence,probe,candidate):
  expected_fields(fields);assert candidate['restore_probe']['work_buffers']==PLAN
- assert fields['native_bss_size']==996
+ assert fields['native_bss_size']==(1092 if fields.get('command_line')else 996)
  for seq in (0,entry_sequence,sequence):assert values((original/('compiler-bss-%03d.bin'%seq)).read_bytes())==[0]*4
  assert native_values(entry['compiler_state'])==native_values(state['compiler_state'])==[0]*4
  if probe=='restore':

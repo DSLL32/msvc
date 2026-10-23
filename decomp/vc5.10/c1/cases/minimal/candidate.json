@@ -486,6 +486,16 @@
       "start_rva": 178328,
       "end_rva": 178358,
       "entry": 0
+    },
+    {
+      "start_rva": 76617,
+      "end_rva": 77302,
+      "entry": 1
+    },
+    {
+      "start_rva": 197931,
+      "end_rva": 198577,
+      "entry": 0
     }
   ],
   "functions": [
@@ -1482,6 +1492,23 @@
         ]
       ],
       "source": "src/arenas.cpp",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_parse_command_line",
+      "native_symbol": "parse_command_line",
+      "role": "application",
+      "chunks": [
+        [
+          76617,
+          77302
+        ],
+        [
+          197931,
+          198577
+        ]
+      ],
+      "source": "src/command-line.c",
       "status": "candidate"
     }
   ],
@@ -1504,17 +1531,14 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 76617,
-    "native_symbol": "parse_command_line",
-    "kind": "command-line-entry",
+    "rva": 77302,
+    "native_symbol": "initialize_include_aliases",
+    "kind": "command-line-helper",
     "calling_convention": "cdecl",
-    "native_args": [
-      "argc",
-      "argv"
-    ],
+    "native_args": [],
     "caller": {
-      "native_symbol": "c1_main",
-      "return_rva": 75774
+      "native_symbol": "parse_command_line",
+      "return_rva": 76641
     }
   },
   "imports": [
@@ -1799,7 +1823,7 @@
       "scope": "owned snapshot interior sentinels and labeled nonzero ints before BSS clear; never dereferenced"
     }
   },
-  "staging_role": "sole117B CommitExtent, successful actual MEM_COMMIT and complete nine pool member sequences to genuine command-line parser trap",
+  "staging_role": "sole1331B command-line parser to genuine include-alias initializer trap; full contextual option destinations/defaults and snapshot/reset projection; locale/MSPDB calls remain unvisited",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -1948,5 +1972,10 @@
     ],
     "commit_unit": 65536,
     "scope": "Actual owned call/return/API boundaries across all nine default pool bindings; no case completion claim"
+  },
+  "command_line_observers": {
+    "entry_rva": 76617,
+    "first_helper_rva": 77302,
+    "first_return_rva": 76641
   }
 }

@@ -98,13 +98,6 @@
     "evidence": "actual full-main call or cleanup callback identity, named INT3; no body credit"
   },
   {
-    "name": "_parse_command_line",
-    "start": 274803529,
-    "end": 274803530,
-    "pending_extent": true,
-    "evidence": "actual full-main call or cleanup callback identity, named INT3; no body credit"
-  },
-  {
     "name": "_compile_translation_unit",
     "start": 274806004,
     "end": 274806005,
@@ -117,5 +110,117 @@
     "end": 275003329,
     "pending_extent": true,
     "evidence": "genuine internal-switch scanner callee; named INT3 entry only"
+  },
+  {
+    "name": "_initialize_include_aliases",
+    "start": 274804214,
+    "end": 274804215,
+    "pending_extent": true,
+    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
+  },
+  {
+    "name": "_initialize_checksums",
+    "start": 274804252,
+    "end": 274804253,
+    "pending_extent": true,
+    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
+  },
+  {
+    "name": "_initialize_option_input_12f08",
+    "start": 274804488,
+    "end": 274804489,
+    "pending_extent": true,
+    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
+  },
+  {
+    "name": "_initialize_option_input_12f3e",
+    "start": 274804542,
+    "end": 274804543,
+    "pending_extent": true,
+    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
+  },
+  {
+    "name": "_read_env_arguments",
+    "start": 274804615,
+    "end": 274804616,
+    "pending_extent": true,
+    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
+  },
+  {
+    "name": "_duplicate_argument",
+    "start": 274866634,
+    "end": 274866635,
+    "pending_extent": true,
+    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
+  },
+  {
+    "name": "_report_response_error",
+    "start": 275014025,
+    "end": 275014026,
+    "pending_extent": true,
+    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
+  },
+  {
+    "name": "_stop_compiler",
+    "start": 275003733,
+    "end": 275003734,
+    "pending_extent": true,
+    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
+  },
+  {
+    "name": "_new_option_vector",
+    "start": 274800188,
+    "end": 274800189,
+    "pending_extent": true,
+    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
+  },
+  {
+    "name": "_next_argument",
+    "start": 274804636,
+    "end": 274804637,
+    "pending_extent": true,
+    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
+  },
+  {
+    "name": "_match_option",
+    "start": 274804670,
+    "end": 274804671,
+    "pending_extent": true,
+    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
+  },
+  {
+    "name": "_resolve_option_path",
+    "start": 274805595,
+    "end": 274805596,
+    "pending_extent": true,
+    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
+  },
+  {
+    "name": "_disable_multibyte_identifiers",
+    "start": 274972906,
+    "end": 274972907,
+    "pending_extent": true,
+    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
+  },
+  {
+    "name": "_initialize_packing",
+    "start": 274805901,
+    "end": 274805902,
+    "pending_extent": true,
+    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
+  },
+  {
+    "name": "_compare_pch_paths",
+    "start": 274980318,
+    "end": 274980319,
+    "pending_extent": true,
+    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
+  },
+  {
+    "name": "_free_argument_allocation",
+    "start": 274857078,
+    "end": 274857079,
+    "pending_extent": true,
+    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
   }
 ]

@@ -23,6 +23,10 @@ def export_rva(path,wanted):
  raise AssertionError('missing export')
 
 def check_static():
+ metadata=json.loads((P/'cases/minimal/audit-metadata.json').read_text())
+ if '_parse_command_line'in metadata['functions']:
+  from command_line_state import check_preservation_static
+  check_preservation_static(P,ROOT)
  packet=json.loads((P/'cases/minimal/allocation-preservation.json').read_text());assert packet['schema']==1
  target=ROOT/'toolchains/5.10/bin/C1.DLL';assert packet['target_sha256']==sha(target)
  sdk=packet['sdk'];header=ROOT/sdk['path'];assert sha(header)==sdk['sha256']
@@ -45,3 +49,6 @@ def check_report(report):
  assert result['rebuilt']['resolved_register_calls']=={} and result['rebuilt']['unresolved_register_calls']==result['rebuilt']['other_unresolved_calls']==[]
  assert len(result['rebuilt']['direct_import_calls'])==2
  assert all(row==dict(dll='kernel32.dll',name='VirtualAlloc')for row in result['rebuilt']['direct_import_calls'].values())
+ if '_parse_command_line'in report['functions']:
+  from command_line_state import check_register_report
+  check_register_report(report)

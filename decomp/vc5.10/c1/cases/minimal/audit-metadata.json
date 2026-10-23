@@ -28,6 +28,45 @@
           "path": "cases/minimal/allocation-preservation.json",
           "sha256": "597fce87fdab27e4ef38338f40298773ce58fbcaf9ba8100da17ddacd7156a18"
         }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "fgets"
+          }
+        },
+        "preserves": [
+          "ebx"
+        ],
+        "evidence": {
+          "path": "cases/minimal/command-line-preservation.json",
+          "sha256": "b8323576f10101c25049d769decf0109d1d3d8ad5359dd7c3f9b9f60f4d018ca"
+        }
+      },
+      {
+        "target": {
+          "function": "_read_env_arguments"
+        },
+        "preserves": [
+          "ebx"
+        ],
+        "evidence": {
+          "path": "cases/minimal/command-line-preservation.json",
+          "sha256": "b8323576f10101c25049d769decf0109d1d3d8ad5359dd7c3f9b9f60f4d018ca"
+        }
+      },
+      {
+        "target": {
+          "function": "_duplicate_argument"
+        },
+        "preserves": [
+          "ebx"
+        ],
+        "evidence": {
+          "path": "cases/minimal/command-line-preservation.json",
+          "sha256": "b8323576f10101c25049d769decf0109d1d3d8ad5359dd7c3f9b9f60f4d018ca"
+        }
       }
     ]
   },
@@ -53,6 +92,11 @@
             274924763
           ]
         }
+      }
+    },
+    "_parse_command_line": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true
       }
     }
   }

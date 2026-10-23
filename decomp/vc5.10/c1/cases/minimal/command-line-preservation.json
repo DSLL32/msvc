@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "scope": "Finite EBX live across actual parser response-loop calls; static ABI support only, response-file branch unvisited in current minimal trial",
+  "target": {
+    "path": "toolchains/5.10/bin/C1.DLL",
+    "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d"
+  },
+  "caller": {
+    "cached_iat_rva": 381016,
+    "load": {
+      "rva": 197983,
+      "bytes": "8b1d58d06510"
+    },
+    "register_calls": [
+      {
+        "rva": 198010,
+        "bytes": "ffd3"
+      },
+      {
+        "rva": 198152,
+        "bytes": "ffd3"
+      }
+    ],
+    "callee_save_register": "ebx"
+  },
+  "provider": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "export": "fgets",
+    "rva": 165902,
+    "end": 166035,
+    "bytes": "538b5c240c558b6c240c578bfd85db896c24107f0633c05f5d5bc3568b74241c56e864dafdff83c4044b74218b460448894604782f8b0e33c08a0141890e83f8ff742c8807473c0a74034b75dfc607008b7c241456e862dafdff83c4048bc75e5f5d5bc356e811f0fdff83c404ebcf3bfd75da5633ffe841dafdff83c4048bc75e5f5d5bc3",
+    "save_rva": 165902,
+    "restore_return_rvas": [
+      165927,
+      166000,
+      166033
+    ],
+    "contract": "Canonical public cdecl fgets, all three returning epilogues restore entry EBX; no recursive CRT reconstruction"
+  },
+  "target_helpers": [
+    {
+      "name": "_read_env_arguments",
+      "entry_rva": 77703,
+      "hot": {
+        "rva": 77703,
+        "bytes": "83ec08568b74241085f60f8545d801005e83c408c3"
+      },
+      "cold": {
+        "rva": 198620,
+        "bytes": "575553e8abe300008bd88a063c2075088a4601463c2074f8803e000f840e01000089338b0d90e3651083c30433ff8bc3897c24102bc18bee24fc895c24143d200300007c0f68c80000006a4de8465a010083c408ff05385c65108a0633c93c5cc744241c0100000075098a460146413c5c74f7803e2275398bc19933c22bc283e00133c22bc2752033c03bf87409807e0122750346eb048944241c33d23bf80f94c28bfa897c24108bc1992bc2d1f88bc88bc14985c074248d5101b85c5c5c5c8bca8bfd8bd9c1e902f3ab8bcb8b5c241483e10303eaf3aa8b7c24108a0684c0743285ff75043c20742a8b4c241c85c9741c8bc881e1ff00000080b908e0651023750588450045468a168855004546e946ffffff803e2075088a4601463c2074f8c64500008a0684c00f85f2feffffc703000000005b5d5fe97e26feff"
+      },
+      "proof": "NULL hot path never writes EBX; nonNULL path saves307de/restores30911 before sole shared RET12f9b",
+      "save_rva": 198622,
+      "restore_rva": 198929
+    },
+    {
+      "name": "_duplicate_argument",
+      "entry_rva": 139722,
+      "hot": {
+        "rva": 139722,
+        "bytes": "8b54240853568b74240c578bfec1e20583c9ff33c081c2b08f6510f2aef7d18b1a83c10383e1fc83c10383e1fc8d04198b4a043bc189020f87687601008bfe83c9ff33c0f2aef7d12bf98bf78bd18bfb8bc7c1e902f3a58bca83e103f3a45f5e5bc3"
+      },
+      "proof": "Entry221ce saves EBX; sole returning epilogue2222a restores EBX after hot/cold rejoin",
+      "save_rva": 139726,
+      "restore_rva": 139818
+    }
+  ]
+}

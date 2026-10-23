@@ -2,6 +2,7 @@
 #define C1_COMPILER_STATE_H
 #include <stdio.h>
 #include "c1.h"
+#include "command-line.h"
 #include <recon.h>
 
 /* Only recovered semantic fields live here. Other historical bytes are
@@ -15,6 +16,7 @@ typedef struct CompilerInitializedState {
     int internal_bm_flags;
     int internal_zb_value;
     int memory_percent;
+    CompilerOptionData options;
 } CompilerInitializedState;
 /* A context saves its current object/value together with a linked stack of
  * prior contexts. The domain of the value is not yet recovered. */
@@ -127,6 +129,7 @@ typedef struct CompilerBss {
     char **command_argv;
     CompilerWorkBuffer work_buffers[2];
     CompilerArena arenas[6];
+    CompilerOptionBss options;
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */
@@ -144,6 +147,7 @@ extern "C" {
 #endif
 extern CompilerPdbContext c1_pdb_context;
 extern CompilerPdbContext c1_output_pdb_context;
+extern CompilerPdbContext *c1_current_pdb_context;
 extern CompilerInitializedState c1_data;
 extern CompilerBss c1_bss;
 extern int c1_reuse_state;

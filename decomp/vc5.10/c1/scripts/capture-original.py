@@ -102,6 +102,9 @@ def main():
             (output / "pdb-context-probe.txt").write_text("%x 2\n" % args.pdb_reuse)
         if args.restore_probe and field_map.get("pools"):
             (output / "pools-probe.txt").write_text("".join("%x\n" % row["original_object_rva"] for row in field_map["pools"]))
+    if args.restore_probe and field_map.get('command_line'):
+        from command_line_fields import seed_metadata
+        (output/'command-line-seeds.txt').write_text(seed_metadata())
     if args.restore_probe and candidate.get("restore_probe", {}).get("pool_member"):
         (output / "pool-member-probe.txt").write_text("126fc %x\n" % len(field_map["pools"]))
     if args.restore_probe and field_map.get("empty_record_prototype"):
