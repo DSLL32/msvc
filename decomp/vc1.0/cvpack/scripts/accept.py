@@ -46,6 +46,59 @@ def compare_literal(item,value,actual,pe):
     assert raw.endswith(b'\0') and not actual['null'] and actual['string']==raw[:-1].hex(),'literal argument bytes differ'
 
 
+def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
+    """Routine whole-function/real frontier proof; grow state only for actual gaps."""
+    import tempfile
+    record=json.loads((BINARY/'cases'/args.case/'case.json').read_text());current=record['current'];work=native/args.case
+    assert current.get('proof_mode')=='entry-flow'and captured['entry_progress_only']and not(captured.get('reference_completion')or captured.get('scalar_completion')or captured.get('guard_probe')or captured.get('stop_at')or captured['unmasked']),'unapproved flow capture mode'
+    assert receipt['terminal']=='trap'and receipt['status']==-5 and captured['helper_status']==0,'not corresponding genuine traps'
+    events=(original/'events').read_text();traps=re.findall(r'^exception ([0-9a-f]+) va ([0-9a-f]+) ',events,re.M);assert len(traps)==1 and traps[0][0]=='80000003'and 'exit 99\n'in events,'unknown original terminal'
+    apps={r['original']:r for r in config['functions']};frontier=apps[int(traps[0][1],16)];assert frontier['status']=='stub'and frontier['native']==current['native_function'],'original next entry is not cached next stub'
+    state=json.loads((work/'gdb.json').read_text());assert state['signal']==5 and state['frames'][0]==frontier['native']and state['later_heap_equality']is False,'native next named trap differs'
+    words={int(a):int(b,16)for a,b in re.findall(r'^stack (\d+) ([0-9a-f]+)$',events,re.M)};parameters={}
+    assert set(state['parameters'])=={r['name']for r in frontier['parameters']},'new frontier ABI observation incomplete'
+    for item in frontier['parameters']:
+        assert item['kind']=='integer','concrete typed pointer proof required before consumption'
+        parameters[item['name']]=compare_integer(item,frontier['parameters'],words,state['parameters'])
+    entries=[];support=[];runtime=json.loads((BINARY/'runtime.json').read_text());identities={(r['start'],r['end']):r for r in runtime['functions']+runtime['imports']}
+    for a,b in re.findall(r'^runtime ([0-9a-f]+) ([0-9a-f]+)$',events,re.M):
+        a,b=int(a,16),int(b,16)
+        if a in apps:
+            f=apps[a];assert f['status']=='accepted'or f['name']==function['name'],'unaccepted app body restored';assert f['extent']==[a,b];entries.append(f['native'])
+        else:
+            identity=identities[(a,b)];support.append(dict(name=identity['name'],start=a,end=b))
+    entries.append(frontier['native']);assert function['native']in entries and entries==(work/'trace').read_text().splitlines()==current['application_trace'],'complete entry trace differs'
+    # The executable itself must be the exact declared mask, with only accepted
+    # application entries trapped for first-entry tracing. No hidden body grants.
+    from state import mask
+    with tempfile.TemporaryDirectory(dir=Path.home()/'.ai-tmp/vc1.0-cvpack')as directory:
+        expected=Path(directory)/'mask.exe';mask(config,pe,expected,[function['name']]);image=bytearray(expected.read_bytes())
+        for f in config['functions']:
+            if f['status']=='accepted'or f['name']==function['name']:image[pe.offset(f['original'])]=0xcc
+        assert bytes(image)==(original/'CVPACK.EXE').read_bytes(),'executed original mask differs'
+    from seams import approved,compare_returns,check_policy_snapshot
+    seams=approved(config,pe,runtime,args.case);assert captured['conditional_runtime']==seams;policy=captured['conditional_support_sha256'];assert policy==receipt['conditional_support_sha256'];check_policy_snapshot(original,policy);check_policy_snapshot(work,policy)
+    crt=compare_returns(events,json.loads((work/'crt-returns.json').read_text()),seams,function.get('required_conditional_calls_by_case',{}).get(args.case))
+    for stream in('stdout','stderr'):assert(original/stream).read_bytes()==(work/stream).read_bytes(),'streams differ'
+    assert {p.name for p in(original/'work').iterdir()}=={p.name for p in(work/'work').iterdir()},'artifact inventory differs'
+    for path in(original/'work').iterdir():assert path.read_bytes()==(work/'work'/path.name).read_bytes(),'full artifact differs'
+    memory={}
+    for a,raw in re.findall(r'^memory ([0-9a-f]+) ([0-9a-f]+)$',events,re.M):memory.update((int(a,16)+i,v)for i,v in enumerate(bytes.fromhex(raw)))
+    definitions={r['name']:r for r in json.loads((BINARY/'data.json').read_text())};matched={};assert set(state['globals'])==set(current.get('observed_globals',[])),'consumed global observation inventory differs'
+    for name in current.get('observed_globals',[]):
+        d=definitions[name];raw=bytes(memory[d['original']+i]for i in range(d['size']));assert raw.hex()==state['globals'][name],('concrete application global differs',name);matched[name]=raw.hex()
+    subprocess.run(['python3',str(BINARY/'scripts/audit.py')],check=True)
+    if args.check_only:print('Fresh whole-function entry-flow proof passes:',args.function);return
+    sequence=len(config['accepted_order'])+1;directory=BINARY/'cases'/args.case/'evidence'/('%04d-%s'%(sequence,args.function));directory.mkdir(exist_ok=False)
+    for label,source,names in(('original',original,('events','receipt.json','configuration.json','runtime-support.json','runtime-plan','stdout','stderr')),('native',work,('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','configuration.json','runtime-support.json','crt-returns.json','stdout','stderr'))):
+        for name in names:
+            if(source/name).exists():shutil.copyfile(source/name,directory/(label+'-'+name))
+    shutil.copyfile(native/'receipt.json',directory/'native-receipt.json');path=str((directory/'proof.json').relative_to(BINARY));prior={(r['start'],r['end'])for r in config.get('support_unmasked',[])}
+    for r in support:
+        if(r['start'],r['end'])not in prior:config.setdefault('support_unmasked',[]).append(dict(r,evidence=path))
+    proof=dict(function=function['name'],sequence=sequence,case=args.case,extent=function['extent'],original_frontier=frontier['original'],native_frontier=frontier['native'],application_entries=entries,matched_frontier_parameters=state['parameters'],matched_application_globals=matched,conditional_CRT_support=crt,runtime_unmasked=support,seconds=receipt['seconds'],classification='routine-whole-function-and-genuine-next-entry',later_module_heap_equality=False,prior_module3='cases/hello-debug-dll/evidence/0097-create_symbol_reference/proof.json',scope='Root streamlined normal loop; actual formal/selected consumed globals checked, old full module3 contracts retained; additional state probes only for concrete ambiguities/mismatches')
+    (directory/'proof.json').write_text(json.dumps(proof,indent=2)+'\n');function.update(status='accepted',evidence=path);config['accepted_order'].append(dict(function=function['name'],case=args.case,kind='application',sequence=sequence));(BINARY/'functions.json').write_text(json.dumps(config,indent=2)+'\n');print('Accepted',sequence,function['name'],'next',frontier['native'])
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--function',required=True)
@@ -71,6 +124,8 @@ def main():
                           ROOT/config['target']['path'],BINARY/'build/native/CVPACK.EXE')
     assert captured['case']==native_receipt['case']==args.case
     assert captured['candidates']==[args.function]
+    if json.loads((BINARY/'cases'/args.case/'case.json').read_text())['current'].get('proof_mode')=='entry-flow':
+        return accept_entry_flow(args,config,pe,function,original,native,captured,native_receipt)
     assert not(captured.get('entry_progress_only')or captured.get('reference_completion')or captured.get('scalar_completion')),'bounded sliced captures require their separate reviewed validator'
     assert not captured.get('guard_probe'),'guard controller evidence cannot accept application functions'
     assert native_receipt['executable_sha256']==sha(BINARY/'build/native/CVPACK.EXE')

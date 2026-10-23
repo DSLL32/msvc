@@ -161,3 +161,10 @@ independent genuine progression to `strip_debug(handle=15)`. Full module3
 ownership proof97 remains retained. Later symbol heap equality and the
 suppressed-input write branch are unexercised. There are 98 accepted application
 functions (32,084 bytes); no handwritten CRT reconstruction credit.
+
+Checkpoint 99: `strip_debug` is accepted (99 application functions, 32,547
+bytes). Routine acceptance now uses the existing entry-flow runner/acceptor:
+whole original/compiler graph and ABI, matching real next entry and formal
+inputs, relevant reached state, trace/status/streams/full artifacts. Additional
+probes address concrete gaps; full historical controls run at substantial
+checkpoints. The next real frontier is `initialize_strip_sections`.

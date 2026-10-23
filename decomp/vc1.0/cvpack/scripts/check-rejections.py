@@ -601,7 +601,7 @@ def main():
     latest=next(entry for entry in reversed(config['accepted_order'])if entry['case']=='hello-debug-dll')
     owner=next(record for record in config['functions']if record['name']==latest['function'])
     pair=(BINARY/owner['evidence']).parent
-    if (pair/"scalar-original").is_dir():
+    if (pair/"scalar-original").is_dir()or json.loads((pair/"proof.json").read_text()).get("classification")=="routine-whole-function-and-genuine-next-entry":
         # Latest scalar slice retains the independently complete97 module3
         # state; mutation controls for reads/owned heap use that full packet.
         pair=BINARY/"cases/hello-debug-dll/evidence/0097-create_symbol_reference"

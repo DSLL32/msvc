@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "strip_debug",
-    "native_function": "strip_debug",
+    "logical": "initialize_strip_sections",
+    "native_function": "initialize_strip_sections",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -116,10 +116,22 @@
       "record_symbol_offsets",
       "create_symbol_reference",
       "begin_symbol_block",
-      "strip_debug"
+      "strip_debug",
+      "initialize_strip_sections"
     ],
-    "proof_mode": "scalar-callback-return-plus-entry-progress",
-    "heap_scope": "Function98 exact first callback entry/return scalar proof; prior module3 proof97 retained. Later-module symbol heap unobserved; actual next strip_debug int handle observed before body."
+    "proof_mode": "entry-flow",
+    "heap_scope": "Root streamlined routine loop: actual next entry/formals plus reached PE header globals; old module3 proof97 retained. No later symbol-heap equality claim.",
+    "observed_globals": [
+      "strip_handle",
+      "strip_file_header_offset",
+      "strip_section_header_offset",
+      "strip_read_offset",
+      "strip_symbol_offset",
+      "strip_file_header",
+      "strip_optional_header",
+      "strip_records",
+      "statistics_enabled"
+    ]
   },
   "complete_reference": {
     "path": "decomp/vc1.0/cvpack/cases/hello-debug-dll/reference/packed.dll",

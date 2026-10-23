@@ -31,7 +31,8 @@ def main():
     assert not args.scalar_completion or(args.entry_progress_only and args.candidate==["begin_symbol_block"]),"only98 scalar slice"
     assert not(args.entry_progress_only and args.reference_completion), 'capture modes are separate'
     assert not((args.entry_progress_only or args.reference_completion)and(args.unmasked or args.guard_probe or args.stop_at)), 'bounded capture modes require normal masked candidate'
-    assert not(args.entry_progress_only or args.reference_completion)or(args.case=='hello-debug-dll'and args.candidate in(['create_symbol_reference'],['begin_symbol_block'])), 'only reviewed function97 boundary'
+    assert not(args.entry_progress_only or args.reference_completion)or(args.case=='hello-debug-dll'and len(args.candidate)==1), 'only reviewed function97 boundary'
+    assert not args.reference_completion or args.candidate==['create_symbol_reference'],'reference completion remains exact97 only'
     start = time.perf_counter()
     config, original = load()
     record = case(args.case)
@@ -171,7 +172,7 @@ def main():
         for key in ('BUFFER','RESOLVER','RECURSIVE_ARENA','PACKED_ARENA','SYMBOL_BLOCKS','SYMBOL_REFERENCES','MODULE_ADDRESS','PDB_HEADER','WALKS','OUTPUTS','ARENAS','TRANSIENTS','STRINGS','ARRAYS'):
             env.pop('CVPACK_CAPTURE_'+key,None)
         env['CVPACK_CAPTURE_PROGRESS_ONLY']='1'
-    if args.candidate==['begin_symbol_block'] and args.entry_progress_only:env['CVPACK_CAPTURE_SCALAR_PROGRESS']='1'
+    if args.candidate!=['create_symbol_reference'] and args.entry_progress_only:env['CVPACK_CAPTURE_SCALAR_PROGRESS']='1'
     if args.scalar_completion:env['CVPACK_CAPTURE_SCALAR_COMPLETION']='1'
     if args.reference_completion:env['CVPACK_CAPTURE_REFERENCE_COMPLETION']='1'
     from inputs import original as original_inputs

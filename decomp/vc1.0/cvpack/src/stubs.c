@@ -9,7 +9,7 @@ int release_file_slot(FileSlot *slot) { __asm { int 3 } return 0; }
 int open_mapped_file(FileSlot *slot, int mode, unsigned char created)
 { __asm { int 3 } return 0; }
 int close_file(int handle, unsigned char release) { __asm { int 3 } return 0; }
-void strip_debug(int handle) { __asm { int 3 } }
+
 void write_debug_directory(void) { __asm { int 3 } }
 void print_statistics(void) { __asm { int 3 } }
 void free_type_tables(void) { __asm { int 3 } }
@@ -115,3 +115,8 @@ void release_type_data(TypeRecord *entry) { __asm { int 3 } }
 void add_derived_type(unsigned short type, unsigned short base) { __asm { int 3 } }
 
 int __fastcall compare_recursive_type(TypeRecord *entry, unsigned short type, unsigned char *record, unsigned short index) { __asm { int 3 } return 0; }
+
+unsigned short initialize_strip_sections(void) { __asm { int 3 } return 0; }
+unsigned short collect_strip_records(void) { __asm { int 3 } return 0; }
+void write_strip_records(void) { __asm { int 3 } }
+void free_strip_records(void) { __asm { int 3 } }

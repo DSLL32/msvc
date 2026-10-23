@@ -8,7 +8,7 @@
   "allowed_case": "hello-debug-dll",
   "first_module_only": false,
   "sources": {
-    "src/cvpack.h": "e0478763deb6fc09929433ce520bfd4a74cc908344a60526205e1713d82c9691",
+    "src/cvpack.h": "dec1cfd632540ca922e68935727e700de07abb2caa9d927edc9d5b4d19c450b0",
     "src/diagnostics.c": "88717de8be9d57afadd1a66cef24e4346c1d03dbc40c8fe349928b5606847a45",
     "src/files.c": "fd7ad4f6cbf4693bef0ffbea48a372e7ed2ad42bb0acd2b28c62326242195499",
     "src/files.h": "5fd235d43717f5a5128ec437477f8dcbfaea06bc2dc79f87ac5b2ee5fe8eafd9",
@@ -19,7 +19,8 @@
     "src/options.c": "09d36a0bbb3ddc97a6a749250f2881d5a1967bdb5c34d4cd7b6f1178d31d2c34",
     "src/pdb.c": "138d0d5a929ca27aa86e5835482bd5e36c9e13f70e661ecf4497b98f7c2f75d2",
     "src/pdb.h": "4985c836921a7bc48a27baf3647ffc9b967c49c17ec63b75d31ecc8934068e73",
-    "src/stubs.c": "5112cccb1231fe22de99131b9d7fef5269bbf601b7b1e639a6f254f6bf283cc3",
+    "src/strip.c": "b4fca6046d04915b1ffbdbc05f5166be820731ab5ee1b2f98f6fa6ff4fcb2734",
+    "src/stubs.c": "da9f04200e24c3aac2d44835b006a9841b5a6bdac21b04b6974ea50780058ec5",
     "src/types.c": "753875b1fdb5fee956fcfce3d5710376d25396131b9c17a648b09cc90592bc03",
     "src/types.h": "d1456281073d6192caa293d423770657163b49339d21f8978628bc0648bcbb23"
   },

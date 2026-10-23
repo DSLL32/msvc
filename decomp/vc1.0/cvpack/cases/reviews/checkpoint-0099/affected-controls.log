@@ -1,0 +1,5 @@
+rejected: header concrete application global differs
+rejected: missing-global consumed global observation inventory differs
+rejected: trace complete entry trace differs
+rejected: artifact full artifact differs
+elapsed 0.9762043412774801

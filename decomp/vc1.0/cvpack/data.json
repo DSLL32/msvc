@@ -1155,5 +1155,61 @@
     "original": 226228,
     "size": 4,
     "source": "src/types.c"
+  },
+  {
+    "name": "strip_handle",
+    "symbol": "_strip_handle",
+    "original": 210364,
+    "size": 4,
+    "source": "src/strip.c"
+  },
+  {
+    "name": "strip_file_header_offset",
+    "symbol": "_strip_file_header_offset",
+    "original": 210116,
+    "size": 4,
+    "source": "src/strip.c"
+  },
+  {
+    "name": "strip_section_header_offset",
+    "symbol": "_strip_section_header_offset",
+    "original": 210112,
+    "size": 4,
+    "source": "src/strip.c"
+  },
+  {
+    "name": "strip_read_offset",
+    "symbol": "_strip_read_offset",
+    "original": 210100,
+    "size": 4,
+    "source": "src/strip.c"
+  },
+  {
+    "name": "strip_symbol_offset",
+    "symbol": "_strip_symbol_offset",
+    "original": 210108,
+    "size": 4,
+    "source": "src/strip.c"
+  },
+  {
+    "name": "strip_file_header",
+    "symbol": "_strip_file_header",
+    "original": 210344,
+    "size": 20,
+    "source": "src/strip.c"
+  },
+  {
+    "name": "strip_optional_header",
+    "symbol": "_strip_optional_header",
+    "original": 210120,
+    "size": 224,
+    "source": "src/strip.c"
+  },
+  {
+    "name": "strip_records",
+    "symbol": "_strip_records",
+    "original": 230184,
+    "size": 4,
+    "source": "src/strip.c"
   }
 ]

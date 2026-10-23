@@ -29,7 +29,7 @@ int close_file(int, unsigned char);
 void initialize_type_tables(void);
 void read_image_debug(void);
 int pack_module(unsigned short);
-void strip_debug(int);
+unsigned short strip_debug(int);
 void write_debug_directory(void);
 void print_statistics(void);
 void free_type_tables(void);
