@@ -54,6 +54,7 @@ def validate_pair(config_path, original_dir, native_dir, audit_path=None):
     assert original['audit_sha256'] == sha(original_dir/'audit.json')
     assert historical_audit['config_sha256'] == sha(config_path)
     assert historical_audit['graph_config_sha256'] == sha(original_dir/'graph-config.json')
+    refreshed_audit=audit_path is not None and audit_path.resolve()!=(original_dir/'audit.json').resolve()
     audit_path=audit_path or original_dir/'audit.json'
     audit = json.loads(audit_path.read_text())
     assert audit['config_sha256'] == sha(config_path)
@@ -73,8 +74,45 @@ def validate_pair(config_path, original_dir, native_dir, audit_path=None):
         assert audit[key] == sha(path), ('stale candidate audit input',key)
     if 'graph_metadata_sha256' in original:
         for key,name in [('graph_metadata_sha256','graph-metadata.json'),('graph_metadata_proof_sha256','graph-metadata-proof.json')]:
-            assert original[key]==sha(original_dir/name)==audit[key]==sha(audit_path.parent/name),'stale/mismatched exact switch metadata'
+            assert original[key]==sha(original_dir/name)==historical_audit[key], 'changed historical metadata'
+    if 'graph_metadata_sha256' in audit:
+        for key,name in [('graph_metadata_sha256','graph-metadata.json'),('graph_metadata_proof_sha256','graph-metadata-proof.json')]:
+            assert audit[key]==sha(audit_path.parent/name), 'stale current metadata'
         assert audit['switch_data_validator_sha256']==sha(BINARY/'scripts/switch-data.py')
+    if refreshed_audit:
+        expected_binding=dict(original_receipt_sha256=sha(original_dir/'receipt.json'),
+            native_receipt_sha256=sha(native_dir/'receipt.json'),
+            historical_audit_sha256=sha(original_dir/'audit.json'),
+            historical_metadata_sha256=sha(original_dir/'graph-metadata.json') if (original_dir/'graph-metadata.json').exists() else None,
+            historical_metadata_proof_sha256=sha(original_dir/'graph-metadata-proof.json') if (original_dir/'graph-metadata-proof.json').exists() else None,
+            original_events_sha256=sha(original_dir/'events'),masked_image_sha256=original['masked_image_sha256'])
+        assert audit.get('reused_capture_binding')==expected_binding, 'stale/swapped reused-capture sidecar'
+        changed_build=(original['native_sha256']!=sha(BINARY/'build/native/CVPACK') or
+                       original['rebuilt_sha256']!=sha(BINARY/'build/CVPACK.EXE'))
+        assert not changed_build or native.get('reused_original_capture'), 'changed build requires explicitly reused original capture'
+        assert {'--check-imports','--resolve-register-imports'}<=set(audit['graph_command']), 'refresh omitted qualified import checks'
+        # Rebuild exact current COFF/data/import metadata rather than trusting
+        # a sidecar that merely repeats its own changed hashes.
+        import importlib.util
+        import tempfile
+        spec=importlib.util.spec_from_file_location('current_metadata',BINARY/'scripts/switch-data.py')
+        current_metadata=importlib.util.module_from_spec(spec);spec.loader.exec_module(current_metadata)
+        checked=[r for r in config['functions'] if r['name'] in expected_checked]
+        with tempfile.TemporaryDirectory(prefix='cvpack-current-metadata-',dir=Path.home()/'.ai-tmp') as temporary:
+            actual,proof=current_metadata.prepare(checked,Path(temporary),config['functions'])
+            assert actual.read_bytes()==(audit_path.parent/'graph-metadata.json').read_bytes(), 'forged current metadata'
+            assert proof.read_bytes()==(audit_path.parent/'graph-metadata-proof.json').read_bytes(), 'forged current data proof'
+        assert current_metadata.check_import_sites(audit['graph'])==audit['cached_import_sites'], 'forged cached callsite report'
+        inputs=audit['graph']['register_import_inputs']
+        assert inputs['original_sha256']==sha(target) and inputs['rebuilt_sha256']==sha(BINARY/'build/CVPACK.EXE'), 'stale common import report PE inputs'
+        import hashlib
+        current_schema=json.loads((audit_path.parent/'graph-metadata.json').read_text())
+        # Rust reports the compact, sorted serde_json value, not file whitespace.
+        assert inputs['metadata_sha256']==hashlib.sha256(json.dumps(current_schema,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+        assert inputs['preservation_contracts']==current_schema['register_imports']['preservation_contracts']
+        assert {'known_imports','register_imports'}<=set(audit['graph']['checks'])
+    else:
+        assert not native.get('reused_original_capture'), 'changed native build requires a fresh strict audit sidecar'
     assert original['graph_config_sha256'] == sha(original_dir/'graph-config.json')
     assert original['graph_runtime_sha256'] == sha(original_dir/'graph-runtime.json')
     assert (original_dir/'graph-config.json').read_bytes()==(audit_path.parent/'graph-config.json').read_bytes(), 'audit refresh changed trial projection'

@@ -6,8 +6,51 @@ from state import BINARY, ROOT, sha
 from binary import COFF, PE, u32
 
 
-def prepare(checked,destination):
+def prepare(checked,destination,available=None):
     metadata=dict(schema=1,functions={});proof=dict(schema=1,tables=[])
+    evidence=BINARY/'cases/hello-debug-dll/import-preservation.json'
+    preservation=json.loads(evidence.read_text())
+    provider=ROOT/preservation['provider']['path'];module=PE(provider)
+    start,end=preservation['provider']['function']
+    import hashlib
+    assert sha(provider)==preservation['provider']['sha256']=='e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210'
+    assert hashlib.sha256(module.read(start,end-start)).hexdigest()==preservation['provider']['function_sha256']
+    assert module.read(start,2)==bytes.fromhex('5156')
+    assert all(module.read(address,3)==bytes.fromhex('5e59c3') for address in (0x780013d2,0x780013ef))
+    assert sha(ROOT/preservation['target']['path'])==preservation['target']['sha256']
+    metadata['register_imports']={}
+    metadata['register_imports']['preservation_contracts']=[{'target':{'import':preservation['qualified_import']},'preserves':['esi'],
+        'evidence':dict(path=str(evidence.relative_to(BINARY)),sha256=sha(evidence))}]
+    proof['register_preservation_evidence_sha256']=sha(evidence)
+    additional=BINARY/'cases/hello-debug-dll/cached-import-contracts.json'
+    contracts=json.loads(additional.read_text())
+    target=PE(ROOT/preservation['target']['path'])
+    assert contracts['target_sha256']==sha(ROOT/preservation['target']['path'])
+    assert contracts['provider_sha256']==sha(provider)
+    available_names={row['symbol'] for row in available} if available is not None else None
+    for row in contracts['contracts']:
+        # Old immutable help trials have a smaller named driver index. A claim
+        # for an absent, unreachable helper cannot be resolved by that index.
+        if available_names is not None and row['target'].get('function') and row['target']['function'] not in available_names:continue
+        if 'sdk_header' in row:
+            assert sha(ROOT/row['sdk_header'])==row['sdk_header_sha256'], 'changed ABI declaration'
+        owner=module if row['target'].get('import',{}).get('dll')=='msvcrt.dll' else target
+        if row.get('provider_sha256'):
+            assert row['provider_sha256']==sha(provider)
+        for witness in row['static_witnesses']:
+            assert hashlib.sha256(owner.read(witness['start'],witness['end']-witness['start'])).hexdigest()==witness['sha256'], 'changed preservation body'
+        if 'executed_witness' in row:
+            observed=row['executed_witness'];events=BINARY/observed['events']
+            assert sha(events)==observed['events_sha256']
+            assert sha(events.parent/'receipt.json')==observed['receipt_sha256']
+            assert observed['edi_before']==observed['edi_after']
+        metadata['register_imports']['preservation_contracts'].append(dict(target=row['target'],preserves=row['preserves'],
+            evidence=dict(path=str(additional.relative_to(BINARY)),sha256=sha(additional))))
+    proof['additional_register_preservation_evidence_sha256']=sha(additional)
+    for name in ('_parse_options','_print_banner','_fatal_error','_read_image_debug','_create_mapping'):
+        if any(row['symbol']==name for row in checked):
+            metadata['functions'][name]=dict(register_imports=dict(require_all_register_calls_resolved=True))
+    metadata['functions']['_main']=dict(register_imports=dict(require_all_register_calls_resolved=False))
     if any(row['name']=='pack_module' for row in checked):
         path=BINARY/'build/pack.obj';obj=COFF(path.read_bytes())
         symbols={row['name']:row for row in obj.symbols.values()}
@@ -55,3 +98,32 @@ def prepare(checked,destination):
     (destination/'graph-metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
     (destination/'graph-metadata-proof.json').write_text(json.dumps(proof,indent=2)+'\n')
     return destination/'graph-metadata.json',destination/'graph-metadata-proof.json'
+
+
+def check_import_sites(graph):
+    """Check report callsites where aggregate import sets cannot show omissions."""
+    evidence=BINARY/'cases/hello-debug-dll/import-preservation.json'
+    witness=json.loads(evidence.read_text())
+    report=graph['functions']['_main']['register_imports']
+    identity=witness['qualified_import']
+    original=report['original'];rebuilt=report['rebuilt']
+    expected={str(site):identity for site in witness['target']['sites']}
+    assert original['resolved_register_calls']==expected, 'main cached free site inventory differs'
+    assert original['unresolved_register_calls']==[witness['dynamic_callback']['site']], 'main unknown register call is not the genuine checksum callback'
+    assert original['other_unresolved_calls']==[], 'unexpected original opaque call'
+    assert rebuilt['resolved_register_calls']=={} and rebuilt['unresolved_register_calls']==[], 'unexpected rebuilt register call'
+    calls={site:name for site,name in rebuilt['direct_import_calls'].items() if name==identity}
+    assert len(calls)==5, 'rebuilt five free calls missing'
+    # Original CL /Od emits the single genuine typed checksum call through its
+    # main-frame local at EBP-32. This target-specific instruction witness avoids
+    # treating any arbitrary unknown memory call as an approved callback.
+    publics={}
+    for line in (BINARY/'build/cvpack.map').read_text().splitlines():
+        match=re.match(r'\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})',line)
+        if match:publics[match[1]]=int(match[2],16)
+    callback=publics['_main']+0x227
+    assert rebuilt['other_unresolved_calls']==[callback], 'unexpected rebuilt opaque callback'
+    assert PE(BINARY/'build/CVPACK.EXE').read(callback,3)==bytes.fromhex('ff55e0'), 'rebuilt checksum callback instruction changed'
+    return dict(evidence_sha256=sha(evidence),original_free_sites=witness['target']['sites'],
+        original_checksum_callback=witness['dynamic_callback']['site'],rebuilt_free_sites=sorted(map(int,calls)),
+        rebuilt_checksum_callback=callback,scope='Per-site report checks; no secondary CFG or import inference.')

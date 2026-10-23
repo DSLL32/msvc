@@ -1,0 +1,169 @@
+{
+  "schema": 1,
+  "status": "stable-passed",
+  "application_functions": 50,
+  "application_extent_bytes": 13832,
+  "associated_text_data_bytes": 353,
+  "whole_text_denominator_bytes": 62662,
+  "coverage_qualification": "22.07% accepted application extent / whole target text, not non-CRT or executed-branch coverage",
+  "shared_auditor_commit": "3fcab5c046d7b961c6c30e2ef08f58083d338aff",
+  "graph_tool_sha256": "6575be33131c2194225a104d427c310eda263fccfaf075753dec62ed02612d35",
+  "original_unchanged": true,
+  "original_receipt_sha256": "b906e5789881e764d87cfc706e3b698aae2cd90f39a7f85e9ead0f263b68c8c3",
+  "native_receipt_path": "cases/hello-debug-dll/evidence/0050-read-new-module-types/native-qualified-imports-0002/receipt.json",
+  "native_receipt_sha256": "522df8738b0ed05bcfda19a616f39ed172760dffef5238773176f82d3d918289",
+  "current_audit_sha256": "a06190bd1e7de73656d1f522308e108482a3c8078a2f5b41847bc92239242f99",
+  "acceptance_checker_sha256": "0963870cffcce82a8e934654391824c1418593376a6c98c347b32a73cd328bce",
+  "native_only_validation": true,
+  "fresh_checks": {
+    "qualified_functions": 50,
+    "preservation_contract_removals": 14,
+    "individual_register_removals": 20,
+    "sidecar_controls": 12,
+    "help_protocol_controls": 24,
+    "native_fixtures": 2
+  },
+  "reused_checks": "Unchanged semantic-state/provider/primitive controls retain checkpoint50-controls.json provenance; no new application-state contract changed.",
+  "superseded_attempt": "../0002-qualified/review.json",
+  "seconds": {
+    "incremental_build": 0.02706535067409277,
+    "native_capture": {
+      "direct_execution": 0.006534417159855366,
+      "gdb_execution": 0.3311517545953393,
+      "total": 0.41795229632407427
+    },
+    "qualified_audit": 0.45700476318597794,
+    "contract_and_register_removals": 0.6605333192273974,
+    "sidecar_controls": 1.7412459095939994,
+    "fixture_help": {
+      "preparation": 0.0025239717215299606,
+      "execution": 0.0036886893212795258,
+      "checks": 0.0024236030876636505,
+      "total": 0.013026057742536068
+    },
+    "fixture_debug": {
+      "preparation": 0.0025542406365275383,
+      "execution": 0.4946150928735733,
+      "checks": 0.00486389547586441,
+      "total": 0.6199572561308742
+    },
+    "help_final": {
+      "native_capture": 0.10725904535502195,
+      "candidate_audit": 0.28204275853931904,
+      "pair_check": 0.15712359081953764,
+      "negative_checks": 1.348356374539435
+    }
+  },
+  "files": [
+    {
+      "name": "audit.log",
+      "bytes": 82876,
+      "sha256": "a06190bd1e7de73656d1f522308e108482a3c8078a2f5b41847bc92239242f99"
+    },
+    {
+      "name": "build-and-capture.json",
+      "bytes": 5806,
+      "sha256": "cafd8f3e779a09433f73cb959271533cbc599e2d4d6b3736b675dfa476e3ccfc"
+    },
+    {
+      "name": "build.log",
+      "bytes": 75,
+      "sha256": "0560df5afe1c079640eb20286d8c0f1a63e73cfc1f3ac807cd09b23d4e5bf260"
+    },
+    {
+      "name": "contract-removals.json",
+      "bytes": 14761,
+      "sha256": "fa6f8975004fcc8957888b64bfbac24eb5b078841e96bea61ee656ed34bd538c"
+    },
+    {
+      "name": "current-audit/audit.json",
+      "bytes": 82876,
+      "sha256": "a06190bd1e7de73656d1f522308e108482a3c8078a2f5b41847bc92239242f99"
+    },
+    {
+      "name": "current-audit/graph-config.json",
+      "bytes": 10454,
+      "sha256": "8253b88a2cd4ad4daf0f498530fa4b5d931787be4529772aeadf75f519470182"
+    },
+    {
+      "name": "current-audit/graph-metadata-proof.json",
+      "bytes": 2991,
+      "sha256": "1a2f1a96e17e8f669047b249c1f0d0e7c1762ef7842dbb9cf1e7d2e73f2ff59e"
+    },
+    {
+      "name": "current-audit/graph-metadata.json",
+      "bytes": 6315,
+      "sha256": "35e266583ea172c9a81301bde07a38e8ccf1a6003180cecbf9ebee2d225b85a9"
+    },
+    {
+      "name": "current-audit/graph-runtime.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "name": "current-audit/pack-switch.obj",
+      "bytes": 7867,
+      "sha256": "f20f3b46c58537924f30cf56a8850794f50d5b9c04b788cf1e6c8afd78c5e04e"
+    },
+    {
+      "name": "fixture-hello-debug-dll.json",
+      "bytes": 1193,
+      "sha256": "5a632dd9337aac001c87aa4be964b02c6e9224481e0f2c5d1cccb980917d8a1d"
+    },
+    {
+      "name": "fixture-help.json",
+      "bytes": 796,
+      "sha256": "69261ebb300a58a6c018bc21c3a105cfa4b1db1086f65b053d6d78b98502de90"
+    },
+    {
+      "name": "help-final-check.json",
+      "bytes": 39091,
+      "sha256": "4c212ff8f42e943b4bc91342df109ab8b8d189389fc12287538dd1f7b492ce0d"
+    },
+    {
+      "name": "help-final-summary-final.json",
+      "bytes": 521,
+      "sha256": "a40b6ccdcf571a44b3958cd0294aa4ae998f8704609352a6348e6a82d1c30835"
+    },
+    {
+      "name": "help-final-summary.json",
+      "bytes": 522,
+      "sha256": "9afbabcc7aeb78295534a6708d06b05f0406a6714c3ed98de835608b948007c7"
+    },
+    {
+      "name": "native-capture.log",
+      "bytes": 411295,
+      "sha256": "cd4d49e084a0c0991ca43a29ba83b22ced31f15bf7b14ff8b92b1b74c984c6c9"
+    },
+    {
+      "name": "native.elf",
+      "bytes": 370200,
+      "sha256": "95aed81ff823fbd15f39d75de68d7b7f590fce949b6258d371828caeb8ac9a95"
+    },
+    {
+      "name": "pair-validation.json",
+      "bytes": 3929,
+      "sha256": "7ebf61b8f8b7c1160feac72092ef8dd60970577d73383da3d74a1f21c8d12a59"
+    },
+    {
+      "name": "rebuilt.exe",
+      "bytes": 24064,
+      "sha256": "897988896830bc2dbd79011499f20b681bde918a0bc0781b7dc6f71213b57a16"
+    },
+    {
+      "name": "rebuilt.map",
+      "bytes": 22700,
+      "sha256": "dd9689f4db41a68095ebe5c1210105710ed4103e771acd50ca3c43ef41a1856a"
+    },
+    {
+      "name": "sidecar-controls-final.json",
+      "bytes": 6574,
+      "sha256": "54de33c5e57370c1255c9eeb929f2d1d10bbbdaf3c3e99275a747a723123ded7"
+    },
+    {
+      "name": "sidecar-controls.json",
+      "bytes": 6537,
+      "sha256": "6b6ca64dce13c4d22880a0c0bcfe9c5f1c36f0223714b8e4a8aac841bb2a9431"
+    }
+  ]
+}

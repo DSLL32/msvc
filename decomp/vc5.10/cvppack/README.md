@@ -143,3 +143,13 @@ Historical source-status auditing distinguishes old masked stubs from bodies
 accepted later: those later bodies remain excluded from the historical mask and
 checked-function set. Current genuine stubs must still contain INT3. The new
 status note identifies the later acceptance proofs explicitly.
+
+Qualified import auditing now includes cached EBX/ESI/EDI/EBP calls. The 50-function
+review correction preserves the direct imported `_iob` array and binds fourteen
+narrow ordinary-return ABI contracts to actual provider/SDK/code witnesses.
+All fourteen contracts and twenty individual facts are necessary; main also has
+an exact five-free-call inventory so aggregate graph equality cannot hide unknown
+cached calls behind its genuine checksum callback. Original observations remain
+immutable; current native/static sidecars bind both generations and regenerate
+current COFF/import metadata. See `cases/hello-debug-dll/REVIEW-50.md` and
+`import-audit-review/0003-qualified-stable/review.json` beneath that case.

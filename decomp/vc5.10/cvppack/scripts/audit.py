@@ -39,7 +39,7 @@ def ownership(config, pe):
     return intervals
 
 
-def run(config_path, candidates=(), output=None):
+def run(config_path, candidates=(), output=None, reuse_original=None, reuse_native=None):
     begin = time.perf_counter()
     config = json.loads(config_path.read_text())
     assert sha(ROOT / config['target']['path']) == config['target']['sha256']
@@ -92,16 +92,17 @@ def run(config_path, candidates=(), output=None):
     import importlib.util
     spec=importlib.util.spec_from_file_location('switch_data',BINARY/'scripts/switch-data.py')
     switches=importlib.util.module_from_spec(spec);spec.loader.exec_module(switches)
-    metadata,metadata_proof=switches.prepare(checked,destination)
+    metadata,metadata_proof=switches.prepare(checked,destination,functions)
     tool = Path(os.environ.get('GRAPH_AUDIT_BIN',str(ROOT/'tooling/graph-audit/target/release/graph-audit'))).resolve()
     command = [str(tool), '--profile', 'cl', '--project', str(BINARY), '--repo', str(ROOT),
                '--original', str(ROOT / config['target']['path']), '--rebuilt', str(BINARY / 'build/CVPACK.EXE'),
                '--map', str(BINARY / 'build/cvpack.map'), '--config', str(generated),
                '--runtime', str(empty), '--rebuilt-runtime', str(empty), '--metadata',str(metadata),'--discovery', 'cfg',
-               '--check-ret', '--check-references', '--check-ownership', '--check-extents']
+               '--check-ret', '--check-imports', '--resolve-register-imports', '--check-references', '--check-ownership', '--check-extents']
     result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=15)
     assert result.returncode == 0, result.stderr.decode()
     graph = json.loads(result.stdout)
+    import_sites=switches.check_import_sites(graph)
     rebuilt=PE(BINARY/'build/CVPACK.EXE')
     publics={}
     for line in (BINARY/'build/cvpack.map').read_text().splitlines():
@@ -126,11 +127,26 @@ def run(config_path, candidates=(), output=None):
         switch_data_validator_sha256=sha(BINARY/'scripts/switch-data.py'), data_sha256=sha(BINARY/'data.json'),
         runtime_sha256=sha(BINARY/'runtime.json'), graph_runtime_sha256=sha(empty),
         audit_wrapper_sha256=sha(BINARY/'scripts/audit.py'),
-        data_objects_checked=len(data), resource_strings_checked=len(actual), historical_reconstructed_bodies=historical_bodies,
+        cached_import_sites=import_sites, data_objects_checked=len(data), resource_strings_checked=len(actual), historical_reconstructed_bodies=historical_bodies,
         resource_evidence_sha256=sha(BINARY/'cases/help/resources.json'),
         candidates=list(candidates), checked_functions=[r['name'] for r in checked],
         owned_ranges=len(intervals), graph_command=command, graph=graph,
         seconds=time.perf_counter()-begin)
+    assert bool(reuse_original)==bool(reuse_native), 'reuse requires both raw captures'
+    if reuse_original:
+        original=json.loads((reuse_original/'receipt.json').read_text())
+        native=json.loads((reuse_native/'receipt.json').read_text())
+        assert native['original_receipt_sha256']==sha(reuse_original/'receipt.json')
+        assert original['candidates']==list(candidates)
+        assert original['configuration_sha256']==native['configuration_sha256']==sha(config_path)
+        receipt['reused_capture_binding']=dict(
+            original_receipt_sha256=sha(reuse_original/'receipt.json'),
+            native_receipt_sha256=sha(reuse_native/'receipt.json'),
+            historical_audit_sha256=sha(reuse_original/'audit.json'),
+            historical_metadata_sha256=sha(reuse_original/'graph-metadata.json') if (reuse_original/'graph-metadata.json').exists() else None,
+            historical_metadata_proof_sha256=sha(reuse_original/'graph-metadata-proof.json') if (reuse_original/'graph-metadata-proof.json').exists() else None,
+            original_events_sha256=sha(reuse_original/'events'),
+            masked_image_sha256=original['masked_image_sha256'])
     if output:
         output.write_text(json.dumps(receipt, indent=2) + '\n')
     return receipt
@@ -141,5 +157,7 @@ if __name__ == '__main__':
     parser.add_argument('--config', type=Path, default=BINARY / 'functions.json')
     parser.add_argument('--candidate', action='append', default=[])
     parser.add_argument('--output', type=Path, default=BINARY / 'build/audit.json')
+    parser.add_argument('--reuse-original',type=Path)
+    parser.add_argument('--reuse-native',type=Path)
     args = parser.parse_args()
-    print(json.dumps(run(args.config, args.candidate, args.output), indent=2))
+    print(json.dumps(run(args.config, args.candidate, args.output,args.reuse_original,args.reuse_native), indent=2))

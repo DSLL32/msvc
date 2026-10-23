@@ -33,7 +33,7 @@ def main():
     run('native_capture',[sys.executable,'scripts/native-debug.py','--original',str(original),
         '--config',str(original/'configuration.json'),'--content-store',str(args.content_store.resolve()),'--output',str(native)])
     run('candidate_audit',[sys.executable,'scripts/audit.py','--config',str(original/'configuration.json'),
-        '--candidate','message_text','--output',str(audit)])
+        '--candidate','message_text','--reuse-original',str(original),'--reuse-native',str(native),'--output',str(audit)])
     run('pair_check',[sys.executable,'scripts/accept.py','--config',str(original/'configuration.json'),
         '--candidate','message_text','--original',str(original),'--native',str(native),'--audit',str(audit),'--check-only'])
     run('negative_checks',[sys.executable,'scripts/check-rejections.py','--config',str(original/'configuration.json'),

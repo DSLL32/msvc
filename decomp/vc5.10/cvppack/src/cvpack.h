@@ -6,6 +6,7 @@
 #include <string.h>
 #include <io.h>
 #include <fcntl.h>
+#include "crt-imports.h"
 #include <recon.h>
 
 /* The native driver is outside the reconstructed target graph. */

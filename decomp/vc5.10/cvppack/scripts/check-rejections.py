@@ -56,6 +56,18 @@ def main():
             native_receipt=json.loads((native/'receipt.json').read_text())
             native_receipt['original_receipt_sha256']=hashlib.sha256((original/'receipt.json').read_bytes()).hexdigest()
             (native/'receipt.json').write_text(json.dumps(native_receipt))
+            if audit_path:
+                selected=json.loads(audit_path.read_text())
+                binding=selected.get('reused_capture_binding')
+                if binding:
+                    # These controls exercise the raw decoder and its individual
+                    # guards, after deliberately refreshing the transport hashes.
+                    binding.update(original_receipt_sha256=hashlib.sha256((original/'receipt.json').read_bytes()).hexdigest(),
+                        native_receipt_sha256=hashlib.sha256((native/'receipt.json').read_bytes()).hexdigest(),
+                        historical_audit_sha256=hashlib.sha256((original/'audit.json').read_bytes()).hexdigest(),
+                        original_events_sha256=hashlib.sha256((original/'events').read_bytes()).hexdigest(),
+                        masked_image_sha256=json.loads((original/'receipt.json').read_text())['masked_image_sha256'])
+                    audit_path.write_text(json.dumps(selected))
             try:
                 validate_pair(cfg, original, native,audit_path)
             except (AssertionError, KeyError, ValueError):
