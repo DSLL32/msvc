@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Reject changed typed fields, callback slots, restore observations and allocation ABI."""
-import argparse,importlib.util,json,re,shutil,struct,tempfile
+import argparse,importlib.util,json,re,shutil,struct,tempfile,time
 from pathlib import Path
 s=importlib.util.spec_from_file_location('trial',Path(__file__).with_name('check-trial.py'));m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
 def rehash(d,name):
  p=d/'receipt.json';r=json.loads(p.read_text());f=d/name;r['artifacts'][name]={'sha256':m.pair.sha(f),'size':f.stat().st_size};p.write_text(json.dumps(r))
 def main():
- p=argparse.ArgumentParser();p.add_argument('original',type=Path);p.add_argument('native',type=Path);a=p.parse_args();m.check(a.original,a.native)
+ p=argparse.ArgumentParser();p.add_argument('original',type=Path);p.add_argument('native',type=Path);p.add_argument('--only',action='append',help='run only these affected controls; report omitted controls as unexecuted');a=p.parse_args();started=time.perf_counter();m.check(a.original,a.native)
  restore=json.loads((a.original/'receipt.json').read_text()).get('probe')=='restore'
  frontier=json.loads((a.original/'candidate.json').read_text())['expected_frontier']
  frontier_kind=frontier['kind']
@@ -17,6 +17,10 @@ def main():
  tests+=['missing-postpoint','restore-zero-input','restore-post-field','restore-post-count','restore-post-callback','restore-pointer-identity','restore-pc','restore-line','original-post-field','original-clear-gap','restore-context-zero-input','restore-context-object','restore-context-value','restore-context-frame','restore-pre-seed-context','callback-seed-object','callback-seed-value','callback-seed-frame','callback-seed-pc','missing-callback-seed','restore-current-zero-input','restore-current-object','restore-current-value','restore-current-frame','current-seed-object','current-seed-value','current-seed-frame','current-seed-pc','restore-contexts-seed-0','restore-contexts-seed-2','restore-contexts-seed-5','restore-contexts-post-0','restore-contexts-post-2','restore-contexts-post-5','restore-contexts-callback-0','restore-contexts-callback-2','restore-contexts-callback-5','restore-contexts-pc','restore-buffer-seed-data','restore-buffer-seed-mode','restore-buffer-seed-descriptor','restore-buffer-post-data','restore-buffer-post-mode','restore-buffer-post-descriptor','restore-buffer-constructor-data','restore-buffer-constructor-mode','restore-buffer-constructor-descriptor','restore-buffer-constructor-pc','restore-buffer2-seed-data','restore-buffer2-post-mode','restore-buffer2-constructor-descriptor','restore-buffer2-constructor-pc','restore-buffer-last-seed-data','restore-buffer-last-post-mode','restore-buffer-last-constructor-descriptor','restore-buffer-last-constructor-pc'] if restore else ['allocation-size','allocation-pc','original-allocation-size']
  if frontier_kind=='initialization-helper':tests+=['wrong-helper-caller','wrong-original-helper-return']
  if frontier['rva']==0x123f6:tests+=['wrong-registration-callback','wrong-original-registration-callback']
+ all_tests=list(tests)
+ if a.only:
+  assert set(a.only)<=set(tests)
+  tests=[test for test in tests if test in a.only]
  for test in tests:
   with tempfile.TemporaryDirectory(prefix='state-negative-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c1') as temporary:
    d=Path(temporary);o=d/'original';n=d/'native';b=d/'audit';shutil.copytree(a.original,o);shutil.copytree(a.native,n);b.mkdir()
@@ -134,5 +138,5 @@ def main():
    try:m.check(o,n,b)
    except (AssertionError,KeyError,ValueError):continue
    raise AssertionError('accepted negative '+test)
- print(json.dumps({'count':len(tests),'probe':'restore' if restore else 'normal','rejected':tests}))
+ print(json.dumps({'count':len(tests),'seconds':time.perf_counter()-started,'not_executed':[test for test in all_tests if test not in tests],'probe':'restore' if restore else 'normal','rejected':tests}))
 if __name__=='__main__':main()

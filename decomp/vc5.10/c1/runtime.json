@@ -14,13 +14,6 @@
     "evidence": "Unaccepted named call-entry identity only; full extent not established or unmasked."
   },
   {
-    "name": "_initialize_state_1266f",
-    "start": 274802287,
-    "end": 274802288,
-    "pending_extent": true,
-    "evidence": "actual .initfe callback table entry; unrecovered body traps"
-  },
-  {
     "name": "_initialize_state_126af",
     "start": 274802351,
     "end": 274802352,
@@ -187,5 +180,19 @@
     "end": 274872542,
     "pending_extent": true,
     "evidence": "separate named pending body; entry identity only"
+  },
+  {
+    "name": "_initialize_pdb_context_12676",
+    "start": 274802294,
+    "end": 274802295,
+    "pending_extent": true,
+    "evidence": "actual separate callee and registration callback identity; named INT3 only"
+  },
+  {
+    "name": "_destroy_pdb_context_238dc",
+    "start": 274872540,
+    "end": 274872541,
+    "pending_extent": true,
+    "evidence": "actual separate callee and registration callback identity; named INT3 only"
   }
 ]

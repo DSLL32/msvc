@@ -59,6 +59,8 @@ int __cdecl initialize_output_buffer_12423(void);
 void __cdecl destroy_output_buffer_23939(void);
 void __cdecl destroy_output_buffer_23940(void);
 int __cdecl register_compiler_cleanup(C1Initializer);
+int __cdecl initialize_pdb_context_12676(void);
+void __cdecl destroy_pdb_context_238dc(void);
 int __cdecl initialize_output_buffer_125fd(void);
 void __cdecl destroy_output_buffer_238dd(void);
 int __cdecl initialize_output_buffer_125ae(void);

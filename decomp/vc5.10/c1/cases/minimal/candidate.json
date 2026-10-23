@@ -241,6 +241,16 @@
       "start_rva": 75364,
       "end_rva": 75375,
       "entry": 1
+    },
+    {
+      "start_rva": 75375,
+      "end_rva": 75382,
+      "entry": 1
+    },
+    {
+      "start_rva": 75425,
+      "end_rva": 75439,
+      "entry": 0
     }
   ],
   "functions": [
@@ -727,6 +737,23 @@
         ]
       ],
       "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_1266f",
+      "native_symbol": "initialize_state_1266f",
+      "role": "application",
+      "chunks": [
+        [
+          75375,
+          75382
+        ],
+        [
+          75425,
+          75439
+        ]
+      ],
+      "source": "src/initializers.c",
       "status": "sole-new-candidate"
     }
   ],
@@ -742,11 +769,15 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 75375,
-    "native_symbol": "initialize_state_1266f",
-    "kind": "initialization-callback",
+    "rva": 75382,
+    "native_symbol": "initialize_pdb_context_12676",
+    "kind": "initialization-helper",
     "native_args": [],
-    "abi": "cdecl void callback, cleanup0"
+    "abi": "cdecl int no arguments, cleanup0",
+    "caller": {
+      "native_symbol": "initialize_state_1266f",
+      "return_rva": 75380
+    }
   },
   "imports": [
     {
@@ -893,7 +924,7 @@
       "normal_case": false
     }
   },
-  "staging_role": "Signature callback12664 is sole new candidate",
+  "staging_role": "Split wrapper1266f is sole new candidate; helper12676 remains separately named INT3",
   "registered_cleanup": [
     {
       "original_rva": 145728,

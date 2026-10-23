@@ -283,3 +283,9 @@ negative pairs and all changed transport/state controls pass. Durable coverage
 is31 application functions /1372 bytes plus2 CRT functions /451 bytes and the
 6-byte import thunk:1829 owned bytes. The517 modeled BSS bytes occupy544 native
 bytes including27 padding bytes. Numerical value tails remain UNMODELED.
+
+The split PDB wrapper1266f is accepted (21 bytes in two chunks), stopping
+at its separate named helper12676. No persistent PDB context field is consumed
+yet. Fresh caller/return-site and stale-prefix guards pass;45 unchanged generic
+controls reuse explicitly hashed prior results with byte-identical validators
+and mutation bodies. Source functions34; owned original bytes1850.
