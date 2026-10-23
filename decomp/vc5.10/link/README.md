@@ -1,26 +1,26 @@
 # LINK 5.10 reconstruction
 
 Target: `toolchains/5.10/bin/LINK.EXE`, PE32 i386, image base `0x400000`,
-entry RVA `0x65280`. There are no exports or TLS directory. Root approved the scaffold and exact
-shipped CRT startup boundary. Forty-one application functions are accepted,
-including the full option dispatcher, switch parser, owned argument duplication,
-help output and banner. The first `/?` case now reaches its first exit callback,
-`close_timing`: both sides have flushed the same 123 banner bytes and retain an
-identical 1257-byte help payload in stdout, with matching typed FILE state and 92
-semantic rejection controls. Common Rust verifies all cached imports in the
-dispatcher/parser/banner, with only needed hash-bound CRT and helper contracts;
-unknown calls remain barriers. Hello and DLL cases are queued after help;
-debug/PDB and resource themes remain source-only.
-Native i386 and original 5.10 `/MD /Od /Z7` builds pass with `make -j4`.
+entry RVA `0x65280`. There are no exports or TLS directory. The first `/?`
+case is complete: 45 application functions (19,672 original extent bytes), plus
+13 separately classified CRT/import support vertices (522 bytes). Five of six
+CRT bodies and four of seven import leaves are reached by this case. This is
+an accepted-extent inventory, not a whole-program non-CRT coverage percentage;
+there is no complete instruction-only denominator yet.
 
-`make inspect` prints the read-only PE inventory. `make native` builds the same
-source using shared shims; `make original` checks the real Win32 build and builds
-the original-only debugger. `make audit` uses the shared Rust CFG tool with
-explicit target/index paths and RET, function-reference, ownership and whole
-extent checks. `fixtures`/`check` fail closed until the first case completes.
-Source-only cases
-in `cases/plan.json` copy the vc1.0 GUI hello, stdcall DLL and debug DLL themes.
-They contain no copied output, trace, object, reference hash or accepted frontier.
+Native i386 and original 5.10 `/MD /Od /Z7` builds pass with `make -j4`.
+`make fixtures` runs only the native ELF against cached original evidence:
+45 entries, exact 1430 stdout bytes, empty stderr, full DWORD 1100 and separate
+POSIX 76. The measured runner takes 55 ms, including 4 ms of execution; the complete
+incremental make invocation takes 131 ms. Detailed evidence, fresh/reused control
+counts, hashes and timing are in `cases/help/completion-validation.json`.
+
+`make inspect` prints the PE inventory. `make native` builds using shared shims;
+`make original` checks the real Win32 build and builds the original-only debugger.
+`make audit` retains shared Rust CFG, strict RET, qualified import, reference,
+ownership and whole-extent checks. Unreconstructed calls remain named traps.
+The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
+copied vc1.0 oracle. Hello-win32 is next after independent first-case review.
 
 ## Original-only probes
 
@@ -55,8 +55,10 @@ Promotion requires root scaffold approval, byte-bound config/runtime snapshots,
 current binaries and source hashes, verified actual target/CRT modules, matching
 raw streams, a nonempty matching frontier, a raw-derived state contract, evidence
 that the candidate executed on both sides, and a fresh Rust audit of the trial.
-Unknown state contracts fail closed. Completion is also fail closed until its
-full output/status/entry comparator exists.
+Unknown state contracts fail closed. Normal completion requires `--complete`
+and a fresh `--native-cleanup` GDB capture, checking all three constructor
+allocation generations through their actual delete returns. A separate native
+completion run verifies full 32-bit status, POSIX status, streams and entry order.
 
 The initial whole-text mask traps at original entry `0x465280`; the native host
 traps at the named `target_startup`. `cases/scaffold-validation.json` records
@@ -90,8 +92,8 @@ environment and file effects before building strict native child replay.
 The shared recon maintainer confirmed that MSDIS100, MSPDB50 and IMAGEHLP have
 no current shim implementation. No speculative implementation was requested.
 Root must choose the in-process dependency policy using reached ABI/state
-evidence. Resource conversion probing awaits the RC worker's original `.res`
-capture and shared Wine recovery.
+evidence. Resource conversion and debug/PDB dependencies remain outside the completed
+help case; their contracts require actual 5.10 case evidence.
 
 The executable `.text` section also contains IAT/import metadata and string
 data (the IAT starts at RVA `0x1000`). Section executable flags do not establish
@@ -108,8 +110,8 @@ call/return observations bind allocation sizes and normalized pointer ownership.
 The shipped `atonexit.obj` closure is separately byte/relocation verified; native
 callback registration arguments and successful results are compared in order.
 `cases/help/frontiers/` records acceptance order, raw evidence, frozen compiled
-source content and candidate-inclusive Rust provenance. No native fixture is
-claimed complete yet.
+source content and candidate-inclusive Rust provenance. The completed cached
+reference is under `cases/help/completed/`; fixture execution never refreshes it.
 
 Main retains its complete ordinary and SEH paths and the five tool modes.
 Its optimized original caches printf/setvbuf in EBX; debug parsing caches
@@ -165,7 +167,7 @@ Only the explicit pointer ownership fields and identified clocks project across
 platforms. Eighty-two semantic mutations reject heap/API/configuration drift.
 
 The prepared native help runner executes only ELF, resolves actual application
-symbols (including genuine member names), and separately checks full DWORD1100,
-POSIX76, raw streams and first-seen entry order against a completed cached
-original. It refuses success until help is accepted and that complete reference
-exists. Setup, execution and checking times will be reported separately.
+symbols (including genuine member names), and separately checks full DWORD 1100,
+POSIX 76, raw streams and first-seen entry order against a completed cached
+original. It requires the accepted help case and its complete cached reference. Setup,
+execution and checking times are reported separately.

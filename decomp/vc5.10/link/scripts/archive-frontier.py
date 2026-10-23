@@ -14,6 +14,7 @@ validation=json.loads((args.native/'acceptance-validation.json').read_text())
 destination=Path(__file__).resolve().parents[1]/'cases/help/frontiers'/args.name
 destination.mkdir(parents=True,exist_ok=False)
 shutil.copytree(args.native,destination/'native')
+if validation.get('native_cleanup'):shutil.copytree(validation['native_cleanup'],destination/'native-cleanup')
 original=Path(validation['original'])
 output=destination/'original';output.mkdir()
 modules={}

@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x0804d13c in free_buffer8 () at src/initializers.c:55
+55	void __cdecl free_buffer8(void) { __asm { int 3 } }

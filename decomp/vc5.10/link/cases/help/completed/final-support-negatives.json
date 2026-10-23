@@ -1,0 +1,27 @@
+{
+  "status": "static support gate passed; application still requires fresh paired evidence",
+  "positive": {
+    "name": "import:??3@YAXPAX@Z",
+    "classification": "support/import",
+    "application_credit": 0,
+    "original_bytes": 6,
+    "proof_sha256": "30792b0ce71eef83a17ad0482773f9e49cc5393e760b2a378123f96adf3580c5",
+    "qualified_identity": "msvcrt.dll!??3@YAXPAX@Z"
+  },
+  "rejected": [
+    "support classification crt",
+    "support classification application",
+    "support library OTHER.LIB",
+    "support start 4608437",
+    "support end 4608445",
+    "support status stub",
+    "wrong identity",
+    "wrong abi",
+    "swapped IAT slot",
+    "unrelated support name",
+    "support with unrelated app",
+    "duplicate support",
+    "overlapping app/support ownership"
+  ],
+  "elapsed_seconds": 0.08076442312449217
+}

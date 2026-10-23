@@ -162,7 +162,7 @@ def audit_trial(path):
     inputs = [tool, ROOT/'toolchains/5.10/bin/LINK.EXE', BINARY/'build/link.exe',
               BINARY/'build/link.map',path,BINARY/'runtime.json',BINARY/'build/runtime.json',BINARY/'graph.json',BINARY/'build/graph.json']
     inputs.append(strict_path)
-    inputs += [BINARY/'scripts'/name for name in ['accept.py','boundary_state.py','mask.py','observers.py','environment_profile.py','binary.py','context_heap.py','capture_sources.py','native-completion.py','check-native.py']]
+    inputs += [BINARY/'scripts'/name for name in ['accept.py','boundary_state.py','mask.py','observers.py','environment_profile.py','binary.py','context_heap.py','capture_sources.py','native-completion.py','check-native.py','completion_cleanup.py']]
     cached_bodies={'_main','_initialize_debug@8','_initialize_repro','_parse_command_line@16','_has_switch@4'} & set(trial['accepted'])
     imported=copy.deepcopy(trial)
     register_candidates=[name for name in ['_configure_link_options@12','_parse_switch@8','_print_logo']if name in trial['accepted']]
@@ -297,6 +297,7 @@ def main():
     parser.add_argument('--support',action='append',default=[],help='exact encountered import support leaf, separate from application credit')
     parser.add_argument('--original', type=Path)
     parser.add_argument('--native', type=Path)
+    parser.add_argument('--native-cleanup',type=Path,help='fresh read-only final callback lifetime capture for normal completion')
     completion=parser.add_mutually_exclusive_group()
     completion.add_argument('--expected-next')
     completion.add_argument('--complete',action='store_true',help='require exact normal completion instead of a frontier')
@@ -313,7 +314,12 @@ def main():
     bind_capture(args.original, trial, 'original')
     bind_capture(args.native, trial, 'native-complete'if args.complete else 'native')
     completion_master=None
-    if args.complete:completion_master=verify_completion(args.original,args.native,trial)
+    if args.complete:
+        assert args.native_cleanup, 'normal completion requires fresh final cleanup state'
+        bind_capture(args.native_cleanup,trial,'native')
+        from completion_cleanup import verify as verify_cleanup
+        cleanup=verify_cleanup(args.original,args.native_cleanup)
+        completion_master=verify_completion(args.original,args.native,trial)
     else:verify_frontier(args.original, args.native, args.expected_next, trial)
     original_events = [json.loads(line) for line in (args.original / 'events.jsonl').read_text().splitlines()]
     assert args.candidate in [event['name'] for event in original_events if event['event']=='entry'], 'candidate not reached in original trial'
@@ -323,6 +329,8 @@ def main():
     assert args.candidate in native_state.get('entries', []), 'candidate not reached in native trial'
     audit = audit_trial(args.original / 'functions.json')
     validation = dict(candidate=args.candidate, expected_next=args.expected_next,completion=completion_master,
+                      native_cleanup=str(args.native_cleanup)if args.complete else None,
+                      cleanup=cleanup if args.complete else None,
                       trial_sha256=sha((args.original / 'functions.json').read_bytes()),
                       original=str(args.original), native=str(args.native), audit=audit)
     (args.native / 'acceptance-validation.json').write_text(json.dumps(validation, indent=2) + '\n')

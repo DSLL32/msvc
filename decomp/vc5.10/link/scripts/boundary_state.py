@@ -405,3 +405,32 @@ def compare(name, original, native, original_state, native_state):
     if name in ('_close_timing','_free_buffer4','_free_buffer8','_free_buffer12'):
         assert (original/'logo-text.bin').read_bytes()==bytes.fromhex(native_state['logo_text'])==bytes(12)
         assert (original/'stdout.bin').stat().st_size==(native/'stdout.bin').stat().st_size==123
+
+    if name in ('_free_buffer8','_free_buffer12'):
+        deleted=['4']if name=='_free_buffer8'else ['4','8']
+        originals=[event for event in events if event['event']=='operator_delete_observation']
+        assert len(originals)==2*len(deleted)
+        new_records=native_state['new_ownership'];current_records=native_state['cpp_ownership']
+        assert len(new_records)==len(current_records)==3
+        assert len({r['generation']for r in new_records})==3
+        assert len({r['generation']for r in current_records})==3
+        by_suffix=dict(zip(['12','8','4'],new_records))
+        for suffix,address,size,count,registration,cleanup in BUFFERS:
+            record=by_suffix[suffix]
+            base=struct.unpack_from('<I',bytes.fromhex(native_state['app_globals']['buffer'+suffix]))[0]
+            assert record['base']==base and record['requested']==record['rounded']==size and record['live']==1
+            matches=[r for r in current_records if r['generation']==record['generation']]
+            assert matches==[dict(record,live=0 if suffix in deleted else 1)]
+        assert len(native_state['delete_calls'])==len(deleted)
+        for index,suffix in enumerate(deleted):
+            call,returned=originals[2*index:2*index+2]
+            original_new=next(event for event in events if event.get('name')=='observe:new_return_'+suffix)
+            count=1024 if suffix=='4'else 500
+            address=0x431e30 if suffix=='4'else 0x431dc0
+            assert call['name']=='observe:delete_call_'+suffix and returned['name']=='observe:delete_return_'+suffix
+            assert (call['site'],returned['site'])==(address+10,address+15)
+            assert call['stack_pointer']==returned['stack_pointer']
+            assert call['argument']==returned['argument']==original_new['eax']
+            assert call['descriptor']==returned['descriptor']==[original_new['eax'],count,count]
+            record=by_suffix[suffix]
+            assert native_state['delete_calls'][index]==dict(argument=record['base'],normal_return=True,before=record,after=dict(record,live=0))

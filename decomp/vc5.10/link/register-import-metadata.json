@@ -11,8 +11,8 @@
       },
       "rebuilt": {
         "roots": [
-          4228318,
-          4228339
+          4228798,
+          4228819
         ],
         "text_data": []
       }
@@ -27,10 +27,26 @@
       },
       "rebuilt": {
         "roots": [
-          4203466,
-          4203530
+          4203738,
+          4203802
         ],
         "text_data": []
+      }
+    },
+    "_print_logo": {
+      "original": {
+        "text_data": [
+          [
+            4593260,
+            4593280
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": []
+      },
+      "register_imports": {
+        "require_all_register_calls_resolved": true
       }
     },
     "_configure_link_options@12": {
@@ -199,6 +215,37 @@
         "evidence": {
           "path": "cases/help/parser-import-preservation.json",
           "sha256": "20326f2f088a1b6f7a391225863619d220825e45096eea892e896e41214e71f4"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "printf"
+          }
+        },
+        "preserves": [
+          "ebx",
+          "esi",
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/help/logo-import-preservation.json",
+          "sha256": "e7b559954b99e8edad22925cf236a9c12536859b4b3aa5663b6d5a6e19bc0395"
+        }
+      },
+      {
+        "target": {
+          "function": "_append_bytes@12"
+        },
+        "preserves": [
+          "ebx",
+          "esi",
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/help/logo-import-preservation.json",
+          "sha256": "e7b559954b99e8edad22925cf236a9c12536859b4b3aa5663b6d5a6e19bc0395"
         }
       }
     ]

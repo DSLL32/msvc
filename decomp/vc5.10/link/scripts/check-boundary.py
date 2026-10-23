@@ -202,5 +202,16 @@ if args.frontier in ('_close_timing','_free_buffer4','_free_buffer8','_free_buff
 if args.frontier in ('_free_buffer4','_free_buffer8','_free_buffer12'):
     negative('missing final timing clock',lambda s:s['timing_end_calls'].clear())
     negative('wrong final timing clock',lambda s:s['timing_end_calls'].__setitem__(0,s['timing_end_calls'][0]+1))
+if args.frontier in ('_free_buffer8','_free_buffer12'):
+    negative('missing delete call',lambda s:s['delete_calls'].pop())
+    negative('wrong deleted pointer',lambda s:s['delete_calls'][0].__setitem__('argument',0))
+    negative('delete did not return',lambda s:s['delete_calls'][0].__setitem__('normal_return',False))
+    negative('delete entered dead generation',lambda s:s['delete_calls'][0]['before'].__setitem__('live',0))
+    negative('delete retained live ownership',lambda s:s['delete_calls'][0]['after'].__setitem__('live',1))
+    negative('delete changed generation',lambda s:s['delete_calls'][0]['after'].__setitem__('generation',99))
+    negative('lost constructor ownership',lambda s:s['new_ownership'].pop())
+    negative('wrong requested allocation size',lambda s:s['new_ownership'][2].__setitem__('requested',4000))
+    negative('lost current ownership record',lambda s:s['cpp_ownership'].pop())
+    negative('duplicate constructor generation',lambda s:s['new_ownership'][2].__setitem__('generation',s['new_ownership'][1]['generation']))
 args.report.write_text(json.dumps(dict(frontier=args.frontier,positive=True,negative_count=len(checks),rejected=checks),indent=2)+'\n')
 print('Typed boundary passes; %d semantic negatives rejected.'%len(checks))

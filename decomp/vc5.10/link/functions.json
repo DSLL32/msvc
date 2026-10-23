@@ -58,7 +58,11 @@
     "_duplicate_argument@4",
     "_linker_usage",
     "_print_logo",
-    "_close_timing"
+    "_close_timing",
+    "_free_buffer4",
+    "import:??3@YAXPAX@Z",
+    "_free_buffer8",
+    "_free_buffer12"
   ],
   "driver": [
     {
@@ -123,8 +127,9 @@
       "start": 4345520,
       "end": 4345539,
       "source": "src/initializers.c",
-      "status": "stub",
-      "abi": "cdecl void(void)"
+      "status": "implemented",
+      "abi": "cdecl void(void)",
+      "pending_extent": false
     },
     {
       "name": "_allocate_buffer8",
@@ -147,8 +152,9 @@
       "start": 4398528,
       "end": 4398547,
       "source": "src/initializers.c",
-      "status": "stub",
-      "abi": "cdecl void(void)"
+      "status": "implemented",
+      "abi": "cdecl void(void)",
+      "pending_extent": false
     },
     {
       "name": "_allocate_buffer4",
@@ -2853,7 +2859,7 @@
       "arguments": [
         "/?"
       ],
-      "complete": false
+      "complete": true
     }
   },
   "review_gate": "approved"

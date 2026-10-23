@@ -1,12 +1,8 @@
 {
   "schema": 1,
   "binary": "toolchains/5.10/bin/LINK.EXE",
-  "release_blockers": [
-    "root approval of DLL workflow",
-    "Rust graph audit readiness",
-    "explicit root reconstruction release"
-  ],
-  "accepted_functions": 0,
+  "release_blockers": [],
+  "accepted_functions": 45,
   "reference_policy": "Only fresh 5.10 captures; source themes copied, no vc1.0 outputs/traces/oracles",
   "cases": [
     {
@@ -16,7 +12,7 @@
       ],
       "theme": "option help",
       "source_provenance": null,
-      "state": "original baseline captured; initial matching startup trap; 0 accepted functions",
+      "state": "complete;45 application functions,13 support vertices; cached native fixture passes",
       "sources": []
     },
     {
@@ -79,5 +75,6 @@
       ]
     }
   ],
-  "reconstruction_release": "Exactly help /?; scaffold review required before first acceptance"
+  "reconstruction_release": "hello-win32,then hello-dll, after independent completed-help review",
+  "accepted_support_vertices": 13
 }

@@ -35,12 +35,23 @@ def main():
             targets.append((record['name'], record.get('native_symbol','link_main' if record['name']=='_main' else record['name'].lstrip('_'))))
     script = '''
 import gdb,json,struct
-state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[],'mbsnbicmp_calls':[],'virtual_alloc_calls':[],'parser_allocations':[],'duplicate_calls':[],'timing_end_calls':[],'delete_calls':[]}
+state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[],'mbsnbicmp_calls':[],'virtual_alloc_calls':[],'parser_allocations':[],'duplicate_calls':[],'timing_end_calls':[],'delete_calls':[],'new_ownership':[]}
+def cpp_ownership():
+    result=[];node=gdb.parse_and_eval('recon_cpp_allocations');seen=set()
+    while int(node):
+        address=int(node);assert address not in seen and len(seen)<32
+        seen.add(address);value=node.dereference()
+        result.append(dict(record=address,**{key:int(value[key])for key in ('base','requested','rounded','generation','live')}))
+        node=value['next']
+    return result
 class NewReturned(gdb.FinishBreakpoint):
     def __init__(self,frame,size):
         super().__init__(frame,internal=True);self.size=size
     def stop(self):
         state['operator_new_calls'].append({'bytes':self.size,'result':int(self.return_value)})
+        owned=[r for r in cpp_ownership()if r['base']==int(self.return_value)and r['live']]
+        assert len(owned)==1 and owned[0]['requested']==self.size
+        state['new_ownership'].append(owned[0])
         return False
 class NewEntry(gdb.Breakpoint):
     def stop(self):
@@ -168,13 +179,20 @@ class TimingEndEntry(gdb.Breakpoint):
         return False
 TimingEndEntry('*recon_GetTickCount',internal=True)
 class DeleteReturned(gdb.FinishBreakpoint):
-    def __init__(self,frame,address):super().__init__(frame,internal=True);self.address=address
+    def __init__(self,frame,address,before):super().__init__(frame,internal=True);self.address=address;self.before=before
     def stop(self):
-        state['delete_calls'].append(dict(argument=self.address,normal_return=True))
+        records=[r for r in cpp_ownership()if r['generation']==self.before['generation']]
+        assert len(records)==1 and records[0]==dict(self.before,live=0)
+        state['delete_calls'].append(dict(argument=self.address,normal_return=True,before=self.before,after=records[0]))
+        state['cleanup_ownership']=cpp_ownership()
+        state['cleanup_descriptors']={name:gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&'+name)),12).tobytes().hex()for name in ('buffer12','buffer8','buffer4')}
         return False
 class DeleteEntry(gdb.Breakpoint):
     def stop(self):
-        DeleteReturned(gdb.newest_frame(),int(gdb.parse_and_eval('((unsigned*)$esp)[1]')))
+        address=int(gdb.parse_and_eval('((unsigned*)$esp)[1]'))
+        records=[r for r in cpp_ownership()if r['base']==address and r['live']]
+        assert len(records)==1 and records[0]in state['new_ownership']
+        DeleteReturned(gdb.newest_frame(),address,records[0])
         return False
 DeleteEntry('*recon_cpp_delete',internal=True)
 
@@ -217,6 +235,7 @@ def stopped(event):
     state['crt_commode']=int(gdb.parse_and_eval('recon_commode'))
     state['crt_adjust_fdiv']=int(gdb.parse_and_eval('recon_adjust_fdiv'))
     stdout_address=int(gdb.parse_and_eval('&recon_iob[1]'))
+    state['cpp_ownership']=cpp_ownership()
     state['crt_stdout_address']=stdout_address
     state['crt_stdout_bytes']=gdb.selected_inferior().read_memory(stdout_address,32).tobytes().hex()
     stdout_words=struct.unpack('<8I',bytes.fromhex(state['crt_stdout_bytes']))

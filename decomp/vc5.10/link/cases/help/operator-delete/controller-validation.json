@@ -1,5 +1,5 @@
 {
-  "status": "support/static controls pass; app43 not accepted, shared delete explicitly unsupported",
+  "status": "Support13 accepted with app43; all13 scope/identity controls freshly revalidated at help completion.",
   "positive": {
     "name": "import:??3@YAXPAX@Z",
     "classification": "support/import",
@@ -23,10 +23,11 @@
     "duplicate support",
     "overlapping app/support ownership"
   ],
-  "elapsed_seconds": 0.08255932573229074,
+  "elapsed_seconds": 0.08076442312449217,
+  "base_configuration": "cases/help/operator-delete/first-target/functions.json projected without app43/support13",
   "checker_sha256": {
-    "scripts/accept.py": "5dc842133ec50a501e5be5d119ab935bd67f7b07c08895e7c0072549ad2c07fb",
+    "scripts/accept.py": "3ee9e56c67d4490628e829542a7f704fe2b0033784d753926a8d8c02ad41b869",
     "scripts/delete-support.py": "5d58a2e17f60178e338325d15f809c314d994720d9eccf1a82a5a58e7c7c2234",
-    "scripts/check-delete-support.py": "9277a3142225ad6bffb590a488c338a54e86c90f4b526f7ee21c07382e86cffa"
+    "scripts/check-delete-support.py": "c2d3a137557b8a55bfc8938dda226458a3e310a36319a3c899f3fdb7713704e5"
   }
 }

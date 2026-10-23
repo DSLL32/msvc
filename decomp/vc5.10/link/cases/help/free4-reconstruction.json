@@ -1,0 +1,22 @@
+{
+  "status": "accepted",
+  "function": "_free_buffer4",
+  "application_functions": 43,
+  "application_extent_bytes": 19634,
+  "import_support_functions": 13,
+  "new_import_support": "import:??3@YAXPAX@Z",
+  "new_import_bytes": 6,
+  "application_credit_for_import": 0,
+  "original": "/root/.ai-tmp/msvc2/vc5.10/link/masked-bgl8wbpk",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/link/native-3pfdgrm6",
+  "typed_negatives_fresh": 104,
+  "scope_identity_negatives_fresh": 13,
+  "native_ownership": "Constructor live4096-byte allocation generation3 becomes dead at delete normalreturn; descriptor retained, surviving2 generations remainlive.",
+  "timing_seconds": {
+    "original_reference": 1.2513647060841322,
+    "native_capture": 0.24216919764876366,
+    "whole_audit": 0.3202570453286171,
+    "last_native_refresh": 1.789795926772058
+  },
+  "acceptance": "cases/help/frontiers/43-free-buffer4/validation.json"
+}

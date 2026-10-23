@@ -4,7 +4,7 @@ import copy,importlib,json,time
 from pathlib import Path
 from accept import trial_for
 m=importlib.import_module('delete-support');project=Path(__file__).resolve().parents[1]
-current=json.loads((project/'functions.json').read_text());runtime=json.loads((project/'runtime.json').read_text());record=next(r for r in runtime if r['name']==m.NAME);proof=json.loads(m.PROOF.read_text())
+current=json.loads((project/'cases/help/operator-delete/first-target/functions.json').read_text());current['accepted']=[name for name in current['accepted']if name not in ('_free_buffer4',m.NAME)];runtime=json.loads((project/'runtime.json').read_text());record=next(r for r in runtime if r['name']==m.NAME);proof=json.loads(m.PROOF.read_text())
 start=time.perf_counter();positive=m.check(record);trial=trial_for(current,'_free_buffer4',[m.NAME]);assert trial['accepted']==current['accepted']+['_free_buffer4',m.NAME]
 checks=[]
 def deny(name,call):

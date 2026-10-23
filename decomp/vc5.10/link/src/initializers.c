@@ -37,7 +37,10 @@ void __cdecl register_buffer12_cleanup(void)
 {
     atexit(free_buffer12);
 }
-void __cdecl free_buffer12(void) { __asm { int 3 } }
+void __cdecl free_buffer12(void)
+{
+    if (buffer12.base) crt_operator_delete(buffer12.base);
+}
 void __cdecl initialize_buffer8(void)
 {
     allocate_buffer8();
@@ -52,7 +55,10 @@ void __cdecl register_buffer8_cleanup(void)
 {
     atexit(free_buffer8);
 }
-void __cdecl free_buffer8(void) { __asm { int 3 } }
+void __cdecl free_buffer8(void)
+{
+    if (buffer8.base) crt_operator_delete(buffer8.base);
+}
 void __cdecl allocate_buffer4(void)
 {
     buffer4.base = crt_operator_new(4096);
