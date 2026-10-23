@@ -81,6 +81,7 @@ void recon_watcom_longjmp(unsigned int *environment,int value)
 struct JumpContext {
     void *legacy;
     int opaque_setjmp3;
+    int watcom_normal_only;
     recon_host_jmp_buf host;
     struct JumpContext *next;
 };
@@ -90,11 +91,12 @@ recon_host_jmp_buf *recon_jmp_context(void *legacy)
 {
     struct JumpContext *context;
     for (context = jump_contexts; context; context = context->next)
-        if (context->legacy == legacy) { context->opaque_setjmp3=0; return &context->host; }
+        if (context->legacy == legacy) { context->opaque_setjmp3=0; context->watcom_normal_only=0; return &context->host; }
     context = malloc(sizeof(*context));
     if (!context) recon_unsupported("setjmp context allocation");
     context->legacy = legacy;
     context->opaque_setjmp3=0;
+    context->watcom_normal_only=0;
     context->next = jump_contexts;
     jump_contexts = context;
     return &context->host;
@@ -110,12 +112,36 @@ recon_host_jmp_buf *recon_setjmp3_context(void *legacy,unsigned size,int count)
     return host;
 }
 
+/* The Windows48B context and native out-of-line libc context are private,
+ * differing CRT representations. Never serialize captured register/FS bytes
+ * into the target's52B owner. Only normal return has been established here. */
+recon_host_jmp_buf *recon_watcom_setjmp_context(void *legacy,unsigned size)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    struct JumpContext *context;recon_host_jmp_buf *host;
+    int saved_errno=errno;unsigned long saved_dos=recon_doserrno;
+    DWORD saved_error=recon_GetLastError();
+    if(!legacy || size!=52)recon_unsupported("Watcom setjmp requires52-byte owner");
+    host=recon_jmp_context(legacy);
+    for(context=jump_contexts;context;context=context->next)
+        if(context->legacy==legacy){context->watcom_normal_only=1;break;}
+    errno=saved_errno;recon_doserrno=saved_dos;recon_SetLastError(saved_error);
+    return host;
+#else
+    (void)legacy;(void)size;recon_unsupported("Watcom setjmp requires explicit profile");return NULL;
+#endif
+}
+
 void recon_longjmp(void *legacy, int value)
 {
     struct JumpContext *context;
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    recon_unsupported("unreviewed Watcom nonlocal jump/unwind");
+#endif
     for (context = jump_contexts; context; context = context->next)
         if (context->legacy == legacy) {
             if (context->opaque_setjmp3) recon_unsupported("unreviewed _setjmp3 longjmp/SEH unwind");
+            if (context->watcom_normal_only) recon_unsupported("unreviewed Watcom saved-context resume");
             longjmp(context->host, value);
         }
     recon_unsupported("longjmp without matching setjmp");

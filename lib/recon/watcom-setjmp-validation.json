@@ -1,0 +1,37 @@
+{
+  "rows": [
+    {
+      "compiler": "gcc",
+      "build_seconds": 1.2465993547812104,
+      "check_seconds": 0.048436655662953854,
+      "exe_sha256": "5661b7f2cfe6b5c5ff656abb827fb1cc9c9ac62123fa46c7e7b6250a2a63c4ae"
+    },
+    {
+      "compiler": "clang",
+      "build_seconds": 1.4702843567356467,
+      "check_seconds": 0.0471104895696044,
+      "exe_sha256": "032b4bf36f7d2c15ff7e5a7f874b2e630b80d03a9bd188ee6d9b281ac64684dd"
+    }
+  ],
+  "inputs": {
+    "native/setjmp.h": "1063e154c5b2277afe91cad791706358b5cc5163b3374e2f2367b8cfd4e7c7a4",
+    "src/compat.c": "0dcd633a5cfd4b8669f3bc2f28c1e4097d5549662b3fc97dca4cbf5d737953ce",
+    "tests/watcom-setjmp-probe.c": "ac32578e48b975a1f453b83164613dec43a1e4f9d925b246f5ec17f37da9aec4",
+    "tests/check-watcom-setjmp.py": "2f787334a94c98f16b62d2f76ecf32f07735acc1d9088355625b36a7caf29dea"
+  },
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/watcom10.0a/orchestrator-review/watcom-setjmp-independent.json",
+    "sha256": "bf24e201797526bc7e15d34cb81877dffc3adfd11e945bbf7c65b712024bde88"
+  },
+  "original_semantic_boundary": {
+    "path": "decomp/watcom10.0a/wlink/cases/help/spawn-prefix-01/normal-boundary-summary.json",
+    "sha256": "8b1f2be3ce319b8ce3595bd72219d4f69a246648e8892c12500e235f02526578",
+    "raw_private_events_sha256": "6763c8d13271e45dcec7ac573b808b37b13eab560e1836bf463da077d3cb0158"
+  },
+  "scope": "Watcom52-byte array owner, normalreturn0 in real live caller only; differing private CRT context representation, no serialized Windows bytes or nonlocal jump",
+  "affected_checks": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/watcom-setjmp/affected-checks.log",
+    "sha256": "16488e019a87267d5a38b0c4e87159a7df7e7b935c9765438a607843ed312237",
+    "status": "default,8/16 legacy jumps,setjmp3,Watcom surface/host/first-heap passed"
+  }
+}

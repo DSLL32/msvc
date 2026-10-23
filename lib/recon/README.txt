@@ -908,3 +908,16 @@ It changes no malloc0 contract or target CRT source. Unregistered/user/unowned
 zero-buffer states deny; negative/unbuffered/MSVCRT510 paths remain unchanged.
 The original actual allocation/provenance and FILE lifetime are retained in the
 LINK case, and native controls check next-byte/flush/close/errors/FP/tails.
+
+Watcom ordinary setjmp/_setjmp calls with an actual52-byte array owner now
+support normalreturn0 only. The macro invokes real libc _setjmp directly in
+the live application frame; the existing registry keeps an opaque host context
+out of line and marks it normal-only. Windows'48-byte serialized register/FS
+context and native host context are private differing CRT representations.
+No captured Windows context is copied into native storage: all52 target bytes,
+including finalDWORD/adjacent guards, remain their own native bytes. The actual
+reached application uses only the owner address and result, not context fields.
+Indirect/bare typed calls, pointer-sized/truncated/NULL owners, every Watcom
+longjmp and generic recon_longjmp under this profile remain unsupported. This
+adds no SEH/unwind or resumed-return semantics. Watcom application reconstruction
+is paused after this bounded plumbing proof for user review and assigned cases.

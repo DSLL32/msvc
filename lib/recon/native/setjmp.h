@@ -24,6 +24,7 @@ typedef char ReconJumpBufferSize[(sizeof(jmp_buf) == 4*RECON_LEGACY_JMP_WORDS) ?
 extern "C" {
 #endif
 int recon_watcom_setjmp(unsigned int *);
+recon_host_jmp_buf *recon_watcom_setjmp_context(void *, unsigned);
 void recon_watcom_longjmp(unsigned int *, int) __attribute__((noreturn));
 recon_host_jmp_buf *recon_jmp_context(void *);
 recon_host_jmp_buf *recon_setjmp3_context(void *, unsigned, int);
@@ -39,8 +40,11 @@ void recon_longjmp(void *, int) __attribute__((noreturn));
 
 #ifndef RECON_SHIM_IMPL
 #if defined(RECON_CRT_PROFILE_WATCOM_100A)
-/* No host context is saved until the Watcom public boundary is proved. */
+/* Ordinary calls save libc state directly in the live caller. Taking the
+ * typed function address still selects the explicitly unavailable form. */
 #define _setjmp recon_watcom_setjmp
+#define recon_watcom_setjmp(environment) \
+    recon_host_setjmp(*recon_watcom_setjmp_context((void *)(environment), sizeof(environment)))
 #define setjmp(environment) recon_watcom_setjmp(environment)
 #define longjmp(environment, value) recon_watcom_longjmp((environment), (value))
 #else

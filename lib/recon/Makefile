@@ -475,3 +475,9 @@ build/zero-buffer-probe: tests/zero-buffer-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) tests/zero-buffer-probe.c $(SOURCES) -o $@
 zero-buffer-check: build/zero-buffer-probe
 	$(PYTHON) tests/check-zero-buffer.py build/zero-buffer-probe
+
+.PHONY: watcom-setjmp-check
+build/watcom-setjmp-probe: tests/watcom-setjmp-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_NATIVE_STARTUP_WATCOM_100A_FP tests/watcom-setjmp-probe.c $(SOURCES) -o $@
+watcom-setjmp-check: build/watcom-setjmp-probe
+	$(PYTHON) tests/check-watcom-setjmp.py build/watcom-setjmp-probe
