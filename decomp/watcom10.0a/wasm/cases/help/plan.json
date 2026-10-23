@@ -2,7 +2,9 @@
   "schema": 1,
   "case": "help",
   "status": "proposed; no original execution or reference capture",
-  "argv": ["/?"],
+  "argv": [
+    "/?"
+  ],
   "working_directory": "isolated relative case directory under shared scratch",
   "original_invocation": {
     "executable": "toolchains/watcom10.0a/binnt/WASM.EXE",
@@ -13,7 +15,10 @@
   "reference_source": {
     "path": "/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443",
     "commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9",
-    "files": ["bld/wasm/c/main.c", "bld/wasm/c/wasmmsg.c"],
+    "files": [
+      "bld/wasm/c/main.c",
+      "bld/wasm/c/wasmmsg.c"
+    ],
     "authority": "later source reference; target disassembly and fresh original evidence decide behavior"
   },
   "capture_requirements": [
@@ -28,8 +33,8 @@
   ],
   "review_gates": [
     "Common CF image transport and code-extent/masking approach",
-    "Native GCC ABI authorized; audit original Watcom ABI in the Watcom Win32 build and decode semantic native formals separately",
     "Original Watcom NT build recipe and shipped library selection",
     "Explicit bounded CRT/Win32 service adapters approved with shared shim maintainer"
-  ]
+  ],
+  "accepted_abi_decision": "Native GCC ABI authorized; audit original Watcom ABI in the Watcom Win32 build and decode semantic native formals separately"
 }

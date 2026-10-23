@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "unmasked baseline approved; CF masking and application acceptance remain gated",
+  "status": "failed baseline preserved; approved debugger-only diagnostic and entry-stub builds completed; patched-copy proposal awaits review",
   "original": {
     "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wasm/help/reference",
     "argv": [
@@ -46,7 +46,8 @@
       "Keep complete payload and resource tail intact; startup clears BSS that overlaps relocation material after relocation is complete"
     ],
     "masking": "Unknown application code must not run silently. Before any masked reconstruction acceptance, establish complete executable regions excluding proved data, or enforce an accepted-extent outbound-transfer gate before every unclassified target, including indirect calls, jumps, callbacks and fallthrough. Apply masks only after relocation using payload-relative IDs; the unmasked baseline does not satisfy or relax this gate.",
-    "first_frontier": "Verify payload startup transport, identify its shipped CRT entry boundary, then trap at first reached unaccepted application function. main at 0xcb28 is a static candidate, not an assumption that no application initializer runs first"
+    "first_frontier": "Verify payload startup transport, identify its shipped CRT entry boundary, then trap at first reached unaccepted application function. main at 0xcb28 is a static candidate, not an assumption that no application initializer runs first",
+    "startup_contract": "Loader invoke RVA10015 PUSH CS; MOV BX,CS; MOV AH,2; SUB ECX,ECX; CALL ESI. AH=2, ECX=0, low BX=CS gateway selector, EDX=gateway offset, EDI=startup structure. Full EBX is not an allocation-base input. Eight-byte far return frame: selector low WORD meaningful; upper stack padding is not a formal input."
   },
   "service_boundary": {
     "loader_gateway_rva": "0x10788",
@@ -66,7 +67,6 @@
       "-std=gnu89",
       "-O0",
       "-g",
-      "-fno-inline",
       "-fno-omit-frame-pointer",
       "-fno-pie"
     ],
@@ -95,7 +95,7 @@
       "lib386/NT/NT.LIB"
     ],
     "linker": "verified patched binnt/WLINK.EXE under toolchain .patched directory",
-    "probe": "Common WCC386 probe completed: /root/.ai-tmp/msvc2/watcom10.0a/wcc386/abi-probe/receipt.json; flags -bt=nt -3r -od -d2, status 0, no warnings, 613-byte _TEXT. OMF32 confirms EAX/EDX/EBX/ECX, fifth stack argument callee RET4, 8-byte struct hidden ESI result pointer, typed callback register ABI and explicit cdecl stack cleanup. Final NT link recipe remains to be validated.",
+    "probe": "Actual entry-stub original Watcom NT build passed; see cases/build-validation.json for compiler/link commands, raw logs, source/object/PE/MAP hashes and timing. The common register/return/callback probe remains independently recorded under wcc386/abi-probe.",
     "checks": "make -j4 compilation, original register/return and callback ABI audit, original-build application graph comparison using reviewed CF adapter plus target-specific checks as required"
   }
 }
