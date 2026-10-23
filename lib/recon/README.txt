@@ -693,7 +693,7 @@ bit is preserved without inventing a meaning absent from the period header.
 This profile describes the encountered reference environment, not all Windows
 CP1252 installations. VC5 default TAB is CONTROL|SPACE(28), then captured locale
 TAB268; VC1/default other profiles are unchanged. Existing multibyte/getenv
-CP0 guards remain strict until separate1252 API behavior is proved.
+CP0 guards remain strict except for the separately verified ASCII API subset below.
 
 Bounded target environment mutation
 -----------------------------------
@@ -729,3 +729,16 @@ heap allocation identity is not claimed. Unknown phases, replacement/removal,
 nonASCII data, profiles, errors or states fail closed. Existing unconfigured
 _putenv remains unsupported. Applying this namespace slice does not enable
 unproved1252 getenv or multibyte API behavior.
+
+Encountered1252 ASCII API subset
+-------------------------------
+After the verified locale apply, bound getenv and _mbsncmp/_mbsinc/_mbccpy/
+_ismbcspace/_mbclen/_mbschr/_mbsspn accept ASCII under exactly that reference
+CP1252/en-US state. Every entry checks scalars, all six handles, applied pctype
+allocation identity and all257 mb/257 ctype entries. Native host libc locale is
+not changed. getenv retains case-insensitive borrowed target-vector aliases and
+rejects nonASCII returned values in this scope. Other multibyte, wide conversion
+and searchenv routines retain their separate CP0 guards. No general1252/DBCS or
+Unicode API behavior follows from this subset. Canonical _getmbcp() reporting0
+for this SBCS state is distinct from the actual internal mb-codepageDWORD1252;
+the original proof binds the latter plus complete tables and LC_CTYPE1033.

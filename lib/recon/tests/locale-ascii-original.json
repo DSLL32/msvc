@@ -1,0 +1,35 @@
+{
+  "scope": "Canonical provider loaded hFile verified; exact actual CL1252/en-US full257-byte mb table/257-word ctype table/scalar profile,68624 ASCII operation rows across four errno/DOS/Last sentinel pairs",
+  "run_seconds": 1.247291604988277,
+  "build_seconds": 2.063015589490533,
+  "status": 0,
+  "rows": 68624,
+  "files": {
+    "probe.exe": "c550b2cc55a5912dad055245422251a8c05279f16f0fc682b786974e0e00f62e",
+    "build.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "vc50.pdb": "4ae64f3ea06980bd7a1ae9a06e000c23de1ce043c581269da2da9a665d3d0b6e",
+    "mbctype.bin": "2cdc20a27a8fc6b37dca7a733ffba7159c9a4feb9e07e4658a04e66def29e3ee",
+    "probe.obj": "abd272bc31ceadb72b37822ab96a36118ea35d01f776731bb4d4871aad50dd0a",
+    "loaded-crt.bin": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "probe.c": "4b0ebc3851bd844a47f7c04b1f180d6b88ab9fbaa2123c262b4422101f74d33c",
+    "ctype.bin": "aba319e028b28540f24afb197c5735b0e29dc130fc8f5d165f27edf8de28296d",
+    "verification.txt": "87278532b353e9aa4af08eb19ebab10ef4e1e966143ed8c893d48c3de146ecae",
+    "MSVCRT.DLL": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "build.stdout": "072f49d66e1f0160691e9399c6de56a94ceacbab5f1e6768511b0a379860d0f8",
+    "probe.pdb": "6eb748831c4b36ddbc0484ffc8a6f5bd87ac56113a2a34052d8c9330c9baad1c",
+    "stdout.bin": "45b0436f328b3ff35b6bce5f5bd81adbc834dff351e2da9c5d11a87e9f8da80e",
+    "loaded-probe.bin": "c550b2cc55a5912dad055245422251a8c05279f16f0fc682b786974e0e00f62e",
+    "codepage.bin": "602be3a1a504436d6e2efbd1c30a5e87a38049630272b376784291010423af36",
+    "stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout_sha256": "45b0436f328b3ff35b6bce5f5bd81adbc834dff351e2da9c5d11a87e9f8da80e",
+  "source": "/root/.ai-tmp/msvc2/recon-maintenance/locale-ascii-original-02/probe.c",
+  "raw_directory": "/root/.ai-tmp/msvc2/recon-maintenance/locale-ascii-original-02",
+  "setup": "Original setup setlocale(LC_CTYPE,\"English_United States.1252\") and _setmbcp(1252); independent raw comparison to actual CL profile. _getmbcp() reports0 for SBCS, actual providerDWORD3f1c0 is1252 and saved separately.",
+  "operations": [
+    "case-insensitive borrowed getenv/missing/mutation alias",
+    "all128ASCII _mbsinc/_mbclen/_ismbcspace/_mbccpy/_mbschr/_mbsspn",
+    "all128x128ASCII single-character _mbsncmp normalized-1/0/1 plus zero count",
+    "full-copy tails and pointer offsets"
+  ]
+}

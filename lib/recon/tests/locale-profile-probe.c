@@ -43,6 +43,6 @@ int main(int argc,char **argv)
     assert(recon_pctype!=old && !memcmp(recon_pctype-1,after_ctype,sizeof(after_ctype)));
     assert(!memcmp(old-1,before_ctype,sizeof(before_ctype)) && recon_pctype[-1]==0 && recon_pctype['\t']==0x268);
     if(!strcmp(mode,"repeat"))recon_crt_apply_locale_profile(&profile);
-    if(!strcmp(mode,"unproved-api"))recon_mbsinc((const unsigned char *)"A");
+    if(!strcmp(mode,"unproved-api"))recon_mbspbrk((const unsigned char *)"A",(const unsigned char *)"B");
     puts("all257 mb bytes/257 ctype words/scalars/pointer ownership/errors exact");return 0;
 }

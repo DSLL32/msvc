@@ -121,6 +121,7 @@ static void fsopen_preflight(const char *name)
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
 static unsigned short initial_ctype_510[257];
 static int locale_profile_applied;
+static unsigned short *locale_ctype_510;
 static void msvcrt510_mb_flags(unsigned char table[257])
 {
     static const unsigned char upper[]={138,140,142,159};
@@ -196,7 +197,7 @@ void recon_crt_apply_locale_profile(const ReconCrtLocaleProfile *profile)
     memcpy(allocated,expected_ctype,sizeof(expected_ctype));
     /* Keep the old static table and the static mb-array alive. The changed
      * pctype allocation persists after the dependency's FreeLibrary. */
-    recon_pctype=allocated+1;
+    locale_ctype_510=allocated;recon_pctype=allocated+1;
     recon_mb_codepage=1252; recon_lc_codepage=1252; recon_lc_handle[2]=1033;
     locale_profile_applied=1;
     errno=saved; recon_doserrno=dos; recon_SetLastError(error);
@@ -231,6 +232,7 @@ void recon_crt_bind_arguments(int argc,char **argv,char **environment)
 
 /* Host controls and application environment are separate namespaces. The
  * canonical getenv returns a borrowed pointer into its mutable environment. */
+static void ascii_encountered_locale_scope(void);
 char *recon_host_getenv(const char *name) { return getenv(name); }
 WEAK int *recon_errno(void) { return &errno; }
 WEAK char *recon_getenv(const char *name)
@@ -238,8 +240,7 @@ WEAK char *recon_getenv(const char *name)
     char **slot; size_t length,i; unsigned char a,b;
     if (!recon_crt_arguments_bound) return getenv(name);
     if (!name) return NULL;
-    if (recon_mb_codepage || recon_lc_codepage || recon_lc_handle[2] || recon_mb_cur_max!=1)
-        recon_unsupported("bound getenv nondefault locale");
+    ascii_encountered_locale_scope();
     length=strlen(name);
     for (i=0;i<length;++i) if ((unsigned char)name[i]>=128)
         recon_unsupported("bound getenv nonASCII name");
@@ -252,7 +253,14 @@ WEAK char *recon_getenv(const char *name)
             if (b>='A' && b<='Z') b+='a'-'A';
             if (a!=b) break;
         }
-        if (i==length) return *slot+length+1;
+        if (i==length) {
+            if (recon_lc_codepage) {
+                const unsigned char *value=(const unsigned char *)*slot+length+1;
+                for (;*value;++value) if (*value>=128)
+                    recon_unsupported("bound getenv nonASCII encountered-profile value");
+            }
+            return *slot+length+1;
+        }
     }
     return NULL;
 }
@@ -1934,11 +1942,30 @@ static void ascii_multibyte_scope(void)
     if (recon_mb_codepage || recon_mb_cur_max!=1 || recon_lc_codepage || recon_lc_handle[2])
         recon_unsupported("unreviewed multibyte codepage/locale");
 }
+/* Only the separately probed ASCII APIs below accept the encountered1252
+ * state. Other conversions/searches retain their default-C guard. */
+static void ascii_encountered_locale_scope(void)
+{
+    if (!recon_mb_codepage && !recon_lc_codepage && !recon_lc_handle[2] && recon_mb_cur_max==1) return;
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if (locale_profile_applied && recon_mb_codepage==1252 && recon_lc_codepage==1252 &&
+        recon_mb_cur_max==1 && recon_pctype==locale_ctype_510+1) {
+        unsigned char mb[257];unsigned short ctype[257];unsigned n;
+        for(n=0;n<6;++n) if(recon_lc_handle[n]!=(n==2?1033:0))
+            recon_unsupported("ASCII API encountered locale handles");
+        msvcrt510_mb_flags(mb);msvcrt510_locale_ctype(mb,ctype);
+        if(memcmp(recon_mbctype,mb,sizeof(mb)) || memcmp(recon_pctype-1,ctype,sizeof(ctype)))
+            recon_unsupported("ASCII API encountered locale tables");
+        return;
+    }
+#endif
+    recon_unsupported("ASCII API unreviewed codepage/locale/profile");
+}
 WEAK int recon_mbsncmp(const unsigned char *left,const unsigned char *right,size_t count)
 {
     unsigned char a,b;
     if (!count) return 0;
-    ascii_multibyte_scope();
+    ascii_encountered_locale_scope();
     if (!left || !right) recon_unsupported("null _mbsncmp input");
     while (count--) {
         a=*left++; b=*right++;
@@ -1950,7 +1977,7 @@ WEAK int recon_mbsncmp(const unsigned char *left,const unsigned char *right,size
 }
 WEAK unsigned char *recon_mbsinc(const unsigned char *text)
 {
-    ascii_multibyte_scope();
+    ascii_encountered_locale_scope();
     if (!text || *text>127) recon_unsupported("non-ASCII/null _mbsinc input");
     return (unsigned char *)text+1;
 }
@@ -1964,13 +1991,13 @@ WEAK unsigned char *recon_mbsdec(const unsigned char *start,const unsigned char 
 }
 WEAK void recon_mbccpy(unsigned char *destination,const unsigned char *source)
 {
-    ascii_multibyte_scope();
+    ascii_encountered_locale_scope();
     if (!destination || !source || *source>127) recon_unsupported("non-ASCII/null _mbccpy input");
     *destination=*source;
 }
 WEAK int recon_ismbcspace(unsigned int value)
 {
-    ascii_multibyte_scope();
+    ascii_encountered_locale_scope();
     if (value>127) recon_unsupported("non-ASCII _ismbcspace input");
     return value==' ' || (value>='\t' && value<='\r')?8:0;
 }
@@ -2024,7 +2051,7 @@ WEAK unsigned char *recon_mbspbrk(const unsigned char *text,const unsigned char 
 WEAK unsigned char *recon_mbschr(const unsigned char *text,unsigned int value)
 {
     unsigned char byte;
-    ascii_multibyte_scope();
+    ascii_encountered_locale_scope();
     if (!text || value>127) recon_unsupported("non-ASCII/null _mbschr argument");
     do {
         byte=*text;
@@ -2100,14 +2127,14 @@ WEAK WCHAR recon_towupper(WCHAR character)
 
 WEAK size_t recon_mbclen(const unsigned char *text)
 {
-    ascii_multibyte_scope();
+    ascii_encountered_locale_scope();
     if (!text || *text>=128) recon_unsupported("NULL/nonASCII _mbclen input");
     return 1;
 }
 WEAK size_t recon_mbsspn(const unsigned char *text,const unsigned char *accept)
 {
     const unsigned char *cursor,*set;
-    ascii_multibyte_scope();
+    ascii_encountered_locale_scope();
     if (!text || !accept) recon_unsupported("NULL _mbsspn argument");
     for (set=accept;*set;++set)
         if (*set>=128) recon_unsupported("nonASCII _mbsspn set");
@@ -2268,7 +2295,7 @@ WEAK int recon_putenv(const char *assignment)
             memcmp(assignment,environment_update_name,name_length) ||
             recon_crt_environment!=owned_crt_environment || !locale_profile_applied ||
             recon_mb_codepage!=1252 || recon_lc_codepage!=1252 || recon_mb_cur_max!=1 ||
-            recon_pctype==character_flags+1)
+            recon_pctype!=locale_ctype_510+1)
             recon_unsupported("_putenv observed absent insertion/profile state");
         for (n=0;n<6;++n) if (recon_lc_handle[n]!=(n==2?1033:0))
             recon_unsupported("_putenv insertion locale handles");

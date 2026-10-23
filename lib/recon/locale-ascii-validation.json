@@ -1,0 +1,52 @@
+{
+  "scope": "Only encountered exact1252/en-US profile ASCII bound getenv/_mbsncmp/_mbsinc/_mbccpy/_ismbcspace/_mbclen/_mbschr/_mbsspn. Other existing CP0 API guards remain strict.",
+  "provider": {
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "original_probe": "tests/locale-ascii-original.json",
+    "original_raw": "/root/.ai-tmp/msvc2/recon-maintenance/locale-ascii-original-02",
+    "original_receipt_sha256": "9b2fc5d383564cad193aa3c78cbfb879a8ea4d37ce824a62dd0b1d0096d674cd",
+    "profile_binding": "All257 mb bytes/257 ctype words and actual internalCP1252/lcCP1252/LCCTYPE1033 independently byte-match reviewed CL invoke-after state. _getmbcp reports0 in SBCS and is not used as codepage evidence.",
+    "exports_rva": {
+      "getenv": "6a94 ->2cf3/2d6b NLS comparison",
+      "_mbsncmp": "23fca..240c6",
+      "_mbsinc": "3234",
+      "_mbccpy": "2380b",
+      "_ismbcspace": "804d..8078",
+      "_mbclen": "2393a..23952",
+      "_mbschr": "31bf",
+      "_mbsspn": "620c..6298"
+    },
+    "active_path": "ASCII _mbctype lead-byte bits04 are clear, so pointer/copy/length/search loops take single-byte paths; compare returns normalized-1/0/1; classification reads actual pctype mask8. getenv scans current target vector and returns entry+name-length+1. NLS nonASCII/unknown branches are outside scope."
+  },
+  "guards": "Apply must already have validated canonical provider/profile. Calls revalidate applied pctype allocation identity, all257+257 table entries, scalars/max/handles. Only the eight listed call sites use this extended guard; other APIs keep original default-C guard.",
+  "checks": {
+    "original_rows": 68624,
+    "original_build_seconds": 2.063015589490533,
+    "original_run_seconds": 1.247291604988277,
+    "gcc_clang": "Exact1770582-byte stdout fingerprint equals original68624 rows under four errno{0,111}/DOS77/Last{0,12345678} pairs. Includes every128x128ASCII one-char comparison, every128ASCII pointer/copy/classification/search/span case and borrowed getenv/missing/mutation alias.",
+    "denials_each": 23,
+    "denied_apis": [
+      "mbsdec",
+      "mbsicmp",
+      "mbsnbicmp",
+      "mbspbrk",
+      "wcstol",
+      "searchenv"
+    ],
+    "affected_regression": "Default shim/startup/bound-getenv, all changed CP0 MB functions, separately strict MB functions/wcstol/searchenv, environment mutation29 controls, locale profile14 controls/default closure pass. No global/default1252 transition introduced; no broad95 repetition.",
+    "immutable_binaries": {
+      "gcc-probe": "d567c31b9802f143e0a9e99d8f9ed514284c89eeb19a9537bbc8d64bc04ddd94",
+      "clang-probe": "e613c385b2d742117f0f33095a777c6cb69d5bee590fd828f1a086b0ae4d0148"
+    },
+    "independent_review": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/locale-ascii-orchestrator-review.json",
+      "sha256": "d6fe16fa200e92350c71bb2d721b2095abd514051a511ea697ea3974a5f25752",
+      "result": "VC5 parent reviewed guard/eight call sites/raw profile+provider inventory, independently froze/reran GCC+Clang exact68624 rows+23 denials; no source changes requested."
+    }
+  },
+  "limits": [
+    "Only ASCII and the exact captured locale/table profile; no general CP1252/NLS or DBCS behavior.",
+    "No individual postInvoke target MB return was fabricated: actual target state/consumer reachability binds scope, and provider probe separately proves behavior.",
+    "No host setlocale or host environment controls substituted for target state."
+  ]
+}

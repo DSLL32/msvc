@@ -374,3 +374,9 @@ build/environment-mutation-default: tests/environment-mutation-probe.c $(SOURCES
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 environment-mutation-check: build/environment-mutation-probe build/environment-mutation-default
 	$(PYTHON) tests/check-environment-mutation.py build/environment-mutation-probe build/environment-mutation-default
+
+.PHONY: locale-ascii-check
+build/locale-ascii-probe: tests/locale-ascii-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+locale-ascii-check: build/locale-ascii-probe
+	$(PYTHON) tests/check-locale-ascii.py build/locale-ascii-probe
