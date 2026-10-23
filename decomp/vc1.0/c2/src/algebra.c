@@ -605,3 +605,133 @@ Node *__fastcall fold_absorbing_constant(Node *node, int value)
     }
     return node;
 }
+
+/* Original [00056600,000567ab). Reduce consecutive constant shifts,
+   or a shifted factor in a multiplication, retaining the discarded-bit mask. */
+int __fastcall reduce_constant_bits(Node *node, Node *parent)
+{
+    Node *inner_constant, *outer_constant;
+    unsigned operation = parent->opcode, count, outer, mask, difference, remainder;
+    int outer_pattern, minimum;
+    if (operation == 10 && (parent->attributes.words.type & 0x100)) return 0;
+    if (operation != 10 && node->opcode == 4)
+        return reduce_constant_bits(node->left.node, parent) ||
+               reduce_constant_bits(node->second.node, parent);
+    if (node->opcode != (operation == 10 ? 9U : 10U)) return 0;
+    inner_constant = node->second.node;
+    if (inner_constant->opcode != 0x33) return 0;
+    count = inner_constant->left.value;
+    outer_constant = parent->second.node;
+    outer = outer_constant->left.value;
+    mask = shift_discard_mask(node);
+    if (operation == 4) {
+        if (integer_log2((0U - outer) & outer) < (int)count) return 0;
+        node->second.node = typed_integer_node(inner_constant, 0);
+        remainder = (unsigned)((int)outer >> (count & 31));
+    } else {
+        difference = count - outer;
+        if ((int)difference < 0) difference = 0U - difference;
+        outer_pattern = is_subword_mask_pattern(parent, outer);
+        if (outer_pattern != is_subword_mask_pattern(node, count) &&
+            !is_subword_mask_pattern(node, difference)) {
+            minimum = (int)outer < (int)count ? (int)outer : (int)count;
+            if (minimum < (int)difference) return 0;
+        }
+        if ((int)outer > (int)count) node->opcode = parent->opcode;
+        node->second.node = typed_integer_node(inner_constant, difference);
+        remainder = 0;
+    }
+    parent->second.node = typed_integer_node(outer_constant, remainder);
+    node->left.node = build_tree("PPNY", node->left.node, typed_integer_node(node, mask), 0xb);
+    release_node(inner_constant);
+    release_node(outer_constant);
+    tree_changed = 1;
+    return 1;
+}
+
+/* Original [00058020,00058030). Highest set-bit index; zero maps to zero. */
+int __fastcall integer_log2(unsigned value)
+{
+    int power = 0;
+    while (value >>= 1) ++power;
+    return power;
+}
+
+/* Original [000565b0,000565fb). Determine source bits retained by a
+   constant shift, narrowed to the expression's scalar representation. */
+unsigned __fastcall shift_discard_mask(Node *node)
+{
+    int count = (int)node->second.node->left.value;
+    if (node->opcode == 9 && count > 0)
+        return (unsigned)(integer_type_limit(node, 0x7fffffff) >> (((unsigned)count - 1) & 31));
+    if (count >= 32) return normalize_integer_width(node, 0);
+    return normalize_integer_width(node, ~0U << ((unsigned)count & 31));
+}
+
+/* Original [000563d0,000565ac). Propagate an observed-bit mask through
+   integer expressions and choose the cheaper equivalent constant bit pattern. */
+Node *__fastcall simplify_masked_tree(Node *node, unsigned mask)
+{
+    Node *value, *constant, *replacement;
+    unsigned low_mask, operation, bits, kept;
+    int count;
+    switch (node->opcode) {
+    case 2: case 3:
+        low_mask = (2U << ((unsigned)integer_log2(mask) & 31)) - 1;
+        value = simplify_masked_tree(node->second.node, low_mask);
+        node->second.node = value;
+        operation = value->opcode;
+        if (operation == 0xb || operation == 9) value = value->second.node;
+        if (value->opcode == 0x33) {
+            if (operation == 9) {
+                if ((int)value->left.value < 32)
+                    mask |= 1U << (value->left.value & 31);
+            } else mask |= value->left.value;
+            low_mask &= 0U - ((0U - mask) & mask);
+        }
+        node->left.node = simplify_masked_tree(node->left.node, low_mask);
+        break;
+    case 4:
+        mask = (2U << ((unsigned)integer_log2(mask) & 31)) - 1;
+        /* Fall through: both operands contribute to observed result bits. */
+    case 0xb: case 0xc: case 0xd:
+        node->second.node = simplify_masked_tree(node->second.node, mask);
+        /* Fall through. */
+    case 0xe:
+        node->left.node = simplify_masked_tree(node->left.node, mask);
+        break;
+    case 9:
+        constant = node->second.node;
+        if (constant->opcode == 0x33) {
+            bits = shift_discard_mask(node);
+            bits &= mask >> (constant->left.value & 31);
+            node->left.node = simplify_masked_tree(node->left.node, bits);
+        }
+        break;
+    case 10:
+        constant = node->second.node;
+        if (constant->opcode == 0x33) {
+            count = (int)constant->left.value;
+            if (count >= 32) mask = 0;
+            else mask <<= ((unsigned)count & 31);
+            if (node->attributes.words.type & 0x100)
+                mask |= (unsigned)integer_type_limit(node, 0x80000000U);
+            mask = normalize_integer_width(node, mask);
+            node->left.node = simplify_masked_tree(node->left.node, mask);
+        }
+        break;
+    case 0x33:
+        bits = node->left.value;
+        kept = mask & bits;
+        if (normalize_integer_width(node, ~bits & mask) < kept) bits |= ~mask;
+        else bits = kept;
+        if (normalize_integer_width(node, bits) != node->left.value) {
+            replacement = typed_integer_node(node, bits);
+            tree_changed = 1;
+            release_node(node);
+            return replacement;
+        }
+        break;
+    }
+    return node;
+}

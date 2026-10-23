@@ -848,7 +848,12 @@
     "@map_assignment_opcode@8",
     "@lift_typed_sequence@8",
     "@lift_unary_operand@8",
-    "@fold_absorbing_constant@8"
+    "@fold_absorbing_constant@8",
+    "@reduce_constant_bits@8",
+    "@integer_log2@4",
+    "@shift_discard_mask@4",
+    "@integer_type_limit@8",
+    "@simplify_masked_tree@8"
   ],
   "driver": [
     {
@@ -2781,8 +2786,7 @@
     {
       "name": "@reduce_constant_bits@8",
       "start": 353792,
-      "end": 353793,
-      "provisional": true
+      "end": 354219
     },
     {
       "name": "@is_nonnegative_tree@4",
@@ -2799,8 +2803,7 @@
     {
       "name": "@integer_log2@4",
       "start": 360480,
-      "end": 360481,
-      "provisional": true
+      "end": 360496
     },
     {
       "name": "@extract_negative@4",
@@ -2852,14 +2855,12 @@
     {
       "name": "@simplify_masked_tree@8",
       "start": 353232,
-      "end": 353233,
-      "provisional": true
+      "end": 353708
     },
     {
       "name": "@shift_discard_mask@4",
       "start": 353712,
-      "end": 353713,
-      "provisional": true
+      "end": 353787
     },
     {
       "name": "@factor_common_operator@12",
@@ -2896,8 +2897,7 @@
     {
       "name": "@integer_type_limit@8",
       "start": 355248,
-      "end": 355249,
-      "provisional": true
+      "end": 355307
     },
     {
       "name": "@cleanup_expression_tree@4",

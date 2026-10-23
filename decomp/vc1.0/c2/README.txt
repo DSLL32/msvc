@@ -2152,3 +2152,12 @@ children and fold absorbing constants. Native/original agree at
 reduce_constant_bits56600.766 graphs, canonical/native/W3 and three native
 fixtures pass, including completed minimal+hello objects. See
 cases/loops-operator-frontier.json and ../fixtures/c2-optimizer-loops/README.txt.
+
+Loop bit masks: checkpoint849
+-----------------------------
+Whole constant-bit reduction, integer logarithm, shift masks, narrow type limits
+and recursive observed-bit simplification pass fresh original/native matching.
+The reducer transformation body is not independently claimed exercised after
+its initial false guard. Native/original now agree at distribute_constant54db0.
+771 source graphs, canonical/native/W3 and all three native fixtures pass.
+See cases/loops-bit-masks.json; final loop object remains incomplete.

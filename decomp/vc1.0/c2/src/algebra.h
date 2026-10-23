@@ -8,6 +8,7 @@ Node *__fastcall strip_integer_cast(Node *node);
 Node *__fastcall typed_integer_node(Node *model, unsigned value);
 int __fastcall rewrite_shift_as_multiply(Node *node);
 Node *__fastcall fold_absorbing_constant(Node *node, int value);
+int __fastcall is_subword_mask_pattern(Node *node, unsigned mask);
 int __fastcall reduce_constant_bits(Node *node, Node *parent);
 int __fastcall is_nonnegative_tree(Node *node);
 int __fastcall can_combine_constants(Node *node, unsigned first, unsigned second);

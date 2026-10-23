@@ -1,0 +1,26 @@
+{
+  "label": "loops-original-845",
+  "profile": "loops",
+  "accepted": 845,
+  "events": "exception 80000003 rva 00048020 base 00010000 first 1\nexit 99\n",
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "masked_sha256": "9aabcaf29c8689407cd99de678432c4f563d0d1c13a3dcac12a0b17905d187a7",
+  "config_sha256": "610dce627696b9ac0e2354d710ed7a8d47e4c64f88c2b2cfd4f0382b9b2ddd94",
+  "manifest_sha256": "e370b9d68ae65aa99e494ba017fa4d57a46f810e18e0d1cb15f828d178ae0f56",
+  "inputs": {
+    "c2/irex": "8d567c5236ba161c8ffd41015fe5c8e7d5d1d69b3b4f3ed98d17079b87fcd2d9",
+    "c2/irsy": "294a6975c779332431a8405914b68f0c7f16524b50c6818ae05d9a1ffe50cc4f",
+    "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+    "c2/irgl": "3f37401d62eab43891be3263164edd9300489c57570efe5ca5ec920b200b2ed3"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f loops.c -W 1 -dos -Foloops.obj -ML -Gs4096 -Gy -G5 "
+  },
+  "directory": "/root/.ai-tmp/vc1.0-c2/original-loops-jurt6ljv",
+  "logical": "@integer_log2@4",
+  "original_va": "0x58020",
+  "setup_seconds": 0.1973550133407116,
+  "execution_seconds": 1.637177774682641,
+  "check_seconds": 0.0061323679983615875,
+  "total_seconds": 1.8406655676662922
+}

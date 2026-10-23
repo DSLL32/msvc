@@ -91,16 +91,11 @@ Node *__fastcall fold_integer_comparison(Node *node) { __asm int 3 }
 Node *__fastcall fold_floating_comparison(Node *node) { __asm int 3 }
 Node *__fastcall fold_floating_node(Node *node) { __asm int 3 }
 #include "algebra.h"
-int __fastcall integer_type_limit(Node *node, int limit) { __asm int 3 }
-int __fastcall reduce_constant_bits(Node *node, Node *parent) { __asm int 3 }
 int __fastcall is_nonnegative_tree(Node *node) { __asm int 3 }
 int __fastcall can_combine_constants(Node *node, unsigned first, unsigned second) { __asm int 3 }
-int __fastcall integer_log2(unsigned value) { __asm int 3 }
 int __fastcall constant_as_integer(Node *node, int *value) { __asm int 3 }
 Node *__fastcall remove_left_wrapper(Node *node) { __asm int 3 }
 Node *__fastcall lift_right_unary(Node *node) { __asm int 3 }
-Node *__fastcall simplify_masked_tree(Node *node, unsigned mask) { __asm int 3 }
-unsigned __fastcall shift_discard_mask(Node *node) { __asm int 3 }
 int __fastcall distribute_constant(Node *node, unsigned opcode) { __asm int 3 }
 int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 #include "work-prepare.h"

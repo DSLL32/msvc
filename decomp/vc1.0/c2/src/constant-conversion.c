@@ -84,3 +84,16 @@ unsigned __fastcall normalize_integer_width(Node *node, unsigned value)
     default: return value;
     }
 }
+
+/* Original [00056bb0,00056beb). Scale a32-bit signed/unsigned limit to
+   the narrow integer representation; wider and noninteger types retain it. */
+int __fastcall integer_type_limit(Node *node, int limit)
+{
+    switch (node->attributes.words.type) {
+    case 0x101: return limit >> 24;
+    case 0x102: return limit >> 16;
+    case 0x201: return (int)((unsigned)limit >> 24);
+    case 0x202: return (int)((unsigned)limit >> 16);
+    default: return limit;
+    }
+}
