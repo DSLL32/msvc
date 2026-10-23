@@ -34,7 +34,8 @@
     "rc_set_character_class",
     "rc_hash_macro_name",
     "rc_define_macro",
-    "rc_find_macro"
+    "rc_find_macro",
+    "rc_copy_macro_text"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",
@@ -147,11 +148,20 @@
         "VERSIONINFO",
         "languages"
       ],
-      "reference": "cases/resources-rich/reference/manifest.json"
+      "reference": "cases/resources-rich/reference/manifest.json",
+      "state": "retained; unsupported command-replacement overread after macro lookup"
+    },
+    {
+      "id": "resources-rich-trailing-space",
+      "priority": 3,
+      "source": "cases/resources-rich/source/resources.rc",
+      "reference": "cases/resources-rich-trailing-space/reference/manifest.json",
+      "state": "copy validation passed; reconstruction continues at source opening",
+      "reason": "In-bounds equivalent definition variant; one trailing space is trimmed into an owned NUL."
     },
     {
       "id": "preprocessor",
-      "priority": 3,
+      "priority": 4,
       "source": "cases/preprocessor/source/features.rc",
       "reference_state": "analysis input only; raw token output is not a valid resource case",
       "features": [
@@ -172,5 +182,6 @@
     "scratch_subdir": "vc5.10/rcdll",
     "native_fixtures_may_use_wine": false
   },
-  "authorization": "vc510_orchestrator: first-case-only pause lifted; resources-rich DLL case authorized; further cases may be proposed after completion"
+  "authorization": "vc510_orchestrator: first-case-only pause lifted; resources-rich DLL case authorized; further cases may be proposed after completion",
+  "active_case": "resources-rich-trailing-space"
 }

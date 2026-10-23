@@ -1,0 +1,17 @@
+{
+  "negative_controls": [
+    "wrong-parent-ret4",
+    "swapped-parent-ret0-filter-ret8-union-unchanged",
+    "wrong-filter-eax0",
+    "wrong-scope-handler",
+    "wrong-scope-enclosing-level",
+    "wrong-handler-parent-frame",
+    "wrong-exception-import-slot"
+  ],
+  "elapsed_seconds": 0.028519664891064167,
+  "rebuilt_sha256": "ea2449b2ac6e493ce49e4cce2d429d85c8fc989ea28a3d5edb6e0dfc545a6de1",
+  "map_sha256": "9edd58de2cef707233ca6083b24ed5af15416e5c1af926eda1fb942e199e9e83",
+  "checker_sha256": "b3375c3e687672316cda1131b177b214ef728f99d9762d601f50efed1be59a8d",
+  "control_sha256": "7dd3931d60dbfd18ede91fb4d8bd820571b0da16f21ffed61b158bdf8063887f",
+  "scope": "SEH role/ABI residual only. Shared CFG and union RET checks remain enabled."
+}

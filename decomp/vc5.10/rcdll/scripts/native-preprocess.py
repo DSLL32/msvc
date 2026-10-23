@@ -17,6 +17,7 @@ def capture_preprocessor(path):
         value=gdb.parse_and_eval(row['name']);address=int(value.address)
         record=dict(address=address,bytes=bytes(gdb.selected_inferior().read_memory(address,row['bytes'])).hex())
         if row['kind']=='wide-string':record['text']=wide_bytes(int(value))
+        if row['kind']=='crt-file'and int(value):record['file_state']=bytes(gdb.selected_inferior().read_memory(int(value),32)).hex()
         state[row['name']]=record
     tables={}
     for label in ['options','letters']:
@@ -30,4 +31,16 @@ def capture_preprocessor(path):
             else:record.update(letter=int(value['letter']),action=int(value['action']))
             records.append(record)
         tables[label]=dict(address=int(gdb.parse_and_eval('&'+table['name'])),rows=records)
-    return dict(schema_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),globals=state,tables=tables)
+    macros=[]
+    for bucket in range(256):
+        node=gdb.parse_and_eval('rc_macro_buckets[%d]'%bucket)
+        while int(node):
+            assert len(macros)<3,'unknown macro-table case'
+            value=node.dereference();name=int(value['name']);text=int(value['text']);name_bytes=wide_bytes(name)
+            macros.append(dict(bucket=bucket,pointer=int(node),next=int(value['next']),name=name,text=text,
+                parameters=int(value['parameters']),flags=int(value['flags']),reserved=int(value['reserved']),
+                record=bytes(gdb.selected_inferior().read_memory(int(node)-8,24)).hex(),
+                name_block=bytes(gdb.selected_inferior().read_memory(name-8,len(bytes.fromhex(name_bytes))+10)).hex(),
+                text_block=bytes(gdb.selected_inferior().read_memory(text-8,16)).hex()))
+            node=value['next']
+    return dict(macros=macros,schema_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),globals=state,tables=tables)

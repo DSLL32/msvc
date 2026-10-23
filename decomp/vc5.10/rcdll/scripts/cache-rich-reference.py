@@ -7,11 +7,11 @@ import re
 import shutil
 from protocol import HERE,ROOT,sha,callbacks
 
-p=argparse.ArgumentParser();p.add_argument('capture',type=Path)
-a=p.parse_args();capture=a.capture.resolve();out=HERE/'cases/resources-rich/reference'
+p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('--case',choices=['resources-rich','resources-rich-trailing-space'],default='resources-rich')
+a=p.parse_args();capture=a.capture.resolve();out=HERE/('cases/'+a.case+'/reference')
 assert not out.exists(),'reference is immutable; choose an explicit new capture directory/version'
 r=json.loads((capture/'receipt.json').read_text())
-assert r['case']=='resources-rich' and r['mode']=='baseline'
+assert r['case']==a.case and r['mode']=='baseline'
 assert r['status']==0 and not r['timed_out']
 for name,info in r['files'].items():
     f=capture/name
@@ -69,7 +69,7 @@ boundary=dict(export='RC',abi='stdcall',slots=6,window=0,unused=0,diagnostic_ori
               original_caller=0x010011fd,driver_main=0x010011d2,cwd_utf16=cwd_raw.hex(),
               environment_utf16_sha256=sha(out/'environment-utf16.bin'))
 (out/'boundary.json').write_text(json.dumps(boundary,indent=2)+'\n')
-manifest=dict(schema=1,case='resources-rich',status=0,args=r['args'],argv0=r['argv0'],
+manifest=dict(schema=1,case=a.case,status=0,args=r['args'],argv0=r['argv0'],
               child_cwd=r['child_cwd'],module_path=module[0],original_capture=str(capture),
               target_sha256=r['target_sha256'],crt_sha256=r['crt_expected_sha256'],
               driver_sha256=sha(capture/'loaded-driver.bin'),original_seconds=r['elapsed_seconds'],

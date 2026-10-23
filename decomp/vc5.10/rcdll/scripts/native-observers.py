@@ -258,3 +258,70 @@ if os.environ.get('RCDLL_OBSERVE_ERRNO')=='1':
         def stop(self):record_errno(self.label);return False
     ErrnoStart('main',internal=True)
     ErrnoBoundary('_DllMainCRTStartup');ErrnoBoundary('RC')
+
+
+macro_copies=[]
+macro_copy_path=path.parent/'macro-copies.json'
+def save_macro_copies():macro_copy_path.write_text(json.dumps(macro_copies,indent=2)+'\n')
+class MacroCopyReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        result=int(gdb.parse_and_eval('$eax'))&0xffffffff
+        self.entry.update(result=result,result_block=bytes(gdb.selected_inferior().read_memory(result-8,2*self.entry['length']+10)).hex(),return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,last_error_after=int(gdb.parse_and_eval('last_error')),errno_after=int(gdb.parse_and_eval('*(int *)&errno')))
+        save_macro_copies();return False
+class MacroCopyEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();caller=frame.older()
+        if caller is None or caller.name()!='rc_define_macro':return False
+        assert len(macro_copies)<6
+        pointer=int(frame.read_var('value'));length=int(frame.read_var('length'));assert 0<length<=512
+        maps=Path('/proc/%d/maps'%gdb.selected_inferior().pid).read_text().splitlines()
+        mapping=[line for line in maps if int(line.split()[0].split('-')[0],16)<=pointer and pointer+2*length<=int(line.split()[0].split('-')[1],16)]
+        assert len(mapping)==1 and mapping[0].split()[1].startswith('r')
+        contract=None
+        global_name=int(gdb.parse_and_eval('&rc_macro_name'))
+        if global_name<=pointer and pointer+2*length<=global_name+1024:contract='initialized-global-name'
+        heap=gdb.parse_and_eval('native_heaps')
+        while int(heap):
+            block=heap.dereference()['blocks']
+            while int(block):
+                item=block.dereference();start=int(item['payload']);end=start+int(item['requested_size'])
+                if start<=pointer and pointer+2*length<=end:contract='requested-private-heap'
+                block=item['next']
+            heap=heap.dereference()['next']
+        if contract is None and length==3 and mapping[0].split()[1].startswith('r-') and bytes(gdb.selected_inferior().read_memory(pointer,6))==b'1\0\0\0\0\0':contract='six-byte-constant-literal'
+        if contract is None:raise gdb.GdbError('unsupported macro-copy source outside initialized owned extent')
+        entry=dict(source_contract=contract,source=pointer,length=length,source_bytes=bytes(gdb.selected_inferior().read_memory(pointer,2*length)).hex(),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,source_mapping=mapping[0],last_error_before=int(gdb.parse_and_eval('last_error')),errno_before=int(gdb.parse_and_eval('*(int *)&errno')))
+        macro_copies.append(entry);save_macro_copies();MacroCopyReturned(frame,entry);return False
+MacroCopyEntered('rc_copy_macro_text',internal=True);save_macro_copies()
+
+
+wide_initial_path=path.parent/'wide-initial.json'
+wide_initial={}
+def save_wide_initial():wide_initial_path.write_text(json.dumps(wide_initial,indent=2)+'\n')
+class MacroTrimWrite(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();assert frame.name()=='rc_open_preprocessor'
+        value=bytes(gdb.selected_inferior().read_memory(wide_initial['trim_pointer'],2)).hex()
+        eax=int(gdb.parse_and_eval('$eax'))&0xffffffff
+        wide_initial['writes'].append(dict(function=frame.name(),pc=int(frame.pc()),after=value,eax=eax))
+        gdb.write('RCDLL_TRIM_WRITE=%08x %s %08x %s %08x\n'%(wide_initial['trim_pointer'],frame.name(),int(frame.pc()),value,eax))
+        self.enabled=False;save_wide_initial();return False
+class WideInitial(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();count=int(frame.read_var('count'));vector=frame.read_var('arguments')
+        assert count==20
+        allocations=[record for record in heaps if record['operation']=='allocate'];assert len(allocations)==5
+        size=allocations[4]['bytes'];pointer=int(vector)
+        raw=bytes(gdb.selected_inferior().read_memory(pointer-8,size))
+        final=int(vector[19]);value=bytearray()
+        for offset in range(512):
+            word=bytes(gdb.selected_inferior().read_memory(final+2*offset,2));value.extend(word)
+            if word==b'\0\0':break
+        else:raise AssertionError('unbounded final definition')
+        wide_initial.update(pointer=pointer,requested_size=size,bytes=raw.hex(),last_argument=bytes(value).hex(),writes=[])
+        if bytes(value).endswith(b' \0\0\0'):
+            wide_initial['trim_pointer']=final+len(value)-4
+            MacroTrimWrite('*(unsigned short *)'+str(wide_initial['trim_pointer']),type=gdb.BP_WATCHPOINT,wp_class=gdb.WP_WRITE,internal=True)
+        save_wide_initial();return False
+WideInitial('rc_preprocessor_main',internal=True);save_wide_initial()

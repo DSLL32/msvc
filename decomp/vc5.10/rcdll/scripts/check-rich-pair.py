@@ -5,10 +5,11 @@ import json
 from pathlib import Path
 import shutil
 import tempfile
+import time
 from protocol import HERE,sha
-from rich_protocol import release_entry,release_trial,prepare_trial,write_trial,detect_trial,unicode_trial,line_trial,prefix_trial,notify_trial,preprocess_trial,widen_trial,preprocessor_main_trial,next_argument_trial,scan_options_trial,apply_option_trial,option_number_trial,open_preprocessor_trial,character_token_trial,character_class_trial,macro_hash_trial,define_macro_trial,find_macro_trial
-p=argparse.ArgumentParser();p.add_argument('--original',required=True,type=Path);p.add_argument('--native',required=True,type=Path);p.add_argument('--output',type=Path);p.add_argument('--stage',choices=['entry','trial','prepare','write','detect','unicode','line','prefix','notify','preprocess','widen','preprocessor-main','next-argument','scan-options','apply-option','option-number','open-preprocessor','character-token','character-class','macro-hash','define-macro','find-macro'],default='trial')
-a=p.parse_args();validate={'entry':release_entry,'trial':release_trial,'prepare':prepare_trial,'write':write_trial,'detect':detect_trial,'unicode':unicode_trial,'line':line_trial,'prefix':prefix_trial,'notify':notify_trial,'preprocess':preprocess_trial,'widen':widen_trial,'preprocessor-main':preprocessor_main_trial,'next-argument':next_argument_trial,'scan-options':scan_options_trial,'apply-option':apply_option_trial,'option-number':option_number_trial,'open-preprocessor':open_preprocessor_trial,'character-token':character_token_trial,'character-class':character_class_trial,'macro-hash':macro_hash_trial,'define-macro':define_macro_trial,'find-macro':find_macro_trial}[a.stage];proof=validate(a.original,a.native);controls=[]
+from rich_protocol import release_entry,release_trial,prepare_trial,write_trial,detect_trial,unicode_trial,line_trial,prefix_trial,notify_trial,preprocess_trial,widen_trial,preprocessor_main_trial,next_argument_trial,scan_options_trial,apply_option_trial,option_number_trial,open_preprocessor_trial,character_token_trial,character_class_trial,macro_hash_trial,define_macro_trial,find_macro_trial,copy_macro_trial
+p=argparse.ArgumentParser();p.add_argument('--original',required=True,type=Path);p.add_argument('--native',required=True,type=Path);p.add_argument('--output',type=Path);p.add_argument('--stage',choices=['entry','trial','prepare','write','detect','unicode','line','prefix','notify','preprocess','widen','preprocessor-main','next-argument','scan-options','apply-option','option-number','open-preprocessor','character-token','character-class','macro-hash','define-macro','find-macro','copy-macro'],default='trial')
+a=p.parse_args();started=time.perf_counter();validate={'entry':release_entry,'trial':release_trial,'prepare':prepare_trial,'write':write_trial,'detect':detect_trial,'unicode':unicode_trial,'line':line_trial,'prefix':prefix_trial,'notify':notify_trial,'preprocess':preprocess_trial,'widen':widen_trial,'preprocessor-main':preprocessor_main_trial,'next-argument':next_argument_trial,'scan-options':scan_options_trial,'apply-option':apply_option_trial,'option-number':option_number_trial,'open-preprocessor':open_preprocessor_trial,'character-token':character_token_trial,'character-class':character_class_trial,'macro-hash':macro_hash_trial,'define-macro':define_macro_trial,'find-macro':find_macro_trial,'copy-macro':copy_macro_trial}[a.stage];proof=validate(a.original,a.native);controls=[]
 with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/rcdll')as scratch:
     old=Path(scratch)/'original';new=Path(scratch)/'native'
     shutil.copytree(a.original,old);shutil.copytree(a.native,new)
@@ -123,7 +124,7 @@ with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/ms
         reject('wrong-converted-argv','native','snapshot.json',snapshot(lambda v:v['arguments']['argv'].pop()))
         reject('wrong-new-allocation-size','native','snapshot.json',snapshot(lambda v:v['heap_identity']['blocks'][0].update(bytes=1)))
         reject('wrong-initial-zeroes','native','snapshot.json',snapshot(lambda v:next(x for x in reversed(v['heap'])if x['operation']=='allocate').update(payload='5a')))
-    if a.stage in ['preprocessor-main','next-argument','scan-options','apply-option','option-number','open-preprocessor','character-token','character-class','macro-hash','define-macro','find-macro']:
+    if a.stage in ['preprocessor-main','next-argument','scan-options','apply-option','option-number','open-preprocessor','character-token','character-class','macro-hash','define-macro','find-macro','copy-macro']:
         reject('wrong-preprocessor-remaining','native','snapshot.json',snapshot(lambda v:v['arguments']['preprocessor']['globals']['rc_cpp_remaining'].update(bytes='ffffffff')))
         reject('wrong-preprocessor-vector','native','snapshot.json',snapshot(lambda v:v['arguments']['preprocessor']['globals']['rc_cpp_arguments'].update(bytes='00000000')))
         reject('wrong-option-pattern','native','snapshot.json',snapshot(lambda v:v['arguments']['preprocessor']['tables']['options']['rows'][0].update(pattern='0000')))
@@ -176,6 +177,22 @@ with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/ms
         reject('wrong-copy-alias','native','snapshot.json',snapshot(lambda v:v['arguments']['copy'].update(value=0)))
         reject('wrong-pending-record','native','snapshot.json',snapshot(lambda v:v['arguments']['pending_macro'].update(bytes='01'+'00'*23)))
         reject('wrong-record-size','native','snapshot.json',snapshot(lambda v:v['arguments']['pending_macro'].update(record_bytes=20)))
+    if a.stage=='copy-macro':
+        reject('missing-real-trim-write','original','events.txt',lambda p:p.write_text('\n'.join(line for line in p.read_text().splitlines()if not line.startswith('macro-trim-after '))+'\n'))
+        reject('missing-initial-space','original','events.txt',lambda p:p.write_text(p.read_text().replace('word=0020','word=0000')))
+        reject('wrong-native-trim-pointer','native','wide-initial.json',snapshot(lambda v:v.update(trim_pointer=0)))
+        reject('wrong-native-trim-store','native','wide-initial.json',snapshot(lambda v:v['writes'][0].update(pc=v['writes'][0]['pc']+1)))
+        reject('unsupported-copy-source-contract','native','snapshot.json',snapshot(lambda v:v['arguments']['macro_copies'][1].update(source_contract='allocator-slack')))
+        reject('wrong-hidden-source-depth','native','snapshot.json',snapshot(lambda v:v['arguments']['preprocessor']['globals']['rc_source_depth'].update(bytes='00000000')))
+        reject('wrong-hidden-source-frames','native','snapshot.json',snapshot(lambda v:v['arguments']['preprocessor']['globals']['rc_source_frames'].update(bytes='01'+'00'*(36*1024-1))))
+        reject('wrong-source-open-flag','native','snapshot.json',snapshot(lambda v:v['arguments']['source_open'].update(first=0)))
+        reject('wrong-source-open-alias','native','snapshot.json',snapshot(lambda v:v['arguments']['source_open'].update(path=0)))
+        reject('wrong-copy-source-bytes','native','snapshot.json',snapshot(lambda v:v['arguments']['macro_copies'][1].update(source_bytes='00'*6)))
+        reject('wrong-copy-return-cleanup','native','snapshot.json',snapshot(lambda v:v['arguments']['macro_copies'][0].update(return_esp=0)))
+        reject('wrong-macro-sentinel','native','snapshot.json',snapshot(lambda v:v['arguments']['preprocessor']['macros'][0].update(text_block='00'*16)))
+        reject('wrong-output-FILE','native','snapshot.json',snapshot(lambda v:v['arguments']['preprocessor']['globals']['rc_cpp_output_file'].update(file_state='00'*32)))
+        reject('wrong-bucket-owner','native','snapshot.json',snapshot(lambda v:v['arguments']['preprocessor']['macros'][0].update(pointer=0)))
+        reject('wrong-copy-errors','native','snapshot.json',snapshot(lambda v:v['crt_errors'].update(errno=2)))
     if a.stage=='character-class':
         reject('wrong-dollar-class','native','snapshot.json',snapshot(lambda v:v['arguments']['preprocessor']['globals']['rc_character_classes[36]'].update(bytes='0000')))
         reject('wrong-macro-name','native','snapshot.json',snapshot(lambda v:v['arguments']['macro_name'].update(bytes='0000')))
@@ -203,5 +220,6 @@ with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/ms
     reject('missing-original-frontier','original','events.txt',lambda p:p.write_text('\n'.join(l for l in p.read_text().splitlines()if not l.startswith('frontier '))+'\n'))
     validate(old,new)
 proof['negative_controls']=controls
+proof['elapsed_seconds']=time.perf_counter()-started
 if a.output:a.output.write_text(json.dumps(proof,indent=2)+'\n')
 print(json.dumps(dict(matched_frontier=proof['matched_frontier'],application_trace=proof['application_trace'],negative_controls=controls),indent=2))

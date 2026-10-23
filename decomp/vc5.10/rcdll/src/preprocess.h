@@ -28,6 +28,18 @@ typedef struct RcMacro {
     unsigned char flags;
     unsigned short reserved;
 } RcMacro;
+typedef struct RcSourceFrame {
+    unsigned chunk_bytes;
+    FILE *file;
+    unsigned saved_line;
+    WCHAR *filename,*saved_cursor,*buffer;
+    int chars_read,encoding,seek_result;
+} RcSourceFrame;
+extern int rc_source_depth,rc_source_encoding;
+extern WCHAR *rc_source_cursor;
+extern FILE *rc_source_file;
+extern RcSourceFrame rc_source_frames[1024];
+
 extern RcMacro *rc_macro_buckets[256];
 extern int rc_macro_listing_enabled;
 

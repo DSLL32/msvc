@@ -17,7 +17,7 @@ tools=importlib.util.module_from_spec(spec);spec.loader.exec_module(tools)
 SHA_CRT='e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210'
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--mode',choices=['baseline','masked'],required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--timeout',type=float,default=45);p.add_argument('--case',choices=['help','resources-rich'],default='help')
+    p=argparse.ArgumentParser();p.add_argument('--mode',choices=['baseline','masked'],required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--timeout',type=float,default=45);p.add_argument('--case',choices=['help','resources-rich','resources-rich-trailing-space'],default='help')
     p.add_argument('--heap-observations',type=int,default=1);p.add_argument('--free-observations',type=int,default=0);p.add_argument('--character-observations',type=int,default=0);p.add_argument('--api-census',action='store_true')
     p.add_argument('--path-errors',action='store_true')
     a=p.parse_args();out=a.output.resolve()
@@ -60,8 +60,8 @@ def main():
     shutil.copyfile(HERE/'build/debug-original.exe',out/'debug-original.exe')
     shutil.copyfile(HERE/'build/debug-original-source.json',out/'helper-compiled-source.json')
     case_args=['/help'];child_cwd=None
-    if a.case=='resources-rich':
-        case_args=['/r','/dCASE_FROM_COMMAND=7','/iinclude','/foresources.res','resources.rc']
+    if a.case in ['resources-rich','resources-rich-trailing-space']:
+        case_args=['/r','/dCASE_FROM_COMMAND=7'+(' 'if a.case=='resources-rich-trailing-space'else''),'/iinclude','/foresources.res','resources.rc']
         shutil.copytree(HERE/'cases/resources-rich/source',out/'source');child_cwd=tools.windows(out/'source')
         (out/'case-args.txt').write_text(subprocess.list2cmdline(case_args))
     from protocol import candidate,validation_versions
@@ -81,7 +81,7 @@ def main():
     shutil.copyfile(HERE/'build/original-source.json',out/'compiled-source.json')
     (out/'functions.json').write_bytes((HERE/'functions.json').read_bytes())
     env=tools.environment()
-    if a.case=='resources-rich':
+    if a.case in ['resources-rich','resources-rich-trailing-space']:
         # Freeze a small public launcher environment; the actual Windows child
         # block is captured from its PEB, rather than assuming Wine translation.
         keep={'PATH','HOME','USER','LOGNAME','LANG','LC_ALL','LC_CTYPE','DISPLAY',
@@ -107,7 +107,7 @@ def main():
     for name in ['helper-compiled-source.json','case-args.txt','environment-utf16.bin','compiled-source.json','candidate.json','functions.json','ranges.txt','validation-versions.json','stdout.bin','stderr.bin','events.txt','relocated-text.bin','masked-text.bin','globals.bin','completion-globals.bin','loaded-target.bin','loaded-crt.bin','loaded-driver.bin']:
         f=out/name
         if f.exists():report['files'][name]=dict(bytes=f.stat().st_size,sha256=sha(f))
-    if a.case=='resources-rich':
+    if a.case in ['resources-rich','resources-rich-trailing-space']:
         report['case_files']={str(f.relative_to(out/'source')):dict(bytes=f.stat().st_size,sha256=sha(f))for f in (out/'source').rglob('*')if f.is_file()}
     report['actual_target_verified']=report['files'].get('loaded-target.bin',{}).get('sha256')==report['target_sha256']
     report['actual_crt_verified']=report['files'].get('loaded-crt.bin',{}).get('sha256')==SHA_CRT

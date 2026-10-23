@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import subprocess
 import shutil
+import shlex
 import time
 HERE=Path(__file__).resolve().parents[1]
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
@@ -38,14 +39,16 @@ def main():
     else:env.pop('RCDLL_OBSERVE_ERRNO',None)
     if a.reference:
         reference=a.reference.resolve();manifest=json.loads((reference/'manifest.json').read_text())
-        assert manifest['case']=='resources-rich'
+        assert manifest['case']in ['resources-rich','resources-rich-trailing-space']
+        active=json.loads(config.read_text())
+        if 'rc_copy_macro_text'in active['accepted']+[active.get('trial_function')]:assert manifest['case']=='resources-rich-trailing-space','unvalidated no-space macro source extent is unsupported'
         for name,value in manifest['files'].items():assert sha(reference/name)==value,name
         for name,info in manifest['source_inputs'].items():assert sha(HERE/'cases/resources-rich/source'/name)==info['sha256'],name
         if a.original_inputs:
             actual=json.loads((a.original_inputs/'receipt.json').read_text())
             limit=actual['observation_limits']['heap'];assert 0<=limit<=8192
             env['RCDLL_NATIVE_HEAP_LIMIT']=str(limit)
-            assert actual['case']=='resources-rich' and actual['args']==manifest['args']
+            assert actual['case']==manifest['case']and actual['args']==manifest['args']
             for name,info in manifest['source_inputs'].items():assert actual['case_files'][name]==info,name
             manifest=dict(manifest,child_cwd=actual['child_cwd'],argv0=actual['argv0'])
             assert a.argv0==manifest['argv0']
@@ -80,7 +83,7 @@ def main():
     if a.compiler_frame:
         command+=['-ex','break recon_IsDBCSLeadByteEx']
         script=out/'compiler-frame-gdb.py';shutil.copyfile(HERE/'scripts/compiler-frame-gdb.py',script)
-    command+=['-ex','run '+str(out/'events.txt')+(' '+' '.join(target_args) if target_args else '')+' > '+str(out/'stdout.bin')+' 2> '+str(out/'stderr.bin'),'-ex','source '+str(script)]
+    command+=['-ex','run '+str(out/'events.txt')+(' '+' '.join(shlex.quote(arg)for arg in target_args) if target_args else '')+' > '+str(out/'stdout.bin')+' 2> '+str(out/'stderr.bin'),'-ex','source '+str(script)]
     active=read_configuration(config);names=[f['name']for f in active['functions']if f['kind']=='application' and f['name'] in active['accepted']+[active.get('trial_function')]]
     (out/'trace-filter.txt').write_text(''.join(native_name(name)+'\n'for name in names));(out/'trace-seen.txt').write_text('')
     with (out/'trace.txt').open('wb') as trace:
@@ -94,5 +97,5 @@ def main():
     (out/'receipt.json').write_text(json.dumps(report,indent=2)+'\n')
     if not (out/'snapshot.json').is_file():
         print(json.dumps(dict(kind='failure',gdb_status=result.returncode,stderr=str(out/'stderr.bin'),gdb_stderr=str(out/'gdb.stderr')),indent=2));return 125
-    print(json.dumps(json.loads((out/'snapshot.json').read_text()),indent=2));return result.returncode
+    state=json.loads((out/'snapshot.json').read_text());print(json.dumps(state,indent=2));return 125 if state.get('kind')=='error'else result.returncode
 if __name__=='__main__':raise SystemExit(main())

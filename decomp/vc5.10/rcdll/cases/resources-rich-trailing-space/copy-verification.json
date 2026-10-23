@@ -1,0 +1,167 @@
+{
+  "function": "rc_copy_macro_text",
+  "original_start": "0xbee2",
+  "original_end": "0xbfc4",
+  "original_code_bytes": 226,
+  "ownership": "One enclosing C __try/__except owner; local filter and internal handler retain separate ABI roles, not invented functions.",
+  "abi": "stdcall2/ret8 pointer+unsigned32; compiler localfilter stack-neutral RET0/EAX1",
+  "accepted_application_functions": 31,
+  "accepted_application_bytes": 10166,
+  "provisional_application_denominator": 66295,
+  "provisional_coverage_percent": 15.334489780526434,
+  "denominator_scope": "Provisional Ghidra application inventory; SEH ownership includes local filter/handler not independently credited as functions. CRT555/import12/providedcompiler47 bytes separate.",
+  "case": "resources-rich-trailing-space",
+  "case_order_after": "resources-rich",
+  "canonical_reference": "reference/manifest.json",
+  "canonical_res_bytes": 3672,
+  "canonical_res_sha256": "ad4feb23c9a981122246969f9bdaf8bf9a4978cd722f50a67b1e8884835b9318",
+  "canonical_original_seconds": 1.368109698407352,
+  "raw_original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/copy-trimmed-trial-original-01",
+  "raw_native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/copy-trimmed-trial-native-02",
+  "original_seconds": 1.5173860304057598,
+  "native_gdb_seconds": 0.9389561656862497,
+  "builds": {
+    "original": {
+      "seconds": 3.871508619748056,
+      "status": 0
+    },
+    "native": {
+      "seconds": 2.1148803578689694,
+      "status": 0
+    }
+  },
+  "audit_seconds": 0.09094910230487585,
+  "audit_engine_sha256": "6575be33131c2194225a104d427c310eda263fccfaf075753dec62ed02612d35",
+  "negative_controls": {
+    "fresh": 40,
+    "seh_roles_fresh": 7,
+    "native_source_guard_fresh": 1,
+    "reused": 0,
+    "gate_seconds": 6.834644969552755,
+    "seh_seconds": 0.028519664891064167,
+    "source_guard_controller_seconds": 0.9227712284773588,
+    "reason": "New actual case,trim writer/source bounds,SEH roles,macro/FILE state and controller contracts."
+  },
+  "gate_sha256": "6ce71610d248457da0fb32edfd5deb9c40411be9464e0bee74dc5bee5e3e3bdb",
+  "graph_audit_record": "audit-0033.json",
+  "validation_versions": {
+    "decomp/vc5.10/rcdll/scripts/accept.py": "a36ca00b9e179ad9dc52c88c29cbdefd841626d0066b17292284e21a11cc6602",
+    "decomp/vc5.10/rcdll/scripts/audit.py": "3f9ad04603c193f4a0d08e901782c031695172c4899dbca01f6d2309fbfa692b",
+    "decomp/vc5.10/rcdll/scripts/cache-rich-reference.py": "2164ca862a64c1708c7a13f6c7b0330df90c383149e067b218b45871dec3511c",
+    "decomp/vc5.10/rcdll/scripts/capture-native.py": "7593117640fbbd5b6ef252b054d59c7c1fbe6aa17908458325bd49a13075475a",
+    "decomp/vc5.10/rcdll/scripts/capture-original.py": "bdfc792b70e740c7d0cb763a9c6be01fad5c7dde60a171e97d344e2d21323a1a",
+    "decomp/vc5.10/rcdll/scripts/check-abi.py": "83f3fffa968c62999e0272c64bf9d15a3c9626d45b93e3cb6cd9af61513b4201",
+    "decomp/vc5.10/rcdll/scripts/check-compiler-support.py": "59a4cebd7a658aa9870cfbb612bf50d919ad9f48f3d022c778c2dcd7f5bc101c",
+    "decomp/vc5.10/rcdll/scripts/check-completion.py": "c98946e5f142082737ce5bb72e47fdc6ad48430c77b55c5a2f8f93a6f121daf9",
+    "decomp/vc5.10/rcdll/scripts/check-copy-seh-controls.py": "7dd3931d60dbfd18ede91fb4d8bd820571b0da16f21ffed61b158bdf8063887f",
+    "decomp/vc5.10/rcdll/scripts/check-copy-seh.py": "b3375c3e687672316cda1131b177b214ef728f99d9762d601f50efed1be59a8d",
+    "decomp/vc5.10/rcdll/scripts/check-dispatcher-switch-controls.py": "909ca7d5ab62bff4ee49ba5b3c470a771b8d939845e768c0e2b0eda983d49480",
+    "decomp/vc5.10/rcdll/scripts/check-dispatcher-switch.py": "f91d78cd25495a160d4ba45b421990894bfa3a967745513774b51fd6f893fb53",
+    "decomp/vc5.10/rcdll/scripts/check-initial.py": "f1e69f898368b7b2df6d68fbc7ee0d47f5babec355b9863a13f436335e0a0824",
+    "decomp/vc5.10/rcdll/scripts/check-plan.py": "34e66d1d7356daad243123672a2ceea8d15f4ea5a57d7bd2fe15d94a6d46320e",
+    "decomp/vc5.10/rcdll/scripts/check-rich-pair.py": "33fc2c571bbb725b76176ff7979b9fa890deed76bf56657c9b8ef1849a85c06b",
+    "decomp/vc5.10/rcdll/scripts/check-trial.py": "ea46359d73d9134a047c512e0419b6f512ef9e95dadba97e61e16b51e707f0a5",
+    "decomp/vc5.10/rcdll/scripts/compiler-frame-gdb.py": "0f2ea9470f79ff73c626dc93fd7c54d506a46d799827d739af2efac3c98f882d",
+    "decomp/vc5.10/rcdll/scripts/fixtures.py": "8039adf2390603d111d5aef75952a4959193a3b491f94e00ccf851f33cdd8847",
+    "decomp/vc5.10/rcdll/scripts/native-gdb.py": "ff626aa0e413a3855e7bd435ccfd0439dcd66cc999a6bc6d910e611799cb2de1",
+    "decomp/vc5.10/rcdll/scripts/native-observers.py": "818f3d6b1a7b09d6d5b463829ed98936b439f2cdddebe815651336e71adc636e",
+    "decomp/vc5.10/rcdll/scripts/native-preprocess.py": "cf59c8d03c305e90c9f627807ec3171322e7c9bad11a859d2c33115931889f25",
+    "decomp/vc5.10/rcdll/scripts/pe_inventory.py": "fb06b8d3138d32e185ad86bb5e2d3dc775bd0a304387537f8a97ae967a2c1869",
+    "decomp/vc5.10/rcdll/scripts/prepare-resources.py": "b32f452aa2534efabb780923d34675f6514c8e933ac2993896a415fb37bd24b7",
+    "decomp/vc5.10/rcdll/scripts/protocol.py": "b4937d8b12eebee778a1b38d1a571a4ea7edd1b65dfcd363c8836c40259ef0ee",
+    "decomp/vc5.10/rcdll/scripts/rich_protocol.py": "8e6e70d8f2704b2a18d51c367c328e52d0e0c219e670de04e3b6634280f719a5",
+    "decomp/vc5.10/rcdll/scripts/source-snapshot.py": "c864e170725a110ad29fbc8dd9bad069b046ab30cfd9d4fadabf5e3fd0f5bd34",
+    "decomp/vc5.10/rcdll/scripts/wine-tool.py": "8bbce5c4f84dfc5eb820df7a502103009f26a89e86308bfa2eeb00d1b7e467bf",
+    "decomp/vc5.10/rcdll/data.json": "fa5c8a453d0eff8e1396f1ac6e346548b31fc4b44b4cdb8a5a43c3e48f82fbed"
+  },
+  "trim": {
+    "original_word_before": 32,
+    "word_after": 0,
+    "owned_terminal_preserved": true,
+    "all_other_packed_bytes_unchanged": true,
+    "native_store_elf_pc": "0x7197",
+    "native_store_opcode": "66c7000000"
+  },
+  "copies": [
+    {
+      "characters": 18,
+      "source_sha256": "3a7e4bbdf8f69d24a8c06b238ad34a60ec5958ad59b43722f74ac7981c1004b2",
+      "source_scope": "initialized1024-byte global name object",
+      "cleanup": 8,
+      "returned": true
+    },
+    {
+      "characters": 3,
+      "source_sha256": "74f846b2c8065ade4284dd8f1327d7f092f85d50fb512d2301a71f77361ebea2",
+      "source_scope": "all6bytes inside requested initialized packed vector:7,actualtrim-writeNUL,preservedoriginal terminalNUL",
+      "cleanup": 8,
+      "returned": true
+    },
+    {
+      "characters": 7,
+      "source_sha256": "2a4c06b937d3e66fe2f19e03930e04916a8b7e141d4382af505e3e5bd0ae3fe2",
+      "source_scope": "initialized1024-byte global name object",
+      "cleanup": 8,
+      "returned": true
+    },
+    {
+      "characters": 3,
+      "source_sha256": "9f19b88733fd844c16ada8bf1527236cb2aa668b41bab4987dc2dcf5124385ad",
+      "source_scope": "encountered6-byte literal+zero placeholder, represented by L1 with an explicit secondNUL",
+      "cleanup": 8,
+      "returned": true
+    },
+    {
+      "characters": 11,
+      "source_sha256": "e108056f0e019cf78a63efa8ead729ece1640897b1b4a3e1424ba20ae51188f7",
+      "source_scope": "initialized1024-byte global name object",
+      "cleanup": 8,
+      "returned": true
+    },
+    {
+      "characters": 3,
+      "source_sha256": "9f19b88733fd844c16ada8bf1527236cb2aa668b41bab4987dc2dcf5124385ad",
+      "source_scope": "encountered6-byte literal+zero placeholder, represented by L1 with an explicit secondNUL",
+      "cleanup": 8,
+      "returned": true
+    }
+  ],
+  "source_open": {
+    "input": "S:\\vc5.10\\rcdll\\copy-trimmed-trial-original-01\\source\\RCa00940",
+    "first": 1,
+    "stack_bytes": 8
+  },
+  "help_fixture": {
+    "logical_name_aliases": {
+      "rcdll_main": "DllMain",
+      "recon_dll_entry": "_DllMainCRTStartup",
+      "rcdll_crt_init": "_CRT_INIT",
+      "rc_main": "main",
+      "rcdll_command_main": "main"
+    },
+    "case": "help",
+    "status": "pass",
+    "stdout_bytes": 589,
+    "application_entries": 9,
+    "seconds": {
+      "setup": 0.0038536423817276955,
+      "execution": 0.003461286425590515,
+      "checks": 0.0011644726619124413,
+      "total": 0.009127526544034481
+    },
+    "native_sha256": "d4dc11e7047caf2ab07e43f1a486f3edbdfe5d646d16fb5d9ab8d1b8828d3c8e",
+    "reference_manifest_sha256": "387c741bdb3fa4d388da034d339b5d21e872667d27934bb570e03d448db05524"
+  },
+  "review": "vc510_orchestrator independently passed trimmed pair+40controls,literal span,6bounded copies and7SEH negatives; copy promotion hold lifted",
+  "notes": [
+    "No-space historical raw/reference remains immutable and unsupported for native copy due2-byte source overread; no allocator defaults changed.",
+    "Quoted trailing-space variant has same macro7 semantics and byte-identical original resource output. Initial/current packed allocation differs only by real20\u21920 trim; original terminalNUL staysowned.",
+    "Native actualhardwarewatch and archivedELF storeopcode66c7000000 corroborate the write; all6reads nowfit requested initialized objects.",
+    "Literal1 is separately bound to initialized original image span1268..126e and actual count3 reads; nativeL1-explicitNUL has6byte storage. No recovered original Carray-size claim.",
+    "Shared CFG/RET checks remain strict. Target residual rejects swapped parent/filter cleanup roles while union{0,8} remains unchanged.",
+    "Windows exception handling remains in original-compiler source; native only supports proved valid source copies and stops on unknown/fault scope.",
+    "Unowned-source negative controller exits125,rawGDB status0,target exitnull; it stops before the unsupported secondcopy.",
+    "Original/native01 no-space copies retained; first trimmed native01 lacked raw writer stdout/EAX corroboration, native-only02 adds it with unchanged original.",
+    "Split build/capture/check times include current successful variant. Earlier SEH analysis builds and no-space unsupported captures remain in scratch and old-case limit record; not fixture runtimes."
+  ]
+}

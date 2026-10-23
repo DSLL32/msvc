@@ -245,7 +245,8 @@ void __stdcall rc_open_preprocessor(WCHAR *input,WCHAR *output,
         }else{
             rc_macro_hash=rc_hash_macro_name(rc_macro_name);
             rc_macro_name_length=wcslen(rc_macro_name)+1;
-            value=L"1";length=3;parameters=-2;
+            value=L"1\0"; /* Preserve the encountered six-byte initialized literal span. */
+            length=3;parameters=-2;
         }
         rc_define_macro(value,length,parameters);
     }
@@ -366,3 +367,9 @@ RcMacro *__cdecl rc_find_macro(void)
     }
     return NULL;
 }
+
+/* Source-stack state first consumed by rc_open_source. */
+int rc_source_depth=-1,rc_source_encoding;
+WCHAR *rc_source_cursor;
+FILE *rc_source_file;
+RcSourceFrame rc_source_frames[1024];

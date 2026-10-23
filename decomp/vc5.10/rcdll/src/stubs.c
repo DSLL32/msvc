@@ -94,11 +94,6 @@ int __stdcall rc_macro_text_differs(const WCHAR *value,const WCHAR *prior,unsign
     __asm int 3
     return 0;
 }
-WCHAR *__stdcall rc_copy_macro_text(const WCHAR *value,unsigned length)
-{
-    __asm int 3
-    return NULL;
-}
 void __stdcall rc_list_macro(RcMacro *macro)
 {
     __asm int 3

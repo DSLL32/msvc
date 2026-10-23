@@ -15,7 +15,8 @@ def raw_bytes(text,label):
 
 def resource_inputs(original,native,b):
     r=json.loads((original/'receipt.json').read_text())
-    assert r['case']=='resources-rich' and r['args']==['/r','/dCASE_FROM_COMMAND=7','/iinclude','/foresources.res','resources.rc']
+    assert r['case']in ['resources-rich','resources-rich-trailing-space']
+    assert r['args']==['/r','/dCASE_FROM_COMMAND=7'+(' 'if r['case']=='resources-rich-trailing-space'else''),'/iinclude','/foresources.res','resources.rc']
     assert sha(original/'loaded-driver.bin')==sha(ROOT/'toolchains/5.10/bin/RC.EXE')
     text=(original/'events.txt').read_text()
     assert re.findall(r'^export-caller ([0-9a-f]+)$',text,re.M)==['010011fd']
@@ -49,7 +50,7 @@ def resource_inputs(original,native,b):
     for name,info in r['case_files'].items():
         assert sha(original/'source'/name)==sha(cwd/name)==info['sha256'],name
     identity=json.loads((native/'case-reference.json').read_text())
-    path=HERE/'cases/resources-rich/reference/manifest.json'
+    path=HERE/('cases/'+r['case']+'/reference/manifest.json')
     assert identity==dict(manifest=str(path),sha256=sha(path),profile_sha256=sha(HERE/'cases/resources-rich/api-profile.json'),original_inputs=str(Path(r['command'][1]).parent),original_receipt_sha256=sha(original/'receipt.json'))
     manifest=json.loads(path.read_text())
     for name,digest in manifest['files'].items():assert sha(path.parent/name)==digest
@@ -425,7 +426,7 @@ def prefix_trial(original,native):
 
 
 
-def prepared_case_state(original,native,b,argv,extra_blocks=0,filename=None):
+def prepared_case_state(original,native,b,argv,extra_blocks=0,filename=None,output_open=False):
     text=(original/'events.txt').read_text();arguments=b['arguments'];source=(original/'source/resources.rc').read_bytes()
     assert arguments['count']==20 and arguments['argv']==argv
     assert arguments['prepared_lines']==len(source.splitlines())==126 and arguments['current_line']==0
@@ -435,7 +436,8 @@ def prepared_case_state(original,native,b,argv,extra_blocks=0,filename=None):
     filename=filename or 'resources.rc';filename_bytes=filename.encode('utf-16le');assert len(filename_bytes)<256
     assert raw_bytes(text,'prepared-filename')==bytes.fromhex(arguments['filename'])==filename_bytes+b'\0'*(514-len(filename_bytes))
     old=struct.unpack('<8I',raw_bytes(text,'prepared-closed-input'));new=struct.unpack('<8I',bytes.fromhex(arguments['closed_input']))
-    assert old[:4]+old[5:]==new[:4]+new[5:]==(0,0,0,0,0,4096,0)and old[4]>=3 and new[4]>=3
+    assert old[:4]+old[5:]==new[:4]+new[5:]==(0,0,0,128 if output_open else 0,0,4096,0)and old[4]>=3 and new[4]>=3
+    if output_open:assert raw_bytes(text,'prepared-closed-input')==raw_bytes(text,'cpp-output-file')==bytes.fromhex(arguments['preprocessor']['globals']['rc_cpp_output_file']['file_state'])
     if strict_files:assert old==new and old[4]==4,'closed input descriptor differs after host-only I/O separation'
     assert b['globals']['rc_window']=='00000000','this case cannot invoke an unproved window callback'
     input_temporary=raw_bytes(text,'input-temporary')[:-1].decode('ascii');output_temporary=raw_bytes(text,'output-temporary')[:-1].decode('ascii')
@@ -444,14 +446,15 @@ def prepared_case_state(original,native,b,argv,extra_blocks=0,filename=None):
     artifact=receipt['case_files'][temporary]
     assert artifact==dict(bytes=6762,sha256='3e1e06b1f0652c2ad397213fcd2a2d91f940a865d1dda5633330b2c096e6f8ed')
     assert (original/'source'/temporary).read_bytes().startswith('#line 1"resources.rc"\r\n'.encode('utf-16le'))
-    assert output_temporary.rsplit('\\',1)[-1]not in receipt['case_files']
+    if output_open:assert receipt['case_files'][output_temporary.rsplit('\\',1)[-1]]==dict(bytes=0,sha256=hashlib.sha256(b'').hexdigest())
+    else:assert output_temporary.rsplit('\\',1)[-1]not in receipt['case_files']
     identity=b['heap_identity'];blocks=identity['blocks'];assert len(blocks)==3+extra_blocks
     for field,label,size in [('rc_include_paths','include-current-block',528),('rc_input_temporary','input-temporary-block',268),('rc_output_temporary','output-temporary-block',268)]:
         pointer=int.from_bytes(bytes.fromhex(b['globals'][field]),'little')
         block=next(block for block in blocks if block['payload']+8==pointer)
         assert block['owner']==identity['handle']and block['flags']==9 and block['bytes']==size
         assert bytes.fromhex(block['contents'])==raw_bytes(text,label)
-    return dict(lines=126,current_line=0,artifact=artifact,closed_input=True)
+    return dict(lines=126,current_line=0,artifact=artifact,input_was_closed=True,current_FILE_state="reused for preprocessor output"if output_open else"closed")
 
 
 def notify_trial(original,native):
@@ -491,20 +494,21 @@ def preprocess_trial(original,native):
     return proof
 
 
-def wide_argument_state(original,native,a,b,filename=None,extra_blocks=0):
+def wide_argument_state(original,native,a,b,filename=None,extra_blocks=0,output_open=False):
     text=(original/'events.txt').read_text();arguments=b['arguments']
     # The previously accepted forwarding boundary records this exact case's
     # ANSI vector. Only its two actual temporary paths vary between captures.
     expected=json.loads((HERE/'cases/resources-rich/acceptance-0020.json').read_text())['proof']['forwarded']['argv'][:]
     expected[4]=raw_bytes(text,'input-temporary')[:-1].decode('ascii');expected[6]=raw_bytes(text,'output-temporary')[:-1].decode('ascii')
     assert len(expected)==20 and all(value.isascii()for value in expected)
-    prepared=prepared_case_state(original,native,b,expected,extra_blocks=1+extra_blocks,filename=filename)
+    prepared=prepared_case_state(original,native,b,expected,extra_blocks=1+extra_blocks,filename=filename,output_open=output_open)
     original_pointer=int(re.findall(r'^wide-args 20 ([0-9a-f]+)$',text,re.M)[0],16);native_pointer=arguments['vector_pointer'];assert native_pointer>0
     vector=arguments['wide_vector'];assert len(vector)==20 and arguments['wide_terminator']==0
     assert re.findall(r'^wide-terminator ([0-9a-f]+)$',text,re.M)==['00000000']
     old_pointers=[int(value,16)for value in re.findall(r'^wide-pointer \d+ ([0-9a-f]+)$',text,re.M)];assert len(old_pointers)==20
     wanted=[(value+'\0').encode('utf-16le')for value in expected]
-    size=8+4*21+sum(len(value)for value in wanted)
+    variant=json.loads((original/'receipt.json').read_text())['case']=='resources-rich-trailing-space'
+    size=8+4*21+sum(len(value)for value in wanted)+(2 if variant else 0)
     original_block=raw_bytes(text,'wide-argument-block');assert len(original_block)==size and original_block[:8]==b'\0'*8
     identity=b['heap_identity'];block=next(row for row in identity['blocks']if row['payload']+8==native_pointer)
     assert block['owner']==identity['handle']and block['flags']==9 and block['bytes']==size
@@ -518,7 +522,8 @@ def wide_argument_state(original,native,a,b,filename=None,extra_blocks=0):
         assert raw_bytes(text,'wide-argv-%d'%index)==bytes.fromhex(vector[index]['bytes'])==value
         assert original_block[8+cursor:8+cursor+len(value)]==native_block[8+cursor:8+cursor+len(value)]==value
         cursor+=len(value)
-    assert 8+cursor==size
+    assert 8+cursor+(2 if variant else 0)==size
+    if variant:assert original_block[-2:]==native_block[-2:]==b'\0'*2
     assert original_block[8+4*20:8+4*21]==native_block[8+4*20:8+4*21]==b'\0'*4
     requests=re.findall(r'^heap-alloc ([0-9a-f]+) (\d+) (\d+) last-error=([0-9a-f]+)$',text,re.M)
     results=re.findall(r'^heap-alloc-result ([0-9a-f]+) last-error=([0-9a-f]+)$',text,re.M)
@@ -543,6 +548,39 @@ def widen_trial(original,native):
     proof.update(wide_argument_state(original,native,a,b))
     assert proof['application_trace'][-1]=='rc_widen_arguments'
     proof['trial']='rc_widen_arguments'
+    return proof
+
+
+
+def macro_table_state(original,b,old_heads,new_heads):
+    text=(original/'events.txt').read_text();nodes=b['arguments']['preprocessor']['macros']
+    rows=re.findall(r'^macro-node (\d+) bucket=(\d+) pointer=([0-9a-f]+) next=([0-9a-f]+) name=([0-9a-f]+) text=([0-9a-f]+) kind=([0-9a-f]+)$',text,re.M)
+    assert re.findall(r'^macro-nodes (\d+)$',text,re.M)==['3']and len(rows)==len(nodes)==3
+    expected={'CASE_FROM_COMMAND':'7','_WIN32':'1','RC_INVOKED':'1'};seen=set();old_wanted=[0]*256;new_wanted=[0]*256;proof=[]
+    requests=re.findall(r'^heap-alloc ([0-9a-f]+) (\d+) (\d+) last-error=([0-9a-f]+)$',text,re.M)
+    results=re.findall(r'^heap-alloc-result ([0-9a-f]+) last-error=([0-9a-f]+)$',text,re.M)
+    allocations=[row for row in b['heap']if row['operation']=='allocate'];assert len(requests)==len(results)==len(allocations)==14
+    for index,(row,node)in enumerate(zip(rows,nodes)):
+        number,bucket,pointer,next_pointer,name_pointer,text_pointer,kind=[int(x,10 if i<2 else 16)for i,x in enumerate(row)]
+        assert number==index and bucket==node['bucket']and next_pointer==node['next']==kind==node['parameters']==node['flags']==node['reserved']==0
+        old_name=raw_bytes(text,'macro-node-name-%d'%index);new_name=bytes.fromhex(node['name_block']);assert old_name==new_name and old_name[:8]==b'\0'*8 and old_name[-2:]==b'\0'*2
+        name=old_name[8:-2].decode('utf-16le')[:-1];assert name in expected and name not in seen;seen.add(name)
+        assert bucket==sum(ord(c)&0x5f for c in name)&255
+        old_wanted[bucket]=pointer;new_wanted[bucket]=node['pointer']
+        old_record=raw_bytes(text,'macro-node-record-%d'%index);new_record=bytes.fromhex(node['record'])
+        assert old_record==b'\0'*8+struct.pack('<4I',0,name_pointer,text_pointer,0)
+        assert new_record==b'\0'*8+struct.pack('<4I',0,node['name'],node['text'],0)
+        wanted_text=b'\0'*8+(expected[name]+'\0D\0').encode('utf-16le')
+        assert raw_bytes(text,'macro-node-text-%d'%index)==bytes.fromhex(node['text_block'])==wanted_text
+        for old_pointer,new_pointer,contents in [(pointer,node['pointer'],new_record),(name_pointer,node['name'],new_name),(text_pointer,node['text'],wanted_text)]:
+            owned=[item for item in b['heap_identity']['blocks']if item['payload']+8==new_pointer];assert len(owned)==1;block=owned[0]
+            assert block['owner']==b['heap_identity']['handle']and block['flags']==9 and block['bytes']==len(contents)and bytes.fromhex(block['contents'])==contents
+            found=[i for i,result in enumerate(results)if int(result[0],16)+8==old_pointer];assert len(found)==1;allocation_index=found[0];assert 5<=allocation_index<14
+            assert int(requests[allocation_index][2])==len(contents)and requests[allocation_index][1:] == ('9',str(len(contents)),'00000000')and results[allocation_index][1]=='00000000'
+            native_allocation=allocations[allocation_index]
+            assert native_allocation['result']+8==new_pointer and native_allocation['bytes']==len(contents)and native_allocation['flags']==9 and native_allocation['payload']=='00'*len(contents)
+        proof.append(dict(bucket=bucket,name=name,replacement=expected[name],parameters=0,flags=0))
+    assert seen==set(expected)and list(struct.unpack('<256I',old_heads))==old_wanted and list(struct.unpack('<256I',new_heads))==new_wanted
     return proof
 
 
@@ -592,6 +630,16 @@ def preprocessor_state(original,native,b,state,remaining,advance):
                 offset=left-state['widened']['original_base']
                 assert 0<=offset<state['widened']['allocation_bytes']-8
                 assert right==state['widened']['native_base']+offset
+        elif row['kind']=='macro-buckets':
+            if any(old):state['macro_records']=macro_table_state(original,b,old,new)
+            else:assert new==old and not observed['macros']
+        elif row['kind']=='crt-file':
+            assert bool(int.from_bytes(old,'little'))==bool(int.from_bytes(new,'little'))
+            if any(old):
+                events=(original/'events.txt').read_text()
+                assert re.findall(r'^cpp-output-pointer ([0-9a-f]+)$',events,re.M)==['%08x'%int.from_bytes(old,'little')]
+                assert raw_bytes(events,'cpp-output-file')==bytes.fromhex(actual['file_state'])
+            else:assert old==new
         elif row['kind']=='wide-string':
             assert bytes.fromhex(actual['text'])==wide(int.from_bytes(old,'little'))
         else:assert old==new,'preprocessor global differs: '+row['name']
@@ -711,9 +759,9 @@ def entry_file_state(original,native):
         result[phase]=dict(errno=0,lowio=old_lowio,files=old_files,original_capacity=int(capacities[0]),native_capacity=new['lowio_capacity'],capacity_scope='unused allocation capacity is recorded separately; only live descriptor/FILE inventory equivalence is claimed')
     return dict(boundaries=result,original_events_sha256=sha(original/'events.txt'),native_history_sha256=sha(native/'errno-history.json'))
 
-def parsed_option_state(original,native,b,original_arguments,extra_blocks=0):
+def parsed_option_state(original,native,b,original_arguments,extra_blocks=0,output_open=False):
     text=(original/'events.txt').read_text();input_name=raw_bytes(text,'input-temporary')[:-1].decode('ascii')
-    state=wide_argument_state(original,native,None,b,filename=input_name,extra_blocks=extra_blocks)
+    state=wide_argument_state(original,native,None,b,filename=input_name,extra_blocks=extra_blocks,output_open=output_open)
     parser=preprocessor_state(original,native,b,state,0,19)
     opened=b['arguments']['open'];globals=b['arguments']['preprocessor']['globals'];wide=b['arguments']['wide_vector']
     old_pointers=[int(value,16)for value in re.findall(r'^wide-pointer \d+ ([0-9a-f]+)$',text,re.M)]
@@ -907,4 +955,96 @@ def find_macro_trial(original,native):
     assert block['owner']==b['heap_identity']['handle']and block['flags']==9 and block['bytes']==24 and block['contents']=='00'*24
     assert proof['application_trace'][-1]=='rc_find_macro'
     proof.update(trial='rc_find_macro',preprocessor=parser,macro_hash=dict(name='CASE_FROM_COMMAND',hash=hash_value,name_length=18),definition=dict(value='7',length=3,parameters=-2,byte_cleanup=12),definition_cursor=dict(index=97,original_parameter_reused=True,native_local_index=97),definition_reference=dict(path='cases/resources-rich/acceptance-0031.json',sha256=sha(HERE/'cases/resources-rich/acceptance-0031.json')),pending_record=dict(bytes=16,allocation_bytes=24,header_bytes=8,zeroed=True),copy=dict(value='CASE_FROM_COMMAND',length=18,cleanup=8))
+    return proof
+
+
+def copy_macro_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_copy_macro_text'and len(config['accepted'])==32
+    assert json.loads((original/'receipt.json').read_text())['case']=='resources-rich-trailing-space','no-space source overread is unsupported'
+    a,b,proof=checkpoint(original,native,'rc_open_source',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c24767 and a['words'][2]==1
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_open_preprocessor\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    text=(original/'events.txt').read_text();forwarded=list(struct.unpack('<4I',raw_bytes(text,'setup-forwarded')))
+    assert forwarded[2]==0x71c344f8+4+100*4 and b['arguments']['setup_iteration']==100
+    forwarded[2]=0x71c344f8
+    state,parser,text,input_name=parsed_option_state(original,native,b,forwarded,extra_blocks=9,output_open=True);proof.update(state)
+    globals=b['arguments']['preprocessor']['globals'];wide=b['arguments']['wide_vector']
+    old_wide=[int(x,16)for x in re.findall(r'^wide-pointer \d+ ([0-9a-f]+)$',text,re.M)]
+    assert a['words'][1]==old_wide[4]
+    assert b['arguments']['source_open']==dict(path=wide[4]['pointer'],first=1,path_bytes=wide[4]['bytes'],formal_bytes=dict(path=4,first=4))
+    assert raw_bytes(text,'source-open-input')==bytes.fromhex(wide[4]['bytes'])
+    assert globals['rc_macro_hash']['bytes']=='04'and globals['rc_macro_name_length']['bytes']=='0b000000'
+    assert globals['rc_source_depth']['bytes']=='ffffffff'and globals['rc_source_cursor']['bytes']==globals['rc_source_encoding']['bytes']==globals['rc_source_file']['bytes']=='00000000'
+    assert globals['rc_source_frames']['bytes']=='00'*(36*1024)
+    assert len(state['macro_records'])==3
+    initial=raw_bytes(text,'wide-initial-argument-block');current=raw_bytes(text,'wide-argument-block')
+    assert len(initial)==len(current)==state['widened']['allocation_bytes']
+    old_trim=old_wide[19]+38;offset=8+old_trim-state['widened']['original_base']
+    assert initial[offset:offset+4]==b' \0\0\0'and current[offset:offset+4]==b'\0'*4
+    wanted=bytearray(initial);wanted[offset:offset+2]=b'\0'*2;assert bytes(wanted)==current
+    assert re.findall(r'^macro-trim-before pointer=([0-9a-f]+) word=([0-9a-f]+)$',text,re.M)==[('%08x'%old_trim,'0020')]
+    assert re.findall(r'^macro-trim-after pointer=([0-9a-f]+) word=([0-9a-f]+)$',text,re.M)==[('%08x'%old_trim,'0000')]
+    native_initial=json.loads((native/'wide-initial.json').read_text());new_trim=wide[19]['pointer']+38
+    assert native_initial['pointer']==state['widened']['native_base']and native_initial['requested_size']==len(initial)
+    assert native_initial['last_argument']==('CASE_FROM_COMMAND=7 '+'\0').encode('utf-16le').hex()and native_initial['trim_pointer']==new_trim
+    block=next(row for row in b['heap_identity']['blocks']if row['payload']+8==state['widened']['native_base'])
+    before=bytearray.fromhex(native_initial['bytes']);new_offset=8+new_trim-state['widened']['native_base']
+    assert before[new_offset:new_offset+4]==b' \0\0\0';before[new_offset:new_offset+2]=b'\0'*2;assert before.hex()==block['contents']
+    writes=native_initial['writes'];assert len(writes)==1 and writes[0]['function']=='rc_open_preprocessor'and writes[0]['after']=='0000'and writes[0]['eax']==new_trim
+    raw_write=re.findall(r'^RCDLL_TRIM_WRITE=([0-9a-f]+) (\w+) ([0-9a-f]+) ([0-9a-f]+) ([0-9a-f]+)$',(native/'gdb.stdout').read_text(),re.M)
+    assert raw_write==[('%08x'%new_trim,'rc_open_preprocessor','%08x'%writes[0]['pc'],'0000','%08x'%new_trim)]
+    import subprocess
+    symbols=subprocess.check_output(['nm','-S','--defined-only',str(native/'captured-native.elf')],text=True)
+    def symbol(name):
+        found=re.findall(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] '+re.escape(name)+r'$',symbols,re.M);assert len(found)==1;return tuple(int(v,16)for v in found[0])
+    frontier_address,_=symbol('rc_open_source');parent_address,parent_bytes=symbol('rc_open_preprocessor')
+    runtime=int(re.findall(r'^Symbol "rc_open_source" is a function at address (0x[0-9a-f]+)',(native/'gdb.stdout').read_text(),re.M)[0],16)
+    store_pc=writes[0]['pc']-(runtime-frontier_address);assert parent_address<store_pc-5<store_pc<=parent_address+parent_bytes
+    elf=(native/'captured-native.elf').read_bytes();phoff=struct.unpack_from('<I',elf,28)[0];phbytes,phcount=struct.unpack_from('<HH',elf,42);stores=[]
+    for index in range(phcount):
+        kind,raw,start,_,size=struct.unpack_from('<IIIII',elf,phoff+phbytes*index)
+        if kind==1 and start<=store_pc-5<store_pc<=start+size:stores.append(elf[raw+store_pc-5-start:raw+store_pc-start])
+    assert stores==[bytes.fromhex('66c7000000')],'watchpoint PC must follow actual WORD[EAX]=0 store'
+    calls=re.findall(r'^macro-copy-call (\d+) site=([0-9a-f]+) source=([0-9a-f]+) count=(\d+) esp=([0-9a-f]+)$',text,re.M)
+    returns=re.findall(r'^macro-copy-return (\d+) result=([0-9a-f]+) esp=([0-9a-f]+)$',text,re.M)
+    regions=re.findall(r'^macro-copy-region (\d+) base=([0-9a-f]+) allocation=([0-9a-f]+) bytes=(\d+) state=([0-9a-f]+) protect=([0-9a-f]+) type=([0-9a-f]+)$',text,re.M)
+    copies=b['arguments']['macro_copies'];assert copies==json.loads((native/'macro-copies.json').read_text())and len(calls)==len(returns)==len(regions)==len(copies)==6
+    names=['CASE_FROM_COMMAND','_WIN32','RC_INVOKED'];observations=[]
+    for index,(call,returned,region,new)in enumerate(zip(calls,returns,regions,copies)):
+        number,site,pointer,count,sp=int(call[0]),int(call[1],16),int(call[2],16),int(call[3]),int(call[4],16)
+        assert number==int(returned[0])==int(region[0])==index
+        expected=((names[index//2]+'\0').encode('utf-16le')if not index%2 else ('7'if index==1 else'1').encode('utf-16le')+b'\0'*4)
+        assert count==new['length']==len(expected)//2
+        assert raw_bytes(text,'macro-copy-source-%d'%index)==bytes.fromhex(new['source_bytes'])==expected
+        assert site==(0x4d2a if not index%2 else 0x4d63)
+        assert int(returned[2],16)==sp+8 and new['return_esp']==new['entry_esp']+12
+        result=raw_bytes(text,'macro-copy-result-%d'%index)
+        assert result==bytes.fromhex(new['result_block'])==b'\0'*8+expected+b'\0'*2
+        base,length=int(region[1],16),int(region[3]);protect=int(region[5],16)
+        assert int(region[4],16)==0x1000 and not protect&0x100 and protect&255 in [2,4,8,0x20,0x40,0x80]
+        assert base<=pointer and pointer+len(expected)<=base+length
+        bounds=new['source_mapping'].split()[0].split('-');assert int(bounds[0],16)<=new['source']and new['source']+len(expected)<=int(bounds[1],16)and new['source_mapping'].split()[1].startswith('r')
+        if not index%2:
+            assert pointer==0x71c38128 and new['source']==globals['rc_macro_name']['address']and len(expected)<=1024
+            source_scope='initialized1024-byte global name object'
+        elif index==1:
+            assert pointer==old_wide[19]+36 and new['source']==wide[19]['pointer']+36
+            assert pointer+len(expected)==state['widened']['original_base']+state['widened']['allocation_bytes']-8
+            assert new['source_contract']=='requested-private-heap'
+            source_scope='all6bytes inside requested initialized packed vector:7,actualtrim-writeNUL,preservedoriginal terminalNUL'
+        else:
+            assert pointer==0x71c21268 and new['source']==copies[3]['source']
+            assert (original/'relocated-text.bin').read_bytes()[0x268:0x26e]==expected
+            source_scope='encountered initialized6-byte literal span, represented by L1 with an explicit secondNUL'
+        assert new['errno_before']==new['errno_after']==new['last_error_before']==new['last_error_after']==0
+        block=next(row for row in b['heap_identity']['blocks']if row['payload']+8==new['result'])
+        assert block['owner']==b['heap_identity']['handle']and block['flags']==9 and block['bytes']==len(result)
+        observations.append(dict(characters=count,source_sha256=hashlib.sha256(expected).hexdigest(),source_scope=source_scope,cleanup=8,returned=True))
+    assert re.findall(r'^frontier-errors errno=(-?\d+) last-error=([0-9a-f]+)$',text,re.M)==[('0','00000000')]
+    assert b['crt_errors']==dict(errno=0,last_error=0)
+    assert proof['application_trace'][-1]=='rc_copy_macro_text'
+    from importlib.util import spec_from_file_location,module_from_spec
+    spec=spec_from_file_location('copy_seh',HERE/'scripts/check-copy-seh.py');module=module_from_spec(spec);spec.loader.exec_module(module);seh=module.verify()
+    proof.update(trial='rc_copy_macro_text',preprocessor=parser,trim=dict(original_word_before=32,word_after=0,owned_terminal_preserved=True,all_other_packed_bytes_unchanged=True,native_store_elf_pc=hex(store_pc-5),native_store_opcode='66c7000000'),copies=observations,source_open=dict(input=input_name,first=1,stack_bytes=8,hidden=dict(depth=-1,cursor=None,encoding=0,current_file=None,frame_count=1024,frame_bytes=36,frames_zero=True)),seh=seh,exception_scope='Native normal readable-memory path only; native faults stop. Windows source retains actual filter/handler; no native fault recovery equivalence.',lookup_reference=dict(path='cases/resources-rich/acceptance-0032.json',sha256=sha(HERE/'cases/resources-rich/acceptance-0032.json')))
     return proof

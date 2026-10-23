@@ -263,3 +263,11 @@ Macro lookup is accepted (58 bytes), reaching the first copy with an initialized
 bounded 18-WCHAR name and a verified zeroed 16-byte pending record.
 [Verification](cases/resources-rich/find-macro-verification.json) records allocation
 ownership, 36 fresh rejection controls and timings. The SEH copy remains gated.
+
+Macro-text copying is accepted (226-byte enclosing SEH owner) through the
+[trailing-space variant](cases/resources-rich-trailing-space/README.md). Every
+copy read fits initialized owned storage, the trim write is observed, and all
+three macro records match at source opening. [Verification](cases/resources-rich-trailing-space/copy-verification.json)
+records 40 gate controls, seven SEH-role controls, a native source-guard negative
+and timings. The earlier no-space input retains its unsupported overread limit;
+no allocator defaults were changed and native exception recovery is unclaimed.

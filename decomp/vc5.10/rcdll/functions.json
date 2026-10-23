@@ -35,7 +35,8 @@
     "rc_set_character_class",
     "rc_hash_macro_name",
     "rc_define_macro",
-    "rc_find_macro"
+    "rc_find_macro",
+    "rc_copy_macro_text"
   ],
   "functions": [
     {
@@ -672,11 +673,7 @@
       "text_data": [
         [
           "0x1264",
-          "0x1268"
-        ],
-        [
-          "0x1268",
-          "0x126c"
+          "0x126e"
         ]
       ]
     },
@@ -810,8 +807,14 @@
       "abi": "stdcall",
       "stack_bytes": 8,
       "kind": "application",
-      "stub": true,
-      "extent_note": "Unaccepted SEH helper: entry+tail and local filter/handler ownership must be resolved before promotion; bounding range only."
+      "stub": false,
+      "extent_note": "Unaccepted SEH helper: entry+tail and local filter/handler ownership must be resolved before promotion; bounding range only.",
+      "text_data": [
+        [
+          "0x1e20",
+          "0x1e2c"
+        ]
+      ]
     },
     {
       "name": "rc_list_macro",
@@ -836,7 +839,7 @@
     }
   ],
   "lifecycle": "CRT process attach; RC export; CRT process detach",
-  "status": "resources-rich case in progress",
+  "status": "resources-rich-trailing-space case in progress",
   "support_imports": [
     {
       "name": "import:_initterm",

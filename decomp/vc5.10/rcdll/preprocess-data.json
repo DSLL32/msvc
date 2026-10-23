@@ -269,7 +269,7 @@
     {
       "name": "rc_cpp_output_file",
       "original_rva": "0x18e74",
-      "kind": "null-pointer",
+      "kind": "crt-file",
       "bytes": 4
     },
     {
@@ -293,7 +293,7 @@
     {
       "name": "rc_macro_buckets",
       "original_rva": "0x21ea0",
-      "kind": "byte-buffer",
+      "kind": "macro-buckets",
       "bytes": 1024
     },
     {
@@ -301,6 +301,36 @@
       "original_rva": "0x25058",
       "kind": "integer",
       "bytes": 4
+    },
+    {
+      "name": "rc_source_depth",
+      "original_rva": "0x14a10",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_source_cursor",
+      "original_rva": "0x18120",
+      "kind": "null-pointer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_source_encoding",
+      "original_rva": "0x21e84",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_source_file",
+      "original_rva": "0x21e88",
+      "kind": "null-pointer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_source_frames",
+      "original_rva": "0x18e80",
+      "kind": "byte-buffer",
+      "bytes": 36864
     }
   ],
   "options": {

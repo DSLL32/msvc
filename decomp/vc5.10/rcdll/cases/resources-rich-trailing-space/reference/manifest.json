@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "case": "resources-rich-trailing-space",
+  "status": 0,
+  "args": [
+    "/r",
+    "/dCASE_FROM_COMMAND=7 ",
+    "/iinclude",
+    "/foresources.res",
+    "resources.rc"
+  ],
+  "argv0": "S:\\vc5.10\\rcdll\\rich-trailing-space-baseline-01\\RC.EXE",
+  "child_cwd": "S:\\vc5.10\\rcdll\\rich-trailing-space-baseline-01\\source",
+  "module_path": "S:\\vc5.10\\rcdll\\rich-trailing-space-baseline-01\\RCDLL.dll",
+  "original_capture": "/root/.ai-tmp/msvc2/vc5.10/rcdll/rich-trailing-space-baseline-01",
+  "target_sha256": "bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0",
+  "crt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "driver_sha256": "c9f7e207bbae4be91baf6db564bd6b7f660d10287ea46302c792c3dd27b05399",
+  "original_seconds": 1.368109698407352,
+  "source_inputs": {
+    "resource.h": {
+      "bytes": 746,
+      "sha256": "8928ffb8acb0481e8775ca63dc0104143af852929b71c6459fd6889f4f93d8d8"
+    },
+    "resources.rc": {
+      "bytes": 3440,
+      "sha256": "47f13f702adfbcfc05a40ab9ce1a27cb22730e33f888be81e276ac424dc41881"
+    },
+    "include/features.h": {
+      "bytes": 938,
+      "sha256": "7b7fb5c3c82eb19ae662105631fbd1b02a4b313b7055453249976ac7714c2070"
+    },
+    "assets/pattern.bmp": {
+      "bytes": 246,
+      "sha256": "d28d27e861fc34d7599df0b7bb3cdd02f8ddbc985daa846f9d06a5004757904f"
+    },
+    "assets/payload.bin": {
+      "bytes": 50,
+      "sha256": "20c1bef1846bc87953a2663d95185cd5e33ad97a534899ed892a02f5a1a81590"
+    },
+    "assets/messages.bin": {
+      "bytes": 48,
+      "sha256": "27fbf6c0451b6521d19618032f26de4be6ae744c37082ec0917aa4afe89efccc"
+    },
+    "assets/pointer.cur": {
+      "bytes": 198,
+      "sha256": "38904338263e5c23802d4961ece21222b3997f466887a0fb052994d0d3794d4a"
+    },
+    "assets/multi.ico": {
+      "bytes": 518,
+      "sha256": "4eafdacd795611297df4cd4dd5774d0955d0f12c644e1cd17d729e0e1168204d"
+    },
+    "include/nested/values.h": {
+      "bytes": 129,
+      "sha256": "edcf2670a9f6af506a4ba80a5a3fab40619a765bb2d2dd50f149f9fffed5ef51"
+    }
+  },
+  "files": {
+    "boundary.json": "8976a80e19f083f98bbc10db9939c193a1fbd47c1674ff5e9b7e58a39c4b45b9",
+    "callbacks.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "case-args.txt": "5976004eb27821b5ddb8142799e9fe32150e0fe77fa497c4b6646f71cc947416",
+    "compiled-source.json": "a580de7a3454c6771b50b1c76cd3ac4c8262c34e4cb44d957036385805d8d600",
+    "environment-utf16.bin": "dfbf30967021e49f462c7299cc4a8f0d05cedf1451cfb327b03f5c6fd1a4bc7c",
+    "events.txt": "4b9a685e5aaf2487eb6eee824589d1f0124b80e238a6ce4b4a6dd4caf5260f01",
+    "helper-compiled-source.json": "74e4b9f9a7e671875042e16dddd969e4799c0d685c08400cf5bdb2af22126a69",
+    "include-tree.json": "11d4c43cf55726621d5d8f87820070044906bd4c74a6e98039a07e14f69421b1",
+    "receipt.json": "4da8291e1bece60c92abb5519fd6d89409f23e5cd6d4f50501c80c2d6c914da4",
+    "resources.res": "ad4feb23c9a981122246969f9bdaf8bf9a4978cd722f50a67b1e8884835b9318",
+    "stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "trace_state": "baseline boundary only; masked reconstruction trace will be recorded on completion"
+}

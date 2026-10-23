@@ -1,0 +1,17 @@
+{
+  "case": "resources-rich",
+  "state": "unsupported native copy input extent; preserved historical original/raw candidate evidence",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/copy-macro-trial-original-01",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/copy-macro-trial-native-02",
+  "allocation": {
+    "requested_bytes": 586,
+    "original_base": "0x00e609d0",
+    "source": "0x00e60c16",
+    "read_bytes": 6,
+    "requested_end": "0x00e60c1a",
+    "extra_bytes": 2
+  },
+  "scope": "Matching observed zeros in mapped allocator slack are not initialized-owned-storage or general allocator-default proof. This pair does not authorize copy promotion.",
+  "replacement_case": "resources-rich-trailing-space",
+  "allocator_defaults_changed": false
+}

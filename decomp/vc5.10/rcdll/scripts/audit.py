@@ -39,6 +39,11 @@ def prepare(config,out):
         switch=module.verify()
         metadata['functions']['rc_apply_option']=dict(rebuilt={key:switch[key]for key in ['text_data','switches']})
         (out/'dispatcher-switch.json').write_text(json.dumps(switch,indent=2)+'\n')
+    if any(f['name']=='rc_copy_macro_text'and not f.get('stub')for f in config['functions']):
+        spec=spec_from_file_location('copy_seh',HERE/'scripts/check-copy-seh.py');module=module_from_spec(spec);spec.loader.exec_module(module)
+        seh=module.verify()
+        metadata['functions']['rc_copy_macro_text']={side:dict(roots=seh[side]['roots'])for side in ['original','rebuilt']}
+        (out/'copy-seh.json').write_text(json.dumps(seh,indent=2)+'\n')
     (out/'graph-metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
     return accepted
 
@@ -50,7 +55,7 @@ def run(config_path=None,out=None):
     started=time.perf_counter();p=subprocess.run(command,capture_output=True,text=True);elapsed=time.perf_counter()-started
     (out/'graph-audit.stdout').write_text(p.stdout);(out/'graph-audit.stderr').write_text(p.stderr)
     receipt=dict(engine_sha256=sha(ENGINE),command=command,status=p.returncode,elapsed_seconds=elapsed,functions=accepted,input_sha256=sha(config_path),candidate=candidate())
-    receipt['audit_inputs']={name:sha(out/name)for name in ['graph-input.json','original-runtime.json','rebuilt-runtime.json','graph-metadata.json','compiler-support-identity.json','dispatcher-switch.json']if (out/name).is_file()}
+    receipt['audit_inputs']={name:sha(out/name)for name in ['graph-input.json','original-runtime.json','rebuilt-runtime.json','graph-metadata.json','compiler-support-identity.json','dispatcher-switch.json','copy-seh.json']if (out/name).is_file()}
     if not p.returncode:
         report=json.loads(p.stdout)
         assert report['checked_functions']==len(accepted),'prefix-only audit omitted trial'
