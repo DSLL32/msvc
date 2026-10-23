@@ -49,6 +49,8 @@ audit: build/runtime.json runtime.json $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-omf-header.py
 	$(PYTHON) scripts/check-omf-begin.py --abi-only
 	$(PYTHON) scripts/check-omf-flush-type.py
+	$(PYTHON) scripts/check-omf-find.py --abi-only
+	$(PYTHON) scripts/check-omf-allocate.py --abi-only
 
 # Explicit Python compatibility/focused proofs remain available; fixtures do not
 # invoke a compiler, Cargo or Wine. Data checks retain their individual scope.
@@ -77,8 +79,12 @@ audit-negatives: $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-omf-header.py
 	$(PYTHON) scripts/check-omf-begin.py --abi-only
 	$(PYTHON) scripts/check-omf-flush-type.py
+	$(PYTHON) scripts/check-omf-find.py --abi-only
+	$(PYTHON) scripts/check-omf-allocate.py --abi-only
 audit-data: build/c2.exe native build/native/check-codeview-string build/native/check-coff-fill build/native/check-listing-directive build/native/check-listing-string build/native/check-assembly-instruction build/native/check-assembly-operand build/native/check-listing-float build/native/check-listing-storage build/native/check-listing-symbol build/native/check-instruction-listing build/native/check-listing-bytes build/native/check-listing-special build/native/check-listing-mnemonic build/native/check-listing-operand build/native/check-listing-prefix build/native/check-register-names build/native/check-instruction-comment build/native/check-listing-comment-prefix build/native/check-listing-type
 	$(PYTHON) scripts/check-omf-begin.py
+	$(PYTHON) scripts/check-omf-find.py
+	$(PYTHON) scripts/check-omf-allocate.py
 	$(PYTHON) scripts/check-float-peephole-data.py
 	$(PYTHON) scripts/check-float-stack-effects.py
 	$(PYTHON) scripts/check-float-stack-effects.py --scheduler

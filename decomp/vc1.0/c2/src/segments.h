@@ -15,6 +15,7 @@ typedef struct Segment {
     union { unsigned order; SymbolHeader *owner; } identity;
     union {
         struct { unsigned char selection, field45; unsigned short field46; } coff;
+        struct { unsigned char selection, flags; unsigned short reserved; } omf_comdat;
         unsigned omf_class_index;
     } object_attributes;
 } Segment;

@@ -229,7 +229,8 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
     }
     if(!strcmp(call->name,"@omf_flush_record_type@4") ||
        !strcmp(call->name,"@omf_find_record@8") ||
-       !strcmp(call->name,"@omf_allocate_record@8")) {
+       !strcmp(call->name,"@omf_allocate_record@8") ||
+       !strcmp(call->name,"@omf_initialize_record@12")) {
         unsigned i;
         sprintf(line,"omf_pool current %08lx base %08lx stride 1004 count 4\n",
             read_word(process,image_base+0x6b88c),image_base+0x6a8dc);log_line(line);

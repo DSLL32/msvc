@@ -458,3 +458,18 @@ slot, independently of child return.15 native cases pass (14 complete); next
 cache lookup6bd50. Original/W3 and canonical graph/extent/ABI/storage pass.
 500new bytes; split timings and proof limits: cases/omf-begin-flush-checkpoint.json.
 The broad608-case model is explicit/audit-data; routine audit checks actual ABI.
+
+Checkpoint1258 reconstructs the whole471-byte OMF cache lookup and its300-byte
+jump data, plus83-byte first-free/current-successor allocation. The C uses named
+record classes and typed Segment COMDAT byte69 storage, not copied jump data.
+1677 whole original/canonical controls cover every dispatch slot, ring order,
+signed capacities/fixup limits, context/group identity and unsigned positions,
+padding and overflow.288 allocator states verify all occupancy masks and actual
+returned-child pointer propagation. Child initialize/pad behavior is mocked;
+actual80/NULL case only searches empty records. No oversized-write claim or
+invented guard. All15 native cases pass (14 complete), next initializer6c060.
+Its real ECX pool-slot0/header, EDX80 and stackNULL/RET4 ABI are already observed.
+Original/W3 and graph/extent/ABI/data pass:339024/399693 accepted extent bytes;
+app/support320724B and1143 functions exclude5 historical CRT bodies. Full timing
+ledger/proof limits: cases/omf-find-allocate-checkpoint.json. Broad models remain
+explicit/audit-data; routine audits check actual ABI and dispatch data only.

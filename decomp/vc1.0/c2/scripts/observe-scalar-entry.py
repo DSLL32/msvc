@@ -4,7 +4,7 @@ import argparse,hashlib,json,os,re,shutil,subprocess,tempfile,time
 import pe_indexes as idx
 from case_paths import C2_SCRATCH,capture_lock,native_work,windows
 parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--native-only',action='store_true');parser.add_argument('--profile',default='dbglist');parser.add_argument('--function',required=True);parser.add_argument('--parameter',action='append',default=[]);parser.add_argument('--no-hidden-inputs-proof',required=True);parser.add_argument('--receipt',required=True,type=Path);parser.add_argument('--stack-cleanup',type=int,default=0);args=parser.parse_args()
-parameters=[v.split(':')for v in args.parameter];assert 0<=len(parameters)<=8 and all(len(v)==2 and v[1]in ['signed32','unsigned32','signed16','unsigned16','null32']for v in parameters)
+parameters=[v.split(':')for v in args.parameter];assert 0<=len(parameters)<=8 and all(len(v)==2 and v[1]in ['signed32','unsigned32','signed16','unsigned16','null32','omf_record_slot32']for v in parameters)
 assert args.stack_cleanup==max(len(parameters)-2,0)*4
 started=time.perf_counter();receipt=args.receipt;receipt.mkdir(exist_ok=args.native_only);config=json.loads(Path('functions.json').read_text());fixture=Path(config['cases'][args.profile]['fixture_manifest']).parent;phase=json.loads((fixture/'manifest.json').read_text())['phases']['c2'];name=args.function
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
@@ -43,20 +43,31 @@ for index,(parameter,kind)in enumerate(parameters):
     bits=16 if kind.endswith('16')else 32;values[index]&=(1<<bits)-1
     if kind.startswith('signed')and values[index]>=(1<<(bits-1)):values[index]-=1<<bits
 assert all(values[i]==native['values'][i]==0 for i,p in enumerate(parameters)if p[1]=='null32'), 'Null pointer observation requires both actual pointers zero'
-assert values==native['values'],(values,native['values'])
+native_raw_values=native['values'][:]
 parts=lines[1].split();stdout={parts[n]:int(parts[n+1],16 if parts[n]in['cursor','value']else 10)for n in range(1,len(parts),2)};stdout['buffer_hex']=lines[2].removeprefix('buffer_hex ')
 parts=lines[3].split();state={parts[n]:int(parts[n+1])for n in range(1,len(parts),2)};assert lines[-1]=='entry_end'
 omf_state=None;pool_input=None
 if name=='_omf_open_module':
     assert len(lines)==6 and lines[4]=='omf_entry coff_object 0'and native['coff_object']==0;omf_state=dict(coff_object=0)
-elif name in ['@omf_flush_record_type@4','@omf_find_record@8','@omf_allocate_record@8']:
+elif name in ['@omf_flush_record_type@4','@omf_find_record@8','@omf_allocate_record@8','@omf_initialize_record@12']:
     assert len(lines)==10
     parts=lines[4].split();pool={parts[n]:int(parts[n+1],16 if parts[n]in ['current','base']else 10)for n in range(1,len(parts),2)};pool['headers']=[line.removeprefix('omf_pool_header_hex ')for line in lines[5:9]]
     other=native['omf_pool'];assert pool['current']==pool['base']and other['current']==other['base']and pool['stride']==1004 and pool['count']==4
     assert pool['headers']==other['headers']==[bytes(20).hex()]*4
     pool_input=dict(original=pool,native=other,scope='Actual first helper has four BSS-zero20-byte headers and current record aliases slot0; no payload read/dump or arbitrary reuse-state claim.')
 else:assert len(lines)==5
+record_pointer_formals=[]
+for i,(parameter,kind)in enumerate(parameters):
+    if kind!='omf_record_slot32':continue
+    assert pool_input is not None
+    original_pool=pool_input['original'];native_pool=pool_input['native']
+    left=values[i]-original_pool['base'];right=native['values'][i]-native_pool['base']
+    assert 0<=left<4016 and left%1004==0 and 0<=right<4016 and right%1004==0
+    assert left==right
+    values[i]=left//1004;native['values'][i]=right//1004
+    record_pointer_formals.append(dict(name=parameter,slot=values[i],original_pointer=raw_values[i],native_pointer=native_raw_values[i],defined_pointee='corresponding observed20-byte record header'))
+assert values==native['values'],(values,native['values'])
 assert native['stdout']=={k:v for k,v in stdout.items()if k not in ['counter','cursor','value','position']}
 assert {k:native[k]for k in ['column','cw','sw']}=={k:state[k]for k in ['column','cw','sw']}
-r=dict(matched=True,function=name,profile=args.profile,omf_state=omf_state,pool_input=pool_input,null_pointer_formals=[p[0]for p in parameters if p[1]=='null32'],formals=[dict(name=p,location=('ECX'if i==0 else'EDX'if i==1 else'entryESP+%d'%(4*(i-1))),type=t,value=values[i])for i,(p,t)in enumerate(parameters)],hidden_inputs=[],no_hidden_inputs_proof=args.no_hidden_inputs_proof,callee_stack_cleanup=args.stack_cleanup,original_raw_values=raw_values,original_values=values,original_state=state,native=native,original_stdout=stdout,target_sha256=sha(idx.wt.TC/'bin/C23232.EXE'),manifest_sha256=sha(fixture/'manifest.json'),config_sha256=sha('functions.json'),observer_source_sha256=sha('src/reference-stdio-observer.c'),observer_sha256=sha('build/reference-stdio-observer.exe'),native_executable_sha256=sha('build/native/C23232.EXE'),original_execution_seconds=original_seconds,reused_immutable_original=args.native_only,native_debug_seconds=native_seconds,total_seconds=time.perf_counter()-started,scope='Actual scalar fastcall register/stack formals (16-bit parameters compare their proved lower-word contract; full original register/slot words retained) and known stdout/column/x87 entry state. No injected calls, return observation, child behavior, arbitrary-input equivalence or completed artifact claim.')
+r=dict(matched=True,function=name,profile=args.profile,omf_state=omf_state,pool_input=pool_input,record_pointer_formals=record_pointer_formals,native_raw_values=native_raw_values,null_pointer_formals=[p[0]for p in parameters if p[1]=='null32'],formals=[dict(name=p,location=('ECX'if i==0 else'EDX'if i==1 else'entryESP+%d'%(4*(i-1))),type=t,value=values[i])for i,(p,t)in enumerate(parameters)],hidden_inputs=[],no_hidden_inputs_proof=args.no_hidden_inputs_proof,callee_stack_cleanup=args.stack_cleanup,original_raw_values=raw_values,original_values=values,original_state=state,native=native,original_stdout=stdout,target_sha256=sha(idx.wt.TC/'bin/C23232.EXE'),manifest_sha256=sha(fixture/'manifest.json'),config_sha256=sha('functions.json'),observer_source_sha256=sha('src/reference-stdio-observer.c'),observer_sha256=sha('build/reference-stdio-observer.exe'),native_executable_sha256=sha('build/native/C23232.EXE'),original_execution_seconds=original_seconds,reused_immutable_original=args.native_only,native_debug_seconds=native_seconds,total_seconds=time.perf_counter()-started,scope='Actual scalar fastcall register/stack formals (16-bit parameters compare their proved lower-word contract; full original register/slot words retained) and known stdout/column/x87 entry state. No injected calls, return observation, child behavior, arbitrary-input equivalence or completed artifact claim.')
 (receipt/'validation.json').write_text(json.dumps(r,indent=2)+'\n');print('Actual',name,'scalar formals match',values)

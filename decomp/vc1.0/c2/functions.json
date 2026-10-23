@@ -1260,7 +1260,9 @@
     "_omf_initialize_records",
     "@omf_write_module_header@4",
     "@omf_begin_record@8",
-    "@omf_flush_record_type@4"
+    "@omf_flush_record_type@4",
+    "@omf_find_record@8",
+    "@omf_allocate_record@8"
   ],
   "driver": [
     {
@@ -8550,19 +8552,72 @@
     {
       "name": "@omf_find_record@8",
       "start": 441680,
-      "end": 441681,
-      "provisional": true
+      "end": 442151,
+      "shared": [
+        [
+          442152,
+          442452
+        ]
+      ],
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "type",
+            "location": "ECX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "context",
+            "location": "EDX",
+            "type": "null32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-find-record-abi/validation.json",
+        "scope": "Actual first80/NULL and four zero20-byte headers/current slot0; cold typed contexts and buffer reuse separately controlled, not claimed executed."
+      }
     },
     {
       "name": "@omf_allocate_record@8",
       "start": 442960,
-      "end": 442961,
-      "provisional": true
+      "end": 443043,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "type",
+            "location": "ECX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "context",
+            "location": "EDX",
+            "type": "null32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-allocate-record-abi/validation.json"
+      }
     },
     {
       "name": "@omf_flush_record@4",
       "start": 443184,
       "end": 443185,
+      "provisional": true
+    },
+    {
+      "name": "@omf_initialize_record@12",
+      "start": 442464,
+      "end": 442465,
+      "provisional": true
+    },
+    {
+      "name": "@omf_pad_record@8",
+      "start": 438944,
+      "end": 438945,
       "provisional": true
     }
   ],

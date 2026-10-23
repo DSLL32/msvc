@@ -13,6 +13,8 @@ int __fastcall omf_flush_record_type(unsigned type);
 OmfRecord *__fastcall omf_find_record(unsigned type, void *context);
 OmfRecord *__fastcall omf_allocate_record(unsigned type, void *context);
 OmfRecord *__fastcall omf_flush_record(OmfRecord *record);
+OmfRecord *__fastcall omf_initialize_record(OmfRecord *record, unsigned type, void *context);
+void __fastcall omf_pad_record(OmfRecord *record, unsigned bytes);
 /* Original84fc4 points at the existing two-word object84fb8. Preserve that
    identity, rather than allocating a new group or inventing initialization. */
 OmfGroup omf_group_storage;
@@ -23,6 +25,8 @@ unsigned omf_next_group = 1; /* 0008507c */
 unsigned omf_next_segment = 1; /* 00085080 */
 unsigned omf_next_frame_thread; /* 00085088 */
 unsigned omf_next_target_thread; /* 0008508c */
+unsigned char omf_comdat_flags; /* 00085090, cached COMDAT flags */
+int omf_fixup_count; /* 00085094, pending fixup entries */
 OmfRecord omf_records[4]; /* 0007a8dc..0007b88c, original BSS */
 OmfRecord *omf_current_record; /* 0007b88c, original BSS */
 /* Original [0006a9a0,0006a9c2). Tags alone are reset; buffered fields and
@@ -107,6 +111,92 @@ int __fastcall omf_flush_record_type(unsigned type)
         }
     }
     return 0;
+}
+/* Original [0006bd50,0006bf27), with its75-way dispatch table at
+   [0006bf28,0006c054). Search from the current slot, wrapping at slot3.
+   Capacity is signed, but stream positions, padding and ring addresses use
+   the original unsigned32-bit arithmetic. The cursor limit is slot+998. */
+OmfRecord *__fastcall omf_find_record(unsigned type, void *context)
+{
+    OmfRecord *first = omf_current_record, *record = first;
+    Segment *old_segment, *segment = (Segment *)context;
+    long remaining;
+    unsigned end, gap, alignment;
+    do {
+        if (record->type == type) {
+            remaining = (long)((unsigned)record - (unsigned)record->cursor + 998);
+            switch (type) {
+            case 0x80: case 0x88: case 0x8a: case 0x8e: case 0x99: case 0xa3:
+                return omf_initialize_record(record, type, context);
+            case 0x8c: case 0x96: case 0xb0: case 0xb4: case 0xca:
+                if (remaining < 259)
+                    return omf_initialize_record(record, type, context);
+                return record;
+            case 0x91: case 0xb7:
+                old_segment = (Segment *)record->context;
+                if (((OmfGroup *)old_segment->symbol.field18.pointer)->number !=
+                    ((OmfGroup *)segment->symbol.field18.pointer)->number ||
+                    old_segment->identity.order != segment->identity.order || remaining < 256)
+                    return omf_initialize_record(record, type, context);
+                return record;
+            case 0x95: case 0xc5:
+                if (remaining < 6 || record->context != context)
+                    return omf_initialize_record(record, type, context);
+                return record;
+            case 0x9a:
+                old_segment = (Segment *)record->context;
+                if (((OmfGroup *)old_segment->symbol.field18.pointer)->name_index !=
+                    ((OmfGroup *)segment->symbol.field18.pointer)->name_index || remaining < 25)
+                    return omf_initialize_record(record, type, context);
+                return record;
+            case 0x9d:
+                if (remaining < 11)
+                    return omf_initialize_record(record, type, context);
+                return record;
+            case 0xbc:
+                if (remaining < 4)
+                    return omf_initialize_record(record, type, context);
+                return record;
+            case 0xc3:
+                if ((segment->object_attributes.omf_comdat.flags ^ omf_comdat_flags) & 2)
+                    return omf_initialize_record(record, type, context);
+                /* Matching COMDAT flags use the ordinary data-run rules. */
+            case 0xa1:
+                if (record->context != context || remaining <= 20 || omf_fixup_count >= 249)
+                    return omf_initialize_record(record, type, context);
+                end = record->context_offset + record->count;
+                if (end == segment->symbol.field04) return record;
+                if (end < segment->symbol.field04) {
+                    gap = segment->symbol.field04 - end;
+                    alignment = segment->alignment;
+                    if ((long)alignment >= 4) alignment = 4;
+                    if (alignment > gap && gap + 20 < (unsigned)remaining) {
+                        omf_pad_record(record, gap);
+                        return record;
+                    }
+                }
+                return omf_initialize_record(record, type, context);
+            }
+        }
+        if ((unsigned)record < (unsigned)omf_records ||
+            (unsigned)record >= (unsigned)(omf_records + 3)) record = omf_records;
+        else ++record;
+    } while (record != first);
+    return NULL;
+}
+/* Original [0006c250,0006c2a3). Prefer the first unused slot; a full cache
+   replaces the successor of the current slot, with the same address wrap
+   rule as the lookup. Initialization may flush and return a different slot. */
+OmfRecord *__fastcall omf_allocate_record(unsigned type, void *context)
+{
+    OmfRecord *record;
+    for (record = omf_records; record < omf_records + 4; ++record)
+        if (!record->type) return omf_initialize_record(record, type, context);
+    record = omf_current_record;
+    if ((unsigned)record < (unsigned)omf_records ||
+        (unsigned)record >= (unsigned)(omf_records + 3)) record = omf_records;
+    else ++record;
+    return omf_initialize_record(record, type, context);
 }
 /* Original [0006a350,0006a7e5); eleven following bytes are alignment.
    The four tail words of Segment have format-specific meanings: OMF names,

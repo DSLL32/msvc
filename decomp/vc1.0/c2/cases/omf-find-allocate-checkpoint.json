@@ -1,0 +1,370 @@
+{
+  "checkpoint": 1258,
+  "previous_checkpoint": 1256,
+  "new_application": [
+    {
+      "name": "@omf_find_record@8",
+      "start": 441680,
+      "end": 442151,
+      "shared": [
+        [
+          442152,
+          442452
+        ]
+      ],
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "type",
+            "location": "ECX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "context",
+            "location": "EDX",
+            "type": "null32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-find-record-abi/validation.json",
+        "scope": "Actual first80/NULL and four zero20-byte headers/current slot0; cold typed contexts and buffer reuse separately controlled, not claimed executed."
+      }
+    },
+    {
+      "name": "@omf_allocate_record@8",
+      "start": 442960,
+      "end": 443043,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "type",
+            "location": "ECX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "context",
+            "location": "EDX",
+            "type": "null32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-allocate-record-abi/validation.json"
+      }
+    }
+  ],
+  "new_extent_bytes": 854,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1258,
+    "accepted_code_bytes": 339024,
+    "original_code_bytes": 399693,
+    "percentage": 84.82110019439921,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 609
+  },
+  "application_graph_rows": 1148,
+  "reconstructed_application_support_functions": 1143,
+  "existing_handwritten_crt_bodies": 5,
+  "application_support_code_extent_bytes": 320724,
+  "code_denominator_bytes": 399693,
+  "next_frontier": "@omf_initialize_record@12",
+  "next_original_va": "0x6c060",
+  "case_results": {
+    "total": 15,
+    "complete": 14,
+    "omf_named_trap": "@omf_initialize_record@12"
+  },
+  "graph_report_sha256": "58fec87edabb5596402022ed00c8c2f66a3ad29bd390f861a8a6f171b97d98ed",
+  "native_validation_sha256": "19d6636592ca8f43353a46a98f3f0fc90a4f1d7886b3faa7567088fb8c31aebf",
+  "controls": [
+    "cases/omf-find-validation.json",
+    "cases/omf-allocate-validation.json"
+  ],
+  "original_native_frontiers": [
+    "cases/omf-original-1257.json",
+    "cases/omf-original-1258.json"
+  ],
+  "next_actual_abi": "cases/omf-initialize-record-abi/validation.json",
+  "timings": {
+    "omf1257-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 57.71038431208581,
+      "returncode": 0,
+      "log_sha256": "b119af8e3f87d1200cda95075c2602fc6d72c000ce34aa0b83f52e0ec6842ebe"
+    },
+    "omf1257-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 17.19553728401661,
+      "returncode": 0,
+      "log_sha256": "de82e7a1e45289b8cdcb5db8e4a8bdccbbe4edda97923b67523ff8ee8da194d6"
+    },
+    "omf1257-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1256.json",
+        "--extend-after",
+        "cases/omf-original-1257.json"
+      ],
+      "seconds": 0.31045075226575136,
+      "returncode": 0,
+      "log_sha256": "853644bc903bbc8549ace54c63bb43c680a760f398f8d16e028e709814f1f46c"
+    },
+    "omf1257-controls-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-find.py"
+      ],
+      "seconds": 78.61556344013661,
+      "returncode": 0,
+      "log_sha256": "099ffcea61018434aad7ec348104997406485ac09ae8d3e2cf70c14f08299fe7"
+    },
+    "omf1257-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-scalar-entry.py",
+        "--profile",
+        "omf",
+        "--function",
+        "@omf_find_record@8",
+        "--parameter",
+        "type:unsigned32",
+        "--parameter",
+        "context:null32",
+        "--no-hidden-inputs-proof",
+        "Original6bd50..6bf27 plus75-entry jump data6bf28..6c054 consumes ECX type and EDX context pointer; assigned saved regs/global cache cursor, no other incoming register/stack/x87/flags/hidden input, RET0. Actual first80/NULL and four BSS-zero20-byte record headers/current slot0 observed. This first search dereferences no context; cold record classes require typed context fields when used.",
+        "--receipt",
+        "cases/omf-find-record-abi"
+      ],
+      "seconds": 2.089032683521509,
+      "returncode": 0,
+      "log_sha256": "9b693cfe5e301234d086dc2f679d295ee7cb53f23e3243409436d2cf58da7a0c"
+    },
+    "omf1257-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 7.0650679944083095,
+      "returncode": 0,
+      "log_sha256": "de8e8f080d196a36e4b5d452fbbacaa70596f48854d8b39e5195514a1175dc79"
+    },
+    "omf1257-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1257.json"
+      ],
+      "seconds": 0.22232401464134455,
+      "returncode": 0,
+      "log_sha256": "49bfa1326ec47a0fd3008bd2fcbf33fe279d2c524ee59df7d1ac3b0527abbb44"
+    },
+    "omf1257-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1257.json"
+      ],
+      "seconds": 1.014164524152875,
+      "returncode": 0,
+      "log_sha256": "76c4d9cb22bb8bbf00011d36c83ec4c02bdd344cdc1d6db2f27105a973ce0775"
+    },
+    "omf1257-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 0.9475218839943409,
+      "returncode": 0,
+      "log_sha256": "e432df5742581229aad0856a58dbcb49c5c96bb0ef1aa7285804809c1d6d5dfe"
+    },
+    "omf1258-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 15.193332944065332,
+      "returncode": 0,
+      "log_sha256": "d9f512aba2129eff9b33c7be6153dae756ae8d3c433bb0aa26188223c4d6e76b"
+    },
+    "omf1258-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 7.437212858349085,
+      "returncode": 0,
+      "log_sha256": "780c89c78b74d21122a0be12737f203111c935cbccacdc8a69599685e52f5b51"
+    },
+    "omf1258-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1257.json",
+        "--extend-after",
+        "cases/omf-original-1258.json"
+      ],
+      "seconds": 0.32009888999164104,
+      "returncode": 0,
+      "log_sha256": "853644bc903bbc8549ace54c63bb43c680a760f398f8d16e028e709814f1f46c"
+    },
+    "omf1258-controls-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-allocate.py"
+      ],
+      "seconds": 13.86247929558158,
+      "returncode": 0,
+      "log_sha256": "d4197c3c01400e416d8bc29cfbdcf2904a14dcafc8993c218aed2980fa55cc23"
+    },
+    "omf1258-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-scalar-entry.py",
+        "--profile",
+        "omf",
+        "--function",
+        "@omf_allocate_record@8",
+        "--parameter",
+        "type:unsigned32",
+        "--parameter",
+        "context:null32",
+        "--receipt",
+        "cases/omf-allocate-record-abi",
+        "--no-hidden-inputs-proof",
+        "Original6c250..6c2a3 consumes ECX type and EDX context, scans four record tags then selects current successor and calls initialize(record,type,context); no other incoming register/stack/x87/flags or hidden input, RET0. Actual first80/NULL and four zero20-byte headers/current slot0; no context pointee read."
+      ],
+      "seconds": 1.8543445877730846,
+      "returncode": 0,
+      "log_sha256": "ffff7d471591d11f09b40bd6e637ca2e8617d5fa886093ef5f06a6f41b5d68c9"
+    },
+    "omf1258-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 0.8281163880601525,
+      "returncode": 0,
+      "log_sha256": "eb9521ced8c3e8a13f3197091b8467ede43374568117987fced654a440ac0a58"
+    },
+    "omf1258-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1258.json"
+      ],
+      "seconds": 0.2160231675952673,
+      "returncode": 0,
+      "log_sha256": "d35553ad6201725a8cb971455b90a1370ecd7ba1567082844c7d7fe39140cadf"
+    },
+    "omf1258-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1258.json"
+      ],
+      "seconds": 1.1840197071433067,
+      "returncode": 0,
+      "log_sha256": "c8e8bbe0b157ca68d8dba5df24aff57cda63166b8d50fe76bee656c518d9f6ac"
+    },
+    "omf1258-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 1.195479235611856,
+      "returncode": 0,
+      "log_sha256": "71b30ddf4f39d37a639e71f0139ce8faabdd91b92be4380ac38dd2a8917f11d7"
+    }
+  },
+  "observer_next_timing": {
+    "command": [
+      "python3",
+      "scripts/observe-scalar-entry.py",
+      "--profile",
+      "omf",
+      "--function",
+      "@omf_initialize_record@12",
+      "--parameter",
+      "record:omf_record_slot32",
+      "--parameter",
+      "type:unsigned32",
+      "--parameter",
+      "context:null32",
+      "--stack-cleanup",
+      "4",
+      "--receipt",
+      "cases/omf-initialize-record-abi",
+      "--no-hidden-inputs-proof",
+      "Original6c060..6c243 consumes ECX OmfRecord*, EDX type and entryESP+4 context pointer, RET4; saved GPRs assigned internally and no extra incoming flags/x87/stack/register/hidden inputs. Actual slot0 aliases pool/current with four zero20-byte headers, type80/contextNULL; no context pointee read. Cold typed contexts remain separate whole-body controls."
+    ],
+    "seconds": 2.104914864525199,
+    "returncode": 0,
+    "log_sha256": "d6575308539fad3c86e1439e32f190ae9d3ce505534c4009a0b0a5c89a50f03f"
+  },
+  "timing_notes": [
+    "Analysis/source editing time not separately measured. All measured attempts retained; no best-run-only selection.",
+    "1677-state lookup controls78.616s include concurrent canonical audit rebuilding after Makefile dependency change; no per-state build timing inferred. Allocator288 states13.862s.",
+    "1257 audit57.710s includes canonical dependency rebuild, graph and target checks unsplit.1258 audit15.193s suppresses Makefile timestamp only: changes were audit-script commands, no compiler/link flags.",
+    "Native suite1258 wrapper0.828s; internal native setup/execution/check timings are cases/native-all-validation.json. Wine is absent from fixtures."
+  ],
+  "limits": [
+    "Actual lookup80/NULL scans only empty headers; cold reuse/padding/context paths are controlled original/canonical executions with explicitly mocked named children, not actual-case branch coverage.",
+    "Lookup signed32 capacity/fixup/min-alignment predicates and unsigned32 positions/gap/addition/address-wrap preserved without extra guards. Padding mock tests request/control shape, not arbitrary oversized writes.",
+    "75 original dispatch DWORD targets and exact471+300 extent independently checked. No original jump data copied into C; semantic switch covers all categories.",
+    "Allocator propagates initializer returned slot and retains original first-free/current-successor selection; child body remains unaccepted.",
+    "Next initializer pointer formal observed as physical pointers bound to same pool slot0/header, with EDX type80, stack contextNULL and RET4; no name-only promotion."
+  ]
+}
