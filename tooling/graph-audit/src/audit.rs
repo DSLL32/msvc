@@ -833,7 +833,33 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
     };
     let original_imports = import_catalog(&x.original_imports, &x.oi);
     let rebuilt_imports = import_catalog(&x.rebuilt_imports, &x.ri);
-    let register_contracts = if a.resolve_register_imports {
+    let enabled_owners = crate::register_imports::enabled_owners(&metadata)?;
+    let selected: BTreeSet<_> = progress
+        .iter()
+        .filter(|f| x.accepted.contains(&f.name))
+        .map(|f| f.name.clone())
+        .collect();
+    for owner in &enabled_owners {
+        ensure!(
+            selected.contains(owner),
+            "register import enabled owner is not selected/accepted: {owner}"
+        );
+        ensure!(
+            x.oi.iter().any(|r| &r.name == owner) && x.ri.iter().any(|r| &r.name == owner),
+            "register import enabled owner missing from paired indexes: {owner}"
+        );
+    }
+    let use_register_imports = a.resolve_register_imports || !enabled_owners.is_empty();
+    ensure!(
+        !use_register_imports || a.check_imports,
+        "register import resolution requires --check-imports"
+    );
+    let resolved_owners = if a.resolve_register_imports {
+        selected
+    } else {
+        enabled_owners.clone()
+    };
+    let register_contracts = if use_register_imports {
         Some((
             crate::register_imports::Contracts::parse(
                 &metadata,
@@ -856,13 +882,8 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         None
     };
     if let Some((left, right)) = &register_contracts {
-        let selected = progress
-            .iter()
-            .filter(|f| x.accepted.contains(&f.name))
-            .map(|f| f.name.clone())
-            .collect();
-        left.validate_callback_owners(&selected)?;
-        right.validate_callback_owners(&selected)?;
+        left.validate_callback_owners(&resolved_owners)?;
+        right.validate_callback_owners(&resolved_owners)?;
     }
     for f in &progress {
         if !x.accepted.contains(&f.name) {
@@ -872,11 +893,12 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             x.ri.iter()
                 .find(|r| r.name == f.name)
                 .context("missing reconstructed function")?;
+        let resolve_owner = a.resolve_register_imports || enabled_owners.contains(&f.name);
         let options = Options {
             infer_switches: true,
             infer_seh: true,
             imports: original_imports.clone(),
-            record_dataflow: a.resolve_register_imports,
+            record_dataflow: resolve_owner,
             code_chunks: f.code_chunks.clone(),
             fallthrough_entries: f
                 .code_ranges()
@@ -896,7 +918,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             infer_switches: true,
             infer_seh: true,
             imports: rebuilt_imports.clone(),
-            record_dataflow: a.resolve_register_imports,
+            record_dataflow: resolve_owner,
             code_chunks: other.code_chunks.clone(),
             fallthrough_entries: other
                 .code_ranges()
@@ -914,7 +936,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         validate_text_data(&x.r, other, &rebuilt_options.data, &x.ri)?;
         let mut r = flow::walk(&d, &x.r, other.start, other.end, &rebuilt_options)
             .with_context(|| format!("reconstructed {}", f.name))?;
-        let register_report = if a.resolve_register_imports {
+        let register_report = if resolve_owner {
             let strict = crate::register_imports::strict_policy(
                 &metadata["functions"][&f.name]["register_imports"],
             )?;
@@ -1072,16 +1094,19 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
     if a.check_imports {
         result["import_catalogs"] = json!({"original":{"slots":original_imports.as_ref().map(|c|&c.slots),"normalizable_thunks":original_imports.as_ref().map(|c|c.thunks.len())},"rebuilt":{"slots":rebuilt_imports.as_ref().map(|c|&c.slots),"normalizable_thunks":rebuilt_imports.as_ref().map(|c|c.thunks.len())}});
     }
-    if a.resolve_register_imports {
+    if use_register_imports {
         result["register_import_inputs"] = json!({"original_sha256":crate::index::hash(&x.o.data),"rebuilt_sha256":crate::index::hash(&x.r.data),"metadata_sha256":crate::index::hash(&serde_json::to_vec(&metadata)?),"preservation_contracts":metadata["register_imports"]["preservation_contracts"]});
     }
-    if a.resolve_register_imports
+    if use_register_imports
         && metadata["register_imports"]["callback_preservation_contracts"]
             .as_array()
             .is_some_and(|v| !v.is_empty())
     {
         result["register_import_inputs"]["callback_preservation_contracts"] =
             metadata["register_imports"]["callback_preservation_contracts"].clone();
+    }
+    if !enabled_owners.is_empty() {
+        result["register_import_inputs"]["enabled_functions"] = json!(resolved_owners);
     }
     if x.oi.iter().chain(&x.ri).any(|r| !r.code_chunks.is_empty()) {
         let mut domains = BTreeMap::new();

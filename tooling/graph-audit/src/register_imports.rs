@@ -17,7 +17,33 @@ use std::collections::{BTreeMap, BTreeSet, VecDeque};
 #[serde(deny_unknown_fields)]
 struct Policy {
     #[serde(default)]
+    enabled: Option<bool>,
+    #[serde(default)]
     require_all_register_calls_resolved: bool,
+}
+/// New metadata can only add resolution to selected owners. It cannot disable
+/// the existing global CLI flag or silently broaden an unaccepted graph scope.
+pub fn enabled_owners(metadata: &Value) -> Result<BTreeSet<String>> {
+    let mut enabled = BTreeSet::new();
+    for (name, function) in metadata["functions"].as_object().into_iter().flatten() {
+        let value = &function["register_imports"];
+        if value.is_null() {
+            continue;
+        }
+        ensure!(
+            value.is_object(),
+            "register import owner policy must be an object: {name}"
+        );
+        let policy: Policy = serde_json::from_value(value.clone())?;
+        if value.get("enabled").is_some() {
+            ensure!(
+                policy.enabled == Some(true),
+                "register import owner enabled must be true; disabling is unsupported: {name}"
+            );
+            enabled.insert(name.clone());
+        }
+    }
+    Ok(enabled)
 }
 pub fn strict_policy(value: &Value) -> Result<bool> {
     Ok(if value.is_null() {
@@ -497,6 +523,51 @@ pub fn resolve(
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn owner_enable_is_explicit_and_additive() {
+        use serde_json::json;
+        assert!(super::enabled_owners(&json!({"functions":{"a":{"register_imports":{"require_all_register_calls_resolved":true}}}})).unwrap().is_empty());
+        assert_eq!(super::enabled_owners(&json!({"functions":{"a":{"register_imports":{"enabled":true,"require_all_register_calls_resolved":true}}}})).unwrap(), ["a".to_string()].into());
+        assert!(
+            super::strict_policy(
+                &json!({"enabled":true,"require_all_register_calls_resolved":true})
+            )
+            .unwrap()
+        );
+    }
+    #[test]
+    fn owner_enable_rejects_disable_and_malformed_policy() {
+        use serde_json::json;
+        for value in [json!(false), json!(null), json!("true"), json!(1)] {
+            assert!(
+                super::enabled_owners(
+                    &json!({"functions":{"a":{"register_imports":{"enabled":value}}}})
+                )
+                .is_err()
+            );
+        }
+        assert!(
+            super::enabled_owners(
+                &json!({"functions":{"a":{"register_imports":{"enabled":true,"seed":"invented"}}}})
+            )
+            .is_err()
+        );
+    }
+    #[test]
+    fn owner_policy_typo_cannot_silently_disable_resolution() {
+        use serde_json::json;
+        for value in [
+            json!({"enabld":true}),
+            json!({"seed":"invented"}),
+            json!([]),
+            json!("true"),
+        ] {
+            assert!(
+                super::enabled_owners(&json!({"functions":{"a":{"register_imports":value}}}))
+                    .is_err()
+            );
+        }
+    }
     #[test]
     fn ebp_alias_family_includes_low_alias() {
         use capstone::arch::x86::X86Reg::*;

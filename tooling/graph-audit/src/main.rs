@@ -116,6 +116,14 @@ fn run() -> Result<()> {
                 || args.metadata.is_some()),
         "optional checks/metadata require --discovery cfg; legacy mode already applies exact Python preset checks"
     );
+    if args.profile == Profile::Cvpack
+        && let Some(path) = &args.metadata
+    {
+        anyhow::ensure!(
+            crate::register_imports::enabled_owners(&crate::index::json(path)?)?.is_empty(),
+            "per-owner register imports require a standalone CFG profile"
+        );
+    }
     let mut report = if args.profile == Profile::Cvpack {
         cvpack::run(&args)?
     } else {
@@ -132,7 +140,10 @@ fn run() -> Result<()> {
         for (enabled, name) in [
             (args.check_ret, "ret_cleanup"),
             (args.check_imports, "known_imports"),
-            (args.resolve_register_imports, "register_imports"),
+            (
+                args.resolve_register_imports || report.get("register_import_inputs").is_some(),
+                "register_imports",
+            ),
             (args.check_references, "function_references"),
             (args.check_callbacks, "callback_tables"),
             (args.check_ownership, "extent_ownership"),

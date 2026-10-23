@@ -174,6 +174,32 @@ whose register calls must all be imports:
 }
 ```
 
+To enable resolution on selected owners while retaining **one full graph/import
+audit**, omit the global resolver flag and set the owner policy explicitly:
+
+```json
+{
+  "functions": {
+    "@read_initializer_records@4": {
+      "register_imports": {"enabled": true, "require_all_register_calls_resolved": true}
+    }
+  }
+}
+```
+
+`--check-imports` remains required, and all selected functions retain the same
+call-graph/import/ABI/extent checks. Only the named owners get the additional
+must-value pass. An enabled owner must be selected/accepted and present in both
+verified indexes. `enabled` accepts only `true`; `false`, null and malformed
+policies fail. Policy sections must be objects with recognized keys; a typo
+cannot silently disable resolution. Effective resolution is the global CLI flag **or** explicit owner
+enablement, so this metadata cannot disable global resolution. It grants no
+register facts, seeds, preservation claims or exemptions. Existing hash-bound
+contracts still apply, as do strict unresolved-call rejection and independent
+semantic proof. New scoped reports bind the deterministic effective owner list
+in `register_import_inputs.enabled_functions`; old global/default reports are
+unchanged. This mode is CFG-only and supports the standalone profiles.
+
 For a source/runtime callee use `target: {"function": "<logical index name>"}`.
 Targets must exist in both verified indexes/catalogs; no name/address guesses or
 blanket ABI default apply. Contract evidence is a project-relative regular file:
