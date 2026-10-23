@@ -1,0 +1,30 @@
+{
+  "cwd": "S:\\vc1.0\\c1\\legacy-callback-probes\\draft1-original",
+  "operations": [
+    {
+      "name": "compiler",
+      "command": [
+        "/usr/bin/wine",
+        "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+        "/nologo",
+        "/Z7",
+        "/Od",
+        "/G5",
+        "/W4",
+        "/Feadapter.exe",
+        "adapter.c"
+      ],
+      "exit": 0,
+      "seconds": 1.2672216994687915
+    },
+    {
+      "name": "program",
+      "command": [
+        "/usr/bin/wine",
+        "S:\\vc1.0\\c1\\legacy-callback-probes\\draft1-original\\adapter.exe"
+      ],
+      "exit": 0,
+      "seconds": 0.5155016919597983
+    }
+  ]
+}

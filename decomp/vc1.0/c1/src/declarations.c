@@ -2337,3 +2337,102 @@ void __stdcall assign_unpooled_literal_segment(FrontendSymbol *symbol, FrontendS
     if ((symbol->kind & 31) == 7) attributes = symbol->type->attributes;
     symbol->type = prepend_expression_type_shape(symbol->type, 0, attributes, &section);
 }
+
+/* Original 0x34f80..0x34fa3, RET4. Nested callback redeclarations
+   merge their pointed-to function parameter lists separately. */
+int __stdcall is_function_pointer_type(CType *type)
+{
+    TypeShape *shape = type->related;
+    return shape && (shape->flags & 7) == 3;
+}
+
+/* Original 0x2b610..0x2b69e, RET4. Old-style identifier lists create
+   int parameters before their following declaration statements are read. */
+FrontendSymbol *__stdcall make_parameter(char *name)
+{
+    ArenaPool *pool = &compiler_arena.pools[1];
+    FrontendSymbol *parameter;
+    if (pool->remaining < (int)sizeof(FrontendSymbol)) refill_arena(&compiler_arena, pool);
+    parameter = (FrontendSymbol *)pool->next;
+    pool->remaining -= sizeof(FrontendSymbol);
+    pool->next += sizeof(FrontendSymbol);
+    parameter->kind = 10;
+    parameter->name = name;
+    parameter->type = type_0064;
+    if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_index_overflow();
+    parameter->index = next_symbol_index++;
+    parameter->attributes |= 0x10;
+    insert_current_scope_symbol(parameter);
+    return parameter;
+}
+
+/* Original 0x2b530..0x2b5cb, RET8. Declarations following an old-style
+   identifier list update its existing parameter symbol and promote float. */
+FrontendSymbol *__stdcall declare_old_style_parameter(DeclarationSpec *declaration,
+                                                      FrontendSymbol *declarator)
+{
+    char *name = declarator->name;
+    FrontendSymbol *parameter = find_identifier_symbol(name);
+    if (!parameter) {
+        report_syntax_error(85, name);
+        return 0;
+    }
+    if (parameter->storage[0] & 7) {
+        report_syntax_error(82, name);
+        return 0;
+    }
+    declarator->kind = 10;
+    parameter->storage[0] = declaration->storage[0];
+    parameter->storage[1] = declaration->storage[1];
+    parameter->storage[2] = declaration->storage[2];
+    declarator->storage[0] = parameter->storage[0];
+    declarator->storage[1] = parameter->storage[1];
+    declarator->storage[2] = parameter->storage[2];
+    finalize_symbol_type(declaration->type, declarator);
+    if (declarator->type->flags == 0x104 && !declarator->type->related)
+        parameter->type = type_0108;
+    else parameter->type = declarator->type;
+    return parameter;
+}
+
+/* Original 0x2b420..0x2b52f, RET8. Check an old-style definition
+   parameter against the earlier prototype, retaining the void-pointer rule. */
+int __stdcall compatible_parameter_types(CType *expected, CType *actual)
+{
+    TypeShape *left, *right;
+    if (!expected) {
+        if (!actual) return 1;
+        if (options.extensions_enabled) {
+            compiler_warning(4, 212);
+            return 1;
+        }
+        return 0;
+    }
+    if (!actual) return 0;
+    if (is_void_pointer_type(expected) &&
+        has_parameter_shape_depth(expected->related, actual->related)) {
+        if (!(expected->attributes & 0x0f77) && !(actual->attributes & 0x0f77)) return 1;
+        return compatible_shape_attributes(expected->attributes, actual->attributes);
+    }
+    if (actual->flags != expected->flags || actual->attributes != expected->attributes ||
+        actual->field08 != expected->field08) return 0;
+    left = expected->related;
+    right = actual->related;
+    if (!left || !right) return 0;
+    if (right->related != left->related) return 0;
+    if (right->flags != left->flags) return 0;
+    if (right->attributes != left->attributes) return 0;
+    return 1;
+}
+
+/* Original 0x2ad40..0x2ad83, RET4. Emit the register parameter record
+   and save its symbol and a full-word scope-depth marker for cleanup. */
+void __stdcall define_register_parameter(FrontendSymbol *parameter)
+{
+    write_ir_record(42, make_symbol_reference(parameter));
+    push_work_list((void **)&scope_cleanup_stack, 1);
+    scope_cleanup_stack->value.symbol = parameter;
+    push_work_list((void **)&scope_cleanup_stack, 1);
+    scope_cleanup_stack->value.saved_depth = 1;
+}

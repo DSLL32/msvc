@@ -1,0 +1,35 @@
+{
+  "buffers": {
+    "expression_file": "00",
+    "symbol_file": "",
+    "line_file": "",
+    "global_file": "1186032e1d30016900000000",
+    "debug_file": "0c000a00030401000000",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "is_function_pointer_type",
+    "merge_function_parameter_types",
+    "compare_declaration_types",
+    "declaration_conflict",
+    "reconcile_declarations",
+    "merge_scoped_declaration",
+    "merge_global_declaration",
+    "declare_symbol",
+    "apply_declarator_type",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile"
+  ],
+  "exit": null,
+  "frontier": "is_function_pointer_type",
+  "pc": 1449200984,
+  "label_stack_count": 0,
+  "scanner_flags": 0,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ]
+}

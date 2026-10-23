@@ -120,6 +120,10 @@
     "pdb-pch-binding-use": {
       "receipt": "cases/pdb-pch-binding/evidence/final-use-entries.receipt.json",
       "sha256": "2a0ef2fa25e29bc0d44db6e349ad31166666c1bd2688b554f880934361d0a6e2"
+    },
+    "legacy-callback-adapter": {
+      "receipt": "cases/legacy-callback-adapter/evidence/legacy-callback-complete-940.receipt.json",
+      "sha256": "b0582d93eabe2b3f8d2df003dd14cd1ce4a1a354cb2d58d228bfcc293a239fba"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

@@ -60,6 +60,7 @@ void __stdcall push_call_context(CType *function_type);
 FrontendSymbol *__stdcall find_call_designator_symbol(IrToken *expression);
 ArgumentNode *__stdcall make_call_argument(IrToken *argument, int flags);
 int __stdcall is_void_pointer_type(CType *type);
+int __stdcall has_parameter_shape_depth(TypeShape *expected, TypeShape *actual);
 
 CType * __stdcall change_function_reference_kind(CType *type, int kind);
 CType * __stdcall dereference_pointer_type(CType *type);

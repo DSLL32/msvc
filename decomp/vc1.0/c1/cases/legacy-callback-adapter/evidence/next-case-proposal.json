@@ -1,0 +1,64 @@
+{
+  "status": "approved by root after callback checkpoint",
+  "case": "inline-asm-expressions",
+  "features": [
+    "Binary-suffix immediates",
+    "HIGH/LOW/NOT constant operands",
+    "_emit NOP bytes and safe alignment",
+    "Explicit SHORT branch with reachable control flow",
+    "Semicolon assembler comments",
+    "DS:[register] memory read only if original accepts and runtime is defined"
+  ],
+  "targets": [
+    {
+      "original": "0x4e449",
+      "name": "set_asm_directive",
+      "analyzed_body_bytes": 175
+    },
+    {
+      "original": "0x4defc",
+      "name": "set_asm_address_operator",
+      "analyzed_body_bytes": 85
+    },
+    {
+      "original": "0x50260",
+      "name": "evaluate_asm_unary",
+      "analyzed_body_bytes": 168
+    },
+    {
+      "original": "0x4da61",
+      "name": "parse_asm_binary_digits",
+      "analyzed_body_bytes": 58
+    },
+    {
+      "original": "0x4f62b",
+      "name": "fits_asm_integer",
+      "analyzed_body_bytes": 35
+    },
+    {
+      "original": "0x4f689",
+      "name": "asm_operand_accepts_size",
+      "analyzed_body_bytes": 34
+    },
+    {
+      "original": "0x4f64e",
+      "name": "asm_operand_has_type_flags",
+      "analyzed_body_bytes": 59
+    },
+    {
+      "original": "0x4e97c",
+      "name": "swap_asm_pointer_slots",
+      "analyzed_body_bytes": 21
+    }
+  ],
+  "candidate_body_bytes": 635,
+  "additional": {
+    "name": "copy_asm_comment",
+    "original": "0x4dc65",
+    "extent": "pending; no credit before full reconstruction"
+  },
+  "caller_gates": "asm-parser action11 directive, address-operator actions75/77, unary action58; asm-numbers binarysuffix path; asm-lexer AS_SEMICOLON. Operand validators require independent reached proof.",
+  "approval": "Root approved next SINGLE successful inlineasm expression/directive checksum after callback31phase commit; safe user-mode executed bytes, retain unsupported probes, no forced state or normalization.",
+  "metric": "Analyzed candidate instruction body sizes, not promised reachability or coverage credit.",
+  "validation": "Original public syntax/complete CL transport/IR and linked runtime first, then native-only fixtures, fresh masked whole-function acceptance and all existing compiler/Rust/state/ABI/grammar checks."
+}

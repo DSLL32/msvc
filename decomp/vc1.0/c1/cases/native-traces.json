@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "f1dae50651bbf40ccf5407ba10ee75385fd8f6049080bd942617c0e5ea111a5d",
+    "functions.json": "316e834f21ce73b1fb15cde85af469e969f18f49ee350f927a556f98c0a6ab76",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "51502776171fad4656b1e3cd0d1043e8259af03f62c3729a5d567a8878807590"
+    "sha256": "1d8b681afc75c0f16895b479bce13f5b0962251e4a1b01c9cb94ce018918fda4"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "2ad2c79d764770a4c947d53adf629baf585f995a9458537cd9fa54d08af26d1b"
+    "sha256": "433952690d56b6966ae264150cb36376750f9a1c233e60165ac91477e9d50679"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -475,7 +475,7 @@
     },
     "change_function_reference_kind": {
       "logical": "_change_function_reference_kind@8",
-      "source": "src/stubs.c"
+      "source": "src/types.c"
     },
     "check_assignment_conversion": {
       "logical": "_check_assignment_conversion@12",
@@ -667,7 +667,7 @@
     },
     "compare_prototype_parameter_types": {
       "logical": "_compare_prototype_parameter_types@8",
-      "source": "src/stubs.c"
+      "source": "src/conversions.c"
     },
     "compare_work_stack": {
       "logical": "_compare_work_stack@12",
@@ -683,7 +683,7 @@
     },
     "compatible_parameter_types": {
       "logical": "_compatible_parameter_types@8",
-      "source": "src/stubs.c"
+      "source": "src/declarations.c"
     },
     "compatible_shape_attributes": {
       "logical": "_compatible_shape_attributes@8",
@@ -877,6 +877,10 @@
       "logical": "_declare_named_entity@16",
       "source": "src/declarations.c"
     },
+    "declare_old_style_parameter": {
+      "logical": "_declare_old_style_parameter@8",
+      "source": "src/declarations.c"
+    },
     "declare_pch_debug_library": {
       "logical": "_declare_pch_debug_library",
       "source": "src/pch.c"
@@ -911,7 +915,7 @@
     },
     "define_register_parameter": {
       "logical": "_define_register_parameter@4",
-      "source": "src/stubs.c"
+      "source": "src/declarations.c"
     },
     "define_source_macro": {
       "logical": "_define_source_macro",
@@ -1533,6 +1537,10 @@
       "logical": "_guarded_compile",
       "source": "src/c1.c"
     },
+    "has_parameter_shape_depth": {
+      "logical": "_has_parameter_shape_depth@8",
+      "source": "src/stubs.c"
+    },
     "hash_bucket_index": {
       "logical": "_hash_bucket_index@8",
       "source": "src/hash-table.c"
@@ -1735,7 +1743,7 @@
     },
     "is_function_pointer_type": {
       "logical": "_is_function_pointer_type@4",
-      "source": "src/stubs.c"
+      "source": "src/declarations.c"
     },
     "is_pointer_based_shape": {
       "logical": "_is_pointer_based_shape@4",
@@ -1947,7 +1955,7 @@
     },
     "make_parameter": {
       "logical": "_make_parameter@4",
-      "source": "src/stubs.c"
+      "source": "src/declarations.c"
     },
     "make_qualified_type": {
       "logical": "_make_qualified_type@16",
@@ -2575,7 +2583,7 @@
     },
     "pop_work_list": {
       "logical": "_pop_work_list@4",
-      "source": "src/stubs.c"
+      "source": "src/memory.c"
     },
     "pragma_message": {
       "logical": "_pragma_message@4",
@@ -3257,10 +3265,6 @@
       "logical": "_set_debug_index_cursor",
       "source": "src/debug-info.c"
     },
-    "set_declaration_name": {
-      "logical": "_set_declaration_name@8",
-      "source": "src/stubs.c"
-    },
     "set_warning_level": {
       "logical": "_set_warning_level@8",
       "source": "src/pragma.c"
@@ -3451,7 +3455,7 @@
     },
     "warn_void_function_pointer": {
       "logical": "_warn_void_function_pointer",
-      "source": "src/stubs.c"
+      "source": "src/conversions.c"
     },
     "warning_setting": {
       "logical": "_warning_setting@4",
@@ -4423,7 +4427,16 @@
     "write_codeview_signed_leaf",
     "write_codeview_symbol",
     "reference_pch_debug_library",
-    "assign_unpooled_literal_segment"
+    "assign_unpooled_literal_segment",
+    "is_function_pointer_type",
+    "make_parameter",
+    "declare_old_style_parameter",
+    "compatible_parameter_types",
+    "define_register_parameter",
+    "pop_work_list",
+    "change_function_reference_kind",
+    "compare_prototype_parameter_types",
+    "warn_void_function_pointer"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5683,6 +5696,26 @@
       "expected": [
         "reference_pch_debug_library",
         "assign_unpooled_literal_segment"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "legacy-callback-adapter": {
+      "first": 931,
+      "last": 940,
+      "seen_count": 793,
+      "expected": [
+        "is_function_pointer_type",
+        "make_parameter",
+        "declare_old_style_parameter",
+        "compatible_parameter_types",
+        "define_register_parameter",
+        "pop_work_list",
+        "change_function_reference_kind",
+        "compare_prototype_parameter_types",
+        "warn_void_function_pointer"
       ],
       "terminal": {
         "kind": "exit",

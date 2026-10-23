@@ -199,10 +199,10 @@ unsigned short __stdcall based_type_modifier(unsigned short kind) { __asm { int 
 /* Original 0x2b230. */
 
 /* Original 0x2b530. */
-void __stdcall set_declaration_name(DeclarationSpec *declaration, char *name) { __asm { int 3 } }
+
 
 /* Original 0x2b610. */
-FrontendSymbol *__stdcall make_parameter(char *name) { __asm { int 3 } return 0; }
+
 
 /* Original 0x2b6a0. */
 
@@ -393,10 +393,10 @@ void reset_inline_function_state(void) { __asm { int 3 } }
 
 
 
-int __stdcall compatible_parameter_types(CType *expected, CType *actual) { __asm { int 3 } return 0; }
+int __stdcall has_parameter_shape_depth(TypeShape *expected, TypeShape *actual) { __asm { int 3 } return 0; }
 
 
-void __stdcall define_register_parameter(FrontendSymbol *parameter) { __asm { int 3 } }
+
 void __stdcall record_inline_parameter(FrontendSymbol *parameter) { __asm { int 3 } }
 
 
@@ -410,16 +410,16 @@ void __stdcall record_inline_parameter(FrontendSymbol *parameter) { __asm { int 
 
 
 
-void warn_void_function_pointer(void) { __asm { int 3 } }
+
 void __stdcall conversion_diagnostic(unsigned code, unsigned level, unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
 
-int __stdcall compare_prototype_parameter_types(CType *target, CType *source) { __asm { int 3 } return 0; }
+
 void __stdcall report_conversion_mismatch(unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
 
 
 
 
-void *__stdcall pop_work_list(void **head) { __asm { int 3 } return 0; }
+
 
 
 
@@ -605,7 +605,7 @@ void __stdcall report_type_conflict(unsigned code, FrontendSymbol *symbol, char 
 
 /* Original 0x34fb0. */
 
-int __stdcall is_function_pointer_type(CType *type) { __asm { int 3 } return 0; }
+
 
 
 
@@ -678,7 +678,7 @@ CType *__stdcall function_designator_type(CType *type) { __asm { int 3 } return 
 /* Original 0x2c760. */
 
 /* Original 0x40220. */
-CType * __stdcall change_function_reference_kind(CType *type, int kind) { __asm { int 3 } return 0; }
+
 /* Original 0x40160. */
 /* Original 0x2c450. */
 /* Original 0x3d500. */

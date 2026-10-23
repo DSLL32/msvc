@@ -309,7 +309,7 @@ read_action:
             parser_lookahead = -1;
             break;
         case 22:
-            set_declaration_name(&declaration_spec_stack[declaration_depth], right[0].name);
+            declare_old_style_parameter(&declaration_spec_stack[declaration_depth], right[0].symbol);
             break;
         case 23:
             parser_value.declaration.type = type_0064;

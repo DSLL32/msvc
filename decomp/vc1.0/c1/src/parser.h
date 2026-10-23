@@ -183,7 +183,7 @@ void clear_symbol_aliases(void);
 void finish_function_definition(void);
 void __stdcall process_declaration(DeclarationSpec *declaration);
 void __stdcall prepare_function_definition(DeclarationSpec *declaration, FrontendSymbol *symbol);
-void __stdcall set_declaration_name(DeclarationSpec *declaration, char *name);
+FrontendSymbol *__stdcall declare_old_style_parameter(DeclarationSpec *declaration, FrontendSymbol *declarator);
 CType *parse_struct_specifier(void);
 CType *parse_enum_specifier(void);
 unsigned __stdcall new_enumerator(unsigned value, char *name);

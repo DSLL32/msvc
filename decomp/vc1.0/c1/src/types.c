@@ -748,3 +748,24 @@ char *__stdcall type_specifier_name(unsigned short flags)
     else if (flags & 0x800) return "__segment";
     return "";
 }
+
+/* Original 0x40220..0x402ae, RET8. Replace the code-pointer shape
+   while retaining its calling attributes, result type and descriptor cache. */
+CType *__stdcall change_function_reference_kind(CType *type, int kind)
+{
+    TypeShape *shape = type->related, *tail, *replacement;
+    ArenaPool *pool = &compiler_arena.pools[2];
+    CType *copy;
+    if (shape && !(shape->flags & 7)) shape = shape->related;
+    tail = shape->related;
+    replacement = new_type_shape(kind == 1 ? 0x0b : 0x403, shape->attributes, 0);
+    replacement->related = tail;
+    replacement = intern_type_shape(replacement);
+    if (pool->remaining < (int)sizeof(CType)) refill_arena(&compiler_arena, pool);
+    copy = (CType *)pool->next;
+    pool->remaining -= sizeof(CType);
+    pool->next += sizeof(CType);
+    *copy = *type;
+    copy->related = replacement;
+    return copy;
+}

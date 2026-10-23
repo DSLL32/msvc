@@ -198,3 +198,12 @@ char *__stdcall copy_string(char *text, int arena)
     for (i = 0; (copy[i] = text[i]) != 0; ++i) ;
     return copy;
 }
+
+/* Original 0x33070..0x3307d, RET4. Work entries belong to their arena;
+   popping only advances the nonempty list and returns the new head. */
+void *__stdcall pop_work_list(void **head)
+{
+    void *next = *(void **)*head;
+    *head = next;
+    return next;
+}

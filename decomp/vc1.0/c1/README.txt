@@ -1,7 +1,7 @@
 C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
 ========================================================
 
-Thirty native phases are complete: minimal C, optimized Win32 hello, DLL,
+Thirty-one native phases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
 assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
 automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
@@ -9,11 +9,11 @@ automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
 enum/long-record/literal/floating case, debug-bearing PCH creation/reuse, and
 richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
 automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
-the named-base relocatable record arena, and /Zi PCH library binding.
+the named-base relocatable record arena, /Zi PCH library binding, and the legacy callback adapter.
 
-There are 804 accepted source functions and 931 accepted original entries.
-Accepted original extents cover 231613/277234 code-section bytes (83.544226%):
-211846 frontend bytes, 19587 CRT bytes and 180 import-thunk bytes. This is a
+There are 813 accepted source functions and 940 accepted original entries.
+Accepted original extents cover 232855/277234 code-section bytes (83.992223%):
+213088 frontend bytes, 19587 CRT bytes and 180 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Unvisited functions retain named trapping stubs.
 
@@ -35,12 +35,12 @@ excluded from application instrumentation. The original BINMODE.OBJ default is
 retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
-cases/original-entry-references.json binds 30 completed phase histories to fresh
-shared-prefix original first-entry captures. All 793 accepted application entries
+cases/original-entry-references.json binds 31 completed phase histories to fresh
+shared-prefix original first-entry captures. All 802 accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current all 30 regression receipts are in cases/pdb-pch-binding/validation.json.
+current all 31 regression receipts are in cases/legacy-callback-adapter/validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -235,3 +235,15 @@ phases and25 oracle/dependency rejections pass, with original compilation and
 strict graph/ABI/state/flag/grammar checks. A failed pack(push/pop) preflight
 exposed original unrelocated retired packing pointers; it remains explicit
 evidence, while the successful source uses pack(2)/pack() and fresh captures.
+
+Completed legacy callback adapter
+--------------------------------
+cases/legacy-callback-adapter combines old-style narrow/default-promoted
+parameters, nested callback redeclarations, array parameter adjustment,
+register parameters, explicit indirect calls and accepted void* round trips.
+Original /Z7 /Od /G5 /W4 compile/link and the checksum program succeed; six
+intentional warnings and five raw IR files match exactly. Nine whole functions
+add1242 frontend extent bytes. All31 native phases,28 oracle/dependency
+rejections, six graph/ABI/mask checks, three flag mutations,288 state/alias
+checks and both grammar suites pass. Some initially proposed helpers remain
+trapping because this case did not reach them.

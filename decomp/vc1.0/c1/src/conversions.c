@@ -759,3 +759,45 @@ int __stdcall multiplication_overflows(unsigned left, unsigned right,
     if (!magnitude_left) return 0;
     return limit / magnitude_left < magnitude_right;
 }
+
+/* Original 0x3efc0..0x3f138, RET8. Nested function parameter types
+   distinguish exact compatibility, mismatch and the void-pointer extension. */
+int __stdcall compare_prototype_parameter_types(CType *target, CType *source)
+{
+    TypeShape *left = target->related, *right = source->related, *other;
+    int target_void, source_void, comparison;
+    unsigned kind;
+    if (target == source) return 0;
+    if (right == left && !((source->flags ^ target->flags) & 0x2fdf) &&
+        source->field08 == target->field08) comparison = 0;
+    else {
+        target_void = (target->flags & 0x80) && left &&
+                      (left->flags & 7) == 1 && !left->related;
+        source_void = (source->flags & 0x80) && right &&
+                      (right->flags & 7) == 1 && !right->related;
+        if (!target_void && !source_void) return 1;
+        if (target_void && source_void) comparison = 0;
+        else {
+            other = target_void ? right : left;
+            if (!other) return 1;
+            comparison = 2;
+            kind = other->flags & 7;
+            if (kind == 3) warn_void_function_pointer();
+            else if (kind != 1 && kind != 2) return 1;
+        }
+        if ((right->attributes ^ left->attributes) & 15) return 1;
+    }
+    if (!check_conversion_attributes(TOK_ARGUMENT_END, source->attributes,
+                                     target->attributes, 1)) return 1;
+    if (left && right && (scanner_flags & 0x800))
+        check_based_pointer_conversion(TOK_ARGUMENT_END, left, right);
+    return comparison;
+}
+
+/* Original 0x3e730..0x3e759. Function/data pointer conversion is a
+   level-four extension warning, or a level-one warning in strict mode. */
+void warn_void_function_pointer(void)
+{
+    if (options.extensions_enabled) compiler_warning(4, 152);
+    else compiler_warning(1, 153);
+}

@@ -200,6 +200,23 @@ def main():
     rejects('pdb-binding-clock-propagation', 'consumer database signature changed',
             lambda:checker.validate_generated_signature(binding_consumer, signature))
 
+    _, legacy = checker.run_case('legacy-callback-adapter', executable, directory, (cache,filter_path))
+    legacy_fixture = checker.BINARY/'cases/legacy-callback-adapter'
+    legacy_phase = json.loads((legacy_fixture/'manifest.json').read_text())['phases']['c1']
+    warnings = legacy_phase['expected_stdout'].encode('latin1').splitlines(keepends=True)
+    swapped = warnings[:]
+    swapped[0],swapped[1] = swapped[1],swapped[0]
+    rejects('legacy-callback-warning-order', 'stdout differs',
+            lambda:checker.validate_result('legacy-callback-adapter',0,b''.join(swapped),b'',legacy_phase))
+    missing = b''.join(line for line in warnings if b'(57)' not in line)
+    rejects('legacy-callback-pointer-warning', 'stdout differs',
+            lambda:checker.validate_result('legacy-callback-adapter',0,missing,b'',legacy_phase))
+    debug_types = bytearray((legacy/'irdb').read_bytes())
+    debug_types[-1] ^= 1
+    (legacy/'irdb').write_bytes(debug_types)
+    rejects('legacy-callback-debug-type-byte', 'output bytes differ: irdb',
+            lambda:checker.validate_artifacts(legacy,legacy_fixture,legacy_phase))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

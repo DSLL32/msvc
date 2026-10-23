@@ -1,0 +1,12 @@
+{
+  "accepted_union_bytes": 232855,
+  "original_code_bytes": 277234,
+  "accepted_by_origin_bytes": {
+    "frontend_source": 213088,
+    "CRT": 19587,
+    "import_thunks": 180
+  },
+  "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
+  "percent": 83.99222317608951,
+  "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
+}

@@ -1,0 +1,98 @@
+{
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc1.0\\c1\\tools\\capture-cl.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "/nologo /c /Z7 /Od /G5 /W4 adapter.c",
+    "S:\\vc1.0\\c1\\transport\\legacy-callback-adapter-capture2\\stdout",
+    "S:\\vc1.0\\c1\\transport\\legacy-callback-adapter-capture2\\stderr",
+    "S:\\vc1.0\\c1\\transport\\legacy-callback-adapter-capture2\\events",
+    "S:\\vc1.0\\c1\\legacy-callback-adapter",
+    "S:\\vc1.0\\c1\\transport\\legacy-callback-adapter-capture2\\config.txt",
+    "ordinary",
+    "S:\\vc1.0\\c1\\transport\\legacy-callback-adapter-capture2"
+  ],
+  "CL_arguments": "/nologo /c /Z7 /Od /G5 /W4 adapter.c",
+  "helper_source": "decomp/vc1.0/cl/src/capture-run.c",
+  "helper_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+  "helper_sha256": "b80b97201ce6f78fccc165200f844db467639e38e02f01523cdf68cecdc6683c",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "cwd": "S:\\vc1.0\\c1\\legacy-callback-adapter",
+  "environment": {
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib"
+  },
+  "host_exit": 0,
+  "execution_seconds": 1.5169884506613016,
+  "children": [
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c13232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\001180 -f adapter.c -Ze -Zp8 -Gs -Foadapter.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I R:\\toolchains\\1.0-nt\\include "
+      ]
+    },
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c23232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il .\\001180 -f adapter.c -Gs4096 -dos -Foadapter.obj -ML -Zi -G5 -W 4 "
+      ]
+    }
+  ],
+  "C1_boundary_file_sets": {
+    "001-before": [
+      {
+        "name": "adapter.c",
+        "bytes": 1851,
+        "sha256": "1b6c881e4db8943e61d8c8cc14b971a6e80aaf2b259823494998f6639ae43153",
+        "mtime_ns": 1792763855988877600
+      }
+    ],
+    "001-after": [
+      {
+        "name": "001180db",
+        "bytes": 451,
+        "sha256": "76edcc78d202ebcf436abd4dab03ac369c2691221d1916cba274820302908db2",
+        "mtime_ns": 1792763857284852700
+      },
+      {
+        "name": "001180ex",
+        "bytes": 2097,
+        "sha256": "ad2df86e966a1028d87c1f80c2ee46fefe8e734e94e8bdd34ebbb127cde16ea0",
+        "mtime_ns": 1792763857284852700
+      },
+      {
+        "name": "001180gl",
+        "bytes": 374,
+        "sha256": "550ab92fb6328328261ea972c067df719ca775347c14c5c5b7a4650259ce4ca9",
+        "mtime_ns": 1792763857284852700
+      },
+      {
+        "name": "001180in",
+        "bytes": 21,
+        "sha256": "3ffc69b841087027fc1cd55036e5b61925f722dd2cc35e4b1bf86a6c0b3980b4",
+        "mtime_ns": 1792763857284852700
+      },
+      {
+        "name": "001180sy",
+        "bytes": 587,
+        "sha256": "0fbad911bd4ff4e42219130d01d3d182f5f12edd302213c88e5516b0053d2633",
+        "mtime_ns": 1792763857284852700
+      },
+      {
+        "name": "adapter.c",
+        "bytes": 1851,
+        "sha256": "1b6c881e4db8943e61d8c8cc14b971a6e80aaf2b259823494998f6639ae43153",
+        "mtime_ns": 1792763855988877600
+      }
+    ]
+  }
+}

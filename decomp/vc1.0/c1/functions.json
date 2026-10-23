@@ -935,7 +935,16 @@
     "_write_codeview_signed_leaf",
     "_write_codeview_symbol",
     "_reference_pch_debug_library@4",
-    "_assign_unpooled_literal_segment@8"
+    "_assign_unpooled_literal_segment@8",
+    "_is_function_pointer_type@4",
+    "_make_parameter@4",
+    "_declare_old_style_parameter@8",
+    "_compatible_parameter_types@8",
+    "_define_register_parameter@4",
+    "_pop_work_list@4",
+    "_change_function_reference_kind@8",
+    "_compare_prototype_parameter_types@8",
+    "_warn_void_function_pointer"
   ],
   "driver": [
     {
@@ -1962,14 +1971,14 @@
       "end": 176758
     },
     {
-      "name": "_set_declaration_name@8",
+      "name": "_declare_old_style_parameter@8",
       "start": 177456,
-      "end": 177457
+      "end": 177611
     },
     {
       "name": "_make_parameter@4",
       "start": 177680,
-      "end": 177681
+      "end": 177822
     },
     {
       "name": "_begin_parameter_list@4",
@@ -2580,7 +2589,7 @@
     {
       "name": "_compatible_parameter_types@8",
       "start": 177184,
-      "end": 177185
+      "end": 177455
     },
     {
       "name": "_begin_declaration_text",
@@ -2615,7 +2624,7 @@
     {
       "name": "_define_register_parameter@4",
       "start": 175424,
-      "end": 175425
+      "end": 175491
     },
     {
       "name": "_record_inline_parameter@4",
@@ -2721,7 +2730,7 @@
     {
       "name": "_warn_void_function_pointer",
       "start": 255792,
-      "end": 255793
+      "end": 255833
     },
     {
       "name": "_check_conversion_attributes@16",
@@ -2746,7 +2755,7 @@
     {
       "name": "_compare_prototype_parameter_types@8",
       "start": 257984,
-      "end": 257985
+      "end": 258360
     },
     {
       "name": "_report_conversion_mismatch@12",
@@ -2791,7 +2800,7 @@
     {
       "name": "_pop_work_list@4",
       "start": 209008,
-      "end": 209009
+      "end": 209021
     },
     {
       "name": "_end_function_context@4",
@@ -3467,7 +3476,7 @@
     {
       "name": "_is_function_pointer_type@4",
       "start": 216960,
-      "end": 216961
+      "end": 216995
     },
     {
       "name": "_default_argument_promotion@4",
@@ -3823,7 +3832,7 @@
     {
       "name": "_change_function_reference_kind@8",
       "start": 262688,
-      "end": 262689
+      "end": 262830
     },
     {
       "name": "_dereference_pointer_type@4",
@@ -5652,6 +5661,11 @@
       "name": "_compare_pdb_enumerators",
       "start": 302224,
       "end": 302243
+    },
+    {
+      "name": "_has_parameter_shape_depth@8",
+      "start": 260080,
+      "end": 260081
     }
   ],
   "cases": {
@@ -5789,6 +5803,10 @@
     "pdb-pch-binding-use": {
       "accepted_from": 929,
       "accepted_count": 931
+    },
+    "legacy-callback-adapter": {
+      "accepted_from": 931,
+      "accepted_count": 940
     }
   },
   "buffered_streams": [
