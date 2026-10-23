@@ -7,6 +7,7 @@ from case_paths import ROOT, SCRATCH, PREFIX, PROGRAM, LIBRARY, windows
 from binary import PE
 BINARY = Path(__file__).resolve().parents[1]
 OUTPUT_ROOT = BINARY / 'cases/shared-prefix'
+TRACE_CACHE = BINARY / 'cases/native-traces.json'
 
 def module(name, path):
     s = importlib.util.spec_from_file_location(name, path)
@@ -25,7 +26,7 @@ def capture(name, registry, repeat=False):
     start = time.perf_counter()
     checker = module('captured_reference_parser', BINARY / 'scripts/check-native.py')
     traces = module('native_traces', BINARY / 'scripts/native-traces.py')
-    cache = json.loads((BINARY / 'cases/native-traces.json').read_text())
+    cache = json.loads(TRACE_CACHE.read_text())
     case_alias = traces.ALIASES.get(name, name)
     segment = cache['cases'][case_alias]
     old = registry[name]
@@ -127,7 +128,7 @@ def capture(name, registry, repeat=False):
         metadata = {k: copy.deepcopy(v) for k, v in oldmeta.items() if k in ['toolchain', 'artifact_parser', 'reference_artifact_parser', 'toolchain_dependencies']}
         metadata.update(case=name, phases={'reference': phase}, source_reference=str(olddir.relative_to(ROOT)), migration='Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged')
         (out / 'manifest.json').write_text(json.dumps(metadata, indent=2) + '\n')
-    receipt = dict(case=name, status='pass', prefix=str(PREFIX), canonical_working_directory=canonical, original_sha256=digest(pe.data), helper_sha256=digest(helper.read_bytes()), accepted_sha256=digest(json.dumps(cfg['accepted']).encode()), prefix_application=cache['accepted_application'][:segment['seen_count']], expected=segment['expected'], observed=observed, terminal=summary, events=record(capture_dir / 'events.jsonl'), execution_seconds=elapsed, total_seconds=time.perf_counter() - start, command=['wine', *args], capture_directory=str(capture_dir))
+    receipt = dict(case=name, status='pass', prefix=str(PREFIX), canonical_working_directory=canonical, original_sha256=digest(pe.data), helper_sha256=digest(helper.read_bytes()), accepted_count=len(cfg['accepted']), accepted_sha256=digest(json.dumps(cfg['accepted']).encode()), prefix_application=cache['accepted_application'][:segment['seen_count']], expected=segment['expected'], observed=observed, terminal=summary, events=record(capture_dir / 'events.jsonl'), execution_seconds=elapsed, total_seconds=time.perf_counter() - start, command=['wine', *args], capture_directory=str(capture_dir))
     (capture_dir / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
     if not repeat:
         shutil.copyfile(capture_dir / 'receipt.json', out / 'capture/receipt.json')
@@ -135,15 +136,17 @@ def capture(name, registry, repeat=False):
     return receipt
 
 def main():
-    global OUTPUT_ROOT
+    global OUTPUT_ROOT, TRACE_CACHE
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--output-root', type=Path, default=OUTPUT_ROOT)
+    ap.add_argument('--trace-cache', type=Path, default=TRACE_CACHE)
     ap.add_argument('--case', action='append')
     ap.add_argument('--repeat', action='store_true')
     args = ap.parse_args()
     assert (PREFIX / 'system.reg').exists(), 'Shared prefix missing'
     assert (PREFIX / 'dosdevices/r:').resolve() == ROOT
     assert (PREFIX / 'dosdevices/s:').resolve() == SCRATCH
+    TRACE_CACHE = args.trace_cache.resolve()
     OUTPUT_ROOT = args.output_root.resolve()
     windows(OUTPUT_ROOT)
     registry = {n: dict(directory=str(BINARY / r['directory']), phase='reference') for n, r in json.loads((BINARY / 'cases/reference-cases.json').read_text()).items()}

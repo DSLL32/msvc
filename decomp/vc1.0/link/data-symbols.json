@@ -2509,18 +2509,6 @@
     "owner": "src/omf.c"
   },
   {
-    "address": 378316,
-    "name": "omf_line_symbol_index",
-    "size": 4,
-    "owner": "src/omf.c"
-  },
-  {
-    "address": 378320,
-    "name": "omf_line_section",
-    "size": 2,
-    "owner": "src/omf.c"
-  },
-  {
     "address": 394724,
     "name": "omf_relocation_lists",
     "size": 3072,

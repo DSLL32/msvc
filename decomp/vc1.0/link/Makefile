@@ -8,6 +8,8 @@ OBJECTS = $(addprefix build/,$(addsuffix .obj,link demangle demangle-stubs omf o
 .PHONY: all clean check prefix replay audit native native-check native-trace native-trace-check
 all: build/link.exe
 
+include ../../../tooling/graph-audit/graph-audit.mk
+
 prefix:
 	$(PYTHON) scripts/wine-tool.py --init
 
@@ -19,8 +21,8 @@ build/runtime.json: build/link.exe scripts/identify-runtime.py scripts/binary.py
 
 check replay: native-trace-check
 
-audit: build/runtime.json runtime.json
-	$(PYTHON) scripts/audit-graph.py
+audit: build/runtime.json runtime.json $(GRAPH_AUDIT_BIN)
+	$(GRAPH_AUDIT_BIN) --profile link --project . --repo ../../.. --include-evidenced-runtime --check-accepted-extents --check-ret --check-references --check-ownership --check-extents --report build/graph-audit.json
 	$(PYTHON) scripts/audit-callbacks.py
 	$(PYTHON) scripts/audit-data.py
 	$(PYTHON) scripts/audit-abi.py
@@ -142,3 +144,8 @@ native-trace-check: native-trace
 capture-helper: prefix
 	mkdir -p $(HOME)/.ai-tmp/msvc2/vc1.0/link/tooling
 	$(TOOL) CL.EXE /nologo /Od /G3 /I$(RECON)/include '/FeS:\vc1.0\link\tooling\capture-original.exe' '/FoS:\vc1.0\link\tooling\capture-original.obj' src/capture-original.c
+
+# Explicit legacy baseline for audit-adoption diagnostics, never a fixture.
+.PHONY: audit-graph-python
+audit-graph-python: build/runtime.json runtime.json
+	$(PYTHON) scripts/audit-graph.py

@@ -37,8 +37,7 @@ unsigned short omf_type_segments[OMF_MAX_SEGMENTS];
 unsigned short omf_symbol_segments[OMF_MAX_SEGMENTS];
 unsigned char omf_record_checksum;
 OmfLine *omf_line_data;
-unsigned long omf_line_base,omf_line_symbol_index;
-unsigned short omf_line_section;
+unsigned long omf_line_base;
 unsigned char * omf_symbol_fixup_data;
 unsigned long omf_symbol_indices[4096];
 unsigned long omf_external_indices[4096];
@@ -1311,4 +1310,215 @@ void omf_write_coff(const char *path)
 void omf_close_input(void)
 {
     fclose(omf_input);
+}
+
+/* COMDEF/LCOMDEF common allocation records [00045470,00045550). */
+void omf_record_common(unsigned short storage)
+{
+    char *name;
+    unsigned short type,index;
+    unsigned char data_type;
+    unsigned long length;
+    while (omf_record_remaining>1) {
+        name=omf_read_name(1);
+        type=omf_read_index();
+        data_type=omf_read_byte();
+        length=omf_read_numeric_leaf();
+        if (data_type==0x61) length*=omf_read_numeric_leaf();
+        ++omf_symbol_count;
+        if (omf_symbol_count>=4096) omf_error("Too many externals");
+        index=omf_symbol_count;
+        ++omf_external_count;
+        omf_external_indices[(short)omf_external_count]=index;
+        if (omf_debug_mode==2)
+            omf_insert_symbol(name,length,5,0,index,type);
+        else omf_symbol_indices[index]=omf_append_symbol(name,length,0,
+                                                       (unsigned char)storage,0,0);
+    }
+}
+
+/* Communal numeric leaf [00047060,00047120). */
+unsigned long omf_read_numeric_leaf(void)
+{
+    unsigned char bytes[4];
+    unsigned long value;
+    omf_read_block(bytes,1);
+    value=bytes[0];
+    switch (value) {
+    case 0x81:
+        omf_read_block(bytes,2);
+        return (unsigned long)bytes[0]|((unsigned long)bytes[1]<<8);
+    case 0x84:
+        omf_read_block(bytes,3);
+        return (unsigned long)bytes[0]|((unsigned long)bytes[1]<<8)|
+               ((unsigned long)bytes[2]<<16);
+    case 0x88:
+        omf_read_block(bytes,4);
+        return (unsigned long)bytes[0]|((unsigned long)bytes[1]<<8)|
+               ((unsigned long)bytes[2]<<16)|((unsigned long)bytes[3]<<24);
+    }
+    return value;
+}
+
+/* LPUBDEF records [00046020,000460b0). */
+void omf_record_local_publics(unsigned short storage)
+{
+    unsigned short segment,type;
+    short section;
+    unsigned long value;
+    char *name;
+    (void)storage;
+    omf_read_index();
+    segment=omf_read_index();
+    if (!segment) {
+        section=-1;
+        omf_read_word();
+    } else section=(short)omf_segments[(short)segment].coff_section;
+    while (omf_record_remaining>1) {
+        name=omf_read_name(0);
+        value=omf_record_wide?omf_read_dword():omf_read_word();
+        type=omf_read_index();
+        omf_update_symbol(name,value,4,section,type);
+    }
+}
+
+/* Update a local definition without advancing its ordinal [00047430,00047490). */
+void omf_update_symbol(char *name,unsigned long value,unsigned short kind,
+                       short section,unsigned short type)
+{
+    OmfSymbol *symbol=omf_lookup_symbol(name);
+    if (symbol) {
+        symbol->value=value;
+        symbol->kind=kind;
+        symbol->section=section;
+        symbol->type=type;
+    } else omf_insert_symbol(name,value,kind,section,omf_symbol_count,type);
+}
+
+/* BAKPAT records [00046ae0,00046bb0). */
+void omf_record_backpatch(void)
+{
+    unsigned short segment=omf_read_index();
+    unsigned char type=omf_read_byte();
+    unsigned long offset,addend;
+    unsigned char *location;
+    while (omf_record_remaining>1) {
+        offset=omf_record_wide?omf_read_dword():omf_read_word();
+        addend=omf_record_wide?omf_read_dword():omf_read_word();
+        location=omf_coff_section_data[(short)omf_segments[(short)segment].coff_section-1]+offset;
+        switch (type) {
+        case 0: *location=(unsigned char)(*location*2+addend); break;
+        case 1: *(unsigned short *)location=(unsigned short)(*(unsigned short *)location*2+addend); break;
+        case 2: *(unsigned long *)location=*(unsigned long *)location*2+addend; break;
+        default: omf_error("Ilegal LocTyp in BAKPAT record"); break;
+        }
+    }
+}
+
+/* NBKPAT applies to the current COMDAT [00046a10,00046ae0). */
+void omf_record_named_backpatch(void)
+{
+    unsigned char type=omf_read_byte();
+    unsigned long offset,addend;
+    unsigned char *location;
+    omf_read_index();
+    while (omf_record_remaining>1) {
+        offset=omf_record_wide?omf_read_dword():omf_read_word();
+        addend=omf_record_wide?omf_read_dword():omf_read_word();
+        location=omf_coff_section_data[(short)omf_segments[(short)omf_data_segment].coff_section-1]+offset;
+        switch (type) {
+        case 0: *location=(unsigned char)(*location*2+addend); break;
+        case 1: *(unsigned short *)location=(unsigned short)(*(unsigned short *)location*2+addend); break;
+        case 2: *(unsigned long *)location=*(unsigned long *)location*2+addend; break;
+        default: omf_error("Ilegal LocTyp in NBKPAT record"); break;
+        }
+    }
+}
+
+/* Collect LINNUM offsets/lines [00045e60,00045f20). */
+void omf_record_lines(void)
+{
+    unsigned short line;
+    unsigned long offset;
+    omf_read_index();
+    omf_read_index();
+    while (omf_record_remaining>1) {
+        line=omf_read_word();
+        offset=omf_record_wide?omf_read_dword():omf_read_word();
+        omf_line_data[omf_line_count].offset=offset;
+        omf_line_data[omf_line_count].line=line;
+        ++omf_line_count;
+        if (!(omf_line_count&63)) {
+            omf_line_data=realloc(omf_line_data,omf_line_count*8+512);
+            if (!omf_line_data) omf_error("linnum: Out of space");
+        }
+    }
+}
+
+#pragma intrinsic(memset,memcpy)
+/* COFF function/begin/line/end auxiliaries [000490b0,000492c0). */
+void omf_append_function_auxiliary(unsigned long count,unsigned short section,
+    unsigned long start,unsigned short first_line,unsigned long length,
+    unsigned short last_line)
+{
+    IMAGE_AUX_SYMBOL auxiliary;
+    IMAGE_SYMBOL symbol;
+    (void)start;
+    omf_coff_symbols[omf_line_symbol_index-1].Type=0x20;
+    memset(&auxiliary,0,sizeof(auxiliary));
+    auxiliary.Sym.TagIndex=omf_line_symbol_index+1;
+    auxiliary.Sym.Misc.LnSz.Linenumber=first_line;
+    auxiliary.Sym.Misc.TotalSize=length+1;
+    omf_append_auxiliary(&auxiliary);
+
+    memset(&symbol,0,sizeof(symbol));
+    memcpy(symbol.N.ShortName,".bf",4);
+    symbol.SectionNumber=section;
+    symbol.StorageClass=101;
+    symbol.NumberOfAuxSymbols=1;
+    omf_append_auxiliary((const IMAGE_AUX_SYMBOL *)&symbol);
+    memset(&auxiliary,0,sizeof(auxiliary));
+    auxiliary.Sym.Misc.LnSz.Linenumber=first_line;
+    omf_append_auxiliary(&auxiliary);
+
+    memset(&symbol,0,sizeof(symbol));
+    memcpy(symbol.N.ShortName,".lf",4);
+    symbol.Value=count;
+    symbol.SectionNumber=section;
+    symbol.StorageClass=101;
+    omf_append_auxiliary((const IMAGE_AUX_SYMBOL *)&symbol);
+
+    memset(&symbol,0,sizeof(symbol));
+    memcpy(symbol.N.ShortName,".ef",4);
+    symbol.SectionNumber=section;
+    symbol.StorageClass=101;
+    symbol.NumberOfAuxSymbols=1;
+    omf_append_auxiliary((const IMAGE_AUX_SYMBOL *)&symbol);
+    memset(&auxiliary,0,sizeof(auxiliary));
+    auxiliary.Sym.Misc.LnSz.Linenumber=last_line;
+    omf_append_auxiliary(&auxiliary);
+}
+#pragma function(memset,memcpy)
+
+/* Collect a COFF line entry [00048d80,00048dc0). */
+void omf_append_line(short section,unsigned long offset,unsigned short line)
+{
+    ++omf_coff_line_count;
+    --section;
+    ++omf_coff_sections[section].NumberOfLinenumbers;
+    omf_queue_line(&omf_line_lists[section],offset,line);
+}
+
+/* Append a line node to its original12-byte list [00048430,00048480). */
+void omf_queue_line(OmfLineList *list,unsigned long offset,unsigned short line)
+{
+    OmfCoffLine *entry=malloc(sizeof(*entry));
+    if (!entry) out_of_memory();
+    entry->offset=offset;
+    entry->line=line;
+    entry->next=NULL;
+    if (!list->head) list->head=entry;
+    else list->tail->next=entry;
+    ++list->count;
+    list->tail=entry;
 }

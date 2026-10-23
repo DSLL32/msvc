@@ -103,5 +103,8 @@
   },
   "hello-debug-dll": {
     "directory": "cases/shared-prefix/hello-debug-dll"
+  },
+  "omf-records-library": {
+    "directory": "cases/shared-prefix/omf-records-library"
   }
 }

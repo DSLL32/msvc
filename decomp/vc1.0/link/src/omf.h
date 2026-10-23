@@ -81,8 +81,9 @@ typedef struct OmfLine {
 } OmfLine;
 typedef char OmfLineSize[(sizeof(OmfLine)==8)?1:-1];
 extern OmfLine *omf_line_data;
-extern unsigned long omf_line_base,omf_line_symbol_index;
-extern unsigned short omf_line_section;
+extern unsigned long omf_line_base;
+#define omf_line_symbol_index omf_coff_symbol_count /* Same original0005c5cc object. */
+#define omf_line_section omf_text_section /* Original shared WORD at0005c5d0. */
 extern unsigned char * omf_symbol_fixup_data;
 extern unsigned long omf_symbol_indices[4096];
 extern unsigned long omf_external_indices[4096];
@@ -112,11 +113,13 @@ void omf_record_fixups(void);
 void omf_record_data(void);
 void omf_record_iterated_data(void);
 void omf_record_common(unsigned short storage);
+unsigned long omf_read_numeric_leaf(void);
 void omf_record_backpatch(void);
 void omf_record_comdat(void);
 void omf_record_symbol_lines(void);
 void omf_record_named_backpatch(void);
 void omf_record_local_publics(unsigned short storage);
+void omf_update_symbol(char *,unsigned long,unsigned short,short,unsigned short);
 void omf_read_block(void *,unsigned);
 extern char *omf_first_module_name;
 char *omf_read_name(int);
@@ -192,4 +195,5 @@ typedef char OmfCoffLineSize[(sizeof(OmfCoffLine)==12)?1:-1];
 typedef char OmfLineListSize[(sizeof(OmfLineList)==12)?1:-1];
 extern OmfLineList omf_line_lists[OMF_MAX_SEGMENTS];
 extern unsigned long omf_coff_line_count;
+void omf_queue_line(OmfLineList *,unsigned long,unsigned short);
 #endif

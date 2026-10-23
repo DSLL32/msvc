@@ -67,7 +67,8 @@
         "kind": "exit",
         "code": 0
       },
-      "reason": "Cached original-backed application entry segment; native status/streams/artifact checks."
+      "reason": "Cached original-backed application entry segment; native status/streams/artifact checks.",
+      "accepted_prefix": 774
     },
     {
       "case": "library-extract",
@@ -94,7 +95,8 @@
         "kind": "exit",
         "code": 0
       },
-      "reason": "Cached original-backed application entry segment; native status/streams/artifact checks."
+      "reason": "Cached original-backed application entry segment; native status/streams/artifact checks.",
+      "accepted_prefix": 774
     },
     {
       "case": "library-dump-library",
@@ -112,7 +114,8 @@
         "kind": "exit",
         "code": 0
       },
-      "reason": "Cached original-backed application entry segment; native status/streams/artifact checks."
+      "reason": "Cached original-backed application entry segment; native status/streams/artifact checks.",
+      "accepted_prefix": 774
     },
     {
       "case": "library-dump-dll",
@@ -139,7 +142,8 @@
         "kind": "exit",
         "code": 0
       },
-      "reason": "Cached original-backed application entry segment; native status/streams/artifact checks."
+      "reason": "Cached original-backed application entry segment; native status/streams/artifact checks.",
+      "accepted_prefix": 774
     },
     {
       "case": "omf-library",
@@ -325,7 +329,8 @@
         "kind": "exit",
         "code": 0
       },
-      "reason": "Zero-new-frontier object FPO route, frozen original output before fresh check."
+      "reason": "Zero-new-frontier object FPO route, frozen original output before fresh check.",
+      "accepted_prefix": 774
     },
     {
       "case": "absolute-weak-unmatched",
@@ -335,7 +340,17 @@
         "kind": "exit",
         "code": 0
       },
-      "reason": "Original repeat-stable public include/unmatched scan; no relocated undefined pointer."
+      "reason": "Original repeat-stable public include/unmatched scan; no relocated undefined pointer.",
+      "accepted_prefix": 774
+    },
+    {
+      "case": "omf-records-library",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Original-backed COMDEF/backpatch/LINNUM/LPUBDEF library conversion; native cached regressions"
     }
   ]
 }

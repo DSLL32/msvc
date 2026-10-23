@@ -1,0 +1,15 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+Microsoft (R) 32-Bit Library Manager Version 1.00
+Copyright (C) Microsoft Corp 1992-93. All rights reserved.
+
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56566428 in omf_record_common (storage=2) at src/omf-stubs.c:12
+12	void omf_record_common(unsigned short storage) { __asm { int 3 } }
+#0  0x56566428 in omf_record_common (storage=2) at src/omf-stubs.c:12
+#1  0x565624d6 in omf_convert_pass (pass=1) at src/omf.c:275
+#2  0x56561cb7 in omf_main (argc=4, argv=0xffffcbb4) at src/omf.c:131
+#3  0x565619e0 in convert_omf_object (input=0x565fe2b0, link=1 '\001', options=0x565fcf74) at src/omf.c:92
+eip            0x56566428          0x56566428 <omf_record_common+8>
+esp            0xffffca28          0xffffca28

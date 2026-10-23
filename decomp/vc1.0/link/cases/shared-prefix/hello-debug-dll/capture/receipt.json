@@ -432,5 +432,6 @@
     "S:\\vc1.0\\link\\captures\\hello-debug-dll\\initial\\after.dll",
     "R:\\toolchains\\1.0-nt\\bin\\CVPACK.EXE"
   ],
-  "capture_directory": "/root/.ai-tmp/msvc2/vc1.0/link/captures/hello-debug-dll/initial"
+  "capture_directory": "/root/.ai-tmp/msvc2/vc1.0/link/captures/hello-debug-dll/initial",
+  "accepted_count": 774
 }

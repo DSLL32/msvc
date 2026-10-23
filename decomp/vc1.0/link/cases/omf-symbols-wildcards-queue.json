@@ -1,0 +1,30 @@
+{
+  "status": "Rust audit adoption complete; authorized family2 original-valid inputs frozen, reconstruction next",
+  "baseline": {
+    "commit": "9872f4a59e00bf7fbeb3dd0f0d3ce8fc6a4a2ba1",
+    "frontiers": 774,
+    "extent_bytes": 224207,
+    "text_bytes": 281634,
+    "percent": 79.60935114368294
+  },
+  "ordered_families": [
+    {
+      "order": 1,
+      "name": "omf-common-backpatch-lines-local-publics",
+      "status": "complete",
+      "known_uncovered_instruction_bytes": 927,
+      "limits": "Public -o/-co wrappers only; no internal -g coverage promised",
+      "frontiers": 10,
+      "new_extent_bytes": 1936,
+      "receipt": "cases/omf-records/validation.json"
+    },
+    {
+      "order": 2,
+      "name": "large-defined-externals-wildcards",
+      "status": "original-valid repeated outputs frozen; ready for native/GDB frontiers",
+      "known_uncovered_instruction_bytes": 591,
+      "plan": "More than3072 distinct defined symbols and relative wildcard object operands"
+    }
+  ],
+  "methodology": "Shared original R:/S: captures outside fixtures; native i386/GDB cached fixtures only; readable whole C functions preserving graph/ABIs; original compiler and static audits; pause after both"
+}

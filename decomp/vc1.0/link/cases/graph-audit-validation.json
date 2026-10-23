@@ -1,0 +1,198 @@
+{
+  "status": "pass",
+  "flags": [
+    "--include-evidenced-runtime",
+    "--check-accepted-extents",
+    "--check-ret",
+    "--check-references",
+    "--check-ownership",
+    "--check-extents"
+  ],
+  "tool_sha256": "8fc8bacc8d17daa091bf3b8aaded806dc53de7861a0768c9a85d7b5dc4bc047c",
+  "canonical_inputs": {
+    "functions.json": "8793da70a80e00b55164f7c5231d14d5ecb2969b80620834b609c35b8cba745f",
+    "runtime.json": "0ec72e80c921c13613bfc93f7da57aec764a4563629512b8ccc741479975b7d9",
+    "build/runtime.json": "3009ebd2723eb447a778a2d1ea676683cea8028c173e2533d6abbc544d76b038",
+    "build/link.exe": "39b3e98b2d21f2d0a5c197eeb710a165299a6be61f0dd565c97e70261a62e08e",
+    "build/link.map": "2796235c7aa568a08817b702cae92394078a855ae5d7fd640b403fd92c99f89e"
+  },
+  "tests": [
+    {
+      "test": "python-reference",
+      "status": "pass",
+      "exit": 0,
+      "seconds": 11.650459177792072,
+      "command": [
+        "python3",
+        "scripts/audit-graph.py"
+      ],
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-wjmtwaww/python-reference.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-wjmtwaww/python-reference.stderr",
+      "reused_from": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/baseline-adoption.json"
+    },
+    {
+      "test": "rust-positive",
+      "status": "pass",
+      "exit": 0,
+      "seconds": 1.2040734896436334,
+      "command": [
+        "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+        "--profile",
+        "link",
+        "--repo",
+        "/root/msvc2",
+        "--project",
+        "/root/msvc2/decomp/vc1.0/link",
+        "--include-evidenced-runtime",
+        "--check-accepted-extents",
+        "--check-ret",
+        "--check-references",
+        "--check-ownership",
+        "--check-extents"
+      ],
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-wmdbocdb/rust-positive.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-wmdbocdb/rust-positive.stderr",
+      "checked_functions": 636,
+      "accepted_extent_boundaries": {
+        "original": 790,
+        "rebuilt": 787
+      }
+    },
+    {
+      "test": "wrong-driver-call",
+      "status": "rejected",
+      "exit": 1,
+      "seconds": 0.602526537142694,
+      "command": [
+        "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+        "--profile",
+        "link",
+        "--repo",
+        "/root/msvc2",
+        "--project",
+        "/root/msvc2/decomp/vc1.0/link",
+        "--include-evidenced-runtime",
+        "--check-accepted-extents",
+        "--check-ret",
+        "--check-references",
+        "--check-ownership",
+        "--check-extents",
+        "--rebuilt",
+        "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-wmdbocdb/wrong-driver-call.exe"
+      ],
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-wmdbocdb/wrong-driver-call.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-wmdbocdb/wrong-driver-call.stderr"
+    },
+    {
+      "test": "wrong-runtime-call",
+      "status": "rejected",
+      "exit": 1,
+      "seconds": 0.7232247898355126,
+      "command": [
+        "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+        "--profile",
+        "link",
+        "--repo",
+        "/root/msvc2",
+        "--project",
+        "/root/msvc2/decomp/vc1.0/link",
+        "--include-evidenced-runtime",
+        "--check-accepted-extents",
+        "--check-ret",
+        "--check-references",
+        "--check-ownership",
+        "--check-extents",
+        "--rebuilt",
+        "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-wmdbocdb/wrong-runtime-call.exe"
+      ],
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-wmdbocdb/wrong-runtime-call.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-wmdbocdb/wrong-runtime-call.stderr"
+    },
+    {
+      "test": "wrong-ret-cleanup",
+      "status": "rejected",
+      "exit": 1,
+      "seconds": 0.6051322091370821,
+      "command": [
+        "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+        "--profile",
+        "link",
+        "--repo",
+        "/root/msvc2",
+        "--project",
+        "/root/msvc2/decomp/vc1.0/link",
+        "--include-evidenced-runtime",
+        "--check-accepted-extents",
+        "--check-ret",
+        "--check-references",
+        "--check-ownership",
+        "--check-extents",
+        "--rebuilt",
+        "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-wmdbocdb/wrong-ret.exe"
+      ],
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-wmdbocdb/wrong-ret-cleanup.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-wmdbocdb/wrong-ret-cleanup.stderr"
+    },
+    {
+      "test": "split-runtime-tail-instruction",
+      "status": "rejected",
+      "exit": 1,
+      "seconds": 0.7266957061365247,
+      "command": [
+        "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+        "--profile",
+        "link",
+        "--repo",
+        "/root/msvc2",
+        "--project",
+        "/root/msvc2/decomp/vc1.0/link",
+        "--include-evidenced-runtime",
+        "--check-accepted-extents",
+        "--check-ret",
+        "--check-references",
+        "--check-ownership",
+        "--check-extents",
+        "--runtime",
+        "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-wmdbocdb/split-runtime-instruction.json"
+      ],
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-wmdbocdb/split-runtime-tail-instruction.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-wmdbocdb/split-runtime-tail-instruction.stderr"
+    }
+  ],
+  "scope": "Host-only original/rebuilt PE metadata audits; scratch mutations never execute",
+  "native_regression": "cases/omf-records/validation.json:36cases/610entries; source/runtime unchanged during host-audit adoption",
+  "negative_design_note": "First exploratory RETmutation targeted unaccepted control_handler and was outside audited scope; corrected to an accepted callee-cleanup routine.",
+  "timings": "Single samples include process startup, index loading and output; builds/native suite/original captures excluded",
+  "raw_receipt": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-wmdbocdb/receipt.json",
+  "shared_tool_commit": "c09b3eb0",
+  "final_host_only_make": {
+    "command": [
+      "make",
+      "-j4",
+      "-o",
+      "build/link.exe",
+      "-o",
+      "build/runtime.json",
+      "-o",
+      "runtime.json",
+      "audit"
+    ],
+    "exit": 0,
+    "seconds": 4.334721890278161,
+    "scope": "Host-only audit integration on already compiled/frozen canonicalPE; no original execution/capture",
+    "log": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/final-make-audit.log"
+  },
+  "Python_residual": "None for graph/boundary coverage; independent callback/data/ECX scripts retained",
+  "raw_scope": {
+    "graphs": 636,
+    "driver_graphs": 627,
+    "evidenced_runtime_graphs": 9,
+    "original_extent_records": 790,
+    "rebuilt_extent_records": 787,
+    "original_unique_ranges": 785,
+    "rebuilt_unique_ranges": 784
+  },
+  "adoption_excluded_work": "No original recapture or native-suite rerun solely for host-audit integration",
+  "previous_binary_validation": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/baseline-adoption.json",
+  "previous_binary_note": "Quiet helper rebuilt shared binary during final Make target; final positive+four negatives repeated on actual new binary, unchanged Python baseline reused by frozen-input hash"
+}

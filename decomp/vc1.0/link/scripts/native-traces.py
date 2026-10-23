@@ -64,7 +64,9 @@ def original_references(cases):
         assert receipt['expected']==segment['expected'], fixture+': fresh original entries differ'
         assert receipt['prefix_application']==projected[:segment['seen_count']], fixture+': original prefix differs'
         assert receipt['original_sha256']==config['target']['sha256']
-        assert receipt['accepted_sha256']==hashlib.sha256(json.dumps(config['accepted']).encode()).hexdigest()
+        ceiling=receipt['accepted_count']
+        assert segment['last']<=ceiling<=len(config['accepted'])
+        assert receipt['accepted_sha256']==hashlib.sha256(json.dumps(config['accepted'][:ceiling]).encode()).hexdigest()
         events=[json.loads(line) for line in events_path.read_text().splitlines()]
         assert [event['name'] for event in events if event['event']=='entry']==receipt['observed']
         assert events[-1]==receipt['terminal']
@@ -112,7 +114,7 @@ def project(object_directory):
     for record in registry:
         case = record['case']
         indexes = [i for i,c in enumerate(history) if c==case]
-        first,last = (indexes[0],indexes[-1]+1) if indexes else (len(accepted),len(accepted))
+        first,last = (indexes[0],indexes[-1]+1) if indexes else (record['accepted_prefix'],record['accepted_prefix'])
         assert not indexes or indexes==list(range(first,last)), 'noncontiguous case segment'
         projected = lambda names:[native_name(n) for n in names if classified[n]=='application']
         cases[case] = dict(first=first,last=last,seen_count=len(projected(accepted[:first])),

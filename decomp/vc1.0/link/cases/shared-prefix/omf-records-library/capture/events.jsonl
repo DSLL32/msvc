@@ -1,0 +1,13 @@
+{"event":"create","pid":1696,"parent":1516,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -lib /out:records.lib records.obj"}
+{"event":"entry","pid":1696,"rva":218224,"name":"omf_record_common"}
+{"event":"entry","pid":1696,"rva":225376,"name":"omf_read_numeric_leaf"}
+{"event":"entry","pid":1696,"rva":221216,"name":"omf_record_local_publics"}
+{"event":"entry","pid":1696,"rva":226352,"name":"omf_update_symbol"}
+{"event":"entry","pid":1696,"rva":223968,"name":"omf_record_backpatch"}
+{"event":"entry","pid":1696,"rva":223760,"name":"omf_record_named_backpatch"}
+{"event":"entry","pid":1696,"rva":220768,"name":"omf_record_lines"}
+{"event":"entry","pid":1696,"rva":233648,"name":"omf_append_function_auxiliary"}
+{"event":"entry","pid":1696,"rva":232832,"name":"omf_append_line"}
+{"event":"entry","pid":1696,"rva":230448,"name":"omf_queue_line"}
+{"event":"exit","pid":1696,"code":0,"packer":0}
+{"event":"summary","root_exit":0,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

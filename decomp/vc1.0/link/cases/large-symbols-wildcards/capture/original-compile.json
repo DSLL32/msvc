@@ -1,0 +1,16 @@
+{
+  "command": [
+    "wine",
+    "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "/nologo",
+    "/c",
+    "/O2",
+    "/G5",
+    "unit0.c",
+    "unit1.c"
+  ],
+  "cwd": "S:\\vc1.0\\link\\large-symbols-build",
+  "prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "exit": 0,
+  "seconds": 3.2213557735085487
+}

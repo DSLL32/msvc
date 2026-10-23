@@ -1,0 +1,152 @@
+{
+  "target_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "family": "omf-records",
+  "alignment_bytes": 72,
+  "extent_gap_ranges": [
+    [
+      283971,
+      283984
+    ],
+    [
+      286490,
+      286496
+    ],
+    [
+      286781,
+      286784
+    ],
+    [
+      286884,
+      286896
+    ],
+    [
+      289391,
+      289392
+    ],
+    [
+      289501,
+      289504
+    ],
+    [
+      289701,
+      289712
+    ],
+    [
+      291102,
+      291104
+    ],
+    [
+      291983,
+      291984
+    ],
+    [
+      296063,
+      296064
+    ],
+    [
+      298426,
+      298432
+    ],
+    [
+      299699,
+      299712
+    ]
+  ],
+  "extent_gap_instructions": [
+    [
+      "add",
+      "eax, 0"
+    ],
+    [
+      "lea",
+      "ebx, [ebx]"
+    ],
+    [
+      "lea",
+      "ecx, [ecx]"
+    ],
+    [
+      "lea",
+      "esp, [esp]"
+    ],
+    [
+      "mov",
+      "edi, edi"
+    ],
+    [
+      "nop",
+      ""
+    ]
+  ],
+  "method": "Static original CFG instruction-byte union of all accepted contextual omf-records functions, follows both conditional edges, internal JMP tables and call fallthrough; excludes padding, inline table bytes and callee bodies. Not dynamic branch coverage. Old Ghidra one-byte seeds excluded from overlap.",
+  "functions": {
+    "_omf_record_lines": {
+      "bytes": 186,
+      "start": 286304,
+      "end": 286496,
+      "internal_tables": []
+    },
+    "_omf_record_common": {
+      "bytes": 211,
+      "start": 283760,
+      "end": 283984,
+      "internal_tables": []
+    },
+    "_omf_record_backpatch": {
+      "bytes": 197,
+      "start": 289504,
+      "end": 289712,
+      "internal_tables": []
+    },
+    "_omf_record_named_backpatch": {
+      "bytes": 204,
+      "start": 289296,
+      "end": 289504,
+      "internal_tables": []
+    },
+    "_omf_record_local_publics": {
+      "bytes": 129,
+      "start": 286752,
+      "end": 286896,
+      "internal_tables": []
+    },
+    "_omf_append_function_auxiliary": {
+      "bytes": 515,
+      "start": 299184,
+      "end": 299712,
+      "internal_tables": []
+    },
+    "_omf_append_line": {
+      "bytes": 58,
+      "start": 298368,
+      "end": 298432,
+      "internal_tables": []
+    },
+    "_omf_read_numeric_leaf": {
+      "bytes": 190,
+      "start": 290912,
+      "end": 291104,
+      "internal_tables": []
+    },
+    "_omf_update_symbol": {
+      "bytes": 95,
+      "start": 291888,
+      "end": 291984,
+      "internal_tables": []
+    },
+    "_omf_queue_line": {
+      "bytes": 79,
+      "start": 295984,
+      "end": 296064,
+      "internal_tables": []
+    }
+  },
+  "function_count": 10,
+  "instruction_bytes": 1864,
+  "accepted_extent_union_bytes": 1936,
+  "internal_data_bytes": 0,
+  "extent_outside_cfg_and_data": 72,
+  "unresolved_jumps": [],
+  "instruction_overlap_old_body_inventory": 1864,
+  "additional_proven_instruction_bytes_outside_old_inventory": 0
+}

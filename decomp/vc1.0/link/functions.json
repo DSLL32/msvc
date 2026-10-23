@@ -773,7 +773,17 @@
     "_process_weak_external",
     "_resolve_weak_externals",
     "_sort_externals",
-    "_read_absolute_symbols"
+    "_read_absolute_symbols",
+    "_omf_record_common",
+    "_omf_read_numeric_leaf",
+    "_omf_record_local_publics",
+    "_omf_update_symbol",
+    "_omf_record_backpatch",
+    "_omf_record_named_backpatch",
+    "_omf_record_lines",
+    "_omf_append_function_auxiliary",
+    "_omf_append_line",
+    "_omf_queue_line"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -5165,10 +5175,11 @@
     {
       "name": "_omf_record_lines",
       "start": 286304,
-      "end": 286305,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "end": 286496,
+      "source": "src/omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Fresh matching LINNUM45e60. Full16/32 line offsets, two consumed group/segment indexes,70-entry growth exercises64-entry realloc boundary. Prior omf_line_section/text_section were proven aliases of same5c5d0 WORD and now use one C object."
     },
     {
       "name": "_omf_record_names",
@@ -5235,18 +5246,20 @@
     {
       "name": "_omf_record_common",
       "start": 283760,
-      "end": 283761,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(unsigned short storage)"
+      "end": 283984,
+      "source": "src/omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(unsigned short storage)",
+      "evidence": "Fresh masked original/common45470 and nativeGDBstorage2 agree. Complete COMDEF/LCOMDEF reader, communal numeric multiplication, symbol/external maps and both debug modes recovered."
     },
     {
       "name": "_omf_record_backpatch",
       "start": 289504,
-      "end": 289505,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "end": 289712,
+      "source": "src/omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Fresh matching BAKPAT46ae0 entry. Complete16/32 offsets/addends,8/16/32 patch widths and exact original2*old+addend behavior independently proved in converted data23/46/69."
     },
     {
       "name": "_omf_record_comdat",
@@ -5268,18 +5281,20 @@
     {
       "name": "_omf_record_named_backpatch",
       "start": 289296,
-      "end": 289297,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "end": 289504,
+      "source": "src/omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Fresh NBKPAT46a10 match. Native name index consumed but ignored, uses current data segment/COMDAT, all patch widths and16/32 offsets/addends preserve2*old+addend."
     },
     {
       "name": "_omf_record_local_publics",
       "start": 286752,
-      "end": 286753,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(unsigned short storage)"
+      "end": 286896,
+      "source": "src/omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(unsigned short storage)",
+      "evidence": "Fresh native/original LPUBDEF entry46020. Full absolute/section16/32 path, raw local names, native separate symbol-update vertex; storage argument intentionally unused."
     },
     {
       "name": "_omf_read_block",
@@ -5465,18 +5480,20 @@
     {
       "name": "_omf_append_function_auxiliary",
       "start": 299184,
-      "end": 299185,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(unsigned long,unsigned short,unsigned long,unsigned short,unsigned long,unsigned short)"
+      "end": 299712,
+      "source": "src/omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(unsigned long,unsigned short,unsigned long,unsigned short,unsigned long,unsigned short)",
+      "evidence": "Fresh490b0/native named GDB match. Full18-byte COFF function and.bf/.lf/.ef records, six append_aux calls, ignoredstart parameter and firstline-overwritten-by-size preserved. line_symbol_index is nativecoff_symbol_count alias5c5cc, corrected toone object. Contextual literals only."
     },
     {
       "name": "_omf_append_line",
       "start": 298368,
-      "end": 298369,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(short,unsigned long,unsigned short)"
+      "end": 298432,
+      "source": "src/omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(short,unsigned long,unsigned short)",
+      "evidence": "Fresh48d80/native line-appender match. Native short section predecrement, global/per-section count increments and separate line-list queue preservegraph/ABI."
     },
     {
       "name": "_omf_queue_relocation",
@@ -7772,6 +7789,33 @@
       "implementation": "C",
       "abi": "cdecl unsigned long(IMAGE_SECTION_HEADER *)",
       "evidence": "Fresh locate-entry pair matches34620/native locator; complete261-byte extent contains255 instructions and6 alignment. New map-entry pair32fc0/native dump_symbol_map agrees partial streams and4155 on-disk dump bytes. Native IMAGE_DEBUG_DIRECTORY walking and object .debug$F routes retained."
+    },
+    {
+      "name": "_omf_read_numeric_leaf",
+      "start": 290912,
+      "end": 291104,
+      "source": "src/omf.c",
+      "implementation": "C",
+      "abi": "cdecl unsigned long(void)",
+      "evidence": "Fresh common-record numeric leaf47060 matches native named GDB entry. Complete immediate/81/84/88 decoding uses original block-reader graph, unsigned little-endian composition, no additional validation."
+    },
+    {
+      "name": "_omf_update_symbol",
+      "start": 291888,
+      "end": 291984,
+      "source": "src/omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(char*,unsigned long,unsigned short kind,short section,unsigned short type)",
+      "evidence": "Fresh native/original update-symbol47430 entry. Complete lookup/update or native insert with current ordinal; does not increment ordinal, matching original LPUBDEF behavior."
+    },
+    {
+      "name": "_omf_queue_line",
+      "start": 295984,
+      "end": 296064,
+      "source": "src/omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(OmfLineList*,unsigned long,unsigned short)",
+      "evidence": "Fresh48430/nativequeue match. Full12-byte allocation, nullable head/tail update,WORDcount and native OOMvertex; serializedlinepadding staysunwritten asoriginal."
     }
   ],
   "c_stub_references": [
@@ -8551,6 +8595,16 @@
     "absolute-weak",
     "absolute-weak",
     "absolute-weak",
-    "absolute-weak"
+    "absolute-weak",
+    "omf-records-library",
+    "omf-records-library",
+    "omf-records-library",
+    "omf-records-library",
+    "omf-records-library",
+    "omf-records-library",
+    "omf-records-library",
+    "omf-records-library",
+    "omf-records-library",
+    "omf-records-library"
   ]
 }

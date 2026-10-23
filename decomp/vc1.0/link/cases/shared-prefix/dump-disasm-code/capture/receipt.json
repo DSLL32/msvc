@@ -556,5 +556,6 @@
     "S:\\vc1.0\\link\\captures\\dump-disasm-code\\initial\\after.dll",
     "-"
   ],
-  "capture_directory": "/root/.ai-tmp/msvc2/vc1.0/link/captures/dump-disasm-code/initial"
+  "capture_directory": "/root/.ai-tmp/msvc2/vc1.0/link/captures/dump-disasm-code/initial",
+  "accepted_count": 774
 }

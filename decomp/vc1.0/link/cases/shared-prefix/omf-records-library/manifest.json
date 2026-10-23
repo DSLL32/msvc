@@ -1,0 +1,70 @@
+{
+  "case": "omf-records-library",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "reference": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-lib",
+        "/out:records.lib",
+        "records.obj"
+      ],
+      "canonical_working_directory": "S:\\vc1.0\\link\\omf-records-library",
+      "inputs": [
+        {
+          "path": "../../omf-records/inputs/records.obj",
+          "sha256": "e64096ea42929cb939975c2d7acdcc3708e9d5ad3e8987c38fca47a7ee4c068f",
+          "bytes": 930
+        }
+      ],
+      "outputs": [
+        {
+          "bytes": 1618,
+          "sha256": "1fdfd2240978d91192ad0fce1a50630168e1edcf1e350ac9d46e65e882de5a5d",
+          "normalized_sha256": "e5ba2353a534162d6c6d95bc633f869fc8fa3c8804ba210a3b5e0600641859c5",
+          "ignored_fields": [
+            {
+              "offset": 24,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 214,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 396,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 444,
+              "bytes": 4,
+              "name": "Generated COFF TimeDateStamp"
+            }
+          ],
+          "path": "expected/records.lib",
+          "output_name": "records.lib",
+          "artifact_kind": "archive-generated"
+        }
+      ],
+      "environment": {
+        "LIB": "{lib}",
+        "LINK32_DB": "27"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "Microsoft (R) 32-Bit Library Manager Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n",
+      "expected_stderr": ""
+    }
+  }
+}

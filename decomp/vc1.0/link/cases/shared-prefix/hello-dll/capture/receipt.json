@@ -337,5 +337,6 @@
     "S:\\vc1.0\\link\\captures\\hello-dll\\initial\\after.dll",
     "-"
   ],
-  "capture_directory": "/root/.ai-tmp/msvc2/vc1.0/link/captures/hello-dll/initial"
+  "capture_directory": "/root/.ai-tmp/msvc2/vc1.0/link/captures/hello-dll/initial",
+  "accepted_count": 774
 }

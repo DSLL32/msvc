@@ -1,0 +1,6 @@
+[ unit0.obj unit1.obj ] Microsoft (R) 32-Bit Executable Linker Version 1.00
+Copyright (C) Microsoft Corp 1992-93. All rights reserved.
+
+ linker defined library( linker defined module) : warning LNK4016: unresolved external symbol "_WinMain@16"
+ linker defined library( linker defined module) : warning LNK4016: unresolved external symbol "_main"
+large.exe : error LNK1120: 2 unresolved externals

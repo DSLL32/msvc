@@ -607,5 +607,6 @@
     "S:\\vc1.0\\link\\captures\\dump-disasm-x86-rich\\initial\\after.dll",
     "-"
   ],
-  "capture_directory": "/root/.ai-tmp/msvc2/vc1.0/link/captures/dump-disasm-x86-rich/initial"
+  "capture_directory": "/root/.ai-tmp/msvc2/vc1.0/link/captures/dump-disasm-x86-rich/initial",
+  "accepted_count": 774
 }
