@@ -22,6 +22,16 @@ int member_pointer_full_generality; /* original 0x9f434, initially zero */
 int member_pointer_generality_fixed; /* original 0x9f438, initially zero */
 int member_pointer_requested_model; /* original 0x9f43c, initially zero */
 
+int __stdcall class_has_zero_base_offsets(CppSymbol *tag);
+
+/* Original 0x49ed0..0x49ef7. Virtual bases require their dedicated
+   model; otherwise zero-offset base hierarchies use the compact layout. */
+int __stdcall infer_inheritance_model(CppSymbol *tag)
+{
+    if (tag->detail.class_info->flags & 0x10) return 3;
+    return class_has_zero_base_offsets(tag) ? 1 : 2;
+}
+
 /* Original 0x49e30..0x49ece. Fix the member-pointer representation
    once a class is first used, then verify it against the known inheritance. */
 unsigned char __stdcall member_pointer_class_kind(CppSymbol *class_symbol)

@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_infer_inheritance_model@4",
+    "start": 302800,
+    "end": 302839
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1111-infer_inheritance_model-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_class_has_zero_base_offsets@4"
+  ],
+  "next_frontier": "_class_has_zero_base_offsets@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4981218706816435,
+  "total_operation_seconds": 4.102206406183541,
+  "original_capture_seconds": 1.4673843793570995
+}

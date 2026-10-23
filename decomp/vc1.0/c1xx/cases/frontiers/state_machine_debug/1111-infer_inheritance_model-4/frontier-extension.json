@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 1111,
+  "accepted": "_infer_inheritance_model@4",
+  "terminal": "_class_has_zero_base_offsets@4",
+  "original_capture": "cases/frontiers/state_machine_debug/1111-infer_inheritance_model-4/original-receipt.json",
+  "original_capture_sha256": "7c9231b4a8d70e817d4e8538a3adcc13efaa3896b67f5fa3d076c00cc3cfc9e7",
+  "original_events": "cases/frontiers/state_machine_debug/1111-infer_inheritance_model-4/original-events.txt",
+  "original_events_sha256": "897bbfadcaed52ea4467f7e706a19a1e3bc0436186e2fab0b30d49d9dbe4ca66",
+  "original_configuration": "cases/frontiers/state_machine_debug/1111-infer_inheritance_model-4/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

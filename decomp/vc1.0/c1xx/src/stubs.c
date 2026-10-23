@@ -295,7 +295,6 @@ void __stdcall browser_enter_tag(CppSymbol *tag) { __asm { int 3 } }
 CppSymbol *__stdcall find_tag_declaration(CppSymbol *symbol) { __asm { int 3 } return 0; }
 
 
-int __stdcall infer_inheritance_model(CppSymbol *tag) { __asm { int 3 } return 0; }
 
 
 void __stdcall browser_friend_reference(CppSymbol *symbol) { __asm { int 3 } }
@@ -615,3 +614,5 @@ unsigned __stdcall encode_debug_signed(unsigned char *destination, int value) { 
 void __stdcall record_typedef_alias(CppSymbol *symbol, CppSymbol *alias) { __asm { int 3 } }
 
 void __stdcall set_default_inheritance_model(int model) { __asm { int 3 } }
+
+int __stdcall class_has_zero_base_offsets(CppSymbol *tag) { __asm { int 3 } return 0; }
