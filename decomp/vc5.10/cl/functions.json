@@ -106,7 +106,8 @@
     "_object_input",
     "_enable_pass",
     "_set_pass_suffix",
-    "_link_arguments"
+    "_link_arguments",
+    "_option_conflict"
   ],
   "driver": [
     {
@@ -757,10 +758,45 @@
     {
       "name": "_option_conflict",
       "start": 4202418,
-      "end": 4202419,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "option_conflict"
+      "end": 4202502,
+      "pending_extent": false,
+      "state": "implemented; fresh trial pending",
+      "native_symbol": "option_conflict",
+      "source": "src/arguments.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void; callers do not consume EAX",
+        "stack_arguments": [
+          {
+            "name": "id",
+            "type": "unsigned; signed comparison at threshold 4000"
+          },
+          {
+            "name": "old",
+            "type": "Option *"
+          },
+          {
+            "name": "replacement",
+            "type": "Option *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete 84-byte body reads three stack arguments and preserved EBX/ESI/EDI; no incoming register inputs."
+      },
+      "evidence": {
+        "kind": "complete 84-byte diagnostic dispatcher",
+        "range": [
+          "0x401fb2",
+          "0x402006"
+        ],
+        "behavior": "Use one-level old origin when present. Null values become empty strings. Signed id<4000 chooses fatal, else warning. Preserve the original genuine indirect cdecl variadic call with old name/value and replacement name/value."
+      },
+      "input_observation": {
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/macro-language-conflict-initial-2",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/macro-language-conflict-initial-native",
+        "scope": "Actual id4025; old internal bt:C from TC (origin flags16), replacement TP; all three formals and full typed options/origin identities observed."
+      }
     },
     {
       "name": "_match_pattern",

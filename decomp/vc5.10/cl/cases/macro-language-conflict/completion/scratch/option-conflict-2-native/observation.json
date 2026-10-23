@@ -1,0 +1,132 @@
+{
+  "candidate": "_option_conflict",
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "native_sha256": "5bb9353cad4bb64285e8272f1cf03531d7df3b401def431b8dad857839cfc762",
+  "rebuilt_sha256": "5491d1efe198a2d5ce0822516e5b336553003db726951ff37e68071c00b86fec",
+  "trial_mask_sha256": "241a8d73af8836c4414bdcfc78e174d86e0cf2dda772897fcfaf83c8f14b1b26",
+  "platform": "native",
+  "trial_identity": "b1417cb5f2f40516f2f5d37fbbae4fca77cd07b2303da99b5c96784f7aa83be0",
+  "config_snapshot": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/config.json",
+    "sha256": "3f6c5f2959ba9ccd44c9fbaab4e0283a5ec1e96a52450c141220ea436962ee8c"
+  },
+  "case": "macro-language-conflict",
+  "arguments": [
+    "/nologo",
+    "/D_MT",
+    "/MD",
+    "/TC",
+    "/TP",
+    "/?"
+  ],
+  "files": {
+    "stdout": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/stdout.bin",
+      "sha256": "5b8a5b4f29a78454f1a650cb40dc7000b467474006846a241f117352ffb55950"
+    },
+    "stderr": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/stderr.bin",
+      "sha256": "92256f84c974656064157c152349d95d348cf4de4d90f6c60f99584146a5dc76"
+    },
+    "state": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/state.json",
+      "sha256": "76b7e1691592e1c468a97e84a12bbf8c72f9860671525d9cecd9cc4a1443a13b"
+    },
+    "trace": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/trace.txt",
+      "sha256": "d3add6f8480ffa78f0407f50feee28795b9e2e3b14d8b0a1cf531b340cbcef8a"
+    },
+    "debugger": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/debugger.txt",
+      "sha256": "57091fabda26e4ee3d3b71e873cad9cff3b0037dc2217682d72573f0272eace1"
+    },
+    "raw:trace-filter.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/trace-filter.txt",
+      "sha256": "65cd4d6dfb3a97fdfd1fd24a8fee03a7e34f286af40994f12e819d9b1e4969d9"
+    },
+    "raw:trace-seen.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/trace-seen.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw:exec-wrapper.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/exec-wrapper.py",
+      "sha256": "2dee509e17d54349add2c4bcc57e1ad21ad4c8cf5568631ac512b21f51e3806b"
+    },
+    "resource_provider": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/resources.bin",
+      "sha256": "4880ccdea2efd1554678238738b03105dc0bcac4c8b2736ad31f88c9b6fc9cab"
+    },
+    "raw:debugger.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/debugger.txt",
+      "sha256": "57091fabda26e4ee3d3b71e873cad9cff3b0037dc2217682d72573f0272eace1"
+    },
+    "raw:terminal-status.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/terminal-status.bin",
+      "sha256": "9c6f5f3d72d6e1b6901001acc6ee218070791d7d8928aab696c1ccf2e8bf7625"
+    },
+    "raw:status_reader.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/status_reader.py",
+      "sha256": "c024324ec793ad97838fbc040b5d6c2873422764441611bd3918d3e0e3397a65"
+    },
+    "raw:native-process.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/native-process.json",
+      "sha256": "01d23f89a780e9cd64c0235e3863dbf29f08fdf25b49fd801d635c21c34deb22"
+    },
+    "raw:native-build.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/native-build.json",
+      "sha256": "f87bf71fdb30b0d4d4ff689087e28c9c4c9e306ae6d4ca6e88d35ac71c4317cd"
+    },
+    "raw:native_status.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/native_status.py",
+      "sha256": "fdf1eb0fa5783d22b94db7efa9a74de7bdb61b1ad2af54eb04f1faaf909cfd4d"
+    },
+    "raw:gdb_capture.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/gdb_capture.py",
+      "sha256": "dc82481c50011e51978ccd914e76c8c92f6bf7596ee43c8a31fba7bf945fea97"
+    },
+    "raw:gdb-capture.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/gdb-capture.py",
+      "sha256": "da86b5d1053a062bcd4cf3fcaf61041d9c9c6508960ecf41c8e90f3b5f356e3d"
+    },
+    "raw:entry-profile.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/entry-profile.json",
+      "sha256": "f0b5c3ce5ac4f261d59f366fee9305ad916bf24a4c18e74aedb1a6d597a2869d"
+    },
+    "raw:mktemp-expected.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/mktemp-expected.json",
+      "sha256": "58faaae7436b1d7fd7bb21d86d731fb920f602e6408d3c78dc8476e22e2ab628"
+    },
+    "raw:mktemp-receipt.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/mktemp-receipt.bin",
+      "sha256": "59cfc4d1fd0d55dcb18ecba29290529da86b372ce81dda8bace82f7e27f6d269"
+    },
+    "raw:mktemp_reader.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/mktemp_reader.py",
+      "sha256": "5fb2415fea5b0d1ac7c851a79e3e9594e8b70208232c23882dee3c9fa80b7570"
+    },
+    "raw:native-mktemp-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/native-mktemp-gdb.json",
+      "sha256": "8f5fe3b985024f926648ff2b76a44cd0d9b1561a0626e6bfe7928d7a9b9cb0a8"
+    },
+    "raw:native-entry-errors.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/native-entry-errors.json",
+      "sha256": "8637302e2e8c63263020e019a2cc09122e542516c1dcd5a41ea051b7c9d7f60d"
+    },
+    "raw:gdb_entry.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/gdb_entry.py",
+      "sha256": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb"
+    },
+    "raw:gdb-entry.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/gdb-entry.py",
+      "sha256": "3ab5d5f774b09c578e7284c83198b09d9f70801762c86ba21a34dcbbc5d22acf"
+    },
+    "raw:gdb_mktemp.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/gdb_mktemp.py",
+      "sha256": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f"
+    }
+  },
+  "native_build": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/option-conflict-2-native/native-build.json",
+    "sha256": "f87bf71fdb30b0d4d4ff689087e28c9c4c9e306ae6d4ca6e88d35ac71c4317cd"
+  }
+}

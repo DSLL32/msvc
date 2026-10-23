@@ -1,0 +1,53 @@
+{
+  "projection": "cl-case-completion-v1; temporary-name-boundary-v1",
+  "fields": {
+    "status": 0,
+    "temporary_name_boundary": {
+      "entry": {
+        "errno": 0,
+        "doserrno": 0,
+        "last_error": 2,
+        "x87_control_word": 639
+      },
+      "calls": [
+        {
+          "template": ".\\XXXXXX",
+          "result": ".\\a02044",
+          "result_alias": true,
+          "before": {
+            "errno": 0,
+            "doserrno": 0,
+            "last_error": 2
+          },
+          "after": {
+            "errno": 0,
+            "doserrno": 2,
+            "last_error": 2
+          }
+        }
+      ]
+    }
+  },
+  "decoder_sha256": "5570867a003caee55c99df55c751a4d1d3d985dcf8aba423c5ca00142e30b663",
+  "raw_inputs": {
+    "debugger.txt": "57091fabda26e4ee3d3b71e873cad9cff3b0037dc2217682d72573f0272eace1",
+    "terminal-status.bin": "9c6f5f3d72d6e1b6901001acc6ee218070791d7d8928aab696c1ccf2e8bf7625",
+    "status_reader.py": "c024324ec793ad97838fbc040b5d6c2873422764441611bd3918d3e0e3397a65",
+    "native-process.json": "01d23f89a780e9cd64c0235e3863dbf29f08fdf25b49fd801d635c21c34deb22",
+    "native-build.json": "f87bf71fdb30b0d4d4ff689087e28c9c4c9e306ae6d4ca6e88d35ac71c4317cd",
+    "native_status.py": "fdf1eb0fa5783d22b94db7efa9a74de7bdb61b1ad2af54eb04f1faaf909cfd4d",
+    "gdb_capture.py": "dc82481c50011e51978ccd914e76c8c92f6bf7596ee43c8a31fba7bf945fea97",
+    "gdb-capture.py": "da86b5d1053a062bcd4cf3fcaf61041d9c9c6508960ecf41c8e90f3b5f356e3d",
+    "entry-profile.json": "f0b5c3ce5ac4f261d59f366fee9305ad916bf24a4c18e74aedb1a6d597a2869d",
+    "mktemp-expected.json": "58faaae7436b1d7fd7bb21d86d731fb920f602e6408d3c78dc8476e22e2ab628",
+    "mktemp-receipt.bin": "59cfc4d1fd0d55dcb18ecba29290529da86b372ce81dda8bace82f7e27f6d269",
+    "mktemp_reader.py": "5fb2415fea5b0d1ac7c851a79e3e9594e8b70208232c23882dee3c9fa80b7570",
+    "native-mktemp-gdb.json": "8f5fe3b985024f926648ff2b76a44cd0d9b1561a0626e6bfe7928d7a9b9cb0a8",
+    "native-entry-errors.json": "8637302e2e8c63263020e019a2cc09122e542516c1dcd5a41ea051b7c9d7f60d",
+    "gdb_entry.py": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb",
+    "gdb-entry.py": "3ab5d5f774b09c578e7284c83198b09d9f70801762c86ba21a34dcbbc5d22acf",
+    "gdb_mktemp.py": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f"
+  },
+  "wrapper_decoder_sha256": "5570867a003caee55c99df55c751a4d1d3d985dcf8aba423c5ca00142e30b663",
+  "boundary_decoder_sha256": "ee1821b83ae313a3812ce1cd6b4a61339cbac1502ddfe6abb6a79de4f509a73e"
+}

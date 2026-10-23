@@ -1,0 +1,2583 @@
+{
+  "schema": 1,
+  "target": {
+    "path": "toolchains/5.10/bin/CL.EXE",
+    "sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+    "entry": 4217056
+  },
+  "accepted": [
+    "_mainCRTStartup",
+    "_main",
+    "_install_control_handler",
+    "_split_arguments",
+    "_count_arguments",
+    "_program_name",
+    "_initialize_driver",
+    "_program_directory",
+    "_duplicate",
+    "_has_nologo",
+    "_show_banner",
+    "_load_string",
+    "_write_message",
+    "_format_message",
+    "_allocate",
+    "_parse_arguments",
+    "_find_special",
+    "_has_prefix",
+    "_match_option",
+    "_find_rule",
+    "_match_pattern",
+    "_read_option",
+    "_new_option",
+    "_append_option",
+    "_expand_options",
+    "_skip_space",
+    "_expand_word",
+    "_append_literal",
+    "_detach_options",
+    "_delete_options",
+    "_options_match",
+    "_validate_value",
+    "_format_number",
+    "_delete_option",
+    "_release",
+    "_apply_special",
+    "_expand_alternative",
+    "_apply_extension",
+    "_find_last_separator",
+    "_define_macro",
+    "_undefine_macro",
+    "_finish_options",
+    "_has_any_option",
+    "_prepare_inputs",
+    "_option_for_pass",
+    "_expand_filename",
+    "_file_basename",
+    "_set_output_option",
+    "_prepare_environment",
+    "_join_text",
+    "_show_help",
+    "_append_escaped",
+    "_classify_input",
+    "_add_input",
+    "_create_input",
+    "_unlink_option",
+    "_disable_pass",
+    "_prepare_execution",
+    "_run_driver",
+    "_source_jobs",
+    "_create_job",
+    "_prepare_jobs",
+    "_run_jobs",
+    "_file_name",
+    "_run_passes",
+    "_configure_pass",
+    "_find_file",
+    "_search_path",
+    "_final_pass",
+    "_quoted_length",
+    "_expanded_length",
+    "_quote_argument",
+    "_append_text",
+    "_execute_pass",
+    "_unload_pass",
+    "_cleanup_files",
+    "_delete_temporary",
+    "_next_jobs",
+    "_driver_exit",
+    "_read_response",
+    "_configure_assembly",
+    "_set_pass_name",
+    "_undefine_defaults",
+    "_enable_dll",
+    "_show_usage",
+    "_warning",
+    "_vwrite_message",
+    "_fatal",
+    "_c_input",
+    "_typed_input",
+    "_cpp_input",
+    "_object_input",
+    "_enable_pass",
+    "_set_pass_suffix",
+    "_link_arguments",
+    "_option_conflict"
+  ],
+  "driver": [
+    {
+      "name": "_main",
+      "start": 4200259,
+      "end": 4201197,
+      "pending_extent": false,
+      "state": "reconstructed full entry routine; candidate pending fresh proof",
+      "native_symbol": "main",
+      "evidence": {
+        "kind": "readable full-function reconstruction",
+        "source": "src/main.c",
+        "analysis": "00401743..00401aed including SEH filter and handler"
+      }
+    },
+    {
+      "name": "_install_control_handler",
+      "start": 4216756,
+      "end": 4216770,
+      "pending_extent": false,
+      "state": "reconstructed; awaiting fresh candidate proof",
+      "native_symbol": "install_control_handler",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/console.c"
+      }
+    },
+    {
+      "name": "_split_arguments",
+      "start": 4213969,
+      "end": 4214481,
+      "pending_extent": false,
+      "state": "full command-line parser reconstructed; awaiting fresh proof",
+      "native_symbol": "split_arguments",
+      "evidence": {
+        "kind": "readable whole-function reconstruction",
+        "source": "src/arguments.c"
+      }
+    },
+    {
+      "name": "_count_arguments",
+      "start": 4202806,
+      "end": 4202831,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "native_symbol": "count_arguments",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/arguments.c"
+      }
+    },
+    {
+      "name": "_program_name",
+      "start": 4203451,
+      "end": 4203460,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "native_symbol": "program_name",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/driver.c"
+      }
+    },
+    {
+      "name": "_initialize_driver",
+      "start": 4203241,
+      "end": 4203289,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "native_symbol": "initialize_driver",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/driver.c"
+      },
+      "import_support": [
+        "import:memset"
+      ]
+    },
+    {
+      "name": "_show_usage",
+      "start": 4205450,
+      "end": 4205489,
+      "pending_extent": false,
+      "state": "implemented; fresh usage trial pending",
+      "native_symbol": "show_usage",
+      "source": "src/messages.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Entire39B originalbody uses constants and explicitcalls only; no incoming register/stack inputs."
+      },
+      "input_observation": {
+        "kind": "matching actual noarguments entry",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/usage-initial",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/usage-initial-native",
+        "scope": "show_usage(void), argc1; fullentrycase, nohiddeninputs."
+      },
+      "evidence": {
+        "kind": "complete39B usage body",
+        "range": [
+          "0x402b8a",
+          "0x402bb1"
+        ],
+        "behavior": "show_banner(0), print encountered message305 tofd1, qualified MSVCRT!exit(0). No copiedCRT body."
+      }
+    },
+    {
+      "name": "_has_nologo",
+      "start": 4202831,
+      "end": 4203241,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "native_symbol": "has_nologo",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/arguments.c"
+      }
+    },
+    {
+      "name": "_show_banner",
+      "start": 4206004,
+      "end": 4206053,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "native_symbol": "show_banner",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/messages.c"
+      }
+    },
+    {
+      "name": "_parse_arguments",
+      "start": 4201197,
+      "end": 4201447,
+      "state": "reconstructed",
+      "native_symbol": "parse_arguments",
+      "evidence": {
+        "kind": "complete body disassembly",
+        "range": "00401aed..00401be7"
+      }
+    },
+    {
+      "name": "_write_message",
+      "start": 4214889,
+      "end": 4214930,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "native_symbol": "write_message",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/messages.c"
+      }
+    },
+    {
+      "name": "_finish_options",
+      "start": 4204851,
+      "end": 4205237,
+      "state": "reconstructed",
+      "native_symbol": "finish_options",
+      "evidence": {
+        "kind": "complete requirement alternatives, default suppression and option pruning body disassembly",
+        "range": "00402933..00402ab5"
+      }
+    },
+    {
+      "name": "_prepare_inputs",
+      "start": 4204617,
+      "end": 4204851,
+      "state": "reconstructed",
+      "native_symbol": "prepare_inputs",
+      "evidence": {
+        "kind": "complete tagged driver-setting dispatch body and 31 semantic records",
+        "range": "00402849..00402933",
+        "data": "src/settings.c driver_options, original00406000..00406180"
+      }
+    },
+    {
+      "name": "_prepare_environment",
+      "start": 4203289,
+      "end": 4203451,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "native_symbol": "prepare_environment",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/settings.c"
+      }
+    },
+    {
+      "name": "_show_help",
+      "start": 4215461,
+      "end": 4215604,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "native_symbol": "show_help",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/messages.c"
+      }
+    },
+    {
+      "name": "_allocate",
+      "start": 4215957,
+      "end": 4215986,
+      "state": "reconstructed",
+      "native_symbol": "allocate",
+      "evidence": {
+        "kind": "complete original body disassembly",
+        "range": "00405495..004054b2",
+        "logic": "malloc requested bytes, fatal(0) on NULL, return allocation"
+      }
+    },
+    {
+      "name": "_append_text",
+      "start": 4213376,
+      "end": 4213412,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "append_text",
+      "evidence": {
+        "kind": "complete optional fragment copy/end-pointer body disassembly",
+        "range": "00404a80..00404aa4"
+      }
+    },
+    {
+      "name": "_warning",
+      "start": 4215738,
+      "end": 4215805,
+      "pending_extent": false,
+      "state": "implemented; fresh warning trial pending",
+      "native_symbol": "warning",
+      "source": "src/messages.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "id",
+            "type": "unsigned"
+          },
+          {
+            "name": "...",
+            "type": "variadic",
+            "scope": "Actual typed tail decoded from encountered target message text; id4002 consumes onechar*."
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete67B body fetchesid and firstvariadicslot; no hidden incomingregs."
+      },
+      "input_observation": {
+        "kind": "actual matching warning initial frontier",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/unknown-option-initial",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/unknown-option-initial-native-2",
+        "scope": "Actual id4002 +onechar* /unknown-reconstruction-option; typed tail from exact originalresource format, no undefinedextra slots."
+      },
+      "evidence": {
+        "kind": "complete67B warning body",
+        "range": [
+          "0x4053ba",
+          "0x4053fd"
+        ],
+        "behavior": "Print resource302 prefix withid, forward originalvariableargumentpointer to vwrite_message for actualmessageid, printnewline."
+      }
+    },
+    {
+      "name": "_release",
+      "start": 4215986,
+      "end": 4216005,
+      "state": "reconstructed",
+      "native_symbol": "release",
+      "evidence": {
+        "kind": "complete null-guarded CRT free body disassembly",
+        "range": "004054b2..004054c5"
+      }
+    },
+    {
+      "name": "_fatal",
+      "start": 4215649,
+      "end": 4215738,
+      "pending_extent": false,
+      "state": "implemented; fresh trial pending",
+      "native_symbol": "fatal",
+      "source": "src/messages.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "id",
+            "type": "unsigned"
+          },
+          {
+            "name": "...",
+            "type": "variadic",
+            "scope": "Only resource-consumed tail observed; actual2003 format consumeszero tailwords."
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Full89B EBPbody readsid, forwards caller firstvariadic slot; nohiddenincomingregisters."
+      },
+      "evidence": {
+        "kind": "complete89B fatal diagnostic wrapper",
+        "range": [
+          "0x405361",
+          "0x4053ba"
+        ],
+        "behavior": "id0 maps2000; resource303 prefix withactualid, messageformat through vwrite, newline, driver_exit2."
+      },
+      "input_observation": {
+        "kind": "matching actual fatal frontier aftervwritecandidate",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/vwrite-message-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/vwrite-message-2-native",
+        "scope": "actualid2003, no consumed variadicpayload; zero-tail decoder doesnotreadundefined slots."
+      }
+    },
+    {
+      "name": "_prepare_execution",
+      "start": 4216832,
+      "end": 4216854,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "prepare_execution",
+      "evidence": {
+        "kind": "complete conditional stdout-to-stderr descriptor duplication body disassembly",
+        "range": "00405800..00405816",
+        "import": "MSVCRT!_dup2 at IAT0040a2c4; cdecl int(int,int)"
+      }
+    },
+    {
+      "name": "_run_driver",
+      "start": 4207404,
+      "end": 4207869,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "run_driver",
+      "evidence": {
+        "kind": "complete source job grouping/pending-queue drain/link and output processing body disassembly",
+        "range": "0040332c..004034fd"
+      }
+    },
+    {
+      "name": "_driver_exit",
+      "start": 4214746,
+      "end": 4214766,
+      "pending_extent": false,
+      "state": "implemented; fresh completed-case proof pending",
+      "native_symbol": "driver_exit",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "status",
+            "type": "int"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete20-byte original body pushes literal0 to cleanup_files then passes sole original stack status to qualified MSVCRT!exit; no register formals."
+      },
+      "input_observation": {
+        "kind": "actual preceding scheduler candidate frontier",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/next-jobs-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/next-jobs-1-native",
+        "scope": "Actual sole status0 formal, no hidden inputs; complete driver/CRT/module/env/FILE/deletion state independently decoded after both next_jobs early returns."
+      },
+      "source": "src/driver.c",
+      "evidence": {
+        "kind": "complete20-byte final driver body reconstruction",
+        "range": [
+          "0x404fda",
+          "0x404fee"
+        ],
+        "behavior": "Call cleanup_files(0), then pass sole int status to qualified MSVCRT!exit. No target-local CRT body or error reseeding."
+      }
+    },
+    {
+      "name": "_console_control_handler@4",
+      "native_symbol": "console_control_handler",
+      "start": 4216770,
+      "end": 4216771,
+      "pending_extent": true,
+      "state": "named INT3 callback frontier"
+    },
+    {
+      "name": "_skip_space",
+      "native_symbol": "skip_space",
+      "start": 4213190,
+      "end": 4213232,
+      "state": "reconstructed",
+      "evidence": {
+        "kind": "complete multibyte whitespace loop disassembly",
+        "range": "004049c6..004049f0"
+      }
+    },
+    {
+      "name": "_program_directory",
+      "native_symbol": "program_directory",
+      "start": 4206053,
+      "end": 4206187,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/driver.c"
+      },
+      "import_support": [
+        "import:strlen",
+        "import:strcat"
+      ]
+    },
+    {
+      "name": "_duplicate",
+      "native_symbol": "duplicate",
+      "start": 4216005,
+      "end": 4216044,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/driver.c"
+      }
+    },
+    {
+      "name": "_load_string",
+      "native_symbol": "load_string",
+      "start": 4215604,
+      "end": 4215649,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "evidence": {
+        "kind": "readable function reconstruction with encountered resources",
+        "source": "src/messages.c"
+      }
+    },
+    {
+      "name": "_format_message",
+      "native_symbol": "format_message",
+      "start": 4214930,
+      "end": 4215346,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "evidence": {
+        "kind": "readable whole-function reconstruction",
+        "source": "src/messages.c"
+      },
+      "import_support": [
+        "import:strcpy",
+        "import:memcpy",
+        "import:strlen"
+      ]
+    },
+    {
+      "name": "_format_number",
+      "native_symbol": "format_number",
+      "start": 4214766,
+      "end": 4214889,
+      "state": "reconstructed",
+      "evidence": {
+        "kind": "complete unsigned-division digit reversal body disassembly",
+        "range": "00404fee..00405069"
+      }
+    },
+    {
+      "name": "_read_response",
+      "start": 4206992,
+      "end": 4207404,
+      "pending_extent": false,
+      "state": "implemented; fresh response-file trial pending",
+      "native_symbol": "read_response",
+      "source": "src/arguments.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "name",
+            "type": "char *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete412B body reads sole caller-stack name; EBX/EBP/ESI/EDI assigned internally before use."
+      },
+      "input_observation": {
+        "kind": "actual matching named entry",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/response-options-initial",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/response-options-initial-native",
+        "scope": "Actual name string options.rsp, sole stackformal and no hidden inputs."
+      },
+      "evidence": {
+        "kind": "complete412-byte response parser",
+        "range": [
+          "0x403190",
+          "0x40332c"
+        ],
+        "behavior": "Bounded recursion13, text fopen/ftell/fgets/fseek growth, source-line echo, ordinary argument split/parse/free, EOF/error discrimination and close/depth cleanup. Encountered scalar initializers0 and1 from original exact data DWORDs."
+      }
+    },
+    {
+      "name": "_classify_input",
+      "start": 4198400,
+      "end": 4198499,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "classify_input",
+      "evidence": {
+        "kind": "complete extension classifier and bounded typed table disassembly",
+        "range": "00401000..00401063",
+        "data": "cases/minimal-c/input-kinds.json"
+      }
+    },
+    {
+      "name": "_add_input",
+      "start": 4198548,
+      "end": 4198616,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "add_input",
+      "evidence": {
+        "kind": "complete input allocation/list append/source-count body disassembly",
+        "range": "00401094..004010d8"
+      }
+    },
+    {
+      "name": "_find_special",
+      "start": 4202502,
+      "end": 4202559,
+      "state": "reconstructed",
+      "native_symbol": "find_special",
+      "evidence": {
+        "kind": "complete body and four grouped option records encountered in prefix lookup",
+        "range": "00402006..0040203f",
+        "records": "EH/G/O/Z at 004062d8..00406300"
+      }
+    },
+    {
+      "name": "_apply_special",
+      "start": 4202559,
+      "end": 4202768,
+      "state": "reconstructed",
+      "native_symbol": "apply_special",
+      "evidence": {
+        "kind": "complete grouped-option suffix expansion body disassembly",
+        "range": "0040203f..00402110"
+      }
+    },
+    {
+      "name": "_match_option",
+      "start": 4201447,
+      "end": 4202011,
+      "state": "reconstructed",
+      "native_symbol": "match_option",
+      "evidence": {
+        "kind": "complete body disassembly",
+        "range": "00401be7..00401e1b"
+      }
+    },
+    {
+      "name": "_has_prefix",
+      "start": 4202768,
+      "end": 4202806,
+      "state": "reconstructed",
+      "native_symbol": "has_prefix",
+      "evidence": {
+        "kind": "complete body disassembly",
+        "range": "00402110..00402136"
+      }
+    },
+    {
+      "name": "_find_rule",
+      "start": 4202084,
+      "end": 4202192,
+      "state": "reconstructed",
+      "native_symbol": "find_rule",
+      "evidence": {
+        "kind": "complete body and contextual typed 174-rule grammar",
+        "range": "00401e64..00401ed0",
+        "data": "src/rules.c option_rules; original 00406340..004070ec including terminator"
+      }
+    },
+    {
+      "name": "_read_option",
+      "start": 4198917,
+      "end": 4199314,
+      "state": "reconstructed",
+      "native_symbol": "read_option",
+      "evidence": {
+        "kind": "complete body disassembly with mode-tagged callback ABI",
+        "range": "00401205..00401392"
+      }
+    },
+    {
+      "name": "_new_option",
+      "start": 4199314,
+      "end": 4199407,
+      "state": "reconstructed",
+      "native_symbol": "new_option",
+      "evidence": {
+        "kind": "complete body and free-list ownership disassembly",
+        "range": "00401392..004013ef"
+      }
+    },
+    {
+      "name": "_append_option",
+      "start": 4200036,
+      "end": 4200055,
+      "state": "reconstructed",
+      "native_symbol": "append_option",
+      "evidence": {
+        "kind": "complete body disassembly",
+        "range": "00401664..00401677"
+      }
+    },
+    {
+      "name": "_expand_options",
+      "start": 4199762,
+      "end": 4200036,
+      "state": "reconstructed",
+      "native_symbol": "expand_options",
+      "evidence": {
+        "kind": "complete expansion body, pass-prefix inheritance and flag fields",
+        "range": "00401552..00401664"
+      }
+    },
+    {
+      "name": "_detach_options",
+      "start": 4202192,
+      "end": 4202352,
+      "state": "reconstructed",
+      "native_symbol": "detach_options",
+      "evidence": {
+        "kind": "complete matching/removal/default-preservation body disassembly",
+        "range": "00401ed0..00401f70"
+      }
+    },
+    {
+      "name": "_delete_options",
+      "start": 4202011,
+      "end": 4202037,
+      "state": "reconstructed",
+      "native_symbol": "delete_options",
+      "evidence": {
+        "kind": "complete chain-deletion loop disassembly",
+        "range": "00401e1b..00401e35"
+      }
+    },
+    {
+      "name": "_option_conflict",
+      "start": 4202418,
+      "end": 4202502,
+      "pending_extent": false,
+      "state": "implemented; fresh trial pending",
+      "native_symbol": "option_conflict",
+      "source": "src/arguments.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void; callers do not consume EAX",
+        "stack_arguments": [
+          {
+            "name": "id",
+            "type": "unsigned; signed comparison at threshold 4000"
+          },
+          {
+            "name": "old",
+            "type": "Option *"
+          },
+          {
+            "name": "replacement",
+            "type": "Option *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete 84-byte body reads three stack arguments and preserved EBX/ESI/EDI; no incoming register inputs."
+      },
+      "evidence": {
+        "kind": "complete 84-byte diagnostic dispatcher",
+        "range": [
+          "0x401fb2",
+          "0x402006"
+        ],
+        "behavior": "Use one-level old origin when present. Null values become empty strings. Signed id<4000 chooses fatal, else warning. Preserve the original genuine indirect cdecl variadic call with old name/value and replacement name/value."
+      },
+      "input_observation": {
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/macro-language-conflict-initial-2",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/macro-language-conflict-initial-native",
+        "scope": "Actual id4025; old internal bt:C from TC (origin flags16), replacement TP; all three formals and full typed options/origin identities observed."
+      }
+    },
+    {
+      "name": "_match_pattern",
+      "start": 4199407,
+      "end": 4199488,
+      "state": "reconstructed",
+      "native_symbol": "match_pattern",
+      "evidence": {
+        "kind": "complete body disassembly",
+        "range": "004013ef..00401440"
+      }
+    },
+    {
+      "name": "_define_macro",
+      "start": 4205612,
+      "end": 4205834,
+      "state": "reconstructed",
+      "native_symbol": "define_macro",
+      "evidence": {
+        "kind": "complete macro definition/previous-definition deletion body disassembly",
+        "range": "00402c2c..00402d0a"
+      }
+    },
+    {
+      "name": "_link_arguments",
+      "start": 4205489,
+      "end": 4205612,
+      "pending_extent": false,
+      "state": "implemented; fresh trial pending",
+      "native_symbol": "link_arguments",
+      "source": "src/arguments.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "Option *",
+        "stack_arguments": [
+          {
+            "name": "args",
+            "type": "char **"
+          },
+          {
+            "name": "index",
+            "type": "int *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete123B body reads2stackargs, actualargv/index, preservedEBX/ESI/EDI; returnsNULL."
+      },
+      "evidence": {
+        "kind": "complete123B linker argument forwarding helper",
+        "range": [
+          "0x402bb1",
+          "0x402c2c"
+        ],
+        "behavior": "Nonemptyattachedtextafter5byte/link plusallremainingargv become options(name,NULL,C,8); advancesindexpastallremainingwords; returnsNULL. Next402c2c isexistingdefine_macro, excluded."
+      },
+      "input_observation": {
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/object-input-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/object-input-1-native",
+        "scope": "Actual10wordargv/index8 andthreeexplicitinputnodes;8freshformal/memorycontrols."
+      }
+    },
+    {
+      "name": "_c_input",
+      "start": 4205860,
+      "end": 4205886,
+      "pending_extent": false,
+      "state": "implemented; fresh trial pending",
+      "native_symbol": "c_input",
+      "source": "src/arguments.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "Option *",
+        "stack_arguments": [
+          {
+            "name": "args",
+            "type": "char **"
+          },
+          {
+            "name": "index",
+            "type": "int *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete26B wrapper pushes originalargs/index plus literalTc andkind0; returnsEAX0."
+      },
+      "input_observation": {
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/explicit-inputs-initial",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/explicit-inputs-initial-native",
+        "scope": "Actual10wordargv andindex1; exactmainentry0/0/LastError2/CW639."
+      },
+      "evidence": {
+        "kind": "complete26B explicit C input wrapper",
+        "range": [
+          "0x402d24",
+          "0x402d3e"
+        ],
+        "behavior": "Calls typed_input with literalTc,args,index,kind0 andreturnsNULL; preserves graphvertex402d58."
+      }
+    },
+    {
+      "name": "_cpp_input",
+      "start": 4205886,
+      "end": 4205912,
+      "pending_extent": false,
+      "state": "implemented; fresh trial pending",
+      "native_symbol": "cpp_input",
+      "source": "src/arguments.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "Option *",
+        "stack_arguments": [
+          {
+            "name": "args",
+            "type": "char **"
+          },
+          {
+            "name": "index",
+            "type": "int *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete26B wrapper reads2stackargs, pushesprefixTp andkind1, returnsNULL."
+      },
+      "evidence": {
+        "kind": "complete26B C++ input wrapper",
+        "range": [
+          "0x402d3e",
+          "0x402d58"
+        ],
+        "behavior": "Preserve sharedtyped_input call withTp,argvector/index,kind1; returnNULL."
+      },
+      "input_observation": {
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/typed-input-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/typed-input-1-native",
+        "scope": "Actual10wordargv/index2 plus firstCinputpretend.c kind0/explicit1;8freshformal/memorycontrols."
+      }
+    },
+    {
+      "name": "_object_input",
+      "start": 4205834,
+      "end": 4205860,
+      "pending_extent": false,
+      "state": "implemented; fresh trial pending",
+      "native_symbol": "object_input",
+      "source": "src/arguments.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "Option *",
+        "stack_arguments": [
+          {
+            "name": "args",
+            "type": "char **"
+          },
+          {
+            "name": "index",
+            "type": "int *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete26B wrapper reads2stackargs, pushesprefixTo andkind3, returnsNULL."
+      },
+      "evidence": {
+        "kind": "complete26B object input wrapper",
+        "range": [
+          "0x402d0a",
+          "0x402d24"
+        ],
+        "behavior": "Preserve sharedtyped_input call withTo,argvector/index,kind3; returnNULL."
+      },
+      "input_observation": {
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/cpp-input-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/cpp-input-1-native",
+        "scope": "Actual10wordargv/index3 andexistingC/C++inputs;8freshformal/memorycontrols."
+      }
+    },
+    {
+      "name": "_validate_value",
+      "start": 4198680,
+      "end": 4198917,
+      "state": "reconstructed",
+      "native_symbol": "validate_value",
+      "evidence": {
+        "kind": "complete numeric parsing/range/default body disassembly",
+        "range": "00401118..00401205"
+      }
+    },
+    {
+      "name": "_expand_word",
+      "start": 4199565,
+      "end": 4199762,
+      "state": "reconstructed",
+      "native_symbol": "expand_word",
+      "evidence": {
+        "kind": "complete word-substitution and delimiter body disassembly",
+        "range": "0040148d..00401552"
+      }
+    },
+    {
+      "name": "_expand_alternative",
+      "start": 4199488,
+      "end": 4199565,
+      "state": "reconstructed",
+      "native_symbol": "expand_alternative",
+      "evidence": {
+        "kind": "complete alternative expansion and shared fallback buffer body disassembly",
+        "range": "00401440..0040148d"
+      }
+    },
+    {
+      "name": "_append_literal",
+      "start": 4213232,
+      "end": 4213268,
+      "state": "reconstructed",
+      "native_symbol": "append_literal",
+      "evidence": {
+        "kind": "complete body disassembly",
+        "range": "004049f0..00404a14"
+      }
+    },
+    {
+      "name": "_append_escaped",
+      "start": 4213268,
+      "end": 4213376,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "append_escaped",
+      "evidence": {
+        "kind": "complete percent-escaping multibyte append body disassembly",
+        "range": "00404a14..00404a80"
+      }
+    },
+    {
+      "name": "_apply_extension",
+      "start": 4205300,
+      "end": 4205450,
+      "state": "reconstructed",
+      "native_symbol": "apply_extension",
+      "evidence": {
+        "kind": "complete conditional replacement/default basename extension body disassembly",
+        "range": "00402af4..00402b8a"
+      }
+    },
+    {
+      "name": "_options_match",
+      "start": 4200055,
+      "end": 4200259,
+      "state": "reconstructed",
+      "native_symbol": "options_match",
+      "evidence": {
+        "kind": "complete name/argument wildcard-comparison body disassembly",
+        "range": "00401677..00401743"
+      },
+      "import_support": [
+        "import:strcmp"
+      ]
+    },
+    {
+      "name": "_copy_option",
+      "start": 4202352,
+      "end": 4202353,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "copy_option"
+    },
+    {
+      "name": "_unlink_option",
+      "start": 4202385,
+      "end": 4202418,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "unlink_option",
+      "evidence": {
+        "kind": "complete exact-node detach and null-on-missing body disassembly",
+        "range": "00401f91..00401fb2"
+      }
+    },
+    {
+      "name": "_delete_option",
+      "start": 4202037,
+      "end": 4202084,
+      "state": "reconstructed",
+      "native_symbol": "delete_option",
+      "evidence": {
+        "kind": "complete payload release/node recycling body disassembly",
+        "range": "00401e35..00401e64"
+      }
+    },
+    {
+      "name": "_find_last_separator",
+      "start": 4213908,
+      "end": 4213969,
+      "state": "reconstructed",
+      "native_symbol": "find_last_separator",
+      "evidence": {
+        "kind": "complete multibyte last-separator selection body disassembly",
+        "range": "00404c94..00404cd1"
+      }
+    },
+    {
+      "name": "_undefine_macro",
+      "start": 4203786,
+      "end": 4203838,
+      "state": "reconstructed",
+      "native_symbol": "undefine_macro",
+      "evidence": {
+        "kind": "complete macro-removal expansion/deletion body disassembly",
+        "range": "0040250a..0040253e"
+      }
+    },
+    {
+      "name": "_has_any_option",
+      "start": 4205237,
+      "end": 4205300,
+      "state": "reconstructed",
+      "native_symbol": "has_any_option",
+      "evidence": {
+        "kind": "complete existential non-superseded option matching body disassembly",
+        "range": "00402ab5..00402af4"
+      }
+    },
+    {
+      "name": "_option_for_pass",
+      "start": 4198616,
+      "end": 4198647,
+      "state": "reconstructed",
+      "native_symbol": "option_for_pass",
+      "evidence": {
+        "kind": "complete compiler-pass marker membership body disassembly",
+        "range": "004010d8..004010f7"
+      }
+    },
+    {
+      "name": "_expand_filename",
+      "start": 4212103,
+      "end": 4212557,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "native_symbol": "expand_filename",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/filenames.c"
+      }
+    },
+    {
+      "name": "_configure_assembly",
+      "start": 4204083,
+      "end": 4204495,
+      "pending_extent": false,
+      "state": "implemented; fresh assembly-option trial pending",
+      "native_symbol": "configure_assembly",
+      "source": "src/settings.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "option",
+            "type": "Option *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete412B body reads sole EBP+8 option and initializes working registers before use."
+      },
+      "input_observation": {
+        "kind": "actual response-reader next frontier",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/read-response-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/read-response-1-native",
+        "scope": "Full actualOption record/value2M a/flags0/ownoriginFa=response.asm plus all option/pass lists, no hidden register inputs."
+      },
+      "evidence": {
+        "kind": "complete412B assembly-output handler",
+        "range": [
+          "0x402633",
+          "0x4027cf"
+        ],
+        "behavior": "Split pass selectors, detach/reuse explicitFA/Fa nodes, validateformat, bounded contextual1024-byte output scratch, preserveexplicitextension, appendmodifiednodes and consume originaloption."
+      }
+    },
+    {
+      "name": "_enable_pass",
+      "start": 4203570,
+      "end": 4203608,
+      "pending_extent": false,
+      "state": "implemented; fresh trial pending",
+      "native_symbol": "enable_pass",
+      "source": "src/settings.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void; EAXnotsemanticallyconsumed",
+        "stack_arguments": [
+          {
+            "name": "option",
+            "type": "Option *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete38B leaf readsargument->value[0],5passselectors/flags; nohiddenincomingregisteruses."
+      },
+      "evidence": {
+        "kind": "complete38B pass-enable callback",
+        "range": [
+          "0x402432",
+          "0x402458"
+        ],
+        "behavior": "Selector.or.dot scans5records andORsflagsbit1 preservingallotherfields. 402458 beginsseparatedisable_passbody."
+      },
+      "input_observation": {
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/preprocessor-pass-options-initial",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/preprocessor-pass-options-initial-native",
+        "scope": "Actualpublic/E-emittedoptionba:value1,originE rule81,all5flags0afterbd:. ;26freshoption/passmemorycontrols."
+      }
+    },
+    {
+      "name": "_toggle_pass",
+      "start": 4203673,
+      "end": 4203674,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "toggle_pass"
+    },
+    {
+      "name": "_disable_pass",
+      "start": 4203608,
+      "end": 4203673,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "disable_pass",
+      "evidence": {
+        "kind": "complete pass selection and enable-bit clearing body disassembly",
+        "range": "00402458..00402499"
+      }
+    },
+    {
+      "name": "_set_output_option",
+      "start": 4203924,
+      "end": 4204083,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "native_symbol": "set_output_option",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/settings.c"
+      }
+    },
+    {
+      "name": "_set_pass_suffix",
+      "start": 4203515,
+      "end": 4203570,
+      "pending_extent": false,
+      "state": "implemented; fresh trial pending",
+      "native_symbol": "set_pass_suffix",
+      "source": "src/settings.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void; no semantic EAXreturnconsumed",
+        "stack_arguments": [
+          {
+            "name": "option",
+            "type": "Option *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Full55B readsoption->value selector then5passselectors; onlycallee duplicate call, nohiddenincomingregisters."
+      },
+      "evidence": {
+        "kind": "complete55B optional pass argument filename callback",
+        "range": [
+          "0x4023fb",
+          "0x402432"
+        ],
+        "behavior": "For selected/dot records duplicate(value+1) into lastDWORDoptions, not fileextension; preservesoriginal lackoffree/operandconsumption. Sourceidentifierhistoricallysuffix, actualfield documented."
+      },
+      "input_observation": {
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/enable-pass-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/enable-pass-1-native",
+        "scope": "ActualpublicBp1.pre->bx:value1.pre, flagsD0/1=1/P=1/2=0/C=0, completeOptionorigin and26memorycontrols."
+      }
+    },
+    {
+      "name": "_set_pass_name",
+      "start": 4203460,
+      "end": 4203515,
+      "pending_extent": false,
+      "state": "implemented; fresh pass-name trial pending",
+      "native_symbol": "set_pass_name",
+      "source": "src/settings.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "option",
+            "type": "Option *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete55B frameless body reads callerstack+4 after savingEBX/ESI/EDI; BL initialized fromoption value, all working registers initialized."
+      },
+      "input_observation": {
+        "kind": "actual preceding assembly-option frontier",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/configure-assembly-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/configure-assembly-1-native",
+        "scope": "Actual fullOption bp matchingDM value1c1.dll with sourceB1=c1.dll origin, allcompilerpassrecords; no hidden register inputs."
+      },
+      "evidence": {
+        "kind": "complete55B pass-name selector",
+        "range": [
+          "0x4023c4",
+          "0x4023fb"
+        ],
+        "behavior": "Scanexact5 compilerPass records; matchingfirstselector or dot stores independently duplicatedtail name. Original doesnotfree oldname orconsumeOption."
+      }
+    },
+    {
+      "name": "_undefine_defaults",
+      "start": 4203838,
+      "end": 4203924,
+      "pending_extent": false,
+      "state": "implemented; fresh defaults trial pending",
+      "native_symbol": "undefine_defaults",
+      "source": "src/settings.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "unused",
+            "type": "Option *",
+            "pointee_scope": "Formal supplied by typed driver callback but no bytes read in this complete body."
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete86B reads onlyguard/driver/list records; doesnotread formal or incoming registers."
+      },
+      "input_observation": {
+        "kind": "actual preceding pass-name frontier",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-name-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/set-pass-name-1-native",
+        "scope": "Actual bu Option* withNULLvalue/nameu origin, all live optionlists; original rawglobals+28 guard1. No inputpayload consumed."
+      },
+      "evidence": {
+        "kind": "complete86B one-shot default-macro remover",
+        "range": [
+          "0x40253e",
+          "0x402594"
+        ],
+        "behavior": "Once-onlyguard1\u21920, walksactualcurrent list retainingnext beforeunlink/delete; onlyflagsbit1 and exactnameD removed."
+      }
+    },
+    {
+      "name": "_enable_dll",
+      "start": 4204495,
+      "end": 4204617,
+      "pending_extent": false,
+      "state": "implemented; fresh DLL-option trial pending",
+      "native_symbol": "enable_dll",
+      "source": "src/settings.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "unused",
+            "type": "Option *",
+            "pointee_scope": "Sole callbackformal observed but entire body neverreads it."
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete122B body initializesEBX=0 and otherworkingregs; readsglobalguard/driver/inputlist only."
+      },
+      "input_observation": {
+        "kind": "actual preceding macro-defaults frontier",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/undefine-defaults-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/undefine-defaults-1-native",
+        "scope": "Actual LD Option* withNULLvalue/sourceLD origin; actual inputlistempty, original rawguardDWORD1."
+      },
+      "evidence": {
+        "kind": "complete122B DLL option handling",
+        "range": [
+          "0x4027cf",
+          "0x402849"
+        ],
+        "behavior": "Guarded DLLmode enabling, scanInputkind7.exp, remove implicitimport-library options when.exp present. No DLLexecution/dependencyresponse."
+      }
+    },
+    {
+      "name": "_file_basename",
+      "native_symbol": "file_basename",
+      "start": 4213005,
+      "end": 4213032,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/filenames.c"
+      }
+    },
+    {
+      "name": "_file_directory",
+      "native_symbol": "file_directory",
+      "start": 4213109,
+      "end": 4213110,
+      "pending_extent": true,
+      "state": "named INT3 frontier"
+    },
+    {
+      "name": "_make_map_name",
+      "native_symbol": "make_map_name",
+      "start": 4212557,
+      "end": 4212558,
+      "pending_extent": true,
+      "state": "named INT3 frontier"
+    },
+    {
+      "name": "_join_text",
+      "native_symbol": "join_text",
+      "start": 4213412,
+      "end": 4213476,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/filenames.c"
+      }
+    },
+    {
+      "name": "_console_rows",
+      "native_symbol": "console_rows",
+      "start": 4216854,
+      "end": 4216855,
+      "pending_extent": true,
+      "state": "named INT3 frontier"
+    },
+    {
+      "name": "_create_input",
+      "start": 4198499,
+      "end": 4198548,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "create_input",
+      "evidence": {
+        "kind": "complete input record allocation/name ownership/initial fields disassembly",
+        "range": "00401063..00401094"
+      }
+    },
+    {
+      "name": "_source_jobs",
+      "start": 4207869,
+      "end": 4207943,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "source_jobs",
+      "evidence": {
+        "kind": "complete source-input job list and single-job temporary lifetime body disassembly",
+        "range": "004034fd..00403547"
+      }
+    },
+    {
+      "name": "_prepare_jobs",
+      "start": 4207966,
+      "end": 4208393,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "prepare_jobs",
+      "evidence": {
+        "kind": "complete optional MRE dependency scan body disassembly; six external calls fail closed; minimal-C Gm0 fast path only",
+        "range": "0040355e..00403709"
+      }
+    },
+    {
+      "name": "_next_jobs",
+      "start": 4208393,
+      "end": 4208954,
+      "pending_extent": false,
+      "state": "implemented; fresh candidate proof pending",
+      "native_symbol": "next_jobs",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "Job *",
+        "stack_arguments": [
+          {
+            "name": "state",
+            "type": "Driver *"
+          },
+          {
+            "name": "pending",
+            "type": "PendingWork *",
+            "pointee_scope": "No payload bytes consumed in current case: both minimal-rebuild guards false before argument reads. Caller-local identity still observed."
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete561-byte body; two early global guards before reading formals; EBX/ESI/EDI assigned before use. Actual caller pushes Driver* and EBP-24 PendingWork*."
+      },
+      "input_observation": {
+        "kind": "actual preceding deletion candidate frontier",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/delete-temporary-2-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/delete-temporary-4-native",
+        "scope": "Driver* and exact caller-local PendingWork* observed; both early guards0. No PendingWork payload bytes consumed or seeded. Full driver/CRT/env/module/FILE/deletion effects independently observed."
+      },
+      "source": "src/driver.c",
+      "evidence": {
+        "kind": "complete original scheduler body reconstruction",
+        "range": [
+          "0x403709",
+          "0x40393a"
+        ],
+        "behavior": "Early minimal-rebuild/first-scan guards; opaque MRE invocation declarations retain stdcall/ordinal/qualified slots and fail closed natively; completed/retry source/job lists preserve node/container aliases and source order."
+      }
+    },
+    {
+      "name": "_run_jobs",
+      "start": 4209591,
+      "end": 4210160,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "run_jobs",
+      "evidence": {
+        "kind": "complete pass counting/group execution and per-input output/error processing body disassembly",
+        "range": "00403bb7..00403df0",
+        "initial_scalars": [
+          {
+            "name": "first_stage_notice",
+            "address": 4231564,
+            "value": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "_run_passes",
+      "start": 4210183,
+      "end": 4210269,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "run_passes",
+      "evidence": {
+        "kind": "complete enabled-pass selection/callback/early-error body disassembly",
+        "range": "00403e07..00403e5d",
+        "callback_abi": "cdecl int callback(Driver *), one stack argument, caller cleanup4"
+      }
+    },
+    {
+      "name": "_link_pass",
+      "start": 4211307,
+      "end": 4211308,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "link_pass"
+    },
+    {
+      "name": "_final_pass",
+      "start": 4210269,
+      "end": 4211307,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "final_pass",
+      "evidence": {
+        "kind": "complete pass argument count/storage/quoting/options/include list/debug/timing/execution dispatch body disassembly",
+        "range": "00403e5d..0040426b"
+      }
+    },
+    {
+      "name": "_file_name",
+      "start": 4213032,
+      "end": 4213109,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "file_name",
+      "evidence": {
+        "kind": "complete splitpath/makepath filename-plus-extension body disassembly",
+        "range": "00404928..00404975"
+      }
+    },
+    {
+      "name": "_create_job",
+      "start": 4207943,
+      "end": 4207966,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "create_job",
+      "evidence": {
+        "kind": "complete40-byte job allocation and three initialized prefix-word body disassembly; remaining tail undefined",
+        "range": "00403547..0040355e"
+      }
+    },
+    {
+      "name": "_file_timestamp",
+      "start": 4208954,
+      "end": 4208955,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "file_timestamp"
+    },
+    {
+      "name": "_jobs_from_deferred",
+      "start": 4209501,
+      "end": 4209502,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "jobs_from_deferred"
+    },
+    {
+      "name": "_advance_jobs",
+      "start": 4210160,
+      "end": 4210161,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "advance_jobs"
+    },
+    {
+      "name": "_configure_pass",
+      "start": 4206187,
+      "end": 4206545,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "configure_pass",
+      "evidence": {
+        "kind": "complete one-time compiler filename/DLL-extension/override path configuration body disassembly",
+        "range": "00402e6b..00402fd1"
+      }
+    },
+    {
+      "name": "_cleanup_files",
+      "start": 4214481,
+      "end": 4214639,
+      "pending_extent": false,
+      "state": "implemented; fresh candidate proof pending",
+      "native_symbol": "cleanup_files",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "preserve",
+            "type": "int"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete158-byte body reads sole preserve stack argument; EBX/ESI/EDI saved then assigned before use; pushed ECX values reserve local storage only. No hidden inputs; RET0."
+      },
+      "input_observation": {
+        "kind": "actual preceding unload candidate frontier",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/unload-pass-provider-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/unload-pass-provider-2-native",
+        "owned_archive": "cases/minimal-c/unload-pass-proof.tar.gz",
+        "scope": "Actual preserve1 plus full driver/job/input state, pass/execution aliases, CRT/OS/FILE and canonical provider state independently decoded."
+      },
+      "source": "src/driver.c",
+      "evidence": {
+        "kind": "complete cleanup body and contextual suffix table reconstruction",
+        "range": [
+          "0x404ed1",
+          "0x404f6f"
+        ],
+        "data": "Seven typed suffix/per-input records plus NULL/0 sentinel at406300..406340; literals inline in driver.c."
+      }
+    },
+    {
+      "name": "_find_file",
+      "start": 4206545,
+      "end": 4206808,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "find_file",
+      "evidence": {
+        "kind": "complete absolute/compiler/current/PATH search and found flag body disassembly",
+        "range": "00402fd1..004030d8"
+      }
+    },
+    {
+      "name": "_search_path",
+      "start": 4206808,
+      "end": 4206992,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "search_path",
+      "evidence": {
+        "kind": "complete PATH token/separator scan, capacity diagnostic and access test body disassembly",
+        "range": "004030d8..00403190"
+      }
+    },
+    {
+      "name": "_quoted_length",
+      "native_symbol": "quoted_length",
+      "start": 4213476,
+      "end": 4213616,
+      "state": "reconstructed pending fresh proof",
+      "evidence": {
+        "kind": "complete multibyte Windows quote/backslash storage length body disassembly",
+        "range": "00404ae4..00404b70"
+      }
+    },
+    {
+      "name": "_expanded_length",
+      "native_symbol": "expanded_length",
+      "start": 4212742,
+      "end": 4213005,
+      "state": "reconstructed pending fresh proof",
+      "evidence": {
+        "kind": "complete filename-placeholder and Windows quoting upper-bound body disassembly",
+        "range": "00404806..0040490d"
+      }
+    },
+    {
+      "name": "_quote_argument",
+      "native_symbol": "quote_argument",
+      "start": 4213616,
+      "end": 4213908,
+      "state": "reconstructed pending fresh proof",
+      "evidence": {
+        "kind": "complete multibyte quote escaping/backslash doubling/whitespace enclosure body disassembly",
+        "range": "00404b70..00404c94"
+      }
+    },
+    {
+      "name": "_start_timer",
+      "native_symbol": "start_timer",
+      "start": 4215805,
+      "end": 4215806,
+      "pending_extent": true,
+      "state": "named INT3 frontier"
+    },
+    {
+      "name": "_stop_timer",
+      "native_symbol": "stop_timer",
+      "start": 4215818,
+      "end": 4215819,
+      "pending_extent": true,
+      "state": "named INT3 frontier"
+    },
+    {
+      "name": "_execute_pass",
+      "native_symbol": "execute_pass",
+      "start": 4216077,
+      "end": 4216756,
+      "state": "implemented; dependency response and fresh acceptance pending",
+      "evidence": {
+        "kind": "complete dispatcher body/SEH filter analysis; actual DLL/environment/child boundary observation is separate analysis, not acceptance",
+        "range": "0040550d..004057b4"
+      }
+    },
+    {
+      "name": "_unload_pass",
+      "native_symbol": "unload_pass",
+      "start": 4216044,
+      "end": 4216077,
+      "pending_extent": false,
+      "state": "implemented; fresh candidate acceptance pending",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "pass",
+            "type": "CompilerPass *",
+            "reads": "module at+20; later clears module/invoke/abort fields"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete33-byte original body4054ec..40550d loads sole stack argument before use; ESI is saved/restored, no register input read before assignment."
+      },
+      "input_observation": {
+        "kind": "actual preceding candidate frontier, not this function acceptance",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/execute-pass-provider-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/execute-pass-provider-5-native",
+        "owned_archive": "cases/minimal-c/execute-pass-proof.tar.gz",
+        "scope": "sole CompilerPass* formal, current/active pass aliases, actual C1 module/Invoke/Abort cache and shared CRT/OS/FILE state at unload entry are observed; no hidden register inputs."
+      },
+      "source": "src/driver.c",
+      "evidence": {
+        "kind": "complete original C body reconstruction",
+        "range": [
+          "0x4054ec",
+          "0x40550d"
+        ],
+        "behavior": "If module is nonNULL, call qualified kernel32!FreeLibrary(module), then clear module/invoke/abort. Ignore BOOL result; preserve cdecl caller cleanup and ESI."
+      }
+    },
+    {
+      "name": "_delete_temporary",
+      "native_symbol": "delete_temporary",
+      "start": 4214639,
+      "end": 4214746,
+      "pending_extent": false,
+      "state": "implemented; fresh candidate proof pending",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "kind",
+            "type": "int"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete107-byte original body reads sole kind argument atEBP+8; no register read before assignment; locals1024-byte filename buffer."
+      },
+      "input_observation": {
+        "kind": "actual preceding cleanup candidate frontier",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/cleanup-files-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/cleanup-files-2-native",
+        "scope": "Actual kind0 plus all eight suffix records/strings, driver current input/job/temporary and persistent CRT/OS/FILE/module state captured; no hidden register inputs."
+      },
+      "source": "src/driver.c",
+      "evidence": {
+        "kind": "complete original helper body reconstruction",
+        "range": [
+          "0x404f6f",
+          "0x404fda"
+        ],
+        "behavior": "Bound strlen(temporary)+10 to1024 bytes; expand %t in current driver context, append typed suffix, call qualified MSVCRT!_unlink ignoring result."
+      }
+    },
+    {
+      "name": "_deferred_from_jobs",
+      "native_symbol": "deferred_from_jobs",
+      "start": 4209550,
+      "end": 4209591,
+      "pending_extent": false,
+      "state": "named INT3 frontier",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "DeferredInput *",
+        "stack_arguments": [
+          {
+            "name": "jobs",
+            "type": "Job *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete41-byte body reads sole Job* stack input; returns intrusive nodes atJob+12, saves/restoresESI, assigns ECX/EDX/EAX before use."
+      }
+    },
+    {
+      "name": "_vwrite_message",
+      "start": 4215346,
+      "end": 4215385,
+      "pending_extent": false,
+      "state": "implemented; fresh trial pending",
+      "native_symbol": "vwrite_message",
+      "source": "src/messages.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "int",
+        "stack_arguments": [
+          {
+            "name": "fd",
+            "type": "int"
+          },
+          {
+            "name": "text",
+            "type": "const char *"
+          },
+          {
+            "name": "args",
+            "type": "va_list",
+            "scope": "Actual formatterconsumed tail +callerfirstvariadicslot alias required."
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete39B EBPframe code reads3args; formatterthenqualifiedCRT_write returnsint inEAX."
+      },
+      "evidence": {
+        "kind": "complete39B variadic output wrapper",
+        "range": [
+          "0x405232",
+          "0x405259"
+        ],
+        "behavior": "format_message receives length outpointer, actualtext andcaller va_list; qualified MSVCRT!_write receives fd/buffer/length; return CRTwrite count. Original reuses consumed argsparameter slot forlength; source uses local typed length without observable aliaschange."
+      },
+      "input_observation": {
+        "kind": "fresh matching warning candidate frontier",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/warning-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/warning-3-native",
+        "scope": "fd2, actual id4002format, originalfirstvariadicslot alias andoneconsumedchar*; no opaque unobserved inputs."
+      }
+    },
+    {
+      "name": "_typed_input",
+      "start": 4205912,
+      "end": 4206004,
+      "pending_extent": false,
+      "state": "implemented; fresh trial pending",
+      "native_symbol": "typed_input",
+      "source": "src/arguments.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void; caller ignoresEAX, no semantic return claim",
+        "stack_arguments": [
+          {
+            "name": "option",
+            "type": "const char *"
+          },
+          {
+            "name": "args",
+            "type": "char **"
+          },
+          {
+            "name": "index",
+            "type": "int *"
+          },
+          {
+            "name": "kind",
+            "type": "int"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete92B body reads4stackargs, consumesindexpointer andargv; allincomingregistervalues overwrittenbeforeuse."
+      },
+      "evidence": {
+        "kind": "complete92B typed input helper",
+        "range": [
+          "0x402d58",
+          "0x402db4"
+        ],
+        "behavior": "Advancesindex, skips slash+explicitprefix; attachedfilename ornextword; add_input withactualkind andexplicit1; missingnamefatal2004withoriginalprefix."
+      },
+      "input_observation": {
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/c-input-2-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/c-input-2-native",
+        "scope": "ActualprefixTc,10argvwords,index1,kind0;14freshformal/memorycontrols."
+      }
+    }
+  ],
+  "runtime": [
+    {
+      "name": "_mainCRTStartup",
+      "start": 4217056,
+      "end": 4217392,
+      "evidence": {
+        "library": "MSVCRT.LIB",
+        "library_sha256": "e0a55e77c6005cacc86783688dd5d372bee6dda9c994493edbe583cd2b367be2",
+        "member": "build\\intel\\dll_obj\\crtexe.obj",
+        "member_sha256": "0433c241187a6b9c46a485f18d9c59d7a1ce8ee822817ecb05ce94fd65ac3cdb",
+        "bindings": [
+          {
+            "section": ".text",
+            "offset": 6,
+            "symbol": "$T7942",
+            "kind": 6,
+            "actual": 4228440,
+            "expected": 4228440
+          },
+          {
+            "section": ".text",
+            "offset": 11,
+            "symbol": "__except_handler3",
+            "kind": 6,
+            "actual": 4217008,
+            "expected": 4217008
+          },
+          {
+            "section": ".text",
+            "offset": 17,
+            "symbol": "__except_list",
+            "kind": 6,
+            "actual": 0,
+            "expected": 0
+          },
+          {
+            "section": ".text",
+            "offset": 25,
+            "symbol": "__except_list",
+            "kind": 6,
+            "actual": 0,
+            "expected": 0
+          },
+          {
+            "section": ".text",
+            "offset": 49,
+            "symbol": "__imp____set_app_type",
+            "kind": 6,
+            "actual": 4236008,
+            "expected": 4236008
+          },
+          {
+            "section": ".text",
+            "offset": 58,
+            "symbol": "___onexitend",
+            "kind": 6,
+            "actual": 4233156,
+            "expected": 4233156
+          },
+          {
+            "section": ".text",
+            "offset": 68,
+            "symbol": "___onexitbegin",
+            "kind": 6,
+            "actual": 4233160,
+            "expected": 4233160
+          },
+          {
+            "section": ".text",
+            "offset": 78,
+            "symbol": "__imp____p__fmode",
+            "kind": 6,
+            "actual": 4236004,
+            "expected": 4236004
+          },
+          {
+            "section": ".text",
+            "offset": 84,
+            "symbol": "__fmode",
+            "kind": 6,
+            "actual": 4233152,
+            "expected": 4233152
+          },
+          {
+            "section": ".text",
+            "offset": 92,
+            "symbol": "__imp____p__commode",
+            "kind": 6,
+            "actual": 4236000,
+            "expected": 4236000
+          },
+          {
+            "section": ".text",
+            "offset": 98,
+            "symbol": "__commode",
+            "kind": 6,
+            "actual": 4233148,
+            "expected": 4233148
+          },
+          {
+            "section": ".text",
+            "offset": 105,
+            "symbol": "__imp___adjust_fdiv",
+            "kind": 6,
+            "actual": 4235996,
+            "expected": 4235996
+          },
+          {
+            "section": ".text",
+            "offset": 113,
+            "symbol": "__adjust_fdiv",
+            "kind": 6,
+            "actual": 4233164,
+            "expected": 4233164
+          },
+          {
+            "section": ".text",
+            "offset": 118,
+            "symbol": "__setargv",
+            "kind": 20,
+            "actual": 4216960,
+            "expected": 4216960
+          },
+          {
+            "section": ".text",
+            "offset": 123,
+            "symbol": "___defaultmatherr",
+            "kind": 6,
+            "actual": 4231600,
+            "expected": 4231600
+          },
+          {
+            "section": ".text",
+            "offset": 132,
+            "symbol": "__matherr",
+            "kind": 6,
+            "actual": 4217440,
+            "expected": 4217440
+          },
+          {
+            "section": ".text",
+            "offset": 138,
+            "symbol": "__imp____setusermatherr",
+            "kind": 6,
+            "actual": 4235992,
+            "expected": 4235992
+          },
+          {
+            "section": ".text",
+            "offset": 146,
+            "symbol": "__setdefaultprecision",
+            "kind": 20,
+            "actual": 4217408,
+            "expected": 4217408
+          },
+          {
+            "section": ".text",
+            "offset": 151,
+            "symbol": "___xi_z",
+            "kind": 6,
+            "actual": 4231180,
+            "expected": 4231180
+          },
+          {
+            "section": ".text",
+            "offset": 156,
+            "symbol": "___xi_a",
+            "kind": 6,
+            "actual": 4231176,
+            "expected": 4231176
+          },
+          {
+            "section": ".text",
+            "offset": 161,
+            "symbol": "__initterm",
+            "kind": 20,
+            "actual": 4217398,
+            "expected": 4217398
+          },
+          {
+            "section": ".text",
+            "offset": 170,
+            "symbol": "__newmode",
+            "kind": 6,
+            "actual": 4233144,
+            "expected": 4233144
+          },
+          {
+            "section": ".text",
+            "offset": 183,
+            "symbol": "__dowildcard",
+            "kind": 6,
+            "actual": 4233140,
+            "expected": 4233140
+          },
+          {
+            "section": ".text",
+            "offset": 202,
+            "symbol": "__imp____getmainargs",
+            "kind": 6,
+            "actual": 4235908,
+            "expected": 4235908
+          },
+          {
+            "section": ".text",
+            "offset": 210,
+            "symbol": "___xc_z",
+            "kind": 6,
+            "actual": 4231172,
+            "expected": 4231172
+          },
+          {
+            "section": ".text",
+            "offset": 215,
+            "symbol": "___xc_a",
+            "kind": 6,
+            "actual": 4231168,
+            "expected": 4231168
+          },
+          {
+            "section": ".text",
+            "offset": 220,
+            "symbol": "__initterm",
+            "kind": 20,
+            "actual": 4217398,
+            "expected": 4217398
+          },
+          {
+            "section": ".text",
+            "offset": 229,
+            "symbol": "__imp____p___initenv",
+            "kind": 6,
+            "actual": 4235984,
+            "expected": 4235984
+          },
+          {
+            "section": ".text",
+            "offset": 251,
+            "symbol": "_main",
+            "kind": 20,
+            "actual": 4200259,
+            "expected": 4200259
+          },
+          {
+            "section": ".text",
+            "offset": 264,
+            "symbol": "__imp__exit",
+            "kind": 6,
+            "actual": 4235860,
+            "expected": 4235860
+          },
+          {
+            "section": ".text",
+            "offset": 283,
+            "symbol": "__XcptFilter",
+            "kind": 20,
+            "actual": 4217392,
+            "expected": 4217392
+          },
+          {
+            "section": ".text",
+            "offset": 300,
+            "symbol": "__imp___exit",
+            "kind": 6,
+            "actual": 4235888,
+            "expected": 4235888
+          },
+          {
+            "section": ".text",
+            "offset": 320,
+            "symbol": "__except_list",
+            "kind": 6,
+            "actual": 0,
+            "expected": 0
+          },
+          {
+            "section": ".rdata",
+            "offset": 4,
+            "symbol": "$L7938",
+            "kind": 6,
+            "actual": 4217326,
+            "expected": 4217326
+          },
+          {
+            "section": ".rdata",
+            "offset": 8,
+            "symbol": "$L7939",
+            "kind": 6,
+            "actual": 4217347,
+            "expected": 4217347
+          }
+        ],
+        "context_sections": {
+          "1": 4217056,
+          "2": 4228440
+        },
+        "initial_data": {
+          "__fmode": {
+            "address": 4233152,
+            "bytes": "00000000",
+            "source": "zero-initialized common storage"
+          },
+          "__commode": {
+            "address": 4233148,
+            "bytes": "00000000",
+            "source": "zero-initialized common storage"
+          },
+          "__newmode": {
+            "address": 4233144,
+            "bytes": "00000000",
+            "source": "zero-initialized common storage"
+          },
+          "__dowildcard": {
+            "address": 4233140,
+            "bytes": "00000000",
+            "source": "zero-initialized common storage"
+          },
+          "___defaultmatherr": {
+            "address": 4231600,
+            "bytes": "01000000",
+            "source": "merr.obj .data"
+          },
+          "__adjust_fdiv": {
+            "address": 4233164,
+            "bytes": "00000000",
+            "source": "zero-initialized common storage"
+          },
+          "___onexitbegin": {
+            "address": 4233160,
+            "bytes": "00000000",
+            "source": "zero-initialized common storage"
+          },
+          "___onexitend": {
+            "address": 4233156,
+            "bytes": "00000000",
+            "source": "zero-initialized common storage"
+          }
+        }
+      },
+      "native_boundary": "external CRT startup contract; no application coverage",
+      "support_closure": [
+        "___setargv",
+        "__setdefaultprecision",
+        "__matherr",
+        "__setargv",
+        "import:_except_handler3",
+        "import:_XcptFilter",
+        "import:_initterm",
+        "import:_controlfp"
+      ]
+    },
+    {
+      "name": "___setargv",
+      "start": 4217040,
+      "end": 4217056,
+      "evidence": {
+        "library": "MSVCRT.LIB",
+        "library_sha256": "e0a55e77c6005cacc86783688dd5d372bee6dda9c994493edbe583cd2b367be2",
+        "member": "build\\intel\\dll_obj\\dll_argv.obj",
+        "member_sha256": "363071655dd507cb9f3c9dc9a64bc3b77f35ecd085fd51f74b96b38b6874d0ef",
+        "bindings": [
+          {
+            "section": ".text",
+            "offset": 2,
+            "symbol": "__dowildcard",
+            "kind": 6,
+            "actual": 4233140,
+            "expected": 4233140
+          }
+        ],
+        "context_sections": {
+          "1": 4217040
+        },
+        "initial_data": {}
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "__setdefaultprecision",
+      "start": 4217408,
+      "end": 4217440,
+      "evidence": {
+        "library": "MSVCRT.LIB",
+        "library_sha256": "e0a55e77c6005cacc86783688dd5d372bee6dda9c994493edbe583cd2b367be2",
+        "member": "build\\intel\\dll_obj\\fp8.obj",
+        "member_sha256": "2121abdca03f2b269946d003463dae2526bfccdd8011d50479759eeb3f07a716",
+        "bindings": [
+          {
+            "section": ".text",
+            "offset": 11,
+            "symbol": "__controlfp",
+            "kind": 20,
+            "actual": 4217456,
+            "expected": 4217456
+          }
+        ],
+        "context_sections": {
+          "1": 4217408
+        },
+        "initial_data": {}
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "__matherr",
+      "start": 4217440,
+      "end": 4217456,
+      "evidence": {
+        "library": "MSVCRT.LIB",
+        "library_sha256": "e0a55e77c6005cacc86783688dd5d372bee6dda9c994493edbe583cd2b367be2",
+        "member": "build\\intel\\dll_obj\\merr.obj",
+        "member_sha256": "9155a1ccc009f2764164035c65b78e9594cfc9d0c8792ea23dbfd607c779b92e",
+        "bindings": [],
+        "context_sections": {
+          "2": 4217440
+        },
+        "initial_data": {}
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "__setargv",
+      "start": 4216960,
+      "end": 4216976,
+      "evidence": {
+        "library": "SETARGV.OBJ",
+        "library_sha256": "9879ac8c0f46480c1967e9eec669f91af5c37b8a200f3bbe6c57aa7502098ea5",
+        "member": "SETARGV.OBJ",
+        "member_sha256": "9879ac8c0f46480c1967e9eec669f91af5c37b8a200f3bbe6c57aa7502098ea5",
+        "bindings": [
+          {
+            "section": ".text",
+            "offset": 1,
+            "symbol": "___setargv",
+            "kind": 20,
+            "actual": 4217040,
+            "expected": 4217040
+          }
+        ],
+        "context_sections": {
+          "1": 4216960
+        },
+        "initial_data": {}
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "import:_except_handler3",
+      "start": 4217008,
+      "end": 4217014,
+      "evidence": {
+        "kind": "exact FF25 IAT import thunk",
+        "iat": 4235804,
+        "import_symbol": "__except_handler3"
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "import:_XcptFilter",
+      "start": 4217392,
+      "end": 4217398,
+      "evidence": {
+        "kind": "exact FF25 IAT import thunk",
+        "iat": 4235980,
+        "import_symbol": "__XcptFilter"
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "import:_initterm",
+      "start": 4217398,
+      "end": 4217404,
+      "evidence": {
+        "kind": "exact FF25 IAT import thunk",
+        "iat": 4235988,
+        "import_symbol": "__initterm"
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "import:_controlfp",
+      "start": 4217456,
+      "end": 4217462,
+      "evidence": {
+        "kind": "exact FF25 IAT import thunk",
+        "iat": 4235976,
+        "import_symbol": "__controlfp"
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "import:memset",
+      "start": 4216982,
+      "end": 4216988,
+      "evidence": {
+        "kind": "exact FF25 IAT import thunk",
+        "iat": 4235784,
+        "import_symbol": "_memset",
+        "qualified_identity": {
+          "dll": "msvcrt.dll",
+          "name": "memset"
+        },
+        "abi": {
+          "calling_convention": "cdecl",
+          "arguments": [
+            "void *",
+            "int",
+            "size_t"
+          ],
+          "result": "void *",
+          "argument_bytes": 12,
+          "caller_cleanup": true,
+          "encountered_in": "_initialize_driver"
+        }
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "import:strlen",
+      "start": 4216988,
+      "end": 4216994,
+      "evidence": {
+        "kind": "exact FF25 IAT import thunk",
+        "iat": 4235788,
+        "import_symbol": "_strlen",
+        "qualified_identity": {
+          "dll": "msvcrt.dll",
+          "name": "strlen"
+        },
+        "abi": {
+          "calling_convention": "cdecl",
+          "arguments": [
+            "const char *"
+          ],
+          "result": "size_t",
+          "argument_bytes": 4,
+          "caller_cleanup": true,
+          "encountered_in": "_program_directory"
+        }
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "import:strcat",
+      "start": 4217020,
+      "end": 4217026,
+      "evidence": {
+        "kind": "exact FF25 IAT import thunk",
+        "iat": 4235852,
+        "import_symbol": "_strcat",
+        "qualified_identity": {
+          "dll": "msvcrt.dll",
+          "name": "strcat"
+        },
+        "abi": {
+          "calling_convention": "cdecl",
+          "arguments": [
+            "char *",
+            "const char *"
+          ],
+          "result": "char *",
+          "argument_bytes": 8,
+          "caller_cleanup": true,
+          "encountered_in": "_program_directory"
+        }
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "import:strcpy",
+      "start": 4216976,
+      "end": 4216982,
+      "evidence": {
+        "kind": "exact FF25 IAT import thunk",
+        "iat": 4235776,
+        "import_symbol": "_strcpy",
+        "qualified_identity": {
+          "dll": "msvcrt.dll",
+          "name": "strcpy"
+        },
+        "abi": {
+          "calling_convention": "cdecl",
+          "arguments": [
+            "char *",
+            "const char *"
+          ],
+          "result": "char *",
+          "argument_bytes": 8,
+          "caller_cleanup": true,
+          "encountered_in": "_format_message"
+        }
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "import:memcpy",
+      "start": 4217014,
+      "end": 4217020,
+      "evidence": {
+        "kind": "exact FF25 IAT import thunk",
+        "iat": 4235812,
+        "import_symbol": "_memcpy",
+        "qualified_identity": {
+          "dll": "msvcrt.dll",
+          "name": "memcpy"
+        },
+        "abi": {
+          "calling_convention": "cdecl",
+          "arguments": [
+            "void *",
+            "const void *",
+            "size_t"
+          ],
+          "result": "void *",
+          "argument_bytes": 12,
+          "caller_cleanup": true,
+          "encountered_in": "_format_message"
+        }
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "import:strcmp",
+      "start": 4216994,
+      "end": 4217000,
+      "evidence": {
+        "kind": "exact FF25 IAT import thunk",
+        "iat": 4235796,
+        "import_symbol": "_strcmp",
+        "qualified_identity": {
+          "dll": "msvcrt.dll",
+          "name": "strcmp"
+        },
+        "abi": {
+          "calling_convention": "cdecl",
+          "arguments": [
+            "const char *",
+            "const char *"
+          ],
+          "result": "int",
+          "argument_bytes": 8,
+          "caller_cleanup": true,
+          "encountered_in": "_options_match"
+        }
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    }
+  ],
+  "initial_frontier": {
+    "logical_name": "_mainCRTStartup",
+    "original": 4217056,
+    "native_symbol": "startup_frontier"
+  },
+  "acceptance_reviewed": true,
+  "native_symbol_history": [
+    {
+      "name": "_main",
+      "previous_native_symbol": "cl_main",
+      "current_native_symbol": "main",
+      "reason": "Known target entry name preserved; Linux CRT adapted by uninstrumented --wrap=main host unit. Historical raw captures retain cl_main unchanged."
+    }
+  ]
+}

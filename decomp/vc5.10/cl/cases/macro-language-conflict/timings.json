@@ -1,0 +1,179 @@
+{
+  "original": {
+    "setup_seconds": 0.017582508735358715,
+    "reference_execution_seconds": 0.853721153922379
+  },
+  "native": null,
+  "audit_seconds": 0.6413658075034618,
+  "fixture": {
+    "schema": 1,
+    "case": "macro-language-conflict",
+    "passed": true,
+    "full_dword_status": 0,
+    "application_entries": 54,
+    "stdout_bytes": 3976,
+    "stderr_bytes": 58,
+    "mktemp_calls": 1,
+    "native_sha256": "5bb9353cad4bb64285e8272f1cf03531d7df3b401def431b8dad857839cfc762",
+    "seconds": {
+      "build": 0.006329161114990711,
+      "setup": 0.0018172301352024078,
+      "execution": 0.007820806466042995,
+      "checks": 0.0006724167615175247,
+      "total": 0.029080498963594437
+    }
+  },
+  "all_cached_fixtures": {
+    "passed": true,
+    "cases": [
+      {
+        "schema": 1,
+        "case": "help",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 50,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 141,
+        "mktemp_calls": 1,
+        "native_sha256": "5bb9353cad4bb64285e8272f1cf03531d7df3b401def431b8dad857839cfc762",
+        "seconds": {
+          "build": 0.0072663938626646996,
+          "setup": 0.0017169443890452385,
+          "execution": 0.007972422055900097,
+          "checks": 0.0006322283297777176,
+          "total": 0.03110512997955084
+        }
+      },
+      {
+        "case": "minimal-c",
+        "passed": true,
+        "mode": "cached native regression; fresh GDB proof separate",
+        "application_entries": 75,
+        "status": 0,
+        "object_bytes": 275,
+        "C1_calls": 1,
+        "C2_calls": 1,
+        "mktemp_calls": 1,
+        "native_sha256": "5bb9353cad4bb64285e8272f1cf03531d7df3b401def431b8dad857839cfc762",
+        "held_trial": false,
+        "seconds": {
+          "setup": 0.7720459466800094,
+          "execution": 0.0645105130970478,
+          "checks": 0.37689092196524143,
+          "total": 1.2134799379855394
+        }
+      },
+      {
+        "schema": 1,
+        "case": "response-options",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 56,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 0,
+        "mktemp_calls": 1,
+        "native_sha256": "5bb9353cad4bb64285e8272f1cf03531d7df3b401def431b8dad857839cfc762",
+        "seconds": {
+          "build": 0.006321528926491737,
+          "setup": 0.001948649063706398,
+          "execution": 0.007906317710876465,
+          "checks": 0.00068619754165411,
+          "total": 0.029481736943125725
+        }
+      },
+      {
+        "schema": 1,
+        "case": "usage",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 14,
+        "stdout_bytes": 61,
+        "stderr_bytes": 141,
+        "mktemp_calls": 0,
+        "native_sha256": "5bb9353cad4bb64285e8272f1cf03531d7df3b401def431b8dad857839cfc762",
+        "seconds": {
+          "build": 0.006344262510538101,
+          "setup": 0.0015860619023442268,
+          "execution": 0.0038039423525333405,
+          "checks": 0.0005695885047316551,
+          "total": 0.02627507969737053
+        }
+      },
+      {
+        "schema": 1,
+        "case": "unknown-option",
+        "passed": true,
+        "full_dword_status": 2,
+        "application_entries": 56,
+        "stdout_bytes": 0,
+        "stderr_bytes": 139,
+        "mktemp_calls": 1,
+        "native_sha256": "5bb9353cad4bb64285e8272f1cf03531d7df3b401def431b8dad857839cfc762",
+        "seconds": {
+          "build": 0.00764781329780817,
+          "setup": 0.001968972384929657,
+          "execution": 0.008140221238136292,
+          "checks": 0.0006351396441459656,
+          "total": 0.03454349096864462
+        }
+      },
+      {
+        "schema": 1,
+        "case": "preprocessor-pass-options",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 53,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 0,
+        "mktemp_calls": 1,
+        "native_sha256": "5bb9353cad4bb64285e8272f1cf03531d7df3b401def431b8dad857839cfc762",
+        "seconds": {
+          "build": 0.007157378830015659,
+          "setup": 0.0018417416140437126,
+          "execution": 0.0038043055683374405,
+          "checks": 0.0006727930158376694,
+          "total": 0.027231520041823387
+        }
+      },
+      {
+        "schema": 1,
+        "case": "explicit-inputs",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 57,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 0,
+        "mktemp_calls": 1,
+        "native_sha256": "5bb9353cad4bb64285e8272f1cf03531d7df3b401def431b8dad857839cfc762",
+        "seconds": {
+          "build": 0.007011239416897297,
+          "setup": 0.0017496170476078987,
+          "execution": 0.007971721701323986,
+          "checks": 0.0006657596677541733,
+          "total": 0.030772430822253227
+        }
+      },
+      {
+        "schema": 1,
+        "case": "macro-language-conflict",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 54,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 58,
+        "mktemp_calls": 1,
+        "native_sha256": "5bb9353cad4bb64285e8272f1cf03531d7df3b401def431b8dad857839cfc762",
+        "seconds": {
+          "build": 0.006991752423346043,
+          "setup": 0.0016645099967718124,
+          "execution": 0.007948668673634529,
+          "checks": 0.0006473418325185776,
+          "total": 0.03067218791693449
+        }
+      }
+    ],
+    "total_seconds": 2.0210457863286138
+  },
+  "native_GDB_seconds": 0.21510578552260995,
+  "native_timing_note": "Measured native controller elapsed time from the retained option-conflict-2 run; raw capture has no per-phase timing field."
+}

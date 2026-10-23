@@ -14,8 +14,8 @@ acceptance journal for the measured evidence.
 
 Help, usage, response/options, the genuine minimal-C compile and an intentional
 unknown-option diagnostic and public preprocessor/pass controls are complete.
-There are now 94 accepted application functions /16,179 original extent bytes
-(84.88% of whole `.text`); the non-CRT
+There are now 95 accepted application functions /16,263 original extent bytes
+(85.32% of whole `.text`); the non-CRT
 denominator remains unclassified. The response-file/options/help case adds five driver functions with 56 actual
 entries, its own cached streams/input/trace and a ~31ms native fixture. The compile executes 75
 distinct application entries, produces the exact 275-byte object and `test.c`
@@ -54,6 +54,12 @@ multiple-input output naming; no target workaround is used. All seven cached
 native fixtures pass in 1.95 seconds. The forwarding fixture takes about 29 ms,
 including 4 ms execution. Earlier unsupported-API denial evidence is retained
 separately and receives no acceptance credit.
+
+The `/D_MT /MD /TC /TP /?` case now verifies option-conflict reporting,
+including the actual originating switch and replacement. It matches 54 entries,
+3,976 stdout bytes and 58 stderr bytes at status 0; 16 formal/origin/alias and
+four resource controls pass. All eight cached Linux fixtures take 2.02 seconds.
+The individual conflict fixture takes 29 ms, including 8 ms execution.
 
 The first extension lookup exposed an incorrect provisional table left unvisited
 by help. The corrected ten extension/category/pass-list records and terminator,

@@ -2,6 +2,19 @@
 #include "cl.h"
 #include <recon.h>
 
+/* 00401fb2..00402006: report original switch spelling and its replacement. */
+void option_conflict(unsigned id, Option *old, Option *replacement)
+{
+    typedef void (*Diagnostic)(unsigned, ...);
+    Diagnostic diagnostic = warning;
+    if (old->origin)
+        old = old->origin;
+    if ((int)id < 4000)
+        diagnostic = fatal;
+    diagnostic(id, old->name, old->value ? old->value : "",
+        replacement->name, replacement->value ? replacement->value : "");
+}
+
 /* 00402d24..00402d3e: explicit C source option. */
 Option *c_input(char **args, int *index)
 {

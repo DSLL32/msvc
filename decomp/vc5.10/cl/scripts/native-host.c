@@ -63,6 +63,11 @@ int __wrap_main(int argc, char **argv, char **envp)
         argc == 5 && !strcmp(argv[1],"/nologo") && !strcmp(argv[2],"/E") &&
         !strcmp(argv[3],"/Bp1.pre") && !strcmp(argv[4],"/?"))
         entry_error = 2;
+    else if (profile && !strcmp(profile,"macro-language-conflict-canonical-msvcrt-v1") &&
+        argc == 7 && !strcmp(argv[1],"/nologo") && !strcmp(argv[2],"/D_MT") &&
+        !strcmp(argv[3],"/MD") && !strcmp(argv[4],"/TC") &&
+        !strcmp(argv[5],"/TP") && !strcmp(argv[6],"/?"))
+        entry_error = 2;
     else
         recon_unsupported("unknown CL native entry profile");
     envp = cl_dependency_bind_entry(argc, argv, envp);
