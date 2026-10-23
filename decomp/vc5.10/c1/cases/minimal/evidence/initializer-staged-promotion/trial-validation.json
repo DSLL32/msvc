@@ -1,0 +1,32 @@
+{
+  "status": "fresh matching next frontier and typed CRT state",
+  "trial": [
+    "_c1_crt_entry@12",
+    "_c1_crt_init@12",
+    "_DllMain@12",
+    "_InvokeCompilerPass@12",
+    "_initialize_compiler_pass"
+  ],
+  "frontier_rva": 59289,
+  "native_symbol": "allocate_compiler_memory",
+  "state": [
+    "module identity/token",
+    "CRT attach count",
+    "null raw callback",
+    "Win32 last error",
+    "x87 control WORD",
+    "actual pass argc/argv/BOOL and NUL terminator",
+    "complete34-slot callback identity table",
+    "modeled field map/storage nonoverlap",
+    "typed initialized/BSS/snapshot state; other bytes UNMODELED"
+  ],
+  "rust_checked_functions": 5,
+  "rust_owned_original_bytes": 982,
+  "current_auditor_sha256": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c",
+  "current_audit_report_sha256": "a65c7b004bf83de6aebbaf634ace2491f3551c6986ec524eafc849b2515a5493",
+  "execution_receipts": {
+    "original": "a3758e655f7ab39ee72d5a79afd3f2e5e7c4bbf3edb9cc38fe40b14479df3fc0",
+    "native": "bf8ab55fd79f82af91827d082722963085dce7edc2161c3e24955941c6b2fe02"
+  },
+  "promotion": "eligible under reviewed same-protocol continuation"
+}

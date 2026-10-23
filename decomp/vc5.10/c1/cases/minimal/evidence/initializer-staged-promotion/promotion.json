@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "_initialize_compiler_pass",
+  "bytes": 318,
+  "staged_role": "ONLY new function; allocator remains INT3 in this exact pair",
+  "authorization": "Root approved typed projection and explicitly required staged promotion; fresh natural allocator frontier and17 controls pass",
+  "initializer_body_sha256": "9f41e7d3bd5d20cc2fd550b30aa713318ffb8619d7753edf487da96909bee54d",
+  "supporting_auxiliary_evidence": [
+    "cases/minimal/evidence/initializer-real-allocation",
+    "cases/minimal/evidence/initializer-restore"
+  ],
+  "auxiliary_evidence_roles_remain_two_body_trials": true,
+  "application_functions_accepted": 3,
+  "application_bytes_accepted": 525,
+  "crt_bytes": 451,
+  "import_bytes": 6,
+  "total_owned_original_bytes": 982,
+  "unmodeled_initialized_bytes": 6544,
+  "unmodeled_bss_bytes": 40932
+}

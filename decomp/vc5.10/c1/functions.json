@@ -8,7 +8,9 @@
     "_c1_crt_init@12",
     "import:_initterm",
     "_DllMain@12",
-    "_InvokeCompilerPass@12"
+    "_InvokeCompilerPass@12",
+    "_initialize_compiler_pass",
+    "_allocate_compiler_memory"
   ],
   "driver": [
     {
@@ -51,6 +53,30 @@
         [
           274924377,
           274924425
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_initialize_compiler_pass",
+      "start": 274801317,
+      "end": 274801509,
+      "code_chunks": [
+        [
+          274924425,
+          274924551
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_allocate_compiler_memory",
+      "start": 274786201,
+      "end": 274786230,
+      "code_chunks": [
+        [
+          274916636,
+          274916651
         ]
       ],
       "role": "application"

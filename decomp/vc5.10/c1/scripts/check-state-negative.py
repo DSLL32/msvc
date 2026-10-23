@@ -8,7 +8,10 @@ def rehash(d,name):
 def main():
  p=argparse.ArgumentParser();p.add_argument('original',type=Path);p.add_argument('native',type=Path);a=p.parse_args();m.check(a.original,a.native)
  restore=json.loads((a.original/'receipt.json').read_text()).get('probe')=='restore'
+ allocation=json.loads((a.original/'candidate.json').read_text())['expected_frontier']['kind']=='compiler-allocation'
  tests=['missing-frontier','candidate-only-prefix','snapshot-first','live-first','bss-count','bss-callback','missing-callback-slot','swapped-callback','snapshot-live-alias','native-layout','original-default','original-snapshot-field','field-map-overlap','field-map-alias','field-map-snapshot-offset']
+ if allocation:
+  tests.remove('snapshot-first');tests.remove('original-snapshot-field');tests.append('premature-snapshot')
  tests+=['missing-postpoint','restore-zero-input','restore-post-field','restore-post-count','restore-post-callback','restore-pointer-identity','restore-pc','restore-line','original-post-field','original-clear-gap'] if restore else ['allocation-size','allocation-pc','original-allocation-size']
  for test in tests:
   with tempfile.TemporaryDirectory(prefix='state-negative-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c1') as temporary:
@@ -59,7 +62,8 @@ def main():
    else:
     f=n/'state.json';r=json.loads(f.read_text());c=r['compiler_state']
     if test=='snapshot-first':c['snapshot']['first_call']=0
-    elif test=='live-first':c['initialized']['first_call']=1
+    elif test=='premature-snapshot':c['snapshot']={'first_call':1}
+    elif test=='live-first':c['initialized']['first_call']^=1
     elif test=='bss-count':c['bss']['cleanup_count']=7
     elif test=='bss-callback':c['bss']['cleanup_callbacks'][0]=1
     elif test=='missing-callback-slot':c['initialization_callbacks'].pop()

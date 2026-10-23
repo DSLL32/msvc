@@ -28,5 +28,5 @@
     "minimalin",
     "minimalsy"
   ],
-  "status": "pass wrapper accepted; initializer next"
+  "status": "pass wrapper, typed initializer and checked allocator accepted; first callback next"
 }
