@@ -251,8 +251,6 @@ void RECON_THISCALL LinkContext::PeWriteSection(int file,void *section,void *hea
 void RECON_THISCALL LinkContext::VxdWriteSection(int file,void *section,void *header) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::PeWriteHeaders(int file) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::VxdWriteHeaders(int file) { __asm { int 3 } }
-extern "C" StringTable *__stdcall create_string_table(StringTable **table,unsigned buckets,unsigned capacity)
-{ __asm { int 3 } return NULL; }
 
 int RECON_THISCALL LinkContext::FullLink(BYTE *pack_requested)
 {

@@ -46,7 +46,13 @@
     "_append_argument_record@12",
     "_has_switch@4",
     "_allocate_link_memory@8",
-    "LinkContext::Initialize"
+    "LinkContext::Initialize",
+    "_create_string_table@12",
+    "_initialize_hash_table@20",
+    "_hash_allocate@16",
+    "_reserve_memory@8",
+    "_create_memory_arena@4",
+    "_allocate_memory@4"
   ],
   "driver": [
     {
@@ -761,8 +767,8 @@
       "start": 4596256,
       "end": 4596316,
       "pending_extent": false,
-      "status": "stub",
-      "source": "src/link-driver.cpp",
+      "status": "implemented",
+      "source": "src/symbols.c",
       "native_symbol": "create_string_table"
     },
     {
@@ -770,9 +776,54 @@
       "start": 4521552,
       "end": 4521584,
       "pending_extent": false,
-      "status": "stub",
+      "status": "implemented",
       "source": "src/memory.c",
       "native_symbol": "allocate_memory"
+    },
+    {
+      "name": "_initialize_hash_table@20",
+      "start": 4394096,
+      "end": 4394275,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/symbols.c",
+      "native_symbol": "initialize_hash_table"
+    },
+    {
+      "name": "_string_key_name@8",
+      "start": 4596448,
+      "end": 4596489,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/symbols.c",
+      "native_symbol": "string_key_name"
+    },
+    {
+      "name": "_hash_allocate@16",
+      "start": 4394032,
+      "end": 4394084,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/symbols.c",
+      "native_symbol": "hash_allocate"
+    },
+    {
+      "name": "_reserve_memory@8",
+      "start": 4519392,
+      "end": 4519482,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/memory.c",
+      "native_symbol": "reserve_memory"
+    },
+    {
+      "name": "_create_memory_arena@4",
+      "start": 4519488,
+      "end": 4519554,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/memory.c",
+      "native_symbol": "create_memory_arena"
     }
   ],
   "text_data": [

@@ -2,10 +2,10 @@
 
 Target: `toolchains/5.10/bin/LINK.EXE`, PE32 i386, image base `0x400000`,
 entry RVA `0x65280`. There are no exports or TLS directory. Root approved the scaffold and exact
-shipped CRT startup boundary. Thirty application functions are accepted: constructors and their helpers, main,
+shipped CRT startup boundary. Thirty-six application functions are accepted: constructors and their helpers, main,
 debug parsing, file-cache records, memory initialization and the main linker
 driver, reproduction setup and command-line prepass. The first `/?` case is
-still in progress at string-table creation after typed context initialization. Later
+still in progress at the full option dispatcher after constructor/table/arena setup. Later
 hello, DLL, debug/PDB and resource cases remain source-only and unreleased.
 Native i386 and original 5.10 `/MD /Od /Z7` builds pass with `make -j4`.
 
@@ -149,3 +149,12 @@ accommodation does not apply to embedded fields or serialized data; the context
 remains664 bytes on both builds. The contextual128-byte DOS image is output
 data, defined as a typed header, bootstrap bytes and message, and matches the
 original payload exactly.
+
+The completed constructor boundary checks both string tables, hash descriptors,
+four arena descriptors and full reserved pages, directory/cell/bucket links,
+auxiliary state and standalone callback identities. The first original
+VirtualAlloc call is captured before/after with an initially zeroed page; native
+calls are additionally checked in order against the four concrete arena roles.
+No unsupported error-state or allocation-granularity equivalence is claimed.
+Only the explicit pointer ownership fields and identified clocks project across
+platforms. Eighty-two semantic mutations reject heap/API/configuration drift.

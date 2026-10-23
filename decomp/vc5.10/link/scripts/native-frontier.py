@@ -45,8 +45,8 @@ def main():
         if record['name'] in configuration['accepted']:
             targets.append((record['name'], record.get('native_symbol','link_main' if record['name']=='_main' else record['name'].lstrip('_'))))
     script = '''
-import gdb,json
-state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[],'mbsnbicmp_calls':[]}
+import gdb,json,struct
+state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[],'mbsnbicmp_calls':[],'virtual_alloc_calls':[]}
 class NewReturned(gdb.FinishBreakpoint):
     def __init__(self,frame,size):
         super().__init__(frame,internal=True);self.size=size
@@ -133,6 +133,18 @@ class SystemEntry(gdb.Breakpoint):
         return False
 SystemEntry('*recon_GetSystemInfo','system',36)
 SystemEntry('*recon_GlobalMemoryStatus','memory',32)
+class VirtualReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,arguments):super().__init__(frame,internal=True);self.arguments=arguments
+    def stop(self):
+        address=int(self.return_value)
+        state['virtual_alloc_calls'].append(dict(arguments=self.arguments,result=address,initial=gdb.selected_inferior().read_memory(address,self.arguments[1]).tobytes().hex() if address else None))
+        return False
+class VirtualEntry(gdb.Breakpoint):
+    def stop(self):
+        arguments=[int(gdb.parse_and_eval('((unsigned*)$esp)[%%d]'%%i)) for i in range(1,5)]
+        VirtualReturned(gdb.newest_frame(),arguments)
+        return False
+VirtualEntry('*recon_VirtualAlloc',internal=True)
 def callback_names(begin,count):
     result=[]
     for index in range(count):
@@ -185,16 +197,57 @@ def stopped(event):
         state['selected_tool_name_address']=int(gdb.parse_and_eval('selected_tool_name'))
         state['first_tool_name_address']=int(gdb.parse_and_eval('tool_modes[0].name'))
         state['selected_tool_kind']=int(gdb.parse_and_eval('selected_tool_kind'))
-    if state['function'] in ('LinkContext::Initialize','create_string_table'):
+    if state['function']=='configure_link_options':
+        receiver=frame.read_var('context')
+        state['context_this']=int(receiver);state['context_vxd']=int(receiver.dereference()['is_vxd'])
+        state['caller_context']=int(driver.read_var('context'))
+        state['link_context']=gdb.selected_inferior().read_memory(state['context_this'],664).tobytes().hex()
+        state['context_extension']=receiver.dereference()['options']['default_extension'].string()
+        state['configuration_arguments']=dict(context=int(receiver),first=int(frame.read_var('first')),second=int(frame.read_var('second')))
+        state['context_auxiliary_address']=int(receiver.dereference()['auxiliary'])
+        state['context_auxiliary']=gdb.selected_inferior().read_memory(state['context_auxiliary_address'],44).tobytes().hex()
+        state['context_heap']=[]
+        for member in ('symbols','strings'):
+            table=receiver.dereference()[member];hash_state=table.dereference()['hash']['state']
+            record=dict(table=int(table),table_raw=gdb.selected_inferior().read_memory(int(table),40).tobytes().hex(),hash=int(hash_state),hash_raw=gdb.selected_inferior().read_memory(int(hash_state),56).tobytes().hex(),arenas=[])
+            for field in ('directory_arena','bucket_arena'):
+                arena=int(hash_state.dereference()[field]);raw=gdb.selected_inferior().read_memory(arena,16).tobytes();words=struct.unpack('<4I',raw)
+                record['arenas'].append(dict(address=arena,raw=raw.hex(),data=gdb.selected_inferior().read_memory(words[3],words[1]+words[2]).tobytes().hex()))
+            state['context_heap'].append(record)
+    elif state['function'] in ('LinkContext::Initialize','create_string_table','initialize_hash_table','hash_allocate','reserve_memory','create_memory_arena','allocate_memory'):
         owner=frame
         while owner and owner.name()!='LinkContext::Initialize':owner=owner.older()
         assert owner
         state['context_this']=int(owner.read_var('this'));state['context_vxd']=int(owner.read_var('vxd'))
         state['caller_context']=int(driver.read_var('context'))
         state['link_context']=gdb.selected_inferior().read_memory(state['context_this'],664).tobytes().hex()
-        if state['function']=='create_string_table':state['context_extension']=owner.read_var('this').dereference()['options']['default_extension'].string()
+        if state['function']!='LinkContext::Initialize':state['context_extension']=owner.read_var('this').dereference()['options']['default_extension'].string()
     if state['function']=='create_string_table':
         state['table_arguments']=dict(table=int(frame.read_var('table')),buckets=int(frame.read_var('buckets')),capacity=int(frame.read_var('capacity')))
+    if state['function'] in ('initialize_hash_table','hash_allocate','reserve_memory','create_memory_arena','allocate_memory'):
+        if state['function']=='initialize_hash_table':state['hash_arguments']=dict(hash=int(frame.read_var('hash')),buckets=int(frame.read_var('buckets')),capacity=int(frame.read_var('capacity')),key_name=int(frame.read_var('key_name')),flags=int(frame.read_var('flags')))
+        state['string_table_address']=int(owner.read_var('this').dereference()['symbols'])
+        state['string_table']=gdb.selected_inferior().read_memory(state['string_table_address'],40).tobytes().hex()
+        state['string_key_name_address']=int(gdb.lookup_global_symbol('string_key_name').value().address)
+    if state['function'] in ('hash_allocate','reserve_memory','create_memory_arena','allocate_memory'):
+        allocator=frame
+        while allocator and allocator.name()!='hash_allocate':allocator=allocator.older()
+        assert allocator
+        state['hash_state_address']=int(allocator.read_var('state'))
+        state['hash_storage_arguments']=dict(state=state['hash_state_address'],arena=int(allocator.read_var('arena')),count=int(allocator.read_var('count')),size=int(allocator.read_var('size')))
+        if state['function'] in ('reserve_memory','create_memory_arena','allocate_memory'):
+            reserver=frame
+            while reserver and reserver.name()!='reserve_memory':reserver=reserver.older()
+            assert reserver
+            state['arena_arguments']=dict(arena=int(reserver.read_var('arena')),bytes=int(reserver.read_var('bytes')),owner=int(reserver.read_var('arena').dereference()))
+        if state['function'] in ('create_memory_arena','allocate_memory'):
+            creator=frame
+            while creator and creator.name()!='create_memory_arena':creator=creator.older()
+            assert creator
+            state['arena_creation_bytes']=int(creator.read_var('bytes'))
+        if state['function']=='allocate_memory':state['allocation_bytes']=int(frame.read_var('bytes'))
+        state['hash_state']=gdb.selected_inferior().read_memory(state['hash_state_address'],56).tobytes().hex()
+    state['string_key_name_address']=int(gdb.lookup_global_symbol('string_key_name').value().address)
     state['member_pointers']={}
     for member in ('image_header_size','image_write_section','image_write_headers'):
         value=gdb.parse_and_eval(member);address=int(gdb.parse_and_eval('&'+member))
@@ -206,6 +259,7 @@ def stopped(event):
         assert symbol
         state['member_methods'][name]=int(symbol.value().address)
         state['typed_member_values'][name]=gdb.parse_and_eval('&'+name).bytes.hex()
+    state['default_dos_image_address']=int(gdb.parse_and_eval('&default_dos_image'))
     state['default_dos_image']=gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&default_dos_image')),128).tobytes().hex()
     state['option_arguments_address']=int(gdb.parse_and_eval('&option_arguments'))
     state['option_arguments']=[int(gdb.parse_and_eval('option_arguments.'+name)) for name in ('first','last','count')]

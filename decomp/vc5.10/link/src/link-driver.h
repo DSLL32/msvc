@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <stdio.h>
 #include <stddef.h>
+#include "symbols.h"
 #include <recon.h>
 
 /* The context is a PE header plus linker options. Unread fields retain their
@@ -21,7 +22,6 @@ struct LinkOptions {
     BYTE default180, reserved181[15];
 };
 
-struct StringTable;
 struct LinkAuxiliaryData { DWORD reserved[11]; };
 struct LinkPointerList {
     void *first;

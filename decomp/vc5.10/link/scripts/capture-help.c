@@ -12,7 +12,7 @@ static unsigned char *mask;
 typedef struct Entry { DWORD rva; unsigned byte, seen; char name[128]; } Entry;
 static Entry entries[2048];
 static unsigned entry_count;
-static DWORD crt_base, main_frame_base;
+static DWORD crt_base, main_frame_base, virtual_arguments[4];
 typedef struct StateRequest { char scope[16], name[128]; DWORD rva, size; } StateRequest;
 static StateRequest requests[64];
 static unsigned request_count;
@@ -80,6 +80,42 @@ static int save_module(HANDLE file, DWORD address, const char *directory, unsign
     }
     fflush(events);
     return 1;
+}
+
+/* Explicit original-only typed heap capture, bounded to this help case. */
+static int save_memory(DWORD address,unsigned size,const char *name)
+{
+    unsigned char bytes[65536];
+    DWORD got,written;
+    char path[1024];
+    HANDLE file;
+    if(size>sizeof(bytes) || !ReadProcessMemory(process,(void *)address,bytes,size,&got)||got!=size)return 0;
+    sprintf(path,"%s\\%s",output_directory,name);
+    file=CreateFileA(path,GENERIC_WRITE,0,NULL,CREATE_NEW,FILE_ATTRIBUTE_NORMAL,NULL);
+    if(file==INVALID_HANDLE_VALUE||!WriteFile(file,bytes,size,&written,NULL)||written!=size)return 0;
+    CloseHandle(file);
+    return 1;
+}
+static int save_context_heap(DWORD context)
+{
+    DWORD pointer,got,table[10],hash[14],arena[4];
+    unsigned index,kind;
+    char name[128];
+    for(index=0;index<2;++index) {
+        if(!ReadProcessMemory(process,(void *)(context+0x1d0+index*4),&pointer,4,&got)||got!=4||!pointer||
+           !ReadProcessMemory(process,(void *)pointer,table,sizeof(table),&got)||got!=sizeof(table))return 0;
+        sprintf(name,"table-%u.bin",index);if(!save_memory(pointer,40,name))return 0;
+        if(!ReadProcessMemory(process,(void *)table[0],hash,sizeof(hash),&got)||got!=sizeof(hash))return 0;
+        sprintf(name,"hash-%u.bin",index);if(!save_memory(table[0],56,name))return 0;
+        for(kind=0;kind<2;++kind) {
+            pointer=hash[11+kind];
+            if(!pointer||!ReadProcessMemory(process,(void *)pointer,arena,sizeof(arena),&got)||got!=sizeof(arena))return 0;
+            sprintf(name,"arena-%u-%u.bin",index,kind);if(!save_memory(pointer,16,name))return 0;
+            sprintf(name,"arena-data-%u-%u.bin",index,kind);if(!save_memory(arena[3],arena[1]+arena[2],name))return 0;
+        }
+    }
+    if(!ReadProcessMemory(process,(void *)(context+0x260),&pointer,4,&got)||got!=4||!pointer)return 0;
+    return save_memory(pointer,44,"context-auxiliary.bin");
 }
 
 static int snapshot(DWORD address)
@@ -168,13 +204,32 @@ static int snapshot(DWORD address)
             CloseHandle(output);
         }
     }
-    if(address==base+0x337d0 || address==base+0x62220) {
+    if(address==base+0x337d0 || address==base+0x62220 || address==base+0x30c70 || address==base+0x30c30 || address==base+0x4f5e0 || address==base+0x4f640 || address==base+0x4fe50) {
         pointer=address==base+0x337d0?context.Ecx:context.Ebp;
         if(!ReadProcessMemory(process,(void *)pointer,bytes,664,&got)||got!=664)return 0;
         sprintf(path,"%s\\link-context.bin",output_directory);
         output=CreateFileA(path,GENERIC_WRITE,0,NULL,CREATE_NEW,FILE_ATTRIBUTE_NORMAL,NULL);
         if(output==INVALID_HANDLE_VALUE||!WriteFile(output,bytes,664,&written,NULL)||written!=664)return 0;
         CloseHandle(output);
+        if(address==base+0x30c70 || address==base+0x30c30 || address==base+0x4f5e0 || address==base+0x4f640 || address==base+0x4fe50) {
+            if(!ReadProcessMemory(process,(void *)(pointer+0x1d0),&pointer,4,&got)||got!=4||!pointer||
+               !ReadProcessMemory(process,(void *)pointer,bytes,40,&got)||got!=40)return 0;
+            sprintf(path,"%s\\string-table.bin",output_directory);
+            output=CreateFileA(path,GENERIC_WRITE,0,NULL,CREATE_NEW,FILE_ATTRIBUTE_NORMAL,NULL);
+            if(output==INVALID_HANDLE_VALUE||!WriteFile(output,bytes,40,&written,NULL)||written!=40)return 0;
+            CloseHandle(output);
+            if(address==base+0x30c30 || address==base+0x4f5e0 || address==base+0x4f640 || address==base+0x4fe50) {
+                if(!ReadProcessMemory(process,(void *)pointer,&pointer,4,&got)||got!=4||!pointer||
+                   !ReadProcessMemory(process,(void *)pointer,bytes,56,&got)||got!=56)return 0;
+                sprintf(path,"%s\\hash-state.bin",output_directory);
+                output=CreateFileA(path,GENERIC_WRITE,0,NULL,CREATE_NEW,FILE_ATTRIBUTE_NORMAL,NULL);
+                if(output==INVALID_HANDLE_VALUE||!WriteFile(output,bytes,56,&written,NULL)||written!=56)return 0;
+                CloseHandle(output);
+            }
+        }
+    }
+    if(address==base+0x45130) {
+        if(!save_memory(stack[1],664,"link-context.bin") || !save_context_heap(stack[1]))return 0;
     }
     fflush(events);
     return 1;
@@ -316,6 +371,12 @@ int main(int argc, char **argv)
                             fprintf(events,",\"requested\":");quoted(requested);
                         }
                         fprintf(events,"}\n");
+                    } else if(!strncmp(entries[index].name,"observe:virtual_",16)) {
+                        DWORD got;
+                        if(!strcmp(entries[index].name,"observe:virtual_call")) {
+                            if(!ReadProcessMemory(process,(void *)context.Esp,virtual_arguments,sizeof(virtual_arguments),&got)||got!=sizeof(virtual_arguments)){failed=6;break;}
+                        } else if(!context.Eax || !save_memory(context.Eax,virtual_arguments[1],"virtual-first-zero.bin")){failed=6;break;}
+                        fprintf(events,"{\"event\":\"virtual_observation\",\"name\":\"%s\",\"site\":%lu,\"arguments\":[%lu,%lu,%lu,%lu],\"eax\":%lu}\n",entries[index].name,site,virtual_arguments[0],virtual_arguments[1],virtual_arguments[2],virtual_arguments[3],context.Eax);
                     } else if(!strncmp(entries[index].name,"observe:mbs_",12)) {
                         DWORD arguments[3],got,codepage,locale_handle,mb_cur_max,locale_codepage;
                         unsigned char table[257];
