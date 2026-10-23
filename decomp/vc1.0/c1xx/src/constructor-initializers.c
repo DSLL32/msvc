@@ -1513,3 +1513,21 @@ CppSymbol *__stdcall lookup_destructor_member(CType *type)
 {
     return lookup_special_member(type, name_dtor, 0);
 }
+
+CppSymbol *__stdcall single_qualified_function(QualifiedDeclarator *declaration);
+
+/* Original 0x38390..0x383f5. A class deallocator can receive the
+   object size as its second argument. Preserve the normal qualified designator
+   and call-building path for both signatures. */
+IrToken *__stdcall make_class_delete_call(QualifiedDeclarator *declaration,
+    IrToken *object, CppSymbol *tag)
+{
+    IrToken *arguments = append_expression(0, object, 2);
+    CppSymbol *function = single_qualified_function(declaration);
+    TypeShape *shape = function->type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    if (shape->data.parameters->declarations->count == 2)
+        arguments = append_expression(arguments,
+            make_integer_constant(tag->detail.class_info->size), 2);
+    return build_call_expression(symbol_reference((CppSymbol *)declaration), arguments);
+}

@@ -1,0 +1,21 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_make_class_delete_call@12",
+    "start": 230288,
+    "end": 230389
+  },
+  "distinct_direct_callees": [
+    "_append_expression@12",
+    "_build_call_expression@8",
+    "_make_integer_constant@4",
+    "_single_qualified_function@4",
+    "_symbol_reference@4"
+  ],
+  "next_frontier": "_single_qualified_function@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4028560034930706,
+  "total_operation_seconds": 3.042046776972711,
+  "original_capture_seconds": 0.8663690080866218
+}

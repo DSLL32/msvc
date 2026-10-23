@@ -997,7 +997,8 @@
     "_delete_expression@16",
     "_has_destructor_member_model@4",
     "_lookup_destructor_member@4",
-    "_add_array_declarator@8"
+    "_add_array_declarator@8",
+    "_make_class_delete_call@12"
   ],
   "driver": [
     {
@@ -7030,7 +7031,7 @@
     {
       "name": "_make_class_delete_call@12",
       "start": 230288,
-      "end": 230289
+      "end": 230389
     },
     {
       "name": "_make_global_delete_call@4",
@@ -7597,6 +7598,11 @@
       "name": "_convert_delete_operand_to_pointer@4",
       "start": 408608,
       "end": 408609
+    },
+    {
+      "name": "_single_qualified_function@4",
+      "start": 230768,
+      "end": 230769
     }
   ],
   "cases": {
@@ -7752,8 +7758,8 @@
       "native_reference": "cases/native-new-delete",
       "frontiers": "cases/frontiers/new_delete",
       "accepted_from": 963,
-      "terminal": "_make_class_delete_call@12",
-      "terminal_evidence": "cases/frontiers/new_delete/0992-add_array_declarator-8/original-events.txt",
+      "terminal": "_single_qualified_function@4",
+      "terminal_evidence": "cases/frontiers/new_delete/0993-make_class_delete_call-12/original-events.txt",
       "original_seed": "cases/new_delete-seed",
       "frontier_extensions": [
         "cases/frontiers/new_delete/0963-read_include_name/frontier-extension.json",
@@ -7785,7 +7791,8 @@
         "cases/frontiers/new_delete/0989-delete_expression-16/frontier-extension.json",
         "cases/frontiers/new_delete/0990-has_destructor_member_model-4/frontier-extension.json",
         "cases/frontiers/new_delete/0991-lookup_destructor_member-4/frontier-extension.json",
-        "cases/frontiers/new_delete/0992-add_array_declarator-8/frontier-extension.json"
+        "cases/frontiers/new_delete/0992-add_array_declarator-8/frontier-extension.json",
+        "cases/frontiers/new_delete/0993-make_class_delete_call-12/frontier-extension.json"
       ]
     }
   },

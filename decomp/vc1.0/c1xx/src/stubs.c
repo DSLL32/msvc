@@ -596,7 +596,7 @@ void __stdcall finish_pascal_literal(ParserValue *literal) { __asm { int 3 } }
 unsigned __stdcall decode_literal_escape(unsigned char character, int wide) { __asm { int 3 } return 0; }
 
 
-IrToken *__stdcall make_class_delete_call(QualifiedDeclarator *declaration, IrToken *object, CppSymbol *tag) { __asm { int 3 } return 0; }
+
 
 IrToken *__stdcall pure_virtual_table_expression(CppSymbol *function) { __asm { int 3 } return 0; }
 
@@ -619,3 +619,5 @@ IrToken *convert_selected_operator_operand(OverloadCandidate *candidate, unsigne
 int __stdcall equivalent_operand_types(CType *left, CType *right) { __asm { int 3 } return 0; }
 
 IrToken *__stdcall convert_delete_operand_to_pointer(IrToken *expression) { __asm { int 3 } return 0; }
+
+CppSymbol *__stdcall single_qualified_function(QualifiedDeclarator *declaration) { __asm { int 3 } return 0; }
