@@ -303,3 +303,8 @@ build/mb-span-probe: tests/mb-span-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 mb-span-check: build/mb-span-probe
 	$(PYTHON) tests/check-mb-span.py build/mb-span-probe
+
+build/wcstol-probe: tests/wcstol-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -fshort-wchar $< $(SOURCES) -o $@
+wcstol-check: build/wcstol-probe
+	$(PYTHON) tests/check-wcstol.py build/wcstol-probe

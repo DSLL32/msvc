@@ -1916,7 +1916,26 @@ WEAK WCHAR *recon_wcsdup(const WCHAR *text)
 }
 WEAK long recon_wcstol(const WCHAR *text,WCHAR **end,int base)
 {
-    (void)text;(void)end;(void)base;recon_unsupported("unreviewed legacy UTF16 wcstol");return 0;
+    const WCHAR *cursor;
+    unsigned long value=0,limit;
+    unsigned digit;
+    int negative=0,overflow=0;
+    ascii_multibyte_scope();
+    if (!text || end || base!=10) recon_unsupported("unreviewed UTF16 wcstol arguments");
+    for (cursor=text;*cursor;++cursor)
+        if (*cursor>=128) recon_unsupported("nonASCII UTF16 wcstol text");
+    cursor=text;
+    while (*cursor==' ' || (*cursor>='\t' && *cursor<='\r')) ++cursor;
+    if (*cursor=='-' || *cursor=='+') { negative=*cursor=='-';++cursor; }
+    limit=negative?0x80000000UL:0x7fffffffUL;
+    while (*cursor>='0' && *cursor<='9') {
+        digit=*cursor++-'0';
+        if (value>limit/10 || (value==limit/10 && digit>limit%10)) overflow=1;
+        else if (!overflow) value=value*10+digit;
+    }
+    if (overflow) { errno=ERANGE;return negative?LONG_MIN:LONG_MAX; }
+    if (negative) return value==0x80000000UL?LONG_MIN:-(long)value;
+    return (long)value;
 }
 
 WEAK int recon_putenv(const char *assignment)

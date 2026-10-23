@@ -1,0 +1,26 @@
+{
+  "scope": "Default-C CP0/MB_CUR_MAX1 ASCII UTF16 wcstol, base10 andNULLend only. LeadingASCIIspace/sign, decimalinitialprefix, signed32 saturation anderrnoERANGE; input/tails untouched. Unknown base/endpointer/nonASCII/locale denied.",
+  "original_reference": "tests/wcstol-original.json, actualcanonical loadedCRT/probehFile verified,52 rows/13strings\u00d74errorpairs andfull128-byte input/tail snapshots",
+  "full_provider_review": [
+    "wrapper1a173..1a18d",
+    "commonhelper8be7..8cef pluscoldfb37..fc85, includingwhitespaceprefixfb37 andsignedoverflowfc0f..fc60",
+    "ASCIIiswctype4131..416c/default-Ctowupper42a4 paths; no othererror/LastError writes"
+  ],
+  "actual_target": {
+    "text": "UTF16 1252",
+    "end": 0,
+    "base": 10,
+    "result": 1252,
+    "errno_before_after": [
+      0,
+      0
+    ],
+    "last_error_before_after": [
+      0,
+      0
+    ],
+    "events_sha256": "3d372158f29949de560ba18a4acc12c30b240cf51ecb34df29a668bfd3d0a644"
+  },
+  "native_checks": "GCC/Clang all52 original return/error rows andallinput bytes exact;5 unsupported controls andSDKsurface checks pass.",
+  "limits": "No broadlocale/DBCS/nondecimal/nonnullendptr semantics. _wcsdup remains unsupported; finishedVC1CL/RC/RCPP source has nowcstol use, no extra95 replay."
+}

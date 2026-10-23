@@ -1,0 +1,10 @@
+{
+  "source_sha256": "581c51414234cf8bf5e6a7b69abb732e2be83f9a23408fe1cb923c55c18d737f",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "stdout_sha256": "47c8d30ba8a6c3f549b427375f666a34c292392a80e154eb721fe1e2f5d41960",
+  "stdout_bytes": 5012,
+  "input_sha256": "25a256b3bdeae139a3fd910ec6dcc05ab956535f5ad9de27b982d5059ab3e5d1",
+  "input_bytes": 13312,
+  "original_seconds": 1.0232403334230185,
+  "rows": 52
+}
