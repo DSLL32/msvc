@@ -6,10 +6,10 @@
   "argv": ["-?"],
   "argument_status": "candidate-from-newer-source; confirm historical parser and explicit reference capture",
   "working_directory": "empty case-local directory",
-  "stdin": "empty bytes then EOF",
+  "stdin": "64 newline bytes then EOF; help may paginate, actual console behavior must be captured",
   "environment": "record complete target-visible environment, locale and command line at capture",
   "reference_capture": {
-    "authorization": "pending compiler/ABI architecture review",
+    "authorization": "pending concrete capture/scaffold review; native GCC ABI decision is approved",
     "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
     "transport": "direct native PE32 under shared Wine; no CF payload stub needed",
     "record": ["original hash", "argv and raw command line", "target environment", "status", "raw stdout", "raw stderr", "files before/after", "application entry trace", "frontier ABI and state"],
@@ -21,5 +21,6 @@
     "checks": ["complete invocation and input", "application entry trace", "status", "raw streams", "artifacts"],
     "timing": ["build", "setup", "execution", "checks"]
   },
-  "unknowns": ["historical help switch and exit status", "application/CRT entry boundary", "app-vs-CRT function extents", "appended message resource format", "native Watcom register and return conventions"]
+  "abi_policy": "GCC i386 ABI for native tests, original Watcom ABI preserved/audited in Win32 build; semantic formal/ownership comparison, no per-function veneers",
+  "unknowns": ["historical help switch and exit status", "app-vs-CRT function extents", "appended message resource format", "reached Watcom FILE/CRT profile", "WLIB original-toolchain link recipe"]
 }

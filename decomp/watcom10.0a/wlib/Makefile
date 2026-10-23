@@ -3,13 +3,13 @@ PYTHON ?= python3
 .PHONY: all native reference-build metadata check
 all: native
 
-# These are deliberate holds, not successful builds or regression claims.
+# GCC's native ABI is authorized. The application scaffold is not yet accepted.
 native:
-	@printf '%s\n' 'HOLD: native Watcom EAX/EDX/EBX/ECX ABI support is awaiting review.' >&2
+	@printf '%s\n' 'HOLD: application-entry scaffold and capture plan await review; native will use GCC ABI.' >&2
 	@exit 2
 
 reference-build:
-	@printf '%s\n' 'HOLD: original Watcom compiler/stub execution has not been approved or verified.' >&2
+	@printf '%s\n' 'HOLD: WLIB reconstructed source and original-link recipe await review.' >&2
 	@exit 2
 
 metadata:
