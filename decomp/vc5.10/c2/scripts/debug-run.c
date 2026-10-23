@@ -212,7 +212,7 @@ static void observe(CONTEXT *context, DWORD address)
         }
         fclose(file);if(i==4096)ExitProcess(155);
     }
-    if (address == 0x420250 || address == 0x4206b7 || address == 0x420394 || address == 0x4532ae || address == 0x453e92 || address == 0x41f42e || address == 0x40d5a8 || address == 0x41f3f7 || address == 0x45312c || address == 0x4530fa || address == 0x4530a7 || address == 0x46575e || address == 0x453087 || address == 0x453036 || address == 0x401000 || address == 0x40d534 || address == 0x40d507 || address == 0x45302d || address == 0x453012 || address == 0x452f95 || address == 0x452f4b || address == 0x4200d1 || address == 0x452ea4 || address == 0x452335 || address == 0x452e9b || address == 0x452e27 || address == 0x452a22 || address == 0x452a98 || address == 0x452acb || address == 0x452bb7 || address == 0x452bd9 || address == 0x48b7f8 || address == 0x452cfe || address == 0x48b367 || address == 0x48b6e8 || address == 0x48b708) {
+    if (address == 0x420e74 || address == 0x420250 || address == 0x4206b7 || address == 0x420394 || address == 0x4532ae || address == 0x453e92 || address == 0x41f42e || address == 0x40d5a8 || address == 0x41f3f7 || address == 0x45312c || address == 0x4530fa || address == 0x4530a7 || address == 0x46575e || address == 0x453087 || address == 0x453036 || address == 0x401000 || address == 0x40d534 || address == 0x40d507 || address == 0x45302d || address == 0x453012 || address == 0x452f95 || address == 0x452f4b || address == 0x4200d1 || address == 0x452ea4 || address == 0x452335 || address == 0x452e9b || address == 0x452e27 || address == 0x452a22 || address == 0x452a98 || address == 0x452acb || address == 0x452bb7 || address == 0x452bd9 || address == 0x48b7f8 || address == 0x452cfe || address == 0x48b367 || address == 0x48b6e8 || address == 0x48b708) {
         DWORD argc, argv;
         if (!read_memory(0x49972c,&argc,4) || !read_memory(0x499728,&argv,4)) ExitProcess(151);
         fprintf(events,"command-state argc=%lu argv=%08lx input=%08lx\n",argc,argv,context->Ecx);
@@ -228,7 +228,7 @@ static void observe(CONTEXT *context, DWORD address)
         if (!read_memory(context->Esp+4,&value,4)) ExitProcess(149);
         fprintf(events,"exit-callback %08lx\n",value);
     }
-    if (address == 0x452e9b || address == 0x452335 || address == 0x452ea4 || address == 0x4200d1 || address == 0x452f4b || address == 0x452f95 || address == 0x453012 || address == 0x45302d || address == 0x40d507 || address == 0x40d534 || address == 0x401000 || address == 0x453036 || address == 0x453087 || address == 0x46575e || address == 0x4530a7 || address == 0x4530fa || address == 0x45312c || address == 0x41f3f7 || address == 0x40d5a8 || address == 0x41f42e || address == 0x453e92 || address == 0x4532ae || address == 0x420394 || address == 0x4206b7 || address == 0x420250) {
+    if (address == 0x452e9b || address == 0x452335 || address == 0x452ea4 || address == 0x4200d1 || address == 0x452f4b || address == 0x452f95 || address == 0x453012 || address == 0x45302d || address == 0x40d507 || address == 0x40d534 || address == 0x401000 || address == 0x453036 || address == 0x453087 || address == 0x46575e || address == 0x4530a7 || address == 0x4530fa || address == 0x45312c || address == 0x41f3f7 || address == 0x40d5a8 || address == 0x41f42e || address == 0x453e92 || address == 0x4532ae || address == 0x420394 || address == 0x4206b7 || address == 0x420250 || address == 0x420e74) {
         DWORD current, operand, argv, alignment=context->Ecx;
         if (address!=0x452e9b && !read_memory(0x499a04,&alignment,4)) ExitProcess(183);
         if (!read_memory(0x49968c,&current,4) ||
@@ -240,7 +240,7 @@ static void observe(CONTEXT *context, DWORD address)
         save_string(operand,"option-operand.bin");
         save_contextual_data();
     }
-    if (address == 0x452ea4 || address == 0x4200d1 || address == 0x452f4b || address == 0x452f95 || address == 0x453012 || address == 0x45302d || address == 0x40d507 || address == 0x40d534 || address == 0x401000 || address == 0x453036 || address == 0x453087 || address == 0x46575e || address == 0x4530a7 || address == 0x4530fa || address == 0x45312c || address == 0x41f3f7 || address == 0x40d5a8 || address == 0x41f42e || address == 0x453e92 || address == 0x4532ae || address == 0x420394 || address == 0x4206b7 || address == 0x420250) {
+    if (address == 0x452ea4 || address == 0x4200d1 || address == 0x452f4b || address == 0x452f95 || address == 0x453012 || address == 0x45302d || address == 0x40d507 || address == 0x40d534 || address == 0x401000 || address == 0x453036 || address == 0x453087 || address == 0x46575e || address == 0x4530a7 || address == 0x4530fa || address == 0x45312c || address == 0x41f3f7 || address == 0x40d5a8 || address == 0x41f42e || address == 0x453e92 || address == 0x4532ae || address == 0x420394 || address == 0x4206b7 || address == 0x420250 || address == 0x420e74) {
         DWORD input, globals, iob, active;
         BYTE data[64]; FILE *output;
         if (!read_memory(0x499698,&input,4) ||
@@ -248,13 +248,13 @@ static void observe(CONTEXT *context, DWORD address)
             !read_memory(0x48d08c,&iob,4) ||
             !read_memory(input,data,32) || !read_memory(globals,data+32,32)) ExitProcess(185);
         fprintf(events,"header-streams input=%08lx globals=%08lx iob=%08lx\n",input,globals,iob);
-        if (address == 0x4200d1 || address == 0x452f4b || address == 0x452f95 || address == 0x453012 || address == 0x45302d || address == 0x40d507 || address == 0x40d534 || address == 0x401000 || address == 0x453036 || address == 0x453087 || address == 0x46575e || address == 0x4530a7 || address == 0x4530fa || address == 0x45312c || address == 0x41f3f7 || address == 0x40d5a8 || address == 0x41f42e || address == 0x453e92 || address == 0x4532ae || address == 0x420394 || address == 0x4206b7 || address == 0x420250) {
+        if (address == 0x4200d1 || address == 0x452f4b || address == 0x452f95 || address == 0x453012 || address == 0x45302d || address == 0x40d507 || address == 0x40d534 || address == 0x401000 || address == 0x453036 || address == 0x453087 || address == 0x46575e || address == 0x4530a7 || address == 0x4530fa || address == 0x45312c || address == 0x41f3f7 || address == 0x40d5a8 || address == 0x41f42e || address == 0x453e92 || address == 0x4532ae || address == 0x420394 || address == 0x4206b7 || address == 0x420250 || address == 0x420e74) {
             if (!read_memory(0x490b80,&active,4)) ExitProcess(187);
             fprintf(events,"active-il-stream %08lx\n",active);
         }
         output=fopen("header-streams.bin","wb");
         if (!output || fwrite(data,1,64,output)!=64 || fclose(output)) ExitProcess(186);
-        if (address == 0x452f4b || address == 0x452f95 || address == 0x453012 || address == 0x45302d || address == 0x40d507 || address == 0x40d534 || address == 0x401000 || address == 0x453036 || address == 0x453087 || address == 0x46575e || address == 0x4530a7 || address == 0x4530fa || address == 0x45312c || address == 0x41f3f7 || address == 0x40d5a8 || address == 0x41f42e || address == 0x453e92 || address == 0x4532ae || address == 0x420394 || address == 0x4206b7 || address == 0x420250) {
+        if (address == 0x452f4b || address == 0x452f95 || address == 0x453012 || address == 0x45302d || address == 0x40d507 || address == 0x40d534 || address == 0x401000 || address == 0x453036 || address == 0x453087 || address == 0x46575e || address == 0x4530a7 || address == 0x4530fa || address == 0x45312c || address == 0x41f3f7 || address == 0x40d5a8 || address == 0x41f42e || address == 0x453e92 || address == 0x4532ae || address == 0x420394 || address == 0x4206b7 || address == 0x420250 || address == 0x420e74) {
             DWORD words[8], valid;
             BYTE buffer[4096];
             memcpy(words,data+32,32);
@@ -268,7 +268,7 @@ static void observe(CONTEXT *context, DWORD address)
         }
 
     }
-    if (address == 0x45302d || address == 0x40d507 || address == 0x40d534 || address == 0x401000 || address == 0x453036 || address == 0x453087 || address == 0x46575e || address == 0x4530a7 || address == 0x4530fa || address == 0x45312c || address == 0x41f3f7 || address == 0x40d5a8 || address == 0x41f42e || address == 0x453e92 || address == 0x4532ae || address == 0x420394 || address == 0x4206b7 || address == 0x420250) {
+    if (address == 0x45302d || address == 0x40d507 || address == 0x40d534 || address == 0x401000 || address == 0x453036 || address == 0x453087 || address == 0x46575e || address == 0x4530a7 || address == 0x4530fa || address == 0x45312c || address == 0x41f3f7 || address == 0x40d5a8 || address == 0x41f42e || address == 0x453e92 || address == 0x4532ae || address == 0x420394 || address == 0x4206b7 || address == 0x420250 || address == 0x420e74) {
         BYTE buckets[4096]; FILE *output;
         if (!read_memory(0x48fb6c,buckets,sizeof(buckets))) ExitProcess(190);
         output=fopen("symbol-hash.bin","wb");
@@ -280,7 +280,7 @@ static void observe(CONTEXT *context, DWORD address)
         fprintf(events,"pool-allocate pool=%ld bytes=%lu caller-kind=%d caller-pool=%ld\n",(long)context->Ecx,context->Edx,(signed char)context->Ebx,(long)context->Esi);
     if (address == 0x40d534)
         fprintf(events,"node-size kind=%ld caller-kind=%d pool=%ld\n",(long)context->Ecx,(signed char)context->Ebx,(long)context->Esi);
-    if (address == 0x453036 || address == 0x453087 || address == 0x46575e || address == 0x4530a7 || address == 0x4530fa || address == 0x45312c || address == 0x41f3f7 || address == 0x40d5a8 || address == 0x41f42e || address == 0x453e92 || address == 0x4532ae || address == 0x420394 || address == 0x4206b7 || address == 0x420250) {
+    if (address == 0x453036 || address == 0x453087 || address == 0x46575e || address == 0x4530a7 || address == 0x4530fa || address == 0x45312c || address == 0x41f3f7 || address == 0x40d5a8 || address == 0x41f42e || address == 0x453e92 || address == 0x4532ae || address == 0x420394 || address == 0x4206b7 || address == 0x420250 || address == 0x420e74) {
         DWORD pools[12], free_blocks, types;
         BYTE block[4096]; FILE *output;
         if (!read_memory(0x48e020,pools,sizeof(pools)) ||
@@ -314,7 +314,7 @@ static void observe(CONTEXT *context, DWORD address)
                 context->Esi,context->FloatSave.ControlWord&0xffff,context->FloatSave.StatusWord&0xffff,
                 context->FloatSave.TagWord&0xffff,context->FloatSave.ErrorOffset);
     }
-    if (address == 0x4530a7 || address == 0x4530fa || address == 0x45312c || address == 0x41f3f7 || address == 0x40d5a8 || address == 0x41f42e || address == 0x453e92 || address == 0x4532ae || address == 0x420394 || address == 0x4206b7 || address == 0x420250) {
+    if (address == 0x4530a7 || address == 0x4530fa || address == 0x45312c || address == 0x41f3f7 || address == 0x40d5a8 || address == 0x41f42e || address == 0x453e92 || address == 0x4532ae || address == 0x420394 || address == 0x4206b7 || address == 0x420250 || address == 0x420e74) {
         BYTE reals[36]; FILE *output;
         if (!read_memory(0x48f880,reals,12) || !read_memory(0x48fb08,reals+12,12) ||
             !read_memory(0x491058,reals+24,12)) ExitProcess(205);
@@ -325,7 +325,7 @@ static void observe(CONTEXT *context, DWORD address)
         fprintf(events,"extended-results control=%04lx status=%04lx tag=%04lx\n",context->FloatSave.ControlWord&0xffff,
                 context->FloatSave.StatusWord&0xffff,context->FloatSave.TagWord&0xffff);
     }
-    if (address == 0x4530fa || address == 0x45312c || address == 0x41f3f7 || address == 0x40d5a8 || address == 0x41f42e || address == 0x453e92 || address == 0x4532ae || address == 0x420394 || address == 0x4206b7 || address == 0x420250) {
+    if (address == 0x4530fa || address == 0x45312c || address == 0x41f3f7 || address == 0x40d5a8 || address == 0x41f42e || address == 0x453e92 || address == 0x4532ae || address == 0x420394 || address == 0x4206b7 || address == 0x420250 || address == 0x420e74) {
         BYTE descriptions[344*16]; FILE *output;
         if (!read_memory(0x48e300,descriptions,sizeof(descriptions))) ExitProcess(208);
         output=fopen("intrinsic-table.bin","wb");
@@ -364,7 +364,7 @@ static void observe(CONTEXT *context, DWORD address)
             fprintf(events,"unmodeled-original-data base=0048e000 bytes=67328 NO-payload-or-extent-credit\n");
         }
     }
-    if (address == 0x420250) {
+    if (address == 0x420250 || address == 0x420e74) {
         BYTE data[2058]; FILE *output;
         if(!read_memory(0x497308,data,64))ExitProcess(241);
         output=fopen("symbol-template.bin","wb");if(!output || fwrite(data,1,64,output)!=64 || fclose(output))ExitProcess(242);
@@ -373,7 +373,8 @@ static void observe(CONTEXT *context, DWORD address)
         if(!read_memory(0x48e050,data,12))ExitProcess(245);
         output=fopen("source-name-pool.bin","wb");if(!output || fwrite(data,1,12,output)!=12 || fclose(output))ExitProcess(246);
         if(!read_memory(context->Esp+12,&value,4))ExitProcess(247);
-        fprintf(events,"symbol-serial-input kind=%ld retention=%lu formals=0 template=00497308 bytes=64 name-bytes=2058\n",(long)(signed char)context->Ebx,value);
+        if(address==0x420e74)fprintf(events,"symbol-name-input buffer=%08lx capacity=%lu caller-kind=%ld retention=%lu\n",context->Ecx,context->Edx,(long)(signed char)context->Ebx,value);
+        else fprintf(events,"symbol-serial-input kind=%ld retention=%lu formals=0 template=00497308 bytes=64 name-bytes=2058\n",(long)(signed char)context->Ebx,value);
     }
     if (address == 0x4206b7) {
         BYTE scope[4100]; FILE *output;
@@ -386,7 +387,7 @@ static void observe(CONTEXT *context, DWORD address)
         if(!read_memory(0x490b80,&active,4) || !read_memory(0x497fd4,&globals,4))ExitProcess(238);
         fprintf(events,"global-symbols-input scope=%08lx active=%08lx globals=%08lx\n",context->Ecx,active,globals);
     }
-    if (address == 0x4532ae || address == 0x420394 || address == 0x4206b7 || address == 0x420250) {
+    if (address == 0x4532ae || address == 0x420394 || address == 0x4206b7 || address == 0x420250 || address == 0x420e74) {
         DWORD fields[7], pointers[5], list[2], current, next, name, class_name, at, amount;
         DWORD locations[7]={0x499724,0x4999f0,0x497f54,0x499738,0x497d8c,0x497f4c,0x499740};
         BYTE node[86], data[4096]; char file_name[64]; FILE *output;

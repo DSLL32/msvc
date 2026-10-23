@@ -34,6 +34,38 @@ long c2_read_il_long(void)
     return value.number;
 }
 
+/* Ordinary IL uses a 15-bit word with a two-byte extension. The older
+ * extended-header encoding instead packs 6+8+8 bits and reserves the short
+ * range 3fff80..3fffff for single-byte values. Neither form diagnoses EOF. */
+unsigned input_varuint(void)
+{
+    unsigned first, second, third, fourth, value;
+    int (__cdecl *refill)(FILE *) = _filbuf;
+
+    if (c2_il_extended_header) {
+        first = (unsigned char)IL_GETC(refill);
+        if (!(first & 0x80))
+            return first + 0x3fff80;
+        second = (unsigned char)IL_GETC(refill);
+        value = (first & 0x3f) | (second << 6);
+        if (first & 0x40) {
+            third = (unsigned char)IL_GETC(refill);
+            value |= third << 14;
+        }
+        return value;
+    }
+
+    first = (unsigned char)IL_GETC(refill);
+    second = (unsigned char)IL_GETC(refill);
+    value = first | ((second & 0x7f) << 8);
+    if (second & 0x80) {
+        third = (unsigned char)IL_GETC(refill);
+        fourth = (unsigned char)IL_GETC(refill);
+        value |= (third << 15) | (fourth << 23);
+    }
+    return value;
+}
+
 void read_global_symbols(void)
 {
     c2_current_il = c2_globals_input;

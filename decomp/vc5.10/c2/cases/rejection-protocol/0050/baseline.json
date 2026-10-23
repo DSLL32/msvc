@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "baseline_commit": "8e5f524b",
+  "control_result": "cases/acceptance/0050-symbol-input/rejections.json",
+  "control_result_sha256": "229f7b644258eb7f5bf490974d5d04d6de2eaa66b13500d4291d733844102c39",
+  "checker_contracts": {
+    "scripts/accept.py": "b184b8b7d67e07eb40ff807a1c64610ee32b4fe43b134d814fcd1cbc421ca79e",
+    "scripts/audit.py": "938cace588deae113948d5b1828155e8cd90036c737001dd05f2767ff90acc40",
+    "scripts/build-index.py": "1b61ab3c3de9bf0e730e44899fa36e995c8236269b4d2680c168535de1d83153",
+    "scripts/capture-native.py": "b5b105b9d1c9ffecf2525e63c53619921ab805f26a859a5a2675396329c16b0a",
+    "scripts/capture-original.py": "af5c46fdd5c60a9d50a69981bdbfdf0df9abb3eef31b3cd25cc63b21f2862ec5",
+    "scripts/case_inputs.py": "13ab2ee944896ade6b46c2b2d226fd63233ea9d3191931b1d8a84ddbfaa48aa9",
+    "scripts/check-rejections.py": "3c3b1c52952de627c00987b4a2e37c3f7ed522a7d719e9cbd789980f613b4c0d",
+    "scripts/compare.py": "f4054e963428df5fec272daf7897ea1ab12d8b6829dd27345be19faeea2d728a",
+    "scripts/data_evidence.py": "28d6537f92b374ceca489078f7dcc89b91dfd04175b78e0a28250aaea016ccfd",
+    "scripts/debug-run.c": "d471253628ee435a029c6749602d845bb8c20fe829e9fcb5fb5f5a5ad9f784f2",
+    "scripts/import_evidence.py": "b95bf84a6fe9a82ccc1f8450e0767f4e62da0ef396bcdb625719b500b10c768c",
+    "scripts/intrinsic_evidence.py": "89e13fbff12ec278801984bd7360b54b392cc50e332d9f449c7f8b9032ab0034",
+    "scripts/native-proof.py": "91fd879644eb159a173dade958a2f78d47ca25738ad3e3452be43757a33d7102",
+    "scripts/state.py": "c823efddd33082153589d54de971b74d841cf14da3b3080fb9f2639d1211f34e"
+  },
+  "source_archive": "checker-contracts.tar.gz",
+  "source_archive_sha256": "b90daba95f2ea13f9188401613054d697e6b40785222f59f855007d0ba05c622",
+  "proof_inputs": {
+    "original_receipt": "feb639537d643dde9353d9677ecd3909c6dd58893868f6166714d03c41c7b5bf",
+    "native_receipt": "41e0fd7f7ed17e256c4fc96b832614a37c4fbc713047c9356eb457c368731ea8"
+  },
+  "review": "Decoder50 passed34 fresh controls plus87 reviewed/reused; source snapshots and actual input receipts retained. Unsigned reader51 adds actual two-formal string-reader ABI and returned serial86 state checks; new and affected controls run fresh."
+}

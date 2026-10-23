@@ -60,7 +60,8 @@
     "@initialize_section_defaults@4",
     "_c2_initialize_codegen",
     "@read_symbols@4",
-    "@read_symbol@4"
+    "@read_symbol@4",
+    "_input_varuint"
   ],
   "driver": [
     {
@@ -3825,6 +3826,302 @@
       ],
       "record_model": "cases/analysis/read-symbol-layout.json",
       "record_model_sha256": "fbd8d9436da019518ddb3b53044e0aa59ea7f5c4428166daa4cfc3c82ed0f642"
+    },
+    {
+      "name": "_input_varuint",
+      "native": "input_varuint",
+      "start": 4325968,
+      "end": 4326187,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "cdecl no parameters, unsignedEAX RET0",
+      "state_policy": "symbol-serial-read",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4973d4",
+          "native": "(unsigned long)pending_functions"
+        },
+        {
+          "original": "0x4973f0",
+          "native": "(unsigned long)pending_insertion"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        }
+      ],
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "code_chunks": [
+        [
+          4628522,
+          4628747
+        ]
+      ],
+      "evidence": "cases/analysis/unsigned-input-disassembly.txt: primary219B plus225B cold extended-header encoding; cdecl no parameters RET0",
+      "cached_imports": [
+        {
+          "dll": "MSVCRT.dll",
+          "symbol": "_filbuf",
+          "abi": "cdecl int(FILE*), one pushed actualactiveILFILE pointer; caller cleanup4; original ESI in ordinary branch and EDI in extended branch preserved, rebuilt EBP-14 holds same typed pointer",
+          "original": {
+            "slot": 4772108,
+            "lifetime_ranges": [
+              [
+                36,
+                219
+              ],
+              [
+                302559,
+                302779
+              ]
+            ],
+            "lifetime_sha256s": [
+              "cca5d51ff877bd26913ede06015b85c0ff4d66db2cd5fd0489dba88da25bf255",
+              "4f716d54628d893fb34f75ceee043c74a993989e58536329e9153f065b6466f1"
+            ],
+            "instructions": [
+              {
+                "offset": 36,
+                "bytes": "8b350cd14800"
+              },
+              {
+                "offset": 302559,
+                "bytes": "8b3d0cd14800"
+              },
+              {
+                "offset": 102,
+                "bytes": "ffd6"
+              },
+              {
+                "offset": 116,
+                "bytes": "ffd6"
+              },
+              {
+                "offset": 198,
+                "bytes": "ffd6"
+              },
+              {
+                "offset": 212,
+                "bytes": "ffd6"
+              },
+              {
+                "offset": 302575,
+                "bytes": "ffd7"
+              },
+              {
+                "offset": 302623,
+                "bytes": "ffd7"
+              },
+              {
+                "offset": 302719,
+                "bytes": "ffd7"
+              }
+            ]
+          },
+          "rebuilt": {
+            "slot": 4214872,
+            "lifetime": [
+              6,
+              827
+            ],
+            "lifetime_sha256": "7e50fde173a0b76a8f79903ca67e931e947faf990b33825ba81da0154375a170",
+            "instructions": [
+              {
+                "offset": 6,
+                "bytes": "a158504000"
+              },
+              {
+                "offset": 11,
+                "bytes": "8945ec"
+              },
+              {
+                "offset": 102,
+                "bytes": "ff55ec83c404"
+              },
+              {
+                "offset": 221,
+                "bytes": "ff55ec83c404"
+              },
+              {
+                "offset": 342,
+                "bytes": "ff55ec83c404"
+              },
+              {
+                "offset": 460,
+                "bytes": "ff55ec83c404"
+              },
+              {
+                "offset": 555,
+                "bytes": "ff55ec83c404"
+              },
+              {
+                "offset": 683,
+                "bytes": "ff55ec83c404"
+              },
+              {
+                "offset": 778,
+                "bytes": "ff55ec83c404"
+              }
+            ]
+          },
+          "evidence": "cases/analysis/unsigned-input-disassembly.txt; manual whole bounded lifetime review: each original branch seeds its own preserved register from named MSVCRT IAT; no intervening definition of that register, only cdeclfilbuf calls. Rebuilt dominating seed spills once to EBP-14 and no other stores alias it. Seven sites pushactiveFILE/cleanup4; all branch/bypass entries begin before correspondingseed. Unknown changes fail exactbytes. No source shaping or localCFG discovery."
+        }
+      ]
     }
   ],
   "stubs": [
@@ -4019,14 +4316,23 @@
       "abi": "cdecl no parameters, signed shortAX RET0"
     },
     {
-      "name": "_input_varuint",
-      "native": "input_varuint",
-      "start": 4325968,
-      "end": 4325969,
+      "name": "_input_extended_flags",
+      "native": "input_extended_flags",
+      "start": 4763693,
+      "end": 4763694,
       "pending_extent": true,
       "kind": "application",
-      "abi": "cdecl no parameters, unsignedEAX RET0",
-      "state_policy": "symbol-serial-read",
+      "abi": "cdecl no parameters, flagsEAX RET0"
+    },
+    {
+      "name": "@input_string@8",
+      "native": "input_string",
+      "start": 4329076,
+      "end": 4329077,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall char*bufferECX unsignedcapacityEDX; RET0",
+      "state_policy": "symbol-name-read",
       "state": [
         {
           "original": "0x499708",
@@ -4197,24 +4503,6 @@
       "expected_argv": [
         "-G5"
       ]
-    },
-    {
-      "name": "_input_extended_flags",
-      "native": "input_extended_flags",
-      "start": 4763693,
-      "end": 4763694,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl no parameters, flagsEAX RET0"
-    },
-    {
-      "name": "@input_string@8",
-      "native": "input_string",
-      "start": 4329076,
-      "end": 4329077,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall char*bufferECX unsignedcapacityEDX; RET0"
     },
     {
       "name": "@copy_symbol_type@4",

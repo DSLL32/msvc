@@ -1,0 +1,46 @@
+{
+  "builds": {
+    "native": {
+      "seconds": 1.8722313651815057,
+      "status": 0
+    },
+    "original": {
+      "seconds": 2.033345284871757,
+      "status": 0
+    },
+    "helper_noop_check": {
+      "seconds": 0.005145523697137833,
+      "status": 0
+    },
+    "helper_rebuild": "Updated helper explicitly rebuilt before successful original capture; elapsed not measured."
+  },
+  "original_capture": {
+    "setup": 0.2014707187190652,
+    "execution": 0.9761398006230593,
+    "total": 1.220579870045185
+  },
+  "native_gdb_capture": {
+    "execution": 0.2856935691088438,
+    "total": 0.3910222416743636
+  },
+  "audit_seconds": 0.12525930907577276,
+  "rejection_control": {
+    "control_and_rejections": 8.431368711404502
+  },
+  "fresh_rejections": 21,
+  "reused_rejections": 98,
+  "postpromotion_fixture": {
+    "note": "make-j4 fixtures rebuilt native after shared compiled-input drift; accepted candidate proof keeps its actual immutable prior ELF/shared sources. Firsthelp fixture then passed.",
+    "changed_compiled_inputs": [
+      "lib/recon/include/recon.h",
+      "lib/recon/src/crt.c"
+    ],
+    "captured_elf_sha256": "b9c58d029b6281f59b03c8b8d0c10887c15dce7dcce88965bb562a235291941d",
+    "fixture_elf_sha256": "76fa2d756c884c28063ebe8960a5779cf887a8e878eeef70ac0a5118903333c2",
+    "seconds": {
+      "execution": 0.00210601557046175,
+      "total": 0.011048687621951103
+    },
+    "rebuild_elapsed": "not measured separately"
+  }
+}

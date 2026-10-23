@@ -123,6 +123,30 @@ def main():
                       ('machine call-clobber register mask differs',lambda r:changed_machine_value(r,'0x495f34',7)),
                       ('machine stack alignment differs',lambda r:changed_machine_value(r,'0x49745c',4)),
                       ('earlier intrinsic observation cannot replace final frontier observation',missing_final_intrinsic_observation)]
+    if 'symbol_name_input'in current_state:
+        def changed_name_input(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['symbol_name_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+            path=root/'n/gdb.stdout';raw=path.read_text();raw=re.sub(r'^C2-SYMBOL-NAME-INPUT .*$',lambda m:'C2-SYMBOL-NAME-INPUT '+json.dumps(state['symbol_name_input'],sort_keys=True),raw,flags=re.M);path.write_text(raw)
+            path=root/'n/receipt.json';receipt=json_at(path);receipt['gdb_outputs']['gdb.stdout']=sha((root/'n/gdb.stdout').read_bytes());write_json(path,receipt)
+        def changed_name_raw(root,name,index):
+            path=root/'o'/name;data=bytearray(path.read_bytes());data[index]^=1;path.write_bytes(data)
+        def changed_original_name_abi(root):
+            path=root/'o/events.txt';text=path.read_text().replace('symbol-name-input buffer=00496a00 capacity=2058','symbol-name-input buffer=00496a01 capacity=2058');path.write_text(text);raw_changed(root,'o','events.txt')
+        def missing_name_observation(root):
+            path=root/'n/gdb.stdout';path.write_text(re.sub(r'^C2-SYMBOL-NAME-INPUT .*\n','',path.read_text(),flags=re.M))
+            path=root/'n/receipt.json';receipt=json_at(path);receipt['gdb_outputs']['gdb.stdout']=sha((root/'n/gdb.stdout').read_bytes());write_json(path,receipt)
+        mutations += [('name reader omits actual capacity formal',lambda r:changed_name_input(r,'formals',[{'name':'buffer','type':'char *'}])),
+                      ('name reader buffer loses global scratch alias',lambda r:changed_name_input(r,'buffer_alias',False)),
+                      ('name reader actual capacity differs',lambda r:changed_name_input(r,'capacity',2057)),
+                      ('name reader caller kind differs',lambda r:changed_name_input(r,'kind',17)),
+                      ('name reader caller retention differs',lambda r:changed_name_input(r,'retain_locals',1)),
+                      ('name reader decoded unsigned serial differs',lambda r:changed_name_input(r,'template_bytes','00'*64)),
+                      ('name reader native untouched scratch tail differs',lambda r:changed_name_input(r,'name_bytes','00'*2057+'01')),
+                      ('name reader raw decoded serial differs',lambda r:changed_name_raw(r,'symbol-template.bin',40)),
+                      ('name reader raw untouched template tail differs',lambda r:changed_name_raw(r,'symbol-template.bin',63)),
+                      ('name reader raw untouched scratch tail differs',lambda r:changed_name_raw(r,'symbol-name.bin',2057)),
+                      ('name reader original actual buffer argument differs',changed_original_name_abi),
+                      ('name reader missing actual GDB observation',missing_name_observation)]
     if 'symbol_serial_input'in current_state:
         def changed_serial_input(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['symbol_serial_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

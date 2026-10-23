@@ -172,14 +172,6 @@
     "evidence": null
   },
   {
-    "name": "_input_varuint",
-    "start": 4325968,
-    "end": 4325969,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_input_extended_flags",
     "start": 4763693,
     "end": 4763694,
