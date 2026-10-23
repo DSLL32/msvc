@@ -35,6 +35,27 @@ int __stdcall tag_has_base_relation(CppSymbol *derived, CppSymbol *base);
 int __stdcall equal_member_function_parameters(FunctionParameters *source,
     FunctionParameters *target);
 
+/* Original 0x4df40..0x4df98. The cache retains a separate key
+   with the original allocation policy and all three defined words. */
+MemberPointerThunkKey *__stdcall copy_member_pointer_thunk_key(MemberPointerThunkKey *key,
+    short arena)
+{
+    MemberPointerThunkKey *copy;
+    ArenaPool *pool;
+    if (!arena) copy = allocate_permanent(sizeof(MemberPointerThunkKey));
+    else {
+        if (arena == -1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)sizeof(MemberPointerThunkKey))
+            refill_arena(&compiler_arena, pool);
+        copy = (MemberPointerThunkKey *)pool->next;
+        pool->remaining -= sizeof(MemberPointerThunkKey);
+        pool->next += sizeof(MemberPointerThunkKey);
+    }
+    *copy = *key;
+    return copy;
+}
+
 /* Original 0x4dc90..0x4dd52. Clone a virtual member's symbol with
    the generated-function identity; finish_declarations emits it later. */
 CppSymbol *__stdcall emit_member_pointer_virtual_thunk(MemberPointerThunkKey *key)

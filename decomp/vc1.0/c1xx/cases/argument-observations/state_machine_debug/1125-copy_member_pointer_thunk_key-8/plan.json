@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "function": "_copy_member_pointer_thunk_key@8",
+  "native_entry": "copy_member_pointer_thunk_key",
+  "argument_words": 4,
+  "ownership_register": "edi",
+  "ownership_caller_extent": [
+    318515,
+    318526
+  ],
+  "native_caller_locals": {
+    "caller_key": {
+      "frame": 1,
+      "function": "member_pointer_virtual_function",
+      "local": "key"
+    }
+  },
+  "native_expressions": {
+    "raw_key": "(unsigned)key",
+    "raw_arena": "(unsigned)(unsigned short)arena"
+  },
+  "formals": [
+    {
+      "name": "key",
+      "stack_index": 0,
+      "native_field": "raw_key",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 252990,
+        "original_owner_function": "_member_pointer_virtual_function@4",
+        "native_owner_function": "member_pointer_virtual_function",
+        "native_owner_field": "caller_key",
+        "native_owner_local": "key",
+        "identity": "Actual accepted cachehelper retains actual temporarykeyEDI, PUSH0arena4dc36/PUSHEDI4dc38/CALL4dc39 return4dc3e. Native real keylocal beforepermanentcopy."
+      }
+    },
+    {
+      "name": "arena",
+      "stack_index": 1,
+      "native_field": "raw_arena",
+      "binding": {
+        "kind": "scalar",
+        "bits": 16
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      319296,
+      319384
+    ],
+    "argument_bytes": 8,
+    "proof": "Whole88B/PUSHESI4: keyESP+8,arenaSIGNEDWORDESP+12,RET8/EAXcopy. Exactsame permanent/arena allocation graph askeyconstructor, copies only three originalkeyDWORDs at0/4/8 toseparatenew12Bowner. Existing sourcekeyfullyinitialized. Onlylow16arenaconsumed; no hidden/registersemanticinputs."
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_copy_member_pointer_thunk_key@8",
+    "start": 319296,
+    "end": 319384
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1125-copy_member_pointer_thunk_key-8/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_allocate_permanent@4",
+    "_refill_arena@8"
+  ],
+  "next_frontier": "_member_pointer_is_aggregate@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5186401950195432,
+  "total_operation_seconds": 3.390574637800455,
+  "original_capture_seconds": 0.7664237394928932
+}

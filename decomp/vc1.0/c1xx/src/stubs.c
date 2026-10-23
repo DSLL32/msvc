@@ -618,4 +618,3 @@ IrToken * __stdcall make_virtual_data_member_pointer(CType *type, IrToken *offse
 IrToken * __stdcall make_general_data_member_pointer(CType *type, IrToken *offset, int vbptr_offset, IrToken *vbtable_offset) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_multiple_inheritance_method_pointer(CType *type, IrToken *function, IrToken *adjustment) { __asm { int 3 } return 0; }
 IrToken *__stdcall convert_member_pointer_representation(IrToken *expression, CType *type, QualifiedDeclarator *path, int forward) { __asm { int 3 } return 0; }
-MemberPointerThunkKey *__stdcall copy_member_pointer_thunk_key(MemberPointerThunkKey *key, short arena) { __asm { int 3 } return 0; }

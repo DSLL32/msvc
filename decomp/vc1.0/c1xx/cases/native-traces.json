@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "c3490fb5e301e5d4e6d6cf60032aa2eeb529c662f44a96a0d0cc345415845814",
+    "functions.json": "c4eb5e0bdeb58cce18fb87dab70286f78bebc16fe0b4149648f1584a1c0acdf5",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "b6d8a2a96a67d07fa0cb55a805165693867c708dd88951363d78890b9f6b1932",
-    "cases/canonical-map.txt": "ec56e8f745ce5a0a1a18931a631451c4722bc1ea18a8553b4656806f9f371e5c",
+    "cases/original-entry-references.json": "2ec070a39790b3086d30dbc88c7467a63dc94a9b9af3dd856240058265d3b819",
+    "cases/canonical-map.txt": "54de8edfe0ce1b2b53dc757dcb7a9d1762cb0a02b2300c19e1f3c248a879c42e",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -44,9 +44,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1124-emit_member_pointer_virtual_thunk-4/entry-reference/original-receipt.json": "f5b66d2f5a973910bcbcc489a8d0359693af20139ac887ad757d54a57fe730cd",
-    "cases/frontiers/state_machine_debug/1124-emit_member_pointer_virtual_thunk-4/entry-reference/original-events.txt": "17949f2c8a8cc2606f3577c1897e1bb15f0e05bedde5251e40979261eee84869",
-    "cases/frontiers/state_machine_debug/1124-emit_member_pointer_virtual_thunk-4/entry-reference/original-entries.plan": "5c4a319e625da42bc382609de604fb66690c8ca2046b133ff700e914c0b01000"
+    "cases/frontiers/state_machine_debug/1125-copy_member_pointer_thunk_key-8/entry-reference/original-receipt.json": "27e2218c50de3313a4e1f75737b89f617f67e85404d2ddd787f9134ced87aeca",
+    "cases/frontiers/state_machine_debug/1125-copy_member_pointer_thunk_key-8/entry-reference/original-events.txt": "73d6aff456f6285d0fcb3e937cf72260b724cc14b1a2b2d5d21d591a6cf8198e",
+    "cases/frontiers/state_machine_debug/1125-copy_member_pointer_thunk_key-8/entry-reference/original-entries.plan": "ce4801800cdd467eabc5ec2a09b9bfc8b10395ebd96c677e2b9ac014615a50f2"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1227,7 +1227,7 @@
     },
     "copy_member_pointer_thunk_key": {
       "logical": "_copy_member_pointer_thunk_key@8",
-      "source": "src/stubs.c"
+      "source": "src/member-pointers.c"
     },
     "copy_qualified_declarator": {
       "logical": "_copy_qualified_declarator@8",
@@ -6676,7 +6676,8 @@
     "member_pointer_virtual_function",
     "new_member_pointer_thunk_key",
     "hash_tail_word_pair",
-    "emit_member_pointer_virtual_thunk"
+    "emit_member_pointer_virtual_thunk",
+    "copy_member_pointer_thunk_key"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10789,7 +10790,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1125,
+      "last": 1126,
       "seen": [
         "main",
         "message_text",
@@ -11823,12 +11824,13 @@
         "new_member_pointer_thunk_key",
         "hash_tail_word_pair",
         "emit_member_pointer_virtual_thunk",
-        "copy_member_pointer_thunk_key"
+        "copy_member_pointer_thunk_key",
+        "member_pointer_is_aggregate"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_copy_member_pointer_thunk_key@8",
-        "native": "copy_member_pointer_thunk_key",
+        "logical": "_member_pointer_is_aggregate@4",
+        "native": "member_pointer_is_aggregate",
         "signal": 5
       }
     }
