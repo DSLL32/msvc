@@ -129,7 +129,7 @@ void __stdcall add_case_label(IrToken *expression) { __asm { int 3 } }
 void __stdcall browser_base_class(BaseClassLink *base) { __asm { int 3 } }
 void __stdcall add_qualified_base(unsigned access, int is_virtual, QualifiedDeclarator *name) { __asm { int 3 } }
 
-void __stdcall begin_braced_initializer(CppSymbol *symbol) { __asm { int 3 } }
+
 void begin_do_condition(void) { __asm { int 3 } }
 void begin_do_statement(void) { __asm { int 3 } }
 void begin_else_body(void) { __asm { int 3 } }
@@ -622,3 +622,5 @@ IrToken *__stdcall convert_delete_operand_to_pointer(IrToken *expression) { __as
 
 
 void begin_line_record_debug_info(void) { __asm { int 3 } }
+
+void __stdcall push_braced_initializer(CppSymbol *symbol) { __asm { int 3 } }

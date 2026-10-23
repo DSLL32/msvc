@@ -1,0 +1,7 @@
+{
+  "status": "Default corrected before first acceptance capture",
+  "original_global": "0xa0a80",
+  "original_default": -1,
+  "rejected_initial_default": 0,
+  "check": "Independent original/canonical state-data audit rejected braced_initializer_depth; corrected data initializer to-1 and rebuilt, then fresh evidence matched"
+}
