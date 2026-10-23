@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "trial": "_initialize_frontend_06",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback06-original-1",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback06-native-1",
+  "original_receipt_sha256": "3bda9a790978f5d24e30903a0061ae9d4b33608d48e034537202f76e8eabdb74",
+  "native_receipt_sha256": "96061b2a94c84e78a969b1dfa24a01cf35a170f8009a3f0fb19d91786821953b",
+  "audit_sha256": "a303a974ea1d4d283b6142d03a50985844cfa5204aa10c5b57ce72322e60caa7",
+  "comparison": {
+    "trial": "_initialize_frontend_06",
+    "frontier": "_initialize_frontend_07",
+    "seed": null,
+    "modeled_context_fields": 33,
+    "original_default_context": [
+      0,
+      0,
+      0
+    ],
+    "typed_bss_bytes": 268,
+    "nonzero_expanded_BSS_restore_checked": false,
+    "original_unmodeled_snapshot_bytes": 8516,
+    "native_snapshot_byte_equivalence_claimed": false,
+    "whole_mask_bytes_checked": 751216,
+    "original_seconds": 1.4179144157096744,
+    "native_seconds": 0.254390612244606
+  },
+  "original_code_bytes": 1,
+  "timings": {
+    "native_build": {
+      "seconds": 1.6545898681506515,
+      "exit": 0
+    },
+    "original_build": {
+      "seconds": 2.695187870413065,
+      "exit": 0
+    },
+    "audit": {
+      "seconds": 0.155351884663105,
+      "exit": 0
+    }
+  },
+  "note": "Separate original RET function; fresh one-candidate original/native frontier plus full accepted-prefix Rust audit. No new data fields."
+}

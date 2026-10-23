@@ -15,7 +15,10 @@
     "_checked_malloc",
     "_initialize_frontend_01",
     "_initialize_frontend_02",
-    "_initialize_frontend_03"
+    "_initialize_frontend_03",
+    "_initialize_frontend_04",
+    "_initialize_frontend_05",
+    "_initialize_frontend_06"
   ],
   "driver": [
     {
@@ -108,7 +111,7 @@
       "name": "_initialize_frontend_04",
       "start": 272860751,
       "end": 272860752,
-      "pending_extent": true,
+      "pending_extent": false,
       "source": "src/initializers.c",
       "abi": "cdecl0"
     },
@@ -116,7 +119,7 @@
       "name": "_initialize_frontend_05",
       "start": 272860752,
       "end": 272860753,
-      "pending_extent": true,
+      "pending_extent": false,
       "source": "src/initializers.c",
       "abi": "cdecl0"
     },
@@ -124,7 +127,7 @@
       "name": "_initialize_frontend_06",
       "start": 272860753,
       "end": 272860754,
-      "pending_extent": true,
+      "pending_extent": false,
       "source": "src/initializers.c",
       "abi": "cdecl0"
     },
@@ -823,6 +826,114 @@
         "whole_mask_bytes_checked": 751216,
         "original_seconds": 1.2680143872275949,
         "native_seconds": 0.2550430065020919
+      }
+    },
+    {
+      "name": "_initialize_frontend_04",
+      "classification": "application source",
+      "source": "src/initializers.c",
+      "source_sha256": "0f5c6dbfeb35dbe2a02888903dc1d30141dfd030d2fbefd59f1090e2cb0c45cd",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback04-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback04-native-1",
+      "original_receipt_sha256": "cdb8c5402136545cdfc65daa0eea93f216d873b74703f3548d0e51f29eed16b0",
+      "native_receipt_sha256": "91bdbf8998fb2caed563de7d33d2e997dcc82de35a1f57f01dad168b56c448cc",
+      "trial_sha256": "3263b65a761aa77de4bd7573a425e54aa8121e33e2744472ce2795fdbef46346",
+      "audit_sha256": "1ecbc7b5fb18463f175df390833efe4d59e5ae3ca15fa0006fd1b018dc70c191",
+      "code_chunks": [
+        [
+          230991,
+          230992
+        ]
+      ],
+      "comparison": {
+        "trial": "_initialize_frontend_04",
+        "frontier": "_initialize_frontend_05",
+        "seed": null,
+        "modeled_context_fields": 33,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 268,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "original_seconds": 1.3678331710398197,
+        "native_seconds": 0.26107155717909336
+      }
+    },
+    {
+      "name": "_initialize_frontend_05",
+      "classification": "application source",
+      "source": "src/initializers.c",
+      "source_sha256": "63eb8f978ea844ca720f29d7fceae9af37623769f55e6309d581aed54fe1314c",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback05-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback05-native-1",
+      "original_receipt_sha256": "6370b0e36b85058e5a8566966ea7e0f99ac6b1d61906ea319ecd2ae395018365",
+      "native_receipt_sha256": "01e84d4a572bd704a35759480949cffb11ac6b4b67098cd4fbd4649482490044",
+      "trial_sha256": "57fdb383fa3f79610dd83d64952ab9fdb41fce5a268cf64bbe3670d78df4076c",
+      "audit_sha256": "3b5530f8a4684648c1021951247bb7ef64df1d41a7f2ec7228a42eb3dd70479e",
+      "code_chunks": [
+        [
+          230992,
+          230993
+        ]
+      ],
+      "comparison": {
+        "trial": "_initialize_frontend_05",
+        "frontier": "_initialize_frontend_06",
+        "seed": null,
+        "modeled_context_fields": 33,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 268,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "original_seconds": 1.2672825483605266,
+        "native_seconds": 0.261640558950603
+      }
+    },
+    {
+      "name": "_initialize_frontend_06",
+      "classification": "application source",
+      "source": "src/initializers.c",
+      "source_sha256": "e7b36fe775774d1b88ac0c89f10000cd3de05949c45492223ad7353bd26f08df",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback06-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback06-native-1",
+      "original_receipt_sha256": "3bda9a790978f5d24e30903a0061ae9d4b33608d48e034537202f76e8eabdb74",
+      "native_receipt_sha256": "96061b2a94c84e78a969b1dfa24a01cf35a170f8009a3f0fb19d91786821953b",
+      "trial_sha256": "496b44aaf75418105f8c97b80d41f120062338ebd8357e70671d881b7f0c9543",
+      "audit_sha256": "a303a974ea1d4d283b6142d03a50985844cfa5204aa10c5b57ce72322e60caa7",
+      "code_chunks": [
+        [
+          230993,
+          230994
+        ]
+      ],
+      "comparison": {
+        "trial": "_initialize_frontend_06",
+        "frontier": "_initialize_frontend_07",
+        "seed": null,
+        "modeled_context_fields": 33,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 268,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "original_seconds": 1.4179144157096744,
+        "native_seconds": 0.254390612244606
       }
     }
   ],

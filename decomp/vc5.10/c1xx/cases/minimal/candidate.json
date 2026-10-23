@@ -12,7 +12,10 @@
     "_checked_malloc",
     "_initialize_frontend_01",
     "_initialize_frontend_02",
-    "_initialize_frontend_03"
+    "_initialize_frontend_03",
+    "_initialize_frontend_04",
+    "_initialize_frontend_05",
+    "_initialize_frontend_06"
   ],
   "trial": null,
   "ranges": [
@@ -105,7 +108,25 @@
       "start_rva": 230964,
       "end_rva": 230991,
       "entry": 1
+    },
+    {
+      "owner": "_initialize_frontend_04",
+      "start_rva": 230991,
+      "end_rva": 230992,
+      "entry": 1
+    },
+    {
+      "owner": "_initialize_frontend_05",
+      "start_rva": 230992,
+      "end_rva": 230993,
+      "entry": 1
+    },
+    {
+      "owner": "_initialize_frontend_06",
+      "start_rva": 230993,
+      "end_rva": 230994,
+      "entry": 1
     }
   ],
-  "stage": "_initialize_frontend_03 accepted; next frontier _initialize_frontend_04"
+  "stage": "_initialize_frontend_06 accepted; next frontier _initialize_frontend_07"
 }

@@ -21,7 +21,7 @@ def context(directory,suffix,name='context_stack'):
 def check(original,native,require_audit=True,audit_path=None):
     o,n,trial,text,state=s.pair(original,native)
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(match is not None and 1<=int(match[1])<=3,'no reviewed callback decoder for this function')
+    s.require(match is not None and 1<=int(match[1])<=6,'no reviewed callback decoder for this function')
     index=int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
               trial.get('test_seed') in (None,'restore-nonzero','restore-zero') and

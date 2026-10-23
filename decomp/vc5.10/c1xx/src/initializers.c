@@ -27,17 +27,14 @@ void initialize_frontend_03(void)
 
 void initialize_frontend_04(void)
 {
-    __asm { int 3 }
 }
 
 void initialize_frontend_05(void)
 {
-    __asm { int 3 }
 }
 
 void initialize_frontend_06(void)
 {
-    __asm { int 3 }
 }
 
 void initialize_frontend_07(void)
