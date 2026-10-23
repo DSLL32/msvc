@@ -18,7 +18,7 @@
       "every_invocation": true
     },
     "input": {
-      "path": "decomp/vc1.0/link/cases/native-boundaries/hello-debug-dll/before.dll",
+      "path": "decomp/vc1.0/cvpack/cases/hello-debug-dll/input/hello-debug.dll",
       "name": "hello-debug.dll",
       "bytes": 2097152,
       "sha256": "81a603fcfffc6229f408dc056a54441d3806b09c8526cab8b3a1b5de74959036"

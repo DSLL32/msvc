@@ -7,7 +7,7 @@
   ],
   "inputs": [
     {
-      "path": "decomp/vc1.0/link/cases/native-boundaries/hello-debug-dll/before.dll",
+      "path": "decomp/vc1.0/cvpack/cases/hello-debug-dll/input/hello-debug.dll",
       "name": "hello-debug.dll",
       "bytes": 2097152,
       "sha256": "81a603fcfffc6229f408dc056a54441d3806b09c8526cab8b3a1b5de74959036"
@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "seek_buffered_file",
-    "native_function": "seek_buffered_file",
+    "logical": "checked_alloc",
+    "native_function": "checked_alloc",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -30,14 +30,22 @@
       "acquire_file_slot",
       "move_file_slot",
       "open_buffered_file",
-      "seek_buffered_file"
+      "seek_buffered_file",
+      "allocate_file_page",
+      "attach_page",
+      "read_file_page",
+      "touch_page",
+      "initialize_type_tables",
+      "checked_zero",
+      "initialize_buffer",
+      "checked_alloc"
     ]
   },
   "complete_reference": {
-    "path": "decomp/vc1.0/link/cases/native-boundaries/hello-debug-dll/after.dll",
+    "path": "decomp/vc1.0/cvpack/cases/hello-debug-dll/reference/packed.dll",
     "bytes": 71800,
     "sha256": "6a22d74889ac7ff812a06f6db99fb33b5c958adad98e5321a8fb53e47b02b275",
-    "manifest": "decomp/vc1.0/link/cases/native-boundaries/hello-debug-dll/manifest.json",
+    "manifest": "decomp/vc1.0/cvpack/cases/hello-debug-dll/reference/link-boundary-manifest.json",
     "exit": 0,
     "stdout": "",
     "stderr": "",

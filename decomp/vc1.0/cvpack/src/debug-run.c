@@ -226,6 +226,41 @@ static int finish_sopen(HANDLE child, HANDLE log, HANDLE thread)
     return SetThreadContext(thread, &context) ? 1 : denied_sopen(log, "return-resume");
 }
 
+static int dump_file_descriptor(HANDLE child, HANDLE log, DWORD root, DWORD index)
+{
+    DWORD fd, flags = 0, handle, bytes, written, type = 0, position = 0;
+    HANDLE duplicate, expected;
+    BY_HANDLE_FILE_INFORMATION actual_info, expected_info;
+    char line[256];
+    int owned = 0;
+    memcpy(&fd, original_bytes+16, 4);
+    /* Current case has all three standard descriptors open. A zero source
+       word before _open is not yet an allocated FileSlot descriptor. */
+    if (fd < 3 || fd == 0xffffffff) return 1;
+    if (fd >= 64 || !ReadProcessMemory(child, (void *)(0x39700+fd), &flags, 1, &bytes) || bytes != 1)
+        return 0;
+    if (flags & 1) {
+        if (!ReadProcessMemory(child, (void *)(0x39740+fd*4), &handle, 4, &bytes) || bytes != 4 ||
+            !DuplicateHandle(child, (HANDLE)handle, GetCurrentProcess(), &duplicate, 0, FALSE, DUPLICATE_SAME_ACCESS)) return 0;
+        type = GetFileType(duplicate);
+        SetLastError(0);
+        position = SetFilePointer(duplicate, 0, 0, FILE_CURRENT);
+        if (position == 0xffffffff && GetLastError()) { CloseHandle(duplicate); return 0; }
+        expected = CreateFileA(sopen_input, GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE, 0,
+                                OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+        owned = expected != INVALID_HANDLE_VALUE && GetFileInformationByHandle(duplicate, &actual_info) &&
+            GetFileInformationByHandle(expected, &expected_info) &&
+            actual_info.dwVolumeSerialNumber == expected_info.dwVolumeSerialNumber &&
+            actual_info.nFileIndexHigh == expected_info.nFileIndexHigh &&
+            actual_info.nFileIndexLow == expected_info.nFileIndexLow;
+        if (expected != INVALID_HANDLE_VALUE) CloseHandle(expected);
+        CloseHandle(duplicate);
+        if (!owned || type != FILE_TYPE_DISK) return 0;
+    }
+    sprintf(line, "node-fd %08lx %lu 16 %lu %02lx %lu %lu %u\n", root, index, fd, flags, type, position, owned);
+    return WriteFile(log, line, strlen(line), &written, 0) && written == strlen(line);
+}
+
 static int load_plan(char *path)
 {
     FILE *plan;
@@ -369,6 +404,11 @@ static int dump_walks(HANDLE child, HANDLE log)
             }
             object_line[used++] = '\n';
             if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
+            if (sopen_start && size == 40 && (root == 0x38d18 || root == 0x38d1c)) {
+                DWORD flags;
+                memcpy(&flags, original_bytes+4, 4);
+                if (!(flags & 8) && !dump_file_descriptor(child, log, root, i)) return 0;
+            }
             if (GetEnvironmentVariableA("CVPACK_CAPTURE_STRINGS", strings, sizeof(strings))) {
                 field = strings;
                 while (*field) {

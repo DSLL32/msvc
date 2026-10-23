@@ -62,5 +62,11 @@
         "total": 5.016979589127004
       }
     }
-  ]
+  ],
+  "guard_source": {
+    "path": "src/debug-run.c",
+    "sha256": "6016d38d9b41884258b14782e3df62e21ce86cee51e2b085e141d90c91949efe",
+    "test_time_source_commit": "d3384f4",
+    "scope": "Exact five guard helper definitions bind frozen original controls to current guard behavior; unrelated capture observers may evolve without rerunning controls."
+  }
 }

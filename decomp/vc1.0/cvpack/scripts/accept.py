@@ -117,7 +117,26 @@ def main():
                 while memory[pointer]:value.append(memory[pointer]);pointer+=1
                 expected.append(bytes(value).hex())
         elif isinstance(actual,dict):
-            expected={'null':int.from_bytes(raw,'little')==0}
+            value=int.from_bytes(raw,'little')
+            assert actual['null']==(value==0) and (actual['address']==0)==(value==0)
+            expected={'null':value==0}
+            if value:
+                targets=[r for r in config['functions']if r['original']==value]
+                owners=[dict(name=r['name'],offset=value-r['original'])for r in json.loads((BINARY/'data.json').read_text())if r['original']<=value<r['original']+r['size']]
+                if targets:
+                    assert len(targets)==1 and actual['function']==targets[0]['native']
+                    expected['function']=targets[0]['native']
+                elif owners:
+                    assert len(owners)==1
+                    owner=owners[0]
+                    assert actual['address']==state['global_addresses'][owner['name']]+owner['offset']
+                    expected['global']=owner
+                else:
+                    old_id=pointer_identity(original_walks(events,specifications),value)
+                    new_id=pointer_identity(state['walks'],actual['address'])
+                    assert old_id==new_id,('global object pointer differs',item['name'],old_id,new_id)
+                    expected['object']=old_id
+            actual=expected
         else:expected=raw.hex()
         assert actual==expected,('application state differs',item['name'],expected,actual)
         matched[item['name']]=actual

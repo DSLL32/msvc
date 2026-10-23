@@ -293,19 +293,23 @@
       "text_data": []
     },
     {
-      "name": "read_debug_directory",
-      "native": "read_debug_directory",
-      "symbol": "_read_debug_directory",
+      "name": "initialize_type_tables",
+      "native": "initialize_type_tables",
+      "symbol": "_initialize_type_tables",
       "original": 103328,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
-      "abi": "void read_debug_directory(void)",
+      "status": "accepted",
+      "extent": [
+        103328,
+        103658
+      ],
+      "abi": "void initialize_type_tables(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0018-initialize_type_tables/proof.json",
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "naming_evidence": "Whole body initializes compactor tables and empty type; earlier unaccepted stub label read_debug_directory was provisional. Address/ABI/graph unchanged."
     },
     {
       "name": "compact_types",
@@ -637,13 +641,16 @@
       "native": "seek_buffered_file",
       "symbol": "_seek_buffered_file",
       "original": 172528,
-      "source": "src/stubs.c",
+      "source": "src/files.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        172528,
+        172765
+      ],
       "abi": "long seek_buffered_file(FileSlot *,long,int)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0013-seek_buffered_file/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -662,6 +669,272 @@
         {
           "name": "origin",
           "slot": 3,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "grow_page_table",
+      "native": "grow_page_table",
+      "symbol": "_grow_page_table",
+      "original": 170576,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void grow_page_table(FileSlot *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "slot",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "allocate_file_page",
+      "native": "allocate_file_page",
+      "symbol": "_allocate_file_page",
+      "original": 174352,
+      "source": "src/files.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        174352,
+        174478
+      ],
+      "abi": "Page *allocate_file_page(FileSlot *,long)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0014-allocate_file_page/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "slot",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "position",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "read_file_page",
+      "native": "read_file_page",
+      "symbol": "_read_file_page",
+      "original": 173376,
+      "source": "src/files.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        173376,
+        173491
+      ],
+      "abi": "void read_file_page(FileSlot *)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0016-read_file_page/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "slot",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "touch_page",
+      "native": "touch_page",
+      "symbol": "_touch_page",
+      "original": 173728,
+      "source": "src/files.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        173728,
+        173928
+      ],
+      "abi": "void touch_page(Page *)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0017-touch_page/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "page",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ],
+      "alignment_padding": [
+        [
+          173819,
+          173824
+        ]
+      ],
+      "alignment_evidence": "Original compiler five-byte ADD EAX,0 gap follows unconditional JMP2a6f9->2a70b; no complete-CFG edge enters it; alignment reaches next labeled block2a700 only by branch, not gap fallthrough."
+    },
+    {
+      "name": "remove_lru_page",
+      "native": "remove_lru_page",
+      "symbol": "_remove_lru_page",
+      "original": 173936,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "Page *remove_lru_page(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "release_page",
+      "native": "release_page",
+      "symbol": "_release_page",
+      "original": 174160,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void release_page(Page *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "page",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "attach_page",
+      "native": "attach_page",
+      "symbol": "_attach_page",
+      "original": 174064,
+      "source": "src/files.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        174064,
+        174145
+      ],
+      "abi": "unsigned char attach_page(FileSlot *,Page *)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0015-attach_page/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "slot",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "page",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "checked_zero",
+      "native": "checked_zero",
+      "symbol": "_checked_zero",
+      "original": 127072,
+      "source": "src/types.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        127072,
+        127132
+      ],
+      "abi": "void *checked_zero(unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0019-checked_zero/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "size",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "checked_alloc",
+      "native": "checked_alloc",
+      "symbol": "_checked_alloc",
+      "original": 127024,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void *checked_alloc(unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "size",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "initialize_buffer",
+      "native": "initialize_buffer",
+      "symbol": "_initialize_buffer",
+      "original": 143136,
+      "source": "src/types.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        143136,
+        143160
+      ],
+      "abi": "void initialize_buffer(GrowingBuffer *,unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0020-initialize_buffer/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "buffer",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "size",
+          "slot": 2,
           "kind": "integer",
           "bits": 32
         }
@@ -755,6 +1028,54 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 12
+    },
+    {
+      "function": "seek_buffered_file",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 13
+    },
+    {
+      "function": "allocate_file_page",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 14
+    },
+    {
+      "function": "attach_page",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 15
+    },
+    {
+      "function": "read_file_page",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 16
+    },
+    {
+      "function": "touch_page",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 17
+    },
+    {
+      "function": "initialize_type_tables",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 18
+    },
+    {
+      "function": "checked_zero",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 19
+    },
+    {
+      "function": "initialize_buffer",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 20
     }
   ],
   "support_unmasked": [
@@ -1267,6 +1588,36 @@
       "start": 199408,
       "end": 199632,
       "evidence": "cases/hello-debug-dll/evidence/0012-open_buffered_file/proof.json"
+    },
+    {
+      "name": "__lseek",
+      "start": 188576,
+      "end": 188704,
+      "evidence": "cases/hello-debug-dll/evidence/0016-read_file_page/proof.json"
+    },
+    {
+      "name": "__get_osfhandle",
+      "start": 189216,
+      "end": 189280,
+      "evidence": "cases/hello-debug-dll/evidence/0016-read_file_page/proof.json"
+    },
+    {
+      "name": "import:SetFilePointer",
+      "start": 179782,
+      "end": 179788,
+      "evidence": "cases/hello-debug-dll/evidence/0016-read_file_page/proof.json"
+    },
+    {
+      "name": "__read",
+      "start": 186720,
+      "end": 187280,
+      "evidence": "cases/hello-debug-dll/evidence/0016-read_file_page/proof.json"
+    },
+    {
+      "name": "import:ReadFile",
+      "start": 199294,
+      "end": 199300,
+      "evidence": "cases/hello-debug-dll/evidence/0016-read_file_page/proof.json"
     }
   ]
 }

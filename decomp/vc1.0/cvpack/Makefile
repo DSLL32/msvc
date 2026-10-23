@@ -30,6 +30,7 @@ build/debug-run.obj: src/debug-run.c $(RECON)/include/recon.h | build
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /I$(RECON)/include /Fo$@ $<
 
 build/files.obj build/stubs.obj build/native/files.o build/native/stubs.o: src/files.h
+build/types.obj build/stubs.obj build/native/types.o build/native/stubs.o: src/types.h
 
 build/CVPACK.EXE: $(OBJECTS) Makefile
 	$(TOOL) LINK.EXE /nologo /subsystem:console /map:build/cvpack.map /out:$@ $(OBJECTS)

@@ -42,6 +42,12 @@ def original_walks(events,specifications):
             assert int(tail,16)==0,'unterminated original object list'
             assert int(count)==len(walks[item['name']])
             ended.add(item['name'])
+        elif line.startswith('node-fd '):
+            _,root,index,offset,fd,flags,type,position,owned=line.split()
+            node=walks[by_root[int(root,16)]['name']][int(index)]
+            descriptors=node.setdefault('descriptors',{})
+            assert offset not in descriptors
+            descriptors[offset]=dict(descriptor=int(fd),osfile=int(flags,16),type=int(type),position=int(position),owned=bool(int(owned)))
     assert ended==set(walks),'missing original object walk'
     return walks
 
@@ -66,6 +72,14 @@ def compare_walks(specifications,original,native):
                 for raw in (left,right):
                     flags=int.from_bytes(raw[guard['offset']:guard['offset']+4],'little')
                     assert flags&guard['mask']==guard['value'],('unobserved object union mode',name,index,flags)
+            if item.get('file_descriptor'):
+                old,new=a.get('descriptors',{}),b.get('descriptors',{})
+                fd=int.from_bytes(left[16:20],'little')
+                expected={'16'}if fd>=3 and fd!=0xffffffff else set()
+                assert set(old)==set(new)==expected,'missing object descriptor proof'
+                assert old==new,('object descriptor state differs',name,index,old,new)
+                for descriptor in old.values():
+                    if descriptor['osfile']&1:assert descriptor['type']==1 and descriptor['owned'],'object descriptor does not own approved disk input'
             for offset in item.get('string_fields',[]):
                 old,new=a['strings'][str(offset)],b['strings'][str(offset)]
                 assert old['bytes']==new['bytes'],('object string differs',name,index,offset)
@@ -101,6 +115,6 @@ def compare_walks(specifications,original,native):
                 pointers[str(offset)]=old_id
                 left[offset:offset+4]=right[offset:offset+4]=b'\0'*4
             assert left==right,('observed object bytes differ',name,index)
-            nodes.append(dict(bytes=len(left),nonpointer_sha256=hashlib.sha256(left).hexdigest(),pointers=pointers,arrays=arrays))
+            nodes.append(dict(bytes=len(left),nonpointer_sha256=hashlib.sha256(left).hexdigest(),pointers=pointers,arrays=arrays,descriptors=a.get('descriptors',{})))
         receipt[name]=nodes
     return receipt

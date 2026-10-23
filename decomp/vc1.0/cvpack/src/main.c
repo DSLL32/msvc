@@ -59,7 +59,7 @@ int main(int argc, char **argv, char **environment)
             input_file = open_file(executable_name, 0x8000);
             fatal_error(input_file == -1 ? 15 : 16, executable_name, NULL);
         }
-        read_debug_directory();
+        initialize_type_tables();
         compact_types();
         if (!already_packed)
             for (module = 0; module < module_count; ++module) pack_module(module);

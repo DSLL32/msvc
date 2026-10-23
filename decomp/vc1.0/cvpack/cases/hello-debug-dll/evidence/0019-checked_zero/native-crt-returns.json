@@ -1,0 +1,19 @@
+[
+  {
+    "name": "hello-debug.dll",
+    "mode": 32770,
+    "share": 64,
+    "permission": 438,
+    "return": {
+      "descriptor": 3,
+      "errno": 0,
+      "osfile": 1,
+      "type": 1,
+      "position": 0,
+      "owned": true,
+      "host_descriptor": 3,
+      "input_matches": true,
+      "input_sha256": "81a603fcfffc6229f408dc056a54441d3806b09c8526cab8b3a1b5de74959036"
+    }
+  }
+]

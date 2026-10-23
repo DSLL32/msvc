@@ -8,12 +8,12 @@ The PE/COFF analysis reader was reused from LINK; no sibling files are changed.
 `make -j4 native check` builds/runs native i386 fixtures. `make -j4 all audit`
 also verifies original-compiler compilability. Debug with GDB against
 `build/native/CVPACK.EXE`. `/help` is complete: exact 219-byte stdout, exit 1 and
-empty stderr. Twelve application functions are accepted. The first orchestrator review passed;
+empty stderr. Twenty application functions are accepted. The first orchestrator review passed;
 work is released toward the fifty-function review. The independent DLL case stops
-at the named `seek_buffered_file` stub. CRT startup has a
+at the named `checked_alloc` stub. CRT startup has a
 separate exact-library and observed-state proof and is counted separately.
 `audit` checks complete original/compiler CFGs and callees, RET cleanup, SEH
-roots, contextual initial data, library relocations, and 50 rejection checks, including ownership, snapshots, conditional ABI words and
+roots, contextual initial data, library relocations, and 56 rejection checks, including ownership, snapshots, conditional ABI words and
 case-specific guarded CRT variants.
 
 `scripts/capture-original.py --case help --output ~/.ai-tmp/...` is an explicit
@@ -50,7 +50,7 @@ Root reviewed and passed the scaffold before reconstruction, with graph/ABI/data
 checks required before acceptance; those checks are now implemented. Stop for orchestrator review
 at 10 and 50 application functions, counting CRT/support separately. After both
 initial cases, inspect remaining application code and propose further cases to
-the orchestrator before starting them. Shared shim changes belong to root.
+the orchestrator before starting them. Shared shim changes belong to the dedicated recon_lib_maintenance worker.
 
 The ten-function review and measured build/fixture/audit receipts are in
 `cases/reviews/0010/`. Forced full builds: original 6.82 s, native 1.34 s;
@@ -74,3 +74,9 @@ execution; fixtures only inspect those frozen receipts. See
 permission word retains both raw observations, with strict comparison whenever
 the create bit is active. Buffered FileSlot comparisons now include allocated
 name bytes and complete tagged page tables; mapped mode remains fail-closed.
+
+Checkpoint twenty adds buffered-page reads/LRU and type-table initialization.
+Descriptor observers avoid inferior calls; full page, typed pool, name, page-table
+and type-buffer state is compared. DLL references are now owned immutable copies.
+See `cases/reviews/checkpoint-0020/`; the shared Wine pre-startup timeout was
+preserved separately and the fresh retry passed.

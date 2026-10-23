@@ -5,11 +5,12 @@
 #include "files.h"
 #include <recon.h>
 
-Page *free_pages;
+Page *free_pages, *used_pages, *newest_page, *oldest_page;
 FileSlot *free_files;
 FileSlot **file_slots;
 FileSlot *active_files, *closed_files, *closed_files_tail;
 int closed_file_count;
+unsigned long page_reads;
 int file_count, page_count, file_limit, open_limit, page_limit;
 unsigned char mapped_files;
 void (*file_failure)(int,const char *,const char *);
@@ -198,4 +199,107 @@ int open_buffered_file(FileSlot *slot, int mode, int permission, unsigned char c
     }
     seek_buffered_file(slot, 0, 0);
     return 0;
+}
+
+long seek_buffered_file(FileSlot *slot, long offset, int origin)
+{
+    long position;
+    Page *cached, *page;
+    if (origin == 0) position = offset;
+    else if (origin == 1) position = offset + slot->cursor.page->position;
+    else position = offset + slot->length;
+    while (slot->allocated < position) grow_page_table(slot);
+    cached = slot->storage.pages[position >> 12];
+    if (slot->cursor.page) {
+        slot->cursor.page->flags &= ~16UL;
+        slot->cursor.page = NULL;
+    }
+    if ((unsigned long)cached <= 1) {
+        slot->cursor.page = allocate_file_page(slot, position);
+        slot->cursor.page->flags |= 16;
+        if (cached == (Page *)1) {
+            read_file_page(slot);
+            ++page_reads;
+            slot->cursor.page->flags |= 4;
+        }
+    } else {
+        slot->cursor.page = cached;
+        cached->flags |= 16;
+    }
+    page = slot->cursor.page;
+    page->position = position;
+    page->cursor = page->data + position - page->start;
+    if ((slot->flags & 2) && page->dirty_end < page->position)
+        page->dirty_end = page->position;
+    touch_page(page);
+    return position;
+}
+
+Page *allocate_file_page(FileSlot *slot, long position)
+{
+    Page *page = free_pages;
+    unsigned long *words;
+    int i;
+    if (!page) {
+        page = remove_lru_page();
+        release_page(page);
+    }
+    page->start = (position / 4096) * 4096;
+    page->limit = page->start + 4096;
+    page->position = position;
+    page->dirty_end = page->start;
+    page->cursor = page->data + position - page->start;
+    if (slot->flags & 2) {
+        words = (unsigned long *)page->data;
+        for (i = 0; i < 1024; ++i) words[i] = 0;
+    }
+    if (!(slot->flags & 2)) page->flags |= 8;
+    attach_page(slot, page);
+    return page;
+}
+
+unsigned char attach_page(FileSlot *slot, Page *page)
+{
+    if (!free_pages) return 0;
+    free_pages = page->next;
+    page->handle = slot->handle;
+    page->next = used_pages;
+    used_pages = page;
+    page->flags |= 1;
+    slot->storage.pages[page->start >> 12] = page;
+    return 1;
+}
+
+void read_file_page(FileSlot *slot)
+{
+    long count;
+    if (_lseek(slot->source.descriptor, slot->cursor.page->start, 0) == -1)
+        file_failure(17, NULL, NULL);
+    count = slot->length - slot->cursor.page->start;
+    if (count >= 4096) count = 4096;
+    if (_read(slot->source.descriptor, slot->cursor.page->data, count) != count)
+        file_failure(17, NULL, NULL);
+    slot->cursor.page->flags &= ~8UL;
+}
+
+void touch_page(Page *page)
+{
+    Page *current;
+    for (current = newest_page; current && current != page; current = current->older)
+        ;
+    if (current) {
+        if (page->newer) page->newer->older = page->older;
+        else newest_page = page->older;
+        if (page->older) page->older->newer = page->newer;
+        else oldest_page = page->newer;
+    }
+    if (!newest_page && !oldest_page) {
+        newest_page = oldest_page = page;
+        page->older = page->newer = NULL;
+        return;
+    }
+    page->older = newest_page;
+    page->newer = NULL;
+    newest_page->newer = page;
+    newest_page = page;
 }

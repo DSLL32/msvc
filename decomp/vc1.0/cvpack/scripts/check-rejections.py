@@ -6,7 +6,7 @@ from state import mask
 from state import ROOT
 from state import BINARY
 from binary import PE
-from audit import publics,validate_ownership
+from audit import publics,validate_ownership,audited_graph
 from accept import validate_snapshot,compare_integer
 from capstone import Cs,CS_ARCH_X86,CS_MODE_32
 from pathlib import Path
@@ -39,6 +39,11 @@ def main():
     reject('conditional outside function',lambda:graph(Bytes(b'\x75\x20\xc3'),0,3))
     reject('branch into text data',lambda:graph(Bytes(b'\xeb\0\xc3'),0,3,data=[(2,3)]))
     reject('unresolved application call',lambda:names({0x12345678},{}))
+    aligned=Bytes(b'\xeb\x05\x05\0\0\0\0\xc3')
+    audited_graph(aligned,0,8,padding=[(2,7)])
+    reject('undeclared flag-writing alignment',lambda:audited_graph(aligned,0,8))
+    reject('declared alignment on executable path',lambda:audited_graph(Bytes(b'\x90\x90\x05\0\0\0\0\xc3'),0,8,padding=[(2,7)]))
+    reject('nonalignment bytes in reviewed padding',lambda:audited_graph(Bytes(b'\xeb\x05\xb8\0\0\0\0\xc3'),0,8,padding=[(2,7)]))
     positive=graph(Bytes(b'\x74\x01\x90\xc2\x08\x00'),0,6)
     assert positive['returns']=={8} and positive['end']==6
     # A tiny wrapper with identical nonrelocation bytes must fail when its
@@ -184,6 +189,17 @@ def main():
     reject('changed buffered page-table tag',lambda:compare_walks([description],left,changed))
     changed=copy.deepcopy(right);raw=bytearray.fromhex(changed['files'][0]['bytes']);struct.pack_into('<I',raw,4,11);changed['files'][0]['bytes']=raw.hex()
     reject('mapped union enters buffered observer',lambda:compare_walks([description],left,changed))
+    description['file_descriptor']=True
+    descriptor=dict(descriptor=3,osfile=1,type=1,position=4096,owned=True)
+    for state in (left,right):state['files'][0]['descriptors']={'16':copy.deepcopy(descriptor)}
+    compare_walks([description],left,right)
+    changed=copy.deepcopy(right);changed['files'][0]['descriptors']['16']['position']=0
+    reject('changed opened file position',lambda:compare_walks([description],left,changed))
+    changed_left,changed_right=copy.deepcopy(left),copy.deepcopy(right)
+    for state in (changed_left,changed_right):state['files'][0]['descriptors']['16']['owned']=False
+    reject('both opened descriptor owners false',lambda:compare_walks([description],changed_left,changed_right))
+    for state in (changed_left,changed_right):del state['files'][0]['descriptors']
+    reject('both opened descriptor proofs missing',lambda:compare_walks([description],changed_left,changed_right))
     anchors=good['callee_identity_anchors']
     if anchors:
         scratch=Path.home()/'.ai-tmp/vc1.0-cvpack'
@@ -212,8 +228,17 @@ def main():
         end=min(address for address in symbols.values() if address>start)
         instructions=list(Cs(CS_ARCH_X86,CS_MODE_32).disasm(pe.read(start,end-start),start))
         call=next(i for i in instructions if i.mnemonic=='call' and i.op_str=='0x%x'%symbols['_parse_options'])
-        terminal=next(i for i in reversed(instructions) if i.mnemonic=='ret')
-        assert terminal.address+3<=end
+        # Use a real leaf RET with two following alignment bytes. The main
+        # function's final RET need not retain padding after a layout change.
+        sites=[]
+        for function in config['functions']:
+            if function['status']=='stub':continue
+            a=symbols[function['symbol']]
+            b=min(address for address in symbols.values()if address>a)
+            for instruction in Cs(CS_ARCH_X86,CS_MODE_32).disasm(pe.read(a,b-a),a):
+                if instruction.mnemonic=='ret' and instruction.address+3<=b and set(pe.read(instruction.address+1,2))<={0x90,0xcc}:
+                    sites.append(instruction)
+        terminal=sites[0]if sites else next(i for i in instructions if i.mnemonic=='ret' and i.address+3<=end)
         mutations={}
         image=bytearray(pe.data)
         struct.pack_into('<i',image,pe.offset(call.address)+1,symbols['_print_banner']-call.address-5)

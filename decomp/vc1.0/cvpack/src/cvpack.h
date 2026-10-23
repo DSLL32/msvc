@@ -26,7 +26,7 @@ void files_initialize(int, int, int, int, int, unsigned char,
                       void (*)(int, const char *, const char *));
 int open_file(const char *, int, ...);
 int close_file(int, unsigned char);
-void read_debug_directory(void);
+void initialize_type_tables(void);
 void compact_types(void);
 void pack_module(unsigned short);
 void strip_debug(int);

@@ -1,0 +1,26 @@
+{
+  "build": {
+    "log": "build.log"
+  },
+  "native-fixtures": {
+    "log": "native-fixtures.log"
+  },
+  "audit": {
+    "log": "audit.log"
+  },
+  "negative-checks": {
+    "log": "negative-checks.log"
+  },
+  "fresh-original-20": {
+    "setup": 0.19047344662249088,
+    "execution": 1.5036007054150105,
+    "total": 1.7139943111687899
+  },
+  "fresh-native-20": {
+    "setup": 0.04965060483664274,
+    "execution": 0.007139720022678375,
+    "debugging": 0.49265376944094896,
+    "checks": 0.013192418962717056,
+    "total": 0.5626436527818441
+  }
+}

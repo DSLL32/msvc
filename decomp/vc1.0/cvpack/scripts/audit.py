@@ -132,11 +132,17 @@ def seh_roots(pe,start,end,compiler_scaffolding=False):
                     break
     return sorted(set(roots))
 
-def audited_graph(pe,start,end,roots=(),data=(),switches=None):
+def audited_graph(pe,start,end,roots=(),data=(),switches=None,padding=()):
     result=graph(pe,start,end,data=data,roots=roots,switches=switches)
     decoder=Cs(CS_ARCH_X86,CS_MODE_32)
     covered=set()
     for address,instruction in result['instructions'].items():covered.update(range(address,address+instruction.size))
+    for a,b in padding:
+        # This compiler also uses ADD EAX,0 as a five-byte alignment filler.
+        # It writes flags, so allow only an exact explicitly reviewed gap that
+        # the complete CFG proves unreachable, never an executable instruction.
+        assert start<=a<b<=end and b-a==5 and pe.read(a,5)==b'\x05\0\0\0\0'
+        assert not any(byte in covered for byte in range(a,b)),'declared alignment is executable'
     cursor=start
     previous=None
     compiler_roots=[]
@@ -152,7 +158,8 @@ def audited_graph(pe,start,end,roots=(),data=(),switches=None):
                 assert int(ins.op_str,16) in result['instructions']
                 compiler_roots.append(cursor)
             else:
-                assert ins.bytes.hex() in ('90','8bff','8d4900','8d642400','8da42400000000','8d9b00000000','cc'),('unrooted code',hex(cursor),ins.mnemonic,ins.op_str)
+                declared=(cursor,cursor+ins.size)in [tuple(r)for r in padding]
+                assert declared or ins.bytes.hex() in ('90','8bff','8d4900','8d642400','8da42400000000','8d9b00000000','cc'),('unrooted code',hex(cursor),ins.mnemonic,ins.op_str)
         previous=ins
         cursor+=ins.size
     if compiler_roots:
@@ -244,7 +251,7 @@ def main():
         for table in record.get('switch_tables',[]):
             actual=[u32(original.read(table['start']+i*4,4),0) for i in range(len(table['targets']))]
             assert actual==table['targets'],'switch targets differ'
-        a=audited_graph(original,start,end,record.get('roots',()),record.get('text_data',()),switches)
+        a=audited_graph(original,start,end,record.get('roots',()),record.get('text_data',()),switches,record.get('alignment_padding',()))
         rebuilt_start=linked[record['symbol']]
         rebuilt_end=next(address for address in addresses if address>rebuilt_start)
         roots=seh_roots(rebuilt,rebuilt_start,rebuilt_end,record.get('compiler_seh_scaffolding',False))

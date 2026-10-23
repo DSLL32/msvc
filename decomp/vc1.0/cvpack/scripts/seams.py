@@ -102,6 +102,7 @@ def check_guard_references():
     base=BINARY/'cases/runtime-variants/sopen-guard-tests'
     manifest=json.loads((base/'manifest.json').read_text())
     assert sha(BINARY/manifest['source']['path'])==manifest['source']['sha256']
+    assert guard_source_digest((BINARY/'src/debug-run.c').read_text())==manifest['guard_source']['sha256'],'guard implementation changed since original controls'
     for record in manifest['cases']:
         directory=base/record['name']
         receipt=json.loads((directory/'receipt.json').read_text())
@@ -124,3 +125,12 @@ def check_guard_references():
         else:
             assert (directory/'events').read_text().splitlines()[-1]=='exit 3'
             print('verified: original guard rearmed across two successful calls')
+
+
+def guard_source_digest(text):
+    parts=[]
+    for name in ('identical_files','denied_sopen','begin_sopen','rearm_sopen','finish_sopen'):
+        start=text.index('static int '+name+'(')
+        end=text.index('\n}\n',start)+3
+        parts.append(name+'\0'+text[start:end])
+    return hashlib.sha256('\0'.join(parts).encode()).hexdigest()
