@@ -18,7 +18,7 @@ void *type_scratch(unsigned long size) { __asm { int 3 } return NULL; }
 
 unsigned short write_output(const void *buffer,unsigned short size) { __asm { int 3 } return 0; }
 unsigned short flush_output(int handle) { __asm { int 3 } return 0; }
-void write_subsection(unsigned long index) { __asm { int 3 } }
+
 void write_global_publics(CvDirectoryEntry *entry,unsigned long offset) { __asm { int 3 } }
 void write_global_symbols(CvDirectoryEntry *entry,unsigned long offset) { __asm { int 3 } }
 void write_static_symbols(CvDirectoryEntry *entry,unsigned long offset) { __asm { int 3 } }

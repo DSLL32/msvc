@@ -46,13 +46,18 @@ def compare_directory_key(item,words,actual,events):
         assert len(matches)==1 and len(bytes.fromhex(matches[0]))==4,'missing original directory array root/count'
         return int.from_bytes(bytes.fromhex(matches[0]),'little')
     base=scalar(0x33018);count=scalar(0x3329c);pointer=words[item['slot']];array=actual['array']
-    assert base<=pointer<base+count*12 and not(pointer-base)%12,'original sort key outside directory allocation'
+    output=item['kind']=='directory-output';capacity=count
+    if output:
+        headers=re.findall(r'^memory 00037880 ([0-9a-f]+)$',events,re.M);assert len(headers)==1 and len(bytes.fromhex(headers[0]))==16,'missing original directory allocation header'
+        capacity=int.from_bytes(bytes.fromhex(headers[0])[4:8],'little')+6
+        assert array['capacity']==capacity and array['index']==count,'directory output is not the next allocated entry'
+    assert base<=pointer<base+capacity*12 and not(pointer-base)%12,'original argument outside directory allocation'
     assert array['count']==count and array['stride']==12 and array['index']==(pointer-base)//12,'directory array/key index differs'
     assert actual['address']==array['base']+array['index']*12 and not actual['null'],'native sort key pointer differs'
-    matches=re.findall(r'^input-buffer %08x ([0-9a-f]+)$'%pointer,events,re.M)
+    matches=re.findall(r'^%s-buffer %08x ([0-9a-f]+)$'%('output'if output else 'input',pointer),events,re.M)
     assert len(matches)==1,'missing actual directory sort key'
-    old=bytes.fromhex(matches[0]);new=bytes.fromhex(actual['bytes']);assert len(old)==len(new)==12 and old[:4]==new[:4],'directory sort fields differ'
-    return dict(original_address=pointer,native_address=actual['address'],index=array['index'],count=count,compared_fields=[0,4],original_raw=old.hex(),native_raw=new.hex(),scope='Comparator consumes subsection/module WORDs only; payload pointer/size retained raw without equality claim')
+    old=bytes.fromhex(matches[0]);new=bytes.fromhex(actual['bytes']);assert len(old)==len(new)==12 and(output or old[:4]==new[:4]),'directory sort fields differ'
+    return dict(original_address=pointer,native_address=actual['address'],index=array['index'],count=count,compared_fields=[]if output else [0,4],original_raw=old.hex(),native_raw=new.hex(),scope='Next-cell output identity only; raw prebytes no equality credit'if output else 'Comparator consumes subsection/module WORDs only; payload pointer/size retained raw without equality claim')
 
 def compare_counted_name(item,words,actual,events):
     assert (item['owner'],item['local'])==('build_source_file_index','module'),'unknown counted-name owner'
@@ -96,7 +101,7 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
     assert set(state['parameters'])=={r['name']for r in frontier['parameters']},'new frontier ABI observation incomplete'
     for item in frontier['parameters']:
         if item['kind']=='integer':parameters[item['name']]=compare_integer(item,frontier['parameters'],words,state['parameters'])
-        elif item['kind']=='directory-key':parameters[item['name']]=compare_directory_key(item,words,state['parameters'][item['name']],events)
+        elif item['kind']in('directory-key','directory-output'):parameters[item['name']]=compare_directory_key(item,words,state['parameters'][item['name']],events)
         elif item['kind']=='counted-string':parameters[item['name']]=compare_counted_name(item,words,state['parameters'][item['name']],events)
         elif item['kind']=='pointer'and item.get('null_only'):parameters[item['name']]=compare_null_pointer(words[item['slot']],state['parameters'][item['name']])
         elif item['kind']in('stack-output','stack-input','allocation-output'):

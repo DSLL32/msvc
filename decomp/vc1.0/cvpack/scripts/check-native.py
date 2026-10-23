@@ -142,10 +142,11 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
         ' if size>base+extent-pointer: raise RuntimeError("counted name exceeds module-owned lines")\n'
         ' argument["bytes"]=bytes(gdb.selected_inferior().read_memory(pointer,size)).hex();argument["owner"]=dict(address=int(module),module=int(module["module"]),base=base,size=extent,offset=pointer-base)\n'
         'for description in frontier.get("parameters",[]):\n'
-        ' if description["kind"]!="directory-key": continue\n'
+        ' if description["kind"]not in("directory-key","directory-output"): continue\n'
         ' base=int(gdb.parse_and_eval("directory_entries"));count=int(gdb.parse_and_eval("directory_entry_count"));argument=parameters[description["name"]];pointer=argument["address"]\n'
-        ' if not base or not base<=pointer<base+count*12 or (pointer-base)%12: raise RuntimeError("sort key outside live directory array")\n'
-        ' argument["array"]=dict(base=base,count=count,index=(pointer-base)//12,stride=12);argument["bytes"]=bytes(gdb.selected_inferior().read_memory(pointer,12)).hex()\n'
+        ' capacity=int(gdb.parse_and_eval("cv_directory_header.count"))+6 if description["kind"]=="directory-output"else count\n'
+        ' if not base or not base<=pointer<base+capacity*12 or (pointer-base)%12: raise RuntimeError("argument outside live directory allocation")\n'
+        ' argument["array"]=dict(base=base,count=count,index=(pointer-base)//12,stride=12,capacity=capacity);argument["bytes"]=bytes(gdb.selected_inferior().read_memory(pointer,12)).hex()\n'
         'for description in frontier.get("parameters",[]):\n'
         ' if description["kind"]!="transient-pointer": continue\n'
         ' proof=json.load(open('+repr(str(BINARY))+'+"/"+description["evidence"]))\n'
@@ -259,7 +260,7 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
     if expected.get('proof_mode')=='entry-flow'and not(reference_completion or scalar_completion):
         marker='set argv[0] = recon_pgmptr\n';text=script.read_text();prefix=text[:text.index(marker)+len(marker)]
         frontier=next(r for r in config['functions']if r['native']==expected['native_function'])
-        assert all(r['kind']in('integer','stack-output','stack-input','allocation-output','counted-string','directory-key')or(r['kind']=='pointer'and r.get('null_only'))for r in frontier['parameters']),'new frontier requires concrete typed pointer observation'
+        assert all(r['kind']in('integer','stack-output','stack-input','allocation-output','counted-string','directory-key','directory-output')or(r['kind']=='pointer'and r.get('null_only'))for r in frontier['parameters']),'new frontier requires concrete typed pointer observation'
         observed=[r for r in data if r['name']in expected.get('observed_globals',[])]
         assert len(observed)==len(expected.get('observed_globals',[])),'unknown observed global'
         prefix+='python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_sopen_observer"]('+repr(str(directory/'crt-returns.json'))+','+repr(str(directory/'debug-work'))+','+repr(policies)+')\nend\ncontinue\npython\nimport json\nf=gdb.newest_frame();frames=[];frame=f\nwhile frame:frames.append(frame.name());frame=frame.older()\n'

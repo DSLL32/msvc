@@ -200,7 +200,6 @@ void write_packed_debug(void)
     if (seek_file(input_file, cv_file_offset+4, 0) == -1 ||
         write_file(input_file, &directory, 4) != 4) fatal_error(20, NULL, NULL);
 }
-#undef OUTPUT_BYTES
 
 int __cdecl compare_output_directory(const void *left, const void *right)
 {
@@ -229,3 +228,22 @@ void initialize_output(int handle)
     output_used = 0;
     output_handle = handle;
 }
+
+unsigned long output_padding;
+unsigned char output_zeroes[4] = { 0, 0, 0, 0 };
+
+void write_subsection(unsigned long index)
+{
+    CvDirectoryEntry *entry = &directory_entries[index];
+    const unsigned char *data;
+
+    if (entry->size) {
+        data = entry->location.data;
+        if (!data) fatal_error(13, NULL, NULL);
+        OUTPUT_BYTES(data, (unsigned short)entry->size);
+    }
+    entry->location.offset = cv_read_offset-cv_file_offset;
+    output_padding = 4-(entry->size & 3);
+    if (output_padding != 4) OUTPUT_BYTES(output_zeroes, output_padding);
+}
+#undef OUTPUT_BYTES
