@@ -2,7 +2,7 @@
 #include "input.h"
 #include <recon.h>
 extern FILE *aux_expression_file, *aux_symbol_file;
-extern int floating_frontend;
+extern int floating_frontend, c6_compatibility;
 unsigned pending_source_location = 1;
 unsigned function_source_location, current_source_location;
 int lexical_depth = -1;
@@ -128,4 +128,13 @@ int __fastcall needs_return_temp(unsigned convention, unsigned short kind, unsig
         }
     }
     /* As in the original, invalid convention encodings leave no result. */
+}
+
+/* Original [0006f590,0006f5c1). C6 compatibility limits aggregate register
+   results to four bytes; the normal ABI permits eight. Preserve zero and
+   the original signed comparison after its power-of-two test. */
+int __fastcall is_register_return_size(unsigned bytes)
+{
+    if (bytes & (bytes - 1)) return 0;
+    return (int)bytes <= (c6_compatibility ? 4 : 8);
 }

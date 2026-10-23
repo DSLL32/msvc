@@ -1,0 +1,9 @@
+{
+  "executable_sha256": "6bf731fc3a3865faf731d61a01fa67d475deb057910d15f3fc0f95d3d594c1cf",
+  "config_sha256": "352d30f36e6e943082c2ec07f463c89136bf49933ce8348efbc505dc5f66e3ae",
+  "seconds": 0.13520791474729776,
+  "logical": "@region_assignment_precedes@8",
+  "matched": true,
+  "log_sha256": "a471269731e8b64a949598dc57587a296022c08aea6aa06a38709f35bd32143d",
+  "directory": "/root/.ai-tmp/vc1.0-c2/aliasing-gdb-_qcx0sq8"
+}

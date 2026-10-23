@@ -11,13 +11,14 @@ typedef struct IntrinsicDescription {
     unsigned flags;
 } IntrinsicDescription;
 typedef char IntrinsicDescriptionSizeCheck[sizeof(IntrinsicDescription) == 16 ? 1 : -1];
-enum { INTRINSIC_AGGREGATE_FILL = 173 };
-extern const IntrinsicDescription aggregate_fill_intrinsic;
+enum { INTRINSIC_AGGREGATE_COPY = 172, INTRINSIC_AGGREGATE_FILL = 173 };
+extern const IntrinsicDescription aggregate_copy_intrinsic, aggregate_fill_intrinsic;
 /* An explicit data frontier, not a substitute implementation for another
    intrinsic. Inline INT3 is the intentional unreconstructed-data trap; keeping
    this dispatch inline introduces no nonoriginal function/call edge. */
 #define SELECT_INTRINSIC_DESCRIPTION(id, description) do { \
     switch (id) { \
+    case INTRINSIC_AGGREGATE_COPY: (description) = &aggregate_copy_intrinsic; break; \
     case INTRINSIC_AGGREGATE_FILL: (description) = &aggregate_fill_intrinsic; break; \
     default: __asm { int 3 } \
         (description) = 0; break; \

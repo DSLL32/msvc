@@ -9,6 +9,9 @@ Node *current_intrinsic; /* original0007b9b4 */
    descriptor844a8..844b8: no scalar result-type override, recipe84c08 "vyE0",
    empty runtime-name string, flag10 selects a distinct argument-type record.
    No neighboring intrinsic descriptors or recipe strings have been copied. */
+/* Original84498..844a8, recipe84c20: normalize argument width, reverse
+   arguments and retain both address expressions for aggregate copy. */
+const IntrinsicDescription aggregate_copy_intrinsic = { 0, 0, "nvyE0E1", "", 0x10 };
 const IntrinsicDescription aggregate_fill_intrinsic = { 0, 0, "vyE0", "", 0x10 };
 /* Original [000638a0,00063cec), including12 character-dispatch words at
    63cbc..63cec and the intervening three alignment bytes. The second register
@@ -167,7 +170,7 @@ void __fastcall prepare_intrinsic_arguments(Node *node, unsigned intrinsic, Node
 
 /* Original838e0..838f4: five cached default argument-type words, initially
    zero. Fixed signatures are28-byte records (ID, reserved halfword, six types).
-   Only the encountered aggregate-fill signature84a8c..84aa8 is introduced. */
+   Encountered aggregate-copy/fill signatures84a70..84aa8 are introduced. */
 static unsigned default_intrinsic_argument_types[5];
 typedef struct IntrinsicArgumentRecord {
     short intrinsic;
@@ -176,6 +179,7 @@ typedef struct IntrinsicArgumentRecord {
 } IntrinsicArgumentRecord;
 typedef char IntrinsicArgumentRecordSizeCheck[sizeof(IntrinsicArgumentRecord) == 28 ? 1 : -1];
 static const IntrinsicArgumentRecord intrinsic_argument_records[] = {
+    { INTRINSIC_AGGREGATE_COPY, 0, { 0x104, 0x404, 0x404, 0, 0, 0 } },
     { INTRINSIC_AGGREGATE_FILL, 0, { 0x104, 0x104, 0x404, 0, 0, 0 } },
     { 0, 0, { 0, 0, 0, 0, 0, 0 } }
 };
@@ -199,4 +203,19 @@ const unsigned *__fastcall intrinsic_argument_types(unsigned intrinsic)
     if (record->intrinsic != (int)intrinsic)
         compiler_internal_error("@(#)intrinsc.c:1.148", 0x74);
     return record->types;
+}
+
+/* Original [00063810,0006383a). Argument containers already carry their
+   normalized intrinsic type. Return the greatest low-byte width in the list. */
+unsigned short __fastcall intrinsic_argument_width(Node *node, int skip_first)
+{
+    Node *argument;
+    unsigned width = 0, bytes;
+    if (skip_first) node = node->second.node;
+    for (argument = node->second.node; argument->opcode != 0x4c;
+         argument = argument->second.node) {
+        bytes = argument->attributes.words.type & 255;
+        if (bytes > width) width = bytes;
+    }
+    return (unsigned short)width;
 }

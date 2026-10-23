@@ -48,7 +48,6 @@ int extended_to_float(const Extended *number, float *result) { __asm int 3 }
 int extended_to_double(const Extended *number, DoubleBits *result) { __asm int 3 }
 void float_to_extended(const float *number, Extended *result) { __asm int 3 }
 void double_to_extended(const DoubleBits *number, Extended *result) { __asm int 3 }
-int __fastcall is_register_return_size(unsigned bytes) { __asm int 3 }
 TemporarySymbol *__fastcall create_temporary(ScopeHash *scope, unsigned type, long size,
     short storage, unsigned arena, signed char subclass, unsigned short attributes) { __asm int 3 }
 void __fastcall decode_inline_assembly(Node *node, ScopeHash *scope) { __asm int 3 }
@@ -371,7 +370,6 @@ unsigned __fastcall coff_section_symbol(unsigned short identifier) { __asm int 3
 void __fastcall append_intrinsic_expression(Node *expression) { __asm int 3 }
 void __fastcall release_intrinsic_operands(Node *node) { __asm int 3 }
 unsigned __fastcall intrinsic_operator(unsigned intrinsic) { __asm int 3 }
-unsigned short __fastcall intrinsic_argument_width(Node *node, int skip_first) { __asm int 3 }
 int __fastcall adjust_factor_constant(Node *node, Node *factor, unsigned *value) { __asm int 3 }
 Node *__fastcall push_unary_into_left(Node *node) { __asm int 3 }
 Node *__fastcall push_unary_into_right(Node *node) { __asm int 3 }
@@ -380,8 +378,6 @@ int __fastcall is_subword_mask_pattern(Node *node, unsigned mask) { __asm int 3 
 short __fastcall next_numbered_work(WorkItem *work) { __asm int 3 }
 void remove_region_blocks(void) { __asm int 3 }
 void __fastcall remove_region_block(WorkItem *work) { __asm int 3 }
-int __fastcall choose_derived_induction_representative(Node *difference, Node *left,
-    Node *right, Node **representative) { __asm int 3 }
 int __fastcall has_unblocked_derived_use(Node *node) { __asm int 3 }
 void __fastcall save_region_counter(Node *address, Node *step, Node *assignment) { __asm int 3 }
 int __fastcall region_assignment_precedes(Node *first, Node *second) { __asm int 3 }

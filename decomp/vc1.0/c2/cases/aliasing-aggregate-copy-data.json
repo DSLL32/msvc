@@ -1,0 +1,35 @@
+{
+  "acceptance": 926,
+  "original_next": "@intrinsic_argument_width@8",
+  "native_first": "lower_intrinsic unrecovered-data INT3",
+  "native_log": "gdb: warning: Couldn't determine a path for the index cache directory.\n[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x56560fe0 in lower_intrinsic (node=0x565e76cc, parent=0x0) at src/intrinsics.c:29\n29\t    SELECT_INTRINSIC_DESCRIPTION(intrinsic, description);\n#0  0x56560fe0 in lower_intrinsic (node=0x565e76cc, parent=0x0) at src/intrinsics.c:29\n#1  0x56560730 in canonicalize_after_children (node=0x565e76cc, parent=0x0) at src/canonical-after.c:97\n#2  0x5655fa9c in canonicalize_node (function=0x565e3744, node=0x565e76cc, parent=0x0) at src/canonicalize.c:74\n#3  0x5655f8fb in canonicalize_tree (function=0x565e3744, node=0x565e76cc) at src/canonicalize.c:36\n#4  0x5655d03b in canonicalize_function (function=0x565e3744) at src/functions.c:96\n#5  0x5655ce26 in compile_functions () at src/functions.c:48\n#6  0x56557977 in main (argc=1, argv=0xffffdd94, envp=0xffffdd9c) at src/c2.c:56\nC2_FRONTIER_PC=0x56560fe0 ENTRY=0x56558e40\n",
+  "native_log_sha256": "2eb811d6d9cd3a7e9f7e3249d69a97334ccb13b090da86fd86efad84d124ad0c",
+  "observed_id": 172,
+  "node_type": "0x400",
+  "aggregate_bytes": 24,
+  "descriptor": {
+    "original_extent": "84498..844a8",
+    "name": "aggregate_copy_intrinsic",
+    "result_type": 0,
+    "reserved": 0,
+    "commands": "nvyE0E1",
+    "commands_original": "84c20..84c28",
+    "runtime_name": "",
+    "flags": "0x10"
+  },
+  "signature": {
+    "original_extent": "84a70..84a8c",
+    "id": 172,
+    "reserved": 0,
+    "types": [
+      "0x104",
+      "0x404",
+      "0x404",
+      0,
+      0,
+      0
+    ]
+  },
+  "layout": "Named typed descriptor at consumer; one signature row added before173 in existing sorted contextual fixed-signature table; unknown IDs retain inline trap. No source address/relative descriptor identity escapes recovered interpreter.",
+  "validation": "Original926 capture remains valid: only native encountered data changed, original mask/config/inputs unchanged; rerun native matching before926 acceptance."
+}

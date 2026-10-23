@@ -1,4 +1,7 @@
-C2 ACTIVE: aliasing stress at925 acceptances/847 source functions.
-Fresh matching frontier is_register_return_size6f590, bytes24; BEFORE cases/aliasing-initial.json.
-Four completed object regressions pass. Extent249682/399693=62.4684445312%, not branch coverage.
-All5 native fixtures pass; approved floating-point case follows aliasing. No shim requests.
+C2 ACTIVE: approved nested-loop stress at928 acceptances/850 source graphs.
+Matching original/native frontier @region_assignment_precedes@8.
+Extent union250064/399693=62.5640178837%, not branch coverage.
+Minimal+hello+loops+pressure completed object regressions pass; loop620-byte object incomplete.
+Next reference BEFORE cases/aliasing-original-928.json.
+Then remaining approved stress in cases/queue.json.
+Canonical/W3, audit and native fixtures pass; no shim requests.

@@ -2339,3 +2339,11 @@ interleaved integer/byte pointer aliases. Standalone600-byte original object
 matches pipeline after timestamp only. Fresh original/native initial frontier
 is is_register_return_size6f590, bytes24. All5 native fixtures pass.
 See cases/aliasing-registration.json and ../fixtures/c2-optimizer-aliasing.
+
+Aggregate copy normalization and derived induction: checkpoint928
+--------------------------------------------------
+3 whole functions pass fresh original/native matching; current frontier
+@region_assignment_precedes@8. 850 graph checks, canonical/native/W3 and all five
+native fixtures pass. See cases/aliasing-aggregate-induction.json for extent union, limits
+and measured timing splits. Minimal/hello/loops/pressure objects remain exact after timestamp;
+aliasing600-byte final object is incomplete.

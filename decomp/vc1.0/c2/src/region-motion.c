@@ -1572,3 +1572,38 @@ void __fastcall remove_parent_counter_records(Node *assignment)
     }
     hoist_current_region->parent->loop_trees = head;
 }
+
+/* Original [00060420,00060543). Remove constant-address terms from both
+   derived trees and select a shared representative only when the residual
+   trees agree. Original early shape rejection retains its arena copies. */
+int __fastcall choose_derived_induction_representative(Node *difference, Node *left,
+    Node *right, Node **representative)
+{
+    Node *left_copy = copy_tree(left), *right_copy = copy_tree(right);
+    int result = 0;
+    switch (difference->opcode) {
+    case 3:
+        if (difference->left.node->opcode != 0x26 ||
+            difference->second.node->opcode != 0x26) return 0;
+        left_copy = optimize_tree_global(build_tree("PDNY", left_copy, difference->left.node, 3));
+        right_copy = optimize_tree_global(build_tree("PDNY", right_copy, difference->second.node, 3));
+        break;
+    case 8:
+        if (difference->left.node->opcode != 0x26) return 0;
+        right_copy = optimize_tree_global(build_tree("PDNY", right_copy, difference->left.node, 3));
+        break;
+    case 0x26:
+        left_copy = optimize_tree_global(build_tree("PDNY", left_copy, difference, 3));
+        break;
+    default:
+        return 0;
+    }
+    if (trees_equal(left_copy, right_copy, 1) &&
+        (!*representative || trees_equal(*representative, left_copy, 1))) {
+        if (!*representative) *representative = copy_tree(left_copy);
+        result = 1;
+    }
+    release_tree(left_copy);
+    release_tree(right_copy);
+    return result;
+}
