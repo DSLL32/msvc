@@ -157,7 +157,6 @@ void __fastcall write_initializer_assembly(Initializer *initializer) { __asm int
 
 MachineOperand *__fastcall duplicate_operand(MachineOperand *operand) { __asm int 3 }
 MachineOperand *__fastcall high_dword_operand(MachineOperand *operand) { __asm int 3 }
-int __fastcall try_select_assignment(Node *node) { __asm int 3 }
 void emit_float_return(void) { __asm int 3 }
 unsigned short __fastcall select_assembly_record(Node *node) { __asm int 3 }
 
@@ -303,7 +302,6 @@ Node *__fastcall make_switch_pivot(Node *range) { __asm int 3 }
 void __fastcall split_switch_ranges(Node *ranges, unsigned cases, int count, unsigned span, Node **pivot, int *left_count) { __asm int 3 }
 void __fastcall emit_switch_table(Node *ranges, int count, int option1, int option2) { __asm int 3 }
 
-void __fastcall reduce_assignment_operator(Node *assignment, Node *operand, Node *load, Node *operation) { __asm int 3 }
 
 void __fastcall record_float_register(unsigned short number, SymbolHeader *symbol) { __asm int 3 }
 
@@ -380,7 +378,6 @@ void remove_region_blocks(void) { __asm int 3 }
 void __fastcall remove_region_block(WorkItem *work) { __asm int 3 }
 int __fastcall has_unblocked_derived_use(Node *node) { __asm int 3 }
 void __fastcall save_region_counter(Node *address, Node *step, Node *assignment) { __asm int 3 }
-int __fastcall region_assignment_precedes(Node *first, Node *second) { __asm int 3 }
 void __fastcall insert_region_memory_operation(Expression *anchor, Node *value, Node *address,
     unsigned opcode, Node *counter, unsigned bytes, Node *assignment) { __asm int 3 }
 int __fastcall can_rewrite_induction_comparison(BasicInduction *induction, Node *bound, Node *adjustment) { __asm int 3 }
@@ -407,3 +404,5 @@ MachineInstruction *__fastcall split_machine_region_exit(MachineFlowRegion *regi
 void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned short color, unsigned short number, int apply, MachineBlockHeader *block) { __asm int 3 }
 int __fastcall diamond_register_constraint(unsigned short number, MachineInstruction *first, MachineInstruction *last, unsigned bytes) { __asm int 3 }
 void fill_previous_pentium_gap(void) { __asm int 3 }
+int __fastcall rematerialization_is_cheap(MachineInstruction *instructions) { __asm int 3 }
+void __fastcall set_register_rematerialization(unsigned short number, MachineBlockHeader *block) { __asm int 3 }

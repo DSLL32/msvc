@@ -932,7 +932,10 @@
     "@update_pentium_gap_history@12",
     "@is_register_return_size@4",
     "@intrinsic_argument_width@8",
-    "@choose_derived_induction_representative@16"
+    "@choose_derived_induction_representative@16",
+    "@region_assignment_precedes@8",
+    "@reduce_assignment_operator@16",
+    "@try_select_assignment@4"
   ],
   "driver": [
     {
@@ -3136,8 +3139,7 @@
     {
       "name": "@try_select_assignment@4",
       "start": 104752,
-      "end": 104753,
-      "provisional": true
+      "end": 105326
     },
     {
       "name": "@lookup_opcode@8",
@@ -4847,8 +4849,7 @@
     {
       "name": "@reduce_assignment_operator@16",
       "start": 423904,
-      "end": 423905,
-      "provisional": true
+      "end": 423954
     },
     {
       "name": "@find_assignment_operand@8",
@@ -6573,8 +6574,7 @@
     {
       "name": "@region_assignment_precedes@8",
       "start": 390192,
-      "end": 390193,
-      "provisional": true
+      "end": 390287
     },
     {
       "name": "@has_unblocked_derived_use@4",
@@ -6726,6 +6726,18 @@
       "name": "@lookup_multiply_recipe@12",
       "start": 152768,
       "end": 152856
+    },
+    {
+      "name": "@rematerialization_is_cheap@4",
+      "start": 186784,
+      "end": 186785,
+      "provisional": true
+    },
+    {
+      "name": "@set_register_rematerialization@8",
+      "start": 187104,
+      "end": 187105,
+      "provisional": true
     }
   ],
   "cases": {

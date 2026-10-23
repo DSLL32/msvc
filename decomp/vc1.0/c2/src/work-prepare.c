@@ -387,3 +387,14 @@ int __fastcall find_assignment_operand(Node *node, unsigned has_addition)
     }
     return 0;
 }
+
+/* Original [000677e0,00067812). Reuse the assignment record as a
+   compound operator, retaining its destination and the other operand. */
+void __fastcall reduce_assignment_operator(Node *assignment, Node *operand,
+    Node *load, Node *operation)
+{
+    release_tree(load);
+    assignment->opcode = map_assignment_opcode(operation->opcode, 1);
+    assignment->second.node = operand;
+    release_node(operation);
+}

@@ -63,4 +63,6 @@ void __fastcall emit_machine_directive(short code, short value);
 void __fastcall emit_register_lifetime(unsigned short reg, unsigned type, int begin, unsigned flags);
 void __fastcall append_embedded_record(Node *node);
 void __fastcall release_machine_instruction(MachineInstruction *instruction);
+int __fastcall rematerialization_is_cheap(MachineInstruction *instructions);
+void __fastcall set_register_rematerialization(unsigned short number, MachineBlockHeader *block);
 #endif

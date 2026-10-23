@@ -2347,3 +2347,11 @@ Aggregate copy normalization and derived induction: checkpoint928
 native fixtures pass. See cases/aliasing-aggregate-induction.json for extent union, limits
 and measured timing splits. Minimal/hello/loops/pressure objects remain exact after timestamp;
 aliasing600-byte final object is incomplete.
+
+Assignment ordering and deferred selection: checkpoint931
+------------------------------------------
+3 whole functions pass fresh original/native matching; current frontier
+@rematerialization_is_cheap@4. 853 graph checks, canonical/native/W3 and all five
+native fixtures pass. See cases/aliasing-rematerialization.json for extent union, limits
+and measured timing splits. Minimal/hello/loops/pressure objects remain exact after timestamp;
+aliasing600-byte final object is incomplete.

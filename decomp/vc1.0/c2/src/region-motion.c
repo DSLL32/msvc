@@ -1607,3 +1607,20 @@ int __fastcall choose_derived_induction_representative(Node *difference, Node *l
     release_tree(right_copy);
     return result;
 }
+
+/* Original [0005f430,0005f48f). Within one block the expression order
+   decides; otherwise use dominance of the first assignment's work item. */
+int __fastcall region_assignment_precedes(Node *first, Node *second)
+{
+    WorkItem *second_work, *first_work;
+    Expression *expression;
+    second_work = find_region_assignment_work(hoist_first_work, second);
+    first_work = find_region_assignment_work(hoist_first_work, first);
+    if (first_work == second_work) {
+        for (expression = second_work->body.expressions; expression; expression = expression->next) {
+            if (expression->tree == first) return 1;
+            if (expression->tree == second) return 0;
+        }
+    }
+    return work_dominates_block(first_work, second_work);
+}

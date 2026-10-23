@@ -1,0 +1,26 @@
+{
+  "label": "aliasing-original-930",
+  "profile": "aliasing",
+  "accepted": 930,
+  "events": "exception 80000003 rva 00009930 base 00010000 first 1\nexit 99\n",
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "masked_sha256": "4a33e7bd448fd0d16ddd91630e1edd20cea44dfd15d55145b976d2c3ebdb1e75",
+  "config_sha256": "551d5009b4e369dc8bf90a8b0b8744ee7194ba1059dacb111bac804033a2a676",
+  "manifest_sha256": "03c1806403ee70df3b6ae45d2c23fc36d525c7cb39aca64c424211e88c31cefe",
+  "inputs": {
+    "c2/irex": "2887206b3a6facf0c7bf9b12435e54661cd1f12764ea4e9b6e11dab3faf29f14",
+    "c2/irsy": "c23490c660fcfb8777e6b11b81ce80c947c3e111aee3d60a876f3a256676cb24",
+    "c2/irin": "68c42ddca1975bb6601fa0e6762d7b0492da4a3237e3d67fbae2211647a02396",
+    "c2/irgl": "11f8f1f41f4081c60c6d92ccd9ef442651015b504988bb8830236214b329178a"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f aliasing.c -W 1 -dos -Foaliasing.obj -ML -Gs4096 -Gy -G5 "
+  },
+  "directory": "/root/.ai-tmp/vc1.0-c2/original-aliasing-zkfmwspy",
+  "logical": "@try_select_assignment@4",
+  "original_va": "0x19930",
+  "setup_seconds": 0.20260894298553467,
+  "execution_seconds": 1.1642970200628042,
+  "check_seconds": 0.007752317935228348,
+  "total_seconds": 1.3746587047353387
+}
