@@ -65,7 +65,8 @@
     "rc_search_include_directories",
     "rc_scan_comment",
     "rc_match_logical_character",
-    "rc_skip_block_comment"
+    "rc_skip_block_comment",
+    "rc_push_condition"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

@@ -700,3 +700,16 @@ class BlockCommentEntered(gdb.Breakpoint):
         frame=gdb.newest_frame();entry=dict(formals=[],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,cursor=int(gdb.parse_and_eval('rc_source_cursor')),line=int(gdb.parse_and_eval('rc_preparing_line')),caller=frame.older().name(),output_before=block_output())
         block_comments.append(entry);save_block_comments();BlockCommentReturned(frame,entry);return False
 BlockCommentEntered('rc_skip_block_comment',internal=True);save_block_comments()
+
+condition_pushes=[]
+def save_condition_pushes():(path.parent/'condition-pushes.json').write_text(json.dumps(condition_pushes,indent=2)+'\n')
+class ConditionPushReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(self.return_value),return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,level_after=int(gdb.parse_and_eval('rc_cpp_nesting_level')),state_before_caller_store=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_condition_state')),128)).hex())
+        save_condition_pushes();return False
+class ConditionPushEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();entry=dict(formals=[],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,level=int(gdb.parse_and_eval('rc_cpp_nesting_level')),caller=frame.older().name())
+        condition_pushes.append(entry);save_condition_pushes();ConditionPushReturned(frame,entry);return False
+ConditionPushEntered('rc_push_condition',internal=True);save_condition_pushes()

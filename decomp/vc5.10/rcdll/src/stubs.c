@@ -111,12 +111,6 @@ int __stdcall rc_skip_inactive(int level)
     return 0;
 }
 
-int __cdecl rc_push_condition(void)
-{
-    __asm int 3
-    return 0;
-}
-
 int __cdecl rc_evaluate_condition(void)
 {
     __asm int 3

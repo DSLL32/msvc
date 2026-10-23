@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Sixty-one application functions (19,775 original code bytes), two embedded CRT functions
+Sixty-two application functions (19,853 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_push_condition`.
+currently matches at the next named trap, `rc_parse_define`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -534,3 +534,10 @@ returning with ret0. [Verification](cases/resources-rich-trailing-space/block-co
 records twelve affected controls and the next conditional-stack helper at
 `#ifndef _WINDOWS_`, with nesting-1 and condition1. The encountered four-byte
 CRLF literal is contextual data with no code credit. EOF/resume remains trapped.
+
+Conditional-stack pushing is accepted (78 bytes): nesting-1 becomes0, the
+function returns0/ret0, then its caller stores1 in condition slot0.
+[Verification](cases/resources-rich-trailing-space/push-condition-verification.json)
+records eleven affected controls and the actual next `#define _WINDOWS_`
+parser frontier. The new caller branch has no initialized condition local to
+claim; source/frame/FILE and macro state remain captured. Overflow is unvisited.

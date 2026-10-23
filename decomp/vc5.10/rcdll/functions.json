@@ -66,7 +66,8 @@
     "rc_search_include_directories",
     "rc_scan_comment",
     "rc_match_logical_character",
-    "rc_skip_block_comment"
+    "rc_skip_block_comment",
+    "rc_push_condition"
   ],
   "functions": [
     {
@@ -1100,8 +1101,7 @@
       "end": "0x629a",
       "abi": "cdecl",
       "stack_bytes": 0,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_evaluate_condition",
