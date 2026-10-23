@@ -908,7 +908,12 @@
     "@split_register_transfer_edge@16",
     "@integer_width_mask@4",
     "@register_source_changed_between@12",
-    "@register_rematerialization@4"
+    "@register_rematerialization@4",
+    "@instruction_precedes_region_entry@4",
+    "@remove_register_conflict@8",
+    "@spill_register_variables@8",
+    "@spill_variable_everywhere@4",
+    "@spill_variable_in_work@8"
   ],
   "driver": [
     {
@@ -5235,8 +5240,7 @@
     {
       "name": "@spill_register_variables@8",
       "start": 177920,
-      "end": 177921,
-      "provisional": true
+      "end": 178300
     },
     {
       "name": "@color_register_variables@4",
@@ -5468,8 +5472,7 @@
     {
       "name": "@remove_register_conflict@8",
       "start": 188528,
-      "end": 188529,
-      "provisional": true
+      "end": 188614
     },
     {
       "name": "@unlink_register_affinity@4",
@@ -6481,8 +6484,7 @@
     {
       "name": "@instruction_precedes_region_entry@4",
       "start": 298928,
-      "end": 298929,
-      "provisional": true
+      "end": 298990
     },
     {
       "name": "@same_machine_operand_base@8",
@@ -6612,6 +6614,34 @@
       "name": "@register_rematerialization@4",
       "start": 187088,
       "end": 187102
+    },
+    {
+      "name": "@spill_variable_everywhere@4",
+      "start": 183248,
+      "end": 183306
+    },
+    {
+      "name": "@record_rematerialized_work_registers@12",
+      "start": 182752,
+      "end": 182753,
+      "provisional": true
+    },
+    {
+      "name": "@spill_variable_in_work@8",
+      "start": 182512,
+      "end": 182748
+    },
+    {
+      "name": "@remove_spilled_work_registers@8",
+      "start": 182464,
+      "end": 182465,
+      "provisional": true
+    },
+    {
+      "name": "@spill_instruction_variable@20",
+      "start": 183312,
+      "end": 183313,
+      "provisional": true
     }
   ],
   "cases": {

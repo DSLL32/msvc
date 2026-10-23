@@ -96,4 +96,9 @@ void __fastcall remove_register_conflict(unsigned short left, unsigned short rig
 RegisterAffinity *__fastcall unlink_register_affinity(RegisterAffinity *affinity);
 void __fastcall add_block_physical_registers(MachineBlockHeader *block);
 void __fastcall assign_operand_registers(MachineInstruction *instruction, MachineOperand *operand, int index);
+void __fastcall spill_variable_everywhere(RegisterVariable *variable);
+void __fastcall record_rematerialized_work_registers(WorkItem *work, MachineInstruction *definition, unsigned short number);
+int __fastcall spill_variable_in_work(WorkItem *work, RegisterVariable *variable);
+void __fastcall remove_spilled_work_registers(WorkItem *work, BitSet *spilled);
+int __fastcall spill_instruction_variable(MachineInstruction *instruction, RegisterVariable *variable, int apply, unsigned *spill_bytes, WorkItem *work);
 #endif

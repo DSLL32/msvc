@@ -4,6 +4,8 @@
 #include "register-use.h"
 #include "function-input.h"
 #include "temporaries.h"
+#include "backend-passes.h"
+#include "bitsets.h"
 #include <recon.h>
 extern int cpu_model, optimization_cost, optimize_speed;
 
@@ -242,4 +244,109 @@ int __fastcall folded_spill_operand_cost(MachineInstruction *instruction, unsign
         return rematerialization_cost_limit;
     }
     return penalty + 2 * rematerialization_cost_limit;
+}
+
+/* Original [0002b700,0002b87c). Mark the chosen spill list, rewrite each
+   affected work item, then rerun selection only on blocks changed by spills. */
+void __fastcall spill_register_variables(RegisterVariable *variables, int simplification)
+{
+    RegisterVariable *variable;
+    WorkItem *work;
+    BitSet *spilled = 0;
+    unsigned flags;
+    rematerialization_changed = 0;
+    conservative_flag_analysis = 1;
+    for (variable = variables; variable; variable = variable->work_next) {
+        flags = variable->flags;
+        if (flags & 0x40)
+            compiler_internal_error("@(#)color.c:1.101", 0x2ec);
+        if (!simplification && (flags & 0x800) && (variable->number & 0x8000))
+            continue;
+        variable->flags = flags | 0x40;
+        variable->flags |= 0x400;
+        if (variable->number & 0x4000) spill_variable_everywhere(variable);
+    }
+    if (rematerialization_changed) {
+        rematerialization_changed = 0;
+        finish_machine_blocks(deferred_instructions, 1);
+    }
+    prune_rematerialized_variables();
+    conservative_flag_analysis = 0;
+    for (variable = variables; variable; variable = variable->work_next) {
+        if (!(variable->flags & 0x40)) continue;
+        if ((variable->number & 0x4000) && variable->rematerialization &&
+            !(variable->flags & 0x80)) {
+            record_rematerialized_work_registers(current_work,
+                variable->rematerialization->next, variable->number);
+            variable->flags |= 0x80;
+        }
+        register_allocation_statistics.rewritten_instructions +=
+            spill_variable_in_work(current_work, variable);
+        if (variable->number & 0x4000)
+            spilled = bitset_include(spilled, variable->number & 0x3fff);
+        ++register_allocation_statistics.spilled_variables;
+    }
+    remove_spilled_work_registers(current_work, spilled);
+    release_bitset(spilled);
+    for (work = current_work; work; work = work->next) {
+        if (work->flags & 0x100) {
+            finish_selected_block(work->body.block, 1);
+            work->flags &= ~0x100;
+            (work->body.block)->flags &= ~0x100;
+        }
+    }
+}
+
+/* Original [0002cbd0,0002cc0a). The whole-stream pass includes ordinary
+   and implicit-register instructions. Save next before rewriting the record. */
+void __fastcall spill_variable_everywhere(RegisterVariable *variable)
+{
+    MachineInstruction *instruction, *next;
+    unsigned kind;
+    for (instruction = deferred_instructions; instruction; instruction = next) {
+        next = instruction->next;
+        kind = instruction->opcode & 15;
+        if (!kind || kind == 8 || kind == 9)
+            spill_instruction_variable(instruction, variable, 1, 0, 0);
+    }
+}
+
+/* Original [0002c8f0,0002c9dc). Work reference sets contain tagged register
+   numbers; tree-register block liveness instead uses the low14-bit number. */
+int __fastcall spill_variable_in_work(WorkItem *work, RegisterVariable *variable)
+{
+    MachineInstruction *instruction, *next;
+    unsigned spill_bytes = (unsigned)(int)variable->storage_bytes;
+    unsigned short number;
+    unsigned kind;
+    int changed, result, total = 0;
+    for (; work; work = work->next) {
+        number = variable->number;
+        if (number & 0x4000) {
+            bitset_remove(work->body.block->uses, number & 0x3fff);
+            bitset_remove(work->body.block->definitions, number & 0x3fff);
+        }
+        if (!bitset_contains(work->flow_sets[0], number)) continue;
+        changed = 0;
+        instruction = work->body.block->next;
+        while ((instruction->opcode & 15) != 7) {
+            next = instruction->next;
+            kind = instruction->opcode & 15;
+            if (!kind || kind == 8 || kind == 9) {
+                result = spill_instruction_variable(instruction, variable, 1,
+                    &spill_bytes, work);
+                if (result) {
+                    total += result;
+                    changed = 1;
+                }
+            }
+            instruction = next;
+        }
+        if (changed) {
+            work->flags |= 0x100;
+            work->body.block->flags |= 0x100;
+            if (variable->number & 0x8000) return total;
+        }
+    }
+    return total;
 }

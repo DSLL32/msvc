@@ -494,3 +494,15 @@ int __fastcall register_dead_after_region(unsigned short number, MachineFlowRegi
     }
     return 1;
 }
+
+/* Original [00048fb0,00048fee). A referenced label before this instruction
+   provides an entry; otherwise the preceding block header supplies its flag. */
+int __fastcall instruction_precedes_region_entry(MachineInstruction *instruction)
+{
+    MachineInstruction *previous = instruction->previous;
+    while ((previous->opcode & 15) != 7) {
+        if ((previous->opcode & 15) == 1 && previous->labels.attachment) return 1;
+        previous = previous->previous;
+    }
+    return ((MachineBlockHeader *)previous)->flags & 0x200;
+}

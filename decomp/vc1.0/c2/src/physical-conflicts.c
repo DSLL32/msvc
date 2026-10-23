@@ -269,3 +269,21 @@ RegisterConflict *__fastcall new_register_conflict(unsigned arena)
 {
     return arena_alloc(arena, sizeof(RegisterConflict));
 }
+
+/* Original [0002e070,0002e0c6). Both adjacency links must already exist.
+   Unlink them without recycling their arena storage and update both degrees. */
+void __fastcall remove_register_conflict(unsigned short left, unsigned short right)
+{
+    RegisterVariable *left_variable, *right_variable;
+    RegisterConflict **link;
+    left_variable = lookup_register_variable(left, 1);
+    right_variable = lookup_register_variable(right, 1);
+    for (link = &left_variable->conflicts; (*link)->variable != right_variable;
+         link = &(*link)->next) {}
+    *link = (*link)->next;
+    --left_variable->degree;
+    for (link = &right_variable->conflicts; (*link)->variable != left_variable;
+         link = &(*link)->next) {}
+    *link = (*link)->next;
+    --right_variable->degree;
+}

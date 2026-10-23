@@ -2257,3 +2257,11 @@ Register source availability and integer masks: checkpoint904
 native fixtures pass. See cases/loops-source-dependencies.json for extent union, limits
 and measured timing splits. Minimal/hello objects remain exact after timestamp;
 loop620-byte final object is incomplete.
+
+Register coalescing and spill drivers: checkpoint909
+-------------------------------------
+5 whole functions pass fresh original/native matching; current frontier
+@spill_instruction_variable@20. 831 graph checks, canonical/native/W3 and all three
+native fixtures pass. See cases/loops-spill-driver.json for extent union, limits
+and measured timing splits. Minimal/hello objects remain exact after timestamp;
+loop620-byte final object is incomplete.
