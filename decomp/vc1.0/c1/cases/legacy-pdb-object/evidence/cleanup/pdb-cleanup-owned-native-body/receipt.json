@@ -1,0 +1,18 @@
+{
+  "status": "pass",
+  "seconds": 0.18702140543609858,
+  "contract": {
+    "header": "4d6963726f736f667420432f432b2b2070726f6772616d20646174616261736520312e30300d0a1a4a4700005d0d0e00d7cedb6a0100000000100810a0000000",
+    "list_count": 0,
+    "nodes": 1,
+    "node_bytes": 12,
+    "descriptor": -1,
+    "writable": 1,
+    "incremental": 1,
+    "unwritten_constructor_fields": "loaded_tail+96 and cumulative+112 remain raw; neither is consumed by this destructor. Freed block-list pointers are retained but never dereferenced.",
+    "ABI": "ECX this/RET0; void EAX/EDX unspecified",
+    "freed_nodes": 1,
+    "caller_object_unchanged": true
+  },
+  "scope": "Explicit native GDB acceptance only; normal cached fixture remains debugger-free."
+}

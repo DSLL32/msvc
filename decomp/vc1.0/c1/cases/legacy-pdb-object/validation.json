@@ -1,0 +1,86 @@
+{
+  "status": "complete public cleanup; separate direct methods pending",
+  "accepted_from": 1012,
+  "accepted_count": 1013,
+  "new_frontend_functions": 1,
+  "new_frontend_bytes": 27,
+  "new_CRT_functions": 0,
+  "coverage": {
+    "public_case_accepted_union_bytes": 239936,
+    "direct_only_accepted_union_bytes": 691,
+    "direct_only_functions": [
+      "_asm_recovery_value@4",
+      "_copy_expression_tree@8",
+      "_make_reusable_zero",
+      "_report_asm_expected_token@8"
+    ],
+    "accepted_union_bytes": 240627,
+    "original_code_bytes": 277234,
+    "accepted_by_origin_bytes": {
+      "frontend_source": 219713,
+      "CRT": 20728,
+      "import_thunks": 186
+    },
+    "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
+    "percent": 86.79563112749518,
+    "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
+  },
+  "checks": {
+    "public_native_phases": 53,
+    "public_trace": true,
+    "public_executable_sha256": "3aecbe24cb5f8370f03b3af19b4a97571de83821b0ebce27de0200143649975b",
+    "old_direct_units": 15,
+    "expression_direct_units": 6,
+    "cleanup_mutation_rejections": 9,
+    "unknown_raw_field_positive": true,
+    "original_compiler_and_Rust_graph_ABI_state_grammar": "pass"
+  },
+  "timings": {
+    "live_native_build": 7.5738606080412865,
+    "canonical_build_and_audits": 6.844192387536168,
+    "native_checks": {
+      "public": {
+        "exit": 0,
+        "seconds": 1.3700253404676914
+      },
+      "old-direct": {
+        "exit": 0,
+        "seconds": 3.6068499721586704
+      },
+      "expression": {
+        "exit": 0,
+        "seconds": 0.2031798968091607
+      },
+      "cleanup-controls": {
+        "exit": 0,
+        "seconds": 0.04442865028977394
+      }
+    },
+    "public_fixture_total": 1.1527325371280313,
+    "public_trace_prepare": 0.12060056440532207
+  },
+  "references_sha256": {
+    "evidence/cleanup/contracts.json": "85d9fe3b6a0b999d7490a75288161225d6a198f8774aae9eb20332dc770801d0",
+    "evidence/cleanup/pdb-cleanup-body-first/events": "53b7cdf951053653bf8b646f708f8e5ff1d313a710cf2f4fac24ce1f7b190aa0",
+    "evidence/cleanup/pdb-cleanup-body-first/receipt.json": "737727b743f008994dfc2429c161cdd99da2974e2c9dacf10be0352734f1654a",
+    "evidence/cleanup/pdb-cleanup-body-second/events": "7c8034a5425f7fa89cb020c6a76f64824e04782f833d2c8a991a953cb29d5e35",
+    "evidence/cleanup/pdb-cleanup-body-second/receipt.json": "c0ecd869511fd5b27d69badc03ad13e3dfba066d08f14d6b037310bb85505e8c",
+    "evidence/cleanup/pdb-cleanup-owned-entry/events": "2541cbf1e0e859fed9dd7d012e40418d0cdb0ede6c7c110bf54fe41ae7f3f12e",
+    "evidence/cleanup/pdb-cleanup-owned-entry/receipt.json": "a9a9a1677f676acccca96c9db6815050ad59402d06f40e3595594dbd5f1aef20",
+    "evidence/cleanup/pdb-cleanup-owned-native-body/commands.gdb": "4fff53ebfd64ff8a01e879b01947a681e5f789164c573665d9a55d3656e37492",
+    "evidence/cleanup/pdb-cleanup-owned-native-body/events": "9e7376cbd4555cea908b1340378319e5b0058e85bedd1200e9c53655469d208d",
+    "evidence/cleanup/pdb-cleanup-owned-native-body/receipt.json": "6791d125bfb5364444286c84dbf028e74dd289114b9988902e16a20a4205951d",
+    "evidence/cleanup/pdb-cleanup-owned-native-entry/commands.gdb": "806504ddc07fec51f351e310bc0ae6637fb6f3f9cf4be11367c6707b2f4c7b72",
+    "evidence/checkpoint/canonical-audit.json": "372fc8cc7f086b7d4eab33700f21bad1c903760aba9b27c4f0d2a2aa2d4553dd",
+    "evidence/checkpoint/canonical-audit.log": "5c65a1cc96c08e9ded72c28d82fbb055eb7a5611cda26bcbe6ef359e55d38be7",
+    "evidence/checkpoint/cleanup-controls.json": "4304079b016c5bf9be00079af4f1c20b178c90a4f9572cf82ebe783eaefeee9c",
+    "evidence/checkpoint/live-build.json": "138bb880005d6681100d96eb57b4e16e2f53fa20bb0bcba6aee5178c8c6ed5ad",
+    "evidence/checkpoint/live-shared-inputs.json": "3977e04b719765fa51bb8270a664c2e3cbcfff986e7ed527500e40692d445e5c"
+  },
+  "scope": "Malformed-magic public constructor cleanup. Real116B object, embedded records list+72 and exactly one live12B buffer; free order, original/native ECX-this RET0 and unchanged caller fields. Undefined fields retained, no freed-object reads. Original captures inherited unchanged; takeover performs no recapture.",
+  "pending": [
+    "open_program_database_object 353B: no established public trigger; constructor-owned external direct workflow pending",
+    "reload_program_database 52B: valid descriptor/object ownership required; unaccepted"
+  ],
+  "service_history": "Predecessor resumed once and later terminated again with external possible cybersecurity risk / Daybreak enrollment message. User authorized replacement. No evidence was reset or relabelled and no security-enrollment action was taken."
+}

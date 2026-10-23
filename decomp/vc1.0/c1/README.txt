@@ -1,7 +1,7 @@
 C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
 ========================================================
 
-Fifty-two native phases are complete: minimal C, optimized Win32 hello, DLL,
+Fifty-three native phases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
 assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
 automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
@@ -11,11 +11,11 @@ richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
 automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
 the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, typed packet-view/callback adapters, normal/expected-error arena API prototype phases, portability-header diagnostics, explicit-base/goto traversal, typed x87/bit-scan arithmetic, generated-header shutdown failures, protocol-header parser repair, and assembler operand diagnostics/SEG.
 
-There are 879 accepted source functions and 1012 accepted original entries.
-Accepted original extents cover 240600/277234 code-section bytes (86.785892%):
-219686 frontend bytes, 20728 CRT bytes and 186 import-thunk bytes. This is a
+There are 880 accepted source functions and 1013 accepted original entries.
+Accepted original extents cover 240627/277234 code-section bytes (86.795631%):
+219713 frontend bytes, 20728 CRT bytes and 186 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
-not branch coverage. Of this union,239909bytes have public-case evidence and
+not branch coverage. Of this union,239936bytes have public-case evidence and
 691 bytes have separate direct-test evidence for assembler support and expression
 templates; no public trigger is established for those four functions. Unvisited
 functions retain named trapping stubs.
@@ -38,8 +38,8 @@ excluded from application instrumentation. The original BINMODE.OBJ default is
 retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
-cases/original-entry-references.json binds 52 completed phase histories to fresh
-shared-prefix original first-entry captures. All 864 publicly reached accepted application entries
+cases/original-entry-references.json binds 53 completed phase histories to fresh
+shared-prefix original first-entry captures. All 865 publicly reached accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
@@ -448,3 +448,15 @@ other unproved allocator contexts are not covered. Run independently with:
 The first string trial exposed a missing stdcall callee prototype. The retained
 failure and repaired stack/return proof document the fix; pch.h now supplies the
 existing copy_bytes_end declaration. No CRT function was reconstructed.
+
+Public malformed database cleanup
+---------------------------------
+cases/legacy-pdb-object freezes a public malformed-magic msvc.pdb input. The
+original and reconstruction emit C2470, exit1 (CLexit2), and leave five identical
+partial IR files. Its 27-byte list destructor adds one frontend function. Fresh
+entry and twice original/native return observations prove the actual embedded
+list, its one live12-byte buffer, exact free ownership/order, unchanged owner
+fields and ECX-this/RET0/nonvolatile ABI. Unwritten constructor fields remain raw;
+freed block-list pointers are never followed. The cached fixture uses no Wine or
+debugger. scripts/check-pdb-cleanup.py checks frozen observations and nine damaged
+ownership/ABI controls. Separate object open/reload methods remain unaccepted.

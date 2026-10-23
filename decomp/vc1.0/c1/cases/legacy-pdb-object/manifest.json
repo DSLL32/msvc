@@ -1,0 +1,199 @@
+{
+  "case": "Legacy database object methods and owned cleanup",
+  "status": "public malformed-PDB cleanup complete; separate direct object open/reload pending",
+  "phases": {
+    "context": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\legacy-pdb-object",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f test.c -Ze -Zp8 -Gs -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zi -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/test.c",
+          "bytes": 327,
+          "sha256": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/context/irdb",
+          "bytes": 63,
+          "sha256": "b21258448ae03459697a1cca3b098050a1dee4ea6f36800caeae6a5f81befbba",
+          "output_name": "irdb",
+          "ignored_fields": [
+            {
+              "offset": 14,
+              "bytes": 4,
+              "name": "Proved original PDB creation signature clock"
+            }
+          ],
+          "normalized_sha256": "f754767a0e181295c9447e0929530c2ac86ee49e01d36e555669903eaac3c0f7"
+        },
+        {
+          "path": "expected/context/irex",
+          "bytes": 976,
+          "sha256": "3b7281959ac40ea90191f0790cdaf631b66dfe4e162e09fd113653db7a8a305a",
+          "output_name": "irex"
+        },
+        {
+          "path": "expected/context/irgl",
+          "bytes": 151,
+          "sha256": "6e0cd06797965173c131f1724cf829fbca926d92b0e47b5d799813bd8c0a8e58",
+          "output_name": "irgl"
+        },
+        {
+          "path": "expected/context/irin",
+          "bytes": 19,
+          "sha256": "e0a12ab8aeed02a09622062a1d0151a40c129c5ae821608c2f36af14dfef872e",
+          "output_name": "irin"
+        },
+        {
+          "path": "expected/context/irsy",
+          "bytes": 49,
+          "sha256": "01ef84350a54c32919c388d2189d481e40297d43e451304a92e935b811413849",
+          "output_name": "irsy"
+        },
+        {
+          "path": "expected/context/msvc.pdb",
+          "bytes": 224,
+          "sha256": "97ec43351d724944cafb15d49ae46f3c2ea573cbd747ebfed82d8342d26a936b",
+          "output_name": "msvc.pdb",
+          "ignored_fields": [
+            {
+              "offset": 48,
+              "bytes": 4,
+              "name": "Proved original PDB creation signature clock"
+            }
+          ],
+          "normalized_sha256": "4a95271977a30d69cb1f809e7a09130ab91a2cee7658c76eb0c270b3f1c7a9d0"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "expected_absent_outputs": [
+        "test.obj",
+        "test.exe"
+      ],
+      "immutable_input_names": [
+        "test.c"
+      ],
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Actual original CL child handles alias fd1/fd2."
+      },
+      "cross_output_checks": [
+        {
+          "kind": "equal-u32",
+          "left": {
+            "file": "irdb",
+            "offset": 14
+          },
+          "right": {
+            "file": "msvc.pdb",
+            "offset": 48
+          }
+        }
+      ]
+    },
+    "cleanup": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\legacy-pdb-object-cleanup",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f test.c -Ze -Zp8 -Gs -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zi -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/test.c",
+          "bytes": 327,
+          "sha256": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129"
+        },
+        {
+          "path": "data/bad-magic/msvc.pdb",
+          "bytes": 224,
+          "sha256": "b8f31cdda28d408883b98c71148fa2e5e57fb2c2f1b8884022e4ae9264102e60"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/cleanup/irdb",
+          "bytes": 1,
+          "sha256": "ca358758f6d27e6cf45272937977a748fd88391db679ceda7dc7bf1f005ee879",
+          "output_name": "irdb"
+        },
+        {
+          "path": "expected/cleanup/irex",
+          "bytes": 897,
+          "sha256": "1f19c154009fc910ab2c7255993faa1c715a935d5ea2627817247181610d7f58",
+          "output_name": "irex"
+        },
+        {
+          "path": "expected/cleanup/irgl",
+          "bytes": 22,
+          "sha256": "2d2d884cc73b1677c54758c1944d3774116d6e1683a32738b2cfad32bffbad8c",
+          "output_name": "irgl"
+        },
+        {
+          "path": "expected/cleanup/irin",
+          "bytes": 19,
+          "sha256": "e0a12ab8aeed02a09622062a1d0151a40c129c5ae821608c2f36af14dfef872e",
+          "output_name": "irin"
+        },
+        {
+          "path": "expected/cleanup/irsy",
+          "bytes": 2,
+          "sha256": "53bd9133146631a2a2a89188f7d799e4ab85b473b7e927dd8b7782d91fe4ee0c",
+          "output_name": "irsy"
+        }
+      ],
+      "expected_exit": 1,
+      "expected_stdout": "error C2470: cannot open database 'S:\\vc1.0\\c1\\legacy-pdb-object-cleanup\\msvc.pdb'\r\n",
+      "expected_stderr": "",
+      "expected_absent_outputs": [
+        "test.obj",
+        "test.exe"
+      ],
+      "immutable_input_names": [
+        "test.c",
+        "msvc.pdb"
+      ],
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Actual original CL child handles alias fd1/fd2."
+      }
+    }
+  },
+  "public_cleanup_reachability": "Public malformed-magic msvc.pdb reaches accepted destructor. Fresh entry and twice original/native whole-body ownership/RET0 proof pass; C1exit1/CLexit2, C2470 and all five partial IR files exact.",
+  "direct_reachability": "No public trigger established for object open/reload methods; raw direct/reference scan found none, not universal unreachability proof.",
+  "direct_inputs": [
+    {
+      "path": "data/valid.pdb",
+      "bytes": 224,
+      "sha256": "246dbc3280dfd54d351bc30d8d5e076e9d18a4963a1082547be5ecd1e09e4573"
+    }
+  ],
+  "marker": {
+    "logical": "@create_program_database@16",
+    "original": 94976,
+    "scope": "Natural accepted constructor has allocated real116B object and two12B owned lists; original modewi establishes writable/incremental. Header, loaded_tail and cumulative retain raw unwritten bytes. Tested wc/rc overwrite cumulative before use."
+  }
+}

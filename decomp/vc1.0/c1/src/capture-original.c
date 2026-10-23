@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "../cases/expression-templates/external.h"
+#include "../cases/legacy-pdb-object/external.h"
 #include <recon.h>
 
 /* Inspect pending bytes without flushing or changing the debugged process.
@@ -312,6 +313,40 @@ static DWORD flag_entry, flag_return, flag_scanner, flag_parser, flag_symbol;
 static unsigned char flag_entry_byte, flag_return_byte;
 static unsigned flag_count;
 static int flag_active, flag_step;
+static PdbObserver pdb_observer;
+static HANDLE pdb_process,pdb_log;
+static DWORD pdb_list_address,pdb_free_site;
+static unsigned char pdb_free_byte;
+static int pdb_free_step;
+static int pdb_original_read(void *unused,unsigned address,void *output,unsigned bytes)
+{
+    DWORD got;
+    return ReadProcessMemory(pdb_process,(void *)address,output,bytes,&got)&&got==bytes;
+}
+static void pdb_original_emit(void *unused,const char *line,unsigned bytes)
+{
+    DWORD written;
+    WriteFile(pdb_log,line,bytes,&written,0);
+}
+static int pdb_free_event(HANDLE process,HANDLE thread,HANDLE log,DWORD code,DWORD site)
+{
+    CONTEXT c;
+    DWORD pointer,got,written;
+    char line[100];
+    if(!pdb_free_site)return 0;
+    if(pdb_free_step && code==EXCEPTION_SINGLE_STEP) {
+        memset(&c,0,sizeof(c));c.ContextFlags=CONTEXT_FULL;
+        if(!GetThreadContext(thread,&c)||!patch_debug_byte(process,pdb_free_site,0xcc))return -1;
+        c.EFlags&=~0x100UL;pdb_free_step=0;
+        return SetThreadContext(thread,&c)?1:-1;
+    }
+    if(code!=EXCEPTION_BREAKPOINT||site!=pdb_free_site)return 0;
+    memset(&c,0,sizeof(c));c.ContextFlags=CONTEXT_FULL;
+    if(!GetThreadContext(thread,&c)||!ReadProcessMemory(process,(void *)(c.Esp+4),&pointer,4,&got)||got!=4||!patch_debug_byte(process,site,pdb_free_byte))return -1;
+    sprintf(line,"pdb-free %08lx\n",pointer);WriteFile(log,line,strlen(line),&written,0);
+    c.Eip=site;c.EFlags|=0x100;pdb_free_step=1;
+    return SetThreadContext(thread,&c)?1:-1;
+}
 static int timestamp_probe;
 static DWORD timestamp_handle, timestamp_pointer;
 static int dump_function_symbol(HANDLE process, HANDLE log, const char *boundary)
@@ -367,6 +402,18 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
     memset(&context,0,sizeof(context)); context.ContextFlags = CONTEXT_FULL;
     if (!GetThreadContext(thread,&context)) return -1;
     if (site == flag_entry) {
+        if(getenv("C1_PDB_CLEANUP")) {
+            pdb_process=process;pdb_log=log;
+            memset(&pdb_observer,0,sizeof(pdb_observer));
+            pdb_observer.read=pdb_original_read;pdb_observer.emit=pdb_original_emit;
+            pdb_list_address=context.Ecx;
+            pdb_memory(&pdb_observer,"object-before",context.Ecx-72,116);
+            pdb_list(&pdb_observer,"before",context.Ecx,1);
+            sprintf(line,"pdb-registers entry %08lx %08lx %08lx %08lx %08lx %08lx\n",context.Esp,context.Ecx,context.Ebx,context.Esi,context.Edi,context.Ebp);
+            WriteFile(log,line,strlen(line),&written,0);
+            pdb_free_site=base+0x40c00;
+            if(pdb_observer.failed||!ReadProcessMemory(process,(void *)pdb_free_site,&pdb_free_byte,1,&got)||got!=1||pdb_free_byte==0xcc||!patch_debug_byte(process,pdb_free_site,0xcc))return -1;
+        }
         if (getenv("C1_ABORT_PROBE")) {
             dump_aborted_function(process,log,base,"entry",flag_count);
             sprintf(line,"abort-registers %u entry %08lx %08lx %08lx %08lx %08lx\n",flag_count,context.Esp,context.Ebx,context.Esi,context.Edi,context.Ebp);
@@ -410,6 +457,14 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
         flag_step = 1;
         context.EFlags |= 0x100;
     } else {
+        if(getenv("C1_PDB_CLEANUP")) {
+            pdb_memory(&pdb_observer,"object-after",pdb_list_address-72,116);
+            pdb_list(&pdb_observer,"after",pdb_list_address,0);
+            sprintf(line,"pdb-registers return %08lx %08lx %08lx %08lx %08lx %08lx\n",context.Esp,context.Eax,context.Ebx,context.Esi,context.Edi,context.Ebp);
+            WriteFile(log,line,strlen(line),&written,0);
+            if(pdb_observer.failed||!patch_debug_byte(process,pdb_free_site,pdb_free_byte))return -1;
+            pdb_free_site=0;
+        }
         if (getenv("C1_ABORT_PROBE")) {
             dump_aborted_function(process,log,base,"finish",flag_count);
             sprintf(line,"abort-registers %u finish %08lx %08lx %08lx %08lx %08lx\n",flag_count,context.Esp,context.Ebx,context.Esi,context.Edi,context.Ebp);
@@ -745,6 +800,9 @@ int main(int argc, char **argv)
                         failed = 7; TerminateProcess(pi.hProcess,99);
                     }
                 }
+            } else if ((flag_result = pdb_free_event(pi.hProcess,pi.hThread,log,code,
+                        (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress)) != 0) {
+                if(flag_result<0) {failed=10;TerminateProcess(pi.hProcess,99);}
             } else if ((flag_result = direct_event(pi.hProcess,pi.hThread,log,code,
                         (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress,base,argc>=9?argv[8]:0)) != 0) {
                 if (flag_result < 0) { failed=9; TerminateProcess(pi.hProcess,99); }
@@ -817,6 +875,15 @@ int main(int argc, char **argv)
                 dump_complete_type(pi.hProcess,pi.hThread,log);
                 dump_type_pair(pi.hProcess,pi.hThread,log);
                 dump_declaration_scopes(pi.hProcess,log,base);
+                if(getenv("C1_PDB_CLEANUP")) {
+                    memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL;
+                    if(GetThreadContext(pi.hThread,&context)) {
+                        pdb_process=pi.hProcess;pdb_log=log;
+                        memset(&pdb_observer,0,sizeof(pdb_observer));pdb_observer.read=pdb_original_read;pdb_observer.emit=pdb_original_emit;
+                        pdb_memory(&pdb_observer,"object-entry",context.Ecx-72,116);
+                        pdb_list(&pdb_observer,"entry",context.Ecx,1);
+                    }
+                }
                 dump_asm_operand(pi.hProcess,log,base,"stop");
                 if (argc >= 9) dump_stream_buffers(pi.hProcess, log, base, argv[8]);
                 TerminateProcess(pi.hProcess, 99);

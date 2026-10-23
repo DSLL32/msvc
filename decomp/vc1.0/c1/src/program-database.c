@@ -71,6 +71,18 @@ ProgramDatabase *open_program_database(char *path, char *mode, unsigned signatur
     return 0;
 }
 
+/* Original0x18120..0x1813b. The list member itself survives unchanged;
+   its owner releases or discards it after this non-deleting destructor. */
+void __fastcall destroy_pdb_buffer_list(PdbBufferList *self)
+{
+    PdbBuffer *buffer = self->head, *next;
+    while (buffer) {
+        next = buffer->next;
+        free(buffer);
+        buffer = next;
+    }
+}
+
 /* Original 0x18030..0x18048, ECX this and one stack argument, RET 4. */
 PdbBlock *__fastcall initialize_pdb_block(PdbBlock *self, unsigned unused_edx, unsigned capacity)
 {

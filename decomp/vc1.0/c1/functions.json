@@ -1016,7 +1016,8 @@
     "_browser_index_overflow",
     "_abort_function_definition",
     "_make_reusable_zero",
-    "_copy_expression_tree@8"
+    "_copy_expression_tree@8",
+    "@destroy_pdb_buffer_list@4"
   ],
   "driver": [
     {
@@ -4548,7 +4549,16 @@
     {
       "name": "@destroy_pdb_buffer_list@4",
       "start": 98592,
-      "end": 98593
+      "end": 98619,
+      "abi_inputs": [
+        {
+          "name": "self",
+          "formal": "self",
+          "register": "ecx",
+          "kind": "pointer_identity"
+        }
+      ],
+      "abi_contract": "Accepted public malformed-PDB cleanup: rawECX this/RET0, frees owned list head and successors without resetting list fields; EAX is void/undefined."
     },
     {
       "name": "@reserve_pdb_block@12",
@@ -6089,6 +6099,51 @@
         }
       ],
       "abi_contract": "Accepted external direct body; no established public trigger: raw2stackargs/RET8. Valid owned20B IRtree/CType/payload inputs; mode6 fixednodepool2 skips interning. Mode6 payload indexing beyond sixpools held; no assumed commonzero-helper ABI."
+    },
+    {
+      "name": "@open_program_database_object@20",
+      "start": 94544,
+      "end": 94897,
+      "abi_inputs": [
+        {
+          "name": "self",
+          "formal": "self",
+          "register": "ecx",
+          "kind": "pointer_identity"
+        },
+        {
+          "name": "path",
+          "formal": "path",
+          "stack_slot": 1,
+          "kind": "pointer_identity"
+        },
+        {
+          "name": "mode",
+          "formal": "mode",
+          "stack_slot": 2,
+          "kind": "pointer_identity"
+        },
+        {
+          "name": "signature",
+          "formal": "signature",
+          "stack_slot": 3
+        }
+      ],
+      "abi_contract": "Unaccepted: original ECXthis +3 stack args, RET12. Unused EDX C formal expresses original thiscall in period fastcall C; raw wholebody does not consume EDX input. Separate actual class/caller proof required."
+    },
+    {
+      "name": "@reload_program_database@4",
+      "start": 94912,
+      "end": 94964,
+      "abi_inputs": [
+        {
+          "name": "self",
+          "formal": "self",
+          "register": "ecx",
+          "kind": "pointer_identity"
+        }
+      ],
+      "abi_contract": "Unaccepted: ECXthis/RET0, intEAX; requires valid owned object and real descriptor positioned at header."
     }
   ],
   "cases": {
@@ -6328,6 +6383,11 @@
       "accepted_from": 1009,
       "accepted_count": 1010,
       "expected_exit": 2
+    },
+    "legacy-pdb-cleanup": {
+      "accepted_from": 1012,
+      "accepted_count": 1013,
+      "expected_exit": 1
     }
   },
   "buffered_streams": [

@@ -93,6 +93,7 @@ native-adoption-check: native native-trace native-expression-tests
 	$(PYTHON) scripts/check-direct-rejections.py
 	$(PYTHON) scripts/check-frontier-abi.py
 	$(PYTHON) scripts/check-expression-rejections.py
+	$(PYTHON) scripts/check-pdb-cleanup.py
 
 # Grammar generation consumes only named source and precedence, never the PE.
 src/asm-grammar.c: src/asm-grammar.y scripts/generate-asm-grammar.py scripts/grammar.py

@@ -199,13 +199,19 @@ if gdb.selected_inferior().pid:
 
     state['abi_inputs']=[]
     for item in %r:
-        slot=item['stack_slot']
-        value=struct.unpack('<I',bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('$ebp'))+4*(slot+1),4)))[0]
+        register=item.get('register')
+        if register:
+            value=int(gdb.parse_and_eval('$'+register)) & 0xffffffff
+        else:
+            slot=item['stack_slot']
+            value=struct.unpack('<I',bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('$ebp'))+4*(slot+1),4)))[0]
         raw_slot=value
         bits=item.get('bits',32)
         assert bits in (8,16,32)
         value &= (1 << bits)-1
-        row=dict(name=item['name'],stack_slot=slot,value=value,raw_slot=raw_slot,bits=bits,kind=item.get('kind','u32'))
+        row=dict(name=item['name'],value=value,raw_slot=raw_slot,bits=bits,kind=item.get('kind','u32'))
+        if register:row['register']=register
+        else:row['stack_slot']=slot
         if item.get('formal'):
             row['formal_value']=int(gdb.parse_and_eval(item['formal'])) & 0xffffffff
             assert row['formal_value']==value,('native formal/ABI slot differs',row)
@@ -296,12 +302,15 @@ end
             assert state['frontier'] == expected_native, (expected_record['name'],state['frontier'])
             state['original_logical'] = expected_record['name']
             original_stack={int(slot):int(value,16)for slot,value in re.findall(r'^stack (\d+) ([0-9a-f]+)$',events,re.M)}
+            register_line=re.search(r'^registers (.*)$',events,re.M)
+            original_registers=dict((name,int(value,16))for name,value in re.findall(r'(e[a-z]{2}) ([0-9a-f]+)',register_line[1]))if register_line else{}
             for item in state['abi_inputs']:
+                original_value=original_registers[item['register']]if 'register'in item else original_stack[item['stack_slot']]
                 if item['kind']=='pointer_identity':
-                    assert bool(item['value'])==bool(original_stack[item['stack_slot']]),('pointer nullness differs',item)
-                    item['original_pointer']=original_stack[item['stack_slot']]
+                    assert bool(item['value'])==bool(original_value),('pointer nullness differs',item)
+                    item['original_pointer']=original_value
                 else:
-                    item['original_raw_slot']=original_stack[item['stack_slot']]
+                    item['original_raw_slot']=original_value
                     assert item['value']==(item['original_raw_slot'] & ((1 << item['bits'])-1)),('original/native ABI input differs',item,item['original_raw_slot'])
             if abi_inputs: state['abi_inputs_original_match']=True
             original_base=int(match[2],16)

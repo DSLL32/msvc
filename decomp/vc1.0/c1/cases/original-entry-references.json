@@ -208,6 +208,10 @@
     "callback-body-recovery": {
       "receipt": "cases/callback-body-recovery/evidence/callback-body-entries-1010.receipt.json",
       "sha256": "ded2b1d7354ce8e2f25934891dd88b59d459629bf483d696d5f8aeb6cb5b6616"
+    },
+    "legacy-pdb-cleanup": {
+      "receipt": "cases/legacy-pdb-object/evidence/cleanup-entries-1013.receipt.json",
+      "sha256": "5462270d7dc131c0dbade6671fe21cb00f177103b0234a4d91a3df5b470d61e8"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

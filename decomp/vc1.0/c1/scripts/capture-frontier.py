@@ -35,6 +35,8 @@ def main():
     parser.add_argument('--direct-arguments',nargs='*',type=lambda s:int(s,0))
     parser.add_argument('--expression-unit',type=int,choices=range(6),help='External direct expression unit; owned test input, not target-global seeding')
     parser.add_argument('--direct-body',action='store_true',help='Restore exactly selected candidate body/shared text for explicit direct verification')
+    parser.add_argument('--restore-function',action='append',default=[],help='Explicit candidate body/shared-text restoration, without accepting it')
+    parser.add_argument('--pdb-cleanup-probe',action='store_true',help='Observe real PDB list owner and free sequence at cleanup')
     parser.add_argument('--trace-enum-callbacks', action='store_true',help='Explicit debugger-only all-call enum comparator proof')
     parser.add_argument('--trace-flags',help='Logical function whose full scanner/parser words are observed at entry/return')
     parser.add_argument('--trace-aborted-function',action='store_true',help='Explicit original-only aborted definition globals/word masks/return observation')
@@ -150,6 +152,11 @@ def main():
                 original.read(by_name[n]['start'],1)[0],n) for n in expected_entries))
         target = directory/'original-masked.exe'
         target.write_bytes(data)
+        for logical in options.restore_function:
+            record=next(r for r in drivers if r['name']==logical)
+            for left,right in [[record['start'],record['end']]]+record.get('shared',[]):
+                data[original.offset(left):original.offset(right-1)+1]=original.read(left,right-left)
+        if options.restore_function:target.write_bytes(data)
     direct = None
     if options.direct_function:
         assert options.stop_function and not options.unmasked and not entry_mode
@@ -197,6 +204,8 @@ def main():
     host_environment.pop('C1_ASM_SEGMENT_PROBE',None)
     host_environment.pop('C1_DIRECT_CALL',None)
     host_environment.pop('C1_TEMPLATE_UNIT',None)
+    host_environment.pop('C1_PDB_CLEANUP',None)
+    if options.pdb_cleanup_probe:host_environment['C1_PDB_CLEANUP']='1'
     if options.expression_unit is not None:
         assert direct is not None
         host_environment['C1_TEMPLATE_UNIT']=str(options.expression_unit)
@@ -233,7 +242,7 @@ def main():
     if options.trace_flags:
         assert not entry_mode and not options.trace_enum_callbacks
         probe = next(r for r in config['driver']+json.loads((BINARY/'runtime.json').read_text()) if r['name']==options.trace_flags)
-        assert probe['name'] in config['accepted'] or ((options.trace_return8 or options.trace_asm_segment or options.trace_strdup or options.trace_declaration_scope or options.trace_browser_limit or options.trace_aborted_function) and options.unmasked)
+        assert probe['name'] in config['accepted'] or probe['name'] in options.restore_function or ((options.trace_return8 or options.trace_asm_segment or options.trace_strdup or options.trace_declaration_scope or options.trace_browser_limit or options.trace_aborted_function) and options.unmasked)
         # Identity derived and checked against raw operand bytes by audit-flags.py.
         host_environment['C1_FLAG_PROBE_RVAS'] = '%x,%x,%x' % (probe['start']-original.base,0x6bb44-original.base,0x6bb48-original.base)
     if options.trace_enum_callbacks:
@@ -263,7 +272,7 @@ def main():
         assert 'entry-divergence' not in events
     if canonical:
         shutil.copytree(work,directory/'work',copy_function=shutil.copy2)
-    receipt = dict(expression_unit=options.expression_unit,aborted_function_probe=options.trace_aborted_function,browser_limit_probe=options.trace_browser_limit,declaration_scope_probe=options.trace_declaration_scope,complete_type_probe=options.trace_complete_type,strdup_probe=options.trace_strdup,direct_call=dict(function=direct['name'],arguments=options.direct_arguments,body_restored=options.direct_body,public_reachability=False)if direct else None,asm_segment_probe=options.trace_asm_segment,return8_probe=options.trace_return8,stop_function=options.stop_function,terminal_exit=terminal_exit,expected_exit=phase['expected_exit'],case=str(case), phase=options.phase, unmasked=options.unmasked,
+    receipt = dict(restored_functions=options.restore_function,pdb_cleanup_probe=options.pdb_cleanup_probe,expression_unit=options.expression_unit,aborted_function_probe=options.trace_aborted_function,browser_limit_probe=options.trace_browser_limit,declaration_scope_probe=options.trace_declaration_scope,complete_type_probe=options.trace_complete_type,strdup_probe=options.trace_strdup,direct_call=dict(function=direct['name'],arguments=options.direct_arguments,body_restored=options.direct_body,public_reachability=False)if direct else None,asm_segment_probe=options.trace_asm_segment,return8_probe=options.trace_return8,stop_function=options.stop_function,terminal_exit=terminal_exit,expected_exit=phase['expected_exit'],case=str(case), phase=options.phase, unmasked=options.unmasked,
                    enum_callback_trace=options.trace_enum_callbacks,enum_callback_function=enum_callback if options.trace_enum_callbacks else None,flag_word_probe=options.trace_flags,function_finish_probe=options.trace_function_finishes,timestamp_probe=options.trace_timestamps,
                    accepted_count=len(config['accepted']), accepted_sha256=hashlib.sha256(
                        json.dumps(config['accepted']).encode()).hexdigest(),

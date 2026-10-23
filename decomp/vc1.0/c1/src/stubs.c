@@ -742,7 +742,6 @@ void finish_qc_loop(void) { __asm { int 3 } }
 /* Original 0x49080. */
 
 /* Original ECX methods: 0x18030, 0x17390, 0x17300, 0x18120. */
-void __fastcall destroy_pdb_buffer_list(PdbBufferList *self) { __asm { int 3 } }
 
 /* Original 0x18050, ECX this plus one stack argument. */
 
@@ -894,3 +893,6 @@ void __stdcall validate_self_based_source(IrToken *value) { __asm { int 3 } }
 /* Fatal shutdown entries, named before their first accepted caller. */
 
 /* External direct candidates: no established public trigger. */
+int __fastcall open_program_database_object(ProgramDatabase *self, unsigned unused_edx,
+    char *path, char *mode, unsigned signature) { __asm { int 3 } }
+int __fastcall reload_program_database(ProgramDatabase *self) { __asm { int 3 } }

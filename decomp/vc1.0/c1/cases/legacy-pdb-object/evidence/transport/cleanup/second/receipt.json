@@ -1,0 +1,40 @@
+{
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc1.0\\c1\\tools\\capture-cl.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "/nologo /c /Zi /Od /G5 /W3 test.c",
+    "S:\\vc1.0\\c1\\transport\\legacy-pdb-object-cleanup-second\\stdout",
+    "S:\\vc1.0\\c1\\transport\\legacy-pdb-object-cleanup-second\\stderr",
+    "S:\\vc1.0\\c1\\transport\\legacy-pdb-object-cleanup-second\\events",
+    "S:\\vc1.0\\c1\\legacy-pdb-object-cleanup",
+    "S:\\vc1.0\\c1\\transport\\legacy-pdb-object-cleanup-second\\config.txt",
+    "ordinary",
+    "S:\\vc1.0\\c1\\transport\\legacy-pdb-object-cleanup-second"
+  ],
+  "CL_arguments": "/nologo /c /Zi /Od /G5 /W3 test.c",
+  "helper_source": "decomp/vc1.0/cl/src/capture-run.c",
+  "helper_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+  "helper_sha256": "b80b97201ce6f78fccc165200f844db467639e38e02f01523cdf68cecdc6683c",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "cwd": "S:\\vc1.0\\c1\\legacy-pdb-object-cleanup",
+  "environment": {
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib"
+  },
+  "host_exit": 0,
+  "execution_seconds": 1.4671863364055753,
+  "children": [
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c13232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\001196 -f test.c -Ze -Zp8 -Gs -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zi -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include "
+      ]
+    }
+  ]
+}

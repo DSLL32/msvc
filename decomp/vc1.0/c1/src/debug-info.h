@@ -159,6 +159,9 @@ typedef char FrontendDebug_fields[(sizeof(CType) == 16 && offsetof(CType, field0
 PdbBlock *__fastcall initialize_pdb_block(PdbBlock *self, unsigned unused_edx, unsigned capacity);
 unsigned char *__fastcall reserve_pdb_block(PdbBlock *self, unsigned unused_edx, unsigned bytes);
 int __fastcall load_program_database(ProgramDatabase *self);
+int __fastcall open_program_database_object(ProgramDatabase *self, unsigned unused_edx,
+    char *path, char *mode, unsigned signature);
+int __fastcall reload_program_database(ProgramDatabase *self);
 int __fastcall create_program_database(ProgramDatabase *self, unsigned unused_edx, char *path, unsigned signature);
 void __fastcall destroy_pdb_buffer_list(PdbBufferList *self);
 extern ProgramDatabase *program_database;

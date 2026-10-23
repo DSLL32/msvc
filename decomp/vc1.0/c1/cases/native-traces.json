@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "03e991addfd6885a9718f354fe608b7e47f0dfec7f58db841c212ba6d6fbaa64",
+    "functions.json": "4d048671f34f4e89810e4a0eb79f887cd32a7ce3e1a118fc0d31817939bb12f4",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "0ede5470452bc438830d6da8c2adce4c339cc15732e7431384f94aa18388b952"
+    "sha256": "44caac54d02f751f14a0307d6503a523140bff2b87fdccbd5d2f76e44479720f"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "8785e6d0591fc0e298ce094c8cb11b648825a6467b1f185a77974852d0475158"
+    "sha256": "bdc131714e05402865d2656e341c6bc081cb56a9fdec3a06d981aac8aedfd3a6"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -951,7 +951,7 @@
     },
     "destroy_pdb_buffer_list": {
       "logical": "@destroy_pdb_buffer_list@4",
-      "source": "src/stubs.c"
+      "source": "src/program-database.c"
     },
     "diagnostic_format": {
       "logical": "_diagnostic_format@4",
@@ -2353,6 +2353,10 @@
       "logical": "_open_program_database",
       "source": "src/program-database.c"
     },
+    "open_program_database_object": {
+      "logical": "@open_program_database_object@20",
+      "source": "src/stubs.c"
+    },
     "open_source_file": {
       "logical": "_open_source_file@8",
       "source": "src/source-input.c"
@@ -2987,6 +2991,10 @@
     },
     "release_input_handle": {
       "logical": "_release_input_handle",
+      "source": "src/stubs.c"
+    },
+    "reload_program_database": {
+      "logical": "@reload_program_database@4",
       "source": "src/stubs.c"
     },
     "relocate_pch_pages": {
@@ -4534,7 +4542,8 @@
     "browser_index_overflow",
     "abort_function_definition",
     "make_reusable_zero",
-    "copy_expression_tree"
+    "copy_expression_tree",
+    "destroy_pdb_buffer_list"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6116,6 +6125,18 @@
       "terminal": {
         "kind": "exit",
         "code": 2
+      }
+    },
+    "legacy-pdb-cleanup": {
+      "first": 1012,
+      "last": 1013,
+      "seen_count": 868,
+      "expected": [
+        "destroy_pdb_buffer_list"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 1
       }
     }
   }

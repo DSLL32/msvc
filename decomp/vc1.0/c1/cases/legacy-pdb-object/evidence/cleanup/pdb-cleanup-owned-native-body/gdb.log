@@ -1,0 +1,13 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x66a70: file src/program-database.c, line 77.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, destroy_pdb_buffer_list (self=0x56602ee0) at src/program-database.c:77
+77	{
+Breakpoint 2 at 0x565da0e0: file /root/.ai-tmp/msvc2/vc1.0/c1/shared-inputs/hdrstop/lib/recon/src/crt.c, line 326.
+Temporary breakpoint 3 at 0x565d756e: file src/program-database.c, line 68.
+
+Temporary breakpoint 3, 0x565d756e in open_program_database (path=0x5660b9d8 <database_path> "S:\\vc1.0\\c1\\legacy-pdb-object-cleanup\\msvc.pdb", mode=0x565ef484 "wi", signature=1792791101) at src/program-database.c:68
+68	        destroy_pdb_buffer_list(&db->records);
+[Inferior 1 (process 1766101) exited with code 01]

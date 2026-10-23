@@ -1,0 +1,49 @@
+[
+  {
+    "command": [
+      "wine",
+      "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+      "/nologo",
+      "/Od",
+      "/G3",
+      "/W3",
+      "/IR:\\decomp\\vc1.0\\c1\\src",
+      "/IR:\\lib\\recon\\include",
+      "/FeS:\\vc1.0\\c1\\ABI\\legacy-pdb-object\\probe.exe",
+      "/FoS:\\vc1.0\\c1\\ABI\\legacy-pdb-object\\probe.obj",
+      "R:\\decomp\\vc1.0\\c1\\cases\\legacy-pdb-object\\evidence\\ABI-probe\\probe.c"
+    ],
+    "exit": 0,
+    "seconds": 1.5526384692639112
+  },
+  {
+    "command": [
+      "clang",
+      "-m32",
+      "-std=gnu89",
+      "-fms-extensions",
+      "-fasm-blocks",
+      "-O0",
+      "-g",
+      "-DRECON_NATIVE_TEST",
+      "-I../../../lib/recon/include",
+      "-I../../../lib/recon/native",
+      "-Isrc",
+      "/root/msvc2/decomp/vc1.0/c1/cases/legacy-pdb-object/evidence/ABI-probe/probe.c",
+      "-o",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/ABI/legacy-pdb-object/probe-native"
+    ],
+    "exit": 0,
+    "seconds": 0.17069864831864834
+  },
+  {
+    "name": "original",
+    "exit": 0,
+    "seconds": 0.7104837195947766
+  },
+  {
+    "name": "native",
+    "exit": 0,
+    "seconds": 0.0036718007177114487
+  }
+]
