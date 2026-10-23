@@ -133,6 +133,8 @@ def main():
         environment.pop("C1XX_OBSERVE_INIT_COPY", None)
         environment.pop("C1XX_OBSERVE_ALLOCATION", None)
         if trial.get('allocation_observers'):environment['C1XX_OBSERVE_ALLOCATION']='1'
+        environment.pop('C1XX_OBSERVE_EARLY_OPTIONS',None)
+        if trial.get('early_switch_observers'):environment['C1XX_OBSERVE_EARLY_OPTIONS']='1'
         environment.pop('C1XX_TEST_OUTPUT_CONSTRUCTOR',None)
         environment.pop('C1XX_TEST_DEFERRED_CONSTRUCTOR',None)
         environment.pop('C1XX_TEST_TOKEN_COPY',None)

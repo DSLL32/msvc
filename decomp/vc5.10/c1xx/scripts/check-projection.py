@@ -39,7 +39,7 @@ def field_map(model,observed):
            'cleanup_callbacks':(0x104c4d58,128,'bss','frontend_bss.cleanup_callbacks'),
            'restore_mode':(0x104cb06c,4,'external','restore_mode'),
            'compiler_mode':(0x104cb008,4,'external','compiler_mode')}
-    s.require(model['schema'] in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29),'unknown state-model schema')
+    s.require(model['schema'] in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30),'unknown state-model schema')
     if model['schema']>=2:
         known['context_stack']=(0x104ba900,12,'bss','frontend_bss.context_stack')
         s.require(observed['context_stack_fields']==(['origin','position','top'] if model['schema']>=5 else ['begin','end','top']),
@@ -120,6 +120,8 @@ def field_map(model,observed):
         for i,(data,limit) in enumerate([(0xba850,0xb9020),(0xba854,0xb9028)]):
             for name,address in [('data',data),('limit',limit)]:known['work_buffer_%02d.%s'%(i+1,name)]=(0x10400000+address,4,'bss','frontend_bss.work_buffers[%d].%s'%(i,name))
         s.require(observed['work_buffer_layout']=={'size':8,'fields':{'data':[0,4],'limit':[4,4]}},'work buffer contains unknown storage')
+    if model['schema']>=30:
+        for name,rva in [('option_zb',0xcd09c),('option_bm',0xcd4ac),('option_zm_percent',0xcdc28)]:known[name]=(0x10400000+rva,4,'initialized','frontend_data.'+name)
     s.require(names==set(known),'field mapping is not the encountered typed projection')
     original=[];native=[]
     for row in model['fields']:
@@ -162,8 +164,9 @@ def field_map(model,observed):
     if model['schema']>=29:fields += ['work_buffers']
     initialized=['first_invocation']+(['primitive_type_ranks','complex_type_ranks'] if model['schema']>=22 else [])
     if model['schema']>=28:initialized += ['compiler_phase','option_c9il','compiler_flags','system_info']
+    if model['schema']>=30:initialized += ['option_zb','option_bm','option_zm_percent']
     s.require(observed['declared_fields']=={'initialized':initialized,'bss':fields} and
-              observed['known_sizes']=={'initialized':188 if model['schema']>=28 else 140 if model['schema']>=22 else 4,'bss':{1:136,2:148,3:160,4:268,5:276,6:312,7:348,8:384,9:420,10:456,11:492,12:528,13:564,14:568,15:588,16:592,17:592,18:592,19:608,20:592+16*pool_count,21:596+16*pool_count,22:732+16*pool_count,23:752+16*pool_count,24:820+16*pool_count,25:828+16*pool_count,26:916+16*pool_count,27:928+16*pool_count,28:940+16*pool_count,29:956+16*pool_count}[model['schema']]},
+              observed['known_sizes']=={'initialized':200 if model['schema']>=30 else 188 if model['schema']>=28 else 140 if model['schema']>=22 else 4,'bss':{1:136,2:148,3:160,4:268,5:276,6:312,7:348,8:384,9:420,10:456,11:492,12:528,13:564,14:568,15:588,16:592,17:592,18:592,19:608,20:592+16*pool_count,21:596+16*pool_count,22:732+16*pool_count,23:752+16*pool_count,24:820+16*pool_count,25:828+16*pool_count,26:916+16*pool_count,27:928+16*pool_count,28:940+16*pool_count,29:956+16*pool_count,30:956+16*pool_count}[model['schema']]},
               'typed structs contain unmodeled/omitted storage')
     for kind in ('initialized','bss'):
         padding=model['native_padding']['bytes'] if kind=='bss' and model['schema']>=6 else model['initialized_padding']['bytes'] if kind=='initialized' and model['schema']>=22 else 0

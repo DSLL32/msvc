@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "result": "PASS",
+  "count": 3,
+  "auditor_sha256": "3c1e3f2ea5dc50c402381f3b0c63b7d38355d6f2525c11f5c28e16ebb9e2d83c",
+  "checks": [
+    {
+      "rejected": "missing-shared-owner",
+      "seconds": 0.02946595475077629,
+      "stderr": "graph-audit: _process_early_option external text data lacks explicit shared ownership: 10438de0..10438df0"
+    },
+    {
+      "rejected": "wrong-shared-owner-range",
+      "seconds": 0.028218179941177368,
+      "stderr": "graph-audit: _process_early_option external text data lacks explicit shared ownership: 10438de0..10438df0"
+    },
+    {
+      "rejected": "text-data-crosses-code-boundary",
+      "seconds": 0.028001361526548862,
+      "stderr": "graph-audit: _process_early_option text data crosses code chunk ownership boundary"
+    }
+  ]
+}

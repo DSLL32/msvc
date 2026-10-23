@@ -17,6 +17,10 @@ def check(s,d,original,native,trial,text,state,final,symbols,traps):
         code=bytes(d.elf_byte(native,return_pc-5+i) for i in range(5));require(code[0]==0xe8 and return_pc+struct.unpack_from('<i',code,1)[0]==destination,'not actual native caller CALL')
     require(trial['early_options_observers']=={'owner':'_initialize_intermediate_files','entry_rva':0x38d07,'frontier_rva':0x38d56,'purpose':'actual argv entry and first option/state ABI; full original BSS at frontier; no mocked inputs or returns'},'undeclared observer roles')
     entry=read('early-options-entry.json');parser=read('early-option-entry.json');old_vector,old_pointers=pointers(original/'invoke-entry-argv.bin');vector,native_pointers=pointers(native/'native-argv.bin')
+    if '_process_early_option' in trial['accepted']:
+        state=parser
+        traps=traps[:next(i for i,row in enumerate(traps) if row[1]=='00038d56')+1]
+        final='%03d'%int(traps[-1][0])
     pc,size=symbol('initialize_intermediate_files');parser_pc,_=symbol('process_early_option');main_pc,main_size=symbol('c1xx_main')
     require(entry['symbol']=='initialize_intermediate_files' and entry['pc']==pc and entry['args']=={'argv':vector} and entry['formal_inventory']==[{'name':'argv','type':'char **'}] and entry['raw_entry_abi']['stack_arguments']==[vector],'actual scanner argv/formals differ')
     caller=entry['raw_entry_abi']['return_pc'];require(main_pc<caller<main_pc+main_size,'scanner called outside actual main');call(caller,pc)

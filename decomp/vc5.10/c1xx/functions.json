@@ -853,10 +853,21 @@
     {
       "name": "_process_early_option",
       "start": 272862550,
-      "end": 272862551,
+      "end": 272862682,
       "source": "src/frontend.c",
-      "pending_extent": true,
-      "abi": "cdecl8"
+      "abi": "cdecl8",
+      "code_chunks": [
+        [
+          273096956,
+          273097040
+        ]
+      ],
+      "shared": [
+        [
+          272862688,
+          272862704
+        ]
+      ]
     },
     {
       "name": "_read_command_argument",

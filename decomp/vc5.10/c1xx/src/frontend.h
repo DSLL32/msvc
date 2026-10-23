@@ -21,6 +21,9 @@ typedef struct FrontendData {
     int option_c9il;
     unsigned compiler_flags;
     SYSTEM_INFO system_info;
+    int option_zb;
+    int option_bm;
+    int option_zm_percent;
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */

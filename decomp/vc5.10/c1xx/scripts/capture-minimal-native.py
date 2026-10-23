@@ -196,6 +196,11 @@ if any(f.name=='compiler_phase' for f in gdb.lookup_type('FrontendData').fields(
     value['frontend']['saved_system_info']=[int(gdb.parse_and_eval('(unsigned int)frontend_bss.saved_state->system_info.'+name)) for name in system_fields] if value['frontend']['saved_state'] else None
     value['frontend']['storage']['system_info']=[int(gdb.parse_and_eval('(unsigned int)&frontend_data.system_info')),36]
     value['frontend']['system_info_layout']={'size':int(gdb.parse_and_eval('sizeof(SYSTEM_INFO)')),'fields':{name:[int(gdb.parse_and_eval('(unsigned int)&frontend_data.system_info.'+name))-int(gdb.parse_and_eval('(unsigned int)&frontend_data.system_info')),int(gdb.parse_and_eval('sizeof(frontend_data.system_info.'+name+')'))] for name in system_fields}}
+if any(f.name=='option_zb' for f in gdb.lookup_type('FrontendData').fields()):
+    for name in ('option_zb','option_bm','option_zm_percent'):
+        value['frontend'][name]=int(gdb.parse_and_eval('frontend_data.'+name))
+        value['frontend']['saved_'+name]=int(gdb.parse_and_eval('frontend_bss.saved_state->'+name)) if value['frontend']['saved_state'] else None
+        value['frontend']['storage'][name]=[int(gdb.parse_and_eval('(unsigned int)&frontend_data.'+name)),4]
 if any(f.name=='work_buffers' for f in gdb.lookup_type('FrontendBss').fields()):
     value['frontend']['work_buffers']=[[int(gdb.parse_and_eval('(unsigned int)frontend_bss.work_buffers[%d].%s'%(i,name))) for name in ('data','limit')] for i in range(2)]
     for i in range(2):
@@ -327,7 +332,8 @@ end
         for symbol,stem in [('initialize_intermediate_files','early-options-entry'),('process_early_option','early-option-entry')]:
             entry=output/('collect-'+stem+'.gdb')
             entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/(stem+'.json')))).replace(repr(str(output/'native-argv.bin')),repr(str(output/(stem+'-argv.bin')))))
-            observer+='break *'+symbol+'\ncommands\nsilent\nsource '+str(entry)+'\ncontinue\nend\n'
+            if symbol!='process_early_option' or '_process_early_option' not in trial['accepted']:
+                observer+='break *'+symbol+'\ncommands\nsilent\nsource '+str(entry)+'\ncontinue\nend\n'
     if model['schema']>=28:
         entry=output/'collect-main-entry.gdb'
         entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'main-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'main-entry-argv.bin'))))
@@ -402,6 +408,11 @@ end
         from allocation_probe import setup as setup_allocation
         allocation_observer,allocation_finish=setup_allocation(output,binary,collector)
         observer+=allocation_observer
+    switch_finish=''
+    if trial.get('early_switch_observers'):
+        from early_switch_probe import setup as setup_switches
+        switch_observer,switch_finish=setup_switches(output)
+        observer+=switch_observer
     from collector_cache import prepare as prepare_collector_cache
     cache_startup=prepare_collector_cache(output,collector)
     def timed_source(match):
@@ -412,7 +423,7 @@ end
     timing_before_run='python\nrecon_before_run=time.perf_counter()\nend\n'
     timing_after_run='python\nrecon_after_run=time.perf_counter()\nend\n'
     timing_finish='python\nopen('+repr(str(output/'gdb-timing.json'))+',"w").write(json.dumps({"first_command":recon_first_command,"before_run":recon_before_run,"after_run":recon_after_run,"collectors":recon_collect_timings,"source_commands":recon_source_timings},indent=2)+"\\n")\nend\n'
-    commands.write_text(timing_start+cache_startup+'set pagination off\nset confirm off\nset exec-wrapper '+str(wrapper)+'\n'+observer+timing_before_run+'run > '+str(output/'stdout.bin')+' 2> '+str(output/'stderr.bin')+'\n'+timing_after_run+auxiliary+'bt\nsource '+str(collector)+'\n'+allocation_finish+timing_finish+'quit\n')
+    commands.write_text(timing_start+cache_startup+'set pagination off\nset confirm off\nset exec-wrapper '+str(wrapper)+'\n'+observer+timing_before_run+'run > '+str(output/'stdout.bin')+' 2> '+str(output/'stderr.bin')+'\n'+timing_after_run+auxiliary+'bt\nsource '+str(collector)+'\n'+allocation_finish+switch_finish+timing_finish+'quit\n')
     started=time.perf_counter()
     result=subprocess.run(['gdb','--batch','-x',str(commands),'--args',str(binary)],cwd=output,env=environment,
                           stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=15)

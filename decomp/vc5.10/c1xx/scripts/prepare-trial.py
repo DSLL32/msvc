@@ -47,6 +47,8 @@ def prepare():
                                           [tuple(pair) for pair in record.get("code_chunks", [])]):
             expected.append({"owner": name, "start_rva": first - base,
                              "end_rva": last - base, "entry": int(n == 0)})
+        for first,last in record.get('shared',[]):
+            expected.append({'owner':name,'start_rva':first-base,'end_rva':last-base,'entry':0,'kind':'text_data'})
     if candidate["ranges"] != expected:
         raise ValueError("mask ranges do not equal whole accepted/trial bodies")
     image = inventory(TARGET)
@@ -99,7 +101,7 @@ def prepare():
         trial["case_inputs"]["cases/minimal/allocation-preservation-v1.json"]=sha(PROJECT/"cases/minimal/allocation-preservation-v1.json")
     trial["test_seed"] = candidate.get("test_seed")
     trial['test_constructor_seed']=bool(candidate.get('test_constructor_seed'))
-    if trial["test_seed"] or trial_name in ('_checked_malloc','_register_cleanup','_initialize_deferred_work','CompilerPool::Initialize','_initialize_type_ranks','_initialize_generated_comment','_main','_initialize_work_buffers','_reserve_work_buffer','_initialize_intermediate_files') or (trial_name or '').startswith(('_initialize_frontend_','_initialize_output_buffer_','_initialize_pdb_context_')):
+    if trial["test_seed"] or '_initialize_compiler_pass' in accepted:
         trial["validation_observers"] = [{"owner":"_initialize_compiler_pass", "original_rva":0x385be,
             "original_byte":0x89,"purpose":"observe typed copy/restore before first-flag reset"}]
     if trial_name=='CompilerPool::Initialize':
@@ -108,6 +110,8 @@ def prepare():
         trial['allocation_observers']={'owner':'_reserve_work_buffer','before':[0x38cdf,0x38cf8],'after':[0x38ce1,0x38cfa],'helper_return':'actual captured stack return, only two declared callers','provider_iat':0xc9204,'final_bss_rva':0x38d07,'scope':'validation only; no extra unmask, stub-return or API mock'}
     if '_initialize_intermediate_files' in accepted:
         trial['early_options_observers']={'owner':'_initialize_intermediate_files','entry_rva':0x38d07,'frontier_rva':0x38d56,'purpose':'actual argv entry and first option/state ABI; full original BSS at frontier; no mocked inputs or returns'}
+    if '_process_early_option' in accepted:
+        trial['early_switch_observers']={'owner':'_process_early_option','scope':'25 real argv calls and actual returns; no environment arguments mocked','entry_rva':0x38d56,'return_rva':0x38d28,'shared_text_data_rvas':[[0x38de0,0x38df0]]}
     trial['test_action_seed']=bool(candidate.get('test_action_seed'))
     if trial['test_action_seed']:
         trial['auxiliary_action_data_seed']={'owner':'_initialize_frontend_41','point':'actual entry after BSS reset','head':'owned snapshot+4','tail':'owned snapshot+8','depth':17,'pointees_dereferenced':False,'code_or_allocator_mock':False}

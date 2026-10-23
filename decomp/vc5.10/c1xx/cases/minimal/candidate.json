@@ -73,7 +73,7 @@
     "_reserve_work_buffer",
     "_initialize_intermediate_files"
   ],
-  "trial": null,
+  "trial": "_process_early_option",
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -614,6 +614,25 @@
       "start_rva": 467112,
       "end_rva": 467196,
       "entry": 0
+    },
+    {
+      "owner": "_process_early_option",
+      "start_rva": 232790,
+      "end_rva": 232922,
+      "entry": 1
+    },
+    {
+      "owner": "_process_early_option",
+      "start_rva": 467196,
+      "end_rva": 467280,
+      "entry": 0
+    },
+    {
+      "owner": "_process_early_option",
+      "start_rva": 232928,
+      "end_rva": 232944,
+      "entry": 0,
+      "kind": "text_data"
     }
   ],
   "stage": "_initialize_intermediate_files accepted; next frontier _process_early_option"

@@ -17,6 +17,10 @@ static DWORD allocation_return_pc;
 static BYTE allocation_return_byte;
 static int allocation_return_active;
 static int allocation_observers;
+static DWORD option_return_pc;
+static BYTE option_return_byte;
+static unsigned option_calls;
+static int option_return_active;
 static BYTE allocation_before_byte[2], allocation_after_byte[2];
 static BYTE return_saved;
 static DWORD pch_return_address;
@@ -435,6 +439,12 @@ static void seed_frontend_restore(void)
         if (!allocated) fail("restore-test allocation");
     }
     value = 23; memcpy(bytes + 0x15c0, &value, 4);
+    value = 31; memcpy(bytes + 0x109c, &value, 4);
+    value = -37; memcpy(bytes + 0x14ac, &value, 4);
+    value = 41; memcpy(bytes + 0x1c28, &value, 4);
+    value = 43; write_mem(base + 0xcd09c, &value, 4);
+    value = -47; write_mem(base + 0xcd4ac, &value, 4);
+    value = 53; write_mem(base + 0xcdc28, &value, 4);
     value = 29; memcpy(bytes + 0x1488, &value, 4);
     value = 0x55667788; memcpy(bytes + 0xf7c, &value, 4);
     {
@@ -780,6 +790,15 @@ int main(int argc, char **argv)
                 patch(base + ranges[pending].first, 0xcc);
                 context.EFlags &= ~0x100; pending = -1;
                 if (!SetThreadContext(thread, &context)) fail("single step context");
+            } else if (code == EXCEPTION_BREAKPOINT && option_return_active && address == option_return_pc) {
+                DWORD fields[3];
+                readmem(base + 0xcd09c, fields, 4);
+                readmem(base + 0xcd4ac, fields + 1, 4);
+                readmem(base + 0xcdc28, fields + 2, 4);
+                fprintf(events, "early-option-return index=%u pc=%08lx esp=%08lx eax=%08lx edi=%08lx esi=%08lx ebx=%08lx values=%08lx,%08lx,%08lx error=%lu fpu=%04lx\n", option_calls-1, address, context.Esp, context.Eax, context.Edi, context.Esi, context.Ebx, fields[0], fields[1], fields[2], thread_error(&context,thread), context.FloatSave.ControlWord);
+                patch(address, option_return_byte); option_return_active = 0;
+                context.Eip = address;
+                if (!SetThreadContext(thread, &context)) fail("option return observer context");
             } else if (code == EXCEPTION_BREAKPOINT && allocation_event(&context, address, thread)) {
                 if (!SetThreadContext(thread, &context)) fail("allocation observer context");
             } else if (code == EXCEPTION_BREAKPOINT && return_active && address == return_address) {
@@ -1042,6 +1061,16 @@ int main(int argc, char **argv)
                     fprintf(events, "allocation-helper-entry index=%u seq=%u pc=%08lx esp=%08lx edi=%08lx esi=%08lx return=%08lx reserve=%08lx commit=%08lx\n",
                             allocation_helper_count, sequence, address, context.Esp, context.Edi, context.Esi, call[0], call[1], call[2]);
                     ++allocation_helper_count; patch(allocation_return_pc, 0xcc); allocation_return_active = 1;
+                }
+                if (address == base + 0x38d56 && getenv("C1XX_OBSERVE_EARLY_OPTIONS")) {
+                    DWORD call[3];
+                    readmem(context.Esp, call, sizeof(call));
+                    if (option_return_active || option_calls >= 25 || call[0] != base + 0x38d28) fail("unexpected early option caller/count");
+                    option_return_pc = call[0];
+                    readmem(option_return_pc, &option_return_byte, 1);
+                    if (option_return_byte != snapshot[option_return_pc - base - code_rva]) fail("option caller bytes");
+                    fprintf(events, "early-option-entry index=%u seq=%u pc=%08lx esp=%08lx edi=%08lx esi=%08lx ebx=%08lx return=%08lx argument=%08lx state=%08lx\n", option_calls,sequence,address,context.Esp,context.Edi,context.Esi,context.Ebx,call[0],call[1],call[2]);
+                    ++option_calls;patch(option_return_pc,0xcc);option_return_active=1;
                 }
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)

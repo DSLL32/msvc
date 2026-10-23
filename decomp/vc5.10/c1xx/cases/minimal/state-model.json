@@ -1,5 +1,5 @@
 {
-  "schema": 29,
+  "schema": 30,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -2050,6 +2050,36 @@
       "native_expression": "frontend_bss.work_buffers[1].limit",
       "original_default": 0,
       "evidence": "38c86 reserves both byte workspaces and computes each initial limit;3b4b6 assigns cursors,3b4e7 writes bytes through second base; original gaps UNMODELED"
+    },
+    {
+      "name": "option_zb",
+      "class": "initialized",
+      "original_address": 273469596,
+      "original_snapshot_offset": 4252,
+      "bytes": 4,
+      "native_expression": "frontend_data.option_zb",
+      "original_default": 0,
+      "evidence": "Actual process_early_option38d56/cold72116..72150 atoi stores and loaded default; -Zm nonzero fallback100; own captured frontend-data-000 raw."
+    },
+    {
+      "name": "option_bm",
+      "class": "initialized",
+      "original_address": 273470636,
+      "original_snapshot_offset": 5292,
+      "bytes": 4,
+      "native_expression": "frontend_data.option_bm",
+      "original_default": 0,
+      "evidence": "Actual process_early_option38d56/cold72116..72150 atoi stores and loaded default; -Zm nonzero fallback100; own captured frontend-data-000 raw."
+    },
+    {
+      "name": "option_zm_percent",
+      "class": "initialized",
+      "original_address": 273472552,
+      "original_snapshot_offset": 7208,
+      "bytes": 4,
+      "native_expression": "frontend_data.option_zm_percent",
+      "original_default": 100,
+      "evidence": "Actual process_early_option38d56/cold72116..72150 atoi stores and loaded default; -Zm nonzero fallback100; own captured frontend-data-000 raw."
     }
   ],
   "initializers": [

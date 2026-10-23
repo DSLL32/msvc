@@ -180,6 +180,12 @@ int main(void)
             frontend_bss.deferred_action_tail = (struct DeferredAction *)((unsigned char *)frontend_bss.saved_state + 8);
             frontend_bss.deferred_action_depth = 17;
             frontend_bss.saved_state->compiler_phase = 23;
+            frontend_bss.saved_state->option_zb = 31;
+            frontend_bss.saved_state->option_bm = -37;
+            frontend_bss.saved_state->option_zm_percent = 41;
+            frontend_data.option_zb = 43;
+            frontend_data.option_bm = -47;
+            frontend_data.option_zm_percent = 53;
             frontend_bss.saved_state->option_c9il = 29;
             frontend_bss.saved_state->compiler_flags = 0x55667788;
             frontend_bss.saved_state->system_info.dwOemId = 0x11110007;

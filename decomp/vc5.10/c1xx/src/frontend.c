@@ -6,7 +6,8 @@ FrontendData frontend_data = {
     { { 0x10, 1 }, { 0x40, 2 }, { 0x80, 3 }, { 0x100, 4 }, { 0x200, 5 }, { 0x400, 6 }, { 0x800, 7 }, { 0x0, 0 } },
     { { 0x1, 8 }, { 0x2, 9 }, { 0x3, 10 }, { 0x4, 11 }, { 0x10, 12 }, { 0x20, 13 }, { 0x40, 14 }, { 0x44, 15 }, { 0x0, 0 } },
     0, 0, 0,
-    { { 0 }, 4096, NULL, NULL, 0, 0, 0, 65536, 0, 0 }
+    { { 0 }, 4096, NULL, NULL, 0, 0, 0, 65536, 0, 0 },
+    0, 0, 100
 };
 FrontendBss frontend_bss;
 int restore_mode;
@@ -198,8 +199,38 @@ void initialize_intermediate_files(char **argv)
 
 int process_early_option(char *argument, int state)
 {
-    __asm { int 3 }
-    return 0;
+    if (!argument)
+        return 0;
+    for (;;) {
+        switch (state) {
+        case 0:
+            if (argument[0] == '-' && argument[1] == 'B' && argument[2] == 'm')
+                state = 1;
+            else if (argument[0] == '-' && argument[1] == 'Z' && argument[2] == 'B')
+                state = 2;
+            else if (argument[0] == '-' && argument[1] == 'Z' && argument[2] == 'm')
+                state = 3;
+            else
+                return 0;
+            argument += 3;
+            break;
+        case 1:
+            frontend_data.option_bm = atoi(argument);
+            return 0;
+        case 2:
+            frontend_data.option_zb = atoi(argument);
+            return 0;
+        case 3:
+            frontend_data.option_zm_percent = atoi(argument);
+            if (!frontend_data.option_zm_percent)
+                frontend_data.option_zm_percent = 100;
+            return 0;
+        }
+        if (!*argument)
+            return state;
+        if (!state)
+            return 0;
+    }
 }
 
 char *read_command_argument(char *source, char *argument, unsigned capacity)

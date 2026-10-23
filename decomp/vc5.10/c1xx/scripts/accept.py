@@ -51,9 +51,13 @@ def main():
             "native_receipt_sha256": sha(args.native / "receipt.json"),
             "trial_sha256": sha(args.original / "trial.json"),
             "audit_sha256": sha(PROJECT / "build/audit-proof.json"),
-            "code_chunks": [[row["start_rva"], row["end_rva"]] for row in trial["ranges"] if row["owner"] == name],
+            "code_chunks": [[row["start_rva"], row["end_rva"]] for row in trial["ranges"] if row["owner"] == name and row.get('kind')!='text_data'],
             "comparison": result,
         }
+        data_ranges=[[row['start_rva'],row['end_rva']] for row in trial['ranges'] if row['owner']==name and row.get('kind')=='text_data']
+        if data_ranges:
+            record['shared_text_data']=data_ranges
+            record['shared_text_data_code_credit']=0
         if 'ordered_closure' in trial:
             record['promotion_kind'] = 'reviewed ordered JOINT two-body closure; not a historical single-function proof'
             record['ordered_closure'] = names

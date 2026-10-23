@@ -5,6 +5,24 @@
       "register_imports": {
         "require_all_register_calls_resolved": true
       }
+    },
+    "_process_early_option": {
+      "original": {
+        "text_data": [
+          [
+            272862688,
+            272862704
+          ]
+        ],
+        "switches": {
+          "272862569": [
+            272862576,
+            273096982,
+            272862662,
+            273097002
+          ]
+        }
+      }
     }
   },
   "callback_tables": [],
