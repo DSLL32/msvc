@@ -56,7 +56,8 @@
     "rc_get_logical_character",
     "rc_parse_integer_value",
     "rc_digit_value",
-    "rc_decimal_integer_kind"
+    "rc_decimal_integer_kind",
+    "rc_store_integer"
   ],
   "functions": [
     {
@@ -1355,8 +1356,7 @@
       "end": "0x7443",
       "abi": "stdcall",
       "stack_bytes": 8,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_digit_value",
@@ -1365,6 +1365,15 @@
       "abi": "stdcall",
       "stack_bytes": 4,
       "kind": "application"
+    },
+    {
+      "name": "rc_intern_type",
+      "start": "0x72a2",
+      "end": "0x7341",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
     }
   ],
   "loader_text_metadata": [

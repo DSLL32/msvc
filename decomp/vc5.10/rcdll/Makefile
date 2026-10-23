@@ -119,3 +119,7 @@ build/native/descriptor-boundary-host: $(NATIVE_OBJECTS) build/native/descriptor
 build/native/number-mode-boundary-host: $(NATIVE_OBJECTS) scripts/number-mode-boundary-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/number-mode-boundary-host.c $(NATIVE_SHIMS) -o $@
 	$(PYTHON) scripts/source-snapshot.py native build/native-number-mode-boundary-source.json --host scripts/number-mode-boundary-host.c
+
+build/native/integer-storage-boundary-host: $(NATIVE_OBJECTS) scripts/integer-storage-boundary-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/integer-storage-boundary-host.c $(NATIVE_SHIMS) -o $@
+	$(PYTHON) scripts/source-snapshot.py native build/native-integer-storage-boundary-source.json --host scripts/integer-storage-boundary-host.c

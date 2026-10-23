@@ -11,9 +11,17 @@ typedef struct RcTokenInfo {
     const WCHAR *description;
     unsigned char kind;
 } RcTokenInfo;
+typedef struct RcIntegerType {
+    unsigned short flags;
+    unsigned char other[18];
+} RcIntegerType;
 typedef struct RcIntegerToken {
-    unsigned char prefix[12];
+    unsigned char token,flags;
+    unsigned short other2;
+    RcIntegerType *type;
+    unsigned other8;
     int value;
+    unsigned other16;
 } RcIntegerToken;
 extern int rc_expanding_macro,rc_in_directive;
 extern WCHAR rc_source_marker[];
@@ -58,5 +66,6 @@ unsigned char __stdcall rc_decimal_integer_kind(int value);
 unsigned char __stdcall rc_long_integer_kind(int value);
 unsigned char __stdcall rc_unsigned_integer_kind(unsigned value);
 void * __stdcall rc_store_integer(unsigned token,const unsigned *value);
+RcIntegerType *__stdcall rc_intern_type(RcIntegerType *type);
 int __stdcall rc_digit_value(int character);
 #endif

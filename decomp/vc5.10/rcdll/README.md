@@ -441,3 +441,12 @@ The next storage function receives a physical four-byte token and a pointer to
 four initialized value bytes in an eight-byte local. Valid numeric codes consume
 only the token low byte; both raw DWORDs remain recorded, with no padding seeded.
 Storage remains trapped; its full raw fallback needs its own guarded proof.
+
+Integer storage is accepted (216 bytes), reaching type interning. The actual
+node has token7, flags1 and value1; the separate20-byte type has flags0x1003.
+Both private28-byte allocations, zero initialization, exact writes and the
+interner's256 null buckets match.
+[Verification](cases/resources-rich-trailing-space/integer-storage-verification.json)
+records ten fresh controls, the independent review and native fallback guard.
+The physical DWORD token remains intact in the Win32 fallback; native unknown
+fallback codes trap before uncharacterized spill bits are consumed.

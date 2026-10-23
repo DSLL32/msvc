@@ -55,7 +55,8 @@
     "rc_get_logical_character",
     "rc_parse_integer_value",
     "rc_digit_value",
-    "rc_decimal_integer_kind"
+    "rc_decimal_integer_kind",
+    "rc_store_integer"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

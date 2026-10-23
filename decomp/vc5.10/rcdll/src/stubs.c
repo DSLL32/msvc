@@ -254,7 +254,7 @@ unsigned char __stdcall rc_unsigned_integer_kind(unsigned value)
     return 0;
 }
 
-void * __stdcall rc_store_integer(unsigned token,const unsigned *value)
+RcIntegerType *__stdcall rc_intern_type(RcIntegerType *type)
 {
     __asm int 3
     return 0;

@@ -82,9 +82,9 @@ def capture():
             arguments['message']=bytes(gdb.selected_inferior().read_memory(int(message),length)).hex()
         if name=='rc_message':arguments['id']=int(frame.read_var('id'))
         if name=='rc_prepare_input':arguments['path']=frame.read_var('path').string()
-        if name in ['rc_preprocess','rc_widen_arguments','rc_preprocessor_main','rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro','rc_find_macro','rc_copy_macro_text','rc_open_source','rc_refill_source','rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer']:
+        if name in ['rc_preprocess','rc_widen_arguments','rc_preprocessor_main','rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro','rc_find_macro','rc_copy_macro_text','rc_open_source','rc_refill_source','rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type']:
             caller=frame
-            if name in ['rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro','rc_find_macro','rc_copy_macro_text','rc_open_source','rc_refill_source','rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer']:
+            if name in ['rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro','rc_find_macro','rc_copy_macro_text','rc_open_source','rc_refill_source','rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type']:
                 while caller and caller.name()!='rc_preprocessor_main':caller=caller.older()
                 assert caller,'preprocessor main caller missing'
             count=int(caller.read_var('count'));preprocess_vector=caller.read_var('arguments');assert 0<count<=256
@@ -107,7 +107,7 @@ def capture():
             # descriptor numbers and CRT array slots need not equal Wine's.
             file=frees[0]['input_file']
             arguments['closed_input']=bytes(gdb.selected_inferior().read_memory(file,32)).hex()
-            if name in ['rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro','rc_find_macro','rc_copy_macro_text','rc_open_source','rc_refill_source','rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer']:
+            if name in ['rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro','rc_find_macro','rc_copy_macro_text','rc_open_source','rc_refill_source','rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type']:
                 from importlib.machinery import SourceFileLoader
                 observer=SourceFileLoader('native_preprocess',str(Path(os.environ['RCDLL_NATIVE_SCRIPT']).parent/'native-preprocess.py')).load_module()
                 arguments['preprocessor']=observer.capture_preprocessor(config_path.parent/'preprocess-data.json')
@@ -124,19 +124,21 @@ def capture():
                 if name=='rc_open_preprocessor':
                     arguments['open']={field:int(frame.read_var(field))&0xffffffff for field in ['input','output','defines','undefines']}
                     arguments['conversion']=json.loads((output.parent/'numeric-conversion.json').read_text())
-                if name in ['rc_refill_source','rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer']:
+                if name in ['rc_refill_source','rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type']:
                     source_parent=frame.older()
+                    if name=='rc_intern_type':
+                        assert source_parent.name()=='rc_store_integer';source_parent=source_parent.older()
                     if name=='rc_digit_value':
                         assert source_parent.name()=='rc_parse_integer_value';source_parent=source_parent.older()
-                    if name in ['rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer']:
+                    if name in ['rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type']:
                         assert source_parent.name()=='rc_read_number';source_parent=source_parent.older()
-                    if name in ['rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer']:
+                    if name in ['rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type']:
                         assert source_parent.name()=='rc_next_token';source_parent=source_parent.older()
                     if name=='rc_character_class':
                         assert source_parent.name()=='rc_read_identifier';source_parent=source_parent.older()
-                    if name in ['rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer']:
+                    if name in ['rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type']:
                         assert source_parent.name()=='rc_handle_directive';source_parent=source_parent.older()
-                    if name in ['rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer']:
+                    if name in ['rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type']:
                         assert source_parent.name()=='rc_scan_line_start';source_parent=source_parent.older()
                     if name=='rc_character_token':
                         assert source_parent.name()=='rc_quote_source_filename';source_parent=source_parent.older()
@@ -156,7 +158,7 @@ def capture():
                         arguments['duplicate']['path_bytes']=observer.wide_bytes(int(frame.read_var('path')))
                         arguments['duplicate']['formal_bytes']=dict(path=frame.read_var('path').type.sizeof)
                         arguments['refills']=json.loads((output.parent/'refills.json').read_text())
-                    if name in ['rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer']:
+                    if name in ['rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type']:
                         arguments['refills']=json.loads((output.parent/'refills.json').read_text())
                         arguments['source_name_copies']=json.loads((output.parent/'source-name-copies.json').read_text())
                     if name=='rc_write_preprocessed':
@@ -185,19 +187,20 @@ def capture():
                         arguments['source_name_copies']=json.loads((output.parent/'source-name-copies.json').read_text())
                         arguments['source_formats']=json.loads((output.parent/'source-line-format.json').read_text())
                         arguments['output_writes']=json.loads((output.parent/'output-writes.json').read_text())
-                    if name in ['rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer']:
+                    if name in ['rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type']:
                         arguments['scan_line']=dict(formals=[],cursor=int(gdb.parse_and_eval('rc_source_cursor')),current_line=int(gdb.parse_and_eval('rc_preparing_line')))
                         arguments['macro_listings']=json.loads((output.parent/'macro-listings.json').read_text())
                         arguments['output_fdinfo']=Path('/proc/%d/fdinfo/%d'%(gdb.selected_inferior().pid,int(gdb.parse_and_eval('recon_osfhnd[4]'))-1)).read_text()
                         arguments['source_formats']=json.loads((output.parent/'source-line-format.json').read_text())
                         arguments['output_writes']=json.loads((output.parent/'output-writes.json').read_text())
-                    if name in ['rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer']:
+                    if name in ['rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type']:
                         scanner=frame.older()
+                        if name=='rc_intern_type':scanner=scanner.older()
                         if name=='rc_digit_value':scanner=scanner.older()
-                        if name in ['rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer']:scanner=scanner.older()
-                        if name in ['rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer']:scanner=scanner.older()
+                        if name in ['rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type']:scanner=scanner.older()
+                        if name in ['rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type']:scanner=scanner.older()
                         if name=='rc_character_class':scanner=scanner.older()
-                        if name in ['rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer']:scanner=scanner.older()
+                        if name in ['rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type']:scanner=scanner.older()
                         arguments['directive']=dict(formals=[],scanner_character=int(scanner.read_var('character')),scanner_character_bytes=scanner.read_var('character').type.sizeof)
                     if name=='rc_read_nonspace':arguments['nonspace']=dict(formals=[])
                     if name=='rc_read_identifier':
@@ -209,13 +212,13 @@ def capture():
                     if name=='rc_directive_code':
                         arguments['directive_word']=dict(pointer=int(frame.read_var('word')),bytes=observer.wide_bytes(int(frame.read_var('word'))),formal_bytes=frame.read_var('word').type.sizeof)
                         arguments['class_reads']=json.loads((output.parent/'class-reads.json').read_text())
-                    if name in ['rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer']:
+                    if name in ['rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type']:
                         arguments['tokenizer']=dict(formals=[],previous_kind=int(gdb.parse_and_eval('rc_token_kind')),previous_value=int(gdb.parse_and_eval('rc_token_value')),header_mode=int(gdb.parse_and_eval('rc_header_mode')),condition_mode=int(gdb.parse_and_eval('rc_in_condition_expression')))
                         arguments['class_reads']=json.loads((output.parent/'class-reads.json').read_text())
                         arguments['directive_lookups']=json.loads((output.parent/'directive-lookups.json').read_text())
-                    if name in ['rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer']:
+                    if name in ['rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type']:
                         number=frame if name=='rc_read_number'else frame.older()
-                        if name=='rc_digit_value':number=number.older()
+                        if name in ['rc_digit_value','rc_intern_type']:number=number.older()
                         parent=number.older();assert parent.name()=='rc_next_token'
                         arguments['numeric_token']=dict(first=int(number.read_var('first')),formal_bytes=number.read_var('first').type.sizeof,stack_slot_bytes=4,parent_character=int(parent.read_var('character')),parent_class=int(parent.read_var('dispatch')),buffer_active=int(gdb.parse_and_eval('rc_number_buffer_active')))
                         if name=='rc_get_logical_character':arguments['logical_character']=dict(formals=[],begin=int(number.read_var('begin')),cursor=int(number.read_var('cursor')),radix=int(number.read_var('radix')),token=int(number.read_var('token')))
@@ -225,7 +228,7 @@ def capture():
                             arguments['integer_conversion']=dict(text=int(conversion.read_var('text')),text_bytes=observer.wide_bytes(int(conversion.read_var('text'))),radix=int(conversion.read_var('radix')),formal_bytes={field:conversion.read_var(field).type.sizeof for field in ['text','radix']})
                             arguments['logical_reads']=json.loads((output.parent/'logical-reads.json').read_text())
                             if name=='rc_digit_value':arguments['digit']=dict(character=int(frame.read_var('character')),formal_bytes=frame.read_var('character').type.sizeof,parent_cursor=int(conversion.read_var('cursor')),accumulator=int(conversion.read_var('value')),previous=int(conversion.read_var('previous')))
-                        if name in ['rc_decimal_integer_kind','rc_store_integer']:
+                        if name in ['rc_decimal_integer_kind','rc_store_integer','rc_intern_type']:
                             conversions=json.loads((output.parent/'integer-conversions.json').read_text());digits=json.loads((output.parent/'digit-values.json').read_text());assert len(conversions)==len(digits)==1
                             arguments['number_state']=dict(begin=int(number.read_var('begin')),cursor=int(number.read_var('cursor')),radix=int(number.read_var('radix')),token=int(number.read_var('token')))
                             arguments['integer_conversion']={key:conversions[0][key]for key in ['text','text_bytes','radix','formal_bytes']}
@@ -237,11 +240,15 @@ def capture():
                                 kinds=json.loads((output.parent/'integer-kinds.json').read_text());assert len(kinds)==1
                                 arguments['integer_kind']=dict(value=kinds[0]['value'],formal_bytes=kinds[0]['formal_bytes'],parent_value=int(number.read_var('value')[0]),parent_object_bytes=number.read_var('value').type.sizeof,initialized_bytes=4)
                                 arguments['integer_kinds']=kinds
-                                value=frame.read_var('value');token=frame.read_var('token');owner=number.read_var('value')
+                                store_frame=frame.older()if name=='rc_intern_type'else frame
+                                value=store_frame.read_var('value');token=store_frame.read_var('token');owner=number.read_var('value')
                                 arguments['store']=dict(token=int(token),value=int(value),formal_bytes=dict(token=token.type.sizeof,value=value.type.sizeof),payload=bytes(gdb.selected_inferior().read_memory(int(value),4)).hex(),owner=int(owner.address),object_bytes=owner.type.sizeof,initialized_bytes=4)
 
-
-
+                    if name=='rc_intern_type':
+                        store_frame=frame.older();node=store_frame.read_var('node');type_arg=frame.read_var('type')
+                        buckets=gdb.parse_and_eval('rc_type_buckets')
+                        arguments['type_buckets']=dict(address=int(buckets.address),bytes=buckets.type.sizeof,count=256,pointer_bytes=buckets[0].type.sizeof,payload=bytes(gdb.selected_inferior().read_memory(int(buckets.address),buckets.type.sizeof)).hex())
+                        arguments['intern_type']=dict(pointer=int(type_arg),formal_bytes=type_arg.type.sizeof,object_bytes=type_arg.dereference().type.sizeof,payload=bytes(gdb.selected_inferior().read_memory(int(type_arg),20)).hex(),parent_type=int(store_frame.read_var('type')),node=int(node),node_bytes=bytes(gdb.selected_inferior().read_memory(int(node),20)).hex(),type_code=int(store_frame.read_var('type_code')),parent=store_frame.name())
 
                     file=gdb.parse_and_eval('rc_source_file').dereference();descriptor=int(file['_file']);handle=int(gdb.parse_and_eval('recon_osfhnd[%d]'%descriptor))-1
                     arguments['source_host_path']=os.readlink('/proc/%d/fd/%d'%(gdb.selected_inferior().pid,handle))
