@@ -65,8 +65,12 @@ support or claiming case readiness.
 Concrete module-resource requirements found so far are C1/C1XX `LoadStringA`
 using the HINSTANCE cached by DllMain, and RCDLL `FormatMessageA` with
 `FROM_HMODULE | IGNORE_INSERTS` against its embedded message table. The shared
-maintainer owns the explicit module identity and encountered-resource contracts. Module registration is implemented; resource support is being added
-for the exact IDs reached by the first cases. Unknown dependencies fail closed.
+maintainer owns the explicit module identity and encountered-resource contracts. Module registration and resource support cover the exact IDs reached
+by the first cases. Unknown dependencies fail closed.
+
+The project Makefile delegates `native`, `original` and `fixtures` to every
+binary. A single binary can also be selected, for example
+`make -j4 fixtures-c1`. Unfinished fixtures continue to fail closed.
 
 ## Builds and references
 
