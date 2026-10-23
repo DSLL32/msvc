@@ -43,7 +43,7 @@ int pack_module(unsigned short module)
             break;
         case 0x123: read_module_symbols(index, entry); break;
         case 0x124: read_module_local_symbols(index, entry); break;
-        case 0x127: read_module_global_types(index, entry); break;
+        case 0x127: read_module_source_lines(index, entry); break;
         }
     }
     if (symbol_entry_index && (*(unsigned *)symbol_data == 1 || *(unsigned *)symbol_data == 2)) {
@@ -232,4 +232,17 @@ void read_module_local_symbols(unsigned index, CodeViewDirectoryEntry *entry)
     entry->size = widen_subsection((unsigned char **)&type_data, entry->size, &source_line_bytes);
     module_symbol_records = type_data;
     line_entry_index = index;
+}
+
+/* Read source-module line information [004053c0,0040544e). */
+void read_module_source_lines(unsigned index, CodeViewDirectoryEntry *entry)
+{
+    if (entry->offset != image_read_mode) {
+        image_read_mode = entry->offset;
+        seek_cached_file(input_file, codeview_file_offset + entry->offset, 0);
+    }
+    if (read_cached_file(input_file, module_data, entry->size) != entry->size)
+        fatal_error(1005, "Source Module", module_name(current_module_info));
+    image_read_mode += entry->size;
+    type_entry_index = index;
 }

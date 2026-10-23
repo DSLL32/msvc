@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "source_module_bytes": 256,
+  "rejected": [
+    {
+      "name": "changed-source-module-byte",
+      "diagnostic": "initialized subsection buffer bytes differ"
+    },
+    {
+      "name": "incomplete-source-module-capacity",
+      "diagnostic": "incomplete read-buffer capacity observation"
+    },
+    {
+      "name": "wrong-next-ECX-type-index",
+      "diagnostic": "('typed ABI arguments differ', {'index': 0}, {'index': 1})"
+    },
+    {
+      "name": "changed-source-read-result",
+      "diagnostic": "actual read caller/extent/position/result/initialized output differs"
+    },
+    {
+      "name": "unknown-original-source-read-caller",
+      "diagnostic": "unknown actual original read caller"
+    }
+  ],
+  "count": 5,
+  "next_original_register": "ecx",
+  "next_actual_formals": [
+    {
+      "name": "index",
+      "kind": "integer",
+      "width": 4,
+      "native_type": "unsigned int"
+    }
+  ],
+  "decoder_sha256": "2f5bd1e6ca091648dc04d61afab4d6c260df49c9d5b493d699aaf45d49609082",
+  "checker_sha256": "1ac3cf33cc95983e4d7df67fb1088e58af00872fafd406f7efbe408928bf5f1b",
+  "original_receipt_sha256": "e64cd1b584d4b73e4778f678ef44e801cd1eb8c710a3a79eb2d629dcafbb1621",
+  "native_receipt_sha256": "3120223b895ce55a19ad696adeabd3a81bd814ac38501d1c19c5edaa7cb31054",
+  "seconds": 0.4534720601513982
+}

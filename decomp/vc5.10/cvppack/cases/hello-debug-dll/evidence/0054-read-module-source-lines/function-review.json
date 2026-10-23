@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "candidate": "read_module_source_lines",
+  "accepted_functions": 54,
+  "application_extent_bytes": 14279,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 22.78733522709138,
+  "qualification": "Accepted application extents / whole text, not non-CRT or branch coverage.",
+  "source_extent": [
+    4215744,
+    4215886
+  ],
+  "source_module_bytes": 256,
+  "fresh_state_rejections": 5,
+  "fresh_actual_formal_inventory": true,
+  "reused_control": {
+    "path": "cases/hello-debug-dll/evidence/0053-read-module-local-symbols-complete/symbol-subsection-checks.json",
+    "sha256": "e1a19fc3641dac719c3b30340c43e4e71ac600a53333b405d74e9ab4baa58476",
+    "reason": "Same raw decoder and actual-DWARF guard; only new source-module buffer metadata/read caller added."
+  },
+  "decoder_sha256": "2f5bd1e6ca091648dc04d61afab4d6c260df49c9d5b493d699aaf45d49609082",
+  "seconds": {
+    "trial": {
+      "original_build": 3.4783430211246014,
+      "native_build": 1.9313765754923224,
+      "graph_tool_build": 0.027182484045624733,
+      "original_capture": 3.519272966310382,
+      "native_capture": 0.5365679711103439,
+      "pair_check": 0.3596340725198388
+    },
+    "controls": 0.4534720601513982,
+    "fixture": {
+      "preparation": 0.002439577132463455,
+      "execution": 0.5261202612891793,
+      "checks": 0.004192921333014965,
+      "total": 0.6906911795958877
+    }
+  }
+}

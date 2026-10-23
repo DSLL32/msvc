@@ -59,7 +59,8 @@
     "read_new_module_types",
     "initialize_module_type_storage",
     "reset_type_name_cache",
-    "read_module_local_symbols"
+    "read_module_local_symbols",
+    "read_module_source_lines"
   ],
   "functions": [
     {
@@ -1375,12 +1376,15 @@
       "acceptance_proof": "cases/hello-debug-dll/evidence/0053-read-module-local-symbols-complete/promotion.json"
     },
     {
-      "name": "read_module_global_types",
-      "symbol": "_read_module_global_types",
-      "native_symbol": "read_module_global_types",
+      "name": "read_module_source_lines",
+      "symbol": "_read_module_source_lines",
+      "native_symbol": "read_module_source_lines",
       "original": 4215744,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4215744,
+        4215886
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -1396,7 +1400,8 @@
           "count": "directory_count",
           "element_size": 12
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0054-read-module-source-lines/promotion.json"
     },
     {
       "name": "pack_symbols",
@@ -2287,6 +2292,16 @@
       "global_buffer": true,
       "allocated_global": "type_data",
       "capacity_global": "line_capacity",
+      "count_parameter": "entry",
+      "count_member": "size"
+    },
+    {
+      "return_pc": 4215816,
+      "owner": "read_module_source_lines",
+      "local": "module_data",
+      "global_buffer": true,
+      "allocated_global": "module_data",
+      "capacity_global": "type_capacity",
       "count_parameter": "entry",
       "count_member": "size"
     }

@@ -24,7 +24,7 @@ int grow_mapping(CachedFile *file, int size) { __asm { int 3 } return 0; }
 unsigned stream_read(CachedFile *file, void *buffer, unsigned size) { __asm { int 3 } return 0; }
 void prepare_precompiled_types(ModuleInfo *info) { __asm { int 3 } }
 
-void read_module_global_types(unsigned index, CodeViewDirectoryEntry *entry) { __asm { int 3 } }
+
 void decode_legacy_lines(void *lines, unsigned size) { __asm { int 3 } }
 void rewrite_legacy_lines(void *lines, CodeViewDirectoryEntry *entry, void *module_buffer, ModuleInfo *info) { __asm { int 3 } }
 void decode_new_lines(void *lines, unsigned size, unsigned short *symbols, unsigned short *references) { __asm { int 3 } }

@@ -90,6 +90,11 @@
     "kind": "pointer",
     "allocation": {
       "size_global": "type_capacity"
+    },
+    "read_contents": true,
+    "blob": {
+      "count": "type_capacity",
+      "element_size": 1
     }
   },
   {

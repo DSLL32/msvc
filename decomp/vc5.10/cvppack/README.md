@@ -191,3 +191,10 @@ this correction before acceptance. There are 53 accepted application functions,
 14,137 extent bytes (22.56% of the qualified denominator). Exact paths, fresh/
 reused controls and timings are in
 `cases/hello-debug-dll/evidence/0053-read-module-local-symbols-complete/function-review.json`.
+
+The source-module line reader 0x4053c0 is accepted as `read_module_source_lines`.
+Its 256-byte block and actual read caller/extent/result match; five focused
+storage/read/ECX controls pass. The next frontier is the newer type-index mapper
+with index 0 passed in ECX. There are 54 accepted application functions and
+14,279 extent bytes (22.79% of the qualified whole-text denominator). Detailed
+accounting is under `cases/hello-debug-dll/evidence/0054-read-module-source-lines/`.
