@@ -1,0 +1,67 @@
+{
+  "mode": "baseline",
+  "status": 0,
+  "elapsed_seconds": 0.8877836214378476,
+  "target_sha256": "c9f7e207bbae4be91baf6db564bd6b7f660d10287ea46302c792c3dd27b05399",
+  "candidate_sha256": "bcdc6402aadf25767b3adc93907102f648b1f63541386682e25b6008063827cd",
+  "native_sha256": "0b40c47f68a31d2a9f4f873cb507f3ca88116b83bfec9eafe6d178600ba47236",
+  "rebuilt_sha256": "ce210d87334e68dcbd1528167af48070dbc2a000481f5f0014a422143f9984fc",
+  "map_sha256": "5b0168eea71b09e9754a236809063750a382dabbe8b81ef2139574765c600c7b",
+  "debugger_sha256": "aec83a141fd55e51eca446ea7acdf40acc13e532374c83f3a17f5ce6377d6d61",
+  "debugger_source_sha256": "18cec1d185edc3387ad72ade1b7bfb76708856d59d111ff9aec4590f81c94857",
+  "sources": {
+    "src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/rc.c": "bc79750b0ca3669471c7c7c5bdb3f21a3d2bf9530e40b3fde2e63f709aa8bf76",
+    "src/rc.h": "4b7fde7cb9e33c40e5636d510a082dc9c31b099e20c4acaa6aac681babe1c27c",
+    "src/rcdll.def": "9e0cf4d7ec4c0e759be27a64c0e19e2907442329e9ced9b9562bb27274527be7",
+    "src/startup.c": "4d5bbf341759e4542e6af8c78f7cc7757be5fed9c89a7dbf71e385b761ce5c52"
+  },
+  "program": "S:\\vc5.10\\rc\\original\\RC.EXE",
+  "arguments": [
+    "/help"
+  ],
+  "explicit_child_environment": true,
+  "prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "files": {
+    "loaded-rcdll.bin": {
+      "sha256": "bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0",
+      "bytes": 108304
+    },
+    "loaded-crt.bin": {
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "bytes": 277776
+    },
+    "relocated-text.bin": {
+      "sha256": "a823c7a795c90359572570a299d9256d3441e04c9767489cbc1d9a311b02498c",
+      "bytes": 1438
+    },
+    "events.txt": {
+      "sha256": "eb891ba2c24bd6d449ea65084e2f6f320d6f760273ce2c19446cbf2580d77bfe",
+      "bytes": 6530
+    },
+    "stderr.bin": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runtime.json": {
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3
+    },
+    "candidate.json": {
+      "sha256": "bcdc6402aadf25767b3adc93907102f648b1f63541386682e25b6008063827cd",
+      "bytes": 1797
+    },
+    "stdout.bin": {
+      "sha256": "e5220dc952d908c903a0aae287e9ab3d5a35872aef56f593f3ad2568441423a1",
+      "bytes": 589
+    },
+    "loaded-target.bin": {
+      "sha256": "c9f7e207bbae4be91baf6db564bd6b7f660d10287ea46302c792c3dd27b05399",
+      "bytes": 7952
+    },
+    "ranges.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  }
+}

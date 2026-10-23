@@ -1,17 +1,15 @@
 {
-  "status": "groundwork-only-gated",
-  "gates": [
-    "DLL workflow approved by orchestrator",
-    "Rust graph auditor ready and reviewed"
-  ],
-  "reconstructed_functions": 0,
+  "status": "first-case-complete-paused",
+  "gates": [],
+  "reconstructed_functions": 5,
   "cases": [
     {
       "id": "help",
       "argv": [
         "/help"
       ],
-      "initial": true
+      "initial": true,
+      "status": "accepted"
     },
     {
       "id": "minimal",
@@ -20,7 +18,8 @@
         "minimal.rc"
       ],
       "source": "minimal/source",
-      "initial": true
+      "initial": true,
+      "status": "queued-not-released"
     },
     {
       "id": "resources-rich",
@@ -33,7 +32,8 @@
       ],
       "source": "resources-rich/source",
       "source_seed": "decomp/vc1.0/fixtures/resources-rich/source",
-      "initial": true
+      "initial": true,
+      "status": "queued-not-released"
     }
   ],
   "dependency_boundary": {
@@ -69,11 +69,28 @@
     "preprocessor lexical/parser diagnostics with callback mutation",
     "two resource calls in one initialized DLL lifetime, subject to DLL export contract review"
   ],
-  "native_fixtures_ready": false,
+  "native_fixtures_ready": true,
   "probe_readiness": {
-    "help": "unmodified original succeeds, exit0, stdout589 bytes",
+    "help": "provider-verified and accepted; exit0, stdout589 bytes, stderr0",
     "minimal": "timeout30s, empty streams, no artifact; shared Wine health issue unresolved",
     "resources-rich": "source seeded; no successful new-toolchain baseline",
-    "wine_launches": "held by orchestrator pending shared health diagnosis"
+    "wine_launches": "original builds/reference capture only, fixed shared prefix; no native fixture launches"
+  },
+  "coverage": {
+    "application": {
+      "functions": 2,
+      "bytes": 277,
+      "identified_bytes": 277
+    },
+    "support": {
+      "functions": 3,
+      "bytes": 350,
+      "identified_bytes": 353,
+      "unreached": "_math_error: 3 bytes"
+    },
+    "import_thunks": {
+      "functions": 3,
+      "bytes": 18
+    }
   }
 }

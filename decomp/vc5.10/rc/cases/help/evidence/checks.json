@@ -1,0 +1,68 @@
+{
+  "fixture": {
+    "status": "pass",
+    "stdout_bytes": 589,
+    "stderr_bytes": 0,
+    "setup_seconds": 0.0007621748372912407,
+    "execution_seconds": 0.001812255010008812,
+    "verification_seconds": 0.0004253135994076729,
+    "wine_invocations": 0,
+    "command_seconds": 0.07217678241431713
+  },
+  "boundary_rejections": {
+    "status": "pass",
+    "rejected": [
+      "host-case",
+      "window",
+      "flags",
+      "resource",
+      "callback",
+      "argc",
+      "argv-alias",
+      "argv-mutation",
+      "argv-terminator",
+      "truncated-response",
+      "trailing-response",
+      "wrong-version"
+    ],
+    "elapsed_seconds": 0.018308854661881924,
+    "wine_invocations": 0,
+    "command_seconds": 0.07614336535334587
+  },
+  "import_rejections": {
+    "status": "pass",
+    "rejected": [
+      "original:_rc_main:slot",
+      "original:_rc_main:call-register",
+      "original:_rc_diagnostic@12:slot",
+      "original:_rc_diagnostic@12:call-register",
+      "rebuilt:_rc_main:slot",
+      "rebuilt:_rc_main:call-register",
+      "rebuilt:_rc_diagnostic@12:slot",
+      "rebuilt:_rc_diagnostic@12:call-register"
+    ],
+    "qualification": "specific callee-saved-register residual, separate from Rust CFG and --check-imports",
+    "command_seconds": 0.12015681155025959
+  },
+  "acceptance_rejections": {
+    "rejected": [
+      "stale-config",
+      "changed-raw-original",
+      "resealed-missing-frontier",
+      "resealed-missing-native-state",
+      "resealed-wrong-native-trap",
+      "resealed-wrong-native-exit",
+      "resealed-missing-completion",
+      "resealed-missing-GDB-exit",
+      "wrong-immutable-source",
+      "wrong-runtime-projection",
+      "wrong-audit-MAP-pin",
+      "resealed-wrong-loaded-target",
+      "resealed-stream-mismatch",
+      "unknown-owner",
+      "overlap",
+      "accepted-trap-stub"
+    ],
+    "command_seconds": 0.9682886255905032
+  }
+}

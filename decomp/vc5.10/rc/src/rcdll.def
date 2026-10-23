@@ -1,0 +1,4 @@
+LIBRARY RCDLL.dll
+EXPORTS
+    Handler@4
+    RC@24

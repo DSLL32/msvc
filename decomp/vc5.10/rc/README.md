@@ -1,70 +1,72 @@
-# VC 5.10 RC groundwork
+# VC 5.10 RC
 
 Target: `toolchains/5.10/bin/RC.EXE`, resource compiler 5.00.1472.1.
-This folder contains inventory, source-only case seeds and explicit unmodified
-original probes. No target function has been reconstructed or accepted.
-Reconstruction is gated on approval of the DLL workflow and the Rust graph auditor.
+The released first case, `/help`, is complete. Work is paused before resource
+compilation. Two application functions account for all 277 identified application
+bytes. Reached startup support accounts for 350 of 353 bytes; the unvisited
+three-byte math-error hook remains an INT3 stub. Three accepted import thunks
+account for another 18 bytes, separately. This earns no RCDLL implementation credit.
 
-RC is a small console host, not the resource compiler implementation. It statically
-imports `RCDLL.dll!RC` and `RCDLL.dll!Handler`; it does not resolve these exports
-with LoadLibrary/GetProcAddress. Imports also include MSVCRT and KERNEL32.
-The PE has no exports, relocations or TLS directory. Its executable section also
-contains IATs, imports and debug metadata, so section size is not a code coverage
-estimate. `cases/inventory.json` and `cases/pe-headers.txt` record the untouched PE.
+RC is a console host with static `RCDLL.dll!RC` and `Handler` imports. Its two
+application functions register a console handler, call the six-slot stdcall export,
+format mutable diagnostic messages, unregister the handler and exit. The complete
+callback body preserves percent escaping, allocation failure and CRLF/LFCR mutation,
+including the original retained temporary allocation. The resource-callback slot
+is opaque and NULL-only in this case. No resource-callback record ABI is invented.
 
-## DLL boundary
+`make -j4 native` builds the instrumented i386 Linux executable with `-O0 -g`.
+`make -j4 fixtures` (or `check`) uses only native executables and frozen references:
+status 0, exactly 589 stdout bytes, empty stderr, application entry trace, the six
+DLL arguments, four callback results and every mutable post-buffer byte. It also
+checks 12 malformed/unknown dependency requests fail before any callback. No
+fixture invokes Wine or a child PE helper.
 
-Analysis of the original caller identifies `main` at VA `0x010011d2`. It registers
-the imported Handler with SetConsoleCtrlHandler, then calls the six-slot stdcall
-export `RC(0, 0, diagnostic_callback, 0, argc, argv)`. It unregisters the handler
-and calls exit with RC's result. The imported Handler has one stdcall argument.
-The diagnostic callback at `0x01001100` has three stdcall arguments and reads its
-third argument as mutable narrow message bytes; it can modify trailing CRLF/LFCR
-and percent characters, allocates an escaped-percent copy when possible, prints
-via printf and returns zero. That mutation and allocation-failure path matter;
-replaying only final diagnostic text would hide RC behavior.
+`make -j4 original` verifies a real Win32 EXE with the supplied compiler. Only the
+original application translation unit uses `/O2 /Oy-`; startup uses `/Od` and
+native builds remain `-O0`. `make audit` is an explicit original-build/static-audit
+command, separate from fixtures. The embedded CRT does not byte-match the supplied
+library object: startup and its reached helpers are handwritten, ABI-preserving C
+with the original SEH, and are counted as support. The shared native layer supplies
+reviewed imported CRT behavior, with captured argv and all target environment
+strings bound independently of Linux tracing/shim environment controls.
 
-The sibling RCDLL worker owns export bodies, CRT/DLL initialization and internal
-preprocessing. A future native harness must preserve each module's graph and ABI,
-perform audited module initialization before main, retain callbacks in the RC
-module, and order detach at process completion. Module-qualified addresses and
-callback IDs are needed for original/native evidence. No shared module lifecycle
-or qualified trace-ID registry exists yet; the recon maintainer has been notified.
-The orchestrator must decide that policy before implementation.
+The canonical imported CRT is the shipped 277,776-byte MSVCRT.DLL, SHA-256
+`e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210`.
+Original debug-event file handles verify the loaded RC, RCDLL and CRT bytes.
+`cases/help/reference/` contains the provider-verified master, complete dependency
+response and source provenance; no VC1.0 oracle output has been reused. The native
+adapter validates its entire response before calling target code, verifies exact
+arguments and input content, and fails on unknown dependencies or handler calls.
 
-For RC-only early progress, a strictly checked cached DLL response might replay a
-known export invocation plus callback sequence, complete mutable messages and
-artifacts. Such a replay cannot earn RCDLL coverage or substitute for later
-combined RC/RCDLL comparisons. The preferred eventual integration links each
-reconstructed module's original-style C into a native process with an explicit
-module harness. Unknown DLL calls or callback patterns must fail closed.
+Fresh promotion uses `scripts/capture-pair.py --candidate FILE NEW_DIRECTORY`, then
+`scripts/accept.py DIRECTORY`. Each promotion covers exactly one whole function
+or import thunk. The original executable section is masked, including unaccepted
+support; only verified IAT/debug/import metadata remains globally. Owner-specific
+SEH/newline data is restored with its function. The actual mask is read back and
+checked. Native traps require actual named ELF INT3/SIGTRAP/PC proof; import-entry
+breakpoints are a distinct typed boundary. Completion requires real exit events,
+matching traces and the canonical output. Compiled-source content, actual trial,
+PEs, ELF, MAP, auditor and deterministic runtime indexes are pinned. Explicit
+`--reuse-original` preserves unchanged original evidence when only native shared
+inputs or validators change; consumed native-source changes require a native rebuild.
 
-## Cases and commands
+Rust performs CFG/ABI/extent/reference/import checks. Its optional import check
+qualifies exact IAT transfers and import thunks, **not cached register calls**.
+The narrow `iat-references.py` residual separately records import data references
+and RC's two observed callee-saved caches (ESI: SetConsoleCtrlHandler; EBX: strchr),
+the exact IAT loads/call sites and no intervening register writes. This relies on
+the recovered callee-saved ABI, not general dataflow. Eight swapped-slot/call-register
+controls test this residual. Original and rebuilt static call counts can differ
+because the compiler rotates a loop. No audit flag is weakened to hide this limit.
 
-`cases/resources-rich/source` copies only input source/assets from VC1.0's rich
-resource fixture: guarded nested includes, command-line macros, #ifdef/#if,
-arithmetic, menus, dialogs, string tables, accelerator tables, icons, bitmaps,
-cursors, raw/custom resources, message tables, version information and languages.
-`cases/minimal/source/minimal.rc` is an independent small string-table probe.
-No VC1.0 output, trace or acceptance metadata has been imported.
+`cases/help/evidence/summary.json` records ordered promotions, hashes, split timing
+and full scratch-proof locations. Its raw completion records, immutable source
+snapshots and audit are retained alongside it. The startup review passed 16
+rejection checks, including wrong trap PC/signal; the completed pair has 16
+corresponding fail-closed checks, including missing actual completion events.
 
-Run `make inspect` for read-only PE inventory. `make probe-help`, `probe-minimal`
-and `probe-rich` explicitly invoke the untouched original through the shared Wine
-prefix; they are never fixture dependencies. Probes use only the fixed R:/S:
-mappings and scratch `~/.ai-tmp/msvc2/vc5.10/rc/<case>`. Native/original-build,
-fixture and check targets currently fail closed rather than report false success.
-Probes record elapsed command time and raw streams; these are groundwork, not
-masked-original acceptance or regression references. Original /help succeeds.
-The old `/nologo` option is unsupported; rejected attempts are preserved separately.
-Resource compilation results are recorded in each probe receipt when available.
-
-## Readiness at groundwork handoff
-
-The minimal resource probe timed out after 30.032 seconds with empty streams and
-no output. A short loader/exception diagnostic emitted only early Wine startup
-information, which does not establish a defect in RC/RCDLL. The rich compile has
-no successful baseline either. The orchestrator has held all further Wine probes
-because other projects also stalled before application startup; no RC probe is
-left running. No prefix settings or shared Wine server were changed. CVTRES must
-wait for an actual new-toolchain .res capture before its conversion probe.
-`--replace` is required to overwrite an existing groundwork receipt explicitly.
+The original-only `probe-help` requires a new explicit `REFERENCE_DIR`; resource
+probe targets remain closed. `cases/minimal/source` and `resources-rich/source`
+are queued source-only seeds, with no successful resource reference claimed.
+Historical groundwork timeouts remain recorded as such. All original work uses
+the fixed shared-prefix R:/S: mappings without remapping or stopping its server.

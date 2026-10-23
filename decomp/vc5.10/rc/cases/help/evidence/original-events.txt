@@ -1,0 +1,26 @@
+module-file loaded-target.bin 7952
+module ntdll.dll actual=7bcf0000 preferred=7bcf0000 entry=0000f760 size=002fe000
+module KERNEL32.dll actual=7bb70000 preferred=7bb70000 entry=00013e60 size=0016f000
+module kernelbase.dll actual=7b600000 preferred=7b600000 entry=00015a00 size=00551000
+module MSVCRT.dll actual=78000000 preferred=78000000 entry=00001000 size=00048000
+module-file loaded-crt.bin 277776
+module RCDLL.dll actual=71c20000 preferred=71c20000 entry=00012d20 size=00030000
+module-file loaded-rcdll.bin 108304
+module user32.dll actual=7a1d0000 preferred=7a1d0000 entry=0001cd50 size=004d4000
+module zlib1.dll actual=7a190000 preferred=7a190000 entry=000013b0 size=0002a000
+module advapi32.dll actual=7b500000 preferred=7b500000 entry=00010ab0 size=000ef000
+module sechost.dll actual=7b1a0000 preferred=7b1a0000 entry=00003fd0 size=00070000
+module ucrtbase.dll actual=7ae50000 preferred=7ae50000 entry=00015810 size=00337000
+module gdi32.dll actual=7a6c0000 preferred=7a6c0000 entry=00013520 size=00248000
+module win32u.dll actual=7a140000 preferred=7a140000 entry=0000ec90 size=00040000
+module <none> actual=10000000 preferred=10000000 entry=00000000 size=00081000
+module <none> actual=10000000 preferred=10000000 entry=00000000 size=00081000
+module imm32.dll actual=78640000 preferred=78640000 entry=00002860 size=00067000
+unhandled-break 7bd50145
+snapshot-ready mode=masked
+entry 00001220
+entry 000013b0
+entry 00001380
+entry 000011d2
+entry 00001100
+exit 0

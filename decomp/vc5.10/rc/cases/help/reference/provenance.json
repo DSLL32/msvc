@@ -1,0 +1,13 @@
+{
+  "source_capture": "/root/.ai-tmp/msvc2/vc5.10/rc/captures/canonical-help-1",
+  "kind": "explicit-canonical-CRT-unmodified-original",
+  "sha256": {
+    "environment.bin": "84ae543c41a005e9cdef9504bdca7699c928d1dc7d5e44f573c16b3621343323",
+    "stdout.bin": "e5220dc952d908c903a0aae287e9ab3d5a35872aef56f593f3ad2568441423a1",
+    "candidate.json": "bcdc6402aadf25767b3adc93907102f648b1f63541386682e25b6008063827cd",
+    "stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "events.txt": "eb891ba2c24bd6d449ea65084e2f6f320d6f760273ce2c19446cbf2580d77bfe",
+    "argv.bin": "e6602dd7b1381596f9363beea63e5f59e58e6377e21fedc560ed04805433f68b",
+    "receipt.json": "465668ef4c724c67cdb2285660dca37504b22d5fe4732fe02d295b6b8429ff0e"
+  }
+}

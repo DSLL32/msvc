@@ -1,0 +1,206 @@
+{
+  "case": "help",
+  "state": "complete-paused-no-second-case",
+  "master": {
+    "status": 0,
+    "stdout_bytes": 589,
+    "stderr_bytes": 0
+  },
+  "coverage": {
+    "application": {
+      "functions": 2,
+      "bytes": 277,
+      "identified_bytes": 277
+    },
+    "reached_support": {
+      "functions": 3,
+      "bytes": 350,
+      "identified_bytes": 353,
+      "unreached": "_math_error remains INT3, 3 bytes"
+    },
+    "reached_import_thunks": {
+      "functions": 3,
+      "bytes": 18
+    }
+  },
+  "build_flags": {
+    "native": "-m32 -O0 -g -finstrument-functions (target objects only)",
+    "original_application": "/MD /O2 /Oy- /G3",
+    "original_support": "/MD /Od /G3"
+  },
+  "timings": {
+    "original_full_build_seconds": 1.2550975224003196,
+    "native_full_build_seconds": 1.6615343037992716,
+    "capture": {
+      "audit_seconds": 0.1425261264666915,
+      "original_reuse_copy_seconds": 0.0067443763837218285,
+      "native_capture_seconds": 0.19407357275485992,
+      "verification_seconds": 0.052447679452598095,
+      "total_seconds": 0.3974464097991586
+    },
+    "fixture": {
+      "status": "pass",
+      "stdout_bytes": 589,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0007621748372912407,
+      "execution_seconds": 0.001812255010008812,
+      "verification_seconds": 0.0004253135994076729,
+      "wine_invocations": 0,
+      "command_seconds": 0.07217678241431713
+    },
+    "boundary_checks": 0.018308854661881924
+  },
+  "final_pair": "/root/.ai-tmp/msvc2/vc5.10/rc/frontiers/015-final-accounted",
+  "original_completion_capture": "/root/.ai-tmp/msvc2/vc5.10/rc/frontiers/012-diagnostic-frame/original",
+  "startup_review": "/root/.ai-tmp/msvc2/vc5.10/rc/frontiers/004-startup-provenance",
+  "review_id": "orchestrator-rc-startup-004-2026-10-23",
+  "original_completion_seconds": 0.5004621567204595,
+  "native_completion_seconds": 0.14733472373336554,
+  "cached_import_limitation": "Rust does not qualify cached-register calls. Separate exact IAT-load/callsite/callee-saved-register residual and eight mutation controls. No general dataflow claim.",
+  "proof_files": {
+    "comparison.json": {
+      "sha256": "aede1413402bafca5578b847d56502381a85999b47e1cf711b83cbdd1fd22897",
+      "bytes": 120
+    },
+    "audit.json": {
+      "sha256": "6868940d864b7560ff229aa11702a9bce107aa0ace766f932ac5d977ab87d96d",
+      "bytes": 38811
+    },
+    "audit-original-runtime.json": {
+      "sha256": "cb4394ef698d3134e350fa127b54931b6caca9d1f314c6ee4722192cb5ccb30f",
+      "bytes": 620
+    },
+    "candidate.json": {
+      "sha256": "fa242c5242683593b3891a6e4d04326392e32757e59921bb8350785b601acde5",
+      "bytes": 2398
+    },
+    "timings.json": {
+      "sha256": "9d146444f317000f7d713633a659aee5df8d798565e8e40772d0514fb7041084",
+      "bytes": 234
+    },
+    "graph-metadata.json": {
+      "sha256": "5aa03f3f91b38b149ca0eceb0f0b4d76f455554c44f5d9e310dc76c9e517823d",
+      "bytes": 49
+    },
+    "rc.map": {
+      "sha256": "027a982e113cbb2902e8eacdfdc24e6cb2fd5213c518144dc4d767ae3d8d1f02",
+      "bytes": 4625
+    },
+    "reuse-original.json": {
+      "sha256": "f6631bccc86e0d4991df96d23f60bacc46e30b569cfe1b79c27f28ac0a1c316e",
+      "bytes": 290
+    },
+    "audit-rebuilt-runtime.json": {
+      "sha256": "dcd3b937ea94136bd2689965ae3e7a32765bb56a05751dfcac2fbca7c45daa73",
+      "bytes": 612
+    },
+    "original/events.txt": {
+      "sha256": "6cf1707b64033d530a0bbc1c8a0b49b739cf1155227eaf835fb5dd11f51bceb8",
+      "bytes": 1467
+    },
+    "original/stderr.bin": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "original/stdout.bin": {
+      "sha256": "e5220dc952d908c903a0aae287e9ab3d5a35872aef56f593f3ad2568441423a1",
+      "bytes": 589
+    },
+    "original/debug-original.exe": {
+      "sha256": "a881f008bcf4a43f7b7df1004162ce57870369968cda04d4049b15e59501d3ee",
+      "bytes": 11264
+    },
+    "original/ranges.txt": {
+      "sha256": "39a2ec58422af27c6a5d1b0ec92dced8ab3e3ce59f3ffff733013c645e23c32a",
+      "bytes": 120
+    },
+    "original/compiled-sources.json": {
+      "sha256": "fad0b67cac0cb7abe42934a3e80b648e3c074161d40c9f043f08e6cee40536d1",
+      "bytes": 18594
+    },
+    "original/loaded-crt.bin": {
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "bytes": 277776
+    },
+    "original/loaded-target.bin": {
+      "sha256": "c9f7e207bbae4be91baf6db564bd6b7f660d10287ea46302c792c3dd27b05399",
+      "bytes": 7952
+    },
+    "original/loaded-rcdll.bin": {
+      "sha256": "bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0",
+      "bytes": 108304
+    },
+    "original/MSVCRT.DLL": {
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "bytes": 277776
+    },
+    "original/relocated-text.bin": {
+      "sha256": "a823c7a795c90359572570a299d9256d3441e04c9767489cbc1d9a311b02498c",
+      "bytes": 1438
+    },
+    "original/runtime.json": {
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3
+    },
+    "original/candidate.json": {
+      "sha256": "fa242c5242683593b3891a6e4d04326392e32757e59921bb8350785b601acde5",
+      "bytes": 2398
+    },
+    "original/masked-text.bin": {
+      "sha256": "7a4ab7d401483fec78f20de29fbd7878f5f7afe347d00be5aff21af3cb3e3d4e",
+      "bytes": 1438
+    },
+    "original/receipt.json": {
+      "sha256": "e5bfeca4d0436babf8285fc852345c11ee9b842c9ba01d290146d1a3655583c2",
+      "bytes": 2867
+    },
+    "native/boundary.txt": {
+      "sha256": "6df50f9edf77b8ccb78fdb1bd9d6d2efb5bb2de27aa068243da760d0363ba15c",
+      "bytes": 86
+    },
+    "native/gdb.stdout": {
+      "sha256": "05004a2403fdf322f942f42b98737eb8bc2cf02fae51bdda291eaec9c9e730be",
+      "bytes": 233
+    },
+    "native/trace.txt": {
+      "sha256": "78bab89d28dd8863f0b645b1acf9629c6630841b32bab910f47c31a895859254",
+      "bytes": 22
+    },
+    "native/compiled-sources.json": {
+      "sha256": "d3baf9d4fa3ff0bf66de61f6b43bb517a87bea6ba0a7c960b415b8484eb4608b",
+      "bytes": 179648
+    },
+    "native/candidate.json": {
+      "sha256": "fa242c5242683593b3891a6e4d04326392e32757e59921bb8350785b601acde5",
+      "bytes": 2398
+    },
+    "native/capture.gdb": {
+      "sha256": "c4c52658ffade56c74c105b280391bd941c7a9a36d6075b564c5fb9e7c77b98d",
+      "bytes": 4527
+    },
+    "native/gdb.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "native/stderr.bin": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "native/seen.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "native/filter.txt": {
+      "sha256": "78bab89d28dd8863f0b645b1acf9629c6630841b32bab910f47c31a895859254",
+      "bytes": 22
+    },
+    "native/stdout.bin": {
+      "sha256": "e5220dc952d908c903a0aae287e9ab3d5a35872aef56f593f3ad2568441423a1",
+      "bytes": 589
+    },
+    "native/receipt.json": {
+      "sha256": "9500ddefb721edbd57b2b6dbe7bd54ab5406201722134bec80416f0edd186760",
+      "bytes": 3438
+    }
+  }
+}

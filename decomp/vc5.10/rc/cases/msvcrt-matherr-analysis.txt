@@ -1,0 +1,12 @@
+
+toolchains/5.10/bin/MSVCRT.DLL:     file format pei-i386
+
+
+Disassembly of section .text:
+
+78016e01 <.text+0x15e01>:
+78016e01:	8b 44 24 04          	mov    0x4(%esp),%eax
+78016e05:	c7 05 98 03 04 78 00 	movl   $0x0,0x78040398
+78016e0c:	00 00 00
+78016e0f:	a3 70 20 04 78       	mov    %eax,0x78042070
+78016e14:	c3                   	ret
