@@ -87,10 +87,24 @@ extern "C" void initialize_pool_arenas(void)
     frontend_bss.pools[7].BindArena(0);
 }
 
-/* Pending: actual arena receiver, page count and remaining-byte output. */
 unsigned char *RECON_THISCALL CompilerArena::AllocatePages(unsigned pages,
         unsigned *remaining_bytes)
 {
+    unsigned page_bytes = frontend_data.system_info.dwPageSize;
+    unsigned offset = (unsigned)(cursor - base);
+    unsigned available;
+    BYTE *result = cursor;
+    available = (((pages + 1) * page_bytes + offset - 1) &
+            ~(page_bytes - 1)) - offset;
+    *remaining_bytes = available;
+    cursor += available;
+    if (cursor > committed_limit)
+        CommitExtent();
+    return result;
+}
+
+/* Pending: observes the actual arena, with no stack arguments. */
+void RECON_THISCALL CompilerArena::CommitExtent(void)
+{
     __asm { int 3 }
-    return NULL;
 }

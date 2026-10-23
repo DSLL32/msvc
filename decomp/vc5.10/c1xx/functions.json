@@ -85,7 +85,8 @@
     "CompilerArena::Reset",
     "_initialize_pool_arenas",
     "CompilerPool::BindArena",
-    "CompilerPool::Refill"
+    "CompilerPool::Refill",
+    "CompilerArena::AllocatePages"
   ],
   "driver": [
     {
@@ -979,12 +980,21 @@
     {
       "name": "CompilerArena::AllocatePages",
       "start": 272756312,
-      "end": 272756313,
+      "end": 272756385,
       "source": "src/arenas.cpp",
-      "pending_extent": true,
       "abi": "thiscall8",
       "symbol": "?AllocatePages@CompilerArena@@QAEPAEIPAI@Z",
       "native_symbol": "_ZN13CompilerArena13AllocatePagesEjPj"
+    },
+    {
+      "name": "CompilerArena::CommitExtent",
+      "start": 272750392,
+      "end": 272750393,
+      "source": "src/arenas.cpp",
+      "pending_extent": true,
+      "abi": "thiscall0",
+      "symbol": "?CommitExtent@CompilerArena@@QAEXXZ",
+      "native_symbol": "_ZN13CompilerArena12CommitExtentEv"
     }
   ],
   "status": "autonomous minimal C++ reconstruction active",
@@ -4640,6 +4650,53 @@
         "nonzero_seed_scope": "typed pointer identities and exact scalar17",
         "original_seconds": 16.051647054962814,
         "native_seconds": 5.590714649297297
+      }
+    },
+    {
+      "name": "CompilerArena::AllocatePages",
+      "classification": "application source",
+      "source": "src/arenas.cpp",
+      "source_sha256": "30d48fc0819856d3e19890c632471b70a034d00d05a83c4e1a11e4ec1e431989",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-arena-page-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-arena-page-native-1",
+      "original_receipt_sha256": "d4754721cc7ef3e505d159b6aedb87dd767deeff12726b5eb486feeb2ee64914",
+      "native_receipt_sha256": "693691c61de97ba73370997b91def81aceb5cbc25e597b7396f231319c3a3a22",
+      "trial_sha256": "54b9af29e6e9dd987fbfe617aaa32bb05b213e32602bdfa66af9ead8443a5a8d",
+      "audit_sha256": "b9701cec7b498da72bbe85c30d0d21ec7cc0a2b9836ea1b705d8d5d1782fd47c",
+      "code_chunks": [
+        [
+          126552,
+          126625
+        ]
+      ],
+      "comparison": {
+        "trial": "CompilerArena::AllocatePages",
+        "frontier": "CompilerArena::CommitExtent",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1373,
+        "native_bss_size": 1404,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8371,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 15.347942357882857,
+        "native_seconds": 5.291189911775291
       }
     }
   ],

@@ -9,8 +9,10 @@ FIELDS=('cursor','remaining','minimum_pages','arena')
 
 def check(s,original,native,trial,text,pre,phase,state,seed,final,symbols,traps):
     if 'CompilerPool::BindArena' in trial['accepted']:
-        state=copy.deepcopy(state);state['frontend']['pools'][9]['arena']=0
-        final='%03d'%int(next(row[0]for row in traps if row[1]=='00038f94'))
+        # Constructor-prefix proof ends at a real earlier checkpoint, before
+        # later binding/allocation consumers change these existing fields.
+        state=json.loads((native/'arena-size-entry.json').read_text())
+        final='%03d'%int(next(row[0]for row in traps if row[1]=='00038ed2'))
     model=json.loads((native/'state-model.json').read_text());count=model['pool_projection']['count']
     member=trial['trial']=='CompilerPool::Initialize';initialized='CompilerPool::Initialize' in trial['accepted']
     def raw(suffix,number=1):

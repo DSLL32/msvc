@@ -13,11 +13,11 @@ compares its graph/ABI/imports using the shared Rust auditor. Audit/build target
 may use Wine explicitly; fixture dependencies do not. Fixtures inspect the
 already-built Win32 DLL's exports without executing it.
 
-Accepted code is **76 application functions (3,366 bytes)**, **two historical CRT
+Accepted code is **77 application functions (3,439 bytes)**, **two historical CRT
 support functions (451 bytes)** and **two compiler/linker-generated import thunks (12 bytes)**.
-The 3,829 accepted code bytes are 0.5097% of the 751,216-byte code extent; this is not
+The 3,902 accepted code bytes are 0.5194% of the 751,216-byte code extent; this is not
 a non-CRT coverage percentage. The real minimal compilation remains unfinished,
-stopping in the first real page allocator after nine arena reservations.
+stopping in the first real arena commit helper after nine arena reservations.
 
 ## Target and ABI
 
@@ -310,3 +310,15 @@ controls remain hash-referenced. `cases/minimal/pool-refill-trial.json` records
 16.05s original/5.59s native and14.04ms native-only lifecycle fixture. No new
 fields/support are introduced. The cold max branch is preserved/audited, while
 its dynamic outcome and the post-callee cursor/return await later execution.
+
+The73-byte AllocatePages member is accepted to its real CommitExtent call.
+The first page-count1 request writes available4096 to pool10.remaining and
+advances arena0.cursor by4096, preserving every other original BSS byte and
+native modeled/padding/saved/external byte. CommitExtent has a proved actual
+ECX receiver, no stack arguments, complete formals and real CALL/caller; no
+hidden EAX input or memory commitment is assumed. Eleven affected controls
+take3.47s. Constructor/loop-prefix checks use real earlier captured checkpoints,
+with current two-field writes validated separately. `cases/minimal/arena-page-trial.json`
+records15.35s original/5.29s native and14.46ms native-only lifecycle fixture.
+No new data or support bodies are credited; the old-cursor return awaits the
+genuine commit helper returning.

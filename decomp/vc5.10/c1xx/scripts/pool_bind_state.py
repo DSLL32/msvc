@@ -39,13 +39,13 @@ def check(s,d,original,native,trial,text,state,final,traps):
         before='%03d'%int(old[0][0])
         for prefix in ('frontend-data-','frontend-snapshot-','state-'):
             require((original/(prefix+before+'.bin')).read_bytes()==(original/(prefix+final+'.bin')).read_bytes(),'member changed original initialized/saved/support storage')
-        require(struct.unpack('<4I',(original/('pool-10-'+final+'.bin')).read_bytes())==(0,0,1,0x104c6500),'original pool arena identity differs')
+        require(struct.unpack('<4I',(original/('pool-10-'+'%03d'%int(original_refill[0][0])+'.bin')).read_bytes())==(0,0,1,0x104c6500),'original pool arena identity differs')
         require(semantic(fp((original/('x87-context-%03d.bin'%int(original_refill[0][0]))).read_bytes()))==semantic(refill['fp']),'member changed original FP state')
     if 'CompilerPool::Refill' in trial['accepted']:
         page_pc,page_size=names['_ZN13CompilerArena13AllocatePagesEjPj'];entries=json.loads((native/'arena-page-entries.json').read_text());require(len(entries)==1,'wrong actual first page allocation frontier');page=entries[0]
         arena=state['frontend']['storage']['arenas'][0];output,width=state['frontend']['storage']['pool_10.remaining']
         require(width==4 and page['pc']==page_pc and page['ecx']==arena and page['args']==[1,output] and page['output_value']==0 and page['formal_inventory']==[{'name':'this','type':'CompilerArena *'},{'name':'pages','type':'unsigned int'},{'name':'remaining_bytes','type':'unsigned int *'}],'actual AllocatePages ECX/pages/output pointer/value/formals differ')
-        require(state['symbol']=='CompilerArena::AllocatePages' and state['args']=={'this':arena,'pages':1,'remaining_bytes':output},'named page stub input ABI differs')
+        require(('CompilerArena::AllocatePages' in trial['accepted'] or state['symbol']=='CompilerArena::AllocatePages' and state['args']=={'this':arena,'pages':1,'remaining_bytes':output}),'named page stub input ABI differs')
         require(refill_pc<page['return_pc']<refill_pc+refill_size,'wrong actual refill-to-page caller')
         raw=bytes(d.elf_byte(native,page['return_pc']-5+i)for i in range(5));require(raw[0]==0xe8 and page['return_pc']+struct.unpack_from('<i',raw,1)[0]==page_pc,'not actual refill-to-page CALL')
         require(page['guard']==refill['guard'] and page['last_error']==203 and semantic(page['fp'])==semantic(refill['fp']),'refill changed target state/FP before page helper frontier')
@@ -57,5 +57,26 @@ def check(s,d,original,native,trial,text,state,final,traps):
         before='%03d'%int(original_refill[0][0])
         for prefix in ('frontend-data-','frontend-snapshot-','state-'):
             require((original/(prefix+before+'.bin')).read_bytes()==(original/(prefix+final+'.bin')).read_bytes(),'refill changed original initialized/saved/support storage')
-        require(struct.unpack('<4I',(original/('pool-10-'+final+'.bin')).read_bytes())==(0,0,1,0x104c6500),'original output pointer does not still address actual remaining DWORD')
+        require(struct.unpack('<4I',(original/('pool-10-'+'%03d'%int(original_refill[0][0])+'.bin')).read_bytes())==(0,0,1,0x104c6500),'original output pointer does not still address actual remaining DWORD')
         require(semantic(fp((original/('x87-context-%03d.bin'%int(original_page[0][0]))).read_bytes()))==semantic(page['fp']),'original/native page frontier FP context differs')
+    if 'CompilerArena::AllocatePages' in trial['accepted']:
+        commit_pc,commit_size=names['_ZN13CompilerArena12CommitExtentEv'];entries=json.loads((native/'arena-commit-entries.json').read_text());require(len(entries)==1,'wrong actual CommitExtent frontier inventory');commit=entries[0]
+        require(commit['pc']==commit_pc and commit['ecx']==arena and commit['args']==[] and commit['formal_inventory']==[{'name':'this','type':'CompilerArena *'}] and state['symbol']=='CompilerArena::CommitExtent' and state['args']=={'this':arena},'actual pending CommitExtent ECX/no-stackargs/formals differ')
+        require(page_pc<commit['return_pc']<page_pc+page_size,'wrong allocator-to-commit caller')
+        raw=bytes(d.elf_byte(native,commit['return_pc']-5+i)for i in range(5));require(raw[0]==0xe8 and commit['return_pc']+struct.unpack_from('<i',raw,1)[0]==commit_pc,'not actual allocator-to-commit CALL')
+        old_commit=re.findall(r'^trap seq=(\d+) rva=0001d738 esp=(\w+) eax=(\w+) ecx=(\w+) edi=(\w+) stack=([0-9a-f,]+)$',text,re.M)
+        require(len(old_commit)==1 and int(old_commit[0][3],16)==0x104c6500 and int(old_commit[0][5].split(',')[0],16)==0x1041ee9f,'actual original CommitExtent receiver/caller differs')
+        native_bss_start=state['frontend']['storage']['saved_state'][0];arena_offset=arena-native_bss_start;out_offset=output-native_bss_start
+        before=bytearray.fromhex(page['guard']['bss']);native_fields=list(struct.unpack_from('<8I',before,arena_offset));cursor,limit,base=native_fields[:3]
+        offset=(cursor-base)&0xffffffff;available=((((page['args'][0]+1)*page_bytes+offset-1)&(~(page_bytes-1)&0xffffffff))-offset)&0xffffffff
+        require(available==4096 and cursor==limit==base and base and cursor+available>limit,'actual page arithmetic/prestate differs')
+        expected=copy.deepcopy(page['guard']);struct.pack_into('<I',before,out_offset,available);struct.pack_into('<I',before,arena_offset,cursor+available);expected['bss']=before.hex()
+        require(commit['guard']==expected and commit['last_error']==203 and semantic(commit['fp'])==semantic(page['fp']),'allocator changed native state beyond count/cursor writes')
+        expected_pools=copy.deepcopy(json.loads((native/'arena-size-entry.json').read_text())['frontend']['pools']);expected_pools[9].update(arena=arena,remaining=available)
+        require(state['frontend']['arenas']==list(struct.unpack_from('<72I',before,arena_offset)) and state['frontend']['pools']==expected_pools,'serialized final arena/pool state differs from exact actual writes')
+        original_bss=bytearray((original/'pool-refill-bss-frontier.bin').read_bytes());old_cursor,old_limit,old_base=struct.unpack_from('<3I',original_bss,0xc6500-0xb9000)
+        require(old_cursor==old_limit==old_base and old_base,'original page input pointer identities differ')
+        struct.pack_into('<I',original_bss,0xc0814-0xb9000,available);struct.pack_into('<I',original_bss,0xc6500-0xb9000,old_cursor+available)
+        require((original/'arena-page-bss-frontier.bin').read_bytes()==bytes(original_bss),'allocator changed original whole BSS beyond count/cursor writes')
+        require((original/('arenas-'+final+'.bin')).read_bytes()==bytes(original_bss[0xc6500-0xb9000:0xc6500-0xb9000+288]) and struct.unpack('<4I',(original/('pool-10-'+final+'.bin')).read_bytes())==(0,available,1,0x104c6500),'original final typed field/value aliases differ')
+        require(semantic(fp((original/('x87-context-%03d.bin'%int(old_commit[0][0]))).read_bytes()))==semantic(commit['fp']),'CommitExtent FP context differs')

@@ -82,7 +82,8 @@
     "CompilerArena::Reset",
     "_initialize_pool_arenas",
     "CompilerPool::BindArena",
-    "CompilerPool::Refill"
+    "CompilerPool::Refill",
+    "CompilerArena::AllocatePages"
   ],
   "trial": null,
   "ranges": [
@@ -734,7 +735,13 @@
       "start_rva": 402451,
       "end_rva": 402458,
       "entry": 0
+    },
+    {
+      "owner": "CompilerArena::AllocatePages",
+      "start_rva": 126552,
+      "end_rva": 126625,
+      "entry": 1
     }
   ],
-  "stage": "CompilerPool::Refill accepted; next frontier CompilerArena::AllocatePages"
+  "stage": "CompilerArena::AllocatePages accepted; next frontier CompilerArena::CommitExtent"
 }

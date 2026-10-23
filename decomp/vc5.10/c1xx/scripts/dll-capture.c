@@ -1011,11 +1011,11 @@ int main(int argc, char **argv)
                     readmem(base + 0xb9000, action_bss, sizeof(action_bss));
                     save_blob(address == base + 0x38bea ? "action-bss-entry.bin" : "action-bss-result.bin", action_bss, sizeof(action_bss));
                 }
-                if (address == base + 0x38f94 || address == base + 0x1ee29 || address == base + 0x1ee58) {
+                if (address == base + 0x38f94 || address == base + 0x1ee29 || address == base + 0x1ee58 || address == base + 0x1d738) {
                     BYTE *pool_bss=(BYTE *)malloc(0xf69c);
                     if(!pool_bss)fail("pool binding BSS observation");
                     readmem(base+0xb9000,pool_bss,0xf69c);
-                    save_blob(address==base+0x38f94 ? "pool-bind-bss-entry.bin" : address==base+0x1ee29 ? "pool-bind-bss-frontier.bin" : "pool-refill-bss-frontier.bin",pool_bss,0xf69c);free(pool_bss);
+                    save_blob(address==base+0x38f94 ? "pool-bind-bss-entry.bin" : address==base+0x1ee29 ? "pool-bind-bss-frontier.bin" : address==base+0x1ee58 ? "pool-refill-bss-frontier.bin" : "arena-page-bss-frontier.bin",pool_bss,0xf69c);free(pool_bss);
                 }
                 if (address == base + 0x38f0a && reset_observers) {
                     DWORD fields[8],words[1];BYTE *blob;char name[80];
@@ -1110,11 +1110,11 @@ int main(int argc, char **argv)
                     readmem(base + 0xb9000, action_bss, sizeof(action_bss));
                     save_blob(address == base + 0x38bea ? "action-bss-entry.bin" : "action-bss-result.bin", action_bss, sizeof(action_bss));
                 }
-                if (address == base + 0x38f94 || address == base + 0x1ee29 || address == base + 0x1ee58) {
+                if (address == base + 0x38f94 || address == base + 0x1ee29 || address == base + 0x1ee58 || address == base + 0x1d738) {
                     BYTE *pool_bss=(BYTE *)malloc(0xf69c);
                     if(!pool_bss)fail("pool binding BSS observation");
                     readmem(base+0xb9000,pool_bss,0xf69c);
-                    save_blob(address==base+0x38f94 ? "pool-bind-bss-entry.bin" : address==base+0x1ee29 ? "pool-bind-bss-frontier.bin" : "pool-refill-bss-frontier.bin",pool_bss,0xf69c);free(pool_bss);
+                    save_blob(address==base+0x38f94 ? "pool-bind-bss-entry.bin" : address==base+0x1ee29 ? "pool-bind-bss-frontier.bin" : address==base+0x1ee58 ? "pool-refill-bss-frontier.bin" : "arena-page-bss-frontier.bin",pool_bss,0xf69c);free(pool_bss);
                 }
                 if (address == base + 0x38f0a && reset_observers) {
                     DWORD fields[8],words[1];BYTE *blob;char name[80];
