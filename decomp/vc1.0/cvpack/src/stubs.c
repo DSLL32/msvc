@@ -64,7 +64,6 @@ void pack_old_lines(void * lines,CvDirectoryEntry * entry,ModuleInfo * module) {
 
 
 unsigned short __fastcall compact_old_type(unsigned short type) { __asm { int 3 } return 0; }
-void finish_recursive_types(void) { __asm { int 3 } }
 
 unsigned short numeric_leaf_size(const unsigned char *leaf) { __asm { int 3 } return 0; }
 void read_old_global_types(void *types, unsigned long size) { __asm { int 3 } }

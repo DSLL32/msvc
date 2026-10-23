@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "finish_recursive_types",
-    "native_function": "finish_recursive_types",
+    "logical": "find_named_type",
+    "native_function": "find_named_type",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -93,7 +93,8 @@
       "hash_type",
       "save_type",
       "append_buffer",
-      "finish_recursive_types"
+      "finish_recursive_types",
+      "find_named_type"
     ]
   },
   "complete_reference": {

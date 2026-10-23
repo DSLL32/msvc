@@ -35,7 +35,7 @@ typedef struct TypeRecord {
 /* Linked cache nodes reset between modules; later passes fill their state. */
 typedef struct TypeCacheEntry {
     unsigned char *name, *type;
-    unsigned short index;
+    unsigned short index, flags;
     struct TypeCacheEntry *next;
 } TypeCacheEntry;
 typedef char TypeCacheEntrySize[(sizeof(TypeCacheEntry)==16)?1:-1];

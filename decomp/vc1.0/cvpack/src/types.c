@@ -1318,3 +1318,77 @@ void *__fastcall append_buffer(GrowingBuffer *buffer, const void *data, unsigned
     buffer->last->used += size;
     return result;
 }
+
+/* Deferred local definitions awaiting their named global type match. */
+typedef struct TypeMatch {
+    unsigned short type, reserved;
+    TypeCacheEntry *named;
+    struct TypeMatch *next;
+} TypeMatch;
+TypeMatch *first_type_match, *last_type_match;
+
+void finish_recursive_types(void)
+{
+    TypeMatch *match = first_type_match;
+    TypeRecord *entry;
+    unsigned char *original, *record;
+    unsigned short relative, unused, converted, *field;
+    unsigned short length, other_length;
+#ifdef RECON_NATIVE_TEST
+    /* The Win32 loop reads next after free. No host allocator lifetime
+       equivalence has been established for that nonempty queue path. */
+    if (match) __asm { int 3 }
+#define MATCH_OFFSET(offset) do { if (entry->recursive_count >= 12) __asm { int 3 } \
+    entry->recursion.small[entry->recursive_count++] = (offset); } while (0)
+#else
+#define MATCH_OFFSET(offset) \
+    (entry->recursion.small[entry->recursive_count++] = (offset))
+#endif
+    while (match) {
+        relative = match->type-first_user_type;
+        if (!type_signature && relative == (unsigned short)(0xffff-first_user_type))
+            entry = empty_type;
+        else {
+            entry = &local_type_records[relative];
+            if (entry->flags & 0x1000)
+                entry = get_type_record((unsigned short)(entry->forward_index-0x1000), &unused);
+        }
+        original = entry->data;
+        record = entry->data;
+        switch (*(unsigned short *)(record+2)) {
+        case 4: case 5:
+            field = (unsigned short *)(record+12);
+            *field = compact_new_type(*field);
+            if (recursive_type_reference) MATCH_OFFSET(12);
+            converted = compact_type_list(*(unsigned short *)(record+6), *(unsigned short *)(record+4));
+            *(unsigned short *)(entry->data+6) = converted;
+            if (recursive_type_reference) MATCH_OFFSET(6);
+            break;
+        case 6:
+            field = (unsigned short *)(record+6);
+            *field = compact_type_list(*field, *(unsigned short *)(record+4));
+            if (recursive_type_reference) MATCH_OFFSET(6);
+            break;
+        case 7:
+            converted = compact_new_type(*(unsigned short *)(record+6));
+            record = entry->data;
+            *(unsigned short *)(record+6) = converted;
+            if (recursive_type_reference) MATCH_OFFSET(6);
+            converted = compact_type_list(*(unsigned short *)(record+8), *(unsigned short *)(record+4));
+            *(unsigned short *)(entry->data+8) = converted;
+            if (recursive_type_reference) MATCH_OFFSET(8);
+            break;
+        }
+        if (!(match->named->flags & 1)) {
+            length = *(unsigned short *)match->named->type;
+            other_length = *(unsigned short *)original;
+            if (other_length < length) length = other_length;
+            memcpy(match->named->type+2, original+2, length);
+            match->named->flags |= 1;
+        }
+        free(match);
+        match = match->next;
+    }
+    last_type_match = first_type_match = NULL;
+#undef MATCH_OFFSET
+}

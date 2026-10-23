@@ -3,6 +3,7 @@ import hashlib,re,json
 from state import BINARY
 
 def validate(item,pe):
+    if item.get('register'):assert item['register']=='edx','unsupported typed output register'
     evidence=BINARY/item['evidence']
     assert hashlib.sha256(evidence.read_bytes()).hexdigest()==item['evidence_sha256'],'changed stack-output proof'
     proof=json.loads(evidence.read_text())
@@ -17,7 +18,7 @@ def compare(item,descriptions,words,parameters,events,pe):
     proof=validate(item,pe)
     for r in proof['return_slots']:assert words[r['slot']]==r['address'],'unknown stack-output caller'
     esp=int(re.search(r'^registers .* esp ([0-9a-f]+) ',events,re.M)[1],16)
-    value=words[item['slot']];actual=parameters[item['name']]
+    value=words[item['register']]if item.get('register')else words[item['slot']];actual=parameters[item['name']]
     assert value==esp+proof['esp_offset'],'output pointer differs from original caller local'
     if 'size_argument'in item:
         count=next(r for r in descriptions if r['name']==item['size_argument'])

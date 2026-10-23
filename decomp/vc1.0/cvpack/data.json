@@ -1099,5 +1099,19 @@
     "original": 211768,
     "size": 4,
     "source": "src/types.c"
+  },
+  {
+    "name": "first_type_match",
+    "symbol": "_first_type_match",
+    "original": 229912,
+    "size": 4,
+    "source": "src/types.c"
+  },
+  {
+    "name": "last_type_match",
+    "symbol": "_last_type_match",
+    "original": 229916,
+    "size": 4,
+    "source": "src/types.c"
   }
 ]

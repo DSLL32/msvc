@@ -22,8 +22,8 @@
   },
   "native_allocation_line": 1306,
   "sources": {
-    "src/types.c": "b4465be664ee2a84ade5ecc22f6476e46eed53aad2a6a803af23cada5f87b231",
-    "src/types.h": "88df451bbd2a8fe5d74d15a26b06e57a3f4b66b89b250babd8c035ac38d94c3d"
+    "src/types.c": "7c146fb710ee215a7842008f4367893cf6fef34722cac956f7de3fc56b825e90",
+    "src/types.h": "585f9c16118e97d08940f55956091d88dc7cfee8df2aba3881f751daee7f596a"
   },
   "instructions": [
     {
@@ -90,5 +90,38 @@
       "before": 4133,
       "after": 4097
     }
-  ]
+  ],
+  "extension": {
+    "frontier": 109888,
+    "record_indices": [
+      4115,
+      4133,
+      4134,
+      4193,
+      4194,
+      4195
+    ],
+    "copy_sizes": [
+      8,
+      12,
+      8,
+      16,
+      12,
+      8
+    ],
+    "pdb_writes": [
+      {
+        "type_index": 4194,
+        "field": 10,
+        "before": 4193,
+        "after": 4099
+      },
+      {
+        "type_index": 4195,
+        "field": 6,
+        "before": 4194,
+        "after": 4100
+      }
+    ]
+  }
 }

@@ -1,0 +1,64 @@
+{
+  "application_functions": 76,
+  "application_bytes": 27291,
+  "next": "find_named_type",
+  "source": "Whole finish_recursive_types262d0..264d5 with original queue iteration, class/union/enum compaction, cache update and free graph. Recovered12-byte TypeMatch and TypeCacheEntry.flags10, with contextual first/last38218/3821c globals. No queue object has been reached or given ownership/equality credit.",
+  "scope": "Actual empty queue remains null across three reached calls. Original Win32 post-free next read/order preserved; native nonempty queue traps before dereference or free until its lifetime is proved. Root explicitly approved this limitation; native-only GDB negative setshead1 and verifies INT3 in finish_recursive_types, not original-path coverage or CRT classification.",
+  "buffer": "Same one32512-byte lifetime now six actual append entries/returns: original types4115/4133/4134/4193/4194/4195 publish1000..1005;64 defined payload bytes and24 defined type-page bytes, own tails unchanged. Same generic ownership controls reused;8 new scope controls exercise additionalcopies/slots rather than duplicating wholematrix.",
+  "pdb": "Four exact in-place fields tied to frozen preimage and observed copy sources: old procedure/pointer plus4194.field10:4193->1003 and4195.field6:4194->1004. Complete remaining4140-byte payload exact; input oracle unchanged.",
+  "stack_output": "Next find_named_type1ad40 gets EDX=&compact_new_type::named. Exact original LEA+call/frame/return chain, ESP+32, native actual pointer/local name/declared4-byte size prove identity. Full undefined prebytes retained without equality credit; only EDX register transport added.6 negatives reject wrong original/nativepointer/frame/return/missing proof/unsupported register; positive distinctprebytes.",
+  "rejection_controls": 436,
+  "new_controls": 15,
+  "checks": {
+    "incremental-build": {
+      "command": [
+        "make",
+        "-j4",
+        "all",
+        "native",
+        "build/debug-run.exe",
+        "graph-identities",
+        "graph-audit-tool"
+      ],
+      "status": 0,
+      "elapsed": 3.62320196069777
+    },
+    "audit": {
+      "command": [
+        "python3",
+        "scripts/audit.py"
+      ],
+      "status": 0,
+      "elapsed": 0.5390144316479564
+    },
+    "negatives": {
+      "command": [
+        "python3",
+        "scripts/check-rejections.py"
+      ],
+      "status": 0,
+      "elapsed": 10.51557451300323
+    },
+    "fixtures": {
+      "command": [
+        "python3",
+        "scripts/check-native.py"
+      ],
+      "status": 0,
+      "elapsed": 0.37211691960692406
+    }
+  },
+  "native_acceptance_seconds": {
+    "setup": 0.1591129284352064,
+    "execution": 0.015054131858050823,
+    "debugging": 2.0883426228538156,
+    "checks": 0.031310892663896084,
+    "total": 2.2938276939094067
+  },
+  "original_acceptance_seconds": {
+    "setup": 0.25472884625196457,
+    "execution": 0.9852922484278679,
+    "total": 1.2628684686496854
+  },
+  "remaining": "Current initial DLL case remains partial. Nonempty queue lifetime/public reachability remains unknown; no allocator post-free default or universal CRT equivalence inferred. Guarded DLL/PDB CRTscope remains unchanged; no new shim gap."
+}

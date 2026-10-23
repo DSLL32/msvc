@@ -1,4 +1,4 @@
-"""Observed type buffer writes and three fully owned published hash nodes.
+"""Observed type buffer writes and fully owned published hash nodes.
 
 Malloc payload/padding remain raw evidence: only each observed copy's bytes
 become defined. No allocator extent, initial-zero, or universal default claim.
@@ -26,6 +26,8 @@ def validate(config,pe):
     assert lines[line-2].strip()=='payload = checked_alloc(buffer->block_size);'and lines[line-1].strip()=='block->data = payload;','type buffer allocation site differs'
     assert p['pdb_defined_writes']==[dict(type_index=4133,field=10,before=4115,after=0x1000),dict(type_index=4134,field=6,before=4133,after=0x1001)],'unreviewed PDB in-place writes'
     assert p['defined_hash_node_ranges']==[[0,2],[4,12]]and p['reserved_hash_node_range']==[2,4]
+    if p.get('extension'):
+        assert p['extension']==dict(frontier=0x1ad40,record_indices=[4115,4133,4134,4193,4194,4195],copy_sizes=[8,12,8,16,12,8],pdb_writes=[dict(type_index=4194,field=10,before=4193,after=0x1003),dict(type_index=4195,field=6,before=4194,after=0x1004)]),'unreviewed type buffer extension'
     return p
 
 
@@ -57,6 +59,10 @@ def parse(events):
                 assert current is not None and label in mapping,'unowned buffer memory event';key=mapping[label]
             assert key not in current,'duplicate buffer state field'
             current[key]=raw;current[key+'_address']=address
+    if 'frontier'in result:
+        match=re.search(r'^exception 80000003 va ([0-9a-f]+) ',events,re.M)
+        assert match and int(match[1],16)in(0x262d0,0x1ad40),'unreviewed original type buffer frontier'
+        result['frontier']['name']='finish_recursive_types'if int(match[1],16)==0x262d0 else 'find_named_type'
     return result
 
 
@@ -67,8 +73,16 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case):
         return None
     assert p and case=='hello-debug-dll'and not native.get('error'),'native buffer observer failed'
     old=parse(events);results=[];spaces=[]
+    frontier=native['frontier']['name']
+    assert frontier in('finish_recursive_types','find_named_type'),'unsupported type buffer consumer'
+    indices=p['record_indices'];sizes=p['copy_sizes'];write_sites=[(1,10,4115,0x1000),(2,6,4133,0x1001)]
+    if frontier=='find_named_type':
+        assert p['extension']==dict(frontier=0x1ad40,record_indices=[4115,4133,4134,4193,4194,4195],copy_sizes=[8,12,8,16,12,8],pdb_writes=[dict(type_index=4194,field=10,before=4193,after=0x1003),dict(type_index=4195,field=6,before=4194,after=0x1004)]),'unreviewed type buffer extension'
+        indices=p['extension']['record_indices'];sizes=p['extension']['copy_sizes']
+        write_sites +=[(4,10,4193,0x1003),(5,6,4194,0x1004)]
+    count=len(indices)
     for side,walks in((old,old_walks),(native,new_walks)):
-        assert len(side['allocations'])==1 and len(side['entries'])==len(side['returns'])==3,'missing/extra type buffer copy lifetime'
+        assert len(side['allocations'])==1 and len(side['entries'])==len(side['returns'])==count,'missing/extra type buffer copy lifetime'
         a=side['allocations'][0];assert a['base']and a['node']and a['size']==0x7f00
         assert len(bytes.fromhex(a['before']))==0x7f00 and bytes.fromhex(a['node_before'])==b'\0'*12,'buffer node calloc ownership differs'
         assert word(bytes.fromhex(a['root_before']),0)==0x7f00 and bytes.fromhex(a['root_before'])[4:]==b'\0'*20,'buffer root was already active at allocation'
@@ -78,14 +92,14 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case):
         expected=bytearray(master[64:]);writes=[]
         # These are the two actual defined fields consumed by the observed
         # copies, with their preimage indices retained in the frozen PDB.
-        for rank,field,prior,replacement in((1,10,4115,0x1000),(2,6,4133,0x1001)):
+        for rank,field,prior,replacement in write_sites:
             entry=side['entries'][rank];offset=entry['source']-block['address']+field
             assert 12<=offset<=4150 and word(expected,offset-12,2)==prior,'PDB conversion field/preimage differs'
             expected[offset-12:offset-10]=replacement.to_bytes(2,'little')
-            writes.append(dict(offset=offset,before=prior.to_bytes(2,'little').hex(),after=replacement.to_bytes(2,'little').hex(),type_index=p['record_indices'][rank],field=field))
+            writes.append(dict(offset=offset,before=prior.to_bytes(2,'little').hex(),after=replacement.to_bytes(2,'little').hex(),type_index=indices[rank],field=field))
         assert defined[12:4152]==expected,'unexpected PDB in-place modification'
         before=bytes.fromhex(a['before']);used=0;copies=[];last=before
-        for i,(entry,returned,index,size)in enumerate(zip(side['entries'],side['returns'],p['record_indices'],p['copy_sizes'])):
+        for i,(entry,returned,index,size)in enumerate(zip(side['entries'],side['returns'],indices,sizes)):
             assert entry['sequence']==returned['sequence']==i+1 and entry['size']==size,'buffer call inventory differs'
             assert entry['buffer']==a['buffer']and entry['owner']==table['address']+(index-0x1000)*28,'buffer call parent ownership differs'
             source=entry['source'];offset=source-block['address'];raw=bytes.fromhex(entry['source_bytes'])
@@ -100,17 +114,17 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case):
             assert len(node)==12 and [word(node,o)for o in(0,4,8)]==[used,a['base'],0],'buffer post-copy block state differs'
             copies.append(dict(index=index,source_offset=offset,size=size,offset=used-size,bytes=raw.hex(),result=returned['result']))
             last=post
-        f=side['frontier'];assert f['name']=='finish_recursive_types'and f['root']==side['returns'][-1]['root']and f['node']==side['returns'][-1]['node']and f['payload']==side['returns'][-1]['payload'],'buffer frontier changed without an observed write'
+        f=side['frontier'];assert f['name']==frontier and f['root']==side['returns'][-1]['root']and f['node']==side['returns'][-1]['node']and f['payload']==side['returns'][-1]['payload'],'buffer frontier changed without an observed write'
         extra={'type_buffer_payload':[dict(address=a['base'],bytes=f['payload'])],'type_buffer_block':[dict(address=a['node'],bytes=f['node'])]}
-        nodes=side['hash_nodes'];assert len(nodes)==3,'missing/extra published type hash nodes'
+        nodes=side['hash_nodes'];assert len(nodes)==count,'missing/extra published type hash nodes'
         heads=bytes.fromhex(walks['type_hash_buckets'][0]['bytes']);counts=bytes.fromhex(walks['type_hash_counts'][0]['bytes']);seen=set();logical=[]
-        by_address={r['address']:(key,r)for key,r in nodes.items()};assert len(by_address)==3,'aliased hash node allocation'
+        by_address={r['address']:(key,r)for key,r in nodes.items()};assert len(by_address)==count,'aliased hash node allocation'
         for bucket in range(4096):
             pointer=word(heads,bucket*4);rank=0
             while pointer:
                 assert pointer in by_address and pointer not in seen,'unowned/cyclic type hash node'
                 seen.add(pointer);key,row=by_address[pointer];raw=bytes.fromhex(row['bytes']);assert len(raw)==12
-                index=word(raw,0,2);assert key=='hash-%d-%d'%(bucket,index)and 0x1000<=index<0x1003,'wrong type hash owner/index'
+                index=word(raw,0,2);assert key=='hash-%d-%d'%(bucket,index)and 0x1000<=index<0x1000+count,'wrong type hash owner/index'
                 copy=copies[index-0x1000];assert word(raw,4)==copy['result'],'type hash record pointer does not own observed copy'
                 record=bytes.fromhex(table['bytes'])[(copy['index']-0x1000)*28:(copy['index']-0x1000+1)*28]
                 assert word(record,0)==copy['result']and word(record,4,2)==index,'type record publication differs'
@@ -118,7 +132,7 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case):
                 logical.append(dict(bucket=bucket,index=index,data_offset=copy['offset'],next_index=word(bytes.fromhex(by_address[word(raw,8)][1]['bytes']),0,2)if word(raw,8)else None))
                 pointer=word(raw,8);rank+=1
             assert word(counts,bucket*2,2)==rank,'type hash count does not match owned chain'
-        assert len(seen)==3
+        assert len(seen)==count
         owners=namespace(walks)+namespace(extra)
         new_owners=namespace(extra)
         for address,size,identity in new_owners:
@@ -130,7 +144,7 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case):
     assert a['buffer']==0x3301c and b['buffer']==state['global_addresses']['type_symbol_storage'],'buffer root identity differs'
     for entry,returned in zip(old['entries'],old['returns']):
         assert entry['return_address']==0x19a65 and returned['esp']==entry['esp']+8,'buffer callee cleanup/caller proof differs'
-    for site,next,count in((0x22f40,0x22f41,3),(0x22f6d,0x22f70,1),(0x19a65,0x19a67,3)):
+    for site,next,count in((0x22f40,0x22f41,count),(0x22f6d,0x22f70,1),(0x19a65,0x19a67,count)):
         assert events.splitlines().count('buffer-rearm %08x %08x'%(site,next))==count,'missing per-call buffer observer rearm'
     return dict(comparison=results[0],original_namespace=spaces[0],native_namespace=spaces[1],original=old,native=native)
 

@@ -1,0 +1,38 @@
+{
+  "size": 4,
+  "offset": 0,
+  "owner": "compact_new_type",
+  "local": "named",
+  "esp_offset": 32,
+  "callsite": {
+    "start": 157305,
+    "end": 157318,
+    "sha256": "00438969883454c6a3f040a7606133929429c87fd50b4fadddb853311d5e8010"
+  },
+  "frame": {
+    "start": 156960,
+    "end": 156967,
+    "sha256": "7bcd22b879fcf7b46787dc97442a55fba1956d6c5be7cdc7f267092e8f98db37",
+    "allocation": 16,
+    "entry_bias": 24
+  },
+  "return_slots": [
+    {
+      "slot": 0,
+      "address": 157318
+    },
+    {
+      "slot": 10,
+      "address": 156937
+    },
+    {
+      "slot": 12,
+      "address": 153648
+    },
+    {
+      "slot": 14,
+      "address": 151922
+    }
+  ],
+  "scope": "Exact tagPAINTSTRUCT4185 class/structure caller. EDX=&named four-byte output local. Undefined entry contents retained on each side without equality credit; no dereference until actual definition. Other caller/local/register/frame fails."
+}

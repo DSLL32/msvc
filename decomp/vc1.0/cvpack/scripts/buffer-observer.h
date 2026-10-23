@@ -21,9 +21,9 @@ static int observe_buffer(HANDLE child,HANDLE original,HANDLE log,HANDLE thread,
     memset(&c,0,sizeof(c));c.ContextFlags=CONTEXT_FULL;
     if(buffer_step || !GetThreadContext(thread,&c) || c.Eip!=site+1)return -1;
     if(site==0x22f40) {
-        if(buffer_pending || buffer_sequence>=3 || c.Ecx!=0x3301c ||
+        if(buffer_pending || buffer_sequence>=6 || c.Ecx!=0x3301c ||
             !ReadProcessMemory(child,(void *)c.Esp,words,8,&bytes) || bytes!=8 || words[0]!=0x19a65 ||
-            (words[1]!=8 && words[1]!=12) ||
+            (words[1]!=8 && words[1]!=12 && words[1]!=16) ||
             !ReadProcessMemory(child,(void *)c.Ecx,raw,24,&bytes) || bytes!=24 || raw[0]!=0x7f00)return -1;
         ++buffer_sequence;buffer_pending=1;
         sprintf(line,"buffer-entry %lu %08lx %08lx %lu %08lx %08lx %08lx\n",buffer_sequence,c.Ecx,c.Edx,words[1],c.Ebx,c.Esp,words[0]);
@@ -74,9 +74,9 @@ static int rearm_buffer(HANDLE child,HANDLE log,HANDLE thread,DWORD address,DWOR
 
 static int dump_buffer(HANDLE child,HANDLE log,DWORD frontier)
 {
-    DWORD bytes,pointer,record[3],bucket,j,total=0,seen[3];char label[64];
+    DWORD bytes,pointer,record[3],bucket,j,total=0,seen[6];char label[64];
     if(!buffer_initialized)return 1;
-    if(frontier!=0x262d0 || buffer_step || buffer_pending || buffer_sequence!=3 ||
+    if((frontier!=0x262d0 && frontier!=0x1ad40) || buffer_step || buffer_pending || buffer_sequence!=(frontier==0x262d0?3:6) ||
         !buffer_hex(child,log,"frontier-root",0x3301c,24) || !buffer_hex(child,log,"frontier-node",buffer_node,12) ||
         !buffer_hex(child,log,"frontier-payload",buffer_base,sizeof(buffer_before)))return 0;
     if(!ReadProcessMemory(child,(void *)0x37170,&pointer,4,&bytes) || bytes!=4 ||
@@ -84,7 +84,7 @@ static int dump_buffer(HANDLE child,HANDLE log,DWORD frontier)
     for(bucket=0;bucket<4096;++bucket) {
         memcpy(&pointer,walk_bytes+bucket*4,4);
         while(pointer) {
-            if(total==3)return 0;
+            if(total==6)return 0;
             for(j=0;j<total;++j)if(seen[j]==pointer)return 0;
             seen[total++]=pointer;
             if(!ReadProcessMemory(child,(void *)pointer,record,12,&bytes) || bytes!=12)return 0;
@@ -93,5 +93,5 @@ static int dump_buffer(HANDLE child,HANDLE log,DWORD frontier)
             pointer=record[2];
         }
     }
-    return total==3;
+    return total==(frontier==0x262d0?3:6);
 }

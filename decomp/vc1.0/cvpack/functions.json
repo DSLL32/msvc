@@ -2509,16 +2509,37 @@
       "native": "finish_recursive_types",
       "symbol": "_finish_recursive_types",
       "original": 156368,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        156368,
+        156885
+      ],
       "abi": "void finish_recursive_types(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0076-finish_recursive_types/proof.json",
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [],
+      "required_pdb_record_proof": true,
+      "required_symbol_output_observation": true,
+      "required_type_page_observation": true,
+      "required_buffer_storage_observation": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "allocate_symbol",
@@ -3985,8 +4006,10 @@
         {
           "name": "named",
           "register": "edx",
-          "kind": "pointer",
-          "bits": 32
+          "kind": "stack-output",
+          "bits": 32,
+          "evidence": "cases/abi/find-named-output.json",
+          "evidence_sha256": "db376ce62a833158523d4e1bf63fd5ff011a24bd02c5efdd031a2f047314e522"
         },
         {
           "name": "forward",
@@ -5049,6 +5072,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 75
+    },
+    {
+      "function": "finish_recursive_types",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 76
     }
   ],
   "support_unmasked": [
@@ -5643,11 +5672,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "f3c0d8a33042b696ea0d25751fe12f1de647d4e4cf8c174bca4cdcaf4074ca87"
+    "evidence_sha256": "da66a2b371cd036a659c1a68a789e86b966238269f31acdb4a30a5dda2a6dc49"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "762e2d87bc5381d47f28352c58eca38fe7b32e8b8f32a350720044ad5413a473"
+    "evidence_sha256": "e9216c40ee8a9793dd942868cba45081edc119a5f8cae3287074bbbe3071ee8a"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -5679,22 +5708,22 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "307257568896eb9a9e264b4c8a12b2bb403b95d7a38c8a1faca0bfc3e2cfe3ed"
+    "evidence_sha256": "ddc0a0bed60c511fdd8f824ad71818958c59b59e9a3089460f42ffe253ccba80"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "5d25c0e4b5d1e56a2a73fca7da1a17d98bac3303afd4a758061d40cf5858bf40"
+    "evidence_sha256": "2d0a4be0498eb0d8909c31ff1b1bedb136ea82747d25d26082a5ee2ebe12bcf7"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
-    "evidence_sha256": "fce26fda1e2245d7c96608c140c39aac68b7712fcb9c6bb2c95e1e1558243343"
+    "evidence_sha256": "e5f7652f75c88a2b8e6c893a12474c6c8d8429037204c7f4502aac3b1116a977"
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "07f8c893d2aa4b224b9de4b6c86a3d492ce2d9592956f5b2bd3d2e512e23e1ea"
+    "evidence_sha256": "0f0be8284687e1101a67eec352f85402f704fa278c84a94cd931b18dfca813ae"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
-    "evidence_sha256": "96aeda4f879cb54f25c33952d26b75300af71e5d9ff4bf009a189073ab4be2ed"
+    "evidence_sha256": "325298e78a16f4bdb2e2e49a230f39b6ceef212e8d5d9fe8b2ebad3e8f837680"
   }
 }

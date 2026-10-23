@@ -735,6 +735,7 @@ static int dump_symbol_allocation(HANDLE child,HANDLE log,DWORD frontier)
     else if(frontier==0x255c0) { defined=16;offset=4; }
     else if(frontier==0x25800 || frontier==0x1b500) { defined=40;offset=28; }
     else if(frontier==0x26520 || frontier==0x27100 || frontier==0x272a0 || frontier==0x19580 || frontier==0x1c1a0 || frontier==0x19860 || frontier==0x22f40 || frontier==0x262d0) { defined=40;offset=202; }
+    else if(frontier==0x1ad40) { defined=40;offset=384; }
     else return 0;
     if(symbol_step || symbol_size!=5113 ||
        !ReadProcessMemory(child,(void *)0x335e4,&input,4,&bytes) || bytes!=4 || input!=symbol_input_base+offset ||
@@ -790,7 +791,7 @@ static int dump_type_page(HANDLE child,HANDLE log,DWORD frontier)
 {
     DWORD roots[120],bytes,written,i;int used;
     if(!type_page_base)return 1;
-    if(type_page_step || (frontier!=0x22f40 && frontier!=0x262d0) ||
+    if(type_page_step || (frontier!=0x22f40 && frontier!=0x262d0 && frontier!=0x1ad40) ||
        !ReadProcessMemory(child,(void *)0x37198,roots,sizeof(roots),&bytes) || bytes!=sizeof(roots) || roots[0]!=type_page_base) return 0;
     for(i=1;i<120;++i)if(roots[i])return 0;
     if(!ReadProcessMemory(child,(void *)type_page_base,array_bytes,2048,&bytes) || bytes!=2048)return 0;
@@ -800,19 +801,21 @@ static int dump_type_page(HANDLE child,HANDLE log,DWORD frontier)
     return WriteFile(log,object_line,used,&written,0) && written==(DWORD)used;
 }
 
-static int dump_output_buffers(HANDLE child, HANDLE log, DWORD entry, DWORD *words)
+static int dump_output_buffers(HANDLE child, HANDLE log, DWORD entry, DWORD *words, CONTEXT *context)
 {
     char specifications[2048], *cursor;
-    DWORD address, slot, size, bytes, written, i, input;
+    DWORD address, slot, size, bytes, written, i, input, pointer;
     int consumed, used;
     if (!GetEnvironmentVariableA("CVPACK_CAPTURE_OUTPUTS", specifications, sizeof(specifications))) return 1;
     cursor = specifications;
     while (*cursor) {
         if (sscanf(cursor, "%lx:%lu:%lu:%lu%n", &address, &slot, &size, &input, &consumed) != 4) return 0;
         if (address == entry) {
-            if (input > 1 || slot > 15 || !size || size > 1024 ||
-                !ReadProcessMemory(child, (void *)words[slot], original_bytes, size, &bytes) || bytes != size) return 0;
-            used = sprintf(object_line, "%s-buffer %08lx ", input ? "input" : "output", words[slot]);
+            if (slot>15 && slot!=256) return 0;
+            pointer=slot==256?context->Edx:words[slot];
+            if (input > 1 || !size || size > 1024 ||
+                !ReadProcessMemory(child, (void *)pointer, original_bytes, size, &bytes) || bytes != size) return 0;
+            used = sprintf(object_line, "%s-buffer %08lx ", input ? "input" : "output", pointer);
             for (i = 0; i < size; ++i) used += sprintf(object_line+used, "%02x", original_bytes[i]);
             object_line[used++] = '\n';
             if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
@@ -1282,7 +1285,7 @@ int main(int argc, char **argv)
                 if(!dump_type_page(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress)) return 34;
                 if(!dump_symbol_allocation(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress)) return 31;
                 if (!dump_read_progress(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,&context,words)) return 28;
-                if (!dump_output_buffers(child.hProcess, log, (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress, words)) return 15;
+                if (!dump_output_buffers(child.hProcess, log, (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress, words, &context)) return 15;
                 if (!dump_transient_children(child.hProcess, log, (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress, words)) return 21;
                 dump_process_arguments(child.hProcess, log);
                 dump_inspections(child.hProcess, log);

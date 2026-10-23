@@ -106,3 +106,35 @@ def check(directory):
             try:validate(current,pe)
             except AssertionError:print('rejected:',label)
             else:raise AssertionError('accepted '+label)
+
+
+def check_extension(directory):
+    """Reuse the general matrix above; test only newly reached slots/copies."""
+    directory=Path(directory);config,pe=load()
+    events=(directory/'original-events').read_text();native=json.loads((directory/'native-buffer-storage.json').read_text());state=json.loads((directory/'native-gdb.json').read_text());old=parse(events)
+    walks=original_walks(events,json.loads((directory/'walks.json').read_text()))
+    def run(a,b,c,d,s,text=events):
+        with patch('buffer_storage.parse',return_value=a):return compare(config,pe,text,b,c,d,s,'hello-debug-dll')
+    proof=run(old,native,walks,state['walks'],state)
+    assert proof['comparison']['defined']==64 and len(proof['comparison']['copies'])==6
+    for label,change in[
+        ('both sides omit new three-copy inventory',lambda a,b,c,d,s:(a.__setitem__('entries',a['entries'][:3]),a.__setitem__('returns',a['returns'][:3]),b.__setitem__('entries',b['entries'][:3]),b.__setitem__('returns',b['returns'][:3]))),
+        ('new arglist4193 has wrong owner',lambda a,b,c,d,s:b['entries'][3].__setitem__('owner',b['entries'][3]['owner']+28)),
+        ('new procedure4194 copy length altered',lambda a,b,c,d,s:b['entries'][4].__setitem__('size',8)),
+        ('new pointer4195 missing observed return',lambda a,b,c,d,s:b['returns'].pop()),
+        ('new pointer4195 wrong result location',lambda a,b,c,d,s:b['returns'][5].__setitem__('result',b['returns'][5]['result']+4))]:
+        a,b,c,d,s=copy.deepcopy((old,native,walks,state['walks'],state));change(a,b,c,d,s)
+        try:run(a,b,c,d,s)
+        except(AssertionError,KeyError,IndexError,ValueError):print('rejected:',label)
+        else:raise AssertionError('accepted '+label)
+    from type_pages import compare as pages_compare
+    rows=json.loads((directory/'native-type-pages.json').read_text());old_space=dict(walks,**proof['original_namespace']);new_space=dict(state['walks'],**proof['native_namespace'])
+    for label,offset in[('new fourth type-page slot missing observed pointer',12),('type-page byte24 has unproved initialization',24)]:
+        modified=copy.deepcopy(rows);raw=bytes.fromhex(modified[0]['postbytes']);modified[0]['postbytes']=changed(modified[0]['postbytes'],offset,raw[offset]^1)
+        try:pages_compare(config,pe,events,modified,old_space,new_space,state,'hello-debug-dll',proof)
+        except AssertionError:print('rejected:',label)
+        else:raise AssertionError('accepted '+label)
+    modified=events.replace('buffer-rearm 00019a65 00019a67\n','',1)
+    try:run(old,native,walks,state['walks'],state,modified)
+    except AssertionError:print('rejected: six-copy scope missing actual per-call rearm')
+    else:raise AssertionError('accepted missing six-copy rearm')
