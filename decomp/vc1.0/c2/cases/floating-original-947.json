@@ -1,0 +1,26 @@
+{
+  "label": "floating-original-947",
+  "profile": "floating",
+  "accepted": 947,
+  "events": "exception 80000003 rva 000615ac base 00010000 first 1\nexit 99\n",
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "masked_sha256": "dc14ba9241b158ab7d51b4e12b07cd33447b3cc9012bbc7f575f6645392187cf",
+  "config_sha256": "5c3c5b435e94a9e8df63db3ac1752aa95c3552456a43724719427213064e6aea",
+  "manifest_sha256": "d7f09728782bb85c019fce0d65f461693d8ac5561d3e388c534f4ea87558b870",
+  "inputs": {
+    "c2/irex": "125e4057157688e434f4f21c464164db9d207a118b92996632f186fd7b5e7b04",
+    "c2/irsy": "7994183937be12fe68eaf2b8a573fe2c5cc8623369301de04f65a3bd5191cd36",
+    "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+    "c2/irgl": "cb12f519aafaf20546a9b1328c16656c6188efd43cd1c8fa36bf096753ec7a2b"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating.c -W 1 -dos -Fofloating.obj -ML -Gs4096 -Gy -G5 "
+  },
+  "directory": "/root/.ai-tmp/vc1.0-c2/original-floating-4s6lxdk1",
+  "logical": "_compare_extended",
+  "original_va": "0x715ac",
+  "setup_seconds": 0.21019026078283787,
+  "execution_seconds": 1.1904085790738463,
+  "check_seconds": 0.008402896113693714,
+  "total_seconds": 1.4090024949982762
+}

@@ -97,3 +97,41 @@ int check_extended_range(void)
     }
     return (extended_scratch.range.status & 0x100) != 0;
 }
+
+/* Original [00071351,00071371). Required80-bit/ESI/ST0 bridge, as
+   for integer_to_extended: load the source double and reuse the shared
+   store entry; the format tag is an ordinary contextual field. */
+void double_to_extended(const DoubleBits *number, Extended *result)
+{
+    result->format = 8;
+    __asm {
+        mov edi, number
+        fld qword ptr [edi]
+        mov esi, result
+        call store_extended
+    }
+}
+
+/* Original [000715ac,000715f8). The m80 load/compare primitive is
+   unexpressible in this toolchain; relation selection and the caller's
+   mask are C. As in the original, unordered status selects equality
+   through C3 before consulting the less-than C0 bit. */
+int compare_extended(unsigned operation, const Extended *left, const Extended *right)
+{
+    unsigned relation;
+    __asm {
+        mov esi, left
+        mov edi, right
+        fld tbyte ptr [esi]
+        fld tbyte ptr [edi]
+        fxch st(1)
+        fcompp
+        fwait
+        fnstsw word ptr extended_scratch+4
+        fwait
+    }
+    if (extended_scratch.range.status & 0x4000) relation = 1;
+    else if (extended_scratch.range.status & 0x100) relation = 4;
+    else relation = 2;
+    return (relation & (unsigned short)operation) != 0;
+}

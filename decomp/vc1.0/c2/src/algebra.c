@@ -872,3 +872,50 @@ int __fastcall simple_constant_operation_sign(Node *node)
     }
     return 0;
 }
+
+/* Original [00056c50,00056d9d). Extract a reciprocal through products
+   or a cheap shift, exchange a quotient, and fold constant reciprocals.
+   Product search follows the left spine, recursively testing right arms. */
+int __fastcall extract_reciprocal(Node **slot)
+{
+    Node *node;
+    Node **search, **candidate;
+    for (;;) {
+        node = *slot;
+        switch (node->opcode) {
+        case 4:
+            search = slot;
+            for (;;) {
+                candidate = search;
+                if ((*search)->opcode == 4)
+                    candidate = &(*search)->second.node;
+                if (extract_reciprocal(candidate)) break;
+                if (candidate == search) return 0;
+                search = &(*search)->left.node;
+            }
+            *slot = build_tree("PPNY", *candidate, node, 5);
+            *candidate = typed_integer_node(node, 1);
+            break;
+        case 5:
+            build_tree("PPL", node->second.node, node->left.node, node);
+            break;
+        case 7:
+            if (simple_constant_operation_sign(node) > 0) {
+                slot = &node->left.node;
+                continue;
+            }
+            build_tree("PPNYL", node->left.node, node->second.node, 8, node);
+            break;
+        case 0x33:
+            *slot = build_tree("PNYF", node, 0xaa);
+            break;
+        case 0xaa:
+            *slot = take_left_operand(node);
+            break;
+        default:
+            return 0;
+        }
+        tree_changed = 1;
+        return 1;
+    }
+}

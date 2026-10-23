@@ -2398,3 +2398,9 @@ primitives in asm, retaining integer control flow in C. Original MSVC1.0
 has sizeof(long double)==8, so ordinary C cannot express this representation.
 Fread CRT seam identity/observations are cases/floating-crt-fread.json; seven
 negative/positive checks are cases/floating-fread-evidence-validation.json.
+
+Floating comparisons and reciprocal tree normalization: checkpoint951
+5 acceptances pass fresh original/native matching; current frontier
+@fold_floating_node@4. 872 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-reciprocal.json for extent union, limits and measured timings.

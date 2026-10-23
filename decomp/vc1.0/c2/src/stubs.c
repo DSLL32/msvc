@@ -39,12 +39,10 @@ void __fastcall report_context_error(unsigned code, char *source, char *filename
 int __fastcall suffix_matches(char *pattern, char *text, unsigned action) { __asm int 3 }
 void __fastcall release_initializer(Initializer *initializer) { __asm int 3 }
 short __fastcall input_counted_string(char *buffer, unsigned limit) { __asm int 3 }
-int compare_extended(unsigned operation, const Extended *left, const Extended *right) { __asm int 3 }
 Node *__fastcall intern_typed_label(Function *function, Node *node) { __asm int 3 }
 DoubleBits input_double_bits(void) { __asm int 3 }
 int extended_to_float(const Extended *number, float *result) { __asm int 3 }
 void float_to_extended(const float *number, Extended *result) { __asm int 3 }
-void double_to_extended(const DoubleBits *number, Extended *result) { __asm int 3 }
 TemporarySymbol *__fastcall create_temporary(ScopeHash *scope, unsigned type, long size,
     short storage, unsigned arena, signed char subclass, unsigned short attributes) { __asm int 3 }
 void __fastcall decode_inline_assembly(Node *node, ScopeHash *scope) { __asm int 3 }
@@ -221,9 +219,7 @@ int extended_to_integer(const Extended *number, int *result) { __asm int 3 }
 
 
 
-Node *__fastcall simplify_reciprocal(Node *node) { __asm int 3 }
 
-Node *__fastcall copy_factor_exponent(Node *node) { __asm int 3 }
 
 
 
@@ -231,7 +227,6 @@ Node *__fastcall copy_factor_exponent(Node *node) { __asm int 3 }
 Node *__fastcall push_unary_below_conversion(Node *node) { __asm int 3 }
 
 Node *__fastcall lift_both_unary(Node *node) { __asm int 3 }
-int __fastcall extract_reciprocal(Node **node) { __asm int 3 }
 int __fastcall extract_complement(Node **node) { __asm int 3 }
 
 

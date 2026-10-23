@@ -950,7 +950,12 @@
     "_fread",
     "_extended_format",
     "_extended_to_double",
-    "_check_extended_range"
+    "_check_extended_range",
+    "_double_to_extended",
+    "_compare_extended",
+    "@simplify_reciprocal@4",
+    "@extract_reciprocal@4",
+    "@copy_factor_exponent@4"
   ],
   "driver": [
     {
@@ -2319,8 +2324,7 @@
     {
       "name": "_double_to_extended",
       "start": 463697,
-      "end": 463698,
-      "provisional": true
+      "end": 463729
     },
     {
       "name": "@input_counted_string@8",
@@ -2336,8 +2340,7 @@
     {
       "name": "_compare_extended",
       "start": 464300,
-      "end": 464301,
-      "provisional": true
+      "end": 464376
     },
     {
       "name": "@is_register_return_size@4",
@@ -4035,8 +4038,7 @@
     {
       "name": "@simplify_reciprocal@4",
       "start": 347648,
-      "end": 347649,
-      "provisional": true
+      "end": 347722
     },
     {
       "name": "@simplify_global_conversion@4",
@@ -4133,8 +4135,7 @@
     {
       "name": "@extract_reciprocal@4",
       "start": 355408,
-      "end": 355409,
-      "provisional": true
+      "end": 355741
     },
     {
       "name": "@extract_complement@4",
@@ -6552,8 +6553,7 @@
     {
       "name": "@copy_factor_exponent@4",
       "start": 350800,
-      "end": 350801,
-      "provisional": true
+      "end": 350859
     },
     {
       "name": "@replace_bitwise_occurrences@12",

@@ -974,3 +974,29 @@ Node *__fastcall distribute_unary_tree(Node *node)
     return build_tree("PLYPLYLY", left->left.node, clone_node(node),
                       left->second.node, node, left);
 }
+
+/* Original [00054e00,00054e4a). Distribute a reciprocal through
+   multiplication/division, exchange a quotient, or push below a conversion. */
+Node *__fastcall simplify_reciprocal(Node *node)
+{
+    switch (node->left.node->opcode) {
+    case 4: case 5: return distribute_unary_tree(node);
+    case 7: return push_unary_into_left(node);
+    case 8: return push_unary_below_conversion(node);
+    }
+    return node;
+}
+
+/* Original [00055a50,00055a8b). A plain factor contributes exponent
+   one; a power contributes a deep copy, negated for a reciprocal base. */
+Node *__fastcall copy_factor_exponent(Node *node)
+{
+    Node *exponent;
+    if (node->opcode == 7) {
+        exponent = copy_tree(node->second.node);
+        node = node->left.node;
+    } else exponent = typed_integer_node(node, 1);
+    if (node->opcode == 0xaa)
+        exponent = build_tree("PNY", exponent, 8);
+    return exponent;
+}
