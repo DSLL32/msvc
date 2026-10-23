@@ -1031,7 +1031,11 @@
     "_exclude_float_motion_uses",
     "@compare_float_motion_aliases@8",
     "@find_forward_scheduled_symbol@12",
-    "@find_prior_scheduled_definition@8"
+    "@find_prior_scheduled_definition@8",
+    "_select_float_motion_uses",
+    "_count_profitable_float_uses",
+    "@float_use_promotion_cost@4",
+    "@sort_float_motion_uses@4"
   ],
   "driver": [
     {
@@ -7278,13 +7282,33 @@
     {
       "name": "_select_float_motion_uses",
       "start": 240512,
-      "end": 240513,
-      "provisional": true
+      "end": 240879
     },
     {
       "name": "@compare_float_motion_aliases@8",
       "start": 245664,
       "end": 245754
+    },
+    {
+      "name": "_count_profitable_float_uses",
+      "start": 243856,
+      "end": 243971
+    },
+    {
+      "name": "_inherit_float_motion_uses",
+      "start": 243648,
+      "end": 243649,
+      "provisional": true
+    },
+    {
+      "name": "@sort_float_motion_uses@4",
+      "start": 243456,
+      "end": 243646
+    },
+    {
+      "name": "@float_use_promotion_cost@4",
+      "start": 248224,
+      "end": 248612
     }
   ],
   "cases": {

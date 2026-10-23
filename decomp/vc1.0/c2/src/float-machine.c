@@ -1618,3 +1618,160 @@ void __fastcall compare_float_motion_aliases(FloatStreamUse *first, FloatStreamU
         second->flags |= 2;
     }
 }
+
+/* Original [0003ab80,0003acef). Reserve x87 capacity for profitable
+   memory values, retaining successor-context entries before new choices. */
+void select_float_motion_uses(void)
+{
+    MemoryMotionContext *context = memory_motion_context;
+    FloatStreamUse *use, *existing;
+    int available = 8 - context->maximum_depth, inherited = 0;
+    int profitable, limit, selected, index, unique;
+    if (!available) {
+        context->flags |= 2;
+        return;
+    }
+    profitable = count_profitable_float_uses();
+    if (context->next && context->next->uses) {
+        context->available_registers = available;
+        inherited = inherit_float_motion_uses();
+    }
+    limit = context->next ? context->next->available_registers : 8;
+    available -= inherited;
+    if (available >= limit) available = limit;
+    selected = profitable;
+    if (selected >= available) selected = available;
+    context->available_registers = available - profitable;
+    if (!selected || !profitable) return;
+    float_stream_sorted_uses = float_register_heap_allocate(profitable * sizeof(*float_stream_sorted_uses));
+    if (profitable < selected) compiler_internal_error("@(#)fltreg.c:1.31", 0x7b2);
+    sort_float_motion_uses(profitable);
+    for (index = 0; index < selected; ++index) {
+        use = float_stream_sorted_uses[index];
+        unique = 1;
+        if (inherited) {
+            for (existing = context->uses; existing && unique; existing = existing->hash_next)
+                unique = operands_equal(use->operand, existing->operand) == 0;
+        }
+        if (unique) {
+            use->hash_next = 0;
+            if (context->last_use) context->last_use->hash_next = use;
+            else context->uses = use;
+            context->last_use = use;
+            use->previous_selected = context->reverse_uses;
+            context->reverse_uses = use;
+        }
+    }
+}
+
+/* Original82f30..82f48: context startup cost indexed by CPU generation.
+   Options constrain normal models to3,4,5; retain the three zero rows too. */
+static const int float_context_startup_cost[6] = { 0, 0, 0, 18, 4, 1 };
+/* Original [0003b890,0003b903). Only positive, nonexcluded floating
+   candidates contribute to the count and accumulated promotion saving. */
+int count_profitable_float_uses(void)
+{
+    FloatStreamUse *use;
+    unsigned bucket;
+    int count = 0, saving = 0;
+    for (bucket = 0; bucket < 8; ++bucket) {
+        for (use = float_motion_buckets[bucket]; use; use = use->hash_next) {
+            if ((use->flags & 4) && !(use->flags & 2)) {
+                use->cost_adjustment += float_use_promotion_cost(use);
+                if (use->cost_adjustment > 0) {
+                    saving += use->cost_adjustment;
+                    if (use->cost_adjustment > 0) ++count;
+                }
+            }
+        }
+    }
+    if (memory_motion_context->stack_depth == 1 && float_motion_mode != 2 &&
+        saving - float_context_startup_cost[cpu_model] < 0) count = 0;
+    return count;
+}
+
+/* Promotion estimates encountered at3c9a0. Rows are32-,64- and80-bit
+   memory values. The original stores these semantic columns separately. */
+typedef struct FloatPromotionCosts {
+    int load_saving, store_saving, initial_load, final_store;
+} FloatPromotionCosts;
+static const FloatPromotionCosts i386_float_promotion[3] = {
+    { 6, 32, 44, 20 }, { 11, 33, 45, 25 }, { 30, 41, 53, 44 }
+};
+static const FloatPromotionCosts i486_float_promotion[3] = {
+    { -1, 3, 6, 3 }, { -1, 5, 8, 3 }, { 2, 4, 7, 6 }
+};
+typedef struct PentiumFloatPromotionCosts {
+    int store_saving, initial_load, final_store;
+} PentiumFloatPromotionCosts;
+static const PentiumFloatPromotionCosts pentium_float_promotion[3] = {
+    { 1, 2, 1 }, { 1, 2, 1 }, { 2, 3, 3 }
+};
+/* Original [0003c9a0,0003cb24). Estimate savings from resident x87
+   operands, charging entry/exit transfers outside loop-motion mode2. */
+int __fastcall float_use_promotion_cost(FloatStreamUse *use)
+{
+    int width = (int)use->width;
+    int size_class = (width + width % 4) / 4;
+    int saving, entry, aligned = 0;
+    MachineOperand *operand;
+    SymbolHeader *symbol;
+    const FloatPromotionCosts *cost;
+    const PentiumFloatPromotionCosts *pentium;
+    if (size_class != 1 && size_class != 2 && size_class != 3)
+        compiler_internal_error("@(#)fltreg.c:1.31", 0xf9b);
+    if (cpu_model == 5) {
+        if (size_class == 2) {
+            operand = use->operand;
+            if ((operand->flags & 15) == OPERAND_BASED || (operand->flags & 15) == OPERAND_INDEXED) {
+                symbol = operand->value.address->symbol;
+                if (symbol && symbol->kind == 1 && (((BackendSymbol *)symbol)->attributes & 0x70) == 0x30) aligned = 1;
+            }
+        }
+        pentium = &pentium_float_promotion[size_class - 1];
+        saving = pentium->store_saving * use->stores + 2 * (use->arithmetic + use->loads) * aligned;
+        if (float_motion_mode != 2) {
+            entry = (int)use->stores > 0 && !(use->flags & 1) ? pentium->initial_load : 1;
+            saving -= entry + pentium->final_store;
+        }
+    } else if (cpu_model == 4) {
+        cost = &i486_float_promotion[size_class - 1];
+        saving = cost->load_saving * use->loads - 3 * use->multiplies + cost->store_saving * use->stores + use->arithmetic;
+        if (float_motion_mode != 2) {
+            entry = (int)use->stores > 0 && !(use->flags & 1) ? cost->initial_load : 3;
+            saving -= entry + cost->final_store;
+        }
+    } else {
+        cost = &i386_float_promotion[size_class - 1];
+        saving = cost->load_saving * use->loads + cost->store_saving * use->stores + 3 * use->arithmetic;
+        if (float_motion_mode != 2) {
+            entry = (int)use->stores > 0 && !(use->flags & 1) ? cost->initial_load : 12;
+            saving -= entry + cost->final_store;
+        }
+    }
+    return saving;
+}
+
+/* Original [0003b700,0003b7be). Collect eligible uses in bucket order
+   and select larger savings first, retaining the original exchange order. */
+void __fastcall sort_float_motion_uses(int count)
+{
+    FloatStreamUse *use, *temporary;
+    unsigned bucket;
+    int collected = 0, first, later, saving;
+    for (bucket = 0; bucket < 8; ++bucket)
+        for (use = float_motion_buckets[bucket]; use; use = use->hash_next)
+            if ((use->flags & 4) && !(use->flags & 2) && use->cost_adjustment > 0)
+                float_stream_sorted_uses[collected++] = use;
+    for (first = 0; first < count; ++first) {
+        saving = float_stream_sorted_uses[first]->cost_adjustment;
+        for (later = first + 1; later < count; ++later) {
+            if (float_stream_sorted_uses[later]->cost_adjustment > saving) {
+                temporary = float_stream_sorted_uses[first];
+                float_stream_sorted_uses[first] = float_stream_sorted_uses[later];
+                float_stream_sorted_uses[later] = temporary;
+                saving = float_stream_sorted_uses[first]->cost_adjustment;
+            }
+        }
+    }
+}

@@ -406,4 +406,4 @@ void __fastcall mark_float_branch_targets(FloatStreamBranch *branches) { __asm i
 int __fastcall can_merge_float_branch(FloatStreamBranch *branch, MachineInstruction *previous, MachineInstruction *target) { __asm int 3 }
 int __fastcall can_reuse_float_branch_target(MachineInstruction *target) { __asm int 3 }
 void release_float_motion_scratch(void) { __asm int 3 }
-void select_float_motion_uses(void) { __asm int 3 }
+int inherit_float_motion_uses(void) { __asm int 3 }

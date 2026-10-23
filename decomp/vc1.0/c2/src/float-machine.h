@@ -66,11 +66,12 @@ typedef struct MemoryMotionContext {
     MachineInstruction *rewrite_end;
     MachineInstruction *boundary, *last;
     struct FloatStreamUse *uses;
-    unsigned field28, field2c;
+    struct FloatStreamUse *last_use, *reverse_uses;
     FloatStreamBranch *branches, *last_branch;
     FloatStreamLabel *labels;
     FloatStreamTarget *targets;
-    unsigned order, field44;
+    unsigned order;
+    int available_registers;
     int stack_depth, field4c, maximum_depth;
     unsigned flags;
 } MemoryMotionContext;
@@ -85,7 +86,8 @@ typedef struct FloatStreamUse {
     unsigned short base, index;
     unsigned width, operation;
     struct FloatStreamUse *hash_next;
-    unsigned field20, stores, multiplies, arithmetic, loads;
+    struct FloatStreamUse *previous_selected;
+    unsigned stores, multiplies, arithmetic, loads;
     int cost_adjustment;
     MachineInstruction *branch;
     unsigned flags;
@@ -134,6 +136,9 @@ void __fastcall resolve_float_motion_branch(MachineInstruction *instruction);
 void finish_float_motion_uses(void);
 void exclude_float_motion_uses(void);
 void select_float_motion_uses(void);
+int count_profitable_float_uses(void);
+int inherit_float_motion_uses(void);
+void __fastcall sort_float_motion_uses(int count);
 typedef struct FloatMotionBranch {
     LabelSymbol *label;
     struct FloatMotionBranch *next;
@@ -149,5 +154,6 @@ FloatStreamUse *__fastcall find_float_stream_use(MachineOperand *operand, int cr
 void __fastcall update_float_use_access(FloatStreamUse *use, unsigned access);
 unsigned __fastcall float_operand_hash(MachineOperand *operand);
 unsigned __fastcall float_symbol_name_hash(char *name);
+int __fastcall float_use_promotion_cost(FloatStreamUse *use);
 void __fastcall compare_float_motion_aliases(FloatStreamUse *first, FloatStreamUse *second);
 #endif
