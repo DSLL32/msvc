@@ -1,0 +1,226 @@
+{
+  "schema": 1,
+  "abi_basis": {
+    "url": "https://learn.microsoft.com/en-us/cpp/cpp/argument-passing-and-naming-conventions?view=msvc-170",
+    "rule": "Microsoft x86 compiler-generated prologues and epilogues preserve used EBX, ESI and EDI. Apply only to these explicitly named, inspected ordinary Win32 callees.",
+    "qualification": "No custom/naked/register-clobber ABI is registered. Unknown targets must kill cached facts. RET cleanup remains independently checked."
+  },
+  "original_sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+  "canonical_provider": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "bytes": 277776,
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "actual_loaded_receipt": "/root/.ai-tmp/msvc2/vc5.10/link/masked-drdwkhmv/receipt.json",
+    "actual_loaded_receipt_sha256": "4acc6424bce0f5b3b123ebcf4c71c2a140517c6afc7e7cd895626fb0b92b4b02",
+    "owned_receipt": "cases/help/options-provider/receipt.json",
+    "owned_hfile_copies": [
+      {
+        "path": "cases/help/options-provider/module-006.bin",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    ]
+  },
+  "owner": "_check_output_input_collision@8",
+  "scope": "Three cached calls, exact original EDI=_fullpath and EBP=_mbsicmp. Only finite reviewed ordinary normal-return preservation; callbacks and unknown targets remain barriers.",
+  "imports": [
+    {
+      "identity": "msvcrt.dll!_fullpath",
+      "provider_export": {
+        "ordinal": 240,
+        "rva": 121534
+      },
+      "entry_bytes": "53558b6c24105685ed570f84a3000000",
+      "abi": "x86 __cdecl; EDI and EBP nonvolatile on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDLIB.H",
+          "line": 493,
+          "sha256": "3949b5b83fa854ef497e905db2c4c3e2d95f09a440c440836fd716eec9132cfb",
+          "declaration": "_CRTIMP char * __cdecl _fullpath(char *, const char *, size_t);"
+        }
+      ],
+      "qualification": "Qualified actual provider and shipped public CRT ABI; no unvisited CRT semantics or source reconstruction."
+    },
+    {
+      "identity": "msvcrt.dll!_mbsicmp",
+      "provider_export": {
+        "ordinal": 349,
+        "rva": 25388
+      },
+      "entry_bytes": "51a1c0f1037853555685c0570f840b7a",
+      "abi": "x86 __cdecl; EDI and EBP nonvolatile on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/MBSTRING.H",
+          "line": 144,
+          "sha256": "6633bde8407252be8a3a71463342b43e06a5126076e90f5e9d4cd3f365deb179",
+          "declaration": "_CRTIMP int __cdecl _mbsicmp(const unsigned char *, const unsigned char *);"
+        }
+      ],
+      "qualification": "Qualified actual provider and shipped public CRT ABI; no unvisited CRT semantics or source reconstruction."
+    }
+  ],
+  "function_contract": {
+    "name": "_link_fatal",
+    "preserves": [
+      "edi",
+      "ebp"
+    ],
+    "original_witnesses": [
+      {
+        "name": "link_fatal",
+        "begin": 4391472,
+        "end": 4391497,
+        "sha256": "0759b3c610be061d746b754241d1e81d0bebb376d90d59032fb2e3134e64c255",
+        "writes": {
+          "edi": [],
+          "ebp": []
+        },
+        "saves": [],
+        "normal_returns": [
+          {
+            "site": 4391496,
+            "bytes": "c3",
+            "instruction": "ret "
+          }
+        ],
+        "anchors": [
+          {
+            "site": 4391491,
+            "bytes": "e818ffffff",
+            "instruction": "call 0x430160"
+          }
+        ]
+      },
+      {
+        "name": "emit_fatal_diagnostic",
+        "begin": 4391264,
+        "end": 4391468,
+        "sha256": "523d921f7cf74a26b5b7205129fb78ed14e6d0eba06cb6ba83409cef654411ed",
+        "writes": {
+          "edi": [
+            {
+              "site": 4391277,
+              "bytes": "8b7c2418",
+              "instruction": "mov edi, dword ptr [esp + 0x18]"
+            },
+            {
+              "site": 4391461,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            }
+          ],
+          "ebp": [
+            {
+              "site": 4391271,
+              "bytes": "8b6c2418",
+              "instruction": "mov ebp, dword ptr [esp + 0x18]"
+            },
+            {
+              "site": 4391463,
+              "bytes": "5d",
+              "instruction": "pop ebp"
+            }
+          ]
+        },
+        "saves": [
+          {
+            "site": 4391270,
+            "bytes": "55",
+            "instruction": "push ebp"
+          },
+          {
+            "site": 4391276,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          {
+            "site": 4391319,
+            "bytes": "55",
+            "instruction": "push ebp"
+          },
+          {
+            "site": 4391320,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          {
+            "site": 4391451,
+            "bytes": "55",
+            "instruction": "push ebp"
+          }
+        ],
+        "normal_returns": [
+          {
+            "site": 4391465,
+            "bytes": "c21400",
+            "instruction": "ret 0x14"
+          }
+        ],
+        "anchors": [
+          {
+            "site": 4391305,
+            "bytes": "e8a253feff",
+            "instruction": "call 0x415530"
+          },
+          {
+            "site": 4391322,
+            "bytes": "e881feffff",
+            "instruction": "call 0x430020"
+          },
+          {
+            "site": 4391344,
+            "bytes": "e82bf80100",
+            "instruction": "call 0x44f9e0"
+          },
+          {
+            "site": 4391349,
+            "bytes": "e8e6bcfdff",
+            "instruction": "call 0x40bea0"
+          },
+          {
+            "site": 4391354,
+            "bytes": "e87105feff",
+            "instruction": "call 0x410730"
+          },
+          {
+            "site": 4391384,
+            "bytes": "ffd6",
+            "instruction": "call esi"
+          },
+          {
+            "site": 4391407,
+            "bytes": "ff156c124000",
+            "instruction": "call dword ptr [0x40126c]"
+          },
+          {
+            "site": 4391426,
+            "bytes": "ffd6",
+            "instruction": "call esi"
+          },
+          {
+            "site": 4391443,
+            "bytes": "e8e8feffff",
+            "instruction": "call 0x430100"
+          },
+          {
+            "site": 4391452,
+            "bytes": "ff1584114000",
+            "instruction": "call dword ptr [0x401184]"
+          }
+        ]
+      }
+    ],
+    "rebuilt": {
+      "symbol": "_link_fatal",
+      "bytes": "558bec535657cc5f5e5b5dc3"
+    },
+    "qualification": "Actual wrapper has no own EDI/EBP writes and calls ordinary fatal diagnostic; complete204B diagnostic saves EBP/EDI before own MOV writes and restores on sole syntactic normal RET20. Nested ordinary CRT/app normal calls follow actual compiler ABI; no recursive support-source reconstruction or app acceptance."
+  },
+  "original_register_sites": {
+    "0x461862": "_fullpath",
+    "0x46189d": "_fullpath",
+    "0x4618c4": "_mbsicmp"
+  }
+}

@@ -50,3 +50,31 @@ void *__stdcall zero_allocate(unsigned bytes)
     return allocation;
 }
 void __cdecl out_of_memory(void) { __asm { int 3 } }
+
+extern unsigned char file_access_statistics;
+void __cdecl record_file_access(void);
+FileRecord *__stdcall acquire_file_record(const char *,int,int,unsigned char *);
+int __stdcall open_mapped_file(FileRecord *,int,unsigned char,DWORD *);
+void __cdecl initialize_file_buffers(void);
+int __stdcall open_buffered_file(FileRecord *,int,int,unsigned char);
+
+int __stdcall open_argument_file(const char *name,int flags,int mode)
+{
+    unsigned char created=0;
+    DWORD size=0;
+    int mapped=-1;
+    FileRecord *record;
+    if (file_access_statistics) record_file_access();
+    record=acquire_file_record(name,flags,mode,&created);
+    if (file_mapping_enabled) mapped=open_mapped_file(record,flags,created,&size);
+    if (mapped==-1) {
+        initialize_file_buffers();
+        open_buffered_file(record,flags,mode,created);
+    }
+    return record->index;
+}
+
+FileRecord *__stdcall acquire_file_record(const char *name,int flags,int mode,unsigned char *created) { __asm { int 3 } return NULL; }
+int __stdcall open_mapped_file(FileRecord *record,int flags,unsigned char created,DWORD *size) { __asm { int 3 } return -1; }
+void __cdecl initialize_file_buffers(void) { __asm { int 3 } }
+int __stdcall open_buffered_file(FileRecord *record,int flags,int mode,unsigned char created) { __asm { int 3 } return -1; }

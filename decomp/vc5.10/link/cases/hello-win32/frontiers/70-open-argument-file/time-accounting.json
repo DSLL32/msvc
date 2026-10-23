@@ -1,0 +1,25 @@
+{
+  "times_seconds": {
+    "original_capture": 1.9198318365961313,
+    "final_native_capture": 0.6879824995994568,
+    "audit_total": 0.9941193033009768,
+    "audit_binding_and_setup": 0.35371256340295076,
+    "audit_command_and_check": 0.5575690735131502,
+    "native_cached_help": {
+      "setup": 0.05676017142832279,
+      "execution": 0.0037820739671587944,
+      "checks": 0.00039139389991760254,
+      "total": 0.06399247795343399
+    }
+  },
+  "executions": {
+    "original": 1,
+    "native_frontier": 2,
+    "native_cached_help": 1
+  },
+  "fresh_controls": {
+    "typed_state_negatives": 223
+  },
+  "unchanged_controls": "Existing controller/FullLink/PassOne/collision/slot semantic evidence remains hash-bound reused; all strict graph/import/RET/ownership and exact-site gates rerun.",
+  "build": "Original and native make-j4 builds pass; final cached help exact current ELF, no rebuild."
+}

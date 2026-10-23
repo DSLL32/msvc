@@ -11,8 +11,8 @@
       },
       "rebuilt": {
         "roots": [
-          4245918,
-          4245939
+          4246110,
+          4246131
         ],
         "text_data": []
       }
@@ -27,8 +27,8 @@
       },
       "rebuilt": {
         "roots": [
-          4204346,
-          4204410
+          4204538,
+          4204602
         ],
         "text_data": []
       }
@@ -484,7 +484,7 @@
           "slot": 4714192
         },
         "rebuilt": {
-          "site": 4240839,
+          "site": 4241031,
           "slot": 4256792
         },
         "preserves": [
@@ -492,7 +492,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-closed-slot.json",
-          "sha256": "1359c169248e5010524d3048ea1b688a699f7edc20b4c0fab8472069ca1c583e"
+          "sha256": "06b5d3343e08e3a7b5ae57569022e6c0fc39e61f03657b43d4710b5c75cc1265"
         }
       }
     ]

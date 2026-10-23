@@ -86,7 +86,8 @@
     "_initialize_group_enumerator@8",
     "_next_contribution_group@4",
     "LinkContext::PassOne",
-    "_check_output_input_collision@8"
+    "_check_output_input_collision@8",
+    "_open_argument_file@12"
   ],
   "driver": [
     {
@@ -688,11 +689,11 @@
     {
       "name": "_open_argument_file@12",
       "start": 4241392,
-      "end": 4241393,
-      "pending_extent": true,
-      "source": "src/arguments.c",
-      "status": "stub",
-      "native_symbol": "open_argument_file"
+      "end": 4241520,
+      "source": "src/files.c",
+      "status": "implemented",
+      "native_symbol": "open_argument_file",
+      "abi": "stdcall int(const char *name,int flags,int mode); three actual stack inputs,RET12; no hidden arguments"
     },
     {
       "name": "_is_archive@8",
@@ -2574,6 +2575,46 @@
       "pending_extent": true,
       "native_symbol": "warn_unused_delay_libraries",
       "abi": "stdcall void(void);no stack/hidden inputs,RET0; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_acquire_file_record@16",
+      "start": 4241520,
+      "end": 4241521,
+      "source": "src/files.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "acquire_file_record",
+      "abi": "stdcall FileRecord *(const char *name,int flags,int mode,BYTE *created); four stack formals,RET16; no hidden inputs; created is writable caller-owned initialized one-byte output"
+    },
+    {
+      "name": "_open_mapped_file@16",
+      "start": 4245632,
+      "end": 4245633,
+      "source": "src/files.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "open_mapped_file",
+      "abi": "stdcall int(FileRecord *record,int flags,BYTE created,DWORD *size); four stack formals,RET16; BYTE formal consumes only low eight bits; observed when reached"
+    },
+    {
+      "name": "_initialize_file_buffers",
+      "start": 4240928,
+      "end": 4240929,
+      "source": "src/files.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "initialize_file_buffers",
+      "abi": "cdecl void(void); no stack formals,RET0; observed when reached"
+    },
+    {
+      "name": "_open_buffered_file@16",
+      "start": 4242320,
+      "end": 4242321,
+      "source": "src/files.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "open_buffered_file",
+      "abi": "stdcall int(FileRecord *record,int flags,int mode,BYTE created); four stack formals,RET16; BYTE formal consumes only low eight bits; observed when reached"
     }
   ],
   "text_data": [

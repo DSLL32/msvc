@@ -37,7 +37,8 @@ def enum_bytes(next_function,end_function,first,current):
 
 
 def compare(original,state,trap,events):
-    after_collision=state['function']=='open_argument_file'
+    file_record=state['function']=='acquire_file_record'
+    after_collision=state['function']=='open_argument_file'or file_record
     collision=state['function']=='check_output_input_collision'or after_collision
     completed=state['function']=='LinkContext::PassOne'or collision
     sections=SECTIONS+ADDITIONAL_SECTIONS if completed else SECTIONS
@@ -57,8 +58,8 @@ def compare(original,state,trap,events):
             assert nformals==dict(this=ncontext,stack_formals=[],other_hidden_inputs=[])
             entry,=[e for e in events if e['event']=='pass_one_entry']
             assert entry['this']==formals['this']==context and entry['stack_formals']==entry['other_hidden_inputs']==[]
-            assert trap['esp']==entry['stack_pointer']-(48 if after_collision else 44)
-            assert trap['stack'][0]==(0x44b8e5 if after_collision else 0x44b8d0)
+            assert trap['esp']==entry['stack_pointer']-(92 if file_record else 48 if after_collision else 44)
+            assert trap['stack'][0]==(0x40b82e if file_record else 0x44b8e5 if after_collision else 0x44b8d0)
             nentry=state['pass_one_entry']
             assert nentry['this']==ncontext and nentry['stack_formals']==nentry['other_hidden_inputs']==[]
             if after_collision:
@@ -70,8 +71,12 @@ def compare(original,state,trap,events):
                 assert current['flags']==ncurrent['flags']==trap['stack'][2]==0x8302
                 assert current['mode']==ncurrent['mode']==trap['stack'][3]==0x180
                 assert current['text']==ncurrent['text']=='hello.exe'
-                assert trap['frontier_inputs']==dict(formals=[current[k]for k in ('name','flags','mode')],hidden_register_inputs=[])
-                assert state['frontier_inputs']==dict(formals=[ncurrent[k]for k in ('name','flags','mode')],hidden_register_inputs=[])
+                if file_record:
+                    from file_open_state import compare as compare_file_open
+                    compare_file_open(original,state,trap,events)
+                else:
+                    assert trap['frontier_inputs']==dict(formals=[current[k]for k in ('name','flags','mode')],hidden_register_inputs=[])
+                    assert state['frontier_inputs']==dict(formals=[ncurrent[k]for k in ('name','flags','mode')],hidden_register_inputs=[])
             else:
                 current=trap['collision_formals'];ncurrent=state['collision_formals']
                 lists={e['name']:e for e in events if e['event']=='argument_list'}
