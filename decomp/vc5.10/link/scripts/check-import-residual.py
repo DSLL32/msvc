@@ -77,6 +77,20 @@ for name,site,patch in [
  try:module.check_commandline(mutated,rebuilt,argument_obj,maptext)
  except (AssertionError,KeyError,IndexError):passed.append(name)
  else:raise AssertionError('mutation accepted: '+name)
+module.check_switch(original,rebuilt,argument_obj,maptext)
+for name,site,patch in [
+ ('switch swapped comparison slot',0x444f3b,struct.pack('<I',0x401134)),
+ ('switch wrong call register',0x444f43,b'\xff\xd3'),
+ ('switch cached EBP overwritten',0x444f4c,b'\x31\xed\x90\x90\x90'),
+ ('switch BP alias overwritten',0x444f4c,b'\x66\x31\xed\x90\x90'),
+ ('switch branch skips cache load',0x444f20,b'\xeb\x21\x90\x90\x90'),
+ ('switch early restore differs',0x444f6e,b'\x5e'),
+ ('switch count-zero restore differs',0x444f75,b'\x5b'),
+]:
+ mutated=PE(ROOT/'toolchains/5.10/bin/LINK.EXE');data=bytearray(mutated.data);offset=mutated.offset(site);data[offset:offset+len(patch)]=patch;mutated.data=bytes(data)
+ try:module.check_switch(mutated,rebuilt,argument_obj,maptext)
+ except (AssertionError,KeyError,IndexError):passed.append(name)
+ else:raise AssertionError('mutation accepted: '+name)
 report=dict(positive=True,negative_count=len(passed),rejected=passed)
 (BINARY/'cases/help/main-import-negatives.json').write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report,indent=2))

@@ -12,10 +12,11 @@ STAGES = {
     '_initialize_buffer4': (3,2,2), '_allocate_buffer4': (3,2,2),
     '_register_buffer4_cleanup': (3,3,2),
     '_initialize_timing': (4,3,3), '_setup_timing': (4,3,3),
-    '_register_timing_cleanup': (4,3,3), '_main': (None,3,4), '_initialize_debug@8':(None,3,4), '_initialize_file_cache@16':(None,3,4), '_get_debug_flag@4':(None,3,4), '_zero_allocate@4':(None,3,4), '_new_file_record':(None,3,4), '_initialize_memory':(None,3,4), '_run_linker@8':(None,3,4), '_initialize_repro':(None,3,4), '_collect_file_arguments@16':(None,3,4), '_parse_command_line@16':(None,3,4), '_parse_argument@8':(None,3,4), '_is_libpath@4':(None,3,4), '_append_argument@8':(None,3,4), '_append_argument_record@12':(None,3,4), '_has_switch@4':(None,3,4),
+    '_register_timing_cleanup': (4,3,3), '_main': (None,3,4), '_initialize_debug@8':(None,3,4), '_initialize_file_cache@16':(None,3,4), '_get_debug_flag@4':(None,3,4), '_zero_allocate@4':(None,3,4), '_new_file_record':(None,3,4), '_initialize_memory':(None,3,4), '_run_linker@8':(None,3,4), '_initialize_repro':(None,3,4), '_collect_file_arguments@16':(None,3,4), '_parse_command_line@16':(None,3,4), '_parse_argument@8':(None,3,4), '_is_libpath@4':(None,3,4), '_append_argument@8':(None,3,4), '_append_argument_record@12':(None,3,4), '_has_switch@4':(None,3,4), '_allocate_link_memory@8':(None,3,4), 'LinkContext::Initialize':(None,3,4), '_create_string_table@12':(None,3,4),
 }
 MEMORY_READY={ '_run_linker@8','_initialize_repro','_collect_file_arguments@16',
-               '_parse_command_line@16','_parse_argument@8','_is_libpath@4','_append_argument@8','_append_argument_record@12','_has_switch@4' }
+               '_parse_command_line@16','_parse_argument@8','_is_libpath@4','_append_argument@8','_append_argument_record@12','_has_switch@4','_allocate_link_memory@8','LinkContext::Initialize','_create_string_table@12' }
+OPTION_READY={'_has_switch@4','_allocate_link_memory@8','LinkContext::Initialize','_create_string_table@12'}
 CACHE_READY=MEMORY_READY | {'_initialize_memory'}
 DEBUG_READY=CACHE_READY | {'_get_debug_flag@4','_zero_allocate@4','_new_file_record'}
 
@@ -251,9 +252,10 @@ def compare(name, original, native, original_state, native_state):
         assert original_state['stack'][2]==original_state['stack'][3]
         assert native_state['argument_detail']['address']==native_state['argument_detail']['original_address']
 
-    if name=='_has_switch@4':
-        assert original_state['argument_text']==native_state['argument_detail']['text']=='vxd'
-        assert original_state['argument_pointer']==0x402b30
+    if name in OPTION_READY:
+        if name=='_has_switch@4':
+            assert original_state['argument_text']==native_state['argument_detail']['text']=='vxd'
+            assert original_state['argument_pointer']==0x402b30
         first,last,count=struct.unpack('<3I',(original/'option-arguments.bin').read_bytes())
         nfirst,nlast,ncount=native_state['option_arguments']
         assert first==last and first and nfirst==nlast and nfirst and count==ncount==1
@@ -266,3 +268,44 @@ def compare(name, original, native, original_state, native_state):
         assert (original/'input-files.bin').read_bytes()==bytes(12) and native_state['input_files']==[0,0,0]
         assert (original/'argument-tail.bin').read_bytes()==bytes(4) and native_state['argument_tail']==0
         assert native_state['mbsnbicmp_calls']==[dict(left='?',right='libpath',bytes=7,result=-1)]*2
+
+    if name=='_allocate_link_memory@8':
+        assert original_state['stack'][1:3]==[1,664]
+        assert native_state['allocation_arguments']==dict(count=1,size=664)
+        assert (original/'logo-pending.bin').read_bytes()==b'\1' and native_state['logo_pending']==1
+        assert (original/'incremental-enabled.bin').read_bytes()==b'\0' and native_state['incremental_enabled']==0
+
+    if name=='LinkContext::Initialize':
+        assert original_state['ecx']==original_state['eax'] and original_state['ecx']
+        assert original_state['stack'][1]==native_state['context_vxd']==0
+        assert native_state['context_this']==native_state['caller_context'] and native_state['context_this']
+        assert (original/'link-context.bin').read_bytes()==bytes.fromhex(native_state['link_context'])==bytes(664)
+        assert (original/'logo-pending.bin').read_bytes()==b'\1' and native_state['logo_pending']==1
+        assert (original/'incremental-enabled.bin').read_bytes()==b'\0' and native_state['incremental_enabled']==0
+
+    if name=='_create_string_table@12':
+        context=original_state['ebp'];ncontext=native_state['context_this']
+        assert context and ncontext and ncontext==native_state['caller_context']
+        assert original_state['stack'][1:4]==[context+0x1d0,1024,128]
+        assert native_state['table_arguments']==dict(table=ncontext+0x1d0,buckets=1024,capacity=128)
+        assert native_state['context_vxd']==0
+        data=bytearray((original/'link-context.bin').read_bytes());ndata=bytearray.fromhex(native_state['link_context'])
+        assert len(data)==len(ndata)==664
+        assert struct.unpack_from('<I',data,0x24)[0]==context
+        assert struct.unpack_from('<I',ndata,0x24)[0]==ncontext
+        assert struct.unpack_from('<I',data,0x168)[0]==0x402228
+        # Extension identity is scoped to the actual encountered .dll literal.
+        assert native_state['context_extension']=='.dll'
+        for offset in [0x24,0x168]:data[offset:offset+4]=ndata[offset:offset+4]=bytes(4)
+        assert data==ndata,'typed context initialization differs outside two pointer roles'
+        from member_pointers import CONTRACTS,project
+        for key,contract in CONTRACTS.items():
+            native_record=native_state['member_pointers'][key]
+            assert native_record['bytes']==8
+            filename={'image_header_size':'member-header-size.bin','image_write_section':'member-write-section.bin','image_write_headers':'member-write-headers.bin'}[key]
+            assert project((original/filename).read_bytes(),bytes.fromhex(native_record['raw']),None,contract,native_state['member_methods']) is None
+            for mode,method in contract['methods'].items():
+                expected=bytes.fromhex(native_state['typed_member_values'][method])
+                assert project(struct.pack('<I',contract['addresses'][mode]),expected,mode,contract,native_state['member_methods'])==method
+        from binary import PE
+        assert bytes.fromhex(native_state['default_dos_image'])==PE(original/'module-000.bin').read(0x407058,128)

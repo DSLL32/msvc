@@ -109,7 +109,10 @@ static int snapshot(DWORD address)
         if (index) fputc(',', events);
         quoted(value);
     }
-    fprintf(events, "],\"crt_argv_pointer\":%lu",arguments);
+    fprintf(events, "],\"crt_argv_pointer\":%lu,\"ebp\":%lu",arguments,context.Ebp);
+    pointer=0;
+    if(argument_count>1 && (!ReadProcessMemory(process,(void *)(arguments+4),&pointer,4,&got)||got!=4))return 0;
+    fprintf(events,",\"crt_first_argument_pointer\":%lu",pointer);
     if(address==base+0x15230) {
         if(!remote_string(stack[2],value,sizeof(value)))return 0;
         fprintf(events,",\"debug_options_pointer\":%lu,\"debug_environment\":",stack[1]);quoted(value);
@@ -137,8 +140,6 @@ static int snapshot(DWORD address)
         pointer=stack[argument_index];
         if(!remote_string(pointer,value,sizeof(value)))return 0;
         fprintf(events,",\"argument_pointer\":%lu,\"argument_text\":",pointer);quoted(value);
-        if(!ReadProcessMemory(process,(void *)(arguments+4),&pointer,4,&got)||got!=4)return 0;
-        fprintf(events,",\"crt_first_argument_pointer\":%lu",pointer);
     }
     fprintf(events,"}\n");
     for (index = 0; index < request_count; ++index) {
@@ -166,6 +167,14 @@ static int snapshot(DWORD address)
             if(output==INVALID_HANDLE_VALUE||!WriteFile(output,bytes,40,&written,NULL)||written!=40)return 0;
             CloseHandle(output);
         }
+    }
+    if(address==base+0x337d0 || address==base+0x62220) {
+        pointer=address==base+0x337d0?context.Ecx:context.Ebp;
+        if(!ReadProcessMemory(process,(void *)pointer,bytes,664,&got)||got!=664)return 0;
+        sprintf(path,"%s\\link-context.bin",output_directory);
+        output=CreateFileA(path,GENERIC_WRITE,0,NULL,CREATE_NEW,FILE_ATTRIBUTE_NORMAL,NULL);
+        if(output==INVALID_HANDLE_VALUE||!WriteFile(output,bytes,664,&written,NULL)||written!=664)return 0;
+        CloseHandle(output);
     }
     fflush(events);
     return 1;

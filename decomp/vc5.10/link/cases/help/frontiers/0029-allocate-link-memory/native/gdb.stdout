@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x0804ccde in LinkContext::Initialize (this=0x8072a10, vxd=0) at src/link-driver.cpp:171
+171	    __asm { int 3 }

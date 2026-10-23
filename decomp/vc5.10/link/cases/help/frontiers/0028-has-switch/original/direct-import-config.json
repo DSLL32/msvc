@@ -1,0 +1,1019 @@
+{
+  "schema": 1,
+  "target": {
+    "path": "toolchains/5.10/bin/LINK.EXE",
+    "sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579"
+  },
+  "accepted": [
+    "_mainCRTStartup",
+    "__except_handler3",
+    "__setargv",
+    "__matherr",
+    "__setdefaultprecision",
+    "__initterm",
+    "__XcptFilter",
+    "__controlfp",
+    "_initialize_buffer12",
+    "import:??2@YAPAXI@Z",
+    "_allocate_buffer12",
+    "_atexit",
+    "__onexit",
+    "___dllonexit",
+    "_register_buffer12_cleanup",
+    "_initialize_buffer8",
+    "_allocate_buffer8",
+    "_register_buffer8_cleanup",
+    "_initialize_buffer4",
+    "_allocate_buffer4",
+    "_register_buffer4_cleanup",
+    "_initialize_timing",
+    "_setup_timing",
+    "_register_timing_cleanup",
+    "_initialize_file_cache@16",
+    "_get_debug_flag@4",
+    "_zero_allocate@4",
+    "_new_file_record",
+    "_initialize_memory",
+    "_run_linker@8",
+    "_collect_file_arguments@16",
+    "_parse_argument@8",
+    "_is_libpath@4",
+    "_append_argument@8",
+    "_append_argument_record@12"
+  ],
+  "driver": [
+    {
+      "name": "_main",
+      "start": 4251280,
+      "end": 4252242,
+      "source": "src/driver.c",
+      "status": "implemented",
+      "abi": "cdecl int(int,char**,char**); original normal body+SEH filter/handler",
+      "pending_extent": false
+    },
+    {
+      "name": "_initialize_buffer12",
+      "start": 4345440,
+      "end": 4345450,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_initialize_buffer8",
+      "start": 4398448,
+      "end": 4398458,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_initialize_buffer4",
+      "start": 4398560,
+      "end": 4398570,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_initialize_timing",
+      "start": 4476512,
+      "end": 4476522,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_allocate_buffer12",
+      "start": 4345456,
+      "end": 4345494,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_register_buffer12_cleanup",
+      "start": 4345504,
+      "end": 4345518,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_free_buffer12",
+      "start": 4345520,
+      "end": 4345539,
+      "source": "src/initializers.c",
+      "status": "stub",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_allocate_buffer8",
+      "start": 4398464,
+      "end": 4398502,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_register_buffer8_cleanup",
+      "start": 4398512,
+      "end": 4398526,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_free_buffer8",
+      "start": 4398528,
+      "end": 4398547,
+      "source": "src/initializers.c",
+      "status": "stub",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_allocate_buffer4",
+      "start": 4398576,
+      "end": 4398614,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_register_buffer4_cleanup",
+      "start": 4398624,
+      "end": 4398638,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_free_buffer4",
+      "start": 4398640,
+      "end": 4398659,
+      "source": "src/initializers.c",
+      "status": "stub",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_setup_timing",
+      "start": 4476528,
+      "end": 4476570,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_register_timing_cleanup",
+      "start": 4476576,
+      "end": 4476590,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_close_timing",
+      "start": 4476592,
+      "end": 4476691,
+      "source": "src/initializers.c",
+      "status": "stub",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_console_control@4",
+      "start": 4250784,
+      "end": 4250817,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "console_control",
+      "pending_extent": false
+    },
+    {
+      "name": "_initialize_debug@8",
+      "start": 4280880,
+      "end": 4281071,
+      "source": "src/driver-stubs.c",
+      "status": "implemented",
+      "abi": "stdcall",
+      "native_symbol": "initialize_debug",
+      "pending_extent": false
+    },
+    {
+      "name": "_initialize_file_cache@16",
+      "start": 4240736,
+      "end": 4240919,
+      "source": "src/files.c",
+      "status": "implemented",
+      "abi": "stdcall",
+      "native_symbol": "initialize_file_cache",
+      "pending_extent": false
+    },
+    {
+      "name": "_initialize_memory",
+      "start": 4519264,
+      "end": 4519338,
+      "source": "src/memory.c",
+      "status": "implemented",
+      "abi": "cdecl",
+      "native_symbol": "initialize_memory",
+      "pending_extent": false
+    },
+    {
+      "name": "_run_linker@8",
+      "start": 4492464,
+      "end": 4494016,
+      "source": "src/link-driver.cpp",
+      "status": "implemented",
+      "abi": "stdcall",
+      "native_symbol": "run_linker",
+      "pending_extent": false
+    },
+    {
+      "name": "_run_librarian@8",
+      "start": 4443680,
+      "end": 4443681,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "run_librarian",
+      "pending_extent": true
+    },
+    {
+      "name": "_run_dumper@8",
+      "start": 4382800,
+      "end": 4383205,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "run_dumper",
+      "pending_extent": false
+    },
+    {
+      "name": "_run_editor@8",
+      "start": 4388480,
+      "end": 4388481,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "run_editor",
+      "pending_extent": true
+    },
+    {
+      "name": "_run_helper@8",
+      "start": 4252256,
+      "end": 4252337,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "run_helper",
+      "pending_extent": false
+    },
+    {
+      "name": "_save_exception@24",
+      "start": 4250832,
+      "end": 4251050,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "save_exception",
+      "pending_extent": false
+    },
+    {
+      "name": "_report_delayed_import@12",
+      "start": 4251056,
+      "end": 4251275,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "report_delayed_import",
+      "pending_extent": false
+    },
+    {
+      "name": "_print_logo",
+      "start": 4593072,
+      "end": 4593258,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "cdecl",
+      "native_symbol": "print_logo",
+      "pending_extent": false
+    },
+    {
+      "name": "_get_debug_flag@4",
+      "start": 4281072,
+      "end": 4281086,
+      "source": "src/driver-stubs.c",
+      "status": "implemented",
+      "native_symbol": "get_debug_flag",
+      "abi": "stdcall"
+    },
+    {
+      "name": "_new_file_record",
+      "start": 4240992,
+      "end": 4241006,
+      "source": "src/files.c",
+      "status": "implemented",
+      "native_symbol": "new_file_record",
+      "abi": "cdecl"
+    },
+    {
+      "name": "_zero_allocate@4",
+      "start": 4521584,
+      "end": 4521618,
+      "source": "src/files.c",
+      "status": "implemented",
+      "native_symbol": "zero_allocate",
+      "abi": "stdcall"
+    },
+    {
+      "name": "_out_of_memory",
+      "start": 4391632,
+      "end": 4391648,
+      "source": "src/files.c",
+      "status": "stub",
+      "native_symbol": "out_of_memory",
+      "abi": "cdecl"
+    },
+    {
+      "name": "_linker_usage",
+      "start": 4476800,
+      "end": 4476801,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "linker_usage"
+    },
+    {
+      "name": "_initialize_repro",
+      "start": 4475664,
+      "end": 4475955,
+      "source": "src/reproduction.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "initialize_repro"
+    },
+    {
+      "name": "_collect_file_arguments@16",
+      "start": 4573856,
+      "end": 4573970,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "collect_file_arguments"
+    },
+    {
+      "name": "_parse_command_line@16",
+      "start": 4573984,
+      "end": 4574134,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "parse_command_line"
+    },
+    {
+      "name": "_has_switch@4",
+      "start": 4476704,
+      "end": 4476796,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "has_switch"
+    },
+    {
+      "name": "_allocate_link_memory@8",
+      "start": 4521280,
+      "end": 4521281,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "allocate_link_memory"
+    },
+    {
+      "name": "_configure_link_options@12",
+      "start": 4477232,
+      "end": 4477233,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "configure_link_options"
+    },
+    {
+      "name": "_link_warning",
+      "start": 4391680,
+      "end": 4391681,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "link_warning"
+    },
+    {
+      "name": "_link_fatal",
+      "start": 4391472,
+      "end": 4391473,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "link_fatal"
+    },
+    {
+      "name": "_link_error",
+      "start": 4391648,
+      "end": 4391649,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "link_error"
+    },
+    {
+      "name": "_validate_debug_options@4",
+      "start": 4490800,
+      "end": 4490801,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "validate_debug_options"
+    },
+    {
+      "name": "_load_incremental_state@4",
+      "start": 4407024,
+      "end": 4407025,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "load_incremental_state"
+    },
+    {
+      "name": "_initialize_incremental_inputs",
+      "start": 4411712,
+      "end": 4411713,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "initialize_incremental_inputs"
+    },
+    {
+      "name": "_incremental_link@4",
+      "start": 4420608,
+      "end": 4420609,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "incremental_link"
+    },
+    {
+      "name": "_abort_incremental@4",
+      "start": 4491536,
+      "end": 4491537,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "abort_incremental"
+    },
+    {
+      "name": "_write_image_map@8",
+      "start": 4517872,
+      "end": 4517873,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "write_image_map"
+    },
+    {
+      "name": "_save_incremental_state@4",
+      "start": 4492000,
+      "end": 4492001,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "save_incremental_state"
+    },
+    {
+      "name": "_close_files",
+      "start": 4243104,
+      "end": 4243105,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "close_files"
+    },
+    {
+      "name": "_cleanup_pdb",
+      "start": 4261680,
+      "end": 4261681,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "cleanup_pdb"
+    },
+    {
+      "name": "_run_cvpack",
+      "start": 4492128,
+      "end": 4492129,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "run_cvpack"
+    },
+    {
+      "name": "_close_repro",
+      "start": 4476496,
+      "end": 4476497,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "close_repro"
+    },
+    {
+      "name": "?Initialize@LinkContext@@QAEPAU1@H@Z",
+      "start": 4405200,
+      "end": 4405201,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::Initialize(int)"
+    },
+    {
+      "name": "?FullLink@LinkContext@@QAEHPAE@Z",
+      "start": 4468560,
+      "end": 4468561,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::FullLink(unsigned char*)"
+    },
+    {
+      "name": "_load_input_module@8",
+      "start": 4247744,
+      "end": 4247745,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "load_input_module"
+    },
+    {
+      "name": "_duplicate_argument@4",
+      "start": 4521680,
+      "end": 4521681,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "duplicate_argument"
+    },
+    {
+      "name": "_tokenize_arguments@4",
+      "start": 4573376,
+      "end": 4573377,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "tokenize_arguments"
+    },
+    {
+      "name": "_release_memory@4",
+      "start": 4521520,
+      "end": 4521521,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "release_memory"
+    },
+    {
+      "name": "_read_response_file@4",
+      "start": 4573568,
+      "end": 4573569,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "read_response_file"
+    },
+    {
+      "name": "_parse_argument@8",
+      "start": 4573056,
+      "end": 4573361,
+      "pending_extent": false,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "native_symbol": "parse_argument"
+    },
+    {
+      "name": "_is_libpath@4",
+      "start": 4573008,
+      "end": 4573053,
+      "pending_extent": false,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "native_symbol": "is_libpath"
+    },
+    {
+      "name": "_expand_wildcards@4",
+      "start": 4572336,
+      "end": 4572337,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "expand_wildcards"
+    },
+    {
+      "name": "_canonicalize_argument@8",
+      "start": 4572752,
+      "end": 4572753,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "canonicalize_argument"
+    },
+    {
+      "name": "_open_argument_file@12",
+      "start": 4241392,
+      "end": 4241393,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "open_argument_file"
+    },
+    {
+      "name": "_is_archive@8",
+      "start": 4574528,
+      "end": 4574529,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "is_archive"
+    },
+    {
+      "name": "_close_argument_file@8",
+      "start": 4242704,
+      "end": 4242705,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "close_argument_file"
+    },
+    {
+      "name": "_append_argument@8",
+      "start": 4574368,
+      "end": 4574387,
+      "pending_extent": false,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "native_symbol": "append_argument"
+    },
+    {
+      "name": "_append_argument_record@12",
+      "start": 4574208,
+      "end": 4574283,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/arguments.c",
+      "native_symbol": "append_argument_record"
+    }
+  ],
+  "text_data": [
+    {
+      "start": 4232232,
+      "end": 4232244,
+      "accepted": true,
+      "reason": "CRTEXE.OBJ contextual SEH scope table",
+      "evidence": "cases/runtime-entry-identity.json",
+      "sha256": "71cd0e84dd60b732f51a5f49fd8f67f26908a0567e4cbba001a09b86b89b5614"
+    },
+    {
+      "start": 4200424,
+      "end": 4200436,
+      "accepted": true,
+      "reason": "main SEH scope table: previous scope -1, filter 40e0e1, handler 40e10e",
+      "sha256": "42feff862ada3b71b3431d6e557a595dac60b8aec2f567ae008fdd500bc6c688",
+      "evidence": "original main prologue and complete SEH filter/handler disassembly"
+    },
+    {
+      "start": 4199740,
+      "end": 4199747,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'Linker\\x00'",
+      "sha256": "d290aea9d523db3ae358d16a8d1114fab6159787a4c99d574d3d67b45e92746a",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4199724,
+      "end": 4199740,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'Library Manager\\x00'",
+      "sha256": "98d7bbb928df4e36a0cfad259cc13f08f2ba1b99b3af4263f440d8ec418a40ef",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4199716,
+      "end": 4199723,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'Dumper\\x00'",
+      "sha256": "936775867db1c5a7b1a773140d8f923d31b2b6f0a4a7f8f648e9acb6bd9ebb95",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4199708,
+      "end": 4199715,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'Editor\\x00'",
+      "sha256": "7570cbbfb02e45c2192ab3fe939ca9b1dce249927f81f47927b872c275e0d8ca",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4199700,
+      "end": 4199707,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'Helper\\x00'",
+      "sha256": "1ec47ae778c26c1bc3250da6614c28b399667b10f2e03309aaaaaa8fcad5db70",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4200416,
+      "end": 4200424,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'LINK_DB\\x00'",
+      "sha256": "00400638b4d8662a9999ae2284344468ac866c959fedfcbaeab42586794bdb5a",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4200376,
+      "end": 4200416,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'\\n%s : error : Internal error during %s\\n\\x00'",
+      "sha256": "58dd088874d8129091f216f3eef59b71313ff08ab172cb5e8e1b07e9f738a19a",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4200232,
+      "end": 4200374,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'\\n  ExceptionCode            = %08lX\\n  Excepti'",
+      "sha256": "4b1e469b5cce5c8823b7491dba3fc12a8e563493eff7303b645271b5145c17c6",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4200192,
+      "end": 4200229,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'  ExceptionInformation[%2u] = %08lX\\n\\x00'",
+      "sha256": "2a2858608d2c3d96c56ed654551c05058a836e2deb30d7e68de73b77d1df24b7",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4199816,
+      "end": 4200190,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'\\nCONTEXT:\\n  Eax    = %08lX  Esp    = %08lX\\n  '",
+      "sha256": "36805a3ead385b67378328497b9c154e34ae769d573a842897e7ec13bbba4bf3",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4202228,
+      "end": 4202239,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'SetupPhase\\x00'",
+      "sha256": "1a8cd746a5553c7dc6f70d7d46f901ab90396a3344c1713d8f00fbabb22f5e5e",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4203100,
+      "end": 4203103,
+      "accepted": true,
+      "reason": "initialize_debug sscanf format literal",
+      "evidence": "direct format argument at original 415280/4152d9",
+      "sha256": "0b782fc3030dbdf3756f17e7adf2ce5808dfc513ca7589adeb679c7d25eaef6f"
+    },
+    {
+      "start": 4199572,
+      "end": 4199578,
+      "accepted": true,
+      "reason": "file-cache environment probe literal",
+      "sha256": "86bb1a20f3ae296d8b3ff86cf62f0fb21fab388a7dbc2185278e7f2fd78293cd",
+      "evidence": "direct GetModuleHandleA/GetProcAddress arguments at 40b563/40b572"
+    },
+    {
+      "start": 4199580,
+      "end": 4199593,
+      "accepted": true,
+      "reason": "file-cache environment probe literal",
+      "sha256": "d89b4bfe0229ab034c8597fbd9c4b70af3690382b8c700ec05d6923da518275c",
+      "evidence": "direct GetModuleHandleA/GetProcAddress arguments at 40b563/40b572"
+    },
+    {
+      "start": 4228368,
+      "end": 4228375,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'_LINK_\\x00'",
+      "sha256": "861668a45b2939017e7534d68749f18ef9efda299dc0bc3af864d76f6df57036",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228360,
+      "end": 4228365,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'LINK\\x00'",
+      "sha256": "1c6aceb44cb2a2757128f8dba294cf6c2aa6aab8018305a3b40db08bfe461aef",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4205360,
+      "end": 4205364,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'vxd\\x00'",
+      "sha256": "b7ca8f3c5a4f9d14a5b7942468f169e83548ca9277be22b273681c155e68c345",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4222496,
+      "end": 4222503,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'nologo\\x00'",
+      "sha256": "637847bec75326bb5aedbee72a6d54ab27a6f744552c2bd989963fb003640ca1",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228040,
+      "end": 4228049,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'PDB:NONE\\x00'",
+      "sha256": "35ff8dccfa4552ddf6261914571781155c31f4a58ec532e7f416cae02e4d72b7",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228344,
+      "end": 4228360,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'DEBUGTYPE:FIXUP\\x00'",
+      "sha256": "b686dd6cde938beb8ba28c9a0d5a07bca73aae7f89ab82edc6fa54b44975b3f3",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228324,
+      "end": 4228341,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'SUBSYSTEM:NATIVE\\x00'",
+      "sha256": "f0093f3176bd94ff847efd42f372207c1348c6d0aa256102d6e9ba2ccca9ca07",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228304,
+      "end": 4228322,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'SUBSYSTEM:CONSOLE\\x00'",
+      "sha256": "0839263ca3f8a7f5b3788ce3edbc19171ba85e2041406352abef2a81010448e2",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228284,
+      "end": 4228302,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'SUBSYSTEM:WINDOWS\\x00'",
+      "sha256": "d914f3b281fe40fc3c539cea87fff57fa40e476d92285f9446cae77535c5ee15",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4207612,
+      "end": 4207628,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'SUBSYSTEM:POSIX\\x00'",
+      "sha256": "e337d197ec1bc15cb8f068d2ccc08b441ec6977479591eed8452d4da38191bfd",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228264,
+      "end": 4228284,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'SUBSYSTEM:WINDOWSCE\\x00'",
+      "sha256": "289033954f8bae5c5bb51d9ce4288adeae47a130492baa2f60fcaf19b2f71246",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4204884,
+      "end": 4204888,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'VXD\\x00'",
+      "sha256": "6939ec1bd4035320b0bed26a1625c3540442055a71448fbc6fd991fda3489531",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4199468,
+      "end": 4199472,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'ROM\\x00'",
+      "sha256": "d43ddf525ff2f63209f5a3861e305064980c7d96553ecab3e2024810418dfb9e",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228244,
+      "end": 4228264,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'WINDOWSCE:EMULATION\\x00'",
+      "sha256": "01848e4f93a4b8e9c97c26f566c72aceaa0c9d9cfcd2056bfa6f6497466861d4",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228224,
+      "end": 4228244,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'WINDOWSCE:NOCONVERT\\x00'",
+      "sha256": "d3125c600f1da6b4d335897915ac3a9665ae7c92e1294a2727b2d3c724232062",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228076,
+      "end": 4228084,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'PROFILE\\x00'",
+      "sha256": "64add6d5ba628476907bce37eabaa77830652f86e7f1cbfb9eeb327203c19d73",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4204668,
+      "end": 4204674,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'FIXED\\x00'",
+      "sha256": "5add6c1c5bb7aad84a32b01c35ebeeedd230334e8869872cffb321af5eeac063",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4494016,
+      "end": 4494052,
+      "accepted": true,
+      "reason": "run_linker nine-entry subsystem switch table",
+      "sha256": "d800a5e4f0fde92598efaef7ec51df91ec09ff4c0e36eda63a32666672e737bf",
+      "evidence": "bounded eax=Subsystem-1 in0..8 at448e2c..448e32"
+    },
+    {
+      "start": 4225652,
+      "end": 4225663,
+      "accepted": true,
+      "reason": "initialize_repro contextual literal b'LINK_REPRO\\x00'",
+      "sha256": "0044f291a74f02137d19db274de8a74f81e475b5c1c7a306c3183f525a17e28a",
+      "evidence": "complete original444b10..444c33 body direct argument reference"
+    },
+    {
+      "start": 4225384,
+      "end": 4225386,
+      "accepted": true,
+      "reason": "initialize_repro contextual literal b'.\\x00'",
+      "sha256": "075d3ddf5a3a826e13a92288e853bc4b2cb17fb05367ae865f401a4bb11f05ce",
+      "evidence": "complete original444b10..444c33 body direct argument reference"
+    },
+    {
+      "start": 4225636,
+      "end": 4225652,
+      "accepted": true,
+      "reason": "initialize_repro contextual literal b'LINK_REPRO_NAME\\x00'",
+      "sha256": "f886943103de3419adf94cdd306cd73090bf50de1ff56e6c1ddf362bbbf1b666",
+      "evidence": "complete original444b10..444c33 body direct argument reference"
+    },
+    {
+      "start": 4225624,
+      "end": 4225634,
+      "accepted": true,
+      "reason": "initialize_repro contextual literal b'\\\\link.rsp\\x00'",
+      "sha256": "c03d393ef0158a769d579f61e9f90f57b1e70648f3773d2f9e97bc994d2301c2",
+      "evidence": "complete original444b10..444c33 body direct argument reference"
+    },
+    {
+      "start": 4213652,
+      "end": 4213655,
+      "accepted": true,
+      "reason": "initialize_repro contextual literal b'wt\\x00'",
+      "sha256": "15eec7f94fc5b359e2a9946d8603f6d2e201c84dcea1bb8fa5b8d77e12c06138",
+      "evidence": "complete original444b10..444c33 body direct argument reference"
+    },
+    {
+      "start": 4231688,
+      "end": 4231691,
+      "accepted": true,
+      "reason": "parse_argument contextual literal b'?*\\x00'",
+      "sha256": "633e7f26429008c87353e3deb50a6548e437ce98fcfed7e51ef76e6158a4f1a6",
+      "evidence": "complete original45c780..45c8b1 disassembly"
+    },
+    {
+      "start": 4231680,
+      "end": 4231685,
+      "accepted": true,
+      "reason": "parse_argument contextual literal b'.obj\\x00'",
+      "sha256": "d564b4b04cee6d2a8763f04ebb2fa40b080ec83af3d9fbc0af4d4afa5b8f04b5",
+      "evidence": "complete original45c780..45c8b1 disassembly"
+    },
+    {
+      "start": 4227552,
+      "end": 4227560,
+      "accepted": true,
+      "reason": "libpath predicate contextual prefix literal",
+      "sha256": "304d9a53460e990cb8735bd026cbedb4409cf026fded3266c76d88ca9fb4c61e",
+      "evidence": "45c751 literal and45c76b _mbsnbicmp argument"
+    }
+  ],
+  "cases": {
+    "help": {
+      "arguments": [
+        "/?"
+      ],
+      "complete": false
+    }
+  },
+  "review_gate": "approved"
+}

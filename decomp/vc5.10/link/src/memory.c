@@ -1,4 +1,6 @@
 #include <windows.h>
+#include <string.h>
+#include "files.h"
 #include "link.h"
 #include <recon.h>
 
@@ -17,3 +19,20 @@ void __cdecl initialize_memory(void)
     if (memory.dwTotalPhys >= 0x04000000)
         maximum_physical_memory = memory.dwTotalPhys;
 }
+
+extern BYTE incremental_enabled;
+void *__stdcall allocate_incremental(unsigned);
+
+#pragma intrinsic(memset)
+void *__stdcall allocate_link_memory(unsigned count,unsigned size)
+{
+    unsigned bytes=count*size;
+    void *memory;
+    if (!incremental_enabled) return zero_allocate(bytes);
+    memory=allocate_incremental(bytes);
+    memset(memory,0,bytes);
+    return memory;
+}
+void *__stdcall allocate_incremental(unsigned bytes) { __asm { int 3 } return NULL; }
+
+void *__stdcall allocate_memory(unsigned bytes) { __asm { int 3 } return NULL; }

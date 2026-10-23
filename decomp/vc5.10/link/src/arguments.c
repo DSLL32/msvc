@@ -135,3 +135,14 @@ InputArgument *__stdcall append_argument_record(InputArguments *list,const char 
     if (!argument_tail && list!=&option_arguments) argument_tail=argument;
     return argument;
 }
+
+unsigned char __stdcall has_switch(const char *name)
+{
+    InputArgument *argument=option_arguments.first;
+    unsigned short index;
+    for (index=0; index<option_arguments.count; ++index) {
+        if (!_stricmp(name,argument->name)) return 1;
+        argument=argument->next;
+    }
+    return 0;
+}

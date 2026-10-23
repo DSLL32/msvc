@@ -246,3 +246,37 @@ def check_commandline(original,rebuilt,object_bytes,map_text):
         seen.append(site-2)
     assert len(seen)==2,'rebuilt argument parser imports differ'
     return dict(original_load=0x45cb25,slot=0x401134,identity='msvcrt.dll!getenv',original_calls=[x[0] for x in calls],restore=0x45cbb2,rebuilt_calls=seen,qualification='Exact whole-body register-write and incoming-branch certificate; cdecl/stdcall callees preserve EBX. Common Rust retains CFG, RET, references and ownership.')
+
+
+def check_switch(original,rebuilt,object_bytes,map_text):
+    from capstone.x86 import X86_REG_EBP,X86_REG_BP
+    start,end=0x444f20,0x444f7c
+    cs=Cs(CS_ARCH_X86,CS_MODE_32);cs.detail=True
+    instructions=list(cs.disasm(original.read(start,end-start),start));by_pc={i.address:i for i in instructions}
+    assert sum(i.size for i in instructions)==end-start
+    catalog=slots(original);load=by_pc[0x444f39]
+    assert load.mnemonic=='mov' and load.operands[0].reg==X86_REG_EBP
+    m=load.operands[1].mem;assert not m.base and not m.index and m.disp==0x40113c and catalog[m.disp]=='msvcrt.dll!_stricmp'
+    aliases={X86_REG_EBP,X86_REG_BP};restores={0x444f65,0x444f6e,0x444f75}
+    for i in instructions:
+        if i.address>0x444f39 and aliases.intersection(i.regs_access()[1]):
+            assert i.address in restores and i.mnemonic=='pop' and i.op_str=='ebp','switch cache overwritten'
+        if i.group(CS_GRP_JUMP):
+            assert i.operands[0].type==X86_OP_IMM
+            target=i.operands[0].imm&0xffffffff
+            assert not (0x444f39<target<0x444f65 and not 0x444f39<=i.address<0x444f65),'switch branch bypasses cached load'
+    assert {i.address for i in instructions if i.mnemonic=='pop' and i.op_str=='ebp'}==restores
+    calls=[(i.address,i.op_str) for i in instructions if i.mnemonic=='call']
+    assert calls==[(0x444f43,'ebp')]
+    publics={n:int(a,16) for n,a in re.findall(r'^\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})',map_text,re.M)}
+    obj=COFF(object_bytes);symbol=next(s for s in obj.symbols.values() if s['name']=='_has_switch@4');section=obj.sections[symbol['section']-1]
+    stop=min([s['value'] for s in obj.symbols.values() if s['section']==symbol['section'] and s['type']==32 and s['value']>symbol['value']]+[len(section['data'])])
+    rebuilt_slots=slots(rebuilt);seen=[]
+    for offset,reference,kind in section['relocs']:
+        if not symbol['value']<=offset<stop or not reference['name'].startswith('__imp_'):continue
+        assert kind==6 and reference['name']=='__imp___stricmp' and section['data'][offset-2:offset]==b'\xff\x15'
+        site=publics['_has_switch@4']+offset-symbol['value']
+        assert rebuilt.read(site-2,2)==b'\xff\x15' and rebuilt_slots[u32(rebuilt.read(site,4),0)]=='msvcrt.dll!_stricmp'
+        seen.append(site-2)
+    assert len(seen)==1
+    return dict(original_load=0x444f39,slot=0x40113c,identity='msvcrt.dll!_stricmp',original_calls=[0x444f43],restores=sorted(restores),rebuilt_calls=seen,qualification='Exact whole-body EBP/BP writes and incoming branches; count-zero branch skips the cache and all calls. Every original return restores EBP. Common Rust owns CFG/RET/ref/ownership.')

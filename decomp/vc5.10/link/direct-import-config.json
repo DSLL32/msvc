@@ -39,7 +39,9 @@
     "_parse_argument@8",
     "_is_libpath@4",
     "_append_argument@8",
-    "_append_argument_record@12"
+    "_append_argument_record@12",
+    "_allocate_link_memory@8",
+    "LinkContext::Initialize"
   ],
   "driver": [
     {
@@ -374,19 +376,19 @@
     {
       "name": "_has_switch@4",
       "start": 4476704,
-      "end": 4476705,
-      "source": "src/link-driver.cpp",
-      "status": "stub",
-      "pending_extent": true,
+      "end": 4476796,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "pending_extent": false,
       "native_symbol": "has_switch"
     },
     {
       "name": "_allocate_link_memory@8",
       "start": 4521280,
-      "end": 4521281,
-      "source": "src/link-driver.cpp",
-      "status": "stub",
-      "pending_extent": true,
+      "end": 4521343,
+      "source": "src/memory.c",
+      "status": "implemented",
+      "pending_extent": false,
       "native_symbol": "allocate_link_memory"
     },
     {
@@ -525,13 +527,15 @@
       "native_symbol": "close_repro"
     },
     {
-      "name": "?Initialize@LinkContext@@QAEPAU1@H@Z",
+      "name": "LinkContext::Initialize",
       "start": 4405200,
-      "end": 4405201,
+      "end": 4405604,
       "source": "src/link-driver.cpp",
-      "status": "stub",
-      "pending_extent": true,
-      "native_symbol": "LinkContext::Initialize(int)"
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "LinkContext::Initialize",
+      "symbol": "?Initialize@LinkContext@@QAEPAULinkAuxiliaryData@@H@Z",
+      "abi": "thiscall LinkAuxiliaryData*(int); ECX receiver, stack4/RET4, EAX auxiliary allocation; caller ignores result"
     },
     {
       "name": "?FullLink@LinkContext@@QAEHPAE@Z",
@@ -667,6 +671,103 @@
       "status": "implemented",
       "source": "src/arguments.c",
       "native_symbol": "append_argument_record"
+    },
+    {
+      "name": "_allocate_incremental@4",
+      "start": 4521184,
+      "end": 4521185,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/memory.c",
+      "native_symbol": "allocate_incremental"
+    },
+    {
+      "name": "LinkContext::InitializeVxd",
+      "symbol": "?InitializeVxd@LinkContext@@QAEXXZ",
+      "start": 4602944,
+      "end": 4602945,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::InitializeVxd"
+    },
+    {
+      "name": "LinkContext::PeHeaderSize",
+      "symbol": "?PeHeaderSize@LinkContext@@QAEKPAK@Z",
+      "start": 4562176,
+      "end": 4562177,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::PeHeaderSize"
+    },
+    {
+      "name": "LinkContext::VxdHeaderSize",
+      "symbol": "?VxdHeaderSize@LinkContext@@QAEKPAK@Z",
+      "start": 4603024,
+      "end": 4603025,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::VxdHeaderSize"
+    },
+    {
+      "name": "LinkContext::PeWriteSection",
+      "symbol": "?PeWriteSection@LinkContext@@QAEXHPAX0@Z",
+      "start": 4562256,
+      "end": 4562257,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::PeWriteSection"
+    },
+    {
+      "name": "LinkContext::VxdWriteSection",
+      "symbol": "?VxdWriteSection@LinkContext@@QAEXHPAX0@Z",
+      "start": 4603088,
+      "end": 4603089,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::VxdWriteSection"
+    },
+    {
+      "name": "LinkContext::PeWriteHeaders",
+      "symbol": "?PeWriteHeaders@LinkContext@@QAEXH@Z",
+      "start": 4562288,
+      "end": 4562289,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::PeWriteHeaders"
+    },
+    {
+      "name": "LinkContext::VxdWriteHeaders",
+      "symbol": "?VxdWriteHeaders@LinkContext@@QAEXH@Z",
+      "start": 4605040,
+      "end": 4605041,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::VxdWriteHeaders"
+    },
+    {
+      "name": "_create_string_table@12",
+      "start": 4596256,
+      "end": 4596316,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "create_string_table"
+    },
+    {
+      "name": "_allocate_memory@4",
+      "start": 4521552,
+      "end": 4521584,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/memory.c",
+      "native_symbol": "allocate_memory"
     }
   ],
   "text_data": [
@@ -1005,6 +1106,62 @@
       "reason": "libpath predicate contextual prefix literal",
       "sha256": "304d9a53460e990cb8735bd026cbedb4409cf026fded3266c76d88ca9fb4c61e",
       "evidence": "45c751 literal and45c76b _mbsnbicmp argument"
+    },
+    {
+      "start": 4202448,
+      "end": 4202468,
+      "accepted": true,
+      "reason": "Initialize contextual IMAGE_FILE_HEADER defaults",
+      "sha256": "fc61576d401581c42b708714c15f5590135b5a8008515c81f59cf8b0bff75c8b",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
+    },
+    {
+      "start": 4202472,
+      "end": 4202696,
+      "accepted": true,
+      "reason": "Initialize contextual IMAGE_OPTIONAL_HEADER defaults",
+      "sha256": "ceef4d4e76a60f04150b8b47789c0b172ffe5ba4b15ad4b946edd610dc9f6bf0",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
+    },
+    {
+      "start": 4202296,
+      "end": 4202404,
+      "accepted": true,
+      "reason": "Initialize contextual typed linker option defaults",
+      "sha256": "321d7c20d5ce69afd652473c08b0f8b681d1c86b6a27974ea80b89129cd87c77",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
+    },
+    {
+      "start": 4202408,
+      "end": 4202444,
+      "accepted": true,
+      "reason": "Initialize specified-switch defaults",
+      "sha256": "6db65fd59fd356f6729140571b5bcd6bb3b83492a16e1bf0a3884442fc3c8a0e",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
+    },
+    {
+      "start": 4223196,
+      "end": 4223225,
+      "accepted": true,
+      "reason": "Initialize database signature literal",
+      "sha256": "a72538b0ead687ca6ce23ed2bc133db3bda48d4d7b5f6cbdbbdbb7ec6ede2eca",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
+    },
+    {
+      "start": 4203048,
+      "end": 4203053,
+      "accepted": true,
+      "reason": "Initialize .dll extension literal",
+      "sha256": "831bc40a30efc6335070e9ae1872c6aa2df874a2c28ddbc4646a9fda2b4506d5",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
+    },
+    {
+      "start": 4223064,
+      "end": 4223192,
+      "accepted": true,
+      "reason": "Initialize contextual DOS output-image template; typed header, output-only bootstrap and message",
+      "sha256": "7e7b7dec8f657dc691ca06c3bf23956976a3c6727e9fadb7c2bfd8df4d55246f",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
     }
   ],
   "cases": {

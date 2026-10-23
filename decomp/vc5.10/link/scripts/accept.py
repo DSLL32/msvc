@@ -128,13 +128,15 @@ def audit_trial(path):
     inputs = [tool, ROOT/'toolchains/5.10/bin/LINK.EXE', BINARY/'build/link.exe',
               BINARY/'build/link.map',path,BINARY/'runtime.json',BINARY/'build/runtime.json',BINARY/'graph.json',BINARY/'build/graph.json']
     inputs.append(strict_path)
-    cached_bodies={'_main','_initialize_debug@8','_initialize_repro','_parse_command_line@16'} & set(trial['accepted'])
+    inputs += [BINARY/'scripts'/name for name in ['accept.py','boundary_state.py','mask.py','observers.py','environment_profile.py','binary.py']]
+    cached_bodies={'_main','_initialize_debug@8','_initialize_repro','_parse_command_line@16','_has_switch@4'} & set(trial['accepted'])
     imported=copy.deepcopy(trial)
     imported['accepted']=[name for name in imported['accepted'] if name not in cached_bodies]
     import_path=path.parent/'direct-import-config.json'
     import_path.write_text(json.dumps(imported,indent=2)+'\n')
     inputs.append(import_path)
     if cached_bodies:inputs += [BINARY/'scripts/import-residual.py',BINARY/'build/driver.obj',BINARY/'build/driver-stubs.obj',BINARY/'build/reproduction.obj',BINARY/'build/arguments.obj']
+    if 'LinkContext::Initialize' in trial['accepted']:inputs.append(BINARY/'scripts/member_pointers.py')
     before = {str(p):sha(p.read_bytes()) for p in inputs}
     full_command = [arg for arg in command if arg!='--check-ret'] + ['--include-evidenced-runtime']
     started=time.perf_counter()
@@ -160,6 +162,12 @@ def audit_trial(path):
         if '_initialize_debug@8' in cached_bodies:residual['_initialize_debug@8']=module.check_debug(original_pe,rebuilt_pe,(BINARY/'build/driver-stubs.obj').read_bytes(),map_text)
     if '_initialize_repro' in cached_bodies:residual['_initialize_repro']=module.check_repro(original_pe,rebuilt_pe,(BINARY/'build/reproduction.obj').read_bytes(),map_text)
     if '_parse_command_line@16' in cached_bodies:residual['_parse_command_line@16']=module.check_commandline(original_pe,rebuilt_pe,(BINARY/'build/arguments.obj').read_bytes(),map_text)
+    if '_has_switch@4' in cached_bodies:residual['_has_switch@4']=module.check_switch(original_pe,rebuilt_pe,(BINARY/'build/arguments.obj').read_bytes(),map_text)
+    member_pointer_contract=None
+    if 'LinkContext::Initialize' in trial['accepted']:
+        from member_pointers import check_static
+        from binary import PE
+        member_pointer_contract=check_static(PE(ROOT/'toolchains/5.10/bin/LINK.EXE'),PE(BINARY/'build/link.exe'),(BINARY/'build/link.map').read_text(),trial)
     elapsed=time.perf_counter()-started
     after = {str(p):sha(p.read_bytes()) for p in inputs}
     assert before == after, 'audit inputs changed during discovery'
@@ -171,7 +179,7 @@ def audit_trial(path):
     assert full_report['discovery'] == 'cfg'
     assert set(report['functions']) == set(strict['accepted']), 'strict body subset differs'
     assert set(full_report['functions']) == set(trial['accepted']), 'full trial graph subset differs'
-    return dict(elapsed_seconds=elapsed,full_command=full_command,strict_command=strict_command,import_command=import_command,import_report=import_report,cached_import_residual=residual,
+    return dict(elapsed_seconds=elapsed,member_pointer_contract=member_pointer_contract,full_command=full_command,strict_command=strict_command,import_command=import_command,import_report=import_report,cached_import_residual=residual,
                 strict_projection_excludes_only_verified_import_thunks=sorted(import_leaves & set(trial['accepted'])),
                 input_sha256_before=before, input_sha256_after=after,
                 full_report=full_report,strict_report=report,

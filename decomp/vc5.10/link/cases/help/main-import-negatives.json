@@ -1,6 +1,6 @@
 {
   "positive": true,
-  "negative_count": 33,
+  "negative_count": 40,
   "rejected": [
     "swapped setvbuf slot",
     "swapped second setvbuf slot",
@@ -34,6 +34,13 @@
     "parser overwritten cache",
     "parser BH alias overwrite",
     "parser branch bypasses load",
-    "parser restore differs"
+    "parser restore differs",
+    "switch swapped comparison slot",
+    "switch wrong call register",
+    "switch cached EBP overwritten",
+    "switch BP alias overwritten",
+    "switch branch skips cache load",
+    "switch early restore differs",
+    "switch count-zero restore differs"
   ]
 }

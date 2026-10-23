@@ -2,10 +2,10 @@
 
 Target: `toolchains/5.10/bin/LINK.EXE`, PE32 i386, image base `0x400000`,
 entry RVA `0x65280`. There are no exports or TLS directory. Root approved the scaffold and exact
-shipped CRT startup boundary. Twenty-seven application functions are accepted: constructors and their helpers, main,
+shipped CRT startup boundary. Thirty application functions are accepted: constructors and their helpers, main,
 debug parsing, file-cache records, memory initialization and the main linker
 driver, reproduction setup and command-line prepass. The first `/?` case is
-still in progress at switch lookup after option-list insertion. Later
+still in progress at string-table creation after typed context initialization. Later
 hello, DLL, debug/PDB and resource cases remain source-only and unreleased.
 Native i386 and original 5.10 `/MD /Od /Z7` builds pass with `make -j4`.
 
@@ -138,3 +138,14 @@ normalized `-1` for `"?"`/`"libpath"` at byte limit7. The shared implementation
 retains that reviewed ASCII scope; `_mbspbrk` remains typed and unsupported on
 the unvisited wildcard path. `cases/help/multibyte/` is explicitly original-only
 analysis, separate from masked acceptance.
+
+The three standalone output callbacks are genuine nonvirtual member pointers.
+Original/Win32 globals contain one code DWORD; native globals contain code plus
+zero receiver adjustment. `scripts/member_pointers.py` accepts only the six
+named methods and an unambiguous null, with exact original assignment/indirect
+call sequences and Win32 code stores checked. Forty-two mutations reject wrong
+code, adjustments, widths, nulls and call/assignment changes. This narrow ABI
+accommodation does not apply to embedded fields or serialized data; the context
+remains664 bytes on both builds. The contextual128-byte DOS image is output
+data, defined as a typed header, bootstrap bytes and message, and matches the
+original payload exactly.

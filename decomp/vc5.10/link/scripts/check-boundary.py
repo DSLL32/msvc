@@ -5,7 +5,7 @@ import copy
 import json
 from pathlib import Path
 import struct
-from boundary_state import compare
+from boundary_state import compare,MEMORY_READY,OPTION_READY
 
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--native',required=True,type=Path)
@@ -41,7 +41,7 @@ if 'program_name' in native:
     negative('lost local basename alias',lambda s:s.__setitem__('program_name_address',0))
 if 'frontier_arguments' in native and 'a' in native['frontier_arguments']:
     negative('wrong file-cache limit',lambda s:s['frontier_arguments'].__setitem__('a',17))
-if args.frontier in ('_run_linker@8','_initialize_repro','_collect_file_arguments@16','_parse_command_line@16','_parse_argument@8','_is_libpath@4','_append_argument@8','_append_argument_record@12','_has_switch@4'):
+if args.frontier in MEMORY_READY:
     negative('wrong page size',lambda s:s.__setitem__('allocation_page_size',8192))
     negative('wrong physical memory',lambda s:s.__setitem__('maximum_physical_memory',0x4000000))
     negative('missing hardware call',lambda s:s['system_calls'].pop())
@@ -56,7 +56,7 @@ if args.frontier in ('_run_linker@8','_initialize_repro','_collect_file_argument
     negative('broken FILE buffer alias',lambda s:s.__setitem__('crt_stdout_bytes',('00000000'+s['crt_stdout_bytes'][8:])))
     negative('broken file-record link',lambda s:s['file_records'].__setitem__(15,s['file_records'][15][:72]+'00000000'))
     negative('wrong file record count',lambda s:s['file_globals'].__setitem__('file_record_count',15))
-if args.frontier in ('_collect_file_arguments@16','_parse_command_line@16','_parse_argument@8','_is_libpath@4','_append_argument@8','_append_argument_record@12','_has_switch@4'):
+if args.frontier in MEMORY_READY-{'_run_linker@8','_initialize_repro'}:
     negative('unexpected repro directory',lambda s:s.__setitem__('repro_directory',1))
     negative('unexpected repro response',lambda s:s.__setitem__('repro_response',1))
     if 'environment_arguments' in native:negative('wrong parsing environments',lambda s:s['environment_arguments'].reverse())
@@ -84,13 +84,37 @@ if args.frontier in ('_append_argument@8','_append_argument_record@12'):
     negative('missing second comparison',lambda s:s['mbsnbicmp_calls'].pop())
 if args.frontier=='_append_argument_record@12':
     negative('lost original option alias',lambda s:s['argument_detail'].__setitem__('original_address',0))
-if args.frontier=='_has_switch@4':
-    negative('wrong requested switch',lambda s:s['argument_detail'].__setitem__('text','nologo'))
+if args.frontier in OPTION_READY:
+    if args.frontier=='_has_switch@4':negative('wrong requested switch',lambda s:s['argument_detail'].__setitem__('text','nologo'))
     negative('wrong option count',lambda s:s['option_arguments'].__setitem__(2,2))
     negative('lost first-last option alias',lambda s:s['option_arguments'].__setitem__(1,0))
     negative('lost option name alias',lambda s:s.__setitem__('option_node','00000000'+s['option_node'][8:]))
     negative('lost original name alias',lambda s:s.__setitem__('option_node',s['option_node'][:8]+'00000000'+s['option_node'][16:]))
     negative('unexpected option next',lambda s:s.__setitem__('option_node',s['option_node'][:40]+'01000000'))
     negative('wrong completed prepass',lambda s:s.__setitem__('input_prepass',1))
+if args.frontier=='_allocate_link_memory@8':
+    negative('wrong allocation count',lambda s:s['allocation_arguments'].__setitem__('count',2))
+    negative('wrong allocation element size',lambda s:s['allocation_arguments'].__setitem__('size',660))
+    negative('wrong logo state',lambda s:s.__setitem__('logo_pending',0))
+    negative('unexpected incremental mode',lambda s:s.__setitem__('incremental_enabled',1))
+if args.frontier=='LinkContext::Initialize':
+    negative('wrong thiscall receiver',lambda s:s.__setitem__('context_this',0))
+    negative('lost caller receiver alias',lambda s:s.__setitem__('caller_context',0))
+    negative('wrong thiscall stack flag',lambda s:s.__setitem__('context_vxd',1))
+    negative('context allocation not zeroed',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
+    negative('wrong logo state',lambda s:s.__setitem__('logo_pending',0))
+    negative('unexpected incremental mode',lambda s:s.__setitem__('incremental_enabled',1))
+if args.frontier=='_create_string_table@12':
+    negative('lost class receiver alias',lambda s:s.__setitem__('caller_context',0))
+    negative('wrong first string-table field',lambda s:s['table_arguments'].__setitem__('table',s['context_this']+0x1d4))
+    negative('wrong table bucket count',lambda s:s['table_arguments'].__setitem__('buckets',128))
+    negative('wrong table capacity',lambda s:s['table_arguments'].__setitem__('capacity',32))
+    negative('wrong initialized class byte',lambda s:s.__setitem__('link_context','00'+s['link_context'][2:]))
+    negative('wrong class extension string',lambda s:s.__setitem__('context_extension','.exe'))
+    negative('wrong native member width',lambda s:s['member_pointers']['image_header_size'].__setitem__('bytes',4))
+    negative('nonzero member adjustment',lambda s:s['member_pointers']['image_header_size'].__setitem__('raw','0000000001000000'))
+    negative('ambiguous initial member null',lambda s:s['member_pointers']['image_write_section'].__setitem__('raw','0100000000000000'))
+    negative('unknown typed member code',lambda s:s['typed_member_values'].__setitem__('LinkContext::PeHeaderSize','0100000000000000'))
+    negative('wrong typed DOS output payload',lambda s:s.__setitem__('default_dos_image','00'+s['default_dos_image'][2:]))
 args.report.write_text(json.dumps(dict(frontier=args.frontier,positive=True,negative_count=len(checks),rejected=checks),indent=2)+'\n')
 print('Typed boundary passes; %d semantic negatives rejected.'%len(checks))

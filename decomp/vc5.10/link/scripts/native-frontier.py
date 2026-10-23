@@ -185,10 +185,35 @@ def stopped(event):
         state['selected_tool_name_address']=int(gdb.parse_and_eval('selected_tool_name'))
         state['first_tool_name_address']=int(gdb.parse_and_eval('tool_modes[0].name'))
         state['selected_tool_kind']=int(gdb.parse_and_eval('selected_tool_kind'))
+    if state['function'] in ('LinkContext::Initialize','create_string_table'):
+        owner=frame
+        while owner and owner.name()!='LinkContext::Initialize':owner=owner.older()
+        assert owner
+        state['context_this']=int(owner.read_var('this'));state['context_vxd']=int(owner.read_var('vxd'))
+        state['caller_context']=int(driver.read_var('context'))
+        state['link_context']=gdb.selected_inferior().read_memory(state['context_this'],664).tobytes().hex()
+        if state['function']=='create_string_table':state['context_extension']=owner.read_var('this').dereference()['options']['default_extension'].string()
+    if state['function']=='create_string_table':
+        state['table_arguments']=dict(table=int(frame.read_var('table')),buckets=int(frame.read_var('buckets')),capacity=int(frame.read_var('capacity')))
+    state['member_pointers']={}
+    for member in ('image_header_size','image_write_section','image_write_headers'):
+        value=gdb.parse_and_eval(member);address=int(gdb.parse_and_eval('&'+member))
+        state['member_pointers'][member]=dict(bytes=value.type.sizeof,raw=gdb.selected_inferior().read_memory(address,value.type.sizeof).tobytes().hex())
+    state['member_methods']={};state['typed_member_values']={}
+    for method in ('PeHeaderSize','VxdHeaderSize','PeWriteSection','VxdWriteSection','PeWriteHeaders','VxdWriteHeaders'):
+        name='LinkContext::'+method
+        symbol=gdb.lookup_global_symbol(name)
+        assert symbol
+        state['member_methods'][name]=int(symbol.value().address)
+        state['typed_member_values'][name]=gdb.parse_and_eval('&'+name).bytes.hex()
+    state['default_dos_image']=gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&default_dos_image')),128).tobytes().hex()
     state['option_arguments_address']=int(gdb.parse_and_eval('&option_arguments'))
     state['option_arguments']=[int(gdb.parse_and_eval('option_arguments.'+name)) for name in ('first','last','count')]
     if state['option_arguments'][0]:state['option_node']=gdb.selected_inferior().read_memory(state['option_arguments'][0],24).tobytes().hex()
     if state['function']=='has_switch':state['argument_detail']=dict(text=frame.read_var('name').string(),address=int(frame.read_var('name')))
+    if state['function']=='allocate_link_memory':state['allocation_arguments']=dict(count=int(frame.read_var('count')),size=int(frame.read_var('size')))
+    state['logo_pending']=int(gdb.parse_and_eval('logo_pending'))
+    state['incremental_enabled']=int(gdb.parse_and_eval('incremental_enabled'))
     state['argument_tail']=int(gdb.parse_and_eval('argument_tail'))
     if state['function'] in ('parse_argument','is_libpath','append_argument','append_argument_record'):
         state['argument_detail']=dict(text=frame.read_var('text').string(),address=int(frame.read_var('text')))

@@ -1,6 +1,7 @@
 /* The real thiscall caller is the only reason this file is C++. */
 #include <windows.h>
 #include <stdio.h>
+#include <string.h>
 #include "link.h"
 #include "initializers.h"
 #include "crt-imports.h"
@@ -166,11 +167,93 @@ extern "C" int __stdcall run_linker(int argc, char **argv)
     return result;
 }
 
-LinkContext *RECON_THISCALL LinkContext::Initialize(int vxd)
+/* Four independently declared output templates are constructed where their
+ * fields are first encountered. The DOS bootstrap is file data, not native code. */
+extern "C" const DefaultDosImage default_dos_image = {
+    {0x5a4d,0x90,3,0,4,0,0xffff,0,0xb8,0,0,0,0x40,0,
+     {0,0,0,0},0,0,{0,0,0,0,0,0,0,0,0,0},0},
+    {0x0e,0x1f,0xba,0x0e,0x00,0xb4,0x09,0xcd,0x21,0xb8,0x01,0x4c,0xcd,0x21},
+    "This program cannot be run in DOS mode.\r\r\n$"
+};
+HeaderSizeHandler image_header_size;
+SectionWriter image_write_section;
+HeaderWriter image_write_headers;
+extern "C" StringTable *__stdcall create_string_table(StringTable **,unsigned,unsigned);
+extern "C" void *__stdcall allocate_memory(unsigned);
+
+#pragma intrinsic(strcpy,memset)
+LinkAuxiliaryData *RECON_THISCALL LinkContext::Initialize(int vxd)
 {
-    __asm { int 3 }
-    return this;
+    is_vxd=vxd;
+    self=this;
+    database_type=6;
+    database_flags=0;
+    strcpy(database_signature,"Microsoft Linker Database\n\a\x1a");
+    memset(&file_header,0,sizeof(file_header));
+    file_header.SizeOfOptionalHeader=sizeof(optional_header);
+    file_header.Characteristics=0x100;
+    memset(&optional_header,0,sizeof(optional_header));
+    optional_header.Magic=0x10b;
+    optional_header.MajorLinkerVersion=5;
+    optional_header.MinorLinkerVersion=10;
+    optional_header.ImageBase=0x400000;
+    optional_header.SectionAlignment=0x1000;
+    optional_header.FileAlignment=0x200;
+    optional_header.MajorOperatingSystemVersion=4;
+    optional_header.SizeOfStackReserve=0x100000;
+    optional_header.SizeOfStackCommit=0x1000;
+    optional_header.SizeOfHeapReserve=0x100000;
+    optional_header.SizeOfHeapCommit=0x1000;
+    optional_header.NumberOfRvaAndSizes=16;
+    memset(&options,0,sizeof(options));
+    options.default12e=1;
+    options.default135=1;
+    options.default136=1;
+    options.option142=1;
+    options.default144=1;
+    options.default_extension=".dll";
+    options.default180=1;
+    specified_switches=0;
+    memset(reserved194,0,sizeof(reserved194));
+    create_string_table(&symbols,1024,128);
+    create_string_table(&strings,128,32);
+    pointer_list.first=NULL;
+    pointer_list.last=&pointer_list.first;
+    pointer_list.active=0;
+    pointer_list.count=0;
+    dos_image=&default_dos_image;
+    dos_image_size=128;
+    objects=NULL;
+    objects_tail=&objects;
+    if (vxd==1) {
+        image_header_size=&LinkContext::VxdHeaderSize;
+        image_write_section=&LinkContext::VxdWriteSection;
+        image_write_headers=&LinkContext::VxdWriteHeaders;
+        InitializeVxd();
+    } else if (vxd==0) {
+        image_header_size=&LinkContext::PeHeaderSize;
+        image_write_section=&LinkContext::PeWriteSection;
+        image_write_headers=&LinkContext::PeWriteHeaders;
+    }
+    auxiliary=(LinkAuxiliaryData *)(incremental_enabled?
+        allocate_link_memory(1,sizeof(LinkAuxiliaryData)):
+        allocate_memory(sizeof(LinkAuxiliaryData)));
+    if (auxiliary) memset(auxiliary,0,sizeof(LinkAuxiliaryData));
+    auxiliary_flags=0;
+    /* Actual original EAX is this auxiliary allocation, not the receiver.
+     * The only discovered caller ignores that return value. */
+    return auxiliary;
 }
+void RECON_THISCALL LinkContext::InitializeVxd(void) { __asm { int 3 } }
+DWORD RECON_THISCALL LinkContext::PeHeaderSize(DWORD *offset) { __asm { int 3 } return 0; }
+DWORD RECON_THISCALL LinkContext::VxdHeaderSize(DWORD *offset) { __asm { int 3 } return 0; }
+void RECON_THISCALL LinkContext::PeWriteSection(int file,void *section,void *header) { __asm { int 3 } }
+void RECON_THISCALL LinkContext::VxdWriteSection(int file,void *section,void *header) { __asm { int 3 } }
+void RECON_THISCALL LinkContext::PeWriteHeaders(int file) { __asm { int 3 } }
+void RECON_THISCALL LinkContext::VxdWriteHeaders(int file) { __asm { int 3 } }
+extern "C" StringTable *__stdcall create_string_table(StringTable **table,unsigned buckets,unsigned capacity)
+{ __asm { int 3 } return NULL; }
+
 int RECON_THISCALL LinkContext::FullLink(BYTE *pack_requested)
 {
     __asm { int 3 }
@@ -180,8 +263,6 @@ int RECON_THISCALL LinkContext::FullLink(BYTE *pack_requested)
 /* Named original callees remain trapping until reached. */
 extern "C" {
 void __cdecl linker_usage(void) { __asm { int 3 }  }
-unsigned char __stdcall has_switch(const char *name) { __asm { int 3 } return 0; }
-void *__stdcall allocate_link_memory(unsigned count,unsigned size) { __asm { int 3 } return NULL; }
 void __stdcall configure_link_options(LinkContext *context,void *first,void *second) { __asm { int 3 }  }
 void __cdecl link_warning(const char *file,unsigned message,...) { __asm { int 3 }  }
 void __cdecl link_fatal(const char *file,unsigned message,...) { __asm { int 3 }  }
