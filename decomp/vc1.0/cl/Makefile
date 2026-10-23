@@ -6,6 +6,10 @@ RECON = ../../../lib/recon
 .PHONY: all clean check prefix replay audit probe reference-build
 all: native
 
+include ../../../tooling/graph-audit/graph-audit.mk
+GRAPH_AUDIT_FLAGS = --discovery cfg --check-ret --check-ownership --check-extents
+GRAPH_AUDIT_INPUTS ?=
+
 prefix:
 	$(PYTHON) scripts/wine-tool.py --init
 
@@ -18,8 +22,8 @@ build/runtime.json: build/cl.exe functions.json scripts/identify-runtime.py scri
 # Original toolchain compilation and static graph validation are explicit.
 reference-build: build/cl.exe
 
-audit: build/runtime.json runtime.json
-	$(PYTHON) scripts/audit-graph.py
+audit: build/runtime.json runtime.json $(GRAPH_AUDIT_BIN)
+	"$(GRAPH_AUDIT_BIN)" --profile cl --repo "$(abspath ../../..)" --project "$(CURDIR)" $(GRAPH_AUDIT_FLAGS) $(GRAPH_AUDIT_INPUTS)
 
 
 build:

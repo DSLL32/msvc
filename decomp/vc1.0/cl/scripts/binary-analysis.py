@@ -1,4 +1,8 @@
-"""Read-only canonical Win32 function-graph analysis; never launches a process."""
+"""Read-only PE indexes/import names for CRT identification and analysis.
+
+Function graph discovery and acceptance auditing use the shared Rust CFG engine.
+This module supplies input identities and does not walk a function graph.
+"""
 import hashlib
 import json
 import os
