@@ -6,9 +6,9 @@ Target: `toolchains/5.10/bin/CVPACK.EXE`; the requested folder spelling is
 
 `/help` is complete: status 1, 193 stdout bytes, no stderr, six application
 entries. The genuine embedded-CodeView `hello-debug-dll` case is in progress at
-`lookup_named_type`, matching the counted name `tagPAINTSTRUCT`. There are 71
-accepted application functions / 23,181 extent bytes, plus 653 associated switch-data
-bytes. This is 36.99% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
+`find_local_named_type`, matching the forward name `tagRECT`. There are 72
+accepted application functions / 23,381 extent bytes, plus 669 associated switch-data
+bytes. This is 37.31% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
 it is neither non-CRT nor executed-branch coverage. Four CRT bodies (400 bytes)
 and four import thunks (24 bytes) remain separate support.
 

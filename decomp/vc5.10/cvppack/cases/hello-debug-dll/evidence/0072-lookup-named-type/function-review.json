@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "candidate": "lookup_named_type",
+  "accepted_functions": 72,
+  "application_extent_bytes": 23381,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 37.31288500207462,
+  "qualification": "Application extents / whole text, not non-CRT or branch coverage.",
+  "source_extent": [
+    4247152,
+    4247352
+  ],
+  "associated_text_data": [
+    [
+      4247352,
+      4247368
+    ]
+  ],
+  "source_review": [
+    "Search512global name buckets, stop at NULL record sentinel, match exact kind and intrinsic counted bytes.",
+    "Preserve asymmetric signed input count versus unsigned cached count comparison.",
+    "Assign actual20B cache node through output slot; return2/3 from recognized type propertiesbit7."
+  ],
+  "executed_scope": "Empty global cache returns0 for tagPAINTSTRUCT; next tagRECT forward reference enters local cache search. Successful global matches static/source only.",
+  "fresh_pair": true,
+  "next_frontier": "find_local_named_type",
+  "fresh_negative_count": 13,
+  "affected_controls": {
+    "type-name-state-checks.json": {
+      "path": "type-name-state-checks.json",
+      "sha256": "e4b3f32eff7b031f9afd8c8716098a493c9dd0441236dbcb5f40cb2c7fe45c06"
+    }
+  },
+  "reused_controls": {
+    "read-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0071-match-forward-type/read-state-checks.json",
+      "sha256": "1ba19573dd3b3b7982aeef2b9ff1434fdd616a5511356eda9db244d4ed90d29b"
+    },
+    "initialized-storage-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0071-match-forward-type/initialized-storage-checks.json",
+      "sha256": "699c47129ead5613f30de8b942068bafc181f9ccd256f0baeb82bcc5339a1f5c"
+    },
+    "type-record-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0071-match-forward-type/type-record-state-checks.json",
+      "sha256": "c00410ded5b389615d34b7498eed2837b01ea94f3fba9a3a0b1fa76e54dc44aa"
+    },
+    "abi-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0071-match-forward-type/abi-state-checks.json",
+      "sha256": "702a6801ab297d3736bfc72e61a6d2ee0b12d8707bd7bd85ba55bf497f944bd5"
+    },
+    "type-arena-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0071-match-forward-type/type-arena-state-checks.json",
+      "sha256": "870c0b468d91bed5771132c163b41819622fe892884c4d9ebe4de9ac560e0a78"
+    },
+    "help-protocol-report.json": {
+      "path": "cases/hello-debug-dll/evidence/0071-match-forward-type/help-protocol-report.json",
+      "sha256": "c252ae3cdd6dd919240318781d55e3e4a44820d1d8fd636971e21d79214553d2"
+    }
+  },
+  "reuse_reason": "Observer/decoder/controller unchanged; fresh raw/graph and new local-cache ABI boundary controls.",
+  "seconds": {
+    "trial": {
+      "original_build": 1.7558802589774132,
+      "native_build": 1.7724682670086622,
+      "graph_tool_build": 0.02714463509619236,
+      "original_capture": 6.738352087326348,
+      "native_capture": 0.7100531412288547,
+      "pair_check": 0.680850719101727
+    },
+    "controls": 3.6028875103220344,
+    "fixtures": {
+      "hello-debug-dll": {
+        "preparation": 0.002570117823779583,
+        "execution": 0.6911136712878942,
+        "checks": 0.004609420895576477,
+        "total": 1.0164180975407362
+      },
+      "help": {
+        "preparation": 0.0025796350091695786,
+        "execution": 0.004074783064424992,
+        "checks": 0.0027711056172847748,
+        "total": 0.014604790136218071
+      }
+    }
+  }
+}

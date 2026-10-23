@@ -61,7 +61,6 @@ void __fastcall associate_forward_type(unsigned index, CachedTypeName *record) {
 void __fastcall add_type_reference(TypeRecord *record, unsigned short offset) { __asm { int 3 } }
 void append_type_field_list(unsigned char *field, TypeRecord *record) { __asm { int 3 } }
 unsigned resolve_recursive_type(TypeRecord *record, unsigned index) { __asm { int 3 } return 0; }
-int lookup_named_type(unsigned short kind, const unsigned char *name, CachedTypeName **match) { __asm { int 3 } return 0; }
 void record_base_classes(unsigned index, unsigned list) { __asm { int 3 } }
 void release_type_payload(TypeRecord *record) { __asm { int 3 } }
 

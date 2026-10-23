@@ -21,3 +21,34 @@ int __fastcall match_forward_type(TypeRecord *record, CachedTypeName **match, in
     }
     return lookup_named_type(kind, name, match);
 }
+
+/* Search the packed global-name buckets [0040ce70,0040cf38).
+ * The input counted length is compared as signed char in the original. */
+#pragma intrinsic(memcmp)
+int lookup_named_type(unsigned short kind, const unsigned char *name, CachedTypeName **match)
+{
+    CachedTypeName *cached;
+    unsigned hash = name[0], i;
+    unsigned char *record;
+    unsigned short record_kind;
+    for (i = 1; i <= name[0]; ++i) hash += name[i];
+    cached = ((CachedTypeName **)type_positions)[hash & 511];
+    while (cached) {
+        record = cached->record;
+        if (!record) return 0;
+        if (*(unsigned short *)(record + 2) == kind &&
+            (int)cached->name[0] == (signed char)name[0] &&
+            !memcmp(cached->name + 1, name + 1, (signed char)name[0])) {
+            *match = cached;
+            record = cached->record;
+            if (record) {
+                record_kind = *(unsigned short *)(record + 2);
+                if (record_kind >= 0x1004 && record_kind <= 0x1007)
+                    return 2 + ((record[6] >> 7) & 1);
+            }
+            return 2;
+        }
+        cached = cached->next;
+    }
+    return 0;
+}

@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "count": 13,
+  "rejected": [
+    {
+      "name": "wrong-counted-name-segment",
+      "diagnostic": "('typed ABI arguments differ', {'kind': 4101, 'name': {'segment': 0, 'offset': 22, 'record_indices': [0], 'bytes': '0774616752454354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}, 'scoped': 0}, {'kind': 4101, 'name': {'segment': 1, 'offset': 22, 'record_indices': [0], 'bytes': '0774616752454354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}, 'scoped': 0})"
+    },
+    {
+      "name": "wrong-counted-name-offset",
+      "diagnostic": "('typed ABI arguments differ', {'kind': 4101, 'name': {'segment': 0, 'offset': 22, 'record_indices': [0], 'bytes': '0774616752454354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}, 'scoped': 0}, {'kind': 4101, 'name': {'segment': 0, 'offset': 343, 'record_indices': [0], 'bytes': '0774616752454354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}, 'scoped': 0})"
+    },
+    {
+      "name": "wrong-counted-name-record_indices",
+      "diagnostic": "('typed ABI arguments differ', {'kind': 4101, 'name': {'segment': 0, 'offset': 22, 'record_indices': [0], 'bytes': '0774616752454354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}, 'scoped': 0}, {'kind': 4101, 'name': {'segment': 0, 'offset': 22, 'record_indices': [7], 'bytes': '0774616752454354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}, 'scoped': 0})"
+    },
+    {
+      "name": "wrong-counted-name-bytes",
+      "diagnostic": "('typed ABI arguments differ', {'kind': 4101, 'name': {'segment': 0, 'offset': 22, 'record_indices': [0], 'bytes': '0774616752454354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}, 'scoped': 0}, {'kind': 4101, 'name': {'segment': 0, 'offset': 22, 'record_indices': [0], 'bytes': '0e0000000000000000000000000000'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}, 'scoped': 0})"
+    },
+    {
+      "name": "wrong-local-scope",
+      "diagnostic": "('typed ABI arguments differ', {'kind': 4101, 'name': {'segment': 0, 'offset': 22, 'record_indices': [0], 'bytes': '0774616752454354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}, 'scoped': 0}, {'kind': 4101, 'name': {'segment': 0, 'offset': 22, 'record_indices': [0], 'bytes': '0774616752454354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}, 'scoped': 1})"
+    },
+    {
+      "name": "wrong-kind-low-word",
+      "diagnostic": "('typed ABI arguments differ', {'kind': 4101, 'name': {'segment': 0, 'offset': 22, 'record_indices': [0], 'bytes': '0774616752454354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}, 'scoped': 0}, {'kind': 4100, 'name': {'segment': 0, 'offset': 22, 'record_indices': [0], 'bytes': '0774616752454354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}, 'scoped': 0})"
+    },
+    {
+      "name": "wrong-name-real-pointee-width",
+      "diagnostic": "actual frontier pointee extent differs"
+    },
+    {
+      "name": "wrong-output-local",
+      "diagnostic": "('typed ABI arguments differ', {'kind': 4101, 'name': {'segment': 0, 'offset': 22, 'record_indices': [0], 'bytes': '0774616752454354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}, 'scoped': 0}, {'kind': 4101, 'name': {'segment': 0, 'offset': 22, 'record_indices': [0], 'bytes': '0774616752454354'}, 'match': {'owner': 'compact_type_index', 'local': 'target', 'width': 4}, 'scoped': 0})"
+    },
+    {
+      "name": "wrong-original-kind-low-word",
+      "diagnostic": "('typed ABI arguments differ', {'kind': 4100, 'name': {'segment': 0, 'offset': 22, 'record_indices': [0], 'bytes': '0774616752454354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}, 'scoped': 0}, {'kind': 4101, 'name': {'segment': 0, 'offset': 22, 'record_indices': [0], 'bytes': '0774616752454354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}, 'scoped': 0})"
+    },
+    {
+      "name": "wrong-original-name-interior",
+      "diagnostic": "type name has no observed immediate-size local-record owner"
+    },
+    {
+      "name": "wrong-original-output-owner",
+      "diagnostic": "original output argument caller-local identity differs"
+    }
+  ],
+  "actual_gdb_rejections": [
+    {
+      "name": "kind-width",
+      "returncode": 1,
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x5656c5fc in find_local_named_type (kind=4101, name=0x5827ef86 \"\\atagRECT\\362\\361F\", match=0xfff88178, scoped=0) at src/stubs.c:59\n59\tint find_local_named_type(unsigned short kind, const unsigned char *name, CachedTypeName **match, int scoped) { __asm { int 3 } return 0; }\n\nPython Exception <class 'AssertionError'>: ('actual frontier formal width differs', 'kind', 'unsigned short', 2, 4)\n/root/.ai-tmp/cvpack-type-name-abi-6fum3aj6/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: ('actual frontier formal width differs', 'kind', 'unsigned short', 2, 4)\n",
+      "bad_config_sha256": "34247cc21e58fca43800b89e181be64f144af532ac47c1c191cf9f9f924695f4",
+      "observer_sha256": "6020cf0bd08f75113d360075a97507a2e852acc7eaea128f56988ad7c370f279"
+    },
+    {
+      "name": "name-pointee",
+      "returncode": 1,
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x566415fc in find_local_named_type (kind=4101, name=0x56acbf86 \"\\atagRECT\\362\\361F\", match=0xff9cfd38, scoped=0) at src/stubs.c:59\n59\tint find_local_named_type(unsigned short kind, const unsigned char *name, CachedTypeName **match, int scoped) { __asm { int 3 } return 0; }\n\nPython Exception <class 'AssertionError'>: actual pointer formal pointee extent differs\n/root/.ai-tmp/cvpack-type-name-abi-wsuq5xrd/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: actual pointer formal pointee extent differs\n",
+      "bad_config_sha256": "97be767af0248255b95c0a91cf49b6773c75c62c1cc093e091b5131a98730e10",
+      "observer_sha256": "6020cf0bd08f75113d360075a97507a2e852acc7eaea128f56988ad7c370f279"
+    }
+  ],
+  "parameters": {
+    "kind": 4101,
+    "name": {
+      "segment": 0,
+      "offset": 22,
+      "record_indices": [
+        0
+      ],
+      "bytes": "0774616752454354"
+    },
+    "match": {
+      "owner": "compact_type_index",
+      "local": "named_target",
+      "width": 4
+    },
+    "scoped": 0
+  },
+  "dead_kind_high_word_positive": true,
+  "original_kind_word_load": {
+    "address": 4247008,
+    "bytes": "668b4c2414"
+  },
+  "original_receipt_sha256": "da1b2b6f553ba834ab34b026bb68d53923b8c8d026fd04887c8e71acbf5ad220",
+  "native_receipt_sha256": "01546b950b8df76d1217f632e24beb94b6d6fa664fb7b1cda4be98e774b1fb60",
+  "checker_sha256": "8d8580b748245e775180fb361357aee8a831b89b5a7f095490a6cb85733c9c43",
+  "decoder_sha256": "c7b703a0013222337d0760f6297e8141f70a66308e3eb94c89046cfa95cac641",
+  "seconds": 3.6028875103220344
+}
