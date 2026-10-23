@@ -590,3 +590,37 @@ class TypeComparisonEntered(gdb.Breakpoint):
         entry=dict(left=int(left),right=int(right),formal_bytes=dict(left=left.type.sizeof,right=right.type.sizeof),left_bytes=bytes(gdb.selected_inferior().read_memory(int(left),20)).hex(),right_bytes=bytes(gdb.selected_inferior().read_memory(int(right),20)).hex(),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name())
         type_comparisons.append(entry);save_type_comparisons();TypeComparisonReturned(frame,entry);return False
 TypeComparisonEntered('rc_equal_type',internal=True);save_type_comparisons()
+
+angle_names=[]
+def save_angle_names():(path.parent/'angle-names.json').write_text(json.dumps(angle_names,indent=2)+'\n')
+class AngleNameReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,result=int(self.return_value)&0xffffffff,cursor_after=int(gdb.parse_and_eval('rc_source_cursor')),macro_after=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_macro_name')),1024)).hex(),marker_after=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_source_marker')),514)).hex())
+        save_angle_names();return False
+class AngleNameEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();marker=gdb.parse_and_eval('rc_source_marker')
+        entry=dict(formals=[],caller=frame.older().name(),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,cursor=int(gdb.parse_and_eval('rc_source_cursor')),macro=int(gdb.parse_and_eval('&rc_macro_name')),macro_before=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_macro_name')),1024)).hex(),marker=int(marker.address),marker_before=bytes(gdb.selected_inferior().read_memory(int(marker.address),marker.type.sizeof)).hex(),layout=dict(marker_bytes=marker.type.sizeof,element_bytes=marker[0].type.sizeof,alignment=int(marker.address)%2))
+        angle_names.append(entry);save_angle_names();AngleNameReturned(frame,entry);return False
+AngleNameEntered('rc_parse_angle_name',internal=True);save_angle_names()
+
+include_copies=[]
+def save_include_copies():(path.parent/'include-copies.json').write_text(json.dumps(include_copies,indent=2)+'\n')
+class IncludeCopyReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(self.return_value)&0xffffffff,return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,after=bytes(gdb.selected_inferior().read_memory(self.entry['destination'],514)).hex())
+        save_include_copies();return False
+class IncludeCopyEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();destination=frame.read_var('destination');source=frame.read_var('source')
+        if int(destination)!=int(gdb.parse_and_eval('&rc_source_marker')):return False
+        raw=bytearray()
+        for offset in range(257):
+            word=bytes(gdb.selected_inferior().read_memory(int(source)+offset*2,2));raw.extend(word)
+            if word==b'\0\0':break
+        else:raise AssertionError('include copy exceeds bounded marker')
+        entry=dict(destination=int(destination),source=int(source),formal_bytes=dict(destination=destination.type.sizeof,source=source.type.sizeof),source_bytes=raw.hex(),before=bytes(gdb.selected_inferior().read_memory(int(destination),514)).hex(),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name())
+        include_copies.append(entry);save_include_copies();IncludeCopyReturned(frame,entry);return False
+IncludeCopyEntered('recon_wcscpy',internal=True);save_include_copies()

@@ -488,3 +488,15 @@ reader has no formals and sees the actual source cursor84/word119 at
 records eleven affected controls and timings. The native help fixture takes
 9.73ms total; the rich case remains in progress. Nonempty include-marker writes
 remain untraversed until their contextual storage proof is complete.
+
+Angle-bracket include names are accepted (171 bytes). `windows.h` occupies20
+bytes of the shared scratch; the other1,004 bytes are unchanged. The following
+CRT copy writes20 bytes to contextual257-WCHAR marker storage, leaving494 bytes
+unchanged. That selected native model fits verified loader-zero storage before
+the header-mode DWORD; the original C array size and intervening two bytes remain
+unknown. A production native guard stops names exceeding the selected model.
+[Verification](cases/resources-rich-trailing-space/angle-name-verification.json)
+records sixteen affected controls and the plain/GDB guard proof. Native-only
+boundary256 succeeds within the model;257 stops before copying, without claiming
+original long-path capacity. The next include-directory lookup sees the complete
+100-slot list/pointees and the existing owned string-buffer interior scratch.

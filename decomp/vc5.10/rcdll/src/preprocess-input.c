@@ -12,8 +12,10 @@ int rc_source_depth=-1,rc_source_encoding;
 WCHAR *rc_source_cursor;
 FILE *rc_source_file;
 RcSourceFrame rc_source_frames[1024];
-/* The first observed marker is an empty mutable wide string. */
-WCHAR rc_source_marker[1];
+/* Bounded contextual include-name storage within the observed loader-zero
+ * span. The original C array size is unknown; its next field starts516B later.
+ * Two bytes between this514B model and that field remain unclaimed. */
+WCHAR rc_source_marker[257];
 
 int __stdcall rc_open_source(WCHAR *path,int first)
 {

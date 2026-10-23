@@ -127,3 +127,7 @@ build/native/integer-storage-boundary-host: $(NATIVE_OBJECTS) scripts/integer-st
 build/native/string-storage-host: $(NATIVE_OBJECTS) scripts/string-storage-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/string-storage-host.c $(NATIVE_SHIMS) -o $@
 	$(PYTHON) scripts/source-snapshot.py native build/native-string-storage-source.json --host scripts/string-storage-host.c
+
+build/native/include-marker-boundary-host: $(NATIVE_OBJECTS) scripts/include-marker-boundary-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/include-marker-boundary-host.c $(NATIVE_SHIMS) -o $@
+	$(PYTHON) scripts/source-snapshot.py native build/native-include-marker-boundary-source.json --host scripts/include-marker-boundary-host.c

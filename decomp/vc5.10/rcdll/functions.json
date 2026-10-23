@@ -61,7 +61,8 @@
     "rc_intern_type",
     "rc_read_string",
     "rc_expect_end",
-    "rc_equal_type"
+    "rc_equal_type",
+    "rc_parse_angle_name"
   ],
   "functions": [
     {
@@ -1162,8 +1163,7 @@
       "end": "0x6345",
       "abi": "cdecl",
       "stack_bytes": 0,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_search_current_directory",

@@ -136,6 +136,10 @@ redispatch:
             if(!rc_parse_angle_name()) goto discard;
             rc_token_value=rc_macro_name;
         }
+#ifdef RECON_NATIVE_TEST
+        /* Hold unknown longer names before exceeding the contextual model. */
+        if(wcslen(rc_token_value)>=257){ __asm int 3 }
+#endif
         wcscpy(rc_source_marker,rc_token_value);
         rc_expect_end(L"#include");
         text=rc_token_value;

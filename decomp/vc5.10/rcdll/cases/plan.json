@@ -60,7 +60,8 @@
     "rc_intern_type",
     "rc_read_string",
     "rc_expect_end",
-    "rc_equal_type"
+    "rc_equal_type",
+    "rc_parse_angle_name"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

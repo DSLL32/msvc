@@ -140,11 +140,6 @@ void __cdecl rc_skip_line(void)
     
 }
 
-WCHAR * __cdecl rc_parse_angle_name(void)
-{
-    __asm int 3
-    return NULL;
-}
 
 int __cdecl rc_search_current_directory(void)
 {

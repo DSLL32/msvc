@@ -1772,3 +1772,70 @@ def equal_type_trial(original,native):
     assert raw_bytes(text,'cpp-output-buffer')==bytes.fromhex(globals['rc_cpp_output_file']['file_buffer'])[:defined]and b['crt_errors']==dict(errno=0,last_error=0)
     proof['type_comparison']=dict(formals=dict(left_pointer_bytes=4,right_pointer_bytes=4,pointee_bytes=20),field_order=['flagsWORD0','keyDWORD8','keyDWORD4'],equal=True,result=1,cleanup=8,distinct_owned_objects=True,next_formals=[],next_hidden_inputs=dict(source_cursor_offset=offset,current_word=word,source_block_bytes=8206,macro_scratch_bytes=1024,header_mode=0,output_active=1,in_directive=1,token_kind=63),next_source='windows.h>CRLF',marker_scope='Only empty firstWCHAR currently modeled; next angle-name stub traps before any include marker copy.',pending_output_defined_bytes=defined)
     proof['trial']='rc_equal_type';return proof
+
+
+def angle_name_trial(original,native):
+    config=read_configuration(original/'functions.json');assert config.get('trial_function')=='rc_parse_angle_name'and len(config['accepted'])==58
+    a,b,proof=checkpoint(original,native,'rc_search_include_directories',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c26717 and re.search(r'^#1\s+0x[0-9a-f]+ in rc_handle_directive\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    assert proof['application_trace'][-1]=='rc_parse_angle_name'
+    text=(original/'events.txt').read_text();args=b['arguments'];old_globals=(original/'globals.bin').read_bytes();globals=args['preprocessor']['globals']
+    rows=args['angle_names'];assert rows==json.loads((native/'angle-names.json').read_text())and len(rows)==1;row=rows[0]
+    calls=re.findall(r'^angle-entry cursor=([0-9a-f]+) esp=([0-9a-f]+) caller=([0-9a-f]+)$',text,re.M);returns=re.findall(r'^angle-return result=([0-9a-f]+) cursor=([0-9a-f]+) esp=([0-9a-f]+)$',text,re.M);assert len(calls)==len(returns)==1
+    old_cursor,old_sp,old_caller=[int(v,16)for v in calls[0]];result,old_after,old_return_sp=[int(v,16)for v in returns[0]]
+    name='windows.h\0'.encode('utf-16le');assert len(name)==20
+    assert old_caller==0x71c2668c and row['formals']==[]and row['caller']=='rc_handle_directive'and old_return_sp==old_sp+4 and row['return_esp']==row['entry_esp']+4
+    assert result==0x71c38128 and row['result']==row['macro']and old_after==old_cursor+20 and row['cursor_after']==row['cursor']+20
+    assert row['layout']==dict(marker_bytes=514,element_bytes=2,alignment=0)
+    before=raw_bytes(text,'angle-input-macro');expected=bytearray(before);expected[:20]=name
+    assert len(before)==1024 and bytes.fromhex(row['macro_before'])==before and raw_bytes(text,'angle-result-macro')==bytes.fromhex(row['macro_after'])==bytes(expected)
+    assert raw_bytes(text,'angle-input-marker')==raw_bytes(text,'angle-result-marker')==bytes.fromhex(row['marker_before'])==bytes.fromhex(row['marker_after'])==bytes(514)
+    copies=args['include_copies'];assert copies==json.loads((native/'include-copies.json').read_text())and len(copies)==1;copy=copies[0]
+    old_copy=re.findall(r'^include-copy destination=([0-9a-f]+) source=([0-9a-f]+) esp=([0-9a-f]+)$',text,re.M);old_copy_return=re.findall(r'^include-copy-return result=([0-9a-f]+) esp=([0-9a-f]+)$',text,re.M);assert len(old_copy)==len(old_copy_return)==1
+    dest,source,copy_sp=[int(v,16)for v in old_copy[0]];copy_result,copy_return_sp=[int(v,16)for v in old_copy_return[0]]
+    assert (dest,source,copy_result)==(0x71c36cf8,0x71c38128,0x71c36cf8)and copy_return_sp==copy_sp
+    assert copy['caller']=='rc_handle_directive'and copy['destination']==row['marker']==copy['result']and copy['source']==row['macro']and copy['formal_bytes']==dict(destination=4,source=4)and copy['return_esp']==copy['entry_esp']+4
+    assert raw_bytes(text,'include-copy-source')==bytes.fromhex(copy['source_bytes'])==name
+    assert raw_bytes(text,'include-copy-before')==bytes.fromhex(copy['before'])==bytes(514)
+    marker_after=name+bytes(494);assert raw_bytes(text,'include-copy-after')==bytes.fromhex(copy['after'])==marker_after
+    search=args['include_search'];assert search['formals']==[]and search['caller']=='rc_handle_directive'and search['marker_bytes']==514
+    assert search['marker']==row['marker']and search['macro']==search['token_value']==row['macro']and search['macro_bytes']==1024
+    assert raw_bytes(text,'include-marker-current')==bytes.fromhex(search['marker_current'])==marker_after and raw_bytes(text,'include-macro-current')==bytes.fromhex(search['macro_current'])==bytes(expected)
+    assert old_globals[0x16cf8-0x14000:0x16efa-0x14000]==marker_after
+    # Physical loader-zero span only; neither the original C array bound nor the
+    # two bytes at16efa..16efc are inferred from this514B native model.
+    target=(ROOT/'toolchains/5.10/bin/RCDLL.DLL').read_bytes();pe=struct.unpack_from('<I',target,0x3c)[0];sections=pe+24+struct.unpack_from('<H',target,pe+20)[0]
+    data=next(struct.unpack_from('<4I',target,sections+40*i+8)for i in range(struct.unpack_from('<H',target,pe+6)[0])if target[sections+40*i:sections+40*i+8].rstrip(b'\0')==b'.data')
+    virtual_bytes,rva,raw_bytes_count,raw_offset=data;assert rva+raw_bytes_count<=0x16cf8<0x16efa<0x16efc<rva+virtual_bytes
+    old_frame=struct.unpack_from('<9I',old_globals,0x18e80-0x14000);new_frame=struct.unpack('<9I',bytes.fromhex(globals['rc_source_frames']['bytes'])[:36]);source_block=raw_bytes(text,'angle-input-source')
+    assert raw_bytes(text,'include-source-block')==source_block
+    block=next(v for v in b['heap_identity']['blocks']if v['payload']+8==new_frame[5]);assert block['owner']==b['heap_identity']['handle']and block['flags']==9 and block['bytes']==8206 and bytes.fromhex(block['contents'])==source_block
+    entry_offset=old_cursor-old_frame[5];assert entry_offset==row['cursor']-new_frame[5]and source_block[8+entry_offset:8+entry_offset+24]=='windows.h>\r\n'.encode('utf-16le')
+    current=struct.unpack_from('<I',old_globals,0x18120-0x14000)[0];current_offset=current-old_frame[5];assert current_offset==search['cursor']-new_frame[5]==entry_offset+22
+    assert struct.unpack_from('<H',source_block,8+current_offset)[0]==search['current_word']==10
+    assert search['header_mode']==0 and search['output_active']==search['in_directive']==1 and search['token_kind']==63
+    for name,rva,key in [('rc_cpp_active',0x1811c,'output_active'),('rc_in_directive',0x18530,'in_directive'),('rc_header_mode',0x16efc,'header_mode')]:assert struct.unpack_from('<I',old_globals,rva-0x14000)[0]==search[key]==int.from_bytes(bytes.fromhex(globals[name]['bytes']),'little')
+    assert struct.unpack_from('<I',old_globals,0x16cd0-0x14000)[0]==0x71c38128 and old_globals[0x144f4-0x14000]==search['token_kind']
+    listing=raw_bytes(text,'include-path-list');assert listing==old_globals[0x14828-0x14000:0x149bc-0x14000]and len(listing)==404
+    old_list=struct.unpack('<101I',listing);new_list=struct.unpack('<101I',bytes.fromhex(globals['rc_cpp_includes']['bytes']));assert old_list[0]==new_list[0]==search['include_count']==96
+    old_pointers=[int(v,16)for v in re.findall(r'^wide-pointer \d+ ([0-9a-f]+)$',text,re.M)];wide=args['wide_vector'];assert len(old_pointers)==len(wide)==20 and args['wide_terminator']==0
+    wanted_old=[0]*100;wanted_new=[0]*100;directories=search['directories'];assert [v['index']for v in directories]==[96,97,98,99]
+    for slot,index,offset in [(99,11,4),(98,13,0),(97,15,0),(96,17,0)]:
+        wanted_old[slot]=old_pointers[index]+offset;wanted_new[slot]=wide[index]['pointer']+offset
+        item=next(v for v in directories if v['index']==slot);assert item['pointer']==wanted_new[slot]and bytes.fromhex(item['bytes'])==raw_bytes(text,'include-directory-%d'%slot)==bytes.fromhex(wide[index]['bytes'])[offset:]
+    assert list(old_list[1:])==wanted_old and list(new_list[1:])==wanted_new
+    assert search['path_characters']==wide[9]['pointer']+6 and raw_bytes(text,'include-path-characters')==bytes.fromhex(wide[9]['bytes'])[6:]
+    storage=search['string_storage'];assert storage['bytes']==4090 and storage['number_offset']==2048 and search['number_buffer']==storage['address']+2048
+    assert bytes.fromhex(storage['payload'])==old_globals[0x16f08-0x14000:0x17f02-0x14000]=='resources.rc\0'.encode('utf-16le')+bytes(4064)
+    for name,rva in [('current_line',0x16ce8),('prepared_lines',0x29458)]:assert struct.unpack_from('<I',old_globals,rva-0x14000)[0]==args[name]
+    old_output=struct.unpack('<8I',raw_bytes(text,'cpp-output-file'));new_output=struct.unpack('<8I',bytes.fromhex(globals['rc_cpp_output_file']['file_state']));defined=old_output[0]-old_output[2]
+    assert old_output[1:2]+old_output[3:]==new_output[1:2]+new_output[3:]and defined==new_output[0]-new_output[2]and 0<=defined<=4096
+    assert raw_bytes(text,'cpp-output-buffer')==bytes.fromhex(globals['rc_cpp_output_file']['file_buffer'])[:defined]and b['crt_errors']==dict(errno=0,last_error=0)
+    boundary_path=HERE/'cases/resources-rich-trailing-space/include-marker-boundary.json';boundary=json.loads(boundary_path.read_text());boundary_raw=Path(boundary['raw_directory']);guard=boundary_raw/'receipt.json'
+    assert sha(guard)==boundary['receipt_sha256']and json.loads(guard.read_text())==boundary['proof']
+    guard_record=boundary['proof'];assert guard_record['status']=='pass'and guard_record['kind']=='include-marker'and guard_record['files']['production.elf']==sha(HERE/'build/native/rcdll-host')and guard_record['files']['target.o']==sha(HERE/'build/native/directives.o')
+    assert guard_record['supported_boundary']['name_characters']==256 and guard_record['supported_boundary']['next_frontier']=='rc_search_current_directory'and guard_record['gdb']['argument_value']==258
+    for filename,digest in guard_record['files'].items():assert sha(boundary_raw/filename)==digest
+    proof['include_marker_guard']=dict(record=str(boundary_path.relative_to(HERE)),sha256=sha(boundary_path),raw_receipt_sha256=sha(guard),production_object_bound=True,scope='Only selected native257-WCHAR model is bounded; original C capacity and larger storage remain unknown.')
+    proof['angle_name']=dict(formals=[],return_pointer_alias='rc_macro_name',cleanup=0,entry_source_offset=entry_offset,cursor_advance_bytes=20,parsed_name='windows.h',scratch_write_bytes=20,scratch_untouched_bytes=1004,marker_model=dict(elements=257,element_bytes=2,bytes=514,alignment=0,original_C_size='unknown',original_span=['0x16cf8','0x16efa'],unclaimed_gap=['0x16efa','0x16efc'],next_field='rc_header_mode at16efc',copy_bytes=20,untouched_bytes=494,return_alias=True,code_credit=0,native_guard='production source traps before length>=257 copy'),next_formals=[],next_hidden_inputs=dict(source_cursor_offset=current_offset,current_word=10,include_remaining=96,include_indices=[96,97,98,99],all100_slots_checked=True,directory_pointees_checked=True,token_value_alias='rc_macro_name',scratch_alias='rc_string_buffer+2048',scratch_owned_bytes_remaining=2042,path_characters='actual packed -pc argument',header_mode=0,output_active=1,in_directive=1,token_kind=63),pending_output_defined_bytes=defined)
+    proof['trial']='rc_parse_angle_name';return proof

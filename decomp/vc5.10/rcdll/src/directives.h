@@ -26,7 +26,7 @@ typedef struct RcIntegerToken {
     unsigned other16;
 } RcIntegerToken;
 extern int rc_expanding_macro,rc_in_directive,rc_header_mode;
-extern WCHAR rc_source_marker[];
+extern WCHAR rc_source_marker[257];
 extern WCHAR *rc_cpp_path_characters;
 WCHAR __cdecl rc_read_nonspace(void);
 int __cdecl rc_resume_input(void);
