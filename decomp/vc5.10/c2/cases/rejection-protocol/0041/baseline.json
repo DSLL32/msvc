@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "baseline_commit": "b142e6bb",
+  "control_result": "cases/acceptance/0041-intrinsic-initialization/rejections.json",
+  "control_result_sha256": "475b48e04ec3766641f7b89e296c5866b9d6ea3c5a93d827c687a3f236e038f5",
+  "checker_contracts": {
+    "scripts/state.py": "c823efddd33082153589d54de971b74d841cf14da3b3080fb9f2639d1211f34e",
+    "scripts/audit.py": "938cace588deae113948d5b1828155e8cd90036c737001dd05f2767ff90acc40",
+    "scripts/native-proof.py": "e19e267af93ff09647d31049b8cb5ade5451b22751f7902135f904c13b1e0728",
+    "scripts/compare.py": "0e344d52926f18b0236555ab7401fa541f3e7cab44c6acdddfee80e74e6bed10",
+    "scripts/capture-original.py": "85c82b7d96b88e897569a1a977a75082f20976b0d086b3847b2c0908a52ec6e7",
+    "scripts/capture-native.py": "7c45b7e90f1dd19adda2cfc8959a0a58da3ed5d45cac6b40a34dcecd90c31768",
+    "scripts/check-rejections.py": "8c51858880a89c5c5b601f7c9077a9e9350706bbee5381a8a8fb05a2b0c7848c",
+    "scripts/import_evidence.py": "b95bf84a6fe9a82ccc1f8450e0767f4e62da0ef396bcdb625719b500b10c768c",
+    "scripts/data_evidence.py": "052eba9d74cfcc70f6fe54912a76cac10e70745dd378891f12a3d10227900c8e",
+    "scripts/case_inputs.py": "13ab2ee944896ade6b46c2b2d226fd63233ea9d3191931b1d8a84ddbfaa48aa9",
+    "scripts/accept.py": "8e396d959088c23ff15b6f51e0abc2ea91b7727cc24199518c02011dc39f1793",
+    "scripts/debug-run.c": "7fccfecfbaf87d37d672c9711559f303c89a33370e2c24a42d84e8d5f74d0978",
+    "scripts/build-index.py": "53e385cd7636d17b660fa3ce1f38a05e9f2314db1cf4e07bf8be5dfc6f3641ce",
+    "scripts/intrinsic_evidence.py": "89e13fbff12ec278801984bd7360b54b392cc50e332d9f449c7f8b9032ab0034"
+  },
+  "source_archive": "checker-contracts.tar.gz",
+  "source_archive_sha256": "84f6e657d99960a0e59c406698fdf10e95f17022746a7ddfc92a08b19507bfbb",
+  "proof_inputs": {
+    "original_receipt": "eadf1661491a35d382834b892831a2d41a87be5c2012cd42deb714f76702cf77",
+    "native_receipt": "b75700b5adc0f9a56b6016986a3b5602ff5317736b9ffca707583ef81c5888dd"
+  },
+  "review": "Intrinsic41 passed17 fresh controls and explicitly reused60 unchanged controls from reviewed40 baseline. This retains their actual hashes and executed contract content; future reuse requires unchanged premises or fresh affected controls."
+}

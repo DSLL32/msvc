@@ -16,14 +16,6 @@
     "evidence": null
   },
   {
-    "name": "_c2_initialize_machine",
-    "start": 4534522,
-    "end": 4534523,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_c2_initialize_trees",
     "start": 4534572,
     "end": 4534573,

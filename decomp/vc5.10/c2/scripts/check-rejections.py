@@ -113,6 +113,16 @@ def main():
         mutations += [('changed native option kind',changed_native_table),('different logical destination alias',changed_native_alias),
                       ('different initial CPU option',changed_native_default),('changed raw original table with matching hash',changed_original_data),
                       ('changed contextual data receipt with matching hash',changed_data_receipt)]
+    if '0x491074'in current_state.get('globals',{}):
+        def changed_machine_value(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['globals'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        def missing_final_intrinsic_observation(root):
+            path=root/'o/events.txt';data=path.read_text();at=data.rfind('observe 0045312c ');assert at>=0
+            data=data[:at]+re.sub(r'^intrinsics-initialized .+\n','',data[at:],flags=re.M);path.write_text(data);raw_changed(root,'o','events.txt')
+        mutations += [('machine selected-save register mask differs',lambda r:changed_machine_value(r,'0x491074',0xc8)),
+                      ('machine call-clobber register mask differs',lambda r:changed_machine_value(r,'0x495f34',7)),
+                      ('machine stack alignment differs',lambda r:changed_machine_value(r,'0x49745c',4)),
+                      ('earlier intrinsic observation cannot replace final frontier observation',missing_final_intrinsic_observation)]
     if 'intrinsic_table'in current_state:
         def changed_intrinsic(root,index,key,value):
             path=root/'n/state.json';state=json_at(path);state['intrinsic_table'][index][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
@@ -408,13 +418,14 @@ def main():
         baseline=json_at(a.reviewed_baseline)
         result_path=BINARY/baseline['control_result'];assert sha(result_path.read_bytes())==baseline['control_result_sha256']
         prior=json_at(result_path);assert prior['count']==len(prior['rejected'])and not prior['accepted']
+        covered=set(prior['rejected'])|set((prior.get('reuse')or{}).get('reused',[]))
         archive=a.reviewed_baseline.parent/baseline['source_archive'];assert sha(archive.read_bytes())==baseline['source_archive_sha256']
         with tarfile.open(archive,'r:gz')as source:
             actual={member.name:sha(source.extractfile(member).read())for member in source.getmembers()}
         assert actual==baseline['checker_contracts'],'baseline checker/contract snapshot changed'
         selected=[]
         for name,change in mutations:
-            if name not in prior['rejected']or (a.affected and re.search(a.affected,name,re.I)):selected.append((name,change))
+            if name not in covered or (a.affected and re.search(a.affected,name,re.I)):selected.append((name,change))
             else:reused.append(name)
         mutations=selected
         reuse={'baseline':str(a.reviewed_baseline.resolve()),'baseline_sha256':sha(a.reviewed_baseline.read_bytes()),

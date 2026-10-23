@@ -18,11 +18,6 @@ int __fastcall c2_open_pdb(char *name, char *object_name)
     __asm { int 3 }
     return 0;
 }
-void c2_initialize_machine(void)
-{
-    __asm { int 3 }
-}
-
 void c2_initialize_trees(void)
 {
     __asm { int 3 }
