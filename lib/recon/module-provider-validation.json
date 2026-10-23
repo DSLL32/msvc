@@ -1,0 +1,117 @@
+{
+  "scope": "Opt-in host dependency export registry on existing hash/path-bound module identity, single observed load/lookup/free lease. No PE loading, DLL code, target graph vertices or general reference counting.",
+  "api": [
+    "ReconModuleExport{name,ordinal,address}",
+    "ReconModuleExportsSpec{sha256,exports,count,lifecycle,context}",
+    "recon_register_module_exports(HMODULE,spec)",
+    "recon_module_provider_state(HMODULE)"
+  ],
+  "actual_reference": {
+    "packet": "/root/.ai-tmp/msvc2/vc5.10/cl/dependency-boundary-2.packet-v3.json",
+    "sha256": "6ebe76a055d79b9d8366639f5732ff9e400b808688c00c0073b7cbc19ae33700",
+    "independent_review": "/root/.ai-tmp/msvc2/vc5.10/cl/dependency-boundary-2.orchestrator-review.json",
+    "review_sha256": "1a801459eeef6b24c43ab3f4e3c1f428da98d635fc6c114a92725d552e9fe2aa",
+    "canonical_c1": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+    "canonical_crt": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "loader_calls": {
+      "load": {
+        "return_value": 274726912,
+        "stdcall_cleanup": 4,
+        "argument_words": [
+          8987872
+        ]
+      },
+      "get-invoke": {
+        "return_value": 274801193,
+        "stdcall_cleanup": 8,
+        "argument_words": [
+          274726912,
+          4228388
+        ]
+      },
+      "get-abort": {
+        "return_value": 275003765,
+        "stdcall_cleanup": 8,
+        "argument_words": [
+          274726912,
+          4228364
+        ]
+      },
+      "free": {
+        "return_value": 1,
+        "stdcall_cleanup": 4,
+        "argument_words": [
+          274726912
+        ]
+      }
+    },
+    "exports": {
+      "_AbortCompilerPass@4": {
+        "ordinal": 1,
+        "rva": 276853
+      },
+      "_InvokeCompilerPass@12": {
+        "ordinal": 2,
+        "rva": 74281
+      }
+    },
+    "errors": {
+      "load-before": {
+        "errno": 0,
+        "doserrno": 2,
+        "last_error": 2
+      },
+      "load-after": {
+        "errno": 0,
+        "doserrno": 2,
+        "last_error": 2
+      },
+      "get-invoke-before": {
+        "errno": 0,
+        "doserrno": 2,
+        "last_error": 2
+      },
+      "get-invoke-after": {
+        "errno": 0,
+        "doserrno": 2,
+        "last_error": 2
+      },
+      "get-abort-before": {
+        "errno": 0,
+        "doserrno": 2,
+        "last_error": 2
+      },
+      "get-abort-after": {
+        "errno": 0,
+        "doserrno": 2,
+        "last_error": 2
+      },
+      "free-before": {
+        "errno": 0,
+        "doserrno": 2,
+        "last_error": 0
+      },
+      "free-after": {
+        "errno": 0,
+        "doserrno": 2,
+        "last_error": 0
+      }
+    }
+  },
+  "checks": {
+    "compilers": [
+      "GCC",
+      "Clang"
+    ],
+    "typed_test": "actual stdcall int(int,char**,BOOL) callback, exact metadata identity/name/ordinal, lifecycle states, return and all three error slots; synthetic callback response is not a C1 semantic replay.",
+    "denials_each": 22,
+    "regressions": "Existing module/resource/known-export+IsTNT/module-memory/default/C++ checks all pass. Unconfigured old module behavior unchanged; no broader95 repeat for this additive opt-in slice."
+  },
+  "limits": [
+    "Host adapter validates exact original file/source identity and actual typed ABI; ELF executable membership does not prove a function start or C signature.",
+    "Each explicit export lookup is one-shot; missing/repeated inventory denied.",
+    "Cached callback addresses remain executable after release; owner callback must validate provider lease before every call.",
+    "Dependency-specific input matching/state/IR outputs and complete visible effects remain in CL scripts outside target graph.",
+    "No locale or environment state changes in this slice."
+  ]
+}

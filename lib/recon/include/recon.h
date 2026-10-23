@@ -78,6 +78,23 @@ typedef struct ReconModuleSpec {
 HMODULE recon_register_module(const ReconModuleSpec *);
 const ReconModuleSpec *recon_module_identity(HMODULE);
 BOOL recon_module_thread_calls_disabled(HMODULE);
+/* Host-only, explicit dependency callbacks; no PE loader or target vertices. */
+#define RECON_MODULE_EVENT_LOAD 1
+#define RECON_MODULE_EVENT_FREE 2
+#define RECON_MODULE_PROVIDER_REGISTERED 1
+#define RECON_MODULE_PROVIDER_LOADING 2
+#define RECON_MODULE_PROVIDER_LOADED 3
+#define RECON_MODULE_PROVIDER_UNLOADING 4
+#define RECON_MODULE_PROVIDER_RELEASED 5
+typedef struct ReconModuleExport {
+ const char *name; WORD ordinal; FARPROC address;
+} ReconModuleExport;
+typedef struct ReconModuleExportsSpec {
+ const char *sha256; const ReconModuleExport *exports; unsigned count;
+ void (__cdecl *lifecycle)(HMODULE,unsigned,void *); void *context;
+} ReconModuleExportsSpec;
+void recon_register_module_exports(HMODULE,const ReconModuleExportsSpec *);
+unsigned recon_module_provider_state(HMODULE);
 
 typedef struct ShimFILE {
  char *_ptr; int _cnt; char *_base; int _flag,_file,_charbuf,_bufsiz; char *_tmpfname;

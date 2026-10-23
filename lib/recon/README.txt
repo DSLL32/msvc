@@ -642,3 +642,24 @@ no helper function or assembly. Return-object, destination and call expressions
 evaluate once; compile-time checks reject other sizes. Canonical Win32 retains
 the period type and ordinary return/assignment. This is an explicit ABI bridge,
 not a global aggregate-return compiler setting or an initialized-byte claim.
+
+Explicit native dependency exports
+----------------------------------
+A verified host adapter may attach ReconModuleExport records and an optional
+context (required lifecycle callback) through recon_register_module_exports.
+The spec SHA must match the already registered module. Names/ordinals are unique;
+callbacks must point into the native main ELF executable segment. This validates
+native ownership, not a C signature: the adapter separately proves the actual
+typed calling convention and function identity. Export metadata is copied.
+LoadLibraryA accepts the captured full module DOS path for one lease, calls the
+host LOAD hook and exposes only the explicit exports. Each export lookup occurs
+once; FreeLibrary requires the complete lookup inventory, calls the FREE hook,
+and ends the lease. Repeated/refcount/reload/foreign/unknown paths fail closed.
+Hooks preserve the measured errno/DOS/LastError state; violations are rejected,
+not reseeded. Other complete visible state remains the case provider's duty.
+Provider hooks are host configuration/replay code outside the target graph.
+Cached native function pointers cannot physically be invalidated: every typed
+Invoke/Abort callback must check recon_module_provider_state before use. No DLL
+code or target dispatch function is synthesized by the shared registry. Module
+source/hash provenance and the actual captured loaded DOS path stay distinct.
+Existing modules without export providers retain their prior behavior.

@@ -17,11 +17,16 @@ static DWORD last_error;
 typedef struct NativeResource {
     struct NativeResource *next; DWORD kind,id,language,length; const char *text;
 } NativeResource;
+typedef struct NativeExport {
+    char name[128]; WORD ordinal; FARPROC address; unsigned lookups;
+} NativeExport;
 typedef struct NativeModule {
     ReconModuleSpec identity;
     char name[MAX_PATH],path[MAX_PATH],sha256[65];
     BOOL thread_calls_disabled;
     NativeResource *resources;
+    NativeExport exports[16]; unsigned export_count,provider_state;
+    void (__cdecl *lifecycle)(HMODULE,unsigned,void *); void *provider_context;
 } NativeModule;
 static NativeModule native_modules[32],*primary_module;
 static unsigned module_count;
@@ -123,6 +128,72 @@ static int writable_image_span(struct dl_phdr_info *info,size_t size,void *conte
             span->end-begin<=header->p_memsz) { span->found=1; return 1; }
     }
     return 0;
+}
+static int executable_image_span(struct dl_phdr_info *info,size_t size,void *context)
+{
+    NativeImageSpan *span=context; unsigned n; (void)size;
+    if (info->dlpi_name && *info->dlpi_name) return 0;
+    for (n=0;n<info->dlpi_phnum;++n) {
+        const ElfW(Phdr) *header=info->dlpi_phdr+n;
+        uintptr_t begin=(uintptr_t)info->dlpi_addr+header->p_vaddr;
+        if (header->p_type==PT_LOAD && (header->p_flags&PF_X) &&
+            span->begin>=begin && span->begin-begin<header->p_memsz) {
+            span->found=1; return 1;
+        }
+    }
+    return 0;
+}
+static void require_native_callback(uintptr_t address)
+{
+    NativeImageSpan span;
+    span.begin=address; span.end=address; span.found=0;
+    dl_iterate_phdr(executable_image_span,&span);
+    if (!address || !span.found)
+        recon_unsupported("module callback is not native main-image code");
+}
+void recon_register_module_exports(HMODULE handle,const ReconModuleExportsSpec *spec)
+{
+    NativeModule *module=recon_registered_module(handle); unsigned i,j;
+    int saved=errno; DWORD error=last_error;
+    if (!module || !spec || !spec->sha256 || strcmp(spec->sha256,module->sha256) ||
+        !spec->exports || !spec->count || spec->count>16 || !spec->lifecycle ||
+        module->provider_state || (module->identity.flags&RECON_MODULE_PRIMARY))
+        recon_unsupported("module export registration identity/state");
+    require_native_callback((uintptr_t)spec->lifecycle);
+    for (i=0;i<spec->count;++i) {
+        const ReconModuleExport *entry=spec->exports+i;
+        if (!entry->name || !*entry->name || strlen(entry->name)>=128 || !entry->ordinal)
+            recon_unsupported("module export name/ordinal");
+        for (j=0;entry->name[j];++j)
+            if ((unsigned char)entry->name[j]<32 || (unsigned char)entry->name[j]>=127)
+                recon_unsupported("module export nonASCII name");
+        require_native_callback((uintptr_t)entry->address);
+        for (j=0;j<i;++j)
+            if (!strcmp(spec->exports[j].name,entry->name) || spec->exports[j].ordinal==entry->ordinal)
+                recon_unsupported("module duplicate export name/ordinal");
+    }
+    for (i=0;i<spec->count;++i) {
+        strcpy(module->exports[i].name,spec->exports[i].name);
+        module->exports[i].ordinal=spec->exports[i].ordinal;
+        module->exports[i].address=spec->exports[i].address;
+    }
+    module->export_count=spec->count; module->lifecycle=spec->lifecycle;
+    module->provider_context=spec->context;
+    module->provider_state=RECON_MODULE_PROVIDER_REGISTERED;
+    errno=saved; last_error=error;
+}
+unsigned recon_module_provider_state(HMODULE handle)
+{
+    NativeModule *module=recon_registered_module(handle);
+    if (!module) recon_unsupported("unknown module provider state owner");
+    return module->provider_state;
+}
+static void module_lifecycle(NativeModule *module,unsigned event)
+{
+    int saved=errno; unsigned long dos=recon_doserrno; DWORD error=last_error;
+    module->lifecycle((HMODULE)module,event,module->provider_context);
+    if (errno!=saved || recon_doserrno!=dos || last_error!=error)
+        recon_unsupported("module lifecycle changed unreviewed error state");
 }
 void recon_register_module_memory(HMODULE handle,const ReconModuleMemorySpec *proof,void *address,size_t bytes)
 {
@@ -524,24 +595,64 @@ HMODULE WINAPI recon_GetModuleHandleA(LPCSTR name)
     if (!strcasecmp(name,"user32.dll")) return (HMODULE)2;
     if (!strcasecmp(name,"ntdll") || !strcasecmp(name,"ntdll.dll")) return (HMODULE)3;
     for (n=0;n<module_count;++n)
-        if (!strcasecmp(name,native_modules[n].name) || !strcasecmp(name,native_modules[n].path))
+        if (!strcasecmp(name,native_modules[n].name) || !strcasecmp(name,native_modules[n].path)) {
+            if (native_modules[n].provider_state && native_modules[n].provider_state!=RECON_MODULE_PROVIDER_LOADED)
+                recon_unsupported("GetModuleHandle outside loaded provider lease");
             return (HMODULE)(native_modules+n);
+        }
     last_error=ERROR_MOD_NOT_FOUND; return NULL;
 }
 HMODULE WINAPI recon_LoadLibraryA(LPCSTR name)
 {
+    unsigned n,configured=0;
     if (name && !strcasecmp(name,"kernel32.dll")) return (HMODULE)1;
     if (name && !strcasecmp(name,"user32.dll")) return (HMODULE)2;
+    for (n=0;n<module_count;++n) {
+        NativeModule *module=native_modules+n;
+        if (!module->provider_state) continue;
+        configured=1;
+        /* The observed call supplies the captured full loaded DOS path. */
+        if (name && !strcasecmp(name,module->path)) {
+            if (module->provider_state!=RECON_MODULE_PROVIDER_REGISTERED)
+                recon_unsupported("repeated/reloaded module provider lease");
+            module->provider_state=RECON_MODULE_PROVIDER_LOADING;
+            module_lifecycle(module,RECON_MODULE_EVENT_LOAD);
+            module->provider_state=RECON_MODULE_PROVIDER_LOADED;
+            return (HMODULE)module;
+        }
+    }
+    if (configured) recon_unsupported("unregistered module provider path");
     last_error=ERROR_MOD_NOT_FOUND; return NULL;
 }
-BOOL WINAPI recon_FreeLibrary(HMODULE module)
+BOOL WINAPI recon_FreeLibrary(HMODULE handle)
 {
-    (void)module;
-    recon_unsupported("unreviewed FreeLibrary module lifetime");
-    return FALSE;
+    NativeModule *module=recon_registered_module(handle); unsigned n;
+    if (!module || module->provider_state!=RECON_MODULE_PROVIDER_LOADED)
+        recon_unsupported("FreeLibrary outside observed provider lease");
+    for (n=0;n<module->export_count;++n)
+        if (module->exports[n].lookups!=1)
+            recon_unsupported("module export lookup inventory before free");
+    module->provider_state=RECON_MODULE_PROVIDER_UNLOADING;
+    module_lifecycle(module,RECON_MODULE_EVENT_FREE);
+    module->provider_state=RECON_MODULE_PROVIDER_RELEASED;
+    return TRUE;
 }
 FARPROC WINAPI recon_GetProcAddress(HMODULE module,LPCSTR name)
 {
+    NativeModule *provider=recon_registered_module(module); unsigned n;
+    if (provider && provider->provider_state) {
+        if (provider->provider_state!=RECON_MODULE_PROVIDER_LOADED)
+            recon_unsupported("export lookup outside loaded provider lease");
+        for (n=0;n<provider->export_count;++n) {
+            NativeExport *entry=provider->exports+n;
+            if (((uintptr_t)name<65536 && (uintptr_t)name==entry->ordinal) ||
+                ((uintptr_t)name>=65536 && !strcmp(name,entry->name))) {
+                if (entry->lookups) recon_unsupported("repeated provider export lookup");
+                ++entry->lookups; return entry->address;
+            }
+        }
+        recon_unsupported("unregistered provider export name/ordinal");
+    }
     if ((uintptr_t)name<65536) recon_unsupported("unreviewed ordinal/null export lookup");
     if (module==(HMODULE)3) {
         if (name && !strcmp(name,"LdrProcessRelocationBlock")) return (FARPROC)recon_LdrProcessRelocationBlock;

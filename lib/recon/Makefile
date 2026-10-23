@@ -346,3 +346,9 @@ build/return8-probe: tests/return8-callee.c tests/return8-caller.c tests/return8
 	$(CC) $(CPPFLAGS) $(CFLAGS) tests/return8-callee.c tests/return8-caller.c $(SOURCES) -o $@
 return8-check: build/return8-probe
 	$(PYTHON) tests/check-return8.py build/return8-probe
+
+.PHONY: module-provider-check
+build/module-provider-probe: tests/module-provider-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+module-provider-check: build/module-provider-probe
+	$(PYTHON) tests/check-module-provider.py build/module-provider-probe
