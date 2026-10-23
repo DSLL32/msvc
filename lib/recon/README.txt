@@ -820,3 +820,13 @@ inputs and output hashes before binding. This profile permits one GetSystemInfo
 call and rejects GlobalMemoryStatus. It supplies no MEMORYSTATUS bytes or Linux
 hardware values. Existing136-byte RSE1 and its ordered two-call inventory remain
 unchanged. Both loaders and calls preserve measured independent error/FP state.
+
+recon_apply_x87_empty_entry_profile(reference_sha256,control,status,tag) is an
+explicit host input seam, called once before any target DLL lifecycle instruction.
+Only captured CW027f/SW0020/tagffff/TOP0/all-empty is supported. The native prestate
+must already be CW027f/SW0/tagffff (use the existing proved precision setup).
+The reference hash closes the owning actual entry capture, validated by the host.
+Only the two-byte architectural status word changes. Native IP/DP/selectors,
+reserved transport bits and stale empty-register payload stay untouched, as do
+independent errors. It neither performs target arithmetic nor resets later state.
+Unknown/nonempty/inconsistent states and repeated application are unsupported.

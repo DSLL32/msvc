@@ -306,3 +306,34 @@ WCHAR *recon_wcsncpy(WCHAR *destination, const WCHAR *source, size_t count)
     while (index < count) destination[index++] = 0;
     return destination;
 }
+
+/* Captured host input before any target DLL instruction. Only the observed
+ * architectural words are supplied; native pointers and empty payload stay. */
+static struct {
+    char reference_sha256[65];
+    unsigned applications;
+} native_x87_empty_entry;
+void recon_apply_x87_empty_entry_profile(const char *reference_sha256,
+                                        unsigned control,unsigned status,unsigned tag)
+{
+    unsigned char environment[28];
+    unsigned short current_control,current_status,current_tag,word;
+    unsigned n;int saved_errno=errno;unsigned long saved_dos=recon_doserrno;
+    DWORD saved_error=recon_GetLastError();
+    if (native_x87_empty_entry.applications || !reference_sha256 ||
+        strlen(reference_sha256)!=64 || control!=0x027f || status!=0x0020 || tag!=0xffff)
+        recon_unsupported("unreviewed x87 empty-entry profile");
+    for(n=0;n<64;++n)if(!((reference_sha256[n]>='0' && reference_sha256[n]<='9') ||
+        (reference_sha256[n]>='a' && reference_sha256[n]<='f')))
+        recon_unsupported("x87 empty-entry reference SHA256");
+    __asm__ __volatile__("fnstenv %0":"=m"(environment));
+    memcpy(&current_control,environment,2);memcpy(&current_status,environment+4,2);
+    memcpy(&current_tag,environment+8,2);
+    if(current_control!=0x027f || current_status || current_tag!=0xffff)
+        recon_unsupported("x87 empty-entry native prestate");
+    word=(unsigned short)status;memcpy(environment+4,&word,2);
+    __asm__ __volatile__("fldenv %0"::"m"(environment));
+    memcpy(native_x87_empty_entry.reference_sha256,reference_sha256,65);
+    native_x87_empty_entry.applications=1;
+    errno=saved_errno;recon_doserrno=saved_dos;recon_SetLastError(saved_error);
+}

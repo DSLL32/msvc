@@ -1,0 +1,29 @@
+{
+  "scope": "Once-only captured empty x87 host entry input before DLL lifecycle; no late resets/arithmetic",
+  "reference": "tests/x87-empty-entry-reference.json",
+  "source_hashes": {
+    "lib/recon/src/compat.c": "b2c52f8bd07b5970ae56a41440132fa37346873b3b1ecc6decca12524efcaa49",
+    "lib/recon/include/recon.h": "c831d3828f31b6acb0bb9265addc6023d993c71b68379f3532c74a29b617d6f9"
+  },
+  "native": {
+    "gcc": {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/x87-empty-entry/gcc",
+      "sha256": "bd00c6a9780fd833bf8eff1160117f0764778e69fa4cc8058faa855a8e71adb1",
+      "checks": "complete108B onlySW20changes, staleempty/nativeIPDP preserved, threeerrors,11denials"
+    },
+    "clang": {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/x87-empty-entry/clang",
+      "sha256": "627f8a8e7c3bf83fedd72e96033f81a946d293a979d648ced1fc33c168f3ac30",
+      "checks": "complete108B onlySW20changes, staleempty/nativeIPDP preserved, threeerrors,11denials"
+    }
+  },
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/x87-empty-entry/orchestrator-review.json",
+    "sha256": "072c16981910e9616f6de2ae0a6e1e9612662f3fe1fbd6bccb3ff4f9a48cb9a6"
+  },
+  "affected_checks": [
+    "shared default",
+    "default/startup53 precision"
+  ],
+  "integration": "C1 must compare actual earliest native entry against unchanged original before scaler acceptance; not claimed here"
+}

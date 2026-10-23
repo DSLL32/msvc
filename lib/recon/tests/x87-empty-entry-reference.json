@@ -1,0 +1,18 @@
+{
+  "packet": "decomp/vc5.10/c1/cases/minimal/analysis/scaler-support/initial-x87-request-v1.json",
+  "packet_sha256": "e694fa375bbdc4f62eb37474d24504f4ce0f64a0551ff6726cf4975a6f8e4cd7",
+  "raw_float_save_sha256": "063e3aff221e9d15e4606537445329c40040763bd20bf369b01ba328df6b951d",
+  "profile": {
+    "control": 639,
+    "status": 32,
+    "tag": 65535,
+    "top": 0,
+    "live_stack": []
+  },
+  "scope": "Applied once outsidegraph beforefirsttargetDLLinstruction; no IP/DP/selectors/transport/empty-payload input",
+  "native_prestate": {
+    "control": 639,
+    "status": 0,
+    "tag": 65535
+  }
+}

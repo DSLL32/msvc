@@ -418,3 +418,9 @@ build/system-info-profile-probe: tests/system-info-profile-probe.c $(SOURCES) $(
 	$(CC) $(CPPFLAGS) $(CFLAGS) tests/system-info-profile-probe.c $(SOURCES) -o $@
 system-info-profile-check: build/system-info-profile-probe
 	$(PYTHON) tests/check-system-info-profile.py build/system-info-profile-probe
+
+.PHONY: x87-empty-entry-check
+build/x87-empty-entry-probe: tests/x87-empty-entry-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) tests/x87-empty-entry-probe.c $(SOURCES) -o $@
+x87-empty-entry-check: build/x87-empty-entry-probe
+	$(PYTHON) tests/check-x87-empty-entry.py build/x87-empty-entry-probe

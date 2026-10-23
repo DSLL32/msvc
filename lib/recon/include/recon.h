@@ -262,6 +262,7 @@ int recon_iswctype(WCHAR,WCHAR);
 WCHAR recon_towupper(WCHAR);
 WCHAR *recon_wcscpy(WCHAR *,const WCHAR *),*recon_wcsncpy(WCHAR *,const WCHAR *,size_t);
 unsigned recon_control87(unsigned,unsigned),recon_controlfp(unsigned,unsigned);
+void recon_apply_x87_empty_entry_profile(const char *,unsigned,unsigned,unsigned);
 void recon_ftime(struct _timeb *);
 typedef void (*ReconSignalHandler)(int);
 ReconSignalHandler recon_signal(int,ReconSignalHandler);
