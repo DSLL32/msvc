@@ -1,0 +1,84 @@
+
+build/sections.obj:     file format pe-i386
+
+RELOCATION RECORDS FOR [.data]:
+OFFSET   TYPE              VALUE
+00000008 dir32             $SG22255
+0000000c dir32             $SG22256
+00000010 dir32             _const_section_class
+00000014 dir32             $SG22257
+00000018 dir32             $SG22258
+0000001c dir32             _section_context_identity$S22259
+
+
+RELOCATION RECORDS FOR [.text]:
+OFFSET   TYPE              VALUE
+00000006 dir32             _c2_il_eight_byte_target
+00000015 dir32             $SG22263
+0000001b dir32             _code_section_name
+00000020 DISP32            @create_section@12
+00000025 dir32             _code_section-0x00000004
+0000002b dir32             _code_section-0x00000004
+00000030 DISP32            @initialize_section_defaults@4
+00000035 dir32             _code_section-0x00000004
+0000003b dir32             _stack_alignment
+00000044 dir32             _code_section-0x00000004
+0000004d dir32             _code_section-0x00000004
+00000057 dir32             _code_section-0x00000004
+00000065 dir32             $SG22264
+0000006b dir32             _data_section_name
+00000070 DISP32            @create_section@12
+00000075 dir32             _data_section-0x00000004
+0000007b dir32             _data_section-0x00000004
+00000080 DISP32            @initialize_section_defaults@4
+00000086 dir32             _data_section-0x00000004
+0000008f dir32             _data_section-0x00000004
+00000099 dir32             _data_section-0x00000004
+000000a7 dir32             _const_section_class
+000000ad dir32             _const_section_name
+000000b2 DISP32            @create_section@12
+000000b7 dir32             _const_section-0x00000004
+000000bd dir32             _const_section-0x00000004
+000000c2 DISP32            @initialize_section_defaults@4
+000000c8 dir32             _const_section-0x00000004
+000000d1 dir32             _const_section-0x00000004
+000000db dir32             _const_section-0x00000004
+000000e9 dir32             $SG22265
+000000ef dir32             _bss_section_name
+000000f4 DISP32            @create_section@12
+000000f9 dir32             _bss_section-0x00000004
+000000ff dir32             _bss_section-0x00000004
+00000104 DISP32            @initialize_section_defaults@4
+0000010a dir32             _bss_section-0x00000004
+00000113 dir32             _bss_section-0x00000004
+0000011d dir32             _bss_section-0x00000004
+0000012a dir32             _c2_codeview_types
+00000138 dir32             $SG22267
+0000013d dir32             $SG22268
+00000142 DISP32            @create_section@12
+0000015f dir32             _section_context
+00000179 dir32             _debug_symbols_section-0x00000004
+0000018a dir32             $SG22269
+0000018f dir32             $SG22270
+00000194 DISP32            @create_section@12
+000001b1 dir32             _section_context
+000001cb dir32             _debug_types_section-0x00000004
+000001dc dir32             $SG22271
+000001e2 dir32             _tls_section_name
+000001e7 DISP32            @create_section@12
+000001ec dir32             _tls_section-0x00000004
+000001f2 dir32             _tls_section-0x00000004
+000001f7 DISP32            @initialize_section_defaults@4
+000001fc dir32             _tls_section-0x00000004
+00000206 dir32             _tls_section-0x00000004
+00000210 dir32             _tls_section-0x00000004
+00000230 DISP32            @c2_allocate_node@8
+00000258 DISP32            @insert_symbol@8
+00000260 DISP32            @append_section@4
+00000278 dir32             _section_head-0x00000004
+00000280 dir32             _section_tail-0x00000004
+0000028c dir32             _section_tail-0x00000004
+000002a0 dir32             _section_head-0x00000004
+000002a9 dir32             _section_tail-0x00000004
+
+

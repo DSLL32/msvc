@@ -123,6 +123,28 @@ def main():
                       ('machine call-clobber register mask differs',lambda r:changed_machine_value(r,'0x495f34',7)),
                       ('machine stack alignment differs',lambda r:changed_machine_value(r,'0x49745c',4)),
                       ('earlier intrinsic observation cannot replace final frontier observation',missing_final_intrinsic_observation)]
+    if 'section_defaults'in current_state:
+        def changed_section_defaults(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['section_defaults'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        def changed_original_list(root):
+            path=root/'o/section-list.bin';data=bytearray(path.read_bytes());data[4]^=4;path.write_bytes(data)
+        def changed_unmodeled_alias(root):
+            import struct
+            path=root/'o/unmodeled-original-data.bin';data=bytearray(path.read_bytes());struct.pack_into('<I',data,0x497f58-0x48e000,0);path.write_bytes(data)
+            receipt=json_at(root/'o/receipt.json');receipt['unmodeled_original_data']['sha256']=sha(data);write_json(root/'o/receipt.json',receipt)
+        mutations += [('section default node untouched bytes differ',lambda r:changed_section_defaults(r,'bytes',current_state['section_defaults']['bytes'][:-2]+'01')),
+                      ('section default name differs',lambda r:changed_section_defaults(r,'name','_DATA')),
+                      ('section default class differs',lambda r:changed_section_defaults(r,'class_name','DATA')),
+                      ('section default global name alias differs',lambda r:changed_section_defaults(r,'name_alias',False)),
+                      ('section default allocated node alias differs',lambda r:changed_section_defaults(r,'pool_offset',8)),
+                      ('section default output code pointer alias differs',lambda r:changed_section_defaults(r,'code_section_alias',False)),
+                      ('section default other output changed prematurely',lambda r:changed_section_defaults(r,'other_sections',[1]+[0]*5)),
+                      ('section default list head loses argument alias',lambda r:changed_section_defaults(r,'head_alias',False)),
+                      ('section default list tail loses argument alias',lambda r:changed_section_defaults(r,'tail_alias',False)),
+                      ('section default pending context loses identity alias',lambda r:changed_section_defaults(r,'context_identity_alias',False)),
+                      ('original section default list tail differs',changed_original_list),
+                      ('original unmodeled snapshot altered',lambda r:(r/'o/unmodeled-original-data.bin').write_bytes(b'changed')),
+                      ('original pending context pointer differs with matching snapshot hash',changed_unmodeled_alias)]
     if 'section_linked'in current_state:
         def changed_linked_section(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['section_linked'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

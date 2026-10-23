@@ -1,0 +1,38 @@
+In file included from <stdin>:1:
+src/c2.h:18:12: warning: __declspec attribute 'dllimport' is not supported [-Wignored-attributes]
+   18 | __declspec(dllimport) extern FILE _iob[];
+      |            ^~~~~~~~~
+src/c2.h:21:12: warning: __declspec attribute 'dllimport' is not supported [-Wignored-attributes]
+   21 | __declspec(dllimport) extern unsigned short *_pctype;
+      |            ^~~~~~~~~
+src/c2.h:24:12: warning: __declspec attribute 'dllimport' is not supported [-Wignored-attributes]
+   24 | __declspec(dllimport) extern int __mb_cur_max;
+      |            ^~~~~~~~~
+src/c2.h:55:12: warning: __declspec attribute 'dllimport' is not supported [-Wignored-attributes]
+   55 | __declspec(dllimport) void __cdecl __set_app_type(int);
+      |            ^~~~~~~~~
+src/c2.h:56:12: warning: __declspec attribute 'dllimport' is not supported [-Wignored-attributes]
+   56 | __declspec(dllimport) int *__cdecl __p__fmode(void);
+      |            ^~~~~~~~~
+src/c2.h:57:12: warning: __declspec attribute 'dllimport' is not supported [-Wignored-attributes]
+   57 | __declspec(dllimport) int *__cdecl __p__commode(void);
+      |            ^~~~~~~~~
+src/c2.h:58:12: warning: __declspec attribute 'dllimport' is not supported [-Wignored-attributes]
+   58 | __declspec(dllimport) int _adjust_fdiv;
+      |            ^~~~~~~~~
+src/c2.h:59:12: warning: __declspec attribute 'dllimport' is not supported [-Wignored-attributes]
+   59 | __declspec(dllimport) void __cdecl __setusermatherr(int (__cdecl *)(struct _exception *));
+      |            ^~~~~~~~~
+src/c2.h:61:12: warning: __declspec attribute 'dllimport' is not supported [-Wignored-attributes]
+   61 | __declspec(dllimport) void __cdecl __getmainargs(int *, char ***, char ***, int, struct _startupinfo *);
+      |            ^~~~~~~~~
+src/c2.h:62:12: warning: __declspec attribute 'dllimport' is not supported [-Wignored-attributes]
+   62 | __declspec(dllimport) char ***__cdecl __p___initenv(void);
+      |            ^~~~~~~~~
+<stdin>:2:54: error: arithmetic on a pointer to an incomplete type 'C2SectionContext' (aka 'struct C2SectionContext')
+    2 | void attempted_access(void) { (void)(section_context + 1); }
+      |                                      ~~~~~~~~~~~~~~~ ^
+src/c2.h:151:16: note: forward declaration of 'struct C2SectionContext'
+  151 | typedef struct C2SectionContext C2SectionContext;
+      |                ^
+10 warnings and 1 error generated.

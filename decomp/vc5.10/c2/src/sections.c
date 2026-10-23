@@ -10,7 +10,13 @@ char *bss_section_name = "_BSS";
 char *tls_section_name = "_TLS";
 C2Section *code_section, *data_section, *const_section, *bss_section;
 C2Section *debug_symbols_section, *debug_types_section, *tls_section;
-void *section_context;
+/* Address-only anchor for the pending object at original49e300. This char
+ * supplies a distinct address in both builds; it is not the target object's
+ * payload, layout or extent. C2SectionContext stays incomplete: no dereference,
+ * arithmetic, serialization or unknown escape is permitted before modeling it.
+ */
+static char section_context_identity;
+C2SectionContext *section_context = (C2SectionContext *)&section_context_identity;
 
 void initialize_sections(void)
 {
@@ -80,4 +86,18 @@ C2Section *__fastcall create_section(char *name, char *class_name, unsigned seri
     insert_symbol(&section->symbol, 0);
     append_section(section);
     return section;
+}
+
+C2Section *section_head, *section_tail;
+
+void __fastcall append_section(C2Section *section)
+{
+    if (section_head) {
+        C2Section *previous = section_tail;
+        section_tail = section;
+        previous->next = section;
+    } else {
+        section_head = section;
+        section_tail = section;
+    }
 }

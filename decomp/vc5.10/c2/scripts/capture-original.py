@@ -105,6 +105,7 @@ def main():
                  environment=config['case']['environment'],provider_sha256=sha(provider.read_bytes())if provider.exists()else None,
                  execution_inputs={name:sha((output/name).read_bytes())if(output/name).exists()else None for name in (('child-environment-input.bin','child-command-input.bin','data-plan.txt')if data_model else('child-environment-input.bin','child-command-input.bin'))},
                  helper_status=result.returncode,seconds={'setup':setup,'execution':elapsed,'total':time.monotonic()-begin})
+    if(output/'unmodeled-original-data.bin').exists():receipt['unmodeled_original_data']={'classification':'UNMODELED; preservation only, no payload/extent/data credit','bytes':(output/'unmodeled-original-data.bin').stat().st_size,'sha256':sha((output/'unmodeled-original-data.bin').read_bytes())}
     for stream in ('stdout','stderr'):
         path=output/(stream+'.bin')
         receipt[stream]={'bytes':path.stat().st_size,'sha256':sha(path.read_bytes())}if path.exists()else None

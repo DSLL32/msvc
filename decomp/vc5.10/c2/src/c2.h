@@ -148,6 +148,8 @@ void initialize_intrinsics(void);
 extern unsigned selected_save_register_mask, call_clobbered_register_mask;
 extern int stack_alignment, c2_cpu_generation;
 void initialize_machine_registers(void);
+typedef struct C2SectionContext C2SectionContext;
+
 #pragma pack(2)
 struct C2Symbol {
     C2Symbol *hash_next;
@@ -155,7 +157,7 @@ struct C2Symbol {
     unsigned char pending05[19];
     char *name;
     unsigned char pending1c[8];
-    void *context;
+    C2SectionContext *context;
     unsigned serial;
     unsigned char pending2c[6];
 };
@@ -178,7 +180,8 @@ extern C2Section *code_section, *data_section, *const_section, *bss_section;
 extern C2Section *debug_symbols_section, *debug_types_section, *tls_section;
 extern char *code_section_name, *data_section_name, *const_section_name;
 extern char *bss_section_name, *tls_section_name;
-extern void *section_context;
+extern C2SectionContext *section_context;
+extern C2Section *section_head, *section_tail;
 extern int c2_codeview_types;
 void initialize_sections(void);
 C2Section *__fastcall create_section(char *name, char *class_name, unsigned serial);

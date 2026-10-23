@@ -1,0 +1,45 @@
+{
+  "original_capture": {
+    "setup": 0.17375348322093487,
+    "execution": 1.1715799495577812,
+    "total": 1.3856168296188116
+  },
+  "native_gdb_capture": {
+    "execution": 0.27657198812812567,
+    "total": 0.3582520065829158
+  },
+  "rejection_control": {
+    "control_and_rejections": 7.044465923681855
+  },
+  "fresh_rejections": 19,
+  "reused_rejections": 75,
+  "audit_seconds": 0.10214508417993784,
+  "initial_builds": {
+    "native": {
+      "seconds": 2.3170852353796363,
+      "status": 0
+    },
+    "original": {
+      "seconds": 4.2257508635520935,
+      "status": 0
+    },
+    "helper": {
+      "seconds": 1.1917543401941657,
+      "status": 0
+    }
+  },
+  "builds_after_anchor_definition": {
+    "native": {
+      "seconds": 2.3628420950844884,
+      "status": 0
+    },
+    "original": {
+      "seconds": 4.672299158759415,
+      "status": 0
+    },
+    "helper": {
+      "seconds": 1.1442297417670488,
+      "status": 0
+    }
+  }
+}

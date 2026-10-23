@@ -1,0 +1,47 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+C2-PROCESS-INPUT {"MSC_CMD_FLAGS": "-il .\\a01068 -f numeric-control-flow.c -W 1 -dos -Fonumeric-control-flow.obj -ML -Fdvc50.idb -Bd -Gs4096 -Gy -G5 ", "arguments": []}
+C2-SOURCE-ENTRY _c2_crt_startup 0x56558cc9
+C2-SOURCE-ENTRY _c2_set_argv 0x56558e57
+C2-SOURCE-ENTRY _c2_set_default_precision 0x56558f17
+C2-SOURCE-ENTRY _c2_main 0x56558f90
+C2-SOURCE-ENTRY _c2_register_exit 0x56558eb9
+C2-SOURCE-ENTRY _c2_register_onexit 0x56559169
+C2-SOURCE-ENTRY @c2_read_environment@4 0x565592a9
+C2-SOURCE-ENTRY _c2_copy_arguments 0x565591f7
+C2-SOURCE-ENTRY _c2_initialize_options 0x56559448
+C2-SOURCE-ENTRY _c2_next_argument 0x56559727
+C2-SOURCE-ENTRY @c2_match_option@16 0x56559852
+C2-SOURCE-ENTRY @c2_apply_option@12 0x56559a91
+C2-SOURCE-ENTRY @parse_option_integer@4 0x56559e99
+C2-SOURCE-ENTRY @c2_validate_alignment@4 0x565597d9
+C2-SOURCE-ENTRY @c2_open_intermediate@16 0x56559fde
+C2-SOURCE-ENTRY _c2_read_header 0x5655a107
+C2-SOURCE-ENTRY _c2_read_il_byte 0x5655a367
+C2-SOURCE-ENTRY _c2_read_il_word 0x5655a417
+C2-SOURCE-ENTRY _c2_read_il_long 0x5655a527
+C2-SOURCE-ENTRY _c2_reset_symbol_table 0x5655b437
+C2-SOURCE-ENTRY _c2_create_type_table 0x5655b4b7
+C2-SOURCE-ENTRY @c2_allocate_node@8 0x5655b8cc
+C2-SOURCE-ENTRY @c2_node_size@4 0x5655b7f9
+C2-SOURCE-ENTRY @c2_pool_allocate@8 0x5655b5ec
+C2-SOURCE-ENTRY _c2_initialize_constants 0x5655ba27
+C2-SOURCE-ENTRY _c2_real_from_int 0x5655b97e
+C2-SOURCE-ENTRY _store_extended 0x5655b9d1
+C2-SOURCE-ENTRY _c2_initialize_opcodes 0x5655bad7
+C2-SOURCE-ENTRY _c2_initialize_machine 0x5655bbf7
+C2-SOURCE-ENTRY _c2_initialize_trees 0x5655bc97
+C2-SOURCE-ENTRY @create_section@12 0x5655bf9f
+C2-SOURCE-ENTRY @insert_symbol@8 0x5655b52c
+C2-SOURCE-ENTRY @append_section@4 0x5655c049
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+initialize_section_defaults (section=0x5658bec8) at src/stubs.c:24
+24	}
+eip            0x56558918          0x56558918 <initialize_section_defaults+56>
+initialize_section_defaults + 56 in section .text of /root/msvc2/decomp/vc5.10/c2/build/native/c2
+   0x56558917 <initialize_section_defaults+55>:	int3
+Last stopped for thread 1 (Thread 0xf7fc0580 (LWP 1454949)).
+	Using the running image of child process 1454949.
+Program stopped at 0x56558917.
+It stopped with signal SIGTRAP, Trace/breakpoint trap.

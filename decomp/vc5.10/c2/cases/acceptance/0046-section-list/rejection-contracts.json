@@ -1,0 +1,20 @@
+{
+  "source_hashes": {
+    "scripts/accept.py": "26e4bc3f4deb88c33b669de0ac07105bd6fccde8cf8b6034808bdd899c4b3aac",
+    "scripts/audit.py": "938cace588deae113948d5b1828155e8cd90036c737001dd05f2767ff90acc40",
+    "scripts/build-index.py": "53e385cd7636d17b660fa3ce1f38a05e9f2314db1cf4e07bf8be5dfc6f3641ce",
+    "scripts/capture-native.py": "1a6de5cfff7f4890dd98dcaf440fc0d11cfaf5bdd8f58201f20684166127c110",
+    "scripts/capture-original.py": "af5c46fdd5c60a9d50a69981bdbfdf0df9abb3eef31b3cd25cc63b21f2862ec5",
+    "scripts/case_inputs.py": "13ab2ee944896ade6b46c2b2d226fd63233ea9d3191931b1d8a84ddbfaa48aa9",
+    "scripts/check-rejections.py": "7d8d0af19dcdd191c21b5cd32eb6659823a0c02cbea28c3049ebff12ac1a06ea",
+    "scripts/compare.py": "7f747371ba39ce78dbe1b832ce0fea36c4f75c48f3166c9b8d2191068e606e83",
+    "scripts/data_evidence.py": "052eba9d74cfcc70f6fe54912a76cac10e70745dd378891f12a3d10227900c8e",
+    "scripts/debug-run.c": "6c16d04c34b4bfd3c1682e46908e27b386a9fc8f7e207f294bc76171517cc6a2",
+    "scripts/import_evidence.py": "b95bf84a6fe9a82ccc1f8450e0767f4e62da0ef396bcdb625719b500b10c768c",
+    "scripts/intrinsic_evidence.py": "89e13fbff12ec278801984bd7360b54b392cc50e332d9f449c7f8b9032ab0034",
+    "scripts/native-proof.py": "e19e267af93ff09647d31049b8cb5ade5451b22751f7902135f904c13b1e0728",
+    "scripts/state.py": "c823efddd33082153589d54de971b74d841cf14da3b3080fb9f2639d1211f34e"
+  },
+  "archive_sha256": "85d00c92a0c1975b79df921ba888351f984c67b1639ec62aa27c9aeda00945a0",
+  "rejection_receipt_sha256": "23b72bc935a715ae2248a3bf10e2ec7065a4105668ac6c6981d49f37914f08d6"
+}

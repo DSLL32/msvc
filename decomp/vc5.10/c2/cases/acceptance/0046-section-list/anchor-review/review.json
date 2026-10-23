@@ -1,0 +1,61 @@
+{
+  "classification": "Address identity ONLY; original object payload/layout/extent remain UNMODELED. This1-byte anchor is not original size/default contents.",
+  "source": {
+    "src/sections.c": "2421a534147e2e73d4000b61aba83efc798ef7e5d9598fa02a26ae3b6ba9840e",
+    "src/c2.h": "c7e36d9ab4709bd60f5fca61150ab25a27c81e811685d9c329b009c8623e838f"
+  },
+  "original_identity": "0x49e300",
+  "original_pointer_global": "0x497f58",
+  "actual_rebuilt_pointer_global": "0x406b48",
+  "actual_rebuilt_anchor_address": "0x406c8c",
+  "actual_object_sha256": "9922870b5f4b757b27157947d31e4d93832bed3fc8dbf470f87423e0370619b9",
+  "static_symbol": "COFF static _section_context_identity$S22259, .bss+0; section_context .data+1c DIR32 reloc references it",
+  "files": {
+    "sections-r.txt": "7e2a2c03808fbe5764212b261d42971623a3a111eaa85f01d8a33ba35f158a11",
+    "sizeof.txt": "016598741440ab95cf9ed2bbfd3cb6e446c6dcb2c59b899023f0f8775ee4a326",
+    "arithmetic.txt": "5536f899088ea0a429a8e6c7045349e5c35e0e6be3111dc5ae5c1b5771a70b97",
+    "sections-h.txt": "f198ea2dcfd7015696b0013175479afce270128ec6f6f0f2780ca1c8eab1c93a",
+    "sections-t.txt": "34d453b51a5eff64dfd3a7d1c30799f217770addb73caf77bb077cdd56c59aa4",
+    "sections.obj": "9922870b5f4b757b27157947d31e4d93832bed3fc8dbf470f87423e0370619b9",
+    "dereference.txt": "33a4d6943055d10deb1a9dcbc64c5d1c48230c7fcfb6cdbd46a155c2cc26f328"
+  },
+  "incomplete_type_rejections": [
+    {
+      "operation": "dereference",
+      "status": 1,
+      "stderr_sha256": "33a4d6943055d10deb1a9dcbc64c5d1c48230c7fcfb6cdbd46a155c2cc26f328",
+      "seconds": 0.12730688508599997
+    },
+    {
+      "operation": "arithmetic",
+      "status": 1,
+      "stderr_sha256": "5536f899088ea0a429a8e6c7045349e5c35e0e6be3111dc5ae5c1b5771a70b97",
+      "seconds": 0.13639213237911463
+    },
+    {
+      "operation": "sizeof",
+      "status": 1,
+      "stderr_sha256": "016598741440ab95cf9ed2bbfd3cb6e446c6dcb2c59b899023f0f8775ee4a326",
+      "seconds": 0.12731009535491467
+    }
+  ],
+  "raw_original": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/append-original",
+  "raw_native": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/append-native",
+  "fresh_original_data_preservation": {
+    "classification": "UNMODELED; preservation only, no payload/extent/data credit",
+    "bytes": 67328,
+    "sha256": "bff5ecc45bf185e48239fe83371ea4fb034a279dfbf3af01c69f45831d0a2a0e"
+  },
+  "permitted_prefix_operations": [
+    "initialize_sections copiesglobalidentity fordebugsections only",
+    "defaulthelper currentlyunaccepted trap; willonlycopyidentity tosymbol.context",
+    "constructor/hash/list neverreadcontextpayload"
+  ],
+  "hard_gate": "Any context dereference/arithmetic/serialization/size/order/unknownescape before modeling is prohibited; incomplete type enforces normal field/arithmetic/sizeof use.",
+  "negative_report": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/append-negatives.json",
+  "fresh_rejections": 19,
+  "reused_rejections": 75,
+  "rejection_seconds": {
+    "control_and_rejections": 7.044465923681855
+  }
+}
