@@ -670,3 +670,17 @@ if gdb.lookup_global_symbol('recon_wcschr'):
 else:
     WideSearchEntered('wcschr',internal=True)
 save_wide_searches()
+
+character_matches=[]
+def save_character_matches():(path.parent/'character-matches.json').write_text(json.dumps(character_matches,indent=2)+'\n')
+class CharacterMatchReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(self.return_value)&0xffffffff,return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,cursor_after=int(gdb.parse_and_eval('rc_source_cursor')))
+        save_character_matches();return False
+class CharacterMatchEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();character=frame.read_var('character')
+        entry=dict(character=int(character),formal_bytes=character.type.sizeof,entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,cursor=int(gdb.parse_and_eval('rc_source_cursor')),caller=frame.older().name())
+        character_matches.append(entry);save_character_matches();CharacterMatchReturned(frame,entry);return False
+CharacterMatchEntered('rc_match_logical_character',internal=True);save_character_matches()

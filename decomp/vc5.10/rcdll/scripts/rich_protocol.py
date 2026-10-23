@@ -1841,11 +1841,11 @@ def angle_name_trial(original,native):
     proof['trial']='rc_parse_angle_name';return proof
 
 
-def _include_search_checkpoint(original,native,comment=False):
-    trial='rc_scan_comment'if comment else'rc_search_include_directories';frontier='rc_match_logical_character'if comment else'rc_scan_comment';caller='rc_scan_comment'if comment else'rc_scan_line_start'
-    config=read_configuration(original/'functions.json');assert config.get('trial_function')==trial and len(config['accepted'])==(60 if comment else 59)
+def _include_search_checkpoint(original,native,comment=False,matcher=False):
+    trial='rc_match_logical_character'if matcher else'rc_scan_comment'if comment else'rc_search_include_directories';frontier='rc_skip_block_comment'if matcher else'rc_match_logical_character'if comment else'rc_scan_comment';caller='rc_scan_comment'if comment or matcher else'rc_scan_line_start';source_offset=4 if matcher else 2;source_word=43 if matcher else 42
+    config=read_configuration(original/'functions.json');assert config.get('trial_function')==trial and len(config['accepted'])==(61 if matcher else 60 if comment else 59)
     a,b,proof=checkpoint(original,native,frontier,('rc_input_temporary','rc_output_temporary'))
-    assert a['words'][0]==(0x71c32a09 if comment else 0x71c3216d)and re.search(r'^#1\s+0x[0-9a-f]+ in '+caller+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    assert a['words'][0]==(0x71c32a12 if matcher else 0x71c32a09 if comment else 0x71c3216d)and re.search(r'^#1\s+0x[0-9a-f]+ in '+caller+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
     assert proof['application_trace'][-1]==trial
     text=(original/'events.txt').read_text();args=b['arguments'];old_globals=(original/'globals.bin').read_bytes();globals=args['preprocessor']['globals'];calls=args['include_opens']
     assert calls==json.loads((native/'include-opens.json').read_text())and len(calls)==4
@@ -1867,9 +1867,9 @@ def _include_search_checkpoint(original,native,comment=False):
     old=struct.unpack('<9I',raw_bytes(text,'comment-frame'));new=struct.unpack('<9I',bytes.fromhex(c['frame']));old_parent=struct.unpack('<9I',raw_bytes(text,'comment-parent-frame'));new_parent=struct.unpack('<9I',bytes.fromhex(c['parent_frame']))
     assert tuple(old[i]for i in [0,2,6,7,8])==tuple(new[i]for i in [0,2,6,7,8])==(4098,1,4098,1,0)
     assert old[4]-old_parent[5]==new[4]-new_parent[5]==106 and old[4]>old_parent[5]>0
-    current=struct.unpack_from('<I',old_globals,0x18120-0x14000)[0];assert current-old[5]==c['cursor']-new[5]==2 and c['current_word']==42 and c['encoding']==1
+    current=struct.unpack_from('<I',old_globals,0x18120-0x14000)[0];assert current-old[5]==c['cursor']-new[5]==source_offset and c['current_word']==source_word and c['encoding']==1
     master=(ROOT/'toolchains/5.10/include/WINDOWS.H').read_bytes();expected_source=bytes(8)+master[:4098].decode('cp1252').encode('utf-16le')+bytes(2)
-    assert raw_bytes(text,'comment-source-block')==bytes.fromhex(c['source_block'])==expected_source and len(expected_source)==8206 and struct.unpack_from('<H',expected_source,10)[0]==c['current_word']
+    assert raw_bytes(text,'comment-source-block')==bytes.fromhex(c['source_block'])==expected_source and len(expected_source)==8206 and struct.unpack_from('<H',expected_source,8+source_offset)[0]==c['current_word']
     blocks=b['heap_identity']['blocks'];buffer=next(v for v in blocks if v['payload']+8==new[5]);assert buffer['owner']==b['heap_identity']['handle']and buffer['flags']==9 and buffer['bytes']==8206 and bytes.fromhex(buffer['contents'])==expected_source
     name=next(v for v in blocks if v['payload']+8==new[3]);assert name['owner']==b['heap_identity']['handle']and name['flags']==9 and name['bytes']==34 and bytes.fromhex(name['contents'])==bytes(8)+'resources.rc\0'.encode('utf-16le')
     assert raw_bytes(text,'comment-filename')==bytes.fromhex(args['filename'])==bytes.fromhex(calls[3]['path_bytes'])+bytes(514-len(bytes.fromhex(calls[3]['path_bytes'])))
@@ -1908,6 +1908,15 @@ def _include_search_checkpoint(original,native,comment=False):
         proof['include_search']['next_formals']=[dict(name='character',value=42,bytes=4)]
         proof['include_search']['return_scope']='Search and fourth open remain pending; their progress is verified at the nested matcher child. Neither a search nor dispatcher return is claimed.'
         proof['comment_dispatch']=dict(formals=[],return_scope='Not yet returned: first matcher call is the actual nonempty child frontier.',next_formals=[dict(name='character',value=42,formal_bytes=4,stack_slot_bytes=4,comparison_bits=32)],next_hidden_inputs=dict(source_cursor_offset=2,current_word=struct.unpack_from('<H',expected_source,10)[0],ownership='Same initialized source frame and decoded storage; matcher reads complete32-bit formal and existing cursor, no additional register/out-pointer inputs found.'),return_to_original='0x71c32a09',native_caller='rc_scan_comment')
+    if matcher:
+        rows=args['character_matches'];assert rows==json.loads((native/'character-matches.json').read_text())and len(rows)==1
+        entry=re.findall(r'^character-match-entry character=(\d+) cursor=([0-9a-f]+) esp=([0-9a-f]+) caller=([0-9a-f]+)$',text,re.M);returned=re.findall(r'^character-match-return result=(\d+) cursor=([0-9a-f]+) esp=([0-9a-f]+)$',text,re.M);assert len(entry)==len(returned)==1
+        character,cursor,sp,return_to=entry[0];result,after,end_sp=returned[0];row=rows[0]
+        assert int(character)==row['character']==42 and row['formal_bytes']==4 and row['caller']=='rc_scan_comment'and int(return_to,16)==0x71c32a09
+        assert int(cursor,16)-old[5]==row['cursor']-new[5]==2 and int(after,16)-old[5]==row['cursor_after']-new[5]==4
+        assert int(result)==row['result']==1 and int(end_sp,16)==int(sp,16)+8 and row['return_esp']==row['entry_esp']+8
+        proof['include_search'].update(current_source_offset=source_offset,current_word=source_word,next_hidden_inputs='Actual cursor4/plus43 in the same initialized SDK source; block-comment scanner has no formals or additional register/out-pointer inputs, and consumes existing source/line/output globals.',return_scope='Fourth open and comment dispatcher remain pending; matcher has actually returned1 with ret4 and source advance2.')
+        proof['character_match']=dict(character=42,formal_bytes=4,comparison_bits=32,result=1,cleanup=4,source_before_offset=2,source_after_offset=4,next_formals=[],next_current_word=source_word,next_caller='rc_scan_comment',next_original_return_to='0x71c32a12',state_scope='Full source frame and initialized source bytes plus line/FILE/output parser globals checked; block-comment helper has no additional register/out-pointer inputs identified.')
     proof['trial']=trial;return proof
 
 def include_search_trial(original,native):
@@ -1915,3 +1924,6 @@ def include_search_trial(original,native):
 
 def scan_comment_trial(original,native):
     return _include_search_checkpoint(original,native,comment=True)
+
+def character_match_trial(original,native):
+    return _include_search_checkpoint(original,native,matcher=True)

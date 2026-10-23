@@ -17,3 +17,10 @@ WCHAR __cdecl rc_get_logical_character(void)
         if(!rc_splice_line())return L'\\';
     }
 }
+
+int __stdcall rc_match_logical_character(unsigned character)
+{
+    if(character==rc_get_logical_character())return 1;
+    --rc_source_cursor;
+    return 0;
+}

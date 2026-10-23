@@ -200,12 +200,6 @@ unsigned char __stdcall rc_read_fraction(WCHAR *end)
     return 0;
 }
 
-int __stdcall rc_match_logical_character(unsigned character)
-{
-    __asm int 3
-    return 0;
-}
-
 int __stdcall rc_read_macro_identifier(WCHAR first)
 {
     __asm int 3

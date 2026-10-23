@@ -1300,8 +1300,7 @@
       "end": "0x12908",
       "abi": "stdcall",
       "stack_bytes": 4,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_read_macro_identifier",
@@ -1469,5 +1468,6 @@
       "entry_eax": "0x42c4",
       "return_esp": "entry_esp+4-entry_eax"
     }
-  ]
+  ],
+  "trial_function": "rc_match_logical_character"
 }
