@@ -7,7 +7,11 @@
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "fe4b4951b42d26bc700f7168e802840f447109eaa81d45ba10dc27ae7435928a"
+    "sha256": "d812f537fccb253d1584a63345f04dc4341250dcbd23ee38509827b2aa6c42c6"
+  },
+  "original_entry_references": {
+    "path": "cases/original-entry-references.json",
+    "sha256": "1f9648604cbcb4f268eeb1cd27cf6802f54becad1452d8c7db9635a7d71db5fc"
   },
   "explicit_CRT_variants": [
     "___strgtold12",

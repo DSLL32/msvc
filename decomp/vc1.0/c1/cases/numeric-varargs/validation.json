@@ -1,0 +1,11 @@
+{
+  "status": "pass",
+  "shared_reference_validation": "../shared-prefix-validation.json",
+  "original_entry_receipts": [
+    "numeric-varargs"
+  ],
+  "native_regressions": "../shared-prefix-evidence/migration-final-fifteen-traces.json",
+  "function_graphs": 703,
+  "state_defaults_aliases": 279,
+  "normalization": "Only explicitly listed clock DWORDs; no path or pointer normalization."
+}

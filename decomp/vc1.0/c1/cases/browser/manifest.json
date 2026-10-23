@@ -6,7 +6,7 @@
       "target": "toolchains/1.0-nt/bin/C13232.EXE",
       "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
       "arguments": [],
-      "canonical_working_directory": "N:\\browser",
+      "canonical_working_directory": "S:\\vc1.0\\c1\\browser",
       "environment": {
         "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR test.sbr -I {include} "
       },
@@ -50,8 +50,8 @@
         {
           "path": "expected/c1/test.sbr",
           "output_name": "test.sbr",
-          "bytes": 236,
-          "sha256": "3229c33e0efb5b0d3819217f74705efcbf44b08f98dc86dce034f63f74b4a1c1"
+          "bytes": 245,
+          "sha256": "67b1072ac6cbc082472f5eba4f676909da4fdc0c1577b2d9eee7820d4c05caab"
         }
       ],
       "expected_exit": 0,
@@ -65,30 +65,26 @@
         }
       ],
       "original_CL_arguments": "/nologo /c /FR test.c",
-      "captured_original_environment": [
-        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il N:\\browser\\001924 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR test.sbr -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
-      ],
-      "captured_temporary_prefix": "N:\\browser\\001924",
-      "normalization": "none",
-      "independent_original_verification": {
-        "receipt": "evidence/browser-original-2.receipt.json",
-        "exact": true,
-        "ignored_fields": []
+      "reference": {
+        "receipt": "../shared-prefix-evidence/browser.receipt.json",
+        "events": "../shared-prefix-evidence/browser.events",
+        "exact_environment": {
+          "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR test.sbr -I R:\\toolchains\\1.0-nt\\include "
+        },
+        "prefix": "~/.ai-tmp/vc1.0-capture/wine"
       }
     }
   },
-  "status": "complete; original masked/native exit0 and all raw files/streams exact; native suite registered",
-  "capture": {
-    "provenance": "Untouched CL and original children,read-only CL capture-run source built in C1 private scratch and Wine prefix. Only C1 phase is queued; backend capture is reference-only.",
-    "helper_source": "decomp/vc1.0/cl/src/capture-run.c"
-  },
+  "execution": "Native-only fixtures. Explicit original references are captured separately with fixed R:/S: drives in the shared repository prefix.",
+  "capture_helper_source": "src/capture-original.c",
+  "normalization": "Only explicitly listed clock DWORDs; no path or pointer normalization.",
   "reconstruction": {
-    "accepted_from": 732,
-    "accepted_count": 763,
-    "current_terminal": {
-      "kind": "exit",
-      "code": 0
-    },
+    "accepted_ranges": [
+      {
+        "accepted_from": 732,
+        "accepted_count": 763
+      }
+    ],
     "acceptance_order": [
       "_begin_browser_output",
       "_make_browser_temporary_name@4",
@@ -98,7 +94,6 @@
       "_append_browser_record@4",
       "_serialize_browser_record@8",
       "_browser_current_directory",
-      "__getcwd",
       "_browser_symbol_definition@4",
       "_prepare_browser_definition@8",
       "_prepare_browser_symbol_record@8",
@@ -117,237 +112,11 @@
       "_prepare_browser_reference@8",
       "_finish_browser_output",
       "_read_browser_record@4",
-      "_read_browser_string",
-      "__unlink",
-      "_remove",
-      "import:DeleteFileA"
+      "_read_browser_string"
     ],
-    "frontier_observations": [
-      {
-        "accepted_count": 732,
-        "frontier": "_begin_browser_output",
-        "native_frame": "begin_browser_output",
-        "original_receipt": "evidence/frontier-732-original.receipt.json",
-        "native_receipt": "evidence/frontier-732-native.receipt.json"
-      },
-      {
-        "accepted_count": 733,
-        "frontier": "_make_browser_temporary_name@4",
-        "native_frame": "make_browser_temporary_name",
-        "original_receipt": "evidence/frontier-733-original.receipt.json",
-        "native_receipt": "evidence/frontier-733-native.receipt.json"
-      },
-      {
-        "accepted_count": 734,
-        "frontier": "_write_browser_header",
-        "native_frame": "write_browser_header",
-        "original_receipt": "evidence/frontier-734-original.receipt.json",
-        "native_receipt": "evidence/frontier-734-native.receipt.json"
-      },
-      {
-        "accepted_count": 735,
-        "frontier": "_write_browser_record@8",
-        "native_frame": "write_browser_record",
-        "original_receipt": "evidence/frontier-735-original.receipt.json",
-        "native_receipt": "evidence/frontier-735-native.receipt.json"
-      },
-      {
-        "accepted_count": 736,
-        "frontier": "_prepare_browser_record@8",
-        "native_frame": "prepare_browser_record",
-        "original_receipt": "evidence/frontier-736-original.receipt.json",
-        "native_receipt": "evidence/frontier-736-native.receipt.json"
-      },
-      {
-        "accepted_count": 737,
-        "frontier": "_append_browser_record@4",
-        "native_frame": "append_browser_record",
-        "original_receipt": "evidence/frontier-737-original.receipt.json",
-        "native_receipt": "evidence/frontier-737-native.receipt.json"
-      },
-      {
-        "accepted_count": 738,
-        "frontier": "_serialize_browser_record@8",
-        "native_frame": "serialize_browser_record",
-        "original_receipt": "evidence/frontier-738-original.receipt.json",
-        "native_receipt": "evidence/frontier-738-native.receipt.json"
-      },
-      {
-        "accepted_count": 739,
-        "frontier": "_browser_current_directory",
-        "native_frame": "browser_current_directory",
-        "original_receipt": "evidence/frontier-739-original.receipt.json",
-        "native_receipt": "evidence/frontier-739-native.receipt.json"
-      },
-      {
-        "accepted_count": 740,
-        "frontier": "__getcwd",
-        "native_frame": "recon_getcwd",
-        "original_receipt": "evidence/frontier-740-original.receipt.json",
-        "native_receipt": "evidence/frontier-740-native.receipt.json"
-      },
-      {
-        "accepted_count": 741,
-        "frontier": "_browser_symbol_definition@4",
-        "native_frame": "browser_symbol_definition",
-        "original_receipt": "evidence/frontier-741-original.receipt.json",
-        "native_receipt": "evidence/frontier-741-native.receipt.json"
-      },
-      {
-        "accepted_count": 742,
-        "frontier": "_prepare_browser_definition@8",
-        "native_frame": "prepare_browser_definition",
-        "original_receipt": "evidence/frontier-742-original.receipt.json",
-        "native_receipt": "evidence/frontier-742-native.receipt.json"
-      },
-      {
-        "accepted_count": 743,
-        "frontier": "_prepare_browser_symbol_record@8",
-        "native_frame": "prepare_browser_symbol_record",
-        "original_receipt": "evidence/frontier-743-original.receipt.json",
-        "native_receipt": "evidence/frontier-743-native.receipt.json"
-      },
-      {
-        "accepted_count": 744,
-        "frontier": "_browser_macro@4",
-        "native_frame": "browser_macro",
-        "original_receipt": "evidence/frontier-744-original.receipt.json",
-        "native_receipt": "evidence/frontier-744-native.receipt.json"
-      },
-      {
-        "accepted_count": 745,
-        "frontier": "_prepare_browser_macro_definition@8",
-        "native_frame": "prepare_browser_macro_definition",
-        "original_receipt": "evidence/frontier-745-original.receipt.json",
-        "native_receipt": "evidence/frontier-745-native.receipt.json"
-      },
-      {
-        "accepted_count": 746,
-        "frontier": "_browser_open_file",
-        "native_frame": "browser_open_file",
-        "original_receipt": "evidence/frontier-746-original.receipt.json",
-        "native_receipt": "evidence/frontier-746-native.receipt.json"
-      },
-      {
-        "accepted_count": 747,
-        "frontier": "_prepare_browser_file_record",
-        "native_frame": "prepare_browser_file_record",
-        "original_receipt": "evidence/frontier-747-original.receipt.json",
-        "native_receipt": "evidence/frontier-747-native.receipt.json"
-      },
-      {
-        "accepted_count": 748,
-        "frontier": "_copy_browser_name",
-        "native_frame": "copy_browser_name",
-        "original_receipt": "evidence/frontier-748-original.receipt.json",
-        "native_receipt": "evidence/frontier-748-native.receipt.json"
-      },
-      {
-        "accepted_count": 749,
-        "frontier": "_browser_begin_function_scope",
-        "native_frame": "browser_begin_function_scope",
-        "original_receipt": "evidence/frontier-749-original.receipt.json",
-        "native_receipt": "evidence/frontier-749-native.receipt.json"
-      },
-      {
-        "accepted_count": 750,
-        "frontier": "_browser_function_parameters@4",
-        "native_frame": "browser_function_parameters",
-        "original_receipt": "evidence/frontier-750-original.receipt.json",
-        "native_receipt": "evidence/frontier-750-native.receipt.json"
-      },
-      {
-        "accepted_count": 751,
-        "frontier": "_browser_finish_scope",
-        "native_frame": "browser_finish_scope",
-        "original_receipt": "evidence/frontier-751-original.receipt.json",
-        "native_receipt": "evidence/frontier-751-native.receipt.json"
-      },
-      {
-        "accepted_count": 752,
-        "frontier": "_browser_close_file",
-        "native_frame": "browser_close_file",
-        "original_receipt": "evidence/frontier-752-original.receipt.json",
-        "native_receipt": "evidence/frontier-752-native.receipt.json"
-      },
-      {
-        "accepted_count": 753,
-        "frontier": "_browser_macro_reference@4",
-        "native_frame": "browser_macro_reference",
-        "original_receipt": "evidence/frontier-753-original.receipt.json",
-        "native_receipt": "evidence/frontier-753-native.receipt.json"
-      },
-      {
-        "accepted_count": 754,
-        "frontier": "_prepare_browser_macro_reference@8",
-        "native_frame": "prepare_browser_macro_reference",
-        "original_receipt": "evidence/frontier-754-original.receipt.json",
-        "native_receipt": "evidence/frontier-754-native.receipt.json"
-      },
-      {
-        "accepted_count": 755,
-        "frontier": "_browser_symbol_reference@4",
-        "native_frame": "browser_symbol_reference",
-        "original_receipt": "evidence/frontier-755-original.receipt.json",
-        "native_receipt": "evidence/frontier-755-native.receipt.json"
-      },
-      {
-        "accepted_count": 756,
-        "frontier": "_prepare_browser_reference@8",
-        "native_frame": "prepare_browser_reference",
-        "original_receipt": "evidence/frontier-756-original.receipt.json",
-        "native_receipt": "evidence/frontier-756-native.receipt.json"
-      },
-      {
-        "accepted_count": 757,
-        "frontier": "_finish_browser_output",
-        "native_frame": "finish_browser_output",
-        "original_receipt": "evidence/frontier-757-original.receipt.json",
-        "native_receipt": "evidence/frontier-757-native.receipt.json"
-      },
-      {
-        "accepted_count": 758,
-        "original_receipt": "evidence/frontier-758-original.receipt.json",
-        "frontier": "_read_browser_record@4",
-        "native_frame": "read_browser_record",
-        "native_receipt": "evidence/frontier-758-native.receipt.json"
-      },
-      {
-        "accepted_count": 759,
-        "original_receipt": "evidence/frontier-759-original.receipt.json",
-        "frontier": "_read_browser_string",
-        "native_frame": "read_browser_string",
-        "native_receipt": "evidence/frontier-759-native.receipt.json"
-      },
-      {
-        "accepted_count": 760,
-        "original_receipt": "evidence/frontier-760-original.receipt.json",
-        "frontier": "__unlink",
-        "native_frame": "recon_unlink",
-        "native_receipt": "evidence/frontier-760-native.receipt.json"
-      },
-      {
-        "accepted_count": 761,
-        "original_receipt": "evidence/frontier-761-original.receipt.json",
-        "frontier": "_remove",
-        "native_frame": "recon_remove",
-        "native_receipt": "evidence/frontier-761-native.receipt.json"
-      },
-      {
-        "accepted_count": 762,
-        "original_receipt": "evidence/frontier-762-original.receipt.json",
-        "frontier": "import:DeleteFileA",
-        "native_boundary": "recon_remove",
-        "native_boundary_receipt": "evidence/remove-proof.receipt.json",
-        "comparison": "Original internal CRT import identity, native remove entry/return/deletion and following exact application exit; CRT/import excluded from app projection."
-      },
-      {
-        "accepted_count": 763,
-        "original_receipt": "evidence/frontier-763-original.receipt.json",
-        "frontier": null,
-        "native_frame": null,
-        "native_receipt": "evidence/frontier-763-native.receipt.json"
-      }
-    ]
+    "terminal": {
+      "kind": "exit",
+      "code": 0
+    }
   }
 }

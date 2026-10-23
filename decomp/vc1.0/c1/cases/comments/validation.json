@@ -1,96 +1,11 @@
 {
   "status": "pass",
-  "accepted_from": 776,
-  "accepted_count": 778,
-  "new_frontend_functions": 2,
-  "source_functions": 667,
-  "current_frontier": null,
-  "coverage": {
-    "accepted_union_bytes": 207662,
-    "original_code_bytes": 277234,
-    "accepted_by_origin_bytes": {
-      "frontend_source": 189726,
-      "CRT": 17786,
-      "import_thunks": 150
-    },
-    "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
-    "percent": 74.9049539378287,
-    "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
-  },
-  "extent_delta": 454,
-  "normalization": "none",
-  "original_frontier_captures": {
-    "count": 3,
-    "preparation_seconds": 0.14533074479550123,
-    "execution_seconds": 2.8391632717102766,
-    "total_seconds": 2.984501359052956
-  },
-  "native_frontier_observations": {
-    "count": 3,
-    "preparation_seconds": 0.009817133657634258,
-    "execution_seconds": 0.4139434192329645,
-    "total_seconds": 0.42885923106223345
-  },
-  "checkpoint_operations": [
-    {
-      "name": "canonical-audits",
-      "command": [
-        "make",
-        "-j2",
-        "audit-win32"
-      ],
-      "seconds": 5.249295908026397,
-      "exit": 0,
-      "log": "/root/.ai-tmp/vc1.0-c1/comments-final-canonical-audits.log"
-    },
-    {
-      "name": "native-trace-build",
-      "command": [
-        "make",
-        "-j4",
-        "native-trace"
-      ],
-      "seconds": 1.4289665380492806,
-      "exit": 0,
-      "log": "/root/.ai-tmp/vc1.0-c1/comments-final-native-trace-build.log"
-    },
-    {
-      "name": "projection",
-      "command": [
-        "python3",
-        "scripts/native-traces.py",
-        "--write"
-      ],
-      "seconds": 0.21615903731435537,
-      "exit": 0,
-      "log": "/root/.ai-tmp/vc1.0-c1/comments-final-projection.log"
-    },
-    {
-      "name": "fourteen-traces",
-      "command": [
-        "python3",
-        "scripts/check-native.py",
-        "--trace",
-        "--directory",
-        "/root/.ai-tmp/vc1.0-c1/comments-fourteen-traces"
-      ],
-      "seconds": 0.49688818771392107,
-      "exit": 0,
-      "log": "/root/.ai-tmp/vc1.0-c1/comments-final-fourteen-traces.log"
-    }
+  "shared_reference_validation": "../shared-prefix-validation.json",
+  "original_entry_receipts": [
+    "comments"
   ],
-  "native_regressions": {
-    "case_count": 14,
-    "receipt": "evidence/native-fourteen-cases.json",
-    "frozen_comment_receipt": "evidence/native-comments-frozen.json"
-  },
-  "static_audits": {
-    "graphs_and_instruction_bounds": 667,
-    "state_defaults_aliases": 269,
-    "C_and_assembler_grammars": "complete model/emitted tables and data pass"
-  },
-  "remaining_approved_queue": [
-    "prototypes",
-    "automatic-pch create/reuse/changed"
-  ]
+  "native_regressions": "../shared-prefix-evidence/migration-final-fifteen-traces.json",
+  "function_graphs": 703,
+  "state_defaults_aliases": 279,
+  "normalization": "Only explicitly listed clock DWORDs; no path or pointer normalization."
 }

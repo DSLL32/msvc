@@ -10,6 +10,7 @@ import struct
 import subprocess
 import tempfile
 import time
+from case_paths import windows, native_work
 
 BINARY = Path(__file__).resolve().parents[1]
 ROOT = BINARY.parents[2]
@@ -56,10 +57,6 @@ def captured(path, record):
     if 'bytes' in record:
         assert len(data) == record['bytes'], 'captured size differs: '+str(path)
     return data
-
-
-def windows(path):
-    return 'Z:'+str(path.resolve()).replace('/', '\\')
 
 
 def normalize(data, record):
@@ -117,17 +114,13 @@ def run_case(name, executable, directory, traces=None, dependency=None):
     case_root = directory/name
     case_root.mkdir()
     canonical = phase.get('canonical_working_directory')
-    work = case_root/(canonical.split('\\')[-1] if canonical else 'work')
-    work.mkdir()
+    work, path_environment = native_work(case_root,canonical)
     env = dict(LC_ALL='C', TZ='PST8PDT',
                MSC_CMD_FLAGS=phase['environment']['MSC_CMD_FLAGS'].format(
                    bin=windows(ROOT/'toolchains/1.0-nt/bin'),
                    include=windows(ROOT/'toolchains/1.0-nt/include')),
                RECON_PROGRAM_PATH=windows(ROOT/'toolchains/1.0-nt/bin/C13232.EXE'))
-    if canonical:
-        assert canonical.startswith('N:\\') and len(canonical.split('\\')) == 2
-        env['RECON_DRIVE_N'] = str(case_root)
-        env['RECON_CANONICAL_CWD'] = canonical
+    env.update(path_environment)
     for item in phase['inputs']:
         data = captured(fixture/item['path'], item)
         basename = Path(item['path']).name
@@ -223,7 +216,8 @@ def main():
     executable = (options.exe or BINARY/('build/native-trace/C13232.EXE' if options.trace else 'build/native/C13232.EXE')).resolve()
     header = executable.read_bytes()[:20]
     assert header[:5] == b'\x7fELF\x01' and header[18:20] == b'\x03\x00', 'native i386 ELF required'
-    scratch = Path.home()/'.ai-tmp/vc1.0-c1'
+    scratch = Path.home()/'.ai-tmp/msvc2/vc1.0/c1/validation'
+    scratch.mkdir(parents=True,exist_ok=True)
     directory = options.directory or Path(tempfile.mkdtemp(prefix='native-check-', dir=scratch))
     if options.directory:
         directory.mkdir(parents=True, exist_ok=False)

@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x565b103a in serialize_browser_record (record=0xffa478ac, track_symbols=1) at src/browser.c:104
-104	void __stdcall serialize_browser_record(BrowserRecord *record, int track_symbols) { __asm { int 3 } }

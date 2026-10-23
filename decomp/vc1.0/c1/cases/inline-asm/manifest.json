@@ -9,9 +9,6 @@
       "environment": {
         "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I {include} "
       },
-      "expected_exit": 0,
-      "expected_stdout": "",
-      "expected_stderr": "",
       "inputs": [
         {
           "path": "c1/test.c",
@@ -45,31 +42,37 @@
           "sha256": "db88fce9148ba401afb2d0466bd2f2df1b6eaf3987a582df5dd2ce284a119f0a"
         }
       ],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
       "toolchain_dependencies": [
         {
           "path": "toolchains/1.0-nt/bin/C1.ERR",
           "bytes": 57919,
           "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
         }
-      ]
+      ],
+      "reference": {
+        "receipt": "../shared-prefix-evidence/inline-asm.receipt.json",
+        "events": "../shared-prefix-evidence/inline-asm.events",
+        "exact_environment": {
+          "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I R:\\toolchains\\1.0-nt\\include "
+        },
+        "prefix": "~/.ai-tmp/vc1.0-capture/wine"
+      }
     }
   },
-  "status": "complete; native suite registered",
-  "first_accepted": 698,
-  "capture": {
-    "method": "Explicit untouched C1 via single-entry environment debugger; original exit0, empty streams.",
-    "receipt": "evidence/original-full.receipt.json",
-    "normalization": "none",
-    "repeat_receipt": "evidence/original-repeat.receipt.json"
-  },
+  "execution": "Native-only fixtures. Explicit original references are captured separately with fixed R:/S: drives in the shared repository prefix.",
+  "capture_helper_source": "src/capture-original.c",
+  "normalization": "Only explicitly listed clock DWORDs; no path or pointer normalization.",
   "reconstruction": {
-    "accepted_from": 698,
-    "accepted_count": 732,
-    "current_terminal": {
-      "kind": "exit",
-      "code": 0
-    },
-    "ordered_acceptance": [
+    "accepted_ranges": [
+      {
+        "accepted_from": 698,
+        "accepted_count": 732
+      }
+    ],
+    "acceptance_order": [
       "_parse_asm_statement",
       "_initialize_inline_assembler",
       "_reset_asm_operand@4",
@@ -78,7 +81,6 @@
       "_finish_asm_line",
       "_classify_asm_identifier",
       "_find_asm_mnemonic@4",
-      "_tolower",
       "_compare_names_ignore_case@8",
       "_select_asm_opcode@4",
       "_find_asm_keyword@4",
@@ -105,252 +107,9 @@
       "_emit_asm_label@4",
       "_make_ir_leaf@12"
     ],
-    "matched_observations": [
-      {
-        "accepted_count": 698,
-        "frontier": "_parse_asm_statement",
-        "native_frame": "parse_asm_statement",
-        "original_receipt": "evidence/frontier-698-original.receipt.json",
-        "native_receipt": "evidence/frontier-698-native.receipt.json"
-      },
-      {
-        "accepted_count": 699,
-        "frontier": "_initialize_inline_assembler",
-        "native_frame": "initialize_inline_assembler",
-        "original_receipt": "evidence/frontier-699-original.receipt.json",
-        "native_receipt": "evidence/frontier-699-native.receipt.json"
-      },
-      {
-        "accepted_count": 700,
-        "frontier": "_reset_asm_operand@4",
-        "native_frame": "reset_asm_operand",
-        "original_receipt": "evidence/frontier-700-original.receipt.json",
-        "native_receipt": "evidence/frontier-700-native.receipt.json"
-      },
-      {
-        "accepted_count": 701,
-        "frontier": "_parse_inline_assembler",
-        "native_frame": "parse_inline_assembler",
-        "original_receipt": "evidence/frontier-701-original.receipt.json",
-        "native_receipt": "evidence/frontier-701-native.receipt.json"
-      },
-      {
-        "accepted_count": 702,
-        "frontier": "_read_asm_token",
-        "native_frame": "read_asm_token",
-        "original_receipt": "evidence/frontier-702-original.receipt.json",
-        "native_receipt": "evidence/frontier-702-native.receipt.json"
-      },
-      {
-        "accepted_count": 703,
-        "frontier": "_finish_asm_line",
-        "native_frame": "finish_asm_line",
-        "original_receipt": "evidence/frontier-703-original.receipt.json",
-        "native_receipt": "evidence/frontier-703-native.receipt.json"
-      },
-      {
-        "accepted_count": 704,
-        "frontier": "_classify_asm_identifier",
-        "native_frame": "classify_asm_identifier",
-        "original_receipt": "evidence/frontier-704-original.receipt.json",
-        "native_receipt": "evidence/frontier-704-native.receipt.json"
-      },
-      {
-        "accepted_count": 705,
-        "frontier": "_find_asm_mnemonic@4",
-        "native_frame": "find_asm_mnemonic",
-        "original_receipt": "evidence/frontier-705-original.receipt.json",
-        "native_receipt": "evidence/frontier-705-native.receipt.json"
-      },
-      {
-        "accepted_count": 706,
-        "frontier": "_tolower",
-        "native_frame": "recon_tolower",
-        "original_receipt": "evidence/frontier-706-original.receipt.json",
-        "native_receipt": "evidence/frontier-706-native.receipt.json"
-      },
-      {
-        "accepted_count": 707,
-        "frontier": "_compare_names_ignore_case@8",
-        "native_frame": "compare_names_ignore_case",
-        "original_receipt": "evidence/frontier-707-original.receipt.json",
-        "native_receipt": "evidence/frontier-707-native.receipt.json"
-      },
-      {
-        "accepted_count": 708,
-        "frontier": "_select_asm_opcode@4",
-        "native_frame": "select_asm_opcode",
-        "original_receipt": "evidence/frontier-708-original.receipt.json",
-        "native_receipt": "evidence/frontier-708-native.receipt.json"
-      },
-      {
-        "accepted_count": 709,
-        "frontier": "_find_asm_keyword@4",
-        "native_frame": "find_asm_keyword",
-        "original_receipt": "evidence/frontier-709-original.receipt.json",
-        "native_receipt": "evidence/frontier-709-native.receipt.json"
-      },
-      {
-        "accepted_count": 710,
-        "frontier": "_make_asm_register@4",
-        "native_frame": "make_asm_register",
-        "original_receipt": "evidence/frontier-710-original.receipt.json",
-        "native_receipt": "evidence/frontier-710-native.receipt.json"
-      },
-      {
-        "accepted_count": 711,
-        "frontier": "_make_asm_symbol@4",
-        "native_frame": "make_asm_symbol",
-        "original_receipt": "evidence/frontier-711-original.receipt.json",
-        "native_receipt": "evidence/frontier-711-native.receipt.json"
-      },
-      {
-        "accepted_count": 712,
-        "frontier": "_lookup_asm_symbol@8",
-        "native_frame": "lookup_asm_symbol",
-        "original_receipt": "evidence/frontier-712-original.receipt.json",
-        "native_receipt": "evidence/frontier-712-native.receipt.json"
-      },
-      {
-        "accepted_count": 713,
-        "frontier": "_asm_symbol_type_size@4",
-        "native_frame": "asm_symbol_type_size",
-        "original_receipt": "evidence/frontier-713-original.receipt.json",
-        "native_receipt": "evidence/frontier-713-native.receipt.json"
-      },
-      {
-        "accepted_count": 714,
-        "frontier": "_asm_size_encoding@4",
-        "native_frame": "asm_size_encoding",
-        "original_receipt": "evidence/frontier-714-original.receipt.json",
-        "native_receipt": "evidence/frontier-714-native.receipt.json"
-      },
-      {
-        "accepted_count": 715,
-        "frontier": "_make_asm_address_register@4",
-        "native_frame": "make_asm_address_register",
-        "original_receipt": "evidence/frontier-715-original.receipt.json",
-        "native_receipt": "evidence/frontier-715-native.receipt.json"
-      },
-      {
-        "accepted_count": 716,
-        "frontier": "_add_asm_displacement@4",
-        "native_frame": "add_asm_displacement",
-        "original_receipt": "evidence/frontier-716-original.receipt.json",
-        "native_receipt": "evidence/frontier-716-native.receipt.json"
-      },
-      {
-        "accepted_count": 717,
-        "frontier": "_emit_asm_instruction",
-        "native_frame": "emit_asm_instruction",
-        "original_receipt": "evidence/frontier-717-original.receipt.json",
-        "native_receipt": "evidence/frontier-717-native.receipt.json"
-      },
-      {
-        "accepted_count": 718,
-        "frontier": "_validate_asm_operand_count",
-        "native_frame": "validate_asm_operand_count",
-        "original_receipt": "evidence/frontier-718-original.receipt.json",
-        "native_receipt": "evidence/frontier-718-native.receipt.json"
-      },
-      {
-        "accepted_count": 719,
-        "frontier": "_validate_asm_operands",
-        "native_frame": "validate_asm_operands",
-        "original_receipt": "evidence/frontier-719-original.receipt.json",
-        "native_receipt": "evidence/frontier-719-native.receipt.json"
-      },
-      {
-        "accepted_count": 720,
-        "frontier": "_prepare_asm_instruction",
-        "native_frame": "prepare_asm_instruction",
-        "original_receipt": "evidence/frontier-720-original.receipt.json",
-        "native_receipt": "evidence/frontier-720-native.receipt.json"
-      },
-      {
-        "accepted_count": 721,
-        "frontier": "_choose_asm_instruction_size",
-        "native_frame": "choose_asm_instruction_size",
-        "original_receipt": "evidence/frontier-721-original.receipt.json",
-        "native_receipt": "evidence/frontier-721-native.receipt.json"
-      },
-      {
-        "accepted_count": 722,
-        "frontier": "_resolve_asm_operand_size",
-        "native_frame": "resolve_asm_operand_size",
-        "original_receipt": "evidence/frontier-722-original.receipt.json",
-        "native_receipt": "evidence/frontier-722-native.receipt.json"
-      },
-      {
-        "accepted_count": 723,
-        "frontier": "_normalize_asm_addresses",
-        "native_frame": "normalize_asm_addresses",
-        "original_receipt": "evidence/frontier-723-original.receipt.json",
-        "native_receipt": "evidence/frontier-723-native.receipt.json"
-      },
-      {
-        "accepted_count": 724,
-        "frontier": "_serialize_asm_instruction",
-        "native_frame": "serialize_asm_instruction",
-        "original_receipt": "evidence/frontier-724-original.receipt.json",
-        "native_receipt": "evidence/frontier-724-native.receipt.json"
-      },
-      {
-        "accepted_count": 725,
-        "frontier": "_asm_address_mode_code@4",
-        "native_frame": "asm_address_mode_code",
-        "original_receipt": "evidence/frontier-725-original.receipt.json",
-        "native_receipt": "evidence/frontier-725-native.receipt.json"
-      },
-      {
-        "accepted_count": 726,
-        "frontier": "_scan_assembler_number@4",
-        "native_frame": "scan_assembler_number",
-        "original_receipt": "evidence/frontier-726-original.receipt.json",
-        "native_receipt": "evidence/frontier-726-native.receipt.json"
-      },
-      {
-        "accepted_count": 727,
-        "frontier": "_make_asm_constant@4",
-        "native_frame": "make_asm_constant",
-        "original_receipt": "evidence/frontier-727-original.receipt.json",
-        "native_receipt": "evidence/frontier-727-native.receipt.json"
-      },
-      {
-        "accepted_count": 728,
-        "frontier": "_find_label@4",
-        "native_frame": "find_label",
-        "original_receipt": "evidence/frontier-728-original.receipt.json",
-        "native_receipt": "evidence/frontier-728-native.receipt.json"
-      },
-      {
-        "accepted_count": 729,
-        "frontier": "_declare_label@4",
-        "native_frame": "declare_label",
-        "original_receipt": "evidence/frontier-729-original.receipt.json",
-        "native_receipt": "evidence/frontier-729-native.receipt.json"
-      },
-      {
-        "accepted_count": 730,
-        "frontier": "_emit_asm_label@4",
-        "native_frame": "emit_asm_label",
-        "original_receipt": "evidence/frontier-730-original.receipt.json",
-        "native_receipt": "evidence/frontier-730-native.receipt.json"
-      },
-      {
-        "accepted_count": 731,
-        "frontier": "_make_ir_leaf@12",
-        "native_frame": "make_ir_leaf",
-        "original_receipt": "evidence/frontier-731-original.receipt.json",
-        "native_receipt": "evidence/frontier-731-native.receipt.json"
-      },
-      {
-        "accepted_count": 732,
-        "frontier": null,
-        "native_frame": null,
-        "original_receipt": "evidence/frontier-732-original.receipt.json",
-        "native_receipt": "evidence/frontier-732-native.receipt.json"
-      }
-    ]
+    "terminal": {
+      "kind": "exit",
+      "code": 0
+    }
   }
 }

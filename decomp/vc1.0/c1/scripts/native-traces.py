@@ -30,6 +30,25 @@ def native_name(logical):
     return name
 
 
+def original_entry_references(config, cases):
+    path = BINARY/'cases/original-entry-references.json'
+    index = json.loads(path.read_text())
+    assert set(index['cases']) == set(cases), 'original entry references missing or extra cases'
+    for name, item in index['cases'].items():
+        receipt_path = BINARY/item['receipt']
+        assert sha(receipt_path) == item['sha256'], 'original entry reference changed: '+name
+        receipt = json.loads(receipt_path.read_text())
+        proof = receipt['first_entry_projection']
+        case = cases[name]
+        assert (proof['accepted_from'],proof['accepted_count']) == (case['first'],case['last'])
+        assert proof['expected'] == proof['observed'], 'original entry capture did not match plan'
+        assert [native_name(n) for n in proof['observed']] == case['expected'], 'original/native projection differs: '+name
+        prefix = config['accepted'][:case['first']]
+        assert hashlib.sha256(json.dumps(prefix).encode()).hexdigest() == proof['seeded_prefix_sha256']
+        assert receipt['original_sha256'] == config['target']['sha256']
+    return dict(path='cases/original-entry-references.json',sha256=sha(path))
+
+
 def application_symbols(directory):
     objects = sorted(directory.glob('*.o'))
     assert objects, 'native objects missing'
@@ -95,6 +114,7 @@ def project(directory):
     return dict(schema=1, description='Original-backed first-entry projection; no execution or recapture',
                 metadata_sha256={'functions.json':sha(config_path), 'runtime.json':sha(runtime_path)},
                 source_map_provenance=dict(path='build/c1.map', sha256=sha(map_path)),
+                original_entry_references=original_entry_references(config,cases),
                 explicit_CRT_variants=sorted(EXTRA_CRT), native_CRT_aliases=CRT_NATIVE_ALIASES,
                 application_definitions={n:native[n] for n in sorted(native)},
                 accepted_application=projected(accepted),
@@ -106,6 +126,8 @@ def load(directory, path=CACHE):
     cache = json.loads(path.read_text())
     for name, digest in cache['metadata_sha256'].items():
         assert sha(BINARY/name) == digest, 'cached original projection is stale: ' + name
+    config = json.loads((BINARY/'functions.json').read_text())
+    assert original_entry_references(config,cache['cases']) == cache['original_entry_references'], 'original entry index changed'
     expected = {n:r['source'] for n,r in cache['application_definitions'].items()}
     assert application_symbols(directory) == expected, 'new/missing/unmapped native application definition'
     return cache

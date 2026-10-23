@@ -1,0 +1,16 @@
+python3 scripts/wine-tool.py --init
+python3 scripts/audit-graph.py
+703 reconstructed functions have matching call targets (including indirect calls).
+python3 scripts/audit-state.py
+105 PCH root identities, 12 PCH graph callbacks and the 21-entry shape-cache boundary match.
+279 state defaults/aliases, 72 scalar options, 21 option targets, 17 pragma rules and 5 hash callbacks match; 51 builtin suffixes/groups and 6 declspec rows and 13 debug schemas match; 14 special names and 18 integer limits match; 58 primitive debug codes and four pointer models match.
+python3 scripts/audit-grammar.py
+376 states: 57904 actions/timings, 227 productions, and 34216 gotos match.
+python3 scripts/audit-asm-grammar.py
+76 register/operator/qualifier rows and 28 groups match.
+46 register encodings, widths and addressing properties match.
+60 operand-class rules and 32 address flag/mode/category mappings match.
+21 logical operand serialization formats match; maximum instruction78 bytes fits128-byte workspace.
+230 instruction operand classes and processor masks match.
+153 assembler lexical classes, 98 instruction aliases and 330 mnemonic rows/28 groups match.
+136 assembler states: 6936 complete actions/errors, 136 lookahead timings/defaults, 83 production records and 3128 gotos match (model and emitted C).

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the original NT toolchain in this reconstruction's private prefix."""
+"""Run explicit original builds in the repository shared Wine prefix."""
 import os
 from pathlib import Path
 import subprocess
@@ -7,10 +7,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[4]
 TC = ROOT / 'toolchains/1.0-nt'
-PREFIX = Path.home() / '.ai-tmp/vc1.0-c1/wine'
-
-def windows(path):
-    return 'Z:' + str(Path(path).resolve()).replace('/', '\\')
+from case_paths import PREFIX, windows
 
 def environment():
     env = os.environ.copy()
@@ -23,9 +20,9 @@ def environment():
 
 if __name__ == '__main__':
     if sys.argv[1] == '--init':
-        if not (PREFIX / 'system.reg').exists():
-            PREFIX.parent.mkdir(parents=True, exist_ok=True)
-            subprocess.run(['wineboot', '-u'], env=environment(), check=True)
+        assert (PREFIX/'system.reg').exists(), 'Shared prefix is root-managed and must already exist'
+        assert (PREFIX/'dosdevices/r:').resolve() == ROOT
+        assert (PREFIX/'dosdevices/s:').resolve() == Path.home()/'.ai-tmp/msvc2'
         sys.exit(0)
-    sys.exit(subprocess.call(['wine', str(TC / 'bin' / sys.argv[1])] + sys.argv[2:],
+    sys.exit(subprocess.call(['wine', windows(TC / 'bin' / sys.argv[1])] + sys.argv[2:],
                              env=environment()))

@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x5f57f: file ../../../lib/recon/src/crt.c, line 836.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, recon_freopen (name=0xfff4aea0 "test.i", mode=0x566ac3d8 "wt+", stream=0x566d3158 <recon_iob+32>) at ../../../lib/recon/src/crt.c:836
-836	    if (stream->_flag) recon_fclose(stream);

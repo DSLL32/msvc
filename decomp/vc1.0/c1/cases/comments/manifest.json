@@ -6,7 +6,7 @@
       "target": "toolchains/1.0-nt/bin/C13232.EXE",
       "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
       "arguments": [],
-      "canonical_working_directory": "N:\\comments",
+      "canonical_working_directory": null,
       "environment": {
         "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -C -E -I {include} "
       },
@@ -34,47 +34,26 @@
         }
       ],
       "original_CL_arguments": "/nologo /C /E test.c",
-      "captured_original_environment": [
-        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il N:\\comments\\001876 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -C -E -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
-      ],
-      "captured_temporary_prefix": "N:\\comments\\001876",
-      "normalization": "none",
-      "captured_full_working_tree": [
-        {
-          "name": "case.h",
-          "bytes": 133,
-          "sha256": "e20f27e18ecc85387b6ed98747280ded9846e8b91d5fe0c8579aa104224f6612",
-          "role": "frontend input"
+      "reference": {
+        "receipt": "../shared-prefix-evidence/comments.receipt.json",
+        "events": "../shared-prefix-evidence/comments.events",
+        "exact_environment": {
+          "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -C -E -I R:\\toolchains\\1.0-nt\\include "
         },
-        {
-          "name": "test.c",
-          "bytes": 240,
-          "sha256": "425deaa66fa8456b9a4f120307f24b9813696e647e638bdcf86a78e8cf463997",
-          "role": "frontend input"
-        }
-      ],
-      "captured_unchanged_files": [
-        "case.h",
-        "test.c"
-      ],
-      "independent_original_verification": {
-        "receipts": [
-          "evidence/c1-original-1.receipt.json",
-          "evidence/c1-original-2.receipt.json"
-        ],
-        "exact": true,
-        "ignored_fields": []
+        "prefix": "~/.ai-tmp/vc1.0-capture/wine"
       }
     }
   },
-  "status": "complete; native/original337-byte output raw exact; native regression registered",
-  "capture": {
-    "provenance": "Untouched CL child _spawnvpe transport captured in C1 private scratch/prefix; helper source read-only from CL. C2/LINK references are not queued.",
-    "helper_source": "decomp/vc1.0/cl/src/capture-run.c"
-  },
+  "execution": "Native-only fixtures. Explicit original references are captured separately with fixed R:/S: drives in the shared repository prefix.",
+  "capture_helper_source": "src/capture-original.c",
+  "normalization": "Only explicitly listed clock DWORDs; no path or pointer normalization.",
   "reconstruction": {
-    "accepted_from": 776,
-    "accepted_count": 778,
+    "accepted_ranges": [
+      {
+        "accepted_from": 776,
+        "accepted_count": 778
+      }
+    ],
     "acceptance_order": [
       "_copy_block_comment",
       "_copy_line_comment"
@@ -82,29 +61,6 @@
     "terminal": {
       "kind": "exit",
       "code": 0
-    },
-    "frontier_observations": [
-      {
-        "accepted_count": 776,
-        "frontier": "_copy_block_comment",
-        "native_frame": "copy_block_comment",
-        "original_receipt": "evidence/frontier-776-original.receipt.json",
-        "native_receipt": "evidence/frontier-776-native.receipt.json"
-      },
-      {
-        "accepted_count": 777,
-        "frontier": "_copy_line_comment",
-        "native_frame": "copy_line_comment",
-        "original_receipt": "evidence/frontier-777-original.receipt.json",
-        "native_receipt": "evidence/frontier-777-native.receipt.json"
-      },
-      {
-        "accepted_count": 778,
-        "frontier": null,
-        "native_frame": null,
-        "original_receipt": "evidence/frontier-778-original.receipt.json",
-        "native_receipt": "evidence/frontier-778-native.receipt.json"
-      }
-    ]
+    }
   }
 }

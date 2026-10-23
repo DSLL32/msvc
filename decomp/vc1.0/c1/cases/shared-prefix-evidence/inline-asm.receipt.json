@@ -1,0 +1,132 @@
+{
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/inline-asm",
+  "phase": "c1",
+  "unmasked": false,
+  "accepted_count": 824,
+  "accepted_sha256": "b0a380508d603c017a687668c662c951976f7395e9f50dd32afba4c80c0427d2",
+  "executable_sha256": "2bd4a70f2c22ce0c6c0cbfe2ad2eef6e00b70f9a05adc8965695399091313db5",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "45cc03d417189b51d114ea35490a7e2005182f34f75d38b49add92010efc7b29",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\captures\\shared-history-inline-asm\\work",
+  "child_stdio": {
+    "stderr_to_stdout": false
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/captures/shared-history-inline-asm/work",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.05366963427513838,
+  "execution_seconds": 5.512850343249738,
+  "total_seconds": 5.566522875800729,
+  "files": [
+    {
+      "name": "irex",
+      "bytes": 1100,
+      "sha256": "a22408cd1a46e7128dee3772a156aab650c681908182e22d305062ebd59b84c1"
+    },
+    {
+      "name": "irgl",
+      "bytes": 75,
+      "sha256": "cee25d67e191939b8f01da4dda4f815913c0223c30c6c2765706f6f79f9d1f40"
+    },
+    {
+      "name": "irin",
+      "bytes": 6,
+      "sha256": "869d19d9cff8d65800fc1e47c755d10c7d3bd3c2c203bc473c1867f6bb01903f"
+    },
+    {
+      "name": "irsy",
+      "bytes": 107,
+      "sha256": "db88fce9148ba401afb2d0466bd2f2df1b6eaf3987a582df5dd2ce284a119f0a"
+    },
+    {
+      "name": "test.c",
+      "bytes": 302,
+      "sha256": "f8e3e8a7869dea0f42796ca2ca942f3e139628ef030a9d9bf741c16496e684df"
+    }
+  ],
+  "first_entry_projection": {
+    "accepted_from": 698,
+    "accepted_count": 732,
+    "expected": [
+      "_parse_asm_statement",
+      "_initialize_inline_assembler",
+      "_reset_asm_operand@4",
+      "_parse_inline_assembler",
+      "_read_asm_token",
+      "_finish_asm_line",
+      "_classify_asm_identifier",
+      "_find_asm_mnemonic@4",
+      "_compare_names_ignore_case@8",
+      "_select_asm_opcode@4",
+      "_find_asm_keyword@4",
+      "_make_asm_register@4",
+      "_make_asm_symbol@4",
+      "_lookup_asm_symbol@8",
+      "_asm_symbol_type_size@4",
+      "_asm_size_encoding@4",
+      "_make_asm_address_register@4",
+      "_add_asm_displacement@4",
+      "_emit_asm_instruction",
+      "_validate_asm_operand_count",
+      "_validate_asm_operands",
+      "_prepare_asm_instruction",
+      "_choose_asm_instruction_size",
+      "_resolve_asm_operand_size",
+      "_normalize_asm_addresses",
+      "_serialize_asm_instruction",
+      "_asm_address_mode_code@4",
+      "_scan_assembler_number@4",
+      "_make_asm_constant@4",
+      "_find_label@4",
+      "_declare_label@4",
+      "_emit_asm_label@4",
+      "_make_ir_leaf@12"
+    ],
+    "observed": [
+      "_parse_asm_statement",
+      "_initialize_inline_assembler",
+      "_reset_asm_operand@4",
+      "_parse_inline_assembler",
+      "_read_asm_token",
+      "_finish_asm_line",
+      "_classify_asm_identifier",
+      "_find_asm_mnemonic@4",
+      "_compare_names_ignore_case@8",
+      "_select_asm_opcode@4",
+      "_find_asm_keyword@4",
+      "_make_asm_register@4",
+      "_make_asm_symbol@4",
+      "_lookup_asm_symbol@8",
+      "_asm_symbol_type_size@4",
+      "_asm_size_encoding@4",
+      "_make_asm_address_register@4",
+      "_add_asm_displacement@4",
+      "_emit_asm_instruction",
+      "_validate_asm_operand_count",
+      "_validate_asm_operands",
+      "_prepare_asm_instruction",
+      "_choose_asm_instruction_size",
+      "_resolve_asm_operand_size",
+      "_normalize_asm_addresses",
+      "_serialize_asm_instruction",
+      "_asm_address_mode_code@4",
+      "_scan_assembler_number@4",
+      "_make_asm_constant@4",
+      "_find_label@4",
+      "_declare_label@4",
+      "_emit_asm_label@4",
+      "_make_ir_leaf@12"
+    ],
+    "seeded_prefix_sha256": "97d91b5dc04d2bdb81751cc7a39d2cbdc869f48f544a11f6dec1ff9f25725217",
+    "plan_sha256": "d9797fb542784e411e6a1b2c8a577e522868a065dd0fba2a595fe51f9ba5c8b3",
+    "source": "Explicit fresh shared-prefix original first-entry traps; one-byte restore/EIP rewind, complete accepted function bodies/shared text."
+  }
+}

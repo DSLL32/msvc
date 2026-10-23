@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x5665617b in compare_names_ignore_case (first=0x5667eed0 "ul", second=0x5704c5f8 "ov") at src/asm-stubs.c:76
-76	int __stdcall compare_names_ignore_case(char *first, char *second) { __asm { int 3 } return 0; }

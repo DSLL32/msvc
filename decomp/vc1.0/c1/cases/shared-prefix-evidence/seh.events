@@ -1,0 +1,11 @@
+entry _begin_try_block rva 000235a0 byte a1
+entry _emit_leave_statement rva 00023500 byte 83
+entry _finish_try_block rva 000235f0 byte e8
+entry _adjust_seh_label_depths rva 0001c710 byte 53
+entry _begin_finally_block rva 00023580 byte 6a
+entry _finish_finally_block rva 00023650 byte e8
+entry _enter_except_filter rva 00023670 byte 66
+entry _begin_except_block@4 rva 00023530 byte 56
+entry _leave_except_filter rva 00023680 byte 66
+entry _finish_except_block rva 00023630 byte e8
+exit 0

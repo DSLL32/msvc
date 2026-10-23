@@ -9,9 +9,6 @@
       "environment": {
         "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I {include} "
       },
-      "expected_exit": 0,
-      "expected_stdout": "",
-      "expected_stderr": "",
       "inputs": [
         {
           "path": "c1/test.c",
@@ -45,27 +42,37 @@
           "sha256": "1c047a089533d8368854de105439a7dad51d89c00b50993efef45ede442cf51e"
         }
       ],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
       "toolchain_dependencies": [
         {
           "path": "toolchains/1.0-nt/bin/C1.ERR",
           "bytes": 57919,
           "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
         }
-      ]
+      ],
+      "reference": {
+        "receipt": "../shared-prefix-evidence/seh.receipt.json",
+        "events": "../shared-prefix-evidence/seh.events",
+        "exact_environment": {
+          "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I R:\\toolchains\\1.0-nt\\include "
+        },
+        "prefix": "~/.ai-tmp/vc1.0-capture/wine"
+      }
     }
   },
-  "status": "complete",
-  "first_accepted": 688,
-  "capture": {
-    "method": "Direct untouched C1 with minimal-C driver environment; explicit single-entry child environment through original-only debugger.",
-    "debugger_source": "6aec6e5^:decomp/vc1.0/c1/src/debug-run.c",
-    "receipt": "evidence/original-full.receipt.json",
-    "normalization": "none"
-  },
-  "acceptance": {
-    "first": 688,
-    "last": 698,
-    "order": [
+  "execution": "Native-only fixtures. Explicit original references are captured separately with fixed R:/S: drives in the shared repository prefix.",
+  "capture_helper_source": "src/capture-original.c",
+  "normalization": "Only explicitly listed clock DWORDs; no path or pointer normalization.",
+  "reconstruction": {
+    "accepted_ranges": [
+      {
+        "accepted_from": 688,
+        "accepted_count": 698
+      }
+    ],
+    "acceptance_order": [
       "_begin_try_block",
       "_emit_leave_statement",
       "_finish_try_block",
@@ -80,98 +87,6 @@
     "terminal": {
       "kind": "exit",
       "code": 0
-    },
-    "frontiers": [
-      {
-        "index": 688,
-        "logical": "_begin_try_block",
-        "native_name_at_observation": "begin_except_statement",
-        "fresh_original_match": true,
-        "original_capture": "evidence/frontier-688.original.json",
-        "native_capture": "evidence/frontier-688.native.json"
-      },
-      {
-        "index": 689,
-        "logical": "_emit_leave_statement",
-        "native_name_at_observation": "emit_default_statement",
-        "fresh_original_match": true,
-        "original_capture": "evidence/frontier-689.original.json",
-        "native_capture": "evidence/frontier-689.native.json"
-      },
-      {
-        "index": 690,
-        "logical": "_finish_try_block",
-        "native_name_at_observation": "finish_except_statement",
-        "fresh_original_match": true,
-        "original_capture": "evidence/frontier-690.original.json",
-        "native_capture": "evidence/frontier-690.native.json"
-      },
-      {
-        "index": 691,
-        "logical": "_adjust_seh_label_depths",
-        "native_name_at_observation": "adjust_seh_label_depths",
-        "fresh_original_match": true,
-        "original_capture": "evidence/frontier-691.original.json",
-        "native_capture": "evidence/frontier-691.native.json"
-      },
-      {
-        "index": 692,
-        "logical": "_begin_finally_block",
-        "native_name_at_observation": "begin_try_statement",
-        "fresh_original_match": true,
-        "original_capture": "evidence/frontier-692.original.json",
-        "native_capture": "evidence/frontier-692.native.json"
-      },
-      {
-        "index": 693,
-        "logical": "_finish_finally_block",
-        "native_name_at_observation": "finish_try_statement",
-        "fresh_original_match": true,
-        "original_capture": "evidence/frontier-693.original.json",
-        "native_capture": "evidence/frontier-693.native.json"
-      },
-      {
-        "index": 694,
-        "logical": "_enter_except_filter",
-        "native_name_at_observation": "begin_finally_statement",
-        "fresh_original_match": true,
-        "original_capture": "evidence/frontier-694.original.json",
-        "native_capture": "evidence/frontier-694.native.json"
-      },
-      {
-        "index": 695,
-        "logical": "_begin_except_block@4",
-        "native_name_at_observation": "set_except_filter",
-        "fresh_original_match": true,
-        "original_capture": "evidence/frontier-695.original.json",
-        "native_capture": "evidence/frontier-695.native.json"
-      },
-      {
-        "index": 696,
-        "logical": "_leave_except_filter",
-        "native_name_at_observation": "finish_finally_statement",
-        "fresh_original_match": true,
-        "original_capture": "evidence/frontier-696.original.json",
-        "native_capture": "evidence/frontier-696.native.json"
-      },
-      {
-        "index": 697,
-        "logical": "_finish_except_block",
-        "native_name_at_observation": "finish_except_block",
-        "fresh_original_match": true,
-        "original_capture": "evidence/frontier-697.original.json",
-        "native_capture": "evidence/frontier-697.native.json"
-      },
-      {
-        "index": 698,
-        "logical": null,
-        "native_name_at_observation": null,
-        "fresh_original_match": true,
-        "original_capture": "evidence/frontier-698.original.json",
-        "native_capture": "evidence/frontier-698.native.json"
-      }
-    ]
-  },
-  "original_repeat_raw_equal": true,
-  "normalization": "none"
+    }
+  }
 }

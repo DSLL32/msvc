@@ -1,12 +1,10 @@
-Comment-preserving preprocessing
-===============================
+comments C1 case
+================
 
-Original CL /nologo /C /E test.c produces337 bytes of stdout, no stderr or
-artifacts from its C1 child. The source and included header exercise block and
-line comments, quotes/backslashes in comments and escaped physical lines.
-Two standalone untouched original C1 runs reproduce every byte.
-
-The reconstruction completes at778 accepted entries after whole block/line
-comment-copy functions. Three fresh masked original/native observations match,
-and all fourteen native regression cases pass; see validation.json.
-Normal completed-case regressions remain native-only; no original is recaptured.
+This case is complete. manifest.json records source/header dependencies,
+exact arguments/environment, status, streams and complete artifact oracles.
+Fresh original first-entry captures use the shared repository Wine prefix,
+with fixed R: repository and S: scratch paths. Native fixtures never run Wine.
+The accepted prefix and expected entry sequence are checked independently on
+the original; current native traces/status/streams/artifacts match. See
+../shared-prefix-validation.json and ../shared-prefix-evidence/.

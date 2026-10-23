@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x5655be8a in append_macro_string (delimiter=34, text=0x57b331b1 "2") at src/stubs.c:495
-495	void __stdcall append_macro_string(int delimiter, char *text) { __asm { int 3 } }

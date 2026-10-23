@@ -1,0 +1,25 @@
+entry _begin_declaration_text rva 00032d10 byte ff
+entry _new_declaration_text rva 00032c60 byte 56
+entry _print_function_declaration@8 rva 000322e0 byte 53
+entry _build_declaration_text@8 rva 000323d0 byte 53
+entry _append_type_text@8 rva 000327b0 byte 53
+entry _type_specifier_name@4 rva 00032180 byte 66
+entry _append_declaration_text@8 rva 000320c0 byte 53
+entry _reserve_declaration_text@12 rva 00032d80 byte 83
+entry _find_declaration_text@4 rva 00032c20 byte 66
+entry _append_declaration_character@8 rva 00032120 byte 6a
+entry _build_declarator_text@8 rva 00032620 byte 53
+entry _write_declarator_attributes@20 rva 000324f0 byte 83
+entry _append_type_shapes@8 rva 000326e0 byte 83
+entry _append_parameter_text@12 rva 00032a40 byte 83
+entry _declaration_text_value@4 rva 00032d50 byte 66
+entry _release_declaration_text@4 rva 00032cf0 byte 66
+entry _prepend_declaration_text@8 rva 00032140 byte 56
+entry _prepend_pointer_text@8 rva 00032b80 byte 53
+entry _prepend_declaration_character@8 rva 00032100 byte 6a
+entry _write_declaration_storage@8 rva 00032930 byte 57
+entry _build_storage_text@8 rva 00032980 byte 56
+entry _append_storage_attributes@8 rva 00032880 byte 56
+entry _end_declaration_text rva 00032d20 byte a1
+entry _skip_declaration_tokens rva 00012e8d byte 55
+exit 0

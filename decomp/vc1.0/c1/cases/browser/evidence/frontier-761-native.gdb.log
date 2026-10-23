@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x5aeff: file ../../../lib/recon/src/crt.c, line 306.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, recon_remove (name=0xffdbe9e4 "test.sbt") at ../../../lib/recon/src/crt.c:306
-306	    char path[PATH_MAX]; return recon_host_path(name,path,sizeof(path))<0?-1:remove(path);

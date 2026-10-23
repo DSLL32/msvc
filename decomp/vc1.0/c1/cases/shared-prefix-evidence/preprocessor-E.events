@@ -1,0 +1,9 @@
+entry _emit_line_directive rva 0000bdf0 byte 83
+entry _quote_macro_filename@8 rva 0000bda0 byte 8b
+entry _preprocess_translation_unit rva 00033ec0 byte 57
+entry _pch_record_macro@12 rva 00034f90 byte 53
+entry _read_number_text@4 rva 00011d50 byte 56
+entry _read_macro_string rva 0000dfb0 byte a1
+entry _append_macro_string@8 rva 0000da80 byte 83
+entry _copy_quoted_literal@4 rva 00011490 byte 53
+exit 0

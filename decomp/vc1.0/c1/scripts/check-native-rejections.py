@@ -21,7 +21,7 @@ def main():
     checker = module('check-native')
     projection = module('native-traces')
     start = time.perf_counter()
-    directory = Path(tempfile.mkdtemp(prefix='native-rejections-', dir=Path.home()/'.ai-tmp/vc1.0-c1'))
+    directory = Path(tempfile.mkdtemp(prefix='native-rejections-', dir=Path.home()/'.ai-tmp/msvc2/vc1.0/c1/validation'))
     executable = checker.BINARY/'build/native-trace/C13232.EXE'
     cache = projection.load(checker.BINARY/'build/native-trace')
     filter_path = directory/'filter'
@@ -69,7 +69,7 @@ def main():
             lambda: projection.load(checker.BINARY/'build/native-trace', wrong_path))
 
     _, numeric = checker.run_case('numeric-varargs', executable, directory)
-    numeric_fixture = checker.FIXTURES/'numeric-varargs'
+    numeric_fixture = checker.BINARY/'cases/numeric-varargs'
     numeric_phase = json.loads((numeric_fixture/'manifest.json').read_text())['phases']['c1']
     pdb = bytearray((numeric/'msvc.pdb').read_bytes())
     pdb[48] ^= 1

@@ -1,0 +1,8 @@
+bdf0 83 _emit_line_directive
+bda0 8b _quote_macro_filename@8
+33ec0 57 _preprocess_translation_unit
+34f90 53 _pch_record_macro@12
+11d50 56 _read_number_text@4
+dfb0 a1 _read_macro_string
+da80 83 _append_macro_string@8
+11490 53 _copy_quoted_literal@4

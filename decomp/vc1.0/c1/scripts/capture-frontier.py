@@ -7,6 +7,9 @@ import json
 from pathlib import Path
 import subprocess
 import time
+import shutil
+import fcntl
+from case_paths import SCRATCH, canonical_parts
 from binary import PE
 from images import imports
 
@@ -26,6 +29,8 @@ def main():
     parser.add_argument('--debugger', required=True, type=Path,
                         help='Explicit original-only Win32 debugger executable')
     parser.add_argument('--unmasked', action='store_true')
+    parser.add_argument('--entry-from', type=int)
+    parser.add_argument('--entry-to', type=int)
     options = parser.parse_args()
     start = time.perf_counter()
     spec = importlib.util.spec_from_file_location('c1_original_tool',Path(__file__).with_name('wine-tool.py'))
@@ -34,22 +39,32 @@ def main():
     case = options.case.resolve()
     phase = json.loads((case/'manifest.json').read_text())['phases'][options.phase]
     config = json.loads((BINARY/'functions.json').read_text())
+    entry_mode = options.entry_from is not None
+    expected_entries = []
+    if entry_mode:
+        assert not options.unmasked and options.entry_to is not None
+        assert 0 <= options.entry_from <= options.entry_to <= len(config['accepted'])
+        projection = json.loads((BINARY/'cases/native-traces.json').read_text())
+        application = {r['logical'] for r in projection['application_definitions'].values()}
+        expected_entries = [n for n in config['accepted'][options.entry_from:options.entry_to] if n in application]
     original = PE(ROOT/phase['target'])
     assert hashlib.sha256(original.data).hexdigest() == phase['sha256']
     directory = options.directory.resolve()
     directory.mkdir(parents=True, exist_ok=False)
     canonical = phase.get('canonical_working_directory')
+    lease_path = SCRATCH/'vc1.0/c1/capture.lock'
+    lease_path.parent.mkdir(parents=True,exist_ok=True)
+    capture_lease = lease_path.open('a')
+    fcntl.flock(capture_lease,fcntl.LOCK_EX)
     if canonical:
-        assert canonical.startswith('N:\\') and len(canonical.split('\\')) == 2
-    work = directory/(canonical.split('\\')[-1] if canonical else 'work')
-    work.mkdir()
-    if canonical:
-        # This utility runs explicit originals serially in C1's private prefix.
-        # Give each capture its own physical namespace and retain raw N: paths.
-        drive = wt.PREFIX/'dosdevices/n:'
-        if drive.is_symlink(): drive.unlink()
-        assert not drive.exists(), 'N: mapping must be an owned symbolic link'
-        drive.symlink_to(directory)
+        work = SCRATCH.joinpath(*canonical_parts(canonical))
+        work.mkdir(parents=True,exist_ok=True)
+        for previous in work.iterdir():
+            assert previous.is_file() and not previous.is_symlink(), 'unexpected capture cwd entry'
+            previous.unlink()
+    else:
+        work = directory/'work'
+        work.mkdir()
     for item in phase['inputs']:
         source = case/item['path']
         assert sha(source) == item['sha256']
@@ -77,6 +92,15 @@ def main():
             for left,right in [[record['start'],record['end']]]+record.get('shared',[]):
                 a,b = original.offset(left),original.offset(right-1)+1
                 data[a:b] = original.data[a:b]
+        if entry_mode:
+            prefix = set(config['accepted'][:options.entry_from])
+            for record in drivers:
+                if record['name'] in accepted and record['name'] in application and record['name'] not in prefix:
+                    data[original.offset(record['start'])] = 0xcc
+            plan = directory/'entry-plan.txt'
+            by_name = {r['name']:r for r in drivers}
+            plan.write_text(''.join('%x %02x %s\n' % (by_name[n]['start']-original.base,
+                original.read(by_name[n]['start'],1)[0],n) for n in expected_entries))
         target = directory/'original-masked.exe'
         target.write_bytes(data)
     flags = phase['environment']['MSC_CMD_FLAGS'].format(
@@ -87,13 +111,28 @@ def main():
                wt.windows(directory/'events'), canonical or wt.windows(work), 'MSC_CMD_FLAGS='+flags, buffers]
     if phase.get('stdio', {}).get('stderr_to_stdout'):
         command.append('stderr-to-stdout')
+    elif entry_mode:
+        command.append('separate-stderr')
+    if entry_mode:
+        command.append(wt.windows(plan))
     preparation = time.perf_counter()-start
     run_start = time.perf_counter()
     result = subprocess.run(command, env=wt.environment(), stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE, stdin=subprocess.DEVNULL, timeout=60)
     (directory/'host-stdout').write_bytes(result.stdout)
     (directory/'host-stderr').write_bytes(result.stderr)
+    (directory/'capture-status.json').write_text(json.dumps(dict(
+        host_exit=result.returncode,preparation_seconds=preparation,
+        execution_seconds=time.perf_counter()-run_start,total_seconds=time.perf_counter()-start,
+        wine_prefix=str(wt.PREFIX),target_sha256=sha(target)),indent=2)+'\n')
     assert result.returncode == 0, result.stderr.decode('latin1')
+    if entry_mode:
+        events = (directory/'events').read_text()
+        entries = [line.split()[1] for line in events.splitlines() if line.startswith('entry ')]
+        assert entries == expected_entries, ('original first-entry sequence differs',entries,expected_entries)
+        assert 'entry-divergence' not in events
+    if canonical:
+        shutil.copytree(work,directory/'work',copy_function=shutil.copy2)
     receipt = dict(case=str(case), phase=options.phase, unmasked=options.unmasked,
                    accepted_count=len(config['accepted']), accepted_sha256=hashlib.sha256(
                        json.dumps(config['accepted']).encode()).hexdigest(),
@@ -102,10 +141,16 @@ def main():
                    child_environment={'MSC_CMD_FLAGS':flags},
                    child_working_directory=canonical or wt.windows(work),
                    child_stdio=phase.get('stdio', {'stderr_to_stdout':False}),
-                   host_working_directory=str(work),
+                   host_working_directory=str(work),working_directory_snapshot='work',
+                   wine_prefix=str(wt.PREFIX),fixed_drives={'R:':str(ROOT),'S:':str(SCRATCH)},
                    preparation_seconds=preparation, execution_seconds=time.perf_counter()-run_start,
                    total_seconds=time.perf_counter()-start,
                    files=[dict(name=p.name,bytes=p.stat().st_size,sha256=sha(p)) for p in sorted(work.iterdir())])
+    if entry_mode:
+        receipt['first_entry_projection'] = dict(accepted_from=options.entry_from,
+            accepted_count=options.entry_to,expected=expected_entries,observed=entries,
+            seeded_prefix_sha256=hashlib.sha256(json.dumps(config['accepted'][:options.entry_from]).encode()).hexdigest(),
+            plan_sha256=sha(plan),source='Explicit fresh shared-prefix original first-entry traps; one-byte restore/EIP rewind, complete accepted function bodies/shared text.')
     (directory/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
     print((directory/'events').read_text().splitlines()[0])
     print(directory/'receipt.json')

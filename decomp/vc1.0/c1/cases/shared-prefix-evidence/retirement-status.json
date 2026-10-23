@@ -1,0 +1,37 @@
+{
+  "status": "retired",
+  "verified_C1_owned_server_processes": [
+    {
+      "pid": 3023335,
+      "name": "wineserver64"
+    },
+    {
+      "pid": 3023366,
+      "name": "services.exe"
+    },
+    {
+      "pid": 3023372,
+      "name": "winedevice.exe"
+    },
+    {
+      "pid": 3023390,
+      "name": "plugplay.exe"
+    },
+    {
+      "pid": 3023400,
+      "name": "svchost.exe"
+    },
+    {
+      "pid": 3023411,
+      "name": "winedevice.exe"
+    },
+    {
+      "pid": 3023432,
+      "name": "rpcss.exe"
+    }
+  ],
+  "shared_server_stopped": false,
+  "shared_fixed_drives_unchanged": true,
+  "independent_analysis_files_retained": 396,
+  "obsolete_capture_bundles_removed": true
+}

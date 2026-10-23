@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x5658feeb in quote_macro_filename (destination=0x5661118c <lexer_text_storage> "", filename=0x56609eac <token_buffer> "test.c") at src/stubs.c:500
-500	char *__stdcall quote_macro_filename(char *destination, char *filename) { __asm { int 3 } return 0; }

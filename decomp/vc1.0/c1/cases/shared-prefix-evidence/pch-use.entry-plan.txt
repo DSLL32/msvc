@@ -1,0 +1,7 @@
+fda0 53 _load_precompiled_header
+17190 c3 _browser_include_begin
+35e90 81 _read_pch_file
+35b40 81 _restore_pch_state
+37260 68 _extract_pch_intermediates
+3bf10 53 _unpack_option_flags
+34cd0 53 _read_pch_pages

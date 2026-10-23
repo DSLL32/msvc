@@ -1,5 +1,0 @@
-extern int __cdecl transform(int value,const char *text);
-extern int (__cdecl *__cdecl select_callback(int which))(int ,const char *);
-extern int __stdcall apply_callback(int (__cdecl *callback)(int ,const char *),int value);
-extern int (*__cdecl choose_table(int which))[3];
-extern struct Pair __cdecl combine(struct Pair left,const struct Pair *right);

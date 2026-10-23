@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x5f829: file ../../../lib/recon/src/crt.c, line 870.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, recon_dup (source=1) at ../../../lib/recon/src/crt.c:870
-870	    if (!valid_descriptor(source)) return -1;

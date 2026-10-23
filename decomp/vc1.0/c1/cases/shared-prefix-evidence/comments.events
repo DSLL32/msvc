@@ -1,0 +1,3 @@
+entry _copy_block_comment rva 00012770 byte 56
+entry _copy_line_comment rva 000126a0 byte 56
+exit 0

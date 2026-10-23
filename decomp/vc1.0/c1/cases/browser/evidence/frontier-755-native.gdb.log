@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x5664ebe7 in browser_symbol_reference (symbol=0x56c0223c) at src/stubs.c:379
-379	void __stdcall browser_symbol_reference(FrontendSymbol *symbol) { __asm { int 3 } }

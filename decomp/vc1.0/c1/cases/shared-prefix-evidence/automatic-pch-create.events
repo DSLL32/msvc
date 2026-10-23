@@ -1,0 +1,54 @@
+entry _begin_automatic_pch rva 00035880 byte 81
+entry _begin_pch_rebuild rva 000354c0 byte 83
+entry _write_pch_record_header rva 00034e40 byte 83
+entry _process_pch_string_event@12 rva 00034ec0 byte 56
+entry _pch_record_string rva 00034e80 byte 56
+entry _capture_directive_text rva 000102c0 byte 53
+entry _pch_find_conditional rva 00035200 byte 83
+entry _write_pch_event_stack@12 rva 0001a0a0 byte 83
+entry _replay_pch_directive rva 000351b0 byte 53
+entry _pch_resolve_condition@4 rva 00035150 byte 56
+entry _pch_record_include@4 rva 000354a0 byte 8b
+entry _pch_file_mtime@4 rva 00035350 byte 83
+exception 80000003 rva 00035800 base 00010000 first 1
+registers eax 00000028 ecx 00000000 edx 00000000 ebx 00000000 esi 00000001 edi 00000000 ebp 0000fffe esp 0029fdd4
+stack 0 00021c41
+stack 1 00000080
+stack 2 3fff1064
+stack 3 0001a058
+stack 4 00000001
+stack 5 00000000
+stack 6 3fff1064
+stack 7 0506be4c
+stack 8 000199ba
+stack 9 000230e8
+stack 10 00000002
+stack 11 0001963e
+stack 12 0029fec0
+stack 13 0005b564
+stack 14 0006be4c
+stack 15 3fff1064
+stack 16 0002323c
+stack 17 0005b564
+stack 18 0006be4c
+stack 19 3fff1064
+stack 20 0005d5c3
+stack 21 00000007
+stack 22 00000001
+stack 23 ffffffff
+stack 24 0005d5c3
+stack 25 0005d5bc
+stack 26 000454b3
+stack 27 00000005
+stack 28 6adafe16
+stack 29 0005d5c3
+stack 30 007b35cb
+stack 31 00000000
+buffer 0 4 004f0107
+buffer 1 0 
+buffer 2 0 
+buffer 3 12 1186032e1d30016900000000
+buffer 4 unopened
+buffer 5 unopened
+buffer 6 unopened
+exit 99

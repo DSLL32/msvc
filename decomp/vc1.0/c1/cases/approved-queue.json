@@ -21,17 +21,17 @@
     {
       "case": "automatic-pch",
       "phase": "c1-create",
-      "status": "two independent original replays raw exact; next active case"
+      "status": "active; producer current frontier finish_pch_capture"
     },
     {
       "case": "automatic-pch",
       "phase": "c1-reuse",
-      "status": "two independent original C1 replays raw exact; queued"
+      "status": "queued after producer; current frontier compare_work_stack"
     },
     {
       "case": "automatic-pch",
       "phase": "c1-changed",
-      "status": "two independent original C1 replays raw exact; queued"
+      "status": "queued after reuser; current frontier pch_replay_mismatch"
     }
   ]
 }

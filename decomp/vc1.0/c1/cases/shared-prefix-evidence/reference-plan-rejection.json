@@ -1,0 +1,9 @@
+{
+  "status": "rejected",
+  "observed": "entry-divergence expected _begin_pch_rebuild; actual trap _process_pch_string_event@12",
+  "capture_command_exit": 1,
+  "reason": "Producer first-entry sequence was incorrectly applied to a reuser. Reuser/changed phase seed the complete824-entry accepted prefix and correctly have no new accepted entries yet.",
+  "evidence": "rejected-wrong-prefix-plan.events",
+  "elapsed_seconds": null,
+  "timing_note": "Failed command wall time was not separately recorded."
+}

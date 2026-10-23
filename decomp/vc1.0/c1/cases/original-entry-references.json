@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "cases": {
+    "minimal": {
+      "receipt": "cases/shared-prefix-evidence/minimal.receipt.json",
+      "sha256": "f6df5eeeea56e10c0a644973ed5f2fa1ca4c8c54d3739ba46bd95181d8852b35"
+    },
+    "hello-win32": {
+      "receipt": "cases/shared-prefix-evidence/hello-win32.receipt.json",
+      "sha256": "a4e18056e76e11316834c7c611a9eba629eb82c5a99a38156e2d6ad3c55bc89e"
+    },
+    "hello-dll": {
+      "receipt": "cases/shared-prefix-evidence/hello-dll.receipt.json",
+      "sha256": "fdebc99c6bf13534e8f908ca9b063c2901607721d07f86b56d2abaf2d2fb1d26"
+    },
+    "numeric-varargs": {
+      "receipt": "cases/shared-prefix-evidence/numeric-varargs.receipt.json",
+      "sha256": "399b7200d9ae11cf3eb1ba8b01ee1a21126007cdf60c34752c90be363dd801c1"
+    },
+    "pch-create": {
+      "receipt": "cases/shared-prefix-evidence/pch-create.receipt.json",
+      "sha256": "907f61b61d7fe0b26cb4fab1e6c95bfe8b16013e215766aa85158af8d0e0d9b3"
+    },
+    "pch-use": {
+      "receipt": "cases/shared-prefix-evidence/pch-use.receipt.json",
+      "sha256": "4445d251e07b6d2a7096d65b797de3d61fa34ce8c5e5a5ab988b73c2fd176348"
+    },
+    "do-while": {
+      "receipt": "cases/shared-prefix-evidence/do-while.receipt.json",
+      "sha256": "30ca9353e7de5a5677782c7bd8ddd00435351d8038c3a6dcffdae555a62294e1"
+    },
+    "seh": {
+      "receipt": "cases/shared-prefix-evidence/seh.receipt.json",
+      "sha256": "b2e3bf6ee61e05852297bd640076882a739f811155441813af88804ad7c8ce81"
+    },
+    "inline-asm": {
+      "receipt": "cases/shared-prefix-evidence/inline-asm.receipt.json",
+      "sha256": "3320bce0be9047f7115712b1e7647110e8cd7c8e65d29aeada5b3f8f82b10c8f"
+    },
+    "browser": {
+      "receipt": "cases/shared-prefix-evidence/browser.receipt.json",
+      "sha256": "047dd97b749fdd0af83cdfccb2315e59014d15c5a827df597c8ff8b0661eb2de"
+    },
+    "preprocessor-E": {
+      "receipt": "cases/shared-prefix-evidence/preprocessor-E.receipt.json",
+      "sha256": "1ab1c7f1ea1deb91c4e26c15321b553c2fde6d12930b434634e46942482cad52"
+    },
+    "preprocessor-EP": {
+      "receipt": "cases/shared-prefix-evidence/preprocessor-EP.receipt.json",
+      "sha256": "2a10aec2317bb2216b757c50c75eadf1cfa6247b631093203dbe106a4b055964"
+    },
+    "preprocessor-P": {
+      "receipt": "cases/shared-prefix-evidence/preprocessor-P.receipt.json",
+      "sha256": "57b815e48e3fd0f9bd0e70787959a7f06627068349eaea32979cb2034309adb1"
+    },
+    "comments": {
+      "receipt": "cases/shared-prefix-evidence/comments.receipt.json",
+      "sha256": "5d719c8fcc25c9cda1a4b4f634fb2e4da5785cffc9c752aa3f26d162672a59f3"
+    },
+    "prototypes": {
+      "receipt": "cases/shared-prefix-evidence/prototypes.receipt.json",
+      "sha256": "e5d100347753831385648c7e5dffba3d17238453d03ac19240031b4bc59a95f9"
+    }
+  },
+  "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."
+}

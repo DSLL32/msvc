@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x5666875e in make_ir_leaf (kind=2 '\002', value=0x569ca33c, type=0x0) at src/asm-stubs.c:119
-119	IrToken *__stdcall make_ir_leaf(unsigned char kind, void *value, CType *type) { __asm { int 3 } return 0; }

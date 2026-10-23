@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x5667e2e9 in make_asm_register (reg=1) at src/asm-stubs.c:52
-52	AsmExpression * __stdcall make_asm_register(short reg) { __asm { int 3 } return 0; }

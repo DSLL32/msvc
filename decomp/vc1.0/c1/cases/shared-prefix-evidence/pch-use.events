@@ -1,0 +1,8 @@
+entry _load_precompiled_header rva 0000fda0 byte 53
+entry _browser_include_begin rva 00017190 byte c3
+entry _read_pch_file rva 00035e90 byte 81
+entry _restore_pch_state rva 00035b40 byte 81
+entry _extract_pch_intermediates rva 00037260 byte 68
+entry _unpack_option_flags rva 0003bf10 byte 53
+entry _read_pch_pages rva 00034cd0 byte 53
+exit 0

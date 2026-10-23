@@ -1,202 +1,114 @@
-C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
+C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
+========================================================
 
-Current status
---------------
 Fifteen cases are complete: minimal C, optimized Win32 hello, DLL,
-numeric/varargs, PCH creation and dependent use, do-while, nested SEH, inline
-assembly, browser output, preprocessing with /E, /EP and /P, and preserved
-comments with /C /E, and prototype output with /Zg. There are 691
-reconstructed source functions and 802 accepted original entries. Browser and
-preprocessor cases retain exact invocations, dependencies and fresh original/
-native frontier evidence under cases/. Unvisited functions retain named trapping stubs.
-The do-while trial reconstructs exactly one function, begin_do_statement; its
-source, original captures and current exit terminal are durable in cases/do-while/.
-cases/do-while/validation.json records the one-function workflow trial timings.
+numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
+assembly, browser output, /E, /EP, /P, preserved comments and /Zg prototypes.
+Automatic-PCH producer/reuser/changed-macro cases are active. Their current
+frontiers are finish_pch_capture, compare_work_stack and pch_replay_mismatch.
 
-Accepted original code extents cover 211128 of 277234 code-section bytes,
-76.155161%. This is a clipped extent union including shared text data, accepted
-CRT and import thunks; it is not branch coverage. scripts/coverage.py reports the
-source/CRT/import breakdown from the original-toolchain build and metadata.
+There are703 accepted source functions and824 accepted original entries.
+Accepted original extents cover214617/277234 code-section bytes (77.413665%):
+195438 frontend bytes,19011 CRT bytes and168 import-thunk bytes. This is a
+union clipped to code-section VirtualSize, including shared text data; it is
+not branch coverage. Unvisited functions retain named trapping stubs.
 
-Native build and fixtures
--------------------------
+Native build and checks
+-----------------------
 Run from this directory:
 
   make -j4
   make -j4 check
-  make -j4 replay
   make -j4 check CASE=numeric-varargs
   make -j4 check CASE=pch-use
   make -j4 native-check
   make -j4 native-adoption-check
 
-The default builds an instrumented native i386 executable using Clang -O0 -g.
-check and replay use the same native entry-trace and final-output validation.
-native-check builds and checks an uninstrumented executable. Native build and
-fixture targets do not depend on Wine, an original executable, a debugger, or
-reference capture. Shared lib/recon sources are compiled directly at final link;
-no archive is built. Target runtime.o and shared shims are not instrumented.
+The native i386 build uses Clang -O0 -g. check/replay compare cached original
+first-entry projections, status, raw streams, complete file sets and artifacts.
+Shared lib/recon C sources are linked directly; target runtime.o and shims are
+excluded from application instrumentation. The original BINMODE.OBJ default is
+retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
+recapture references. Unknown definitions and dependencies fail.
 
-scripts/check-native.py reads immutable original-backed fixture manifests and
-checks input/header/message-catalog hashes, status, exact stdout/stderr, the
-complete work-file set and artifact bytes. It always executes an i386 ELF. The
-original CL invocation's MSC_CMD_FLAGS is preserved, with portable toolchain
-paths; compatibility configuration is supplied through separate RECON variables.
-The BINMODE.OBJ default is retained with RECON_DEFAULT_FMODE=0x8000.
-
-scripts/native-traces.py validates all 844 native application definitions and a
-cached projection of the original accepted first-entry histories. The projection
-excludes matched CRT, target CRT overrides and imports on both sides. There are
-656 accepted application entries: minimal 172, hello-win32 249, DLL 1, numeric 103,
-PCH-create 43, PCH-use 7, do-while 1, SEH 10, inline assembly 33, browser 27 and
-preprocessing 8 and comment preservation 2. Every case seeds the previously accepted application
-prefix. The shared seen-state descriptor is supplied even though current C1
-cases have no child processes. New or missing application definitions fail before
-launch. The cache is not silently refreshed. Explicit --write regeneration reads
-acceptance metadata and an existing original-toolchain map; it executes nothing.
-
-store_extended has an existing private ESI/x87 naked ABI. Its native-only trace
-marker preserves registers, flags and floating-point state before the first fstp;
-the marker is empty for the original Win32 compiler. No target function or ABI
-wrapper was added. The native parser's redundant tentative initializer_temporary
-is declared extern, sharing its established owner in initializers.c.
+cases/shared-prefix-validation.json records18 fresh original entry captures:
+all692 accepted application first entries are checked, with accepted-prefix
+seeding and exact expected order. Fifteen completed cases also check complete
+outputs; the three active phases compare named stops, pending FILE buffers,
+visible files and streams. The native cache is not silently refreshed.
+Regenerate it explicitly with scripts/native-traces.py --write after a verified
+original-toolchain map and acceptance metadata change.
 
 Case                  irex  irsy  irin  irgl  Other outputs
 minimal                866    13     3    50
 hello-win32           2066   422    46   629
 hello-dll             2129   499    49   669
-numeric-varargs       2330   535   149   402  irdb 51, msvc.pdb 574
-pch-create              94    33     3    68  state.pch 38164
+numeric-varargs       2330   535   149   402  irdb63, msvc.pdb574
+pch-create              94    33     3    68  state.pch38156
 pch-use               1071   116    47    87
 do-while               888    39     3    50
 seh                   1134   114     6    79
 inline-asm            1100   107     6    75
-browser                971    69     6    79  test.sbr 236
-preprocessor-E           -     -     -     -  stdout 381
-preprocessor-EP          -     -     -     -  stdout 292
-preprocessor-P           -     -     -     -  test.i 381
-comments                 -     -     -     -  stdout 337
+browser                971    69     6    79  test.sbr245
+preprocessor-E           -     -     -     -  stdout381
+preprocessor-EP          -     -     -     -  stdout292
+preprocessor-P           -     -     -     -  test.i381
+comments                 -     -     -     -  stdout337
+prototypes               -     -     -     -  stdout360
 
-All four primary intermediates match raw bytes. Numeric stderr is the captured
-line-24 C4069 CRLF warning; other compilation streams are empty and all cases exit 0. Preprocessing stdout
-is the exact captured 381/292 bytes for /E and /EP; /P writes only test.i. Only the
-independently identified timestamp DWORDs at irdb+14 and msvc.pdb+48 are ignored,
-after raw cross-output equality is enforced. The absolute path remains exactly
-N:\numeric-varargs\msvc.pdb. No path or pointer normalization is performed.
+All primary intermediates match raw bytes. Numeric stderr retains the captured
+line24 C4069 CRLF warning. Only identified timestamp DWORDs at irdb+14 and
+msvc.pdb+48 are ignored, after raw equality between both fields is checked.
+No path/pointer normalization occurs. The exact PDB path is
+S:\vc1.0\c1\numeric-varargs\msvc.pdb. The actual native PCH producer must
+match the reference before its bytes are supplied to the consumer; selecting
+a dependent case runs its producer first. Header mtimes are pinned input data
+for automatic PCH. Original CL's stdout/stderr alias is preserved where required.
 
-PCH creation and use run at N:\pch in separate private host namespaces. The actual
-native producer's PCH must match the immutable reference byte for byte before it
-is copied to the consumer. Selecting pch-use automatically runs the producer.
-The consumer's PCH input remains unchanged. There are no captured process doubles
-or external Windows dependencies in these fifteen completed frontend cases.
-
-Each run keeps status, streams, trace and artifacts under ~/.ai-tmp/vc1.0-c1/.
-Receipts split setup, native execution and output checks; trace-cache preparation
-is measured separately. cases/native-all-validation.json records the adoption
-build, complete suites, timings, exclusions and rejection evidence. Rejection
-checks mutate private copies only: IR bytes, complete file set, entry order,
-unmapped definition, timestamp correlation and generated PCH dependency.
-
-Original compiler and audits
-----------------------------
-These are explicit separate operations, never fixture prerequisites:
+Original builds and reference capture
+-------------------------------------
+These explicit operations are separate from fixtures:
 
   make -j2 audit-win32
   python3 scripts/coverage.py
+  python3 scripts/build-capture-helper.py
 
-The canonical Win32 source still builds with the original CL and LINK through
-Wine using ~/.ai-tmp/vc1.0-c1/wine. recon.h is empty for that build. Source remains
-period-style Win32 C with original calls and ABIs. scripts/wine-tool.py is used
-only for this explicit compilation. PE/index helpers in scripts/images.py do
-not execute any target.
+Original builds/captures use ~/.ai-tmp/vc1.0-capture/wine. Fixed R: maps to the
+repository and S: to ~/.ai-tmp/msvc2. No tool remaps those drives or stops the
+shared server. Relative paths are used where output permits them. Observable
+absolute case paths use S:\vc1.0\c1\<case>; C1 serializes each fixed original
+cwd and snapshots its complete contents. Native runs use independent host
+namespaces through per-process RECON_DRIVE_R/S mappings.
 
-The call-graph audit checks all 691 accepted source functions, direct/tail calls,
-indirect-call presence and complete instruction boundaries. State audits check
-269 defaults/aliases, 105 PCH roots, 12 PCH callbacks, the 21-entry shape-cache
-boundary, 72 scalar options, 21 option targets, 17 pragma rules, five hash
-callbacks, typed builtins and debug schemas. Grammar auditing independently
-compares all 376 states, 57904 actions/timings, 227 productions and 34216 gotos.
+src/capture-original.c is a separate original-only debugging utility, never
+linked into C1 or executed by fixtures. It accepts an ordered entry plan,
+restores exactly one instruction byte on a matched breakpoint, rewinds EIP,
+and retains register/stack/pending-buffer evidence at a terminal trap.
+Wrong entry order is rejected. scripts/capture-frontier.py validates the
+plan, frozen source dependencies and exact one-entry MSC_CMD_FLAGS environment.
+Full-reference captures and masked captures are explicit, never silent.
 
-Explicit original-only reference utilities remain beside fixture captures,
-including ../fixtures/pch/capture-original.py and run-phase.c. Normal tests never
-call them. The old paired-Wine debugger and replay implementations were removed.
-Prior full-state matching evidence and timing accounting are preserved in
-cases/historical-validation.json, cases/historical-fast-replay-validation.json
-and ../replay-history.json; those are historical receipts, not executable paths.
+Original compiler audits check703 function graphs and instruction boundaries,
+279 state/default aliases,105 PCH roots and12 callbacks, the21-entry function
+shape cache, scalar options, pragmas, intrinsic groups and serialization data.
+The C grammar audit checks376 states,57904 actions/timings,227 productions and
+34216 gotos. The assembler audit checks136 states,6936 actions/errors,
+136 lookahead/default timings,83 productions and3128 gotos, plus contextual
+operand/register/mnemonic tables. Logical model and linked C rows both match.
 
-Source organization and reconstruction invariants
-------------------------------------------------
-Reconstructed C/H files live in src/, tooling in scripts/, metadata in cases/.
-The Makefile stays here and products stay in build/.
+Source layout and active queue
+-------------------------------
+Source lives in src/, scripts in scripts/, metadata in cases/. Function
+ownership, extents, accepted order and text data are recorded in functions.json.
+Frontend subsystems keep their contextual data and semantic wire structures;
+no copied image sections or runtime original-image reads are used by C1.
+store_extended retains its documented ESI/x87 ABI and a native-only entry marker
+that preserves registers, flags and floating state. The source also compiles
+with the original Win32 compiler; recon.h is empty there.
 
-options/arguments/option-data handle the original command grammar and defaults;
-frontend/initialization own startup and translation-unit control. source-input,
-preprocessor-directives, macro-expand, lexer and pragma implement source/header
-processing. parser and parser-grammar implement complete accepted LR semantics
-using logical grammar tables rather than the original packed representation.
-types/parameters/declarations/scopes own symbols, type interning and storage;
-expressions/conversions/calls/initializers build semantic trees. global-ir,
-control-ir, ir and their contextual formats serialize intermediates. debug-info
-and program-database implement encountered /Zi records. pch, pch-files,
-pch-reader and pch-relocate implement original serialization and relocation.
-runtime.c contains encountered old CRT variants; stubs.c names unreconstructed
-entries. Data live with their subsystem and are defined only as encountered.
-There are no copied image sections, snapshots, embedded original bodies or
-runtime reads of original image data in the reconstructed program.
-
-Important shared storage remains explicit: the preprocessing FILE pointer and
-/Zg declaration-output pointer occupy byte 128 of LexerTextStorage; the PCH event
-writer shares the permanent allocator's page count. MacroFrame has the observed
-20-byte layout and 256-entry nesting bound; include eviction aliases frame[1]'s
-source cursor. Declaration flags' preceding byte aliases the high byte of the
-active parameter context. The 21-entry function-shape cache and PCH callback
-identities are checked against originals. Existing numeric and PCH schemas use
-typed records and logical formats, preserving exact serialized bytes.
-
-Inline assembly now has a separate82-rule semantic parser, generated136-state
-logical grammar, contextual register/mnemonic dictionaries and instruction IR
-encoding. All6936 actions/errors,136 lookahead timings/defaults,83 production
-rows and3128 gotos match both the model and linked original-compiler tables.
-Dictionary,operand-rule,layout and format audits cover all encountered data.
-The fixture completes with exact instruction and label IR records.
-
-The approved next queue is active: comment preservation and prototype
-output are complete; automatic PCH producer/reuser/conditional invalidation follows. Remaining identified application
-families include comment-preserving preprocessing, /Zg declaration printing,
-automatic PCH creation/rebuild and conditional replay, further assembly operand
-forms, diagnostic/error recovery, and unvisited expression/initializer branches.
-There are 190 named unvisited source/override vertices. The remaining 70026 code
-section bytes include application code, CRT and alignment; they are not an
-estimate of missing application logic alone.
-
-Concrete next-case suggestions (analysis only; not queued):
- - /C /E with block and line comments, escaped lines and an include. The two
-   direct comment-copy entries span approximately 454 original bytes combined.
- - /Zg with nested pointer/function declarators. Its direct print driver spans
-   approximately 229 bytes, plus still-unvisited type/declaration formatters.
- - /YX producer/reuser with macro/conditional changes to exercise automatic
-   PCH rebuild. Seven identified direct helper extents total approximately 1856
-   bytes, before their newly reached callees. Exact capture switches must be
-   validated on the untouched compiler when a case is authorized.
-These are analysis bounds for known native entries, not promised case coverage;
-evidence/next-case-extents.json in cases/preprocessor records provenance.
-
-Browser and preprocessor output fixtures
----------------------------------------
-The completed cases/browser and cases/preprocessor preserve untouched CL child
-invocations, exact environments, dependencies and independent original C1
-replays for /FR, /E, /EP and /P. Browser now owns the full 8192-byte symbol bitset;
-PCH transfers retain their observed 8191-byte payload. Source-input/PCH users
-share browser_output and browser_pending_flags with the browser writer.
-The graph audit rejects external code-section switch tables missing from masks.
-
-The previous SEH/assembly/browser/preprocessor queue verification is recorded in cases/preprocessor/validation.json.
-The original-toolchain clean -j2 build/audits took 40.831s; native clean -j4
-builds 6.620s. After a prototype declaration followup, final thirteen-case native
-trace/output commands took 0.477s/0.265s; eight rejection checks took 0.325s.
-Separate setup, execution and oracle durations remain in each case receipt.
-
-Approved continuation is registered in cases/approved-queue.json. Untouched CL
-transport and two independent original C1 runs validate every new phase before
-reconstruction. Automatic PCH pins header mtimes and CL's fd2-to-fd1 alias in
-input preparation; no output timestamp/path/stream normalization is used.
+The approved queue is cases/approved-queue.json. Comment preservation and
+prototype output are complete; automatic PCH continues next. Existing sources,
+original options/environments, dependencies, outputs and acceptance ranges are
+durable. Independent grammar/layout/ABI analysis remains available in scripts/
+and cases/analysis/. Measured builds, setup, reference capture, native execution
+and checks are reported separately in current validation receipts.

@@ -1,9 +1,0 @@
-minimal: native pass 0.010656s
-hello-win32: native pass 0.108432s
-hello-dll: native pass 0.094020s
-numeric-varargs: native pass 0.027554s
-pch-create: native pass 0.011677s
-pch-use: native pass 0.011796s
-do-while: native pass 0.008796s
-seh: native pass 0.009799s
-Evidence: /root/.ai-tmp/vc1.0-c1/asm-old-traces-728/receipt.json

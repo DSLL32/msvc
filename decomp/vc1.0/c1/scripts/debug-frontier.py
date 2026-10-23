@@ -9,6 +9,7 @@ import re
 import shlex
 import subprocess
 import time
+from case_paths import windows, native_work
 
 BINARY = Path(__file__).resolve().parents[1]
 ROOT = BINARY.parents[2]
@@ -28,10 +29,7 @@ def main():
     phase = json.loads((case/'manifest.json').read_text())['phases'][options.phase]
     config = json.loads((BINARY/'functions.json').read_text())
     canonical = phase.get('canonical_working_directory')
-    if canonical:
-        assert canonical.startswith('N:\\') and len(canonical.split('\\')) == 2
-    work = directory/(canonical.split('\\')[-1] if canonical else 'work')
-    work.mkdir()
+    work, path_environment = native_work(directory,canonical)
     for item in phase['inputs']:
         source = case/item['path']
         data = source.read_bytes()
@@ -40,13 +38,11 @@ def main():
         target_input.write_bytes(data)
         if 'mtime_ns' in item:
             os.utime(target_input,ns=(item['mtime_ns'],item['mtime_ns']))
-    windows = lambda p:'Z:'+str(p).replace('/', '\\')
     env = dict(LC_ALL='C', TZ='PST8PDT',
                RECON_PROGRAM_PATH=windows(ROOT/'toolchains/1.0-nt/bin/C13232.EXE'),
                MSC_CMD_FLAGS=phase['environment']['MSC_CMD_FLAGS'].format(
                    bin=windows(ROOT/'toolchains/1.0-nt/bin'), include=windows(ROOT/'toolchains/1.0-nt/include')))
-    if canonical:
-        env.update(RECON_DRIVE_N=str(directory),RECON_CANONICAL_CWD=canonical)
+    env.update(path_environment)
     names = [r['name'][1:] for r in config['buffered_streams']]
     expected_record = None
     expected_native = None
@@ -131,7 +127,8 @@ end
                 assert state['buffers'][name] == expected, ('pending buffer differs',name)
         else:
             assert events.strip() == 'exit 0' and state['frontier'] is None,(events,state)
-        reference_work = reference/(canonical.split('\\')[-1] if canonical else 'work')
+        original_receipt = json.loads((reference/'receipt.json').read_text())
+        reference_work = reference/original_receipt.get('working_directory_snapshot','work')
         originals = {p.name:p.read_bytes() for p in reference_work.iterdir()}
         natives = {p.name:p.read_bytes() for p in work.iterdir()}
         assert originals == natives, 'visible input/output files differ at frontier'

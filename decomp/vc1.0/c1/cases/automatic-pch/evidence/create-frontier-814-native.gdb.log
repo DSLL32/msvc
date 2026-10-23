@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x5f692: file ../../../lib/recon/src/crt.c, line 313.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, recon_stat (name=0x5660bec3 <token_buffer+7> "case.h", out=0xfff9dc0c) at ../../../lib/recon/src/crt.c:313
-313	    const char *drive=name,*extension,*canonical;

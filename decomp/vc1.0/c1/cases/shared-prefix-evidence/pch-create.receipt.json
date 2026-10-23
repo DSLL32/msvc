@@ -1,0 +1,167 @@
+{
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/pch",
+  "phase": "c1-create",
+  "unmasked": false,
+  "accepted_count": 824,
+  "accepted_sha256": "b0a380508d603c017a687668c662c951976f7395e9f50dd32afba4c80c0427d2",
+  "executable_sha256": "513042963cb745a654570b207660997411180f96ce7e93e5e3cda6f09480c295",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "45cc03d417189b51d114ea35490a7e2005182f34f75d38b49add92010efc7b29",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f producer.c -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Foproducer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Ob0 -Ot -W 3 -Ycpch.h -Fpstate.pch -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\pch",
+  "child_stdio": {
+    "stderr_to_stdout": false
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/pch",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.05276447534561157,
+  "execution_seconds": 5.614803985692561,
+  "total_seconds": 5.667570957913995,
+  "files": [
+    {
+      "name": "consumer.c",
+      "bytes": 276,
+      "sha256": "d48a48cf8cd2268037e2c484dbf282f247ae6cce72a72ffd276045f2d9a46854"
+    },
+    {
+      "name": "irex",
+      "bytes": 94,
+      "sha256": "3824b3a4eb7c135c5c4291131115fe194252bfcd916446796780fbfe706d7887"
+    },
+    {
+      "name": "irgl",
+      "bytes": 68,
+      "sha256": "e68d5d2de9da43c9606bc5ec7280a47490155fbead2833fc8b11d33352f1ce79"
+    },
+    {
+      "name": "irin",
+      "bytes": 3,
+      "sha256": "9e83ad5430b7f2282ca3775b5f2048ca89a2d7971f12be376e92910d00a58215"
+    },
+    {
+      "name": "irsy",
+      "bytes": 33,
+      "sha256": "c90290406c71bedb00865b04bab157c1b67cd0418a754cf6302e2d6513b6d794"
+    },
+    {
+      "name": "pch.h",
+      "bytes": 395,
+      "sha256": "31c1c0ed20949e12b21d1b505c8e5e8e6d0c625ca46897666bc815c8052d1daf"
+    },
+    {
+      "name": "producer.c",
+      "bytes": 116,
+      "sha256": "5f29c6ed9dc312cdbfc6b8cfc87988ffe089a97b74e5d2c3a56e03c7fda075b0"
+    },
+    {
+      "name": "state.pch",
+      "bytes": 38156,
+      "sha256": "788b79dbe57cc99a9667e918a6557b61026e62e3097c5bd53427492e4031154a"
+    }
+  ],
+  "first_entry_projection": {
+    "accepted_from": 633,
+    "accepted_count": 680,
+    "expected": [
+      "_prepare_pch_output@4",
+      "_compare_filenames",
+      "_finish_pch_output",
+      "_copy_vector@12",
+      "_vector_count@4",
+      "_copy_string@8",
+      "_stage_pch_intermediates",
+      "_append_pch_intermediates",
+      "_copy_pch_stream@12",
+      "_relocate_pch_state",
+      "_mark_pch_graph",
+      "_mark_pch_scopes",
+      "_mark_pch_pointer@4",
+      "_pointer_to_pch_reference@4",
+      "_mark_pch_symbol_chain@4",
+      "_mark_pch_tag@4",
+      "_mark_pch_hash_table@12",
+      "_mark_pch_hash_entries@12",
+      "_mark_pch_types",
+      "_mark_pch_type_entries@4",
+      "_mark_pch_type@4",
+      "_mark_pch_shapes",
+      "_mark_pch_shape_entries@4",
+      "_mark_pch_shape@4",
+      "_mark_pch_macros",
+      "_mark_pch_macro_entries@4",
+      "_mark_pch_identifiers",
+      "_mark_pch_identifier_entries@4",
+      "_mark_pch_function_records",
+      "_mark_pch_scope_directory",
+      "_mark_pch_pointer_array@8",
+      "_mark_pch_parameters",
+      "_mark_pch_parameter_entries@4",
+      "_mark_pch_parameter_info@4",
+      "_mark_pch_pragma_values",
+      "_mark_pch_defines",
+      "_mark_pch_vector@8",
+      "_mark_pch_include_directories",
+      "_mark_pch_packing",
+      "_initialize_pch_relocations",
+      "_relocate_pch_pages",
+      "_write_pch_pages",
+      "_restore_pch_pointers"
+    ],
+    "observed": [
+      "_prepare_pch_output@4",
+      "_compare_filenames",
+      "_finish_pch_output",
+      "_copy_vector@12",
+      "_vector_count@4",
+      "_copy_string@8",
+      "_stage_pch_intermediates",
+      "_append_pch_intermediates",
+      "_copy_pch_stream@12",
+      "_relocate_pch_state",
+      "_mark_pch_graph",
+      "_mark_pch_scopes",
+      "_mark_pch_pointer@4",
+      "_pointer_to_pch_reference@4",
+      "_mark_pch_symbol_chain@4",
+      "_mark_pch_tag@4",
+      "_mark_pch_hash_table@12",
+      "_mark_pch_hash_entries@12",
+      "_mark_pch_types",
+      "_mark_pch_type_entries@4",
+      "_mark_pch_type@4",
+      "_mark_pch_shapes",
+      "_mark_pch_shape_entries@4",
+      "_mark_pch_shape@4",
+      "_mark_pch_macros",
+      "_mark_pch_macro_entries@4",
+      "_mark_pch_identifiers",
+      "_mark_pch_identifier_entries@4",
+      "_mark_pch_function_records",
+      "_mark_pch_scope_directory",
+      "_mark_pch_pointer_array@8",
+      "_mark_pch_parameters",
+      "_mark_pch_parameter_entries@4",
+      "_mark_pch_parameter_info@4",
+      "_mark_pch_pragma_values",
+      "_mark_pch_defines",
+      "_mark_pch_vector@8",
+      "_mark_pch_include_directories",
+      "_mark_pch_packing",
+      "_initialize_pch_relocations",
+      "_relocate_pch_pages",
+      "_write_pch_pages",
+      "_restore_pch_pointers"
+    ],
+    "seeded_prefix_sha256": "3097591387acc539ec925535b3687038d512dce35ace97feccf225dd319304aa",
+    "plan_sha256": "a2245f09ddde64d3e185a1716a913c296dbbb7f1e4b2dc0c133d4c6fa43d64cc",
+    "source": "Explicit fresh shared-prefix original first-entry traps; one-byte restore/EIP rewind, complete accepted function bodies/shared text."
+  }
+}

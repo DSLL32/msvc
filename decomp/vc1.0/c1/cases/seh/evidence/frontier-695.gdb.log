@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x5655bc07 in set_except_filter (filter=0x57d6f1f0) at src/stubs.c:305
-305	void __stdcall set_except_filter(IrToken *filter) { __asm { int 3 } }
