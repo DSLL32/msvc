@@ -2,10 +2,6 @@
 #include "cl.h"
 #include <recon.h>
 
-void show_usage(void) {
-    __asm int 3
-
-} /* 00402b8a */
 void warning(unsigned id, ...) {
     __asm int 3
 

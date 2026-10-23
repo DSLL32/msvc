@@ -14,6 +14,17 @@ ROOT=PROJECT.parents[2]
 sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
 
+def resource_proof():
+    target=sha(ROOT/'toolchains/5.10/bin/CL.EXE')
+    entries=[];seen=set()
+    for path in sorted((PROJECT/'cases').glob('*/resources.json')):
+        proof=json.loads(path.read_text());assert proof['target_sha256']==target
+        for item in proof['resources']:
+            assert item['id']not in seen,'duplicate contextual resource definition'
+            seen.add(item['id']);entries.append(item)
+    return {'schema':1,'target_sha256':target,'resources':entries}
+
+
 def rc_literal(text):
     # This RC grammar represents embedded quotes by doubling them.
     return '"'+json.dumps(text,ensure_ascii=True)[1:-1].replace('\\"','""')+'"'
@@ -45,10 +56,11 @@ def encounter(identifier,capture):
     terminal=state['fields'].get('frontier')=='load_string' and state['fields'].get('parameters',{}).get('id')==identifier
     actual_call=re.search(r'^call sequence=(\d+) id='+str(identifier)+r' module=00400000 output=00409698 capacity=256$',(capture/'resource-events.txt').read_text(),re.M) if (capture/'resource-events.txt').exists() else None
     assert terminal or actual_call,'not an encountered LoadString frontier or actual API call'
-    path=PROJECT/'cases/help/resources.json'
+    case=json.loads((capture/'capture.json').read_text())['case']
+    path=PROJECT/'cases'/case/'resources.json'
     evidence=json.loads(path.read_text()) if path.exists() else {'schema':1,
         'target_sha256':sha(ROOT/'toolchains/5.10/bin/CL.EXE'),'resources':[]}
-    assert identifier not in {r['id']for r in evidence['resources']},'resource already defined'
+    assert identifier not in {r['id']for r in resource_proof()['resources']},'resource already defined'
     item=extract(identifier)
     item['encounter']={'state_path':str(capture/'state.json'),'state_sha256':sha(capture/'state.json')}
     for role,name in [('context','context.bin'),('entry_context','main-entry-context.bin'),('memory','frontier-memory.json')]:
@@ -62,13 +74,13 @@ def encounter(identifier,capture):
     evidence['resources'].append(item)
     path.write_text(json.dumps(evidence,indent=2)+'\n')
     rc='/* Encountered CL diagnostic/help string resources. */\nLANGUAGE 9, 1\nSTRINGTABLE\nBEGIN\n'
-    for item in evidence['resources']:rc+='    %d %s\n'%(item['id'],rc_literal(item['text']))
+    for item in resource_proof()['resources']:rc+='    %d %s\n'%(item['id'],rc_literal(item['text']))
     (PROJECT/'src/messages.rc').write_text(rc+'END\n')
     print('defined encountered string',identifier,repr(item['text']))
 
 
 def provider_bytes():
-    proof=json.loads((PROJECT/'cases/help/resources.json').read_text())
+    proof=resource_proof()
     assert proof['target_sha256']==sha(ROOT/'toolchains/5.10/bin/CL.EXE')
     literals={int(identifier):json.loads('"'+text.replace('""','\\"')+'"') for identifier,text in
         re.findall(r'^\s*(\d+)\s+"((?:[^"\\]|\\.|"")*)"\s*$',(PROJECT/'src/messages.rc').read_text(),re.M)}
@@ -87,7 +99,7 @@ def verify_api_capture(directory):
     directory=Path(directory)
     lines=(directory/'resource-events.txt').read_text().splitlines()
     assert len(lines)%2==0,'incomplete resource API observation'
-    proof=json.loads((PROJECT/'cases/help/resources.json').read_text())
+    proof=resource_proof()
     entries={e['id']:e for e in proof['resources']};calls=[]
     for n in range(0,len(lines),2):
         call=dict((key,int(value,16) if key in ('module','output') else int(value))
@@ -112,7 +124,7 @@ def verify_rebuilt():
     pe=PE(PROJECT/'build/cl.exe')
     original=ROOT/'toolchains/5.10/bin/CL.EXE'
     # The extraction helper uses identical PE directory layout on both inputs.
-    proof=json.loads((PROJECT/'cases/help/resources.json').read_text())
+    proof=resource_proof()
     root=pe.offset(pe.base+struct.unpack_from('<I',pe.data,pe.optional+112)[0])
     def child(directory,wanted):
         at=root+directory;a,b=struct.unpack_from('<HH',pe.data,at+12)
@@ -138,7 +150,8 @@ if __name__=='__main__':
     if args.encounter is not None:encounter(args.encounter,args.capture)
     if args.confirm_api:
         record=verify_api_capture(args.confirm_api)
-        (PROJECT/'cases/help/resource-api-evidence.json').write_text(json.dumps(record,indent=2)+'\n')
+        case=json.loads((args.confirm_api/'capture.json').read_text())['case']
+        (PROJECT/'cases'/case/'resource-api-evidence.json').write_text(json.dumps(record,indent=2)+'\n')
         print('verified observed bounded LoadStringA calls:',len(record['calls']))
     if args.prepare:args.prepare.parent.mkdir(parents=True,exist_ok=True);args.prepare.write_bytes(provider_bytes())
     if args.verify_rebuilt:print('verified embedded Win32 strings:',verify_rebuilt())

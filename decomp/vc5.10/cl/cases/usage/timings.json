@@ -1,0 +1,79 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "schema": 1,
+      "case": "help",
+      "passed": true,
+      "full_dword_status": 0,
+      "application_entries": 50,
+      "stdout_bytes": 3976,
+      "stderr_bytes": 141,
+      "mktemp_calls": 1,
+      "native_sha256": "94d8abcda819fafcba4bb6c25bd295a1de7bbe47f93cb80af00ee7e4daba60bd",
+      "seconds": {
+        "build": 0.00713029969483614,
+        "setup": 0.0017875609919428825,
+        "execution": 0.00797277595847845,
+        "checks": 0.000649639405310154,
+        "total": 0.03078370075672865
+      }
+    },
+    {
+      "case": "minimal-c",
+      "passed": true,
+      "mode": "cached native regression; fresh GDB proof separate",
+      "application_entries": 75,
+      "status": 0,
+      "object_bytes": 275,
+      "C1_calls": 1,
+      "C2_calls": 1,
+      "mktemp_calls": 1,
+      "native_sha256": "94d8abcda819fafcba4bb6c25bd295a1de7bbe47f93cb80af00ee7e4daba60bd",
+      "held_trial": false,
+      "seconds": {
+        "setup": 0.8015367118641734,
+        "execution": 0.1153022050857544,
+        "checks": 0.35296759009361267,
+        "total": 1.2698379755020142
+      }
+    },
+    {
+      "schema": 1,
+      "case": "response-options",
+      "passed": true,
+      "full_dword_status": 0,
+      "application_entries": 56,
+      "stdout_bytes": 3976,
+      "stderr_bytes": 0,
+      "mktemp_calls": 1,
+      "native_sha256": "94d8abcda819fafcba4bb6c25bd295a1de7bbe47f93cb80af00ee7e4daba60bd",
+      "seconds": {
+        "build": 0.006973049603402615,
+        "setup": 0.0020351214334368706,
+        "execution": 0.00798756256699562,
+        "checks": 0.0006757071241736412,
+        "total": 0.031205030158162117
+      }
+    },
+    {
+      "schema": 1,
+      "case": "usage",
+      "passed": true,
+      "full_dword_status": 0,
+      "application_entries": 14,
+      "stdout_bytes": 61,
+      "stderr_bytes": 141,
+      "mktemp_calls": 0,
+      "native_sha256": "94d8abcda819fafcba4bb6c25bd295a1de7bbe47f93cb80af00ee7e4daba60bd",
+      "seconds": {
+        "build": 0.0070021310821175575,
+        "setup": 0.0016760434955358505,
+        "execution": 0.0037833238020539284,
+        "checks": 0.0006244136020541191,
+        "total": 0.026870103552937508
+      }
+    }
+  ],
+  "total_seconds": 1.6955478684976697
+}

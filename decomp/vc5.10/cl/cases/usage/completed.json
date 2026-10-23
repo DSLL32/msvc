@@ -1,0 +1,25 @@
+{
+  "state": "completed",
+  "candidate": "_show_usage",
+  "extent_bytes": 39,
+  "pair": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/show-usage-3/pair.json",
+    "sha256": "2d3092ab8f7fdad20cdf30e2c921f6a946b977637244faa19b7651bda4948849"
+  },
+  "application_entries": 14,
+  "stdout_bytes": 61,
+  "stderr_bytes": 141,
+  "status": 0,
+  "observed_temporary_calls": 0,
+  "resources": {
+    "new_id": 305,
+    "length": 60,
+    "bounded_return_tail_controls": 4
+  },
+  "times": {
+    "fresh_original": 1.1334392447024584,
+    "native_final": 0.21610826812684536,
+    "audit_final": 0.5808425387367606
+  },
+  "held": "First native correctlydenied undefined305; native-onlyretry after contextual resource+realRC embedding. Earlier build duplicate show_usage stub was removed before any original trial."
+}

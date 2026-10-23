@@ -76,4 +76,5 @@ BEGIN
     570 "/MT link with LIBCMT.LIB                 /MTd link with LIBCMTD.LIB debug lib\n"
     571 "/LD Create .DLL                          /F<num> set stack size\n"
     572 "/LDd Create .DLL debug libary            /link [linker options and libraries]\n"
+    305 "usage: cl [ option... ] filename... [ /link linkoption... ]\n"
 END

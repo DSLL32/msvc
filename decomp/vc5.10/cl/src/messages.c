@@ -128,3 +128,11 @@ void show_help(void)
     }
     exit(0);
 }
+
+/* 00402b8a..00402bb1: the no-argument usage path exits successfully. */
+void show_usage(void)
+{
+    show_banner(0);
+    write_message(1, load_string(305));
+    exit(0);
+}

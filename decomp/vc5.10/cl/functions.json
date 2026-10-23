@@ -95,7 +95,8 @@
     "_configure_assembly",
     "_set_pass_name",
     "_undefine_defaults",
-    "_enable_dll"
+    "_enable_dll",
+    "_show_usage"
   ],
   "driver": [
     {
@@ -177,10 +178,33 @@
     {
       "name": "_show_usage",
       "start": 4205450,
-      "end": 4205451,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "show_usage"
+      "end": 4205489,
+      "pending_extent": false,
+      "state": "implemented; fresh usage trial pending",
+      "native_symbol": "show_usage",
+      "source": "src/messages.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Entire39B originalbody uses constants and explicitcalls only; no incoming register/stack inputs."
+      },
+      "input_observation": {
+        "kind": "matching actual noarguments entry",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/usage-initial",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/usage-initial-native",
+        "scope": "show_usage(void), argc1; fullentrycase, nohiddeninputs."
+      },
+      "evidence": {
+        "kind": "complete39B usage body",
+        "range": [
+          "0x402b8a",
+          "0x402bb1"
+        ],
+        "behavior": "show_banner(0), print encountered message305 tofd1, qualified MSVCRT!exit(0). No copiedCRT body."
+      }
     },
     {
       "name": "_has_nologo",

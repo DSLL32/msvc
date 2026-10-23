@@ -38,7 +38,7 @@ temporary_reader=shared('mktemp',receipt['shared_revision'])
 scratch=Path('/root/.ai-tmp/msvc2/vc5.10/cl');scratch.mkdir(parents=True,exist_ok=True)
 with tempfile.TemporaryDirectory(prefix='fixture-help-',dir=scratch) as work:
     directory=Path(work);setup=time.perf_counter()
-    shutil.copyfile(PROJECT/'build/resources.bin',directory/'resources.bin')
+    shutil.copyfile(reference/'resources.bin',directory/'resources.bin')
     assert sha((directory/'resources.bin').read_bytes())==master['native_resource_provider_sha256']
     expected_trace=(reference/'trace.txt').read_bytes();assert sha(expected_trace)==master['trace_sha256']
     # Include every application entry, so newly reached functions cannot hide

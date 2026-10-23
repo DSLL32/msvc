@@ -12,6 +12,7 @@ NATIVE_SHIMS = $(filter-out $(RECON)/src/trace.c,$(wildcard $(RECON)/src/*.c))
 SOURCES = $(wildcard src/*.c)
 NAMES = $(basename $(notdir $(SOURCES)))
 SOURCE_HEADERS = $(wildcard src/*.h)
+RESOURCE_PROOFS = $(wildcard cases/*/resources.json)
 # Native headers/shims come from the pinned Git release, never mutable WIP.
 NATIVE_RELEASE = build/shared-$(RECON_SHARED_REVISION).stamp
 ORIGINAL_HEADERS = $(SOURCE_HEADERS) $(RECON)/include/recon.h
@@ -39,7 +40,7 @@ build/native-trace/CL.EXE: $(addprefix build/native-trace/,$(addsuffix .o,$(NAME
 	$(PYTHON) scripts/native-build.py $(NATIVE_CC) $(NATIVE_FLAGS) $(filter %.o,$^) scripts/native-host.c scripts/mre-host.c scripts/dependency-host.c $(NATIVE_SHIMS) $(RECON)/src/trace.c -Wl,--wrap=main -o $@
 build/%.obj: src/%.c $(ORIGINAL_HEADERS) Makefile | build
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /MD /I$(RECON)/include /Fobuild/$*.obj $<
-build/resources.bin: src/messages.rc cases/help/resources.json scripts/resources.py ../../../lib/recon/resources.py | build
+build/resources.bin: src/messages.rc $(RESOURCE_PROOFS) scripts/resources.py ../../../lib/recon/resources.py | build
 	$(PYTHON) scripts/resources.py --prepare $@
 build/messages.res: src/messages.rc | build
 	$(TOOL) RC.EXE /r /fo$@ $<

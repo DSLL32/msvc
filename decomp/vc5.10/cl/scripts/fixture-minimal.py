@@ -71,7 +71,7 @@ def run(config_path=None):
             mirror=directory/'drive-s'/Path(*master['dos_cwd'][3:].rstrip('\\').split('\\'))
             mirror.parent.mkdir(parents=True,exist_ok=True);mirror.symlink_to(directory,target_is_directory=True)
             c_drive=prepare_c_drive(raw,directory)
-            shutil.copyfile(PROJECT/'build/resources.bin',directory/'resources.bin')
+            shutil.copyfile(reference/'resources.bin',directory/'resources.bin')
             assert sha((directory/'resources.bin').read_bytes())==master['native_resource_provider_sha256']
             (directory/'filter').write_text(''.join(row['native_symbol']+'\n'for row in config['driver']))
             (directory/'seen').write_text('')

@@ -25,10 +25,13 @@ master={'schema':1,**case,'target_sha256':capture['target_sha256'],'reference_st
  'required_accepted':[row['name']for row in config['driver']if row['native_symbol'].encode()in trace.splitlines()],
  'argv':vector(raw/'argv.bin')[1],'environment':environment(vector(raw/'environment.bin')[1]),
  'entry_profile':profile['id'],'program_path':(raw/'pgmptr.bin').read_bytes()[:-1].decode('ascii'),
- 'temporary_name_boundary':temporary(raw),'native_resource_provider_sha256':sha((PROJECT/'build/resources.bin').read_bytes()),
+ 'temporary_name_boundary':temporary(raw)if(raw/'mktemp-before.bin').exists()else None,'native_resource_provider_sha256':sha((PROJECT/'build/resources.bin').read_bytes()),
  'streams':{name:sha((raw/(name+'.bin')).read_bytes())for name in ('stdout','stderr')},'trace_sha256':sha(trace),
  'capture_sha256':sha((raw/'capture.json').read_bytes())}
 for name in ('trace.txt','stdout.bin','stderr.bin'):(reference/name).write_bytes((raw/name).read_bytes())
+(reference/'resources.bin').write_bytes((PROJECT/'build/resources.bin').read_bytes())
+if master['temporary_name_boundary']is None:
+ assert not any(line.startswith(('call ','return '))for line in (raw/'mktemp-events.txt').read_text().splitlines())
 archive=reference/'original.tar.gz'
 with tarfile.open(archive,'w:gz')as tar:
  for name in ['capture.json',*sorted(capture['files'])]:
