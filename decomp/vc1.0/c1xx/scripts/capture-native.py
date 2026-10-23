@@ -33,6 +33,14 @@ def capture(directory, executable=None, breakpoint=None, expressions=None, case_
                 '    result = {"buffers": [], "states": [], "function": "exit:" + str(exit_codes[0]), "signal": 0, "exit_code": exit_codes[0]}',
                 'else:', '    gdb.execute("bt")',
                 '    result = {"buffers": [], "states": [], "function": gdb.newest_frame().name(), "signal": int(gdb.parse_and_eval("$_siginfo.si_signo"))}']
+    if expressions:
+        commands += ['    block = gdb.newest_frame().block()',
+                     '    arguments = []',
+                     '    while block is not None:',
+                     '        arguments += [symbol.name for symbol in block if symbol.is_argument]',
+                     '        if block.function is not None: break',
+                     '        block = block.superblock',
+                     '    result["declared_arguments"] = sorted(arguments)']
     for key, expression in (expressions or {}).items():
         commands += ['    result['+repr(key)+'] = int(gdb.parse_and_eval('+repr(expression)+'))']
     for field in config['cases'][case_name].get('buffered_streams', config['buffered_streams']):

@@ -263,7 +263,6 @@ void chain_initializer_function(void) { __asm { int 3 } }
 void __stdcall register_initializer_function(CppSymbol *function) { __asm { int 3 } }
 unsigned char __stdcall scan_character_literal(int wide) { __asm { int 3 } return 0; }
 void __stdcall copy_quoted_literal(unsigned char delimiter) { __asm { int 3 } }
-unsigned __stdcall read_number_text(char *destination) { __asm { int 3 } return 0; }
 unsigned char __stdcall scan_float_tail(char *destination) { __asm { int 3 } return 0; }
 unsigned char __stdcall scan_assembler_number(unsigned char first_character) { __asm { int 3 } return 0; }
 int scan_macro_identifier(void) { __asm { int 3 } return 0; }

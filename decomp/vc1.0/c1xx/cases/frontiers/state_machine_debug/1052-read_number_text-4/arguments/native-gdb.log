@@ -1,0 +1,18 @@
+Breakpoint 1 at 0x46b7c: file src/numeric-scanning.c, line 159.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, read_number_text (destination=0x56605f41 <lexer_text_storage+1> "state-machine.cpp\"") at src/numeric-scanning.c:159
+159	        character = next_source_character();
+#0  read_number_text (destination=0x56605f41 <lexer_text_storage+1> "state-machine.cpp\"") at src/numeric-scanning.c:159
+#1  0x565b77ac in read_lexical_token () at src/lexer.c:577
+#2  0x565b53a5 in scan_token () at src/lexer.c:226
+#3  0x565b46db in read_parser_token () at src/lexer.c:48
+#4  0x565c303b in capture_inline_member_declaration (symbol=0x5661ff54, generated_kind=-1, generation_context=-1, pointer_kind=0) at src/inline-capture.c:160
+#5  0x565bfaf4 in configure_member_function (storage=..., member=0x5661ff54, pure=0) at src/class-members.c:538
+#6  0x565be9b3 in declare_class_member (context=0x566069e8 <declaration_spec_storage+8>, member=0x5661ff54) at src/class-members.c:176
+#7  0x565c0e4c in declare_constructor (type=0x566069e8 <declaration_spec_storage+8>, class_symbol=0x5661fc84, parameters=0x56645bcc) at src/class-members.c:464
+#8  0x565af4ce in parse_translation_unit () at src/parser-declaration-actions.inc:299
+#9  0x5655e10f in compile_translation_unit () at src/frontend.c:73
+#10 0x565588a6 in guarded_compile () at src/c1xx.c:28
+#11 0x56558874 in main (argc=1, argv=0xffffd7b4, environment=0xffffd7bc) at src/c1xx.c:20

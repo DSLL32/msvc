@@ -35,6 +35,8 @@ def main():
     parser.add_argument('--original',type=Path)
     parser.add_argument('--native',type=Path)
     parser.add_argument('--build-timing',type=Path)
+    parser.add_argument('--argument-proof',type=Path,required=True,
+        help='explicit current-function actual ABI argument observations and logical bindings')
     args=parser.parse_args()
     started=time.perf_counter()
     config_path=BINARY/'functions.json'
@@ -43,6 +45,42 @@ def main():
     assert args.candidate==case['terminal'] and args.candidate not in config['accepted']
     candidate=next(r for r in config['driver'] if r['name']==args.candidate)
     assert candidate['end']>candidate['start']+1,'complete original extent required'
+    argument_proof=json.loads(args.argument_proof.read_text())
+    assert argument_proof['status']=='match' and not argument_proof['unknown_inputs'], 'unobserved ABI inputs hold acceptance'
+    assert argument_proof['function']==args.candidate and argument_proof['case']==args.case
+    assert argument_proof['accepted_before']==len(config['accepted'])
+    assert argument_proof['configuration_sha256']==sha(config_path), 'argument proof belongs to another configuration'
+    assert len(argument_proof['formals'])==argument_proof['declared_formal_count']
+    for name,digest in argument_proof['evidence_sha256'].items():
+        assert sha(args.argument_proof.parent/name)==digest, 'argument evidence changed: '+name
+    argument_directory=args.argument_proof.parent
+    entry_original=json.loads((argument_directory/'original-receipt.json').read_text())
+    entry_native=json.loads((argument_directory/'native-checkpoint.json').read_text())
+    assert entry_original['terminal']==args.candidate and entry_original['candidate'] is None
+    assert entry_original['accepted_count']==len(config['accepted'])
+    assert entry_original['configuration_sha256']==sha(config_path)
+    assert entry_native['function']==argument_proof['native_entry']
+    assert argument_proof['native_executable_sha256']==sha(BINARY/'build/native/C1XX3232.EXE')
+    assert argument_proof['abi_analysis']['original_extent']==[candidate['start'],candidate['end']]
+    assert argument_proof['abi_analysis']['original_target_sha256']==entry_original['original_sha256']
+    assert sorted(formal['name'] for formal in argument_proof['formals'])==entry_native['declared_arguments'], 'formal argument observation coverage differs'
+    cleanup=re.search(r'@(\d+)$',args.candidate)
+    if cleanup: assert argument_proof['abi_analysis']['argument_bytes']==int(cleanup.group(1)), 'argument bytes differ from function ABI'
+    assert not argument_proof['register_inputs'] and not argument_proof['hidden_inputs'], 'add explicit reached register/hidden input observations before acceptance'
+    words=dict((int(index),int(value,16)) for index,value in re.findall(r'^argument (\d+) ([0-9a-f]+)$',(argument_directory/'original-events.txt').read_text(),re.M))
+    for formal in argument_proof['formals']:
+        assert formal['original_raw']==words[formal['stack_index']]
+        assert formal['native_raw']==entry_native[formal['native_field']]
+        binding=formal['binding']
+        if binding['kind']=='object-offset':
+            assert binding['native_object_address']==entry_native[binding['native_anchor_field']]
+            assert formal['original_raw']-binding['original_object']==binding['offset'], 'original logical pointer offset differs'
+            assert formal['native_raw']-binding['native_object_address']==binding['offset'], 'native logical pointer offset differs'
+        elif binding['kind']=='scalar':
+            mask=(1<<binding['bits'])-1
+            assert formal['original_raw']&mask==formal['native_raw']&mask
+        else:
+            raise AssertionError('unbound actual argument holds acceptance: '+formal['name'])
     if args.original is None:
         captured=subprocess.check_output([sys.executable,str(BINARY/'scripts/capture-original.py'),'--candidate',args.candidate,'--case',args.case,'--entry-plan'],cwd=BINARY,text=True)
         args.original=Path(captured.strip().splitlines()[-1]).parent
@@ -87,6 +125,7 @@ def main():
     name=re.sub(r'[^A-Za-z_0-9-]','-',args.candidate.lstrip('_@'))
     record=frontier_root/('%04d-'%number+name)
     record.mkdir(parents=True)
+    shutil.copytree(args.argument_proof.parent,record/'arguments')
     for directory,label,names in [(args.original,'original',['receipt.json','events.txt','stdout.bin','stderr.bin','configuration.json']),
                                  (args.native,'native',['checkpoint.json','gdb.log','timing.json','stdout.bin','stderr.bin'])]:
         for filename in names:
@@ -138,7 +177,7 @@ def main():
     assert fixture.returncode==0,fixture.stdout+fixture.stderr
     fixture_receipt=Path(re.search(r'receipt: (.+)',fixture.stdout)[1])
     shutil.copyfile(fixture_receipt,record/'native-fixture-receipt.json')
-    report=dict(status='accepted',function=candidate,distinct_direct_callees=sorted(left),next_frontier=original['terminal'],
+    report=dict(status='accepted',function=candidate,actual_argument_proof=relative(record/'arguments'/args.argument_proof.name),distinct_direct_callees=sorted(left),next_frontier=original['terminal'],
         pending_buffers=len(buffers),checkpoint_fields=len(states),fixture_seconds=time.perf_counter()-checked,
         total_operation_seconds=time.perf_counter()-started,original_capture_seconds=original['capture_seconds'])
     (record/'validation.json').write_text(json.dumps(report,indent=2)+'\n')

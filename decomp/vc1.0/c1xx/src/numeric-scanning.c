@@ -148,3 +148,32 @@ unsigned char __stdcall classify_radix_integer(unsigned value)
 {
     return (value & 0x80000000UL) ? TOK_UINT_CONSTANT : TOK_INT_CONSTANT;
 }
+
+/* Original 0x25340..0x25398. Preserve the spelling of a deferred
+   preprocessor number, including signs immediately following e/E. The
+   caller has already supplied a digit or dot prefix in token_text. */
+unsigned __stdcall read_number_text(char *destination)
+{
+    unsigned char character, kind;
+    for (;;) {
+        character = next_source_character();
+        if (character == '.') {
+            *destination++ = character;
+            continue;
+        }
+        kind = character_class[character];
+        if (kind == CC_DIGIT || kind == CC_IDENTIFIER || kind == CC_WIDE_PREFIX) {
+            *destination++ = character;
+            continue;
+        }
+        if ((character == '+' || character == '-') &&
+            ((unsigned char)destination[-1] & 0xdf) == 'E') {
+            *destination++ = character;
+            continue;
+        }
+        break;
+    }
+    --source_text_cursor;
+    *destination = 0;
+    return destination - token_text;
+}
