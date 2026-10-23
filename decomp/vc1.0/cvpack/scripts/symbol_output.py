@@ -11,6 +11,14 @@ def validate(config,pe):
     path=BINARY/ref['evidence'];assert hashlib.sha256(path.read_bytes()).hexdigest()==ref['evidence_sha256'],'stale packed symbol allocation proof'
     p=json.loads(path.read_text())
     assert p['size']==5113 and p['input_size']==4746 and p['defined']==4 and p['frontier']==0x1bee0
+    known={'write_search_symbol':(0x1bee0,4,4,0x250d2,8,7,10),
+           'convert_object_name':(0x255c0,16,4,0x25172,0,5,8),
+           'convert_udt_symbol':(0x25800,40,28,0x25172,0,5,8)}
+    assert p.get('frontiers'),'missing packed symbol frontier contracts'
+    for name,site in p['frontiers'].items():
+        assert name in known and tuple(site[k]for k in('original','defined','input_offset','return_address','allocation_esp_delta','buffer_slot','input_slot'))==known[name],'unreviewed packed symbol initialized range/frame'
+        if name!='write_search_symbol':
+            assert (site['kind'],site['record_length'],site['callback_index'])==((9,24,31)if name=='convert_object_name'else(4,34,27)),'unreviewed packed symbol callback selection'
     for region in p['original_regions']:
         assert pe.read(region['start'],region['end']-region['start']).hex()==region['bytes'],'packed symbol instruction proof differs'
     for source,digest in p['sources'].items():assert hashlib.sha256((BINARY/source).read_bytes()).hexdigest()==digest,'packed symbol source changed'
@@ -53,11 +61,13 @@ def compare(config,pe,events,native,old_walks,new_walks,required,native_state):
     for match in re.finditer(r'^memory ([0-9a-f]+) ([0-9a-f]+)$',events,re.M):
         address=int(match[1],16);memory.update((address+i,v)for i,v in enumerate(bytes.fromhex(match[2])))
     old_input=int.from_bytes(bytes(memory[0x335e4+i]for i in range(4)),'little')
+    old_cursor=int.from_bytes(bytes(memory[0x335f0+i]for i in range(4)),'little')
+    assert old_cursor==post['cursor']and native_state['globals']['symbol_output']['address']==b['cursor'],'packed symbol observed cursor differs from actual global'
     assert old_input==a['input']+site['input_offset']and native_state['globals']['symbol_input']['address']==b['input']+site['input_offset'],'wrong actual packed symbol source cursor'
-    if name=='convert_object_name':
+    if name in('convert_object_name','convert_udt_symbol'):
         registers=re.search(r'^registers (.*)$',events,re.M)[1].split();registers={k:int(v,16)for k,v in zip(registers[::2],registers[1::2])}
-        assert registers['ebp']&0xffff==24 and registers['edx']&0xffff==9 and registers['ecx']==0x38110+31*8 and registers['eax']==site['original'],'wrong original object-name callback context'
-        assert (b['record_kind'],b['record_length'],b['callback_index'])==(9,24,31),'wrong native object-name callback context'
+        assert registers['ebp']&0xffff==site['record_length']and registers['edx']&0xffff==site['kind']and registers['ecx']==0x38110+site['callback_index']*8 and registers['eax']==site['original'],'wrong original callback context'
+        assert (b['record_kind'],b['record_length'],b['callback_index'])==(site['kind'],site['record_length'],site['callback_index']),'wrong native callback context'
     for r,walks,after,cursor in ((a,old_walks,post['bytes'],post['cursor']),(b,new_walks,b['postbytes'],b['cursor'])):
         assert r['number']==3 and r['padding']==367 and r['skipped']==0 and r['size']==4746+r['padding']-r['skipped']
         assert r['base']and cursor==r['base']+defined
@@ -74,7 +84,8 @@ def compare(config,pe,events,native,old_walks,new_walks,required,native_state):
         assert len(before)==len(after)==r['size'],'packed symbol observed extent differs'
         assert after[defined:]==before[defined:],'packed symbol output changed undefined tail'
         assert after[:4]==bytes.fromhex(source['bytes'])[:4]==b'\x01\0\0\0','defined packed symbol header differs'
-        if defined==16:
+        if defined>=16:
             assert after[4:16]==bytes.fromhex('0a0005000000000001000000'),'packed symbol initialized search record differs'
+        if defined==40:assert after[16:40]==bytes.fromhex(source['bytes'])[4:28],'packed symbol actual object-name copy differs'
     assert bytes.fromhex(post['bytes'])[:defined]==bytes.fromhex(b['postbytes'])[:defined],'packed symbol defined prefix differs'
     return dict(original=a,native=b,original_output=post,defined=defined,logical_owner='pack_new_types/module3/malloc25049',original_namespace=dict(address=a['base'],bytes=post['bytes']),native_namespace=dict(address=b['base'],bytes=b['postbytes']))

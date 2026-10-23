@@ -2,7 +2,7 @@
   "schema": 1,
   "owner": "read_image_debug",
   "allowed_frontiers": [
-    "convert_object_name"
+    "convert_udt_symbol"
   ],
   "allowed_case": "hello-debug-dll",
   "first_module_only": false,
@@ -12,14 +12,14 @@
     "src/files.c": "fd7ad4f6cbf4693bef0ffbea48a372e7ed2ad42bb0acd2b28c62326242195499",
     "src/files.h": "5fd235d43717f5a5128ec437477f8dcbfaea06bc2dc79f87ac5b2ee5fe8eafd9",
     "src/image.c": "24317f37706b277c40b92fb1963a414dbc84c31e0c6a9ef77022128ab99ad9a4",
-    "src/image.h": "9a767c762ea436712276e0c55a4d80a069c89c97fbce719b22fe2f7ba899248d",
+    "src/image.h": "95f9817b46242f5bd7465ced9f7181a389a6252b25d3cd49175829c21e74b5e8",
     "src/main.c": "00c081d082c9e938f6f0aed5370001a20973247944e028754a446f0b8de350cc",
     "src/modules.c": "980401f576db12845ffd1dbdb5a69ef7112700c6e9c4146074a29bdd84fc3fab",
     "src/options.c": "09d36a0bbb3ddc97a6a749250f2881d5a1967bdb5c34d4cd7b6f1178d31d2c34",
     "src/pdb.c": "138d0d5a929ca27aa86e5835482bd5e36c9e13f70e661ecf4497b98f7c2f75d2",
     "src/pdb.h": "4985c836921a7bc48a27baf3647ffc9b967c49c17ec63b75d31ecc8934068e73",
-    "src/stubs.c": "ee1c0d8bab59b4e30fd741134a10bb5b334ed722384f025e43acfcd9a3925ae7",
-    "src/types.c": "d1ad0bc5cfbf554186795e10e4b0d2a786b9a2a7e0d782bfa11eef4bb4bd19db",
+    "src/stubs.c": "97ed4c10384caf7222c6f55f53454b4152bd1eabb8f3e3ca235f0ff84d41a8d7",
+    "src/types.c": "8db73670a66694f4919e66d47b903250d0230cb227a16a353675dbed0532f853",
     "src/types.h": "1550f8ff69cdb7cb329781def2b6437459649f5e91a3dbde420998ed3cb4cd78"
   },
   "allocations": [
@@ -103,7 +103,7 @@
   "first_module_mode": "explicit_module_index",
   "allowed_module_boundaries": [
     {
-      "frontier": "convert_object_name",
+      "frontier": "convert_udt_symbol",
       "index": 2,
       "module": 3
     }

@@ -456,3 +456,14 @@ unsigned short write_search_symbol(unsigned char *buffer, unsigned short segment
     buffer[11] = 0;
     return 12;
 }
+
+void convert_object_name(void)
+{
+    unsigned char *name;
+    if (current_precompiled == 1) {
+        name = symbol_input+8;
+        current_module->object_name = malloc(name[0]+1);
+        if (!current_module->object_name) fatal_error(13, NULL, NULL);
+        memcpy(current_module->object_name, name, name[0]+1);
+    }
+}

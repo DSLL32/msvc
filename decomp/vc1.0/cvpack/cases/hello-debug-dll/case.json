@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "convert_object_name",
-    "native_function": "convert_object_name",
+    "logical": "convert_udt_symbol",
+    "native_function": "convert_udt_symbol",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -83,7 +83,8 @@
       "has_extra_type",
       "pack_new_types",
       "write_search_symbol",
-      "convert_object_name"
+      "convert_object_name",
+      "convert_udt_symbol"
     ]
   },
   "complete_reference": {

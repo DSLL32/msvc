@@ -65,3 +65,28 @@ def check_search_write(pair):
     for field in('before','postbytes'):
         raw=bytearray.fromhex(changed[0][field]);raw[16]^=1;changed[0][field]=raw.hex()
     run(n=changed)
+
+
+def check_object_copy(pair):
+    pair=Path(pair);config,pe=load();events=(pair/'original-events').read_text();state=json.loads((pair/'native-gdb.json').read_text());rows=json.loads((pair/'native-symbol-output.json').read_text())
+    spec=json.loads((pair/'walks.json').read_text());old=original_walks(events,spec)
+    def run(n=rows,s=state):return compare(config,pe,events,n,old,s['walks'],True,s)
+    assert run()['defined']==40
+    def deny(label,action):
+        try:action()
+        except AssertionError:print('rejected:',label);return
+        raise AssertionError('accepted invalid '+label)
+    changed=copy.deepcopy(rows);raw=bytearray.fromhex(changed[0]['postbytes']);raw[16]^=1;changed[0]['postbytes']=raw.hex()
+    deny('object-name actual copied bytes differ',lambda:run(changed))
+    changed=copy.deepcopy(rows);raw=bytearray.fromhex(changed[0]['postbytes']);raw[40]^=1;changed[0]['postbytes']=raw.hex()
+    deny('object-name own untouched tail changed',lambda:run(changed))
+    changed=copy.deepcopy(rows);changed[0]['cursor']+=4
+    deny('object-name observed cursor differs from actual global',lambda:run(changed))
+    changed=copy.deepcopy(state);changed['globals']['symbol_output']['address']+=4
+    deny('object-name actual global differs from observed cursor',lambda:run(s=changed))
+    changed=copy.deepcopy(rows);changed[0]['callback_index']=31
+    deny('object-name copy wrong next callback owner',lambda:run(changed))
+    changed=copy.deepcopy(rows)
+    for field in('before','postbytes'):
+        raw=bytearray.fromhex(changed[0][field]);raw[40]^=1;changed[0][field]=raw.hex()
+    run(changed)

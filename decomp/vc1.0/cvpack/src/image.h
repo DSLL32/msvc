@@ -30,7 +30,8 @@ extern CvDirectoryEntry *directory_entries;
 extern unsigned long directory_entry_count;
 typedef struct ModuleInfo {
     unsigned short module;
-    unsigned char state_before_signature[6];
+    unsigned short reserved;
+    unsigned char *object_name;
     unsigned long precompiled_signature;
     unsigned char *record;
     unsigned long record_size;
