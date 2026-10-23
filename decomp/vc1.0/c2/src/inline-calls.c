@@ -332,3 +332,56 @@ Node *__fastcall inline_argument_prefix(InlineBinding *bindings)
     node->right.node = head;
     return node;
 }
+
+/* Original [00064ba0,00064d36). Evaluate bindings that cannot be directly
+   substituted into generated locals before the call's expression. Aggregate
+   values add the destination to their intrinsic argument list; scalar forms
+   become assignments. Move remaining nested-call sites with the new tree. */
+void __fastcall materialize_inline_arguments(Function *function, InlineSite *site,
+    InlineBinding *bindings)
+{
+    void __fastcall relocate_inline_sites(InlineSite *sites, Expression *expression);
+    extern int floating_frontend;
+    InlineBinding *binding;
+    TemporarySymbol *parameter;
+    Expression *previous = function->expressions, *inserted;
+    Node *value, *argument, *reference;
+    unsigned bytes;
+    unsigned short kind, type;
+    while (previous->next != site->expression) previous = previous->next;
+    for (binding = bindings; binding; binding = binding->next) {
+        if (binding->flags & 1) continue;
+        argument = binding->argument;
+        if (argument->attributes.words.flags & 0x40)
+            compiler_internal_error("@(#)inline.c:1.31", 0x2e7);
+        parameter = (TemporarySymbol *)binding->parameter->right.symbol;
+        bytes = parameter->symbol.value;
+        kind = (unsigned short)(parameter->attributes & 15);
+        type = value_node_type((short)kind, bytes);
+        binding->storage = new_inline_storage(kind, bytes);
+        if (parameter->attributes & 0x2000)
+            ((TemporarySymbol *)binding->storage->right.symbol)->attributes |= 0x2000;
+        if (parameter->symbol.field0e & 0x2000)
+            binding->storage->right.symbol->field0e |= 0x2000;
+        value = argument->left.node;
+        if ((type & 0xff00) == 0x8000 &&
+            (floating_frontend || !is_register_return_size(bytes))) {
+            reference = build_tree("DNt", binding->storage, 0x55, 0x404);
+            reference->second.node = value->second.node;
+            value->second.node = reference;
+            release_node(value->left.node);
+            value->left.node = integer_node(0xac, 0x104);
+        } else {
+            reference = intern_leaf(0x26, 0, binding->storage->right.symbol, 0, 0x404);
+            value = build_tree("PPNtY", reference, value, 0x32, (unsigned)type);
+        }
+        refresh_tree_references(value);
+        argument->left.node = new_node(1);
+        inserted = new_expression();
+        inserted->tree = value;
+        inserted->next = previous->next;
+        previous->next = inserted;
+        previous = inserted;
+        relocate_inline_sites(site->next, inserted);
+    }
+}

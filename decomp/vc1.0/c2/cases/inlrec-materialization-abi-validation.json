@@ -1,0 +1,100 @@
+{
+  "method": "CFG traversal of original/canonical machine RET operands; jump-table data not decoded as instructions",
+  "checkpoint": 1127,
+  "accepted_slice": [
+    1122,
+    1127
+  ],
+  "checked": [
+    {
+      "name": "@materialize_inline_arguments@12",
+      "callee_stack_bytes": 4,
+      "original": [
+        {
+          "address": "0x64d33",
+          "stack_bytes": 4
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x1de43",
+          "stack_bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "@value_node_type@8",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x58b4b",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x58b57",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x1cbc3",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@refresh_tree_references@4",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x524ef",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x1ea99",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@relocate_inline_sites@8",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x6526b",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x1e1f8",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@retarget_inline_site_tree@16",
+      "callee_stack_bytes": 8,
+      "original": [
+        {
+          "address": "0x65503",
+          "stack_bytes": 8
+        },
+        {
+          "address": "0x65513",
+          "stack_bytes": 8
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x1e320",
+          "stack_bytes": 8
+        }
+      ]
+    }
+  ],
+  "seconds": 0.2532585533335805,
+  "return_width_evidence": "Materializer RET4, recursive retargeter RET8 and remaining wrappers RET0 match all original/canonical CFG returns. value_node_type consumes signed short kind and returns AX; storage constructors retain the recovered unsigned-short kind."
+}

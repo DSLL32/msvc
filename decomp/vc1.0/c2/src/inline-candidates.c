@@ -78,3 +78,39 @@ InlineSite *__fastcall new_inline_site(Node *call, Node *parent,
     site->flags = flags;
     return site;
 }
+
+/* Original [00065260,0006526c). Retarget remaining candidates whose
+   argument tree has just moved to a new evaluation expression. */
+void __fastcall relocate_inline_sites(InlineSite *sites, Expression *expression)
+{
+    void __fastcall retarget_inline_site_tree(InlineSite *sites, Expression *expression,
+        Node *tree, Node *parent);
+    retarget_inline_site_tree(sites, expression, expression->tree, 0);
+}
+
+/* Original [00065480,00065516). Walk the moved expression and reconnect
+   eligible nested candidates to their new expression and parent nodes.
+   The original still walks/checks call metadata when the site list is empty. */
+void __fastcall retarget_inline_site_tree(InlineSite *sites, Expression *expression,
+    Node *tree, Node *parent)
+{
+    InlineSite *site;
+    Node *callee;
+    if ((node_shapes[tree->opcode] & NODE_ARITY) == NODE_LEAF) return;
+    retarget_inline_site_tree(sites, expression, tree->left.node, tree);
+    if (!(node_shapes[tree->opcode] & NODE_HAS_SECOND)) return;
+    retarget_inline_site_tree(sites, expression, tree->second.node, tree);
+    if (tree->opcode != 0x3e) return;
+    callee = tree->left.node;
+    if (callee->opcode != 0x26 &&
+        !(callee->opcode == 0x30 && callee->left.node->opcode == 0x26 &&
+          (callee->left.node->right.function->field24 & 0x1000))) return;
+    if (!(callee->right.function->field24 & 0x4000)) return;
+    for (site = sites; site; site = site->next) {
+        if (site->call == tree) {
+            site->expression = expression;
+            site->parent = parent;
+            return;
+        }
+    }
+}

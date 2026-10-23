@@ -153,3 +153,11 @@ void __cdecl splice_expressions(const char *order, ...)
     }
     va_end(arguments);
 }
+
+/* Original [000524e0,000524f0). Refresh annotations while discarding the
+   root's eight-byte reference summary in a distinct local scratch record. */
+void __fastcall refresh_tree_references(Node *node)
+{
+    TreeReference reference;
+    analyze_tree_references(node, &reference);
+}

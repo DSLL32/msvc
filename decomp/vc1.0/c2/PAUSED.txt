@@ -1,5 +1,4 @@
-C2 active: inline-records case at1122 accepted /1043 source graphs.
-Current matching frontier materialize_inline_arguments64ba0.
-Argument alias/return analysis,16-bit-kind inline storage and evaluation prefix recovered.
-Unreached assembly visitor and direct-binding scanner remain named traps.
-See cases/inlrec-evaluation-checkpoint.json and queue.json.
+C2 active: inline-records case at1127 accepted /1048 source graphs.
+Current matching frontier substitute_inline_body645c0; whole1500-byte body next.
+Materialization, scalar/aggregate type choice and nested-site relocation recovered.
+See cases/inlrec-materialization-checkpoint.json and queue.json.

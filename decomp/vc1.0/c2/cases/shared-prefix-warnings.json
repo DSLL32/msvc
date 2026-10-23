@@ -1,20 +1,25 @@
 {
   "modules": [
     {
-      "module": "names",
-      "seconds": 2.050402152352035,
-      "returncode": 0
-    },
-    {
-      "module": "warnings",
-      "seconds": 2.079713601619005,
-      "returncode": 0
-    },
-    {
       "module": "inline-calls",
-      "seconds": 1.0961812026798725,
+      "seconds": 1.694296290166676,
+      "returncode": 0
+    },
+    {
+      "module": "inline-candidates",
+      "seconds": 1.9639532156288624,
+      "returncode": 0
+    },
+    {
+      "module": "tree-types",
+      "seconds": 2.085612339898944,
+      "returncode": 0
+    },
+    {
+      "module": "tree-references",
+      "seconds": 2.2635190105065703,
       "returncode": 0
     }
   ],
-  "seconds": 5.226807553321123
+  "seconds": 8.007954547181726
 }

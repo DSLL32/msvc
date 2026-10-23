@@ -435,3 +435,13 @@ unsigned __fastcall aligned_value_size(Node *node)
 align_size:
     return (size + default_segment_alignment - 1) & ~(default_segment_alignment - 1);
 }
+
+/* Original [00058b20,00058b58). Small C aggregate return values use a
+   sized8000 representation; other values use the normal frontend-kind
+   encoder. Preserve the short input and AX result widths. */
+unsigned short __fastcall value_node_type(short kind, unsigned bytes)
+{
+    if (kind == 6 && !floating_frontend && is_register_return_size(bytes))
+        return (unsigned short)(bytes | 0x8000);
+    return (unsigned short)encode_node_type((signed char)kind, bytes);
+}

@@ -67,13 +67,10 @@ void __fastcall finish_inline_function(Function *function) { __asm int 3 }
 void __fastcall scan_inline_argument_uses(InlineBinding *bindings, Node *node) { __asm int 3 }
 unsigned __fastcall mark_inline_assembly_parameter(SymbolHeader *symbol, void *context) { __asm int 3 }
 InlineBinding *__fastcall find_inline_binding(InlineBinding *bindings, SymbolHeader *symbol) { __asm int 3 }
-void __fastcall materialize_inline_arguments(Function *function, InlineSite *site, InlineBinding *bindings) { __asm int 3 }
 Expression *__fastcall substitute_inline_body(Function *function, InlineBinding *bindings, Node *result,
     unsigned source_location, InlineSite *site, int hidden_result) { __asm int 3 }
 void __fastcall recycle_inline_site(InlineSite *site) { __asm int 3 }
 void __fastcall recycle_inline_binding(InlineBinding *binding) { __asm int 3 }
-unsigned short __fastcall value_node_type(short kind, unsigned bytes) { __asm int 3 }
-void __fastcall refresh_tree_references(Node *node) { __asm int 3 }
 Node *__fastcall fold_floating_comparison(Node *node) { __asm int 3 }
 #include "algebra.h"
 int __fastcall is_nonnegative_tree(Node *node) { __asm int 3 }

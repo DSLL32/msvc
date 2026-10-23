@@ -1126,7 +1126,12 @@
     "@check_inline_argument_aliases@4",
     "@analyze_inline_returns@8",
     "@new_inline_storage@8",
-    "@inline_argument_prefix@4"
+    "@inline_argument_prefix@4",
+    "@materialize_inline_arguments@12",
+    "@value_node_type@8",
+    "@refresh_tree_references@4",
+    "@relocate_inline_sites@8",
+    "@retarget_inline_site_tree@16"
   ],
   "driver": [
     {
@@ -2868,8 +2873,7 @@
     {
       "name": "@materialize_inline_arguments@12",
       "start": 412576,
-      "end": 412577,
-      "provisional": true
+      "end": 412982
     },
     {
       "name": "@substitute_inline_body@24",
@@ -2897,14 +2901,12 @@
     {
       "name": "@value_node_type@8",
       "start": 363296,
-      "end": 363297,
-      "provisional": true
+      "end": 363352
     },
     {
       "name": "@refresh_tree_references@4",
       "start": 337120,
-      "end": 337121,
-      "provisional": true
+      "end": 337136
     },
     {
       "name": "@release_node_children@4",
@@ -7531,6 +7533,16 @@
       "start": 414320,
       "end": 414321,
       "provisional": true
+    },
+    {
+      "name": "@relocate_inline_sites@8",
+      "start": 414304,
+      "end": 414316
+    },
+    {
+      "name": "@retarget_inline_site_tree@16",
+      "start": 414848,
+      "end": 414998
     }
   ],
   "cases": {
