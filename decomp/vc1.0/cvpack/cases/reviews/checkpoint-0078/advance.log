@@ -1,0 +1,10 @@
+python3 scripts/graph_identities.py --prepare --output build/graph-identities.json
+make: Nothing to be done for 'graph-audit-tool'.
+Prepared hash-bound strict original/compiler relocation identities
+exception 80000003 va 0001ae40 base 00010000 first 1
+Restored entry ranges: 76
+/root/.ai-tmp/vc1.0-cvpack/0078-find_global_type-actual-owner-original/receipt.json
+hello-debug-dll trap {'setup': 0.17286668810993433, 'execution': 0.015295681543648243, 'debugging': 2.219139490276575, 'checks': 0.0379119785502553, 'total': 2.4452218497172}
+/root/.ai-tmp/vc1.0-cvpack/0078-find_global_type-actual-owner-native/receipt.json
+78 complete original/compiler CFG/callee/ABI functions; 167 contextual data objects; strict CRT/import identities verified.
+Fresh original/native candidate proof passes without acceptance: find_global_type

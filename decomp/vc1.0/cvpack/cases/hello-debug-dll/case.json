@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "find_global_type",
-    "native_function": "find_global_type",
+    "logical": "find_local_type",
+    "native_function": "find_local_type",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -95,7 +95,8 @@
       "append_buffer",
       "finish_recursive_types",
       "find_named_type",
-      "find_global_type"
+      "find_global_type",
+      "find_local_type"
     ]
   },
   "complete_reference": {

@@ -1,0 +1,40 @@
+make: Nothing to be done for 'graph-identities'.
+make: Nothing to be done for 'graph-audit-tool'.
+exception 80000003 va 0001ae40 base 00010000 first 1
+Restored entry ranges: 76
+/root/.ai-tmp/vc1.0-cvpack/0078-find_global_type-original/receipt.json
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/check-native.py", line 288, in <module>
+    main()
+    ~~~~^^
+  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/check-native.py", line 282, in main
+    receipts.append(run_case(name,case_directory,args.debug))
+                    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/check-native.py", line 239, in run_case
+    assert debugger.returncode==0,debugger.stdout.decode('latin1')+debugger.stderr.decode('latin1')
+           ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Breakpoint 1 at 0x6377: file src/main.c, line 13.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main (argc=4, argv=0xffc319a4, environment=0xffc319b8) at src/main.c:13
+13	{
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5664459c in find_local_type (kind=5, name=0x56bca46c "\atagRECT\353\016\036", named=0xffc31130, property=0) at src/stubs.c:116
+116	int find_local_type(unsigned short kind, const unsigned char *name, TypeCacheEntry **named, int property) { __asm { int 3 } return 0; }
+Python Exception <class 'AssertionError'>: 
+/root/.ai-tmp/vc1.0-cvpack/0078-find_global_type-native/hello-debug-dll/commands.gdb:169: Error in sourced command file:
+Error occurred in Python.
+
+Traceback (most recent call last):
+  File "/root/.ai-tmp/vc1.0-cvpack/advance.py", line 12, in <module>
+    run(['python3','scripts/check-native.py','--case','hello-debug-dll','--debug','--output',str(native)])
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.ai-tmp/vc1.0-cvpack/advance.py", line 5, in run
+    def run(args):subprocess.run(args,cwd=root,check=True)
+                  ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['python3', 'scripts/check-native.py', '--case', 'hello-debug-dll', '--debug', '--output', '/root/.ai-tmp/vc1.0-cvpack/0078-find_global_type-native']' returned non-zero exit status 1.

@@ -76,7 +76,7 @@ static int dump_buffer(HANDLE child,HANDLE log,DWORD frontier)
 {
     DWORD bytes,pointer,record[3],bucket,j,total=0,seen[6];char label[64];
     if(!buffer_initialized)return 1;
-    if((frontier!=0x262d0 && frontier!=0x1ad40 && frontier!=0x1af10) || buffer_step || buffer_pending || buffer_sequence!=(frontier==0x262d0?3:6) ||
+    if((frontier!=0x262d0 && frontier!=0x1ad40 && frontier!=0x1af10 && frontier!=0x1ae40) || buffer_step || buffer_pending || buffer_sequence!=(frontier==0x262d0?3:6) ||
         !buffer_hex(child,log,"frontier-root",0x3301c,24) || !buffer_hex(child,log,"frontier-node",buffer_node,12) ||
         !buffer_hex(child,log,"frontier-payload",buffer_base,sizeof(buffer_before)))return 0;
     if(!ReadProcessMemory(child,(void *)0x37170,&pointer,4,&bytes) || bytes!=4 ||

@@ -85,6 +85,11 @@ def main():
         check_named_output(global_pair,function='find_global_type')
         from named_graph_checks import check as check_named_graph
         check_named_graph(config,original,reject)
+    local_pair=BINARY/'cases/hello-debug-dll/evidence/0078-find_global_type'
+    if local_pair.is_dir():
+        check_named_output(local_pair,function='find_local_type')
+        from named_graph_checks import check_global as check_global_graph
+        check_global_graph(config,original,reject)
     from buffer_storage_checks import check as check_buffer_storage
     buffer_directory=BINARY/'cases/hello-debug-dll/evidence/0075-append_buffer'
     if buffer_directory.is_dir():check_buffer_storage(buffer_directory)

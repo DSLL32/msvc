@@ -108,7 +108,7 @@
     }
   ],
   "sources": {
-    "src/types.c": "ba28f126960b8004103d6eaaf10fd6e1917d44beda79786cf8edd49faac8dabf",
+    "src/types.c": "96dd4adf09150b1613c42d72dd2f580df8adf66072fcac05ec9249608f062e02",
     "src/types.h": "f8948ed779128183273abae03e1ebdecac6e81a885f8727d660731504a618bd1",
     "src/image.h": "bbc8afde32fb7ec98e72ec04769ba3c7b38932f295146ad7e46d3a30cc0894f2"
   },
@@ -360,6 +360,26 @@
         "17": 156937,
         "19": 153648,
         "21": 151922
+      }
+    },
+    "find_local_type": {
+      "original": 110144,
+      "defined": 40,
+      "input_offset": 384,
+      "return_address": 110094,
+      "allocation_esp_delta": 172,
+      "buffer_slot": 48,
+      "input_slot": 51,
+      "record_length": 21,
+      "callback_index": 27,
+      "kind": 4,
+      "nested_returns": {
+        "8": 157525,
+        "18": 161752,
+        "30": 158494,
+        "39": 156937,
+        "41": 153648,
+        "43": 151922
       }
     }
   }

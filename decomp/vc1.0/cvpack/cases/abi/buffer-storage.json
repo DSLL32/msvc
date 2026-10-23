@@ -22,7 +22,7 @@
   },
   "native_allocation_line": 1306,
   "sources": {
-    "src/types.c": "ba28f126960b8004103d6eaaf10fd6e1917d44beda79786cf8edd49faac8dabf",
+    "src/types.c": "96dd4adf09150b1613c42d72dd2f580df8adf66072fcac05ec9249608f062e02",
     "src/types.h": "f8948ed779128183273abae03e1ebdecac6e81a885f8727d660731504a618bd1"
   },
   "instructions": [
@@ -65,6 +65,26 @@
       "start": 109888,
       "end": 110144,
       "sha256": "45c42ec0314a6e2f3f6ab87201a68fb0bc274bb1a89e0137ca8a90b624490ec3"
+    },
+    {
+      "start": 110352,
+      "end": 110553,
+      "sha256": "5056ee7eb848077cc570512582ee038251b173ffdf632ba7e312a2366b434951"
+    },
+    {
+      "start": 157512,
+      "end": 157525,
+      "sha256": "72a17d8ddcded33fa40d0e77d9a6ae81ccf11270546baf76ffb36f0353621533"
+    },
+    {
+      "start": 161744,
+      "end": 161752,
+      "sha256": "47ab20ef59bc5389f4e389fc06b95f5079a9be16f8b1e5d566c249709b78bff1"
+    },
+    {
+      "start": 158481,
+      "end": 158494,
+      "sha256": "0b75bc90204cea11a3b6dd886b5942e8b2474d164411ea193f7eea2790a4d790"
     }
   ],
   "defined_hash_node_ranges": [
@@ -129,5 +149,6 @@
       }
     ]
   },
-  "global_lookup_frontier": 110352
+  "global_lookup_frontier": 110352,
+  "local_lookup_frontier": 110144
 }

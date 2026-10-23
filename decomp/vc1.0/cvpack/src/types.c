@@ -1420,3 +1420,30 @@ int __fastcall find_named_type(TypeRecord *entry, TypeCacheEntry **named, int fo
     }
     return find_global_type(kind, name, named);
 }
+
+int find_global_type(unsigned short kind, const unsigned char *name, TypeCacheEntry **named)
+{
+    unsigned long bucket = *name, i;
+    TypeCacheEntry *entry;
+    unsigned short properties;
+    for (i = 0; i < *name; ++i) bucket += name[i+1];
+    bucket &= 511;
+    for (entry = ((TypeCacheEntry **)type_work_b)[bucket]; entry && entry->type; entry = entry->next) {
+        if (*(unsigned short *)(entry->type+2) != kind ||
+            strncmp((const char *)entry->name, (const char *)name, (int)*(const signed char *)name+1)) continue;
+        *named = entry;
+        switch (*(unsigned short *)(entry->type+2)) {
+        case 4: case 5: case 6:
+            properties = *(unsigned short *)(entry->type+8);
+            break;
+        case 7:
+            properties = *(unsigned short *)(entry->type+10);
+            break;
+        default:
+            properties = 0;
+            break;
+        }
+        return properties & 0x80 ? 3 : 2;
+    }
+    return 0;
+}

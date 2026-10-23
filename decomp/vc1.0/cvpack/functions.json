@@ -4622,8 +4622,10 @@
         {
           "name": "named",
           "slot": 3,
-          "kind": "pointer",
-          "bits": 32
+          "kind": "stack-output",
+          "bits": 32,
+          "evidence": "cases/abi/find-local-output.json",
+          "evidence_sha256": "e1828edee455b5957d33f390295d9ce2843fd08062c10f24cf54295925f00843"
         },
         {
           "name": "property",
@@ -4639,13 +4641,16 @@
       "native": "find_global_type",
       "symbol": "_find_global_type",
       "original": 110352,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        110352,
+        110553
+      ],
       "abi": "int find_global_type(unsigned short,const unsigned char *,TypeCacheEntry **)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0078-find_global_type/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -4670,7 +4675,29 @@
           "evidence_sha256": "1490a225315f7dd7c50bc629fe2b5b3f824d0ba79e826c1e7d39b946a6173c8f"
         }
       ],
-      "return_bits": 32
+      "return_bits": 32,
+      "required_pdb_record_proof": true,
+      "required_symbol_output_observation": true,
+      "required_type_page_observation": true,
+      "required_buffer_storage_observation": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      },
+      "rebuilt_extra_roots": [
+        327
+      ],
+      "rebuilt_root_reason": "VC1 /Od emits unreachable loop-step JMP after the return epilogue jump; explicitly root/decode and retain its existing owned loop target, no edge/instruction waiver."
     }
   ],
   "review": {
@@ -5159,6 +5186,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 77
+    },
+    {
+      "function": "find_global_type",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 78
     }
   ],
   "support_unmasked": [
@@ -5753,11 +5786,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "066c12a0e2dc16316f43c16b0b5d04a9e19c6fb060bd4b081649127bf46157a2"
+    "evidence_sha256": "09dd978c1f40c8db532e6b3ed598f0503247928128630e6f67d83a4c4c25396c"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "0fb40674428736c18c23f1fe470dff98f4c06c8bbc457121790a3ac09c313f86"
+    "evidence_sha256": "935c44753bc1a6851beab9c3562a9c96513fa2941510366f392da5276eb9829c"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -5789,22 +5822,22 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "82d6638aceb119bb781e75e381efc3bfa8460a98e17cba57ff26f38dd2e00c0c"
+    "evidence_sha256": "c6071ce7fa09ed195498a4a34ca3f75aee1f3631ab7d82d41ce8f933e2014a96"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "a8e285248574a54312f856e43fef8acb31bead0d846ce57d9f1810fd68415800"
+    "evidence_sha256": "76c7653e3b269df2af6242a1561896d7a2032a01d74e53174849a50d1990b3cc"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
-    "evidence_sha256": "c4a8a8c9890c3c08387d6771dabee47bede6552ccf22e211d3f1fe5cd95ac024"
+    "evidence_sha256": "2f53a02c1f08f4eec86baacdcb4ecb66f00476a0bf09b584077ce37ab4484d02"
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "eb2694084a887518c6368b81f73ae537a919107d60b0a0e5e2c97d55a2d3a11f"
+    "evidence_sha256": "0e5d9b84b85795b36eddad39f22529030e4cb26998c752a9d5b9d61f0ad778f9"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
-    "evidence_sha256": "a2ce4bb0f8f9ffff29817146dc1253342463abe4fd5085240cbd8dd2b12a5ff1"
+    "evidence_sha256": "045c6e4c711bbc5705c8075d7619cfe11a7af491b561e08c4d3d84edc1dec3e0"
   }
 }
