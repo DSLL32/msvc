@@ -1,0 +1,37 @@
+{
+  "function": "_c2_crt_startup",
+  "match": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/startup-provenance-validation/receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/startup-provenance-validation/graph-audit.json",
+    "matched": "_c2_set_argv",
+    "original": "0x41eb89",
+    "native": "c2_set_argv",
+    "argument_state": "pre-main-no-arguments",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "c2_set_argv",
+      "symbol_start": "0x2740",
+      "symbol_size": 393,
+      "static_pc": "0x276f",
+      "int3_sites": [
+        "0x276e"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup"
+    ],
+    "candidates": [
+      "_c2_crt_startup"
+    ],
+    "acceptance": false
+  },
+  "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/startup-candidate-original",
+  "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/startup-provenance-native",
+  "base_configuration_sha256": "8ce9fcdde53d93bcabf280b817c709721ccae93310b0fa970eea43a154925f18",
+  "review": {
+    "approved": true,
+    "scope": "First unsupported /? diagnostic only; no second case",
+    "status": "Independently reviewed real candidate pair and all 24 negative controls; authorized first case only",
+    "review_id": "orchestrator-c2-startup-provenance-2026-10-23"
+  }
+}

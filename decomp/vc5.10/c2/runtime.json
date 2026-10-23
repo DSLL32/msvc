@@ -1,0 +1,40 @@
+[
+  {
+    "name": "_c2_set_argv",
+    "start": 4320137,
+    "end": 4320138,
+    "kind": "named-target-stub",
+    "pending_extent": true,
+    "evidence": null
+  },
+  {
+    "name": "_c2_set_default_precision",
+    "start": 4532369,
+    "end": 4532388,
+    "kind": "named-target-stub",
+    "pending_extent": true,
+    "evidence": null
+  },
+  {
+    "name": "_c2_math_error",
+    "start": 4484380,
+    "end": 4484383,
+    "kind": "named-target-stub",
+    "pending_extent": true,
+    "evidence": null
+  },
+  {
+    "name": "_c2_main",
+    "start": 4532400,
+    "end": 4532715,
+    "kind": "named-target-stub",
+    "pending_extent": true,
+    "evidence": null,
+    "code_chunks": [
+      [
+        4670673,
+        4670813
+      ]
+    ]
+  }
+]

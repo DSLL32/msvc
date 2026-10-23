@@ -1,0 +1,4 @@
+# Immutable raw evidence retains original whitespace and CRLF bytes.
+cases/acceptance/** -diff -text
+cases/unsupported-help-diagnostic/*.bin -diff -text
+cases/analysis/*disassembly.txt -diff -text

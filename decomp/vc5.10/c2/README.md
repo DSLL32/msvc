@@ -1,12 +1,22 @@
-# C2.EXE groundwork
+# C2.EXE reconstruction
 
-This directory is preparation only. No target functions have been implemented,
-accepted or unmasked. Reconstruction waits for the DLL workflow investigation,
-the shared Rust graph-audit tool, and explicit release by the orchestrator.
+Only the first case is released: `/?`, an unsupported-option diagnostic (status
+1, empty stdout, 51 stderr bytes). The minimal intermediate-input case remains
+queued and unauthorized. The complete 345-byte CRT startup is accepted; no
+application function has been accepted yet.
 
-`make groundwork` (or `make inspect`) reads the shipped binary and prints its PE
-inventory. `make native`, `make original` and `make check` fail closed while that
-release is pending. No normal build/fixture target invokes Wine.
+`make -j4 native` builds i386 Linux with shared shims; `make -j4 original`
+checks the Win32 reconstruction with the shipped compiler and `/MD` runtime.
+`make audit` uses the common Rust CFG/RET/ownership/extent tool with explicit
+paths. Native fixture targets remain fail closed until this first case completes.
+Original captures are explicit scripts and never fixture dependencies.
+
+The initial full-text INT3 frontier was matched at `0x452797`, with the actual
+loaded shipped MSVCRT file verified by hash. The whole startup, including its
+cold SEH chunks, passed the common Rust graph audit and fresh original/native
+state comparison. The orchestrator reviewed the candidate-inclusive protocol,
+immutable compiled-source snapshots, raw GDB/ELF INT3 proof and 24 rejection
+controls before promotion. Evidence is under `cases/acceptance/0001-startup/`.
 
 ## Target and dependencies
 
@@ -29,8 +39,8 @@ and all import names. Direct imports are:
 
 The toolchain includes `CL.EXE`, C1/C1XX DLL frontends, headers, `LIBC.LIB`,
 `MSVCRT.LIB` and `MSPDB50.DLL`. Original compiler execution/actual frontend
-inputs are being investigated with the CL/C1 workers. This directory has no
-new reconstructed source to compile yet.
+inputs are being investigated with the CL/C1 workers. Startup source and named child stubs compile with the original toolchain;
+only the CRT startup currently has acceptance credit.
 
 ## Proposed cases and actual-input capture
 
@@ -49,13 +59,11 @@ space. `cases/plan.json` links the complete captured inputs and exact interface.
 Standalone original C2 replay from these inputs remains unverified and must be
 proved before treating this as an independently replayable backend case.
 
-One explicit original diagnostic has been captured with
-`make capture-original-help`. This target is separate from fixtures and uses
-the shared prefix plus `~/.ai-tmp/msvc2/vc5.10/c2/probes/help`. The unmodified
-original `/?` argument returns status 1, empty stdout,
-and 51 stderr bytes: `fatal error C1007: unrecognized flag '/?' in 'p2'` followed
+The original `/?` argument returns status 1, empty stdout, and 51 stderr bytes: `fatal error C1007: unrecognized flag '/?' in 'p2'` followed
 by CRLF. It does not provide a help screen. Raw bytes and timing/hash receipt
-are under `cases/original-help/`; this is not matched native acceptance evidence.
+are under `cases/original-help/` for the historical groundwork probe. The
+canonical shipped-CRT capture now has a controlled 16-string environment, exact
+argv, and streams under `cases/unsupported-help-diagnostic/`. The controlled environment also supplies the matching partial startup proof.
 
 ## Native host and outstanding questions
 
@@ -66,8 +74,8 @@ Preserve each recovered function ABI and distinguish import/runtime entries
 from application graph entries. Imported MSVCRT startup or PDB APIs are not
 application reconstruction coverage.
 
-The shared maintainer has confirmed no MSPDB50/ILStore or module-resource
-`LoadStringA` implementation exists yet. The current shim has legacy stdio,
+The shared maintainer supplies startup CRT contracts and a prepared module-resource
+provider for encountered `LoadStringA` strings. MSPDB50/ILStore is not implemented. The current shim has legacy stdio,
 ctype and locale state, but this binary's imported MSVCRT layouts and actual
 calls must be proved before reuse. These are investigation items, not requests
 for speculative compatibility code. Debug/PDB cases may need additional

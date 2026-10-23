@@ -1,0 +1,60 @@
+{
+  "checked_accepted_extents": null,
+  "checked_functions": 1,
+  "checked_unique_accepted_extents": null,
+  "checks": [
+    "call_graph",
+    "ret_cleanup",
+    "extent_ownership",
+    "whole_extent_boundaries"
+  ],
+  "discovery": "cfg",
+  "functions": {
+    "_c2_crt_startup": {
+      "edges": [
+        "_c2_main",
+        "_c2_set_argv",
+        "_c2_set_default_precision",
+        "import:_XcptFilter",
+        "import:_initterm",
+        "indirect"
+      ]
+    }
+  },
+  "original_accepted_graphs": null,
+  "owned_code_chunks": {
+    "original": {
+      "declared_code_bytes": 345,
+      "functions": {
+        "_c2_crt_startup": [
+          [
+            4532119,
+            4532369
+          ],
+          [
+            4670578,
+            4670673
+          ]
+        ]
+      },
+      "interval_count": 2,
+      "logical_function_count": 1,
+      "unique_code_bytes": 345
+    },
+    "rebuilt": {
+      "declared_code_bytes": 356,
+      "functions": {
+        "_c2_crt_startup": [
+          [
+            4198464,
+            4198820
+          ]
+        ]
+      },
+      "interval_count": 1,
+      "logical_function_count": 1,
+      "unique_code_bytes": 356
+    }
+  },
+  "profile": "cl"
+}
