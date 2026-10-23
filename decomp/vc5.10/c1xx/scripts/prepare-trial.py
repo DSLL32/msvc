@@ -82,9 +82,14 @@ def prepare():
             "cases/minimal/contract.json", "cases/minimal/invoke-argv.bin", "cases/sources/minimal.cpp", "cases/minimal/state-model.json")}
     trial["test_seed"] = candidate.get("test_seed")
     trial['test_constructor_seed']=bool(candidate.get('test_constructor_seed'))
-    if trial["test_seed"] or trial_name in ('_checked_malloc','_register_cleanup','_initialize_deferred_work') or (trial_name or '').startswith(('_initialize_frontend_','_initialize_output_buffer_','_initialize_pdb_context_')):
+    if trial["test_seed"] or trial_name in ('_checked_malloc','_register_cleanup','_initialize_deferred_work','CompilerPool::Initialize') or (trial_name or '').startswith(('_initialize_frontend_','_initialize_output_buffer_','_initialize_pdb_context_')):
         trial["validation_observers"] = [{"owner":"_initialize_compiler_pass", "original_rva":0x385be,
             "original_byte":0x89,"purpose":"observe typed copy/restore before first-flag reset"}]
+    if trial_name=='CompilerPool::Initialize':
+        trial['validation_observers'].append({'owner':'_initialize_frontend_24','original_rva':0x389d4,'original_byte':0xc3,'purpose':'actual pool member return-this and RET4 stack effect'})
+    trial['test_pool_seed']=bool(candidate.get('test_pool_seed'))
+    if trial['test_pool_seed']:
+        trial['auxiliary_pool_data_seed']={'owner':'CompilerPool::Initialize','point':'actual member entry before body','cursor':'owned snapshot+4','remaining':23,'minimum_pages':37,'arena':'owned snapshot+8; never dereferenced','actual_this_and_argument_unchanged':True,'code_or_allocator_mock':False}
     trial['test_pdb_seed']=candidate.get('test_pdb_seed')
     if trial['test_pdb_seed'] is not None:
         if trial['test_pdb_seed'] not in (0,1):raise ValueError('unknown PDB reuse mode')

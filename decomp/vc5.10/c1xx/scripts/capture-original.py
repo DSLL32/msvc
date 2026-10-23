@@ -134,6 +134,10 @@ def main():
         environment.pop('C1XX_TEST_OUTPUT_CONSTRUCTOR',None)
         environment.pop('C1XX_TEST_DEFERRED_CONSTRUCTOR',None)
         environment.pop('C1XX_TEST_TOKEN_COPY',None)
+        environment.pop('C1XX_OBSERVE_POOL_RETURN',None)
+        environment.pop('C1XX_TEST_POOL_CONSTRUCTOR',None)
+        if trial['trial']=='CompilerPool::Initialize':environment['C1XX_OBSERVE_POOL_RETURN']='1'
+        if trial.get('test_pool_seed'):environment['C1XX_TEST_POOL_CONSTRUCTOR']='1'
         environment.pop('C1XX_TEST_PDB_CONTEXT',None)
         environment.pop('C1XX_TEST_PDB_OBJECT',None)
         if trial.get('test_pdb_seed') is not None:

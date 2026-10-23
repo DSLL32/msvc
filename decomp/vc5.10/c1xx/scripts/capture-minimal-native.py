@@ -33,13 +33,16 @@ def capture(project,output,binary,trial):
     collector.write_text('''python
 import gdb,json,struct
 frame=gdb.newest_frame()
-value={'symbol':frame.name(),'pc':int(gdb.parse_and_eval('$pc')),'eax':int(gdb.parse_and_eval('(unsigned int)$eax')),
+value={'symbol':frame.name(),'pc':int(gdb.parse_and_eval('$pc')),'eax':int(gdb.parse_and_eval('(unsigned int)$eax')),'esp':int(gdb.parse_and_eval('(unsigned int)$esp')),
        'control_word':int(gdb.parse_and_eval('$fctrl')),'args':{}}
 block=frame.block()
 while block is not None and not block.is_global and not block.is_static:
     for symbol in block:
         if symbol.is_argument: value['args'][symbol.name]=int(frame.read_var(symbol))
     block=block.superblock
+if frame.name()=='CompilerPool::Initialize' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&_ZN12CompilerPool10InitializeEj')):
+    value['args']={'this':int(gdb.parse_and_eval('(unsigned int)$ecx')),'minimum_pages':int(gdb.parse_and_eval('*(unsigned int *)($esp+4)'))}
+    value['raw_entry_abi']={'ecx':value['args']['this'],'esp':value['esp'],'return_pc':int(gdb.parse_and_eval('*(unsigned int *)$esp')),'stack_argument':value['args']['minimum_pages']}
 value['target_state']={name:int(gdb.parse_and_eval('(unsigned int)'+name)) for name in
     ('process_attached','raw_dll_entry','dll_adjust_fdiv','dll_module','onexit_begin','onexit_end')}
 value['target_state']['last_error']=int(gdb.parse_and_eval('last_error'))
@@ -205,6 +208,17 @@ end
         registration=output/('collect-'+stem+'-registration.gdb')
         registration.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/(stem+'-registration.json')))).replace(repr(str(output/'native-argv.bin')),repr(str(output/(stem+'-registration-argv.bin')))))
         observer+='break register_cleanup if frontend_bss.cleanup_count==%d\ncommands\nsilent\nsource '%(8+number)+str(registration)+'\ncontinue\nend\n'
+    if trial['trial']=='CompilerPool::Initialize':
+        entry=output/'collect-pool-entry.gdb'
+        entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'pool-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'pool-entry-argv.bin'))))
+        result=output/'collect-pool-return.gdb'
+        result.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'pool-return.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'pool-return-argv.bin'))))
+        seed=''
+        if trial.get('test_pool_seed'):
+            seed='set variable frontend_bss.pools[0].cursor=(unsigned char *)frontend_bss.saved_state+4\nset variable frontend_bss.pools[0].remaining=23\nset variable frontend_bss.pools[0].minimum_pages=37\npython\narena=gdb.parse_and_eval("frontend_bss.pools[0].arena")\narena.assign(gdb.Value(int(gdb.parse_and_eval("(unsigned int)frontend_bss.saved_state"))+8).cast(arena.type))\nend\n'
+        return_observer=output/'observe-pool-return.gdb'
+        return_observer.write_text('python\nimport gdb\nclass PoolReturnObserver(gdb.Breakpoint):\n    def stop(self):\n        gdb.execute("source "+'+repr(str(result))+')\n        return False\npool_return_bp=PoolReturnObserver("*0x%x"%int(gdb.parse_and_eval("*(unsigned int *)$esp")),temporary=True,internal=True)\nend\n')
+        observer+='break *_ZN12CompilerPool10InitializeEj\ncommands\nsilent\n'+seed+'source '+str(entry)+'\nsource '+str(return_observer)+'\ncontinue\nend\n'
     if trial.get('validation_observers'):
         phase=output/'collect-phase.gdb'
         phase.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'phase.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'phase-argv.bin'))))

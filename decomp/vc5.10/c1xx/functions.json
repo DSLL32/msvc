@@ -48,7 +48,8 @@
     "_initialize_pdb_context_01",
     "_initialize_frontend_23",
     "_initialize_pdb_context_02",
-    "_initialize_frontend_24"
+    "_initialize_frontend_24",
+    "CompilerPool::Initialize"
   ],
   "driver": [
     {
@@ -722,8 +723,7 @@
       "symbol": "?Initialize@CompilerPool@@QAEPAU1@I@Z",
       "native_symbol": "_ZN12CompilerPool10InitializeEj",
       "start": 272861653,
-      "end": 272861654,
-      "pending_extent": true,
+      "end": 272861675,
       "source": "src/pools.cpp",
       "abi": "thiscall1",
       "evidence": "Original ECX receiver, one stack argument and RET4; genuine Win32 C++ member"
@@ -2581,6 +2581,53 @@
         "nonzero_seed_scope": "typed pointer identities and exact scalar17",
         "original_seconds": 1.6682509584352374,
         "native_seconds": 2.36774598993361
+      }
+    },
+    {
+      "name": "CompilerPool::Initialize",
+      "classification": "application source",
+      "source": "src/pools.cpp",
+      "source_sha256": "0162f21adc1b374416cedea5e4357bfe9ec5abaa5645a83f4bc55528dd553ae9",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pool-member-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pool-member-native-2",
+      "original_receipt_sha256": "136c40fbca930a8c01fd07ff6a13f749e2c96a637b8ecade00ffe03d5f98c865",
+      "native_receipt_sha256": "79d15ec7b74610c1eee318747b7761b391ce872103804353764ba514115d55a8",
+      "trial_sha256": "d4f22a463739680cdedb4fe9c3653456742c4424f2bebf99aa3e04f34f9854d1",
+      "audit_sha256": "22a77f34001a1b7c9d46414f754b02ba6a038ea7647d7daeee42bb20e8cb576c",
+      "code_chunks": [
+        [
+          231893,
+          231915
+        ]
+      ],
+      "comparison": {
+        "trial": "CompilerPool::Initialize",
+        "frontier": "_initialize_frontend_25",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 581,
+        "native_bss_size": 608,
+        "native_c_padding_bytes": 27,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 1.8678465336561203,
+        "native_seconds": 2.641570250503719
       }
     }
   ],

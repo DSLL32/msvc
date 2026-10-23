@@ -12,7 +12,7 @@ static FILE *events;
 static DWORD base, entry_rva, code_rva, code_size, image_size;
 static DWORD crt_base, return_address, return_reason;
 static BYTE return_saved;
-static int return_active, restore_observer;
+static int return_active, restore_observer, pool_return_observer;
 static BYTE restore_observer_byte;
 static DWORD aux_old_base, aux_new_base;
 static int aux_returned;
@@ -185,6 +185,11 @@ static void prepare_mask(void)
         if (restore_observer_byte != 0x89) fail("restore observer instruction changed");
         patch(base + 0x385be, 0xcc); restore_observer = 1;
         fprintf(events, "restore-observer rva=000385be byte=89 after-mask-readback=1\n");
+    }
+    if (getenv("C1XX_OBSERVE_POOL_RETURN") && !baseline) {
+        if (snapshot[0x389d4 - code_rva] != 0xc3) fail("pool return instruction changed");
+        patch(base + 0x389d4, 0xcc); pool_return_observer = 1;
+        fprintf(events, "pool-return-observer rva=000389d4 byte=c3 after-mask-readback=1\n");
     }
     fprintf(events, "mask snapshot=relocated-text.bin baseline=%d ranges=%u\n", baseline, count);
 }
@@ -547,6 +552,12 @@ int main(int argc, char **argv)
                 patch(address, restore_observer_byte); restore_observer = 0;
                 context.Eip = address;
                 if (!SetThreadContext(thread, &context)) fail("restore observer context");
+            } else if (code == EXCEPTION_BREAKPOINT && pool_return_observer && address == base + 0x389d4) {
+                fprintf(events, "pool-return rva=000389d4 eax=%08lx esp=%08lx\n", context.Eax, context.Esp);
+                save_frontend_state("pool-return");
+                patch(address, 0xc3); pool_return_observer = 0;
+                context.Eip = address;
+                if (!SetThreadContext(thread, &context)) fail("pool return context");
             } else if (code == EXCEPTION_BREAKPOINT && target_seen &&
                     address >= base + code_rva && address < base + code_rva + code_size) {
                 if (!initialized) {
@@ -580,6 +591,14 @@ int main(int argc, char **argv)
                     if (!object || object > 8) fail("unknown constructor data seed");
                     if (address == base + constructors[object - 1])
                         seed_output_buffer(object - 1, "constructor-entry");
+                }
+                if (address == base + 0x389d5 && getenv("C1XX_TEST_POOL_CONSTRUCTOR")) {
+                    DWORD owned, values[4];
+                    readmem(base + 0xc4d50, &owned, 4);
+                    if (!owned) fail("pool constructor seed needs snapshot");
+                    values[0] = owned + 4; values[1] = 23; values[2] = 37; values[3] = owned + 8;
+                    write_mem(base + 0xc0ac8, values, 16);
+                    fprintf(events, "pool-constructor-seed allocation=%08lx argument=1 receiver-unchanged=1\n", owned);
                 }
                 if (address == base + 0x38904 && getenv("C1XX_TEST_DEFERRED_CONSTRUCTOR")) {
                     DWORD owned;

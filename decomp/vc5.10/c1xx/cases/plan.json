@@ -3,7 +3,7 @@
   "project": "vc5.10",
   "toolchain": "5.10",
   "binary": "C1XX.DLL",
-  "state": "autonomous minimal C++ reconstruction: callback24 accepted with genuine thiscall member frontier",
+  "state": "autonomous minimal C++ reconstruction: genuine pool member accepted with actual thiscall entry/return; next callback25",
   "cases": [
     {
       "id": "dll-lifecycle-and-exports",

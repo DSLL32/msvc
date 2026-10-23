@@ -23,3 +23,14 @@ member remains fully masked and receives no credit in this wrapper acceptance.
 The frozen wrapper state-model evidence string omitted a separator in the
 10401035 address; numeric field addresses and state checks were correct.
 The current explanatory string is corrected without relabeling raw evidence.
+
+The real 22-byte member is accepted separately after fresh original/native
+entry and caller-return observations: actual ECX/stack argument, EAX=this,
+and ESP_after=ESP_entry+8 (return address plus RET4) match. Natural and both
+nonzero constructor-input/reset modes produce cursor=NULL, remaining=0,
+minimum_pages=1, arena=NULL without changing modeled neighbors. Eighteen
+return/assignment controls pass; seventeen wrapper controls were refreshed.
+A published shared CRT _access fix changed only the native build, so all
+three native captures were refreshed against the immutable original captures,
+with exact original-side execution/config/mask/helper equality checked.
+The Linux-only lifecycle regression remains 12ms warm, with no Wine calls.

@@ -6,7 +6,10 @@
  * this convention; this member and its real caller therefore use C++. */
 CompilerPool *RECON_THISCALL CompilerPool::Initialize(unsigned minimum_pages)
 {
-    __asm { int 3 }
+    cursor = NULL;
+    remaining = 0;
+    this->minimum_pages = minimum_pages;
+    arena = NULL;
     return this;
 }
 

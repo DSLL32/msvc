@@ -45,7 +45,8 @@
     "_initialize_pdb_context_01",
     "_initialize_frontend_23",
     "_initialize_pdb_context_02",
-    "_initialize_frontend_24"
+    "_initialize_frontend_24",
+    "CompilerPool::Initialize"
   ],
   "trial": null,
   "ranges": [
@@ -408,7 +409,13 @@
       "start_rva": 231880,
       "end_rva": 231893,
       "entry": 1
+    },
+    {
+      "owner": "CompilerPool::Initialize",
+      "start_rva": 231893,
+      "end_rva": 231915,
+      "entry": 1
     }
   ],
-  "stage": "_initialize_frontend_24 accepted; next frontier CompilerPool::Initialize"
+  "stage": "CompilerPool::Initialize accepted; next frontier _initialize_frontend_25"
 }

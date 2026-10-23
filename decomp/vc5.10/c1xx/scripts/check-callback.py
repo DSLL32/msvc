@@ -25,13 +25,14 @@ def check(original,native,require_audit=True,audit_path=None):
     constructor=constructor_number==1
     constructor2=constructor_number>=2
     registrar=trial['trial']=='_register_cleanup'
+    pool_member=trial['trial']=='CompilerPool::Initialize'
     pdb=trial['trial'] in ('_initialize_pdb_context_01','_initialize_pdb_context_02')
     pdb_number=2 if trial['trial']=='_initialize_pdb_context_02' else 1
     deferred=trial['trial']=='_initialize_deferred_work'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=24,
+    s.require(pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=24,
               'no reviewed callback decoder for this function')
-    index=21+pdb_number if pdb else 16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
+    index=24 if pool_member else 21+pdb_number if pdb else 16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
               trial.get('test_seed') in (None,'restore-nonzero','restore-zero') and
               'auxiliary_mock' not in trial,'wrong context initializer trial')
@@ -79,7 +80,9 @@ def check(original,native,require_audit=True,audit_path=None):
                 if index>=23:
                     path.append(('initialize_pdb_context_02',0x3898f))
                     if pdb and pdb_number==2 or index>=24:path += [('register_cleanup',0x386ae),callback(24)]
-                    if index>=24:path.append(('CompilerPool::Initialize',0x389d5))
+                    if index>=24:
+                        path.append(('CompilerPool::Initialize',0x389d5))
+                        if pool_member:path.append(callback(25))
         elif not constructor_number and not registrar:
             name='initialize_deferred_work' if index==16 else 'initialize_output_buffer_%02d'%(completed+1)
             path.append((name,records['_'+name]['start']-0x10400000))
@@ -146,7 +149,7 @@ def check(original,native,require_audit=True,audit_path=None):
               'original opaque snapshot copy/restore differs')
     s.require('restore-phase rva=000385be\n' in text and trial['validation_observers']==[{
         'owner':'_initialize_compiler_pass','original_rva':0x385be,'original_byte':0x89,
-        'purpose':'observe typed copy/restore before first-flag reset'}],'undeclared phase observer')
+        'purpose':'observe typed copy/restore before first-flag reset'}]+([{'owner':'_initialize_frontend_24','original_rva':0x389d4,'original_byte':0xc3,'purpose':'actual pool member return-this and RET4 stack effect'}] if pool_member else []),'undeclared phase observer')
     for snapshot in (pre,phase,state):
         s.require(snapshot['target_state']['process_attached']==1 and snapshot['target_state']['last_error']==203 and
                   snapshot['control_word']==0x27f and snapshot['target_state']['compiler_mode']==(0 if not seed or seed=='restore-zero' else 3),

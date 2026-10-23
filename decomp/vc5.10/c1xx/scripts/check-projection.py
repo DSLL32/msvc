@@ -402,7 +402,7 @@ def main():
     for row in packet['trials']:
         original,native=Path(row['original']),Path(row['native'])
         active=decoder
-        if (json.loads((native/'trial.json').read_text())['trial'] or '').startswith(('_initialize_frontend_','_initialize_output_buffer_','_initialize_pdb_context_')) or json.loads((native/'trial.json').read_text())['trial'] in ('_register_cleanup','_initialize_deferred_work'):
+        if (json.loads((native/'trial.json').read_text())['trial'] or '').startswith(('_initialize_frontend_','_initialize_output_buffer_','_initialize_pdb_context_')) or json.loads((native/'trial.json').read_text())['trial'] in ('_register_cleanup','_initialize_deferred_work','CompilerPool::Initialize'):
             active=history.module('callback_packet','check-callback.py')
         audit=history.configure(active,original,native,saved_record=row)
         results.append(active.check(original,native,audit_path=audit))
