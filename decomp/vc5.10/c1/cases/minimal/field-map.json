@@ -1453,6 +1453,438 @@
       "native_field": "c1_bss.work_buffers[1].limit",
       "default": 0,
       "evidence": "12830..12873 allocator return and +0x3ffb limit; pointer consumers15342/15373; exact zero original BSS default"
+    },
+    {
+      "name": "arenas[0].cursor",
+      "original_rva": 364464,
+      "bytes": 4,
+      "native_offset": 804,
+      "native_field": "c1_bss.arenas[0].cursor",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[0].committed_limit",
+      "original_rva": 364468,
+      "bytes": 4,
+      "native_offset": 808,
+      "native_field": "c1_bss.arenas[0].committed_limit",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[0].base",
+      "original_rva": 364472,
+      "bytes": 4,
+      "native_offset": 812,
+      "native_field": "c1_bss.arenas[0].base",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[0].committed_bytes",
+      "original_rva": 364476,
+      "bytes": 4,
+      "native_offset": 816,
+      "native_field": "c1_bss.arenas[0].committed_bytes",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[0].descriptor",
+      "original_rva": 364480,
+      "bytes": 4,
+      "native_offset": 820,
+      "native_field": "c1_bss.arenas[0].descriptor",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[0].reserve_bytes",
+      "original_rva": 364484,
+      "bytes": 4,
+      "native_offset": 824,
+      "native_field": "c1_bss.arenas[0].reserve_bytes",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[0].reset_value",
+      "original_rva": 364488,
+      "bytes": 4,
+      "native_offset": 828,
+      "native_field": "c1_bss.arenas[0].reset_value",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[0].mapped_view",
+      "original_rva": 364492,
+      "bytes": 4,
+      "native_offset": 832,
+      "native_field": "c1_bss.arenas[0].mapped_view",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[1].cursor",
+      "original_rva": 364496,
+      "bytes": 4,
+      "native_offset": 836,
+      "native_field": "c1_bss.arenas[1].cursor",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[1].committed_limit",
+      "original_rva": 364500,
+      "bytes": 4,
+      "native_offset": 840,
+      "native_field": "c1_bss.arenas[1].committed_limit",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[1].base",
+      "original_rva": 364504,
+      "bytes": 4,
+      "native_offset": 844,
+      "native_field": "c1_bss.arenas[1].base",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[1].committed_bytes",
+      "original_rva": 364508,
+      "bytes": 4,
+      "native_offset": 848,
+      "native_field": "c1_bss.arenas[1].committed_bytes",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[1].descriptor",
+      "original_rva": 364512,
+      "bytes": 4,
+      "native_offset": 852,
+      "native_field": "c1_bss.arenas[1].descriptor",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[1].reserve_bytes",
+      "original_rva": 364516,
+      "bytes": 4,
+      "native_offset": 856,
+      "native_field": "c1_bss.arenas[1].reserve_bytes",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[1].reset_value",
+      "original_rva": 364520,
+      "bytes": 4,
+      "native_offset": 860,
+      "native_field": "c1_bss.arenas[1].reset_value",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[1].mapped_view",
+      "original_rva": 364524,
+      "bytes": 4,
+      "native_offset": 864,
+      "native_field": "c1_bss.arenas[1].mapped_view",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[2].cursor",
+      "original_rva": 364528,
+      "bytes": 4,
+      "native_offset": 868,
+      "native_field": "c1_bss.arenas[2].cursor",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[2].committed_limit",
+      "original_rva": 364532,
+      "bytes": 4,
+      "native_offset": 872,
+      "native_field": "c1_bss.arenas[2].committed_limit",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[2].base",
+      "original_rva": 364536,
+      "bytes": 4,
+      "native_offset": 876,
+      "native_field": "c1_bss.arenas[2].base",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[2].committed_bytes",
+      "original_rva": 364540,
+      "bytes": 4,
+      "native_offset": 880,
+      "native_field": "c1_bss.arenas[2].committed_bytes",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[2].descriptor",
+      "original_rva": 364544,
+      "bytes": 4,
+      "native_offset": 884,
+      "native_field": "c1_bss.arenas[2].descriptor",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[2].reserve_bytes",
+      "original_rva": 364548,
+      "bytes": 4,
+      "native_offset": 888,
+      "native_field": "c1_bss.arenas[2].reserve_bytes",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[2].reset_value",
+      "original_rva": 364552,
+      "bytes": 4,
+      "native_offset": 892,
+      "native_field": "c1_bss.arenas[2].reset_value",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[2].mapped_view",
+      "original_rva": 364556,
+      "bytes": 4,
+      "native_offset": 896,
+      "native_field": "c1_bss.arenas[2].mapped_view",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[3].cursor",
+      "original_rva": 364560,
+      "bytes": 4,
+      "native_offset": 900,
+      "native_field": "c1_bss.arenas[3].cursor",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[3].committed_limit",
+      "original_rva": 364564,
+      "bytes": 4,
+      "native_offset": 904,
+      "native_field": "c1_bss.arenas[3].committed_limit",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[3].base",
+      "original_rva": 364568,
+      "bytes": 4,
+      "native_offset": 908,
+      "native_field": "c1_bss.arenas[3].base",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[3].committed_bytes",
+      "original_rva": 364572,
+      "bytes": 4,
+      "native_offset": 912,
+      "native_field": "c1_bss.arenas[3].committed_bytes",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[3].descriptor",
+      "original_rva": 364576,
+      "bytes": 4,
+      "native_offset": 916,
+      "native_field": "c1_bss.arenas[3].descriptor",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[3].reserve_bytes",
+      "original_rva": 364580,
+      "bytes": 4,
+      "native_offset": 920,
+      "native_field": "c1_bss.arenas[3].reserve_bytes",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[3].reset_value",
+      "original_rva": 364584,
+      "bytes": 4,
+      "native_offset": 924,
+      "native_field": "c1_bss.arenas[3].reset_value",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[3].mapped_view",
+      "original_rva": 364588,
+      "bytes": 4,
+      "native_offset": 928,
+      "native_field": "c1_bss.arenas[3].mapped_view",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[4].cursor",
+      "original_rva": 364592,
+      "bytes": 4,
+      "native_offset": 932,
+      "native_field": "c1_bss.arenas[4].cursor",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[4].committed_limit",
+      "original_rva": 364596,
+      "bytes": 4,
+      "native_offset": 936,
+      "native_field": "c1_bss.arenas[4].committed_limit",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[4].base",
+      "original_rva": 364600,
+      "bytes": 4,
+      "native_offset": 940,
+      "native_field": "c1_bss.arenas[4].base",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[4].committed_bytes",
+      "original_rva": 364604,
+      "bytes": 4,
+      "native_offset": 944,
+      "native_field": "c1_bss.arenas[4].committed_bytes",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[4].descriptor",
+      "original_rva": 364608,
+      "bytes": 4,
+      "native_offset": 948,
+      "native_field": "c1_bss.arenas[4].descriptor",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[4].reserve_bytes",
+      "original_rva": 364612,
+      "bytes": 4,
+      "native_offset": 952,
+      "native_field": "c1_bss.arenas[4].reserve_bytes",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[4].reset_value",
+      "original_rva": 364616,
+      "bytes": 4,
+      "native_offset": 956,
+      "native_field": "c1_bss.arenas[4].reset_value",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[4].mapped_view",
+      "original_rva": 364620,
+      "bytes": 4,
+      "native_offset": 960,
+      "native_field": "c1_bss.arenas[4].mapped_view",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[5].cursor",
+      "original_rva": 364624,
+      "bytes": 4,
+      "native_offset": 964,
+      "native_field": "c1_bss.arenas[5].cursor",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[5].committed_limit",
+      "original_rva": 364628,
+      "bytes": 4,
+      "native_offset": 968,
+      "native_field": "c1_bss.arenas[5].committed_limit",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[5].base",
+      "original_rva": 364632,
+      "bytes": 4,
+      "native_offset": 972,
+      "native_field": "c1_bss.arenas[5].base",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[5].committed_bytes",
+      "original_rva": 364636,
+      "bytes": 4,
+      "native_offset": 976,
+      "native_field": "c1_bss.arenas[5].committed_bytes",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[5].descriptor",
+      "original_rva": 364640,
+      "bytes": 4,
+      "native_offset": 980,
+      "native_field": "c1_bss.arenas[5].descriptor",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[5].reserve_bytes",
+      "original_rva": 364644,
+      "bytes": 4,
+      "native_offset": 984,
+      "native_field": "c1_bss.arenas[5].reserve_bytes",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[5].reset_value",
+      "original_rva": 364648,
+      "bytes": 4,
+      "native_offset": 988,
+      "native_field": "c1_bss.arenas[5].reset_value",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
+    },
+    {
+      "name": "arenas[5].mapped_view",
+      "original_rva": 364652,
+      "bytes": 4,
+      "native_offset": 992,
+      "native_field": "c1_bss.arenas[5].mapped_view",
+      "default": 0,
+      "evidence": "cases/minimal/ARENA-PLAN.json; exact writer/use map; reset_value broader role UNRECOVERED"
     }
   ],
   "outside_bss": [
@@ -1854,7 +2286,7 @@
     "native_saved_offset": 528,
     "native_flag_offset": 536,
     "native_value_size": 8,
-    "native_bss_size": 804,
+    "native_bss_size": 996,
     "source_writer_rvas": [
       [
         12576,
@@ -1865,7 +2297,7 @@
         23897
       ]
     ],
-    "hard_frontier_rva": 76185,
+    "hard_frontier_rva": 76251,
     "policy": "reviewed specific internal transfer; tail remains UNMODELED and cannot be semantically consumed before a named trap"
   },
   "pdb_signature": {
@@ -2200,7 +2632,7 @@
       "type_evidence": "238c advances cursor/decrements remaining; aa9c uses minimum_pages;12b30 installs arena pointer"
     }
   ],
-  "native_bss_size": 804,
+  "native_bss_size": 996,
   "empty_record_prototype": {
     "original_rva": 364368,
     "native_offset": 688,
@@ -2280,7 +2712,7 @@
     "system_info_original_rva": 390408,
     "system_info_native_offset": 16,
     "native_initialized_size": 64,
-    "native_bss_size": 804,
+    "native_bss_size": 996,
     "field_evidence": {
       "compiler_phase": "main127a9 sets1;13585 sets3;13833 and438d6/43950 consumers prove compiler-stage state",
       "c9_il": "optionrecord62f20 string -C9IL points62f24 to5f2e0; main1280e controls compiler_flags0x2000",
@@ -2316,5 +2748,33 @@
     "limit_offset": 16379,
     "first_call": 75834,
     "second_call": 75867
+  },
+  "arenas": {
+    "original_rva": 364464,
+    "count": 6,
+    "original_stride": 32,
+    "native_offset": 804,
+    "native_stride": 32,
+    "members": {
+      "cursor": 0,
+      "committed_limit": 4,
+      "base": 8,
+      "committed_bytes": 12,
+      "descriptor": 16,
+      "reserve_bytes": 20,
+      "reset_value": 24,
+      "mapped_view": 28
+    },
+    "descriptor_rva": 415616,
+    "descriptor_count": 6,
+    "descriptor_stride": 20,
+    "descriptor_members": {
+      "kind": 0,
+      "reserve_bytes": 4,
+      "commit_unit": 8,
+      "flags": 12,
+      "alignment": 16
+    },
+    "snapshot": false
   }
 }

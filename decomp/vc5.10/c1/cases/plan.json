@@ -32,7 +32,7 @@
     {
       "order": 2,
       "id": "minimal",
-      "status": "reconstructing; empty helper12998 and captured full GetSystemInfo boundary accepted, next arena initialization12999",
+      "status": "reconstructing; arena wrapper12999 accepted; next primary arena initializer129db before actual thiscall reservation",
       "proposed_driver_argv": [
         "/nologo",
         "/c",

@@ -98,30 +98,44 @@
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_initialize_compiler_arenas",
+    "name": "_parse_command_line",
     "start": 268442895,
     "end": 268442896,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_parse_command_line",
+    "name": "_compile_translation_unit",
     "start": 268442907,
     "end": 268442908,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_compile_translation_unit",
-    "start": 268442919,
-    "end": 268442920,
+    "name": "_next_internal_token",
+    "start": 268443655,
+    "end": 268443656,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_next_internal_token",
-    "start": 268443671,
-    "end": 268443672,
+    "name": "_initialize_primary_arenas",
+    "start": 268443788,
+    "end": 268443789,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_initialize_default_pools",
+    "start": 268443822,
+    "end": 268443823,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "CompilerArena::Initialize",
+    "start": 268443800,
+    "end": 268443801,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   }

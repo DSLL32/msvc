@@ -401,6 +401,16 @@
       "start_rva": 76184,
       "end_rva": 76185,
       "entry": 1
+    },
+    {
+      "start_rva": 76185,
+      "end_rva": 76251,
+      "entry": 1
+    },
+    {
+      "start_rva": 197889,
+      "end_rva": 197904,
+      "entry": 0
     }
   ],
   "functions": [
@@ -1241,6 +1251,23 @@
         ]
       ],
       "source": "src/main.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_compiler_arenas",
+      "native_symbol": "initialize_compiler_arenas",
+      "role": "application",
+      "chunks": [
+        [
+          76185,
+          76251
+        ],
+        [
+          197889,
+          197904
+        ]
+      ],
+      "source": "src/arenas.cpp",
       "status": "sole-new-candidate"
     }
   ],
@@ -1263,13 +1290,13 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 76185,
-    "native_symbol": "initialize_compiler_arenas",
-    "kind": "post-system-info",
+    "rva": 76251,
+    "native_symbol": "initialize_primary_arenas",
+    "kind": "arena-initialization",
     "native_args": [],
     "caller": {
-      "native_symbol": "c1_main",
-      "return_rva": 75767
+      "native_symbol": "initialize_compiler_arenas",
+      "return_rva": 76193
     }
   },
   "imports": [
@@ -1525,9 +1552,22 @@
       ],
       "pointer_roles": "owned snapshot interiors; cleared before allocator frontier, never dereferenced",
       "normal_case": false
+    },
+    "arenas": {
+      "count": 6,
+      "original_rva": 364464,
+      "stride": 32,
+      "pointer_offsets": [
+        4600,
+        4700,
+        4800,
+        4900
+      ],
+      "integer_seed": 71,
+      "scope": "owned snapshot interior sentinels and labeled nonzero ints before BSS clear; never dereferenced"
     }
   },
-  "staging_role": "sole emptyhelper candidate then genuineGetSystemInfo full36 output/provider/ABI then pendingarena initializer",
+  "staging_role": "sole arena wrapper candidate, independent arena entry after real GetSystemInfo then first named primary initializer frontier",
   "registered_cleanup": [
     {
       "original_rva": 145728,

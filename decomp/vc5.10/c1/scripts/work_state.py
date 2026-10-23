@@ -15,7 +15,7 @@ def values(bss):return [struct.unpack_from('<I',bss,rva-0x50000)[0] for rva,size
 def native_values(state):return [row[key] for row in state['bss']['work_buffers'] for key in ('data','limit')]
 def validate_fields(original,native,fields,entry,state,entry_sequence,sequence,probe,candidate):
  expected_fields(fields);assert candidate['restore_probe']['work_buffers']==PLAN
- assert fields['native_bss_size']==804
+ assert fields['native_bss_size']==996
  for seq in (0,entry_sequence,sequence):assert values((original/('compiler-bss-%03d.bin'%seq)).read_bytes())==[0]*4
  assert native_values(entry['compiler_state'])==native_values(state['compiler_state'])==[0]*4
  if probe=='restore':
@@ -27,7 +27,7 @@ def validate_fields(original,native,fields,entry,state,entry_sequence,sequence,p
   assert values(raw)==[saved+offset for offset in PLAN['pointer_offsets']]
 
 def boundary(original,native,state,sequence,module,candidate):
- assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva']) in [('work-buffer-allocation',0x12873),('main-switches',0x128b1),('scanner-argument',0x12900),('post-internal-switches',0x12998),('post-system-info',0x12999)]
+ assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva']) in [('work-buffer-allocation',0x12873),('main-switches',0x128b1),('scanner-argument',0x12900),('post-internal-switches',0x12998),('post-system-info',0x12999),('arena-initialization',0x129db)]
  events=(original/'events.txt').read_text();rows=re.findall(r'^trap seq=(\d+) rva=00012830 .*stack=([0-9a-f,]+)\nlast-error=(\d+)\nx87-control=([0-9a-f]+)$',events,re.M)
  assert len(rows)==1;entry_sequence=int(rows[0][0]);assert entry_sequence<sequence
  words=[int(x,16) for x in rows[0][1].split(',')];assert words[0]==module+0x127b8

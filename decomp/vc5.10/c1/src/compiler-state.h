@@ -41,6 +41,29 @@ typedef struct CompilerOutputBuffer {
 typedef struct CompilerValue {
     __int64 integer;
 } CompilerValue;
+/* Six encountered reservation descriptors. Alignment is also used by the
+ * PCH serializer; flags select early initialization and reservation policy. */
+typedef struct CompilerArenaDescriptor {
+    unsigned kind;
+    int reserve_bytes;
+    unsigned commit_unit;
+    DWORD flags;
+    unsigned alignment;
+} CompilerArenaDescriptor;
+typedef struct CompilerArena {
+    BYTE *cursor;
+    BYTE *committed_limit;
+    BYTE *base;
+    unsigned committed_bytes;
+    CompilerArenaDescriptor *descriptor;
+    unsigned reserve_bytes;
+    /* Reset writes zero here. Its broader role remains unrecovered. */
+    unsigned reset_value;
+    int mapped_view;
+#ifdef __cplusplus
+    int RECON_THISCALL Initialize(CompilerArenaDescriptor *, void *);
+#endif
+} CompilerArena;
 /* Genuine thiscall POD. Only four encountered fields are modeled; no
  * implicit construction/destruction, vtable, RTTI or exception machinery. */
 typedef struct CompilerPool {
@@ -98,6 +121,7 @@ typedef struct CompilerBss {
     int command_argc;
     char **command_argv;
     CompilerWorkBuffer work_buffers[2];
+    CompilerArena arenas[6];
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */
@@ -184,6 +208,9 @@ unsigned __cdecl parse_internal_switch(const char *, unsigned);
 const char *__cdecl next_internal_token(const char *, char *, unsigned);
 void __cdecl initialize_state_12998(void);
 void __cdecl initialize_compiler_arenas(void);
+void __cdecl initialize_primary_arenas(void);
+void __cdecl initialize_default_pools(void);
+extern CompilerArenaDescriptor c1_arena_descriptors[6];
 void __cdecl parse_command_line(int, char **);
 int __cdecl compile_translation_unit(void);
 #ifdef __cplusplus

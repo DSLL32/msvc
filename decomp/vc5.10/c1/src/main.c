@@ -33,11 +33,6 @@ void __cdecl initialize_state_12998(void)
 {
 }
 
-void __cdecl initialize_compiler_arenas(void)
-{
-    __asm { int 3 }
-}
-
 void __cdecl parse_command_line(int argc, char **argv)
 {
     __asm { int 3 }

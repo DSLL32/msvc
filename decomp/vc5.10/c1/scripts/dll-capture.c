@@ -607,6 +607,22 @@ static void seed_restore_state(void)
         pointer = saved + 4500; write_mem(base + 0x50024, &pointer, 4);
         fprintf(events, "work-buffers-seed pointers=owned offsets=4200,4300,4400,4500\n");
     }
+    if (main_fields_probe) {
+        DWORD arena[8];
+        unsigned item;
+        for (item = 0; item < 6; ++item) {
+            arena[0] = saved + 4600 + item * 4;
+            arena[1] = saved + 4700 + item * 4;
+            arena[2] = saved + 4800 + item * 4;
+            arena[3] = 71 + item * 4;
+            arena[4] = saved + 4900 + item * 4;
+            arena[5] = 72 + item * 4;
+            arena[6] = 73 + item * 4;
+            arena[7] = 74 + item * 4;
+            write_mem(base + 0x58fb0 + item * 32, arena, sizeof(arena));
+        }
+        fprintf(events, "arena-seed count=6 stride=32 pointers=owned integer-base=71\n");
+    }
     write_mem(base + 0x5781c, &count, 4);
     callbacks[0] = base + 0x12365; callbacks[1] = base + 0x12377;
     write_mem(base + 0x57820, callbacks, 8);

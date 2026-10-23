@@ -98,13 +98,6 @@
     "evidence": "actual full-main call or cleanup callback identity, named INT3; no body credit"
   },
   {
-    "name": "_initialize_compiler_arenas",
-    "start": 274803097,
-    "end": 274803098,
-    "pending_extent": true,
-    "evidence": "actual full-main call or cleanup callback identity, named INT3; no body credit"
-  },
-  {
     "name": "_parse_command_line",
     "start": 274803529,
     "end": 274803530,
@@ -124,5 +117,27 @@
     "end": 275003329,
     "pending_extent": true,
     "evidence": "genuine internal-switch scanner callee; named INT3 entry only"
+  },
+  {
+    "name": "_initialize_primary_arenas",
+    "start": 274803163,
+    "end": 274803164,
+    "pending_extent": true,
+    "evidence": "actual arena initializer callee; named INT3 only"
+  },
+  {
+    "name": "_initialize_default_pools",
+    "start": 274803395,
+    "end": 274803396,
+    "pending_extent": true,
+    "evidence": "actual arena initializer callee; named INT3 only"
+  },
+  {
+    "name": "CompilerArena::Initialize",
+    "symbol": "?Initialize@CompilerArena@@QAEHPAUCompilerArenaDescriptor@@PAX@Z",
+    "start": 274803224,
+    "end": 274803225,
+    "pending_extent": true,
+    "evidence": "actual ECX receiver and two stack slots, RET8 member; named INT3 only"
   }
 ]

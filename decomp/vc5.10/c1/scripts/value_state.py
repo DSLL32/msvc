@@ -5,7 +5,7 @@ FIELDS={'literal.integer':(0x518a0,8,520),'saved_literal.integer':(0x55108,8,528
 PLAN=dict(before_clear_source=-0x223344556677889,before_clear_cached=0x3344556677881122,positive_source=0x1122334455667788,negative_source=-0x112233445566778,cached_before_copy=0x5566778811223344,flag_before=165,flag_after=1,entry_rva=0x12646,normal_case=False)
 def expected_fields(fields,frontier=None):
  m=fields['value_copy']
- wanted=dict(original_source_rva=0x518a0,original_destination_rva=0x55108,original_record_bytes=24,modeled_integer_bytes=8,unmodeled_tail_bytes=16,flag_rva=0x55100,native_literal_offset=520,native_saved_offset=528,native_flag_offset=536,native_value_size=8,native_bss_size=804)
+ wanted=dict(original_source_rva=0x518a0,original_destination_rva=0x55108,original_record_bytes=24,modeled_integer_bytes=8,unmodeled_tail_bytes=16,flag_rva=0x55100,native_literal_offset=520,native_saved_offset=528,native_flag_offset=536,native_value_size=8,native_bss_size=996)
  assert {k:m[k] for k in wanted}==wanted
  if frontier is not None:assert m['hard_frontier_rva']==frontier
  rows={r['name']:r for r in fields['modeled_bss']}

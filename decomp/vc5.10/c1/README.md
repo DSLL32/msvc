@@ -3,16 +3,16 @@
 Target: `toolchains/5.10/bin/C1.DLL`, SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`.
 The lifecycle-only first case is complete. Minimal C compilation is in progress,
-all initialization callbacks and main are complete; internal-switch parsing and the captured GetSystemInfo response reach arena setup12999. The native i386
+all initialization callbacks and main are complete; internal-switch parsing and the captured GetSystemInfo response and arena wrapper reach primary arena setup129db. The native i386
 harness and actual Win32 DLL compile the same reconstructed source; two genuine
 thiscall members and their callers use small C++ translation units. The lifecycle
 fixture resolves both compiler exports; the minimal case calls InvokeCompilerPass.
 AbortCompilerPass remains a named INT3 stub.
 
-Accepted ownership is56 application functions /2405 original code bytes plus16
+Accepted ownership is57 application functions /2486 original code bytes plus16
 owned switch-table bytes,2 CRT support
-functions /451 bytes and one6-byte import thunk:2878 of the `.text` virtual
-extent's322288 bytes (0.893%). That denominator includes CRT and unclassified
+functions /451 bytes and one6-byte import thunk:2959 of the `.text` virtual
+extent's322288 bytes (0.918%). That denominator includes CRT and unclassified
 code; it is not non-CRT coverage. The original17-DWORD PCH-context initializer
 and its tail wrapper were explicitly accepted as one ordered JOINT two-function
 closure after separate non-promotable prospective input evidence.
@@ -464,3 +464,7 @@ The one-byte helper12998 is accepted with independent entry/return proof before
 the real GetSystemInfo call. The shared SYSTEM_INFO-only profile reproduces all36
 recorded bytes; no MEMORYSTATUS is invented or supplied. Fresh normal/restore
 proofs and76 focused controls pass. See `cases/minimal/SYSTEM-INFO.md`.
+
+The arena wrapper is accepted with all six32-byte BSS objects and their typed
+20-byte descriptors defined at use. The next real primary-initializer entry
+precedes descriptor processing. See `cases/minimal/ARENAS.md`.

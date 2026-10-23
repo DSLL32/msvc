@@ -12,7 +12,7 @@ def encode(directory,output,candidate_path):
  assert sha(directory/'candidate.json')==sha(candidate_path)
  assert receipt['target_sha256']==sha(ROOT/'toolchains/5.10/bin/C1.DLL')==sha(directory/'loaded-target.bin')
  assert receipt['canonical_crt_sha256']==sha(ROOT/'toolchains/5.10/bin/MSVCRT.DLL')==sha(directory/'loaded-msvcrt.bin')
- case=json.loads((directory/'candidate.json').read_text());assert case['case']=='minimal'and case['expected_frontier']['kind']=='post-system-info'
+ case=json.loads((directory/'candidate.json').read_text());assert case['case']=='minimal'and case['expected_frontier']['kind']in ('post-system-info','arena-initialization')
  assert receipt['probe']in ('normal','restore')
  raw=(directory/'system-info-after-000.bin').read_bytes();assert len(raw)==36
  assert sha(directory/'test.c')==case['input_files'][0]['sha256']

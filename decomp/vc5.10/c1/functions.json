@@ -62,7 +62,8 @@
     "_reserve_work_buffer",
     "_scan_internal_switches",
     "_parse_internal_switch",
-    "_initialize_state_12998"
+    "_initialize_state_12998",
+    "_initialize_compiler_arenas"
   ],
   "driver": [
     {
@@ -541,6 +542,18 @@
       "name": "_initialize_state_12998",
       "start": 274803096,
       "end": 274803097,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_compiler_arenas",
+      "start": 274803097,
+      "end": 274803163,
+      "code_chunks": [
+        [
+          274924801,
+          274924816
+        ]
+      ],
       "role": "application"
     }
   ],
