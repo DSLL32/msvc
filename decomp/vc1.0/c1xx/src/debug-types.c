@@ -15,6 +15,26 @@ unsigned debug_type_capacity; /* original 0xa25bc */
 unsigned short debug_field_properties; /* original 0xa25c4 */
 DebugTypeFixup *debug_type_fixups; /* original 0xa25b0 */
 
+/* Original 0x6fe80..0x6ff00. Emit the low-byte argument count and
+   the registered type index of each parameter, preserving null varargs. */
+void __stdcall emit_debug_argument_list(FunctionParameters *parameters)
+{
+    DeclarationParameterInfo *declarations = parameters->declarations;
+    unsigned short *words = (unsigned short *)(debug_record_buffer + 2);
+    unsigned count = 0, i;
+    words[0] = 0x201;
+    if (declarations->types[0] != type_0080)
+        count = (unsigned char)declarations->count;
+    words[1] = (unsigned short)count;
+    if (!count) {
+        emit_debug_type_record(4);
+        return;
+    }
+    for (i = 0; i < count; ++i)
+        words[i + 2] = declarations->types[i] ? declarations->types[i]->debug_index : 0;
+    emit_debug_type_record(count * 2 + 4);
+}
+
 /* Original 0x6ff00..0x6ffcf. A modifier leaf names the corresponding
    unqualified type and retains only the const/volatile qualifier bits. */
 void __stdcall emit_debug_qualified_type(CType *type)
@@ -462,6 +482,7 @@ void flush_debug_types(void)
     DebugTypeRecord *record;
     CType *type, description, *base;
     CppSymbol *symbol;
+    FunctionParameters *parameters;
     if (options.configuration.line_records || !debug_type_count) return;
     for (index = 0; index < debug_type_count; ++index) {
         record = &debug_types[index];
@@ -517,7 +538,8 @@ void flush_debug_types(void)
                 record->related_type);
             break;
         case 3:
-            emit_debug_argument_list(record->subject.parameters);
+            parameters = record->subject.parameters;
+            emit_debug_argument_list(parameters);
             break;
         case 6:
             emit_debug_vshape(record->subject.symbol);

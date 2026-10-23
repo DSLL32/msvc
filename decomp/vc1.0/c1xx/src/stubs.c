@@ -494,7 +494,6 @@ void __stdcall emit_debug_member_function_type(CType *type, unsigned short retur
 void __stdcall emit_debug_bit_field(CppSymbol *field) { __asm { int 3 } }
 void __stdcall emit_debug_method_list(struct OverloadSet *overloads) { __asm { int 3 } }
 void __stdcall emit_debug_field_list(CppSymbol *tag, unsigned field_count, unsigned short continuation) { __asm { int 3 } }
-void __stdcall emit_debug_argument_list(FunctionParameters *parameters) { __asm { int 3 } }
 void __stdcall emit_debug_vshape(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall emit_debug_field_list_chunk(CppSymbol **members, int first, int limit) { __asm { int 3 } }
 
