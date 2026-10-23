@@ -1,0 +1,70 @@
+{
+  "provenance": "Derived full boundary inventory from preserved raw before/after snapshots; raw receipt/events unchanged",
+  "raw_receipt_sha256": "f021bdc9876d6b31cba0a472f6a93bbec68877982d7df150d760d94a3eaffaf6",
+  "sets": {
+    "001-before": [
+      {
+        "name": "audit.c",
+        "bytes": 366,
+        "sha256": "ef2303642caf018d09fbc4f03cd5c96467c25cae967240cd8eac9455b610408b",
+        "mtime_ns": 1792786496154338100
+      },
+      {
+        "name": "dispatch.h",
+        "bytes": 205,
+        "sha256": "07d93d9c0d4c9b82215972648e20316e8b7314e1677e79bdae6eac232959b96e",
+        "mtime_ns": 1792786496154338100
+      }
+    ],
+    "001-after": [
+      {
+        "name": "000752db",
+        "bytes": 11,
+        "sha256": "008a3c8db329cffa3250d9c0ed7be51cc5c4305501dd4ebbd7b9ffd4febdc94b",
+        "mtime_ns": 1792786497742305900
+      },
+      {
+        "name": "000752ex",
+        "bytes": 877,
+        "sha256": "84b867a3f724860812854f9f8c8d3d3214ffc96156d18690059cd293cdad19fe",
+        "mtime_ns": 1792786497742305900
+      },
+      {
+        "name": "000752gl",
+        "bytes": 23,
+        "sha256": "110820ac8e14b890e342bd502c707a470341f4a58fdc3308e3b4d4a49b452258",
+        "mtime_ns": 1792786497742305900
+      },
+      {
+        "name": "000752in",
+        "bytes": 3,
+        "sha256": "eb108c9c5be96cb5fb12122329072bce0f4e3a3dbf5ec56389fa3a4acbcf0b39",
+        "mtime_ns": 1792786497742305900
+      },
+      {
+        "name": "000752sy",
+        "bytes": 1,
+        "sha256": "67586e98fad27da0b9968bc039a1ef34c939b9b8e523a8bef89d478608c5ecf6",
+        "mtime_ns": 1792786497742305900
+      },
+      {
+        "name": "audit.c",
+        "bytes": 366,
+        "sha256": "ef2303642caf018d09fbc4f03cd5c96467c25cae967240cd8eac9455b610408b",
+        "mtime_ns": 1792786496154338100
+      },
+      {
+        "name": "audit.sbr",
+        "bytes": 264,
+        "sha256": "132adceeda47824812effba97783897a26f41f970483ee2ffa68c1fe99e45ee3",
+        "mtime_ns": 1792786497742305900
+      },
+      {
+        "name": "dispatch.h",
+        "bytes": 205,
+        "sha256": "07d93d9c0d4c9b82215972648e20316e8b7314e1677e79bdae6eac232959b96e",
+        "mtime_ns": 1792786496154338100
+      }
+    ]
+  }
+}

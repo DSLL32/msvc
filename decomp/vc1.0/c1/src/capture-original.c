@@ -239,6 +239,22 @@ static void dump_browser_limit(HANDLE process, HANDLE log, DWORD base, const cha
     dump_stream_buffers(process,log,base,"4d5a0");
 }
 
+/* Raw2a4e0..2a524 writes five distinct DWORD objects, including the
+   active parameter-context word which precedes declaration flag bytes. */
+static void dump_aborted_function(HANDLE process, HANDLE log, DWORD base, const char *boundary, unsigned ordinal)
+{
+    DWORD addresses[5], values[5], got, written;
+    unsigned index;
+    char line[200];
+    addresses[0]=0x5ff14; addresses[1]=0x60064; addresses[2]=0x60228;
+    addresses[3]=0x60798; addresses[4]=0x5b140;
+    for(index=0;index<5;++index)
+        if (!ReadProcessMemory(process,(void *)(base+addresses[index]-0x10000),values+index,4,&got) || got!=4) return;
+    sprintf(line,"abort-state %u %s %08lx %08lx %08lx %08lx %08lx\n",ordinal,boundary,
+        values[0],values[1],values[2],values[3],values[4]);
+    WriteFile(log,line,strlen(line),&written,0);
+}
+
 /* Keep caller/register evidence for diagnosing a logical-trap divergence. */
 static void dump_context(HANDLE process, HANDLE thread, HANDLE log)
 {
@@ -350,6 +366,11 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
     memset(&context,0,sizeof(context)); context.ContextFlags = CONTEXT_FULL;
     if (!GetThreadContext(thread,&context)) return -1;
     if (site == flag_entry) {
+        if (getenv("C1_ABORT_PROBE")) {
+            dump_aborted_function(process,log,base,"entry",flag_count);
+            sprintf(line,"abort-registers %u entry %08lx %08lx %08lx %08lx %08lx\n",flag_count,context.Esp,context.Ebx,context.Esi,context.Edi,context.Ebp);
+            WriteFile(log,line,strlen(line),&written,0);
+        }
         if (getenv("C1_BROWSER_LIMIT_PROBE")) {
             dump_browser_limit(process,log,base,"entry");
             sprintf(line,"browser-registers entry %08lx %08lx %08lx %08lx %08lx\n",context.Esp,context.Ebx,context.Esi,context.Edi,context.Ebp);
@@ -388,6 +409,11 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
         flag_step = 1;
         context.EFlags |= 0x100;
     } else {
+        if (getenv("C1_ABORT_PROBE")) {
+            dump_aborted_function(process,log,base,"finish",flag_count);
+            sprintf(line,"abort-registers %u finish %08lx %08lx %08lx %08lx %08lx\n",flag_count,context.Esp,context.Ebx,context.Esi,context.Edi,context.Ebp);
+            WriteFile(log,line,strlen(line),&written,0);
+        }
         if (getenv("C1_BROWSER_LIMIT_PROBE")) {
             dump_browser_limit(process,log,base,"finish");
             sprintf(line,"browser-registers finish %08lx %08lx %08lx %08lx %08lx\n",context.Esp,context.Ebx,context.Esi,context.Edi,context.Ebp);

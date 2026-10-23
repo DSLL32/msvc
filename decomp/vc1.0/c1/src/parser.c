@@ -1134,6 +1134,20 @@ CType *function_return_type; /* original 0x6b6c0 */
 FrontendSymbol *default_code_segment; /* original 0x6b7b0 */
 unsigned browser_macro_context; /* original 0x63868 */
 
+/* Original0x2a4e0..0x2a525. A declarator followed by a body may
+   still name an object or typedef. Drop pending function state and mark
+   that body's declarations as recovery input before the parser continues. */
+void abort_function_definition(void)
+{
+    function_parameter_declarations = 0;
+    current_parameter = 0;
+    function_parameter_context = 0;
+    active_parameter_context = 0;
+    scanner_flags |= 0x01000000;
+    scanner_flags &= ~0x00080000;
+    function_symbol = 0;
+}
+
 /* Original 0x2a530..0x2a82b. Bind a function declarator to the global
    declaration, check its definition attributes, and enter function state. */
 void __stdcall prepare_function_definition(DeclarationSpec *declaration, FrontendSymbol *symbol)

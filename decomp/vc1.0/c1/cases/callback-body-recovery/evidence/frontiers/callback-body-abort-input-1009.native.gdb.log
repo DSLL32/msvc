@@ -1,0 +1,10 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x4a03: file src/stubs.c, line 368.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, abort_function_definition () at src/stubs.c:368
+368	void abort_function_definition(void) { __asm { int 3 } }
+Python Exception <class 'gdb.error'>: No symbol "active_parameter_context" in current context.
+/root/.ai-tmp/msvc2/vc1.0/c1/validation/callback-body-abort-input-1009/commands.gdb:106: Error in sourced command file:
+Error occurred in Python: No symbol "active_parameter_context" in current context.

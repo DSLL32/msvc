@@ -1,0 +1,36 @@
+
+/root/msvc2/toolchains/1.0-nt/bin/C13232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0002a530 <.text+0x13530>:
+   2a530:	83 ec 08             	sub    esp,0x8
+   2a533:	56                   	push   esi
+   2a534:	8b 44 24 14          	mov    eax,DWORD PTR [esp+0x14]
+   2a538:	50                   	push   eax
+   2a539:	80 48 01 01          	or     BYTE PTR [eax+0x1],0x1
+   2a53d:	8b 44 24 14          	mov    eax,DWORD PTR [esp+0x14]
+   2a541:	50                   	push   eax
+   2a542:	e8 a9 94 00 00       	call   0x339f0
+   2a547:	8b f0                	mov    esi,eax
+   2a549:	8a 06                	mov    al,BYTE PTR [esi]
+   2a54b:	24 1f                	and    al,0x1f
+   2a54d:	3c 07                	cmp    al,0x7
+   2a54f:	74 29                	je     0x2a57a
+   2a551:	3c 06                	cmp    al,0x6
+   2a553:	8b 46 08             	mov    eax,DWORD PTR [esi+0x8]
+   2a556:	50                   	push   eax
+   2a557:	75 07                	jne    0x2a560
+   2a559:	68 a9 00 00 00       	push   0xa9
+   2a55e:	eb 02                	jmp    0x2a562
+   2a560:	6a 36                	push   0x36
+   2a562:	e8 69 04 02 00       	call   0x4a9d0
+   2a567:	83 c4 08             	add    esp,0x8
+   2a56a:	80 4e 01 80          	or     BYTE PTR [esi+0x1],0x80
+   2a56e:	e8 6d ff ff ff       	call   0x2a4e0
+   2a573:	5e                   	pop    esi
+   2a574:	83 c4 08             	add    esp,0x8
+   2a577:	c2 08 00             	ret    0x8
+   2a57a:	f6 46 14 80          	test   BYTE PTR [esi+0x14],0x80
+   2a57e:	75 20                	jne    0x2a5a0

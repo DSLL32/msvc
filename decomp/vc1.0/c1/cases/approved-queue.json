@@ -1,14 +1,14 @@
 {
-  "authorization": "Root approved one successful generated bulk-registry /FR /Z7 /Od /G5 /W3 public unchanged65535 browserlimit case; exact deterministic generator/inputhash/order/count and complete rawoutputs/oncewarning/runtime beforefreeze; no counterinjection/OOM.",
-  "baseline_commit": "b44e1e980370af3e0dea77ba0df30d7291a7f6a0",
-  "baseline_accepted_count": 1008,
+  "authorization": "Root approved one bounded malformed generated callback-body semantic-recovery /FR /Z7 /Od /G5 /W4 case after bulk-limit checkpoint. Actual missing parameter-list/nonfunction definition gates, optional coherent typedef variant, exact diagnostics/status/partialoutputs and recovered_tail finalization beforefreeze. Raw contextglobal/scannerword ABI proof required; no runtime-success/newCRT.",
+  "baseline_commit": "cb84e74e81d8b8598509ffa4721677296302e4cc",
+  "baseline_accepted_count": 1009,
   "status": "complete",
   "cases": [
     {
-      "case": "browser-index-limit",
+      "case": "callback-body-recovery",
       "phase": "c1",
-      "status": "complete;1008 through1009;one frontend body38B;exact oncewarning/partialbrowser/IR/originalruntime"
+      "status": "complete;1009 through1010;one frontend body69B;exact errors/partialfiles/tail"
     }
   ],
-  "completion": "cases/browser-index-limit/validation.json"
+  "completion": "cases/callback-body-recovery/validation.json"
 }

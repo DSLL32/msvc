@@ -1,0 +1,18 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x3bd90: file src/parser.c, line 1141.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, abort_function_definition () at src/parser.c:1141
+1141	{
+Temporary breakpoint 2 at 0x566550d6: file src/parser.c, line 1164.
+
+Temporary breakpoint 2, prepare_function_definition (declaration=0x566be138 <parser_values+16>, symbol=0x56f80734) at src/parser.c:1164
+1164	        return;
+
+Breakpoint 1, abort_function_definition () at src/parser.c:1141
+1141	{
+Temporary breakpoint 3 at 0x566550d6: file src/parser.c, line 1164.
+
+Temporary breakpoint 3, prepare_function_definition (declaration=0x566be138 <parser_values+16>, symbol=0x56f80774) at src/parser.c:1164
+1164	        return;

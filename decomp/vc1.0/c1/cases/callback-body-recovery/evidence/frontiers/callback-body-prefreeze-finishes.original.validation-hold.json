@@ -1,0 +1,6 @@
+{
+  "status": "rejected stale temporary manifest expectation",
+  "actual_exit": 2,
+  "stale_expected_exit": 4,
+  "reason": "Temporary adaptation retained expected_exit4 from prior case; untouched actual capture/streams/finishes are valid raw evidence. No source or target state changed. Correct metadata on temporary case and repeat explicit capture; do not relabel this failed validation as passing."
+}

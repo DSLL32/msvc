@@ -575,6 +575,23 @@ def main():
     rejects('browser-limit-generated-source-bytes','generated source bytes differ',
             lambda:checker.validate_generated_sources(private,limit_phase))
 
+    _, callbacks = checker.run_case('callback-body-recovery',executable,directory,(cache,filter_path))
+    callback_fixture=checker.BINARY/'cases/callback-body-recovery'
+    callback_phase=json.loads((callback_fixture/'manifest.json').read_text())['phases']['c1']
+    errors=callback_phase['expected_stdout'].encode('latin1')
+    rejects('callback-body-unexpected-success','native status',
+            lambda:checker.validate_result('callback-body-recovery',0,errors,b'',callback_phase))
+    reversed_errors=b''.join(reversed(errors.splitlines(keepends=True)))
+    rejects('callback-body-error-order','stdout differs',
+            lambda:checker.validate_result('callback-body-recovery',2,reversed_errors,b'',callback_phase))
+    browser=bytearray((callbacks/'audit.sbr').read_bytes());assert browser.count(b'recovered_tail\0')==1
+    browser[browser.index(b'recovered_tail\0')]=ord('x');(callbacks/'audit.sbr').write_bytes(browser)
+    rejects('callback-body-recovered-tail','output bytes differ: audit.sbr',
+            lambda:checker.validate_artifacts(callbacks,callback_fixture,callback_phase))
+    (callbacks/'unexpected.obj').write_bytes(b'')
+    rejects('callback-body-unexpected-object','complete file set differs',
+            lambda:checker.validate_artifacts(callbacks,callback_fixture,callback_phase))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

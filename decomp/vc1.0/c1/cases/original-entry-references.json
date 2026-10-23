@@ -204,6 +204,10 @@
     "browser-index-limit": {
       "receipt": "cases/browser-index-limit/evidence/browser-limit-entries-1009.receipt.json",
       "sha256": "0f5e474ef44fa7aab0ba6f7bb537ff754a487d0fb8d109ed4b9c6090367052c1"
+    },
+    "callback-body-recovery": {
+      "receipt": "cases/callback-body-recovery/evidence/callback-body-entries-1010.receipt.json",
+      "sha256": "ded2b1d7354ce8e2f25934891dd88b59d459629bf483d696d5f8aeb6cb5b6616"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

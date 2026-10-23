@@ -1,0 +1,38 @@
+{
+  "status": "pass",
+  "tests": [
+    {
+      "name": "wrong-operation-low-byte",
+      "status": "rejected",
+      "seconds": 0.29538632184267044
+    },
+    {
+      "name": "unspecified-operation-upper-bytes",
+      "status": "accepted proven unspecified slot padding",
+      "seconds": 0.28211881313472986
+    },
+    {
+      "name": "wrong-tag-flag-byte",
+      "status": "rejected",
+      "seconds": 0.2972445245832205
+    },
+    {
+      "name": "wrong-array-type-extent",
+      "status": "rejected",
+      "seconds": 0.29067576117813587
+    },
+    {
+      "name": "wrong-enclosing-scope-kind",
+      "status": "rejected",
+      "seconds": 0.2856245217844844
+    },
+    {
+      "name": "wrong-directory-owner",
+      "status": "rejected",
+      "seconds": 0.28037090320140123
+    }
+  ],
+  "elapsed_seconds": 1.7739258576184511,
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/frontier-abi-controls-q7_yca98",
+  "policy": "Private copies of frozen original observations only. Fresh native GDB; no Wine/original execution, fixture writes or new reconstruction case. Original receiver byte loads independently justify upper24-bit unspecified argument control."
+}

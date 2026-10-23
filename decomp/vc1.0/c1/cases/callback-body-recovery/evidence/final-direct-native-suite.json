@@ -1,0 +1,309 @@
+{
+  "status": "pass",
+  "public_reachability": false,
+  "direct_units": [
+    {
+      "index": 0,
+      "input": {
+        "function": "_report_asm_expected_token@8",
+        "arguments": [
+          0,
+          39
+        ]
+      },
+      "status": "pass",
+      "setup_seconds": 0.004601600579917431,
+      "execution_seconds": 0.1585494875907898,
+      "host_run_seconds": 0.2391666965559125,
+      "check_seconds": 0.004064734093844891,
+      "defined_result": {
+        "eax_mask": 0,
+        "edx_mask": 0,
+        "provenance": "void result: caller consumes neither EAX nor EDX"
+      }
+    },
+    {
+      "index": 1,
+      "input": {
+        "function": "_report_asm_expected_token@8",
+        "arguments": [
+          34,
+          39
+        ]
+      },
+      "status": "pass",
+      "setup_seconds": 0.004258228465914726,
+      "execution_seconds": 0.15039677172899246,
+      "host_run_seconds": 0.23898556269705296,
+      "check_seconds": 0.004051858559250832,
+      "defined_result": {
+        "eax_mask": 0,
+        "edx_mask": 0,
+        "provenance": "void result: caller consumes neither EAX nor EDX"
+      }
+    },
+    {
+      "index": 2,
+      "input": {
+        "function": "_asm_recovery_value@4",
+        "arguments": [
+          0
+        ]
+      },
+      "status": "pass",
+      "setup_seconds": 0.004184979945421219,
+      "execution_seconds": 0.15097499918192625,
+      "host_run_seconds": 0.23454796988517046,
+      "check_seconds": 0.0044868942350149155,
+      "defined_result": {
+        "eax_mask": 4294967295,
+        "edx_mask": 0,
+        "expected_eax": 0,
+        "provenance": "4c9b3 writes only local+0 zero or4c9a2 writes only token;4c9bb..4c9c6 loads EAX/EDX then RET4; table ownership independently audited"
+      }
+    },
+    {
+      "index": 3,
+      "input": {
+        "function": "_asm_recovery_value@4",
+        "arguments": [
+          34
+        ]
+      },
+      "status": "pass",
+      "setup_seconds": 0.00422785896807909,
+      "execution_seconds": 0.14963000267744064,
+      "host_run_seconds": 0.22281587962061167,
+      "check_seconds": 0.0025045759975910187,
+      "defined_result": {
+        "eax_mask": 4294967295,
+        "edx_mask": 0,
+        "expected_eax": 34,
+        "provenance": "4c9b3 writes only local+0 zero or4c9a2 writes only token;4c9bb..4c9c6 loads EAX/EDX then RET4; table ownership independently audited"
+      }
+    },
+    {
+      "index": 4,
+      "input": {
+        "function": "_asm_recovery_value@4",
+        "arguments": [
+          39
+        ]
+      },
+      "status": "pass",
+      "setup_seconds": 0.0043192701414227486,
+      "execution_seconds": 0.17483458202332258,
+      "host_run_seconds": 0.2611180106177926,
+      "check_seconds": 0.005143597722053528,
+      "defined_result": {
+        "eax_mask": 4294967295,
+        "edx_mask": 0,
+        "expected_eax": 0,
+        "provenance": "4c9b3 writes only local+0 zero or4c9a2 writes only token;4c9bb..4c9c6 loads EAX/EDX then RET4; table ownership independently audited"
+      }
+    },
+    {
+      "index": 5,
+      "input": {
+        "function": "_asm_recovery_value@4",
+        "arguments": [
+          40
+        ]
+      },
+      "status": "pass",
+      "setup_seconds": 0.0043115513399243355,
+      "execution_seconds": 0.15094328578561544,
+      "host_run_seconds": 0.23504467401653528,
+      "check_seconds": 0.00312912929803133,
+      "defined_result": {
+        "eax_mask": 4294967295,
+        "edx_mask": 0,
+        "expected_eax": 0,
+        "provenance": "4c9b3 writes only local+0 zero or4c9a2 writes only token;4c9bb..4c9c6 loads EAX/EDX then RET4; table ownership independently audited"
+      }
+    },
+    {
+      "index": 6,
+      "input": {
+        "function": "_asm_recovery_value@4",
+        "arguments": [
+          41
+        ]
+      },
+      "status": "pass",
+      "setup_seconds": 0.004284460097551346,
+      "execution_seconds": 0.1517869858071208,
+      "host_run_seconds": 0.24137167818844318,
+      "check_seconds": 0.005164518021047115,
+      "defined_result": {
+        "eax_mask": 4294967295,
+        "edx_mask": 0,
+        "expected_eax": 0,
+        "provenance": "4c9b3 writes only local+0 zero or4c9a2 writes only token;4c9bb..4c9c6 loads EAX/EDX then RET4; table ownership independently audited"
+      }
+    },
+    {
+      "index": 7,
+      "input": {
+        "function": "_asm_recovery_value@4",
+        "arguments": [
+          42
+        ]
+      },
+      "status": "pass",
+      "setup_seconds": 0.004313317127525806,
+      "execution_seconds": 0.171832081861794,
+      "host_run_seconds": 0.24800850357860327,
+      "check_seconds": 0.003225846216082573,
+      "defined_result": {
+        "eax_mask": 4294967295,
+        "edx_mask": 0,
+        "expected_eax": 0,
+        "provenance": "4c9b3 writes only local+0 zero or4c9a2 writes only token;4c9bb..4c9c6 loads EAX/EDX then RET4; table ownership independently audited"
+      }
+    },
+    {
+      "index": 8,
+      "input": {
+        "function": "_asm_recovery_value@4",
+        "arguments": [
+          43
+        ]
+      },
+      "status": "pass",
+      "setup_seconds": 0.004514777101576328,
+      "execution_seconds": 0.15366307087242603,
+      "host_run_seconds": 0.2446719203144312,
+      "check_seconds": 0.00483044795691967,
+      "defined_result": {
+        "eax_mask": 0,
+        "edx_mask": 4294967295,
+        "edx_owner": "type_0000",
+        "provenance": "4c9a8..4c9af writes only local+4;4c9bb..4c9c6 loads EAX/EDX then RET4"
+      }
+    },
+    {
+      "index": 9,
+      "input": {
+        "function": "_asm_recovery_value@4",
+        "arguments": [
+          44
+        ]
+      },
+      "status": "pass",
+      "setup_seconds": 0.004213908687233925,
+      "execution_seconds": 0.15365636441856623,
+      "host_run_seconds": 0.24392574839293957,
+      "check_seconds": 0.004883576184511185,
+      "defined_result": {
+        "eax_mask": 4294967295,
+        "edx_mask": 0,
+        "expected_eax": 0,
+        "provenance": "4c9b3 writes only local+0 zero or4c9a2 writes only token;4c9bb..4c9c6 loads EAX/EDX then RET4; table ownership independently audited"
+      }
+    },
+    {
+      "index": 10,
+      "input": {
+        "function": "_asm_recovery_value@4",
+        "arguments": [
+          45
+        ]
+      },
+      "status": "pass",
+      "setup_seconds": 0.004308896139264107,
+      "execution_seconds": 0.15252756141126156,
+      "host_run_seconds": 0.24103098828345537,
+      "check_seconds": 0.003743874840438366,
+      "defined_result": {
+        "eax_mask": 4294967295,
+        "edx_mask": 0,
+        "expected_eax": 0,
+        "provenance": "4c9b3 writes only local+0 zero or4c9a2 writes only token;4c9bb..4c9c6 loads EAX/EDX then RET4; table ownership independently audited"
+      }
+    },
+    {
+      "index": 11,
+      "input": {
+        "function": "_asm_recovery_value@4",
+        "arguments": [
+          46
+        ]
+      },
+      "status": "pass",
+      "setup_seconds": 0.004322785884141922,
+      "execution_seconds": 0.15603869315236807,
+      "host_run_seconds": 0.24162477534264326,
+      "check_seconds": 0.0033876504749059677,
+      "defined_result": {
+        "eax_mask": 4294967295,
+        "edx_mask": 0,
+        "expected_eax": 46,
+        "provenance": "4c9b3 writes only local+0 zero or4c9a2 writes only token;4c9bb..4c9c6 loads EAX/EDX then RET4; table ownership independently audited"
+      }
+    },
+    {
+      "index": 12,
+      "input": {
+        "function": "_asm_recovery_value@4",
+        "arguments": [
+          47
+        ]
+      },
+      "status": "pass",
+      "setup_seconds": 0.004377102479338646,
+      "execution_seconds": 0.15390374045819044,
+      "host_run_seconds": 0.23451044037938118,
+      "check_seconds": 0.003377983346581459,
+      "defined_result": {
+        "eax_mask": 4294967295,
+        "edx_mask": 0,
+        "expected_eax": 0,
+        "provenance": "4c9b3 writes only local+0 zero or4c9a2 writes only token;4c9bb..4c9c6 loads EAX/EDX then RET4; table ownership independently audited"
+      }
+    },
+    {
+      "index": 13,
+      "input": {
+        "function": "_asm_recovery_value@4",
+        "arguments": [
+          48
+        ]
+      },
+      "status": "pass",
+      "setup_seconds": 0.004306457005441189,
+      "execution_seconds": 0.16645023506134748,
+      "host_run_seconds": 0.24284480419009924,
+      "check_seconds": 0.002579033374786377,
+      "defined_result": {
+        "eax_mask": 4294967295,
+        "edx_mask": 0,
+        "expected_eax": 0,
+        "provenance": "4c9b3 writes only local+0 zero or4c9a2 writes only token;4c9bb..4c9c6 loads EAX/EDX then RET4; table ownership independently audited"
+      }
+    },
+    {
+      "index": 14,
+      "input": {
+        "function": "_asm_recovery_value@4",
+        "arguments": [
+          49
+        ]
+      },
+      "status": "pass",
+      "setup_seconds": 0.004538268782198429,
+      "execution_seconds": 0.16995842196047306,
+      "host_run_seconds": 0.2645390909165144,
+      "check_seconds": 0.004758315160870552,
+      "defined_result": {
+        "eax_mask": 4294967295,
+        "edx_mask": 0,
+        "expected_eax": 0,
+        "provenance": "4c9b3 writes only local+0 zero or4c9a2 writes only token;4c9bb..4c9c6 loads EAX/EDX then RET4; table ownership independently audited"
+      }
+    }
+  ],
+  "elapsed_seconds": 3.734344372525811,
+  "execution_policy": "Only native i386 ELF/GDB with cached original bytes and explicit direct units; no Wine/original capture",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/callback-body-final-live-direct"
+}

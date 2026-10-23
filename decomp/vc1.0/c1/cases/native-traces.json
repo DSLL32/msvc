@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "31871340b4c9ad6ff582e33a7355794c1ba931d80e0c9dfc8d2c38b7ca196524",
+    "functions.json": "eaf004205db40ed91e7922e30bfc76ba1d6c8de721ac69a01251f2da988177a3",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "4d54fb6859c59bf9c0974e06fece8198f8af8f1929e0329378cb2e81e9852d04"
+    "sha256": "7a2ffe901d88ba131de177b66f2681839f9fd412a987be001fcbdf4bea2a9882"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "3f14dc98f2b1eada822c3bd018e03e0f7fa10be3b3b990251245bcd2f2ceeac3"
+    "sha256": "8785e6d0591fc0e298ce094c8cb11b648825a6467b1f185a77974852d0475158"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -23,7 +23,7 @@
   "application_definitions": {
     "abort_function_definition": {
       "logical": "_abort_function_definition",
-      "source": "src/stubs.c"
+      "source": "src/parser.c"
     },
     "accept_pp_token": {
       "logical": "_accept_pp_token@4",
@@ -4523,7 +4523,8 @@
     "report_conversion_mismatch",
     "report_function_operand",
     "enclosing_declaration_scope",
-    "browser_index_overflow"
+    "browser_index_overflow",
+    "abort_function_definition"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6093,6 +6094,18 @@
       "terminal": {
         "kind": "exit",
         "code": 0
+      }
+    },
+    "callback-body-recovery": {
+      "first": 1009,
+      "last": 1010,
+      "seen_count": 865,
+      "expected": [
+        "abort_function_definition"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 2
       }
     }
   }

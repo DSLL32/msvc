@@ -365,7 +365,6 @@ TypeShape *__stdcall append_type_shape(TypeShape *head, TypeShape *tail) { __asm
 
 
 
-void abort_function_definition(void) { __asm { int 3 } }
 
 
 

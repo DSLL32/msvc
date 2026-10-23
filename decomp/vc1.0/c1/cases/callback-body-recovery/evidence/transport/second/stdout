@@ -1,0 +1,3 @@
+audit.c
+audit.c(4) : error C2054: expected '(' to follow 'broken_handler'
+audit.c(9) : error C2054: expected '(' to follow 'BrokenFactory'

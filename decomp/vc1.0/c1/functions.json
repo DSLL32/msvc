@@ -1013,7 +1013,8 @@
     "_report_conversion_mismatch@12",
     "_report_function_operand@8",
     "_enclosing_declaration_scope",
-    "_browser_index_overflow"
+    "_browser_index_overflow",
+    "_abort_function_definition"
   ],
   "driver": [
     {
@@ -2592,7 +2593,46 @@
     {
       "name": "_abort_function_definition",
       "start": 173280,
-      "end": 173281
+      "end": 173349,
+      "abi_inputs": [],
+      "abi_globals": [
+        {
+          "name": "scanner_flags",
+          "original": 441156,
+          "bytes": 4
+        },
+        {
+          "name": "parser_flags",
+          "original": 441160,
+          "bytes": 4
+        },
+        {
+          "name": "function_parameter_declarations",
+          "original": 392980,
+          "bytes": 4
+        },
+        {
+          "name": "current_parameter",
+          "original": 393316,
+          "bytes": 4
+        },
+        {
+          "name": "function_parameter_context",
+          "original": 393768,
+          "bytes": 4
+        },
+        {
+          "name": "declaration_controls.fields.parameter_context",
+          "original": 395160,
+          "bytes": 4
+        },
+        {
+          "name": "function_symbol",
+          "original": 373056,
+          "bytes": 4
+        }
+      ],
+      "abi_contract": "cdeclRET0/noformals. Raw2a4e0/ea/f4/fe stores four fullDWORD context fields,2a51a stores function_symbol;2a508+2a511 read/write scanner_flags upperWORD6bb46 with0100 OR/fff7 AND. All five actual outputs and both complete flagwords observed at entry+return; current pointer values areNULL, no crossprocess pointer-normalization claim."
     },
     {
       "name": "_assign_symbol_segment@8",
@@ -6255,6 +6295,11 @@
       "accepted_from": 1008,
       "accepted_count": 1009,
       "expected_exit": 0
+    },
+    "callback-body-recovery": {
+      "accepted_from": 1009,
+      "accepted_count": 1010,
+      "expected_exit": 2
     }
   },
   "buffered_streams": [
