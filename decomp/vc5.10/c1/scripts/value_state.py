@@ -1,5 +1,6 @@
 """Signed numeric prefix of a wider value; its 16-byte tail stays UNMODELED."""
 import json,re,struct,subprocess
+from provenance import captured_native_binary
 FIELDS={'literal.integer':(0x518a0,8,520),'saved_literal.integer':(0x55108,8,528),'saved_literal_available':(0x55100,1,536)}
 PLAN=dict(before_clear_source=-0x223344556677889,before_clear_cached=0x3344556677881122,positive_source=0x1122334455667788,negative_source=-0x112233445566778,cached_before_copy=0x5566778811223344,flag_before=165,flag_after=1,entry_rva=0x12646,normal_case=False)
 def expected_fields(fields):
@@ -53,7 +54,7 @@ def validate(original,native,fields,state,sequence,probe,candidate,project):
   pair_at(original,int(seqs[0]),item['before'],(0,0,0))
  for rva,source,cached in [(0x122a5,values[0],values[1]),(0x12646,value,values[3])]:
   assert re.search(r'^value-seed rva=%08x source=%016x cached=%016x flag=165$'%(rva,source&0xffffffffffffffff,cached&0xffffffffffffffff),events,re.M)
- symbols=subprocess.check_output(['nm','-S','--defined-only',str(project/'build/native/c1-host')],text=True)
+ symbols=subprocess.check_output(['nm','-S','--defined-only',str(captured_native_binary(native))],text=True)
  address,size=re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] initialize_state_12646$',symbols,re.M).groups()
  assert int(address,16)<=obs['value_copy_pc']<int(address,16)+int(size,16)
  old=obs['before_value_copy'];final=state['compiler_state']

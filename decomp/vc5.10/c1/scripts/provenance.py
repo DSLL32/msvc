@@ -68,3 +68,27 @@ def reuse_native_sources(directory, destination, binary, candidate_path, rebuilt
     return {"directory": str(directory), "receipt_sha256": sha(receipt_path),
             "source_manifest_sha256": sha(manifest), "native_sha256": sha(binary),
             "policy": "same verified ELF and owned sources; original immutable shared inputs retained"}
+
+
+BINARY_STORE = Path.home() / '.ai-tmp/msvc2/vc5.10/c1/native-binary-store'
+
+
+def freeze_native_binary(binary, expected):
+    """Retain the exact receipt-bound ELF; never substitute a later build."""
+    assert sha(binary) == expected
+    BINARY_STORE.mkdir(parents=True, exist_ok=True)
+    destination = BINARY_STORE / expected
+    if destination.exists():
+        assert sha(destination) == expected
+    else:
+        destination.write_bytes(binary.read_bytes())
+        destination.chmod(0o444)
+    return destination
+
+
+def captured_native_binary(directory):
+    receipt = json.loads((directory / 'receipt.json').read_text())
+    expected = receipt['native_sha256']
+    binary = BINARY_STORE / expected
+    assert binary.is_file() and sha(binary) == expected, 'missing or changed captured ELF'
+    return binary

@@ -4,6 +4,7 @@ import argparse
 import importlib.util
 import json
 from pathlib import Path
+from provenance import captured_native_binary
 import re
 import struct
 import subprocess
@@ -222,6 +223,7 @@ def check(original, native, audit_directory=None):
             "trial": [f["name"] for f in candidate["functions"]],
             "frontier_rva": expected["rva"], "native_symbol": state["symbol"],
             "state": labels,
+            "captured_native_elf": ({"path": str(captured_native_binary(native)), "sha256": n["native_sha256"]} if candidate.get("field_map") else None),
             "rust_checked_functions": report["checked_functions"],
             "rust_owned_original_bytes": owned["declared_code_bytes"],
             "current_auditor_sha256": binding["inputs"][tool_path],

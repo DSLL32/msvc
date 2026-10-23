@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 import subprocess
 import time
-from provenance import freeze, native_sources, reuse_native_sources
+from provenance import freeze, native_sources, reuse_native_sources, freeze_native_binary
 
 PROJECT = Path(__file__).resolve().parents[1]
 ROOT = PROJECT.parents[2]
@@ -265,6 +265,7 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
     state = json.loads((output / "state.json").read_text())
     assert state["symbol"], "missing raw GDB function identity"
     assert sha(binary) == binary_sha
+    freeze_native_binary(binary, binary_sha)
     (output / "candidate.json").write_bytes(candidate_path.read_bytes())
     (output / "functions.json").write_bytes((PROJECT / candidate.get("audit_config", "functions.json")).read_bytes())
     if candidate.get("functions"):

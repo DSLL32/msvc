@@ -261,11 +261,11 @@ Empty callback12645 is accepted; durable coverage is28 application functions /
 thunk (1788 total owned bytes). The full .text extent remains322288 bytes,
 including CRT/unclassified code; this is not a non-CRT percentage.
 
-Callback12646 is a held29-byte trial, awaiting the orchestrator's concrete
-projection review. It copies a recovered signed64 numeric alternative and sets
+Callback12646 is accepted after the orchestrator's concrete review of the
+29-byte trial. It copies a recovered signed64 numeric alternative and sets
 an availability byte;16 original tail bytes remain UNMODELED. Fresh normal,
 positive and negative auxiliary pairs match callback12663, with actual original
 24-byte records retained separately and no native whole-record equivalence
 claim. See `cases/minimal/VALUE-COPY-REVIEW.md`. The candidate-inclusive audit
-passes31 source functions /1817 bytes; `functions.json` retains the30-function
+passes31 source functions /1817 bytes; `functions.json` now includes that31-function
 accepted prefix. Cached native lifecycle fixtures still execute in about4ms.

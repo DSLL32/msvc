@@ -1,0 +1,14 @@
+{
+  "status": "orchestrator reviewed and released this specific partial internal copy",
+  "promoted": "_initialize_state_12646",
+  "accepted_source_functions": 31,
+  "application_functions": 29,
+  "application_bytes": 1360,
+  "CRT_functions": 2,
+  "CRT_bytes": 451,
+  "import_bytes": 6,
+  "owned_original_bytes": 1817,
+  "unmodeled_value_tail_bytes": 16,
+  "hard_consumer_hold": "Any future semantic consumer of the tail must remain named INT3 until modeled.",
+  "original_receipts_unchanged": true
+}
