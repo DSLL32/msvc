@@ -1,0 +1,117 @@
+{
+  "case": "Legacy arena API declaration/prototype workflow",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "c1-compile": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f api.c -Ze -Zp8 -Gs -Foapi.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/api.c",
+          "bytes": 1797,
+          "sha256": "c0c15a3f7c3c0d8fcf9530d99f299e3f4a6b7e36f225b2e337fcea1c3ed40ed2"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/c1-compile/irdb",
+          "bytes": 363,
+          "sha256": "8be1d58af05a3ee990cb5e4f52ff4b49acd004d2e05a21f1a942b5002d5fb3a2",
+          "output_name": "irdb"
+        },
+        {
+          "path": "expected/c1-compile/irex",
+          "bytes": 2396,
+          "sha256": "685c2b42428c2f1cde87f88b27ac9e4c45825ed121f266ad7744b929d353460d",
+          "output_name": "irex"
+        },
+        {
+          "path": "expected/c1-compile/irgl",
+          "bytes": 355,
+          "sha256": "6b755ad13844264adffb370160ad7488895bbc751f1bf25e517c19267cad6911",
+          "output_name": "irgl"
+        },
+        {
+          "path": "expected/c1-compile/irin",
+          "bytes": 18,
+          "sha256": "690a7236c049992b690e62ea52675388478dc336b1b3c4facef33af036124126",
+          "output_name": "irin"
+        },
+        {
+          "path": "expected/c1-compile/irsy",
+          "bytes": 369,
+          "sha256": "5e3e526ecf2434e4f491cc9283b9048dba61072c45beabb68e0f7a4aca1f9772",
+          "output_name": "irsy"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "api.c(36) : warning C4131: 'old_checksum' : uses old-style declarator\r\n",
+      "expected_stderr": "",
+      "expected_absent_outputs": [
+        "api.obj",
+        "api.exe",
+        "msvc.pdb"
+      ],
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /c /Z7 /Od /G5 /W4 api.c",
+      "original_CL_exit": 0,
+      "transport_reference": "evidence/arena-api-compile.CL.receipt.json",
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Actual original CL normal compilation aliases diagnostics to fd1; prototype mode retains separate stdout prototypes/stderr diagnostics. Child intervals prove raw per-stream boundaries."
+      }
+    },
+    "c1-prototypes": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f api.c -Ze -Zp8 -Gs -Foapi.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zg -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/api.c",
+          "bytes": 1797,
+          "sha256": "c0c15a3f7c3c0d8fcf9530d99f299e3f4a6b7e36f225b2e337fcea1c3ed40ed2"
+        }
+      ],
+      "outputs": [],
+      "expected_exit": 1,
+      "expected_stdout": "extern int __cdecl inspect_entry(struct Entry __based(entry_base) *entry);\r\nextern int __cdecl total_entry(struct Entry __based(entry_base) *entry);\r\nextern int (__cdecl *select_reader(int all))(struct Entry __based(entry_base) *);\r\nextern int (*choose_row(struct Entry __based(entry_base) *entry))[3];\r\nextern int old_checksum(struct Entry *data);\r\nextern int main(void );\r\n",
+      "expected_stderr": "api.c(5) : error C2213: 'entry_base' : illegal argument to __based\r\napi.c(36) : warning C4131: 'old_checksum' : uses old-style declarator\r\n",
+      "expected_absent_outputs": [
+        "api.obj",
+        "api.exe",
+        "msvc.pdb"
+      ],
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /c /Zg /Od /G5 /W4 api.c",
+      "original_CL_exit": 2,
+      "transport_reference": "evidence/arena-api-prototypes.CL.receipt.json",
+      "stdio": {
+        "stderr_to_stdout": false,
+        "provenance": "Actual original CL normal compilation aliases diagnostics to fd1; prototype mode retains separate stdout prototypes/stderr diagnostics. Child intervals prove raw per-stream boundaries."
+      }
+    }
+  },
+  "execution": "Native-only fixtures; explicit original capture/build separate.",
+  "normalization": "None.",
+  "capture_policy": "Same source, ordinary checksum compilation and strict expected-error /Zg prototype phase. Two actualCLchild transports perphase. Sole MSC_CMD_FLAGS env/executable-only argv, relative source/ir. Complete raw files/streams/status/absence checked.",
+  "runtime": "Only ordinary phase has untouched fullcompile/link/checksum runtime0. Prototype phase deliberately reproduces original C2213 limitation, C1exit1/CLexit2 and has no downstream backend/runtime claim."
+}

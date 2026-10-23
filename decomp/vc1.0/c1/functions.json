@@ -973,7 +973,9 @@
     "_initialize_thread_symbol@4",
     "_conversion_diagnostic@20",
     "_type_warning@12",
-    "_cache_parameter_bytes@4"
+    "_cache_parameter_bytes@4",
+    "_has_parameter_shape_depth@8",
+    "_build_based_text@8"
   ],
   "driver": [
     {
@@ -5468,7 +5470,7 @@
     {
       "name": "_build_based_text@8",
       "start": 271408,
-      "end": 271409
+      "end": 271586
     },
     {
       "name": "_prepend_pointer_text@8",
@@ -5700,7 +5702,7 @@
     {
       "name": "_has_parameter_shape_depth@8",
       "start": 260080,
-      "end": 260081
+      "end": 260119
     },
     {
       "name": "_get_file_timestamp@8",
@@ -5882,6 +5884,16 @@
     "packet-view-adapter": {
       "accepted_from": 966,
       "accepted_count": 969
+    },
+    "arena-api-compile": {
+      "accepted_from": 969,
+      "accepted_count": 970,
+      "expected_exit": 0
+    },
+    "arena-api-prototypes": {
+      "accepted_from": 970,
+      "accepted_count": 971,
+      "expected_exit": 1
     }
   },
   "buffered_streams": [

@@ -1,0 +1,2 @@
+api.c(5) : error C2213: 'entry_base' : illegal argument to __based
+api.c(36) : warning C4131: 'old_checksum' : uses old-style declarator

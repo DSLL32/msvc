@@ -1,0 +1,66 @@
+{
+  "status": "proposed to root; no new source or execution",
+  "title": "Bounded portability-header diagnostic/recovery audit",
+  "arguments": "/FR /Z7 /Od /G5 /W4",
+  "features": [
+    "Reserved macro define/undef and malformed ignored pragmas",
+    "Pointer-depth redeclaration conflict",
+    "Anonymous scalar declaration",
+    "Invalid aggregate cast",
+    "Naked nonfunction declaration",
+    "Valid recovered_tail function proving continued parsing"
+  ],
+  "expected": "Original preflight establishes bounded ordered diagnostics, exact nonzero status, full partialIR/browser artifacts/absences and recovered-tail finish. No runtime/backend-success claim.",
+  "provisional_targets": [
+    {
+      "name": "report_macro_error",
+      "start": "0x2d3c0",
+      "end": "0x2d3da",
+      "bytes": 26
+    },
+    {
+      "name": "warn_ignored_token",
+      "start": "0x2d380",
+      "end": "0x2d39c",
+      "bytes": 28
+    },
+    {
+      "name": "warn_expected_identifier",
+      "start": "0x2d3a0",
+      "end": "0x2d3bc",
+      "bytes": 28
+    },
+    {
+      "name": "warn_bad_pragma",
+      "start": "0x1e530",
+      "end": "0x1e544",
+      "bytes": 20
+    },
+    {
+      "name": "report_declaration_error",
+      "start": "0x2c3a0",
+      "end": "0x2c417",
+      "bytes": 119
+    },
+    {
+      "name": "report_type_syntax_error",
+      "start": "0x3c180",
+      "end": "0x3c1ad",
+      "bytes": 45
+    },
+    {
+      "name": "report_symbol_error",
+      "start": "0x33720",
+      "end": "0x33744",
+      "bytes": 36
+    },
+    {
+      "name": "report_type_conflict",
+      "start": "0x3c1f0",
+      "end": "0x3c281",
+      "bytes": 145
+    }
+  ],
+  "reachable_gates": "compare_declaration_types unequal shape depth returns40 to type-conflict renderer; classify_expression_conversion aggregate error1000 to typed error; naked storage flag on nonfunction calls report_symbol_error. Macro-name/pragma warning helpers have direct source-token gates. All actual reach requires original preflight; no forced private flags or parser-recovery promise.",
+  "approximate_bytes": 447
+}

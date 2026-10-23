@@ -1,0 +1,2 @@
+api.c
+api.c(36) : warning C4131: 'old_checksum' : uses old-style declarator

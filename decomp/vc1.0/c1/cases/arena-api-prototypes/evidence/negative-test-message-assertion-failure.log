@@ -1,0 +1,47 @@
+minimal: native pass 0.012526s
+numeric-varargs: native pass 0.010770s
+pch-create: native pass 0.008486s
+debug-pch-create: native pass 0.009540s
+debug-pch-use: native pass 0.009227s
+browser: native pass 0.008506s
+preprocessor-P: native pass 0.004812s
+inline-asm-rich: native pass 0.009011s
+diagnostic-recovery: native pass 0.010989s
+based-record-arena: native pass 0.010071s
+pdb-pch-binding-create: native pass 0.012701s
+pdb-pch-binding-use: native pass 0.012905s
+legacy-callback-adapter: native pass 0.010397s
+inline-asm-expressions: native pass 0.009451s
+browser-pch-create: native pass 0.014984s
+browser-pch-use: native pass 0.015997s
+asm-diagnostic-recovery: native pass 0.013945s
+calibration-table: native pass 0.010021s
+packet-view-adapter: native pass 0.010129s
+arena-api-prototypes: native pass 0.008156s
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c1/scripts/check-native-rejections.py", line 35, in rejects
+    action()
+    ~~~~~~^^
+  File "/root/msvc2/decomp/vc1.0/c1/scripts/check-native-rejections.py", line 337, in <lambda>
+    lambda:checker.validate_artifacts(arena,arena_fixture,arena_phase))
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc1.0/c1/scripts/check-native.py", line 113, in validate_artifacts
+    assert not (work/name).exists(), 'forbidden output exists: '+name
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: forbidden output exists: api.obj
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c1/scripts/check-native-rejections.py", line 347, in <module>
+    main()
+    ~~~~^^
+  File "/root/msvc2/decomp/vc1.0/c1/scripts/check-native-rejections.py", line 336, in main
+    rejects('arena-prototype-absent-backend-output', 'complete file set differs',
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            lambda:checker.validate_artifacts(arena,arena_fixture,arena_phase))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc1.0/c1/scripts/check-native-rejections.py", line 37, in rejects
+    assert expected in str(error), (name, str(error))
+           ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('arena-prototype-absent-backend-output', 'forbidden output exists: api.obj')

@@ -1,0 +1,9 @@
+api.c
+api.c(15) : error C4226: nonstandard extension used : '__far' is an obsolete keyword
+api.c(20) : error C2143: syntax error : missing '{' before 'modifier'
+api.c(36) : warning C4131: 'old_checksum' : uses old-style declarator
+api.c(46) : error C2143: syntax error : missing ')' before '*'
+api.c(46) : error C2059: syntax error : ')'
+api.c(65) : error C2065: 'declared_reader' : undeclared identifier
+api.c(65) : error C2100: illegal indirection
+api.c(65) : error C2064: term does not evaluate to a function

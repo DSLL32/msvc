@@ -1,0 +1,47 @@
+[
+  {
+    "name": "native-build",
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "seconds": 1.8237347565591335,
+    "exit": 0
+  },
+  {
+    "name": "original-capture",
+    "command": [
+      "python3",
+      "scripts/capture-frontier.py",
+      "--case",
+      "cases/arena-api-prototypes",
+      "--phase",
+      "c1-compile",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/arena-api-compile-970",
+      "--debugger",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+    ],
+    "seconds": 1.9644705895334482,
+    "exit": 0
+  },
+  {
+    "name": "native-frontier",
+    "command": [
+      "python3",
+      "scripts/debug-frontier.py",
+      "--case",
+      "cases/arena-api-prototypes",
+      "--phase",
+      "c1-compile",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/validation/arena-api-compile-970",
+      "--reference",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/arena-api-compile-970"
+    ],
+    "seconds": 0.218795626424253,
+    "exit": 0
+  }
+]

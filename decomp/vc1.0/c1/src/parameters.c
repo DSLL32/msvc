@@ -1,6 +1,7 @@
 /* Interned function parameter descriptions. */
 #include "types.h"
 #include "parser.h"
+#include "expressions.h"
 #include <recon.h>
 
 int declaration_context; /* original 0x5ffc0 */
@@ -168,4 +169,16 @@ unsigned __stdcall parameter_list_bytes(FrontendSymbol *parameters)
         parameter = parameter->detail.parameter_next;
     } while (parameter && parameter != first);
     return bytes;
+}
+
+/* Original 0x3f7f0..0x3f817, RET8. This compatibility test only
+   requires the actual declarator to have at least the expected shape depth. */
+int __stdcall has_parameter_shape_depth(TypeShape *expected, TypeShape *actual)
+{
+    while (expected) {
+        if (!actual) return 0;
+        expected = expected->related;
+        actual = actual->related;
+    }
+    return 1;
 }

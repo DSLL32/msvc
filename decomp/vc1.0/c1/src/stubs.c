@@ -393,7 +393,6 @@ void reset_inline_function_state(void) { __asm { int 3 } }
 
 
 
-int __stdcall has_parameter_shape_depth(TypeShape *expected, TypeShape *actual) { __asm { int 3 } return 0; }
 
 
 

@@ -1,14 +1,20 @@
 {
-  "authorization": "Root approved SINGLE successful typed packet-view/callback checksum /Z7 /Od /G5 /W4 with exact ordinary conversion/qualifier warnings and defined unsigned negation; compatible callback conventions and read-only discarded-const view.",
-  "baseline_commit": "b96696224d6153fa5fe54ae079320f5de41a0832",
-  "baseline_accepted_count": 966,
+  "authorization": "Root approved SINGLE legacy arena API declaration/prototype workflow: one checksum source, normal /Z7 /Od /G5 /W4 and public /Zg. Original validates actual based/modifier forms and compatibility before freezing. No private flags.",
+  "baseline_commit": "d40106f4dd1ef2f4d24e578147fca09963f2159d",
+  "baseline_accepted_count": 969,
   "status": "complete",
   "cases": [
     {
-      "case": "packet-view-adapter",
-      "phase": "c1",
-      "status": "complete;966 through969, originalruntime0/fiveexactIRfiles/fiveexactwarnings"
+      "case": "arena-api-prototypes",
+      "phase": "c1-compile",
+      "status": "complete;969 through970, originalruntime0/fiveexactIRfiles/C4131"
+    },
+    {
+      "case": "arena-api-prototypes",
+      "phase": "c1-prototypes",
+      "status": "complete;970 through971, strictC1exit1/CLexit2, exact375stdout139stderr/noartifacts"
     }
   ],
-  "completion": "cases/packet-view-adapter/validation.json"
+  "adjustment": "Root approved original /Zg C2213 limitation, C1exit1/CLexit2, complete prototype stdout and exact diagnostics/noartifacts; normal runtime0 remains separate.",
+  "completion": "cases/arena-api-prototypes/validation.json"
 }

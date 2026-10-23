@@ -1,7 +1,7 @@
 C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
 ========================================================
 
-Thirty-seven native phases are complete: minimal C, optimized Win32 hello, DLL,
+Thirty-nine native phases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
 assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
 automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
@@ -9,11 +9,11 @@ automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
 enum/long-record/literal/floating case, debug-bearing PCH creation/reuse, and
 richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
 automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
-the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, and typed packet-view/callback adapters.
+the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, typed packet-view/callback adapters, and normal/expected-error arena API prototype phases.
 
-There are 840 accepted source functions and 969 accepted original entries.
-Accepted original extents cover 235992/277234 code-section bytes (85.123758%):
-215563 frontend bytes, 20243 CRT bytes and 186 import-thunk bytes. This is a
+There are 842 accepted source functions and 971 accepted original entries.
+Accepted original extents cover 236209/277234 code-section bytes (85.202031%):
+215780 frontend bytes, 20243 CRT bytes and 186 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Unvisited functions retain named trapping stubs.
 
@@ -35,12 +35,12 @@ excluded from application instrumentation. The original BINMODE.OBJ default is
 retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
-cases/original-entry-references.json binds 37 completed phase histories to fresh
-shared-prefix original first-entry captures. All 829 accepted application entries
+cases/original-entry-references.json binds 39 completed phase histories to fresh
+shared-prefix original first-entry captures. All 831 accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current all 37 regression receipts are in cases/packet-view-adapter/validation.json.
+current all 39 regression receipts are in cases/arena-api-prototypes/validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -302,3 +302,13 @@ five rawIR files and five warnings match. All37 native phases,41 rejections,
 six graph/ABI/mask checks, three flag mutations and state/grammar audits pass.
 The original parameter-cache unwritten-local branch remains documented, not
 claimed exercised. Provisional prefix helpers stay trapping.
+
+Completed arena API declaration/prototype workflow
+-------------------------------------------------
+cases/arena-api-prototypes uses one named-based record/callback API source for
+normal compilation and public /Zg. Normal original checksum exits0; /Zg keeps
+its original C2213 limitation, C1exit1 and complete prototype output. Two whole
+functions add217 frontend extent bytes. All39 native phases,45 rejections,
+six graph/ABI/mask checks, three flag mutations and state/grammar audits pass.
+Prototype-only output has no backend/runtime success claim. Unsupported initial
+__far/__loadds forms remain failed preflight evidence, not accepted syntax.

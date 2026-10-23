@@ -1,0 +1,81 @@
+{
+  "terminal_exit": 0,
+  "expected_exit": 0,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/arena-api-prototypes",
+  "phase": "c1-compile",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "enum_callback_function": null,
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "timestamp_probe": false,
+  "accepted_count": 971,
+  "accepted_sha256": "21a3ca9aa386d901396d30a81292089dafe6fc1743838ed13d17b24c4688b289",
+  "executable_sha256": "fee37438db3c2e1ae14c6dea3efbe6ac32a15acfead5df13ed8c9a600424a9a1",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "0f94a06afc3e47c5fa29175d9ecd57766701f1b9e483a272aab711cee1b776a7",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f api.c -Ze -Zp8 -Gs -Foapi.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\captures\\arena-api-compile-complete-970\\work",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Actual original CL normal compilation aliases diagnostics to fd1; prototype mode retains separate stdout prototypes/stderr diagnostics. Child intervals prove raw per-stream boundaries."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/captures/arena-api-compile-complete-970/work",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.4005164708942175,
+  "execution_seconds": 1.5438305148854852,
+  "total_seconds": 1.9443489080294967,
+  "files": [
+    {
+      "name": "api.c",
+      "bytes": 1797,
+      "sha256": "c0c15a3f7c3c0d8fcf9530d99f299e3f4a6b7e36f225b2e337fcea1c3ed40ed2"
+    },
+    {
+      "name": "irdb",
+      "bytes": 363,
+      "sha256": "8be1d58af05a3ee990cb5e4f52ff4b49acd004d2e05a21f1a942b5002d5fb3a2"
+    },
+    {
+      "name": "irex",
+      "bytes": 2396,
+      "sha256": "685c2b42428c2f1cde87f88b27ac9e4c45825ed121f266ad7744b929d353460d"
+    },
+    {
+      "name": "irgl",
+      "bytes": 355,
+      "sha256": "6b755ad13844264adffb370160ad7488895bbc751f1bf25e517c19267cad6911"
+    },
+    {
+      "name": "irin",
+      "bytes": 18,
+      "sha256": "690a7236c049992b690e62ea52675388478dc336b1b3c4facef33af036124126"
+    },
+    {
+      "name": "irsy",
+      "bytes": 369,
+      "sha256": "5e3e526ecf2434e4f491cc9283b9048dba61072c45beabb68e0f7a4aca1f9772"
+    }
+  ],
+  "first_entry_projection": {
+    "accepted_from": 969,
+    "accepted_count": 970,
+    "expected": [
+      "_has_parameter_shape_depth@8"
+    ],
+    "observed": [
+      "_has_parameter_shape_depth@8"
+    ],
+    "seeded_prefix_sha256": "0fefe919d481bc9c876b732c70e63d32493333018b4a8f08da6c03e2b32530dc",
+    "plan_sha256": "f7242c8e69d0f9f69ddc761fd90c41f7ff0efa9e5c10817cfb52b473304e0d8f",
+    "source": "Explicit fresh shared-prefix original first-entry traps; one-byte restore/EIP rewind, complete accepted function bodies/shared text."
+  }
+}

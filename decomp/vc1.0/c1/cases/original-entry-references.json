@@ -148,6 +148,14 @@
     "packet-view-adapter": {
       "receipt": "cases/packet-view-adapter/evidence/packet-complete-969.receipt.json",
       "sha256": "351d08728d37be529d8b4b24af98696311f21a0de13f911aa6bfc006f354aa72"
+    },
+    "arena-api-compile": {
+      "receipt": "cases/arena-api-prototypes/evidence/arena-api-compile-complete-970.receipt.json",
+      "sha256": "92181503f08e10efd9c9c85a74038ed4a615c1a6093eeb7bd7cd97a260f3a0c6"
+    },
+    "arena-api-prototypes": {
+      "receipt": "cases/arena-api-prototypes/evidence/arena-api-prototypes-complete-971.receipt.json",
+      "sha256": "ad323a99ea016098e10b5ba9100f48bc13c14d1e0cc6e8b1ba0ad39640af8a0d"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

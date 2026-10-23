@@ -1,0 +1,58 @@
+{
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc1.0\\c1\\tools\\capture-cl.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "/nologo /c /Zg /Od /G5 /W4 api.c",
+    "S:\\vc1.0\\c1\\transport\\arena-api-prototypes-second\\stdout",
+    "S:\\vc1.0\\c1\\transport\\arena-api-prototypes-second\\stderr",
+    "S:\\vc1.0\\c1\\transport\\arena-api-prototypes-second\\events",
+    "S:\\vc1.0\\c1\\arena-api-prototypes",
+    "S:\\vc1.0\\c1\\transport\\arena-api-prototypes-second\\config.txt",
+    "ordinary",
+    "S:\\vc1.0\\c1\\transport\\arena-api-prototypes-second"
+  ],
+  "CL_arguments": "/nologo /c /Zg /Od /G5 /W4 api.c",
+  "helper_source": "decomp/vc1.0/cl/src/capture-run.c",
+  "helper_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+  "helper_sha256": "b80b97201ce6f78fccc165200f844db467639e38e02f01523cdf68cecdc6683c",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "cwd": "S:\\vc1.0\\c1\\arena-api-prototypes",
+  "environment": {
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib"
+  },
+  "host_exit": 0,
+  "execution_seconds": 2.0180151676759124,
+  "children": [
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c13232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\001972 -f api.c -Ze -Zp8 -Gs -Foapi.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zg -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I R:\\toolchains\\1.0-nt\\include "
+      ]
+    }
+  ],
+  "C1_boundary_file_sets": {
+    "001-before": [
+      {
+        "name": "api.c",
+        "bytes": 1797,
+        "sha256": "c0c15a3f7c3c0d8fcf9530d99f299e3f4a6b7e36f225b2e337fcea1c3ed40ed2",
+        "mtime_ns": 1792773096865311800
+      }
+    ],
+    "001-after": [
+      {
+        "name": "api.c",
+        "bytes": 1797,
+        "sha256": "c0c15a3f7c3c0d8fcf9530d99f299e3f4a6b7e36f225b2e337fcea1c3ed40ed2",
+        "mtime_ns": 1792773096865311800
+      }
+    ]
+  }
+}

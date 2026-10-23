@@ -1,0 +1,6 @@
+extern int __cdecl inspect_entry(struct Entry __based(entry_base) *entry);
+extern int __cdecl total_entry(struct Entry __based(entry_base) *entry);
+extern int (__cdecl *select_reader(int all))(struct Entry __based(entry_base) *);
+extern int (*choose_row(struct Entry __based(entry_base) *entry))[3];
+extern int old_checksum(struct Entry *data);
+extern int main(void );

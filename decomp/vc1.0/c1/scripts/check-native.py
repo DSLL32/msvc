@@ -39,7 +39,9 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'browser-pch-use':('browser-pch-timestamp','c1-use'),
          'asm-diagnostic-recovery':('asm-diagnostic-recovery','c1'),
          'calibration-table':('calibration-table','c1'),
-         'packet-view-adapter':('packet-view-adapter','c1')}
+         'packet-view-adapter':('packet-view-adapter','c1'),
+         'arena-api-compile':('arena-api-prototypes','c1-compile'),
+         'arena-api-prototypes':('arena-api-prototypes','c1-prototypes')}
 
 
 CASE_DEPENDENCIES = {

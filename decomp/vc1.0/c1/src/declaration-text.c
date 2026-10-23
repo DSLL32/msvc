@@ -351,9 +351,30 @@ short __stdcall append_type_shapes(short handle, TypeShape *shape)
     return handle;
 }
 
-/* Original0x42430. */
+/* Original 0x42430..0x424e2, RET8. Spell the stored based-pointer
+   representation without changing its model or resolving its base again. */
 short __stdcall build_based_text(unsigned short attributes, FrontendSymbol *base)
-{ __asm { int 3 } return 0; }
+{
+    short handle = new_declaration_text();
+    unsigned model = attributes & 7;
+    append_declaration_text(handle, "__based(");
+    if (model == 4) {
+        append_declaration_text(handle, "void");
+    } else if (attributes & 8) {
+        append_declaration_text(handle, "(__segment)__self");
+    } else {
+        if ((base->kind & 31) == 13)
+            append_declaration_text(handle, "__segname(\"");
+        if (model == 7 || model == 6) {
+            append_declaration_text(handle, "(__segment)");
+            if (model == 6) append_declaration_text(handle, "&");
+        }
+        append_declaration_text(handle, base->name);
+        if ((base->kind & 31) == 13) append_declaration_text(handle, "\")");
+    }
+    append_declaration_text(handle, ") ");
+    return handle;
+}
 
 /* Original0x42b80. */
 short __stdcall prepend_pointer_text(short handle, TypeShape *shape)

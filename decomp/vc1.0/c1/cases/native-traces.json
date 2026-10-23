@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "a5580289cda9d9e31954fe53f39b837938d3930537173c2007c29db2b46c85f1",
+    "functions.json": "0e451b4ad5440feedf4edd0cc00311e4e910889fd8d8d43732ac0c9399be3604",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "68f8df7695e1047e38abefbb69e1dd238305fdefba67a7186196fb9b8299b98c"
+    "sha256": "6c63abd1bb6206de09f1c56c71249dacda20c3cdfb7b373c686f3bb67fe5c8d3"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "77d36922648658bace5010d492726cbaef178cdf34eebdfba36c1ed0edce55e8"
+    "sha256": "ef7b9bd246d4f55f1bbb80b8d8edc832e72a0ed65956e8b43d0147a8d05670e4"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -1547,7 +1547,7 @@
     },
     "has_parameter_shape_depth": {
       "logical": "_has_parameter_shape_depth@8",
-      "source": "src/stubs.c"
+      "source": "src/parameters.c"
     },
     "hash_bucket_index": {
       "logical": "_hash_bucket_index@8",
@@ -4475,7 +4475,9 @@
     "initialize_thread_symbol",
     "conversion_diagnostic",
     "type_warning",
-    "cache_parameter_bytes"
+    "cache_parameter_bytes",
+    "has_parameter_shape_depth",
+    "build_based_text"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5854,6 +5856,30 @@
       "terminal": {
         "kind": "exit",
         "code": 0
+      }
+    },
+    "arena-api-compile": {
+      "first": 969,
+      "last": 970,
+      "seen_count": 829,
+      "expected": [
+        "has_parameter_shape_depth"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "arena-api-prototypes": {
+      "first": 970,
+      "last": 971,
+      "seen_count": 830,
+      "expected": [
+        "build_based_text"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 1
       }
     }
   }

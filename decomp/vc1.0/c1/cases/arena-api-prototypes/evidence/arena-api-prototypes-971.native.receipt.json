@@ -1,0 +1,23 @@
+{
+  "buffers": {},
+  "frames": [],
+  "exit": 1,
+  "frontier": null,
+  "fresh_original_match": true,
+  "reference_clock_observation": null,
+  "preparation_seconds": 0.0035556508228182793,
+  "execution_seconds": 0.13972510490566492,
+  "total_seconds": 0.14515003003180027,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f api.c -Ze -Zp8 -Gs -Foapi.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zg -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2"
+  },
+  "stdio": {
+    "stderr_to_stdout": false,
+    "provenance": "Actual original CL normal compilation aliases diagnostics to fd1; prototype mode retains separate stdout prototypes/stderr diagnostics. Child intervals prove raw per-stream boundaries."
+  },
+  "executable_sha256": "49ae48d6cb6a8dce17efeccd68de048000e0e29a8d71d81e43fdf94e87e5aab9"
+}

@@ -319,6 +319,23 @@ def main():
     rejects('packet-stdcall-parameter-byte-decoration', 'output bytes differ: irgl',
             lambda:checker.validate_artifacts(packet,packet_fixture,packet_phase))
 
+    _, arena = checker.run_case('arena-api-prototypes', executable, directory, (cache,filter_path))
+    arena_fixture = checker.BINARY/'cases/arena-api-prototypes'
+    arena_phase = json.loads((arena_fixture/'manifest.json').read_text())['phases']['c1-prototypes']
+    exported = arena_phase['expected_stdout'].encode('latin1')
+    messages = arena_phase['expected_stderr'].encode('latin1')
+    rejects('arena-prototype-unexpected-success', 'native status',
+            lambda:checker.validate_result('arena-api-prototypes',0,exported,messages,arena_phase))
+    rejects('arena-prototype-based-name-spelling', 'stdout differs',
+            lambda:checker.validate_result('arena-api-prototypes',1,
+                exported.replace(b'__based(entry_base)',b'__based(other_base)'),messages,arena_phase))
+    reversed_messages = b''.join(reversed(messages.splitlines(keepends=True)))
+    rejects('arena-prototype-original-diagnostic-order', 'stderr differs',
+            lambda:checker.validate_result('arena-api-prototypes',1,exported,reversed_messages,arena_phase))
+    (arena/'api.obj').write_bytes(b'')
+    rejects('arena-prototype-absent-backend-output', 'forbidden output exists: api.obj',
+            lambda:checker.validate_artifacts(arena,arena_fixture,arena_phase))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

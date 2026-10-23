@@ -1,0 +1,56 @@
+{
+  "terminal_exit": 1,
+  "expected_exit": 1,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/arena-api-prototypes",
+  "phase": "c1-prototypes",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "enum_callback_function": null,
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "timestamp_probe": false,
+  "accepted_count": 971,
+  "accepted_sha256": "21a3ca9aa386d901396d30a81292089dafe6fc1743838ed13d17b24c4688b289",
+  "executable_sha256": "ebdc321ab890427874586e312c216478c230b609c80e5345361d3f5278f68deb",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "0f94a06afc3e47c5fa29175d9ecd57766701f1b9e483a272aab711cee1b776a7",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f api.c -Ze -Zp8 -Gs -Foapi.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zg -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\captures\\arena-api-prototypes-complete-971\\work",
+  "child_stdio": {
+    "stderr_to_stdout": false,
+    "provenance": "Actual original CL normal compilation aliases diagnostics to fd1; prototype mode retains separate stdout prototypes/stderr diagnostics. Child intervals prove raw per-stream boundaries."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/captures/arena-api-prototypes-complete-971/work",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.05415116064250469,
+  "execution_seconds": 1.1207370460033417,
+  "total_seconds": 1.174890716560185,
+  "files": [
+    {
+      "name": "api.c",
+      "bytes": 1797,
+      "sha256": "c0c15a3f7c3c0d8fcf9530d99f299e3f4a6b7e36f225b2e337fcea1c3ed40ed2"
+    }
+  ],
+  "first_entry_projection": {
+    "accepted_from": 970,
+    "accepted_count": 971,
+    "expected": [
+      "_build_based_text@8"
+    ],
+    "observed": [
+      "_build_based_text@8"
+    ],
+    "seeded_prefix_sha256": "8b7e32e7fb17ce4924021f2e206770c60ed17b7e0e17f01204568ac401ab2ade",
+    "plan_sha256": "d7c52befba7e51d5347b4e58f2240175b1722dbd39a40ba53cd73f789c5f0bc7",
+    "source": "Explicit fresh shared-prefix original first-entry traps; one-byte restore/EIP rewind, complete accepted function bodies/shared text."
+  }
+}
