@@ -44,6 +44,7 @@ def main():
         if side=='original':files += [p.name for p in source.glob('cache-message-*.bin')]+[p.name for p in source.glob('diagnostic-format.bin')]
         files += [p.name for p in source.glob('artifact-*.bin')]
         if side=='original':files += [p.name for p in source.glob('intermediate-*.bin')]
+        if side=='original':files += [name for name in ('runtime-original.json','runtime-rebuilt.json','graph-metadata.json')if(source/name).exists()]
         for name in files:shutil.copyfile(source/name,destination/name)
     def archive_inputs(directory,manifest,destination):
         with destination.open('wb')as raw,gzip.GzipFile(filename='',fileobj=raw,mode='wb',mtime=0)as compressed,tarfile.open(fileobj=compressed,mode='w')as archive:

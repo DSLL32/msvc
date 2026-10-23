@@ -107,6 +107,24 @@ def main():
         mutations += [('changed native option kind',changed_native_table),('different logical destination alias',changed_native_alias),
                       ('different initial CPU option',changed_native_default),('changed raw original table with matching hash',changed_original_data),
                       ('changed contextual data receipt with matching hash',changed_data_receipt)]
+    if 'allocate_node'in current_state:
+        def changed_node_argument(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['allocate_node'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        def unmasked_tail_target(root):
+            from state import load,offset
+            _,_,inventory=load();path=root/'o/C2.EXE';data=bytearray(path.read_bytes());at=offset(inventory,0x40d507);assert data[at]==0xcc;data[at]=0x53;path.write_bytes(data)
+            path=root/'o/receipt.json';receipt=json_at(path);receipt['executable_sha256']=sha((root/'o/C2.EXE').read_bytes());write_json(path,receipt)
+        def falsely_credited_tail_target(root):
+            path=audit_directory(root)/'graph-audit.json';graph=json_at(path);graph['functions']['@c2_allocate_node@8']={'edges':[],'imports':[]};graph['checked_functions']+=1;write_json(path,graph)
+            path=audit_path(root);receipt=json_at(path);receipt['report_sha256']=sha((audit_directory(root)/'graph-audit.json').read_bytes());write_json(path,receipt);bind_audit(root)
+        mutations += [('fastcall node kind differs',lambda r:changed_node_argument(r,'kind',2)),
+                      ('fastcall allocation pool differs',lambda r:changed_node_argument(r,'pool',1)),
+                      ('extent-known unaccepted application callee was unmasked',unmasked_tail_target),
+                      ('extent-known callee falsely credited as reconstructed',falsely_credited_tail_target)]
+    if 'binary_snapshot_sha256'in json_at(a.native/'receipt.json'):
+        mutations += [('retained native ELF artifact changed',lambda r:(r/'n/native.elf').write_bytes(b'changed ELF')),
+                      ('retained Win32 reconstruction changed',lambda r:(r/'o/rebuilt.exe').write_bytes(b'changed PE')),
+                      ('retained original-build MAP changed',lambda r:(r/'o/rebuilt.map').write_bytes(b'changed MAP'))]
     if 'symbol_hash'in current_state:
         def wrong_hash_extent(root):
             path=root/'n/state.json';state=json_at(path);state['symbol_hash']['slots']=1023;write_json(path,state);raw_changed(root,'n','state.json')

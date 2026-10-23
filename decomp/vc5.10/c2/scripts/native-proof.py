@@ -15,7 +15,7 @@ def symbols(binary,data=False):
     return rows
 
 
-def load_bias(binary,maps):
+def load_bias(binary,maps,mapped_path=None):
     data=binary.read_bytes();assert data[:6]==b'\x7fELF\x01\x01'
     offset=struct.unpack_from('<I',data,28)[0];size,count=struct.unpack_from('<HH',data,42)
     segments=[]
@@ -25,7 +25,7 @@ def load_bias(binary,maps):
     candidates=[]
     for line in maps.splitlines():
         parts=line.split(maxsplit=5)
-        if len(parts)!=6 or parts[5]!=str(binary):continue
+        if len(parts)!=6 or parts[5]!=str(mapped_path or binary):continue
         start=int(parts[0].split('-')[0],16);file_offset=int(parts[2],16)
         for p,v,_,_ in segments:
             if p&~4095==file_offset:candidates.append(start-(v&~4095))
@@ -33,8 +33,8 @@ def load_bias(binary,maps):
     return candidates[0]
 
 
-def verify(binary,maps,raw,state,config):
-    table=symbols(binary);bias=load_bias(binary,maps)
+def verify(binary,maps,raw,state,config,mapped_path=None):
+    table=symbols(binary);bias=load_bias(binary,maps,mapped_path)
     name=state['function'];assert name in table,'frontier name has no ELF function'
     start,size=table[name];assert size>0
     registers=re.findall(r'^eip\s+(0x[0-9a-f]+)\b',raw,re.M)
@@ -54,7 +54,7 @@ def verify(binary,maps,raw,state,config):
     assert [n for n,_ in entries]==state['trace'],'raw GDB entry order differs from derived state'
     return {'load_bias':hex(bias),'frontier_symbol':name,'symbol_start':hex(start),'symbol_size':size,'static_pc':hex(static_pc),'int3_sites':[hex(n)for n in sorted(traps)]}
 
-def verify_completion(binary,maps,raw,state,config,status=1):
+def verify_completion(binary,maps,raw,state,config,status=1,mapped_path=None):
     import json
     assert set(state)=={'completed','exit_status','trace','arguments','MSC_CMD_FLAGS'},'completion contains an invented frontier'
     assert state['completed']is True and state['exit_status']==status
@@ -62,7 +62,7 @@ def verify_completion(binary,maps,raw,state,config,status=1):
     observed=re.findall(r'^C2-PROCESS-INPUT (.+)$',raw,re.M)
     assert len(observed)==1 and json.loads(observed[0])=={'arguments':state['arguments'],'MSC_CMD_FLAGS':state['MSC_CMD_FLAGS']},'actual native process input differs'
     assert 'SIGTRAP'not in raw and not re.findall(r'^eip\s+',raw,re.M),'trap cannot be completion'
-    table=symbols(binary);bias=load_bias(binary,maps)
+    table=symbols(binary);bias=load_bias(binary,maps,mapped_path)
     entries=re.findall(r'^C2-SOURCE-ENTRY (\S+) (0x[0-9a-f]+)$',raw,re.M)
     indexed={r['name']:r.get('native',r['name'].lstrip('_'))for r in config['driver']if r['name']in config['accepted']}
     for logical,address in entries:

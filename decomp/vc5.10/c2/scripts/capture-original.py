@@ -43,6 +43,14 @@ def main():
     from audit import run as run_audit
     audit=run_audit(output/'configuration.json',output/'graph-audit.json')
     (output/'audit-receipt.json').write_text(json.dumps(audit,indent=2)+'\n')
+    shutil.copyfile(BINARY/'build/c2.exe',output/'rebuilt.exe')
+    shutil.copyfile(BINARY/'build/c2.map',output/'rebuilt.map')
+    assert sha((output/'rebuilt.exe').read_bytes())==audit['rebuilt_sha256']
+    assert sha((output/'rebuilt.map').read_bytes())==audit['rebuilt_map_sha256']
+    static_snapshots={}
+    for source,name in [('runtime.json','runtime-original.json'),('build/runtime.json','runtime-rebuilt.json'),('build/graph-metadata.json','graph-metadata.json')]:
+        shutil.copyfile(BINARY/source,output/name)
+        static_snapshots[name]={'input':source,'sha256':sha((output/name).read_bytes())}
     image=original if args.unmasked else masked(config,original,inventory,args.candidate)
     entries=[]
     if args.observe_messages:
@@ -87,6 +95,8 @@ def main():
     receipt=dict(case_id=config['case']['id'],case_inputs={name:sha((work/name).read_bytes())for name in input_names},artifacts=artifacts(work,case_value,output),helper_inputs_sha256=sha((output/'helper-inputs.json').read_bytes()),data_model_sha256=sha((output/'data-model.json').read_bytes())if data_model else None,data_state_sha256=sha((output/'data-state.bin').read_bytes())if(output/'data-state.bin').exists()else None,explicit_child_environment=True,child_cwd=child_cwd,kind='explicit-original-only',observe_messages=args.observe_messages,observe_startup=args.observe_startup,unmasked=args.unmasked,candidates=args.candidate,
                  command=command,base_configuration_sha256=sha(base_snapshot),configuration_sha256=sha(snapshot),target_sha256=sha(original),
                  executable_sha256=sha(image),debugger_sha256=sha((BINARY/'build/debug-run.exe').read_bytes()),
+                 rebuilt_snapshot_sha256=sha((output/'rebuilt.exe').read_bytes()),rebuilt_map_snapshot_sha256=sha((output/'rebuilt.map').read_bytes()),
+                 static_input_snapshots=static_snapshots,
                  audit_receipt_sha256=sha((output/'audit-receipt.json').read_bytes()),rebuilt_sha256=sha((BINARY/'build/c2.exe').read_bytes()),
                  audit_inputs=audit_input_hashes(),source_hashes=source_hashes(),events_sha256=sha((output/'events.txt').read_bytes())if(output/'events.txt').exists()else None,
                  environment=config['case']['environment'],provider_sha256=sha(provider.read_bytes())if provider.exists()else None,

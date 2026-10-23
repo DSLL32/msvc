@@ -102,6 +102,7 @@ typedef struct C2Symbol C2Symbol;
 extern unsigned c2_symbol_hash_count;
 extern C2Symbol *c2_symbol_hash[1024];
 void *c2_create_type_table(void);
+void *__fastcall c2_allocate_node(signed char kind, int pool);
 void c2_initialize_constants(void);
 void c2_initialize_opcodes(void);
 void c2_initialize_machine(void);

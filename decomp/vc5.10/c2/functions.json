@@ -43,7 +43,8 @@
     "_c2_read_il_byte",
     "_c2_read_il_word",
     "_c2_read_il_long",
-    "_c2_reset_symbol_table"
+    "_c2_reset_symbol_table",
+    "_c2_create_type_table"
   ],
   "driver": [
     {
@@ -1720,32 +1721,12 @@
       ],
       "expected_argc": 0,
       "evidence": "cases/analysis/symbol-reset-disassembly.txt: complete 27-byte counter reset and 1024-DWORD intrinsic memset, RET0"
-    }
-  ],
-  "stubs": [
-    {
-      "name": "_c2_math_error",
-      "native": "c2_math_error",
-      "start": 4484380,
-      "end": 4484383,
-      "abi": "cdecl, one pointer parameter",
-      "kind": "crt-source"
-    },
-    {
-      "name": "_c2_print_banner",
-      "native": "c2_print_banner",
-      "start": 4738355,
-      "end": 4738356,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
     },
     {
       "name": "_c2_create_type_table",
       "native": "c2_create_type_table",
       "start": 4534317,
-      "end": 4534318,
-      "pending_extent": true,
+      "end": 4534326,
       "kind": "application",
       "abi": "cdecl, no parameters",
       "state_policy": "symbol-table-empty",
@@ -1834,7 +1815,27 @@
       "expected_argv": [
         "-G5"
       ],
-      "expected_argc": 0
+      "expected_argc": 0,
+      "evidence": "cases/analysis/type-factory-disassembly.txt: complete 9-byte CL=1/EDX=0 tail jump, inherited RET0 from proven unaccepted application callee extent"
+    }
+  ],
+  "stubs": [
+    {
+      "name": "_c2_math_error",
+      "native": "c2_math_error",
+      "start": 4484380,
+      "end": 4484383,
+      "abi": "cdecl, one pointer parameter",
+      "kind": "crt-source"
+    },
+    {
+      "name": "_c2_print_banner",
+      "native": "c2_print_banner",
+      "start": 4738355,
+      "end": 4738356,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters"
     },
     {
       "name": "_c2_initialize_constants",
@@ -1970,6 +1971,104 @@
       "pending_extent": true,
       "kind": "application",
       "abi": "fastcall ECX PDB filename EDX object filename; int result; no stack parameters"
+    },
+    {
+      "name": "@c2_allocate_node@8",
+      "native": "c2_allocate_node",
+      "start": 4248839,
+      "end": 4248884,
+      "pending_extent": false,
+      "extent_known_for_tail_abi": true,
+      "extent_evidence": "cases/analysis/type-factory-disassembly.txt: complete45-byte application allocator, CL signed-char kind, EDX int pool, RET0; body remains masked/unaccepted",
+      "kind": "application",
+      "abi": "fastcall signed char kind in CL, int pool in EDX; pointer result, RET0",
+      "state_policy": "allocate-node",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "c2_symbol_hash_count"
+        }
+      ],
+      "expected_argv": [
+        "-G5"
+      ],
+      "expected_argc": 0
     }
   ],
   "text_data": [
@@ -2104,5 +2203,6 @@
   },
   "trial": [],
   "pending_data": [],
-  "data_model": "cases/analysis/options-model.json"
+  "data_model": "cases/analysis/options-model.json",
+  "retain_capture_binaries": true
 }

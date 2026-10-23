@@ -7,10 +7,10 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 27 application functions (4578 bytes) and five CRT
+Current reconstruction has 29 application functions (4614 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded its complete IL header and
-now stops at symbol-table reset. Four import thunks (24 bytes) and contextual
-text tables (216 bytes) remain separate. The 5016 source bytes are 0.875% of
+now stops at the node allocator. Four import thunks (24 bytes) and contextual
+text tables (216 bytes) remain separate. The 5052 source bytes are 0.881% of
 573183 `.text` bytes; that denominator includes CRT/data/padding and is not
 non-CRT coverage. `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -21,7 +21,9 @@ checks the Win32 reconstruction with the shipped compiler and `/MD` runtime.
 paths. `make -j4 fixtures` runs only the native executable against frozen streams and
 19 original application entries. Current measurements: 2.7 ms execution, 9.2 ms
 including fixture setup/checks. New capture helpers retain their actual executable
-and immutable compiled inputs; earlier raw evidence is never relabeled.
+and immutable compiled inputs; newer captures also retain ELF/PE/MAP and
+static-index snapshots in scratch for independent review. Earlier raw evidence
+is never relabeled.
 Original captures are explicit scripts and never fixture dependencies.
 
 The initial full-text INT3 frontier was matched at `0x452797`, with the actual

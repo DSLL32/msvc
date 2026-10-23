@@ -19,6 +19,7 @@ def main():
     output=args.output.resolve();output.mkdir(parents=True,exist_ok=False)
     (output/'base_configuration.json').write_bytes(base_snapshot);(output/'configuration.json').write_bytes(snapshot)
     executable=BINARY/'build/native/c2'
+    shutil.copyfile(executable,output/'native.elf')
     from case_inputs import manifest,materialize,artifacts
     case_directory,case_value,target_environment=manifest(config)
     work=output/'work';input_names=materialize(case_directory,case_value,work)
@@ -87,7 +88,7 @@ records=[r for r in %r if r['native']==frame.name()]
 if len(records)==1:
     for view in records[0].get('state',[]):
         info['globals'][view['original']]=int(gdb.parse_and_eval(view['native'])) & 0xffffffff
-    if records[0].get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty'):
+    if records[0].get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node'):
         ptr=gdb.parse_and_eval('c2_argv');values=[];i=0
         while int(ptr[i]):
             values.append(ptr[i].string());i+=1
@@ -95,7 +96,7 @@ if len(records)==1:
         info['command_state']={'argc':int(gdb.parse_and_eval('c2_argc')),'argv':values}
         if records[0]['state_policy']=='environment-flags':
             info['flags']=None if int(gdb.parse_and_eval('flags'))==0 else gdb.parse_and_eval('flags').string()
-    if records[0].get('state_policy')in ('alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty'):
+    if records[0].get('state_policy')in ('alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node'):
         vector=gdb.parse_and_eval('recon_crt_environment');index=0;origin=None
         while int(vector[index]):
             entry=vector[index];prefix=gdb.selected_inferior().read_memory(entry,14).tobytes()
@@ -107,20 +108,22 @@ if len(records)==1:
         info['alignment_option']={'alignment':None if not int(alignment)else alignment.string(),'current':current.string(),
                                   'current_offset':int(current)-origin,'operand':operand.string(),'operand_offset':int(operand)-origin,
                                   'argv_offset':int(argv)-int(array.address),'argv_value_alias':int(argv[0])==int(current)}
-    if records[0].get('state_policy')=='symbol-table-empty':
+    if records[0].get('state_policy')in ('symbol-table-empty','allocate-node'):
         import hashlib
         table=gdb.parse_and_eval('c2_symbol_hash')
         data=gdb.selected_inferior().read_memory(table.address,4096).tobytes()
         info['symbol_hash']={'slots':int(gdb.parse_and_eval('sizeof(c2_symbol_hash)/sizeof(c2_symbol_hash[0])')),'sha256':hashlib.sha256(data).hexdigest()}
-    if records[0].get('state_policy')in ('header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty'):
+    if records[0].get('state_policy')=='allocate-node':
+        info['allocate_node']={'kind':int(gdb.parse_and_eval('kind')),'pool':int(gdb.parse_and_eval('pool'))}
+    if records[0].get('state_policy')in ('header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node'):
         first=gdb.parse_and_eval('c2_input');second=gdb.parse_and_eval('c2_globals_input');iob=gdb.parse_and_eval('&recon_iob[0]')
         info['header_streams']={'input_index':(int(first)-int(iob))//32,'globals_index':(int(second)-int(iob))//32,
                                 'input':gdb.selected_inferior().read_memory(first,32).tobytes().hex(),
                                 'globals':gdb.selected_inferior().read_memory(second,32).tobytes().hex(),
                                 'distinct':int(first)!=int(second),'x87_control':int(gdb.parse_and_eval('$fctrl'))}
-        if records[0]['state_policy']in ('il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty'):
+        if records[0]['state_policy']in ('il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node'):
             info['header_streams']['active_index']=(int(gdb.parse_and_eval('c2_current_il'))-int(iob))//32
-        if records[0]['state_policy']in ('il-word-read','il-long-read','symbol-reset','symbol-table-empty'):
+        if records[0]['state_policy']in ('il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node'):
             stream=second.dereference();valid=int(stream['_cnt'])+int(stream['_ptr'])-int(stream['_base'])
             assert 0<valid<=int(stream['_bufsiz'])<=4096
             info['header_streams']['valid_buffer']=gdb.selected_inferior().read_memory(stream['_base'],valid).tobytes().hex()
@@ -204,7 +207,7 @@ if len(records)==1:
 open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
 """ % (str(output/'native-maps.txt'),config['stubs'],str(output/'state.json'))
     if config.get('data_model'):
-        data_program="""if records and records[0].get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty'):
+        data_program="""if records and records[0].get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node'):
     if records[0]['state_policy']=='wildcard-match':
         info['wildcard']={'pattern':gdb.parse_and_eval('pattern').string(),'input':gdb.parse_and_eval('input').string(),
                       'kind':int(gdb.parse_and_eval('kind')),'current_alias':int(gdb.parse_and_eval('c2_current_option == input'))}
@@ -276,6 +279,7 @@ else:
     assert sha(resources.read_bytes())==resource_sha256,'prepared resources changed during capture'
     receipt=dict(case_id=config['case']['id'],case_inputs={name:sha((work/name).read_bytes())for name in input_names},artifacts=artifacts(work,case_value,output),target_environment_sha256=sha((output/'target-environment.bin').read_bytes()),data_model_sha256=sha((output/'data-model.json').read_bytes())if config.get('data_model')else None,resource_sha256=resource_sha256,kind='native-linux-gdb',command=command,candidates=config['trial'],base_configuration_sha256=sha(base_snapshot),configuration_sha256=sha(snapshot),
                  target_sha256=sha(TARGET.read_bytes()),native_sha256=sha(executable.read_bytes()),
+                 binary_snapshot_sha256=sha((output/'native.elf').read_bytes()),
                  rebuilt_sha256=sha((BINARY/'build/c2.exe').read_bytes()),
                  audit_inputs=audit_input_hashes(),source_hashes=source_hashes(),state_sha256=sha((output/'state.json').read_bytes())if(output/'state.json').exists()else None,
                  provenance_sha256=sha((output/'compiled-inputs.json').read_bytes()),
@@ -286,6 +290,7 @@ else:
     for stream in ('stdout','stderr'):
         path=output/(stream+'.bin');receipt[stream]={'bytes':path.stat().st_size,'sha256':sha(path.read_bytes())}
     (output/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+    assert receipt['binary_snapshot_sha256']==receipt['native_sha256'],'native executable changed during capture'
     assert result.returncode==0 and (output/'state.json').is_file(),result.stderr
     assert base_snapshot==(BINARY/'functions.json').read_bytes()
     print((output/'state.json').read_text())
