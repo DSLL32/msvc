@@ -74,6 +74,7 @@ typedef struct CompilerPool {
     struct CompilerArena *arena;
 #ifdef __cplusplus
     CompilerPool *RECON_THISCALL Initialize(unsigned);
+    void RECON_THISCALL SetArena(unsigned);
 #endif
 } CompilerPool;
 /* Pointer-relocation/file context: fields are established by its own load,

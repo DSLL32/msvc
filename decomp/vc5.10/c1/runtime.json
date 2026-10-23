@@ -119,10 +119,11 @@
     "evidence": "genuine internal-switch scanner callee; named INT3 entry only"
   },
   {
-    "name": "_initialize_default_pools",
-    "start": 274803395,
-    "end": 274803396,
+    "name": "CompilerPool::SetArena",
+    "symbol": "?SetArena@CompilerPool@@QAEXI@Z",
+    "start": 274803504,
+    "end": 274803505,
     "pending_extent": true,
-    "evidence": "actual arena initializer callee; named INT3 only"
+    "evidence": "genuine thiscall target of nine default-pool calls; ECX plus unsigned stackargument, realRET4 at12b46; only INT3 identity pending, no extent credit"
   }
 ]

@@ -32,7 +32,7 @@
     {
       "order": 2,
       "id": "minimal",
-      "status": "reconstructing; Reset12ab2 accepted through all six arena calls to default pool helper12ac3; actual hostCRT3/env78 separately bound fromInvoke11",
+      "status": "reconstructing; default-pool wrapper109B accepted to first SetArena12b30(pool8,arena0) after all six arena initializations",
       "proposed_driver_argv": [
         "/nologo",
         "/c",

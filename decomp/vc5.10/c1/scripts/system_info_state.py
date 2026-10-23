@@ -19,7 +19,7 @@ def boundary(original,native,state,sequence,module):
  return entry,entry_sequence
 
 def validate(original,native,entry,state,entry_sequence,sequence,module,candidate):
- assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('post-system-info',0x12999),('arena-initialization',0x129db),('arena-reservation',0x12a18),('arena-size-calculation',0x12a7a),('arena-initialized',0x12ab2),('arenas-complete',0x12ac3)]
+ assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('post-system-info',0x12999),('arena-initialization',0x129db),('arena-reservation',0x12a18),('arena-size-calculation',0x12a7a),('arena-initialized',0x12ab2),('arenas-complete',0x12ac3),('default-pool-arena',0x12b30)]
  events=(original/'events.txt').read_text()
  before=re.findall(r'^systeminfo-before seq=(\d+) pc=([0-9a-f]+) esp=([0-9a-f]+) argument=([0-9a-f]+) provider=([0-9a-f]+) error=(\d+) fpu=([0-9a-f]+)$',events,re.M)
  after=re.findall(r'^systeminfo-after seq=(\d+) pc=([0-9a-f]+) esp=([0-9a-f]+) before-esp=([0-9a-f]+) error=(\d+) before-error=(\d+) fpu=([0-9a-f]+)$',events,re.M)

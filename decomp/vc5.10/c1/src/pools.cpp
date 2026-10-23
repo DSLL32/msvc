@@ -57,3 +57,22 @@ extern "C" void __cdecl initialize_state_1276d(void)
 {
     c1_bss.pools[8].Initialize(1);
 }
+
+/* The observed default order differs from static initializer order. */
+extern "C" void __cdecl initialize_default_pools(void)
+{
+    c1_bss.pools[8].SetArena(0);
+    c1_bss.pools[7].SetArena(0);
+    c1_bss.pools[0].SetArena(0);
+    c1_bss.pools[1].SetArena(0);
+    c1_bss.pools[2].SetArena(0);
+    c1_bss.pools[3].SetArena(0);
+    c1_bss.pools[4].SetArena(0);
+    c1_bss.pools[5].SetArena(0);
+    c1_bss.pools[6].SetArena(0);
+}
+
+void RECON_THISCALL CompilerPool::SetArena(unsigned arena_index)
+{
+    __asm { int 3 }
+}

@@ -477,7 +477,24 @@ class ActualArenaMemberEntry(gdb.Breakpoint):
         return False
 ActualArenaMemberEntry('*0x%x')
 """%member_address
-            main_probe+=member_probe
+            default_probe=""
+            if candidate.get('default_pool_order'):
+                default_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] initialize_default_pools$',table,re.M)[1],16)
+                default_probe=primary_probe.replace('primary_entries','default_pool_entries').replace('ActualPrimaryEntry','ActualDefaultPoolEntry').replace("'boundary_rva':0x129db","'boundary_rva':0x12ac3").replace("*0x%x"%primary_address,"*0x%x"%default_address)
+                pool_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] _ZN12CompilerPool8SetArenaEj$',table,re.M)[1],16)
+                default_probe+="""pool_arena_entries=[]
+class ActualPoolArenaEntry(gdb.Breakpoint):
+    def stop(self):
+        pc=int(gdb.parse_and_eval('(unsigned int)$pc'));esp=int(gdb.parse_and_eval('(unsigned int)$esp'))
+        words=list(struct.unpack('<2I',gdb.selected_inferior().read_memory(esp,8).tobytes()))
+        block=gdb.block_for_pc(pc)
+        while block and not block.function:block=block.superblock
+        assert block and block.function
+        pool_arena_entries.append({'pc':pc,'esp':esp,'return':words[0],'ecx':int(gdb.parse_and_eval('(unsigned int)$ecx')),'arena_index':words[1],
+          'formal_inventory':[{'name':symbol.name,'type':str(symbol.type)}for symbol in block if symbol.is_argument],'compiler_state':capture_modeled()});return False
+ActualPoolArenaEntry('*0x%x')
+"""%pool_address
+            main_probe+=member_probe+default_probe
             main_probe+=work_probe+scanner_probe+empty_probe+arena_probe+primary_probe
             allocation_probe=allocation_probe.replace('\nend\n','\n'+main_probe+'end\n')
             commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(main_entries,indent=2)+'\\n')\n"%str(output/'main-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
@@ -486,6 +503,9 @@ ActualArenaMemberEntry('*0x%x')
         commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(primary_entries,indent=2)+'\\n')\n"%str(output/'primary-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(arena_member_entries,indent=2)+'\\n')\n"%str(output/'arena-member-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(arena_member_returns,indent=2)+'\\n')\n"%str(output/'arena-member-returns.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
+        if candidate.get('default_pool_order'):
+            for name,expression in [('default-pools-entry.json','default_pool_entries'),('pool-arena-entries.json','pool_arena_entries')]:
+                commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')\n"%(str(output/name),expression)+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         if candidate.get('scaler_observers'):
             from scaler_native_probe import probes
             allocation_probe=allocation_probe.replace('\nend\n','\n'+probes(binary,output,bool(args.restore_probe and candidate.get('reset_observers')))+'end\n')

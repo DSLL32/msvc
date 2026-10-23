@@ -1,0 +1,183 @@
+Breakpoint 1 at 0x804ad09: file src/pass.c, line 39.
+Breakpoint 2 at 0x804be00: file src/pools.cpp, line 8.
+Breakpoint 3 at 0x804c370: file src/pch-state.cpp, line 7.
+Breakpoint 4 at 0x804c480: file src/main.c, line 7.
+Breakpoint 5 at 0x804cc30: file src/arenas.cpp, line 40.
+Breakpoint 6 at 0x804c1c0: file src/pools.cpp, line 63.
+Breakpoint 7 at 0x804c320: file src/pools.cpp, line 76.
+Breakpoint 8 at 0x804c670: file src/work-buffers.c, line 6.
+Breakpoint 9 at 0x804c7c0: file src/options.c, line 7.
+Breakpoint 10 at 0x804c5b0: file src/main.c, line 33.
+Breakpoint 11 at 0x804cac0: file src/arenas.cpp, line 15.
+Breakpoint 12 at 0x804cb80: file src/arenas.cpp, line 28.
+Breakpoint 13 at 0x804a8f0: file src/native-crt.c, line 20.
+Breakpoint 14 at 0x804cd10: file src/arenas.cpp, line 56.
+Breakpoint 15 at 0x804cd3e: file src/arenas.cpp, line 61.
+Breakpoint 16 at 0x804cd49: file src/arenas.cpp, line 62.
+Breakpoint 17 at 0x804cd4c: file src/arenas.cpp, line 61.
+Breakpoint 18 at 0x804cd4e: file src/arenas.cpp, line 61.
+Breakpoint 19 at 0x804cd54: file src/arenas.cpp, line 62.
+Breakpoint 20 at 0x804cd56: file src/arenas.cpp, line 61.
+Breakpoint 21 at 0x804cd66: file src/arenas.cpp, line 61.
+Breakpoint 22 at 0x804cd69: file src/arenas.cpp, line 61.
+Breakpoint 23 at 0x804cd6c: file src/arenas.cpp, line 61.
+Breakpoint 24 at 0x804cd6f: file src/arenas.cpp, line 61.
+Breakpoint 25 at 0x804cdd0: file src/arenas.cpp, line 69.
+Breakpoint 26 at 0x805ef90: file ../../../lib/recon/src/win32.c, line 835.
+Breakpoint 27 at 0x804c700: file src/work-buffers.c, line 14.
+Breakpoint 28 at 0x804c8c0: file src/options.c, line 26.
+Breakpoint 29 at 0x804ec60: file ../../../lib/recon/src/crt.c, line 240.
+Breakpoint 30 at 0x805c220: file ../../../lib/recon/src/win32.c, line 317.
+Breakpoint 31 at 0x804abd6: file src/pass.c, line 8.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 31, initialize_compiler_pass () at src/pass.c:8
+8	{
+Breakpoint 32 at 0x804ac85: file src/pass.c, line 22.
+
+Breakpoint 32, initialize_compiler_pass () at src/pass.c:22
+22	        c1_reuse_state = !c1_pass_mode;
+Breakpoint 33 at 0x804ae36: file src/initializers.c, line 5.
+
+Breakpoint 33, initialize_state_12365 () at src/initializers.c:5
+5	{
+Breakpoint 34 at 0x804ae96: file src/initializers.c, line 12.
+
+Breakpoint 34, initialize_state_12377 () at src/initializers.c:12
+12	{
+Breakpoint 35 at 0x804aef6: file src/initializers.c, line 19.
+
+Breakpoint 35, initialize_state_12389 () at src/initializers.c:19
+19	{
+Breakpoint 36 at 0x804b606: file src/buffers.c, line 5.
+
+Breakpoint 36, initialize_output_buffer_123ae () at src/buffers.c:5
+5	{
+Breakpoint 37 at 0x804b6d6: file src/buffers.c, line 24.
+
+Breakpoint 37, initialize_output_buffer_12423 () at src/buffers.c:24
+24	{
+Breakpoint 38 at 0x804b7a6: file src/buffers.c, line 44.
+
+Breakpoint 38, initialize_output_buffer_12472 () at src/buffers.c:44
+44	{
+Breakpoint 39 at 0x804b876: file src/buffers.c, line 63.
+
+Breakpoint 39, initialize_output_buffer_124c1 () at src/buffers.c:63
+63	{
+Breakpoint 40 at 0x804b946: file src/buffers.c, line 82.
+
+Breakpoint 40, initialize_output_buffer_12510 () at src/buffers.c:82
+82	{
+Breakpoint 41 at 0x804ba16: file src/buffers.c, line 101.
+
+Breakpoint 41, initialize_output_buffer_1255f () at src/buffers.c:101
+101	{
+Breakpoint 42 at 0x804bae6: file src/buffers.c, line 120.
+
+Breakpoint 42, initialize_output_buffer_125ae () at src/buffers.c:120
+120	{
+Breakpoint 43 at 0x804bbb6: file src/buffers.c, line 139.
+
+Breakpoint 43, initialize_output_buffer_125fd () at src/buffers.c:139
+139	{
+Breakpoint 44 at 0x804b316: file src/initializers.c, line 93.
+
+Breakpoint 44, initialize_state_12646 () at src/initializers.c:93
+93	{
+Breakpoint 45 at 0x804b366: file src/initializers.c, line 99.
+
+Breakpoint 45, initialize_state_12663 () at src/initializers.c:99
+99	{
+Breakpoint 46 at 0x804b3a6: file src/initializers.c, line 103.
+
+Breakpoint 46, initialize_state_12664 () at src/initializers.c:103
+103	{
+Breakpoint 47 at 0x804b3e6: file src/initializers.c, line 108.
+
+Breakpoint 47, initialize_state_1266f () at src/initializers.c:108
+108	{
+Breakpoint 48 at 0x804bc86: file src/pdb.c, line 7.
+
+Breakpoint 48, initialize_pdb_context_12676 () at src/pdb.c:7
+7	{
+Breakpoint 49 at 0x804b436: file src/initializers.c, line 114.
+
+Breakpoint 49, initialize_state_126af () at src/initializers.c:114
+114	{
+Breakpoint 50 at 0x804bd46: file src/pdb.c, line 27.
+
+Breakpoint 50, initialize_pdb_context_126b6 () at src/pdb.c:27
+27	{
+Breakpoint 51 at 0x804be76: file src/pools.cpp, line 17.
+
+Breakpoint 51, initialize_state_126ef () at src/pools.cpp:17
+17	{
+Breakpoint 52 at 0x804b4c6: file src/initializers.c, line 140.
+Breakpoint 53 at 0x804bea3: file src/pools.cpp, line 18.
+Breakpoint 54 at 0x804bef6: file src/pools.cpp, line 23.
+Breakpoint 55 at 0x804bf56: file src/pools.cpp, line 28.
+Breakpoint 56 at 0x804bfb6: file src/pools.cpp, line 33.
+Breakpoint 57 at 0x804c016: file src/pools.cpp, line 38.
+Breakpoint 58 at 0x804c076: file src/pools.cpp, line 43.
+Breakpoint 59 at 0x804c0d6: file src/pools.cpp, line 48.
+Breakpoint 60 at 0x804c136: file src/pools.cpp, line 53.
+Breakpoint 61 at 0x804c199: file src/pools.cpp, line 58.
+
+Breakpoint 52, initialize_state_1277b () at src/initializers.c:140
+140	{
+Breakpoint 62 at 0x804c45c: file src/pch-state.cpp, line 27.
+Breakpoint 63 at 0x804c69f: file src/work-buffers.c, line 7.
+Breakpoint 64 at 0x804c746: file src/work-buffers.c, line 16.
+Breakpoint 65 at 0x804c780: file src/work-buffers.c, line 19.
+Breakpoint 66 at 0x804c6c7: file src/work-buffers.c, line 9.
+Breakpoint 67 at 0x804c746: file src/work-buffers.c, line 16.
+Breakpoint 68 at 0x804c780: file src/work-buffers.c, line 19.
+Breakpoint 69 at 0x804c80d: file src/options.c, line 13.
+Breakpoint 70 at 0x804c80d: file src/options.c, line 13.
+Breakpoint 71 at 0x804c80d: file src/options.c, line 13.
+Breakpoint 72 at 0x804c80d: file src/options.c, line 13.
+Breakpoint 73 at 0x804c80d: file src/options.c, line 13.
+Breakpoint 74 at 0x804c80d: file src/options.c, line 13.
+Breakpoint 75 at 0x804c80d: file src/options.c, line 13.
+Breakpoint 76 at 0x804c80d: file src/options.c, line 13.
+Breakpoint 77 at 0x804c80d: file src/options.c, line 13.
+Breakpoint 78 at 0x804c80d: file src/options.c, line 13.
+Breakpoint 79 at 0x804c829: file src/options.c, line 14.
+Breakpoint 80 at 0x804c4ef: file src/main.c, line 15.
+Breakpoint 81 at 0x804cbf1: file src/arenas.cpp, line 32.
+Breakpoint 82 at 0x804cc73: file src/arenas.cpp, line 42.
+Breakpoint 83 at 0x804ccb4: file src/arenas.cpp, line 43.
+Breakpoint 84 at 0x804ccdd: file src/arenas.cpp, line 50.
+Breakpoint 85 at 0x804cb36: file src/arenas.cpp, line 20.
+Breakpoint 86 at 0x804cc73: file src/arenas.cpp, line 42.
+Breakpoint 87 at 0x804ccb4: file src/arenas.cpp, line 43.
+Breakpoint 88 at 0x804ccdd: file src/arenas.cpp, line 50.
+Breakpoint 89 at 0x804cb36: file src/arenas.cpp, line 20.
+Breakpoint 90 at 0x804cc73: file src/arenas.cpp, line 42.
+Breakpoint 91 at 0x804ccb4: file src/arenas.cpp, line 43.
+Breakpoint 92 at 0x804ccdd: file src/arenas.cpp, line 50.
+Breakpoint 93 at 0x804cb36: file src/arenas.cpp, line 20.
+Breakpoint 94 at 0x804cc73: file src/arenas.cpp, line 42.
+Breakpoint 95 at 0x804ccb4: file src/arenas.cpp, line 43.
+Breakpoint 96 at 0x804ccdd: file src/arenas.cpp, line 50.
+Breakpoint 97 at 0x804cb36: file src/arenas.cpp, line 20.
+Breakpoint 98 at 0x804cc73: file src/arenas.cpp, line 42.
+Breakpoint 99 at 0x804ccb4: file src/arenas.cpp, line 43.
+Breakpoint 100 at 0x804ccdd: file src/arenas.cpp, line 50.
+Breakpoint 101 at 0x804cb36: file src/arenas.cpp, line 20.
+Breakpoint 102 at 0x804cc73: file src/arenas.cpp, line 42.
+Breakpoint 103 at 0x804ccb4: file src/arenas.cpp, line 43.
+Breakpoint 104 at 0x804ccdd: file src/arenas.cpp, line 50.
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+CompilerPool::SetArena (this=0x806c5e8 <c1_bss+672>, arena_index=0) at src/pools.cpp:78
+78	}
+#0  CompilerPool::SetArena (this=0x806c5e8 <c1_bss+672>, arena_index=0) at src/pools.cpp:78
+#1  0x0804c1fb in initialize_default_pools () at src/pools.cpp:64
+#2  0x0804cb5e in initialize_compiler_arenas () at src/arenas.cpp:24
+#3  0x0804c4f7 in c1_main (argc=11, argv=0xffffd68c) at src/main.c:16
+#4  0x0804a864 in InvokeCompilerPass (argc=11, argv=0xffffd68c, mode=1) at src/exports.c:16
+#5  0x0804d172 in c1_native_host (argc=2, argv=0xffffd7c4) at scripts/native-host.c:80
+#6  0x08059725 in main (argc=2, argv=0xffffd7c4) at ../../../lib/recon/src/entry.c:24

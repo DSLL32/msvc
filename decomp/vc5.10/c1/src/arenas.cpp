@@ -73,7 +73,3 @@ void RECON_THISCALL CompilerArena::Reset(void)
     reset_value = 0;
 }
 
-void __cdecl initialize_default_pools(void)
-{
-    __asm { int 3 }
-}

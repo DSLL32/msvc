@@ -451,6 +451,11 @@
       "start_rva": 76466,
       "end_rva": 76483,
       "entry": 1
+    },
+    {
+      "start_rva": 76483,
+      "end_rva": 76592,
+      "entry": 1
     }
   ],
   "functions": [
@@ -1374,6 +1379,19 @@
         ]
       ],
       "source": "src/arenas.cpp",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_default_pools",
+      "native_symbol": "initialize_default_pools",
+      "role": "application",
+      "chunks": [
+        [
+          76483,
+          76592
+        ]
+      ],
+      "source": "src/pools.cpp",
       "status": "sole-new-candidate"
     }
   ],
@@ -1396,13 +1414,18 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 76483,
-    "native_symbol": "initialize_default_pools",
-    "kind": "arenas-complete",
-    "native_args": [],
+    "rva": 76592,
+    "native_symbol": "CompilerPool::SetArena",
+    "native_linkage_symbol": "_ZN12CompilerPool8SetArenaEj",
+    "kind": "default-pool-arena",
+    "calling_convention": "thiscall-pool-arena",
+    "native_args": [
+      "this",
+      "arena_index"
+    ],
     "caller": {
-      "native_symbol": "initialize_compiler_arenas",
-      "return_rva": 76247
+      "native_symbol": "initialize_default_pools",
+      "return_rva": 76495
     }
   },
   "imports": [
@@ -1687,7 +1710,7 @@
       "scope": "owned snapshot interior sentinels and labeled nonzero ints before BSS clear; never dereferenced"
     }
   },
-  "staging_role": "sole17-byte Reset; full six-arena repeated Initialize/scaler/API/Reset entry+return inventory",
+  "staging_role": "sole109B default-pool wrapper; first real SetArena(this=pool8,index0) trap before any pool write; nine explicit calls source graph preserved",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -1805,5 +1828,16 @@
     "limit_offset": 8192,
     "committed_bytes_base": 117,
     "reset_value_base": 37
-  }
+  },
+  "default_pool_order": [
+    8,
+    7,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ]
 }

@@ -1,0 +1,1085 @@
+module name=ntdll.dll actual=7bcf0000 preferred=7bcf0000 entry=0000f760
+module name=KERNEL32.dll actual=7bb70000 preferred=7bb70000 entry=00013e60
+module name=kernelbase.dll actual=7b600000 preferred=7b600000 entry=00015a00
+module name=MSVCRT.dll actual=78000000 preferred=78000000 entry=00001000
+module name=<none> actual=10000000 preferred=10000000 entry=00000000
+module name=<none> actual=10000000 preferred=10000000 entry=00000000
+module name=c1n32_l.dll actual=10600000 preferred=10600000 entry=0001202a
+guard rva=0001202a original=53
+module name=mspdb50.dll actual=10300000 preferred=10300000 entry=0001de70
+module name=user32.dll actual=7a1d0000 preferred=7a1d0000 entry=0001cd50
+module name=zlib1.dll actual=7a190000 preferred=7a190000 entry=000013b0
+module name=advapi32.dll actual=7b500000 preferred=7b500000 entry=00010ab0
+module name=sechost.dll actual=7b1a0000 preferred=7b1a0000 entry=00003fd0
+module name=ucrtbase.dll actual=7ae50000 preferred=7ae50000 entry=00015810
+module name=gdi32.dll actual=7a6c0000 preferred=7a6c0000 entry=00013520
+module name=win32u.dll actual=7a140000 preferred=7a140000 entry=0000ec90
+module name=imm32.dll actual=78640000 preferred=78640000 entry=00002860
+provider iat=0005d0e8 resolved=78001715
+provider iat=0005d0a8 resolved=78001498
+provider iat=0005d114 resolved=7800138a
+provider iat=0005d0ec resolved=7803f928
+allocation-provider iat=0005d1c4 resolved=7bb7e528
+ftol-provider iat=0005d0cc resolved=78004dc1
+mask snapshot=relocated-text.bin baseline=0 ranges=91
+fpu seq=0 rva=0001202a eax=1061202a edx=0031ff40 esp=0031f0b0 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=0 rva=0001202a esp=0031f0b0 eax=1061202a ecx=0031f124 stack=7bcfbd02,10600000,00000001,00000000,00000000
+last-error=14007
+x87-control=ffff027f
+state seq=0 heap-begin=00000000 heap-first=00000000
+fpu seq=1 rva=000120ce eax=00000001 edx=0031ff40 esp=0031f090 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=1 rva=000120ce esp=0031f090 eax=00000001 ecx=00000000 stack=106120be,10600000,00000001,00000000,00000000
+last-error=14007
+x87-control=ffff027f
+state seq=1 heap-begin=00000000 heap-first=00000000
+fpu seq=2 rva=00012223 eax=008913c0 edx=000000dd esp=0031f080 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=2 rva=00012223 esp=0031f080 eax=008913c0 ecx=780423d8 stack=10612124,1065c000,1065c004,00000001,106120be
+last-error=14007
+x87-control=ffff027f
+state seq=2 heap-begin=008913c0 heap-first=00000000
+fpu seq=3 rva=0001218e eax=00000001 edx=000000dd esp=0031f090 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=3 rva=0001218e esp=0031f090 eax=00000001 ecx=780423d8 stack=10612063,10600000,00000001,00000000,00000000
+last-error=14007
+x87-control=ffff027f
+state seq=3 heap-begin=008913c0 heap-first=00000000
+crt-return seq=4 reason=1 status=1 pc=7bcfbd02
+last-error=14007
+x87-control=ffff027f
+state seq=4 heap-begin=008913c0 heap-first=00000000
+fpu seq=5 rva=00012229 eax=0031f2d0 edx=0000001b esp=0031f2bc cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=5 rva=00012229 esp=0031f2bc eax=0031f2d0 ecx=00891480 stack=004066ec,0000000b,0031f2d0,00000001,00340000
+last-error=0
+x87-control=ffff027f
+host-crt argc=3 argv=00890e90 environment=008901a0 argc-export=7803fa84 argv-export=7803fa8c environment-export=7803f8fc
+invoke-arg index=0 address=0040a104 bytes=7
+invoke-arg index=1 address=0040a110 bytes=4
+invoke-arg index=2 address=0040a120 bytes=10
+invoke-arg index=3 address=0040a130 bytes=3
+invoke-arg index=4 address=0040a13c bytes=7
+invoke-arg index=5 address=0040a148 bytes=3
+invoke-arg index=6 address=0040a150 bytes=2
+invoke-arg index=7 address=0040a158 bytes=4
+invoke-arg index=8 address=0040a160 bytes=4
+invoke-arg index=9 address=0040a16c bytes=5
+invoke-arg index=10 address=0040a17c bytes=8
+state seq=5 heap-begin=008913c0 heap-first=00000000
+fpu seq=6 rva=000122a5 eax=0031ff40 edx=0000001b esp=0031f284 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=6 rva=000122a5 esp=0031f284 eax=0031ff40 ecx=00891480 stack=10612254,00000000,00000000,3fff1000,3fff1000
+last-error=0
+x87-control=ffff027f
+state seq=6 heap-begin=008913c0 heap-first=00000000
+fpu seq=7 rva=0000e799 eax=0031f2a8 edx=0000001b esp=0031f23c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=7 rva=0000e799 esp=0031f23c eax=0031f2a8 ecx=00891480 stack=106122ea,00001994,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+state seq=7 heap-begin=008913c0 heap-first=00000000
+fpu seq=8 rva=00012365 eax=10612365 edx=00000400 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=8 rva=00012365 esp=0031f240 eax=10612365 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=8 heap-begin=008913c0 heap-first=00000000
+fpu seq=9 rva=00012377 eax=10612377 edx=00000400 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=9 rva=00012377 esp=0031f240 eax=10612377 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=9 heap-begin=008913c0 heap-first=00000000
+fpu seq=10 rva=00012389 eax=10612389 edx=00000400 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=10 rva=00012389 esp=0031f240 eax=10612389 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=10 heap-begin=008913c0 heap-first=00000000
+fpu seq=11 rva=000123a4 eax=106123a4 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=11 rva=000123a4 esp=0031f240 eax=106123a4 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=11 heap-begin=008913c0 heap-first=00000000
+fpu seq=12 rva=000123a5 eax=106123a5 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=12 rva=000123a5 esp=0031f240 eax=106123a5 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=12 heap-begin=008913c0 heap-first=00000000
+fpu seq=13 rva=000123a6 eax=106123a6 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=13 rva=000123a6 esp=0031f240 eax=106123a6 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=13 heap-begin=008913c0 heap-first=00000000
+fpu seq=14 rva=000123a7 eax=106123a7 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=14 rva=000123a7 esp=0031f240 eax=106123a7 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=14 heap-begin=008913c0 heap-first=00000000
+fpu seq=15 rva=000123ae eax=106123a7 edx=00000000 esp=0031f23c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=15 rva=000123ae esp=0031f23c eax=106123a7 ecx=00000000 stack=106123ac,10612348,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+state seq=15 heap-begin=008913c0 heap-first=00000000
+fpu seq=16 rva=000123f6 eax=00000000 edx=00000000 esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=16 rva=000123f6 esp=0031f238 eax=00000000 ecx=00000000 stack=106123f2,10623940,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=16 heap-begin=008913c0 heap-first=00000000
+fpu seq=17 rva=0001241c eax=1061241c edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=17 rva=0001241c esp=0031f240 eax=1061241c ecx=10623940 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=17 heap-begin=008913c0 heap-first=00000000
+fpu seq=18 rva=00012423 eax=1061241c edx=00000000 esp=0031f23c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=18 rva=00012423 esp=0031f23c eax=1061241c ecx=10623940 stack=10612421,10612348,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+state seq=18 heap-begin=008913c0 heap-first=00000000
+fpu seq=19 rva=000123f6 eax=00000000 edx=00000000 esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=19 rva=000123f6 esp=0031f238 eax=00000000 ecx=10623940 stack=10612467,10623939,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=19 heap-begin=008913c0 heap-first=00000000
+fpu seq=20 rva=0001246b eax=1061246b edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=20 rva=0001246b esp=0031f240 eax=1061246b ecx=10623939 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=20 heap-begin=008913c0 heap-first=00000000
+fpu seq=21 rva=00012472 eax=1061246b edx=00000000 esp=0031f23c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=21 rva=00012472 esp=0031f23c eax=1061246b ecx=10623939 stack=10612470,10612348,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+state seq=21 heap-begin=008913c0 heap-first=00000000
+fpu seq=22 rva=000123f6 eax=00000000 edx=00000000 esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=22 rva=000123f6 esp=0031f238 eax=00000000 ecx=10623939 stack=106124b6,10623932,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=22 heap-begin=008913c0 heap-first=00000000
+fpu seq=23 rva=000124ba eax=106124ba edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=23 rva=000124ba esp=0031f240 eax=106124ba ecx=10623932 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=23 heap-begin=008913c0 heap-first=00000000
+fpu seq=24 rva=000124c1 eax=106124ba edx=00000000 esp=0031f23c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=24 rva=000124c1 esp=0031f23c eax=106124ba ecx=10623932 stack=106124bf,10612348,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+state seq=24 heap-begin=008913c0 heap-first=00000000
+fpu seq=25 rva=000123f6 eax=00000000 edx=00000000 esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=25 rva=000123f6 esp=0031f238 eax=00000000 ecx=10623932 stack=10612505,1062392b,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=25 heap-begin=008913c0 heap-first=00000000
+fpu seq=26 rva=00012509 eax=10612509 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=26 rva=00012509 esp=0031f240 eax=10612509 ecx=1062392b stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=26 heap-begin=008913c0 heap-first=00000000
+fpu seq=27 rva=00012510 eax=10612509 edx=00000000 esp=0031f23c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=27 rva=00012510 esp=0031f23c eax=10612509 ecx=1062392b stack=1061250e,10612348,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+state seq=27 heap-begin=008913c0 heap-first=00000000
+fpu seq=28 rva=000123f6 eax=00000000 edx=00000000 esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=28 rva=000123f6 esp=0031f238 eax=00000000 ecx=1062392b stack=10612554,10623924,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=28 heap-begin=008913c0 heap-first=00000000
+fpu seq=29 rva=00012558 eax=10612558 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=29 rva=00012558 esp=0031f240 eax=10612558 ecx=10623924 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=29 heap-begin=008913c0 heap-first=00000000
+fpu seq=30 rva=0001255f eax=10612558 edx=00000000 esp=0031f23c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=30 rva=0001255f esp=0031f23c eax=10612558 ecx=10623924 stack=1061255d,10612348,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+state seq=30 heap-begin=008913c0 heap-first=00000000
+fpu seq=31 rva=000123f6 eax=00000000 edx=00000000 esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=31 rva=000123f6 esp=0031f238 eax=00000000 ecx=10623924 stack=106125a3,1062391d,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=31 heap-begin=008913c0 heap-first=00000000
+fpu seq=32 rva=000125a7 eax=106125a7 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=32 rva=000125a7 esp=0031f240 eax=106125a7 ecx=1062391d stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=32 heap-begin=008913c0 heap-first=00000000
+fpu seq=33 rva=000125ae eax=106125a7 edx=00000000 esp=0031f23c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=33 rva=000125ae esp=0031f23c eax=106125a7 ecx=1062391d stack=106125ac,10612348,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+state seq=33 heap-begin=008913c0 heap-first=00000000
+fpu seq=34 rva=000123f6 eax=00000000 edx=00000000 esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=34 rva=000123f6 esp=0031f238 eax=00000000 ecx=1062391d stack=106125f2,10623916,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=34 heap-begin=008913c0 heap-first=00000000
+fpu seq=35 rva=000125f6 eax=106125f6 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=35 rva=000125f6 esp=0031f240 eax=106125f6 ecx=10623916 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=35 heap-begin=008913c0 heap-first=00000000
+fpu seq=36 rva=000125fd eax=106125f6 edx=00000000 esp=0031f23c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=36 rva=000125fd esp=0031f23c eax=106125f6 ecx=10623916 stack=106125fb,10612348,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+state seq=36 heap-begin=008913c0 heap-first=00000000
+fpu seq=37 rva=000123f6 eax=00000000 edx=00000000 esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=37 rva=000123f6 esp=0031f238 eax=00000000 ecx=10623916 stack=10612641,106238dd,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=37 heap-begin=008913c0 heap-first=00000000
+fpu seq=38 rva=00012645 eax=10612645 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=38 rva=00012645 esp=0031f240 eax=10612645 ecx=106238dd stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=38 heap-begin=008913c0 heap-first=00000000
+fpu seq=39 rva=00012646 eax=10612646 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=39 rva=00012646 esp=0031f240 eax=10612646 ecx=106238dd stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=39 heap-begin=008913c0 heap-first=00000000
+fpu seq=40 rva=00012663 eax=10612663 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=40 rva=00012663 esp=0031f240 eax=10612663 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=40 heap-begin=008913c0 heap-first=00000000
+fpu seq=41 rva=00012664 eax=10612664 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=41 rva=00012664 esp=0031f240 eax=10612664 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=41 heap-begin=008913c0 heap-first=00000000
+fpu seq=42 rva=0001266f eax=1061266f edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=42 rva=0001266f esp=0031f240 eax=1061266f ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=42 heap-begin=008913c0 heap-first=00000000
+fpu seq=43 rva=00012676 eax=1061266f edx=00000000 esp=0031f23c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=43 rva=00012676 esp=0031f23c eax=1061266f ecx=00000000 stack=10612674,10612348,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+state seq=43 heap-begin=008913c0 heap-first=00000000
+fpu seq=44 rva=000123f6 eax=00000000 edx=00000000 esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=44 rva=000123f6 esp=0031f238 eax=00000000 ecx=00000000 stack=106126ab,106238dc,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=44 heap-begin=008913c0 heap-first=00000000
+fpu seq=45 rva=000126af eax=106126af edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=45 rva=000126af esp=0031f240 eax=106126af ecx=106238dc stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=45 heap-begin=008913c0 heap-first=00000000
+fpu seq=46 rva=000126b6 eax=106126af edx=00000000 esp=0031f23c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=46 rva=000126b6 esp=0031f23c eax=106126af ecx=106238dc stack=106126b4,10612348,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+state seq=46 heap-begin=008913c0 heap-first=00000000
+fpu seq=47 rva=000123f6 eax=00000000 edx=00000000 esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=47 rva=000123f6 esp=0031f238 eax=00000000 ecx=00000000 stack=106126eb,106238db,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=47 heap-begin=008913c0 heap-first=00000000
+fpu seq=48 rva=000126ef eax=106126ef edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=48 rva=000126ef esp=0031f240 eax=106126ef ecx=106238db stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=48 heap-begin=008913c0 heap-first=00000000
+fpu seq=49 rva=000126fc eax=106126ef edx=00000000 esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=49 rva=000126fc esp=0031f238 eax=106126ef ecx=10655078 stack=106126fb,00000001,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=49 heap-begin=008913c0 heap-first=00000000
+pool-return seq=50 pc=106126fb eax=10655078 esp=0031f240 entry-esp=0031f238
+last-error=0
+x87-control=ffff027f
+state seq=50 heap-begin=008913c0 heap-first=00000000
+fpu seq=51 rva=00012712 eax=10612712 edx=00000001 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=51 rva=00012712 esp=0031f240 eax=10612712 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=51 heap-begin=008913c0 heap-first=00000000
+fpu seq=52 rva=000126fc eax=10612712 edx=00000001 esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=52 rva=000126fc esp=0031f238 eax=10612712 ecx=10654028 stack=1061271e,00000001,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=52 heap-begin=008913c0 heap-first=00000000
+pool-return seq=53 pc=1061271e eax=10654028 esp=0031f240 entry-esp=0031f238
+last-error=0
+x87-control=ffff027f
+state seq=53 heap-begin=008913c0 heap-first=00000000
+fpu seq=54 rva=0001271f eax=1061271f edx=00000001 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=54 rva=0001271f esp=0031f240 eax=1061271f ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=54 heap-begin=008913c0 heap-first=00000000
+fpu seq=55 rva=000126fc eax=1061271f edx=00000001 esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=55 rva=000126fc esp=0031f238 eax=1061271f ecx=10653d80 stack=1061272b,00000001,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=55 heap-begin=008913c0 heap-first=00000000
+pool-return seq=56 pc=1061272b eax=10653d80 esp=0031f240 entry-esp=0031f238
+last-error=0
+x87-control=ffff027f
+state seq=56 heap-begin=008913c0 heap-first=00000000
+fpu seq=57 rva=0001272c eax=1061272c edx=00000001 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=57 rva=0001272c esp=0031f240 eax=1061272c ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=57 heap-begin=008913c0 heap-first=00000000
+fpu seq=58 rva=000126fc eax=1061272c edx=00000001 esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=58 rva=000126fc esp=0031f238 eax=1061272c ecx=10654c98 stack=10612738,00000001,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=58 heap-begin=008913c0 heap-first=00000000
+pool-return seq=59 pc=10612738 eax=10654c98 esp=0031f240 entry-esp=0031f238
+last-error=0
+x87-control=ffff027f
+state seq=59 heap-begin=008913c0 heap-first=00000000
+fpu seq=60 rva=00012739 eax=10612739 edx=00000001 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=60 rva=00012739 esp=0031f240 eax=10612739 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=60 heap-begin=008913c0 heap-first=00000000
+fpu seq=61 rva=000126fc eax=10612739 edx=00000001 esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=61 rva=000126fc esp=0031f238 eax=10612739 ecx=10654b18 stack=10612745,00000001,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=61 heap-begin=008913c0 heap-first=00000000
+pool-return seq=62 pc=10612745 eax=10654b18 esp=0031f240 entry-esp=0031f238
+last-error=0
+x87-control=ffff027f
+state seq=62 heap-begin=008913c0 heap-first=00000000
+fpu seq=63 rva=00012746 eax=10612746 edx=00000001 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=63 rva=00012746 esp=0031f240 eax=10612746 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=63 heap-begin=008913c0 heap-first=00000000
+fpu seq=64 rva=000126fc eax=10612746 edx=00000001 esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=64 rva=000126fc esp=0031f238 eax=10612746 ecx=10654a60 stack=10612752,00000001,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=64 heap-begin=008913c0 heap-first=00000000
+pool-return seq=65 pc=10612752 eax=10654a60 esp=0031f240 entry-esp=0031f238
+last-error=0
+x87-control=ffff027f
+state seq=65 heap-begin=008913c0 heap-first=00000000
+fpu seq=66 rva=00012753 eax=10612753 edx=00000001 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=66 rva=00012753 esp=0031f240 eax=10612753 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=66 heap-begin=008913c0 heap-first=00000000
+fpu seq=67 rva=000126fc eax=10612753 edx=00000001 esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=67 rva=000126fc esp=0031f238 eax=10612753 ecx=10654000 stack=1061275f,00000001,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=67 heap-begin=008913c0 heap-first=00000000
+pool-return seq=68 pc=1061275f eax=10654000 esp=0031f240 entry-esp=0031f238
+last-error=0
+x87-control=ffff027f
+state seq=68 heap-begin=008913c0 heap-first=00000000
+fpu seq=69 rva=00012760 eax=10612760 edx=00000001 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=69 rva=00012760 esp=0031f240 eax=10612760 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=69 heap-begin=008913c0 heap-first=00000000
+fpu seq=70 rva=000126fc eax=10612760 edx=00000001 esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=70 rva=000126fc esp=0031f238 eax=10612760 ecx=106550b0 stack=1061276c,00000001,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=70 heap-begin=008913c0 heap-first=00000000
+pool-return seq=71 pc=1061276c eax=106550b0 esp=0031f240 entry-esp=0031f238
+last-error=0
+x87-control=ffff027f
+state seq=71 heap-begin=008913c0 heap-first=00000000
+fpu seq=72 rva=0001276d eax=1061276d edx=00000001 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=72 rva=0001276d esp=0031f240 eax=1061276d ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=72 heap-begin=008913c0 heap-first=00000000
+fpu seq=73 rva=000126fc eax=1061276d edx=00000001 esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=73 rva=000126fc esp=0031f238 eax=1061276d ecx=10654dc0 stack=10612779,00000001,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=73 heap-begin=008913c0 heap-first=00000000
+pool-return seq=74 pc=10612779 eax=10654dc0 esp=0031f240 entry-esp=0031f238
+last-error=0
+x87-control=ffff027f
+state seq=74 heap-begin=008913c0 heap-first=00000000
+fpu seq=75 rva=0001277a eax=1061277a edx=00000001 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=75 rva=0001277a esp=0031f240 eax=1061277a ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=75 heap-begin=008913c0 heap-first=00000000
+fpu seq=76 rva=0001277b eax=1061277b edx=00000001 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=76 rva=0001277b esp=0031f240 eax=1061277b ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=76 heap-begin=008913c0 heap-first=00000000
+fpu seq=77 rva=0001279c eax=1061279c edx=00000001 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=77 rva=0001279c esp=0031f240 eax=1061279c ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=77 heap-begin=008913c0 heap-first=00000000
+fpu seq=78 rva=00011e2a eax=1061279c edx=00000001 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=78 rva=00011e2a esp=0031f240 eax=1061279c ecx=10658f68 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=78 heap-begin=008913c0 heap-first=00000000
+pch-member-entry seq=78 edi=00000000 inherited-return=10612348
+pch-member-return seq=79 pc=10612348 eax=10658f68 esp=0031f244 entry-esp=0031f240 edi=00000000 entry-edi=00000000
+last-error=0
+x87-control=ffff027f
+state seq=79 heap-begin=008913c0 heap-first=00000000
+fpu seq=80 rva=000127a6 eax=106127a6 edx=10658f68 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=80 rva=000127a6 esp=0031f240 eax=106127a6 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+state seq=80 heap-begin=008913c0 heap-first=00000000
+fpu seq=81 rva=000127a7 eax=00000001 edx=0000000b esp=0031f27c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=81 rva=000127a7 esp=0031f27c eax=00000001 ecx=0031f2d0 stack=10612274,0000000b,0031f2d0,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=81 heap-begin=008913c0 heap-first=00000000
+fpu seq=82 rva=00012830 eax=00000001 edx=0000000b esp=0031f270 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=82 rva=00012830 esp=0031f270 eax=00000001 ecx=0031f2d0 stack=106127b8,00000000,00000000,10612274,0000000b
+last-error=0
+x87-control=ffff027f
+state seq=82 heap-begin=008913c0 heap-first=00000000
+fpu seq=83 rva=00012873 eax=00000001 edx=0000000b esp=0031f264 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=83 rva=00012873 esp=0031f264 eax=00000001 ecx=0031f2d0 stack=1061283f,00500000,00004000,106127b8,00000000
+last-error=0
+x87-control=ffff027f
+allocation-helper-entry index=0 pc=10612873 esp=0031f264 edi=00000000 esi=00000000
+state seq=83 heap-begin=008913c0 heap-first=00000000
+allocation-before index=0 pc=10612889 esp=0031f24c edi=7bb7e528 args=00000000,00500000,00002000,00000004
+fpu seq=84 rva=00012889 eax=00500000 edx=0000000b esp=0031f24c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=84 rva=00012889 esp=0031f24c eax=00500000 ecx=0031f2d0 stack=00000000,00500000,00002000,00000004,00000000
+last-error=0
+x87-control=ffff027f
+state seq=84 heap-begin=008913c0 heap-first=00000000
+allocation-after index=0 pc=1061288b esp=0031f25c eax=00e90000 edi=7bb7e528 before-esp=0031f24c before-edi=7bb7e528
+allocation-error index=0 value=0 fpu=ffff027f
+allocation-region index=0 part=0 base=00e90000 allocation=00e90000 allocation-protect=00000004 bytes=00500000 state=00002000 protect=00000000 type=00020000
+fpu seq=85 rva=0001288b eax=00e90000 edx=00000000 esp=0031f25c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=85 rva=0001288b esp=0031f25c eax=00e90000 ecx=7bcfbeac stack=00000000,00000000,1061283f,00500000,00004000
+last-error=0
+x87-control=ffff027f
+state seq=85 heap-begin=008913c0 heap-first=00000000
+allocation-before index=1 pc=106128a2 esp=0031f24c edi=7bb7e528 args=00e90000,00004000,00001000,00000004
+fpu seq=86 rva=000128a2 eax=00e90000 edx=00000000 esp=0031f24c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=86 rva=000128a2 esp=0031f24c eax=00e90000 ecx=00004000 stack=00e90000,00004000,00001000,00000004,00000000
+last-error=0
+x87-control=ffff027f
+state seq=86 heap-begin=008913c0 heap-first=00000000
+allocation-after index=1 pc=106128a4 esp=0031f25c eax=00e90000 edi=7bb7e528 before-esp=0031f24c before-edi=7bb7e528
+allocation-error index=1 value=0 fpu=ffff027f
+allocation-region index=1 part=0 base=00e90000 allocation=00e90000 allocation-protect=00000004 bytes=00004000 state=00001000 protect=00000004 type=00020000
+allocation-region index=1 part=1 base=00e94000 allocation=00e90000 allocation-protect=00000004 bytes=004fc000 state=00002000 protect=00000000 type=00020000
+fpu seq=87 rva=000128a4 eax=00e90000 edx=00000000 esp=0031f25c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=87 rva=000128a4 esp=0031f25c eax=00e90000 ecx=7bcfbeac stack=00000000,00000000,1061283f,00500000,00004000
+last-error=0
+x87-control=ffff027f
+state seq=87 heap-begin=008913c0 heap-first=00000000
+allocation-helper-return index=0 pc=1061283f esp=0031f268 eax=00e90000 edi=00000000 esi=00000000
+fpu seq=88 rva=0001283f eax=00e90000 edx=00000000 esp=0031f268 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=88 rva=0001283f esp=0031f268 eax=00e90000 ecx=7bcfbeac stack=00500000,00004000,106127b8,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=88 heap-begin=008913c0 heap-first=00000000
+fpu seq=89 rva=00012873 eax=00e93ffb edx=00000000 esp=0031f264 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=89 rva=00012873 esp=0031f264 eax=00e93ffb ecx=7bcfbeac stack=10612860,00500000,00004000,106127b8,00000000
+last-error=0
+x87-control=ffff027f
+allocation-helper-entry index=1 pc=10612873 esp=0031f264 edi=00000000 esi=00000000
+state seq=89 heap-begin=008913c0 heap-first=00000000
+allocation-before index=2 pc=10612889 esp=0031f24c edi=7bb7e528 args=00000000,00500000,00002000,00000004
+fpu seq=90 rva=00012889 eax=00500000 edx=00000000 esp=0031f24c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=90 rva=00012889 esp=0031f24c eax=00500000 ecx=7bcfbeac stack=00000000,00500000,00002000,00000004,00000000
+last-error=0
+x87-control=ffff027f
+state seq=90 heap-begin=008913c0 heap-first=00000000
+allocation-after index=2 pc=1061288b esp=0031f25c eax=01390000 edi=7bb7e528 before-esp=0031f24c before-edi=7bb7e528
+allocation-error index=2 value=0 fpu=ffff027f
+allocation-region index=2 part=0 base=01390000 allocation=01390000 allocation-protect=00000004 bytes=00500000 state=00002000 protect=00000000 type=00020000
+fpu seq=91 rva=0001288b eax=01390000 edx=00000000 esp=0031f25c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=91 rva=0001288b esp=0031f25c eax=01390000 ecx=7bcfbeac stack=00000000,00000000,10612860,00500000,00004000
+last-error=0
+x87-control=ffff027f
+state seq=91 heap-begin=008913c0 heap-first=00000000
+allocation-before index=3 pc=106128a2 esp=0031f24c edi=7bb7e528 args=01390000,00004000,00001000,00000004
+fpu seq=92 rva=000128a2 eax=01390000 edx=00000000 esp=0031f24c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=92 rva=000128a2 esp=0031f24c eax=01390000 ecx=00004000 stack=01390000,00004000,00001000,00000004,00000000
+last-error=0
+x87-control=ffff027f
+state seq=92 heap-begin=008913c0 heap-first=00000000
+allocation-after index=3 pc=106128a4 esp=0031f25c eax=01390000 edi=7bb7e528 before-esp=0031f24c before-edi=7bb7e528
+allocation-error index=3 value=0 fpu=ffff027f
+allocation-region index=3 part=0 base=01390000 allocation=01390000 allocation-protect=00000004 bytes=00004000 state=00001000 protect=00000004 type=00020000
+allocation-region index=3 part=1 base=01394000 allocation=01390000 allocation-protect=00000004 bytes=004fc000 state=00002000 protect=00000000 type=00020000
+fpu seq=93 rva=000128a4 eax=01390000 edx=00000000 esp=0031f25c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=93 rva=000128a4 esp=0031f25c eax=01390000 ecx=7bcfbeac stack=00000000,00000000,10612860,00500000,00004000
+last-error=0
+x87-control=ffff027f
+state seq=93 heap-begin=008913c0 heap-first=00000000
+allocation-helper-return index=1 pc=10612860 esp=0031f268 eax=01390000 edi=00000000 esi=00000000
+fpu seq=94 rva=00012860 eax=01390000 edx=00000000 esp=0031f268 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=94 rva=00012860 esp=0031f268 eax=01390000 ecx=7bcfbeac stack=00500000,00004000,106127b8,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=94 heap-begin=008913c0 heap-first=00000000
+fpu seq=95 rva=000123f6 eax=01393ffb edx=00000000 esp=0031f26c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=95 rva=000123f6 esp=0031f26c eax=01393ffb ecx=7bcfbeac stack=106127c2,106238da,00000000,00000000,10612274
+last-error=0
+x87-control=ffff027f
+state seq=95 heap-begin=008913c0 heap-first=00000000
+fpu seq=96 rva=000128b1 eax=00000000 edx=00000000 esp=0031f26c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=96 rva=000128b1 esp=0031f26c eax=00000000 ecx=106238da stack=106127df,0031f2d0,00000000,00000000,10612274
+last-error=0
+x87-control=ffff027f
+state seq=96 heap-begin=008913c0 heap-first=00000000
+fpu seq=97 rva=00012900 eax=00000000 edx=00000000 esp=0031f054 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=97 rva=00012900 esp=0031f054 eax=00000000 ecx=0040a110 stack=106128d2,0040a110,00000000,0000000b,0031f2d0
+last-error=0
+x87-control=ffff027f
+state seq=97 heap-begin=008913c0 heap-first=00000000
+internal-parser-entry index=0 seq=97 argument=0040a110 mode=0 esp=0031f054
+internal-parser-return index=0 seq=98 pc=106128d2 esp=0031f058 entry-esp=0031f054 eax=00000000
+last-error=0
+x87-control=ffff027f
+state seq=98 heap-begin=008913c0 heap-first=00000000
+fpu seq=99 rva=00012900 eax=00000000 edx=0040a110 esp=0031f054 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=99 rva=00012900 esp=0031f054 eax=00000000 ecx=0040a120 stack=106128d2,0040a120,00000000,0000000b,0031f2d0
+last-error=0
+x87-control=ffff027f
+state seq=99 heap-begin=008913c0 heap-first=00000000
+internal-parser-entry index=1 seq=99 argument=0040a120 mode=0 esp=0031f054
+internal-parser-return index=1 seq=100 pc=106128d2 esp=0031f058 entry-esp=0031f054 eax=00000000
+last-error=0
+x87-control=ffff027f
+state seq=100 heap-begin=008913c0 heap-first=00000000
+fpu seq=101 rva=00012900 eax=00000000 edx=0040a120 esp=0031f054 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=101 rva=00012900 esp=0031f054 eax=00000000 ecx=0040a130 stack=106128d2,0040a130,00000000,0000000b,0031f2d0
+last-error=0
+x87-control=ffff027f
+state seq=101 heap-begin=008913c0 heap-first=00000000
+internal-parser-entry index=2 seq=101 argument=0040a130 mode=0 esp=0031f054
+internal-parser-return index=2 seq=102 pc=106128d2 esp=0031f058 entry-esp=0031f054 eax=00000000
+last-error=0
+x87-control=ffff027f
+state seq=102 heap-begin=008913c0 heap-first=00000000
+fpu seq=103 rva=00012900 eax=00000000 edx=0040a130 esp=0031f054 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=103 rva=00012900 esp=0031f054 eax=00000000 ecx=0040a13c stack=106128d2,0040a13c,00000000,0000000b,0031f2d0
+last-error=0
+x87-control=ffff027f
+state seq=103 heap-begin=008913c0 heap-first=00000000
+internal-parser-entry index=3 seq=103 argument=0040a13c mode=0 esp=0031f054
+internal-parser-return index=3 seq=104 pc=106128d2 esp=0031f058 entry-esp=0031f054 eax=00000000
+last-error=0
+x87-control=ffff027f
+state seq=104 heap-begin=008913c0 heap-first=00000000
+fpu seq=105 rva=00012900 eax=00000000 edx=0040a13c esp=0031f054 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=105 rva=00012900 esp=0031f054 eax=00000000 ecx=0040a148 stack=106128d2,0040a148,00000000,0000000b,0031f2d0
+last-error=0
+x87-control=ffff027f
+state seq=105 heap-begin=008913c0 heap-first=00000000
+internal-parser-entry index=4 seq=105 argument=0040a148 mode=0 esp=0031f054
+internal-parser-return index=4 seq=106 pc=106128d2 esp=0031f058 entry-esp=0031f054 eax=00000000
+last-error=0
+x87-control=ffff027f
+state seq=106 heap-begin=008913c0 heap-first=00000000
+fpu seq=107 rva=00012900 eax=00000000 edx=0040a148 esp=0031f054 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=107 rva=00012900 esp=0031f054 eax=00000000 ecx=0040a150 stack=106128d2,0040a150,00000000,0000000b,0031f2d0
+last-error=0
+x87-control=ffff027f
+state seq=107 heap-begin=008913c0 heap-first=00000000
+internal-parser-entry index=5 seq=107 argument=0040a150 mode=0 esp=0031f054
+internal-parser-return index=5 seq=108 pc=106128d2 esp=0031f058 entry-esp=0031f054 eax=00000000
+last-error=0
+x87-control=ffff027f
+state seq=108 heap-begin=008913c0 heap-first=00000000
+fpu seq=109 rva=00012900 eax=00000000 edx=0040a150 esp=0031f054 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=109 rva=00012900 esp=0031f054 eax=00000000 ecx=0040a158 stack=106128d2,0040a158,00000000,0000000b,0031f2d0
+last-error=0
+x87-control=ffff027f
+state seq=109 heap-begin=008913c0 heap-first=00000000
+internal-parser-entry index=6 seq=109 argument=0040a158 mode=0 esp=0031f054
+internal-parser-return index=6 seq=110 pc=106128d2 esp=0031f058 entry-esp=0031f054 eax=00000000
+last-error=0
+x87-control=ffff027f
+state seq=110 heap-begin=008913c0 heap-first=00000000
+fpu seq=111 rva=00012900 eax=00000000 edx=0040a158 esp=0031f054 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=111 rva=00012900 esp=0031f054 eax=00000000 ecx=0040a160 stack=106128d2,0040a160,00000000,0000000b,0031f2d0
+last-error=0
+x87-control=ffff027f
+state seq=111 heap-begin=008913c0 heap-first=00000000
+internal-parser-entry index=7 seq=111 argument=0040a160 mode=0 esp=0031f054
+internal-parser-return index=7 seq=112 pc=106128d2 esp=0031f058 entry-esp=0031f054 eax=00000000
+last-error=0
+x87-control=ffff027f
+state seq=112 heap-begin=008913c0 heap-first=00000000
+fpu seq=113 rva=00012900 eax=00000000 edx=0040a160 esp=0031f054 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=113 rva=00012900 esp=0031f054 eax=00000000 ecx=0040a16c stack=106128d2,0040a16c,00000000,0000000b,0031f2d0
+last-error=0
+x87-control=ffff027f
+state seq=113 heap-begin=008913c0 heap-first=00000000
+internal-parser-entry index=8 seq=113 argument=0040a16c mode=0 esp=0031f054
+internal-parser-return index=8 seq=114 pc=106128d2 esp=0031f058 entry-esp=0031f054 eax=00000000
+last-error=0
+x87-control=ffff027f
+state seq=114 heap-begin=008913c0 heap-first=00000000
+fpu seq=115 rva=00012900 eax=00000000 edx=0040a16c esp=0031f054 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=115 rva=00012900 esp=0031f054 eax=00000000 ecx=0040a17c stack=106128d2,0040a17c,00000000,0000000b,0031f2d0
+last-error=0
+x87-control=ffff027f
+state seq=115 heap-begin=008913c0 heap-first=00000000
+internal-parser-entry index=9 seq=115 argument=0040a17c mode=0 esp=0031f054
+internal-parser-return index=9 seq=116 pc=106128d2 esp=0031f058 entry-esp=0031f054 eax=00000000
+last-error=0
+x87-control=ffff027f
+state seq=116 heap-begin=008913c0 heap-first=00000000
+internal-getenv seq=117 pc=106128ec provider=78006a94 name=MSC_CMD_FLAGS name-address=106631e8 result=00000000 parser-calls=10
+fpu seq=117 rva=000128ec eax=00000000 edx=00000000 esp=0031f05c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=117 rva=000128ec esp=0031f05c eax=00000000 ecx=00890e20 stack=106631e8,0000000b,0031f2d0,00000000,00000000
+last-error=0
+x87-control=ffff027f
+state seq=117 heap-begin=008913c0 heap-first=00000000
+fpu seq=118 rva=00012998 eax=00000000 edx=00000000 esp=0031f270 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=118 rva=00012998 esp=0031f270 eax=00000000 ecx=00890e20 stack=106127e7,00000000,00000000,10612274,0000000b
+last-error=0
+x87-control=ffff027f
+state seq=118 heap-begin=008913c0 heap-first=00000000
+systeminfo-before seq=119 pc=106127ec esp=0031f270 argument=1065f508 provider=7bb7c78c error=0 fpu=ffff027f
+fpu seq=119 rva=000127ec eax=00000000 edx=00000000 esp=0031f270 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=119 rva=000127ec esp=0031f270 eax=00000000 ecx=00890e20 stack=1065f508,00000000,00000000,10612274,0000000b
+last-error=0
+x87-control=ffff027f
+state seq=119 heap-begin=008913c0 heap-first=00000000
+systeminfo-after seq=120 pc=106127f2 esp=0031f274 before-esp=0031f270 error=0 before-error=0 fpu=ffff027f
+fpu seq=120 rva=000127f2 eax=0000024a edx=0000024a esp=0031f274 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=120 rva=000127f2 esp=0031f274 eax=0000024a ecx=00000030 stack=00000000,00000000,10612274,0000000b,0031f2d0
+last-error=0
+x87-control=ffff027f
+state seq=120 heap-begin=008913c0 heap-first=00000000
+fpu seq=121 rva=00012999 eax=0000024a edx=0000024a esp=0031f270 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=121 rva=00012999 esp=0031f270 eax=0000024a ecx=00000030 stack=106127f7,00000000,00000000,10612274,0000000b
+last-error=0
+x87-control=ffff027f
+state seq=121 heap-begin=008913c0 heap-first=00000000
+fpu seq=122 rva=000129db eax=0000024a edx=0000024a esp=0031f260 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=122 rva=000129db esp=0031f260 eax=0000024a ecx=00000030 stack=106129a1,0000000b,0031f2d0,3fff1000,106127f7
+last-error=0
+x87-control=ffff027f
+state seq=122 heap-begin=008913c0 heap-first=00000000
+fpu seq=123 rva=00012a18 eax=ffffffff edx=0000024a esp=0031f24c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=123 rva=00012a18 esp=0031f24c eax=ffffffff ecx=10658fb0 stack=10612a0f,10665780,00000000,0000000b,0031f2d0
+last-error=0
+x87-control=ffff027f
+state seq=123 heap-begin=008913c0 heap-first=00000000
+fpu seq=124 rva=00012a7a eax=ffffffff edx=0000024a esp=0031f23c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=124 rva=00012a7a esp=0031f23c eax=ffffffff ecx=10658fb0 stack=10612a29,10665780,10658fb0,10665780,10612a0f
+last-error=0
+x87-control=ffff027f
+state seq=124 heap-begin=008913c0 heap-first=00000000
+fpu seq=125 rva=00012a7f eax=10665780 edx=0000024a esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=125 rva=00012a7f esp=0031f238 eax=10665780 ecx=10658fb0 stack=10658fb0,10612a29,10665780,10658fb0,10665780
+last-error=0
+x87-control=ffff027f
+state seq=125 heap-begin=008913c0 heap-first=00000000
+fpu seq=126 rva=00012a85 eax=10665780 edx=0000024a esp=0031f238 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=126 rva=00012a85 esp=0031f238 eax=10665780 ecx=10658fb0 stack=10658fb0,10612a29,10665780,10658fb0,10665780
+last-error=0
+x87-control=ffff027f
+state seq=126 heap-begin=008913c0 heap-first=00000000
+fpu seq=127 rva=00012a8b eax=10665780 edx=0000024a esp=0031f238 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=127 rva=00012a8b esp=0031f238 eax=10665780 ecx=10658fb0 stack=10658fb0,10612a29,10665780,10658fb0,10665780
+last-error=0
+x87-control=ffff027f
+state seq=127 heap-begin=008913c0 heap-first=00000000
+fpu seq=128 rva=00012aac eax=10665780 edx=0000024a esp=0031f234 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=128 rva=00012aac esp=0031f234 eax=10665780 ecx=10658fb0 stack=10612a96,10658fb0,10612a29,10665780,10658fb0
+last-error=0
+x87-control=ffff027f
+state seq=128 heap-begin=008913c0 heap-first=00000000
+fpu seq=129 rva=00012a96 eax=fce00000 edx=ffffffff esp=0031f238 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=129 rva=00012a96 esp=0031f238 eax=fce00000 ecx=10658fb0 stack=10658fb0,10612a29,10665780,10658fb0,10665780
+last-error=0
+x87-control=ffff027f
+state seq=129 heap-begin=008913c0 heap-first=00000000
+fpu seq=130 rva=00012a29 eax=03200000 edx=ffff0000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=130 rva=00012a29 esp=0031f240 eax=03200000 ecx=fce00000 stack=10665780,10658fb0,10665780,10612a0f,10665780
+last-error=0
+x87-control=ffff027f
+state seq=130 heap-begin=008913c0 heap-first=00000000
+fpu seq=131 rva=00012a51 eax=03200000 edx=00000000 esp=0031f234 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-before seq=131 esp=0031f234 address=00000000 bytes=03200000 kind=00102000 protection=00000004 provider=7bb7e528 error=0
+trap seq=131 rva=00012a51 esp=0031f234 eax=03200000 ecx=00102000 stack=00000000,03200000,00102000,00000004,10658fb0
+last-error=0
+x87-control=ffff027f
+state seq=131 heap-begin=008913c0 heap-first=00000000
+fpu seq=132 rva=00012a57 eax=1ce00000 edx=00000000 esp=0031f244 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-after seq=132 esp=0031f244 before-esp=0031f234 result=1ce00000 error=0 before-error=0
+arena-region base=1ce00000 allocation=1ce00000 allocation-protect=00000004 bytes=03200000 state=00002000 protect=00000000 type=00020000
+trap seq=132 rva=00012a57 esp=0031f244 eax=1ce00000 ecx=7bcfbeac stack=10658fb0,10665780,10612a0f,10665780,00000000
+last-error=0
+x87-control=ffff027f
+state seq=132 heap-begin=008913c0 heap-first=00000000
+fpu seq=133 rva=00012ab2 eax=1ce00000 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=133 rva=00012ab2 esp=0031f240 eax=1ce00000 ecx=10658fb0 stack=10612a70,10658fb0,10665780,10612a0f,10665780
+last-error=0
+x87-control=ffff027f
+state seq=133 heap-begin=008913c0 heap-first=00000000
+fpu seq=134 rva=00012a70 eax=1ce00000 edx=00000000 esp=0031f244 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=134 rva=00012a70 esp=0031f244 eax=1ce00000 ecx=10658fb0 stack=10658fb0,10665780,10612a0f,10665780,00000000
+last-error=0
+x87-control=ffff027f
+state seq=134 heap-begin=008913c0 heap-first=00000000
+fpu seq=135 rva=00012a0f eax=00000001 edx=00000000 esp=0031f258 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=135 rva=00012a0f esp=0031f258 eax=00000001 ecx=10658fb0 stack=0000000b,0031f2d0,106129a1,0000000b,0031f2d0
+last-error=0
+x87-control=ffff027f
+state seq=135 heap-begin=008913c0 heap-first=00000000
+fpu seq=136 rva=00012a18 eax=00000000 edx=00000000 esp=0031f258 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=136 rva=00012a18 esp=0031f258 eax=00000000 ecx=10658fd0 stack=106129bc,10665794,00000000,0000000b,0031f2d0
+last-error=0
+x87-control=ffff027f
+state seq=136 heap-begin=008913c0 heap-first=00000000
+fpu seq=137 rva=00012a7a eax=00000000 edx=00000000 esp=0031f248 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=137 rva=00012a7a esp=0031f248 eax=00000000 ecx=10658fd0 stack=10612a29,10665794,10658fd0,10665794,106129bc
+last-error=0
+x87-control=ffff027f
+state seq=137 heap-begin=008913c0 heap-first=00000000
+fpu seq=138 rva=00012a7f eax=10665794 edx=00000000 esp=0031f244 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=138 rva=00012a7f esp=0031f244 eax=10665794 ecx=10658fd0 stack=10658fd0,10612a29,10665794,10658fd0,10665794
+last-error=0
+x87-control=ffff027f
+state seq=138 heap-begin=008913c0 heap-first=00000000
+fpu seq=139 rva=00012a85 eax=10665794 edx=00000000 esp=0031f244 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=139 rva=00012a85 esp=0031f244 eax=10665794 ecx=10658fd0 stack=10658fd0,10612a29,10665794,10658fd0,10665794
+last-error=0
+x87-control=ffff027f
+state seq=139 heap-begin=008913c0 heap-first=00000000
+fpu seq=140 rva=00012a8b eax=10665794 edx=00000000 esp=0031f244 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=140 rva=00012a8b esp=0031f244 eax=10665794 ecx=10658fd0 stack=10658fd0,10612a29,10665794,10658fd0,10665794
+last-error=0
+x87-control=ffff027f
+state seq=140 heap-begin=008913c0 heap-first=00000000
+fpu seq=141 rva=00012aac eax=10665794 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=141 rva=00012aac esp=0031f240 eax=10665794 ecx=10658fd0 stack=10612a96,10658fd0,10612a29,10665794,10658fd0
+last-error=0
+x87-control=ffff027f
+state seq=141 heap-begin=008913c0 heap-first=00000000
+fpu seq=142 rva=00012a96 eax=ff600000 edx=ffffffff esp=0031f244 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=142 rva=00012a96 esp=0031f244 eax=ff600000 ecx=10658fd0 stack=10658fd0,10612a29,10665794,10658fd0,10665794
+last-error=0
+x87-control=ffff027f
+state seq=142 heap-begin=008913c0 heap-first=00000000
+fpu seq=143 rva=00012a29 eax=00a00000 edx=ffff8000 esp=0031f24c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=143 rva=00012a29 esp=0031f24c eax=00a00000 ecx=ff600000 stack=10665794,10658fd0,10665794,106129bc,10665794
+last-error=0
+x87-control=ffff027f
+state seq=143 heap-begin=008913c0 heap-first=00000000
+fpu seq=144 rva=00012a51 eax=00a00000 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-before seq=144 esp=0031f240 address=00000000 bytes=00a00000 kind=00002000 protection=00000004 provider=7bb7e528 error=0
+trap seq=144 rva=00012a51 esp=0031f240 eax=00a00000 ecx=00002000 stack=00000000,00a00000,00002000,00000004,10658fd0
+last-error=0
+x87-control=ffff027f
+state seq=144 heap-begin=008913c0 heap-first=00000000
+fpu seq=145 rva=00012a57 eax=01890000 edx=00000000 esp=0031f250 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-after seq=145 esp=0031f250 before-esp=0031f240 result=01890000 error=0 before-error=0
+arena-region base=01890000 allocation=01890000 allocation-protect=00000004 bytes=00a00000 state=00002000 protect=00000000 type=00020000
+trap seq=145 rva=00012a57 esp=0031f250 eax=01890000 ecx=7bcfbeac stack=10658fd0,10665794,106129bc,10665794,00000000
+last-error=0
+x87-control=ffff027f
+state seq=145 heap-begin=008913c0 heap-first=00000000
+fpu seq=146 rva=00012ab2 eax=01890000 edx=00000000 esp=0031f24c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=146 rva=00012ab2 esp=0031f24c eax=01890000 ecx=10658fd0 stack=10612a70,10658fd0,10665794,106129bc,10665794
+last-error=0
+x87-control=ffff027f
+state seq=146 heap-begin=008913c0 heap-first=00000000
+fpu seq=147 rva=00012a70 eax=01890000 edx=00000000 esp=0031f250 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=147 rva=00012a70 esp=0031f250 eax=01890000 ecx=10658fd0 stack=10658fd0,10665794,106129bc,10665794,00000000
+last-error=0
+x87-control=ffff027f
+state seq=147 heap-begin=008913c0 heap-first=00000000
+fpu seq=148 rva=000129bc eax=00000001 edx=00000000 esp=0031f264 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=148 rva=000129bc esp=0031f264 eax=00000001 ecx=10658fd0 stack=0000000b,0031f2d0,3fff1000,106127f7,00000000
+last-error=0
+x87-control=ffff027f
+state seq=148 heap-begin=008913c0 heap-first=00000000
+fpu seq=149 rva=00012a18 eax=00000001 edx=00000000 esp=0031f258 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=149 rva=00012a18 esp=0031f258 eax=00000001 ecx=10658ff0 stack=106129bc,106657a8,00000000,0000000b,0031f2d0
+last-error=0
+x87-control=ffff027f
+state seq=149 heap-begin=008913c0 heap-first=00000000
+fpu seq=150 rva=00012a7a eax=00000001 edx=00000000 esp=0031f248 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=150 rva=00012a7a esp=0031f248 eax=00000001 ecx=10658ff0 stack=10612a29,106657a8,10658ff0,106657a8,106129bc
+last-error=0
+x87-control=ffff027f
+state seq=150 heap-begin=008913c0 heap-first=00000000
+fpu seq=151 rva=00012a7f eax=106657a8 edx=00000000 esp=0031f244 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=151 rva=00012a7f esp=0031f244 eax=106657a8 ecx=10658ff0 stack=10658ff0,10612a29,106657a8,10658ff0,106657a8
+last-error=0
+x87-control=ffff027f
+state seq=151 heap-begin=008913c0 heap-first=00000000
+fpu seq=152 rva=00012a85 eax=106657a8 edx=00000000 esp=0031f244 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=152 rva=00012a85 esp=0031f244 eax=106657a8 ecx=10658ff0 stack=10658ff0,10612a29,106657a8,10658ff0,106657a8
+last-error=0
+x87-control=ffff027f
+state seq=152 heap-begin=008913c0 heap-first=00000000
+fpu seq=153 rva=00012a8b eax=106657a8 edx=00000000 esp=0031f244 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=153 rva=00012a8b esp=0031f244 eax=106657a8 ecx=10658ff0 stack=10658ff0,10612a29,106657a8,10658ff0,106657a8
+last-error=0
+x87-control=ffff027f
+state seq=153 heap-begin=008913c0 heap-first=00000000
+fpu seq=154 rva=00012aac eax=106657a8 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=154 rva=00012aac esp=0031f240 eax=106657a8 ecx=10658ff0 stack=10612a96,10658ff0,10612a29,106657a8,10658ff0
+last-error=0
+x87-control=ffff027f
+state seq=154 heap-begin=008913c0 heap-first=00000000
+fpu seq=155 rva=00012a96 eax=ff600000 edx=ffffffff esp=0031f244 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=155 rva=00012a96 esp=0031f244 eax=ff600000 ecx=10658ff0 stack=10658ff0,10612a29,106657a8,10658ff0,106657a8
+last-error=0
+x87-control=ffff027f
+state seq=155 heap-begin=008913c0 heap-first=00000000
+fpu seq=156 rva=00012a29 eax=00a00000 edx=ffff8000 esp=0031f24c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=156 rva=00012a29 esp=0031f24c eax=00a00000 ecx=ff600000 stack=106657a8,10658ff0,106657a8,106129bc,106657a8
+last-error=0
+x87-control=ffff027f
+state seq=156 heap-begin=008913c0 heap-first=00000000
+fpu seq=157 rva=00012a51 eax=00a00000 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-before seq=157 esp=0031f240 address=00000000 bytes=00a00000 kind=00002000 protection=00000004 provider=7bb7e528 error=0
+trap seq=157 rva=00012a51 esp=0031f240 eax=00a00000 ecx=00002000 stack=00000000,00a00000,00002000,00000004,10658ff0
+last-error=0
+x87-control=ffff027f
+state seq=157 heap-begin=008913c0 heap-first=00000000
+fpu seq=158 rva=00012a57 eax=02290000 edx=00000000 esp=0031f250 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-after seq=158 esp=0031f250 before-esp=0031f240 result=02290000 error=0 before-error=0
+arena-region base=02290000 allocation=02290000 allocation-protect=00000004 bytes=00a00000 state=00002000 protect=00000000 type=00020000
+trap seq=158 rva=00012a57 esp=0031f250 eax=02290000 ecx=7bcfbeac stack=10658ff0,106657a8,106129bc,106657a8,00000000
+last-error=0
+x87-control=ffff027f
+state seq=158 heap-begin=008913c0 heap-first=00000000
+fpu seq=159 rva=00012ab2 eax=02290000 edx=00000000 esp=0031f24c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=159 rva=00012ab2 esp=0031f24c eax=02290000 ecx=10658ff0 stack=10612a70,10658ff0,106657a8,106129bc,106657a8
+last-error=0
+x87-control=ffff027f
+state seq=159 heap-begin=008913c0 heap-first=00000000
+fpu seq=160 rva=00012a70 eax=02290000 edx=00000000 esp=0031f250 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=160 rva=00012a70 esp=0031f250 eax=02290000 ecx=10658ff0 stack=10658ff0,106657a8,106129bc,106657a8,00000000
+last-error=0
+x87-control=ffff027f
+state seq=160 heap-begin=008913c0 heap-first=00000000
+fpu seq=161 rva=000129bc eax=00000001 edx=00000000 esp=0031f264 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=161 rva=000129bc esp=0031f264 eax=00000001 ecx=10658ff0 stack=0000000b,0031f2d0,3fff1000,106127f7,00000000
+last-error=0
+x87-control=ffff027f
+state seq=161 heap-begin=008913c0 heap-first=00000000
+fpu seq=162 rva=00012a18 eax=00000001 edx=00000000 esp=0031f258 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=162 rva=00012a18 esp=0031f258 eax=00000001 ecx=10659010 stack=106129bc,106657bc,00000000,0000000b,0031f2d0
+last-error=0
+x87-control=ffff027f
+state seq=162 heap-begin=008913c0 heap-first=00000000
+fpu seq=163 rva=00012a7a eax=00000001 edx=00000000 esp=0031f248 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=163 rva=00012a7a esp=0031f248 eax=00000001 ecx=10659010 stack=10612a29,106657bc,10659010,106657bc,106129bc
+last-error=0
+x87-control=ffff027f
+state seq=163 heap-begin=008913c0 heap-first=00000000
+fpu seq=164 rva=00012a7f eax=106657bc edx=00000000 esp=0031f244 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=164 rva=00012a7f esp=0031f244 eax=106657bc ecx=10659010 stack=10659010,10612a29,106657bc,10659010,106657bc
+last-error=0
+x87-control=ffff027f
+state seq=164 heap-begin=008913c0 heap-first=00000000
+fpu seq=165 rva=00012a85 eax=106657bc edx=00000000 esp=0031f244 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=165 rva=00012a85 esp=0031f244 eax=106657bc ecx=10659010 stack=10659010,10612a29,106657bc,10659010,106657bc
+last-error=0
+x87-control=ffff027f
+state seq=165 heap-begin=008913c0 heap-first=00000000
+fpu seq=166 rva=00012a8b eax=106657bc edx=00000000 esp=0031f244 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=166 rva=00012a8b esp=0031f244 eax=106657bc ecx=10659010 stack=10659010,10612a29,106657bc,10659010,106657bc
+last-error=0
+x87-control=ffff027f
+state seq=166 heap-begin=008913c0 heap-first=00000000
+fpu seq=167 rva=00012aac eax=106657bc edx=00000000 esp=0031f240 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=167 rva=00012aac esp=0031f240 eax=106657bc ecx=10659010 stack=10612a96,10659010,10612a29,106657bc,10659010
+last-error=0
+x87-control=ffff027f
+state seq=167 heap-begin=008913c0 heap-first=00000000
+fpu seq=168 rva=00012a96 eax=ffb00000 edx=ffffffff esp=0031f244 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=168 rva=00012a96 esp=0031f244 eax=ffb00000 ecx=10659010 stack=10659010,10612a29,106657bc,10659010,106657bc
+last-error=0
+x87-control=ffff027f
+state seq=168 heap-begin=008913c0 heap-first=00000000
+fpu seq=169 rva=00012a29 eax=00500000 edx=ffffc000 esp=0031f24c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=169 rva=00012a29 esp=0031f24c eax=00500000 ecx=ffb00000 stack=106657bc,10659010,106657bc,106129bc,106657bc
+last-error=0
+x87-control=ffff027f
+state seq=169 heap-begin=008913c0 heap-first=00000000
+fpu seq=170 rva=00012a51 eax=00500000 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-before seq=170 esp=0031f240 address=00000000 bytes=00500000 kind=00002000 protection=00000004 provider=7bb7e528 error=0
+trap seq=170 rva=00012a51 esp=0031f240 eax=00500000 ecx=00002000 stack=00000000,00500000,00002000,00000004,10659010
+last-error=0
+x87-control=ffff027f
+state seq=170 heap-begin=008913c0 heap-first=00000000
+fpu seq=171 rva=00012a57 eax=02c90000 edx=00000000 esp=0031f250 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-after seq=171 esp=0031f250 before-esp=0031f240 result=02c90000 error=0 before-error=0
+arena-region base=02c90000 allocation=02c90000 allocation-protect=00000004 bytes=00500000 state=00002000 protect=00000000 type=00020000
+trap seq=171 rva=00012a57 esp=0031f250 eax=02c90000 ecx=7bcfbeac stack=10659010,106657bc,106129bc,106657bc,00000000
+last-error=0
+x87-control=ffff027f
+state seq=171 heap-begin=008913c0 heap-first=00000000
+fpu seq=172 rva=00012ab2 eax=02c90000 edx=00000000 esp=0031f24c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=172 rva=00012ab2 esp=0031f24c eax=02c90000 ecx=10659010 stack=10612a70,10659010,106657bc,106129bc,106657bc
+last-error=0
+x87-control=ffff027f
+state seq=172 heap-begin=008913c0 heap-first=00000000
+fpu seq=173 rva=00012a70 eax=02c90000 edx=00000000 esp=0031f250 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=173 rva=00012a70 esp=0031f250 eax=02c90000 ecx=10659010 stack=10659010,106657bc,106129bc,106657bc,00000000
+last-error=0
+x87-control=ffff027f
+state seq=173 heap-begin=008913c0 heap-first=00000000
+fpu seq=174 rva=000129bc eax=00000001 edx=00000000 esp=0031f264 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=174 rva=000129bc esp=0031f264 eax=00000001 ecx=10659010 stack=0000000b,0031f2d0,3fff1000,106127f7,00000000
+last-error=0
+x87-control=ffff027f
+state seq=174 heap-begin=008913c0 heap-first=00000000
+fpu seq=175 rva=00012a18 eax=00000001 edx=00000000 esp=0031f258 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=175 rva=00012a18 esp=0031f258 eax=00000001 ecx=10659030 stack=106129bc,106657d0,00000000,0000000b,0031f2d0
+last-error=0
+x87-control=ffff027f
+state seq=175 heap-begin=008913c0 heap-first=00000000
+fpu seq=176 rva=00012a7a eax=00000001 edx=00000000 esp=0031f248 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=176 rva=00012a7a esp=0031f248 eax=00000001 ecx=10659030 stack=10612a29,106657d0,10659030,106657d0,106129bc
+last-error=0
+x87-control=ffff027f
+state seq=176 heap-begin=008913c0 heap-first=00000000
+fpu seq=177 rva=00012a7f eax=106657d0 edx=00000000 esp=0031f244 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=177 rva=00012a7f esp=0031f244 eax=106657d0 ecx=10659030 stack=10659030,10612a29,106657d0,10659030,106657d0
+last-error=0
+x87-control=ffff027f
+state seq=177 heap-begin=008913c0 heap-first=00000000
+fpu seq=178 rva=00012a85 eax=106657d0 edx=00000000 esp=0031f244 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=178 rva=00012a85 esp=0031f244 eax=106657d0 ecx=10659030 stack=10659030,10612a29,106657d0,10659030,106657d0
+last-error=0
+x87-control=ffff027f
+state seq=178 heap-begin=008913c0 heap-first=00000000
+fpu seq=179 rva=00012a8b eax=106657d0 edx=00000000 esp=0031f244 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=179 rva=00012a8b esp=0031f244 eax=106657d0 ecx=10659030 stack=10659030,10612a29,106657d0,10659030,106657d0
+last-error=0
+x87-control=ffff027f
+state seq=179 heap-begin=008913c0 heap-first=00000000
+fpu seq=180 rva=00012aac eax=106657d0 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=180 rva=00012aac esp=0031f240 eax=106657d0 ecx=10659030 stack=10612a96,10659030,10612a29,106657d0,10659030
+last-error=0
+x87-control=ffff027f
+state seq=180 heap-begin=008913c0 heap-first=00000000
+fpu seq=181 rva=00012a96 eax=ffb00000 edx=ffffffff esp=0031f244 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=181 rva=00012a96 esp=0031f244 eax=ffb00000 ecx=10659030 stack=10659030,10612a29,106657d0,10659030,106657d0
+last-error=0
+x87-control=ffff027f
+state seq=181 heap-begin=008913c0 heap-first=00000000
+fpu seq=182 rva=00012a29 eax=00500000 edx=ffff8000 esp=0031f24c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=182 rva=00012a29 esp=0031f24c eax=00500000 ecx=ffb00000 stack=106657d0,10659030,106657d0,106129bc,106657d0
+last-error=0
+x87-control=ffff027f
+state seq=182 heap-begin=008913c0 heap-first=00000000
+fpu seq=183 rva=00012a51 eax=00500000 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-before seq=183 esp=0031f240 address=00000000 bytes=00500000 kind=00002000 protection=00000004 provider=7bb7e528 error=0
+trap seq=183 rva=00012a51 esp=0031f240 eax=00500000 ecx=00002000 stack=00000000,00500000,00002000,00000004,10659030
+last-error=0
+x87-control=ffff027f
+state seq=183 heap-begin=008913c0 heap-first=00000000
+fpu seq=184 rva=00012a57 eax=03190000 edx=00000000 esp=0031f250 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-after seq=184 esp=0031f250 before-esp=0031f240 result=03190000 error=0 before-error=0
+arena-region base=03190000 allocation=03190000 allocation-protect=00000004 bytes=00500000 state=00002000 protect=00000000 type=00020000
+trap seq=184 rva=00012a57 esp=0031f250 eax=03190000 ecx=7bcfbeac stack=10659030,106657d0,106129bc,106657d0,00000000
+last-error=0
+x87-control=ffff027f
+state seq=184 heap-begin=008913c0 heap-first=00000000
+fpu seq=185 rva=00012ab2 eax=03190000 edx=00000000 esp=0031f24c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=185 rva=00012ab2 esp=0031f24c eax=03190000 ecx=10659030 stack=10612a70,10659030,106657d0,106129bc,106657d0
+last-error=0
+x87-control=ffff027f
+state seq=185 heap-begin=008913c0 heap-first=00000000
+fpu seq=186 rva=00012a70 eax=03190000 edx=00000000 esp=0031f250 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=186 rva=00012a70 esp=0031f250 eax=03190000 ecx=10659030 stack=10659030,106657d0,106129bc,106657d0,00000000
+last-error=0
+x87-control=ffff027f
+state seq=186 heap-begin=008913c0 heap-first=00000000
+fpu seq=187 rva=000129bc eax=00000001 edx=00000000 esp=0031f264 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=187 rva=000129bc esp=0031f264 eax=00000001 ecx=10659030 stack=0000000b,0031f2d0,3fff1000,106127f7,00000000
+last-error=0
+x87-control=ffff027f
+state seq=187 heap-begin=008913c0 heap-first=00000000
+fpu seq=188 rva=00012a18 eax=00000001 edx=00000000 esp=0031f258 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=188 rva=00012a18 esp=0031f258 eax=00000001 ecx=10659050 stack=106129bc,106657e4,00000000,0000000b,0031f2d0
+last-error=0
+x87-control=ffff027f
+state seq=188 heap-begin=008913c0 heap-first=00000000
+fpu seq=189 rva=00012a7a eax=00000001 edx=00000000 esp=0031f248 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=189 rva=00012a7a esp=0031f248 eax=00000001 ecx=10659050 stack=10612a29,106657e4,10659050,106657e4,106129bc
+last-error=0
+x87-control=ffff027f
+state seq=189 heap-begin=008913c0 heap-first=00000000
+fpu seq=190 rva=00012a7f eax=106657e4 edx=00000000 esp=0031f244 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=190 rva=00012a7f esp=0031f244 eax=106657e4 ecx=10659050 stack=10659050,10612a29,106657e4,10659050,106657e4
+last-error=0
+x87-control=ffff027f
+state seq=190 heap-begin=008913c0 heap-first=00000000
+fpu seq=191 rva=00012a85 eax=106657e4 edx=00000000 esp=0031f244 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=191 rva=00012a85 esp=0031f244 eax=106657e4 ecx=10659050 stack=10659050,10612a29,106657e4,10659050,106657e4
+last-error=0
+x87-control=ffff027f
+state seq=191 heap-begin=008913c0 heap-first=00000000
+fpu seq=192 rva=00012a8b eax=106657e4 edx=00000000 esp=0031f244 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=192 rva=00012a8b esp=0031f244 eax=106657e4 ecx=10659050 stack=10659050,10612a29,106657e4,10659050,106657e4
+last-error=0
+x87-control=ffff027f
+state seq=192 heap-begin=008913c0 heap-first=00000000
+fpu seq=193 rva=00012aac eax=106657e4 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=193 rva=00012aac esp=0031f240 eax=106657e4 ecx=10659050 stack=10612a96,10659050,10612a29,106657e4,10659050
+last-error=0
+x87-control=ffff027f
+state seq=193 heap-begin=008913c0 heap-first=00000000
+fpu seq=194 rva=00012a96 eax=ffb00000 edx=ffffffff esp=0031f244 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=194 rva=00012a96 esp=0031f244 eax=ffb00000 ecx=10659050 stack=10659050,10612a29,106657e4,10659050,106657e4
+last-error=0
+x87-control=ffff027f
+state seq=194 heap-begin=008913c0 heap-first=00000000
+fpu seq=195 rva=00012a29 eax=00500000 edx=ffff8000 esp=0031f24c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=195 rva=00012a29 esp=0031f24c eax=00500000 ecx=ffb00000 stack=106657e4,10659050,106657e4,106129bc,106657e4
+last-error=0
+x87-control=ffff027f
+state seq=195 heap-begin=008913c0 heap-first=00000000
+fpu seq=196 rva=00012a51 eax=00500000 edx=00000000 esp=0031f240 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-before seq=196 esp=0031f240 address=00000000 bytes=00500000 kind=00002000 protection=00000004 provider=7bb7e528 error=0
+trap seq=196 rva=00012a51 esp=0031f240 eax=00500000 ecx=00002000 stack=00000000,00500000,00002000,00000004,10659050
+last-error=0
+x87-control=ffff027f
+state seq=196 heap-begin=008913c0 heap-first=00000000
+fpu seq=197 rva=00012a57 eax=03690000 edx=00000000 esp=0031f250 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-after seq=197 esp=0031f250 before-esp=0031f240 result=03690000 error=0 before-error=0
+arena-region base=03690000 allocation=03690000 allocation-protect=00000004 bytes=00500000 state=00002000 protect=00000000 type=00020000
+trap seq=197 rva=00012a57 esp=0031f250 eax=03690000 ecx=7bcfbeac stack=10659050,106657e4,106129bc,106657e4,00000000
+last-error=0
+x87-control=ffff027f
+state seq=197 heap-begin=008913c0 heap-first=00000000
+fpu seq=198 rva=00012ab2 eax=03690000 edx=00000000 esp=0031f24c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=198 rva=00012ab2 esp=0031f24c eax=03690000 ecx=10659050 stack=10612a70,10659050,106657e4,106129bc,106657e4
+last-error=0
+x87-control=ffff027f
+state seq=198 heap-begin=008913c0 heap-first=00000000
+fpu seq=199 rva=00012a70 eax=03690000 edx=00000000 esp=0031f250 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=199 rva=00012a70 esp=0031f250 eax=03690000 ecx=10659050 stack=10659050,106657e4,106129bc,106657e4,00000000
+last-error=0
+x87-control=ffff027f
+state seq=199 heap-begin=008913c0 heap-first=00000000
+fpu seq=200 rva=000129bc eax=00000001 edx=00000000 esp=0031f264 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=200 rva=000129bc esp=0031f264 eax=00000001 ecx=10659050 stack=0000000b,0031f2d0,3fff1000,106127f7,00000000
+last-error=0
+x87-control=ffff027f
+state seq=200 heap-begin=008913c0 heap-first=00000000
+fpu seq=201 rva=00012ac3 eax=00000001 edx=00000000 esp=0031f260 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=201 rva=00012ac3 esp=0031f260 eax=00000001 ecx=10659050 stack=106129d7,0000000b,0031f2d0,3fff1000,106127f7
+last-error=0
+x87-control=ffff027f
+state seq=201 heap-begin=008913c0 heap-first=00000000
+fpu seq=202 rva=00012b30 eax=00000001 edx=00000000 esp=0031f258 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=202 rva=00012b30 esp=0031f258 eax=00000001 ecx=10654dc0 stack=10612acf,00000000,106129d7,0000000b,0031f2d0
+last-error=0
+x87-control=ffff027f
+state seq=202 heap-begin=008913c0 heap-first=00000000
+frontier rva=00012b30
