@@ -276,3 +276,8 @@ build/wide-printf-probe: tests/wide-printf-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -fshort-wchar -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 wide-printf-check: build/wide-printf-probe
 	$(PYTHON) tests/check-wide-printf.py build/wide-printf-probe
+
+build/printf-x87-probe: tests/printf-x87-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+printf-x87-check: build/printf-x87-probe
+	$(PYTHON) tests/check-printf-x87.py build/printf-x87-probe

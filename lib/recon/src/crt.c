@@ -826,6 +826,63 @@ size_t recon_fwrite(const void *p,size_t size,size_t count,ShimFILE *s)
 }
 int recon_fputs(const char *text,ShimFILE *s) { size_t n=strlen(text); return recon_fwrite(text,1,n,s)==n?0:EOF; }
 int recon_puts(const char *text) { return recon_fputs(text,&recon_iob[1])==EOF?EOF:recon_fputc('\n',&recon_iob[1]); }
+/* The reviewed VC1 plain finite %g converter is integer based and leaves
+ * all x87 environment/register bytes unchanged. Isolate host formatting only
+ * for this literal-plus-one-conversion scope; other formats keep their path. */
+static int format_is_plain_g(const char *format)
+{
+    unsigned conversions=0;
+    while (*format) {
+        if (*format++!='%') continue;
+        if (*format=='%') { ++format;continue; }
+        if (*format!='g') return 0;
+        ++format;++conversions;
+    }
+    return conversions==1;
+}
+static int format_plain_g(char **output,const char *format,va_list args)
+{
+    unsigned char environment[108] __attribute__((aligned(16)));
+    union { double number; uint32_t words[2]; } value;
+    unsigned short control;
+    char number[64],*exponent,*out,*start;
+    size_t length;
+    int count;
+    if (recon_lc_handle[2] || recon_lc_codepage)
+        recon_unsupported("finite %g outside default-C locale");
+    /* fnsave resets the scratch stack. Preserve incoming precision/rounding
+     * while host libc works, then restore every original x87 register/field. */
+    __asm__ volatile("fnsave %0" : "=m"(environment));
+    memcpy(&control,environment,sizeof(control));
+    if (control!=0x027f && control!=0x037f)
+        recon_unsupported("unreviewed finite %g x87 control");
+    __asm__ volatile("fldcw %0" : : "m"(control));
+    value.number=va_arg(args,double);
+    if ((value.words[1]&0x7ff00000u)==0x7ff00000u)
+        recon_unsupported("unreviewed nonfinite %g");
+    count=snprintf(number,sizeof(number),"%g",value.number);
+    if (count<0 || count>=(int)sizeof(number)-1)
+        recon_unsupported("finite %g formatting failure");
+    /* Original dtold's zero path drops the sign; old CRT exponents have
+     * at least three digits. These spelling differences are directly probed. */
+    if (!(value.words[0] || (value.words[1]&0x7fffffffu))) strcpy(number,"0");
+    exponent=strchr(number,'e');
+    if (exponent && strlen(exponent+1)==3) {
+        memmove(exponent+3,exponent+2,3);exponent[2]='0';
+    }
+    length=strlen(format)+strlen(number)+1;
+    start=malloc(length);
+    if (!start) recon_unsupported("finite %g allocation failure");
+    out=start;
+    while (*format) {
+        if (*format!='%') *out++=*format++;
+        else if (format[1]=='%') { *out++='%';format+=2; }
+        else { length=strlen(number);memcpy(out,number,length);out+=length;format+=2; }
+    }
+    *out=0;*output=start;count=(int)(out-start);
+    __asm__ volatile("frstor %0" : : "m"(environment));
+    return count;
+}
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
 static int format_has_wide_string(const char *format)
 {
@@ -900,6 +957,8 @@ int recon_vfprintf(ShimFILE *s,const char *format,va_list args)
 {
     char *text,*copy=NULL; size_t length=strlen(format),percent=0;
     int count,result;
+    if (format_is_plain_g(format)) count=format_plain_g(&text,format,args);
+    else
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
     if (format_has_wide_string(format)) count=format_wide_ascii(&text,format,args);
     else

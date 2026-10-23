@@ -1,0 +1,17 @@
+{
+  "scope": "Default-C literal text plus one plain finite %g and%% only; incoming CW027f/037f. Whole108-byte x87 environment/register isolation around host conversion; other formats retain existing path.",
+  "original_probe": {
+    "source": "tests/printf-x87-reference.c",
+    "sha256": "c7de37eba636f2c821f7edf278e3f36769a70c430850d88b0a27bedb3e05f561",
+    "static_toolchain": "toolchains/1.0-nt, default LIBC.LIB",
+    "rows": 28,
+    "cases": "0,-0,1.25,-1.25,.1,1e-20,1e20 \u00d7CW027f/037f \u00d7empty/seeded-status/liveST0",
+    "whole_108_bytes_unchanged": true,
+    "output_sha256": "060cbb803f6e45c2f00469e93dbc5ecb24dfc8f9fd32d57d312c211caac7dbba",
+    "state_sha256": "a7c35aa6c53956f0ce45da38f9ce6024ee89b5885aa2f63db70655481fa9e454"
+  },
+  "output_corrections": "Original zero drops sign and exponent minimum3digits; actual argument formatted, no response cache. Nonfinite/othercontrol/locale denied.",
+  "native_checks": "GCC/Clang28 output/count cases and all108 before/after bytes,4 unsupported controls; existing default/vprintf/WCHAR16 checks pass. Native measurement occurs at public vprintf entry after compiler vararg promotion, avoiding misattribution of caller fld/fstp FIP. Actual C2 printf independently reobserved by owner.",
+  "regression_scope": "Finished VC1 CL/RC/RCPP source has no plain%g format; no unrelated95 replay. C2 actual reached case pending independent native check.",
+  "limits": "No %Lg, general numeric formatting, rounding-mode, nonfinite or allprintf FP-state claim."
+}
