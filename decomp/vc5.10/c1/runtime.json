@@ -14,13 +14,6 @@
     "evidence": "Unaccepted named call-entry identity only; full extent not established or unmasked."
   },
   {
-    "name": "_initialize_state_12389",
-    "start": 274801545,
-    "end": 274801546,
-    "pending_extent": true,
-    "evidence": "actual .initfe callback table entry; unrecovered body traps"
-  },
-  {
     "name": "_initialize_state_123a4",
     "start": 274801572,
     "end": 274801573,

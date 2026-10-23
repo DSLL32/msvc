@@ -22,6 +22,7 @@ typedef struct CompilerBss {
     C1Initializer cleanup_callbacks[32];
     CompilerContextState context;
     CompilerContextState current_context;
+    CompilerContextState contexts[6];
 } CompilerBss;
 extern CompilerInitializedState c1_data;
 extern CompilerBss c1_bss;

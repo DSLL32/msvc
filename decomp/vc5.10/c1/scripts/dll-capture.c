@@ -269,6 +269,7 @@ static void seed_restore_state(void)
     BYTE *data;
     DWORD saved, first = 0x13579bdfUL, zero = 0, count = 7;
     DWORD callbacks[2], context[3], mode = 1, reuse = 9;
+    unsigned index;
     FILE *file;
     data = (BYTE *)malloc(6548);
     if (!data) fail("restore seed allocation");
@@ -290,6 +291,10 @@ static void seed_restore_state(void)
     write_mem(base + 0x518c8, context, sizeof(context));
     context[1] = 29;
     write_mem(base + 0x518b8, context, sizeof(context));
+    for (index = 0; index < 6; ++index) {
+        context[1] = 31 + index;
+        write_mem(base + 0x51858 + index * 12, context, sizeof(context));
+    }
     write_mem(base + 0x5c08c, &mode, 4);
     write_mem(base + 0x5c064, &reuse, 4);
     fprintf(events, "restore-seed snapshot=%08lx bytes=6548 first=%08lx count=7 mode=1 reuse=9\n", saved, first);
@@ -308,6 +313,22 @@ static void seed_context_callback(DWORD rva)
     fprintf(events, "context-seed rva=%08lx object=%08lx value=%lu frame=%08lx\n",
             rva, context[0], context[1], context[2]);
     context_seeded |= rva == 0x12365 ? 1 : 2;
+}
+
+static void seed_contexts_callback(void)
+{
+    DWORD context[3];
+    unsigned index;
+    context[0] = base + 0x5f530;
+    readmem(base + 0x57818, &context[2], 4);
+    if (!context[2]) fail("context array probe missing owned snapshot");
+    for (index = 0; index < 6; ++index) {
+        context[1] = 31 + index;
+        write_mem(base + 0x51858 + index * 12, context, sizeof(context));
+    }
+    fprintf(events, "contexts-seed rva=00012389 count=6 object=%08lx frame=%08lx\n",
+            context[0], context[2]);
+    context_seeded |= 4;
 }
 
 static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
@@ -462,6 +483,7 @@ int main(int argc, char **argv)
                 if (restore_probe && !restore_seeded && address == base + 0x122a5) seed_restore_state();
                 if (restore_probe && !(context_seeded & 1) && address == base + 0x12365) seed_context_callback(0x12365);
                 if (restore_probe && !(context_seeded & 2) && address == base + 0x12377) seed_context_callback(0x12377);
+                if (restore_probe && !(context_seeded & 4) && address == base + 0x12389) seed_contexts_callback();
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;

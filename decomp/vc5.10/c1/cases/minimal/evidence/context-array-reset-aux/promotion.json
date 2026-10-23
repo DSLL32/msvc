@@ -1,0 +1,10 @@
+{
+  "accepted_function": "_initialize_state_12389",
+  "bytes": 27,
+  "role": "auxiliary nonzero callback-body plus typed BSS restore tests; normal acceptance is separate",
+  "unknown_state": "UNMODELED; no unknown semantic consumer reached",
+  "owned_original_bytes_after": 1089,
+  "application_bytes_after": 632,
+  "crt_support_bytes": 451,
+  "import_bytes": 6
+}

@@ -17,7 +17,12 @@ void __cdecl initialize_state_12377(void)
 
 void __cdecl initialize_state_12389(void)
 {
-    __asm { int 3 }
+    unsigned index;
+    for (index = 0; index < 6; ++index) {
+        c1_bss.contexts[index].object = NULL;
+        c1_bss.contexts[index].value = 0;
+        c1_bss.contexts[index].saved_frame = NULL;
+    }
 }
 
 void __cdecl initialize_state_123a4(void)

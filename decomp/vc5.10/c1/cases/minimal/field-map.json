@@ -109,6 +109,66 @@
           "bytes": 4
         }
       ]
+    },
+    {
+      "name": "contexts",
+      "original_rva": 333912,
+      "bytes": 72,
+      "native_field": "c1_bss.contexts",
+      "native_offset": 160,
+      "type": "six three-word context records; no later semantic consumer established",
+      "default": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "default_proof": "first raw loaded BSS snapshot; callback12389 clears all three words of each of six records",
+      "members": [
+        {
+          "name": "object",
+          "offset": 0,
+          "bytes": 4
+        },
+        {
+          "name": "value",
+          "offset": 4,
+          "bytes": 4
+        },
+        {
+          "name": "saved_frame",
+          "offset": 8,
+          "bytes": 4
+        }
+      ],
+      "count": 6,
+      "stride": 12
     }
   ],
   "outside_bss": [

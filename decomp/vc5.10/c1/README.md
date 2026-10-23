@@ -179,7 +179,7 @@ Initializer/allocator staging completed after the reviewed two-body trial:
 allocator INT3 frontier, followed by `evidence/allocator-staged-promotion/` with
 the real allocator as the only new candidate and genuine first-copy state.
 The older two-body normal/restore captures remain explicitly auxiliary evidence;
-their historical roles were not relabeled. Only four initialized bytes and 160
+their historical roles were not relabeled. Only four initialized bytes and 232
 BSS bytes are currently modeled; other compiler state remains UNMODELED. All 34
 initializer slots are represented, and execution stops at the first unreconstructed
 callback. See `cases/minimal/INITIALIZER-REVIEW.md` for the original review packet.
@@ -197,3 +197,8 @@ callback12389. Both context objects have original/native zero defaults and
 independently seeded nonzero callback and BSS-restore checks. Their object/value/
 frame roles use mapped storage/allocation identities, never cross-process pointer
 values. Evidence lives under `evidence/current-context-reset*`.
+
+The six-element context-record reset (RVA12389, 27 bytes) is accepted. The
+72-byte typed array has per-element zero-default and nonzero reset/restore
+proofs. No later consumer has established its domain; it remains named
+`contexts` and does not authorize interpreting other unmodeled bytes.

@@ -14,13 +14,13 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
   assert all(a[1]<=b[0] for a,b in zip(native_ranges,native_ranges[1:]))
  assert fields['allocation_bytes']==6548
  assert {r['name']:(r['original_rva'],r['bytes'],r['native_offset']) for r in fields['modeled_initialized']}=={'first_call':(0x5f530,4,0)}
- assert {r['name']:(r['original_rva'],r['bytes'],r['native_offset']) for r in fields['modeled_bss']}=={'saved_data':(0x57818,4,0),'cleanup_count':(0x5781c,4,4),'cleanup_callbacks':(0x57820,128,8),'context':(0x518c8,12,136),'current_context':(0x518b8,12,148)}
+ assert {r['name']:(r['original_rva'],r['bytes'],r['native_offset']) for r in fields['modeled_bss']}=={'saved_data':(0x57818,4,0),'cleanup_count':(0x5781c,4,4),'cleanup_callbacks':(0x57820,128,8),'context':(0x518c8,12,136),'current_context':(0x518b8,12,148),'contexts':(0x51858,72,160)}
  first=fields['modeled_initialized'][0]
  assert first['snapshot_original_offset']==first['original_rva']-fields['original_initialized_region_rva'][0]==0x1530
  assert first['snapshot_native_offset']==first['native_offset']==0
  assert i32((original/'compiler-data-000.bin').read_bytes(),0x1530)==first['default']==1
  current=state['compiler_state'];layout=current['native_layout']
- assert layout=={'initialized_size':4,'bss_size':160,'first_call':0,'saved_data':0,'cleanup_count':4,'cleanup_callbacks':8,'context':136,'current_context':148,'context_members':{'object':0,'value':4,'saved_frame':8}}
+ assert layout=={'initialized_size':4,'bss_size':232,'first_call':0,'saved_data':0,'cleanup_count':4,'cleanup_callbacks':8,'context':136,'current_context':148,'contexts':160,'contexts_stride':12,'context_members':{'object':0,'value':4,'saved_frame':8}}
  data=(original/('compiler-data-%03d.bin'%sequence)).read_bytes();bss=(original/('compiler-bss-%03d.bin'%sequence)).read_bytes()
  assert len(data)==6548 and len(bss)==0xa06c
  assert i32(data,0x1530)==current['initialized']['first_call']
@@ -33,6 +33,12 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
   assert context['default']==[0,0,0] and context['members']==[{'name':member,'offset':at,'bytes':4} for member,at in [('object',0),('value',4),('saved_frame',8)]]
   assert struct.unpack_from('<3I',(original/'compiler-bss-000.bin').read_bytes(),offset)==tuple(context['default'])
   assert struct.unpack_from('<3I',bss,offset)==tuple(b[name][key] for key in ('object','value','saved_frame'))==(0,0,0)
+ contexts=next(r for r in fields['modeled_bss'] if r['name']=='contexts')
+ assert contexts['count']==6 and contexts['stride']==12 and contexts['default']==[[0,0,0] for i in range(6)]
+ assert contexts['members']==[{'name':name,'offset':offset,'bytes':4} for name,offset in [('object',0),('value',4),('saved_frame',8)]]
+ assert struct.unpack_from('<18I',(original/'compiler-bss-000.bin').read_bytes(),0x1858)==(0,)*18
+ assert struct.unpack_from('<18I',bss,0x1858)==(0,)*18
+ assert b['contexts']==[dict(object=0,value=0,saved_frame=0) for i in range(6)]
  # This frontier has not executed any registering callback yet.
  assert struct.unpack_from('<32I',bss,0x7820)==tuple(b['cleanup_callbacks'])==(0,)*32
  globals_data=(original/('state-%03d.bin'%sequence)).read_bytes()
@@ -84,6 +90,7 @@ def validate_restore(original,native,state,sequence,module,candidate,symbols):
  seed=(original/'restore-original-input.bin').read_bytes();assert len(seed)==6548
  observations=json.loads((native/'restore-observations.json').read_text())
  pre,post=observations['before'],observations['post_restore']
+ assert observations['pre_seed']['bss']['contexts']==[dict(object=0,value=0,saved_frame=0) for i in range(6)]
  assert all(observations['pre_seed']['bss'][name]==dict(object=0,value=0,saved_frame=0) for name in ('context','current_context'))
  last=state['compiler_state']
  original_alloc=None;native_alloc=None
@@ -104,6 +111,10 @@ def validate_restore(original,native,state,sequence,module,candidate,symbols):
    assert original_context==((module+0x5f530,value,original_alloc) if phase=='before' else (0,0,0))
    assert native_context==((n['live_addresses']['initialized'],value,native_alloc) if phase=='before' else (0,0,0))
    assert plan[name]=={'object':'first_call-address','value':value,'saved_frame':'owned-snapshot-allocation'}
+  assert plan['contexts']=={'object':'first_call-address','values':list(range(31,37)),'saved_frame':'owned-snapshot-allocation'}
+  for index in range(6):
+   assert struct.unpack_from('<3I',b,0x1858+index*12)==((module+0x5f530,31+index,original_alloc) if phase=='before' else (0,0,0))
+   assert n['bss']['contexts'][index]==(dict(object=n['live_addresses']['initialized'],value=31+index,saved_frame=native_alloc) if phase=='before' else dict(object=0,value=0,saved_frame=0))
   assert i32(g,0x64)==n['reuse_state']==plan['reuse_state']
   assert i32(g,0x8c)==plan['pass_mode']
   assert n['snapshot']['first_call']==plan['snapshot_first_call']
@@ -128,6 +139,8 @@ def validate_restore(original,native,state,sequence,module,candidate,symbols):
   other='current_context' if name=='context' else 'context'
   assert before_callback['bss'][other]==dict(object=0,value=0,saved_frame=0)
   assert struct.unpack_from('<3I',callback_bss,0x18b8 if name=='context' else 0x18c8)==(0,0,0)
+  assert struct.unpack_from('<18I',callback_bss,0x1858)==(0,)*18
+  assert before_callback['bss']['contexts']==[dict(object=0,value=0,saved_frame=0) for i in range(6)]
   assert before_callback['initialized']['first_call']==0 and before_callback['snapshot']['first_call']==plan['snapshot_first_call']
   assert before_callback['reuse_state']==0 and before_callback['bss']['saved_data']==native_alloc
   assert before_callback['bss']['cleanup_count']==0 and before_callback['bss']['cleanup_callbacks']==[0]*32
@@ -135,6 +148,24 @@ def validate_restore(original,native,state,sequence,module,candidate,symbols):
   callback_size=re.search(r'^[0-9a-f]+ ([0-9a-f]+) [Tt] '+symbol+'$',subprocess.check_output(['nm','-S','--defined-only',str(PROJECT/'build/native/c1-host')],text=True),re.M)[1]
   assert callback_address<=observations[pc_key]<callback_address+int(callback_size,16)
   assert plan[plan_key]=={'entry_rva':rva,'object':'first_call-address','value':value,'saved_frame':'owned-snapshot-allocation','expected_result':[0,0,0],'normal_case':False}
+ arrayseqs=re.findall(r'^trap seq=(\d+) rva=00012389 ',raw,re.M)
+ assert len(arrayseqs)==1 and postseq<int(arrayseqs[0])<sequence
+ array_bss=(original/('compiler-bss-%03d.bin'%int(arrayseqs[0]))).read_bytes()
+ before_array=observations['before_contexts_callback']
+ assert re.search(r'^contexts-seed rva=00012389 count=6 object=%08x frame=%08x$'%(module+0x5f530,original_alloc),raw,re.M)
+ assert plan['contexts_callback_auxiliary']=={'entry_rva':0x12389,'count':6,'normal_case':False}
+ for index in range(6):
+  assert struct.unpack_from('<3I',array_bss,0x1858+index*12)==(module+0x5f530,31+index,original_alloc)
+  assert before_array['bss']['contexts'][index]==dict(object=before_array['live_addresses']['initialized'],value=31+index,saved_frame=native_alloc)
+ for name,offset in [('context',0x18c8),('current_context',0x18b8)]:
+  assert before_array['bss'][name]==dict(object=0,value=0,saved_frame=0)
+  assert struct.unpack_from('<3I',array_bss,offset)==(0,0,0)
+ assert before_array['initialized']['first_call']==0 and before_array['snapshot']['first_call']==plan['snapshot_first_call']
+ assert before_array['reuse_state']==0 and before_array['bss']['saved_data']==native_alloc
+ assert before_array['bss']['cleanup_count']==0 and before_array['bss']['cleanup_callbacks']==[0]*32
+ array_address=int(symbols['initialize_state_12389'])
+ array_size=re.search(r'^[0-9a-f]+ ([0-9a-f]+) [Tt] initialize_state_12389$',subprocess.check_output(['nm','-S','--defined-only',str(PROJECT/'build/native/c1-host')],text=True),re.M)[1]
+ assert array_address<=observations['contexts_callback_pc']<array_address+int(array_size,16)
  address,size=re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] initialize_compiler_pass$',subprocess.check_output(['nm','-S','--defined-only',str(PROJECT/'build/native/c1-host')],text=True),re.M).groups()
  assert int(address,16)<=observations['post_restore_pc']<int(address,16)+int(size,16)
  line=next(i for i,text in enumerate((PROJECT/'src/pass.c').read_text().splitlines(),1) if 'c1_reuse_state = !c1_pass_mode;' in text)
