@@ -41,6 +41,8 @@ def main():
     env.update(drives,RECON_PROGRAM_PATH=PROGRAM,LIB=LIBRARY,TZ='PST8PDT',TMP=str(work),TEMP=str(work))
     for key in ('CL','_CL_','LINK','_LINK_','MSC_CMD_FLAGS','LINK32_DB'):env.pop(key,None)
     for key,value in spec.get('environment',{}).items():env[key]=value.replace('{lib}',LIBRARY)
+    from native_tempnam import install as install_tempnam
+    install_tempnam(spec,spec['case'],env)
     process_fixture=None
     if spec.get('native_process_boundary'):
         import importlib.util
@@ -49,6 +51,10 @@ def main():
         process_fixture=module.ProcessFixture(work,env)
     script=output/'entry.gdb'
     script.write_text('set pagination off\nset confirm off\nbreak *'+args.function+'\nrun '+shlex.join(spec['arguments'])+' >'+str(output/'native.stdout')+' 2>'+str(output/'native.stderr')+'\nprintf "NATIVE_MATCH '+args.function+'\\n"\nx/6wx $esp\nbt 5\nquit\n')
+    from resource_abi import LOGICAL as RESOURCE_ABI, gdb_commands as resource_abi_commands
+    resource_path=output/'native-resource-abi.json'
+    if args.function in RESOURCE_ABI:
+        script.write_text(script.read_text().replace('quit\n',resource_abi_commands(args.function,resource_path)+'quit\n'))
     if args.function=='emit_rom_relocations':
         state_path=output/'native-rom-fixups.json'
         commands="""python
@@ -174,6 +180,10 @@ end
         from decoder_state import compare as compare_decoder_state
         decoder_state=json.loads(decoder_path.read_text())
         compare_decoder_state(states,decoder_state)
+    resource_abi_state=None
+    if args.function in RESOURCE_ABI:
+        from resource_abi import compare as compare_resource_abi
+        resource_abi_state=compare_resource_abi(events,json.loads(resource_path.read_text()))
     import_machine_state=None
     if args.function=='write_helper_thunk_member':
         observations=[e for e in events if e['event']=='import_machine_state']
@@ -210,7 +220,7 @@ end
                          original=original_state,native=native_state,
                          unconsumed='Record+4 has no proved reader/writer semantics; never compared or serialized. Type padding+2 likewise not a live field.')
         (output/'rom-fixups-comparison.json').write_text(json.dumps(typed_state,indent=2)+'\n')
-    receipt=dict(status='pass',logical=args.function,original_address=hex(args.address),original_directory=str(original_directory),native_directory=str(output),native_context=context,seconds=time.perf_counter()-start,parallel_sides=True,partial_streams_exact=True,typed_rom_fixups=typed_state,import_machine_state=import_machine_state,decoder_state=decoder_state,longjmp_state=longjmp_state,caller_edge=caller_proof)
+    receipt=dict(status='pass',logical=args.function,original_address=hex(args.address),original_directory=str(original_directory),native_directory=str(output),native_context=context,seconds=time.perf_counter()-start,parallel_sides=True,partial_streams_exact=True,typed_rom_fixups=typed_state,resource_abi_state=resource_abi_state,import_machine_state=import_machine_state,decoder_state=decoder_state,longjmp_state=longjmp_state,caller_edge=caller_proof)
     (output/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
     print(output/'receipt.json')
 if __name__=='__main__':main()

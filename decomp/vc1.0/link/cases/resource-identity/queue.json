@@ -1,0 +1,34 @@
+{
+  "status": "complete",
+  "case": "Root-approved named-resource multilingual success and duplicate failure",
+  "steps": [
+    {
+      "step": "Untouched original preflight/repeat, then controlled-TMP repeat",
+      "status": "complete"
+    },
+    {
+      "step": "Three diagnostic helpers with explicit actual ABI observations",
+      "status": "complete"
+    },
+    {
+      "step": "Shared true tempnam correction and exact native pre/post/jump proof",
+      "status": "complete"
+    },
+    {
+      "step": "Whole fatal diagnostic acceptance and all reached support",
+      "status": "complete"
+    },
+    {
+      "step": "Frozen native traces/full68case suite, graph/ABI/data/negative/layout checks and original compiler",
+      "status": "complete"
+    },
+    {
+      "step": "Scoped commit; propose next coherent residual application case to root",
+      "status": "ready-to-commit"
+    }
+  ],
+  "next": {
+    "status": "root-approved after resource commit",
+    "proposal": "next-proposal.json"
+  }
+}

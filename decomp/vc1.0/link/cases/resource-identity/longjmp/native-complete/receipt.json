@@ -1,0 +1,84 @@
+{
+  "status": "pass",
+  "ambient_last_error": {
+    "original_last_error": 1224,
+    "native_last_error": 0,
+    "live_result_errno_doserrno_exact": true,
+    "original_late_GetLastError_trap_unreached": true,
+    "native_late_GetLastError_readers": [],
+    "limit": "Root-approved def-use limit: successful unlink then actual exit/callback path never reads this stale LastError. Failed full-ambient assertion retained separately; no equivalence claimed for ambient LastError."
+  },
+  "original": {
+    "event": "longjmp_boundary",
+    "buffer_is_disassembler": 0,
+    "value": 4294967295,
+    "saved_eip": 135301,
+    "saved_scope": 0,
+    "buffer": 378256,
+    "caller": 274955,
+    "registration_scope": 0,
+    "registration_is_current": 1
+  },
+  "native": {
+    "tempnam_before": {
+      "directory": "\\",
+      "prefix": "tmp",
+      "caller": "convert_resource_input",
+      "counter": 1,
+      "prefix_length": 0,
+      "errno": 0,
+      "doserrno": 0,
+      "last_error": 0
+    },
+    "tempnam_after": {
+      "result": "S:\\vc1.0\\link\\resource-identity-duplicate-controlled\\tmp2",
+      "counter": 2,
+      "prefix_length": 3,
+      "errno": 2,
+      "doserrno": 2,
+      "last_error": 2
+    },
+    "resume": {
+      "value": 4294967295,
+      "signed_value": -1,
+      "function": "convert_resource_input",
+      "errno": 2
+    },
+    "entry": {
+      "buffer_is_resource": true,
+      "buffer_bytes": 32,
+      "value": 4294967295,
+      "registered_contexts": [
+        0
+      ],
+      "caller": "insert_resource",
+      "errno": 2
+    },
+    "fatal": {
+      "file": "identity.res",
+      "message": 26,
+      "first_variadic_string": "",
+      "caller": "convert_resource_input",
+      "errno": 2,
+      "doserrno": 2,
+      "last_error": 0
+    },
+    "unlink_before": {
+      "file": "identity.exe",
+      "caller": "fatal_message",
+      "errno": 2,
+      "doserrno": 2,
+      "last_error": 0
+    },
+    "unlink_after": {
+      "result": 0,
+      "errno": 2,
+      "doserrno": 2,
+      "last_error": 0
+    },
+    "exit": 26
+  },
+  "seconds": 0.17767996061593294,
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/resource-jump-88u3st0b",
+  "scope": "Public no-SEH-unwind resource longjmp, actual value-1,32-byte buffer/namedcaller/registeredcontext/continuation/errors; no internal native SEH ABI claim"
+}

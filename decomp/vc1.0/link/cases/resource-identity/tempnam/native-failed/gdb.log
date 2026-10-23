@@ -1,0 +1,10 @@
+Breakpoint 1 at 0x63e10: file ../../../lib/recon/src/crt.c, line 1442.
+Breakpoint 2 at 0x5b910: file ../../../lib/recon/src/compat.c, line 47.
+Breakpoint 3 at 0x24535: file src/resources.c, line 36.
+Breakpoint 4 at 0x5b2c0: file src/diagnostics.c, line 15.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 4, fatal_message (file=0x566195f0 "\246\331\377\377\246\331\377\377", message=332) at src/diagnostics.c:15
+15	{
+RESOURCE_RECOVERED_TO_FATAL

@@ -936,7 +936,12 @@
     "_compare_mac_external_contributions",
     "_compare_mac_jump_entries",
     "_get_externals_by_symbol",
-    "_compare_external_sections"
+    "_compare_external_sections",
+    "_resource_error_prefix",
+    "_resource_name_to_ansi",
+    "_resource_unicode_to_ansi_byte",
+    "_fatal_message",
+    "__unlink"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1274,10 +1279,11 @@
     {
       "name": "_fatal_message",
       "start": 137424,
-      "end": 137425,
-      "implementation": "stub-C",
+      "end": 137611,
+      "implementation": "C",
       "source": "src/diagnostics.c",
-      "abi": "cdecl void(const char *,int,...)"
+      "abi": "cdecl void(const char *,int,...)",
+      "evidence": "Whole187-byte original cdecl body, exactly one forwarded variadic DWORD; complete typed3slot fresh trap and full GDB\u22121 recovery/exit26/stream/file proof in cases/resource-identity. Stale LastError is not equated: original/native remaining successful-unlink\u2192exit path independently has no reader."
     },
     {
       "name": "_initialize_symbols",
@@ -4553,10 +4559,11 @@
     {
       "name": "_resource_name_to_ansi",
       "start": 283008,
-      "end": 283009,
-      "implementation": "stub-C",
-      "source": "src/pass-stubs.c",
-      "abi": "cdecl int(char *output,const unsigned short *input,unsigned long count)"
+      "end": 283094,
+      "implementation": "C",
+      "source": "src/resources.c",
+      "abi": "cdecl int(char *,const unsigned short *,unsigned long)",
+      "evidence": "Whole86-byte45180..451d6 counted converter, preserves count0, strictcharacter>=127 helper edge, lowbyte output and failure flagFFFF. Fresh masked-original/native GDB resource-identity-duplicate-resource_name_to_ansi-44gisn8z matches namedType before NameCaf\u00e9. Helper remains distinct named stub at451e0 until reached. Typed ABI proof resource-identity-duplicate-resource_name_to_ansi-p9pmxquf supersedes logical-only first receipt: count7, UTF16SAMPLE+NUL, sourceTypeName+16/length+1 and caller-owned1024-byte display pointer all match; no hidden register parameter."
     },
     {
       "name": "_set_resource_directory",
@@ -4615,10 +4622,11 @@
     {
       "name": "_resource_error_prefix",
       "start": 273920,
-      "end": 273936,
-      "implementation": "stub-C",
-      "source": "src/pass-stubs.c",
-      "abi": "cdecl void(void)"
+      "end": 273934,
+      "implementation": "C",
+      "source": "src/resources.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Whole14-byte42e00..42e0e, original printf prefix literal atpointofuse; trailing2bytealignment excluded. Fresh masked-original/native GDB resource-identity-duplicate-resource_error_prefix-kpd7xj30 matches before duplicate named-language diagnostic. No exit or hidden diagnostic state added."
     },
     {
       "name": "_read_definition_line",
@@ -8289,6 +8297,15 @@
       "source": "src/symbols.c",
       "abi": "cdecl int(const void *,const void *)",
       "evidence": "Whole105-byte26280..262e9: qsort External** comparator, null first-owner returns1 (including bothnull), null second-owner-1, unsigned16-bit Section.index difference, otherwise wrappedDWORD final-value difference. Zero callees. New actual callback reached after get_externals_by_symbol, fresh masked-original/native mac-loader-map-compare_external_sections-3rqrr7vc. C follows original individual branches, no imposed total-order repair."
+    },
+    {
+      "name": "_resource_unicode_to_ansi_byte",
+      "start": 283104,
+      "end": 283159,
+      "implementation": "C",
+      "source": "src/resources.c",
+      "abi": "cdecl unsigned(unsigned short)",
+      "evidence": "Whole55-byte451e0..45217, no callees; character<=127 returnsit, then firstmatch shared129-WORD high ANSI map, failureFFFF. Fresh masked-original/native GDB resource-identity-duplicate-resource_unicode_to_ansi_byte-yyk64xhz proves actual U+00e9. Shared forward conversion uses same typed table+2 slice; placeholderFFFF still mapsfirst80 in reverse as original. Typed ABI primary resource-identity-duplicate-resource_unicode_to_ansi_byte-3pyk03ve: characterWORD00e9/fullargumentDWORD00e9, caller resource_name_to_ansi at451b9, no pointer/register/out formal. Initial logical-only receipt retained as superseded evidence."
     }
   ],
   "c_stub_references": [
@@ -9231,6 +9248,11 @@
     "mac-loader-map",
     "mac-loader-map",
     "mac-loader-map",
-    "mac-loader-map"
+    "mac-loader-map",
+    "resource-identity-duplicate",
+    "resource-identity-duplicate",
+    "resource-identity-duplicate",
+    "resource-identity-duplicate-controlled",
+    "resource-identity-duplicate-controlled"
   ]
 }

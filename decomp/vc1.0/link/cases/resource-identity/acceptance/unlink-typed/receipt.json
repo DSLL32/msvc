@@ -1,0 +1,74 @@
+{
+  "status": "pass",
+  "logical": "recon_unlink",
+  "original_address": "0x52840",
+  "original_directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/resource-identity-duplicate-controlled/masked-x15jpr54",
+  "native_directory": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/resource-identity-duplicate-controlled-recon_unlink-d66thm9d",
+  "native_context": {
+    "event": "context",
+    "pid": 1980,
+    "eip": 337985,
+    "esp": 2750780,
+    "eax": 8198568,
+    "ecx": 8061108,
+    "edx": 8061108,
+    "stack": [
+      137597,
+      8198568,
+      8198384,
+      135362,
+      8061096,
+      26,
+      505692,
+      7368052,
+      0,
+      0,
+      4096,
+      11337728,
+      4294967295,
+      251443,
+      88,
+      2077212492,
+      2069947092,
+      84,
+      8193148,
+      8188912,
+      503528,
+      503536,
+      503552,
+      8213368
+    ],
+    "crt_errno": 2,
+    "dos_errno": 2,
+    "last_error": 1224,
+    "exception_code": 2147483651
+  },
+  "seconds": 1.7556488811969757,
+  "parallel_sides": true,
+  "partial_streams_exact": true,
+  "typed_rom_fixups": null,
+  "resource_abi_state": {
+    "status": "pass",
+    "formal_slots": 1,
+    "original": {
+      "event": "resource_abi",
+      "logical": "recon_unlink",
+      "caller": 137597,
+      "formals": {
+        "file": "identity.exe"
+      }
+    },
+    "native": {
+      "logical": "recon_unlink",
+      "caller_name": "fatal_message",
+      "formals": {
+        "file": "identity.exe"
+      }
+    },
+    "scope": "All actual consumed formal slots; pointer input data and output ownership/count. Output prior bytes are not read by original and are not inputs. No hidden/register formal exists in these decoded cdecl bodies."
+  },
+  "import_machine_state": null,
+  "decoder_state": null,
+  "longjmp_state": null,
+  "caller_edge": null
+}

@@ -1,0 +1,5 @@
+{"event":"controlled_tmp","directory":"S:\\vc1.0\\link\\resource-identity-duplicate-controlled"}
+{"event":"create","pid":1980,"parent":2012,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -link /nodefaultlib /entry:main /subsystem:console /debug:none /out:identity.exe test.obj identity.res"}
+{"event":"context","pid":1980,"eip":337985,"esp":2750780,"eax":8198568,"ecx":8061108,"edx":8061108,"stack":[137597,8198568,8198384,135362,8061096,26,505692,7368052,0,0,4096,11337728,4294967295,251443,88,2077212492,2069947092,84,8193148,8188912,503528,503536,503552,8213368],"crt_errno":2,"dos_errno":2,"last_error":1224,"exception_code":2147483651}
+{"event":"resource_abi","logical":"recon_unlink","caller":137597,"formals":{"file":"identity.exe"}}
+{"event":"summary","root_exit":999,"failed":10,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

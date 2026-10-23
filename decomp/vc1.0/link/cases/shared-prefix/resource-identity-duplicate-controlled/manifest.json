@@ -1,0 +1,67 @@
+{
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-resource-identity.py",
+    "sha256": "465e0799ea2cb0279e704db8d7f7ca72d7ad16bbb10f01f536639a8e66e31c2c"
+  },
+  "native_tempnam_input": {
+    "path": "cases/resource-identity/tempnam/profile-duplicate/proof.json",
+    "bytes": 477,
+    "sha256": "49a2a6c1a8e8e7aa63431dbcfb202549a72dad965bd71788bf648ff929825b03"
+  },
+  "case": "resource-identity-duplicate-controlled",
+  "phases": {
+    "reference": {
+      "arguments": [
+        "-link",
+        "/nodefaultlib",
+        "/entry:main",
+        "/subsystem:console",
+        "/debug:none",
+        "/out:identity.exe",
+        "test.obj",
+        "identity.res"
+      ],
+      "environment": {
+        "LIB": "{lib}",
+        "TMP": "S:\\vc1.0\\link\\resource-identity-duplicate-controlled",
+        "TEMP": "S:\\vc1.0\\link\\resource-identity-duplicate-controlled"
+      },
+      "inputs": [
+        {
+          "path": "../../resource-identity/inputs/test.obj",
+          "bytes": 286,
+          "sha256": "6c454d6cb96e2a4e1f87aa17311541ca7090b63554efda3044c53c854592599c"
+        },
+        {
+          "path": "../../resource-identity/inputs/duplicate/identity.res",
+          "bytes": 184,
+          "sha256": "66cb3dba94b298512a6ce9f877d33807239ca503a3f0c1c8232b2b9f04a32efb"
+        }
+      ],
+      "outputs": [
+        {
+          "output_name": "tmp2",
+          "artifact_kind": "empty-resource-temporary",
+          "path": "expected/tmp2",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "ignored_fields": [],
+          "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "controlled_tmp": true,
+      "canonical_working_directory": "S:\\vc1.0\\link\\resource-identity-duplicate-controlled",
+      "expected_exit": 26,
+      "expected_stdout": "Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\nCVTRES: error - Duplicate resource - Type:SAMPLE, Name:Caf\u00e9, Language:0x0409\r\nidentity.res : error LNK1123: failure during conversion to COFF : file invalid or corrupt\r\n",
+      "expected_stderr": "",
+      "final_files": [
+        "identity.res",
+        "test.obj",
+        "tmp2"
+      ]
+    }
+  },
+  "source_reference": "decomp/vc1.0/link/cases/resource-identity/controlled/duplicate",
+  "migration": "Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged"
+}

@@ -260,10 +260,78 @@ static void bind_api_sample(Process *process,Thread *thread,CONTEXT *context,DWO
     fprintf(log_file,"}\n");fflush(log_file);
 }
 
+/* Original-only tempnam errno attribution at its actual resource caller. */
+static void resource_tempnam_sample(Process *process,Thread *thread,CONTEXT *context,DWORD site)
+{
+    DWORD got,args[2],error,doserror,last; char directory[512],prefix[512],result[512];
+    ReadProcessMemory(process->handle,(void *)0x852dc,&doserror,4,&got);
+    ReadProcessMemory(process->handle,(void *)(thread->teb+0x34),&last,4,&got);
+    if (site==0x2197d) {
+        ReadProcessMemory(process->handle,(void *)0x852d8,&error,4,&got);
+        fprintf(log_file,"{\"event\":\"resource_unlink_return\",\"result\":%lu,\"errno\":%lu,\"doserrno\":%lu,\"last_error\":%lu}\n",context->Eax,error,doserror,last);fflush(log_file);return;
+    }
+    if (site==0x5b321 || site==0x5b51e) {
+        DWORD counter=0,attributes;
+        memset(result,0,sizeof(result));
+        ReadProcessMemory(process->handle,(void *)(site==0x5b321?context->Eax:context->Ebx),result,511,&got);
+        ReadProcessMemory(process->handle,(void *)0x852d8,&error,4,&got);
+        ReadProcessMemory(process->handle,(void *)0x8640c,&counter,4,&got);
+        attributes=GetFileAttributesA(result);
+        fprintf(log_file,"{\"event\":\"resource_tempnam_path\",\"site\":%lu,\"errno\":%lu,\"eax\":%lu,\"counter\":%lu,\"attributes\":%lu,\"path\":",site,error,context->Eax,counter,attributes);
+        quoted(result);fprintf(log_file,",\"doserrno\":%lu,\"last_error\":%lu}\n",doserror,last);fflush(log_file);return;
+    }
+    if (site!=0x21027 && site!=0x2102c) return;
+    ReadProcessMemory(process->handle,(void *)0x852d8,&error,4,&got);
+    fprintf(log_file,"{\"event\":\"resource_tempnam\",\"before\":%d,\"errno\":%lu",site==0x21027,error);
+    if (site==0x21027) {
+        memset(directory,0,sizeof(directory));memset(prefix,0,sizeof(prefix));
+        ReadProcessMemory(process->handle,(void *)context->Esp,args,8,&got);
+        ReadProcessMemory(process->handle,(void *)args[0],directory,511,&got);
+        ReadProcessMemory(process->handle,(void *)args[1],prefix,511,&got);
+        fprintf(log_file,",\"directory\":");quoted(directory);
+        fprintf(log_file,",\"prefix\":");quoted(prefix);
+    } else {
+        memset(result,0,sizeof(result));
+        ReadProcessMemory(process->handle,(void *)context->Eax,result,511,&got);
+        fprintf(log_file,",\"result\":");quoted(result);
+    }
+    fprintf(log_file,",\"doserrno\":%lu,\"last_error\":%lu}\n",doserror,last);fflush(log_file);
+}
+
+/* Complete ABI inputs for the active named-resource diagnostic frontiers.
+ * Output display contents are not inputs: the original writes, never reads,
+ * exactly count bytes. Its1024-byte caller-owned extent is independently proved. */
+static void resource_abi_sample(Process *process,CONTEXT *context,DWORD *stack)
+{
+    DWORD got,n,value;unsigned short units[256],length;
+    char file[512],argument[512];
+    if (context->Eip==0x45181 || context->Eip==0x45180) {
+        if (!stack[3] || stack[3]>256 || !ReadProcessMemory(process->handle,(void *)stack[2],units,stack[3]*2,&got) || got!=stack[3]*2) return;
+        value=stack[2]-16;
+        if (!ReadProcessMemory(process->handle,(void *)(value+14),&length,2,&got) || got!=2) return;
+        fprintf(log_file,"{\"event\":\"resource_abi\",\"logical\":\"resource_name_to_ansi\",\"caller\":%lu,\"formals\":{\"count\":%lu,\"input_is_type_name\":%d,\"input_is_name\":%d,\"count_matches_owner\":%d,\"output_is_insert_resource_display\":%d,\"output_capacity\":1024,\"utf16\":[",stack[0],stack[3],stack[2]==context->Edi+16,stack[2]==context->Esi+16,stack[3]==(DWORD)length+1,stack[1]==context->Esp+48 && stack[0]>=0x42f90 && stack[0]<0x432d0);
+        for(n=0;n<stack[3];++n)fprintf(log_file,"%s%u",n?",":"",units[n]);
+        fprintf(log_file,"]}}\n");
+    } else if (context->Eip==0x451e1 || context->Eip==0x451e0) {
+        fprintf(log_file,"{\"event\":\"resource_abi\",\"logical\":\"resource_unicode_to_ansi_byte\",\"caller\":%lu,\"formals\":{\"character\":%u,\"argument_word\":%lu}}\n",stack[0],(unsigned short)stack[1],stack[1]);
+    } else if (context->Eip==0x52841 || context->Eip==0x52840) {
+        memset(file,0,sizeof(file));ReadProcessMemory(process->handle,(void *)stack[1],file,511,&got);
+        fprintf(log_file,"{\"event\":\"resource_abi\",\"logical\":\"recon_unlink\",\"caller\":%lu,\"formals\":{\"file\":",stack[0]);quoted(file);fprintf(log_file,"}}\n");
+    } else if (context->Eip==0x218d1 || context->Eip==0x218d0) {
+        memset(file,0,sizeof(file));memset(argument,0,sizeof(argument));
+        ReadProcessMemory(process->handle,(void *)stack[1],file,511,&got);
+        ReadProcessMemory(process->handle,(void *)stack[3],argument,511,&got);
+        fprintf(log_file,"{\"event\":\"resource_abi\",\"logical\":\"fatal_message\",\"caller\":%lu,\"formals\":{\"file\":",stack[0]);quoted(file);
+        fprintf(log_file,",\"message\":%lu,\"first_variadic_string\":",stack[2]&0xffff);quoted(argument);
+        fprintf(log_file,"}}\n");
+    }
+    fflush(log_file);
+}
+
 static void context_log(Process *process,HANDLE thread)
 {
     CONTEXT context;
-    DWORD stack[24],got,crt_errno=0xffffffffUL;
+    DWORD stack[24],got,crt_errno=0xffffffffUL,dos_errno=0xffffffffUL,last=0xffffffffUL;
     unsigned n;
     memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL;
     if (!GetThreadContext(thread,&context)) return;
@@ -273,11 +341,17 @@ static void context_log(Process *process,HANDLE thread)
         for (n=0;n<got/4;++n) fprintf(log_file,"%s%lu",n?",":"",stack[n]);
     }
     ReadProcessMemory(process->handle,(void *)0x852d8,&crt_errno,4,&got);
-    fprintf(log_file,"],\"crt_errno\":%lu,\"exception_code\":%lu}\n",crt_errno,current_exception_code);fflush(log_file);
-    if (context.Eip==0x52778) {
+    ReadProcessMemory(process->handle,(void *)0x852dc,&dos_errno,4,&got);
+    for (n=0;n<256;++n) if (threads[n].active && threads[n].handle==thread) {
+        ReadProcessMemory(process->handle,(void *)(threads[n].teb+0x34),&last,4,&got);break;
+    }
+    fprintf(log_file,"],\"crt_errno\":%lu,\"dos_errno\":%lu,\"last_error\":%lu,\"exception_code\":%lu}\n",crt_errno,dos_errno,last,current_exception_code);fflush(log_file);
+    resource_abi_sample(process,&context,stack);
+    if (context.Eip==0x52778 || context.Eip==0x52777) {
         DWORD saved[8],registration[4],head=0;
         if (!ReadProcessMemory(process->handle,(void *)stack[1],saved,sizeof(saved),&got) || got!=sizeof(saved)) return;
         fprintf(log_file,"{\"event\":\"longjmp_boundary\",\"buffer_is_disassembler\":%d,\"value\":%lu,\"saved_eip\":%lu,\"saved_scope\":%lu",stack[1]==0x6d21c,stack[2],saved[5],saved[7]);
+        fprintf(log_file,",\"buffer\":%lu,\"caller\":%lu",stack[1],stack[0]);
         if (ReadProcessMemory(process->handle,(void *)saved[6],registration,sizeof(registration),&got) && got==sizeof(registration))
             fprintf(log_file,",\"registration_scope\":%lu",registration[3]);
         for (n=0;n<256;++n) if (threads[n].active && threads[n].handle==thread) {
@@ -392,6 +466,20 @@ int main(int argc,char **argv)
     if (strlen(argv[1])+strlen(argv[2])+5>=sizeof(command))return 4;
     sprintf(command,"\"%s\" %s",argv[1],argv[2]);
     sprintf(dll,"%s\\hello-debug.dll",argv[6]);
+    /* Opt-in new-case external input: Wine may replace host TMP/TEMP before
+       this helper starts. Change this process's child environment only. */
+    {
+        const char *temporary=getenv("LINK_CAPTURE_TMP");
+        if (temporary) {
+            DWORD attributes=GetFileAttributesA(temporary);
+            if (strcmp(temporary,argv[6]) || attributes==0xffffffffUL ||
+                !(attributes&FILE_ATTRIBUTE_DIRECTORY) ||
+                !SetEnvironmentVariableA("TMP",temporary) ||
+                !SetEnvironmentVariableA("TEMP",temporary)) return 12;
+            fprintf(log_file,"{\"event\":\"controlled_tmp\",\"directory\":");
+            quoted(temporary);fprintf(log_file,"}\n");fflush(log_file);
+        }
+    }
     if (!CreateProcessA(argv[1],command,NULL,NULL,TRUE,DEBUG_PROCESS,NULL,argv[6],&startup,&launched))
         return 5;
     root_pid=launched.dwProcessId;CloseHandle(launched.hProcess);CloseHandle(launched.hThread);
@@ -494,6 +582,19 @@ int main(int argc,char **argv)
                     for(n=0;n<18;++n)fprintf(log_file,"%s%u",n?",":"",bytes[n]);
                     fprintf(log_file,"]}\n");fflush(log_file);
                 }
+                if (!strcmp(entries[i].name,"analysis_decoder_resource_fatal_rearm") && site==0x218d0) {
+                    unsigned char trap=0xcc;
+                    for(n=0;n<entry_count;++n) if (entries[n].rva==0x2d4fb || entries[n].rva==0x2d500 || entries[n].rva==0x2d509 || entries[n].rva==0x2d512) {
+                        entries[n].seen=0;
+                        if (!write_code(process,entries[n].rva,&trap,1)) {failed=8;break;}
+                    }
+                }
+                if (!strcmp(entries[i].name,"analysis_no_late_lasterror") && site==0x2197d) {
+                    unsigned char trap=0xcc;
+                    if (!write_code(process,0x4b224,&trap,1)) {failed=8;break;}
+                    fprintf(log_file,"{\"event\":\"no-late-lasterror-guard\",\"va\":373284}\n");fflush(log_file);
+                }
+                resource_tempnam_sample(process,thread,&context,site);
                 clock_sample(process,&context,site);
                 relocation_sample(process,&context,site);
                 strtoul_sample(process,&context,site);

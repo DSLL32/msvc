@@ -1,0 +1,41 @@
+{
+  "type": "SAMPLE",
+  "name": "Caf\u00e9",
+  "languages": [
+    1033,
+    1041
+  ],
+  "payload_bytes": [
+    25,
+    26
+  ],
+  "status": "pass",
+  "rejected": [
+    "ansi-typed:missing-original",
+    "ansi-typed:missing-formal",
+    "ansi-typed:changed-formal",
+    "ansi-typed:wrong-caller",
+    "byte-typed:missing-original",
+    "byte-typed:missing-formal",
+    "byte-typed:changed-formal",
+    "byte-typed:wrong-caller",
+    "fatal-typed:missing-original",
+    "fatal-typed:missing-formal",
+    "fatal-typed:changed-formal",
+    "fatal-typed:wrong-caller",
+    "unlink-typed:missing-original",
+    "unlink-typed:missing-formal",
+    "unlink-typed:changed-formal",
+    "unlink-typed:wrong-caller",
+    "resource-jump:coerced-plus-one",
+    "resource-jump:unknown-context",
+    "resource-jump:wrong-buffer",
+    "resource-jump:wrong-continuation",
+    "resource-jump:late-error-reader",
+    "resource-jump:scope-needs-unwind",
+    "resource-content:S\u0000A\u0000M\u0000P\u0000L\u0000E\u0000",
+    "resource-content:C\u0000a\u0000f\u0000\u00e9\u0000",
+    "resource-content:Japanese identity payload"
+  ],
+  "seconds": 0.020606836304068565
+}

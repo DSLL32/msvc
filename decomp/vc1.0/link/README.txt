@@ -273,3 +273,19 @@ canonical compile/audits26.290s pass776graphs763callbacks490data41ECX. Extent is
 See cases/mac-loader-map/README.txt, validation/timing/components JSON. The next
 root-approved single workflow tests named-resource language identities and
 ordinary duplicate-identity error recovery, with actual no-SEH-unwind proof gate.
+
+Named resource identity/recovery checkpoint (942 frontiers)
+
+Four whole C bodies add342 instruction bytes;16bytes of shipped _unlink support
+remain separate CRT credit. A valid SAMPLE/Café resource with languages0409/0411
+links exactly; the companion duplicate exits26 with exact diagnostics and a real
+zero-byte temporary artifact. Explicit per-child TMP input proves true tempnam
+counter/path/error behavior. Native longjmp returns actual-1 with matching live
+errno and no-SEH-unwind context. A separately retained stale LastError mismatch
+has an original armed-import/native no-reader proof through successful cleanup
+and exit; ambient1224 equivalence is not claimed. All68 native cases/750entries
+pass5.696s, native build7.303s separately;781graphs767callbacks490data41ECX pass.
+Extent247433/281634=87.8562%;16912 unaccepted unclassified bytes remain pending.
+See cases/resource-identity for typed ABI evidence, raw limitations, timings and
+negative controls. Next root-approved single workflow: public EDIT rejection of
+ordinary valid images and file failures; no forced internal OMF debug entry.

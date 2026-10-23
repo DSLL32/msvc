@@ -1,5 +1,6 @@
 /* Native diagnostics and lazily opened external message catalog. */
 #include "linker-types.h"
+#include <io.h>
 #include <recon.h>
 char *lookup_diagnostic_text(unsigned);
 const char *lookup_diagnostic_code(unsigned);
@@ -10,10 +11,35 @@ long diagnostic_offsets[138];
 char diagnostic_line[256];
 char diagnostic_path[264];
 
-/* Not yet reached: fatal diagnostic, original 000218d0. */
+extern char *output_name;
+void close_all_files(void);
+void remove_temporary_inputs(void);
+
+/* Fatal diagnostic and shared cleanup [000218d0,0002198b).
+ * This wrapper forwards exactly one machine word from its variable arguments. */
 void fatal_message(const char *file,int message,...)
 {
-    __asm { int 3 }
+    char *label,*format;
+    unsigned long argument;
+    va_list args;
+    if (banner_pending) print_banner();
+    label=lookup_diagnostic_text(0);
+    printf("%s :",file);
+    if (label) printf("%s ",label);
+    message=(unsigned short)message;
+    printf("%s:",lookup_diagnostic_code(message));
+    format=lookup_diagnostic_text(message);
+    if (format) {
+        va_start(args,message);
+        argument=va_arg(args,unsigned long);
+        va_end(args);
+        printf(format,argument);
+    }
+    fputc('\n',stdout);
+    close_all_files();
+    remove_temporary_inputs();
+    if (output_name && *output_name) _unlink(output_name);
+    exit(message);
 }
 
 void out_of_memory(void) { __asm { int 3 } }

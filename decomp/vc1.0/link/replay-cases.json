@@ -639,6 +639,29 @@
       },
       "accepted_prefix": 937,
       "reason": "Root-approved public Mac multi-entry loader/dupcon/MAP and actual native artifact inspection"
+    },
+    {
+      "case": "resource-identity-duplicate-controlled",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 26
+      },
+      "frontier_cases": [
+        "resource-identity-duplicate",
+        "resource-identity-duplicate-controlled"
+      ],
+      "reason": "Controlled-TMP completion preserves earlier uncontrolled frontier provenance; actual named-resource duplicate, longjmp\u22121/fatal and zero-byte temporary artifact"
+    },
+    {
+      "case": "resource-identity-languages-controlled",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "accepted_prefix": 942,
+      "reason": "Original-backed named type/name/nonASCII and two languages; resource PE byte oracle and deleted temporary inventory"
     }
   ]
 }

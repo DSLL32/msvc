@@ -1,0 +1,6 @@
+{"event":"create","pid":1300,"parent":632,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -link /nodefaultlib /entry:main /subsystem:console /debug:none /out:identity.exe test.obj identity.res"}
+{"event":"entry","pid":1300,"rva":272247,"name":"analysis_decoder_resource_longjmp","crt_errno":2}
+{"event":"context","pid":1300,"eip":337783,"esp":2748580,"eax":27,"ecx":8189001,"edx":544880,"stack":[274955,378256,4294967295,8213404,8213464,8213500,8213368,8213452,8213464,0,523344,3915800899,17664,2949120,2884609,2884712,136,2,2889756,520,2883704,2883584,0,2748776],"crt_errno":2,"exception_code":2147483651}
+{"event":"longjmp_boundary","buffer_is_disassembler":0,"value":4294967295,"saved_eip":135301,"saved_scope":0,"buffer":378256,"caller":274955,"registration_scope":0,"registration_is_current":1}
+{"event":"exit","pid":1300,"code":26,"packer":0}
+{"event":"summary","root_exit":26,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

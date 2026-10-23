@@ -1,0 +1,43 @@
+{
+  "mode": "original",
+  "analysis_samples": [],
+  "case": "resource-identity-languages",
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "root_exit": 0,
+    "failed": 0,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "c6e6eedd593e9db32490d5f0b205b8bb04bb5336c9eda7af4d96ecf52c575f69",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 937,
+  "accepted_sha256": "8dca93e7fbb4eadb59a5dfd99f878fe8e02189c3410bb0a706a26bdc1ad038f4",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": null,
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\resource-identity-languages",
+    "TEMP": "S:\\vc1.0\\link\\resource-identity-languages"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-link /nodefaultlib /entry:main /subsystem:console /debug:none /out:identity.exe test.obj identity.res",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-languages\\original-jodgofmn\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-languages\\original-jodgofmn\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-languages\\original-jodgofmn\\events.jsonl",
+    "S:\\vc1.0\\link\\resource-identity-languages",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-languages\\original-jodgofmn\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-languages\\original-jodgofmn\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-languages\\original-jodgofmn\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-languages\\original-jodgofmn\\after.dll",
+    "-"
+  ],
+  "seconds": 1.869306712411344
+}

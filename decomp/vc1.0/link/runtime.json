@@ -323,13 +323,6 @@
     "evidence": "byte-exact shipped SYSTEM.OBJ with relocation targets verified; fresh native/original system boundary, errno0 entry/return, exact pinned cmdcopy responses in cases/rom-local-imports"
   },
   {
-    "name": "___setargv",
-    "start": 336880,
-    "end": 337072,
-    "object": "startup\\obj\\i386\\_SETARGV.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
     "name": "__find",
     "start": 337472,
     "end": 337616,
@@ -384,14 +377,8 @@
     "start": 337984,
     "end": 338000,
     "object": "dos\\obj\\i386\\UNLINK.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "_getc",
-    "start": 337984,
-    "end": 338000,
-    "object": "stdio\\obj\\i386\\FGETC.OBJ",
-    "library": "LIBC.LIB"
+    "library": "LIBC.LIB",
+    "evidence": "byte-exact UNLINK.OBJ wrapper; object-local public _remove callee identity independently matched; native public CRT boundary has actual filename/caller/result/live-error and full fatal cleanup proof in cases/resource-identity (ambient LastError explicitly not equated)"
   },
   {
     "name": "_atol",
@@ -664,13 +651,6 @@
     "start": 342688,
     "end": 342704,
     "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__unlink",
-    "start": 342704,
-    "end": 342720,
-    "object": "dos\\obj\\i386\\UNLINK.OBJ",
     "library": "LIBC.LIB"
   },
   {

@@ -1,0 +1,68 @@
+{
+  "status": "root-approved; queued after resource checkpoint commit",
+  "case": "Public EDIT rejection and file-failure workflow",
+  "basis_checkpoint": {
+    "accepted_frontiers": 942,
+    "accepted_extent_bytes": 247433,
+    "total_text_bytes": 281634,
+    "extent_percent": 87.8562
+  },
+  "coherence": "Ordinary valid PE inputs that the public editor must reject semantically; verify diagnostics, input preservation, cleanup and absence without corrupting a PE or forcing internal entrypoints.",
+  "phases": [
+    {
+      "name": "rebase-no-relocations",
+      "input": "Existing frozen original resource-identity-languages-controlled identity.exe, if original confirms its ordinary no-relocation layout reaches the documented fixed/no-reloc rejection",
+      "arguments": [
+        "-edit",
+        "/rebase:base=500000",
+        "identity.exe"
+      ],
+      "target": {
+        "name": "editor_rebase_error",
+        "entry": "0x287a0",
+        "whole_body_instruction_bytes": 65
+      },
+      "oracle": "Twice untouched original exit/streams/full unchanged input image/final inventory"
+    },
+    {
+      "name": "bind-no-exports",
+      "setup": "Original CL /c /O2 /G5 over ordinary __stdcall Empty(void*,unsigned,void*) returning1; original LINK /dll /nodefaultlib /entry:Empty /out:provider.dll creates valid no-export sibling DLL. Freeze independently; original-validate header/directory claims.",
+      "input": "Existing frozen original rebased client.exe imports provider.dll; use actual valid no-export provider.dll from setup",
+      "arguments": [
+        "-edit",
+        "/bind:path=.",
+        "client.exe"
+      ],
+      "target": {
+        "name": "editor_bind_error",
+        "entry": "0x28750",
+        "whole_body_instruction_bytes": 65
+      },
+      "oracle": "Twice untouched original exact LNK error and complete input/file effects; no missing-DLL SearchPath or unknown provider fallback required"
+    },
+    {
+      "name": "editor-missing-file",
+      "arguments": [
+        "-edit",
+        "/section:.text,R",
+        "missing.exe"
+      ],
+      "target": {
+        "name": "file_failure",
+        "entry": "0x26b10",
+        "known_instruction_bytes": 35
+      },
+      "reachability": "Provisional original preflight only: ordinary absent-file setup, not malformed object. Drop if actual editor uses another already accepted error path.",
+      "oracle": "Exact original diagnostics/status/absence and actual callback ABI if reached"
+    }
+  ],
+  "original_validation": "Compile setup outside fixtures; run each public phase twice untouched, capture actual ABI formals/hidden/register inputs and complete raw files/streams before registering. Freeze exact path/environment. Native fixtures remain cached and Wine-free.",
+  "known_app_opportunity": {
+    "whole_two_wrappers": 130,
+    "additional_provisional_callback": 35,
+    "limits": "Small remaining public native opportunities; no promised branch reachability, no CRT application credit."
+  },
+  "parallel_planning": "Continue analysis-only classification of remaining16912 uninventoried/unclassified bytes. Known OMF7367B closure still requires mode2 internal-g, while normal LINK wrapper supplies only -o/-co; no forced internal-g. 403f0\u219240630\u219240860 dormant demangler assignment closure has no direct incoming call to403f0 in raw .text scan; indirect/data references still need classification, not dismissed as CRT.",
+  "remaining_known_public_alternatives": "Public helper_main about100 instruction bytes, kept separate as unrelated to this workflow. driver_usage157B has only dispatcher caller after automatic-link insertion; ordinary reachability not yet established.",
+  "approval": "Root reviewed and approved all three provisional public phases; actual file effects govern, do not assume unchanged input. No malformed object/internal-g forcing."
+}

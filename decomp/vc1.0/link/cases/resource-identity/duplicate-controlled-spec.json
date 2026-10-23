@@ -1,0 +1,47 @@
+{
+  "case": "resource-identity-duplicate-controlled",
+  "arguments": [
+    "-link",
+    "/nodefaultlib",
+    "/entry:main",
+    "/subsystem:console",
+    "/debug:none",
+    "/out:identity.exe",
+    "test.obj",
+    "identity.res"
+  ],
+  "environment": {
+    "LIB": "{lib}",
+    "TMP": "S:\\vc1.0\\link\\resource-identity-duplicate-controlled",
+    "TEMP": "S:\\vc1.0\\link\\resource-identity-duplicate-controlled"
+  },
+  "inputs": [
+    {
+      "path": "cases/resource-identity/inputs/test.obj",
+      "bytes": 286,
+      "sha256": "6c454d6cb96e2a4e1f87aa17311541ca7090b63554efda3044c53c854592599c"
+    },
+    {
+      "path": "cases/resource-identity/inputs/duplicate/identity.res",
+      "bytes": 184,
+      "sha256": "66cb3dba94b298512a6ce9f877d33807239ca503a3f0c1c8232b2b9f04a32efb"
+    }
+  ],
+  "outputs": [
+    {
+      "output_name": "tmp2",
+      "artifact_kind": "empty-resource-temporary"
+    }
+  ],
+  "controlled_tmp": true,
+  "final_files": [
+    "identity.res",
+    "test.obj",
+    "tmp2"
+  ],
+  "native_tempnam_input": {
+    "path": "cases/resource-identity/tempnam/profile-duplicate/proof.json",
+    "bytes": 477,
+    "sha256": "49a2a6c1a8e8e7aa63431dbcfb202549a72dad965bd71788bf648ff929825b03"
+  }
+}

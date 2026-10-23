@@ -1727,11 +1727,11 @@
     ]
   },
   {
-    "address": 525984,
-    "name": "resource_ansi_special",
-    "size": 64,
+    "address": 525982,
+    "name": "resource_ansi_high",
+    "size": 258,
     "owner": "src/resources.c",
-    "evidence": "Encountered ANSI/Unicode translation table special range; identity ranges expressed arithmetically, shared reverse lookup at451e0."
+    "evidence": "Complete shared129-WORD ANSI7f..ff toUnicode table encountered by reverse helper451e0; original forward45130 consumes special80..9f slice at+2. One typed contextual constant table, no duplicated storage or section snapshot."
   },
   {
     "address": 454040,

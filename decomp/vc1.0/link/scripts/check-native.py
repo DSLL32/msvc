@@ -122,6 +122,9 @@ def run_case(name, executable, directory, parser, state, tracing=None, completed
         env.pop(key, None)
     for key, value in phase.get('environment', {}).items():
         env[key] = value.replace('{lib}', LIBRARY)
+    from native_tempnam import install as install_tempnam
+    tempnam_input=install_tempnam(metadata,name,env)
+    if tempnam_input:state['captured_tempnam_input']=tempnam_input
     from native_clock import install as install_clock
     clock_input=install_clock(metadata,name,env)
     if clock_input:state['captured_clock_input']=clock_input
@@ -229,6 +232,12 @@ def run_case(name, executable, directory, parser, state, tracing=None, completed
         assert result.stderr == phase['expected_stderr'].encode('latin1'), 'stderr differs'
         outputs = [validate_output(work, fixture, item, parser)
                    for item in phase.get('outputs', [])]
+    if 'final_files' in phase:
+        managed={'stdout.bin','stderr.bin','trace.entries','trace.seen','trace.expected','trace.state'}
+        names=sorted(p.name for p in work.iterdir() if p.is_file() and p.name not in managed)
+        assert names==phase['final_files'], ('Final application file inventory differs',names,phase['final_files'])
+        assert not list(temporary.iterdir()), 'Unexpected private temporary file effects'
+        state['final_files']=names
     if clock_input:
         # Captured external time makes all creation bytes deterministic. The
         # normal fixture must require raw equality too, independent of later

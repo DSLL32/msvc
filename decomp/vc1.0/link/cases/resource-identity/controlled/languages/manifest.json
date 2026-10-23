@@ -1,0 +1,87 @@
+{
+  "case": "resource-identity-languages-controlled",
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-resource-identity.py",
+    "sha256": "465e0799ea2cb0279e704db8d7f7ca72d7ad16bbb10f01f536639a8e66e31c2c"
+  },
+  "phases": {
+    "reference": {
+      "arguments": [
+        "-link",
+        "/nodefaultlib",
+        "/entry:main",
+        "/subsystem:console",
+        "/debug:none",
+        "/out:identity.exe",
+        "test.obj",
+        "identity.res"
+      ],
+      "environment": {
+        "LIB": "{lib}",
+        "TMP": "S:\\vc1.0\\link\\resource-identity-languages-controlled",
+        "TEMP": "S:\\vc1.0\\link\\resource-identity-languages-controlled"
+      },
+      "inputs": [
+        {
+          "path": "../../inputs/test.obj",
+          "bytes": 286,
+          "sha256": "6c454d6cb96e2a4e1f87aa17311541ca7090b63554efda3044c53c854592599c"
+        },
+        {
+          "path": "../../inputs/languages/identity.res",
+          "bytes": 184,
+          "sha256": "6a1c34303caf8c1880481e5de5677e61a8e2551f71914cf6d6bec1ccfae35525"
+        }
+      ],
+      "outputs": [
+        {
+          "output_name": "identity.exe",
+          "artifact_kind": "resource-pe",
+          "path": "../../controlled-reference/languages/1/identity.exe",
+          "bytes": 2097152,
+          "sha256": "f0622d881df8e1421797fa4a7e367b4daa951525ebed9e9396cc17a75d7bc5ea",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            },
+            {
+              "offset": 1028,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1052,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1076,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            }
+          ],
+          "normalized_sha256": "ac60e3bd639c11c9a11663d45fa0937488ca967fc05b84445946691d093105c8"
+        }
+      ],
+      "controlled_tmp": true,
+      "canonical_working_directory": "S:\\vc1.0\\link\\resource-identity-languages-controlled",
+      "expected_exit": 0,
+      "expected_stdout": "Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n",
+      "expected_stderr": "",
+      "final_files": [
+        "identity.exe",
+        "identity.res",
+        "test.obj"
+      ]
+    }
+  },
+  "provenance": "Explicit controlled-TMP original repeat; earlier uncontrolled-TMP raw captures retained separately. No temporary name seed or path normalization.",
+  "native_tempnam_input": {
+    "path": "cases/resource-identity/tempnam/profile-languages/proof.json",
+    "bytes": 477,
+    "sha256": "2109508ac901c5224dfd3814fc84bdbbc2a195f561ea2ed7ef10fb6421c35938"
+  }
+}

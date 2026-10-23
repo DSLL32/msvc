@@ -89,6 +89,8 @@ def capture(name, registry, repeat=False):
     env.update({k: v.replace('{lib}', LIBRARY) for k, v in phase.get('environment', {}).items()})
     env['WINEPATH'] = 'R:\\toolchains\\1.0-nt\\bin'
     env['TMP'] = env['TEMP'] = windows(work)
+    env.pop('LINK_CAPTURE_TMP',None)
+    if phase.get('controlled_tmp'):env['LINK_CAPTURE_TMP']=canonical
     helper = SCRATCH / 'vc1.0/link/tooling/capture-original.exe'
     args = [windows(helper), PROGRAM, subprocess.list2cmdline(phase['arguments']), windows(capture_dir / 'stdout.bin'), windows(capture_dir / 'stderr.bin'), windows(capture_dir / 'events.jsonl'), canonical, windows(capture_dir / 'text.bin'), windows(capture_dir / 'entries.txt'), windows(capture_dir / 'before.dll'), windows(capture_dir / 'after.dll'), 'R:\\toolchains\\1.0-nt\\bin\\CVPACK.EXE' if name == 'hello-debug-dll' else '-']
     if phase.get('external_copies'):
@@ -122,6 +124,9 @@ def capture(name, registry, repeat=False):
         normalized = parser.normalize_artifact(data, kind) if hasattr(parser, 'normalize_artifact') else parser.normalized(data, fields)
         rec = dict(item, path='expected/' + item['output_name'], **record(actual), ignored_fields=fields, normalized_sha256=digest(normalized))
         outputs.append(rec)
+    if 'final_files' in phase:
+        actual_files=sorted(p.name for p in work.iterdir() if p.is_file())
+        assert actual_files==phase['final_files'], ('Original final file inventory',actual_files,phase['final_files'])
     if repeat:
         frozen = json.loads((out / 'manifest.json').read_text())['phases']['reference']
         assert streams['stdout'].decode('latin1') == frozen['expected_stdout'] and streams['stderr'].decode('latin1') == frozen['expected_stderr']
@@ -139,7 +144,7 @@ def capture(name, registry, repeat=False):
         for item in phase['inputs']:
             item['path'] = os.path.relpath((olddir / item['path']).resolve(), out)
         phase.update(canonical_working_directory=canonical, outputs=outputs, expected_stdout=streams['stdout'].decode('latin1'), expected_stderr=streams['stderr'].decode('latin1'))
-        metadata = {k: copy.deepcopy(v) for k, v in oldmeta.items() if k in ['toolchain', 'artifact_parser', 'reference_artifact_parser', 'toolchain_dependencies', 'native_clock_input']}
+        metadata = {k: copy.deepcopy(v) for k, v in oldmeta.items() if k in ['toolchain', 'artifact_parser', 'reference_artifact_parser', 'toolchain_dependencies', 'native_clock_input', 'native_tempnam_input']}
         metadata.update(case=name, phases={'reference': phase}, source_reference=str(olddir.relative_to(ROOT)), migration='Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged')
         (out / 'manifest.json').write_text(json.dumps(metadata, indent=2) + '\n')
     receipt = dict(case=name, status='pass', prefix=str(PREFIX), canonical_working_directory=canonical, original_sha256=digest(pe.data), helper_sha256=digest(helper.read_bytes()), accepted_count=len(cfg['accepted']), accepted_sha256=digest(json.dumps(cfg['accepted']).encode()), prefix_application=cache['accepted_application'][:segment['seen_count']], expected=segment['expected'], observed=observed, terminal=summary, events=record(capture_dir / 'events.jsonl'), execution_seconds=elapsed, total_seconds=time.perf_counter() - start, command=['wine', *args], capture_directory=str(capture_dir))

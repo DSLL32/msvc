@@ -1,0 +1,15 @@
+{
+  "format": "Win32 RES, two named records following32-byte NULL record",
+  "type": "SAMPLE",
+  "name": "Caf\u00e9",
+  "languages": [
+    1033,
+    1041
+  ],
+  "payloads": [
+    "English identity payload\u0000",
+    "Japanese identity payload\u0000"
+  ],
+  "bytes": 184,
+  "sha256": "6a1c34303caf8c1880481e5de5677e61a8e2551f71914cf6d6bec1ccfae35525"
+}

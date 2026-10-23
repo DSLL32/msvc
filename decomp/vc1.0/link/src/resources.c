@@ -456,13 +456,27 @@ ResourceEntry *insert_resource(ResourceName *type_name,ResourceName *name,Resour
     return entry;
 }
 
-/* The NT-era ANSI table differs from identity only in 80h..9fh. The reverse
- * name conversion uses this same mapping; FFFF denotes an unsupported byte. */
-const unsigned short resource_ansi_special[32]={
-    0xffff,0xffff,0x201a,0x0192,0x201e,0x2026,0x2020,0x2021,
-    0x02c6,0x2030,0x0160,0x2039,0x0152,0xffff,0xffff,0xffff,
-    0xffff,0x2018,0x2019,0x201c,0x201d,0x2022,0x2013,0x2014,
-    0x02dc,0x2122,0x0161,0x203a,0x0153,0xffff,0xffff,0x0178
+/* Shared original mapping for bytes7fh..ffh. The newly encountered reverse
+ * reader walks all129 entries; forward conversion uses its80h..9fh slice.
+ * FFFF placeholders retain the original first-match reverse behavior. */
+const unsigned short resource_ansi_high[129]={
+    0x007f,0xffff,0xffff,0x201a,0x0192,0x201e,0x2026,0x2020,
+    0x2021,0x02c6,0x2030,0x0160,0x2039,0x0152,0xffff,0xffff,
+    0xffff,0xffff,0x2018,0x2019,0x201c,0x201d,0x2022,0x2013,
+    0x2014,0x02dc,0x2122,0x0161,0x203a,0x0153,0xffff,0xffff,
+    0x0178,0x00a0,0x00a1,0x00a2,0x00a3,0x00a4,0x00a5,0x00a6,
+    0x00a7,0x00a8,0x00a9,0x00aa,0x00ab,0x00ac,0x00ad,0x00ae,
+    0x00af,0x00b0,0x00b1,0x00b2,0x00b3,0x00b4,0x00b5,0x00b6,
+    0x00b7,0x00b8,0x00b9,0x00ba,0x00bb,0x00bc,0x00bd,0x00be,
+    0x00bf,0x00c0,0x00c1,0x00c2,0x00c3,0x00c4,0x00c5,0x00c6,
+    0x00c7,0x00c8,0x00c9,0x00ca,0x00cb,0x00cc,0x00cd,0x00ce,
+    0x00cf,0x00d0,0x00d1,0x00d2,0x00d3,0x00d4,0x00d5,0x00d6,
+    0x00d7,0x00d8,0x00d9,0x00da,0x00db,0x00dc,0x00dd,0x00de,
+    0x00df,0x00e0,0x00e1,0x00e2,0x00e3,0x00e4,0x00e5,0x00e6,
+    0x00e7,0x00e8,0x00e9,0x00ea,0x00eb,0x00ec,0x00ed,0x00ee,
+    0x00ef,0x00f0,0x00f1,0x00f2,0x00f3,0x00f4,0x00f5,0x00f6,
+    0x00f7,0x00f8,0x00f9,0x00fa,0x00fb,0x00fc,0x00fd,0x00fe,
+    0x00ff
 };
 
 /* Original [00045130,00045180). Convert the requested character count. */
@@ -473,7 +487,7 @@ int resource_name_to_unicode(unsigned short *output,const char *input,unsigned l
     while (count--) {
         character=(unsigned char)*input++;
         if (character>=0x80 && character<0xa0)
-            character=resource_ansi_special[character-0x80];
+            character=resource_ansi_high[character-0x7f];
         *output++=character;
         if (character==0xffff) valid=0;
     }
@@ -527,4 +541,36 @@ unsigned long resource_write(int file,const void *buffer,unsigned long count)
     if (count>0x10001) fatal_message(program_name,7,0);
     if (_write(file,buffer,count)!=count) fatal_message(program_name,8,0);
     return 0;
+}
+
+/* Original [00042e00,00042e0e), converter's separate diagnostic prefix. */
+void resource_error_prefix(void)
+{
+    printf("CVTRES: error - ");
+}
+
+/* Original [00045180,000451d6), converter's counted Unicode name diagnostic. */
+int resource_name_to_ansi(char *output,const unsigned short *input,unsigned long count)
+{
+    unsigned character;
+    int valid=1;
+    while (count--) {
+        character=*input++;
+        if (character>=0x7f) {
+            character=resource_unicode_to_ansi_byte((unsigned short)character);
+            if (character==0xffff) valid=0;
+        }
+        *output++=(char)character;
+    }
+    return valid;
+}
+
+/* Original [000451e0,00045217), first match in the shared ANSI high map. */
+unsigned resource_unicode_to_ansi_byte(unsigned short character)
+{
+    unsigned index;
+    if (character<=0x7f) return character;
+    for (index=0;index<129;++index)
+        if (resource_ansi_high[index]==character) return index+0x7f;
+    return 0xffff;
 }

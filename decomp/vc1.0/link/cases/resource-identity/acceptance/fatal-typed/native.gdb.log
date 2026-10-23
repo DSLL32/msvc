@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x5b2c0: file src/diagnostics.c, line 21.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, fatal_message (file=0x5662c600 "\226\331\377\377\226\331\377\377", message=332) at src/diagnostics.c:21
+21	{
+NATIVE_MATCH fatal_message
+0xffffcfec:	0x5657958a	0xffffd996	0x0000001a	0x565c9423
+0xffffcffc:	0x565ddff4	0x0000014c
+#0  fatal_message (file=0x5662c600 "\226\331\377\377\226\331\377\377", message=332) at src/diagnostics.c:21
+#1  0x5657958a in convert_resource_input (argument=0x5662c600, machine=332) at src/resources.c:39
+#2  0x5659f705 in convert_object (argument=0x5662c600, machine=0xffffd076, image=0x5662b110) at src/pass-one.c:344
+#3  0x5659f4d3 in recognize_input_file (argument=0x5662c600, library=0x5662ea40, image=0x5662b110, output=0xffffd0b8) at src/pass-one.c:112
+#4  0x5659eb80 in process_input_argument (argument=0x5662c600, image=0x5662b110) at src/pass-one.c:80

@@ -463,12 +463,26 @@
       "manifest_path": "cases/shared-prefix/mac-loader-map-dump/manifest.json",
       "manifest_sha256": "0f6508772c5d98521ff8d01083364868f5803cd18c582300c75e67ed226250af",
       "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "resource-identity-duplicate-controlled": {
+      "receipt_path": "cases/shared-prefix/resource-identity-duplicate-controlled/capture/receipt.json",
+      "receipt_sha256": "10b262ebb94fed854f39082432afc4ad92d48f1e629b8ed42c08676ea0f07720",
+      "manifest_path": "cases/shared-prefix/resource-identity-duplicate-controlled/manifest.json",
+      "manifest_sha256": "70034407e215ddb112aec825aa2f83fee0b755978d713149fb796f11b9b0f689",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "resource-identity-languages-controlled": {
+      "receipt_path": "cases/shared-prefix/resource-identity-languages-controlled/capture/receipt.json",
+      "receipt_sha256": "929b4c9b58a1ee34e77aade1fa2a1cb0e82cc54a16ebfcdf804db6aa25fc675f",
+      "manifest_path": "cases/shared-prefix/resource-identity-languages-controlled/manifest.json",
+      "manifest_sha256": "65c6bf605fc07241ab0de005a8acfc1f057d63602f144591e087011126e56477",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
     }
   },
   "metadata_sha256": {
-    "functions.json": "c98b051f7f7437a11e37816f36db67d49ddc0001ffdd71ca16806712f679cb66",
-    "runtime.json": "46333e1ea9d4668441051c017a3fb344cf0679622388d8868b97cfdb7bf521b5",
-    "replay-cases.json": "679d1cdce40f4bc0e283da95d2a8076cd94e593011f9e5a72ad0408b38dfb250"
+    "functions.json": "80b68d0113b2cd40476299d985102865c54eb2248a382e3be5a16afebcf6e99c",
+    "runtime.json": "8345ebf3f0bc089b54072511661406298c172536210a694d417e892373d4943b",
+    "replay-cases.json": "80e33fb8597d646fa46d4aece2af03374b37eeb8edd10ffa50473699fa9dadba"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -2299,7 +2313,7 @@
     "fatal_message": {
       "source": "src/diagnostics.c",
       "logical": "_fatal_message",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "file_failure": {
       "source": "src/stubs.c",
@@ -3867,14 +3881,14 @@
       "implementation": "C"
     },
     "resource_error_prefix": {
-      "source": "src/pass-stubs.c",
+      "source": "src/resources.c",
       "logical": "_resource_error_prefix",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "resource_name_to_ansi": {
-      "source": "src/pass-stubs.c",
+      "source": "src/resources.c",
       "logical": "_resource_name_to_ansi",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "resource_name_to_unicode": {
       "source": "src/resources.c",
@@ -3889,6 +3903,11 @@
     "resource_seek": {
       "source": "src/resources.c",
       "logical": "_resource_seek",
+      "implementation": "C"
+    },
+    "resource_unicode_to_ansi_byte": {
+      "source": "src/resources.c",
+      "logical": "_resource_unicode_to_ansi_byte",
       "implementation": "C"
     },
     "resource_usage": {
@@ -5148,7 +5167,11 @@
     "compare_mac_external_contributions",
     "compare_mac_jump_entries",
     "get_externals_by_symbol",
-    "compare_external_sections"
+    "compare_external_sections",
+    "resource_error_prefix",
+    "resource_name_to_ansi",
+    "resource_unicode_to_ansi_byte",
+    "fatal_message"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5299,7 +5322,8 @@
       "_strtoul",
       "_strtoxl",
       "_longjmp",
-      "__local_unwind2"
+      "__local_unwind2",
+      "__unlink"
     ],
     "import": [
       "import:GetCommandLineA",
@@ -6793,6 +6817,31 @@
       "first": 937,
       "last": 937,
       "seen_count": 746,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "resource-identity-duplicate-controlled": {
+      "first": 937,
+      "last": 942,
+      "seen_count": 746,
+      "expected": [
+        "resource_error_prefix",
+        "resource_name_to_ansi",
+        "resource_unicode_to_ansi_byte",
+        "fatal_message"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 26
+      }
+    },
+    "resource-identity-languages-controlled": {
+      "first": 942,
+      "last": 942,
+      "seen_count": 750,
       "expected": [],
       "terminal": {
         "kind": "exit",

@@ -1,0 +1,4 @@
+{"event":"create","pid":600,"parent":1856,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -link /nodefaultlib /entry:main /subsystem:console /debug:none /out:identity.exe test.obj identity.res"}
+{"event":"context","pid":600,"eip":283105,"esp":2748552,"eax":233,"ecx":8188974,"edx":544880,"stack":[283065,233,8213436,8213368,8213404,8213500,274894,2748624,8213420,5,8213404,8213464,8213500,8213368,8213452,8213464,0,523344,1348886851,17740,2949120,2884609,2884712,136],"crt_errno":2,"exception_code":2147483651}
+{"event":"resource_abi","logical":"resource_unicode_to_ansi_byte","caller":283065,"formals":{"character":233,"argument_word":233}}
+{"event":"summary","root_exit":999,"failed":10,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

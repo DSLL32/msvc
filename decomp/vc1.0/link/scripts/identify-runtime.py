@@ -75,6 +75,14 @@ while True:
             name=symbol['name'];expected=None
             if symbol['section']==part['index']:
                 expected={start+symbol['value']-part['bias']}
+                # A wrapper's object-local public callee also has its own body
+                # match. Require that identity, not merely the same relative
+                # offset: _getc and _unlink wrappers are identical bytes, but
+                # their preceding _fgetc/_remove bodies are not interchangeable.
+                if name in known:
+                    expected &= known[name]
+                elif symbol['storage']==2 and any(actual-addend in addresses for addresses in known.values()):
+                    expected=set()
             elif symbol['section']==0:
                 if name.startswith('_') and '@' in name:
                     target=import_targets.get(name[1:].rsplit('@',1)[0])
@@ -104,6 +112,8 @@ if len(sys.argv)==1:
 # _find is a complete byte-exact shipped CRT match, including imported call
 # relocations. Native correspondence is at this CRT boundary, not each IAT thunk.
 for r in records:
+    if r['name']=='__unlink':
+        r['evidence']='byte-exact UNLINK.OBJ wrapper; object-local public _remove callee identity independently matched; native public CRT boundary has actual filename/caller/result/live-error and full fatal cleanup proof in cases/resource-identity (ambient LastError explicitly not equated)'
     if r['name']=='__find':
         r['evidence']='byte-exact shipped _SETARGV.OBJ; Find* relocations verified; native CRT-boundary differential proof in lib/recon/find-validation.json'
     if r['name'] in ('_strtoul','_strtoxl'):

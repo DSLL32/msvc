@@ -1,0 +1,48 @@
+{
+  "mode": "original",
+  "analysis_samples": [
+    "0x21027:analysis_decoder_tempnam_before",
+    "0x2102c:analysis_decoder_tempnam_after",
+    "0x5b321:analysis_tempnam_TMP",
+    "0x5b51e:analysis_tempnam_missing"
+  ],
+  "case": "resource-identity-languages-controlled",
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "root_exit": 0,
+    "failed": 0,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "ef73d862a7beb1990700e0ecd9b7e80cdd41bcdb32b4cc5a9eb1ae15dffce359",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 940,
+  "accepted_sha256": "d865f4a0ae39a49cdada285c514167af07e3369ac878483065833298c9c4c918",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": null,
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\resource-identity-languages-controlled",
+    "TEMP": "S:\\vc1.0\\link\\resource-identity-languages-controlled"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-link /nodefaultlib /entry:main /subsystem:console /debug:none /out:identity.exe test.obj identity.res",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-languages-controlled\\original-4gaigeob\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-languages-controlled\\original-4gaigeob\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-languages-controlled\\original-4gaigeob\\events.jsonl",
+    "S:\\vc1.0\\link\\resource-identity-languages-controlled",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-languages-controlled\\original-4gaigeob\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-languages-controlled\\original-4gaigeob\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-languages-controlled\\original-4gaigeob\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-languages-controlled\\original-4gaigeob\\after.dll",
+    "-"
+  ],
+  "seconds": 1.105965768918395
+}

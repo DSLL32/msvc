@@ -1,0 +1,46 @@
+{
+  "mode": "original",
+  "analysis_samples": [
+    "0x21027:analysis_decoder_tempnam_before",
+    "0x2102c:analysis_decoder_tempnam_after"
+  ],
+  "case": "resource-identity-duplicate",
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "root_exit": 26,
+    "failed": 0,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "7c38e98f373248025e2702a37e4b2f6b8f4d21919748398cb262c0610cdc5133",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 940,
+  "accepted_sha256": "d865f4a0ae39a49cdada285c514167af07e3369ac878483065833298c9c4c918",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": null,
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\resource-identity-duplicate",
+    "TEMP": "S:\\vc1.0\\link\\resource-identity-duplicate"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-link /nodefaultlib /entry:main /subsystem:console /debug:none /out:identity.exe test.obj identity.res",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-duplicate\\original-1d99gn9w\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-duplicate\\original-1d99gn9w\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-duplicate\\original-1d99gn9w\\events.jsonl",
+    "S:\\vc1.0\\link\\resource-identity-duplicate",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-duplicate\\original-1d99gn9w\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-duplicate\\original-1d99gn9w\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-duplicate\\original-1d99gn9w\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\resource-identity-duplicate\\original-1d99gn9w\\after.dll",
+    "-"
+  ],
+  "seconds": 1.7707037860527635
+}

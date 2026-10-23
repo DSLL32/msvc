@@ -1204,3 +1204,36 @@ MAP source rows are retained. No Macintosh execution is performed.
 All66 native trace/output cases746appentries pass; canonical -j4 compile and
 776CFG/763callback/490data/41ECX checks pass, plus negative guards. Source/clock/
 flow provenance, precise raw records and split timings live in cases/mac-loader-map.
+
+Named-resource identity/recovery checkpoint942
+
+Resource error prefix, counted UTF16-to-ANSI conversion, single-byte inverse
+translation and fatal diagnostic/cleanup are now whole readable C bodies,
+342 actual original instruction bytes. Full shared ANSI table129WORD ownership
+replaces an interior32WORD slice; all values/pointers remain independently
+checked. Typed actual ABI observations include caller-owned1024-byte output
+extent and exactly one forwarded fatal variadic DWORD. Missing observations,
+wrong arguments or callers fail; initial logical-only receipts are superseded
+and preserved. Object-local public callee matching distinguishes identical
+_getc/_unlink wrappers by the actual _fgetc/_remove bodies. _unlink support has
+zero application credit, exact shipped CRT graph and public native boundary.
+
+Independent controlled-TMP originals preserve actual target namespace and begin
+with empty temporary collision inventory. True shared tempnam profile models
+counter/prefix state and direct access errors, not a fixed candidate name.
+Resource longjmp actual value-1 resumes the named original/native conversion
+continuation with errno2; saved/current original SEH registration matches and
+scope0 implies no unwind work. No native internal-SEH ABI claim is made.
+
+After successful fatal unlink the original retains stale LastError1224 from an
+ignored mapped truncation; current native success APIs leave0. Failed ambient
+assertion remains raw. A target GetLastError import INT3 armed after unlink is
+unreached through actual original exit/callbacks; native corresponding reader
+guard is empty. Root approved this precise dead-state limit. All actual inputs,
+result/live errno/DOS, status/streams/files remain exact; no broad success-API or
+ambientLastError equivalence. Provider correction is separately maintainer-owned.
+
+All68 cached native cases/750appentries pass; original -j4 compile and781CFG,
+767callback,490data,41ECX checks and negative guards pass. Extent87.8562% remains
+separate from partial body accounting: remaining16912 unclassified bytes are not
+CRT. Detailed exact snapshots and split timings are in cases/resource-identity.

@@ -117,8 +117,14 @@ def project(object_directory):
         # by an original-valid variant with nonportable undefined output.
         # Keep original frontier provenance intact; fresh variant entries must
         # still match this exact projected segment in original_references().
-        frontier_case=record.get('frontier_case',case)
-        indexes = [i for i,c in enumerate(history) if c==frontier_case]
+        assert not ('frontier_case' in record and 'frontier_cases' in record)
+        frontier_cases=record.get('frontier_cases',[record.get('frontier_case',case)])
+        assert frontier_cases and len(frontier_cases)==len(set(frontier_cases))
+        # An explicitly controlled external-input variant may complete a
+        # historical segment without relabeling its earlier acceptance cases.
+        # The combined segment must remain contiguous and is independently
+        # replayed against the variant's freshly captured original entries.
+        indexes = [i for i,c in enumerate(history) if c in frontier_cases]
         first,last = (indexes[0],indexes[-1]+1) if indexes else (record['accepted_prefix'],record['accepted_prefix'])
         assert not indexes or indexes==list(range(first,last)), 'noncontiguous case segment'
         projected = lambda names:[native_name(n) for n in names if classified[n]=='application']
