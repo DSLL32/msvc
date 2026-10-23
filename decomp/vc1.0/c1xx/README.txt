@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 821 accepted frontiers, including 728 frontend
+PARTIAL binary reconstruction: 829 accepted frontiers, including 736 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1892,3 +1892,31 @@ seconds after the alias correction. Separate original/native/compiler timings,
 the failed 3.972517-second audit and focused correction audit remain documented.
 Accepted extent union 224623/476418 bytes is 47.148303%, not branch coverage.
 virtual_diamond remains incomplete at type_diagnostic_text 0x68a70.
+
+Directive-dispatch checkpoint: 829 accepted frontiers, 743 source functions.
+Eight whole functions beyond 40a3e72 finish diagnostic text access/formatting/
+cleanup, seal/read the captured member-text pages, reset pushed tokens and
+recover the entire preprocessor directive dispatcher and keyword classifier.
+
+The driver contains 1990 code bytes and 56 bytes of shared switch data. Its 14
+arms include conditional expressions/ifdef/elif/else/endif, define/undef,
+include, pragma, line control, error and ident behavior. Every arm remains in
+readable C, with 30 matching distinct direct callees. Unreconstructed callees
+remain named traps. Raw evidence retains variadic bad-character/token/context
+arguments, PCH short-condition transport, the conditional stack's 32-entry bound,
+and #ident's original shared #error finish context. Its PCH include counter
+starts -1 independently of the conditional-depth counter.
+
+The classifier's original first-character/suffix tables are recovered as 13
+logical directive spellings and kind values, for scanner-recognized identifiers
+and the driver's synthetic if redispatch. An offline audit derives all 13 names,
+kinds and underscore-through-z group boundaries from the original tables and
+compares the canonical data. Ordinary literals remain at their context of use.
+
+All 0821 through 0828 acceptances match fresh original/native traps, four pending
+buffers, fourteen state fields, streams and visible files. Both cached native
+cases remain exact. Full canonical graph/state/default/alias/callback/vocabulary/
+grammar audits and 32 boundary rejections pass in 5.011777 seconds. Per-function
+build/reference/debug/fixture timings and raw branch evidence remain separate.
+Accepted extent union 227212/476418 bytes is 47.691733%, not branch coverage.
+virtual_diamond remains incomplete at scan_string_literal 0x24ea0.

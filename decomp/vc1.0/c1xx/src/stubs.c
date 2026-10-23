@@ -39,6 +39,7 @@
 #include "call-expressions.h"
 #include "text-format.h"
 #include "type-diagnostics-internal.h"
+#include "directives-internal.h"
 #include <recon.h>
 void interrupt_compile(int signal_number) { __asm { int 3 } }
 void initialize_japanese_characters(void) { __asm { int 3 } }
@@ -85,15 +86,12 @@ void browser_include_begin(void) { __asm { int 3 } }
 void browser_open_file(void) { __asm { int 3 } }
 int release_input_handle(void) { __asm { int 3 } return 0; }
 char *__stdcall copy_string(char *text, int arena) { __asm { int 3 } return 0; }
-int __stdcall read_work_stack(WorkingStack *stack, void *buffer, unsigned bytes) { __asm { int 3 } return 0; }
 void browser_symbol_rollover(void) { __asm { int 3 } }
 char *__stdcall format_symbol_name(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void report_declaration_diagnostic(unsigned warning_code, unsigned error_code, ...) { __asm { int 3 } }
 void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *get_current_class_symbol(void) { __asm { int 3 } return 0; }
-void end_type_diagnostic(void) { __asm { int 3 } }
 short __stdcall format_declarator(CppSymbol *symbol, CType *type) { __asm { int 3 } return 0; }
-char *__stdcall type_diagnostic_text(short text) { __asm { int 3 } return 0; }
 void __stdcall browser_declaration(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *__stdcall declare_qualified_member(CppSymbol *symbol, QualifiedDeclarator *qualifier, CppSymbol *member) { __asm { int 3 } return 0; }
 char *__stdcall format_qualified_name(QualifierBinding *binding, int verbose) { __asm { int 3 } return 0; }
@@ -296,7 +294,6 @@ int __stdcall expand_macro(MacroDefinition *macro) { __asm { int 3 } return 0; }
 int __stdcall match_source_character(unsigned char character) { __asm { int 3 } return 0; }
 
 void report_ide_line(void) { __asm { int 3 } }
-void preprocess_directive(void) { __asm { int 3 } }
 void finish_pch_capture(void) { __asm { int 3 } }
 
 void scan_identifier_continuation(char *begin, unsigned hash) { __asm { int 3 } }
@@ -338,7 +335,6 @@ void __stdcall layout_bit_field(CppSymbol *member, char *name, unsigned short fl
 int __stdcall validate_union_member(CppSymbol *unused_owner, CppSymbol *member) { __asm { int 3 } return 0; }
 void __stdcall create_static_member_alias(CppSymbol *member) { __asm { int 3 } }
 
-void __cdecl format_work_text(WorkingStack *stack, char *format, ...) { __asm { int 3 } }
 void __stdcall emit_generated_default_constructor(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
 void __stdcall emit_generated_copy_constructor(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
 void __stdcall emit_generated_assignment(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
@@ -418,9 +414,7 @@ void __stdcall make_default_constructor_closure(CppSymbol *tag, CppSymbol *const
 
 void __stdcall write_storage_specification(StorageSpec storage, FILE *file) { __asm { int 3 } }
 
-void reset_pushed_tokens(void) { __asm { int 3 } }
 
-void __stdcall finish_work_stack(WorkingStack *stack) { __asm { int 3 } }
 
 void __stdcall declare_anonymous_aggregate_object(DeclarationType *type) { __asm { int 3 } }
 
@@ -628,3 +622,17 @@ int __stdcall rank_operator_operands(OverloadSearch *search, IrToken *left, IrTo
 IrToken *__stdcall make_selected_operator_call(OverloadCandidate *candidate, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
 OverloadCandidate *__stdcall report_operator_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
 void __stdcall append_builtin_operator_candidates(OverloadSearch *search, BuiltinOperator *rule, IrToken *left, IrToken *right, unsigned *count) { __asm { int 3 } }
+
+int evaluate_preprocessor_expression(void) { __asm { int 3 } return 0; }
+void undefine_source_macro(void) { __asm { int 3 } }
+void define_source_macro(void) { __asm { int 3 } }
+void process_pragma(void) { __asm { int 3 } }
+int push_conditional_state(void) { __asm { int 3 } return 0; }
+void capture_directive_text(void) { __asm { int 3 } }
+char *read_include_name(void) { __asm { int 3 } return 0; }
+int __stdcall skip_conditional_block(unsigned flags) { __asm { int 3 } return 0; }
+void __stdcall finish_directive(char *name) { __asm { int 3 } }
+unsigned char next_directive_character(void) { __asm { int 3 } return 0; }
+int __stdcall record_pch_condition(int condition) { __asm { int 3 } return 0; }
+int process_pch_directive(void) { __asm { int 3 } return 0; }
+void warn_ident_requires_string(void) { __asm { int 3 } }

@@ -4,6 +4,7 @@
 #include "ir.h"
 #include "parameters.h"
 #include "parser.h"
+#include "text-format.h"
 #include <recon.h>
 
 int pending_class_name_index; /* original 0x9ecd8 */
@@ -302,4 +303,22 @@ char *__stdcall pointer_kind_spelling(unsigned short kind)
     if (kind == 2) return "__far";
     if (kind == 3) return "__far16";
     return "";
+}
+
+/* Original 0x32b50..0x32bc1. Format into the original 1024-byte local
+   buffer, then check its length before appending to the paged text stream.
+   The limit check follows formatting, as in the original; it is not a bound
+   supplied to the custom formatter. */
+void __cdecl format_work_text(WorkingStack *stack, char *format, ...)
+{
+    char buffer[1024];
+    unsigned length;
+    va_list arguments;
+    va_start(arguments, format);
+    vformat_text(buffer, format, arguments);
+    va_end(arguments);
+    length = 0;
+    while (buffer[length]) ++length;
+    if (length >= 1024) fatal_error(1, pch_diagnostic_name, 315);
+    write_work_bytes(buffer, length, 1, stack);
 }

@@ -7,7 +7,7 @@
   "current": {
     "case": "virtual_diamond",
     "fixture": "../fixtures/c1xx-virtual-diamond",
-    "status": "active: generated special-member text output, diagnostic string pool and forced-input boundary alias reconstructed; getter frontier"
+    "status": "active: generated-member text replay reached whole preprocessor driver/classifier; string-literal scanner frontier"
   },
   "pending": [
     {

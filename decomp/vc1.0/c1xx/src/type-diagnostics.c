@@ -142,3 +142,23 @@ TypeDiagnosticSlot *__stdcall find_type_diagnostic_slot(short text)
             return &type_diagnostic_slots[index];
     return 0;
 }
+
+/* Original 0x68a70..0x68a93. Text starts one byte beyond the current
+   left boundary; an unknown handle has no associated string. */
+char *__stdcall type_diagnostic_text(short text)
+{
+    TypeDiagnosticSlot *slot = find_type_diagnostic_slot(text);
+    if (!slot) return 0;
+    return slot->buffer + slot->left + 1;
+}
+
+/* Original 0x68a40..0x68a61. The outermost diagnostic scope releases
+   handles without freeing their reusable buffers. An unmatched end retains
+   the original unsigned depth wrap and therefore does not clear the pool. */
+void end_type_diagnostic(void)
+{
+    unsigned index;
+    if (--type_diagnostic_depth) return;
+    for (index = 0; index < 32; ++index)
+        type_diagnostic_slots[index].handle = 0;
+}

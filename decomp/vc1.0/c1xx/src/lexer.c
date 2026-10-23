@@ -899,3 +899,14 @@ unsigned recover_trigraph(void)
         return 1;
     }
 }
+
+/* Original 0x1db50..0x1db77. Protected token replay keeps its pushed
+   prefix; ordinary source changes reset both ends and the shared count. */
+void reset_pushed_tokens(void)
+{
+    if (!(token_allocation_flags & 0x10000000UL)) {
+        pushed_token_begin = pushed_tokens;
+        pushed_token_top = pushed_tokens;
+        pushed_token_count = 0;
+    }
+}

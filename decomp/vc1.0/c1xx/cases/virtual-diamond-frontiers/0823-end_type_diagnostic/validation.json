@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_end_type_diagnostic",
+    "start": 428608,
+    "end": 428642
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_finish_work_stack@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4952228581532836,
+  "total_operation_seconds": 7.15711195487529,
+  "original_capture_seconds": 3.9233883060514927
+}

@@ -1,0 +1,16 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56559f8a in format_work_text (stack=0x5660b0e0, format=0x565c4d21 "inline void %Fs* %Fs %Fs::%Fs(unsigned %Fs)%Fs{}\n") at src/stubs.c:340
+340	void __cdecl format_work_text(WorkingStack *stack, char *format, ...) { __asm { int 3 } }
+#0  0x56559f8a in format_work_text (stack=0x5660b0e0, format=0x565c4d21 "inline void %Fs* %Fs %Fs::%Fs(unsigned %Fs)%Fs{}\n") at src/stubs.c:340
+#1  0x565aea1e in capture_inline_member_declaration (symbol=0x565f60ec, generated_kind=5, generation_context=0, pointer_kind=1) at src/inline-capture.c:110
+#2  0x565b7ff9 in emit_pending_runtime_functions () at src/special-members.c:514
+#3  0x565a36bd in read_lexical_token () at src/lexer.c:443
+#4  0x565a1d55 in scan_token () at src/lexer.c:226
+#5  0x565a1235 in read_parser_token () at src/lexer.c:67
+#6  0x5659a557 in parse_translation_unit () at src/parser.c:83
+#7  0x5655e04f in compile_translation_unit () at src/frontend.c:73
+#8  0x565587e6 in guarded_compile () at src/c1xx.c:28
+#9  0x565587b4 in main (argc=1, argv=0xffffd8d4, environment=0xffffd8dc) at src/c1xx.c:20

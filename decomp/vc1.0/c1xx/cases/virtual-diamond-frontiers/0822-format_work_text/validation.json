@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_format_work_text",
+    "start": 207696,
+    "end": 207810
+  },
+  "distinct_direct_callees": [
+    "_fatal_error",
+    "_vformat_text",
+    "_write_work_bytes@16"
+  ],
+  "next_frontier": "_end_type_diagnostic",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4988633617758751,
+  "total_operation_seconds": 7.06919988617301,
+  "original_capture_seconds": 3.8247373942285776
+}

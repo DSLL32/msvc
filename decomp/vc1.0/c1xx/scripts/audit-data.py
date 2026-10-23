@@ -105,6 +105,24 @@ for table in cfg.get('tables', []):
             new += 8
         assert read(rebuilt, new, 8) == bytes(8), 'special identifier sentinel differs'
         print('%d special identifiers and their target identities match the original.' % count)
+    elif kind == 'directives':
+        groups = read(original, table['groups'], 29)
+        rows = []
+        for index in range(table['count']):
+            prefixes = [chr(ch) for ch in range(ord('_'), ord('z')+1)
+                        if groups[ch-ord('_')] <= index < groups[ch-ord('_')+1]]
+            assert len(prefixes) == 1, 'directive suffix has no unique first-character group'
+            spelling = prefixes[0] + original.string(word(original, old+index*4))
+            token = word(original, table['ids']+index*4)
+            actual = rebuilt.string(word(rebuilt, new+index*8))
+            assert actual == spelling, 'directive spelling differs: '+spelling
+            assert read(rebuilt, new+index*8+4, 1)[0] == token, 'directive kind differs: '+spelling
+            rows.append(spelling)
+        for ch in range(ord('_'), ord('z')+1):
+            lower = sum(name[0] < chr(ch) for name in rows)
+            upper = sum(name[0] <= chr(ch) for name in rows)
+            assert [lower, upper] == list(groups[ch-ord('_'):ch-ord('_')+2]), 'directive group bounds differ'
+        print('%d logical preprocessor directive spellings, kinds and first-character groups match the original.' % len(rows))
     elif kind == 'bytes':
         assert read(original, old, table['bytes']) == read(rebuilt, new, table['bytes']), \
             'byte vocabulary differs: '+table['name']

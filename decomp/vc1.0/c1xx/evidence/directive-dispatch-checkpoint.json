@@ -1,0 +1,16 @@
+{
+  "command": [
+    "make",
+    "-j4",
+    "audit",
+    "check",
+    "native-rejections"
+  ],
+  "status": 0,
+  "seconds": 5.011776791885495,
+  "log": "evidence/directive-dispatch-checkpoint.log",
+  "raw_log": "evidence/directive-dispatch-checkpoint.raw.log.gz",
+  "raw_sha256": "b8445e070816ab633a63dd6ea3c03a5f398e2dffd6e71eeed29dd5638f9adde7",
+  "log_format": "display CRLF to LF; raw bytes preserved in .raw.log.gz",
+  "timing_scope": "combined parallel wall; per-function build/reference/debug/fixture measurements separate"
+}

@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_classify_directive@4",
+    "start": 128112,
+    "end": 128248
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_scan_string_literal@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5009397668763995,
+  "total_operation_seconds": 6.0707974983379245,
+  "original_capture_seconds": 2.7717854231595993
+}

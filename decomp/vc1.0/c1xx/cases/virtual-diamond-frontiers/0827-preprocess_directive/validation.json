@@ -1,0 +1,52 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_preprocess_directive",
+    "start": 145872,
+    "end": 147862,
+    "shared": [
+      [
+        147864,
+        147920
+      ]
+    ]
+  },
+  "distinct_direct_callees": [
+    "_allocate_permanent@4",
+    "_browser_include_end",
+    "_browser_open_file",
+    "_capture_directive_text",
+    "_classify_directive@4",
+    "_compiler_warning",
+    "_define_source_macro",
+    "_emit_line_directive",
+    "_evaluate_preprocessor_expression",
+    "_fatal_error",
+    "_finish_directive@4",
+    "_finish_pch_capture",
+    "_lookup_macro",
+    "_next_directive_character",
+    "_open_forced_include@8",
+    "_process_pch_directive",
+    "_process_pragma",
+    "_push_conditional_state",
+    "_read_include_name",
+    "_read_parser_token",
+    "_record_line_information@4",
+    "_record_pch_condition@4",
+    "_recover_special_character",
+    "_report_syntax_error",
+    "_scan_source_identifier",
+    "_skip_conditional_block@4",
+    "_skip_source_comment",
+    "_skip_source_line",
+    "_undefine_source_macro",
+    "_warn_ident_requires_string"
+  ],
+  "next_frontier": "_classify_directive@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5012893080711365,
+  "total_operation_seconds": 7.833510307595134,
+  "original_capture_seconds": 4.527377545833588
+}

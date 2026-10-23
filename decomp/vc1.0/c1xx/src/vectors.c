@@ -295,3 +295,55 @@ void __stdcall write_work_bytes(const void *source, unsigned bytes, unsigned cou
     }
 }
 #undef COPY_WORK_BLOCK
+
+/* Original 0x32850..0x32861. Mark the final page's valid byte count
+   so a later reader can distinguish it from a full payload page. */
+void __stdcall finish_work_stack(WorkingStack *stack)
+{
+    *(unsigned *)(stack->read + 2044) = stack->count;
+}
+
+/* Original 0x327a0..0x32844. A zero footer marks a full payload page;
+   a nonzero footer is the final page's byte count. Advance pages only while
+   a full page cannot satisfy the request, retaining the final-page cursor. */
+int __stdcall read_work_stack(WorkingStack *stack, void *buffer, unsigned bytes)
+{
+    unsigned char *page = stack->read;
+    unsigned char *destination = buffer, *source;
+    unsigned total = 0, available, chunk;
+    if (!page) return 0;
+    do {
+        source = stack->next;
+        available = *(unsigned *)(page + 2044);
+        if (!available) {
+            available = 2040 - stack->count;
+            if (available >= bytes) {
+                chunk = bytes;
+                stack->count += chunk;
+                stack->next = source + chunk;
+                page = 0;
+            } else {
+                chunk = available;
+                bytes -= chunk;
+                stack->count = 0;
+                page = *(unsigned char **)(stack->read + 2040);
+                stack->read = page;
+                stack->next = page;
+            }
+        } else {
+            chunk = available - stack->count;
+            if (bytes <= chunk) chunk = bytes;
+            stack->count += chunk;
+            stack->next = source + chunk;
+            page = 0;
+        }
+        total += chunk;
+        /* The original copy count test is signed despite unsigned page
+           arithmetic; retain its behavior for a wrapped/invalid count. */
+        while ((int)chunk > 0) {
+            *destination++ = *source++;
+            --chunk;
+        }
+    } while (page);
+    return (int)total;
+}

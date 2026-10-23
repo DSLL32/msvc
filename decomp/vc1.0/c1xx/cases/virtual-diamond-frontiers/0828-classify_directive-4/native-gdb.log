@@ -1,0 +1,19 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56559bea in scan_string_literal (wide=0, delimiter=34 '"') at src/stubs.c:287
+287	void __stdcall scan_string_literal(int wide, unsigned char delimiter) { __asm { int 3 } }
+#0  0x56559bea in scan_string_literal (wide=0, delimiter=34 '"') at src/stubs.c:287
+#1  0x565a5762 in read_lexical_token () at src/lexer.c:616
+#2  0x565a2f35 in scan_token () at src/lexer.c:226
+#3  0x565a226b in read_parser_token () at src/lexer.c:48
+#4  0x565875ea in preprocess_directive () at src/directives.c:192
+#5  0x565a59a9 in begin_source_line () at src/lexer.c:661
+#6  0x565a4af3 in read_lexical_token () at src/lexer.c:468
+#7  0x565a2f35 in scan_token () at src/lexer.c:226
+#8  0x565a2415 in read_parser_token () at src/lexer.c:67
+#9  0x5659b737 in parse_translation_unit () at src/parser.c:83
+#10 0x5655e25f in compile_translation_unit () at src/frontend.c:73
+#11 0x565587e6 in guarded_compile () at src/c1xx.c:28
+#12 0x565587b4 in main (argc=1, argv=0xffffd8d4, environment=0xffffd8dc) at src/c1xx.c:20
