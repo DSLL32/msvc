@@ -1,7 +1,7 @@
 C23232.EXE reconstruction, vc1.0 / original1.0-nt toolchain
 
-Current checkpoint:1127 accepted frontiers and1048 reconstructed source functions.
-Accepted original code extents cover308796/399693 bytes (77.258296%). This is
+Current checkpoint:1128 accepted frontiers and1049 reconstructed source functions.
+Accepted original code extents cover310296/399693 bytes (77.633584%). This is
 an extent union of source, shared text data, CRT and import thunks, clipped to
 original VirtualSize (raw-size fallback when zero), not branch coverage.
 
@@ -150,3 +150,8 @@ word type selection, reference refresh and two original relocation functions.
 All13 native regressions and five cleanup proofs pass; the current frontier
 is the complete inline-body substitution routine. Detailed limits/timings are
 in cases/inlrec-materialization-checkpoint.json.
+
+The full1500-byte inline-body substitution routine is recovered at1128,
+including its bounded12-way directive data. Its named child frontier is node
+substitution; whole-case completion remains pending. Source/ABI/data limits
+and repeated-attempt timing are in cases/inlrec-substitution-checkpoint.json.

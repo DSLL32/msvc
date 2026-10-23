@@ -1,4 +1,4 @@
-C2 active: inline-records case at1127 accepted /1048 source graphs.
-Current matching frontier substitute_inline_body645c0; whole1500-byte body next.
-Materialization, scalar/aggregate type choice and nested-site relocation recovered.
-See cases/inlrec-materialization-checkpoint.json and queue.json.
+C2 active: inline-records at1128 accepted /1049 whole source graphs.
+Full1500-byte substitute_inline_body recovered; matching frontier substitute_inline_node650f0.
+Unvisited matching-parent/assembly/secondary-register children remain named traps.
+See cases/inlrec-substitution-checkpoint.json and queue.json.

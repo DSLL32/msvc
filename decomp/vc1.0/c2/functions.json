@@ -1131,7 +1131,8 @@
     "@value_node_type@8",
     "@refresh_tree_references@4",
     "@relocate_inline_sites@8",
-    "@retarget_inline_site_tree@16"
+    "@retarget_inline_site_tree@16",
+    "@substitute_inline_body@24"
   ],
   "driver": [
     {
@@ -2878,8 +2879,7 @@
     {
       "name": "@substitute_inline_body@24",
       "start": 411072,
-      "end": 411073,
-      "provisional": true
+      "end": 412572
     },
     {
       "name": "@recycle_inline_site@4",
@@ -7543,6 +7543,30 @@
       "name": "@retarget_inline_site_tree@16",
       "start": 414848,
       "end": 414998
+    },
+    {
+      "name": "@substitute_inline_node@12",
+      "start": 413936,
+      "end": 413937,
+      "provisional": true
+    },
+    {
+      "name": "@find_matching_parent@8",
+      "start": 361280,
+      "end": 361281,
+      "provisional": true
+    },
+    {
+      "name": "@substitute_inline_assembly_symbol@8",
+      "start": 413888,
+      "end": 413889,
+      "provisional": true
+    },
+    {
+      "name": "@second_return_value_register@4",
+      "start": 158976,
+      "end": 158977,
+      "provisional": true
     }
   ],
   "cases": {

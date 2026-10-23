@@ -2,24 +2,9 @@
   "modules": [
     {
       "module": "inline-calls",
-      "seconds": 1.694296290166676,
-      "returncode": 0
-    },
-    {
-      "module": "inline-candidates",
-      "seconds": 1.9639532156288624,
-      "returncode": 0
-    },
-    {
-      "module": "tree-types",
-      "seconds": 2.085612339898944,
-      "returncode": 0
-    },
-    {
-      "module": "tree-references",
-      "seconds": 2.2635190105065703,
+      "seconds": 2.5521349906921387,
       "returncode": 0
     }
   ],
-  "seconds": 8.007954547181726
+  "seconds": 2.5523466765880585
 }

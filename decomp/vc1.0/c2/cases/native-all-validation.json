@@ -1,10 +1,10 @@
 {
   "method": "native application entry and captured-output check",
   "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
-  "executable_sha256": "fa8980218c58fa3008713314122618d93d7d5a4a9212f34a5a8cac6a1b64ab1e",
+  "executable_sha256": "4c3a5f5c4f5c3a26fffc9cbcd56abd61ebf4032ce2a5b04ad15895c886d068df",
   "trace_enabled": true,
   "shared_hashes": {
-    "lib/recon/include/recon.h": "54d5e633bc1d0ec9569f94e20afb0ade54413790f4d85486937370ec5f194da2",
+    "lib/recon/include/recon.h": "7c33ca0fc5928486fa4caaaee392c9e405e05a88d10e319f939db8a493562df0",
     "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
     "lib/recon/include/win32.h": "a4c018b83809d6ea02435c3d56a2fd41a833346e92d1a8fa7aed621b7e3cbcb5",
     "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
@@ -13,19 +13,19 @@
     "lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
     "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
     "lib/recon/native/mbctype.h": "4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50",
-    "lib/recon/native/mbstring.h": "8f6c6fe27fbd6546d59928415b2a11673cf03e378972fa9c293327c98911af03",
+    "lib/recon/native/mbstring.h": "9a615fe1de631125e557a814d9531e16146c2643d15de36c0888286ff4b16f45",
     "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
     "lib/recon/native/setjmp.h": "4e1f6298d24463a5de27b71282a7475aa636f60c15dccc2b039990cb203ca408",
     "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
     "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
     "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
     "lib/recon/src/compat.c": "3fd3515569a9bb8ea637cdd81359ee74724da607a06bac54d1866953b9e299a6",
-    "lib/recon/src/crt.c": "9b0983f6fda7cc1fd689a037fd2e474172a096e82a4fac9813e1c5215feffda2",
+    "lib/recon/src/crt.c": "2c7815fa169c7da193c255954d16fb6b44e2c14b4988b48654541d777eb95d11",
     "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
     "lib/recon/src/entry.c": "12a10f7190b430c73b4754d2e5c234bce38addb7f188e16518ec0ba604fe8c80",
     "lib/recon/src/process.c": "b1a4dae8f45ad5051f50acea6bb36d994e0d084c925291d46e154519e5d8f73a",
     "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
-    "lib/recon/src/win32.c": "59cbe501802dbc48fb2383f56717efea2c806d15b993d8bfe2977ecffd4322bd"
+    "lib/recon/src/win32.c": "dccbb907fbe4e278ad0a1076fb2ebbb44ca5702dd36d063e4519111e941ccd05"
   },
   "results": [
     {
@@ -43,10 +43,10 @@
           4
         ]
       },
-      "setup_seconds": 0.023095211945474148,
-      "execution_seconds": 0.006225720047950745,
-      "check_seconds": 0.0017211679369211197,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-y5vhbjs9/minimal"
+      "setup_seconds": 0.023172288201749325,
+      "execution_seconds": 0.007495328783988953,
+      "check_seconds": 0.0017093997448682785,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-hj3zs539/minimal"
     },
     {
       "profile": "hello",
@@ -63,10 +63,10 @@
           4
         ]
       },
-      "setup_seconds": 0.01849706470966339,
-      "execution_seconds": 0.01066545769572258,
-      "check_seconds": 0.0017170775681734085,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-y5vhbjs9/hello"
+      "setup_seconds": 0.0168398879468441,
+      "execution_seconds": 0.011362407356500626,
+      "check_seconds": 0.0017539756372570992,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-hj3zs539/hello"
     },
     {
       "profile": "loops",
@@ -83,10 +83,10 @@
           4
         ]
       },
-      "setup_seconds": 0.01713026687502861,
-      "execution_seconds": 0.008653917349874973,
-      "check_seconds": 0.0012525403872132301,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-y5vhbjs9/loops"
+      "setup_seconds": 0.016921916976571083,
+      "execution_seconds": 0.007278086617588997,
+      "check_seconds": 0.0012502176687121391,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-hj3zs539/loops"
     },
     {
       "profile": "pressure",
@@ -103,10 +103,10 @@
           4
         ]
       },
-      "setup_seconds": 0.012542713433504105,
-      "execution_seconds": 0.008733081631362438,
-      "check_seconds": 0.0013215849176049232,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-y5vhbjs9/pressure"
+      "setup_seconds": 0.01334361918270588,
+      "execution_seconds": 0.008834006264805794,
+      "check_seconds": 0.001262454316020012,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-hj3zs539/pressure"
     },
     {
       "profile": "aliasing",
@@ -123,10 +123,10 @@
           4
         ]
       },
-      "setup_seconds": 0.016145605593919754,
-      "execution_seconds": 0.007688743062317371,
-      "check_seconds": 0.001263318583369255,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-y5vhbjs9/aliasing"
+      "setup_seconds": 0.01545171719044447,
+      "execution_seconds": 0.00812882836908102,
+      "check_seconds": 0.001242704689502716,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-hj3zs539/aliasing"
     },
     {
       "profile": "floating",
@@ -143,10 +143,10 @@
           4
         ]
       },
-      "setup_seconds": 0.015010998584330082,
-      "execution_seconds": 0.007659989409148693,
-      "check_seconds": 0.001268305815756321,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-y5vhbjs9/floating"
+      "setup_seconds": 0.014858965761959553,
+      "execution_seconds": 0.009074017405509949,
+      "check_seconds": 0.00138946995139122,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-hj3zs539/floating"
     },
     {
       "profile": "i386",
@@ -163,10 +163,10 @@
           4
         ]
       },
-      "setup_seconds": 0.014373407699167728,
-      "execution_seconds": 0.009191665798425674,
-      "check_seconds": 0.001136678270995617,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-y5vhbjs9/i386"
+      "setup_seconds": 0.015208687633275986,
+      "execution_seconds": 0.009429652243852615,
+      "check_seconds": 0.0011483998969197273,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-hj3zs539/i386"
     },
     {
       "profile": "x87",
@@ -183,10 +183,10 @@
           4
         ]
       },
-      "setup_seconds": 0.014388023875653744,
-      "execution_seconds": 0.006897296756505966,
-      "check_seconds": 0.0011858800426125526,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-y5vhbjs9/x87"
+      "setup_seconds": 0.01453118771314621,
+      "execution_seconds": 0.00797288678586483,
+      "check_seconds": 0.001242167316377163,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-hj3zs539/x87"
     },
     {
       "profile": "i486",
@@ -203,10 +203,10 @@
           4
         ]
       },
-      "setup_seconds": 0.014334719628095627,
-      "execution_seconds": 0.0077421944588422775,
-      "check_seconds": 0.0011692969128489494,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-y5vhbjs9/i486"
+      "setup_seconds": 0.01402225624769926,
+      "execution_seconds": 0.008354603312909603,
+      "check_seconds": 0.0011315103620290756,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-hj3zs539/i486"
     },
     {
       "profile": "combined",
@@ -223,10 +223,10 @@
           4
         ]
       },
-      "setup_seconds": 0.014139463193714619,
-      "execution_seconds": 0.015074008144438267,
-      "check_seconds": 0.0010830583050847054,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-y5vhbjs9/combined"
+      "setup_seconds": 0.013917607255280018,
+      "execution_seconds": 0.01557482685893774,
+      "check_seconds": 0.0011987844482064247,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-hj3zs539/combined"
     },
     {
       "profile": "joins87",
@@ -243,10 +243,10 @@
           4
         ]
       },
-      "setup_seconds": 0.013467946089804173,
-      "execution_seconds": 0.014496360905468464,
-      "check_seconds": 0.0010941922664642334,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-y5vhbjs9/joins87"
+      "setup_seconds": 0.013504044152796268,
+      "execution_seconds": 0.012600110843777657,
+      "check_seconds": 0.0011603152379393578,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-hj3zs539/joins87"
     },
     {
       "profile": "remat386",
@@ -263,22 +263,22 @@
           4
         ]
       },
-      "setup_seconds": 0.01332936156541109,
-      "execution_seconds": 0.010824019089341164,
-      "check_seconds": 0.0011614756658673286,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-y5vhbjs9/remat386"
+      "setup_seconds": 0.0136095667257905,
+      "execution_seconds": 0.011781304143369198,
+      "check_seconds": 0.0011448701843619347,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-hj3zs539/remat386"
     },
     {
       "profile": "inlrec",
-      "terminal": "@substitute_inline_body@24",
+      "terminal": "@substitute_inline_node@12",
       "returncode": -5,
-      "application_entries": 20,
+      "application_entries": 21,
       "seeded_entries": 1024,
       "output": null,
-      "setup_seconds": 0.013260820880532265,
-      "execution_seconds": 0.004395456984639168,
-      "check_seconds": 0.0007192473858594894,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-y5vhbjs9/inlrec"
+      "setup_seconds": 0.013550283387303352,
+      "execution_seconds": 0.004407158121466637,
+      "check_seconds": 0.000764419324696064,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-hj3zs539/inlrec"
     }
   ],
   "rejected": [
@@ -286,8 +286,8 @@
     "non-clock object corruption",
     "changed captured IR input"
   ],
-  "fixture_seconds": 0.5200630016624928,
-  "suite_setup_seconds": 0.14985409565269947,
-  "negative_check_seconds": 0.023508407175540924,
+  "fixture_seconds": 0.522069625556469,
+  "suite_setup_seconds": 0.14760816749185324,
+  "negative_check_seconds": 0.024117756634950638,
   "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
 }

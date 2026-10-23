@@ -1,0 +1,12 @@
+{
+  "logical": "@substitute_inline_node@12",
+  "matched": true,
+  "executable_sha256": "4a48789d624f428c7fc27aecefdfe58404d008546e5f9122ed51f9f4a8e21fb2",
+  "config_sha256": "5fac5a282ac603d406d30061cbd26633bf8e28580bc199ae76c172ce9cbb8b91",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\inlrec",
+  "setup_seconds": 0.006069954484701157,
+  "execution_seconds": 0.13203020859509706,
+  "seconds": 0.15677605662494898,
+  "log_sha256": "fa3a56dfeb8203b034b035ebee626099ef8954388a898cdebddcf728c5cb92fe",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/inlrec-gdb-17h_8fo8"
+}

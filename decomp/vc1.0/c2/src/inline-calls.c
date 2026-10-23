@@ -5,6 +5,7 @@
 #include "expression-fields.h"
 #include "work-optimizer.h"
 #include "flow-edges.h"
+#include "instruction-selection.h"
 #include <recon.h>
 InlineSite *free_inline_sites; /* 0007b9ac */
 InlineBinding *free_inline_bindings; /* 0007b9b0 */
@@ -384,4 +385,194 @@ void __fastcall materialize_inline_arguments(Function *function, InlineSite *sit
         previous = inserted;
         relocate_inline_sites(site->next, inserted);
     }
+}
+
+/* Original [000645c0,00064b9c), including12 directive targets64b6c..64b9c.
+   Substitute formal values throughout the copied body, rewrite returns into
+   caller expressions/assignments, and remove inline-only scope markers.
+   The leading entry record46 establishes the predecessor before any valid
+   removable marker; a null predecessor retains the original diagnostic. */
+Expression *__fastcall substitute_inline_body(Function *function, InlineBinding *bindings,
+    Node *result, unsigned source_location, InlineSite *site, int hidden_result)
+{
+    Node *__fastcall substitute_inline_node(InlineBinding *bindings, Node *node, int *changed);
+    Node *__fastcall find_matching_parent(Node *tree, Node *target);
+    unsigned __fastcall substitute_inline_assembly_symbol(SymbolHeader *symbol, void *context);
+    unsigned __fastcall second_return_value_register(FunctionSymbol *symbol);
+    int __fastcall is_tail_call_position(Expression *expressions, Expression *position);
+    extern int floating_frontend, data_pointer_bytes;
+    Expression *expression = function->expressions, *previous = 0, *next, *inserted, *discard;
+    FunctionSymbol *symbol;
+    TemporarySymbol *storage_symbol;
+    Node *node, *copy, *parent, *old, *replacement, *assignment, *prefix, *argument;
+    Node *storage, *register_leaf, *offset;
+    unsigned depth = 0, kind, primary, secondary = 0, pointer_type;
+    unsigned short type;
+    int changed, return_changed, small_aggregate;
+    while (expression->tree->opcode != 0x47) {
+        next = expression->next;
+        node = expression->tree;
+        expression->source_location = source_location;
+        switch (node->opcode) {
+        case 1: case 0x29: case 0x3a: case 0x46: case 0x56:
+            break;
+        case 0x41:
+            return_changed = 0;
+            node->left.node = substitute_inline_node(bindings, node->left.node, &return_changed);
+            if (!result && site->parent && !hidden_result) {
+                copy = copy_tree(site->expression->tree);
+                parent = find_matching_parent(copy, site->call);
+                if (trees_equal(parent->left.node, site->call, 0)) {
+                    old = parent->left.node;
+                    parent->left.node = node->left.node;
+                } else {
+                    old = parent->second.node;
+                    parent->second.node = node->left.node;
+                }
+                release_tree(old);
+                release_node(node);
+                expression->tree = copy;
+            } else if (!result) {
+                expression->tree = node->left.node;
+                release_node(node);
+            } else {
+                copy = copy_tree(result);
+                assignment = build_tree("PPNT", copy, node->left.node, 0x32, node);
+                release_node(node);
+                expression->tree = assignment;
+                prefix = build_tree("NPNt", 0x4c, integer_node(0xf0, 0x102), 0x40, 0x102);
+                argument = build_tree("DNt", assignment->second.node, 0x55,
+                    (unsigned)assignment->attributes.words.type);
+                prefix->right.node = argument;
+                argument->second.node = intern_leaf(0x4c, 0);
+                expression->tree = build_tree("PPNt", prefix, assignment, 0x44,
+                    (unsigned)assignment->attributes.words.type);
+            }
+            refresh_tree_references(expression->tree);
+            break;
+        case 0x4f:
+            switch (node->detail.control.code) {
+            case 15:
+                ++depth;
+                goto remove_marker;
+            case 16:
+                --depth;
+                if (!depth && !result && site->parent && !hidden_result) {
+                    copy = copy_tree(site->expression->tree);
+                    symbol = (FunctionSymbol *)function->symbol;
+                    storage = new_inline_storage((unsigned short)(symbol->field24 & 15), symbol->field28);
+                    replacement = build_tree("DNt", storage, 0x30,
+                        (unsigned)site->call->attributes.words.type);
+                    refresh_tree_references(replacement);
+                    parent = find_matching_parent(copy, site->call);
+                    if (trees_equal(parent->left.node, site->call, 0)) {
+                        old = parent->left.node;
+                        parent->left.node = replacement;
+                    } else {
+                        old = parent->second.node;
+                        parent->second.node = replacement;
+                    }
+                    release_tree(old);
+                    release_node(node);
+                    expression->tree = copy;
+                    break;
+                }
+                goto remove_marker;
+            case 17: case 18:
+                goto remove_marker;
+            case 22:
+                visit_machine_symbols(node->left.pointer, substitute_inline_assembly_symbol, bindings);
+                break;
+            case 26:
+                if (!result || function->return_temp) break;
+                symbol = (FunctionSymbol *)function->symbol;
+                if ((symbol->field24 & 15) == 7 ||
+                    !is_tail_call_position(function->expressions, expression)) break;
+                small_aggregate = 0;
+                kind = symbol->field24 & 15;
+                if (!kind) compiler_internal_error("@(#)inline.c:1.31", 0x214);
+                if (kind == 6 && !floating_frontend &&
+                    is_register_return_size(symbol->symbol.value)) {
+                    type = 0x204;
+                    small_aggregate = 1;
+                } else if (result->opcode == 0x26 && result->right.symbol->kind != 19) {
+                    storage_symbol = (TemporarySymbol *)result->right.symbol;
+                    type = value_node_type((short)(storage_symbol->attributes & 15),
+                        storage_symbol->symbol.value);
+                } else type = result->attributes.words.type;
+                primary = return_value_register(symbol);
+                if (!(type & 0x1000)) {
+                    replacement = build_tree("Nt", 0x4f, (unsigned)type);
+                    replacement->left.value = primary;
+                    replacement->detail.control.code = 0x24;
+                    refresh_tree_references(replacement);
+                    inserted = new_expression();
+                    inserted->tree = replacement;
+                    expression->next = inserted;
+                    expression = inserted;
+                }
+                if (small_aggregate) {
+                    secondary = second_return_value_register((FunctionSymbol *)function->symbol);
+                    replacement = build_tree("Nt", 0x4f, (unsigned)type);
+                    replacement->left.value = secondary;
+                    replacement->detail.control.code = 0x24;
+                    refresh_tree_references(replacement);
+                    inserted = new_expression();
+                    inserted->tree = replacement;
+                    expression->next = inserted;
+                    expression = inserted;
+                }
+                pointer_type = data_pointer_bytes | 0x400;
+                register_leaf = intern_leaf(0xa2, 0, pointer_type, primary);
+                copy = copy_tree(result);
+                assignment = build_tree("PPNtNt", copy, register_leaf, 0x30,
+                    (unsigned)type, 0x32, (unsigned)type);
+                refresh_tree_references(assignment);
+                inserted = new_expression();
+                inserted->tree = assignment;
+                inserted->next = next;
+                expression->next = inserted;
+                expression = inserted;
+                if (small_aggregate) {
+                    register_leaf = intern_leaf(0xa2, 0, pointer_type, secondary);
+                    copy = copy_tree(result);
+                    offset = intern_leaf(0x33, 0, 0x104, (unsigned)(type & 255));
+                    assignment = build_tree("PPNtPNtNt", offset, copy, 2, pointer_type,
+                        register_leaf, 0x30, (unsigned)type, 0x32, (unsigned)type);
+                    refresh_tree_references(assignment);
+                    inserted = new_expression();
+                    inserted->tree = assignment;
+                    inserted->next = next;
+                    expression->next = inserted;
+                    expression = inserted;
+                }
+                break;
+            }
+            break;
+        default:
+            changed = 0;
+            expression->tree = substitute_inline_node(bindings, expression->tree, &changed);
+            if (changed) refresh_tree_references(expression->tree);
+            break;
+        }
+        goto next_expression;
+remove_marker:
+        if (!previous) compiler_internal_error("@(#)inline.c:1.31", 0x1f8);
+        previous->next = next;
+        release_tree(node);
+        release_expression(expression);
+        expression = previous;
+next_expression:
+        previous = expression;
+        expression = next;
+    }
+    discard = expression->next;
+    expression->next = 0;
+    while (discard) {
+        next = discard->next;
+        release_tree(discard->tree);
+        release_expression(discard);
+        discard = next;
+    }
+    return expression;
 }
