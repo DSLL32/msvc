@@ -5,7 +5,7 @@
     "fseek28ecb..28f94",
     "filbuf7889..795f +f1b8..f1f9"
   ],
-  "actual_case": "CVTRES rich read_identifier FILE cnt504/ptr8/bufsiz4096/physical552/logical48 vs native over-prefetch",
+  "actual_case": "CVTRES rich read_identifier FILE cnt504/ptr8/bufsiz4096/physical544/logical40 vs native over-prefetch; separate probe uses552/48",
   "native_checks": "GCC profile prefetch/stdio/fsopen and default; Clang prefetch exact output",
   "combined_build_checks_seconds": 2.285
 }
