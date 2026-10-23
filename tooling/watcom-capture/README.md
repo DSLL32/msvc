@@ -45,5 +45,15 @@ death and independent lease/deadline handling. The checked-in
 This proves neither Win32 mapping visibility nor debug-event transport; see
 `WIN32-TRANSPORT.md` for the gated next step.
 
+`cf_identity.py` independently checks the immutable CF container/header and
+complete initialized-byte snapshot after sequential DWORD relocation. Its three
+target profiles require the proved trailer relocation stream, entry before that
+stream, bounded write sites and an actual separately observed allocation base.
+It preserves modulo-32 content additions, including repeated/overlapping sites;
+it infers no code ownership. Static CF reading/discovery stays in the common
+Rust auditor. Run `python3 check-cf-identity.py --output /path/to/receipt.json`
+for pure byte controls. The independent receipt does not establish that a
+running Win32 child supplied the snapshot/base; those controls remain required.
+
 Capstone 5.0.7 is the tested decoder (`requirements.txt`). Its indirect FF /3
 and FF /5 presentation is explicitly guarded as far-call/jump machine encodings.
