@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_parse_linkage@8",
+    "start": 248352,
+    "end": 248558
+  },
+  "distinct_direct_callees": [
+    "_compiler_warning",
+    "_report_syntax_error"
+  ],
+  "next_frontier": "_find_intrinsic_index@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.41746998205780983,
+  "total_operation_seconds": 3.872374958358705,
+  "original_capture_seconds": 1.6186698162928224
+}

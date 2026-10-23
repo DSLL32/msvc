@@ -216,7 +216,7 @@ CppSymbol *__stdcall new_label(char *name) { __asm { int 3 } return 0; }
 IrToken *__stdcall new_unary_ir_expression(unsigned char operation, void *value) { __asm { int 3 } return 0; }
 unsigned __stdcall next_enumerator_value(unsigned value, char *unused_name) { __asm { int 3 } return 0; }
 IrToken *__stdcall operator_operand_expression(unsigned char operation, IrToken *arguments) { __asm { int 3 } return 0; }
-unsigned __stdcall parse_linkage(DeclarationType *type, IrToken *language) { __asm { int 3 } return 0; }
+
 void pop_linkage(void) { __asm { int 3 } }
 void prepare_do_body(void) { __asm { int 3 } }
 void record_break_statement(void) { __asm { int 3 } }
