@@ -20,4 +20,5 @@ def plan(accepted):
         result += [(0x4f571,'observe:system_before'),(0x4f577,'observe:system_after'),
                    (0x4f586,'observe:memory_before'),(0x4f58c,'observe:memory_after')]
     if '_parse_command_line@16' in accepted:result.append((0xde93,'observe:main_frame'))
+    if '_is_libpath@4' in accepted:result += [(0x5c76b,'observe:mbs_call'),(0x5c771,'observe:mbs_return')]
     return result

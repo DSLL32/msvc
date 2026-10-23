@@ -46,7 +46,7 @@ def main():
             targets.append((record['name'], record.get('native_symbol','link_main' if record['name']=='_main' else record['name'].lstrip('_'))))
     script = '''
 import gdb,json
-state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[]}
+state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[],'mbsnbicmp_calls':[]}
 class NewReturned(gdb.FinishBreakpoint):
     def __init__(self,frame,size):
         super().__init__(frame,internal=True);self.size=size
@@ -59,6 +59,19 @@ class NewEntry(gdb.Breakpoint):
         NewReturned(gdb.newest_frame(),size)
         return False
 NewEntry('*recon_cpp_new',internal=True)
+class MbsReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,left,right,count):
+        super().__init__(frame,internal=True);self.left=left;self.right=right;self.count=count
+    def stop(self):
+        state['mbsnbicmp_calls'].append(dict(left=self.left,right=self.right,bytes=self.count,result=int(self.return_value)))
+        return False
+class MbsEntry(gdb.Breakpoint):
+    def stop(self):
+        arguments=gdb.parse_and_eval('(unsigned*)$esp')
+        text=gdb.lookup_type('char').pointer()
+        MbsReturned(gdb.newest_frame(),gdb.Value(int(arguments[1])).cast(text).string(),gdb.Value(int(arguments[2])).cast(text).string(),int(arguments[3]))
+        return False
+MbsEntry('*recon_mbsnbicmp',internal=True)
 class AtExitReturned(gdb.FinishBreakpoint):
     def __init__(self,frame,callback):
         super().__init__(frame,internal=True);self.callback=callback
@@ -163,19 +176,25 @@ def stopped(event):
     if state['function']=='initialize_debug':
         state['frontier_arguments']=dict(options=int(frame.read_var('options')),environment=frame.read_var('environment').string())
     if state['function']=='get_debug_flag':state['frontier_arguments']=dict(index=int(frame.read_var('index')))
-    if state['function'] in ('run_linker','initialize_repro','collect_file_arguments','parse_command_line','parse_argument'):
-        driver=frame
-        while driver and driver.name()!='run_linker':driver=driver.older()
-        assert driver
+    driver=frame
+    while driver and driver.name()!='run_linker':driver=driver.older()
+    if driver:
         count=int(driver.read_var('argc'));argv=driver.read_var('argv')
         state['frontier_arguments']=dict(argc=count,argv=[argv[i].string() for i in range(count)],argv_address=int(argv))
         state['selected_tool_name']=gdb.parse_and_eval('selected_tool_name').string()
         state['selected_tool_name_address']=int(gdb.parse_and_eval('selected_tool_name'))
         state['first_tool_name_address']=int(gdb.parse_and_eval('tool_modes[0].name'))
         state['selected_tool_kind']=int(gdb.parse_and_eval('selected_tool_kind'))
+    state['option_arguments_address']=int(gdb.parse_and_eval('&option_arguments'))
+    state['option_arguments']=[int(gdb.parse_and_eval('option_arguments.'+name)) for name in ('first','last','count')]
+    if state['option_arguments'][0]:state['option_node']=gdb.selected_inferior().read_memory(state['option_arguments'][0],24).tobytes().hex()
+    if state['function']=='has_switch':state['argument_detail']=dict(text=frame.read_var('name').string(),address=int(frame.read_var('name')))
     state['argument_tail']=int(gdb.parse_and_eval('argument_tail'))
-    if state['function']=='parse_argument':
-        state['argument_detail']=dict(text=frame.read_var('text').string(),source=int(frame.read_var('source')),address=int(frame.read_var('text')))
+    if state['function'] in ('parse_argument','is_libpath','append_argument','append_argument_record'):
+        state['argument_detail']=dict(text=frame.read_var('text').string(),address=int(frame.read_var('text')))
+        if state['function']=='parse_argument':state['argument_detail']['source']=int(frame.read_var('source'))
+        if state['function'] in ('append_argument','append_argument_record'):state['argument_detail']['list']=int(frame.read_var('list'))
+        if state['function']=='append_argument_record':state['argument_detail']['original_address']=int(frame.read_var('original_name'))
     state['input_prepass']=int(gdb.parse_and_eval('input_prepass'))
     state['input_files']=[int(gdb.parse_and_eval('input_files.'+name)) for name in ('first','last','count')]
     state['repro_directory']=int(gdb.parse_and_eval('repro_directory'))

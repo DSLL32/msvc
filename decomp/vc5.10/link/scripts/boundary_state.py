@@ -12,10 +12,10 @@ STAGES = {
     '_initialize_buffer4': (3,2,2), '_allocate_buffer4': (3,2,2),
     '_register_buffer4_cleanup': (3,3,2),
     '_initialize_timing': (4,3,3), '_setup_timing': (4,3,3),
-    '_register_timing_cleanup': (4,3,3), '_main': (None,3,4), '_initialize_debug@8':(None,3,4), '_initialize_file_cache@16':(None,3,4), '_get_debug_flag@4':(None,3,4), '_zero_allocate@4':(None,3,4), '_new_file_record':(None,3,4), '_initialize_memory':(None,3,4), '_run_linker@8':(None,3,4), '_initialize_repro':(None,3,4), '_collect_file_arguments@16':(None,3,4), '_parse_command_line@16':(None,3,4), '_parse_argument@8':(None,3,4),
+    '_register_timing_cleanup': (4,3,3), '_main': (None,3,4), '_initialize_debug@8':(None,3,4), '_initialize_file_cache@16':(None,3,4), '_get_debug_flag@4':(None,3,4), '_zero_allocate@4':(None,3,4), '_new_file_record':(None,3,4), '_initialize_memory':(None,3,4), '_run_linker@8':(None,3,4), '_initialize_repro':(None,3,4), '_collect_file_arguments@16':(None,3,4), '_parse_command_line@16':(None,3,4), '_parse_argument@8':(None,3,4), '_is_libpath@4':(None,3,4), '_append_argument@8':(None,3,4), '_append_argument_record@12':(None,3,4), '_has_switch@4':(None,3,4),
 }
 MEMORY_READY={ '_run_linker@8','_initialize_repro','_collect_file_arguments@16',
-               '_parse_command_line@16','_parse_argument@8' }
+               '_parse_command_line@16','_parse_argument@8','_is_libpath@4','_append_argument@8','_append_argument_record@12','_has_switch@4' }
 CACHE_READY=MEMORY_READY | {'_initialize_memory'}
 DEBUG_READY=CACHE_READY | {'_get_debug_flag@4','_zero_allocate@4','_new_file_record'}
 
@@ -143,7 +143,7 @@ def compare(name, original, native, original_state, native_state):
         assert native_state['module_probes']==[dict(kind='module',requested='kernel32.dll',module=0,result=1),dict(kind='proc',requested='IsTNT',module=1,result=0)]
         slots_pointer,newest,count=struct.unpack('<3I',(original/'file-pointers.bin').read_bytes())
         if name not in CACHE_READY:assert newest==count==0
-        if name in ('_new_file_record','_initialize_memory','_run_linker@8','_initialize_repro','_collect_file_arguments@16','_parse_command_line@16','_parse_argument@8'):
+        if name in CACHE_READY or name=='_new_file_record':
             assert slots_pointer and native_state['file_globals']['file_slots']
             array=(original/'file-slots.bin').read_bytes()
             if name=='_new_file_record':assert array.hex()==native_state['file_slots_bytes'] and not any(array)
@@ -195,7 +195,7 @@ def compare(name, original, native, original_state, native_state):
         elif name=='_initialize_repro':
             assert original_state['stack'][6]==2
             assert original_state['stack'][7]==original_state['crt_argv_pointer']
-        elif name!='_parse_argument@8':
+        elif name in ('_collect_file_arguments@16','_parse_command_line@16'):
             assert original_state['stack'][1]==2
             assert original_state['stack'][2]==original_state['crt_argv_pointer']
             assert original_state['stack'][3:5]==[0x408508,0x408510]
@@ -220,3 +220,49 @@ def compare(name, original, native, original_state, native_state):
         assert (original/'argument-tail.bin').read_bytes()==bytes(4) and native_state['argument_tail']==0
         frames=[e for e in events if e['event']=='main_frame']
         assert len(frames)==1 and frames[0]['site']==0x40de93 and frames[0]['ebp']==original_state['main_frame_pointer']
+
+    if name=='_is_libpath@4':
+        assert original_state['argument_text']==native_state['argument_detail']['text']=='?'
+        assert original_state['argument_pointer']==original_state['crt_first_argument_pointer']+1
+        assert native_state['argument_detail']['address']==native_state['crt_first_argument_address']+1
+        assert (original/'input-prepass.bin').read_bytes()==b'\1' and native_state['input_prepass']==1
+        assert (original/'input-files.bin').read_bytes()==bytes(12) and native_state['input_files']==[0,0,0]
+        assert (original/'argument-tail.bin').read_bytes()==bytes(4) and native_state['argument_tail']==0
+
+    if name in ('_append_argument@8','_append_argument_record@12'):
+        assert original_state['argument_text']==native_state['argument_detail']['text']=='?'
+        assert original_state['argument_pointer']==original_state['crt_first_argument_pointer']+1
+        assert native_state['argument_detail']['address']==native_state['crt_first_argument_address']+1
+        assert original_state['stack'][1]==0x47f040
+        assert native_state['argument_detail']['list']==native_state['option_arguments_address']
+        assert (original/'option-arguments.bin').read_bytes()==bytes(12) and native_state['option_arguments']==[0,0,0]
+        assert (original/'input-prepass.bin').read_bytes()==b'\0' and native_state['input_prepass']==0
+        assert (original/'input-files.bin').read_bytes()==bytes(12) and native_state['input_files']==[0,0,0]
+        assert (original/'argument-tail.bin').read_bytes()==bytes(4) and native_state['argument_tail']==0
+        observed=[e for e in events if e['event']=='mbs_observation']
+        assert [e['site'] for e in observed]==[0x45c76b,0x45c771]
+        for event in observed:
+            assert event['left']=='?' and event['right']=='libpath' and event['arguments'][2]==7
+            assert event['codepage']==event['lc_ctype_handle']==event['locale_codepage']==0 and event['mb_cur_max']==1
+        assert observed[1]['eax']==0xffffffff
+        assert native_state['mbsnbicmp_calls']==[dict(left='?',right='libpath',bytes=7,result=-1)]*2
+
+    if name=='_append_argument_record@12':
+        assert original_state['stack'][2]==original_state['stack'][3]
+        assert native_state['argument_detail']['address']==native_state['argument_detail']['original_address']
+
+    if name=='_has_switch@4':
+        assert original_state['argument_text']==native_state['argument_detail']['text']=='vxd'
+        assert original_state['argument_pointer']==0x402b30
+        first,last,count=struct.unpack('<3I',(original/'option-arguments.bin').read_bytes())
+        nfirst,nlast,ncount=native_state['option_arguments']
+        assert first==last and first and nfirst==nlast and nfirst and count==ncount==1
+        item=struct.unpack('<6I',(original/'option-node.bin').read_bytes())
+        nitem=struct.unpack('<6I',bytes.fromhex(native_state['option_node']))
+        assert item[:2]==(original_state['crt_first_argument_pointer']+1,)*2
+        assert nitem[:2]==(native_state['crt_first_argument_address']+1,)*2
+        assert item[2:]==nitem[2:]==(0,0,0,0)
+        assert (original/'input-prepass.bin').read_bytes()==b'\0' and native_state['input_prepass']==0
+        assert (original/'input-files.bin').read_bytes()==bytes(12) and native_state['input_files']==[0,0,0]
+        assert (original/'argument-tail.bin').read_bytes()==bytes(4) and native_state['argument_tail']==0
+        assert native_state['mbsnbicmp_calls']==[dict(left='?',right='libpath',bytes=7,result=-1)]*2

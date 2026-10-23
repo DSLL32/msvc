@@ -35,7 +35,11 @@
     "_new_file_record",
     "_initialize_memory",
     "_run_linker@8",
-    "_collect_file_arguments@16"
+    "_collect_file_arguments@16",
+    "_parse_argument@8",
+    "_is_libpath@4",
+    "_append_argument@8",
+    "_append_argument_record@12"
   ],
   "driver": [
     {
@@ -586,11 +590,83 @@
     {
       "name": "_parse_argument@8",
       "start": 4573056,
-      "end": 4573057,
+      "end": 4573361,
+      "pending_extent": false,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "native_symbol": "parse_argument"
+    },
+    {
+      "name": "_is_libpath@4",
+      "start": 4573008,
+      "end": 4573053,
+      "pending_extent": false,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "native_symbol": "is_libpath"
+    },
+    {
+      "name": "_expand_wildcards@4",
+      "start": 4572336,
+      "end": 4572337,
       "pending_extent": true,
       "source": "src/arguments.c",
       "status": "stub",
-      "native_symbol": "parse_argument"
+      "native_symbol": "expand_wildcards"
+    },
+    {
+      "name": "_canonicalize_argument@8",
+      "start": 4572752,
+      "end": 4572753,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "canonicalize_argument"
+    },
+    {
+      "name": "_open_argument_file@12",
+      "start": 4241392,
+      "end": 4241393,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "open_argument_file"
+    },
+    {
+      "name": "_is_archive@8",
+      "start": 4574528,
+      "end": 4574529,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "is_archive"
+    },
+    {
+      "name": "_close_argument_file@8",
+      "start": 4242704,
+      "end": 4242705,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "close_argument_file"
+    },
+    {
+      "name": "_append_argument@8",
+      "start": 4574368,
+      "end": 4574387,
+      "pending_extent": false,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "native_symbol": "append_argument"
+    },
+    {
+      "name": "_append_argument_record@12",
+      "start": 4574208,
+      "end": 4574283,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/arguments.c",
+      "native_symbol": "append_argument_record"
     }
   ],
   "text_data": [
@@ -905,6 +981,30 @@
       "reason": "initialize_repro contextual literal b'wt\\x00'",
       "sha256": "15eec7f94fc5b359e2a9946d8603f6d2e201c84dcea1bb8fa5b8d77e12c06138",
       "evidence": "complete original444b10..444c33 body direct argument reference"
+    },
+    {
+      "start": 4231688,
+      "end": 4231691,
+      "accepted": true,
+      "reason": "parse_argument contextual literal b'?*\\x00'",
+      "sha256": "633e7f26429008c87353e3deb50a6548e437ce98fcfed7e51ef76e6158a4f1a6",
+      "evidence": "complete original45c780..45c8b1 disassembly"
+    },
+    {
+      "start": 4231680,
+      "end": 4231685,
+      "accepted": true,
+      "reason": "parse_argument contextual literal b'.obj\\x00'",
+      "sha256": "d564b4b04cee6d2a8763f04ebb2fa40b080ec83af3d9fbc0af4d4afa5b8f04b5",
+      "evidence": "complete original45c780..45c8b1 disassembly"
+    },
+    {
+      "start": 4227552,
+      "end": 4227560,
+      "accepted": true,
+      "reason": "libpath predicate contextual prefix literal",
+      "sha256": "304d9a53460e990cb8735bd026cbedb4409cf026fded3266c76d88ca9fb4c61e",
+      "evidence": "45c751 literal and45c76b _mbsnbicmp argument"
     }
   ],
   "cases": {

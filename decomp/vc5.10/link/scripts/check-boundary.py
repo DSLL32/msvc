@@ -41,7 +41,7 @@ if 'program_name' in native:
     negative('lost local basename alias',lambda s:s.__setitem__('program_name_address',0))
 if 'frontier_arguments' in native and 'a' in native['frontier_arguments']:
     negative('wrong file-cache limit',lambda s:s['frontier_arguments'].__setitem__('a',17))
-if args.frontier in ('_run_linker@8','_initialize_repro','_collect_file_arguments@16','_parse_command_line@16','_parse_argument@8'):
+if args.frontier in ('_run_linker@8','_initialize_repro','_collect_file_arguments@16','_parse_command_line@16','_parse_argument@8','_is_libpath@4','_append_argument@8','_append_argument_record@12','_has_switch@4'):
     negative('wrong page size',lambda s:s.__setitem__('allocation_page_size',8192))
     negative('wrong physical memory',lambda s:s.__setitem__('maximum_physical_memory',0x4000000))
     negative('missing hardware call',lambda s:s['system_calls'].pop())
@@ -56,7 +56,7 @@ if args.frontier in ('_run_linker@8','_initialize_repro','_collect_file_argument
     negative('broken FILE buffer alias',lambda s:s.__setitem__('crt_stdout_bytes',('00000000'+s['crt_stdout_bytes'][8:])))
     negative('broken file-record link',lambda s:s['file_records'].__setitem__(15,s['file_records'][15][:72]+'00000000'))
     negative('wrong file record count',lambda s:s['file_globals'].__setitem__('file_record_count',15))
-if args.frontier in ('_collect_file_arguments@16','_parse_command_line@16','_parse_argument@8'):
+if args.frontier in ('_collect_file_arguments@16','_parse_command_line@16','_parse_argument@8','_is_libpath@4','_append_argument@8','_append_argument_record@12','_has_switch@4'):
     negative('unexpected repro directory',lambda s:s.__setitem__('repro_directory',1))
     negative('unexpected repro response',lambda s:s.__setitem__('repro_response',1))
     if 'environment_arguments' in native:negative('wrong parsing environments',lambda s:s['environment_arguments'].reverse())
@@ -69,5 +69,28 @@ if args.frontier=='_parse_argument@8':
     negative('lost argument argv alias',lambda s:s['argument_detail'].__setitem__('address',0))
     negative('premature argument tail',lambda s:s.__setitem__('argument_tail',1))
     negative('lost prepass',lambda s:s.__setitem__('input_prepass',0))
+if args.frontier=='_is_libpath@4':
+    negative('wrong libpath predicate text',lambda s:s['argument_detail'].__setitem__('text','libpath'))
+    negative('lost slash stripping alias',lambda s:s['argument_detail'].__setitem__('address',s['crt_first_argument_address']))
+    negative('lost prepass',lambda s:s.__setitem__('input_prepass',0))
+if args.frontier in ('_append_argument@8','_append_argument_record@12'):
+    negative('lost slash-stripped option alias',lambda s:s['argument_detail'].__setitem__('address',s['crt_first_argument_address']))
+    negative('wrong destination queue',lambda s:s['argument_detail'].__setitem__('list',0))
+    negative('wrong prepass stage',lambda s:s.__setitem__('input_prepass',1))
+    negative('unexpected option queue',lambda s:s['option_arguments'].__setitem__(2,1))
+    negative('wrong comparison result',lambda s:s['mbsnbicmp_calls'][0].__setitem__('result',-45))
+    negative('wrong comparison limit',lambda s:s['mbsnbicmp_calls'][0].__setitem__('bytes',6))
+    negative('wrong comparison prefix',lambda s:s['mbsnbicmp_calls'][1].__setitem__('right','libpat'))
+    negative('missing second comparison',lambda s:s['mbsnbicmp_calls'].pop())
+if args.frontier=='_append_argument_record@12':
+    negative('lost original option alias',lambda s:s['argument_detail'].__setitem__('original_address',0))
+if args.frontier=='_has_switch@4':
+    negative('wrong requested switch',lambda s:s['argument_detail'].__setitem__('text','nologo'))
+    negative('wrong option count',lambda s:s['option_arguments'].__setitem__(2,2))
+    negative('lost first-last option alias',lambda s:s['option_arguments'].__setitem__(1,0))
+    negative('lost option name alias',lambda s:s.__setitem__('option_node','00000000'+s['option_node'][8:]))
+    negative('lost original name alias',lambda s:s.__setitem__('option_node',s['option_node'][:8]+'00000000'+s['option_node'][16:]))
+    negative('unexpected option next',lambda s:s.__setitem__('option_node',s['option_node'][:40]+'01000000'))
+    negative('wrong completed prepass',lambda s:s.__setitem__('input_prepass',1))
 args.report.write_text(json.dumps(dict(frontier=args.frontier,positive=True,negative_count=len(checks),rejected=checks),indent=2)+'\n')
 print('Typed boundary passes; %d semantic negatives rejected.'%len(checks))

@@ -12,7 +12,7 @@ typedef struct InputModule {
 } InputModule;
 typedef struct InputArgument {
     char *name;
-    DWORD flags;
+    char *original_name;
     InputModule *module;
     DWORD reserved0c, reserved10;
     struct InputArgument *next;

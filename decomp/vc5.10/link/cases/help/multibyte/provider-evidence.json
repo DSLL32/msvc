@@ -1,0 +1,31 @@
+{
+  "kind": "original-only-analysis-not-acceptance",
+  "original_capture": "/root/.ai-tmp/msvc2/vc5.10/link/observe-new-ch74ob56",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "provider_export": "_mbsnbicmp",
+  "provider_address": "7800643f",
+  "observed_target_call": "45c76b",
+  "observed_target_return": "45c771",
+  "arguments": [
+    "?",
+    "libpath",
+    7
+  ],
+  "result_signed": -1,
+  "locale": {
+    "codepage": 0,
+    "lc_ctype_handle": 0,
+    "mb_cur_max": 1,
+    "locale_codepage": 0
+  },
+  "reached": true,
+  "unvisited_search": "_mbspbrk must remain fail-closed until independently evidenced",
+  "raw_files": {
+    "runtime.json": "f2c607da5a692c987fc7d6db65c438026d369078a86e6e18389ba4a6730e3396",
+    "events.jsonl": "c2446755cc7eea11b080a0eb92d23ec9d7c7dc3cf6166b11a43a57dbef92add9",
+    "functions.json": "5cbabd263de184b3a1297f2a6f1e011df6a87ef870a6125905b280d7f89f5398",
+    "stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt.json": "a87312ee8de958f234c9877db5c0d0994b43a5aa2c7135c4d962016dcf355a9c",
+    "stdout.bin": "930209bfdd9844c5c352f65dc85d50906aa387e719680c8705dfbef2cd03271b"
+  }
+}

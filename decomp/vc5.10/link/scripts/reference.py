@@ -58,6 +58,10 @@ def main():
                          (0x31df5,'observe:new_call_4'),(0x31dfa,'observe:new_return_4')]:
             position=8+rva-mask_rva
             entries.append('%x %x 0 %s\n'%(rva,mutable[position],name));mutable[position]=0xcc
+    if args.mode=='observe-new' and '_is_libpath@4' not in config['accepted']:
+        for rva,name in [(0x5c76b,'observe:mbs_call'),(0x5c771,'observe:mbs_return')]:
+            position=8+rva-mask_rva
+            entries.append('%x %x 0 %s\n'%(rva,mutable[position],name));mutable[position]=0xcc
     mask = bytes(mutable)
     (capture / 'mask.bin').write_bytes(mask)
     (capture / 'ownership.json').write_text(json.dumps(ownership, indent=2) + '\n')
@@ -85,11 +89,13 @@ def main():
         ('target',0x7eedc,1,'input-prepass.bin'),
         ('target',0x7f108,12,'input-files.bin'),
         ('target',0x7efd8,4,'argument-tail.bin'),
+        ('target',0x7f040,12,'option-arguments.bin'),
         ('crt',0x3fa88,4,'crt-fmode.bin'),
         ('crt',0x3fa94,4,'crt-commode.bin'),
         ('crt',0x3f928,4,'crt-adjust-fdiv.bin'),
         ('crt',0x3f590,32,'crt-stdout.bin')]
     if '_zero_allocate@4' in config['accepted']:state_plan.append(('targetptr',0x67538,64,'file-slots.bin'))
+    if '_append_argument_record@12' in config['accepted']:state_plan.append(('targetptr',0x7f040,24,'option-node.bin'))
     (capture / 'state-plan.txt').write_text(''.join('%s %x %d %s\n'%item for item in state_plan))
     (capture / 'entries.txt').write_text(''.join(entries))
     helper = BINARY / 'build/capture-help.exe'

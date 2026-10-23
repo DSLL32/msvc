@@ -86,7 +86,7 @@ static int snapshot(DWORD address)
 {
     CONTEXT context;
     DWORD got, stack[32];
-    unsigned index;
+    unsigned index, argument_index;
     unsigned char bytes[65536];
     DWORD address_base, written, argument_count, arguments, pointer;
     HANDLE output;
@@ -122,9 +122,21 @@ static int snapshot(DWORD address)
         if(!ReadProcessMemory(process,(void *)(base+0x7f060),&pointer,4,&got)||got!=4||!remote_string(pointer,value,sizeof(value)))return 0;
         fprintf(events,",\"selected_tool_name_pointer\":%lu,\"selected_tool_name\":",pointer);quoted(value);
     }
-    if(address==base+0x5c780) {
-        if(!remote_string(stack[1],value,sizeof(value)))return 0;
-        fprintf(events,",\"argument_pointer\":%lu,\"argument_text\":",stack[1]);quoted(value);
+    /* Parameter roles are keyed to the exact known function ABI. */
+    argument_index=0;
+    switch(address-base) {
+    case 0x5c780: /* parse_argument(text, source) */
+    case 0x5c750: /* is_libpath(text) */
+    case 0x44f20: /* has_switch(name) */
+        argument_index=1; break;
+    case 0x5cca0: /* append_argument(list, text) */
+    case 0x5cc00: /* append_argument_record(list, text, original_name) */
+        argument_index=2; break;
+    }
+    if(argument_index) {
+        pointer=stack[argument_index];
+        if(!remote_string(pointer,value,sizeof(value)))return 0;
+        fprintf(events,",\"argument_pointer\":%lu,\"argument_text\":",pointer);quoted(value);
         if(!ReadProcessMemory(process,(void *)(arguments+4),&pointer,4,&got)||got!=4)return 0;
         fprintf(events,",\"crt_first_argument_pointer\":%lu",pointer);
     }
@@ -295,6 +307,22 @@ int main(int argc, char **argv)
                             fprintf(events,",\"requested\":");quoted(requested);
                         }
                         fprintf(events,"}\n");
+                    } else if(!strncmp(entries[index].name,"observe:mbs_",12)) {
+                        DWORD arguments[3],got,codepage,locale_handle,mb_cur_max,locale_codepage;
+                        unsigned char table[257];
+                        char left[1024],right[1024];
+                        if(!ReadProcessMemory(process,(void *)context.Esp,arguments,12,&got)||got!=12 ||
+                           !ReadProcessMemory(process,(void *)(crt_base+0x3f1c0),&codepage,4,&got)||got!=4 ||
+                           !ReadProcessMemory(process,(void *)(crt_base+0x3f1c8),table,sizeof(table),&got)||got!=sizeof(table) ||
+                           !ReadProcessMemory(process,(void *)(crt_base+0x3f1b0),&locale_handle,4,&got)||got!=4 ||
+                           !ReadProcessMemory(process,(void *)(crt_base+0x3fba0),&mb_cur_max,4,&got)||got!=4 ||
+                           !ReadProcessMemory(process,(void *)(crt_base+0x3f8f8),&locale_codepage,4,&got)||got!=4) {failed=6;break;}
+                        if(!remote_string(arguments[0],left,sizeof(left))||!remote_string(arguments[1],right,sizeof(right))){failed=6;break;}
+                        fprintf(events,"{\"event\":\"mbs_observation\",\"name\":\"%s\",\"site\":%lu,\"codepage\":%lu,\"eax\":%lu,\"arguments\":[%lu,%lu,%lu],\"left\":",entries[index].name,site,codepage,context.Eax,arguments[0],arguments[1],arguments[2]);quoted(left);
+                        fprintf(events,",\"lc_ctype_handle\":%lu,\"mb_cur_max\":%lu,\"locale_codepage\":%lu",locale_handle,mb_cur_max,locale_codepage);
+                        fprintf(events,",\"right\":");quoted(right);fprintf(events,",\"mbctype_hex\":\"");
+                        for(got=0;got<sizeof(table);++got)fprintf(events,"%02x",table[got]);
+                        fprintf(events,"\"}\n");
                     } else if(!strncmp(entries[index].name,"observe:system_",15) || !strncmp(entries[index].name,"observe:memory_",15)) {
                         DWORD pointer,size,got,written;
                         unsigned char observed[36];

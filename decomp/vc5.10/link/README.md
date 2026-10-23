@@ -2,10 +2,10 @@
 
 Target: `toolchains/5.10/bin/LINK.EXE`, PE32 i386, image base `0x400000`,
 entry RVA `0x65280`. There are no exports or TLS directory. Root approved the scaffold and exact
-shipped CRT startup boundary. Twenty-three application functions are accepted: constructors and their helpers, main,
+shipped CRT startup boundary. Twenty-seven application functions are accepted: constructors and their helpers, main,
 debug parsing, file-cache records, memory initialization and the main linker
 driver, reproduction setup and command-line prepass. The first `/?` case is
-still in progress at individual argument parsing. Later
+still in progress at switch lookup after option-list insertion. Later
 hello, DLL, debug/PDB and resource cases remain source-only and unreleased.
 Native i386 and original 5.10 `/MD /Od /Z7` builds pass with `make -j4`.
 
@@ -131,3 +131,10 @@ C++ runtime. `RECON_THISCALL` retains native i386 ECX-this/stack4/RET4; the
 original VC5 compiler supplies its implicit member convention. Other sources and
 the final shared shim compilation remain C. Native compilation needs no host
 C++ standard library.
+
+The `libpath` predicate uses the distinct canonical `_mbsnbicmp` import. Actual
+original call/return evidence proves CP0, C locale, one-byte characters and
+normalized `-1` for `"?"`/`"libpath"` at byte limit7. The shared implementation
+retains that reviewed ASCII scope; `_mbspbrk` remains typed and unsupported on
+the unvisited wildcard path. `cases/help/multibyte/` is explicitly original-only
+analysis, separate from masked acceptance.

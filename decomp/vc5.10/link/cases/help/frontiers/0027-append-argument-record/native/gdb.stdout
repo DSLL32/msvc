@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x0804cb4f in has_switch (name=0x805e0a1 "vxd") at src/link-driver.cpp:183
+183	unsigned char __stdcall has_switch(const char *name) { __asm { int 3 } return 0; }
