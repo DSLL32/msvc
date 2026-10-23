@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_skip_source_line",
+    "start": 149216,
+    "end": 149303
+  },
+  "distinct_direct_callees": [
+    "_recover_special_character",
+    "_skip_source_comment"
+  ],
+  "next_frontier": "_define_source_macro",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4129890166223049,
+  "total_operation_seconds": 3.5582396732643247,
+  "original_capture_seconds": 1.4181598592549562
+}

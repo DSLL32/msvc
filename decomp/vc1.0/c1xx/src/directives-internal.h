@@ -34,6 +34,8 @@ char *read_include_name(void);
 char *read_angle_include_name(void);
 char *trim_filename_space(char *begin, char *end);
 int __stdcall skip_conditional_block(unsigned flags);
+unsigned char read_skipped_directive(void);
+void __stdcall skip_directive_literal(unsigned char delimiter);
 void __stdcall finish_directive(char *name);
 unsigned char next_directive_character(void);
 int __stdcall record_pch_condition(int condition);

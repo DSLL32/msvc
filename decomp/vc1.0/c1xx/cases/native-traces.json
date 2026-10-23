@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "524b25ef5aad2c1ef1e7612bf37b1ede4646a7a8c0a9df0971192b1f2302b87a",
+    "functions.json": "9bf42ae6f2c2c494ff6cd1c171e80acf904ed486dcc8c852654d46eaf7f6cecf",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "3124cbe33b5eb835603b0dfb6130986cc31d6e7f0b7fae806252b1f8dd899ece",
-    "cases/canonical-map.txt": "142f2780b095d752671026b6623d49dfbb6a337c0967eece303e95abc9e32977",
+    "cases/original-entry-references.json": "dd6b3f342421546a460d1291f45d9032c2916fb1f12d96e9f9616cb15ea79624",
+    "cases/canonical-map.txt": "e6825b10c1107312930787092dd7cdd86a11efdd33237970d6e44d3e2388a7cd",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -31,9 +31,9 @@
     "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-receipt.json": "c96405bad006bb3fd9f900a346c2d788eb6906b74f281ddbf6e3032440b280f5",
     "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-events.txt": "9e35a24f4e53f4b7b0219bec08cb63897a7eca106f3d009663ffb919319a941f",
     "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-entries.plan": "a5f1b84b7a83babbd447d32cf9a76cf4fa037e529269692bfe6ac29127e5c35d",
-    "cases/frontiers/new_delete/0969-search_include_directories-4/entry-reference/original-receipt.json": "7a589ed69048fa63ad153dd4749945461da652c925ba5efd1229d92182f03f63",
-    "cases/frontiers/new_delete/0969-search_include_directories-4/entry-reference/original-events.txt": "1899a4f1f7acd879e967c6c1179876573da6aef968885472f49f40db935b7806",
-    "cases/frontiers/new_delete/0969-search_include_directories-4/entry-reference/original-entries.plan": "84f88bea3f8ca1ee56dd6d113cc495078bad8c3976eaa442ec2594d530e426b1"
+    "cases/frontiers/new_delete/0977-define_source_macro/entry-reference/original-receipt.json": "711a6155efd02e9b76739785ff44b08bf18446949a614cb1b3bd7557f809b881",
+    "cases/frontiers/new_delete/0977-define_source_macro/entry-reference/original-events.txt": "06f8d9dd8e67ca65dc2ebe543f4d0218dfb77a44d7287e9b9c20697e8b982f1d",
+    "cases/frontiers/new_delete/0977-define_source_macro/entry-reference/original-entries.plan": "13733818c4d7efb38bb10ad78236fc2a10bb86614669fd3e9ecc1a07b1773a8c"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1132,6 +1132,10 @@
       "logical": "_copy_arena_bytes@12",
       "source": "src/memory.c"
     },
+    "copy_block_comment": {
+      "logical": "_copy_block_comment",
+      "source": "src/stubs.c"
+    },
     "copy_bytes_forward": {
       "logical": "_copy_bytes_forward@12",
       "source": "src/stubs.c"
@@ -1386,7 +1390,7 @@
     },
     "define_source_macro": {
       "logical": "_define_source_macro",
-      "source": "src/stubs.c"
+      "source": "src/macros.c"
     },
     "define_tag_symbol": {
       "logical": "_define_tag_symbol@12",
@@ -3254,7 +3258,7 @@
     },
     "match_source_character": {
       "logical": "_match_source_character@4",
-      "source": "src/stubs.c"
+      "source": "src/comments.c"
     },
     "match_tag_symbol": {
       "logical": "_match_tag_symbol@8",
@@ -3846,7 +3850,7 @@
     },
     "push_conditional_state": {
       "logical": "_push_conditional_state",
-      "source": "src/stubs.c"
+      "source": "src/directives.c"
     },
     "push_linkage": {
       "logical": "_push_linkage@4",
@@ -3952,6 +3956,14 @@
       "logical": "_read_lexical_token",
       "source": "src/lexer.c"
     },
+    "read_macro_parameters": {
+      "logical": "_read_macro_parameters",
+      "source": "src/stubs.c"
+    },
+    "read_macro_replacement": {
+      "logical": "_read_macro_replacement",
+      "source": "src/stubs.c"
+    },
     "read_number_text": {
       "logical": "_read_number_text@4",
       "source": "src/stubs.c"
@@ -3967,6 +3979,10 @@
     "read_parser_token": {
       "logical": "_read_parser_token",
       "source": "src/lexer.c"
+    },
+    "read_skipped_directive": {
+      "logical": "_read_skipped_directive",
+      "source": "src/directives.c"
     },
     "read_tag_specifier": {
       "logical": "_read_tag_specifier@8",
@@ -4728,12 +4744,24 @@
       "logical": "_skip_base_qualifier_path@4",
       "source": "src/member-access.c"
     },
+    "skip_block_comment": {
+      "logical": "_skip_block_comment",
+      "source": "src/comments.c"
+    },
     "skip_conditional_block": {
       "logical": "_skip_conditional_block@4",
-      "source": "src/stubs.c"
+      "source": "src/directives.c"
     },
     "skip_declaration_records": {
       "logical": "_skip_declaration_records@4",
+      "source": "src/stubs.c"
+    },
+    "skip_directive_literal": {
+      "logical": "_skip_directive_literal@4",
+      "source": "src/stubs.c"
+    },
+    "skip_line_comment": {
+      "logical": "_skip_line_comment",
       "source": "src/stubs.c"
     },
     "skip_reference_shape": {
@@ -4742,11 +4770,11 @@
     },
     "skip_source_comment": {
       "logical": "_skip_source_comment",
-      "source": "src/stubs.c"
+      "source": "src/comments.c"
     },
     "skip_source_line": {
       "logical": "_skip_source_line",
-      "source": "src/stubs.c"
+      "source": "src/directives.c"
     },
     "source_file_timestamp": {
       "logical": "_source_file_timestamp@4",
@@ -6017,7 +6045,15 @@
     "trim_filename_space",
     "open_forced_include",
     "process_pch_include",
-    "search_include_directories"
+    "search_include_directories",
+    "skip_source_comment",
+    "match_source_character",
+    "skip_block_comment",
+    "push_conditional_state",
+    "skip_conditional_block",
+    "read_skipped_directive",
+    "skip_source_line",
+    "define_source_macro"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -9213,7 +9249,7 @@
     },
     "new_delete": {
       "first": 963,
-      "last": 970,
+      "last": 978,
       "seen": [
         "main",
         "message_text",
@@ -10093,12 +10129,20 @@
         "open_forced_include",
         "process_pch_include",
         "search_include_directories",
-        "skip_source_comment"
+        "skip_source_comment",
+        "match_source_character",
+        "skip_block_comment",
+        "push_conditional_state",
+        "skip_conditional_block",
+        "read_skipped_directive",
+        "skip_source_line",
+        "define_source_macro",
+        "expand_macro"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_skip_source_comment",
-        "native": "skip_source_comment",
+        "logical": "_expand_macro@4",
+        "native": "expand_macro",
         "signal": 5
       }
     }

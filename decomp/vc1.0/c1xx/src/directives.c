@@ -46,6 +46,112 @@ int __stdcall process_pch_include(char *filename)
     return resume_pch_source_input();
 }
 
+/* Original 0x246e0..0x24736, cdecl. Ignore the remainder of a
+   directive, consuming comments and DBCS pairs but leave its final newline. */
+void skip_source_line(void)
+{
+    unsigned char classification;
+    for (;;) {
+        classification = character_class[(unsigned char)*source_text_cursor++];
+        switch (classification) {
+        case CC_SLASH:
+            skip_source_comment();
+            break;
+        case CC_ESCAPE_OR_END:
+            recover_special_character();
+            break;
+        case CC_NEWLINE:
+            --source_text_cursor;
+            return;
+        case CC_LEAD_BYTE:
+            ++source_text_cursor;
+        }
+    }
+}
+
+/* Original 0x24460..0x2454a, cdecl. Ignore inactive source until
+   a line-leading directive name, keeping literal contents from being mistaken
+   for directives and preserving source-line accounting and optional output. */
+unsigned char read_skipped_directive(void)
+{
+    unsigned char character, classification;
+    token_allocation_flags &= ~0x10000UL;
+    for (;;) {
+        character = next_directive_character();
+classify_character:
+        classification = character_class[character];
+        if (classification == CC_NEWLINE) {
+            ++source_line_number;
+            if (options.option_E) {
+                if (preprocessor_stream) fputc('\n', preprocessor_stream);
+                else write_work_character('\n', compiler_stack);
+            }
+            character = next_directive_character();
+            if (character != '#') goto classify_character;
+            character = next_directive_character();
+            classification = character_class[character];
+            if (classification == CC_IDENTIFIER || classification == CC_WIDE_PREFIX) {
+                scan_source_identifier();
+                token_allocation_flags |= 0x10000UL;
+                return classify_directive(interned_name);
+            }
+            goto classify_character;
+        }
+        if (classification == CC_ESCAPE_OR_END) {
+            if (recover_special_character() & 0x10) ++source_text_cursor;
+        } else if (classification == CC_APOSTROPHE || classification == CC_QUOTE) {
+            skip_directive_literal(character);
+        }
+    }
+}
+
+/* Original code 0x241d0..0x24272, six-way dispatch 0x24274..0x2428b.
+   Skip nested conditional groups until this depth's elif, else or endif.
+   Mode6 diagnoses attempts to introduce another alternative after an else. */
+int __stdcall skip_conditional_block(unsigned flags)
+{
+    unsigned depth = 0;
+    unsigned char alternative = PP_UNKNOWN, directive;
+    for (;;) {
+        directive = read_skipped_directive();
+        switch (directive) {
+        case PP_IF: case PP_IFDEF: case PP_IFNDEF:
+            ++depth;
+            continue;
+        case PP_ELSE:
+            alternative = PP_ELSE;
+        case PP_ELIF:
+            if (depth) {
+                alternative = PP_UNKNOWN;
+                continue;
+            }
+            if (flags == 6) {
+                fatal_error(22);
+                continue;
+            }
+            if (alternative != PP_ELSE) return 2;
+            if (options.configuration.extensions_enabled) skip_source_line();
+            else finish_directive("#else");
+            return 3;
+        case PP_ENDIF:
+            if (!depth) {
+                finish_directive("#endif");
+                return 4;
+            }
+            --depth;
+        }
+    }
+}
+
+/* Original 0x23600..0x23624, cdecl. Conditional directives share
+   the source stack's signed depth, with at most thirty-two active entries. */
+int push_conditional_state(void)
+{
+    ++conditional_depth;
+    if ((unsigned)conditional_depth >= 32) fatal_error(52);
+    return conditional_depth;
+}
+
 /* Original 0x247b0..0x24830, cdecl. Return the beginning of the
    final whitespace run. A null end requests the original string terminator. */
 char *trim_filename_space(char *begin, char *end)

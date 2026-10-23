@@ -974,7 +974,15 @@
     "_open_forced_include@8",
     "_process_pch_include@4",
     "_strchr",
-    "_search_include_directories@4"
+    "_search_include_directories@4",
+    "_skip_source_comment",
+    "_match_source_character@4",
+    "_skip_block_comment",
+    "_push_conditional_state",
+    "_skip_conditional_block@4",
+    "_read_skipped_directive",
+    "_skip_source_line",
+    "_define_source_macro"
   ],
   "driver": [
     {
@@ -3132,7 +3140,7 @@
     {
       "name": "_skip_source_comment",
       "start": 155424,
-      "end": 155425
+      "end": 155535
     },
     {
       "name": "_consume_line_escape",
@@ -3182,7 +3190,7 @@
     {
       "name": "_skip_source_line",
       "start": 149216,
-      "end": 149217
+      "end": 149303
     },
     {
       "name": "_write_work_character@8",
@@ -3247,7 +3255,7 @@
     {
       "name": "_match_source_character@4",
       "start": 154672,
-      "end": 154673
+      "end": 154707
     },
     {
       "name": "_report_ide_line",
@@ -6915,7 +6923,7 @@
     {
       "name": "_define_source_macro",
       "start": 128672,
-      "end": 128673
+      "end": 128966
     },
     {
       "name": "_process_pragma",
@@ -6925,7 +6933,7 @@
     {
       "name": "_push_conditional_state",
       "start": 144896,
-      "end": 144897
+      "end": 144933
     },
     {
       "name": "_capture_directive_text",
@@ -6940,7 +6948,13 @@
     {
       "name": "_skip_conditional_block@4",
       "start": 147920,
-      "end": 147921
+      "end": 148083,
+      "shared": [
+        [
+          148084,
+          148108
+        ]
+      ]
     },
     {
       "name": "_finish_directive@4",
@@ -7452,6 +7466,41 @@
       "name": "_source_file_timestamp@4",
       "start": 439552,
       "end": 439553
+    },
+    {
+      "name": "_skip_line_comment",
+      "start": 154720,
+      "end": 154721
+    },
+    {
+      "name": "_copy_block_comment",
+      "start": 154960,
+      "end": 154961
+    },
+    {
+      "name": "_skip_block_comment",
+      "start": 155216,
+      "end": 155413
+    },
+    {
+      "name": "_read_skipped_directive",
+      "start": 148576,
+      "end": 148811
+    },
+    {
+      "name": "_skip_directive_literal@4",
+      "start": 148464,
+      "end": 148465
+    },
+    {
+      "name": "_read_macro_parameters",
+      "start": 128976,
+      "end": 128977
+    },
+    {
+      "name": "_read_macro_replacement",
+      "start": 129840,
+      "end": 129841
     }
   ],
   "cases": {
@@ -7607,8 +7656,8 @@
       "native_reference": "cases/native-new-delete",
       "frontiers": "cases/frontiers/new_delete",
       "accepted_from": 963,
-      "terminal": "_skip_source_comment",
-      "terminal_evidence": "cases/frontiers/new_delete/0969-search_include_directories-4/original-events.txt",
+      "terminal": "_expand_macro@4",
+      "terminal_evidence": "cases/frontiers/new_delete/0977-define_source_macro/original-events.txt",
       "original_seed": "cases/new_delete-seed",
       "frontier_extensions": [
         "cases/frontiers/new_delete/0963-read_include_name/frontier-extension.json",
@@ -7617,7 +7666,15 @@
         "cases/frontiers/new_delete/0966-open_forced_include-8/frontier-extension.json",
         "cases/frontiers/new_delete/0967-process_pch_include-4/frontier-extension.json",
         "cases/frontiers/new_delete/0968-strchr/frontier-extension.json",
-        "cases/frontiers/new_delete/0969-search_include_directories-4/frontier-extension.json"
+        "cases/frontiers/new_delete/0969-search_include_directories-4/frontier-extension.json",
+        "cases/frontiers/new_delete/0970-skip_source_comment/frontier-extension.json",
+        "cases/frontiers/new_delete/0971-match_source_character-4/frontier-extension.json",
+        "cases/frontiers/new_delete/0972-skip_block_comment/frontier-extension.json",
+        "cases/frontiers/new_delete/0973-push_conditional_state/frontier-extension.json",
+        "cases/frontiers/new_delete/0974-skip_conditional_block-4/frontier-extension.json",
+        "cases/frontiers/new_delete/0975-read_skipped_directive/frontier-extension.json",
+        "cases/frontiers/new_delete/0976-skip_source_line/frontier-extension.json",
+        "cases/frontiers/new_delete/0977-define_source_macro/frontier-extension.json"
       ]
     }
   },
@@ -9696,6 +9753,18 @@
         {
           "name": "_permanent_page_count",
           "original": 664384,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_macro_formal_count",
+      "original": 612232,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_macro_formal_count",
+          "original": 612232,
           "bytes": 4
         }
       ]

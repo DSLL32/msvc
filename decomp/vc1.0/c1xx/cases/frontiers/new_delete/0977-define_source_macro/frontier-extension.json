@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 977,
+  "accepted": "_define_source_macro",
+  "terminal": "_expand_macro@4",
+  "original_capture": "cases/frontiers/new_delete/0977-define_source_macro/original-receipt.json",
+  "original_capture_sha256": "711a6155efd02e9b76739785ff44b08bf18446949a614cb1b3bd7557f809b881",
+  "original_events": "cases/frontiers/new_delete/0977-define_source_macro/original-events.txt",
+  "original_events_sha256": "06f8d9dd8e67ca65dc2ebe543f4d0218dfb77a44d7287e9b9c20697e8b982f1d",
+  "original_configuration": "cases/frontiers/new_delete/0977-define_source_macro/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

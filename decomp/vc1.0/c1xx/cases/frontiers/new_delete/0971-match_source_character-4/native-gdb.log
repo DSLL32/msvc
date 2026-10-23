@@ -1,0 +1,16 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56559984 in skip_block_comment () at src/stubs.c:263
+263	void skip_block_comment(void) { __asm { int 3 } }
+#0  0x56559984 in skip_block_comment () at src/stubs.c:263
+#1  0x5655c99f in skip_source_comment () at src/comments.c:23
+#2  0x565b031a in begin_source_line () at src/lexer.c:632
+#3  0x565af613 in read_lexical_token () at src/lexer.c:468
+#4  0x565ada55 in scan_token () at src/lexer.c:226
+#5  0x565acf35 in read_parser_token () at src/lexer.c:67
+#6  0x565a6237 in parse_translation_unit () at src/parser.c:83
+#7  0x5655e0bf in compile_translation_unit () at src/frontend.c:73
+#8  0x56558886 in guarded_compile () at src/c1xx.c:28
+#9  0x56558854 in main (argc=1, argv=0xffffd844, environment=0xffffd84c) at src/c1xx.c:20

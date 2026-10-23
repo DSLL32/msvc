@@ -1,0 +1,59 @@
+{
+  "case": "new_delete",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 970,
+  "terminal": "_match_source_character@4",
+  "candidate": "_skip_source_comment",
+  "pending_accepted": [],
+  "configuration_sha256": "ff6a90f84255987e8d8289e57acdf5fe9a357695c794980b5fbd9e814f4a37c2",
+  "capture_seconds": 0.9165512090548873,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    "allocation.cpp": {
+      "bytes": 985,
+      "sha256": "034204157e504dc31799f2bc99c51d639aac52d26b683c8980941ce7274a8ba8"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\new-delete",
+  "first_entry_projection": {
+    "accepted_first": 963,
+    "accepted_last": 971,
+    "accepted_prefix_sha256": "57ef1f1d13e00783477aeb27407aa7df406e650d42517a5dce8ec95eb617e7b3",
+    "expected": [
+      "_read_include_name",
+      "_read_angle_include_name",
+      "_trim_filename_space",
+      "_open_forced_include@8",
+      "_process_pch_include@4",
+      "_search_include_directories@4",
+      "_skip_source_comment"
+    ],
+    "observed": [
+      "_read_include_name",
+      "_read_angle_include_name",
+      "_trim_filename_space",
+      "_open_forced_include@8",
+      "_process_pch_include@4",
+      "_search_include_directories@4",
+      "_skip_source_comment"
+    ],
+    "events_sha256": "bd118e73342fe28b42a2a06d2057992f0c6973ac03d3f737a6115155f0c27532",
+    "plan_sha256": "9757ceff3396495b48c57b2df84e746b75a11af1f5eb8580e9051ab0735d3cf5"
+  }
+}

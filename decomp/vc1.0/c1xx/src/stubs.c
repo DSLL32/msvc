@@ -11,6 +11,7 @@
 #include "statement-scopes.h"
 #include "work-list.h"
 #include "loop-output.h"
+#include "comments.h"
 #include "cpp-context.h"
 #include "expression-records.h"
 #include "function-definitions.h"
@@ -257,7 +258,8 @@ void __stdcall browser_type_reference(CppSymbol *symbol) { __asm { int 3 } }
 
 
 
-int skip_source_comment(void) { __asm { int 3 } return 0; }
+void skip_line_comment(void) { __asm { int 3 } }
+void copy_block_comment(void) { __asm { int 3 } }
 int consume_line_escape(void) { __asm { int 3 } return 0; }
 void refill_source_or_error(void) { __asm { int 3 } }
 unsigned recover_special_character(void) { __asm { int 3 } return 0; }
@@ -266,7 +268,6 @@ void report_ide_source_end(void) { __asm { int 3 } }
 void finish_pch_output(void) { __asm { int 3 } }
 void chain_initializer_function(void) { __asm { int 3 } }
 void __stdcall register_initializer_function(CppSymbol *function) { __asm { int 3 } }
-void skip_source_line(void) { __asm { int 3 } }
 unsigned char __stdcall scan_character_literal(int wide) { __asm { int 3 } return 0; }
 void __stdcall copy_quoted_literal(unsigned char delimiter) { __asm { int 3 } }
 unsigned __stdcall read_number_text(char *destination) { __asm { int 3 } return 0; }
@@ -274,7 +275,6 @@ unsigned char __stdcall scan_float_tail(char *destination) { __asm { int 3 } ret
 unsigned char __stdcall scan_assembler_number(unsigned char first_character) { __asm { int 3 } return 0; }
 int scan_macro_identifier(void) { __asm { int 3 } return 0; }
 int __stdcall expand_macro(MacroDefinition *macro) { __asm { int 3 } return 0; }
-int __stdcall match_source_character(unsigned char character) { __asm { int 3 } return 0; }
 
 void report_ide_line(void) { __asm { int 3 } }
 void finish_pch_capture(void) { __asm { int 3 } }
@@ -573,11 +573,11 @@ OverloadCandidate *__stdcall report_operator_overload_failure(OverloadSearch *se
 
 int evaluate_preprocessor_expression(void) { __asm { int 3 } return 0; }
 void undefine_source_macro(void) { __asm { int 3 } }
-void define_source_macro(void) { __asm { int 3 } }
+void read_macro_parameters(void) { __asm { int 3 } }
+unsigned read_macro_replacement(void) { __asm { int 3 } return 0; }
 void process_pragma(void) { __asm { int 3 } }
-int push_conditional_state(void) { __asm { int 3 } return 0; }
 void capture_directive_text(void) { __asm { int 3 } }
-int __stdcall skip_conditional_block(unsigned flags) { __asm { int 3 } return 0; }
+void __stdcall skip_directive_literal(unsigned char delimiter) { __asm { int 3 } }
 int __stdcall record_pch_condition(int condition) { __asm { int 3 } return 0; }
 int process_pch_directive(void) { __asm { int 3 } return 0; }
 void warn_ident_requires_string(void) { __asm { int 3 } }

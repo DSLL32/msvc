@@ -1,0 +1,67 @@
+{
+  "case": "new_delete",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 974,
+  "terminal": "_read_skipped_directive",
+  "candidate": "_skip_conditional_block@4",
+  "pending_accepted": [],
+  "configuration_sha256": "f68a20e03bc88b87ccf5bc8571b7a62fc1892838c027f3dd78cbbccd6c73874f",
+  "capture_seconds": 1.7190789943560958,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    "allocation.cpp": {
+      "bytes": 985,
+      "sha256": "034204157e504dc31799f2bc99c51d639aac52d26b683c8980941ce7274a8ba8"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\new-delete",
+  "first_entry_projection": {
+    "accepted_first": 963,
+    "accepted_last": 975,
+    "accepted_prefix_sha256": "121c66debeb97096df20af09bfed08541f4a2d348b0a08eee35bf0163054cfad",
+    "expected": [
+      "_read_include_name",
+      "_read_angle_include_name",
+      "_trim_filename_space",
+      "_open_forced_include@8",
+      "_process_pch_include@4",
+      "_search_include_directories@4",
+      "_skip_source_comment",
+      "_match_source_character@4",
+      "_skip_block_comment",
+      "_push_conditional_state",
+      "_skip_conditional_block@4"
+    ],
+    "observed": [
+      "_read_include_name",
+      "_read_angle_include_name",
+      "_trim_filename_space",
+      "_open_forced_include@8",
+      "_process_pch_include@4",
+      "_search_include_directories@4",
+      "_skip_source_comment",
+      "_match_source_character@4",
+      "_skip_block_comment",
+      "_push_conditional_state",
+      "_skip_conditional_block@4"
+    ],
+    "events_sha256": "2cd62c4058e2bba47465015edb3f112f2a9548a8d6c247b98c57f3c101b05264",
+    "plan_sha256": "a9e3e213d3029cbddb36a9bb88316d34cf00f92e7bba90336fcd1d28d8a04d80"
+  }
+}

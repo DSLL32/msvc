@@ -2,6 +2,7 @@
 #include "macros.h"
 #include "keywords.h"
 #include "characters.h"
+#include "directives-internal.h"
 #include <time.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -180,6 +181,55 @@ void initialize_macro_storage(void)
 char *macro_replacement_text; /* original 0x95784 */
 short include_depth = -1; /* original 0x9d7f4 */
 unsigned browser_symbol_limit = 65535; /* original 0x9f444 */
+
+int macro_formal_count; /* original 0x95788 */
+
+/* Original 0x1f6a0..0x1f7c5, cdecl. Parse the macro's source name,
+   distinguish an adjacent parameter list, then collect its replacement. The
+   strict dialect retains the parameter-prefix bytes in the stored record. */
+void define_source_macro(void)
+{
+    unsigned char character, classification;
+    unsigned bytes;
+    char *replacement;
+    character = next_directive_character();
+    classification = character_class[character];
+    if (classification != CC_IDENTIFIER && classification != CC_WIDE_PREFIX) {
+        report_syntax_error(7);
+        skip_source_line();
+        return;
+    }
+    scan_source_identifier();
+    macro_formal_count = 0;
+    macro_replacement_text = macro_work_buffer;
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        classification = character_class[character];
+        if (classification == CC_NEWLINE) {
+            --source_text_cursor;
+            define_macro(0, 0, 0);
+            return;
+        }
+        if (classification == CC_LEFT_PAREN) {
+            read_macro_parameters();
+            if (!macro_formal_count) macro_formal_count = -1;
+            break;
+        }
+        if (classification == CC_CARRIAGE_RETURN) continue;
+        if (classification == CC_SPACE) break;
+        if (classification == CC_ESCAPE_OR_END &&
+            (recover_special_character() & ~0x50U)) continue;
+        if (classification != CC_SLASH || !skip_source_comment())
+            report_syntax_error(8, (unsigned)character);
+        break;
+    }
+    bytes = read_macro_replacement();
+    if (!options.configuration.extensions_enabled) {
+        bytes += (unsigned)(macro_replacement_text - macro_work_buffer);
+        replacement = macro_work_buffer;
+    } else replacement = macro_replacement_text;
+    define_macro(replacement, bytes, macro_formal_count);
+}
 
 /* Original 0x1f910..0x1fa8b. The current interned name identifies the macro;
    parameter counts below -2 denote predefined expansions. */

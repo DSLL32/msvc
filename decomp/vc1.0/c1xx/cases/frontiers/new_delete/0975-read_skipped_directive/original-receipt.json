@@ -1,0 +1,69 @@
+{
+  "case": "new_delete",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 975,
+  "terminal": "_skip_source_line",
+  "candidate": "_read_skipped_directive",
+  "pending_accepted": [],
+  "configuration_sha256": "70ece447bf2d7915cca42e5bc1732f6bbcbcf48a39db6b374dcdc0ccf4e153c7",
+  "capture_seconds": 0.7663069255650043,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    "allocation.cpp": {
+      "bytes": 985,
+      "sha256": "034204157e504dc31799f2bc99c51d639aac52d26b683c8980941ce7274a8ba8"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\new-delete",
+  "first_entry_projection": {
+    "accepted_first": 963,
+    "accepted_last": 976,
+    "accepted_prefix_sha256": "7b4c51e35a391e840fb62299a0d38b1bab8e68a22114eb3eed4bd362dd0bdd94",
+    "expected": [
+      "_read_include_name",
+      "_read_angle_include_name",
+      "_trim_filename_space",
+      "_open_forced_include@8",
+      "_process_pch_include@4",
+      "_search_include_directories@4",
+      "_skip_source_comment",
+      "_match_source_character@4",
+      "_skip_block_comment",
+      "_push_conditional_state",
+      "_skip_conditional_block@4",
+      "_read_skipped_directive"
+    ],
+    "observed": [
+      "_read_include_name",
+      "_read_angle_include_name",
+      "_trim_filename_space",
+      "_open_forced_include@8",
+      "_process_pch_include@4",
+      "_search_include_directories@4",
+      "_skip_source_comment",
+      "_match_source_character@4",
+      "_skip_block_comment",
+      "_push_conditional_state",
+      "_skip_conditional_block@4",
+      "_read_skipped_directive"
+    ],
+    "events_sha256": "e8a3f748d937c0d9d5290f6fd7efe63b85ae7512c2d67a074fd5d3b2a6666f04",
+    "plan_sha256": "0ba78794b91c1376add6efeb07bc14983aacb666d8e103d1079979997d8d62a2"
+  }
+}
