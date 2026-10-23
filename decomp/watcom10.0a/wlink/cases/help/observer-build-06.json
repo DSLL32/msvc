@@ -1,0 +1,184 @@
+{
+  "status": "all authored Win32 tools built; no EXE/DLL runtime test performed",
+  "builder_path": "/root/msvc2/decomp/watcom10.0a/wlink/scripts/build-observer.py",
+  "builder_sha256": "dd1dcd1c753f7a93e7e389b9dbf24b7057f327cf2c50ec1129e25f6a6ae28468",
+  "borrowed_source_sha256": "bb2d7176ba54d76367d0de370220516657c8b26a59580eb644a58d53aed37eb0",
+  "sources": {
+    "observe-help.c": "0e6dba710f98f99821afccbc673bbc9d6f20f3ca1249f32a331303dd9845f8df",
+    "observer-state.c": "ecf617f9e83086ef4b15f00bf5f5d89fdcef67d1c317be40346f21ded49ff0f1",
+    "observer-state.h": "6ad7cc06210133e97a80c13d6d29d5babe3fc9724706a4dac3fe1f8e64299224",
+    "observer-probe.c": "540568ee989e5a8170ffb29693649051560171af397dbc1e5fcbb04d63304476",
+    "observer-probe-dll.c": "66062669cc327c11dbe5e8981513d61920504cf7c9cf40007a350c1850812c11"
+  },
+  "probe_plan_sha256": "7c4245f9ffe035c0a98dec6247177e32e17f533e34364ee874c8d2b937e993d8",
+  "commands": [
+    {
+      "argv": [
+        "wine",
+        "R:\\toolchains\\5.10\\bin\\CL.EXE",
+        "/nologo",
+        "/c",
+        "/W3",
+        "/Od",
+        "/MT",
+        "/IS:\\watcom10.0a\\wlink\\observer-build-06",
+        "/IR:\\lib\\recon\\include",
+        "/FoS:\\watcom10.0a\\wlink\\observer-build-06\\observer-state.obj",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-state.c"
+      ],
+      "status": 0,
+      "elapsed_seconds": 0.6446928642690182,
+      "log": "build-00.log",
+      "log_sha256": "b4784c97f30242e00f46a487080934f08e063aaaec5adc91c2e1795fe0ecbfb4"
+    },
+    {
+      "argv": [
+        "wine",
+        "R:\\toolchains\\5.10\\bin\\CL.EXE",
+        "/nologo",
+        "/c",
+        "/W3",
+        "/Od",
+        "/MT",
+        "/IS:\\watcom10.0a\\wlink\\observer-build-06",
+        "/IR:\\lib\\recon\\include",
+        "/FoS:\\watcom10.0a\\wlink\\observer-build-06\\observe-help.obj",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-help.c"
+      ],
+      "status": 0,
+      "elapsed_seconds": 0.8352288799360394,
+      "log": "build-01.log",
+      "log_sha256": "39d443f220be9d521ae98a0b6ff3e276701d12f080a60fed9a522f0ef4b9edec"
+    },
+    {
+      "argv": [
+        "wine",
+        "R:\\toolchains\\5.10\\bin\\CL.EXE",
+        "/nologo",
+        "/c",
+        "/W3",
+        "/Od",
+        "/MT",
+        "/IS:\\watcom10.0a\\wlink\\observer-build-06",
+        "/IR:\\lib\\recon\\include",
+        "/DOBS_AUTHORED_PROBE",
+        "/FoS:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.obj",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-help.c"
+      ],
+      "status": 0,
+      "elapsed_seconds": 0.8443330740556121,
+      "log": "build-02.log",
+      "log_sha256": "39d443f220be9d521ae98a0b6ff3e276701d12f080a60fed9a522f0ef4b9edec"
+    },
+    {
+      "argv": [
+        "wine",
+        "R:\\toolchains\\5.10\\bin\\CL.EXE",
+        "/nologo",
+        "/c",
+        "/W3",
+        "/Od",
+        "/MT",
+        "/IS:\\watcom10.0a\\wlink\\observer-build-06",
+        "/IR:\\lib\\recon\\include",
+        "/FoS:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe-dll.obj",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe-dll.c"
+      ],
+      "status": 0,
+      "elapsed_seconds": 0.8511546878144145,
+      "log": "build-03.log",
+      "log_sha256": "774687d42dfdfaf5bfb73ab59d3816a651eaa9e5674a489c6d7461496f79a4d4"
+    },
+    {
+      "argv": [
+        "wine",
+        "R:\\toolchains\\5.10\\bin\\CL.EXE",
+        "/nologo",
+        "/c",
+        "/W3",
+        "/Od",
+        "/MT",
+        "/IS:\\watcom10.0a\\wlink\\observer-build-06",
+        "/IR:\\lib\\recon\\include",
+        "/FoS:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.obj",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.c"
+      ],
+      "status": 0,
+      "elapsed_seconds": 1.2273560771718621,
+      "log": "build-04.log",
+      "log_sha256": "2e2730c6324f3d0336d8917aa5e6b0f6fbd6b51da4e0513d9463222b5cab07b7"
+    },
+    {
+      "argv": [
+        "wine",
+        "R:\\toolchains\\5.10\\bin\\LINK.EXE",
+        "/nologo",
+        "/dll",
+        "/out:S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.dll",
+        "/implib:S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe-dll.lib",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe-dll.obj",
+        "kernel32.lib"
+      ],
+      "status": 0,
+      "elapsed_seconds": 1.2429423555731773,
+      "log": "build-05.log",
+      "log_sha256": "6f8a12a078a60909db90c9ee1159dfc91ddfb222fa3299159a59679029986016"
+    },
+    {
+      "argv": [
+        "wine",
+        "R:\\toolchains\\5.10\\bin\\LINK.EXE",
+        "/nologo",
+        "/subsystem:console",
+        "/out:S:\\watcom10.0a\\wlink\\observer-build-06\\observe-help.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-help.obj",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-state.obj",
+        "kernel32.lib"
+      ],
+      "status": 0,
+      "elapsed_seconds": 0.5692434459924698,
+      "log": "build-06.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "wine",
+        "R:\\toolchains\\5.10\\bin\\LINK.EXE",
+        "/nologo",
+        "/subsystem:console",
+        "/out:S:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observe-probe.obj",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-state.obj",
+        "kernel32.lib"
+      ],
+      "status": 0,
+      "elapsed_seconds": 0.6248332792893052,
+      "log": "build-07.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "wine",
+        "R:\\toolchains\\5.10\\bin\\LINK.EXE",
+        "/nologo",
+        "/subsystem:console",
+        "/map:S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.map",
+        "/out:S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.exe",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe.obj",
+        "S:\\watcom10.0a\\wlink\\observer-build-06\\observer-probe-dll.lib",
+        "kernel32.lib"
+      ],
+      "status": 0,
+      "elapsed_seconds": 1.309412139467895,
+      "log": "build-08.log",
+      "log_sha256": "f7cd5af2822742e27999a8044a251bead5db16b3d2fd753825d0841c58b2551e"
+    }
+  ],
+  "outputs": {
+    "observe-help.exe": "37b4fbac3e04629b4e1b2169863f05e531a0bfe420435036e45ae7546017fbcb",
+    "observe-probe.exe": "2c31731e8026e3313ac6357bd01b2026944d2fef4f489dfd1183c480fe6f72d0",
+    "observer-probe.exe": "ad544a3f9ef82fb56c1e79df0b0ebdfb7e31101f656e64dd77ac0a0e2cb96afc",
+    "observer-probe.dll": "cfbf63b149540a27336cc04719d8a878a041868ec14b4f268c23243232bc5850",
+    "observer-probe.map": "c1e06a79e79d9c0c021d7afbe8df2da51a6563391c849c4b5a8c9f2608410d61"
+  }
+}

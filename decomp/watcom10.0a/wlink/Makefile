@@ -30,5 +30,5 @@ build/original/WLINK.EXE build/original/wlink.map &: $(ORIGINAL_OBJECTS) scripts
 	$(PYTHON) scripts/write-link.py $(ORIGINAL_OBJECTS)
 	$(TOOL) WLINK @build/original/wlink.lnk
 fixtures:
-	@echo 'HOLD: help reference and native reconstruction have not been captured.' >&2
+	@echo 'HOLD: native help implementation and accepted entry trace are incomplete.' >&2
 	@exit 2

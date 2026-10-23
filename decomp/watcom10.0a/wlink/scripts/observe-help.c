@@ -222,7 +222,9 @@ static int begin_api(unsigned index, CONTEXT *c)
     Frame *f;
     ObRegs before, armed;
     CONTEXT readback;
-    if (step.active || depth || !t->armed || !at_break(t->address,c) ||
+    if (step.active || !t->armed || !at_break(t->address,c)) return 0;
+    fprintf(events,"api-entry-candidate name=%s address=%08lx depth=%u thread=%lu esp=%08lx\n",t->name,t->address,depth,thread_id,c->Esp);
+    if (depth ||
         !memory(c->Esp,stack,(t->argc+1)*4) || !memory(image_base+t->iat,&target,4) || !target ||
         api_events>=4096) return 0;
     ++api_events; ++t->calls;
@@ -283,13 +285,16 @@ static int finish_step(CONTEXT *c)
     DWORD target;
     int result;
     Thunk *t=&thunks[step_thunk];
-    if (!memory(image_base+t->iat,&target,4) || target!=step.target) {
-        fprintf(events,"HOLD IAT-changed-during-step\n"); return 0;
+    log_context("JMP-step-delivered",c);
+    if (!memory(image_base+t->iat,&target,4)) {
+        fprintf(events,"HOLD IAT-unreadable-during-step\n"); return 0;
+    }
+    if (target!=step.target) {
+        fprintf(events,"HOLD IAT-changed-during-step iat=%08lx captured-target=%08lx actual-slot=%08lx actual-pc=%08lx\n",image_base+t->iat,step.target,target,c->Eip); return 0;
     }
     regs(&actual,c); result=ob_finish(&step,thread_id,&actual);
     fprintf(events,"JMP-step-result=%d site=%08lx expected-target=%08lx actual-target=%08lx\n",
         result,t->address,step.target,c->Eip);
-    log_context("JMP-step-delivered",c);
     if (result!=OB_OK || !arm_thunk(t)) return 0;
     c->EFlags&=~0x100UL;
     if (!SetThreadContext(primary,c) || !context(&readback)) return 0;
@@ -305,6 +310,8 @@ static int finish_api(CONTEXT *c, DWORD address)
     Thunk *t;
     if (!depth || step.active) return 0;
     f=&frames[depth-1]; t=&thunks[f->thunk];
+    fprintf(events,"api-return-candidate name=%s thread=%lu address=%08lx expected-address=%08lx entry-esp=%08lx actual-esp=%08lx argc=%lu stack-result=%d\n",t->name,thread_id,address,f->address,f->esp,c->Esp,t->argc,ob_return_stack(f->esp,t->argc,c->Esp));
+    log_context("api-return-candidate",c);
     if (f->address!=address || f->thread!=thread_id || !at_break(address,c) ||
         ob_return_stack(f->esp,t->argc,c->Esp)!=OB_OK) return 0;
     fprintf(events,"api-return name=%s thread=%lu address=%08lx esp=%08lx eax=%08lx\n",
@@ -375,9 +382,17 @@ static int fail_owned(DWORD code, const char *why)
     fprintf(events,"HOLD code=%lu reason=%s depth=%u step-active=%d\n",code,why,depth,step.active);
     if (child) {
 #ifdef OBS_AUTHORED_PROBE
-        if(!event_pending && !seen && SuspendThread(primary)==0xffffffffUL)
-            fprintf(events,"probe-marker-timeout-suspend-failed\n");
-        read_probe_markers("before-owned-termination");
+        {
+            int stopped=event_pending && !seen;
+            if(!event_pending && !seen) {
+                DWORD previous=SuspendThread(primary);
+                stopped=previous!=0xffffffffUL;
+                fprintf(events,"probe-marker-timeout-suspend previous=%08lx succeeded=%d\n",previous,stopped);
+            }
+            fprintf(events,"probe-marker-snapshot stopped=%d pending-event=%d exit-seen=%d\n",stopped,event_pending,seen);
+            if(stopped) read_probe_markers("before-owned-termination");
+            else fprintf(events,"probe-markers-UNAVAILABLE-not-stopped\n");
+        }
 #endif
         if(event_pending && pending.dwDebugEventCode==EXIT_PROCESS_DEBUG_EVENT) {
             seen=1; result=pending.u.ExitProcess.dwExitCode;
@@ -464,7 +479,10 @@ int main(int argc, char **argv)
     fprintf(events,"owned-child pid=%lu thread=%lu command=%s\n",process_id,thread_id,command);
     began=GetTickCount();
     for(;;) {
-        if(GetTickCount()-began>=deadline || ++count>20000) return fail_owned(124,"deadline-or-event-bound");
+        if(GetTickCount()-began>=deadline || ++count>20000) {
+            fprintf(events,"deadline-check elapsed=%lu budget=%lu polls=%lu\n",GetTickCount()-began,deadline,count);
+            return fail_owned(124,"deadline-or-event-bound");
+        }
         if(!WaitForDebugEvent(&e,100)) continue;
         pending=e; event_pending=1; status=DBG_CONTINUE;
         fprintf(events,"event kind=%lu pid=%lu tid=%lu elapsed=%lu\n",e.dwDebugEventCode,e.dwProcessId,e.dwThreadId,GetTickCount()-began);

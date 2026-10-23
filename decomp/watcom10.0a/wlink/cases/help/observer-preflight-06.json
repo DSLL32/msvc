@@ -1,0 +1,121 @@
+{
+  "kind": "authored runtime preflight only; no EXE/DLL test execution",
+  "plan_path": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/run-plan.json",
+  "plan_sha256": "4cfe00fd8379944621157cba8828f270d6b99abf7e76d0f57925f804176f5619",
+  "runner_path": "scripts/run-observer-probes.py",
+  "runner_sha256": "339dcfba3aee12e10c5ad5bc42a0fd0f1099f1e6729cf0d3b08f2fe5b892e2a0",
+  "build_receipt_path": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-build-06/receipt.json",
+  "build_receipt_sha256": "d7d90be951d1dd1d6b1823e0a9d4cfe15cd0ec24b1ee15a93207252e3420a22b",
+  "outputs": {
+    "observe-help.exe": "37b4fbac3e04629b4e1b2169863f05e531a0bfe420435036e45ae7546017fbcb",
+    "observe-probe.exe": "2c31731e8026e3313ac6357bd01b2026944d2fef4f489dfd1183c480fe6f72d0",
+    "observer-probe.exe": "ad544a3f9ef82fb56c1e79df0b0ebdfb7e31101f656e64dd77ac0a0e2cb96afc",
+    "observer-probe.dll": "cfbf63b149540a27336cc04719d8a878a041868ec14b4f268c23243232bc5850",
+    "observer-probe.map": "c1e06a79e79d9c0c021d7afbe8df2da51a6563391c849c4b5a8c9f2608410d61"
+  },
+  "host_environment_sha256": "7b32647fefff0c25c1010919756a56ac255b6ac875265b974645bf9dd0e23792",
+  "cases": [
+    {
+      "label": "guarded-positive",
+      "guarded": true,
+      "mode": "positive",
+      "fault": 0
+    },
+    {
+      "label": "unguarded-bad-return",
+      "guarded": false,
+      "mode": "bad-return",
+      "fault": 0
+    },
+    {
+      "label": "unguarded-return-overlap",
+      "guarded": false,
+      "mode": "return-overlap",
+      "fault": 0
+    },
+    {
+      "label": "unguarded-recursive",
+      "guarded": false,
+      "mode": "recursive",
+      "fault": 0
+    },
+    {
+      "label": "unguarded-thread",
+      "guarded": false,
+      "mode": "thread",
+      "fault": 0
+    },
+    {
+      "label": "unguarded-trap",
+      "guarded": false,
+      "mode": "trap",
+      "fault": 0
+    },
+    {
+      "label": "unguarded-timeout",
+      "guarded": false,
+      "mode": "timeout",
+      "fault": 0
+    },
+    {
+      "label": "guarded-bad-return",
+      "guarded": true,
+      "mode": "bad-return",
+      "fault": 0
+    },
+    {
+      "label": "guarded-return-overlap",
+      "guarded": true,
+      "mode": "return-overlap",
+      "fault": 0
+    },
+    {
+      "label": "guarded-recursive",
+      "guarded": true,
+      "mode": "recursive",
+      "fault": 0
+    },
+    {
+      "label": "guarded-thread",
+      "guarded": true,
+      "mode": "thread",
+      "fault": 0
+    },
+    {
+      "label": "guarded-trap",
+      "guarded": true,
+      "mode": "trap",
+      "fault": 0
+    },
+    {
+      "label": "guarded-timeout",
+      "guarded": true,
+      "mode": "timeout",
+      "fault": 0
+    },
+    {
+      "label": "guarded-positive-fault1",
+      "guarded": true,
+      "mode": "positive",
+      "fault": 1
+    },
+    {
+      "label": "guarded-positive-fault2",
+      "guarded": true,
+      "mode": "positive",
+      "fault": 2
+    }
+  ],
+  "run_command": [
+    "python3",
+    "scripts/run-observer-probes.py",
+    "run",
+    "--plan",
+    "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-probes-06/run-plan.json",
+    "--execute-reviewed"
+  ],
+  "runtime_authorization": "pending root review; this file does not grant execution",
+  "production_fault_code_absent": true,
+  "native_bookkeeping_controls": 31,
+  "build_seconds": 8.149196803569794
+}
