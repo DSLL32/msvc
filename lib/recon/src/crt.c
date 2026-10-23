@@ -1918,3 +1918,8 @@ WEAK long recon_wcstol(const WCHAR *text,WCHAR **end,int base)
 {
     (void)text;(void)end;(void)base;recon_unsupported("unreviewed legacy UTF16 wcstol");return 0;
 }
+
+WEAK int recon_putenv(const char *assignment)
+{
+    (void)assignment;recon_unsupported("unreviewed target CRT/OS environment mutation");return -1;
+}

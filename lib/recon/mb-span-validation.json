@@ -3,6 +3,6 @@
   "original_actual": "CL call404130 toqualified7800620c; include path R:toolchains5.10include, set space/tab,result0,errorstate2/2/2 unchanged. Actual CP0/ASCII state owner-bound.",
   "capture_sha256": "901aedfe09a32affda88a10d6c716c6a22375fe571f3d5e708dd6e96c321e358",
   "raw_events_sha256": "18e5ab02168161a4856b4ed2c2e3fc9a153558eae695c211d2e3b9406b2ac821",
-  "provider_review": "Complete_m bsspn620c..6298 plusdce1..dcf4 CP0 dispatch calls complete strspn2dd55..2dd93. No API/errorwrites on that path; per-byte set membership and initial-prefix count. DBCS paths unimplemented.",
+  "provider_review": "Complete_mbsspn620c..6298 plusdce1..dcf4 CP0 dispatch calls complete strspn2dd55..2dd93. No API/errorwrites on that path; per-byte set membership and initial-prefix count. DBCS paths unimplemented.",
   "native_checks": "GCC/Clang actualspan0 pluswhitespace/fullprefix/empty/duplicate-set/errors and5 unsupported controls. SDKsurface tests pass."
 }

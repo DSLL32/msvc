@@ -1,0 +1,5 @@
+{
+  "scope": "SDK int_putenv(constchar*) declaration/remap only; explicit125 unsupported. No hostlibc fallback and no target/OS environment mutation semantics yet.",
+  "request": "Actual complete CLexecute_pass references clearingMSC_CMD_FLAGS before DLLinvoke and settingfullflags beforeprocessspawn. Full mutable CRT/OS environment/dependency/error packet required for behavior.",
+  "checks": "GCC/Clang SDKsurface compile/link and direct_putenv call denied125; existing13 positive imports retained."
+}
