@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "case": "resources-rich-ce",
+  "state": "complete",
+  "argv": [
+    "/nologo",
+    "/machine:ARM",
+    "/windowsce",
+    "/readonly",
+    "/out:rich-ce.obj",
+    "rich.res"
+  ],
+  "input": [
+    {
+      "name": "rich.res",
+      "path": "cases/resources-rich/input/rich.res",
+      "sha256": "ad4feb23c9a981122246969f9bdaf8bf9a4978cd722f50a67b1e8884835b9318"
+    }
+  ],
+  "reference": {
+    "status": 0,
+    "stdout_size": 40,
+    "stderr_size": 0,
+    "stdout_sha256": "3c83c04997a010499a1072a747041495869c594dc1039a4c5fd20cf8922b0683",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "capture_receipt_sha256": "590e812dfe8ba8d21d728f18de099fd57cb07acdde79f4b2e775eaf97b8955c4",
+    "artifacts": {
+      "rich-ce.obj": {
+        "sha256": "9eec551224de379110f288e53f167765dd56e3f742b67c2b64279d040b771bff",
+        "bytes": 4912
+      }
+    },
+    "normalization": []
+  },
+  "application_functions": 20,
+  "application_extent_bytes": 7313,
+  "declared_application_functions": 22,
+  "declared_application_extent_bytes": 7445,
+  "declared_extent_percent": 98.22699798522498,
+  "qualification": "Declared application-region extent coverage, not branch or whole-.text coverage; remaining code/data inventory still requires classification.",
+  "remaining": [
+    {
+      "name": "error",
+      "bytes": 66
+    },
+    {
+      "name": "warning",
+      "bytes": 66
+    }
+  ],
+  "crt_code_functions": 4,
+  "crt_code_bytes": 400,
+  "import_thunks": 4,
+  "import_thunk_bytes": 24,
+  "normalization": [],
+  "resource_ids": [
+    5007
+  ],
+  "proof": "write-pixel-proof.json",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/cvtres/ce-write-pixel-original",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/cvtres/ce-write-pixel-native",
+  "audit": "build/ce-write-pixel-audit",
+  "pinned": {
+    "original": {
+      "configuration.json": "d6dae696ec2bf9e159d566b56b194e1d1bd1f68129fb9d913959e41046b6507f",
+      "receipt.json": "ee89b5d1c2dd6b22090b9bce9af040813e1a36041174b6f0e7c1e00266f5b38b",
+      "stdout.bin": "3c83c04997a010499a1072a747041495869c594dc1039a4c5fd20cf8922b0683",
+      "stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rich-ce.obj": "9eec551224de379110f288e53f167765dd56e3f742b67c2b64279d040b771bff"
+    },
+    "native": {
+      "configuration.json": "d6dae696ec2bf9e159d566b56b194e1d1bd1f68129fb9d913959e41046b6507f",
+      "receipt.json": "bfffa9110a28eee7e9d549a6bef8eac0a66c111b08199c10e70c9549facbac4a",
+      "stdout.bin": "3c83c04997a010499a1072a747041495869c594dc1039a4c5fd20cf8922b0683",
+      "stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rich-ce.obj": "9eec551224de379110f288e53f167765dd56e3f742b67c2b64279d040b771bff"
+    },
+    "binaries": {
+      "native.elf": "90ae07770724b9b4a613922811ec589611dcad99bc3b00fb5c77265008dc1b97",
+      "rebuilt.exe": "97ae2d665b5565a45c7f81738dbd49a42b6d27c0b3a690ec259c7b9967b020c3",
+      "rebuilt.map": "3961f12b2e6baacdb4adbf791104c23b9e76458945744296dc43ad4ec5f5806a"
+    }
+  }
+}

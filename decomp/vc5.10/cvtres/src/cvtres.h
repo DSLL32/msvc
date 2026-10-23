@@ -61,6 +61,12 @@ void warning(unsigned short code, ...);
 long __stdcall tell_file(FILE *file);
 long __stdcall seek_file(FILE *file, long offset, int origin);
 void *__stdcall allocate_block(unsigned long size);
+int __stdcall free_block(void *block);
+unsigned long __stdcall color_to_gray(unsigned long color);
+unsigned long __stdcall read_pixel(const BYTE *row, unsigned long index, WORD bits);
+void __stdcall write_pixel(BYTE *row, unsigned long index, BYTE value);
+void __stdcall convert_rows(DWORD *palette, WORD bits, DWORD rows,
+    DWORD input_stride, DWORD output_stride, BYTE **input, BYTE **output);
 int __stdcall read_bytes(FILE *file, void *buffer, unsigned long size);
 int __stdcall write_bytes(FILE *file, const void *buffer, unsigned long size);
 unsigned long __stdcall copy_bytes(FILE *input, FILE *output, unsigned long size);

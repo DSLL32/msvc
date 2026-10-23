@@ -14,7 +14,7 @@ from runtime import identify
 from inputs import fingerprints
 from crt_layout import verify as verify_crt
 
-def check_source(config):
+def check_source(config,source_snapshot=None):
     extents=[]
     pe=PE(ROOT/config['target']['path'])
     for f in config['functions']:
@@ -26,7 +26,12 @@ def check_source(config):
             assert f['start']<=address and address+len(tail)<=f['end']
             assert pe.read(address,len(tail))==tail,('declared ABI/return differs',f['name'])
         if cleanup:assert f['symbol'].endswith('@'+str(cleanup))
-        text=(BINARY/f['source']).read_text()
+        if source_snapshot is None:text=(BINARY/f['source']).read_text()
+        else:
+            import base64
+            key=str((BINARY/f['source']).relative_to(ROOT));item=source_snapshot['files'][key]
+            raw=base64.b64decode(item['content_base64']);assert sha(raw)==item['sha256']
+            text=raw.decode()
         assert '<recon.h>' in text
         if f['status']=='stub':
             pattern=r'\b'+re.escape(f['name'])+r'\s*\([^)]*\)\s*\{\s*__asm\s*\{\s*int\s+3\s*\}'
@@ -42,11 +47,17 @@ def check_source(config):
         assert not any(a<r['end'] and r['start']<b for r in runtime['functions']+runtime['data']),('runtime/data overlap',name)
     return runtime
 
-def projection(config):
+def projection(config,artifacts=None):
     accepted=[f['symbol'] for f in config['functions'] if f['status'] in ('accepted','candidate')]
     driver=[dict(name=f['symbol'],start=f['start'],end=f['end'],shared=f.get('text_data',[])) for f in config['functions']]
     cfg=dict(target=config['target'],accepted=accepted,driver=driver)
     metadata=dict(schema=1,functions={f['symbol']:{'original':{'roots':f.get('roots',[]),'text_data':f.get('text_data',[]),'switches':f.get('switches',{})},'rebuilt':{}} for f in config['functions']})
+    if any(f['name']=='read_pixel' and f['status'] in ('accepted','candidate') for f in config['functions']):
+        directory=artifacts or (BINARY/'build')
+        from rebuilt_data import read_pixel_switch
+        pe=PE(directory/('rebuilt.exe' if artifacts else 'CVTRES.EXE'))
+        switch,proof=read_pixel_switch(pe,(directory/'pixels.obj').read_bytes(),(directory/('rebuilt.map' if artifacts else 'cvtres.map')).read_text())
+        metadata['functions']['_read_pixel@12']['rebuilt']=switch
     return cfg,metadata
 
 def import_residual(config,artifacts=None):
@@ -58,6 +69,7 @@ def import_residual(config,artifacts=None):
     result=dict(main=module.check(original,rebuilt,(directory/'main.obj').read_bytes(),maptext))
     if any(f['name']=='usage' and f['status'] in ('accepted','candidate') for f in config['functions']):result['usage']=module.check_usage(original,rebuilt,(directory/'usage.obj').read_bytes(),maptext)
     if any(f['name']=='insert_resource' and f['status'] in ('accepted','candidate') for f in config['functions']):result['insert_resource']=module.check_insert(original,rebuilt,(directory/'tree.obj').read_bytes(),maptext)
+    if any(f['name']=='convert_ce_image' and f['status'] in ('accepted','candidate') for f in config['functions']):result['convert_ce_image']=module.check_bitmap(original,rebuilt,(directory/'bitmap.obj').read_bytes(),maptext)
     return result
 
 def audit_paths(config,out):
@@ -72,7 +84,12 @@ def audit_paths(config,out):
     if any(f['name']=='load_message' and f['status'] in ('accepted','candidate') for f in config['functions']):
         paths.update(strict_import_config=out/'strict-import-config.json',resource_source=BINARY/'src/messages.rc',resource_cache=BINARY/'cases/help/resources/messages.res',resource_proof=BINARY/'cases/help/resources/manifest.json',resource_encoder=ROOT/'lib/recon/resources.py',resource_adapter=BINARY/'scripts/prepare-resources.py')
     if any(f['name']=='insert_resource' and f['status'] in ('accepted','candidate') for f in config['functions']):paths['tree_object']=BINARY/'build/tree.obj'
-    for key,name in [('native','native.elf'),('rebuilt','rebuilt.exe'),('map','rebuilt.map'),('main_object','main.obj'),('usage_object','usage.obj'),('tree_object','tree.obj')]:
+    if any(f['name']=='convert_ce_image' and f['status'] in ('accepted','candidate') for f in config['functions']):paths['bitmap_object']=BINARY/'build/bitmap.obj'
+    if any(f['name']=='read_pixel' and f['status'] in ('accepted','candidate') for f in config['functions']):paths.update(pixels_object=BINARY/'build/pixels.obj',rebuilt_data_checker=BINARY/'scripts/rebuilt_data.py',rebuilt_data_proof=out/'rebuilt-data.json')
+    for index,path in enumerate(config.get('additional_resources',[])):
+        manifest=BINARY/path;proof=json.loads(manifest.read_text())
+        paths.update({f'resource_extra_{index}_manifest':manifest,f'resource_extra_{index}_blob':manifest.parent/'messages.res',f'resource_extra_{index}_source':BINARY/proof['source_path']})
+    for key,name in [('native','native.elf'),('rebuilt','rebuilt.exe'),('map','rebuilt.map'),('main_object','main.obj'),('usage_object','usage.obj'),('tree_object','tree.obj'),('bitmap_object','bitmap.obj'),('pixels_object','pixels.obj')]:
         if (out/name).exists() and key in paths:paths[key]=out/name
     return paths
 
@@ -85,7 +102,7 @@ def audit_command(config,out):
        '--metadata',str(paths['metadata']),'--check-ret','--check-references','--check-ownership','--check-extents','--check-accepted-extents']
 
 def strict_import_functions(config):
-    return [f['symbol'] for f in config['functions'] if f['status'] in ('accepted','candidate') and f['name'] not in ('main','usage','insert_resource') and not f.get('import_certificate')]
+    return [f['symbol'] for f in config['functions'] if f['status'] in ('accepted','candidate') and f['name'] not in ('main','usage','insert_resource','convert_ce_image') and not f.get('import_certificate')]
 
 def strict_import_command(config,out):
     if not strict_import_functions(config):return None
@@ -107,8 +124,12 @@ def graph(config,out):
     (out/'runtime.json').write_text('[]\n')
     shutil.copyfile(BINARY/'build/native/inputs.json',out/'native-build.json')
     shutil.copyfile(BINARY/'build/original-inputs.json',out/'original-build.json')
-    for source,name in [(BINARY/'build/native/CVTRES','native.elf'),(BINARY/'build/CVTRES.EXE','rebuilt.exe'),(BINARY/'build/cvtres.map','rebuilt.map')]+[(BINARY/('build/'+name+'.obj'),name+'.obj') for name in ('main','usage','tree')]:
+    for source,name in [(BINARY/'build/native/CVTRES','native.elf'),(BINARY/'build/CVTRES.EXE','rebuilt.exe'),(BINARY/'build/cvtres.map','rebuilt.map')]+[(BINARY/('build/'+name+'.obj'),name+'.obj') for name in ('main','usage','tree','bitmap','pixels')]:
         if source.exists():shutil.copyfile(source,out/name)
+    if any(f['name']=='read_pixel' and f['status'] in ('accepted','candidate') for f in config['functions']):
+        from rebuilt_data import read_pixel_switch
+        _,proof=read_pixel_switch(PE(out/'rebuilt.exe'),(out/'pixels.obj').read_bytes(),(out/'rebuilt.map').read_text())
+        (out/'rebuilt-data.json').write_text(json.dumps(proof,indent=2)+'\n')
     residual=import_residual(config,out)
     if residual is not None:(out/'import-residual.json').write_text(json.dumps(residual,indent=2)+'\n')
     strict_command=strict_import_command(config,out)

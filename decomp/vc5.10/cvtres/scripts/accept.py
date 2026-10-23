@@ -4,14 +4,14 @@ import argparse
 import json
 from pathlib import Path
 from mask import BINARY,load,sha
-from evidence import bind,compare_frontier,original_raw,compare_candidate_entry,compare_message_observations
+from evidence import bind,compare_frontier,original_raw,compare_candidate_entry,compare_message_observations,compare_resource_observations
 from audit import check_source,projection,audit_hashes,audit_command,import_residual,strict_import_command,strict_import_functions
 from inputs import fingerprints
 
 def verify(config,function,original,native,audit,frozen=False):
     candidates=[f['name'] for f in config['functions'] if f['status']=='candidate']
     assert candidates==[function],'one explicit current candidate is required'
-    check_source(config)
+    check_source(config,json.loads((native/'native-build.json').read_text()) if frozen else None)
     old,new=bind(config,original,native,frozen=frozen)
     assert old['candidates']==[function] and not old['initial'],'wrong trial capture'
     candidate=next(f for f in config['functions'] if f['name']==function)
@@ -21,23 +21,29 @@ def verify(config,function,original,native,audit,frozen=False):
     result=compare_frontier(config,original,native)
     result['candidate_entry']=entry
     if function=='load_message':result['message_observations']=compare_message_observations(config,original,native)
+    if config.get('resource_observations'):result['resource_observations']=compare_resource_observations(config,original,native)
     bind_audit(config,new,audit)
     return result
 
 def bind_audit(config,old,audit):
     audit=audit.resolve()
     report=json.loads((audit/'receipt.json').read_text())
-    expected_cfg,expected_metadata=projection(config)
+    expected_cfg,expected_metadata=projection(config,audit if (audit/'rebuilt.exe').exists() else None)
     assert report['execution_inputs_before']==report['execution_inputs_after']==audit_hashes(config,audit),'audit tool/PE/index/metadata/trial input changed'
     assert report['command']==audit_command(config,audit),'audit invocation differs'
     strict_command=strict_import_command(config,audit)
     assert report.get('strict_import_command')==strict_command,'strict import invocation differs'
     if strict_command:
-        cfg,_=projection(config);cfg['accepted']=strict_import_functions(config)
+        cfg,_=projection(config,audit if (audit/'rebuilt.exe').exists() else None);cfg['accepted']=strict_import_functions(config)
         assert json.loads((audit/'strict-import-config.json').read_text())==cfg
         strict=json.loads((audit/'strict-import.stdout').read_text());assert strict==report['strict_import_report']
         assert strict['checked_functions']==len(cfg['accepted']) and set(strict['functions'])==set(cfg['accepted'])
         assert 'known_imports' in strict['checks']
+    if (audit/'rebuilt-data.json').exists():
+        from rebuilt_data import read_pixel_switch
+        from binary import PE
+        _,proof=read_pixel_switch(PE(audit/'rebuilt.exe'),(audit/'pixels.obj').read_bytes(),(audit/'rebuilt.map').read_text())
+        assert json.loads((audit/'rebuilt-data.json').read_text())==proof,'rebuilt switch content certificate differs'
     residual=import_residual(config,audit if (audit/'rebuilt.exe').exists() else None)
     if residual is not None:assert json.loads((audit/'import-residual.json').read_text())==residual,'bounded import residual differs'
     assert json.loads((audit/'trial.json').read_text())==config,'audit frozen trial differs'

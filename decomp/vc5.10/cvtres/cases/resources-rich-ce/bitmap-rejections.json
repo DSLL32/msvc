@@ -1,0 +1,35 @@
+{
+  "scope": "Actual immutable bitmap row entry; WORD consumption excludes only ABI stack-slot padding",
+  "cases": [
+    {
+      "name": "consumed-WORD-depth",
+      "rejected": true,
+      "reason": "('scalar argument differs', 'convert_rows', 'bits')"
+    },
+    {
+      "name": "row-stride",
+      "rejected": true,
+      "reason": "('scalar argument differs', 'convert_rows', 'input_stride')"
+    },
+    {
+      "name": "input-pixels",
+      "rejected": true,
+      "reason": "bitmap buffer bytes differ"
+    },
+    {
+      "name": "initial-output-pixels",
+      "rejected": true,
+      "reason": "bitmap buffer bytes differ"
+    },
+    {
+      "name": "cursor-pointer-null",
+      "rejected": true,
+      "reason": "bitmap cursor-pointer ABI differs"
+    },
+    {
+      "name": "output-not-writable",
+      "rejected": true,
+      "reason": "bitmap output is not writable"
+    }
+  ]
+}

@@ -8,7 +8,7 @@ typedef DWORD (WINAPI *PathFromHandle)(HANDLE, char *, DWORD, DWORD);
 typedef struct RestoreRange { DWORD start, end, offset; } RestoreRange;
 static RestoreRange ranges[256];
 static unsigned range_count;
-static DWORD crt_base;
+static DWORD crt_base, user32_base;
 static DWORD observations[16], observation_offsets[16], observation_count;
 static unsigned char buffer[65536];
 
@@ -50,6 +50,7 @@ static int loaded_file(FILE *log, HANDLE file, DWORD base, const char *outdir)
         lower[i] = path[i] >= 'A' && path[i] <= 'Z' ? path[i] + 32 : path[i];
     lower[i] = 0;
     fprintf(log, "module %08lx size %lu path %s\n", base, size, path);
+    if (strstr(lower, "user32.dll")) user32_base = base;
     if (strstr(lower, "msvcrt.dll") || size == 277776) {
         crt_base = base;
         sprintf(output, "%s\\loaded-msvcrt.dll", outdir);
@@ -164,6 +165,20 @@ static void resource_heap(FILE *log, HANDLE child, const char *prefix)
     fputc('\n', log);
 }
 
+static void bitmap_buffer(FILE *log, HANDLE child, unsigned index, DWORD cursor,
+                          DWORD pointer, DWORD size, const char *prefix)
+{
+    MEMORY_BASIC_INFORMATION memory;
+    DWORD got, i;
+    if (!pointer || size > sizeof(buffer) || pointer+size < pointer ||
+        VirtualQueryEx(child, (void *)pointer, &memory, sizeof(memory)) != sizeof(memory) ||
+        pointer+size > (DWORD)memory.BaseAddress+memory.RegionSize) return;
+    fprintf(log, "%sbitmap-buffer %u cursor %08lx data %08lx size %lu state %08lx protection %08lx raw ",prefix,index,cursor,pointer,size,memory.State,memory.Protect);
+    if (size && ReadProcessMemory(child,(void *)pointer,buffer,size,&got) && got==size)
+        for (i=0;i<size;++i) fprintf(log,"%02x",buffer[i]);
+    fputc('\n',log);
+}
+
 static void trap_state(FILE *log, HANDLE child, HANDLE thread, DWORD address, const char *prefix)
 {
     CONTEXT c;
@@ -236,6 +251,11 @@ static void trap_state(FILE *log, HANDLE child, HANDLE thread, DWORD address, co
         }
     }
     resource_heap(log, child, prefix);
+    {
+        DWORD bindings[3], got;
+        if (ReadProcessMemory(child, (void *)0x100497c, bindings, 12, &got) && got == 12)
+            fprintf(log, "%sresource-binding library %08lx user32 %08lx loader %08lx instance %08lx\n", prefix, bindings[0], user32_base, bindings[1], bindings[2]);
+    }
     fprintf(log, "%strap %08lx eip %08lx esp %08lx eax %08lx ecx %08lx edx %08lx\n",
             prefix, address, c.Eip, c.Esp, c.Eax, c.Ecx, c.Edx);
     if (ReadProcessMemory(child, (void *)c.Esp, words, sizeof(words), &count)) {
@@ -278,7 +298,7 @@ static void trap_state(FILE *log, HANDLE child, HANDLE thread, DWORD address, co
             while (request && *request) {
                 if (sscanf(request, "%lx:%lu:%c", &function, &index, &kind) != 3 || index >= 19) break;
                 if (function == address) {
-                    pointer = words[index+1]; size = kind == 'i' ? 20 : 24;
+                    pointer = words[index+1]; size = kind == 'i' ? 20 : kind == 'e' ? 32 : 24;
                     if (pointer && ReadProcessMemory(child, (void *)pointer, buffer, size, &count) && count == size) {
                         fprintf(log, "%styped %lu kind %c pointer %08lx raw ", prefix, index, kind, pointer);
                         for (i = 0; i < size; ++i) fprintf(log, "%02x", buffer[i]);
@@ -296,6 +316,25 @@ static void trap_state(FILE *log, HANDLE child, HANDLE thread, DWORD address, co
                 }
                 request = strchr(request, ','); if (request) ++request;
             }
+        }
+        if (address == 0x100209d || address == 0x1002147) {
+            DWORD bits, enabled, got, size;
+            if (address == 0x100209d) bits = words[3]&65535;
+            else if (ReadProcessMemory(child,(void *)0x100499c,&enabled,4,&got) && got==4) bits=enabled?2:4;
+            else bits=0;
+            if (bits==1 || bits==2 || bits==4 || bits==8 || bits==24) {
+                size=bits==24?(words[2]+1)*3:((words[2]*bits)>>3)+1;
+                bitmap_buffer(log,child,0,0,words[1],size,prefix);
+            }
+        }
+        if (address == 0x1002195) {
+            DWORD pointer, got, size, bits = words[2]&65535;
+            size = bits == 4 || bits == 8 ? (1UL<<bits)*4 : 0;
+            bitmap_buffer(log,child,0,0,words[1],size,prefix);
+            if (ReadProcessMemory(child,(void *)words[6],&pointer,4,&got) && got==4)
+                bitmap_buffer(log,child,5,words[6],pointer,words[3]*words[4]*4,prefix);
+            if (ReadProcessMemory(child,(void *)words[7],&pointer,4,&got) && got==4)
+                bitmap_buffer(log,child,6,words[7],pointer,words[3]*words[5]*4,prefix);
         }
         fprintf(log, "%sstack", prefix);
         for (i = 0; i < stack_size/4; ++i) fprintf(log, " %08lx", words[i]);

@@ -1,0 +1,7 @@
+#include <windows.h>
+
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STRINGTABLE DISCARDABLE
+BEGIN
+    5007 "Converting %dbpp %s to %dbpp %s\n"
+END

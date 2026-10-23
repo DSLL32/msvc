@@ -11,3 +11,9 @@ void *__stdcall allocate_block(unsigned long size)
     }
     return block;
 }
+
+int __stdcall free_block(void *block)
+{
+    if (block) free(block);
+    return 0;
+}

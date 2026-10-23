@@ -20,7 +20,13 @@
     "_init_directory@24",
     "_init_data_entry@20",
     "_write_bytes@12",
-    "_copy_bytes@12"
+    "_copy_bytes@12",
+    "_convert_ce_image@20",
+    "_free_block@4",
+    "_convert_rows@28",
+    "_read_pixel@12",
+    "_color_to_gray@4",
+    "_write_pixel@12"
   ],
   "functions": [
     {
@@ -605,9 +611,180 @@
       "end": 16787051,
       "cleanup": 20,
       "abi": "int __stdcall convert_ce_image(int,FILE*,FILE*,ResourceEntry*,int)",
-      "status": "stub",
-      "source": "src/stubs.c",
-      "parameters": []
+      "status": "accepted",
+      "source": "src/bitmap.c",
+      "parameters": [
+        {
+          "name": "ce",
+          "kind": "int"
+        },
+        {
+          "name": "input",
+          "kind": "file"
+        },
+        {
+          "name": "output",
+          "kind": "file"
+        },
+        {
+          "name": "entry",
+          "kind": "resource-entry"
+        },
+        {
+          "name": "type",
+          "kind": "int"
+        }
+      ],
+      "text_data": [
+        [
+          16782324,
+          16782351
+        ],
+        [
+          16782352,
+          16782384
+        ]
+      ],
+      "evidence": "cases/resources-rich-ce/image-proof.json"
+    },
+    {
+      "name": "free_block",
+      "symbol": "_free_block@4",
+      "native": "free_block",
+      "start": 16783994,
+      "end": 16784017,
+      "cleanup": 4,
+      "abi": "int __stdcall free_block(void*)",
+      "status": "accepted",
+      "source": "src/memory.c",
+      "parameters": [
+        {
+          "name": "block",
+          "kind": "in-buffer",
+          "size": 40
+        }
+      ],
+      "evidence": "cases/resources-rich-ce/free-proof.json"
+    },
+    {
+      "name": "color_to_gray",
+      "symbol": "_color_to_gray@4",
+      "native": "color_to_gray",
+      "start": 16785375,
+      "end": 16785565,
+      "cleanup": 4,
+      "abi": "DWORD __stdcall color_to_gray(DWORD)",
+      "status": "accepted",
+      "source": "src/pixels.c",
+      "parameters": [
+        {
+          "name": "color",
+          "kind": "unsigned"
+        }
+      ],
+      "evidence": "cases/resources-rich-ce/gray-proof.json"
+    },
+    {
+      "name": "read_pixel",
+      "symbol": "_read_pixel@12",
+      "native": "read_pixel",
+      "start": 16785565,
+      "end": 16785735,
+      "cleanup": 12,
+      "abi": "DWORD __stdcall read_pixel(const BYTE*,DWORD,WORD)",
+      "status": "accepted",
+      "source": "src/pixels.c",
+      "parameters": [
+        {
+          "name": "row",
+          "kind": "pixel-input",
+          "bits_arg": 2,
+          "index_arg": 1
+        },
+        {
+          "name": "index",
+          "kind": "unsigned"
+        },
+        {
+          "name": "bits",
+          "kind": "word"
+        }
+      ],
+      "evidence": "cases/resources-rich-ce/read-pixel-proof.json"
+    },
+    {
+      "name": "write_pixel",
+      "symbol": "_write_pixel@12",
+      "native": "write_pixel",
+      "start": 16785735,
+      "end": 16785813,
+      "cleanup": 12,
+      "abi": "void __stdcall write_pixel(BYTE*,DWORD,BYTE)",
+      "status": "accepted",
+      "source": "src/pixels.c",
+      "parameters": [
+        {
+          "name": "row",
+          "kind": "pixel-output",
+          "index_arg": 1
+        },
+        {
+          "name": "index",
+          "kind": "unsigned"
+        },
+        {
+          "name": "value",
+          "kind": "byte"
+        }
+      ],
+      "evidence": "cases/resources-rich-ce/write-pixel-proof.json"
+    },
+    {
+      "name": "convert_rows",
+      "symbol": "_convert_rows@28",
+      "native": "convert_rows",
+      "start": 16785813,
+      "end": 16785957,
+      "cleanup": 28,
+      "abi": "void __stdcall convert_rows(DWORD*,WORD,DWORD,DWORD,DWORD,BYTE**,BYTE**)",
+      "status": "accepted",
+      "source": "src/pixels.c",
+      "parameters": [
+        {
+          "name": "palette",
+          "kind": "pixel-palette",
+          "bits_arg": 1
+        },
+        {
+          "name": "bits",
+          "kind": "word"
+        },
+        {
+          "name": "rows",
+          "kind": "unsigned"
+        },
+        {
+          "name": "input_stride",
+          "kind": "unsigned"
+        },
+        {
+          "name": "output_stride",
+          "kind": "unsigned"
+        },
+        {
+          "name": "input",
+          "kind": "row-input",
+          "rows_arg": 2,
+          "stride_arg": 3
+        },
+        {
+          "name": "output",
+          "kind": "row-output",
+          "rows_arg": 2,
+          "stride_arg": 4
+        }
+      ],
+      "evidence": "cases/resources-rich-ce/rows-proof.json"
     }
   ],
   "data": [
@@ -847,12 +1024,13 @@
     }
   ],
   "case": {
-    "id": "resources-rich",
+    "id": "resources-rich-ce",
     "arguments": [
       "/nologo",
-      "/machine:ix86",
+      "/machine:ARM",
+      "/windowsce",
       "/readonly",
-      "/out:rich.obj",
+      "/out:rich-ce.obj",
       "rich.res"
     ],
     "inputs": [
@@ -863,25 +1041,24 @@
       }
     ],
     "artifacts": [
-      "rich.obj"
+      "rich-ce.obj"
     ],
     "canonical_reference": {
       "status": 0,
-      "stdout_size": 0,
+      "stdout_size": 40,
       "stderr_size": 0,
-      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "3c83c04997a010499a1072a747041495869c594dc1039a4c5fd20cf8922b0683",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
       "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
-      "capture_receipt_sha256": "312f09782c291d1f04d059205edac339cbe9bc5ad52f8b50a022b5e8a7eec119",
+      "capture_receipt_sha256": "590e812dfe8ba8d21d728f18de099fd57cb07acdde79f4b2e775eaf97b8955c4",
       "artifacts": {
-        "rich.obj": {
-          "sha256": "3af7e7f765a324544dc48a63e6007f69928bf4833241ba8128d0270e05109d07",
-          "bytes": 5080
+        "rich-ce.obj": {
+          "sha256": "9eec551224de379110f288e53f167765dd56e3f742b67c2b64279d040b771bff",
+          "bytes": 4912
         }
       },
-      "normalization": [],
-      "repeat_capture": "/root/.ai-tmp/msvc2/vc5.10/cvtres/resources-rich-master-02"
+      "normalization": []
     }
   },
   "crt_data": [
@@ -922,7 +1099,21 @@
     {
       "address": 16783856,
       "kind": "output-open-return"
+    },
+    {
+      "address": 16789859,
+      "purpose": "encountered LoadStringA callback"
+    },
+    {
+      "address": 16789871,
+      "purpose": "encountered LoadStringA return buffer"
     }
   ],
-  "heap_state": true
+  "heap_state": true,
+  "additional_resources": [
+    "cases/resources-rich-ce/resources/manifest.json"
+  ],
+  "resource_observations": [
+    5007
+  ]
 }

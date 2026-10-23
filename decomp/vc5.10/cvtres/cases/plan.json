@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "state": "rich-x86-complete-ce-awaiting-review",
+  "state": "ce-complete-diagnostics-authorized",
   "target": "toolchains/5.10/bin/CVTRES.EXE",
   "release_conditions": [
     "All VC5 workers authorized to resume first substantive cases"
   ],
-  "accepted_functions": 14,
+  "accepted_functions": 20,
   "coverage": null,
   "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
   "scratch_namespace": "S:\\vc5.10\\cvtres",
@@ -79,10 +79,12 @@
         "/out:rich-ce.obj",
         "rich.res"
       ],
-      "state": "original-validated-awaiting-orchestrator-review",
+      "state": "complete",
       "purpose": "Genuine ARM/Windows CE24bpp\u21922bpp bitmap conversion from same immutable rich input",
       "original_plan": "resources-rich-ce/original-plan.json",
-      "payload_observation": "resources-rich-ce/payload-observation.json"
+      "payload_observation": "resources-rich-ce/payload-observation.json",
+      "completion": "resources-rich-ce/completion.json",
+      "acceptance_reference": "resources-rich-ce/reference/fixture.json"
     }
   ],
   "proposed_followups": [
@@ -119,5 +121,28 @@
     "status": "Static child evidence; standalone resource conversion complete. LINK child fixture integration remains sibling-owned.",
     "followup": "Match actual machine buffer, optional switches, quoting and generated COFF naming in explicit original LINK capture after release"
   },
-  "accepted_extent_bytes": 5614
+  "accepted_extent_bytes": 7313,
+  "authorized_next_cases": [
+    {
+      "id": "default-machine",
+      "argv": [
+        "/nologo",
+        "/readonly",
+        "/out:default.obj",
+        "rich.res"
+      ],
+      "purpose": "Actual default-IX86 warning4001"
+    },
+    {
+      "id": "arm-without-windowsce",
+      "argv": [
+        "/nologo",
+        "/machine:ARM",
+        "/readonly",
+        "/out:arm.obj",
+        "rich.res"
+      ],
+      "purpose": "Actual missing /windowsce error1109"
+    }
+  ]
 }

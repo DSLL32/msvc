@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "function": "write_pixel",
+  "comparison": {
+    "kind": "exit",
+    "status": 0,
+    "candidate_entry": {
+      "function": "write_pixel",
+      "original_entry": 16785735,
+      "native_entry": "write_pixel",
+      "contextual_ranges": 39,
+      "crt_ranges": 4
+    },
+    "resource_observations": {
+      "ids": [
+        5007
+      ],
+      "callback": "LoadStringA(NULL,id,message_buffer,1024)",
+      "actual_module": "USER32.DLL",
+      "callbacks": 1,
+      "buffer_bytes": 1024
+    }
+  },
+  "original": "/root/.ai-tmp/msvc2/vc5.10/cvtres/ce-write-pixel-original",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/cvtres/ce-write-pixel-native",
+  "audit": "/root/msvc2/decomp/vc5.10/cvtres/build/ce-write-pixel-audit"
+}

@@ -44,6 +44,7 @@ def globals_state():
   raw=bytes(gdb.selected_inferior().read_memory(address,item["size"]))
   values[item["name"]]={"address":address,"raw_hex":raw.hex()}
   if item["kind"]=="cstring-or-null":values[item["name"]]["cstring"]=value.string() if int(value) else None
+ values["__resource_loader"]=int(gdb.parse_and_eval("&recon_LoadStringA"))
  if HEAP_STATE:
   roots={name:int(gdb.parse_and_eval(name)) for name in ("resource_strings","resource_files","resource_id_types","resource_named_types")}
   directory=int(gdb.parse_and_eval("directory_buffer"));size=0
@@ -70,8 +71,25 @@ def parameters(frame):
  values={}
  for index,item in enumerate(PARAMETERS.get(frame.name(),[])):
   value=frame.read_var(item["name"])
-  if item["kind"] in ("identifier","resource-header"):
-   pointer=int(value);size=20 if item["kind"]=="identifier" else 24
+  if item["kind"] in ("pixel-palette","row-input","row-output","pixel-input","pixel-output"):
+   pointer=int(value);cursor=0
+   if item["kind"] in ("pixel-input","pixel-output"):
+    index_value=int(frame.read_var(PARAMETERS[frame.name()][item["index_arg"]]["name"]))
+    bits=int(frame.read_var(PARAMETERS[frame.name()][item["bits_arg"]]["name"])) if item["kind"]=="pixel-input" else (2 if int(gdb.parse_and_eval("windows_ce")) else 4)
+    assert bits in (1,2,4,8,24)
+    size=(index_value+1)*3 if bits==24 else (index_value*bits>>3)+1
+   elif item["kind"]=="pixel-palette":
+    bits=int(frame.read_var(PARAMETERS[frame.name()][item["bits_arg"]]["name"]))
+    size=(1<<bits)*4 if bits in (4,8) else 0
+   else:
+    cursor=pointer;pointer=struct.unpack("<I",bytes(gdb.selected_inferior().read_memory(cursor,4)))[0]
+    size=int(frame.read_var(PARAMETERS[frame.name()][item["rows_arg"]]["name"]))*int(frame.read_var(PARAMETERS[frame.name()][item["stride_arg"]]["name"]))*4
+   assert pointer and 0<=size<=65536
+   maps=open("/proc/%d/maps"%gdb.selected_inferior().pid).read().splitlines()
+   segment=next(line for line in maps if int(line.split()[0].split('-')[0],16)<=pointer and pointer+size<=int(line.split()[0].split('-')[1],16))
+   values[str(index)]={"kind":item["kind"],"pointer":pointer,"cursor":cursor,"size":size,"permissions":segment.split()[1],"bytes_hex":bytes(gdb.selected_inferior().read_memory(pointer,size)).hex() if size else ""};continue
+  if item["kind"] in ("identifier","resource-header","resource-entry"):
+   pointer=int(value);size={"identifier":20,"resource-header":24,"resource-entry":32}[item["kind"]]
    raw=bytes(gdb.selected_inferior().read_memory(pointer,size))
    record={"kind":item["kind"],"pointer":pointer,"raw_hex":raw.hex()}
    if item["kind"]=="identifier" and struct.unpack_from("<I",raw)[0]==1:
@@ -105,10 +123,15 @@ class MessageReturn(gdb.FinishBreakpoint):
  def stop(self):
   result.setdefault("message_returns",[]).append({"id":self.message_id,"return_value":int(self.return_value),"globals":globals_state(),"crt":crt_state()})
   return False
+class CallbackReturn(gdb.FinishBreakpoint):
+ def stop(self):
+  result.setdefault("callback_returns",[]).append(int(self.return_value))
+  return False
 class ResourceCall(gdb.Breakpoint):
  def stop(self):
   frame=gdb.newest_frame()
-  result.setdefault("resource_calls",[]).append({"handle":int(frame.read_var("handle")),"id":int(frame.read_var("id")),"output":int(frame.read_var("output")),"capacity":int(frame.read_var("capacity")),"expected_loader":int(gdb.parse_and_eval("&recon_LoadStringA")),"globals":globals_state()})
+  CallbackReturn(frame,internal=True)
+  result.setdefault("resource_calls",[]).append({"handle":int(frame.read_var("handle")),"id":int(frame.read_var("id")),"output":int(frame.read_var("output")),"capacity":int(frame.read_var("capacity")),"expected_loader":int(gdb.parse_and_eval("&recon_LoadStringA")),"globals":globals_state(),"crt":crt_state()})
   return False
 class Entry(gdb.Breakpoint):
  def __init__(self,name):
@@ -175,7 +198,7 @@ if a.original:
 else:program_path='S:\\vc5.10\\cvtres\\help-canonical-reference\\CVTRES.EXE'
 env['RECON_PROGRAM_PATH']=program_path
 provider=out/'help.resources'
-subprocess.run(['python3',str(BINARY/'scripts/prepare-resources.py'),'--output',str(provider)],cwd=BINARY,check=True,stdout=subprocess.DEVNULL)
+subprocess.run(['python3',str(BINARY/'scripts/prepare-resources.py'),'--output',str(provider),'--configuration',str(out/'configuration.json')],cwd=BINARY,check=True,stdout=subprocess.DEVNULL)
 env['CVTRES_RESOURCE_PROVIDER']=str(provider)
 env.update(RECON_TRACE_FD=str(trace.fileno()),RECON_TRACE_FILTER=str(out/'trace-filter'),RECON_TRACE_SEEN=str(out/'trace-seed'))
 if a.initial:env['CVTRES_INITIAL_TRAP']='1'

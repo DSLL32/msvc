@@ -25,8 +25,10 @@ build/native/CVTRES: $(NATIVE_OBJECTS) scripts/native-entry.c $(HEADERS) $(SHIMS
 	$(PYTHON) scripts/build-snapshot.py --kind native --binary $@ --output build/native/inputs.json
 build/%.obj: src/%.c $(HEADERS) | build
 	$(TOOL) CL.EXE /nologo /c /Od /MD /I$(RECON)/include /Fo$@ $<
-build/messages.res: src/messages.rc | build
-	$(TOOL) RC.EXE /r /fobuild/messages.res src/messages.rc
+build/messages.res: src/resources.rc src/messages.rc src/ce-messages.rc | build
+	$(TOOL) RC.EXE /r /fobuild/messages.res src/resources.rc
+build/ce-messages.res: src/ce-messages.rc | build
+	$(TOOL) RC.EXE /r /fobuild/ce-messages.res src/ce-messages.rc
 build/CVTRES.EXE build/cvtres.map &: $(ORIGINAL_OBJECTS) build/messages.res Makefile
 	$(TOOL) LINK.EXE /nologo /subsystem:console /incremental:no /map:build/cvtres.map /out:build/CVTRES.EXE $(ORIGINAL_OBJECTS) build/messages.res
 	$(PYTHON) scripts/build-snapshot.py --kind original --binary build/CVTRES.EXE --output build/original-inputs.json

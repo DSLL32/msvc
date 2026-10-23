@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "case": "resources-rich-ce",
+  "arguments": [
+    "/nologo",
+    "/machine:ARM",
+    "/windowsce",
+    "/readonly",
+    "/out:rich-ce.obj",
+    "rich.res"
+  ],
+  "argv0": "R:\\toolchains\\5.10\\bin\\CVTRES.EXE",
+  "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+  "reference": {
+    "status": 0,
+    "stdout_size": 40,
+    "stderr_size": 0,
+    "stdout_sha256": "3c83c04997a010499a1072a747041495869c594dc1039a4c5fd20cf8922b0683",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "capture_receipt_sha256": "590e812dfe8ba8d21d728f18de099fd57cb07acdde79f4b2e775eaf97b8955c4",
+    "artifacts": {
+      "rich-ce.obj": {
+        "sha256": "9eec551224de379110f288e53f167765dd56e3f742b67c2b64279d040b771bff",
+        "bytes": 4912
+      }
+    },
+    "normalization": []
+  },
+  "inputs": [
+    {
+      "name": "rich.res",
+      "path": "cases/resources-rich/input/rich.res",
+      "sha256": "ad4feb23c9a981122246969f9bdaf8bf9a4978cd722f50a67b1e8884835b9318"
+    }
+  ],
+  "trace_sha256": "ed399f9ef5714bcd114352fa7cb87e070199c04baf43479be2403560b25cade2",
+  "trace_source_events_sha256": "8ca7ae091f6d9be72880dd243e7581aef629e7041234501f3b82cf328f19f7b5",
+  "trace_source_capture": "/root/.ai-tmp/msvc2/vc5.10/cvtres/ce-write-pixel-original",
+  "required_accepted": [
+    "main",
+    "seek_file",
+    "tell_file",
+    "convert_resources",
+    "read_bytes",
+    "allocate_block",
+    "read_identifier",
+    "insert_resource",
+    "init_directory",
+    "init_data_entry",
+    "write_bytes",
+    "copy_bytes",
+    "convert_ce_image",
+    "free_block",
+    "load_message",
+    "convert_rows",
+    "read_pixel",
+    "color_to_gray",
+    "write_pixel"
+  ]
+}

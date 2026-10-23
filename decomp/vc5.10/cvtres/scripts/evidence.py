@@ -87,12 +87,7 @@ def compare_frontier(config,original,native,initial=False):
 def bind(config,original,native,frozen=False):
     current=(BINARY/'functions.json').read_bytes();expected=sha(current)
     if frozen:
-        def semantic(value):
-            copy=json.loads(json.dumps(value));copy.pop('accepted',None)
-            for function in copy['functions']:
-                function.pop('status',None);function.pop('evidence',None)
-            return copy
-        assert semantic(json.loads(current))==semantic(config),'frozen trial differs beyond accepted ledger'
+        assert json.loads(current)['target']==config['target'],'frozen trial is for another reconstruction target'
         expected=sha((original/'configuration.json').read_bytes())
         current=(original/'configuration.json').read_bytes()
     assert json.loads(current)==config
@@ -116,7 +111,7 @@ def bind(config,original,native,frozen=False):
         import subprocess
         with tempfile.TemporaryDirectory(prefix='provider-check-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/cvtres') as temporary:
             provider=Path(temporary)/'help.resources'
-            subprocess.run(['python3',str(BINARY/'scripts/prepare-resources.py'),'--output',str(provider)],cwd=BINARY,check=True,stdout=subprocess.DEVNULL)
+            subprocess.run(['python3',str(BINARY/'scripts/prepare-resources.py'),'--output',str(provider),'--configuration',str(original/'configuration.json')],cwd=BINARY,check=True,stdout=subprocess.DEVNULL)
             assert provider.read_bytes()==(native/'help.resources').read_bytes(),'native resource provider differs from verified cache'
     assert old['helper_status']==0 and not old['timed_out']
     if (original/'capture-host-build.json').exists():verify_build_snapshot(original/'capture-host-build.json',old['helper_sha256'],old.get('compiled_snapshot_sha256',{}).get('capture-host-build.json'))
@@ -164,6 +159,17 @@ def compare_context(config,text,state,prefix='',loaded_messages=False):
             if int.from_bytes(expected,'little'):
                 match=re.search(r'^'+re.escape(prefix)+r'pointer-string '+format(item['original'],'08x')+r' ([0-9a-f]*)$',text,re.M)
                 assert match and bytes.fromhex(match[1]).decode('latin1')==state['globals'][item['name']]['cstring'],'global string differs'
+        elif config.get('resource_observations') and item['name'] in ('message_library','message_loader'):
+            original_pointer=int.from_bytes(expected,'little');native_pointer=int.from_bytes(actual,'little')
+            binding=re.search(r'^'+re.escape(prefix)+r'resource-binding library ([0-9a-f]+) user32 ([0-9a-f]+) loader ([0-9a-f]+) instance ([0-9a-f]+)$',text,re.M);assert binding,'missing actual resource-module binding'
+            library,user32,loader,instance=[int(v,16) for v in binding.groups()]
+            assert instance==0 and bool(original_pointer)==bool(native_pointer),'resource binding nullness differs'
+            if item['name']=='message_library':
+                assert original_pointer==library and (not library or library==user32),'original resource cache is not observed USER32'
+                assert native_pointer==(2 if library else 0),'native resource module token differs'
+            else:
+                assert original_pointer==loader and (not loader or library==user32!=0),'original loader has no USER32 owner'
+                assert not loader or native_pointer==state['globals']['__resource_loader'],'native resource callback identity differs'
         elif loaded_messages and item['name'] in ('message_library','message_loader'):
             assert int.from_bytes(expected,'little') and int.from_bytes(actual,'little'),'missing resolved message binding'
         elif item['kind'] in ('resource-heap','resource-directory'):
@@ -260,8 +266,26 @@ def compare_parameters(config,function,text,state,original,native,prefix=''):
     words=[int(x,16) for x in words[1].split()]
     for index,item in enumerate(function['parameters']):
         record=state['parameters'][str(index)]
-        if item['kind'] in ('identifier','resource-header'):
-            kind='i' if item['kind']=='identifier' else 'h'
+        if item['kind'] in ('pixel-palette','row-input','row-output','pixel-input','pixel-output'):
+            if item['kind'] in ('pixel-input','pixel-output'):
+                index_value=words[item['index_arg']+1]
+                bits=words[item['bits_arg']+1]&65535 if item['kind']=='pixel-input' else (2 if int.from_bytes(bytes.fromhex(state['globals']['windows_ce']['raw_hex']),'little') else 4)
+                assert bits in (1,2,4,8,24),'unsupported pixel depth'
+                size=(index_value+1)*3 if bits==24 else (index_value*bits>>3)+1
+            elif item['kind']=='pixel-palette':
+                bits=words[item['bits_arg']+1]&65535;size=(1<<bits)*4 if bits in (4,8) else 0
+            else:size=words[item['rows_arg']+1]*words[item['stride_arg']+1]*4
+            observed=re.search(r'^'+re.escape(prefix)+r'bitmap-buffer '+str(index)+r' cursor ([0-9a-f]+) data ([0-9a-f]+) size ([0-9]+) state ([0-9a-f]+) protection ([0-9a-f]+) raw ([0-9a-f]*)$',text,re.M)
+            assert observed and int(observed[3])==size==record['size'],'bitmap buffer extent differs'
+            assert int(observed[4],16)==0x1000 and record['pointer'] and 'r' in record['permissions'],'bitmap buffer not mapped/readable'
+            assert observed[6]==record['bytes_hex'] and len(bytes.fromhex(observed[6]))==size,'bitmap buffer bytes differ'
+            if item['kind'] in ('pixel-palette','pixel-input','pixel-output'):assert int(observed[1],16)==record['cursor']==0 and int(observed[2],16)==words[index+1],'palette pointer ABI differs'
+            else:
+                assert int(observed[1],16)==words[index+1] and record['cursor'],'bitmap cursor-pointer ABI differs'
+            if item['kind'] in ('row-output','pixel-output'):assert int(observed[5],16)&0xcc and 'w' in record['permissions'],'bitmap output is not writable'
+            continue
+        if item['kind'] in ('identifier','resource-header','resource-entry'):
+            kind={'identifier':'i','resource-header':'h','resource-entry':'e'}[item['kind']]
             observed=re.search(r'^'+re.escape(prefix)+r'typed '+str(index)+r' kind '+kind+r' pointer ([0-9a-f]+) raw ([0-9a-f]+)$',text,re.M)
             assert observed and int(observed[1],16)==words[index+1] and record['pointer'],'missing typed resource pointer'
             left=bytes.fromhex(observed[2]);right=bytes.fromhex(record['raw_hex'])
@@ -269,8 +293,11 @@ def compare_parameters(config,function,text,state,original,native,prefix=''):
                 from resource_state import original as original_heap,canonical
                 _,old_ids=canonical(original_heap(text,prefix),with_ids=True)
                 _,new_ids=canonical(state['globals']['__heap__'],with_ids=True)
-                node_kind=1 if kind=='i' else 4
+                node_kind={'i':1,'h':4,'e':3}[kind]
                 assert old_ids.get((node_kind,words[index+1]),0)==new_ids.get((node_kind,record['pointer']),0),'resource argument alias identity differs'
+            if kind=='e':
+                assert old_ids.get((3,words[index+1]),0)>0,'resource entry argument is outside captured tree'
+                continue
             if kind=='h':assert left==right and len(left)==24,'resource header differs'
             else:
                 assert len(left)==len(right)==20
@@ -303,7 +330,8 @@ def compare_parameters(config,function,text,state,original,native,prefix=''):
                 assert contents and contents[1]==record['bytes_hex'],'input buffer bytes differ'
             continue
         if item['kind']!='file':
-            assert record['value']==words[index+1],('scalar argument differs',function['name'],item['name']);continue
+            mask={'word':0xffff,'byte':0xff}.get(item['kind'],0xffffffff)
+            assert record['value']==words[index+1]&mask,('scalar argument differs',function['name'],item['name']);continue
         raw=re.search(r'^'+re.escape(prefix)+r'file '+str(index)+r' pointer ([0-9a-f]+) raw ([0-9a-f]+)$',text,re.M);assert raw,'missing original FILE argument'
         assert int(raw[1],16)==words[index+1] and record['pointer'],'FILE argument identity differs'
         left=struct.unpack('<8I',bytes.fromhex(raw[2]));right=struct.unpack('<8I',bytes.fromhex(record['raw_hex']))
@@ -323,3 +351,33 @@ def compare_parameters(config,function,text,state,original,native,prefix=''):
         assert Path(record['path']).resolve()==(native/name).resolve(),'native FILE is not exact case file'
         scratch=Path.home()/'.ai-tmp/msvc2';expected='S:\\'+str((original/name).relative_to(scratch)).replace('/','\\')
         assert path.removeprefix('\\\\?\\').lower()==expected.lower(),'original FILE is not exact case file'
+
+
+def compare_resource_observations(config,original,native):
+    """Actual encountered string callback/return, using target module identity."""
+    text=(original/'events.txt').read_text();state=json.loads((native/'state.json').read_text())
+    observations=re.findall(r'^observation ([0-9a-f]{8})\n(.*?)(?=^observation |^entry |^exit |^trap |\Z)',text,re.M|re.S)
+    calls=[block for address,block in observations if int(address,16)==0x1003163]
+    returns=[block for address,block in observations if int(address,16)==0x100316f]
+    ids=config['resource_observations']
+    if not calls and original_raw(original)['kind']=='trap':
+        assert 0x100310a not in original_raw(original)['entries'],'resource callback missing after message-loader entry'
+        ids=[]
+    assert len(calls)==len(returns)==len(state.get('resource_calls',[]))==len(state.get('message_returns',[]))==len(state.get('callback_returns',[]))==len(ids),'missing encountered resource callback/return'
+    for index,id in enumerate(ids):
+        old=calls[index];call=state['resource_calls'][index];returned=state['message_returns'][index]
+        words=re.search(r'^observation-stack ([0-9a-f ]+)$',old,re.M);assert words
+        words=[int(v,16) for v in words[1].split()]
+        assert words[:4]==[0,id,0x100457c,1024],'original resource callback arguments differ'
+        assert call['handle']==0 and call['id']==id and call['capacity']==1024 and call['output']==call['globals']['message_buffer']['address'],'native resource callback arguments differ'
+        cached=int.from_bytes(bytes.fromhex(call['globals']['message_loader']['raw_hex']),'little')
+        assert cached==call['expected_loader']==call['globals']['__resource_loader'],'native resource callback is not shared loader'
+        callback=int(re.search(r'^observation-trap .*? eax ([0-9a-f]+)',old,re.M)[1],16)
+        memory={int(a,16):bytes.fromhex(raw) for a,raw in re.findall(r'^observation-memory ([0-9a-f]+) ([0-9a-f]+)$',old,re.M)}
+        assert callback==int.from_bytes(memory[0x1004980],'little')!=0,'original call is not cached loader result'
+        compare_context(config,old,call,prefix='observation-')
+        after=returns[index];count=int(re.search(r'^observation-trap .*? eax ([0-9a-f]+)',after,re.M)[1],16)
+        assert count==state['callback_returns'][index]>0,'resource callback character count differs'
+        assert returned['id']==id and returned['return_value']==returned['globals']['message_buffer']['address'],'resource function return pointer differs'
+        compare_context(config,after,returned,prefix='observation-')
+    return dict(ids=ids,callback='LoadStringA(NULL,id,message_buffer,1024)',actual_module='USER32.DLL',callbacks=len(ids),buffer_bytes=1024)

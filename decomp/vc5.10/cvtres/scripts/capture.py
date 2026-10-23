@@ -49,7 +49,7 @@ verify_crt(config.get('crt_data',[]))
 env['CVTRES_RESOURCE_HEAP']='1' if config.get('heap_state') else ''
 env['CVTRES_POINTER_STRINGS']=','.join('%x'%item['original'] for item in config.get('data',[]) if item['kind']=='cstring-or-null')
 env['CVTRES_BUFFER_ARGUMENTS']=','.join('%x:%d:%d:%d:%s'%(function['start'],index,item.get('length_arg',0),item.get('size',0),{'out-buffer':'o','in-buffer':'i'}[item['kind']]) for function in config['functions'] for index,item in enumerate(function.get('parameters',[])) if item['kind'] in ('out-buffer','in-buffer'))
-env['CVTRES_TYPED_ARGUMENTS']=','.join('%x:%d:%s'%(function['start'],index,{'identifier':'i','resource-header':'h'}[item['kind']]) for function in config['functions'] for index,item in enumerate(function.get('parameters',[])) if item['kind'] in ('identifier','resource-header'))
+env['CVTRES_TYPED_ARGUMENTS']=','.join('%x:%d:%s'%(function['start'],index,{'identifier':'i','resource-header':'h','resource-entry':'e'}[item['kind']]) for function in config['functions'] for index,item in enumerate(function.get('parameters',[])) if item['kind'] in ('identifier','resource-header','resource-entry'))
 env['CVTRES_FILE_ARGUMENTS']=','.join('%x:%d'%(function['start'],index) for function in config['functions'] for index,item in enumerate(function.get('parameters',[])) if item['kind']=='file')
 env['CVTRES_CAPTURE_CRT_STATE']=','.join('%x:%d:%s'%(item['rva'],item['size'],{'bytes':'b','cstring':'p','file':'f'}[item['kind']]) for item in config.get('crt_data',[]))
 env['CVTRES_OBSERVATIONS']=','.join('%x:%x'%(item['address'],load_offset) for item in config.get('observations',[]) for load_offset in [__import__('binary').PE(TARGET).offset(item['address'])])

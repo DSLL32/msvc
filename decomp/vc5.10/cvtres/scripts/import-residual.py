@@ -138,6 +138,44 @@ def check_insert(original,rebuilt,objbytes,maptext):
  assert imports==seen=={'msvcrt.dll!printf','msvcrt.dll!wcscmp','msvcrt.dll!exit'},'insert qualified import set differs'
  return dict(original_cached=dict(import_identity='msvcrt.dll!printf',slot=slot,load=load_pc,live_end=live_end,calls=callsites),original_direct=direct,rebuilt_direct=rebuilt_calls,qualified_imports=sorted(imports),scope='One fixed callee-saved ESI interval; complete linear register-call set/write/bypass checks, no independent CFG traversal.')
 
+def check_bitmap(original,rebuilt,objbytes,maptext):
+ cs=Cs(CS_ARCH_X86,CS_MODE_32);cs.detail=True
+ start,end=0x1002225,0x100266b
+ instructions=list(cs.disasm(original.read(start,end-start),start));assert sum(i.size for i in instructions)==end-start
+ by_pc={i.address:i for i in instructions};catalog=import_addresses(original)
+ contracts=[dict(register='esi',load=0x10023bb,end=0x10023ec,calls=[0x10023c6,0x10023e2]),dict(register='edi',load=0x100257e,end=0x10025a9,calls=[0x1002589,0x100259f])]
+ actual={(i.address,i.reg_name(i.operands[0].reg)) for i in instructions if i.mnemonic=='call' and i.operands[0].type==X86_OP_REG}
+ assert actual=={(pc,c['register']) for c in contracts for pc in c['calls']},'bitmap cached callsite set changed'
+ # The reverse-conversion failure jumps into this error-only push/jmp pair.
+ # It leaves the ESI interval without reaching either cached fwrite call.
+ assert by_pc[0x10023d0].mnemonic=='push' and by_pc[0x10023d0].op_str=='0x1001410','bitmap error-only push changed'
+ assert by_pc[0x10023d5].mnemonic=='jmp' and by_pc[0x10023d5].operands[0].imm==0x10025ae,'bitmap error-only jump changed'
+ certified=[]
+ for contract in contracts:
+  load=by_pc[contract['load']];ops=load.operands;register=contract['register']
+  assert load.mnemonic=='mov' and ops[0].type==X86_OP_REG and load.reg_name(ops[0].reg)==register
+  assert ops[1].type==X86_OP_MEM and not ops[1].mem.base and not ops[1].mem.index
+  slot=ops[1].mem.disp&0xffffffff;assert qualified(catalog,slot)=='msvcrt.dll!fwrite','bitmap cached IAT slot swapped'
+  bypasses=[]
+  for instruction in instructions:
+   if contract['load']<instruction.address<contract['end']:
+    assert not ALIASES[register].intersection(instruction.regs_access()[1]),'bitmap cached register overwritten'
+   if instruction.group(CS_GRP_JUMP):
+    assert instruction.operands[0].type==X86_OP_IMM
+    target=instruction.operands[0].imm&0xffffffff
+    if contract['load']<target<contract['end'] and not contract['load']<=instruction.address<contract['end']:
+     assert register=='esi' and instruction.address==0x1002591 and target==0x10023d0,'bitmap branch bypasses cached load'
+     assert instruction.mnemonic=='jne';bypasses.append(dict(source=instruction.address,target=target,error_only_exit=0x10025ae))
+  certified.append(dict(import_identity='msvcrt.dll!fwrite',slot=slot,**contract,certified_error_bypasses=bypasses))
+ imports={'msvcrt.dll!fwrite'};direct=[]
+ for instruction in instructions:
+  if instruction.mnemonic!='call' or instruction.operands[0].type!=X86_OP_MEM:continue
+  memory=instruction.operands[0].mem;assert not memory.base and not memory.index
+  identity=qualified(catalog,memory.disp&0xffffffff);imports.add(identity);direct.append(dict(pc=instruction.address,import_identity=identity))
+ seen,rebuilt_calls=rebuilt_import_calls(rebuilt,objbytes,maptext,'_convert_ce_image@20')
+ assert imports==seen=={'msvcrt.dll!fwrite','msvcrt.dll!printf','msvcrt.dll!fprintf','msvcrt.dll!__p__iob'},'bitmap qualified import set differs'
+ return dict(original_cached=certified,original_direct=direct,rebuilt_direct=rebuilt_calls,qualified_imports=sorted(imports),scope='Two fixed fwrite intervals and one exact error-only push/jmp bypass, no independent CFG traversal.')
+
 if __name__=='__main__':
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',required=True,type=Path);a=p.parse_args()
  original=ROOT/'toolchains/5.10/bin/CVTRES.EXE';rebuilt=BINARY/'build/CVTRES.EXE';obj=BINARY/'build/main.obj';mapfile=BINARY/'build/cvtres.map'
