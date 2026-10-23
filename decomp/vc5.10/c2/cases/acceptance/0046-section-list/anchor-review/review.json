@@ -16,7 +16,6 @@
     "arithmetic.txt": "5536f899088ea0a429a8e6c7045349e5c35e0e6be3111dc5ae5c1b5771a70b97",
     "sections-h.txt": "f198ea2dcfd7015696b0013175479afce270128ec6f6f0f2780ca1c8eab1c93a",
     "sections-t.txt": "34d453b51a5eff64dfd3a7d1c30799f217770addb73caf77bb077cdd56c59aa4",
-    "sections.obj": "9922870b5f4b757b27157947d31e4d93832bed3fc8dbf470f87423e0370619b9",
     "dereference.txt": "33a4d6943055d10deb1a9dcbc64c5d1c48230c7fcfb6cdbd46a155c2cc26f328"
   },
   "incomplete_type_rejections": [
@@ -57,5 +56,6 @@
   "reused_rejections": 75,
   "rejection_seconds": {
     "control_and_rejections": 7.044465923681855
-  }
+  },
+  "actual_object_snapshot": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/append-anchor-review/sections.obj"
 }
