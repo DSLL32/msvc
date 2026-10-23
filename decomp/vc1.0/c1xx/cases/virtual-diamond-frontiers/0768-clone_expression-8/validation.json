@@ -1,0 +1,27 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_clone_expression@8",
+    "start": 380896,
+    "end": 381521
+  },
+  "distinct_direct_callees": [
+    "_allocate_permanent@4",
+    "_clone_expression@8",
+    "_clone_expression_references@8",
+    "_collect_member_references@8",
+    "_copy_bytes_forward@12",
+    "_intern_type@4",
+    "_intern_type_shape@4",
+    "_refill_arena@8",
+    "_save_extended_in_arena@16"
+  ],
+  "next_frontier": "_find_hash_value@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4313463559374213,
+  "total_operation_seconds": 7.406314441002905,
+  "original_capture_seconds": 4.575161756016314,
+  "failed_preliminary_build": "failed-preliminary-build-timing.json",
+  "failed_preliminary_build_note": "Native final link caught missing expression-copy.obj in explicit OBJECTS; added it before rebuilding."
+}

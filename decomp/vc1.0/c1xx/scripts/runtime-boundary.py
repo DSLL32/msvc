@@ -58,7 +58,12 @@ def identities(canonical=False, names=NAMES):
                 local=target['storage']==3 and target['section']>0
                 key=old['object']+':'+target['name'] if local else target['name']
                 assert old_globals.setdefault(key,address)==address,'split CRT global'
-                if local:
+                if local and target['section']==symbol['section']:
+                    # Jump tables and absolute dispatch references within this
+                    # same CRT text member retain their section-relative offsets.
+                    assert address==old['start']-begin+target['value'],'original CRT internal text target differs'
+                    if canonical:assert b==((new['start']-begin+target['value']+addend)&0xffffffff),'canonical CRT internal text target differs'
+                elif local:
                     data_section=obj.sections[target['section']-1]
                     assert not data_section['relocs'],'local CRT data needs relocation-aware analysis'
                     # Static section symbols are not map publics. Anchor the
@@ -78,11 +83,17 @@ def identities(canonical=False, names=NAMES):
                 logical=target['name']
                 if logical.startswith('_') and '@' in logical:logical='import:'+logical[1:].rsplit('@',1)[0]
                 address=(old['start']+offset+4+a-addend)&0xffffffff
-                assert any(r['name']==logical and r['start']==address for r in old_records),'original CRT call relocation differs'
-                if canonical:
-                    address=(new['start']+offset+4+b-addend)&0xffffffff
-                    assert any(r['name']==logical and r['start']==address for r in new_records),'canonical CRT call relocation differs'
-                old_edges.add(logical)
+                if target['storage']==3 and target['section']==symbol['section'] and not any(r['name']==logical and r['start']==address for r in old_records):
+                    assert address==old['start']-begin+target['value'],'original CRT internal branch target differs'
+                    if canonical:
+                        address=(new['start']+offset+4+b-addend)&0xffffffff
+                        assert address==new['start']-begin+target['value'],'canonical CRT internal branch target differs'
+                else:
+                    assert any(r['name']==logical and r['start']==address for r in old_records),'original CRT call relocation differs'
+                    if canonical:
+                        address=(new['start']+offset+4+b-addend)&0xffffffff
+                        assert any(r['name']==logical and r['start']==address for r in new_records),'canonical CRT call relocation differs'
+                    old_edges.add(logical)
             else:raise AssertionError('unsupported CRT relocation kind')
             relocations.append(dict(offset=offset,symbol=target['name'],kind=kind))
         result.append(dict(name=name,record=old,library_sha256=sha(library),object_sha256=hashlib.sha256(data).hexdigest(),
@@ -101,6 +112,8 @@ def check(path):
         return check_exit(path)
     if evidence.get('kind')=='realloc':
         return check_realloc(path)
+    if evidence.get('kind')=='overlap_copy':
+        return check_copy(path)
     config=json.loads((BINARY/'functions.json').read_text())
     assert evidence['target_sha256']==config['target']['sha256']
     assert evidence['runtime_order']==list(NAMES),'unobserved runtime boundary'
@@ -203,4 +216,53 @@ def check_realloc(path):
         assert side['before']==side['after'] and side['before_name']==side['after_name'],'realloc lost input entry'
     assert left['before_name']==right['before_name']
     assert bytes.fromhex(left['before'])[4:]==bytes.fromhex(right['before'])[4:],'realloc entry bytes differ'
+    return evidence
+
+
+def copy_alias_identity():
+    """The library supplies separate public memcpy/memmove names for one body."""
+    library=BINARY.parents[2]/'toolchains/1.0-nt/lib/LIBC.LIB'
+    objects=dict(archive(library))
+    members=[]
+    for suffix in ('MEMCPY.OBJ','MEMMOVE.OBJ'):
+        name=next(n for n in objects if n.endswith(suffix))
+        obj=COFF(objects[name])
+        text=next(s for s in obj.sections if s['name']=='.text')
+        relocations=[dict(offset=offset,kind=kind,target_name=target['name'],target_value=target['value'],target_section=target['section'],target_storage=target['storage']) for offset,target,kind in text['relocs']]
+        members.append(dict(object=name,object_sha256=hashlib.sha256(objects[name]).hexdigest(),text_bytes=len(text['data']),text_sha256=hashlib.sha256(text['data']).hexdigest(),relocations=relocations))
+    assert members[0]['text_bytes']==members[1]['text_bytes']==334
+    assert members[0]['text_sha256']==members[1]['text_sha256']
+    assert members[0]['relocations']==members[1]['relocations']
+    return dict(library_sha256=sha(library),members=members,identity='identical text bytes and all 13 section-relative relocation targets; separate exported names')
+
+
+def check_copy(path):
+    """Require the actually exercised overlapping inline-vector suffix move."""
+    evidence=json.loads(path.read_text())
+    config=json.loads((BINARY/'functions.json').read_text())
+    assert evidence['target_sha256']==config['target']['sha256']
+    assert evidence['case']=='virtual_diamond' and evidence['runtime_order']==['_memcpy'],'unobserved copy sequence'
+    assert evidence['identity']==identities(names=['_memcpy']),'copy library identity changed'
+    assert evidence['alias_identity']==copy_alias_identity(),'copy alias identity changed'
+    for item in evidence['evidence_files']:
+        assert sha(BINARY/item['path'])==item['sha256'],'copy observation evidence changed'
+    raw=(BINARY/evidence['original_observation']).read_text()
+    left,right=evidence['original'],evidence['native']
+    assert json.loads((BINARY/evidence['native_observation']).read_text())==right,'copy native observation differs'
+    assert left['return_va']==0x4e4ad and right['caller']=='add_inline_pointer'
+    assert right['entry_requested']=='memmove','native copy entry not observed'
+    assert 'break memmove' in (BINARY/evidence['native_commands']).read_text(),'native copy breakpoint missing'
+    debug=(BINARY/evidence['native_debug_log']).read_text()
+    assert ('Breakpoint 2, 0x%x'%right['entry_pc']) in debug,'native copy entry address differs'
+    assert re.findall(r'^runtime (\S+)$',raw,re.M)==left['runtime_order']==['_memcpy']
+    assert int(re.search(r'^return_va ([0-9a-f]+)$',raw,re.M)[1],16)==left['return_va']
+    for key,value in [('size',8),('delta',4),('returned_destination',1)]:
+        assert int(re.search(r'^'+key+r' (-?\d+)$',raw,re.M)[1])==left[key]==right[key]==value,'copy arguments/return differ'
+    for stage in ('before','after'):
+        assert re.search(r'^'+stage+r' (.*)$',raw,re.M)[1]==left[stage],'copy raw original bytes differ'
+        assert [name for _,name in re.findall(r'^'+stage+r'_name (\d+) (.*)$',raw,re.M)]==left[stage+'_names']
+    for side in (left,right):
+        assert len(bytes.fromhex(side['before']))==8
+        assert side['before']==side['after'],'copy lost overlapping source bytes'
+        assert side['before_names']==side['after_names']==['Left','Right'],'copy class identities differ'
     return evidence

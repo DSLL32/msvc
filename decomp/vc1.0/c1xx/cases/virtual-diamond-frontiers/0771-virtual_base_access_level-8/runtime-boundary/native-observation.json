@@ -1,0 +1,21 @@
+{
+  "size": 8,
+  "delta": 4,
+  "returned_destination": 1,
+  "before": "4c375f56f03d5f56",
+  "after": "4c375f56f03d5f56",
+  "before_names": [
+    "Left",
+    "Right"
+  ],
+  "after_names": [
+    "Left",
+    "Right"
+  ],
+  "entry": null,
+  "caller": "add_inline_pointer",
+  "entry_requested": "memmove",
+  "entry_pc": 4159653568,
+  "entry_library": "/lib/i386-linux-gnu/libc.so.6",
+  "entry_binding": "GDB memmove breakpoint resolved GNU IFUNC implementation with no debug symbol"
+}

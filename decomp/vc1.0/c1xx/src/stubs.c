@@ -440,7 +440,6 @@ void __stdcall finish_work_stack(WorkingStack *stack) { __asm { int 3 } }
 void __stdcall declare_anonymous_aggregate_object(DeclarationType *type) { __asm { int 3 } }
 
 
-void *__stdcall find_hash_value(HashTable *table, void *key) { __asm { int 3 } return 0; }
 
 int __stdcall qualifier_path_is_hidden(QualifierBinding *path, HashTable *hidden) { __asm { int 3 } return 0; }
 
@@ -585,16 +584,12 @@ IrToken *make_error_expression(void) { __asm { int 3 } return 0; }
 void report_denied_member_access(void) { __asm { int 3 } }
 
 int __stdcall find_friend_access(CppSymbol *candidate, CppSymbol *owner) { __asm { int 3 } return 0; }
-QualifierBinding *__stdcall skip_base_qualifier_path(QualifierBinding *binding) { __asm { int 3 } return 0; }
-unsigned char __stdcall virtual_base_access_level(CppSymbol *base, CppSymbol *derived) { __asm { int 3 } return 0; }
 int __stdcall has_member_access_declaration(CppSymbol *owner, BaseClassLink *base,
     CppSymbol *member) { __asm { int 3 } return 0; }
 void __stdcall set_inherited_member_access_failure(CppSymbol *member, CppSymbol *base,
     unsigned char previous_access, unsigned char member_access, CppSymbol *previous_base) { __asm { int 3 } }
 
 IrToken *__stdcall adjust_pointer_by_offset(IrToken *object, unsigned displacement, CType *type) { __asm { int 3 } return 0; }
-IrToken *__stdcall adjust_virtual_member_object(IrToken *object, QualifierBinding *binding,
-    CType *type, unsigned displacement, int pointer_conversion) { __asm { int 3 } return 0; }
 
 int __stdcall has_assignment_member_model(CType *type) { __asm { int 3 } return 0; }
 void __stdcall report_conversion_rank_failure(unsigned char operation, unsigned rank,
@@ -650,3 +645,9 @@ int __stdcall can_bind_conversion_reference(CType *reference, CType *value) { __
 int __stdcall find_constructor_result_reference(IrToken *call, IrToken **reference) { __asm { int 3 } return 0; }
 void __stdcall cancel_temporary_cleanup(CppSymbol *symbol) { __asm { int 3 } }
 IrToken *__stdcall convert_class_pointer(IrToken *expression, CType *type, CType *source, QualifiedDeclarator *path) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_once_virtual_base_pointer(IrToken *object, CType *type, unsigned pointer_offset, unsigned table_offset, unsigned member_offset, CType *pointer_type, int check_null) { __asm { int 3 } return 0; }
+unsigned char *__stdcall copy_bytes_forward(unsigned char *destination, const unsigned char *source, unsigned bytes) { __asm { int 3 } return 0; }
+Extended *__stdcall save_extended_in_arena(Extended value, int arena) { __asm { int 3 } return 0; }
+void __stdcall collect_member_references(MemberReferenceGroup **groups, IrToken *expression) { __asm { int 3 } }
+ExpressionReference *__stdcall clone_expression_references(ExpressionReference *references, int arena) { __asm { int 3 } return 0; }
+unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *derived) { __asm { int 3 } return 0; }

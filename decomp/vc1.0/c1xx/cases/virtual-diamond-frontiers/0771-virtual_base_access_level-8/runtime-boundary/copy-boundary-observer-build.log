@@ -1,0 +1,5 @@
+python3 scripts/dependencies.py
+python3 scripts/wine-tool.py --init
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/reference-copy-observer.obj src/reference-copy-observer.c
+src/reference-copy-observer.c
+python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /out:build/reference-copy-observer.exe build/reference-copy-observer.obj

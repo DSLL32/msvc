@@ -1,0 +1,10 @@
+{
+  "seconds": 7.286483554169536,
+  "status": 0,
+  "command": [
+    "make",
+    "-j4",
+    "build/reference-copy-observer.exe"
+  ],
+  "log": "/root/.ai-tmp/vc1.0-c1xx/copy-boundary-observer-build.log"
+}

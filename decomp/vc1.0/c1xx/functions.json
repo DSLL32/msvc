@@ -767,7 +767,17 @@
     "_make_subobject_pointer@12",
     "_is_this_object_expression@4",
     "_complete_type_size@4",
-    "_inner_type_size@12"
+    "_inner_type_size@12",
+    "_adjust_virtual_member_object@20",
+    "_query_virtual_base_pointer@20",
+    "_find_virtual_base_pointer@20",
+    "_expression_can_be_repeated@4",
+    "_make_virtual_base_pointer@28",
+    "_clone_expression@8",
+    "_find_hash_value@8",
+    "_skip_base_qualifier_path@4",
+    "_virtual_base_access_level@8",
+    "_memcpy"
   ],
   "driver": [
     {
@@ -4070,7 +4080,7 @@
     {
       "name": "_find_hash_value@8",
       "start": 322912,
-      "end": 322913
+      "end": 322967
     },
     {
       "name": "_set_hash_value@12",
@@ -5237,12 +5247,12 @@
     {
       "name": "_skip_base_qualifier_path@4",
       "start": 203296,
-      "end": 203297
+      "end": 203330
     },
     {
       "name": "_virtual_base_access_level@8",
       "start": 507664,
-      "end": 507665
+      "end": 507711
     },
     {
       "name": "_has_member_access_declaration@12",
@@ -5272,7 +5282,7 @@
     {
       "name": "_adjust_virtual_member_object@20",
       "start": 201968,
-      "end": 201969
+      "end": 202101
     },
     {
       "name": "_has_assignment_member_model@4",
@@ -6508,6 +6518,61 @@
       "name": "_convert_class_pointer@16",
       "start": 420688,
       "end": 420689
+    },
+    {
+      "name": "_query_virtual_base_pointer@20",
+      "start": 507408,
+      "end": 507441
+    },
+    {
+      "name": "_expression_can_be_repeated@4",
+      "start": 400352,
+      "end": 400527
+    },
+    {
+      "name": "_make_virtual_base_pointer@28",
+      "start": 202112,
+      "end": 202280
+    },
+    {
+      "name": "_make_once_virtual_base_pointer@28",
+      "start": 202352,
+      "end": 202353
+    },
+    {
+      "name": "_find_virtual_base_pointer@20",
+      "start": 507456,
+      "end": 507538
+    },
+    {
+      "name": "_clone_expression@8",
+      "start": 380896,
+      "end": 381521
+    },
+    {
+      "name": "_copy_bytes_forward@12",
+      "start": 103696,
+      "end": 103697
+    },
+    {
+      "name": "_save_extended_in_arena@16",
+      "start": 185392,
+      "end": 185393
+    },
+    {
+      "name": "_collect_member_references@8",
+      "start": 253728,
+      "end": 253729
+    },
+    {
+      "name": "_clone_expression_references@8",
+      "start": 381536,
+      "end": 381537
+    },
+    {
+      "name": "_compute_virtual_base_access@8",
+      "start": 507712,
+      "end": 507713
     }
   ],
   "cases": {
@@ -6633,7 +6698,7 @@
       "native_reference": "cases/native-virtual-diamond",
       "frontiers": "cases/virtual-diamond-frontiers",
       "accepted_from": 643,
-      "terminal": "_adjust_virtual_member_object@20",
+      "terminal": "_clear_most_derived_argument@4",
       "frontier_extensions": [
         "cases/virtual-diamond-frontiers/0643-complete_declaration-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0644-add_storage_specifier-16/frontier-extension.json",
@@ -6754,9 +6819,19 @@
         "cases/virtual-diamond-frontiers/0759-make_subobject_pointer-12/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0760-is_this_object_expression-4/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0761-complete_type_size-4/frontier-extension.json",
-        "cases/virtual-diamond-frontiers/0762-inner_type_size-12/frontier-extension.json"
+        "cases/virtual-diamond-frontiers/0762-inner_type_size-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0763-adjust_virtual_member_object-20/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0764-query_virtual_base_pointer-20/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0765-find_virtual_base_pointer-20/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0766-expression_can_be_repeated-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0767-make_virtual_base_pointer-28/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0768-clone_expression-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0769-find_hash_value-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0770-skip_base_qualifier_path-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0771-virtual_base_access_level-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0772-memcpy/frontier-extension.json"
       ],
-      "terminal_evidence": "cases/virtual-diamond-frontiers/0762-inner_type_size-12/original-events.txt",
+      "terminal_evidence": "cases/virtual-diamond-frontiers/0772-memcpy/original-events.txt",
       "original_seed": "cases/virtual_diamond-seed"
     }
   },

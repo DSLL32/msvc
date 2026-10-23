@@ -1,0 +1,25 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_make_virtual_base_pointer@28",
+    "start": 202112,
+    "end": 202280
+  },
+  "distinct_direct_callees": [
+    "_builtin_integer_type",
+    "_clone_expression@8",
+    "_make_integer_constant@4",
+    "_make_member_at_offset@12",
+    "_new_ir_expression@16",
+    "_new_right_typed_expression@12",
+    "_new_typed_unary_expression@12"
+  ],
+  "next_frontier": "_clone_expression@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4084546435624361,
+  "total_operation_seconds": 7.353482939302921,
+  "original_capture_seconds": 4.527436595410109,
+  "failed_preliminary_build": "failed-preliminary-build-timing.json",
+  "failed_preliminary_build_note": "Native compilation caught missing new_right_typed_expression prototype; added return-statements.h before rebuilding."
+}

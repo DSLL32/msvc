@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 1.3993864096701145,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-clone-expression-retry-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 22.70483127143234,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-clone-expression-retry-canonical.log"
+  }
+]

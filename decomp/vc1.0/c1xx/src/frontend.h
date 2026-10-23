@@ -8,6 +8,8 @@
 typedef struct CType CType;
 typedef struct CppSymbol CppSymbol;
 typedef struct OverloadCandidate OverloadCandidate;
+typedef struct ExpressionReference ExpressionReference;
+typedef struct MemberReferenceGroup MemberReferenceGroup;
 typedef struct IrToken {
     unsigned char kind, flags;
     unsigned short field02;
@@ -17,10 +19,22 @@ typedef struct IrToken {
     union {
         struct { unsigned short length, auxiliary_flags; } string;
         struct IrToken *right;
+        ExpressionReference *references;
+        MemberReferenceGroup *reference_groups;
         CppSymbol *symbol;
         unsigned word;
     } tail;
 } IrToken;
+struct ExpressionReference {
+    ExpressionReference *next;
+    IrToken *expression;
+};
+struct MemberReferenceGroup {
+    MemberReferenceGroup *next;
+    ExpressionReference *references;
+};
+typedef char ExpressionReferenceSizeMustBe8[(sizeof(ExpressionReference) == 8) ? 1 : -1];
+typedef char MemberReferenceGroupSizeMustBe8[(sizeof(MemberReferenceGroup) == 8) ? 1 : -1];
 typedef char IrTokenTypeOffsetMustBe4[(offsetof(IrToken, type) == 4) ? 1 : -1];
 typedef char IrTokenLinkageOffsetMustBe8[(offsetof(IrToken, linkage) == 8) ? 1 : -1];
 typedef char IrTokenTailOffsetMustBe16[(offsetof(IrToken, tail) == 16) ? 1 : -1];

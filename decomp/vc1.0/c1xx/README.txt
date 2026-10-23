@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 763 accepted frontiers, including 671 frontend
+PARTIAL binary reconstruction: 771 accepted frontiers, including 679 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1717,3 +1717,41 @@ a no-op preparatory build is retained separately and adds no acceptance.
 
 Accepted extent union 216355/476418 bytes is 45.412852%, not branch coverage.
 virtual_diamond remains incomplete at adjust_virtual_member_object 0x314f0.
+
+Virtual-base pointer/copy checkpoint: 773 accepted frontiers, 687 source
+functions. Nine whole application helpers beyond 5ab2866 recover virtual-base
+member adjustment, checked group metadata, expression repeatability, direct
+vbtable displacement expressions, deep expression copies, hash lookup and
+virtual-base access. Expression-copy arena choices and owned operand/string/
+floating/reference-list payload branches remain within their original function;
+newly unseen payload helpers have typed named trapping stubs. ExpressionReference
+and MemberReferenceGroup each have asserted eight-byte layouts.
+
+The access wrapper first exposed the original CRT memcpy/memmove shared body.
+The native source already calls memmove for overlapping inline-vector insertion.
+The original LIBC MEMCPY.OBJ and MEMMOVE.OBJ have identical 334-byte text and all
+13 relocation targets. The boundary proof restores that exact original body,
+observes an eight-byte suffix shift by four bytes, preserves both raw pointer
+words on each side, compares their Left/Right class identities and requires the
+returned destination. Native GDB observes the actual memmove IFUNC implementation
+entry and return to add_inline_pointer. Pointer addresses are retained raw and
+compared by these two established class identities across processes.
+
+After this one ordered CRT entry, both sides reach clear_most_derived_argument
+with all four pending buffers, fourteen state fields, streams and visible files
+exact. The expanded identity checker now verifies internal CRT text relocations
+without suppressing existing named static CRT function edges. Existing fflush
+proofs remain unchanged. Its initial finalization failure and a stale offline
+cache attempt are documented; captures were reused without duplicate acceptance.
+Failed preliminary source builds are also retained with separate timings.
+
+Full 687-function canonical graph, contextual data/default/callback and grammar
+audits, both cached native cases and 30 rejection checks pass in 5.283339 seconds.
+Five new rejections cover library/alias identity, overlap displacement, returned
+destination and lost input bytes. Build, fresh reference, boundary setup/execution,
+native debugger and fixture setup/execution/oracle timings remain separately
+recorded; recovery operation wall is explicitly unmeasured.
+
+Accepted extent union 218041/476418 bytes is 45.766743%, not branch coverage.
+The 334 CRT bytes are separate from application source coverage. virtual_diamond
+remains incomplete at clear_most_derived_argument 0x3b040.

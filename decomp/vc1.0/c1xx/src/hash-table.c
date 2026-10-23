@@ -148,3 +148,15 @@ HashEntry *__stdcall find_hash_entry(HashTable *table, void *key, unsigned bucke
     }
     return 0;
 }
+
+/* Original 0x4ed60..0x4ed96. A missing table is an empty lookup;
+   otherwise preserve the separate bucket and entry helper calls. */
+void *__stdcall find_hash_value(HashTable *table, void *key)
+{
+    unsigned bucket;
+    HashEntry *entry;
+    if (!table) return 0;
+    bucket = hash_table_bucket(table, key);
+    entry = find_hash_entry(table, key, bucket);
+    return entry ? entry->value : 0;
+}

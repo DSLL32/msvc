@@ -141,6 +141,25 @@ def main():
                 assert expected in str(error),(name,str(error))
                 checks.append(dict(name=name,status='pass',rejected_because=str(error) or 'raw realloc observation contradicts claimed size or preserved prefix',seconds=time.perf_counter()-started))
             else:raise AssertionError(name+' accepted corrupted reallocation evidence')
+    copy_path=BINARY/'cases/virtual-diamond-frontiers/0771-virtual_base_access_level-8/runtime-boundary/evidence.json'
+    if copy_path.exists():
+        from runtime_boundary_loader import load_boundary
+        boundary=load_boundary();proof=boundary.check(copy_path)
+        changes=[
+            ('copy-library',lambda p:p['identity']['records'][0].__setitem__('member_sha256','0'*64),'copy library identity changed'),
+            ('copy-alias',lambda p:p['alias_identity']['members'][1].__setitem__('text_sha256','0'*64),'copy alias identity changed'),
+            ('copy-overlap',lambda p:p['original'].__setitem__('delta',0),'copy arguments/return differ'),
+            ('copy-return',lambda p:p['original'].__setitem__('returned_destination',0),'copy arguments/return differ'),
+            ('copy-lost-prefix',lambda p:p['original'].__setitem__('after','00'*8),'copy raw original bytes differ')]
+        for name,change,expected in changes:
+            altered=json.loads(json.dumps(proof));change(altered)
+            altered_path=directory/(name+'.json');altered_path.write_text(json.dumps(altered))
+            started=time.perf_counter()
+            try:boundary.check(altered_path)
+            except AssertionError as error:
+                assert expected in str(error),(name,str(error))
+                checks.append(dict(name=name,status='pass',rejected_because=str(error),seconds=time.perf_counter()-started))
+            else:raise AssertionError(name+' accepted corrupted overlapping-copy evidence')
     if 'virtual_diamond' in cache['cases']:
         wrong=json.loads(json.dumps(cache))
         wrong['cases']['virtual_diamond']['seen'].remove('main')

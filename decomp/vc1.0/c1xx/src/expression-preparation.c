@@ -165,3 +165,31 @@ process_return:
     if (ir_record_error_context == recovery) ir_record_error_context = 0;
     return expression;
 }
+
+/* Original 0x61be0..0x61c8e. Assignments, increments, argument/call
+   forms and volatile accesses cannot be duplicated. The native code reads the
+   kind/category before its null test; retain that ordering here. */
+int __stdcall expression_can_be_repeated(IrToken *expression)
+{
+    unsigned char kind, category, form;
+    CType *type;
+    for (;;) {
+        kind = expression->kind;
+        category = token_categories[kind];
+        if (!expression) return 1;
+        if (category == 0x6b || category == 0x7d || kind == 0x3d ||
+            kind == 0x7a || kind == 0x81) return 0;
+        type = expression->type;
+        if (type->related) {
+            if (type->related->attributes & 0x2000) return 0;
+        } else if (type->attributes & 0x2000) return 0;
+        form = expression->flags & 7;
+        if (form == 2) {
+            if (!expression_can_be_repeated(expression->value.pointer)) return 0;
+            if (!expression_can_be_repeated(expression->tail.right)) return 0;
+            return 1;
+        }
+        if (form != 1) return 1;
+        expression = expression->value.pointer;
+    }
+}

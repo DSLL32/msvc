@@ -23,7 +23,7 @@ OBJECTS += build/allocation-expressions.obj build/call-expressions.obj
 OBJECTS += build/numeric-scanning.obj build/numeric-conversion.obj
 OBJECTS += build/member-access.obj build/member-expressions.obj
 OBJECTS += build/mangling.obj build/symbol-output.obj build/function-finalization.obj build/statement-scopes.obj build/return-statements.obj
-OBJECTS += build/expression-output.obj build/expression-records.obj
+OBJECTS += build/expression-output.obj build/expression-records.obj build/expression-copy.obj
 OBJECTS += build/unary-expressions.obj build/inline-analysis.obj
 OBJECTS += build/control-ir.obj build/control-formats.obj build/ir-encoding.obj
 OBJECTS += build/function-definitions.obj build/frontend-records.obj build/identifier-expressions.obj
@@ -49,6 +49,9 @@ build/reference-stream-observer.exe: build/reference-stream-observer.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 build/reference-realloc-observer.obj: src/reference-realloc-observer.c src/debug-run.c
 build/reference-realloc-observer.exe: build/reference-realloc-observer.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
+build/reference-copy-observer.obj: src/reference-copy-observer.c src/debug-run.c
+build/reference-copy-observer.exe: build/reference-copy-observer.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 build/debug-run.exe: build/debug-run.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<

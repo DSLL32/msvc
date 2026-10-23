@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.150383146479726,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-skip-base-qualifier-path-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 5.018360578455031,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-skip-base-qualifier-path-canonical.log"
+  }
+]

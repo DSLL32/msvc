@@ -1,0 +1,19 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655b538 in expression_can_be_repeated (expression=0x56618a5c) at src/stubs.c:651
+651	int __stdcall expression_can_be_repeated(IrToken *expression) { __asm { int 3 } return 0; }
+#0  0x5655b538 in expression_can_be_repeated (expression=0x56618a5c) at src/stubs.c:651
+#1  0x5658aa03 in adjust_virtual_member_object (object=0x56618a5c, binding=0x56618a3c, type=0x565f3584, displacement=0, pointer_conversion=0) at src/member-expressions.c:267
+#2  0x5658a8cb in adjust_member_binding_object (object=0x56618a5c, binding=0x56618a3c, pointer_conversion=0, derived_to_base=1, object_type=0x565f3584) at src/member-expressions.c:183
+#3  0x565826b8 in initialize_qualified_member (path=0x56618a3c, value=0x56618a0c) at src/constructor-initializers.c:915
+#4  0x565823fd in emit_vtable_pointer_initializers (tag=0x565f374c, table_kind=0, use_member_address=0) at src/constructor-initializers.c:658
+#5  0x565804c9 in emit_class_table_initializers (tag=0x565f374c, initialize=1) at src/constructor-initializers.c:634
+#6  0x5657fd6a in emit_constructor_initializers (tag=0x565f374c, initializers=0x0) at src/constructor-initializers.c:148
+#7  0x5658ee36 in enter_compound_scope () at src/statement-scopes.c:46
+#8  0x5658ebe6 in begin_compound_statement () at src/statement-scopes.c:13
+#9  0x5659a7b5 in parse_translation_unit () at src/parser-statement-actions.inc:8
+#10 0x5655de16 in compile_translation_unit () at src/frontend.c:75
+#11 0x565587e6 in guarded_compile () at src/c1xx.c:28
+#12 0x565587b4 in main (argc=1, argv=0xffffd8d4, environment=0xffffd8dc) at src/c1xx.c:20

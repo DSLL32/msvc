@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_find_hash_value@8",
+    "start": 322912,
+    "end": 322967
+  },
+  "distinct_direct_callees": [
+    "_find_hash_entry@12",
+    "_hash_table_bucket@8"
+  ],
+  "next_frontier": "_skip_base_qualifier_path@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.40141636319458485,
+  "total_operation_seconds": 7.239278917200863,
+  "original_capture_seconds": 4.326289183460176
+}

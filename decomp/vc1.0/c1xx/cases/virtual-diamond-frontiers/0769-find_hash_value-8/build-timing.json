@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.0542249474674463,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-find-hash-value-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 5.763988256454468,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-find-hash-value-canonical.log"
+  }
+]

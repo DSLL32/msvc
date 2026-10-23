@@ -3,6 +3,8 @@
 #include "lexer.h"
 #include "constructor-initializers.h"
 #include "operators.h"
+#include "unary-expressions.h"
+#include "return-statements.h"
 #include <recon.h>
 
 IrToken *__stdcall enumerator_expression(CppSymbol *symbol);
@@ -237,4 +239,93 @@ IrToken *__stdcall materialize_member_object(IrToken *object)
         return object;
     }
     return builtin_unary_expression(0x3b, object);
+}
+
+int __stdcall query_virtual_base_pointer(CppSymbol *base, CppSymbol *derived,
+    unsigned *pointer_offset, unsigned *table_offset, CType **pointer_type);
+int __stdcall expression_can_be_repeated(IrToken *expression);
+IrToken *__stdcall make_virtual_base_pointer(IrToken *object, CType *type,
+    unsigned pointer_offset, unsigned table_offset, unsigned member_offset,
+    CType *pointer_type, int check_null);
+IrToken *__stdcall make_once_virtual_base_pointer(IrToken *object, CType *type,
+    unsigned pointer_offset, unsigned table_offset, unsigned member_offset,
+    CType *pointer_type, int check_null);
+
+/* Original 0x314f0..0x31574. The final qualification component supplies
+   the derived class owning this virtual-base path. Preserve the separate
+   repeated-expression and single-evaluation construction paths. */
+IrToken *__stdcall adjust_virtual_member_object(IrToken *object, QualifierBinding *binding,
+    CType *type, unsigned displacement, int pointer_conversion)
+{
+    BaseClassLink *base = (BaseClassLink *)binding->target;
+    QualifierBinding *component;
+    CppSymbol *derived = 0;
+    unsigned pointer_offset, table_offset;
+    CType *pointer_type;
+    for (component = binding->next; component; component = component->next)
+        derived = (CppSymbol *)component->target;
+    query_virtual_base_pointer(cpp_context_stack->items[base->context_index], derived,
+        &pointer_offset, &table_offset, &pointer_type);
+    if (expression_can_be_repeated(object))
+        return make_virtual_base_pointer(object, type, pointer_offset, table_offset,
+            displacement, pointer_type, pointer_conversion);
+    return make_once_virtual_base_pointer(object, type, pointer_offset, table_offset,
+        displacement, pointer_type, pointer_conversion);
+}
+
+int __stdcall find_virtual_base_pointer(CppSymbol *base, CppSymbol *derived,
+    unsigned *pointer_offset, unsigned *table_offset, CType **pointer_type);
+
+/* Original 0x7be10..0x7be30. Forward all output slots and retain EAX
+   from the checked lookup. This caller ignores its boolean result. */
+int __stdcall query_virtual_base_pointer(CppSymbol *base, CppSymbol *derived,
+    unsigned *pointer_offset, unsigned *table_offset, CType **pointer_type)
+{
+    return find_virtual_base_pointer(base, derived, pointer_offset, table_offset, pointer_type);
+}
+
+VirtualTableGroup *__stdcall find_virtual_base_group(CppSymbol *tag, Vector *groups);
+
+/* Original 0x7be40..0x7be91. Leave requested output slots untouched on
+   a missing base; each nonnull output independently selects group metadata. */
+int __stdcall find_virtual_base_pointer(CppSymbol *base, CppSymbol *derived,
+    unsigned *pointer_offset, unsigned *table_offset, CType **pointer_type)
+{
+    VirtualTableGroup *group = find_virtual_base_group(base,
+        derived->detail.class_info->virtual_table_groups);
+    if (!group) return 0;
+    if (pointer_offset) *pointer_offset = group->virtual_pointer_offset;
+    if (table_offset) *table_offset = group->virtual_base_table_offset;
+    if (pointer_type) *pointer_type = group->virtual_base_pointer->type;
+    return 1;
+}
+
+IrToken *__stdcall clone_expression(IrToken *expression, int arena);
+
+/* Original 0x31580..0x31627. Load the virtual-base displacement through
+   the vbptr/vbtable pair and add the member offset. Pointer conversions retain
+   a null input through the explicit conditional-expression tree. */
+IrToken *__stdcall make_virtual_base_pointer(IrToken *object, CType *type,
+    unsigned pointer_offset, unsigned table_offset, unsigned member_offset,
+    CType *pointer_type, int check_null)
+{
+    IrToken *pointer, *copy, *displacement, *result, *condition, *zero, *alternatives;
+    CType *integer;
+    pointer = make_member_at_offset(object, pointer_offset, type);
+    copy = clone_expression(pointer, 0);
+    displacement = new_typed_unary_expression(0x46, pointer_type, copy);
+    displacement = make_member_at_offset(displacement, table_offset, pointer_type);
+    integer = builtin_integer_type();
+    displacement = new_typed_unary_expression(0x46, integer, displacement);
+    result = new_ir_expression(0x5a, pointer, displacement, type);
+    result = make_member_at_offset(result, member_offset, type);
+    if (check_null) {
+        zero = make_integer_constant(0);
+        copy = clone_expression(object, 0);
+        condition = new_ir_expression(0x44, copy, zero, type);
+        zero = make_integer_constant(0);
+        alternatives = new_ir_expression(0x3f, zero, result, type);
+        result = new_right_typed_expression(0x5f, condition, alternatives);
+    }
+    return result;
 }

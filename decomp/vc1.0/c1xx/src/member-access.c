@@ -164,3 +164,29 @@ void __stdcall set_base_initialization_access(int enabled)
 {
     base_initialization_access = enabled;
 }
+
+/* Original 0x31a20..0x31a41. Return the last base component, retaining
+   the initial binding if it is null or is already a non-base component. The
+   access checker consumes the returned node's next enclosing component. */
+QualifierBinding *__stdcall skip_base_qualifier_path(QualifierBinding *binding)
+{
+    QualifierBinding *last = binding;
+    while (binding && (binding->target->kind & 0x1f) == 15) {
+        last = binding;
+        binding = binding->next;
+    }
+    return last;
+}
+
+VirtualTableGroup *__stdcall find_virtual_base_group(CppSymbol *tag, Vector *groups);
+unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *derived);
+
+/* Original 0x7bf10..0x7bf3e. Completed classes cache effective virtual
+   access in their group; classes under definition derive it from direct bases. */
+unsigned char __stdcall virtual_base_access_level(CppSymbol *base, CppSymbol *derived)
+{
+    VirtualTableGroup *group;
+    if (!(derived->flags & 4)) return compute_virtual_base_access(base, derived);
+    group = find_virtual_base_group(base, derived->detail.class_info->virtual_table_groups);
+    return group->flags;
+}
