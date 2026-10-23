@@ -1,0 +1,8 @@
+{
+  "scope": "Legacy no-capacity UTF16 swprintf, encountered #line %d CRLF format only, sufficient caller buffer, default-C signed32 argument. Unknown formats/locales denied.",
+  "reference": "tests/line-format-original.json",
+  "original_proof": "Actual loaded canonical CRT/probe hFile byte verification. Six values INT_MIN,-1,0,1,63,INT_MAX x4 error pairs;24 rows and25 complete8196-byte before/after buffers. Actual target first call argument1/result9.",
+  "implementation": "Formats actual signed32 argument into UTF16; count excludes NUL, untouched caller tail and errno/LastError retained. No fixture response or host wchar formatter.",
+  "native_checks": "GCC/Clang exact stdout hash and all25 buffer hashes; unknown format/locale/codepage/NULL controls denied. Shared SDK surface tests pass.",
+  "checks_seconds": 0.152425
+}

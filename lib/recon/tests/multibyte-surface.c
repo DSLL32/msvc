@@ -17,7 +17,7 @@ int main(int argc,char **argv)
     if(!strcmp(argv[1],"fullcompare")) return _mbsicmp(text,text);
     if(!strcmp(argv[1],"bytecopy")) return _mbsnbcpy(target,text,1)==NULL;
     if(!strcmp(argv[1],"widecopy")) {WCHAR out[4]={0},word[2]={'a',0};return wcscat(out,word)==NULL;}
-    if(!strcmp(argv[1],"wideformat")) {WCHAR out[4],format[2]={'a',0};return swprintf(out,format);}
+    if(!strcmp(argv[1],"wideformat")) {WCHAR out[16],format[]={'#','l','i','n','e',' ','%','d','\r','\n',0};return swprintf(out,format,1)!=9;}
     if(!strcmp(argv[1],"wideclass")) return iswctype('a',4);
     if(!strcmp(argv[1],"leadbyte")) return IsDBCSLeadByteEx(1252,'a');
     if(!strcmp(argv[1],"leadpage")) return IsDBCSLeadByteEx(932,'a');
