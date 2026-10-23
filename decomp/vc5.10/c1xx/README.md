@@ -100,17 +100,17 @@ Historical schema2–4 pointer-seeded captures establish zeroing/reset only, and
 are not evidence of numeric equivalence before clearing. Raw historical captures
 remain unchanged.
 
-Six output objects now have nine encountered fields each:198semantic bytes,
-with18bytes of natural native C padding. The original259-byte gap per object
-is unmodeled. Schema11 accounts for474semantic BSS bytes and492native sizeof;
+Seven output objects now have nine encountered fields each:231semantic bytes,
+with21bytes of natural native C padding. The original259-byte gap per object
+is unmodeled. Schema12 accounts for507semantic BSS bytes and528native sizeof;
 8516original initialized snapshot bytes remain unmodeled.
 
-`cases/minimal/output01-trials.json` through `output06-trials.json` retain each
+`cases/minimal/output01-trials.json` through `output07-trials.json` retain each
 natural pair and both explicitly auxiliary nonzero constructor/reset modes.
 Unused callback and owned-pointer roles are stated in each trial. The decoder
 checks every actual constructor entry, field assignment, destructor argument and
 ordered cleanup slot; output/context controls reject altered evidence. Split
 initializer wrappers retain their own disjoint chunks, with separate constructor
 vertices. Cleanup registration preserves its cold variadic diagnostic boundary.
-Current reconstruction has reached initializer14; minimal compilation remains
+Current reconstruction has reached initializer15; minimal compilation remains
 unfinished. The completed lifecycle fixture remains native-only (about12ms warm).
