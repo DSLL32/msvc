@@ -1110,3 +1110,125 @@ void __fastcall record_work_effect_in_regions(Node *node, FlowRegion *region)
 {
     for (; region; region = region->parent) add_region_candidate(node, region);
 }
+
+/* Original [00027520,00027526). The x86 target provides bulk-memory
+   operations for the region strength-reduction pass. */
+int supports_region_memory_operations(void)
+{
+    return 1;
+}
+
+int __fastcall region_assignment_precedes(Node *first, Node *second);
+/* Original [00060c60,00060d9e). Remove invariant address offsets and
+   transparent conversions, then require a dominating basic induction with
+   an exact element-size stride whose update follows this memory operation. */
+BasicInduction *__fastcall find_region_memory_induction(Node *address, Node *assignment,
+    unsigned bytes, unsigned *reverse)
+{
+    BasicInduction *induction;
+    unsigned negative = 0;
+    unsigned short source, destination;
+    for (;;) {
+        switch (address->opcode) {
+        case 2: case 3:
+            if (is_region_invariant_value(address->second.node)) {
+                address = address->left.node;
+                continue;
+            }
+            if (is_region_invariant_value(address->left.node)) {
+                if (address->opcode == 3) negative = 1;
+                address = address->second.node;
+                continue;
+            }
+            break;
+        case 0x34:
+            source = address->left.node->attributes.words.type;
+            destination = address->attributes.words.type;
+            if ((source & 255) < (destination & 255) && (destination & 255) != 4) break;
+            if ((destination & 0xf00) && (source & 0xff00) == 0x1000) break;
+            if (destination == 0x408 && (source & 255) == 8 && (source & 0x300)) break;
+            address = address->left.node;
+            continue;
+        case 0x68:
+            if (is_region_invariant_value(address->second.node)) {
+                address = address->left.node;
+                continue;
+            }
+            break;
+        }
+        break;
+    }
+    induction = find_basic_induction_load(address);
+    if (!induction || !induction->dominates_region ||
+        region_assignment_precedes(induction->assignment, assignment) ||
+        !is_constant_value(induction->step, bytes)) return 0;
+    *reverse = (induction->assignment->second.node->opcode == 3) ^ negative;
+    return induction;
+}
+
+/* Original [00060b80,00060c59). Exclude bulk-memory candidates touched
+   by another load/store or call effect. Keep the evolving list local while
+   testing aliases, then publish its new head after the scan. */
+void __fastcall exclude_region_memory_operations(Node *node)
+{
+    Node *effect;
+    RegionMemoryOperation *head, *operation, **position;
+    int remove;
+    if ((node_shapes[node->opcode] & NODE_ARITY) == NODE_LEAF) return;
+    exclude_region_memory_operations(node->left.node);
+    if (node_shapes[node->opcode] & NODE_HAS_SECOND)
+        exclude_region_memory_operations(node->second.node);
+    if (node->opcode == 0x30 || node->opcode == 0x32) {
+        effect = scratch_node;
+        *effect = *node;
+        effect->opcode = 0x30;
+        effect->attributes.words.flags |= 2;
+    } else if (node->opcode == 0x3e) effect = node;
+    else return;
+    head = region_memory_operations;
+    position = &head;
+    for (operation = head; operation; operation = operation->next) {
+        remove = operation->opcode == 0x96 && node->opcode != 0x30 &&
+            operation->value != node && work_effect_invalidates_value(effect, operation->value);
+        if (!remove && operation->original_assignment != node)
+            remove = work_effect_invalidates_value(effect, operation->original_assignment);
+        if (remove) *position = operation->next;
+        else position = &operation->next;
+    }
+    region_memory_operations = head;
+}
+
+/* Original [0005fd10,0005fd5b). Unlink an induction through a local
+   head sentinel, then release its independently owned affine trees. */
+void __fastcall release_basic_induction(BasicInduction *induction)
+{
+    BasicInduction *head = basic_region_inductions, **position = &head;
+    while (*position) {
+        if (*position == induction) {
+            *position = induction->next;
+            break;
+        }
+        position = &(*position)->next;
+    }
+    basic_region_inductions = head;
+    if (induction->left) release_tree(induction->left);
+    if (induction->right) release_tree(induction->right);
+}
+
+int __fastcall has_unblocked_derived_use(Node *node);
+/* Original [00060380,00060419). A blocked representative can proceed
+   when its invariant indirect loads are already used by an unblocked group. */
+int __fastcall derived_induction_is_profitable(Node *node)
+{
+    for (;;) {
+        if ((node_shapes[node->opcode] & NODE_ARITY) == NODE_LEAF) return 1;
+        if (node->opcode == 0x30) {
+            if (!(node->attributes.words.flags & 1) && (node->attributes.words.flags & 0x10))
+                return has_unblocked_derived_use(node) != 0;
+            return 1;
+        }
+        if (!derived_induction_is_profitable(node->left.node)) return 0;
+        if (!(node_shapes[node->opcode] & NODE_HAS_SECOND)) return 1;
+        node = node->second.node;
+    }
+}

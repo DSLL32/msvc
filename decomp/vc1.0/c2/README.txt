@@ -2201,3 +2201,11 @@ _supports_region_memory_operations. 799 graph checks, canonical/native/W3 and al
 native fixtures pass. See cases/loops-materialization.json for extent union, limits
 and measured timing splits. Minimal/hello objects remain exact after timestamp;
 loop620-byte final object is incomplete.
+
+Nested loop strength screening: checkpoint882
+------------------------------
+5 whole functions pass fresh original/native matching; current frontier
+@rewrite_derived_induction_group@8. 804 graph checks, canonical/native/W3 and all three
+native fixtures pass. See cases/loops-strength-screen.json for extent union, limits
+and measured timing splits. Minimal/hello objects remain exact after timestamp;
+loop620-byte final object is incomplete.

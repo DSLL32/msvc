@@ -402,19 +402,15 @@ void remove_region_blocks(void) { __asm int 3 }
 void __fastcall remove_region_block(WorkItem *work) { __asm int 3 }
 int __fastcall choose_derived_induction_representative(Node *difference, Node *left,
     Node *right, Node **representative) { __asm int 3 }
-int __fastcall derived_induction_is_profitable(Node *node) { __asm int 3 }
+int __fastcall has_unblocked_derived_use(Node *node) { __asm int 3 }
 void __fastcall rewrite_derived_induction_group(DerivedInduction *candidates, Node *representative) { __asm int 3 }
-int supports_region_memory_operations(void) { __asm int 3 }
-BasicInduction *__fastcall find_region_memory_induction(Node *address, Node *assignment,
-    unsigned bytes, unsigned *reverse) { __asm int 3 }
-void __fastcall exclude_region_memory_operations(Node *node) { __asm int 3 }
+int __fastcall region_assignment_precedes(Node *first, Node *second) { __asm int 3 }
 void create_region_induction_counter(void) { __asm int 3 }
 void __fastcall insert_region_memory_operation(Expression *anchor, Node *value, Node *address,
     unsigned opcode, Node *counter, unsigned bytes, Node *assignment) { __asm int 3 }
 void __fastcall remove_basic_induction(BasicInduction *induction) { __asm int 3 }
 void __fastcall rewrite_region_exit_counter(Node *count) { __asm int 3 }
 int __fastcall can_rewrite_induction_comparison(BasicInduction *induction, Node *bound, Node *adjustment) { __asm int 3 }
-void __fastcall release_basic_induction(BasicInduction *induction) { __asm int 3 }
 void __fastcall release_loop_tree_record(LoopTreeRecord *record) { __asm int 3 }
 unsigned short __fastcall select_intrinsic_a3_a4(Node *node, int mode) { __asm int 3 }
 unsigned short __fastcall select_intrinsic_a5(Node *node) { __asm int 3 }
