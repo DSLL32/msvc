@@ -283,15 +283,41 @@
   },
   "native_regressions": {
     "case_count": 13,
-    "traces": "evidence/native-thirteen-case-traces.json",
-    "artifacts": "evidence/native-thirteen-case-outputs.json",
+    "traces": "evidence/native-thirteen-case-frozen-traces.json",
+    "artifacts": "evidence/native-thirteen-case-frozen-outputs.json",
     "negative_checks": "evidence/native-eight-rejections.json",
-    "rejection_count": 8
+    "rejection_count": 8,
+    "full_manifest_pins_verified": true
   },
   "limitations": [
     "Analysis/decompiler wall time and initial setup were not measured; listed durations are measured operations, not total task time.",
     "A provisional PCH replay name pointer duplicated interned_name; original root-alias audit rejected it, it was consolidated, and final root/default/alias audits pass. The failing and corrected logs are preserved.",
     "CRT/import internal chains are checked by original identities, explicit native application-to-CRT argument/return/post-state and downstream exact outputs, not app trace events.",
     "Existing untouched original references remain frozen; normal tests invoke only native i386 ELF."
+  ],
+  "frozen_final_checks": [
+    {
+      "name": "traces",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace",
+        "--directory",
+        "/root/.ai-tmp/vc1.0-c1/queue-frozen-traces"
+      ],
+      "seconds": 0.46913351491093636,
+      "exit": 0
+    },
+    {
+      "name": "outputs",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--directory",
+        "/root/.ai-tmp/vc1.0-c1/queue-frozen-outputs"
+      ],
+      "seconds": 0.27340331207960844,
+      "exit": 0
+    }
   ]
 }

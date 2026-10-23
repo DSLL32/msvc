@@ -1,0 +1,14 @@
+minimal: native pass 0.012758s
+hello-win32: native pass 0.087963s
+hello-dll: native pass 0.084368s
+numeric-varargs: native pass 0.016285s
+pch-create: native pass 0.012623s
+pch-use: native pass 0.011257s
+do-while: native pass 0.009003s
+seh: native pass 0.009312s
+inline-asm: native pass 0.009485s
+browser: native pass 0.010950s
+preprocessor-E: native pass 0.007509s
+preprocessor-EP: native pass 0.007449s
+preprocessor-P: native pass 0.008842s
+Evidence: /root/.ai-tmp/vc1.0-c1/queue-frozen-traces/receipt.json
