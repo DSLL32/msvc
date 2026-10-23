@@ -6,6 +6,7 @@
 unsigned __fastcall compact_type_index(unsigned index)
 {
     TypeRecord *record, *target;
+    CachedTypeName *named_target;
     unsigned slot, target_slot, result, global_index = 0, previous_chain;
     unsigned value, count;
     unsigned char from_global;
@@ -113,30 +114,30 @@ unsigned __fastcall compact_type_index(unsigned index)
     } else if (kind == 0x1004 || kind == 0x1005 || kind == 0x1006 || kind == 0x1007) {
         *(unsigned short *)(data + 4) &= 0xfffe;
         if (data[4] & 0x80) {
-            match = match_forward_type(record, &target, 1);
+            match = match_forward_type(record, &named_target, 1);
             if (match == 1) {
                 --type_recursion_depth;
                 record->status |= 0x1000;
-                record->global_index = target->global_index;
+                record->global_index = named_target->type_index;
                 type_recursion_chain = previous_chain;
-                return compact_type_index(target->global_index);
+                return compact_type_index(named_target->type_index);
             }
             if (match == 2 || match == 3) {
                 --type_recursion_depth;
                 recursive_type_pending = 0;
                 record->status |= 0x82;
-                record->mapped_index = target->global_index;
+                record->mapped_index = named_target->type_index;
                 type_recursion_chain = previous_chain;
-                return target->global_index;
+                return named_target->type_index;
             }
         } else {
-            if (match_forward_type(record, &target, 0) == 3) {
+            if (match_forward_type(record, &named_target, 0) == 3) {
                 --type_recursion_depth;
-                associate_forward_type(index, target);
+                associate_forward_type(index, named_target);
                 recursive_type_pending = 0;
                 type_recursion_chain = previous_chain;
                 record->status |= 2;
-                record->mapped_index = target->global_index;
+                record->mapped_index = named_target->type_index;
                 return record->mapped_index;
             }
             if (kind == 0x1004 || kind == 0x1005) {

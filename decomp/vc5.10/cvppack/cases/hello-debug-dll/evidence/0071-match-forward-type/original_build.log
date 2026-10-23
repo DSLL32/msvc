@@ -1,0 +1,52 @@
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/diagnostics.obj src/diagnostics.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/files.obj src/files.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/global-types.obj src/global-types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/image.obj src/image.c
+diagnostics.c
+global-types.c
+files.c
+image.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/input.obj src/input.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/legacy-types.obj src/legacy-types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/main.obj src/main.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/messages.obj src/messages.c
+input.c
+main.c
+legacy-types.c
+messages.c
+src/legacy-types.c(162) : warning C4101: 'position' : unreferenced local variable
+src/main.c(34) : warning C4761: integral size mismatch in argument; conversion supplied
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/modern-types.obj src/modern-types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/module-types.obj src/module-types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/options.obj src/options.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/pack.obj src/pack.c
+pack.c
+options.c
+module-types.c
+modern-types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/primitive-types.obj src/primitive-types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/publics.obj src/publics.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/stubs.obj src/stubs.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/symbol-handlers.obj src/symbol-handlers.c
+primitive-types.c
+stubs.c
+publics.c
+symbol-handlers.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/symbol-rewrite.obj src/symbol-rewrite.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/symbol-scan.obj src/symbol-scan.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-arena.obj src/type-arena.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-hash.obj src/type-hash.c
+symbol-scan.c
+type-arena.c
+symbol-rewrite.c
+type-hash.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-intern.obj src/type-intern.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-lists.obj src/type-lists.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-names.obj src/type-names.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/types.obj src/types.c
+make: 'build/debug-run.exe' is up to date.
+type-intern.c
+type-lists.c
+type-names.c
+types.c
+python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /map:build/cvpack.map /out:build/CVPACK.EXE build/diagnostics.obj build/files.obj build/global-types.obj build/image.obj build/input.obj build/legacy-types.obj build/main.obj build/messages.obj build/modern-types.obj build/module-types.obj build/options.obj build/pack.obj build/primitive-types.obj build/publics.obj build/stubs.obj build/symbol-handlers.obj build/symbol-rewrite.obj build/symbol-scan.obj build/type-arena.obj build/type-hash.obj build/type-intern.obj build/type-lists.obj build/type-names.obj build/types.obj build/resources.res

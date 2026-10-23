@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "count": 12,
+  "rejected": [
+    {
+      "name": "wrong-counted-name-segment",
+      "diagnostic": "('typed ABI arguments differ', {'kind': 4101, 'name': {'segment': 0, 'offset': 342, 'record_indices': [6], 'bytes': '0e7461675041494e54535452554354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}}, {'kind': 4101, 'name': {'segment': 1, 'offset': 342, 'record_indices': [6], 'bytes': '0e7461675041494e54535452554354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}})"
+    },
+    {
+      "name": "wrong-counted-name-offset",
+      "diagnostic": "('typed ABI arguments differ', {'kind': 4101, 'name': {'segment': 0, 'offset': 342, 'record_indices': [6], 'bytes': '0e7461675041494e54535452554354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}}, {'kind': 4101, 'name': {'segment': 0, 'offset': 343, 'record_indices': [6], 'bytes': '0e7461675041494e54535452554354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}})"
+    },
+    {
+      "name": "wrong-counted-name-record_indices",
+      "diagnostic": "('typed ABI arguments differ', {'kind': 4101, 'name': {'segment': 0, 'offset': 342, 'record_indices': [6], 'bytes': '0e7461675041494e54535452554354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}}, {'kind': 4101, 'name': {'segment': 0, 'offset': 342, 'record_indices': [7], 'bytes': '0e7461675041494e54535452554354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}})"
+    },
+    {
+      "name": "wrong-counted-name-bytes",
+      "diagnostic": "('typed ABI arguments differ', {'kind': 4101, 'name': {'segment': 0, 'offset': 342, 'record_indices': [6], 'bytes': '0e7461675041494e54535452554354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}}, {'kind': 4101, 'name': {'segment': 0, 'offset': 342, 'record_indices': [6], 'bytes': '0e0000000000000000000000000000'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}})"
+    },
+    {
+      "name": "wrong-kind-low-word",
+      "diagnostic": "('typed ABI arguments differ', {'kind': 4101, 'name': {'segment': 0, 'offset': 342, 'record_indices': [6], 'bytes': '0e7461675041494e54535452554354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}}, {'kind': 4100, 'name': {'segment': 0, 'offset': 342, 'record_indices': [6], 'bytes': '0e7461675041494e54535452554354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}})"
+    },
+    {
+      "name": "wrong-name-real-pointee-width",
+      "diagnostic": "actual frontier pointee extent differs"
+    },
+    {
+      "name": "wrong-output-local",
+      "diagnostic": "('typed ABI arguments differ', {'kind': 4101, 'name': {'segment': 0, 'offset': 342, 'record_indices': [6], 'bytes': '0e7461675041494e54535452554354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}}, {'kind': 4101, 'name': {'segment': 0, 'offset': 342, 'record_indices': [6], 'bytes': '0e7461675041494e54535452554354'}, 'match': {'owner': 'compact_type_index', 'local': 'target', 'width': 4}})"
+    },
+    {
+      "name": "wrong-original-kind-low-word",
+      "diagnostic": "('typed ABI arguments differ', {'kind': 4100, 'name': {'segment': 0, 'offset': 342, 'record_indices': [6], 'bytes': '0e7461675041494e54535452554354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}}, {'kind': 4101, 'name': {'segment': 0, 'offset': 342, 'record_indices': [6], 'bytes': '0e7461675041494e54535452554354'}, 'match': {'owner': 'compact_type_index', 'local': 'named_target', 'width': 4}})"
+    },
+    {
+      "name": "wrong-original-name-interior",
+      "diagnostic": "type name has no observed immediate-size local-record owner"
+    },
+    {
+      "name": "wrong-original-output-owner",
+      "diagnostic": "original output argument caller-local identity differs"
+    }
+  ],
+  "actual_gdb_rejections": [
+    {
+      "name": "kind-width",
+      "returncode": 1,
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x565ab7c9 in lookup_named_type (kind=4101, name=0x582bd0c6 \"\\016tagPAINTSTRUCT\\363\\362\\361\\036\", match=0xffcb7a28) at src/stubs.c:64\n64\tint lookup_named_type(unsigned short kind, const unsigned char *name, CachedTypeName **match) { __asm { int 3 } return 0; }\n\nPython Exception <class 'AssertionError'>: ('actual frontier formal width differs', 'kind', 'unsigned short', 2, 4)\n/root/.ai-tmp/cvpack-type-name-abi-oilqyvpy/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: ('actual frontier formal width differs', 'kind', 'unsigned short', 2, 4)\n",
+      "bad_config_sha256": "3c541ebcb20da9db15bf81437aecec026580a9f5b620c834f61601087ca455d0",
+      "observer_sha256": "6020cf0bd08f75113d360075a97507a2e852acc7eaea128f56988ad7c370f279"
+    },
+    {
+      "name": "name-pointee",
+      "returncode": 1,
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x565d07c9 in lookup_named_type (kind=4101, name=0x57a240c6 \"\\016tagPAINTSTRUCT\\363\\362\\361\\036\", match=0xff8632b8) at src/stubs.c:64\n64\tint lookup_named_type(unsigned short kind, const unsigned char *name, CachedTypeName **match) { __asm { int 3 } return 0; }\n\nPython Exception <class 'AssertionError'>: actual pointer formal pointee extent differs\n/root/.ai-tmp/cvpack-type-name-abi-uz0jn732/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: actual pointer formal pointee extent differs\n",
+      "bad_config_sha256": "25dec62c77c86e244f3e0fbab0c83cecfbcf1a5c859461368484276de0beb4d3",
+      "observer_sha256": "6020cf0bd08f75113d360075a97507a2e852acc7eaea128f56988ad7c370f279"
+    }
+  ],
+  "parameters": {
+    "kind": 4101,
+    "name": {
+      "segment": 0,
+      "offset": 342,
+      "record_indices": [
+        6
+      ],
+      "bytes": "0e7461675041494e54535452554354"
+    },
+    "match": {
+      "owner": "compact_type_index",
+      "local": "named_target",
+      "width": 4
+    }
+  },
+  "dead_kind_high_word_positive": true,
+  "original_kind_word_load": {
+    "address": 4247218,
+    "bytes": "668b742414"
+  },
+  "original_receipt_sha256": "f1c13876c18ace064bb7ef9836adb232300de2c11ae5bcfb57c05630af5544d7",
+  "native_receipt_sha256": "a2bee0af5e06f34d90a42c51a169c5aefa2720778b11b9047a056d8912d28b13",
+  "checker_sha256": "56d3db54486ec31923ca52bedb95c97b133f904aa3806eb771be1b59c87f59aa",
+  "decoder_sha256": "c7b703a0013222337d0760f6297e8141f70a66308e3eb94c89046cfa95cac641",
+  "seconds": 3.3887824583798647
+}

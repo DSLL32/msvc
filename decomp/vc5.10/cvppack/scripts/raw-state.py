@@ -180,6 +180,32 @@ def compare(config,data,events,native,artifacts=None,views=None):
             row=next(row for row in data if row['name']==item['count']);count=int.from_bytes(original['memory'][row['original']],'little')
             assert root<=value<root+count*32 and (value-root)%32==0,'argument is not an owned original local type record'
             parameters[item['name']]=dict(root=item['root'],index=(value-root)//32)
+        elif item['kind']=='type-record-name':
+            def observed(name):
+                row=next(row for row in data if row['name']==name)
+                return int.from_bytes(original['memory'][row['original']],'little')
+            base=int.from_bytes(original['memory'][observed('type_segments')][:4],'little');segment=original['memory'][base]
+            count=observed('type_record_count');records=original['memory'][observed('type_records')]
+            assert 0<=count<=32768 and len(records)>=count*32,'invalid type-name owner inventory'
+            indices=[]
+            for i in range(count):
+                pointer=int.from_bytes(records[i*32:i*32+4],'little');offset=pointer-base
+                if not 0<=offset<=len(segment)-4:continue
+                kind=int.from_bytes(segment[offset+2:offset+4],'little')
+                if kind not in (0x1004,0x1005,0x1006,0x1007):continue
+                name_offset=16 if kind==0x1007 else 12 if kind==0x1006 else 20
+                if kind!=0x1007:
+                    if offset+name_offset+2>len(segment):continue
+                    numeric=int.from_bytes(segment[offset+name_offset:offset+name_offset+2],'little')
+                    if numeric>=0x8000:continue # Needs an encountered numeric-leaf contract.
+                    name_offset+=2
+                if pointer+name_offset!=value:continue
+                length=segment[value-base]+1;record_size=int.from_bytes(segment[offset:offset+2],'little')+2
+                assert name_offset+length<=record_size and offset+record_size<=len(segment),'type name exceeds its initialized owner record'
+                indices.append(i)
+            assert indices,'type name has no observed immediate-size local-record owner'
+            length=segment[value-base]+1
+            parameters[item['name']]=dict(segment=0,offset=value-base,record_indices=indices,bytes=segment[value-base:value-base+length].hex())
         elif item['kind']=='type-record-data':
             def observed(name):
                 row=next(row for row in data if row['name']==name)

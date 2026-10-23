@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Defined arena prefixes, intern-node identity and shared dispatch/index state."""
+import argparse
 import copy
 import importlib.util
 import json
@@ -8,14 +9,15 @@ import struct
 import subprocess
 import time
 from state import BINARY, sha
-start=time.perf_counter();pair=BINARY/'cases/hello-debug-dll/evidence/0069-copy-type-arena-corrected-alias'
+parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--pair',type=Path,default=BINARY/'cases/hello-debug-dll/evidence/0069-copy-type-arena-corrected-alias');args=parser.parse_args()
+start=time.perf_counter();pair=args.pair.resolve()
 config=json.loads((pair/'original/configuration.json').read_text());data=json.loads((pair/'original/data.json').read_text())
 events=(pair/'original/events').read_text();native=json.loads((pair/'native/state.json').read_text())
 artifacts={'hello.dll':(pair/'original/artifact-hello.dll').read_bytes()}
 views={side:{p.name:p.read_bytes() for p in (pair/side).glob(pattern)} for side,pattern in [('original','events-view-*.bin'),('native','native-view-*.bin')]}
 spec=importlib.util.spec_from_file_location('raw_state',BINARY/'scripts/raw-state.py');decoder=importlib.util.module_from_spec(spec);spec.loader.exec_module(decoder)
 def compare(state,raw=events):return decoder.compare(config,data,raw,state,artifacts,views)
-baseline=compare(native);assert baseline['parameters']=={}
+baseline=compare(native)
 arena=struct.unpack('<6I',bytes.fromhex(native['globals']['type_large_arena']));assert arena[0:2]==(65536,1) and arena[4]==65536-40
 header=arena[5];fields=struct.unpack('<3I',bytes.fromhex(native['memory'][str(header)]));assert fields[0]==40 and fields[2]==0
 payload=fields[1];block=int.from_bytes(bytes.fromhex(native['globals']['global_type_blocks'])[:4],'little')
@@ -63,7 +65,7 @@ command=['gdb','-q','-nx','-batch',str(BINARY/'build/native/CVPACK'),'-ex',
 out=subprocess.check_output(command,text=True,stderr=subprocess.STDOUT);actual=json.loads(next(line[7:] for line in out.splitlines() if line.startswith('LAYOUT ')))
 assert actual==[24,12,304,4]
 audit=json.loads((pair/'original/audit.json').read_text());alias=audit['data_aliases'];assert len(alias)==1 and alias[0]['actual_offset']==304 and alias[0]['actual_size']==4
-report=dict(schema=1,native_only=True,count=len(rejected),rejected=rejected,actual_dwarf_layout=actual,actual_data_alias_audit=alias,
+report=dict(schema=1,native_only=True,count=len(rejected),rejected=rejected,actual_dwarf_layout=actual,actual_layout_elf_sha256=sha(BINARY/'build/native/CVPACK'),actual_data_alias_audit=alias,
  native_own_arena_and_pointer_block_tails_positive=True,defined_arena_bytes=40,defined_global_pointer_slots=2,interned_nodes=2,
  original_receipt_sha256=sha(pair/'original/receipt.json'),native_receipt_sha256=sha(pair/'native/receipt.json'),checker_sha256=sha(Path(__file__)),decoder_sha256=sha(BINARY/'scripts/raw-state.py'),seconds=time.perf_counter()-start)
 (pair/'type-arena-state-checks.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(dict(rejected=report['count'],seconds=report['seconds'])))

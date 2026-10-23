@@ -12,6 +12,7 @@ int discard_types;
 unsigned __fastcall compact_legacy_index(unsigned index)
 {
     TypeRecord *record, *target;
+    CachedTypeName *named_target;
     unsigned slot, target_slot, result, previous_chain, value, position;
     unsigned char first_pending = 0, count = 0, global_record;
     unsigned char *data;
@@ -96,13 +97,13 @@ unsigned __fastcall compact_legacy_index(unsigned index)
         count = compact_legacy_pointer(record);
     } else if (value == 0x79) {
         convert_legacy_record(slot);
-        if (match_forward_type(record, &target, 0) == 3) {
+        if (match_forward_type(record, &named_target, 0) == 3) {
             --type_recursion_depth;
-            associate_forward_type(index, target);
+            associate_forward_type(index, named_target);
             recursive_type_pending = 0;
             type_recursion_chain = previous_chain;
             record->status |= 2;
-            record->mapped_index = target->global_index;
+            record->mapped_index = named_target->type_index;
             return record->mapped_index;
         }
         data = record->data + 2;

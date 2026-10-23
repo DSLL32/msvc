@@ -221,6 +221,29 @@ def capture(configuration,data_file,output):
             root=int(gdb.parse_and_eval(item['root']));count=int(gdb.parse_and_eval(item['count']));address=int(value)
             assert root<=address<root+count*32 and (address-root)%32==0,'argument is not an owned local type record'
             parameters[item['name']]=dict(root=item['root'],index=(address-root)//32)
+        elif item['kind']=='type-record-name':
+            address=int(value);base=int(gdb.parse_and_eval('type_segments[0]'))
+            capacity=min(int(gdb.parse_and_eval('type_segment_bytes')),0xffe8)
+            segment=bytes(inferior.read_memory(base,capacity));count=int(gdb.parse_and_eval('type_record_count'))
+            assert 0<=count<=32768,'invalid type-name owner inventory'
+            root=int(gdb.parse_and_eval('type_records'));records=bytes(inferior.read_memory(root,count*32));indices=[]
+            for i in range(count):
+                pointer=int.from_bytes(records[i*32:i*32+4],'little');offset=pointer-base
+                if not 0<=offset<=capacity-4:continue
+                kind=int.from_bytes(segment[offset+2:offset+4],'little')
+                if kind not in (0x1004,0x1005,0x1006,0x1007):continue
+                name_offset=16 if kind==0x1007 else 12 if kind==0x1006 else 20
+                if kind!=0x1007:
+                    if offset+name_offset+2>capacity:continue
+                    if int.from_bytes(segment[offset+name_offset:offset+name_offset+2],'little')>=0x8000:continue
+                    name_offset+=2
+                if pointer+name_offset!=address:continue
+                length=segment[address-base]+1;record_size=int.from_bytes(segment[offset:offset+2],'little')+2
+                assert name_offset+length<=record_size and offset+record_size<=capacity,'type name exceeds its initialized owner record'
+                indices.append(i)
+            assert indices,'type name has no observed immediate-size local-record owner'
+            length=segment[address-base]+1
+            parameters[item['name']]=dict(segment=0,offset=address-base,record_indices=indices,bytes=segment[address-base:address-base+length].hex())
         elif item['kind']=='type-record-data':
             address=int(value);base=int(gdb.parse_and_eval('type_segments[0]'))
             capacity=min(int(gdb.parse_and_eval('type_segment_bytes')),0xffe8)

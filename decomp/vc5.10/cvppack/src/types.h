@@ -76,8 +76,8 @@ unsigned map_primitive_type(unsigned index);
 TypeRecord *lookup_global_type(unsigned index, unsigned char *from_global);
 void convert_legacy_record(unsigned index);
 unsigned char __fastcall compact_legacy_pointer(TypeRecord *record);
-int __fastcall match_forward_type(TypeRecord *record, TypeRecord **match, int insert);
-void __fastcall associate_forward_type(unsigned index, TypeRecord *record);
+int __fastcall match_forward_type(TypeRecord *record, CachedTypeName **match, int insert);
+void __fastcall associate_forward_type(unsigned index, CachedTypeName *record);
 unsigned __fastcall compact_type_list(unsigned index, unsigned count);
 typedef unsigned (__fastcall *TypeIndexMapper)(unsigned index);
 extern TypeIndexMapper type_index_mappers[3];
@@ -92,6 +92,7 @@ typedef struct InternedType {
 } InternedType;
 unsigned short __fastcall hash_type_record(const unsigned char *data);
 extern unsigned char type_hash_current, type_hash_previous, type_hash_mix;
+int find_local_named_type(unsigned short kind, const unsigned char *name, CachedTypeName **match, int scoped);
 int lookup_named_type(unsigned short kind, const unsigned char *name, CachedTypeName **match);
 typedef struct StructureAlias {
     struct StructureAlias *next;

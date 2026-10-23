@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "candidate": "match_forward_type",
+  "accepted_functions": 71,
+  "application_extent_bytes": 23181,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 36.993712297724294,
+  "qualification": "Application extents / whole text, not non-CRT or branch coverage.",
+  "source_extent": [
+    4246704,
+    4246904
+  ],
+  "associated_text_data": [
+    [
+      4246904,
+      4246936
+    ]
+  ],
+  "source_review": [
+    "Recover class/union/enum name after numeric size and select local/global named-type cache according to insertion mode.",
+    "Scoped local lookup uses actual properties bit3; result1 returns immediately.",
+    "Outputs are actual CachedTypeName20 nodes; split named_target from TypeRecord32 recursive aliases in both consumers, preserving ABI/field offsets and graph.",
+    "New counted-name ABI role proves complete15B tagPAINTSTRUCT name is owned at segment342 by local record6; non-immediate numeric size names fail until encountered.",
+    "Original kind parameter consumes16bits at40ceb2, confirmed real DWARF unsigned short width2 and high-word-positive/low-word-negative checks."
+  ],
+  "executed_scope": "Noninsertion class1005 lookup; local cache insertion and other name shapes reconstructed/static only.",
+  "fresh_pair": true,
+  "next_frontier": "lookup_named_type",
+  "fresh_negative_count": 12,
+  "affected_controls": {
+    "read-state-checks.json": {
+      "path": "read-state-checks.json",
+      "sha256": "1ba19573dd3b3b7982aeef2b9ff1434fdd616a5511356eda9db244d4ed90d29b"
+    },
+    "initialized-storage-checks.json": {
+      "path": "initialized-storage-checks.json",
+      "sha256": "699c47129ead5613f30de8b942068bafc181f9ccd256f0baeb82bcc5339a1f5c"
+    },
+    "type-record-state-checks.json": {
+      "path": "type-record-state-checks.json",
+      "sha256": "c00410ded5b389615d34b7498eed2837b01ea94f3fba9a3a0b1fa76e54dc44aa"
+    },
+    "abi-state-checks.json": {
+      "path": "abi-state-checks.json",
+      "sha256": "702a6801ab297d3736bfc72e61a6d2ee0b12d8707bd7bd85ba55bf497f944bd5"
+    },
+    "type-arena-state-checks.json": {
+      "path": "type-arena-state-checks.json",
+      "sha256": "870c0b468d91bed5771132c163b41819622fe892884c4d9ebe4de9ac560e0a78"
+    },
+    "type-name-state-checks.json": {
+      "path": "type-name-state-checks.json",
+      "sha256": "d83f3152186cd386905d86e51e150fe558e712d95b9c5d40e4c70f98d2b186cc"
+    }
+  },
+  "fresh_protocol_negatives": 24,
+  "seconds": {
+    "trial": {
+      "original_build": 6.228356124833226,
+      "native_build": 2.4196984469890594,
+      "graph_tool_build": 0.03928390983492136,
+      "original_capture": 8.023935470730066,
+      "native_capture": 0.7618611846119165,
+      "pair_check": 0.7243550634011626
+    },
+    "controls": 3.3887824583798647,
+    "fixtures": {
+      "hello-debug-dll": {
+        "preparation": 0.0025062942877411842,
+        "execution": 0.6743913711979985,
+        "checks": 0.004523156210780144,
+        "total": 0.9779482139274478
+      },
+      "help": {
+        "preparation": 0.002456098794937134,
+        "execution": 0.0036394214257597923,
+        "checks": 0.002693040296435356,
+        "total": 0.01351606473326683
+      }
+    },
+    "protocol": {
+      "native_capture": 0.10821708664298058,
+      "candidate_audit": 0.42648025415837765,
+      "pair_check": 0.15504108928143978,
+      "negative_checks": 1.3867648802697659
+    }
+  }
+}

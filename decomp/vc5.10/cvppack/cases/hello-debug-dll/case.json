@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0070-rewrite-bp-relative-symbol-typed-forward/original",
-  "reference_receipt_sha256": "eeb4cb36eb5123b1e4eabaea50bfe08b4993a9482e3428525f668dd7eefd7a90",
+  "reference": "cases/hello-debug-dll/evidence/0071-match-forward-type/original",
+  "reference_receipt_sha256": "f1c13876c18ace064bb7ef9836adb232300de2c11ae5bcfb57c05630af5544d7",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -76,6 +76,7 @@
     "allocate_global_type",
     "copy_type_arena",
     "rewrite_bp_relative_symbol",
-    "match_forward_type"
+    "match_forward_type",
+    "lookup_named_type"
   ]
 }
