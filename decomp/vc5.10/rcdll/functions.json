@@ -45,7 +45,8 @@
     "rc_quote_source_filename",
     "rc_character_token",
     "rc_list_macro",
-    "rc_scan_line_start"
+    "rc_scan_line_start",
+    "rc_handle_directive"
   ],
   "functions": [
     {
@@ -936,6 +937,183 @@
       "name": "rc_handle_directive",
       "start": "0x6345",
       "end": "0x6aa9",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "text_data": [
+        [
+          "0x6aa9",
+          "0x6ae1"
+        ],
+        [
+          "0x131c",
+          "0x132a"
+        ],
+        [
+          "0x132c",
+          "0x133a"
+        ],
+        [
+          "0x133c",
+          "0x134e"
+        ],
+        [
+          "0x1350",
+          "0x135c"
+        ],
+        [
+          "0x135c",
+          "0x1362"
+        ],
+        [
+          "0x1364",
+          "0x1374"
+        ],
+        [
+          "0x1374",
+          "0x1382"
+        ]
+      ]
+    },
+    {
+      "name": "rc_read_nonspace",
+      "start": "0x12a9b",
+      "end": "0x12afc",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_read_identifier",
+      "start": "0x11b44",
+      "end": "0x11cad",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_directive_code",
+      "start": "0x478b",
+      "end": "0x47f0",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_expect_end",
+      "start": "0x6c71",
+      "end": "0x6cbc",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_skip_inactive",
+      "start": "0x6ae1",
+      "end": "0x6b80",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_push_condition",
+      "start": "0x624c",
+      "end": "0x629a",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_evaluate_condition",
+      "start": "0x2cc0",
+      "end": "0x2d83",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_parse_define",
+      "start": "0x48c8",
+      "end": "0x49fb",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_next_token",
+      "start": "0x30c1",
+      "end": "0x3bd0",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_skip_line",
+      "start": "0x7093",
+      "end": "0x70ce",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_parse_angle_name",
+      "start": "0x629a",
+      "end": "0x6345",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_search_current_directory",
+      "start": "0x4131",
+      "end": "0x41fb",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_search_include_directories",
+      "start": "0x6b80",
+      "end": "0x6c71",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_parse_pragma",
+      "start": "0x7100",
+      "end": "0x72a2",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_change_codepage",
+      "start": "0x447f",
+      "end": "0x44fd",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_get_logical_character",
+      "start": "0x12b67",
+      "end": "0x12ba8",
       "abi": "cdecl",
       "stack_bytes": 0,
       "kind": "application",

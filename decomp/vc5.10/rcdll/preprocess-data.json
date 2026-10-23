@@ -337,6 +337,18 @@
       "original_rva": "0x14210",
       "kind": "byte-buffer",
       "bytes": 2
+    },
+    {
+      "name": "rc_expanding_macro",
+      "original_rva": "0x16f00",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_in_directive",
+      "original_rva": "0x18530",
+      "kind": "integer",
+      "bytes": 4
     }
   ],
   "options": {

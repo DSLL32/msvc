@@ -338,3 +338,12 @@ refill, progress and newline-output paths behind named unaccepted helpers.
 [Verification](cases/resources-rich-trailing-space/scan-line-start-verification.json)
 records seven fresh character/cursor/line controls and hash-bound prefix reuse.
 Unknown character-class defaults remain unconsumed on this path.
+
+Directive dispatch is accepted (1,892 bytes), reaching the zero-argument
+nonspace reader with expansion/directive flags zero and source state unchanged.
+The full body preserves conditional, include, definition, line, diagnostic and
+VC5 code-page pragma branches behind named helpers.
+[Verification](cases/resources-rich-trailing-space/handle-directive-verification.json)
+records five fresh controls and the separately restored 14-entry switch table.
+Unencountered diagnostic token-descriptor slots are unavailable storage
+placeholders; their zeros are not valid descriptors or compared target data.

@@ -1,6 +1,7 @@
 #include "rcdll.h"
 #include "command.h"
 #include "preprocess.h"
+#include "directives.h"
 #include <recon.h>
 
 /* Named, ABI-correct INT3 stubs. None is accepted reconstruction. */
@@ -108,7 +109,99 @@ int __cdecl rc_splice_line(void)
     __asm int 3
     return 0;
 }
-void __cdecl rc_handle_directive(void)
+
+WCHAR __cdecl rc_read_nonspace(void)
 {
     __asm int 3
+    return 0;
+}
+
+void __stdcall rc_read_identifier(WCHAR character)
+{
+    __asm int 3
+    
+}
+
+unsigned char __stdcall rc_directive_code(const WCHAR *word)
+{
+    __asm int 3
+    return 0;
+}
+
+void __stdcall rc_expect_end(const WCHAR *word)
+{
+    __asm int 3
+    
+}
+
+int __stdcall rc_skip_inactive(int level)
+{
+    __asm int 3
+    return 0;
+}
+
+int __cdecl rc_push_condition(void)
+{
+    __asm int 3
+    return 0;
+}
+
+int __cdecl rc_evaluate_condition(void)
+{
+    __asm int 3
+    return 0;
+}
+
+void __cdecl rc_parse_define(void)
+{
+    __asm int 3
+    
+}
+
+void __cdecl rc_next_token(void)
+{
+    __asm int 3
+    
+}
+
+void __cdecl rc_skip_line(void)
+{
+    __asm int 3
+    
+}
+
+WCHAR * __cdecl rc_parse_angle_name(void)
+{
+    __asm int 3
+    return NULL;
+}
+
+int __cdecl rc_search_current_directory(void)
+{
+    __asm int 3
+    return 0;
+}
+
+void __cdecl rc_search_include_directories(void)
+{
+    __asm int 3
+    
+}
+
+UINT __cdecl rc_parse_pragma(void)
+{
+    __asm int 3
+    return 0;
+}
+
+int __stdcall rc_change_codepage(UINT page)
+{
+    __asm int 3
+    return 0;
+}
+
+WCHAR __cdecl rc_get_logical_character(void)
+{
+    __asm int 3
+    return 0;
 }
