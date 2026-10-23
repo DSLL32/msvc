@@ -806,3 +806,27 @@ unsigned __fastcall combine_factor_constants(Node *operation, unsigned first, un
         return first;
     }
 }
+
+/* Original [000559e0,000559f3). Represent the operation's identity using
+   the separate model node's scalar type. */
+Node *__fastcall operator_identity_node(Node *operation, Node *type_source)
+{
+    unsigned value = (unsigned)operator_identity(operation);
+    return typed_integer_node(type_source, value);
+}
+
+/* Original [00056f20,00056f57). Reverse a left-associated sum into a
+   subtraction chain with the supplied leading operand. */
+Node *__fastcall reverse_subtraction_chain(Node *node, Node *right)
+{
+    Node *left = node->left.node;
+    node->opcode = 3;
+    if (left->opcode == 2) {
+        node->second.node = left->second.node;
+        reverse_subtraction_chain(left, right);
+    } else {
+        node->second.node = left;
+        node->left.node = right;
+    }
+    return finish_canonical_node(node);
+}

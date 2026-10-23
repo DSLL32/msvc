@@ -859,7 +859,14 @@
     "@cancel_unary_factors@12",
     "@constant_as_integer@8",
     "@can_combine_constants@12",
-    "@combine_factor_constants@12"
+    "@combine_factor_constants@12",
+    "@operator_identity_node@8",
+    "@factor_bitwise_chain@8",
+    "@negate_tree@4",
+    "@reverse_subtraction_chain@8",
+    "@reduce_bitwise_terms@8",
+    "@replace_bitwise_occurrences@12",
+    "@fold_bitwise_and@4"
   ],
   "driver": [
     {
@@ -3988,14 +3995,12 @@
     {
       "name": "@reduce_bitwise_terms@8",
       "start": 349680,
-      "end": 349681,
-      "provisional": true
+      "end": 349721
     },
     {
       "name": "@factor_bitwise_chain@8",
       "start": 349264,
-      "end": 349265,
-      "provisional": true
+      "end": 349674
     },
     {
       "name": "@factor_global_node@4",
@@ -4047,14 +4052,12 @@
     {
       "name": "@negate_tree@4",
       "start": 355888,
-      "end": 355889,
-      "provisional": true
+      "end": 355915
     },
     {
       "name": "@fold_bitwise_and@4",
       "start": 355312,
-      "end": 355313,
-      "provisional": true
+      "end": 355408
     },
     {
       "name": "@extract_reciprocal@4",
@@ -4782,8 +4785,7 @@
     {
       "name": "@operator_identity_node@8",
       "start": 350688,
-      "end": 350689,
-      "provisional": true
+      "end": 350707
     },
     {
       "name": "@matches_assignment_load@8",
@@ -6115,8 +6117,7 @@
     {
       "name": "@reverse_subtraction_chain@8",
       "start": 356128,
-      "end": 356129,
-      "provisional": true
+      "end": 356183
     },
     {
       "name": "@mark_flow_region@4",
@@ -6522,6 +6523,11 @@
       "start": 350800,
       "end": 350801,
       "provisional": true
+    },
+    {
+      "name": "@replace_bitwise_occurrences@12",
+      "start": 353008,
+      "end": 353130
     }
   ],
   "cases": {

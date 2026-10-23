@@ -5,6 +5,7 @@
 #include "options.h"
 #include "expression-fields.h"
 #include "algebra.h"
+#include "backend.h"
 #include <recon.h>
 extern int floating_frontend, optimize_precision;
 Node *__fastcall prepare_global_tree(Node *node);
@@ -30,6 +31,7 @@ void __fastcall reduce_additive_chain(Node *node);
 void __fastcall reduce_multiplicative_chain(Node *node);
 Node *__fastcall copy_factor_exponent(Node *node);
 void __fastcall reduce_bitwise_terms(Node *node, unsigned identity);
+Node *__fastcall replace_bitwise_occurrences(Node *node, Node *value, unsigned identity);
 void __fastcall factor_bitwise_chain(Node *node, unsigned opcode);
 Node *__fastcall fold_address_offset(Node *node);
 void __fastcall combine_complementary_masks(Node *node);
@@ -847,4 +849,118 @@ void __fastcall cancel_unary_factors(Node *node, unsigned unary, unsigned combin
     *factor = operator_identity_node(node, old);
     release_node(old);
     tree_changed = 1;
+}
+
+/* Original [00055450,000555ea). Extract a common operand from bitwise
+   factor spines on either side of an associative expression. One match is
+   rewritten per pass, retaining identities in the two original chains. */
+void __fastcall factor_bitwise_chain(Node *node, unsigned opcode)
+{
+    Node **right_root, **right_chain, **right_factor;
+    Node **left_root, **left_chain, **left_term, **left_factor;
+    Node *right_group, *left_group, *scan, *common, *matched;
+    unsigned operation, right_operation, left_operation;
+    while (node->opcode == 0x34) node = node->left.node;
+    operation = node->opcode;
+    right_root = &node->second.node;
+    right_chain = right_root;
+    for (;;) {
+        right_group = *right_chain;
+        right_operation = right_group->opcode;
+        right_factor = right_operation == opcode ? &right_group->second.node : right_chain;
+        if ((*right_factor)->opcode != 0x33) {
+            left_root = &node->left.node;
+            left_chain = left_root;
+            for (;;) {
+                left_group = *left_chain;
+                left_operation = left_group->opcode;
+                left_term = left_operation == operation ? &left_group->second.node : left_chain;
+                left_factor = left_term;
+                for (;;) {
+                    scan = *left_factor;
+                    if (scan->opcode == opcode) left_factor = &scan->second.node;
+                    if (trees_equal(*left_factor, *right_factor, 1)) goto combine;
+                    if (scan->opcode != opcode) break;
+                    left_factor = &scan->left.node;
+                }
+                if (left_operation != operation) break;
+                left_chain = &left_group->left.node;
+            }
+        }
+        if (right_operation != opcode) return;
+        right_chain = &right_group->left.node;
+    }
+combine:
+    common = *right_factor;
+    matched = *left_factor;
+    node->opcode = opcode;
+    *left_factor = operator_identity_node(node, matched);
+    release_tree(matched);
+    *right_factor = operator_identity_node(node, common);
+    left_term = left_operation == operation ? &left_group->second.node : left_chain;
+    build_tree("PPPNYPNYOL", *left_root, *left_term, *right_root, operation,
+               common, opcode, operation, node);
+    *left_term = operator_identity_node(node, *left_term);
+    if (right_factor != right_chain) factor_bitwise_chain((*right_root)->left.node, opcode);
+    tree_changed = 1;
+}
+
+/* Original [00056e30,00056e4b). The initialized scratch node owns the
+   slot used by the in-place negator, including an unchanged result on failure. */
+Node *__fastcall negate_tree(Node *node)
+{
+    scratch_node->second.node = node;
+    negate_tree_in_place(&scratch_node->second.node);
+    return scratch_node->second.node;
+}
+
+/* Original [000555f0,00055619). Repeated right values in a bitwise tree
+   become the operation's identity, complemented through an explicit NOT. */
+void __fastcall reduce_bitwise_terms(Node *node, unsigned identity)
+{
+    Node *value = node->second.node;
+    if (value->opcode == 0xe) {
+        value = value->left.node;
+        identity = ~identity;
+    }
+    identity = normalize_integer_width(node, identity);
+    node->left.node = replace_bitwise_occurrences(node->left.node, value, identity);
+}
+
+/* Original [000562f0,0005636a). Visit only bitwise operator interiors;
+   a matching terminal subtree is released and replaced by a typed identity. */
+Node *__fastcall replace_bitwise_occurrences(Node *node, Node *value, unsigned identity)
+{
+    switch (node->opcode) {
+    case 0xb: case 0xc: case 0xd:
+        node->second.node = replace_bitwise_occurrences(node->second.node, value, identity);
+        /* Fall through: the right subtree is visited first. */
+    case 0xe:
+        node->left.node = replace_bitwise_occurrences(node->left.node, value, identity);
+        break;
+    default:
+        if (trees_equal(node, value, 1)) {
+            release_tree(node);
+            tree_changed = 1;
+            return typed_integer_node(value, identity);
+        }
+        break;
+    }
+    return node;
+}
+
+/* Original [00056bf0,00056c50). A small constant mask permits wide AND
+   operands to be narrowed to unsigned short before restoring the result type. */
+Node *__fastcall fold_bitwise_and(Node *node)
+{
+    unsigned short type = node->attributes.words.type;
+    Node *right = node->second.node, *left;
+    if ((type & 255) > 4 && right->opcode == 0x33 && right->left.value <= 0xffff) {
+        tree_changed = 1;
+        right = convert_node_type(right, 0x202);
+        left = convert_node_type(node->left.node, 0x202);
+        build_tree("PPLY", left, right, node);
+        return convert_node_type(node, type);
+    }
+    return node;
 }

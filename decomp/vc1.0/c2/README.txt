@@ -2169,3 +2169,11 @@ Loop common factors: checkpoint855
 native fixtures pass. See cases/loops-factor.json for extent union, limits
 and measured timing splits. Minimal/hello objects remain exact after timestamp;
 loop620-byte final object is incomplete.
+
+Loop tree normalization passed: checkpoint862
+------------------------------
+7 whole functions pass fresh original/native matching; current frontier
+@work_in_flow_region@8. 784 graph checks, canonical/native/W3 and all three
+native fixtures pass. See cases/loops-bitwise-final.json for extent union, limits
+and measured timing splits. Minimal/hello objects remain exact after timestamp;
+loop620-byte final object is incomplete.

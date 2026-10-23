@@ -237,8 +237,6 @@ Node *__fastcall simplify_reciprocal(Node *node) { __asm int 3 }
 Node *__fastcall distribute_unary_tree(Node *node) { __asm int 3 }
 
 Node *__fastcall copy_factor_exponent(Node *node) { __asm int 3 }
-void __fastcall reduce_bitwise_terms(Node *node, unsigned identity) { __asm int 3 }
-void __fastcall factor_bitwise_chain(Node *node, unsigned opcode) { __asm int 3 }
 
 
 
@@ -246,8 +244,6 @@ void __fastcall factor_bitwise_chain(Node *node, unsigned opcode) { __asm int 3 
 Node *__fastcall push_unary_below_conversion(Node *node) { __asm int 3 }
 
 Node *__fastcall lift_both_unary(Node *node) { __asm int 3 }
-Node *__fastcall negate_tree(Node *node) { __asm int 3 }
-Node *__fastcall fold_bitwise_and(Node *node) { __asm int 3 }
 int __fastcall extract_reciprocal(Node **node) { __asm int 3 }
 int __fastcall extract_complement(Node **node) { __asm int 3 }
 
@@ -321,7 +317,6 @@ Node *__fastcall make_switch_pivot(Node *range) { __asm int 3 }
 void __fastcall split_switch_ranges(Node *ranges, unsigned cases, int count, unsigned span, Node **pivot, int *left_count) { __asm int 3 }
 void __fastcall emit_switch_table(Node *ranges, int count, int option1, int option2) { __asm int 3 }
 
-Node *__fastcall operator_identity_node(Node *operation, Node *type_source) { __asm int 3 }
 int __fastcall matches_assignment_load(Node *destination, Node *operand) { __asm int 3 }
 void __fastcall reduce_assignment_operator(Node *assignment, Node *operand, Node *load, Node *operation) { __asm int 3 }
 int __fastcall find_assignment_operand(Node *node, unsigned has_addition) { __asm int 3 }
@@ -405,7 +400,6 @@ int __cdecl addition_overflows(unsigned left, unsigned right, int is_unsigned, u
 int __cdecl subtraction_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
 int __fastcall is_subword_mask_pattern(Node *node, unsigned mask) { __asm int 3 }
 int __fastcall simple_constant_operation_sign(Node *node) { __asm int 3 }
-Node *__fastcall reverse_subtraction_chain(Node *node, Node *right) { __asm int 3 }
 short __fastcall next_numbered_work(WorkItem *work) { __asm int 3 }
 void __fastcall remove_region_candidate(Node *node, int ancestors) { __asm int 3 }
 struct BasicInduction *__fastcall new_basic_induction(Node *assignment, Node *step,
