@@ -305,6 +305,12 @@ static void save_frontend_state(const char *suffix)
     readmem(base + 0xc6cb8, data + 78, 4);
     readmem(base + 0xc6c44, data + 82, 4);
     sprintf(name, "generated-comment-%s.bin", suffix); save_blob(name, data, 86);
+    readmem(base + 0xcd5c0, data, 4);
+    readmem(base + 0xcd488, data + 4, 4);
+    readmem(base + 0xccf7c, data + 8, 4);
+    readmem(base + 0xcd7b8, data + 12, 36);
+    readmem(base + 0xc1704, data + 48, 12);
+    sprintf(name, "main-fields-%s.bin", suffix); save_blob(name, data, 60);
     readmem(base + 0xc6d28, data, 12);
     sprintf(name, "deferred-actions-%s.bin", suffix); save_blob(name, data, 12);
     readmem(base + 0xc6b40, data, 12);
@@ -393,6 +399,32 @@ static void seed_frontend_restore(void)
         allocated = (DWORD)VirtualAllocEx(child, NULL, sizeof(bytes), MEM_COMMIT, PAGE_READWRITE);
         if (!allocated) fail("restore-test allocation");
     }
+    value = 23; memcpy(bytes + 0x15c0, &value, 4);
+    value = 29; memcpy(bytes + 0x1488, &value, 4);
+    value = 0x55667788; memcpy(bytes + 0xf7c, &value, 4);
+    {
+        SYSTEM_INFO info;
+        info.dwOemId = 0x11110007; info.dwPageSize = 8192;
+        info.lpMinimumApplicationAddress = (void *)(allocated + 4);
+        info.lpMaximumApplicationAddress = (void *)(allocated + 8);
+        info.dwActiveProcessorMask = 3; info.dwNumberOfProcessors = 2;
+        info.dwProcessorType = 586; info.dwAllocationGranularity = 131072;
+        info.wProcessorLevel = 6; info.wProcessorRevision = 1234;
+        memcpy(bytes + 0x17b8, &info, sizeof(info));
+        info.dwOemId = 0x22220003; info.dwPageSize = 12288;
+        info.lpMinimumApplicationAddress = (void *)(allocated + 12);
+        info.lpMaximumApplicationAddress = (void *)(allocated + 16);
+        info.dwActiveProcessorMask = 7; info.dwNumberOfProcessors = 4;
+        info.dwProcessorType = 486; info.dwAllocationGranularity = 196608;
+        info.wProcessorLevel = 5; info.wProcessorRevision = 4321;
+        write_mem(base + 0xcd7b8, &info, sizeof(info));
+    }
+    value = 17; write_mem(base + 0xcd5c0, &value, 4);
+    value = 19; write_mem(base + 0xcd488, &value, 4);
+    value = 0x11223344; write_mem(base + 0xccf7c, &value, 4);
+    value = 17; write_mem(base + 0xc1704, &value, 4);
+    value = 23; write_mem(base + 0xc1708, &value, 4);
+    value = allocated + 12; write_mem(base + 0xc170c, &value, 4);
     write_mem(allocated, bytes, sizeof(bytes));
     for (i = 0; i < 8; ++i) {
         value = 31337 + i; write_mem(base + 0xcd708 + i * 8, &value, 4);
@@ -724,6 +756,11 @@ int main(int argc, char **argv)
                     readmem(base + 0xb9000, action_bss, sizeof(action_bss));
                     save_blob(address == base + 0x38bea ? "action-bss-entry.bin" : "action-bss-result.bin", action_bss, sizeof(action_bss));
                 }
+                if (address == base + 0x38bfd || address == base + 0x38c86) {
+                    BYTE main_bss[0xf69c];
+                    readmem(base + 0xb9000, main_bss, sizeof(main_bss));
+                    save_blob(address == base + 0x38bfd ? "main-bss-entry.bin" : "main-bss-frontier.bin", main_bss, sizeof(main_bss));
+                }
                 if (address == base + 0x38ae2 || address == base + 0x38aef) {
                     BYTE group_bss[0xf69c];
                     if (address == base + 0x38af9 || address == base + 0x386ae) {
@@ -755,6 +792,11 @@ int main(int argc, char **argv)
                     }
                     readmem(base + 0xb9000, action_bss, sizeof(action_bss));
                     save_blob(address == base + 0x38bea ? "action-bss-entry.bin" : "action-bss-result.bin", action_bss, sizeof(action_bss));
+                }
+                if (address == base + 0x38bfd || address == base + 0x38c86) {
+                    BYTE main_bss[0xf69c];
+                    readmem(base + 0xb9000, main_bss, sizeof(main_bss));
+                    save_blob(address == base + 0x38bfd ? "main-bss-entry.bin" : "main-bss-frontier.bin", main_bss, sizeof(main_bss));
                 }
                 if (address == base + 0x38ae2 && getenv("C1XX_TEST_PENDING_GROUP")) {
                         DWORD owned, value;

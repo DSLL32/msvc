@@ -4,7 +4,9 @@
 FrontendData frontend_data = {
     1,
     { { 0x10, 1 }, { 0x40, 2 }, { 0x80, 3 }, { 0x100, 4 }, { 0x200, 5 }, { 0x400, 6 }, { 0x800, 7 }, { 0x0, 0 } },
-    { { 0x1, 8 }, { 0x2, 9 }, { 0x3, 10 }, { 0x4, 11 }, { 0x10, 12 }, { 0x20, 13 }, { 0x40, 14 }, { 0x44, 15 }, { 0x0, 0 } }
+    { { 0x1, 8 }, { 0x2, 9 }, { 0x3, 10 }, { 0x4, 11 }, { 0x10, 12 }, { 0x20, 13 }, { 0x40, 14 }, { 0x44, 15 }, { 0x0, 0 } },
+    0, 0, 0,
+    { { 0 }, 4096, NULL, NULL, 0, 0, 0, 65536, 0, 0 }
 };
 FrontendBss frontend_bss;
 int restore_mode;
@@ -95,6 +97,9 @@ int initialize_compiler_pass(void)
         frontend_bss.deferred_action_head = NULL;
         frontend_bss.deferred_action_tail = NULL;
         frontend_bss.deferred_action_depth = 0;
+        frontend_bss.break_into_debugger = 0;
+        frontend_bss.command_argc = 0;
+        frontend_bss.command_argv = NULL;
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;
     }
@@ -128,8 +133,59 @@ int report_compiler_error(int number)
 
 int main(int argc, char **argv)
 {
+    frontend_data.compiler_phase = 1;
+    initialize_work_buffers();
+    register_cleanup(cleanup_main);
+    frontend_bss.command_argc = argc;
+    frontend_bss.command_argv = argv;
+    initialize_intermediate_files(argv);
+    initialize_frontend_hook();
+    GetSystemInfo(&frontend_data.system_info);
+    initialize_compiler_environment();
+    process_compiler_options(argc, argv);
+    if (frontend_bss.break_into_debugger)
+        DebugBreak();
+    if (frontend_data.option_c9il)
+        frontend_data.compiler_flags |= 0x2000;
+    else
+        frontend_data.compiler_flags &= ~0x2000U;
+    return compile_translation_unit();
+}
+
+void initialize_work_buffers(void)
+{
+    __asm { int 3 }
+}
+
+void initialize_intermediate_files(char **argv)
+{
+    __asm { int 3 }
+}
+
+void initialize_frontend_hook(void)
+{
+    __asm { int 3 }
+}
+
+void initialize_compiler_environment(void)
+{
+    __asm { int 3 }
+}
+
+void process_compiler_options(int argc, char **argv)
+{
+    __asm { int 3 }
+}
+
+int compile_translation_unit(void)
+{
     __asm { int 3 }
     return 0;
+}
+
+void cleanup_main(void)
+{
+    __asm { int 3 }
 }
 
 int cleanup_compiler_pass(void)

@@ -17,6 +17,10 @@ typedef struct FrontendData {
     int first_invocation;
     TypeRankMapping primitive_type_ranks[8];
     TypeRankMapping complex_type_ranks[9];
+    int compiler_phase;
+    int option_c9il;
+    unsigned compiler_flags;
+    SYSTEM_INFO system_info;
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */
@@ -108,6 +112,9 @@ typedef struct FrontendBss {
     struct DeferredAction *deferred_action_head;
     struct DeferredAction *deferred_action_tail;
     int deferred_action_depth;
+    int break_into_debugger;
+    int command_argc;
+    char **command_argv;
 } FrontendBss;
 
 #ifdef __cplusplus
@@ -121,6 +128,13 @@ void *checked_malloc(unsigned bytes);
 int report_compiler_error(int number);
 int report_compiler_diagnostic(int number, ...);
 int register_cleanup(Initializer cleanup);
+void initialize_work_buffers(void);
+void initialize_intermediate_files(char **argv);
+void initialize_frontend_hook(void);
+void initialize_compiler_environment(void);
+void process_compiler_options(int argc, char **argv);
+int compile_translation_unit(void);
+void cleanup_main(void);
 void initialize_deferred_work(void);
 void destroy_deferred_work(void);
 void initialize_generated_comment(void);

@@ -25,6 +25,7 @@ def check(original,native,require_audit=True,audit_path=None):
     constructor=constructor_number==1
     constructor2=constructor_number>=2
     registrar=trial['trial']=='_register_cleanup'
+    main_candidate=trial['trial']=='_main'
     comment_constructor=trial['trial']=='_initialize_generated_comment'
     rank_helper=trial['trial']=='_initialize_type_ranks'
     pool_member=trial['trial']=='CompilerPool::Initialize'
@@ -32,16 +33,16 @@ def check(original,native,require_audit=True,audit_path=None):
     pdb_number=2 if trial['trial']=='_initialize_pdb_context_02' else 1
     deferred=trial['trial']=='_initialize_deferred_work'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(comment_constructor or rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=42,
+    s.require(main_candidate or comment_constructor or rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=42,
               'no reviewed callback decoder for this function')
-    index=39 if comment_constructor else 34 if rank_helper else 24 if pool_member else 21+pdb_number if pdb else 16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
+    index=42 if main_candidate else 39 if comment_constructor else 34 if rank_helper else 24 if pool_member else 21+pdb_number if pdb else 16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
               trial.get('test_seed') in (None,'restore-nonzero','restore-zero') and
               'auxiliary_mock' not in trial,'wrong context initializer trial')
     wrapper09=index>=9
     seed=trial.get('test_seed')
     model=json.loads((native/'state-model.json').read_text())
-    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27),'context fields omitted from typed snapshot/BSS model')
+    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28),'context fields omitted from typed snapshot/BSS model')
     context_names=['context_stack']+(['saved_context_stack'] if model['schema']>=3 else [])
     if model['schema']>=4:context_names.append('nested_context_stacks')
     if model['schema']>=5:context_names.append('source_position')
@@ -102,6 +103,7 @@ def check(original,native,require_audit=True,audit_path=None):
                     path.append(('PchContext::Initialize',0x3bd41))
                     if 'PchContext::Initialize' not in trial['accepted']:break
     if index>=42:path.append(('c1xx_main',0x38bfd))
+    if main_candidate:path.append(('initialize_work_buffers',0x38c86))
     expected += [(str((7 if seed else 8)+i),'%08x'%rva) for i,(_,rva) in enumerate(path)]
     final='%03d'%int(expected[-1][0]);frontier=path[-1][0]
     expected_frontier=expected[-1][1]
@@ -171,7 +173,7 @@ def check(original,native,require_audit=True,audit_path=None):
         'purpose':'observe typed copy/restore before first-flag reset'}]+([{'owner':'_initialize_frontend_24','original_rva':0x389d4,'original_byte':0xc3,'purpose':'actual pool member return-this and RET4 stack effect'}] if pool_member else [])+([{'owner':'_initialize_compiler_pass','original_rva':0x385f3,'original_byte':0xeb,'purpose':'actual PCH member return to inherited caller, RET0 and EDI preservation','activation':'armed only at actual member entry'}] if 'PchContext::Initialize' in trial['accepted'] else []),'undeclared phase observer')
     for snapshot in (pre,phase,state):
         s.require(snapshot['target_state']['process_attached']==1 and snapshot['target_state']['last_error']==203 and
-                  snapshot['control_word']==0x27f and snapshot['target_state']['compiler_mode']==(1 if snapshot is state and frontier=='c1xx_main' else 0 if not seed or seed=='restore-zero' else 3),
+                  snapshot['control_word']==0x27f and snapshot['target_state']['compiler_mode']==(1 if snapshot is state and (frontier=='c1xx_main' or main_candidate) else 0 if not seed or seed=='restore-zero' else 3),
                   'caller/lifecycle state changed')
     if model['schema']>=6:
         check_outputs(original,native,trial,text,pre,phase,state,seed,final,slots,symbols,traps,model)
@@ -200,6 +202,9 @@ def check(original,native,require_audit=True,audit_path=None):
     if model['schema']>=25:
         spec=importlib.util.spec_from_file_location('pending_group_state',Path(__file__).with_name('pending_group_state.py'));groups=importlib.util.module_from_spec(spec);spec.loader.exec_module(groups)
         groups.check(s,original,native,trial,text,pre,phase,state,seed,final,symbols,traps)
+    if model['schema']>=28:
+        spec=importlib.util.spec_from_file_location('main_state',Path(__file__).with_name('main_state.py'));main_state=importlib.util.module_from_spec(spec);spec.loader.exec_module(main_state)
+        main_state.check(s,original,native,trial,text,pre,phase,state,seed,final,symbols,traps)
     if model['schema']>=27:
         spec=importlib.util.spec_from_file_location('action_state',Path(__file__).with_name('action_state.py'));action=importlib.util.module_from_spec(spec);spec.loader.exec_module(action)
         action.check(s,original,native,trial,text,pre,phase,state,seed,final,symbols,traps)
@@ -223,7 +228,7 @@ def check(original,native,require_audit=True,audit_path=None):
             'token_unknown_tail_bytes_each':32 if model['schema']>=15 else None,
             'deferred_work_pointer_checked':model['schema']>=14,
             'nonzero_deferred_constructor_input_checked':bool(trial.get('test_deferred_seed')),
-            'nonzero_expanded_BSS_restore_checked':bool(seed),'original_unmodeled_snapshot_bytes':8431 if model['schema']>=22 else 8516,
+            'nonzero_expanded_BSS_restore_checked':bool(seed),'original_unmodeled_snapshot_bytes':8383 if model['schema']>=28 else 8431 if model['schema']>=22 else 8516,
             'native_snapshot_byte_equivalence_claimed':False,'whole_mask_bytes_checked':751216,
             'nonzero_seed_scope':'typed pointer identities and exact scalar17' if model['schema']>=5 else 'legacy zeroing/reset evidence only; not middle-scalar equivalence',
             'original_seconds':o['seconds'],'native_seconds':n['seconds']}

@@ -67,6 +67,7 @@ def check(original, native, require_audit=True, audit_path=None):
                   'CompilerPool::Initialize':'check-callback.py',
                   '_initialize_type_ranks':'check-callback.py',
                   '_initialize_generated_comment':'check-callback.py',
+                  '_main':'check-callback.py',
                   '_initialize_frontend_01':'check-callback.py'}.get(candidate['trial'])
         if (candidate['trial'] or '').startswith('_initialize_frontend_'):
             filename='check-callback.py'

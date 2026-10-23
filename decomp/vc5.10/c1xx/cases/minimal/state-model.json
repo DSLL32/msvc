@@ -1,5 +1,5 @@
 {
-  "schema": 27,
+  "schema": 28,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -1936,6 +1936,84 @@
       "original_default": 0,
       "evidence": "3500f/6f64c first/append linked polymorphic actions; 475bf/475f9 increments/decrements nesting depth; 54227 positive-depth deferred execution",
       "component_type": "signed int"
+    },
+    {
+      "name": "compiler_phase",
+      "class": "initialized",
+      "original_address": 273470912,
+      "original_snapshot_offset": 5568,
+      "bytes": 4,
+      "native_expression": "frontend_data.compiler_phase",
+      "original_default": 0,
+      "evidence": "main38bfd; actual C9IL option recordd65b0 points tocd488; full known SDK SYSTEM_INFO36 layout"
+    },
+    {
+      "name": "option_c9il",
+      "class": "initialized",
+      "original_address": 273470600,
+      "original_snapshot_offset": 5256,
+      "bytes": 4,
+      "native_expression": "frontend_data.option_c9il",
+      "original_default": 0,
+      "evidence": "main38bfd; actual C9IL option recordd65b0 points tocd488; full known SDK SYSTEM_INFO36 layout"
+    },
+    {
+      "name": "compiler_flags",
+      "class": "initialized",
+      "original_address": 273469308,
+      "original_snapshot_offset": 3964,
+      "bytes": 4,
+      "native_expression": "frontend_data.compiler_flags",
+      "original_default": 0,
+      "evidence": "main38bfd; actual C9IL option recordd65b0 points tocd488; full known SDK SYSTEM_INFO36 layout"
+    },
+    {
+      "name": "system_info",
+      "class": "initialized",
+      "original_address": 273471416,
+      "original_snapshot_offset": 6072,
+      "bytes": 36,
+      "native_expression": "frontend_data.system_info",
+      "original_default": [
+        0,
+        4096,
+        0,
+        0,
+        0,
+        0,
+        0,
+        65536,
+        0,
+        0
+      ],
+      "evidence": "main38bfd; actual C9IL option recordd65b0 points tocd488; full known SDK SYSTEM_INFO36 layout"
+    },
+    {
+      "name": "break_into_debugger",
+      "class": "bss",
+      "original_address": 273422084,
+      "bytes": 4,
+      "native_expression": "frontend_bss.break_into_debugger",
+      "original_default": 0,
+      "evidence": "main stores actualargc/argv; nonzero break flag branches to imported DebugBreak"
+    },
+    {
+      "name": "command_argc",
+      "class": "bss",
+      "original_address": 273422088,
+      "bytes": 4,
+      "native_expression": "frontend_bss.command_argc",
+      "original_default": 0,
+      "evidence": "main stores actualargc/argv; nonzero break flag branches to imported DebugBreak"
+    },
+    {
+      "name": "command_argv",
+      "class": "bss",
+      "original_address": 273422092,
+      "bytes": 4,
+      "native_expression": "frontend_bss.command_argv",
+      "original_default": 0,
+      "evidence": "main stores actualargc/argv; nonzero break flag branches to imported DebugBreak"
     }
   ],
   "initializers": [

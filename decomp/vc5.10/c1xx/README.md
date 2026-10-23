@@ -131,7 +131,7 @@ initialization and seeded with all ones by callback21. Its three pairs and
 ten signature-specific controls are in `cases/minimal/signature-trials.json`.
 Current BSS projection:565semantic bytes plus27native padding, sizeof592.
 
-Current reconstruction has reached initializer38; minimal compilation remains
+At that checkpoint reconstruction had reached initializer38; minimal compilation remained
 unfinished. The completed lifecycle fixture remains native-only. At the PCH
 checkpoint its execution took 2.30 ms; rebuilding consumed 2.30 s separately.
 The accounting is in `cases/minimal/pch-checkpoint.json`.
@@ -172,3 +172,10 @@ case fell from12.09s to3.40s, with identical logical checks/trace/streams and ei
 cache guards. `cases/minimal/collector-cache-verification.json` preserves both
 immutable native receipts and the reused original. The lifecycle fixture remains
 separate:12.81ms total,1.98ms execution, zero Wine invocations.
+
+The actual main is now accepted (137 hot+27 cold bytes) and stops in its separate
+work-buffer initializer. Three fresh paired runs and34 new controls verify actual
+main-entry ABI, all new default/live/saved initialized fields and the isolated
+phase write. Schema28 models137 initialized semantic bytes plus51 native record
+padding;8383 original initialized bytes remain unmodeled. BSS is1069 semantic
+bytes plus31 padding. See `cases/minimal/main-trials.json` and the main plan.
