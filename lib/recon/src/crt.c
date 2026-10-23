@@ -135,6 +135,8 @@ WEAK char *recon_getenv(const char *name)
     if (recon_mb_codepage || recon_lc_codepage || recon_lc_handle[2] || recon_mb_cur_max!=1)
         recon_unsupported("bound getenv nondefault locale");
     length=strlen(name);
+    for (i=0;i<length;++i) if ((unsigned char)name[i]>=128)
+        recon_unsupported("bound getenv nonASCII name");
     for (slot=recon_crt_environment;*slot;++slot) {
         if (strlen(*slot)<=length || (*slot)[length]!='=') continue;
         for (i=0;i<length;++i) {

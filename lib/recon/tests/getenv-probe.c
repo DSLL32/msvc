@@ -14,6 +14,8 @@ int main(void)
     assert(getenv("RECON_HOST_ONLY") && !strcmp(getenv("RECON_HOST_ONLY"),"control"));
     recon_crt_bind_arguments(1,arguments,variables);environment=variables;
     assert(getenv("RECON_HOST_ONLY")==NULL);
+    assert(getenv(NULL)==NULL);
+    if(recon_host_getenv("RECON_ENV_NONASCII"))getenv("\200");
     assert(!strcmp(recon_host_getenv("RECON_HOST_ONLY"),"control"));
 #else
     _putenv("RECON_ENV_TEST=Alpha tail ");environment=_environ;
