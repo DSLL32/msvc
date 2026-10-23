@@ -169,6 +169,17 @@ void initialize_frontend_38(void)
 
 void initialize_frontend_39(void)
 {
+    initialize_generated_comment();
+    register_cleanup(destroy_generated_comment);
+}
+
+void initialize_generated_comment(void)
+{
+    __asm { int 3 }
+}
+
+void destroy_generated_comment(void)
+{
     __asm { int 3 }
 }
 

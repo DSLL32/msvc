@@ -62,7 +62,8 @@
     "_initialize_frontend_36",
     "_initialize_frontend_37",
     "PchContext::Initialize",
-    "_initialize_frontend_38"
+    "_initialize_frontend_38",
+    "_initialize_frontend_39"
   ],
   "trial": null,
   "ranges": [
@@ -527,7 +528,19 @@
       "start_rva": 232162,
       "end_rva": 232175,
       "entry": 1
+    },
+    {
+      "owner": "_initialize_frontend_39",
+      "start_rva": 232175,
+      "end_rva": 232185,
+      "entry": 1
+    },
+    {
+      "owner": "_initialize_frontend_39",
+      "start_rva": 232411,
+      "end_rva": 232425,
+      "entry": 0
     }
   ],
-  "stage": "_initialize_frontend_38 accepted; next frontier _initialize_frontend_39"
+  "stage": "_initialize_frontend_39 accepted; next frontier _initialize_generated_comment"
 }

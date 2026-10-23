@@ -31,7 +31,7 @@ def check(original,native,require_audit=True,audit_path=None):
     pdb_number=2 if trial['trial']=='_initialize_pdb_context_02' else 1
     deferred=trial['trial']=='_initialize_deferred_work'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=38,
+    s.require(rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=39,
               'no reviewed callback decoder for this function')
     index=34 if rank_helper else 24 if pool_member else 21+pdb_number if pdb else 16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
@@ -93,6 +93,10 @@ def check(original,native,require_audit=True,audit_path=None):
         if '_initialize_type_ranks' in trial['accepted']:
             for slot in range(35,index+2):
                 path.append(callback(slot))
+                if slot==39 and index>=39:
+                    path.append(('initialize_generated_comment',0x38af9))
+                    if '_initialize_generated_comment' not in trial['accepted']:break
+                    path.append(('register_cleanup',0x386ae))
                 if slot==37 and index>=37:
                     path.append(('PchContext::Initialize',0x3bd41))
                     if 'PchContext::Initialize' not in trial['accepted']:break

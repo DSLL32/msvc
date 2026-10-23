@@ -143,3 +143,8 @@ queue pointers. The intervening original tail slot and pointed-to nodes remain
 unmodeled. Four fresh pairs and 17 new rejection controls are recorded in
 `cases/minimal/pending-group-trials.json`. Schema25 models 959 semantic BSS bytes
 and 29 natural native padding bytes; 8,431 initialized bytes remain unmodeled.
+
+Callback39 is accepted as one 24-byte split wrapper:10 primary bytes plus14
+cleanup-registration bytes. Its constructor and destructor remain separate
+named traps. Three fresh pairs and six changed-boundary controls are recorded
+in `cases/minimal/comment-wrapper-trials.json`; no joint closure was needed.

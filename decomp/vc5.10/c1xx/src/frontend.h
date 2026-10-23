@@ -114,6 +114,8 @@ int report_compiler_diagnostic(int number, ...);
 int register_cleanup(Initializer cleanup);
 void initialize_deferred_work(void);
 void destroy_deferred_work(void);
+void initialize_generated_comment(void);
+void destroy_generated_comment(void);
 void initialize_frontend_24(void);
 void initialize_frontend_25(void);
 void initialize_frontend_26(void);
