@@ -4,6 +4,7 @@ import argparse
 import copy
 import hashlib
 import json
+import os
 from pathlib import Path
 import subprocess
 import time
@@ -111,7 +112,7 @@ def verify_frontier(original, native, expected_name, expected):
 
 
 def audit_trial(path):
-    tool = ROOT / 'tooling/graph-audit/target/release/graph-audit'
+    tool = Path(os.environ.get('GRAPH_AUDIT_BIN',str(ROOT / 'tooling/graph-audit/target/release/graph-audit'))).resolve()
     command = [str(tool), '--profile', 'link', '--discovery', 'cfg', '--repo', str(ROOT), '--project', str(BINARY),
                '--original', str(ROOT / 'toolchains/5.10/bin/LINK.EXE'), '--rebuilt', str(BINARY / 'build/link.exe'),
                '--map', str(BINARY / 'build/link.map'), '--config', str(path),
@@ -131,12 +132,44 @@ def audit_trial(path):
     inputs += [BINARY/'scripts'/name for name in ['accept.py','boundary_state.py','mask.py','observers.py','environment_profile.py','binary.py','context_heap.py']]
     cached_bodies={'_main','_initialize_debug@8','_initialize_repro','_parse_command_line@16','_has_switch@4'} & set(trial['accepted'])
     imported=copy.deepcopy(trial)
-    imported['accepted']=[name for name in imported['accepted'] if name not in cached_bodies]
+    register_candidate='_configure_link_options@12' in trial['accepted']
+    imported['accepted']=[name for name in imported['accepted'] if name not in cached_bodies and not(register_candidate and name=='_configure_link_options@12')]
     import_path=path.parent/'direct-import-config.json'
     import_path.write_text(json.dumps(imported,indent=2)+'\n')
     inputs.append(import_path)
     if cached_bodies:inputs += [BINARY/'scripts/import-residual.py',BINARY/'build/driver.obj',BINARY/'build/driver-stubs.obj',BINARY/'build/reproduction.obj',BINARY/'build/arguments.obj']
     if 'LinkContext::Initialize' in trial['accepted']:inputs.append(BINARY/'scripts/member_pointers.py')
+    register_command=None
+    register_packet_check=None
+    if register_candidate:
+        import importlib
+        from binary import PE
+        witness=importlib.import_module('options-preservation')
+        register_packet_check=witness.check(PE(ROOT/'toolchains/5.10/bin/LINK.EXE'))
+        packet=json.loads(witness.PACKET.read_text())
+        register_config=copy.deepcopy(trial)
+        register_config['accepted']=['_configure_link_options@12']
+        register_config_path=path.parent/'register-import-config.json'
+        register_config_path.write_text(json.dumps(register_config,indent=2)+'\n')
+        register_metadata=json.loads((BINARY/'build/graph.json').read_text())
+        register_metadata['functions'].setdefault('_configure_link_options@12',{})['register_imports']={'require_all_register_calls_resolved':True}
+        contracts=[]
+        for imported_api in packet['imports']:
+            dll,name=imported_api['identity'].split('!',1)
+            contracts.append({'target':{'import':{'dll':dll,'name':name}}})
+            contracts[-1].update(preserves=['ebx','esi','edi'],evidence=dict(path='cases/help/options-import-preservation.json',sha256=sha(witness.PACKET.read_bytes())))
+        register_metadata['register_imports']={'preservation_contracts':contracts}
+        register_metadata_path=path.parent/'register-import-metadata.json'
+        register_metadata_path.write_text(json.dumps(register_metadata,indent=2)+'\n')
+        register_command=command.copy()
+        register_command[register_command.index('--config')+1]=str(register_config_path)
+        register_command[register_command.index('--metadata')+1]=str(register_metadata_path)
+        register_command+=['--check-imports','--resolve-register-imports']
+        inputs += [register_config_path,register_metadata_path,witness.PACKET,BINARY/'scripts/options-preservation.py']
+        provider=packet['canonical_provider']
+        inputs += [ROOT/provider['path'],BINARY/provider['owned_receipt']]
+        inputs += [BINARY/item['path'] for item in provider['owned_hfile_copies']]
+        inputs += [ROOT/d['path'] for api in packet['imports'] for d in api['declarations']]
     before = {str(p):sha(p.read_bytes()) for p in inputs}
     full_command = [arg for arg in command if arg!='--check-ret'] + ['--include-evidenced-runtime']
     started=time.perf_counter()
@@ -163,6 +196,15 @@ def audit_trial(path):
     if '_initialize_repro' in cached_bodies:residual['_initialize_repro']=module.check_repro(original_pe,rebuilt_pe,(BINARY/'build/reproduction.obj').read_bytes(),map_text)
     if '_parse_command_line@16' in cached_bodies:residual['_parse_command_line@16']=module.check_commandline(original_pe,rebuilt_pe,(BINARY/'build/arguments.obj').read_bytes(),map_text)
     if '_has_switch@4' in cached_bodies:residual['_has_switch@4']=module.check_switch(original_pe,rebuilt_pe,(BINARY/'build/arguments.obj').read_bytes(),map_text)
+    register_audit=None
+    if register_command:
+        resolved=subprocess.run(register_command,stdout=subprocess.PIPE,stderr=subprocess.PIPE,check=True)
+        register_report=json.loads(resolved.stdout)
+        assert set(register_report['functions'])=={'_configure_link_options@12'}
+        from binary import PE
+        register_audit=dict(command=register_command,packet_binding=register_packet_check,
+            inventory=witness.check_resolution(register_report,PE(BINARY/'build/link.exe')),
+            report=register_report,stderr=resolved.stderr.decode())
     member_pointer_contract=None
     if 'LinkContext::Initialize' in trial['accepted']:
         from member_pointers import check_static
@@ -179,7 +221,7 @@ def audit_trial(path):
     assert full_report['discovery'] == 'cfg'
     assert set(report['functions']) == set(strict['accepted']), 'strict body subset differs'
     assert set(full_report['functions']) == set(trial['accepted']), 'full trial graph subset differs'
-    return dict(elapsed_seconds=elapsed,member_pointer_contract=member_pointer_contract,full_command=full_command,strict_command=strict_command,import_command=import_command,import_report=import_report,cached_import_residual=residual,
+    return dict(elapsed_seconds=elapsed,register_import_audit=register_audit,member_pointer_contract=member_pointer_contract,full_command=full_command,strict_command=strict_command,import_command=import_command,import_report=import_report,cached_import_residual=residual,
                 strict_projection_excludes_only_verified_import_thunks=sorted(import_leaves & set(trial['accepted'])),
                 input_sha256_before=before, input_sha256_after=after,
                 full_report=full_report,strict_report=report,

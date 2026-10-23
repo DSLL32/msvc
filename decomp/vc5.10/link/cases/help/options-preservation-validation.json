@@ -1,0 +1,40 @@
+{
+  "positive": {
+    "packet_sha256": "858de1d8d2bac1dd3a8bced26a9ffdbdeb8d38371ccdfc2b8511755705f10c24",
+    "qualified_import_contracts": 6,
+    "application_helper_contracts": 0,
+    "qualification": "Only required canonical-provider/SDK ABI witnesses. Unknown application calls remain barriers; no helper source/object snapshots or target CFG/dataflow walk."
+  },
+  "resolution": {
+    "original_register_calls": 147,
+    "original_direct_calls": 50,
+    "rebuilt_direct_calls": 197,
+    "qualified_imports": 19,
+    "required_preservation_contracts": 6,
+    "application_helper_contracts": 0,
+    "unresolved": 0
+  },
+  "rejected": [
+    "wrong original",
+    "wrong provider",
+    "changed actual module receipt",
+    "wrong owned provider copy",
+    "wrong required import",
+    "wrong provider ordinal",
+    "wrong provider entry",
+    "changed SDK header",
+    "wrong SDK declaration",
+    "missing preservation contract",
+    "drop resolved site",
+    "wrong qualified import",
+    "unresolved call",
+    "wrong report PE",
+    "wrong report witness"
+  ],
+  "elapsed_seconds": 0.11178294382989407,
+  "status": "accepted dispatcher: minimal6 provider/SDK and actual common site-report qualification",
+  "checker_sha256": {
+    "options-preservation.py": "eea4b70139de5ba7ee9468465099d43f752c75e14f51a006776b140c0a3a45c7",
+    "check-options-preservation.py": "303d7814e3e7302d2ac15de375c94bb703cd675e3f2506d6cc726bb5dc7c4aae"
+  }
+}

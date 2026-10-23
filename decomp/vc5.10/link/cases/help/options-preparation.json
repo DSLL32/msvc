@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "unaccepted preparation",
+  "status": "accepted; full common cached-IAT qualification passed",
   "candidate": "_configure_link_options@12",
   "expected_next": "_parse_switch@8",
-  "accepted_application_functions": 36,
-  "accepted_application_extent_bytes": 5313,
+  "accepted_application_functions": 37,
+  "accepted_application_extent_bytes": 18874,
   "candidate_extent_bytes": 13561,
   "original": {
     "directory": "/root/.ai-tmp/msvc2/vc5.10/link/masked-drdwkhmv",
@@ -12,13 +12,13 @@
     "seconds": 1.3138997163623571
   },
   "native": {
-    "directory": "/root/.ai-tmp/msvc2/vc5.10/link/native-bu2o4ylb",
-    "receipt_sha256": "6bdfe6e90bb375cfd36add3217645e2ad858739ee769f006eae8a52531fa7749",
-    "seconds": 0.216219169087708
+    "directory": "/root/.ai-tmp/msvc2/vc5.10/link/native-33lm8y_n",
+    "receipt_sha256": "429d4cd5fad93c725d110dc828094e43d73ddeef2125679a1d218fda9622903d",
+    "seconds": 0.2193380817770958
   },
   "trial_configuration_sha256": "4da44e7730e383363a6a8fa68c61778446dc1ad42303ff27a1de7a7339506e80",
   "rebuilt_sha256": "baf8f624f54b33db179a2ef7205f1ba26414259bc51fa59408b2c8960b32dc1a",
-  "native_sha256": "ba0afa3733c5951aeb5f5b1810ec1fea80eeff4da398cae6b6f92b2c191357ef",
+  "native_sha256": "567e96568815ea8c4227e56fd26abd628007acc69917edf6d770e5ac3284c1d2",
   "typed_boundary": {
     "frontier": "_parse_switch@8",
     "positive": true,
@@ -312,5 +312,30 @@
     }
   },
   "frozen_graph_design": "/root/.ai-tmp/msvc2/vc5.10/link/options-graph-design",
-  "qualification": "No function promotion or normal-completion/fixture success. Raw capture directories and frozen compiled-source content remain unchanged. Coverage denominator beyond identified extents is not asserted."
+  "qualification": "No function promotion or normal-completion/fixture success. Raw capture directories and frozen compiled-source content remain unchanged. Coverage denominator beyond identified extents is not asserted.",
+  "native_build_refresh_seconds": 1.7422617739066482,
+  "import_witness": {
+    "path": "cases/help/options-import-preservation.json",
+    "sha256": "858de1d8d2bac1dd3a8bced26a9ffdbdeb8d38371ccdfc2b8511755705f10c24",
+    "required_import_contracts": 6,
+    "application_helper_contracts": 0,
+    "status": "approved minimal6 import contracts; no app-helper contracts"
+  },
+  "common_cached_imports": {
+    "tool_commit": "90f7ef6d",
+    "tool_sha256": "fc5c81f2771c5b6e488ad72529a90c862ef6744083d6e8270b88218105fa844f",
+    "inventory": {
+      "original_register_calls": 147,
+      "original_direct_calls": 50,
+      "rebuilt_direct_calls": 197,
+      "qualified_imports": 19,
+      "required_preservation_contracts": 6,
+      "application_helper_contracts": 0,
+      "unresolved": 0
+    },
+    "full_vertices": 49,
+    "strict_ret_bodies": 43,
+    "complete_audit_seconds": 0.31528821866959333
+  },
+  "acceptance": "cases/help/frontiers/37-configure-link-options/validation.json"
 }

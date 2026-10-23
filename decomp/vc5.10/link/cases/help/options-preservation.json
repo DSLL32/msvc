@@ -1,0 +1,6064 @@
+{
+  "schema": 1,
+  "scope": "Explicit normal-return nonvolatile preservation witnesses for the35 actual direct helper targets and19 qualified imported APIs of configure_link_options. Analysis/verification metadata, never compiled implementation.",
+  "abi_basis": {
+    "url": "https://learn.microsoft.com/en-us/cpp/cpp/argument-passing-and-naming-conventions?view=msvc-170",
+    "rule": "Microsoft x86 compiler-generated prologues and epilogues preserve used EBX, ESI and EDI. Apply only to these explicitly named, inspected ordinary Win32 callees.",
+    "qualification": "No custom/naked/register-clobber ABI is registered. Unknown targets must kill cached facts. RET cleanup remains independently checked."
+  },
+  "original_sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+  "rebuilt_sha256": "baf8f624f54b33db179a2ef7205f1ba26414259bc51fa59408b2c8960b32dc1a",
+  "canonical_provider": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "bytes": 277776,
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "actual_loaded_receipt": "/root/.ai-tmp/msvc2/vc5.10/link/masked-drdwkhmv/receipt.json",
+    "actual_loaded_receipt_sha256": "4acc6424bce0f5b3b123ebcf4c71c2a140517c6afc7e7cd895626fb0b92b4b02",
+    "owned_receipt": "cases/help/options-provider/receipt.json",
+    "owned_hfile_copies": [
+      {
+        "path": "cases/help/options-provider/module-006.bin",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    ]
+  },
+  "functions": [
+    {
+      "name": "_parse_switch@8",
+      "original_begin": 4247744,
+      "original_end": 4248125,
+      "original_body_sha256": "522fa2fd63d743a3dca81065216f7a824bd32cb7e9ae5f8bce723ee36c01b454",
+      "call_sites": [
+        4477334
+      ],
+      "standard_abi": "stdcall, ret 8",
+      "source": {
+        "path": "src/arguments.c",
+        "sha256": "ee4f91becc2577d79de1a8fe8b24ec745fcd63a36ec11d1cb53f1c7c0fa6ee0d",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_parse_switch@8",
+        "address": 4199304,
+        "object": "build/arguments.obj",
+        "object_sha256": "891d391d72721f91acdd3f5b0cb895350738a776707dcd4cc69ce8373020a270",
+        "body_sha256": "c9dfe9bdeb48341bc07843ae8bcb61deaf83f6fea664aab82fd51b27acd651e1",
+        "normal_returns": [
+          {
+            "address": 4199317,
+            "bytes": "c20800",
+            "instruction": "ret 8"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4247747,
+            "bytes": "53",
+            "instruction": "push ebx"
+          },
+          "writes": [
+            {
+              "address": 4247783,
+              "bytes": "8d5801",
+              "instruction": "lea ebx, [eax + 1]"
+            },
+            {
+              "address": 4247854,
+              "bytes": "8b5c2410",
+              "instruction": "mov ebx, dword ptr [esp + 0x10]"
+            },
+            {
+              "address": 4247865,
+              "bytes": "81e3ffff0000",
+              "instruction": "and ebx, 0xffff"
+            },
+            {
+              "address": 4248008,
+              "bytes": "8b1d48124000",
+              "instruction": "mov ebx, dword ptr [0x401248]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4248122,
+              "restore": {
+                "address": 4248118,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            }
+          ]
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4247749,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4247750,
+              "bytes": "8b742424",
+              "instruction": "mov esi, dword ptr [esp + 0x24]"
+            },
+            {
+              "address": 4247919,
+              "bytes": "8bf7",
+              "instruction": "mov esi, edi"
+            },
+            {
+              "address": 4247926,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4247933,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4247935,
+              "bytes": "8b742418",
+              "instruction": "mov esi, dword ptr [esp + 0x18]"
+            },
+            {
+              "address": 4247946,
+              "bytes": "2b742428",
+              "instruction": "sub esi, dword ptr [esp + 0x28]"
+            },
+            {
+              "address": 4247950,
+              "bytes": "03f0",
+              "instruction": "add esi, eax"
+            },
+            {
+              "address": 4247955,
+              "bytes": "46",
+              "instruction": "inc esi"
+            },
+            {
+              "address": 4247958,
+              "bytes": "8b742428",
+              "instruction": "mov esi, dword ptr [esp + 0x28]"
+            },
+            {
+              "address": 4248092,
+              "bytes": "8bf7",
+              "instruction": "mov esi, edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4248122,
+              "restore": {
+                "address": 4248116,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4247754,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          "writes": [
+            {
+              "address": 4247755,
+              "bytes": "8b3d48124000",
+              "instruction": "mov edi, dword ptr [0x401248]"
+            },
+            {
+              "address": 4247858,
+              "bytes": "8bfe",
+              "instruction": "mov edi, esi"
+            },
+            {
+              "address": 4247871,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4247888,
+              "bytes": "8bfe",
+              "instruction": "mov edi, esi"
+            },
+            {
+              "address": 4247895,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4247907,
+              "bytes": "2bf9",
+              "instruction": "sub edi, ecx"
+            },
+            {
+              "address": 4247921,
+              "bytes": "8bf8",
+              "instruction": "mov edi, eax"
+            },
+            {
+              "address": 4247926,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4247933,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4248019,
+              "bytes": "8bf8",
+              "instruction": "mov edi, eax"
+            },
+            {
+              "address": 4248031,
+              "bytes": "47",
+              "instruction": "inc edi"
+            },
+            {
+              "address": 4248034,
+              "bytes": "8bfe",
+              "instruction": "mov edi, esi"
+            },
+            {
+              "address": 4248041,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4248046,
+              "bytes": "8bf9",
+              "instruction": "mov edi, ecx"
+            },
+            {
+              "address": 4248048,
+              "bytes": "03fe",
+              "instruction": "add edi, esi"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4248122,
+              "restore": {
+                "address": 4248109,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            }
+          ]
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4248122,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        }
+      ]
+    },
+    {
+      "name": "_switch_number@12",
+      "original_begin": 4248128,
+      "original_end": 4248180,
+      "original_body_sha256": "1cd9de9a767e0f5ed33c49cce85bdc24aa27a648c8c2bac07f862c0219b1c864",
+      "call_sites": [
+        4477493,
+        4478293,
+        4478322,
+        4478359,
+        4480358,
+        4481208,
+        4481334,
+        4481475,
+        4481527,
+        4481714,
+        4482579,
+        4482639,
+        4482700,
+        4485875,
+        4487585,
+        4487635,
+        4489731
+      ],
+      "standard_abi": "stdcall, ret 0xc",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_switch_number@12",
+        "address": 4198400,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "6b0ac68d6b58089e71bfb5a037fc5b2988b5922fe306f90c9d1e9424bbf14c3b",
+        "normal_returns": [
+          {
+            "address": 4198413,
+            "bytes": "c20c00",
+            "instruction": "ret 0xc"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "edi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4248177,
+          "bytes": "c20c00",
+          "instruction": "ret 0xc"
+        }
+      ]
+    },
+    {
+      "name": "_valid_section_name@4",
+      "original_begin": 4257296,
+      "original_end": 4257349,
+      "original_body_sha256": "ce6052e4aa8f918700fd1d83ba95b8a4a2619f47f3624e05fe757d3cf9aecb5e",
+      "call_sites": [
+        4485062,
+        4485112,
+        4487384
+      ],
+      "standard_abi": "stdcall, ret 4",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_valid_section_name@4",
+        "address": 4198416,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "62aadc06a842f61ae17202453481662544f02366332ead2a1a4ff1c5b8e04104",
+        "normal_returns": [
+          {
+            "address": 4198429,
+            "bytes": "c20400",
+            "instruction": "ret 4"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4257296,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4257297,
+              "bytes": "8b742408",
+              "instruction": "mov esi, dword ptr [esp + 8]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4257339,
+              "restore": {
+                "address": 4257338,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4257346,
+              "restore": {
+                "address": 4257345,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4257301,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          "writes": [
+            {
+              "address": 4257302,
+              "bytes": "8b3da4114000",
+              "instruction": "mov edi, dword ptr [0x4011a4]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4257339,
+              "restore": {
+                "address": 4257337,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4257346,
+              "restore": {
+                "address": 4257342,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            }
+          ]
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4257339,
+          "bytes": "c20400",
+          "instruction": "ret 4"
+        },
+        {
+          "address": 4257346,
+          "bytes": "c20400",
+          "instruction": "ret 4"
+        }
+      ]
+    },
+    {
+      "name": "_find_library@12",
+      "original_begin": 4257360,
+      "original_end": 4257682,
+      "original_body_sha256": "d005b49c31d6d2a561f1d015b265ed878ff1f5d9e0514afdd4dc6e94421e59d8",
+      "call_sites": [
+        4489350
+      ],
+      "standard_abi": "stdcall, ret 0xc",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_find_library@12",
+        "address": 4198432,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "24f3fec3a084e5d747238178db3d56943cd0116160d993e1bd5a2d18b4300ca1",
+        "normal_returns": [
+          {
+            "address": 4198445,
+            "bytes": "c20c00",
+            "instruction": "ret 0xc"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4257373,
+            "bytes": "53",
+            "instruction": "push ebx"
+          },
+          "writes": [
+            {
+              "address": 4257421,
+              "bytes": "8b1d28124000",
+              "instruction": "mov ebx, dword ptr [0x401228]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4257644,
+              "restore": {
+                "address": 4257637,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            },
+            {
+              "return_address": 4257679,
+              "restore": {
+                "address": 4257672,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            }
+          ]
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4257375,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4257503,
+              "bytes": "8bf7",
+              "instruction": "mov esi, edi"
+            },
+            {
+              "address": 4257514,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4257523,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4257541,
+              "bytes": "8bf7",
+              "instruction": "mov esi, edi"
+            },
+            {
+              "address": 4257558,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4257569,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4257644,
+              "restore": {
+                "address": 4257635,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4257679,
+              "restore": {
+                "address": 4257670,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4257376,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          "writes": [
+            {
+              "address": 4257476,
+              "bytes": "8dbc243c010000",
+              "instruction": "lea edi, [esp + 0x13c]"
+            },
+            {
+              "address": 4257491,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4257495,
+              "bytes": "2bf9",
+              "instruction": "sub edi, ecx"
+            },
+            {
+              "address": 4257505,
+              "bytes": "8bfa",
+              "instruction": "mov edi, edx"
+            },
+            {
+              "address": 4257514,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4257523,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4257525,
+              "bytes": "8dbc2428020000",
+              "instruction": "lea edi, [esp + 0x228]"
+            },
+            {
+              "address": 4257535,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4257539,
+              "bytes": "2bf9",
+              "instruction": "sub edi, ecx"
+            },
+            {
+              "address": 4257543,
+              "bytes": "8bfa",
+              "instruction": "mov edi, edx"
+            },
+            {
+              "address": 4257550,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4257554,
+              "bytes": "4f",
+              "instruction": "dec edi"
+            },
+            {
+              "address": 4257558,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4257569,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4257644,
+              "restore": {
+                "address": 4257634,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4257679,
+              "restore": {
+                "address": 4257669,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            }
+          ]
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4257644,
+          "bytes": "c20c00",
+          "instruction": "ret 0xc"
+        },
+        {
+          "address": 4257679,
+          "bytes": "c20c00",
+          "instruction": "ret 0xc"
+        }
+      ]
+    },
+    {
+      "name": "_exclude_default_library@8",
+      "original_begin": 4287200,
+      "original_end": 4287377,
+      "original_body_sha256": "7c9aae8e52aafcd53e7ef83f993236f39cc7908859216ac06f51cec1b39c1cdd",
+      "call_sites": [
+        4490583
+      ],
+      "standard_abi": "stdcall, ret 8",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_exclude_default_library@8",
+        "address": 4198448,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "f91149db6ef45b8b1ce04c7128e0dbb8c21b757012bc02d01fd1e674e0fadcdb",
+        "normal_returns": [
+          {
+            "address": 4198459,
+            "bytes": "c20800",
+            "instruction": "ret 8"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4287200,
+            "bytes": "53",
+            "instruction": "push ebx"
+          },
+          "writes": [
+            {
+              "address": 4287266,
+              "bytes": "32db",
+              "instruction": "xor bl, bl"
+            },
+            {
+              "address": 4287290,
+              "bytes": "b301",
+              "instruction": "mov bl, 1"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4287257,
+              "restore": {
+                "address": 4287256,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            },
+            {
+              "return_address": 4287374,
+              "restore": {
+                "address": 4287373,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            }
+          ]
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4287202,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4287203,
+              "bytes": "8b742414",
+              "instruction": "mov esi, dword ptr [esp + 0x14]"
+            },
+            {
+              "address": 4287263,
+              "bytes": "83c60c",
+              "instruction": "add esi, 0xc"
+            },
+            {
+              "address": 4287295,
+              "bytes": "8b36",
+              "instruction": "mov esi, dword ptr [esi]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4287257,
+              "restore": {
+                "address": 4287254,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4287374,
+              "restore": {
+                "address": 4287371,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4287207,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          "writes": [
+            {
+              "address": 4287268,
+              "bytes": "bf04000000",
+              "instruction": "mov edi, 4"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4287257,
+              "restore": {
+                "address": 4287253,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4287374,
+              "restore": {
+                "address": 4287370,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            }
+          ]
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4287257,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        },
+        {
+          "address": 4287374,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        }
+      ]
+    },
+    {
+      "name": "_add_default_library@8",
+      "original_begin": 4287392,
+      "original_end": 4287523,
+      "original_body_sha256": "d1bb136613d47a8d741c900e8885ae2d6b1fff44630ceb750ecfa4cf16437ff8",
+      "call_sites": [
+        4479408
+      ],
+      "standard_abi": "stdcall, ret 8",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_add_default_library@8",
+        "address": 4198462,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "f91149db6ef45b8b1ce04c7128e0dbb8c21b757012bc02d01fd1e674e0fadcdb",
+        "normal_returns": [
+          {
+            "address": 4198473,
+            "bytes": "c20800",
+            "instruction": "ret 8"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4287396,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4287409,
+              "bytes": "8d700c",
+              "instruction": "lea esi, [eax + 0xc]"
+            },
+            {
+              "address": 4287426,
+              "bytes": "8b36",
+              "instruction": "mov esi, dword ptr [esi]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4287507,
+              "restore": {
+                "address": 4287506,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4287520,
+              "restore": {
+                "address": 4287519,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4287397,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          "writes": [
+            {
+              "address": 4287405,
+              "bytes": "8b7c240c",
+              "instruction": "mov edi, dword ptr [esp + 0xc]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4287507,
+              "restore": {
+                "address": 4287505,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4287520,
+              "restore": {
+                "address": 4287513,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            }
+          ]
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4287507,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        },
+        {
+          "address": 4287520,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        }
+      ]
+    },
+    {
+      "name": "_disallow_library@12",
+      "original_begin": 4287536,
+      "original_end": 4287667,
+      "original_body_sha256": "8ac894ef1aad200f3e8872b56be6966e253fac8818d3c2201aa3baf9ab2f7357",
+      "call_sites": [
+        4479755,
+        4479776
+      ],
+      "standard_abi": "stdcall, ret 0xc",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_disallow_library@12",
+        "address": 4198476,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "fd7e83a5fa90ebe12c75a36ea15e417c330e0051f91a765dbb519647b0180d15",
+        "normal_returns": [
+          {
+            "address": 4198487,
+            "bytes": "c20c00",
+            "instruction": "ret 0xc"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4287540,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4287553,
+              "bytes": "8d700c",
+              "instruction": "lea esi, [eax + 0xc]"
+            },
+            {
+              "address": 4287570,
+              "bytes": "8b36",
+              "instruction": "mov esi, dword ptr [esi]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4287651,
+              "restore": {
+                "address": 4287650,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4287664,
+              "restore": {
+                "address": 4287663,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4287541,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          "writes": [
+            {
+              "address": 4287549,
+              "bytes": "8b7c240c",
+              "instruction": "mov edi, dword ptr [esp + 0xc]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4287651,
+              "restore": {
+                "address": 4287649,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4287664,
+              "restore": {
+                "address": 4287657,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            }
+          ]
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4287651,
+          "bytes": "c20c00",
+          "instruction": "ret 0xc"
+        },
+        {
+          "address": 4287664,
+          "bytes": "c20c00",
+          "instruction": "ret 0xc"
+        }
+      ]
+    },
+    {
+      "name": "_add_delay_library@4",
+      "original_begin": 4323696,
+      "original_end": 4323720,
+      "original_body_sha256": "fe0af42c38be6c46819e135fa5bf6cc5023ea137b1ba7d1fcafc6780baedc35e",
+      "call_sites": [
+        4479664
+      ],
+      "standard_abi": "stdcall, ret 4",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_add_delay_library@4",
+        "address": 4198490,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "fecd26ea96f4e11a4e30a25a71d827d1aaea692fdd9a4bccecb5d55e5c7aebab",
+        "normal_returns": [
+          {
+            "address": 4198501,
+            "bytes": "c20400",
+            "instruction": "ret 4"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "edi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4323717,
+          "bytes": "c20400",
+          "instruction": "ret 4"
+        }
+      ]
+    },
+    {
+      "name": "_remove_delay_library@4",
+      "original_begin": 4323728,
+      "original_end": 4323752,
+      "original_body_sha256": "e9668a3b24224dee076af613c0b168d9b422fa7fa8252f447d541437d15cd5cf",
+      "call_sites": [
+        4485569
+      ],
+      "standard_abi": "stdcall, ret 4",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_remove_delay_library@4",
+        "address": 4198504,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "fecd26ea96f4e11a4e30a25a71d827d1aaea692fdd9a4bccecb5d55e5c7aebab",
+        "normal_returns": [
+          {
+            "address": 4198515,
+            "bytes": "c20400",
+            "instruction": "ret 4"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "edi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4323749,
+          "bytes": "c20400",
+          "instruction": "ret 4"
+        }
+      ]
+    },
+    {
+      "name": "_has_delay_library@4",
+      "original_begin": 4324304,
+      "original_end": 4324331,
+      "original_body_sha256": "ffd08db81a53463d1bda8f19a501163344a0cea5af8be9595181121d64c910d9",
+      "call_sites": [
+        4479634
+      ],
+      "standard_abi": "stdcall, ret 4",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_has_delay_library@4",
+        "address": 4198518,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "62aadc06a842f61ae17202453481662544f02366332ead2a1a4ff1c5b8e04104",
+        "normal_returns": [
+          {
+            "address": 4198531,
+            "bytes": "c20400",
+            "instruction": "ret 4"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "edi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4324328,
+          "bytes": "c20400",
+          "instruction": "ret 4"
+        }
+      ]
+    },
+    {
+      "name": "_enable_warning_errors",
+      "original_begin": 4390688,
+      "original_end": 4390696,
+      "original_body_sha256": "46bcad5c49cd80c659a1b018869227e4c50b496a31ae9489a96b877495850b86",
+      "call_sites": [
+        4490685
+      ],
+      "standard_abi": "cdecl, ret ",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_enable_warning_errors",
+        "address": 4198534,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "7cac88a84209127d5871b6e9f8c4533476ec25f429b277c9ca7d67ea1240de19",
+        "normal_returns": [
+          {
+            "address": 4198545,
+            "bytes": "c3",
+            "instruction": "ret "
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "edi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4390695,
+          "bytes": "c3",
+          "instruction": "ret "
+        }
+      ]
+    },
+    {
+      "name": "_disable_warning@4",
+      "original_begin": 4390896,
+      "original_end": 4390939,
+      "original_body_sha256": "a156d7ef56b47bdd31bf16f3de786d869625eab66069c022e7954e3f02c8742f",
+      "call_sites": [
+        4481728,
+        4481796
+      ],
+      "standard_abi": "stdcall, ret 4",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_disable_warning@4",
+        "address": 4198546,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "fecd26ea96f4e11a4e30a25a71d827d1aaea692fdd9a4bccecb5d55e5c7aebab",
+        "normal_returns": [
+          {
+            "address": 4198557,
+            "bytes": "c20400",
+            "instruction": "ret 4"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4390896,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4390897,
+              "bytes": "8b742408",
+              "instruction": "mov esi, dword ptr [esp + 8]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4390936,
+              "restore": {
+                "address": 4390935,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4390936,
+          "bytes": "c20400",
+          "instruction": "ret 4"
+        }
+      ]
+    },
+    {
+      "name": "_link_fatal",
+      "original_begin": 4391472,
+      "original_end": 4391497,
+      "original_body_sha256": "0759b3c610be061d746b754241d1e81d0bebb376d90d59032fb2e3134e64c255",
+      "call_sites": [
+        4477921,
+        4478131,
+        4478266,
+        4482858,
+        4483198,
+        4485103,
+        4485143,
+        4487414,
+        4487938,
+        4487972,
+        4487992,
+        4488054,
+        4488125,
+        4489627,
+        4490043,
+        4490151,
+        4490179,
+        4490780
+      ],
+      "standard_abi": "cdecl, ret ",
+      "source": {
+        "path": "src/link-driver.cpp",
+        "sha256": "51dcc4b3273db58302033e8838daf1b6eaa546642f39ad9070ef539fed01fff9",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_link_fatal",
+        "address": 4206753,
+        "object": "build/link-driver.obj",
+        "object_sha256": "9350accb7203bbefabf0354dd3028f003a5183b78a1c74b096be663b8a08fac0",
+        "body_sha256": "7cac88a84209127d5871b6e9f8c4533476ec25f429b277c9ca7d67ea1240de19",
+        "normal_returns": [
+          {
+            "address": 4206764,
+            "bytes": "c3",
+            "instruction": "ret "
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "edi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4391496,
+          "bytes": "c3",
+          "instruction": "ret "
+        }
+      ]
+    },
+    {
+      "name": "_link_warning",
+      "original_begin": 4391680,
+      "original_end": 4391751,
+      "original_body_sha256": "5109186d5ebf0457875779482b01f40d6b3731d23588ae908ebf06bbe0e91798",
+      "call_sites": [
+        4477566,
+        4478187,
+        4479651,
+        4483079,
+        4484366,
+        4485363,
+        4486546,
+        4488146,
+        4488464,
+        4488503,
+        4489374,
+        4490248,
+        4490495
+      ],
+      "standard_abi": "cdecl, ret ",
+      "source": {
+        "path": "src/link-driver.cpp",
+        "sha256": "51dcc4b3273db58302033e8838daf1b6eaa546642f39ad9070ef539fed01fff9",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_link_warning",
+        "address": 4206741,
+        "object": "build/link-driver.obj",
+        "object_sha256": "9350accb7203bbefabf0354dd3028f003a5183b78a1c74b096be663b8a08fac0",
+        "body_sha256": "7cac88a84209127d5871b6e9f8c4533476ec25f429b277c9ca7d67ea1240de19",
+        "normal_returns": [
+          {
+            "address": 4206752,
+            "bytes": "c3",
+            "instruction": "ret "
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "edi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4391727,
+          "bytes": "c3",
+          "instruction": "ret "
+        },
+        {
+          "address": 4391750,
+          "bytes": "c3",
+          "instruction": "ret "
+        }
+      ]
+    },
+    {
+      "name": "_add_librarian_export@16",
+      "original_begin": 4393504,
+      "original_end": 4393990,
+      "original_body_sha256": "8b36054a37ebf5c5392a5e9d3796aae74474c00ecc52cb2d84217e3a165f0db7",
+      "call_sites": [
+        4480718
+      ],
+      "standard_abi": "stdcall, ret 0x10",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_add_librarian_export@16",
+        "address": 4198560,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "12f290eb5bf8fd052a8b651b796f5b523d1350a2a430a7b7818db128bb252d19",
+        "normal_returns": [
+          {
+            "address": 4198571,
+            "bytes": "c21000",
+            "instruction": "ret 0x10"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4393511,
+            "bytes": "53",
+            "instruction": "push ebx"
+          },
+          "writes": [
+            {
+              "address": 4393584,
+              "bytes": "8b1d30124000",
+              "instruction": "mov ebx, dword ptr [0x401230]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4393987,
+              "restore": {
+                "address": 4393983,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            }
+          ]
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4393517,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4393541,
+              "bytes": "8bf0",
+              "instruction": "mov esi, eax"
+            },
+            {
+              "address": 4393578,
+              "bytes": "8bf0",
+              "instruction": "mov esi, eax"
+            },
+            {
+              "address": 4393611,
+              "bytes": "46",
+              "instruction": "inc esi"
+            },
+            {
+              "address": 4393690,
+              "bytes": "8bf7",
+              "instruction": "mov esi, edi"
+            },
+            {
+              "address": 4393704,
+              "bytes": "8d7706",
+              "instruction": "lea esi, [edi + 6]"
+            },
+            {
+              "address": 4393719,
+              "bytes": "46",
+              "instruction": "inc esi"
+            },
+            {
+              "address": 4393791,
+              "bytes": "83c604",
+              "instruction": "add esi, 4"
+            },
+            {
+              "address": 4393801,
+              "bytes": "46",
+              "instruction": "inc esi"
+            },
+            {
+              "address": 4393862,
+              "bytes": "83c607",
+              "instruction": "add esi, 7"
+            },
+            {
+              "address": 4393877,
+              "bytes": "46",
+              "instruction": "inc esi"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4393987,
+              "restore": {
+                "address": 4393981,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4393522,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          "writes": [
+            {
+              "address": 4393543,
+              "bytes": "33ff",
+              "instruction": "xor edi, edi"
+            },
+            {
+              "address": 4393629,
+              "bytes": "8bf8",
+              "instruction": "mov edi, eax"
+            },
+            {
+              "address": 4393763,
+              "bytes": "33ff",
+              "instruction": "xor edi, edi"
+            },
+            {
+              "address": 4393783,
+              "bytes": "bf02000000",
+              "instruction": "mov edi, 2"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4393987,
+              "restore": {
+                "address": 4393980,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            }
+          ]
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4393987,
+          "bytes": "c21000",
+          "instruction": "ret 0x10"
+        }
+      ]
+    },
+    {
+      "name": "_record_incremental_include@8",
+      "original_begin": 4409040,
+      "original_end": 4409075,
+      "original_body_sha256": "78c2d9e7b1b413f0323ab5b4120fe1da879daa3e8c1bb7f2a70df2a3465b1f84",
+      "call_sites": [
+        4483378
+      ],
+      "standard_abi": "stdcall, ret 8",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_record_incremental_include@8",
+        "address": 4198574,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "f91149db6ef45b8b1ce04c7128e0dbb8c21b757012bc02d01fd1e674e0fadcdb",
+        "normal_returns": [
+          {
+            "address": 4198585,
+            "bytes": "c20800",
+            "instruction": "ret 8"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "edi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4409072,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        }
+      ]
+    },
+    {
+      "name": "_copy_repro_file@8",
+      "original_begin": 4475968,
+      "original_end": 4476493,
+      "original_body_sha256": "63fcee6d1cc7a8069a3fa840cc92d48000e012ee7fe9e5f6a000d0cab823ef39",
+      "call_sites": [
+        4477737,
+        4479204,
+        4490343
+      ],
+      "standard_abi": "stdcall, ret 8",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_copy_repro_file@8",
+        "address": 4198588,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "f91149db6ef45b8b1ce04c7128e0dbb8c21b757012bc02d01fd1e674e0fadcdb",
+        "normal_returns": [
+          {
+            "address": 4198599,
+            "bytes": "c20800",
+            "instruction": "ret 8"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4475981,
+            "bytes": "53",
+            "instruction": "push ebx"
+          },
+          "writes": [
+            {
+              "address": 4475987,
+              "bytes": "8ad8",
+              "instruction": "mov bl, al"
+            },
+            {
+              "address": 4475994,
+              "bytes": "80cb01",
+              "instruction": "or bl, 1"
+            },
+            {
+              "address": 4476080,
+              "bytes": "bb01000000",
+              "instruction": "mov ebx, 1"
+            },
+            {
+              "address": 4476314,
+              "bytes": "43",
+              "instruction": "inc ebx"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4476490,
+              "restore": {
+                "address": 4476483,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            }
+          ]
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4475983,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4476119,
+              "bytes": "8bf7",
+              "instruction": "mov esi, edi"
+            },
+            {
+              "address": 4476130,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4476140,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4476161,
+              "bytes": "8bf7",
+              "instruction": "mov esi, edi"
+            },
+            {
+              "address": 4476178,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4476191,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4476210,
+              "bytes": "8bf7",
+              "instruction": "mov esi, edi"
+            },
+            {
+              "address": 4476227,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4476239,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4476258,
+              "bytes": "8bf7",
+              "instruction": "mov esi, edi"
+            },
+            {
+              "address": 4476275,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4476287,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4476362,
+              "bytes": "8bb42420030000",
+              "instruction": "mov esi, dword ptr [esp + 0x320]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4476490,
+              "restore": {
+                "address": 4476481,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4475984,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          "writes": [
+            {
+              "address": 4476057,
+              "bytes": "8dbc2430010000",
+              "instruction": "lea edi, [esp + 0x130]"
+            },
+            {
+              "address": 4476072,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4476096,
+              "bytes": "8b3da4f04700",
+              "instruction": "mov edi, dword ptr [0x47f0a4]"
+            },
+            {
+              "address": 4476111,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4476115,
+              "bytes": "2bf9",
+              "instruction": "sub edi, ecx"
+            },
+            {
+              "address": 4476124,
+              "bytes": "8bfa",
+              "instruction": "mov edi, edx"
+            },
+            {
+              "address": 4476130,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4476140,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4476145,
+              "bytes": "bf384c4000",
+              "instruction": "mov edi, 0x404c38"
+            },
+            {
+              "address": 4476150,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4476154,
+              "bytes": "2bf9",
+              "instruction": "sub edi, ecx"
+            },
+            {
+              "address": 4476163,
+              "bytes": "8bfa",
+              "instruction": "mov edi, edx"
+            },
+            {
+              "address": 4476170,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4476174,
+              "bytes": "4f",
+              "instruction": "dec edi"
+            },
+            {
+              "address": 4476178,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4476191,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4476193,
+              "bytes": "8dbc2428010000",
+              "instruction": "lea edi, [esp + 0x128]"
+            },
+            {
+              "address": 4476203,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4476207,
+              "bytes": "2bf9",
+              "instruction": "sub edi, ecx"
+            },
+            {
+              "address": 4476212,
+              "bytes": "8bfa",
+              "instruction": "mov edi, edx"
+            },
+            {
+              "address": 4476219,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4476223,
+              "bytes": "4f",
+              "instruction": "dec edi"
+            },
+            {
+              "address": 4476227,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4476239,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4476241,
+              "bytes": "8dbc2430020000",
+              "instruction": "lea edi, [esp + 0x230]"
+            },
+            {
+              "address": 4476251,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4476255,
+              "bytes": "2bf9",
+              "instruction": "sub edi, ecx"
+            },
+            {
+              "address": 4476260,
+              "bytes": "8bfa",
+              "instruction": "mov edi, edx"
+            },
+            {
+              "address": 4476267,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4476271,
+              "bytes": "4f",
+              "instruction": "dec edi"
+            },
+            {
+              "address": 4476275,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4476287,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4476490,
+              "restore": {
+                "address": 4476480,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            }
+          ]
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4476490,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        }
+      ]
+    },
+    {
+      "name": "_linker_usage",
+      "original_begin": 4476800,
+      "original_end": 4476843,
+      "original_body_sha256": "247be58ce3a244945e60a9faa372a2610d842cfc3eb286feadc5ea3e7b990c26",
+      "call_sites": [
+        4477412
+      ],
+      "standard_abi": "cdecl, ret ",
+      "source": {
+        "path": "src/link-driver.cpp",
+        "sha256": "51dcc4b3273db58302033e8838daf1b6eaa546642f39ad9070ef539fed01fff9",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_linker_usage",
+        "address": 4206729,
+        "object": "build/link-driver.obj",
+        "object_sha256": "9350accb7203bbefabf0354dd3028f003a5183b78a1c74b096be663b8a08fac0",
+        "body_sha256": "7cac88a84209127d5871b6e9f8c4533476ec25f429b277c9ca7d67ea1240de19",
+        "normal_returns": [
+          {
+            "address": 4206740,
+            "bytes": "c3",
+            "instruction": "ret "
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "edi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4476842,
+          "bytes": "c3",
+          "instruction": "ret "
+        }
+      ]
+    },
+    {
+      "name": "_add_mac_data@12",
+      "original_begin": 4514240,
+      "original_end": 4514527,
+      "original_body_sha256": "f4d32cd1bc5f8f2397515b1d948cb85ee7f314806bc8a0e61c4f8950f8b1120e",
+      "call_sites": [
+        4484220
+      ],
+      "standard_abi": "stdcall, ret 0xc",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_add_mac_data@12",
+        "address": 4198602,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "fd7e83a5fa90ebe12c75a36ea15e417c330e0051f91a765dbb519647b0180d15",
+        "normal_returns": [
+          {
+            "address": 4198613,
+            "bytes": "c20c00",
+            "instruction": "ret 0xc"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4514243,
+            "bytes": "53",
+            "instruction": "push ebx"
+          },
+          "writes": [
+            {
+              "address": 4514244,
+              "bytes": "8b5c2434",
+              "instruction": "mov ebx, dword ptr [esp + 0x34]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4514524,
+              "restore": {
+                "address": 4514512,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            }
+          ]
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4514248,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4514265,
+              "bytes": "8b742434",
+              "instruction": "mov esi, dword ptr [esp + 0x34]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4514524,
+              "restore": {
+                "address": 4514511,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4514249,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          "writes": [
+            {
+              "address": 4514252,
+              "bytes": "8bfb",
+              "instruction": "mov edi, ebx"
+            },
+            {
+              "address": 4514473,
+              "bytes": "8bf8",
+              "instruction": "mov edi, eax"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4514524,
+              "restore": {
+                "address": 4514510,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            }
+          ]
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4514524,
+          "bytes": "c20c00",
+          "instruction": "ret 0xc"
+        }
+      ]
+    },
+    {
+      "name": "_append_bytes@12",
+      "original_begin": 4519136,
+      "original_end": 4519213,
+      "original_body_sha256": "3884a877ba3f7af1e746a59fd4c2b76711d0e0547eaaebdf16147274fd219cea",
+      "call_sites": [
+        4478472
+      ],
+      "standard_abi": "stdcall, ret 0xc",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_append_bytes@12",
+        "address": 4198616,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "24f3fec3a084e5d747238178db3d56943cd0116160d993e1bd5a2d18b4300ca1",
+        "normal_returns": [
+          {
+            "address": 4198629,
+            "bytes": "c20c00",
+            "instruction": "ret 0xc"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4519136,
+            "bytes": "53",
+            "instruction": "push ebx"
+          },
+          "writes": [
+            {
+              "address": 4519137,
+              "bytes": "8b5c2408",
+              "instruction": "mov ebx, dword ptr [esp + 8]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4519210,
+              "restore": {
+                "address": 4519209,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            }
+          ]
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4519154,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4519172,
+              "bytes": "8b742418",
+              "instruction": "mov esi, dword ptr [esp + 0x18]"
+            },
+            {
+              "address": 4519185,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4519192,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4519210,
+              "restore": {
+                "address": 4519200,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4519157,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          "writes": [
+            {
+              "address": 4519167,
+              "bytes": "8b3b",
+              "instruction": "mov edi, dword ptr [ebx]"
+            },
+            {
+              "address": 4519178,
+              "bytes": "03fa",
+              "instruction": "add edi, edx"
+            },
+            {
+              "address": 4519185,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4519192,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4519210,
+              "restore": {
+                "address": 4519197,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            }
+          ]
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4519210,
+          "bytes": "c20c00",
+          "instruction": "ret 0xc"
+        }
+      ]
+    },
+    {
+      "name": "_release_memory@4",
+      "original_begin": 4521520,
+      "original_end": 4521537,
+      "original_body_sha256": "8463b7ff74b6aa36856824d166f7b4f21aefe28aea22c3459f0b03908d8ab182",
+      "call_sites": [
+        4477774,
+        4478196,
+        4479247,
+        4481895,
+        4484603,
+        4486623,
+        4486867,
+        4487423,
+        4490386,
+        4490655
+      ],
+      "standard_abi": "stdcall, ret 4",
+      "source": {
+        "path": "src/arguments.c",
+        "sha256": "ee4f91becc2577d79de1a8fe8b24ec745fcd63a36ec11d1cb53f1c7c0fa6ee0d",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_release_memory@4",
+        "address": 4199570,
+        "object": "build/arguments.obj",
+        "object_sha256": "891d391d72721f91acdd3f5b0cb895350738a776707dcd4cc69ce8373020a270",
+        "body_sha256": "fecd26ea96f4e11a4e30a25a71d827d1aaea692fdd9a4bccecb5d55e5c7aebab",
+        "normal_returns": [
+          {
+            "address": 4199581,
+            "bytes": "c20400",
+            "instruction": "ret 4"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "edi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4521534,
+          "bytes": "c20400",
+          "instruction": "ret 4"
+        }
+      ]
+    },
+    {
+      "name": "_allocate_memory@4",
+      "original_begin": 4521552,
+      "original_end": 4521584,
+      "original_body_sha256": "a4ab13e471f7fc8bb51fab9384c7550b2ca9508b6741ee4ae98842c23cf9dd3c",
+      "call_sites": [
+        4477841,
+        4479301,
+        4481975,
+        4482907,
+        4483312,
+        4484657,
+        4486677,
+        4486921,
+        4487360,
+        4488014,
+        4490440
+      ],
+      "standard_abi": "stdcall, ret 4",
+      "source": {
+        "path": "src/memory.c",
+        "sha256": "e5741f7319314bd58af1b62ac6d5b1c2f40276fcee7d9bc4a8024c0361fc9b07",
+        "status": "implemented",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_allocate_memory@4",
+        "address": 4200895,
+        "object": "build/memory.obj",
+        "object_sha256": "340c68bc9eee7834a64311ae35ec5509f2f4f214f61a581fb21511f7f33a545f",
+        "body_sha256": "2d694f66b4d22088cff0242cd5db286d076e48bdde745faf112a6c04722c50e4",
+        "normal_returns": [
+          {
+            "address": 4200932,
+            "bytes": "c20400",
+            "instruction": "ret 4"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4521556,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4521564,
+              "bytes": "8bf0",
+              "instruction": "mov esi, eax"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4521581,
+              "restore": {
+                "address": 4521580,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4521581,
+          "bytes": "c20400",
+          "instruction": "ret 4"
+        }
+      ]
+    },
+    {
+      "name": "_duplicate_argument@4",
+      "original_begin": 4521680,
+      "original_end": 4521712,
+      "original_body_sha256": "5ae311aa5bd19ffd0a31b6b3562a34b18225572d6fe2e4fe2da35ea24b00a960",
+      "call_sites": [
+        4477350,
+        4480441,
+        4485077
+      ],
+      "standard_abi": "stdcall, ret 4",
+      "source": {
+        "path": "src/arguments.c",
+        "sha256": "ee4f91becc2577d79de1a8fe8b24ec745fcd63a36ec11d1cb53f1c7c0fa6ee0d",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_duplicate_argument@4",
+        "address": 4199540,
+        "object": "build/arguments.obj",
+        "object_sha256": "891d391d72721f91acdd3f5b0cb895350738a776707dcd4cc69ce8373020a270",
+        "body_sha256": "3d3f2d4170cc530819586fab62d5382ebe9f6ed78a8b6261b20f143077529d26",
+        "normal_returns": [
+          {
+            "address": 4199553,
+            "bytes": "c20400",
+            "instruction": "ret 4"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4521684,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4521692,
+              "bytes": "8bf0",
+              "instruction": "mov esi, eax"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4521709,
+              "restore": {
+                "address": 4521708,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4521709,
+          "bytes": "c20400",
+          "instruction": "ret 4"
+        }
+      ]
+    },
+    {
+      "name": "_set_mac_initializer@8",
+      "original_begin": 4526256,
+      "original_end": 4526424,
+      "original_body_sha256": "bdf1f4bd699ceadf9001974b23f03062e763197075304889ae0c82b006b6ce48",
+      "call_sites": [
+        4483911
+      ],
+      "standard_abi": "stdcall, ret 8",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_set_mac_initializer@8",
+        "address": 4198632,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "f91149db6ef45b8b1ce04c7128e0dbb8c21b757012bc02d01fd1e674e0fadcdb",
+        "normal_returns": [
+          {
+            "address": 4198643,
+            "bytes": "c20800",
+            "instruction": "ret 8"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4526256,
+            "bytes": "53",
+            "instruction": "push ebx"
+          },
+          "writes": [
+            {
+              "address": 4526257,
+              "bytes": "8b5c240c",
+              "instruction": "mov ebx, dword ptr [esp + 0xc]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4526383,
+              "restore": {
+                "address": 4526382,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            },
+            {
+              "return_address": 4526421,
+              "restore": {
+                "address": 4526420,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            }
+          ]
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4526262,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4526320,
+              "bytes": "8bf7",
+              "instruction": "mov esi, edi"
+            },
+            {
+              "address": 4526327,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4526336,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4526349,
+              "bytes": "8bf7",
+              "instruction": "mov esi, edi"
+            },
+            {
+              "address": 4526370,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4526377,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4526401,
+              "bytes": "8bf7",
+              "instruction": "mov esi, edi"
+            },
+            {
+              "address": 4526408,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4526415,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4526383,
+              "restore": {
+                "address": 4526380,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4526421,
+              "restore": {
+                "address": 4526418,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4526263,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          "writes": [
+            {
+              "address": 4526264,
+              "bytes": "8bfb",
+              "instruction": "mov edi, ebx"
+            },
+            {
+              "address": 4526271,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4526302,
+              "bytes": "bf00824000",
+              "instruction": "mov edi, 0x408200"
+            },
+            {
+              "address": 4526312,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4526316,
+              "bytes": "2bf9",
+              "instruction": "sub edi, ecx"
+            },
+            {
+              "address": 4526322,
+              "bytes": "8bfa",
+              "instruction": "mov edi, edx"
+            },
+            {
+              "address": 4526327,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4526336,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4526338,
+              "bytes": "8bfb",
+              "instruction": "mov edi, ebx"
+            },
+            {
+              "address": 4526343,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4526347,
+              "bytes": "2bf9",
+              "instruction": "sub edi, ecx"
+            },
+            {
+              "address": 4526351,
+              "bytes": "8bbd9c010000",
+              "instruction": "mov edi, dword ptr [ebp + 0x19c]"
+            },
+            {
+              "address": 4526362,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4526366,
+              "bytes": "4f",
+              "instruction": "dec edi"
+            },
+            {
+              "address": 4526370,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4526377,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4526386,
+              "bytes": "8bfb",
+              "instruction": "mov edi, ebx"
+            },
+            {
+              "address": 4526393,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4526397,
+              "bytes": "2bf9",
+              "instruction": "sub edi, ecx"
+            },
+            {
+              "address": 4526403,
+              "bytes": "8bfa",
+              "instruction": "mov edi, edx"
+            },
+            {
+              "address": 4526408,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4526415,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4526383,
+              "restore": {
+                "address": 4526379,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4526421,
+              "restore": {
+                "address": 4526417,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            }
+          ]
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4526383,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        },
+        {
+          "address": 4526421,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        }
+      ]
+    },
+    {
+      "name": "_set_mac_terminator@8",
+      "original_begin": 4526432,
+      "original_end": 4526600,
+      "original_body_sha256": "34a84b0a67f0721c244bbc591e65220bc08e92f0fd9bdced58d93a3788023fc2",
+      "call_sites": [
+        4483985
+      ],
+      "standard_abi": "stdcall, ret 8",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_set_mac_terminator@8",
+        "address": 4198646,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "f91149db6ef45b8b1ce04c7128e0dbb8c21b757012bc02d01fd1e674e0fadcdb",
+        "normal_returns": [
+          {
+            "address": 4198657,
+            "bytes": "c20800",
+            "instruction": "ret 8"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4526432,
+            "bytes": "53",
+            "instruction": "push ebx"
+          },
+          "writes": [
+            {
+              "address": 4526433,
+              "bytes": "8b5c240c",
+              "instruction": "mov ebx, dword ptr [esp + 0xc]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4526559,
+              "restore": {
+                "address": 4526558,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            },
+            {
+              "return_address": 4526597,
+              "restore": {
+                "address": 4526596,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            }
+          ]
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4526438,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4526496,
+              "bytes": "8bf7",
+              "instruction": "mov esi, edi"
+            },
+            {
+              "address": 4526503,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4526512,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4526525,
+              "bytes": "8bf7",
+              "instruction": "mov esi, edi"
+            },
+            {
+              "address": 4526546,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4526553,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4526577,
+              "bytes": "8bf7",
+              "instruction": "mov esi, edi"
+            },
+            {
+              "address": 4526584,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4526591,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4526559,
+              "restore": {
+                "address": 4526556,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4526597,
+              "restore": {
+                "address": 4526594,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4526439,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          "writes": [
+            {
+              "address": 4526440,
+              "bytes": "8bfb",
+              "instruction": "mov edi, ebx"
+            },
+            {
+              "address": 4526447,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4526478,
+              "bytes": "bf00824000",
+              "instruction": "mov edi, 0x408200"
+            },
+            {
+              "address": 4526488,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4526492,
+              "bytes": "2bf9",
+              "instruction": "sub edi, ecx"
+            },
+            {
+              "address": 4526498,
+              "bytes": "8bfa",
+              "instruction": "mov edi, edx"
+            },
+            {
+              "address": 4526503,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4526512,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4526514,
+              "bytes": "8bfb",
+              "instruction": "mov edi, ebx"
+            },
+            {
+              "address": 4526519,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4526523,
+              "bytes": "2bf9",
+              "instruction": "sub edi, ecx"
+            },
+            {
+              "address": 4526527,
+              "bytes": "8bbda0010000",
+              "instruction": "mov edi, dword ptr [ebp + 0x1a0]"
+            },
+            {
+              "address": 4526538,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4526542,
+              "bytes": "4f",
+              "instruction": "dec edi"
+            },
+            {
+              "address": 4526546,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4526553,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4526562,
+              "bytes": "8bfb",
+              "instruction": "mov edi, ebx"
+            },
+            {
+              "address": 4526569,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4526573,
+              "bytes": "2bf9",
+              "instruction": "sub edi, ecx"
+            },
+            {
+              "address": 4526579,
+              "bytes": "8bfa",
+              "instruction": "mov edi, edx"
+            },
+            {
+              "address": 4526584,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4526591,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4526559,
+              "restore": {
+                "address": 4526555,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4526597,
+              "restore": {
+                "address": 4526593,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            }
+          ]
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4526559,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        },
+        {
+          "address": 4526597,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        }
+      ]
+    },
+    {
+      "name": "_add_mac_import@16",
+      "original_begin": 4544992,
+      "original_end": 4545386,
+      "original_body_sha256": "c21296ff67c72c3c0407625b437a1fdb44e46f0e1a58fc09ec3eb3edde457c31",
+      "call_sites": [
+        4483056
+      ],
+      "standard_abi": "stdcall, ret 0x10",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_add_mac_import@16",
+        "address": 4198660,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "c5e543a977289d53141e5c9efa9df8d0c3d86d1961b59119afecb351b4f68dd6",
+        "normal_returns": [
+          {
+            "address": 4198673,
+            "bytes": "c21000",
+            "instruction": "ret 0x10"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4544998,
+            "bytes": "53",
+            "instruction": "push ebx"
+          },
+          "writes": [
+            {
+              "address": 4544999,
+              "bytes": "8b9c2424040000",
+              "instruction": "mov ebx, dword ptr [esp + 0x424]"
+            },
+            {
+              "address": 4545176,
+              "bytes": "81c324010000",
+              "instruction": "add ebx, 0x124"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4545082,
+              "restore": {
+                "address": 4545075,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            },
+            {
+              "return_address": 4545201,
+              "restore": {
+                "address": 4545194,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            },
+            {
+              "return_address": 4545383,
+              "restore": {
+                "address": 4545376,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            }
+          ]
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4545020,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4545030,
+              "bytes": "8bf0",
+              "instruction": "mov esi, eax"
+            },
+            {
+              "address": 4545091,
+              "bytes": "8b7614",
+              "instruction": "mov esi, dword ptr [esi + 0x14]"
+            },
+            {
+              "address": 4545120,
+              "bytes": "8bf7",
+              "instruction": "mov esi, edi"
+            },
+            {
+              "address": 4545127,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4545134,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4545082,
+              "restore": {
+                "address": 4545073,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4545201,
+              "restore": {
+                "address": 4545192,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4545383,
+              "restore": {
+                "address": 4545372,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4545021,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          "writes": [
+            {
+              "address": 4545098,
+              "bytes": "bf308c4000",
+              "instruction": "mov edi, 0x408c30"
+            },
+            {
+              "address": 4545112,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4545116,
+              "bytes": "2bf9",
+              "instruction": "sub edi, ecx"
+            },
+            {
+              "address": 4545122,
+              "bytes": "8bfa",
+              "instruction": "mov edi, edx"
+            },
+            {
+              "address": 4545127,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4545134,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4545233,
+              "bytes": "8bbc2428040000",
+              "instruction": "mov edi, dword ptr [esp + 0x428]"
+            },
+            {
+              "address": 4545319,
+              "bytes": "8b3df4ee4700",
+              "instruction": "mov edi, dword ptr [0x47eef4]"
+            },
+            {
+              "address": 4545327,
+              "bytes": "47",
+              "instruction": "inc edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4545082,
+              "restore": {
+                "address": 4545072,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4545201,
+              "restore": {
+                "address": 4545191,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4545383,
+              "restore": {
+                "address": 4545371,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            }
+          ]
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4545082,
+          "bytes": "c21000",
+          "instruction": "ret 0x10"
+        },
+        {
+          "address": 4545201,
+          "bytes": "c21000",
+          "instruction": "ret 0x10"
+        },
+        {
+          "address": 4545383,
+          "bytes": "c21000",
+          "instruction": "ret 0x10"
+        }
+      ]
+    },
+    {
+      "name": "_set_mac_import_versions@16",
+      "original_begin": 4545760,
+      "original_end": 4546909,
+      "original_body_sha256": "94808aabaf0e553de29c93864d8ce5e81878d00b627e16834f9e51d3019f8c88",
+      "call_sites": [
+        4482794
+      ],
+      "standard_abi": "stdcall, ret 0x10",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_set_mac_import_versions@16",
+        "address": 4198676,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "12f290eb5bf8fd052a8b651b796f5b523d1350a2a430a7b7818db128bb252d19",
+        "normal_returns": [
+          {
+            "address": 4198687,
+            "bytes": "c21000",
+            "instruction": "ret 0x10"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4545764,
+            "bytes": "53",
+            "instruction": "push ebx"
+          },
+          "writes": [
+            {
+              "address": 4545766,
+              "bytes": "32db",
+              "instruction": "xor bl, bl"
+            },
+            {
+              "address": 4545855,
+              "bytes": "b301",
+              "instruction": "mov bl, 1"
+            },
+            {
+              "address": 4545899,
+              "bytes": "32db",
+              "instruction": "xor bl, bl"
+            },
+            {
+              "address": 4545995,
+              "bytes": "b301",
+              "instruction": "mov bl, 1"
+            },
+            {
+              "address": 4546019,
+              "bytes": "32db",
+              "instruction": "xor bl, bl"
+            },
+            {
+              "address": 4546149,
+              "bytes": "b301",
+              "instruction": "mov bl, 1"
+            },
+            {
+              "address": 4546195,
+              "bytes": "32db",
+              "instruction": "xor bl, bl"
+            },
+            {
+              "address": 4546295,
+              "bytes": "b301",
+              "instruction": "mov bl, 1"
+            },
+            {
+              "address": 4546499,
+              "bytes": "b301",
+              "instruction": "mov bl, 1"
+            },
+            {
+              "address": 4546513,
+              "bytes": "32db",
+              "instruction": "xor bl, bl"
+            },
+            {
+              "address": 4546660,
+              "bytes": "b301",
+              "instruction": "mov bl, 1"
+            },
+            {
+              "address": 4546674,
+              "bytes": "32db",
+              "instruction": "xor bl, bl"
+            },
+            {
+              "address": 4546821,
+              "bytes": "b301",
+              "instruction": "mov bl, 1"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4546379,
+              "restore": {
+                "address": 4546378,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            },
+            {
+              "return_address": 4546400,
+              "restore": {
+                "address": 4546399,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            },
+            {
+              "return_address": 4546884,
+              "restore": {
+                "address": 4546883,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            },
+            {
+              "return_address": 4546906,
+              "restore": {
+                "address": 4546905,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            }
+          ]
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4545768,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4545805,
+              "bytes": "8b3558454900",
+              "instruction": "mov esi, dword ptr [0x494558]"
+            },
+            {
+              "address": 4545882,
+              "bytes": "8b7610",
+              "instruction": "mov esi, dword ptr [esi + 0x10]"
+            },
+            {
+              "address": 4545944,
+              "bytes": "8b3580454900",
+              "instruction": "mov esi, dword ptr [0x494580]"
+            },
+            {
+              "address": 4546002,
+              "bytes": "8b7610",
+              "instruction": "mov esi, dword ptr [esi + 0x10]"
+            },
+            {
+              "address": 4546023,
+              "bytes": "8b742414",
+              "instruction": "mov esi, dword ptr [esp + 0x14]"
+            },
+            {
+              "address": 4546099,
+              "bytes": "8b3518454900",
+              "instruction": "mov esi, dword ptr [0x494518]"
+            },
+            {
+              "address": 4546177,
+              "bytes": "8b7610",
+              "instruction": "mov esi, dword ptr [esi + 0x10]"
+            },
+            {
+              "address": 4546240,
+              "bytes": "8b3530454900",
+              "instruction": "mov esi, dword ptr [0x494530]"
+            },
+            {
+              "address": 4546303,
+              "bytes": "8b7610",
+              "instruction": "mov esi, dword ptr [esi + 0x10]"
+            },
+            {
+              "address": 4546325,
+              "bytes": "8b742414",
+              "instruction": "mov esi, dword ptr [esp + 0x14]"
+            },
+            {
+              "address": 4546464,
+              "bytes": "8b3588454900",
+              "instruction": "mov esi, dword ptr [0x494588]"
+            },
+            {
+              "address": 4546477,
+              "bytes": "81e6ffff0000",
+              "instruction": "and esi, 0xffff"
+            },
+            {
+              "address": 4546625,
+              "bytes": "8b3538454900",
+              "instruction": "mov esi, dword ptr [0x494538]"
+            },
+            {
+              "address": 4546638,
+              "bytes": "81e6ffff0000",
+              "instruction": "and esi, 0xffff"
+            },
+            {
+              "address": 4546786,
+              "bytes": "8b35d0444900",
+              "instruction": "mov esi, dword ptr [0x4944d0]"
+            },
+            {
+              "address": 4546799,
+              "bytes": "81e6ffff0000",
+              "instruction": "and esi, 0xffff"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4546379,
+              "restore": {
+                "address": 4546376,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4546400,
+              "restore": {
+                "address": 4546397,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4546884,
+              "restore": {
+                "address": 4546881,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4546906,
+              "restore": {
+                "address": 4546903,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4545769,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          "writes": [
+            {
+              "address": 4545811,
+              "bytes": "33ff",
+              "instruction": "xor edi, edi"
+            },
+            {
+              "address": 4545885,
+              "bytes": "47",
+              "instruction": "inc edi"
+            },
+            {
+              "address": 4545950,
+              "bytes": "33ff",
+              "instruction": "xor edi, edi"
+            },
+            {
+              "address": 4546005,
+              "bytes": "47",
+              "instruction": "inc edi"
+            },
+            {
+              "address": 4546105,
+              "bytes": "33ff",
+              "instruction": "xor edi, edi"
+            },
+            {
+              "address": 4546180,
+              "bytes": "47",
+              "instruction": "inc edi"
+            },
+            {
+              "address": 4546246,
+              "bytes": "33ff",
+              "instruction": "xor edi, edi"
+            },
+            {
+              "address": 4546306,
+              "bytes": "47",
+              "instruction": "inc edi"
+            },
+            {
+              "address": 4546424,
+              "bytes": "8bf8",
+              "instruction": "mov edi, eax"
+            },
+            {
+              "address": 4546584,
+              "bytes": "8bf8",
+              "instruction": "mov edi, eax"
+            },
+            {
+              "address": 4546745,
+              "bytes": "8bf8",
+              "instruction": "mov edi, eax"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4546379,
+              "restore": {
+                "address": 4546375,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4546400,
+              "restore": {
+                "address": 4546396,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4546884,
+              "restore": {
+                "address": 4546880,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4546906,
+              "restore": {
+                "address": 4546902,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            }
+          ]
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4546379,
+          "bytes": "c21000",
+          "instruction": "ret 0x10"
+        },
+        {
+          "address": 4546400,
+          "bytes": "c21000",
+          "instruction": "ret 0x10"
+        },
+        {
+          "address": 4546884,
+          "bytes": "c21000",
+          "instruction": "ret 0x10"
+        },
+        {
+          "address": 4546906,
+          "bytes": "c21000",
+          "instruction": "ret 0x10"
+        }
+      ]
+    },
+    {
+      "name": "_enable_order_file",
+      "original_begin": 4555088,
+      "original_end": 4555096,
+      "original_body_sha256": "cccb639bdf7db6a0908ecb52672d297cedf993bc1492511c56ccf51bc4951982",
+      "call_sites": [
+        4490316
+      ],
+      "standard_abi": "cdecl, ret ",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_enable_order_file",
+        "address": 4198690,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "7cac88a84209127d5871b6e9f8c4533476ec25f429b277c9ca7d67ea1240de19",
+        "normal_returns": [
+          {
+            "address": 4198701,
+            "bytes": "c3",
+            "instruction": "ret "
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "edi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4555095,
+          "bytes": "c3",
+          "instruction": "ret "
+        }
+      ]
+    },
+    {
+      "name": "_canonicalize_argument@8",
+      "original_begin": 4572752,
+      "original_end": 4573007,
+      "original_body_sha256": "9c773f4571799a2d9f3001844710b83ecdf455571c7d34f00d8d2b6d46c2c074",
+      "call_sites": [
+        4477714
+      ],
+      "standard_abi": "stdcall, ret 8",
+      "source": {
+        "path": "src/arguments.c",
+        "sha256": "ee4f91becc2577d79de1a8fe8b24ec745fcd63a36ec11d1cb53f1c7c0fa6ee0d",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_canonicalize_argument@8",
+        "address": 4200062,
+        "object": "build/arguments.obj",
+        "object_sha256": "891d391d72721f91acdd3f5b0cb895350738a776707dcd4cc69ce8373020a270",
+        "body_sha256": "c9dfe9bdeb48341bc07843ae8bcb61deaf83f6fea664aab82fd51b27acd651e1",
+        "normal_returns": [
+          {
+            "address": 4200075,
+            "bytes": "c20800",
+            "instruction": "ret 8"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4572779,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4572780,
+              "bytes": "8bb42414050000",
+              "instruction": "mov esi, dword ptr [esp + 0x514]"
+            },
+            {
+              "address": 4572866,
+              "bytes": "8db4240c040000",
+              "instruction": "lea esi, [esp + 0x40c]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4572968,
+              "restore": {
+                "address": 4572961,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4572988,
+              "restore": {
+                "address": 4572981,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4573004,
+              "restore": {
+                "address": 4572997,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4572968,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        },
+        {
+          "address": 4572988,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        },
+        {
+          "address": 4573004,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        }
+      ]
+    },
+    {
+      "name": "_append_argument_record@12",
+      "original_begin": 4574208,
+      "original_end": 4574283,
+      "original_body_sha256": "f6cd53532c2030dd212bf9a430f7fcecc0eb2752d85f6fde9065cdcfd98d16e7",
+      "call_sites": [
+        4480797,
+        4483100,
+        4484465,
+        4485163
+      ],
+      "standard_abi": "stdcall, ret 0xc",
+      "source": {
+        "path": "src/arguments.c",
+        "sha256": "ee4f91becc2577d79de1a8fe8b24ec745fcd63a36ec11d1cb53f1c7c0fa6ee0d",
+        "status": "implemented",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_append_argument_record@12",
+        "address": 4200148,
+        "object": "build/arguments.obj",
+        "object_sha256": "891d391d72721f91acdd3f5b0cb895350738a776707dcd4cc69ce8373020a270",
+        "body_sha256": "77b8ccc1caf1c2d24a571f6386e7994d949e035fe9c5284f6c887d500a1e08c1",
+        "normal_returns": [
+          {
+            "address": 4200265,
+            "bytes": "c20c00",
+            "instruction": "ret 0xc"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "edi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4574280,
+          "bytes": "c20c00",
+          "instruction": "ret 0xc"
+        }
+      ]
+    },
+    {
+      "name": "_find_argument@8",
+      "original_begin": 4574288,
+      "original_end": 4574366,
+      "original_body_sha256": "03c21dbdcf1c0a1dec91f64a121a107ebdf42f15c59d4345d9dfbdbd403bf46f",
+      "call_sites": [
+        4484441
+      ],
+      "standard_abi": "stdcall, ret 8",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_find_argument@8",
+        "address": 4198702,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "9e6eb8bdae35504dda618d0902753f0abd07bc04a1563387bb72a73aa93d6ce7",
+        "normal_returns": [
+          {
+            "address": 4198715,
+            "bytes": "c20800",
+            "instruction": "ret 8"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4574288,
+            "bytes": "53",
+            "instruction": "push ebx"
+          },
+          "writes": [
+            {
+              "address": 4574289,
+              "bytes": "8b5c240c",
+              "instruction": "mov ebx, dword ptr [esp + 0xc]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4574345,
+              "restore": {
+                "address": 4574344,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            },
+            {
+              "return_address": 4574354,
+              "restore": {
+                "address": 4574353,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            },
+            {
+              "return_address": 4574363,
+              "restore": {
+                "address": 4574362,
+                "bytes": "5b",
+                "instruction": "pop ebx"
+              }
+            }
+          ]
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4574294,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4574298,
+              "bytes": "8b33",
+              "instruction": "mov esi, dword ptr [ebx]"
+            },
+            {
+              "address": 4574331,
+              "bytes": "8b7614",
+              "instruction": "mov esi, dword ptr [esi + 0x14]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4574345,
+              "restore": {
+                "address": 4574342,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4574354,
+              "restore": {
+                "address": 4574351,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4574363,
+              "restore": {
+                "address": 4574358,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4574300,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          "writes": [
+            {
+              "address": 4574301,
+              "bytes": "33ff",
+              "instruction": "xor edi, edi"
+            },
+            {
+              "address": 4574334,
+              "bytes": "47",
+              "instruction": "inc edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4574345,
+              "restore": {
+                "address": 4574341,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4574354,
+              "restore": {
+                "address": 4574350,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4574363,
+              "restore": {
+                "address": 4574357,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            }
+          ]
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4574345,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        },
+        {
+          "address": 4574354,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        },
+        {
+          "address": 4574363,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        }
+      ]
+    },
+    {
+      "name": "_append_argument@8",
+      "original_begin": 4574368,
+      "original_end": 4574387,
+      "original_body_sha256": "e9b6d810635e3673bdeee0c5017a5b6da5a48b447c5465e0dfdf66396bebadc3",
+      "call_sites": [
+        4482817,
+        4482834,
+        4487443
+      ],
+      "standard_abi": "stdcall, ret 8",
+      "source": {
+        "path": "src/arguments.c",
+        "sha256": "ee4f91becc2577d79de1a8fe8b24ec745fcd63a36ec11d1cb53f1c7c0fa6ee0d",
+        "status": "implemented",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_append_argument@8",
+        "address": 4200124,
+        "object": "build/arguments.obj",
+        "object_sha256": "891d391d72721f91acdd3f5b0cb895350738a776707dcd4cc69ce8373020a270",
+        "body_sha256": "415eff6d1806c3851e050f336ec79605d714099e2c3147fea992a6436c6aa152",
+        "normal_returns": [
+          {
+            "address": 4200145,
+            "bytes": "c20800",
+            "instruction": "ret 8"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "edi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4574384,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        }
+      ]
+    },
+    {
+      "name": "_parse_machine@8",
+      "original_begin": 4594560,
+      "original_end": 4594894,
+      "original_body_sha256": "af61aff21abf46bf3ce7c91a2760aea95f536336a9cc65b62a1f18ab75b5fe7f",
+      "call_sites": [
+        4484303
+      ],
+      "standard_abi": "stdcall, ret 8",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_parse_machine@8",
+        "address": 4198718,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "8949df657fdb52858ca1fda6adaf6ed06bae9b2e4687c51aa3bd82387db398ed",
+        "normal_returns": [
+          {
+            "address": 4198732,
+            "bytes": "c20800",
+            "instruction": "ret 8"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4594560,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4594561,
+              "bytes": "8b74240c",
+              "instruction": "mov esi, dword ptr [esp + 0xc]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4594650,
+              "restore": {
+                "address": 4594649,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4594689,
+              "restore": {
+                "address": 4594688,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4594713,
+              "restore": {
+                "address": 4594712,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4594771,
+              "restore": {
+                "address": 4594770,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4594795,
+              "restore": {
+                "address": 4594794,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4594819,
+              "restore": {
+                "address": 4594818,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4594843,
+              "restore": {
+                "address": 4594842,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4594873,
+              "restore": {
+                "address": 4594872,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4594882,
+              "restore": {
+                "address": 4594881,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4594891,
+              "restore": {
+                "address": 4594890,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4594565,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          "writes": [
+            {
+              "address": 4594566,
+              "bytes": "8b3d3c114000",
+              "instruction": "mov edi, dword ptr [0x40113c]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4594650,
+              "restore": {
+                "address": 4594648,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4594689,
+              "restore": {
+                "address": 4594687,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4594713,
+              "restore": {
+                "address": 4594711,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4594771,
+              "restore": {
+                "address": 4594769,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4594795,
+              "restore": {
+                "address": 4594793,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4594819,
+              "restore": {
+                "address": 4594817,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4594843,
+              "restore": {
+                "address": 4594841,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4594873,
+              "restore": {
+                "address": 4594871,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4594882,
+              "restore": {
+                "address": 4594880,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            },
+            {
+              "return_address": 4594891,
+              "restore": {
+                "address": 4594885,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            }
+          ]
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4594650,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        },
+        {
+          "address": 4594689,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        },
+        {
+          "address": 4594713,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        },
+        {
+          "address": 4594771,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        },
+        {
+          "address": 4594795,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        },
+        {
+          "address": 4594819,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        },
+        {
+          "address": 4594843,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        },
+        {
+          "address": 4594873,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        },
+        {
+          "address": 4594882,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        },
+        {
+          "address": 4594891,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        }
+      ]
+    },
+    {
+      "name": "StringTable::Lookup",
+      "original_begin": 4595424,
+      "original_end": 4595473,
+      "original_body_sha256": "c8881319a1a9bbd0751970978c47f46819561e372f1146cac66e16506dbce110",
+      "call_sites": [
+        4483258
+      ],
+      "standard_abi": "genuine thiscall, ECX receiver, stack8/RET8",
+      "source": {
+        "path": "src/options.cpp",
+        "sha256": "e0bfe765aff656f78d8efc93852c219ca2b97bb40a83206320ef69e66d70c116",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "?Lookup@StringTable@@QAEPAUStringNode@@PBEPAE@Z",
+        "address": 4227346,
+        "object": "build/options.obj",
+        "object_sha256": "718e3463c8ff9d063ee885387aa2dbc60521728d1c4fd69b9c752e40fc0ae103",
+        "body_sha256": "5f085bc4a824ee52254f58532982d353d984c1977d4c84cd09cbab1d1f2b6300",
+        "normal_returns": [
+          {
+            "address": 4227365,
+            "bytes": "c20800",
+            "instruction": "ret 8"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4595424,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4595425,
+              "bytes": "8b742408",
+              "instruction": "mov esi, dword ptr [esp + 8]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4595470,
+              "restore": {
+                "address": 4595469,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4595431,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          "writes": [
+            {
+              "address": 4595432,
+              "bytes": "8bfe",
+              "instruction": "mov edi, esi"
+            },
+            {
+              "address": 4595439,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4595470,
+              "restore": {
+                "address": 4595468,
+                "bytes": "5f",
+                "instruction": "pop edi"
+              }
+            }
+          ]
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4595470,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        }
+      ]
+    },
+    {
+      "name": "_record_symbol_reference@8",
+      "original_begin": 4595824,
+      "original_end": 4595981,
+      "original_body_sha256": "4fc32bc6929b0b12715b9c29997a86725deae92e4bccd7f66ef9d3a996885d46",
+      "call_sites": [
+        4483359
+      ],
+      "standard_abi": "stdcall, ret 8",
+      "source": {
+        "path": "src/option-stubs.c",
+        "sha256": "7c2b65468e6627854718fe0fe740b467bdf89e5637fd1de60a2cc79eeeb5a165",
+        "status": "stub",
+        "qualification": "Original-compiler readable Win32 declaration/body or named trapping stub; this does not accept an unvisited body."
+      },
+      "rebuilt": {
+        "symbol": "_record_symbol_reference@8",
+        "address": 4198735,
+        "object": "build/option-stubs.obj",
+        "object_sha256": "c07cbc0bcb6b4d5a8895d324542963af54dc2ad593d1fc3b5cf3406f75e25db8",
+        "body_sha256": "f91149db6ef45b8b1ce04c7128e0dbb8c21b757012bc02d01fd1e674e0fadcdb",
+        "normal_returns": [
+          {
+            "address": 4198746,
+            "bytes": "c20800",
+            "instruction": "ret 8"
+          }
+        ]
+      },
+      "preservation": {
+        "ebx": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4595829,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          "writes": [
+            {
+              "address": 4595830,
+              "bytes": "8b742408",
+              "instruction": "mov esi, dword ptr [esp + 8]"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4595867,
+              "restore": {
+                "address": 4595866,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4595911,
+              "restore": {
+                "address": 4595910,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4595967,
+              "restore": {
+                "address": 4595966,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            },
+            {
+              "return_address": 4595978,
+              "restore": {
+                "address": 4595977,
+                "bytes": "5e",
+                "instruction": "pop esi"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+          "writes": []
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4595867,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        },
+        {
+          "address": 4595911,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        },
+        {
+          "address": 4595967,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        },
+        {
+          "address": 4595978,
+          "bytes": "c20800",
+          "instruction": "ret 8"
+        }
+      ]
+    }
+  ],
+  "imports": [
+    {
+      "identity": "msvcrt.dll!__p__pgmptr",
+      "provider_export": {
+        "ordinal": 117,
+        "rva": 27736
+      },
+      "entry_bytes": "b880fa0378c35153558b6c241056578b",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDLIB.H",
+          "line": 361,
+          "sha256": "3949b5b83fa854ef497e905db2c4c3e2d95f09a440c440836fd716eec9132cfb",
+          "declaration": "_CRTIMP char **        __cdecl __p__pgmptr(void);"
+        }
+      ],
+      "qualification": "Qualified actual canonical provider export and shipped SDK ABI, not dispatchercaller ABI; no unvisited CRT semantic behavior is claimed."
+    },
+    {
+      "identity": "msvcrt.dll!_filelength",
+      "provider_export": {
+        "ordinal": 218,
+        "rva": 137500
+      },
+      "entry_bytes": "a1f0f7037853568b74240c3bf0577377",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/IO.H",
+          "line": 177,
+          "sha256": "88310202efd592194da73c57f44902b2ce1857c064bd9db55a9001e0cc33175f",
+          "declaration": "_CRTIMP long __cdecl _filelength(int);"
+        }
+      ],
+      "qualification": "Qualified actual canonical provider export and shipped SDK ABI, not dispatchercaller ABI; no unvisited CRT semantic behavior is claimed."
+    },
+    {
+      "identity": "msvcrt.dll!_makepath",
+      "provider_export": {
+        "ordinal": 326,
+        "rva": 32010
+      },
+      "entry_bytes": "8b4424085685c0740a8a0084c00f85b8",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDLIB.H",
+          "line": 498,
+          "sha256": "3949b5b83fa854ef497e905db2c4c3e2d95f09a440c440836fd716eec9132cfb",
+          "declaration": "_CRTIMP void   __cdecl _makepath(char *, const char *, const char *, const char *,"
+        }
+      ],
+      "qualification": "Qualified actual canonical provider export and shipped SDK ABI, not dispatchercaller ABI; no unvisited CRT semantic behavior is claimed."
+    },
+    {
+      "identity": "msvcrt.dll!_mbschr",
+      "provider_export": {
+        "ordinal": 342,
+        "rva": 12735
+      },
+      "entry_bytes": "a1c0f1037853565785c00f84f4880000",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/MBSTRING.H",
+          "line": 137,
+          "sha256": "6633bde8407252be8a3a71463342b43e06a5126076e90f5e9d4cd3f365deb179",
+          "declaration": "_CRTIMP unsigned char * __cdecl _mbschr(const unsigned char *, unsigned int);"
+        }
+      ],
+      "qualification": "Qualified actual canonical provider export and shipped SDK ABI, not dispatchercaller ABI; no unvisited CRT semantic behavior is claimed."
+    },
+    {
+      "identity": "msvcrt.dll!_mbsicmp",
+      "provider_export": {
+        "ordinal": 349,
+        "rva": 25388
+      },
+      "entry_bytes": "51a1c0f1037853555685c0570f840b7a",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/MBSTRING.H",
+          "line": 144,
+          "sha256": "6633bde8407252be8a3a71463342b43e06a5126076e90f5e9d4cd3f365deb179",
+          "declaration": "_CRTIMP int __cdecl _mbsicmp(const unsigned char *, const unsigned char *);"
+        }
+      ],
+      "qualification": "Qualified actual canonical provider export and shipped SDK ABI, not dispatchercaller ABI; no unvisited CRT semantic behavior is claimed."
+    },
+    {
+      "identity": "msvcrt.dll!_mbsnbcpy",
+      "provider_export": {
+        "ordinal": 358,
+        "rva": 28074
+      },
+      "entry_bytes": "a1c0f1037856578b7c240c85c08bf70f",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/MBSTRING.H",
+          "line": 153,
+          "sha256": "6633bde8407252be8a3a71463342b43e06a5126076e90f5e9d4cd3f365deb179",
+          "declaration": "_CRTIMP unsigned char * __cdecl _mbsnbcpy(unsigned char *, const unsigned char *, size_t);"
+        }
+      ],
+      "qualification": "Qualified actual canonical provider export and shipped SDK ABI, not dispatchercaller ABI; no unvisited CRT semantic behavior is claimed."
+    },
+    {
+      "identity": "msvcrt.dll!_splitpath",
+      "provider_export": {
+        "ordinal": 439,
+        "rva": 27742
+      },
+      "entry_bytes": "5153558b6c241056578bfd83c9ff33c0",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDLIB.H",
+          "line": 508,
+          "sha256": "3949b5b83fa854ef497e905db2c4c3e2d95f09a440c440836fd716eec9132cfb",
+          "declaration": "_CRTIMP void   __cdecl _splitpath(const char *, char *, char *, char *, char *);"
+        }
+      ],
+      "qualification": "Qualified actual canonical provider export and shipped SDK ABI, not dispatchercaller ABI; no unvisited CRT semantic behavior is claimed."
+    },
+    {
+      "identity": "msvcrt.dll!_stricmp",
+      "provider_export": {
+        "ordinal": 447,
+        "rva": 35470
+      },
+      "entry_bytes": "558bec5756538b750c8b7d088d05a8f1",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STRING.H",
+          "line": 142,
+          "sha256": "648d0cb8654603fce563639e18930a9e92714e0f3b33a294396689af78c19024",
+          "declaration": "_CRTIMP int     __cdecl _stricmp(const char *, const char *);"
+        }
+      ],
+      "qualification": "Qualified actual canonical provider export and shipped SDK ABI, not dispatchercaller ABI; no unvisited CRT semantic behavior is claimed."
+    },
+    {
+      "identity": "msvcrt.dll!_strnicmp",
+      "provider_export": {
+        "ordinal": 451,
+        "rva": 35177
+      },
+      "entry_bytes": "558bec5756538b4d100bc9745d8b7508",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STRING.H",
+          "line": 154,
+          "sha256": "648d0cb8654603fce563639e18930a9e92714e0f3b33a294396689af78c19024",
+          "declaration": "_CRTIMP int     __cdecl _strnicmp(const char *, const char *, size_t);"
+        }
+      ],
+      "qualification": "Qualified actual canonical provider export and shipped SDK ABI, not dispatchercaller ABI; no unvisited CRT semantic behavior is claimed."
+    },
+    {
+      "identity": "msvcrt.dll!atoi",
+      "provider_export": {
+        "ordinal": 571,
+        "rva": 114208
+      },
+      "entry_bytes": "8b44240450e8069ffeff83c404c35153",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDLIB.H",
+          "line": 414,
+          "sha256": "3949b5b83fa854ef497e905db2c4c3e2d95f09a440c440836fd716eec9132cfb",
+          "declaration": "_CRTIMP int    __cdecl atoi(const char *);"
+        }
+      ],
+      "qualification": "Qualified actual canonical provider export and shipped SDK ABI, not dispatchercaller ABI; no unvisited CRT semantic behavior is claimed."
+    },
+    {
+      "identity": "msvcrt.dll!fclose",
+      "provider_export": {
+        "ordinal": 586,
+        "rva": 33030
+      },
+      "entry_bytes": "568b7424085783cffff6460c400f8552",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDIO.H",
+          "line": 317,
+          "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+          "declaration": "_CRTIMP int __cdecl fclose(FILE *);"
+        }
+      ],
+      "qualification": "Qualified actual canonical provider export and shipped SDK ABI, not dispatchercaller ABI; no unvisited CRT semantic behavior is claimed."
+    },
+    {
+      "identity": "msvcrt.dll!fgets",
+      "provider_export": {
+        "ordinal": 592,
+        "rva": 165902
+      },
+      "entry_bytes": "538b5c240c558b6c240c578bfd85db89",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDIO.H",
+          "line": 332,
+          "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+          "declaration": "_CRTIMP char * __cdecl fgets(char *, int, FILE *);"
+        }
+      ],
+      "qualification": "Qualified actual canonical provider export and shipped SDK ABI, not dispatchercaller ABI; no unvisited CRT semantic behavior is claimed."
+    },
+    {
+      "identity": "msvcrt.dll!fopen",
+      "provider_export": {
+        "ordinal": 597,
+        "rva": 159763
+      },
+      "entry_bytes": "8b4424088b4c24046a405051e8e402fe",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDIO.H",
+          "line": 341,
+          "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+          "declaration": "_CRTIMP FILE * __cdecl fopen(const char *, const char *);"
+        }
+      ],
+      "qualification": "Qualified actual canonical provider export and shipped SDK ABI, not dispatchercaller ABI; no unvisited CRT semantic behavior is claimed."
+    },
+    {
+      "identity": "msvcrt.dll!fprintf",
+      "provider_export": {
+        "ordinal": 598,
+        "rva": 38474
+      },
+      "entry_bytes": "53568b74240c5756e841ccffff83c404",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDIO.H",
+          "line": 342,
+          "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+          "declaration": "_CRTIMP int __cdecl fprintf(FILE *, const char *, ...);"
+        }
+      ],
+      "qualification": "Qualified actual canonical provider export and shipped SDK ABI, not dispatchercaller ABI; no unvisited CRT semantic behavior is claimed."
+    },
+    {
+      "identity": "msvcrt.dll!fread",
+      "provider_export": {
+        "ordinal": 603,
+        "rva": 167125
+      },
+      "entry_bytes": "568b7424145756e8b7d5fdff8b442418",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDIO.H",
+          "line": 346,
+          "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+          "declaration": "_CRTIMP size_t __cdecl fread(void *, size_t, size_t, FILE *);"
+        }
+      ],
+      "qualification": "Qualified actual canonical provider export and shipped SDK ABI, not dispatchercaller ABI; no unvisited CRT semantic behavior is claimed."
+    },
+    {
+      "identity": "msvcrt.dll!sprintf",
+      "provider_export": {
+        "ordinal": 688,
+        "rva": 15981
+      },
+      "entry_bytes": "83ec208b4424248b4c24288944240889",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDIO.H",
+          "line": 375,
+          "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+          "declaration": "_CRTIMP int __cdecl sprintf(char *, const char *, ...);"
+        }
+      ],
+      "qualification": "Qualified actual canonical provider export and shipped SDK ABI, not dispatchercaller ABI; no unvisited CRT semantic behavior is claimed."
+    },
+    {
+      "identity": "msvcrt.dll!sscanf",
+      "provider_export": {
+        "ordinal": 691,
+        "rva": 169340
+      },
+      "entry_bytes": "83ec20578b7c242883c9ff33c0897c24",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDIO.H",
+          "line": 376,
+          "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+          "declaration": "_CRTIMP int __cdecl sscanf(const char *, const char *, ...);"
+        }
+      ],
+      "qualification": "Qualified actual canonical provider export and shipped SDK ABI, not dispatchercaller ABI; no unvisited CRT semantic behavior is claimed."
+    },
+    {
+      "identity": "msvcrt.dll!strchr",
+      "provider_export": {
+        "ordinal": 693,
+        "rva": 22036
+      },
+      "entry_bytes": "33c08a442408538bd8c1e0088b542408",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STRING.H",
+          "line": 140,
+          "sha256": "648d0cb8654603fce563639e18930a9e92714e0f3b33a294396689af78c19024",
+          "declaration": "_CRTIMP char *  __cdecl strchr(const char *, int);"
+        }
+      ],
+      "qualification": "Qualified actual canonical provider export and shipped SDK ABI, not dispatchercaller ABI; no unvisited CRT semantic behavior is claimed."
+    },
+    {
+      "identity": "msvcrt.dll!strtok",
+      "provider_export": {
+        "ordinal": 709,
+        "rva": 39047
+      },
+      "entry_bytes": "83ec2053558b6c24305657e82c7dffff",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STRING.H",
+          "line": 162,
+          "sha256": "648d0cb8654603fce563639e18930a9e92714e0f3b33a294396689af78c19024",
+          "declaration": "_CRTIMP char *  __cdecl strtok(char *, const char *);"
+        }
+      ],
+      "qualification": "Qualified actual canonical provider export and shipped SDK ABI, not dispatchercaller ABI; no unvisited CRT semantic behavior is claimed."
+    }
+  ],
+  "original_inventory": {
+    "register_calls": [
+      {
+        "site": 4477432,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4477592,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4478398,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4478428,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4478505,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4478542,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4478617,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4478644,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4478669,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4478703,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4478737,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4478771,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4478834,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4478925,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4478957,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4478989,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4479018,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4479047,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4479076,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4479150,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4479352,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4479427,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4479518,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4479549,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4479605,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4479683,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4479795,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4479854,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4479900,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4479988,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4480039,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4480111,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4480139,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4480195,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4480302,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4480412,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4480492,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4480583,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4480614,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4480656,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4480816,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4480874,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4480932,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4480986,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4481019,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4481116,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4481152,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4481278,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4481382,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4481623,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4481771,
+        "register": "ebx",
+        "identity": "msvcrt.dll!atoi"
+      },
+      {
+        "site": 4481780,
+        "register": "ebx",
+        "identity": "msvcrt.dll!atoi"
+      },
+      {
+        "site": 4481839,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4482200,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4482333,
+        "register": "ebx",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4482422,
+        "register": "ebx",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4482458,
+        "register": "ebx",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4482547,
+        "register": "ebx",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4482607,
+        "register": "ebx",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4482664,
+        "register": "ebx",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4483220,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4483411,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4483498,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4483522,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4483576,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4483635,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4483683,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4483705,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4483742,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4484041,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4484065,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4484088,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4484112,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4484187,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4484239,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4484407,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4484506,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4484729,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4484848,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4484879,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4484910,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4484970,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4485199,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4485236,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4485273,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4485385,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4485422,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4485459,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4485496,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4485518,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4485540,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4485588,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4485625,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4485653,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4485693,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4485730,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4485824,
+        "register": "ebx",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4485942,
+        "register": "ebx",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4485991,
+        "register": "ebx",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4486021,
+        "register": "ebx",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4486088,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4486110,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4486341,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4486728,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4486972,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4487050,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4487065,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4487080,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4487095,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4487149,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4487193,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4487230,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4487267,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4487304,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4487488,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4487711,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4487755,
+        "register": "edi",
+        "identity": "msvcrt.dll!fopen"
+      },
+      {
+        "site": 4487807,
+        "register": "ebx",
+        "identity": "msvcrt.dll!_splitpath"
+      },
+      {
+        "site": 4487855,
+        "register": "ebx",
+        "identity": "msvcrt.dll!_splitpath"
+      },
+      {
+        "site": 4487916,
+        "register": "edi",
+        "identity": "msvcrt.dll!fopen"
+      },
+      {
+        "site": 4488202,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4488556,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4488592,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4488632,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4488665,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4488698,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4488782,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4488873,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4488901,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4488954,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4488984,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4489014,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4489050,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4489146,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4489195,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4489256,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4489278,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4489574,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4489662,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4489774,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4489802,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4489893,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4489924,
+        "register": "edi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4489980,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4490094,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4490202,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4490545,
+        "register": "esi",
+        "identity": "msvcrt.dll!_stricmp"
+      }
+    ],
+    "direct_import_calls": [
+      {
+        "site": 4477760,
+        "slot": 4198952,
+        "identity": "msvcrt.dll!_splitpath"
+      },
+      {
+        "site": 4477873,
+        "slot": 4198976,
+        "identity": "msvcrt.dll!sprintf"
+      },
+      {
+        "site": 4477888,
+        "slot": 4198696,
+        "identity": "msvcrt.dll!fopen"
+      },
+      {
+        "site": 4477951,
+        "slot": 4199040,
+        "identity": "msvcrt.dll!fgets"
+      },
+      {
+        "site": 4478002,
+        "slot": 4198984,
+        "identity": "msvcrt.dll!strchr"
+      },
+      {
+        "site": 4478033,
+        "slot": 4198812,
+        "identity": "msvcrt.dll!strtok"
+      },
+      {
+        "site": 4478057,
+        "slot": 4198716,
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4478078,
+        "slot": 4198812,
+        "identity": "msvcrt.dll!strtok"
+      },
+      {
+        "site": 4478104,
+        "slot": 4198980,
+        "identity": "msvcrt.dll!sscanf"
+      },
+      {
+        "site": 4478160,
+        "slot": 4198692,
+        "identity": "msvcrt.dll!fclose"
+      },
+      {
+        "site": 4479233,
+        "slot": 4198952,
+        "identity": "msvcrt.dll!_splitpath"
+      },
+      {
+        "site": 4479329,
+        "slot": 4198976,
+        "identity": "msvcrt.dll!sprintf"
+      },
+      {
+        "site": 4481742,
+        "slot": 4198984,
+        "identity": "msvcrt.dll!strchr"
+      },
+      {
+        "site": 4481927,
+        "slot": 4198952,
+        "identity": "msvcrt.dll!_splitpath"
+      },
+      {
+        "site": 4483836,
+        "slot": 4198716,
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4483866,
+        "slot": 4198716,
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4483896,
+        "slot": 4198716,
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4483959,
+        "slot": 4198716,
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4484589,
+        "slot": 4198952,
+        "identity": "msvcrt.dll!_splitpath"
+      },
+      {
+        "site": 4484685,
+        "slot": 4198976,
+        "identity": "msvcrt.dll!sprintf"
+      },
+      {
+        "site": 4485005,
+        "slot": 4198820,
+        "identity": "msvcrt.dll!_mbschr"
+      },
+      {
+        "site": 4486187,
+        "slot": 4198984,
+        "identity": "msvcrt.dll!strchr"
+      },
+      {
+        "site": 4486212,
+        "slot": 4198980,
+        "identity": "msvcrt.dll!sscanf"
+      },
+      {
+        "site": 4486255,
+        "slot": 4198980,
+        "identity": "msvcrt.dll!sscanf"
+      },
+      {
+        "site": 4486442,
+        "slot": 4198952,
+        "identity": "msvcrt.dll!_splitpath"
+      },
+      {
+        "site": 4486508,
+        "slot": 4198628,
+        "identity": "msvcrt.dll!_mbsicmp"
+      },
+      {
+        "site": 4486609,
+        "slot": 4198952,
+        "identity": "msvcrt.dll!_splitpath"
+      },
+      {
+        "site": 4486705,
+        "slot": 4198976,
+        "identity": "msvcrt.dll!sprintf"
+      },
+      {
+        "site": 4486766,
+        "slot": 4198716,
+        "identity": "msvcrt.dll!_stricmp"
+      },
+      {
+        "site": 4486826,
+        "slot": 4198952,
+        "identity": "msvcrt.dll!_splitpath"
+      },
+      {
+        "site": 4486949,
+        "slot": 4198976,
+        "identity": "msvcrt.dll!sprintf"
+      },
+      {
+        "site": 4487339,
+        "slot": 4198820,
+        "identity": "msvcrt.dll!_mbschr"
+      },
+      {
+        "site": 4487370,
+        "slot": 4198852,
+        "identity": "msvcrt.dll!_mbsnbcpy"
+      },
+      {
+        "site": 4487846,
+        "slot": 4198624,
+        "identity": "msvcrt.dll!__p__pgmptr"
+      },
+      {
+        "site": 4487894,
+        "slot": 4198620,
+        "identity": "msvcrt.dll!_makepath"
+      },
+      {
+        "site": 4487950,
+        "slot": 4198848,
+        "identity": "msvcrt.dll!_filelength"
+      },
+      {
+        "site": 4488034,
+        "slot": 4198664,
+        "identity": "msvcrt.dll!fread"
+      },
+      {
+        "site": 4488067,
+        "slot": 4198692,
+        "identity": "msvcrt.dll!fclose"
+      },
+      {
+        "site": 4488308,
+        "slot": 4198984,
+        "identity": "msvcrt.dll!strchr"
+      },
+      {
+        "site": 4488333,
+        "slot": 4198980,
+        "identity": "msvcrt.dll!sscanf"
+      },
+      {
+        "site": 4488376,
+        "slot": 4198980,
+        "identity": "msvcrt.dll!sscanf"
+      },
+      {
+        "site": 4489420,
+        "slot": 4198984,
+        "identity": "msvcrt.dll!strchr"
+      },
+      {
+        "site": 4489445,
+        "slot": 4198980,
+        "identity": "msvcrt.dll!sscanf"
+      },
+      {
+        "site": 4489488,
+        "slot": 4198980,
+        "identity": "msvcrt.dll!sscanf"
+      },
+      {
+        "site": 4490275,
+        "slot": 4198960,
+        "identity": "msvcrt.dll!_strnicmp"
+      },
+      {
+        "site": 4490372,
+        "slot": 4198952,
+        "identity": "msvcrt.dll!_splitpath"
+      },
+      {
+        "site": 4490468,
+        "slot": 4198976,
+        "identity": "msvcrt.dll!sprintf"
+      },
+      {
+        "site": 4490641,
+        "slot": 4198776,
+        "identity": "msvcrt.dll!fprintf"
+      },
+      {
+        "site": 4490729,
+        "slot": 4198812,
+        "identity": "msvcrt.dll!strtok"
+      },
+      {
+        "site": 4490755,
+        "slot": 4198980,
+        "identity": "msvcrt.dll!sscanf"
+      }
+    ],
+    "total_qualified_sites": 197
+  },
+  "qualification": "Packet binds actual byte extents, every partial/nonvolatile write and normal return, explicit source/object ABI, SDK declarations and actual provider identity. It supplies named preservation witnesses only; common Rust owns CFG/dataflow and must independently resolve every required site. No reconstruction promotion follows from this packet alone."
+}

@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "status": "isolated preparation only; not linked, accepted or unmasked",
+  "logical_function": "_parse_switch@8",
+  "original_extent": {
+    "begin": 4247744,
+    "end": 4248125,
+    "bytes": 381
+  },
+  "actual_observed_entry": {
+    "evidence": "cases/help/options-preparation.json",
+    "file": 0,
+    "text": "?",
+    "text_alias": "original argv[1]+1 and native argv[1]+1; complete owner context/hash/arena state equal"
+  },
+  "source_draft": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/link/parser-next/src/parse-switch.c",
+    "sha256": "e92dec4a8a1434445e4fad9fedcc9c52145fc9a553e3be4619656a7bdd6819e8"
+  },
+  "compile_receipts": {
+    "original": {
+      "kind": "original",
+      "status": 0,
+      "seconds": 0.832844982855022,
+      "command": [
+        "wine",
+        "R:\\toolchains\\5.10\\bin\\CL.EXE",
+        "/nologo",
+        "/c",
+        "/MD",
+        "/Od",
+        "/Z7",
+        "/IR:\\decomp\\vc5.10\\link\\src",
+        "/IR:\\lib\\recon\\include",
+        "/FoS:\\vc5.10\\link\\parser-next\\build\\parse-switch.obj",
+        "S:\\vc5.10\\link\\parser-next\\src\\parse-switch.c"
+      ],
+      "source_sha256": "e92dec4a8a1434445e4fad9fedcc9c52145fc9a553e3be4619656a7bdd6819e8",
+      "qualification": "Isolated object build only; no function acceptance, LINK execution or current artifact mutation."
+    },
+    "native": {
+      "kind": "native",
+      "status": 0,
+      "seconds": 0.11052824277430773,
+      "command": [
+        "clang",
+        "-m32",
+        "-std=gnu89",
+        "-fms-extensions",
+        "-fasm-blocks",
+        "-O0",
+        "-g",
+        "-fno-pie",
+        "-DRECON_NATIVE_TEST",
+        "-DRECON_CRT_PROFILE_MSVCRT_510",
+        "-I/root/msvc2/decomp/vc5.10/link/src",
+        "-I/root/msvc2/lib/recon/include",
+        "-I/root/msvc2/lib/recon/native",
+        "-c",
+        "src/parse-switch.c",
+        "-o",
+        "build/parse-switch.o"
+      ],
+      "source_sha256": "e92dec4a8a1434445e4fad9fedcc9c52145fc9a553e3be4619656a7bdd6819e8",
+      "qualification": "Isolated object build only; no function acceptance, LINK execution or current artifact mutation."
+    }
+  },
+  "object_sha256": {
+    "parse-switch.obj": "0f0d27f49eea5439d89a6748501eb0a14b7ee05de8d352039afa34c0f35bdc0f",
+    "parse-switch.o": "6811c338403f361ec2e0043b6f7a8c359239dcf98184377410a65019aac28b86"
+  },
+  "static_compilation": {
+    "original_caller_cleanup": "stdcall stack8, RET8",
+    "native_caller_cleanup": "stdcall stack8, RET8",
+    "original_coff_dependencies": [
+      "__imp__strchr",
+      "_allocate_memory@4",
+      "_link_fatal"
+    ],
+    "extra_application_wrapper": false
+  },
+  "semantics": {
+    "record_prefix_bytes": 8,
+    "value_bytes": 8,
+    "name_pointer_offset": 0,
+    "value_count_word_offset": 4,
+    "reserved_word_offset": 6,
+    "allocation_formula": "strlen(input)+9+8*(WORD)number_of_values",
+    "mutable_storage": "allocation+8+8*value_count",
+    "split_order": "Copy full input, split first colon, split each comma, split first equals in each value",
+    "absent_key": "NULL pointer, distinct from an explicit empty key",
+    "count_width": "Number of values projects to WORD before allocation/iteration",
+    "fatal_messages": {
+      "trailing_colon": 1146,
+      "empty_option_name": 1117
+    }
+  },
+  "prospective_next_boundary": {
+    "function": "_duplicate_argument@4",
+    "input": "?",
+    "parser_allocation_bytes": 10,
+    "initialized_roles": {
+      "name": "allocation+8",
+      "value_count": 0,
+      "text_at_8_hex": "3f00"
+    },
+    "unconsumed_bytes": "Reserved WORD6..7 is never initialized or read by this help path. Preserve raw evidence; do not assert it was zero or erase a consumed field.",
+    "ownership": "Parser record remains live and separate from original argv; all preexisting context/hash/arena/callback roles remain intact.",
+    "evidence_required": "Fresh candidate-inclusive masked/native parser execution and actual raw allocation/alias fields before any parser promotion."
+  },
+  "policy": "Dispatcher import gate remains held. This report is analysis/compiler evidence, not a replacement for fresh paired execution or shared Rust qualification."
+}
