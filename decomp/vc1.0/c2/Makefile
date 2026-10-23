@@ -22,6 +22,7 @@ build/runtime.json: build/c2.exe scripts/identify-runtime.py scripts/binary.py s
 
 
 check replay: native-trace-check
+	$(PYTHON) scripts/check-artifacts.py
 
 frontier: native-trace
 	$(PYTHON) scripts/check-native.py --profile minimal
@@ -129,3 +130,13 @@ build/capture-cl.obj: src/capture-cl.c | build prefix
 	$(TOOL) CL.EXE /nologo /I$(RECON)/include /c /Od /G3 /Fobuild/capture-cl.obj $<
 build/capture-cl.exe: build/capture-cl.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
+
+# Explicit original-only CRT boundary observer, excluded from native fixtures.
+build/reference-strpbrk-observer.exe: build/reference-strpbrk-observer.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $^
+
+build/reference-freopen-observer.exe: build/reference-freopen-observer.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $^
+
+build/reference-stdhandle-observer.exe: build/reference-stdhandle-observer.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $^

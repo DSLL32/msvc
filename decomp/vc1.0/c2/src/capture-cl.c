@@ -29,10 +29,10 @@ int main(int argc,char **argv)
     BYTE original,trap=0xcc; int stepping=0,n=0; unsigned i; char command[2048];
     char prefix[1024],source[1024],dest[1024],*p,*q;
     static char *extensions[]={"ex","sy","in","gl",NULL};
-    if(argc!=5 && argc!=7) return 2;
+    if(argc!=5 && argc!=7 && argc!=8) return 2;
     SetEnvironmentVariableA("TMP",argv[4]); SetEnvironmentVariableA("TEMP",argv[4]);
     memset(&si,0,sizeof(si)); si.cb=sizeof(si);
-    sprintf(command,"\"%s\" %s",argv[1],argc==7?argv[5]:"test.c");
+    sprintf(command,"\"%s\" %s",argv[1],argc>=7?argv[5]:"test.c");
     if(!CreateProcessA(argv[1],command,0,0,TRUE,DEBUG_ONLY_THIS_PROCESS,0,argv[4],&si,&pi)) return 3;
     for(;;) {
         if(!WaitForDebugEvent(&ev,30000)) return 4;
@@ -59,7 +59,7 @@ int main(int argc,char **argv)
                     strcpy(source,p+1);
                     sprintf(dest,"%s\\link-input.rsp",argv[3]);
                     if(!CopyFileA(source,dest,FALSE)) return 20;
-                    sprintf(source,"%s\\%s",argv[4],argc==7?argv[6]:"test.obj");
+                    sprintf(source,"%s\\%s",argv[4],argc>=7?argv[6]:"test.obj");
                     sprintf(dest,"%s\\link-input.obj",argv[3]);
                     if(!CopyFileA(source,dest,FALSE)) return 21;
                     i=GetEnvironmentVariableA("LIB",(char *)buffer,sizeof(buffer));
@@ -83,6 +83,17 @@ int main(int argc,char **argv)
                             sprintf(source,"%s%s",prefix,extensions[i]);
                             sprintf(dest,"%s\\c2-input.%s",argv[3],extensions[i]);
                             if(!CopyFileA(source,dest,FALSE)) return 17;
+                        }
+                        /* Optional named dependency created by C1 before C2.
+                           Snapshot at the actual launch boundary, never infer
+                           its earlier contents from the final pipeline file. */
+                        if(argc==8) {
+                            sprintf(source,"%sdb",prefix);
+                            sprintf(dest,"%s\\c2-input.db",argv[3]);
+                            if(!CopyFileA(source,dest,FALSE)) return 23;
+                            sprintf(source,"%s\\%s",argv[4],argv[7]);
+                            sprintf(dest,"%s\\c2-dependency-before.bin",argv[3]);
+                            if(!CopyFileA(source,dest,FALSE)) return 22;
                         }
                     }
                 }

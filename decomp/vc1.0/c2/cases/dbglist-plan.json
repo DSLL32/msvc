@@ -1,0 +1,444 @@
+{
+  "status": "Active at matching CodeView application frontier; debug case incomplete",
+  "profile": "dbglist",
+  "accepted": 1149,
+  "source_graphs": 1067,
+  "initial_reference": "cases/dbglist-original-1146.json",
+  "current_reference": "cases/dbglist-original-1148.json",
+  "current_frontier": "_initialize_codeview_output at0x69100",
+  "fixture_manifest": "../fixtures/c2-debug-asm-listing/manifest.json",
+  "fixture_manifest_sha256": "56a441fba67f022c90ffd10cccf1dafbaac0e1d768506960f7a95ef393efcca6",
+  "inputs": [
+    {
+      "path": "c2/irex",
+      "bytes": 1786,
+      "sha256": "30b6b43f6bffefe9d842164388ad18069dbf3f953a1ea0630b57fdea7225676f"
+    },
+    {
+      "path": "c2/irsy",
+      "bytes": 358,
+      "sha256": "0012dbc669eb273a9a04fe3e5f201d0d58f2af9bf1fa10b9e7c730503c680139"
+    },
+    {
+      "path": "c2/irin",
+      "bytes": 59,
+      "sha256": "5b14515a610a02f77404b9c8ecaa2ecbebf4fd101fed2a94f562bcc6d0d74f55"
+    },
+    {
+      "path": "c2/irgl",
+      "bytes": 308,
+      "sha256": "7ffc0602eca138e424570366f22ebb9e441822da23acf3b575a8b32822acc79d"
+    },
+    {
+      "path": "c2/irdb",
+      "bytes": 55,
+      "sha256": "2078ddf34628c107be2d38ab0c1d5dc8086ee5e833df34c231bffd03d083f396"
+    },
+    {
+      "path": "c2/dbglist.c",
+      "bytes": 1690,
+      "sha256": "910bce456e3e9965e7f8fe327abc7b17ded51426355bf8056ad412c74956b285"
+    },
+    {
+      "path": "c2/msvc.pdb",
+      "bytes": 564,
+      "sha256": "a69b767a3f52d0f580593c019de6560b04865c7bbb7131610babfd8717b18570"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "expected/dbglist.obj",
+      "bytes": 2280,
+      "sha256": "9ed25889c6919fb8e3b11c964158d5fb865b1a1159c09764645b4c6465ef2f24",
+      "output_name": "dbglist.obj",
+      "ignored_fields": [
+        {
+          "offset": 4,
+          "bytes": 4,
+          "name": "COFF TimeDateStamp"
+        }
+      ],
+      "normalized_sha256": "91d647df04590819875175d14a963ffb9b2a0ab54c8aab8abce828de1814a5fd"
+    },
+    {
+      "path": "expected/dbglist.cod",
+      "bytes": 7635,
+      "sha256": "b0f0ca713d195c33e15a62461cc845d8f27bd821863f32e317aacb7cab2139aa",
+      "output_name": "dbglist.cod",
+      "ignored_fields": [],
+      "normalized_sha256": "b0f0ca713d195c33e15a62461cc845d8f27bd821863f32e317aacb7cab2139aa"
+    },
+    {
+      "path": "expected/msvc.pdb",
+      "bytes": 564,
+      "sha256": "a69b767a3f52d0f580593c019de6560b04865c7bbb7131610babfd8717b18570",
+      "output_name": "msvc.pdb",
+      "ignored_fields": [],
+      "normalized_sha256": "a69b767a3f52d0f580593c019de6560b04865c7bbb7131610babfd8717b18570",
+      "role": "frontend dependency retained unchanged"
+    }
+  ],
+  "original_standalone": {
+    "timing": {
+      "pipeline": {
+        "seconds": 1.6048619858920574,
+        "returncode": 0
+      },
+      "standalone": {
+        "seconds": 0.7010082956403494,
+        "returncode": 0
+      }
+    },
+    "total_seconds": 2.3630904350429773,
+    "standalone": "exit0; empty streams; all object/listing/PDB artifacts match pipeline",
+    "pdb_unchanged_by_backend": true,
+    "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+    "canonical_working_directory": "S:\\vc1.0\\c2\\dbglist",
+    "capture_lock": "S:\\vc1.0\\c2\\capture.lock",
+    "normalization": "Only COFF TimeDateStamp4..7; listing/PDB byte exact"
+  },
+  "completed_prior_cases": 13,
+  "prior_native_regression": "dbglist-oracle-corrected-regression",
+  "synthetic_oracle_checks": "cases/artifact-oracle-validation.json",
+  "crt_evidence": [
+    "cases/dbglist-strpbrk-evidence.json",
+    "cases/dbglist-freopen-evidence.json",
+    "cases/dbglist-stdhandle-evidence.json"
+  ],
+  "current_issue": null,
+  "state_evidence": "cases/dbglist-freopen-transient",
+  "import_original_evidence": "cases/dbglist-stdhandle",
+  "timing": {
+    "dbglist-capture-helper-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/capture-cl.exe"
+      ],
+      "seconds": 3.835152401588857,
+      "returncode": 0,
+      "log_sha256": "98aee63cb12dd2f8cb2f5d7d2d796177b452cdc1892f3ce16d0d429b5912116a"
+    },
+    "dbglist-capture-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-debug-listing.py"
+      ],
+      "seconds": 2.433767612092197,
+      "returncode": 1,
+      "log_sha256": "9254c6d884978428e96356750dd4100cc6f89f8c14caea2b614bee765c8f6263"
+    },
+    "dbglist-db-capture-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-debug-listing.py"
+      ],
+      "seconds": 2.429081577807665,
+      "returncode": 0,
+      "log_sha256": "1be964445ee69ae51aec63fbe14baa0092324b399ef302ced33154e396a35ca3"
+    },
+    "dbglist-db-helper-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/capture-cl.exe"
+      ],
+      "seconds": 3.4675219589844346,
+      "returncode": 0,
+      "log_sha256": "98aee63cb12dd2f8cb2f5d7d2d796177b452cdc1892f3ce16d0d429b5912116a"
+    },
+    "dbglist-freopen-import-observe-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-freopen.py"
+      ],
+      "seconds": 1.7542292503640056,
+      "returncode": 0,
+      "log_sha256": "2dc73ad159eec44948ec4ec8fe18fdc2c2e67ab79c27ba2af0abd7ada89e6fa3"
+    },
+    "dbglist-freopen-observe-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-freopen.py"
+      ],
+      "seconds": 1.8287108661606908,
+      "returncode": 1,
+      "log_sha256": "0064ca926e85da2779caf5442142e3b5d1f2879aed3d1a168aab5087e583ba9e"
+    },
+    "dbglist-freopen-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-freopen-observer.exe"
+      ],
+      "seconds": 3.894795606844127,
+      "returncode": 0,
+      "log_sha256": "6a724014bcc06c4eefffe5c5b124d6a42b65596391e5de20a505971fcff68ab9"
+    },
+    "dbglist-freopen-transient-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-freopen-observer.exe"
+      ],
+      "seconds": 3.1785211246460676,
+      "returncode": 0,
+      "log_sha256": "6a724014bcc06c4eefffe5c5b124d6a42b65596391e5de20a505971fcff68ab9"
+    },
+    "dbglist-freopen-transient-corrected-observe-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-freopen-transient.py"
+      ],
+      "seconds": 1.2522044964134693,
+      "returncode": 0,
+      "log_sha256": "7475503ecfd7cc159505967c96326e0803f982ccf7e6b4ede580f54e04a23443"
+    },
+    "dbglist-freopen-transient-observe-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-freopen-transient.py"
+      ],
+      "seconds": 1.9843865362927318,
+      "returncode": 1,
+      "log_sha256": "20267151b9e12340fc8f89873354e9220da8d72c0b5c02d63af830293038d134"
+    },
+    "dbglist-initial-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1146.json"
+      ],
+      "seconds": 1.7237632917240262,
+      "returncode": 0,
+      "log_sha256": "325d8aafaa36566360675c3508a1256a48bc55df55a93de9b07795b2cf981b8f"
+    },
+    "dbglist-oracle-corrected-regression-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 5.153164493851364,
+      "returncode": 0,
+      "log_sha256": "43819197a6a922f6bbd1356ad9b94a69647c60ac2a6af0c4dd6fe631a3990624"
+    },
+    "dbglist-oracle-regression-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 5.655320283956826,
+      "returncode": 2,
+      "log_sha256": "a4b0d38a10e845aa4f7e27062365f156a5ab243689af829df4573c782919e341"
+    },
+    "dbglist-stdhandle-observe-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-stdhandle.py"
+      ],
+      "seconds": 1.0911377687007189,
+      "returncode": 0,
+      "log_sha256": "99d814ceea8ecf03fc740c005d0de3a605e2ba1ff7316234900b5a4bdddebbfc"
+    },
+    "dbglist-stdhandle-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdhandle-observer.exe"
+      ],
+      "seconds": 1.9151899656280875,
+      "returncode": 0,
+      "log_sha256": "8e3f943a437a37036d552f589778e75722b3c7db1994b0fe3f34a2c3d40ecb11"
+    },
+    "dbglist-strpbrk-corrected-observe-timing": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/msvc2/vc1.0/c2/observe-strpbrk.py"
+      ],
+      "seconds": 2.2629117583855987,
+      "returncode": 0,
+      "log_sha256": "0ab2e8652ab42ae8c05878d72fd2741ac735f8c4a6d2e479a9f77ee83d0c1074"
+    },
+    "dbglist-strpbrk-corrected-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-strpbrk-observer.exe"
+      ],
+      "seconds": 4.013308487832546,
+      "returncode": 0,
+      "log_sha256": "ff40299206cc1fd0845e41993199855f515f785413fb66ac303bf27248abdcd1"
+    },
+    "dbglist-strpbrk-observe-timing": {
+      "command": [
+        "python3",
+        "/root/.ai-tmp/msvc2/vc1.0/c2/observe-strpbrk.py"
+      ],
+      "seconds": 1.0737542351707816,
+      "returncode": 1,
+      "log_sha256": "39529cb4f643ed848801dc34109578a5951f30b5950b15c0e39683aa3e3d9078"
+    },
+    "dbglist-strpbrk-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "build/reference-strpbrk-observer.exe"
+      ],
+      "seconds": 8.034292601980269,
+      "returncode": 0,
+      "log_sha256": "891643bd732aab349d8bf484a0fb99ca675ec07467744087341ffa5f47d0422c"
+    },
+    "dbglist1147-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1147.json"
+      ],
+      "seconds": 1.0574209159240127,
+      "returncode": 0,
+      "log_sha256": "8be939120370099491f21b38abb1e6407a4ff836b56ab08a12edd38415cc8063"
+    },
+    "dbglist1148-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1148.json"
+      ],
+      "seconds": 1.7413961924612522,
+      "returncode": 0,
+      "log_sha256": "75eef725a018362cd29804a6020d7d85d848f513dffa09154f4f91a1f500b63e"
+    },
+    "dbglist-first-app-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.7612619185820222,
+      "returncode": 0,
+      "log_sha256": "4bc51f64803da4deb658e17d7858829e1bfc792cd935c047f838b4c3ea9e74fb"
+    },
+    "dbglist-first-app-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage",
+        "audit-data",
+        "audit-negatives"
+      ],
+      "seconds": 16.69005505181849,
+      "returncode": 0,
+      "log_sha256": "29efe71ccec30741b12989ca94643044cdcd1ab5d34e841b98a49f2e569ae4e7"
+    },
+    "dbglist-lowio-native-observation-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-freopen-transient.py",
+        "--native-only",
+        "--receipt",
+        "cases/dbglist-freopen-transient-corrected"
+      ],
+      "seconds": 0.2250526612624526,
+      "returncode": 0,
+      "log_sha256": "509e79dceb5c9dd0d256c956974574da37e29760918738fe7e706368f918260b"
+    },
+    "dbglist-lowio-fixed-native-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native"
+      ],
+      "seconds": 5.4159476878121495,
+      "returncode": 0,
+      "log_sha256": "a620b49f64a45af581b0e7f9379ef6c853d5e18e4cc5d6591495c5496b35960b"
+    },
+    "dbglist-stdhandle-native-observation-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-native-stdhandle.py"
+      ],
+      "seconds": 0.2310376800596714,
+      "returncode": 0,
+      "log_sha256": "f7c1871d36a9e668d5abdc605434a1ac0629198d524edc37095976c450360df1"
+    },
+    "dbglist-original-1149-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "dbglist",
+        "--receipt",
+        "cases/dbglist-original-1149.json"
+      ],
+      "seconds": 1.1025804299861193,
+      "returncode": 0,
+      "log_sha256": "3dff0aa63e9ff3be33c86587d5bcd82931f670246b64b389b0a417c4f78f51e2"
+    },
+    "dbglist-app-frontier-1149-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "dbglist",
+        "--reference",
+        "cases/dbglist-original-1149.json"
+      ],
+      "seconds": 0.21179395262151957,
+      "returncode": 0,
+      "log_sha256": "5b2ec896dae82a983308be1e4c048653cefe406a341ff7b40b29cafefa14736a"
+    },
+    "dbglist-first-app-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 34.07027767691761,
+      "returncode": 0,
+      "log_sha256": "a81075ca71b787f2498d645ea1ba872dc172a81baf90292f6f3d7f1074762eeb"
+    },
+    "dbglist-cache-1149-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/dbglist-original-1148.json",
+        "--extend-after",
+        "cases/dbglist-original-1149.json",
+        "--runtime-evidence",
+        "cases/dbglist-stdhandle-evidence.json"
+      ],
+      "seconds": 0.3561100848019123,
+      "returncode": 0,
+      "log_sha256": "4048d7d0e1850567d2ab54c6d534a261e02397dc408a363d5826f548a70b38c2"
+    }
+  },
+  "limits": [
+    "Three separate runtime acceptances (two exact archive CRT bodies, one proven import). No new application function accepted. Fourteen native cases now pass: thirteen completed objects and dbglist expected named application trap.",
+    "The initial missing-db standalone capture and no-listing diagnostic are separate; final unchanged /Od /G3 /Zi /FAcs capture reproduces object/cod/PDB exactly except object timestamp4..7. PDB is an immutable frontend input retained unchanged by backend.",
+    "Oracle edit briefly removed native-traces.load due to an overly broad replacement; 13-case regression caught it before case registration. Restored from owned committed script then applied two exact replacements; corrected13-case suite+synthetic positives/rejections pass.",
+    "First strpbrk observer raw-offset mistake caused invalid instruction; corrected PE.offset guard/62-byte archive identity and actual original/native offset1 observation pass. Failure preserved separately.",
+    "First transient observer ran after freopen acceptance and omitted re-masking its entry, so reached CodeView initializer; no acceptance credit from it. Corrected observation explicitly masks its selected CRT entry and documents temporarily restored SetStdHandle import.",
+    "Native transient observation redirects inferior stdout to a disk file, matching the reference debugger inherited startup output type; child PEBStdOutput is verified against actual inherited HANDLE before reading it. Original stdhandle layout independently verified by shared commit2b395438.",
+    "Source/analysis/edit times unmeasured; elapsed wrappers include helpers/build/setup/run as labelled. All measured failures/repeats retained."
+  ],
+  "shared_fix_commit": "410fea95",
+  "native_fixture_validation": "cases/native-all-validation.json",
+  "first_application_original": "cases/dbglist-original-1149.json",
+  "first_application_native": "cases/dbglist-original-1149-native.json"
+}

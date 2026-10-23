@@ -1,0 +1,39 @@
+{
+  "logical": "_strpbrk",
+  "before_config_sha256": "fd834fa41044db0513ab82c8654b2e974a60e8cf4505c5dc72587238d969f7d2",
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "original": {
+    "identity": {
+      "record": {
+        "name": "_strpbrk",
+        "start": 465664,
+        "end": 465726,
+        "object": "string\\obj\\i386\\STRPBRK.OBJ",
+        "library": "LIBC.LIB"
+      },
+      "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+      "object_sha256": "14173932f88313f9106ad21fbb988870ea5c50562d159de3715e19cbca33ab39",
+      "exact_text_bytes": 62,
+      "text_sha256": "0ce2fec53df05771be3929ff04fb47ca887afeca2959bf31b2cc90c26d52ed67"
+    }
+  },
+  "observed_original": {
+    "left_hex": "61637300",
+    "right_hex": "634300",
+    "result_nonnull": true,
+    "result_offset": 1
+  },
+  "observed_native": {
+    "left_hex": "61637300",
+    "right_hex": "634300",
+    "result_nonnull": true,
+    "result_offset": 1
+  },
+  "caller_result_use": "zero/nonzero; pointer offset independently preserved",
+  "caller_return": "0x26ac1; ADD ESP8 then OR EAX,EAX at26ac4, JE26ac6",
+  "input_inventory": "Seven immutable case inputs including five IR channels, source and pre-C2 PDB; all hashes pinned in manifest.",
+  "limits": [
+    "One actual original/native call observed:acs/cC returns pointer to input+1; no claim every CRT branch or the second sS call independently observed.",
+    "Initial observer used wrong PE raw offset71500 (forgot image base); caused original invalid instruction before return. Failure retained under cases/dbglist-strpbrk-initial-observer-failure. Corrected61500 equals PE.offset(71b00), exact62B archive-backed restoration."
+  ]
+}

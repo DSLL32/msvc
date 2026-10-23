@@ -1,0 +1,16 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x3d78: file src/options.c, line 15.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, parse_options () at src/options.c:15
+15	    char *previous = debug_filename;
+Breakpoint 2 at 0x565e10eb: file ../../../lib/recon/src/win32.c, line 449.
+
+Breakpoint 2, recon_SetStdHandle (kind=4294967285, handle=0x0) at ../../../lib/recon/src/win32.c:449
+449	    if (kind>STD_INPUT_HANDLE || kind<STD_ERROR_HANDLE) { last_error=ERROR_INVALID_PARAMETER; return FALSE; }
+C2_IMPORT kind=4294967285 handle=0 before=0x2
+0x565d6073 in recon_free_osfhnd (fd=1) at ../../../lib/recon/src/crt.c:279
+279	    if (fd<3) recon_SetStdHandle((DWORD)(-10-fd),NULL);
+Value returned is $1 = 1
+C2_IMPORT_RESULT result=1 after=0

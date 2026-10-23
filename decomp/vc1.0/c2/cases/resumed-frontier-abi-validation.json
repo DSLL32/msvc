@@ -427,6 +427,6 @@
       ]
     }
   ],
-  "seconds": 0.33185225166380405,
+  "seconds": 0.3365049194544554,
   "return_width_evidence": "scheduler_instruction_cycles original defines AX; all reconstructed callers explicitly consume word/byte or receive its unsigned-short result"
 }

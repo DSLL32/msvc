@@ -15,6 +15,7 @@ import tempfile
 import time
 from case_paths import C2_SCRATCH, capture_lock, canonical_parts, windows
 import pe_indexes as index
+from artifacts import compare
 
 
 def sha(data):
@@ -118,20 +119,13 @@ def capture_locked(profile, receipt_path, entries=False, reject_plan=False, reje
         artifact_directory = receipt_path.with_suffix('')
         artifact_directory.mkdir(parents=True, exist_ok=False)
         for output in phase['outputs']:
-            fields = output['ignored_fields']
-            assert len(fields) == 1 and (fields[0]['offset'], fields[0]['bytes']) == (4,4)
-            expected = bytearray((manifest.parent/output['path']).read_bytes())
-            assert sha(expected) == output['sha256']
+            expected = (manifest.parent/output['path']).read_bytes()
             name = output.get('output_name', Path(output['path']).name)
             data = (work/name).read_bytes()
-            normalized = bytearray(data)
-            expected[4:8] = normalized[4:8] = b'\0'*4
-            assert normalized == expected, 'original output differs beyond timestamp'
-            assert sha(normalized) == output['normalized_sha256']
+            comparison = compare(data, expected, output)
             target = artifact_directory/name
             shutil.copyfile(work/name, target)
-            artifacts.append(dict(path=str(target), name=name, bytes=len(data), sha256=sha(data),
-                                  normalized_sha256=sha(normalized), ignored_timestamp=[4,4]))
+            artifacts.append(dict(path=str(target), sha256=sha(data), **comparison))
         receipt['outputs'] = artifacts
     else:
         match = re.fullmatch(r'exception 80000003 rva ([0-9a-f]+) base ([0-9a-f]+) first 1\nexit 99\n',events)

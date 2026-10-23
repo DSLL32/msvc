@@ -9,10 +9,18 @@ import json
 from pathlib import Path
 import re
 import subprocess
+from artifacts import compare
 
 BINARY = Path(__file__).resolve().parents[1]
 CACHE = BINARY / 'cases/native-traces.json'
 CRT = {'_ftell', '_fseek', '__sopen', '__filbuf', '__freebuf'}
+
+
+def runtime_records():
+    from binary import PE
+    from pe_indexes import imports
+    original=PE(BINARY.parents[2]/'toolchains/1.0-nt/bin/C23232.EXE')
+    return json.loads((BINARY/'runtime.json').read_text())+imports(original)
 
 
 def sha(path):
@@ -94,10 +102,9 @@ def project(directory):
                 data = bytearray((BINARY/artifact['path']).read_bytes())
                 target = bytearray((manifest.parent/item['path']).read_bytes())
                 assert hashlib.sha256(data).hexdigest() == artifact['sha256']
-                assert artifact['ignored_timestamp'] == [4,4]
-                data[4:8] = target[4:8] = b'\0'*4
-                assert data == target
-                assert hashlib.sha256(data).hexdigest() == item['normalized_sha256']
+                checked=compare(data,target,item)
+                assert artifact['ignored_timestamp']==checked['ignored_timestamp']
+                assert checked['normalized_sha256']==artifact['normalized_sha256']
         else:
             assert terminal in application and terminal not in accepted
             assert drivers[terminal].get('provisional')
@@ -134,6 +141,21 @@ def check_runtime_evidence(path, name, before, record):
     assert evidence['logical'] == name
     assert evidence['before_config_sha256'] == before['config_sha256']
     assert evidence['target_sha256'] == before['target_sha256']
+    if name.startswith('import:'):
+        from pe_indexes import imports
+        original=PE(BINARY.parents[2]/'toolchains/1.0-nt/bin/C23232.EXE')
+        assert hashlib.sha256(original.data).hexdigest()==before['target_sha256']
+        assert name=='import:SetStdHandle' and record in imports(original)
+        identity=evidence['original']['identity']
+        assert identity['record']==record
+        thunk=original.read(record['start'],record['end']-record['start'])
+        assert len(thunk)==6 and thunk[:2]==b'\xff\x25'
+        assert thunk.hex()==identity['thunk_hex'] and int.from_bytes(thunk[2:],'little')==identity['iat_address']
+        left,right=evidence['observed_original'],evidence['observed_native']
+        assert left==right==dict(std_handle=0xfffffff5,handle=0,result=True,before_nonnull=True,after_std=0)
+        assert evidence['abi']=='BOOL WINAPI SetStdHandle(DWORD,HANDLE); stdcall8; original import is a tail thunk'
+        assert evidence['caller_result_use']=='API return ignored by original free-os-handle path; StdOutput transition independently checked'
+        return dict(path=str(path),sha256=sha(path),evidence=evidence)
     identity = evidence['original']['identity']
     assert identity['record'] == record
     library = BINARY.parents[2]/'toolchains/1.0-nt/lib'/record['library']
@@ -152,9 +174,16 @@ def check_runtime_evidence(path, name, before, record):
         assert {k:left[k] for k in ('left_hex','right_hex','count')} == {k:right[k] for k in ('left_hex','right_hex','count')}
         assert evidence['caller_result_use'] == 'zero/nonzero'
         assert (left['result'] == 0) == (right['result'] == 0), 'CRT caller predicate differs'
-    elif name == '_fread':
+    elif name == '_strpbrk':
+        assert not text['relocs'] and linked == text['data']
+        left, right = evidence['observed_original'], evidence['observed_native']
+        assert left == right
+        assert left['left_hex'] and left['right_hex'], 'Empty CRT argument inventory'
+        assert left['result_nonnull'] and left['result_offset'] == 1
+        assert evidence['caller_result_use'] == 'zero/nonzero; pointer offset independently preserved'
+    elif name in ('_fread','_freopen'):
         assert hashlib.sha256(linked).hexdigest() == identity['linked_text_sha256']
-        runtime = {r['name']:r for r in (json.loads((BINARY/'runtime.json').read_text())+json.loads((BINARY/'functions.json').read_text())['driver'])}
+        runtime = {r['name']:r for r in (runtime_records()+json.loads((BINARY/'functions.json').read_text())['driver'])}
         compared = bytearray(linked)
         relocations = []
         for offset, symbol, kind in text['relocs']:
@@ -167,9 +196,17 @@ def check_runtime_evidence(path, name, before, record):
         assert relocations == identity['relocations']
         left, right = evidence['observed_original'], evidence['observed_native']
         assert left == right
-        assert (left['size'],left['count'],left['result']) == (12,1,1)
-        assert len(bytes.fromhex(left['bytes_hex'])) == 12
-        assert evidence['caller_result_use'] == 'ignored; complete 12-byte destination is copied to Extended return value'
+        if name == '_fread':
+            assert (left['size'],left['count'],left['result']) == (12,1,1)
+            assert len(bytes.fromhex(left['bytes_hex'])) == 12
+            assert evidence['caller_result_use'] == 'ignored; complete 12-byte destination is copied to Extended return value'
+        else:
+            assert bytes.fromhex(left['name_hex']) == b'dbglist.cod\0'
+            assert bytes.fromhex(left['mode_hex']) == b'wt\0'
+            assert left['stream_is_stdout'] and left['return_is_stream']
+            assert left['before'] == left['after'] == dict(flags=2,count=0,file=1,buffers_null=True,bufsize=0)
+            assert evidence['caller_result_use'] == 'zero/nonzero; returned pointer remains the input stdout stream'
+
     else:
         raise AssertionError('new CRT seams require their own observation validator')
     return dict(path=str(path), sha256=sha(path), evidence=evidence)
@@ -192,9 +229,9 @@ def extend(directory, before_path, after_path, runtime_evidence=None):
     # An untyped naked stub can acquire its recovered calling convention at
     # acceptance. Require the same C identity and exact original entry below;
     # only the decoration changes, never the function being accepted.
-    assert native_name(before['logical']) == native_name(name), 'wrong original entry before acceptance'
+    assert (before['logical']==name if name.startswith('import:') else native_name(before['logical'])==native_name(name)), 'wrong original entry before acceptance'
     drivers = {r['name']:r for r in config['driver']}
-    runtime = {r['name']:r for r in (json.loads((BINARY/'runtime.json').read_text())+json.loads((BINARY/'functions.json').read_text())['driver'])}
+    runtime = {r['name']:r for r in (runtime_records()+json.loads((BINARY/'functions.json').read_text())['driver'])}
     records = dict(runtime, **drivers)
     application_names = set(drivers)-CRT
     assert name in records, 'unknown accepted original function'
@@ -235,12 +272,9 @@ def extend(directory, before_path, after_path, runtime_evidence=None):
                 reference = bytearray((manifest.parent/expected['path']).read_bytes())
                 assert sha(manifest.parent/expected['path']) == expected['sha256']
                 assert len(data) == artifact['bytes'] and hashlib.sha256(data).hexdigest() == artifact['sha256']
-                assert artifact['ignored_timestamp'] == [4,4]
-                fields = expected['ignored_fields']
-                assert len(fields) == 1 and (fields[0]['offset'],fields[0]['bytes']) == (4,4)
-                data[4:8] = reference[4:8] = b'\0'*4
-                assert data == reference, 'completed original object differs beyond timestamp'
-                assert hashlib.sha256(data).hexdigest() == artifact['normalized_sha256'] == expected['normalized_sha256']
+                checked=compare(data,reference,expected)
+                assert artifact['ignored_timestamp']==checked['ignored_timestamp']
+                assert checked['normalized_sha256']==artifact['normalized_sha256']
         else:
             event = re.fullmatch(r'exception 80000003 rva ([0-9a-f]+) base ([0-9a-f]+) first 1\nexit 99\n', receipt['events'])
             assert event and int(event[1],16)+int(event[2],16) == int(receipt['original_va'],16), 'reference trap address differs from named entry'
@@ -252,6 +286,7 @@ def extend(directory, before_path, after_path, runtime_evidence=None):
     case['terminal'] = after['logical']
     case['terminal_kind'] = 'exit' if completed else ('application' if terminal in application_names else 'runtime-library')
     case['returncode'] = 0 if completed else -5
+    case['pending_runtime'] = not completed and terminal not in application_names
     if terminal in application_names:
         case['expected'].append(native_name(terminal))
     cache['metadata_sha256'] = {n:sha(BINARY/n) for n in ('functions.json','runtime.json')}
@@ -287,17 +322,22 @@ def begin(directory, profile, reference_path):
     assert receipt['environment'] == phase['environment']
     terminal = receipt['logical']
     drivers = {r['name']:r for r in config['driver']}
-    assert terminal in drivers and drivers[terminal].get('provisional')
-    assert receipt['original_va'] == hex(drivers[terminal]['start'])
+    runtime = {r['name']:r for r in runtime_records()}
+    records = dict(runtime, **drivers)
+    assert terminal in records and terminal not in config['accepted']
+    application_terminal = terminal in drivers
+    assert not application_terminal or drivers[terminal].get('provisional')
+    assert receipt['original_va'] == hex(records[terminal]['start'])
     event = re.fullmatch(r'exception 80000003 rva ([0-9a-f]+) base ([0-9a-f]+) first 1\nexit 99\n',receipt['events'])
-    assert event and int(event[1],16)+int(event[2],16) == drivers[terminal]['start']
+    assert event and int(event[1],16)+int(event[2],16) == records[terminal]['start']
     actual = definitions(directory)
     assert actual == {n:r['source'] for n,r in cache['application_definitions'].items()}
     application = {r['logical'] for r in cache['application_definitions'].values()}
     seen = [native_name(n) for n in config['accepted'] if n in application]
     cache['cases'][profile] = dict(first=len(config['accepted']),last=len(config['accepted']),
-        seen=seen,expected=[native_name(terminal)],terminal=terminal,
-        terminal_kind='application',returncode=-5)
+        seen=seen,expected=[native_name(terminal)] if application_terminal else [],terminal=terminal,
+        terminal_kind='application' if application_terminal else 'runtime-library',returncode=-5,
+        pending_runtime=not application_terminal)
     cache['provenance'][profile] = dict(initial=dict(path=str(reference_path),sha256=sha(reference_path),capture=receipt))
     cache['metadata_sha256']['functions.json'] = sha(BINARY/'functions.json')
     return cache

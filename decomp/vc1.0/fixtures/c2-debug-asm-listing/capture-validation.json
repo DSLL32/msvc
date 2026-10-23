@@ -1,0 +1,19 @@
+{
+  "timing": {
+    "pipeline": {
+      "seconds": 1.6048619858920574,
+      "returncode": 0
+    },
+    "standalone": {
+      "seconds": 0.7010082956403494,
+      "returncode": 0
+    }
+  },
+  "total_seconds": 2.3630904350429773,
+  "standalone": "exit0; empty streams; all object/listing/PDB artifacts match pipeline",
+  "pdb_unchanged_by_backend": true,
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\dbglist",
+  "capture_lock": "S:\\vc1.0\\c2\\capture.lock",
+  "normalization": "Only COFF TimeDateStamp4..7; listing/PDB byte exact"
+}

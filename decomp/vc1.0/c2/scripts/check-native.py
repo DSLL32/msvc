@@ -13,6 +13,7 @@ import sys
 import tempfile
 import time
 from case_paths import C2_SCRATCH, windows, native_work, canonical_parts
+from artifacts import compare
 
 BINARY = Path(__file__).resolve().parents[1]
 ROOT = BINARY.parents[2]
@@ -37,18 +38,14 @@ def captured(path, record):
 
 
 def outputs(work, phase, fixture):
-    record = phase['outputs'][0]
-    expected = bytearray(captured(fixture/record['path'], record))
-    assert len(record['ignored_fields']) == 1
-    assert (record['ignored_fields'][0]['offset'], record['ignored_fields'][0]['bytes']) == (4, 4)
-    filename = record.get('output_name', Path(record['path']).name)
-    raw = (work/filename).read_bytes()
-    actual = bytearray(raw)
-    expected[4:8] = actual[4:8] = b'\0'*4
-    assert actual == expected, 'object differs beyond COFF timestamp'
-    assert digest(actual) == record['normalized_sha256']
-    assert {p.name for p in work.iterdir()} == {Path(r['path']).name for r in phase['inputs']} | {filename}, 'unexpected artifacts'
-    return dict(name=filename, bytes=len(raw), normalized_sha256=digest(actual), ignored_timestamp=[4, 4])
+    names=[r.get('output_name',Path(r['path']).name) for r in phase['outputs']]
+    assert len(names)==len(set(names)), 'Duplicate output name'
+    result=[]
+    for record,name in zip(phase['outputs'],names):
+        expected=captured(fixture/record['path'],record)
+        result.append(compare((work/name).read_bytes(),expected,record))
+    assert {p.name for p in work.iterdir()} == {Path(r['path']).name for r in phase['inputs']} | set(names), 'unexpected artifacts'
+    return result[0] if len(result)==1 else dict(artifacts=result)
 
 
 def reject_process(request):
@@ -66,6 +63,7 @@ def run(profile, executable, directory, cache, tracing=True, expected_override=N
     assert phase['sha256'] == config['target']['sha256']
     assert phase['arguments'] == [] and set(phase['environment']) == {'MSC_CMD_FLAGS'}
     case = cache['cases'][profile]
+    assert not case.get('pending_runtime'), 'PENDING CRT seam; no matching application frontier yet: '+profile
     directory.mkdir()
     work, drive_environment = native_work(directory, phase['canonical_working_directory'])
     for source in phase['inputs']:

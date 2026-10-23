@@ -1,5 +1,5 @@
 {
-  "checkpoint": 1146,
+  "checkpoint": 1149,
   "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
   "metric": "Index inventory, not recovered function/branch coverage. Group unions may overlap and are not additive. Provisional entries do not measure bodies.",
   "application": {
@@ -9,25 +9,25 @@
     "unaccepted_rows": 184,
     "unaccepted_provisional_rows": 178,
     "unaccepted_indexed_extent_bytes": 704,
-    "unaccepted_proven_indexed_extent_bytes": 448
+    "unaccepted_nonprovisional_indexed_extent_bytes": 448
   },
   "crt": {
     "indexed_rows": 194,
-    "accepted_rows": 63,
-    "accepted_union_bytes": 9540,
-    "unaccepted_rows": 131,
+    "accepted_rows": 65,
+    "accepted_union_bytes": 9698,
+    "unaccepted_rows": 129,
     "unaccepted_provisional_rows": 0,
-    "unaccepted_indexed_extent_bytes": 14906,
-    "unaccepted_proven_indexed_extent_bytes": 14906
+    "unaccepted_indexed_extent_bytes": 14748,
+    "unaccepted_nonprovisional_indexed_extent_bytes": 14748
   },
   "import_thunks": {
     "indexed_rows": 28,
-    "accepted_rows": 16,
-    "accepted_union_bytes": 96,
-    "unaccepted_rows": 12,
+    "accepted_rows": 17,
+    "accepted_union_bytes": 102,
+    "unaccepted_rows": 11,
     "unaccepted_provisional_rows": 0,
-    "unaccepted_indexed_extent_bytes": 72,
-    "unaccepted_proven_indexed_extent_bytes": 72
+    "unaccepted_indexed_extent_bytes": 66,
+    "unaccepted_nonprovisional_indexed_extent_bytes": 66
   },
   "original_code_bytes": 399693,
   "unclassified_code_union_bytes": 70603,

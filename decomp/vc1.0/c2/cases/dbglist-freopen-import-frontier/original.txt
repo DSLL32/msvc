@@ -1,0 +1,9 @@
+name 6462676c6973742e636f6400
+mode 777400
+stream_is_stdout 1
+return_va 00026b2e
+before_flags 2
+before_count 0
+before_file 1
+before_buffers_null 1
+before_bufsize 0

@@ -1,0 +1,13 @@
+{
+  "shared_fix_commit": "410fea95",
+  "retained_original": "cases/dbglist-freopen-transient/original.txt",
+  "old_native_mismatch": "cases/dbglist-freopen-transient/native.txt",
+  "corrected_native": "cases/dbglist-freopen-transient-corrected/native.txt",
+  "matches": [
+    "close: standard tableNULL, lowioinvalid-1, flags0",
+    "reopen: same stdout FILE, fd1, flags2, zero count/null buffers",
+    "reopen: standard and lowio handle alias restored, disk/text lowio flags129"
+  ],
+  "handle_identity": "Raw HANDLE values differ by host; compare null/invalid states and alias identity, not numeric original/native handles",
+  "no_original_recapture_for_fix": true
+}

@@ -39,7 +39,7 @@ for name,rows in groups.items():
         accepted_union_bytes=size(extents(covered)),unaccepted_rows=len(pending),
         unaccepted_provisional_rows=sum(bool(r.get('provisional'))for r in pending),
         unaccepted_indexed_extent_bytes=size(extents(pending)),
-        unaccepted_proven_indexed_extent_bytes=size(extents([r for r in pending if not r.get('provisional')])))
+        unaccepted_nonprovisional_indexed_extent_bytes=size(extents([r for r in pending if not r.get('provisional')])))
 all_indexed=extents([r for rows in groups.values()for r in rows])
 unknown=[]
 for lo,hi in sections:

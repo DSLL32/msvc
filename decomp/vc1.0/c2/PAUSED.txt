@@ -1,3 +1,9 @@
+C2 ACTIVE: approved debug-asm-listing case,1149 accepted /1067 source graphs.
+Fresh original/native matching frontier initialize_codeview_output69100.
+All14 native cases pass:13 complete objects plus dbglist expected named application trap.
+Three runtime acceptances and transient lowio fix documented in cases/dbglist-plan.json.
+Next reconstruct whole CodeView/listing/assembly functions through this approved case.
+
 C2 active autonomous queue: inline-records COMPLETE1146 accepted /1067 source graphs.
 313424/399693 code-extent union bytes; not branch coverage. All13 complete objects pass.
 Next single substantial case awaits root review; see cases/inlrec-completion.json and remaining-code-inventory.json.

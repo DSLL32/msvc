@@ -1,5 +1,5 @@
 {
-  "active": null,
+  "active": "debug-asm-listing",
   "queued": [
     {
       "case": "hello-win32",
@@ -405,8 +405,10 @@
       "normalized_sha256": "cf8da121524ed69c6564373078cc43e866ad4d93fc5e74dc679a844eac03256a"
     }
   ],
-  "status": "Inline-records complete; preparing next single substantial proposal for root review.",
-  "next_case_proposals": [
+  "status": "Approved debug/listing source frozen and original-validated; pending SetStdHandle shim transition validation at1148, then actual CodeView app frontier.",
+  "next_case_proposals": [],
+  "current_runtime_frontier": "import:SetStdHandle",
+  "historical_proposals": [
     {
       "case": "G3 rematerialization across deep calls",
       "flags": [

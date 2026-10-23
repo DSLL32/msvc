@@ -1150,7 +1150,10 @@
     "@process_special_machine_region_reference@8",
     "@pair_pentium_fallthrough_jump@8",
     "@register_machine_label@4",
-    "@widen_instruction_encoding@8"
+    "@widen_instruction_encoding@8",
+    "_strpbrk",
+    "_freopen",
+    "import:SetStdHandle"
   ],
   "driver": [
     {
@@ -7666,6 +7669,12 @@
       "accepted_from": 1108,
       "fixture_manifest": "../fixtures/c2-inline-records/manifest.json",
       "fixture_manifest_sha256": "edaa340f7d23a74129445bc6ffe20a3c741d3307f7d1f8a9ac853606f1628138"
+    },
+    "dbglist": {
+      "arguments": "",
+      "accepted_from": 1146,
+      "fixture_manifest": "../fixtures/c2-debug-asm-listing/manifest.json",
+      "fixture_manifest_sha256": "56a441fba67f022c90ffd10cccf1dafbaac0e1d768506960f7a95ef393efcca6"
     }
   },
   "crt_defaults": {

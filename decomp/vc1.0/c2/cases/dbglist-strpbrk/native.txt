@@ -1,0 +1,15 @@
+Breakpoint 1 at 0x3d78: file src/options.c, line 15.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, parse_options () at src/options.c:15
+15	    char *previous = debug_filename;
+Breakpoint 2 at gnu-indirect-function resolver at 0xf7e16bd0
+
+Breakpoint 2, 0xf7f07e80 in ?? () from /lib/i386-linux-gnu/libc.so.6
+0xffffde72:	"acs"
+0x565e5041:	"cC"
+0x56558eb1 in parse_options () at src/options.c:29
+29	        if (strpbrk(assembly_options, "cC")) assembly_code = 1;
+C2_RESULT_NONNULL=1 OFFSET=1
+gdb: warning: Couldn't determine a path for the index cache directory.

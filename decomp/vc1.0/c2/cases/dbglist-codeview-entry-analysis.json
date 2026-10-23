@@ -1,0 +1,37 @@
+{
+  "status": "Analysis only; no implementation or acceptance",
+  "entry": "0x69100",
+  "extent": [
+    "0x69100",
+    "0x69114"
+  ],
+  "bytes": 20,
+  "abi": "cdecl(void), original tail jump to second helper; no local RET",
+  "state_write": {
+    "address": "0x84fd8",
+    "value": 1,
+    "meaning": "CodeView initialization complete/started flag; reused by module finish"
+  },
+  "callees": [
+    {
+      "address": "0x69cd0",
+      "extent": [
+        "0x69cd0",
+        "0x69d03"
+      ],
+      "bytes": 51,
+      "role": "Write four-byte signature1 through existing select-segment/data callbacks and advance debug segment offset"
+    },
+    {
+      "address": "0x69c60",
+      "extent": [
+        "0x69c60",
+        "0x69cc9"
+      ],
+      "bytes": 105,
+      "role": "Emit CodeView kind9 object-name record using name global80600 and signature83278; counted-string helper69520 remains unrecovered"
+    }
+  ],
+  "limit": "Fresh normal masked original and native GDB both reach this application entry at1149. Whole-function implementation and acceptance pending; helper extents remain analysis only.",
+  "fifth_channel": "db is opened later by finish_debug_module691bd; wrapper itself first emits signature/name records."
+}
