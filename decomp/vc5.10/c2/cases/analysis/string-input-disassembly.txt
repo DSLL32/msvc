@@ -1,0 +1,50 @@
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00420e74 <.text+0x1fe74>:
+  420e74:	53                   	push   ebx
+  420e75:	56                   	push   esi
+  420e76:	8b f1                	mov    esi,ecx
+  420e78:	57                   	push   edi
+  420e79:	8b 3d 0c d1 48 00    	mov    edi,DWORD PTR ds:0x48d10c
+  420e7f:	8b 0d 80 0b 49 00    	mov    ecx,DWORD PTR ds:0x490b80
+  420e85:	8d 1c 32             	lea    ebx,[edx+esi*1]
+  420e88:	8b 41 04             	mov    eax,DWORD PTR [ecx+0x4]
+  420e8b:	48                   	dec    eax
+  420e8c:	89 41 04             	mov    DWORD PTR [ecx+0x4],eax
+  420e8f:	78 1c                	js     0x420ead
+  420e91:	8b 11                	mov    edx,DWORD PTR [ecx]
+  420e93:	33 c0                	xor    eax,eax
+  420e95:	8a 02                	mov    al,BYTE PTR [edx]
+  420e97:	42                   	inc    edx
+  420e98:	89 11                	mov    DWORD PTR [ecx],edx
+  420e9a:	88 06                	mov    BYTE PTR [esi],al
+  420e9c:	46                   	inc    esi
+  420e9d:	84 c0                	test   al,al
+  420e9f:	75 e7                	jne    0x420e88
+  420ea1:	3b f3                	cmp    esi,ebx
+  420ea3:	0f 87 43 96 04 00    	ja     0x46a4ec
+  420ea9:	5f                   	pop    edi
+  420eaa:	5e                   	pop    esi
+  420eab:	5b                   	pop    ebx
+  420eac:	c3                   	ret
+  420ead:	51                   	push   ecx
+  420eae:	ff d7                	call   edi
+  420eb0:	8b 0d 80 0b 49 00    	mov    ecx,DWORD PTR ds:0x490b80
+  420eb6:	83 c4 04             	add    esp,0x4
+  420eb9:	eb df                	jmp    0x420e9a
+
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0046a4ec <.text+0x694ec>:
+  46a4ec:	ba 26 01 00 00       	mov    edx,0x126
+  46a4f1:	b9 84 e1 49 00       	mov    ecx,0x49e184
+  46a4f6:	e8 41 c6 01 00       	call   0x486b3c
+  46a4fb:	e9 a9 69 fb ff       	jmp    0x420ea9

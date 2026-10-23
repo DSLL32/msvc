@@ -122,7 +122,6 @@ unsigned __fastcall resolve_diagnostic_location(unsigned location, char **file)
 long input_compact_signed(void) { __asm { int 3 } return 0; }
 short input_compact_short(void) { __asm { int 3 } return 0; }
 unsigned input_extended_flags(void) { __asm { int 3 } return 0; }
-void __fastcall input_string(char *buffer, unsigned capacity) { __asm { int 3 } }
 void __fastcall copy_symbol_type(C2Symbol *symbol) { __asm { int 3 } }
 char *__fastcall intern_symbol_name(C2Symbol *symbol, char *name, int pool) { __asm { int 3 } return NULL; }
 char *__fastcall arena_strdup(char *name, int pool) { __asm { int 3 } return NULL; }

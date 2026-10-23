@@ -123,6 +123,34 @@ def main():
                       ('machine call-clobber register mask differs',lambda r:changed_machine_value(r,'0x495f34',7)),
                       ('machine stack alignment differs',lambda r:changed_machine_value(r,'0x49745c',4)),
                       ('earlier intrinsic observation cannot replace final frontier observation',missing_final_intrinsic_observation)]
+    if 'symbol_intern_input'in current_state:
+        def changed_intern_input(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['symbol_intern_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+            path=root/'n/gdb.stdout';raw=path.read_text();raw=re.sub(r'^C2-SYMBOL-INTERN-INPUT .*$',lambda m:'C2-SYMBOL-INTERN-INPUT '+json.dumps(state['symbol_intern_input'],sort_keys=True),raw,flags=re.M);path.write_text(raw)
+            path=root/'n/receipt.json';receipt=json_at(path);receipt['gdb_outputs']['gdb.stdout']=sha((root/'n/gdb.stdout').read_bytes());write_json(path,receipt)
+        def changed_intern_raw(root,name,index):
+            path=root/'o'/name;data=bytearray(path.read_bytes());data[index]^=1;path.write_bytes(data)
+        def changed_intern_pool(root):
+            path=root/'o/events.txt';path.write_text(path.read_text().replace('symbol-intern-input symbol=00497308 name=00496a00 pool=0','symbol-intern-input symbol=00497308 name=00496a00 pool=1'));raw_changed(root,'o','events.txt')
+        def missing_intern_observation(root):
+            path=root/'n/gdb.stdout';path.write_text(re.sub(r'^C2-SYMBOL-INTERN-INPUT .*\n','',path.read_text(),flags=re.M))
+            path=root/'n/receipt.json';receipt=json_at(path);receipt['gdb_outputs']['gdb.stdout']=sha((root/'n/gdb.stdout').read_bytes());write_json(path,receipt)
+        formals=current_state['symbol_intern_input']['formals']
+        mutations += [('name registration omits actual stack pool formal',lambda r:changed_intern_input(r,'formals',formals[:2])),
+                      ('name registration loses actual symbol alias',lambda r:changed_intern_input(r,'symbol_alias',False)),
+                      ('name registration loses actual scratch alias',lambda r:changed_intern_input(r,'name_alias',False)),
+                      ('name registration actual pool differs',lambda r:changed_intern_input(r,'pool',1)),
+                      ('name registration caller kind differs',lambda r:changed_intern_input(r,'kind',17)),
+                      ('name registration caller retention differs',lambda r:changed_intern_input(r,'retain_locals',1)),
+                      ('name registration transient record differs',lambda r:changed_intern_input(r,'template_bytes','00'*64)),
+                      ('name registration returned filename differs',lambda r:changed_intern_input(r,'name_bytes','00'*2058)),
+                      ('name registration native untouched scratch tail differs',lambda r:changed_intern_input(r,'name_bytes',current_state['symbol_intern_input']['name_bytes'][:-2]+'01')),
+                      ('name registration raw returned filename differs',lambda r:changed_intern_raw(r,'symbol-name.bin',0)),
+                      ('name registration raw terminator differs',lambda r:changed_intern_raw(r,'symbol-name.bin',22)),
+                      ('name registration raw untouched scratch tail differs',lambda r:changed_intern_raw(r,'symbol-name.bin',2057)),
+                      ('name registration raw untouched record tail differs',lambda r:changed_intern_raw(r,'symbol-template.bin',63)),
+                      ('name registration original actual stack pool differs',changed_intern_pool),
+                      ('name registration missing actual GDB observation',missing_intern_observation)]
     if 'symbol_name_input'in current_state:
         def changed_name_input(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['symbol_name_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

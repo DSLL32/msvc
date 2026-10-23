@@ -180,14 +180,6 @@
     "evidence": null
   },
   {
-    "name": "@input_string@8",
-    "start": 4329076,
-    "end": 4329077,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@copy_symbol_type@4",
     "start": 4359092,
     "end": 4359093,

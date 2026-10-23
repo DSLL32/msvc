@@ -66,6 +66,20 @@ unsigned input_varuint(void)
     return value;
 }
 
+void __fastcall input_string(char *buffer, unsigned capacity)
+{
+    char *destination = buffer;
+    char *end = buffer + capacity;
+    int (__cdecl *refill)(FILE *) = _filbuf;
+
+    /* The original checks capacity after reading the terminating NUL. */
+    do {
+        *destination = (char)IL_GETC(refill);
+    } while (*destination++);
+    if (destination > end)
+        c2_report_internal("E:\\utc\\src\\\\Common\\ioin.c", 0x126);
+}
+
 void read_global_symbols(void)
 {
     c2_current_il = c2_globals_input;

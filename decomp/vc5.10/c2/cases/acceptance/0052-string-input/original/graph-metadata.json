@@ -1,0 +1,184 @@
+{
+  "schema": 1,
+  "functions": {
+    "_c2_crt_startup": {
+      "original": {
+        "roots": [
+          4670637,
+          4670658
+        ]
+      },
+      "rebuilt": {
+        "roots": [
+          4199291,
+          4199324
+        ]
+      },
+      "evidence": {
+        "original_scope_table": "0x48d3d0",
+        "rebuilt_scope_table": "0x4050a0",
+        "source": "explicit -1 enclosing scope, filter and handler roots from actual compiled PE scope tables"
+      }
+    },
+    "_c2_main": {
+      "original": {
+        "roots": [
+          4670693,
+          4670736
+        ]
+      },
+      "rebuilt": {
+        "roots": [
+          4199742,
+          4199805
+        ]
+      },
+      "evidence": {
+        "original_scope_table": "0x48d3c0",
+        "rebuilt_scope_table": "0x4050b0",
+        "source": "explicit -1 enclosing scope, filter and handler roots from actual compiled PE scope tables"
+      }
+    },
+    "@c2_match_option@16": {
+      "original": {
+        "text_data": [
+          [
+            4533424,
+            4533444
+          ],
+          [
+            4533456,
+            4533502
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4201324,
+            4201344
+          ],
+          [
+            4201344,
+            4201390
+          ]
+        ]
+      }
+    },
+    "@c2_apply_option@12": {
+      "original": {
+        "text_data": [
+          [
+            4533728,
+            4533760
+          ],
+          [
+            4533760,
+            4533799
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4202175,
+            4202207
+          ],
+          [
+            4202207,
+            4202246
+          ]
+        ]
+      }
+    },
+    "_format_diagnostic_args": {
+      "original": {
+        "text_data": [
+          [
+            4771504,
+            4771532
+          ],
+          [
+            4771532,
+            4771583
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4206498,
+            4206526
+          ],
+          [
+            4206526,
+            4206577
+          ]
+        ]
+      }
+    },
+    "@c2_node_size@4": {
+      "original": {
+        "text_data": [
+          [
+            4248936,
+            4249000
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4207571,
+            4207635
+          ]
+        ]
+      }
+    },
+    "@read_symbols@4": {
+      "original": {
+        "text_data": [
+          [
+            4327020,
+            4327064
+          ],
+          [
+            4327072,
+            4327095
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4209944,
+            4209988
+          ],
+          [
+            4209988,
+            4210011
+          ]
+        ]
+      }
+    },
+    "@read_symbol@4": {
+      "original": {
+        "text_data": [
+          [
+            4328984,
+            4329076
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4213322,
+            4213414
+          ]
+        ]
+      }
+    }
+  },
+  "callback_tables": []
+}
