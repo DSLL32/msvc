@@ -1623,7 +1623,17 @@ WEAK unsigned char *recon_mbschr(const unsigned char *text,unsigned int value)
 
 WEAK int recon_mbsicmp(const unsigned char *left,const unsigned char *right)
 {
-    (void)left;(void)right;recon_unsupported("unreviewed _mbsicmp");return 0;
+    unsigned char a,b;
+    ascii_multibyte_scope();
+    if (!left || !right) recon_unsupported("null _mbsicmp input");
+    for (;;) {
+        a=*left++;b=*right++;
+        if (a>127 || b>127) recon_unsupported("nonASCII _mbsicmp input");
+        if (a>='A' && a<='Z') a+='a'-'A';
+        if (b>='A' && b<='Z') b+='a'-'A';
+        if (a!=b) return a<b?-1:1;
+        if (!a) return 0;
+    }
 }
 WEAK unsigned char *recon_mbsnbcpy(unsigned char *out,const unsigned char *text,size_t bytes)
 {

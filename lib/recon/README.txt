@@ -581,3 +581,7 @@ the canonical16-bit code-unit scan/forward append, returns the original pointer,
 and writes only the appended units/NUL. The full canonical body has no locale
 conversion. Actual8196-byte pre/post buffers across4 sentinel pairs prove the
 encountered append, untouched tails, pointer alias and error preservation.
+
+_mbsicmp supports the proved CP0/SBCS/default-C ASCII path, matching the
+canonical _stricmp normalized sign, case folding, prefix/NUL termination and
+unchanged errors. Unknown codepages/locales/non-ASCII remain unsupported.

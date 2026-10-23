@@ -227,3 +227,8 @@ build/wide-append-probe: tests/wide-append-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -fshort-wchar $< $(SOURCES) -o $@
 wide-append-check: build/wide-append-probe
 	$(PYTHON) tests/check-wide-append.py build/wide-append-probe
+
+build/mb-icmp-probe: tests/mb-icmp-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+mb-icmp-check: build/mb-icmp-probe
+	$(PYTHON) tests/check-mb-icmp.py build/mb-icmp-probe

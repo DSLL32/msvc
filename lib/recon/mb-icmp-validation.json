@@ -1,0 +1,10 @@
+{
+  "scope": "Canonical CP0/SBCS/C-locale ASCII _mbsicmp, normalized sign and error preservation",
+  "reference": "tests/mb-icmp-original.json",
+  "provider_bodies": [
+    "mbsicmp632c..63f8 +dd49..de3d",
+    "CP0 target stricmp8a8e..8ae8; non-C branch denied"
+  ],
+  "native_checks": "GCC/Clang9 canonical comparisons +codepage/locale/nonASCII negatives;typed surface/default checks",
+  "combined_build_checks_seconds": 2.343
+}
