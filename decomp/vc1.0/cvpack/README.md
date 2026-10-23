@@ -13,7 +13,7 @@ work is released toward the fifty-function review. The independent DLL case stop
 at the named `read_subsection` stub. CRT startup has a
 separate exact-library and observed-state proof and is counted separately.
 `audit` checks complete original/compiler CFGs and callees, RET cleanup, SEH
-roots, contextual initial data, library relocations, and 70 rejection checks, including ownership, snapshots, conditional ABI words and
+roots, contextual initial data, library relocations, and 80 rejection checks, including ownership, snapshots, conditional ABI words and
 case-specific guarded CRT variants.
 
 `scripts/capture-original.py --case help --output ~/.ai-tmp/...` is an explicit
@@ -87,3 +87,20 @@ observers compare return counts, errno, file positions and every defined byte
 before the caller consumes it. Typed stack-output identity keeps raw undefined
 precontents separately; short reads preserve each side's own untouched tail.
 `cases/reviews/checkpoint-0030/` records fresh timings.
+
+The normal audit uses the shared Rust CFG auditor with RET cleanup, ownership,
+whole-body extent and explicit instruction-overlap checks. Python retains the
+strict CRT identities, native/source/stub, contextual data and conditional seam
+policies. `make graph-identities` explicitly prepares the archive-relocation
+identity index after input changes; ordinary audits reject a stale cache. The
+index binds both PE files, MAP, LIBC, functions, runtime anchors/index and the
+identifier implementation. `--python-graph` keeps the prior graph audit available
+for parity and diagnosis. `make graph-audit-tool` uses the shared quiet incremental
+Cargo helper; audit execution calls the built binary directly. Fixtures do not
+build Rust or invoke Wine.
+
+The graph migration receipt is in `cases/reviews/graph-audit-migration/`. Paired
+full-audit medians were 1.017 s with Python and 0.326 s with Rust (~3.1x);
+explicit identity preparation took 0.357 s. The native fixture runner took
+0.162 s. The committed thirty-function source was independently built/tested
+in isolation from later reconstruction work.

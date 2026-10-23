@@ -1,0 +1,33 @@
+{
+  "scope": "Current31 accepted plus32 candidate; this comparison runs no concurrent benchmark jobs.",
+  "timings": {
+    "python": [
+      1.0410677250474691,
+      1.0054202312603593,
+      1.0369191206991673,
+      1.016506776213646,
+      0.9816140858456492,
+      0.9750810237601399,
+      1.028801734559238
+    ],
+    "rust": [
+      0.34223452024161816,
+      0.34869377221912146,
+      0.32851834036409855,
+      0.31648639403283596,
+      0.32469670195132494,
+      0.3214312568306923,
+      0.3259617080911994
+    ]
+  },
+  "medians": {
+    "python": 1.016506776213646,
+    "rust": 0.3259617080911994
+  },
+  "input_hashes": {
+    "functions.json": "a03888d153d06ea8131d88b296a7fc4375f5830db99f5bc2e442cc9f03b15e93",
+    "build/CVPACK.EXE": "5e9bc940af1ee932a5eda778d53c175812a93622164d566826b5aaa04cce48fb",
+    "build/cvpack.map": "96e8e5d72588ac08a8739effa416162bcb2e3a9599bdc341ce2c6d3394755024",
+    "build/native/CVPACK.EXE": "f6b901ff5b5b01b2dfbce38bf0f50766bcd9d1601b25057fee18520a32cafc5b"
+  }
+}

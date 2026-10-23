@@ -44,6 +44,8 @@ def main():
     reject('undeclared flag-writing alignment',lambda:audited_graph(aligned,0,8))
     reject('declared alignment on executable path',lambda:audited_graph(Bytes(b'\x90\x90\x05\0\0\0\0\xc3'),0,8,padding=[(2,7)]))
     reject('nonalignment bytes in reviewed padding',lambda:audited_graph(Bytes(b'\xeb\x05\xb8\0\0\0\0\xc3'),0,8,padding=[(2,7)]))
+    reject('overlapping reviewed alignment declarations',lambda:audited_graph(aligned,0,8,padding=[(2,7),(2,7)]))
+    reject('alignment declaration overlaps text data',lambda:audited_graph(aligned,0,8,data=[(2,7)],padding=[(2,7)]))
     positive=graph(Bytes(b'\x74\x01\x90\xc2\x08\x00'),0,6)
     assert positive['returns']=={8} and positive['end']==6
     # A tiny wrapper with identical nonrelocation bytes must fail when its
@@ -90,6 +92,17 @@ def main():
         assert compare_integer(permission,description,{2:0x8002,3:0},dict(mode=0x8002,permission=0xdeadbeef))
         reject('differing active create permissions',lambda:compare_integer(permission,description,{2:0x8102,3:0},dict(mode=0x8102,permission=0x80)))
         reject('mismatched conditional ABI mode',lambda:compare_integer(permission,description,{2:0x8002,3:0},dict(mode=0x8000,permission=0)))
+    from graph_identities import read as read_identities,payload_sha
+    identity_path=BINARY/'build/graph-identities.json'
+    if identity_path.exists():
+        identity=json.loads(identity_path.read_text())
+        with tempfile.TemporaryDirectory(prefix='identity-negatives-',dir=Path.home()/'.ai-tmp/vc1.0-cvpack')as directory:
+            modified=Path(directory)/'identities.json'
+            for field in ('original_sha256','rebuilt_sha256','archive_sha256','functions_sha256','map_sha256','runtime_anchors_sha256','runtime_index_sha256'):
+                changed=copy.deepcopy(identity);changed['provenance'][field]='0'*64;changed['identity_payload_sha256']=payload_sha(changed);modified.write_text(json.dumps(changed))
+                reject('stale identity cache '+field,lambda:read_identities(modified,BINARY/'build/CVPACK.EXE'))
+            changed=copy.deepcopy(identity);changed['rebuilt_runtime']['functions'][0]['name']='wrong_identity';modified.write_text(json.dumps(changed))
+            reject('mutated identity payload',lambda:read_identities(modified,BINARY/'build/CVPACK.EXE'))
     context=json.loads((BINARY/'data.json').read_text())
     conditional=approved(config,original,good)
     if conditional:check_guard_references()
@@ -300,9 +313,15 @@ def main():
             for label,image in mutations.items():
                 modified=Path(directory)/'modified.exe'
                 modified.write_bytes(image)
-                result=subprocess.run(['python3',str(BINARY/'scripts/audit.py'),'--canonical-only','--rebuilt',str(modified)],capture_output=True)
+                from graph_identities import prepare as prepare_identities
+                identity_cache=Path(directory)/'identities.json'
+                prepare_identities(identity_cache,modified)
+                result=subprocess.run(['python3',str(BINARY/'scripts/audit.py'),'--canonical-only','--rebuilt',str(modified),'--identities',str(identity_cache)],capture_output=True)
                 assert result.returncode!=0,'accepted '+label
                 assert b'AssertionError' in result.stderr,result.stderr
+                assert b'identity cache stale'not in result.stderr,'mutation rejected before its graph/data check'
+                if label=='redirected application callee':assert b'graph differs'in result.stderr,result.stderr
+                if label=='changed callee stack cleanup':assert b'ABI RET cleanup differs'in result.stderr,result.stderr
                 print('rejected:',label)
 
 if __name__=='__main__':main()

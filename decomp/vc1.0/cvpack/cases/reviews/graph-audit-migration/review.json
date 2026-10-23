@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "accepted_source_checkpoint": "4de0134b (30 functions)",
+  "current_working_state": "31 accepted;32 find_module candidate pending separate scratch-allocation state proof",
+  "checks": [
+    "Current32 candidate and isolated committed30 source both pass full Rust-backed audit and80 negative controls.",
+    "Exact canonical32-function callee/RET reports equal retained Python reference.",
+    "Isolated30 source builds clean with original compiler and native; native fixtures pass.",
+    "Actual mutated canonical callee/RET/data images use freshly strict-verified separate identity caches; failure must reach intended graph/RET/data checks.",
+    "Python preserves source/stubs/native symbols, strict original/compiler LIBC relocation identities, data initializers and reviewed conditional CRT seams.",
+    "Original typed graph ownership retained in Python and Rust. Explicit padding checks require disjoint exact unreachable ADD EAX0 in the final CFG."
+  ],
+  "tool_sha256": "8fc8bacc8d17daa091bf3b8aaded806dc53de7861a0768c9a85d7b5dc4bc047c",
+  "tool_port_commit": "08b1d606",
+  "retained_scope": "Migration commit contains only build/audit/cache/negative/docs/receipt files; later31/32 reconstruction WIP is excluded.",
+  "timing_note": "Paired alternating full-audit medians: Python1.0165s, Rust-backed0.3260s (~3.1x). Explicit strict-identity preparation0.357s is outside ordinary audits and included separately. Native fixture runner0.162s. Shared host remains active; no simultaneous benchmark jobs in the primary current-sequential sample.",
+  "identity_preparation_seconds": 0.3571849390864372,
+  "native_fixture_runner_seconds": 0.16200329270213842,
+  "fixture_isolation": "make check depends only native build+native check script; neither Wine nor Cargo is invoked. Cargo is used only the explicit quiet graph tool build dependency."
+}

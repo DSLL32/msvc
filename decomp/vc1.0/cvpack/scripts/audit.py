@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Original compiler graph/ABI/extents, contextual data and runtime provenance."""
 import argparse
+import os
 import json
 from pathlib import Path
 import re
@@ -137,6 +138,9 @@ def audited_graph(pe,start,end,roots=(),data=(),switches=None,padding=()):
     decoder=Cs(CS_ARCH_X86,CS_MODE_32)
     covered=set()
     for address,instruction in result['instructions'].items():covered.update(range(address,address+instruction.size))
+    intervals=sorted(tuple(r)for r in padding)
+    assert all(a[1]<=b[0]for a,b in zip(intervals,intervals[1:])), 'overlapping alignment declarations'
+    assert all(not(a<d and c<b)for a,b in intervals for c,d in data),'alignment overlaps text data'
     for a,b in padding:
         # This compiler also uses ADD EAX,0 as a five-byte alignment filler.
         # It writes flags, so allow only an exact explicitly reviewed gap that
@@ -164,6 +168,8 @@ def audited_graph(pe,start,end,roots=(),data=(),switches=None,padding=()):
         cursor+=ins.size
     if compiler_roots:
         result=graph(pe,start,end,data=data,roots=[*roots,*compiler_roots],switches=switches)
+    final_covered={byte for address,instruction in result['instructions'].items()for byte in range(address,address+instruction.size)}
+    assert not any(byte in final_covered for a,b in padding for byte in range(a,b)), 'declared alignment is executable in final CFG'
     return result
 
 def compiler_switches(pe,start,end,expected_counts):
@@ -206,6 +212,8 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--canonical-only',action='store_true')
     parser.add_argument('--rebuilt',type=Path,default=BINARY/'build/CVPACK.EXE')
+    parser.add_argument('--python-graph',action='store_true',help='Explicit retained graph reference for parity/debugging')
+    parser.add_argument('--identities',type=Path,default=BINARY/'build/graph-identities.json')
     args=parser.parse_args()
     config,original=load()
     linked=publics()
@@ -216,13 +224,17 @@ def main():
     validate_reads(config,original)
     assert len({r['name'] for r in functions})==len(functions)
     assert len({r['original'] for r in functions})==len(functions)
-    runtime=identify(ROOT/config['target']['path'],{'_main':config['target']['application_main']})
+    if args.python_graph:
+        runtime=identify(ROOT/config['target']['path'],{'_main':config['target']['application_main']})
+        rebuilt_runtime=identify(args.rebuilt,{'_main':linked['_main']})
+    else:
+        from graph_identities import read as read_identities
+        runtime,rebuilt_runtime=read_identities(args.identities,args.rebuilt)
     cached=json.loads((BINARY/'runtime.json').read_text())
     assert runtime==cached,'strict runtime identities changed'
     validate_ownership(config,original,runtime,json.loads((BINARY/'data.json').read_text()))
     from seams import approved
     approved(config,original,runtime)
-    rebuilt_runtime=identify(args.rebuilt,{'_main':linked['_main']})
     oi=identity_table(runtime,functions)
     ri=identity_table(rebuilt_runtime,functions,linked)
     if not args.canonical_only:
@@ -233,6 +245,17 @@ def main():
             if len(parts)>=2 and parts[1] in ('T','t'):source_symbols.append(parts[0])
         assert len(source_symbols)==len(set(source_symbols))
         assert set(source_symbols)=={r['native'] for r in functions},source_symbols
+    if not args.python_graph:
+        binary=Path(os.environ.get('GRAPH_AUDIT_BIN',str(ROOT/'tooling/graph-audit/target/release/graph-audit')))
+        assert binary.is_file(),'graph auditor missing; explicitly build make graph-audit-tool'
+        command=[str(binary),'--repo',str(ROOT),'--project',str(BINARY),'--profile','cvpack',
+            '--discovery','cfg','--check-ret','--check-ownership','--check-extents',
+            '--check-instruction-overlap','--rebuilt',str(args.rebuilt),'--rebuilt-runtime',str(args.identities)]
+        result=subprocess.run(command,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        assert result.returncode==0,result.stderr.decode('utf8','replace')
+        report=json.loads(result.stdout)
+        expected={r['name']for r in functions if r['status']!='stub'}
+        assert set(report['functions'])==expected and report['checked_functions']==len(expected),'incomplete Rust graph report'
     text_end=max(rebuilt.base+s['rva']+s['virtual_size'] for s in rebuilt.sections if s['flags']&0x20)
     addresses=sorted(set(linked.values())|{text_end})
     checked=0
@@ -252,21 +275,22 @@ def main():
             assert record['evidence'] and (BINARY/record['evidence']).is_file()
         assert record['extent'][0]==record['original']
         start,end=record['extent']
-        switches={int(a):targets for a,targets in record.get('switches',{}).items()}
-        for table in record.get('switch_tables',[]):
-            actual=[u32(original.read(table['start']+i*4,4),0) for i in range(len(table['targets']))]
-            assert actual==table['targets'],'switch targets differ'
-        a=audited_graph(original,start,end,record.get('roots',()),record.get('text_data',()),switches,record.get('alignment_padding',()))
-        rebuilt_start=linked[record['symbol']]
-        rebuilt_end=next(address for address in addresses if address>rebuilt_start)
-        roots=seh_roots(rebuilt,rebuilt_start,rebuilt_end,record.get('compiler_seh_scaffolding',False))
-        roots+= [rebuilt_start+offset for offset in record.get('rebuilt_extra_roots',[])]
-        rebuilt_switches,rebuilt_data=compiler_switches(rebuilt,rebuilt_start,rebuilt_end,record.get('compiler_switch_counts',[]))
-        b=audited_graph(rebuilt,rebuilt_start,rebuilt_end,roots,rebuilt_data,rebuilt_switches)
-        left,right=names(a['edges'],oi),names(b['edges'],ri)
-        assert left==right,(record['name'],'original only',left-right,'rebuilt only',right-left)
-        assert a['returns']==b['returns']=={record['stack_cleanup']},('ABI RET cleanup differs',record['name'],a['returns'],b['returns'])
-        assert record['abi'],record['name']
+        if args.python_graph:
+            switches={int(a):targets for a,targets in record.get('switches',{}).items()}
+            for table in record.get('switch_tables',[]):
+                actual=[u32(original.read(table['start']+i*4,4),0) for i in range(len(table['targets']))]
+                assert actual==table['targets'],'switch targets differ'
+            a=audited_graph(original,start,end,record.get('roots',()),record.get('text_data',()),switches,record.get('alignment_padding',()))
+            rebuilt_start=linked[record['symbol']]
+            rebuilt_end=next(address for address in addresses if address>rebuilt_start)
+            roots=seh_roots(rebuilt,rebuilt_start,rebuilt_end,record.get('compiler_seh_scaffolding',False))
+            roots+= [rebuilt_start+offset for offset in record.get('rebuilt_extra_roots',[])]
+            rebuilt_switches,rebuilt_data=compiler_switches(rebuilt,rebuilt_start,rebuilt_end,record.get('compiler_switch_counts',[]))
+            b=audited_graph(rebuilt,rebuilt_start,rebuilt_end,roots,rebuilt_data,rebuilt_switches)
+            left,right=names(a['edges'],oi),names(b['edges'],ri)
+            assert left==right,(record['name'],'original only',left-right,'rebuilt only',right-left)
+            assert a['returns']==b['returns']=={record['stack_cleanup']},('ABI RET cleanup differs',record['name'],a['returns'],b['returns'])
+            assert record['abi'],record['name']
         checked+=1
     for record in json.loads((BINARY/'data.json').read_text()):
         if record.get('kind')=='string-pointer-array':
