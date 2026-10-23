@@ -678,3 +678,112 @@ const Extended *__fastcall floating_value_for_symbol(SymbolHeader *symbol)
         if (entry->symbol == symbol) return entry->value;
     return 0;
 }
+
+/* Original [00019d80,0001a185). Select floating branch values, adjacent
+   integer constants using carry/SETcc, or a general constant/address pair.
+   Comparisons use the same signed/unsigned false-condition maps as branches;
+   exchanged/negated forms remain distinct original calls. */
+unsigned short __fastcall select_conditional_value(Node *node)
+{
+    Node *condition = node->left.node;
+    Node *positive = node->second.node->left.node;
+    Node *negative = node->second.node->second.node;
+    unsigned short saved_type = node->attributes.words.type, reg, condition_type;
+    unsigned opcode, code, difference;
+    long positive_value, negative_value, minimum, maximum;
+    const OpcodeMap *map;
+    MachineOperand *destination, *right, *alternative, *join, *label;
+    if (saved_type & 0x1000) {
+        select_condition(condition);
+        join = new_operand(OPERAND_SYMBOL, 0, 0, (SymbolHeader *)new_internal_label());
+        alternative = new_operand(OPERAND_SYMBOL, 0, 0, (SymbolHeader *)new_internal_label());
+        opcode = condition->opcode;
+        condition_type = condition->attributes.words.type;
+        if (condition_type & 0x1000) opcode = map_comparison_opcode(opcode, 0);
+        map = (condition_type & 0xff00) == 0x100 ? signed_false_conditions : unsigned_false_conditions;
+        code = lookup_opcode(map, opcode);
+        emit_machine_operation(MC_JCC, 0x104, alternative, code);
+        select_constant(positive, 0);
+        emit_float_return();
+        emit_machine_operation(MC_JMP, 0x104, join);
+        emit_label(alternative->value.symbol);
+        select_constant(negative, 0);
+        emit_label(join->value.symbol);
+        return REG_ST0;
+    }
+    if (positive->opcode == 0x33 && negative->opcode == 0x33) {
+        positive_value = (long)positive->left.value;
+        negative_value = (long)negative->left.value;
+        if (positive_value <= negative_value) {
+            minimum = positive_value;
+            maximum = negative_value;
+        } else {
+            minimum = negative_value;
+            maximum = positive_value;
+        }
+        difference = (unsigned)maximum - (unsigned)minimum;
+        if ((condition->attributes.words.type & 0xf00) &&
+            (condition->opcode == 0x1f || condition->opcode == 0x20) &&
+            !comparison_uses_intrinsic_flags(condition) &&
+            (cpu_model > 3 || difference != 1 ||
+             (!conditional_integer_opcode(condition->left.node->opcode) &&
+              (saved_type & 255) > 1 && is_constant_value(condition->second.node, 0)))) {
+            destination = operand_for_register(select_value_register(condition->left.node));
+            if (!is_constant_value(condition->second.node, 0)) {
+                right = operand_for_register(select_value_register(condition->second.node));
+                emit_machine_operation(MC_SUB, condition->attributes.words.type, destination, right);
+            }
+            emit_machine_operation(MC_CMP, condition->attributes.words.type, destination, immediate_operand(1));
+            return select_conditional_carry_value(node, negative, positive);
+        }
+        if (difference == 1) {
+            select_condition(condition);
+            opcode = condition->opcode;
+            if (positive_value < negative_value) opcode = map_comparison_opcode(opcode, 1);
+            condition_type = condition->attributes.words.type;
+            if (condition_type & 0x1000) opcode = map_comparison_opcode(opcode, 0);
+            opcode = map_comparison_opcode(opcode, 1);
+            map = (condition_type & 0xff00) == 0x100 ? signed_false_conditions : unsigned_false_conditions;
+            code = lookup_opcode(map, opcode);
+            destination = operand_for_register(new_value_register(node->attributes.words.type));
+            if ((node->attributes.words.type & 255) > 1)
+                emit_machine_operation(MC_MOV, node->attributes.words.type, destination, immediate_operand(0));
+            emit_machine_operation(MC_SCC, 0x101, destination, code);
+            if (minimum)
+                emit_machine_operation(MC_ADD, node->attributes.words.type, destination, immediate_operand((unsigned)minimum));
+            return destination->value.reg.words.number;
+        }
+    }
+    reg = new_value_register(saved_type);
+    destination = operand_for_register(reg);
+    if (positive->opcode == 0x33) select_constant(positive, reg);
+    else emit_machine_operation(MC_LEA, 0x104, destination, symbol_operand(positive, 0));
+    select_condition(condition);
+    label = new_operand(OPERAND_SYMBOL, 0, 0, (SymbolHeader *)new_internal_label());
+    opcode = condition->opcode;
+    condition_type = condition->attributes.words.type;
+    if (condition_type & 0x1000) opcode = map_comparison_opcode(opcode, 0);
+    opcode = map_comparison_opcode(opcode, 1);
+    map = (condition_type & 0xff00) == 0x100 ? signed_false_conditions : unsigned_false_conditions;
+    code = lookup_opcode(map, opcode);
+    emit_machine_operation(MC_JCC, 0x104, label, code);
+    emit_register_barrier(destination, node->attributes.words.type);
+    if (negative->opcode == 0x33) select_constant(negative, reg);
+    else emit_machine_operation(MC_LEA, 0x104, destination, symbol_operand(negative, 0));
+    emit_register_barrier(destination, node->attributes.words.type);
+    emit_label(label->value.symbol);
+    return destination->value.reg.words.number;
+}
+
+/* Original [0001a4c0,0001a53c), including24 dispatch words1a4dc..1a53c.
+   Classify the integer tree forms consulted before choosing the i386 carry
+   implementation of adjacent conditional constants. */
+int __fastcall conditional_integer_opcode(unsigned opcode)
+{
+    switch (opcode) {
+    case 2: case 3: case 11: case 12: case 13:
+    case 15: case 16: case 23: case 24: case 25:
+        return 1;
+    }
+    return 0;
+}

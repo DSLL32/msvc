@@ -158,7 +158,6 @@ void __fastcall append_embedded_record(Node *node) { __asm int 3 }
 
 #include "value-selection.h"
 MachineOperand *__fastcall emit_register_barrier(MachineOperand *operand, unsigned type) { __asm int 3 }
-unsigned short __fastcall select_conditional_value(Node *node) { __asm int 3 }
 #include "bitsets.h"
 
 #include "unoptimized.h"
@@ -372,3 +371,4 @@ int __cdecl multiplication_overflows(unsigned left, unsigned right, int is_unsig
 
 
 int __fastcall generic_instruction_size_cost(MachineInstruction *instruction) { __asm int 3 }
+unsigned short __fastcall select_conditional_carry_value(Node *node, Node *negative, Node *positive) { __asm int 3 }

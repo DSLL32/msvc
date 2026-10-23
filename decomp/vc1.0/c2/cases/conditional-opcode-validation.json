@@ -1,0 +1,32 @@
+{
+  "method": "Native-O0 predicate over all256 byte opcode IDs plus UINT_MAX compared to original guard/table/return blocks",
+  "source_sha256": "e3098351009f6d990ff1697517b4068f548ea92e935866e6abc01a628e0ce1b5",
+  "original_extent": [
+    "0x1a4c0",
+    "0x1a53c"
+  ],
+  "table_extent": [
+    "0x1a4dc",
+    "0x1a53c"
+  ],
+  "entries": 24,
+  "true_ids": [
+    2,
+    3,
+    11,
+    12,
+    13,
+    15,
+    16,
+    23,
+    24,
+    25
+  ],
+  "mismatches": 0,
+  "executes_wine": false,
+  "timing": {
+    "compile_seconds": 0.16000534873455763,
+    "execution_seconds": 0.0012383032590150833,
+    "total_seconds": 0.1645894329994917
+  }
+}

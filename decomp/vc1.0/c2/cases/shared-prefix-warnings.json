@@ -1,10 +1,10 @@
 {
   "modules": [
     {
-      "module": "intrinsic-selection",
-      "seconds": 2.05305022187531,
+      "module": "value-selection",
+      "seconds": 2.352178451605141,
       "returncode": 0
     }
   ],
-  "seconds": 2.0532466853037477
+  "seconds": 2.352388626895845
 }

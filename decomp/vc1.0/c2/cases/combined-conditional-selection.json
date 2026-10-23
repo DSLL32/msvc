@@ -1,0 +1,202 @@
+{
+  "checkpoint": 1097,
+  "base_commit": "e142428e",
+  "source_graphs": 1018,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1097,
+    "accepted_code_bytes": 303258,
+    "original_code_bytes": 399693,
+    "percentage": 75.87273232205717,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 502
+  },
+  "accepted_functions": [
+    {
+      "name": "@select_conditional_value@4",
+      "start": 105856,
+      "end": 106885
+    },
+    {
+      "name": "@conditional_integer_opcode@4",
+      "start": 107712,
+      "end": 107836
+    }
+  ],
+  "frontier": "@select_intrinsic_a5@4",
+  "limits": [
+    "Whole1029-byte conditional-value selector preserves floating branch labels, carry choice eligibility, signed minimum/range arithmetic, SETcc width clearing, and general constant/address selection",
+    "New conditional carry synthesizer and existing register-barrier callee remain named unaccepted traps; no claims their bodies executed",
+    "Whole124-byte classification including96-byte24-way table represented by C switch;257 native-O0 predicate outcomes independently match original guard/table/return blocks",
+    "First data proof incorrectly expected two instructions in an eight-byte guard window that also includes JA; corrected to validate SUB/CMP and unsigned JA explicitly, no reconstruction change",
+    "Ten native cases pass; nine complete object oracles and combined strcmp selector named trap; no final combined object claim"
+  ],
+  "data": "cases/conditional-opcode-validation.json",
+  "timing": {
+    "frontier1097-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 1.6830494347959757,
+      "returncode": 0,
+      "log_sha256": "3fe692b841691fe64955cc5d7dea1a2de1199936421fb054db654d234efbaa7a"
+    },
+    "frontier1097-data-timing": {
+      "command": [
+        "python3",
+        "scripts/check-conditional-opcodes.py"
+      ],
+      "seconds": 0.10621270630508661,
+      "returncode": 1,
+      "log_sha256": "02fdd8324309ffe89e84847f31ebd9af302609fa8c5848e8a920765159e419c1"
+    },
+    "frontier1097-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.2841613879427314,
+      "returncode": 0,
+      "log_sha256": "da754e38c730f5e77741a23d9cff2e2fc07ad59feb05f6e53274dce90070cc69"
+    },
+    "frontier1096-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.2180822510272264,
+      "returncode": 0,
+      "log_sha256": "6af6df1b29db67a51cb8dab42dc604da86142140f116d0bf6215b0b386c0ad18"
+    },
+    "frontier1096-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 36.70391764584929,
+      "returncode": 0,
+      "log_sha256": "e2aea56b5d8f360db5440fdb1b12dde0f1e091756306ccddaa96617ebd979975"
+    },
+    "frontier1097-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1097.json"
+      ],
+      "seconds": 2.360371207818389,
+      "returncode": 0,
+      "log_sha256": "847aada1ea53fe066d08262b86ca97ae9e5d669a1ee3cee36f7d9e55ba3f300c"
+    },
+    "frontier1097-data-corrected-timing": {
+      "command": [
+        "python3",
+        "scripts/check-conditional-opcodes.py"
+      ],
+      "seconds": 0.25928527768701315,
+      "returncode": 0,
+      "log_sha256": "dec60eb4de1dfe59852de0cfc098361e3e16e0793679eea990a29749ad6c1dfb"
+    },
+    "frontier1097-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1097.json"
+      ],
+      "seconds": 0.23440997023135424,
+      "returncode": 0,
+      "log_sha256": "3ecc69ff81928509d2d1f105b399abdc99711f5e9f635417f08c4eb5c0310bc8"
+    },
+    "frontier1096-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "value-selection"
+      ],
+      "seconds": 2.2437948202714324,
+      "returncode": 0,
+      "log_sha256": "468eacb205418504a7a5bac431cd700dcb13dd2ef838305713fcca93aaf3ad72"
+    },
+    "frontier1096-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5088714780285954,
+      "returncode": 0,
+      "log_sha256": "9b49e71d481124c00b223a94fd94d00b2444b5537909e9a5acdb598ac76e5346"
+    },
+    "frontier1096-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "combined",
+        "--receipt",
+        "cases/combined-original-1096.json"
+      ],
+      "seconds": 1.7174671664834023,
+      "returncode": 0,
+      "log_sha256": "3ec3491c159dfe11e394b9509e2fcf1bd30506cb74851839a118feccb38a54e7"
+    },
+    "frontier1097-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 5.131712332367897,
+      "returncode": 0,
+      "log_sha256": "311278acf7236cefb605bd0d9d4943b90ba113e7ea81644f601515439aa39148"
+    },
+    "frontier1097-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "value-selection"
+      ],
+      "seconds": 2.40428648237139,
+      "returncode": 0,
+      "log_sha256": "d64214cd5f39b36663ed1323fd7bbfa420d4273572286c0e9287a4402d837cfd"
+    },
+    "frontier1096-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "combined",
+        "--reference",
+        "cases/combined-original-1096.json"
+      ],
+      "seconds": 0.2305779503658414,
+      "returncode": 0,
+      "log_sha256": "e8a5f9df0f123e7e6a3a3b631c6ec527182c8e892b1582c89340a0abb4462fa2"
+    }
+  },
+  "analysis_seconds": null
+}

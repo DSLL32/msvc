@@ -48,6 +48,7 @@ audit-data: build/c2.exe native
 	$(PYTHON) scripts/check-integer-radix-contract.py
 	$(PYTHON) scripts/check-intrinsic-descriptors.py
 	$(PYTHON) scripts/check-runtime-intrinsic-data.py
+	$(PYTHON) scripts/check-conditional-opcodes.py
 
 
 hello-frontier hello-check hello-replay: native-trace

@@ -20,6 +20,8 @@ void __fastcall arrange_x87_left(Node *node);
 MachineOperand *__fastcall emit_register_barrier(MachineOperand *operand, unsigned type);
 void __fastcall select_constant(Node *node, unsigned short reg);
 unsigned short __fastcall select_conditional_value(Node *node);
+int __fastcall conditional_integer_opcode(unsigned opcode);
+unsigned short __fastcall select_conditional_carry_value(Node *node, Node *negative, Node *positive);
 void mark_x87_call_result(void);
 MachineOperand *__fastcall frame_temporary_operand(SymbolHeader *temporary, unsigned offset);
 MachineOperand *__fastcall immediate_operand(unsigned value);
