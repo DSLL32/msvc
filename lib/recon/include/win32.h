@@ -15,6 +15,7 @@
 #define TRUE 1
 #define FALSE 0
 #define MAX_PATH 260
+#define CONTAINING_RECORD(address,type,field) ((type *)((char *)(address)-offsetof(type,field)))
 #define HEAP_NO_SERIALIZE 1
 #define HEAP_ZERO_MEMORY 8
 #define CONST const
