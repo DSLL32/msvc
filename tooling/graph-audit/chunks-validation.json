@@ -1,0 +1,542 @@
+{
+  "timestamp": "2026-10-23T11:07:15.211046+00:00",
+  "scope": "Read-only all8 pinned coherent pre-adoption VC1 corpus; exact full JSON equality against separately rebuilt08b1d606 baseline. Includes current8 profile policies, not a claim that active workers latest mutable frontier was snapshotted. No Wine/native fixtures invoked; compiler/target not invoked.",
+  "baseline_commit": "08b1d606",
+  "baseline_binary_sha256": "8fc8bacc8d17daa091bf3b8aaded806dc53de7861a0768c9a85d7b5dc4bc047c",
+  "binary_sha256": "8b437895525bf8e2832654b340a9144bc787b2bba26c40e81273d586f094b624",
+  "profiles": [
+    {
+      "profile": "cl",
+      "mode": "cfg",
+      "exact_report_equal": true,
+      "checked_functions": 110,
+      "single_sample_seconds": {
+        "before": 0.043332235887646675,
+        "after": 0.04230428021401167
+      }
+    },
+    {
+      "profile": "cl",
+      "mode": "legacy",
+      "exact_report_equal": true,
+      "checked_functions": 110,
+      "single_sample_seconds": {
+        "before": 0.028560835868120193,
+        "after": 0.026803039014339447
+      }
+    },
+    {
+      "profile": "c1",
+      "mode": "cfg",
+      "exact_report_equal": true,
+      "checked_functions": 710,
+      "single_sample_seconds": {
+        "before": 0.3295705569908023,
+        "after": 0.3296836633235216
+      }
+    },
+    {
+      "profile": "c1",
+      "mode": "legacy",
+      "exact_report_equal": true,
+      "checked_functions": 710,
+      "single_sample_seconds": {
+        "before": 0.3567931232973933,
+        "after": 0.37164406292140484
+      }
+    },
+    {
+      "profile": "c1xx",
+      "mode": "cfg",
+      "exact_report_equal": true,
+      "checked_functions": 769,
+      "single_sample_seconds": {
+        "before": 0.3824322512373328,
+        "after": 0.37506191805005074
+      }
+    },
+    {
+      "profile": "c1xx",
+      "mode": "legacy",
+      "exact_report_equal": true,
+      "checked_functions": 769,
+      "single_sample_seconds": {
+        "before": 0.4091054927557707,
+        "after": 0.4626604104414582
+      }
+    },
+    {
+      "profile": "c2",
+      "mode": "cfg",
+      "exact_report_equal": true,
+      "checked_functions": 995,
+      "single_sample_seconds": {
+        "before": 0.4846770381554961,
+        "after": 0.5024951146915555
+      }
+    },
+    {
+      "profile": "c2",
+      "mode": "legacy",
+      "exact_report_equal": true,
+      "checked_functions": 995,
+      "single_sample_seconds": {
+        "before": 0.42479000613093376,
+        "after": 0.5023455312475562
+      }
+    },
+    {
+      "profile": "link",
+      "mode": "cfg",
+      "exact_report_equal": true,
+      "checked_functions": 617,
+      "single_sample_seconds": {
+        "before": 0.3441843958571553,
+        "after": 0.3140169447287917
+      }
+    },
+    {
+      "profile": "link",
+      "mode": "legacy",
+      "exact_report_equal": true,
+      "checked_functions": 626,
+      "single_sample_seconds": {
+        "before": 0.24400261417031288,
+        "after": 0.2432610783725977
+      }
+    },
+    {
+      "profile": "rc",
+      "mode": "cfg",
+      "exact_report_equal": true,
+      "checked_functions": 193,
+      "single_sample_seconds": {
+        "before": 0.07273987773805857,
+        "after": 0.07375921029597521
+      }
+    },
+    {
+      "profile": "rc",
+      "mode": "legacy",
+      "exact_report_equal": true,
+      "checked_functions": 193,
+      "single_sample_seconds": {
+        "before": 0.05555345583707094,
+        "after": 0.05797560978680849
+      }
+    },
+    {
+      "profile": "rcpp",
+      "mode": "cfg",
+      "exact_report_equal": true,
+      "checked_functions": 161,
+      "single_sample_seconds": {
+        "before": 0.060014975257217884,
+        "after": 0.05913906544446945
+      }
+    },
+    {
+      "profile": "rcpp",
+      "mode": "legacy",
+      "exact_report_equal": true,
+      "checked_functions": 161,
+      "single_sample_seconds": {
+        "before": 0.05610164348036051,
+        "after": 0.0599973164498806
+      }
+    },
+    {
+      "profile": "cvpack",
+      "mode": "cfg",
+      "exact_report_equal": true,
+      "checked_functions": 14,
+      "single_sample_seconds": {
+        "before": 0.03954280447214842,
+        "after": 0.040469895116984844
+      }
+    },
+    {
+      "profile": "cvpack",
+      "mode": "legacy",
+      "exact_report_equal": true,
+      "checked_functions": 14,
+      "single_sample_seconds": {
+        "before": 0.046620297245681286,
+        "after": 0.06317816395312548
+      }
+    }
+  ],
+  "real_cli_fixture": {
+    "scope": "Read-only real C1XX PGO-domain CLI fixture plus metadata mutation controls.\n\nAudits the original PE against itself, with explicit symbol/index metadata. This\nchecks auditor discovery/ownership/ABI policies, not reconstruction acceptance.\nNo PE is modified; no target, compiler, debugger, or Wine process is launched.\n",
+    "binary_sha256": "8b437895525bf8e2832654b340a9144bc787b2bba26c40e81273d586f094b624",
+    "target_sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+    "positive_report": {
+      "checked_accepted_extents": {
+        "original": 2,
+        "rebuilt": 2
+      },
+      "checked_functions": 2,
+      "checked_unique_accepted_extents": {
+        "original": 2,
+        "rebuilt": 2
+      },
+      "checks": [
+        "call_graph",
+        "ret_cleanup",
+        "function_references",
+        "extent_ownership",
+        "whole_extent_boundaries",
+        "accepted_index_extents"
+      ],
+      "discovery": "cfg",
+      "functions": {
+        "__CRT_INIT@12": {
+          "edges": [
+            "import:_initterm",
+            "indirect"
+          ]
+        },
+        "__DllMainCRTStartup@12": {
+          "edges": [
+            "_DllMain@12",
+            "__CRT_INIT@12",
+            "indirect"
+          ]
+        }
+      },
+      "original_accepted_graphs": {
+        "__CRT_INIT@12": {
+          "calls": [
+            272860366
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            8,
+            12,
+            128,
+            273461264,
+            273461268
+          ]
+        },
+        "__DllMainCRTStartup@12": {
+          "calls": [
+            272819306,
+            272819498
+          ],
+          "references": [
+            1,
+            2,
+            3,
+            12
+          ]
+        }
+      },
+      "owned_code_chunks": {
+        "original": {
+          "declared_code_bytes": 451,
+          "functions": {
+            "__CRT_INIT@12": [
+              [
+                272819306,
+                272819498
+              ],
+              [
+                273067247,
+                273067282
+              ]
+            ],
+            "__DllMainCRTStartup@12": [
+              [
+                272819142,
+                272819306
+              ],
+              [
+                273067187,
+                273067247
+              ]
+            ]
+          },
+          "interval_count": 4,
+          "logical_function_count": 2,
+          "unique_code_bytes": 451
+        },
+        "rebuilt": {
+          "declared_code_bytes": 451,
+          "functions": {
+            "__CRT_INIT@12": [
+              [
+                272819306,
+                272819498
+              ],
+              [
+                273067247,
+                273067282
+              ]
+            ],
+            "__DllMainCRTStartup@12": [
+              [
+                272819142,
+                272819306
+              ],
+              [
+                273067187,
+                273067247
+              ]
+            ]
+          },
+          "interval_count": 4,
+          "logical_function_count": 2,
+          "unique_code_bytes": 451
+        }
+      },
+      "profile": "cl"
+    },
+    "results": [
+      {
+        "case": "real_C1XX_two_split_functions",
+        "accepted": true,
+        "seconds": 0.015493480488657951,
+        "diagnostic": ""
+      },
+      {
+        "case": "missing_chunk",
+        "accepted": false,
+        "seconds": 0.013066679239273071,
+        "diagnostic": "graph-audit: __DllMainCRTStartup@12 call graph differs: original {\"0x1046acb3\", \"0x1046acbc\", \"0x1046acc6\", \"0x1046accf\", \"0x1046acdc\", \"0x1046ace3\", \"_DllMain@12\", \"__CRT_INIT@12\"}; reconstruction {\"_DllMain@12\", \"__CRT_INIT@12\"}"
+      },
+      {
+        "case": "overlap_primary",
+        "accepted": false,
+        "seconds": 0.012446967884898186,
+        "diagnostic": "graph-audit: original code chunk ownership: __DllMainCRTStartup@12 overlapping code chunks"
+      },
+      {
+        "case": "overlap_foreign",
+        "accepted": false,
+        "seconds": 0.01257387362420559,
+        "diagnostic": "graph-audit: original code chunk ownership: code chunk ownership overlaps __DllMainCRTStartup@12 / __CRT_INIT@12"
+      },
+      {
+        "case": "split_cold_ret",
+        "accepted": false,
+        "seconds": 0.014403282664716244,
+        "diagnostic": "graph-audit: original __DllMainCRTStartup@12: instruction crosses code chunk boundary at 1046acb9"
+      },
+      {
+        "case": "outside_file",
+        "accepted": false,
+        "seconds": 0.012215235270559788,
+        "diagnostic": "graph-audit: original code chunk ownership: __DllMainCRTStartup@12 invalid/non-file-backed code chunk 20400000..20400010"
+      },
+      {
+        "case": "empty_interval",
+        "accepted": false,
+        "seconds": 0.01217319630086422,
+        "diagnostic": "graph-audit: original code chunk ownership: __DllMainCRTStartup@12 invalid/non-file-backed code chunk 1046acb3..1046acb3"
+      },
+      {
+        "case": "malformed_chunks",
+        "accepted": false,
+        "seconds": 0.010202376171946526,
+        "diagnostic": "graph-audit: invalid type: string \"not an interval list\", expected a sequence"
+      },
+      {
+        "case": "malformed_rebuilt_chunks",
+        "accepted": false,
+        "seconds": 0.012123742140829563,
+        "diagnostic": "graph-audit: invalid type: string \"not an interval list\", expected a sequence"
+      },
+      {
+        "case": "legacy_rejects_fragment_metadata",
+        "accepted": false,
+        "seconds": 0.0016820523887872696,
+        "diagnostic": "graph-audit: optional checks/metadata require --discovery cfg; legacy mode already applies exact Python preset checks"
+      }
+    ]
+  },
+  "unit_tests": 22,
+  "clippy": "all-targets -D warnings passed",
+  "worker_actual_candidate": "C1XX worker reports one reconstructed CRTentry candidate passes strict graph/RET/ownership/extents against actual original PE and canonical compiled Win32 DLL: original2intervals224bytes, rebuilt1interval245bytes. Acceptance remains separately root-gated.",
+  "legacy_mutation_parity": {
+    "count": 34,
+    "rejections": 33,
+    "acceptances": 1,
+    "all_python_rust_outcomes_equal": true,
+    "known_legacy_blindspot": "CL split-RET operand accepts in exact legacy parity mode; consolidated discovery rejects (unit/integration controls).",
+    "raw_report_sha256": "69ae0410dcc72e6a76d250c8730cae459ac78a58b34c911144009ba86de3cc56",
+    "cases": [
+      {
+        "profile": "cl",
+        "mutation": "wrong-direct-callee",
+        "accepted": false
+      },
+      {
+        "profile": "cl",
+        "mutation": "missing-direct-edges",
+        "accepted": false
+      },
+      {
+        "profile": "cl",
+        "mutation": "missing-public-mapping",
+        "accepted": false
+      },
+      {
+        "profile": "cl",
+        "mutation": "split-ret-operand",
+        "accepted": true
+      },
+      {
+        "profile": "c1",
+        "mutation": "wrong-direct-callee",
+        "accepted": false
+      },
+      {
+        "profile": "c1",
+        "mutation": "missing-direct-edges",
+        "accepted": false
+      },
+      {
+        "profile": "c1",
+        "mutation": "missing-public-mapping",
+        "accepted": false
+      },
+      {
+        "profile": "c1",
+        "mutation": "split-ret-operand",
+        "accepted": false
+      },
+      {
+        "profile": "c1xx",
+        "mutation": "wrong-direct-callee",
+        "accepted": false
+      },
+      {
+        "profile": "c1xx",
+        "mutation": "missing-direct-edges",
+        "accepted": false
+      },
+      {
+        "profile": "c1xx",
+        "mutation": "missing-public-mapping",
+        "accepted": false
+      },
+      {
+        "profile": "c1xx",
+        "mutation": "split-ret-operand",
+        "accepted": false
+      },
+      {
+        "profile": "c1xx",
+        "mutation": "oversized-crt-literal",
+        "accepted": false
+      },
+      {
+        "profile": "c2",
+        "mutation": "wrong-direct-callee",
+        "accepted": false
+      },
+      {
+        "profile": "c2",
+        "mutation": "missing-direct-edges",
+        "accepted": false
+      },
+      {
+        "profile": "c2",
+        "mutation": "missing-public-mapping",
+        "accepted": false
+      },
+      {
+        "profile": "c2",
+        "mutation": "split-ret-operand",
+        "accepted": false
+      },
+      {
+        "profile": "link",
+        "mutation": "wrong-direct-callee",
+        "accepted": false
+      },
+      {
+        "profile": "link",
+        "mutation": "missing-direct-edges",
+        "accepted": false
+      },
+      {
+        "profile": "link",
+        "mutation": "missing-public-mapping",
+        "accepted": false
+      },
+      {
+        "profile": "link",
+        "mutation": "split-ret-operand",
+        "accepted": false
+      },
+      {
+        "profile": "rc",
+        "mutation": "wrong-direct-callee",
+        "accepted": false
+      },
+      {
+        "profile": "rc",
+        "mutation": "missing-direct-edges",
+        "accepted": false
+      },
+      {
+        "profile": "rc",
+        "mutation": "missing-public-mapping",
+        "accepted": false
+      },
+      {
+        "profile": "rc",
+        "mutation": "split-ret-operand",
+        "accepted": false
+      },
+      {
+        "profile": "rcpp",
+        "mutation": "wrong-direct-callee",
+        "accepted": false
+      },
+      {
+        "profile": "rcpp",
+        "mutation": "missing-direct-edges",
+        "accepted": false
+      },
+      {
+        "profile": "rcpp",
+        "mutation": "missing-public-mapping",
+        "accepted": false
+      },
+      {
+        "profile": "rcpp",
+        "mutation": "split-ret-operand",
+        "accepted": false
+      },
+      {
+        "profile": "cvpack",
+        "mutation": "wrong-direct-callee",
+        "accepted": false
+      },
+      {
+        "profile": "cvpack",
+        "mutation": "missing-direct-edges",
+        "accepted": false
+      },
+      {
+        "profile": "cvpack",
+        "mutation": "overlapping-application-ownership",
+        "accepted": false
+      },
+      {
+        "profile": "cvpack",
+        "mutation": "wrong-declared-ret-cleanup",
+        "accepted": false
+      },
+      {
+        "profile": "cvpack",
+        "mutation": "stale-runtime-identity-cache",
+        "accepted": false
+      }
+    ]
+  }
+}

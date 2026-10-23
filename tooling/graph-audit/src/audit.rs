@@ -9,7 +9,7 @@ use serde_json::{Value, json};
 use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 type Edges = BTreeSet<String>;
 fn inside(r: &Record, a: u32) -> bool {
-    r.start <= a && a < r.end
+    r.contains_code(a)
 }
 fn immediate_text(i: &Inst) -> Option<u32> {
     i.text
@@ -827,6 +827,12 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         let options = Options {
             infer_switches: true,
             infer_seh: true,
+            code_chunks: f.code_chunks.clone(),
+            fallthrough_entries: f
+                .code_ranges()
+                .map(|(_, b)| b)
+                .filter(|b| on.contains_key(b))
+                .collect(),
             forbid_overlapping_instructions: a.check_instruction_overlap,
             fallthrough_entry: on.contains_key(&f.end).then_some(f.end),
             ..Options::default()
@@ -838,6 +844,12 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         let mut rebuilt_options = Options {
             infer_switches: true,
             infer_seh: true,
+            code_chunks: other.code_chunks.clone(),
+            fallthrough_entries: other
+                .code_ranges()
+                .map(|(_, b)| b)
+                .filter(|b| rn.contains_key(b))
+                .collect(),
             forbid_overlapping_instructions: a.check_instruction_overlap,
             fallthrough_entry: rn.contains_key(&other.end).then_some(other.end),
             ..Options::default()
@@ -907,26 +919,8 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             ensure!(left == right, "{} RET cleanup differs", f.name);
         }
         if a.check_extents {
-            let left_tail = l
-                .tables
-                .iter()
-                .filter(|(start, _)| inside(f, *start))
-                .map(|(_, end)| *end)
-                .max()
-                .unwrap_or(f.start);
-            let right_tail = r
-                .tables
-                .iter()
-                .filter(|(start, _)| inside(other, *start))
-                .map(|(_, end)| *end)
-                .max()
-                .unwrap_or(other.start);
-            ensure!(
-                left_tail <= f.end && right_tail <= other.end,
-                "switch data exceeds extent"
-            );
-            boundary(&d, &x.o, f, left_tail, true)?;
-            boundary(&d, &x.r, other, right_tail, true)?;
+            cfg_boundaries(&d, &x.o, f, &l, true)?;
+            cfg_boundaries(&d, &x.r, other, &r, true)?;
         }
         let mut edges = l
             .calls
@@ -946,10 +940,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         ordered.sort_by_key(|r| r.start);
         for r in &ordered {
             ensure!(
-                r.start < r.end
-                    && x.o.sections.iter().any(|s| s.flags & 0x20 != 0
-                        && s.start <= r.start
-                        && r.end <= s.start + s.virtual_size.min(s.size)),
+                r.code_ranges().all(|(a, b)| x.o.file_backed_code(a, b)),
                 "extent outside original file-backed code"
             );
         }
@@ -970,9 +961,59 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
     } else {
         None
     };
-    Ok(
-        json!({"profile":a.profile,"discovery":"cfg","checked_functions":report.len(),"checked_accepted_extents":accepted.as_ref().map(|v|&v.0),"checked_unique_accepted_extents":accepted.as_ref().map(|v|&v.1),"original_accepted_graphs":accepted.as_ref().map(|v|&v.2),"functions":report}),
-    )
+    let mut result = json!({"profile":a.profile,"discovery":"cfg","checked_functions":report.len(),"checked_accepted_extents":accepted.as_ref().map(|v|&v.0),"checked_unique_accepted_extents":accepted.as_ref().map(|v|&v.1),"original_accepted_graphs":accepted.as_ref().map(|v|&v.2),"functions":report});
+    if x.oi.iter().chain(&x.ri).any(|r| !r.code_chunks.is_empty()) {
+        let mut domains = BTreeMap::new();
+        for (side, index) in [("original", &x.oi), ("rebuilt", &x.ri)] {
+            let ranges = index
+                .iter()
+                .filter(|r| x.accepted.contains(&r.name))
+                .map(|r| (r.name.clone(), r.code_ranges().collect::<Vec<_>>()))
+                .collect::<BTreeMap<_, _>>();
+            let bytes = ranges
+                .values()
+                .flatten()
+                .map(|(a, b)| u64::from(b - a))
+                .sum::<u64>();
+            let intervals = ranges.values().map(Vec::len).sum::<usize>();
+            let mut physical = ranges.values().flatten().copied().collect::<Vec<_>>();
+            physical.sort();
+            let mut physical_bytes = 0u64;
+            let mut previous_end = 0u32;
+            for (a, b) in physical {
+                physical_bytes += u64::from(b.saturating_sub(a.max(previous_end)));
+                previous_end = previous_end.max(b);
+            }
+            domains.insert(side,json!({"functions":ranges,"logical_function_count":ranges.len(),"interval_count":intervals,"declared_code_bytes":bytes,"unique_code_bytes":physical_bytes}));
+        }
+        result["owned_code_chunks"] = json!(domains);
+    }
+    Ok(result)
+}
+
+fn cfg_boundaries(
+    d: &Decoder,
+    pe: &Pe,
+    record: &Record,
+    graph: &crate::flow::Graph,
+    complete: bool,
+) -> Result<()> {
+    for (a, b) in record.code_ranges() {
+        let tail = graph
+            .tables
+            .iter()
+            .filter(|(s, _)| a <= *s && *s < b)
+            .map(|(_, e)| *e)
+            .max()
+            .unwrap_or(a);
+        ensure!(tail <= b, "{} switch data exceeds code chunk", record.name);
+        let mut chunk = record.clone();
+        chunk.start = a;
+        chunk.end = b;
+        chunk.code_chunks.clear();
+        boundary(d, pe, &chunk, tail, complete)?;
+    }
+    Ok(())
 }
 
 fn apply_metadata(options: &mut crate::flow::Options, value: &Value) -> Result<()> {
@@ -1011,6 +1052,12 @@ fn cfg_cleanup(
     let mut options = crate::flow::Options {
         infer_switches: true,
         infer_seh: true,
+        code_chunks: r.code_chunks.clone(),
+        fallthrough_entries: r
+            .code_ranges()
+            .map(|(_, b)| b)
+            .filter(|b| index.iter().any(|v| v.start == *b))
+            .collect(),
         fallthrough_entry: index.iter().any(|v| v.start == r.end).then_some(r.end),
         ..Default::default()
     };
@@ -1136,12 +1183,18 @@ fn accepted_extents(
                 continue;
             }
             records += 1;
-            if !checked.insert((record.name.clone(), record.start, record.end)) {
+            if !checked.insert((
+                record.name.clone(),
+                record.start,
+                record.end,
+                record.code_chunks.clone(),
+            )) {
                 continue;
             }
             let mut options = crate::flow::Options {
                 infer_switches: true,
                 infer_seh: true,
+                code_chunks: record.code_chunks.clone(),
                 allow_extent_end: true,
                 forbid_overlapping_instructions: forbid_overlap,
                 ..Default::default()
@@ -1160,19 +1213,7 @@ fn accepted_extents(
                 raw.0.extend(&graph.calls);
                 raw.1.extend(&graph.references);
             }
-            let tail = graph
-                .tables
-                .iter()
-                .filter(|(start, _)| inside(record, *start))
-                .map(|(_, end)| *end)
-                .max()
-                .unwrap_or(record.start);
-            ensure!(
-                tail <= record.end,
-                "{} switch data exceeds accepted extent",
-                record.name
-            );
-            boundary(d, pe, record, tail, false)
+            cfg_boundaries(d, pe, record, &graph, false)
                 .with_context(|| format!("{side} accepted extent tail {}", record.name))?;
         }
         counts.insert(side, records);

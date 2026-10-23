@@ -471,6 +471,16 @@ pub fn run(a: &Args) -> Result<Value> {
         "CVPACK graph metadata comes from functions.json; --metadata is for standalone profiles"
     );
     let cfg = json(&a.config.clone().unwrap_or(a.project.join("functions.json")))?;
+    ensure!(
+        list(&cfg, "functions")?
+            .iter()
+            .all(
+                |r| ["code_chunks", "rebuilt_code_chunks"].iter().all(|key| r
+                    .get(*key)
+                    .is_none_or(|v| v.as_array().is_some_and(Vec::is_empty)))
+            ),
+        "CVPACK profile does not support code_chunks; its explicit ownership policy must be extended first"
+    );
     let original = Pe::open(
         &a.original.clone().unwrap_or(
             a.repo

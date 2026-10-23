@@ -19,9 +19,19 @@ pub struct Record {
     #[serde(default)]
     pub shared: Vec<(u32, u32)>,
     #[serde(default)]
+    pub code_chunks: Vec<(u32, u32)>,
+    #[serde(default)]
     pub evidence: Value,
     #[serde(default)]
     pub pending_extent: bool,
+}
+impl Record {
+    pub fn code_ranges(&self) -> impl Iterator<Item = (u32, u32)> + '_ {
+        std::iter::once((self.start, self.end)).chain(self.code_chunks.iter().copied())
+    }
+    pub fn contains_code(&self, address: u32) -> bool {
+        self.code_ranges().any(|(a, b)| a <= address && address < b)
+    }
 }
 pub fn json(path: &Path) -> Result<Value> {
     Ok(serde_json::from_slice(
@@ -101,6 +111,7 @@ pub fn imports(pe: &Pe, raw: bool) -> Result<Vec<Record>> {
                     start,
                     end: start + 6,
                     shared: vec![],
+                    code_chunks: vec![],
                     evidence: Value::Null,
                     pending_extent: false,
                 });
@@ -294,6 +305,16 @@ impl Inputs {
                     start: *start,
                     end,
                     shared: vec![],
+                    code_chunks: match cfg[if a.profile == Profile::Rcpp {
+                        "functions"
+                    } else {
+                        "driver"
+                    }][i]
+                        .get("rebuilt_code_chunks")
+                    {
+                        None => vec![],
+                        Some(value) => serde_json::from_value(value.clone())?,
+                    },
                     evidence: Value::Null,
                     pending_extent: false,
                 });
@@ -317,6 +338,16 @@ impl Inputs {
                         p[1].name
                     );
                 }
+            }
+        }
+        for (side, pe, index) in [("original", &o, &oi), ("rebuilt", &r, &ri)] {
+            if index.iter().any(|record| !record.code_chunks.is_empty()) {
+                ensure!(
+                    a.discovery != crate::Discovery::Legacy,
+                    "code_chunks require cfg discovery; legacy mode cannot audit fragmented functions"
+                );
+                validate_chunk_ownership(pe, index)
+                    .with_context(|| format!("{side} code chunk ownership"))?;
             }
         }
         for (n, v) in cfg["crt_defaults"].as_object().into_iter().flatten() {
@@ -349,6 +380,53 @@ impl Inputs {
             publics,
         })
     }
+}
+pub fn validate_chunk_ownership(pe: &Pe, records: &[Record]) -> Result<()> {
+    for record in records {
+        let mut ranges = record.code_ranges().collect::<Vec<_>>();
+        ranges.sort();
+        for &(a, b) in &ranges {
+            ensure!(
+                pe.file_backed_code(a, b),
+                "{} invalid/non-file-backed code chunk {a:x}..{b:x}",
+                record.name
+            );
+        }
+        ensure!(
+            ranges.windows(2).all(|w| w[0].1 <= w[1].0),
+            "{} overlapping code chunks",
+            record.name
+        );
+        for &(a, b) in &record.code_chunks {
+            ensure!(
+                records
+                    .iter()
+                    .flat_map(|r| &r.shared)
+                    .all(|&(c, d)| b <= c || d <= a),
+                "{} code chunk intersects declared shared text data",
+                record.name
+            );
+        }
+        for other in records {
+            if std::ptr::eq(record, other) {
+                continue;
+            }
+            let mut other_ranges = other.code_ranges().collect::<Vec<_>>();
+            other_ranges.sort();
+            if record.start == other.start && ranges == other_ranges {
+                continue;
+            } // exact physical aliases
+            ensure!(
+                ranges
+                    .iter()
+                    .all(|&(a, b)| other_ranges.iter().all(|&(c, d)| b <= c || d <= a)),
+                "code chunk ownership overlaps {} / {}",
+                record.name,
+                other.name
+            );
+        }
+    }
+    Ok(())
 }
 pub fn first_names(records: &[Record]) -> HashMap<u32, String> {
     let mut out = HashMap::new();

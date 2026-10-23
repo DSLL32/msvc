@@ -9,6 +9,8 @@ use std::collections::{BTreeMap, BTreeSet, HashMap};
 #[derive(Clone, Default)]
 pub struct Options {
     pub roots: Vec<u32>,
+    pub code_chunks: Vec<(u32, u32)>,
+    pub fallthrough_entries: Vec<u32>,
     pub data: Vec<(u32, u32)>,
     pub switches: BTreeMap<u32, Vec<u32>>,
     pub infer_switches: bool,
@@ -33,7 +35,24 @@ pub struct Graph {
 }
 pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Result<Graph> {
     ensure!(start < end, "invalid function extent");
-    let inside = |a| start <= a && a < end;
+    let mut ranges = vec![(start, end)];
+    ranges.extend(&options.code_chunks);
+    ranges.sort();
+    ensure!(
+        ranges.iter().all(|&(a, b)| pe.file_backed_code(a, b)),
+        "invalid/non-file-backed code chunk"
+    );
+    ensure!(
+        ranges.windows(2).all(|w| w[0].1 <= w[1].0),
+        "overlapping code chunks"
+    );
+    let inside = |a| ranges.iter().any(|&(s, e)| s <= a && a < e);
+    let containing_end = |a| {
+        ranges
+            .iter()
+            .find(|&&(s, e)| s <= a && a < e)
+            .map(|&(_, e)| e)
+    };
     let is_data = |a| options.data.iter().any(|(s, e)| *s <= a && a < *e);
     let mut pending = vec![start];
     pending.extend(&options.roots);
@@ -49,18 +68,22 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
             !options.forbid_overlapping_instructions || !owners.contains_key(&a),
             "CFG enters operand at {a:x}"
         );
+        let chunk_end = containing_end(a).context("instruction outside code chunks")?;
         let i = d
             .one(
                 pe,
                 a,
                 if options.strict {
-                    (end - a).min(15) as usize
+                    (chunk_end - a).min(15) as usize
                 } else {
                     15
                 },
             )?
             .with_context(|| format!("invalid/truncated instruction at {a:x}"))?;
-        ensure!(i.next() <= end, "truncated instruction {a:x}");
+        ensure!(
+            i.next() <= chunk_end,
+            "instruction crosses code chunk boundary at {a:x}"
+        );
         for b in a..i.next() {
             ensure!(
                 !options.forbid_overlapping_instructions || !owners.contains_key(&b),
@@ -160,15 +183,20 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
                 out.tails.insert(t);
             }
         }
-        if i.next() == end && options.allow_extent_end {
+        if i.next() == chunk_end && options.allow_extent_end {
             // Extent-only passes check instruction integrity, not whether a
             // library fragment/alias has a separately identified successor.
-        } else if i.next() == end && options.fallthrough_entry == Some(end) {
-            out.calls.insert(end);
-            out.tails.insert(end);
+        } else if i.next() == chunk_end && inside(i.next()) {
+            pending.push(i.next());
+        } else if i.next() == chunk_end
+            && (options.fallthrough_entry == Some(chunk_end)
+                || options.fallthrough_entries.contains(&chunk_end))
+        {
+            out.calls.insert(chunk_end);
+            out.tails.insert(chunk_end);
         } else {
             ensure!(
-                i.next() < end,
+                i.next() < chunk_end,
                 "extent ends before terminal instruction at {a:x}"
             );
             pending.push(i.next());

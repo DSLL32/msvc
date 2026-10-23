@@ -118,6 +118,25 @@ original image hash binds these bytes. This is an extent-policy declaration, not
 a general permission to omit unrooted code; it is checked with `--check-extents`
 or the legacy CVPACK preset.
 
+Fragmented functions retain their primary `start`/`end` and may declare additional
+`code_chunks: [[start,end], ...]` in standalone driver/runtime index records.
+Driver `rebuilt_code_chunks` supplies additional counterpart ranges; otherwise the
+rebuilt range remains the normal MAP-derived interval. Addresses are preferred
+absolute VAs. These intervals must be disjoint, file-backed code, preserve known
+function ownership and contain complete instructions. Exact physical aliases
+remain aliases; a cold chunk cannot claim another function's body or shared text
+data. No gap belongs to the function. `shared` still denotes text data.
+
+Branches and separately evidenced roots can enter any owned interval, and all
+calls/returns contribute to one logical function. Chunk starts are **not** added
+as roots. Extent checks cover each declared interval independently. Legacy mode
+rejects fragmented records rather than ignoring them; CVPACK's distinct ownership
+profile currently rejects them explicitly. Fragmented audits report exact ranges
+under `owned_code_chunks.{original,rebuilt}.functions`, with logical-function and
+interval counts, declared bytes, and unique physical code bytes. Consumers must
+check this report and pin the auditor hash when requiring chunk support; older
+binaries do not produce it.
+
 Graph metadata is JSON, supplied through `--metadata`; RC's callback table layout
 is in `profiles/rc.json`. Example function metadata:
 
@@ -256,3 +275,16 @@ For automation, build once with `cargo build --quiet --release --locked` (with
 `--manifest-path` as above), capture Cargo stderr to a log, and show that log only
 on build failure. Then invoke the binary directly with its stdout/stderr intact.
 Do not use `cargo run` per audit or discard actual tool diagnostics.
+
+Real split-function discovery and CLI policy controls (no target execution):
+
+```sh
+cargo test --quiet --locked --manifest-path tooling/graph-audit/Cargo.toml
+python3 tooling/graph-audit/check-chunks.py \
+  --scratch ~/.ai-tmp/graph-audit/chunk-cli \
+  --report ~/.ai-tmp/graph-audit/chunk-cli-validation.json
+```
+
+The real PGO fixtures pin the repository's VC5.10 C1XX/C2 original image hashes;
+these tests require those originals to be present. The CLI fixture audits an
+original against itself to verify discovery/policy, not reconstruction acceptance.

@@ -80,6 +80,16 @@ impl Pe {
             sections,
         })
     }
+    pub fn file_backed_code(&self, start: u32, end: u32) -> bool {
+        start < end
+            && self.sections.iter().any(|s| {
+                s.flags & 0x20 != 0
+                    && s.off != 0
+                    && s.start <= start
+                    && u64::from(end) <= u64::from(s.start) + u64::from(s.virtual_size.min(s.size))
+                    && (s.off as u64) + u64::from(end - s.start) <= self.data.len() as u64
+            })
+    }
     pub fn read(&self, a: u32, n: usize) -> Result<&[u8]> {
         for s in &self.sections {
             if (s.off == 0 || s.flags & 0x80 != 0)

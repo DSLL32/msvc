@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "scope": "Read-only real PGO-function discovery fixtures; no reconstruction acceptance evidence or target execution. Preferred absolute VAs, additional chunks only.",
+  "targets": [
+    {
+      "path": "toolchains/5.10/bin/C1XX.DLL",
+      "sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+      "functions": [
+        {
+          "name": "__DllMainCRTStartup@12",
+          "start": 272819142,
+          "end": 272819306,
+          "code_chunks": [
+            [
+              273067187,
+              273067247
+            ]
+          ],
+          "expected_calls": [
+            272819306,
+            272819498
+          ],
+          "expected_returns": [
+            12
+          ],
+          "indirect": true
+        },
+        {
+          "name": "__CRT_INIT@12",
+          "start": 272819306,
+          "end": 272819498,
+          "code_chunks": [
+            [
+              273067247,
+              273067282
+            ]
+          ],
+          "expected_calls": [
+            272860366
+          ],
+          "expected_returns": [
+            12
+          ],
+          "indirect": true
+        }
+      ]
+    },
+    {
+      "path": "toolchains/5.10/bin/C2.EXE",
+      "sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+      "functions": [
+        {
+          "name": "CRT startup",
+          "start": 4532119,
+          "end": 4532369,
+          "code_chunks": [
+            [
+              4670578,
+              4670673
+            ]
+          ],
+          "roots": [
+            4670637,
+            4670658
+          ],
+          "expected_calls": [
+            4320137,
+            4532369,
+            4532394,
+            4532400,
+            4767924
+          ],
+          "expected_returns": [
+            0
+          ],
+          "indirect": true
+        },
+        {
+          "name": "application main",
+          "start": 4532400,
+          "end": 4532715,
+          "code_chunks": [
+            [
+              4670673,
+              4670813
+            ]
+          ],
+          "roots": [
+            4670693,
+            4670736
+          ],
+          "required_calls": [
+            4738355,
+            4766214,
+            4746044,
+            4764519
+          ],
+          "expected_returns": [
+            0
+          ],
+          "indirect": true
+        }
+      ]
+    }
+  ]
+}
