@@ -1,10 +1,14 @@
 WLINK 10.0a is a native Win32 PE executable. It does not use the binnt compiler
-stub or a CF payload. No original execution or application acceptance has taken
-place in this scaffold.
+stub or a CF payload. The explicitly authorized, unmasked patched `WLINK ?`
+baseline exits zero with 8,475 stdout bytes, empty stderr and no case-directory
+artifacts. One repeat with the same actual cwd, host environment and known input
+identities produced identical raw output. Execution took 0.365 and 0.616 seconds.
+References are under `cases/help/reference/`; no application function or masked
+replay has been accepted. Actual external file reads remain unobserved.
 
 `make inspect` verifies the pristine binary and the separately supplied Wine GS
 patch, then reports PE metadata without running either file. `native`, `original`
-and `fixtures` deliberately stop until architecture review; use `make -j4` once
+and `fixtures` deliberately stop until source/boundary review; use `make -j4` once
 their actual compilation rules are established.
 
 Source reference: `/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443`, commit
@@ -14,6 +18,9 @@ the target's function extents, callers, argument registers and state still need
 independent proof. Preserve the upstream license on any reused source.
 
 The sole initial case is `WLINK ?`; its capture plan is in `cases/help/plan.json`.
+`scripts/capture-baseline.py` is an explicit reference action, never a fixture
+dependency. The exact host environment is retained privately in scratch with a
+hash in the receipt; the target's Windows environment has not yet been observed.
 Use only the shared Wine prefix for explicit reference captures/builds. Fixtures
 must run a native i386 reconstruction against cached references without Wine.
 

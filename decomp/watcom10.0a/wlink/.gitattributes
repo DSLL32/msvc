@@ -1,0 +1,2 @@
+# Captured streams retain exact original bytes, including CRLF and blank lines.
+cases/help/reference/*.bin binary

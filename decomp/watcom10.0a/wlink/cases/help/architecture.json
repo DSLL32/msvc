@@ -1,32 +1,65 @@
 {
-  "status": "proposal for orchestrator review; no execution or acceptance yet",
+  "status": "unmasked baseline authorized, captured and repeated; masking/startup/source plan remains pending review",
   "reference_capture": {
     "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/help-reference",
-    "command": ["wine", "R:\\toolchains\\watcom10.0a\\.patched\\WLINK.EXE", "?"],
+    "command": [
+      "wine",
+      "R:\\toolchains\\watcom10.0a\\.patched\\WLINK.EXE",
+      "?"
+    ],
     "environment_overrides": {
       "WINEPREFIX": "/root/.ai-tmp/vc1.0-capture/wine",
       "WINEDEBUG": "-all",
       "WATCOM": "R:\\toolchains\\watcom10.0a",
       "TZ": "UTC0"
     },
-    "environment_absent": ["WLINK", "WLINK_LNK"],
+    "environment_absent": [
+      "WLINK",
+      "WLINK_LNK"
+    ],
     "stdin": "empty redirected input; stdout/stderr redirected to distinct files",
     "environment_policy": "record the complete actual target Win32 environment and command line; overrides alone are not a full input description",
     "inputs": "empty isolated case directory; hash any observed external initialization/help files before admitting them as inputs",
     "sequence": [
       "Verify pristine, patched and patch-document identities without mutation",
       "Capture unmasked patched baseline outputs and file dependencies explicitly, outside fixtures",
-      "At real startup/main observe actual argc/argv, raw registers/stack and initialized application-owned state",
+      "Later real observer only: observe actual target Windows environment/command line, argc/argv, raw register/stack and initialized application-owned state; baseline host environment alone is not this proof.",
       "Identify reached CRT startup/library extents before preparing an executable masked first frontier"
     ],
-    "safety": "bounded child lifetime; never stop shared server, remap drives or execute pristine WLINK"
+    "safety": "bounded child lifetime; never stop shared server, remap drives or execute pristine WLINK",
+    "status": "Authorized unmasked baseline only; masking and application acceptance require separate evidence."
   },
   "static_startup_candidates": [
-    {"va": "0x434656", "role": "PE entry jump", "observed_successor": "0x4365b7"},
-    {"va": "0x4365b7", "role": "CRT startup candidate", "direct_calls": ["0x435921", "0x438159"]},
-    {"va": "0x438159", "role": "CRT __CMain candidate", "main_call_site": "0x438199", "main_target": "0x4242e0", "main_formals": "EAX from DWORD0x4503e4 argc; EDX from DWORD0x4503e0 argv"},
-    {"va": "0x4242e0", "role": "application main candidate", "notes": "stores EDX at0x45021c; passes callback0x4243c8 to0x416d3c; falls into cleanup/exit tail; later2002 main is not an interchangeable graph"},
-    {"va": "0x416d3c", "role": "application Spawn candidate", "notes": "actual callback at[esp+0x34], setjmp-like support call0x433b14 and saved global0x45018c; preserve application wrapper vertex"}
+    {
+      "va": "0x434656",
+      "role": "PE entry jump",
+      "observed_successor": "0x4365b7"
+    },
+    {
+      "va": "0x4365b7",
+      "role": "CRT startup candidate",
+      "direct_calls": [
+        "0x435921",
+        "0x438159"
+      ]
+    },
+    {
+      "va": "0x438159",
+      "role": "CRT __CMain candidate",
+      "main_call_site": "0x438199",
+      "main_target": "0x4242e0",
+      "main_formals": "EAX from DWORD0x4503e4 argc; EDX from DWORD0x4503e0 argv"
+    },
+    {
+      "va": "0x4242e0",
+      "role": "application main candidate",
+      "notes": "stores EDX at0x45021c; passes callback0x4243c8 to0x416d3c; falls into cleanup/exit tail; later2002 main is not an interchangeable graph"
+    },
+    {
+      "va": "0x416d3c",
+      "role": "application Spawn candidate",
+      "notes": "actual callback at[esp+0x34], setjmp-like support call0x433b14 and saved global0x45018c; preserve application wrapper vertex"
+    }
   ],
   "masking": {
     "basis": "pristine original bytes and separately authenticated same-layout GS-patched capture image",
@@ -34,11 +67,17 @@
     "support": "restore only positively identified reached original startup/CRT function and text-data extents, with zero application credit; unidentified code stops progress",
     "application": "keep main candidate trapped initially; recover whole actual functions and shared tails from caller/branch/return evidence; no interval-wide CRT exemption",
     "patch": "retain explicit four-site substitutions when restoring the resource helper; log pristine and patched identities independently",
-    "validation": "baseline execution is reference only, not proof of masked-replay or application acceptance; require fresh matching original/native frontier evidence"
+    "validation": "baseline execution is reference only, not proof of masked-replay or application acceptance; require fresh matching original/native frontier evidence",
+    "text_data": "BEGTEXT contains inline literals/tables/padding, not only instructions. Restore only encountered text-data spans backed by original references and actual readers; preserve relocation-bearing data and keep unidentified transfers trapped."
   },
   "original_build_plan": {
     "compiler": "R:\\toolchains\\watcom10.0a\\binnt\\WCC386.EXE",
-    "proven_probe_flags": ["-bt=nt", "-3r", "-od", "-d2"],
+    "proven_probe_flags": [
+      "-bt=nt",
+      "-3r",
+      "-od",
+      "-d2"
+    ],
     "probe_receipt": "/root/.ai-tmp/msvc2/watcom10.0a/wcc386/abi-probe/receipt.json",
     "target_include_plan": "ship Watcom h and h/nt plus lib/recon/include; account for uppercase original header filenames without changing imported originals",
     "linker": "R:\\toolchains\\watcom10.0a\\.patched\\WLINK.EXE",

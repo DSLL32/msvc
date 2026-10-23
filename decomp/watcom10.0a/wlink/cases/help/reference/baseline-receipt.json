@@ -1,0 +1,75 @@
+{
+  "kind": "unmasked patched original baseline only; no reconstruction acceptance",
+  "command": [
+    "wine",
+    "R:\\toolchains\\watcom10.0a\\.patched\\WLINK.EXE",
+    "?"
+  ],
+  "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/help-reference/baseline-hqf5iigb/work",
+  "pid": 1718628,
+  "timeout_seconds": 30,
+  "returncode": 0,
+  "timed_out": false,
+  "stdin": "DEVNULL",
+  "environment_overrides": {
+    "WINEPREFIX": "/root/.ai-tmp/vc1.0-capture/wine",
+    "WINEDEBUG": "-all",
+    "WATCOM": "R:\\toolchains\\watcom10.0a",
+    "TZ": "UTC0"
+  },
+  "environment_absent": [
+    "WLINK",
+    "WLINK_LNK"
+  ],
+  "exact_host_environment": {
+    "path": "host-environment.json",
+    "sha256": "82004927b74749ab6567f1b2ee0a7d8e37fd0837e286d335c78498f4b3d3e7b0",
+    "mode": "0600"
+  },
+  "target_windows_environment": "not observed; host environment is not proof of target Windows environment",
+  "original_sha256": "ae8bb02cce0e92ed1a0c5c003a7312bb05f8bf3c252e1efa27a4835fb83b9ff1",
+  "capture_sha256": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
+  "patch_manifest_sha256": "d2617f98d312db67137ef548a77ff1361e2c7afbf3896c5b7578f10ce1a759dc",
+  "plan_sha256": "18f59a9bbb75a4a53d2efb73651b5a6193701d28b4c59f8f76333a0a2d37ef36",
+  "capture_script_sha256": "2642b8a6b389407dc4f5ae7a9562a751a57bc4c608ef7b59f2f564ee06618292",
+  "before_files": [],
+  "after_files": [],
+  "streams": {
+    "stdout": {
+      "path": "stdout.bin",
+      "bytes": 8475,
+      "sha256": "f11f0ea6c4f25e538fa6aad90a714c3cbaeee8eda69b713735693e445b2d954e"
+    },
+    "stderr": {
+      "path": "stderr.bin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "known_potential_external_inputs": [
+    {
+      "path": "toolchains/watcom10.0a/binnt/WLINK.LNK",
+      "exists": true,
+      "sha256": "e6c6ae65264bc33371430fde90e3cecb6223a4877fff68a783e4a38e1120cb3a",
+      "actual_read_observed": false
+    },
+    {
+      "path": "toolchains/watcom10.0a/binb/WLSYSTEM.LNK",
+      "exists": true,
+      "sha256": "7efebd9bc495b68c1edcb4674e8d6fb188cbcdf355df8cd91f193a9a752c7bb9",
+      "actual_read_observed": false
+    },
+    {
+      "path": "toolchains/watcom10.0a/binnt/WLINK.HLP",
+      "exists": false,
+      "sha256": null,
+      "actual_read_observed": false
+    }
+  ],
+  "external_dependencies": "actual file reads not observed; own-directory inventory is not a complete dependency trace",
+  "timing_seconds": {
+    "setup": 0.006333685480058193,
+    "execution": 0.36537494882941246,
+    "checks": 0.010317194275557995
+  }
+}

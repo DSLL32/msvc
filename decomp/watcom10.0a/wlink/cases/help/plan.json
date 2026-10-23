@@ -1,7 +1,9 @@
 {
   "case": "help",
-  "status": "planned; architecture review required before original execution",
-  "argv": ["?"],
+  "status": "unmasked patched original baseline captured and repeated; no masked replay or application acceptance",
+  "argv": [
+    "?"
+  ],
   "executable": "toolchains/watcom10.0a/.patched/WLINK.EXE",
   "original_sha256": "ae8bb02cce0e92ed1a0c5c003a7312bb05f8bf3c252e1efa27a4835fb83b9ff1",
   "capture_sha256": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
