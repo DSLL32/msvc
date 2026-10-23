@@ -107,6 +107,15 @@ def main():
         mutations += [('changed native option kind',changed_native_table),('different logical destination alias',changed_native_alias),
                       ('different initial CPU option',changed_native_default),('changed raw original table with matching hash',changed_original_data),
                       ('changed contextual data receipt with matching hash',changed_data_receipt)]
+    if 'node_size'in current_state:
+        def changed_size_argument(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['node_size'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        def changed_node_counter(root):
+            path=root/'n/state.json';state=json_at(path);state['globals']['0x491040']=1;write_json(path,state);raw_changed(root,'n','state.json')
+        mutations += [('node size kind differs',lambda r:changed_size_argument(r,'kind',2)),
+                      ('node allocator saved kind differs',lambda r:changed_size_argument(r,'caller_kind',2)),
+                      ('node allocator saved pool differs',lambda r:changed_size_argument(r,'pool',1)),
+                      ('node byte counter changed before sizing',changed_node_counter)]
     if 'allocate_node'in current_state:
         def changed_node_argument(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['allocate_node'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

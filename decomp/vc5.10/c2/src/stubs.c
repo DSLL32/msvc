@@ -18,7 +18,13 @@ int __fastcall c2_open_pdb(char *name, char *object_name)
     __asm { int 3 }
     return 0;
 }
-void *__fastcall c2_allocate_node(signed char kind, int pool)
+unsigned __fastcall c2_node_size(int kind)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+void *__fastcall c2_pool_allocate(int pool, unsigned bytes)
 {
     __asm { int 3 }
     return NULL;

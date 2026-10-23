@@ -44,7 +44,8 @@
     "_c2_read_il_word",
     "_c2_read_il_long",
     "_c2_reset_symbol_table",
-    "_c2_create_type_table"
+    "_c2_create_type_table",
+    "@c2_allocate_node@8"
   ],
   "driver": [
     {
@@ -193,7 +194,7 @@
               212,
               312
             ],
-            "lifetime_sha256": "cae89f06d99529abe20f2c99bb8ed689c951ed1ecf8325b81f2d68a9b1c69646",
+            "lifetime_sha256": "04e5fabca527662f112e1f80a52ab2d575c22184774e3175f74c22e3d8797511",
             "instructions": [
               {
                 "offset": 212,
@@ -596,7 +597,7 @@
               38,
               154
             ],
-            "lifetime_sha256": "444dcef3b4b62b65771fc7d29df3d8f8aa3eb08fa1bc0e737c358d902feb67e1",
+            "lifetime_sha256": "dea25217722de8cfb9f382cf414d0f69c641a29bed19208ba8477dd667e3cb50",
             "instructions": [
               {
                 "offset": 38,
@@ -657,7 +658,7 @@
               46,
               154
             ],
-            "lifetime_sha256": "4e52101063a99e85843f06ffee41138feb2d87b2580ffc6f3ca6c2325564ccf7",
+            "lifetime_sha256": "cfddf2fb5ef56de41cf9293bf66b920c7fa35f66cb121bba161f3d09a76cc583",
             "instructions": [
               {
                 "offset": 46,
@@ -1435,7 +1436,7 @@
               6,
               198
             ],
-            "lifetime_sha256": "63114d7ec7a66597418a9345474f74509bc91dec17643fcdfef8b294286703de"
+            "lifetime_sha256": "28f5e18fcbd2907eadef6b06b5611604f9ca66daccde83ef165652f24ef96169"
           }
         }
       ]
@@ -1625,7 +1626,7 @@
               6,
               377
             ],
-            "lifetime_sha256": "032d0c1c246132e5b667a090e93211cc9e715e77cb6e12d896fe4dd31960f25e"
+            "lifetime_sha256": "a6decee926791a0ca00d59cf3ca2ca66b4e42dd7b82d66ff0bc6a24a209219c6"
           }
         }
       ]
@@ -1817,6 +1818,102 @@
       ],
       "expected_argc": 0,
       "evidence": "cases/analysis/type-factory-disassembly.txt: complete 9-byte CL=1/EDX=0 tail jump, inherited RET0 from proven unaccepted application callee extent"
+    },
+    {
+      "name": "@c2_allocate_node@8",
+      "native": "c2_allocate_node",
+      "start": 4248839,
+      "end": 4248884,
+      "kind": "application",
+      "abi": "fastcall signed char kind in CL, int pool in EDX; pointer result, RET0",
+      "state_policy": "allocate-node",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "c2_symbol_hash_count"
+        }
+      ],
+      "expected_argv": [
+        "-G5"
+      ],
+      "expected_argc": 0,
+      "evidence": "cases/analysis/node-allocation-disassembly.txt: full45-byte size/counter/pool-allocate/kind-header body, RET0"
     }
   ],
   "stubs": [
@@ -1973,16 +2070,14 @@
       "abi": "fastcall ECX PDB filename EDX object filename; int result; no stack parameters"
     },
     {
-      "name": "@c2_allocate_node@8",
-      "native": "c2_allocate_node",
-      "start": 4248839,
-      "end": 4248884,
-      "pending_extent": false,
-      "extent_known_for_tail_abi": true,
-      "extent_evidence": "cases/analysis/type-factory-disassembly.txt: complete45-byte application allocator, CL signed-char kind, EDX int pool, RET0; body remains masked/unaccepted",
+      "name": "@c2_node_size@4",
+      "native": "c2_node_size",
+      "start": 4248884,
+      "end": 4248885,
+      "pending_extent": true,
       "kind": "application",
-      "abi": "fastcall signed char kind in CL, int pool in EDX; pointer result, RET0",
-      "state_policy": "allocate-node",
+      "abi": "fastcall int kind in ECX; unsigned size result, no stack parameters",
+      "state_policy": "node-size",
       "state": [
         {
           "original": "0x499708",
@@ -2063,12 +2158,37 @@
         {
           "original": "0x48fb68",
           "native": "c2_symbol_hash_count"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
         }
       ],
       "expected_argv": [
         "-G5"
       ],
       "expected_argc": 0
+    },
+    {
+      "name": "@c2_pool_allocate@8",
+      "native": "c2_pool_allocate",
+      "start": 4198400,
+      "end": 4198401,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall int pool ECX,unsigned bytes EDX; pointer result, no stack parameters"
     }
   ],
   "text_data": [

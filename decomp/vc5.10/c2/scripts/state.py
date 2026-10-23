@@ -2,6 +2,7 @@
 import hashlib
 import importlib.util
 import json
+import os
 import struct
 from pathlib import Path
 
@@ -95,10 +96,13 @@ def trial_configuration(base_bytes):
     trial['trial_provenance']={'base_sha256':sha(base_bytes),'base_accepted':base['accepted'],'candidates':base['trial']}
     return trial,(json.dumps(trial,indent=2)+'\n').encode()
 
+def graph_audit_binary():
+    return Path(os.environ.get('GRAPH_AUDIT_BIN',str(ROOT/'tooling/graph-audit/target/release/graph-audit'))).resolve()
+
 def audit_input_hashes():
     names=['runtime.json','build/runtime.json','build/c2.map','build/graph-metadata.json']
     out={name:sha((BINARY/name).read_bytes())for name in names}
-    out['graph-audit']=sha((ROOT/'tooling/graph-audit/target/release/graph-audit').read_bytes())
+    out['graph-audit']=sha(graph_audit_binary().read_bytes())
     return out
 
 def receipt_bound(receipt, snapshot, native=False):

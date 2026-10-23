@@ -103,7 +103,7 @@ static void save_contextual_data(void)
 static void observe(CONTEXT *context, DWORD address)
 {
     DWORD stack[16], value, i, pointer;
-    static DWORD globals[] = {0x499708,0x4996d4,0x49975c,0x4980d4,0x499718,0x499694,0x4980d0,0x4980cc,0x48d064,0x7803fa90,0x7803fa88,0x7803fa94,0x7803f198,0x7803f928,0x7803fde8,0x499ac8,0x499adc,0x497e1c,0x497e08,0x497cac,0x49e2f4,0x4980d8,0x497fb0,0x490b7c,0x4972f8,0x497df8,0x491050,0x497f6c,0x497de8,0x48fb68};
+    static DWORD globals[] = {0x499708,0x4996d4,0x49975c,0x4980d4,0x499718,0x499694,0x4980d0,0x4980cc,0x48d064,0x7803fa90,0x7803fa88,0x7803fa94,0x7803f198,0x7803f928,0x7803fde8,0x499ac8,0x499adc,0x497e1c,0x497e08,0x497cac,0x49e2f4,0x4980d8,0x497fb0,0x490b7c,0x4972f8,0x497df8,0x491050,0x497f6c,0x497de8,0x48fb68,0x491040,0x491044,0x491048,0x49104c};
     fprintf(events,"observe %08lx eax=%08lx ecx=%08lx edx=%08lx esp=%08lx\n",
         address,context->Eax,context->Ecx,context->Edx,context->Esp);
     if (read_memory(context->Esp,stack,sizeof(stack))) {
@@ -211,7 +211,7 @@ static void observe(CONTEXT *context, DWORD address)
         }
         fclose(file);if(i==4096)ExitProcess(155);
     }
-    if (address == 0x40d507 || address == 0x45302d || address == 0x453012 || address == 0x452f95 || address == 0x452f4b || address == 0x4200d1 || address == 0x452ea4 || address == 0x452335 || address == 0x452e9b || address == 0x452e27 || address == 0x452a22 || address == 0x452a98 || address == 0x452acb || address == 0x452bb7 || address == 0x452bd9 || address == 0x48b7f8 || address == 0x452cfe || address == 0x48b367 || address == 0x48b6e8 || address == 0x48b708) {
+    if (address == 0x40d534 || address == 0x40d507 || address == 0x45302d || address == 0x453012 || address == 0x452f95 || address == 0x452f4b || address == 0x4200d1 || address == 0x452ea4 || address == 0x452335 || address == 0x452e9b || address == 0x452e27 || address == 0x452a22 || address == 0x452a98 || address == 0x452acb || address == 0x452bb7 || address == 0x452bd9 || address == 0x48b7f8 || address == 0x452cfe || address == 0x48b367 || address == 0x48b6e8 || address == 0x48b708) {
         DWORD argc, argv;
         if (!read_memory(0x49972c,&argc,4) || !read_memory(0x499728,&argv,4)) ExitProcess(151);
         fprintf(events,"command-state argc=%lu argv=%08lx input=%08lx\n",argc,argv,context->Ecx);
@@ -227,7 +227,7 @@ static void observe(CONTEXT *context, DWORD address)
         if (!read_memory(context->Esp+4,&value,4)) ExitProcess(149);
         fprintf(events,"exit-callback %08lx\n",value);
     }
-    if (address == 0x452e9b || address == 0x452335 || address == 0x452ea4 || address == 0x4200d1 || address == 0x452f4b || address == 0x452f95 || address == 0x453012 || address == 0x45302d || address == 0x40d507) {
+    if (address == 0x452e9b || address == 0x452335 || address == 0x452ea4 || address == 0x4200d1 || address == 0x452f4b || address == 0x452f95 || address == 0x453012 || address == 0x45302d || address == 0x40d507 || address == 0x40d534) {
         DWORD current, operand, argv, alignment=context->Ecx;
         if (address!=0x452e9b && !read_memory(0x499a04,&alignment,4)) ExitProcess(183);
         if (!read_memory(0x49968c,&current,4) ||
@@ -239,7 +239,7 @@ static void observe(CONTEXT *context, DWORD address)
         save_string(operand,"option-operand.bin");
         save_contextual_data();
     }
-    if (address == 0x452ea4 || address == 0x4200d1 || address == 0x452f4b || address == 0x452f95 || address == 0x453012 || address == 0x45302d || address == 0x40d507) {
+    if (address == 0x452ea4 || address == 0x4200d1 || address == 0x452f4b || address == 0x452f95 || address == 0x453012 || address == 0x45302d || address == 0x40d507 || address == 0x40d534) {
         DWORD input, globals, iob, active;
         BYTE data[64]; FILE *output;
         if (!read_memory(0x499698,&input,4) ||
@@ -247,13 +247,13 @@ static void observe(CONTEXT *context, DWORD address)
             !read_memory(0x48d08c,&iob,4) ||
             !read_memory(input,data,32) || !read_memory(globals,data+32,32)) ExitProcess(185);
         fprintf(events,"header-streams input=%08lx globals=%08lx iob=%08lx\n",input,globals,iob);
-        if (address == 0x4200d1 || address == 0x452f4b || address == 0x452f95 || address == 0x453012 || address == 0x45302d || address == 0x40d507) {
+        if (address == 0x4200d1 || address == 0x452f4b || address == 0x452f95 || address == 0x453012 || address == 0x45302d || address == 0x40d507 || address == 0x40d534) {
             if (!read_memory(0x490b80,&active,4)) ExitProcess(187);
             fprintf(events,"active-il-stream %08lx\n",active);
         }
         output=fopen("header-streams.bin","wb");
         if (!output || fwrite(data,1,64,output)!=64 || fclose(output)) ExitProcess(186);
-        if (address == 0x452f4b || address == 0x452f95 || address == 0x453012 || address == 0x45302d || address == 0x40d507) {
+        if (address == 0x452f4b || address == 0x452f95 || address == 0x453012 || address == 0x45302d || address == 0x40d507 || address == 0x40d534) {
             DWORD words[8], valid;
             BYTE buffer[4096];
             memcpy(words,data+32,32);
@@ -267,7 +267,7 @@ static void observe(CONTEXT *context, DWORD address)
         }
 
     }
-    if (address == 0x45302d || address == 0x40d507) {
+    if (address == 0x45302d || address == 0x40d507 || address == 0x40d534) {
         BYTE buckets[4096]; FILE *output;
         if (!read_memory(0x48fb6c,buckets,sizeof(buckets))) ExitProcess(190);
         output=fopen("symbol-hash.bin","wb");
@@ -275,6 +275,8 @@ static void observe(CONTEXT *context, DWORD address)
     }
     if (address == 0x40d507)
         fprintf(events,"allocate-node kind=%d pool=%ld\n",(signed char)context->Ecx,(long)context->Edx);
+    if (address == 0x40d534)
+        fprintf(events,"node-size kind=%ld caller-kind=%d pool=%ld\n",(long)context->Ecx,(signed char)context->Ebx,(long)context->Esi);
     if (address == 0x452335) {
         if (!read_memory(context->Esp,stack,sizeof(stack))) ExitProcess(184);
         fprintf(events,"intermediate-open base=%08lx suffix=%08lx mode=%08lx description=%08lx\n",

@@ -136,15 +136,19 @@
     "evidence": null
   },
   {
-    "name": "@c2_allocate_node@8",
-    "start": 4248839,
-    "end": 4248884,
-    "pending_extent": false,
-    "kind": "unaccepted-application-tail-target",
-    "evidence": null,
-    "classification": "application",
-    "accepted": false,
-    "extent_evidence": "cases/analysis/type-factory-disassembly.txt: complete45-byte application allocator, CL signed-char kind, EDX int pool, RET0; body remains masked/unaccepted",
-    "provenance": "Original extent/RET evidence only; source remains INT3, no unmask or source-coverage credit"
+    "name": "@c2_node_size@4",
+    "start": 4248884,
+    "end": 4248885,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@c2_pool_allocate@8",
+    "start": 4198400,
+    "end": 4198401,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
   }
 ]

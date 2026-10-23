@@ -1,0 +1,33 @@
+c2_allocate_node40d507..40d534:45bytes, fastcall signed-char CL kind,
+int EDX pool; pointer result and RET0. Sign-extend kind into node-size helper,
+add returned bytes to pool-indexed491040 total, call pool allocator401000,
+then store original kind at returned pointer+4 and return that same pointer.
+Only common header link at0 and kind at4 is declared, with the rest of each
+variant deferred until encountered. Four totals end at independent491050
+header-count global, proving a four-element32-bit counter array. No bulk data.
+The earlier extent-only unaccepted identity is now a real source candidate;
+strict factory-tail RET inference continues through this same application vertex.
+
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0040d507 <.text+0xc507>:
+  40d507:	53                   	push   ebx
+  40d508:	8a d9                	mov    bl,cl
+  40d50a:	0f be cb             	movsx  ecx,bl
+  40d50d:	56                   	push   esi
+  40d50e:	8b f2                	mov    esi,edx
+  40d510:	e8 1f 00 00 00       	call   0x40d534
+  40d515:	8b 0c b5 40 10 49 00 	mov    ecx,DWORD PTR [esi*4+0x491040]
+  40d51c:	8b d0                	mov    edx,eax
+  40d51e:	03 c8                	add    ecx,eax
+  40d520:	89 0c b5 40 10 49 00 	mov    DWORD PTR [esi*4+0x491040],ecx
+  40d527:	8b ce                	mov    ecx,esi
+  40d529:	e8 d2 3a ff ff       	call   0x401000
+  40d52e:	88 58 04             	mov    BYTE PTR [eax+0x4],bl
+  40d531:	5e                   	pop    esi
+  40d532:	5b                   	pop    ebx
+  40d533:	c3                   	ret

@@ -6,10 +6,10 @@ from pathlib import Path
 import subprocess
 import shutil
 import time
-from state import BINARY, ROOT, TARGET, sha
+from state import BINARY, ROOT, TARGET, sha, graph_audit_binary
 
 def run(config, report):
-    executable=ROOT/'tooling/graph-audit/target/release/graph-audit'
+    executable=graph_audit_binary()
     args=[str(executable),'--profile','cl','--repo',str(ROOT),'--project',str(BINARY),
           '--original',str(TARGET),'--rebuilt',str(BINARY/'build/c2.exe'),
           '--map',str(BINARY/'build/c2.map'),'--config',str(config),
