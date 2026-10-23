@@ -80,7 +80,8 @@
     "match_forward_type",
     "lookup_named_type",
     "find_local_named_type",
-    "record_base_classes"
+    "record_base_classes",
+    "leave_symbol_scope"
   ],
   "functions": [
     {
@@ -1991,7 +1992,16 @@
       "status": "stub",
       "extent": null,
       "ret": 0,
-      "parameters": []
+      "parameters": [
+        {
+          "name": "record",
+          "register": "ecx",
+          "kind": "type-record-pointer",
+          "root": "type_records",
+          "count": "type_record_count",
+          "native_pointee_width": 32
+        }
+      ]
     },
     {
       "name": "match_forward_type",
@@ -2389,10 +2399,14 @@
       "symbol": "_leave_symbol_scope",
       "native_symbol": "leave_symbol_scope",
       "original": 4238272,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4238272,
+        4238315
+      ],
       "ret": 0,
-      "parameters": []
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0075-leave-symbol-scope-typed-pointer/promotion.json"
     },
     {
       "name": "rewrite_symbol_type4",

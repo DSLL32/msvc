@@ -31,7 +31,6 @@ void read_type_database(const char *path) { __asm { int 3 } }
 int link_symbol_scopes(unsigned char *buffer, unsigned size) { __asm { int 3 } return 0; }
 void record_symbol_references(unsigned char *buffer, unsigned size, unsigned short module) { __asm { int 3 } }
 void enter_symbol_scope(void) { __asm { int 3 } }
-void leave_symbol_scope(void) { __asm { int 3 } }
 void rewrite_symbol_type4(void) { __asm { int 3 } }
 void rewrite_global_data_symbol(void) { __asm { int 3 } }
 void rewrite_register16_symbol(void) { __asm { int 3 } }

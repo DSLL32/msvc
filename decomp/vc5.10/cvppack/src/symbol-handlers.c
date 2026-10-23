@@ -52,3 +52,13 @@ void rewrite_bp_relative_symbol(void)
     if (!discard_symbol_depth)
         *(unsigned *)(symbol_input + 8) = map_type_index(*(unsigned *)(symbol_input + 8));
 }
+
+/* Close one symbol scope [0040abc0,0040abeb). */
+void leave_symbol_scope(void)
+{
+    --public_scope_depth;
+    if (discard_symbol_depth) {
+        *(unsigned short *)(symbol_input + 2) = 8;
+        --discard_symbol_depth;
+    }
+}

@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0074-record-base-classes/original",
-  "reference_receipt_sha256": "a64ccf8820f1dcd05b33a529038dbd9400825ec550860517be060a93ab42897f",
+  "reference": "cases/hello-debug-dll/evidence/0075-leave-symbol-scope-typed-pointer/original",
+  "reference_receipt_sha256": "f0e6847e72e79a4ad08f01f9324d838d49238c3ea1446ae7b16677a238d21d5d",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -80,6 +80,7 @@
     "lookup_named_type",
     "find_local_named_type",
     "record_base_classes",
-    "leave_symbol_scope"
+    "leave_symbol_scope",
+    "compact_legacy_pointer"
   ]
 }

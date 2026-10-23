@@ -18,7 +18,8 @@ views={side:{p.name:p.read_bytes() for p in (pair/side).glob(pattern)} for side,
 spec=importlib.util.spec_from_file_location('raw_state',BINARY/'scripts/raw-state.py');decoder=importlib.util.module_from_spec(spec);spec.loader.exec_module(decoder)
 def compare(state,raw=events):return decoder.compare(config,data,raw,state,artifacts,views)
 baseline=compare(native)
-if pair.name.startswith('0074-'):expected_used,expected_slots=328,7
+if pair.name.startswith('0075-'):expected_used,expected_slots=368,9
+elif pair.name.startswith('0074-'):expected_used,expected_slots=328,7
 elif pair.name.startswith('0073-'):expected_used,expected_slots=144,4
 else:expected_used,expected_slots=40,2
 arena=struct.unpack('<6I',bytes.fromhex(native['globals']['type_large_arena']));assert arena[0:2]==(65536,1) and arena[4]==65536-expected_used
@@ -63,7 +64,7 @@ reject('wrong-interned-payload-alias',lambda s:word(s,node,4,payload+1),'type pa
 reject('lost-dispatch-index-storage-alias',lambda s:globalword(s,'symbol_rewriters',304,0x1000),'symbol callback kind/reserved differs')
 if expected_slots>=4:
  root=int.from_bytes(bytes.fromhex(native['globals']['type_positions']),'little');heads=bytes.fromhex(native['memory'][str(root)])
- populated=[int.from_bytes(heads[offset:offset+4],'little') for offset in range(0,2048,4) if any(heads[offset:offset+4])];assert len(populated)==(2 if expected_slots==7 else 1)
+ populated=[int.from_bytes(heads[offset:offset+4],'little') for offset in range(0,2048,4) if any(heads[offset:offset+4])];assert len(populated)==(2 if expected_slots>=7 else 1)
  cached=populated[0];cache=struct.unpack('<5I',bytes.fromhex(native['memory'][str(cached)]));assert cache[2:]==(0x1003,0,0)
  assert bytes.fromhex(native['memory'][str(cache[0])])==b'\x07tagRECT'
  def wrong_name_owner(state):
@@ -79,6 +80,11 @@ if expected_slots>=4:
  else:
   reject('lost-public-scope-depth',lambda s:globalword(s,'public_scope_depth',0,2),'application global differs')
   reject('wrong-discard-scope-depth',lambda s:globalword(s,'discard_symbol_depth',0,1),'application global differs')
+if native['function']=='compact_legacy_pointer':
+ assert baseline['parameters']==dict(record=dict(root='type_records',index=14))
+ reject('wrong-pointer-record-index',lambda s:s['parameters']['record'].update(index=15),'typed ABI arguments differ')
+ reject('wrong-pointer-record-owner',lambda s:s['parameters']['record'].update(root='other'),'typed ABI arguments differ')
+ reject('wrong-real-pointer-record-extent',lambda s:s['observed_argument_types'][0].update(pointee_width=20),'actual frontier pointee extent differs')
 # Independent actual ELF DWARF layout: the graph metadata cannot invent a
 # separate global or shift the shared index away from the original DWORD.
 command=['gdb','-q','-nx','-batch',str(BINARY/'build/native/CVPACK'),'-ex',
