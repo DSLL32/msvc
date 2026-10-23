@@ -49,6 +49,11 @@ char *recon_tzname[2]={zone_names[0],zone_names[1]};
 int recon_days[13]={-1,30,58,89,119,150,180,211,242,272,303,333,364};
 int recon_fltused,recon_tmpoff;
 WEAK int recon_adjust_fdiv;
+int recon_crt_app_type,recon_crt_newmode,recon_crt_argc;
+char **recon_crt_argv,**recon_crt_environment,**recon_crt_initenv;
+int (__cdecl *recon_crt_matherr)(struct _exception *);
+static int recon_crt_arguments_bound,recon_crt_matherr_default;
+struct _startupinfo { int newmode; };
 WEAK long recon_osfhnd[256];
 #define os_handles recon_osfhnd
 char *recon_decimal_point=".";
@@ -62,6 +67,50 @@ WEAK void recon_initterm(ReconInitializer *begin,ReconInitializer *end)
         if (*begin) (*begin)();
         ++begin;
     }
+}
+
+void recon_crt_bind_arguments(int argc,char **argv,char **environment)
+{
+    int n;
+    if (argc<0 || argc>4096 || !argv || !environment || argv[argc])
+        recon_unsupported("invalid bound CRT arguments");
+    for (n=0;n<argc;++n) if (!argv[n]) recon_unsupported("missing bound CRT argument");
+    for (n=0;environment[n];++n) if (n==16384) recon_unsupported("bound CRT environment too large");
+    if (recon_crt_arguments_bound &&
+        (argc!=recon_crt_argc || argv!=recon_crt_argv || environment!=recon_crt_environment))
+        recon_unsupported("CRT arguments rebound");
+    recon_crt_argc=argc; recon_crt_argv=argv; recon_crt_environment=environment;
+    recon_crt_arguments_bound=1;
+}
+
+WEAK void recon_set_app_type(int type) { recon_crt_app_type=type; }
+WEAK int *recon_p_fmode(void) { return &recon_fmode; }
+WEAK int *recon_p_commode(void) { return &recon_commode; }
+WEAK char ***recon_p_initenv(void) { return &recon_crt_initenv; }
+
+WEAK void recon_getmainargs(int *argc,char ***argv,char ***environment,int wildcard,
+                            struct _startupinfo *information)
+{
+    if (!recon_crt_arguments_bound) recon_unsupported("unbound CRT arguments");
+    if (wildcard) recon_unsupported("__getmainargs wildcard expansion");
+    if (!argc || !argv || !environment || !information) recon_unsupported("invalid __getmainargs output");
+    recon_crt_newmode=information->newmode;
+    *argc=recon_crt_argc; *argv=recon_crt_argv; *environment=recon_crt_environment;
+}
+
+WEAK void recon_setusermatherr(int (__cdecl *callback)(struct _exception *))
+{
+    recon_crt_matherr_default=0;
+    recon_crt_matherr=callback;
+}
+
+/* CVTRES's first help case does not execute this imported sharing-mode API.
+ * Retain its correct compile-time ABI and fail until a real call is captured. */
+WEAK ShimFILE *recon_fsopen(const char *path,const char *mode,int sharing)
+{
+    (void)path; (void)mode; (void)sharing;
+    recon_unsupported("_fsopen without reviewed sharing contract");
+    return NULL;
 }
 
 void recon_unsupported(const char *operation)

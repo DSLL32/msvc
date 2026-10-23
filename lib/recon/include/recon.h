@@ -82,6 +82,17 @@ extern int recon_days[13],recon_fltused,recon_tmpoff;
 extern int recon_adjust_fdiv;
 typedef void (__cdecl *ReconInitializer)(void);
 void recon_initterm(ReconInitializer *,ReconInitializer *);
+struct _startupinfo;
+struct _exception;
+extern int recon_crt_app_type,recon_crt_newmode,recon_crt_argc;
+extern char **recon_crt_argv,**recon_crt_environment,**recon_crt_initenv;
+extern int (__cdecl *recon_crt_matherr)(struct _exception *);
+void recon_crt_bind_arguments(int,char **,char **);
+void recon_set_app_type(int);
+int *recon_p_fmode(void),*recon_p_commode(void);
+char ***recon_p_initenv(void);
+void recon_getmainargs(int *,char ***,char ***,int,struct _startupinfo *);
+void recon_setusermatherr(int (__cdecl *)(struct _exception *));
 extern char *recon_decimal_point;
 #ifndef SIGBREAK
 #define SIGBREAK 21
@@ -108,6 +119,7 @@ extern char *recon_decimal_point;
 #endif
 
 ShimFILE *recon_fopen(const char *,const char *);
+ShimFILE *recon_fsopen(const char *,const char *,int);
 ShimFILE *recon_freopen(const char *,const char *,ShimFILE *);
 void recon_setbuf(ShimFILE *,char *);
 int recon_flushall(void),recon_fcloseall(void),recon_flsbuf(int,ShimFILE *);
@@ -235,6 +247,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define getchar() recon_fgetc(stdin)
 #define putchar(c) recon_fputc((c),stdout)
 #define fopen recon_fopen
+#define _fsopen recon_fsopen
 #define freopen recon_freopen
 #define setbuf recon_setbuf
 #define flushall recon_flushall
@@ -291,6 +304,12 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _find recon_find
 #define _initterm recon_initterm
 #define _adjust_fdiv recon_adjust_fdiv
+#define __set_app_type recon_set_app_type
+#define __p__fmode recon_p_fmode
+#define __p__commode recon_p_commode
+#define __p___initenv recon_p_initenv
+#define __getmainargs recon_getmainargs
+#define __setusermatherr recon_setusermatherr
 #define strcpy recon_strcpy
 #define _openfile recon_openfile
 #define _read recon_read
@@ -409,6 +428,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _iob recon_iob
 #define __mb_cur_max recon_mb_cur_max
 #define __tzset recon_tzset
+#define _tzset recon_tzset
 #undef _IOFBF
 #undef _IOLBF
 #undef _IONBF

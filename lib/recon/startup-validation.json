@@ -1,0 +1,24 @@
+{
+  "scope": "canonical MSVCRT startup import state and explicit argument binding",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "original_evidence": [
+    "decomp/vc5.10/rc/cases/msvcrt-mainargs-analysis.txt",
+    "decomp/vc5.10/rc/cases/msvcrt-matherr-analysis.txt",
+    "/root/.ai-tmp/msvc2/vc5.10/rc/captures/canonical-help-1",
+    "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/controlled-startup-observer"
+  ],
+  "tests": [
+    "borrowed argv/environment pointer identity and mutation",
+    "stable fmode/commode/initenv pointers",
+    "app type/newmode/matherr state",
+    "errno/LastError preservation",
+    "unbound/wildcard/rebind/fsopen fail closed"
+  ],
+  "clang_build_checks_seconds": 1.1950053330510855,
+  "gcc_checks": "passed",
+  "limits": [
+    "wildcard zero only",
+    "independent host-seeded target vectors",
+    "fsopen deliberately unsupported until sharing semantics observed"
+  ]
+}
