@@ -806,7 +806,17 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         json!({"schema":1,"functions":{},"callback_tables":[]})
     };
     ensure!(metadata["schema"] == 1, "unsupported graph metadata schema");
-    for f in &x.drivers {
+    let mut progress = x.drivers.clone();
+    if a.include_evidenced_runtime {
+        for record in &x.oi {
+            if declared_evidence(&record.evidence)
+                && !progress.iter().any(|r| r.name == record.name)
+            {
+                progress.push(record.clone());
+            }
+        }
+    }
+    for f in &progress {
         if !x.accepted.contains(&f.name) {
             continue;
         }
@@ -950,8 +960,18 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             );
         }
     }
+    let accepted = if a.check_accepted_extents {
+        Some(accepted_extents(
+            &d,
+            x,
+            &metadata,
+            a.check_instruction_overlap,
+        )?)
+    } else {
+        None
+    };
     Ok(
-        json!({"profile":a.profile,"discovery":"cfg","checked_functions":report.len(),"functions":report}),
+        json!({"profile":a.profile,"discovery":"cfg","checked_functions":report.len(),"checked_accepted_extents":accepted.as_ref().map(|v|&v.0),"checked_unique_accepted_extents":accepted.as_ref().map(|v|&v.1),"original_accepted_graphs":accepted.as_ref().map(|v|&v.2),"functions":report}),
     )
 }
 
@@ -1087,6 +1107,90 @@ fn callback_tables(
         }
     }
     Ok(())
+}
+
+fn declared_evidence(value: &Value) -> bool {
+    match value {
+        Value::Null => false,
+        Value::Bool(v) => *v,
+        Value::String(v) => !v.is_empty(),
+        Value::Array(v) => !v.is_empty(),
+        Value::Object(v) => !v.is_empty(),
+        Value::Number(v) => v.as_f64().is_some_and(|v| v != 0.0),
+    }
+}
+fn accepted_extents(
+    d: &Decoder,
+    x: &Inputs,
+    metadata: &Value,
+    forbid_overlap: bool,
+) -> Result<(Value, Value, Value)> {
+    let mut raw_original = BTreeMap::<String, (BTreeSet<u32>, BTreeSet<u32>)>::new();
+    let mut counts = BTreeMap::new();
+    let mut unique_counts = BTreeMap::new();
+    for (side, pe, index) in [("original", &x.o, &x.oi), ("rebuilt", &x.r, &x.ri)] {
+        let mut checked = BTreeSet::new();
+        let mut records = 0;
+        for record in index {
+            if !x.accepted.contains(&record.name) {
+                continue;
+            }
+            records += 1;
+            if !checked.insert((record.name.clone(), record.start, record.end)) {
+                continue;
+            }
+            let mut options = crate::flow::Options {
+                infer_switches: true,
+                infer_seh: true,
+                allow_extent_end: true,
+                forbid_overlapping_instructions: forbid_overlap,
+                ..Default::default()
+            };
+            apply_metadata(&mut options, &metadata["functions"][&record.name][side])?;
+            let graph = crate::flow::walk(d, pe, record.start, record.end, &options).with_context(
+                || {
+                    format!(
+                        "{side} accepted extent {} {:x}..{:x}",
+                        record.name, record.start, record.end
+                    )
+                },
+            )?;
+            if side == "original" {
+                let raw = raw_original.entry(record.name.clone()).or_default();
+                raw.0.extend(&graph.calls);
+                raw.1.extend(&graph.references);
+            }
+            let tail = graph
+                .tables
+                .iter()
+                .filter(|(start, _)| inside(record, *start))
+                .map(|(_, end)| *end)
+                .max()
+                .unwrap_or(record.start);
+            ensure!(
+                tail <= record.end,
+                "{} switch data exceeds accepted extent",
+                record.name
+            );
+            boundary(d, pe, record, tail, false)
+                .with_context(|| format!("{side} accepted extent tail {}", record.name))?;
+        }
+        counts.insert(side, records);
+        unique_counts.insert(side, checked.len());
+    }
+    Ok((
+        json!(counts),
+        json!(unique_counts),
+        json!(
+            raw_original
+                .into_iter()
+                .map(|(name, (calls, references))| (
+                    name,
+                    json!({"calls":calls,"references":references})
+                ))
+                .collect::<BTreeMap<_, _>>()
+        ),
+    ))
 }
 
 #[cfg(test)]

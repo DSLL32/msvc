@@ -26,7 +26,7 @@ pub enum Discovery {
 }
 #[derive(Parser, Debug)]
 #[command(
-    about = "Read-only PE function graph audits. Experimental: no build integration.",
+    about = "Read-only PE function graph audits and explicit optional checks.",
     version
 )]
 pub struct Args {
@@ -46,6 +46,16 @@ pub struct Args {
     pub check_ownership: bool,
     #[arg(long)]
     pub check_extents: bool,
+    #[arg(
+        long,
+        help = "Also compare accepted, explicitly evidenced runtime graph vertices from verified indexes"
+    )]
+    pub include_evidenced_runtime: bool,
+    #[arg(
+        long,
+        help = "Check instruction extents of every accepted source/runtime/import index record on both sides"
+    )]
+    pub check_accepted_extents: bool,
     #[arg(
         long,
         help = "Assume instructions cannot overlap within a function (not a universal x86 rule)"
@@ -86,6 +96,8 @@ fn run() -> Result<()> {
                 || args.check_ownership
                 || args.check_extents
                 || args.check_instruction_overlap
+                || args.include_evidenced_runtime
+                || args.check_accepted_extents
                 || args.metadata.is_some()),
         "optional checks/metadata require --discovery cfg; legacy mode already applies exact Python preset checks"
     );
@@ -108,6 +120,8 @@ fn run() -> Result<()> {
             (args.check_callbacks, "callback_tables"),
             (args.check_ownership, "extent_ownership"),
             (args.check_extents, "whole_extent_boundaries"),
+            (args.include_evidenced_runtime, "evidenced_runtime_graphs"),
+            (args.check_accepted_extents, "accepted_index_extents"),
             (
                 args.check_instruction_overlap,
                 "nonoverlapping_instruction_assumption",

@@ -16,6 +16,7 @@ pub struct Options {
     pub strict: bool,
     pub forbid_overlapping_instructions: bool,
     pub stop_on_software_interrupts: bool,
+    pub allow_extent_end: bool,
     pub fallthrough_entry: Option<u32>,
 }
 #[derive(Default)]
@@ -159,7 +160,10 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
                 out.tails.insert(t);
             }
         }
-        if i.next() == end && options.fallthrough_entry == Some(end) {
+        if i.next() == end && options.allow_extent_end {
+            // Extent-only passes check instruction integrity, not whether a
+            // library fragment/alias has a separately identified successor.
+        } else if i.next() == end && options.fallthrough_entry == Some(end) {
             out.calls.insert(end);
             out.tails.insert(end);
         } else {

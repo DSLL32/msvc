@@ -429,6 +429,10 @@ fn switches(d: &Decoder, pe: &Pe, start: u32, end: u32, expected: &[u32]) -> Res
 }
 pub fn run(a: &Args) -> Result<Value> {
     ensure!(
+        !a.include_evidenced_runtime && !a.check_accepted_extents,
+        "CVPACK uses explicit application/support ownership metadata; indexed-runtime flags are for standalone profiles"
+    );
+    ensure!(
         a.metadata.is_none(),
         "CVPACK graph metadata comes from functions.json; --metadata is for standalone profiles"
     );

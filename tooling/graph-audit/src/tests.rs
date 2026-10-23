@@ -216,3 +216,15 @@ fn crt_literal_must_fit_its_declared_width() {
     assert!(crate::index::integer_bytes(1, 0).is_err());
     assert!(crate::index::integer_bytes(0, 0).is_ok());
 }
+
+#[test]
+fn extent_only_walk_allows_fragment_end_but_never_split_operand() {
+    let d = Decoder::new().unwrap();
+    let p = image(&[0x90, 0xc2, 4, 0]);
+    let options = Options {
+        allow_extent_end: true,
+        ..Options::default()
+    };
+    assert!(walk(&d, &p, 0x401000, 0x401001, &options).is_ok());
+    assert!(walk(&d, &p, 0x401000, 0x401002, &options).is_err());
+}

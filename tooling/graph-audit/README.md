@@ -86,6 +86,8 @@ are opt-in:
 | `--check-callbacks` | Compare ordered, non-null callback table entries and acceptance requirements from metadata. RC has supplied table metadata; other profiles require `--metadata`. |
 | `--check-ownership` | Require original application ranges to be disjoint, file-backed code. CVPACK additionally checks application/text-data/runtime/contextual-data ownership and explicit runtime aliases. |
 | `--check-extents` | Check whole extent tail boundaries beyond reached instructions, excluding discovered switch data. CVPACK uses its complete rooted-body/padding checks. |
+| `--include-evidenced-runtime` | Also compare accepted indexed runtime vertices with explicit evidence; names already in the driver list are not duplicated. |
+| `--check-accepted-extents` | Check every accepted source/runtime/import index extent on both sides, independently of graph-vertex selection. Indexed standalone profiles only; CVPACK retains its explicit support policy. |
 | `--check-instruction-overlap` | Explicitly assume one instruction owner per byte within a function. This is a reconstruction constraint, **not a universal x86 rule**. |
 
 ```sh
@@ -93,6 +95,15 @@ tooling/graph-audit/target/release/graph-audit \
   --repo . --project decomp/vc1.0/rc --profile rc \
   --check-ret --check-references --check-callbacks --check-ownership
 ```
+
+`checked_accepted_extents` reports raw accepted index-record counts, and
+`checked_unique_accepted_extents` reports distinct `(name,start,end)` checks.
+Identical duplicate records share one decode; no distinct extent is omitted.
+`original_accepted_graphs` exposes raw numeric call targets and non-branch immediate
+references for the accepted original records, unioned by name. These are unfiltered
+addresses for inventory consumers, separate from mapped graph-equivalence checks.
+Extent-only passes allow a complete final instruction at a library fragment's
+endpoint, but never an instruction operand clipped by that endpoint.
 
 Input identity and existing profile-specific index validation still run: original
 SHA-256, symbol mapping, declared duplicate/extent checks and relevant existing

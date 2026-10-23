@@ -1,0 +1,105 @@
+{
+  "timestamp": "2026-10-23T10:25:48.452404+00:00",
+  "binary_sha256": "0860744fdd9976d4c35608cef0edcb1a99c049887a27219cf46225dbbe8967ae",
+  "scope": "Current coherent canonical PE/index checkpoints; C2 frozen worker snapshot. Host-only single samples, not independent Python benchmark. Worker mutation results remain separately reported.",
+  "validation": "17 unit tests; clippy all-targets -D warnings; quiet release build",
+  "profiles": {
+    "c2": {
+      "command": [
+        "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+        "--profile",
+        "c2",
+        "--project",
+        "/root/.ai-tmp/msvc2/vc1.0/c2/rust-audit-snapshot/decomp/vc1.0/c2",
+        "--repo",
+        "/root/.ai-tmp/msvc2/vc1.0/c2/rust-audit-snapshot",
+        "--check-extents",
+        "--check-accepted-extents"
+      ],
+      "seconds": 1.3497260324656963,
+      "checked_functions": 1010,
+      "checked_accepted_extents": {
+        "original": 1089,
+        "rebuilt": 1089
+      },
+      "checked_unique_accepted_extents": {
+        "original": 1089,
+        "rebuilt": 1089
+      },
+      "raw_original_graph_count": 1089
+    },
+    "link": {
+      "command": [
+        "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+        "--profile",
+        "link",
+        "--project",
+        "/root/msvc2/decomp/vc1.0/link",
+        "--repo",
+        "/root/msvc2",
+        "--check-extents",
+        "--check-accepted-extents",
+        "--include-evidenced-runtime"
+      ],
+      "seconds": 0.889480322599411,
+      "checked_functions": 636,
+      "checked_accepted_extents": {
+        "original": 790,
+        "rebuilt": 787
+      },
+      "checked_unique_accepted_extents": {
+        "original": 785,
+        "rebuilt": 784
+      },
+      "raw_original_graph_count": 784
+    },
+    "rc": {
+      "command": [
+        "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+        "--profile",
+        "rc",
+        "--project",
+        "/root/msvc2/decomp/vc1.0/rc",
+        "--repo",
+        "/root/msvc2",
+        "--check-extents",
+        "--check-accepted-extents"
+      ],
+      "seconds": 0.2011629045009613,
+      "checked_functions": 193,
+      "checked_accepted_extents": {
+        "original": 254,
+        "rebuilt": 254
+      },
+      "checked_unique_accepted_extents": {
+        "original": 254,
+        "rebuilt": 254
+      },
+      "raw_original_graph_count": 254
+    },
+    "rcpp": {
+      "command": [
+        "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+        "--profile",
+        "rcpp",
+        "--project",
+        "/root/msvc2/decomp/vc1.0/rcpp",
+        "--repo",
+        "/root/msvc2",
+        "--check-extents",
+        "--check-accepted-extents"
+      ],
+      "seconds": 0.15658873040229082,
+      "checked_functions": 161,
+      "checked_accepted_extents": {
+        "original": 179,
+        "rebuilt": 179
+      },
+      "checked_unique_accepted_extents": {
+        "original": 179,
+        "rebuilt": 179
+      },
+      "raw_original_graph_count": 179
+    }
+  }
+}
