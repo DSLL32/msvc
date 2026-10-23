@@ -2668,3 +2668,11 @@ Recovered integer comparison folding, folded-branch edge cleanup and nested
 loop counter ownership/representability logic; current frontier @schedule_generic_instruction@4.
 Seven native cases pass, with six complete object oracles and one named trap.
 Original/W3 and graph/extent audits pass. See cases/i386-loop-cleanup.json for evidence/limits.
+
+Generic x86 issue checkpoint1069
+The whole generic issue driver and i386/i486 instruction chooser are recovered
+in readable C. Fresh matching reaches gather_generic_candidates; its collector,
+selector, search and address-swap children remain named traps. Seven native
+cases, canonical/W3 and991 whole-function graph/extent checks pass. The current
+integer case exercises the entry-label path; x87/i486 branches remain unvisited.
+See cases/i386-generic-issue.json for limits and separate measured timings.

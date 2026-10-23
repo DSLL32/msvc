@@ -154,4 +154,9 @@ int __fastcall move_instruction_into_pentium_gap(MachineInstruction *first, Mach
 void __fastcall update_pentium_gap_history(MachineInstruction *last, MachineInstruction *first, MachineInstruction *second);
 int __fastcall find_forward_scheduled_symbol(SymbolHeader **symbol, MachineInstruction *boundary, unsigned short number);
 MachineInstruction *__fastcall find_prior_scheduled_definition(unsigned short number, MachineInstruction *boundary);
+MachineInstruction *__fastcall choose_generic_instruction(MachineInstruction *instruction);
+int __fastcall gather_generic_candidates(MachineInstruction *instruction, SchedulerCandidate *candidates);
+void __fastcall select_generic_candidate(int count, SchedulerCandidate *candidates);
+MachineInstruction *__fastcall find_generic_candidate(MachineInstruction *instruction, int forward, int reason);
+int __fastcall swap_scheduled_address_registers(MachineInstruction *instruction);
 #endif

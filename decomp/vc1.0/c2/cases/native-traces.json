@@ -2,7 +2,7 @@
   "schema": 1,
   "description": "Cached original application-entry projection; no capture or Wine",
   "metadata_sha256": {
-    "functions.json": "d08cb3f535bb1bb46c0e0d1e97651a847d58e7e83b89484369a2914beb08a9c5",
+    "functions.json": "ac461cf785fb08e43de18d69b730ddad6d88267d50ad48dfcbd4ad10f13a4bb0",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -489,6 +489,10 @@
     "choose_derived_induction_representative": {
       "logical": "@choose_derived_induction_representative@16",
       "source": "src/region-motion.c"
+    },
+    "choose_generic_instruction": {
+      "logical": "@choose_generic_instruction@4",
+      "source": "src/scheduler.c"
     },
     "choose_memory_split_register": {
       "logical": "@choose_memory_split_register@8",
@@ -1562,6 +1566,10 @@
       "logical": "@find_function_end@4",
       "source": "src/jump-threading.c"
     },
+    "find_generic_candidate": {
+      "logical": "@find_generic_candidate@12",
+      "source": "src/stubs.c"
+    },
     "find_induction_initial_value": {
       "logical": "@find_induction_initial_value@4",
       "source": "src/region-motion.c"
@@ -1921,6 +1929,10 @@
     "function_stack_alignment": {
       "logical": "_function_stack_alignment",
       "source": "src/frame.c"
+    },
+    "gather_generic_candidates": {
+      "logical": "@gather_generic_candidates@8",
+      "source": "src/stubs.c"
     },
     "gather_pentium_candidates": {
       "logical": "@gather_pentium_candidates@12",
@@ -4236,7 +4248,7 @@
     },
     "schedule_generic_instruction": {
       "logical": "@schedule_generic_instruction@4",
-      "source": "src/stubs.c"
+      "source": "src/scheduler.c"
     },
     "schedule_i586_branches": {
       "logical": "@schedule_i586_branches@4",
@@ -4345,6 +4357,10 @@
     "select_float_motion_uses": {
       "logical": "_select_float_motion_uses",
       "source": "src/float-machine.c"
+    },
+    "select_generic_candidate": {
+      "logical": "@select_generic_candidate@8",
+      "source": "src/stubs.c"
     },
     "select_intrinsic": {
       "logical": "@select_intrinsic@4",
@@ -4637,6 +4653,10 @@
     "swap_comparison_for_match": {
       "logical": "@swap_comparison_for_match@12",
       "source": "src/comparison-branches.c"
+    },
+    "swap_scheduled_address_registers": {
+      "logical": "@swap_scheduled_address_registers@4",
+      "source": "src/stubs.c"
     },
     "symbol_display_name": {
       "logical": "@symbol_display_name@4",
@@ -32895,6 +32915,144 @@
               "total_seconds": 1.5619753310456872
             }
           }
+        },
+        {
+          "accepted_function": "@schedule_generic_instruction@4",
+          "accepted_kind": "application",
+          "previous_logical": "@schedule_generic_instruction@4",
+          "original_extent": [
+            "0x3fbf0",
+            "0x3fd30"
+          ],
+          "before": {
+            "path": "cases/i386-original-1067.json",
+            "sha256": "263a5141085c15bca6ce7cba0fda2e612e7bb7e04fb0cf9c807302172747ca7a",
+            "capture": {
+              "label": "i386-original-1067",
+              "profile": "i386",
+              "accepted": 1067,
+              "events": "exception 80000003 rva 0002fbf0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "3c63b798f4379b3560df7759b2e449491001c97f6fc53a62a1ca8a7d7e2353b2",
+              "config_sha256": "d08cb3f535bb1bb46c0e0d1e97651a847d58e7e83b89484369a2914beb08a9c5",
+              "manifest_sha256": "80d79e6d1232fc597ba7021493941d381d211709b11fafb7f48c4c3be705ab29",
+              "inputs": {
+                "c2/irex": "7e32f215ad3cc786063200141e548ab54d675d451f079e16554c74c8a2143bcb",
+                "c2/irsy": "9524374e98cdc9bcc7ac1e45f548ba58cc0b8f19410a26e36aca55143e55abe4",
+                "c2/irin": "87ff79aafb82c994aee0847de0d77731ad9345f73beff27c5f279e7eab6ddd91",
+                "c2/irgl": "9fb7a96e237738df6a2c7257d2116b66aa32003887bcf41488f92bf5b204e1f1"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f integer386.c -W 1 -dos -Fointeger386.obj -ML -Gs4096 -Gy -G3 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-i386-tgh_8k75",
+              "logical": "@schedule_generic_instruction@4",
+              "original_va": "0x3fbf0",
+              "setup_seconds": 0.23149641789495945,
+              "execution_seconds": 1.323505780659616,
+              "check_seconds": 0.0069726817309856415,
+              "total_seconds": 1.5619753310456872
+            }
+          },
+          "after": {
+            "path": "cases/i386-original-1068.json",
+            "sha256": "a9730f31f7f6ac3ee515525fb7e2000593eed034e05996ac3447be0217e3d313",
+            "capture": {
+              "label": "i386-original-1068",
+              "profile": "i386",
+              "accepted": 1068,
+              "events": "exception 80000003 rva 000300a0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "2b01880f222e483ce0c44aa6ebc9a42fb21e6c6cc468e1ec61c7be148fc326b9",
+              "config_sha256": "6cf6cb5ac69be48aa6753db8aa01ba29d0fcfe3c845917283847a8e472c13685",
+              "manifest_sha256": "80d79e6d1232fc597ba7021493941d381d211709b11fafb7f48c4c3be705ab29",
+              "inputs": {
+                "c2/irex": "7e32f215ad3cc786063200141e548ab54d675d451f079e16554c74c8a2143bcb",
+                "c2/irsy": "9524374e98cdc9bcc7ac1e45f548ba58cc0b8f19410a26e36aca55143e55abe4",
+                "c2/irin": "87ff79aafb82c994aee0847de0d77731ad9345f73beff27c5f279e7eab6ddd91",
+                "c2/irgl": "9fb7a96e237738df6a2c7257d2116b66aa32003887bcf41488f92bf5b204e1f1"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f integer386.c -W 1 -dos -Fointeger386.obj -ML -Gs4096 -Gy -G3 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-i386-cgr4h13g",
+              "logical": "@choose_generic_instruction@4",
+              "original_va": "0x400a0",
+              "setup_seconds": 0.22087497543543577,
+              "execution_seconds": 1.2307184925302863,
+              "check_seconds": 0.0065277451649308205,
+              "total_seconds": 1.4581216210499406
+            }
+          }
+        },
+        {
+          "accepted_function": "@choose_generic_instruction@4",
+          "accepted_kind": "application",
+          "previous_logical": "@choose_generic_instruction@4",
+          "original_extent": [
+            "0x400a0",
+            "0x4044f"
+          ],
+          "before": {
+            "path": "cases/i386-original-1068.json",
+            "sha256": "a9730f31f7f6ac3ee515525fb7e2000593eed034e05996ac3447be0217e3d313",
+            "capture": {
+              "label": "i386-original-1068",
+              "profile": "i386",
+              "accepted": 1068,
+              "events": "exception 80000003 rva 000300a0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "2b01880f222e483ce0c44aa6ebc9a42fb21e6c6cc468e1ec61c7be148fc326b9",
+              "config_sha256": "6cf6cb5ac69be48aa6753db8aa01ba29d0fcfe3c845917283847a8e472c13685",
+              "manifest_sha256": "80d79e6d1232fc597ba7021493941d381d211709b11fafb7f48c4c3be705ab29",
+              "inputs": {
+                "c2/irex": "7e32f215ad3cc786063200141e548ab54d675d451f079e16554c74c8a2143bcb",
+                "c2/irsy": "9524374e98cdc9bcc7ac1e45f548ba58cc0b8f19410a26e36aca55143e55abe4",
+                "c2/irin": "87ff79aafb82c994aee0847de0d77731ad9345f73beff27c5f279e7eab6ddd91",
+                "c2/irgl": "9fb7a96e237738df6a2c7257d2116b66aa32003887bcf41488f92bf5b204e1f1"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f integer386.c -W 1 -dos -Fointeger386.obj -ML -Gs4096 -Gy -G3 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-i386-cgr4h13g",
+              "logical": "@choose_generic_instruction@4",
+              "original_va": "0x400a0",
+              "setup_seconds": 0.22087497543543577,
+              "execution_seconds": 1.2307184925302863,
+              "check_seconds": 0.0065277451649308205,
+              "total_seconds": 1.4581216210499406
+            }
+          },
+          "after": {
+            "path": "cases/i386-original-1069.json",
+            "sha256": "385073a9838d205d6cf85688d34b33f9d5c8bcce969a218bfc9d001bdd61700b",
+            "capture": {
+              "label": "i386-original-1069",
+              "profile": "i386",
+              "accepted": 1069,
+              "events": "exception 80000003 rva 000310f0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "dc125fc38d306450381bf0948f01a9ff930aaa5462085479b17987d7c2bb0713",
+              "config_sha256": "ac461cf785fb08e43de18d69b730ddad6d88267d50ad48dfcbd4ad10f13a4bb0",
+              "manifest_sha256": "80d79e6d1232fc597ba7021493941d381d211709b11fafb7f48c4c3be705ab29",
+              "inputs": {
+                "c2/irex": "7e32f215ad3cc786063200141e548ab54d675d451f079e16554c74c8a2143bcb",
+                "c2/irsy": "9524374e98cdc9bcc7ac1e45f548ba58cc0b8f19410a26e36aca55143e55abe4",
+                "c2/irin": "87ff79aafb82c994aee0847de0d77731ad9345f73beff27c5f279e7eab6ddd91",
+                "c2/irgl": "9fb7a96e237738df6a2c7257d2116b66aa32003887bcf41488f92bf5b204e1f1"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f integer386.c -W 1 -dos -Fointeger386.obj -ML -Gs4096 -Gy -G3 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-i386-zsn3cmpn",
+              "logical": "@gather_generic_candidates@8",
+              "original_va": "0x410f0",
+              "setup_seconds": 0.22128054313361645,
+              "execution_seconds": 1.5136098340153694,
+              "check_seconds": 0.008494889363646507,
+              "total_seconds": 1.743385679088533
+            }
+          }
         }
       ]
     }
@@ -37504,7 +37662,7 @@
     },
     "i386": {
       "first": 1061,
-      "last": 1067,
+      "last": 1069,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -38491,9 +38649,11 @@
         "save_region_counter",
         "can_rewrite_induction_comparison",
         "release_loop_tree_record",
-        "schedule_generic_instruction"
+        "schedule_generic_instruction",
+        "choose_generic_instruction",
+        "gather_generic_candidates"
       ],
-      "terminal": "@schedule_generic_instruction@4",
+      "terminal": "@gather_generic_candidates@8",
       "terminal_kind": "application",
       "returncode": -5
     }

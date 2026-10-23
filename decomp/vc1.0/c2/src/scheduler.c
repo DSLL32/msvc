@@ -2597,3 +2597,136 @@ int __fastcall scheduler_call_float_arguments(MachineInstruction *instruction)
     if (mask & 0x8000) ++count;
     return count;
 }
+
+/* Original [0003fbf0,0003fd30). Emit one i386/i486 choice, maintaining
+   memory-run and x87 overlap history before returning the next stream record. */
+MachineInstruction *__fastcall schedule_generic_instruction(MachineInstruction *instruction)
+{
+    MachineInstruction *chosen, *next;
+    unsigned operation;
+    scheduler_undo = 0;
+    chosen = choose_generic_instruction(instruction);
+    if (scheduler_track_registers) update_scheduled_registers(chosen);
+    scheduler_instruction = chosen;
+    next = chosen->next;
+    if (instruction_accesses_memory(scheduler_instruction)) ++scheduler_memory_run;
+    else scheduler_memory_run = 0;
+    operation = (scheduler_instruction->opcode >> 8) & 255;
+    if (SCHEDULER_FLOAT_OPERATION(operation)) {
+        scheduler_instruction->opcode &= ~0x200000UL;
+        if (scheduler_float_delay > 0 && (operation == MC_FST || operation == MC_FSTP))
+            scheduler_instruction->opcode |= 0x200000UL;
+        scheduler_last_float = scheduler_instruction;
+        SET_SCHEDULER_FLOAT_DELAY(scheduler_float_delay, operation);
+    } else if (scheduler_float_delay > 0) {
+        scheduler_instruction->record.scheduling->flags |= 0x20;
+        if (operation == MC_CALL) scheduler_float_delay = 0;
+        else {
+            scheduler_float_delay = (signed char)((unsigned char)scheduler_float_delay -
+                (unsigned char)scheduler_instruction_cycles(scheduler_instruction));
+            if (scheduler_float_delay < 0) scheduler_float_delay = 0;
+        }
+    }
+    if (operation == MC_REP || operation == MC_REPZ || operation == MC_REPNZ) {
+        next = scheduler_instruction->next->next;
+        scheduler_instruction = next->previous;
+    }
+    return next;
+}
+
+/* Original [000400a0,0004044f). Generic x86 issue policy: entry-label
+   lookahead, x87 latency filling, i486 address/memory stalls and partial-register
+   dependencies. Candidate collection and movement retain their own functions. */
+MachineInstruction *__fastcall choose_generic_instruction(MachineInstruction *instruction)
+{
+    SchedulerCandidate candidates[3];
+    MachineInstruction *chosen;
+    unsigned operation, prior_operation, width;
+    unsigned short reg, source;
+    int count;
+    signed char delay, remaining;
+    if (!scheduler_instruction) {
+        if (scheduler_after_label && cpu_model == 3) {
+            count = gather_generic_candidates(instruction, candidates);
+            select_generic_candidate(count, candidates);
+            if (instruction == candidates[0].instruction) return instruction;
+            scheduler_address_penalty = 4;
+            scheduler_undo = candidates[0].undo;
+            place_scheduled_instruction(instruction->previous, candidates[0].instruction);
+            candidates[0].instruction->record.scheduling->flags &= ~0x20U;
+            return candidates[0].instruction;
+        }
+        return instruction;
+    }
+    operation = (instruction->opcode >> 8) & 255;
+    if (scheduler_float_delay && SCHEDULER_FLOAT_OPERATION(operation)) {
+        if (!(scheduler_last_float->record.scheduling->flags & 8)) {
+            chosen = find_generic_candidate(instruction, 0, 0);
+            if (chosen) return chosen;
+            scheduler_last_float->record.scheduling->flags |= 8;
+        }
+        if (!(scheduler_last_float->record.scheduling->flags & 0x10)) {
+            chosen = find_generic_candidate(instruction, 1, 0);
+            if (chosen) return chosen;
+            scheduler_last_float->record.scheduling->flags |= 0x10;
+        }
+        return instruction;
+    }
+    if (cpu_model == 4 && scheduler_memory_run > 3 && instruction_accesses_memory(instruction)) {
+        chosen = find_generic_candidate(instruction, 0, 2);
+        if (chosen) return chosen;
+        chosen = find_generic_candidate(instruction, 1, 2);
+        if (chosen) return chosen;
+    }
+    if (cpu_model != 3 && instruction_pair_conflict(instruction, scheduler_instruction)) {
+        if (swap_scheduled_address_registers(instruction)) return instruction;
+        if (!scheduler_move_conflict(instruction, scheduler_instruction, 0, 1)) {
+            scheduler_address_penalty = 1;
+            place_scheduled_instruction(instruction, scheduler_instruction);
+            operation = (instruction->opcode >> 8) & 255;
+            if (SCHEDULER_FLOAT_OPERATION(operation)) {
+                SET_SCHEDULER_FLOAT_DELAY(delay, operation);
+                remaining = (signed char)((unsigned char)delay -
+                    (unsigned char)scheduler_instruction_cycles(scheduler_instruction));
+                if (delay) scheduler_instruction->record.scheduling->flags |= 0x20;
+                scheduler_float_delay = remaining;
+                if (scheduler_float_delay < 0) scheduler_float_delay = 0;
+                scheduler_last_float = instruction;
+            }
+            return scheduler_instruction;
+        }
+        chosen = find_generic_candidate(instruction, 0, 1);
+        if (chosen) return chosen;
+        chosen = find_generic_candidate(instruction, 1, 1);
+        if (chosen) return chosen;
+        return instruction;
+    }
+    if (pentium_prefix_instruction(instruction) &&
+        (unsigned short)scheduler_instruction_cycles(scheduler_instruction) == 1) {
+        chosen = find_generic_candidate(instruction, 0, 3);
+        if (chosen) return chosen;
+        chosen = find_generic_candidate(instruction, 1, 3);
+        if (chosen) return chosen;
+    }
+    if (cpu_model == 4) {
+        prior_operation = (scheduler_instruction->opcode >> 8) & 255;
+        width = scheduler_instruction->opcode & 0xf0;
+        if (machine_operand_counts[prior_operation] > 0 &&
+            (scheduler_instruction->operands[0].flags & 15) == OPERAND_REGISTER && width <= 0x20 &&
+            machine_operand_counts[operation] > 1 && (instruction->opcode & 0xf0) == 0x40 &&
+            (instruction->operands[1].flags & 15) == OPERAND_REGISTER &&
+            operation != MC_SHL && operation != MC_SAR && operation != MC_ROL && operation != MC_ROR &&
+            operation != MC_SHLD && operation != MC_SHRD) {
+            reg = scheduler_instruction->operands[0].value.reg.words.number & 0x3fff;
+            if (width == 0x10 && reg >= 4) reg -= 4;
+            source = instruction->operands[1].value.reg.words.number & 0x3fff;
+            if (source == reg) {
+                chosen = find_generic_candidate(instruction, 0, 5);
+                if (chosen) return chosen;
+                chosen = find_generic_candidate(instruction, 1, 5);
+                if (chosen) return chosen;
+            }
+        }
+    }
+    return instruction;
+}

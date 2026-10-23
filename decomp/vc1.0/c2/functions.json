@@ -1071,7 +1071,9 @@
     "@retarget_empty_work_branch@8",
     "@save_region_counter@12",
     "@can_rewrite_induction_comparison@12",
-    "@release_loop_tree_record@4"
+    "@release_loop_tree_record@4",
+    "@schedule_generic_instruction@4",
+    "@choose_generic_instruction@4"
   ],
   "driver": [
     {
@@ -5866,8 +5868,7 @@
     {
       "name": "@schedule_generic_instruction@4",
       "start": 261104,
-      "end": 261105,
-      "provisional": true
+      "end": 261424
     },
     {
       "name": "@schedule_pentium_instruction@4",
@@ -7410,6 +7411,35 @@
       "name": "_multiplication_overflows",
       "start": 465336,
       "end": 465337,
+      "provisional": true
+    },
+    {
+      "name": "@choose_generic_instruction@4",
+      "start": 262304,
+      "end": 263247
+    },
+    {
+      "name": "@gather_generic_candidates@8",
+      "start": 266480,
+      "end": 266481,
+      "provisional": true
+    },
+    {
+      "name": "@select_generic_candidate@8",
+      "start": 266352,
+      "end": 266353,
+      "provisional": true
+    },
+    {
+      "name": "@find_generic_candidate@12",
+      "start": 263408,
+      "end": 263409,
+      "provisional": true
+    },
+    {
+      "name": "@swap_scheduled_address_registers@4",
+      "start": 265952,
+      "end": 265953,
       "provisional": true
     }
   ],

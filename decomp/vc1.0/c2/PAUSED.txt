@@ -1,6 +1,6 @@
-C2 ACTIVE at 1067 acceptances/988 source graphs.
+C2 ACTIVE at 1069 acceptances/990 source graphs.
 Approved queue: i386 integer, deep x87 stack, then i486 floating.
-Current matched frontier @schedule_generic_instruction@4.
-Extent union 294428/399693 = 73.663537%, not branch coverage.
+Current matched frontier @gather_generic_candidates@8.
+Extent union 295691/399693 = 73.979529%, not branch coverage.
 Canonical/W3/audits and seven native cases pass (six complete objects).
 No shim requests. Pause only after all three selected cases complete.

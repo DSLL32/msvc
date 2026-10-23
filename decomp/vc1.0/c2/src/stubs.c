@@ -317,7 +317,6 @@ int __fastcall count_shared_register_conflicts(RegisterVariable *left, RegisterV
 int __fastcall stack_copy_operand_changed(MachineInstruction *first, MachineInstruction *last, MachineOperand *operand, unsigned bytes) { __asm int 3 }
 void __fastcall retarget_comparison_branch(MachineInstruction *target, MachineInstruction *branch, MachineInstruction *load, int mode) { __asm int 3 }
 void __fastcall register_machine_label(MachineInstruction *instruction) { __asm int 3 }
-MachineInstruction *__fastcall schedule_generic_instruction(MachineInstruction *instruction) { __asm int 3 }
 
 int __fastcall arrange_scheduled_float_inputs(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall exchange_scheduled_float_stack(int slot) { __asm int 3 }
@@ -389,3 +388,9 @@ int __fastcall can_reuse_float_branch_target(MachineInstruction *target) { __asm
 int inherit_float_motion_uses(void) { __asm int 3 }
 
 int __cdecl multiplication_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
+
+
+int __fastcall gather_generic_candidates(MachineInstruction *instruction, SchedulerCandidate *candidates) { __asm int 3 }
+void __fastcall select_generic_candidate(int count, SchedulerCandidate *candidates) { __asm int 3 }
+MachineInstruction *__fastcall find_generic_candidate(MachineInstruction *instruction, int forward, int reason) { __asm int 3 }
+int __fastcall swap_scheduled_address_registers(MachineInstruction *instruction) { __asm int 3 }
