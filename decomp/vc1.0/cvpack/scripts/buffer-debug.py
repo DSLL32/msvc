@@ -21,9 +21,9 @@ def install(source,line):
         def stop(self):
             try:
                 f=gdb.newest_frame();caller=f.older();assert f.name()=='append_buffer'and caller.name()=='save_type'
-                p=gdb.cvpack_buffer;sequence=len(p['entries'])+1;assert sequence<=6 and len(p['returns'])==sequence-1
+                p=gdb.cvpack_buffer;sequence=len(p['entries'])+1;assert sequence<=256 and len(p['returns'])==sequence-1
                 buffer,data,size=[int(f.read_var(n))for n in('buffer','data','size')]
-                assert buffer==int(gdb.parse_and_eval('&type_symbol_storage'))and size in(8,12,16)
+                assert buffer==int(gdb.parse_and_eval('&type_symbol_storage'))and 0<size<=4096
                 owner=int(caller.read_var('entry'));assert data==int(caller.read_var('original'))
                 p['entries'].append(dict(sequence=sequence,buffer=buffer,source=data,size=size,owner=owner,source_bytes=memory(data,size),root=memory(buffer,24),index=int(gdb.parse_and_eval('next_type_index')),page=int(caller.read_var('page')),slot=int(caller.read_var('slot'))))
                 Returned(f);return False
@@ -51,13 +51,13 @@ def capture():
     if p is None:return None
     if p.get('error'):return p
     def memory(address,size):return bytes(gdb.selected_inferior().read_memory(address,size)).hex()
-    assert gdb.newest_frame().name()in('finish_recursive_types','find_named_type','find_global_type','find_local_type')and len(p['allocations'])==1
+    assert gdb.newest_frame().name()in('finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types')and len(p['allocations'])==1
     a=p['allocations'][0];p['frontier']=dict(name=gdb.newest_frame().name(),root=memory(a['buffer'],24),node=memory(a['node'],12),payload=memory(a['base'],a['size']))
     p['hash_nodes']={};seen=set();heads=gdb.parse_and_eval('type_hash_buckets')
     for bucket in range(4096):
         pointer=int(heads[bucket])
         while pointer:
-            assert pointer not in seen and len(seen)<6;seen.add(pointer)
+            assert pointer not in seen and len(seen)<256;seen.add(pointer)
             raw=bytes.fromhex(memory(pointer,12));index=int.from_bytes(raw[:2],'little')
             p['hash_nodes']['hash-%d-%d'%(bucket,index)]=dict(address=pointer,bytes=raw.hex())
             pointer=int.from_bytes(raw[8:12],'little')

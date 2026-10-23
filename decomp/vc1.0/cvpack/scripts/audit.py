@@ -228,6 +228,8 @@ def main():
     functions=config['functions']
     from buffer_storage import validate as validate_buffer_storage,compiled_provenance as buffer_provenance
     if validate_buffer_storage(config,original):buffer_provenance(rebuilt,linked)
+    from global_type_cache import validate as validate_global_type_cache
+    validate_global_type_cache(config,original,rebuilt,linked)
     from reads import validate as validate_reads
     validate_reads(config,original)
     from allocations import validate as validate_allocations

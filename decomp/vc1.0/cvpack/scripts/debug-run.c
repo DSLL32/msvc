@@ -735,7 +735,7 @@ static int dump_symbol_allocation(HANDLE child,HANDLE log,DWORD frontier)
     else if(frontier==0x255c0) { defined=16;offset=4; }
     else if(frontier==0x25800 || frontier==0x1b500) { defined=40;offset=28; }
     else if(frontier==0x26520 || frontier==0x27100 || frontier==0x272a0 || frontier==0x19580 || frontier==0x1c1a0 || frontier==0x19860 || frontier==0x22f40 || frontier==0x262d0) { defined=40;offset=202; }
-    else if(frontier==0x1ad40 || frontier==0x1af10 || frontier==0x1ae40) { defined=40;offset=384; }
+    else if(frontier==0x1ad40 || frontier==0x1af10 || frontier==0x1ae40 || frontier==0x19770) { defined=40;offset=384; }
     else return 0;
     if(symbol_step || symbol_size!=5113 ||
        !ReadProcessMemory(child,(void *)0x335e4,&input,4,&bytes) || bytes!=4 || input!=symbol_input_base+offset ||
@@ -791,7 +791,7 @@ static int dump_type_page(HANDLE child,HANDLE log,DWORD frontier)
 {
     DWORD roots[120],bytes,written,i;int used;
     if(!type_page_base)return 1;
-    if(type_page_step || (frontier!=0x22f40 && frontier!=0x262d0 && frontier!=0x1ad40 && frontier!=0x1af10 && frontier!=0x1ae40) ||
+    if(type_page_step || (frontier!=0x22f40 && frontier!=0x262d0 && frontier!=0x1ad40 && frontier!=0x1af10 && frontier!=0x1ae40 && frontier!=0x19770) ||
        !ReadProcessMemory(child,(void *)0x37198,roots,sizeof(roots),&bytes) || bytes!=sizeof(roots) || roots[0]!=type_page_base) return 0;
     for(i=1;i<120;++i)if(roots[i])return 0;
     if(!ReadProcessMemory(child,(void *)type_page_base,array_bytes,2048,&bytes) || bytes!=2048)return 0;
@@ -962,7 +962,7 @@ static int dump_walks(HANDLE child, HANDLE log)
             object_line[used++] = '\n';
             if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
             if (root==0x373d0 && !dump_pdb_objects(child,log,root,i,pointer)) return 0;
-            if (root==0x37160 && !dump_type_cache(child,log,root,i)) return 0;
+            if ((root==0x37160 || root==0x37164) && !dump_type_cache(child,log,root,i)) return 0;
             if (sopen_start && size == 40 && (root == 0x38d18 || root == 0x38d1c)) {
                 DWORD flags;
                 memcpy(&flags, walk_bytes+4, 4);

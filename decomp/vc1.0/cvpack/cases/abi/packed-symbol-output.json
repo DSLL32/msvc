@@ -108,7 +108,7 @@
     }
   ],
   "sources": {
-    "src/types.c": "96dd4adf09150b1613c42d72dd2f580df8adf66072fcac05ec9249608f062e02",
+    "src/types.c": "31e3b2a476dc55c94d94d7141057987a2984fee35ce1a663eaf0da4c515b0709",
     "src/types.h": "f8948ed779128183273abae03e1ebdecac6e81a885f8727d660731504a618bd1",
     "src/image.h": "bbc8afde32fb7ec98e72ec04769ba3c7b38932f295146ad7e46d3a30cc0894f2"
   },
@@ -380,6 +380,26 @@
         "39": 156937,
         "41": 153648,
         "43": 151922
+      }
+    },
+    "record_derived_types": {
+      "original": 104304,
+      "defined": 40,
+      "input_offset": 384,
+      "return_address": 104281,
+      "allocation_esp_delta": 168,
+      "buffer_slot": 47,
+      "input_slot": 50,
+      "record_length": 21,
+      "callback_index": 27,
+      "kind": 4,
+      "nested_returns": {
+        "8": 159852,
+        "17": 161752,
+        "29": 158494,
+        "38": 156937,
+        "40": 153648,
+        "42": 151922
       }
     }
   }

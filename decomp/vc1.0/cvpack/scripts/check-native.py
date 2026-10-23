@@ -186,7 +186,7 @@ def run_case(name, directory, debug=False):
         '    nodes[-1]["descriptors"]={"16":descriptor}\n'
         '  pointer=0 if item["next"]==0xffffffff else int.from_bytes(raw[item["next"]:item["next"]+4],"little")\n'
         ' if pointer: raise RuntimeError("unterminated object walk: "+name)\n'
-        ' if item.get("type_cache") and nodes: runpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["capture_type_cache"](nodes[0])\n'
+        ' if (item.get("type_cache") or item.get("global_type_cache")) and nodes: runpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["capture_type_cache"](nodes[0])\n'
         ' walks[name]=nodes\n'
         'json.dump(dict(signal=int(signal),frames=frames,argc=argc,argv=argv,stdout=stream,state=state,parameters=parameters,globals=globals,global_addresses=global_addresses,walks=walks,pending_read_entries=[r for r in getattr(gdb,"cvpack_read_events",[])if "returned"not in r]),open('+repr(str(report))+',"w"))\n'
         'end\nquit\n')

@@ -63,8 +63,8 @@ def parse(events):
             current[key]=raw;current[key+'_address']=address
     if 'frontier'in result:
         match=re.search(r'^exception 80000003 va ([0-9a-f]+) ',events,re.M)
-        assert match and int(match[1],16)in(0x262d0,0x1ad40,0x1af10,0x1ae40),'unreviewed original type buffer frontier'
-        result['frontier']['name']='finish_recursive_types'if int(match[1],16)==0x262d0 else('find_named_type'if int(match[1],16)==0x1ad40 else('find_global_type'if int(match[1],16)==0x1af10 else 'find_local_type'))
+        assert match and int(match[1],16)in(0x262d0,0x1ad40,0x1af10,0x1ae40,0x19770),'unreviewed original type buffer frontier'
+        result['frontier']['name']='finish_recursive_types'if int(match[1],16)==0x262d0 else('find_named_type'if int(match[1],16)==0x1ad40 else('find_global_type'if int(match[1],16)==0x1af10 else('find_local_type'if int(match[1],16)==0x1ae40 else 'record_derived_types')))
     return result
 
 
@@ -76,14 +76,18 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case):
     assert p and case=='hello-debug-dll'and not native.get('error'),'native buffer observer failed'
     old=parse(events);results=[];spaces=[]
     frontier=native['frontier']['name']
-    assert frontier in('finish_recursive_types','find_named_type','find_global_type','find_local_type'),'unsupported type buffer consumer'
+    assert frontier in('finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types'),'unsupported type buffer consumer'
     indices=p['record_indices'];sizes=p['copy_sizes'];write_sites=[(1,10,4115,0x1000),(2,6,4133,0x1001)]
-    if frontier in('find_named_type','find_global_type','find_local_type'):
+    if frontier in('find_named_type','find_global_type','find_local_type','record_derived_types'):
         assert p['extension']==dict(frontier=0x1ad40,record_indices=[4115,4133,4134,4193,4194,4195],copy_sizes=[8,12,8,16,12,8],pdb_writes=[dict(type_index=4194,field=10,before=4193,after=0x1003),dict(type_index=4195,field=6,before=4194,after=0x1004)]),'unreviewed type buffer extension'
         indices=p['extension']['record_indices'];sizes=p['extension']['copy_sizes']
         write_sites +=[(4,10,4193,0x1003),(5,6,4194,0x1004)]
     if frontier=='find_global_type':assert p['global_lookup_frontier']==0x1af10,'unreviewed nested global lookup lifetime'
     if frontier=='find_local_type':assert p['local_lookup_frontier']==0x1ae40,'unreviewed nested local lookup lifetime'
+    if frontier=='record_derived_types':
+        assert p['derived_frontier']==dict(frontier=0x19770,record_indices=[4115,4133,4134,4193,4194,4195,4191,4192],copy_sizes=[8,12,8,16,12,8,64,24],pdb_write=dict(type_index=4192,field=6,before=4191,after=0x1006)),'unreviewed derived type buffer lifetime'
+        indices=p['derived_frontier']['record_indices'];sizes=p['derived_frontier']['copy_sizes']
+        write_sites +=[(7,6,4191,0x1006)]
     count=len(indices)
     for side,walks in((old,old_walks),(native,new_walks)):
         assert len(side['allocations'])==1 and len(side['entries'])==len(side['returns'])==count,'missing/extra type buffer copy lifetime'

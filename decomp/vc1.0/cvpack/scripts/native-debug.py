@@ -248,6 +248,16 @@ def capture_symbol_output():
     if not rows:return []
     assert len(rows)==1 and not rows[0].get('error'),'invalid actual symbol allocation'
     entry=rows[0].copy();f=gdb.newest_frame();caller=f.older()
+    if f.name()=='record_derived_types':
+        assert caller.name()=='store_type';entry['type_record']=int(caller.read_var('entry'))
+        assert int(f.read_var('type'))==0x1007 and int(f.read_var('list'))==0x1006
+        caller=caller.older();assert caller.name()=='compact_new_type'and int(caller.read_var('type'))==4192
+        assert int(caller.read_var('entry'))==entry['type_record']
+        caller=caller.older();assert caller.name()=='compact_type_list'and int(caller.read_var('type'))==4184 and int(caller.read_var('count'))==6
+        caller=caller.older();assert caller.name()=='compact_new_type'and int(caller.read_var('type'))==4185
+        caller=caller.older();assert caller.name()=='convert_new_type'
+        caller=caller.older();assert caller.name()=='convert_udt_symbol';caller=caller.older()
+        entry['type_index']=4192;entry['nested_callers']=['store_type','compact_new_type','compact_type_list','compact_new_type','convert_new_type','convert_udt_symbol']
     if f.name()=='find_local_type':
         assert caller.name()=='find_named_type'and int(caller.read_var('forward'))==1
         entry['type_record']=int(caller.read_var('entry'));entry['name']=int(f.read_var('name'));entry['kind']=int(f.read_var('kind'))
@@ -358,13 +368,13 @@ def capture_symbol_output():
         entry['nested_callers']=names
         if f.name()=='compact_new_type':entry['type_index']=int(f.read_var('type'))
         assert entry['type_index']==4134,'unreviewed compact symbol type'
-    assert f.name()in('write_search_symbol','convert_object_name','convert_udt_symbol','intern_global','compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer','finish_recursive_types','find_named_type','find_global_type','find_local_type')and caller.name()=='pack_new_types','unreviewed symbol output consumer'
+    assert f.name()in('write_search_symbol','convert_object_name','convert_udt_symbol','intern_global','compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer','finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types')and caller.name()=='pack_new_types','unreviewed symbol output consumer'
     base,size=entry['base'],entry['size'];cursor=int(gdb.parse_and_eval('symbol_output'))
     assert int(caller.read_var('buffer'))==int(caller.read_var('start'))==base
     assert int(caller.read_var('end'))==entry['input']+4746 and int(caller.read_var('output_size'))==size
     if f.name()=='write_search_symbol':assert cursor==base+4==int(f.read_var('buffer'))
     else:
-        expected=(40,4,21,27)if f.name()in('find_named_type','find_global_type','find_local_type')else((16,9,24,31)if f.name()=='convert_object_name'else((40,4,28,27)if f.name()in('compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer','finish_recursive_types')else(40,4,34,27)))
+        expected=(40,4,21,27)if f.name()in('find_named_type','find_global_type','find_local_type','record_derived_types')else((16,9,24,31)if f.name()=='convert_object_name'else((40,4,28,27)if f.name()in('compact_new_type','compact_pointer','compact_type_list','store_type','hash_type','save_type','append_buffer','finish_recursive_types')else(40,4,34,27)))
         assert cursor==base+expected[0] and int(caller.read_var('kind'))==expected[1] and int(caller.read_var('length'))==expected[2] and int(caller.read_var('index'))==expected[3]
         entry['record_kind']=int(caller.read_var('kind'));entry['record_length']=int(caller.read_var('length'));entry['callback_index']=int(caller.read_var('index'))
     entry.update(cursor=cursor,frontier=f.name(),parent='pack_new_types',postbytes=bytes(gdb.selected_inferior().read_memory(base,size)).hex())
@@ -399,6 +409,13 @@ def capture_type_page():
     if f.name()=='finish_recursive_types':
         assert caller.name()=='convert_new_type'and int(caller.read_var('type'))==4134
         assert int(gdb.parse_and_eval('next_type_index'))==0x1003 and int(gdb.parse_and_eval('type_page_capacity'))==512
+        roots=gdb.parse_and_eval('type_pages');assert int(roots[0])==result['base']and all(int(roots[i])==0 for i in range(1,120))
+        result.update(frontier=f.name(),postbytes=bytes(gdb.selected_inferior().read_memory(result['base'],2048)).hex(),roots_after=bytes(gdb.selected_inferior().read_memory(roots.address,480)).hex())
+        return [result]
+    if f.name()=='record_derived_types':
+        assert caller.name()=='store_type'
+        caller=caller.older();assert caller.name()=='compact_new_type'and int(caller.read_var('type'))==4192
+        assert int(gdb.parse_and_eval('next_type_index'))==0x1008 and int(gdb.parse_and_eval('type_page_capacity'))==512
         roots=gdb.parse_and_eval('type_pages');assert int(roots[0])==result['base']and all(int(roots[i])==0 for i in range(1,120))
         result.update(frontier=f.name(),postbytes=bytes(gdb.selected_inferior().read_memory(result['base'],2048)).hex(),roots_after=bytes(gdb.selected_inferior().read_memory(roots.address,480)).hex())
         return [result]

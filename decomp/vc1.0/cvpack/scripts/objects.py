@@ -82,7 +82,7 @@ def resident_module_fields(walks):
     assert len(fields)==len(set(fields)),'duplicate resident module directory'
     return sorted(fields)
 
-def compare_walks(specifications,original,native,definitions=None,public_arena=None,pdb_consumed=None,extra_original=None,extra_native=None,pdb_writes=None):
+def compare_walks(specifications,original,native,definitions=None,public_arena=None,pdb_consumed=None,extra_original=None,extra_native=None,pdb_writes=None,buffer_context=None):
     definitions=definitions or {}
     assert set(original)==set(native)=={item['name']for item in specifications}
     original_names,native_names=namespace(original)+namespace(extra_original or {}),namespace(native)+namespace(extra_native or {})
@@ -161,7 +161,10 @@ def compare_walks(specifications,original,native,definitions=None,public_arena=N
             cache_evidence=None
             if item.get('type_cache'):
                 from type_cache import compare as compare_type_cache
-                cache_evidence=compare_type_cache(left,right,a,b,original,native)
+                cache_evidence=compare_type_cache(left,right,a,b,original,native,buffer_context)
+            if item.get('global_type_cache'):
+                from global_type_cache import compare as compare_global_type_cache
+                cache_evidence=compare_global_type_cache(left,right,a,b,original,native,buffer_context)
             arena_evidence=None
             if item.get('public_arena'):
                 from public_arena import comparison

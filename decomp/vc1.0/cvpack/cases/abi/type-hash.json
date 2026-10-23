@@ -56,6 +56,6 @@
     "sha256": "c23b669e9b110b8f3942e3abe1a4ffdac8612ac70197ebe056d4cfd1a0658672"
   },
   "source": "src/types.c",
-  "source_sha256": "96dd4adf09150b1613c42d72dd2f580df8adf66072fcac05ec9249608f062e02",
+  "source_sha256": "31e3b2a476dc55c94d94d7141057987a2984fee35ce1a663eaf0da4c515b0709",
   "scope": "Three actually reached lookup tables, each exactly XOR-linear over eight columns. Full original and rebuilt256-byte contents are independently audited; no generated runtime state or extra function graph."
 }

@@ -154,7 +154,7 @@ def main():
     execution = time.perf_counter() - run
     (output/'host-stdout').write_bytes(result.stdout)
     (output/'host-stderr').write_bytes(result.stderr)
-    assert result.returncode in ((0,17)if args.guard_probe else (0,)), repr(result.stderr)
+    assert result.returncode in ((0,17)if args.guard_probe else (0,)), 'original capture helper status %d: %r'%(result.returncode,result.stderr)
     assert sha(snapshot)==sha(BINARY/'functions.json'),'configuration changed during original run'
     check_policy_snapshot(output,policy_hash)
     assert original_inputs(record)==ancillary_inputs,'original ancillary inputs changed'

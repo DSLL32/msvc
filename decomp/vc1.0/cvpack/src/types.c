@@ -1447,3 +1447,32 @@ int find_global_type(unsigned short kind, const unsigned char *name, TypeCacheEn
     }
     return 0;
 }
+
+int find_local_type(unsigned short kind, const unsigned char *name, TypeCacheEntry **named, int property)
+{
+    unsigned long bucket = *name, i;
+    TypeCacheEntry *entry;
+    unsigned short properties;
+    for (i = 0; i < *name; ++i) bucket += name[i+1];
+    bucket &= 511;
+    for (entry = ((TypeCacheEntry **)type_work_a)[bucket]; entry && entry->type; entry = entry->next) {
+        if (*(unsigned short *)(entry->type+2) != kind ||
+            strncmp((const char *)entry->name, (const char *)name, (int)*(const signed char *)name+1)) continue;
+        switch (*(unsigned short *)(entry->type+2)) {
+        case 4: case 5: case 6:
+            properties = *(unsigned short *)(entry->type+8);
+            break;
+        case 7:
+            properties = *(unsigned short *)(entry->type+10);
+            break;
+        default:
+            properties = 0;
+            break;
+        }
+        if (property == ((properties&8)>>3)) {
+            *named = entry;
+            return 1;
+        }
+    }
+    return 0;
+}

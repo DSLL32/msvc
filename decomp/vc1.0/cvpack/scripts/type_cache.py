@@ -75,7 +75,7 @@ def compiled_provenance(pe,linked):
     orientation,bound,branch=matches[0]
     return dict(zero_orientation=orientation,zero_bound=helper+bound,zero_branch=helper+branch,call=call.address,size=16,result_frame_offset=slot,publication_start=call.address+at,publication_bytes=raw[at:at+len(publication)+12].hex(),zero_helper=helper,zero_helper_sha256=hashlib.sha256(body).hexdigest(),rebuilt_sha256=hashlib.sha256(pe.data).hexdigest())
 
-def compare(left,right,a,b,original,native):
+def compare(left,right,a,b,original,native,buffer_context=None):
     """All16 node bytes were initialized by reviewed checked_zero(16)."""
     def observe(root,walks):
         objects=root.get('objects',{});assert len(objects)<=4096
@@ -109,11 +109,21 @@ def compare(left,right,a,b,original,native):
                 assert bucket==sum(allowed[name][1])&511,'type cache bucket differs'
                 assert 0x1000<=index<0x1000+136,'unreviewed type cache record index'
                 entry=data[(index-0x1000)*28:(index-0x1000+1)*28]
-                assert not(word(entry,24,2)&0x5000)and word(entry,0)==typ and typ,'type cache record owner differs'
+                assert not(word(entry,24,2)&0x5000)and typ,'type cache record owner differs'
+                if word(entry,0)!=typ:
+                    assert buffer_context,'missing stored primary-cache type lifetime'
+                    copies=buffer_context['comparison']['copies'];matches=[(i,r)for i,r in enumerate(copies)if r['index']==index]
+                    assert len(matches)==1 and index==4192,'unreviewed primary-cache copied type'
+                    rank,copy=matches[0];side='original_namespace'if walks is original else 'native_namespace'
+                    payload=buffer_context[side]['type_buffer_payload'][0]
+                    assert word(entry,0)==payload['address']+copy['offset']and word(entry,4,2)==0x1000+rank,'primary-cache current record does not own copied type'
+
                 # Provider record storage is a previously verified typed owner.
                 owner=walks['current_type_server'];assert len(owner)==1
                 block=owner[0]['objects']['type-storage-1'];payload=bytes.fromhex(block['bytes']);start=typ-block['address']
                 assert 12<=start and start+4<=12+4140,'type cache provider address differs'
+                offsets=bytes.fromhex(owner[0]['objects']['offsets']['bytes'])
+                assert word(offsets,(index-0x1000)*4)+2==typ,'primary-cache original provider record identity differs'
                 size=word(payload,start,2)+2;kind=word(payload,start+2,2)
                 assert kind in(4,5,6,7)and start+size<=12+4140,'type cache defined provider extent differs'
                 result.append(dict(key=key,index=index,name_offset=name-name_base,name=allowed[name][1].hex(),type_offset=start,type_bytes=payload[start:start+size].hex(),next_key='cache-%d-%d'%(bucket,rank+1)if next else None,raw=raw))

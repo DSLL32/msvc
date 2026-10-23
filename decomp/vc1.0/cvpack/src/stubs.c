@@ -113,4 +113,3 @@ void merge_field_list(unsigned char *record, TypeRecord *entry) { __asm { int 3 
 
 void release_type_data(TypeRecord *entry) { __asm { int 3 } }
 void record_derived_types(unsigned short type, unsigned short list) { __asm { int 3 } }
-int find_local_type(unsigned short kind, const unsigned char *name, TypeCacheEntry **named, int property) { __asm { int 3 } return 0; }

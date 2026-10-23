@@ -4597,13 +4597,16 @@
       "native": "find_local_type",
       "symbol": "_find_local_type",
       "original": 110144,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        110144,
+        110352
+      ],
       "abi": "int find_local_type(unsigned short,const unsigned char *,TypeCacheEntry **,int)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0079-find_local_type/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -4634,7 +4637,25 @@
           "bits": 32
         }
       ],
-      "return_bits": 32
+      "return_bits": 32,
+      "required_pdb_record_proof": true,
+      "required_symbol_output_observation": true,
+      "required_type_page_observation": true,
+      "required_buffer_storage_observation": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "find_global_type",
@@ -5192,6 +5213,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 78
+    },
+    {
+      "function": "find_local_type",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 79
     }
   ],
   "support_unmasked": [
@@ -5786,11 +5813,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "09dd978c1f40c8db532e6b3ed598f0503247928128630e6f67d83a4c4c25396c"
+    "evidence_sha256": "805aaa4a217797961a4d9b92950e7938f360583b618d6854d935202e25089a69"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "935c44753bc1a6851beab9c3562a9c96513fa2941510366f392da5276eb9829c"
+    "evidence_sha256": "8dda29eaa9571226523bfbed45aa0203c2d6c54cdad9bebe240d9c865e167925"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -5822,22 +5849,22 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "c6071ce7fa09ed195498a4a34ca3f75aee1f3631ab7d82d41ce8f933e2014a96"
+    "evidence_sha256": "660e9c12d9f4feacdf22c2c322590deecd38e4e1ec004005f6a900298123bcc4"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "76c7653e3b269df2af6242a1561896d7a2032a01d74e53174849a50d1990b3cc"
+    "evidence_sha256": "3edf949e0f313aee23a73ef3371d151756c2f3399565b245a36b1f9b9b78d0ec"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
-    "evidence_sha256": "2f53a02c1f08f4eec86baacdcb4ecb66f00476a0bf09b584077ce37ab4484d02"
+    "evidence_sha256": "10928ef8ab2db3c2bc937b1da9993ab8613feb2ac8a6b4d2a7ee110508a7e9f6"
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "0e5d9b84b85795b36eddad39f22529030e4cb26998c752a9d5b9d61f0ad778f9"
+    "evidence_sha256": "522ba63d108b8b68ace1eddea569fd51888499206b462249f10847f98d99f386"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
-    "evidence_sha256": "045c6e4c711bbc5705c8075d7619cfe11a7af491b561e08c4d3d84edc1dec3e0"
+    "evidence_sha256": "88aefba8740c6a019b54e903918351607985e4f5db4a5ffb4fc0ef535fa51cb2"
   }
 }

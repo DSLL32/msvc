@@ -90,6 +90,10 @@ def main():
         check_named_output(local_pair,function='find_local_type')
         from named_graph_checks import check_global as check_global_graph
         check_global_graph(config,original,reject)
+    global_cache_pair=BINARY/'cases/hello-debug-dll/evidence/0079-find_local_type'
+    if global_cache_pair.is_dir():
+        from global_type_cache_checks import check as check_global_cache
+        check_global_cache(global_cache_pair)
     from buffer_storage_checks import check as check_buffer_storage
     buffer_directory=BINARY/'cases/hello-debug-dll/evidence/0075-append_buffer'
     if buffer_directory.is_dir():check_buffer_storage(buffer_directory)

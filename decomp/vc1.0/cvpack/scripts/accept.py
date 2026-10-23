@@ -142,7 +142,7 @@ def main():
         from buffer_storage import compare as compare_buffer_storage
         buffer_path=native/args.case/'buffer-storage.json'
         buffer_proof=compare_buffer_storage(config,pe,events,json.loads(buffer_path.read_text())if buffer_path.exists()else None,original_walks(events,specifications),state['walks'],state,args.case)
-        object_proof=compare_walks(specifications,original_walks(events,specifications),state['walks'],definitions,arena_context,consumed_proof,buffer_proof['original_namespace']if buffer_proof else None,buffer_proof['native_namespace']if buffer_proof else None,buffer_proof['comparison']['pdb_writes']if buffer_proof else None)
+        object_proof=compare_walks(specifications,original_walks(events,specifications),state['walks'],definitions,arena_context,consumed_proof,buffer_proof['original_namespace']if buffer_proof else None,buffer_proof['native_namespace']if buffer_proof else None,buffer_proof['comparison']['pdb_writes']if buffer_proof else None,buffer_proof)
     original_objects=original_walks(events,specifications)if not completed else {}
     native_objects=dict(state['walks'])if not completed else {}
     if buffer_proof:
