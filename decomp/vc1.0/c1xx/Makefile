@@ -102,6 +102,7 @@ native-rejections: native-trace
 	$(PYTHON) scripts/check-debug-method-null-policy.py
 	$(PYTHON) scripts/check-debug-class-domain-policy.py
 	$(PYTHON) scripts/check-debug-base-query-policy.py
+	$(PYTHON) scripts/check-overload-count-null-policy.py
 build/graph-metadata.json: functions.json scripts/graph_metadata.py | build
 	$(PYTHON) scripts/graph_metadata.py $@
 graph-negative-check: $(GRAPH_AUDIT_BIN) build/graph-metadata.json build/runtime.json runtime.json

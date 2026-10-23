@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_count_emitted_overloads@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1091,
+  "configuration_sha256": "c764a8ac07c270a815f89eaf7d759c812f50b4630d59aadc8ad2737033777d6e",
+  "native_entry": "count_emitted_overloads",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "overloads",
+      "stack_index": 0,
+      "native_field": "raw_overloads",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 389077,
+        "original_owner_function": "_emit_debug_field_list@12",
+        "native_owner_field": "caller_member",
+        "native_owner_function": "emit_debug_field_list",
+        "native_owner_local": "member",
+        "identity": "Actual current overload-set member in accepted field-list caller ESI. PUSH ESI0x6efcf/CALL0x6efd0 return0x6efd5; native immediate caller actual member local observes same record. ESI anchor only, no hidden callee input.",
+        "original_owner_value": 8302540,
+        "native_owner_value": 1449279436
+      },
+      "original_raw": 8302540,
+      "native_raw": 1449279436,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      199600,
+      199825
+    ],
+    "argument_bytes": 4,
+    "proof": "SUB ESP12/save4 registers, overloads atadjustedESP+32. EAX result count0, no directcallee. Local nextcursor[ESP+20]=entryESP-8 initializedonlynonnull stores0x30c0f/1c. NULL JZ0x30bbf\u21920x30c20 bypasses both, unconditionalread0x30c30. Win32 retainsuninitializedcursor; nativeexactNULLguard, public reachUNKNOWN. RET4 at0x30c8e. No incoming hidden/register callee input.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "aaf4b2b16a566ea4640b0119264de5799a7bb75a3ce6cde45352c7fd5d28f873",
+  "capture_timing": {
+    "original_capture_seconds": 1.4200140247121453,
+    "native_capture_seconds": 0.19389197137206793,
+    "total_operation_seconds": 1.9236237294971943
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "c8f081e272d7fd194477ff2492c59699b80116fd26051fa8b17e3a99e839dc0b",
+    "native-commands.gdb": "2bdf1bf5e69376566c755ac1f7e9c4458959bae6cf6440ba100ac7bb112071b3",
+    "native-gdb.log": "56227f62288f0a66c8b087dd255fc261e9526fd8577e8050dbcf178d34605120",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "af47465941ea6b18c501402db62d516d35c95de0bed20ee443fb0affe00af999",
+    "original-configuration.json": "c764a8ac07c270a815f89eaf7d759c812f50b4630d59aadc8ad2737033777d6e",
+    "original-disassembly.txt": "41d0cc3796973fe6431b9123f1e4399ae9dc5512a50eb9fd6e8e496a5dc203ac",
+    "original-entries.plan": "cac13f2686daa7f51c9020f334abbd4923368c2ea07a5f4ec3f05be2b9b79ac0",
+    "original-events.txt": "9885ef98222a68f7379e16e1a93f56fcf5ff5454b28c1666e0a982b960c9a8f3",
+    "original-ownership-caller-disassembly.txt": "d8aeee9757f6459bd5aaf721b2f96f76a6aa574487062b5c3bc26ee56de6327e",
+    "original-receipt.json": "a44121a4c1ecad2910e8ede30743010b5100987f7d2e979b82dd70a2e7495f83",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "dd51cf23ab00eb3ed27d7f475c45c12a0bf9257019c3be66d99cba128117d7b5"
+  },
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

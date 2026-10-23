@@ -40,11 +40,11 @@
     "plan_sha256": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e"
   },
   "state_machine_debug": {
-    "receipt": "cases/frontiers/state_machine_debug/1090-emit_debug_base_fields-12/entry-reference/original-receipt.json",
-    "receipt_sha256": "b302d5ef876e51afbb9b35d356e588e0edd6c6b3fff6631a9f6af8ed35862a1f",
-    "events": "cases/frontiers/state_machine_debug/1090-emit_debug_base_fields-12/entry-reference/original-events.txt",
-    "events_sha256": "412d8feadb35abbd4b131776804e3d540666e88d1a0e5340ea0ccc8fc40cb063",
-    "plan": "cases/frontiers/state_machine_debug/1090-emit_debug_base_fields-12/entry-reference/original-entries.plan",
-    "plan_sha256": "0d896a4c41b5855ff879a64ad009f91b9aa62fb9a4e1648d9524168dd00678e3"
+    "receipt": "cases/frontiers/state_machine_debug/1091-count_emitted_overloads-4/entry-reference/original-receipt.json",
+    "receipt_sha256": "f716b8b81a3b2d4f6760b75a0ed6957a9891b8147ce4fb89cd8fe6fefa969640",
+    "events": "cases/frontiers/state_machine_debug/1091-count_emitted_overloads-4/entry-reference/original-events.txt",
+    "events_sha256": "c668802f26d265aa5780add66d3cc9f6d6b7f065afc660dfd174997e148e8c98",
+    "plan": "cases/frontiers/state_machine_debug/1091-count_emitted_overloads-4/entry-reference/original-entries.plan",
+    "plan_sha256": "4df84c76447acb7c938dfc2f60911b142986db2624b432342a21d8f57feeabbd"
   }
 }

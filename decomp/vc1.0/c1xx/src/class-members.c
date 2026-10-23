@@ -3,6 +3,45 @@
 #include "parameters.h"
 #include <recon.h>
 
+/* Original0x30bb0..0x30c91. Count overloads that survive omission of
+   the class's trivial special members. Preserve the original NULL cursor. */
+unsigned __stdcall count_emitted_overloads(OverloadSet *overloads)
+{
+    CppSymbol *function, *next, *owner;
+    unsigned count = 0;
+#ifdef RECON_NATIVE_TEST
+    /* NULL bypasses the original entryESP-8 cursor initialization. */
+    if (!overloads) { __asm { int 3 } }
+#endif
+    if (overloads) {
+        function = overloads->functions;
+        owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+        if ((overloads->name == name_ctor &&
+             (owner->detail.class_info->trivial_special_members & 3) == 3) ||
+            (overloads->name == name_assignment &&
+             (owner->detail.class_info->trivial_special_members & 4)) ||
+            (overloads->name == name_dtor &&
+             (owner->detail.class_info->trivial_special_members & 8))) next = 0;
+        else next = function;
+    }
+    while (next) {
+        function = next;
+        next = function->next;
+        if (function->name == name_ctor) {
+            if (function->cpp.parts.member_flags & 0x20) {
+                owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+                if (owner->detail.class_info->trivial_special_members & 2) continue;
+            }
+            if (function->cpp.parts.member_flags & 0x10) {
+                owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+                if (owner->detail.class_info->trivial_special_members & 1) continue;
+            }
+        }
+        ++count;
+    }
+    return count;
+}
+
 void __stdcall check_missing_defaults(DefaultArgument *defaults, unsigned count,
     FunctionParameters *parameters, unsigned first_parameter, CppSymbol *symbol);
 

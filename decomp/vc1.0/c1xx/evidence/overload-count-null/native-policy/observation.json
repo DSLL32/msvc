@@ -1,0 +1,6 @@
+{
+  "status": "NULL overload cursor rejected before entryESP-8 read; public reachability unknown",
+  "function": "count_emitted_overloads",
+  "signal": 5,
+  "pc_offset": 60
+}

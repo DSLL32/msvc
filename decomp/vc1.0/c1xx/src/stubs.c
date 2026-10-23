@@ -624,7 +624,6 @@ unsigned __stdcall update_checksum(unsigned char *bytes, unsigned count, unsigne
 void __stdcall queue_debug_type_fixup(CppSymbol *symbol, unsigned char *location, unsigned bytes) { __asm { int 3 } }
 unsigned __stdcall encode_debug_based_symbol(unsigned char *destination, CppSymbol *symbol) { __asm { int 3 } return 0; }
 void split_debug_field_record(unsigned char kind, void *subject, unsigned first, unsigned tail) { __asm { int 3 } }
-unsigned __stdcall count_emitted_overloads(struct OverloadSet *overloads) { __asm { int 3 } return 0; }
 unsigned __stdcall debug_member_name_length(CppSymbol *symbol, unsigned short *name_flags, int qualified) { __asm { int 3 } return 0; }
 void __stdcall write_debug_member_name(unsigned char *destination, CppSymbol *symbol, unsigned length, unsigned short name_flags, int qualified) { __asm { int 3 } }
 unsigned __stdcall encode_debug_signed(unsigned char *destination, int value) { __asm { int 3 } return 0; }

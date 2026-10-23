@@ -1,0 +1,10 @@
+Breakpoint 1 at 0x7d4a9: file src/class-members.c, line 9.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, count_emitted_overloads (overloads=0x56639fcc) at src/class-members.c:9
+9	{
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565d24cc in count_emitted_overloads (overloads=0x0) at src/class-members.c:14
+14	    if (!overloads) { __asm { int 3 } }
