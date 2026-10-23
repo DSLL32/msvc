@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 988,
+  "accepted": "_guard_allocation_result@8",
+  "terminal": "_delete_expression@16",
+  "original_capture": "cases/frontiers/new_delete/0988-guard_allocation_result-8/original-receipt.json",
+  "original_capture_sha256": "85671e0a368d6c9a1ac460f5ebd93046b411f462cd9c057ffed473f5a2398ea1",
+  "original_events": "cases/frontiers/new_delete/0988-guard_allocation_result-8/original-events.txt",
+  "original_events_sha256": "e19f34ddbb0fd70118e272c30d2f80adcbf713efbf741c0554366e1abcb56a17",
+  "original_configuration": "cases/frontiers/new_delete/0988-guard_allocation_result-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

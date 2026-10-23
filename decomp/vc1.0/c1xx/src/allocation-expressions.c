@@ -261,3 +261,15 @@ void __stdcall capture_allocation_pointer(IrToken **saved, IrToken **object)
     temporary = clone_expression(temporary, 0);
     *object = new_typed_unary_expression(0x46, (*object)->type, temporary);
 }
+
+/* Original 0x50200..0x50244. Construct the pointer != 0 test and
+   conditional result without reevaluating the captured allocation. */
+IrToken *__stdcall guard_allocation_result(IrToken *saved, IrToken *object)
+{
+    IrToken *condition, *alternatives, *zero;
+    zero = make_integer_constant(0);
+    condition = new_ir_expression(0x55, saved, zero, type_0064);
+    zero = make_integer_constant(0);
+    alternatives = new_left_typed_expression(0x3f, object, zero);
+    return new_ir_expression(0x5f, condition, alternatives, object->type);
+}
