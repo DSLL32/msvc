@@ -1,0 +1,59 @@
+{
+  "kind": "explicit-original-real-console-CTRL_C-shared-prefix",
+  "exit": 1,
+  "callback_argument": 0,
+  "only_remaining_file": "interrupt.rc",
+  "records": [
+    {
+      "path": "before/RC000460",
+      "bytes": 54,
+      "sha256": "c61a20ca5a6c4af9e80084e873b3051e4ffa6eedccf67b4ab4bb8bc0ec89954b"
+    },
+    {
+      "path": "before/RD000460",
+      "bytes": 90,
+      "sha256": "6b1f381df802447f139c322f77a49d87a87e429aa483f7624cd220cdb71796cb"
+    },
+    {
+      "path": "before/interrupt.rc",
+      "bytes": 21,
+      "sha256": "f81d5819af9ba3cb25c8bb10d099aced01178b2e628969f47d04baafd4095e85"
+    },
+    {
+      "path": "before/interrupt.res",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "events",
+      "bytes": 7,
+      "sha256": "0c6868c2c44f053619cef1cc383e1d530743b574ca192ace9168a9ccf46a86e3"
+    },
+    {
+      "path": "launcher",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "proof",
+      "bytes": 913,
+      "sha256": "723394cdb27a50461b70b22889b5480487926ef638876d655b1b55843879a0ec"
+    },
+    {
+      "path": "stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "namespace": {
+    "prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+    "R": "/root/msvc2",
+    "S": "/root/.ai-tmp/msvc2",
+    "recaptured": true
+  }
+}

@@ -154,8 +154,8 @@
     },
     {
       "path": "capture.py",
-      "bytes": 5299,
-      "sha256": "0e63c564d68cfac88b08ffc04c8e449da1d2187daa743c4fe5c5f0f4630194c9"
+      "bytes": 4696,
+      "sha256": "c302f7061440a9722031f770ea01bc91412b68f60a1dbabed0dbc2dc71d70e5b"
     }
   ],
   "wine_version": "wine-10.0 (Debian 10.0~repack-6)"

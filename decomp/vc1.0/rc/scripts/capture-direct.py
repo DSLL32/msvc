@@ -15,6 +15,7 @@ RC=SCRIPTS.parent
 HERE=RC/'cases/direct-helpers'
 sys.path.insert(0,str(SCRIPTS))
 from binary import PE
+from case_paths import capture_lock
 wt=importlib.machinery.SourceFileLoader('direct_wine',str(SCRIPTS/'wine-tool.py')).load_module()
 HELPERS={'whitespace':dict(name='_is_space_byte@4',rva=0xf3d0,bytes=43,results=1024,calls=256,cleanup=4),
          'basename':dict(name='_copy_basename@8',rva=0xf530,bytes=93,results=600,calls=6,cleanup=8)}
@@ -27,7 +28,7 @@ def record(path):
 
 def run(executable,mode,rva,work,stem):
     pe=PE(executable)
-    command=['wine',str(RC/'build/direct-run.exe'),wt.windows(executable),mode,'%x'%rva,'%x'%pe.entry,
+    command=['wine',wt.windows(RC/'build/direct-run.exe'),wt.windows(executable),mode,'%x'%rva,'%x'%pe.entry,
              wt.windows(work/'results.bin'),wt.windows(str(stem)+'.events'),
              wt.windows(str(stem)+'.stdout'),wt.windows(str(stem)+'.stderr')]
     subprocess.run(command,env=wt.environment(),stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,
@@ -43,11 +44,12 @@ if __name__=='__main__':
     assert target_hash=='eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591'
     cases=[]
     for mode,helper in HELPERS.items():
-        work=Path.home()/('.ai-tmp/vc1.0-rc/direct-capture-'+mode)
-        if work.exists():shutil.rmtree(work)
-        work.mkdir(parents=True)
+        work=wt.SCRATCH/'vc1.0/rc'/('direct-'+mode)/'work'
         stem=RC/'build'/('capture-direct-'+mode)
-        assert run(original,mode,helper['rva'],work,stem)=='exit 0\n'
+        with capture_lock('direct-'+mode):
+            if work.exists():shutil.rmtree(work)
+            work.mkdir(parents=True)
+            assert run(original,mode,helper['rva'],work,stem)=='exit 0\n'
         assert Path(str(stem)+'.stdout').read_bytes()==Path(str(stem)+'.stderr').read_bytes()==b''
         assert set(p.name for p in work.iterdir())=={'results.bin'}
         assert (work/'results.bin').stat().st_size==helper['results']

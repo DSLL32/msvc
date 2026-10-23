@@ -1,0 +1,5 @@
+# Untouched raw original streams/products and debugger proof are fixture data.
+*.bin binary
+*.res binary
+captures/shared-prefix/*/proof.log binary
+captures/shared-prefix/*/independent-proof.log binary

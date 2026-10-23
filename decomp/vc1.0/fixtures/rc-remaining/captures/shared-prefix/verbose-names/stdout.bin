@@ -1,0 +1,10 @@
+Microsoft (R) Windows 32 Resource Compiler, Version 3.10
+Copyright (C) Microsoft Corp. 1985-1993.  All rights reserved.
+
+Creating verbose.res
+RC: RCPP  -f RC000316 -g RD000316 -D RC_INVOKED -pc \:/ -E 
+
+VERBOSE-NAMES.RC.
+Writing CUSTOM:ALPHA,	lang:0x409,	size 4.
+Writing RCDATA:BETA,	lang:0x409,	size 3.
+Writing CUSTOM:3,	lang:0x409,	size 2

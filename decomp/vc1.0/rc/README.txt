@@ -4,7 +4,11 @@ vc1.0 RC.EXE reconstruction
 Target: toolchains/1.0-nt/bin/RC.EXE (resource compiler 3.10).
 SHA256: eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591.
 Reconstructed C and headers live in src/; utilities live in scripts/.
-Run make and scripts from this binary folder. Scratch is ~/.ai-tmp/vc1.0-rc.
+Run make and scripts from this binary folder. Original builds/captures use the
+root-managed ~/.ai-tmp/vc1.0-capture/wine prefix with fixed R: (repository) and
+S: (~/.ai-tmp/msvc2) drives. Captures hold per-case locks and use
+S:\vc1.0\rc\<case> directories; no helper creates, remaps or stops a prefix.
+Native runs mirror the same S: case names in isolated native namespaces.
 
 Native reconstruction tests
 ---------------------------
@@ -94,8 +98,11 @@ regression drivers and masked-image targets have been removed.
 
 Explicit original-only capture is also separate. capture-native-boundaries-reference
 builds the small original debugger and calls scripts/capture-native-boundaries.py;
-it refuses to overwrite a frozen case. CAPTURE_OPTIONS can select a new output
-directory and individual cases. capture-direct-reference independently verifies
+it refuses to overwrite a frozen case. CAPTURE_OPTIONS must explicitly select a
+new output directory with --directory; --case selects individual cases. Each
+original RC run records fresh one-shot application entry observations, raw
+streams and the complete final file set. Each required original RCPP response
+is independently reproduced at the same canonical cwd before registration. capture-direct-reference independently verifies
 the two original helper oracles. These operations are never fixture dependencies.
 
 RC predates the allocator in shipped LIBC/LIBCMT; heap-crt.c preserves its
@@ -111,3 +118,16 @@ remain recorded in validation.json/validation-frontiers.txt as historical
 original-backed evidence; native-adoption receipts are under cases/. Remaining
 unaccepted bytes are 3,377 CRT/common-runtime bytes and 3,622 recognized padding;
 no additional reconstruction was performed during native workflow adoption.
+
+Shared-prefix maintenance
+--------------------------
+The 16 CLI references were explicitly recaptured under fixed R:/S:, including
+13 independent original RCPP reproductions. Native fixtures validate the exact
+canonical cwd against its isolated S: mirror and retain the host cwd check in
+the spawn protocol. PATH fallback mirrors only its declared fixed S: launch
+and child directories. No private T:/Z: mapping, PE execution, alternate
+transport bundle or Wine fallback remains in fixture code. Earlier first-entry
+acceptance history is retained as semantic reconstruction evidence. Current
+case proofs, split timings and prefix-retirement records are indexed by
+cases/native-all-validation.json. Resource/source bytes and application code
+are unchanged by this maintenance.

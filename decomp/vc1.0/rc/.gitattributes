@@ -3,3 +3,13 @@
 *.res binary
 *.fnt binary
 *.img binary
+# Original debugger/helper streams retain their raw Win32 line endings.
+cases/native-boundaries/*/debugger.* binary
+cases/native-boundaries/*/independent.* binary
+cases/shared-prefix-console/proof binary
+cases/shared-prefix-console/events binary
+cases/shared-prefix-console/stdout binary
+cases/shared-prefix-console/stderr binary
+cases/shared-prefix-console/launcher binary
+cases/native-boundaries/*/command.txt binary
+cases/shared-prefix-console/before/* binary

@@ -1,37 +1,30 @@
 #!/usr/bin/env python3
-"""Run the original NT toolchain in this reconstruction's private prefix."""
+"""Explicit original builds/captures in the root-managed shared Wine prefix."""
 import os
 from pathlib import Path
 import subprocess
 import sys
 
-ROOT = Path(__file__).resolve().parents[4]
-TC = ROOT / 'toolchains/1.0-nt'
-PREFIX = Path.home() / '.ai-tmp/vc1.0-rc/wine'
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+from case_paths import PREFIX, ROOT, SCRATCH, windows
+TC=ROOT/'toolchains/1.0-nt'
 
-def windows(path):
-    return 'Z:' + str(Path(path).resolve()).replace('/', '\\')
+
+def validate_prefix():
+    assert (PREFIX/'system.reg').exists(),'Shared prefix must already be initialized by root'
+    assert (PREFIX/'dosdevices/r:').resolve()==ROOT
+    assert (PREFIX/'dosdevices/s:').resolve()==SCRATCH
+
 
 def environment():
-    env = os.environ.copy()
-    env.update(WINEPREFIX=str(PREFIX), WINEARCH='win32', WINEDEBUG='-all',
-               INCLUDE='T:\\include', LIB='T:\\lib')
-    env['WINEPATH'] = 'T:\\bin'
-    for name in ('CL', '_CL_', 'LINK', '_LINK_', 'MSC_CMD_FLAGS'):
-        env.pop(name, None)
+    validate_prefix()
+    env=os.environ.copy()
+    env.update(WINEPREFIX=str(PREFIX),WINEARCH='win32',WINEDEBUG='-all',
+               INCLUDE=windows(TC/'include'),LIB=windows(TC/'lib'),WINEPATH=windows(TC/'bin'))
+    for key in ('CL','_CL_','LINK','_LINK_','MSC_CMD_FLAGS'):env.pop(key,None)
     return env
 
-if __name__ == '__main__':
-    if sys.argv[1] == '--init':
-        if not (PREFIX / 'system.reg').exists():
-            PREFIX.parent.mkdir(parents=True, exist_ok=True)
-            subprocess.run(['wineboot', '-u'], env=environment(), check=True)
-        drive = PREFIX / 'dosdevices/t:'
-        if not drive.is_symlink(): drive.symlink_to(TC, target_is_directory=True)
-        assert drive.resolve() == TC.resolve()
-        server = subprocess.run(['wineserver', '-p'], env=environment(),
-                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        assert server.returncode in (0, 2), 'could not start private Wine server'
-        sys.exit(0)
-    sys.exit(subprocess.call(['wine', str(TC / 'bin' / sys.argv[1])] + sys.argv[2:],
-                             env=environment()))
+
+if __name__=='__main__':
+    if sys.argv[1]=='--init':validate_prefix();sys.exit(0)
+    sys.exit(subprocess.call(['wine',windows(TC/'bin'/sys.argv[1])]+sys.argv[2:],env=environment()))

@@ -1,28 +1,32 @@
 {
+  "schema": 2,
   "status": "pass",
   "project": "vc1.0",
   "binary": "RC.EXE",
-  "scope": "Native workflow adoption only; no new reconstruction or acceptance changes",
+  "scope": "Shared original-capture Wine prefix and fixed R:/S: migration only; no reconstruction",
+  "namespace": {
+    "prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+    "R": "/root/msvc2",
+    "S": "/root/.ai-tmp/msvc2",
+    "canonical_cwd": "S:\\vc1.0\\rc\\<case>\\work",
+    "capture_locks": "S:\\vc1.0\\rc\\<case>.lock",
+    "prefix_remaps": 0,
+    "shared_server_stops": 0
+  },
   "native": {
-    "architecture": "i386",
-    "flags": "-O0 -g -fshort-wchar; original Win32 APIs and declared ABIs retained",
-    "application_definitions": 137,
-    "first_entries": 137,
-    "application_cache_sha256": "b7a76cc9e7f47cecf7765dd1975392dbf15a7c5ef2a0a3fd55189db6b94b7c4d",
-    "semantics": "Cached original global first-encounter segments; accepted application prefix seeded. CRT/import/shims excluded on both sides; canonical application definitions must match native object symbols.",
     "output_only": {
       "mode": "native-only captured-reference",
       "build_seconds": "separate build; not measured by fixture runner",
-      "trace_setup_seconds": 1.3206154108047485e-06,
+      "trace_setup_seconds": 8.745118975639343e-07,
       "cases": [
         {
           "case": "resources-rich",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.019746489822864532,
-          "execution_seconds": 0.8879498606547713,
-          "checks_seconds": 0.00222950242459774,
-          "total_seconds": 0.9108597431331873,
+          "setup_seconds": 0.020712532103061676,
+          "execution_seconds": 0.9322258085012436,
+          "checks_seconds": 0.00207553431391716,
+          "total_seconds": 0.955470840446651,
           "stdout_bytes": 0,
           "stderr_bytes": 0,
           "artifacts": {
@@ -38,25 +42,25 @@
               "bytes": 746,
               "sha256": "8928ffb8acb0481e8775ca63dc0104143af852929b71c6459fd6889f4f93d8d8"
             },
+            "assets/pointer.cur": {
+              "bytes": 198,
+              "sha256": "38904338263e5c23802d4961ece21222b3997f466887a0fb052994d0d3794d4a"
+            },
             "assets/pattern.bmp": {
               "bytes": 246,
               "sha256": "d28d27e861fc34d7599df0b7bb3cdd02f8ddbc985daa846f9d06a5004757904f"
             },
-            "assets/payload.bin": {
-              "bytes": 50,
-              "sha256": "20c1bef1846bc87953a2663d95185cd5e33ad97a534899ed892a02f5a1a81590"
-            },
-            "assets/pointer.cur": {
-              "bytes": 198,
-              "sha256": "38904338263e5c23802d4961ece21222b3997f466887a0fb052994d0d3794d4a"
+            "assets/multi.ico": {
+              "bytes": 518,
+              "sha256": "4eafdacd795611297df4cd4dd5774d0955d0f12c644e1cd17d729e0e1168204d"
             },
             "assets/messages.bin": {
               "bytes": 48,
               "sha256": "27fbf6c0451b6521d19618032f26de4be6ae744c37082ec0917aa4afe89efccc"
             },
-            "assets/multi.ico": {
-              "bytes": 518,
-              "sha256": "4eafdacd795611297df4cd4dd5774d0955d0f12c644e1cd17d729e0e1168204d"
+            "assets/payload.bin": {
+              "bytes": 50,
+              "sha256": "20c1bef1846bc87953a2663d95185cd5e33ad97a534899ed892a02f5a1a81590"
             },
             "include/features.h": {
               "bytes": 938,
@@ -72,13 +76,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508892,
-                "input": "RC508892",
-                "output": "RD508892",
+                "pid": 950104,
+                "input": "RC950104",
+                "output": "RD950104",
                 "input_bytes": 3381,
                 "input_sha256": "bcf079a08386aee55016e382db7490301ed690f72e1e84e3d5b1f7cde2b8231e",
-                "response_bytes": 336686,
-                "response_sha256": "4cac95ddacf0a6faa74815ef711a1f56ead0ae692adb9b0d9502d9a35afb2cb3",
+                "response_bytes": 349826,
+                "response_sha256": "0104c944abcae3fdce810560549ab22975a44dacbe7a941755e167cb50c2c835",
                 "captured_read_attempts": 72,
                 "status": 0
               }
@@ -86,20 +90,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508892,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-k55f8x90/resources-rich/work",
+                "pid": 950104,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-outputs-final/resources-rich/namespace/vc1.0/rc/resources-rich/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508892 -g RD508892 -D RC_INVOKED -pc \\:/ -E   -Iinclude  -IT:\\include  -DCASE_FROM_COMMAND=7"
+                  " -f RC950104 -g RD950104 -D RC_INVOKED -pc \\:/ -E   -Iinclude  -IR:\\toolchains\\1.0-nt\\include  -DCASE_FROM_COMMAND=7"
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.8722948273643851,
-            "manifest_sha256": "893d44f1ecbccbdf982f99f39d673e5021acf4e46fda7abda57d7b32bdc39ba2",
+            "replay_seconds": 0.917169232852757,
+            "manifest_sha256": "90a82df6d244d49ee80a36af8c9c9fa9b18fbd8b11ec1526e64302f21591540b",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -108,10 +112,10 @@
           "case": "help",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.0012165838852524757,
-          "execution_seconds": 0.0018371539190411568,
-          "checks_seconds": 0.0001135384663939476,
-          "total_seconds": 0.003480331040918827,
+          "setup_seconds": 0.0015112226828932762,
+          "execution_seconds": 0.0013875430449843407,
+          "checks_seconds": 0.00011595990508794785,
+          "total_seconds": 0.0033282749354839325,
           "stdout_bytes": 424,
           "stderr_bytes": 0,
           "artifacts": {},
@@ -123,10 +127,10 @@
           "case": "invalid-switch",
           "status": "pass",
           "exit": 1,
-          "setup_seconds": 0.0010620253160595894,
-          "execution_seconds": 0.0014115134254097939,
-          "checks_seconds": 0.00011187512427568436,
-          "total_seconds": 0.0028876857832074165,
+          "setup_seconds": 0.0013627680018544197,
+          "execution_seconds": 0.0011492250487208366,
+          "checks_seconds": 0.00011310074478387833,
+          "total_seconds": 0.0029254527762532234,
           "stdout_bytes": 48,
           "stderr_bytes": 0,
           "artifacts": {},
@@ -138,10 +142,10 @@
           "case": "missing-input",
           "status": "pass",
           "exit": 1,
-          "setup_seconds": 0.0010931724682450294,
-          "execution_seconds": 0.002118157222867012,
-          "checks_seconds": 0.00010779127478599548,
-          "total_seconds": 0.0036380700767040253,
+          "setup_seconds": 0.0013934681192040443,
+          "execution_seconds": 0.001450616866350174,
+          "checks_seconds": 0.00010901596397161484,
+          "total_seconds": 0.003250834532082081,
           "stdout_bytes": 54,
           "stderr_bytes": 0,
           "artifacts": {},
@@ -153,32 +157,32 @@
           "case": "alternate",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.005069189704954624,
-          "execution_seconds": 0.050060467794537544,
-          "checks_seconds": 0.0010459665209054947,
-          "total_seconds": 0.05660902243107557,
+          "setup_seconds": 0.005386886186897755,
+          "execution_seconds": 0.07134722080081701,
+          "checks_seconds": 0.0011575324460864067,
+          "total_seconds": 0.0783132491633296,
           "stdout_bytes": 0,
           "stderr_bytes": 0,
           "artifacts": {
-            "legacy.img": {
-              "bytes": 20,
-              "sha256": "247c260b12e05cda3f45baa7022ee34b93e3fbb5fbe4a58d8bb6a373794b3880"
-            },
-            "alternate.res": {
-              "bytes": 940,
-              "sha256": "e7bdd612221ea774de0a9f785dc82d4ed6f360cc53d07d9248cce3a86bbacdca"
+            "inline.img": {
+              "bytes": 14,
+              "sha256": "a3303fa317e47c6cf7d881930bf579a491c02947a7948712aad68b5905dca8ac"
             },
             "tiny.fnt": {
               "bytes": 160,
               "sha256": "f379ec68adb7f2a7147439619211885d996a75d83ae3ecd61b6b372cf138200f"
             },
-            "inline.img": {
-              "bytes": 14,
-              "sha256": "a3303fa317e47c6cf7d881930bf579a491c02947a7948712aad68b5905dca8ac"
+            "legacy.img": {
+              "bytes": 20,
+              "sha256": "247c260b12e05cda3f45baa7022ee34b93e3fbb5fbe4a58d8bb6a373794b3880"
             },
             "alternate.rc": {
               "bytes": 428,
               "sha256": "082a82f0fdc089ef3efe46b2d6d96623b9acb8bf3f30c7e13ff8b1400e1d7f4c"
+            },
+            "alternate.res": {
+              "bytes": 940,
+              "sha256": "e7bdd612221ea774de0a9f785dc82d4ed6f360cc53d07d9248cce3a86bbacdca"
             }
           },
           "trace_entries": null,
@@ -186,13 +190,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508898,
-                "input": "RC508898",
-                "output": "RD508898",
+                "pid": 950109,
+                "input": "RC950109",
+                "output": "RD950109",
                 "input_bytes": 430,
                 "input_sha256": "1b1b9fcde08116855954f0d4297d61aa5de1c40ec7c9f4623b532b40c51989ed",
                 "response_bytes": 466,
-                "response_sha256": "ce02092f3db4f24df73dabbcc1309fc399802ddf74ffef26d0801d79870c2632",
+                "response_sha256": "a6ec2bb257a0fc2013a49bd518b2c11c504baec5d0cd87c8342574ac1026bfaa",
                 "captured_read_attempts": 2,
                 "status": 0
               }
@@ -200,20 +204,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508898,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-k55f8x90/alternate/work",
+                "pid": 950109,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-outputs-final/alternate/namespace/vc1.0/rc/alternate/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508898 -g RD508898 -D RC_INVOKED -pc \\:/ -E   -IT:\\include"
+                  " -f RC950109 -g RD950109 -D RC_INVOKED -pc \\:/ -E   -IR:\\toolchains\\1.0-nt\\include"
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.047118376940488815,
-            "manifest_sha256": "c1d98de02da6a670d8233155576e3770ed30e72ac2f9d3a5cb1c128ea575dff3",
+            "replay_seconds": 0.06839451845735312,
+            "manifest_sha256": "8b280c0b349344076a0e1cead45dbbbf53bf019c81ccf55984e34521e9a329b1",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -222,10 +226,10 @@
           "case": "lexical-error",
           "status": "pass",
           "exit": 1,
-          "setup_seconds": 0.003246122971177101,
-          "execution_seconds": 0.04813323263078928,
-          "checks_seconds": 0.0005675656720995903,
-          "total_seconds": 0.052363173104822636,
+          "setup_seconds": 0.003938660956919193,
+          "execution_seconds": 0.07035997696220875,
+          "checks_seconds": 0.0005747498944401741,
+          "total_seconds": 0.07529641687870026,
           "stdout_bytes": 80,
           "stderr_bytes": 0,
           "artifacts": {
@@ -239,13 +243,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508900,
-                "input": "RC508900",
-                "output": "RD508900",
+                "pid": 950111,
+                "input": "RC950111",
+                "output": "RD950111",
                 "input_bytes": 61,
                 "input_sha256": "20b3a0d0e35ca8bbf1be46ed70aef68a6c9fbf975d8e83920f3b71011091ea34",
                 "response_bytes": 91,
-                "response_sha256": "69f0a7796da7b9a1d2448308f35516c5819f67d963537422b8950778cef834ad",
+                "response_sha256": "9dffb6c7fc0b090fcf7f6b9e78b7a20dd06edbeef88f2569c07757c7b491c38b",
                 "captured_read_attempts": 2,
                 "status": 0
               }
@@ -253,20 +257,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508900,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-k55f8x90/lexical-error/work",
+                "pid": 950111,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-outputs-final/lexical-error/namespace/vc1.0/rc/lexical-error/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508900 -g RD508900 -D RC_INVOKED -pc \\:/ -E   -IT:\\include"
+                  " -f RC950111 -g RD950111 -D RC_INVOKED -pc \\:/ -E   -IR:\\toolchains\\1.0-nt\\include"
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.04545709863305092,
-            "manifest_sha256": "ed123ee37226b38a275abb3de4bf80094ad6cedcd4317e2d6d13fc9ccb914036",
+            "replay_seconds": 0.06722618266940117,
+            "manifest_sha256": "a81abc51f75e6c7b630391d97d8e2a9cca89538619f103e50660d173ab55aa4f",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -275,10 +279,10 @@
           "case": "parser-error",
           "status": "pass",
           "exit": 1,
-          "setup_seconds": 0.0031455736607313156,
-          "execution_seconds": 0.047807130962610245,
-          "checks_seconds": 0.0005294131115078926,
-          "total_seconds": 0.05188190285116434,
+          "setup_seconds": 0.0037581240758299828,
+          "execution_seconds": 0.06964337732642889,
+          "checks_seconds": 0.0006320048123598099,
+          "total_seconds": 0.07448396366089582,
           "stdout_bytes": 73,
           "stderr_bytes": 0,
           "artifacts": {
@@ -292,13 +296,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508902,
-                "input": "RC508902",
-                "output": "RD508902",
+                "pid": 950113,
+                "input": "RC950113",
+                "output": "RD950113",
                 "input_bytes": 72,
                 "input_sha256": "45d2af37f3bd6537a64f91fcaf40292225f37beef3814ba63b1d1cd4ed185d9c",
                 "response_bytes": 102,
-                "response_sha256": "e4872a7fcf2f23eebaad533ecca7171cc9fdd1972df900c5d66bfee052560c08",
+                "response_sha256": "4fb202cac061afb9f57d7b75eb73c7b19921e331f528ceaaea4fd9f99b642c5a",
                 "captured_read_attempts": 2,
                 "status": 0
               }
@@ -306,20 +310,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508902,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-k55f8x90/parser-error/work",
+                "pid": 950113,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-outputs-final/parser-error/namespace/vc1.0/rc/parser-error/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508902 -g RD508902 -D RC_INVOKED -pc \\:/ -E   -IT:\\include"
+                  " -f RC950113 -g RD950113 -D RC_INVOKED -pc \\:/ -E   -IR:\\toolchains\\1.0-nt\\include"
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.04546932876110077,
-            "manifest_sha256": "e5fd048986b8fca2ea40195c94f436e5255851b455a65af183a118e1c3173669",
+            "replay_seconds": 0.06670955289155245,
+            "manifest_sha256": "b620765d74af1a616b7600f1f64a40b70d46f5923c9829a7f0b84c31cb8c2681",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -328,10 +332,10 @@
           "case": "resource-error",
           "status": "pass",
           "exit": 1,
-          "setup_seconds": 0.003633878193795681,
-          "execution_seconds": 0.048391193151474,
-          "checks_seconds": 0.001034952700138092,
-          "total_seconds": 0.0535239027813077,
+          "setup_seconds": 0.0054117850959300995,
+          "execution_seconds": 0.06886890064924955,
+          "checks_seconds": 0.0015741502866148949,
+          "total_seconds": 0.07641175016760826,
           "stdout_bytes": 78,
           "stderr_bytes": 0,
           "artifacts": {
@@ -349,13 +353,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508904,
-                "input": "RC508904",
-                "output": "RD508904",
+                "pid": 950115,
+                "input": "RC950115",
+                "output": "RD950115",
                 "input_bytes": 41,
                 "input_sha256": "2523c2ef78004b06cce695f3d979715e91cecb0f63dba755841c682fe57c32ef",
                 "response_bytes": 71,
-                "response_sha256": "e2e3a2ea206d51d17ea9266bba23adf69ead029763abe1d7becf49036d19f9ef",
+                "response_sha256": "c02c89f9d2ef8ffee4c5655ffc0ece477a958e26d9e727a52cdfc22b4c3fcd62",
                 "captured_read_attempts": 2,
                 "status": 0
               }
@@ -363,20 +367,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508904,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-k55f8x90/resource-error/work",
+                "pid": 950115,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-outputs-final/resource-error/namespace/vc1.0/rc/resource-error/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508904 -g RD508904 -D RC_INVOKED -pc \\:/ -E   -IT:\\include"
+                  " -f RC950115 -g RD950115 -D RC_INVOKED -pc \\:/ -E   -IR:\\toolchains\\1.0-nt\\include"
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.04618688300251961,
-            "manifest_sha256": "4d6719d80218e6b70a7c769f3e6043e27bcf9173176f14b0e8974e56dfdc59b4",
+            "replay_seconds": 0.06643113866448402,
+            "manifest_sha256": "a94d8b9f3bb8c16dc0010b48e924b90d3f2b4a302941bc83b1888071883570da",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -385,28 +389,28 @@
           "case": "kanji",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.008938247337937355,
-          "execution_seconds": 0.07148839440196753,
-          "checks_seconds": 0.0016457242891192436,
-          "total_seconds": 0.0825014365836978,
+          "setup_seconds": 0.013064533472061157,
+          "execution_seconds": 0.0922124506905675,
+          "checks_seconds": 0.0023307576775550842,
+          "total_seconds": 0.10817104019224644,
           "stdout_bytes": 0,
           "stderr_bytes": 0,
           "artifacts": {
-            "encoding.res": {
-              "bytes": 480,
-              "sha256": "e932117ff1d314d3a1098294bf32cadc0bdec94b560a2319c8dd96acd52c3c8c"
-            },
             "preprocessor-error.rc": {
               "bytes": 36,
               "sha256": "c46aab0c71343098117f878c9b5b1d775052dd7b6a1fc82310088f7483efbf8f"
             },
-            "encoding.rc": {
-              "bytes": 427,
-              "sha256": "e786dc80226ec19c7aef2756d6b19feaebf46f80316080a99f3506e7d9e11096"
-            },
             "wide-long.rc": {
               "bytes": 348,
               "sha256": "2281b620985de8dd5165a65497a48fcdab3b581d13cfdf1e7f8aecab6aab95d7"
+            },
+            "encoding.res": {
+              "bytes": 480,
+              "sha256": "e932117ff1d314d3a1098294bf32cadc0bdec94b560a2319c8dd96acd52c3c8c"
+            },
+            "encoding.rc": {
+              "bytes": 427,
+              "sha256": "e786dc80226ec19c7aef2756d6b19feaebf46f80316080a99f3506e7d9e11096"
             },
             "include/values.h": {
               "bytes": 65,
@@ -418,13 +422,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508906,
-                "input": "RC508906",
-                "output": "RD508906",
+                "pid": 950117,
+                "input": "RC950117",
+                "output": "RD950117",
                 "input_bytes": 475,
                 "input_sha256": "8350ba884901977c70e4acd405d0cfc335a563eb29fb66af92ba8b4721abbda3",
                 "response_bytes": 566,
-                "response_sha256": "36272f6229ce8834495439976e1b5b21e5741be2df5492fa98eed48117acb3af",
+                "response_sha256": "f16e4302b0383b50f089e00a10acf1b4bf8d68e2dd40436a3e22a12d00ea5b10",
                 "captured_read_attempts": 3,
                 "status": 0
               }
@@ -432,20 +436,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508906,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-k55f8x90/kanji/work",
+                "pid": 950117,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-outputs-final/kanji/namespace/vc1.0/rc/kanji/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508906 -g RD508906 -D RC_INVOKED -pc \\:/ -E   -Iinclude"
+                  " -f RC950117 -g RD950117 -D RC_INVOKED -pc \\:/ -E   -Iinclude"
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.0684982305392623,
-            "manifest_sha256": "0727a821d180c7bbc9f5b6f3fd36b384aff65a74b87940f050d03645428e8095",
+            "replay_seconds": 0.08828296232968569,
+            "manifest_sha256": "76867d6ddba8c20153f7bbb8181ff94c32fc8b7772c3d96dd121008679f9ebfb",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -454,28 +458,28 @@
           "case": "wide-long",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.01005543116480112,
-          "execution_seconds": 0.049736193381249905,
-          "checks_seconds": 0.0019327374175190926,
-          "total_seconds": 0.062291333451867104,
+          "setup_seconds": 0.013879778794944286,
+          "execution_seconds": 0.07068011071532965,
+          "checks_seconds": 0.0022959457710385323,
+          "total_seconds": 0.0874590240418911,
           "stdout_bytes": 0,
           "stderr_bytes": 0,
           "artifacts": {
-            "encoding.rc": {
-              "bytes": 427,
-              "sha256": "e786dc80226ec19c7aef2756d6b19feaebf46f80316080a99f3506e7d9e11096"
-            },
             "wide-long.rc": {
               "bytes": 348,
               "sha256": "2281b620985de8dd5165a65497a48fcdab3b581d13cfdf1e7f8aecab6aab95d7"
+            },
+            "wide-long.res": {
+              "bytes": 700,
+              "sha256": "df4b835d1c0ca49ba734f366c29172f802e363b6c258a9eac2e43cfde2aed196"
             },
             "preprocessor-error.rc": {
               "bytes": 36,
               "sha256": "c46aab0c71343098117f878c9b5b1d775052dd7b6a1fc82310088f7483efbf8f"
             },
-            "wide-long.res": {
-              "bytes": 700,
-              "sha256": "df4b835d1c0ca49ba734f366c29172f802e363b6c258a9eac2e43cfde2aed196"
+            "encoding.rc": {
+              "bytes": 427,
+              "sha256": "e786dc80226ec19c7aef2756d6b19feaebf46f80316080a99f3506e7d9e11096"
             },
             "include/values.h": {
               "bytes": 65,
@@ -487,13 +491,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508908,
-                "input": "RC508908",
-                "output": "RD508908",
+                "pid": 950119,
+                "input": "RC950119",
+                "output": "RD950119",
                 "input_bytes": 383,
                 "input_sha256": "7a7356e4890f149706283a14bf3da92d397af24c3e3e297db1c5072f25c008f5",
                 "response_bytes": 419,
-                "response_sha256": "48a83dd385fd4ca57a9c352ae7091d9b1badd67dd4ab20cb2e84f8dbfc082178",
+                "response_sha256": "8a9fe842e5a484a45c1f1460d91ddd2841d96dedf1dd7e5882cb176c14df2a42",
                 "captured_read_attempts": 2,
                 "status": 0
               }
@@ -501,20 +505,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508908,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-k55f8x90/wide-long/work",
+                "pid": 950119,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-outputs-final/wide-long/namespace/vc1.0/rc/wide-long/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508908 -g RD508908 -D RC_INVOKED -pc \\:/ -E "
+                  " -f RC950119 -g RD950119 -D RC_INVOKED -pc \\:/ -E "
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.047159209847450256,
-            "manifest_sha256": "7ccc000df818410b12386b09db6af6cb385fbeac6f40755578f47e10cf57ae11",
+            "replay_seconds": 0.06737446133047342,
+            "manifest_sha256": "56cc0d24b30fec7c560899e0bca852c37c2edd91eb2ba09a4c7ac696b6f92f12",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -523,20 +527,20 @@
           "case": "preprocessor-error",
           "status": "pass",
           "exit": 1,
-          "setup_seconds": 0.010466576553881168,
-          "execution_seconds": 0.07081126049160957,
-          "checks_seconds": 0.0017278734594583511,
-          "total_seconds": 0.08350520487874746,
+          "setup_seconds": 0.013213399797677994,
+          "execution_seconds": 0.09193686582148075,
+          "checks_seconds": 0.0021360302343964577,
+          "total_seconds": 0.10788932722061872,
           "stdout_bytes": 69,
           "stderr_bytes": 100,
           "artifacts": {
-            "wide-long.rc": {
-              "bytes": 348,
-              "sha256": "2281b620985de8dd5165a65497a48fcdab3b581d13cfdf1e7f8aecab6aab95d7"
-            },
             "preprocessor-error.rc": {
               "bytes": 36,
               "sha256": "c46aab0c71343098117f878c9b5b1d775052dd7b6a1fc82310088f7483efbf8f"
+            },
+            "wide-long.rc": {
+              "bytes": 348,
+              "sha256": "2281b620985de8dd5165a65497a48fcdab3b581d13cfdf1e7f8aecab6aab95d7"
             },
             "encoding.rc": {
               "bytes": 427,
@@ -552,13 +556,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508910,
-                "input": "RC508910",
-                "output": "RD508910",
+                "pid": 950121,
+                "input": "RC950121",
+                "output": "RD950121",
                 "input_bytes": 78,
                 "input_sha256": "3d2df354afc2ee19c11505af47e6ddb5cf2d5f4086515701dfce85a063d592d0",
                 "response_bytes": 86,
-                "response_sha256": "5ea7592ff68977bee3827338b4b8eb254a83c1cef74aa0d619fbb0bf7518dfcb",
+                "response_sha256": "780ab4cb64d64ee35a955adac3c9bf9e4841e9e37844338e33543d95b59b9567",
                 "captured_read_attempts": 3,
                 "status": 1
               }
@@ -566,20 +570,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508910,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-k55f8x90/preprocessor-error/work",
+                "pid": 950121,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-outputs-final/preprocessor-error/namespace/vc1.0/rc/preprocessor-error/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508910 -g RD508910 -D RC_INVOKED -pc \\:/ -E "
+                  " -f RC950121 -g RD950121 -D RC_INVOKED -pc \\:/ -E "
                 ],
                 "action": "replay",
                 "status": 1
               }
             ],
             "errors": [],
-            "replay_seconds": 0.06781001016497612,
-            "manifest_sha256": "cb5f0924afafe476c4c5344553fa72b95ec8515bd69f3ff49f57aa59eb5b7b21",
+            "replay_seconds": 0.08855329267680645,
+            "manifest_sha256": "6e77b5f6ab1a6343e3f5f10bf2f743b70cc70318b9581a57c8f2476e2a6352fa",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -588,36 +592,36 @@
           "case": "rcinclude",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.010676969774067402,
-          "execution_seconds": 0.11250974517315626,
-          "checks_seconds": 0.002119053155183792,
-          "total_seconds": 0.12580267991870642,
+          "setup_seconds": 0.012880970723927021,
+          "execution_seconds": 0.1381244109943509,
+          "checks_seconds": 0.002257220447063446,
+          "total_seconds": 0.15392273850739002,
           "stdout_bytes": 0,
           "stderr_bytes": 0,
           "artifacts": {
+            "pushback.rc": {
+              "bytes": 30,
+              "sha256": "ce3873fa8a556675d905ad086ffdbda79f5007cf4488f317c1846edbccd42b0e"
+            },
             "rcinclude.rc": {
               "bytes": 120,
               "sha256": "05e3ae5fc1b531a7945985ad34505ab7fadcbe4fc3305c627ddd64aa8a8493fd"
-            },
-            "second.rc": {
-              "bytes": 105,
-              "sha256": "db3813885a609390f3110d17531218588dfe7820a1bdea7d8ee3a7e11c8caa04"
-            },
-            "rcinclude.res": {
-              "bytes": 344,
-              "sha256": "7a51c51aee5ade012ae684087493c744a999d9f9f2a6752e94ab208a76dc9e2d"
-            },
-            "part.rc": {
-              "bytes": 95,
-              "sha256": "cafd2b79160be84bc18ce572992d73a9eae18c2601c487fafebd73d19831e410"
             },
             "values.h": {
               "bytes": 23,
               "sha256": "4518b6c5495325294d3e919cf0fb3d9dcc161d69453deea5bf961b3b1129d868"
             },
-            "pushback.rc": {
-              "bytes": 30,
-              "sha256": "ce3873fa8a556675d905ad086ffdbda79f5007cf4488f317c1846edbccd42b0e"
+            "part.rc": {
+              "bytes": 95,
+              "sha256": "cafd2b79160be84bc18ce572992d73a9eae18c2601c487fafebd73d19831e410"
+            },
+            "rcinclude.res": {
+              "bytes": 344,
+              "sha256": "7a51c51aee5ade012ae684087493c744a999d9f9f2a6752e94ab208a76dc9e2d"
+            },
+            "second.rc": {
+              "bytes": 105,
+              "sha256": "db3813885a609390f3110d17531218588dfe7820a1bdea7d8ee3a7e11c8caa04"
             }
           },
           "trace_entries": null,
@@ -625,13 +629,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508912,
-                "input": "RC508912",
-                "output": "RD508912",
+                "pid": 950123,
+                "input": "RC950123",
+                "output": "RD950123",
                 "input_bytes": 155,
                 "input_sha256": "9ad1ebd79ffb3e8f815521cb0e542c55e4bc0566b340810b8e037d88506098bc",
                 "response_bytes": 445,
-                "response_sha256": "0467871e88e3f46629a36ac7c304026452188ede17c7a2c4d18cc98e8892c533",
+                "response_sha256": "39e75f4036fb352e95e5a7e8b16afc91282deb1fdf8d684eebd4d91dc6b64923",
                 "captured_read_attempts": 5,
                 "status": 0
               }
@@ -639,20 +643,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508912,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-k55f8x90/rcinclude/work",
+                "pid": 950123,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-outputs-final/rcinclude/namespace/vc1.0/rc/rcinclude/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508912 -g RD508912 -D RC_INVOKED -pc \\:/ -E "
+                  " -f RC950123 -g RD950123 -D RC_INVOKED -pc \\:/ -E "
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.10930580832064152,
-            "manifest_sha256": "cc2c91b507e60deb4c36b4c2dc4c67fdbd9635082c9d46ec90a6982236b91472",
+            "replay_seconds": 0.13443184457719326,
+            "manifest_sha256": "a4f3abdfd7e9f73f11ffb8c039d3ab58470868104cee389591dd714ec937c2e5",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -661,20 +665,24 @@
           "case": "scanf-pushback",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.01000104658305645,
-          "execution_seconds": 0.04767695441842079,
-          "checks_seconds": 0.0011026924476027489,
-          "total_seconds": 0.059185586869716644,
+          "setup_seconds": 0.012221026234328747,
+          "execution_seconds": 0.07207630109041929,
+          "checks_seconds": 0.0012141959741711617,
+          "total_seconds": 0.08587362244725227,
           "stdout_bytes": 0,
           "stderr_bytes": 0,
           "artifacts": {
-            "pushback.res": {
-              "bytes": 68,
-              "sha256": "8dd39c71de33c999b0f7f8bba7e6e2ece1147a24541cdb20d1045275bc5bb29c"
-            },
             "values.h": {
               "bytes": 23,
               "sha256": "4518b6c5495325294d3e919cf0fb3d9dcc161d69453deea5bf961b3b1129d868"
+            },
+            "pushback.rc": {
+              "bytes": 30,
+              "sha256": "ce3873fa8a556675d905ad086ffdbda79f5007cf4488f317c1846edbccd42b0e"
+            },
+            "pushback.res": {
+              "bytes": 68,
+              "sha256": "8dd39c71de33c999b0f7f8bba7e6e2ece1147a24541cdb20d1045275bc5bb29c"
             },
             "part.rc": {
               "bytes": 95,
@@ -683,10 +691,6 @@
             "second.rc": {
               "bytes": 105,
               "sha256": "db3813885a609390f3110d17531218588dfe7820a1bdea7d8ee3a7e11c8caa04"
-            },
-            "pushback.rc": {
-              "bytes": 30,
-              "sha256": "ce3873fa8a556675d905ad086ffdbda79f5007cf4488f317c1846edbccd42b0e"
             },
             "rcinclude.rc": {
               "bytes": 120,
@@ -698,13 +702,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508914,
-                "input": "RC508914",
-                "output": "RD508914",
+                "pid": 950125,
+                "input": "RC950125",
+                "output": "RD950125",
                 "input_bytes": 61,
                 "input_sha256": "2f0998badf20c650650b2e009e7d2c7ae9f44d8bb3f8b89adab1dfc79c480ef9",
                 "response_bytes": 96,
-                "response_sha256": "cf1329e49bb2ec6b4f047f6d337070547f7ee595a2d224fb6917317377fccaa8",
+                "response_sha256": "5f271356f813b4c2075a35f9bba546d7ead333035d24e72eae7fa450acac85ba",
                 "captured_read_attempts": 2,
                 "status": 0
               }
@@ -712,20 +716,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508914,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-k55f8x90/scanf-pushback/work",
+                "pid": 950125,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-outputs-final/scanf-pushback/namespace/vc1.0/rc/scanf-pushback/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508914 -g RD508914 -D RC_INVOKED -pc \\:/ -E "
+                  " -f RC950125 -g RD950125 -D RC_INVOKED -pc \\:/ -E "
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.044936648570001125,
-            "manifest_sha256": "766f746e92f268f90e94acffd55bf24b661ff23ceac40f10ec482da5ce5dd9c6",
+            "replay_seconds": 0.0697906007990241,
+            "manifest_sha256": "615a57924fd74fd9046b6bdeac0841eb606e89edf6ae14344acadd6a0bb41f8f",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -734,10 +738,10 @@
           "case": "console-interrupt",
           "status": "pass",
           "exit": 1,
-          "setup_seconds": 0.004146638326346874,
-          "execution_seconds": 0.1846305401995778,
-          "checks_seconds": 0.001315820962190628,
-          "total_seconds": 0.19067274499684572,
+          "setup_seconds": 0.0050610750913619995,
+          "execution_seconds": 0.21946496237069368,
+          "checks_seconds": 0.0013308320194482803,
+          "total_seconds": 0.22621535789221525,
           "stdout_bytes": 0,
           "stderr_bytes": 0,
           "artifacts": {
@@ -751,13 +755,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508932,
-                "input": "RC508932",
-                "output": "RD508932",
+                "pid": 950137,
+                "input": "RC950137",
+                "output": "RD950137",
                 "input_bytes": 54,
                 "input_sha256": "c61a20ca5a6c4af9e80084e873b3051e4ffa6eedccf67b4ab4bb8bc0ec89954b",
                 "response_bytes": 90,
-                "response_sha256": "b09b5c1ad0379efe4fb0872ac86cffe50c83e881c5ff31ae74a492d15347fdd7",
+                "response_sha256": "85ffc956619e12f46b190b690e42aaf7ab22c17b64124f48bc2fc000266c4676",
                 "captured_read_attempts": 2,
                 "status": 0
               }
@@ -765,20 +769,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508932,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-k55f8x90/console-interrupt/work",
+                "pid": 950137,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-outputs-final/console-interrupt/namespace/vc1.0/rc/console-interrupt/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508932 -g RD508932 -D RC_INVOKED -pc \\:/ -E "
+                  " -f RC950137 -g RD950137 -D RC_INVOKED -pc \\:/ -E "
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.04703996982425451,
-            "manifest_sha256": "8eb39ef4cf10d67f663b8ed3f13e9d4defbc7bdf5a216e033e17914de17f9c7f",
+            "replay_seconds": 0.07977443654090166,
+            "manifest_sha256": "1f066319f8a1f848d3c98d71decfaf4f8cfc5aae9ceffea50befdc2ea027c166",
             "Wine_invocations": 0
           },
           "scope": "Actual native SIGINT delivered at GDB pre-lexer boundary; exact cleanup. Windows console membership and OS callback thread remain original-only evidence."
@@ -787,10 +791,10 @@
           "case": "verbose-names",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.006851396523416042,
-          "execution_seconds": 0.05208923202008009,
-          "checks_seconds": 0.001388421282172203,
-          "total_seconds": 0.061002044938504696,
+          "setup_seconds": 0.007120351307094097,
+          "execution_seconds": 0.0721555957570672,
+          "checks_seconds": 0.0008562486618757248,
+          "total_seconds": 0.08057985734194517,
           "stdout_bytes": 349,
           "stderr_bytes": 0,
           "artifacts": {
@@ -812,13 +816,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508936,
-                "input": "RC508936",
-                "output": "RD508936",
+                "pid": 950141,
+                "input": "RC950141",
+                "output": "RD950141",
                 "input_bytes": 116,
                 "input_sha256": "c60f5518a507130b32385d3966cee5d6775adcfa72523bc63f4cb2dca6932a40",
                 "response_bytes": 156,
-                "response_sha256": "4bb53f33da58c80738230053380f0b384b12cc3215d7fb78c87af14ae8f7c512",
+                "response_sha256": "e38bc653812861f1d1e3ac1b89ecbe190d4cb9401ab7c6f2e1e05c0a32e702c6",
                 "captured_read_attempts": 2,
                 "status": 0
               }
@@ -826,20 +830,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508936,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-k55f8x90/verbose-names/work",
+                "pid": 950141,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-outputs-final/verbose-names/namespace/vc1.0/rc/verbose-names/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508936 -g RD508936 -D RC_INVOKED -pc \\:/ -E "
+                  " -f RC950141 -g RD950141 -D RC_INVOKED -pc \\:/ -E "
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.048992402851581573,
-            "manifest_sha256": "05cb72c563bd21b1af0a792e4bc9b4f592d1a13fb5e8b575caa68dff269ce4a7",
+            "replay_seconds": 0.06922824308276176,
+            "manifest_sha256": "e5789c4315b0d31b46464d0404d9147aeb512858dcdd4443fc70bd1ab4b249ed",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -848,13 +852,17 @@
           "case": "path-fallback",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.007891138084232807,
-          "execution_seconds": 0.06927469093352556,
-          "checks_seconds": 0.0008110441267490387,
-          "total_seconds": 0.07837630715221167,
+          "setup_seconds": 0.049871958792209625,
+          "execution_seconds": 0.09238594956696033,
+          "checks_seconds": 0.0010649478062987328,
+          "total_seconds": 0.14387817587703466,
           "stdout_bytes": 0,
           "stderr_bytes": 0,
           "artifacts": {
+            "path.res": {
+              "bytes": 68,
+              "sha256": "d40bd446753ac712bf8621ea929d08fa2f20715fa1ccb7001e482ef79707201f"
+            },
             "verbose-names.rc": {
               "bytes": 77,
               "sha256": "609564534bbd609d6a894eb1760ad769a36d7ee276b43b1e2e02717df3fdb6ee"
@@ -862,10 +870,6 @@
             "path-fallback.rc": {
               "bytes": 21,
               "sha256": "f81d5819af9ba3cb25c8bb10d099aced01178b2e628969f47d04baafd4095e85"
-            },
-            "path.res": {
-              "bytes": 68,
-              "sha256": "d40bd446753ac712bf8621ea929d08fa2f20715fa1ccb7001e482ef79707201f"
             }
           },
           "trace_entries": null,
@@ -873,13 +877,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508938,
-                "input": "RC508938",
-                "output": "RD508938",
+                "pid": 950143,
+                "input": "RC950143",
+                "output": "RD950143",
                 "input_bytes": 58,
                 "input_sha256": "abec1f5c28d7d5d6ad1e289328260c30adb46ea4a09487665121d4d6820e790b",
                 "response_bytes": 98,
-                "response_sha256": "f701d8c3e372df15c7c8ce5315c7791cc3b5ac63e0c26f9ce44263a50015eb5b",
+                "response_sha256": "ebafa567144b0102ab52dc28999e195b35e3cfe9c4f200794a2353bb526e7bfb",
                 "captured_read_attempts": 2,
                 "status": 0
               }
@@ -887,20 +891,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508938,
-                "file": "Z:\\root\\.ai-tmp\\vc1.0-rc\\native-boundary-capture\\preprocessor bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-k55f8x90/path-fallback/work",
+                "pid": 950143,
+                "file": "S:\\vc1.0\\rc\\path-fallback\\preprocessor bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-outputs-final/path-fallback/namespace/vc1.0/rc/path-fallback/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508938 -g RD508938 -D RC_INVOKED -pc \\:/ -E "
+                  " -f RC950143 -g RD950143 -D RC_INVOKED -pc \\:/ -E "
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.06629342772066593,
-            "manifest_sha256": "399b768f5bacf53c576e59e99090549de8f74229d52c05e1f4ad5a54473f5b79",
+            "replay_seconds": 0.08906782045960426,
+            "manifest_sha256": "6af6a10b40d2974da16d12c47ca9d687a878e7b43b3db59e8879ce4fa03e4923",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -909,10 +913,10 @@
           "case": "direct-whitespace",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.001276955008506775,
-          "execution_seconds": 0.001303042285144329,
-          "checks_seconds": 0.00025326386094093323,
-          "total_seconds": 0.0031296852976083755,
+          "setup_seconds": 0.0018254509195685387,
+          "execution_seconds": 0.0015108920633792877,
+          "checks_seconds": 0.0002843625843524933,
+          "total_seconds": 0.003887754864990711,
           "stdout_bytes": 0,
           "stderr_bytes": 0,
           "artifacts": {
@@ -929,10 +933,10 @@
           "case": "direct-basename",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.0012845704331994057,
-          "execution_seconds": 0.0012523913756012917,
-          "checks_seconds": 0.00025406666100025177,
-          "total_seconds": 0.0030675968155264854,
+          "setup_seconds": 0.0017710374668240547,
+          "execution_seconds": 0.001358996145427227,
+          "checks_seconds": 0.0002705315127968788,
+          "total_seconds": 0.0036697499454021454,
           "stdout_bytes": 0,
           "stderr_bytes": 0,
           "artifacts": {
@@ -946,50 +950,38 @@
           "scope": "Direct native utility results/canaries; canonical stdcall/nonvolatile ABI audit retained separately."
         }
       ],
-      "executable_sha256": "f3b201c50a459802ae49a85154a2312f4cd2912823d1de538271a57b5648a388",
+      "executable_sha256": "66bd5fced720d89b2453f6ed1e8d8d54a78865612f53956a0df778d217a4bcfe",
       "Wine_invocations": 0,
-      "total_seconds": 1.8885624846443534,
+      "total_seconds": 2.274537385441363,
       "status": "pass"
     },
-    "instrumented": {
+    "application_entries": {
       "mode": "native-only captured-reference",
       "build_seconds": "separate build; not measured by fixture runner",
-      "trace_setup_seconds": 0.05526582803577185,
+      "trace_setup_seconds": 0.05551981646567583,
       "cases": [
         {
           "case": "resources-rich",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.026128923520445824,
-          "execution_seconds": 0.9151892932131886,
-          "checks_seconds": 0.002600151114165783,
-          "total_seconds": 0.9444454414770007,
+          "setup_seconds": 0.029978452250361443,
+          "execution_seconds": 0.9388998467475176,
+          "checks_seconds": 0.0028482601046562195,
+          "total_seconds": 0.9722698731347919,
           "stdout_bytes": 0,
           "stderr_bytes": 0,
           "artifacts": {
-            "resources.res": {
-              "bytes": 3684,
-              "sha256": "10dee20c34c66e704c56b8bd31d7f2efbc60ce407964d727830449eb6a85618d"
+            "resources.rc": {
+              "bytes": 3440,
+              "sha256": "47f13f702adfbcfc05a40ab9ce1a27cb22730e33f888be81e276ac424dc41881"
             },
             "resource.h": {
               "bytes": 746,
               "sha256": "8928ffb8acb0481e8775ca63dc0104143af852929b71c6459fd6889f4f93d8d8"
             },
-            "resources.rc": {
-              "bytes": 3440,
-              "sha256": "47f13f702adfbcfc05a40ab9ce1a27cb22730e33f888be81e276ac424dc41881"
-            },
-            "include/features.h": {
-              "bytes": 938,
-              "sha256": "7b7fb5c3c82eb19ae662105631fbd1b02a4b313b7055453249976ac7714c2070"
-            },
-            "assets/payload.bin": {
-              "bytes": 50,
-              "sha256": "20c1bef1846bc87953a2663d95185cd5e33ad97a534899ed892a02f5a1a81590"
-            },
-            "assets/messages.bin": {
-              "bytes": 48,
-              "sha256": "27fbf6c0451b6521d19618032f26de4be6ae744c37082ec0917aa4afe89efccc"
+            "resources.res": {
+              "bytes": 3684,
+              "sha256": "10dee20c34c66e704c56b8bd31d7f2efbc60ce407964d727830449eb6a85618d"
             },
             "assets/pattern.bmp": {
               "bytes": 246,
@@ -999,9 +991,21 @@
               "bytes": 518,
               "sha256": "4eafdacd795611297df4cd4dd5774d0955d0f12c644e1cd17d729e0e1168204d"
             },
+            "assets/payload.bin": {
+              "bytes": 50,
+              "sha256": "20c1bef1846bc87953a2663d95185cd5e33ad97a534899ed892a02f5a1a81590"
+            },
             "assets/pointer.cur": {
               "bytes": 198,
               "sha256": "38904338263e5c23802d4961ece21222b3997f466887a0fb052994d0d3794d4a"
+            },
+            "assets/messages.bin": {
+              "bytes": 48,
+              "sha256": "27fbf6c0451b6521d19618032f26de4be6ae744c37082ec0917aa4afe89efccc"
+            },
+            "include/features.h": {
+              "bytes": 938,
+              "sha256": "7b7fb5c3c82eb19ae662105631fbd1b02a4b313b7055453249976ac7714c2070"
             },
             "include/nested/values.h": {
               "bytes": 129,
@@ -1013,13 +1017,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508944,
-                "input": "RC508944",
-                "output": "RD508944",
+                "pid": 950149,
+                "input": "RC950149",
+                "output": "RD950149",
                 "input_bytes": 3381,
                 "input_sha256": "bcf079a08386aee55016e382db7490301ed690f72e1e84e3d5b1f7cde2b8231e",
-                "response_bytes": 336686,
-                "response_sha256": "567b5f34b58860c3dacb15b3a46e676bbeb3401e15189ef408ad6f0ffb5a78ab",
+                "response_bytes": 349826,
+                "response_sha256": "39ee0612c4492638fa9907e73a971648df9f7b00dc86be3c0d23c8f65dce9c17",
                 "captured_read_attempts": 72,
                 "status": 0
               }
@@ -1027,20 +1031,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508944,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-mwh5stha/resources-rich/work",
+                "pid": 950149,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-entries-final/resources-rich/namespace/vc1.0/rc/resources-rich/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508944 -g RD508944 -D RC_INVOKED -pc \\:/ -E   -Iinclude  -IT:\\include  -DCASE_FROM_COMMAND=7"
+                  " -f RC950149 -g RD950149 -D RC_INVOKED -pc \\:/ -E   -Iinclude  -IR:\\toolchains\\1.0-nt\\include  -DCASE_FROM_COMMAND=7"
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.8905078889802098,
-            "manifest_sha256": "893d44f1ecbccbdf982f99f39d673e5021acf4e46fda7abda57d7b32bdc39ba2",
+            "replay_seconds": 0.9112474294379354,
+            "manifest_sha256": "90a82df6d244d49ee80a36af8c9c9fa9b18fbd8b11ec1526e64302f21591540b",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -1049,10 +1053,10 @@
           "case": "help",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.0019382331520318985,
-          "execution_seconds": 0.0022165272384881973,
-          "checks_seconds": 0.00024494994431734085,
-          "total_seconds": 0.004863634705543518,
+          "setup_seconds": 0.002366947941482067,
+          "execution_seconds": 0.0026812609285116196,
+          "checks_seconds": 0.0004036584869027138,
+          "total_seconds": 0.006229104474186897,
           "stdout_bytes": 424,
           "stderr_bytes": 0,
           "artifacts": {},
@@ -1064,10 +1068,10 @@
           "case": "invalid-switch",
           "status": "pass",
           "exit": 1,
-          "setup_seconds": 0.001730303280055523,
-          "execution_seconds": 0.002974596805870533,
-          "checks_seconds": 0.0003176592290401459,
-          "total_seconds": 0.005420329049229622,
+          "setup_seconds": 0.003708750009536743,
+          "execution_seconds": 0.002505301497876644,
+          "checks_seconds": 0.0003951825201511383,
+          "total_seconds": 0.007155613042414188,
           "stdout_bytes": 48,
           "stderr_bytes": 0,
           "artifacts": {},
@@ -1079,10 +1083,10 @@
           "case": "missing-input",
           "status": "pass",
           "exit": 1,
-          "setup_seconds": 0.0027681244537234306,
-          "execution_seconds": 0.002073260024189949,
-          "checks_seconds": 0.00029418524354696274,
-          "total_seconds": 0.005662336014211178,
+          "setup_seconds": 0.0035594291985034943,
+          "execution_seconds": 0.002423974685370922,
+          "checks_seconds": 0.00017499271780252457,
+          "total_seconds": 0.00647759810090065,
           "stdout_bytes": 54,
           "stderr_bytes": 0,
           "artifacts": {},
@@ -1094,20 +1098,24 @@
           "case": "alternate",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.008320178836584091,
-          "execution_seconds": 0.05107883084565401,
-          "checks_seconds": 0.0010979343205690384,
-          "total_seconds": 0.06087581720203161,
+          "setup_seconds": 0.006617056205868721,
+          "execution_seconds": 0.07238119188696146,
+          "checks_seconds": 0.0016492204740643501,
+          "total_seconds": 0.08116636611521244,
           "stdout_bytes": 0,
           "stderr_bytes": 0,
           "artifacts": {
+            "alternate.rc": {
+              "bytes": 428,
+              "sha256": "082a82f0fdc089ef3efe46b2d6d96623b9acb8bf3f30c7e13ff8b1400e1d7f4c"
+            },
             "inline.img": {
               "bytes": 14,
               "sha256": "a3303fa317e47c6cf7d881930bf579a491c02947a7948712aad68b5905dca8ac"
             },
-            "alternate.rc": {
-              "bytes": 428,
-              "sha256": "082a82f0fdc089ef3efe46b2d6d96623b9acb8bf3f30c7e13ff8b1400e1d7f4c"
+            "tiny.fnt": {
+              "bytes": 160,
+              "sha256": "f379ec68adb7f2a7147439619211885d996a75d83ae3ecd61b6b372cf138200f"
             },
             "alternate.res": {
               "bytes": 940,
@@ -1116,10 +1124,6 @@
             "legacy.img": {
               "bytes": 20,
               "sha256": "247c260b12e05cda3f45baa7022ee34b93e3fbb5fbe4a58d8bb6a373794b3880"
-            },
-            "tiny.fnt": {
-              "bytes": 160,
-              "sha256": "f379ec68adb7f2a7147439619211885d996a75d83ae3ecd61b6b372cf138200f"
             }
           },
           "trace_entries": 7,
@@ -1127,13 +1131,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508950,
-                "input": "RC508950",
-                "output": "RD508950",
+                "pid": 950177,
+                "input": "RC950177",
+                "output": "RD950177",
                 "input_bytes": 430,
                 "input_sha256": "1b1b9fcde08116855954f0d4297d61aa5de1c40ec7c9f4623b532b40c51989ed",
                 "response_bytes": 466,
-                "response_sha256": "a22974bd75941264ea553441c632f79a22c1b9568c7c061cb345de1d3ac48aa4",
+                "response_sha256": "7a13a8dc56f107cf319a4c0fb2981b01e873ce0be2d06f08408c25b25168dd74",
                 "captured_read_attempts": 2,
                 "status": 0
               }
@@ -1141,20 +1145,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508950,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-mwh5stha/alternate/work",
+                "pid": 950177,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-entries-final/alternate/namespace/vc1.0/rc/alternate/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508950 -g RD508950 -D RC_INVOKED -pc \\:/ -E   -IT:\\include"
+                  " -f RC950177 -g RD950177 -D RC_INVOKED -pc \\:/ -E   -IR:\\toolchains\\1.0-nt\\include"
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.04706066381186247,
-            "manifest_sha256": "c1d98de02da6a670d8233155576e3770ed30e72ac2f9d3a5cb1c128ea575dff3",
+            "replay_seconds": 0.06866430398076773,
+            "manifest_sha256": "8b280c0b349344076a0e1cead45dbbbf53bf019c81ccf55984e34521e9a329b1",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -1163,10 +1167,10 @@
           "case": "lexical-error",
           "status": "pass",
           "exit": 1,
-          "setup_seconds": 0.0037621790543198586,
-          "execution_seconds": 0.04870338458567858,
-          "checks_seconds": 0.0009564319625496864,
-          "total_seconds": 0.05390761233866215,
+          "setup_seconds": 0.006499326787889004,
+          "execution_seconds": 0.07043234165757895,
+          "checks_seconds": 0.0013186782598495483,
+          "total_seconds": 0.07884628884494305,
           "stdout_bytes": 80,
           "stderr_bytes": 0,
           "artifacts": {
@@ -1180,13 +1184,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508952,
-                "input": "RC508952",
-                "output": "RD508952",
+                "pid": 950179,
+                "input": "RC950179",
+                "output": "RD950179",
                 "input_bytes": 61,
                 "input_sha256": "20b3a0d0e35ca8bbf1be46ed70aef68a6c9fbf975d8e83920f3b71011091ea34",
                 "response_bytes": 91,
-                "response_sha256": "a0789fcf1ee327b461a8b42bfed0c19287b84f33c6c336878333fd78e83f3723",
+                "response_sha256": "c8955c1bfa68ee7fd43b46bbff4643bbd93ed317f9de26327c8796343989e601",
                 "captured_read_attempts": 2,
                 "status": 0
               }
@@ -1194,20 +1198,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508952,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-mwh5stha/lexical-error/work",
+                "pid": 950179,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-entries-final/lexical-error/namespace/vc1.0/rc/lexical-error/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508952 -g RD508952 -D RC_INVOKED -pc \\:/ -E   -IT:\\include"
+                  " -f RC950179 -g RD950179 -D RC_INVOKED -pc \\:/ -E   -IR:\\toolchains\\1.0-nt\\include"
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.04526512045413256,
-            "manifest_sha256": "ed123ee37226b38a275abb3de4bf80094ad6cedcd4317e2d6d13fc9ccb914036",
+            "replay_seconds": 0.06705610454082489,
+            "manifest_sha256": "a81abc51f75e6c7b630391d97d8e2a9cca89538619f103e50660d173ab55aa4f",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -1216,10 +1220,10 @@
           "case": "parser-error",
           "status": "pass",
           "exit": 1,
-          "setup_seconds": 0.005618471652269363,
-          "execution_seconds": 0.05009348876774311,
-          "checks_seconds": 0.0008665304630994797,
-          "total_seconds": 0.05710869003087282,
+          "setup_seconds": 0.007993444800376892,
+          "execution_seconds": 0.07380523439496756,
+          "checks_seconds": 0.0010827556252479553,
+          "total_seconds": 0.08373770955950022,
           "stdout_bytes": 73,
           "stderr_bytes": 0,
           "artifacts": {
@@ -1233,13 +1237,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508954,
-                "input": "RC508954",
-                "output": "RD508954",
+                "pid": 950181,
+                "input": "RC950181",
+                "output": "RD950181",
                 "input_bytes": 72,
                 "input_sha256": "45d2af37f3bd6537a64f91fcaf40292225f37beef3814ba63b1d1cd4ed185d9c",
                 "response_bytes": 102,
-                "response_sha256": "5303ca46057c9bd4c3d926ff2d5e17ae37cf323da1720a43f2467f9453701a22",
+                "response_sha256": "d7654791146bc29cbd8490d2648fb6f9d061036cbbb60f9e17a0c94d9d2d1385",
                 "captured_read_attempts": 2,
                 "status": 0
               }
@@ -1247,20 +1251,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508954,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-mwh5stha/parser-error/work",
+                "pid": 950181,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-entries-final/parser-error/namespace/vc1.0/rc/parser-error/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508954 -g RD508954 -D RC_INVOKED -pc \\:/ -E   -IT:\\include"
+                  " -f RC950181 -g RD950181 -D RC_INVOKED -pc \\:/ -E   -IR:\\toolchains\\1.0-nt\\include"
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.04750314075499773,
-            "manifest_sha256": "e5fd048986b8fca2ea40195c94f436e5255851b455a65af183a118e1c3173669",
+            "replay_seconds": 0.06947005447000265,
+            "manifest_sha256": "b620765d74af1a616b7600f1f64a40b70d46f5923c9829a7f0b84c31cb8c2681",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -1269,10 +1273,10 @@
           "case": "resource-error",
           "status": "pass",
           "exit": 1,
-          "setup_seconds": 0.005731995217502117,
-          "execution_seconds": 0.04680182784795761,
-          "checks_seconds": 0.001242353580892086,
-          "total_seconds": 0.05438992101699114,
+          "setup_seconds": 0.008866183459758759,
+          "execution_seconds": 0.07099856063723564,
+          "checks_seconds": 0.0017973259091377258,
+          "total_seconds": 0.08233067020773888,
           "stdout_bytes": 78,
           "stderr_bytes": 0,
           "artifacts": {
@@ -1290,13 +1294,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508956,
-                "input": "RC508956",
-                "output": "RD508956",
+                "pid": 950183,
+                "input": "RC950183",
+                "output": "RD950183",
                 "input_bytes": 41,
                 "input_sha256": "2523c2ef78004b06cce695f3d979715e91cecb0f63dba755841c682fe57c32ef",
                 "response_bytes": 71,
-                "response_sha256": "ecd33f2d7a1253125ddd24f1d6b6c4980d1ddbe4c7084f982da90b97078d5f39",
+                "response_sha256": "c8a28738be98c3a1b7e5aa43277b8a93d6363605046fa90e806e49799be7f8b2",
                 "captured_read_attempts": 2,
                 "status": 0
               }
@@ -1304,20 +1308,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508956,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-mwh5stha/resource-error/work",
+                "pid": 950183,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-entries-final/resource-error/namespace/vc1.0/rc/resource-error/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508956 -g RD508956 -D RC_INVOKED -pc \\:/ -E   -IT:\\include"
+                  " -f RC950183 -g RD950183 -D RC_INVOKED -pc \\:/ -E   -IR:\\toolchains\\1.0-nt\\include"
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.04408613499253988,
-            "manifest_sha256": "4d6719d80218e6b70a7c769f3e6043e27bcf9173176f14b0e8974e56dfdc59b4",
+            "replay_seconds": 0.06688470207154751,
+            "manifest_sha256": "a94d8b9f3bb8c16dc0010b48e924b90d3f2b4a302941bc83b1888071883570da",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -1326,20 +1330,20 @@
           "case": "kanji",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.009441323578357697,
-          "execution_seconds": 0.06952388770878315,
-          "checks_seconds": 0.001220541074872017,
-          "total_seconds": 0.08063057344406843,
+          "setup_seconds": 0.008698212914168835,
+          "execution_seconds": 0.09389207512140274,
+          "checks_seconds": 0.001316252164542675,
+          "total_seconds": 0.10436623077839613,
           "stdout_bytes": 0,
           "stderr_bytes": 0,
           "artifacts": {
-            "preprocessor-error.rc": {
-              "bytes": 36,
-              "sha256": "c46aab0c71343098117f878c9b5b1d775052dd7b6a1fc82310088f7483efbf8f"
-            },
             "encoding.res": {
               "bytes": 480,
               "sha256": "e932117ff1d314d3a1098294bf32cadc0bdec94b560a2319c8dd96acd52c3c8c"
+            },
+            "preprocessor-error.rc": {
+              "bytes": 36,
+              "sha256": "c46aab0c71343098117f878c9b5b1d775052dd7b6a1fc82310088f7483efbf8f"
             },
             "wide-long.rc": {
               "bytes": 348,
@@ -1359,13 +1363,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508958,
-                "input": "RC508958",
-                "output": "RD508958",
+                "pid": 950185,
+                "input": "RC950185",
+                "output": "RD950185",
                 "input_bytes": 475,
                 "input_sha256": "8350ba884901977c70e4acd405d0cfc335a563eb29fb66af92ba8b4721abbda3",
                 "response_bytes": 566,
-                "response_sha256": "78d7c41346f32e67bc45e643856ea46ea32cbb7e2768bf674e3f213eeb761fea",
+                "response_sha256": "79ea68220ef88e4be6b39b2d4c19cb1bdff28c6d44295cf50155206a302068a0",
                 "captured_read_attempts": 3,
                 "status": 0
               }
@@ -1373,20 +1377,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508958,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-mwh5stha/kanji/work",
+                "pid": 950185,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-entries-final/kanji/namespace/vc1.0/rc/kanji/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508958 -g RD508958 -D RC_INVOKED -pc \\:/ -E   -Iinclude"
+                  " -f RC950185 -g RD950185 -D RC_INVOKED -pc \\:/ -E   -Iinclude"
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.06572008226066828,
-            "manifest_sha256": "0727a821d180c7bbc9f5b6f3fd36b384aff65a74b87940f050d03645428e8095",
+            "replay_seconds": 0.09042910113930702,
+            "manifest_sha256": "76867d6ddba8c20153f7bbb8181ff94c32fc8b7772c3d96dd121008679f9ebfb",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -1395,16 +1399,20 @@
           "case": "wide-long",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.006402886472642422,
-          "execution_seconds": 0.04747414216399193,
-          "checks_seconds": 0.0011925259605050087,
-          "total_seconds": 0.0554891936480999,
+          "setup_seconds": 0.007071050815284252,
+          "execution_seconds": 0.07200651336461306,
+          "checks_seconds": 0.0027688490226864815,
+          "total_seconds": 0.08279872220009565,
           "stdout_bytes": 0,
           "stderr_bytes": 0,
           "artifacts": {
             "wide-long.rc": {
               "bytes": 348,
               "sha256": "2281b620985de8dd5165a65497a48fcdab3b581d13cfdf1e7f8aecab6aab95d7"
+            },
+            "wide-long.res": {
+              "bytes": 700,
+              "sha256": "df4b835d1c0ca49ba734f366c29172f802e363b6c258a9eac2e43cfde2aed196"
             },
             "encoding.rc": {
               "bytes": 427,
@@ -1413,10 +1421,6 @@
             "preprocessor-error.rc": {
               "bytes": 36,
               "sha256": "c46aab0c71343098117f878c9b5b1d775052dd7b6a1fc82310088f7483efbf8f"
-            },
-            "wide-long.res": {
-              "bytes": 700,
-              "sha256": "df4b835d1c0ca49ba734f366c29172f802e363b6c258a9eac2e43cfde2aed196"
             },
             "include/values.h": {
               "bytes": 65,
@@ -1428,13 +1432,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508960,
-                "input": "RC508960",
-                "output": "RD508960",
+                "pid": 950187,
+                "input": "RC950187",
+                "output": "RD950187",
                 "input_bytes": 383,
                 "input_sha256": "7a7356e4890f149706283a14bf3da92d397af24c3e3e297db1c5072f25c008f5",
                 "response_bytes": 419,
-                "response_sha256": "ca7205830dedb86342276395d2e8e3071e432de60ddb96d5d3eb4746932c96f5",
+                "response_sha256": "3026b09eae0a45feadac9734a32d0832198123b8553bd006da6b6a17b6b82bf5",
                 "captured_read_attempts": 2,
                 "status": 0
               }
@@ -1442,20 +1446,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508960,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-mwh5stha/wide-long/work",
+                "pid": 950187,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-entries-final/wide-long/namespace/vc1.0/rc/wide-long/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508960 -g RD508960 -D RC_INVOKED -pc \\:/ -E "
+                  " -f RC950187 -g RD950187 -D RC_INVOKED -pc \\:/ -E "
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.04460659623146057,
-            "manifest_sha256": "7ccc000df818410b12386b09db6af6cb385fbeac6f40755578f47e10cf57ae11",
+            "replay_seconds": 0.06837875861674547,
+            "manifest_sha256": "56cc0d24b30fec7c560899e0bca852c37c2edd91eb2ba09a4c7ac696b6f92f12",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -1464,13 +1468,17 @@
           "case": "preprocessor-error",
           "status": "pass",
           "exit": 1,
-          "setup_seconds": 0.0063340021297335625,
-          "execution_seconds": 0.06810402497649193,
-          "checks_seconds": 0.001756487414240837,
-          "total_seconds": 0.07670196238905191,
+          "setup_seconds": 0.015524501912295818,
+          "execution_seconds": 0.0934141343459487,
+          "checks_seconds": 0.002490338869392872,
+          "total_seconds": 0.11206556763499975,
           "stdout_bytes": 69,
           "stderr_bytes": 100,
           "artifacts": {
+            "preprocessor-error.rc": {
+              "bytes": 36,
+              "sha256": "c46aab0c71343098117f878c9b5b1d775052dd7b6a1fc82310088f7483efbf8f"
+            },
             "wide-long.rc": {
               "bytes": 348,
               "sha256": "2281b620985de8dd5165a65497a48fcdab3b581d13cfdf1e7f8aecab6aab95d7"
@@ -1478,10 +1486,6 @@
             "encoding.rc": {
               "bytes": 427,
               "sha256": "e786dc80226ec19c7aef2756d6b19feaebf46f80316080a99f3506e7d9e11096"
-            },
-            "preprocessor-error.rc": {
-              "bytes": 36,
-              "sha256": "c46aab0c71343098117f878c9b5b1d775052dd7b6a1fc82310088f7483efbf8f"
             },
             "include/values.h": {
               "bytes": 65,
@@ -1493,13 +1497,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508962,
-                "input": "RC508962",
-                "output": "RD508962",
+                "pid": 950189,
+                "input": "RC950189",
+                "output": "RD950189",
                 "input_bytes": 78,
                 "input_sha256": "3d2df354afc2ee19c11505af47e6ddb5cf2d5f4086515701dfce85a063d592d0",
                 "response_bytes": 86,
-                "response_sha256": "22842b6413462e22ca088ff259964f25385103afe5db6ede27f3c2efc51fd8a1",
+                "response_sha256": "5aa9c5e944cb49221e11e96bfb12cff149515f341a8f00ee437675ecefdffbaf",
                 "captured_read_attempts": 3,
                 "status": 1
               }
@@ -1507,20 +1511,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508962,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-mwh5stha/preprocessor-error/work",
+                "pid": 950189,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-entries-final/preprocessor-error/namespace/vc1.0/rc/preprocessor-error/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508962 -g RD508962 -D RC_INVOKED -pc \\:/ -E "
+                  " -f RC950189 -g RD950189 -D RC_INVOKED -pc \\:/ -E "
                 ],
                 "action": "replay",
                 "status": 1
               }
             ],
             "errors": [],
-            "replay_seconds": 0.06550526339560747,
-            "manifest_sha256": "cb5f0924afafe476c4c5344553fa72b95ec8515bd69f3ff49f57aa59eb5b7b21",
+            "replay_seconds": 0.08985410444438457,
+            "manifest_sha256": "6e77b5f6ab1a6343e3f5f10bf2f743b70cc70318b9581a57c8f2476e2a6352fa",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -1529,16 +1533,28 @@
           "case": "rcinclude",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.01133660227060318,
-          "execution_seconds": 0.11178129818290472,
-          "checks_seconds": 0.0012328093871474266,
-          "total_seconds": 0.1247789990156889,
+          "setup_seconds": 0.015703664161264896,
+          "execution_seconds": 0.13737137708812952,
+          "checks_seconds": 0.0020210715010762215,
+          "total_seconds": 0.15564971510320902,
           "stdout_bytes": 0,
           "stderr_bytes": 0,
           "artifacts": {
             "values.h": {
               "bytes": 23,
               "sha256": "4518b6c5495325294d3e919cf0fb3d9dcc161d69453deea5bf961b3b1129d868"
+            },
+            "part.rc": {
+              "bytes": 95,
+              "sha256": "cafd2b79160be84bc18ce572992d73a9eae18c2601c487fafebd73d19831e410"
+            },
+            "pushback.rc": {
+              "bytes": 30,
+              "sha256": "ce3873fa8a556675d905ad086ffdbda79f5007cf4488f317c1846edbccd42b0e"
+            },
+            "second.rc": {
+              "bytes": 105,
+              "sha256": "db3813885a609390f3110d17531218588dfe7820a1bdea7d8ee3a7e11c8caa04"
             },
             "rcinclude.rc": {
               "bytes": 120,
@@ -1547,18 +1563,6 @@
             "rcinclude.res": {
               "bytes": 344,
               "sha256": "7a51c51aee5ade012ae684087493c744a999d9f9f2a6752e94ab208a76dc9e2d"
-            },
-            "pushback.rc": {
-              "bytes": 30,
-              "sha256": "ce3873fa8a556675d905ad086ffdbda79f5007cf4488f317c1846edbccd42b0e"
-            },
-            "second.rc": {
-              "bytes": 105,
-              "sha256": "db3813885a609390f3110d17531218588dfe7820a1bdea7d8ee3a7e11c8caa04"
-            },
-            "part.rc": {
-              "bytes": 95,
-              "sha256": "cafd2b79160be84bc18ce572992d73a9eae18c2601c487fafebd73d19831e410"
             }
           },
           "trace_entries": 1,
@@ -1566,13 +1570,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508964,
-                "input": "RC508964",
-                "output": "RD508964",
+                "pid": 950191,
+                "input": "RC950191",
+                "output": "RD950191",
                 "input_bytes": 155,
                 "input_sha256": "9ad1ebd79ffb3e8f815521cb0e542c55e4bc0566b340810b8e037d88506098bc",
                 "response_bytes": 445,
-                "response_sha256": "954f7e31ae7880a21084751a2cb120a0c828efb17d0d860da9ce9910ebe7c721",
+                "response_sha256": "f7e680ada4edbe04b35038dc8ee948e175193e332033772b4289df8bd92a6f6f",
                 "captured_read_attempts": 5,
                 "status": 0
               }
@@ -1580,20 +1584,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508964,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-mwh5stha/rcinclude/work",
+                "pid": 950191,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-entries-final/rcinclude/namespace/vc1.0/rc/rcinclude/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508964 -g RD508964 -D RC_INVOKED -pc \\:/ -E "
+                  " -f RC950191 -g RD950191 -D RC_INVOKED -pc \\:/ -E "
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.10785747412592173,
-            "manifest_sha256": "cc2c91b507e60deb4c36b4c2dc4c67fdbd9635082c9d46ec90a6982236b91472",
+            "replay_seconds": 0.1323924707248807,
+            "manifest_sha256": "a4f3abdfd7e9f73f11ffb8c039d3ab58470868104cee389591dd714ec937c2e5",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -1602,20 +1606,24 @@
           "case": "scanf-pushback",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.00654284842312336,
-          "execution_seconds": 0.04992031492292881,
-          "checks_seconds": 0.0012229345738887787,
-          "total_seconds": 0.058146257884800434,
+          "setup_seconds": 0.007830752991139889,
+          "execution_seconds": 0.06916412897408009,
+          "checks_seconds": 0.0023756977170705795,
+          "total_seconds": 0.07992459181696177,
           "stdout_bytes": 0,
           "stderr_bytes": 0,
           "artifacts": {
+            "part.rc": {
+              "bytes": 95,
+              "sha256": "cafd2b79160be84bc18ce572992d73a9eae18c2601c487fafebd73d19831e410"
+            },
+            "pushback.res": {
+              "bytes": 68,
+              "sha256": "8dd39c71de33c999b0f7f8bba7e6e2ece1147a24541cdb20d1045275bc5bb29c"
+            },
             "values.h": {
               "bytes": 23,
               "sha256": "4518b6c5495325294d3e919cf0fb3d9dcc161d69453deea5bf961b3b1129d868"
-            },
-            "rcinclude.rc": {
-              "bytes": 120,
-              "sha256": "05e3ae5fc1b531a7945985ad34505ab7fadcbe4fc3305c627ddd64aa8a8493fd"
             },
             "second.rc": {
               "bytes": 105,
@@ -1625,13 +1633,9 @@
               "bytes": 30,
               "sha256": "ce3873fa8a556675d905ad086ffdbda79f5007cf4488f317c1846edbccd42b0e"
             },
-            "pushback.res": {
-              "bytes": 68,
-              "sha256": "8dd39c71de33c999b0f7f8bba7e6e2ece1147a24541cdb20d1045275bc5bb29c"
-            },
-            "part.rc": {
-              "bytes": 95,
-              "sha256": "cafd2b79160be84bc18ce572992d73a9eae18c2601c487fafebd73d19831e410"
+            "rcinclude.rc": {
+              "bytes": 120,
+              "sha256": "05e3ae5fc1b531a7945985ad34505ab7fadcbe4fc3305c627ddd64aa8a8493fd"
             }
           },
           "trace_entries": 0,
@@ -1639,13 +1643,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508966,
-                "input": "RC508966",
-                "output": "RD508966",
+                "pid": 950193,
+                "input": "RC950193",
+                "output": "RD950193",
                 "input_bytes": 61,
                 "input_sha256": "2f0998badf20c650650b2e009e7d2c7ae9f44d8bb3f8b89adab1dfc79c480ef9",
                 "response_bytes": 96,
-                "response_sha256": "2c93588cbef91690ca5ad8e991a39b502f52d0d2e247081c6c03195f7c71c2af",
+                "response_sha256": "d4f7c84b249dd69120ffa761e75bf337317e5cf8c5fb0edf2b53965e3e6739a8",
                 "captured_read_attempts": 2,
                 "status": 0
               }
@@ -1653,20 +1657,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508966,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-mwh5stha/scanf-pushback/work",
+                "pid": 950193,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-entries-final/scanf-pushback/namespace/vc1.0/rc/scanf-pushback/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508966 -g RD508966 -D RC_INVOKED -pc \\:/ -E "
+                  " -f RC950193 -g RD950193 -D RC_INVOKED -pc \\:/ -E "
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.046261660754680634,
-            "manifest_sha256": "766f746e92f268f90e94acffd55bf24b661ff23ceac40f10ec482da5ce5dd9c6",
+            "replay_seconds": 0.06633041985332966,
+            "manifest_sha256": "615a57924fd74fd9046b6bdeac0841eb606e89edf6ae14344acadd6a0bb41f8f",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -1675,10 +1679,10 @@
           "case": "console-interrupt",
           "status": "pass",
           "exit": 1,
-          "setup_seconds": 0.004622413776814938,
-          "execution_seconds": 0.21461889334023,
-          "checks_seconds": 0.0011093448847532272,
-          "total_seconds": 0.22071401961147785,
+          "setup_seconds": 0.009146144613623619,
+          "execution_seconds": 0.21334155555814505,
+          "checks_seconds": 0.001576567068696022,
+          "total_seconds": 0.2244493504986167,
           "stdout_bytes": 0,
           "stderr_bytes": 0,
           "artifacts": {
@@ -1692,13 +1696,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508978,
-                "input": "RC508978",
-                "output": "RD508978",
+                "pid": 950211,
+                "input": "RC950211",
+                "output": "RD950211",
                 "input_bytes": 54,
                 "input_sha256": "c61a20ca5a6c4af9e80084e873b3051e4ffa6eedccf67b4ab4bb8bc0ec89954b",
                 "response_bytes": 90,
-                "response_sha256": "1a8e644032858b61687e402c28dcd682edf94db91ff2d49f5a3c241410b9471f",
+                "response_sha256": "fbb032f9bdaaa1e815c8a8603b89291d42221d5867fbba0a6135e104fad027d4",
                 "captured_read_attempts": 2,
                 "status": 0
               }
@@ -1706,20 +1710,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508978,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-mwh5stha/console-interrupt/work",
+                "pid": 950211,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-entries-final/console-interrupt/namespace/vc1.0/rc/console-interrupt/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508978 -g RD508978 -D RC_INVOKED -pc \\:/ -E "
+                  " -f RC950211 -g RD950211 -D RC_INVOKED -pc \\:/ -E "
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.04838123358786106,
-            "manifest_sha256": "8eb39ef4cf10d67f663b8ed3f13e9d4defbc7bdf5a216e033e17914de17f9c7f",
+            "replay_seconds": 0.07482524868100882,
+            "manifest_sha256": "1f066319f8a1f848d3c98d71decfaf4f8cfc5aae9ceffea50befdc2ea027c166",
             "Wine_invocations": 0
           },
           "scope": "Actual native SIGINT delivered at GDB pre-lexer boundary; exact cleanup. Windows console membership and OS callback thread remain original-only evidence."
@@ -1728,20 +1732,20 @@
           "case": "verbose-names",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.005567212589085102,
-          "execution_seconds": 0.05329474154859781,
-          "checks_seconds": 0.0008830605074763298,
-          "total_seconds": 0.06016465462744236,
+          "setup_seconds": 0.010573547333478928,
+          "execution_seconds": 0.07155775371938944,
+          "checks_seconds": 0.0009645223617553711,
+          "total_seconds": 0.08352036494761705,
           "stdout_bytes": 349,
           "stderr_bytes": 0,
           "artifacts": {
-            "verbose.res": {
-              "bytes": 180,
-              "sha256": "6281f6ea61374460b5bf0608b11f4f8d67aca223c042280aa6fc0b45573df4a8"
-            },
             "path-fallback.rc": {
               "bytes": 21,
               "sha256": "f81d5819af9ba3cb25c8bb10d099aced01178b2e628969f47d04baafd4095e85"
+            },
+            "verbose.res": {
+              "bytes": 180,
+              "sha256": "6281f6ea61374460b5bf0608b11f4f8d67aca223c042280aa6fc0b45573df4a8"
             },
             "verbose-names.rc": {
               "bytes": 77,
@@ -1753,13 +1757,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508982,
-                "input": "RC508982",
-                "output": "RD508982",
+                "pid": 950215,
+                "input": "RC950215",
+                "output": "RD950215",
                 "input_bytes": 116,
                 "input_sha256": "c60f5518a507130b32385d3966cee5d6775adcfa72523bc63f4cb2dca6932a40",
                 "response_bytes": 156,
-                "response_sha256": "92841705d102580a66d224d5092bf21d888b1f433141f5e8d7e433a70ce1e92b",
+                "response_sha256": "87c53e0cf2e1595b63a2560ea3a577b76b7baa19fd4761dc87d78d0b1c688cb4",
                 "captured_read_attempts": 2,
                 "status": 0
               }
@@ -1767,20 +1771,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508982,
-                "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-mwh5stha/verbose-names/work",
+                "pid": 950215,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-entries-final/verbose-names/namespace/vc1.0/rc/verbose-names/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508982 -g RD508982 -D RC_INVOKED -pc \\:/ -E "
+                  " -f RC950215 -g RD950215 -D RC_INVOKED -pc \\:/ -E "
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.04867474548518658,
-            "manifest_sha256": "05cb72c563bd21b1af0a792e4bc9b4f592d1a13fb5e8b575caa68dff269ce4a7",
+            "replay_seconds": 0.06842478271573782,
+            "manifest_sha256": "e5789c4315b0d31b46464d0404d9147aeb512858dcdd4443fc70bd1ab4b249ed",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -1789,10 +1793,10 @@
           "case": "path-fallback",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.010249416343867779,
-          "execution_seconds": 0.06995275244116783,
-          "checks_seconds": 0.0015845904126763344,
-          "total_seconds": 0.0823252098634839,
+          "setup_seconds": 0.06607195921242237,
+          "execution_seconds": 0.0924553545191884,
+          "checks_seconds": 0.0010884571820497513,
+          "total_seconds": 0.16008852794766426,
           "stdout_bytes": 0,
           "stderr_bytes": 0,
           "artifacts": {
@@ -1814,13 +1818,13 @@
             "kind": "verified captured original RCPP response",
             "calls": [
               {
-                "pid": 508984,
-                "input": "RC508984",
-                "output": "RD508984",
+                "pid": 950217,
+                "input": "RC950217",
+                "output": "RD950217",
                 "input_bytes": 58,
                 "input_sha256": "abec1f5c28d7d5d6ad1e289328260c30adb46ea4a09487665121d4d6820e790b",
                 "response_bytes": 98,
-                "response_sha256": "bfe8e413bdd35fe22ca97f047726443f3863678cc5fea069830383df03d29b3b",
+                "response_sha256": "758c31df9652a44104ba70d77b3b0cf3d32b7e3f04cd191e95af64a3e10df20a",
                 "captured_read_attempts": 2,
                 "status": 0
               }
@@ -1828,20 +1832,20 @@
             "requests": [
               {
                 "mode": 0,
-                "pid": 508984,
-                "file": "Z:\\root\\.ai-tmp\\vc1.0-rc\\native-boundary-capture\\preprocessor bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-mwh5stha/path-fallback/work",
+                "pid": 950217,
+                "file": "S:\\vc1.0\\rc\\path-fallback\\preprocessor bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/maintenance/native-entries-final/path-fallback/namespace/vc1.0/rc/path-fallback/work",
                 "argv": [
                   "RCPP.EXE",
-                  " -f RC508984 -g RD508984 -D RC_INVOKED -pc \\:/ -E "
+                  " -f RC950217 -g RD950217 -D RC_INVOKED -pc \\:/ -E "
                 ],
                 "action": "replay",
                 "status": 0
               }
             ],
             "errors": [],
-            "replay_seconds": 0.06575071532279253,
-            "manifest_sha256": "399b768f5bacf53c576e59e99090549de8f74229d52c05e1f4ad5a54473f5b79",
+            "replay_seconds": 0.08892809133976698,
+            "manifest_sha256": "6af6a10b40d2974da16d12c47ca9d687a878e7b43b3db59e8879ce4fa03e4923",
             "Wine_invocations": 0
           },
           "scope": "Native CLI with captured original RCPP process response when required"
@@ -1850,10 +1854,10 @@
           "case": "direct-whitespace",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.003135032020509243,
-          "execution_seconds": 0.0029611345380544662,
-          "checks_seconds": 0.0005096383392810822,
-          "total_seconds": 0.007125315256416798,
+          "setup_seconds": 0.002402421087026596,
+          "execution_seconds": 0.001916002482175827,
+          "checks_seconds": 0.00041329674422740936,
+          "total_seconds": 0.005071242339909077,
           "stdout_bytes": 0,
           "stderr_bytes": 0,
           "artifacts": {
@@ -1870,10 +1874,10 @@
           "case": "direct-basename",
           "status": "pass",
           "exit": 0,
-          "setup_seconds": 0.0030731651932001114,
-          "execution_seconds": 0.00218060240149498,
-          "checks_seconds": 0.0004820358008146286,
-          "total_seconds": 0.0062837181612849236,
+          "setup_seconds": 0.002406165935099125,
+          "execution_seconds": 0.0025751078501343727,
+          "checks_seconds": 0.00038739293813705444,
+          "total_seconds": 0.005718514323234558,
           "stdout_bytes": 0,
           "stderr_bytes": 0,
           "artifacts": {
@@ -1887,9 +1891,9 @@
           "scope": "Direct native utility results/canaries; canonical stdcall/nonvolatile ABI audit retained separately."
         }
       ],
-      "executable_sha256": "6770ae17d1c58c602d7a5edc58988dd73271b0c52d10030754c03912fe3bdce3",
+      "executable_sha256": "7eee6d3b8b38adbe0949f6877f5203ab17afb86f492445a665a27c6da454721f",
       "Wine_invocations": 0,
-      "total_seconds": 1.9622488161548972,
+      "total_seconds": 2.3360967813059688,
       "status": "pass"
     },
     "rejections": {
@@ -1900,276 +1904,416 @@
           "test": "prepared-input-corruption",
           "status": "expected rejection",
           "reason": "complete prepared RCPP input differs",
-          "seconds": 0.017047056928277016
+          "seconds": 0.05016009323298931
         },
         {
           "test": "unknown-child-invocation",
           "status": "expected rejection",
-          "reason": "('RCPP executable spelling differs', 'Z:\\\\uncaptured-child\\\\rcpp.exe', 'Z:\\\\root\\\\msvc2\\\\toolchains\\\\1.0-nt\\\\bin\\\\rcpp.exe')",
-          "seconds": 0.011007844470441341
+          "reason": "('RCPP executable spelling differs', 'R:\\\\uncaptured-child\\\\rcpp.exe', 'R:\\\\toolchains\\\\1.0-nt\\\\bin\\\\rcpp.exe')",
+          "seconds": 0.037952590733766556
         },
         {
           "test": "wrong-application-entry",
           "status": "expected rejection",
           "reason": "('direct-basename', 'application first-entry trace differs', ['copy_basename'], ['is_space_byte'])",
-          "seconds": 0.005294353701174259
+          "seconds": 0.007986042648553848
         }
       ]
     },
-    "post_suite_isolated_PATH_namespace": {
-      "mode": "native-only captured-reference",
-      "build_seconds": "separate build; not measured by fixture runner",
-      "trace_setup_seconds": 0.05723641999065876,
-      "cases": [
-        {
-          "case": "path-fallback",
-          "status": "pass",
-          "exit": 0,
-          "setup_seconds": 0.05925318878144026,
-          "execution_seconds": 0.07127377204596996,
-          "checks_seconds": 0.0009188354015350342,
-          "total_seconds": 0.13189869467169046,
-          "stdout_bytes": 0,
-          "stderr_bytes": 0,
-          "artifacts": {
-            "path-fallback.rc": {
-              "bytes": 21,
-              "sha256": "f81d5819af9ba3cb25c8bb10d099aced01178b2e628969f47d04baafd4095e85"
-            },
-            "verbose-names.rc": {
-              "bytes": 77,
-              "sha256": "609564534bbd609d6a894eb1760ad769a36d7ee276b43b1e2e02717df3fdb6ee"
-            },
-            "path.res": {
-              "bytes": 68,
-              "sha256": "d40bd446753ac712bf8621ea929d08fa2f20715fa1ccb7001e482ef79707201f"
-            }
-          },
-          "trace_entries": 0,
-          "process_fixture": {
-            "kind": "verified captured original RCPP response",
-            "calls": [
-              {
-                "pid": 511468,
-                "input": "RC511468",
-                "output": "RD511468",
-                "input_bytes": 58,
-                "input_sha256": "abec1f5c28d7d5d6ad1e289328260c30adb46ea4a09487665121d4d6820e790b",
-                "response_bytes": 98,
-                "response_sha256": "e5c0d95a9e9fd497c87a07e0aedc682d09ca043a903487b968d8feb97643e886",
-                "captured_read_attempts": 2,
-                "status": 0
-              }
-            ],
-            "requests": [
-              {
-                "mode": 0,
-                "pid": 511468,
-                "file": "Z:\\root\\.ai-tmp\\vc1.0-rc\\native-boundary-capture\\preprocessor bin\\rcpp.exe",
-                "cwd": "/root/.ai-tmp/vc1.0-rc/native-check-m0v10lx7/path-fallback/work",
-                "argv": [
-                  "RCPP.EXE",
-                  " -f RC511468 -g RD511468 -D RC_INVOKED -pc \\:/ -E "
-                ],
-                "action": "replay",
-                "status": 0
-              }
-            ],
-            "errors": [],
-            "replay_seconds": 0.06734650023281574,
-            "manifest_sha256": "399b768f5bacf53c576e59e99090549de8f74229d52c05e1f4ad5a54473f5b79",
-            "Wine_invocations": 0
-          },
-          "scope": "Native CLI with captured original RCPP process response when required"
-        }
-      ],
-      "executable_sha256": "6770ae17d1c58c602d7a5edc58988dd73271b0c52d10030754c03912fe3bdce3",
-      "Wine_invocations": 0,
-      "total_seconds": 0.13205689657479525,
-      "status": "pass"
-    }
+    "application_definitions": 137,
+    "total_expected_entries": 137,
+    "Wine_invocations": 0
   },
   "timing": {
-    "clean_builds": {
-      "clean_native_directories_seconds": 0.005883975885808468,
-      "native_build_seconds": 2.4832916148006916,
-      "native_trace_build_seconds": 2.723864640109241
+    "measured_commands": {
+      "reference_build_seconds": 15.77367097698152,
+      "reference_build_exit": 0,
+      "specialized_capture_seconds": 4.775751515291631,
+      "specialized_capture_exit": 0,
+      "specialized_independent_seconds": 4.173017465509474,
+      "specialized_independent_exit": 0,
+      "console_original_seconds": 2.194628701545298,
+      "console_original_exit": 0,
+      "direct_original_seconds": 3.1661253282800317,
+      "direct_original_exit": 0,
+      "canonical_audits_seconds": 6.4061854630708694,
+      "canonical_audits_exit": 0,
+      "native_build_seconds": 2.3342215502634645,
+      "native_build_exit": 0,
+      "cache_metadata_seconds": 0.12938950955867767,
+      "cache_metadata_exit": 0,
+      "final_cache_metadata_seconds": 0.1487945718690753,
+      "final_cache_metadata_exit": 0,
+      "clean_native_build_seconds": 3.5026071965694427,
+      "clean_native_build_exit": 0,
+      "native_outputs_seconds": 2.432153862901032,
+      "native_outputs_exit": 0,
+      "native_entries_seconds": 2.400457199662924,
+      "native_entries_exit": 0,
+      "native_rejections_seconds": 0.22954344656318426,
+      "native_rejections_exit": 0,
+      "native_outputs_final_seconds": 2.3521452667191625,
+      "native_outputs_final_exit": 0,
+      "native_entries_final_seconds": 2.4728936180472374,
+      "native_entries_final_exit": 0,
+      "native_rejections_final_seconds": 0.23546703904867172,
+      "native_rejections_final_exit": 0
     },
-    "final_commands": {
-      "incremental_latest_shared_relink_seconds": 1.2895822497084737,
-      "output_fixture_command_seconds": 1.967595437541604,
-      "trace_fixture_command_seconds": 2.1014764988794923,
-      "negative_fixture_command_seconds": 0.1568509628996253
-    },
-    "canonical_build_and_audit": {
-      "seconds": 21.526905165985227,
-      "status": 0,
-      "scope": "Explicit original-toolchain compile and ABI/graph/data audits, no fixture execution"
-    },
-    "successful_original_boundary_captures": {
-      "setup_seconds": 0.034910366870462894,
-      "original_capture_seconds": 12.674488617107272,
-      "independent_original_seconds": 10.089972193352878,
-      "per_case": [
+    "capture": {
+      "status": "pass",
+      "cases": [
+        {
+          "case": "resources-rich",
+          "manifest_sha256": "90a82df6d244d49ee80a36af8c9c9fa9b18fbd8b11ec1526e64302f21591540b",
+          "setup_seconds": 0.004719379357993603,
+          "original_capture_seconds": 5.49774066451937,
+          "independent_original_seconds": 4.539470539428294,
+          "total_seconds": 10.093503800220788
+        },
+        {
+          "case": "help",
+          "manifest_sha256": "c2700f734bf96d505174c7454b0549be35d4fd6f672bebc3425ac23282b47228",
+          "setup_seconds": 0.0016107195988297462,
+          "original_capture_seconds": 41.337363593280315,
+          "independent_original_seconds": 0,
+          "total_seconds": 41.34348930045962
+        },
+        {
+          "case": "invalid-switch",
+          "manifest_sha256": "522bbfe675bcfef541d6ea4fd7655da8d8e8b53a39e1c5f322063f2b68741977",
+          "setup_seconds": 0.0015281271189451218,
+          "original_capture_seconds": 5.706811829470098,
+          "independent_original_seconds": 0,
+          "total_seconds": 5.713502733968198
+        },
+        {
+          "case": "missing-input",
+          "manifest_sha256": "6302f299cf1d3ad4e3796a0ace66de262f09992850b68fe6b7f5af26fd14cf9a",
+          "setup_seconds": 0.0019499799236655235,
+          "original_capture_seconds": 5.441833520308137,
+          "independent_original_seconds": 0,
+          "total_seconds": 5.44812199100852
+        },
         {
           "case": "alternate",
-          "manifest": {
-            "path": "alternate/manifest.json",
-            "sha256": "c1d98de02da6a670d8233155576e3770ed30e72ac2f9d3a5cb1c128ea575dff3"
-          },
-          "setup_seconds": 0.0018781833350658417,
-          "original_capture_seconds": 0.8914850475266576,
-          "independent_original_seconds": 0.6336541464552283,
-          "total_seconds": 1.534942477941513
-        },
-        {
-          "case": "console-interrupt",
-          "manifest": {
-            "path": "console-interrupt/manifest.json",
-            "sha256": "8eb39ef4cf10d67f663b8ed3f13e9d4defbc7bdf5a216e033e17914de17f9c7f"
-          },
-          "setup_seconds": 0.000859568826854229,
-          "original_capture_seconds": 0.8766382914036512,
-          "independent_original_seconds": 1.308116632513702,
-          "total_seconds": 2.192355108447373
-        },
-        {
-          "case": "kanji",
-          "manifest": {
-            "path": "kanji/manifest.json",
-            "sha256": "0727a821d180c7bbc9f5b6f3fd36b384aff65a74b87940f050d03645428e8095"
-          },
-          "setup_seconds": 0.001902473159134388,
-          "original_capture_seconds": 0.8562661549076438,
-          "independent_original_seconds": 0.6024883845821023,
-          "total_seconds": 1.467744274996221
+          "manifest_sha256": "8b280c0b349344076a0e1cead45dbbbf53bf019c81ccf55984e34521e9a329b1",
+          "setup_seconds": 0.0026258593425154686,
+          "original_capture_seconds": 6.048674539662898,
+          "independent_original_seconds": 4.348314190283418,
+          "total_seconds": 10.415668437257409
         },
         {
           "case": "lexical-error",
-          "manifest": {
-            "path": "lexical-error/manifest.json",
-            "sha256": "ed123ee37226b38a275abb3de4bf80094ad6cedcd4317e2d6d13fc9ccb914036"
-          },
-          "setup_seconds": 0.0008644573390483856,
-          "original_capture_seconds": 0.9052091091871262,
-          "independent_original_seconds": 0.6582411117851734,
-          "total_seconds": 1.5703393565490842
+          "manifest_sha256": "a81abc51f75e6c7b630391d97d8e2a9cca89538619f103e50660d173ab55aa4f",
+          "setup_seconds": 0.003412769176065922,
+          "original_capture_seconds": 4.845509714446962,
+          "independent_original_seconds": 4.198609532788396,
+          "total_seconds": 9.058118171989918
         },
         {
           "case": "parser-error",
-          "manifest": {
-            "path": "parser-error/manifest.json",
-            "sha256": "e5fd048986b8fca2ea40195c94f436e5255851b455a65af183a118e1c3173669"
-          },
-          "setup_seconds": 0.0008701756596565247,
-          "original_capture_seconds": 0.891020406037569,
-          "independent_original_seconds": 0.6291529340669513,
-          "total_seconds": 1.5277045713737607
-        },
-        {
-          "case": "path-fallback",
-          "manifest": {
-            "path": "path-fallback/manifest.json",
-            "sha256": "399b768f5bacf53c576e59e99090549de8f74229d52c05e1f4ad5a54473f5b79"
-          },
-          "setup_seconds": 0.004681231454014778,
-          "original_capture_seconds": 1.2667046207934618,
-          "independent_original_seconds": 1.0941901337355375,
-          "total_seconds": 2.3764593973755836
-        },
-        {
-          "case": "preprocessor-error",
-          "manifest": {
-            "path": "preprocessor-error/manifest.json",
-            "sha256": "cb5f0924afafe476c4c5344553fa72b95ec8515bd69f3ff49f57aa59eb5b7b21"
-          },
-          "setup_seconds": 0.0018916595727205276,
-          "original_capture_seconds": 1.002586548216641,
-          "independent_original_seconds": 0.6309122508391738,
-          "total_seconds": 1.6451766984537244
-        },
-        {
-          "case": "rcinclude",
-          "manifest": {
-            "path": "rcinclude/manifest.json",
-            "sha256": "cc2c91b507e60deb4c36b4c2dc4c67fdbd9635082c9d46ec90a6982236b91472"
-          },
-          "setup_seconds": 0.0031418120488524437,
-          "original_capture_seconds": 1.142220901325345,
-          "independent_original_seconds": 0.9175353664904833,
-          "total_seconds": 2.074678990058601
+          "manifest_sha256": "b620765d74af1a616b7600f1f64a40b70d46f5923c9829a7f0b84c31cb8c2681",
+          "setup_seconds": 0.0018759071826934814,
+          "original_capture_seconds": 4.16963720228523,
+          "independent_original_seconds": 4.9843898471444845,
+          "total_seconds": 9.167085537686944
         },
         {
           "case": "resource-error",
-          "manifest": {
-            "path": "resource-error/manifest.json",
-            "sha256": "4d6719d80218e6b70a7c769f3e6043e27bcf9173176f14b0e8974e56dfdc59b4"
-          },
-          "setup_seconds": 0.0010985974222421646,
-          "original_capture_seconds": 0.9210244612768292,
-          "independent_original_seconds": 0.6428182777017355,
-          "total_seconds": 1.571672448888421
+          "manifest_sha256": "a94d8b9f3bb8c16dc0010b48e924b90d3f2b4a302941bc83b1888071883570da",
+          "setup_seconds": 0.0021028202027082443,
+          "original_capture_seconds": 4.573531994596124,
+          "independent_original_seconds": 5.483954838477075,
+          "total_seconds": 10.073152540251613
         },
         {
-          "case": "resources-rich",
-          "manifest": {
-            "path": "resources-rich/manifest.json",
-            "sha256": "893d44f1ecbccbdf982f99f39d673e5021acf4e46fda7abda57d7b32bdc39ba2"
-          },
-          "setup_seconds": 0.011583218351006508,
-          "original_capture_seconds": 1.1781817581504583,
-          "independent_original_seconds": 0.8544430918991566,
-          "total_seconds": 2.0935573568567634
-        },
-        {
-          "case": "scanf-pushback",
-          "manifest": {
-            "path": "scanf-pushback/manifest.json",
-            "sha256": "766f746e92f268f90e94acffd55bf24b661ff23ceac40f10ec482da5ce5dd9c6"
-          },
-          "setup_seconds": 0.0031667957082390785,
-          "original_capture_seconds": 0.9522328544408083,
-          "independent_original_seconds": 0.745279723778367,
-          "total_seconds": 1.7085691429674625
-        },
-        {
-          "case": "verbose-names",
-          "manifest": {
-            "path": "verbose-names/manifest.json",
-            "sha256": "05cb72c563bd21b1af0a792e4bc9b4f592d1a13fb5e8b575caa68dff269ce4a7"
-          },
-          "setup_seconds": 0.0011341618373990059,
-          "original_capture_seconds": 0.9135301085188985,
-          "independent_original_seconds": 0.7435082048177719,
-          "total_seconds": 1.666408073157072
+          "case": "kanji",
+          "manifest_sha256": "76867d6ddba8c20153f7bbb8181ff94c32fc8b7772c3d96dd121008679f9ebfb",
+          "setup_seconds": 0.002739518880844116,
+          "original_capture_seconds": 6.881081338971853,
+          "independent_original_seconds": 4.523623465560377,
+          "total_seconds": 11.427022092975676
         },
         {
           "case": "wide-long",
-          "manifest": {
-            "path": "wide-long/manifest.json",
-            "sha256": "7ccc000df818410b12386b09db6af6cb385fbeac6f40755578f47e10cf57ae11"
-          },
-          "setup_seconds": 0.0018380321562290192,
-          "original_capture_seconds": 0.8773883553221822,
-          "independent_original_seconds": 0.6296319346874952,
-          "total_seconds": 1.516304176300764
+          "manifest_sha256": "56cc0d24b30fec7c560899e0bca852c37c2edd91eb2ba09a4c7ac696b6f92f12",
+          "setup_seconds": 0.005056001245975494,
+          "original_capture_seconds": 6.443206103518605,
+          "independent_original_seconds": 6.045347111299634,
+          "total_seconds": 12.513229489326477
+        },
+        {
+          "case": "preprocessor-error",
+          "manifest_sha256": "6e77b5f6ab1a6343e3f5f10bf2f743b70cc70318b9581a57c8f2476e2a6352fa",
+          "setup_seconds": 0.003365502692759037,
+          "original_capture_seconds": 5.856758499518037,
+          "independent_original_seconds": 5.988955557346344,
+          "total_seconds": 11.864936544559896
+        },
+        {
+          "case": "rcinclude",
+          "manifest_sha256": "a4f3abdfd7e9f73f11ffb8c039d3ab58470868104cee389591dd714ec937c2e5",
+          "setup_seconds": 0.005366700701415539,
+          "original_capture_seconds": 7.234163728542626,
+          "independent_original_seconds": 5.543699096888304,
+          "total_seconds": 12.804977265186608
+        },
+        {
+          "case": "scanf-pushback",
+          "manifest_sha256": "615a57924fd74fd9046b6bdeac0841eb606e89edf6ae14344acadd6a0bb41f8f",
+          "setup_seconds": 0.0027637993916869164,
+          "original_capture_seconds": 5.473398791626096,
+          "independent_original_seconds": 3.771972192451358,
+          "total_seconds": 9.263826704584062
+        },
+        {
+          "case": "console-interrupt",
+          "manifest_sha256": "1f066319f8a1f848d3c98d71decfaf4f8cfc5aae9ceffea50befdc2ea027c166",
+          "setup_seconds": 0.0027275746688246727,
+          "original_capture_seconds": 4.776054144836962,
+          "independent_original_seconds": 4.62982642557472,
+          "total_seconds": 9.420907060615718
+        },
+        {
+          "case": "verbose-names",
+          "manifest_sha256": "e5789c4315b0d31b46464d0404d9147aeb512858dcdd4443fc70bd1ab4b249ed",
+          "setup_seconds": 0.0024070916697382927,
+          "original_capture_seconds": 5.729878211393952,
+          "independent_original_seconds": 5.256114169955254,
+          "total_seconds": 11.00064866989851
+        },
+        {
+          "case": "path-fallback",
+          "manifest_sha256": "6af6a10b40d2974da16d12c47ca9d687a878e7b43b3db59e8879ce4fa03e4923",
+          "setup_seconds": 0.0037287604063749313,
+          "original_capture_seconds": 5.563327611424029,
+          "independent_original_seconds": 5.953557723201811,
+          "total_seconds": 11.535168032161891
         }
       ],
-      "helper_build_seconds": "unmeasured"
+      "seconds": 191.15858909953386,
+      "build_seconds": "separate explicit original-toolchain helper build",
+      "retired_transport_bundle": {
+        "files": 161,
+        "inventory_sha256": "f91b58a70c1190364f7127074ab17bfb74ae8912fd9d30b6ceb82897f08f5c39",
+        "replacement": "explicitly recaptured and independently verified fixed R:/S: references"
+      }
     },
-    "note": "Per-case setup, execution and checks are in each fixture receipt. Original capture/independent replay are explicit reference work, separate from native fixtures. Development edits and failed preliminary captures were not timed."
+    "fixture_splits": {
+      "output_only": {
+        "setup_seconds": 0.17438502982258797,
+        "execution_seconds": 2.068339204415679,
+        "checks_seconds": 0.02039312105625868,
+        "total_seconds": 2.2710274308919907
+      },
+      "application_entries": {
+        "setup_seconds": 0.21501801162958145,
+        "execution_seconds": 2.0818217154592276,
+        "checks_seconds": 0.025072519667446613,
+        "total_seconds": 2.331866051070392
+      }
+    },
+    "shared_prefix_setup_seconds": "Validation overhead included in original build/captures; not separately measured. No prefix bootstrap/remap/startup performed.",
+    "shared_prefix_setup_note": "Existing root-managed prefix validated only; no wineboot/server startup/remap performed"
+  },
+  "original_references": {
+    "fresh_cli_cases": [
+      {
+        "case": "resources-rich",
+        "manifest": {
+          "path": "cases/native-boundaries/resources-rich/manifest.json",
+          "bytes": 26827,
+          "sha256": "90a82df6d244d49ee80a36af8c9c9fa9b18fbd8b11ec1526e64302f21591540b"
+        },
+        "seeded_entries": 120,
+        "exit": 0
+      },
+      {
+        "case": "help",
+        "manifest": {
+          "path": "cases/native-boundaries/help/manifest.json",
+          "bytes": 5270,
+          "sha256": "c2700f734bf96d505174c7454b0549be35d4fd6f672bebc3425ac23282b47228"
+        },
+        "seeded_entries": 0,
+        "exit": 0
+      },
+      {
+        "case": "invalid-switch",
+        "manifest": {
+          "path": "cases/native-boundaries/invalid-switch/manifest.json",
+          "bytes": 5288,
+          "sha256": "522bbfe675bcfef541d6ea4fd7655da8d8e8b53a39e1c5f322063f2b68741977"
+        },
+        "seeded_entries": 0,
+        "exit": 1
+      },
+      {
+        "case": "missing-input",
+        "manifest": {
+          "path": "cases/native-boundaries/missing-input/manifest.json",
+          "bytes": 5768,
+          "sha256": "6302f299cf1d3ad4e3796a0ace66de262f09992850b68fe6b7f5af26fd14cf9a"
+        },
+        "seeded_entries": 0,
+        "exit": 1
+      },
+      {
+        "case": "alternate",
+        "manifest": {
+          "path": "cases/native-boundaries/alternate/manifest.json",
+          "bytes": 10553,
+          "sha256": "8b280c0b349344076a0e1cead45dbbbf53bf019c81ccf55984e34521e9a329b1"
+        },
+        "seeded_entries": 7,
+        "exit": 0
+      },
+      {
+        "case": "lexical-error",
+        "manifest": {
+          "path": "cases/native-boundaries/lexical-error/manifest.json",
+          "bytes": 8121,
+          "sha256": "a81abc51f75e6c7b630391d97d8e2a9cca89538619f103e50660d173ab55aa4f"
+        },
+        "seeded_entries": 1,
+        "exit": 1
+      },
+      {
+        "case": "parser-error",
+        "manifest": {
+          "path": "cases/native-boundaries/parser-error/manifest.json",
+          "bytes": 8467,
+          "sha256": "b620765d74af1a616b7600f1f64a40b70d46f5923c9829a7f0b84c31cb8c2681"
+        },
+        "seeded_entries": 1,
+        "exit": 1
+      },
+      {
+        "case": "resource-error",
+        "manifest": {
+          "path": "cases/native-boundaries/resource-error/manifest.json",
+          "bytes": 8344,
+          "sha256": "a94d8b9f3bb8c16dc0010b48e924b90d3f2b4a302941bc83b1888071883570da"
+        },
+        "seeded_entries": 1,
+        "exit": 1
+      },
+      {
+        "case": "kanji",
+        "manifest": {
+          "path": "cases/native-boundaries/kanji/manifest.json",
+          "bytes": 10520,
+          "sha256": "76867d6ddba8c20153f7bbb8181ff94c32fc8b7772c3d96dd121008679f9ebfb"
+        },
+        "seeded_entries": 2,
+        "exit": 0
+      },
+      {
+        "case": "wide-long",
+        "manifest": {
+          "path": "cases/native-boundaries/wide-long/manifest.json",
+          "bytes": 9473,
+          "sha256": "56cc0d24b30fec7c560899e0bca852c37c2edd91eb2ba09a4c7ac696b6f92f12"
+        },
+        "seeded_entries": 0,
+        "exit": 0
+      },
+      {
+        "case": "preprocessor-error",
+        "manifest": {
+          "path": "cases/native-boundaries/preprocessor-error/manifest.json",
+          "bytes": 8239,
+          "sha256": "6e77b5f6ab1a6343e3f5f10bf2f743b70cc70318b9581a57c8f2476e2a6352fa"
+        },
+        "seeded_entries": 0,
+        "exit": 1
+      },
+      {
+        "case": "rcinclude",
+        "manifest": {
+          "path": "cases/native-boundaries/rcinclude/manifest.json",
+          "bytes": 10409,
+          "sha256": "a4f3abdfd7e9f73f11ffb8c039d3ab58470868104cee389591dd714ec937c2e5"
+        },
+        "seeded_entries": 1,
+        "exit": 0
+      },
+      {
+        "case": "scanf-pushback",
+        "manifest": {
+          "path": "cases/native-boundaries/scanf-pushback/manifest.json",
+          "bytes": 9397,
+          "sha256": "615a57924fd74fd9046b6bdeac0841eb606e89edf6ae14344acadd6a0bb41f8f"
+        },
+        "seeded_entries": 0,
+        "exit": 0
+      },
+      {
+        "case": "console-interrupt",
+        "manifest": {
+          "path": "cases/native-boundaries/console-interrupt/manifest.json",
+          "bytes": 8982,
+          "sha256": "1f066319f8a1f848d3c98d71decfaf4f8cfc5aae9ceffea50befdc2ea027c166"
+        },
+        "seeded_entries": 0,
+        "exit": 0
+      },
+      {
+        "case": "verbose-names",
+        "manifest": {
+          "path": "cases/native-boundaries/verbose-names/manifest.json",
+          "bytes": 9167,
+          "sha256": "e5789c4315b0d31b46464d0404d9147aeb512858dcdd4443fc70bd1ab4b249ed"
+        },
+        "seeded_entries": 1,
+        "exit": 0
+      },
+      {
+        "case": "path-fallback",
+        "manifest": {
+          "path": "cases/native-boundaries/path-fallback/manifest.json",
+          "bytes": 9165,
+          "sha256": "6af6a10b40d2974da16d12c47ca9d687a878e7b43b3db59e8879ce4fa03e4923"
+        },
+        "seeded_entries": 0,
+        "exit": 0
+      }
+    ],
+    "child_boundaries": [
+      "resources-rich",
+      "alternate",
+      "lexical-error",
+      "parser-error",
+      "resource-error",
+      "kanji",
+      "wide-long",
+      "preprocessor-error",
+      "rcinclude",
+      "scanf-pushback",
+      "console-interrupt",
+      "verbose-names",
+      "path-fallback"
+    ],
+    "independently_reproduced_children": 13,
+    "seeded_original_entries": 134,
+    "specialized_console": {
+      "path": "cases/shared-prefix-console/manifest.json",
+      "bytes": 1611,
+      "sha256": "f42899583e68fb238932407a6926d2a4ca75ab939d88da7a43365ef67d8dcfa9"
+    },
+    "specialized_verbose_and_PATH": "Explicit fresh shared-prefix observer captures and independent repeats under ../fixtures/rc-remaining/captures/shared-prefix",
+    "direct_helpers": "Explicit original-only shared-prefix repeat: 256 whitespace and six basename calls; exact immutable results, stdcall cleanup and EBX/ESI/EDI/EBP preserved"
   },
   "process_boundaries": {
-    "cases": 13,
-    "kind": "independently verified untouched original RCPP responses",
-    "capture_index_sha256": "c5111d3c2a83c97406386cc7cd31b8037a18c3a6c44ea4900f0764b4338be4c9",
-    "full_prepared_inputs": true,
-    "full_attempted_read_sets_and_transitive_includes": true,
-    "raw_child_streams_and_status": true,
-    "unknown_invocations_rejected": true,
-    "Wine_fixture_invocations": 0,
-    "temporary_names": "Bind only recorded RCPP #line filename tokens and the two established verbose stdout fields to actual native process PID; no PID overrides or broad normalization",
-    "PATH_namespace": "Private RECON_DRIVE_Z tree preserves captured DOS identity and known inert child PE hash without relying on capture scratch; no original PE is executed"
+    "index": {
+      "path": "cases/native-boundaries/capture-validation.json",
+      "bytes": 5664,
+      "sha256": "a986a61f852db6d8a29b5061fcf85785c34107b4a8e0478dce5032bdb5d3750f"
+    },
+    "invocation": "Pinned mode, executable spelling/hash, canonical and host cwd, relevant environment including explicit PATH, exact two-element argv",
+    "inputs": "Complete prepared input plus every attempted original CreateFileA read and full transitive include bytes; missing candidates checked",
+    "response": "Raw captured status/streams/emitted response; only recorded eight-byte temporary #line filename fields bind to actual native PID",
+    "obsolete_transport_bundle_removed": true
   },
   "specialized_scope": {
     "console_interrupt": "Actual native SIGINT at GDB pre-lexer boundary, callback0, exact before-files/cleanup/status/streams; Windows console membership, callback-thread creation and SEH delivery remain original-only evidence.",
@@ -2193,7 +2337,8 @@
       "reference-build",
       "reference-audit",
       "capture-native-boundaries-reference",
-      "capture-direct-reference"
+      "capture-direct-reference",
+      "capture-specialized-reference"
     ]
   },
   "coverage_unchanged": {
@@ -2202,11 +2347,288 @@
     "percentage": 86.86,
     "definition": "union of accepted source/CRT functions, shared text data and import thunks, clipped to original code extents; VirtualSize or backed raw fallback; not branch coverage"
   },
-  "evidence_paths": {
-    "output": "/root/.ai-tmp/vc1.0-rc/native-check-k55f8x90/receipt.json",
-    "trace": "/root/.ai-tmp/vc1.0-rc/native-check-mwh5stha/receipt.json",
-    "negative": "/root/.ai-tmp/vc1.0-rc/native-rejections-hr79pbg5/receipt.json",
-    "latest_PATH": "/root/.ai-tmp/vc1.0-rc/native-check-m0v10lx7/receipt.json"
+  "production_sources": {
+    "unchanged": true,
+    "files": 77,
+    "inventory_sha256": "4b8cc611432deacf33fb2d2c240e4d2bc9682ef764636e3db70688f7fa71001f",
+    "reference_only_source_changed": "src/capture-boundary.c"
   },
+  "canonical_audits": {
+    "instruction-extents": {
+      "original": {
+        "checked_extents": 254,
+        "checked_names": 254,
+        "complete_instruction_ends": true
+      },
+      "reconstruction": {
+        "checked_extents": 254,
+        "checked_names": 254,
+        "complete_instruction_ends": true
+      }
+    },
+    "runtime-tables": {
+      "xc": {
+        "original_range": [
+          "0x101f000",
+          "0x101f010"
+        ],
+        "reconstructed_range": [
+          "0x2abe8",
+          "0x2abf0"
+        ],
+        "callbacks": []
+      },
+      "xi": {
+        "original_range": [
+          "0x101f020",
+          "0x101f030"
+        ],
+        "reconstructed_range": [
+          "0x2abf8",
+          "0x2ac00"
+        ],
+        "callbacks": []
+      },
+      "xp": {
+        "original_range": [
+          "0x101f040",
+          "0x101f060"
+        ],
+        "reconstructed_range": [
+          "0x2ac08",
+          "0x2ac10"
+        ],
+        "callbacks": [
+          {
+            "names": [
+              "__endstdio"
+            ],
+            "original": "0x100f8b0",
+            "reconstruction": "0x1ffb0"
+          }
+        ]
+      },
+      "xt": {
+        "original_range": [
+          "0x101f070",
+          "0x101f080"
+        ],
+        "reconstructed_range": [
+          "0x2ac18",
+          "0x2ac20"
+        ],
+        "callbacks": []
+      }
+    },
+    "runtime-aliases": {
+      "standard_streams": {
+        "count": 20,
+        "sizeof_FILE": 32,
+        "flag_offset": 12,
+        "descriptor_offset": 16,
+        "last_stream_offset": 608,
+        "diagnostics_stream_index": 1
+      },
+      "C_locale": {
+        "character_classes_including_EOF": 257,
+        "ctype_sha256": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725",
+        "multibyte_max": 1,
+        "decimal_point": "."
+      },
+      "floating_conversion_slots": [
+        {
+          "slot": 0,
+          "names": [
+            "__fptrap"
+          ],
+          "accepted": false
+        },
+        {
+          "slot": 1,
+          "names": [
+            "__fptrap"
+          ],
+          "accepted": false
+        },
+        {
+          "slot": 2,
+          "names": [
+            "__fptrap"
+          ],
+          "accepted": false
+        },
+        {
+          "slot": 3,
+          "names": [
+            "__fptrap"
+          ],
+          "accepted": false
+        },
+        {
+          "slot": 4,
+          "names": [
+            "__fptrap"
+          ],
+          "accepted": false
+        },
+        {
+          "slot": 5,
+          "names": [
+            "__fptrap"
+          ],
+          "accepted": false
+        }
+      ],
+      "KANJI_bounds": {
+        "bytes": 16,
+        "element_bytes": 2,
+        "signed": true,
+        "field_offsets": [
+          0,
+          4,
+          8,
+          12
+        ],
+        "range_stride": 8
+      }
+    }
+  },
+  "canonical_products": {
+    "build/rc.exe": "8dd4cf24febed07353f17d2ec47aa917bad5e881d1dc668e6b070acfc148a50c",
+    "build/graph-audit.json": "2f4dd533c98505c2a2f79d8b916ce7a1622515274629a1cd2dcd1f428288890c",
+    "build/rc.map": "1f29d4ecefdb765fb66ebb1c551048f02a788fbfc4a366f829d12e6cb96d446f"
+  },
+  "prefix_retirement": {
+    "status": "pass",
+    "scope": "Only exact RC-owned obsolete prefixes; infrastructure services only before shutdown",
+    "prefixes": [
+      {
+        "prefix": "/root/.ai-tmp/vc1.0-rc/wine",
+        "inode": 6722507,
+        "before": [
+          {
+            "pid": 3103857,
+            "command": "/usr/lib/wine/wineserver64 -p0 -p"
+          },
+          {
+            "pid": 3103968,
+            "command": "C:\\windows\\system32\\services.exe"
+          },
+          {
+            "pid": 3103977,
+            "command": "C:\\windows\\system32\\winedevice.exe"
+          },
+          {
+            "pid": 3103993,
+            "command": "C:\\windows\\system32\\plugplay.exe"
+          },
+          {
+            "pid": 3104003,
+            "command": "C:\\windows\\system32\\svchost.exe -k LocalServiceNetworkRestricted"
+          },
+          {
+            "pid": 3104014,
+            "command": "C:\\windows\\system32\\winedevice.exe"
+          },
+          {
+            "pid": 3104035,
+            "command": "C:\\windows\\system32\\rpcss.exe"
+          }
+        ],
+        "active_target_or_helper_clients": 0,
+        "server_stop_exit": 0,
+        "after": [],
+        "removed": true,
+        "seconds": 0.20331060606986284
+      },
+      {
+        "prefix": "/root/.ai-tmp/vc1.0-rc-interrupt/wine",
+        "inode": 6718155,
+        "before": [
+          {
+            "pid": 3850970,
+            "command": "/usr/lib/wine/wineserver64 -p0 -p"
+          },
+          {
+            "pid": 3851013,
+            "command": "C:\\windows\\system32\\services.exe"
+          },
+          {
+            "pid": 3851021,
+            "command": "C:\\windows\\system32\\winedevice.exe"
+          },
+          {
+            "pid": 3851039,
+            "command": "C:\\windows\\system32\\plugplay.exe"
+          },
+          {
+            "pid": 3851055,
+            "command": "C:\\windows\\system32\\svchost.exe -k LocalServiceNetworkRestricted"
+          },
+          {
+            "pid": 3851070,
+            "command": "C:\\windows\\system32\\winedevice.exe"
+          },
+          {
+            "pid": 3851101,
+            "command": "C:\\windows\\system32\\rpcss.exe"
+          }
+        ],
+        "active_target_or_helper_clients": 0,
+        "server_stop_exit": 0,
+        "after": [],
+        "removed": true,
+        "seconds": 0.19587166793644428
+      },
+      {
+        "prefix": "/root/.ai-tmp/vc1.0-rc-remaining/wine",
+        "inode": 6797978,
+        "before": [
+          {
+            "pid": 3945813,
+            "command": "/usr/lib/wine/wineserver64 -p0 -p"
+          },
+          {
+            "pid": 3945820,
+            "command": "C:\\windows\\system32\\services.exe"
+          },
+          {
+            "pid": 3945826,
+            "command": "C:\\windows\\system32\\winedevice.exe"
+          },
+          {
+            "pid": 3945840,
+            "command": "C:\\windows\\system32\\plugplay.exe"
+          },
+          {
+            "pid": 3945847,
+            "command": "C:\\windows\\system32\\svchost.exe -k LocalServiceNetworkRestricted"
+          },
+          {
+            "pid": 3945860,
+            "command": "C:\\windows\\system32\\winedevice.exe"
+          },
+          {
+            "pid": 3945887,
+            "command": "C:\\windows\\system32\\rpcss.exe"
+          }
+        ],
+        "active_target_or_helper_clients": 0,
+        "server_stop_exit": 0,
+        "after": [],
+        "removed": true,
+        "seconds": 0.1950250007212162
+      }
+    ],
+    "shared_before": {
+      "inode": 6663395,
+      "servers": []
+    },
+    "shared_after": {
+      "inode": 6663395,
+      "servers": []
+    }
+  },
+  "metadata_changes": "Tool/helper hashes and explicitly recaptured oracle references only; source/resource bytes unchanged. Historical independent callback/CTRL_BREAK/direct-helper analysis preserved; mixed obsolete private-path transport removed.",
   "default_targets": "all->native; check/replay->native-trace-check. No Wine/build-prefix/reference prerequisites."
 }

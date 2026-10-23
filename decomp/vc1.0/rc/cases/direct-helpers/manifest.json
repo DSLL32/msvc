@@ -90,8 +90,8 @@
     },
     {
       "path": "../../scripts/capture-direct.py",
-      "bytes": 4076,
-      "sha256": "f56b4e55f1113142414266a54d5590a8b96a3a1c0e1b6d9e9a60ff0e9d294772"
+      "bytes": 4166,
+      "sha256": "5076453ef8ca2efbfc8cb4a75a06a54c0e8cd9c0a9c2cff6cc16539e79136da2"
     }
   ],
   "comparison": "Direct helper results and ABI only; target startup is a debugger return barrier, and exit 0 is controller-directed successful completion. No claim of native CLI reachability."

@@ -1464,7 +1464,7 @@
       "fixture": "../fixtures/rc-interrupt",
       "oracle": "oracle",
       "execution": "real-console-ctrl-c",
-      "suite_manifest_sha256": "03270ffb643c90567997647a63e9589c2e3ae002fab9eb06a34363597ff2ce1d",
+      "suite_manifest_sha256": "fffc98b5f19e781b16971910367ca2ba10825d0e82571d4c13c1dfe1b7c7a258",
       "accepted_end": 247
     },
     "verbose-names": {
@@ -1473,9 +1473,9 @@
       "exit": 0,
       "accepted_start": 247,
       "fixture": "../fixtures/rc-remaining",
-      "oracle": "cases/verbose-names",
+      "oracle": "captures/shared-prefix/verbose-names",
       "execution": "verbose-native-pid",
-      "suite_manifest_sha256": "d6cb03388fbdd25720cada253ac530e0e3125b06d6c9efb52af9a68c79ef5910",
+      "suite_manifest_sha256": "43b62e41fcbca3697498b89483984038e0f12aa2139ac87830288bcc93ed1c40",
       "accepted_end": 252
     },
     "path-fallback": {
@@ -1484,9 +1484,9 @@
       "exit": 0,
       "accepted_start": 247,
       "fixture": "../fixtures/rc-remaining",
-      "oracle": "cases/path-fallback",
+      "oracle": "captures/shared-prefix/path-fallback",
       "execution": "missing-sibling-PATH",
-      "suite_manifest_sha256": "d6cb03388fbdd25720cada253ac530e0e3125b06d6c9efb52af9a68c79ef5910",
+      "suite_manifest_sha256": "43b62e41fcbca3697498b89483984038e0f12aa2139ac87830288bcc93ed1c40",
       "accepted_end": 252
     },
     "direct-whitespace": {
@@ -1498,7 +1498,7 @@
       "accepted_start": 252,
       "fixture": "cases/direct-helpers",
       "oracle": "whitespace",
-      "suite_manifest_sha256": "2b56da7d23d2deab6bc8a9d2cfb3190daec792d269dedbb8f1044a03f517bfc8",
+      "suite_manifest_sha256": "c0780f3449ce7359667dc20d0cb0c82677f416a4c232c3285a10b59c5258abc2",
       "accepted_end": 254
     },
     "direct-basename": {
@@ -1510,7 +1510,7 @@
       "accepted_start": 252,
       "fixture": "cases/direct-helpers",
       "oracle": "basename",
-      "suite_manifest_sha256": "2b56da7d23d2deab6bc8a9d2cfb3190daec792d269dedbb8f1044a03f517bfc8",
+      "suite_manifest_sha256": "c0780f3449ce7359667dc20d0cb0c82677f416a4c232c3285a10b59c5258abc2",
       "accepted_end": 254
     }
   },

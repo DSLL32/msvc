@@ -12,7 +12,8 @@ import subprocess
 HERE=Path(__file__).resolve().parent
 RC=HERE.parent.parent/'rc'
 wt=importlib.machinery.SourceFileLoader('remaining_wine',str(RC/'scripts/wine-tool.py')).load_module()
-SCRATCH=Path.home()/'.ai-tmp/vc1.0-rc-remaining'
+SCRATCH=wt.SCRATCH/'vc1.0/rc/remaining-reference'
+from case_paths import capture_lock
 
 
 def digest(data):return dict(bytes=len(data),sha256=hashlib.sha256(data).hexdigest())
@@ -41,15 +42,7 @@ def prepare():
     assert hashlib.sha256((wt.TC/'bin/RC.EXE').read_bytes()).hexdigest() == 'eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591'
     assert hashlib.sha256((wt.TC/'bin/RCPP.EXE').read_bytes()).hexdigest() == 'a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd'
     SCRATCH.mkdir(exist_ok=True)
-    env=wt.environment();env['WINEPREFIX']=str(SCRATCH/'wine');env['WINEPATH']=''
-    if not (SCRATCH/'wine/system.reg').exists():
-        with (SCRATCH/'wineboot.log').open('wb') as log:
-            subprocess.run(['/usr/bin/wineboot','-u'],env=env,stdout=log,stderr=log,check=True,timeout=90)
-    drive=SCRATCH/'wine/dosdevices/t:'
-    if not drive.is_symlink():drive.symlink_to(wt.TC,target_is_directory=True)
-    assert drive.resolve()==wt.TC.resolve()
-    server=subprocess.run(['/usr/bin/wineserver','-p'],env=env,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-    assert server.returncode in (0,2)
+    env=wt.environment();env['WINEPATH']=''
     launch=SCRATCH/'launch';child_dir=SCRATCH/'preprocessor bin';missing=SCRATCH/'no-such-directory'
     for d in (launch,child_dir):d.mkdir(exist_ok=True)
     shutil.copyfile(wt.TC/'bin/RC.EXE',launch/'rc.exe')
@@ -62,7 +55,7 @@ def prepare():
     return env,launch,path
 
 
-def capture(case,env,launch,path,recording):
+def capture(case,env,launch,path,recording,capture_directory=None):
     work=SCRATCH/('case-'+case)
     if work.exists():shutil.rmtree(work)
     shutil.copytree(HERE/'source',work)
@@ -73,7 +66,7 @@ def capture(case,env,launch,path,recording):
                '/x /fopath.res path-fallback.rc')
     target=wt.TC/'bin/RC.EXE' if case=='verbose-names' else launch/'rc.exe'
     env=dict(env,TEMP=wt.windows(work),TMP=wt.windows(work))
-    command=['/usr/bin/wine',str(RC/'build/remaining-trace.exe'),wt.windows(target),arguments,
+    command=['/usr/bin/wine',wt.windows(RC/'build/remaining-trace.exe'),wt.windows(target),arguments,
              wt.windows(str(stem)+'.stdout'),wt.windows(str(stem)+'.stderr'),wt.windows(str(stem)+'.proof'),
              wt.windows(work),'' if case=='verbose-names' else path]
     with Path(str(stem)+'.launcher').open('wb') as log:
@@ -82,7 +75,7 @@ def capture(case,env,launch,path,recording):
     pid=int(re.search(r'target_pid=(\d+)',proof)[1])
     exits=re.findall(r'exit pid=(\d+) status=(\d+)',proof)
     assert len(exits)==2 and exits[-1]==(str(pid),'0') and exits[0][1]=='0'
-    assert 'exception ' not in proof and 'image=\\\\?\\T:\\bin\\RCPP.EXE' in proof
+    assert 'exception ' not in proof and 'image=\\\\?\\R:\\toolchains\\1.0-nt\\bin\\RCPP.EXE' in proof
     digits=('%06d'%pid)[-6:]
     assert 'native_temporary_input=RC'+digits+'\n' in proof
     assert 'native_temporary_output=RD'+digits+'\n' in proof
@@ -99,7 +92,7 @@ def capture(case,env,launch,path,recording):
     observed={p.name:p.read_bytes() for p in work.iterdir()}
     assert set(observed)==set(initial)|{output} and all(observed[n]==d for n,d in initial.items())
     assert len(observed[output])==expected_size
-    dest=HERE/'cases'/case
+    dest=(capture_directory or HERE/'captures/shared-prefix')/case
     if recording:
         dest.mkdir(parents=True,exist_ok=True)
         for kind in ('stdout','stderr'):shutil.copyfile(Path(str(stem)+'.'+kind),dest/(kind+'.bin'))
@@ -115,7 +108,12 @@ def capture(case,env,launch,path,recording):
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--record',action='store_true');args=parser.parse_args()
-    if args.record:assert not (HERE/'manifest.json').exists(), 'Frozen fixture: verification only'
-    env,launch,path=prepare()
-    for case in ('verbose-names','path-fallback'):print(json.dumps(capture(case,env,launch,path,args.record)),flush=True)
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--record',action='store_true');parser.add_argument('--capture-directory',type=Path);args=parser.parse_args()
+    if args.record:
+        assert args.capture_directory is not None,'Explicit new capture directory required'
+        assert not args.capture_directory.exists(),'Refusing to overwrite raw capture'
+        args.capture_directory.mkdir(parents=True)
+    if args.capture_directory and not args.record:assert args.capture_directory.is_dir()
+    with capture_lock('remaining-reference'):
+        env,launch,path=prepare()
+        for case in ('verbose-names','path-fallback'):print(json.dumps(capture(case,env,launch,path,args.record,args.capture_directory)),flush=True)

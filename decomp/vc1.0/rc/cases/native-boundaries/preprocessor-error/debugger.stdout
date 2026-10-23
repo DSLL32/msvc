@@ -1,5 +1,16 @@
-child pid 1512
+original pid 292
+entry resource_main
+entry switch_character
+entry resource_alloc
+entry prepare_input
+entry write_file
+entry detect_encoding
+entry native_byte_order
+entry read_source_line
+entry prefix_matches
+child pid 300
 read missing 1 error 2
 read missing 3 error 2
-child exit 1 pid 1512
+child exit 1 pid 300
+entry resource_finish
 exit 1; captured 1 launches and 3 deletes

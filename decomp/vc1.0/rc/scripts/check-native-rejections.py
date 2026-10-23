@@ -10,7 +10,8 @@ import time
 HERE=Path(__file__).resolve().parent
 spec=importlib.util.spec_from_file_location('rc_native_checker',HERE/'check-native.py')
 checker=importlib.util.module_from_spec(spec);spec.loader.exec_module(checker)
-root=Path(tempfile.mkdtemp(prefix='native-rejections-',dir=Path.home()/'.ai-tmp/vc1.0-rc'))
+checker.NATIVE_RUNS.mkdir(parents=True,exist_ok=True)
+root=Path(tempfile.mkdtemp(prefix='native-rejections-',dir=checker.NATIVE_RUNS))
 cache=checker.traces.load(checker.BINARY/'build/native-trace')
 filter_path=root/'filter';filter_path.write_text(''.join(n+'\n' for n in cache['application_definitions']))
 tracing=dict(cache=cache,filter=filter_path)
@@ -43,7 +44,7 @@ original_init=checker.processes.ProcessFixture.__init__
 def unknown_child():
     def initialize(self,name,work,environment):
         original_init(self,name,work,environment)
-        environment['RECON_PROGRAM_PATH']='Z:\\uncaptured-child\\RC.EXE'
+        environment['RECON_PROGRAM_PATH']='R:\\uncaptured-child\\RC.EXE'
     checker.processes.ProcessFixture.__init__=initialize
     return lambda:setattr(checker.processes.ProcessFixture,'__init__',original_init)
 reject('unknown-child-invocation','scanf-pushback','RCPP executable spelling differs',unknown_child)

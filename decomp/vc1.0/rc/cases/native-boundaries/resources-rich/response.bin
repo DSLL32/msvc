@@ -1,7 +1,7 @@
-#line 1 "RC001096"
+#line 1 "RC000292"
 #line 1 "RESOURCES.RC"
 #line 1 "RESOURCES.RC"
-#line 1 "T:\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/windows.h"
 
 
 
@@ -81,19 +81,19 @@
 
 
 
-#line 81 "T:\\include/windows.h"
+#line 81 "R:\\toolchains\\1.0-nt\\include/windows.h"
 
 
 
-#line 85 "T:\\include/windows.h"
+#line 85 "R:\\toolchains\\1.0-nt\\include/windows.h"
 
 
 
-#line 89 "T:\\include/windows.h"
+#line 89 "R:\\toolchains\\1.0-nt\\include/windows.h"
 
 
 
-#line 93 "T:\\include/windows.h"
+#line 93 "R:\\toolchains\\1.0-nt\\include/windows.h"
 
 
 
@@ -103,7 +103,7 @@
 
 
 
-#line 1 "T:\\include/windef.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/windef.h"
 
 
 
@@ -138,7 +138,7 @@ typedef USHORT *PUSHORT;
 typedef unsigned char UCHAR;
 typedef UCHAR *PUCHAR;
 typedef char *PSZ;
-#line 36 "T:\\include/windef.h"
+#line 36 "R:\\toolchains\\1.0-nt\\include/windef.h"
 
 
 
@@ -147,40 +147,28 @@ typedef char *PSZ;
 
 
 
-#line 45 "T:\\include/windef.h"
-#line 46 "T:\\include/windef.h"
+#line 45 "R:\\toolchains\\1.0-nt\\include/windef.h"
+#line 46 "R:\\toolchains\\1.0-nt\\include/windef.h"
 
 
 
-#line 50 "T:\\include/windef.h"
+#line 50 "R:\\toolchains\\1.0-nt\\include/windef.h"
 
 
 
-#line 54 "T:\\include/windef.h"
+#line 54 "R:\\toolchains\\1.0-nt\\include/windef.h"
 
 
 
-#line 58 "T:\\include/windef.h"
+#line 58 "R:\\toolchains\\1.0-nt\\include/windef.h"
 
 
 
-#line 62 "T:\\include/windef.h"
+#line 62 "R:\\toolchains\\1.0-nt\\include/windef.h"
 
 
 
-#line 66 "T:\\include/windef.h"
-
-
-
-
-
-
-
-
-
-#line 76 "T:\\include/windef.h"
-
-#line 78 "T:\\include/windef.h"
+#line 66 "R:\\toolchains\\1.0-nt\\include/windef.h"
 
 
 
@@ -190,31 +178,43 @@ typedef char *PSZ;
 
 
 
+#line 76 "R:\\toolchains\\1.0-nt\\include/windef.h"
 
-#line 89 "T:\\include/windef.h"
-#line 90 "T:\\include/windef.h"
-
-
+#line 78 "R:\\toolchains\\1.0-nt\\include/windef.h"
 
 
 
 
 
 
-#line 99 "T:\\include/windef.h"
+
+
+
+
+#line 89 "R:\\toolchains\\1.0-nt\\include/windef.h"
+#line 90 "R:\\toolchains\\1.0-nt\\include/windef.h"
 
 
 
 
 
 
-#line 106 "T:\\include/windef.h"
+
+
+#line 99 "R:\\toolchains\\1.0-nt\\include/windef.h"
 
 
 
 
 
-#line 112 "T:\\include/windef.h"
+
+#line 106 "R:\\toolchains\\1.0-nt\\include/windef.h"
+
+
+
+
+
+#line 112 "R:\\toolchains\\1.0-nt\\include/windef.h"
 
 typedef unsigned long       DWORD;
 typedef int                 BOOL;
@@ -241,7 +241,7 @@ typedef unsigned int        UINT;
 typedef unsigned int        *PUINT;
 
 
-#line 1 "T:\\include/winnt.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
 
 
@@ -266,7 +266,7 @@ typedef unsigned int        *PUINT;
 
 
 
-#line 1 "T:\\include/ctype.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/ctype.h"
 
 
 
@@ -290,23 +290,23 @@ typedef unsigned int        *PUINT;
 
 
 
-#line 25 "T:\\include/ctype.h"
-#line 26 "T:\\include/ctype.h"
+#line 25 "R:\\toolchains\\1.0-nt\\include/ctype.h"
+#line 26 "R:\\toolchains\\1.0-nt\\include/ctype.h"
 
 
 typedef unsigned short wchar_t;
 
-#line 31 "T:\\include/ctype.h"
+#line 31 "R:\\toolchains\\1.0-nt\\include/ctype.h"
 
 
 typedef wchar_t wint_t;
 typedef wchar_t wctype_t;
 
-#line 37 "T:\\include/ctype.h"
+#line 37 "R:\\toolchains\\1.0-nt\\include/ctype.h"
 
 
 
-#line 41 "T:\\include/ctype.h"
+#line 41 "R:\\toolchains\\1.0-nt\\include/ctype.h"
 
 
 
@@ -356,7 +356,7 @@ typedef wchar_t wctype_t;
  int __cdecl __iscsymf(int);
  int __cdecl __iscsym(int);
 
-#line 91 "T:\\include/ctype.h"
+#line 91 "R:\\toolchains\\1.0-nt\\include/ctype.h"
 
 
 
@@ -386,7 +386,7 @@ typedef wchar_t wctype_t;
  int __cdecl _isctype(int, int);
 
 
-#line 121 "T:\\include/ctype.h"
+#line 121 "R:\\toolchains\\1.0-nt\\include/ctype.h"
 
 
 
@@ -397,7 +397,7 @@ typedef wchar_t wctype_t;
 
 
  extern int __mb_cur_max;
-#line 132 "T:\\include/ctype.h"
+#line 132 "R:\\toolchains\\1.0-nt\\include/ctype.h"
 
 
 
@@ -452,29 +452,29 @@ typedef wchar_t wctype_t;
 
 
 
-#line 187 "T:\\include/ctype.h"
-#line 188 "T:\\include/ctype.h"
+#line 187 "R:\\toolchains\\1.0-nt\\include/ctype.h"
+#line 188 "R:\\toolchains\\1.0-nt\\include/ctype.h"
 
 
 
 
 
 
-#line 195 "T:\\include/ctype.h"
-#line 26 "T:\\include/winnt.h"
+#line 195 "R:\\toolchains\\1.0-nt\\include/ctype.h"
+#line 26 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
 
 
-#line 30 "T:\\include/winnt.h"
+#line 30 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
-#line 32 "T:\\include/winnt.h"
+#line 32 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 typedef void *PVOID;    
 
 
-#line 36 "T:\\include/winnt.h"
+#line 36 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
 
-#line 39 "T:\\include/winnt.h"
+#line 39 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
 
 
@@ -485,7 +485,7 @@ typedef void *PVOID;
 typedef char CHAR;
 typedef short SHORT;
 typedef long LONG;
-#line 50 "T:\\include/winnt.h"
+#line 50 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
 
 
@@ -535,14 +535,14 @@ typedef const CHAR *LPCSTR, *PCSTR;
 typedef char TCHAR, *PTCHAR;
 typedef unsigned char TBYTE , *PTBYTE ;
 
-#line 100 "T:\\include/winnt.h"
+#line 100 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
 typedef LPSTR LPTCH, PTCH;
 typedef LPSTR PTSTR, LPTSTR;
 typedef LPCSTR LPCTSTR;
 
 
-#line 107 "T:\\include/winnt.h"
+#line 107 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
 
 
@@ -555,7 +555,7 @@ typedef LONG *PLONG;
 
 typedef PVOID HANDLE;
 
-#line 120 "T:\\include/winnt.h"
+#line 120 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 typedef HANDLE *PHANDLE;
 
 typedef char CCHAR;          
@@ -573,55 +573,55 @@ typedef WORD   LANGID;
 
 
 
-#line 138 "T:\\include/winnt.h"
+#line 138 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
 
 
-#line 142 "T:\\include/winnt.h"
+#line 142 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 typedef double LONGLONG;
 typedef double DWORDLONG;
-#line 145 "T:\\include/winnt.h"
-#line 146 "T:\\include/winnt.h"
+#line 145 "R:\\toolchains\\1.0-nt\\include/winnt.h"
+#line 146 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
 typedef LONGLONG *PLONGLONG;
 typedef DWORDLONG *PDWORDLONG;
 
 
 
-#line 153 "T:\\include/winnt.h"
+#line 153 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 typedef union _LARGE_INTEGER {
 
 
 
 
 
-#line 160 "T:\\include/winnt.h"
+#line 160 "R:\\toolchains\\1.0-nt\\include/winnt.h"
     struct {
         DWORD LowPart;
         LONG HighPart;
     };
-#line 165 "T:\\include/winnt.h"
-#line 166 "T:\\include/winnt.h"
+#line 165 "R:\\toolchains\\1.0-nt\\include/winnt.h"
+#line 166 "R:\\toolchains\\1.0-nt\\include/winnt.h"
     LONGLONG QuadPart;
 } LARGE_INTEGER, *PLARGE_INTEGER;
 
 
 
 
-#line 173 "T:\\include/winnt.h"
+#line 173 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 typedef union _ULARGE_INTEGER {
 
 
 
 
 
-#line 180 "T:\\include/winnt.h"
+#line 180 "R:\\toolchains\\1.0-nt\\include/winnt.h"
     struct {
         DWORD LowPart;
         DWORD HighPart;
     };
-#line 185 "T:\\include/winnt.h"
-#line 186 "T:\\include/winnt.h"
+#line 185 "R:\\toolchains\\1.0-nt\\include/winnt.h"
+#line 186 "R:\\toolchains\\1.0-nt\\include/winnt.h"
     DWORDLONG QuadPart;
 } ULARGE_INTEGER, *PULARGE_INTEGER;
 
@@ -887,7 +887,7 @@ typedef struct _SINGLE_LIST_ENTRY {
 
 
 
-#line 452 "T:\\include/winnt.h"
+#line 452 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
 
   
@@ -1641,7 +1641,7 @@ typedef struct _LDT_ENTRY {
 
 
 
-#line 1206 "T:\\include/winnt.h"
+#line 1206 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
 
 
@@ -1652,7 +1652,7 @@ typedef struct _LDT_ENTRY {
 
 
 
-#line 1217 "T:\\include/winnt.h"
+#line 1217 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
 
 
@@ -2038,7 +2038,7 @@ typedef struct _SID {
 
 
    DWORD SubAuthority[1];
-#line 1603 "T:\\include/winnt.h"
+#line 1603 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 } SID, *PISID;
 
 
@@ -3263,30 +3263,30 @@ typedef IMAGE_SYMBOL  *PIMAGE_SYMBOL;
 
 
 
-#line 2828 "T:\\include/winnt.h"
+#line 2828 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
 
 
 
-#line 2833 "T:\\include/winnt.h"
+#line 2833 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
 
 
 
 
-#line 2839 "T:\\include/winnt.h"
+#line 2839 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
 
 
 
-#line 2844 "T:\\include/winnt.h"
+#line 2844 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
 
 
-#line 2848 "T:\\include/winnt.h"
+#line 2848 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
 
-#line 2851 "T:\\include/winnt.h"
+#line 2851 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
 
 
@@ -3804,7 +3804,7 @@ typedef struct _IMAGE_SEPARATE_DEBUG_HEADER {
 
 
 
-#line 1 "T:\\include/string.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/string.h"
 
 
 
@@ -3836,7 +3836,7 @@ typedef struct _IMAGE_SEPARATE_DEBUG_HEADER {
 
 typedef unsigned int size_t;
 
-#line 33 "T:\\include/string.h"
+#line 33 "R:\\toolchains\\1.0-nt\\include/string.h"
 
 
 
@@ -3927,7 +3927,7 @@ typedef unsigned int size_t;
 
 
 
-#line 124 "T:\\include/string.h"
+#line 124 "R:\\toolchains\\1.0-nt\\include/string.h"
 
 
  void * __cdecl memccpy(void *, const void *, int, unsigned int);
@@ -3951,15 +3951,15 @@ typedef unsigned int size_t;
 
 
 
-#line 148 "T:\\include/string.h"
+#line 148 "R:\\toolchains\\1.0-nt\\include/string.h"
 
 
 
 
 
 
-#line 155 "T:\\include/string.h"
-#line 3369 "T:\\include/winnt.h"
+#line 155 "R:\\toolchains\\1.0-nt\\include/string.h"
+#line 3369 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
 
 
@@ -3997,7 +3997,7 @@ RtlZeroMemory (
    PVOID Destination,
    DWORD Length
    );
-#line 3407 "T:\\include/winnt.h"
+#line 3407 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
 typedef struct _RTL_CRITICAL_SECTION_DEBUG {
     WORD   Type;
@@ -4520,10 +4520,10 @@ typedef struct _TAPE_CREATE_PARTITION {
 
 
 
-#line 3930 "T:\\include/winnt.h"
+#line 3930 "R:\\toolchains\\1.0-nt\\include/winnt.h"
 
-#line 139 "T:\\include/windef.h"
-#line 140 "T:\\include/windef.h"
+#line 139 "R:\\toolchains\\1.0-nt\\include/windef.h"
+#line 140 "R:\\toolchains\\1.0-nt\\include/windef.h"
 
 
 typedef UINT WPARAM;
@@ -4553,7 +4553,7 @@ typedef LONG LRESULT;
 
 typedef HANDLE HWND;
 typedef HANDLE HHOOK;
-#line 170 "T:\\include/windef.h"
+#line 170 "R:\\toolchains\\1.0-nt\\include/windef.h"
 
 typedef WORD                ATOM;
 
@@ -4571,7 +4571,7 @@ typedef int ( *PROC)();
 
 
 typedef HANDLE HGDIOBJ;
-#line 188 "T:\\include/windef.h"
+#line 188 "R:\\toolchains\\1.0-nt\\include/windef.h"
 
 typedef HANDLE HACCEL;
 typedef HANDLE HBITMAP;
@@ -4679,9 +4679,9 @@ typedef struct tagPOINTS
 
 
 
-#line 296 "T:\\include/windef.h"
-#line 103 "T:\\include/windows.h"
-#line 1 "T:\\include/winbase.h"
+#line 296 "R:\\toolchains\\1.0-nt\\include/windef.h"
+#line 103 "R:\\toolchains\\1.0-nt\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 
@@ -4905,7 +4905,7 @@ typedef PRTL_CRITICAL_SECTION_DEBUG LPCRITICAL_SECTION_DEBUG;
 
 
 typedef LPVOID LPLDT_ENTRY;
-#line 225 "T:\\include/winbase.h"
+#line 225 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 
@@ -5528,7 +5528,7 @@ typedef struct _OFSTRUCT {
 
 
 
-#line 848 "T:\\include/winbase.h"
+#line 848 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 LONG
 
@@ -5555,7 +5555,7 @@ InterlockedExchange(
 
 
 
-#line 875 "T:\\include/winbase.h"
+#line 875 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -6971,7 +6971,7 @@ FormatMessageW(
 
 
 
-#line 2291 "T:\\include/winbase.h"
+#line 2291 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 
@@ -7066,7 +7066,7 @@ CreateMailslotW(
 
 
 
-#line 2386 "T:\\include/winbase.h"
+#line 2386 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -7128,7 +7128,7 @@ lstrcmpW(
 
 
 
-#line 2448 "T:\\include/winbase.h"
+#line 2448 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 int
 
@@ -7146,7 +7146,7 @@ lstrcmpiW(
 
 
 
-#line 2466 "T:\\include/winbase.h"
+#line 2466 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 LPSTR
 
@@ -7164,7 +7164,7 @@ lstrcpyW(
 
 
 
-#line 2484 "T:\\include/winbase.h"
+#line 2484 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 LPSTR
 
@@ -7182,7 +7182,7 @@ lstrcatW(
 
 
 
-#line 2502 "T:\\include/winbase.h"
+#line 2502 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 int
 
@@ -7198,7 +7198,7 @@ lstrlenW(
 
 
 
-#line 2518 "T:\\include/winbase.h"
+#line 2518 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 HFILE
 
@@ -7471,7 +7471,7 @@ typedef struct _STARTUPINFOW {
 
 typedef STARTUPINFOA STARTUPINFO;
 typedef LPSTARTUPINFOA LPSTARTUPINFO;
-#line 2791 "T:\\include/winbase.h"
+#line 2791 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 
@@ -7507,7 +7507,7 @@ typedef struct _WIN32_FIND_DATAW {
 typedef WIN32_FIND_DATAA WIN32_FIND_DATA;
 typedef PWIN32_FIND_DATAA PWIN32_FIND_DATA;
 typedef LPWIN32_FIND_DATAA LPWIN32_FIND_DATA;
-#line 2827 "T:\\include/winbase.h"
+#line 2827 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 HANDLE
 
@@ -7527,7 +7527,7 @@ CreateMutexW(
 
 
 
-#line 2847 "T:\\include/winbase.h"
+#line 2847 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 HANDLE
 
@@ -7547,7 +7547,7 @@ OpenMutexW(
 
 
 
-#line 2867 "T:\\include/winbase.h"
+#line 2867 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 HANDLE
 
@@ -7569,7 +7569,7 @@ CreateEventW(
 
 
 
-#line 2889 "T:\\include/winbase.h"
+#line 2889 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 HANDLE
 
@@ -7589,7 +7589,7 @@ OpenEventW(
 
 
 
-#line 2909 "T:\\include/winbase.h"
+#line 2909 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 HANDLE
 
@@ -7611,7 +7611,7 @@ CreateSemaphoreW(
 
 
 
-#line 2931 "T:\\include/winbase.h"
+#line 2931 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 HANDLE
 
@@ -7631,7 +7631,7 @@ OpenSemaphoreW(
 
 
 
-#line 2951 "T:\\include/winbase.h"
+#line 2951 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 HANDLE
 
@@ -7657,7 +7657,7 @@ CreateFileMappingW(
 
 
 
-#line 2977 "T:\\include/winbase.h"
+#line 2977 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 HANDLE
 
@@ -7677,7 +7677,7 @@ OpenFileMappingW(
 
 
 
-#line 2997 "T:\\include/winbase.h"
+#line 2997 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 DWORD
 
@@ -7695,7 +7695,7 @@ GetLogicalDriveStringsW(
 
 
 
-#line 3015 "T:\\include/winbase.h"
+#line 3015 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 HINSTANCE
 
@@ -7711,7 +7711,7 @@ LoadLibraryW(
 
 
 
-#line 3031 "T:\\include/winbase.h"
+#line 3031 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 HINSTANCE
 
@@ -7731,7 +7731,7 @@ LoadLibraryExW(
 
 
 
-#line 3051 "T:\\include/winbase.h"
+#line 3051 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 
@@ -7754,7 +7754,7 @@ GetModuleFileNameW(
 
 
 
-#line 3074 "T:\\include/winbase.h"
+#line 3074 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 HMODULE
 
@@ -7770,7 +7770,7 @@ GetModuleHandleW(
 
 
 
-#line 3090 "T:\\include/winbase.h"
+#line 3090 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -7804,7 +7804,7 @@ CreateProcessW(
 
 
 
-#line 3124 "T:\\include/winbase.h"
+#line 3124 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -7836,7 +7836,7 @@ FatalAppExitW(
 
 
 
-#line 3156 "T:\\include/winbase.h"
+#line 3156 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 void
 
@@ -7852,7 +7852,7 @@ GetStartupInfoW(
 
 
 
-#line 3172 "T:\\include/winbase.h"
+#line 3172 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 LPSTR
 
@@ -7868,7 +7868,7 @@ GetCommandLineW(
 
 
 
-#line 3188 "T:\\include/winbase.h"
+#line 3188 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 DWORD
 
@@ -7888,7 +7888,7 @@ GetEnvironmentVariableW(
 
 
 
-#line 3208 "T:\\include/winbase.h"
+#line 3208 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -7906,7 +7906,7 @@ SetEnvironmentVariableW(
 
 
 
-#line 3226 "T:\\include/winbase.h"
+#line 3226 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 DWORD
 
@@ -7926,7 +7926,7 @@ ExpandEnvironmentStringsW(
 
 
 
-#line 3246 "T:\\include/winbase.h"
+#line 3246 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 void
 
@@ -7942,7 +7942,7 @@ OutputDebugStringW(
 
 
 
-#line 3262 "T:\\include/winbase.h"
+#line 3262 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 HRSRC
 
@@ -7962,7 +7962,7 @@ FindResourceW(
 
 
 
-#line 3282 "T:\\include/winbase.h"
+#line 3282 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 HRSRC
 
@@ -7984,7 +7984,7 @@ FindResourceExW(
 
 
 
-#line 3304 "T:\\include/winbase.h"
+#line 3304 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 
@@ -7997,7 +7997,7 @@ FindResourceExW(
 typedef FARPROC ENUMRESTYPEPROC;
 typedef FARPROC ENUMRESNAMEPROC;
 typedef FARPROC ENUMRESLANGPROC;
-#line 3317 "T:\\include/winbase.h"
+#line 3317 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -8017,7 +8017,7 @@ EnumResourceTypesW(
 
 
 
-#line 3337 "T:\\include/winbase.h"
+#line 3337 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 BOOL
@@ -8040,7 +8040,7 @@ EnumResourceNamesW(
 
 
 
-#line 3360 "T:\\include/winbase.h"
+#line 3360 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -8064,7 +8064,7 @@ EnumResourceLanguagesW(
 
 
 
-#line 3384 "T:\\include/winbase.h"
+#line 3384 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 HANDLE
 
@@ -8082,7 +8082,7 @@ BeginUpdateResourceW(
 
 
 
-#line 3402 "T:\\include/winbase.h"
+#line 3402 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -8108,7 +8108,7 @@ UpdateResourceW(
 
 
 
-#line 3428 "T:\\include/winbase.h"
+#line 3428 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -8126,7 +8126,7 @@ EndUpdateResourceW(
 
 
 
-#line 3446 "T:\\include/winbase.h"
+#line 3446 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 ATOM
 
@@ -8142,7 +8142,7 @@ GlobalAddAtomW(
 
 
 
-#line 3462 "T:\\include/winbase.h"
+#line 3462 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 ATOM
 
@@ -8158,7 +8158,7 @@ GlobalFindAtomW(
 
 
 
-#line 3478 "T:\\include/winbase.h"
+#line 3478 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 UINT
 
@@ -8178,7 +8178,7 @@ GlobalGetAtomNameW(
 
 
 
-#line 3498 "T:\\include/winbase.h"
+#line 3498 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 ATOM
 
@@ -8194,7 +8194,7 @@ AddAtomW(
 
 
 
-#line 3514 "T:\\include/winbase.h"
+#line 3514 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 ATOM
 
@@ -8210,7 +8210,7 @@ FindAtomW(
 
 
 
-#line 3530 "T:\\include/winbase.h"
+#line 3530 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 UINT
 
@@ -8230,7 +8230,7 @@ GetAtomNameW(
 
 
 
-#line 3550 "T:\\include/winbase.h"
+#line 3550 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 UINT
 
@@ -8250,7 +8250,7 @@ GetProfileIntW(
 
 
 
-#line 3570 "T:\\include/winbase.h"
+#line 3570 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 DWORD
 
@@ -8274,7 +8274,7 @@ GetProfileStringW(
 
 
 
-#line 3594 "T:\\include/winbase.h"
+#line 3594 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -8294,7 +8294,7 @@ WriteProfileStringW(
 
 
 
-#line 3614 "T:\\include/winbase.h"
+#line 3614 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 DWORD
 
@@ -8314,7 +8314,7 @@ GetProfileSectionW(
 
 
 
-#line 3634 "T:\\include/winbase.h"
+#line 3634 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -8332,7 +8332,7 @@ WriteProfileSectionW(
 
 
 
-#line 3652 "T:\\include/winbase.h"
+#line 3652 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 UINT
 
@@ -8354,7 +8354,7 @@ GetPrivateProfileIntW(
 
 
 
-#line 3674 "T:\\include/winbase.h"
+#line 3674 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 DWORD
 
@@ -8380,7 +8380,7 @@ GetPrivateProfileStringW(
 
 
 
-#line 3700 "T:\\include/winbase.h"
+#line 3700 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -8402,7 +8402,7 @@ WritePrivateProfileStringW(
 
 
 
-#line 3722 "T:\\include/winbase.h"
+#line 3722 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 DWORD
 
@@ -8424,7 +8424,7 @@ GetPrivateProfileSectionW(
 
 
 
-#line 3744 "T:\\include/winbase.h"
+#line 3744 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -8444,7 +8444,7 @@ WritePrivateProfileSectionW(
 
 
 
-#line 3764 "T:\\include/winbase.h"
+#line 3764 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 UINT
 
@@ -8460,7 +8460,7 @@ GetDriveTypeW(
 
 
 
-#line 3780 "T:\\include/winbase.h"
+#line 3780 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 UINT
 
@@ -8478,7 +8478,7 @@ GetSystemDirectoryW(
 
 
 
-#line 3798 "T:\\include/winbase.h"
+#line 3798 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 DWORD
 
@@ -8496,7 +8496,7 @@ GetTempPathW(
 
 
 
-#line 3816 "T:\\include/winbase.h"
+#line 3816 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 UINT
 
@@ -8518,7 +8518,7 @@ GetTempFileNameW(
 
 
 
-#line 3838 "T:\\include/winbase.h"
+#line 3838 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 UINT
 
@@ -8536,7 +8536,7 @@ GetWindowsDirectoryW(
 
 
 
-#line 3856 "T:\\include/winbase.h"
+#line 3856 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -8552,7 +8552,7 @@ SetCurrentDirectoryW(
 
 
 
-#line 3872 "T:\\include/winbase.h"
+#line 3872 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 DWORD
 
@@ -8570,7 +8570,7 @@ GetCurrentDirectoryW(
 
 
 
-#line 3890 "T:\\include/winbase.h"
+#line 3890 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -8594,7 +8594,7 @@ GetDiskFreeSpaceW(
 
 
 
-#line 3914 "T:\\include/winbase.h"
+#line 3914 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -8612,7 +8612,7 @@ CreateDirectoryW(
 
 
 
-#line 3932 "T:\\include/winbase.h"
+#line 3932 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -8632,7 +8632,7 @@ CreateDirectoryExW(
 
 
 
-#line 3952 "T:\\include/winbase.h"
+#line 3952 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -8648,7 +8648,7 @@ RemoveDirectoryW(
 
 
 
-#line 3968 "T:\\include/winbase.h"
+#line 3968 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 DWORD
 
@@ -8670,7 +8670,7 @@ GetFullPathNameW(
 
 
 
-#line 3990 "T:\\include/winbase.h"
+#line 3990 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 
@@ -8695,7 +8695,7 @@ DefineDosDeviceW(
 
 
 
-#line 4015 "T:\\include/winbase.h"
+#line 4015 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 DWORD
 
@@ -8715,7 +8715,7 @@ QueryDosDeviceW(
 
 
 
-#line 4035 "T:\\include/winbase.h"
+#line 4035 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 
@@ -8745,7 +8745,7 @@ CreateFileW(
 
 
 
-#line 4065 "T:\\include/winbase.h"
+#line 4065 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -8763,7 +8763,7 @@ SetFileAttributesW(
 
 
 
-#line 4083 "T:\\include/winbase.h"
+#line 4083 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 DWORD
 
@@ -8779,7 +8779,7 @@ GetFileAttributesW(
 
 
 
-#line 4099 "T:\\include/winbase.h"
+#line 4099 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -8795,7 +8795,7 @@ DeleteFileW(
 
 
 
-#line 4115 "T:\\include/winbase.h"
+#line 4115 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 HANDLE
 
@@ -8813,7 +8813,7 @@ FindFirstFileW(
 
 
 
-#line 4133 "T:\\include/winbase.h"
+#line 4133 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -8831,7 +8831,7 @@ FindNextFileW(
 
 
 
-#line 4151 "T:\\include/winbase.h"
+#line 4151 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 DWORD
 
@@ -8857,7 +8857,7 @@ SearchPathW(
 
 
 
-#line 4177 "T:\\include/winbase.h"
+#line 4177 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -8877,7 +8877,7 @@ CopyFileW(
 
 
 
-#line 4197 "T:\\include/winbase.h"
+#line 4197 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -8895,7 +8895,7 @@ MoveFileW(
 
 
 
-#line 4215 "T:\\include/winbase.h"
+#line 4215 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -8915,7 +8915,7 @@ MoveFileExW(
 
 
 
-#line 4235 "T:\\include/winbase.h"
+#line 4235 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 
@@ -8949,7 +8949,7 @@ CreateNamedPipeW(
 
 
 
-#line 4269 "T:\\include/winbase.h"
+#line 4269 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -8977,7 +8977,7 @@ GetNamedPipeHandleStateW(
 
 
 
-#line 4297 "T:\\include/winbase.h"
+#line 4297 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -9005,7 +9005,7 @@ CallNamedPipeW(
 
 
 
-#line 4325 "T:\\include/winbase.h"
+#line 4325 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -9023,7 +9023,7 @@ WaitNamedPipeW(
 
 
 
-#line 4343 "T:\\include/winbase.h"
+#line 4343 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -9041,7 +9041,7 @@ SetVolumeLabelW(
 
 
 
-#line 4361 "T:\\include/winbase.h"
+#line 4361 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 void
 
@@ -9075,7 +9075,7 @@ GetVolumeInformationW(
 
 
 
-#line 4395 "T:\\include/winbase.h"
+#line 4395 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 
@@ -9097,7 +9097,7 @@ ClearEventLogW (
 
 
 
-#line 4417 "T:\\include/winbase.h"
+#line 4417 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -9115,7 +9115,7 @@ BackupEventLogW (
 
 
 
-#line 4435 "T:\\include/winbase.h"
+#line 4435 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -9160,7 +9160,7 @@ OpenEventLogW (
 
 
 
-#line 4480 "T:\\include/winbase.h"
+#line 4480 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 HANDLE
 
@@ -9178,7 +9178,7 @@ RegisterEventSourceW (
 
 
 
-#line 4498 "T:\\include/winbase.h"
+#line 4498 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 HANDLE
 
@@ -9196,7 +9196,7 @@ OpenBackupEventLogW (
 
 
 
-#line 4516 "T:\\include/winbase.h"
+#line 4516 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -9224,7 +9224,7 @@ ReadEventLogW (
 
 
 
-#line 4544 "T:\\include/winbase.h"
+#line 4544 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -9256,7 +9256,7 @@ ReportEventW (
 
 
 
-#line 4576 "T:\\include/winbase.h"
+#line 4576 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 
@@ -9429,7 +9429,7 @@ AccessCheckAndAuditAlarmW (
 
 
 
-#line 4749 "T:\\include/winbase.h"
+#line 4749 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 BOOL
@@ -9468,7 +9468,7 @@ ObjectOpenAuditAlarmW (
 
 
 
-#line 4788 "T:\\include/winbase.h"
+#line 4788 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 BOOL
@@ -9495,7 +9495,7 @@ ObjectPrivilegeAuditAlarmW (
 
 
 
-#line 4815 "T:\\include/winbase.h"
+#line 4815 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 BOOL
@@ -9516,7 +9516,7 @@ ObjectCloseAuditAlarmW (
 
 
 
-#line 4836 "T:\\include/winbase.h"
+#line 4836 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 BOOL
@@ -9541,7 +9541,7 @@ PrivilegedServiceAuditAlarmW (
 
 
 
-#line 4861 "T:\\include/winbase.h"
+#line 4861 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 BOOL
@@ -9963,7 +9963,7 @@ SetFileSecurityW (
 
 
 
-#line 5283 "T:\\include/winbase.h"
+#line 5283 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 BOOL
@@ -9988,7 +9988,7 @@ GetFileSecurityW (
 
 
 
-#line 5308 "T:\\include/winbase.h"
+#line 5308 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 BOOL
@@ -10019,7 +10019,7 @@ FindFirstChangeNotificationW(
 
 
 
-#line 5339 "T:\\include/winbase.h"
+#line 5339 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 BOOL
 
 FindNextChangeNotification(
@@ -10120,7 +10120,7 @@ IsBadStringPtrW(
 
 
 
-#line 5440 "T:\\include/winbase.h"
+#line 5440 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -10148,7 +10148,7 @@ LookupAccountSidW(
 
 
 
-#line 5468 "T:\\include/winbase.h"
+#line 5468 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -10176,7 +10176,7 @@ LookupAccountNameW(
 
 
 
-#line 5496 "T:\\include/winbase.h"
+#line 5496 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -10196,7 +10196,7 @@ LookupPrivilegeValueW(
 
 
 
-#line 5516 "T:\\include/winbase.h"
+#line 5516 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -10218,7 +10218,7 @@ LookupPrivilegeNameW(
 
 
 
-#line 5538 "T:\\include/winbase.h"
+#line 5538 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -10242,7 +10242,7 @@ LookupPrivilegeDisplayNameW(
 
 
 
-#line 5562 "T:\\include/winbase.h"
+#line 5562 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -10266,7 +10266,7 @@ BuildCommDCBW(
 
 
 
-#line 5586 "T:\\include/winbase.h"
+#line 5586 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -10286,7 +10286,7 @@ BuildCommDCBAndTimeoutsW(
 
 
 
-#line 5606 "T:\\include/winbase.h"
+#line 5606 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 
@@ -10306,7 +10306,7 @@ GetComputerNameW (
 
 
 
-#line 5626 "T:\\include/winbase.h"
+#line 5626 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -10322,7 +10322,7 @@ SetComputerNameW (
 
 
 
-#line 5642 "T:\\include/winbase.h"
+#line 5642 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 BOOL
 
@@ -10340,7 +10340,7 @@ GetUserNameW (
 
 
 
-#line 5660 "T:\\include/winbase.h"
+#line 5660 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 
@@ -10363,7 +10363,7 @@ QueryPerformanceFrequency(
 
 
 
-#line 1 "T:\\include/winerror.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/winerror.h"
 
 
 
@@ -15798,8 +15798,8 @@ QueryPerformanceFrequency(
 
 
 
-#line 5436 "T:\\include/winerror.h"
-#line 5683 "T:\\include/winbase.h"
+#line 5436 "R:\\toolchains\\1.0-nt\\include/winerror.h"
+#line 5683 "R:\\toolchains\\1.0-nt\\include/winbase.h"
 
 
 
@@ -15812,9 +15812,9 @@ QueryPerformanceFrequency(
 
 
 
-#line 5696 "T:\\include/winbase.h"
-#line 104 "T:\\include/windows.h"
-#line 1 "T:\\include/wingdi.h"
+#line 5696 "R:\\toolchains\\1.0-nt\\include/winbase.h"
+#line 104 "R:\\toolchains\\1.0-nt\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/wingdi.h"
 
 
 
@@ -18929,9 +18929,9 @@ QueryPerformanceFrequency(
 
 
 
-#line 3116 "T:\\include/wingdi.h"
-#line 105 "T:\\include/windows.h"
-#line 1 "T:\\include/winuser.h"
+#line 3116 "R:\\toolchains\\1.0-nt\\include/wingdi.h"
+#line 105 "R:\\toolchains\\1.0-nt\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -18956,9 +18956,9 @@ QueryPerformanceFrequency(
 
 
 
-#line 26 "T:\\include/winuser.h"
+#line 26 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
-#line 1 "T:\\include/stdarg.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/stdarg.h"
 
 
 
@@ -18982,7 +18982,7 @@ QueryPerformanceFrequency(
 
 typedef char *	va_list;
 
-#line 25 "T:\\include/stdarg.h"
+#line 25 "R:\\toolchains\\1.0-nt\\include/stdarg.h"
 
 
 
@@ -19000,8 +19000,8 @@ typedef char *	va_list;
 
 
 
-#line 43 "T:\\include/stdarg.h"
-#line 28 "T:\\include/winuser.h"
+#line 43 "R:\\toolchains\\1.0-nt\\include/stdarg.h"
+#line 28 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -19012,14 +19012,14 @@ typedef void MENUTEMPLATEW;
 
 
 typedef MENUTEMPLATEA MENUTEMPLATE;
-#line 39 "T:\\include/winuser.h"
+#line 39 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 typedef PVOID LPMENUTEMPLATEA;
 typedef PVOID LPMENUTEMPLATEW;
 
 
 
 typedef LPMENUTEMPLATEA LPMENUTEMPLATE;
-#line 46 "T:\\include/winuser.h"
+#line 46 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 typedef LRESULT (* WNDPROC)(HWND, UINT, WPARAM, LPARAM);
 
@@ -19059,7 +19059,7 @@ typedef FARPROC PROPENUMPROCW;
 typedef FARPROC PROPENUMPROCEXA;
 typedef FARPROC PROPENUMPROCEXW;
 
-#line 86 "T:\\include/winuser.h"
+#line 86 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -19069,7 +19069,7 @@ typedef FARPROC PROPENUMPROCEXW;
 typedef PROPENUMPROCA        PROPENUMPROC;
 typedef PROPENUMPROCEXA      PROPENUMPROCEX;
 typedef EDITWORDBREAKPROCA   EDITWORDBREAKPROC;
-#line 96 "T:\\include/winuser.h"
+#line 96 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -19077,15 +19077,7 @@ typedef EDITWORDBREAKPROCA   EDITWORDBREAKPROC;
 
 
 
-#line 104 "T:\\include/winuser.h"
-
-
-
-
-
-
-
-
+#line 104 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -19102,7 +19094,15 @@ typedef EDITWORDBREAKPROCA   EDITWORDBREAKPROC;
 
 
 
-#line 129 "T:\\include/winuser.h"
+
+
+
+
+
+
+
+
+#line 129 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 int  wvsprintfA(LPSTR, LPCSTR, va_list arglist);
 int  wvsprintfW(LPWSTR, LPCWSTR, va_list arglist);
@@ -19110,14 +19110,14 @@ int  wvsprintfW(LPWSTR, LPCWSTR, va_list arglist);
 
 
 
-#line 137 "T:\\include/winuser.h"
+#line 137 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 int  wsprintfA(LPSTR, LPCSTR, ...);
 int  wsprintfW(LPWSTR, LPCWSTR, ...);
 
 
 
 
-#line 144 "T:\\include/winuser.h"
+#line 144 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -19187,7 +19187,7 @@ int  wsprintfW(LPWSTR, LPCWSTR, ...);
 
 
 
-#line 214 "T:\\include/winuser.h"
+#line 214 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -19309,7 +19309,7 @@ int  wsprintfW(LPWSTR, LPCWSTR, ...);
 
 
 
-#line 336 "T:\\include/winuser.h"
+#line 336 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -19476,7 +19476,7 @@ HKL  LoadKeyboardLayoutW(LPCWSTR pwszKLID, UINT Flags);
 
 
 
-#line 503 "T:\\include/winuser.h"
+#line 503 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 BOOL  ActivateKeyboardLayout(HKL hkl, UINT Flags);
 BOOL  UnloadKeyboardLayout(HKL hkl);
 BOOL  GetKeyboardLayoutNameA(LPSTR pwszKLID);
@@ -19485,7 +19485,7 @@ BOOL  GetKeyboardLayoutNameW(LPWSTR pwszKLID);
 
 
 
-#line 512 "T:\\include/winuser.h"
+#line 512 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -19505,7 +19505,7 @@ HDESK
 GetThreadDesktop(
     DWORD);
 
-#line 532 "T:\\include/winuser.h"
+#line 532 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -19525,7 +19525,7 @@ HWINSTA
 
 GetProcessWindowStation(
     void);
-#line 552 "T:\\include/winuser.h"
+#line 552 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -19545,7 +19545,7 @@ GetUserObjectSecurity(
     DWORD nLength,
     LPDWORD lpnLengthNeeded);
 
-#line 572 "T:\\include/winuser.h"
+#line 572 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 typedef struct tagWNDCLASSA {
     UINT        style;
@@ -19581,7 +19581,7 @@ typedef WNDCLASSA WNDCLASS;
 typedef PWNDCLASSA PWNDCLASS;
 typedef NPWNDCLASSA NPWNDCLASS;
 typedef LPWNDCLASSA LPWNDCLASS;
-#line 608 "T:\\include/winuser.h"
+#line 608 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -19635,7 +19635,7 @@ typedef LPWNDCLASSA LPWNDCLASS;
 
 
 
-#line 662 "T:\\include/winuser.h"
+#line 662 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -19896,7 +19896,7 @@ typedef struct tagCOPYDATASTRUCT {
 
 
 
-#line 923 "T:\\include/winuser.h"
+#line 923 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -19918,7 +19918,7 @@ RegisterWindowMessageW(
 
 
 
-#line 945 "T:\\include/winuser.h"
+#line 945 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -19984,9 +19984,9 @@ typedef struct tagNCCALCSIZE_PARAMS {
 
 
 
-#line 1011 "T:\\include/winuser.h"
+#line 1011 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
-#line 1013 "T:\\include/winuser.h"
+#line 1013 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -20062,7 +20062,7 @@ typedef struct tagNCCALCSIZE_PARAMS {
 
 
 
-#line 1089 "T:\\include/winuser.h"
+#line 1089 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -20102,7 +20102,7 @@ typedef struct tagNCCALCSIZE_PARAMS {
 
 
 
-#line 1129 "T:\\include/winuser.h"
+#line 1129 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -20162,7 +20162,7 @@ typedef struct tagCREATESTRUCTW {
 
 typedef CREATESTRUCTA CREATESTRUCT;
 typedef LPCREATESTRUCTA LPCREATESTRUCT;
-#line 1189 "T:\\include/winuser.h"
+#line 1189 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 typedef struct tagWINDOWPLACEMENT {
     UINT  length;
@@ -20422,7 +20422,7 @@ SendMessageW(
 
 
 
-#line 1449 "T:\\include/winuser.h"
+#line 1449 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 LRESULT
 
@@ -20448,7 +20448,7 @@ SendMessageTimeoutW(
 
 
 
-#line 1475 "T:\\include/winuser.h"
+#line 1475 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -20468,7 +20468,7 @@ SendNotifyMessageW(
 
 
 
-#line 1495 "T:\\include/winuser.h"
+#line 1495 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -20492,7 +20492,7 @@ SendMessageCallbackW(
 
 
 
-#line 1519 "T:\\include/winuser.h"
+#line 1519 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -20512,7 +20512,7 @@ PostMessageW(
 
 
 
-#line 1539 "T:\\include/winuser.h"
+#line 1539 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -20532,7 +20532,7 @@ PostThreadMessageW(
 
 
 
-#line 1559 "T:\\include/winuser.h"
+#line 1559 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -20542,7 +20542,7 @@ PostThreadMessageW(
 
 
 
-#line 1569 "T:\\include/winuser.h"
+#line 1569 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -20591,7 +20591,7 @@ DefWindowProcW(
 
 
 
-#line 1618 "T:\\include/winuser.h"
+#line 1618 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 void
 
@@ -20644,9 +20644,9 @@ CallWindowProcW(
 
 
 
-#line 1671 "T:\\include/winuser.h"
+#line 1671 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
-#line 1673 "T:\\include/winuser.h"
+#line 1673 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -20675,7 +20675,7 @@ RegisterClassW(
 
 
 
-#line 1702 "T:\\include/winuser.h"
+#line 1702 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -20691,7 +20691,7 @@ UnregisterClassW(
 
 
 
-#line 1718 "T:\\include/winuser.h"
+#line 1718 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -20709,7 +20709,7 @@ GetClassInfoW(
 
 
 
-#line 1736 "T:\\include/winuser.h"
+#line 1736 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -20752,7 +20752,7 @@ CreateWindowExW(
 
 
 
-#line 1779 "T:\\include/winuser.h"
+#line 1779 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -20766,7 +20766,7 @@ CreateWindowExW(
 
 
 
-#line 1793 "T:\\include/winuser.h"
+#line 1793 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -20875,7 +20875,7 @@ BOOL
 EndDeferWindowPos(
     HDWP hWinPosInfo);
 
-#line 1902 "T:\\include/winuser.h"
+#line 1902 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -21010,7 +21010,7 @@ CreateDialogParamW(
 
 
 
-#line 2037 "T:\\include/winuser.h"
+#line 2037 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 HWND
 
@@ -21032,7 +21032,7 @@ CreateDialogIndirectParamW(
 
 
 
-#line 2059 "T:\\include/winuser.h"
+#line 2059 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -21042,7 +21042,7 @@ CreateDialogIndirectParamW(
 
 
 
-#line 2069 "T:\\include/winuser.h"
+#line 2069 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -21052,7 +21052,7 @@ CreateDialogIndirectParamW(
 
 
 
-#line 2079 "T:\\include/winuser.h"
+#line 2079 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 int
 
@@ -21074,7 +21074,7 @@ DialogBoxParamW(
 
 
 
-#line 2101 "T:\\include/winuser.h"
+#line 2101 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 int
 
@@ -21096,7 +21096,7 @@ DialogBoxIndirectParamW(
 
 
 
-#line 2123 "T:\\include/winuser.h"
+#line 2123 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -21106,7 +21106,7 @@ DialogBoxIndirectParamW(
 
 
 
-#line 2133 "T:\\include/winuser.h"
+#line 2133 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -21116,7 +21116,7 @@ DialogBoxIndirectParamW(
 
 
 
-#line 2143 "T:\\include/winuser.h"
+#line 2143 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -21162,7 +21162,7 @@ SetDlgItemTextW(
 
 
 
-#line 2189 "T:\\include/winuser.h"
+#line 2189 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 UINT
 
@@ -21182,7 +21182,7 @@ GetDlgItemTextW(
 
 
 
-#line 2209 "T:\\include/winuser.h"
+#line 2209 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -21225,7 +21225,7 @@ SendDlgItemMessageW(
 
 
 
-#line 2252 "T:\\include/winuser.h"
+#line 2252 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 HWND
 
@@ -21268,14 +21268,14 @@ DefDlgProcW(
 
 
 
-#line 2295 "T:\\include/winuser.h"
+#line 2295 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
 
 
 
-#line 2302 "T:\\include/winuser.h"
+#line 2302 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -21356,7 +21356,7 @@ RegisterClipboardFormatW(
 
 
 
-#line 2383 "T:\\include/winuser.h"
+#line 2383 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 int
 
@@ -21384,7 +21384,7 @@ GetClipboardFormatNameW(
 
 
 
-#line 2411 "T:\\include/winuser.h"
+#line 2411 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -21407,7 +21407,7 @@ HWND
 GetOpenClipboardWindow(
     void);
 
-#line 2434 "T:\\include/winuser.h"
+#line 2434 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -21427,7 +21427,7 @@ CharToOemW(
 
 
 
-#line 2454 "T:\\include/winuser.h"
+#line 2454 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -21443,7 +21443,7 @@ OemToCharW(
 
 
 
-#line 2470 "T:\\include/winuser.h"
+#line 2470 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -21461,7 +21461,7 @@ CharToOemBuffW(
 
 
 
-#line 2488 "T:\\include/winuser.h"
+#line 2488 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -21479,7 +21479,7 @@ OemToCharBuffW(
 
 
 
-#line 2506 "T:\\include/winuser.h"
+#line 2506 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 LPSTR
 
@@ -21493,7 +21493,7 @@ CharUpperW(
 
 
 
-#line 2520 "T:\\include/winuser.h"
+#line 2520 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 DWORD
 
@@ -21509,7 +21509,7 @@ CharUpperBuffW(
 
 
 
-#line 2536 "T:\\include/winuser.h"
+#line 2536 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 LPSTR
 
@@ -21523,7 +21523,7 @@ CharLowerW(
 
 
 
-#line 2550 "T:\\include/winuser.h"
+#line 2550 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 DWORD
 
@@ -21539,7 +21539,7 @@ CharLowerBuffW(
 
 
 
-#line 2566 "T:\\include/winuser.h"
+#line 2566 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 LPSTR
 
@@ -21553,7 +21553,7 @@ CharNextW(
 
 
 
-#line 2580 "T:\\include/winuser.h"
+#line 2580 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 LPSTR
 
@@ -21569,7 +21569,7 @@ CharPrevW(
 
 
 
-#line 2596 "T:\\include/winuser.h"
+#line 2596 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -21602,7 +21602,7 @@ IsCharAlphaW(
 
 
 
-#line 2629 "T:\\include/winuser.h"
+#line 2629 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -21616,7 +21616,7 @@ IsCharAlphaNumericW(
 
 
 
-#line 2643 "T:\\include/winuser.h"
+#line 2643 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -21630,7 +21630,7 @@ IsCharUpperW(
 
 
 
-#line 2657 "T:\\include/winuser.h"
+#line 2657 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -21644,9 +21644,9 @@ IsCharLowerW(
 
 
 
-#line 2671 "T:\\include/winuser.h"
+#line 2671 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
-#line 2673 "T:\\include/winuser.h"
+#line 2673 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 HWND
 
@@ -21706,7 +21706,7 @@ GetKeyNameTextW(
 
 
 
-#line 2733 "T:\\include/winuser.h"
+#line 2733 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 int
 
@@ -21749,7 +21749,7 @@ VkKeyScanW(
 
 
 
-#line 2776 "T:\\include/winuser.h"
+#line 2776 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -21792,7 +21792,7 @@ MapVirtualKeyW(
 
 
 
-#line 2819 "T:\\include/winuser.h"
+#line 2819 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -21909,7 +21909,7 @@ LoadAcceleratorsW(
 
 
 
-#line 2936 "T:\\include/winuser.h"
+#line 2936 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 HACCEL
 
@@ -21923,7 +21923,7 @@ CreateAcceleratorTableW(
 
 
 
-#line 2950 "T:\\include/winuser.h"
+#line 2950 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -21946,7 +21946,7 @@ CopyAcceleratorTableW(
 
 
 
-#line 2973 "T:\\include/winuser.h"
+#line 2973 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -22044,7 +22044,7 @@ LoadMenuW(
 
 
 
-#line 3071 "T:\\include/winuser.h"
+#line 3071 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 HMENU
 
@@ -22058,7 +22058,7 @@ LoadMenuIndirectW(
 
 
 
-#line 3085 "T:\\include/winuser.h"
+#line 3085 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 HMENU
 
@@ -22091,7 +22091,7 @@ ChangeMenuW(
 
 
 
-#line 3118 "T:\\include/winuser.h"
+#line 3118 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -22121,7 +22121,7 @@ GetMenuStringW(
 
 
 
-#line 3148 "T:\\include/winuser.h"
+#line 3148 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 UINT
 
@@ -22209,7 +22209,7 @@ InsertMenuW(
 
 
 
-#line 3236 "T:\\include/winuser.h"
+#line 3236 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -22231,7 +22231,7 @@ AppendMenuW(
 
 
 
-#line 3258 "T:\\include/winuser.h"
+#line 3258 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -22255,7 +22255,7 @@ ModifyMenuW(
 
 
 
-#line 3282 "T:\\include/winuser.h"
+#line 3282 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
  RemoveMenu(
@@ -22304,7 +22304,7 @@ TrackPopupMenu(
 
 
 
-#line 3331 "T:\\include/winuser.h"
+#line 3331 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -22335,7 +22335,7 @@ DrawIcon(
 
 
 
-#line 3362 "T:\\include/winuser.h"
+#line 3362 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 int
  DrawTextA(
@@ -22355,7 +22355,7 @@ int
 
 
 
-#line 3382 "T:\\include/winuser.h"
+#line 3382 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -22385,7 +22385,7 @@ GrayStringW(
 
 
 
-#line 3412 "T:\\include/winuser.h"
+#line 3412 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 LONG
 
@@ -22413,7 +22413,7 @@ TabbedTextOutW(
 
 
 
-#line 3440 "T:\\include/winuser.h"
+#line 3440 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 DWORD
 
@@ -22435,7 +22435,7 @@ GetTabbedTextExtentW(
 
 
 
-#line 3462 "T:\\include/winuser.h"
+#line 3462 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -22719,7 +22719,7 @@ SetPropW(
 
 
 
-#line 3746 "T:\\include/winuser.h"
+#line 3746 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 HANDLE
 
@@ -22735,7 +22735,7 @@ GetPropW(
 
 
 
-#line 3762 "T:\\include/winuser.h"
+#line 3762 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 HANDLE
 
@@ -22751,7 +22751,7 @@ RemovePropW(
 
 
 
-#line 3778 "T:\\include/winuser.h"
+#line 3778 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 int
 
@@ -22769,7 +22769,7 @@ EnumPropsExW(
 
 
 
-#line 3796 "T:\\include/winuser.h"
+#line 3796 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 int
 
@@ -22785,7 +22785,7 @@ EnumPropsW(
 
 
 
-#line 3812 "T:\\include/winuser.h"
+#line 3812 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -22801,7 +22801,7 @@ SetWindowTextW(
 
 
 
-#line 3828 "T:\\include/winuser.h"
+#line 3828 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 int
 
@@ -22819,7 +22819,7 @@ GetWindowTextW(
 
 
 
-#line 3846 "T:\\include/winuser.h"
+#line 3846 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 int
 
@@ -22833,7 +22833,7 @@ GetWindowTextLengthW(
 
 
 
-#line 3860 "T:\\include/winuser.h"
+#line 3860 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -22918,7 +22918,7 @@ MessageBoxW(
 
 
 
-#line 3945 "T:\\include/winuser.h"
+#line 3945 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 int
 
@@ -22940,14 +22940,14 @@ MessageBoxExW(
 
 
 
-#line 3967 "T:\\include/winuser.h"
+#line 3967 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
 MessageBeep(
     UINT uType);
 
-#line 3974 "T:\\include/winuser.h"
+#line 3974 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 int
 
@@ -23108,7 +23108,7 @@ SetSysColors(
     const INT * lpaElements,
     const COLORREF * lpaRgbValues);
 
-#line 4135 "T:\\include/winuser.h"
+#line 4135 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -23237,7 +23237,7 @@ GetWindowLongW(
 
 
 
-#line 4264 "T:\\include/winuser.h"
+#line 4264 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 LONG
 
@@ -23255,7 +23255,7 @@ SetWindowLongW(
 
 
 
-#line 4282 "T:\\include/winuser.h"
+#line 4282 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 WORD
 
@@ -23284,7 +23284,7 @@ GetClassLongW(
 
 
 
-#line 4311 "T:\\include/winuser.h"
+#line 4311 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 DWORD
 
@@ -23302,9 +23302,9 @@ SetClassLongW(
 
 
 
-#line 4329 "T:\\include/winuser.h"
+#line 4329 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
-#line 4331 "T:\\include/winuser.h"
+#line 4331 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 HWND
 
@@ -23343,7 +23343,7 @@ FindWindowW(
 
 
 
-#line 4370 "T:\\include/winuser.h"
+#line 4370 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -23376,7 +23376,7 @@ GetClassNameW(
 
 
 
-#line 4403 "T:\\include/winuser.h"
+#line 4403 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 HWND
 
@@ -23565,7 +23565,7 @@ typedef struct {
 
 
 
-#line 4592 "T:\\include/winuser.h"
+#line 4592 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -23595,7 +23595,7 @@ typedef struct {
 
 
 
-#line 4622 "T:\\include/winuser.h"
+#line 4622 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -23615,7 +23615,7 @@ LoadBitmapW(
 
 
 
-#line 4642 "T:\\include/winuser.h"
+#line 4642 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 HCURSOR
 
@@ -23631,7 +23631,7 @@ LoadCursorW(
 
 
 
-#line 4658 "T:\\include/winuser.h"
+#line 4658 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 HCURSOR
 
@@ -23692,7 +23692,7 @@ LoadIconW(
 
 
 
-#line 4719 "T:\\include/winuser.h"
+#line 4719 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 HICON
 
@@ -23819,7 +23819,7 @@ GetIconInfo(
 
 
 
-#line 4846 "T:\\include/winuser.h"
+#line 4846 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 int
 
@@ -23839,7 +23839,7 @@ LoadStringW(
 
 
 
-#line 4866 "T:\\include/winuser.h"
+#line 4866 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -23878,7 +23878,7 @@ LoadStringW(
 
 
 
-#line 4905 "T:\\include/winuser.h"
+#line 4905 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -23929,7 +23929,7 @@ LoadStringW(
 
 
 
-#line 4956 "T:\\include/winuser.h"
+#line 4956 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -23999,7 +23999,7 @@ LoadStringW(
 
 
 
-#line 5026 "T:\\include/winuser.h"
+#line 5026 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -24063,7 +24063,7 @@ DlgDirListW(
 
 
 
-#line 5090 "T:\\include/winuser.h"
+#line 5090 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -24098,7 +24098,7 @@ DlgDirSelectExW(
 
 
 
-#line 5125 "T:\\include/winuser.h"
+#line 5125 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 int
 
@@ -24120,7 +24120,7 @@ DlgDirListComboBoxW(
 
 
 
-#line 5147 "T:\\include/winuser.h"
+#line 5147 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 BOOL
 
@@ -24140,7 +24140,7 @@ DlgDirSelectComboBoxExW(
 
 
 
-#line 5167 "T:\\include/winuser.h"
+#line 5167 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -24250,7 +24250,7 @@ DlgDirSelectComboBoxExW(
 
 
 
-#line 5277 "T:\\include/winuser.h"
+#line 5277 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -24273,7 +24273,7 @@ DlgDirSelectComboBoxExW(
 
 
 
-#line 5300 "T:\\include/winuser.h"
+#line 5300 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -24314,7 +24314,7 @@ DlgDirSelectComboBoxExW(
 
 
 
-#line 5341 "T:\\include/winuser.h"
+#line 5341 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -24349,7 +24349,7 @@ DlgDirSelectComboBoxExW(
 
 
 
-#line 5376 "T:\\include/winuser.h"
+#line 5376 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -24367,7 +24367,7 @@ DlgDirSelectComboBoxExW(
 
 
 
-#line 5394 "T:\\include/winuser.h"
+#line 5394 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -24379,8 +24379,8 @@ DlgDirSelectComboBoxExW(
 
 
 
-#line 5406 "T:\\include/winuser.h"
-#line 5407 "T:\\include/winuser.h"
+#line 5406 "R:\\toolchains\\1.0-nt\\include/winuser.h"
+#line 5407 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -24424,7 +24424,7 @@ typedef struct tagMDICREATESTRUCTW {
 
 typedef MDICREATESTRUCTA MDICREATESTRUCT;
 typedef LPMDICREATESTRUCTA LPMDICREATESTRUCT;
-#line 5451 "T:\\include/winuser.h"
+#line 5451 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 typedef struct tagCLIENTCREATESTRUCT {
     HANDLE hWindowMenu;
@@ -24451,7 +24451,7 @@ DefFrameProcW(
 
 
 
-#line 5478 "T:\\include/winuser.h"
+#line 5478 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 LRESULT
 
@@ -24471,7 +24471,7 @@ DefMDIChildProcW(
 
 
 
-#line 5498 "T:\\include/winuser.h"
+#line 5498 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -24520,10 +24520,10 @@ CreateMDIWindowW(
 
 
 
-#line 5547 "T:\\include/winuser.h"
+#line 5547 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
-#line 5549 "T:\\include/winuser.h"
-#line 5550 "T:\\include/winuser.h"
+#line 5549 "R:\\toolchains\\1.0-nt\\include/winuser.h"
+#line 5550 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -24548,7 +24548,7 @@ typedef struct tagMULTIKEYHELPW {
 typedef MULTIKEYHELPA MULTIKEYHELP;
 typedef PMULTIKEYHELPA PMULTIKEYHELP;
 typedef LPMULTIKEYHELPA LPMULTIKEYHELP;
-#line 5575 "T:\\include/winuser.h"
+#line 5575 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 typedef struct tagHELPWININFOA {
     int  wStructSize;
@@ -24576,7 +24576,7 @@ typedef struct tagHELPWININFOW {
 typedef HELPWININFOA HELPWININFO;
 typedef PHELPWININFOA PHELPWININFO;
 typedef LPHELPWININFOA LPHELPWININFO;
-#line 5603 "T:\\include/winuser.h"
+#line 5603 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -24617,9 +24617,9 @@ WinHelpW(
 
 
 
-#line 5644 "T:\\include/winuser.h"
+#line 5644 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
-#line 5646 "T:\\include/winuser.h"
+#line 5646 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
@@ -24685,18 +24685,18 @@ SystemParametersInfoW(
 
 
 
-#line 5712 "T:\\include/winuser.h"
+#line 5712 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
-#line 5714 "T:\\include/winuser.h"
-
-
+#line 5714 "R:\\toolchains\\1.0-nt\\include/winuser.h"
 
 
 
 
-#line 5721 "T:\\include/winuser.h"
-#line 106 "T:\\include/windows.h"
-#line 1 "T:\\include/winnls.h"
+
+
+#line 5721 "R:\\toolchains\\1.0-nt\\include/winuser.h"
+#line 106 "R:\\toolchains\\1.0-nt\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/winnls.h"
 
 
 
@@ -25215,15 +25215,15 @@ FoldStringW(
 
 
 
-#line 520 "T:\\include/winnls.h"
+#line 520 "R:\\toolchains\\1.0-nt\\include/winnls.h"
 
 
 
 
 
-#line 526 "T:\\include/winnls.h"
-#line 107 "T:\\include/windows.h"
-#line 1 "T:\\include/wincon.h"
+#line 526 "R:\\toolchains\\1.0-nt\\include/winnls.h"
+#line 107 "R:\\toolchains\\1.0-nt\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/wincon.h"
 
 
 
@@ -25441,7 +25441,7 @@ PeekConsoleInputW(
 
 
 
-#line 219 "T:\\include/wincon.h"
+#line 219 "R:\\toolchains\\1.0-nt\\include/wincon.h"
 
 BOOL
 
@@ -25463,7 +25463,7 @@ ReadConsoleInputW(
 
 
 
-#line 241 "T:\\include/wincon.h"
+#line 241 "R:\\toolchains\\1.0-nt\\include/wincon.h"
 
 BOOL
 
@@ -25485,7 +25485,7 @@ WriteConsoleInputW(
 
 
 
-#line 263 "T:\\include/wincon.h"
+#line 263 "R:\\toolchains\\1.0-nt\\include/wincon.h"
 
 BOOL
 
@@ -25509,7 +25509,7 @@ ReadConsoleOutputW(
 
 
 
-#line 287 "T:\\include/wincon.h"
+#line 287 "R:\\toolchains\\1.0-nt\\include/wincon.h"
 
 BOOL
 
@@ -25533,7 +25533,7 @@ WriteConsoleOutputW(
 
 
 
-#line 311 "T:\\include/wincon.h"
+#line 311 "R:\\toolchains\\1.0-nt\\include/wincon.h"
 
 BOOL
 
@@ -25557,7 +25557,7 @@ ReadConsoleOutputCharacterW(
 
 
 
-#line 335 "T:\\include/wincon.h"
+#line 335 "R:\\toolchains\\1.0-nt\\include/wincon.h"
 
 BOOL
 
@@ -25591,7 +25591,7 @@ WriteConsoleOutputCharacterW(
 
 
 
-#line 369 "T:\\include/wincon.h"
+#line 369 "R:\\toolchains\\1.0-nt\\include/wincon.h"
 
 BOOL
 
@@ -25625,7 +25625,7 @@ FillConsoleOutputCharacterW(
 
 
 
-#line 403 "T:\\include/wincon.h"
+#line 403 "R:\\toolchains\\1.0-nt\\include/wincon.h"
 
 BOOL
 
@@ -25739,7 +25739,7 @@ ScrollConsoleScreenBufferW(
 
 
 
-#line 517 "T:\\include/wincon.h"
+#line 517 "R:\\toolchains\\1.0-nt\\include/wincon.h"
 
 BOOL
 
@@ -25795,7 +25795,7 @@ GetConsoleTitleW(
 
 
 
-#line 573 "T:\\include/wincon.h"
+#line 573 "R:\\toolchains\\1.0-nt\\include/wincon.h"
 
 BOOL
 
@@ -25811,7 +25811,7 @@ SetConsoleTitleW(
 
 
 
-#line 589 "T:\\include/wincon.h"
+#line 589 "R:\\toolchains\\1.0-nt\\include/wincon.h"
 
 BOOL
 
@@ -25835,7 +25835,7 @@ ReadConsoleW(
 
 
 
-#line 613 "T:\\include/wincon.h"
+#line 613 "R:\\toolchains\\1.0-nt\\include/wincon.h"
 
 BOOL
 
@@ -25859,7 +25859,7 @@ WriteConsoleW(
 
 
 
-#line 637 "T:\\include/wincon.h"
+#line 637 "R:\\toolchains\\1.0-nt\\include/wincon.h"
 
 
 
@@ -25897,9 +25897,9 @@ SetConsoleOutputCP(
 
 
 
-#line 675 "T:\\include/wincon.h"
-#line 108 "T:\\include/windows.h"
-#line 1 "T:\\include/winver.h"
+#line 675 "R:\\toolchains\\1.0-nt\\include/wincon.h"
+#line 108 "R:\\toolchains\\1.0-nt\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/winver.h"
 
 
 
@@ -26193,9 +26193,9 @@ SetConsoleOutputCP(
 
 
 
-#line 295 "T:\\include/winver.h"
-#line 109 "T:\\include/windows.h"
-#line 1 "T:\\include/winreg.h"
+#line 295 "R:\\toolchains\\1.0-nt\\include/winver.h"
+#line 109 "R:\\toolchains\\1.0-nt\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 
 
@@ -26281,7 +26281,7 @@ RegConnectRegistryW (
 
 
 
-#line 87 "T:\\include/winreg.h"
+#line 87 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 LONG
 
@@ -26301,7 +26301,7 @@ RegCreateKeyW (
 
 
 
-#line 107 "T:\\include/winreg.h"
+#line 107 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 LONG
 
@@ -26333,7 +26333,7 @@ RegCreateKeyExW (
 
 
 
-#line 139 "T:\\include/winreg.h"
+#line 139 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 LONG
 
@@ -26351,7 +26351,7 @@ RegDeleteKeyW (
 
 
 
-#line 157 "T:\\include/winreg.h"
+#line 157 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 LONG
 
@@ -26369,7 +26369,7 @@ RegDeleteValueW (
 
 
 
-#line 175 "T:\\include/winreg.h"
+#line 175 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 LONG
 
@@ -26391,7 +26391,7 @@ RegEnumKeyW (
 
 
 
-#line 197 "T:\\include/winreg.h"
+#line 197 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 LONG
 
@@ -26421,7 +26421,7 @@ RegEnumKeyExW (
 
 
 
-#line 227 "T:\\include/winreg.h"
+#line 227 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 LONG
 
@@ -26451,7 +26451,7 @@ RegEnumValueW (
 
 
 
-#line 257 "T:\\include/winreg.h"
+#line 257 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 LONG
 
@@ -26486,7 +26486,7 @@ RegLoadKeyW (
 
 
 
-#line 292 "T:\\include/winreg.h"
+#line 292 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 LONG
 
@@ -26516,7 +26516,7 @@ RegOpenKeyW (
 
 
 
-#line 322 "T:\\include/winreg.h"
+#line 322 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 LONG
 
@@ -26540,7 +26540,7 @@ RegOpenKeyExW (
 
 
 
-#line 346 "T:\\include/winreg.h"
+#line 346 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 LONG
 
@@ -26578,7 +26578,7 @@ RegQueryInfoKeyW (
 
 
 
-#line 384 "T:\\include/winreg.h"
+#line 384 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 LONG
 
@@ -26600,7 +26600,7 @@ RegQueryValueW (
 
 
 
-#line 406 "T:\\include/winreg.h"
+#line 406 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 LONG
 
@@ -26626,7 +26626,7 @@ RegQueryValueExW (
 
 
 
-#line 432 "T:\\include/winreg.h"
+#line 432 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 LONG
 
@@ -26648,7 +26648,7 @@ RegReplaceKeyW (
 
 
 
-#line 454 "T:\\include/winreg.h"
+#line 454 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 LONG
 
@@ -26668,7 +26668,7 @@ RegRestoreKeyW (
 
 
 
-#line 474 "T:\\include/winreg.h"
+#line 474 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 LONG
 
@@ -26688,7 +26688,7 @@ RegSaveKeyW (
 
 
 
-#line 494 "T:\\include/winreg.h"
+#line 494 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 LONG
 
@@ -26720,7 +26720,7 @@ RegSetValueW (
 
 
 
-#line 526 "T:\\include/winreg.h"
+#line 526 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 
 LONG
@@ -26747,7 +26747,7 @@ RegSetValueExW (
 
 
 
-#line 553 "T:\\include/winreg.h"
+#line 553 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 LONG
 
@@ -26765,7 +26765,7 @@ RegUnLoadKeyW (
 
 
 
-#line 571 "T:\\include/winreg.h"
+#line 571 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 
 
@@ -26793,7 +26793,7 @@ InitiateSystemShutdownW(
 
 
 
-#line 599 "T:\\include/winreg.h"
+#line 599 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 
 BOOL
@@ -26810,15 +26810,15 @@ AbortSystemShutdownW(
 
 
 
-#line 616 "T:\\include/winreg.h"
+#line 616 "R:\\toolchains\\1.0-nt\\include/winreg.h"
 
 
 
 
 
-#line 622 "T:\\include/winreg.h"
-#line 110 "T:\\include/windows.h"
-#line 1 "T:\\include/winnetwk.h"
+#line 622 "R:\\toolchains\\1.0-nt\\include/winreg.h"
+#line 110 "R:\\toolchains\\1.0-nt\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/winnetwk.h"
 
 
 
@@ -26920,7 +26920,7 @@ typedef struct  _NETRESOURCEW {
 
 typedef NETRESOURCEA NETRESOURCE;
 typedef LPNETRESOURCEA LPNETRESOURCE;
-#line 103 "T:\\include/winnetwk.h"
+#line 103 "R:\\toolchains\\1.0-nt\\include/winnetwk.h"
 
 
 
@@ -26945,7 +26945,7 @@ WNetAddConnectionW (
 
 
 
-#line 128 "T:\\include/winnetwk.h"
+#line 128 "R:\\toolchains\\1.0-nt\\include/winnetwk.h"
 
 
 DWORD 
@@ -26966,7 +26966,7 @@ WNetAddConnection2W (
 
 
 
-#line 149 "T:\\include/winnetwk.h"
+#line 149 "R:\\toolchains\\1.0-nt\\include/winnetwk.h"
 
 DWORD 
 WNetCancelConnectionA (
@@ -26982,7 +26982,7 @@ WNetCancelConnectionW (
 
 
 
-#line 165 "T:\\include/winnetwk.h"
+#line 165 "R:\\toolchains\\1.0-nt\\include/winnetwk.h"
 
 DWORD 
 WNetCancelConnection2A (
@@ -27000,7 +27000,7 @@ WNetCancelConnection2W (
 
 
 
-#line 183 "T:\\include/winnetwk.h"
+#line 183 "R:\\toolchains\\1.0-nt\\include/winnetwk.h"
 
 
 DWORD 
@@ -27019,7 +27019,7 @@ WNetGetConnectionW (
 
 
 
-#line 202 "T:\\include/winnetwk.h"
+#line 202 "R:\\toolchains\\1.0-nt\\include/winnetwk.h"
 
 
 DWORD 
@@ -27042,7 +27042,7 @@ WNetOpenEnumW (
 
 
 
-#line 225 "T:\\include/winnetwk.h"
+#line 225 "R:\\toolchains\\1.0-nt\\include/winnetwk.h"
 
 DWORD 
 WNetEnumResourceA (
@@ -27062,7 +27062,7 @@ WNetEnumResourceW (
 
 
 
-#line 245 "T:\\include/winnetwk.h"
+#line 245 "R:\\toolchains\\1.0-nt\\include/winnetwk.h"
 
 DWORD 
 WNetCloseEnum (
@@ -27089,7 +27089,7 @@ WNetGetUserW (
 
 
 
-#line 272 "T:\\include/winnetwk.h"
+#line 272 "R:\\toolchains\\1.0-nt\\include/winnetwk.h"
 
 
 
@@ -27129,7 +27129,7 @@ WNetGetLastErrorW (
 
 
 
-#line 312 "T:\\include/winnetwk.h"
+#line 312 "R:\\toolchains\\1.0-nt\\include/winnetwk.h"
 
 
 
@@ -27183,11 +27183,11 @@ WNetGetLastErrorW (
 
 
 
-#line 366 "T:\\include/winnetwk.h"
-#line 111 "T:\\include/windows.h"
+#line 366 "R:\\toolchains\\1.0-nt\\include/winnetwk.h"
+#line 111 "R:\\toolchains\\1.0-nt\\include/windows.h"
 
 
-#line 1 "T:\\include/cderr.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/cderr.h"
 
 
 
@@ -27235,9 +27235,9 @@ WNetGetLastErrorW (
 
 
 
-#line 49 "T:\\include/cderr.h"
-#line 114 "T:\\include/windows.h"
-#line 1 "T:\\include/dde.h"
+#line 49 "R:\\toolchains\\1.0-nt\\include/cderr.h"
+#line 114 "R:\\toolchains\\1.0-nt\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/dde.h"
 
 
 
@@ -27393,9 +27393,9 @@ LONG  ReuseDDElParam(LONG lParam, UINT msgIn, UINT msgOut, UINT uiLo, UINT uiHi)
 
 
 
-#line 157 "T:\\include/dde.h"
-#line 115 "T:\\include/windows.h"
-#line 1 "T:\\include/ddeml.h"
+#line 157 "R:\\toolchains\\1.0-nt\\include/dde.h"
+#line 115 "R:\\toolchains\\1.0-nt\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/ddeml.h"
 
 
 
@@ -27587,7 +27587,7 @@ typedef CONVINFO  *PCONVINFO;
 
 
 
-#line 193 "T:\\include/ddeml.h"
+#line 193 "R:\\toolchains\\1.0-nt\\include/ddeml.h"
 
 
 
@@ -27609,7 +27609,7 @@ UINT  DdeInitializeW(LPDWORD pidInst, PFNCALLBACK pfnCallback,
 
 
 
-#line 215 "T:\\include/ddeml.h"
+#line 215 "R:\\toolchains\\1.0-nt\\include/ddeml.h"
 
 
 
@@ -27745,14 +27745,14 @@ HSZ   DdeCreateStringHandleW(DWORD idInst, LPWSTR psz, int iCodePage);
 
 
 
-#line 351 "T:\\include/ddeml.h"
+#line 351 "R:\\toolchains\\1.0-nt\\include/ddeml.h"
 DWORD  DdeQueryStringA(DWORD idInst, HSZ hsz, LPSTR psz, DWORD cchMax, int iCodePage);
 DWORD  DdeQueryStringW(DWORD idInst, HSZ hsz, LPWSTR psz, DWORD cchMax, int iCodePage);
 
 
 
 
-#line 358 "T:\\include/ddeml.h"
+#line 358 "R:\\toolchains\\1.0-nt\\include/ddeml.h"
 BOOL  DdeFreeStringHandle(DWORD idInst, HSZ hsz);
 BOOL  DdeKeepStringHandle(DWORD idInst, HSZ hsz);
 int  DdeCmpStringHandles(HSZ hsz1, HSZ hsz2);
@@ -27822,7 +27822,7 @@ typedef struct tagMONHSZSTRUCTW {
 
 typedef MONHSZSTRUCTA MONHSZSTRUCT;
 typedef PMONHSZSTRUCTA PMONHSZSTRUCT;
-#line 428 "T:\\include/ddeml.h"
+#line 428 "R:\\toolchains\\1.0-nt\\include/ddeml.h"
 
 
 
@@ -27879,17 +27879,17 @@ typedef struct tagMONCONVSTRUCT {
 
 
 
-#line 485 "T:\\include/ddeml.h"
+#line 485 "R:\\toolchains\\1.0-nt\\include/ddeml.h"
 
 
 
 
 
-#line 491 "T:\\include/ddeml.h"
+#line 491 "R:\\toolchains\\1.0-nt\\include/ddeml.h"
 
 
-#line 116 "T:\\include/windows.h"
-#line 1 "T:\\include/dlgs.h"
+#line 116 "R:\\toolchains\\1.0-nt\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/dlgs.h"
 
 
 
@@ -28090,9 +28090,9 @@ typedef struct tagCRGB
 CRGB;           
 
 
-#line 202 "T:\\include/dlgs.h"
-#line 117 "T:\\include/windows.h"
-#line 1 "T:\\include/lzexpand.h"
+#line 202 "R:\\toolchains\\1.0-nt\\include/dlgs.h"
+#line 117 "R:\\toolchains\\1.0-nt\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/lzexpand.h"
 
 
 
@@ -28170,7 +28170,7 @@ GetExpandedNameW(
 
 
 
-#line 79 "T:\\include/lzexpand.h"
+#line 79 "R:\\toolchains\\1.0-nt\\include/lzexpand.h"
 
 INT
 
@@ -28190,7 +28190,7 @@ LZOpenFileW(
 
 
 
-#line 99 "T:\\include/lzexpand.h"
+#line 99 "R:\\toolchains\\1.0-nt\\include/lzexpand.h"
 
 LONG
 
@@ -28219,9 +28219,9 @@ LZClose(
 
 
 
-#line 128 "T:\\include/lzexpand.h"
-#line 118 "T:\\include/windows.h"
-#line 1 "T:\\include/mmsystem.h"
+#line 128 "R:\\toolchains\\1.0-nt\\include/lzexpand.h"
+#line 118 "R:\\toolchains\\1.0-nt\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -28458,8 +28458,8 @@ HMODULE  GetDriverModuleHandle( HDRVR hDriver );
 
 
 
-#line 238 "T:\\include/mmsystem.h"
-#line 239 "T:\\include/mmsystem.h"
+#line 238 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
+#line 239 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -28485,7 +28485,7 @@ typedef void DRVCALLBACK
 typedef DRVCALLBACK     *PDRVCALLBACK;
 typedef DRVCALLBACK     *LPDRVCALLBACK;
 
-#line 265 "T:\\include/mmsystem.h"
+#line 265 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -28543,7 +28543,7 @@ BOOL  sndPlaySoundW( LPCWSTR lpszSoundName, UINT uFlags );
 
 
 
-#line 323 "T:\\include/mmsystem.h"
+#line 323 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -28606,7 +28606,7 @@ BOOL  PlaySoundW( LPCWSTR lpszName, HANDLE hModule, DWORD dwFlags );
 
 
 
-#line 386 "T:\\include/mmsystem.h"
+#line 386 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -28694,7 +28694,7 @@ typedef struct tagWAVEOUTCAPSW {
 
 
 typedef WAVEOUTCAPSA WAVEOUTCAPS;
-#line 474 "T:\\include/mmsystem.h"
+#line 474 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 typedef WAVEOUTCAPSA     *PWAVEOUTCAPSA;
 typedef WAVEOUTCAPSW     *PWAVEOUTCAPSW;
@@ -28702,21 +28702,21 @@ typedef WAVEOUTCAPSW     *PWAVEOUTCAPSW;
 
 
 typedef PWAVEOUTCAPSA PWAVEOUTCAPS;
-#line 482 "T:\\include/mmsystem.h"
+#line 482 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef WAVEOUTCAPSA     *NPWAVEOUTCAPSA;
 typedef WAVEOUTCAPSW     *NPWAVEOUTCAPSW;
 
 
 
 typedef NPWAVEOUTCAPSA NPWAVEOUTCAPS;
-#line 489 "T:\\include/mmsystem.h"
+#line 489 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef WAVEOUTCAPSA     *LPWAVEOUTCAPSA;
 typedef WAVEOUTCAPSW     *LPWAVEOUTCAPSW;
 
 
 
 typedef LPWAVEOUTCAPSA LPWAVEOUTCAPS;
-#line 496 "T:\\include/mmsystem.h"
+#line 496 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -28747,21 +28747,21 @@ typedef struct tagWAVEINCAPSW {
 
 
 typedef WAVEINCAPSA WAVEINCAPS;
-#line 527 "T:\\include/mmsystem.h"
+#line 527 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef WAVEINCAPSA  *PWAVEINCAPSA;
 typedef WAVEINCAPSW  *PWAVEINCAPSW;
 
 
 
 typedef PWAVEINCAPSA PWAVEINCAPS;
-#line 534 "T:\\include/mmsystem.h"
+#line 534 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef WAVEINCAPSA  *LPWAVEINCAPSA;
 typedef WAVEINCAPSW  *LPWAVEINCAPSW;
 
 
 
 typedef LPWAVEINCAPSA LPWAVEINCAPS;
-#line 541 "T:\\include/mmsystem.h"
+#line 541 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -28893,7 +28893,7 @@ typedef LPWAVEINCAPSA LPWAVEINCAPS;
 
 
 
-#line 673 "T:\\include/mmsystem.h"
+#line 673 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -28975,28 +28975,28 @@ typedef struct tagMIDIOUTCAPSW {
 
 
 typedef MIDIOUTCAPSA MIDIOUTCAPS;
-#line 755 "T:\\include/mmsystem.h"
+#line 755 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MIDIOUTCAPSA    *PMIDIOUTCAPSA;
 typedef MIDIOUTCAPSW    *PMIDIOUTCAPSW;
 
 
 
 typedef PMIDIOUTCAPSA PMIDIOUTCAPS;
-#line 762 "T:\\include/mmsystem.h"
+#line 762 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MIDIOUTCAPSA    *NPMIDIOUTCAPSA;
 typedef MIDIOUTCAPSW    *NPMIDIOUTCAPSW;
 
 
 
 typedef NPMIDIOUTCAPSA NPMIDIOUTCAPS;
-#line 769 "T:\\include/mmsystem.h"
+#line 769 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MIDIOUTCAPSA    *LPMIDIOUTCAPSA;
 typedef MIDIOUTCAPSW    *LPMIDIOUTCAPSW;
 
 
 
 typedef LPMIDIOUTCAPSA LPMIDIOUTCAPS;
-#line 776 "T:\\include/mmsystem.h"
+#line 776 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -29028,28 +29028,28 @@ typedef struct tagMIDIINCAPSW {
 
 
 typedef MIDIINCAPSA MIDIINCAPS;
-#line 808 "T:\\include/mmsystem.h"
+#line 808 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MIDIINCAPSA     *PMIDIINCAPSA;
 typedef MIDIINCAPSW     *PMIDIINCAPSW;
 
 
 
 typedef PMIDIINCAPSA PMIDIINCAPS;
-#line 815 "T:\\include/mmsystem.h"
+#line 815 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MIDIINCAPSA     *NPMIDIINCAPSA;
 typedef MIDIINCAPSW     *NPMIDIINCAPSW;
 
 
 
 typedef NPMIDIINCAPSA NPMIDIINCAPS;
-#line 822 "T:\\include/mmsystem.h"
+#line 822 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MIDIINCAPSA     *LPMIDIINCAPSA;
 typedef MIDIINCAPSW     *LPMIDIINCAPSW;
 
 
 
 typedef LPMIDIINCAPSA LPMIDIINCAPS;
-#line 829 "T:\\include/mmsystem.h"
+#line 829 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 typedef struct midihdr_tag {
@@ -29082,7 +29082,7 @@ MMRESULT  midiOutGetDevCapsW(UINT uDeviceID,
 
 
 
-#line 862 "T:\\include/mmsystem.h"
+#line 862 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 MMRESULT  midiOutGetVolume(UINT uDeviceID, LPDWORD lpdwVolume);
 MMRESULT  midiOutSetVolume(UINT uDeviceID, DWORD dwVolume);
@@ -29093,7 +29093,7 @@ MMRESULT  midiOutGetErrorTextW(MMRESULT err, LPWSTR lpText, UINT uSize);
 
 
 
-#line 873 "T:\\include/mmsystem.h"
+#line 873 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 MMRESULT  midiOutOpen(LPHMIDIOUT lphMidiOut, UINT uDeviceID,
     DWORD dwCallback, DWORD dwInstance, DWORD dwFlags);
@@ -29124,7 +29124,7 @@ MMRESULT  midiInGetDevCapsW(UINT uDeviceID,
 
 
 
-#line 904 "T:\\include/mmsystem.h"
+#line 904 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 MMRESULT  midiInGetErrorTextA(MMRESULT err, LPSTR lpText, UINT uSize);
 MMRESULT  midiInGetErrorTextW(MMRESULT err, LPWSTR lpText, UINT uSize);
@@ -29132,7 +29132,7 @@ MMRESULT  midiInGetErrorTextW(MMRESULT err, LPWSTR lpText, UINT uSize);
 
 
 
-#line 912 "T:\\include/mmsystem.h"
+#line 912 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 MMRESULT  midiInOpen(LPHMIDIIN lphMidiIn, UINT uDeviceID,
     DWORD dwCallback, DWORD dwInstance, DWORD dwFlags);
@@ -29150,7 +29150,7 @@ MMRESULT  midiInGetID(HMIDIIN hMidiIn, PUINT lpuDeviceID);
 MMRESULT 
                  midiInMessage(HMIDIIN hMidiIn, UINT msg, DWORD dw1, DWORD dw2);
 
-#line 930 "T:\\include/mmsystem.h"
+#line 930 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -29185,28 +29185,28 @@ typedef struct tagAUXCAPSW {
 
 
 typedef AUXCAPSA AUXCAPS;
-#line 965 "T:\\include/mmsystem.h"
+#line 965 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef AUXCAPSA      *PAUXCAPSA;
 typedef AUXCAPSW      *PAUXCAPSW;
 
 
 
 typedef PAUXCAPSA PAUXCAPS;
-#line 972 "T:\\include/mmsystem.h"
+#line 972 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef AUXCAPSA     *NPAUXCAPSA;
 typedef AUXCAPSW     *NPAUXCAPSW;
 
 
 
 typedef NPAUXCAPSA NPAUXCAPS;
-#line 979 "T:\\include/mmsystem.h"
+#line 979 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef AUXCAPSA     *LPAUXCAPSA;
 typedef AUXCAPSW     *LPAUXCAPSW;
 
 
 
 typedef LPAUXCAPSA LPAUXCAPS;
-#line 986 "T:\\include/mmsystem.h"
+#line 986 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -29224,13 +29224,13 @@ MMRESULT  auxGetDevCapsW(UINT uDeviceID, LPAUXCAPSW lpCaps, UINT uSize);
 
 
 
-#line 1004 "T:\\include/mmsystem.h"
+#line 1004 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 MMRESULT  auxSetVolume(UINT uDeviceID, DWORD dwVolume);
 MMRESULT  auxGetVolume(UINT uDeviceID, LPDWORD lpdwVolume);
 MMRESULT  auxOutMessage(UINT uDeviceID, UINT msg, DWORD dw1, DWORD dw2);
 
-#line 1010 "T:\\include/mmsystem.h"
+#line 1010 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -29273,7 +29273,7 @@ MMRESULT  timeGetDevCaps(LPTIMECAPS lpTimeCaps, UINT uSize);
 MMRESULT  timeBeginPeriod(UINT uPeriod);
 MMRESULT  timeEndPeriod(UINT uPeriod);
 
-#line 1053 "T:\\include/mmsystem.h"
+#line 1053 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -29337,28 +29337,28 @@ typedef struct tagJOYCAPSW {
 
 
 typedef JOYCAPSA JOYCAPS;
-#line 1117 "T:\\include/mmsystem.h"
+#line 1117 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef JOYCAPSA      *PJOYCAPSA;
 typedef JOYCAPSW      *PJOYCAPSW;
 
 
 
 typedef PJOYCAPSA PJOYCAPS;
-#line 1124 "T:\\include/mmsystem.h"
+#line 1124 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef JOYCAPSA     *NPJOYCAPSA;
 typedef JOYCAPSW     *NPJOYCAPSW;
 
 
 
 typedef NPJOYCAPSA NPJOYCAPS;
-#line 1131 "T:\\include/mmsystem.h"
+#line 1131 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef JOYCAPSA     *LPJOYCAPSA;
 typedef JOYCAPSW     *LPJOYCAPSW;
 
 
 
 typedef LPJOYCAPSA LPJOYCAPS;
-#line 1138 "T:\\include/mmsystem.h"
+#line 1138 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 typedef struct joyinfo_tag {
@@ -29379,7 +29379,7 @@ MMRESULT  joyGetDevCapsW(UINT id, LPJOYCAPSW lpCaps, UINT uSize);
 
 
 
-#line 1159 "T:\\include/mmsystem.h"
+#line 1159 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 UINT      joyGetNumDevs(void);
 MMRESULT  joyGetPos(UINT id, LPJOYINFO lpInfo);
@@ -29392,7 +29392,7 @@ UINT  joySetCalibration(UINT id, PUINT pwXbase,
     PUINT pwXdelta, PUINT pwYbase, PUINT pwYdelta,            
     PUINT pwZbase, PUINT pwZdelta);                           
 
-#line 1172 "T:\\include/mmsystem.h"
+#line 1172 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -29547,7 +29547,7 @@ typedef MMCKINFO      *LPMMCKINFO;
 
 
 
-#line 1327 "T:\\include/mmsystem.h"
+#line 1327 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -29568,7 +29568,7 @@ FOURCC  mmioStringToFOURCCW(LPCWSTR sz, UINT uFlags);
 
 
 
-#line 1348 "T:\\include/mmsystem.h"
+#line 1348 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 LPMMIOPROC  mmioInstallIOProcA( FOURCC fccIOProc, LPMMIOPROC pIOProc,
                                         DWORD dwFlags);
@@ -29578,7 +29578,7 @@ LPMMIOPROC  mmioInstallIOProcW( FOURCC fccIOProc, LPMMIOPROC pIOProc,
 
 
 
-#line 1358 "T:\\include/mmsystem.h"
+#line 1358 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 HMMIO  mmioOpenA( LPSTR szFileName, LPMMIOINFO lpmmioinfo,
                           DWORD dwOpenFlags);
 HMMIO  mmioOpenW( LPWSTR szFileName, LPMMIOINFO lpmmioinfo,
@@ -29587,7 +29587,7 @@ HMMIO  mmioOpenW( LPWSTR szFileName, LPMMIOINFO lpmmioinfo,
 
 
 
-#line 1367 "T:\\include/mmsystem.h"
+#line 1367 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 MMRESULT  mmioRenameA( LPCSTR szFileName, LPCSTR szNewFileName,
                                LPMMIOINFO lpmmioinfo, DWORD dwRenameFlags);
@@ -29597,7 +29597,7 @@ MMRESULT  mmioRenameW( LPCWSTR szFileName, LPCWSTR szNewFileName,
 
 
 
-#line 1377 "T:\\include/mmsystem.h"
+#line 1377 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 MMRESULT  mmioClose(HMMIO hmmio, UINT uFlags);
 LRESULT  mmioRead(HMMIO hmmio, LPSTR pch, LONG cch);
@@ -29618,7 +29618,7 @@ MMRESULT  mmioDescend( HMMIO hmmio, LPMMCKINFO lpck,
 MMRESULT  mmioAscend(HMMIO hmmio, LPMMCKINFO lpck, UINT uFlags);
 MMRESULT  mmioCreateChunk(HMMIO hmmio, LPMMCKINFO lpck, UINT uFlags);
 
-#line 1398 "T:\\include/mmsystem.h"
+#line 1398 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 typedef  UINT    MCIDEVICEID;  
 
@@ -29659,7 +29659,7 @@ MCIERROR  mciSendCommandW(
 
 
 
-#line 1439 "T:\\include/mmsystem.h"
+#line 1439 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -29681,7 +29681,7 @@ MCIERROR  mciSendStringW(
 
 
 
-#line 1461 "T:\\include/mmsystem.h"
+#line 1461 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -29704,7 +29704,7 @@ MCIDEVICEID  mciGetDeviceIDW(
 
 
 
-#line 1484 "T:\\include/mmsystem.h"
+#line 1484 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -29722,7 +29722,7 @@ MCIDEVICEID  mciGetDeviceIDFromElementIDW(
 
 
 
-#line 1502 "T:\\include/mmsystem.h"
+#line 1502 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -29742,7 +29742,7 @@ BOOL  mciGetErrorStringW(
 
 
 
-#line 1522 "T:\\include/mmsystem.h"
+#line 1522 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 typedef UINT (*YIELDPROC) (MCIDEVICEID wDeviceID, DWORD dwYieldData);
 
@@ -29756,7 +29756,7 @@ YIELDPROC  mciGetYieldProc ( MCIDEVICEID wDeviceID
 
 
 
-#line 1536 "T:\\include/mmsystem.h"
+#line 1536 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -30137,21 +30137,21 @@ typedef struct tagMCI_OPEN_PARMSW {
 
 
 typedef MCI_OPEN_PARMSA MCI_OPEN_PARMS;
-#line 1917 "T:\\include/mmsystem.h"
+#line 1917 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_OPEN_PARMSA     *PMCI_OPEN_PARMSA;
 typedef MCI_OPEN_PARMSW     *PMCI_OPEN_PARMSW;
 
 
 
 typedef PMCI_OPEN_PARMSA PMCI_OPEN_PARMS;
-#line 1924 "T:\\include/mmsystem.h"
+#line 1924 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_OPEN_PARMSA     *LPMCI_OPEN_PARMSA;
 typedef MCI_OPEN_PARMSW     *LPMCI_OPEN_PARMSW;
 
 
 
 typedef LPMCI_OPEN_PARMSA LPMCI_OPEN_PARMS;
-#line 1931 "T:\\include/mmsystem.h"
+#line 1931 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 typedef struct tagMCI_PLAY_PARMS {
@@ -30196,21 +30196,21 @@ typedef struct tagMCI_INFO_PARMSW {
 
 
 typedef MCI_INFO_PARMSA MCI_INFO_PARMS;
-#line 1976 "T:\\include/mmsystem.h"
+#line 1976 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_INFO_PARMSA     * PMCI_INFO_PARMSA;
 typedef MCI_INFO_PARMSW     * PMCI_INFO_PARMSW;
 
 
 
 typedef PMCI_INFO_PARMSA PMCI_INFO_PARMS;
-#line 1983 "T:\\include/mmsystem.h"
+#line 1983 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_INFO_PARMSA     * LPMCI_INFO_PARMSA;
 typedef MCI_INFO_PARMSW     * LPMCI_INFO_PARMSW;
 
 
 
 typedef LPMCI_INFO_PARMSA LPMCI_INFO_PARMS;
-#line 1990 "T:\\include/mmsystem.h"
+#line 1990 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 typedef struct tagMCI_GETDEVCAPS_PARMS {
@@ -30241,21 +30241,21 @@ typedef struct tagMCI_SYSINFO_PARMSW {
 
 
 typedef MCI_SYSINFO_PARMSA MCI_SYSINFO_PARMS;
-#line 2021 "T:\\include/mmsystem.h"
+#line 2021 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_SYSINFO_PARMSA     *PMCI_SYSINFO_PARMSA;
 typedef MCI_SYSINFO_PARMSW     *PMCI_SYSINFO_PARMSW;
 
 
 
 typedef PMCI_SYSINFO_PARMSA PMCI_SYSINFO_PARMS;
-#line 2028 "T:\\include/mmsystem.h"
+#line 2028 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_SYSINFO_PARMSA     *LPMCI_SYSINFO_PARMSA;
 typedef MCI_SYSINFO_PARMSW     *LPMCI_SYSINFO_PARMSW;
 
 
 
 typedef LPMCI_SYSINFO_PARMSA LPMCI_SYSINFO_PARMS;
-#line 2035 "T:\\include/mmsystem.h"
+#line 2035 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 typedef struct tagMCI_SET_PARMS {
@@ -30289,21 +30289,21 @@ typedef struct tagMCI_SOUND_PARMSW {
 
 
 typedef MCI_SOUND_PARMSA MCI_SOUND_PARMS;
-#line 2069 "T:\\include/mmsystem.h"
+#line 2069 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_SOUND_PARMSA     *PMCI_SOUND_PARMSA;
 typedef MCI_SOUND_PARMSW     *PMCI_SOUND_PARMSW;
 
 
 
 typedef PMCI_SOUND_PARMSA PMCI_SOUND_PARMS;
-#line 2076 "T:\\include/mmsystem.h"
+#line 2076 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_SOUND_PARMSA     *LPMCI_SOUND_PARMSA;
 typedef MCI_SOUND_PARMSW     *LPMCI_SOUND_PARMSW;
 
 
 
 typedef LPMCI_SOUND_PARMSA LPMCI_SOUND_PARMS;
-#line 2083 "T:\\include/mmsystem.h"
+#line 2083 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 typedef struct tagMCI_SAVE_PARMSA {
@@ -30319,21 +30319,21 @@ typedef struct tagMCI_SAVE_PARMSW {
 
 
 typedef MCI_SAVE_PARMSA MCI_SAVE_PARMS;
-#line 2099 "T:\\include/mmsystem.h"
+#line 2099 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_SAVE_PARMSA     *PMCI_SAVE_PARMSA;
 typedef MCI_SAVE_PARMSW     *PMCI_SAVE_PARMSW;
 
 
 
 typedef PMCI_SAVE_PARMSA PMCI_SAVE_PARMS;
-#line 2106 "T:\\include/mmsystem.h"
+#line 2106 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_SAVE_PARMSA     *LPMCI_SAVE_PARMSA;
 typedef MCI_SAVE_PARMSW     *LPMCI_SAVE_PARMSW;
 
 
 
 typedef LPMCI_SAVE_PARMSA LPMCI_SAVE_PARMS;
-#line 2113 "T:\\include/mmsystem.h"
+#line 2113 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 typedef struct tagMCI_LOAD_PARMSA {
@@ -30349,21 +30349,21 @@ typedef struct tagMCI_LOAD_PARMSW {
 
 
 typedef MCI_LOAD_PARMSA MCI_LOAD_PARMS;
-#line 2129 "T:\\include/mmsystem.h"
+#line 2129 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_LOAD_PARMSA     *PMCI_LOAD_PARMSA;
 typedef MCI_LOAD_PARMSW     *PMCI_LOAD_PARMSW;
 
 
 
 typedef PMCI_LOAD_PARMSA PMCI_LOAD_PARMS;
-#line 2136 "T:\\include/mmsystem.h"
+#line 2136 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_LOAD_PARMSA     *LPMCI_LOAD_PARMSA;
 typedef MCI_LOAD_PARMSW     *LPMCI_LOAD_PARMSW;
 
 
 
 typedef LPMCI_LOAD_PARMSA LPMCI_LOAD_PARMS;
-#line 2143 "T:\\include/mmsystem.h"
+#line 2143 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 typedef struct tagMCI_RECORD_PARMS {
@@ -30463,21 +30463,21 @@ typedef struct tagMCI_VD_ESCAPE_PARMSW {
 
 
 typedef MCI_VD_ESCAPE_PARMSA MCI_VD_ESCAPE_PARMS;
-#line 2243 "T:\\include/mmsystem.h"
+#line 2243 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_VD_ESCAPE_PARMSA     *PMCI_VD_ESCAPE_PARMSA;
 typedef MCI_VD_ESCAPE_PARMSW     *PMCI_VD_ESCAPE_PARMSW;
 
 
 
 typedef PMCI_VD_ESCAPE_PARMSA PMCI_VD_ESCAPE_PARMS;
-#line 2250 "T:\\include/mmsystem.h"
+#line 2250 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_VD_ESCAPE_PARMSA     *LPMCI_VD_ESCAPE_PARMSA;
 typedef MCI_VD_ESCAPE_PARMSW     *LPMCI_VD_ESCAPE_PARMSW;
 
 
 
 typedef LPMCI_VD_ESCAPE_PARMSA LPMCI_VD_ESCAPE_PARMS;
-#line 2257 "T:\\include/mmsystem.h"
+#line 2257 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -30540,21 +30540,21 @@ typedef struct tagMCI_WAVE_OPEN_PARMSW {
 
 
 typedef MCI_WAVE_OPEN_PARMSA MCI_WAVE_OPEN_PARMS;
-#line 2320 "T:\\include/mmsystem.h"
+#line 2320 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_WAVE_OPEN_PARMSA     *PMCI_WAVE_OPEN_PARMSA;
 typedef MCI_WAVE_OPEN_PARMSW     *PMCI_WAVE_OPEN_PARMSW;
 
 
 
 typedef PMCI_WAVE_OPEN_PARMSA PMCI_WAVE_OPEN_PARMS;
-#line 2327 "T:\\include/mmsystem.h"
+#line 2327 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_WAVE_OPEN_PARMSA     *LPMCI_WAVE_OPEN_PARMSA;
 typedef MCI_WAVE_OPEN_PARMSW     *LPMCI_WAVE_OPEN_PARMSW;
 
 
 
 typedef LPMCI_WAVE_OPEN_PARMSA LPMCI_WAVE_OPEN_PARMS;
-#line 2334 "T:\\include/mmsystem.h"
+#line 2334 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 typedef struct tagMCI_WAVE_DELETE_PARMS {
@@ -30737,21 +30737,21 @@ typedef struct tagMCI_ANIM_OPEN_PARMSW {
 
 
 typedef MCI_ANIM_OPEN_PARMSA MCI_ANIM_OPEN_PARMS;
-#line 2517 "T:\\include/mmsystem.h"
+#line 2517 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_ANIM_OPEN_PARMSA     *PMCI_ANIM_OPEN_PARMSA;
 typedef MCI_ANIM_OPEN_PARMSW     *PMCI_ANIM_OPEN_PARMSW;
 
 
 
 typedef PMCI_ANIM_OPEN_PARMSA PMCI_ANIM_OPEN_PARMS;
-#line 2524 "T:\\include/mmsystem.h"
+#line 2524 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_ANIM_OPEN_PARMSA     *LPMCI_ANIM_OPEN_PARMSA;
 typedef MCI_ANIM_OPEN_PARMSW     *LPMCI_ANIM_OPEN_PARMSW;
 
 
 
 typedef LPMCI_ANIM_OPEN_PARMSA LPMCI_ANIM_OPEN_PARMS;
-#line 2531 "T:\\include/mmsystem.h"
+#line 2531 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 typedef struct tagMCI_ANIM_PLAY_PARMS {
@@ -30789,21 +30789,21 @@ typedef struct tagMCI_ANIM_WINDOW_PARMSW {
 
 
 typedef MCI_ANIM_WINDOW_PARMSA MCI_ANIM_WINDOW_PARMS;
-#line 2569 "T:\\include/mmsystem.h"
+#line 2569 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_ANIM_WINDOW_PARMSA     * PMCI_ANIM_WINDOW_PARMSA;
 typedef MCI_ANIM_WINDOW_PARMSW     * PMCI_ANIM_WINDOW_PARMSW;
 
 
 
 typedef PMCI_ANIM_WINDOW_PARMSA PMCI_ANIM_WINDOW_PARMS;
-#line 2576 "T:\\include/mmsystem.h"
+#line 2576 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_ANIM_WINDOW_PARMSA     * LPMCI_ANIM_WINDOW_PARMSA;
 typedef MCI_ANIM_WINDOW_PARMSW     * LPMCI_ANIM_WINDOW_PARMSW;
 
 
 
 typedef LPMCI_ANIM_WINDOW_PARMSA LPMCI_ANIM_WINDOW_PARMS;
-#line 2583 "T:\\include/mmsystem.h"
+#line 2583 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 typedef struct tagMCI_ANIM_RECT_PARMS {
@@ -30813,7 +30813,7 @@ typedef struct tagMCI_ANIM_RECT_PARMS {
 
 
     RECT    rc;
-#line 2593 "T:\\include/mmsystem.h"
+#line 2593 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 } MCI_ANIM_RECT_PARMS;
 typedef MCI_ANIM_RECT_PARMS     * PMCI_ANIM_RECT_PARMS;
 typedef MCI_ANIM_RECT_PARMS     * LPMCI_ANIM_RECT_PARMS;
@@ -30899,21 +30899,21 @@ typedef struct tagMCI_OVLY_OPEN_PARMSW {
 
 
 typedef MCI_OVLY_OPEN_PARMSA MCI_OVLY_OPEN_PARMS;
-#line 2679 "T:\\include/mmsystem.h"
+#line 2679 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_OVLY_OPEN_PARMSA     *PMCI_OVLY_OPEN_PARMSA;
 typedef MCI_OVLY_OPEN_PARMSW     *PMCI_OVLY_OPEN_PARMSW;
 
 
 
 typedef PMCI_OVLY_OPEN_PARMSA PMCI_OVLY_OPEN_PARMS;
-#line 2686 "T:\\include/mmsystem.h"
+#line 2686 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_OVLY_OPEN_PARMSA     *LPMCI_OVLY_OPEN_PARMSA;
 typedef MCI_OVLY_OPEN_PARMSW     *LPMCI_OVLY_OPEN_PARMSW;
 
 
 
 typedef LPMCI_OVLY_OPEN_PARMSA LPMCI_OVLY_OPEN_PARMS;
-#line 2693 "T:\\include/mmsystem.h"
+#line 2693 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 typedef struct tagMCI_OVLY_WINDOW_PARMSA {
@@ -30933,21 +30933,21 @@ typedef struct tagMCI_OVLY_WINDOW_PARMSW {
 
 
 typedef MCI_OVLY_WINDOW_PARMSA MCI_OVLY_WINDOW_PARMS;
-#line 2713 "T:\\include/mmsystem.h"
+#line 2713 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_OVLY_WINDOW_PARMSA     * PMCI_OVLY_WINDOW_PARMSA;
 typedef MCI_OVLY_WINDOW_PARMSW     * PMCI_OVLY_WINDOW_PARMSW;
 
 
 
 typedef PMCI_OVLY_WINDOW_PARMSA PMCI_OVLY_WINDOW_PARMS;
-#line 2720 "T:\\include/mmsystem.h"
+#line 2720 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_OVLY_WINDOW_PARMSA     * LPMCI_OVLY_WINDOW_PARMSA;
 typedef MCI_OVLY_WINDOW_PARMSW     * LPMCI_OVLY_WINDOW_PARMSW;
 
 
 
 typedef LPMCI_OVLY_WINDOW_PARMSA LPMCI_OVLY_WINDOW_PARMS;
-#line 2727 "T:\\include/mmsystem.h"
+#line 2727 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 typedef struct tagMCI_OVLY_RECT_PARMS {
@@ -30957,7 +30957,7 @@ typedef struct tagMCI_OVLY_RECT_PARMS {
 
 
     RECT    rc;
-#line 2737 "T:\\include/mmsystem.h"
+#line 2737 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 } MCI_OVLY_RECT_PARMS;
 typedef MCI_OVLY_RECT_PARMS     * PMCI_OVLY_RECT_PARMS;
 typedef MCI_OVLY_RECT_PARMS     * LPMCI_OVLY_RECT_PARMS;
@@ -30978,21 +30978,21 @@ typedef struct tagMCI_OVLY_SAVE_PARMSW {
 
 
 typedef MCI_OVLY_SAVE_PARMSA MCI_OVLY_SAVE_PARMS;
-#line 2758 "T:\\include/mmsystem.h"
+#line 2758 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_OVLY_SAVE_PARMSA     * PMCI_OVLY_SAVE_PARMSA;
 typedef MCI_OVLY_SAVE_PARMSW     * PMCI_OVLY_SAVE_PARMSW;
 
 
 
 typedef PMCI_OVLY_SAVE_PARMSA PMCI_OVLY_SAVE_PARMS;
-#line 2765 "T:\\include/mmsystem.h"
+#line 2765 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_OVLY_SAVE_PARMSA     * LPMCI_OVLY_SAVE_PARMSA;
 typedef MCI_OVLY_SAVE_PARMSW     * LPMCI_OVLY_SAVE_PARMSW;
 
 
 
 typedef LPMCI_OVLY_SAVE_PARMSA LPMCI_OVLY_SAVE_PARMS;
-#line 2772 "T:\\include/mmsystem.h"
+#line 2772 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 typedef struct tagMCI_OVLY_LOAD_PARMSA {
@@ -31010,25 +31010,23 @@ typedef struct tagMCI_OVLY_LOAD_PARMSW {
 
 
 typedef MCI_OVLY_LOAD_PARMSA MCI_OVLY_LOAD_PARMS;
-#line 2790 "T:\\include/mmsystem.h"
+#line 2790 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_OVLY_LOAD_PARMSA     * PMCI_OVLY_LOAD_PARMSA;
 typedef MCI_OVLY_LOAD_PARMSW     * PMCI_OVLY_LOAD_PARMSW;
 
 
 
 typedef PMCI_OVLY_LOAD_PARMSA PMCI_OVLY_LOAD_PARMS;
-#line 2797 "T:\\include/mmsystem.h"
+#line 2797 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 typedef MCI_OVLY_LOAD_PARMSA     * LPMCI_OVLY_LOAD_PARMSA;
 typedef MCI_OVLY_LOAD_PARMSW     * LPMCI_OVLY_LOAD_PARMSW;
 
 
 
 typedef LPMCI_OVLY_LOAD_PARMSA LPMCI_OVLY_LOAD_PARMS;
-#line 2804 "T:\\include/mmsystem.h"
+#line 2804 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
-#line 2806 "T:\\include/mmsystem.h"
-
-
+#line 2806 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -31041,9 +31039,9 @@ typedef LPMCI_OVLY_LOAD_PARMSA LPMCI_OVLY_LOAD_PARMS;
 
 
 
-#line 2821 "T:\\include/mmsystem.h"
 
 
+#line 2821 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
 
 
 
@@ -31073,9 +31071,11 @@ typedef LPMCI_OVLY_LOAD_PARMSA LPMCI_OVLY_LOAD_PARMS;
 
 
 
-#line 2853 "T:\\include/mmsystem.h"
-#line 119 "T:\\include/windows.h"
-#line 1 "T:\\include/nb30.h"
+
+
+#line 2853 "R:\\toolchains\\1.0-nt\\include/mmsystem.h"
+#line 119 "R:\\toolchains\\1.0-nt\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/nb30.h"
 
 
 
@@ -31389,9 +31389,9 @@ Netbios(
 
 
 
-#line 315 "T:\\include/nb30.h"
-#line 120 "T:\\include/windows.h"
-#line 1 "T:\\include/rpc.h"
+#line 315 "R:\\toolchains\\1.0-nt\\include/nb30.h"
+#line 120 "R:\\toolchains\\1.0-nt\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/rpc.h"
 
 
 
@@ -31419,7 +31419,7 @@ Netbios(
 
 
 
-#line 29 "T:\\include/rpc.h"
+#line 29 "R:\\toolchains\\1.0-nt\\include/rpc.h"
 
 typedef void * I_RPC_HANDLE;
 typedef long RPC_STATUS;
@@ -31431,21 +31431,21 @@ typedef long RPC_STATUS;
 
 
 
-#line 41 "T:\\include/rpc.h"
+#line 41 "R:\\toolchains\\1.0-nt\\include/rpc.h"
 
 
 
 
 
-#line 47 "T:\\include/rpc.h"
+#line 47 "R:\\toolchains\\1.0-nt\\include/rpc.h"
 
 
 
 
 
-#line 53 "T:\\include/rpc.h"
+#line 53 "R:\\toolchains\\1.0-nt\\include/rpc.h"
 
-#line 1 "T:\\include/rpcdce.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -31494,13 +31494,13 @@ typedef struct _GUID
     unsigned short Data3;
     unsigned char Data4[8];
 } GUID;
-#line 50 "T:\\include/rpcdce.h"
+#line 50 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
 typedef GUID UUID;
 
-#line 56 "T:\\include/rpcdce.h"
+#line 56 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 typedef struct _RPC_BINDING_VECTOR
 {
@@ -31526,7 +31526,7 @@ typedef struct _RPC_IF_ID
     unsigned short VersMajor;
     unsigned short VersMinor;
 } RPC_IF_ID;
-#line 82 "T:\\include/rpcdce.h"
+#line 82 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -31554,7 +31554,7 @@ typedef struct _RPC_PROTSEQ_VECTORW
 
 
 
-#line 110 "T:\\include/rpcdce.h"
+#line 110 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -31564,7 +31564,7 @@ typedef struct _RPC_PROTSEQ_VECTORW
 
 
 
-#line 120 "T:\\include/rpcdce.h"
+#line 120 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 typedef void
 RPC_OBJECT_INQ_FN (
@@ -31619,7 +31619,7 @@ RpcBindingFromStringBindingW (
 
 
 
-#line 175 "T:\\include/rpcdce.h"
+#line 175 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -31629,7 +31629,7 @@ RpcBindingFromStringBindingW (
 
 
 
-#line 185 "T:\\include/rpcdce.h"
+#line 185 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -31677,7 +31677,7 @@ RpcBindingToStringBindingW (
 
 
 
-#line 233 "T:\\include/rpcdce.h"
+#line 233 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -31687,7 +31687,7 @@ RpcBindingToStringBindingW (
 
 
 
-#line 243 "T:\\include/rpcdce.h"
+#line 243 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 RPC_STATUS 
@@ -31723,7 +31723,7 @@ RpcStringBindingComposeW (
 
 
 
-#line 279 "T:\\include/rpcdce.h"
+#line 279 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -31737,7 +31737,7 @@ RpcStringBindingComposeW (
 
 
 
-#line 293 "T:\\include/rpcdce.h"
+#line 293 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -31767,7 +31767,7 @@ RpcStringBindingParseW (
 
 
 
-#line 323 "T:\\include/rpcdce.h"
+#line 323 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -31781,7 +31781,7 @@ RpcStringBindingParseW (
 
 
 
-#line 337 "T:\\include/rpcdce.h"
+#line 337 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -31801,7 +31801,7 @@ RpcStringFreeW (
 
 
 
-#line 357 "T:\\include/rpcdce.h"
+#line 357 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -31810,7 +31810,7 @@ RpcStringFreeW (
 
 
 
-#line 366 "T:\\include/rpcdce.h"
+#line 366 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 RPC_STATUS 
@@ -31837,7 +31837,7 @@ RpcNetworkIsProtseqValidW (
 
 
 
-#line 393 "T:\\include/rpcdce.h"
+#line 393 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -31846,7 +31846,7 @@ RpcNetworkIsProtseqValidW (
 
 
 
-#line 402 "T:\\include/rpcdce.h"
+#line 402 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 RPC_STATUS 
@@ -31880,7 +31880,7 @@ RpcNetworkInqProtseqsW (
 
 
 
-#line 436 "T:\\include/rpcdce.h"
+#line 436 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -31889,7 +31889,7 @@ RpcNetworkInqProtseqsW (
 
 
 
-#line 445 "T:\\include/rpcdce.h"
+#line 445 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 RPC_STATUS 
@@ -31929,7 +31929,7 @@ RpcProtseqVectorFreeW (
 
 
 
-#line 485 "T:\\include/rpcdce.h"
+#line 485 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -31938,7 +31938,7 @@ RpcProtseqVectorFreeW (
 
 
 
-#line 494 "T:\\include/rpcdce.h"
+#line 494 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 RPC_STATUS 
@@ -32015,7 +32015,7 @@ RpcServerUseProtseqW (
 
 
 
-#line 571 "T:\\include/rpcdce.h"
+#line 571 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -32026,7 +32026,7 @@ RpcServerUseProtseqW (
 
 
 
-#line 582 "T:\\include/rpcdce.h"
+#line 582 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -32052,7 +32052,7 @@ RpcServerUseProtseqEpW (
 
 
 
-#line 608 "T:\\include/rpcdce.h"
+#line 608 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -32064,7 +32064,7 @@ RpcServerUseProtseqEpW (
 
 
 
-#line 620 "T:\\include/rpcdce.h"
+#line 620 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -32090,7 +32090,7 @@ RpcServerUseProtseqIfW (
 
 
 
-#line 646 "T:\\include/rpcdce.h"
+#line 646 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -32102,7 +32102,7 @@ RpcServerUseProtseqIfW (
 
 
 
-#line 658 "T:\\include/rpcdce.h"
+#line 658 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 RPC_STATUS 
@@ -32176,7 +32176,7 @@ RpcNsBindingInqEntryNameW (
 
 
 
-#line 732 "T:\\include/rpcdce.h"
+#line 732 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -32187,7 +32187,7 @@ RpcNsBindingInqEntryNameW (
 
 
 
-#line 743 "T:\\include/rpcdce.h"
+#line 743 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 typedef void  * RPC_AUTH_IDENTITY_HANDLE;
 typedef void  * RPC_AUTHZ_HANDLE;
@@ -32307,7 +32307,7 @@ RpcServerRegisterAuthInfoW (
 
 
 
-#line 863 "T:\\include/rpcdce.h"
+#line 863 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -32358,7 +32358,7 @@ RpcServerRegisterAuthInfoW (
 
 
 
-#line 914 "T:\\include/rpcdce.h"
+#line 914 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 typedef struct {
     unsigned char  * UserName;
@@ -32414,7 +32414,7 @@ UuidFromStringW (
 
 
 
-#line 970 "T:\\include/rpcdce.h"
+#line 970 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -32432,7 +32432,7 @@ UuidFromStringW (
 
 
 
-#line 988 "T:\\include/rpcdce.h"
+#line 988 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -32474,7 +32474,7 @@ RpcEpRegisterW (
 
 
 
-#line 1030 "T:\\include/rpcdce.h"
+#line 1030 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
@@ -32494,7 +32494,7 @@ RpcEpRegisterW (
 
 
 
-#line 1050 "T:\\include/rpcdce.h"
+#line 1050 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 RPC_STATUS 
@@ -32504,7 +32504,7 @@ RpcEpUnregister(
      UUID_VECTOR * UuidVector
     );
 
-#line 1 "T:\\include/rpcdcep.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/rpcdcep.h"
 
 
 
@@ -32534,7 +32534,7 @@ RpcEpUnregister(
 
 
 
-#line 31 "T:\\include/rpcdcep.h"
+#line 31 "R:\\toolchains\\1.0-nt\\include/rpcdcep.h"
 
 
 
@@ -32708,7 +32708,7 @@ I_RpcNsBindingSetEntryName (
 
 
 
-#line 205 "T:\\include/rpcdcep.h"
+#line 205 "R:\\toolchains\\1.0-nt\\include/rpcdcep.h"
 
 
 
@@ -32726,7 +32726,7 @@ I_RpcBindingInqDynamicEndpoint (
 
 
 
-#line 223 "T:\\include/rpcdcep.h"
+#line 223 "R:\\toolchains\\1.0-nt\\include/rpcdcep.h"
 
 typedef struct _RPC_TRANSFER_SYNTAX
 {
@@ -32804,18 +32804,18 @@ I_RpcTimeGet(
 
 
 
-#line 301 "T:\\include/rpcdcep.h"
+#line 301 "R:\\toolchains\\1.0-nt\\include/rpcdcep.h"
 
-#line 303 "T:\\include/rpcdcep.h"
-#line 1060 "T:\\include/rpcdce.h"
-
-
+#line 303 "R:\\toolchains\\1.0-nt\\include/rpcdcep.h"
+#line 1060 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
 
 
 
-#line 1066 "T:\\include/rpcdce.h"
-#line 55 "T:\\include/rpc.h"
-#line 1 "T:\\include/rpcnsi.h"
+
+
+#line 1066 "R:\\toolchains\\1.0-nt\\include/rpcdce.h"
+#line 55 "R:\\toolchains\\1.0-nt\\include/rpc.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/rpcnsi.h"
 
 
 
@@ -32902,7 +32902,7 @@ RpcNsBindingUnexportW(
      UUID_VECTOR  * ObjectUuidVec 
     );
 
-#line 88 "T:\\include/rpcnsi.h"
+#line 88 "R:\\toolchains\\1.0-nt\\include/rpcnsi.h"
 
 
 
@@ -32927,7 +32927,7 @@ RpcNsBindingLookupBeginW(
      unsigned long BindingMaxCount ,
      RPC_NS_HANDLE  * LookupContext
     );
-#line 113 "T:\\include/rpcnsi.h"
+#line 113 "R:\\toolchains\\1.0-nt\\include/rpcnsi.h"
 
 RPC_STATUS 
 RpcNsBindingLookupNext(
@@ -33016,7 +33016,7 @@ RpcNsGroupMbrInqNextW(
      unsigned short  *  * MemberName
     );
 
-#line 202 "T:\\include/rpcnsi.h"
+#line 202 "R:\\toolchains\\1.0-nt\\include/rpcnsi.h"
 
 RPC_STATUS 
 RpcNsGroupMbrInqDone(
@@ -33121,7 +33121,7 @@ RpcNsProfileEltInqNextW(
      unsigned short  *  * Annotation
     );
 
-#line 307 "T:\\include/rpcnsi.h"
+#line 307 "R:\\toolchains\\1.0-nt\\include/rpcnsi.h"
 
 RPC_STATUS 
 RpcNsProfileEltInqDone(
@@ -33146,7 +33146,7 @@ RpcNsEntryObjectInqBeginW(
      RPC_NS_HANDLE  * InquiryContext
     );
 
-#line 332 "T:\\include/rpcnsi.h"
+#line 332 "R:\\toolchains\\1.0-nt\\include/rpcnsi.h"
 
 RPC_STATUS 
 RpcNsEntryObjectInqNext(
@@ -33254,7 +33254,7 @@ RpcNsMgmtEntryInqIfIdsW(
      RPC_IF_ID_VECTOR  *  * IfIdVec
     );
 
-#line 440 "T:\\include/rpcnsi.h"
+#line 440 "R:\\toolchains\\1.0-nt\\include/rpcnsi.h"
 
 
 
@@ -33278,7 +33278,7 @@ RpcNsBindingImportBeginW(
      RPC_NS_HANDLE  * ImportContext
     );
 
-#line 464 "T:\\include/rpcnsi.h"
+#line 464 "R:\\toolchains\\1.0-nt\\include/rpcnsi.h"
 
 RPC_STATUS 
 RpcNsBindingImportNext(
@@ -33343,15 +33343,15 @@ RpcNsBindingSelect(
 
 
 
-#line 529 "T:\\include/rpcnsi.h"
+#line 529 "R:\\toolchains\\1.0-nt\\include/rpcnsi.h"
 
 
 
 
 
-#line 535 "T:\\include/rpcnsi.h"
-#line 56 "T:\\include/rpc.h"
-#line 1 "T:\\include/rpcnterr.h"
+#line 535 "R:\\toolchains\\1.0-nt\\include/rpcnsi.h"
+#line 56 "R:\\toolchains\\1.0-nt\\include/rpc.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/rpcnterr.h"
 
 
 
@@ -33383,11 +33383,11 @@ RpcNsBindingSelect(
 
 
 
-#line 33 "T:\\include/rpcnterr.h"
-#line 57 "T:\\include/rpc.h"
+#line 33 "R:\\toolchains\\1.0-nt\\include/rpcnterr.h"
+#line 57 "R:\\toolchains\\1.0-nt\\include/rpc.h"
 
 
-#line 1 "T:\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/windows.h"
 
 
 
@@ -33534,10 +33534,10 @@ RpcNsBindingSelect(
 
 
 
-#line 60 "T:\\include/rpc.h"
-#line 61 "T:\\include/rpc.h"
+#line 60 "R:\\toolchains\\1.0-nt\\include/rpc.h"
+#line 61 "R:\\toolchains\\1.0-nt\\include/rpc.h"
 
-#line 1 "T:\\include/excpt.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/excpt.h"
 
 
 
@@ -33610,7 +33610,7 @@ typedef enum _EXCEPTION_DISPOSITION {
 
 
 
-#line 74 "T:\\include/excpt.h"
+#line 74 "R:\\toolchains\\1.0-nt\\include/excpt.h"
 
 
 
@@ -33628,9 +33628,9 @@ typedef enum _EXCEPTION_DISPOSITION {
 
 
 
-#line 92 "T:\\include/excpt.h"
-#line 63 "T:\\include/rpc.h"
-#line 1 "T:\\include/winerror.h"
+#line 92 "R:\\toolchains\\1.0-nt\\include/excpt.h"
+#line 63 "R:\\toolchains\\1.0-nt\\include/rpc.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/winerror.h"
 
 
 
@@ -39066,7 +39066,7 @@ typedef enum _EXCEPTION_DISPOSITION {
 
 
 
-#line 64 "T:\\include/rpc.h"
+#line 64 "R:\\toolchains\\1.0-nt\\include/rpc.h"
 
 
 
@@ -39121,9 +39121,9 @@ I_RpcMapWin32Status (
 
 
 
-#line 119 "T:\\include/rpc.h"
-#line 121 "T:\\include/windows.h"
-#line 1 "T:\\include/shellapi.h"
+#line 119 "R:\\toolchains\\1.0-nt\\include/rpc.h"
+#line 121 "R:\\toolchains\\1.0-nt\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/shellapi.h"
 
 
 
@@ -39153,7 +39153,7 @@ UINT  DragQueryFileA(HDROP,UINT,LPSTR,UINT);
 
 
 
-#line 31 "T:\\include/shellapi.h"
+#line 31 "R:\\toolchains\\1.0-nt\\include/shellapi.h"
 
 BOOL  DragQueryPoint(HDROP,LPPOINT);
 void  DragFinish(HDROP);
@@ -39167,7 +39167,7 @@ HICON   ExtractIconA(HINSTANCE hInst, LPCSTR lpszExeFileName, UINT nIconIndex);
 
 
 
-#line 45 "T:\\include/shellapi.h"
+#line 45 "R:\\toolchains\\1.0-nt\\include/shellapi.h"
 
 
 
@@ -39194,7 +39194,7 @@ INT    ShellAboutW(HWND hWnd, LPCWSTR szApp, LPCWSTR szOtherStuff, HICON hIcon);
 
 
 
-#line 72 "T:\\include/shellapi.h"
+#line 72 "R:\\toolchains\\1.0-nt\\include/shellapi.h"
 
 HICON  DuplicateIcon(HINSTANCE hInst, HICON hIcon);                                
 HICON  ExtractAssociatedIconA(HINSTANCE hInst, LPSTR lpIconPath, LPWORD lpiIcon);   
@@ -39204,15 +39204,15 @@ HICON  ExtractAssociatedIconW(HINSTANCE hInst, LPWSTR lpIconPath, LPWORD lpiIcon
 
 
 
-#line 82 "T:\\include/shellapi.h"
+#line 82 "R:\\toolchains\\1.0-nt\\include/shellapi.h"
 
 
 
 
 
-#line 88 "T:\\include/shellapi.h"
-#line 122 "T:\\include/windows.h"
-#line 1 "T:\\include/winperf.h"
+#line 88 "R:\\toolchains\\1.0-nt\\include/shellapi.h"
+#line 122 "R:\\toolchains\\1.0-nt\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/winperf.h"
 
 
 
@@ -39730,9 +39730,9 @@ typedef DWORD (PM_OPEN_PROC) (LPWSTR);
 typedef DWORD (PM_COLLECT_PROC) (LPWSTR, LPVOID *, LPDWORD, LPDWORD);
 typedef DWORD (PM_CLOSE_PROC) ();
 
-#line 519 "T:\\include/winperf.h"
-#line 123 "T:\\include/windows.h"
-#line 1 "T:\\include/winsock.h"
+#line 519 "R:\\toolchains\\1.0-nt\\include/winperf.h"
+#line 123 "R:\\toolchains\\1.0-nt\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/winsock.h"
 
 
 
@@ -39762,7 +39762,7 @@ typedef DWORD (PM_CLOSE_PROC) ();
 
 
 
-#line 1 "T:\\include/windows.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/windows.h"
 
 
 
@@ -39909,8 +39909,8 @@ typedef DWORD (PM_CLOSE_PROC) ();
 
 
 
-#line 31 "T:\\include/winsock.h"
-#line 32 "T:\\include/winsock.h"
+#line 31 "R:\\toolchains\\1.0-nt\\include/winsock.h"
+#line 32 "R:\\toolchains\\1.0-nt\\include/winsock.h"
 
 
 
@@ -39936,7 +39936,7 @@ typedef u_int           SOCKET;
 
 
 
-#line 58 "T:\\include/winsock.h"
+#line 58 "R:\\toolchains\\1.0-nt\\include/winsock.h"
 
 typedef struct fd_set {
         u_int   fd_count;               
@@ -40541,7 +40541,7 @@ struct  linger {
 
 
 
-#line 663 "T:\\include/winsock.h"
+#line 663 "R:\\toolchains\\1.0-nt\\include/winsock.h"
 
 
 
@@ -40750,10 +40750,10 @@ typedef struct timeval  *LPTIMEVAL;
 
 
 
-#line 872 "T:\\include/winsock.h"
+#line 872 "R:\\toolchains\\1.0-nt\\include/winsock.h"
 
 
-#line 124 "T:\\include/windows.h"
+#line 124 "R:\\toolchains\\1.0-nt\\include/windows.h"
 
 
 
@@ -40764,10 +40764,10 @@ typedef struct timeval  *LPTIMEVAL;
 
 
 
-#line 135 "T:\\include/windows.h"
+#line 135 "R:\\toolchains\\1.0-nt\\include/windows.h"
 
 
-#line 1 "T:\\include/winsvc.h"
+#line 1 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
 
 
 
@@ -40839,7 +40839,7 @@ typedef struct timeval  *LPTIMEVAL;
 
 
 
-#line 73 "T:\\include/winsvc.h"
+#line 73 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
 
 
 
@@ -40972,7 +40972,7 @@ typedef struct _ENUM_SERVICE_STATUSW {
 
 typedef ENUM_SERVICE_STATUSA ENUM_SERVICE_STATUS;
 typedef LPENUM_SERVICE_STATUSA LPENUM_SERVICE_STATUS;
-#line 206 "T:\\include/winsvc.h"
+#line 206 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
 
 
 
@@ -40997,7 +40997,7 @@ typedef struct _QUERY_SERVICE_LOCK_STATUSW {
 
 typedef QUERY_SERVICE_LOCK_STATUSA QUERY_SERVICE_LOCK_STATUS;
 typedef LPQUERY_SERVICE_LOCK_STATUSA LPQUERY_SERVICE_LOCK_STATUS;
-#line 231 "T:\\include/winsvc.h"
+#line 231 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
 
 
 
@@ -41033,7 +41033,7 @@ typedef struct _QUERY_SERVICE_CONFIGW {
 
 typedef QUERY_SERVICE_CONFIGA QUERY_SERVICE_CONFIG;
 typedef LPQUERY_SERVICE_CONFIGA LPQUERY_SERVICE_CONFIG;
-#line 267 "T:\\include/winsvc.h"
+#line 267 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
 
 
 
@@ -41055,7 +41055,7 @@ typedef void (*LPSERVICE_MAIN_FUNCTIONA)(
 
 
 
-#line 289 "T:\\include/winsvc.h"
+#line 289 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
 
 
 
@@ -41076,7 +41076,7 @@ typedef struct _SERVICE_TABLE_ENTRYW {
 
 typedef SERVICE_TABLE_ENTRYA SERVICE_TABLE_ENTRY;
 typedef LPSERVICE_TABLE_ENTRYA LPSERVICE_TABLE_ENTRY;
-#line 310 "T:\\include/winsvc.h"
+#line 310 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
 
 
 
@@ -41126,7 +41126,7 @@ ChangeServiceConfigW(
 
 
 
-#line 360 "T:\\include/winsvc.h"
+#line 360 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
 
 BOOL
 
@@ -41180,7 +41180,7 @@ CreateServiceW(
 
 
 
-#line 414 "T:\\include/winsvc.h"
+#line 414 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
 
 BOOL
 
@@ -41212,7 +41212,7 @@ EnumDependentServicesW(
 
 
 
-#line 446 "T:\\include/winsvc.h"
+#line 446 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
 
 BOOL
 
@@ -41242,7 +41242,7 @@ EnumServicesStatusW(
 
 
 
-#line 476 "T:\\include/winsvc.h"
+#line 476 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
 
 BOOL
 
@@ -41264,7 +41264,7 @@ GetServiceKeyNameW(
 
 
 
-#line 498 "T:\\include/winsvc.h"
+#line 498 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
 
 BOOL
 
@@ -41286,7 +41286,7 @@ GetServiceDisplayNameW(
 
 
 
-#line 520 "T:\\include/winsvc.h"
+#line 520 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
 
 SC_LOCK
 
@@ -41318,7 +41318,7 @@ OpenSCManagerW(
 
 
 
-#line 552 "T:\\include/winsvc.h"
+#line 552 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
 
 SC_HANDLE
 
@@ -41338,7 +41338,7 @@ OpenServiceW(
 
 
 
-#line 572 "T:\\include/winsvc.h"
+#line 572 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
 
 BOOL
 
@@ -41360,7 +41360,7 @@ QueryServiceConfigW(
 
 
 
-#line 594 "T:\\include/winsvc.h"
+#line 594 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
 
 BOOL
 
@@ -41382,7 +41382,7 @@ QueryServiceLockStatusW(
 
 
 
-#line 616 "T:\\include/winsvc.h"
+#line 616 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
 
 BOOL
 
@@ -41417,7 +41417,7 @@ RegisterServiceCtrlHandlerW(
 
 
 
-#line 651 "T:\\include/winsvc.h"
+#line 651 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
 
 BOOL
 
@@ -41448,7 +41448,7 @@ StartServiceCtrlDispatcherW(
 
 
 
-#line 682 "T:\\include/winsvc.h"
+#line 682 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
 
 
 BOOL
@@ -41469,7 +41469,7 @@ StartServiceW(
 
 
 
-#line 703 "T:\\include/winsvc.h"
+#line 703 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
 
 BOOL
 
@@ -41482,9 +41482,9 @@ UnlockServiceDatabase(
 
 
 
-#line 716 "T:\\include/winsvc.h"
-#line 138 "T:\\include/windows.h"
-#line 139 "T:\\include/windows.h"
+#line 716 "R:\\toolchains\\1.0-nt\\include/winsvc.h"
+#line 138 "R:\\toolchains\\1.0-nt\\include/windows.h"
+#line 139 "R:\\toolchains\\1.0-nt\\include/windows.h"
 
 
 
@@ -41492,7 +41492,7 @@ UnlockServiceDatabase(
 
 
 
-#line 147 "T:\\include/windows.h"
+#line 147 "R:\\toolchains\\1.0-nt\\include/windows.h"
 #line 2 "RESOURCES.RC"
 #line 1 "resource.h"
 

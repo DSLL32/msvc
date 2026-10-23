@@ -2,7 +2,7 @@
   "schema": 1,
   "description": "Frozen original acceptance first-entry sequence projected onto RC application functions, excluding CRT/import/shims on both sides",
   "metadata_sha256": {
-    "functions.json": "83cf79ae725ae6887147f2d801c172aaebbae6362e973e8285c7865ac74aa69b",
+    "functions.json": "8abaa3a471c1caee328eb62b66d91f69cce450c5d3a735b863af52c307e62c5b",
     "runtime.json": "f121a1f7f6feab2249b488c03acad20dba01001976ea3c1b23ed9bcc2269605d",
     "validation-frontiers.txt": "aac696b402d8379255937ff1dbe4fd1c9721c5b7fa4c38667e497ec65a70f1a6"
   },

@@ -2,7 +2,7 @@ PYTHON ?= python3
 TOOL = $(PYTHON) scripts/wine-tool.py
 TC = ../../../toolchains/1.0-nt
 RECON = ../../../lib/recon
-.PHONY: prefix all native native-trace native-check native-trace-check check replay clean reference-build reference-audit native-cache-reference capture-native-boundaries-reference capture-direct-reference
+.PHONY: prefix all native native-trace native-check native-trace-check check replay clean reference-build reference-audit native-cache-reference capture-native-boundaries-reference capture-direct-reference capture-specialized-reference
 all: native
 
 # Explicit canonical compile/analysis only. No fixture target depends on Wine.
@@ -60,11 +60,24 @@ native-cache-reference: native-trace reference-audit
 	$(PYTHON) scripts/native-traces.py --write
 build/capture-boundary.exe: build/capture-boundary.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
+# Explicit destination is mandatory; frozen reference replacement is deliberate.
 capture-native-boundaries-reference: build/capture-boundary.exe
 	$(PYTHON) scripts/capture-native-boundaries.py $(CAPTURE_OPTIONS)
 build/direct-run.exe: build/direct-run.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 capture-direct-reference: build/direct-run.exe
 	$(PYTHON) scripts/capture-direct.py
+# Original-only observers for historical console/PATH semantic evidence.
+build/interrupt-run.obj: ../fixtures/rc-interrupt/capture-interrupt.c $(RECON)/include/recon.h | build prefix
+	$(TOOL) CL.EXE /nologo /c /Od /G3 /I$(RECON)/include /Fo$@ $<
+build/remaining-trace.obj: ../fixtures/rc-remaining/trace-original.c $(RECON)/include/recon.h | build prefix
+	$(TOOL) CL.EXE /nologo /c /Od /G3 /I$(RECON)/include /Fo$@ $<
+build/interrupt-run.exe: build/interrupt-run.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
+build/remaining-trace.exe: build/remaining-trace.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
+capture-specialized-reference: build/interrupt-run.exe build/remaining-trace.exe
+	$(PYTHON) ../fixtures/rc-interrupt/capture.py
+	$(PYTHON) ../fixtures/rc-remaining/capture.py
 clean:
 	rm -rf build

@@ -5,7 +5,7 @@ import hashlib
 import importlib.util
 import json
 import os
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 import re
 import shlex
 import shutil
@@ -16,6 +16,7 @@ import time
 BINARY=Path(__file__).resolve().parents[1]
 ROOT=BINARY.parents[2]
 CONFIG=json.loads((BINARY/'functions.json').read_text())
+NATIVE_RUNS=Path.home()/'.ai-tmp/msvc2/vc1.0/rc/native-runs'
 
 def load(name,path):
     spec=importlib.util.spec_from_file_location(name,path);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module
@@ -70,7 +71,9 @@ def run_console(executable,args,work,record,environment,pass_fds):
     return int(status[1]),target_out.read_bytes(),target_err.read_bytes()
 
 def run_case(name,executable,directory,tracing):
-    start=time.perf_counter();record=directory/name;record.mkdir();work=record/'work';work.mkdir()
+    start=time.perf_counter();record=directory/name;record.mkdir()
+    canonical='S:\\vc1.0\\rc\\'+name+'\\work'
+    namespace=record/'namespace';work=namespace.joinpath(*PureWindowsPath(canonical).parts[1:]);work.mkdir(parents=True)
     fixture,oracle=case_paths(name);verify_inputs(name,fixture)
     if (fixture/'source').exists():shutil.copytree(fixture/'source',work,dirs_exist_ok=True)
     setting=CONFIG['cases'][name];direct=setting.get('kind')=='direct-function-ABI'
@@ -78,18 +81,17 @@ def run_case(name,executable,directory,tracing):
     files,streams=expected_files(name,fixture,oracle)
     env={k:v for k,v in os.environ.items() if not k.startswith('RECON_')}
     for key in ('CL','_CL_','LINK','_LINK_','MSC_CMD_FLAGS','WINEPREFIX','WINEARCH','WINEDEBUG'):env.pop(key,None)
-    env.update(INCLUDE='T:\\include',WINEPATH='T:\\bin',RECON_DRIVE_T=str(ROOT/'toolchains/1.0-nt'),LC_ALL='C',
-               RECON_PROGRAM_PATH='Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\RC.EXE',TEMP=str(work),TMP=str(work))
+    env.update(INCLUDE='R:\\toolchains\\1.0-nt\\include',WINEPATH='R:\\toolchains\\1.0-nt\\bin',
+               RECON_DRIVE_R=str(ROOT),RECON_DRIVE_S=str(namespace),RECON_CANONICAL_CWD=canonical,LC_ALL='C',
+               RECON_PROGRAM_PATH='R:\\toolchains\\1.0-nt\\bin\\RC.EXE',TEMP=str(work),TMP=str(work))
     boundary=None;fds=[];entry=None
-    if (BINARY/'cases/native-boundaries'/name/'manifest.json').exists():
+    if name not in ('help','invalid-switch','missing-input','direct-whitespace','direct-basename'):
         metadata=json.loads((BINARY/'cases/native-boundaries'/name/'manifest.json').read_text())
         env.update(metadata['environment']);env['RECON_PROGRAM_PATH']=metadata['program']
+        assert metadata['canonical_cwd']==canonical,'captured canonical cwd differs'
         if metadata.get('PATH'):
             env['PATH']=metadata['PATH'];env['RECON_SPAWN_REQUIRE_EXISTS']='1'
-            # Preserve captured DOS identity without relying on the capture's
-            # private launch tree. The only declared child is an inert PE input
-            # whose response is replayed after strict identity/input checks.
-            env['RECON_DRIVE_Z']=str(record/'dos-z')
+            # Mirror only the fixed S: case tree; the child PE is inert input.
             child=processes.host_path(metadata['application'],work,env)
             child.parent.mkdir(parents=True)
             child.symlink_to(ROOT/'toolchains/1.0-nt/bin/RCPP.EXE')
@@ -151,7 +153,8 @@ def main():
     ap.add_argument('--trace',action='store_true');ap.add_argument('--directory',type=Path);ap.add_argument('--trace-cache',type=Path,default=traces.CACHE)
     options=ap.parse_args();executable=BINARY/('build/native-trace/RC.EXE' if options.trace else 'build/native/RC.EXE')
     assert executable.read_bytes()[:4]==b'\x7fELF'
-    directory=options.directory or Path(tempfile.mkdtemp(prefix='native-check-',dir=Path.home()/'.ai-tmp/vc1.0-rc'))
+    NATIVE_RUNS.mkdir(parents=True,exist_ok=True)
+    directory=options.directory or Path(tempfile.mkdtemp(prefix='native-check-',dir=NATIVE_RUNS))
     directory.mkdir(exist_ok=True);directory=directory.resolve();setup=time.perf_counter();tracing=None
     if options.trace:
         cache=traces.load(BINARY/'build/native-trace',options.trace_cache)

@@ -1,18 +1,354 @@
 {
-  "schema": 1,
+  "schema": 2,
   "case": "resources-rich",
   "kind": "captured-original-RCPP-process-boundary",
-  "target_sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
-  "child_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
   "arguments": "/dCASE_FROM_COMMAND=7 /Iinclude /foresources.res resources.rc",
-  "application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
-  "command_line": "RCPP.EXE  -f RC001096 -g RD001096 -D RC_INVOKED -pc \\:/ -E   -Iinclude  -IT:\\include  -DCASE_FROM_COMMAND=7",
+  "target_sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+  "program": "R:\\toolchains\\1.0-nt\\bin\\RC.EXE",
+  "canonical_cwd": "S:\\vc1.0\\rc\\resources-rich\\work",
+  "original_RC_pid": 292,
+  "original_RC_exit": 0,
+  "original_RC_stdout": {
+    "path": "RC.stdout.bin",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "original_RC_stderr": {
+    "path": "RC.stderr.bin",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "original_RC_products": [
+    {
+      "path": "products/resources.res",
+      "bytes": 3684,
+      "sha256": "10dee20c34c66e704c56b8bd31d7f2efbc60ce407964d727830449eb6a85618d"
+    }
+  ],
+  "complete_file_set": {
+    "resources.rc": {
+      "bytes": 3440,
+      "sha256": "47f13f702adfbcfc05a40ab9ce1a27cb22730e33f888be81e276ac424dc41881"
+    },
+    "resources.res": {
+      "bytes": 3684,
+      "sha256": "10dee20c34c66e704c56b8bd31d7f2efbc60ce407964d727830449eb6a85618d"
+    },
+    "resource.h": {
+      "bytes": 746,
+      "sha256": "8928ffb8acb0481e8775ca63dc0104143af852929b71c6459fd6889f4f93d8d8"
+    },
+    "assets/pointer.cur": {
+      "bytes": 198,
+      "sha256": "38904338263e5c23802d4961ece21222b3997f466887a0fb052994d0d3794d4a"
+    },
+    "assets/messages.bin": {
+      "bytes": 48,
+      "sha256": "27fbf6c0451b6521d19618032f26de4be6ae744c37082ec0917aa4afe89efccc"
+    },
+    "assets/payload.bin": {
+      "bytes": 50,
+      "sha256": "20c1bef1846bc87953a2663d95185cd5e33ad97a534899ed892a02f5a1a81590"
+    },
+    "assets/multi.ico": {
+      "bytes": 518,
+      "sha256": "4eafdacd795611297df4cd4dd5774d0955d0f12c644e1cd17d729e0e1168204d"
+    },
+    "assets/pattern.bmp": {
+      "bytes": 246,
+      "sha256": "d28d27e861fc34d7599df0b7bb3cdd02f8ddbc985daa846f9d06a5004757904f"
+    },
+    "include/features.h": {
+      "bytes": 938,
+      "sha256": "7b7fb5c3c82eb19ae662105631fbd1b02a4b313b7055453249976ac7714c2070"
+    },
+    "include/nested/values.h": {
+      "bytes": 129,
+      "sha256": "edcf2670a9f6af506a4ba80a5a3fab40619a765bb2d2dd50f149f9fffed5ef51"
+    }
+  },
+  "original_application_entries": [
+    "resource_main",
+    "switch_character",
+    "resource_alloc",
+    "prepare_input",
+    "write_file",
+    "detect_encoding",
+    "native_byte_order",
+    "read_source_line",
+    "prefix_matches",
+    "initialize_lexer",
+    "advance_character",
+    "read_source_character",
+    "read_buffered_character",
+    "read_file",
+    "compile_resources",
+    "initialize_resource_types",
+    "find_resource_type",
+    "duplicate_wide",
+    "allocate_resource_data",
+    "parse_resource_identifier",
+    "read_identifier",
+    "parse_language",
+    "next_token",
+    "scan_expression",
+    "expression_value",
+    "expression_factor",
+    "scan_number_literal",
+    "next_numeric_character",
+    "scan_hex_number",
+    "skip_expression_space",
+    "expression_operator",
+    "scan_keyword_or_symbol",
+    "ansi_to_wide",
+    "lookup_keyword",
+    "parse_memory_flag",
+    "begin_resource_data",
+    "put_word",
+    "parse_menu",
+    "parse_menu_item",
+    "scan_ansi_string",
+    "advance_argument",
+    "parse_menu_flag",
+    "mark_menu_item",
+    "put_menu_item",
+    "scan_decimal_number",
+    "combine_word_operators",
+    "finish_menu",
+    "write_resource",
+    "seek_file",
+    "record_resource",
+    "write_record_header",
+    "resource_payload_size",
+    "write_resource_name",
+    "copy_resource_data",
+    "parse_dialog",
+    "parse_word_expression",
+    "parse_dialog_options",
+    "parse_style",
+    "advance_argument_flags",
+    "scan_number_token",
+    "is_style_token",
+    "parse_dialog_caption",
+    "parse_dialog_font",
+    "parse_dialog_menu",
+    "put_dialog_header",
+    "put_dword",
+    "wide_atoi",
+    "put_wide_string",
+    "parse_dialog_controls",
+    "control_style",
+    "parse_static_control",
+    "parse_caption_control",
+    "parse_control_text",
+    "parse_control_id",
+    "parse_control_rectangle",
+    "put_dialog_control",
+    "align_resource_data",
+    "end_dialog_control",
+    "increment_dialog_controls",
+    "parse_edit_control",
+    "parse_group_control",
+    "parse_button_control",
+    "parse_listbox_control",
+    "parse_combobox_control",
+    "parse_scrollbar_control",
+    "parse_generic_control",
+    "parse_icon_control",
+    "wide_itoa",
+    "resource_free",
+    "parse_string_table",
+    "copy_resource_memory",
+    "parse_accelerators",
+    "accelerator_word_operators",
+    "mark_accelerator",
+    "finish_accelerators",
+    "split_icon_file",
+    "read_resource_file",
+    "resolve_resource_path",
+    "resource_stream",
+    "put_bytes",
+    "put_byte",
+    "copy_file_bytes",
+    "read_bitmap_file_header",
+    "copy_file_to_end",
+    "parse_raw_data",
+    "scan_wide_string",
+    "parse_dialog_include",
+    "parse_version_info",
+    "parse_fixed_version",
+    "parse_version_number",
+    "parse_version_scalar",
+    "put_version_block",
+    "resource_data_length",
+    "resource_data_end",
+    "parse_version_children",
+    "parse_version_value",
+    "parse_version_data",
+    "emit_string_tables",
+    "release_resource_data",
+    "resource_finish"
+  ],
+  "seeded_application_entries": [
+    "resource_main",
+    "switch_character",
+    "resource_alloc",
+    "prepare_input",
+    "write_file",
+    "detect_encoding",
+    "native_byte_order",
+    "read_source_line",
+    "prefix_matches",
+    "initialize_lexer",
+    "advance_character",
+    "read_source_character",
+    "read_buffered_character",
+    "read_file",
+    "compile_resources",
+    "initialize_resource_types",
+    "find_resource_type",
+    "duplicate_wide",
+    "allocate_resource_data",
+    "parse_resource_identifier",
+    "read_identifier",
+    "parse_language",
+    "next_token",
+    "scan_expression",
+    "expression_value",
+    "expression_factor",
+    "scan_number_literal",
+    "next_numeric_character",
+    "scan_hex_number",
+    "skip_expression_space",
+    "expression_operator",
+    "scan_keyword_or_symbol",
+    "ansi_to_wide",
+    "lookup_keyword",
+    "parse_memory_flag",
+    "begin_resource_data",
+    "put_word",
+    "parse_menu",
+    "parse_menu_item",
+    "scan_ansi_string",
+    "advance_argument",
+    "parse_menu_flag",
+    "mark_menu_item",
+    "put_menu_item",
+    "scan_decimal_number",
+    "combine_word_operators",
+    "finish_menu",
+    "write_resource",
+    "seek_file",
+    "record_resource",
+    "write_record_header",
+    "resource_payload_size",
+    "write_resource_name",
+    "copy_resource_data",
+    "parse_dialog",
+    "parse_word_expression",
+    "parse_dialog_options",
+    "parse_style",
+    "advance_argument_flags",
+    "scan_number_token",
+    "is_style_token",
+    "parse_dialog_caption",
+    "parse_dialog_font",
+    "parse_dialog_menu",
+    "put_dialog_header",
+    "put_dword",
+    "wide_atoi",
+    "put_wide_string",
+    "parse_dialog_controls",
+    "control_style",
+    "parse_static_control",
+    "parse_caption_control",
+    "parse_control_text",
+    "parse_control_id",
+    "parse_control_rectangle",
+    "put_dialog_control",
+    "align_resource_data",
+    "end_dialog_control",
+    "increment_dialog_controls",
+    "parse_edit_control",
+    "parse_group_control",
+    "parse_button_control",
+    "parse_listbox_control",
+    "parse_combobox_control",
+    "parse_scrollbar_control",
+    "parse_generic_control",
+    "parse_icon_control",
+    "wide_itoa",
+    "resource_free",
+    "parse_string_table",
+    "copy_resource_memory",
+    "parse_accelerators",
+    "accelerator_word_operators",
+    "mark_accelerator",
+    "finish_accelerators",
+    "split_icon_file",
+    "read_resource_file",
+    "resolve_resource_path",
+    "resource_stream",
+    "put_bytes",
+    "put_byte",
+    "copy_file_bytes",
+    "read_bitmap_file_header",
+    "copy_file_to_end",
+    "parse_raw_data",
+    "scan_wide_string",
+    "parse_dialog_include",
+    "parse_version_info",
+    "parse_fixed_version",
+    "parse_version_number",
+    "parse_version_scalar",
+    "put_version_block",
+    "resource_data_length",
+    "resource_data_end",
+    "parse_version_children",
+    "parse_version_value",
+    "parse_version_data",
+    "emit_string_tables",
+    "release_resource_data",
+    "resource_finish"
+  ],
+  "console_signal": null,
+  "debugger_stdout": {
+    "path": "debugger.stdout",
+    "bytes": 3897,
+    "sha256": "cd06225a42ddbda7ca63ab86ba0890868add03e6b6f6ed1b17b71af34ab4c2c6"
+  },
+  "debugger_stderr": {
+    "path": "debugger.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "capture_namespace": {
+    "prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+    "R": "/root/msvc2",
+    "S": "/root/.ai-tmp/msvc2"
+  },
+  "environment": {
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "WINEPATH": "R:\\toolchains\\1.0-nt\\bin"
+  },
+  "PATH": null,
+  "static_argv_provenance": {
+    "array_va": "0x0101b018",
+    "first_pointer": "0x0101b008",
+    "options_pointer": "0x01018670",
+    "argv0": "RCPP.EXE",
+    "spawnv_call_va": "0x01007acb",
+    "spawnvp_call_va": "0x01007af0"
+  },
+  "child_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+  "application": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+  "command_line": "RCPP.EXE  -f RC000292 -g RD000292 -D RC_INVOKED -pc \\:/ -E   -Iinclude  -IR:\\toolchains\\1.0-nt\\include  -DCASE_FROM_COMMAND=7",
   "argv": [
     "RCPP.EXE",
-    " -f RC001096 -g RD001096 -D RC_INVOKED -pc \\:/ -E   -Iinclude  -IT:\\include  -DCASE_FROM_COMMAND=7"
+    " -f RC000292 -g RD000292 -D RC_INVOKED -pc \\:/ -E   -Iinclude  -IR:\\toolchains\\1.0-nt\\include  -DCASE_FROM_COMMAND=7"
   ],
-  "input_name": "RC001096",
-  "output_name": "RD001096",
+  "input_name": "RC000292",
+  "output_name": "RD000292",
   "input": {
     "path": "input.bin",
     "bytes": 3381,
@@ -20,8 +356,8 @@
   },
   "response": {
     "path": "response.bin",
-    "bytes": 336686,
-    "sha256": "2a81ca8f6b54e1c32ec9457231c042b4beab85858b5411f794a46b65e86a1841"
+    "bytes": 349826,
+    "sha256": "de5719120789398b8c123b05c155082475371d9e2d4ddf67d2324714541f4545"
   },
   "stdout": {
     "path": "stdout.bin",
@@ -36,11 +372,11 @@
   "exit": 0,
   "reads": [
     {
-      "path": "RD001096",
+      "path": "RD000292",
       "exists": false
     },
     {
-      "path": "RC001096",
+      "path": "RC000292",
       "exists": true,
       "capture": {
         "path": "read-1.bin",
@@ -53,7 +389,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/windows.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/windows.h",
       "exists": true,
       "capture": {
         "path": "read-3.bin",
@@ -66,7 +402,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/windef.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/windef.h",
       "exists": true,
       "capture": {
         "path": "read-5.bin",
@@ -79,7 +415,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/winnt.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/winnt.h",
       "exists": true,
       "capture": {
         "path": "read-7.bin",
@@ -92,7 +428,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/ctype.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/ctype.h",
       "exists": true,
       "capture": {
         "path": "read-9.bin",
@@ -105,7 +441,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/string.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/string.h",
       "exists": true,
       "capture": {
         "path": "read-11.bin",
@@ -118,7 +454,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/winbase.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/winbase.h",
       "exists": true,
       "capture": {
         "path": "read-13.bin",
@@ -131,7 +467,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/winerror.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/winerror.h",
       "exists": true,
       "capture": {
         "path": "read-15.bin",
@@ -144,7 +480,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/wingdi.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/wingdi.h",
       "exists": true,
       "capture": {
         "path": "read-17.bin",
@@ -157,7 +493,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/winuser.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/winuser.h",
       "exists": true,
       "capture": {
         "path": "read-19.bin",
@@ -170,7 +506,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/stdarg.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/stdarg.h",
       "exists": true,
       "capture": {
         "path": "read-21.bin",
@@ -183,7 +519,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/winnls.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/winnls.h",
       "exists": true,
       "capture": {
         "path": "read-23.bin",
@@ -196,7 +532,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/wincon.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/wincon.h",
       "exists": true,
       "capture": {
         "path": "read-25.bin",
@@ -209,7 +545,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/winver.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/winver.h",
       "exists": true,
       "capture": {
         "path": "read-27.bin",
@@ -222,7 +558,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/winreg.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/winreg.h",
       "exists": true,
       "capture": {
         "path": "read-29.bin",
@@ -235,7 +571,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/winnetwk.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/winnetwk.h",
       "exists": true,
       "capture": {
         "path": "read-31.bin",
@@ -248,7 +584,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/cderr.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/cderr.h",
       "exists": true,
       "capture": {
         "path": "read-33.bin",
@@ -261,7 +597,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/dde.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/dde.h",
       "exists": true,
       "capture": {
         "path": "read-35.bin",
@@ -274,7 +610,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/ddeml.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/ddeml.h",
       "exists": true,
       "capture": {
         "path": "read-37.bin",
@@ -287,7 +623,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/dlgs.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/dlgs.h",
       "exists": true,
       "capture": {
         "path": "read-39.bin",
@@ -300,7 +636,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/lzexpand.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/lzexpand.h",
       "exists": true,
       "capture": {
         "path": "read-41.bin",
@@ -313,7 +649,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/mmsystem.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/mmsystem.h",
       "exists": true,
       "capture": {
         "path": "read-43.bin",
@@ -326,7 +662,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/nb30.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/nb30.h",
       "exists": true,
       "capture": {
         "path": "read-45.bin",
@@ -339,7 +675,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/rpc.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/rpc.h",
       "exists": true,
       "capture": {
         "path": "read-47.bin",
@@ -348,7 +684,7 @@
       }
     },
     {
-      "path": "T:\\include/rpcdce.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/rpcdce.h",
       "exists": true,
       "capture": {
         "path": "read-48.bin",
@@ -357,7 +693,7 @@
       }
     },
     {
-      "path": "T:\\include/rpcdcep.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/rpcdcep.h",
       "exists": true,
       "capture": {
         "path": "read-49.bin",
@@ -366,7 +702,7 @@
       }
     },
     {
-      "path": "T:\\include/rpcnsi.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/rpcnsi.h",
       "exists": true,
       "capture": {
         "path": "read-50.bin",
@@ -375,7 +711,7 @@
       }
     },
     {
-      "path": "T:\\include/rpcnterr.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/rpcnterr.h",
       "exists": true,
       "capture": {
         "path": "read-51.bin",
@@ -388,7 +724,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/windows.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/windows.h",
       "exists": true,
       "capture": {
         "path": "read-53.bin",
@@ -401,7 +737,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/excpt.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/excpt.h",
       "exists": true,
       "capture": {
         "path": "read-55.bin",
@@ -414,7 +750,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/winerror.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/winerror.h",
       "exists": true,
       "capture": {
         "path": "read-57.bin",
@@ -427,7 +763,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/shellapi.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/shellapi.h",
       "exists": true,
       "capture": {
         "path": "read-59.bin",
@@ -440,7 +776,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/winperf.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/winperf.h",
       "exists": true,
       "capture": {
         "path": "read-61.bin",
@@ -453,7 +789,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/winsock.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/winsock.h",
       "exists": true,
       "capture": {
         "path": "read-63.bin",
@@ -466,7 +802,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/windows.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/windows.h",
       "exists": true,
       "capture": {
         "path": "read-65.bin",
@@ -479,7 +815,7 @@
       "exists": false
     },
     {
-      "path": "T:\\include/winsvc.h",
+      "path": "R:\\toolchains\\1.0-nt\\include/winsvc.h",
       "exists": true,
       "capture": {
         "path": "read-67.bin",
@@ -527,30 +863,147 @@
   "temporary_input_response_offsets": [
     9
   ],
-  "environment": {
-    "INCLUDE": "T:\\include",
-    "WINEPATH": "T:\\bin"
-  },
-  "PATH": null,
-  "cwd": "source-only isolated case working directory",
-  "original_RC_exit": 0,
-  "console_signal": null,
   "independently_verified": true,
-  "timing": {
-    "setup_seconds": 0.011583218351006508,
-    "original_capture_seconds": 1.1781817581504583,
-    "independent_original_seconds": 0.8544430918991566,
-    "total_seconds": 2.0935573568567634
-  },
-  "debugger_stdout": {
-    "path": "debugger.stdout",
-    "bytes": 875,
-    "sha256": "29412702209b8144ec8c53bf9763b41a5c5e2e118412962f5c8bfbfbe471ab6d"
-  },
-  "debugger_stderr": {
-    "path": "debugger.stderr",
+  "independent_stdout": {
+    "path": "independent.stdout",
     "bytes": 0,
     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   },
-  "program": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\RC.EXE"
+  "independent_stderr": {
+    "path": "independent.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "timing": {
+    "setup_seconds": 0.004719379357993603,
+    "original_capture_seconds": 5.49774066451937,
+    "independent_original_seconds": 4.539470539428294,
+    "total_seconds": 10.093503800220788,
+    "capture_checks_and_freeze_seconds": 0.051573216915130615
+  },
+  "application_projection": {
+    "seen": [],
+    "expected": [
+      "resource_main",
+      "switch_character",
+      "resource_alloc",
+      "prepare_input",
+      "write_file",
+      "detect_encoding",
+      "native_byte_order",
+      "read_source_line",
+      "prefix_matches",
+      "initialize_lexer",
+      "advance_character",
+      "read_source_character",
+      "read_buffered_character",
+      "read_file",
+      "compile_resources",
+      "initialize_resource_types",
+      "find_resource_type",
+      "duplicate_wide",
+      "allocate_resource_data",
+      "parse_resource_identifier",
+      "read_identifier",
+      "parse_language",
+      "next_token",
+      "scan_expression",
+      "expression_value",
+      "expression_factor",
+      "scan_number_literal",
+      "next_numeric_character",
+      "scan_hex_number",
+      "skip_expression_space",
+      "expression_operator",
+      "scan_keyword_or_symbol",
+      "ansi_to_wide",
+      "lookup_keyword",
+      "parse_memory_flag",
+      "begin_resource_data",
+      "put_word",
+      "parse_menu",
+      "parse_menu_item",
+      "scan_ansi_string",
+      "advance_argument",
+      "parse_menu_flag",
+      "mark_menu_item",
+      "put_menu_item",
+      "scan_decimal_number",
+      "combine_word_operators",
+      "finish_menu",
+      "write_resource",
+      "seek_file",
+      "record_resource",
+      "write_record_header",
+      "resource_payload_size",
+      "write_resource_name",
+      "copy_resource_data",
+      "parse_dialog",
+      "parse_word_expression",
+      "parse_dialog_options",
+      "parse_style",
+      "advance_argument_flags",
+      "scan_number_token",
+      "is_style_token",
+      "parse_dialog_caption",
+      "parse_dialog_font",
+      "parse_dialog_menu",
+      "put_dialog_header",
+      "put_dword",
+      "wide_atoi",
+      "put_wide_string",
+      "parse_dialog_controls",
+      "control_style",
+      "parse_static_control",
+      "parse_caption_control",
+      "parse_control_text",
+      "parse_control_id",
+      "parse_control_rectangle",
+      "put_dialog_control",
+      "align_resource_data",
+      "end_dialog_control",
+      "increment_dialog_controls",
+      "parse_edit_control",
+      "parse_group_control",
+      "parse_button_control",
+      "parse_listbox_control",
+      "parse_combobox_control",
+      "parse_scrollbar_control",
+      "parse_generic_control",
+      "parse_icon_control",
+      "wide_itoa",
+      "resource_free",
+      "parse_string_table",
+      "copy_resource_memory",
+      "parse_accelerators",
+      "accelerator_word_operators",
+      "mark_accelerator",
+      "finish_accelerators",
+      "split_icon_file",
+      "read_resource_file",
+      "resolve_resource_path",
+      "resource_stream",
+      "put_bytes",
+      "put_byte",
+      "copy_file_bytes",
+      "read_bitmap_file_header",
+      "copy_file_to_end",
+      "parse_raw_data",
+      "scan_wide_string",
+      "parse_dialog_include",
+      "parse_version_info",
+      "parse_fixed_version",
+      "parse_version_number",
+      "parse_version_scalar",
+      "put_version_block",
+      "resource_data_length",
+      "resource_data_end",
+      "parse_version_children",
+      "parse_version_value",
+      "parse_version_data",
+      "emit_string_tables",
+      "release_resource_data",
+      "resource_finish"
+    ]
+  }
 }

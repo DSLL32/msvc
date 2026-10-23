@@ -6329,8 +6329,7 @@
           "sibling_rcpp": false,
           "current_directory_rcpp": false,
           "PATH": ";;<missing-directory>;;\"<original-RCPP-directory-with-space>\";;",
-          "WINEPATH": "",
-          "child_final_path": "T:\\bin\\RCPP.EXE"
+          "WINEPATH": ""
         }
       },
       "independently_recaptured": {

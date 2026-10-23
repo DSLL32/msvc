@@ -21,10 +21,11 @@ def reference(directory,record):
 def host_path(text,work,environment=None):
     text=text.replace('\\','/')
     if len(text)>1 and text[1]==':':
-        drive=text[0].upper();assert drive in ('T','Z'),('unknown captured drive',text)
+        drive=text[0].upper();assert drive in ('R','S'),('unknown captured drive',text)
         environment=environment or {}
         base=environment.get('RECON_DRIVE_'+drive)
-        path=(Path(base) if base else (ROOT/'toolchains/1.0-nt' if drive=='T' else Path('/')))/text[3:]
+        assert base,('captured drive has no fixed namespace',drive)
+        path=Path(base)/text[3:]
     else:path=work/text
     result=Path(path.anchor)
     for part in path.parts[1:]:
@@ -40,7 +41,11 @@ def host_path(text,work,environment=None):
 class ProcessFixture:
     def __init__(self,name,work,environment):
         self.directory=BINARY/'cases/native-boundaries'/name
-        self.metadata=json.loads((self.directory/'manifest.json').read_text())
+        manifest=(self.directory/'manifest.json').read_bytes()
+        index=json.loads((self.directory.parent/'capture-validation.json').read_text())
+        pinned=next(r for r in index['cases'] if r['case']==name)
+        assert sha(manifest)==pinned['manifest_sha256'],'captured RCPP manifest pin differs'
+        self.metadata=json.loads(manifest)
         self.work,self.environment,self.name=work,environment,name
         self.input=reference(self.directory,self.metadata['input'])
         self.response=reference(self.directory,self.metadata['response'])
@@ -55,11 +60,14 @@ class ProcessFixture:
         start=time.perf_counter();m=self.metadata
         assert not self.calls,'unexpected repeated RCPP invocation'
         assert request['mode']==0 and request['cwd']==str(self.work),'RCPP mode/cwd differs'
+        assert m['canonical_cwd']==self.environment['RECON_CANONICAL_CWD'],'RCPP canonical cwd differs'
+        assert host_path(m['canonical_cwd'],self.work,self.environment).resolve()==self.work.resolve(),'RCPP namespace/cwd differs'
         assert request['file']==m['application'],('RCPP executable spelling differs',request['file'],m['application'])
         assert sha(host_path(request['file'],self.work,self.environment).read_bytes())==m['child_sha256'],'RCPP executable bytes differ'
         env=dict(entry.split('=',1) for entry in request['environment'])
         for key in ('INCLUDE','WINEPATH','RECON_PROGRAM_PATH','TEMP','TMP'):
             assert env.get(key)==self.environment.get(key),'RCPP environment differs: '+key
+        if m.get('PATH'):assert env.get('PATH')==m['PATH'],'RCPP PATH differs'
         for key in ('CL','_CL_','LINK','_LINK_','MSC_CMD_FLAGS'):
             assert key not in env,'unexpected RCPP environment: '+key
         digits=('%06d'%request['pid'])[-6:]

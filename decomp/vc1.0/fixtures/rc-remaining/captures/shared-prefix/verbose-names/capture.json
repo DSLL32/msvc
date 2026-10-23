@@ -1,5 +1,5 @@
 {
-  "native_pid": 292,
+  "native_pid": 316,
   "arguments": "/v /x /foverbose.res verbose-names.rc",
   "exit": 0,
   "source_files": [
@@ -18,7 +18,7 @@
   },
   "stdout_digest": {
     "bytes": 349,
-    "sha256": "b71a766fbfd54dd07d9e2f30f900ba5510c333e32804bcf2a549ce62e3056ea4"
+    "sha256": "8a1129e69a5764f4a4d65c710f552035dd74d2b3f9487ff9fdbc6c1bd2e00a68"
   },
   "stderr_digest": {
     "bytes": 0,

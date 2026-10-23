@@ -6,6 +6,12 @@
 #include <string.h>
 #include <recon.h>
 static unsigned char buffer[65536];
+/* Reference-only one-shot application entry observers. No original code is
+   substituted: each first byte is restored before its instruction executes. */
+static DWORD entry_rvas[256];
+static BYTE entry_bytes[256];
+static char entry_names[256][96];
+static int entry_count;
 static void save(char *root,char *name,void *data,unsigned length)
 {
     char path[1024]; FILE *file;
@@ -33,6 +39,13 @@ int main(int argc,char **argv)
     int i,stepping=-1,launches=0,deletes=0; unsigned length;
     char command[4096],name[80],path[1024],*entry;
     if(argc!=7 && argc!=8) return 2;
+    if(getenv("RC_REFERENCE_ENTRIES")) {
+        FILE *plan=fopen(getenv("RC_REFERENCE_ENTRIES"),"r");
+        if(!plan)return 46;
+        while(entry_count<256 && fscanf(plan,"%lx %95s",entry_rvas+entry_count,entry_names[entry_count])==2)++entry_count;
+        if(!feof(plan))return 47;
+        fclose(plan);
+    }
     if(getenv("RC_REFERENCE_PATH"))SetEnvironmentVariableA("PATH",getenv("RC_REFERENCE_PATH"));
     SetEnvironmentVariableA("TMP",argv[5]); SetEnvironmentVariableA("TEMP",argv[5]);
     memset(&security,0,sizeof(security));security.nLength=sizeof(security);security.bInheritHandle=TRUE;
@@ -54,6 +67,7 @@ int main(int argc,char **argv)
     }
     sprintf(command,"\"%s\" %s",argv[1],argv[6]);
     if(!CreateProcessA(argv[1],command,0,0,TRUE,DEBUG_PROCESS,0,argv[5],&startup,&child)) return 3;
+    printf("original pid %lu\n",child.dwProcessId);
     for(;;) {
         if(!WaitForDebugEvent(&event,30000)) return 4;
         status=DBG_CONTINUE;
@@ -73,6 +87,11 @@ int main(int argc,char **argv)
                 sites[i]=base+strtoul(argv[2+i],NULL,16);
                 if(!ReadProcessMemory(child.hProcess,(void *)sites[i],originals+i,1,&amount)) return 5;
                 if(!WriteProcessMemory(child.hProcess,(void *)sites[i],&trap,1,&amount)) return 6;
+            }
+            for(i=0;i<entry_count;++i) {
+                DWORD address=base+entry_rvas[i];
+                if(!ReadProcessMemory(child.hProcess,(void *)address,entry_bytes+i,1,&amount))return 48;
+                if(!WriteProcessMemory(child.hProcess,(void *)address,&trap,1,&amount))return 49;
             }
             FlushInstructionCache(child.hProcess,NULL,0);
             if(event.u.CreateProcessInfo.hFile) CloseHandle(event.u.CreateProcessInfo.hFile);
@@ -99,6 +118,18 @@ int main(int argc,char **argv)
                     GetThreadContext(cpp_thread,&context);context.EFlags&=~0x100;SetThreadContext(cpp_thread,&context);
                     WriteProcessMemory(cpp_process,(void *)cpp_site,&trap,1,&amount);FlushInstructionCache(cpp_process,(void *)cpp_site,1);cpp_stepping=0;
                 } else if(code!=EXCEPTION_BREAKPOINT) {fprintf(stderr,"child exception %08lx\n",code);return 45;}
+                ContinueDebugEvent(event.dwProcessId,event.dwThreadId,DBG_CONTINUE);continue;
+            }
+            for(i=0;i<entry_count;++i)if(entry_rvas[i] &&
+                (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==base+entry_rvas[i])break;
+            if(code==EXCEPTION_BREAKPOINT && i<entry_count) {
+                DWORD address=base+entry_rvas[i];
+                memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL;
+                if(!GetThreadContext(child.hThread,&context))return 50;
+                if(!WriteProcessMemory(child.hProcess,(void *)address,entry_bytes+i,1,&amount))return 51;
+                FlushInstructionCache(child.hProcess,(void *)address,1);
+                context.Eip=address;if(!SetThreadContext(child.hThread,&context))return 52;
+                printf("entry %s\n",entry_names[i]);entry_rvas[i]=0;
                 ContinueDebugEvent(event.dwProcessId,event.dwThreadId,DBG_CONTINUE);continue;
             }
             for(i=0;i<2;++i) if((DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==sites[i]) break;

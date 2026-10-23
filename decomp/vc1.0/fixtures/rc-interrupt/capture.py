@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Analysis-only real-console runner, shared by capture and paired RC replay.
+"""Explicit original-only real-console analysis; never a native fixture step.
 
 No callback injection or PID substitution. Raw proof and before-files are saved;
 only relations involving OS-assigned IDs are checked, never normalized.
@@ -11,29 +11,16 @@ import json
 import re
 import shutil
 import subprocess
-import threading
 
 HERE = Path(__file__).resolve().parent
 RC = HERE.parent.parent / 'rc'
 wt = importlib.machinery.SourceFileLoader('interrupt_wine_tool', str(RC/'scripts/wine-tool.py')).load_module()
-SCRATCH = Path.home()/'.ai-tmp/vc1.0-rc-interrupt'
-LOCK = threading.Lock()
+SCRATCH = wt.SCRATCH/'vc1.0/rc/console-signal-reference'
+from case_paths import capture_lock
 
 
 def environment(work):
-    with LOCK:
-        prefix = SCRATCH/'wine'
-        env = wt.environment()
-        env['WINEPREFIX'] = str(prefix)
-        if not (prefix/'system.reg').exists():
-            prefix.parent.mkdir(parents=True, exist_ok=True)
-            with (SCRATCH/'wineboot.log').open('wb') as log:
-                subprocess.run(['wineboot','-u'],env=env,stdout=log,stderr=log,check=True,timeout=90)
-        drive = prefix/'dosdevices/t:'
-        if not drive.is_symlink(): drive.symlink_to(wt.TC, target_is_directory=True)
-        assert drive.resolve() == wt.TC.resolve()
-        server = subprocess.run(['wineserver','-p'], env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        assert server.returncode in (0,2)
+    env = wt.environment()
     env.update(TEMP=wt.windows(work),TMP=wt.windows(work))
     return env
 
@@ -43,7 +30,7 @@ def execute(executable, arguments, work, stem, rvas):
     before = Path(str(stem)+'.before')
     if before.exists(): shutil.rmtree(before)
     before.mkdir(parents=True)
-    command = ['wine',str(RC/'build/interrupt-run.exe'),wt.windows(executable),arguments,
+    command = ['wine',wt.windows(RC/'build/interrupt-run.exe'),wt.windows(executable),arguments,
                wt.windows(str(stem)+'.stdout'),wt.windows(str(stem)+'.stderr'),
                wt.windows(str(stem)+'.events'),wt.windows(work)]
     command += ['%x'%v for v in rvas]
@@ -90,11 +77,12 @@ if __name__ == '__main__':
     assert hashlib.sha256(original.read_bytes()).hexdigest() == cfg['target']['sha256']
     functions = {r['name']:r['start']-pe.base for r in cfg['driver']}
     thunk = next(r['start']-pe.base for r in imports(pe) if r['name']=='import:SetConsoleCtrlHandler')
-    work = SCRATCH/'independent-original'; stem = SCRATCH/'independent-original-capture'
-    if work.exists():shutil.rmtree(work)
-    shutil.copytree(HERE/'source',work)
-    assert execute(original,'/x /fointerrupt.res interrupt.rc',work,stem,
-                   [thunk,functions['_initialize_lexer@4'],functions['_interrupt_resource@4']]) == 'exit 1\n'
-    assert {p.name:p.read_bytes() for p in work.iterdir()} == {'interrupt.rc':(HERE/'source/interrupt.rc').read_bytes()}
-    assert Path(str(stem)+'.stdout').read_bytes() == Path(str(stem)+'.stderr').read_bytes() == b''
-    print('Original: real Ctrl+C callback argument 0; exit 1; empty streams; exact cleanup.')
+    with capture_lock('console-signal-reference'):
+        work = SCRATCH/'independent-original'; stem = SCRATCH/'independent-original-capture'
+        if work.exists():shutil.rmtree(work)
+        shutil.copytree(HERE/'source',work)
+        assert execute(original,'/x /fointerrupt.res interrupt.rc',work,stem,
+                       [thunk,functions['_initialize_lexer@4'],functions['_interrupt_resource@4']]) == 'exit 1\n'
+        assert {p.name:p.read_bytes() for p in work.iterdir()} == {'interrupt.rc':(HERE/'source/interrupt.rc').read_bytes()}
+        assert Path(str(stem)+'.stdout').read_bytes() == Path(str(stem)+'.stderr').read_bytes() == b''
+        print('Original: real Ctrl+C callback argument 0; exit 1; empty streams; exact cleanup.')

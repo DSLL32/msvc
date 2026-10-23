@@ -26,8 +26,8 @@
     },
     {
       "path": "capture.py",
-      "bytes": 6596,
-      "sha256": "3aca5f6c21a3451cec04323dec9e54e9f169f88f51830ca72addfd5052cc423d"
+      "bytes": 6526,
+      "sha256": "f4b20c9fc644b06f24b245ab354b37be37d0a21dffc144639bb289ee37947018"
     }
   ],
   "cases": [
@@ -41,29 +41,29 @@
       ],
       "expected_exit": 0,
       "stdout": {
-        "path": "cases/verbose-names/stdout.bin",
+        "path": "captures/shared-prefix/verbose-names/stdout.bin",
         "bytes": 349,
-        "sha256": "b71a766fbfd54dd07d9e2f30f900ba5510c333e32804bcf2a549ce62e3056ea4"
+        "sha256": "8a1129e69a5764f4a4d65c710f552035dd74d2b3f9487ff9fdbc6c1bd2e00a68"
       },
       "stderr": {
-        "path": "cases/verbose-names/stderr.bin",
+        "path": "captures/shared-prefix/verbose-names/stderr.bin",
         "bytes": 0,
         "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
       },
       "outputs": [
         {
           "output_name": "verbose.res",
-          "path": "cases/verbose-names/verbose.res",
+          "path": "captures/shared-prefix/verbose-names/verbose.res",
           "bytes": 180,
           "sha256": "6281f6ea61374460b5bf0608b11f4f8d67aca223c042280aa6fc0b45573df4a8"
         }
       ],
       "proof": {
-        "path": "cases/verbose-names/proof.log",
-        "bytes": 536,
-        "sha256": "d32765f95e4215d2d8457a0c38b8134f02180f1addf72d2f31fd95fc3dbe5998"
+        "path": "captures/shared-prefix/verbose-names/proof.log",
+        "bytes": 572,
+        "sha256": "5751d7fa1445591ede6a9db26155bd3319f69f867496f4818398a392bd4bb101"
       },
-      "native_pid": 292,
+      "native_pid": 316,
       "symbolic_stdout": {
         "bytes": 349,
         "fields": [
@@ -114,6 +114,16 @@
           "pid_callee_start": "0x0100e3a0",
           "collision_rule": "first candidate absent in fresh source-only case directory"
         }
+      },
+      "independent_proof": {
+        "path": "captures/shared-prefix/verbose-names/independent-proof.log",
+        "bytes": 572,
+        "sha256": "9b3138263946c489c2a439a0bc167406d9741eb01bfc4301eda4f3cb1360512f"
+      },
+      "capture": {
+        "path": "captures/shared-prefix/verbose-names/capture.json",
+        "bytes": 661,
+        "sha256": "1992a7842ca5cc3257fda57c1b5444f49f2ef8f64a70954f48589138661d2771"
       }
     },
     {
@@ -125,36 +135,52 @@
       ],
       "expected_exit": 0,
       "stdout": {
-        "path": "cases/path-fallback/stdout.bin",
+        "path": "captures/shared-prefix/path-fallback/stdout.bin",
         "bytes": 0,
         "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
       },
       "stderr": {
-        "path": "cases/path-fallback/stderr.bin",
+        "path": "captures/shared-prefix/path-fallback/stderr.bin",
         "bytes": 0,
         "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
       },
       "outputs": [
         {
           "output_name": "path.res",
-          "path": "cases/path-fallback/path.res",
+          "path": "captures/shared-prefix/path-fallback/path.res",
           "bytes": 68,
           "sha256": "d40bd446753ac712bf8621ea929d08fa2f20715fa1ccb7001e482ef79707201f"
         }
       ],
       "proof": {
-        "path": "cases/path-fallback/proof.log",
-        "bytes": 792,
-        "sha256": "1f77c8faa4593d6e76287941dba225b106906738fa9540edfdffa54bfb100c54"
+        "path": "captures/shared-prefix/path-fallback/proof.log",
+        "bytes": 795,
+        "sha256": "2f38fe6b4312cc57f444e12a763030f3de05add9d49a4cee9dd3a46529bafc7a"
       },
-      "native_pid": 324,
+      "native_pid": 348,
       "launch": {
         "sibling_rcpp": false,
         "current_directory_rcpp": false,
         "PATH": ";;<missing-directory>;;\"<original-RCPP-directory-with-space>\";;",
         "WINEPATH": "",
-        "child_final_path": "T:\\bin\\RCPP.EXE"
+        "child_final_path": "R:\\toolchains\\1.0-nt\\bin\\RCPP.EXE"
+      },
+      "independent_proof": {
+        "path": "captures/shared-prefix/path-fallback/independent-proof.log",
+        "bytes": 795,
+        "sha256": "5245a84d60a7d36a1ebf2e6b9ae72e8592b51dcd565b4dffdf78a7b33adc920b"
+      },
+      "capture": {
+        "path": "captures/shared-prefix/path-fallback/capture.json",
+        "bytes": 646,
+        "sha256": "92081f1954c3d32fecf869b0faa495158697a4692fcb547da3f897cb9f28f81e"
       }
     }
-  ]
+  ],
+  "capture_namespace": {
+    "prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+    "R": "/root/msvc2",
+    "S": "/root/.ai-tmp/msvc2",
+    "recaptured": true
+  }
 }
