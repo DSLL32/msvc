@@ -298,3 +298,13 @@ unsigned short read_coff_file_name(char *filename, unsigned long index)
     filename[i] = 0;
     return 1;
 }
+
+void set_coff_function_name(CoffFunction *record, const char *filename)
+{
+    unsigned long length, i;
+
+    for (length = 0; filename[length]; ++length) {}
+    record->name = malloc(length+1);
+    if (!record->name) fatal_error(13, NULL, NULL);
+    for (i = 0; i <= length; ++i) record->name[i] = filename[i];
+}

@@ -19,9 +19,13 @@ def validate(item,pe):
         if proof['base_register']=='ebx':
             assert proof['return_slots']==[dict(slot=0,address=0x2848c)],'unreviewed allocation constructor caller'
         else:
-            assert proof['base_register']=='esi' and proof['return_slots']==[dict(slot=0,address=0x28d16),dict(slot=82,address=0x2848c)],'unreviewed forwarded allocation caller'
-            assert pe.read(0x28cb9,7)==bytes.fromhex('8bb42440010000')and pe.read(0x28d10,1)==b'\x56','constructor allocation forwarding changed'
-            assert proof['mode']=='input' and proof['defined_bytes']==28 and proof['initial_bytes']=='00'*28,'unproved constructor initialized state'
+            assert proof['base_register']=='esi','unreviewed allocation carrier'
+            contexts={0x28d16:(82,0x28d10,'input'),0x28d25:(83,0x28d1f,'output')}
+            returned=proof['return_slots'][0]['address'];assert returned in contexts,'unreviewed forwarded allocation call'
+            slot,push,mode=contexts[returned]
+            assert proof['return_slots']==[dict(slot=0,address=returned),dict(slot=slot,address=0x2848c)]and proof['mode']==mode,'unreviewed forwarded allocation caller'
+            assert pe.read(0x28cb9,7)==bytes.fromhex('8bb42440010000')and pe.read(push,1)==b'\x56','constructor allocation forwarding changed'
+            if mode=='input':assert proof['defined_bytes']==28 and proof['initial_bytes']=='00'*28,'unproved constructor initialized state'
     else:
         assert proof.get('location','stack')=='stack','unknown typed output location'
         local_offset=proof['esp_offset']-proof['frame'].get('entry_bias',0)
