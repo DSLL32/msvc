@@ -370,3 +370,55 @@ def line_trial(original,native):
     assert proof['application_trace'][-1]=='rc_read_wide_line'
     proof.update(trial='rc_read_wide_line',first_line=dict(utf16=expected.hex(),input_bytes=consumed,line_number=0),local_allocation=dict(flags=64,bytes=4177,original_pointer=int(pointers[0],16),native_pointer=allocated['result'],freed=True),file=dict(remaining=512-consumed,meaningful_buffer_bytes=512,next_buffer_capacity=4096),ctype=dict(character=35,mask=8,result=0))
     return proof
+
+
+def prefix_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_prefix_equal'and len(config['accepted'])==17
+    a,b,proof=checkpoint(original,native,'rc_notify_progress',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c28724 and a['words'][1:3]==[1,64]
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_prepare_input\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    text=(original/'events.txt').read_text();arguments=b['arguments'];source=(original/'source/resources.rc').read_bytes()
+    assert arguments['kind']==1 and arguments['value']==64 and arguments['current_line']==63
+    assert re.findall(r'^progress-current-line (\d+)$',text,re.M)==['63']
+    assert (original/'globals.bin').read_bytes()[0x16ce8-0x14000:0x16ce8-0x14000+4]==struct.pack('<I',63)
+    expected_line=(source.splitlines()[63].decode('ascii')+'\0').encode('utf-16le')
+    assert raw_bytes(text,'progress-line')==bytes.fromhex(arguments['line'])==expected_line
+    assert re.findall(r'^prefix-first-result (-?\d+)$',text,re.M)==['0']
+    assert arguments['prefix_results']==json.loads((native/'prefix-results.json').read_text())==[0]
+    calls=re.findall(r'^prefix-towupper (\d+) raw=([0-9a-f]+)$',text,re.M)
+    returns=re.findall(r'^prefix-towupper-result (\d+) raw=([0-9a-f]+)$',text,re.M)
+    assert len(calls)==len(returns)==2
+    assert [(int(value),int(result))for(value,raw),(result,register)in zip(calls,returns)]==[(114,82),(35,35)]
+    assert all(int(value)==(int(raw,16)&65535)for value,raw in calls+returns)
+    assert arguments['towupper']==json.loads((native/'towupper.json').read_text())==[dict(character=114,result=82),dict(character=35,result=35)]
+    template='#line %d\r\n\0'.encode('utf-16le');formatted='#line 1\r\n\0'.encode('utf-16le')
+    initial='#line 1"resources.rc"\r\n\0'.encode('utf-16le')
+    assert raw_bytes(text,'line-format-template')==template
+    assert re.findall(r'^line-format-number (-?\d+)$',text,re.M)==['1']and re.findall(r'^line-format-result (-?\d+)$',text,re.M)==['9']
+    before=raw_bytes(text,'line-format-before');after=raw_bytes(text,'line-format-after')
+    assert len(before)==len(after)==8196 and before.startswith(initial)and after==formatted+before[len(formatted):]
+    formats=arguments['line_format'];assert formats==json.loads((native/'line-format.json').read_text())and len(formats)==1
+    call=formats[0];assert call['number']==1 and call['result']==9 and bytes.fromhex(call['format'])==template
+    new_before=bytes.fromhex(call['before']);new_after=bytes.fromhex(call['after'])
+    assert len(new_before)==len(new_after)==8196 and new_before.startswith(initial)and new_after==formatted+new_before[len(formatted):]
+    for label,reading in [('input',True),('output',False)]:
+        old=struct.unpack('<8I',raw_bytes(text,'progress-'+label+'-state'));new=struct.unpack('<8I',bytes.fromhex(arguments[label+'_state']))
+        original_buffer=raw_bytes(text,'progress-'+label+'-buffer');native_buffer=bytes.fromhex(arguments[label+'_buffer']);assert original_buffer==native_buffer
+        if reading:
+            assert original_buffer==source[512:]and len(original_buffer)==2928
+            consumed=sum(len(line)for line in source.splitlines(keepends=True)[:64])-512
+            for state in [old,new]:assert state[0]-state[2]==consumed and (state[1],state[3],state[5],state[6],state[7])==(len(original_buffer)-consumed,9,0,4096,0)
+        else:
+            assert len(original_buffer)==3776
+            for state in [old,new]:assert state[0]-state[2]==len(original_buffer)and (state[1],state[3],state[5],state[6],state[7])==(4096-len(original_buffer),0x8a,0,4096,0)
+        assert old[4]>=3 and new[4]>=3
+    identity=b['heap_identity'];blocks=identity['blocks'];assert len(blocks)==3
+    for field,label,size in [('rc_include_paths','include-current-block',528),('rc_input_temporary','input-temporary-block',268),('rc_output_temporary','output-temporary-block',268)]:
+        pointer=int.from_bytes(bytes.fromhex(b['globals'][field]),'little')
+        block=next(block for block in blocks if block['payload']+8==pointer)
+        assert block['owner']==identity['handle']and block['flags']==9 and block['bytes']==size
+        assert bytes.fromhex(block['contents'])==raw_bytes(text,label)
+    assert proof['application_trace'][-1]=='rc_prefix_equal'
+    proof.update(trial='rc_prefix_equal',comparison=dict(result=0,towupper=[(114,82),(35,35)],abi='16-bit CRT argument/result; raw upper EAX bits not value'),line_format=dict(number=1,result=9,bytes=formatted.hex(),tail='each caller retains its own unwritten stack bytes'),progress=dict(kind=1,value=64,current_line=63,output_buffer_bytes=3776,input_buffer_bytes=2928))
+    return proof

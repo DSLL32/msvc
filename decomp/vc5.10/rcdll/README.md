@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Fifteen application functions (7,281 original code bytes), two embedded CRT functions
+Sixteen application functions (7,366 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_prefix_equal`.
+currently matches at the next named trap, `rc_notify_progress`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -84,7 +84,7 @@ is checked separately.
 ## Counts, timing and future inputs
 
 The provisional Ghidra inventory discovers 299 application functions / 66,295 code
-bytes. Current accepted application extent coverage is 10.98% (15 functions). This denominator
+bytes. Current accepted application extent coverage is 11.11% (16 functions). This denominator
 is analysis discovery, not a claim that every remaining original extent has passed
 an ownership audit. [Inventory](cases/function-inventory.json) excludes separately
 identified embedded CRT and import thunks; switch/literal data is excluded from
@@ -166,3 +166,10 @@ meaningful input-buffer bytes match at `rc_prefix_equal`.
 [Verification](cases/resources-rich/line-verification.json) records 27 rejection
 controls and timings. Original debugger buffer reads are now batched without
 changing the retained raw format; fixture execution remains native-only.
+
+The case-insensitive prefix matcher is accepted (85 bytes). The fresh pair
+matches at progress `(1,64)`, including all 3,776 buffered UTF-16 output bytes,
+input-file state, exact 16-bit `towupper` results and legacy line-format effects.
+[Verification](cases/resources-rich/prefix-verification.json) retains 27 rejection
+controls, canonical CRT probes and timings. Native API observers keep bounded
+samples while the already verified line-processing loop runs normally.

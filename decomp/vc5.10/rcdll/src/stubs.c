@@ -57,11 +57,6 @@ WCHAR *__stdcall rc_skip_white(WCHAR *text,int terminate)
     __asm int 3
     return NULL;
 }
-int __stdcall rc_prefix_equal(const WCHAR *prefix,const WCHAR *text)
-{
-    __asm int 3
-    return 0;
-}
 void __stdcall rc_notify_progress(WPARAM kind,LPARAM value)
 {
     __asm int 3

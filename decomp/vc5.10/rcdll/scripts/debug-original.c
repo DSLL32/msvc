@@ -26,7 +26,7 @@ static DWORD export_storage[256],export_lengths[256];
 static DWORD heap_allocation_size;
 static DWORD character_pointer;
 static CONTEXT probe_context;
-static DWORD probe_return,cpinfo_pointer,cpinfo_error,local_pointer,local_bytes,line_file;
+static DWORD probe_return,cpinfo_pointer,cpinfo_error,local_pointer,local_bytes,line_file,line_format_pointer,towupper_value;
 static unsigned heap_limit=1,free_limit,character_limit,heap_observed,free_observed,characters_observed;
 
 static void fail(const char *what)
@@ -208,6 +208,7 @@ static void snapshot_and_mask(void)
         }
         for(n=0;n<range_count;++n)if(ranges[n].kind)point(base+ranges[n].start,2);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x12df0&&ranges[n].end==0x12e1f&&!ranges[n].kind)point(base+0x12df0,28);
+        for(n=0;n<range_count;++n)if(ranges[n].start==0x10bcf&&ranges[n].kind){point(base+0x10bf3,40);point(base+0x10bff,40);point(base+0x8765,42);point(base+0x894f,43);}
         for(n=0;n<range_count;++n)if(ranges[n].start==0x9041&&ranges[n].kind){point(base+0x90e5,33);point(base+0x9182,35);point(base+0x873e,37);}
         for(n=0;n<range_count;++n)if(ranges[n].start==0x8c9e&&ranges[n].kind){point(base+0x8ea2,30);point(base+0x108e7,32);}
         for(n=0;n<range_count;++n)if(ranges[n].start==0x12bb0 && ranges[n].kind)point(base+0x12c30,11);
@@ -322,6 +323,13 @@ static int trap(HANDLE thread,DWORD address)
         }else if(p->kind==37){
             readmem(c.Esp,words,8);fprintf(events,"line-ctype %u %u\n",(WORD)words[0],(WORD)words[1]);point(base+0x8744,38);
         }else if(p->kind==38){fprintf(events,"line-ctype-result %lu\n",c.Eax);
+        }else if(p->kind==40){
+            readmem(c.Esp,words,4);towupper_value=(WORD)words[0];fprintf(events,"prefix-towupper %lu raw=%08lx\n",towupper_value,words[0]);point(address==base+0x10bf3?base+0x10bf5:base+0x10c01,41);
+        }else if(p->kind==41){fprintf(events,"prefix-towupper-result %u raw=%08lx\n",(WORD)c.Eax,c.Eax);
+        }else if(p->kind==42){fprintf(events,"prefix-first-result %ld\n",(long)c.Eax);
+        }else if(p->kind==43){
+            readmem(c.Esp,words,12);line_format_pointer=words[0];fprintf(events,"line-format-number %ld\n",(long)words[2]);hexbytes("line-format-template",words[1],wide_string_bytes(words[1]));hexbytes("line-format-before",line_format_pointer,8196);point(base+0x8955,44);
+        }else if(p->kind==44){fprintf(events,"line-format-result %ld\n",(long)c.Eax);hexbytes("line-format-after",line_format_pointer,8196);
         }else if(p->kind==29){
             fprintf(events,"compiler-probe-return eax=%08lx esp=%08lx ecx=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",c.Eax,c.Esp,c.Ecx,c.Ebx,c.Esi,c.Edi,c.Ebp);
             if(c.Esp!=probe_context.Esp+4-probe_context.Eax||c.Eax!=probe_return||c.Ecx!=probe_context.Ecx||c.Ebx!=probe_context.Ebx||c.Esi!=probe_context.Esi||c.Edi!=probe_context.Edi||c.Ebp!=probe_context.Ebp)fail("compiler-probe-return");
@@ -347,6 +355,14 @@ static int trap(HANDLE thread,DWORD address)
         fprintf(events,"frontier %08lx eax=%08lx ecx=%08lx edx=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx esp=%08lx\n",address-base,c.Eax,c.Ecx,c.Edx,c.Ebx,c.Esi,c.Edi,c.Ebp,c.Esp);
         fprintf(events,"stack");for(n=0;n<12;++n)fprintf(events," %08lx",words[n]);fprintf(events,"\n");
         if(export_vector)vector_state("frontier");
+        if(address==base+0x8c70){
+            DWORD output,state[8],current;readmem(c.Esp+0x1c,&output,4);readmem(output,state,32);hexbytes("progress-output-state",output,32);
+            if(state[0]<state[2]||state[0]-state[2]>4096)fail("progress-output-buffer");hexbytes("progress-output-buffer",state[2],state[0]-state[2]);
+            readmem(line_file,state,32);hexbytes("progress-input-state",line_file,32);
+            if(state[0]<state[2]||state[0]-state[2]+state[1]>4096)fail("progress-input-buffer");hexbytes("progress-input-buffer",state[2],state[0]-state[2]+state[1]);
+            readmem(base+0x16ce8,&current,4);fprintf(events,"progress-current-line %lu\n",current);
+            hexbytes("progress-line",c.Esp+0x223c,wide_string_bytes(c.Esp+0x223c));
+        }
         if(address==base+0x10bcf){
             DWORD state[8];if(!line_file)fail("line-file-checkpoint");readmem(line_file,state,32);hexbytes("line-read-file-state",line_file,32);
             if(state[0]<state[2]||state[0]-state[2]+state[1]>4096)fail("line-read-file-buffer");

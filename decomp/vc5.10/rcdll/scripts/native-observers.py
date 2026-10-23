@@ -87,7 +87,8 @@ class WriteReturned(gdb.FinishBreakpoint):
 class WriteEntered(gdb.Breakpoint):
     def __init__(self):super().__init__('rc_write_bytes',internal=True)
     def stop(self):
-        if not writes:WriteReturned(gdb.newest_frame(),internal=True)
+        if not writes:
+            self.enabled=False;WriteReturned(gdb.newest_frame(),internal=True)
         return False
 WriteEntered();write_path.write_text('[]\n')
 
@@ -136,6 +137,8 @@ class LocalEntered(gdb.Breakpoint):
     def stop(self):
         frame=gdb.newest_frame();caller=frame.older()
         if caller is None or caller.name()!='rc_read_wide_line':return False
+        if len(local_records)>=2:return False
+        self.enabled=False
         record=dict(operation=self.operation)
         if self.operation=='allocate':record.update(flags=int(frame.read_var('flags')),bytes=int(frame.read_var('bytes')))
         else:
@@ -153,5 +156,50 @@ class CTypeEntered(gdb.Breakpoint):
     def stop(self):
         frame=gdb.newest_frame();caller=frame.older()
         if caller is None or caller.name()!='rc_prepare_input':return False
+        if ctype_records:return False
+        self.enabled=False
         CTypeReturned(frame,dict(character=int(frame.read_var('character')),mask=int(frame.read_var('mask'))));return False
 CTypeEntered();ctype_path.write_text('[]\n')
+
+towupper_path=path.parent/'towupper.json'
+towupper_records=[]
+class UpperReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,value):self.value=value;super().__init__(frame,internal=True)
+    def stop(self):
+        towupper_records.append(dict(character=self.value,result=int(gdb.parse_and_eval('$eax'))&65535))
+        towupper_path.write_text(json.dumps(towupper_records)+'\n');return False
+class UpperEntered(gdb.Breakpoint):
+    def __init__(self):super().__init__('recon_towupper',internal=True)
+    def stop(self):
+        frame=gdb.newest_frame();caller=frame.older()
+        if caller is None or caller.name()!='rc_prefix_equal':return False
+        if len(towupper_records)>=1:self.enabled=False
+        UpperReturned(frame,int(frame.read_var('character')));return False
+UpperEntered();towupper_path.write_text('[]\n')
+prefix_path=path.parent/'prefix-results.json'
+prefix_records=[]
+class PrefixReturned(gdb.FinishBreakpoint):
+    def stop(self):
+        prefix_records.append(int(gdb.parse_and_eval('$eax')));prefix_path.write_text(json.dumps(prefix_records)+'\n');return False
+class PrefixEntered(gdb.Breakpoint):
+    def __init__(self):super().__init__('rc_prefix_equal',internal=True)
+    def stop(self):
+        self.enabled=False;PrefixReturned(gdb.newest_frame(),internal=True);return False
+PrefixEntered();prefix_path.write_text('[]\n')
+format_path=path.parent/'line-format.json'
+format_records=[]
+class LineFormatReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry,pointer):self.entry=entry;self.pointer=pointer;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(gdb.parse_and_eval('$eax')),after=bytes(gdb.selected_inferior().read_memory(self.pointer,8196)).hex())
+        format_records.append(self.entry);format_path.write_text(json.dumps(format_records)+'\n');return False
+class LineFormatEntered(gdb.Breakpoint):
+    def __init__(self):super().__init__('recon_swprintf',internal=True)
+    def stop(self):
+        frame=gdb.newest_frame();caller=frame.older()
+        if caller is None or caller.name()!='rc_prepare_input':return False
+        pointer=int(frame.read_var('out'));format=int(frame.read_var('format'));base=int(frame.read_register('ebp'))
+        self.enabled=False
+        entry=dict(format=bytes(gdb.selected_inferior().read_memory(format,22)).hex(),number=int.from_bytes(bytes(gdb.selected_inferior().read_memory(base+16,4)),'little',signed=True),before=bytes(gdb.selected_inferior().read_memory(pointer,8196)).hex())
+        LineFormatReturned(frame,entry,pointer);return False
+LineFormatEntered();format_path.write_text('[]\n')

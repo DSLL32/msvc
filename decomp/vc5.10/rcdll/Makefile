@@ -79,3 +79,13 @@ build/ctype-api-probe.obj: scripts/ctype-api-probe.c | build
 	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
 build/ctype-api-probe.exe: build/ctype-api-probe.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
+
+build/towupper-api-probe.obj: scripts/towupper-api-probe.c | build
+	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
+build/towupper-api-probe.exe: build/towupper-api-probe.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
+
+build/line-format-api-probe.obj: scripts/line-format-api-probe.c | build
+	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
+build/line-format-api-probe.exe: build/line-format-api-probe.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib

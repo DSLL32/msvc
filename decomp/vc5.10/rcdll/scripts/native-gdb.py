@@ -82,6 +82,19 @@ def capture():
             arguments['message']=bytes(gdb.selected_inferior().read_memory(int(message),length)).hex()
         if name=='rc_message':arguments['id']=int(frame.read_var('id'))
         if name=='rc_prepare_input':arguments['path']=frame.read_var('path').string()
+        if name=='rc_notify_progress':
+            parent=frame.older();assert parent.name()=='rc_prepare_input'
+            arguments.update(kind=int(frame.read_var('kind')),value=int(frame.read_var('value')),current_line=int(gdb.parse_and_eval('rc_preparing_line')),towupper=json.loads((output.parent/'towupper.json').read_text()),prefix_results=json.loads((output.parent/'prefix-results.json').read_text()),line_format=json.loads((output.parent/'line-format.json').read_text()))
+            for label,variable,reading in [('input','input',True),('output','output',False)]:
+                file=parent.read_var(variable);state=file.dereference();start=int(state['_base']);size=int(state['_ptr'])-start+(int(state['_cnt'])if reading else 0);assert 0<=size<=4096
+                arguments[label+'_state']=bytes(gdb.selected_inferior().read_memory(int(file),32)).hex()
+                arguments[label+'_buffer']=bytes(gdb.selected_inferior().read_memory(start,size)).hex()
+            pointer=int(parent.read_var('line').address);line=bytearray()
+            for index in range(4177):
+                word=bytes(gdb.selected_inferior().read_memory(pointer+2*index,2));line.extend(word)
+                if word==b'\0\0':break
+            else:raise AssertionError('unterminated progress source line')
+            arguments['line']=line.hex()
         if name=='rc_prefix_equal':
             def wide(pointer):
                 result=bytearray()

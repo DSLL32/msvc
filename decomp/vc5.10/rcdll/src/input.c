@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <wchar.h>
+#include <wctype.h>
 #include "command.h"
 #include <recon.h>
 
@@ -180,4 +181,18 @@ int __stdcall rc_read_wide_line(WCHAR *line,unsigned capacity,int wide,FILE *fil
         *output=0;
     }
     return character!=EOF||*line!=0;
+}
+
+int __stdcall rc_prefix_equal(const WCHAR *prefix,const WCHAR *text)
+{
+    WCHAR left,right;
+    while(*prefix){
+        if(!*text) return 0;
+        left=towupper(*prefix);
+        right=towupper(*text);
+        if(left!=right) return 0;
+        ++prefix;
+        ++text;
+    }
+    return -1;
 }
