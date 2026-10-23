@@ -6,14 +6,14 @@ static FILE *dependency_events;
 static DWORD dependency_argv,dependency_pass,dependency_c1,dependency_c1_entry;
 static BYTE dependency_c1_entry_byte;
 static DWORD dependency_invocations,dependency_unloads;
-static unsigned dependency_putenv_calls;
+static unsigned dependency_putenv_calls,dependency_unlink_calls;
 static char dependency_ir_prefix[MAX_PATH];
-static DWORD dependency_sites[] = {0x563d,0x5655,0x5660,0x56c9,0x54f9,0x572e,0x55d2};
-static BYTE dependency_bytes[] = {0xff,0xff,0xff,0xff,0xff,0xff,0xff};
-static BYTE dependency_after_bytes[7];
-static DWORD dependency_lengths[] = {6,2,2,3,6,6,6};
-static int dependency_pending[7];
-static int dependency_installed[7];
+static DWORD dependency_sites[] = {0x563d,0x5655,0x5660,0x56c9,0x54f9,0x572e,0x55d2,0x4fd1};
+static BYTE dependency_bytes[] = {0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff};
+static BYTE dependency_after_bytes[8];
+static DWORD dependency_lengths[] = {6,2,2,3,6,6,6,6};
+static int dependency_pending[8];
+static int dependency_installed[8];
 
 static void dependency_save(const char *phase,const char *kind,const void *data,DWORD size)
 {
@@ -157,7 +157,7 @@ static void dependency_install(int masked)
     if (!!masked!=!!dependency_response) ExitProcess(110);
     fclose(file);dependency_analysis=1;output_path(path,"observer");CreateDirectoryA(path,NULL);
     output_path(path,"observer\\events.txt");dependency_events=fopen(path,"wb");if (!dependency_events) ExitProcess(95);
-    for (i=0;i<(dependency_complete?7U:6U);++i) {
+    for (i=0;i<(dependency_complete?8U:6U);++i) {
         memory(target_base+dependency_sites[i],call,dependency_lengths[i]);
         /* A fresh masked trial must never restore an unaccepted helper body.
          * In particular unload_pass can still be the next named frontier. */
@@ -183,16 +183,16 @@ static int dependency_point(DWORD address)
 {
     unsigned i;
     if (!dependency_analysis) return -1;
-    if (address==dependency_c1_entry) return 7;
-    for (i=0;i<(dependency_complete?7U:6U);++i)
+    if (address==dependency_c1_entry) return 8;
+    for (i=0;i<(dependency_complete?8U:6U);++i)
         if (dependency_installed[i] && (address==target_base+dependency_sites[i] || (dependency_pending[i] && address==target_base+dependency_sites[i]+dependency_lengths[i]))) return i;
     return -1;
 }
 static void dependency_trap(int point,DWORD address,DWORD teb,DWORD tid,CONTEXT *context,HANDLE input,HANDLE out,HANDLE err)
 {
     char phase[64];DWORD args[3],actual;
-    static const char *names[] = {"load","get-invoke","get-abort","invoke","free","spawn","putenv"};
-    if (point==7) {
+    static const char *names[] = {"load","get-invoke","get-abort","invoke","free","spawn","putenv","unlink"};
+    if (point==8) {
         memory(context->Esp+4,args,12);
         fprintf(dependency_events,"c1-entry event=%lu module=%08lx reason=%lu reserved=%08lx\n",event_number,args[0],args[1],args[2]);
         sprintf(phase,"c1-entry-%lu",args[1]);dependency_state(phase,teb,tid,context,input,out,err);
@@ -203,6 +203,32 @@ static void dependency_trap(int point,DWORD address,DWORD teb,DWORD tid,CONTEXT 
         if (!dependency_pending[point]) ++dependency_putenv_calls;
         if (dependency_putenv_calls>2) ExitProcess(106);
         sprintf(phase,"putenv-%u-%s",dependency_putenv_calls,dependency_pending[point]?"after":"before");
+    }
+    if (point==7) {
+        DWORD stack[16],argument;char filename[1024];
+        if (!dependency_pending[point]) ++dependency_unlink_calls;
+        if (dependency_unlink_calls>7) ExitProcess(112);
+        sprintf(phase,"unlink-%u-%s",dependency_unlink_calls,dependency_pending[point]?"after":"before");
+        dependency_save(phase,"context.bin",context,sizeof(*context));
+        memory(context->Esp,stack,sizeof(stack));dependency_save(phase,"stack.bin",stack,sizeof(stack));
+        error_state_to(teb,tid,phase,dependency_events);fflush(dependency_events);
+        if (!dependency_pending[point]) {
+            argument=stack[0];remote_string(argument,filename,sizeof(filename));
+            memory(target_base+0xa290,&actual,4);
+            if (actual!=exported(crt_base,"_unlink")) ExitProcess(113);
+            dependency_save(phase,"filename.bin",filename,strlen(filename)+1);
+            fprintf(dependency_events,"unlink-call sequence=%u function=%08lx argument=%08lx esp=%08lx\n",dependency_unlink_calls,actual,argument,context->Esp);
+        } else
+            fprintf(dependency_events,"unlink-return sequence=%u result=%08lx esp=%08lx\n",dependency_unlink_calls,context->Eax,context->Esp);
+        dependency_files(phase);fflush(dependency_events);
+        if (!dependency_pending[point]) {
+            dependency_pending[point]=1;patch_byte(address,dependency_bytes[point]);
+            patch_byte(address+dependency_lengths[point],0xcc);
+        } else {
+            dependency_pending[point]=0;patch_byte(address,dependency_after_bytes[point]);
+            patch_byte(target_base+dependency_sites[point],0xcc);
+        }
+        context->Eip=address;return;
     }
     if (!dependency_pending[point]) {
         if (point==0 || point==6) { memory(context->Ebp+0x18,&dependency_argv,4);memory(context->Ebp+0xc,&dependency_pass,4); }

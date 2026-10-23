@@ -76,6 +76,7 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
     shutil.copyfile(PROJECT/'build/reference-debugger.exe',directory/'reference-debugger.exe')
     shutil.copyfile(HERE/'reference-debugger.c',directory/'reference-debugger.c')
     shutil.copyfile(HERE/'dependency-observer.inc',directory/'dependency-observer.inc')
+    shutil.copyfile(HERE/'export-reader.h',directory/'export-reader.h')
     controller_source=store_blob(Path(__file__).read_bytes())
     helper_source=store_blob((HERE/'reference-debugger.c').read_bytes())
     env=wt.environment();env.update(TMP='.',TEMP='.')
@@ -128,7 +129,7 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
         'helper_sha256':sha((directory/'reference-debugger.exe').read_bytes()),'helper_build':helper_build,
         **paired,'build_dependency_hashes':dependency_hashes,
         'helper_source_sha256':sha((HERE/'reference-debugger.c').read_bytes()),
-        'helper_sources':{name:sha((HERE/name).read_bytes())for name in ('reference-debugger.c','dependency-observer.inc')},
+        'helper_sources':{name:sha((HERE/name).read_bytes())for name in ('reference-debugger.c','dependency-observer.inc','export-reader.h')},
         'controller_source':controller_source,'helper_source':helper_source,
         'command':command,'environment':{k:env[k] for k in ('WINEPREFIX','WINEDLLOVERRIDES','INCLUDE','LIB','WINEPATH','TMP','TEMP')},
         'timing':{'setup_seconds':setup,'reference_execution_seconds':run_time},

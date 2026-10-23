@@ -90,26 +90,20 @@ static void save_file(HANDLE source,const char *name)
     CloseHandle(destination);
     fprintf(events,"loaded-file %s bytes=%lu\n",name,total);
 }
+#include "export-reader.h"
+static int export_process_read(void *context,DWORD address,void *out,DWORD bytes)
+{
+    (void)context;
+    memory(address,out,bytes);
+    return 1;
+}
 static DWORD exported(DWORD base,const char *wanted)
 {
-    IMAGE_DOS_HEADER dos;
-    IMAGE_NT_HEADERS nt;
-    IMAGE_EXPORT_DIRECTORY exports;
-    DWORD i,name_rva,function_rva;
-    WORD ordinal;
-    char name[256];
-    memory(base,&dos,sizeof(dos));memory(base+dos.e_lfanew,&nt,sizeof(nt));
-    memory(base+nt.OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress,&exports,sizeof(exports));
-    for (i=0;i<exports.NumberOfNames;++i) {
-        memory(base+(DWORD)exports.AddressOfNames+4*i,&name_rva,4);
-        remote_string(base+name_rva,name,sizeof(name));
-        if (!strcmp(name,wanted)) {
-            memory(base+(DWORD)exports.AddressOfNameOrdinals+2*i,&ordinal,2);
-            memory(base+(DWORD)exports.AddressOfFunctions+4*ordinal,&function_rva,4);
-            return base+function_rva;
-        }
-    }
-    fprintf(events,"missing-export %s\n",wanted);fflush(events);ExitProcess(26);return 0;
+    DWORD address;
+    int result=export_lookup(export_process_read,NULL,base,wanted,&address);
+    if (result==1) return address;
+    fprintf(events,"missing-export %s\n",wanted);fflush(events);
+    ExitProcess(26);return 0;
 }
 /* Original CRT state inspection only: no code executes in the stopped child.
  * The actual loaded canonical provider proves _errno -> getptd + 8 and its
@@ -631,7 +625,7 @@ int main(int argc,char **argv)
                     if (stack[1]!=dependency_pass) return 111;
                     dependency_state("frontier",teb,event.dwThreadId,&context,input,out,err);
                 }
-                if (dependency_response && (address==target_base+0x4ed1 || address==target_base+0x4f6f)) {
+                if (dependency_response && (address==target_base+0x4ed1 || address==target_base+0x4f6f || address==target_base+0x4fda || address==target_base+0x3709)) {
                     DWORD saved_argv=dependency_argv,state;
                     /* execute_pass's child_args is no longer live here. */
                     dependency_argv=0;

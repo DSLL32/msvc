@@ -81,6 +81,9 @@ def original(directory):
     if (directory/'dependency-observer.inc').exists():
         assert capture['helper_sources']['dependency-observer.inc']==sha((directory/'dependency-observer.inc').read_bytes())
         controls|={'dependency-observer.inc'}
+    if (directory/'export-reader.h').exists():
+        assert capture['helper_sources']['export-reader.h']==sha((directory/'export-reader.h').read_bytes())
+        controls|={'export-reader.h'}
     if capture.get('dependency_response'):
         assert capture['baseline'] is False and not capture['dependency_analysis']
         assert (directory/'dependency-observer.txt').read_bytes()==b'CL_DEPENDENCY_RESPONSE_V1\n'
