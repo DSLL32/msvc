@@ -409,6 +409,14 @@ CppSymbol *__stdcall lookup_scoped_name(char *name, unsigned categories)
     }
 }
 
+/* Original 0x78400..0x78416, stdcall 12. This entry exposes the path
+   search without constructing a qualified declaration or diagnostics. */
+QualifierResolution *__stdcall lookup_class_name_paths(CppSymbol *tag, char *name,
+    unsigned categories)
+{
+    return find_class_name_paths(tag, name, categories);
+}
+
 /* Original 0x78420..0x7855e. Retain the selected lookup path even after
    ambiguity recovery: alternative paths are reported, then the list is reduced
    to its first entry before constructing the qualified declarator. */

@@ -14,7 +14,151 @@
 #include "special-members.h"
 #include "frontend-records.h"
 #include "function-definitions.h"
+#include "type-sizes.h"
 #include <recon.h>
+
+/* Original 0x65500..0x65a76, stdcall 8. An explicit cast permits the
+   scalar/pointer conversions below while diagnosing invalid function, array
+   and member-pointer targets. Keep pointer-width warnings before conversion. */
+IrToken *__stdcall cast_to_type(CType *type, IrToken *operand)
+{
+    TypeShape *target_shape, *source_shape;
+    CType *source;
+    CppSymbol *tag;
+    QualifiedDeclarator *path;
+    unsigned rank;
+    unsigned short target_kind, source_kind, target_attributes, source_attributes;
+    unsigned short target_flags, source_flags;
+    int source_size, target_size;
+
+    operand = validate_value_expression(operand);
+    target_shape = type->related;
+    if (target_shape && !(target_shape->flags & 0x77)) {
+        type = drop_first_type_shape(type);
+        target_shape = type->related;
+    }
+    target_kind = target_attributes = 0;
+    if (target_shape) {
+        target_kind = target_shape->flags;
+        if ((target_kind & 0x77) == 4) {
+            report_syntax_error(0x42);
+            return 0;
+        }
+        if ((target_kind & 0x77) == 2) {
+            report_syntax_error(0x43);
+            return 0;
+        }
+        target_attributes = target_shape->attributes;
+    }
+    source = operand->type;
+    if (!source) {
+        operand = resolve_assignment_operand(type, operand);
+        if (!operand || !(source = operand->type)) {
+            report_syntax_error(0x223);
+            return 0;
+        }
+    }
+    if (target_kind & 0x40) return cast_to_reference(type, operand);
+    if (is_unqualified_class_type(type)) {
+        tag = cpp_context_stack->items[type->field08];
+        operand = append_expression(0, operand, 2);
+        return build_call_expression(identifier_expression(tag->name), operand);
+    }
+    rank = classify_expression_conversion(type, operand, 0, 0);
+    if (rank < 0x400) return convert_initializer(0x6e, type, operand);
+    if (rank & 0x1000) {
+        report_type_error(0x249, type);
+        return 0;
+    }
+    target_flags = type->flags;
+    source_flags = source->flags;
+    source_shape = source->related;
+    source_kind = source_attributes = 0;
+    if (source_shape) {
+        source_kind = source_shape->flags;
+        source_attributes = source_shape->attributes;
+        if ((source_kind & 0x77) == 2)
+            source_kind = (source_kind & 0xff89) | 1;
+    }
+    if (type == type_0080) goto convert;
+    if (target_kind & 0x30) {
+        if (!source_kind || !(source_kind & 0x30) ||
+            ((source_kind ^ target_kind) & 0x20)) {
+            report_syntax_error(0x282);
+            return 0;
+        }
+        if (!member_pointer_cast_compatible(source, type, 1)) {
+            if (options.configuration.extensions_enabled &&
+                source_shape->data.word == target_shape->data.word) {
+                compiler_warning(4, 0x86);
+                return new_cast_expression(type, operand);
+            }
+            report_syntax_error(0x282);
+            return 0;
+        }
+        goto convert;
+    }
+    if ((source_kind & 0x30) && !(target_kind & 0x40)) {
+        report_syntax_error(0x283);
+        return 0;
+    }
+    if ((source_flags & 0x80) && !source_shape) {
+        report_syntax_error(0x45);
+        goto convert;
+    }
+    if (!source_kind) {
+        if (!target_kind) {
+            if ((target_flags | source_flags) & 0x400) {
+                report_type_conversion(0x1b8, 0, 0x6e, source, type);
+                return 0;
+            }
+        } else {
+            if (!(source_flags & 0x40)) {
+                report_type_conversion(0x1b8, 0, 0x6e, source, type);
+                return 0;
+            }
+            target_size = pointer_kind_size(target_attributes);
+            if (target_size < (int)(source_flags & 15))
+                report_type_conversion(0x131, 4, 0x6e, source, type);
+            else if (target_size > (int)(source_flags & 15))
+                report_type_conversion(0x132, 4, 0x6e, source, type);
+        }
+        goto convert;
+    }
+    if (!target_kind) {
+        if (target_flags & 0x800)
+            return new_typed_unary_expression(0x1a, type, operand);
+        if (!(target_flags & 0x40))
+            report_type_conversion(0x1b8, 0, 0x6e, source, type);
+        if (pointer_kind_size(source_attributes) > (int)(target_flags & 15))
+            report_type_conversion(0x131, 4, 0x6e, source, type);
+        goto convert;
+    }
+    source_kind &= 0x77;
+    target_kind &= 0x77;
+    if ((source_kind == 1 || source_kind == 3) &&
+        (target_kind == 1 || target_kind == 3)) {
+        source_size = pointer_kind_size(source_attributes);
+        target_size = pointer_kind_size(target_attributes);
+        if (source_size > target_size)
+            report_type_conversion(0x131, 4, 0x6e, source, type);
+        else if (source_kind == 1 && target_kind == 1 &&
+            (target_attributes & 7) == 5 && (operand->flags & 7) == 5)
+            compiler_warning(1, 0x78);
+        if (source_kind == 1 && target_kind == 1 &&
+            !source_shape->related && !target_shape->related &&
+            (source_flags & 0x400) && (target_flags & 0x400)) {
+            tag = cpp_context_stack->items[type->field08];
+            path = lookup_class_name(tag,
+                ((CppSymbol *)cpp_context_stack->items[source->field08])->name,
+                1, 0x182);
+            if (!path) return new_cast_expression(type, operand);
+            return convert_class_pointer(operand, type, source, path);
+        }
+    }
+convert:
+    return convert_scalar_initializer(0x6e, type, operand);
+}
 
 /* Original 0x39050..0x39583. Scalar/class conversions, callable class objects,
    direct/qualified member calls and indirect function calls share this entry. */

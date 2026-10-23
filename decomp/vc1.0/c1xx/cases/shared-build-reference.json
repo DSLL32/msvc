@@ -1,7 +1,13 @@
 {
   "schema": 1,
-  "commit": "23dd0e2aa23bacb970408dad7168a2479fa8a4be",
-  "tree": "35875f48d7bdba1ac878fd9416d58c000a009a5c",
-  "verification": "lib/recon/tick-context-validation.json at the pinned commit records GCC and Clang checks; prior committed shared slices retain their own tests",
-  "policy": "Deliberate committed-source reference; ignore evolving shared worktree contents until explicitly refreshed"
+  "commit": "499e1fe81eed52a6807d1577468b73d5b6df0898",
+  "tree": "6836ab62e54629bcaadf01017b51b99ce0d4e369",
+  "verification": "Explicit reviewed committed slice; refresh invoked with --pin-commit",
+  "policy": "Deliberate committed-source reference; ignore evolving shared worktree contents until explicitly refreshed",
+  "previous_references": [
+    {
+      "commit": "23dd0e2aa23bacb970408dad7168a2479fa8a4be",
+      "tree": "35875f48d7bdba1ac878fd9416d58c000a009a5c"
+    }
+  ]
 }

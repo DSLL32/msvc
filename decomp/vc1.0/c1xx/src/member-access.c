@@ -1,6 +1,8 @@
 /* Class qualification, protection levels and friend access. */
 #include "member-access.h"
 #include "constructor-initializers.h"
+#include "class-lookup.h"
+#include "lexer.h"
 #include <recon.h>
 
 int base_initialization_access; /* original 0x97bc8 */
@@ -9,6 +11,19 @@ CppSymbol *access_failure_member; /* original 0x97bd4 */
 unsigned char access_failure_protection; /* original 0x97be0 */
 CppSymbol *access_failure_owner; /* original 0x97bcc */
 int access_through_virtual_base; /* original 0x97bd0 */
+
+/* Original 0x320c0..0x32105, stdcall 8. The lookup finds the enclosing
+   path; access must be checked against the selected conversion overload. */
+void __stdcall check_conversion_access(CppSymbol *conversion, CType *object_type)
+{
+    QualifierResolution *path;
+    CppSymbol *tag;
+    if (!conversion || !object_type) return;
+    tag = cpp_context_stack->items[object_type->field08];
+    path = lookup_class_name_paths(tag, conversion->name, 2);
+    path->binding->target = (ClassReference *)conversion;
+    check_qualified_member_access(new_qualified_declarator(path, conversion->name, 2));
+}
 
 /* Original 0x31a50..0x31e7e. Protection levels are private=1, protected=2,
    public=3. A qualification's enclosing paths may lower the effective level;

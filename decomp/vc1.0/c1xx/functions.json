@@ -929,7 +929,14 @@
     "_reference_source_is_array@4",
     "_append_expression_destructor@8",
     "_convert_deferred_type_token@8",
-    "_resolve_nested_deferred_types@4"
+    "_resolve_nested_deferred_types@4",
+    "_cast_to_type@8",
+    "_check_conversion_access@8",
+    "_lookup_class_name_paths@12",
+    "_invoke_user_conversion@12",
+    "_mangle_referenced_type@8",
+    "_mangle_pointee_shape@8",
+    "_mangle_tag_name@8"
   ],
   "driver": [
     {
@@ -5765,7 +5772,7 @@
     {
       "name": "_cast_to_type@8",
       "start": 414976,
-      "end": 414977
+      "end": 416375
     },
     {
       "name": "_resolve_function_style_cast@4",
@@ -6180,7 +6187,7 @@
     {
       "name": "_mangle_referenced_type@8",
       "start": 277648,
-      "end": 277649
+      "end": 277730
     },
     {
       "name": "_mangle_type_shape@8",
@@ -6200,7 +6207,7 @@
     {
       "name": "_mangle_tag_name@8",
       "start": 279216,
-      "end": 279217
+      "end": 279270
     },
     {
       "name": "_prepend_class_member@4",
@@ -6650,12 +6657,12 @@
     {
       "name": "_check_conversion_access@8",
       "start": 204992,
-      "end": 204993
+      "end": 205062
     },
     {
       "name": "_invoke_user_conversion@12",
       "start": 422080,
-      "end": 422081
+      "end": 422141
     },
     {
       "name": "_can_bind_conversion_reference@8",
@@ -7081,7 +7088,7 @@
     {
       "name": "_mangle_pointee_shape@8",
       "start": 277744,
-      "end": 277745
+      "end": 277796
     },
     {
       "name": "_mangle_type_identifier@8",
@@ -7247,6 +7254,26 @@
       "name": "_equivalent_operand_types@8",
       "start": 407264,
       "end": 407265
+    },
+    {
+      "name": "_cast_to_reference@8",
+      "start": 416384,
+      "end": 416385
+    },
+    {
+      "name": "_member_pointer_cast_compatible@12",
+      "start": 413424,
+      "end": 413425
+    },
+    {
+      "name": "_lookup_class_name_paths@12",
+      "start": 492544,
+      "end": 492567
+    },
+    {
+      "name": "_mangle_array_type@8",
+      "start": 278688,
+      "end": 278689
     }
   ],
   "cases": {
@@ -7288,8 +7315,8 @@
       "native_reference": "cases/native-copy-assignment",
       "frontiers": "cases/frontiers/copy_assignment",
       "accepted_from": 871,
-      "terminal": "_cast_to_type@8",
-      "terminal_evidence": "cases/frontiers/copy_assignment/0924-resolve_nested_deferred_types-4/original-events.txt",
+      "terminal": "exit:0",
+      "terminal_evidence": "cases/frontiers/copy_assignment/0931-mangle_tag_name-8/original-events.txt",
       "original_seed": "cases/copy_assignment-seed",
       "frontier_extensions": [
         "cases/frontiers/copy_assignment/0871-read_operator_function_id/frontier-extension.json",
@@ -7345,7 +7372,14 @@
         "cases/frontiers/copy_assignment/0921-reference_source_is_array-4/frontier-extension.json",
         "cases/frontiers/copy_assignment/0922-append_expression_destructor-8/frontier-extension.json",
         "cases/frontiers/copy_assignment/0923-convert_deferred_type_token-8/frontier-extension.json",
-        "cases/frontiers/copy_assignment/0924-resolve_nested_deferred_types-4/frontier-extension.json"
+        "cases/frontiers/copy_assignment/0924-resolve_nested_deferred_types-4/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0925-cast_to_type-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0926-check_conversion_access-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0927-lookup_class_name_paths-12/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0928-invoke_user_conversion-12/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0929-mangle_referenced_type-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0930-mangle_pointee_shape-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0931-mangle_tag_name-8/frontier-extension.json"
       ]
     }
   },

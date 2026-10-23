@@ -5,21 +5,11 @@
   "target": "C1XX3232.EXE",
   "authorization": "User-selected autonomous queue; continue without routine confirmation",
   "current": {
-    "case": "copy_assignment",
-    "fixture": "../fixtures/c1xx-copy-assignment",
-    "status": "active copy_assignment; conditional records and reference binding reconstructed through current accepted frontier; explicit native cached-lookahead limitation retained",
-    "seed": "cases/copy_assignment-seed/validation.json"
+    "case": "stack_lifetime",
+    "fixture": "../fixtures/c1xx-stack-lifetime",
+    "status": "root approved unchanged original-validated source; ready to seed after exact shared-refresh regressions"
   },
   "pending": [
-    {
-      "family": "copy construction and assignment",
-      "intent": "Explicit copy constructor and assignment operator with observable field changes",
-      "fixture": "../fixtures/c1xx-copy-assignment",
-      "status": "active reconstruction; fresh original/native seed and ordered function acceptances exact",
-      "manifest": "../fixtures/c1xx-copy-assignment/manifest.json",
-      "validation": "../fixtures/c1xx-copy-assignment/validation.json",
-      "case": "copy_assignment"
-    },
     {
       "family": "destruction and stack lifetime",
       "intent": "Explicit destructors, nested automatic objects and return/scope cleanup",
@@ -44,8 +34,8 @@
     "Do not assume newer C++ language features",
     "At each substantial case boundary, review newer verified committed lib/recon fixes with its maintainer and deliberately refresh the shared-build pin where applicable"
   ],
-  "completion": "cpp_basic and virtual_diamond complete; continue copy/assignment, lifetime and new/delete/operator families",
-  "next_case": "copy_assignment",
+  "completion": "cpp_basic, virtual_diamond and copy_assignment complete; continue reviewed lifetime then new/delete cases",
+  "next_case": "stack_lifetime",
   "completed": [
     {
       "case": "cpp_basic",
@@ -62,6 +52,16 @@
       "validation": "../fixtures/c1xx-virtual-diamond/validation.json",
       "case": "virtual_diamond",
       "verification": "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/validation.json"
+    },
+    {
+      "family": "copy construction and assignment",
+      "intent": "Explicit copy constructor and assignment operator with observable field changes",
+      "fixture": "../fixtures/c1xx-copy-assignment",
+      "status": "complete: exit0, four exact frontend artifacts and streams",
+      "manifest": "../fixtures/c1xx-copy-assignment/manifest.json",
+      "validation": "../fixtures/c1xx-copy-assignment/validation.json",
+      "case": "copy_assignment",
+      "verification": "cases/frontiers/copy_assignment/0931-mangle_tag_name-8/validation.json"
     }
   ],
   "after_selected_queue": {
@@ -72,7 +72,7 @@
   "shared_fix_review_pending": {
     "commit": "499e1fe8",
     "topic": "exit callbacks before final stdio flush and distinct _onexit seam",
-    "status": "review at copy_assignment completion or earlier if a reached semantic mismatch requires it",
-    "reported_by": "/root/recon_lib_maintenance"
+    "status": "reviewed and pinned at copy_assignment completion; all3 existing native fixtures and full canonical/data/ABI checks exact",
+    "verification": "evidence/copy-assignment-completion/receipt.json"
   }
 }

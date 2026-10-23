@@ -2,19 +2,19 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "956befcbbe5f2ec91e6f2fe798bd6c9454c4363775e7bfd5ef0791a763dd9c79",
+    "functions.json": "dfe038a683fa002046d96cceabbf39e843535e63cc4f86219ba0c98e474800d0",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "e175a6a4603dafd5de2208f8848e0fa6fc8fb2f1e0514f98bb240b3a0b591f31",
-    "cases/canonical-map.txt": "e4de2a8efbb5ab5ccfc8fd78acbc3295320497b40fe6a353b329fbb7f9f8460f",
+    "cases/original-entry-references.json": "b963d9bc254300b3cd2dc3cec7078f2bc190c0cd1837d7c8b29d9f59192db412",
+    "cases/canonical-map.txt": "c25fac17b165ec81f22269cb6d689b75829336af32b5872ecf16767360f5a276",
     "cases/shared-reference/cpp_basic/original-receipt.json": "c0b231bf1b4ad8c8ee582b0419697346750bcbea4484c6729dc71c7eb35ed198",
     "cases/shared-reference/cpp_basic/original-events.txt": "c211a19028f71257317cb8957e26dd76c27f60208208de53d25e18a8a5520e27",
     "cases/shared-reference/cpp_basic/original-entries.plan": "795b86f57be090ebab4b5bf36a3fe93b742ba8f9b4f29a48ba548a77d801ee07",
     "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-receipt.json": "294c8ba994d7c0a2b262d0ffc64a6108626a4da6278df6f28a5943ea902eb973",
     "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-events.txt": "8c1a3e34e895950da92b0ebff06a54961be5cf23d49f5b599b88124f0dd3b864",
     "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-entries.plan": "e202c7c8bca59732c6060e013a983deb61c10523c9301d68ac4474dba992194f",
-    "cases/frontiers/copy_assignment/0924-resolve_nested_deferred_types-4/entry-reference/original-receipt.json": "4eec6d177e2bf0add3066e4a9b1c03bbbda01b3c16577749c7f7b845541765a2",
-    "cases/frontiers/copy_assignment/0924-resolve_nested_deferred_types-4/entry-reference/original-events.txt": "289def0df1819146be259def426a2e37e0983afd3ca7ef93b7f8f2714d309bcf",
-    "cases/frontiers/copy_assignment/0924-resolve_nested_deferred_types-4/entry-reference/original-entries.plan": "1f108960ff1cb0c53bd6062b048f4455dfba9cd35acf4c0d3bdf1b748fcdcdff"
+    "cases/frontiers/copy_assignment/0931-mangle_tag_name-8/entry-reference/original-receipt.json": "95bec537e2dc9e24ed52278445c795650669f259c303b5fd623daeaa2ee1663a",
+    "cases/frontiers/copy_assignment/0931-mangle_tag_name-8/entry-reference/original-events.txt": "39da0c728c9a3cc0e550edff49d28f1d34b0b17f63f149b04e1cec24864b68b1",
+    "cases/frontiers/copy_assignment/0931-mangle_tag_name-8/entry-reference/original-entries.plan": "0f61dfc9058b40b2510dd9ad3b749aa500a68c1a04a9f80eef61b2b2c328cc94"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -645,9 +645,13 @@
       "logical": "_cast_expression@8",
       "source": "src/stubs.c"
     },
+    "cast_to_reference": {
+      "logical": "_cast_to_reference@8",
+      "source": "src/stubs.c"
+    },
     "cast_to_type": {
       "logical": "_cast_to_type@8",
-      "source": "src/stubs.c"
+      "source": "src/call-expressions.c"
     },
     "chain_initializer_function": {
       "logical": "_chain_initializer_function",
@@ -671,7 +675,7 @@
     },
     "check_conversion_access": {
       "logical": "_check_conversion_access@8",
-      "source": "src/stubs.c"
+      "source": "src/member-access.c"
     },
     "check_conversion_qualifiers": {
       "logical": "_check_conversion_qualifiers@16",
@@ -2711,7 +2715,7 @@
     },
     "invoke_user_conversion": {
       "logical": "_invoke_user_conversion@12",
-      "source": "src/stubs.c"
+      "source": "src/numeric-conversion.c"
     },
     "is_character_array_initializer": {
       "logical": "_is_character_array_initializer@8",
@@ -2799,6 +2803,10 @@
     },
     "lookup_class_name": {
       "logical": "_lookup_class_name@16",
+      "source": "src/declaration-lookup.c"
+    },
+    "lookup_class_name_paths": {
+      "logical": "_lookup_class_name_paths@12",
       "source": "src/declaration-lookup.c"
     },
     "lookup_current_scope_declaration": {
@@ -3025,6 +3033,10 @@
       "logical": "_make_vtordisp_value@8",
       "source": "src/constructor-initializers.c"
     },
+    "mangle_array_type": {
+      "logical": "_mangle_array_type@8",
+      "source": "src/stubs.c"
+    },
     "mangle_based_symbol": {
       "logical": "_mangle_based_symbol@12",
       "source": "src/stubs.c"
@@ -3071,7 +3083,7 @@
     },
     "mangle_pointee_shape": {
       "logical": "_mangle_pointee_shape@8",
-      "source": "src/stubs.c"
+      "source": "src/mangling.c"
     },
     "mangle_pointee_type": {
       "logical": "_mangle_pointee_type@8",
@@ -3087,7 +3099,7 @@
     },
     "mangle_referenced_type": {
       "logical": "_mangle_referenced_type@8",
-      "source": "src/stubs.c"
+      "source": "src/mangling.c"
     },
     "mangle_symbol_encoding": {
       "logical": "_mangle_symbol_encoding@16",
@@ -3111,7 +3123,7 @@
     },
     "mangle_tag_name": {
       "logical": "_mangle_tag_name@8",
-      "source": "src/stubs.c"
+      "source": "src/mangling.c"
     },
     "mangle_type": {
       "logical": "_mangle_type@12",
@@ -3195,6 +3207,10 @@
     },
     "member_function_pointer_size": {
       "logical": "_member_function_pointer_size@4",
+      "source": "src/stubs.c"
+    },
+    "member_pointer_cast_compatible": {
+      "logical": "_member_pointer_cast_compatible@12",
       "source": "src/stubs.c"
     },
     "member_pointer_class_kind": {
@@ -5826,7 +5842,14 @@
     "reference_source_is_array",
     "append_expression_destructor",
     "convert_deferred_type_token",
-    "resolve_nested_deferred_types"
+    "resolve_nested_deferred_types",
+    "cast_to_type",
+    "check_conversion_access",
+    "lookup_class_name_paths",
+    "invoke_user_conversion",
+    "mangle_referenced_type",
+    "mangle_pointee_shape",
+    "mangle_tag_name"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -7286,7 +7309,7 @@
     },
     "copy_assignment": {
       "first": 871,
-      "last": 925,
+      "last": 932,
       "seen": [
         "main",
         "message_text",
@@ -8122,13 +8145,18 @@
         "append_expression_destructor",
         "convert_deferred_type_token",
         "resolve_nested_deferred_types",
-        "cast_to_type"
+        "cast_to_type",
+        "check_conversion_access",
+        "lookup_class_name_paths",
+        "invoke_user_conversion",
+        "mangle_referenced_type",
+        "mangle_pointee_shape",
+        "mangle_tag_name"
       ],
       "terminal": {
-        "kind": "frontier",
-        "logical": "_cast_to_type@8",
-        "native": "cast_to_type",
-        "signal": 5
+        "kind": "exit",
+        "logical": "exit:0",
+        "status": 0
       }
     }
   }

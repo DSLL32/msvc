@@ -15,6 +15,18 @@ unsigned mangle_error_sequence; /* original 0xa0a70 */
 typedef char DecoratedWorkspaceSizeMustBe992[
     (sizeof(decorated_name_workspace) == 992) ? 1 : -1];
 
+/* Original 0x442b0..0x442e5, stdcall 8. Tag type encodings end with
+   a separate @ after the identifier and any enclosing scopes. */
+char *__stdcall mangle_tag_name(char *cursor, CppSymbol *tag)
+{
+    CppSymbol *parent;
+    cursor = mangle_identifier(cursor, tag->name, 0);
+    parent = next_member_context(tag);
+    if (parent) cursor = mangle_symbol_scope(cursor, parent);
+    *cursor++ = '@';
+    return cursor;
+}
+
 /* Original 0x42b10..0x42bdb. Return the shared decorated string and,
    when requested, write it including its terminating NUL to the stream. */
 char *__stdcall write_decorated_name(FILE *stream, CppSymbol *symbol,
@@ -503,6 +515,31 @@ char *__stdcall mangle_parameter_type(char *cursor, CType *type)
     if (shape && ((shape->flags & 0x77) == 0x40 || (shape->flags & 0x77) == 0x44)) {
         *cursor++ = (shape->attributes & 0x2000) ? 'B' : 'A';
         return mangle_referenced_type(cursor, type);
+    }
+    return mangle_type_shape(cursor, type);
+}
+
+/* Original 0x43c90..0x43ce1, stdcall 8. References to objects encode
+   qualifiers before their referent; function references use signature form. */
+char *__stdcall mangle_referenced_type(char *cursor, CType *type)
+{
+    if ((type->related->flags & 0x77) == 0x40) {
+        cursor = mangle_type_qualifiers(cursor, type, 0);
+        type = drop_first_type_shape(type);
+        return mangle_pointee_shape(cursor, type);
+    }
+    cursor = mangle_function_pointer_prefix(cursor, type);
+    type = drop_first_type_shape(type);
+    return mangle_function_pointer_signature(cursor, type);
+}
+
+/* Original 0x43cf0..0x43d23, stdcall 8. Array referents add a Y
+   marker before dimensions; other referents use the ordinary type shape. */
+char *__stdcall mangle_pointee_shape(char *cursor, CType *type)
+{
+    if (type->related && (type->related->flags & 0x77) == 2) {
+        *cursor++ = 'Y';
+        return mangle_array_type(cursor, type);
     }
     return mangle_type_shape(cursor, type);
 }

@@ -5,6 +5,7 @@
 #include "constructor-initializers.h"
 #include "unary-expressions.h"
 #include "member-expressions.h"
+#include "call-expressions.h"
 #include <limits.h>
 #include <recon.h>
 
@@ -205,10 +206,18 @@ IrToken *__stdcall convert_scalar_initializer(unsigned char operation, CType *ty
 }
 
 void __stdcall check_conversion_access(CppSymbol *conversion, CType *object_type);
-IrToken *__stdcall invoke_user_conversion(CppSymbol *conversion, IrToken *expression, CType *type);
+/* Original 0x670c0..0x670fc, stdcall 12. Constructors initialize a
+   result object; a conversion member instead receives the operand's address. */
+IrToken *__stdcall invoke_user_conversion(CppSymbol *conversion, IrToken *expression,
+    CType *type)
+{
+    if (conversion->declaration_flags & 0x1000)
+        return construct_copy_initializer(conversion, type, expression);
+    expression = builtin_unary_expression(0x3a, expression);
+    return make_resolved_call(conversion, expression, 0, 0, 0);
+}
 int __stdcall can_bind_conversion_reference(CType *reference, CType *value);
 int __stdcall find_constructor_result_reference(IrToken *call, IrToken **reference);
-void __stdcall cancel_temporary_cleanup(CppSymbol *symbol);
 
 /* Original 0x65af0..0x65c40. Try constructors or conversion functions
    only for class/reference operands. Retain reference binding exceptions and
@@ -239,7 +248,7 @@ IrToken *__stdcall try_user_defined_conversion(CType *type, IrToken *expression,
     if ((result->flags & 7) == 1 && result->value.pointer &&
         find_constructor_result_reference(result->value.pointer, &temporary) &&
         temporary && (temporary->flags & 7) == 4)
-        cancel_temporary_cleanup((CppSymbol *)temporary->value.pointer);
+        cancel_temporary_cleanup(temporary->value.integer);
     return 0;
 }
 

@@ -1,0 +1,17 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655ac0e in lookup_class_name_paths (tag=0x5660a154, name=0x56603a90 ".H", categories=2) at src/stubs.c:569
+569	QualifierResolution *__stdcall lookup_class_name_paths(CppSymbol *tag, char *name, unsigned categories) { __asm { int 3 } return 0; }
+#0  0x5655ac0e in lookup_class_name_paths (tag=0x5660a154, name=0x56603a90 ".H", categories=2) at src/stubs.c:569
+#1  0x565944c0 in check_conversion_access (conversion=0x5660a448, object_type=0x5660a720) at src/member-access.c:23
+#2  0x56593332 in try_user_defined_conversion (type=0x566092d8, expression=0x5661a1b0, convert_result=1) at src/numeric-conversion.c:227
+#3  0x565930b7 in convert_scalar_initializer (operation=110 'n', type=0x566092d8, expression=0x5661a1b0) at src/numeric-conversion.c:190
+#4  0x56583e12 in convert_initializer (operation=110 'n', type=0x566092d8, expression=0x5661a1b0) at src/constructor-initializers.c:629
+#5  0x5658de0c in cast_to_type (type=0x566092d8, operand=0x5661a1b0) at src/call-expressions.c:68
+#6  0x5658e6e8 in build_call_expression (expression=0x5661a160, arguments=0x5661a1c4) at src/call-expressions.c:207
+#7  0x565a8cca in parse_translation_unit () at src/parser-expression-actions.inc:177
+#8  0x5655e07f in compile_translation_unit () at src/frontend.c:73
+#9  0x56558856 in guarded_compile () at src/c1xx.c:28
+#10 0x56558824 in main (argc=1, argv=0xffffd844, environment=0xffffd84c) at src/c1xx.c:20

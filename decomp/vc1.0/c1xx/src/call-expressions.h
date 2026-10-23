@@ -9,6 +9,8 @@ void __stdcall bind_selected_overload(QualifiedDeclarator *reference, CppSymbol 
 IrToken *__stdcall make_resolved_call(CppSymbol *function, IrToken *object,
     IrToken *arguments, unsigned count, CppSymbol *qualified);
 IrToken *__stdcall cast_to_type(CType *type, IrToken *operand);
+IrToken *__stdcall cast_to_reference(CType *type, IrToken *operand);
+int __stdcall member_pointer_cast_compatible(CType *source, CType *target, int reverse);
 int __stdcall resolve_function_style_cast(IrToken *expression);
 IrToken *__stdcall lower_member_pointer_call(IrToken *expression, IrToken **prefix);
 unsigned __stdcall validate_call_arguments(CType *type, TypeShape *function,

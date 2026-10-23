@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 927,
+  "accepted": "_lookup_class_name_paths@12",
+  "terminal": "_invoke_user_conversion@12",
+  "original_capture": "cases/frontiers/copy_assignment/0927-lookup_class_name_paths-12/original-receipt.json",
+  "original_capture_sha256": "a583a2f3a237b6b09c2e608126b70c24e76ceb3224f72425fb5a766db7454105",
+  "original_events": "cases/frontiers/copy_assignment/0927-lookup_class_name_paths-12/original-events.txt",
+  "original_events_sha256": "7e2a2644216ff8b29d5d3a4e30427e54be4ad1ab585022a20be3b102c44ba8ba",
+  "original_configuration": "cases/frontiers/copy_assignment/0927-lookup_class_name_paths-12/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

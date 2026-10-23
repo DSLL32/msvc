@@ -142,7 +142,8 @@ void __stdcall record_boolean_constant(unsigned value) { __asm { int 3 } }
 void __stdcall diagnose_overload_failure(OverloadCandidate *candidate, OverloadSearch *search, IrToken *argument) { __asm { int 3 } }
 OverloadCandidate *__stdcall resolve_overload_tie(OverloadSearch *search) { __asm { int 3 } return 0; }
 OverloadCandidate *__stdcall report_call_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
-IrToken *__stdcall cast_to_type(CType *type, IrToken *operand) { __asm { int 3 } return 0; }
+IrToken *__stdcall cast_to_reference(CType *type, IrToken *operand) { __asm { int 3 } return 0; }
+int __stdcall member_pointer_cast_compatible(CType *source, CType *target, int reverse) { __asm { int 3 } return 0; }
 IrToken *__stdcall lower_member_pointer_call(IrToken *expression, IrToken **prefix) { __asm { int 3 } return 0; }
 unsigned __stdcall validate_call_arguments(CType *type, TypeShape *function, IrToken *arguments, unsigned count) { __asm { int 3 } return 0; }
 void __stdcall report_call_argument_error(unsigned code, CppSymbol *function, unsigned index) { __asm { int 3 } }
@@ -541,9 +542,7 @@ IrToken *__stdcall resolve_qualified_assignment_operand(CType *type, QualifiedDe
 unsigned char __stdcall classify_long_integer(unsigned value) { __asm { int 3 } return 0; }
 unsigned char __stdcall classify_unsigned_integer(unsigned value) { __asm { int 3 } return 0; }
 
-char *__stdcall mangle_referenced_type(char *cursor, CType *type) { __asm { int 3 } return 0; }
 char *__stdcall mangle_enum_representation(char *cursor, CType *unused_type) { __asm { int 3 } return 0; }
-char *__stdcall mangle_tag_name(char *cursor, CppSymbol *tag) { __asm { int 3 } return 0; }
 
 
 unsigned __cdecl hash_low_pointer_bits(void *key) { __asm { int 3 } return 0; }
@@ -565,8 +564,6 @@ int __cdecl equal_word_pairs(void *left, void *right) { __asm { int 3 } return 0
 int __stdcall vector_contains(Vector *vector, void *item) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_array_destructor_call(IrToken *object) { __asm { int 3 } return 0; }
 IrToken *__stdcall convert_member_pointer_initializer(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
-void __stdcall check_conversion_access(CppSymbol *conversion, CType *object_type) { __asm { int 3 } }
-IrToken *__stdcall invoke_user_conversion(CppSymbol *conversion, IrToken *expression, CType *type) { __asm { int 3 } return 0; }
 int __stdcall can_bind_conversion_reference(CType *reference, CType *value) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_once_virtual_base_pointer(IrToken *object, CType *type, unsigned pointer_offset, unsigned table_offset, unsigned member_offset, CType *pointer_type, int check_null) { __asm { int 3 } return 0; }
 unsigned char *__stdcall copy_bytes_forward(unsigned char *destination, const unsigned char *source, unsigned bytes) { __asm { int 3 } return 0; }
@@ -609,7 +606,7 @@ void write_ir_double(double *value) { __asm { int 3 } }
 
 char *__stdcall mangle_function_pointer_prefix(char *cursor, CType *type) { __asm { int 3 } return 0; }
 char *__stdcall mangle_function_pointer_signature(char *cursor, CType *type) { __asm { int 3 } return 0; }
-char *__stdcall mangle_pointee_shape(char *cursor, CType *type) { __asm { int 3 } return 0; }
+char *__stdcall mangle_array_type(char *cursor, CType *type) { __asm { int 3 } return 0; }
 
 IrToken *__stdcall retain_reference_temporary(CType *referent, CType *reference, IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall initialize_reference_temporary(CType *referent, CType *reference, IrToken *expression) { __asm { int 3 } return 0; }

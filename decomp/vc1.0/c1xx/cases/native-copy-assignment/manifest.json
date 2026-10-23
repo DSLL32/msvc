@@ -1,43 +1,42 @@
 {
   "case": "copy_assignment",
-  "scope": "925 accepted frontiers; explicit original-backed current partial frontend terminal",
-  "reference_receipt": "cases/frontiers/copy_assignment/0924-resolve_nested_deferred_types-4/original-receipt.json",
-  "reference_receipt_sha256": "4eec6d177e2bf0add3066e4a9b1c03bbbda01b3c16577749c7f7b845541765a2",
+  "scope": "932 accepted frontiers; explicit original-backed completed frontend terminal",
+  "reference_receipt": "cases/frontiers/copy_assignment/0931-mangle_tag_name-8/original-receipt.json",
+  "reference_receipt_sha256": "95bec537e2dc9e24ed52278445c795650669f259c303b5fd623daeaa2ee1663a",
   "reference_original_image_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
   "canonical_map": "canonical-map.txt",
-  "canonical_map_sha256": "e4de2a8efbb5ab5ccfc8fd78acbc3295320497b40fe6a353b329fbb7f9f8460f",
+  "canonical_map_sha256": "c25fac17b165ec81f22269cb6d689b75829336af32b5872ecf16767360f5a276",
   "terminal": {
-    "kind": "frontier",
-    "logical": "_cast_to_type@8",
-    "native_signal": 5,
-    "original_exception": "80000003"
+    "kind": "exit",
+    "logical": "exit:0",
+    "status": 0
   },
   "expected_stdout": "",
   "expected_stderr": "",
   "outputs": [
     {
       "path": "irex",
-      "bytes": 6,
-      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+      "bytes": 2164,
+      "sha256": "dbb2d7749e299f15c311c8fc3103713a8726241afec4876460c6affae6dbfccf"
     },
     {
       "path": "irsy",
-      "bytes": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "bytes": 406,
+      "sha256": "aa5029e37b8976d8907572f2ac4d0ad1ac91574c64d1b8f037810d38549ebd58"
     },
     {
       "path": "irin",
-      "bytes": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "bytes": 21,
+      "sha256": "18a37b1c5a9852e501b30acf5dd2a81cdb21d80036cec369dfe5d5b6e7e9cb67"
     },
     {
       "path": "irgl",
-      "bytes": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "bytes": 395,
+      "sha256": "81018870a5d5d8650935d79ec6ca5ed8cdfcd9420f6d280dfd27eb8d602254fc"
     }
   ],
   "normalization": "none; captured visible bytes, not unflushed CRT buffers",
-  "capture_seconds": 0.716091270558536,
+  "capture_seconds": 1.7690203581005335,
   "dependencies": [
     {
       "path": "toolchains/1.0-nt/bin/C1.ERR",

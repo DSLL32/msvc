@@ -10,6 +10,8 @@ typedef struct ClassNameSearch {
     HashTable *visited_virtual_bases, *shadowed_virtual_bases;
     Vector *candidates;
 } ClassNameSearch;
+QualifierResolution *__stdcall lookup_class_name_paths(CppSymbol *tag, char *name,
+    unsigned categories);
 typedef char ClassNameSearchSizeMustBe20[(sizeof(ClassNameSearch) == 20) ? 1 : -1];
 QualifierResolution *__stdcall search_class_name_paths(QualifierResolution *path,
     ClassNameSearch *search);
