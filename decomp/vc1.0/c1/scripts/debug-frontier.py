@@ -270,7 +270,7 @@ end
                 if fields[3]=='absent':observed.append([int(fields[1]),fields[2],None])
                 else:observed.append([int(fields[1]),fields[2],*[int(v,16) for v in fields[3:7]],fields[7]])
             assert actual == observed and actual, ('function finish symbol differs',observed,actual)
-            assert [r[-1] for r in actual if r[1]=='entry']==['broken_initializer','implicit_call','recovered_tail']
+            assert [r[-1] for r in actual if r[1]=='entry']==phase.get('expected_function_finishes',['broken_initializer','implicit_call','recovered_tail'])
             assert all(r[2] is None for r in actual if r[1]=='finish')
             state['function_finish_symbols']=actual
         original_receipt = json.loads((reference/'receipt.json').read_text())

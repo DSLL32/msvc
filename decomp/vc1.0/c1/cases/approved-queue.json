@@ -1,32 +1,26 @@
 {
-  "authorization": "Root approved one /FR+/Z7 explicit PCH producer/consumer with nested macro API and pinned-mtime __TIMESTAMP__ strings after assembler checkpoint51e2b7c0. Complete raw browser/PCH/IR and actual native producer dependency; no broad normalization.",
-  "baseline_commit": "3663566e521ffe4523c491948bb1ece25c636e92",
-  "baseline_accepted_count": 947,
+  "authorization": "Root approved one bounded inline-assembler diagnostic/recovery C unit, /FR /Z7 /Od /G5 /W3; exact expected compile errors/partial files and valid tail recovery, no runtime claim.",
+  "baseline_commit": "42a90bd57ec1a19c691a2885480d030d902e907b",
+  "baseline_accepted_count": 953,
   "baseline_coverage": {
-    "accepted_union_bytes": 233640,
+    "accepted_union_bytes": 234498,
     "original_code_bytes": 277234,
     "accepted_by_origin_bytes": {
-      "frontend_source": 213873,
-      "CRT": 19587,
-      "import_thunks": 180
+      "frontend_source": 214069,
+      "CRT": 20243,
+      "import_thunks": 186
     },
     "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
-    "percent": 84.27537747895279,
+    "percent": 84.58486332845177,
     "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
   },
   "cases": [
     {
-      "case": "browser-pch-timestamp",
-      "phase": "c1-create",
-      "status": "complete;947 through952, all7rawfiles exact"
-    },
-    {
-      "case": "browser-pch-timestamp",
-      "phase": "c1-use",
-      "status": "complete;952 through953, all8rawfiles exact and actual native producer chain"
+      "case": "asm-diagnostic-recovery",
+      "phase": "c1",
+      "status": "complete;953 through958, exact expectedexit4/fourerrors/sixpartialfiles, proved validtail recovery"
     }
   ],
   "status": "complete",
-  "previous_completed_authorization": "Assembler expression/directive checksum51e2b7c0;7functions785bytes,32nativephases",
-  "completion": "cases/browser-pch-timestamp/validation.json"
+  "completion": "cases/asm-diagnostic-recovery/validation.json"
 }

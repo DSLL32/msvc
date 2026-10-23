@@ -16,11 +16,12 @@ BINARY = Path(__file__).resolve().parents[1]
 ROOT = BINARY.parents[2]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--directory',type=Path)
+parser.add_argument('--tool',type=Path,help='Explicit immutable graph executable for coordinated tool maintenance')
 args = parser.parse_args()
 work = args.directory or Path(tempfile.mkdtemp(prefix='c1-graph-',dir=Path.home()/'.ai-tmp'))
 work.mkdir(parents=True,exist_ok=True)
 original,rebuilt,config,oi,ri = indexes()
-tool = ROOT/'tooling/graph-audit/target/release/graph-audit'
+tool = args.tool or ROOT/'tooling/graph-audit/target/release/graph-audit'
 paths = {'exe':work/'c1.exe','map':work/'c1.map','config':work/'functions.json'}
 saved = {'exe':(BINARY/'build/c1.exe').read_bytes(),
          'map':(BINARY/'build/c1.map').read_bytes(),

@@ -136,3 +136,36 @@ void __stdcall set_asm_operand_size(unsigned char size)
     }
     asm_operand->flags |= 1;
 }
+
+/* Original0x4e324..0x4e3f2. Diagnostics own a temporary aligned arena
+   string, optionally followed by the one-based operand number. */
+char *asm_error_context(void)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    int operand = asm_operand_mode != 0;
+    char *text = message_text(operand ? 322 : 323);
+    char *scan = text, *result, *end;
+    unsigned bytes = 1;
+    while (*scan++) ++bytes;
+    bytes = (bytes + (operand ? 5 : 3)) & ~3U;
+    if (pool->remaining < (int)bytes) refill_arena(&compiler_arena,pool);
+    result = pool->next;
+    pool->remaining -= bytes;
+    pool->next += bytes;
+    end = copy_asm_context_text(result,text);
+    if (operand) {
+        *end++ = ' ';
+        *end++ = (char)(asm_operand_count + '1');
+    }
+    *end = 0;
+    return result;
+}
+
+/* Original0x4e3f2..0x4e40c, RET8. Return the copied terminator so
+   the diagnostic caller can append its operand suffix without rescanning. */
+char *__stdcall copy_asm_context_text(char *destination, char *source)
+{
+    char *cursor = destination;
+    do { *cursor++ = *source++; } while (cursor[-1]);
+    return cursor - 1;
+}

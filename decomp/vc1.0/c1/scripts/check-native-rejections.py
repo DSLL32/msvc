@@ -263,6 +263,22 @@ def main():
     finally:
         checker.os.utime = saved_utime
 
+    _, asm_errors = checker.run_case('asm-diagnostic-recovery', executable, directory, (cache,filter_path))
+    asm_errors_fixture = checker.BINARY/'cases/asm-diagnostic-recovery'
+    asm_errors_phase = json.loads((asm_errors_fixture/'manifest.json').read_text())['phases']['c1']
+    original_diagnostics = asm_errors_phase['expected_stdout'].encode('latin1')
+    rejects('asm-errors-unexpected-success', 'native status',
+            lambda:checker.validate_result('asm-diagnostic-recovery',0,original_diagnostics,b'',asm_errors_phase))
+    lines = original_diagnostics.splitlines(keepends=True)
+    lines[0],lines[1] = lines[1],lines[0]
+    rejects('asm-errors-diagnostic-order', 'stdout differs',
+            lambda:checker.validate_result('asm-diagnostic-recovery',4,b''.join(lines),b'',asm_errors_phase))
+    partial_browser = (asm_errors/'errors.sbr').read_bytes()
+    assert partial_browser[-1] == 14 and b'recovered_tail\0' in partial_browser
+    (asm_errors/'errors.sbr').write_bytes(partial_browser[:-1]+b'\x0a')
+    rejects('asm-errors-browser-final-marker', 'output bytes differ: errors.sbr',
+            lambda:checker.validate_artifacts(asm_errors,asm_errors_fixture,asm_errors_phase))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

@@ -95,6 +95,7 @@ AsmExpression * __stdcall evaluate_asm_binary(unsigned short operation, AsmExpre
 AsmExpression * __stdcall combine_asm_addresses(unsigned short operation, AsmExpression *left, AsmExpression *right);
 void __stdcall set_asm_address_operator(short operation);
 char * asm_error_context(void);
+char *__stdcall copy_asm_context_text(char *destination, char *source);
 FrontendSymbol * __stdcall lookup_asm_symbol(char *name, int allow_label);
 AsmExpression * __stdcall evaluate_asm_unary(short operation, AsmExpression *value);
 AsmExpression * __stdcall apply_asm_segment(short segment, AsmExpression *value);

@@ -88,6 +88,11 @@ def main():
                 assert row.get(state,fallback)==target, ('emitted goto',state,nt)
             gotos += 1
     if rebuilt:
+        for index in range(50):
+            old_text = struct.unpack('<I',original.read(0x730a0+4*index,4))[0]
+            new_text = struct.unpack('<I',rebuilt.read(names['_asm_token_names']+4*index,4))[0]
+            assert original.string(old_text)==rebuilt.string(new_text), ('assembler diagnostic token name',index)
+        print('50 logical assembler diagnostic token names match.')
         token_classes = rebuilt.read(names['_asm_token_classes'],153)
         assert token_classes == bytes(value & 63 for value in original.read(0x6d92f,153)), 'assembler lexical classes'
         assert rebuilt.read(names['_asm_opcode_aliases'],196) == original.read(0x72cb4+230*2,196), 'assembler opcode aliases'

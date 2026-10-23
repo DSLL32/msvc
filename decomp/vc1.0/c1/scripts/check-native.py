@@ -36,7 +36,8 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'legacy-callback-adapter':('legacy-callback-adapter','c1'),
          'inline-asm-expressions':('inline-asm-expressions','c1'),
          'browser-pch-create':('browser-pch-timestamp','c1-create'),
-         'browser-pch-use':('browser-pch-timestamp','c1-use')}
+         'browser-pch-use':('browser-pch-timestamp','c1-use'),
+         'asm-diagnostic-recovery':('asm-diagnostic-recovery','c1')}
 
 
 CASE_DEPENDENCIES = {

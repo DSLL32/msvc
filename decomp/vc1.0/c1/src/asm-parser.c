@@ -383,3 +383,31 @@ int parse_inline_assembler(void)
         return 1;
     }
 }
+
+/* Original0x730a0: display vocabulary in AsmToken order. This table
+   names logical tokens used by diagnostics rather than packed parser data. */
+char *asm_token_names[50] = {
+    "no token",
+    "EQ", "GE", "GT", "LE", "LT", "NE",
+    "AND", "MOD", "NOT", "OR", "SHL", "SHR", "XOR",
+    "HIGH", "LENGTH", "LOW", "OFFSET", "PTR", "SEG", "SIZE", "TYPE",
+    "+", "-", "*", "/", ":", ",", "[", "]", "(", ")", "{", ";",
+    "newline", ".", "end of file", "bad token", "mapped", "register",
+    "asm data type", "asm code type", "data type", "typedef name",
+    "identifier", "constant", "enum member", "prefix", "opcode", "directive"
+};
+
+/* Original0x4c9f5..0x4ca52, RET4. The identifier special case tests
+   the parser message's first byte, not the identifier's first byte; retain
+   that distinct original predicate. Only yacc stack overflow is fatal. */
+void __stdcall report_asm_parser_error(char *text)
+{
+    char *found, *context;
+    if (*text == 'y') fatal_error(26);
+    if (asm_current_token == AS_IDENTIFIER && current_token_value.identifier && *text)
+        found = current_token_value.identifier;
+    else found = asm_token_names[asm_current_token];
+    context = asm_error_context();
+    report_syntax_error(400,context,found);
+    asm_operand_mode = 1;
+}

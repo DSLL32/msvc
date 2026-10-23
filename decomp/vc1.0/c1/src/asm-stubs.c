@@ -7,7 +7,7 @@ void __stdcall report_asm_expected_token(int actual, int expected) { __asm { int
 /* Original 0x4c98c. */
 ParserValue __stdcall asm_recovery_value(int token) { ParserValue value; __asm { int 3 } return value; }
 /* Original 0x4c9f5. */
-void __stdcall report_asm_parser_error(char *text) { __asm { int 3 } }
+
 /* Original 0x4dcf4. */
 
 /* Original 0x4d6ce. */
@@ -29,7 +29,7 @@ void __stdcall report_asm_parser_error(char *text) { __asm { int 3 } }
 /* Original 0x4defc. */
 
 /* Original 0x4e324. */
-char * asm_error_context(void) { __asm { int 3 } return 0; }
+
 /* Original 0x4e290. */
 
 /* Original 0x50260. */

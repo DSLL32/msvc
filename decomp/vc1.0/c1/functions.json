@@ -957,7 +957,12 @@
     "_get_file_timestamp@8",
     "__fstat",
     "import:GetFileInformationByHandle",
-    "_restore_pch_browser_name@4"
+    "_restore_pch_browser_name@4",
+    "_prepare_browser_anonymous_record@4",
+    "_asm_error_context",
+    "_copy_asm_context_text@8",
+    "_report_asm_parser_error@4",
+    "_browser_error_record"
   ],
   "driver": [
     {
@@ -4982,7 +4987,7 @@
     {
       "name": "_report_asm_parser_error@4",
       "start": 313845,
-      "end": 313846
+      "end": 313938
     },
     {
       "name": "_finish_asm_line",
@@ -5043,7 +5048,7 @@
     {
       "name": "_asm_error_context",
       "start": 320292,
-      "end": 320293
+      "end": 320498
     },
     {
       "name": "_lookup_asm_symbol@8",
@@ -5324,7 +5329,7 @@
     {
       "name": "_prepare_browser_anonymous_record@4",
       "start": 159680,
-      "end": 159681
+      "end": 159772
     },
     {
       "name": "_serialize_browser_record@8",
@@ -5350,7 +5355,7 @@
     {
       "name": "_browser_error_record",
       "start": 161072,
-      "end": 161073
+      "end": 161082
     },
     {
       "name": "_read_browser_record@4",
@@ -5684,6 +5689,11 @@
       "name": "_get_file_timestamp@8",
       "start": 310800,
       "end": 310856
+    },
+    {
+      "name": "_copy_asm_context_text@8",
+      "start": 320498,
+      "end": 320524
     }
   ],
   "cases": {
@@ -5837,6 +5847,11 @@
     "browser-pch-use": {
       "accepted_from": 952,
       "accepted_count": 953
+    },
+    "asm-diagnostic-recovery": {
+      "accepted_from": 953,
+      "accepted_count": 958,
+      "expected_exit": 4
     }
   },
   "buffered_streams": [

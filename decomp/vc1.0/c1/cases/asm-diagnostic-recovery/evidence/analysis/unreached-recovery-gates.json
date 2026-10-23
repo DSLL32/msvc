@@ -1,0 +1,17 @@
+{
+  "status": "not reconstructed; no extent credit",
+  "expected_token_and_recovery_value": {
+    "original_recovery_head": "0x710f4",
+    "raw_head": "18fc0000",
+    "sentinel_state": -1000,
+    "parser_compare": "raw4cbf2 compares first recovery state to-1000 before scanning rows; first row immediately terminates the list",
+    "valid_states": "0..135 established by complete grammar audit",
+    "scope": "Under established parser/control contract, sentinel is unchanged and no recovery row matches a validstate; generic syntax-error path is used. Do not force state or classify these compatibility helpers as CRT."
+  },
+  "operand_error": {
+    "routine": "0x4eb15",
+    "caller": "normalize_asm_addresses4eb41",
+    "gates": "Explicit size on a register, duplicate ESP base/index, or scaled ESP index. This frozen source instead reaches direct scale/register diagnostics and generic parser errors; helper remains a named trap."
+  },
+  "raw_predicate_correction": "Generic asm parser error4ca1b tests *message, unlike expected-token4c960 which tests *identifier. Reconstructed reached helper retains the exact raw predicate; Ghidra omitted these additional diagnostic arguments."
+}

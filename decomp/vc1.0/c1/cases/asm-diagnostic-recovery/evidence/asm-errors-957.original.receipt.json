@@ -1,0 +1,73 @@
+{
+  "terminal_exit": 99,
+  "expected_exit": 4,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/asm-diagnostic-recovery",
+  "phase": "c1",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "enum_callback_function": null,
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "timestamp_probe": false,
+  "accepted_count": 957,
+  "accepted_sha256": "124e0fbf1dbb5c49ca30c007722da7876310edfb868b363cab5abddc2a2ac9f1",
+  "executable_sha256": "93bf99c0f223fd1213f78afd4939156ce71dccaf828eb7bda68425fa4d66b273",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "0f94a06afc3e47c5fa29175d9ecd57766701f1b9e483a272aab711cee1b776a7",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f asm-errors.c -Ze -Zp8 -Gs -Foasm-errors.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR errors.sbr -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\asm-diagnostic-recovery",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual spawn stdout intervals isolate four child errors from CL source banner."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/asm-diagnostic-recovery",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.05248536355793476,
+  "execution_seconds": 0.6924703633412719,
+  "total_seconds": 0.7449581352993846,
+  "files": [
+    {
+      "name": "asm-errors.c",
+      "bytes": 224,
+      "sha256": "533ef046188473dc98214e5330de0460d238f7341a660c8ca074641d879c825e"
+    },
+    {
+      "name": "errors.sbt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irdb",
+      "bytes": 11,
+      "sha256": "008a3c8db329cffa3250d9c0ed7be51cc5c4305501dd4ebbd7b9ffd4febdc94b"
+    },
+    {
+      "name": "irex",
+      "bytes": 969,
+      "sha256": "bcca64445fbf54312c9f273dd27224895bc540da7f37279d5af8dc138f3260a7"
+    },
+    {
+      "name": "irgl",
+      "bytes": 28,
+      "sha256": "ffadb1cd51d95e062aa4d312c9daa2f0f873b2c40bd849e9e9533b0524d1d53f"
+    },
+    {
+      "name": "irin",
+      "bytes": 6,
+      "sha256": "90ea10f68e698e2804142dc7b96ee962b425f553c1a5da02c9041626575334bf"
+    },
+    {
+      "name": "irsy",
+      "bytes": 2,
+      "sha256": "53bd9133146631a2a2a89188f7d799e4ab85b473b7e927dd8b7782d91fe4ee0c"
+    }
+  ]
+}

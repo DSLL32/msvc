@@ -1,0 +1,4 @@
+asm-errors.c(4) : error C2423: '3' : illegal scale
+asm-errors.c(5) : error C2403: 'ax' : register must be base/index in 'operand 2'
+asm-errors.c(6) : error C2400: inline syntax error in 'operand 2'; found 'newline'
+asm-errors.c(7) : error C2400: inline syntax error in 'operand 2'; found ','

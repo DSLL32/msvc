@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "bda52c697f8088586d217a710ea732301836d3989dc43230a79d7d47bdd0e243",
+    "functions.json": "27dafa3e451df44c2ac2b34872b0e2a16d3895488eb65431589b06d3d2e94ed3",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "c780038976dad41477ce4fc62c98dd3836d55850ec35955d4caa0847e26935db"
+    "sha256": "4dc7ef95ad3af24405450ec4ea1abee506fbfcec81f49d2642ac1675fbcd44c1"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "60934aa4928e33e564a0144ad1c3f6e9583286732495eebc57b7960f310a7e2d"
+    "sha256": "4356651556a407577b369473b8ef74bebd00437b2bd4750b05f89a9e01082e3d"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -211,7 +211,7 @@
     },
     "asm_error_context": {
       "logical": "_asm_error_context",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm.c"
     },
     "asm_member_offset": {
       "logical": "_asm_member_offset@4",
@@ -391,7 +391,7 @@
     },
     "browser_error_record": {
       "logical": "_browser_error_record",
-      "source": "src/browser-stubs.c"
+      "source": "src/browser.c"
     },
     "browser_finish_scope": {
       "logical": "_browser_finish_scope",
@@ -776,6 +776,10 @@
     "copy_asm_comment": {
       "logical": "_copy_asm_comment",
       "source": "src/asm-lexer.c"
+    },
+    "copy_asm_context_text": {
+      "logical": "_copy_asm_context_text@8",
+      "source": "src/asm.c"
     },
     "copy_block_comment": {
       "logical": "_copy_block_comment",
@@ -2607,7 +2611,7 @@
     },
     "prepare_browser_anonymous_record": {
       "logical": "_prepare_browser_anonymous_record@4",
-      "source": "src/browser-stubs.c"
+      "source": "src/browser.c"
     },
     "prepare_browser_definition": {
       "logical": "_prepare_browser_definition@8",
@@ -3015,7 +3019,7 @@
     },
     "report_asm_parser_error": {
       "logical": "_report_asm_parser_error@4",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-parser.c"
     },
     "report_conversion_mismatch": {
       "logical": "_report_conversion_mismatch@12",
@@ -4451,7 +4455,12 @@
     "begin_browser_pch_record",
     "source_file_timestamp",
     "get_file_timestamp",
-    "restore_pch_browser_name"
+    "restore_pch_browser_name",
+    "prepare_browser_anonymous_record",
+    "asm_error_context",
+    "copy_asm_context_text",
+    "report_asm_parser_error",
+    "browser_error_record"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5781,6 +5790,22 @@
       "terminal": {
         "kind": "exit",
         "code": 0
+      }
+    },
+    "asm-diagnostic-recovery": {
+      "first": 953,
+      "last": 958,
+      "seen_count": 813,
+      "expected": [
+        "prepare_browser_anonymous_record",
+        "asm_error_context",
+        "copy_asm_context_text",
+        "report_asm_parser_error",
+        "browser_error_record"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 4
       }
     }
   }

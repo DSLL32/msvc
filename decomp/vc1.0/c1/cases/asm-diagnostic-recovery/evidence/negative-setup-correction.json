@@ -1,0 +1,1 @@
+{"status":"test setup correction","initial_mutation":"Truncated final error marker; oracle correctly rejected size before bytes.","corrected_mutation":"Replace error marker14 with ordinary close marker10 at same length; byte oracle must reject.","product_or_fixture_changes":false}

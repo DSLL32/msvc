@@ -476,3 +476,25 @@ void __stdcall restore_pch_browser_name(char *filename)
     record.name = copy_browser_name(filename);
     append_browser_record(&record);
 }
+
+/* Original0x26fc0..0x2701c, RET4. Error records share the ordinary
+   symbol-index namespace, preserving an already assigned record index. */
+void __stdcall prepare_browser_anonymous_record(BrowserRecord *record)
+{
+    record->kind = 3;
+    record->symbol_kind = 18;
+    record->attributes = 0;
+    if (!record->symbol_index) {
+        if (next_symbol_index > 0x7ffffffeU) fatal_error(55);
+        if (next_symbol_index >= browser_symbol_limit && browser_filename)
+            browser_index_overflow();
+        record->symbol_index = next_symbol_index++;
+    }
+}
+
+/* Original0x27530..0x2753a. Terminate an erroneous compilation's
+   browser stream with its dedicated error marker before final filtering. */
+void browser_error_record(void)
+{
+    write_browser_record(14,0);
+}

@@ -1,0 +1,6 @@
+entry _prepare_browser_anonymous_record@4 rva 00016fc0 byte 56
+entry _asm_error_context rva 0003e324 byte 53
+entry _copy_asm_context_text@8 rva 0003e3f2 byte 53
+entry _report_asm_parser_error@4 rva 0003c9f5 byte 56
+entry _browser_error_record rva 00017530 byte 6a
+exit 4

@@ -1,0 +1,94 @@
+{
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc1.0\\c1\\tools\\capture-cl.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "/nologo /c /FRerrors.sbr /Z7 /Od /G5 /W3 asm-errors.c",
+    "S:\\vc1.0\\c1\\transport\\asm-diagnostic-recovery-second\\stdout",
+    "S:\\vc1.0\\c1\\transport\\asm-diagnostic-recovery-second\\stderr",
+    "S:\\vc1.0\\c1\\transport\\asm-diagnostic-recovery-second\\events",
+    "S:\\vc1.0\\c1\\asm-diagnostic-recovery",
+    "S:\\vc1.0\\c1\\transport\\asm-diagnostic-recovery-second\\config.txt",
+    "ordinary",
+    "S:\\vc1.0\\c1\\transport\\asm-diagnostic-recovery-second"
+  ],
+  "CL_arguments": "/nologo /c /FRerrors.sbr /Z7 /Od /G5 /W3 asm-errors.c",
+  "helper_source": "decomp/vc1.0/cl/src/capture-run.c",
+  "helper_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+  "helper_sha256": "b80b97201ce6f78fccc165200f844db467639e38e02f01523cdf68cecdc6683c",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "cwd": "S:\\vc1.0\\c1\\asm-diagnostic-recovery",
+  "environment": {
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib"
+  },
+  "host_exit": 0,
+  "execution_seconds": 1.5676906956359744,
+  "children": [
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c13232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\000308 -f asm-errors.c -Ze -Zp8 -Gs -Foasm-errors.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR errors.sbr -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include "
+      ]
+    }
+  ],
+  "C1_boundary_file_sets": {
+    "001-before": [
+      {
+        "name": "asm-errors.c",
+        "bytes": 224,
+        "sha256": "533ef046188473dc98214e5330de0460d238f7341a660c8ca074641d879c825e",
+        "mtime_ns": 1792769831666094800
+      }
+    ],
+    "001-after": [
+      {
+        "name": "000308db",
+        "bytes": 11,
+        "sha256": "008a3c8db329cffa3250d9c0ed7be51cc5c4305501dd4ebbd7b9ffd4febdc94b",
+        "mtime_ns": 1792769833186064500
+      },
+      {
+        "name": "000308ex",
+        "bytes": 969,
+        "sha256": "bcca64445fbf54312c9f273dd27224895bc540da7f37279d5af8dc138f3260a7",
+        "mtime_ns": 1792769833186064500
+      },
+      {
+        "name": "000308gl",
+        "bytes": 28,
+        "sha256": "ffadb1cd51d95e062aa4d312c9daa2f0f873b2c40bd849e9e9533b0524d1d53f",
+        "mtime_ns": 1792769833186064500
+      },
+      {
+        "name": "000308in",
+        "bytes": 6,
+        "sha256": "90ea10f68e698e2804142dc7b96ee962b425f553c1a5da02c9041626575334bf",
+        "mtime_ns": 1792769833186064500
+      },
+      {
+        "name": "000308sy",
+        "bytes": 2,
+        "sha256": "53bd9133146631a2a2a89188f7d799e4ab85b473b7e927dd8b7782d91fe4ee0c",
+        "mtime_ns": 1792769833186064500
+      },
+      {
+        "name": "asm-errors.c",
+        "bytes": 224,
+        "sha256": "533ef046188473dc98214e5330de0460d238f7341a660c8ca074641d879c825e",
+        "mtime_ns": 1792769831666094800
+      },
+      {
+        "name": "errors.sbr",
+        "bytes": 159,
+        "sha256": "cce78a71a54ae4c693df5b0c7488dcfbeeb12d66ce812014bc3877b7c47a44bc",
+        "mtime_ns": 1792769833186064500
+      }
+    ]
+  }
+}

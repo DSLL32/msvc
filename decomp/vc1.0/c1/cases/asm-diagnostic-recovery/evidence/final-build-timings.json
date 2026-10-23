@@ -1,0 +1,26 @@
+[
+  {
+    "name": "native-build",
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "seconds": 0.022830775938928127,
+    "exit": 0
+  },
+  {
+    "name": "canonical-audits",
+    "command": [
+      "make",
+      "-j4",
+      "audit-win32",
+      "GRAPH_AUDIT_BIN=/root/.ai-tmp/graph-audit/register-imports/flag-off-baseline",
+      "-o",
+      "/root/.ai-tmp/graph-audit/register-imports/flag-off-baseline"
+    ],
+    "seconds": 24.493228158913553,
+    "exit": 0
+  }
+]
