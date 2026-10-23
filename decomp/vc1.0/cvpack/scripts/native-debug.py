@@ -85,7 +85,8 @@ def install_read_observer(output,sites):
                 handle=int(f.read_var('handle'));address=int(f.read_var('buffer'));count=int(f.read_var('size'))
                 local=gdb.parse_and_eval(site['native_local'])if site.get('global_buffer')else caller.read_var(site['native_local'])
                 if site.get('heap_buffer'):
-                    assert int(local)==address and count==int(gdb.parse_and_eval(site['count_global']))*site['element_size'],'unidentified read heap allocation'
+                    expected=int(gdb.parse_and_eval(site['count_global']))*site['element_size']if 'count_global'in site else int(caller.read_var(site['count_local']).dereference()[site['count_field']])&((1<<site['count_bits'])-1)
+                    assert int(local)==address and count==expected,'unidentified read heap allocation'
                 else:assert int(local.address)==address and local.type.sizeof==count==site['size'],'unidentified read output local'
                 assert 0<=count<=4096
                 position,fd,flags,host_position=state(handle)

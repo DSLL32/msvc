@@ -8,12 +8,12 @@ The PE/COFF analysis reader was reused from LINK; no sibling files are changed.
 `make -j4 native check` builds/runs native i386 fixtures. `make -j4 all audit`
 also verifies original-compiler compilability. Debug with GDB against
 `build/native/CVPACK.EXE`. `/help` is complete: exact 219-byte stdout, exit 1 and
-empty stderr. Thirty application functions are accepted. The first orchestrator review passed;
+empty stderr. Thirty-two application functions are accepted. The first orchestrator review passed;
 work is released toward the fifty-function review. The independent DLL case stops
-at the named `read_subsection` stub. CRT startup has a
+at the named `pack_module` stub. CRT startup has a
 separate exact-library and observed-state proof and is counted separately.
 `audit` checks complete original/compiler CFGs and callees, RET cleanup, SEH
-roots, contextual initial data, library relocations, and 80 rejection checks, including ownership, snapshots, conditional ABI words and
+roots, contextual initial data, library relocations, and 89 rejection checks, including ownership, snapshots, conditional ABI words and
 case-specific guarded CRT variants.
 
 `scripts/capture-original.py --case help --output ~/.ai-tmp/...` is an explicit
@@ -104,3 +104,9 @@ full-audit medians were 1.017 s with Python and 0.326 s with Rust (~3.1x);
 explicit identity preparation took 0.357 s. The native fixture runner took
 0.162 s. The committed thirty-function source was independently built/tested
 in isolation from later reconstruction work.
+
+Checkpoint thirty-two adds subsection reads and the sorted module list. Scratch
+allocations have source/callsite/size/lifetime identities and retain raw bytes.
+Only the reviewed pre-first-module lifetime treats their unwritten payloads as
+undefined; unknown consumers or defined writes require a new proof. A non-NULL
+zero-sized allocation has an empty payload and unique base identity.

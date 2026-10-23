@@ -28,7 +28,7 @@ int open_file(const char *, int, ...);
 int close_file(int, unsigned char);
 void initialize_type_tables(void);
 void read_image_debug(void);
-void pack_module(unsigned short);
+int pack_module(unsigned short);
 void strip_debug(int);
 void write_debug_directory(void);
 void print_statistics(void);

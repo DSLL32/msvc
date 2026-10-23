@@ -147,9 +147,23 @@
       "heap_buffer": true,
       "count_global": "directory_entry_count",
       "element_size": 12
+    },
+    {
+      "call": 131032,
+      "returned": 131037,
+      "call_bytes": "e823a40000",
+      "return_bytes": "83c40c",
+      "owner": "read_subsection",
+      "native_line": 377,
+      "native_local": "buffer",
+      "heap_buffer": true,
+      "count_local": "entry",
+      "count_field": "size",
+      "count_bits": 16,
+      "size": 0
     }
   ],
   "scope": "Synchronous buffered disk reads of the approved independent DLL; raw pre/post buffers retained. Defined output extent is max(return,0), bounded by requested count; unwritten bytes must equal their own entry bytes. No equality claim for unrelated undefined input bytes.",
   "source": "src/image.c",
-  "source_sha256": "43e28a10b8c658faa5b798bafe69e4f59119693bd1fe52d590f7a59a57e82ab3"
+  "source_sha256": "936c68afa521642fde3f8c4e0274dfd9efe95f80a29b257f926d06b4f657f976"
 }

@@ -13,7 +13,7 @@ def namespace(walks):
 
 def pointer_identity(walks,value):
     if not value:return None
-    matches=[(identity,value-address)for address,size,identity in namespace(walks)if address<=value<address+size]
+    matches=[(identity,value-address)for address,size,identity in namespace(walks)if address<=value<address+size or (size==0 and value==address)]
     assert len(matches)==1,('unresolved/ambiguous observed argument pointer',hex(value),matches)
     return matches[0]
 
@@ -23,7 +23,7 @@ def original_walks(events,specifications):
     ended=set()
     for line in events.splitlines():
         if line.startswith('node '):
-            _,root,index,address,raw=line.split()
+            fields=line.split();_,root,index,address=fields[:4];raw=fields[4]if len(fields)==5 else ''
             item=by_root[int(root,16)]
             nodes=walks[item['name']]
             assert int(index)==len(nodes)
@@ -51,18 +51,20 @@ def original_walks(events,specifications):
     assert ended==set(walks),'missing original object walk'
     return walks
 
-def compare_walks(specifications,original,native):
+def compare_walks(specifications,original,native,definitions=None):
+    definitions=definitions or {}
     assert set(original)==set(native)=={item['name']for item in specifications}
     original_names,native_names=namespace(original),namespace(native)
     def logical(value,namespace):
         if not value:return None
-        candidates=[(identity,value-address)for address,size,identity in namespace if address<=value<address+size]
+        candidates=[(identity,value-address)for address,size,identity in namespace if address<=value<address+size or (size==0 and value==address)]
         assert len(candidates)==1,('unresolved/ambiguous observed pointer',hex(value),candidates)
         return candidates[0]
     receipt={}
     for item in specifications:
         name=item['name']
         assert len(original[name])==len(native[name]),('object count differs',name)
+        if item.get('allocation_name'):assert len(original[name])==len(native[name])==1,'missing live scratch allocation'
         nodes=[]
         for index,(a,b)in enumerate(zip(original[name],native[name])):
             left,right=bytearray.fromhex(a['bytes']),bytearray.fromhex(b['bytes'])
@@ -100,6 +102,11 @@ def compare_walks(specifications,original,native):
                     assert count<=description['max_count']
                     assert len(bytes.fromhex(payload['bytes']))==(count*description.get('element_size',4)if payload['address']else 0)
                 if not description.get('pointers',True):
+                    if description.get('allocation_name'):
+                        from allocations import mask_undefined
+                        observed_left,observed_right=bytearray.fromhex(old['bytes']),bytearray.fromhex(new['bytes'])
+                        mask_undefined(description['allocation_name'],observed_left,observed_right,definitions)
+                        arrays[str(offset)]=dict(allocation=description['allocation_name'],bytes=len(observed_left),raw_original_sha256=hashlib.sha256(bytes.fromhex(old['bytes'])).hexdigest(),raw_native_sha256=hashlib.sha256(bytes.fromhex(new['bytes'])).hexdigest());continue
                     assert old['bytes']==new['bytes'],('binary array contents differ',name,index,offset)
                     arrays[str(offset)]=dict(bytes=len(bytes.fromhex(old['bytes'])),sha256=hashlib.sha256(bytes.fromhex(old['bytes'])).hexdigest())
                     continue
@@ -121,7 +128,11 @@ def compare_walks(specifications,original,native):
                 assert old_id==new_id,('pointer identity differs',name,index,offset,old_id,new_id)
                 pointers[str(offset)]=old_id
                 left[offset:offset+4]=right[offset:offset+4]=b'\0'*4
+            allocation=None
+            if item.get('allocation_name'):
+                from allocations import mask_undefined
+                allocation=mask_undefined(item['allocation_name'],left,right,definitions)
             assert left==right,('observed object bytes differ',name,index)
-            nodes.append(dict(bytes=len(left),nonpointer_sha256=hashlib.sha256(left).hexdigest(),pointers=pointers,arrays=arrays,descriptors=a.get('descriptors',{})))
+            nodes.append(dict(bytes=len(left),nonpointer_sha256=hashlib.sha256(left).hexdigest(),pointers=pointers,arrays=arrays,descriptors=a.get('descriptors',{}),allocation=allocation))
         receipt[name]=nodes
     return receipt

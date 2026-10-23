@@ -8,7 +8,7 @@ int release_file_slot(FileSlot *slot) { __asm { int 3 } return 0; }
 int open_mapped_file(FileSlot *slot, int mode, unsigned char created)
 { __asm { int 3 } return 0; }
 int close_file(int handle, unsigned char release) { __asm { int 3 } return 0; }
-void pack_module(unsigned short module) { __asm { int 3 } }
+int pack_module(unsigned short module) { __asm { int 3 } return 0; }
 void strip_debug(int handle) { __asm { int 3 } }
 void write_debug_directory(void) { __asm { int 3 } }
 void print_statistics(void) { __asm { int 3 } }
@@ -32,7 +32,3 @@ long seek_mapped_file(FileSlot *slot, long offset, int origin) { __asm { int 3 }
 
 int read_mapped_file(FileSlot *slot, void *buffer, unsigned long size) { __asm { int 3 } return -1; }
 void advance_file_page(FileSlot *slot) { __asm { int 3 } }
-
-
-void read_subsection(const CvDirectoryEntry *entry, unsigned char **data, unsigned long *size) { __asm { int 3 } }
-ModuleInfo *find_module(unsigned short number, int create) { __asm { int 3 } return NULL; }

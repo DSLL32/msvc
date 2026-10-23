@@ -192,7 +192,7 @@ void read_image_debug(void)
     if (!global_symbol_blocks[global_symbol_block]) fatal_error(13, NULL, NULL);
 }
 
-char cv_signature[4];
+unsigned char cv_signature[4];
 
 unsigned short read_cv_signature(void)
 {
@@ -364,4 +364,43 @@ void initialize_modules(void)
             }
         }
     }
+}
+
+void read_subsection(const CvDirectoryEntry *entry, unsigned char **data, unsigned long *size)
+{
+    unsigned char *buffer = malloc((unsigned short)entry->size);
+    if (!buffer) {
+        fatal_error(13, NULL, NULL);
+        if (!buffer) fatal_error(13, NULL, NULL);
+    }
+    seek_file(input_file, cv_file_offset+entry->offset, 0);
+    if (read_file(input_file, buffer, (unsigned short)entry->size) != entry->size)
+        fatal_error(17, NULL, NULL);
+    *data = buffer;
+    *size = entry->size;
+}
+
+ModuleInfo *find_module(unsigned short number, int create)
+{
+    ModuleInfo *previous = NULL, *current = module_list, *module;
+    unsigned long *words;
+    int i;
+    while (current) {
+        if (number == current->module) return current;
+        if (number < current->module) break;
+        previous = current;
+        current = current->next;
+    }
+    if (create == 1) {
+        module = malloc(sizeof(*module));
+        words = (unsigned long *)module;
+        for (i = 0; i < 12; ++i) words[i] = 0;
+        module->module = number;
+        if (!previous) module_list = module;
+        else previous->next = module;
+        module->next = current;
+        return module;
+    }
+    fatal_error(31, NULL, NULL);
+    return NULL;
 }

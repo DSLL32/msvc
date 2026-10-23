@@ -232,6 +232,31 @@ def main():
     changed={'pool':[dict(address=0x9000,bytes=struct.pack('<III',7,0xffff,11).hex()),right['pool'][1]]}
     reject('unresolved observed object pointer',lambda:compare_walks(specifications,left,changed))
     reject('unterminated original object list',lambda:original_walks('walk-end 00004000 0 00001000\n',specifications))
+    from objects import pointer_identity
+    empty_spec=[dict(name='empty',allocation_name='module_data')]
+    empty_old={'empty':[dict(address=0x1000,bytes='')]};empty_new={'empty':[dict(address=0x9000,bytes='')]}
+    definitions={'module_data':dict(size=0,defined_ranges=[])}
+    compare_walks(empty_spec,empty_old,empty_new,definitions)
+    assert pointer_identity(empty_old,0x1000)==(('empty',0),0)
+    reject('zero allocation invented readable byte',lambda:pointer_identity(empty_old,0x1001))
+    reject('scratch allocation missing ownership proof',lambda:compare_walks(empty_spec,empty_old,empty_new))
+    reject('scratch allocation missing live object',lambda:compare_walks(empty_spec,{'empty':[]},{'empty':[]},definitions))
+    changed={'module_data':dict(size=1,defined_ranges=[])}
+    reject('scratch allocation wrong requested extent',lambda:compare_walks(empty_spec,empty_old,empty_new,changed))
+    changed={'module_data':dict(size=0,defined_ranges=[[0,1]])}
+    reject('scratch defined bytes lack reviewed write proof',lambda:compare_walks(empty_spec,empty_old,empty_new,changed))
+    ambiguous={'a':[dict(address=0x1000,bytes='')],'b':[dict(address=0x1000,bytes='')]}
+    reject('zero allocation ambiguous lifetime identity',lambda:pointer_identity(ambiguous,0x1000))
+    if config.get('allocation_observations'):
+        from allocations import validate as validate_allocations,context as allocation_context
+        proof=json.loads((BINARY/config['allocation_observations']['evidence']).read_text())
+        reject('scratch allocation unreviewed consumer frontier',lambda:allocation_context(config,original,'',{},dict(name='unknown',native='unknown'),'hello-debug-dll'))
+        reject('scratch allocation unreviewed case',lambda:allocation_context(config,original,'',{},dict(name='pack_module',native='pack_module'),'other-case'))
+        with tempfile.TemporaryDirectory(prefix='allocation-negatives-',dir=Path.home()/'.ai-tmp/vc1.0-cvpack')as directory:
+            evidence=Path(directory)/'allocation.json'
+            changed=copy.deepcopy(proof);changed['allocations'][0]['original_callsite']['sha256']='0'*64;evidence.write_text(json.dumps(changed))
+            modified=copy.deepcopy(config);modified['allocation_observations']=dict(evidence=str(evidence),evidence_sha256=sha(evidence))
+            reject('scratch allocation changed creation instructions',lambda:validate_allocations(modified,original))
     # Buffered FileSlot unions: capacity is an integer, the page table contains
     # explicit unloaded-page tag1, and name pointers own exact bounded strings.
     description=dict(name='files',original=0x4000,pointer_fields=[0,20,32,36],string_fields=[0],

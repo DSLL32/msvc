@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "owner": "read_image_debug",
+  "allowed_frontiers": [
+    "pack_module"
+  ],
+  "allowed_case": "hello-debug-dll",
+  "first_module_only": true,
+  "sources": {
+    "src/cvpack.h": "8d32c4adeff249e1049c4815a8b18a4ada71428481ba852d72894de780e11871",
+    "src/diagnostics.c": "88717de8be9d57afadd1a66cef24e4346c1d03dbc40c8fe349928b5606847a45",
+    "src/files.c": "bceafc3238f58167a1e6a552d487109271ec87b63c8e821137e13ab151297040",
+    "src/files.h": "1c211716783eecc72ac0a500633e0e9125f03624240950a3af91b1d23d481c75",
+    "src/image.c": "936c68afa521642fde3f8c4e0274dfd9efe95f80a29b257f926d06b4f657f976",
+    "src/image.h": "1358bc82da3dd9d61c0ed4785bb97871ab9b0f7b85dde6843d0246ef86bc2c0a",
+    "src/main.c": "164b86c493deed3daa32a167374640dd3310a689cc1f2b5701c5928aa9e0c06c",
+    "src/options.c": "09d36a0bbb3ddc97a6a749250f2881d5a1967bdb5c34d4cd7b6f1178d31d2c34",
+    "src/stubs.c": "671763bf03575c132a99d74b420d23dbf92143a8855b6da11e012c52538c9846",
+    "src/types.c": "7eb5194d3c0a8d0c0e06bc0fc0da315b0097402e4e3fd6d50d466c7557111695",
+    "src/types.h": "a049ac36962c54e6d9089b3f0d13a3decfa99c9f1bce340f26604ce2fc0a9bef"
+  },
+  "allocations": [
+    {
+      "name": "symbol_data",
+      "original_callsite": {
+        "start": 129612,
+        "end": 129631,
+        "sha256": "6cc2a790ec2c07fc2630a1d3ac0da661cea43c04afde0796069c16b3ff4da49a"
+      },
+      "size_expression": "symbol_capacity",
+      "notes": "Malloc result stored at33060; no writes before initial pack_module entry.",
+      "lifetime": "creation-through-first-module-entry",
+      "defined_ranges": [],
+      "size_global": "symbol_capacity"
+    },
+    {
+      "name": "type_data",
+      "original_callsite": {
+        "start": 129649,
+        "end": 129668,
+        "sha256": "1ddc2e729275a6da05e728324225a1a894a3c3bdbc70c3a4c4c853031c6281f0"
+      },
+      "size_expression": "type_capacity",
+      "notes": "Malloc result stored at3305c; no writes before initial pack_module entry.",
+      "lifetime": "creation-through-first-module-entry",
+      "defined_ranges": [],
+      "size_global": "type_capacity"
+    },
+    {
+      "name": "module_data",
+      "original_callsite": {
+        "start": 129686,
+        "end": 129705,
+        "sha256": "65bb68f03833ce98c6b5c911290565616edc95a26640c5d038cc1ec55c158b5b"
+      },
+      "size_expression": "module_capacity",
+      "notes": "Malloc result stored at33058; currentrequestedsize0. Live non-NULL identity grants zero readable bytes.",
+      "lifetime": "creation-through-first-module-entry",
+      "defined_ranges": [],
+      "size_global": "module_capacity"
+    },
+    {
+      "name": "global_symbol_block0",
+      "original_callsite": {
+        "start": 129794,
+        "end": 129838,
+        "sha256": "d08b1630a7ee183808ba45fd7d8c78769ead54e64b87e2de17a71185ee799f00"
+      },
+      "size_expression": "min(global_symbol_size,0xffe8)",
+      "notes": "Malloc result stored in global_symbol_blocks[global_symbol_block], currentindex0; raw80bytesundefined.",
+      "lifetime": "creation-through-first-module-entry",
+      "defined_ranges": [],
+      "size_global": "global_symbol_size",
+      "maximum": 65512
+    }
+  ],
+  "policy": "Reviewed source/original creation blocks are reached after module-table initialization and before the first pack_module entry. No intervening application write, read or free of these scratch payloads occurs. Retain all raw payload bytes but grant no equality credit for undefined bytes. The checked-zero pointer array remains fully compared; global_symbol_block0 is the currentindex0 allocation. Any different source, creation block, requestedextent, case, firstmoduleargument or frontier fails until separately reviewed. Zero-sized malloc returns retain NULL/nonNULL/base identity with an empty readable extent."
+}

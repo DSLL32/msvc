@@ -222,6 +222,8 @@ def main():
     functions=config['functions']
     from reads import validate as validate_reads
     validate_reads(config,original)
+    from allocations import validate as validate_allocations
+    validate_allocations(config,original)
     assert len({r['name'] for r in functions})==len(functions)
     assert len({r['original'] for r in functions})==len(functions)
     if args.python_graph:

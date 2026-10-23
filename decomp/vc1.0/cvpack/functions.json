@@ -338,11 +338,19 @@
       "kind": "application",
       "status": "stub",
       "extent": null,
-      "abi": "void pack_module(unsigned short)",
+      "abi": "int pack_module(unsigned short)",
       "stack_cleanup": 0,
       "evidence": null,
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "module",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 16
+        }
+      ]
     },
     {
       "name": "strip_debug",
@@ -1497,13 +1505,16 @@
       "native": "read_subsection",
       "symbol": "_read_subsection",
       "original": 130928,
-      "source": "src/stubs.c",
+      "source": "src/image.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        130928,
+        131077
+      ],
       "abi": "void read_subsection(const CvDirectoryEntry *,unsigned char **,unsigned long *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0031-read_subsection/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -1532,13 +1543,16 @@
       "native": "find_module",
       "symbol": "_find_module",
       "original": 131088,
-      "source": "src/stubs.c",
+      "source": "src/image.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        131088,
+        131223
+      ],
       "abi": "ModuleInfo *find_module(unsigned short,int)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0032-find_module/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -1752,6 +1766,18 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 30
+    },
+    {
+      "function": "read_subsection",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 31
+    },
+    {
+      "function": "find_module",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 32
     }
   ],
   "support_unmasked": [
@@ -2328,6 +2354,10 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "e8a21d500d88d499100c4a9eccd6ffcdae33a0530b03c0595510f02cdd459b7e"
+    "evidence_sha256": "fc2d803f7a21a05a4823b7dfc97b34cd83d6cf49b8c8b06731fe0ce73090607d"
+  },
+  "allocation_observations": {
+    "evidence": "cases/abi/scratch-allocations.json",
+    "evidence_sha256": "90354811114229e64270a56bab123a92e07b35c042b71c35d2d53f1af06f81b9"
   }
 }

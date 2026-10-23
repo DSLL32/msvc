@@ -67,7 +67,7 @@ int read_file(int, void *, unsigned long);
 long tell_file(int);
 int write_file(int, const void *, unsigned long);
 int truncate_file(int, long);
-extern char cv_signature[4];
+extern unsigned char cv_signature[4];
 unsigned short read_cv_signature(void);
 void read_old_directory(void);
 void read_new_directory(int);

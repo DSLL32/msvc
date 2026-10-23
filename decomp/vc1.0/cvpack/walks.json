@@ -408,6 +408,107 @@
     "pointer_stride": {
       "start": 8,
       "stride": 12
-    }
+    },
+    "count_size": 2
+  },
+  {
+    "name": "libraries",
+    "original": 227424,
+    "size": 1,
+    "count_native": "libraries_size",
+    "count_original": 227436,
+    "next": 4294967295,
+    "limit": 256
+  },
+  {
+    "name": "segment_map",
+    "original": 227428,
+    "size": 1,
+    "count_native": "segment_map_size",
+    "count_original": 227440,
+    "next": 4294967295,
+    "limit": 256
+  },
+  {
+    "name": "segment_names",
+    "original": 227432,
+    "size": 1,
+    "count_native": "segment_names_size",
+    "count_original": 227444,
+    "next": 4294967295,
+    "limit": 256
+  },
+  {
+    "name": "module_list",
+    "original": 227472,
+    "size": 48,
+    "next": 44,
+    "limit": 256,
+    "pointer_fields": [
+      44
+    ]
+  },
+  {
+    "name": "symbol_data",
+    "original": 208992,
+    "size": 1,
+    "count_native": "symbol_capacity",
+    "count_original": 209032,
+    "next": 4294967295,
+    "limit": 1,
+    "count_limit": 65536,
+    "allocation_name": "symbol_data",
+    "zero_allocation": false
+  },
+  {
+    "name": "type_data",
+    "original": 208988,
+    "size": 1,
+    "count_native": "type_capacity",
+    "count_original": 209028,
+    "next": 4294967295,
+    "limit": 1,
+    "count_limit": 65536,
+    "allocation_name": "type_data",
+    "zero_allocation": false
+  },
+  {
+    "name": "module_data",
+    "original": 208984,
+    "size": 1,
+    "count_native": "module_capacity",
+    "count_original": 209024,
+    "next": 4294967295,
+    "limit": 1,
+    "count_limit": 65536,
+    "allocation_name": "module_data",
+    "zero_allocation": true
+  },
+  {
+    "name": "global_symbol_blocks",
+    "original": 209036,
+    "size": 4,
+    "count_native": "global_symbol_block_count",
+    "count_original": 209044,
+    "count_size": 2,
+    "next": 4294967295,
+    "limit": 1,
+    "count_limit": 16384,
+    "pointer_array": true,
+    "arrays": [
+      {
+        "offset": 0,
+        "fixed_count": 80,
+        "max_count": 80,
+        "element_size": 1,
+        "pointers": false,
+        "allocation_name": "global_symbol_block0",
+        "when": {
+          "offset": 0,
+          "mask": 0,
+          "value": 0
+        }
+      }
+    ]
   }
 ]

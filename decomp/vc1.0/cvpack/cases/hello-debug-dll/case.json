@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "read_subsection",
-    "native_function": "read_subsection",
+    "logical": "pack_module",
+    "native_function": "pack_module",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -48,7 +48,9 @@
       "read_new_directory",
       "compare_directory",
       "initialize_modules",
-      "read_subsection"
+      "read_subsection",
+      "find_module",
+      "pack_module"
     ]
   },
   "complete_reference": {

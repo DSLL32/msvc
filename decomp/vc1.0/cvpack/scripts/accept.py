@@ -108,7 +108,9 @@ def main():
     object_proof={}
     if not completed and (BINARY/'walks.json').exists():
         specifications=json.loads((BINARY/'walks.json').read_text())
-        object_proof=compare_walks(specifications,original_walks(events,specifications),state['walks'])
+        from allocations import context as allocation_context
+        definitions=allocation_context(config,pe,events,state,frontier,args.case)
+        object_proof=compare_walks(specifications,original_walks(events,specifications),state['walks'],definitions)
     for item in ([] if completed else json.loads((BINARY/'data.json').read_text())):
         raw=bytes(memory[item['original']+i]for i in range(item['size']))
         actual=state['globals'][item['name']]

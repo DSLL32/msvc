@@ -116,7 +116,7 @@ def main():
     env['CVPACK_CAPTURE_ARGV0']=tool.windows(ROOT/config['target']['path'])
     env['CVPACK_CAPTURE_INSPECT']=','.join(args.inspect)
     walks=json.loads((BINARY/'walks.json').read_text()) if (BINARY/'walks.json').exists() else []
-    env['CVPACK_CAPTURE_WALKS']=','.join('%x:%d:%d:%d:%x'%(r['original'],r['size'],r['next'],r['limit'],r.get('count_original',0)) for r in walks)
+    env['CVPACK_CAPTURE_WALKS']=','.join('%x:%d:%d:%d:%x:%d:%d:%d'%(r['original'],r['size'],r['next'],r['limit'],r.get('count_original',0),r.get('count_size',4),r.get('count_limit',r['limit']),int(r.get('zero_allocation',False))) for r in walks)
     env['CVPACK_CAPTURE_OUTPUTS']=','.join('%x:%d:%d'%(r['original'],p['slot'],json.loads((BINARY/p['evidence']).read_text())['size'])for r in config['functions']for p in r.get('parameters',[])if p['kind']=='stack-output')
     env['CVPACK_CAPTURE_STRINGS']=','.join('%x:%d'%(r['original'],offset)for r in walks for offset in r.get('string_fields',[]))
     env['CVPACK_CAPTURE_ARRAYS']=','.join('%x:%d:%d:%d:%d:%d:%x:%x:%d'%(r['original'],a['offset'],a.get('count_offset',0xffffffff),a.get('count_shift',0),a['max_count'],a['when']['offset'],a['when']['mask'],a['when']['value'],a.get('element_size',4))for r in walks for a in r.get('arrays',[]))

@@ -502,7 +502,7 @@ static int dump_walks(HANDLE child, HANDLE log)
     char specifications[4096], strings[1024], arrays[2048], *cursor, *field;
     unsigned char text[1024];
     const char *digits = "0123456789abcdef";
-    DWORD root, size, next, limit, count_address, pointer, bytes, written, i, j, elements;
+    DWORD root, size, next, limit, count_address, pointer, bytes, written, i, j, elements, count_size, count_limit, zero_allocation;
     int consumed, used;
     DWORD string_root, offset, address, length;
     DWORD count_offset, shift, maximum, flags_offset, flags_mask, flags_value, flags, element_size;
@@ -511,15 +511,17 @@ static int dump_walks(HANDLE child, HANDLE log)
         return 1;
     cursor = specifications;
     while (*cursor) {
-        if (sscanf(cursor, "%lx:%lu:%lu:%lu:%lx%n", &root, &size, &next, &limit,
-                   &count_address, &consumed) != 5) return 0;
+        if (sscanf(cursor, "%lx:%lu:%lu:%lu:%lx:%lu:%lu:%lu%n", &root, &size, &next, &limit,
+                   &count_address, &count_size, &count_limit, &zero_allocation, &consumed) != 8) return 0;
         if (count_address) {
-            if (!ReadProcessMemory(child, (void *)count_address, &elements, 4, &bytes) ||
-                bytes != 4 || elements > limit) return 0;
+            elements = 0;
+            if ((count_size != 2 && count_size != 4) ||
+                !ReadProcessMemory(child, (void *)count_address, &elements, count_size, &bytes) ||
+                bytes != count_size || !count_limit || count_limit > 65536 || elements > count_limit) return 0;
             size *= elements;
         }
         if (!ReadProcessMemory(child, (void *)root, &pointer, 4, &bytes) || bytes != 4) return 0;
-        if ((!size && pointer) || size > sizeof(original_bytes) || !limit || limit > 256) return 0;
+        if ((!size && pointer && !zero_allocation) || zero_allocation > 1 || size > sizeof(original_bytes) || !limit || limit > 256) return 0;
         for (i = 0; pointer && i < limit; ++i) {
             if (!ReadProcessMemory(child, (void *)pointer, original_bytes, size, &bytes) || bytes != size)
                 return 0;
