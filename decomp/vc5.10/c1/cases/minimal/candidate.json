@@ -321,6 +321,11 @@
       "start_rva": 75629,
       "end_rva": 75642,
       "entry": 1
+    },
+    {
+      "start_rva": 75642,
+      "end_rva": 75643,
+      "entry": 1
     }
   ],
   "functions": [
@@ -997,6 +1002,19 @@
         ]
       ],
       "source": "src/pools.cpp",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_1277a",
+      "native_symbol": "initialize_state_1277a",
+      "role": "application",
+      "chunks": [
+        [
+          75642,
+          75643
+        ]
+      ],
+      "source": "src/initializers.c",
       "status": "sole-new-candidate"
     }
   ],
@@ -1012,8 +1030,8 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 75642,
-    "native_symbol": "initialize_state_1277a",
+    "rva": 75643,
+    "native_symbol": "initialize_state_1277b",
     "kind": "initialization-callback",
     "native_args": [],
     "abi": "cdecl void no arguments,cleanup0"
@@ -1196,7 +1214,7 @@
       "object_count": 9
     }
   },
-  "staging_role": "Pool wrapper1276d is sole new candidate; existing genuine member126fc reused with separately modeled receiver",
+  "staging_role": "Empty callback1277a sole new candidate; next state initializer remains INT3",
   "registered_cleanup": [
     {
       "original_rva": 145728,
