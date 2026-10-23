@@ -169,6 +169,102 @@ finished:
     return 0;
 }
 
+/* 004043c1..00404587: emit linker options and inputs in a response file. */
+void write_link_response(Driver *state)
+{
+    char *temporary, *value;
+    CompilerPass *pass;
+    Option *option;
+    Input *input;
+    FILE *stream;
+
+    temporary = allocate(1024);
+    value = allocate(1024);
+    pass = state->current_pass;
+    strcpy(temporary, state->temporary);
+    strcat(temporary, "lk");
+    if (bz_requested)
+        stream = NULL;
+    else {
+        stream = fopen(temporary, "w");
+        if (!stream)
+            fatal(2018);
+    }
+    for (option = state->options; option; option = option->next) {
+        if (!option_for_pass(option, pass))
+            continue;
+        if (!(option->flags & 8))
+            write_link_message(stream, "%c", pass->option_prefix[1]);
+        write_link_message(stream, "%s", expand_filename(temporary, option->name, state));
+        if (option->value) {
+            if (!(option->flags & 4))
+                write_link_message(stream, " ");
+            expand_filename(value, option->value, state);
+            quote_argument(temporary, value);
+            write_link_message(stream, "%s", temporary);
+        }
+        write_link_message(stream, "\n");
+    }
+    for (input = state->inputs; input; input = input->next) {
+        if (input->kind == 5) {
+            quote_argument(temporary, input->name);
+            write_link_message(stream, "%cdef:%s\n", pass->option_prefix[1], temporary);
+        }
+    }
+    for (input = state->inputs; input; input = input->next) {
+        if (input_kinds[input->kind].category == 1 && input->kind != 5) {
+            quote_argument(temporary, input->name);
+            write_link_message(stream, "%s\n", temporary);
+        }
+    }
+    if (stream)
+        fclose(stream);
+    release(value);
+    release(temporary);
+}
+
+/* 0040426b..004043c1: invoke the linker using the generated response file. */
+int link_pass(Driver *state)
+{
+    char command[2048], *temporary, *out, *name, *prefix;
+    char **args;
+    CompilerPass *pass;
+    int status = 0;
+
+    output_produced = 1;
+    temporary = allocate(1024);
+    pass = state->current_pass;
+    name = pass->name;
+    prefix = pass->options;
+    out = command;
+    if (prefix) {
+        quote_argument(temporary, prefix);
+        out = append_text(command, temporary);
+    }
+    quote_argument(temporary, name);
+    out = append_text(out, temporary);
+    write_link_response(state);
+    out = append_text(out, " -link @");
+    out = append_text(out, state->temporary);
+    append_text(out, "lk");
+    if (strlen(command) >= sizeof(command))
+        fatal(0);
+    args = split_arguments(command, 0);
+    if (debug_exceptions)
+        write_message(2, "`%s'\n", command);
+    if (!bz_requested) {
+        if (timing_requested)
+            start_timer();
+        status = execute_pass(1, pass, prefix ? prefix : name,
+                              prefix ? NULL : pass->environment, args);
+        if (timing_requested)
+            stop_timer(name);
+    }
+    release(args);
+    release(temporary);
+    return status;
+}
+
 /* 00403e5d..0040426b: build pass argv and invoke its DLL or executable. */
 int final_pass(Driver *state)
 {

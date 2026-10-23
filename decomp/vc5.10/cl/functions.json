@@ -108,7 +108,9 @@
     "_set_pass_suffix",
     "_link_arguments",
     "_option_conflict",
-    "_copy_option"
+    "_copy_option",
+    "_link_pass",
+    "_write_link_response"
   ],
   "driver": [
     {
@@ -1556,10 +1558,21 @@
     {
       "name": "_link_pass",
       "start": 4211307,
-      "end": 4211308,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "link_pass"
+      "end": 4211649,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "link_pass",
+      "evidence": {
+        "kind": "Complete 342-byte response-file linker command construction, split, conditional timing and genuine execute_pass dispatch.",
+        "range": "0040426b..004043c1",
+        "abi": {
+          "arguments": [
+            "Driver *state"
+          ],
+          "return": "int",
+          "cleanup": 0,
+          "hidden_inputs": []
+        }
+      }
     },
     {
       "name": "_final_pass",
@@ -1933,6 +1946,47 @@
         "original": "/root/.ai-tmp/msvc2/vc5.10/cl/c-input-2-original",
         "native": "/root/.ai-tmp/msvc2/vc5.10/cl/c-input-2-native",
         "scope": "ActualprefixTc,10argvwords,index1,kind0;14freshformal/memorycontrols."
+      }
+    },
+    {
+      "name": "_write_link_response",
+      "start": 4211649,
+      "end": 4212103,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "write_link_response",
+      "evidence": {
+        "kind": "Complete454B bounded response filename/open, pass options, separate DEF inputs and linker-category inputs, close/release.",
+        "range": "004043c1..00404587",
+        "abi": {
+          "arguments": [
+            "Driver *state"
+          ],
+          "return": "void",
+          "cleanup": 0,
+          "hidden_inputs": []
+        }
+      }
+    },
+    {
+      "name": "_write_link_message",
+      "start": 4215385,
+      "end": 4215461,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "write_link_message",
+      "evidence": {
+        "kind": "Complete76B formatter plus optional FILE._file lowio output and debug echo.",
+        "range": "00405259..004052a5",
+        "abi": {
+          "arguments": [
+            "FILE *stream",
+            "const char *text",
+            "..."
+          ],
+          "return": "void",
+          "cleanup": 0,
+          "hidden_inputs": []
+        },
+        "import_preservation": "cases/link-object/write-preservation.json"
       }
     }
   ],

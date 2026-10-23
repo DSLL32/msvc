@@ -89,6 +89,10 @@ def original(directory):
     if (directory/'export-reader.h').exists():
         assert capture['helper_sources']['export-reader.h']==sha((directory/'export-reader.h').read_bytes())
         controls|={'export-reader.h'}
+    if capture.get('link_response'):
+        assert capture['case']=='link-object' and capture['baseline'] is False and not capture['dependency_analysis'] and not capture['dependency_response']
+        assert (directory/'dependency-observer.txt').read_bytes()==b'CL_LINK_RESPONSE_V1\n'
+        controls|={'dependency-observer.txt'}
     if capture.get('dependency_response'):
         assert capture['baseline'] is False and not capture['dependency_analysis']
         assert (directory/'dependency-observer.txt').read_bytes()==b'CL_DEPENDENCY_RESPONSE_V1\n'

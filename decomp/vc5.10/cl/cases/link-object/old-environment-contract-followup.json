@@ -1,0 +1,13 @@
+{
+  "kind": "Stricter old C1/C2 NULL rejection; no new original/native execution",
+  "script_sha256": "4af9f4198230eb48f828e9eefbc60259168fb51ae1ddfeb5e2fde5590e64b76b",
+  "checks": {
+    "passed": true,
+    "negative_controls": 2,
+    "controls": [
+      "invoke-before",
+      "spawn-before"
+    ],
+    "scope": "Original raw unchanged; offline decoder only"
+  }
+}

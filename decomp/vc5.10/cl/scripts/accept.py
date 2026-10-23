@@ -47,6 +47,12 @@ def checked_file(entry):
 def reconstruction_capture(capture):
     assert capture.get('baseline') is False and not capture.get('dependency_analysis'), 'analysis/reference baseline cannot be used as fresh reconstruction acceptance'
     assert capture['controller_error'] is None and capture['helper_status'] in (0,capture.get('expected_status',0)&255), 'original capture did not succeed'
+    if capture.get('link_response'):
+        assert capture['case']=='link-object' and not capture.get('dependency_analysis') and not capture.get('dependency_complete') and not capture.get('dependency_response'), 'ambiguous link response mode'
+        marker=b'CL_LINK_RESPONSE_V1\n'
+        assert capture['files']['dependency-observer.txt']=={'sha256':hashlib.sha256(marker).hexdigest(),'bytes':len(marker)}, 'missing or different link response request'
+        assert capture['command'][-2]=='1', 'link response original was not a masked trial'
+        raise AssertionError('LINK-only response comparator/provider is not implemented; original observation is not acceptance')
     if capture.get('dependency_response'):
         assert capture['case']=='minimal-c' and not capture.get('dependency_complete'), 'ambiguous dependency response mode'
         marker=b'CL_DEPENDENCY_RESPONSE_V1\n'

@@ -1,0 +1,54 @@
+{
+  "packet": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-response-packet-v1.json",
+    "sha256": "0ec292852f0cc8e32beeee5987202e779d91d2c40d4d20a3ce12c49f5e91ddb7"
+  },
+  "capture": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-message-1-original/capture.json",
+    "sha256": "6995439f5db752d06924a3ee04f02d7733ddc00fe27f7e52c69f02f459cc67eb"
+  },
+  "sources": {
+    "scripts/link_response.py": "97f3a6a4ee8192850d44b0c253d847fa52401b5407e2b31bf3d73709de13cbfb",
+    "scripts/check-link-response.py": "af54dfbc6b71ca0e0516adb0c647b32fc694ef21f5c171edbb7774cfbfaacc19",
+    "scripts/dependency_response.py": "3a0890c20234188615e8c86d2c627910275aaa41e55856c6d25c471ea6bc34e0"
+  },
+  "controls": {
+    "passed": true,
+    "negative_controls": 32,
+    "seconds": 1.9631031388416886,
+    "controls": [
+      "unmasked",
+      "wrong family",
+      "missing mode",
+      "failed controller",
+      "wrong marker",
+      "spawn mode",
+      "spawn path pointer",
+      "spawn argv pointer",
+      "changed caller argv",
+      "child status",
+      "x87 control word",
+      "CRT errno",
+      "CRT DOS error",
+      "Win32 LastError",
+      "code page",
+      "ctype table",
+      "CRT environment",
+      "OS environment",
+      "FILE state",
+      "Win32 standard handle",
+      "live argv pointer identity",
+      "pass environment",
+      "response bytes",
+      "object bytes",
+      "output bytes",
+      "executable identity",
+      "unlink filename",
+      "unlink result",
+      "child family marker",
+      "full exit status",
+      "unexpected stderr",
+      "unknown extra invocation"
+    ]
+  }
+}

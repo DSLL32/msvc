@@ -95,7 +95,8 @@ def phase_snapshot(directory, read, phase, errors):
         'open_descriptors': descriptors, 'directory': directory_entries(read('observer/' + phase + '-directory.bin')), **texts}
     # This pointer refers to contextual original .rdata, not an observer's
     # guessed spelling of the pass assignment prefix (which includes '=').
-    snapshot['pass_environment'] = PE(directory / 'loaded-target.bin').string(snapshot['pass_words'][2])
+    snapshot['pass_environment'] = (PE(directory / 'loaded-target.bin').string(snapshot['pass_words'][2])
+                                    if snapshot['pass_words'][2] else None)
     return snapshot, context
 
 
@@ -159,6 +160,7 @@ def decode(directory):
     phases, contexts = {}, {}
     for name in phases_expected:
         phases[name], contexts[name] = phase_snapshot(directory, read, name, errors[name])
+        assert phases[name]['pass_environment']=='MSC_CMD_FLAGS=', 'minimal-C C1/C2 pass environment must be non-NULL and exact'
     if cleanup_stage and not deletion_stage:
         assert u32(read('observer/frontier-stack.bin'),4)==0,'unexpected first temporary suffix index'
     assert [phases[name]['event'] for name in phases_expected] == sorted(phases[name]['event'] for name in phases_expected)

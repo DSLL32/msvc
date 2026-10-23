@@ -1,0 +1,25 @@
+{
+  "kind": "Independent CL exact-case dependency evidence review; provider implementation permitted, native success acceptance still held",
+  "packet_sha256": "6ebe76a055d79b9d8366639f5732ff9e400b808688c00c0073b7cbc19ae33700",
+  "raw_manifest_sha256": "646b58bd321fc4b21ce527243c65aa2c4641a3ea676c60fe69c060d7f2b59abf",
+  "decoder_sha256": "d358cae7b7aca10ace1ff375cea2da40cbaade33ef5e88e9bdee75f57225c9e2",
+  "reviewed": [
+    "actual original target/C1/MSVCRT identity and helper source/build bindings",
+    "LoadLibrary/GPA/FreeLibrary names/ordinals/results and stdcall cleanup",
+    "Invoke argc26 argv aliases BOOL1/status0/cleanup12 and preserved FILE/streams/CWD/errors/CW/environment",
+    "persistent original CRT CP1252/LC_CTYPE1033 transition across detach/unload",
+    "first putenv78 copied string identities and second78 retained +new MSC_CMD_FLAGS entry",
+    "raw synchronous C2 mode/path/argv and exact helper-opened provided C2 bytes",
+    "four complete C1 IRs unchanged at C2 invocation; complete parent pre/post state",
+    "actual C2 output275B before CLcleanup, final status0/8stdout/0stderr/IRremoval"
+  ],
+  "controls": "Independent positive decode and27 refreshed-manifest mutations pass; original capture not rerun",
+  "limits": [
+    "preferred-base DLL only; nonpreferred relocation not directly tested",
+    "closed FILE/lowio slots and undefined buffer tails retained raw, not replayable initialized data",
+    "no individual post-Invoke multibyte API return observation",
+    "no callback-registration inventory; imports alone do not establish absence",
+    "C2 full absolute _spawnvp path/input bytes observed; no child loaded-hFile event under DEBUG_ONLY_THIS_PROCESS"
+  ],
+  "remaining_gate": "Review concrete shared module/export/lifetime/locale/putenv and case-provider implementation plus fresh candidate acceptance before native success release"
+}

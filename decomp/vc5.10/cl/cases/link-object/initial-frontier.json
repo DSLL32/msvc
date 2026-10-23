@@ -1,0 +1,1056 @@
+{
+  "original": "/root/.ai-tmp/msvc2/vc5.10/cl/link-object-initial",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/cl/link-object-initial-native",
+  "fields": {
+    "frontier": "link_pass",
+    "parameters": {
+      "state": {
+        "options": [
+          {
+            "id": 1,
+            "flags": 1,
+            "matching": "1P2",
+            "name": "il",
+            "value": "%t",
+            "origin": {
+              "id": 2,
+              "flags": 1,
+              "matching": null,
+              "name": "il",
+              "value": "%t",
+              "origin": {
+                "rule": {
+                  "index": 109,
+                  "pattern": "^il!+",
+                  "add": "1P2=*:*",
+                  "conflict": null,
+                  "replace": null,
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 3,
+            "flags": 1,
+            "matching": "1P2",
+            "name": "f",
+            "value": "%f",
+            "origin": {
+              "id": 4,
+              "flags": 1,
+              "matching": null,
+              "name": "f",
+              "value": "%f",
+              "origin": {
+                "rule": {
+                  "index": 83,
+                  "pattern": "^f!+",
+                  "add": "1P2=f:%f",
+                  "conflict": null,
+                  "replace": null,
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 5,
+            "flags": 1,
+            "matching": "1P2M",
+            "name": "W",
+            "value": "1",
+            "origin": {
+              "id": 6,
+              "flags": 1,
+              "matching": null,
+              "name": "W",
+              "value": "1",
+              "origin": {
+                "rule": {
+                  "index": 151,
+                  "pattern": "W!*d[0-4,1]",
+                  "add": "1P2M=*:*",
+                  "conflict": null,
+                  "replace": "=W:?",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 7,
+            "flags": 1,
+            "matching": "1PM",
+            "name": "Ze",
+            "value": null,
+            "origin": {
+              "id": 8,
+              "flags": 1,
+              "matching": null,
+              "name": "Ze",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 160,
+                  "pattern": "Ze",
+                  "add": "1PM=*,-D!_MSC_EXTENSIONS",
+                  "conflict": "=Za",
+                  "replace": null,
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 9,
+            "flags": 5,
+            "matching": "1PM",
+            "name": "D",
+            "value": "_MSC_EXTENSIONS",
+            "origin": {
+              "ref": 8
+            }
+          },
+          {
+            "id": 10,
+            "flags": 5,
+            "matching": "1PM",
+            "name": "Zp",
+            "value": "8",
+            "origin": {
+              "id": 11,
+              "flags": 1,
+              "matching": null,
+              "name": "Zp",
+              "value": "8",
+              "origin": {
+                "rule": {
+                  "index": 172,
+                  "pattern": "Zp:$d[1,2,4,16,8]",
+                  "add": "1PM=*!(*|1)",
+                  "conflict": null,
+                  "replace": "=*:?",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 12,
+            "flags": 5,
+            "matching": "1PM",
+            "name": "ZB",
+            "value": "64",
+            "origin": {
+              "id": 13,
+              "flags": 1,
+              "matching": null,
+              "name": "ZB",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 161,
+                  "pattern": "ZB:$d[32,128,64]",
+                  "add": "1PM=*!(*|64),-D!_INTEGRAL_MAX_BITS=(*|64)",
+                  "conflict": null,
+                  "replace": "=*:?,=D!_INTEGRAL_MAX_BITS=?",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 14,
+            "flags": 5,
+            "matching": "1PM",
+            "name": "D",
+            "value": "_INTEGRAL_MAX_BITS=64",
+            "origin": {
+              "ref": 13
+            }
+          },
+          {
+            "id": 15,
+            "flags": 1,
+            "matching": "D",
+            "name": "GB",
+            "value": null,
+            "origin": {
+              "id": 16,
+              "flags": 1,
+              "matching": null,
+              "name": "GB",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 22,
+                  "pattern": "GB",
+                  "add": "D=*,1PM-D!_M_IX86=500,1P2M-G5",
+                  "conflict": null,
+                  "replace": "=G3,=G4,=G5,=G6,=D!_M_IX86=?",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 17,
+            "flags": 5,
+            "matching": "1PM",
+            "name": "D",
+            "value": "_M_IX86=500",
+            "origin": {
+              "ref": 16
+            }
+          },
+          {
+            "id": 18,
+            "flags": 1,
+            "matching": "1P2M",
+            "name": "G5",
+            "value": null,
+            "origin": {
+              "ref": 16
+            }
+          },
+          {
+            "id": 19,
+            "flags": 1,
+            "matching": "1P",
+            "name": "Gs",
+            "value": null,
+            "origin": {
+              "id": 20,
+              "flags": 1,
+              "matching": null,
+              "name": "Gs",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 28,
+                  "pattern": "Gs:$x[0,10-4294967295,4096]",
+                  "add": "1P=*,2M=*!(*|4096)",
+                  "conflict": null,
+                  "replace": "=Ge,=Gs:?",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 21,
+            "flags": 5,
+            "matching": "2M",
+            "name": "Gs",
+            "value": "4096",
+            "origin": {
+              "ref": 20
+            }
+          },
+          {
+            "id": 22,
+            "flags": 1,
+            "matching": "D",
+            "name": "GR-",
+            "value": null,
+            "origin": {
+              "id": 23,
+              "flags": 1,
+              "matching": null,
+              "name": "GR-",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 102,
+                  "pattern": "GR-",
+                  "add": "D=*",
+                  "conflict": null,
+                  "replace": "=GR,=D!_CPPRTTI",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 24,
+            "flags": 1,
+            "matching": "D",
+            "name": "GX-",
+            "value": null,
+            "origin": {
+              "id": 25,
+              "flags": 1,
+              "matching": null,
+              "name": "GX-",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 31,
+                  "pattern": "GX-",
+                  "add": "D=*",
+                  "conflict": null,
+                  "replace": "=GX,=D!_CPPUNWIND,=EHa,=EHs",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 26,
+            "flags": 1,
+            "matching": "1PM",
+            "name": "Ot",
+            "value": null,
+            "origin": {
+              "id": 27,
+              "flags": 1,
+              "matching": null,
+              "name": "Ot",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 46,
+                  "pattern": "Ot",
+                  "add": "1PM=*",
+                  "conflict": null,
+                  "replace": "=Os",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 28,
+            "flags": 5,
+            "matching": "1PM",
+            "name": "Ob",
+            "value": "0",
+            "origin": {
+              "id": 29,
+              "flags": 1,
+              "matching": null,
+              "name": "Ob",
+              "value": "0",
+              "origin": {
+                "rule": {
+                  "index": 41,
+                  "pattern": "Ob!$d[0-2]",
+                  "add": "1PM=*!*",
+                  "conflict": null,
+                  "replace": "=Ob:?",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 30,
+            "flags": 1,
+            "matching": "2",
+            "name": "dos",
+            "value": null,
+            "origin": {
+              "id": 31,
+              "flags": 1,
+              "matching": null,
+              "name": "dos",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 5,
+                  "pattern": "^dos",
+                  "add": "2=*",
+                  "conflict": null,
+                  "replace": null,
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 32,
+            "flags": 5,
+            "matching": "D1P2",
+            "name": "Fo",
+            "value": "%b.obj",
+            "origin": {
+              "id": 33,
+              "flags": 1,
+              "matching": null,
+              "name": "Fo",
+              "value": "%b.obj",
+              "origin": {
+                "rule": {
+                  "index": 90,
+                  "pattern": "Fo:#",
+                  "add": "D1P2=*!(*|%b)<obj,D-bo:Fo Fo (*|%b)",
+                  "conflict": null,
+                  "replace": "=*:?,=bo:Fo?",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 34,
+            "flags": 1,
+            "matching": "D",
+            "name": "bo",
+            "value": "",
+            "origin": {
+              "ref": 33
+            }
+          },
+          {
+            "id": 35,
+            "flags": 1,
+            "matching": "1P",
+            "name": "pc",
+            "value": "\\:/",
+            "origin": {
+              "id": 36,
+              "flags": 1,
+              "matching": null,
+              "name": "pc",
+              "value": "\\:/",
+              "origin": {
+                "rule": {
+                  "index": 133,
+                  "pattern": "^pc!+",
+                  "add": "1P=*:*",
+                  "conflict": null,
+                  "replace": null,
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 37,
+            "flags": 1,
+            "matching": "2M",
+            "name": "ML",
+            "value": null,
+            "origin": {
+              "id": 38,
+              "flags": 1,
+              "matching": null,
+              "name": "ML",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 115,
+                  "pattern": "ML",
+                  "add": "2M=*",
+                  "conflict": null,
+                  "replace": "=MD,=MT,=MLd,=MTd,=MDd,-D!_DEBUG,-D!_MT,-D!_DLL",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 39,
+            "flags": 5,
+            "matching": "1P",
+            "name": "Fd",
+            "value": "vc50.pdb",
+            "origin": {
+              "id": 40,
+              "flags": 1,
+              "matching": null,
+              "name": "Fd",
+              "value": "vc50.pdb",
+              "origin": {
+                "rule": {
+                  "index": 85,
+                  "pattern": "Fd:#",
+                  "add": "1P=*!(*|vc50)<pdb,D2=*!(*|vc50)<<idb",
+                  "conflict": null,
+                  "replace": "=Fd:?",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 41,
+            "flags": 5,
+            "matching": "D2",
+            "name": "Fd",
+            "value": "vc50.idb",
+            "origin": {
+              "ref": 40
+            }
+          },
+          {
+            "id": 42,
+            "flags": 1,
+            "matching": "D",
+            "name": "ZM",
+            "value": null,
+            "origin": {
+              "id": 43,
+              "flags": 1,
+              "matching": null,
+              "name": "ZM",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 168,
+                  "pattern": "ZM",
+                  "add": "D-*",
+                  "conflict": null,
+                  "replace": "-ZM-,-Yc:?,-YX:?",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 44,
+            "flags": 5,
+            "matching": "1PM",
+            "name": "D",
+            "value": "_MSC_VER=1100",
+            "origin": null
+          },
+          {
+            "id": 45,
+            "flags": 5,
+            "matching": "1PM",
+            "name": "D",
+            "value": "_WIN32",
+            "origin": null
+          },
+          {
+            "id": 46,
+            "flags": 0,
+            "matching": "1P",
+            "name": "nologo",
+            "value": null,
+            "origin": {
+              "id": 47,
+              "flags": 0,
+              "matching": null,
+              "name": "nologo",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 122,
+                  "pattern": "nologo",
+                  "add": "1P=*,C=nologo",
+                  "conflict": null,
+                  "replace": "=nologo-",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 48,
+            "flags": 0,
+            "matching": "C",
+            "name": "nologo",
+            "value": null,
+            "origin": {
+              "ref": 47
+            }
+          },
+          {
+            "id": 49,
+            "flags": 0,
+            "matching": "D",
+            "name": "Fe",
+            "value": "test.exe",
+            "origin": {
+              "id": 50,
+              "flags": 0,
+              "matching": null,
+              "name": "Fe",
+              "value": "test.exe",
+              "origin": {
+                "rule": {
+                  "index": 87,
+                  "pattern": "Fe:#",
+                  "add": "D=Fe:(*|%b)<%X,C=out\\:!(*|%b)<%X",
+                  "conflict": null,
+                  "replace": "=Fe:?,=out\\::?",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 51,
+            "flags": 4,
+            "matching": "C",
+            "name": "out:",
+            "value": "test.exe",
+            "origin": {
+              "ref": 50
+            }
+          },
+          {
+            "id": 52,
+            "flags": 8,
+            "matching": "C",
+            "name": "/ENTRY:main",
+            "value": null,
+            "origin": null
+          },
+          {
+            "id": 53,
+            "flags": 8,
+            "matching": "C",
+            "name": "/SUBSYSTEM:CONSOLE",
+            "value": null,
+            "origin": null
+          },
+          {
+            "id": 54,
+            "flags": 8,
+            "matching": "C",
+            "name": "/NODEFAULTLIB",
+            "value": null,
+            "origin": null
+          }
+        ],
+        "other_options": [
+          {
+            "ref": 2
+          },
+          {
+            "ref": 4
+          },
+          {
+            "ref": 6
+          },
+          {
+            "ref": 8
+          },
+          {
+            "ref": 11
+          },
+          {
+            "ref": 13
+          },
+          {
+            "ref": 16
+          },
+          {
+            "ref": 20
+          },
+          {
+            "ref": 23
+          },
+          {
+            "ref": 25
+          },
+          {
+            "ref": 27
+          },
+          {
+            "ref": 29
+          },
+          {
+            "ref": 31
+          },
+          {
+            "ref": 33
+          },
+          {
+            "id": 55,
+            "flags": 17,
+            "matching": null,
+            "name": "Fe",
+            "value": "%b.%X",
+            "origin": {
+              "rule": {
+                "index": 87,
+                "pattern": "Fe:#",
+                "add": "D=Fe:(*|%b)<%X,C=out\\:!(*|%b)<%X",
+                "conflict": null,
+                "replace": "=Fe:?,=out\\::?",
+                "extra": null
+              }
+            }
+          },
+          {
+            "ref": 36
+          },
+          {
+            "ref": 38
+          },
+          {
+            "ref": 40
+          },
+          {
+            "id": 56,
+            "flags": 1,
+            "matching": null,
+            "name": "Zn",
+            "value": null,
+            "origin": {
+              "rule": {
+                "index": 171,
+                "pattern": "Zn",
+                "add": "1PM=*",
+                "conflict": null,
+                "replace": null,
+                "extra": "=FR:?,=Fr:?"
+              }
+            }
+          },
+          {
+            "id": 57,
+            "flags": 1,
+            "matching": null,
+            "name": "EHc",
+            "value": null,
+            "origin": {
+              "rule": {
+                "index": 10,
+                "pattern": "EHc",
+                "add": "PM=*",
+                "conflict": null,
+                "replace": "=EHc-",
+                "extra": "=EHa,=EHs,=GX"
+              }
+            }
+          },
+          {
+            "ref": 43
+          },
+          {
+            "ref": 47
+          },
+          {
+            "ref": 50
+          }
+        ],
+        "current_pass": {
+          "index": 4
+        },
+        "inputs": [
+          {
+            "id": 1,
+            "name": "test.obj",
+            "kind": 3,
+            "explicit_kind": 0,
+            "sequence": -1
+          }
+        ],
+        "current_jobs": [],
+        "current_input": [
+          {
+            "ref": 1
+          }
+        ],
+        "temporary": ".\\a00984",
+        "include_path": "R:\\toolchains\\5.10\\include",
+        "directory": "S:\\vc5.10\\cl\\link-object-initial\\"
+      }
+    },
+    "crt_mb": {
+      "codepage": 0,
+      "mb_cur_max": 1
+    },
+    "globals": {
+      "dll_options_enabled": 1,
+      "default_macros": 1,
+      "response_depth": 0,
+      "response_first_line": 1,
+      "no_logo": 1,
+      "echo_response": 0,
+      "help_requested": 0,
+      "cleanup_temporaries": 0,
+      "is_dll": 0,
+      "first_option_pass": 0,
+      "map_requested": 0,
+      "bk_requested": 0,
+      "reproducible": 0,
+      "timing_requested": 0,
+      "bz_requested": 0,
+      "minimal_rebuild": 0,
+      "allow_pch": 1,
+      "keep_preprocessor_output": 1,
+      "use_standard_include": 1,
+      "source_count": 0,
+      "options_after_link": 0,
+      "link_warning": 0,
+      "show_commands": 0,
+      "message_capacity": 2048,
+      "debug_exceptions": 0,
+      "error_count": 0,
+      "output_produced": 0,
+      "default_c_language": 0,
+      "first_dependency_scan": 0,
+      "first_stage_notice": 1,
+      "object_name": "test.obj",
+      "image_name": "test.exe",
+      "ir_prefix": ".\\a00984",
+      "map_name": null,
+      "pdb_name": "vc50.idb",
+      "browser_name": null,
+      "free_options": {
+        "available_nodes": 5
+      },
+      "driver": {
+        "options": [
+          {
+            "ref": 1
+          },
+          {
+            "ref": 3
+          },
+          {
+            "ref": 5
+          },
+          {
+            "ref": 7
+          },
+          {
+            "ref": 9
+          },
+          {
+            "ref": 10
+          },
+          {
+            "ref": 12
+          },
+          {
+            "ref": 14
+          },
+          {
+            "ref": 15
+          },
+          {
+            "ref": 17
+          },
+          {
+            "ref": 18
+          },
+          {
+            "ref": 19
+          },
+          {
+            "ref": 21
+          },
+          {
+            "ref": 22
+          },
+          {
+            "ref": 24
+          },
+          {
+            "ref": 26
+          },
+          {
+            "ref": 28
+          },
+          {
+            "ref": 30
+          },
+          {
+            "ref": 32
+          },
+          {
+            "ref": 34
+          },
+          {
+            "ref": 35
+          },
+          {
+            "ref": 37
+          },
+          {
+            "ref": 39
+          },
+          {
+            "ref": 41
+          },
+          {
+            "ref": 42
+          },
+          {
+            "ref": 44
+          },
+          {
+            "ref": 45
+          },
+          {
+            "ref": 46
+          },
+          {
+            "ref": 48
+          },
+          {
+            "ref": 49
+          },
+          {
+            "ref": 51
+          },
+          {
+            "ref": 52
+          },
+          {
+            "ref": 53
+          },
+          {
+            "ref": 54
+          }
+        ],
+        "other_options": [
+          {
+            "ref": 2
+          },
+          {
+            "ref": 4
+          },
+          {
+            "ref": 6
+          },
+          {
+            "ref": 8
+          },
+          {
+            "ref": 11
+          },
+          {
+            "ref": 13
+          },
+          {
+            "ref": 16
+          },
+          {
+            "ref": 20
+          },
+          {
+            "ref": 23
+          },
+          {
+            "ref": 25
+          },
+          {
+            "ref": 27
+          },
+          {
+            "ref": 29
+          },
+          {
+            "ref": 31
+          },
+          {
+            "ref": 33
+          },
+          {
+            "ref": 55
+          },
+          {
+            "ref": 36
+          },
+          {
+            "ref": 38
+          },
+          {
+            "ref": 40
+          },
+          {
+            "ref": 56
+          },
+          {
+            "ref": 57
+          },
+          {
+            "ref": 43
+          },
+          {
+            "ref": 47
+          },
+          {
+            "ref": 50
+          }
+        ],
+        "current_pass": {
+          "index": 4
+        },
+        "inputs": [
+          {
+            "ref": 1
+          }
+        ],
+        "current_jobs": [],
+        "current_input": [
+          {
+            "ref": 1
+          }
+        ],
+        "temporary": ".\\a00984",
+        "include_path": "R:\\toolchains\\5.10\\include",
+        "directory": "S:\\vc5.10\\cl\\link-object-initial\\"
+      },
+      "unrecognized_options": [],
+      "source_language": null,
+      "format_buffer": null
+    },
+    "compiler_passes": [
+      {
+        "name": null,
+        "path": null,
+        "environment": null,
+        "prefix": "D-",
+        "flags": 1,
+        "module": null,
+        "invoke": null,
+        "abort": null,
+        "options": null
+      },
+      {
+        "name": "c1",
+        "path": null,
+        "environment": "MSC_CMD_FLAGS=",
+        "prefix": "1-",
+        "flags": 1,
+        "module": null,
+        "invoke": null,
+        "abort": null,
+        "options": null
+      },
+      {
+        "name": "c1xx",
+        "path": null,
+        "environment": "MSC_CMD_FLAGS=",
+        "prefix": "P-",
+        "flags": 1,
+        "module": null,
+        "invoke": null,
+        "abort": null,
+        "options": null
+      },
+      {
+        "name": "c2",
+        "path": null,
+        "environment": "MSC_CMD_FLAGS=",
+        "prefix": "2-",
+        "flags": 1,
+        "module": null,
+        "invoke": null,
+        "abort": null,
+        "options": null
+      },
+      {
+        "name": "S:\\vc5.10\\cl\\link-object-initial\\link.exe",
+        "path": null,
+        "environment": null,
+        "prefix": "C/",
+        "flags": 11,
+        "module": null,
+        "invoke": null,
+        "abort": null,
+        "options": null
+      }
+    ]
+  }
+}

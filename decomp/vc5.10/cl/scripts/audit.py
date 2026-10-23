@@ -41,6 +41,8 @@ def input_paths(project=PROJECT,root=ROOT,config=None):
         witness=json.loads(result['gpa_preservation'].read_text())
         for key,item in witness['raw'].items():result['gpa_raw:'+key]=project/item['path']
         for key,item in witness['headers'].items():result['gpa_header:'+key]=root/item['path']
+    if '_write_link_message' in json.loads((config or project/'functions.json').read_text())['accepted']:
+        result.update(write_preservation=project/'cases/link-object/write-preservation.json',write_preservation_verifier=project/'scripts/write_preservation.py',write_provider=root/'toolchains/5.10/bin/MSVCRT.DLL')
     return result
 
 
@@ -74,6 +76,9 @@ def pass_configurations(config):
 
 
 def run(config,report):
+    if '_write_link_message' in json.loads(config.read_text())['accepted']:
+        from write_preservation import verify
+        verify(PROJECT,ROOT)
     inputs=input_paths(config=config)
     before={name:{'path':str(path),'sha256':sha(path)} for name,path in inputs.items()}
     config_value=json.loads(config.read_text())
@@ -104,6 +109,9 @@ def run(config,report):
         if label=='qualified_imports' and '_execute_pass' in value['accepted']:
             from gpa_preservation import verify
             verify(decoded,PROJECT,ROOT)
+        if label=='qualified_imports' and '_write_link_message' in value['accepted']:
+            from write_preservation import verify_report
+            verify_report(decoded,PROJECT,ROOT)
     elapsed=time.perf_counter()-started
     for name,path in inputs.items():assert sha(path)==before[name]['sha256'],'audit input changed during execution'
     receipt={'schema':1,'status':status,'flags':FLAGS,'mode':'verified-import-projection' if len(configurations)>1 else 'strict-single-pass',

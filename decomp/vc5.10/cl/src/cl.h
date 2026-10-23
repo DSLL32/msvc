@@ -209,6 +209,8 @@ void cleanup_files(int);
 void delete_temporary(int);
 int run_passes(int *, Driver *, int (*)(Driver *));
 int link_pass(Driver *);
+void write_link_response(Driver *);
+void write_link_message(FILE *, const char *, ...);
 int final_pass(Driver *);
 int quoted_length(const char *);
 int expanded_length(char *, Driver *);

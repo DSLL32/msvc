@@ -1,0 +1,6 @@
+state phase=entry teb=3ffe2000 tid=1468 tls_index=1 ptd=00890100
+call sequence=1 argument=008925f0
+state phase=before teb=3ffe2000 tid=1468 tls_index=1 ptd=00890100
+return sequence=1 result=008925f0 argument=008925f0
+state phase=after teb=3ffe2000 tid=1468 tls_index=1 ptd=00890100
+state phase=frontier teb=3ffe2000 tid=1468 tls_index=1 ptd=00890100

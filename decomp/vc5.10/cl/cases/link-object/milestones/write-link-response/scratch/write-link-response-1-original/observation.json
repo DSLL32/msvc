@@ -1,0 +1,278 @@
+{
+  "candidate": "_write_link_response",
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "native_sha256": "9200673a705141d22ef9292cc13b9fd841a265af13d425fa0cfced9661d5715c",
+  "rebuilt_sha256": "acaf47c788a97d4a927d00454ea9b6633b482baa6473a4d12f49c49accb8a156",
+  "trial_mask_sha256": "2414d6fe868ad68776419c3d0680be758aaed5c5a478521dd021ce6b97f31cf2",
+  "platform": "original",
+  "trial_identity": "cfa9a531bca925d77c9e192d386d0e2afc67d4c49aa3877b3e1ad492f2daf8da",
+  "config_snapshot": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/config.json",
+    "sha256": "1d964af8d98870c926347785214db43c4f7ff607e80386b3e3917ba3d509fc06"
+  },
+  "case": "link-object",
+  "arguments": [
+    "/nologo",
+    "/Fetest.exe",
+    "test.obj",
+    "/link",
+    "/ENTRY:main",
+    "/SUBSYSTEM:CONSOLE",
+    "/NODEFAULTLIB"
+  ],
+  "files": {
+    "stdout": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/stdout.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/stderr.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "state": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/state.json",
+      "sha256": "40d9f173965934f33fd558900c502c7faeed98346fed5d6669c5f79ef0934ab4"
+    },
+    "trace": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/trace.txt",
+      "sha256": "e4645d7086a19dc997251a387f99abf978cfe440e612fd4716211402838b8e54"
+    },
+    "entry_guards": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/entries.txt",
+      "sha256": "3fe79d0094e76456c1f478da0a71ce2436be0f80a0924d46e9629dd292b55ccc"
+    },
+    "events": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/events.txt",
+      "sha256": "50d8436d4eb0617ff9aa3423fe3267a6fce08993ac1d00cc53e686708cb68a46"
+    },
+    "loaded_msvcrt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/loaded-msvcrt.bin",
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    "loaded_target": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/loaded-target.bin",
+      "sha256": "2414d6fe868ad68776419c3d0680be758aaed5c5a478521dd021ce6b97f31cf2"
+    },
+    "resource_events": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/resource-events.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw:frontier-memory.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/frontier-memory.json",
+      "sha256": "3cd2edbf604872867ecb4d1a668d585ca8aabf2ffc119db1c601fb8a27dd0660"
+    },
+    "raw:context.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/context.bin",
+      "sha256": "c678cc84e4633b6575b009098154c12855e3d7188aa9570a15536aedc88024f0"
+    },
+    "raw:events.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/events.txt",
+      "sha256": "50d8436d4eb0617ff9aa3423fe3267a6fce08993ac1d00cc53e686708cb68a46"
+    },
+    "raw:mb-state.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/mb-state.bin",
+      "sha256": "3ae4207e40d5e3e931dedc0c56702c08fec7fb5c058383496297268b76b592ed"
+    },
+    "raw:crt-state.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/crt-state.bin",
+      "sha256": "c8d88837e26163437ac8b52a73ff33e9c68b6c712a9bf70ab48aafeb845c9970"
+    },
+    "raw:dependency-inputs.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/dependency-inputs.json",
+      "sha256": "92aacc2c96764a7fd1730b1d2b56db4ac7a3a25df3f6dd547035aaa802c6a966"
+    },
+    "raw:LINK.EXE": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/LINK.EXE",
+      "sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579"
+    },
+    "raw:case-inputs.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/case-inputs.json",
+      "sha256": "9c438d99103b75c9d28b934f52061d94737dfc696cee87d55bbbcfa3a28b51ea"
+    },
+    "raw:test.obj": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/test.obj",
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+    },
+    "raw:capture.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/capture.json",
+      "sha256": "e4fde4d893827f90c772aa26db9d71e6c066fa3ddedf2e13712bca08ba17d98d"
+    },
+    "raw:loaded-msvcrt.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/loaded-msvcrt.bin",
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    "raw:main-entry-context.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/main-entry-context.bin",
+      "sha256": "6435052087936d1b0752737a1c7f0333c26a319ef41a6e07b91cdf57bb9d2a59"
+    },
+    "raw:mktemp-events.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/mktemp-events.txt",
+      "sha256": "910fa2c1c6e9d4e4d3f44af8081d81eae6a64bc9452af5430dc0b9469a5f5a3b"
+    },
+    "raw:mktemp-entry-teb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/mktemp-entry-teb.bin",
+      "sha256": "866ad6951ff8fcf5e91fa218e92e494be71b7ea2882bca79c8cb47ca1992650d"
+    },
+    "raw:mktemp-entry-ptd.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/mktemp-entry-ptd.bin",
+      "sha256": "44f4ede885350b6a91d0c11ac182144b6df533175b086a70ce36410af0179ac7"
+    },
+    "raw:mktemp-entry-tls-index.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/mktemp-entry-tls-index.bin",
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450"
+    },
+    "raw:streams-entry.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/streams-entry.json",
+      "sha256": "3ae4bf21a863bffb44fc706f58194e4d0a93691c894cedcf3b7850265f5319f4"
+    },
+    "raw:streams-entry-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/streams-entry-iob.bin",
+      "sha256": "4d0149241f1bbdf767bd2181c978844a97e5e2fced31a59e5aa8cb165a739763"
+    },
+    "raw:streams-entry-teb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/streams-entry-teb.bin",
+      "sha256": "866ad6951ff8fcf5e91fa218e92e494be71b7ea2882bca79c8cb47ca1992650d"
+    },
+    "raw:streams-entry-peb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/streams-entry-peb.bin",
+      "sha256": "854e47d41f8a456dcece123722b686148bdbd20e6402a95a4aa18030e2230092"
+    },
+    "raw:streams-entry-parameters.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/streams-entry-parameters.bin",
+      "sha256": "e4c21338dd5a7308d82c57b8c42f59b2c9992b958344cb9b676b0fee7a87a02f"
+    },
+    "raw:streams-entry-lowio.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/streams-entry-lowio.bin",
+      "sha256": "58968ad1dd95fadf9d6bf8df351b4e04725143e2ae118ed74571781ef359598a"
+    },
+    "raw:streams-entry-pioinfo-slot.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/streams-entry-pioinfo-slot.bin",
+      "sha256": "3da00fca1a11a3b0e80cebf56d2caa88a3771d747dde51b3d00f2d49ac562b03"
+    },
+    "raw:streams-frontier.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/streams-frontier.json",
+      "sha256": "863eaac615b65168ca33adca731c8842fa9137bee3894e7a8dd9ed7fc5cde7fb"
+    },
+    "raw:streams-frontier-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/streams-frontier-iob.bin",
+      "sha256": "4d0149241f1bbdf767bd2181c978844a97e5e2fced31a59e5aa8cb165a739763"
+    },
+    "raw:streams-frontier-teb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/streams-frontier-teb.bin",
+      "sha256": "a5ed851bafc29ea0f28dd8befb4e4f66c95533f62085c6adb4178f1f1daae0fb"
+    },
+    "raw:streams-frontier-peb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/streams-frontier-peb.bin",
+      "sha256": "854e47d41f8a456dcece123722b686148bdbd20e6402a95a4aa18030e2230092"
+    },
+    "raw:streams-frontier-parameters.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/streams-frontier-parameters.bin",
+      "sha256": "e4c21338dd5a7308d82c57b8c42f59b2c9992b958344cb9b676b0fee7a87a02f"
+    },
+    "raw:streams-frontier-lowio.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/streams-frontier-lowio.bin",
+      "sha256": "c06076978fb60f66051924d0627f6ecbf0040fd1b7586d7447ec208ba557a060"
+    },
+    "raw:streams-frontier-pioinfo-slot.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/streams-frontier-pioinfo-slot.bin",
+      "sha256": "3da00fca1a11a3b0e80cebf56d2caa88a3771d747dde51b3d00f2d49ac562b03"
+    },
+    "raw:mktemp-frontier-teb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/mktemp-frontier-teb.bin",
+      "sha256": "a5ed851bafc29ea0f28dd8befb4e4f66c95533f62085c6adb4178f1f1daae0fb"
+    },
+    "raw:mktemp-frontier-ptd.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/mktemp-frontier-ptd.bin",
+      "sha256": "3a412b170070bc307425b0ff333b327b42d31d2be21ea8017247e0c09e1ebbaf"
+    },
+    "raw:mktemp-frontier-tls-index.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/mktemp-frontier-tls-index.bin",
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450"
+    },
+    "raw:mre-calls.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/mre-calls.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "raw:loaded-mspdb50.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/loaded-mspdb50.bin",
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+    },
+    "raw:input-directory.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/input-directory.json",
+      "sha256": "a3348cb18b3d3ec680f72415314635fc581b7f182aa0a04381e03ccf83e7ec99"
+    },
+    "raw:mktemp-before.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/mktemp-before.bin",
+      "sha256": "e126b1eba52faccd6a3fc442136b3d13ba181f9d979d92af52a3eecdc856e260"
+    },
+    "raw:mktemp-after.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/mktemp-after.bin",
+      "sha256": "dfcc14d9a0d5b326c6543049fae0469201fa190825b47905340fa62977985fe1"
+    },
+    "raw:mktemp-before-teb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/mktemp-before-teb.bin",
+      "sha256": "60fbecb08df9f03d1c7bf58894a3acbcb3b0d2f7b0457aea91762fa852cbe847"
+    },
+    "raw:mktemp-before-ptd.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/mktemp-before-ptd.bin",
+      "sha256": "44f4ede885350b6a91d0c11ac182144b6df533175b086a70ce36410af0179ac7"
+    },
+    "raw:mktemp-before-tls-index.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/mktemp-before-tls-index.bin",
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450"
+    },
+    "raw:mktemp-after-teb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/mktemp-after-teb.bin",
+      "sha256": "3fa7fbfbe676f9bcdeac4b31ac8547145c8d3b268258faf035463d57a0ae9e9f"
+    },
+    "raw:mktemp-after-ptd.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/mktemp-after-ptd.bin",
+      "sha256": "3a412b170070bc307425b0ff333b327b42d31d2be21ea8017247e0c09e1ebbaf"
+    },
+    "raw:mktemp-after-tls-index.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/mktemp-after-tls-index.bin",
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450"
+    },
+    "raw:CL.EXE": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/CL.EXE",
+      "sha256": "2414d6fe868ad68776419c3d0680be758aaed5c5a478521dd021ce6b97f31cf2"
+    },
+    "raw:MSPDB50.DLL": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/MSPDB50.DLL",
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+    },
+    "raw:MSVCRT.DLL": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/MSVCRT.DLL",
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    "raw:config.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/config.json",
+      "sha256": "1d964af8d98870c926347785214db43c4f7ff607e80386b3e3917ba3d509fc06"
+    },
+    "raw:dependency-observer.inc": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/dependency-observer.inc",
+      "sha256": "a210b0e0fca930003b0a780ae6d9ea7534fe0323df84c5445c3e231c95a80806"
+    },
+    "raw:entries.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/entries.txt",
+      "sha256": "3fe79d0094e76456c1f478da0a71ce2436be0f80a0924d46e9629dd292b55ccc"
+    },
+    "raw:export-reader.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/export-reader.h",
+      "sha256": "64ffe9f75692ee7ac2790d9d8a8e8f5e128189837fda814316446bcd81af7607"
+    },
+    "raw:reference-debugger.c": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/reference-debugger.c",
+      "sha256": "321e1f14b3f0ff7219b647405f1de5ac0fa0d5ba42105873136d64d8846caf8a"
+    },
+    "raw:reference-debugger.exe": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/reference-debugger.exe",
+      "sha256": "fa6caed228c54f8e48cec019ba675f23f80682b07b66c8c70ec95f56749eea59"
+    }
+  },
+  "schema": 2,
+  "capture_receipt": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-link-response-1-original/capture.json",
+    "sha256": "e4fde4d893827f90c772aa26db9d71e6c066fa3ddedf2e13712bca08ba17d98d"
+  }
+}

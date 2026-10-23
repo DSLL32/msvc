@@ -72,6 +72,12 @@ int __wrap_main(int argc, char **argv, char **envp)
         argc == 5 && !strcmp(argv[1],"/nologo") && !strcmp(argv[2],"/Og") &&
         !strcmp(argv[3],"/O1") && !strcmp(argv[4],"/?"))
         entry_error = 2;
+    else if (profile && !strcmp(profile,"link-object-canonical-msvcrt-v1") &&
+        argc == 8 && !strcmp(argv[1],"/nologo") && !strcmp(argv[2],"/Fetest.exe") &&
+        !strcmp(argv[3],"test.obj") && !strcmp(argv[4],"/link") &&
+        !strcmp(argv[5],"/ENTRY:main") && !strcmp(argv[6],"/SUBSYSTEM:CONSOLE") &&
+        !strcmp(argv[7],"/NODEFAULTLIB"))
+        entry_error = 0;
     else
         recon_unsupported("unknown CL native entry profile");
     envp = cl_dependency_bind_entry(argc, argv, envp);

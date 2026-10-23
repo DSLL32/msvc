@@ -23,8 +23,11 @@ PARAMETERS={
  'initialize_driver':[('name','string'),('state','driver')],
  'show_usage':[], 'has_nologo':[('args','vector'),('count','signed')],
  'show_banner':[('force','signed')], 'load_string':[('id','unsigned')], 'parse_arguments':[('args','vector'),('count','signed')],
- 'write_message':[('fd','signed'),('text','string')], 'finish_options':[],
+ 'write_message':[('fd','signed'),('text','string')],
+ 'write_link_message':[('stream','response_file'),('text','string')], 'finish_options':[],
  'final_pass':[('state','driver')],
+ 'link_pass':[('state','driver')],
+ 'write_link_response':[('state','driver')],
  'execute_pass':[('mode','signed'),('pass','pass'),('name','string'),('environment','string'),('args','vector')],
  'unload_pass':[('pass','pass')],
  'cleanup_files':[('preserve','signed')],
@@ -217,6 +220,7 @@ class Memory:
         # Reached release calls in help own strdup-created option strings.
         # Other allocation shapes require a new explicit projection.
         if kind=='owned_string':return self.string(value)
+        if kind=='response_file':return None if not value else {'descriptor':self.words(value+16,1)[0]}
         if kind=='string':return self.string(value)
         if kind=='vector':return self.vector(value)
         if kind=='driver':return self.driver(value)
@@ -279,7 +283,7 @@ def snapshot(read,context):
         types=format_types(context['diagnostic_format']);values=context['varargs']
         assert len(types)==len(values)
         fields['variable_arguments']=[memory.value(kind,value)for kind,value in zip(types,values)]
-    if symbol in ('write_message','format_message'):
+    if symbol in ('write_message','write_link_message','format_message'):
         types=format_types(memory.string(context['arguments'][1]))
         if symbol=='format_message':values=memory.words(context['arguments'][2],len(types))
         else:values=context['varargs']
@@ -385,7 +389,7 @@ def original_context(directory,address,stack):
     if symbol=='next_jobs':context['pending_address']=struct.unpack_from('<I',(directory/'context.bin').read_bytes(),180)[0]-24
     if symbol=='delete_temporary':context['temporary_suffixes_address']=0x406300
     if symbol=='run_passes':context['callbacks']={'final_pass':next(row['start']for row in index['driver']if row['name']=='_final_pass')}
-    if symbol=='write_message':context['varargs']=list(stack[3:])
+    if symbol in ('write_message','write_link_message'):context['varargs']=list(stack[3:])
     if symbol=='vwrite_message':
         raw=(directory/'context.bin').read_bytes();sp=struct.unpack_from('<I',raw,196)[0]
         if stack[0]==0x4053eb:caller,slot,arg='warning',5,sp+24
@@ -502,7 +506,7 @@ def capture_native(directory,gdb):
         slot=int(frame.read_var('id').address)+4
         count=len(format_types(context['diagnostic_format']))
         context['varargs']=list(struct.unpack('<%dI'%count,bytes(inferior.read_memory(slot,4*count))))if count else []
-    if symbol=='write_message':
+    if symbol in ('write_message','write_link_message'):
         # The i386 cdecl variable arguments follow the final named parameter.
         slot=int(frame.read_var('text').address)+4
         context['varargs']=list(struct.unpack('<13I',bytes(inferior.read_memory(slot,52))))

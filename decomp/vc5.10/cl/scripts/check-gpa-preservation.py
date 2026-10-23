@@ -46,7 +46,7 @@ with tempfile.TemporaryDirectory(prefix='gpa-controls-',dir=scratch) as work:
     denied('extra unknown rebuilt site',value)
     mirror=work/'project'
     shutil.copytree(PROJECT/'cases/minimal-c/gpa-preservation',mirror/'cases/minimal-c/gpa-preservation')
-    for filename in ('cases/minimal-c/getprocaddress-preservation.json','build/cl.exe','build/cl.map','scripts/identify-runtime.py','graph-metadata.json'):
+    for filename in ('cases/minimal-c/getprocaddress-preservation.json','build/cl.exe','build/cl.map','scripts/identify-runtime.py','graph-metadata.json','cases/link-object/write-preservation.json'):
         target=mirror/filename;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(PROJECT/filename,target)
     witness=mirror/'cases/minimal-c/getprocaddress-preservation.json';original=witness.read_text()
     for label,mutate in (

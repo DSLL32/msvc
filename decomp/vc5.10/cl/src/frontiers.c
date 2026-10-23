@@ -14,9 +14,7 @@ DeferredInput *deferred_from_jobs(Job *jobs) { __asm int 3
 Job *advance_jobs(Job *jobs) { __asm int 3
     return NULL;
 }
-int link_pass(Driver *state) { __asm int 3
-    return 0;
-}
+
 void start_timer(void) { __asm int 3 }
 void stop_timer(char *name) { __asm int 3 }
 

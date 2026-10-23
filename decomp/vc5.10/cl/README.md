@@ -14,8 +14,8 @@ acceptance journal for the measured evidence.
 
 Help, usage, response/options, the genuine minimal-C compile and an intentional
 unknown-option diagnostic and public preprocessor/pass controls are complete.
-There are now 96 accepted application functions /16,296 original extent bytes
-(85.49% of whole `.text`); the non-CRT
+There are now 98 accepted application functions /17,092 original extent bytes
+(89.67% of whole `.text`); the non-CRT
 denominator remains unclassified. The response-file/options/help case adds five driver functions with 56 actual
 entries, its own cached streams/input/trace and a ~31ms native fixture. The compile executes 75
 distinct application entries, produces the exact 275-byte object and `test.c`
@@ -65,6 +65,13 @@ The `/Og /O1 /?` case reaches the real option-copy path through a recognized
 optimization default. Its 33-byte helper retains the originating rule, and
 12 altered-input controls pass. The case matches 52 entries and completes
 help at status 0. Its fixture takes 31 ms, with 8 ms execution.
+
+An existing-object LINK case has accepted the linker-command builder and
+response-file writer, with matching named frontiers and actual driver inputs.
+Its required original child observation produces a 1,024-byte executable from
+the owned 275-byte object and 82-byte response file. Native child replay and
+the final 76-byte output helper remain held for a dedicated CP0 contract; this
+is not a completed fixture. See `cases/link-object/progress.json`.
 
 The first extension lookup exposed an incorrect provisional table left unvisited
 by help. The corrected ten extension/category/pass-list records and terminator,

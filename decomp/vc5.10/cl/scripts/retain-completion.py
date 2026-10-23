@@ -13,9 +13,12 @@ sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('case');parser.add_argument('pair',type=Path)
 parser.add_argument('original',type=Path);parser.add_argument('native',type=Path)
-args=parser.parse_args();destination=PROJECT/'cases'/args.case/'completion'
+parser.add_argument('--milestone',help='Retain an accepted prefix before later case builds replace its artifacts')
+args=parser.parse_args()
+assert args.milestone is None or (args.milestone not in ('.','..') and Path(args.milestone).name==args.milestone),'invalid milestone name'
+destination=PROJECT/'cases'/args.case/('milestones/'+args.milestone if args.milestone else 'completion')
 assert not destination.exists(),'never replace retained execution evidence'
-destination.mkdir();records={};seen=set();repository={}
+destination.mkdir(parents=True);records={};seen=set();repository={}
 case_files={}
 for p in sorted((PROJECT/'cases'/args.case/'reference').rglob('*')):
     if p.is_file():case_files.setdefault(sha(p),p)

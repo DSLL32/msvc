@@ -32,12 +32,19 @@ def dependency_mode(config,baseline,case_name,analysis,complete,response):
     return None
 
 
-def capture(label,config_path,baseline=False,case_name='help',dependency_analysis=False,dependency_complete=False,dependency_response=False):
+def link_mode(config,baseline,case,analysis,complete,response,enabled):
+    if not enabled:return None
+    assert case=='link-object' and not baseline and not analysis and not complete and not response, 'link response requires separate masked linker trial'
+    assert {'_link_pass','_write_link_response','_write_link_message','_execute_pass'}<=set(config['accepted']), 'link response may not enable an unaccepted caller'
+    return 'CL_LINK_RESPONSE_V1\n'
+
+
+def capture(label,config_path,baseline=False,case_name='help',dependency_analysis=False,dependency_complete=False,dependency_response=False,link_response=False):
     assert not dependency_analysis or (baseline and case_name=='minimal-c'),'dependency analysis requires explicit original-only minimal-C baseline'
     assert not dependency_complete or dependency_analysis,'complete dependency observation requires explicit analysis mode'
     start=time.perf_counter()
     config=json.loads(config_path.read_text())
-    mode=dependency_mode(config,baseline,case_name,dependency_analysis,dependency_complete,dependency_response)
+    mode=link_mode(config,baseline,case_name,dependency_analysis,dependency_complete,dependency_response,link_response) or dependency_mode(config,baseline,case_name,dependency_analysis,dependency_complete,dependency_response)
     target=ROOT/config['target']['path']
     assert sha(target.read_bytes())==config['target']['sha256']
     paired={key:sha((PROJECT/path).read_bytes()) for key,path in {
@@ -123,8 +130,8 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
     (directory/'helper.stdout').write_bytes(result.stdout)
     (directory/'helper.stderr').write_bytes(result.stderr)
     loaded=directory/'loaded-msvcrt.bin'
-    captured_paths=directory.rglob('*')if dependency_response else directory.iterdir()
-    receipt={'schema':1,'controller_error':controller_error,**case,'baseline':baseline,'dependency_analysis':dependency_analysis,'dependency_complete':dependency_complete,'dependency_response':dependency_response,
+    captured_paths=directory.rglob('*')if (dependency_response or link_response) else directory.iterdir()
+    receipt={'schema':1,'controller_error':controller_error,**case,'baseline':baseline,'dependency_analysis':dependency_analysis,'dependency_complete':dependency_complete,'dependency_response':dependency_response,'link_response':link_response,
         'target_sha256':sha(target.read_bytes()),'config_sha256':sha(config_path.read_bytes()),
         'original_mask_sha256':sha(image),'helper_status':result.returncode,
         'loaded_msvcrt_sha256':sha(loaded.read_bytes()) if loaded.exists() else None,
@@ -164,4 +171,5 @@ if __name__=='__main__':
     parser.add_argument('--dependency-analysis',action='store_true',help='Explicit original-only loader/Invoke observation, stopping before C2')
     parser.add_argument('--dependency-complete',action='store_true',help='Also observe both putenv calls, actual C2 return and normal CL exit')
     parser.add_argument('--dependency-response',action='store_true',help='Observe dependencies during a fresh masked candidate trial, preserving its real next frontier')
-    args=parser.parse_args();capture(args.label,args.config,args.baseline,args.case,args.dependency_analysis,args.dependency_complete,args.dependency_response)
+    parser.add_argument('--link-response',action='store_true',help='Observe LINK-only child during a masked candidate trial')
+    args=parser.parse_args();capture(args.label,args.config,args.baseline,args.case,args.dependency_analysis,args.dependency_complete,args.dependency_response,args.link_response)

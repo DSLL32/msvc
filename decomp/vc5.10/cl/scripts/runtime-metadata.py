@@ -94,5 +94,10 @@ functions['_execute_pass']['register_imports']={'require_all_register_calls_reso
 witness='cases/minimal-c/getprocaddress-preservation.json'
 contracts=[{'target':{'import':{'dll':'kernel32.dll','name':'GetProcAddress'}},
     'preserves':['edi'],'evidence':{'path':witness,'sha256':hashlib.sha256((project/witness).read_bytes()).hexdigest()}}]
+functions['_write_link_message']={'register_imports':{'require_all_register_calls_resolved':True}}
+write_witness='cases/link-object/write-preservation.json'
+if (project/write_witness).is_file():
+    contracts.append({'target':{'import':{'dll':'msvcrt.dll','name':'_write'}},
+        'preserves':['esi'],'evidence':{'path':write_witness,'sha256':hashlib.sha256((project/write_witness).read_bytes()).hexdigest()}})
 (project/'graph-metadata.json').write_text(json.dumps({'schema':1,'functions':functions,'callback_tables':[],
     'register_imports':{'preservation_contracts':contracts}},indent=2)+'\n')

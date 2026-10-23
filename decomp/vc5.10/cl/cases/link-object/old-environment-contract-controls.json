@@ -1,0 +1,1 @@
+{"passed": true, "negative_controls": 2, "controls": ["invoke-before", "spawn-before"], "scope": "Original raw unchanged; offline decoder only"}

@@ -39,6 +39,21 @@ int vwrite_message(int fd, const char *text, va_list args)
     return _write(fd, message, length);
 }
 
+/* 00405259..004052a5: unbuffered response output and optional command echo. */
+void write_link_message(FILE *stream, const char *text, ...)
+{
+    unsigned length;
+    char *message;
+    va_list args;
+    va_start(args, text);
+    message = format_message(&length, text, args);
+    va_end(args);
+    if (stream)
+        _write(stream->_file, message, length);
+    if (debug_exceptions)
+        _write(2, message, length);
+}
+
 /* Shared expandable output buffer, 00405092..00405232. */
 unsigned message_capacity = 2048;
 unsigned char *format_buffer;

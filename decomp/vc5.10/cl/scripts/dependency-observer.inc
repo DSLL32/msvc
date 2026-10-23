@@ -1,5 +1,6 @@
 /* Original-only analysis observer; no native fixture includes or invokes it. */
 static int dependency_analysis;
+static int dependency_link_response;
 static int dependency_complete;
 static int dependency_response;
 static FILE *dependency_events;
@@ -146,18 +147,34 @@ static void dependency_copy_ir(const char *folder)
     } while (FindNextFileA(search,&found));
     FindClose(search);fflush(dependency_events);
 }
+/* Validate the exact observed six-character _mktemp prefix before appending. */
+static int dependency_link_paths(char *response,DWORD capacity,char *destination,DWORD destination_capacity)
+{
+    DWORD length=(DWORD)strlen(response),i;
+    const char *folder="observer\\link-input\\";
+    if (length!=8 || response[0]!='.' || response[1]!='\\') return 0;
+    for (i=2;i<length;++i)
+        if (!((response[i]>='a' && response[i]<='z') ||
+              (response[i]>='A' && response[i]<='Z') ||
+              (response[i]>='0' && response[i]<='9'))) return 0;
+    if (length+2>=capacity || strlen(folder)+length>=destination_capacity) return 0;
+    strcat(response,"lk");sprintf(destination,"%s%s",folder,response+2);
+    return 1;
+}
 static void dependency_install(int masked)
 {
     unsigned i;BYTE call[6];char path[MAX_PATH],line[128];FILE *file;
     output_path(path,"dependency-observer.txt");file=fopen(path,"rb");if (!file) return;
     if (!fgets(line,sizeof(line),file)) ExitProcess(94);
-    if (!strcmp(line,"CL_DEPENDENCY_RESPONSE_V1\n")) { dependency_response=1;dependency_complete=1; }
+    if (!strcmp(line,"CL_LINK_RESPONSE_V1\n")) { dependency_link_response=1;dependency_response=1;dependency_complete=1; }
+    else if (!strcmp(line,"CL_DEPENDENCY_RESPONSE_V1\n")) { dependency_response=1;dependency_complete=1; }
     else if (!strcmp(line,"CL_DEPENDENCY_ANALYSIS_V2_COMPLETE\n")) dependency_complete=1;
     else if (strcmp(line,"CL_DEPENDENCY_ANALYSIS_V1\n")) ExitProcess(94);
     if (!!masked!=!!dependency_response) ExitProcess(110);
     fclose(file);dependency_analysis=1;output_path(path,"observer");CreateDirectoryA(path,NULL);
     output_path(path,"observer\\events.txt");dependency_events=fopen(path,"wb");if (!dependency_events) ExitProcess(95);
     for (i=0;i<(dependency_complete?9U:6U);++i) {
+        if (dependency_link_response && i!=5 && i!=7 && i!=8) continue;
         memory(target_base+dependency_sites[i],call,dependency_lengths[i]);
         /* A fresh masked trial must never restore an unaccepted helper body.
          * In particular unload_pass can still be the next named frontier. */
@@ -283,14 +300,22 @@ static void dependency_trap(int point,DWORD address,DWORD teb,DWORD tid,CONTEXT 
                 DWORD parameters[3],path_pointer,terminator;char executable[MAX_PATH],argument[MAX_PATH];HANDLE image;
                 memory(context->Esp,parameters,12);memory(parameters[2],&path_pointer,4);
                 memory(parameters[2]+4,&terminator,4);
-                if (parameters[0]!=0 || terminator) ExitProcess(107);
+                if (parameters[0]!=0 || (!dependency_link_response && terminator)) ExitProcess(107);
                 remote_string(parameters[1],executable,sizeof(executable));
                 remote_string(path_pointer,argument,sizeof(argument));
                 if (strcmp(executable,argument)) ExitProcess(107);
                 image=CreateFileA(executable,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,0,NULL);
                 if (image==INVALID_HANDLE_VALUE) ExitProcess(108);
                 save_file(image,"observer\\spawn-executable.bin");CloseHandle(image);
-                dependency_copy_ir("observer\\c2-input");
+                if (dependency_link_response) {
+                    DWORD state,prefix;char response[MAX_PATH],destination[MAX_PATH];
+                    CreateDirectoryA("observer\\link-input",NULL);
+                    if (!CopyFileA("test.obj","observer\\link-input\\test.obj",TRUE)) ExitProcess(115);
+                    memory(target_base+0x9020,&state,4);memory(state+32,&prefix,4);
+                    remote_string(prefix,response,sizeof(response));
+                    if (!dependency_link_paths(response,sizeof(response),destination,sizeof(destination))) ExitProcess(118);
+                    if (!CopyFileA(response,destination,TRUE)) ExitProcess(116);
+                } else dependency_copy_ir("observer\\c2-input");
             }
         }
         dependency_pending[point]=1;patch_byte(address,dependency_bytes[point]);
@@ -299,9 +324,17 @@ static void dependency_trap(int point,DWORD address,DWORD teb,DWORD tid,CONTEXT 
         dependency_state(phase,teb,tid,context,input,out,err);
         if (point==3) dependency_copy_ir("observer\\c1-output");
         if (point==5) {
-            CreateDirectoryA("observer\\c2-output",NULL);
-            if (!CopyFileA("test.obj","observer\\c2-output\\test.obj",TRUE)) ExitProcess(109);
-            fprintf(dependency_events,"analysis-c2-completed result=%08lx putenv_calls=%u\n",context->Eax,dependency_putenv_calls);
+            if (dependency_link_response) {
+                CreateDirectoryA("observer\\link-output",NULL);
+                if (!CopyFileA("test.exe","observer\\link-output\\test.exe",TRUE)) ExitProcess(117);
+            } else {
+                CreateDirectoryA("observer\\c2-output",NULL);
+                if (!CopyFileA("test.obj","observer\\c2-output\\test.obj",TRUE)) ExitProcess(109);
+            }
+            if (dependency_link_response)
+                fprintf(dependency_events,"observed-child family=link result=%08lx putenv_calls=%u\n",context->Eax,dependency_putenv_calls);
+            else
+                fprintf(dependency_events,"analysis-c2-completed result=%08lx putenv_calls=%u\n",context->Eax,dependency_putenv_calls);
         }
         fprintf(dependency_events,"return api=%s result=%08lx esp=%08lx\n",names[point],context->Eax,context->Esp);fflush(dependency_events);
         dependency_pending[point]=0;

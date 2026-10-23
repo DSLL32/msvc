@@ -68,7 +68,15 @@ def verify(report, project, root):
     contract = {'target':{'import':expected},'preserves':['edi'],
                 'evidence':{'path':'cases/minimal-c/getprocaddress-preservation.json',
                             'sha256':hashlib.sha256(witness_path.read_bytes()).hexdigest()}}
-    assert inputs['preservation_contracts'] == [contract], 'missing or broader preservation contract'
+    expected_contracts=[contract]
+    write_witness=project/'cases/link-object/write-preservation.json'
+    if write_witness.is_file():
+        from write_preservation import verify as verify_write
+        verify_write(project,root)
+        expected_contracts.append({'target':{'import':{'dll':'msvcrt.dll','name':'_write'}},
+            'preserves':['esi'],'evidence':{'path':'cases/link-object/write-preservation.json',
+                'sha256':hashlib.sha256(write_witness.read_bytes()).hexdigest()}})
+    assert inputs['preservation_contracts'] == expected_contracts, 'missing or broader preservation contract'
     assert inputs['original_sha256'] == hashlib.sha256(original.data).hexdigest()
     assert inputs['rebuilt_sha256'] == hashlib.sha256(rebuilt.data).hexdigest()
     metadata=json.loads((project/'graph-metadata.json').read_text())

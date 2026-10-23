@@ -32,6 +32,7 @@ def capture(original,directory):
     (directory/'status_reader.py').write_bytes(subprocess.check_output(['git','show',build['shared_revision']+':lib/recon/status.py'],cwd=ROOT))
     argv=vector(original/'argv.bin')[1]
     receipt=json.loads((original/'capture.json').read_text())
+    assert not receipt.get('link_response'), 'LINK-only native provider is not implemented; no child execution is allowed'
     case=load_case(receipt['case'])
     assert receipt['arguments']==case['arguments']==argv[1:]
     if case['inputs']:

@@ -1,0 +1,16 @@
+{
+  "reviewer": "/root/vc510_orchestrator",
+  "approved_for": "Typed case-bound native provider implementation; finalnative success still held until implementation/freshpair",
+  "utc": "2026-10-23T23:03:45.710815+00:00",
+  "packet_sha256": "0ec292852f0cc8e32beeee5987202e779d91d2c40d4d20a3ce12c49f5e91ddb7",
+  "capture_sha256": "6995439f5db752d06924a3ee04f02d7733ddc00fe27f7e52c69f02f459cc67eb",
+  "decoder_sources": {
+    "scripts/link_response.py": "97f3a6a4ee8192850d44b0c253d847fa52401b5407e2b31bf3d73709de13cbfb",
+    "scripts/check-link-response.py": "af54dfbc6b71ca0e0516adb0c647b32fc694ef21f5c171edbb7774cfbfaacc19",
+    "scripts/dependency_response.py": "3a0890c20234188615e8c86d2c627910275aaa41e55856c6d25c471ea6bc34e0"
+  },
+  "independent_validation": "Full decoder output exactly equals frozen packet;32refreshed-rawhash negative controls reranPASS1.914s. Reviewed onlyNULL pass.environment primitive extension, threefullphase inventory, maskedcurrentcase/noextra dependency invocation, completeactual command/argv+CRTvsOS namespace/content and pointer roles, unchangedtypedFILE/stdhandles/CWD/CP0 tables/CW, exact82Bresponse+275Bobject+1024BPE and oneunlink/exit0. Acceptance+native-main remain closed withoutprovider.",
+  "profile": "CP0/defaultC with targetOS environment source and identical78strings/order separateCRT/OS representations; actualerror entry0/2/0\u2192return0/0/0. Existing1252RSP2 precondition must notbe silently reused.",
+  "implementation_direction": "Local uninstrumented casehost may bind hash-bound observedinitial borrowed CRT/OS vectors before main using shared APIs; sharedmaintainer owns explicitCP0process profile. ExistingSpawnBroker exactoneinvoke/fullinputs/effects/unknown-denial; readonlyGDB stateobservations before/after actual native APIs, no reseed. Finalfreshpair/control/fixture required, noPE/Wine nativehelpers.",
+  "limitations": "Observed onecase only; cached childresponse is notgeneralLINK behavior or frontend DLL contract. Preserve originalraw/provider/source identities and identifiedtransport exclusions, no arbitrary artifact normalization."
+}

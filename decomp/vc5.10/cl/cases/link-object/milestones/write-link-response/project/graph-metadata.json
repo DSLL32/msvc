@@ -1,0 +1,188 @@
+{
+  "schema": 1,
+  "functions": {
+    "_mainCRTStartup": {
+      "original": {
+        "roots": [
+          4217326,
+          4217347
+        ],
+        "text_data": [],
+        "switches": {}
+      },
+      "rebuilt": {
+        "roots": [
+          4226526,
+          4226547
+        ],
+        "text_data": [],
+        "switches": {}
+      }
+    },
+    "_main": {
+      "original": {
+        "roots": [
+          4201109,
+          4201139
+        ],
+        "text_data": [],
+        "switches": {}
+      },
+      "rebuilt": {
+        "roots": [
+          4217342,
+          4217390
+        ],
+        "text_data": [],
+        "switches": {}
+      }
+    },
+    "_execute_pass": {
+      "original": {
+        "roots": [
+          4216535,
+          4216565
+        ],
+        "text_data": [],
+        "switches": {}
+      },
+      "rebuilt": {
+        "roots": [
+          4205698,
+          4205746
+        ],
+        "text_data": [],
+        "switches": {}
+      },
+      "register_imports": {
+        "require_all_register_calls_resolved": false
+      }
+    },
+    "_read_option": {
+      "original": {
+        "roots": [],
+        "text_data": [],
+        "switches": {}
+      },
+      "rebuilt": {
+        "roots": [],
+        "text_data": [
+          [
+            4223016,
+            4223070
+          ]
+        ],
+        "switches": {
+          "4222593": [
+            4222688,
+            4222666,
+            4222644,
+            4222622,
+            4222600,
+            4222710
+          ]
+        }
+      }
+    },
+    "_format_message": {
+      "original": {
+        "roots": [],
+        "text_data": [],
+        "switches": {}
+      },
+      "rebuilt": {
+        "roots": [],
+        "text_data": [
+          [
+            4218355,
+            4218397
+          ]
+        ],
+        "switches": {
+          "4217856": [
+            4218136,
+            4218067,
+            4217863,
+            4218067,
+            4218174
+          ]
+        }
+      }
+    },
+    "_expand_word": {
+      "original": {
+        "roots": [],
+        "text_data": [],
+        "switches": {}
+      },
+      "rebuilt": {
+        "roots": [],
+        "text_data": [
+          [
+            4220066,
+            4220202
+          ]
+        ],
+        "switches": {
+          "4219812": [
+            4219819,
+            4219838,
+            4219819,
+            4219899,
+            4219819,
+            4219819,
+            4219956,
+            4219833,
+            4220001,
+            4219819,
+            4220031
+          ]
+        }
+      }
+    },
+    "_prepare_inputs": {
+      "original": {
+        "roots": [],
+        "text_data": [],
+        "switches": {}
+      },
+      "rebuilt": {
+        "roots": [],
+        "text_data": [
+          [
+            4224300,
+            4224316
+          ]
+        ],
+        "switches": {
+          "4224133": [
+            4224140,
+            4224154,
+            4224168,
+            4224268
+          ]
+        }
+      }
+    }
+  },
+  "callback_tables": [],
+  "register_imports": {
+    "preservation_contracts": [
+      {
+        "target": {
+          "import": {
+            "dll": "kernel32.dll",
+            "name": "GetProcAddress"
+          }
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/minimal-c/getprocaddress-preservation.json",
+          "sha256": "180daba153ba2f9d5ae606bb93d08ebbc46861df365ace65b9a9c415004159c6"
+        }
+      }
+    ]
+  }
+}
