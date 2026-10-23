@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_mangle_type_shape@8",
+    "start": 277808,
+    "end": 278256
+  },
+  "distinct_direct_callees": [
+    "_mangle_enum_representation@8",
+    "_mangle_pointer_target@8",
+    "_mangle_tag_name@8"
+  ],
+  "next_frontier": "_mangle_function_terminator@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2595046339556575,
+  "total_operation_seconds": 5.4007878713309765,
+  "original_capture_seconds": 4.07542768586427
+}

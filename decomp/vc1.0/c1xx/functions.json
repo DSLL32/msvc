@@ -624,7 +624,19 @@
     "_finish_types",
     "_finish_inline_functions",
     "_finish_expression_output",
-    "_write_function_directory"
+    "_write_function_directory",
+    "_mangle_symbol_identifier@12",
+    "_mangle_symbol_scope@8",
+    "_mangle_identifier@12",
+    "_mangle_symbol_encoding@16",
+    "_mangle_type_qualifiers@12",
+    "_mangle_function_type@8",
+    "_mangle_calling_convention@8",
+    "_mangle_parameter_types@8",
+    "_mangle_parameter_type@8",
+    "_mangle_type_shape@8",
+    "_mangle_function_terminator@8",
+    "_mangle_type@12"
   ],
   "driver": [
     {
@@ -5014,22 +5026,22 @@
     {
       "name": "_mangle_symbol_identifier@12",
       "start": 275376,
-      "end": 275377
+      "end": 275436
     },
     {
       "name": "_mangle_symbol_scope@8",
       "start": 275600,
-      "end": 275601
+      "end": 275786
     },
     {
       "name": "_mangle_symbol_encoding@16",
       "start": 275792,
-      "end": 275793
+      "end": 276480
     },
     {
       "name": "_mangle_identifier@12",
       "start": 275440,
-      "end": 275441
+      "end": 275597
     },
     {
       "name": "_cache_function_parameter_bytes@4",
@@ -5805,14 +5817,99 @@
       "name": "_write_function_directory",
       "start": 372320,
       "end": 372902
+    },
+    {
+      "name": "_mangle_number@8",
+      "start": 276480,
+      "end": 276481
+    },
+    {
+      "name": "_mangle_based_symbol@12",
+      "start": 278800,
+      "end": 278801
+    },
+    {
+      "name": "_mangle_type_qualifiers@12",
+      "start": 276608,
+      "end": 276904
+    },
+    {
+      "name": "_mangle_function_type@8",
+      "start": 277056,
+      "end": 277128
+    },
+    {
+      "name": "_mangle_type@12",
+      "start": 277344,
+      "end": 277559
+    },
+    {
+      "name": "_mangle_table_scope_path@8",
+      "start": 279072,
+      "end": 279073
+    },
+    {
+      "name": "_mangle_vcall_model@8",
+      "start": 279168,
+      "end": 279169
+    },
+    {
+      "name": "_mangle_pointer_base@8",
+      "start": 278976,
+      "end": 278977
+    },
+    {
+      "name": "_mangle_calling_convention@8",
+      "start": 277184,
+      "end": 277293
+    },
+    {
+      "name": "_mangle_parameter_types@8",
+      "start": 278416,
+      "end": 278674
+    },
+    {
+      "name": "_mangle_function_terminator@8",
+      "start": 279200,
+      "end": 279211
+    },
+    {
+      "name": "_mangle_parameter_type@8",
+      "start": 277568,
+      "end": 277646
+    },
+    {
+      "name": "_mangle_referenced_type@8",
+      "start": 277648,
+      "end": 277649
+    },
+    {
+      "name": "_mangle_type_shape@8",
+      "start": 277808,
+      "end": 278256
+    },
+    {
+      "name": "_mangle_pointer_target@8",
+      "start": 278256,
+      "end": 278257
+    },
+    {
+      "name": "_mangle_enum_representation@8",
+      "start": 279056,
+      "end": 279057
+    },
+    {
+      "name": "_mangle_tag_name@8",
+      "start": 279216,
+      "end": 279217
     }
   ],
   "cases": {
     "cpp_basic": {
       "arguments": "",
       "accepted_from": 0,
-      "terminal": "_mangle_symbol_identifier@12",
-      "terminal_evidence": "cases/cpp-basic-frontiers/0619-write_function_directory/original-events.txt",
+      "terminal": "_emit_function_symbols@4",
+      "terminal_evidence": "cases/cpp-basic-frontiers/0631-mangle_type-12/original-events.txt",
       "frontier_extensions": [
         "cases/object-initializer-trial/frontier-extension.json",
         "cases/cpp-basic-frontiers/0535-symbol_construction_class-4/frontier-extension.json",
@@ -5899,7 +5996,19 @@
         "cases/cpp-basic-frontiers/0616-finish_types/frontier-extension.json",
         "cases/cpp-basic-frontiers/0617-finish_inline_functions/frontier-extension.json",
         "cases/cpp-basic-frontiers/0618-finish_expression_output/frontier-extension.json",
-        "cases/cpp-basic-frontiers/0619-write_function_directory/frontier-extension.json"
+        "cases/cpp-basic-frontiers/0619-write_function_directory/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0620-mangle_symbol_identifier-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0621-mangle_symbol_scope-8/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0622-mangle_identifier-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0623-mangle_symbol_encoding-16/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0624-mangle_type_qualifiers-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0625-mangle_function_type-8/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0626-mangle_calling_convention-8/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0627-mangle_parameter_types-8/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0628-mangle_parameter_type-8/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0629-mangle_type_shape-8/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0630-mangle_function_terminator-8/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0631-mangle_type-12/frontier-extension.json"
       ]
     }
   },
@@ -7707,6 +7816,40 @@
           "bytes": 4
         }
       ]
+    },
+    {
+      "kind": "state",
+      "name": "_decorated_names",
+      "original": 622616,
+      "fields": [
+        {
+          "name": "_decorated_names",
+          "original": 622616,
+          "bytes": 40
+        }
+      ]
+    },
+    {
+      "name": "_decorated_types",
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_decorated_types",
+          "original": 621576,
+          "bytes": 40
+        },
+        {
+          "name": "_decorated_type_count",
+          "original": 621616,
+          "bytes": 4
+        },
+        {
+          "name": "_mangle_parameter_depth",
+          "original": 658036,
+          "bytes": 4
+        }
+      ],
+      "original": 621576
     }
   ],
   "buffered_streams": [

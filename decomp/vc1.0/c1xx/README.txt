@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 620 accepted frontiers, including 537 frontend
+PARTIAL reconstruction: 632 accepted frontiers, including 549 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _mangle_symbol_identifier@12 at original VA 0x433b0. The latest ordered replay is recorded in validation.json;
+trap is _emit_function_symbols@4 at original VA 0x54940. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -29,9 +29,9 @@ check and replay use the instrumented i386 Linux binary and cached original
 application first-entry history. native-check is the output-only variant.
 No fixture invokes Wine, a PE helper, downstream compiler, or reference refresh.
 functions.json retains the accepted original ranges/order; cases/native-traces.json
-projects that original history to all 1019 application definitions, excluding
-original CRT/import entries on both sides. The existing case expects 538 first
-entries: 537 accepted frontend functions plus mangle_symbol_identifier, whose INT3
+projects that original history to all 1036 application definitions, excluding
+original CRT/import entries on both sides. The existing case expects 550 first
+entries: 549 accepted frontend functions plus emit_function_symbols, whose INT3
 must terminate with SIGTRAP. The migration accepted no functions; the separately documented single-function
 trial accepted initialize_object_value.
 
@@ -1296,3 +1296,31 @@ its final function metadata. Evidence is in the0612through0619case directories
 and evidence/translation-finalization-checkpoint.{json,log},
 translation-finalization-native-check.json and translation-finalization-rejections.json.
 No shared compatibility change was required.
+
+Mangler checkpoint:632 accepted frontiers,556 source functions. Twelve whole
+functions now cover identifier/scope caches, storage/type dispatch, cv qualifiers,
+function conventions, parameter references and scalar/pointer/tag type dispatch.
+Both ten-entry caches retain interned pointer identity, with explicit40-byte
+bounds and initial-state checks. The function terminator and enum representation
+helpers retain their original unused second ABI argument (RET8).
+
+Every acceptance0620through0631 has exact fresh original/native traps, four
+pending buffers, fourteen state observations, streams and visible bytes. The
+full556-function graph, contextual data/defaults, both grammars, cached native
+regression and12evidence/boundary rejections pass in9.534seconds combined wall
+(including a canonical grammar rebuild). Per-function canonical/native builds,
+original capture, native debugging and cached-fixture times remain separate.
+
+One rejected comparison exposed a native migration omission: BINMODE.OBJ's
+0x8000 default was missing from C1XX's native flags. Its reconstructed old ftell
+therefore overcounted embedded LF bytes, producing saved offsets+1/+2 while all
+mangled strings agreed. Native flags now use the existing shared binary-mode
+option. Original __sopen data at0xaa3bc and canonical BINMODE.OBJ agree on0x8000;
+the retained failure, proof and accepted correction are under
+evidence/native-binary-mode and acceptance0631. No frozen capture was modified.
+The corrective forced native rebuild was not separately timed; it is labeled
+unmeasured rather than folded into the earlier per-function build timing.
+No shared shim source change was needed.
+
+Accepted extent union200712/476418bytes is42.129391%, not branch coverage.
+cpp_basic remains incomplete at emit_function_symbols (original0x54940).

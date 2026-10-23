@@ -3,6 +3,7 @@
 #include "lexer.h"
 #include "operators.h"
 #include "keywords.h"
+#include "cpp-context.h"
 #include <recon.h>
 
 char decorated_name_workspace[DECORATED_NAME_WORKSPACE_BYTES]; /* original 0x97c38 */
@@ -251,4 +252,344 @@ unsigned __stdcall classify_symbol_decoration(CppSymbol *symbol)
     }
 packed:
     return encoding | ((unsigned)special << 8);
+}
+
+/* Original 0x433b0..0x433eb. Ordinary names use the name-reference
+   cache; encoded operators write their ordinary or underscore extension code. */
+char *__stdcall mangle_symbol_identifier(char *cursor, CppSymbol *symbol, unsigned encoding)
+{
+    unsigned char operation = (unsigned char)(encoding >> 8);
+    if (operation) {
+        *cursor++ = '?';
+        if (encoding & 0x8000) *cursor++ = '_';
+        *cursor++ = operation & 0x7f;
+        return cursor;
+    }
+    return mangle_identifier(cursor, symbol->name, 0);
+}
+
+/* Original 0x43490..0x43549. Class names recurse through enclosing
+   contexts; block statics encode their scope number and containing function. */
+char *__stdcall mangle_symbol_scope(char *cursor, CppSymbol *symbol)
+{
+    CppSymbol *parent;
+    if ((symbol->kind & 31) == 4) {
+        cursor = mangle_identifier(cursor, symbol->name, 0);
+        parent = next_member_context(symbol);
+        if (parent) return mangle_symbol_scope(cursor, parent);
+    } else if (symbol->declaration_flags & 0x400)
+        return mangle_symbol_scope(cursor, cpp_context_stack->items[symbol->auxiliary.declaring_class]);
+    else if ((symbol->storage[0] & 7) == 3 && symbol->detail.scope_number) {
+        *cursor++ = '?';
+        cursor = mangle_number(cursor, symbol->detail.scope_number);
+        *cursor++ = '?';
+        return mangle_symbol_name(cursor, function_symbol, 0);
+    }
+    return cursor;
+}
+
+char *decorated_names[10]; /* original 0x98018..0x9803f */
+typedef char DecoratedNameCacheSizeMustBe40[(sizeof(decorated_names) == 40) ? 1 : -1];
+
+/* Original 0x433f0..0x4348c. Name references are interned-pointer
+   identities, not string comparisons. New names end in '@'; later uses
+   abbreviate one of the first ten names with a single decimal digit. */
+char *__stdcall mangle_identifier(char *cursor, char *name, int convert_leading_dot)
+{
+    int index;
+    for (index = 0; index < decorated_name_count; ++index) {
+        if (decorated_names[index] == name) {
+            *cursor++ = (char)('0' + index);
+            return cursor;
+        }
+    }
+    if (decorated_name_count < 10) decorated_names[decorated_name_count++] = name;
+    if (convert_leading_dot) {
+        *cursor = *name++;
+        if (*cursor == '.') *cursor = '@';
+        ++cursor;
+    }
+    while ((*cursor = *name++) != 0) ++cursor;
+    *cursor++ = '@';
+    return cursor;
+}
+
+/* Original code 0x43550..0x43712, dispatch table 0x43714..0x437ff.
+   Emit the storage/member form, then the appropriate function, object,
+   guard, virtual-table or compiler-generated displacement encoding. The
+   context argument retains its original ABI slot but is not read here. */
+char *__stdcall mangle_symbol_encoding(char *cursor, CppSymbol *symbol,
+    CppSymbol *context, unsigned encoding)
+{
+    unsigned mode = encoding & 0x7f;
+    unsigned char extended;
+    TypeShape *shape;
+    if (encoding & 0x80) *cursor++ = '_';
+    if (mode == 0x24) { *cursor++ = '$'; *cursor++ = 'A'; }
+    else if (mode == 0x39) { *cursor++ = '$'; *cursor++ = 'B'; }
+    else if (mode == 0x3a) { *cursor++ = '$'; *cursor++ = 'C'; }
+    else {
+        extended = ((unsigned char)encoding + 0x3f) & 0x7f;
+        if (extended >= 0x1a && extended < 0x20) {
+            *cursor++ = '$';
+            *cursor++ = extended + 0x16;
+        } else *cursor++ = encoding & 0x7f;
+    }
+    if (encoding == 0x24) mode = 0x24;
+    else {
+        if (mode >= 0x41) encoding -= 0x41;
+        if (encoding & 0x80)
+            cursor = mangle_based_symbol(cursor, 5, symbol->type->related->data.based_symbol);
+        mode = encoding & 0x7f;
+        if (mode < 0x18) mode &= ~0x18U;
+        if (mode >= 0x30 && mode < 0x33) mode &= ~3U;
+        if (mode >= 0x1a && mode < 0x20) mode = 0x1a;
+        if (mode < 0x30) mode &= ~1U;
+    }
+    switch (mode) {
+    case 0x1a:
+        cursor = mangle_number(cursor, symbol->detail.value);
+    case 6:
+        cursor = mangle_number(cursor, symbol->field28);
+    case 0: case 4:
+        shape = symbol->type->related;
+        if (shape && !(shape->flags & 0x77)) shape = shape->related;
+        cursor = mangle_type_qualifiers(cursor, shape->data.parameters->associated_type, 1);
+    case 2: case 0x18:
+        return mangle_function_type(cursor, symbol);
+    case 0x24: case 0x30: case 0x33: case 0x34:
+        cursor = mangle_type(cursor, strip_based_shape(symbol->type), 0);
+        return mangle_type_qualifiers(cursor, strip_based_shape(symbol->type), 0);
+    case 0x35:
+        return mangle_number(cursor, symbol->detail.scope_number);
+    case 0x36: case 0x37:
+        cursor = mangle_type_qualifiers(cursor, strip_based_shape(symbol->type), 0);
+        cursor = mangle_table_scope_path(cursor, symbol);
+        *cursor++ = '@';
+        return cursor;
+    case 0x39:
+        cursor = mangle_number(cursor, symbol->field28);
+        return mangle_vcall_model(cursor, symbol);
+    case 0x3a:
+        cursor = mangle_symbol_scope(cursor, (CppSymbol *)symbol->auxiliary.value);
+        *cursor++ = '@';
+        return cursor;
+    }
+    return cursor;
+}
+
+/* Original 0x43880..0x439a7. Combine distance, cv and member-pointer
+   qualifiers, then append the declaring class or based-pointer information. */
+char *__stdcall mangle_type_qualifiers(char *cursor, CType *type, int object)
+{
+    TypeShape *shape = type->related, *inner;
+    int direct_function = shape && (shape->flags & 0x77) == 4 && !shape->related;
+    unsigned short attributes;
+    unsigned code;
+    if (direct_function || !shape || (shape->flags & 0x77) == 2) attributes = type->attributes;
+    else attributes = shape->attributes;
+    if (!(attributes & 15)) attributes |= (unsigned short)data_pointer_kind;
+    code = ((shape && (shape->flags & 0x10)) || (attributes & 7) == 1 || !(attributes & 12)) ? 0 : 12;
+    if (!direct_function) {
+        if (object) attributes = type->attributes;
+        else if (shape) {
+            if ((shape->flags & 0x77) == 4) attributes = 0;
+            else {
+                inner = shape->related;
+                if (inner) attributes = (inner->flags & 0x77) == 4 ? 0 : inner->attributes;
+                else attributes = type->attributes;
+            }
+        }
+    }
+    if (attributes & 0x1000) code |= 1;
+    if (attributes & 0x2000) code |= 2;
+    if (shape && (shape->flags & 0x30)) code |= 0x10;
+    *cursor++ = (char)(code < 0x19 ? code + 'A' : code + 0x17);
+    if (code & 0x10) {
+        cursor = mangle_symbol_scope(cursor, shape->data.tag_symbol);
+        *cursor++ = '@';
+    }
+    if ((code & 12) == 12) return mangle_pointer_base(cursor, type);
+    return cursor;
+}
+
+/* Original 0x43a40..0x43a87. Constructors and destructors omit the
+   return type; all functions retain convention, parameters and terminator. */
+char *__stdcall mangle_function_type(char *cursor, CppSymbol *function)
+{
+    cursor = mangle_calling_convention(cursor, function->type->related);
+    if (!(function->declaration_flags & 0x3000))
+        cursor = mangle_type(cursor, function->type, 0);
+    else *cursor++ = '@';
+    cursor = mangle_parameter_types(cursor, function->type);
+    /* The original passes the type even though the terminator ignores it. */
+    return mangle_function_terminator(cursor, function->type);
+}
+
+/* Original 0x43ac0..0x43b2c. Encode convention and far/interrupt modifier. */
+char *__stdcall mangle_calling_convention(char *cursor, TypeShape *shape)
+{
+    unsigned short attributes;
+    unsigned code;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    attributes = shape->attributes;
+    switch (attributes & 0x70) {
+    case 0x10: code = 0; break;
+    case 0x20: code = 2; break;
+    case 0x40: code = 8; break;
+    case 0x60: code = 6; break;
+    case 0x70: code = 4; break;
+    default: code = 11; break;
+    }
+    if (code == 11) {
+        if (attributes & 0x100) code = 10;
+    } else if (attributes & 0x200) code |= 1;
+    *cursor++ = (char)(code + 'A');
+    return cursor;
+}
+
+/* Original 0x97c08..0x97c2f: adjacent to decorated_type_count. Entries
+   retain canonical type identity, rather than comparing encoded strings. */
+CType *decorated_types[10];
+int mangle_parameter_depth; /* original 0xa0a74, dword inc/dec */
+typedef char DecoratedTypeCacheSizeMustBe40[(sizeof(decorated_types) == 40) ? 1 : -1];
+
+/* Original 0x43f90..0x44091. Encode a parameter list, sharing the first
+   ten multi-character type encodings through single decimal references. */
+char *__stdcall mangle_parameter_types(char *cursor, CType *type)
+{
+    TypeShape *shape = type->related;
+    DeclarationParameterInfo *parameters;
+    CType **next, *parameter;
+    int remaining, index, variadic = 0;
+    char *end;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    ++mangle_parameter_depth;
+    parameters = shape->data.parameters->declarations;
+    remaining = parameters->count;
+    next = parameters->types;
+    if (remaining == 1 && *next && !(*next)->related && ((*next)->flags & 0x80))
+        *cursor = 'X';
+    else {
+        while (remaining--) {
+            if (variadic) break;
+            parameter = *next;
+            if (!parameter) variadic = 1;
+            else {
+                for (index = 0; index < decorated_type_count; ++index)
+                    if (decorated_types[index] == parameter) break;
+                if (index < decorated_type_count && decorated_types[index] == parameter) {
+                    *cursor++ = (char)(index + '0');
+                } else {
+                    end = mangle_parameter_type(cursor, parameter);
+                    if (decorated_type_count < 10 && end - cursor > 1)
+                        decorated_types[decorated_type_count++] = parameter;
+                    cursor = end;
+                }
+                ++next;
+            }
+        }
+        *cursor = variadic ? 'Z' : '@';
+    }
+    --mangle_parameter_depth;
+    return cursor + 1;
+}
+
+/* Original 0x43c40..0x43c8d. References have an A/B cv prefix before
+   their target; other parameter shapes use the ordinary type encoder. */
+char *__stdcall mangle_parameter_type(char *cursor, CType *type)
+{
+    TypeShape *shape = type->related;
+    if (shape && ((shape->flags & 0x77) == 0x40 || (shape->flags & 0x77) == 0x44)) {
+        *cursor++ = (shape->attributes & 0x2000) ? 'B' : 'A';
+        return mangle_referenced_type(cursor, type);
+    }
+    return mangle_type_shape(cursor, type);
+}
+
+/* Original 0x43d30..0x43eef. Basic types use single letters; pointer
+   shapes append their target and tagged types append their scoped name. */
+char *__stdcall mangle_type_shape(char *cursor, CType *type)
+{
+    TypeShape *shape = type->related;
+    unsigned short flags = type->flags, kind;
+    unsigned char code = 0;
+    if (shape) {
+        kind = shape->flags & 0x77;
+        if (kind != 1 && kind != 2 && kind != 0x10 && kind != 0x20 && kind != 3)
+            return cursor;
+        code = (shape->attributes & 0x1000) || kind == 2 ? 'Q' : 'P';
+        if (shape->attributes & 0x2000) code |= 2;
+        *cursor++ = code;
+        return mangle_pointer_target(cursor, type);
+    }
+    if (flags & 0x9c0) {
+        if (flags & 0x40) {
+            if (flags & 0x20) code = 'H';
+            else switch (flags & 15) {
+            case 1: code = (flags & 0x8000) ? 'C' : 'D'; break;
+            case 2: code = 'F'; break;
+            case 4: code = 'J'; break;
+            }
+            if (flags & 0x4000) code |= 1;
+        } else if (flags & 0x100) {
+            switch (flags) {
+            case 0x104: code = 'M'; break;
+            case 0x108: code = 'N'; break;
+            case 0x128: code = 'O'; break;
+            }
+        } else code = (flags & 0x800) ? 'L' : 'Z';
+        *cursor++ = code;
+        return cursor;
+    }
+    if ((flags & 0x408) == 0x408) *cursor++ = 'V';
+    else if ((flags & 0x402) == 0x402) *cursor++ = 'U';
+    else if ((flags & 0x404) == 0x404) *cursor++ = 'T';
+    else if (flags & 0x200) {
+        *cursor++ = 'W';
+        /* The second argument is present in the original ABI. */
+        cursor = mangle_enum_representation(cursor, type);
+    } else return cursor;
+    return mangle_tag_name(cursor, cpp_context_stack->items[type->field08]);
+}
+
+/* Original 0x442a0..0x442aa. RET 8 retains the unused type argument. */
+char *__stdcall mangle_function_terminator(char *cursor, CType *unused_type)
+{
+    *cursor++ = 'Z';
+    return cursor;
+}
+
+/* Original 0x43b60..0x43c36. Encode an argument or result type, including
+   object cv qualifiers that are otherwise absent from primitive encodings. */
+char *__stdcall mangle_type(char *cursor, CType *type, int parameter)
+{
+    TypeShape *shape;
+    unsigned char qualifiers;
+    int is_void = 0;
+    type = strip_based_shape(type);
+    shape = type->related;
+    if ((parameter && !shape) ||
+        (!parameter && shape && !shape->related && (shape->flags & 0x77) == 4)) {
+        if (type->flags & 0x80) {
+            is_void = 1;
+            *cursor++ = 'X';
+        } else if (!(type->flags & 0x140) && !(type->flags & 0x800)) {
+            *cursor++ = '?';
+            cursor = mangle_type_qualifiers(cursor, type, 0);
+        } else {
+            qualifiers = (type->attributes & 0x1000) != 0;
+            if (type->attributes & 0x2000) qualifiers |= 2;
+            if (qualifiers) {
+                *cursor++ = '?';
+                *cursor++ = qualifiers + 'A';
+            }
+        }
+    }
+    if (!is_void) {
+        if (!parameter && type->related && (type->related->flags & 0x77) == 4)
+            type = drop_first_type_shape(type);
+        cursor = mangle_parameter_type(cursor, type);
+    }
+    return cursor;
 }

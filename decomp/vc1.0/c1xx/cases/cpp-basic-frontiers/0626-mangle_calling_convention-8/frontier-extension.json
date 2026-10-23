@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "accepted_before": 626,
+  "accepted": "_mangle_calling_convention@8",
+  "terminal": "_mangle_parameter_types@8",
+  "original_capture": "cases/cpp-basic-frontiers/0626-mangle_calling_convention-8/original-receipt.json",
+  "original_capture_sha256": "300fc82535991f644dd4ad38aa2b722b45362d4d850c02d7042c28276b434542",
+  "original_events": "cases/cpp-basic-frontiers/0626-mangle_calling_convention-8/original-events.txt",
+  "original_events_sha256": "13bd99c3a5ad54cb8734fd1b8f37d4565fbc53bb2192f7c901a202ebb3e99e1b",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

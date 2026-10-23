@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_mangle_type@12",
+    "start": 277344,
+    "end": 277559
+  },
+  "distinct_direct_callees": [
+    "_drop_first_type_shape@4",
+    "_mangle_parameter_type@8",
+    "_mangle_type_qualifiers@12",
+    "_strip_based_shape@4"
+  ],
+  "next_frontier": "_emit_function_symbols@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.25371981505304575,
+  "total_operation_seconds": 1.2509646862745285,
+  "original_capture_seconds": 4.130275411531329
+}

@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "b18b062e875358d3626a159a58094d761f2315379a017f43aac178e8a7725813",
+    "functions.json": "fabdfe16a7cfa7c3346d01090ac860c155ad065df0cc8b23a87f92e83a2a851f",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
     "evidence/fast-replay-verification-receipt.json": "c31482ee4affd1e136825beb31be9913d71a704a1e90d58019c14ff6aa5ee3a9",
-    "cases/native-cpp-basic/canonical-map.txt": "c29563f10fdbc2a457414e8c68ce871d8a3accedf56f08669465b17039be9c6e",
+    "cases/native-cpp-basic/canonical-map.txt": "6763854c44d854bf496f528fd845e67fb0d1beae1b0a7076ded3a0a304f45301",
     "cases/object-initializer-trial/frontier-extension.json": "becd7ed4c01caf94840212178315dc3408afe064c6015a7e8bc018fc351b5e94",
     "cases/object-initializer-trial/original-after-receipt.json": "176547f9f659647df53a08f0fecd273770df2d835b4024ee89dcfc75f492ccc3",
     "cases/object-initializer-trial/original-after-events.txt": "a83f5c103dc0cb7c85479b1e6a0cbb6e65de66cf376c0cc858d2c075f45ddc17",
@@ -279,7 +279,43 @@
     "cases/cpp-basic-frontiers/0618-finish_expression_output/original-events.txt": "44ec91d6aa24ff1e4923e140a7aee9f47f9bd1f0202030058156f0d89eecca51",
     "cases/cpp-basic-frontiers/0619-write_function_directory/frontier-extension.json": "4226aad4cdc4e24f0e9f68b1619792320d20d2cd1e4ef1f98c62b7f6c56cafcc",
     "cases/cpp-basic-frontiers/0619-write_function_directory/original-receipt.json": "938b72bb8400004c4ff13487cbf3c2c5686830d9fda1aeb822e2639457915378",
-    "cases/cpp-basic-frontiers/0619-write_function_directory/original-events.txt": "ebf0b5b7d47b3ab8a69cea97b90ae59d210550fc42409c847439439c029b54df"
+    "cases/cpp-basic-frontiers/0619-write_function_directory/original-events.txt": "ebf0b5b7d47b3ab8a69cea97b90ae59d210550fc42409c847439439c029b54df",
+    "cases/cpp-basic-frontiers/0620-mangle_symbol_identifier-12/frontier-extension.json": "eb20f7da41a82827708741bfb181a6da3d99481322ac7d9964e11feffa845dcc",
+    "cases/cpp-basic-frontiers/0620-mangle_symbol_identifier-12/original-receipt.json": "36a0d99708c329ff10304f661b4420f8d12eab9f871d327e1a68204ef50e7cec",
+    "cases/cpp-basic-frontiers/0620-mangle_symbol_identifier-12/original-events.txt": "aea5917429b30c66a9eb09a9d6393f69bef703548c820ab5eca41366ffbe9e22",
+    "cases/cpp-basic-frontiers/0621-mangle_symbol_scope-8/frontier-extension.json": "ead5418c957e9a8780e9a523bb01212a26767d172244234a392a821b1de4c855",
+    "cases/cpp-basic-frontiers/0621-mangle_symbol_scope-8/original-receipt.json": "24d9962b208bd028867ed0d851baf84f83be85a64981cb89fc1ed0cb1097a6d7",
+    "cases/cpp-basic-frontiers/0621-mangle_symbol_scope-8/original-events.txt": "d9d58b8bf20d30cd8a3cf743e0fbec583cdc5ead78701791d1115cc0b0209623",
+    "cases/cpp-basic-frontiers/0622-mangle_identifier-12/frontier-extension.json": "5c360bcf3c37d2ab2fa8541e2d5919d79bff2f1fef0622c01d892c3fa35eb3bf",
+    "cases/cpp-basic-frontiers/0622-mangle_identifier-12/original-receipt.json": "c542176488d7acdcbb9d1551448da18c599e16b1b37d388bbfab1121e69a8e18",
+    "cases/cpp-basic-frontiers/0622-mangle_identifier-12/original-events.txt": "ef635a355658d9c74d3e8a2fdcd4cf0a0af27f93f70c36f28a5443adb0c669f8",
+    "cases/cpp-basic-frontiers/0623-mangle_symbol_encoding-16/frontier-extension.json": "de664385b46ffca0fd7e1637ca4aa643d72c951fd90f9d443b5ddcac0793d674",
+    "cases/cpp-basic-frontiers/0623-mangle_symbol_encoding-16/original-receipt.json": "7cd5b259638acc20facb80a05299256037bad2bb25f93fa6afb6c54c55208e24",
+    "cases/cpp-basic-frontiers/0623-mangle_symbol_encoding-16/original-events.txt": "e09fc1c4f2a498c2cafa812372d90ced3fa5412cf1a33b24d8ad3b450ae682b7",
+    "cases/cpp-basic-frontiers/0624-mangle_type_qualifiers-12/frontier-extension.json": "cf86b8a6de816ad0bfe7e1b19bb9c2e16e70e96e6883e6ea8154b029ced3f2e3",
+    "cases/cpp-basic-frontiers/0624-mangle_type_qualifiers-12/original-receipt.json": "816d3161518150dc75a25c64714d67fbf3e3da11bd95f9bea1671c0feb470de2",
+    "cases/cpp-basic-frontiers/0624-mangle_type_qualifiers-12/original-events.txt": "b020aabaa4ef14f1728584a6b58b9499a44b5979c77bcda9b82a51c6be69fcb7",
+    "cases/cpp-basic-frontiers/0625-mangle_function_type-8/frontier-extension.json": "1a1f28de2744645699ad3d5c2bee8d1ba1c2fcdc212f4ada9cb38cc4213c3db2",
+    "cases/cpp-basic-frontiers/0625-mangle_function_type-8/original-receipt.json": "4ce9328f4f05f3398777dcafd39ed73f410e2635ea3da83563f82073478b54e2",
+    "cases/cpp-basic-frontiers/0625-mangle_function_type-8/original-events.txt": "a5b9d95e2091a2b7c22a7f573b6672a4767b501aa03ca0f8a3af0b7c74691da7",
+    "cases/cpp-basic-frontiers/0626-mangle_calling_convention-8/frontier-extension.json": "fc6afcb915a21e03ba0e0404086773c0d00788ea624cf8b60ed4371927efcadf",
+    "cases/cpp-basic-frontiers/0626-mangle_calling_convention-8/original-receipt.json": "300fc82535991f644dd4ad38aa2b722b45362d4d850c02d7042c28276b434542",
+    "cases/cpp-basic-frontiers/0626-mangle_calling_convention-8/original-events.txt": "13bd99c3a5ad54cb8734fd1b8f37d4565fbc53bb2192f7c901a202ebb3e99e1b",
+    "cases/cpp-basic-frontiers/0627-mangle_parameter_types-8/frontier-extension.json": "f0861564741aa2ff2202fe1b0d0f7a8116eaac000d6f5db11dd2abdb72832453",
+    "cases/cpp-basic-frontiers/0627-mangle_parameter_types-8/original-receipt.json": "7421a07d88d0e21d703066692568a4d8849d4f32c50cdf5bf6cb88773e8d81bc",
+    "cases/cpp-basic-frontiers/0627-mangle_parameter_types-8/original-events.txt": "3695e26ddd5bffd77c3a2df6324e5e52aad491677d0ee89b7b18f2d7133ed191",
+    "cases/cpp-basic-frontiers/0628-mangle_parameter_type-8/frontier-extension.json": "ea02db0ec7499336dba2a08d79b1966b16c2e63d8ffcafb31abcc1e122a5adba",
+    "cases/cpp-basic-frontiers/0628-mangle_parameter_type-8/original-receipt.json": "76d034e2c2e0d3c6595005101a2cda79b45a127a1a9859e7fe4b8f5d123bb497",
+    "cases/cpp-basic-frontiers/0628-mangle_parameter_type-8/original-events.txt": "6243ac51130fec0c6d3ceabaa0ed1260ffa0669c64cc1be1a96462d84c5edb84",
+    "cases/cpp-basic-frontiers/0629-mangle_type_shape-8/frontier-extension.json": "5b3f73de06a12f39a6d78477afba35da3f250af74cf5029323b1072abcb86e6e",
+    "cases/cpp-basic-frontiers/0629-mangle_type_shape-8/original-receipt.json": "b71f7c3fa9216dba874919a972c6ca2e8d42eb2845e6a1f2f4739ab9c9b65a26",
+    "cases/cpp-basic-frontiers/0629-mangle_type_shape-8/original-events.txt": "0517317fa4ce91bd186e16c4cecca8122012b4e0a95c6ed153b156025ed56101",
+    "cases/cpp-basic-frontiers/0630-mangle_function_terminator-8/frontier-extension.json": "1caaec728b7797c39bac7434b8aa32e76f04b79c48b8f1c7dc3e16aeaf18ad24",
+    "cases/cpp-basic-frontiers/0630-mangle_function_terminator-8/original-receipt.json": "39c992c1660dbe26e198d18fe95739677cf053fbe34de28d19f7f0e312e7d8ca",
+    "cases/cpp-basic-frontiers/0630-mangle_function_terminator-8/original-events.txt": "449fc83468facabe31510af95067a205f06403370d106a5418e8f55e2ca604a9",
+    "cases/cpp-basic-frontiers/0631-mangle_type-12/frontier-extension.json": "1e99d4b20f06b24d1c6606222fbb508691caa70deb4c2ac75ca89a80d538166a",
+    "cases/cpp-basic-frontiers/0631-mangle_type-12/original-receipt.json": "6f82ae8c1e1c22ced5036150ef27d5ad4301c5ec0dfdb9822c368e42b5e7c7ee",
+    "cases/cpp-basic-frontiers/0631-mangle_type-12/original-events.txt": "baf75d536dc878f44e16894f4bc6901c5fdf8fe6075d8733d64c97bdb4f5926f"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -2822,17 +2858,61 @@
       "logical": "_make_vtordisp_value@8",
       "source": "src/stubs.c"
     },
+    "mangle_based_symbol": {
+      "logical": "_mangle_based_symbol@12",
+      "source": "src/stubs.c"
+    },
+    "mangle_calling_convention": {
+      "logical": "_mangle_calling_convention@8",
+      "source": "src/mangling.c"
+    },
+    "mangle_enum_representation": {
+      "logical": "_mangle_enum_representation@8",
+      "source": "src/stubs.c"
+    },
+    "mangle_function_terminator": {
+      "logical": "_mangle_function_terminator@8",
+      "source": "src/mangling.c"
+    },
+    "mangle_function_type": {
+      "logical": "_mangle_function_type@8",
+      "source": "src/mangling.c"
+    },
     "mangle_identifier": {
       "logical": "_mangle_identifier@12",
+      "source": "src/mangling.c"
+    },
+    "mangle_number": {
+      "logical": "_mangle_number@8",
+      "source": "src/stubs.c"
+    },
+    "mangle_parameter_type": {
+      "logical": "_mangle_parameter_type@8",
+      "source": "src/mangling.c"
+    },
+    "mangle_parameter_types": {
+      "logical": "_mangle_parameter_types@8",
+      "source": "src/mangling.c"
+    },
+    "mangle_pointer_base": {
+      "logical": "_mangle_pointer_base@8",
+      "source": "src/stubs.c"
+    },
+    "mangle_pointer_target": {
+      "logical": "_mangle_pointer_target@8",
+      "source": "src/stubs.c"
+    },
+    "mangle_referenced_type": {
+      "logical": "_mangle_referenced_type@8",
       "source": "src/stubs.c"
     },
     "mangle_symbol_encoding": {
       "logical": "_mangle_symbol_encoding@16",
-      "source": "src/stubs.c"
+      "source": "src/mangling.c"
     },
     "mangle_symbol_identifier": {
       "logical": "_mangle_symbol_identifier@12",
-      "source": "src/stubs.c"
+      "source": "src/mangling.c"
     },
     "mangle_symbol_name": {
       "logical": "_mangle_symbol_name@12",
@@ -2840,6 +2920,30 @@
     },
     "mangle_symbol_scope": {
       "logical": "_mangle_symbol_scope@8",
+      "source": "src/mangling.c"
+    },
+    "mangle_table_scope_path": {
+      "logical": "_mangle_table_scope_path@8",
+      "source": "src/stubs.c"
+    },
+    "mangle_tag_name": {
+      "logical": "_mangle_tag_name@8",
+      "source": "src/stubs.c"
+    },
+    "mangle_type": {
+      "logical": "_mangle_type@12",
+      "source": "src/mangling.c"
+    },
+    "mangle_type_qualifiers": {
+      "logical": "_mangle_type_qualifiers@12",
+      "source": "src/mangling.c"
+    },
+    "mangle_type_shape": {
+      "logical": "_mangle_type_shape@8",
+      "source": "src/mangling.c"
+    },
+    "mangle_vcall_model": {
+      "logical": "_mangle_vcall_model@8",
       "source": "src/stubs.c"
     },
     "mark_evaluation_boundary": {
@@ -4896,7 +5000,19 @@
     "finish_types",
     "finish_inline_functions",
     "finish_expression_output",
-    "write_function_directory"
+    "write_function_directory",
+    "mangle_symbol_identifier",
+    "mangle_symbol_scope",
+    "mangle_identifier",
+    "mangle_symbol_encoding",
+    "mangle_type_qualifiers",
+    "mangle_function_type",
+    "mangle_calling_convention",
+    "mangle_parameter_types",
+    "mangle_parameter_type",
+    "mangle_type_shape",
+    "mangle_function_terminator",
+    "mangle_type"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4990,7 +5106,7 @@
   "cases": {
     "cpp_basic": {
       "first": 0,
-      "last": 620,
+      "last": 632,
       "seen": [],
       "expected": [
         "main",
@@ -5530,12 +5646,24 @@
         "finish_inline_functions",
         "finish_expression_output",
         "write_function_directory",
-        "mangle_symbol_identifier"
+        "mangle_symbol_identifier",
+        "mangle_symbol_scope",
+        "mangle_identifier",
+        "mangle_symbol_encoding",
+        "mangle_type_qualifiers",
+        "mangle_function_type",
+        "mangle_calling_convention",
+        "mangle_parameter_types",
+        "mangle_parameter_type",
+        "mangle_type_shape",
+        "mangle_function_terminator",
+        "mangle_type",
+        "emit_function_symbols"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_mangle_symbol_identifier@12",
-        "native": "mangle_symbol_identifier",
+        "logical": "_emit_function_symbols@4",
+        "native": "emit_function_symbols",
         "signal": 5
       }
     }

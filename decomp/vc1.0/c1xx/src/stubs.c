@@ -626,10 +626,11 @@ void __stdcall prepare_symbol_debug_type(CppSymbol *symbol) { __asm { int 3 } }
 
 char *__stdcall format_qualified_tag_name(char *cursor, CppSymbol *tag) { __asm { int 3 } return 0; }
 
-char *__stdcall mangle_symbol_identifier(char *cursor, CppSymbol *symbol, unsigned encoding) { __asm { int 3 } return 0; }
-char *__stdcall mangle_symbol_scope(char *cursor, CppSymbol *symbol) { __asm { int 3 } return 0; }
-char *__stdcall mangle_symbol_encoding(char *cursor, CppSymbol *symbol, CppSymbol *context, unsigned encoding) { __asm { int 3 } return 0; }
-char *__stdcall mangle_identifier(char *cursor, char *name, int convert_leading_dot) { __asm { int 3 } return 0; }
+char *__stdcall mangle_number(char *cursor, unsigned value) { __asm { int 3 } return 0; }
+char *__stdcall mangle_based_symbol(char *cursor, unsigned short attributes, CppSymbol *symbol) { __asm { int 3 } return 0; }
+char *__stdcall mangle_pointer_base(char *cursor, CType *type) { __asm { int 3 } return 0; }
+char *__stdcall mangle_table_scope_path(char *cursor, CppSymbol *symbol) { __asm { int 3 } return 0; }
+char *__stdcall mangle_vcall_model(char *cursor, CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall cache_function_parameter_bytes(CppSymbol *function) { __asm { int 3 } }
 int format_integer(unsigned value, char *cursor, unsigned radix) { __asm { int 3 } return 0; }
 
@@ -671,3 +672,8 @@ IrToken *__stdcall resolve_qualified_assignment_operand(CType *type, QualifiedDe
 
 unsigned char __stdcall classify_long_integer(unsigned value) { __asm { int 3 } return 0; }
 unsigned char __stdcall classify_unsigned_integer(unsigned value) { __asm { int 3 } return 0; }
+
+char *__stdcall mangle_referenced_type(char *cursor, CType *type) { __asm { int 3 } return 0; }
+char *__stdcall mangle_pointer_target(char *cursor, CType *type) { __asm { int 3 } return 0; }
+char *__stdcall mangle_enum_representation(char *cursor, CType *unused_type) { __asm { int 3 } return 0; }
+char *__stdcall mangle_tag_name(char *cursor, CppSymbol *tag) { __asm { int 3 } return 0; }

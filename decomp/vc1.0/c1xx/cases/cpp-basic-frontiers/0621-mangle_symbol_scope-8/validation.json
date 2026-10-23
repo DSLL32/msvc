@@ -1,0 +1,21 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_mangle_symbol_scope@8",
+    "start": 275600,
+    "end": 275786
+  },
+  "distinct_direct_callees": [
+    "_mangle_identifier@12",
+    "_mangle_number@8",
+    "_mangle_symbol_name@12",
+    "_mangle_symbol_scope@8",
+    "_next_member_context@4"
+  ],
+  "next_frontier": "_mangle_identifier@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.22891152650117874,
+  "total_operation_seconds": 5.81852291058749,
+  "original_capture_seconds": 4.476910529658198
+}

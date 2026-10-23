@@ -1,0 +1,18 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655b79b in mangle_parameter_type (cursor=0x565dd670 <decorated_name_workspace+16> "", type=0x565e9f0c) at src/stubs.c:678
+678	char *__stdcall mangle_parameter_type(char *cursor, CType *type) { __asm { int 3 } return 0; }
+#0  0x5655b79b in mangle_parameter_type (cursor=0x565dd670 <decorated_name_workspace+16> "", type=0x565e9f0c) at src/stubs.c:678
+#1  0x5658a4fc in mangle_parameter_types (cursor=0x565dd670 <decorated_name_workspace+16> "", type=0x565ea1fc) at src/mangling.c:483
+#2  0x5658a25b in mangle_function_type (cursor=0x565dd670 <decorated_name_workspace+16> "", function=0x565ea170) at src/mangling.c:423
+#3  0x56589c87 in mangle_symbol_encoding (cursor=0x565dd66e <decorated_name_workspace+14> "E@", symbol=0x565ea170, context=0x0, encoding=12304) at src/mangling.c:358
+#4  0x56588f51 in mangle_symbol_name (cursor=0x565dd66c <decorated_name_workspace+12> "QAE@", symbol=0x565ea170, context=0x565ea170) at src/mangling.c:75
+#5  0x56588c92 in write_decorated_name (stream=0x565dfa68 <recon_iob+128>, symbol=0x565ea170, context=0x0, flags=0) at src/mangling.c:34
+#6  0x565739f5 in write_global_record (tag=14, symbol=0x565ea170) at src/global-ir.c:248
+#7  0x5658c042 in write_function_directory () at src/function-finalization.c:396
+#8  0x5658bb65 in finish_expression_output () at src/function-finalization.c:321
+#9  0x5655db1e in compile_translation_unit () at src/frontend.c:81
+#10 0x565587c6 in guarded_compile () at src/c1xx.c:28
+#11 0x56558794 in main (argc=1, argv=0xffffd8c4, environment=0xffffd8cc) at src/c1xx.c:20

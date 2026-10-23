@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 620,
-  "driver_functions": 537,
+  "accepted_frontiers": 632,
+  "driver_functions": 549,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 544,
-  "current_frontier": "_mangle_symbol_identifier@12",
-  "original_frontier_va": "0x433b0",
+  "reconstructed_source_functions": 556,
+  "current_frontier": "_emit_function_symbols@4",
+  "original_frontier_va": "0x54940",
   "all_accepted_frontiers_replayed": false,
   "replay_log_sha256": "ed129c6e3995b31daf7a7d12c8b55587e67ce1c3d9f38f4e5718f318c03988e5",
-  "call_graph_audit_functions": 544,
+  "call_graph_audit_functions": 556,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -77,7 +77,9 @@
     "initializer_data_symbol_default": 1,
     "decorated_workspace_bytes": 992,
     "mangler_state_objects": 4,
-    "initializer_state_defaults": 7
+    "initializer_state_defaults": 7,
+    "mangler_type_cache_bytes": 40,
+    "mangle_parameter_depth_bytes": 4
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -1136,8 +1138,8 @@
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_mangle_symbol_identifier@12",
-    "original_va": "0x433b0"
+    "current_frontier": "_emit_function_symbols@4",
+    "original_va": "0x54940"
   },
   "source_layout": {
     "source": "src",
@@ -1163,8 +1165,8 @@
     "fast_pair_seconds": 3.2309734635055065,
     "fresh_seconds": 133.84906735178083
   },
-  "current_native_application_entries": 538,
-  "latest_verification": "cases/cpp-basic-frontiers/0619-write_function_directory/validation.json",
+  "current_native_application_entries": 550,
+  "latest_verification": "cases/cpp-basic-frontiers/0631-mangle_type-12/validation.json",
   "historical_original_full_replay_frontiers": 534,
   "active_queue": [
     "finish cpp_basic",
@@ -1173,12 +1175,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 198134,
+    "accepted_code_bytes": 200712,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 41.58826912501207,
-    "accepted_frontiers": 620,
-    "source_functions": 544,
-    "accepted_source_text_and_switch_bytes": 187413,
+    "accepted_code_percent": 42.12939057718222,
+    "accepted_frontiers": 632,
+    "source_functions": 556,
+    "accepted_source_text_and_switch_bytes": 189991,
     "section_ranges": [
       [
         94208,
@@ -1187,12 +1189,12 @@
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 198134,
+    "accepted_code_bytes": 200712,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 41.58826912501207,
-    "accepted_frontiers": 620,
-    "source_functions": 544,
-    "accepted_source_text_and_switch_bytes": 187413,
+    "accepted_code_percent": 42.12939057718222,
+    "accepted_frontiers": 632,
+    "source_functions": 556,
+    "accepted_source_text_and_switch_bytes": 189991,
     "section_ranges": [
       [
         94208,
@@ -1201,5 +1203,6 @@
     ]
   },
   "static_checkpoint": "translation finalization and function directory:544 graph functions, data/defaults, both grammars, native entry/output and12boundary/evidence rejections pass",
-  "latest_checkpoint_checks": "evidence/translation-finalization-checkpoint.json"
+  "latest_checkpoint_checks": "evidence/translation-finalization-checkpoint.json",
+  "latest_checkpoint": "evidence/mangling-checkpoint.json"
 }

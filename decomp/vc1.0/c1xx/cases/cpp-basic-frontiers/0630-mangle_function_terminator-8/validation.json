@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_mangle_function_terminator@8",
+    "start": 279200,
+    "end": 279211
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_mangle_type@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2550578033551574,
+  "total_operation_seconds": 6.415266484953463,
+  "original_capture_seconds": 4.976557991467416
+}
