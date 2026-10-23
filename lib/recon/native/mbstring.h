@@ -17,6 +17,8 @@ unsigned char *_mbsinc(const unsigned char *);
 unsigned char *_mbsdec(const unsigned char *,const unsigned char *);
 void _mbccpy(unsigned char *,const unsigned char *);
 int _ismbcspace(unsigned int);
+size_t _mbclen(const unsigned char *);
+size_t _mbsspn(const unsigned char *,const unsigned char *);
 #ifdef __cplusplus
 }
 #endif

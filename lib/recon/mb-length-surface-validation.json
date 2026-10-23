@@ -1,0 +1,5 @@
+{
+  "scope": "SDK size_t _mbclen(const unsigned char*) and _mbsspn(const unsigned char*,const unsigned char*) declarations/remaps only. Both explicit fail125 pending actual caller/provider evidence.",
+  "original_headers": "toolchains/5.10/include/MBSTRING.H171,177",
+  "native_checks": "GCC/Clang compile/link complete SDK surface; both new calls denied125; existing11 implemented surfaces and6 other unsupported controls retain behavior."
+}

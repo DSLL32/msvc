@@ -1773,3 +1773,12 @@ WEAK WCHAR recon_towupper(WCHAR character)
         recon_unsupported("towupper outside default-C ASCII scope");
     return character>='a' && character<='z'?character-('a'-'A'):character;
 }
+
+WEAK size_t recon_mbclen(const unsigned char *text)
+{
+    (void)text;recon_unsupported("unreviewed _mbclen");return 0;
+}
+WEAK size_t recon_mbsspn(const unsigned char *text,const unsigned char *accept)
+{
+    (void)text;(void)accept;recon_unsupported("unreviewed _mbsspn");return 0;
+}

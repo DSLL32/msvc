@@ -211,6 +211,8 @@ unsigned char *recon_mbspbrk(const unsigned char *,const unsigned char *);
 unsigned char *recon_mbsrchr(const unsigned char *,unsigned int);
 unsigned char *recon_mbsupr(unsigned char *);
 unsigned char *recon_mbsstr(const unsigned char *,const unsigned char *);
+size_t recon_mbclen(const unsigned char *);
+size_t recon_mbsspn(const unsigned char *,const unsigned char *);
 unsigned char *recon_mbschr(const unsigned char *,unsigned int);
 int recon_mbsicmp(const unsigned char *,const unsigned char *);
 unsigned char *recon_mbsnbcpy(unsigned char *,const unsigned char *,size_t);
@@ -451,6 +453,8 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _mbsrchr recon_mbsrchr
 #define _mbsupr recon_mbsupr
 #define _mbsstr recon_mbsstr
+#define _mbclen recon_mbclen
+#define _mbsspn recon_mbsspn
 #define _mbschr recon_mbschr
 #define _mbsicmp recon_mbsicmp
 #define _mbsnbcpy recon_mbsnbcpy
