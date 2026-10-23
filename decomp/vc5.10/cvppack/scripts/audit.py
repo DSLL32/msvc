@@ -183,6 +183,12 @@ def run(config_path, candidates=(), output=None, reuse_original=None, reuse_nati
         imports=[s['name'] for s in obj.symbols.values() if s['name'].startswith('__imp_')]
         assert imports==['__imp_'+name],'factory target import symbol differs'
         factory_import=dict(provider_sha256=sha(provider),export=exports[0],definition_sha256=sha(definition),object_sha256=sha(BINARY/'build/widen.obj'),target_functions=bodies)
+    free_lifetimes=None
+    if config.get('observe_main_frees'):
+        import importlib.util
+        spec=importlib.util.spec_from_file_location('main_free_evidence',BINARY/'scripts/main-free-evidence.py')
+        free_evidence=importlib.util.module_from_spec(spec);spec.loader.exec_module(free_evidence)
+        free_lifetimes=free_evidence.prove(config)
     rebuilt=PE(BINARY/'build/CVPACK.EXE')
     publics={}
     for line in (BINARY/'build/cvpack.map').read_text().splitlines():
@@ -254,7 +260,7 @@ def run(config_path, candidates=(), output=None, reuse_original=None, reuse_nati
         switch_data_validator_sha256=sha(BINARY/'scripts/switch-data.py'), data_sha256=sha(BINARY/'data.json'),
         runtime_sha256=sha(BINARY/'runtime.json'), graph_runtime_sha256=sha(empty),
         audit_wrapper_sha256=sha(BINARY/'scripts/audit.py'),
-        cached_import_sites=import_sites, factory_import=factory_import, function_tables=function_tables, data_aliases=data_aliases, discard_flag_references=discard_flag_references,type_flag_references=type_flag_references, data_objects_checked=len(data), resource_strings_checked=len(actual), historical_reconstructed_bodies=historical_bodies,
+        main_free_lifetimes=free_lifetimes, cached_import_sites=import_sites, factory_import=factory_import, function_tables=function_tables, data_aliases=data_aliases, discard_flag_references=discard_flag_references,type_flag_references=type_flag_references, data_objects_checked=len(data), resource_strings_checked=len(actual), historical_reconstructed_bodies=historical_bodies,
         resource_evidence_sha256=sha(BINARY/'cases/help/resources.json'),
         candidates=list(candidates), checked_functions=[r['name'] for r in checked],
         owned_ranges=len(intervals), graph_command=command, graph=graph, external_release_tail=release_tail,

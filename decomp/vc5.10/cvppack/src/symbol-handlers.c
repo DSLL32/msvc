@@ -53,6 +53,16 @@ void rewrite_bp_relative_symbol(void)
         *(unsigned *)(symbol_input + 8) = map_type_index(*(unsigned *)(symbol_input + 8));
 }
 
+/* Open a nested block, preserving an enclosing discard [0040ab90,0040abbb). */
+void enter_symbol_scope(void)
+{
+    ++public_scope_depth;
+    if (discard_symbol_depth) {
+        *(unsigned short *)(symbol_input + 2) = 8;
+        ++discard_symbol_depth;
+    }
+}
+
 /* Close one symbol scope [0040abc0,0040abeb). */
 void leave_symbol_scope(void)
 {

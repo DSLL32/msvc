@@ -101,7 +101,8 @@
     "create_widen",
     "query_widen",
     "emit_widen",
-    "release_widen"
+    "release_widen",
+    "enter_symbol_scope"
   ],
   "functions": [
     {
@@ -344,7 +345,8 @@
       "original": 4215344,
       "status": "stub",
       "extent": null,
-      "ret": 0
+      "ret": 0,
+      "parameters": []
     },
     {
       "name": "free_type_tables",
@@ -2613,10 +2615,14 @@
       "symbol": "_enter_symbol_scope",
       "native_symbol": "enter_symbol_scope",
       "original": 4238224,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4238224,
+        4238267
+      ],
       "ret": 0,
-      "parameters": []
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0096-enter-symbol-scope-lifetimes/promotion.json"
     },
     {
       "name": "leave_symbol_scope",
@@ -3720,5 +3726,10 @@
   },
   "observe_widen_query": true,
   "observe_widen_emit": true,
-  "observe_widen_release": true
+  "observe_widen_release": true,
+  "observe_main_frees": true,
+  "main_free_policy": {
+    "path": "cases/hello-debug-dll/main-free-lifetimes.json",
+    "sha256": "08aa581b9e15724dbf99264fb92825ad6a8e792789ef74d97cd6c96b56dda57f"
+  }
 }

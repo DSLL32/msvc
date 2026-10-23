@@ -28,7 +28,6 @@ void prepare_precompiled_types(ModuleInfo *info) { __asm { int 3 } }
 void decode_legacy_lines(void *lines, unsigned size) { __asm { int 3 } }
 void rewrite_legacy_lines(void *lines, CodeViewDirectoryEntry *entry, void *module_buffer, ModuleInfo *info) { __asm { int 3 } }
 void read_type_database(const char *path) { __asm { int 3 } }
-void enter_symbol_scope(void) { __asm { int 3 } }
 void rewrite_symbol_type4(void) { __asm { int 3 } }
 void rewrite_global_data_symbol(void) { __asm { int 3 } }
 void rewrite_register16_symbol(void) { __asm { int 3 } }

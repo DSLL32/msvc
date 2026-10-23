@@ -78,17 +78,33 @@ def decode(events):
             all_strings[int(location,16)]=raw
     for call in file_calls:call['pathname']=all_strings[call.pop('pointer')]
 
-    widen_factory_calls=[];widen_query_calls=[];widen_emit_calls=[];widen_release_calls=[];widen_sequence=[];widen_read_count=0;module_bases={};error=None;probe_regs=None;probe_stack=None
+    widen_factory_calls=[];widen_query_calls=[];widen_emit_calls=[];widen_release_calls=[];widen_sequence=[];main_free_calls=[];probe_observed={};widen_read_count=0;module_bases={};error=None;probe_regs=None;probe_stack=None
     for ordinal,line in enumerate(lines):
         if line.startswith('file-read-call '):widen_read_count+=1
         if line.startswith('module '):
             parts=line.split()
             if len(parts)==3:module_bases[parts[2].lower()]=int(parts[1],16)
         elif line.startswith('last-error '):error=int(line.split()[1])
-        elif line.startswith('registers '):probe_regs=[int(value,16) for value in line.split()[1:]];probe_stack=None
+        elif line.startswith('registers '):probe_regs=[int(value,16) for value in line.split()[1:]];probe_stack=None;probe_observed={}
         elif line.startswith('memory ') and probe_regs:
             _,probe_address,contents=line.split()
+            probe_observed[int(probe_address,16)]=bytes.fromhex(contents)
             if int(probe_address,16)==probe_regs[-1]:probe_stack=bytes.fromhex(contents)
+        elif re.fullmatch(r'main-free-call [0-9a-f]{8} [0-9a-f]{8} [0-9]+ [0-9a-f]{8}',line):
+            _,site,location,size,provider=line.split();location=int(location,16);size=int(size)
+            assert probe_stack is not None,'main free actual stack missing'
+            before=b''
+            if location:
+                following=lines[ordinal+1].split()
+                assert following[:2]==['memory','%08x'%location],'main free pre-free snapshot missing'
+                before=bytes.fromhex(following[2])
+            main_free_calls.append(dict(site=int(site,16),address=location,size=size,provider=int(provider,16),before=before,
+                entry_esp=probe_regs[-1],stack_argument=struct.unpack('<I',probe_stack[:4])[0],globals=dict(probe_observed),entry_last_error=error))
+        elif re.fullmatch(r'main-free-return [0-9a-f]{8} [0-9a-f]{8}',line):
+            _,site,location=line.split()
+            assert main_free_calls and main_free_calls[-1]['site']==int(site,16) and main_free_calls[-1]['address']==int(location,16),'main free return sequence differs'
+            main_free_calls[-1].update(exit_esp=probe_regs[-1],exit_last_error=error)
+        elif line.startswith(('main-free-observation-failed','released-memory-range-failed')):raise AssertionError('incomplete main free lifetime observation')
         elif line.startswith('widen create-call '):
             _,_,output,capacity,flags=line.split()
             widen_sequence.append('factory-call')
@@ -196,7 +212,7 @@ def decode(events):
     assert registers and len(registers) == 8
     stack = memory[registers[-1]]
     assert len(stack) == 128
-    return dict(address=address,memory=memory,strings=strings,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,widen_release_calls=widen_release_calls,widen_sequence=widen_sequence,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
+    return dict(address=address,memory=memory,strings=strings,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,widen_release_calls=widen_release_calls,widen_sequence=widen_sequence,main_free_calls=main_free_calls,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
                 registers=dict(zip(('eax','ebx','ecx','edx','esi','edi','ebp','esp'),registers)),esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations,cleared_allocations=cleared_allocations)
 
 
@@ -620,6 +636,21 @@ def compare(config,data,events,native,artifacts=None,views=None):
         assert left['size']==right['size'] and left['address'] and right['address'], 'cleared allocation request/result differs'
         assert left['address'] not in image_aliases and right['address'] not in image_aliases.values(), 'live cleared allocation identity reused'
         image_aliases[left['address']]=right['address'];image_sizes[left['address']]=left['size']
+    retired={};free_lifetimes=dict(calls=0,retired_allocations=0)
+    if config.get('observe_main_frees'):
+        import importlib.util
+        from pathlib import Path
+        spec=importlib.util.spec_from_file_location('main_free_state',Path(__file__).with_name('main-free-state.py'))
+        free_state=importlib.util.module_from_spec(spec);spec.loader.exec_module(free_state)
+        retired,free_lifetimes=free_state.validate(config,data,original,native,image_aliases,image_sizes,reads)
+    def historical_segment(base):
+        # Only former-input initialization/extent proof uses the saved PRE-free
+        # observation. It is not current payload state and is never reinstalled
+        # into either raw memory namespace.
+        if base in retired:
+            assert retired[base]['name']=='line_data','unknown historical segment lifetime role'
+            return retired[base]['before']
+        return original['memory'][base]
     used_uninitialized=set()
     aliases,reverse={},{}
     handle_aliases,handle_reverse={},{}
@@ -765,7 +796,8 @@ def compare(config,data,events,native,artifacts=None,views=None):
                     assert len(original['memory'][lines])==len(bytes.fromhex(native['memory'][str(actual_lines)]))==size,'module source lines allocation extent differs'
                     assert original['memory'][lines]==bytes.fromhex(native['memory'][str(actual_lines)]),'module source lines initialized bytes differ'
                     source=global_integer('module_data')
-                    assert original['memory'][lines]==original['memory'][source][:size],'module source lines copied input differs'
+                    historical=retired[source]['before'] if source in retired else original['memory'][source]
+                    assert original['memory'][lines]==historical[:size],'module source lines copied input differs'
                     pair(lines,actual_lines)
             assert all(a==b for i,(a,b) in enumerate(zip(left,right)) if i not in excluded),'target object bytes differ'
             address=int.from_bytes(left[offset:offset+4],'little')
@@ -957,7 +989,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
                             if payload:
                                 if item['type_name_cache']=='global':arena_payload(payload,actual_payload)
                                 else:
-                                    displacement=payload-base;segment=original['memory'][base]
+                                    displacement=payload-base;segment=historical_segment(base)
                                     assert 0<=displacement<=len(segment)-4,'type-name record has no observed segment owner'
                                     length=int.from_bytes(segment[displacement:displacement+2],'little')+2
                                     assert length>=4 and any(row.get('segment_index')==0 and row['segment_offset']<=displacement and displacement+length<=row['segment_offset']+row['size'] for row in reads),'type-name record exceeds initialized segment'
@@ -974,7 +1006,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
                     left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
                     assert len(left)==len(right)==capacity*32, 'incomplete initialized type record table'
                     table=global_integer('type_segments');base=int.from_bytes(original['memory'][table][:4],'little')
-                    segment=original['memory'][base];destination=image_aliases[base]
+                    segment=historical_segment(base);destination=image_aliases[base]
                     initialized=[(row['segment_offset'],row['segment_offset']+row['size']) for row in reads if row.get('segment_index')==0]
                     for index in range(capacity):
                         a=left[index*32:index*32+32];b=right[index*32:index*32+32]
@@ -1015,6 +1047,8 @@ def compare(config,data,events,native,artifacts=None,views=None):
                     row=next(row for row in data if row['name']=='type_segments');table=int.from_bytes(original['memory'][row['original']],'little')
                     base=int.from_bytes(original['memory'][table][:4],'little')
                     assert address==base and image_aliases[base]==other,'type segment buffer/allocator alias differs'
+                    if address in retired:
+                        pair(address,other);globals_checked.append(item['name']);continue
                     left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
                     if item.get('segment_contents'):
                         capacity=min(global_integer('type_segment_bytes'),0xffe8)
@@ -1073,9 +1107,10 @@ def compare(config,data,events,native,artifacts=None,views=None):
                             assert int.from_bytes(a[4:8],'little')%4096==offset//4,'symbol node hash/bucket differs'
                             source=int.from_bytes(a[:4],'little');destination=int.from_bytes(b[:4],'little')
             elif item.get('written_allocation'):
-                spec=item['written_allocation'];owned=[row for row in original['image_allocations'] if row['site']==spec['site'] and rewrite_owners[row['address']]['info']==global_integer('current_module_info')]
+                spec=item['written_allocation'];address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
+                owned=[row for row in original['image_allocations'] if row['site']==spec['site'] and row['address']<=address<=row['address']+row['size']]
                 assert len(owned)==1,'symbol output allocation lifetime differs'
-                owner=owned[0];address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
+                owner=owned[0]
                 offset=address-owner['address'];capacity=owner['size'];destination=image_aliases[owner['address']]
                 assert 0<=offset<=capacity and other==destination+offset,'symbol output cursor allocation/offset differs'
                 left=original['memory'][owner['address']];right=bytes.fromhex(native['memory'][str(destination)])
@@ -1108,7 +1143,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
             elif 'allocation' in item:
                 address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
                 allocation(address,other,item['allocation'])
-                if address and item.get('read_contents'):
+                if address and item.get('read_contents') and address not in retired:
                     left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
                     assert len(left)==len(right)==image_sizes[address], 'incomplete read-buffer capacity observation'
                     for read in original['file_reads']:
@@ -1258,4 +1293,4 @@ def compare(config,data,events,native,artifacts=None,views=None):
                 offset=result-root
                 assert 0<=offset<count*32 and offset%32==0 and actual_result==other+offset,'global-type lookup returned record identity differs'
             lookup_calls_checked+=1
-    return dict(parameters=parameters,caller_state=caller_state,globals=globals_checked,lookup_type_calls_checked=lookup_calls_checked,type_compare_calls_checked=type_compare_calls_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,reference_symbol_nodes_checked=reference_symbol_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)
+    return dict(parameters=parameters,caller_state=caller_state,main_free_lifetimes=free_lifetimes,globals=globals_checked,lookup_type_calls_checked=lookup_calls_checked,type_compare_calls_checked=type_compare_calls_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,reference_symbol_nodes_checked=reference_symbol_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)

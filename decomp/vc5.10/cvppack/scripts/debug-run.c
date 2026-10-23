@@ -38,6 +38,8 @@ static DWORD widen_release_object;
 static DWORD symbol_output_base, symbol_output_capacity;
 static DWORD symbol_output_addresses[128], symbol_output_sizes[128], symbol_output_count;
 static DWORD lookup_frames[64][3], lookup_depth;
+static DWORD main_free_addresses[5], main_free_sizes[5], main_free_count;
+static DWORD pending_main_free, pending_main_size, pending_main_site;
 static int read_bytes(HANDLE process, DWORD address, void *data, DWORD size);
 
 static void configure(void)
@@ -117,6 +119,13 @@ static void memory(FILE *log, HANDLE process, DWORD address, DWORD size)
 {
     unsigned char *bytes;
     DWORD i;
+    for (i = 0; i < main_free_count; ++i) if (main_free_addresses[i] &&
+        address >= main_free_addresses[i] && address - main_free_addresses[i] < main_free_sizes[i]) {
+        if (size > main_free_sizes[i] - (address - main_free_addresses[i]))
+            fprintf(log, "released-memory-range-failed %08lx %lu\n", address, size);
+        else fprintf(log, "released-memory-omitted %08lx %lu\n", address, size);
+        return;
+    }
     if (size > 1048576) {
         fprintf(log, "memory-failed %08lx %lu\n", address, size); return;
     }
@@ -616,6 +625,26 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
             fputc('\n', log);
         }
     } else if (entry == 0x40874e) fprintf(log, "type-compare-return %lu\n", context->Eax != 0);
+    if (entry == 0x404726 || entry == 0x404731 || entry == 0x40473d || entry == 0x404749 || entry == 0x404754) {
+        DWORD capacities[5] = { 0x415638, 0x415680, 0x415644, 0x415650, 0x415668 };
+        if (main_free_count >= 5 || !read_bytes(process, context->Esp, &pending_main_free, 4) ||
+            !read_bytes(process, capacities[main_free_count], &pending_main_size, 4)) {
+            fprintf(log, "main-free-observation-failed\n"); return;
+        }
+        if (!pending_main_free) pending_main_size = 0;
+        if (main_free_count == 1 && pending_main_size > 0xffe8) pending_main_size = 0xffe8;
+        pending_main_site = entry;
+        fprintf(log, "main-free-call %08lx %08lx %lu %08lx\n", entry, pending_main_free, pending_main_size, context->Esi);
+        if (pending_main_free) memory(log, process, pending_main_free, pending_main_size);
+    } else if (entry == 0x404728 || entry == 0x404733 || entry == 0x40473f || entry == 0x40474b || entry == 0x404756) {
+        if (main_free_count >= 5 || pending_main_site + 2 != entry) {
+            fprintf(log, "main-free-observation-failed\n"); return;
+        }
+        fprintf(log, "main-free-return %08lx %08lx\n", pending_main_site, pending_main_free);
+        main_free_addresses[main_free_count] = pending_main_free;
+        main_free_sizes[main_free_count++] = pending_main_size;
+        pending_main_site = 0;
+    }
     widen_state(log, process, context, entry);
 }
 

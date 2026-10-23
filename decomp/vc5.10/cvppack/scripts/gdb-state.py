@@ -21,6 +21,7 @@ widen_query_calls=[]
 widen_emit_calls=[]
 widen_release_calls=[]
 widen_sequence=[]
+main_free_calls=[]
 lookup_calls=[]
 lookup_stack=[]
 type_compare_calls=[]
@@ -176,6 +177,39 @@ def install(configuration):
                 record=dict(size=size,entry_index=(entry-root)//12);(module_allocations if owner.name()=='initialize_single_module' else subsection_allocations).append(record)
             AllocationReturned(record);return False
     AllocationEntered()
+
+    if config.get('observe_main_frees'):
+        class MainFreeReturned(gdb.FinishBreakpoint):
+            def __init__(self,call):
+                self.call=call
+                super().__init__(gdb.newest_frame(),internal=True)
+            def stop(self):
+                self.call.update(returned=True,exit_esp=int(gdb.parse_and_eval('$esp')),
+                    exit_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")))
+                return False
+        class MainFreeEntered(gdb.Breakpoint):
+            def __init__(self):super().__init__('recon_free',internal=True)
+            def stop(self):
+                frame=gdb.newest_frame();owner=frame.older()
+                if owner is None or owner.name()!='cvpack_main':return False
+                names=['debug_directory','line_data','symbol_data','type_data','module_data']
+                capacities=['module_capacity','type_segment_bytes','symbol_capacity','line_capacity','type_capacity']
+                index=len(main_free_calls);assert index<5,'unexpected additional main free'
+                name=names[index];address=int(frame.read_var('pointer'))
+                assert address==int(gdb.parse_and_eval(name)),'main free argument is not its actual source global'
+                size=int(gdb.parse_and_eval(capacities[index])) if address else 0
+                if index==1:size=min(size,0xffe8)
+                assert 0<=size<=65536,'main free exceeds observed allocation bound'
+                inferior=gdb.selected_inferior();call=dict(name=name,index=index,address=address,size=size,
+                    before=bytes(inferior.read_memory(address,size)).hex() if address else '',
+                    entry_esp=int(gdb.parse_and_eval('$ebp'))+4,
+                    global_roots={key:int(gdb.parse_and_eval(key)) for key in names},
+                    segment0=int(gdb.parse_and_eval('type_segments[0]')),
+                    symbol_cursor=int(gdb.parse_and_eval('symbol_input')),
+                    module_symbol_records=int(gdb.parse_and_eval('module_symbol_records')),
+                    owner='cvpack_main',entry_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")))
+                main_free_calls.append(call);MainFreeReturned(call);return False
+        MainFreeEntered()
 
     if config.get('observe_widen_factory'):
         class WidenFactoryReturned(gdb.FinishBreakpoint):
@@ -366,8 +400,17 @@ def install(configuration):
 
 def capture(configuration,data_file,output):
     config=json.loads(open(configuration).read());data=json.loads(open(data_file).read())
-    frame=gdb.newest_frame();inferior=gdb.selected_inferior()
+    frame=gdb.newest_frame();actual_inferior=gdb.selected_inferior()
+    def released(address):
+        return any(row.get('returned') and row['address'] and row['address']<=address<row['address']+row['size'] for row in main_free_calls)
+    class CurrentMemory:
+        pid=actual_inferior.pid
+        def read_memory(self,address,size):
+            assert not any(row.get('returned') and row['address'] and max(int(address),row['address'])<min(int(address)+int(size),row['address']+row['size']) for row in main_free_calls), 'current-state observer tried to dereference released payload'
+            return actual_inferior.read_memory(address,size)
+    inferior=CurrentMemory()
     state=dict(function=frame.name(),pc=int(gdb.parse_and_eval('$pc')),signal=gdb.execute('info program',to_string=True))
+    state['frontier_caller']=frame.older().name() if frame.older() is not None else None
     state['global_addresses']={item['name']:int(gdb.parse_and_eval('&('+item.get('native_expression',item['name'])+')')) for item in data}
     record=next((row for row in config['functions'] if row['native_symbol']==frame.name()),None)
     parameters={}
@@ -577,6 +620,7 @@ def capture(configuration,data_file,output):
     state['mapping_calls']=mapping_calls
     state['file_reads']=file_reads
     state['directory_allocation']=directory_allocation
+    state['main_free_calls']=main_free_calls
     state['widen_sequence']=widen_sequence
     state['widen_release_calls']=widen_release_calls
     state['widen_emit_calls']=widen_emit_calls
@@ -692,7 +736,7 @@ def capture(configuration,data_file,output):
     for item in data:
         if 'blob' not in item:continue
         head=int.from_bytes(bytes.fromhex(state['globals'][item['name']]),'little')
-        if not head:continue
+        if not head or released(head):continue
         spec=item['blob'];size=spec.get('size')
         if size is None:size=int(gdb.parse_and_eval(spec['count']))*spec['element_size']
         assert 0<=size<=65536
@@ -791,7 +835,7 @@ def capture(configuration,data_file,output):
                         memory[str(child)]=bytes(inferior.read_memory(child,owned[-1]['size'])).hex()
         if item.get('segment_contents'):
             address=int.from_bytes(bytes.fromhex(state['globals'][item['name']]),'little')
-            if address:
+            if address and not released(address):
                 size=min(int(gdb.parse_and_eval('type_segment_bytes')),0xffe8)
                 memory[str(address)]=bytes(inferior.read_memory(address,size)).hex()
     state['memory']=memory

@@ -29,6 +29,7 @@ def main():
         elapsed[name]=time.perf_counter()-begin
         output.mkdir(parents=True,exist_ok=True)
         (output/(name+'.log')).write_bytes(result.stdout)
+        (output/'timings.json').write_text(json.dumps(elapsed,indent=2)+'\n')
         assert result.returncode==0,(name,result.stdout.decode('latin1'))
     run('original_build',['make','-j4','all','build/debug-run.exe'])
     run('native_build',['make','-j4','native'])

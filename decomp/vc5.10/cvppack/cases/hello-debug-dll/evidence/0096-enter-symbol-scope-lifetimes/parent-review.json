@@ -1,0 +1,33 @@
+{
+  "status": "approved ordinary96 promotion",
+  "review_v2_sha256": "a442302573ca98551b0dac6755446f723c625550f6d8f4a1aaf6a87bf29044f2",
+  "source_hashes": {
+    "src/symbol-handlers.c": "b43361af2b42754a9947896ba0c3e5e6c4a3bac50dfb5272fd9ef77860e635fe",
+    "scripts/debug-run.c": "0a1d253c55b6a0faf9fc8d665422ee2802c0d963da5bb400a71a4c6db858a254",
+    "scripts/gdb-state.py": "bcb0471628a48af7bb57d6459a7de1a99ebdbfafa0fc2dc71193e8fccd63d3be",
+    "scripts/raw-state.py": "eed85cd760feddb27fb2702b2d3b3755b20767ce5a56f286ff044479874de204",
+    "scripts/main-free-state.py": "9a841c0184da4f9629b208a890d09facbfa8182ab129b4a13047d09e518b5149",
+    "scripts/main-free-evidence.py": "6e50e1c0a1f07fe2635537f674aa759d44bbd7f24eadf109f47830725f561393",
+    "scripts/check-main-free-state.py": "76bc052e47fd863f73de9833c7e59314d04fe67fa2830dfe3731b8b5f06c3125"
+  },
+  "independent_crossing_controls": [
+    {
+      "kind": "memory",
+      "diagnostic": "released payload was captured as current state"
+    },
+    {
+      "kind": "strings",
+      "diagnostic": "released payload was captured as current string state"
+    }
+  ],
+  "checks": [
+    "check-only actual freshpair independentlypasses after full96graph/95strictRET",
+    "complete43B readable scopefunction independentlycompared with original and two actualcompiled auxiliary branches reviewed",
+    "fivepublicCRTfree calls/null+fourownedallocations, actualprovider/stackreturns/pre-free initialized21799bytes match",
+    "69B postfree main interval independentlydisassembled; no payload dereference/unknownescape before namedstub",
+    "sixretiredglobalaliases plus live segmenttable/38records/47caches retain pointeridentities only; historicalprefree segment solely extent/initialization provenance",
+    "currentmemory/string ranges absent with full interval-overlap on both sides; CurrentMemory rejects retiredreads",
+    "20focused negatives/twoscopeunit branches reviewed; old16control/rawfailures preserved"
+  ],
+  "scope": "Finite currentcaller/frontier contract only; unknownfutureconsumers hold until modeled. No allocator-byte normalization, sourcepointer clearing, CRT body credit or raw execution recapture for validator hardening."
+}
