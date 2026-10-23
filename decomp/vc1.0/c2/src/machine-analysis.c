@@ -3,6 +3,9 @@
 #include "backend-passes.h"
 #include "instruction-selection.h"
 #include "machine-layout.h"
+#include "instruction-rewrite.h"
+#include "register-use.h"
+#include "bitsets.h"
 #include <recon.h>
 MachineFlowRegion *active_machine_region; /* 000830c8 */
 MachineFlowRegion *machine_region_root; /* 000830c4 */
@@ -109,12 +112,12 @@ void __fastcall build_machine_regions(MachineInstruction *instructions)
 MachineFlowRegion *__fastcall new_machine_region(MachineFlowRegion *parent, MachineInstruction *boundary, MachineInstruction *label)
 {
     MachineFlowRegion *region = arena_alloc(2, sizeof(MachineFlowRegion));
+    unsigned i;
     region->parent = parent;
     region->next = region->children = 0;
     region->first = region->last = region->label = region->exit_label = 0;
     region->references[0] = region->references[1] = region->references[2] = 0;
-    region->field28 = region->field2c = region->field30 = 0;
-    region->field34 = region->field38 = region->field3c = region->field40 = region->field44 = 0;
+    for (i = 0; i < 8; ++i) region->registers[i] = 0;
     region->first_block = region->last_block = 0;
     region->pending_references = region->initial_references = 0;
     region->field58 = region->flags = 0;
@@ -331,4 +334,163 @@ MachineInstruction *__fastcall next_machine_region_record(unsigned kind, Machine
             return instruction;
         instruction = instruction->next;
     }
+}
+
+/* Original [00048070,000480d3). Process child regions inside out; optional
+   transformations require an unrestricted region, while local simplification
+   always runs after the child graph is ready. */
+void __fastcall analyze_machine_regions(MachineFlowRegion *region, unsigned flags)
+{
+    MachineFlowRegion *child;
+    for (child = region->children; child; child = child->next) {
+        if (child->children) analyze_machine_regions(child, flags);
+        if (((LabelSymbol *)child->label->record.symbol)->references != child->initial_references &&
+            flags && !(child->flags & 1)) prepare_machine_region_transform(child);
+        simplify_machine_region_operations(child);
+        if (flags && !(child->flags & 1)) transform_machine_region_blocks(child);
+    }
+}
+
+/* Original [00048ba0,00048e17). Summarize local register reads/writes,
+   combine nested-region invariance/liveness, and recognize a single constant
+   ADD/SUB update whose register is live at region entry. */
+void __fastcall simplify_machine_region_operations(MachineFlowRegion *region)
+{
+    MachineFlowRegion *children = region->children;
+    MachineInstruction *instruction, *definition;
+    MachineOperand *left, *right;
+    MachineRegionRegister *record;
+    unsigned opcode, kind, flags, i;
+    int count;
+    instruction = next_machine_region_record(0, region, region->first, &children);
+    while (instruction != region->last) {
+        opcode = (unsigned char)(instruction->opcode >> 8);
+        count = machine_operand_counts[opcode];
+        left = count ? &instruction->operands[0] : 0;
+        right = count == 2 ? &instruction->operands[1] : 0;
+        if (right) {
+            kind = right->flags & 15;
+            switch (kind) {
+            case OPERAND_REGISTER:
+                if (!overwrites_second_register(instruction, 0)) {
+                    record = find_machine_region_register(region, right->value.reg.words.number, 1);
+                    ++record->uses;
+                }
+                break;
+            case OPERAND_INDEXED:
+                record = find_machine_region_register(region, right->value.address->index.words.number, 1);
+                ++record->uses;
+                /* Fall through: indexed addresses also use their base. */
+            case OPERAND_BASED:
+                record = find_machine_region_register(region, right->value.address->base.words.number, 1);
+                ++record->uses;
+                break;
+            }
+        }
+        if (left) {
+            kind = left->flags & 15;
+            switch (kind) {
+            case OPERAND_REGISTER:
+                record = find_machine_region_register(region, left->value.reg.words.number, 1);
+                if (writes_first_operand(instruction)) {
+                    ++record->definitions;
+                    if (record->definitions == 1) record->definition = instruction;
+                }
+                if (!overwrites_first_register(instruction, 0)) ++record->uses;
+                break;
+            case OPERAND_INDEXED:
+                record = find_machine_region_register(region, left->value.address->index.words.number, 1);
+                ++record->uses;
+                /* Fall through: indexed addresses also use their base. */
+            case OPERAND_BASED:
+                record = find_machine_region_register(region, left->value.address->base.words.number, 1);
+                ++record->uses;
+                break;
+            }
+        }
+        instruction = next_machine_region_record(0, region, instruction, &children);
+    }
+    for (i = 0; i < 8; ++i) {
+        for (record = region->registers[i]; record; record = record->next) {
+            flags = record->flags;
+            record->flags = (flags & ~2U) |
+                ((register_is_invariant_in_regions(record->number, region->children) * 2U) & 2);
+            if (region->flags & 1) record->flags &= ~8U;
+            else {
+                flags = record->flags;
+                record->flags = (flags & ~8U) |
+                    ((register_dead_after_region(record->number, region, 1) * 8U) & 8);
+            }
+            if (!record->definitions && (record->flags & 2)) record->flags |= 1;
+            else if (record->definitions == 1 && (record->flags & 2)) {
+                definition = record->definition;
+                opcode = (unsigned char)(definition->opcode >> 8);
+                if ((opcode == MC_ADD || opcode == MC_SUB) &&
+                    (definition->operands[1].flags & 15) == OPERAND_IMMEDIATE &&
+                    !(region->flags & 1) && instruction_precedes_region_entry(definition) &&
+                    bitset_contains(((MachineBlockHeader *)region->first)->uses, record->number & 0x3fff)) {
+                    record->flags |= 4;
+                    record->increment = definition->operands[1].value.constant;
+                    if (opcode != MC_ADD) record->increment = 0U - record->increment;
+                }
+            }
+        }
+    }
+}
+
+/* Original [00049150,000491cc). Intern a region's full16-bit register
+   identity in eight buckets; lookup-only calls never allocate a record. */
+MachineRegionRegister *__fastcall find_machine_region_register(MachineFlowRegion *region,
+    unsigned short number, int create)
+{
+    MachineRegionRegister **bucket = &region->registers[number & 7], *record;
+    for (record = *bucket; record; record = record->next)
+        if (record->number == number) return record;
+    if (!create) return 0;
+    record = arena_alloc(2, sizeof(MachineRegionRegister));
+    record->number = number;
+    record->next = *bucket;
+    *bucket = record;
+    record->uses = 0;
+    record->definitions = 0;
+    record->definition = 0;
+    record->flags &= ~0x17U;
+    return record;
+}
+
+/* Original [000490e0,0004914e). A region's own register summary supersedes
+   its children; otherwise every nested child and later sibling must agree. */
+int __fastcall register_is_invariant_in_regions(unsigned short number, MachineFlowRegion *regions)
+{
+    MachineRegionRegister *record;
+    if (!regions) return 1;
+    record = find_machine_region_register(regions, number, 0);
+    if (record)
+        return (record->flags & 1) && register_is_invariant_in_regions(number, regions->next);
+    return register_is_invariant_in_regions(number, regions->children) &&
+           register_is_invariant_in_regions(number, regions->next);
+}
+
+/* Original [00048ff0,000490d4). Flagged virtual values must be absent
+   from the entry and all visible exits before the region can discard them.
+   Physical registers and the excluded virtual class are immediate successes. */
+int __fastcall register_dead_after_region(unsigned short number, MachineFlowRegion *region, int check_entry)
+{
+    MachineInstruction *instruction;
+    unsigned identifier = number & 0x3fff;
+    if ((number & 0x8000) || !(number & 0xc000)) return 1;
+    if (check_entry && bitset_contains(((MachineBlockHeader *)region->first)->uses, identifier))
+        return 0;
+    if (region->flags & 0x10) {
+        instruction = region->exit_label;
+        if (!instruction) return 0;
+        while ((instruction->opcode & 15) != 7) instruction = instruction->previous;
+        if (bitset_contains(((MachineBlockHeader *)instruction)->uses, identifier)) return 0;
+    }
+    if ((unsigned char)(region->last->opcode >> 8) != MC_JMP) {
+        instruction = region->last->next;
+        while ((instruction->opcode & 15) != 7) instruction = instruction->next;
+        if (bitset_contains(((MachineBlockHeader *)instruction)->uses, identifier)) return 0;
+    }
+    return 1;
 }

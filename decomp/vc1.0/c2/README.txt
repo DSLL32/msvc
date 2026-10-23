@@ -2072,3 +2072,14 @@ and label attachments are shared. Native/original agree at
 analyze_machine_regions48070;744 graph/extent checks, canonical/W3 and native
 fixtures pass. Nested/multiple-target alternatives are not claimed all exercised.
 Full hello object remains incomplete; see cases/hello-machine-regions.json.
+
+Region registers: checkpoint827
+--------------------------------
+The inside-out region orchestrator and whole register-summary scan are recovered.
+Eight previously unnamed region words are typed register buckets;32-byte records
+retain full16-bit register identity, use/definition counts and constant increments.
+Separate recursive-invariance and exit-liveness routines preserve original guards.
+Native/original now agree at equivalent_stack_copy_operands2f110 in post-allocation
+finishing.749 graph/extent checks, canonical/W3 and native fixtures pass. Nested
+invariance, increment recognition and all virtual exit branches are not claimed
+covered. Full hello object incomplete; see cases/hello-region-register-analysis.json.

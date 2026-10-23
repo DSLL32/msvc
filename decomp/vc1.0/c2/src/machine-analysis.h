@@ -10,12 +10,19 @@ typedef char MachineRegionEdgeSizeCheck[sizeof(MachineRegionEdge) == 8 ? 1 : -1]
 /* Constructor483a0 allocates96 bytes. The label attachment encountered by
    scanning is this region, whose entry-label back-pointer is at0x14. Fields
    awaiting their consumers retain offset names instead of inferred meaning. */
+typedef struct MachineRegionRegister {
+    struct MachineRegionRegister *next;
+    unsigned short number, field06;
+    unsigned flags, uses, definitions;
+    MachineInstruction *definition;
+    unsigned increment, field1c;
+} MachineRegionRegister;
+typedef char MachineRegionRegisterSizeCheck[sizeof(MachineRegionRegister) == 32 ? 1 : -1];
 struct MachineFlowRegion {
     MachineFlowRegion *parent, *next, *children;
     MachineInstruction *first, *last, *label, *exit_label;
     MachineRegionEdge *references[3];
-    unsigned field28, field2c, field30, field34, field38;
-    unsigned field3c, field40, field44;
+    MachineRegionRegister *registers[8]; /*28..48: register number&7 chains*/
     int first_block, last_block;
     int pending_references, initial_references;
     unsigned field58, flags;
@@ -44,4 +51,11 @@ void __fastcall record_region_register(MachineFlowRegion *region, unsigned short
 void __fastcall transfer_machine_region_references(MachineFlowRegion *region, MachineFlowRegion *parent);
 MachineInstruction *__fastcall next_machine_region_record(unsigned kind, MachineFlowRegion *region,
     MachineInstruction *previous, MachineFlowRegion **children);
+void __fastcall simplify_machine_region_operations(MachineFlowRegion *region);
+void __fastcall transform_machine_region_blocks(MachineFlowRegion *region);
+MachineRegionRegister *__fastcall find_machine_region_register(MachineFlowRegion *region,
+    unsigned short number, int create);
+int __fastcall register_is_invariant_in_regions(unsigned short number, MachineFlowRegion *regions);
+int __fastcall register_dead_after_region(unsigned short number, MachineFlowRegion *region, int check_entry);
+int __fastcall instruction_precedes_region_entry(MachineInstruction *instruction);
 #endif

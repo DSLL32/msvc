@@ -360,7 +360,6 @@ MachineInstruction *__fastcall find_transfer_call_boundary(MachineInstruction *t
 
 
 int __fastcall memory_displacements_overlap(MachineOperand *left, unsigned left_bytes, MachineOperand *right, unsigned right_bytes) { __asm int 3 }
-void __fastcall analyze_machine_regions(MachineFlowRegion *region, unsigned flags) { __asm int 3 }
 int __fastcall close_machine_region(MachineFlowRegion *parent, MachineFlowRegion *region) { __asm int 3 }
 MachineFlowRegion *__fastcall process_special_machine_region_reference(MachineFlowRegion *region, SymbolHeader *label) { __asm int 3 }
 void __fastcall prepare_float_machine_data(int has_protected_blocks) { __asm int 3 }
@@ -468,3 +467,5 @@ int __fastcall intrinsic_float_cleanup_count(FunctionSymbol *symbol) { __asm int
 SymbolHeader *__fastcall lookup_external_name(char *name) { __asm int 3 }
 void __fastcall emit_explicit_block_transfer(int fill, MachineOperand *source,
     MachineOperand *destination, unsigned short type, unsigned offset) { __asm int 3 }
+void __fastcall transform_machine_region_blocks(MachineFlowRegion *region) { __asm int 3 }
+int __fastcall instruction_precedes_region_entry(MachineInstruction *instruction) { __asm int 3 }

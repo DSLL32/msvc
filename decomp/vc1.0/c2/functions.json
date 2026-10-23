@@ -826,7 +826,12 @@
     "@replace_machine_region_suffix@12",
     "@finish_closed_machine_region@8",
     "@transfer_machine_region_references@8",
-    "@next_machine_region_record@16"
+    "@next_machine_region_record@16",
+    "@analyze_machine_regions@8",
+    "@simplify_machine_region_operations@4",
+    "@find_machine_region_register@12",
+    "@register_is_invariant_in_regions@8",
+    "@register_dead_after_region@12"
   ],
   "driver": [
     {
@@ -5054,8 +5059,7 @@
     {
       "name": "@analyze_machine_regions@8",
       "start": 295024,
-      "end": 295025,
-      "provisional": true
+      "end": 295123
     },
     {
       "name": "@new_machine_region@12",
@@ -6432,6 +6436,38 @@
       "name": "@next_machine_region_record@16",
       "start": 297328,
       "end": 297500
+    },
+    {
+      "name": "@simplify_machine_region_operations@4",
+      "start": 297888,
+      "end": 298519
+    },
+    {
+      "name": "@transform_machine_region_blocks@4",
+      "start": 297760,
+      "end": 297761,
+      "provisional": true
+    },
+    {
+      "name": "@find_machine_region_register@12",
+      "start": 299344,
+      "end": 299468
+    },
+    {
+      "name": "@register_is_invariant_in_regions@8",
+      "start": 299232,
+      "end": 299342
+    },
+    {
+      "name": "@register_dead_after_region@12",
+      "start": 298992,
+      "end": 299220
+    },
+    {
+      "name": "@instruction_precedes_region_entry@4",
+      "start": 298928,
+      "end": 298929,
+      "provisional": true
     }
   ],
   "cases": {
