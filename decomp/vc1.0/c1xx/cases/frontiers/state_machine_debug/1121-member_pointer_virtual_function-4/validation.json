@@ -1,0 +1,23 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_member_pointer_virtual_function@4",
+    "start": 318448,
+    "end": 318545
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1121-member_pointer_virtual_function-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_copy_member_pointer_thunk_key@8",
+    "_emit_member_pointer_virtual_thunk@4",
+    "_find_hash_value@8",
+    "_new_hash_table@16",
+    "_new_member_pointer_thunk_key@8",
+    "_set_hash_value@12"
+  ],
+  "next_frontier": "_new_member_pointer_thunk_key@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5225068740546703,
+  "total_operation_seconds": 3.7221096847206354,
+  "original_capture_seconds": 1.1170813962817192
+}

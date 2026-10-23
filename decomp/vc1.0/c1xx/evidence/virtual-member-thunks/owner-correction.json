@@ -1,0 +1,6 @@
+{
+  "original": 652088,
+  "existing_owner": "_declaration_thunks",
+  "consumer": "_finish_declarations",
+  "correction": "Initial extra cache owner failed statealias audit beforeargumentcapture/acceptance. Removed duplicate and reuses existing declaration_thunks pointer. Failedauditretained; no acceptedstate/reference was modified to conceal it."
+}

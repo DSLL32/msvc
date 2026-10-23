@@ -6,6 +6,9 @@
 #include "numeric-conversion.h"
 #include "constructor-initializers.h"
 #include "parameters.h"
+#include "member-pointers.h"
+#include "hash-table.h"
+#include "function-finalization.h"
 #include <recon.h>
 
 IrToken *__stdcall make_multiple_inheritance_method_pointer(CType *type,
@@ -30,6 +33,22 @@ IrToken *__stdcall make_general_data_member_pointer(CType *type, IrToken *offset
 int __stdcall tag_has_base_relation(CppSymbol *derived, CppSymbol *base);
 int __stdcall equal_member_function_parameters(FunctionParameters *source,
     FunctionParameters *target);
+
+/* Original 0x4dbf0..0x4dc51. Reuse a virtual member's generated
+   function, keeping an independent permanent key for a new cache entry. */
+CppSymbol *__stdcall member_pointer_virtual_function(CppSymbol *member)
+{
+    MemberPointerThunkKey *key = new_member_pointer_thunk_key(member, 2);
+    CppSymbol *function;
+    if (!declaration_thunks)
+        declaration_thunks = new_hash_table(32, 0, 5, 4);
+    function = find_hash_value(declaration_thunks, key);
+    if (!function) {
+        function = emit_member_pointer_virtual_thunk(key);
+        set_hash_value(declaration_thunks, copy_member_pointer_thunk_key(key, 0), function);
+    }
+    return function;
+}
 
 /* Original 0x64da0..0x64ee8. Rank conversion between member-pointer
    shapes, their class relation and any nested member-function signature. */
