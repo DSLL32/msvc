@@ -1,0 +1,18 @@
+Breakpoint 1 at 0x804acc9: file src/pass.c, line 39.
+Breakpoint 2 at 0x804bf10: file src/pools.cpp, line 8.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+Breakpoint 3 at 0x804bfb3: file src/pools.cpp, line 18.
+Breakpoint 4 at 0x804c006: file src/pools.cpp, line 23.
+Breakpoint 5 at 0x804c066: file src/pools.cpp, line 28.
+Breakpoint 6 at 0x804c0c6: file src/pools.cpp, line 33.
+Breakpoint 7 at 0x804c126: file src/pools.cpp, line 38.
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+initialize_state_12746 () at src/initializers.c:130
+130	}
+#0  initialize_state_12746 () at src/initializers.c:130
+#1  0x0804ac83 in initialize_compiler_pass () at src/pass.c:28
+#2  0x0804a819 in InvokeCompilerPass (argc=11, argv=0xffffd8d8, mode=1) at src/exports.c:11
+#3  0x0804c369 in c1_native_host (argc=2, argv=0xffffda04) at scripts/native-host.c:57
+#4  0x080578e5 in main (argc=2, argv=0xffffda04) at ../../../lib/recon/src/entry.c:24

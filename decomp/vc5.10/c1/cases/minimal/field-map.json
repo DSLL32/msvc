@@ -998,6 +998,42 @@
       "native_field": "c1_bss.pools[3].arena",
       "default": 0,
       "evidence": "encountered distinct receiver of the accepted genuine member126fc; four actual field writes/defaults only"
+    },
+    {
+      "name": "pools[4].cursor",
+      "original_rva": 346904,
+      "bytes": 4,
+      "native_offset": 608,
+      "native_field": "c1_bss.pools[4].cursor",
+      "default": 0,
+      "evidence": "encountered distinct receiver of the accepted genuine member126fc; four actual field writes/defaults only"
+    },
+    {
+      "name": "pools[4].remaining",
+      "original_rva": 346908,
+      "bytes": 4,
+      "native_offset": 612,
+      "native_field": "c1_bss.pools[4].remaining",
+      "default": 0,
+      "evidence": "encountered distinct receiver of the accepted genuine member126fc; four actual field writes/defaults only"
+    },
+    {
+      "name": "pools[4].minimum_pages",
+      "original_rva": 346912,
+      "bytes": 4,
+      "native_offset": 616,
+      "native_field": "c1_bss.pools[4].minimum_pages",
+      "default": 0,
+      "evidence": "encountered distinct receiver of the accepted genuine member126fc; four actual field writes/defaults only"
+    },
+    {
+      "name": "pools[4].arena",
+      "original_rva": 346916,
+      "bytes": 4,
+      "native_offset": 620,
+      "native_field": "c1_bss.pools[4].arena",
+      "default": 0,
+      "evidence": "encountered distinct receiver of the accepted genuine member126fc; four actual field writes/defaults only"
     }
   ],
   "outside_bss": [
@@ -1399,7 +1435,7 @@
     "native_saved_offset": 528,
     "native_flag_offset": 536,
     "native_value_size": 8,
-    "native_bss_size": 608,
+    "native_bss_size": 624,
     "source_writer_rvas": [
       [
         12576,
@@ -1410,7 +1446,7 @@
         23897
       ]
     ],
-    "hard_frontier_rva": 75577,
+    "hard_frontier_rva": 75590,
     "policy": "reviewed specific internal transfer; tail remains UNMODELED and cannot be semantically consumed before a named trap"
   },
   "pdb_signature": {
@@ -1653,7 +1689,25 @@
       "native_linkage_symbol": "_ZN12CompilerPool10InitializeEj",
       "constructor_argument": 1,
       "type_evidence": "238c advances cursor/decrements remaining; aa9c uses minimum_pages;12b30 installs arena pointer"
+    },
+    {
+      "index": 4,
+      "original_object_rva": 346904,
+      "native_offset": 608,
+      "native_size": 16,
+      "original_object_extent_unknown": true,
+      "members": {
+        "cursor": 0,
+        "remaining": 4,
+        "minimum_pages": 8,
+        "arena": 12
+      },
+      "member_rva": 75516,
+      "native_method": "CompilerPool::Initialize",
+      "native_linkage_symbol": "_ZN12CompilerPool10InitializeEj",
+      "constructor_argument": 1,
+      "type_evidence": "238c advances cursor/decrements remaining; aa9c uses minimum_pages;12b30 installs arena pointer"
     }
   ],
-  "native_bss_size": 608
+  "native_bss_size": 624
 }

@@ -46,7 +46,8 @@
     "CompilerPool::Initialize",
     "_initialize_state_12712",
     "_initialize_state_1271f",
-    "_initialize_state_1272c"
+    "_initialize_state_1272c",
+    "_initialize_state_12739"
   ],
   "driver": [
     {
@@ -398,6 +399,12 @@
       "name": "_initialize_state_1272c",
       "start": 274802476,
       "end": 274802489,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_12739",
+      "start": 274802489,
+      "end": 274802502,
       "role": "application"
     }
   ],

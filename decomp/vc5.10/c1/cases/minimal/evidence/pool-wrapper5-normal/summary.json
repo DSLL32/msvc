@@ -1,0 +1,35 @@
+{
+  "candidate": "_initialize_state_12739",
+  "application_functions": 41,
+  "application_bytes": 1587,
+  "crt_functions": 2,
+  "crt_bytes": 451,
+  "import_bytes": 6,
+  "source_functions": 43,
+  "next_frontier": {
+    "rva": 75590,
+    "native_symbol": "initialize_state_12746",
+    "kind": "initialization-callback",
+    "native_args": [],
+    "abi": "cdecl void no arguments,cleanup0"
+  },
+  "modeled_pool_count": 5,
+  "timings": {
+    "normal": {
+      "original": 1.1172826727852225,
+      "native": 0.20866656582802534,
+      "fresh_pool_controls_seconds": 6.605110728181899,
+      "fresh_core_controls_seconds": 1.4061883818358183
+    },
+    "clear-aux": {
+      "original": 1.3177559589967132,
+      "native": 0.8246331568807364,
+      "fresh_pool_controls_seconds": 12.836653547361493,
+      "fresh_core_controls_seconds": 1.8638974502682686
+    }
+  },
+  "audit_seconds": 0.017623339779675007,
+  "build": {
+    "combined_parallel_build_seconds": 3.8816727828234434
+  }
+}
