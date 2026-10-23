@@ -1,7 +1,30 @@
 /* Unary C++ operator dispatch and builtin fallback. */
 #include "lexer.h"
 #include "unary-expressions.h"
+#include "global-ir.h"
 #include <recon.h>
+
+/* Original 0x3b7a0..0x3b831. sizeof strips based/reference wrappers,
+   diagnoses a missing size and returns the compiler's unsigned-size literal. */
+IrToken *__stdcall sizeof_type(CType *type)
+{
+    CType *base = strip_based_shape(type);
+    IrToken *result;
+    int bytes;
+    if (base->related && (base->related->flags & 0x40))
+        base = drop_first_type_shape(base);
+    bytes = type_size(base);
+    if (!bytes) {
+        if (options.prototypes_only) return 0;
+        if ((base->flags & 0x400) && !base->related)
+            report_syntax_error(27, ((CppSymbol *)cpp_context_stack->items[base->field08])->name);
+        else report_syntax_error(70);
+    }
+    result = make_integer_constant(bytes);
+    result->type = type_4064_first;
+    result->kind = 9;
+    return result;
+}
 
 /* Original 0x3b6d0..0x3b797. sizeof retains a named array's
    undegraded type and rejects function and bit-field operands. */

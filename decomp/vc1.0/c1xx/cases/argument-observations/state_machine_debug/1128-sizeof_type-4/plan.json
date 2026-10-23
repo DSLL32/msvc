@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "function": "_sizeof_type@4",
+  "native_entry": "sizeof_type",
+  "argument_words": 4,
+  "ownership_register": "eax",
+  "ownership_caller_extent": [
+    243472,
+    243494
+  ],
+  "native_caller_locals": {
+    "caller_type": {
+      "frame": 1,
+      "function": "sizeof_expression",
+      "local": "symbol",
+      "fields": [
+        "type"
+      ]
+    }
+  },
+  "native_expressions": {
+    "raw_type": "(unsigned)type"
+  },
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 177958,
+        "original_owner_function": "_sizeof_expression@4",
+        "native_owner_function": "sizeof_expression",
+        "native_owner_field": "caller_type",
+        "native_owner_local": "symbol",
+        "native_owner_fields": [
+          "type"
+        ],
+        "identity": "Actual sizeof_expression arraybranch retains symbolEDX, loads symbol.typeEAX3b71d/PUSHEAX3b720/CALL3b721 return3b726. Native actual symbol.type field sameowner, notdecayedexpressiontype."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      243616,
+      243761
+    ],
+    "argument_bytes": 4,
+    "proof": "Whole145B/saveESIEDI8:typeESP+12,RET4/EAXliteral. Calls strip_based_shape62320/RET4 thenoptionalreference drop_first_type_shape624f0/RET4, type_size4f160/RET4 signedbytes. Zero+options.prototypes_only original8cca4 returnsNULL, otherwisemissingunqualifiedclass flag400 error27/nameorerror70 andstillbuildzero. make_integer_constant2c7b0/RET4, overwritekind9/typeunsignedsize global9f290=type_4064_first independentlyinitstore694bc (secondduplicate4064store694cc is9f294). No newstorage/hidden/registersemanticinputs/unknown result."
+  }
+}
