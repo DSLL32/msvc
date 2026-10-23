@@ -736,7 +736,32 @@
     "_find_label@4",
     "_declare_label@4",
     "_emit_asm_label@4",
-    "_make_ir_leaf@12"
+    "_make_ir_leaf@12",
+    "_begin_browser_output",
+    "_make_browser_temporary_name@4",
+    "_write_browser_header",
+    "_write_browser_record@8",
+    "_prepare_browser_record@8",
+    "_append_browser_record@4",
+    "_serialize_browser_record@8",
+    "_browser_current_directory",
+    "__getcwd",
+    "_browser_symbol_definition@4",
+    "_prepare_browser_definition@8",
+    "_prepare_browser_symbol_record@8",
+    "_browser_macro@4",
+    "_prepare_browser_macro_definition@8",
+    "_browser_open_file",
+    "_prepare_browser_file_record",
+    "_copy_browser_name",
+    "_browser_begin_function_scope",
+    "_browser_function_parameters@4",
+    "_browser_finish_scope",
+    "_browser_close_file",
+    "_browser_macro_reference@4",
+    "_prepare_browser_macro_reference@8",
+    "_browser_symbol_reference@4",
+    "_prepare_browser_reference@8"
   ],
   "driver": [
     {
@@ -1075,7 +1100,7 @@
     {
       "name": "_begin_browser_output",
       "start": 160160,
-      "end": 160161
+      "end": 160272
     },
     {
       "name": "_open_intermediate",
@@ -2171,7 +2196,7 @@
     {
       "name": "_browser_symbol_reference@4",
       "start": 161216,
-      "end": 161217
+      "end": 161231
     },
     {
       "name": "_push_symbol_scope@4",
@@ -2226,12 +2251,12 @@
     {
       "name": "_browser_begin_function_scope",
       "start": 161056,
-      "end": 161057
+      "end": 161072
     },
     {
       "name": "_browser_function_parameters@4",
       "start": 161328,
-      "end": 161329
+      "end": 161343
     },
     {
       "name": "_function_result_type@4",
@@ -2577,7 +2602,7 @@
     {
       "name": "_browser_finish_scope",
       "start": 161008,
-      "end": 161009
+      "end": 161044
     },
     {
       "name": "_emit_scope_cleanup_records",
@@ -2637,7 +2662,7 @@
     {
       "name": "_browser_close_file",
       "start": 161168,
-      "end": 161169
+      "end": 161178
     },
     {
       "name": "_report_ide_file_end",
@@ -2982,7 +3007,7 @@
     {
       "name": "_browser_macro_reference@4",
       "start": 161248,
-      "end": 161249
+      "end": 161266
     },
     {
       "name": "_copy_macro_quoted_literal@12",
@@ -5014,6 +5039,93 @@
       "name": "_make_ir_leaf@12",
       "start": 259024,
       "end": 259094
+    },
+    {
+      "name": "_make_browser_temporary_name@4",
+      "start": 156880,
+      "end": 156984
+    },
+    {
+      "name": "_write_browser_header",
+      "start": 161200,
+      "end": 161210
+    },
+    {
+      "name": "_write_browser_record@8",
+      "start": 160048,
+      "end": 160144
+    },
+    {
+      "name": "_prepare_browser_record@8",
+      "start": 159776,
+      "end": 159961
+    },
+    {
+      "name": "_append_browser_record@4",
+      "start": 158800,
+      "end": 158976,
+      "shared": [
+        [
+          158976,
+          159044
+        ]
+      ]
+    },
+    {
+      "name": "_prepare_browser_file_record",
+      "start": 159184,
+      "end": 159213
+    },
+    {
+      "name": "_prepare_browser_definition@8",
+      "start": 159248,
+      "end": 159585
+    },
+    {
+      "name": "_prepare_browser_reference@8",
+      "start": 159632,
+      "end": 159672
+    },
+    {
+      "name": "_prepare_browser_symbol_record@8",
+      "start": 159216,
+      "end": 159248
+    },
+    {
+      "name": "_prepare_browser_macro_definition@8",
+      "start": 159056,
+      "end": 159103
+    },
+    {
+      "name": "_prepare_browser_macro_reference@8",
+      "start": 159600,
+      "end": 159620
+    },
+    {
+      "name": "_prepare_browser_anonymous_record@4",
+      "start": 159680,
+      "end": 159681
+    },
+    {
+      "name": "_serialize_browser_record@8",
+      "start": 156992,
+      "end": 157772,
+      "shared": [
+        [
+          157772,
+          157836
+        ]
+      ]
+    },
+    {
+      "name": "_browser_current_directory",
+      "start": 277696,
+      "end": 277784
+    },
+    {
+      "name": "_copy_browser_name",
+      "start": 159104,
+      "end": 159172
     }
   ],
   "cases": {
@@ -5089,6 +5201,10 @@
       "name": "_pch_file",
       "original": 374144,
       "output_name": "state.pch"
+    },
+    {
+      "name": "_browser_output",
+      "original": 382368
     }
   ]
 }

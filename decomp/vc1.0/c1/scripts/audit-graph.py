@@ -29,6 +29,15 @@ def instructions(pe, function):
                 continue
             table = int(literals[-1], 16)
             if not start <= table < end:
+                # Original switch data can follow the final RET. Its complete
+                # logical target run must be restored explicitly by the mask.
+                if pe is orig and any(orig.base+s['rva'] <= table < orig.base+s['rva']+s['virtual_size']
+                                      for s in orig.sections if s['flags'] & 0x20):
+                    cursor = table
+                    while start <= u32(pe.read(cursor,4),0) < end:
+                        assert any(a <= cursor and cursor+4 <= b for a,b in function.get('shared',[])), \
+                            'external switch table is masked: %s at %x' % (function['name'],cursor)
+                        cursor += 4
                 continue
             count = 0
             while table + count*4 < end:

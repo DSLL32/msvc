@@ -9,6 +9,15 @@ original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
+    ('_browser_scope_depth', 0x6b5b4, 4),
+    ('_browser_symbol_categories', 0x6b5a0, 12),
+    ('_browser_symbol_bits', 0x5b5a0, 8192),
+    ('_browser_line_template', 0x6387c, 24),
+    ('_browser_last_reference', 0x63878, 4),
+    ('_browser_pending_flags', 0x63894, 4),
+    ('_browser_last_line', 0x6b590, 4),
+    ('_browser_suppressed', 0x6b58c, 4),
+    ('_browser_output', 0x5d5a0, 4),
     ('_label_symbols', 0x6c0c0, 4),
     ('_asm_encoded_opcode', 0x5b060, 1),
     ('_asm_instruction_size', 0x5b061, 1),

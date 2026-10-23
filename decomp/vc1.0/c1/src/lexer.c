@@ -403,7 +403,7 @@ void begin_source_line(void)
             }
             continue;
         case CC_HASH:
-            browser_file_cookie = 1;
+            browser_pending_flags = 1;
             preprocess_directive();
             continue;
         default:
@@ -412,7 +412,7 @@ void begin_source_line(void)
     }
 line_ready:
     if (options.option_ide) report_ide_line();
-    browser_file_cookie = 1;
+    browser_pending_flags = 1;
     --source_text_cursor;
     if ((scanner_flags & 0x80000) && !(scanner_flags & 0x40))
         record_line_information(1);

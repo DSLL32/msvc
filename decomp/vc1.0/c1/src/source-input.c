@@ -19,9 +19,7 @@ char source_storage[3 * 4099]; /* original first guard at 0x60838 */
 char *source_text_cursor; /* original 0x5b14c */
 unsigned source_line_number; /* original 0x5b238 */
 int conditional_depth = -1; /* original 0x6bf74 */
-unsigned browser_file_cookie; /* original 0x63894 */
 long browser_saved_position; /* original 0x6ddfc */
-FILE *browser_file; /* original 0x5d5a0 */
 
 /* Original 0x1b680..0x1b966. */
 int __stdcall open_source_file(char *filename, int mode)
@@ -115,10 +113,10 @@ int __stdcall open_source_file(char *filename, int mode)
     if ((scanner_flags & 0x80000) && !(scanner_flags & 0x40) && !options.option_E)
         record_line_information(2);
     if (browser_filename && mode != 2) {
-        browser_file_cookie = 0;
+        browser_pending_flags = 0;
         if (!include_depth && options.pch_auto) {
             browser_include_begin();
-            browser_saved_position = ftell(browser_file);
+            browser_saved_position = ftell(browser_output);
         }
         browser_open_file();
     }

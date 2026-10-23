@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "151b0933fe4b96d123d2063c1390995d59bc7d598f0208e92d8f8e91514ddbaa",
+    "functions.json": "3850078b71883351f8ff0205b28a6e11bf4bb41ef2a8ce97dc61cbc3e58316c1",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "8a7cf29c5054d26f62b2266b971b486aa0ed2541ac9e453966c8eef9a325a23e"
+    "sha256": "cee3a39e15105d23dbdc12086685b7b8063f073b575c0679f936b00f5eb09037"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -108,6 +108,10 @@
     "append_argument": {
       "logical": "_append_argument@12",
       "source": "src/calls.c"
+    },
+    "append_browser_record": {
+      "logical": "_append_browser_record@4",
+      "source": "src/browser.c"
     },
     "append_codeview_name": {
       "logical": "_append_codeview_name@8",
@@ -251,7 +255,7 @@
     },
     "begin_browser_output": {
       "logical": "_begin_browser_output",
-      "source": "src/stubs.c"
+      "source": "src/browser.c"
     },
     "begin_browser_pch_record": {
       "logical": "_begin_browser_pch_record",
@@ -327,19 +331,23 @@
     },
     "browser_begin_function_scope": {
       "logical": "_browser_begin_function_scope",
-      "source": "src/stubs.c"
+      "source": "src/browser.c"
     },
     "browser_close_file": {
       "logical": "_browser_close_file",
-      "source": "src/stubs.c"
+      "source": "src/browser.c"
+    },
+    "browser_current_directory": {
+      "logical": "_browser_current_directory",
+      "source": "src/browser.c"
     },
     "browser_finish_scope": {
       "logical": "_browser_finish_scope",
-      "source": "src/stubs.c"
+      "source": "src/browser.c"
     },
     "browser_function_parameters": {
       "logical": "_browser_function_parameters@4",
-      "source": "src/stubs.c"
+      "source": "src/browser.c"
     },
     "browser_include_begin": {
       "logical": "_browser_include_begin",
@@ -351,7 +359,7 @@
     },
     "browser_macro": {
       "logical": "_browser_macro@4",
-      "source": "src/stubs.c"
+      "source": "src/browser.c"
     },
     "browser_macro_end": {
       "logical": "_browser_macro_end",
@@ -359,19 +367,19 @@
     },
     "browser_macro_reference": {
       "logical": "_browser_macro_reference@4",
-      "source": "src/stubs.c"
+      "source": "src/browser.c"
     },
     "browser_open_file": {
       "logical": "_browser_open_file",
-      "source": "src/stubs.c"
+      "source": "src/browser.c"
     },
     "browser_symbol_definition": {
       "logical": "_browser_symbol_definition@4",
-      "source": "src/stubs.c"
+      "source": "src/browser.c"
     },
     "browser_symbol_reference": {
       "logical": "_browser_symbol_reference@4",
-      "source": "src/stubs.c"
+      "source": "src/browser.c"
     },
     "build_parameter_info": {
       "logical": "_build_parameter_info@8",
@@ -692,6 +700,10 @@
     "copy_block_comment": {
       "logical": "_copy_block_comment",
       "source": "src/stubs.c"
+    },
+    "copy_browser_name": {
+      "logical": "_copy_browser_name",
+      "source": "src/browser.c"
     },
     "copy_codeview_name": {
       "logical": "_copy_codeview_name",
@@ -1729,6 +1741,10 @@
       "logical": "_make_binary_expression@12",
       "source": "src/expressions.c"
     },
+    "make_browser_temporary_name": {
+      "logical": "_make_browser_temporary_name@4",
+      "source": "src/browser.c"
+    },
     "make_call_argument": {
       "logical": "_make_call_argument@8",
       "source": "src/calls.c"
@@ -2409,6 +2425,38 @@
       "logical": "_prepare_asm_instruction",
       "source": "src/asm-instructions.c"
     },
+    "prepare_browser_anonymous_record": {
+      "logical": "_prepare_browser_anonymous_record@4",
+      "source": "src/browser-stubs.c"
+    },
+    "prepare_browser_definition": {
+      "logical": "_prepare_browser_definition@8",
+      "source": "src/browser.c"
+    },
+    "prepare_browser_file_record": {
+      "logical": "_prepare_browser_file_record",
+      "source": "src/browser.c"
+    },
+    "prepare_browser_macro_definition": {
+      "logical": "_prepare_browser_macro_definition@8",
+      "source": "src/browser.c"
+    },
+    "prepare_browser_macro_reference": {
+      "logical": "_prepare_browser_macro_reference@8",
+      "source": "src/browser.c"
+    },
+    "prepare_browser_record": {
+      "logical": "_prepare_browser_record@8",
+      "source": "src/browser.c"
+    },
+    "prepare_browser_reference": {
+      "logical": "_prepare_browser_reference@8",
+      "source": "src/browser.c"
+    },
+    "prepare_browser_symbol_record": {
+      "logical": "_prepare_browser_symbol_record@8",
+      "source": "src/browser.c"
+    },
     "prepare_call_expression": {
       "logical": "_prepare_call_expression@4",
       "source": "src/calls.c"
@@ -2965,6 +3013,10 @@
       "logical": "_serialize_asm_instruction",
       "source": "src/asm-output.c"
     },
+    "serialize_browser_record": {
+      "logical": "_serialize_browser_record@8",
+      "source": "src/browser.c"
+    },
     "serialize_scope": {
       "logical": "_serialize_scope@4",
       "source": "src/scopes.c"
@@ -3176,6 +3228,14 @@
     "warning_setting": {
       "logical": "_warning_setting@4",
       "source": "src/diagnostics.c"
+    },
+    "write_browser_header": {
+      "logical": "_write_browser_header",
+      "source": "src/browser.c"
+    },
+    "write_browser_record": {
+      "logical": "_write_browser_record@8",
+      "source": "src/browser.c"
     },
     "write_codeview_number": {
       "logical": "_write_codeview_number",
@@ -3937,7 +3997,31 @@
     "find_label",
     "declare_label",
     "emit_asm_label",
-    "make_ir_leaf"
+    "make_ir_leaf",
+    "begin_browser_output",
+    "make_browser_temporary_name",
+    "write_browser_header",
+    "write_browser_record",
+    "prepare_browser_record",
+    "append_browser_record",
+    "serialize_browser_record",
+    "browser_current_directory",
+    "browser_symbol_definition",
+    "prepare_browser_definition",
+    "prepare_browser_symbol_record",
+    "browser_macro",
+    "prepare_browser_macro_definition",
+    "browser_open_file",
+    "prepare_browser_file_record",
+    "copy_browser_name",
+    "browser_begin_function_scope",
+    "browser_function_parameters",
+    "browser_finish_scope",
+    "browser_close_file",
+    "browser_macro_reference",
+    "prepare_browser_macro_reference",
+    "browser_symbol_reference",
+    "prepare_browser_reference"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4032,7 +4116,8 @@
       "_fread",
       "__chsize",
       "_fclose",
-      "_tolower"
+      "_tolower",
+      "__getcwd"
     ],
     "import": [
       "import:GetCommandLineA",

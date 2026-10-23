@@ -1,0 +1,105 @@
+{
+  "status": "verified intermediate checkpoint; browser filtering/finalization remains active",
+  "accepted_from": 732,
+  "accepted_count": 757,
+  "new_frontend_functions": 24,
+  "new_CRT_extents": 1,
+  "source_functions": 653,
+  "current_frontier": {
+    "logical": "_finish_browser_output",
+    "original_va": 160272
+  },
+  "coverage": {
+    "accepted_union_bytes": 203580,
+    "original_code_bytes": 277234,
+    "accepted_by_origin_bytes": {
+      "frontend_source": 186050,
+      "CRT": 17404,
+      "import_thunks": 126
+    },
+    "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
+    "percent": 73.43255156293961,
+    "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
+  },
+  "extent_delta": 2441,
+  "original_captures": {
+    "count": 26,
+    "preparation_seconds": 1.2927397135645151,
+    "execution_seconds": 32.07801011670381,
+    "total_seconds": 33.37082535587251
+  },
+  "native_frontier_debug": {
+    "count": 26,
+    "preparation_seconds": 0.08744967263191938,
+    "execution_seconds": 4.0098841721192,
+    "total_seconds": 4.157862162217498
+  },
+  "matched_frontiers": 26,
+  "native_build_measured_seconds": 56.02119050454348,
+  "checkpoint_operations": [
+    {
+      "name": "canonical-audits",
+      "command": [
+        "make",
+        "-j2",
+        "audit-win32"
+      ],
+      "seconds": 5.854280902072787,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/browser-checkpoint-canonical-audits.log"
+    },
+    {
+      "name": "native-builds",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.360239988192916,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/browser-checkpoint-native-builds.log"
+    },
+    {
+      "name": "trace-projection",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 0.2077958146110177,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/browser-checkpoint-trace-projection.log"
+    },
+    {
+      "name": "native-nine-regressions",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace",
+        "--directory",
+        "/root/.ai-tmp/vc1.0-c1/browser-checkpoint-nine"
+      ],
+      "seconds": 0.4167938781902194,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/browser-checkpoint-native-nine-regressions.log"
+    }
+  ],
+  "native_old_cases": {
+    "trace_receipt": "evidence/native-nine-case-traces.json",
+    "all_nine_pass": true
+  },
+  "static_audits": {
+    "function_graphs_and_instruction_bounds": 653,
+    "state_defaults_and_alias_ranges": 265,
+    "external_switch_tables_fully_restored": true,
+    "C_and_assembler_grammar": "all previous complete table/data audits pass"
+  },
+  "normalization": "none",
+  "limitations": [
+    "Full browser output is not accepted yet; current source traps at the named finalizer.",
+    "Analysis, initial setup and first canonical rebuild wall times were not measured.",
+    "Two retained diagnostics show a missing external switch-data range and a subsequently tightened padding range; final observations use complete precise switch data.",
+    "Initial projection ran before the new Win32 map was ready; the final ordered canonical/projection/nine-case regression succeeds."
+  ]
+}

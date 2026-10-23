@@ -81,7 +81,7 @@ void report_syntax_error(unsigned code, ...) { __asm { int 3 } }
 /* Original 0x46e30. */
 
 /* Original 0x271a0. */
-void begin_browser_output(void) { __asm { int 3 } }
+
 
 /* Original 0x2e370. */
 void initialize_inline_queries(void) { __asm { int 3 } }
@@ -96,7 +96,6 @@ void report_fatal(unsigned code, ...) { __asm { int 3 } }
 
 
 void browser_index_overflow(void) { __asm { int 3 } }
-void __stdcall browser_symbol_definition(FrontendSymbol *symbol) { __asm { int 3 } }
 
 
 
@@ -105,7 +104,6 @@ void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
 
 void __stdcall report_macro_error(char *directive) { __asm { int 3 } }
 int __stdcall pch_record_macro(char *name, char *replacement, int parameter_count) { __asm { int 3 } return 0; }
-void __stdcall browser_macro(MacroDefinition *definition) { __asm { int 3 } }
 
 
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
@@ -113,7 +111,6 @@ FrontendSymbol *__stdcall symbol_alias(FrontendSymbol *symbol) { __asm { int 3 }
 
 void emit_line_directive(void) { __asm { int 3 } }
 void report_ide_source(void) { __asm { int 3 } }
-void browser_open_file(void) { __asm { int 3 } }
 
 void release_input_handle(void) { __asm { int 3 } }
 
@@ -379,7 +376,6 @@ TypeShape *__stdcall append_type_shape(TypeShape *head, TypeShape *tail) { __asm
 
 char *__stdcall type_specifier_name(unsigned short flags) { __asm { int 3 } return 0; }
 
-void __stdcall browser_symbol_reference(FrontendSymbol *symbol) { __asm { int 3 } }
 
 
 
@@ -389,8 +385,6 @@ void __stdcall report_type_syntax_error(unsigned code, CType *type) { __asm { in
 
 void abort_function_definition(void) { __asm { int 3 } }
 void __stdcall assign_symbol_segment(FrontendSymbol *symbol, FrontendSymbol *segment) { __asm { int 3 } }
-void browser_begin_function_scope(void) { __asm { int 3 } }
-void __stdcall browser_function_parameters(FrontendSymbol *symbol) { __asm { int 3 } }
 
 void __stdcall report_symbol_error(unsigned code, FrontendSymbol *symbol) { __asm { int 3 } }
 
@@ -436,7 +430,6 @@ void __stdcall report_conversion_mismatch(unsigned char operation, CType *target
 
 
 
-void browser_finish_scope(void) { __asm { int 3 } }
 
 void *__stdcall pop_work_list(void **head) { __asm { int 3 } return 0; }
 
@@ -445,7 +438,6 @@ void *__stdcall pop_work_list(void **head) { __asm { int 3 } return 0; }
 void finish_inline_function(void) { __asm { int 3 } }
 
 
-void browser_close_file(void) { __asm { int 3 } }
 void report_ide_file_end(void) { __asm { int 3 } }
 
 
@@ -515,7 +507,6 @@ char *__stdcall quote_macro_filename(char *destination, char *filename) { __asm 
 
 
 
-void __stdcall browser_macro_reference(MacroDefinition *definition) { __asm { int 3 } }
 
 
 char *read_macro_string(void) { __asm { int 3 } return 0; }

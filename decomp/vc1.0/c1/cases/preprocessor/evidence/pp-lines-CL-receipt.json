@@ -1,0 +1,16 @@
+{
+  "case": "pp-lines",
+  "CL_arguments": "/nologo /E test.c",
+  "CL_environment": {
+    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+    "TMP": "N:\\pp-lines",
+    "TEMP": "N:\\pp-lines",
+    "TZ": "PST8PDT"
+  },
+  "seconds": 1.3442687699571252,
+  "helper_status": 0,
+  "helper_source_sha256": "3635458de9cfac0f4d75b807e354dd92aa18d736c925b9111ab8272cea53642a",
+  "helper_sha256": "aec89853c9e0db154d563b3011c7834c302a8fd4ce38590c375dc2fa1687165a"
+}

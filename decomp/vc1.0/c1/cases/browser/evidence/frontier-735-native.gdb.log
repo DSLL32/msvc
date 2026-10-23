@@ -1,0 +1,7 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565b6d2a in write_browser_record (kind=0 '\000', value=0x0) at src/browser.c:36
+36	void __stdcall write_browser_record(unsigned char kind, void *value) { __asm { int 3 } }

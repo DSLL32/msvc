@@ -1,0 +1,31 @@
+{
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/browser",
+  "phase": "c1",
+  "unmasked": false,
+  "accepted_count": 733,
+  "accepted_sha256": "178ae7c74b810455a133b5a1f14f19fc7183908f131f0bffc2fdddcd9247eb1d",
+  "executable_sha256": "bf0145d4be3c7fd3011e994034d1badd3a3a9b91faa6c98814d47b37e7efe525",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "d24b418adc6c9aa9c0b88aa2b8e0538f9fcdd80dd9c55a44551d16c2274421d5",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR test.sbr -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "N:\\browser",
+  "host_working_directory": "/root/.ai-tmp/vc1.0-c1/browser-frontier-733/browser",
+  "preparation_seconds": 0.05264581087976694,
+  "execution_seconds": 1.3526291120797396,
+  "total_seconds": 1.405277792364359,
+  "files": [
+    {
+      "name": "case.h",
+      "bytes": 179,
+      "sha256": "c4a483f163fa52a21d2d3d40eb89442249352b64c85c9cf8b2b5b633e76af21f"
+    },
+    {
+      "name": "test.c",
+      "bytes": 147,
+      "sha256": "480cb7e9c0d18f200453d18169bbe65b55f201f91c555fcde55c42a004fdae80"
+    }
+  ]
+}

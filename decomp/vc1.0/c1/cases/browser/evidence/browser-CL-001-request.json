@@ -1,0 +1,11 @@
+{
+  "mode": 0,
+  "explicit": 2358780,
+  "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+  "arguments": [
+    "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe"
+  ],
+  "environment": [
+    "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il N:\\browser\\001924 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR test.sbr -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+  ]
+}

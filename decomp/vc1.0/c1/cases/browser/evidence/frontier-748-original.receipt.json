@@ -1,0 +1,56 @@
+{
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/browser",
+  "phase": "c1",
+  "unmasked": false,
+  "accepted_count": 748,
+  "accepted_sha256": "4da8dcc297fbe3320cf50d130912eb1c642a7a351913202d0dd23364e6bdb13e",
+  "executable_sha256": "f889c93f9e351ae2194c9c389c258c85b1ceec29f9cfdb9b854b6d26db6d260e",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "d24b418adc6c9aa9c0b88aa2b8e0538f9fcdd80dd9c55a44551d16c2274421d5",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR test.sbr -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "N:\\browser",
+  "host_working_directory": "/root/.ai-tmp/vc1.0-c1/browser-frontier-748/browser",
+  "preparation_seconds": 0.0491577023640275,
+  "execution_seconds": 1.2128904648125172,
+  "total_seconds": 1.2620508568361402,
+  "files": [
+    {
+      "name": "case.h",
+      "bytes": 179,
+      "sha256": "c4a483f163fa52a21d2d3d40eb89442249352b64c85c9cf8b2b5b633e76af21f"
+    },
+    {
+      "name": "irex",
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    {
+      "name": "irgl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irsy",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "test.c",
+      "bytes": 147,
+      "sha256": "480cb7e9c0d18f200453d18169bbe65b55f201f91c555fcde55c42a004fdae80"
+    },
+    {
+      "name": "test.sbt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

@@ -4,11 +4,12 @@
 #include <io.h>
 #include "pch.h"
 #include "source-input.h"
+#include "browser.h"
 #include <recon.h>
 
 int pch_replace_expression; /* original 0x6be78 */
-/* Encountered SBR bitmap payload serialized by the browser PCH branch. */
-unsigned char pch_browser_data[8191]; /* original 0x5b5a0..0x5d59f */
+/* The browser owns8192 bits-bytes for all sixteen-bit symbol IDs. The
+   original PCH format transfers only8191 bytes; retain that observed length. */
 void *pch_copy_buffer; /* original 0x5b570 */
 
 /* These diagnostic expansions are inline in the original functions. */
@@ -122,10 +123,10 @@ void append_pch_intermediates(void)
         pch_debug_bytes = copy_pch_stream(debug_file, pch_file, 0x7fffffff);
     }
     if (browser_filename && pch_mode == 1) {
-        PCH_IO_STATUS(fflush(browser_file), 88, 339, 0, 1515);
-        rewind(browser_file);
-        pch_browser_bytes = copy_pch_stream(browser_file, pch_file, 0x7fffffff);
-        fwrite(pch_browser_data, 1, sizeof(pch_browser_data), pch_file);
+        PCH_IO_STATUS(fflush(browser_output), 88, 339, 0, 1515);
+        rewind(browser_output);
+        pch_browser_bytes = copy_pch_stream(browser_output, pch_file, 0x7fffffff);
+        fwrite(browser_symbol_bits, 1, (sizeof(browser_symbol_bits) - 1), pch_file);
     }
     free(pch_copy_buffer);
 }
@@ -168,16 +169,16 @@ void extract_pch_intermediates(int restore_debug)
         PCH_IO_SEEK(fseek(pch_file, pch_debug_bytes, 1), 344, options.option_Fp, 1554);
     }
     if (pch_browser_bytes) {
-        rewind(browser_file);
-        copy_pch_stream(pch_file, browser_file, browser_saved_position);
+        rewind(browser_output);
+        copy_pch_stream(pch_file, browser_output, browser_saved_position);
         do {
             --pch_browser_bytes;
             byte = fgetc(pch_file);
         } while (byte);
         browser_open_file();
         browser_include_begin();
-        copy_pch_stream(pch_file, browser_file, pch_browser_bytes - browser_saved_position);
-        fread(pch_browser_data, 1, sizeof(pch_browser_data), pch_file);
+        copy_pch_stream(pch_file, browser_output, pch_browser_bytes - browser_saved_position);
+        fread(browser_symbol_bits, 1, (sizeof(browser_symbol_bits) - 1), pch_file);
     }
     free(pch_copy_buffer);
 }

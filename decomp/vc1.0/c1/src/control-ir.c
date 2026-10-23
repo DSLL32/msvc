@@ -9,11 +9,8 @@ unsigned char *pending_pragma_text; /* original 0x6b148 */
 unsigned char function_control_flags; /* original 0x60058 */
 unsigned short control_word; /* original 0x5b020 */
 unsigned control_alignment = 8, control_alignment_mode; /* 0x6bfa0 / 0x6bfa4 */
-/* Only the signed count prefix is established by this reader. Its
-   bytecode producer is still a named trap; defer payload storage until that
-   reconstruction establishes its extent. In particular, the distinct scope
-   depth at original 0x5b138 must not be claimed by a provisional buffer. */
-
+/* The assembler producer owns its128-byte record in asm-output.c; this
+   control writer consumes the signed count and encoded payload. */
 
 #define CONTROL_PUT_WORD(file, value) do { \
     FILE *s_ = (file); short w_ = (value); \

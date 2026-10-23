@@ -1,0 +1,36 @@
+{
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/preprocessor",
+  "phase": "c1-P",
+  "unmasked": true,
+  "accepted_count": 732,
+  "accepted_sha256": "176577796c6b9eb51d48e95b6d131acaeb678b837e297d80a3492b1bb238a68f",
+  "executable_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "d24b418adc6c9aa9c0b88aa2b8e0538f9fcdd80dd9c55a44551d16c2274421d5",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -E -Fi test.i -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "N:\\pp-file",
+  "host_working_directory": "/root/.ai-tmp/vc1.0-c1/pp-P-original-1/pp-file",
+  "preparation_seconds": 0.005924387834966183,
+  "execution_seconds": 1.5502467919141054,
+  "total_seconds": 1.5561744067817926,
+  "files": [
+    {
+      "name": "case.h",
+      "bytes": 179,
+      "sha256": "c4a483f163fa52a21d2d3d40eb89442249352b64c85c9cf8b2b5b633e76af21f"
+    },
+    {
+      "name": "test.c",
+      "bytes": 433,
+      "sha256": "0512e7aff3123d800efb984db66ac8643123556c2ed6ee7caed390a2dc7fbf40"
+    },
+    {
+      "name": "test.i",
+      "bytes": 381,
+      "sha256": "67eaec182fb700a3a7140a03159b6377c9743a9c5d70634418b0f1bc615032de"
+    }
+  ]
+}

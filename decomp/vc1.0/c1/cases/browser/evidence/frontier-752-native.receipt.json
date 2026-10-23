@@ -1,0 +1,45 @@
+{
+  "buffers": {
+    "expression_file": "004f0101",
+    "symbol_file": "",
+    "line_file": "",
+    "global_file": "1186032e1d30016900000000",
+    "debug_file": null,
+    "pch_file": null,
+    "browser_output": "00020002004e3a5c62726f77736572000200000301600064005f7365746a6d70000301600065005f657863657074696f6e5f696e666f000301600066005f657863657074696f6e5f636f6465000301600067005f616c6c6f6361000301600068005f61626e6f726d616c5f7465726d696e6174696f6e0003060000ffff5f5f4c494e455f5f0003060000feff5f5f46494c455f5f0003060000fdff5f5f444154455f5f0003060000fcff5f5f54494d455f5f0003060000fbff5f5f54494d455354414d505f5f0003050000faff5f4d5f495838360003050000f9ff5f4d53435f5645520003050000f8ff5f57494e33320001746573742e630001636173652e680002020003050000f7ff4f55545055545f434153455f480002030003050000f6ff464143544f520002040003060000f5ff4150504c5900020500030800006900526573756c740008030800006900526573756c74000b690003114000000076616c75650009030700006a00526573756c7400020600030160006c007472616e73666f726d00"
+  },
+  "frames": [
+    "browser_close_file",
+    "close_source_file",
+    "scan_source_token",
+    "scan_token",
+    "read_parser_token",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "frontier": "browser_close_file",
+  "pc": 1448963604,
+  "label_stack_count": 0,
+  "scanner_flags": 0,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ],
+  "original_logical": "_browser_close_file",
+  "fresh_original_match": true,
+  "preparation_seconds": 0.003118736669421196,
+  "execution_seconds": 0.14630827587097883,
+  "total_seconds": 0.15243775583803654,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR test.sbr -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_N": "/root/.ai-tmp/vc1.0-c1/browser-native-752",
+    "RECON_CANONICAL_CWD": "N:\\browser"
+  },
+  "executable_sha256": "80edffaf15df77df641bf461367d7ea869f4aed577bb807745662960d0da19a8"
+}

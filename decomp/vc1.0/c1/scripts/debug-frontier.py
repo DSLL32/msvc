@@ -25,10 +25,13 @@ def main():
     case = options.case.resolve()
     directory = options.directory.resolve()
     directory.mkdir(parents=True, exist_ok=False)
-    work = directory/'work'
-    work.mkdir()
     phase = json.loads((case/'manifest.json').read_text())['phases'][options.phase]
     config = json.loads((BINARY/'functions.json').read_text())
+    canonical = phase.get('canonical_working_directory')
+    if canonical:
+        assert canonical.startswith('N:\\') and len(canonical.split('\\')) == 2
+    work = directory/(canonical.split('\\')[-1] if canonical else 'work')
+    work.mkdir()
     for item in phase['inputs']:
         source = case/item['path']
         data = source.read_bytes()
@@ -39,6 +42,8 @@ def main():
                RECON_PROGRAM_PATH=windows(ROOT/'toolchains/1.0-nt/bin/C13232.EXE'),
                MSC_CMD_FLAGS=phase['environment']['MSC_CMD_FLAGS'].format(
                    bin=windows(ROOT/'toolchains/1.0-nt/bin'), include=windows(ROOT/'toolchains/1.0-nt/include')))
+    if canonical:
+        env.update(RECON_DRIVE_N=str(directory),RECON_CANONICAL_CWD=canonical)
     names = [r['name'][1:] for r in config['buffered_streams']]
     expected_record = None
     expected_native = None
@@ -56,7 +61,7 @@ def main():
                 # boundary breakpoint, rather than inventing an application stub.
                 runtime = json.loads((BINARY/'runtime.json').read_text())
                 expected_record = next(r for r in runtime if r['start']==address)
-                native_boundaries = {'_tolower':'recon_tolower'}
+                native_boundaries = {'_tolower':'recon_tolower','__getcwd':'recon_getcwd'}
                 expected_native = native_boundaries[expected_record['name']]
                 runtime_break = 'break ' + expected_native + '\n'
 
@@ -115,7 +120,8 @@ end
                 assert state['buffers'][name] == expected, ('pending buffer differs',name)
         else:
             assert events.strip() == 'exit 0' and state['frontier'] is None,(events,state)
-        originals = {p.name:p.read_bytes() for p in (reference/'work').iterdir()}
+        reference_work = reference/(canonical.split('\\')[-1] if canonical else 'work')
+        originals = {p.name:p.read_bytes() for p in reference_work.iterdir()}
         natives = {p.name:p.read_bytes() for p in work.iterdir()}
         assert originals == natives, 'visible input/output files differ at frontier'
         assert (reference/'stdout').read_bytes() == (directory/'stdout').read_bytes(), 'stdout differs at frontier'

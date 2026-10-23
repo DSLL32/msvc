@@ -4,15 +4,17 @@ Current status
 --------------
 Nine cases are complete: minimal C,
 optimized Win32 hello, DLL, numeric/varargs, PCH creation and dependent PCH use,
-a minimal do-while loop,nested SEH and inline assembly. There are629 reconstructed
-functions and732 accepted original frontiers. The assembler case includes
+a minimal do-while loop,nested SEH and inline assembly. There are653 reconstructed
+functions and757 accepted original frontiers. The active browser-output case
+matches through source/symbol/macro records and stops at its finalizer;
+cases/browser/ retains26 fresh original/native frontier observations. The assembler case includes
 operands,immediates and forward labels; see cases/inline-asm/. Unvisited functions retain named trapping stubs.
 The do-while trial reconstructs exactly one function, begin_do_statement; its
 source, original captures and current exit terminal are durable in cases/do-while/.
 cases/do-while/validation.json records the one-function workflow trial timings.
 
-Accepted original code extents cover 201139 of 277234 code-section bytes,
-72.552068%. This is a clipped extent union including shared text data, accepted
+Accepted original code extents cover 203580 of 277234 code-section bytes,
+73.432552%. This is a clipped extent union including shared text data, accepted
 CRT and import thunks; it is not branch coverage. scripts/coverage.py reports the
 source/CRT/import breakdown from the original-toolchain build and metadata.
 
@@ -42,11 +44,11 @@ original CL invocation's MSC_CMD_FLAGS is preserved, with portable toolchain
 paths; compatibility configuration is supplied through separate RECON variables.
 The BINMODE.OBJ default is retained with RECON_DEFAULT_FMODE=0x8000.
 
-scripts/native-traces.py validates all 771 native application definitions and a
+scripts/native-traces.py validates all 840 native application definitions and a
 cached projection of the original accepted first-entry histories. The projection
 excludes matched CRT, target CRT overrides and imports on both sides. There are
-586 accepted application entries: minimal 172, hello-win32 249, DLL 1, numeric 103,
-PCH-create 43, PCH-use 7, do-while 1 and SEH 10. Every case seeds the previously accepted application
+643 accepted application entries: minimal 172, hello-win32 249, DLL 1, numeric 103,
+PCH-create 43, PCH-use 7, do-while 1 SEH 10 and inline assembly33. The24 active browser entries follow that prefix. Every case seeds the previously accepted application
 prefix. The shared seen-state descriptor is supplied even though current C1
 cases have no child processes. New or missing application definitions fail before
 launch. The cache is not silently refreshed. Explicit --write regeneration reads
@@ -67,6 +69,7 @@ pch-create              94    33     3    68  state.pch 38164
 pch-use               1071   116    47    87
 do-while               888    39     3    50
 seh                   1134   114     6    79
+inline-asm            1100   107     6    75
 
 All four primary intermediates match raw bytes. Numeric stderr is the captured
 line-24 C4069 CRLF warning; other streams are empty and all cases exit 0. Only the
@@ -78,7 +81,7 @@ PCH creation and use run at N:\pch in separate private host namespaces. The actu
 native producer's PCH must match the immutable reference byte for byte before it
 is copied to the consumer. Selecting pch-use automatically runs the producer.
 The consumer's PCH input remains unchanged. There are no captured process doubles
-or external Windows dependencies in these eight frontend cases.
+or external Windows dependencies in these nine completed frontend cases.
 
 Each run keeps status, streams, trace and artifacts under ~/.ai-tmp/vc1.0-c1/.
 Receipts split setup, native execution and output checks; trace-cache preparation
@@ -100,9 +103,9 @@ period-style Win32 C with original calls and ABIs. scripts/wine-tool.py is used
 only for this explicit compilation. PE/index helpers in scripts/images.py do
 not execute any target.
 
-The call-graph audit checks all 596 accepted source functions, direct/tail calls,
+The call-graph audit checks all 653 accepted source functions, direct/tail calls,
 indirect-call presence and complete instruction boundaries. State audits check
-256 defaults/aliases, 105 PCH roots, 12 PCH callbacks, the 21-entry shape-cache
+265 defaults/aliases, 105 PCH roots, 12 PCH callbacks, the 21-entry shape-cache
 boundary, 72 scalar options, 21 option targets, 17 pragma rules, five hash
 callbacks, typed builtins and debug schemas. Grammar auditing independently
 compares all 376 states, 57904 actions/timings, 227 productions and 34216 gotos.
@@ -153,3 +156,12 @@ The fixture completes with exact instruction and label IR records.
 Remaining uncovered families include browser/preprocessed output, automatic or
 debug PCH, inline assembly, SEH builtin diagnostics, inline expansion, based pointers, legacy CodeView
 and error recovery. The active queue continues with inline assembly, browser output and preprocessing.
+
+Browser and preprocessor output fixtures
+---------------------------------------
+The queued cases/browser and cases/preprocessor preserve untouched CL child
+invocations, exact environments, dependencies and independent original C1
+replays for /FR,/E,/EP and/P. Browser now owns the full8192-byte symbol bitset;
+PCH transfers retain their observed8191-byte payload. Source-input/PCH users
+share browser_output and browser_pending_flags with the browser writer.
+The graph audit rejects external code-section switch tables missing from masks.

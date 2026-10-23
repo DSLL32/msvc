@@ -38,8 +38,18 @@ def main():
     assert hashlib.sha256(original.data).hexdigest() == phase['sha256']
     directory = options.directory.resolve()
     directory.mkdir(parents=True, exist_ok=False)
-    work = directory/'work'
+    canonical = phase.get('canonical_working_directory')
+    if canonical:
+        assert canonical.startswith('N:\\') and len(canonical.split('\\')) == 2
+    work = directory/(canonical.split('\\')[-1] if canonical else 'work')
     work.mkdir()
+    if canonical:
+        # This utility runs explicit originals serially in C1's private prefix.
+        # Give each capture its own physical namespace and retain raw N: paths.
+        drive = wt.PREFIX/'dosdevices/n:'
+        if drive.is_symlink(): drive.unlink()
+        assert not drive.exists(), 'N: mapping must be an owned symbolic link'
+        drive.symlink_to(directory)
     for item in phase['inputs']:
         source = case/item['path']
         assert sha(source) == item['sha256']
@@ -70,7 +80,7 @@ def main():
     buffers = ','.join('%x'%(r['original']-original.base) for r in config['buffered_streams'])
     command = ['wine', str(options.debugger.resolve()), wt.windows(target), '',
                wt.windows(directory/'stdout'), wt.windows(directory/'stderr'),
-               wt.windows(directory/'events'), wt.windows(work), 'MSC_CMD_FLAGS='+flags, buffers]
+               wt.windows(directory/'events'), canonical or wt.windows(work), 'MSC_CMD_FLAGS='+flags, buffers]
     preparation = time.perf_counter()-start
     run_start = time.perf_counter()
     result = subprocess.run(command, env=wt.environment(), stdout=subprocess.PIPE,
@@ -84,6 +94,8 @@ def main():
                    executable_sha256=sha(target), original_sha256=phase['sha256'],
                    debugger_sha256=sha(options.debugger), child_arguments=[],
                    child_environment={'MSC_CMD_FLAGS':flags},
+                   child_working_directory=canonical or wt.windows(work),
+                   host_working_directory=str(work),
                    preparation_seconds=preparation, execution_seconds=time.perf_counter()-run_start,
                    total_seconds=time.perf_counter()-start,
                    files=[dict(name=p.name,bytes=p.stat().st_size,sha256=sha(p)) for p in sorted(work.iterdir())])

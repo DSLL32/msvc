@@ -1,0 +1,305 @@
+{
+  "case": "Browser definitions/references with macro/include/type dependencies",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "c1": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "N:\\browser",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR test.sbr -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "c1/case.h",
+          "bytes": 179,
+          "sha256": "c4a483f163fa52a21d2d3d40eb89442249352b64c85c9cf8b2b5b633e76af21f"
+        },
+        {
+          "path": "c1/test.c",
+          "bytes": 147,
+          "sha256": "480cb7e9c0d18f200453d18169bbe65b55f201f91c555fcde55c42a004fdae80"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/c1/irex",
+          "output_name": "irex",
+          "bytes": 971,
+          "sha256": "1a09e74a4141a9fb495f3f1eb3a41c7b73ffd07097c748dda7027ce99d471536"
+        },
+        {
+          "path": "expected/c1/irgl",
+          "output_name": "irgl",
+          "bytes": 79,
+          "sha256": "7439c42f7e13035b421ec0eb075ad2ecdf44a9bc662b5c32ab25014f21614070"
+        },
+        {
+          "path": "expected/c1/irin",
+          "output_name": "irin",
+          "bytes": 6,
+          "sha256": "f05b28582588e85d520eadd8f109f10e4b57bb24fa800d62bf3dcd8304465ea1"
+        },
+        {
+          "path": "expected/c1/irsy",
+          "output_name": "irsy",
+          "bytes": 69,
+          "sha256": "dd7d6076fc3f5797d3c1417bb950d6b68cca54bccebf40e7be1f7d1a6087ee84"
+        },
+        {
+          "path": "expected/c1/test.sbr",
+          "output_name": "test.sbr",
+          "bytes": 236,
+          "sha256": "3229c33e0efb5b0d3819217f74705efcbf44b08f98dc86dce034f63f74b4a1c1"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /c /FR test.c",
+      "captured_original_environment": [
+        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il N:\\browser\\001924 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR test.sbr -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+      ],
+      "captured_temporary_prefix": "N:\\browser\\001924",
+      "normalization": "none",
+      "independent_original_verification": {
+        "receipt": "evidence/browser-original-2.receipt.json",
+        "exact": true,
+        "ignored_fields": []
+      }
+    }
+  },
+  "status": "active reconstruction; common event serialization accepted; filtering/finalizer remains",
+  "capture": {
+    "provenance": "Untouched CL and original children,read-only CL capture-run source built in C1 private scratch and Wine prefix. Only C1 phase is queued; backend capture is reference-only.",
+    "helper_source": "decomp/vc1.0/cl/src/capture-run.c"
+  },
+  "reconstruction": {
+    "accepted_from": 732,
+    "accepted_count": 757,
+    "current_terminal": {
+      "kind": "trap",
+      "logical": "_finish_browser_output",
+      "original_va": 160272
+    },
+    "acceptance_order": [
+      "_begin_browser_output",
+      "_make_browser_temporary_name@4",
+      "_write_browser_header",
+      "_write_browser_record@8",
+      "_prepare_browser_record@8",
+      "_append_browser_record@4",
+      "_serialize_browser_record@8",
+      "_browser_current_directory",
+      "__getcwd",
+      "_browser_symbol_definition@4",
+      "_prepare_browser_definition@8",
+      "_prepare_browser_symbol_record@8",
+      "_browser_macro@4",
+      "_prepare_browser_macro_definition@8",
+      "_browser_open_file",
+      "_prepare_browser_file_record",
+      "_copy_browser_name",
+      "_browser_begin_function_scope",
+      "_browser_function_parameters@4",
+      "_browser_finish_scope",
+      "_browser_close_file",
+      "_browser_macro_reference@4",
+      "_prepare_browser_macro_reference@8",
+      "_browser_symbol_reference@4",
+      "_prepare_browser_reference@8"
+    ],
+    "frontier_observations": [
+      {
+        "accepted_count": 732,
+        "frontier": "_begin_browser_output",
+        "native_frame": "begin_browser_output",
+        "original_receipt": "evidence/frontier-732-original.receipt.json",
+        "native_receipt": "evidence/frontier-732-native.receipt.json"
+      },
+      {
+        "accepted_count": 733,
+        "frontier": "_make_browser_temporary_name@4",
+        "native_frame": "make_browser_temporary_name",
+        "original_receipt": "evidence/frontier-733-original.receipt.json",
+        "native_receipt": "evidence/frontier-733-native.receipt.json"
+      },
+      {
+        "accepted_count": 734,
+        "frontier": "_write_browser_header",
+        "native_frame": "write_browser_header",
+        "original_receipt": "evidence/frontier-734-original.receipt.json",
+        "native_receipt": "evidence/frontier-734-native.receipt.json"
+      },
+      {
+        "accepted_count": 735,
+        "frontier": "_write_browser_record@8",
+        "native_frame": "write_browser_record",
+        "original_receipt": "evidence/frontier-735-original.receipt.json",
+        "native_receipt": "evidence/frontier-735-native.receipt.json"
+      },
+      {
+        "accepted_count": 736,
+        "frontier": "_prepare_browser_record@8",
+        "native_frame": "prepare_browser_record",
+        "original_receipt": "evidence/frontier-736-original.receipt.json",
+        "native_receipt": "evidence/frontier-736-native.receipt.json"
+      },
+      {
+        "accepted_count": 737,
+        "frontier": "_append_browser_record@4",
+        "native_frame": "append_browser_record",
+        "original_receipt": "evidence/frontier-737-original.receipt.json",
+        "native_receipt": "evidence/frontier-737-native.receipt.json"
+      },
+      {
+        "accepted_count": 738,
+        "frontier": "_serialize_browser_record@8",
+        "native_frame": "serialize_browser_record",
+        "original_receipt": "evidence/frontier-738-original.receipt.json",
+        "native_receipt": "evidence/frontier-738-native.receipt.json"
+      },
+      {
+        "accepted_count": 739,
+        "frontier": "_browser_current_directory",
+        "native_frame": "browser_current_directory",
+        "original_receipt": "evidence/frontier-739-original.receipt.json",
+        "native_receipt": "evidence/frontier-739-native.receipt.json"
+      },
+      {
+        "accepted_count": 740,
+        "frontier": "__getcwd",
+        "native_frame": "recon_getcwd",
+        "original_receipt": "evidence/frontier-740-original.receipt.json",
+        "native_receipt": "evidence/frontier-740-native.receipt.json"
+      },
+      {
+        "accepted_count": 741,
+        "frontier": "_browser_symbol_definition@4",
+        "native_frame": "browser_symbol_definition",
+        "original_receipt": "evidence/frontier-741-original.receipt.json",
+        "native_receipt": "evidence/frontier-741-native.receipt.json"
+      },
+      {
+        "accepted_count": 742,
+        "frontier": "_prepare_browser_definition@8",
+        "native_frame": "prepare_browser_definition",
+        "original_receipt": "evidence/frontier-742-original.receipt.json",
+        "native_receipt": "evidence/frontier-742-native.receipt.json"
+      },
+      {
+        "accepted_count": 743,
+        "frontier": "_prepare_browser_symbol_record@8",
+        "native_frame": "prepare_browser_symbol_record",
+        "original_receipt": "evidence/frontier-743-original.receipt.json",
+        "native_receipt": "evidence/frontier-743-native.receipt.json"
+      },
+      {
+        "accepted_count": 744,
+        "frontier": "_browser_macro@4",
+        "native_frame": "browser_macro",
+        "original_receipt": "evidence/frontier-744-original.receipt.json",
+        "native_receipt": "evidence/frontier-744-native.receipt.json"
+      },
+      {
+        "accepted_count": 745,
+        "frontier": "_prepare_browser_macro_definition@8",
+        "native_frame": "prepare_browser_macro_definition",
+        "original_receipt": "evidence/frontier-745-original.receipt.json",
+        "native_receipt": "evidence/frontier-745-native.receipt.json"
+      },
+      {
+        "accepted_count": 746,
+        "frontier": "_browser_open_file",
+        "native_frame": "browser_open_file",
+        "original_receipt": "evidence/frontier-746-original.receipt.json",
+        "native_receipt": "evidence/frontier-746-native.receipt.json"
+      },
+      {
+        "accepted_count": 747,
+        "frontier": "_prepare_browser_file_record",
+        "native_frame": "prepare_browser_file_record",
+        "original_receipt": "evidence/frontier-747-original.receipt.json",
+        "native_receipt": "evidence/frontier-747-native.receipt.json"
+      },
+      {
+        "accepted_count": 748,
+        "frontier": "_copy_browser_name",
+        "native_frame": "copy_browser_name",
+        "original_receipt": "evidence/frontier-748-original.receipt.json",
+        "native_receipt": "evidence/frontier-748-native.receipt.json"
+      },
+      {
+        "accepted_count": 749,
+        "frontier": "_browser_begin_function_scope",
+        "native_frame": "browser_begin_function_scope",
+        "original_receipt": "evidence/frontier-749-original.receipt.json",
+        "native_receipt": "evidence/frontier-749-native.receipt.json"
+      },
+      {
+        "accepted_count": 750,
+        "frontier": "_browser_function_parameters@4",
+        "native_frame": "browser_function_parameters",
+        "original_receipt": "evidence/frontier-750-original.receipt.json",
+        "native_receipt": "evidence/frontier-750-native.receipt.json"
+      },
+      {
+        "accepted_count": 751,
+        "frontier": "_browser_finish_scope",
+        "native_frame": "browser_finish_scope",
+        "original_receipt": "evidence/frontier-751-original.receipt.json",
+        "native_receipt": "evidence/frontier-751-native.receipt.json"
+      },
+      {
+        "accepted_count": 752,
+        "frontier": "_browser_close_file",
+        "native_frame": "browser_close_file",
+        "original_receipt": "evidence/frontier-752-original.receipt.json",
+        "native_receipt": "evidence/frontier-752-native.receipt.json"
+      },
+      {
+        "accepted_count": 753,
+        "frontier": "_browser_macro_reference@4",
+        "native_frame": "browser_macro_reference",
+        "original_receipt": "evidence/frontier-753-original.receipt.json",
+        "native_receipt": "evidence/frontier-753-native.receipt.json"
+      },
+      {
+        "accepted_count": 754,
+        "frontier": "_prepare_browser_macro_reference@8",
+        "native_frame": "prepare_browser_macro_reference",
+        "original_receipt": "evidence/frontier-754-original.receipt.json",
+        "native_receipt": "evidence/frontier-754-native.receipt.json"
+      },
+      {
+        "accepted_count": 755,
+        "frontier": "_browser_symbol_reference@4",
+        "native_frame": "browser_symbol_reference",
+        "original_receipt": "evidence/frontier-755-original.receipt.json",
+        "native_receipt": "evidence/frontier-755-native.receipt.json"
+      },
+      {
+        "accepted_count": 756,
+        "frontier": "_prepare_browser_reference@8",
+        "native_frame": "prepare_browser_reference",
+        "original_receipt": "evidence/frontier-756-original.receipt.json",
+        "native_receipt": "evidence/frontier-756-native.receipt.json"
+      },
+      {
+        "accepted_count": 757,
+        "frontier": "_finish_browser_output",
+        "native_frame": "finish_browser_output",
+        "original_receipt": "evidence/frontier-757-original.receipt.json",
+        "native_receipt": "evidence/frontier-757-native.receipt.json"
+      }
+    ]
+  }
+}

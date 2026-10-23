@@ -1,0 +1,24 @@
+python3 scripts/dependencies.py
+python3 scripts/wine-tool.py --init
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/browser-stubs.obj src/browser-stubs.c
+src/browser-stubs.c
+python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /map:build/c1.map /out:build/c1.exe build/c1.obj build/stubs.obj build/diagnostics.obj build/options.obj build/option-data.obj build/option-state.obj build/packing.obj build/memory.obj build/hash-table.obj build/checksums.obj build/characters.obj build/arguments.obj build/vectors.obj build/frontend.obj build/initialization.obj build/preprocessor.obj build/preprocessor-directives.obj build/pch.obj build/pch-files.obj build/pch-relocate.obj build/pch-reader.obj build/pp-expression.obj build/pragma.obj build/keywords.obj build/floating.obj build/intermediate.obj build/runtime.obj build/constants.obj build/ir.obj build/ir-formats.obj build/types.obj build/scopes.obj build/parameters.obj build/builtins.obj build/builtin-data.obj build/macros.obj build/macro-expand.obj build/global-ir.obj build/global-formats.obj build/source-input.obj build/lexer.obj build/token-data.obj build/parser.obj build/asm.obj build/asm-lexer.obj build/asm-mnemonics.obj build/asm-instructions.obj build/asm-registers.obj build/asm-symbols.obj build/asm-validation.obj build/asm-output.obj build/asm-numbers.obj build/asm-expressions.obj build/asm-parser.obj build/asm-grammar.obj build/asm-stubs.obj build/seh.obj build/parser-grammar.obj build/declarations.obj build/control-ir.obj build/control-formats.obj build/expression-records.obj build/conversions.obj build/expressions.obj build/calls.obj build/literal-names.obj build/initializer-records.obj build/initializers.obj build/debug-info.obj build/browser.obj build/browser-stubs.obj build/program-database.obj ../../../toolchains/1.0-nt/lib/BINMODE.OBJ
+LIBC.lib(UNLINK.OBJ) : warning LNK4006: __unlink already defined in build/stubs.obj; second definition ignored
+LIBC.lib(OPEN.OBJ) : warning LNK4006: __sopen already defined in build/runtime.obj; second definition ignored
+python3 scripts/identify-runtime.py build/c1.exe build/runtime.json
+236 runtime functions identified, 35597 bytes
+python3 scripts/audit-graph.py
+653 reconstructed functions have matching call targets (including indirect calls).
+python3 scripts/audit-state.py
+105 PCH root identities, 12 PCH graph callbacks and the 21-entry shape-cache boundary match.
+265 state defaults/aliases, 72 scalar options, 21 option targets, 17 pragma rules and 5 hash callbacks match; 51 builtin suffixes/groups and 6 declspec rows and 13 debug schemas match; 14 special names and 18 integer limits match; 58 primitive debug codes and four pointer models match.
+python3 scripts/audit-grammar.py
+376 states: 57904 actions/timings, 227 productions, and 34216 gotos match.
+python3 scripts/audit-asm-grammar.py
+76 register/operator/qualifier rows and 28 groups match.
+46 register encodings, widths and addressing properties match.
+60 operand-class rules and 32 address flag/mode/category mappings match.
+21 logical operand serialization formats match; maximum instruction78 bytes fits128-byte workspace.
+230 instruction operand classes and processor masks match.
+153 assembler lexical classes, 98 instruction aliases and 330 mnemonic rows/28 groups match.
+136 assembler states: 6936 complete actions/errors, 136 lookahead timings/defaults, 83 production records and 3128 gotos match (model and emitted C).
