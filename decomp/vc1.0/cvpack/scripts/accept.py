@@ -40,6 +40,20 @@ def compare_integer(item,descriptions,words,parameters):
     assert value&mask==actual&mask,('ABI integer differs',item['name'],value,actual)
     return None
 
+def compare_counted_name(item,words,actual,events):
+    assert (item['owner'],item['local'],item['original_owner_slot'],item['caller'])==('build_source_file_index','module',11,0x1d541),'unknown counted-name context'
+    assert words[0]==item['caller'],'unknown counted-name original caller'
+    pointer=words[item['slot']];owner=actual['owner']
+    matches=re.findall(r'^counted-owner %08x ([0-9a-f]+) (\d+) ([0-9a-f]+) (\d+)$'%pointer,events,re.M)
+    assert len(matches)==1,'missing counted-name original owner'
+    parent,module,base,size=matches[0];parent=int(parent,16);base=int(base,16);size=int(size);module=int(module)
+    assert parent==words[item['original_owner_slot']]and module==owner['module'],'counted-name parent/module differs'
+    assert base<=pointer<base+size and size==owner['size']and pointer-base==owner['offset'],'counted-name allocation extent/offset differs'
+    assert actual['address']==owner['base']+owner['offset']and not actual['null'],'counted-name native pointer/owner differs'
+    match=re.findall(r'^input-buffer %08x ([0-9a-f]+)$'%pointer,events,re.M);assert len(match)==1,'missing actual counted-name bytes'
+    raw=bytes.fromhex(match[0]);assert len(raw)==raw[0]+1<=size-(pointer-base)and raw.hex()==actual['bytes'],'counted-name bytes differ'
+    return dict(original_address=pointer,native_address=actual['address'],module=module,owner_offset=pointer-base,owner_extent=size,bytes=raw.hex())
+
 def compare_null_pointer(value,actual):
     assert value==0 and actual['null']and actual['address']==0,'non-NULL pointer outside observed NULL-only frontier'
     return dict(original_address=value,native_address=actual['address'],null_only=True)
@@ -65,6 +79,7 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
     assert set(state['parameters'])=={r['name']for r in frontier['parameters']},'new frontier ABI observation incomplete'
     for item in frontier['parameters']:
         if item['kind']=='integer':parameters[item['name']]=compare_integer(item,frontier['parameters'],words,state['parameters'])
+        elif item['kind']=='counted-string':parameters[item['name']]=compare_counted_name(item,words,state['parameters'][item['name']],events)
         elif item['kind']=='pointer'and item.get('null_only'):parameters[item['name']]=compare_null_pointer(words[item['slot']],state['parameters'][item['name']])
         elif item['kind']in('stack-output','stack-input','allocation-output'):
             from stack_output import compare as compare_output

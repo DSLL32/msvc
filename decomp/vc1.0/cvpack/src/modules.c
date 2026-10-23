@@ -422,3 +422,101 @@ unsigned short address_in_module(ModuleInfo *module, unsigned short segment,
     }
     return 0;
 }
+
+/* Temporary per-module offsets into the consolidated counted-name pool. */
+typedef struct ModuleSourceNames {
+    unsigned short module, count;
+    struct ModuleSourceNames *next;
+    unsigned long offsets[1];
+} ModuleSourceNames;
+SourceName *source_name_hash[50];
+unsigned char *source_file_index;
+unsigned long source_file_index_size;
+
+void build_source_file_index(void)
+{
+    ModuleSourceNames module_head, *last_module = &module_head, *node, *next_module;
+    SourceName name_head, *last_name = &name_head, *name_item, *next_name;
+    ModuleInfo *module;
+    unsigned char *record, *file_record, *output;
+    const unsigned char *name;
+    unsigned short file_count = 0, first_file = 0, number = 1;
+    unsigned long name_bytes = 0, name_offset, i, j, size;
+    unsigned long *file_offsets;
+
+    module_head.module = module_head.count = 0;
+    module_head.next = NULL;
+    name_head.name = NULL;
+    name_head.offset = 0;
+    name_head.next = name_head.bucket_next = NULL;
+    for (i = 0; i < 50; ++i) source_name_hash[i] = NULL;
+    for (module = module_list; module; module = module->next) {
+        record = module->lines;
+        if (!record) continue;
+        size = *(unsigned short *)record*4+8;
+        node = checked_alloc(size);
+        node->module = module->module;
+        node->count = *(unsigned short *)record;
+        node->next = NULL;
+        last_module->next = node;
+        last_module = node;
+        for (i = 0; i < *(unsigned short *)record; ++i) {
+            file_record = record+((unsigned long *)(record+4))[i];
+            name = file_record+4+*(unsigned short *)file_record*12;
+            name_offset = 0;
+            if (find_source_name(name, &name_offset)) node->offsets[i] = name_bytes;
+            else {
+                last_name = add_source_name(name, last_name, name_bytes);
+                node->offsets[i] = name_bytes;
+                name_bytes += *name+1;
+            }
+            ++file_count;
+        }
+    }
+#ifdef RECON_NATIVE_TEST
+    /* Original dereferences the empty dummy if called without any source files. */
+    if (!last_name->name) __asm { int 3 }
+#endif
+    source_file_index_size = *last_name->name+(module_count+file_count)*4
+                             +last_name->offset+5;
+    source_file_index_size = (source_file_index_size+3)&~3UL;
+#ifdef RECON_NATIVE_TEST
+    /* Original truncates allocation size to WORD, then uses full computed sizes. */
+    if (source_file_index_size > 65535) __asm { int 3 }
+#endif
+    output = source_file_index = checked_alloc((unsigned short)source_file_index_size);
+    *(unsigned short *)output = module_count;
+    *(unsigned short *)(output+2) = file_count;
+    file_offsets = (unsigned long *)(output+4+module_count*4);
+    for (node = module_head.next; node; node = node->next) {
+        while (node->module > number) {
+            ((unsigned short *)(output+2))[number] = 0;
+            ((unsigned short *)(output+2))[module_count+number] = 0;
+            ++number;
+        }
+        ((unsigned short *)(output+2))[number] = first_file;
+        ((unsigned short *)(output+2))[module_count+number] = node->count;
+        first_file += node->count;
+        for (i = 0; i < node->count; ++i) *file_offsets++ = node->offsets[i];
+        ++number;
+    }
+    while (module_count+1 > (unsigned long)number) {
+        ((unsigned short *)(output+2))[number] = 0;
+        ((unsigned short *)(output+2))[module_count+number] = 0;
+        ++number;
+    }
+    output += (module_count+file_count)*4+4;
+    for (name_item = name_head.next; name_item; name_item = name_item->next) {
+        for (i = 0; i < (unsigned long)*name_item->name+1; ++i)
+            output[i] = name_item->name[i];
+        output += *output+1;
+    }
+    for (node = module_head.next; node; node = next_module) {
+        next_module = node->next;
+        free(node);
+    }
+    for (name_item = name_head.next; name_item; name_item = next_name) {
+        next_name = name_item->next;
+        free(name_item);
+    }
+}

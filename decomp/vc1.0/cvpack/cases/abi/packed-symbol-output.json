@@ -110,7 +110,7 @@
   "sources": {
     "src/types.c": "afef248401a6632f884cdb80de20103140b43ad3c296779254efd8f642b6d972",
     "src/types.h": "66692468283112e7109b6e5cc02e55fd6bcd4d082d0c9db581eb08f4b3d463d2",
-    "src/image.h": "14ac422e881af84a5a262256d0be956b81ac5ff65b39a3419c1eb5e44cf1a2cd"
+    "src/image.h": "b3f9b01470cde49cfd91d7ac0e669924d76983aa5d8996d95348924f3978887c"
   },
   "scope": "Same actual module3 allocation5113. Header4; search12 yields16; then completed24-byte S_OBJNAME copy yields40. Exact first respectivecallbacks/parentframes/sourcecursor; later writes not inferred.",
   "frontiers": {

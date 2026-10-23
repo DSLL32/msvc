@@ -429,20 +429,37 @@
       }
     },
     {
-      "name": "print_statistics",
-      "native": "print_statistics",
-      "symbol": "_print_statistics",
+      "name": "build_source_file_index",
+      "native": "build_source_file_index",
+      "symbol": "_build_source_file_index",
       "original": 119872,
-      "source": "src/stubs.c",
+      "source": "src/modules.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
-      "abi": "void print_statistics(void)",
+      "status": "accepted",
+      "extent": [
+        119872,
+        120708
+      ],
+      "abi": "void build_source_file_index(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0123-build_source_file_index/proof.json",
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "free_type_tables",
@@ -6536,6 +6553,54 @@
           "bits": 32
         }
       ]
+    },
+    {
+      "name": "find_source_name",
+      "native": "find_source_name",
+      "symbol": "_find_source_name",
+      "original": 119696,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int find_source_name(const unsigned char *,unsigned long *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "name",
+          "slot": 1,
+          "kind": "counted-string",
+          "owner": "build_source_file_index",
+          "local": "module",
+          "original_owner_slot": 11,
+          "caller": 120129
+        },
+        {
+          "name": "offset",
+          "slot": 2,
+          "kind": "stack-output",
+          "evidence": "cases/abi/source-name-offset-output.json",
+          "evidence_sha256": "f4a3557828b7bb93a240f2d45f580f5929ab22bb61bc0c112b2e85c805006fcd"
+        }
+      ]
+    },
+    {
+      "name": "add_source_name",
+      "native": "add_source_name",
+      "symbol": "_add_source_name",
+      "original": 119792,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "SourceName *add_source_name(const unsigned char *,SourceName *,unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
     }
   ],
   "review": {
@@ -7294,6 +7359,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 122
+    },
+    {
+      "function": "build_source_file_index",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 123
     }
   ],
   "support_unmasked": [
@@ -7900,15 +7971,15 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "c0c4ec1a076697631fc7f1f7605932bd2e405866c551a9d087910859e519e29e"
+    "evidence_sha256": "b9a95774d4f2efe8f9be249b7740f87a9f777382ce6d6f1bd13d6f7ba2c5d5c9"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "c187b0f6dbe0989af62be3b4246d315810da64d336da44dc93a925b94b7aaf59"
+    "evidence_sha256": "b1f379cfb14a7b53dd4338ed1719abd86e47e0b57626adfeea8704669feef9bc"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
-    "evidence_sha256": "03537b7dde52d1d542b6b68b63eb85e2de20c12fff1d3e47bc587db96d21e14c"
+    "evidence_sha256": "42db4c80b2d65a904c2563e8e2228488cb56f12e1bb10edc38e45ab157f9baf3"
   },
   "external_inputs": {
     "evidence": "cases/abi/pdb-input.json",
@@ -7928,11 +7999,11 @@
   },
   "partial_read_observations": {
     "evidence": "cases/abi/partial-public-read.json",
-    "evidence_sha256": "c040f1ec95399976ee9cae3ae4aa90c9428e5f1c1fcbeef8a14e0602ae1f2485"
+    "evidence_sha256": "ba9d79a1f4bf28585d1c4af09628d216bb0822428a2394f2bf185fbdd6c9bbec"
   },
   "module_buffer_publication": {
     "evidence": "cases/abi/module-buffer-publication.json",
-    "evidence_sha256": "abfbdb6d896bf2155214b2525e35ba2f4537c4ffd1b7a9e12618e991efd572f4"
+    "evidence_sha256": "89f0f05bde8ebafd037ba82f92afd9d31c73cf393c43bc0b7488b3be545f6893"
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
@@ -7940,7 +8011,7 @@
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "be5c515e48fe804b0a8f665bae7f8824e40d5502a73c766e8ae297771104fdcb"
+    "evidence_sha256": "620e95fec85825ad47459c8423f8128caa75241cb73ca534c941460a3c64eebc"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
@@ -7948,7 +8019,7 @@
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "2153df010f207af075be27f94036f2a0a130c9454c48c932a8148fed5a5c2a7a"
+    "evidence_sha256": "23664bcae32c6400a4832bc441ef7c2ef74f1f3177672cc3205588f4468d481d"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
@@ -7960,26 +8031,26 @@
   },
   "recursive_arena_observations": {
     "evidence": "cases/abi/recursive-arena.json",
-    "evidence_sha256": "c518c4313a19ea8ba37dae02975d181319264ed38c1f34ff293ace0b06e77ab2"
+    "evidence_sha256": "0b833f19bf892db5b6dd88d7a7d8d5746ad1d26c16847f460347adf5edc53e85"
   },
   "packed_arena_observations": {
     "evidence": "cases/abi/packed-arena.json",
-    "evidence_sha256": "7227433246689736344e44f32dcd938663981186c11152920aede8f62c28863c"
+    "evidence_sha256": "ffd5c97abd84c01547ddca577b8ead770c154e6f005b93be9270be6c054b6d6b"
   },
   "symbol_block_observations": {
     "evidence": "cases/abi/symbol-blocks.json",
-    "evidence_sha256": "887aefb98b6c4e97ad223e00cebb12bc98c4e703189a9a6c96505161f643001a"
+    "evidence_sha256": "9d64a7c48c245ed8cc94f955bb266baa91a0d158588d4cdffc4f691b1261fe69"
   },
   "module_address_observations": {
     "evidence": "cases/abi/module-address.json",
-    "evidence_sha256": "28303e2fc1e3dfbd7b541c713c46498cc2e3bb557377997a4cd5e294c8be29fb"
+    "evidence_sha256": "8a332872deb515d312087656bb3afd11be584a8da8accf411c64109dcdcc4fd5"
   },
   "symbol_reference_observations": {
     "evidence": "cases/abi/symbol-references.json",
-    "evidence_sha256": "ce229ebb93565f704da3d8ac69d824be469628c1ea6a24196f42409e742e07de"
+    "evidence_sha256": "1c0687f727c4a371f460e409c897b3f9c52fc6135677cd8425f4601d050a1b19"
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "91ea02a6321b987239a6f2f2d66b3335b3957702dd38b1d2b71aa8a8d22d7eb6"
+    "sha256": "2512123ec731a66d2cd58689ea1b71f39a8ab009fea29dbc905341993d186e78"
   }
 }

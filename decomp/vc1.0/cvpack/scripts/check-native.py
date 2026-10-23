@@ -100,7 +100,7 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
         '  value=current.read_var(symbol); kind=value.type.strip_typedefs().code\n'
         '  if kind==gdb.TYPE_CODE_PTR:\n'
         '   parameters[symbol.name]=dict(null=int(value)==0,address=int(value))\n'
-        '   output=any(d["name"]==symbol.name and d["kind"]in("stack-output","allocation-output")for d in next(r for r in '+repr(config['functions'])+' if r["native"]==current.name()).get("parameters",[]))\n'
+        '   output=any(d["name"]==symbol.name and d["kind"]in("stack-output","allocation-output","counted-string")for d in next(r for r in '+repr(config['functions'])+' if r["native"]==current.name()).get("parameters",[]))\n'
         '   if not output and int(value) and value.type.strip_typedefs().target().strip_typedefs().code==gdb.TYPE_CODE_INT and value.type.strip_typedefs().target().strip_typedefs().sizeof==1: parameters[symbol.name]["string"]=value.string(encoding="latin1").encode("latin1").hex()\n'
         '   for item in '+repr(data)+':\n'
         '    address=int(gdb.parse_and_eval("&"+item["name"]))\n'
@@ -131,6 +131,16 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
         '     if byte==b"\\0": break\n'
         '    if not payload.endswith(b"\\0"): raise RuntimeError("unterminated COFF name")\n'
         '   argument["children"][str(field)]=dict(address=pointer,bytes=payload.hex())\n'
+        'for description in frontier.get("parameters",[]):\n'
+        ' if description["kind"]!="counted-string": continue\n'
+        ' owner=current.older()\n'
+        ' while owner and owner.name()!=description["owner"]: owner=owner.older()\n'
+        ' if not owner: raise RuntimeError("missing counted-string owner")\n'
+        ' module=owner.read_var(description["local"]);base=int(module["lines"]);extent=int(module["line_size"]);argument=parameters[description["name"]];pointer=argument["address"]\n'
+        ' if not base or not base<=pointer<base+extent: raise RuntimeError("counted name outside module-owned lines")\n'
+        ' size=int.from_bytes(bytes(gdb.selected_inferior().read_memory(pointer,1)),"little")+1\n'
+        ' if size>base+extent-pointer: raise RuntimeError("counted name exceeds module-owned lines")\n'
+        ' argument["bytes"]=bytes(gdb.selected_inferior().read_memory(pointer,size)).hex();argument["owner"]=dict(address=int(module),module=int(module["module"]),base=base,size=extent,offset=pointer-base)\n'
         'for description in frontier.get("parameters",[]):\n'
         ' if description["kind"]!="transient-pointer": continue\n'
         ' proof=json.load(open('+repr(str(BINARY))+'+"/"+description["evidence"]))\n'
@@ -244,7 +254,7 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
     if expected.get('proof_mode')=='entry-flow'and not(reference_completion or scalar_completion):
         marker='set argv[0] = recon_pgmptr\n';text=script.read_text();prefix=text[:text.index(marker)+len(marker)]
         frontier=next(r for r in config['functions']if r['native']==expected['native_function'])
-        assert all(r['kind']in('integer','stack-output','stack-input','allocation-output')or(r['kind']=='pointer'and r.get('null_only'))for r in frontier['parameters']),'new frontier requires concrete typed pointer observation'
+        assert all(r['kind']in('integer','stack-output','stack-input','allocation-output','counted-string')or(r['kind']=='pointer'and r.get('null_only'))for r in frontier['parameters']),'new frontier requires concrete typed pointer observation'
         observed=[r for r in data if r['name']in expected.get('observed_globals',[])]
         assert len(observed)==len(expected.get('observed_globals',[])),'unknown observed global'
         prefix+='python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_sopen_observer"]('+repr(str(directory/'crt-returns.json'))+','+repr(str(directory/'debug-work'))+','+repr(policies)+')\nend\ncontinue\npython\nimport json\nf=gdb.newest_frame();frames=[];frame=f\nwhile frame:frames.append(frame.name());frame=frame.older()\n'

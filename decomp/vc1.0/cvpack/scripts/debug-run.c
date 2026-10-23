@@ -868,6 +868,18 @@ static int dump_output_buffers(HANDLE child, HANDLE log, DWORD entry, DWORD *wor
         if (address == entry) {
             if (slot>15 && slot!=256) return 0;
             pointer=slot==256?context->Edx:words[slot];
+            if (!size) {
+                DWORD owner[12], parent = words[11];
+                unsigned char length;
+                if (entry != 0x1d390 || slot != 1 || !input || words[0] != 0x1d541 ||
+                    !ReadProcessMemory(child, (void *)parent, owner, sizeof(owner), &bytes) || bytes != sizeof(owner) ||
+                    !ReadProcessMemory(child, (void *)pointer, &length, 1, &bytes) || bytes != 1) return 0;
+                size = (DWORD)length+1;
+                if (pointer < owner[7] || pointer-owner[7] > owner[8] || size > owner[8]-(pointer-owner[7])) return 0;
+                used = sprintf(object_line, "counted-owner %08lx %08lx %lu %08lx %lu\n",
+                    pointer, parent, owner[0]&0xffff, owner[7], owner[8]);
+                if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
+            }
             if (input > 1 || !size || size > 1024 ||
                 !ReadProcessMemory(child, (void *)pointer, original_bytes, size, &bytes) || bytes != size) return 0;
             used = sprintf(object_line, "%s-buffer %08lx ", input ? "input" : "output", pointer);

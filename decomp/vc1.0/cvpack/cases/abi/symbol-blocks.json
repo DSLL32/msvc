@@ -25,8 +25,8 @@
   "record_tail": 2,
   "ownership": "whole actual blocks; nodes are contained fields",
   "sources": {
-    "src/modules.c": "72c7e2d4fa232020d5154aa027aeac1d26dfbf3202f16f88b91e86f3b8ca0e36",
-    "src/image.h": "14ac422e881af84a5a262256d0be956b81ac5ff65b39a3419c1eb5e44cf1a2cd"
+    "src/modules.c": "f2baf4d9744fe7cd01ee9e488cabcfd86d7b3e137fc0f2cdd35a0551c5c849fc",
+    "src/image.h": "b3f9b01470cde49cfd91d7ac0e669924d76983aa5d8996d95348924f3978887c"
   },
   "native_allocation_line": 298,
   "instructions": [
@@ -47,7 +47,7 @@
     }
   ],
   "review": "Root approved concretely reached second block: exact requested extent/birth/lifetime, prior block retained through actual family bucket references; reject missing/wrong-family/expired owner. No generic heap tracking or nearby inference; raw reserved/tails remain own unchanged without equality credit.",
-  "data.json_sha256": "5a6664fb489e06b284b74aa5eba533e63c733e996e8b8e32b87587cd79b582f6",
+  "data.json_sha256": "460bfa3ce26bf8583945b15350c14c5f3d2782e61fed0be800a12ebbcbf4b044",
   "walks.json_sha256": "215560c62065823fddf0036911707c267da5ccac3fc33eb6979e2fca746a1e3d",
   "address_frontier": 153888,
   "bp_frontier": 152816,

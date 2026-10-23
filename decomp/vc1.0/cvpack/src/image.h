@@ -43,6 +43,15 @@ typedef struct ModuleInfo {
     struct ModuleInfo *next;
 } ModuleInfo;
 
+typedef struct SourceName {
+    const unsigned char *name;
+    unsigned long offset;
+    struct SourceName *next, *bucket_next;
+} SourceName;
+typedef char SourceNameSize[(sizeof(SourceName)==16)?1:-1];
+int find_source_name(const unsigned char *,unsigned long *);
+SourceName *add_source_name(const unsigned char *,SourceName *,unsigned long);
+
 unsigned short address_in_module(ModuleInfo *, unsigned short, unsigned long);
 
 typedef struct ModuleContribution {

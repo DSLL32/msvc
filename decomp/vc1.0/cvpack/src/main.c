@@ -70,7 +70,7 @@ int main(int argc, char **argv, char **environment)
         free(type_data);
         free(module_data);
         finalize_types();
-        if (statistics_enabled) print_statistics();
+        if (statistics_enabled) build_source_file_index();
         if (feedback) {
             source = "@I4Writing Packed Info\n";
             for (count = 0; source[count]; ++count) {}
