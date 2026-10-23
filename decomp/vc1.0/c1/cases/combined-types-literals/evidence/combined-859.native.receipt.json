@@ -1,0 +1,48 @@
+{
+  "buffers": {
+    "expression_file": "00",
+    "symbol_file": "",
+    "line_file": "00a30000010104fd0700a4000001010480701101000700a500000105040000f040080401050800000000000000400105080000000000001ec00101040a0804010508000000000000c03f01010480e30e0000080407",
+    "global_file": "1186032e1d30019700000000",
+    "debug_file": "0c000a00030401000000",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "decode_escape",
+    "scan_string_literal",
+    "scan_source_token",
+    "scan_token",
+    "read_parser_token",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "frontier": "decode_escape",
+  "pc": 1448841019,
+  "label_stack_count": 0,
+  "scanner_flags": 0,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ],
+  "original_logical": "_decode_escape@8",
+  "fresh_original_match": true,
+  "preparation_seconds": 0.003611384890973568,
+  "execution_seconds": 0.14596332795917988,
+  "total_seconds": 0.15211269818246365,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f combined.c -Ze -Zp8 -Focombined.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Gs -Gf -Og -Oi -Ot -Oy -Ob1 -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); original _spawnvpe child transport and complete boundary inventories captured."
+  },
+  "executable_sha256": "4d4ae4a6a4641e9e24a474a474bbb9e9578b6441517180fa4aaee5a5b3dbdbd3"
+}

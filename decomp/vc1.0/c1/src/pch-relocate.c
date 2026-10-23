@@ -443,13 +443,16 @@ void mark_pch_function_records(void)
 /* Original 0x43f10..0x43f41. */
 void mark_pch_scope_directory(void)
 {
-    mark_pch_pointer_array((void **)scope_directory, 128);
+    mark_pch_pointer_array((void **)scope_directory, 128,
+        "Table_stack", "table");
     mark_pch_symbol_chain(translation_sentinel);
     mark_pch_symbol_chain(translation_placeholder);
 }
 
-/* Original 0x44490..0x444b3. */
-void __stdcall mark_pch_pointer_array(void **slots, int count)
+/* Original 0x44490..0x444b2. RET16 and the four pushes at0x43f10
+   establish the two unused stack arguments; preserve their ABI slots. */
+void __stdcall mark_pch_pointer_array(void **slots, int count,
+    const char *unused_scope_name, const char *unused_item_name)
 {
     if (!slots) return;
     while (count > 0) {

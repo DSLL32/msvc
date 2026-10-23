@@ -642,13 +642,11 @@ void __stdcall report_function_operand(unsigned char operation, int argument) { 
 /* Original 0x3f530. */
 
 /* Original 0x4c80f. */
-int compare_extended(unsigned operation, const Extended *left, const Extended *right) { __asm { int 3 } return 0; }
 /* Original 0x4c71e. */
 int unsigned_to_extended(const unsigned *value, Extended *number) { __asm { int 3 } return 0; }
 /* Original 0x4c6fc. */
 int integer_to_extended(const int *value, Extended *number) { __asm { int 3 } return 0; }
 /* Original 0x28190. */
-IrToken * __stdcall fold_floating_binary(IrToken *expression, Extended *left, Extended *right) { __asm { int 3 } return 0; }
 /* Original 0x4c260. */
 /* Original 0x4c080. */
 
@@ -706,7 +704,6 @@ void __stdcall assign_unpooled_literal_segment(FrontendSymbol *symbol, FrontendS
 
 
 unsigned __stdcall initializer_address_size(FrontendSymbol *symbol) { __asm { int 3 } }
-int extended_to_integer(const Extended *value, int *result) { __asm { int 3 } }
 void write_ir_float(float *value) { __asm { int 3 } }
 void write_ir_double(double *value) { __asm { int 3 } }
 

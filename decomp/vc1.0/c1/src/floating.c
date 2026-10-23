@@ -422,3 +422,144 @@ int finish_extended_arithmetic(void)
     }
     return status;
 }
+
+/* Original 0x4c4e9..0x4c537. Period C cannot represent the original
+   80-bit operands or ESI/ST(0) arithmetic tail. Only that arithmetic and
+   transfer use assembly; result precision follows the operand tags. */
+int add_extended(const Extended *left, const Extended *right, Extended *result)
+{
+    unsigned short format;
+    int status;
+    __asm {
+        mov eax, left
+        fld tbyte ptr [eax]
+        mov eax, right
+        fld tbyte ptr [eax]
+        faddp st(1), st(0)
+    }
+    format = left->format | right->format;
+    if (format & 2) result->format = 10;
+    else if (format & 8) result->format = 8;
+    else result->format = 4;
+    __asm {
+        mov esi, result
+        call finish_extended_arithmetic
+        mov status, eax
+    }
+    return status;
+}
+
+/* Original 0x4c587..0x4c5d5. Period C cannot represent the original
+   80-bit operands or ESI/ST(0) arithmetic tail. Only that arithmetic and
+   transfer use assembly; result precision follows the operand tags. */
+int multiply_extended(const Extended *left, const Extended *right, Extended *result)
+{
+    unsigned short format;
+    int status;
+    __asm {
+        mov eax, left
+        fld tbyte ptr [eax]
+        mov eax, right
+        fld tbyte ptr [eax]
+        fmulp st(1), st(0)
+    }
+    format = left->format | right->format;
+    if (format & 2) result->format = 10;
+    else if (format & 8) result->format = 8;
+    else result->format = 4;
+    __asm {
+        mov esi, result
+        call finish_extended_arithmetic
+        mov status, eax
+    }
+    return status;
+}
+
+/* Original 0x4c80f..0x4c85a. The status word shares the floating
+   workspace. C cannot compare these ten-byte values; the x87 comparison
+   supplies its condition bits, including the original unordered handling. */
+int compare_extended(unsigned short operation, const Extended *left, const Extended *right)
+{
+    unsigned short relation;
+    __asm {
+        mov eax, right
+        fld tbyte ptr [eax]
+        mov eax, left
+        fld tbyte ptr [eax]
+        fcompp
+        fstsw word ptr floating_workspace + 4
+        fwait
+    }
+    if (floating_workspace.check.status & 0x4000) relation = 1;
+    else if (floating_workspace.check.status & 0x100) relation = 4;
+    else relation = 2;
+    return (relation & operation) != 0;
+}
+
+/* Original 0x4c5d6..0x4c624. Period C cannot represent the original
+   80-bit operands or ESI/ST(0) arithmetic tail. Only that arithmetic and
+   transfer use assembly; result precision follows the operand tags. */
+int divide_extended(const Extended *left, const Extended *right, Extended *result)
+{
+    unsigned short format;
+    int status;
+    __asm {
+        mov eax, left
+        fld tbyte ptr [eax]
+        mov eax, right
+        fld tbyte ptr [eax]
+        fdivp st(1), st(0)
+    }
+    format = left->format | right->format;
+    if (format & 2) result->format = 10;
+    else if (format & 8) result->format = 8;
+    else result->format = 4;
+    __asm {
+        mov esi, result
+        call finish_extended_arithmetic
+        mov status, eax
+    }
+    return status;
+}
+
+
+/* Greatest signed32-bit integer as an exact x87 value, original0x71092. */
+Extended signed_integer_limit = { 0, 0xfffffffeU, 0x401d, 0 };
+
+/* Original0x4c753..0x4c77e. Truncation and range checks retain their
+   private x87 entries; a failed check leaves the result pointer untouched. */
+int extended_to_integer(const Extended *value, int *result)
+{
+    int overflow;
+    __asm {
+        mov eax, value
+        fld tbyte ptr [eax]
+    }
+    truncate_extended();
+    __asm { fld tbyte ptr signed_integer_limit }
+    overflow = check_extended_range();
+    if (!overflow) {
+        __asm {
+            mov eax, result
+            fistp dword ptr [eax]
+            fwait
+        }
+    }
+    return overflow;
+}
+
+unsigned short truncation_control; /* original0x710b2 */
+
+/* Original0x4c85b..0x4c883. Its only argument/result is ST(0). The
+   saved control word aliases the high word of the shared rounding workspace.
+   Narrow x87 instructions are necessary to retain that private contract. */
+void truncate_extended(void)
+{
+    __asm { fstcw word ptr floating_workspace + 6 }
+    truncation_control = floating_workspace.check.control | 0xc01;
+    __asm {
+        fldcw truncation_control
+        frndint
+        fldcw word ptr floating_workspace + 6
+    }
+}

@@ -1,0 +1,39 @@
+{
+  "logical_before": "_mark_pch_pointer_array@8",
+  "logical_after": "_mark_pch_pointer_array@16",
+  "original_extent": [
+    279696,
+    279731
+  ],
+  "original_ret_cleanup": 16,
+  "caller": 278288,
+  "caller_argument_addresses": [
+    449968,
+    449960
+  ],
+  "evidence": "Original444b0: C2 10 00. Original43f10: pushes6dda8,6ddb0,128,scope_directory before call44490. Callee uses only slots/count.",
+  "raw_evidence_policy": "Historical receipts, manifests, events, plans, candidate/configuration hashes, streams and artifact bytes are unchanged. Current derived proof sidecars map the corrected logical name/prefix hash and pin unchanged source receipts.",
+  "derived_projections": [
+    "cases/graph-audit/entry-projections/pch-create.json",
+    "cases/graph-audit/entry-projections/pch-use.json",
+    "cases/graph-audit/entry-projections/do-while.json",
+    "cases/graph-audit/entry-projections/seh.json",
+    "cases/graph-audit/entry-projections/inline-asm.json",
+    "cases/graph-audit/entry-projections/browser.json",
+    "cases/graph-audit/entry-projections/preprocessor-E.json",
+    "cases/graph-audit/entry-projections/preprocessor-EP.json",
+    "cases/graph-audit/entry-projections/preprocessor-P.json",
+    "cases/graph-audit/entry-projections/comments.json",
+    "cases/graph-audit/entry-projections/prototypes.json",
+    "cases/graph-audit/entry-projections/automatic-pch-create.json",
+    "cases/graph-audit/entry-projections/automatic-pch-reuse.json",
+    "cases/graph-audit/entry-projections/automatic-pch-changed.json",
+    "cases/graph-audit/entry-projections/embedded-codeview.json",
+    "cases/graph-audit/entry-projections/inlining-ob1.json",
+    "cases/graph-audit/entry-projections/inlining-ob2.json"
+  ],
+  "unused_arguments": [
+    "const char *unused_scope_name: literal Table_stack",
+    "const char *unused_item_name: literal table"
+  ]
+}

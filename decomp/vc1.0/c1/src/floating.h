@@ -15,12 +15,14 @@ int __strgtold12(LDouble12 *result, char **end, const char *source,
 /* Range testing and precision rounding share these original eight bytes. */
 typedef union FloatingWorkspace {
     double rounded;
-    struct { int negative; unsigned short status; } check;
+    struct { int negative; unsigned short status, control; } check;
 } FloatingWorkspace;
 extern FloatingWorkspace floating_workspace;
 /* Private x87 ABI: check consumes ST(0)=limit and retains ST(1)=value;
    the Boolean result is returned in EAX. */
 int check_extended_range(void);
+/* Private input/output ST(0), retaining the caller control word. */
+void truncate_extended(void);
 /* Private store entry: destination ESI, value ST(0). */
 void store_extended(void);
 /* Private arithmetic tail: destination ESI, value ST(0), status EAX. */

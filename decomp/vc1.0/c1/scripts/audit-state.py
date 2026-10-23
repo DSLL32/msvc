@@ -90,6 +90,8 @@ STATE = [
     ('_debug_index_workspace', 0x673a8, 4000),
     ('_debug_index_cursor', 0x6e1b8, 4),
     ('_extended_round_limit', 0x71088, 10),
+    ('_signed_integer_limit', 0x71092, 10),
+    ('_truncation_control', 0x710b2, 2),
     ('_type_0042', 0x6b6f0, 4),
     ('_debug_type_record_count', 0x6e080, 4),
     ('_debug_type_records', 0x5b248, 4),

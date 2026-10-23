@@ -7,9 +7,9 @@ assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
 automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
 and /O2 /Ob1 plus /Ob2 small functions with early returns.
 
-There are729 accepted source functions and852 accepted original entries.
-Accepted original extents cover219435/277234 code-section bytes (79.151547%):
-200186 frontend bytes,19075 CRT bytes and174 import-thunk bytes. This is a
+There are736 accepted source functions and859 accepted original entries.
+Accepted original extents cover220689/277234 code-section bytes (79.603873%):
+201440 frontend bytes,19075 CRT bytes and174 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Unvisited functions retain named trapping stubs.
 
@@ -32,7 +32,7 @@ retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
 cases/original-entry-references.json binds21 completed case histories to fresh
-shared-prefix original first-entry captures. All718 accepted application entries
+shared-prefix original first-entry captures. All725 accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
@@ -96,8 +96,8 @@ Wrong entry order is rejected. scripts/capture-frontier.py validates the
 plan, frozen source dependencies and exact one-entry MSC_CMD_FLAGS environment.
 Full-reference captures and masked captures are explicit, never silent.
 
-Original compiler audits check710 function graphs and instruction boundaries,
-280 state/default aliases,105 PCH roots and12 callbacks, the21-entry function
+Original compiler audits check736 function graphs and instruction boundaries,
+286 state/default aliases,105 PCH roots and12 callbacks, the21-entry function
 shape cache, scalar options, pragmas, intrinsic groups and serialization data.
 The C grammar audit checks376 states,57904 actions/timings,227 productions and
 34216 gotos. The assembler audit checks136 states,6936 actions/errors,
@@ -121,3 +121,26 @@ original options/environments, dependencies, outputs and acceptance ranges are
 durable. Independent grammar/layout/ABI analysis remains available in scripts/
 and cases/analysis/. Measured builds, setup, reference capture, native execution
 and checks are reported separately in current validation receipts.
+
+Current substantial case
+------------------------
+cases/combined-types-literals is the one active approved case after the21
+completed regressions. Its original /Z7 /O2 transport and complete oracles are
+frozen; seven floating arithmetic/conversion functions now reach a matched
+decode_escape frontier. No extra case is queued.
+
+Shared graph audit
+------------------
+audit-win32 invokes tooling/graph-audit directly with CFG discovery and RET,
+function-reference, ownership and whole-extent checks. Its Cargo prerequisite
+is built quietly through the shared Make include. scripts/audit-text-masks.py
+retains only the original external-switch-table mask assertion, which is not
+yet in the shared engine. State/data/grammar checks remain separate.
+
+The stronger RET check found the historical PCH pointer-array helper had two
+missing unused string arguments. The repaired function/caller preserve four
+slots and RET16. cases/pch-abi-correction.json and cases/graph-audit record the
+old candidate error and current validation. Historical raw evidence is unchanged;
+derived entry projections pin its original receipt hashes and document the
+logical-name correction. scripts/check-graph-audit.py checks scratch mutations,
+including a regression to the old RET8 and an omitted external switch mask.

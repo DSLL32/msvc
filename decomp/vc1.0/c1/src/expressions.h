@@ -28,7 +28,7 @@ typedef struct Extended {
 extern Extended extended_zero;
 extern Extended scanned_float;
 int __stdcall parse_floating_literal(char *text, Extended *number);
-int compare_extended(unsigned operation, const Extended *left, const Extended *right);
+int compare_extended(unsigned short operation, const Extended *left, const Extended *right);
 int unsigned_to_extended(const unsigned *value, Extended *number);
 int integer_to_extended(const int *value, Extended *number);
 IrToken * __stdcall fold_floating_binary(IrToken *expression, Extended *left, Extended *right);
@@ -67,6 +67,9 @@ FrontendSymbol * __stdcall find_expression_symbol(IrToken *expression);
 IrToken * __stdcall find_expression_type_base(IrToken *expression);
 int __stdcall find_inline_parameter_slot(unsigned *slots, unsigned count, unsigned symbol_index);
 void __stdcall type_warning(unsigned level, unsigned code, CType *type);
+int add_extended(const Extended *left, const Extended *right, Extended *result);
+int multiply_extended(const Extended *left, const Extended *right, Extended *result);
+int divide_extended(const Extended *left, const Extended *right, Extended *result);
 int subtract_extended(const Extended *left, const Extended *right, Extended *result);
 Extended * __stdcall save_extended_constant(Extended *value);
 Extended *__stdcall allocate_extended_value(Extended value, int arena);

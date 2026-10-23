@@ -6,6 +6,8 @@ RECON = ../../../lib/recon
 
 .PHONY: all clean check replay prefix win32 audit-win32 native native-check native-trace native-trace-check native-adoption-check
 all: native-trace
+
+include ../../../tooling/graph-audit/graph-audit.mk
 check replay: native-trace-check
 
 # Explicit original-toolchain compilation/audits; never fixture prerequisites.
@@ -16,8 +18,9 @@ runtime.json: scripts/identify-runtime.py scripts/binary.py $(TC)/bin/C13232.EXE
 	$(PYTHON) scripts/identify-runtime.py
 build/runtime.json: build/c1.exe scripts/identify-runtime.py scripts/binary.py
 	$(PYTHON) scripts/identify-runtime.py build/c1.exe $@
-audit-win32: win32
-	$(PYTHON) scripts/audit-graph.py
+audit-win32: win32 $(GRAPH_AUDIT_BIN)
+	"$(GRAPH_AUDIT_BIN)" --profile c1 --project . --repo ../../.. --discovery cfg --check-ret --check-references --check-ownership --check-extents
+	$(PYTHON) scripts/audit-text-masks.py
 	$(PYTHON) scripts/audit-state.py
 	$(PYTHON) scripts/audit-grammar.py
 	$(PYTHON) scripts/audit-asm-grammar.py

@@ -1,29 +1,20 @@
 {
-  "authorization": "User selected embedded CodeView /Z7 first, then both /Ob1 and /Ob2 bounded inlining cases. Complete these families, then pause.",
-  "baseline_accepted_count": 833,
+  "authorization": "User selected ONE substantial combined ordinary C case; finish it, then pause. No other case is assigned.",
+  "baseline_accepted_count": 852,
   "baseline_coverage": {
-    "bytes": 215743,
+    "bytes": 219435,
     "total": 277234,
-    "percent": 77.81982007978819,
+    "percent": 79.15154706854138,
     "metric": "Accepted original extent union; not branch coverage."
   },
   "cases": [
     {
-      "case": "embedded-codeview",
+      "case": "combined-types-literals",
       "phase": "c1",
-      "status": "complete; raw artifacts/status/streams/first-entry trace match at852"
-    },
-    {
-      "case": "inlining",
-      "phase": "c1-ob1",
-      "status": "complete; fresh original/native and cached raw artifacts/trace match; no new function"
-    },
-    {
-      "case": "inlining",
-      "phase": "c1-ob2",
-      "status": "complete; fresh original/native and cached raw artifacts/trace match; no new function"
+      "status": "active; actual original CL and two independent standalone C1 raw outputs/status/streams verified; baseline frontier capture852"
     }
   ],
   "Yd": "Not selected: the standalone /Z7 types case has no PCH dependency, so /Yd would add a distinct PCH-debug case rather than validate this embedded-type writer.",
-  "status": "complete; paused for user selection"
+  "status": "active",
+  "previous_completed_authorization": "User selected embedded CodeView /Z7 first, then both /Ob1 and /Ob2 bounded inlining cases. Complete these families, then pause."
 }

@@ -671,7 +671,7 @@
     "_mark_pch_identifier_entries@4",
     "_mark_pch_function_records",
     "_mark_pch_scope_directory",
-    "_mark_pch_pointer_array@8",
+    "_mark_pch_pointer_array@16",
     "_mark_pch_parameters",
     "_mark_pch_parameter_entries@4",
     "_mark_pch_parameter_info@4",
@@ -856,7 +856,14 @@
     "_write_legacy_field_list@12",
     "_reset_debug_type_records",
     "_emit_member_padding@4",
-    "_write_legacy_bitfield_type@4"
+    "_write_legacy_bitfield_type@4",
+    "_fold_floating_binary@12",
+    "_add_extended",
+    "_multiply_extended",
+    "_compare_extended",
+    "_divide_extended",
+    "_extended_to_integer",
+    "_truncate_extended"
   ],
   "driver": [
     {
@@ -3623,7 +3630,7 @@
     {
       "name": "_compare_extended",
       "start": 313359,
-      "end": 313360
+      "end": 313435
     },
     {
       "name": "_unsigned_to_extended",
@@ -3638,7 +3645,13 @@
     {
       "name": "_fold_floating_binary@12",
       "start": 164240,
-      "end": 164241
+      "end": 164968,
+      "shared": [
+        [
+          164968,
+          165096
+        ]
+      ]
     },
     {
       "name": "_subtraction_overflows@16",
@@ -3878,7 +3891,7 @@
     {
       "name": "_extended_to_integer",
       "start": 313171,
-      "end": 313172
+      "end": 313215
     },
     {
       "name": "_write_ir_float",
@@ -4777,7 +4790,7 @@
       "end": 279689
     },
     {
-      "name": "_mark_pch_pointer_array@8",
+      "name": "_mark_pch_pointer_array@16",
       "start": 279696,
       "end": 279731
     },
@@ -5450,6 +5463,26 @@
       "name": "_begin_legacy_field_continuation",
       "start": 295552,
       "end": 295553
+    },
+    {
+      "name": "_add_extended",
+      "start": 312553,
+      "end": 312632
+    },
+    {
+      "name": "_multiply_extended",
+      "start": 312711,
+      "end": 312790
+    },
+    {
+      "name": "_divide_extended",
+      "start": 312790,
+      "end": 312869
+    },
+    {
+      "name": "_truncate_extended",
+      "start": 313435,
+      "end": 313476
     }
   ],
   "cases": {

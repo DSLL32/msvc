@@ -1,6 +1,7 @@
 /* Semantic construction of C expressions. */
 #include "expressions.h"
 #include "global-ir.h"
+#include "initializer-records.h"
 #include <recon.h>
 
 Extended extended_zero = { 0, 0, 0, 4 }; /* original 0x6c0f0 */
@@ -1340,4 +1341,65 @@ IrToken *__stdcall find_expression_type_base(IrToken *expression)
         default: return 0;
         }
     }
+}
+
+/* Original 0x28190..0x28467, operator table 0x28468..0x284e7.
+   Arithmetic retains the extended result's precision tag; comparisons
+   produce ordinary int constants and division by zero remains an IR node. */
+IrToken *__stdcall fold_floating_binary(IrToken *expression, Extended *left, Extended *right)
+{
+    Extended result;
+    unsigned comparison = 0;
+    unsigned short flags;
+    unsigned char kind;
+    int status;
+    float single;
+    double wide;
+    switch (expression->kind) {
+    case TOK_LOGICAL_AND:
+        constant_one = compare_extended(6,left,&extended_zero) &&
+            compare_extended(6,right,&extended_zero);
+        return make_constant_token(TOK_INT_CONSTANT,&constant_one);
+    case TOK_LOGICAL_OR:
+        constant_one = compare_extended(6,left,&extended_zero) ||
+            compare_extended(6,right,&extended_zero);
+        return make_constant_token(TOK_INT_CONSTANT,&constant_one);
+    case TOK_DIVIDE:
+        if (!compare_extended(6,right,&extended_zero)) {
+            expression->flags = 0x40;
+            return expression;
+        }
+        status = divide_extended(left,right,&result);
+        break;
+    case TOK_PLUS: status = add_extended(left,right,&result); break;
+    case TOK_MINUS: status = subtract_extended(left,right,&result); break;
+    case TOK_MULTIPLY: status = multiply_extended(left,right,&result); break;
+    case TOK_EQUAL: comparison = 1; break;
+    case TOK_GREATER: comparison = 2; break;
+    case TOK_GREATER_EQUAL: comparison = 3; break;
+    case TOK_LESS: comparison = 4; break;
+    case TOK_LESS_EQUAL: comparison = 5; break;
+    case TOK_NOT_EQUAL: comparison = 6; break;
+    default: return expression;
+    }
+    if (comparison) {
+        constant_one = compare_extended(comparison,left,right);
+        return make_constant_token(TOK_INT_CONSTANT,&constant_one);
+    }
+    if (status) compiler_warning(2,56);
+    if (normalized_Op) {
+        if (result.format == 4) {
+            extended_to_float(&result,&single);
+            float_to_extended(&single,&result);
+        } else if (result.format == 8) {
+            extended_to_double(&result,&wide);
+            double_to_extended(&wide,&result);
+        }
+    }
+    constant_one = (unsigned)save_extended_constant(&result);
+    flags = expression->type->flags & 0xefff;
+    if (flags == 0x104) kind = TOK_FLOAT_CONSTANT;
+    else if (flags == 0x108) kind = TOK_DOUBLE_CONSTANT;
+    else if (flags == 0x128) kind = TOK_LONG_DOUBLE_CONSTANT;
+    return make_constant_token(kind,&constant_one);
 }

@@ -57,7 +57,8 @@ void mark_pch_macros(void);
 void __stdcall mark_pch_identifier_entries(PreprocessorSymbol *entry);
 void mark_pch_identifiers(void);
 void mark_pch_function_records(void);
-void __stdcall mark_pch_pointer_array(void **slots, int count);
+void __stdcall mark_pch_pointer_array(void **slots, int count,
+    const char *unused_scope_name, const char *unused_item_name);
 void mark_pch_scope_directory(void);
 void __stdcall mark_pch_parameter_entries(ParameterEntry *entry);
 void __stdcall mark_pch_parameter_info(ParameterInfo *parameters);

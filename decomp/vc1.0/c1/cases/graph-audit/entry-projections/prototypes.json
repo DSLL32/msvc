@@ -1,0 +1,111 @@
+{
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/prototypes",
+  "phase": "c1",
+  "unmasked": false,
+  "accepted_count": 824,
+  "accepted_sha256": "b0a380508d603c017a687668c662c951976f7395e9f50dd32afba4c80c0427d2",
+  "executable_sha256": "b86402066ace7ae4b4b6100a22a4cf80f7eee9a7803ebb92829a9d4c77913d90",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "45cc03d417189b51d114ea35490a7e2005182f34f75d38b49add92010efc7b29",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zg -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\captures\\shared-history-prototypes\\work",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); automatic-PCH status writes via C1 stderr observed on CL stdout. Preserve descriptor alias without output normalization."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/captures/shared-history-prototypes/work",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.05242457706481218,
+  "execution_seconds": 4.627316622063518,
+  "total_seconds": 4.6797438729554415,
+  "files": [
+    {
+      "name": "case.h",
+      "bytes": 153,
+      "sha256": "d7e3516b4d339059b4c530d767653818bbb788149a1dddde828a23f470020e6a"
+    },
+    {
+      "name": "test.c",
+      "bytes": 490,
+      "sha256": "099ce5ee739f5f79588d17dae1226e83ecab98d02773657c0a677ff8223b0fb1"
+    }
+  ],
+  "first_entry_projection": {
+    "accepted_from": 778,
+    "accepted_count": 802,
+    "expected": [
+      "_begin_declaration_text",
+      "_new_declaration_text",
+      "_print_function_declaration@8",
+      "_build_declaration_text@8",
+      "_append_type_text@8",
+      "_type_specifier_name@4",
+      "_append_declaration_text@8",
+      "_reserve_declaration_text@12",
+      "_find_declaration_text@4",
+      "_append_declaration_character@8",
+      "_build_declarator_text@8",
+      "_write_declarator_attributes@20",
+      "_append_type_shapes@8",
+      "_append_parameter_text@12",
+      "_declaration_text_value@4",
+      "_release_declaration_text@4",
+      "_prepend_declaration_text@8",
+      "_prepend_pointer_text@8",
+      "_prepend_declaration_character@8",
+      "_write_declaration_storage@8",
+      "_build_storage_text@8",
+      "_append_storage_attributes@8",
+      "_end_declaration_text",
+      "_skip_declaration_tokens"
+    ],
+    "observed": [
+      "_begin_declaration_text",
+      "_new_declaration_text",
+      "_print_function_declaration@8",
+      "_build_declaration_text@8",
+      "_append_type_text@8",
+      "_type_specifier_name@4",
+      "_append_declaration_text@8",
+      "_reserve_declaration_text@12",
+      "_find_declaration_text@4",
+      "_append_declaration_character@8",
+      "_build_declarator_text@8",
+      "_write_declarator_attributes@20",
+      "_append_type_shapes@8",
+      "_append_parameter_text@12",
+      "_declaration_text_value@4",
+      "_release_declaration_text@4",
+      "_prepend_declaration_text@8",
+      "_prepend_pointer_text@8",
+      "_prepend_declaration_character@8",
+      "_write_declaration_storage@8",
+      "_build_storage_text@8",
+      "_append_storage_attributes@8",
+      "_end_declaration_text",
+      "_skip_declaration_tokens"
+    ],
+    "seeded_prefix_sha256": "05d6233060973aaf55466a8bca6f2ecff801ddeb5ddfea327fe66371ca46d412",
+    "plan_sha256": "9ca0e3ad7f4154eea686b3af3965e5f457549518c6d2116ed9859e6fe10624ea",
+    "source": "Explicit fresh shared-prefix original first-entry traps; one-byte restore/EIP rewind, complete accepted function bodies/shared text."
+  },
+  "derived_projection": {
+    "source": "cases/shared-prefix-evidence/prototypes.receipt.json",
+    "source_sha256": "e5d100347753831385648c7e5dffba3d17238453d03ac19240031b4bc59a95f9",
+    "logical_correction": {
+      "old": "_mark_pch_pointer_array@8",
+      "new": "_mark_pch_pointer_array@16",
+      "original_entry": 279696,
+      "reason": "RET16 and four caller pushes; two unused string arguments. Raw events/plans/captured ABI/candidate hashes remain unchanged.",
+      "historical_candidate": "The historical rebuilt candidate had two arguments/RET8 and was incorrect. This derived name interpretation does not claim that repaired four-argument candidate was captured in the historical run."
+    }
+  }
+}

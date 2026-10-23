@@ -1,0 +1,73 @@
+{
+  "case": "combined-types-literals",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "c1": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f combined.c -Ze -Zp8 -Focombined.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Gs -Gf -Og -Oi -Ot -Oy -Ob1 -D_M_IX86=500 -G4 -W 3 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/combined.c",
+          "bytes": 2859,
+          "sha256": "f0ddd695933b941ddae7f492bdcc6a525f317d1465a969b5015637fc4533314b"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/c1/irdb",
+          "bytes": 1261,
+          "sha256": "f025b1d214f98ceed422b99cdd1267b101c1cbb365f195baf0392f2549c28f09",
+          "output_name": "irdb"
+        },
+        {
+          "path": "expected/c1/irex",
+          "bytes": 1611,
+          "sha256": "87af8bc38913f1ca978839c30f06155c4bf1abcaced0ebef45a916d1b647cb1e",
+          "output_name": "irex"
+        },
+        {
+          "path": "expected/c1/irgl",
+          "bytes": 484,
+          "sha256": "30170cc1e43eda890989f14b5aa3800530d37e2c8b4d5baa29f679451f20b4c0",
+          "output_name": "irgl"
+        },
+        {
+          "path": "expected/c1/irin",
+          "bytes": 198,
+          "sha256": "f7659c483af6a80467c39dfded7bc1d46ad47876407b85a08b5558997fdee4a2",
+          "output_name": "irin"
+        },
+        {
+          "path": "expected/c1/irsy",
+          "bytes": 186,
+          "sha256": "8d9648c92e6d7c69ac30655340d3f511ce07c96344c0e507ed0ebb0e95add8c3",
+          "output_name": "irsy"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /c /Z7 /O2 /G5 /W3 combined.c",
+      "transport_reference": "evidence/combined.CL.receipt.json",
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); original _spawnvpe child transport and complete boundary inventories captured."
+      }
+    }
+  },
+  "execution": "Native-only fixtures; explicit original capture is separate.",
+  "capture_policy": "Actual untouched original CL child argv/environment and complete before/after input/output file sets. Only captured relative temporary -il prefix substituted with ir for independent standalone replay; raw output equality required.",
+  "normalization": "None.",
+  "quick_compiler": "Omitted: ordinary /Z7 /O2 is a coherent successful CL pipeline. Internal -qc/-Ol changes frontend IR protocol, is not an ordinary public optimization spelling, and is not needed for this combined case."
+}

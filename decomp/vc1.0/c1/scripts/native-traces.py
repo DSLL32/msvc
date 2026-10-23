@@ -38,6 +38,13 @@ def original_entry_references(config, cases):
         receipt_path = BINARY/item['receipt']
         assert sha(receipt_path) == item['sha256'], 'original entry reference changed: '+name
         receipt = json.loads(receipt_path.read_text())
+        derived = receipt.get('derived_projection')
+        if derived:
+            assert sha(BINARY/derived['source']) == derived['source_sha256'], 'historical projection source changed'
+            correction = derived['logical_correction']
+            assert correction['old'] == '_mark_pch_pointer_array@8'
+            assert correction['new'] == '_mark_pch_pointer_array@16'
+            assert correction['original_entry'] == 0x44490
         proof = receipt['first_entry_projection']
         case = cases[name]
         assert (proof['accepted_from'],proof['accepted_count']) == (case['first'],case['last'])

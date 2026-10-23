@@ -18,72 +18,72 @@
       "sha256": "399b7200d9ae11cf3eb1ba8b01ee1a21126007cdf60c34752c90be363dd801c1"
     },
     "pch-create": {
-      "receipt": "cases/shared-prefix-evidence/pch-create.receipt.json",
-      "sha256": "907f61b61d7fe0b26cb4fab1e6c95bfe8b16013e215766aa85158af8d0e0d9b3"
+      "receipt": "cases/graph-audit/entry-projections/pch-create.json",
+      "sha256": "cc162c388dce503ffa02f2e6a2eeb753c13a0e5a1b4faadebdcc22825a5584c2"
     },
     "pch-use": {
-      "receipt": "cases/shared-prefix-evidence/pch-use.receipt.json",
-      "sha256": "4445d251e07b6d2a7096d65b797de3d61fa34ce8c5e5a5ab988b73c2fd176348"
+      "receipt": "cases/graph-audit/entry-projections/pch-use.json",
+      "sha256": "6779a549ec1459f3836b91a46954c88f6eb2e20051ba545a2db3dc959d72af03"
     },
     "do-while": {
-      "receipt": "cases/shared-prefix-evidence/do-while.receipt.json",
-      "sha256": "30ca9353e7de5a5677782c7bd8ddd00435351d8038c3a6dcffdae555a62294e1"
+      "receipt": "cases/graph-audit/entry-projections/do-while.json",
+      "sha256": "719b4b57e84dcb95a918b0e1c16c414636b7d21c2f23e2d4c70ddb7fc69fc654"
     },
     "seh": {
-      "receipt": "cases/shared-prefix-evidence/seh.receipt.json",
-      "sha256": "b2e3bf6ee61e05852297bd640076882a739f811155441813af88804ad7c8ce81"
+      "receipt": "cases/graph-audit/entry-projections/seh.json",
+      "sha256": "768e8a3362c44f9eb1e74f27442514fcc2897f7abd70db69dd22ca9b51224e7f"
     },
     "inline-asm": {
-      "receipt": "cases/shared-prefix-evidence/inline-asm.receipt.json",
-      "sha256": "3320bce0be9047f7115712b1e7647110e8cd7c8e65d29aeada5b3f8f82b10c8f"
+      "receipt": "cases/graph-audit/entry-projections/inline-asm.json",
+      "sha256": "87de43d2408c5d27f8d79bc32c810e3f6820c826b6bc4b60a6904a7ca1631266"
     },
     "browser": {
-      "receipt": "cases/shared-prefix-evidence/browser.receipt.json",
-      "sha256": "047dd97b749fdd0af83cdfccb2315e59014d15c5a827df597c8ff8b0661eb2de"
+      "receipt": "cases/graph-audit/entry-projections/browser.json",
+      "sha256": "8c335edd60d995fbad8800f137d214eaa92aadfca7cac0503b6da477a7782bc8"
     },
     "preprocessor-E": {
-      "receipt": "cases/shared-prefix-evidence/preprocessor-E.receipt.json",
-      "sha256": "1ab1c7f1ea1deb91c4e26c15321b553c2fde6d12930b434634e46942482cad52"
+      "receipt": "cases/graph-audit/entry-projections/preprocessor-E.json",
+      "sha256": "6cf724803e485c2fb0b15af88050130fb16f6e79f92eaff81fa5bee529482fe6"
     },
     "preprocessor-EP": {
-      "receipt": "cases/shared-prefix-evidence/preprocessor-EP.receipt.json",
-      "sha256": "2a10aec2317bb2216b757c50c75eadf1cfa6247b631093203dbe106a4b055964"
+      "receipt": "cases/graph-audit/entry-projections/preprocessor-EP.json",
+      "sha256": "fd1693f14f68dab8480c2545d941fe6081e7b0f42049d4ebe398b31e954df36a"
     },
     "preprocessor-P": {
-      "receipt": "cases/shared-prefix-evidence/preprocessor-P.receipt.json",
-      "sha256": "57b815e48e3fd0f9bd0e70787959a7f06627068349eaea32979cb2034309adb1"
+      "receipt": "cases/graph-audit/entry-projections/preprocessor-P.json",
+      "sha256": "0c0cda3bc148945cb90cbcd34c1b5550a106de6c6647fb3944542228a11551b0"
     },
     "comments": {
-      "receipt": "cases/shared-prefix-evidence/comments.receipt.json",
-      "sha256": "5d719c8fcc25c9cda1a4b4f634fb2e4da5785cffc9c752aa3f26d162672a59f3"
+      "receipt": "cases/graph-audit/entry-projections/comments.json",
+      "sha256": "8a23e153651ac21a6c61de056bd48dba41c9d9d9ad0d38517bc5efd0e600c8c3"
     },
     "prototypes": {
-      "receipt": "cases/shared-prefix-evidence/prototypes.receipt.json",
-      "sha256": "e5d100347753831385648c7e5dffba3d17238453d03ac19240031b4bc59a95f9"
+      "receipt": "cases/graph-audit/entry-projections/prototypes.json",
+      "sha256": "1f1f7dfaedf46b6cea64ab3e9a1e70b056c3787ac958535931f5d9d667ac6f5c"
     },
     "automatic-pch-create": {
-      "receipt": "cases/automatic-pch/evidence/create-complete-828.receipt.json",
-      "sha256": "468ade7b50eea86f53b270ecc863fffc56b1bb42c167716fc4487b8eb4600164"
+      "receipt": "cases/graph-audit/entry-projections/automatic-pch-create.json",
+      "sha256": "f646496a77f00e94c7f8a11f8bc6225549d0abd2955bf588ed9bd92dea3cdc81"
     },
     "automatic-pch-reuse": {
-      "receipt": "cases/automatic-pch/evidence/reuse-complete-832.receipt.json",
-      "sha256": "a1e859e156c7b5ebffbb7c6be0c99e5d8f7e85f00450474b9815f18718cc4335"
+      "receipt": "cases/graph-audit/entry-projections/automatic-pch-reuse.json",
+      "sha256": "d76cea4d2fdce694f4c378d51bf76585c510f578174d3920ef7732811fcd6c7a"
     },
     "automatic-pch-changed": {
-      "receipt": "cases/automatic-pch/evidence/changed-complete-833.receipt.json",
-      "sha256": "30ef8a03f1895fd1f0637d79fb76ebb14bee9b09e10a3c57cc304cfabdef52d9"
+      "receipt": "cases/graph-audit/entry-projections/automatic-pch-changed.json",
+      "sha256": "37f73ae8955a8e53d50fc886e70139287c99543cddf16be1d9a17521cde78a11"
     },
     "embedded-codeview": {
-      "receipt": "cases/embedded-codeview/evidence/codeview-complete-852.receipt.json",
-      "sha256": "217e00a392d398b4decb67abb2bf5eeb6c4c21197de5e307044a7fe8039f7781"
+      "receipt": "cases/graph-audit/entry-projections/embedded-codeview.json",
+      "sha256": "2338126a3863e55d1e3a2341dd8c9e3c6dd3795cccb6c43d7b4707115427a167"
     },
     "inlining-ob1": {
-      "receipt": "cases/inlining/evidence/ob1-complete-852.receipt.json",
-      "sha256": "f14784b235b14965235f02793818e0f3f9f0fe02e32e6cdeb03c45f130d49e82"
+      "receipt": "cases/graph-audit/entry-projections/inlining-ob1.json",
+      "sha256": "34b7394b3ac8d7e763c5e8f7dc2c363d53681e9f98c25c3b0c89505dec61dc95"
     },
     "inlining-ob2": {
-      "receipt": "cases/inlining/evidence/ob2-complete-852.receipt.json",
-      "sha256": "ca94292537f0e3d529218db9c2b6835332d3578e911c7dbe18074ece7ec2ab14"
+      "receipt": "cases/graph-audit/entry-projections/inlining-ob2.json",
+      "sha256": "58f4e5d19befbd683fa45cc581cb46c390eec8caa5e441d178659611a7d5d2d2"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

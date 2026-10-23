@@ -1,0 +1,40 @@
+{
+  "status": "active; matched decode_escape frontier",
+  "accepted_from": 852,
+  "accepted_count": 859,
+  "accepted_order": [
+    "_fold_floating_binary@12",
+    "_add_extended",
+    "_multiply_extended",
+    "_compare_extended",
+    "_divide_extended",
+    "_extended_to_integer",
+    "_truncate_extended"
+  ],
+  "source_functions": 736,
+  "state_defaults_aliases": 286,
+  "frontier": {
+    "logical": "_decode_escape@8",
+    "original": 140048,
+    "reference": "evidence/combined-859.receipt.json",
+    "native": "evidence/combined-859-post-abi.native.receipt.json"
+  },
+  "coverage": {
+    "accepted_union_bytes": 220689,
+    "original_code_bytes": 277234,
+    "accepted_by_origin_bytes": {
+      "frontend_source": 201440,
+      "CRT": 19075,
+      "import_thunks": 174
+    },
+    "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
+    "percent": 79.60387254088604,
+    "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
+  },
+  "graph_integration": "../graph-audit/validation.json",
+  "notes": [
+    "Original CL transport, two standalone originals and original-built runtime program pass. Raw files are immutable.",
+    "Narrow inline assembly in floating.c only represents x87 extended precision/private ABI operations unavailable in period C. Precision/status/control logic is ordinary C.",
+    "Rust graph audit exposed and repaired preexisting PCH pointer-array four-slot ABI; historical captures remain unchanged, current derived projections document old candidate error."
+  ]
+}

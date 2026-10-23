@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "40583ebd41de7e2a1886b6a15eb0c6134fa8decf479c2e7443b0cb83cec460d0",
+    "functions.json": "c9e688006ed96b0dbd8c6670fb8c43ebcc2861d952af14bd6f356a6ea374a482",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "3f5020d5e1dbfca4afa3207bcdc76d4d2561b92e60ac0cd1b736e69d699a40e8"
+    "sha256": "fe98d879db2aefd7ed0c2a3796436e06a9b2d530431faf1b287dcf4d47c41903"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "49064fd408745fe0115d9689727f6545d25f0601ccfd3578d5c14bfe0acf8db7"
+    "sha256": "c22525601269dd415a196b2e2c460643d06d2e552f77a1426d63594ec6091b30"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -48,6 +48,10 @@
     "add_enumerator": {
       "logical": "_add_enumerator@12",
       "source": "src/declarations.c"
+    },
+    "add_extended": {
+      "logical": "_add_extended",
+      "source": "src/floating.c"
     },
     "add_legacy_type_fixup": {
       "logical": "_add_legacy_type_fixup@12",
@@ -639,7 +643,7 @@
     },
     "compare_extended": {
       "logical": "_compare_extended",
-      "source": "src/stubs.c"
+      "source": "src/floating.c"
     },
     "compare_filenames": {
       "logical": "_compare_filenames",
@@ -937,6 +941,10 @@
       "logical": "_discard_line_comment",
       "source": "src/lexer.c"
     },
+    "divide_extended": {
+      "logical": "_divide_extended",
+      "source": "src/floating.c"
+    },
     "double_to_extended": {
       "logical": "_double_to_extended",
       "source": "src/floating.c"
@@ -1171,7 +1179,7 @@
     },
     "extended_to_integer": {
       "logical": "_extended_to_integer",
-      "source": "src/stubs.c"
+      "source": "src/floating.c"
     },
     "extract_base_prefix": {
       "logical": "_extract_base_prefix@20",
@@ -1435,7 +1443,7 @@
     },
     "fold_floating_binary": {
       "logical": "_fold_floating_binary@12",
-      "source": "src/stubs.c"
+      "source": "src/expressions.c"
     },
     "format_integer": {
       "logical": "_format_integer",
@@ -2010,7 +2018,7 @@
       "source": "src/pch-relocate.c"
     },
     "mark_pch_pointer_array": {
-      "logical": "_mark_pch_pointer_array@8",
+      "logical": "_mark_pch_pointer_array@16",
       "source": "src/pch-relocate.c"
     },
     "mark_pch_pragma_values": {
@@ -2140,6 +2148,10 @@
     "multiply_asm_expression": {
       "logical": "_multiply_asm_expression@12",
       "source": "src/asm-stubs.c"
+    },
+    "multiply_extended": {
+      "logical": "_multiply_extended",
+      "source": "src/floating.c"
     },
     "new_bitset": {
       "logical": "_new_bitset@4",
@@ -3281,6 +3293,10 @@
       "logical": "_trim_filename_space",
       "source": "src/preprocessor-directives.c"
     },
+    "truncate_extended": {
+      "logical": "_truncate_extended",
+      "source": "src/floating.c"
+    },
     "type_alignment": {
       "logical": "_type_alignment@4",
       "source": "src/global-ir.c"
@@ -4264,7 +4280,14 @@
     "write_legacy_field_list",
     "reset_debug_type_records",
     "emit_member_padding",
-    "write_legacy_bitfield_type"
+    "write_legacy_bitfield_type",
+    "fold_floating_binary",
+    "add_extended",
+    "multiply_extended",
+    "compare_extended",
+    "divide_extended",
+    "extended_to_integer",
+    "truncate_extended"
   ],
   "excluded_accepted": {
     "CRT": [
