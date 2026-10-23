@@ -39,3 +39,9 @@ unsigned __stdcall parse_linkage(DeclarationType *type, IrToken *language)
     report_syntax_error(537, text);
     return 0;
 }
+
+/* Original 0x3cd70..0x3cd7c. Leave the current language-linkage block. */
+void pop_linkage(void)
+{
+    --linkage_depth;
+}

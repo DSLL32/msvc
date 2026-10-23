@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_pop_linkage",
+    "start": 249200,
+    "end": 249212
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_declare_enumerator@12",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.38663311675190926,
+  "total_operation_seconds": 4.159977818839252,
+  "original_capture_seconds": 1.9701701002195477
+}

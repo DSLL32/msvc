@@ -1,0 +1,67 @@
+{
+  "case": "state_machine_debug",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 1005,
+  "terminal": "_declare_enumerator@12",
+  "candidate": "_pop_linkage",
+  "pending_accepted": [],
+  "configuration_sha256": "55436a653a0ac30e9b73901225017afbb75e5d581ba80324bda34a7282021fa6",
+  "capture_seconds": 1.9701701002195477,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irdb": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "state-machine.cpp": {
+      "bytes": 3831,
+      "sha256": "69e6cb081de0841dafd155ad116a986d5444c297934dbe6f20494fbc626a7844"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\state-machine-debug",
+  "first_entry_projection": {
+    "accepted_first": 997,
+    "accepted_last": 1006,
+    "accepted_prefix_sha256": "f5aaadfbf63e97b0738947d2ece056e0f708e7680fa203ca785d2d8e9a3e70e8",
+    "expected": [
+      "_begin_debug_info",
+      "_write_debug_record",
+      "_write_ir_integer",
+      "_write_counted_ir",
+      "_write_ir_short",
+      "_parse_linkage@8",
+      "_find_intrinsic_index@4",
+      "_intrinsic_enabled@4",
+      "_pop_linkage"
+    ],
+    "observed": [
+      "_begin_debug_info",
+      "_write_debug_record",
+      "_write_ir_integer",
+      "_write_counted_ir",
+      "_write_ir_short",
+      "_parse_linkage@8",
+      "_find_intrinsic_index@4",
+      "_intrinsic_enabled@4",
+      "_pop_linkage"
+    ],
+    "events_sha256": "4b979e8acf129e273889ed176b434cdd04a20f234bac8da395c2d28bfd4e9bab",
+    "plan_sha256": "8d8f8f6de3c7ab60649cc6663941f4f6add49889b05bb1e45b28c12f7ecc1e93"
+  }
+}
