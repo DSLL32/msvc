@@ -4,6 +4,9 @@
 #include "macros.h"
 #include "keywords.h"
 #include "operators.h"
+#include "unary-expressions.h"
+#include "constructor-initializers.h"
+#include "reference-initializers.h"
 #include <recon.h>
 
 /* The original expands this test at each data-pointer/array/member-pointer
@@ -577,4 +580,27 @@ void __stdcall finish_array_declarator(CppSymbol *symbol, TypeShape **result,
         symbol->attributes |= 0x400;
         if (!current.shape->data.array_bound) symbol->attributes |= 0x100;
     }
+}
+
+/* Original 0x3c950..0x3ca1d. Constant array bounds are stored inline;
+   convertible nonconstants become captured expressions in a 0x1002 shape. */
+void __stdcall add_array_declarator(CppSymbol *declaration, IrToken *bound)
+{
+    unsigned value = 0;
+    unsigned short flags = 2;
+    if (bound) {
+        bound = validate_value_expression(bound);
+        if (!(bound->flags & 8)) {
+            bound = fold_symbol_constant(bound);
+            if ((bound->flags & 7) == 3 && (bound->type->flags & 0x40))
+                value = bound->value.integer;
+            else if (classify_initializer_conversion(type_0064, bound) < 0x400) {
+                bound = convert_initializer(0x6e, type_0064, bound);
+                value = (unsigned)prepare_reference_initializer(type_0064, bound);
+                flags = 0x1002;
+            } else if (bound->type) report_type_error(452, bound->type);
+            else report_syntax_error(453);
+        }
+    }
+    attach_type_shape(declaration, new_type_shape(flags, 0, &value));
 }

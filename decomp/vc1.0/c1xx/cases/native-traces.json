@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "95fccdb8f41ae49f1788c3f8029b1ec7bf93301f8162a595fcaae944f19288a2",
+    "functions.json": "56424891edd94dc4ce164c4533db3e4b2a538e2b4af17b3464406cb9780376f0",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "f478539a5b89a1f9e58a026a04d45f04f527464aaa001a76e88147b5620517c1",
-    "cases/canonical-map.txt": "a2582f29605d263ee09a4c053d79de89845a5421c01e15cb9c1fccfcee5c894b",
+    "cases/original-entry-references.json": "fb29d1a250c4f5c2474687a331d536f9699e1f751f4019c5342aec3257510eb2",
+    "cases/canonical-map.txt": "14748ccf19154c8d4bb05a10619b0ba634119a0bc528b5c93d7159526d9ba953",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -31,9 +31,9 @@
     "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-receipt.json": "c96405bad006bb3fd9f900a346c2d788eb6906b74f281ddbf6e3032440b280f5",
     "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-events.txt": "9e35a24f4e53f4b7b0219bec08cb63897a7eca106f3d009663ffb919319a941f",
     "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-entries.plan": "a5f1b84b7a83babbd447d32cf9a76cf4fa037e529269692bfe6ac29127e5c35d",
-    "cases/frontiers/new_delete/0991-lookup_destructor_member-4/entry-reference/original-receipt.json": "e1de1cdfad319b8e579e6cb4c85ea778bc1b3d5900324aee048faa7c4a9b7f5b",
-    "cases/frontiers/new_delete/0991-lookup_destructor_member-4/entry-reference/original-events.txt": "669a0a3ed8f7ac1229880e1aded77e538f4e39c8259419caa3de2f35040700c1",
-    "cases/frontiers/new_delete/0991-lookup_destructor_member-4/entry-reference/original-entries.plan": "bc17817baa98533f1ebff21f05cb5479860914aa18d35267a3f60729dc4fcb8d"
+    "cases/frontiers/new_delete/0992-add_array_declarator-8/entry-reference/original-receipt.json": "8a654aa097a259d6887873b7e9ba40b29824cc0f16cbdb4b9c8432f52f939f16",
+    "cases/frontiers/new_delete/0992-add_array_declarator-8/entry-reference/original-events.txt": "ba5e5f533c3a9f893d8ff65b77a89cfbece1a5b6a2c0e46a7236bd407df5000d",
+    "cases/frontiers/new_delete/0992-add_array_declarator-8/entry-reference/original-entries.plan": "eddc4607fe2cf8daf14aafffd74f0ceda8653995d49840a16b04b7b07e6c6aa3"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -42,7 +42,7 @@
     },
     "add_array_declarator": {
       "logical": "_add_array_declarator@8",
-      "source": "src/stubs.c"
+      "source": "src/declarator-shapes.c"
     },
     "add_base_class": {
       "logical": "_add_base_class@12",
@@ -6127,7 +6127,8 @@
     "guard_allocation_result",
     "delete_expression",
     "has_destructor_member_model",
-    "lookup_destructor_member"
+    "lookup_destructor_member",
+    "add_array_declarator"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -9323,7 +9324,7 @@
     },
     "new_delete": {
       "first": 963,
-      "last": 992,
+      "last": 993,
       "seen": [
         "main",
         "message_text",
@@ -10225,12 +10226,13 @@
         "delete_expression",
         "has_destructor_member_model",
         "lookup_destructor_member",
-        "add_array_declarator"
+        "add_array_declarator",
+        "make_class_delete_call"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_add_array_declarator@8",
-        "native": "add_array_declarator",
+        "logical": "_make_class_delete_call@12",
+        "native": "make_class_delete_call",
         "signal": 5
       }
     }
