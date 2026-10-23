@@ -1,0 +1,37 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_flush_debug_types",
+    "start": 450688,
+    "end": 451175,
+    "shared": [
+      [
+        451176,
+        451208
+      ]
+    ]
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1073-flush_debug_types/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_emit_debug_argument_list@4",
+    "_emit_debug_array_type@8",
+    "_emit_debug_bit_field@4",
+    "_emit_debug_class@12",
+    "_emit_debug_field_list@12",
+    "_emit_debug_field_list_chunk@12",
+    "_emit_debug_function_type@12",
+    "_emit_debug_member_function_type@20",
+    "_emit_debug_method_list@4",
+    "_emit_debug_pointer_type@8",
+    "_emit_debug_qualified_type@4",
+    "_emit_debug_vshape@4",
+    "_intern_type@4",
+    "_reset_debug_type_records"
+  ],
+  "next_frontier": "_primitive_pointer_debug_type@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4732229756191373,
+  "total_operation_seconds": 3.9576129084452987,
+  "original_capture_seconds": 1.4184221774339676
+}

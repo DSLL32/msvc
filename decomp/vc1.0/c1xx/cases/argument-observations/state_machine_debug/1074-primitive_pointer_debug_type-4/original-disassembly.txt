@@ -1,0 +1,63 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0006d860 <.text+0x56860>:
+   6d860:	56                   	push   esi
+   6d861:	8b 44 24 08          	mov    eax,DWORD PTR [esp+0x8]
+   6d865:	8b 70 04             	mov    esi,DWORD PTR [eax+0x4]
+   6d868:	83 7e 04 00          	cmp    DWORD PTR [esi+0x4],0x0
+   6d86c:	0f 85 9a 00 00 00    	jne    0x6d90c
+   6d872:	66 8b 0e             	mov    cx,WORD PTR [esi]
+   6d875:	80 e1 77             	and    cl,0x77
+   6d878:	80 f9 01             	cmp    cl,0x1
+   6d87b:	0f 85 8b 00 00 00    	jne    0x6d90c
+   6d881:	66 f7 46 02 0c 30    	test   WORD PTR [esi+0x2],0x300c
+   6d887:	0f 85 7f 00 00 00    	jne    0x6d90c
+   6d88d:	66 8b 00             	mov    ax,WORD PTR [eax]
+   6d890:	50                   	push   eax
+   6d891:	e8 8a 00 00 00       	call   0x6d920
+   6d896:	66 0b c0             	or     ax,ax
+   6d899:	75 07                	jne    0x6d8a2
+   6d89b:	66 2b c0             	sub    ax,ax
+   6d89e:	5e                   	pop    esi
+   6d89f:	c2 04 00             	ret    0x4
+   6d8a2:	66 8b 4e 02          	mov    cx,WORD PTR [esi+0x2]
+   6d8a6:	83 e1 0f             	and    ecx,0xf
+   6d8a9:	83 f9 01             	cmp    ecx,0x1
+   6d8ac:	74 32                	je     0x6d8e0
+   6d8ae:	83 f9 02             	cmp    ecx,0x2
+   6d8b1:	74 3d                	je     0x6d8f0
+   6d8b3:	83 f9 03             	cmp    ecx,0x3
+   6d8b6:	74 48                	je     0x6d900
+   6d8b8:	8b 0d cc f7 09 00    	mov    ecx,DWORD PTR ds:0x9f7cc
+   6d8be:	83 e1 02             	and    ecx,0x2
+   6d8c1:	83 f9 01             	cmp    ecx,0x1
+   6d8c4:	1b c9                	sbb    ecx,ecx
+   6d8c6:	83 c1 05             	add    ecx,0x5
+   6d8c9:	66 c1 e1 08          	shl    cx,0x8
+   6d8cd:	66 25 ff f8          	and    ax,0xf8ff
+   6d8d1:	66 0b c8             	or     cx,ax
+   6d8d4:	66 8b c1             	mov    ax,cx
+   6d8d7:	5e                   	pop    esi
+   6d8d8:	c2 04 00             	ret    0x4
+   6d8db:	05 00 00 00 00       	add    eax,0x0
+   6d8e0:	66 25 ff fc          	and    ax,0xfcff
+   6d8e4:	66 0d 00 04          	or     ax,0x400
+   6d8e8:	5e                   	pop    esi
+   6d8e9:	c2 04 00             	ret    0x4
+   6d8ec:	8d 64 24 00          	lea    esp,[esp+0x0]
+   6d8f0:	66 25 ff fd          	and    ax,0xfdff
+   6d8f4:	66 0d 00 05          	or     ax,0x500
+   6d8f8:	5e                   	pop    esi
+   6d8f9:	c2 04 00             	ret    0x4
+   6d8fc:	8d 64 24 00          	lea    esp,[esp+0x0]
+   6d900:	66 25 ff fb          	and    ax,0xfbff
+   6d904:	66 0d 00 03          	or     ax,0x300
+   6d908:	5e                   	pop    esi
+   6d909:	c2 04 00             	ret    0x4
+   6d90c:	66 2b c0             	sub    ax,ax
+   6d90f:	5e                   	pop    esi
+   6d910:	c2 04 00             	ret    0x4

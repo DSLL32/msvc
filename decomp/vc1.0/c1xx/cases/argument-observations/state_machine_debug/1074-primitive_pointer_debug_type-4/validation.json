@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_primitive_pointer_debug_type@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1074,
+  "configuration_sha256": "f83afb7069f882446f10099d43f2eb4c13ec2d706eacb79f6e648b73ca009921",
+  "native_entry": "primitive_pointer_debug_type",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 382785,
+        "original_owner_function": "_reference_debug_type@4",
+        "native_owner_field": "caller_type",
+        "native_owner_function": "reference_debug_type",
+        "native_owner_local": "type",
+        "identity": "accepted reference_debug_type formal loaded to ESI at0x6d6ed; related nonnull branch PUSH ESI0x6d73b/CALL0x6d73c return0x6d741. Same actual native caller formal type; register is observation ownership only.",
+        "original_owner_value": 8304952,
+        "native_owner_value": 1449269560
+      },
+      "original_raw": 8304952,
+      "native_raw": 1449269560,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      448608,
+      448787
+    ],
+    "argument_bytes": 4,
+    "proof": "Save ESI, type from adjustedESP+8, shape=type.related; only reads shape/type/global option model. Primitive helper return drives AX, CX is explicitly loaded or masked before pointer-model use. All exits restore ESI and RET4. No incoming semantic hidden/register input; caller has proved nonnull related shape. Exact original predefined-index masks retained.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "715ed125a62b9305ac2f38a70ec76b21ac6a10a48931aff8d17803d2038f7205",
+  "capture_timing": {
+    "original_capture_seconds": 1.7194178840145469,
+    "native_capture_seconds": 0.18192758597433567,
+    "total_operation_seconds": 2.2189233349636197
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "d4cf867a501a85dfa67905cd910488528d391dea413ecc30a98b8596449ee6a6",
+    "native-commands.gdb": "fa6faed6321fc2d4aef997bb75f8475b6f445f735785fd7f17f57f84a271d3f7",
+    "native-gdb.log": "d3dcbd64e0fc2fc15e9be22900aee18b6a10fb057bcca3cee6bc8f79a5c1df62",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "9859541c7d7cdc15ea3d0b2fd6ac195ce9454729356173db0483d780a78d45ad",
+    "original-configuration.json": "f83afb7069f882446f10099d43f2eb4c13ec2d706eacb79f6e648b73ca009921",
+    "original-disassembly.txt": "abc456e66f95a6d4a78e41cd1c5b29d9c93b609b5198c1e0044f629cee06f1a7",
+    "original-entries.plan": "8f7b13f25c883519d9c8824c925d870751ba1b5f15e6ad2e91ced32d0b7933c2",
+    "original-events.txt": "e81351d2215bf8ecf3dd121b86d15433419e3bb5e5fc43cd9d160ea3ff5e1629",
+    "original-ownership-caller-disassembly.txt": "087a835bef17db4418b36f8b4c4cbd4cc348295a25a0cff820466cc2e1ab2c8c",
+    "original-receipt.json": "249b8dc25dd61b98c034da26c0a76caae0257d6ce8591be981ff70f8ba6d7abe",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "268d507abe6478e5405bab181a60e26ad98344e78a882872b2d114b882507453"
+  },
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

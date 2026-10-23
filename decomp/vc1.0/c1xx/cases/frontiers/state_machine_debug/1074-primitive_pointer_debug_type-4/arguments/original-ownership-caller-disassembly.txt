@@ -1,0 +1,137 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0006d6e0 <.text+0x566e0>:
+   6d6e0:	83 ec 0c             	sub    esp,0xc
+   6d6e3:	53                   	push   ebx
+   6d6e4:	56                   	push   esi
+   6d6e5:	57                   	push   edi
+   6d6e6:	83 3d 90 f8 09 00 00 	cmp    DWORD PTR ds:0x9f890,0x0
+   6d6ed:	8b 74 24 1c          	mov    esi,DWORD PTR [esp+0x1c]
+   6d6f1:	74 12                	je     0x6d705
+   6d6f3:	56                   	push   esi
+   6d6f4:	e8 57 33 00 00       	call   0x70a50
+   6d6f9:	83 c4 04             	add    esp,0x4
+   6d6fc:	5f                   	pop    edi
+   6d6fd:	5e                   	pop    esi
+   6d6fe:	5b                   	pop    ebx
+   6d6ff:	83 c4 0c             	add    esp,0xc
+   6d702:	c2 04 00             	ret    0x4
+   6d705:	8b 7e 04             	mov    edi,DWORD PTR [esi+0x4]
+   6d708:	83 3d a4 cc 08 00 00 	cmp    DWORD PTR ds:0x8cca4,0x0
+   6d70f:	0f 85 38 01 00 00    	jne    0x6d84d
+   6d715:	0b f6                	or     esi,esi
+   6d717:	75 0f                	jne    0x6d728
+   6d719:	66 c7 46 0a 00 00    	mov    WORD PTR [esi+0xa],0x0
+   6d71f:	5f                   	pop    edi
+   6d720:	5e                   	pop    esi
+   6d721:	5b                   	pop    ebx
+   6d722:	83 c4 0c             	add    esp,0xc
+   6d725:	c2 04 00             	ret    0x4
+   6d728:	66 83 7e 0a 00       	cmp    WORD PTR [esi+0xa],0x0
+   6d72d:	0f 85 1a 01 00 00    	jne    0x6d84d
+   6d733:	0b ff                	or     edi,edi
+   6d735:	0f 84 db 00 00 00    	je     0x6d816
+   6d73b:	56                   	push   esi
+   6d73c:	e8 1f 01 00 00       	call   0x6d860
+   6d741:	66 89 46 0a          	mov    WORD PTR [esi+0xa],ax
+   6d745:	66 0b c0             	or     ax,ax
+   6d748:	0f 85 ff 00 00 00    	jne    0x6d84d
+   6d74e:	8d 4c 24 0c          	lea    ecx,[esp+0xc]
+   6d752:	8b 06                	mov    eax,DWORD PTR [esi]
+   6d754:	89 01                	mov    DWORD PTR [ecx],eax
+   6d756:	8b 46 04             	mov    eax,DWORD PTR [esi+0x4]
+   6d759:	89 41 04             	mov    DWORD PTR [ecx+0x4],eax
+   6d75c:	8b 46 08             	mov    eax,DWORD PTR [esi+0x8]
+   6d75f:	89 41 08             	mov    DWORD PTR [ecx+0x8],eax
+   6d762:	8b 46 04             	mov    eax,DWORD PTR [esi+0x4]
+   6d765:	8b 40 04             	mov    eax,DWORD PTR [eax+0x4]
+   6d768:	89 44 24 10          	mov    DWORD PTR [esp+0x10],eax
+   6d76c:	8b c1                	mov    eax,ecx
+   6d76e:	50                   	push   eax
+   6d76f:	e8 0c 49 ff ff       	call   0x62080
+   6d774:	8b d8                	mov    ebx,eax
+   6d776:	53                   	push   ebx
+   6d777:	e8 64 ff ff ff       	call   0x6d6e0
+   6d77c:	66 8b 07             	mov    ax,WORD PTR [edi]
+   6d77f:	83 e0 77             	and    eax,0x77
+   6d782:	83 f8 10             	cmp    eax,0x10
+   6d785:	7f 22                	jg     0x6d7a9
+   6d787:	74 48                	je     0x6d7d1
+   6d789:	0b c0                	or     eax,eax
+   6d78b:	74 33                	je     0x6d7c0
+   6d78d:	83 f8 01             	cmp    eax,0x1
+   6d790:	0f 8c b7 00 00 00    	jl     0x6d84d
+   6d796:	83 f8 03             	cmp    eax,0x3
+   6d799:	7e 36                	jle    0x6d7d1
+   6d79b:	83 f8 04             	cmp    eax,0x4
+   6d79e:	74 67                	je     0x6d807
+   6d7a0:	5f                   	pop    edi
+   6d7a1:	5e                   	pop    esi
+   6d7a2:	5b                   	pop    ebx
+   6d7a3:	83 c4 0c             	add    esp,0xc
+   6d7a6:	c2 04 00             	ret    0x4
+   6d7a9:	83 f8 20             	cmp    eax,0x20
+   6d7ac:	74 23                	je     0x6d7d1
+   6d7ae:	83 f8 40             	cmp    eax,0x40
+   6d7b1:	74 1e                	je     0x6d7d1
+   6d7b3:	5f                   	pop    edi
+   6d7b4:	5e                   	pop    esi
+   6d7b5:	5b                   	pop    ebx
+   6d7b6:	83 c4 0c             	add    esp,0xc
+   6d7b9:	c2 04 00             	ret    0x4
+   6d7bc:	8d 64 24 00          	lea    esp,[esp+0x0]
+   6d7c0:	66 8b 43 0a          	mov    ax,WORD PTR [ebx+0xa]
+   6d7c4:	66 89 46 0a          	mov    WORD PTR [esi+0xa],ax
+   6d7c8:	5f                   	pop    edi
+   6d7c9:	5e                   	pop    esi
+   6d7ca:	5b                   	pop    ebx
+   6d7cb:	83 c4 0c             	add    esp,0xc
+   6d7ce:	c2 04 00             	ret    0x4
+   6d7d1:	66 a1 54 f4 09 00    	mov    ax,ds:0x9f454
+   6d7d7:	66 89 46 0a          	mov    WORD PTR [esi+0xa],ax
+   6d7db:	6a 00                	push   0x0
+   6d7dd:	e8 9e 07 00 00       	call   0x6df80
+   6d7e2:	c1 e0 04             	shl    eax,0x4
+   6d7e5:	8b 0d b0 cc 08 00    	mov    ecx,DWORD PTR ds:0x8ccb0
+   6d7eb:	89 74 08 04          	mov    DWORD PTR [eax+ecx*1+0x4],esi
+   6d7ef:	66 8b 4b 0a          	mov    cx,WORD PTR [ebx+0xa]
+   6d7f3:	8b 15 b0 cc 08 00    	mov    edx,DWORD PTR ds:0x8ccb0
+   6d7f9:	66 89 4c 10 08       	mov    WORD PTR [eax+edx*1+0x8],cx
+   6d7fe:	5f                   	pop    edi
+   6d7ff:	5e                   	pop    esi
+   6d800:	5b                   	pop    ebx
+   6d801:	83 c4 0c             	add    esp,0xc
+   6d804:	c2 04 00             	ret    0x4
+   6d807:	56                   	push   esi
+   6d808:	e8 43 02 00 00       	call   0x6da50
+   6d80d:	5f                   	pop    edi
+   6d80e:	5e                   	pop    esi
+   6d80f:	5b                   	pop    ebx
+   6d810:	83 c4 0c             	add    esp,0xc
+   6d813:	c2 04 00             	ret    0x4
+   6d816:	f6 46 03 30          	test   BYTE PTR [esi+0x3],0x30
+   6d81a:	74 27                	je     0x6d843
+   6d81c:	66 a1 54 f4 09 00    	mov    ax,ds:0x9f454
+   6d822:	66 89 46 0a          	mov    WORD PTR [esi+0xa],ax
+   6d826:	6a 00                	push   0x0
+   6d828:	e8 53 07 00 00       	call   0x6df80
+   6d82d:	c1 e0 04             	shl    eax,0x4
+   6d830:	8b 0d b0 cc 08 00    	mov    ecx,DWORD PTR ds:0x8ccb0
+   6d836:	89 74 08 04          	mov    DWORD PTR [eax+ecx*1+0x4],esi
+   6d83a:	5f                   	pop    edi
+   6d83b:	5e                   	pop    esi
+   6d83c:	5b                   	pop    ebx
+   6d83d:	83 c4 0c             	add    esp,0xc
+   6d840:	c2 04 00             	ret    0x4
+   6d843:	56                   	push   esi
+   6d844:	e8 77 01 00 00       	call   0x6d9c0
+   6d849:	66 89 46 0a          	mov    WORD PTR [esi+0xa],ax
+   6d84d:	5f                   	pop    edi
+   6d84e:	5e                   	pop    esi
+   6d84f:	5b                   	pop    ebx
+   6d850:	83 c4 0c             	add    esp,0xc
+   6d853:	c2 04 00             	ret    0x4

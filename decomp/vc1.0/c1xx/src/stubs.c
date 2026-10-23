@@ -484,10 +484,21 @@ void finish_inline_function(void) { __asm { int 3 } }
 
 unsigned short __stdcall debug_tag_type(CppSymbol *tag) { __asm { int 3 } return 0; }
 unsigned __stdcall reserve_debug_type(unsigned char kind) { __asm { int 3 } return 0; }
-unsigned short __stdcall primitive_pointer_debug_type(CType *type) { __asm { int 3 } return 0; }
 void __stdcall reference_function_debug_type(CType *type) { __asm { int 3 } }
 unsigned short __cdecl reference_line_record_type(CType *type) { __asm { int 3 } return 0; }
-void flush_debug_types(void) { __asm { int 3 } }
+void reset_debug_type_records(void) { __asm { int 3 } }
+void __stdcall emit_debug_pointer_type(CType *type, unsigned short base_index) { __asm { int 3 } }
+void __stdcall emit_debug_array_type(CType *type, unsigned short base_index) { __asm { int 3 } }
+void __stdcall emit_debug_function_type(CType *type, unsigned short return_index, unsigned short argument_count) { __asm { int 3 } }
+void __stdcall emit_debug_member_function_type(CType *type, unsigned short return_index, unsigned short argument_count, unsigned short class_index, int this_displacement) { __asm { int 3 } }
+void __stdcall emit_debug_qualified_type(CType *type) { __asm { int 3 } }
+void __stdcall emit_debug_bit_field(CppSymbol *field) { __asm { int 3 } }
+void __stdcall emit_debug_class(CppSymbol *tag, unsigned short field_count, unsigned short field_list) { __asm { int 3 } }
+void __stdcall emit_debug_method_list(struct OverloadSet *overloads) { __asm { int 3 } }
+void __stdcall emit_debug_field_list(CppSymbol *tag, unsigned field_count, unsigned short continuation) { __asm { int 3 } }
+void __stdcall emit_debug_argument_list(FunctionParameters *parameters) { __asm { int 3 } }
+void __stdcall emit_debug_vshape(CppSymbol *tag) { __asm { int 3 } }
+void __stdcall emit_debug_field_list_chunk(CppSymbol **members, int first, int limit) { __asm { int 3 } }
 
 char *__stdcall format_qualified_tag_name(char *cursor, CppSymbol *tag) { __asm { int 3 } return 0; }
 

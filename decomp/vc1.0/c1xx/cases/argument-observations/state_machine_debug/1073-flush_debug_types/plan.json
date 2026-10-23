@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "function": "_flush_debug_types",
+  "native_entry": "flush_debug_types",
+  "argument_words": 4,
+  "native_expressions": {
+    "no_formals": "0"
+  },
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      450688,
+      451175
+    ],
+    "argument_bytes": 0,
+    "proof": "SUB ESP,24; preserve EBX/ESI/EDI/EBP, initialize index/offset/zero registers; all semantic values derive globals/record/callee results. RET0 at0x6e266; no stack/hidden/register formals. Source loop reloads global count/queue because emission may append records. Eight original switch entries0x6e268..0x6e288 mapped to cases0/1/2/3/default/default/6/7. Named unaccepted emitters retain exact stack-byte cleanup and observed widths, kind-specific union views avoid reading undefined field padding."
+  }
+}

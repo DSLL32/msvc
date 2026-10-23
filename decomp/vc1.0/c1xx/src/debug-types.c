@@ -6,6 +6,84 @@
 
 DebugTypeRecord *debug_types; /* original 0x8ccb0 */
 unsigned short next_debug_type_index = 0x1000; /* original 0x9f454 */
+unsigned debug_type_count; /* original 0xa25c0 */
+
+/* Original 0x6e080..0x6e267, switch data 0x6e268..0x6e288. Emission
+   may append more records, so reread both the count and queue each turn. */
+void flush_debug_types(void)
+{
+    unsigned index;
+    DebugTypeRecord *record;
+    CType *type, description, *base;
+    CppSymbol *symbol;
+    if (options.configuration.line_records || !debug_type_count) return;
+    for (index = 0; index < debug_type_count; ++index) {
+        record = &debug_types[index];
+        switch (record->kind) {
+        case 0:
+            type = record->subject.type;
+            if (!type->related) {
+                emit_debug_qualified_type(type);
+                break;
+            }
+            switch (type->related->flags & 0x77) {
+            case 1: case 3: case 0x10: case 0x20: case 0x40:
+                emit_debug_pointer_type(type, record->related_type);
+                break;
+            case 2:
+                emit_debug_array_type(type, record->related_type);
+                break;
+            case 4:
+                if (record->related_type) {
+                    description = *type;
+                    description.related = type->related->related;
+                    base = intern_type((TypeDescription *)&description);
+                    record = &debug_types[index];
+                    emit_debug_member_function_type(type, base->debug_index,
+                        record->attributes, record->related_type, record->detail.displacement);
+                } else {
+                    description = *type;
+                    description.related = type->related->related;
+                    base = intern_type((TypeDescription *)&description);
+                    record = &debug_types[index];
+                    emit_debug_function_type(type, base->debug_index, record->attributes);
+                }
+                break;
+            }
+            break;
+        case 1:
+            symbol = record->subject.symbol;
+            switch (symbol->kind & 31) {
+            case 2:
+                emit_debug_bit_field(symbol);
+                break;
+            case 4:
+                emit_debug_class(symbol, record->attributes,
+                    record->detail.field_list);
+                break;
+            case 17:
+                emit_debug_method_list((struct OverloadSet *)symbol);
+                break;
+            }
+            break;
+        case 2:
+            emit_debug_field_list(record->subject.symbol, (unsigned)record->attributes,
+                record->related_type);
+            break;
+        case 3:
+            emit_debug_argument_list(record->subject.parameters);
+            break;
+        case 6:
+            emit_debug_vshape(record->subject.symbol);
+            break;
+        case 7:
+            emit_debug_field_list_chunk(record->subject.members,
+                record->detail.first_member, (int)record->attributes);
+            break;
+        }
+    }
+    reset_debug_type_records();
+}
 
 /* CodeView predefined types indexed by the frontend's byte-width field.
    Keep the encountered logical rows, without neighbouring alignment bytes
@@ -47,6 +125,28 @@ unsigned short __stdcall primitive_debug_type(unsigned short flags)
     }
     if (flags & 0x4000) return cv_unsigned_size_types[width];
     return cv_signed_size_types[width];
+}
+
+/* Original 0x6d860..0x6d913. An ordinary unqualified pointer to a
+   predefined type can encode its memory model in the predefined index. */
+unsigned short __stdcall primitive_pointer_debug_type(CType *type)
+{
+    TypeShape *shape = type->related;
+    unsigned short index, model;
+    if (shape->related || (shape->flags & 0x77) != 1 ||
+        (shape->attributes & 0x300c)) return 0;
+    index = primitive_debug_type(type->flags);
+    if (!index) return 0;
+    switch (shape->attributes & 15) {
+    case 1:
+        return (index & 0xfcff) | 0x400;
+    case 2:
+        return (index & 0xfdff) | 0x500;
+    case 3:
+        return (index & 0xfbff) | 0x300;
+    }
+    model = (options.configuration.option_M & 2) ? 5 : 4;
+    return (index & 0xf8ff) | (model << 8);
 }
 
 /* Original 0x6d9c0..0x6da4d. Tags retain their declaration identity;
