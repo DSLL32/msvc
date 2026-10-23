@@ -13,7 +13,7 @@
         "_restore_pch_separate_debug at47430"
       ],
       "reason": "Exercises a substantial distinct debug writer family; current numeric case uses /Zi database output.",
-      "approximate_reachable_scope": "About4-5KiB in the legacy debug-type/PCH-support band; 4,462 of5,328 bytes at47630..48b00 are outside accepted extents. This is an analysis band estimate, not confirmed reachable whole-function coverage; symbol writers may add more."
+      "approximate_reachable_scope": "About4-5KiB in the legacy debug-type/PCH-support band; 4,524 of5,328 bytes at47630..48b00 are outside accepted extents. This is an analysis band estimate, not confirmed reachable whole-function coverage; symbol writers may add more."
     },
     {
       "case": "Ordinary function inlining under supported /Ob1 or /Ob2, with several small callees and conditional early returns.",
@@ -25,7 +25,7 @@
         "_find_inline_parameter_slot@12 at2ee64"
       ],
       "reason": "Most inline-region generation remains trapping; exact supported flags must first be validated on untouched CL.",
-      "approximate_reachable_scope": "About2-3KiB in the inline-region band; 2,592 of3,136 bytes at2e370..2efb0 are outside accepted extents. This is an analysis band estimate, not confirmed reachable whole-function coverage."
+      "approximate_reachable_scope": "About3KiB in the inline-region band: all3,136 bytes at2e370..2efb0 remain outside accepted extents. This is an analysis band estimate, not confirmed reachable whole-function coverage."
     },
     {
       "case": "Escaped and adjacent narrow/wide string literals plus compile-time floating arithmetic and float/double initializers.",

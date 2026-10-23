@@ -269,5 +269,24 @@
     "kind": "exit",
     "status": 0
   },
-  "next_action": "Pause for user selection; no additional case assigned."
+  "next_action": "Pause for user selection; no additional case assigned.",
+  "measured_totals": {
+    "original_captures": {
+      "preparation_seconds": 0.7551475102081895,
+      "execution_seconds": 68.14057767391205,
+      "total_seconds": 68.89576224051416
+    },
+    "native_frontier_checks": {
+      "preparation_seconds": 0.04793336149305105,
+      "execution_seconds": 1.4542004512622952,
+      "total_seconds": 1.526247626170516
+    }
+  },
+  "final_native_breakdown": {
+    "setup_seconds": 0.08277643285691738,
+    "execution_seconds": 0.2329646833240986,
+    "oracle_seconds": 0.024556420743465424,
+    "total_seconds": 0.35136002115905285,
+    "trace_prepare_seconds": 0.10159286390990019
+  }
 }
