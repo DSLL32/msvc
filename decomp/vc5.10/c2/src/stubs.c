@@ -13,12 +13,6 @@ void c2_print_banner(void)
     __asm { int 3 }
 }
 
-unsigned short c2_read_il_word(void)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 long c2_read_il_long(void)
 {
     __asm { int 3 }

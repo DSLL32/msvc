@@ -107,6 +107,8 @@ def main():
         mutations += [('changed native option kind',changed_native_table),('different logical destination alias',changed_native_alias),
                       ('different initial CPU option',changed_native_default),('changed raw original table with matching hash',changed_original_data),
                       ('changed contextual data receipt with matching hash',changed_data_receipt)]
+    if 'il_word_result'in current_state:
+        mutations.append(('decoded machine differs from original AX result',lambda r:mutate_state(r,'il_word_result',0x2386)))
     if 'valid_buffer'in current_state.get('header_streams',{}):
         def changed_buffer(root):
             path=root/'n/state.json';state=json_at(path);buffer=state['header_streams']['valid_buffer'];state['header_streams']['valid_buffer']='00'+buffer[2:];write_json(path,state);raw_changed(root,'n','state.json')

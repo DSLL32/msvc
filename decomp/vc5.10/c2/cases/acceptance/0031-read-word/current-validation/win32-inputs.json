@@ -1,0 +1,29 @@
+{
+  "mode": "original",
+  "inputs": {
+    "decomp/vc5.10/c2/Makefile": "3e20671d299bd50b2b1da06b62009d49bb318f6164830064264fa72468df63a3",
+    "decomp/vc5.10/c2/src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "decomp/vc5.10/c2/src/c2.h": "a96a52c081bcd8396cb91fc24ead8db3647e56c409d1471a08e00e54f46d2324",
+    "decomp/vc5.10/c2/src/cleanup.c": "ade05818abf0d7dae3de9cdadc21230199beb44759ca8b9a67e98155650cbf5a",
+    "decomp/vc5.10/c2/src/diagnostics.c": "95c93ae8c982b7d0f86c5827de2609f74d5586844560869de470a93fcc371fdd",
+    "decomp/vc5.10/c2/src/environment.c": "eb7ec037cd1193bdd340a3423461a3fee04d2142c0247d7892747f4a2c0f8cc7",
+    "decomp/vc5.10/c2/src/il-files.c": "58a7ac5d8f13c7dda8d1dc913562dda04a48633c46c8b2b9573c91d2a226259c",
+    "decomp/vc5.10/c2/src/il-input.c": "0fc1279b4a89f6e9c1fa87e39e65458b1b5c304a5f363633a0a23c7099832125",
+    "decomp/vc5.10/c2/src/integer-option.c": "88278a1164a17a3a538e614bed713a66d91bef094a140237feed18084e06906a",
+    "decomp/vc5.10/c2/src/main.c": "78c9468b641eab7e7f1af7fad938fc800b555ec8d11005c5bbcec0bfc8eef94f",
+    "decomp/vc5.10/c2/src/messages.rc": "2c5d0852b25ad0dba5048fb18634420c3fb7a7d93032187083bff0b8a443df8c",
+    "decomp/vc5.10/c2/src/onexit.c": "655604423c7d014c413f586440382adbb7651a91596121050a0e98b536d39bd2",
+    "decomp/vc5.10/c2/src/option-match.c": "1e7ba11f9961d07211e4e4a7ef6a50b361df23eae587d44678c115ba9a267a07",
+    "decomp/vc5.10/c2/src/option-table.c": "2f8ac5134d6edbfb96f270119d47e61cb23686745312a319d3eb08d2982ad0b0",
+    "decomp/vc5.10/c2/src/options.c": "9dcb15481f9116e3c301e09c7f2aef04237aeed52bed08a4e7accee6de341ccb",
+    "decomp/vc5.10/c2/src/precision.c": "daae70312d63b144872fb3486186501d6de76afae8c42eb0ff572c9d1da25501",
+    "decomp/vc5.10/c2/src/startup.c": "9703233f15eac9538cfb31621770ea4560e918d80b2408a5f2a3e08ac1462b88",
+    "decomp/vc5.10/c2/src/stubs.c": "64557290a4e0e5413952e7051004e0ab6ba9a68a0b51c2484b1b1b0f56fbdf92",
+    "lib/recon/include/recon.h": "e27a25bb906b6d31ad88c6f69db8c827a68f525e8574b97c57d02a285348ef7b",
+    "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "lib/recon/include/win32.h": "a789f62196f170f663978151e11f7f47c8e0359f3d692b2ac3a8b6016f96ec5f"
+  },
+  "snapshot": "/root/msvc2/decomp/vc5.10/c2/build/provenance/original/58eaeaa54e3f61a4c8dc0075aad2f9c7a0e0a17c07b03a490b1d02150931aeed",
+  "input_set_sha256": "58eaeaa54e3f61a4c8dc0075aad2f9c7a0e0a17c07b03a490b1d02150931aeed",
+  "binary_sha256": "6efff46af20c808b3b811a7a42d40f1ebe8d0997bdd8abbbec2f5aa55c0403e8"
+}

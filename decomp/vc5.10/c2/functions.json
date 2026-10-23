@@ -40,7 +40,8 @@
     "@c2_validate_alignment@4",
     "@c2_open_intermediate@16",
     "_c2_read_header",
-    "_c2_read_il_byte"
+    "_c2_read_il_byte",
+    "_c2_read_il_word"
   ],
   "driver": [
     {
@@ -1269,6 +1270,172 @@
       ],
       "expected_argc": 0,
       "evidence": "cases/analysis/il-byte-disassembly.txt: complete 36-byte getc expansion, buffer fast path and imported _filbuf refill, RET0"
+    },
+    {
+      "name": "_c2_read_il_word",
+      "native": "c2_read_il_word",
+      "start": 4534091,
+      "end": 4534165,
+      "kind": "application",
+      "abi": "cdecl, no parameters; unsigned-short result",
+      "state_policy": "il-word-read",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        }
+      ],
+      "expected_argv": [
+        "-G5"
+      ],
+      "expected_argc": 0,
+      "code_chunks": [
+        [
+          4671782,
+          4671817
+        ]
+      ],
+      "evidence": "cases/analysis/il-word-disassembly.txt: full hot/cold 109-byte two getc expansions with cached _filbuf, unsigned-short result, RET0",
+      "cached_imports": [
+        {
+          "dll": "MSVCRT.dll",
+          "symbol": "_filbuf",
+          "abi": "cdecl int(FILE*); caller cleanup4; AL used as next byte",
+          "original": {
+            "slot": 4772108,
+            "holder": "ESI",
+            "instructions": [
+              {
+                "offset": 8,
+                "bytes": "8b350cd14800"
+              },
+              {
+                "offset": 137692,
+                "bytes": "ffd6"
+              },
+              {
+                "offset": 137700,
+                "bytes": "83c404"
+              },
+              {
+                "offset": 137709,
+                "bytes": "ffd683c404"
+              }
+            ],
+            "review": "Full hot/cold refill lifetime reviewed: ESI loaded once before both count tests; only two cdecl calls, register preserved by import; cold paths return/jump into owned hot continuation, no entry bypass, clobber or escape before restore.",
+            "lifetime_ranges": [
+              [
+                8,
+                71
+              ],
+              [
+                137691,
+                137723
+              ]
+            ],
+            "lifetime_sha256s": [
+              "707f9a998bef9bb883f951b1698dfd9519e4c060fc1047644f2522fbda6cb162",
+              "918c9176206e872adb5a4ddd633b094285639687e845e8ed20efe2f458deddd7"
+            ]
+          },
+          "rebuilt": {
+            "slot": 4206712,
+            "holder": "[EBP-0x8]",
+            "instructions": [
+              {
+                "offset": 6,
+                "bytes": "a1783040008945f8"
+              },
+              {
+                "offset": 89,
+                "bytes": "ff55f883c404"
+              },
+              {
+                "offset": 179,
+                "bytes": "ff55f883c404"
+              }
+            ],
+            "review": "Full40218e..40224e reviewed: one cached import assignment, two optional refill calls cleanup4, pointer/count fast paths and local two-byte union only; slot never overwritten or passed; both calls dominated by IAT load.",
+            "lifetime": [
+              6,
+              198
+            ],
+            "lifetime_sha256": "b2f16fc9bf4bc0c8dbe2a841d2cc2e44c2371bc56d3661dd10d3e465d77a08f9"
+          }
+        }
+      ]
     }
   ],
   "stubs": [
@@ -1434,14 +1601,14 @@
       "abi": "fastcall ECX location EDX output filename"
     },
     {
-      "name": "_c2_read_il_word",
-      "native": "c2_read_il_word",
-      "start": 4534091,
-      "end": 4534092,
+      "name": "_c2_read_il_long",
+      "native": "c2_read_il_long",
+      "start": 4534165,
+      "end": 4534166,
       "pending_extent": true,
       "kind": "application",
-      "abi": "cdecl, no parameters; unsigned-short result",
-      "state_policy": "il-word-read",
+      "abi": "cdecl, no parameters; 32-bit long result",
+      "state_policy": "il-long-read",
       "state": [
         {
           "original": "0x499708",
@@ -1524,15 +1691,6 @@
         "-G5"
       ],
       "expected_argc": 0
-    },
-    {
-      "name": "_c2_read_il_long",
-      "native": "c2_read_il_long",
-      "start": 4534165,
-      "end": 4534166,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters; 32-bit long result"
     },
     {
       "name": "@c2_open_pdb@8",

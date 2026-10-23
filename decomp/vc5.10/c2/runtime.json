@@ -144,14 +144,6 @@
     "evidence": null
   },
   {
-    "name": "_c2_read_il_word",
-    "start": 4534091,
-    "end": 4534092,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_c2_read_il_long",
     "start": 4534165,
     "end": 4534166,
