@@ -177,5 +177,60 @@
       "pool_checker_sha256": "3e7edf4d65451bbba0e68f499a96fde9c1d0a0b7432c2d6da575d41068064fae"
     },
     "reason": "Unchanged generic pool entry/return decoder, original frozen singleton control inputs, class body/ABI and transport. This function adds only an encountered instance/field-map row and caller; all16 affected instance controls rerun fresh."
-  }
+  },
+  "caller_provenance_controls": {
+    "result": "PASS",
+    "count": 18,
+    "seconds": 17.534671404398978,
+    "rejected": [
+      "original-wrong-receiver",
+      "original-wrong-argument",
+      "native-wrong-receiver",
+      "native-wrong-argument",
+      "missing-raw-hidden-input",
+      "false-native-entry-PC",
+      "storage-alias",
+      "previous-instance-changed",
+      "original-previous-instance-changed",
+      "wrong-result",
+      "original-wrong-caller",
+      "native-wrong-caller",
+      "missing-native-nonzero",
+      "missing-original-nonzero",
+      "original-BSS-not-cleared",
+      "native-BSS-not-cleared",
+      "new-object-scalar-as-pointer",
+      "new-object-pointer-misprojected"
+    ],
+    "checker_sha256": "1a3aa263e24d18c1a32aa62d2544b99d80593c132552fabd49e1c5a41ff6e779",
+    "pool_checker_sha256": "002ccbc3aa25c48e10be4732dcf32bd1ba86f0a7833be0478e2e7850be158230"
+  },
+  "prior_member_controls_refreshed": {
+    "result": "PASS",
+    "count": 18,
+    "seconds": 15.937181621789932,
+    "rejected": [
+      "original-return-this",
+      "original-RET4",
+      "original-return-PC",
+      "missing-return-observation",
+      "native-return-this",
+      "native-RET4",
+      "native-return-PC",
+      "native-entry-PC",
+      "raw-native-receiver",
+      "raw-native-argument",
+      "original-return-fields",
+      "native-return-fields",
+      "neighbor-state",
+      "missing-original-constructor-seed",
+      "missing-native-constructor-seed",
+      "native-final-cursor",
+      "original-final-minimum-pages",
+      "missing-raw-seed-event"
+    ],
+    "checker_sha256": "b149c34479ed291a45114f043ae4ff36ec701f77ffab362b3c1a2d16b3d95fa8",
+    "pool_checker_sha256": "002ccbc3aa25c48e10be4732dcf32bd1ba86f0a7833be0478e2e7850be158230"
+  },
+  "static_validation_only": "Additional caller-return provenance is read from unchanged immutable executions; no target run or acceptance altered"
 }

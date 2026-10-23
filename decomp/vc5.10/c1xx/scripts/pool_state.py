@@ -35,7 +35,11 @@ def check(s,original,native,trial,text,pre,phase,state,seed,final,symbols,traps)
         s.require(entry['symbol']=='CompilerPool::Initialize' and entry['args']=={'this':wanted_this,'minimum_pages':1},'actual native member arguments differ')
         suffix='%03d'%int(trap[0]);line=next(line for line in text.splitlines() if line.startswith('trap seq='+trap[0]+' '))
         s.require('ecx=%08x '%model['pool_projection']['original_bases'][number-1] in line and int(trap[2].split(',')[1],16)==1,'original thiscall ECX/stack argument differs')
+        caller=next(row for row in trial['driver'] if row['name']=='_initialize_frontend_%02d'%(23+number))
+        s.require(int(trap[2].split(',')[0],16)==caller['start']+12,'original member caller-return provenance differs')
         if member or model['schema']>=20:
+            wrapper=re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] initialize_frontend_%02d$'%(23+number),symbols,re.M)
+            s.require(wrapper is not None and int(wrapper[1],16)<entry['raw_entry_abi']['return_pc']<int(wrapper[1],16)+int(wrapper[2],16),'native member caller-return provenance differs')
             native_entry=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] _ZN12CompilerPool10InitializeEj$',symbols,re.M)[1],16)
             s.require(entry['pc']==native_entry and entry['raw_entry_abi']=={'ecx':wanted_this,'esp':entry['esp'],'return_pc':entry['raw_entry_abi']['return_pc'],'stack_argument':1},'native member input not observed at raw entry')
         constructor_seed=bool(trial.get('test_pool_seed')) and number==1

@@ -19,7 +19,7 @@ def main():
     d=load('pool_instance_decoder','check-callback.py');h=load('pool_instance_helpers','check-projection-negative.py');history=load('pool_instance_history','check-history.py')
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--packet',type=Path,default=d.s.PROJECT/'cases/minimal/pool02-wrapper-trials.json');args=parser.parse_args()
     packet=json.loads(args.packet.read_text());started=time.perf_counter();passed=[]
-    cases={None:('original-wrong-receiver','original-wrong-argument','native-wrong-receiver','native-wrong-argument','missing-raw-hidden-input','false-native-entry-PC','storage-alias','previous-instance-changed','original-previous-instance-changed','wrong-result'),
+    cases={None:('original-wrong-receiver','original-wrong-argument','native-wrong-receiver','native-wrong-argument','missing-raw-hidden-input','false-native-entry-PC','storage-alias','previous-instance-changed','original-previous-instance-changed','wrong-result','original-wrong-caller','native-wrong-caller'),
            'restore-nonzero':('missing-native-nonzero','missing-original-nonzero','original-BSS-not-cleared','native-BSS-not-cleared'),
            'restore-zero':('new-object-scalar-as-pointer','new-object-pointer-misprojected',)}
     for row in packet['trials']:
@@ -31,6 +31,7 @@ def main():
                 if case.startswith('original-wrong-'):
                     f=o/'events.txt';text=f.read_text();m=list(re.finditer(r'^trap seq=\d+ rva=000389d5 .*$',text,re.M))[-1];line=m[0]
                     if case=='original-wrong-receiver':line=line.replace('ecx=%08x'%model['pool_projection']['original_bases'][idx],'ecx=%08x'%model['pool_projection']['original_bases'][0])
+                    elif case=='original-wrong-caller':line=re.sub(r'stack=\w+,','stack=104389d4,',line)
                     else:line=re.sub(r'(stack=\w+,)00000001,',r'\g<1>00000002,',line)
                     f.write_text(text[:m.start()]+line+text[m.end():]);h.rehash(o,f.name)
                 elif case in ('missing-original-nonzero','original-BSS-not-cleared','original-previous-instance-changed'):
@@ -41,6 +42,7 @@ def main():
                     def change(j):
                         f=j['frontend']
                         if case=='native-wrong-receiver':j['args']['this']=f['storage']['pool_01.cursor'][0]
+                        elif case=='native-wrong-caller':j['raw_entry_abi']['return_pc']=0
                         elif case=='native-wrong-argument':j['args']['minimum_pages']=2
                         elif case=='missing-raw-hidden-input':j['raw_entry_abi'].pop('ecx')
                         elif case=='false-native-entry-PC':j['pc']+=1

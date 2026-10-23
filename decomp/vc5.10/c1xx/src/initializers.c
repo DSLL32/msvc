@@ -137,10 +137,6 @@ void initialize_frontend_23(void)
 
 
 
-void initialize_frontend_27(void)
-{
-    __asm { int 3 }
-}
 
 void initialize_frontend_28(void)
 {
