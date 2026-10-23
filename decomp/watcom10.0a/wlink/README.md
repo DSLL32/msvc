@@ -36,3 +36,8 @@ original builds. Native GCC/Clang must preserve the independently established
 application ABI through reviewed support; normal calls at a precisely declared
 Win32/CRT boundary may differ internally. Shared support belongs to the recon
 library maintainer, not this binary.
+
+The shipped `h/STDIO.H` declares a packed, 26-byte Watcom `FILE` on i386. Existing
+MSCRT `ShimFILE` is not layout-equivalent. Preserve original field accesses and
+prove reached buffer/position/error semantics before requesting a shared Watcom
+CRT profile; register-call transport is a separate proof obligation.
