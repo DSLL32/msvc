@@ -84,6 +84,15 @@ extern TypeIndexMapper type_index_mappers[3];
 void __fastcall add_type_reference(TypeRecord *record, unsigned short offset);
 void append_type_field_list(unsigned char *field, TypeRecord *record);
 unsigned resolve_recursive_type(TypeRecord *record, unsigned index);
+typedef struct RecursiveTypeNode {
+    unsigned char *data;
+    unsigned index;
+    struct RecursiveTypeNode *next;
+} RecursiveTypeNode;
+unsigned __fastcall hash_recursive_type(TypeRecord *record);
+int __fastcall compare_recursive_type(TypeRecord *record, unsigned index,
+    unsigned char *other_data, unsigned other_index);
+unsigned __fastcall intern_recursive_type(unsigned index);
 void __fastcall intern_type(TypeRecord *record);
 typedef struct InternedType {
     unsigned index;

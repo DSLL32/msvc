@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "count": 7,
+  "rejected": [
+    {
+      "name": "wrong-native-local-record",
+      "diagnostic": "('typed ABI arguments differ', {'record': {'root': 'type_records', 'index': 332}}, {'record': {'root': 'type_records', 'index': 333}})"
+    },
+    {
+      "name": "wrong-original-local-record",
+      "diagnostic": "('typed ABI arguments differ', {'record': {'root': 'type_records', 'index': 333}}, {'record': {'root': 'type_records', 'index': 332}})"
+    },
+    {
+      "name": "original-misaligned-record",
+      "diagnostic": "argument is not an owned original local type record"
+    },
+    {
+      "name": "wrong-observed-pointee-width",
+      "diagnostic": "actual frontier pointee extent differs"
+    },
+    {
+      "name": "lost-caller-recursion-depth",
+      "diagnostic": "('application global differs', 'type_recursion_depth', '0000', '0100')"
+    }
+  ],
+  "actual_gdb_rejections": [
+    {
+      "name": "pointee-width",
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x5664bd18 in hash_recursive_type (record=0xf7ac3990) at src/stubs.c:74\n74\tunsigned __fastcall hash_recursive_type(TypeRecord *record) { __asm { int 3 } return 0; }\n\nPython Exception <class 'AssertionError'>: actual pointer formal pointee extent differs\n/root/.ai-tmp/cvpack-recursive-abi-0fpt9299/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: actual pointer formal pointee extent differs\n",
+      "bad_config_sha256": "4cdbc4f25ea4a8e420cf7e45d63fee48a84550f953b8e984f870a97cb33ae6f1",
+      "observer_sha256": "162caa00cb834c0bc5127dab637996ac5af592086bcb608e9fe6e05f26287381"
+    },
+    {
+      "name": "omitted-formal",
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x565b8d18 in hash_recursive_type (record=0xf7a5f990) at src/stubs.c:74\n74\tunsigned __fastcall hash_recursive_type(TypeRecord *record) { __asm { int 3 } return 0; }\n\nPython Exception <class 'AssertionError'>: ('incomplete frontier ABI contract', ['record'], [])\n/root/.ai-tmp/cvpack-recursive-abi-wtd35cv1/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: ('incomplete frontier ABI contract', ['record'], [])\n",
+      "bad_config_sha256": "3be0d4de9587c8f4bb450c1d06e48b19b0be8ed6ec873f4a4cc1dc96af338e0b",
+      "observer_sha256": "162caa00cb834c0bc5127dab637996ac5af592086bcb608e9fe6e05f26287381"
+    }
+  ],
+  "parameters": {
+    "record": {
+      "root": "type_records",
+      "index": 332
+    }
+  },
+  "original_receipt_sha256": "4242dc157aaf82f53e43e3a8aa90971f5abd6583d5512290a5f2c69894300f83",
+  "native_receipt_sha256": "e0394c11ea053665c0ef572775747bf85c6d62352e2f7179eb2359926e9418f3",
+  "checker_sha256": "44a8e7453891ef3fc8c6c9dab1ebd74a34ff8baa07d05a8ef468f12aa3cc03fc",
+  "decoder_sha256": "4de8b3343f0ff1298bdba0cedfcf5068c5e80b8cd24f3175f4667e7a622ff1e3",
+  "seconds": 2.784799637272954
+}

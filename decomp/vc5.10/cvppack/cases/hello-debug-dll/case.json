@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0079-add-type-reference-owned-arrays/original",
-  "reference_receipt_sha256": "313e012e4fd8bfbd793c4b934c81de2cdb9e701062f61966f781670950c6243c",
+  "reference": "cases/hello-debug-dll/evidence/0080-resolve-recursive-type/original",
+  "reference_receipt_sha256": "4242dc157aaf82f53e43e3a8aa90971f5abd6583d5512290a5f2c69894300f83",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -85,6 +85,7 @@
     "rewrite_type_name_symbol",
     "insert_global_symbol",
     "add_type_reference",
-    "resolve_recursive_type"
+    "resolve_recursive_type",
+    "hash_recursive_type"
   ]
 }
