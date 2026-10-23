@@ -190,6 +190,9 @@ int recon_isctype(int,int),recon_toupper(int),recon_tolower(int);
 void recon_tzset(void),recon_endstdio(void),recon_rmtmp(void);
 int recon_isindst(struct tm *);
 int recon_mbsncmp(const unsigned char *,const unsigned char *,size_t);
+int recon_mbsnbicmp(const unsigned char *,const unsigned char *,size_t);
+unsigned char *recon_mbspbrk(const unsigned char *,const unsigned char *);
+unsigned char *recon_mbsrchr(const unsigned char *,unsigned int);
 unsigned char *recon_mbschr(const unsigned char *,unsigned int);
 unsigned char *recon_mbsinc(const unsigned char *);
 unsigned char *recon_mbsdec(const unsigned char *,const unsigned char *);
@@ -406,6 +409,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define spawnve recon_spawnve
 #define spawnvpe recon_spawnvpe
 #define _mbsncmp recon_mbsncmp
+#define _mbsnbicmp recon_mbsnbicmp
+#define _mbspbrk recon_mbspbrk
+#define _mbsrchr recon_mbsrchr
 #define _mbschr recon_mbschr
 #define _mbsinc recon_mbsinc
 #define _mbsdec recon_mbsdec

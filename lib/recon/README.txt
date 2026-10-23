@@ -485,3 +485,8 @@ valid regular file, NULL creation/access and last-write-only timestamp in the
 native 1970..2038 range; actual filesystem mtime is changed and atime preserved.
 Unknown/invalid dates, other update modes and failures remain unsupported. Tests
 compare original UTC/epoch/leap conversions and actual last-write file metadata.
+
+Default-C ASCII _mbsrchr scans through NUL and returns the last matching byte,
+including the terminating NUL or NULL when absent. It preserves errors and uses
+the existing strict codepage/locale guard. _mbspbrk and _mbsnbicmp currently have
+SDK-typed unsupported surfaces until their actual encountered contracts land.

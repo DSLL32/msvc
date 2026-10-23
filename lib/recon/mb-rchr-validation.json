@@ -1,0 +1,7 @@
+{
+  "scope": "CP0/SBCS/C-locale ASCII _mbsrchr; typed unsupported _mbsnbicmp/_mbspbrk for whole function linking only",
+  "native_build_checks_seconds": {
+    "gcc": 1.9505049716681242,
+    "clang": 2.5042784605175257
+  }
+}
