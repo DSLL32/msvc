@@ -96,3 +96,13 @@ void destroy_output_buffer_05(void)
 {
     __asm { int 3 }
 }
+
+void initialize_output_buffer_06(void)
+{
+    __asm { int 3 }
+}
+
+void destroy_output_buffer_06(void)
+{
+    __asm { int 3 }
+}
