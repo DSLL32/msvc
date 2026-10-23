@@ -146,6 +146,10 @@ if any(f.name=='pch_context' for f in gdb.lookup_type('FrontendBss').fields()):
     value['frontend']['pch_context']={name:int(gdb.parse_and_eval(('' if name in ('image_count','stored_file_position','file_offset','loaded_image_count') else '(unsigned int)')+'frontend_bss.pch_context.'+name)) for name in pch_fields}
     for name in pch_fields:value['frontend']['storage']['pch_context.'+name]=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.pch_context.'+name)),4]
     value['frontend']['pch_native_layout']={'size':int(gdb.parse_and_eval('sizeof(PchContext)')),'fields':{f.name:[f.bitpos//8,int(f.type.sizeof)] for f in gdb.lookup_type('PchContext').fields()}}
+if any(f.name=='pending_group_head' for f in gdb.lookup_type('FrontendBss').fields()):
+    for name in ('pending_group_head','active_group'):
+        value['frontend'][name]=int(gdb.parse_and_eval('(unsigned int)frontend_bss.'+name))
+        value['frontend']['storage'][name]=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.'+name)),4]
 value['frontend']['callback_slots']=[int(gdb.parse_and_eval('(unsigned int)frontend_initializers[%d]'%n)) for n in range(43)]
 value['target_state']['initializer_words']=[int(gdb.parse_and_eval('(unsigned int)crt_initializers[%d]'%n)) for n in range(2)]
 value['target_state']['onexit_first']=int(gdb.parse_and_eval('(unsigned int)*onexit_begin')) if value['target_state']['onexit_begin'] else None
@@ -262,8 +266,20 @@ end
         return_observer=output/'observe-pool-return.gdb'
         return_observer.write_text('python\nimport gdb\nclass PoolReturnObserver(gdb.Breakpoint):\n    def stop(self):\n        gdb.execute("source "+'+repr(str(result))+')\n        return False\npool_return_bp=PoolReturnObserver("*0x%x"%int(gdb.parse_and_eval("*(unsigned int *)$esp")),temporary=True,internal=True)\nend\n')
         observer+='break *_ZN12CompilerPool10InitializeEj\ncommands\nsilent\n'+seed+'source '+str(entry)+'\nsource '+str(return_observer)+'\ncontinue\nend\n'
+    if model['schema']>=25:
+        entry=output/'collect-group-entry.gdb'
+        entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'group-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'group-entry-argv.bin'))))
+        change=''
+        if trial.get('test_group_seed'):
+            change='python\nowned=int(gdb.parse_and_eval("(unsigned int)frontend_bss.saved_state"))\n'
+            for name,offset in [('pending_group_head',4),('active_group',8)]:change+='value=gdb.parse_and_eval("frontend_bss.'+name+'")\nvalue.assign(gdb.Value(owned+%d).cast(value.type))\n'%offset
+            change+='end\n'
+        observer+='break *initialize_frontend_38\ncommands\nsilent\n'+change+'source '+str(entry)+'\ncontinue\nend\n'
+        result=output/'collect-group-result.gdb'
+        result.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'group-result.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'group-result-argv.bin'))))
+        observer+='break *initialize_frontend_39\ncommands\nsilent\nsource '+str(result)+'\ncontinue\nend\n'
     if model['schema']>=24:
-        entry=output/'collect-pch-entry.gdb'
+        entry=output/'collect-pch-entry.gdb' 
         entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'pch-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'pch-entry-argv.bin'))))
         change=''
         if trial.get('test_pch_seed'):
@@ -275,7 +291,7 @@ end
                 change+='value=gdb.parse_and_eval("frontend_bss.pch_context.'+name+'")\nvalue.assign(gdb.Value('+expression+').cast(value.type))\n'
             change+='end\n'
         ret_observer=''
-        if trial.get('ordered_closure'):
+        if 'PchContext::Initialize' in trial['accepted']:
             result=output/'collect-pch-return.gdb'
             result.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'pch-return.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'pch-return-argv.bin'))))
             ret_script=output/'observe-pch-return.gdb'

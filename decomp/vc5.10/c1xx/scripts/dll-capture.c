@@ -300,6 +300,8 @@ static void save_frontend_state(const char *suffix)
     sprintf(name, "primitive-type-rank-%s.bin", suffix); save_blob(name, data, 65);
     readmem(base + 0xc4c80, data, 69);
     sprintf(name, "complex-type-rank-%s.bin", suffix); save_blob(name, data, 69);
+    readmem(base + 0xc6b40, data, 12);
+    sprintf(name, "pending-groups-%s.bin", suffix); save_blob(name, data, 12);
     readmem(base + 0xc64b8, data, 68);
     sprintf(name, "pch-context-%s.bin", suffix); save_blob(name, data, 68);
     readmem(base + 0xc64a0, data, 20);
@@ -488,6 +490,8 @@ static void seed_frontend_restore(void)
     value = allocated + 44; write_mem(base + 0xc64f0, &value, 4);
     value = allocated + 48; write_mem(base + 0xc64f4, &value, 4);
     value = allocated + 52; write_mem(base + 0xc64f8, &value, 4);
+    value = allocated + 4; write_mem(base + 0xc6b40, &value, 4);
+    value = allocated + 8; write_mem(base + 0xc6b48, &value, 4);
     value = 9; write_mem(base + 0xcb06c, &value, 4);
     value = !strcmp(seed, "restore-zero") ? 0 : 3; write_mem(base + 0xcb008, &value, 4);
     fprintf(events, "restore-seed mode=%s allocation=%08lx bytes=8520 cleanup-count=32 mocked-cleanup-callback=_initialize_frontend_01 slots=32\n", seed, allocated);
@@ -676,6 +680,19 @@ int main(int argc, char **argv)
                     prepare_mask();
                 }
                 if (address == base + 0x384d4) seed_frontend_restore();
+                if (address == base + 0x38ae2 || address == base + 0x38aef) {
+                    BYTE group_bss[0xf69c];
+                    if (address == base + 0x38ae2 && getenv("C1XX_TEST_PENDING_GROUP")) {
+                        DWORD owned, value;
+                        readmem(base + 0xc4d50, &owned, 4);
+                        if (!owned) fail("group seed needs snapshot identity");
+                        value = owned + 4; write_mem(base + 0xc6b40, &value, 4);
+                        value = owned + 8; write_mem(base + 0xc6b48, &value, 4);
+                        fprintf(events, "group-seed actual-entry=00038ae2 head=snapshot+4 active=snapshot+8 tail-untouched=1 code-mock=0\n");
+                    }
+                    readmem(base + 0xb9000, group_bss, sizeof(group_bss));
+                    save_blob(address == base + 0x38ae2 ? "group-bss-entry.bin" : "group-bss-result.bin", group_bss, sizeof(group_bss));
+                }
                 if (address == base + 0x3bd41) {
                     BYTE pch_bss[0xf69c];
                     if (getenv("C1XX_TEST_PCH")) {

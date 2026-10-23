@@ -163,7 +163,8 @@ void initialize_frontend_36(void)
 
 void initialize_frontend_38(void)
 {
-    __asm { int 3 }
+    frontend_bss.pending_group_head = NULL;
+    frontend_bss.active_group = NULL;
 }
 
 void initialize_frontend_39(void)

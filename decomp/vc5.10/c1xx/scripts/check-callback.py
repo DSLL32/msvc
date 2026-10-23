@@ -31,7 +31,7 @@ def check(original,native,require_audit=True,audit_path=None):
     pdb_number=2 if trial['trial']=='_initialize_pdb_context_02' else 1
     deferred=trial['trial']=='_initialize_deferred_work'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=37,
+    s.require(rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=38,
               'no reviewed callback decoder for this function')
     index=34 if rank_helper else 24 if pool_member else 21+pdb_number if pdb else 16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
@@ -40,7 +40,7 @@ def check(original,native,require_audit=True,audit_path=None):
     wrapper09=index>=9
     seed=trial.get('test_seed')
     model=json.loads((native/'state-model.json').read_text())
-    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24),'context fields omitted from typed snapshot/BSS model')
+    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25),'context fields omitted from typed snapshot/BSS model')
     context_names=['context_stack']+(['saved_context_stack'] if model['schema']>=3 else [])
     if model['schema']>=4:context_names.append('nested_context_stacks')
     if model['schema']>=5:context_names.append('source_position')
@@ -159,7 +159,7 @@ def check(original,native,require_audit=True,audit_path=None):
               'original opaque snapshot copy/restore differs')
     s.require('restore-phase rva=000385be\n' in text and trial['validation_observers']==[{
         'owner':'_initialize_compiler_pass','original_rva':0x385be,'original_byte':0x89,
-        'purpose':'observe typed copy/restore before first-flag reset'}]+([{'owner':'_initialize_frontend_24','original_rva':0x389d4,'original_byte':0xc3,'purpose':'actual pool member return-this and RET4 stack effect'}] if pool_member else [])+([{'owner':'_initialize_compiler_pass','original_rva':0x385f3,'original_byte':0xeb,'purpose':'actual PCH member return to inherited caller, RET0 and EDI preservation','activation':'armed only at actual member entry'}] if trial.get('ordered_closure') else []),'undeclared phase observer')
+        'purpose':'observe typed copy/restore before first-flag reset'}]+([{'owner':'_initialize_frontend_24','original_rva':0x389d4,'original_byte':0xc3,'purpose':'actual pool member return-this and RET4 stack effect'}] if pool_member else [])+([{'owner':'_initialize_compiler_pass','original_rva':0x385f3,'original_byte':0xeb,'purpose':'actual PCH member return to inherited caller, RET0 and EDI preservation','activation':'armed only at actual member entry'}] if 'PchContext::Initialize' in trial['accepted'] else []),'undeclared phase observer')
     for snapshot in (pre,phase,state):
         s.require(snapshot['target_state']['process_attached']==1 and snapshot['target_state']['last_error']==203 and
                   snapshot['control_word']==0x27f and snapshot['target_state']['compiler_mode']==(0 if not seed or seed=='restore-zero' else 3),
@@ -188,6 +188,9 @@ def check(original,native,require_audit=True,audit_path=None):
     if model['schema']>=24:
         spec=importlib.util.spec_from_file_location('pch_state',Path(__file__).with_name('pch_state.py'));pch=importlib.util.module_from_spec(spec);spec.loader.exec_module(pch)
         pch.check(s,original,native,trial,text,pre,phase,state,seed,final,symbols,traps)
+    if model['schema']>=25:
+        spec=importlib.util.spec_from_file_location('pending_group_state',Path(__file__).with_name('pending_group_state.py'));groups=importlib.util.module_from_spec(spec);spec.loader.exec_module(groups)
+        groups.check(s,original,native,trial,text,pre,phase,state,seed,final,symbols,traps)
     if model['schema']>=16:check_signature(original,native,pre,phase,state,seed,final,symbols,traps)
     s.require(set(re.findall(r'^last-error=(\d+)$',text,re.M))=={'203'} and
               {int(word,16)&0xffff for word in re.findall(r'^control-word=(\w+)$',text,re.M)}=={0x27f},'original caller state changed')

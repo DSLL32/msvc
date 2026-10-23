@@ -131,5 +131,15 @@ initialization and seeded with all ones by callback21. Its three pairs and
 ten signature-specific controls are in `cases/minimal/signature-trials.json`.
 Current BSS projection:565semantic bytes plus27native padding, sizeof592.
 
-Current reconstruction has reached initializer22; minimal compilation remains
-unfinished. The completed lifecycle fixture remains native-only (about 12 ms warm).
+Current reconstruction has reached initializer38; minimal compilation remains
+unfinished. The completed lifecycle fixture remains native-only. At the PCH
+checkpoint its execution took 2.30 ms; rebuilding consumed 2.30 s separately.
+The accounting is in `cases/minimal/pch-checkpoint.json`.
+
+The ordered PCH wrapper/member closure has separate function identities under one
+reviewed joint proof. Its 68-byte receiver has typed fields and opaque pointees;
+prospective raw-only captures carry no graph credit. Callback38 clears two proven
+queue pointers. The intervening original tail slot and pointed-to nodes remain
+unmodeled. Four fresh pairs and 17 new rejection controls are recorded in
+`cases/minimal/pending-group-trials.json`. Schema25 models 959 semantic BSS bytes
+and 29 natural native padding bytes; 8,431 initialized bytes remain unmodeled.

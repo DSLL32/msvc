@@ -47,6 +47,7 @@ typedef struct SentinelToken {
 
 struct CompilerArena;
 struct PchImage;
+struct PendingGroup;
 
 /* Genuine thiscall POD: no implicit constructors, vtable or unknown fields. */
 typedef struct CompilerPool {
@@ -96,6 +97,8 @@ typedef struct FrontendBss {
     unsigned char complex_type_rank[69];
     unsigned char empty_metadata_prototype[20];
     PchContext pch_context;
+    struct PendingGroup *pending_group_head;
+    struct PendingGroup *active_group;
 } FrontendBss;
 
 #ifdef __cplusplus

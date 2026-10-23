@@ -52,7 +52,11 @@ def check(s, original, native, trial, text, pre, phase, state, seed, final, symb
         s.require(trial['trial']=='_initialize_frontend_37' and len(trial['accepted'])==58 and trial['accepted'][-1]=='_initialize_frontend_37' and 'PchContext::Initialize' not in trial['accepted'] and row.get('pending_extent') and row['end']==row['start']+1,'prospective chain broadened or member unmasked')
         s.require(state['symbol']=='PchContext::Initialize' and raw(final)==state['frontend']['pch_context']==zero,'prospective member did not remain a genuine stub frontier')
         return
-    s.require(trial.get('ordered_closure')==['_initialize_frontend_37','PchContext::Initialize'] and len(trial['accepted'])==59 and trial['accepted'][-2:]==trial['ordered_closure'] and not row.get('pending_extent') and row['end']==0x1043bd53,'not the authorized strict ordered two-body closure')
+    pair=['_initialize_frontend_37','PchContext::Initialize']
+    s.require(trial['accepted'][57:59]==pair and not row.get('pending_extent') and row['end']==0x1043bd53,'PCH bodies are not the reviewed ordered prefix')
+    if trial.get('ordered_closure'):
+        s.require(trial['ordered_closure']==pair and len(trial['accepted'])==59,'not the authorized strict ordered two-body closure')
+    else:s.require(trial['trial'] not in pair,'PCH promotion requires the explicit joint proof')
     ret=json.loads((native/'pch-return.json').read_text())
     s.require(ret['symbol']=='initialize_frontend_37' and ret['pc']==abi['return_pc'] and ret['eax']==receiver and ret['esp']==abi['esp']+4 and ret['edi']==abi['edi'],'native PCH actual EAX/EDI/RET0 return differs')
     original_esp=int(re.search(r' esp=(\w+)',line)[1],16);original_edi=int(re.search(r' edi=(\w+)',line)[1],16)

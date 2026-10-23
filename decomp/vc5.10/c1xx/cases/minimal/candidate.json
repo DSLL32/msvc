@@ -61,7 +61,8 @@
     "_initialize_frontend_35",
     "_initialize_frontend_36",
     "_initialize_frontend_37",
-    "PchContext::Initialize"
+    "PchContext::Initialize",
+    "_initialize_frontend_38"
   ],
   "trial": null,
   "ranges": [
@@ -520,7 +521,13 @@
       "start_rva": 245057,
       "end_rva": 245075,
       "entry": 1
+    },
+    {
+      "owner": "_initialize_frontend_38",
+      "start_rva": 232162,
+      "end_rva": 232175,
+      "entry": 1
     }
   ],
-  "stage": "_initialize_frontend_37 accepted; next frontier _initialize_frontend_38"
+  "stage": "_initialize_frontend_38 accepted; next frontier _initialize_frontend_39"
 }

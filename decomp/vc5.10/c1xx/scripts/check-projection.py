@@ -39,7 +39,7 @@ def field_map(model,observed):
            'cleanup_callbacks':(0x104c4d58,128,'bss','frontend_bss.cleanup_callbacks'),
            'restore_mode':(0x104cb06c,4,'external','restore_mode'),
            'compiler_mode':(0x104cb008,4,'external','compiler_mode')}
-    s.require(model['schema'] in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24),'unknown state-model schema')
+    s.require(model['schema'] in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25),'unknown state-model schema')
     if model['schema']>=2:
         known['context_stack']=(0x104ba900,12,'bss','frontend_bss.context_stack')
         s.require(observed['context_stack_fields']==(['origin','position','top'] if model['schema']>=5 else ['begin','end','top']),
@@ -103,6 +103,9 @@ def field_map(model,observed):
         for i,name in enumerate(names_pch):known['pch_context.'+name]=(0x104c64b8+i*4,4,'bss','frontend_bss.pch_context.'+name)
         s.require(observed['pch_native_layout']=={'size':68,'fields':{'image_count':[0,4],'root_image':[4,4],'images':[8,4],'stored_file_position':[12,4],'file_name':[16,4],'file_offset':[20,4],'file':[24,4],'mapping_handles':[28,24],'loaded_image_count':[52,4],'scratch_arena':[56,4],'original_pages':[60,4],'mapped_pages':[64,4]}},'PCH context contains unmodeled/omitted storage')
         for i,name in enumerate(names_pch):s.require(observed['storage']['pch_context.'+name]==[observed['bss_address']+912+i*4,4],'PCH context storage/alias/layout differs')
+    if model['schema']>=25:
+        known['pending_group_head']=(0x104c6b40,4,'bss','frontend_bss.pending_group_head')
+        known['active_group']=(0x104c6b48,4,'bss','frontend_bss.active_group')
     s.require(names==set(known),'field mapping is not the encountered typed projection')
     original=[];native=[]
     for row in model['fields']:
@@ -138,9 +141,10 @@ def field_map(model,observed):
     if model['schema']>=22:fields += ['primitive_type_rank','complex_type_rank']
     if model['schema']>=23:fields.append('empty_metadata_prototype')
     if model['schema']>=24:fields.append('pch_context')
+    if model['schema']>=25:fields += ['pending_group_head','active_group']
     initialized=['first_invocation']+(['primitive_type_ranks','complex_type_ranks'] if model['schema']>=22 else [])
     s.require(observed['declared_fields']=={'initialized':initialized,'bss':fields} and
-              observed['known_sizes']=={'initialized':140 if model['schema']>=22 else 4,'bss':{1:136,2:148,3:160,4:268,5:276,6:312,7:348,8:384,9:420,10:456,11:492,12:528,13:564,14:568,15:588,16:592,17:592,18:592,19:608,20:592+16*pool_count,21:596+16*pool_count,22:732+16*pool_count,23:752+16*pool_count,24:820+16*pool_count}[model['schema']]},
+              observed['known_sizes']=={'initialized':140 if model['schema']>=22 else 4,'bss':{1:136,2:148,3:160,4:268,5:276,6:312,7:348,8:384,9:420,10:456,11:492,12:528,13:564,14:568,15:588,16:592,17:592,18:592,19:608,20:592+16*pool_count,21:596+16*pool_count,22:732+16*pool_count,23:752+16*pool_count,24:820+16*pool_count,25:828+16*pool_count}[model['schema']]},
               'typed structs contain unmodeled/omitted storage')
     for kind in ('initialized','bss'):
         padding=model['native_padding']['bytes'] if kind=='bss' and model['schema']>=6 else model['initialized_padding']['bytes'] if kind=='initialized' and model['schema']>=22 else 0
@@ -155,7 +159,7 @@ def field_map(model,observed):
         ranges.sort()
         s.require(ranges[0][0]==observed['bss_address'] and
                   all(a[1]==b[0] for a,b in zip(ranges,ranges[1:])) and
-                  ranges[-1][1]==observed['bss_address']+276+36*output_count+(4 if model['schema']>=14 else 0)+(20 if model['schema']>=15 else 0)+(4 if model['schema']>=16 else 0)+(16*pool_count if model['schema']>=19 else 0)+(4 if model['schema']>=21 else 0)+(136 if model['schema']>=22 else 0)+(20 if model['schema']>=23 else 0)+(68 if model['schema']>=24 else 0),'unaccounted native padding/storage gap')
+                  ranges[-1][1]==observed['bss_address']+276+36*output_count+(4 if model['schema']>=14 else 0)+(20 if model['schema']>=15 else 0)+(4 if model['schema']>=16 else 0)+(16*pool_count if model['schema']>=19 else 0)+(4 if model['schema']>=21 else 0)+(136 if model['schema']>=22 else 0)+(20 if model['schema']>=23 else 0)+(68 if model['schema']>=24 else 0)+(8 if model['schema']>=25 else 0),'unaccounted native padding/storage gap')
 
 
 def callback_table(model,original,native,state):

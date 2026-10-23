@@ -1,5 +1,5 @@
 {
-  "schema": 24,
+  "schema": 25,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -1852,6 +1852,24 @@
       "original_default": 0,
       "evidence": "Own PCH read/map/close/relocation consumers; full68B receiver reset by3bd41",
       "component_type": "struct PchImage **"
+    },
+    {
+      "name": "pending_group_head",
+      "class": "bss",
+      "original_address": 273443648,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pending_group_head",
+      "original_default": 0,
+      "evidence": "35b21/7091c removes list head into active+8; a0a17/a0a92 append linked groups. Original+4 tail slot and group pointees remain unmodeled."
+    },
+    {
+      "name": "active_group",
+      "class": "bss",
+      "original_address": 273443656,
+      "bytes": 4,
+      "native_expression": "frontend_bss.active_group",
+      "original_default": 0,
+      "evidence": "35b21/7091c removes list head into active+8; a0a17/a0a92 append linked groups. Original+4 tail slot and group pointees remain unmodeled."
     }
   ],
   "initializers": [

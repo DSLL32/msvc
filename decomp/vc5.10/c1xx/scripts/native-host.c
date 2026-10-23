@@ -162,6 +162,8 @@ int main(void)
             frontend_bss.pch_context.scratch_arena = (struct CompilerArena *)((unsigned char *)frontend_bss.saved_state + 44);
             frontend_bss.pch_context.original_pages = (struct PchImage **)((unsigned char *)frontend_bss.saved_state + 48);
             frontend_bss.pch_context.mapped_pages = (struct PchImage **)((unsigned char *)frontend_bss.saved_state + 52);
+            frontend_bss.pending_group_head = (struct PendingGroup *)((unsigned char *)frontend_bss.saved_state + 4);
+            frontend_bss.active_group = (struct PendingGroup *)((unsigned char *)frontend_bss.saved_state + 8);
             frontend_bss.type_ranks_initialized = 37;
             frontend_bss.source_signature = 37;
             for (i = 0; i < sizeof(frontend_bss.pools) / sizeof(frontend_bss.pools[0]); ++i) {
