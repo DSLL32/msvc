@@ -546,7 +546,6 @@ unsigned char __stdcall classify_unsigned_integer(unsigned value) { __asm { int 
 char *__stdcall mangle_enum_representation(char *cursor, CType *unused_type) { __asm { int 3 } return 0; }
 
 
-unsigned __cdecl hash_low_pointer_bits(void *key) { __asm { int 3 } return 0; }
 unsigned __cdecl hash_first_word(void *key) { __asm { int 3 } return 0; }
 unsigned __cdecl hash_tail_word_pair(void *key) { __asm { int 3 } return 0; }
 unsigned __cdecl hash_declaration_index(void *key) { __asm { int 3 } return 0; }

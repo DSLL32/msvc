@@ -175,3 +175,10 @@ unsigned __cdecl hash_symbol_index(void *key)
 {
     return ((CppSymbol *)key)->index;
 }
+
+/* Original 0x4ec00..0x4ec0a. Interned-name bindings hash the low
+   twelve bits of the pointer without the alignment shift of kind zero. */
+unsigned __cdecl hash_low_pointer_bits(void *key)
+{
+    return (unsigned)key & 0xfff;
+}
