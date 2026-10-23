@@ -1,0 +1,29 @@
+{
+  "purpose": "Derived corrected interpretation of existing single native run, no rerun or raw overwrite",
+  "native_run_receipt": "normal-result.json",
+  "native_run_receipt_sha256": "54b26fcd7220c1617aaf1755860e3134b34678e059b27e5cad3787c82baf8a4e",
+  "parser_correction": "Original checker expected9spaces after Control Word: while actual GDB prints8; regex over same unchanged raw proves architecturalCW127f. Original falsecheckreceipt retained.",
+  "raw_stdout_sha256": "e5ba19e18b162dc32c49ccaf630f39c69b11320c6ab62f63020689db1004960a",
+  "before_fields": {
+    "control": 4735,
+    "status": 0,
+    "tag": 65535
+  },
+  "after_fields": {
+    "control": 4735,
+    "status": 0,
+    "tag": 65535
+  },
+  "native_full_FP_view_unchanged": true,
+  "owner52_unchanged": true,
+  "checks": {
+    "gdb_status_zero": true,
+    "defined_assertions": true,
+    "owner52_unchanged": true,
+    "FP_same": true,
+    "CW127f_both": true,
+    "stopped_before_callback": true,
+    "SW0_empty_tags_both": true
+  },
+  "result": "PASS normal-only plumbing, stopbeforecallback; no appacceptance/longjmp/SEH grant"
+}

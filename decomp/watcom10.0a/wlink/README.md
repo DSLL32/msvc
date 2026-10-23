@@ -39,5 +39,9 @@ Later source reference: `/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443`,
 commit6b9cb4438959d845a2b4dd4bf19f7908ecd608e9 (2002). Names/source guide
 identification; original1994 function extents, graph, ABI and data remain
 authoritative. Shipped Watcom FILE is packed26B, not shared MSCRT32. The next
-Spawn function uses a52B jmp_buf; shared Watcom setjmp currently fails closed
-pending actual reached-boundary evidence and maintainer review.
+Spawn function uses a52B jmp_buf; normal-only shared caller-frame setjmp has now been validated in an isolated
+pending-source build. The52B owner stays untouched; real return0, its aliases
+and native FP state are preserved (startupCW127f). Bare/indirect saves and all
+longjmp/SEH unwind remain unsupported125. The production main/stub build was
+not changed or relabeled. See `cases/help/normal-plumbing-01/summary.json`.
+Application reconstruction is paused for user review; Spawn is not accepted.
