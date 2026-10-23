@@ -1,0 +1,214 @@
+{
+  "schema": 1,
+  "project": "vc5.10",
+  "state": "planned; awaiting explicit root release",
+  "reconstruction_enabled": false,
+  "first_case_limit_per_worker": 1,
+  "gates": [
+    "Rust tool finished",
+    "All vc1.0 workers integrated and reported common fixes or documented Python fallbacks",
+    "Root AGENTS audit advisory updated",
+    "Root explicit vc5.10 release"
+  ],
+  "native_policy": {
+    "architecture": "i386 Linux",
+    "wine_allowed": false,
+    "pe_helpers_allowed": false,
+    "dll_target": "One static native C harness per reconstructed DLL; retain real original-toolchain Win32 DLL build.",
+    "shared_runtime": "One recon runtime instance per native process.",
+    "dependencies": "Capture and strictly verify dependency responses beforehand or implement an evidenced native contract; do not add Wine to native fixtures/debugging/runtime."
+  },
+  "original_policy": "Wine only for original-compiler checks, explicit reference capture and fresh masked-original acceptance, with shared repo prefix. No per-regression originals or extra DLL/PDB helper Wine invocations.",
+  "provider_policy_pending": "Root to choose canonical imported CRT provider before accepting functions. Groundwork CL/C1 used Wine builtin MSVCRT; CVPACK used shipped native MSVCRT. Bind actual provider identity/hash and overrides to every new case; evaluate shipped native CRT rather than implicitly mixing providers.",
+  "dll_capture_conditions": [
+    "Verified target file identity and actual base; export module name can differ from filename.",
+    "No TLS callbacks and no import-cycle call into target before guarded entry.",
+    "Guard verified non-relocated entry byte at DLL load; at first entry trap snapshot relocated bytes, mask code with proven data exceptions, and restore accepted ranges only from that snapshot.",
+    "Retain actual/preferred bases and module SHA256+RVA identities; nonpreferred-base validation remains pending.",
+    "Preserve CRT initialization, application DllMain, exported call and cleanup; no approximate lifecycle shortcuts."
+  ],
+  "cases": [
+    {
+      "binary": "c1",
+      "id": "dll-lifecycle-and-exports",
+      "kind": "dll-lifecycle-host",
+      "original_host": "LoadLibrary verified target; resolve both exports by name and ordinal; FreeLibrary. Do not invoke compiler exports.",
+      "host_contract": {
+        "lifecycle": [
+          "DLL CRT process attach",
+          "Resolve export names and ordinals without calling them",
+          "DLL CRT process detach"
+        ],
+        "export_catalog": [
+          {
+            "name": "_AbortCompilerPass@4",
+            "ordinal": 1,
+            "abi": "stdcall, one argument, 4-byte cleanup"
+          },
+          {
+            "name": "_InvokeCompilerPass@12",
+            "ordinal": 2,
+            "abi": "stdcall, three arguments, 12-byte cleanup"
+          }
+        ],
+        "native": "Faithful attach/detach calls and verified target-export metadata in one static i386 harness. Compiler-pass exports remain named trapping stubs."
+      },
+      "original_observation": "decomp/vc5.10/cl/cases/original-probes/host-contract-2/manifest.json",
+      "expected": "Match lifecycle status/state, streams and application entry trace; verify export names, ordinals and ABI catalog against actual Win32 DLL artifact. Do not claim compiler-pass coverage.",
+      "reason": "Small real DLL interface trial comparable in scope to help; no invented DLL CLI and no full frontend compilation.",
+      "queued_second_case": "minimal C compile using captured CL pass inputs",
+      "original_observation_scope": "C1-only CL load/entry/detach anchor; dedicated fresh lifecycle-only host reference required separately for this DLL."
+    },
+    {
+      "binary": "c1xx",
+      "id": "dll-lifecycle-and-exports",
+      "kind": "dll-lifecycle-host",
+      "original_host": "LoadLibrary verified target; resolve both exports by name and ordinal; FreeLibrary. Do not invoke compiler exports.",
+      "host_contract": {
+        "lifecycle": [
+          "DLL CRT process attach",
+          "Resolve export names and ordinals without calling them",
+          "DLL CRT process detach"
+        ],
+        "export_catalog": [
+          {
+            "name": "_AbortCompilerPass@4",
+            "ordinal": 1,
+            "abi": "stdcall, one argument, 4-byte cleanup"
+          },
+          {
+            "name": "_InvokeCompilerPass@12",
+            "ordinal": 2,
+            "abi": "stdcall, three arguments, 12-byte cleanup"
+          }
+        ],
+        "native": "Faithful attach/detach calls and verified target-export metadata in one static i386 harness. Compiler-pass exports remain named trapping stubs."
+      },
+      "original_observation": "decomp/vc5.10/cl/cases/original-probes/host-contract-2/manifest.json",
+      "expected": "Match lifecycle status/state, streams and application entry trace; verify export names, ordinals and ABI catalog against actual Win32 DLL artifact. Do not claim compiler-pass coverage.",
+      "reason": "Small real DLL interface trial comparable in scope to help; no invented DLL CLI and no full frontend compilation.",
+      "queued_second_case": "minimal C++ compile using freshly captured CL pass inputs",
+      "original_observation_scope": "C1-only CL load/entry/detach anchor; dedicated fresh lifecycle-only host reference required separately for this DLL."
+    },
+    {
+      "binary": "c2",
+      "id": "unsupported-help-diagnostic",
+      "kind": "exe",
+      "arguments": [
+        "/?"
+      ],
+      "original_observation": "decomp/vc5.10/c2/cases/original-help/capture.json",
+      "observed_result": {
+        "status": 1,
+        "stdout_bytes": 0,
+        "stderr_bytes": 51
+      },
+      "expected": "Preserve exact diagnostic and explicitly bind MSC_CMD_FLAGS state; this target does not have a help screen."
+    },
+    {
+      "binary": "cl",
+      "id": "help",
+      "kind": "exe",
+      "arguments": [
+        "/?"
+      ],
+      "original_observation": "decomp/vc5.10/cl/cases/original-probes/manifest.json",
+      "observed_result": {
+        "status": 0,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 141
+      }
+    },
+    {
+      "binary": "cvppack",
+      "id": "help",
+      "kind": "exe",
+      "arguments": [
+        "/help"
+      ],
+      "original_observation": "decomp/vc5.10/cvppack/cases/help/original/receipt.json",
+      "observed_result": {
+        "status": 1,
+        "stdout_bytes": 193,
+        "stderr_bytes": 0
+      }
+    },
+    {
+      "binary": "cvtres",
+      "id": "help",
+      "kind": "exe",
+      "arguments": [
+        "/help"
+      ],
+      "original_observation": "decomp/vc5.10/cvtres/cases/help/probe/help/receipt.json",
+      "observed_result": {
+        "status": 1,
+        "stdout_bytes": 360,
+        "stderr_bytes": 0
+      }
+    },
+    {
+      "binary": "link",
+      "id": "help",
+      "kind": "exe",
+      "arguments": [
+        "/?"
+      ],
+      "original_observation": null,
+      "expected": "Help option is supported by static option evidence; fresh successful original status/streams still required. Prior timeouts are not expected results."
+    },
+    {
+      "binary": "rcdll",
+      "id": "rc-export-help",
+      "kind": "dll-export-host",
+      "target_export": {
+        "name": "RC",
+        "ordinal": 2,
+        "abi": "stdcall, six arguments, 24-byte cleanup"
+      },
+      "host_contract": {
+        "arguments": [
+          "0",
+          "0",
+          "diagnostic_callback",
+          "0",
+          "argc",
+          "argv"
+        ],
+        "driver_arguments": [
+          "/help"
+        ],
+        "lifecycle": [
+          "DLL CRT process attach",
+          "RC export",
+          "DLL CRT process detach"
+        ],
+        "callback": "Preserve original three-argument stdcall callback and writable message-buffer effects; capture actual callback invocations."
+      },
+      "original_observation": "decomp/vc5.10/rc/cases/help/probe/receipt.json",
+      "expected": "Fresh RCDLL-specific reference including lifecycle, export result, streams and callback effects; driver help alone is not DLL acceptance."
+    },
+    {
+      "binary": "rc",
+      "id": "help",
+      "kind": "exe",
+      "arguments": [
+        "/help"
+      ],
+      "original_observation": "decomp/vc5.10/rc/cases/help/probe/receipt.json",
+      "observed_result": {
+        "status": 0,
+        "stdout_bytes": 589,
+        "stderr_bytes": 0
+      },
+      "dependency_plan": "Strict native in-process RCDLL export-response replay with verified arguments, callback effects, streams and result; no Wine/PE helper. Alternatively use a separately validated native RCDLL implementation if ready, with its entries excluded from RC target trace."
+    }
+  ],
+  "report_after_first_case": [
+    "Pause after completing this one case; do not start queued second cases.",
+    "Report actual case invocation and result, accepted application functions/code extents with denominator definition, and CRT/import support counted separately.",
+    "Report native build, original build, audits, explicit original capture/acceptance and native fixture elapsed times separately where measured.",
+    "Identify native-only fixture evidence, graph/ABI/export checks, outstanding gaps and any Python fallback.",
+    "If blocked, report concrete evidence and preserve fail-closed traps; do not claim case completion."
+  ]
+}

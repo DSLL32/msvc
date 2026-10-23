@@ -5,6 +5,12 @@ case seeds and explicit original-only investigation records. No target functions
 have been accepted. Wait for the shared Rust graph auditor to be ready and an
 explicit reconstruction release from the orchestrating agent.
 
+`first-cases.json` plans the conditional first-case trial. It does not authorize
+execution or reconstruction. Each worker must complete only its first case and
+pause with timings and evidence. C1/C1XX start with DLL attach, export presence
+and detach; their compiler-pass exports remain trapping stubs. Other targets
+start with help, an observed usage diagnostic or a faithful exported help call.
+
 `project.json` records the nine targets and their hashes. The requested folder
 `cvppack` contains the actual `CVPACK.EXE` target; `rcdll` contains `RCDLL.DLL`.
 The toolchain was copied with `cp -arv` from
@@ -69,6 +75,9 @@ AGENTS.md. Keep scratch under `~/.ai-tmp/msvc2/vc5.10/<binary>/<case>`.
 Wine is used only for explicit original builds and reference investigations;
 native fixtures never invoke it. Existing per-binary Makefiles expose groundwork
 commands and refuse reconstruction builds until their prerequisites exist.
+Native DLL harnesses, debugging and dependency handling remain entirely Linux
+native. Do not run PE or Wine helpers for DLL, PDB or other dependencies; use
+strict previously captured responses or an evidenced native implementation.
 
 The experimental Rust graph auditor currently understands PE32 bytes, including
 DLLs, but its verified profiles cover vc1.0. VC 5.10 profiles must describe the
@@ -76,6 +85,13 @@ actual graph roots, import/runtime boundaries, export aliases and any executable
 text data. Keep module identities distinct if a later case needs multiple
 reconstructed modules in one run. Do not integrate the new auditor during this
 groundwork phase.
+
+The shared auditor can provisionally read a DLL using the CL-shaped index format
+and explicit original/rebuilt/MAP/config/runtime paths; that format has no fixed
+CL addresses. Function names must match decorated MAP symbols. Supply explicit
+entry roots, text data and switch targets. Export ordinals/signatures, DLL loader
+contracts and the native harness require separate checks; PE graph support alone
+does not certify them. Review this metadata policy before integration.
 
 ## Remaining gates
 
