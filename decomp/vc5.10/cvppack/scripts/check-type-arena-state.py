@@ -18,14 +18,15 @@ views={side:{p.name:p.read_bytes() for p in (pair/side).glob(pattern)} for side,
 spec=importlib.util.spec_from_file_location('raw_state',BINARY/'scripts/raw-state.py');decoder=importlib.util.module_from_spec(spec);spec.loader.exec_module(decoder)
 def compare(state,raw=events):return decoder.compare(config,data,raw,state,artifacts,views)
 baseline=compare(native)
-arena=struct.unpack('<6I',bytes.fromhex(native['globals']['type_large_arena']));assert arena[0:2]==(65536,1) and arena[4]==65536-40
-header=arena[5];fields=struct.unpack('<3I',bytes.fromhex(native['memory'][str(header)]));assert fields[0]==40 and fields[2]==0
+expected_used,expected_slots=(144,4) if pair.name.startswith('0073-') else (40,2)
+arena=struct.unpack('<6I',bytes.fromhex(native['globals']['type_large_arena']));assert arena[0:2]==(65536,1) and arena[4]==65536-expected_used
+header=arena[5];fields=struct.unpack('<3I',bytes.fromhex(native['memory'][str(header)]));assert fields[0]==expected_used and fields[2]==0
 payload=fields[1];block=int.from_bytes(bytes.fromhex(native['globals']['global_type_blocks'])[:4],'little')
 slots=struct.unpack('<2I',bytes.fromhex(native['memory'][str(block)])[:8]);assert slots==(payload,payload+24)
-assert native['globals']['next_global_type']=='02100000'
+assert int.from_bytes(bytes.fromhex(native['globals']['next_global_type']),'little')==0x1000+expected_slots
 assert bytes.fromhex(native['globals']['symbol_rewriters'])[304:308]==bytes.fromhex(native['globals']['next_global_type'])
 positive=copy.deepcopy(native)
-for address,used in [(payload,40),(block,8)]:
+for address,used in [(payload,expected_used),(block,expected_slots*4)]:
  raw=bytearray.fromhex(positive['memory'][str(address)]);raw[used:]=bytes([0xa5])*(len(raw)-used);positive['memory'][str(address)]=raw.hex()
 compare(positive)
 rejected=[]
@@ -54,10 +55,24 @@ reject('wrong-global-type-pointer-slot',lambda s:word(s,block,0,payload+1),'type
 reject('incomplete-global-pointer-block',lambda s:s['memory'].update({str(block):s['memory'][str(block)][:-2]}),'incomplete global type pointer-block capacity')
 record_root=int.from_bytes(bytes.fromhex(native['globals']['type_records']),'little')
 reject('wrong-packed-local-record-alias',lambda s:word(s,record_root,12*32,payload+1),'type payload arena/offset alias differs')
-node=native['checked_allocations'][-2]['address'];assert int.from_bytes(bytes.fromhex(native['memory'][str(node)])[:4],'little')==0x1000
+node=next(row['address'] for row in native['checked_allocations'] if row['size']==12 and str(row['address']) in native['memory'] and int.from_bytes(bytes.fromhex(native['memory'][str(row['address'])])[:4],'little')==0x1000)
 reject('wrong-interned-index',lambda s:word(s,node,0,0x1001),'interned-type index/extent differs')
 reject('wrong-interned-payload-alias',lambda s:word(s,node,4,payload+1),'type payload arena/offset alias differs')
 reject('lost-dispatch-index-storage-alias',lambda s:globalword(s,'symbol_rewriters',304,0x1000),'symbol callback kind/reserved differs')
+if expected_slots==4:
+ root=int.from_bytes(bytes.fromhex(native['globals']['type_positions']),'little');heads=bytes.fromhex(native['memory'][str(root)])
+ populated=[int.from_bytes(heads[offset:offset+4],'little') for offset in range(0,2048,4) if any(heads[offset:offset+4])];assert len(populated)==1
+ cached=populated[0];cache=struct.unpack('<5I',bytes.fromhex(native['memory'][str(cached)]));assert cache[2:]==(0x1003,0,0)
+ assert bytes.fromhex(native['memory'][str(cache[0])])==b'\x07tagRECT'
+ def wrong_name_owner(state):
+  word(state,cached,0,cache[0]+1)
+  state['memory'][str(cache[0]+1)]=state['memory'][str(cache[0])]
+ reject('wrong-global-cache-counted-name-owner',wrong_name_owner,'type payload arena/offset alias differs')
+ reject('wrong-global-cache-record-alias',lambda s:word(s,cached,4,cache[1]+1),'type payload arena/offset alias differs')
+ reject('wrong-global-cache-index',lambda s:word(s,cached,8,0x1002),'type-name index/reserved fields differ')
+ reject('changed-global-borrowed-counted-name',lambda s:s['memory'].update({str(cache[0]):b'\x07tagRECU'.hex()}),'type-name counted string bytes differ')
+ for name,value in [('index',0x1002),('list',0x1003)]:
+  reject('wrong-base-class-'+name,lambda s,n=name,v=value:s['parameters'].update({n:v}),'typed ABI arguments differ')
 # Independent actual ELF DWARF layout: the graph metadata cannot invent a
 # separate global or shift the shared index away from the original DWORD.
 command=['gdb','-q','-nx','-batch',str(BINARY/'build/native/CVPACK'),'-ex',
@@ -66,6 +81,6 @@ out=subprocess.check_output(command,text=True,stderr=subprocess.STDOUT);actual=j
 assert actual==[24,12,304,4]
 audit=json.loads((pair/'original/audit.json').read_text());alias=audit['data_aliases'];assert len(alias)==1 and alias[0]['actual_offset']==304 and alias[0]['actual_size']==4
 report=dict(schema=1,native_only=True,count=len(rejected),rejected=rejected,actual_dwarf_layout=actual,actual_layout_elf_sha256=sha(BINARY/'build/native/CVPACK'),actual_data_alias_audit=alias,
- native_own_arena_and_pointer_block_tails_positive=True,defined_arena_bytes=40,defined_global_pointer_slots=2,interned_nodes=2,
+ native_own_arena_and_pointer_block_tails_positive=True,defined_arena_bytes=expected_used,defined_global_pointer_slots=expected_slots,interned_nodes=expected_slots,
  original_receipt_sha256=sha(pair/'original/receipt.json'),native_receipt_sha256=sha(pair/'native/receipt.json'),checker_sha256=sha(Path(__file__)),decoder_sha256=sha(BINARY/'scripts/raw-state.py'),seconds=time.perf_counter()-start)
 (pair/'type-arena-state-checks.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(dict(rejected=report['count'],seconds=report['seconds'])))

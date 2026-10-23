@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0072-lookup-named-type/original",
-  "reference_receipt_sha256": "da1b2b6f553ba834ab34b026bb68d53923b8c8d026fd04887c8e71acbf5ad220",
+  "reference": "cases/hello-debug-dll/evidence/0073-find-local-named-type/original",
+  "reference_receipt_sha256": "ec1151c506607e1e7a7ced8b06b119aca91b7ca4681517303d1c686ca27b1a1d",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -78,6 +78,7 @@
     "rewrite_bp_relative_symbol",
     "match_forward_type",
     "lookup_named_type",
-    "find_local_named_type"
+    "find_local_named_type",
+    "record_base_classes"
   ]
 }

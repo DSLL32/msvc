@@ -52,3 +52,32 @@ int lookup_named_type(unsigned short kind, const unsigned char *name, CachedType
     }
     return 0;
 }
+
+/* Search names discovered in this module [0040cda0,0040ce54). */
+int find_local_named_type(unsigned short kind, const unsigned char *name, CachedTypeName **match, int scoped)
+{
+    CachedTypeName *cached;
+    unsigned hash = name[0], i;
+    unsigned char *record;
+    unsigned short record_kind;
+    int record_scoped;
+    for (i = 1; i <= name[0]; ++i) hash += name[i];
+    cached = ((CachedTypeName **)type_references)[hash & 511];
+    while (cached) {
+        record = cached->record;
+        if (!record) return 0;
+        if (*(unsigned short *)(record + 2) == kind &&
+            (int)cached->name[0] == (signed char)name[0] &&
+            !memcmp(cached->name + 1, name + 1, (signed char)name[0])) {
+            record_kind = *(unsigned short *)(record + 2);
+            record_scoped = record_kind >= 0x1004 && record_kind <= 0x1007 ?
+                            (record[6] >> 3) & 1 : 0;
+            if (scoped == record_scoped) {
+                *match = cached;
+                return 1;
+            }
+        }
+        cached = cached->next;
+    }
+    return 0;
+}
