@@ -47,7 +47,8 @@
     "_c2_create_type_table",
     "@c2_allocate_node@8",
     "@c2_node_size@4",
-    "@c2_pool_allocate@8"
+    "@c2_pool_allocate@8",
+    "_c2_initialize_constants"
   ],
   "driver": [
     {
@@ -196,7 +197,7 @@
               212,
               312
             ],
-            "lifetime_sha256": "d791486958bf574fc650c4cecab08ce3dcf879c3dfc6ceed72d6b6a8c1cb1637",
+            "lifetime_sha256": "42abc7c0370bd377cc18911de8fc8809f0e83373c561967c7bca3a36e0db055a",
             "instructions": [
               {
                 "offset": 212,
@@ -599,7 +600,7 @@
               38,
               154
             ],
-            "lifetime_sha256": "1080bac84958da8d54dbbb93cb86804a5d4668ca11cab8e999233720c3922afb",
+            "lifetime_sha256": "f664c93e6451cec8b79805ff3dc22fb972d5313baae7439b81c00775e938aa50",
             "instructions": [
               {
                 "offset": 38,
@@ -660,7 +661,7 @@
               46,
               154
             ],
-            "lifetime_sha256": "11512e36b7ee30e06055e7d7f517b4791dd92e492d6be936387dcd4f670c2186",
+            "lifetime_sha256": "112c0ec44d97df509467c7d831ef5d143bce49ba531eacc83c023be64b4b43cc",
             "instructions": [
               {
                 "offset": 46,
@@ -1438,7 +1439,7 @@
               6,
               198
             ],
-            "lifetime_sha256": "59f35e28ca7b51fd4104444b97951c73ed5641425b2441cfb5e2fd193fae2c03"
+            "lifetime_sha256": "4465f2fd728fd960dce1271a8ae76c9a69d14b5c607744599ca79de7215e2819"
           }
         }
       ]
@@ -1628,7 +1629,7 @@
               6,
               377
             ],
-            "lifetime_sha256": "628e08c97e2a7f8eef323cf9282b24873e3f30f4937be06f801190b0bed5b5fb"
+            "lifetime_sha256": "10ae3df6acf4ad8b0a235e3e14564cc3d1d0598fa89a73601d3b8d6751fd80ef"
           }
         }
       ]
@@ -2166,32 +2167,13 @@
         ]
       ],
       "evidence": "cases/analysis/pool-allocation-disassembly.txt"
-    }
-  ],
-  "stubs": [
-    {
-      "name": "_c2_math_error",
-      "native": "c2_math_error",
-      "start": 4484380,
-      "end": 4484383,
-      "abi": "cdecl, one pointer parameter",
-      "kind": "crt-source"
-    },
-    {
-      "name": "_c2_print_banner",
-      "native": "c2_print_banner",
-      "start": 4738355,
-      "end": 4738356,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
     },
     {
       "name": "_c2_initialize_constants",
       "native": "c2_initialize_constants",
       "start": 4534326,
-      "end": 4534327,
-      "pending_extent": true,
+      "end": 4534407,
+      "pending_extent": false,
       "kind": "application",
       "abi": "cdecl, no parameters",
       "state_policy": "pool-result",
@@ -2296,7 +2278,27 @@
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
-      ]
+      ],
+      "evidence": "cases/analysis/constants-disassembly.txt"
+    }
+  ],
+  "stubs": [
+    {
+      "name": "_c2_math_error",
+      "native": "c2_math_error",
+      "start": 4484380,
+      "end": 4484383,
+      "abi": "cdecl, one pointer parameter",
+      "kind": "crt-source"
+    },
+    {
+      "name": "_c2_print_banner",
+      "native": "c2_print_banner",
+      "start": 4738355,
+      "end": 4738356,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters"
     },
     {
       "name": "_c2_initialize_opcodes",
@@ -2425,6 +2427,118 @@
       "pending_extent": true,
       "kind": "application",
       "abi": "fastcall ECX PDB filename EDX object filename; int result; no stack parameters"
+    },
+    {
+      "name": "_c2_real_from_int",
+      "native": "c2_real_from_int",
+      "start": 4534407,
+      "end": 4534408,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl int pointer and C2Real pointer; caller cleans8 bytes",
+      "state_policy": "real-from-int",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "c2_symbol_hash_count"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        }
+      ],
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ]
     }
   ],
   "text_data": [

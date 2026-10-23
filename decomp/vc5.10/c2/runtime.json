@@ -16,14 +16,6 @@
     "evidence": null
   },
   {
-    "name": "_c2_initialize_constants",
-    "start": 4534326,
-    "end": 4534327,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_c2_initialize_opcodes",
     "start": 4534439,
     "end": 4534440,
@@ -135,6 +127,14 @@
     "name": "@c2_open_pdb@8",
     "start": 4765792,
     "end": 4765793,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_c2_real_from_int",
+    "start": 4534407,
+    "end": 4534408,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

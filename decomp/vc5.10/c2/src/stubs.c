@@ -18,7 +18,7 @@ int __fastcall c2_open_pdb(char *name, char *object_name)
     __asm { int 3 }
     return 0;
 }
-void c2_initialize_constants(void)
+void c2_real_from_int(int *input, C2Real *output)
 {
     __asm { int 3 }
 }

@@ -107,6 +107,13 @@ def main():
         mutations += [('changed native option kind',changed_native_table),('different logical destination alias',changed_native_alias),
                       ('different initial CPU option',changed_native_default),('changed raw original table with matching hash',changed_original_data),
                       ('changed contextual data receipt with matching hash',changed_data_receipt)]
+    if 'real_from_int'in current_state:
+        def changed_real_input(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['real_from_int'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        mutations += [('constant initializer integer differs',lambda r:changed_real_input(r,'value',1)),
+                      ('constant initializer output identity differs',lambda r:changed_real_input(r,'output_is_zero',False)),
+                      ('constant input does not alias caller local',lambda r:changed_real_input(r,'caller_local_alias',False)),
+                      ('constant initial real record differs',lambda r:changed_real_input(r,'records',['01'+'00'*11,'00'*12,'00'*12]))]
     if 'pool_result'in current_state:
         def changed_pool_result(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['pool_result'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
