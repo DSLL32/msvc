@@ -51,12 +51,6 @@ BOOL WINAPI console_control_handler(DWORD event)
 
 
 
-char *file_directory(char *out, char *name) { __asm int 3
-    return NULL;
-}
-char *make_map_name(char *out, char *name) { __asm int 3
-    return NULL;
-}
 
 
 

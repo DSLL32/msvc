@@ -7,7 +7,7 @@ import json
 import os
 from pathlib import Path
 import tarfile
-from case_inputs import load
+from case_inputs import load,dependencies,verify_dependencies
 from state import vector,environment,project
 from mktemp_state import original as temporary
 
@@ -30,6 +30,8 @@ master={'schema':1,**case,'target_sha256':capture['target_sha256'],'reference_st
  'temporary_name_boundary':temporary(raw)if(raw/'mktemp-before.bin').exists()else None,'native_resource_provider_sha256':sha((PROJECT/'build/resources.bin').read_bytes()),
  'streams':{name:sha((raw/(name+'.bin')).read_bytes())for name in ('stdout','stderr')},'trace_sha256':sha(trace),
  'capture_sha256':sha((raw/'capture.json').read_bytes())}
+if dependencies(case['case'])is not None:
+ master['dependencies']=verify_dependencies(raw)
 for name in ('trace.txt','stdout.bin','stderr.bin'):(reference/name).write_bytes((raw/name).read_bytes())
 (reference/'resources.bin').write_bytes((PROJECT/'build/resources.bin').read_bytes())
 if master['temporary_name_boundary']is None:

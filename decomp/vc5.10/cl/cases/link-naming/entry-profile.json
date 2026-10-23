@@ -1,0 +1,44 @@
+{
+  "id": "link-naming-canonical-msvcrt-v1",
+  "case": "link-naming",
+  "arguments": [
+    "/nologo",
+    "/Bz",
+    "/LD",
+    "/Fmcustom.map",
+    "/Feout/path.dll",
+    "test.obj",
+    "/link",
+    "/ENTRY:main",
+    "/SUBSYSTEM:CONSOLE",
+    "/NODEFAULTLIB"
+  ],
+  "inputs": [
+    {
+      "name": "test.obj",
+      "source": "cases/minimal-c/reference/test.obj",
+      "bytes": 275,
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+    }
+  ],
+  "state": {
+    "errno": 0,
+    "doserrno": 0,
+    "last_error": 0,
+    "x87_control_word": 639
+  },
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "evidence": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-naming-initial/capture.json",
+    "sha256": "6a470d07f99e48d9ce6b78b6fe813125f108a95d19a122b1632ef7b53c7c4ea5"
+  },
+  "environment": {
+    "CL": null,
+    "_CL_": null,
+    "INCLUDE": "R:\\toolchains\\5.10\\include",
+    "TMP": ".",
+    "PATH": "R:\\toolchains\\5.10\\bin;C:\\windows\\system32;C:\\windows;C:\\windows\\system32\\wbem;C:\\windows\\system32\\WindowsPowershell\\v1.0"
+  },
+  "approval": "Actual case-bound host entry profile outside the target graph. Unknown inputs remain closed."
+}

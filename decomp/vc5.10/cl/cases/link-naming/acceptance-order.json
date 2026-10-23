@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "case": "link-naming",
+  "entries": [
+    {
+      "order": 1,
+      "candidate": "_file_directory",
+      "class": "application",
+      "extent_bytes": 81,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2/pair.json",
+        "sha256": "f4d6934795d1a2d1cacd0b6a82326d8ff87a7205ec57213300fd82a54efe1204"
+      }
+    },
+    {
+      "order": 2,
+      "candidate": "_make_map_name",
+      "class": "application",
+      "extent_bytes": 185,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/make-map-name-1/pair.json",
+        "sha256": "ac142ec2ecc67d20ec6292f834a47c442c91edc40e94238cf47823f7862374b2"
+      }
+    }
+  ]
+}

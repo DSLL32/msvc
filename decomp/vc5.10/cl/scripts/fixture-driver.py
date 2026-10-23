@@ -27,7 +27,7 @@ def shared(name,revision):
 
 parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('case');parser.add_argument('--config',type=Path)
 args=parser.parse_args()
-from case_inputs import load,copy_inputs
+from case_inputs import load,copy_inputs,dependencies,copy_dependencies,verify_dependencies
 case=load(args.case)
 started=time.perf_counter();reference=PROJECT/'cases'/args.case/'reference'
 master=json.loads((reference/'fixture.json').read_text());config=json.loads((args.config or PROJECT/'functions.json').read_text())
@@ -46,6 +46,10 @@ with tempfile.TemporaryDirectory(prefix='fixture-driver-',dir=scratch) as work:
     directory=Path(work);setup=time.perf_counter()
     assert master['inputs']==case['inputs']and master['arguments']==case['arguments']
     copy_inputs(case,directory)
+    dependency_inputs=dependencies(args.case)
+    if dependency_inputs is not None:
+        assert master['dependencies']==dependency_inputs
+        copy_dependencies(dependency_inputs,directory)
     shutil.copyfile(reference/'resources.bin',directory/'resources.bin')
     assert sha((directory/'resources.bin').read_bytes())==master['native_resource_provider_sha256']
     expected_trace=(reference/'trace.txt').read_bytes();assert sha(expected_trace)==master['trace_sha256']
@@ -59,6 +63,12 @@ with tempfile.TemporaryDirectory(prefix='fixture-driver-',dir=scratch) as work:
         else:environment[key]=value
     environment.update(CL_ENTRY_PROFILE=master['entry_profile'],RECON_PROGRAM_PATH=master['program_path'],
         RECON_RESOURCE_PROVIDER=str(directory/'resources.bin'),RECON_TRACE_FILTER=str(directory/'filter'),RECON_TRACE_SEEN=str(directory/'seen'))
+    if dependency_inputs is not None:
+        assert master['program_path'].startswith('S:\\vc5.10\\cl\\')
+        historical=Path(master['program_path'][3:].replace('\\','/')).parent
+        mirror=directory/'drive-s'/historical
+        mirror.parent.mkdir(parents=True);mirror.symlink_to(directory,target_is_directory=True)
+        environment.update(RECON_DRIVE_S=str(directory/'drive-s'),RECON_DRIVE_R=str(ROOT),RECON_SPAWN_FD='-1')
     call=master['temporary_name_boundary']['calls'][0]if master['temporary_name_boundary']is not None else None
     with contextlib.ExitStack()as contexts:
         terminal=contexts.enter_context(status_reader.TerminalStatus())
@@ -95,7 +105,12 @@ with tempfile.TemporaryDirectory(prefix='fixture-driver-',dir=scratch) as work:
         assert sha(expected)==master['streams'][label]
         assert (directory/label).read_bytes()==expected,label+' differs'
     assert (directory/'trace').read_bytes()==expected_trace,'application first-entry trace differs'
-    assert {p.name for p in directory.iterdir()}=={'resources.bin','filter','seen','trace','stdout','stderr'}|{item['name']for item in case['inputs']},'unexpected output artifact'
+    expected_files={'resources.bin','filter','seen','trace','stdout','stderr'}|{item['name']for item in case['inputs']}
+    if dependency_inputs is not None:
+        verify_dependencies(directory)
+        assert b'execute_pass\n'not in expected_trace,'driver-only fixture unexpectedly invokes a dependency'
+        expected_files|={'drive-s','dependency-inputs.json'}|{item['name']for item in dependency_inputs['files']}
+    assert {p.name for p in directory.iterdir()}==expected_files,'unexpected output artifact'
     checks=time.perf_counter()-checks
 report={'schema':1,'case':args.case,'passed':True,'full_dword_status':status,
     'application_entries':len(expected_trace.splitlines()),'stdout_bytes':(reference/'stdout.bin').stat().st_size,

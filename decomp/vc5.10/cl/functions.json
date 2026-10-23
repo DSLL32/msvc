@@ -111,7 +111,9 @@
     "_copy_option",
     "_link_pass",
     "_write_link_response",
-    "_write_link_message"
+    "_write_link_message",
+    "_file_directory",
+    "_make_map_name"
   ],
   "driver": [
     {
@@ -1420,17 +1422,25 @@
       "name": "_file_directory",
       "native_symbol": "file_directory",
       "start": 4213109,
-      "end": 4213110,
-      "pending_extent": true,
-      "state": "named INT3 frontier"
+      "end": 4213190,
+      "state": "reconstructed pending fresh proof",
+      "evidence": {
+        "kind": "complete splitpath/makepath drive-directory-stem body disassembly",
+        "range": "00404975..004049c6",
+        "return": "same output pointer, cdecl RET0; original compiler can reuse dead formal slot for drive storage"
+      }
     },
     {
       "name": "_make_map_name",
       "native_symbol": "make_map_name",
       "start": 4212557,
-      "end": 4212558,
-      "pending_extent": true,
-      "state": "named INT3 frontier"
+      "end": 4212742,
+      "state": "reconstructed pending fresh proof",
+      "evidence": {
+        "kind": "complete map-flag/override/path-components/default-extension body disassembly",
+        "range": "0040474d..00404806",
+        "return": "empty literal without writing if disabled, otherwise output pointer; cdecl RET0"
+      }
     },
     {
       "name": "_join_text",

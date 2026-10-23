@@ -1,0 +1,12 @@
+{
+  "state": "original-only exploratory probe; no new function, no coverage credit, no completed native fixture claim",
+  "capture": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/filenames-initial/capture.json",
+    "sha256": "87e2b7730d426585ca839013f21efd1bc295b1f4995a355bba4c0bae1d435319"
+  },
+  "reason": "User filename percent characters are escaped by option grammar; generated LINK /LD and /Fm rules are exercised instead by link-naming.",
+  "timing": {
+    "setup_seconds": 0.019126925617456436,
+    "reference_execution_seconds": 0.8952498426660895
+  }
+}

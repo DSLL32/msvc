@@ -1,0 +1,172 @@
+{
+  "schema": 1,
+  "case": "link-naming",
+  "arguments": [
+    "/nologo",
+    "/Bz",
+    "/LD",
+    "/Fmcustom.map",
+    "/Feout/path.dll",
+    "test.obj",
+    "/link",
+    "/ENTRY:main",
+    "/SUBSYSTEM:CONSOLE",
+    "/NODEFAULTLIB"
+  ],
+  "inputs": [
+    {
+      "name": "test.obj",
+      "source": "cases/minimal-c/reference/test.obj",
+      "bytes": 275,
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+    }
+  ],
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "reference_status": 0,
+  "required_accepted": [
+    "_main",
+    "_install_control_handler",
+    "_split_arguments",
+    "_count_arguments",
+    "_program_name",
+    "_initialize_driver",
+    "_has_nologo",
+    "_parse_arguments",
+    "_write_message",
+    "_finish_options",
+    "_prepare_inputs",
+    "_prepare_environment",
+    "_allocate",
+    "_append_text",
+    "_release",
+    "_prepare_execution",
+    "_run_driver",
+    "_driver_exit",
+    "_skip_space",
+    "_program_directory",
+    "_duplicate",
+    "_format_message",
+    "_format_number",
+    "_classify_input",
+    "_add_input",
+    "_find_special",
+    "_apply_special",
+    "_match_option",
+    "_has_prefix",
+    "_find_rule",
+    "_read_option",
+    "_new_option",
+    "_append_option",
+    "_expand_options",
+    "_detach_options",
+    "_delete_options",
+    "_match_pattern",
+    "_define_macro",
+    "_link_arguments",
+    "_validate_value",
+    "_expand_word",
+    "_expand_alternative",
+    "_append_literal",
+    "_append_escaped",
+    "_apply_extension",
+    "_options_match",
+    "_unlink_option",
+    "_delete_option",
+    "_find_last_separator",
+    "_undefine_macro",
+    "_has_any_option",
+    "_option_for_pass",
+    "_expand_filename",
+    "_set_output_option",
+    "_enable_dll",
+    "_file_basename",
+    "_file_directory",
+    "_make_map_name",
+    "_join_text",
+    "_create_input",
+    "_source_jobs",
+    "_prepare_jobs",
+    "_next_jobs",
+    "_run_passes",
+    "_link_pass",
+    "_configure_pass",
+    "_cleanup_files",
+    "_find_file",
+    "_quote_argument",
+    "_delete_temporary",
+    "_write_link_response",
+    "_write_link_message"
+  ],
+  "argv": [
+    "S:\\vc5.10\\cl\\make-map-name-1-original\\CL.EXE",
+    "/nologo",
+    "/Bz",
+    "/LD",
+    "/Fmcustom.map",
+    "/Feout/path.dll",
+    "test.obj",
+    "/link",
+    "/ENTRY:main",
+    "/SUBSYSTEM:CONSOLE",
+    "/NODEFAULTLIB"
+  ],
+  "environment": {
+    "CL": null,
+    "_CL_": null,
+    "INCLUDE": "R:\\toolchains\\5.10\\include",
+    "TMP": ".",
+    "PATH": "R:\\toolchains\\5.10\\bin;C:\\windows\\system32;C:\\windows;C:\\windows\\system32\\wbem;C:\\windows\\system32\\WindowsPowershell\\v1.0"
+  },
+  "entry_profile": "link-naming-canonical-msvcrt-v1",
+  "program_path": "S:\\vc5.10\\cl\\make-map-name-1-original\\CL.EXE",
+  "temporary_name_boundary": {
+    "entry": {
+      "errno": 0,
+      "doserrno": 0,
+      "last_error": 0,
+      "x87_control_word": 639
+    },
+    "calls": [
+      {
+        "template": ".\\XXXXXX",
+        "result": ".\\a01424",
+        "result_alias": true,
+        "before": {
+          "errno": 0,
+          "doserrno": 0,
+          "last_error": 0
+        },
+        "after": {
+          "errno": 0,
+          "doserrno": 2,
+          "last_error": 2
+        }
+      }
+    ]
+  },
+  "native_resource_provider_sha256": "4880ccdea2efd1554678238738b03105dc0bcac4c8b2736ad31f88c9b6fc9cab",
+  "streams": {
+    "stdout": "dd469102026f0ea27eadd07551cfd5d23686bdd720a057f3b3cb974703257255",
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "trace_sha256": "10e7995c46f9b111db3f3d7058726860843b9f1840894007d2b64c5037420f12",
+  "capture_sha256": "f8add38891dc6ec670f15061499eb6af0cce5cf72302f6b7654155b98464446b",
+  "dependencies": {
+    "case": "link-naming",
+    "role": "Inert exact original linker dependency input; native execution forbidden.",
+    "files": [
+      {
+        "name": "LINK.EXE",
+        "source": "toolchains/5.10/bin/LINK.EXE",
+        "bytes": 464896,
+        "sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579"
+      }
+    ]
+  },
+  "owned_original": {
+    "kind": "ordinary-files-with-repository-references",
+    "file": "original-files.json",
+    "sha256": "96177c25084befb04a5a911d930b19d8e08fc07c7cec9d33a62c108c11ce56cf",
+    "files": 60
+  }
+}

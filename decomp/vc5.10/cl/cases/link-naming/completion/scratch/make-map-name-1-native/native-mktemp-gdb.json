@@ -1,0 +1,21 @@
+{
+  "calls": [
+    {
+      "argument_address": 1448777040,
+      "template": ".\\XXXXXX",
+      "before": {
+        "errno": 0,
+        "doserrno": 0,
+        "last_error": 0
+      },
+      "result_address": 1448777040,
+      "result_alias": true,
+      "result": ".\\a01424",
+      "after": {
+        "errno": 0,
+        "doserrno": 2,
+        "last_error": 2
+      }
+    }
+  ]
+}

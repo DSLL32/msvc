@@ -10,7 +10,7 @@ PROJECT=Path(__file__).resolve().parents[1]
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--config',type=Path,help='Explicit held trial for completed-case pre-promotion review')
 args=parser.parse_args();started=time.perf_counter();reports=[]
-for case in ('help','minimal','response-options','usage','unknown-option','preprocessor-pass-options','explicit-inputs','macro-language-conflict','optimization-defaults','link'):
+for case in ('help','minimal','response-options','usage','unknown-option','preprocessor-pass-options','explicit-inputs','macro-language-conflict','optimization-defaults','link','link-naming'):
     command=['python3','scripts/fixture-'+case+'.py']if case in ('help','minimal','link')else['python3','scripts/fixture-driver.py',case]
     if case!='help'and args.config:command+=['--config',str(args.config)]
     result=subprocess.run(command,cwd=PROJECT,capture_output=True,text=True)

@@ -1,0 +1,623 @@
+[
+  {
+    "name": "_mainCRTStartup",
+    "start": 4226432,
+    "end": 4226768,
+    "evidence": {
+      "library": "MSVCRT.LIB",
+      "library_sha256": "e0a55e77c6005cacc86783688dd5d372bee6dda9c994493edbe583cd2b367be2",
+      "member": "build\\intel\\dll_obj\\crtexe.obj",
+      "member_sha256": "0433c241187a6b9c46a485f18d9c59d7a1ce8ee822817ecb05ce94fd65ac3cdb",
+      "bindings": [
+        {
+          "section": ".text",
+          "offset": 6,
+          "symbol": "$T7942",
+          "kind": 6,
+          "actual": 4227424,
+          "expected": 4227424
+        },
+        {
+          "section": ".text",
+          "offset": 11,
+          "symbol": "__except_handler3",
+          "kind": 6,
+          "actual": 4226384,
+          "expected": 4226384
+        },
+        {
+          "section": ".text",
+          "offset": 17,
+          "symbol": "__except_list",
+          "kind": 6,
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "section": ".text",
+          "offset": 25,
+          "symbol": "__except_list",
+          "kind": 6,
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "section": ".text",
+          "offset": 49,
+          "symbol": "__imp____set_app_type",
+          "kind": 6,
+          "actual": 4227352,
+          "expected": 4227352
+        },
+        {
+          "section": ".text",
+          "offset": 58,
+          "symbol": "___onexitend",
+          "kind": 6,
+          "actual": 4245644,
+          "expected": 4245644
+        },
+        {
+          "section": ".text",
+          "offset": 68,
+          "symbol": "___onexitbegin",
+          "kind": 6,
+          "actual": 4245648,
+          "expected": 4245648
+        },
+        {
+          "section": ".text",
+          "offset": 78,
+          "symbol": "__imp____p__fmode",
+          "kind": 6,
+          "actual": 4227348,
+          "expected": 4227348
+        },
+        {
+          "section": ".text",
+          "offset": 84,
+          "symbol": "__fmode",
+          "kind": 6,
+          "actual": 4245452,
+          "expected": 4245452
+        },
+        {
+          "section": ".text",
+          "offset": 92,
+          "symbol": "__imp____p__commode",
+          "kind": 6,
+          "actual": 4227344,
+          "expected": 4227344
+        },
+        {
+          "section": ".text",
+          "offset": 98,
+          "symbol": "__commode",
+          "kind": 6,
+          "actual": 4245448,
+          "expected": 4245448
+        },
+        {
+          "section": ".text",
+          "offset": 105,
+          "symbol": "__imp___adjust_fdiv",
+          "kind": 6,
+          "actual": 4227340,
+          "expected": 4227340
+        },
+        {
+          "section": ".text",
+          "offset": 113,
+          "symbol": "__adjust_fdiv",
+          "kind": 6,
+          "actual": 4245652,
+          "expected": 4245652
+        },
+        {
+          "section": ".text",
+          "offset": 118,
+          "symbol": "__setargv",
+          "kind": 20,
+          "actual": 4226336,
+          "expected": 4226336
+        },
+        {
+          "section": ".text",
+          "offset": 123,
+          "symbol": "___defaultmatherr",
+          "kind": 6,
+          "actual": 4242032,
+          "expected": 4242032
+        },
+        {
+          "section": ".text",
+          "offset": 132,
+          "symbol": "__matherr",
+          "kind": 6,
+          "actual": 4226816,
+          "expected": 4226816
+        },
+        {
+          "section": ".text",
+          "offset": 138,
+          "symbol": "__imp____setusermatherr",
+          "kind": 6,
+          "actual": 4227336,
+          "expected": 4227336
+        },
+        {
+          "section": ".text",
+          "offset": 146,
+          "symbol": "__setdefaultprecision",
+          "kind": 20,
+          "actual": 4226784,
+          "expected": 4226784
+        },
+        {
+          "section": ".text",
+          "offset": 151,
+          "symbol": "___xi_z",
+          "kind": 6,
+          "actual": 4231180,
+          "expected": 4231180
+        },
+        {
+          "section": ".text",
+          "offset": 156,
+          "symbol": "___xi_a",
+          "kind": 6,
+          "actual": 4231176,
+          "expected": 4231176
+        },
+        {
+          "section": ".text",
+          "offset": 161,
+          "symbol": "__initterm",
+          "kind": 20,
+          "actual": 4226774,
+          "expected": 4226774
+        },
+        {
+          "section": ".text",
+          "offset": 170,
+          "symbol": "__newmode",
+          "kind": 6,
+          "actual": 4245444,
+          "expected": 4245444
+        },
+        {
+          "section": ".text",
+          "offset": 183,
+          "symbol": "__dowildcard",
+          "kind": 6,
+          "actual": 4245440,
+          "expected": 4245440
+        },
+        {
+          "section": ".text",
+          "offset": 202,
+          "symbol": "__imp____getmainargs",
+          "kind": 6,
+          "actual": 4227328,
+          "expected": 4227328
+        },
+        {
+          "section": ".text",
+          "offset": 210,
+          "symbol": "___xc_z",
+          "kind": 6,
+          "actual": 4231172,
+          "expected": 4231172
+        },
+        {
+          "section": ".text",
+          "offset": 215,
+          "symbol": "___xc_a",
+          "kind": 6,
+          "actual": 4231168,
+          "expected": 4231168
+        },
+        {
+          "section": ".text",
+          "offset": 220,
+          "symbol": "__initterm",
+          "kind": 20,
+          "actual": 4226774,
+          "expected": 4226774
+        },
+        {
+          "section": ".text",
+          "offset": 229,
+          "symbol": "__imp____p___initenv",
+          "kind": 6,
+          "actual": 4227324,
+          "expected": 4227324
+        },
+        {
+          "section": ".text",
+          "offset": 251,
+          "symbol": "_main",
+          "kind": 20,
+          "actual": 4216256,
+          "expected": 4216256
+        },
+        {
+          "section": ".text",
+          "offset": 264,
+          "symbol": "__imp__exit",
+          "kind": 6,
+          "actual": 4227212,
+          "expected": 4227212
+        },
+        {
+          "section": ".text",
+          "offset": 283,
+          "symbol": "__XcptFilter",
+          "kind": 20,
+          "actual": 4226768,
+          "expected": 4226768
+        },
+        {
+          "section": ".text",
+          "offset": 300,
+          "symbol": "__imp___exit",
+          "kind": 6,
+          "actual": 4227316,
+          "expected": 4227316
+        },
+        {
+          "section": ".text",
+          "offset": 320,
+          "symbol": "__except_list",
+          "kind": 6,
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "section": ".rdata",
+          "offset": 4,
+          "symbol": "$L7938",
+          "kind": 6,
+          "actual": 4226702,
+          "expected": 4226702
+        },
+        {
+          "section": ".rdata",
+          "offset": 8,
+          "symbol": "$L7939",
+          "kind": 6,
+          "actual": 4226723,
+          "expected": 4226723
+        }
+      ],
+      "context_sections": {
+        "1": 4226432,
+        "2": 4227424
+      },
+      "initial_data": {
+        "__fmode": {
+          "address": 4245452,
+          "bytes": "00000000",
+          "source": "zero-initialized common storage"
+        },
+        "__commode": {
+          "address": 4245448,
+          "bytes": "00000000",
+          "source": "zero-initialized common storage"
+        },
+        "__newmode": {
+          "address": 4245444,
+          "bytes": "00000000",
+          "source": "zero-initialized common storage"
+        },
+        "__dowildcard": {
+          "address": 4245440,
+          "bytes": "00000000",
+          "source": "zero-initialized common storage"
+        },
+        "___defaultmatherr": {
+          "address": 4242032,
+          "bytes": "01000000",
+          "source": "merr.obj .data"
+        },
+        "__adjust_fdiv": {
+          "address": 4245652,
+          "bytes": "00000000",
+          "source": "zero-initialized common storage"
+        },
+        "___onexitbegin": {
+          "address": 4245648,
+          "bytes": "00000000",
+          "source": "zero-initialized common storage"
+        },
+        "___onexitend": {
+          "address": 4245644,
+          "bytes": "00000000",
+          "source": "zero-initialized common storage"
+        }
+      }
+    }
+  },
+  {
+    "name": "___setargv",
+    "start": 4226416,
+    "end": 4226432,
+    "evidence": {
+      "library": "MSVCRT.LIB",
+      "library_sha256": "e0a55e77c6005cacc86783688dd5d372bee6dda9c994493edbe583cd2b367be2",
+      "member": "build\\intel\\dll_obj\\dll_argv.obj",
+      "member_sha256": "363071655dd507cb9f3c9dc9a64bc3b77f35ecd085fd51f74b96b38b6874d0ef",
+      "bindings": [
+        {
+          "section": ".text",
+          "offset": 2,
+          "symbol": "__dowildcard",
+          "kind": 6,
+          "actual": 4245440,
+          "expected": 4245440
+        }
+      ],
+      "context_sections": {
+        "1": 4226416
+      },
+      "initial_data": {}
+    }
+  },
+  {
+    "name": "__setdefaultprecision",
+    "start": 4226784,
+    "end": 4226816,
+    "evidence": {
+      "library": "MSVCRT.LIB",
+      "library_sha256": "e0a55e77c6005cacc86783688dd5d372bee6dda9c994493edbe583cd2b367be2",
+      "member": "build\\intel\\dll_obj\\fp8.obj",
+      "member_sha256": "2121abdca03f2b269946d003463dae2526bfccdd8011d50479759eeb3f07a716",
+      "bindings": [
+        {
+          "section": ".text",
+          "offset": 11,
+          "symbol": "__controlfp",
+          "kind": 20,
+          "actual": 4226832,
+          "expected": 4226832
+        }
+      ],
+      "context_sections": {
+        "1": 4226784
+      },
+      "initial_data": {}
+    }
+  },
+  {
+    "name": "__matherr",
+    "start": 4226816,
+    "end": 4226832,
+    "evidence": {
+      "library": "MSVCRT.LIB",
+      "library_sha256": "e0a55e77c6005cacc86783688dd5d372bee6dda9c994493edbe583cd2b367be2",
+      "member": "build\\intel\\dll_obj\\merr.obj",
+      "member_sha256": "9155a1ccc009f2764164035c65b78e9594cfc9d0c8792ea23dbfd607c779b92e",
+      "bindings": [],
+      "context_sections": {
+        "2": 4226816
+      },
+      "initial_data": {}
+    }
+  },
+  {
+    "name": "__setargv",
+    "start": 4226336,
+    "end": 4226352,
+    "evidence": {
+      "library": "SETARGV.OBJ",
+      "library_sha256": "9879ac8c0f46480c1967e9eec669f91af5c37b8a200f3bbe6c57aa7502098ea5",
+      "member": "SETARGV.OBJ",
+      "member_sha256": "9879ac8c0f46480c1967e9eec669f91af5c37b8a200f3bbe6c57aa7502098ea5",
+      "bindings": [
+        {
+          "section": ".text",
+          "offset": 1,
+          "symbol": "___setargv",
+          "kind": 20,
+          "actual": 4226416,
+          "expected": 4226416
+        }
+      ],
+      "context_sections": {
+        "1": 4226336
+      },
+      "initial_data": {}
+    }
+  },
+  {
+    "name": "import:_except_handler3",
+    "start": 4226384,
+    "end": 4226390,
+    "evidence": {
+      "kind": "exact FF25 IAT import thunk",
+      "iat": 4227236,
+      "import_symbol": "__except_handler3"
+    }
+  },
+  {
+    "name": "import:_XcptFilter",
+    "start": 4226768,
+    "end": 4226774,
+    "evidence": {
+      "kind": "exact FF25 IAT import thunk",
+      "iat": 4227320,
+      "import_symbol": "__XcptFilter"
+    }
+  },
+  {
+    "name": "import:_initterm",
+    "start": 4226774,
+    "end": 4226780,
+    "evidence": {
+      "kind": "exact FF25 IAT import thunk",
+      "iat": 4227332,
+      "import_symbol": "__initterm"
+    }
+  },
+  {
+    "name": "import:_controlfp",
+    "start": 4226832,
+    "end": 4226838,
+    "evidence": {
+      "kind": "exact FF25 IAT import thunk",
+      "iat": 4227356,
+      "import_symbol": "__controlfp"
+    }
+  },
+  {
+    "name": "import:memset",
+    "start": 4226390,
+    "end": 4226396,
+    "evidence": {
+      "kind": "exact FF25 IAT import thunk",
+      "iat": 4227228,
+      "import_symbol": "_memset",
+      "qualified_identity": {
+        "dll": "msvcrt.dll",
+        "name": "memset"
+      },
+      "abi": {
+        "calling_convention": "cdecl",
+        "arguments": [
+          "void *",
+          "int",
+          "size_t"
+        ],
+        "result": "void *",
+        "argument_bytes": 12,
+        "caller_cleanup": true,
+        "encountered_in": "_initialize_driver"
+      }
+    }
+  },
+  {
+    "name": "import:strlen",
+    "start": 4226352,
+    "end": 4226358,
+    "evidence": {
+      "kind": "exact FF25 IAT import thunk",
+      "iat": 4227148,
+      "import_symbol": "_strlen",
+      "qualified_identity": {
+        "dll": "msvcrt.dll",
+        "name": "strlen"
+      },
+      "abi": {
+        "calling_convention": "cdecl",
+        "arguments": [
+          "const char *"
+        ],
+        "result": "size_t",
+        "argument_bytes": 4,
+        "caller_cleanup": true,
+        "encountered_in": "_program_directory"
+      }
+    }
+  },
+  {
+    "name": "import:strcat",
+    "start": 4226358,
+    "end": 4226364,
+    "evidence": {
+      "kind": "exact FF25 IAT import thunk",
+      "iat": 4227168,
+      "import_symbol": "_strcat",
+      "qualified_identity": {
+        "dll": "msvcrt.dll",
+        "name": "strcat"
+      },
+      "abi": {
+        "calling_convention": "cdecl",
+        "arguments": [
+          "char *",
+          "const char *"
+        ],
+        "result": "char *",
+        "argument_bytes": 8,
+        "caller_cleanup": true,
+        "encountered_in": "_program_directory"
+      }
+    }
+  },
+  {
+    "name": "import:strcpy",
+    "start": 4226370,
+    "end": 4226376,
+    "evidence": {
+      "kind": "exact FF25 IAT import thunk",
+      "iat": 4227196,
+      "import_symbol": "_strcpy",
+      "qualified_identity": {
+        "dll": "msvcrt.dll",
+        "name": "strcpy"
+      },
+      "abi": {
+        "calling_convention": "cdecl",
+        "arguments": [
+          "char *",
+          "const char *"
+        ],
+        "result": "char *",
+        "argument_bytes": 8,
+        "caller_cleanup": true,
+        "encountered_in": "_format_message"
+      }
+    }
+  },
+  {
+    "name": "import:memcpy",
+    "start": 4226364,
+    "end": 4226370,
+    "evidence": {
+      "kind": "exact FF25 IAT import thunk",
+      "iat": 4227180,
+      "import_symbol": "_memcpy",
+      "qualified_identity": {
+        "dll": "msvcrt.dll",
+        "name": "memcpy"
+      },
+      "abi": {
+        "calling_convention": "cdecl",
+        "arguments": [
+          "void *",
+          "const void *",
+          "size_t"
+        ],
+        "result": "void *",
+        "argument_bytes": 12,
+        "caller_cleanup": true,
+        "encountered_in": "_format_message"
+      }
+    }
+  },
+  {
+    "name": "import:strcmp",
+    "start": 4226396,
+    "end": 4226402,
+    "evidence": {
+      "kind": "exact FF25 IAT import thunk",
+      "iat": 4227296,
+      "import_symbol": "_strcmp",
+      "qualified_identity": {
+        "dll": "msvcrt.dll",
+        "name": "strcmp"
+      },
+      "abi": {
+        "calling_convention": "cdecl",
+        "arguments": [
+          "const char *",
+          "const char *"
+        ],
+        "result": "int",
+        "argument_bytes": 8,
+        "caller_cleanup": true,
+        "encountered_in": "_options_match"
+      }
+    }
+  }
+]

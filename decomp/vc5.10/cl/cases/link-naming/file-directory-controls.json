@@ -1,0 +1,1 @@
+{"passed": true, "frontier": "file_directory", "negative_controls": 6, "controls": ["original: NULL output pointer", "original: NULL source name", "original: source name byte", "native: NULL output pointer", "native: NULL source name", "native: source name byte"]}

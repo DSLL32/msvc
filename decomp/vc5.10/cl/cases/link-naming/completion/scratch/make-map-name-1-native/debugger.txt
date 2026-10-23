@@ -1,0 +1,10 @@
+Temporary breakpoint 1 at 0xa340: file /root/msvc2/decomp/vc5.10/cl/src/main.c, line 36.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Temporary breakpoint 1, main (argc=11, argv=0xffffd6a4, envp=0xffffd6d4) at /root/msvc2/decomp/vc5.10/cl/src/main.c:36
+36	{
+NATIVE_PROCESS_PID=1945414
+[Inferior 1 (process 1945414) exited normally]
+NATIVE_POSIX_STATUS=0
+NATIVE_COMPLETION_STATUS=0

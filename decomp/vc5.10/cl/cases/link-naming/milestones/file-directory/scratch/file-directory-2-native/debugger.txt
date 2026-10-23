@@ -1,0 +1,12 @@
+Temporary breakpoint 1 at 0xa1d0: file /root/msvc2/decomp/vc5.10/cl/src/main.c, line 36.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Temporary breakpoint 1, main (argc=11, argv=0xffffd694, envp=0xffffd6c4) at /root/msvc2/decomp/vc5.10/cl/src/main.c:36
+36	{
+NATIVE_PROCESS_PID=1942281
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655f105 in make_map_name (out=0x565aa530 "", name=0x565ab1d0 "out/path.dll") at /root/msvc2/decomp/vc5.10/cl/src/frontiers.c:54
+54	char *make_map_name(char *out, char *name) { __asm int 3
+NATIVE_FRONTIER_SYMBOL=make_map_name

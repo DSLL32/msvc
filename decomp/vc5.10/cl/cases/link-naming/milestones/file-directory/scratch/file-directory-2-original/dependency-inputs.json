@@ -1,0 +1,12 @@
+{
+  "case": "link-naming",
+  "role": "Inert exact original linker dependency input; native execution forbidden.",
+  "files": [
+    {
+      "name": "LINK.EXE",
+      "source": "toolchains/5.10/bin/LINK.EXE",
+      "bytes": 464896,
+      "sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579"
+    }
+  ]
+}

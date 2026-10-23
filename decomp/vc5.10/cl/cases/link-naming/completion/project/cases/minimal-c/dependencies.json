@@ -1,0 +1,18 @@
+{
+  "case": "minimal-c",
+  "role": "Inert complete compiler dependency inputs; native execution is forbidden.",
+  "files": [
+    {
+      "name": "C1.DLL",
+      "source": "toolchains/5.10/bin/C1.DLL",
+      "bytes": 565008,
+      "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d"
+    },
+    {
+      "name": "C2.EXE",
+      "source": "toolchains/5.10/bin/C2.EXE",
+      "bytes": 660240,
+      "sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae"
+    }
+  ]
+}

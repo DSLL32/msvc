@@ -14,8 +14,8 @@ acceptance journal for the measured evidence.
 
 Help, usage, response/options, the genuine minimal-C compile and an intentional
 unknown-option diagnostic and public preprocessor/pass controls are complete.
-There are now 99 accepted application functions /17,168 original extent bytes
-(90.06% of whole `.text`); the non-CRT
+There are now 101 accepted application functions /17,434 original extent bytes
+(91.46% of whole `.text`); the non-CRT
 denominator remains unclassified. The response-file/options/help case adds five driver functions with 56 actual
 entries, its own cached streams/input/trace and a ~31ms native fixture. The compile executes 75
 distinct application entries, produces the exact 275-byte object and `test.c`
@@ -81,6 +81,14 @@ Shared revision `51d053557` supplies the narrow CP0 RSP2 profile. New proof is
 ordinary files and path/hash references under `cases/link-object/completion/`;
 earlier prefixes, raw failures and archives remain unchanged.
 
+The `/Bz /LD /Fmcustom.map /Feout/path.dll` existing-object dry run adds the
+81-byte path-stem and 185-byte map-name helpers. It emits the actual
+`/implib:out/path.lib` and `/map:custom.map` options while `/Bz` skips child
+execution. Six formal-input and twelve map-input/global controls pass; the
+fixture compares 72 entries, 199 stdout bytes and status 0 in 35 ms (4 ms in
+the executable). All eleven cached fixtures take 2.85 seconds. The earlier
+help-only literal-percent probe reached neither helper and receives no credit.
+
 The first extension lookup exposed an incorrect provisional table left unvisited
 by help. The corrected ten extension/category/pass-list records and terminator,
 including shared pass-list identities, and all five compiler-pass records now
@@ -118,7 +126,7 @@ the original RC and prepared for native use from the same payloads.
 
 `make -j4 native native-trace` builds Linux binaries. `original` explicitly uses
 Wine; `audit` is separate. `check` tests masking, current named traps, acceptance
-negatives and grammar controls. `fixtures` runs all ten completed cases directly on Linux with cached references,
+negatives and grammar controls. `fixtures` runs all eleven completed cases directly on Linux with cached references,
 shared PID-owned status/API receipts, and no Windows child or Wine. Native-only corrections explicitly reuse unchanged original captures;
 failed captures and old decoder/build receipts remain intact. Earlier groundwork
 below is historical; accepted references use the shipped canonical MSVCRT.

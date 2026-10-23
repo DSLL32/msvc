@@ -1,0 +1,963 @@
+{
+  "candidate": "_file_directory",
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "native_sha256": "b687615e3b4fc999529515e82b7fefa24468f66c25cd055c5525b811cb9fd4e7",
+  "rebuilt_sha256": "141f99fdfd04255e5bdae3a91e8f2e6bf7307fb59a0e8f478b483a861ae001e6",
+  "trial_mask_sha256": "9e3b2b85f66eab217313d97a6dbf933ab2183141f85f7490c66131f1be69bb02",
+  "case": "link-naming",
+  "arguments": [
+    "/nologo",
+    "/Bz",
+    "/LD",
+    "/Fmcustom.map",
+    "/Feout/path.dll",
+    "test.obj",
+    "/link",
+    "/ENTRY:main",
+    "/SUBSYSTEM:CONSOLE",
+    "/NODEFAULTLIB"
+  ],
+  "base_identity": "a6782654eeac5f0c20e5f506a8f0be763231a106a658a6d11fe367751b7adaf5",
+  "trial_identity": "53f6c6aaff5401b9850344b323c13ab99f53cf292ee16c258ba2c8f7dec3c013",
+  "graph_audit": {
+    "schema": 1,
+    "status": 0,
+    "flags": [
+      "--discovery",
+      "cfg",
+      "--check-ret",
+      "--check-references",
+      "--check-ownership",
+      "--check-extents",
+      "--include-evidenced-runtime",
+      "--check-accepted-extents"
+    ],
+    "mode": "verified-import-projection",
+    "trial_identity": "53f6c6aaff5401b9850344b323c13ab99f53cf292ee16c258ba2c8f7dec3c013",
+    "config_snapshot": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2/trial.json",
+      "sha256": "2f577b79791c6318a60b129b4b849ea1bf5ee5413ec4cb9bb8128bb9f40054a4"
+    },
+    "inputs": {
+      "original": {
+        "path": "/root/msvc2/toolchains/5.10/bin/CL.EXE",
+        "sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd"
+      },
+      "rebuilt": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/build/cl.exe",
+        "sha256": "141f99fdfd04255e5bdae3a91e8f2e6bf7307fb59a0e8f478b483a861ae001e6"
+      },
+      "map": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/build/cl.map",
+        "sha256": "23ec45813f4fbd8d4e762e5b8c6036a0179ba0810227c398affa82c2ed9513d3"
+      },
+      "runtime": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/runtime.json",
+        "sha256": "2be3cf4c6189a15ed64cc61c1b40001d619504a0cfe619c7deab5c2ee01737e0"
+      },
+      "rebuilt_runtime": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/build/runtime.json",
+        "sha256": "fe52dc7a48bd1bbe983708c3882c685aad1caf5cf1a89698f0bef27eb1ae9f1a"
+      },
+      "metadata": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/graph-metadata.json",
+        "sha256": "550d574796391d9fc7f1f9d8e9b71251ceb0851d012a33a69f22440bbfeb5f5b"
+      },
+      "tool": {
+        "path": "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+        "sha256": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24"
+      },
+      "runner": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/scripts/audit.py",
+        "sha256": "c5ec7f112d99850cd53165b530dc46cb3a0a8114519d5809005b97162e285a91"
+      },
+      "config": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2/trial.json",
+        "sha256": "2f577b79791c6318a60b129b4b849ea1bf5ee5413ec4cb9bb8128bb9f40054a4"
+      },
+      "import_residuals": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/cases/help/import-residuals.json",
+        "sha256": "cb6a7976a175d18c3e8e9ec09b9a26854baa42979459de5d4cbe643e5cb94e02"
+      },
+      "import_residual_verifier": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/scripts/import_residuals.py",
+        "sha256": "960867a4906caa45807251fc9baf2402289d18a4ea29a36e20228944a5876936"
+      },
+      "native_grammar": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/build/native-trace/CL.EXE",
+        "sha256": "b687615e3b4fc999529515e82b7fefa24468f66c25cd055c5525b811cb9fd4e7"
+      },
+      "grammar_proof": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/cases/help/rule-grammar.json",
+        "sha256": "ac1390e5768a5c23131b125d1192878682c9da336675edb87792f3023a44f2af"
+      },
+      "grammar_verifier": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/scripts/rules.py",
+        "sha256": "a08579f4e9f1b13ae2e370060584fdc57e03ae20262d241f2ffc35c2b43f8b7c"
+      },
+      "input_kind_proof": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/input-kinds.json",
+        "sha256": "063200644221563561ea64af4186d45a0b1231bb41ca40e627c0794f052e4ff7"
+      },
+      "input_kind_verifier": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/scripts/input_kinds.py",
+        "sha256": "20382655068f81934ac13895ae649f48648dad2cd7bf4b31c0b297f35a0a2401"
+      },
+      "temporary_suffix_proof": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/temporary-suffixes.json",
+        "sha256": "ffaae3028fe2e9ea34089d872394a76b491b1c29e58bbdb8fb590f0ba2348480"
+      },
+      "temporary_suffix_verifier": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/scripts/temporary_suffixes.py",
+        "sha256": "e6078e800f2fbc26f35fcb9c9b4bd569244df4b8e1557263311da08e20184126"
+      },
+      "mre_proof": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/mre-imports.json",
+        "sha256": "8911206a41afcdc439ee9dcc4dd3a3a1d109a890527ac211c8709084ff2dc980"
+      },
+      "mre_verifier": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre_imports.py",
+        "sha256": "25cc3a9845504c6bfa3e8107d818ff6a048857be391ec2e71bf2a70fe6f3bbcd"
+      },
+      "mre_host": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre-host.c",
+        "sha256": "bef9048a0f648b152fb9141a976d8b1d6ca238adcd7d8cc221cb90429f7bb564"
+      },
+      "mre_definition": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mspdb50.def",
+        "sha256": "e3d95905d18e4cf46c89d58f4b9f2e4836f7cce28a914672882810b0a632e150"
+      },
+      "mre_provider": {
+        "path": "/root/msvc2/toolchains/5.10/bin/MSPDB50.DLL",
+        "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+      },
+      "mre_library": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/build/mspdb50.lib",
+        "sha256": "edca665a72ace6833cd833246043c4f4aa53af639eb12a9a07204d6a80d7e370"
+      },
+      "compiler_dependency_proof": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/dependencies.json",
+        "sha256": "8c3c6eb2f17679e9527a006a07aabe8637a100cb58a5537e6e9921af38bbd175"
+      },
+      "compiler_input_verifier": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/scripts/case_inputs.py",
+        "sha256": "d82a4883b46ce49ffe01c39829784ca9741481d4c46a7e853a5ac63aa5d3b9d4"
+      },
+      "gpa_preservation": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/getprocaddress-preservation.json",
+        "sha256": "180daba153ba2f9d5ae606bb93d08ebbc46861df365ace65b9a9c415004159c6"
+      },
+      "gpa_verifier": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/scripts/gpa_preservation.py",
+        "sha256": "e46fad69ba6ce6c7d3d2603fbef4a9a253bde1c26e7a553cee0ea379bd5afbca"
+      },
+      "gpa_raw:get-abort-before-context.bin": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-abort-before-context.bin",
+        "sha256": "8e4b31361b227063d113289abfe260910becf8b0d2645402c6e4ef66bd66547d"
+      },
+      "gpa_raw:get-invoke-before-stack.bin": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-invoke-before-stack.bin",
+        "sha256": "ee27f0c1dc65532dc019939723150a578636f215088b3f89d0e83cc5bfb26e4c"
+      },
+      "gpa_raw:get-abort-after-context.bin": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-abort-after-context.bin",
+        "sha256": "ecead20e172552bf07c1d9223c0e290eed62c4df1dc857b0df3f7757dce9c5b0"
+      },
+      "gpa_raw:get-invoke-before-context.bin": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-invoke-before-context.bin",
+        "sha256": "9a8b8cc726166b0406063ee0717c17b1703fa13d4768243997c24ca5d0729f1a"
+      },
+      "gpa_raw:get-invoke-after-context.bin": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-invoke-after-context.bin",
+        "sha256": "94b8488f7aa8ef65aa61393e256f669ddec705d205354dd3ef096a302aa82a47"
+      },
+      "gpa_raw:observer-source.txt": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/observer-source.txt",
+        "sha256": "6b43bfea190009f319ce87860e4d5369a6dfd81a857750503f01b0b87a103dc0"
+      },
+      "gpa_raw:get-abort-before-stack.bin": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-abort-before-stack.bin",
+        "sha256": "0e4e1ff9a4927f3f9eeaad4263fde1c30a396515afdbe955d1add360c7ca2d8c"
+      },
+      "gpa_header:WINBASE.H": {
+        "path": "/root/msvc2/toolchains/5.10/include/WINBASE.H",
+        "sha256": "6188fc8c8bfa385c3c67fd9ff912f50f00d32d885f2133dd76ed6e18485c9ad5"
+      },
+      "gpa_header:WINDEF.H": {
+        "path": "/root/msvc2/toolchains/5.10/include/WINDEF.H",
+        "sha256": "0f452be4b30448e2a3ef37accd7e56ee1eb8da5e3aa414eb9228bab52d5160c0"
+      },
+      "gpa_header:WINNT.H": {
+        "path": "/root/msvc2/toolchains/5.10/include/WINNT.H",
+        "sha256": "31f29de1afa8ab5b899c6affcd9744a1306e1b248b88063aaae6e512068bdddc"
+      },
+      "write_preservation": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/cases/link-object/write-preservation.json",
+        "sha256": "f852cbfa0cbb0a4df2e8a85592a088c52a431a9281172150a9ce6ed94ca67b9a"
+      },
+      "write_preservation_verifier": {
+        "path": "/root/msvc2/decomp/vc5.10/cl/scripts/write_preservation.py",
+        "sha256": "26d9b40c6677262f8e0decabe2bde11e84b5b8d22a1bc6e2bf5f4f13a373a3d5"
+      },
+      "write_provider": {
+        "path": "/root/msvc2/toolchains/5.10/bin/MSVCRT.DLL",
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    },
+    "passes": {
+      "full_support": {
+        "status": 0,
+        "command": [
+          "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+          "--profile",
+          "cl",
+          "--repo",
+          "/root/msvc2",
+          "--project",
+          "/root/msvc2/decomp/vc5.10/cl",
+          "--original",
+          "/root/msvc2/toolchains/5.10/bin/CL.EXE",
+          "--rebuilt",
+          "/root/msvc2/decomp/vc5.10/cl/build/cl.exe",
+          "--map",
+          "/root/msvc2/decomp/vc5.10/cl/build/cl.map",
+          "--runtime",
+          "/root/msvc2/decomp/vc5.10/cl/runtime.json",
+          "--rebuilt-runtime",
+          "/root/msvc2/decomp/vc5.10/cl/build/runtime.json",
+          "--metadata",
+          "/root/msvc2/decomp/vc5.10/cl/graph-metadata.json",
+          "--config",
+          "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2/trial.json",
+          "--discovery",
+          "cfg",
+          "--check-references",
+          "--check-ownership",
+          "--check-extents",
+          "--include-evidenced-runtime",
+          "--check-accepted-extents"
+        ],
+        "flags": [
+          "--discovery",
+          "cfg",
+          "--check-references",
+          "--check-ownership",
+          "--check-extents",
+          "--include-evidenced-runtime",
+          "--check-accepted-extents"
+        ],
+        "inputs": {
+          "original": {
+            "path": "/root/msvc2/toolchains/5.10/bin/CL.EXE",
+            "sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd"
+          },
+          "rebuilt": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/build/cl.exe",
+            "sha256": "141f99fdfd04255e5bdae3a91e8f2e6bf7307fb59a0e8f478b483a861ae001e6"
+          },
+          "map": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/build/cl.map",
+            "sha256": "23ec45813f4fbd8d4e762e5b8c6036a0179ba0810227c398affa82c2ed9513d3"
+          },
+          "runtime": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/runtime.json",
+            "sha256": "2be3cf4c6189a15ed64cc61c1b40001d619504a0cfe619c7deab5c2ee01737e0"
+          },
+          "rebuilt_runtime": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/build/runtime.json",
+            "sha256": "fe52dc7a48bd1bbe983708c3882c685aad1caf5cf1a89698f0bef27eb1ae9f1a"
+          },
+          "metadata": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/graph-metadata.json",
+            "sha256": "550d574796391d9fc7f1f9d8e9b71251ceb0851d012a33a69f22440bbfeb5f5b"
+          },
+          "tool": {
+            "path": "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+            "sha256": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24"
+          },
+          "runner": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/audit.py",
+            "sha256": "c5ec7f112d99850cd53165b530dc46cb3a0a8114519d5809005b97162e285a91"
+          },
+          "config": {
+            "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2/trial.json",
+            "sha256": "2f577b79791c6318a60b129b4b849ea1bf5ee5413ec4cb9bb8128bb9f40054a4"
+          },
+          "import_residuals": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/help/import-residuals.json",
+            "sha256": "cb6a7976a175d18c3e8e9ec09b9a26854baa42979459de5d4cbe643e5cb94e02"
+          },
+          "import_residual_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/import_residuals.py",
+            "sha256": "960867a4906caa45807251fc9baf2402289d18a4ea29a36e20228944a5876936"
+          },
+          "native_grammar": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/build/native-trace/CL.EXE",
+            "sha256": "b687615e3b4fc999529515e82b7fefa24468f66c25cd055c5525b811cb9fd4e7"
+          },
+          "grammar_proof": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/help/rule-grammar.json",
+            "sha256": "ac1390e5768a5c23131b125d1192878682c9da336675edb87792f3023a44f2af"
+          },
+          "grammar_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/rules.py",
+            "sha256": "a08579f4e9f1b13ae2e370060584fdc57e03ae20262d241f2ffc35c2b43f8b7c"
+          },
+          "input_kind_proof": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/input-kinds.json",
+            "sha256": "063200644221563561ea64af4186d45a0b1231bb41ca40e627c0794f052e4ff7"
+          },
+          "input_kind_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/input_kinds.py",
+            "sha256": "20382655068f81934ac13895ae649f48648dad2cd7bf4b31c0b297f35a0a2401"
+          },
+          "temporary_suffix_proof": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/temporary-suffixes.json",
+            "sha256": "ffaae3028fe2e9ea34089d872394a76b491b1c29e58bbdb8fb590f0ba2348480"
+          },
+          "temporary_suffix_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/temporary_suffixes.py",
+            "sha256": "e6078e800f2fbc26f35fcb9c9b4bd569244df4b8e1557263311da08e20184126"
+          },
+          "mre_proof": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/mre-imports.json",
+            "sha256": "8911206a41afcdc439ee9dcc4dd3a3a1d109a890527ac211c8709084ff2dc980"
+          },
+          "mre_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre_imports.py",
+            "sha256": "25cc3a9845504c6bfa3e8107d818ff6a048857be391ec2e71bf2a70fe6f3bbcd"
+          },
+          "mre_host": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre-host.c",
+            "sha256": "bef9048a0f648b152fb9141a976d8b1d6ca238adcd7d8cc221cb90429f7bb564"
+          },
+          "mre_definition": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mspdb50.def",
+            "sha256": "e3d95905d18e4cf46c89d58f4b9f2e4836f7cce28a914672882810b0a632e150"
+          },
+          "mre_provider": {
+            "path": "/root/msvc2/toolchains/5.10/bin/MSPDB50.DLL",
+            "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+          },
+          "mre_library": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/build/mspdb50.lib",
+            "sha256": "edca665a72ace6833cd833246043c4f4aa53af639eb12a9a07204d6a80d7e370"
+          },
+          "compiler_dependency_proof": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/dependencies.json",
+            "sha256": "8c3c6eb2f17679e9527a006a07aabe8637a100cb58a5537e6e9921af38bbd175"
+          },
+          "compiler_input_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/case_inputs.py",
+            "sha256": "d82a4883b46ce49ffe01c39829784ca9741481d4c46a7e853a5ac63aa5d3b9d4"
+          },
+          "gpa_preservation": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/getprocaddress-preservation.json",
+            "sha256": "180daba153ba2f9d5ae606bb93d08ebbc46861df365ace65b9a9c415004159c6"
+          },
+          "gpa_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/gpa_preservation.py",
+            "sha256": "e46fad69ba6ce6c7d3d2603fbef4a9a253bde1c26e7a553cee0ea379bd5afbca"
+          },
+          "gpa_raw:get-abort-before-context.bin": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-abort-before-context.bin",
+            "sha256": "8e4b31361b227063d113289abfe260910becf8b0d2645402c6e4ef66bd66547d"
+          },
+          "gpa_raw:get-invoke-before-stack.bin": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-invoke-before-stack.bin",
+            "sha256": "ee27f0c1dc65532dc019939723150a578636f215088b3f89d0e83cc5bfb26e4c"
+          },
+          "gpa_raw:get-abort-after-context.bin": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-abort-after-context.bin",
+            "sha256": "ecead20e172552bf07c1d9223c0e290eed62c4df1dc857b0df3f7757dce9c5b0"
+          },
+          "gpa_raw:get-invoke-before-context.bin": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-invoke-before-context.bin",
+            "sha256": "9a8b8cc726166b0406063ee0717c17b1703fa13d4768243997c24ca5d0729f1a"
+          },
+          "gpa_raw:get-invoke-after-context.bin": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-invoke-after-context.bin",
+            "sha256": "94b8488f7aa8ef65aa61393e256f669ddec705d205354dd3ef096a302aa82a47"
+          },
+          "gpa_raw:observer-source.txt": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/observer-source.txt",
+            "sha256": "6b43bfea190009f319ce87860e4d5369a6dfd81a857750503f01b0b87a103dc0"
+          },
+          "gpa_raw:get-abort-before-stack.bin": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-abort-before-stack.bin",
+            "sha256": "0e4e1ff9a4927f3f9eeaad4263fde1c30a396515afdbe955d1add360c7ca2d8c"
+          },
+          "gpa_header:WINBASE.H": {
+            "path": "/root/msvc2/toolchains/5.10/include/WINBASE.H",
+            "sha256": "6188fc8c8bfa385c3c67fd9ff912f50f00d32d885f2133dd76ed6e18485c9ad5"
+          },
+          "gpa_header:WINDEF.H": {
+            "path": "/root/msvc2/toolchains/5.10/include/WINDEF.H",
+            "sha256": "0f452be4b30448e2a3ef37accd7e56ee1eb8da5e3aa414eb9228bab52d5160c0"
+          },
+          "gpa_header:WINNT.H": {
+            "path": "/root/msvc2/toolchains/5.10/include/WINNT.H",
+            "sha256": "31f29de1afa8ab5b899c6affcd9744a1306e1b248b88063aaae6e512068bdddc"
+          },
+          "write_preservation": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/link-object/write-preservation.json",
+            "sha256": "f852cbfa0cbb0a4df2e8a85592a088c52a431a9281172150a9ce6ed94ca67b9a"
+          },
+          "write_preservation_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/write_preservation.py",
+            "sha256": "26d9b40c6677262f8e0decabe2bde11e84b5b8d22a1bc6e2bf5f4f13a373a3d5"
+          },
+          "write_provider": {
+            "path": "/root/msvc2/toolchains/5.10/bin/MSVCRT.DLL",
+            "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+          }
+        },
+        "config_snapshot": {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2/trial.json",
+          "sha256": "2f577b79791c6318a60b129b4b849ea1bf5ee5413ec4cb9bb8128bb9f40054a4"
+        },
+        "report": {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2/audit.json",
+          "sha256": "110ed3880a666d3bdcb37a89c72c3f2976c86ba41d2f8a4231f882cecdb25df2"
+        }
+      },
+      "strict_ret": {
+        "status": 0,
+        "command": [
+          "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+          "--profile",
+          "cl",
+          "--repo",
+          "/root/msvc2",
+          "--project",
+          "/root/msvc2/decomp/vc5.10/cl",
+          "--original",
+          "/root/msvc2/toolchains/5.10/bin/CL.EXE",
+          "--rebuilt",
+          "/root/msvc2/decomp/vc5.10/cl/build/cl.exe",
+          "--map",
+          "/root/msvc2/decomp/vc5.10/cl/build/cl.map",
+          "--runtime",
+          "/root/msvc2/decomp/vc5.10/cl/runtime.json",
+          "--rebuilt-runtime",
+          "/root/msvc2/decomp/vc5.10/cl/build/runtime.json",
+          "--metadata",
+          "/root/msvc2/decomp/vc5.10/cl/graph-metadata.json",
+          "--config",
+          "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2/audit-strict_ret-config.json",
+          "--discovery",
+          "cfg",
+          "--check-ret",
+          "--check-references",
+          "--check-ownership",
+          "--check-extents",
+          "--include-evidenced-runtime",
+          "--check-accepted-extents"
+        ],
+        "flags": [
+          "--discovery",
+          "cfg",
+          "--check-ret",
+          "--check-references",
+          "--check-ownership",
+          "--check-extents",
+          "--include-evidenced-runtime",
+          "--check-accepted-extents"
+        ],
+        "inputs": {
+          "original": {
+            "path": "/root/msvc2/toolchains/5.10/bin/CL.EXE",
+            "sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd"
+          },
+          "rebuilt": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/build/cl.exe",
+            "sha256": "141f99fdfd04255e5bdae3a91e8f2e6bf7307fb59a0e8f478b483a861ae001e6"
+          },
+          "map": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/build/cl.map",
+            "sha256": "23ec45813f4fbd8d4e762e5b8c6036a0179ba0810227c398affa82c2ed9513d3"
+          },
+          "runtime": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/runtime.json",
+            "sha256": "2be3cf4c6189a15ed64cc61c1b40001d619504a0cfe619c7deab5c2ee01737e0"
+          },
+          "rebuilt_runtime": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/build/runtime.json",
+            "sha256": "fe52dc7a48bd1bbe983708c3882c685aad1caf5cf1a89698f0bef27eb1ae9f1a"
+          },
+          "metadata": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/graph-metadata.json",
+            "sha256": "550d574796391d9fc7f1f9d8e9b71251ceb0851d012a33a69f22440bbfeb5f5b"
+          },
+          "tool": {
+            "path": "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+            "sha256": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24"
+          },
+          "runner": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/audit.py",
+            "sha256": "c5ec7f112d99850cd53165b530dc46cb3a0a8114519d5809005b97162e285a91"
+          },
+          "config": {
+            "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2/audit-strict_ret-config.json",
+            "sha256": "35492543e8cea87d6c3ac6e1e6e9b356a3f275f5dee3ef5add7c08c926b4d794"
+          },
+          "import_residuals": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/help/import-residuals.json",
+            "sha256": "cb6a7976a175d18c3e8e9ec09b9a26854baa42979459de5d4cbe643e5cb94e02"
+          },
+          "import_residual_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/import_residuals.py",
+            "sha256": "960867a4906caa45807251fc9baf2402289d18a4ea29a36e20228944a5876936"
+          },
+          "native_grammar": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/build/native-trace/CL.EXE",
+            "sha256": "b687615e3b4fc999529515e82b7fefa24468f66c25cd055c5525b811cb9fd4e7"
+          },
+          "grammar_proof": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/help/rule-grammar.json",
+            "sha256": "ac1390e5768a5c23131b125d1192878682c9da336675edb87792f3023a44f2af"
+          },
+          "grammar_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/rules.py",
+            "sha256": "a08579f4e9f1b13ae2e370060584fdc57e03ae20262d241f2ffc35c2b43f8b7c"
+          },
+          "input_kind_proof": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/input-kinds.json",
+            "sha256": "063200644221563561ea64af4186d45a0b1231bb41ca40e627c0794f052e4ff7"
+          },
+          "input_kind_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/input_kinds.py",
+            "sha256": "20382655068f81934ac13895ae649f48648dad2cd7bf4b31c0b297f35a0a2401"
+          },
+          "temporary_suffix_proof": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/temporary-suffixes.json",
+            "sha256": "ffaae3028fe2e9ea34089d872394a76b491b1c29e58bbdb8fb590f0ba2348480"
+          },
+          "temporary_suffix_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/temporary_suffixes.py",
+            "sha256": "e6078e800f2fbc26f35fcb9c9b4bd569244df4b8e1557263311da08e20184126"
+          },
+          "mre_proof": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/mre-imports.json",
+            "sha256": "8911206a41afcdc439ee9dcc4dd3a3a1d109a890527ac211c8709084ff2dc980"
+          },
+          "mre_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre_imports.py",
+            "sha256": "25cc3a9845504c6bfa3e8107d818ff6a048857be391ec2e71bf2a70fe6f3bbcd"
+          },
+          "mre_host": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre-host.c",
+            "sha256": "bef9048a0f648b152fb9141a976d8b1d6ca238adcd7d8cc221cb90429f7bb564"
+          },
+          "mre_definition": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mspdb50.def",
+            "sha256": "e3d95905d18e4cf46c89d58f4b9f2e4836f7cce28a914672882810b0a632e150"
+          },
+          "mre_provider": {
+            "path": "/root/msvc2/toolchains/5.10/bin/MSPDB50.DLL",
+            "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+          },
+          "mre_library": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/build/mspdb50.lib",
+            "sha256": "edca665a72ace6833cd833246043c4f4aa53af639eb12a9a07204d6a80d7e370"
+          },
+          "compiler_dependency_proof": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/dependencies.json",
+            "sha256": "8c3c6eb2f17679e9527a006a07aabe8637a100cb58a5537e6e9921af38bbd175"
+          },
+          "compiler_input_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/case_inputs.py",
+            "sha256": "d82a4883b46ce49ffe01c39829784ca9741481d4c46a7e853a5ac63aa5d3b9d4"
+          },
+          "gpa_preservation": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/getprocaddress-preservation.json",
+            "sha256": "180daba153ba2f9d5ae606bb93d08ebbc46861df365ace65b9a9c415004159c6"
+          },
+          "gpa_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/gpa_preservation.py",
+            "sha256": "e46fad69ba6ce6c7d3d2603fbef4a9a253bde1c26e7a553cee0ea379bd5afbca"
+          },
+          "gpa_raw:get-abort-before-context.bin": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-abort-before-context.bin",
+            "sha256": "8e4b31361b227063d113289abfe260910becf8b0d2645402c6e4ef66bd66547d"
+          },
+          "gpa_raw:get-invoke-before-stack.bin": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-invoke-before-stack.bin",
+            "sha256": "ee27f0c1dc65532dc019939723150a578636f215088b3f89d0e83cc5bfb26e4c"
+          },
+          "gpa_raw:get-abort-after-context.bin": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-abort-after-context.bin",
+            "sha256": "ecead20e172552bf07c1d9223c0e290eed62c4df1dc857b0df3f7757dce9c5b0"
+          },
+          "gpa_raw:get-invoke-before-context.bin": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-invoke-before-context.bin",
+            "sha256": "9a8b8cc726166b0406063ee0717c17b1703fa13d4768243997c24ca5d0729f1a"
+          },
+          "gpa_raw:get-invoke-after-context.bin": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-invoke-after-context.bin",
+            "sha256": "94b8488f7aa8ef65aa61393e256f669ddec705d205354dd3ef096a302aa82a47"
+          },
+          "gpa_raw:observer-source.txt": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/observer-source.txt",
+            "sha256": "6b43bfea190009f319ce87860e4d5369a6dfd81a857750503f01b0b87a103dc0"
+          },
+          "gpa_raw:get-abort-before-stack.bin": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-abort-before-stack.bin",
+            "sha256": "0e4e1ff9a4927f3f9eeaad4263fde1c30a396515afdbe955d1add360c7ca2d8c"
+          },
+          "gpa_header:WINBASE.H": {
+            "path": "/root/msvc2/toolchains/5.10/include/WINBASE.H",
+            "sha256": "6188fc8c8bfa385c3c67fd9ff912f50f00d32d885f2133dd76ed6e18485c9ad5"
+          },
+          "gpa_header:WINDEF.H": {
+            "path": "/root/msvc2/toolchains/5.10/include/WINDEF.H",
+            "sha256": "0f452be4b30448e2a3ef37accd7e56ee1eb8da5e3aa414eb9228bab52d5160c0"
+          },
+          "gpa_header:WINNT.H": {
+            "path": "/root/msvc2/toolchains/5.10/include/WINNT.H",
+            "sha256": "31f29de1afa8ab5b899c6affcd9744a1306e1b248b88063aaae6e512068bdddc"
+          },
+          "write_preservation": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/link-object/write-preservation.json",
+            "sha256": "f852cbfa0cbb0a4df2e8a85592a088c52a431a9281172150a9ce6ed94ca67b9a"
+          },
+          "write_preservation_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/write_preservation.py",
+            "sha256": "26d9b40c6677262f8e0decabe2bde11e84b5b8d22a1bc6e2bf5f4f13a373a3d5"
+          },
+          "write_provider": {
+            "path": "/root/msvc2/toolchains/5.10/bin/MSVCRT.DLL",
+            "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+          }
+        },
+        "config_snapshot": {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2/audit-strict_ret-config.json",
+          "sha256": "35492543e8cea87d6c3ac6e1e6e9b356a3f275f5dee3ef5add7c08c926b4d794"
+        },
+        "report": {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2/audit-strict_ret.json",
+          "sha256": "8996389c1ae68291445efdb98ab17e9627e0ed5f6ebd178e945992bc09c226e8"
+        }
+      },
+      "qualified_imports": {
+        "status": 0,
+        "command": [
+          "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+          "--profile",
+          "cl",
+          "--repo",
+          "/root/msvc2",
+          "--project",
+          "/root/msvc2/decomp/vc5.10/cl",
+          "--original",
+          "/root/msvc2/toolchains/5.10/bin/CL.EXE",
+          "--rebuilt",
+          "/root/msvc2/decomp/vc5.10/cl/build/cl.exe",
+          "--map",
+          "/root/msvc2/decomp/vc5.10/cl/build/cl.map",
+          "--runtime",
+          "/root/msvc2/decomp/vc5.10/cl/runtime.json",
+          "--rebuilt-runtime",
+          "/root/msvc2/decomp/vc5.10/cl/build/runtime.json",
+          "--metadata",
+          "/root/msvc2/decomp/vc5.10/cl/graph-metadata.json",
+          "--config",
+          "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2/audit-qualified_imports-config.json",
+          "--discovery",
+          "cfg",
+          "--check-references",
+          "--check-ownership",
+          "--check-extents",
+          "--include-evidenced-runtime",
+          "--check-accepted-extents",
+          "--check-imports",
+          "--resolve-register-imports"
+        ],
+        "flags": [
+          "--discovery",
+          "cfg",
+          "--check-references",
+          "--check-ownership",
+          "--check-extents",
+          "--include-evidenced-runtime",
+          "--check-accepted-extents",
+          "--check-imports",
+          "--resolve-register-imports"
+        ],
+        "inputs": {
+          "original": {
+            "path": "/root/msvc2/toolchains/5.10/bin/CL.EXE",
+            "sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd"
+          },
+          "rebuilt": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/build/cl.exe",
+            "sha256": "141f99fdfd04255e5bdae3a91e8f2e6bf7307fb59a0e8f478b483a861ae001e6"
+          },
+          "map": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/build/cl.map",
+            "sha256": "23ec45813f4fbd8d4e762e5b8c6036a0179ba0810227c398affa82c2ed9513d3"
+          },
+          "runtime": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/runtime.json",
+            "sha256": "2be3cf4c6189a15ed64cc61c1b40001d619504a0cfe619c7deab5c2ee01737e0"
+          },
+          "rebuilt_runtime": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/build/runtime.json",
+            "sha256": "fe52dc7a48bd1bbe983708c3882c685aad1caf5cf1a89698f0bef27eb1ae9f1a"
+          },
+          "metadata": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/graph-metadata.json",
+            "sha256": "550d574796391d9fc7f1f9d8e9b71251ceb0851d012a33a69f22440bbfeb5f5b"
+          },
+          "tool": {
+            "path": "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+            "sha256": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24"
+          },
+          "runner": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/audit.py",
+            "sha256": "c5ec7f112d99850cd53165b530dc46cb3a0a8114519d5809005b97162e285a91"
+          },
+          "config": {
+            "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2/audit-qualified_imports-config.json",
+            "sha256": "c22b3caf59601cf51c6e19bd291470006d2eda6ec7ffd8c70470149cdbe39809"
+          },
+          "import_residuals": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/help/import-residuals.json",
+            "sha256": "cb6a7976a175d18c3e8e9ec09b9a26854baa42979459de5d4cbe643e5cb94e02"
+          },
+          "import_residual_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/import_residuals.py",
+            "sha256": "960867a4906caa45807251fc9baf2402289d18a4ea29a36e20228944a5876936"
+          },
+          "native_grammar": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/build/native-trace/CL.EXE",
+            "sha256": "b687615e3b4fc999529515e82b7fefa24468f66c25cd055c5525b811cb9fd4e7"
+          },
+          "grammar_proof": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/help/rule-grammar.json",
+            "sha256": "ac1390e5768a5c23131b125d1192878682c9da336675edb87792f3023a44f2af"
+          },
+          "grammar_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/rules.py",
+            "sha256": "a08579f4e9f1b13ae2e370060584fdc57e03ae20262d241f2ffc35c2b43f8b7c"
+          },
+          "input_kind_proof": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/input-kinds.json",
+            "sha256": "063200644221563561ea64af4186d45a0b1231bb41ca40e627c0794f052e4ff7"
+          },
+          "input_kind_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/input_kinds.py",
+            "sha256": "20382655068f81934ac13895ae649f48648dad2cd7bf4b31c0b297f35a0a2401"
+          },
+          "temporary_suffix_proof": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/temporary-suffixes.json",
+            "sha256": "ffaae3028fe2e9ea34089d872394a76b491b1c29e58bbdb8fb590f0ba2348480"
+          },
+          "temporary_suffix_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/temporary_suffixes.py",
+            "sha256": "e6078e800f2fbc26f35fcb9c9b4bd569244df4b8e1557263311da08e20184126"
+          },
+          "mre_proof": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/mre-imports.json",
+            "sha256": "8911206a41afcdc439ee9dcc4dd3a3a1d109a890527ac211c8709084ff2dc980"
+          },
+          "mre_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre_imports.py",
+            "sha256": "25cc3a9845504c6bfa3e8107d818ff6a048857be391ec2e71bf2a70fe6f3bbcd"
+          },
+          "mre_host": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre-host.c",
+            "sha256": "bef9048a0f648b152fb9141a976d8b1d6ca238adcd7d8cc221cb90429f7bb564"
+          },
+          "mre_definition": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mspdb50.def",
+            "sha256": "e3d95905d18e4cf46c89d58f4b9f2e4836f7cce28a914672882810b0a632e150"
+          },
+          "mre_provider": {
+            "path": "/root/msvc2/toolchains/5.10/bin/MSPDB50.DLL",
+            "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+          },
+          "mre_library": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/build/mspdb50.lib",
+            "sha256": "edca665a72ace6833cd833246043c4f4aa53af639eb12a9a07204d6a80d7e370"
+          },
+          "gpa_preservation": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/getprocaddress-preservation.json",
+            "sha256": "180daba153ba2f9d5ae606bb93d08ebbc46861df365ace65b9a9c415004159c6"
+          },
+          "gpa_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/gpa_preservation.py",
+            "sha256": "e46fad69ba6ce6c7d3d2603fbef4a9a253bde1c26e7a553cee0ea379bd5afbca"
+          },
+          "gpa_raw:get-abort-before-context.bin": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-abort-before-context.bin",
+            "sha256": "8e4b31361b227063d113289abfe260910becf8b0d2645402c6e4ef66bd66547d"
+          },
+          "gpa_raw:get-invoke-before-stack.bin": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-invoke-before-stack.bin",
+            "sha256": "ee27f0c1dc65532dc019939723150a578636f215088b3f89d0e83cc5bfb26e4c"
+          },
+          "gpa_raw:get-abort-after-context.bin": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-abort-after-context.bin",
+            "sha256": "ecead20e172552bf07c1d9223c0e290eed62c4df1dc857b0df3f7757dce9c5b0"
+          },
+          "gpa_raw:get-invoke-before-context.bin": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-invoke-before-context.bin",
+            "sha256": "9a8b8cc726166b0406063ee0717c17b1703fa13d4768243997c24ca5d0729f1a"
+          },
+          "gpa_raw:get-invoke-after-context.bin": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-invoke-after-context.bin",
+            "sha256": "94b8488f7aa8ef65aa61393e256f669ddec705d205354dd3ef096a302aa82a47"
+          },
+          "gpa_raw:observer-source.txt": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/observer-source.txt",
+            "sha256": "6b43bfea190009f319ce87860e4d5369a6dfd81a857750503f01b0b87a103dc0"
+          },
+          "gpa_raw:get-abort-before-stack.bin": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/minimal-c/gpa-preservation/get-abort-before-stack.bin",
+            "sha256": "0e4e1ff9a4927f3f9eeaad4263fde1c30a396515afdbe955d1add360c7ca2d8c"
+          },
+          "gpa_header:WINBASE.H": {
+            "path": "/root/msvc2/toolchains/5.10/include/WINBASE.H",
+            "sha256": "6188fc8c8bfa385c3c67fd9ff912f50f00d32d885f2133dd76ed6e18485c9ad5"
+          },
+          "gpa_header:WINDEF.H": {
+            "path": "/root/msvc2/toolchains/5.10/include/WINDEF.H",
+            "sha256": "0f452be4b30448e2a3ef37accd7e56ee1eb8da5e3aa414eb9228bab52d5160c0"
+          },
+          "gpa_header:WINNT.H": {
+            "path": "/root/msvc2/toolchains/5.10/include/WINNT.H",
+            "sha256": "31f29de1afa8ab5b899c6affcd9744a1306e1b248b88063aaae6e512068bdddc"
+          },
+          "write_preservation": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/cases/link-object/write-preservation.json",
+            "sha256": "f852cbfa0cbb0a4df2e8a85592a088c52a431a9281172150a9ce6ed94ca67b9a"
+          },
+          "write_preservation_verifier": {
+            "path": "/root/msvc2/decomp/vc5.10/cl/scripts/write_preservation.py",
+            "sha256": "26d9b40c6677262f8e0decabe2bde11e84b5b8d22a1bc6e2bf5f4f13a373a3d5"
+          },
+          "write_provider": {
+            "path": "/root/msvc2/toolchains/5.10/bin/MSVCRT.DLL",
+            "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+          }
+        },
+        "config_snapshot": {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2/audit-qualified_imports-config.json",
+          "sha256": "c22b3caf59601cf51c6e19bd291470006d2eda6ec7ffd8c70470149cdbe39809"
+        },
+        "report": {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2/audit-qualified_imports.json",
+          "sha256": "220ce53bc105d23a0d87f2a8ab69d1056b5ce96f3d06b73156aad073dbd7749e"
+        }
+      }
+    },
+    "report": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2/audit.json",
+      "sha256": "110ed3880a666d3bdcb37a89c72c3f2976c86ba41d2f8a4231f882cecdb25df2"
+    },
+    "seconds": 0.6823564423248172,
+    "cached_import_residuals": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/help/import-residuals.json",
+      "sha256": "cb6a7976a175d18c3e8e9ec09b9a26854baa42979459de5d4cbe643e5cb94e02"
+    },
+    "strict_excluded_imports": [
+      "import:memcpy",
+      "import:memset",
+      "import:strcat",
+      "import:strcmp",
+      "import:strcpy",
+      "import:strlen"
+    ],
+    "qualification": "Exact typed FF25 import leaves have no local RET; every actual selected application/CRT body retains strict RET checks. Qualified import checks retain explicit cached-register residuals.",
+    "grammar": {
+      "driver_settings": {
+        "records": 31,
+        "decoded_sha256": "d707778b887dfce6c56ddbd2600a70ec4a10d24a5d466274bf33e1f4e1e261d3"
+      },
+      "records": 174,
+      "record_size": 20,
+      "terminator": "five zero words",
+      "decoded_sha256": "58d5fb6f415531e21d7fbc3c3684dc2c573cc8ff5641e45567f1436bf2a0fe3c",
+      "callbacks": [
+        {
+          "address": 4205612,
+          "name": "define_macro",
+          "abi": "cdecl Option *(char **args, int *index); caller pops8; bodies remain named traps until encountered"
+        },
+        {
+          "address": 4205489,
+          "name": "link_arguments",
+          "abi": "cdecl Option *(char **args, int *index); caller pops8; bodies remain named traps until encountered"
+        },
+        {
+          "address": 4205860,
+          "name": "c_input",
+          "abi": "cdecl Option *(char **args, int *index); caller pops8; bodies remain named traps until encountered"
+        },
+        {
+          "address": 4205886,
+          "name": "cpp_input",
+          "abi": "cdecl Option *(char **args, int *index); caller pops8; bodies remain named traps until encountered"
+        },
+        {
+          "address": 4205834,
+          "name": "object_input",
+          "abi": "cdecl Option *(char **args, int *index); caller pops8; bodies remain named traps until encountered"
+        }
+      ],
+      "verified_images": {
+        "/root/msvc2/toolchains/5.10/bin/CL.EXE": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+        "/root/msvc2/decomp/vc5.10/cl/build/cl.exe": "141f99fdfd04255e5bdae3a91e8f2e6bf7307fb59a0e8f478b483a861ae001e6",
+        "/root/msvc2/decomp/vc5.10/cl/build/native-trace/CL.EXE": "b687615e3b4fc999529515e82b7fefa24468f66c25cd055c5525b811cb9fd4e7"
+      }
+    },
+    "input_kinds": {
+      "records": 10,
+      "terminator": "NULL,-1,NULL",
+      "pass_list_identities": 4,
+      "decoded_sha256": "ddcb4d19e4aa48461847f4dcaa3a49163459df86d62d3136734461ba21d78431",
+      "compiler_passes_sha256": "2a9c680554c5715a712798424aebb9bb4d73a6fb1a92088fd2b0e4a7677e6198"
+    },
+    "temporary_suffixes": {
+      "records": 7,
+      "sentinel": "NULL,0",
+      "decoded_sha256": "30a1556f46c1b88c94df671233047ee2cfad96c953bcaa1482455cf0ce824adc"
+    },
+    "mre_imports": {
+      "exports": 8,
+      "calling_convention": "stdcall",
+      "native_successful_calls_authorized": 0,
+      "provider_sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+      "return_qualification": "OneTimeInit EAX is ignored/unclaimed; no native dependency function returns."
+    }
+  },
+  "sources": {
+    "src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/arguments.c": "555538b6d96aedb4ec49764587b4487eb3f479e6cf89038740a56b57a13b449f",
+    "src/cl.h": "84ca93494229bdb87d82f3fcba332a9bdd615dd1ddb28869f46d82d66ac27c7d",
+    "src/console.c": "77019952ab650a00f77974ed6ec779b165ef8df1b635b6da278a68241c2e87c1",
+    "src/driver.c": "e8e223fb212f1362966ca42a7fe2dbeb6f0b17b3f79b08078a256a9a3ed0cfc2",
+    "src/filenames.c": "4f0241de602d53fb20af8f0759aeb013c0b9affea85db84309b1320d9b405740",
+    "src/frontiers.c": "55007dbecd1cb9b120ca71c0a6dec53b2ea32244de9c47e171e0e001c696cf27",
+    "src/main.c": "f0c27d439e85d3b7d8eef16a8408ad731e60825aeb83ef985fc2733c83f1aad8",
+    "src/messages.c": "c7a81d1e22b30a04f2e3bc1dc0ed25c3b28b6ce7e3e9ca591b5f3117cb2c3a48",
+    "src/messages.rc": "4413a60f72c6cd824d4d4ba79cc3f080207911aa9ab732d2e6f56593ed48a871",
+    "src/mre.h": "da747790e0da2cfbd3b622845f1c28d69ff685cb0fe819221209f0f2efa8bf5e",
+    "src/options.c": "f6c20e24a424c7a171737e85c4badd81a371f90948bd7f0365f4d0ad343f81cc",
+    "src/rules.c": "e7f13f06ffaa570ef796e9c59a4f8ab74570002e25db48f1b003aa9cbe1f6d66",
+    "src/settings.c": "c9abdbbf29424e67bab4dbbeb1094b0845d5faf381af21fb48350d7bdad81d3a"
+  },
+  "native_build": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-native/native-build.json",
+    "sha256": "1ec8390ab21f0989661ae3bf0c1126b286076701ff72cf5d6e6688dead2f6a95"
+  },
+  "original": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/observation.json",
+    "sha256": "291005a0eac1588043d26ea35616562624436ad142bc8862c9b8d7022118be28"
+  },
+  "native": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-native/observation.json",
+    "sha256": "3d89ad40f1b1abe16845b39177ebb9a41c54c7c610153a729c11885d19e66464"
+  }
+}

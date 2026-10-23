@@ -195,3 +195,32 @@ int expanded_length(char *text, Driver *state)
     return length;
 }
 
+
+/* 00404975..004049c6: preserve the drive, directory and stem, removing extension. */
+char *file_directory(char *out, char *name)
+{
+    char drive[4], directory[256], basename[256];
+    _splitpath(name, drive, directory, basename, NULL);
+    _makepath(out, drive, directory, basename, "");
+    return out;
+}
+
+/* 0040474d..00404806: explicit map components override the image basename. */
+char *make_map_name(char *out, char *name)
+{
+    char drive[4], directory[256], basename[256], extension[256];
+    char *suffix;
+    if (!map_requested)
+        return "";
+    if (map_name) {
+        _splitpath(map_name, drive, directory, basename, extension);
+        if (!*basename)
+            file_basename(basename, name);
+        suffix = *extension ? extension : ".map";
+    } else {
+        _splitpath(name, drive, directory, basename, NULL);
+        suffix = ".map";
+    }
+    _makepath(out, drive, directory, basename, suffix);
+    return out;
+}

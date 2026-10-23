@@ -1,0 +1,373 @@
+{
+  "schema": 1,
+  "controller_error": null,
+  "case": "link-naming",
+  "arguments": [
+    "/nologo",
+    "/Bz",
+    "/LD",
+    "/Fmcustom.map",
+    "/Feout/path.dll",
+    "test.obj",
+    "/link",
+    "/ENTRY:main",
+    "/SUBSYSTEM:CONSOLE",
+    "/NODEFAULTLIB"
+  ],
+  "inputs": [
+    {
+      "name": "test.obj",
+      "source": "cases/minimal-c/reference/test.obj",
+      "bytes": 275,
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+    }
+  ],
+  "baseline": false,
+  "dependency_analysis": false,
+  "dependency_complete": false,
+  "dependency_response": false,
+  "link_response": false,
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "config_sha256": "cd000fc90efd7856d543efa8a157a0ffc9d4f247340197257c83ffde886dd2d2",
+  "original_mask_sha256": "56314f84b8f085446f456775d81cf1784c79d85efbb25428dbc49745d69dec46",
+  "helper_status": 0,
+  "loaded_msvcrt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "loaded_target_sha256": "56314f84b8f085446f456775d81cf1784c79d85efbb25428dbc49745d69dec46",
+  "helper_sha256": "399eab2011e03fbc402b3f3487a4a9df0d79a7660aa40fc30d20f95d818505ef",
+  "helper_build": {
+    "binary": {
+      "path": "build/reference-debugger.exe",
+      "sha256": "399eab2011e03fbc402b3f3487a4a9df0d79a7660aa40fc30d20f95d818505ef"
+    },
+    "sources": {
+      "scripts/reference-debugger.c": "321e1f14b3f0ff7219b647405f1de5ac0fa0d5ba42105873136d64d8846caf8a",
+      "scripts/dependency-observer.inc": "8761ffead32c3cf94b1ee3b949e15f79fbbb5bcab8e08923f1c6f9dba70db080",
+      "scripts/export-reader.h": "64ffe9f75692ee7ac2790d9d8a8e8f5e128189837fda814316446bcd81af7607"
+    },
+    "compiler": {
+      "path": "toolchains/5.10/bin/CL.EXE",
+      "sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd"
+    }
+  },
+  "native_sha256": "62a68930944cb2c68ced67eb879c1880c716024efa9630ece56a7d4b0a48a700",
+  "rebuilt_sha256": "23f343fcd30c84603fe7e01e3cb75199b9efe6c70c9c43fdf4aa037086dbd636",
+  "build_dependency_hashes": {
+    "/root/msvc2/decomp/vc5.10/cl/Makefile": "748ba05d8469dc054171b407fc17b333479981411dcb3e71a664bc84d63b3c2b",
+    "/root/msvc2/decomp/vc5.10/cl/src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/root/msvc2/decomp/vc5.10/cl/src/arguments.c": "555538b6d96aedb4ec49764587b4487eb3f479e6cf89038740a56b57a13b449f",
+    "/root/msvc2/decomp/vc5.10/cl/src/cl.h": "b1149b0a317397ca22f2a5fabc1e9c13e05a3735417184732e5ebf4fc3a0e122",
+    "/root/msvc2/decomp/vc5.10/cl/src/console.c": "77019952ab650a00f77974ed6ec779b165ef8df1b635b6da278a68241c2e87c1",
+    "/root/msvc2/decomp/vc5.10/cl/src/driver.c": "e8e223fb212f1362966ca42a7fe2dbeb6f0b17b3f79b08078a256a9a3ed0cfc2",
+    "/root/msvc2/decomp/vc5.10/cl/src/filenames.c": "f9e82dc152340ca4065852a967223263154c927d15ccc27c97ec0d8c497fd1c9",
+    "/root/msvc2/decomp/vc5.10/cl/src/frontiers.c": "ff302088f69f68791d586c98699c4232b9dd4ea330ae983566dbfbc90cce7f92",
+    "/root/msvc2/decomp/vc5.10/cl/src/main.c": "f0c27d439e85d3b7d8eef16a8408ad731e60825aeb83ef985fc2733c83f1aad8",
+    "/root/msvc2/decomp/vc5.10/cl/src/messages.c": "c7a81d1e22b30a04f2e3bc1dc0ed25c3b28b6ce7e3e9ca591b5f3117cb2c3a48",
+    "/root/msvc2/decomp/vc5.10/cl/src/messages.rc": "4413a60f72c6cd824d4d4ba79cc3f080207911aa9ab732d2e6f56593ed48a871",
+    "/root/msvc2/decomp/vc5.10/cl/src/mre.h": "da747790e0da2cfbd3b622845f1c28d69ff685cb0fe819221209f0f2efa8bf5e",
+    "/root/msvc2/decomp/vc5.10/cl/src/options.c": "f6c20e24a424c7a171737e85c4badd81a371f90948bd7f0365f4d0ad343f81cc",
+    "/root/msvc2/decomp/vc5.10/cl/src/rules.c": "e7f13f06ffaa570ef796e9c59a4f8ab74570002e25db48f1b003aa9cbe1f6d66",
+    "/root/msvc2/decomp/vc5.10/cl/src/settings.c": "c9abdbbf29424e67bab4dbbeb1094b0845d5faf381af21fb48350d7bdad81d3a",
+    "/root/msvc2/lib/recon/include/recon.h": "efd2cf980852100e00b4f137584d0ee2ef36edf9d52d144ca162a0c8ea10f8f4",
+    "/root/msvc2/lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "/root/msvc2/lib/recon/include/win32.h": "d221d3befe079427f612f1a3ffdc286415bb22471e883a300663a19f0f51ffa8",
+    "/root/msvc2/lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+    "/root/msvc2/lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+    "/root/msvc2/lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+    "/root/msvc2/lib/recon/native/float.h": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42",
+    "/root/msvc2/lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+    "/root/msvc2/lib/recon/native/locale.h": "a4bcba0ad40ff971717170453d1725d8b4452ddfd8411d1a8ed309809d55a13c",
+    "/root/msvc2/lib/recon/native/malloc.h": "2eb86ea79987793bde23d2016e7d52ad7d5c6a5818a5812f53a072d980934f21",
+    "/root/msvc2/lib/recon/native/mbctype.h": "4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50",
+    "/root/msvc2/lib/recon/native/mbstring.h": "ce7c483355c795650db82a8174b472747d34bd3462ba3bde375357cb28b0ec34",
+    "/root/msvc2/lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+    "/root/msvc2/lib/recon/native/setjmp.h": "1063e154c5b2277afe91cad791706358b5cc5163b3374e2f2367b8cfd4e7c7a4",
+    "/root/msvc2/lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+    "/root/msvc2/lib/recon/native/signal.h": "ba3d6621f3f863b022f6aa9f5d6125a584d594a9f3d79ad172a6ae3f8c12a150",
+    "/root/msvc2/lib/recon/native/sys/stat.h": "4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb",
+    "/root/msvc2/lib/recon/native/sys/timeb.h": "56e745d9e9f91dccd40083158914daeb3cab0c97e01b7276c447993aad52a47d",
+    "/root/msvc2/lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+    "/root/msvc2/lib/recon/src/compat.c": "9f175cae12c4bfb56bab6dc0ee8000388b945559568eb12c2dbab2e801046d12",
+    "/root/msvc2/lib/recon/src/crt.c": "e7ffcaea6a7084332f204ace662afdfc0bf8a8ae0fd84831c5c2ca8af92da0e2",
+    "/root/msvc2/lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+    "/root/msvc2/lib/recon/src/entry.c": "77d9a4253e5e5b1754f089ec744e50ba073eda22d486dfd68f50d5b1ea64030b",
+    "/root/msvc2/lib/recon/src/process.c": "885ae0c197f2f64933598b3d1435af156086f63c664a04b5b99cbae52d89a42d",
+    "/root/msvc2/lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+    "/root/msvc2/lib/recon/src/win32.c": "9efe3109c97039271d66574e6274f639a9405c837c341e67a4417a72f610fd8f"
+  },
+  "helper_source_sha256": "321e1f14b3f0ff7219b647405f1de5ac0fa0d5ba42105873136d64d8846caf8a",
+  "helper_sources": {
+    "reference-debugger.c": "321e1f14b3f0ff7219b647405f1de5ac0fa0d5ba42105873136d64d8846caf8a",
+    "dependency-observer.inc": "8761ffead32c3cf94b1ee3b949e15f79fbbb5bcab8e08923f1c6f9dba70db080",
+    "export-reader.h": "64ffe9f75692ee7ac2790d9d8a8e8f5e128189837fda814316446bcd81af7607"
+  },
+  "controller_source": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/d002fe1e81ede747a713ddcb2145579fd5417f2495ec194e7d64078c34a259d7",
+    "sha256": "d002fe1e81ede747a713ddcb2145579fd5417f2495ec194e7d64078c34a259d7",
+    "bytes": 11987
+  },
+  "helper_source": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/321e1f14b3f0ff7219b647405f1de5ac0fa0d5ba42105873136d64d8846caf8a",
+    "sha256": "321e1f14b3f0ff7219b647405f1de5ac0fa0d5ba42105873136d64d8846caf8a",
+    "bytes": 38561
+  },
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc5.10\\cl\\make-map-name-1-original\\reference-debugger.exe",
+    "S:\\vc5.10\\cl\\make-map-name-1-original\\CL.EXE",
+    "/nologo /Bz /LD /Fmcustom.map /Feout/path.dll test.obj /link /ENTRY:main /SUBSYSTEM:CONSOLE /NODEFAULTLIB",
+    "S:\\vc5.10\\cl\\make-map-name-1-original",
+    "1",
+    "1"
+  ],
+  "environment": {
+    "WINEPREFIX": "/root/.ai-tmp/vc1.0-capture/wine",
+    "WINEDLLOVERRIDES": "msvcrt=n",
+    "INCLUDE": "R:\\toolchains\\5.10\\include",
+    "LIB": "R:\\toolchains\\5.10\\lib",
+    "WINEPATH": "R:\\toolchains\\5.10\\bin",
+    "TMP": ".",
+    "TEMP": "."
+  },
+  "timing": {
+    "setup_seconds": 0.021703088656067848,
+    "reference_execution_seconds": 1.3336899410933256
+  },
+  "files": {
+    "export-reader.h": {
+      "sha256": "64ffe9f75692ee7ac2790d9d8a8e8f5e128189837fda814316446bcd81af7607",
+      "bytes": 4858
+    },
+    "loaded-msvcrt.bin": {
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "bytes": 277776
+    },
+    "MSVCRT.DLL": {
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "bytes": 277776
+    },
+    "streams-entry-teb.bin": {
+      "sha256": "067d2dfaaccbff3dcb35d7e0585899dcd2363943c129d625f29011e2aafadb2e",
+      "bytes": 4096
+    },
+    "mktemp-access-1-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mre-calls.txt": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    "config.json": {
+      "sha256": "cd000fc90efd7856d543efa8a157a0ffc9d4f247340197257c83ffde886dd2d2",
+      "bytes": 83474
+    },
+    "resource-events.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "dependency-observer.inc": {
+      "sha256": "8761ffead32c3cf94b1ee3b949e15f79fbbb5bcab8e08923f1c6f9dba70db080",
+      "bytes": 20485
+    },
+    "LINK.EXE": {
+      "sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+      "bytes": 464896
+    },
+    "mktemp-access-1-after-ptd.bin": {
+      "sha256": "2997e2aed1fcec0e8ca301506ce9c72b3dda0eafe9598f378c60b47778a0f792",
+      "bytes": 116
+    },
+    "test.obj": {
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e",
+      "bytes": 275
+    },
+    "streams-entry-iob.bin": {
+      "sha256": "4d0149241f1bbdf767bd2181c978844a97e5e2fced31a59e5aa8cb165a739763",
+      "bytes": 96
+    },
+    "mktemp-events.txt": {
+      "sha256": "f8e8afead0ece20f92ffc44e062263c7f09260690b82c6143a4f3ac74c4beccb",
+      "bytes": 282
+    },
+    "mktemp-entry-ptd.bin": {
+      "sha256": "c5c15220d1809cc70f30f27a17b7635ce08affda56b4dd0aee62323d5c3be9ee",
+      "bytes": 116
+    },
+    "CL.EXE": {
+      "sha256": "56314f84b8f085446f456775d81cf1784c79d85efbb25428dbc49745d69dec46",
+      "bytes": 46080
+    },
+    "mktemp-access-1-before-teb.bin": {
+      "sha256": "fe64f46b11e9eb74b3107722cfc521840d8104b1c04671d7f1befa4c257b6bcd",
+      "bytes": 4096
+    },
+    "stdout.bin": {
+      "sha256": "dd469102026f0ea27eadd07551cfd5d23686bdd720a057f3b3cb974703257255",
+      "bytes": 199
+    },
+    "MSPDB50.DLL": {
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+      "bytes": 167424
+    },
+    "mktemp-after.bin": {
+      "sha256": "de308d26a03d6bcc23b4275237b8348a6a8549e49881bdc73f0ba6db3ff8da86",
+      "bytes": 9
+    },
+    "trace.txt": {
+      "sha256": "10e7995c46f9b111db3f3d7058726860843b9f1840894007d2b64c5037420f12",
+      "bytes": 1008
+    },
+    "mktemp-before.bin": {
+      "sha256": "e126b1eba52faccd6a3fc442136b3d13ba181f9d979d92af52a3eecdc856e260",
+      "bytes": 9
+    },
+    "mktemp-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "events.txt": {
+      "sha256": "5c9fe0f04c4ee6c96c81299a59b085cef86458e070922ce6cfd19bae11380a47",
+      "bytes": 5891
+    },
+    "helper.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "environment.bin": {
+      "sha256": "15dfe1c795615612fc83a7dd71e3fea16fd4eb230bb230228e5844ebb930a764",
+      "bytes": 2725
+    },
+    "mktemp-after-ptd.bin": {
+      "sha256": "2997e2aed1fcec0e8ca301506ce9c72b3dda0eafe9598f378c60b47778a0f792",
+      "bytes": 116
+    },
+    "access-1-path.bin": {
+      "sha256": "f14f27cb42d4fa36d45f8dcf5f8f103cbec4c04b0da7f9261ad0f52316c698fa",
+      "bytes": 47
+    },
+    "stderr.bin": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "streams-entry.json": {
+      "sha256": "1477d0683254f74c74747f0452c33840b8373d62076f64b8fda5372bbc114112",
+      "bytes": 1298
+    },
+    "mktemp-before-teb.bin": {
+      "sha256": "781fc3caa2f1d7832dcc07a7b8ba5e0c4082f7f82864ff7047905ecbc58bf905",
+      "bytes": 4096
+    },
+    "loaded-mspdb50.bin": {
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+      "bytes": 167424
+    },
+    "mktemp-access-1-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "pgmptr.bin": {
+      "sha256": "ff91ea6028cff4bfd05181ecc82c270b7ad45b3c12336275ded97ad910d22dba",
+      "bytes": 45
+    },
+    "mbspan-events.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "mktemp-entry-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "streams-entry-pioinfo-slot.bin": {
+      "sha256": "3da00fca1a11a3b0e80cebf56d2caa88a3771d747dde51b3d00f2d49ac562b03",
+      "bytes": 4
+    },
+    "streams-entry-peb.bin": {
+      "sha256": "854e47d41f8a456dcece123722b686148bdbd20e6402a95a4aa18030e2230092",
+      "bytes": 32
+    },
+    "mktemp-after-teb.bin": {
+      "sha256": "fe64f46b11e9eb74b3107722cfc521840d8104b1c04671d7f1befa4c257b6bcd",
+      "bytes": 4096
+    },
+    "mktemp-before-ptd.bin": {
+      "sha256": "c5c15220d1809cc70f30f27a17b7635ce08affda56b4dd0aee62323d5c3be9ee",
+      "bytes": 116
+    },
+    "mktemp-entry-teb.bin": {
+      "sha256": "067d2dfaaccbff3dcb35d7e0585899dcd2363943c129d625f29011e2aafadb2e",
+      "bytes": 4096
+    },
+    "crt-state.bin": {
+      "sha256": "c8d88837e26163437ac8b52a73ff33e9c68b6c712a9bf70ab48aafeb845c9970",
+      "bytes": 132
+    },
+    "access-events.txt": {
+      "sha256": "407d4c52b7614e131cd526c1aef70ce729ca8b99b4908774c569d78e92540b12",
+      "bytes": 256
+    },
+    "reference-debugger.exe": {
+      "sha256": "399eab2011e03fbc402b3f3487a4a9df0d79a7660aa40fc30d20f95d818505ef",
+      "bytes": 89600
+    },
+    "mktemp-access-1-before-ptd.bin": {
+      "sha256": "2997e2aed1fcec0e8ca301506ce9c72b3dda0eafe9598f378c60b47778a0f792",
+      "bytes": 116
+    },
+    "reference-debugger.c": {
+      "sha256": "321e1f14b3f0ff7219b647405f1de5ac0fa0d5ba42105873136d64d8846caf8a",
+      "bytes": 38561
+    },
+    "argv.bin": {
+      "sha256": "9571f863f8e4c48cac8085f47f25cb4d72cb798f61e916b6bf6ec695b6353309",
+      "bytes": 247
+    },
+    "main-entry-context.bin": {
+      "sha256": "4b3027259057b366a11356f5f51e6f85865b5a3de72eef5ef04276742c3ae5da",
+      "bytes": 268
+    },
+    "loaded-target.bin": {
+      "sha256": "56314f84b8f085446f456775d81cf1784c79d85efbb25428dbc49745d69dec46",
+      "bytes": 46080
+    },
+    "mb-state.bin": {
+      "sha256": "3ae4207e40d5e3e931dedc0c56702c08fec7fb5c058383496297268b76b592ed",
+      "bytes": 261
+    },
+    "mktemp-access-1-after-teb.bin": {
+      "sha256": "3778b8ec214a5954fcc18e9cf3db4cfae75b125cbfe526166e49113fc9fca030",
+      "bytes": 4096
+    },
+    "helper.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "dependency-inputs.json": {
+      "sha256": "b450504ce5b4c46ee32b40194ef879282cff9b9e8fdf0d64e5996beafb3194e9",
+      "bytes": 325
+    },
+    "mktemp-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "input-directory.json": {
+      "sha256": "75108e12f98dd8fcde141db76f771413068f92ba1310c2aee9a0331eac08bcb7",
+      "bytes": 1968
+    },
+    "streams-entry-parameters.bin": {
+      "sha256": "d93cd28584cbaa3a675378f60833ecac8652608d328978e48aba2060812fb29b",
+      "bytes": 36
+    },
+    "case-inputs.json": {
+      "sha256": "0b55e16c529c894f13da15dea8c26336db75bc8e65bea76285b4c125af76f66d",
+      "bytes": 439
+    },
+    "entries.txt": {
+      "sha256": "367f3c1bbc4cedb6c8a08fd133972d9d6b566dad12443a211241c2b4c36af6d7",
+      "bytes": 2204
+    },
+    "streams-entry-lowio.bin": {
+      "sha256": "58968ad1dd95fadf9d6bf8df351b4e04725143e2ae118ed74571781ef359598a",
+      "bytes": 108
+    }
+  }
+}

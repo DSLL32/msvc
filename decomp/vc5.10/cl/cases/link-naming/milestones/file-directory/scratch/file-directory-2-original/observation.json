@@ -1,0 +1,281 @@
+{
+  "candidate": "_file_directory",
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "native_sha256": "b687615e3b4fc999529515e82b7fefa24468f66c25cd055c5525b811cb9fd4e7",
+  "rebuilt_sha256": "141f99fdfd04255e5bdae3a91e8f2e6bf7307fb59a0e8f478b483a861ae001e6",
+  "trial_mask_sha256": "9e3b2b85f66eab217313d97a6dbf933ab2183141f85f7490c66131f1be69bb02",
+  "platform": "original",
+  "trial_identity": "53f6c6aaff5401b9850344b323c13ab99f53cf292ee16c258ba2c8f7dec3c013",
+  "config_snapshot": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/config.json",
+    "sha256": "2f577b79791c6318a60b129b4b849ea1bf5ee5413ec4cb9bb8128bb9f40054a4"
+  },
+  "case": "link-naming",
+  "arguments": [
+    "/nologo",
+    "/Bz",
+    "/LD",
+    "/Fmcustom.map",
+    "/Feout/path.dll",
+    "test.obj",
+    "/link",
+    "/ENTRY:main",
+    "/SUBSYSTEM:CONSOLE",
+    "/NODEFAULTLIB"
+  ],
+  "files": {
+    "stdout": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/stdout.bin",
+      "sha256": "0d556f130fecd889cf62eb3d9edbe7d7a62cd74ed34b11e8067d473d20fec3fb"
+    },
+    "stderr": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/stderr.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "state": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/state.json",
+      "sha256": "a4ba9db1693b2f274b341b996b4dc89dcec17d627a64affbc487aaa89bdfaaf7"
+    },
+    "trace": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/trace.txt",
+      "sha256": "206edcedca2f4ccedee88c9860a49c95c4151b62348ec0c4a811b41ac8af72c2"
+    },
+    "entry_guards": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/entries.txt",
+      "sha256": "0c0a82e3ec476f450422d3d01b2e13d496c57068332d9192a35b2a6791f4f783"
+    },
+    "events": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/events.txt",
+      "sha256": "4d6b3748e85e3672bd36efb100476d61fb0b4df8510f644a600c8982c4987f0a"
+    },
+    "loaded_msvcrt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/loaded-msvcrt.bin",
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    "loaded_target": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/loaded-target.bin",
+      "sha256": "9e3b2b85f66eab217313d97a6dbf933ab2183141f85f7490c66131f1be69bb02"
+    },
+    "resource_events": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/resource-events.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw:frontier-memory.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/frontier-memory.json",
+      "sha256": "f3bcad527614f0dcf1c2003a8754fa9cd0820f56320a396dbdf0148195713360"
+    },
+    "raw:context.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/context.bin",
+      "sha256": "a8d574c5a77d38836b924a05fe9d9b4e1217aefa222be867aa6d93e766c55111"
+    },
+    "raw:events.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/events.txt",
+      "sha256": "4d6b3748e85e3672bd36efb100476d61fb0b4df8510f644a600c8982c4987f0a"
+    },
+    "raw:mb-state.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/mb-state.bin",
+      "sha256": "3ae4207e40d5e3e931dedc0c56702c08fec7fb5c058383496297268b76b592ed"
+    },
+    "raw:crt-state.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/crt-state.bin",
+      "sha256": "c8d88837e26163437ac8b52a73ff33e9c68b6c712a9bf70ab48aafeb845c9970"
+    },
+    "raw:dependency-inputs.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/dependency-inputs.json",
+      "sha256": "b450504ce5b4c46ee32b40194ef879282cff9b9e8fdf0d64e5996beafb3194e9"
+    },
+    "raw:LINK.EXE": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/LINK.EXE",
+      "sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579"
+    },
+    "raw:case-inputs.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/case-inputs.json",
+      "sha256": "0b55e16c529c894f13da15dea8c26336db75bc8e65bea76285b4c125af76f66d"
+    },
+    "raw:test.obj": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/test.obj",
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+    },
+    "raw:capture.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/capture.json",
+      "sha256": "7e2cc35cd6e0f951eab538c2776a68218eb1066f12b47ae3e6d81bcdda625b07"
+    },
+    "raw:loaded-msvcrt.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/loaded-msvcrt.bin",
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    "raw:main-entry-context.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/main-entry-context.bin",
+      "sha256": "4b3027259057b366a11356f5f51e6f85865b5a3de72eef5ef04276742c3ae5da"
+    },
+    "raw:mktemp-events.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/mktemp-events.txt",
+      "sha256": "900f231ec7de517f36b2e32959c0bab2081dbb04a367427412d7c0ba0b3f4acc"
+    },
+    "raw:mktemp-entry-teb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/mktemp-entry-teb.bin",
+      "sha256": "00ec26d109bb7c97ce2717f5234b75f784012367fb636512147ad1654b42840e"
+    },
+    "raw:mktemp-entry-ptd.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/mktemp-entry-ptd.bin",
+      "sha256": "89e0b49f22e9c69f20121116770d626ee35ed8eac8164d9dfe78acee75d0fa8e"
+    },
+    "raw:mktemp-entry-tls-index.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/mktemp-entry-tls-index.bin",
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450"
+    },
+    "raw:streams-entry.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/streams-entry.json",
+      "sha256": "fcb224fa8662f4a0bf44802bdaa74c16ccc736ca1f7c5e2f58dc9a09c0e03bab"
+    },
+    "raw:streams-entry-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/streams-entry-iob.bin",
+      "sha256": "4d0149241f1bbdf767bd2181c978844a97e5e2fced31a59e5aa8cb165a739763"
+    },
+    "raw:streams-entry-teb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/streams-entry-teb.bin",
+      "sha256": "00ec26d109bb7c97ce2717f5234b75f784012367fb636512147ad1654b42840e"
+    },
+    "raw:streams-entry-peb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/streams-entry-peb.bin",
+      "sha256": "854e47d41f8a456dcece123722b686148bdbd20e6402a95a4aa18030e2230092"
+    },
+    "raw:streams-entry-parameters.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/streams-entry-parameters.bin",
+      "sha256": "a1e30dc72b3f49b98031aea7bf1d255aacf6c2b52273e76863207183ffd62b0d"
+    },
+    "raw:streams-entry-lowio.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/streams-entry-lowio.bin",
+      "sha256": "58968ad1dd95fadf9d6bf8df351b4e04725143e2ae118ed74571781ef359598a"
+    },
+    "raw:streams-entry-pioinfo-slot.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/streams-entry-pioinfo-slot.bin",
+      "sha256": "3da00fca1a11a3b0e80cebf56d2caa88a3771d747dde51b3d00f2d49ac562b03"
+    },
+    "raw:streams-frontier.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/streams-frontier.json",
+      "sha256": "191f762e395c2158026f1d3208b439a12a6814da7f1170a1b1b202f0c820c1b1"
+    },
+    "raw:streams-frontier-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/streams-frontier-iob.bin",
+      "sha256": "4d0149241f1bbdf767bd2181c978844a97e5e2fced31a59e5aa8cb165a739763"
+    },
+    "raw:streams-frontier-teb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/streams-frontier-teb.bin",
+      "sha256": "051908557476fd1ff1cfdc4ad0718579c473b63b31ca933112ba805b49e77fa4"
+    },
+    "raw:streams-frontier-peb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/streams-frontier-peb.bin",
+      "sha256": "854e47d41f8a456dcece123722b686148bdbd20e6402a95a4aa18030e2230092"
+    },
+    "raw:streams-frontier-parameters.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/streams-frontier-parameters.bin",
+      "sha256": "a1e30dc72b3f49b98031aea7bf1d255aacf6c2b52273e76863207183ffd62b0d"
+    },
+    "raw:streams-frontier-lowio.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/streams-frontier-lowio.bin",
+      "sha256": "c06076978fb60f66051924d0627f6ecbf0040fd1b7586d7447ec208ba557a060"
+    },
+    "raw:streams-frontier-pioinfo-slot.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/streams-frontier-pioinfo-slot.bin",
+      "sha256": "3da00fca1a11a3b0e80cebf56d2caa88a3771d747dde51b3d00f2d49ac562b03"
+    },
+    "raw:mktemp-frontier-teb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/mktemp-frontier-teb.bin",
+      "sha256": "051908557476fd1ff1cfdc4ad0718579c473b63b31ca933112ba805b49e77fa4"
+    },
+    "raw:mktemp-frontier-ptd.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/mktemp-frontier-ptd.bin",
+      "sha256": "e69af738f4b4b20bf4634031ec481b420fbdfb479b276b65fab39c71eb6eb77a"
+    },
+    "raw:mktemp-frontier-tls-index.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/mktemp-frontier-tls-index.bin",
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450"
+    },
+    "raw:mre-calls.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/mre-calls.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "raw:loaded-mspdb50.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/loaded-mspdb50.bin",
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+    },
+    "raw:input-directory.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/input-directory.json",
+      "sha256": "3454781d50ff84c8d6a750d849f751cf97706bf292d95b7dba5950ea6f49f3af"
+    },
+    "raw:mktemp-before.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/mktemp-before.bin",
+      "sha256": "e126b1eba52faccd6a3fc442136b3d13ba181f9d979d92af52a3eecdc856e260"
+    },
+    "raw:mktemp-after.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/mktemp-after.bin",
+      "sha256": "5e8027dff1be5b361e3eabaa7ab314d978f4b733fb0ccb0fd8c02ac056d60991"
+    },
+    "raw:mktemp-before-teb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/mktemp-before-teb.bin",
+      "sha256": "54a1539663cbc7baabedca287307e573ed7ea56c548840118d4e53a9a1c7d849"
+    },
+    "raw:mktemp-before-ptd.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/mktemp-before-ptd.bin",
+      "sha256": "89e0b49f22e9c69f20121116770d626ee35ed8eac8164d9dfe78acee75d0fa8e"
+    },
+    "raw:mktemp-before-tls-index.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/mktemp-before-tls-index.bin",
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450"
+    },
+    "raw:mktemp-after-teb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/mktemp-after-teb.bin",
+      "sha256": "4ea67fc23acafaea4f8a25d8e1725212b871606ee0153d0be66b68221b960cc0"
+    },
+    "raw:mktemp-after-ptd.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/mktemp-after-ptd.bin",
+      "sha256": "e69af738f4b4b20bf4634031ec481b420fbdfb479b276b65fab39c71eb6eb77a"
+    },
+    "raw:mktemp-after-tls-index.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/mktemp-after-tls-index.bin",
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450"
+    },
+    "raw:CL.EXE": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/CL.EXE",
+      "sha256": "9e3b2b85f66eab217313d97a6dbf933ab2183141f85f7490c66131f1be69bb02"
+    },
+    "raw:MSPDB50.DLL": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/MSPDB50.DLL",
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+    },
+    "raw:MSVCRT.DLL": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/MSVCRT.DLL",
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    "raw:config.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/config.json",
+      "sha256": "2f577b79791c6318a60b129b4b849ea1bf5ee5413ec4cb9bb8128bb9f40054a4"
+    },
+    "raw:dependency-observer.inc": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/dependency-observer.inc",
+      "sha256": "8761ffead32c3cf94b1ee3b949e15f79fbbb5bcab8e08923f1c6f9dba70db080"
+    },
+    "raw:entries.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/entries.txt",
+      "sha256": "0c0a82e3ec476f450422d3d01b2e13d496c57068332d9192a35b2a6791f4f783"
+    },
+    "raw:export-reader.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/export-reader.h",
+      "sha256": "64ffe9f75692ee7ac2790d9d8a8e8f5e128189837fda814316446bcd81af7607"
+    },
+    "raw:reference-debugger.c": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/reference-debugger.c",
+      "sha256": "321e1f14b3f0ff7219b647405f1de5ac0fa0d5ba42105873136d64d8846caf8a"
+    },
+    "raw:reference-debugger.exe": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/reference-debugger.exe",
+      "sha256": "399eab2011e03fbc402b3f3487a4a9df0d79a7660aa40fc30d20f95d818505ef"
+    }
+  },
+  "schema": 2,
+  "capture_receipt": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-directory-2-original/capture.json",
+    "sha256": "7e2cc35cd6e0f951eab538c2776a68218eb1066f12b47ae3e6d81bcdda625b07"
+  }
+}
