@@ -726,11 +726,17 @@ int recon_fflush(ShimFILE *s)
 }
 WEAK int recon_filbuf(ShimFILE *s)
 {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if (!(s->_flag&0x83) || (s->_flag&0x40)) return EOF;
+#endif
     if (s->_flag&2) { s->_flag|=0x20; return EOF; }
     s->_flag|=1;
     if (!s->_base) recon_getbuf(s);
     s->_ptr=s->_base; s->_cnt=recon_read(s->_file,s->_base,s->_bufsiz);
     if (s->_cnt<=0) { s->_flag|=s->_cnt?0x20:0x10; s->_cnt=0; return EOF; }
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if (s->_bufsiz==512 && (s->_flag&8) && !(s->_flag&0x400)) s->_bufsiz=4096;
+#endif
     --s->_cnt; return (unsigned char)*s->_ptr++;
 }
 int recon_fgetc(ShimFILE *s)
@@ -906,9 +912,20 @@ WEAK long recon_ftell(ShimFILE *s)
 }
 WEAK int recon_fseek(ShimFILE *s,long offset,int origin)
 {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if (!(s->_flag&0x83) || (origin!=SEEK_SET && origin!=SEEK_CUR && origin!=SEEK_END)) {
+        errno=EINVAL;return -1;
+    }
+    s->_flag&=~0x10;
+    if (origin==SEEK_CUR) { offset+=recon_ftell(s);origin=SEEK_SET; }
+    recon_flush(s);
+    if (s->_flag&0x80) s->_flag&=~3;
+    else if ((s->_flag&1) && (s->_flag&8) && !(s->_flag&0x400)) s->_bufsiz=512;
+#else
     if (origin==SEEK_CUR) { offset+=recon_ftell(s); origin=SEEK_SET; }
     if (recon_flush(s)) return -1;
     s->_flag&=~0x10;
+#endif
     return recon_lseek(s->_file,offset,origin)<0?-1:0;
 }
 int recon_ungetc(int c,ShimFILE *s)

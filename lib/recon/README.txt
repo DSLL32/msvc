@@ -556,3 +556,9 @@ and native libc strtol updates refer to the same slot, preserving aliasing.
 Successful WriteFile on a regular disk file preserves errno and LastError,
 as actual Win32 sentinel probes and CL's banner-to-mktemp state demonstrate.
 The correction does not seed application errors or broaden pipe/console scope.
+
+The VC5 CRT profile preserves canonical read-prefetch state: fseek on an owned
+read buffer without explicit-setvbuf400 temporarily sets _bufsiz512; the next
+successful _filbuf restores4096 after reading512. Explicit buffers retain their
+size. FILE count/pointer and logical/physical file positions have an exact
+original probe. Default VC1 behavior is unchanged.

@@ -207,3 +207,8 @@ build/writefile-probe: tests/writefile-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 writefile-check: build/writefile-probe
 	$(PYTHON) tests/check-writefile.py build/writefile-probe
+
+build/read-prefetch-probe: tests/read-prefetch-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+read-prefetch-check: build/read-prefetch-probe
+	$(PYTHON) tests/check-read-prefetch.py build/read-prefetch-probe
