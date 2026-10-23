@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "candidate": "allocate_global_type",
+  "accepted_functions": 68,
+  "application_extent_bytes": 22790,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 36.369729660719415,
+  "qualification": "Application extents / whole text, not non-CRT or branch coverage.",
+  "source_extent": [
+    4240528,
+    4241528
+  ],
+  "associated_text_data": [
+    [
+      4241528,
+      4241544
+    ]
+  ],
+  "source_review": [
+    "Reconstruct complete allocator including optional structure alias records,512-pointer growth, unsigned-short oversized-record replacement, arena copy and payload ownership release.",
+    "Global counted-name cache retains collision chains and existing matching records.",
+    "Next24-bit index overflow warns and disables subsequent mappings; direct_iob fflush preserved.",
+    "Inline pad-zero writes preserve import graph; earlier memset trial rejected statically before original execution."
+  ],
+  "executed_scope": "First2048B pointer-block allocation and entry to copy_type_arena with actual arena/data/24B arguments; later allocator paths source/static only.",
+  "fresh_pair": true,
+  "next_frontier": "copy_type_arena",
+  "fresh_negative_count": 10,
+  "affected_controls": {
+    "read-state-checks.json": {
+      "path": "read-state-checks.json",
+      "sha256": "a2399b802d8f2d17f92f32ff8e6d244ffb7a14ec1c88fdac0265f337b11e18d9"
+    },
+    "initialized-storage-checks.json": {
+      "path": "initialized-storage-checks.json",
+      "sha256": "714069ca5e30a5a7a96384c4ab0230945f6224cbe2758e5ae9ece76aa40556f2"
+    },
+    "type-record-state-checks.json": {
+      "path": "type-record-state-checks.json",
+      "sha256": "0a75dd3c9c5f79a856f75fa64948f6c4eb56f1572a3fb38cf917096770295ec8"
+    },
+    "abi-state-checks.json": {
+      "path": "abi-state-checks.json",
+      "sha256": "c104c70dab163b08e48c573613dbf72c8917f5f75916a96ab4b1230d3d48255b"
+    },
+    "global-type-allocation-checks.json": {
+      "path": "global-type-allocation-checks.json",
+      "sha256": "1be9f28b9143b1e2a9a7e5f700c8a400148a3496885fe800bab0268d3238fabf"
+    }
+  },
+  "reused_protocol": {
+    "path": "cases/hello-debug-dll/evidence/0067-hash-type-record/help-protocol-report.json",
+    "sha256": "fc3428af5679658c4274edb4a44de608090da81f7d8373634ce7fe896154c48c",
+    "reason": "Unchanged acceptance controller; fresh candidate pair, strict graph and affected allocator/decoder/actual-DWARF controls."
+  },
+  "seconds": {
+    "trial": {
+      "original_build": 2.6339791351929307,
+      "native_build": 1.7176103871315718,
+      "graph_tool_build": 0.025919891893863678,
+      "original_capture": 8.918499583378434,
+      "native_capture": 0.7010057708248496,
+      "pair_check": 0.683497367426753
+    },
+    "controls": 2.5660959221422672,
+    "fixtures": {
+      "hello-debug-dll": {
+        "preparation": 0.002591853030025959,
+        "execution": 0.6481106011196971,
+        "checks": 0.004465799778699875,
+        "total": 0.9377453746274114
+      },
+      "help": {
+        "preparation": 0.002591574564576149,
+        "execution": 0.00407617911696434,
+        "checks": 0.0027244938537478447,
+        "total": 0.014375432394444942
+      }
+    }
+  }
+}

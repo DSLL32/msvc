@@ -79,6 +79,18 @@ typedef struct InternedType {
 unsigned short __fastcall hash_type_record(const unsigned char *data);
 extern unsigned char type_hash_current, type_hash_previous, type_hash_mix;
 int lookup_named_type(unsigned short kind, const unsigned char *name, CachedTypeName **match);
+typedef struct StructureAlias {
+    struct StructureAlias *next;
+    unsigned short length, kind;
+    unsigned index;
+    unsigned char name[1];
+} StructureAlias;
+extern unsigned next_global_type;
+extern int global_types_exhausted;
+extern unsigned short retain_structure_names;
+extern unsigned char **global_type_blocks[2048];
+extern StructureAlias *structure_aliases, *last_structure_alias;
+unsigned char *__fastcall copy_type_arena(TypeArena *arena, const unsigned char *data, unsigned size);
 void __fastcall allocate_global_type(TypeRecord *record);
 void record_base_classes(unsigned index, unsigned list);
 void release_type_payload(TypeRecord *record);

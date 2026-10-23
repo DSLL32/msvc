@@ -1096,5 +1096,42 @@
     "original": 4270508,
     "size": 1,
     "kind": "integer"
+  },
+  {
+    "name": "next_global_type",
+    "original": 4269272,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "global_types_exhausted",
+    "original": 4271360,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "retain_structure_names",
+    "original": 4272744,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "structure_aliases",
+    "original": 4281568,
+    "size": 4,
+    "kind": "pointer"
+  },
+  {
+    "name": "last_structure_alias",
+    "original": 4281600,
+    "size": 4,
+    "kind": "pointer"
+  },
+  {
+    "name": "global_type_blocks",
+    "original": 4272896,
+    "size": 8192,
+    "kind": "bytes",
+    "global_type_blocks": true
   }
 ]

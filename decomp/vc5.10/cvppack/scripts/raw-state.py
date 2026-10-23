@@ -643,6 +643,15 @@ def compare(config,data,events,native,artifacts=None,views=None):
                     assert len(left)==len(right)==count*4
                     for index in range(count):
                         linked(int.from_bytes(left[index*4:index*4+4],'little'),int.from_bytes(right[index*4:index*4+4],'little'),shape)
+        elif item.get('global_type_blocks'):
+            capacity=global_integer('type_table_used');used=global_integer('next_global_type')-0x1000
+            assert capacity in (0,512) and used==0,'global type block contents need an observed initialized-prefix contract'
+            for offset in range(0,item['size'],4):
+                source=int.from_bytes(raw[offset:offset+4],'little');destination=int.from_bytes(actual[offset:offset+4],'little')
+                if offset==0 and capacity:
+                    assert source in image_aliases and image_aliases[source]==destination and image_sizes[source]==2048,'global type block allocation/alias/capacity differs'
+                    used_uninitialized.add(source);pair(source,destination)
+                else:assert not source and not destination,'unused global type block slot is not zero'
         elif item.get('function_table'):
             spec=item['function_table'] if isinstance(item['function_table'],dict) else {}
             stride=spec.get('stride',8);pointer=spec.get('pointer_offset',4)

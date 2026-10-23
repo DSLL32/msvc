@@ -1,0 +1,4 @@
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/global-types.obj src/global-types.c
+make: 'build/debug-run.exe' is up to date.
+global-types.c
+python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /map:build/cvpack.map /out:build/CVPACK.EXE build/diagnostics.obj build/files.obj build/global-types.obj build/image.obj build/input.obj build/legacy-types.obj build/main.obj build/messages.obj build/modern-types.obj build/module-types.obj build/options.obj build/pack.obj build/primitive-types.obj build/publics.obj build/stubs.obj build/symbol-handlers.obj build/symbol-rewrite.obj build/symbol-scan.obj build/type-hash.obj build/type-intern.obj build/type-lists.obj build/types.obj build/resources.res

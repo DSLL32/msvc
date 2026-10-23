@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565f5834 in copy_type_arena (arena=0x5661e118 <type_large_arena>, data=0x5771327c "\026", size=24) at src/stubs.c:66
+66	unsigned char *__fastcall copy_type_arena(TypeArena *arena, const unsigned char *data, unsigned size) { __asm { int 3 } return NULL; }

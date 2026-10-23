@@ -73,7 +73,8 @@
     "module_contains_address",
     "compact_type_list",
     "intern_type",
-    "hash_type_record"
+    "hash_type_record",
+    "allocate_global_type"
   ],
   "functions": [
     {
@@ -2644,8 +2645,11 @@
       "source_name": "allocate_global_type",
       "native_symbol": "allocate_global_type",
       "original": 4240528,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4240528,
+        4241528
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -2666,7 +2670,14 @@
           "native_type": "unsigned short",
           "original_register": "ebp"
         }
-      ]
+      ],
+      "text_data": [
+        [
+          4241528,
+          4241544
+        ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0068-allocate-global-type-inline-padding/promotion.json"
     },
     {
       "name": "record_base_classes",
@@ -2707,6 +2718,42 @@
           "root": "type_records",
           "count": "type_record_count",
           "native_pointee_width": 32
+        }
+      ]
+    },
+    {
+      "name": "copy_type_arena",
+      "symbol": "@copy_type_arena@12",
+      "source_name": "copy_type_arena",
+      "native_symbol": "copy_type_arena",
+      "original": 4259712,
+      "status": "stub",
+      "extent": null,
+      "ret": 4,
+      "parameters": [
+        {
+          "name": "arena",
+          "kind": "global-pointer",
+          "register": "ecx",
+          "allowed_globals": [
+            "type_large_arena",
+            "type_arena"
+          ],
+          "nullable": false,
+          "native_pointee_width": 24
+        },
+        {
+          "name": "data",
+          "kind": "type-record-data",
+          "register": "edx",
+          "root": "type_records",
+          "count": "type_record_count",
+          "native_pointee_width": 1
+        },
+        {
+          "name": "size",
+          "kind": "integer",
+          "slot": 1
         }
       ]
     }
