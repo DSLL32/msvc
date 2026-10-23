@@ -114,3 +114,13 @@ emit_line:
     fclose(input);
     return 1;
 }
+
+unsigned __stdcall rc_write_bytes(FILE *file,const void *data,unsigned bytes)
+{
+    unsigned written=fwrite(data,1,bytes,file);
+    if(written!=bytes){
+        rc_fatal("RC : fatal error RW1022: I/O error writing file.");
+        written=0;
+    }
+    return written;
+}

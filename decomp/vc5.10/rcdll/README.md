@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Eleven application functions (5,800 original code bytes), two embedded CRT functions
+Twelve application functions (5,844 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_write_bytes`.
+currently matches at the next named trap, `rc_detect_encoding`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -84,7 +84,7 @@ is checked separately.
 ## Counts, timing and future inputs
 
 The provisional Ghidra inventory discovers 299 application functions / 66,295 code
-bytes. Current accepted application extent coverage is 8.75% (11 functions). This denominator
+bytes. Current accepted application extent coverage is 8.82% (12 functions). This denominator
 is analysis discovery, not a claim that every remaining original extent has passed
 an ownership audit. [Inventory](cases/function-inventory.json) excludes separately
 identified embedded CRT and import thunks; switch/literal data is excluded from
@@ -141,3 +141,9 @@ its archive object matches both PEs, and actual original entry/return state prov
 its custom EAX/ESP ABI. Native execution uses its own compiler-owned frame and
 checked local-array bounds; it makes no synthetic helper call. This covers normal
 non-overflow execution, without claiming Windows stack-overflow/SEH behavior.
+
+The 44-byte `rc_write_bytes` helper is accepted; it returns the exact written
+count, reporting the original fatal diagnostic on short writes. Its success
+proof matches all 46 buffered bytes and typed FILE state before encoding
+detection. [Verification](cases/resources-rich/write-verification.json) includes
+22 rejection controls and separate build, capture, audit and fixture times.

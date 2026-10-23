@@ -52,11 +52,6 @@ void __stdcall rc_cleanup(void)
     __asm int 3
 }
 
-unsigned __stdcall rc_write_bytes(FILE *file,const void *data,unsigned bytes)
-{
-    __asm int 3
-    return 0;
-}
 int __stdcall rc_detect_encoding(FILE *file)
 {
     __asm int 3

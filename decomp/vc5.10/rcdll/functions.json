@@ -16,7 +16,8 @@
     "rc_message",
     "rc_format",
     "rc_release",
-    "rc_prepare_input"
+    "rc_prepare_input",
+    "rc_write_bytes"
   ],
   "functions": [
     {
@@ -383,7 +384,13 @@
       "abi": "stdcall",
       "stack_bytes": 12,
       "kind": "application",
-      "stub": true
+      "stub": false,
+      "text_data": [
+        [
+          "0x1fa0",
+          "0x1fd1"
+        ]
+      ]
     },
     {
       "name": "rc_detect_encoding",

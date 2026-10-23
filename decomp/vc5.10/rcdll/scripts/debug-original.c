@@ -316,6 +316,14 @@ static int trap(HANDLE thread,DWORD address)
         fprintf(events,"frontier %08lx eax=%08lx ecx=%08lx edx=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx esp=%08lx\n",address-base,c.Eax,c.Ecx,c.Edx,c.Ebx,c.Esi,c.Edi,c.Ebp,c.Esp);
         fprintf(events,"stack");for(n=0;n<12;++n)fprintf(events," %08lx",words[n]);fprintf(events,"\n");
         if(export_vector)vector_state("frontier");
+        if(address==base+0x1087c){
+            DWORD output,state[8];
+            readmem(c.Esp+0x18,&output,4);readmem(output,state,32);
+            hexbytes("detect-input-state",words[1],32);hexbytes("detect-output-state",output,32);
+            if(state[0]<state[2]||state[0]-state[2]>8196)fail("detect-output-buffer");
+            hexbytes("detect-output-buffer",state[2],state[0]-state[2]);
+            fprintf(events,"write-result %lu\n",c.Eax);
+        }
         if(address==base+0x10a84){
             DWORD pointer;
             if(words[3]>8196)fail("write-checkpoint-size");

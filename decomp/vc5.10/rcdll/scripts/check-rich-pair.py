@@ -6,9 +6,9 @@ from pathlib import Path
 import shutil
 import tempfile
 from protocol import HERE,sha
-from rich_protocol import release_entry,release_trial,prepare_trial
-p=argparse.ArgumentParser();p.add_argument('--original',required=True,type=Path);p.add_argument('--native',required=True,type=Path);p.add_argument('--output',type=Path);p.add_argument('--stage',choices=['entry','trial','prepare'],default='trial')
-a=p.parse_args();validate={'entry':release_entry,'trial':release_trial,'prepare':prepare_trial}[a.stage];proof=validate(a.original,a.native);controls=[]
+from rich_protocol import release_entry,release_trial,prepare_trial,write_trial
+p=argparse.ArgumentParser();p.add_argument('--original',required=True,type=Path);p.add_argument('--native',required=True,type=Path);p.add_argument('--output',type=Path);p.add_argument('--stage',choices=['entry','trial','prepare','write'],default='trial')
+a=p.parse_args();validate={'entry':release_entry,'trial':release_trial,'prepare':prepare_trial,'write':write_trial}[a.stage];proof=validate(a.original,a.native);controls=[]
 with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/rcdll')as scratch:
     old=Path(scratch)/'original';new=Path(scratch)/'native'
     shutil.copytree(a.original,old);shutil.copytree(a.native,new)
@@ -54,6 +54,12 @@ with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/ms
         reject('wrong-array-write-pointer','native','snapshot.json',snapshot(lambda v:v['arguments'].update(data=0)))
         reject('wrong-compiler-input-size','original','events.txt',lambda p:p.write_text(p.read_text().replace('compiler-probe-entry eax=000042c4','compiler-probe-entry eax=000042c0')))
         reject('wrong-compiler-stack-return','original','events.txt',lambda p:p.write_text(p.read_text().replace('compiler-probe-return eax=71c28576','compiler-probe-return eax=00000000')))
+    if a.stage=='write':
+        reject('wrong-buffered-write','native','snapshot.json',snapshot(lambda v:v['arguments'].update(output_buffer='00'*46)))
+        reject('wrong-write-return','native','snapshot.json',snapshot(lambda v:v['arguments'].update(write_returns=[45])))
+        reject('wrong-input-file-state','native','snapshot.json',snapshot(lambda v:v['arguments'].update(input_state='00'*32)))
+        reject('wrong-output-file-state','native','snapshot.json',snapshot(lambda v:v['arguments'].update(output_state='00'*32)))
+        reject('wrong-original-write-result','original','events.txt',lambda p:p.write_text(p.read_text().replace('write-result 46','write-result 45')))
     reject('wrong-allocation-owner','native','snapshot.json',snapshot(lambda v:v['heap_identity']['blocks'][0].update(owner=0)))
     reject('wrong-registered-module','native','snapshot.json',snapshot(lambda v:v['module'].update(sha256='0'*64)))
     reject('wrong-codepage','native','snapshot.json',snapshot(lambda v:v['globals'].update(rc_codepage='00000000')))

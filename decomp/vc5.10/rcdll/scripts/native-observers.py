@@ -77,3 +77,16 @@ Complete()
 def exited(event):
     (path.parent/'exit.json').write_text(json.dumps(dict(exit_code=getattr(event,'exit_code',None)))+'\n')
 gdb.events.exited.connect(exited)
+
+write_path=path.parent/'writes.json'
+writes=[]
+class WriteReturned(gdb.FinishBreakpoint):
+    def stop(self):
+        writes.append(int(gdb.parse_and_eval('$eax'))&0xffffffff)
+        write_path.write_text(json.dumps(writes)+'\n');return False
+class WriteEntered(gdb.Breakpoint):
+    def __init__(self):super().__init__('rc_write_bytes',internal=True)
+    def stop(self):
+        if not writes:WriteReturned(gdb.newest_frame(),internal=True)
+        return False
+WriteEntered();write_path.write_text('[]\n')

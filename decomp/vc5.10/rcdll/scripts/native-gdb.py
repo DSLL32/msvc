@@ -82,6 +82,11 @@ def capture():
             arguments['message']=bytes(gdb.selected_inferior().read_memory(int(message),length)).hex()
         if name=='rc_message':arguments['id']=int(frame.read_var('id'))
         if name=='rc_prepare_input':arguments['path']=frame.read_var('path').string()
+        if name=='rc_detect_encoding':
+            file=frame.read_var('file');parent=frame.older();assert parent.name()=='rc_prepare_input'
+            output_file=parent.read_var('output');state=output_file.dereference()
+            start=int(state['_base']);length=int(state['_ptr'])-start;assert 0<=length<=8196
+            arguments.update(input_state=bytes(gdb.selected_inferior().read_memory(int(file),32)).hex(),output_state=bytes(gdb.selected_inferior().read_memory(int(output_file),32)).hex(),output_buffer=bytes(gdb.selected_inferior().read_memory(start,length)).hex(),write_returns=json.loads((output.parent/'writes.json').read_text()))
         if name=='rc_write_bytes':
             file=frame.read_var('file');data=frame.read_var('data');size=int(frame.read_var('bytes'))
             assert 0<size<=8196
