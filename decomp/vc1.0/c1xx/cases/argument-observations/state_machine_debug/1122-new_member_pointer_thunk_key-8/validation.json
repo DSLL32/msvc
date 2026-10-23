@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_new_member_pointer_thunk_key@8",
+  "case": "state_machine_debug",
+  "accepted_before": 1122,
+  "configuration_sha256": "43d767948ed86b05a15c9bc5cfb908e6fcdfe4809cddeb27a8c658d68b2cce57",
+  "native_entry": "new_member_pointer_thunk_key",
+  "declared_formal_count": 2,
+  "formals": [
+    {
+      "name": "member",
+      "stack_index": 0,
+      "native_field": "raw_member",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 252926,
+        "original_owner_function": "_member_pointer_virtual_function@4",
+        "native_owner_function": "member_pointer_virtual_function",
+        "native_owner_field": "caller_member",
+        "native_owner_local": "member",
+        "identity": "Actual caller loads memberEAX4dbf2, PUSH2arena4dbf6/PUSHEAX4dbf8/CALL4dbf9 return4dbfe. Native real member formal owner, no rawheapidentity equality.",
+        "original_owner_value": 8302976,
+        "native_owner_value": 1449292160
+      },
+      "original_raw": 8302976,
+      "native_raw": 1449292160,
+      "result": "match"
+    },
+    {
+      "name": "arena",
+      "stack_index": 1,
+      "native_field": "raw_arena",
+      "binding": {
+        "kind": "scalar",
+        "bits": 16
+      },
+      "original_raw": 2,
+      "native_raw": 2,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      319200,
+      319287
+    ],
+    "argument_bytes": 8,
+    "proof": "Whole87B/PUSHESI4:memberESP+8,arenaSIGNEDWORDESP+12(MOVSX),RET8/EAXkeypointer. Arena0 allocate_permanent6ad50/RET4 size12; -1mapscompilerpool0, otherwise signedarena20Bpoolindex; refill_arena72db0/RET8 ifremaining<12 thenadvanceby12. Initialize function+0/member,kind+4zero,displacement+8 member.detail32. Only low16arena is actualinput; high16unconsumed. No incomingsemanticregister/hiddeninput. Existing compiler_arena owner unchanged, no new mutable storage.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "ef0e8cfcf0e0f2a3346863be609e1ae842b338f9489f6c4a1418d527078f94fe",
+  "capture_timing": {
+    "original_capture_seconds": 1.368305241689086,
+    "native_capture_seconds": 0.17382534593343735,
+    "total_operation_seconds": 1.8164870208129287
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "720c33046fb2d3bb541c7985b382204853fe9b935f0ec9f7180cbdf6c53ce501",
+    "native-commands.gdb": "c46c7338ff34555c823ce81f0e3554a37eca3abd7d1b1c37f0ff601b9aec0428",
+    "native-gdb.log": "61789453f35af3ca765ddab506edec3adb1e39ce6f136298b0d8263af4077999",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "5ee3b7bea666765727d61e33cd9227c68d29a2f94f7d325b33ae9b51047be48c",
+    "original-configuration.json": "43d767948ed86b05a15c9bc5cfb908e6fcdfe4809cddeb27a8c658d68b2cce57",
+    "original-disassembly.txt": "b511f04f3805f343ca858686b0e3f807f9e6a8bf98ebf1b7338e0e169265a8fe",
+    "original-entries.plan": "da3fd19161fd62c275dd45e75fb5e4636792e978f446821623e52f6d2977db96",
+    "original-events.txt": "2c612adaa3625c7d1b9731abac10cfb239f337375e34661ec87ae98bd2a8705c",
+    "original-ownership-caller-disassembly.txt": "33e39ded5cb33d97b574eb45ac955a12639c1a3ea5f1a938126647a6773759b8",
+    "original-receipt.json": "3be8448bdda5578c65b18667d82718ec180bb9d6e89189361ac30f5869bfebc5",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "94a43dd273ece1f2f76af529040c217ba619762c6b86af4e70011748360e5904"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

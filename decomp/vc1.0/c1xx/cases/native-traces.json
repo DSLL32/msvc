@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "7643e94bfd42d131c5451264eefcaf95c1f2bf0d9e085a89cd114c8f9292afb4",
+    "functions.json": "c38196a87435698a7135904f2376eead1a47b59f27da8e35afd2a7ce34e6615a",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "53f7622f67cdc2a75e9a612bde467684e64f87a497c97df03c68f3b6061af847",
-    "cases/canonical-map.txt": "3471550f98b80c862219a838269e73de7a0996202be58468b11e92f09969d903",
+    "cases/original-entry-references.json": "0d7e4bd1f09e6b8973cb30e46630bd673fe638d2772487522ab42d9a68d1f091",
+    "cases/canonical-map.txt": "ebf5e1c0292fb0e22ae2e3282653a18f38d1e441135ae7f8b653baf3a126e027",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -44,9 +44,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1121-member_pointer_virtual_function-4/entry-reference/original-receipt.json": "b096938643bd760ba020cbd35c4b1843be664d3ebeec9716fd90bdf196099480",
-    "cases/frontiers/state_machine_debug/1121-member_pointer_virtual_function-4/entry-reference/original-events.txt": "38c226a9cd68d9e49e9e8ee1ce322fcb1d69087418cd9a6880eefe8a0827960f",
-    "cases/frontiers/state_machine_debug/1121-member_pointer_virtual_function-4/entry-reference/original-entries.plan": "551ee2bf4b5fffd2c00ea53684f0de6f52af582d720839b39953fb734ed74680"
+    "cases/frontiers/state_machine_debug/1122-new_member_pointer_thunk_key-8/entry-reference/original-receipt.json": "c4677feb02ac47af6708e676453c2122a696847c8b880732ed2f5378bbfb71f3",
+    "cases/frontiers/state_machine_debug/1122-new_member_pointer_thunk_key-8/entry-reference/original-events.txt": "136299dacc986f814b82aad9001797c7acd3a3e196a8b94d2b810c7f6c13892f",
+    "cases/frontiers/state_machine_debug/1122-new_member_pointer_thunk_key-8/entry-reference/original-entries.plan": "532078461d817d6ea4df6bab0650c890a9a7f72b7c199fffaabc6d98fdd94331"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -3803,7 +3803,7 @@
     },
     "new_member_pointer_thunk_key": {
       "logical": "_new_member_pointer_thunk_key@8",
-      "source": "src/stubs.c"
+      "source": "src/member-pointers.c"
     },
     "new_operator_search": {
       "logical": "_new_operator_search@16",
@@ -6673,7 +6673,8 @@
     "equal_member_function_parameters",
     "convert_member_pointer_initializer",
     "resolve_member_pointer_path",
-    "member_pointer_virtual_function"
+    "member_pointer_virtual_function",
+    "new_member_pointer_thunk_key"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10786,7 +10787,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1122,
+      "last": 1123,
       "seen": [
         "main",
         "message_text",
@@ -11817,12 +11818,13 @@
         "convert_member_pointer_initializer",
         "resolve_member_pointer_path",
         "member_pointer_virtual_function",
-        "new_member_pointer_thunk_key"
+        "new_member_pointer_thunk_key",
+        "hash_tail_word_pair"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_new_member_pointer_thunk_key@8",
-        "native": "new_member_pointer_thunk_key",
+        "logical": "_hash_tail_word_pair",
+        "native": "hash_tail_word_pair",
         "signal": 5
       }
     }

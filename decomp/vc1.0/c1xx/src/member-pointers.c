@@ -34,6 +34,29 @@ int __stdcall tag_has_base_relation(CppSymbol *derived, CppSymbol *base);
 int __stdcall equal_member_function_parameters(FunctionParameters *source,
     FunctionParameters *target);
 
+/* Original 0x4dee0..0x4df37. Lookup keys use the requested compiler
+   arena; arena zero retains a permanent key and -1 selects pool zero. */
+MemberPointerThunkKey *__stdcall new_member_pointer_thunk_key(CppSymbol *member,
+    short arena)
+{
+    MemberPointerThunkKey *key;
+    ArenaPool *pool;
+    if (!arena) key = allocate_permanent(sizeof(MemberPointerThunkKey));
+    else {
+        if (arena == -1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)sizeof(MemberPointerThunkKey))
+            refill_arena(&compiler_arena, pool);
+        key = (MemberPointerThunkKey *)pool->next;
+        pool->remaining -= sizeof(MemberPointerThunkKey);
+        pool->next += sizeof(MemberPointerThunkKey);
+    }
+    key->function = member;
+    key->kind = 0;
+    key->displacement = member->detail.thunk_virtual_displacement;
+    return key;
+}
+
 /* Original 0x4dbf0..0x4dc51. Reuse a virtual member's generated
    function, keeping an independent permanent key for a new cache entry. */
 CppSymbol *__stdcall member_pointer_virtual_function(CppSymbol *member)

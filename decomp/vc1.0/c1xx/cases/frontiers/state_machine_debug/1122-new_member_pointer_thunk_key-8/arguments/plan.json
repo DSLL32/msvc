@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "function": "_new_member_pointer_thunk_key@8",
+  "native_entry": "new_member_pointer_thunk_key",
+  "argument_words": 4,
+  "ownership_register": "eax",
+  "ownership_caller_extent": [
+    318448,
+    318462
+  ],
+  "native_caller_locals": {
+    "caller_member": {
+      "frame": 1,
+      "function": "member_pointer_virtual_function",
+      "local": "member"
+    }
+  },
+  "native_expressions": {
+    "raw_member": "(unsigned)member",
+    "raw_arena": "(unsigned)(unsigned short)arena"
+  },
+  "formals": [
+    {
+      "name": "member",
+      "stack_index": 0,
+      "native_field": "raw_member",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 252926,
+        "original_owner_function": "_member_pointer_virtual_function@4",
+        "native_owner_function": "member_pointer_virtual_function",
+        "native_owner_field": "caller_member",
+        "native_owner_local": "member",
+        "identity": "Actual caller loads memberEAX4dbf2, PUSH2arena4dbf6/PUSHEAX4dbf8/CALL4dbf9 return4dbfe. Native real member formal owner, no rawheapidentity equality."
+      }
+    },
+    {
+      "name": "arena",
+      "stack_index": 1,
+      "native_field": "raw_arena",
+      "binding": {
+        "kind": "scalar",
+        "bits": 16
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      319200,
+      319287
+    ],
+    "argument_bytes": 8,
+    "proof": "Whole87B/PUSHESI4:memberESP+8,arenaSIGNEDWORDESP+12(MOVSX),RET8/EAXkeypointer. Arena0 allocate_permanent6ad50/RET4 size12; -1mapscompilerpool0, otherwise signedarena20Bpoolindex; refill_arena72db0/RET8 ifremaining<12 thenadvanceby12. Initialize function+0/member,kind+4zero,displacement+8 member.detail32. Only low16arena is actualinput; high16unconsumed. No incomingsemanticregister/hiddeninput. Existing compiler_arena owner unchanged, no new mutable storage."
+  }
+}
