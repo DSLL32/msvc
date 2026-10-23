@@ -69,12 +69,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("mode", choices=("baseline", "masked"))
     parser.add_argument("--name", required=True, help="new scratch case directory name")
+    parser.add_argument("--case", choices=("lifecycle", "minimal"), default="lifecycle")
     args = parser.parse_args()
     assert args.name.replace("-", "").replace("_", "").isalnum()
     checks = preflight()
     output = SCRATCH / "vc5.10/c1" / args.name
     output.mkdir(parents=True, exist_ok=False)
-    candidate = json.loads((PROJECT / "cases/lifecycle/candidate.json").read_text())
+    candidate = json.loads((PROJECT / ("cases/" + args.case + "/candidate.json")).read_text())
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))
@@ -86,7 +87,7 @@ def main():
             PROJECT / "scripts/wine_tool_support.py"], output / "source-snapshot.json")
     shutil.copy2(PROJECT / "build/dll-capture.exe", output / "dll-capture.exe")
     shutil.copy2(CRT, output / "MSVCRT.DLL")
-    shutil.copy2(PROJECT / "cases/lifecycle/candidate.json", output / "candidate.json")
+    shutil.copy2(PROJECT / ("cases/" + args.case + "/candidate.json"), output / "candidate.json")
     audit_config = PROJECT / candidate.get("audit_config", "functions.json")
     shutil.copy2(audit_config, output / "functions.json")
     if candidate.get("functions"):
@@ -98,6 +99,9 @@ def main():
                      for path in sorted((PROJECT / "src").glob("*")) if path.is_file()}
     command = ["wine", windows(output / "dll-capture.exe"), "--debug",
                windows(TARGET), windows(CRT), args.mode, "ranges.txt"]
+    if args.case == "minimal":
+        shutil.copy2(PROJECT / "cases/minimal/inputs/test.c", output / "test.c")
+        command.append("minimal")
     started = time.perf_counter()
     with (output / "stdout.bin").open("wb") as stdout, (output / "stderr.bin").open("wb") as stderr:
         result = subprocess.run(command, cwd=output, env=environment(), stdout=stdout,
@@ -109,7 +113,8 @@ def main():
         assert sha(loaded) == sha(TARGET)
     if loaded_crt.exists():
         assert sha(loaded_crt) == CRT_HASH
-    receipt = {"schema": 1, "kind": "explicit-original-capture", "mode": args.mode,
+    receipt = {"schema": 1, "kind": "explicit-original-capture",
+               "candidate_path": "cases/" + args.case + "/candidate.json", "mode": args.mode,
                "command": command, "cwd": windows(output), "exit": result.returncode,
                "seconds": elapsed, "preflight": checks,
                "target_sha256": sha(TARGET), "canonical_crt_sha256": CRT_HASH,

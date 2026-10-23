@@ -20,6 +20,7 @@ def sha(path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--name", required=True)
+    parser.add_argument("--case", choices=("lifecycle", "minimal"), default="lifecycle")
     args = parser.parse_args()
     assert args.name.replace("-", "").replace("_", "").isalnum()
     output = SCRATCH / args.name
@@ -29,11 +30,14 @@ def main():
                           stdout=subprocess.DEVNULL).returncode == 0, "rebuild the stale native binary first"
     freeze(native_sources(), output / "source-snapshot.json")
     binary_sha = sha(binary)
-    candidate_path = PROJECT / "cases/lifecycle/candidate.json"
+    candidate_path = PROJECT / ("cases/" + args.case + "/candidate.json")
     candidate = json.loads(candidate_path.read_text())
     import_boundary = candidate.get("expected_frontier", {}).get("kind") == "import-boundary"
     breakpoint_command = "break recon_initterm\n" if import_boundary else ""
-    arguments = ("begin", "end") if import_boundary else ("module", "reason", "reserved")
+    pass_boundary = candidate.get("expected_frontier", {}).get("kind") == "compiler-pass-entry"
+    arguments = (("argc", "argv", "mode") if pass_boundary else
+                 ("begin", "end") if import_boundary else ("module", "reason", "reserved"))
+    arguments = tuple(candidate.get("expected_frontier", {}).get("native_args", arguments))
     commands = """set pagination off
 set confirm off
 %s\
@@ -44,14 +48,22 @@ import gdb,json
 frame=gdb.newest_frame()
 args={name:int(gdb.parse_and_eval('(unsigned int)'+name)) for name in %r}
 value={'symbol':frame.name(),'pc':int(gdb.parse_and_eval('$pc')),'args':args}
+if frame.name()=='InvokeCompilerPass':
+    value['argv']=[gdb.parse_and_eval('argv[%%d]'%%i).string() for i in range(args['argc'])]
+    value['argv_terminator']=int(gdb.parse_and_eval('(unsigned int)argv[%%d]'%%args['argc']))
 caller=frame.older()
 value['caller']={'symbol':caller.name(),'args':{}}
+if caller.name()=='InvokeCompilerPass':
+    value['caller']['args']={name:int(caller.read_var(name).cast(gdb.lookup_type('unsigned int'))) for name in ('argc','argv','mode')}
+    value['caller']['argv']=[caller.read_var('argv')[i].string() for i in range(value['caller']['args']['argc'])]
+    value['caller']['argv_terminator']=int(caller.read_var('argv')[value['caller']['args']['argc']].cast(gdb.lookup_type('unsigned int')))
 if frame.name()=='recon_initterm':
     value['caller']['args']={name:int(caller.read_var(name).cast(gdb.lookup_type('unsigned int'))) for name in ('module','reason','reserved')}
 identity=gdb.parse_and_eval('*c1_host_identity')
 value['module_identity']={key:identity[key].string() for key in ('name','path','sha256')}
 value['module_identity']['flags']=int(identity['flags'])
 value['module_token']=int(gdb.parse_and_eval('(unsigned int)c1_host_module'))
+value['pass_mode']=int(gdb.parse_and_eval('c1_pass_mode'))
 value['crt_attached']=int(gdb.parse_and_eval('c1_crt_attached'))
 value['raw_dllmain']=int(gdb.parse_and_eval('(unsigned int)c1_raw_dllmain'))
 value['win32_last_error']=int(gdb.parse_and_eval('last_error'))
@@ -70,8 +82,11 @@ quit
 """ % (breakpoint_command, arguments, str(output / "state.json"))
     (output / "commands.gdb").write_text(commands)
     started = time.perf_counter()
+    if args.case == "minimal":
+        import shutil
+        shutil.copy2(PROJECT / "cases/minimal/inputs/test.c", output / "test.c")
     result = subprocess.run(["gdb", "--batch", "-x", str(output / "commands.gdb"),
-                             "--args", str(binary)], cwd=PROJECT,
+                             "--args", str(binary)] + (["minimal"] if args.case == "minimal" else []), cwd=output,
                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=15)
     elapsed = time.perf_counter() - started
     (output / "gdb.txt").write_bytes(result.stdout)
@@ -90,7 +105,8 @@ quit
         assert all(sha(ROOT / path) == value for path, value in binding["inputs"].items())
         for source, target in (("trial-audit.json", "audit.json"), ("trial-audit-binding.json", "audit-binding.json")):
             (output / target).write_bytes((PROJECT / "build" / source).read_bytes())
-    receipt = {"schema": 1, "kind": "native-gdb-frontier", "seconds": elapsed,
+    receipt = {"schema": 1, "kind": "native-gdb-frontier",
+               "candidate_path": "cases/" + args.case + "/candidate.json", "seconds": elapsed,
                "native_sha256": binary_sha,
                "rebuilt_sha256": sha(PROJECT / "build/c1.dll"),
                "candidate_sha256": sha(output / "candidate.json"),

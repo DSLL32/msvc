@@ -107,7 +107,24 @@ def check(original, native, audit_directory=None):
     assert identity == {"name": "C1.DLL", "path": "R:\\toolchains\\5.10\\bin\\C1.DLL",
                          "sha256": o["target_sha256"], "flags": 2}
     assert state["module_token"] != 0
-    if import_boundary:
+    pass_boundary = expected.get("kind") == "compiler-pass-entry"
+    pass_initializer = expected.get("kind") == "pass-initializer"
+    if pass_boundary or pass_initializer:
+        case = candidate.get("case_contract") or json.loads((PROJECT / "cases/minimal/case.json").read_text())
+        pass_state = state if pass_boundary else state["caller"]
+        if pass_initializer:
+            assert state["args"] == {} and pass_state["symbol"] == "InvokeCompilerPass"
+            invocations = [row for row in traps if int(row[1], 16) == 0x12229]
+            assert len(invocations) == 1
+            args = [int(value, 16) for value in invocations[0][2].split(",")][1:4]
+            assert state["pass_mode"] == struct.unpack_from("<i", (original / ("state-%03d.bin" % int(sequence))).read_bytes(), 0x8c)[0] == 0
+        assert args[0] == pass_state["args"]["argc"] == case["argc"]
+        assert args[2] == pass_state["args"]["mode"] == case["BOOL"]
+        assert pass_state["argv_terminator"] == 0
+        actual = [(original / ("invoke-arg-%03d.bin" % i)).read_bytes() for i in range(args[0])]
+        assert all(item.endswith(b"\0") and b"\0" not in item[:-1] for item in actual)
+        assert [item[:-1].decode("ascii") for item in actual] == pass_state["argv"] == case["argv"]
+    elif import_boundary:
         assert args[:2] == [module_base + 0x5c000, module_base + 0x5c004]
         assert state["args"] == {"begin": state["initializer_begin"], "end": state["initializer_end"]}
         assert state["initializer_end"] - state["initializer_begin"] == 4
@@ -125,14 +142,14 @@ def check(original, native, audit_directory=None):
     globals_data = (original / ("state-%03d.bin" % int(sequence))).read_bytes()
     attached = struct.unpack_from("<i", globals_data, 0x90)[0]
     hook = struct.unpack_from("<I", globals_data, 0x9c)[0]
-    expected_attached = 1 if expected["native_symbol"] == "DllMain" else 0
+    expected_attached = 1 if expected["native_symbol"] == "DllMain" or pass_boundary or pass_initializer else 0
     assert attached == state["crt_attached"] == expected_attached
     assert hook == state["raw_dllmain"] == 0, "nonnull callbacks need an explicit identity projection"
-    assert int(error) == state["win32_last_error"] == 14007
-    controls = re.findall(r"^x87-control=([0-9a-f]+)$", raw, re.M)
+    assert int(error) == state["win32_last_error"] == (0 if pass_boundary or pass_initializer else 14007)
+    control = re.search(r"^trap seq=" + sequence + r" .*\nlast-error=\d+\nx87-control=([0-9a-f]+)$", raw, re.M)
     # NT stores this architectural WORD in a DWORD context field.
-    assert len(controls) == len(traps)
-    assert (int(controls[-1], 16) & 0xffff) == state["x87_control"] == 0x027f
+    assert control
+    assert (int(control[1], 16) & 0xffff) == state["x87_control"] == 0x027f
     if import_boundary or expected["native_symbol"] == "DllMain":
         end, begin = struct.unpack_from("<2I", globals_data, 0x94)
         assert begin == end != 0
@@ -143,6 +160,12 @@ def check(original, native, audit_directory=None):
         assert struct.unpack_from("<I", globals_data, 0x40)[0] == state["dll_instance"] == 0
         assert struct.unpack_from("<i", globals_data, 0xa0)[0] == state["crt_adjust_fdiv"] == 0
         assert "provider iat=0005d0e8 resolved=78001715" in raw
+    if pass_boundary or pass_initializer:
+        end, begin = struct.unpack_from("<2I", globals_data, 0x94)
+        assert begin == end != 0 and state["onexit_begin"] == state["onexit_end"] != 0
+        assert state["onexit_first"] == 0
+        assert struct.unpack_from("<I", globals_data, 0x40)[0] == module_base
+        assert state["dll_instance"] == state["module_token"]
     for item in candidate.get("imports", []):
         snapshot = (original / "relocated-text.bin").read_bytes()
         offset = item["start_rva"] - 0x1000

@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "name": "_initialize_compiler_pass",
+    "start": 268440304,
+    "end": 268440305,
+    "pending_extent": true,
+    "evidence": "Unaccepted named INT3 stub; exact function size not needed to identify call edge."
+  },
+  {
+    "name": "_main",
+    "start": 268440321,
+    "end": 268440322,
+    "pending_extent": true,
+    "evidence": "Unaccepted named INT3 stub; exact function size not needed to identify call edge."
+  },
+  {
+    "name": "_cleanup_compiler_pass",
+    "start": 268440338,
+    "end": 268440339,
+    "pending_extent": true,
+    "evidence": "Unaccepted named INT3 stub; exact function size not needed to identify call edge."
+  }
+]

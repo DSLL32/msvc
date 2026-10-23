@@ -7,7 +7,8 @@
     "_c1_crt_entry@12",
     "_c1_crt_init@12",
     "import:_initterm",
-    "_DllMain@12"
+    "_DllMain@12",
+    "_InvokeCompilerPass@12"
   ],
   "driver": [
     {
@@ -20,7 +21,8 @@
           274924312
         ]
       ],
-      "role": "linked-crt-support"
+      "role": "linked-crt-support",
+      "symbol": "__DllMainCRTStartup@12"
     },
     {
       "name": "_c1_crt_init@12",
@@ -32,16 +34,30 @@
           274924347
         ]
       ],
-      "role": "linked-crt-support"
+      "role": "linked-crt-support",
+      "symbol": "__CRT_INIT@12"
     },
     {
       "name": "_DllMain@12",
       "start": 274801038,
       "end": 274801073,
       "role": "application"
+    },
+    {
+      "name": "_InvokeCompilerPass@12",
+      "start": 274801193,
+      "end": 274801317,
+      "code_chunks": [
+        [
+          274924377,
+          274924425
+        ]
+      ],
+      "role": "application"
     }
   ],
   "cases": [
-    "dll-lifecycle-and-exports"
+    "dll-lifecycle-and-exports",
+    "minimal"
   ]
 }

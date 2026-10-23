@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Run the common Rust audit on the actual immutable trial and bind its inputs."""
+import argparse
 import hashlib
 import json
 from pathlib import Path
@@ -8,6 +9,7 @@ import time
 
 PROJECT = Path(__file__).resolve().parents[1]
 ROOT = PROJECT.parents[2]
+CASE = "lifecycle"
 TOOL = ROOT / "tooling/graph-audit/target/release/graph-audit"
 
 
@@ -16,7 +18,7 @@ def sha(path):
 
 
 def inputs():
-    candidate_path = PROJECT / "cases/lifecycle/candidate.json"
+    candidate_path = PROJECT / ("cases/" + CASE + "/candidate.json")
     candidate = json.loads(candidate_path.read_text())
     paths = [candidate_path, PROJECT / candidate["audit_config"], PROJECT / "runtime.json",
              PROJECT / "runtime-rebuilt.json", PROJECT / "build/c1.map",
@@ -26,10 +28,14 @@ def inputs():
 
 
 def main():
+    global CASE
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--case", choices=("lifecycle", "minimal"), default="lifecycle")
+    CASE=parser.parse_args().case
     subprocess.run(["make", "graph-audit-tool"], cwd=PROJECT, check=True,
                    stdout=subprocess.DEVNULL)
     before = inputs()
-    candidate = json.loads((PROJECT / "cases/lifecycle/candidate.json").read_text())
+    candidate = json.loads((PROJECT / ("cases/" + CASE + "/candidate.json")).read_text())
     command = [str(TOOL), "--profile", "cl", "--discovery", "cfg", "--repo", str(ROOT),
                "--project", str(PROJECT), "--original", str(ROOT / "toolchains/5.10/bin/C1.DLL"),
                "--rebuilt", str(PROJECT / "build/c1.dll"), "--map", str(PROJECT / "build/c1.map"),

@@ -14,14 +14,17 @@ catalog = lambda image: [(item["name"], item["ordinal"], item["forwarder"])
                           for item in image["exports"]]
 assert catalog(original) == catalog(rebuilt)
 assert original["export_module_name"] == rebuilt["export_module_name"] == "c1n32_l.dll"
+accepted = json.loads((PROJECT / "functions.json").read_text())["accepted"]
+publics = [int(value, 16) for value in re.findall(r"^\s+0001:[0-9a-f]+\s+\S+\s+([0-9a-f]+)\b", (PROJECT / "build/c1.map").read_text(), re.M)]
 for export in rebuilt["exports"]:
     cleanup = int(export["name"].split("@")[1])
     start = rebuilt["image_base"] + export["rva"]
+    end = min(value for value in publics if value > start)
     disassembly = subprocess.check_output(["objdump", "-d", "-Mintel",
-        "--start-address=" + str(start), "--stop-address=" + str(start + 32),
+        "--start-address=" + str(start), "--stop-address=" + str(end),
         str(PROJECT / "build/c1.dll")], text=True)
     assert re.search(r"\bret\s+0x%x\b" % cleanup, disassembly)
-    # Both exports are intentionally stubs during this first lifecycle case.
-    assert "int3" in disassembly
-print(json.dumps({"exports": catalog(rebuilt), "stub_cleanup_bytes": [4, 12],
+    if export["name"] not in accepted:
+        assert "int3" in disassembly
+print(json.dumps({"exports": catalog(rebuilt), "export_cleanup_bytes": [4, 12],
                   "internal_module_name": rebuilt["export_module_name"]}))

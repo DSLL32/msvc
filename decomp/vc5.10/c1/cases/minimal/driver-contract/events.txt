@@ -1,0 +1,69 @@
+create event=1 base=00400000 start=004058e0
+load event=2 name=ntdll.dll actual=7bcf0000 preferred=7bcf0000 entry=7bcff760 timestamp=685cf020 size=002fe000
+load event=3 name=KERNEL32.dll actual=7bb70000 preferred=7bb70000 entry=7bb83e60 timestamp=685cf020 size=0016f000
+load event=4 name=kernelbase.dll actual=7b600000 preferred=7b600000 entry=7b615a00 timestamp=685cf020 size=00551000
+load event=5 name=user32.dll actual=7a1d0000 preferred=7a1d0000 entry=7a1ecd50 timestamp=685cf020 size=004d4000
+load event=6 name=zlib1.dll actual=7a190000 preferred=7a190000 entry=7a1913b0 timestamp=6793da7c size=0002a000
+load event=7 name=MSVCRT.dll actual=78000000 preferred=78000000 entry=78001000 timestamp=345ebc2c size=00048000
+loaded-file bytes=277776 saved=loaded-msvcrt.bin
+load event=8 name=advapi32.dll actual=7b500000 preferred=7b500000 entry=7b510ab0 timestamp=685cf020 size=000ef000
+load event=9 name=sechost.dll actual=7b1a0000 preferred=7b1a0000 entry=7b1a3fd0 timestamp=685cf020 size=00070000
+load event=10 name=ucrtbase.dll actual=7ae50000 preferred=7ae50000 entry=7ae65810 timestamp=685cf020 size=00337000
+load event=11 name=gdi32.dll actual=7a6c0000 preferred=7a6c0000 entry=7a6d3520 timestamp=685cf020 size=00248000
+load event=12 name=win32u.dll actual=7a140000 preferred=7a140000 entry=7a14ec90 timestamp=685cf020 size=00040000
+load event=13 name=mspdb50.dll actual=10300000 preferred=10300000 entry=1031de70 timestamp=32f1504d size=0002a000
+load event=14 name=<no-exports> actual=10000000 preferred=10000000 entry=10000000 timestamp=22f65fc1 size=00081000
+load event=16 name=<no-exports> actual=10000000 preferred=10000000 entry=10000000 timestamp=22f65fc1 size=00081000
+load event=18 name=imm32.dll actual=78640000 preferred=78640000 entry=78642860 timestamp=685cf020 size=00067000
+initial-break event=19 address=7bd50145
+boundary event=20 address=004055d2 esp=0031f57c raw=008926b0,00892500,00000000
+putenv event=20 MSC_CMD_FLAGS=
+load event=22 name=c1n32_l.dll actual=10600000 preferred=10600000 entry=1061202a timestamp=335fbd28 size=0009b000
+loaded-file bytes=565008 saved=loaded-c1.bin
+entry-before-patch event=22 address=1061202a byte=53
+boundary event=23 address=1061202a esp=0031f364 raw=10600000,00000001,00000000
+dll-entry module=10600000 reason=1 reserved=00000000
+boundary event=25 address=004056c9 esp=0031f574 raw=0000001a,00892500,00000001
+invoke argc=26 flag=1
+argv 0 008925a0 R:\toolchains\5.10\bin\c1.dll
+argv 1 008925be -il
+argv 2 008925c2 .\a00516
+argv 3 008925cb -f
+argv 4 008925ce test.c
+argv 5 008925d5 -W
+argv 6 008925d8 1
+argv 7 008925da -Ze
+argv 8 008925de -D_MSC_EXTENSIONS
+argv 9 008925f0 -Zp8
+argv 10 008925f5 -ZB64
+argv 11 008925fb -D_INTEGRAL_MAX_BITS=64
+argv 12 00892613 -D_M_IX86=500
+argv 13 00892621 -G5
+argv 14 00892625 -Gs
+argv 15 00892629 -Ot
+argv 16 0089262d -Ob0
+argv 17 00892632 -Fotest.obj
+argv 18 0089263e -pc
+argv 19 00892642 \:/
+argv 20 00892646 -Fdvc50.pdb
+argv 21 00892652 -D_MSC_VER=1100
+argv 22 00892662 -D_WIN32
+argv 23 0089266b -nologo
+argv 24 00892673 -I
+argv 25 00892676 R:\toolchains\5.10\include
+argv-end 26
+boundary event=27 address=004056cc esp=0031f580 raw=00892500,00000000,00000000
+invoke-return status=0 esp=0031f580 expected=0031f580
+boundary event=29 address=1061202a esp=0031f3b8 raw=10600000,00000000,00000000
+dll-entry module=10600000 reason=0 reserved=00000000
+boundary event=32 address=004055d2 esp=0031f57c raw=00893c90,00893bb0,00000000
+putenv event=32 MSC_CMD_FLAGS=-il .\a00516 -f test.c -W 1 -G5 -Gs4096 -dos -Fotest.obj -ML -Fdvc50.idb 
+boundary event=34 address=0040572e esp=0031f574 raw=00000000,00893b90,0031f5a4
+spawn mode=0 path=R:\toolchains\5.10\bin\c2.exe
+argv 0 00893c00 R:\toolchains\5.10\bin\c2.exe
+argv-end 1
+ir-copy .\a00516ex -> captured-ir\a00516ex bytes=0:1187
+ir-copy .\a00516gl -> captured-ir\a00516gl bytes=0:51
+ir-copy .\a00516in -> captured-ir\a00516in bytes=0:3
+ir-copy .\a00516sy -> captured-ir\a00516sy bytes=0:13
+exit event=36 status=0

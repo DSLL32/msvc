@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "kind": "actual-original-CL-to-C1-contract",
+  "not_acceptance": true,
+  "exit": 0,
+  "seconds": 1.8694640845060349,
+  "command": [
+    "wine",
+    "S:\\vc5.10\\c1\\minimal-cl-001\\minimal-cl-probe.exe",
+    "R:\\toolchains\\5.10\\bin\\CL.EXE",
+    "/nologo /c test.c",
+    "events.txt"
+  ],
+  "cwd": "S:\\vc5.10\\c1\\minimal-cl-001",
+  "target_sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+  "driver_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "argc": 26,
+  "argv": [
+    "R:\\toolchains\\5.10\\bin\\c1.dll",
+    "-il",
+    ".\\a00516",
+    "-f",
+    "test.c",
+    "-W",
+    "1",
+    "-Ze",
+    "-D_MSC_EXTENSIONS",
+    "-Zp8",
+    "-ZB64",
+    "-D_INTEGRAL_MAX_BITS=64",
+    "-D_M_IX86=500",
+    "-G5",
+    "-Gs",
+    "-Ot",
+    "-Ob0",
+    "-Fotest.obj",
+    "-pc",
+    "\\:/",
+    "-Fdvc50.pdb",
+    "-D_MSC_VER=1100",
+    "-D_WIN32",
+    "-nologo",
+    "-I",
+    "R:\\toolchains\\5.10\\include"
+  ],
+  "BOOL": 1,
+  "return": 0,
+  "stdcall_cleanup": 12,
+  "artifacts": {
+    "test.c": {
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "size": 26
+    },
+    "minimal-cl-probe.exe": {
+      "sha256": "6411066745d8eac9e2449c99c15f0e029ae6c959fa3c71d650067aa695ebeb63",
+      "size": 8192
+    },
+    "loaded-c1.bin": {
+      "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+      "size": 565008
+    },
+    "stderr.bin": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "events.txt": {
+      "sha256": "b4c56e72e5166434a1e0ff77dfa79be75289714774c3852a8a70a4a7a79f1827",
+      "size": 3944
+    },
+    "loaded-msvcrt.bin": {
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "size": 277776
+    },
+    "source-snapshot.json": {
+      "sha256": "cc46adf3bcb72518af67af9d7000cdc083dedca7848e850ace14ec0f53365237",
+      "size": 797
+    },
+    "stdout.bin": {
+      "sha256": "a8252e3dca74519092c66804c9767dfafceb8748d43bbbef7135c33de3e87dad",
+      "size": 8
+    },
+    "test.obj": {
+      "sha256": "f43cf4ab7f90eeb54580a1495c21a0e1ce04169b6146afb235adc14f6df2db6f",
+      "size": 275
+    },
+    "msc-cmd-flags.bin": {
+      "sha256": "4661c9d403072cec93e4418e32580f8d95899b0bce9cc85f6136f7665e59084c",
+      "size": 88
+    },
+    "MSVCRT.DLL": {
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "size": 277776
+    },
+    "captured-ir/a00516gl": {
+      "sha256": "f729055d189f26eb1ce62b5b652e779c33d56ee1781fd115dd22104d0dea6fe6",
+      "size": 51
+    },
+    "captured-ir/a00516sy": {
+      "sha256": "255d67bb3e14ac12fa10c3a870b501bb40a0b99ac9e9e86b2de2c118c9ccfb7f",
+      "size": 13
+    },
+    "captured-ir/a00516in": {
+      "sha256": "66927378719e5c868ee8b4c6182280b565e659505eaba83128ba8ef2e293c3e8",
+      "size": 3
+    },
+    "captured-ir/a00516ex": {
+      "sha256": "fd4f39e61911a08723ecbac14167e71a66b15a3eef3ae42ae976357d756313e1",
+      "size": 1187
+    }
+  }
+}

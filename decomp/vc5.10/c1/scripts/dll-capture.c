@@ -195,13 +195,33 @@ static void save_state(void)
 
 static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
 {
-    DWORD stack[5];
+    DWORD stack[5], argument, pointer;
+    FILE *saved;
+    char filename[80], text[4096];
     readmem(context->Esp, stack, sizeof(stack));
     fprintf(events, "trap seq=%u rva=%08lx esp=%08lx eax=%08lx stack=%08lx,%08lx,%08lx,%08lx,%08lx\n",
             sequence, address - base, context->Esp, context->Eax,
             stack[0], stack[1], stack[2], stack[3], stack[4]);
     fprintf(events, "last-error=%lu\n", thread_error(context, thread));
     fprintf(events, "x87-control=%04lx\n", context->FloatSave.ControlWord);
+    if (address == base + 0x12229) {
+        if (stack[1] > 256) fail("Invoke argc too large");
+        for (argument = 0; argument <= stack[1]; ++argument) {
+            readmem(stack[2] + argument * 4, &pointer, 4);
+            if (argument == stack[1]) {
+                if (pointer) fail("Invoke argv missing terminator");
+                break;
+            }
+            if (!pointer) fail("Invoke argv early terminator");
+            remote_string(pointer, text, sizeof(text));
+            sprintf(filename, "invoke-arg-%03lu.bin", argument);
+            saved = fopen(filename, "wb");
+            if (!saved || fwrite(text, 1, strlen(text) + 1, saved) != strlen(text) + 1)
+                fail("save actual Invoke argv");
+            fclose(saved);
+            fprintf(events, "invoke-arg index=%lu address=%08lx bytes=%u\n", argument, pointer, strlen(text) + 1);
+        }
+    }
     save_state();
     if (address == base + entry_rva) {
         if (return_active) fail("nested target DLL entry unsupported");
@@ -211,10 +231,15 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
     }
 }
 
-static int host(const char *path)
+static int host(const char *path, int compile)
 {
     HMODULE module;
     FARPROC invoke, abort;
+    int pass_result;
+    typedef int (WINAPI *CompilerPass)(int, char **, BOOL);
+    char *pass_args[] = { "c1.dll", "-il", ".\\minimal", "-f", "test.c", "-W", "1", "-G5", "-Ot", "-Ob0", "-nologo", NULL };
+    FILE *capture;
+    unsigned argument;
     module = LoadLibraryA(path);
     if (!module) return 3;
     puts("attach=1");
@@ -223,6 +248,17 @@ static int host(const char *path)
     if (!invoke || !abort || invoke != GetProcAddress(module, (LPCSTR)2) ||
             abort != GetProcAddress(module, (LPCSTR)1)) return 4;
     puts("exports=1");
+    if (compile) {
+        capture = fopen("invoke-args.txt", "wb");
+        if (!capture) return 6;
+        fprintf(capture, "argc=11\nBOOL=1\n");
+        for (argument = 0; argument < 11; ++argument)
+            fprintf(capture, "%u=%s\n", argument, pass_args[argument]);
+        fclose(capture);
+        pass_result = ((CompilerPass)invoke)(11, pass_args, TRUE);
+        printf("invoke=%d\n", pass_result);
+        if (pass_result) return pass_result;
+    }
     if (!FreeLibrary(module)) return 5;
     puts("detach=1");
     return 0;
@@ -239,8 +275,10 @@ int main(int argc, char **argv)
     char self[MAX_PATH], command[2048];
     FILE *input;
     unsigned i;
-    if (argc == 3 && !strcmp(argv[1], "--host")) return host(argv[2]);
-    if (argc != 6 || strcmp(argv[1], "--debug")) return 2;
+    if (argc == 3 && !strcmp(argv[1], "--host")) return host(argv[2], 0);
+    if (argc == 3 && !strcmp(argv[1], "--host-minimal")) return host(argv[2], 1);
+    if ((argc != 6 && argc != 7) || strcmp(argv[1], "--debug")) return 2;
+    if (argc == 7 && strcmp(argv[6], "minimal")) return 2;
     strcpy(target_path, argv[2]); strcpy(crt_path, argv[3]);
     baseline = !strcmp(argv[4], "baseline");
     if (!baseline && strcmp(argv[4], "masked")) return 2;
@@ -252,7 +290,7 @@ int main(int argc, char **argv)
     fclose(input);
     events = fopen("events.txt", "wb");
     if (!events || !GetModuleFileNameA(NULL, self, sizeof(self))) return 2;
-    sprintf(command, "\"%s\" --host \"%s\"", self, target_path);
+    sprintf(command, "\"%s\" %s \"%s\"", self, argc == 7 ? "--host-minimal" : "--host", target_path);
     memset(&startup, 0, sizeof(startup)); startup.cb = sizeof(startup);
     if (!CreateProcessA(self, command, NULL, NULL, TRUE, DEBUG_ONLY_THIS_PROCESS,
             NULL, NULL, &startup, &process)) fail("CreateProcess");

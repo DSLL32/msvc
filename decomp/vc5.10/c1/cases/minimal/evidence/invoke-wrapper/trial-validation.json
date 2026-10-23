@@ -1,0 +1,27 @@
+{
+  "status": "fresh matching next frontier and typed CRT state",
+  "trial": [
+    "_c1_crt_entry@12",
+    "_c1_crt_init@12",
+    "_DllMain@12",
+    "_InvokeCompilerPass@12"
+  ],
+  "frontier_rva": 74405,
+  "native_symbol": "initialize_compiler_pass",
+  "state": [
+    "module identity/token",
+    "reason/reserved",
+    "CRT attach count",
+    "null raw callback",
+    "Win32 last error"
+  ],
+  "rust_checked_functions": 4,
+  "rust_owned_original_bytes": 664,
+  "current_auditor_sha256": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c",
+  "current_audit_report_sha256": "7ca499d4989f53bc499814987ce0b86b3221ff51e2b6f90587b1dc57dede59d3",
+  "execution_receipts": {
+    "original": "a4329f076f31063f15cf61257caa675f2eb7708cb8700a9df7b7717d69b6fe83",
+    "native": "309fce013b9fe1831101c5970c3dd1048c2088ba8b8ffffb4d8e14ecde0a7c5b"
+  },
+  "promotion": "eligible under reviewed same-protocol lifecycle continuation"
+}

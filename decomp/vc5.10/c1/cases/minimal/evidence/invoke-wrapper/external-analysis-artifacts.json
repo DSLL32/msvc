@@ -1,0 +1,27 @@
+{
+  "original/loaded-msvcrt.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-invoke-001/loaded-msvcrt.bin",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "size": 277776
+  },
+  "original/relocated-text.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-invoke-001/relocated-text.bin",
+    "sha256": "3de6235f0fa89b5d1977f7b582450f80ff52df025f7da8d111ff23cf8b5bb5dc",
+    "size": 322288
+  },
+  "original/MSVCRT.DLL": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-invoke-001/MSVCRT.DLL",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "size": 277776
+  },
+  "original/dll-capture.exe": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-invoke-001/dll-capture.exe",
+    "sha256": "d8c23c29deb51bb7ad5d15babc81c820ec6cae8d28dd0a41494323b9a430ebca",
+    "size": 12288
+  },
+  "original/loaded-target.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-invoke-001/loaded-target.bin",
+    "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+    "size": 565008
+  }
+}

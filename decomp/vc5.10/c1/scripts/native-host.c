@@ -1,6 +1,7 @@
 /* Linux transport only; not part of the reconstructed target function graph. */
 #include <stdio.h>
 #include <float.h>
+#include <string.h>
 #include "c1.h"
 #include <recon.h>
 
@@ -14,11 +15,13 @@ void c1_host_observe(DWORD reason, BOOL status)
     (void)status;
 }
 
-int main(void)
+int c1_native_host(int argc, char **argv)
 {
     ReconModuleSpec spec;
     C1Initializer *allocated;
     BOOL status;
+    int pass_result;
+    char *pass_args[] = { "c1.dll", "-il", ".\\minimal", "-f", "test.c", "-W", "1", "-G5", "-Ot", "-Ob0", "-nologo", NULL };
     /* Captured original loader context: x87 precision53, control word027f. */
     _controlfp(_PC_53, _MCW_PC);
     spec.name = "C1.DLL";
@@ -31,7 +34,7 @@ int main(void)
     if (!c1_host_identity) return 2;
     /* Explicit initial state captured at the original guarded DLL entry. */
     SetLastError(14007);
-    status = c1_crt_entry(c1_host_module, DLL_PROCESS_ATTACH, NULL);
+    status = _DllMainCRTStartup(c1_host_module, DLL_PROCESS_ATTACH, NULL);
     c1_host_observe(DLL_PROCESS_ATTACH, status);
     if (!status || c1_crt_attached != 1 || !c1_onexit_begin ||
             c1_onexit_end != c1_onexit_begin || *c1_onexit_begin ||
@@ -48,7 +51,16 @@ int main(void)
         if (!invoke || !abort_pass) return 4;
     }
     puts("exports=1");
-    status = c1_crt_entry(c1_host_module, DLL_PROCESS_DETACH, NULL);
+    if (argc == 2 && !strcmp(argv[1], "minimal")) {
+        /* Captured direct-host case: the final slot is BOOL, not callbacks. */
+        SetLastError(0);
+        pass_result = InvokeCompilerPass(11, pass_args, TRUE);
+        printf("invoke=%d\n", pass_result);
+        if (pass_result) return pass_result;
+        /* The completed lifecycle fixture uses its separate original state. */
+        SetLastError(14007);
+    }
+    status = _DllMainCRTStartup(c1_host_module, DLL_PROCESS_DETACH, NULL);
     c1_host_observe(DLL_PROCESS_DETACH, status);
     if (!status || c1_crt_attached || c1_onexit_begin ||
             c1_onexit_end != allocated || c1_raw_dllmain ||

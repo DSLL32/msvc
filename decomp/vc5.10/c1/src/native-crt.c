@@ -16,7 +16,7 @@ C1Initializer c1_initializers[1] = { NULL };
 
 /* Original linked CRT DLL entry, RVA 0x1202a; cold code at 0x302dc.
  * Accepted with the original hot and cold chunks as one logical function. */
-BOOL WINAPI c1_crt_entry(HINSTANCE module, DWORD reason, LPVOID reserved)
+BOOL WINAPI _DllMainCRTStartup(HINSTANCE module, DWORD reason, LPVOID reserved)
 {
     BOOL result = TRUE;
 
@@ -28,16 +28,16 @@ BOOL WINAPI c1_crt_entry(HINSTANCE module, DWORD reason, LPVOID reserved)
             result = (*c1_raw_dllmain)(module, reason, reserved);
         if (!result)
             return FALSE;
-        if (!c1_crt_init(module, reason, reserved))
+        if (!_CRT_INIT(module, reason, reserved))
             return FALSE;
     }
 
     result = DllMain(module, reason, reserved);
     if (reason == DLL_PROCESS_ATTACH && !result)
-        c1_crt_init(module, DLL_PROCESS_DETACH, reserved);
+        _CRT_INIT(module, DLL_PROCESS_DETACH, reserved);
 
     if (reason == DLL_PROCESS_DETACH || reason == DLL_THREAD_DETACH) {
-        if (!c1_crt_init(module, reason, reserved))
+        if (!_CRT_INIT(module, reason, reserved))
             result = FALSE;
         if (result && c1_raw_dllmain)
             result = (*c1_raw_dllmain)(module, reason, reserved);
@@ -46,7 +46,7 @@ BOOL WINAPI c1_crt_entry(HINSTANCE module, DWORD reason, LPVOID reserved)
 }
 
 /* Original CRT_INIT, RVA 0x120ce; cold code at 0x30318. Trial body. */
-BOOL WINAPI c1_crt_init(HINSTANCE module, DWORD reason, LPVOID reserved)
+BOOL WINAPI _CRT_INIT(HINSTANCE module, DWORD reason, LPVOID reserved)
 {
     C1Initializer *cursor;
 

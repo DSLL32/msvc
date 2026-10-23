@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "name": "_initialize_compiler_pass",
+    "start": 274801317,
+    "end": 274801318,
+    "pending_extent": true,
+    "evidence": "Unaccepted named call-entry identity only; full extent not established or unmasked."
+  },
+  {
+    "name": "_main",
+    "start": 274802599,
+    "end": 274802600,
+    "pending_extent": true,
+    "evidence": "Unaccepted named call-entry identity only; full extent not established or unmasked."
+  },
+  {
+    "name": "_cleanup_compiler_pass",
+    "start": 274872442,
+    "end": 274872443,
+    "pending_extent": true,
+    "evidence": "Unaccepted named call-entry identity only; full extent not established or unmasked."
+  }
+]

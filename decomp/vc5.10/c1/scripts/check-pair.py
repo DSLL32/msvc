@@ -18,20 +18,23 @@ def sha(path):
 
 def checked_receipt(directory):
     receipt = json.loads((directory / "receipt.json").read_text())
-    candidate = json.loads((PROJECT / "cases/lifecycle/candidate.json").read_text())
+    candidate_path = receipt.get("candidate_path", "cases/lifecycle/candidate.json")
+    candidate = json.loads((PROJECT / candidate_path).read_text())
     for name, item in receipt["artifacts"].items():
         path = directory / name
         assert path.is_file() and sha(path) == item["sha256"], "raw artifact changed: " + name
         assert path.stat().st_size == item["size"]
     bindings = [("rebuilt_sha256", "build/c1.dll"),
-                      ("candidate_sha256", "cases/lifecycle/candidate.json"),
+                      ("candidate_sha256", candidate_path),
                       ("functions_sha256", candidate.get("audit_config", "functions.json"))]
     if receipt["kind"] != "explicit-original-capture":
         bindings.append(("native_sha256", "build/native/c1-host"))
     for key, file in bindings:
         assert receipt[key] == sha(PROJECT / file), "stale or wrong trial: " + key
-    assert (directory / "candidate.json").read_bytes() == (PROJECT / "cases/lifecycle/candidate.json").read_bytes()
+    assert (directory / "candidate.json").read_bytes() == (PROJECT / candidate_path).read_bytes()
     assert (directory / "functions.json").read_bytes() == (PROJECT / candidate.get("audit_config", "functions.json")).read_bytes()
+    for item in candidate.get("input_files", []):
+        assert sha(directory / item["name"]) == item["sha256"] == sha(PROJECT / item["source"])
     check_source_snapshot(directory)
     return receipt
 

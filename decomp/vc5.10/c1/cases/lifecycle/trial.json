@@ -20,7 +20,8 @@
           274924312
         ]
       ],
-      "role": "linked-crt-support"
+      "role": "linked-crt-support",
+      "symbol": "__DllMainCRTStartup@12"
     },
     {
       "name": "_c1_crt_init@12",
@@ -32,7 +33,8 @@
           274924347
         ]
       ],
-      "role": "linked-crt-support"
+      "role": "linked-crt-support",
+      "symbol": "__CRT_INIT@12"
     },
     {
       "name": "_DllMain@12",

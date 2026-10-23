@@ -2,14 +2,15 @@
 
 Target: `toolchains/5.10/bin/C1.DLL`, SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`.
-The lifecycle-only first case is complete and paused. The native i386 harness
-and actual Win32 DLL compile the same reconstructed C. Both compiler exports
-remain named INT3 stubs and have never been invoked by this case.
+The lifecycle-only first case is complete. Minimal C compilation is now in progress. The native i386 harness
+and actual Win32 DLL compile the same reconstructed C. The lifecycle fixture resolves both compiler exports without invoking them.
+The new minimal case invokes the reconstructed pass wrapper and currently traps
+in its named pass initializer; AbortCompilerPass remains an INT3 stub.
 
-Accepted ownership is one application function (`DllMain`, 35 original bytes),
-two linked CRT support functions (451 bytes), and one genuine import thunk
-(6 bytes). Their union is 492 of the `.text` virtual extent's 322,288 bytes
-(0.153%); that denominator includes CRT and unclassified code, not just application
+Accepted ownership is two application functions (`DllMain` and
+`InvokeCompilerPass`, 207 original bytes), two linked CRT support functions
+(451 bytes), and one genuine import thunk (6 bytes). Their union is 664 of the
+`.text` virtual extent's 322,288 bytes (0.206%); that denominator includes CRT and unclassified code, not just application
 code. This is lifecycle coverage, not compiler-pass coverage.
 
 `make -j4 native original` builds both targets. `make audit` uses the common Rust
@@ -145,3 +146,30 @@ multi-module native tracing is only needed if a later case requires it. These
 are investigation items, not permission to replace opaque calls
 with success stubs. Contact `/root/recon_lib_maintenance` for concrete shim needs
 and the vc5.10 orchestrator for host, graph, filtering and acceptance policy.
+
+## Minimal compiler-pass case
+
+`cases/minimal/reference/` freezes a fresh direct-DLL reference for the supported
+11-argument no-header/no-debug/PDB-switch case, producing `minimalex`, `minimalgl`,
+`minimalin` and `minimalsy`. The separate `driver-contract/` freezes actual CL's
+26-argument default invocation, Boolean1, return0, observed stdcall cleanup12,
+canonical loaded C1/MSVCRT identities and captured IL before C2 starts. Driver
+defaults include an include path and `-Fd`; they are not requirements of the
+smaller separately validated case. Neither capture is reconstruction acceptance.
+
+The pass export is accepted with all 172 hot/cold bytes and complete Win32
+try/filter/handler/cleanup source. Fresh masked/native evidence reaches the same
+named initializer with matching actual caller arguments, pinned source bytes,
+module/heap/CRT state, LastError0 and x87 control027f. Eighteen corruption controls
+pass. Native SEH currently supports only the observed ordinary path and fails
+on actual faults; no exceptional path equivalence is claimed.
+
+Target source uses conventional `_DllMainCRTStartup`, `_CRT_INIT` and `main`.
+Explicit MAP symbol aliases preserve historical CRT logical IDs. The native
+compiler aliases target-TU `main` to `c1_main`, leaving the Linux host entry
+separate; the Win32 DLL retains literal `main`. These internal names are
+conventional reconstruction names, not a claim of recovered debug symbols.
+
+Use `python3 scripts/audit-trial.py --case minimal`, then the explicit original
+and native capture scripts with `--case minimal`; cached fixture runs never call
+those original transports. Immutable earlier lifecycle evidence remains intact.

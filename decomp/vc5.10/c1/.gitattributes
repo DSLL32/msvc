@@ -1,2 +1,4 @@
 # Preserve exact captured streams/state, including original CRLF bytes.
-cases/lifecycle/evidence/**/*.bin binary
+cases/**/*.bin binary
+# Raw environment assignments can have meaningful trailing spaces.
+cases/**/events.txt whitespace=-blank-at-eol

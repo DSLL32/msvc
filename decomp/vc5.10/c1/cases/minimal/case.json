@@ -1,0 +1,32 @@
+{
+  "case": "minimal",
+  "source": "cases/minimal/inputs/test.c",
+  "argc": 11,
+  "argv": [
+    "c1.dll",
+    "-il",
+    ".\\minimal",
+    "-f",
+    "test.c",
+    "-W",
+    "1",
+    "-G5",
+    "-Ot",
+    "-Ob0",
+    "-nologo"
+  ],
+  "BOOL": 1,
+  "oracle": "fresh direct-DLL minimal-baseline-001",
+  "actual_driver_contract": "fresh minimal-cl-001",
+  "driver_defaults_are_not_case_requirements": true,
+  "native_host_argv": [
+    "minimal"
+  ],
+  "artifacts": [
+    "minimalex",
+    "minimalgl",
+    "minimalin",
+    "minimalsy"
+  ],
+  "status": "pass wrapper accepted; initializer next"
+}
