@@ -308,3 +308,8 @@ build/wcstol-probe: tests/wcstol-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -fshort-wchar $< $(SOURCES) -o $@
 wcstol-check: build/wcstol-probe
 	$(PYTHON) tests/check-wcstol.py build/wcstol-probe
+
+build/createfile-errno-probe: tests/createfile-errno-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+createfile-errno-check: build/createfile-errno-probe
+	$(PYTHON) tests/check-createfile-errno.py build/createfile-errno-probe

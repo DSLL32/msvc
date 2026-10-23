@@ -1,0 +1,29 @@
+{
+  "scope": "CreateFileA preserves independent target CRTerrno while internal Linux path/open helpers operate. Capture hostfailure and map verified Win32error before restoring savederrno; existing LastError/status behavior retained.",
+  "original_proof": "tests/createfile-errno-original.json; actual loaded canonicalCRT/probe hFiles verified by read-only original debugger.12 calls: mixedcase existingOPEN_EXISTING/newCREATE_ALWAYS/missingOPEN_EXISTING \u00d74errno/LastError pairs.",
+  "native_checks": "GCC/Clang exact12 output rows and fileeffects; existing fsopen9controls/default/stdioownership pass.",
+  "actual_gap": "RCDLL watchpoint first errno0\u21922 at hostloggingfopen\u2192CreateFileA\u2192existing_spelling\u2192lstat; no target/API-local reseed. Separate fullpath/mktemp effects require independent evidence.",
+  "regression_receipt": "/root/.ai-tmp/msvc2/recon-maintenance/createfile-errno-regression/receipt.json",
+  "regression_sha256": "b5b015b2d0f32a85b15be6f09ebcebd1f8d95f778fb4df2faa038e9410d2687d",
+  "regression_runs": [
+    {
+      "binary": "cl",
+      "build_seconds": 1.6846944447606802,
+      "fixture_wrapper_seconds": 3.2708304338157177,
+      "fixture_status": 0
+    },
+    {
+      "binary": "rc",
+      "build_seconds": 2.7021499536931515,
+      "fixture_wrapper_seconds": 2.6836547423154116,
+      "fixture_status": 0
+    },
+    {
+      "binary": "rcpp",
+      "build_seconds": 2.327629747800529,
+      "fixture_wrapper_seconds": 0.44725251011550426,
+      "fixture_status": 0
+    }
+  ],
+  "regression_scope": "All95 finishedcachednativeCL/RC/RCPP cases passed, stablecompiledsourcehashes, no Wine/recapture/finishedworkerwake."
+}

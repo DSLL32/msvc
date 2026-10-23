@@ -331,9 +331,9 @@ DWORD WINAPI recon_GetLastError(void) { return last_error; }
 void WINAPI recon_SetLastError(DWORD error) { last_error=error; }
 HANDLE WINAPI recon_CreateFileA(LPCSTR name,DWORD access,DWORD share,LPSECURITY_ATTRIBUTES security,DWORD disposition,DWORD attributes,HANDLE template)
 {
-    char path[PATH_MAX]; int flags,fd;
+    char path[PATH_MAX]; int flags,fd,saved_errno=errno;
     (void)share; (void)template;
-    if (recon_host_path(name,path,sizeof(path))<0) { last_error=error_code(errno); return INVALID_HANDLE_VALUE; }
+    if (recon_host_path(name,path,sizeof(path))<0) { last_error=error_code(errno); errno=saved_errno; return INVALID_HANDLE_VALUE; }
     recon_fsopen_check_path(path);
     flags=(access&GENERIC_WRITE)?(access&GENERIC_READ)?O_RDWR:O_WRONLY:O_RDONLY;
     switch (disposition) {
@@ -342,13 +342,13 @@ HANDLE WINAPI recon_CreateFileA(LPCSTR name,DWORD access,DWORD share,LPSECURITY_
     case OPEN_ALWAYS: flags|=O_CREAT; break;
     case TRUNCATE_EXISTING: flags|=O_TRUNC; break;
     case OPEN_EXISTING: break;
-    default: last_error=ERROR_INVALID_PARAMETER; return INVALID_HANDLE_VALUE;
+    default: last_error=ERROR_INVALID_PARAMETER; errno=saved_errno; return INVALID_HANDLE_VALUE;
     }
     if (!security || !security->bInheritHandle) flags|=O_CLOEXEC;
     fd=open(path,flags,attributes&FILE_ATTRIBUTE_READONLY?0444:0666);
-    if (fd<0) { last_error=error_code(errno); return INVALID_HANDLE_VALUE; }
+    if (fd<0) { last_error=error_code(errno); errno=saved_errno; return INVALID_HANDLE_VALUE; }
     if (attributes&FILE_FLAG_DELETE_ON_CLOSE) unlink(path);
-    last_error=0; return (HANDLE)(uintptr_t)(fd+1);
+    last_error=0; errno=saved_errno; return (HANDLE)(uintptr_t)(fd+1);
 }
 BOOL WINAPI recon_CloseHandle(HANDLE handle)
 {
