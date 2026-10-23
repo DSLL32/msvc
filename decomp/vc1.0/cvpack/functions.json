@@ -3327,13 +3327,16 @@
       "native": "reserve_extra_type",
       "symbol": "_reserve_extra_type",
       "original": 151456,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        151456,
+        151546
+      ],
       "abi": "void reserve_extra_type(unsigned short,unsigned short *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0062-reserve_extra_type/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -3349,7 +3352,63 @@
           "kind": "pointer",
           "bits": 32
         }
-      ]
+      ],
+      "required_pdb_record_proof": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
+    },
+    {
+      "name": "has_extra_type",
+      "native": "has_extra_type",
+      "symbol": "_has_extra_type",
+      "original": 114336,
+      "source": "src/types.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        114336,
+        114393
+      ],
+      "abi": "int has_extra_type(unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0063-has_extra_type/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "type",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 16
+        }
+      ],
+      "required_pdb_record_proof": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     }
   ],
   "review": {
@@ -3742,6 +3801,18 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 61
+    },
+    {
+      "function": "reserve_extra_type",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 62
+    },
+    {
+      "function": "has_extra_type",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 63
     }
   ],
   "support_unmasked": [
@@ -4336,11 +4407,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "a062bcdd55145ec66b721191c08c51eab9f901c44f06bf3c09a69ca6db23ee5c"
+    "evidence_sha256": "686ef2e7c9d176dacbf8ee2d20032def60d5a177479a41609a7c4b44bd4221e0"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "500a2f851a850c83442d2d3fd9eeec119da98c88078998c4d12e082cfcc78a0f"
+    "evidence_sha256": "221f90ee23a84475a8d18c81fbdcf4f803fbd4b4aecd23786c3654e679a35f5a"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -4372,6 +4443,6 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "11a3873c6cf30137f6147fea0dd15013ff358b26c8502c8d86c9b39772914111"
+    "evidence_sha256": "6a320bb80d02183aa33e84e18a1366d94779356182bb873d1c96c1423b1ae25d"
   }
 }

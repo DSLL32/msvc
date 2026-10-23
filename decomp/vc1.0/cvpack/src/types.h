@@ -61,6 +61,7 @@ unsigned short __fastcall compact_new_type(unsigned short);
 void finish_recursive_types(void);
 TypeRecord *get_type_record(unsigned short, unsigned short *);
 void reserve_extra_type(unsigned short, unsigned short *);
+int has_extra_type(unsigned short);
 extern TypeRecord *local_type_records;
 extern unsigned short local_type_capacity;
 extern unsigned long total_local_type_bytes;

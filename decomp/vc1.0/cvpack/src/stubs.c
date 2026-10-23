@@ -78,4 +78,3 @@ void *type_server_fill_alloc(unsigned long size, unsigned char value) { __asm { 
 TypeServerRecord *__stdcall type_server_record_init(TypeServerRecord *node, TypeServerRecord *next, unsigned char *record, unsigned short type) { __asm { int 3 } return NULL; }
 
 TypeRecord *get_type_record(unsigned short type, unsigned short *flag) { __asm { int 3 } return NULL; }
-void reserve_extra_type(unsigned short type, unsigned short *size) { __asm { int 3 } }

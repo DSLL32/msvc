@@ -314,3 +314,26 @@ void index_new_types(void *types, unsigned long size,
         if (!previous_type_count) previous_type_count = local_type_count;
     }
 }
+
+unsigned short extra_types[254];
+
+void reserve_extra_type(unsigned short type, unsigned short *size)
+{
+    if (!has_extra_type(type)) {
+        *size += 13;
+        /* The original checks the limit after inserting the index. */
+        extra_types[extra_type_count++] = type;
+        if (extra_type_count > 254)
+            fatal_error(27, module_name(current_module), NULL);
+    }
+}
+
+int has_extra_type(unsigned short type)
+{
+    unsigned short i = 0, count = extra_type_count;
+    while (i < count) {
+        if (extra_types[i] == type) return 1;
+        ++i;
+    }
+    return 0;
+}

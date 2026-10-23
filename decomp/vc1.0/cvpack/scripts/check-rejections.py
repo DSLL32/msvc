@@ -52,6 +52,9 @@ def main():
     # external `_main` target is mapped to the wrong application identity.
     target=ROOT/'toolchains/1.0-nt/bin/CVPACK.EXE'
     good=identify(target,{'_main':0x17000})
+    configuration=json.loads((BINARY/'functions.json').read_text());context=json.loads((BINARY/'data.json').read_text())
+    duplicate=dict(context[0],name='wrong-overlapping-owner',original=context[0]['original']+1,size=1)
+    reject('overlapping contextual data owners',lambda:validate_ownership(configuration,PE(target),good,[*context,duplicate]))
     bad=identify(target,{'_main':0x17001})
     assert any(r['name']=='_mainCRTStartup' and r['start']==0x2c260 for r in good['functions'])
     assert not any(r['name']=='_mainCRTStartup' and r['start']==0x2c260 for r in bad['functions'])

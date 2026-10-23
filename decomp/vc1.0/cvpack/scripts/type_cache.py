@@ -42,11 +42,26 @@ def compiled_provenance(pe,linked):
     raw=pe.read(call.address,end-call.address);at=raw.find(publication)
     assert at>=0 and raw.count(publication)==1,'cache publication allocation owner differs'
     tail=raw[at+len(publication):at+len(publication)+12]
-    assert tail[:3]==b'\x8b\x4d\xcc'and tail[3:5]==b'\x8b\x15'and tail[5:9]==root and tail[9:12]==b'\x89\x04\x8a','cache publication root provenance differs'
+    prefix=raw[at-12:at]
+    assert len(prefix)==12 and prefix[:2]==b'\x8b\x45'and prefix[3:5]==b'\x8b\x0d'and prefix[5:9]==root and prefix[9:12]==b'\x8b\x04\x81','cache old bucket-head provenance differs'
+    assert tail[:2]==b'\x8b\x4d'and tail[2]==prefix[2]and tail[3:5]==b'\x8b\x15'and tail[5:9]==root and tail[9:12]==b'\x89\x04\x8a','cache publication root provenance differs'
     helper=linked['_checked_zero'];helper_end=min(v for v in linked.values()if v>helper)
     body=pe.read(helper,helper_end-helper)
-    assert b'\xff\x75\x08'in body and b'\x89\x45\xf8'in body,'cache zero helper allocation provenance differs'
-    assert b'\xc7\x45\xfc\x00\x00\x00\x00'in body and b'\x8b\x45\x08\x39\x45\xfc'in body and b'\x8b\x45\xfc\x8b\x4d\xf8\xc6\x04\x08\x00'in body,'cache initialized extent/zeroing differs'
+    instructions=list(decoder.disasm(body,helper))
+    calls=[j for j,i in enumerate(instructions)if i.mnemonic=='call'and i.op_str=='0x%x'%linked['_malloc']]
+    assert len(calls)==1,'cache zero helper allocator differs'
+    k=calls[0]
+    assert instructions[k-1].bytes==b'\xff\x75\x08'and instructions[k+1].bytes==b'\x83\xc4\x04','cache zero helper allocation provenance differs'
+    store=instructions[k+2]
+    assert store.bytes[:2]==b'\x89\x45'and store.size==3,'cache zero helper returned owner differs'
+    data_slot=store.bytes[2:3]
+    initializers=[i for i in instructions if i.bytes[:2]==b'\xc7\x45'and i.size==7 and i.bytes[3:]==b'\0'*4]
+    assert len(initializers)==1,'cache zero helper counter initialization differs'
+    counter=initializers[0].bytes[2:3];assert counter!=data_slot
+    loop=(b'\xc7\x45'+counter+b'\0'*4+b'\xe9\x03\0\0\0\xff\x45'+counter+
+          b'\x8b\x45\x08\x39\x45'+counter+b'\x0f\x83\x0f\0\0\0\x8b\x45'+counter+
+          b'\x8b\x4d'+data_slot+b'\xc6\x04\x08\0\xe9\xe2\xff\xff\xff\x8b\x45'+data_slot)
+    assert loop in body,'cache initialized extent/zeroing differs'
     return dict(call=call.address,size=16,result_frame_offset=slot,publication_start=call.address+at,publication_bytes=raw[at:at+len(publication)+12].hex(),zero_helper=helper,zero_helper_sha256=hashlib.sha256(body).hexdigest(),rebuilt_sha256=hashlib.sha256(pe.data).hexdigest())
 
 def compare(left,right,a,b,original,native):

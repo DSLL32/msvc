@@ -22,6 +22,12 @@ def validate_ownership(config,pe,runtime,context):
                 and s['off']+end-pe.base-s['rva']<=len(pe.data)]
         assert len(owners)==1,('range is not original file-backed code',hex(start),hex(end))
     def overlaps(a,b):return a[0]<b[1] and b[0]<a[1]
+    for index,item in enumerate(context):
+        assert isinstance(item['original'],int)and isinstance(item['size'],int)and item['size']>0,'invalid contextual data extent'
+        region=(item['original'],item['original']+item['size'])
+        assert any(pe.base+s['rva']<=region[0]<region[1]<=pe.base+s['rva']+max(s['size'],s['virtual_size'])for s in pe.sections),'contextual data outside original image'
+        for other in context[:index]:
+            assert not overlaps(region,(other['original'],other['original']+other['size'])),('overlapping contextual data ownership',other['name'],item['name'])
     application=[]
     functions=config['functions']
     for record in functions:

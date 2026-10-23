@@ -59,8 +59,8 @@ def compiled_checks():
     def changed(address,offset,value):
         result=copy.copy(pe);data=bytearray(pe.data);data[pe.offset(address)+offset]=value;result.data=bytes(data);return result
     deny('cache compiled allocation wrong size',lambda:compiled_provenance(changed(proof['call']-2,1,15),symbols))
-    deny('cache compiled wrong allocation owner',lambda:compiled_provenance(changed(proof['call'],10,0xc0),symbols))
-    deny('cache compiled wrong publication source',lambda:compiled_provenance(changed(proof['publication_start'],2,0xc0),symbols))
+    deny('cache compiled wrong allocation owner',lambda:compiled_provenance(changed(proof['call'],10,(proof['result_frame_offset']&255)^4),symbols))
+    deny('cache compiled wrong publication source',lambda:compiled_provenance(changed(proof['publication_start'],2,(proof['result_frame_offset']&255)^4),symbols))
     helper=proof['zero_helper'];end=min(v for v in symbols.values()if v>helper);body=pe.read(helper,end-helper);offset=body.index(b'\xc6\x04\x08\x00')+3
     deny('cache compiled helper fails zero initialization',lambda:compiled_provenance(changed(helper,offset,1),symbols))
     config=json.loads((BINARY/'functions.json').read_text());original=PE(ROOT/config['target']['path'])

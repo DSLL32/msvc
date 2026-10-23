@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "reserve_extra_type",
-    "native_function": "reserve_extra_type",
+    "logical": "pack_new_types",
+    "native_function": "pack_new_types",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -79,7 +79,9 @@
       "release_page",
       "convert_new_type",
       "index_new_types",
-      "reserve_extra_type"
+      "reserve_extra_type",
+      "has_extra_type",
+      "pack_new_types"
     ]
   },
   "complete_reference": {

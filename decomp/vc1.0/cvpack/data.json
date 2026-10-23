@@ -930,5 +930,13 @@
     "original": 209048,
     "size": 2,
     "source": "src/types.c"
+  },
+  {
+    "name": "extra_types",
+    "symbol": "_extra_types",
+    "original": 209588,
+    "size": 508,
+    "source": "src/types.c",
+    "provenance": "332b4..334b0:254USHORTs; adjacent known module_record_buffer owns334b0..334b4. Original reserve_extra_type checks count after insertion."
   }
 ]
