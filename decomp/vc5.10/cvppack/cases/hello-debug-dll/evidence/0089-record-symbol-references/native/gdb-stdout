@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565edc10 in record_symbol_reference (record=0x577d4a5c "6", buckets=0x577b5170, module=2, offset=108, kind=1024) at src/stubs.c:70
+70	void record_symbol_reference(const unsigned char *record, PublicSymbol **buckets, unsigned short module, unsigned offset, unsigned short kind) { __asm { int 3 } }

@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0088-link-symbol-scopes-buffer-contract/original",
-  "reference_receipt_sha256": "3e42cd948a619793aedde941c21eceaf85094520e8773f7d4fc8b38fa89c06af",
+  "reference": "cases/hello-debug-dll/evidence/0089-record-symbol-references/original",
+  "reference_receipt_sha256": "5d3e4b70adbb2506dc6d9067d82b2f2bd3d6b3e3763f86e815afcc11d9776d2c",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -94,6 +94,7 @@
     "lookup_global_type",
     "compare_recursive_type",
     "link_symbol_scopes",
-    "record_symbol_references"
+    "record_symbol_references",
+    "record_symbol_reference"
   ]
 }

@@ -94,7 +94,8 @@
     "index_recursive_type",
     "lookup_global_type",
     "compare_recursive_type",
-    "link_symbol_scopes"
+    "link_symbol_scopes",
+    "record_symbol_references"
   ],
   "functions": [
     {
@@ -2656,8 +2657,11 @@
       "symbol": "_record_symbol_references",
       "native_symbol": "record_symbol_references",
       "original": 4256928,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4256928,
+        4257217
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -2685,7 +2689,14 @@
           "kind": "integer",
           "native_width": 2
         }
-      ]
+      ],
+      "text_data": [
+        [
+          4257220,
+          4257252
+        ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0089-record-symbol-references/promotion.json"
     },
     {
       "name": "module_contains_address",
@@ -3248,6 +3259,60 @@
         }
       ],
       "acceptance_proof": "cases/hello-debug-dll/evidence/0085-index-recursive-type-dword-output/promotion.json"
+    },
+    {
+      "name": "record_symbol_reference",
+      "symbol": "_record_symbol_reference",
+      "source_name": "record_symbol_reference",
+      "native_symbol": "record_symbol_reference",
+      "original": 4256768,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "record",
+          "slot": 1,
+          "kind": "allocation-output",
+          "owner": "rewrite_module_symbols",
+          "allocation_site": 4237265,
+          "cursor": "symbol_output",
+          "write_size": 0,
+          "record_argument": true,
+          "offset_slot": 4,
+          "offset_name": "offset",
+          "native_pointee_width": 1
+        },
+        {
+          "name": "buckets",
+          "slot": 2,
+          "kind": "global-pointer",
+          "global_value": true,
+          "allowed_globals": [
+            "type_table_local",
+            "type_table_forward"
+          ],
+          "native_pointee_width": 4
+        },
+        {
+          "name": "module",
+          "slot": 3,
+          "kind": "integer",
+          "native_width": 2
+        },
+        {
+          "name": "offset",
+          "slot": 4,
+          "kind": "integer",
+          "native_width": 4
+        },
+        {
+          "name": "kind",
+          "slot": 5,
+          "kind": "integer",
+          "native_width": 2
+        }
+      ]
     }
   ],
   "support_unmasked": [

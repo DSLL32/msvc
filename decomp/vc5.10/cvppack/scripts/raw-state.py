@@ -174,7 +174,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
             if not value:
                 assert item.get('nullable');parameters[item['name']]=dict(null=True)
             else:
-                names=[row['name'] for row in data if row['name'] in item['allowed_globals'] and row['original']==value]
+                names=[row['name'] for row in data if row['name'] in item['allowed_globals'] and (int.from_bytes(original['memory'][row['original']],'little') if item.get('global_value') else row['original'])==value]
                 assert len(names)==1,'argument is not the specified original global address'
                 parameters[item['name']]=dict(null=False,global_name=names[0])
                 if 'buffer_count_slot' in item:
@@ -283,7 +283,13 @@ def compare(config,data,events,native,artifacts=None,views=None):
             row=next(row for row in data if row['name']==item['cursor'])
             cursor=int.from_bytes(original['memory'][row['original']],'little')
             offset=value-allocation['address']
-            if item.get('base_argument'):
+            if item.get('record_argument'):
+                expected_offset=original['stack'][item['offset_slot']]
+                assert offset==expected_offset and 0<=offset<=cursor-allocation['address']-4,'original reference record offset/owner differs'
+                raw=original['memory'][allocation['address']];length=int.from_bytes(raw[offset:offset+2],'little')+2
+                assert 4<=length<=cursor-value and len(raw)>=offset+length,'original reference record exceeds initialized output'
+                parameters[item['name']]=dict(owner=item['owner'],offset=offset,capacity=allocation['size'],bytes=raw[offset:offset+length].hex())
+            elif item.get('base_argument'):
                 size=original['stack'][item['size_slot']]
                 assert offset==0 and 0<=size<=allocation['size'] and value+size==cursor,'original initialized symbol buffer ownership/extent differs'
                 assert len(original['memory'][value])>=size,'incomplete initialized symbol buffer'

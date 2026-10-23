@@ -74,6 +74,8 @@ void rewrite_module_symbols(void *lines, CodeViewDirectoryEntry *entry, ModuleIn
 unsigned short write_segment_record(unsigned char *buffer, unsigned short segment);
 int link_symbol_scopes(unsigned char *buffer, unsigned size);
 void record_symbol_references(unsigned char *buffer, unsigned size, unsigned short module);
+void record_symbol_reference(const unsigned char *record, PublicSymbol **buckets,
+    unsigned short module, unsigned offset, unsigned short kind);
 void enter_symbol_scope(void);
 void leave_symbol_scope(void);
 void rewrite_symbol_type4(void);

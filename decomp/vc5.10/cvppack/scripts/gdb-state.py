@@ -371,7 +371,13 @@ def capture(configuration,data_file,output):
             assert len(owned)==1,'symbol output allocation lifetime differs'
             allocation=owned[0];offset=int(value)-allocation['address']
             cursor=int(gdb.parse_and_eval(item['cursor']))
-            if item.get('base_argument'):
+            if item.get('record_argument'):
+                expected_offset=int(frame.read_var(item['offset_name']))
+                assert offset==expected_offset and 0<=offset<=cursor-allocation['address']-4,'reference record offset/owner differs'
+                length=int.from_bytes(bytes(inferior.read_memory(int(value),2)),'little')+2
+                assert 4<=length<=cursor-int(value),'reference record exceeds initialized output'
+                parameters[item['name']]=dict(owner=item['owner'],offset=offset,capacity=allocation['size'],bytes=bytes(inferior.read_memory(int(value),length)).hex())
+            elif item.get('base_argument'):
                 size=int(frame.read_var(item['size_name']))
                 assert offset==0 and 0<=size<=allocation['size'] and int(value)+size==cursor,'initialized symbol buffer ownership/extent differs'
                 parameters[item['name']]=dict(owner=item['owner'],offset=0,capacity=allocation['size'],size=size,bytes=bytes(inferior.read_memory(int(value),size)).hex())
@@ -383,7 +389,7 @@ def capture(configuration,data_file,output):
             if not address:
                 assert item.get('nullable');parameters[item['name']]=dict(null=True)
             else:
-                names=[name for name in item['allowed_globals'] if state['global_addresses'][name]==address]
+                names=[name for name in item['allowed_globals'] if (int(gdb.parse_and_eval(name)) if item.get('global_value') else state['global_addresses'][name])==address]
                 assert len(names)==1,'argument is not the specified global address'
                 parameters[item['name']]=dict(null=False,global_name=names[0])
                 if 'buffer_count_slot' in item:
