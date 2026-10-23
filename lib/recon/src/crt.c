@@ -126,6 +126,7 @@ void recon_crt_bind_arguments(int argc,char **argv,char **environment)
 /* Host controls and application environment are separate namespaces. The
  * canonical getenv returns a borrowed pointer into its mutable environment. */
 char *recon_host_getenv(const char *name) { return getenv(name); }
+WEAK int *recon_errno(void) { return &errno; }
 WEAK char *recon_getenv(const char *name)
 {
     char **slot; size_t length,i; unsigned char a,b;

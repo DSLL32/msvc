@@ -1,0 +1,5 @@
+{
+  "scope": "Canonical _errno cdecl pointer accessor backed by real host TLS errno",
+  "provider_body": "canonical MSVCRT 78006436..7800643f calls getptd780015c3 and adds8",
+  "native_checks": "GCC/Clang cached pointer identity/write visibility +strtol normal/ERANGE updates"
+}

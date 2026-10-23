@@ -198,3 +198,7 @@ build/mktemp-probe: tests/mktemp-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 mktemp-check: build/mktemp-probe
 	$(PYTHON) tests/check-mktemp.py build/mktemp-probe
+build/check-errno: tests/check-errno.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+errno-check: build/check-errno
+	./build/check-errno

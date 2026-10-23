@@ -549,3 +549,6 @@ RECON_MKTEMP_FD optionally records the typed recon_mktemp_observation (RMT1,
 that receipt, requiring one PID-owned invocation and matching aliases/strings/
 errors. Fixtures must separately bind the original full directory inventory.
 Unconfigured legacy mktemp behavior remains unchanged.
+
+_errno returns the real host thread-local errno address, so cached pointer writes
+and native libc strtol updates refer to the same slot, preserving aliasing.

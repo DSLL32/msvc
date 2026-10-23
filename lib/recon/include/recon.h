@@ -138,6 +138,7 @@ ShimFILE *recon_fopen(const char *,const char *);
 ShimFILE *recon_fsopen(const char *,const char *,int);
 char *recon_getenv(const char *);
 char *recon_host_getenv(const char *);
+int *recon_errno(void);
 ShimFILE *recon_freopen(const char *,const char *,ShimFILE *);
 void recon_setbuf(ShimFILE *,char *);
 int recon_flushall(void),recon_fcloseall(void),recon_flsbuf(int,ShimFILE *);
@@ -322,6 +323,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _fsopen recon_fsopen
 #define _isatty recon_isatty
 #define getenv recon_getenv
+#define _errno recon_errno
 #define freopen recon_freopen
 #define setbuf recon_setbuf
 #define flushall recon_flushall
