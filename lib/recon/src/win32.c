@@ -520,20 +520,23 @@ HMODULE WINAPI recon_LoadLibraryA(LPCSTR name)
 }
 FARPROC WINAPI recon_GetProcAddress(HMODULE module,LPCSTR name)
 {
+    if ((uintptr_t)name<65536) recon_unsupported("unreviewed ordinal/null export lookup");
     if (module==(HMODULE)3) {
         if (name && !strcmp(name,"LdrProcessRelocationBlock")) return (FARPROC)recon_LdrProcessRelocationBlock;
         recon_unsupported("unreviewed NTDLL export"); return NULL;
     }
     if (module==(HMODULE)2) {
-        if (name && !strcmp(name,"LoadStringA")) return (FARPROC)recon_LoadStringA;
-        last_error=127; return NULL;
+        if (!strcmp(name,"LoadStringA")) return (FARPROC)recon_LoadStringA;
+        recon_unsupported("unreviewed USER32 export"); return NULL;
     }
     if (module!=(HMODULE)1) { last_error=ERROR_INVALID_HANDLE; return NULL; }
     if (!strcmp(name,"CreateFileMappingA")) return (FARPROC)recon_CreateFileMappingA;
     if (!strcmp(name,"MapViewOfFile")) return (FARPROC)recon_MapViewOfFile;
     if (!strcmp(name,"UnmapViewOfFile")) return (FARPROC)recon_UnmapViewOfFile;
-    /* In particular, IsTNT is absent: LINK must take its ordinary NT path. */
-    last_error=127; return NULL;
+    /* This absence is actually observed by LINK/CVPACK, not inferred for
+     * arbitrary unimplemented exports. */
+    if (!strcmp(name,"IsTNT")) { last_error=127; return NULL; }
+    recon_unsupported("unreviewed KERNEL32 export"); return NULL;
 }
 HANDLE WINAPI recon_CreateFileMappingA(HANDLE file,LPSECURITY_ATTRIBUTES security,DWORD protection,DWORD high,DWORD low,LPCSTR name)
 {

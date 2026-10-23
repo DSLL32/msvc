@@ -4,7 +4,7 @@ CPPFLAGS += -DRECON_NATIVE_TEST -Iinclude -Inative
 CFLAGS += -m32 -std=gnu89 -O0 -g -Wall -Wextra
 SOURCES = src/crt.c src/win32.c src/process.c src/compat.c src/entry.c src/decimal.c
 HEADERS = $(wildcard include/*.h native/*.h native/sys/*.h)
-.PHONY: all check find-check module-check initterm-check startup-check resource-check status-check jump-storage-check system-check cpp-new-check setjmp3-check format-inserts-check multibyte-surface-check private-heap-check tick-context-check onexit-check editor-api-check mb-ascii-check cxx-check system-profile-check mapped-file-check stdio-profile-check mb-space-check local-memory-check mb-dec-check module-memory-check file-time-check mb-rchr-check mb-nbicmp-check mb-chr-check stdio-ownership-check trace-check process-check process-stream-check trace-allocation-check adoption-check clean
+.PHONY: all check find-check module-check initterm-check startup-check resource-check status-check jump-storage-check system-check cpp-new-check setjmp3-check format-inserts-check multibyte-surface-check private-heap-check tick-context-check onexit-check editor-api-check mb-ascii-check cxx-check system-profile-check mapped-file-check stdio-profile-check mb-space-check local-memory-check mb-dec-check module-memory-check file-time-check mb-rchr-check mb-nbicmp-check mb-chr-check stdio-ownership-check exports-check trace-check process-check process-stream-check trace-allocation-check adoption-check clean
 all: build/check
 build:
 	mkdir -p $@
@@ -149,6 +149,10 @@ build/stdio-ownership-probe: tests/stdio-ownership-probe.c $(SOURCES) $(HEADERS)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 stdio-ownership-check: build/stdio-ownership-probe
 	$(PYTHON) tests/check-stdio-ownership.py build/stdio-ownership-probe
+build/check-exports: tests/check-exports.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+exports-check: build/check-exports
+	$(PYTHON) tests/check-exports.py build/check-exports
 build/trace-target.o: tests/trace-target.c | build
 	$(CC) -m32 -std=gnu89 -O0 -g -finstrument-functions -c $< -o $@
 build/trace-pie: build/trace-target.o src/trace.c

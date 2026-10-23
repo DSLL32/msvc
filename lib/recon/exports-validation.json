@@ -1,0 +1,21 @@
+{
+  "scope": "Only evidenced IsTNT absence returns NULL127; known exports unchanged; other kernel/user/ntdll/ordinal lookups unsupported",
+  "inventory": "Reconstructed VC1 LINK/CVPACK and VC5 LINK use IsTNT only for evidenced absence; mapping3/USER32LoadString/NTDLLLdr are known successful exports; original-only capture helpers excluded",
+  "native_build_checks_seconds": {
+    "gcc": 1.0886013293638825,
+    "clang": 1.2856251373887062
+  },
+  "affected_cached_LINK_cases": {
+    "cases": [
+      "hello-win32",
+      "hello-dll",
+      "editor-rebase",
+      "editor-bind"
+    ],
+    "build_seconds": 1.4106621723622084,
+    "fixture_wrapper_seconds": 1.0784153183922172,
+    "status": "passed",
+    "receipt_directory": "/root/.ai-tmp/msvc2/recon-maintenance/exports-regression/link-cases",
+    "compiled_shared_win32_sha256": "3d6d57cbbe0e4f790ab2bb1dc675348f1cc00ec41040a9e34fbe2c502f85c41b"
+  }
+}

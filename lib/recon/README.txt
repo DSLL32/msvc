@@ -502,3 +502,9 @@ and other untouched fields; freebuf changes only active owned buffers, and
 freopen stops after close failure. Successful CloseHandle preserves LastError.
 Original whole CRT bodies plus real closed/reopened stdout state prove this;
 focused/default/stdio/onexit/stream checks and all95 finished native cases pass.
+
+GetProcAddress preserves the explicit known export catalogue. Only evidenced
+IsTNT absence returns NULL/127; arbitrary unimplemented KERNEL32/USER32/NTDLL
+names and ordinal/null lookups fail explicitly, rather than silently forcing
+application fallback paths. Original-only debugger exports are not native API
+requirements. Four affected LINK mapping/editor cached cases pass unchanged.
