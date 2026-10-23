@@ -203,3 +203,22 @@ void __stdcall print_declaration(CppSymbol *symbol, FILE *stream)
     else fwrite(text, length, 1, stream);
     if (stream == stdout) fwrite(";\n", 2, 1, stream);
 }
+
+/* Original 0x67be0..0x67c47. Join a declaration's base type and its
+   name/shape text. Special function spellings suppress the base type; the
+   intermediate shape string is released after being appended. */
+short __stdcall format_declarator(CppSymbol *symbol, CType *type)
+{
+    short text = reserve_type_diagnostic(), shape;
+    if (!type) {
+        if (!symbol) return text;
+        type = symbol->type;
+    }
+    if (!symbol || (symbol->kind & 31) != 7 ||
+        !(symbol->declaration_flags & 0x7000))
+        format_declaration_base_type(text, type);
+    shape = format_declarator_shape(symbol, type);
+    append_type_diagnostic(text, type_diagnostic_text(shape));
+    release_type_diagnostic(shape);
+    return text;
+}

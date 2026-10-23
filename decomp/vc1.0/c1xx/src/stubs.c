@@ -50,6 +50,7 @@
 #include "type-diagnostics-internal.h"
 #include "directives-internal.h"
 #include "literals-internal.h"
+#include "type-diagnostics-internal.h"
 #include <recon.h>
 void interrupt_compile(int signal_number) { __asm { int 3 } }
 void initialize_japanese_characters(void) { __asm { int 3 } }
@@ -101,7 +102,6 @@ char *__stdcall format_symbol_name(CppSymbol *symbol) { __asm { int 3 } return 0
 void report_declaration_diagnostic(unsigned warning_code, unsigned error_code, ...) { __asm { int 3 } }
 void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *get_current_class_symbol(void) { __asm { int 3 } return 0; }
-short __stdcall format_declarator(CppSymbol *symbol, CType *type) { __asm { int 3 } return 0; }
 void __stdcall browser_declaration(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *__stdcall declare_qualified_member(CppSymbol *symbol, QualifiedDeclarator *qualifier, CppSymbol *member) { __asm { int 3 } return 0; }
 char *__stdcall format_qualified_name(QualifierBinding *binding, int verbose) { __asm { int 3 } return 0; }
@@ -623,3 +623,6 @@ void emit_runtime_zero_initializer(void) { __asm { int 3 } }
 unsigned remaining_braced_initializer_bytes(void) { __asm { int 3 } return 0; }
 IrToken *__stdcall wrap_default_argument_symbols(IrToken *expression, ExpressionSymbolList *symbols) { __asm { int 3 } return 0; }
 IrToken *__stdcall wrap_default_argument_members(IrToken *expression, MemberReferenceGroup *groups) { __asm { int 3 } return 0; }
+void __stdcall format_declaration_base_type(short text, CType *type) { __asm { int 3 } }
+short __stdcall format_declarator_shape(CppSymbol *symbol, CType *type) { __asm { int 3 } return 0; }
+void __stdcall release_type_diagnostic(short text) { __asm { int 3 } }
