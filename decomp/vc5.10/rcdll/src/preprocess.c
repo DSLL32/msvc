@@ -13,6 +13,11 @@
 int rc_cpp_remaining,rc_cpp_active;
 WCHAR **rc_cpp_arguments,*rc_cpp_bad_argument;
 WCHAR *rc_cpp_option_argument;
+WCHAR rc_macro_name[512];
+unsigned rc_macro_name_length;
+unsigned char rc_macro_hash;
+char rc_cpp_output_path[257];
+FILE *rc_cpp_output_file;
 
 int __stdcall rc_preprocess(int count,char **arguments,int unused)
 {
@@ -204,4 +209,70 @@ int __stdcall rc_option_number(WCHAR *operand)
     rc_format(rc_error_text,2048,rc_error_template,operand);
     rc_input_fatal(1049);
     return value;
+}
+
+void __stdcall rc_open_preprocessor(WCHAR *input,WCHAR *output,
+                                   RcOptionList *defines,RcOptionList *undefines)
+{
+    WCHAR *value,*name,*at,*trailing;
+    unsigned length;
+    int i,parameters;
+
+    rc_set_character_token(1,0x24);
+    rc_set_character_token(2,0x25);
+    rc_set_character_token(3,0x26);
+    rc_set_character_token(4,0x27);
+    if(rc_cpp_extensions||rc_cpp_ZE){
+        rc_set_character_token(0x24,0x28);
+        rc_set_character_class(0x24,0x10);
+    }
+    for(i=defines->remaining;i<100;++i){
+        value=defines->items[i];
+        name=rc_macro_name;
+        while((*name=*value++)!=0&&*name!=L'=') ++name;
+        if(*name==L'='){
+            *name=0;
+            trailing=NULL;
+            for(at=value;*at;++at){
+                if(!iswctype(*at,8)) trailing=NULL;
+                else if(!trailing) trailing=at;
+            }
+            if(trailing) *trailing=0;
+            rc_macro_hash=rc_hash_macro_name(rc_macro_name);
+            rc_macro_name_length=wcslen(rc_macro_name)+1;
+            if(!*value){value=NULL;length=0;parameters=0;}
+            else{length=wcslen(value)+2;parameters=-2;}
+        }else{
+            rc_macro_hash=rc_hash_macro_name(rc_macro_name);
+            rc_macro_name_length=wcslen(rc_macro_name)+1;
+            value=L"1";length=3;parameters=-2;
+        }
+        rc_define_macro(value,length,parameters);
+    }
+    for(i=undefines->remaining;i<100;++i){
+        value=undefines->items[i];
+        name=rc_macro_name;
+        while((*name=*value++)!=0&&*name!=L'=') ++name;
+        if(*name==L'='){
+            *name=0;
+            trailing=NULL;
+            while(*value){
+                if(!iswctype(*value,8)) trailing=NULL;
+                else if(!trailing) trailing=value;
+                ++value;
+            }
+            if(trailing) *trailing=0;
+        }
+        rc_macro_hash=rc_hash_macro_name(rc_macro_name);
+        rc_macro_name_length=wcslen(rc_macro_name)+1;
+        rc_undefine_macro();
+    }
+    WideCharToMultiByte(GetACP(),0,output,-1,rc_cpp_output_path,257,NULL,NULL);
+    rc_cpp_output_file=fopen(rc_cpp_output_path,"w+b");
+    if(!rc_cpp_output_file){
+        rc_error_template=rc_message(1023);
+        rc_format(rc_error_text,2048,rc_error_template,rc_cpp_output_path);
+        rc_input_fatal(1023);
+    }
+    rc_open_source(input,1);
 }

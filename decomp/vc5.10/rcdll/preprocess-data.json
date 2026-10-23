@@ -241,6 +241,36 @@
       "original_rva": "0x15c98",
       "kind": "packed-argument",
       "bytes": 4
+    },
+    {
+      "name": "rc_macro_name",
+      "original_rva": "0x18128",
+      "kind": "byte-buffer",
+      "bytes": 1024
+    },
+    {
+      "name": "rc_macro_name_length",
+      "original_rva": "0x16ce0",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_macro_hash",
+      "original_rva": "0x16cec",
+      "kind": "integer",
+      "bytes": 1
+    },
+    {
+      "name": "rc_cpp_output_path",
+      "original_rva": "0x18540",
+      "kind": "byte-buffer",
+      "bytes": 257
+    },
+    {
+      "name": "rc_cpp_output_file",
+      "original_rva": "0x18e74",
+      "kind": "null-pointer",
+      "bytes": 4
     }
   ],
   "options": {

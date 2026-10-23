@@ -71,10 +71,31 @@ int __stdcall rc_match_option(const WCHAR *pattern,const WCHAR *argument)
     __asm int 3
     return 0;
 }
-void __stdcall rc_open_preprocessor(WCHAR *input,WCHAR *output,
-                                   RcOptionList *defines,RcOptionList *undefines)
+void __stdcall rc_set_character_token(unsigned short character,unsigned short token)
 {
     __asm int 3
+}
+void __stdcall rc_set_character_class(unsigned short character,unsigned short flags)
+{
+    __asm int 3
+}
+unsigned char __stdcall rc_hash_macro_name(const WCHAR *name)
+{
+    __asm int 3
+    return 0;
+}
+void __stdcall rc_define_macro(const WCHAR *replacement,unsigned length,int parameters)
+{
+    __asm int 3
+}
+void __cdecl rc_undefine_macro(void)
+{
+    __asm int 3
+}
+int __stdcall rc_open_source(WCHAR *path,int first)
+{
+    __asm int 3
+    return 0;
 }
 void __cdecl rc_run_preprocessor(void)
 {

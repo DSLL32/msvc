@@ -423,6 +423,7 @@ static int trap(HANDLE thread,DWORD address)
         readmem(c.Esp,words,sizeof(words));
         fprintf(events,"frontier %08lx eax=%08lx ecx=%08lx edx=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx esp=%08lx\n",address-base,c.Eax,c.Ecx,c.Edx,c.Ebx,c.Esi,c.Edi,c.Ebp,c.Esp);
         fprintf(events,"stack");for(n=0;n<12;++n)fprintf(events," %08lx",words[n]);fprintf(events,"\n");
+        if(crt_base){DWORD error;readmem(initial_teb+0x34,&error,4);fprintf(events,"frontier-errors errno=%ld last-error=%08lx\n",(long)crt_errno_value(),error);}
         if(export_vector)vector_state("frontier");
         if(address==base+0x8c70){
             DWORD output,state[8],current;readmem(c.Esp+0x1c,&output,4);readmem(output,state,32);hexbytes("progress-output-state",output,32);
@@ -439,7 +440,7 @@ static int trap(HANDLE thread,DWORD address)
             hexbytes("line-prefix",words[1],wide_string_bytes(words[1]));hexbytes("line-text",words[2],wide_string_bytes(words[2]));
             {DWORD current;readmem(base+0x16ce8,&current,4);fprintf(events,"line-current-number %lu\n",current);}
         }
-        if(address==base+0xbc80||address==base+0xbc61||address==base+0x293e||address==base+0x29ef||address==base+0x2b84||address==base+0x44fd){
+        if(address==base+0xbc80||address==base+0xbc61||address==base+0x293e||address==base+0x29ef||address==base+0x2b84||address==base+0x44fd||address==base+0x26bb){
             DWORD pointer,count,vector,total,length;char label[80];
             if(address==base+0xbc80){count=words[1];vector=words[2];}
             else{count=cpp_count;vector=cpp_vector;}
@@ -450,6 +451,7 @@ static int trap(HANDLE thread,DWORD address)
                 fprintf(events,"number-parent %08lx %08lx %lu\n",parent[0],parent[1],parent[2]);
                 hexbytes("number-operand",words[1],wide_string_bytes(words[1]));
             }
+            if(address==base+0x26bb)hexbytes("setup-forwarded",c.Esp+36,16);
             if(count!=20||!vector)fail("wide-preprocessor-scope");total=4*(count+1);
             fprintf(events,"wide-args %lu %08lx\n",count,vector);
             for(n=0;n<count;++n){readmem(vector+4*n,&pointer,4);length=wide_string_bytes(pointer);total+=length;sprintf(label,"wide-argv-%u",n);hexbytes(label,pointer,length);fprintf(events,"wide-pointer %u %08lx\n",n,pointer);}

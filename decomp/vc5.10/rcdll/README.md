@@ -230,3 +230,9 @@ reusing the unchanged original reference.
 The rebuilt dispatcher's compiler-generated switch data is [verified from COFF](cases/resources-rich/dispatcher-switch-verification.json),
 including exact relocation targets, index bytes and linked bounds. This supplies
 the existing Rust metadata interface; code/RET/ownership checks remain strict.
+
+Preprocessor setup is accepted (626 bytes), matching at the first character-token
+assignment with its four forwarded parameters, parsed option lists and error
+state intact. [Verification](cases/resources-rich/open-preprocessor-verification.json)
+records 30 fresh rejection controls and separate build/capture/audit timings.
+Macro creation and source opening remain behind named trapped callees.

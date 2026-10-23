@@ -29,7 +29,8 @@
     "rc_next_argument",
     "rc_scan_options",
     "rc_apply_option",
-    "rc_option_number"
+    "rc_option_number",
+    "rc_open_preprocessor"
   ],
   "functions": [
     {
@@ -662,7 +663,17 @@
       "abi": "stdcall",
       "stack_bytes": 16,
       "kind": "application",
-      "stub": true
+      "stub": false,
+      "text_data": [
+        [
+          "0x1264",
+          "0x1268"
+        ],
+        [
+          "0x1268",
+          "0x126c"
+        ]
+      ]
     },
     {
       "name": "rc_run_preprocessor",
@@ -708,6 +719,60 @@
       "stack_bytes": 4,
       "kind": "application",
       "stub": false
+    },
+    {
+      "name": "rc_set_character_token",
+      "start": "0x26bb",
+      "end": "0x26d9",
+      "abi": "stdcall",
+      "stack_bytes": 8,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_set_character_class",
+      "start": "0x26f8",
+      "end": "0x2716",
+      "abi": "stdcall",
+      "stack_bytes": 8,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_hash_macro_name",
+      "start": "0x11b2a",
+      "end": "0x11b44",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_define_macro",
+      "start": "0x4c2f",
+      "end": "0x4da5",
+      "abi": "stdcall",
+      "stack_bytes": 12,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_undefine_macro",
+      "start": "0x47f0",
+      "end": "0x48c8",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_open_source",
+      "start": "0x3db4",
+      "end": "0x401c",
+      "abi": "stdcall",
+      "stack_bytes": 8,
+      "kind": "application",
+      "stub": true
     }
   ],
   "loader_text_metadata": [

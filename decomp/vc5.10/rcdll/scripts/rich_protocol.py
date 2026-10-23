@@ -711,18 +711,13 @@ def entry_file_state(original,native):
         result[phase]=dict(errno=0,lowio=old_lowio,files=old_files,original_capacity=int(capacities[0]),native_capacity=new['lowio_capacity'],capacity_scope='unused allocation capacity is recorded separately; only live descriptor/FILE inventory equivalence is claimed')
     return dict(boundaries=result,original_events_sha256=sha(original/'events.txt'),native_history_sha256=sha(native/'errno-history.json'))
 
-def option_number_trial(original,native):
-    config=read_configuration(original/'functions.json')
-    assert config.get('trial_function')=='rc_option_number'and len(config['accepted'])==25
-    a,b,proof=checkpoint(original,native,'rc_open_preprocessor',('rc_input_temporary','rc_output_temporary'))
-    assert a['words'][0]==0x71c2bdf5
-    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_preprocessor_main\s*\(',(native/'gdb.stdout').read_text(),re.M)
+def parsed_option_state(original,native,b,original_arguments):
     text=(original/'events.txt').read_text();input_name=raw_bytes(text,'input-temporary')[:-1].decode('ascii')
-    state=wide_argument_state(original,native,a,b,filename=input_name);proof.update(state)
+    state=wide_argument_state(original,native,None,b,filename=input_name)
     parser=preprocessor_state(original,native,b,state,0,19)
     opened=b['arguments']['open'];globals=b['arguments']['preprocessor']['globals'];wide=b['arguments']['wide_vector']
     old_pointers=[int(value,16)for value in re.findall(r'^wide-pointer \d+ ([0-9a-f]+)$',text,re.M)]
-    assert a['words'][1:5]==[old_pointers[4],old_pointers[6],0x71c344f8,0x71c34690]
+    assert original_arguments==[old_pointers[4],old_pointers[6],0x71c344f8,0x71c34690]
     assert opened==dict(input=wide[4]['pointer'],output=wide[6]['pointer'],defines=globals['rc_cpp_defines']['address'],undefines=globals['rc_cpp_undefines']['address'])
     for field,expected in [('rc_cpp_input',wide[4]['pointer']),('rc_cpp_output',wide[6]['pointer']),('rc_cpp_path_characters',wide[9]['pointer']+6),('rc_cpp_option_argument',wide[18]['pointer'])]:
         assert int.from_bytes(bytes.fromhex(globals[field]['bytes']),'little')==expected
@@ -732,6 +727,17 @@ def option_number_trial(original,native):
         wanted=[0]*100
         for slot,index,offset in slots:wanted[slot]=wide[index]['pointer']+offset
         assert list(struct.unpack('<100I',raw[4:]))==wanted
+    return state,parser,text,input_name
+
+
+def option_number_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_option_number'and len(config['accepted'])==25
+    a,b,proof=checkpoint(original,native,'rc_open_preprocessor',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c2bdf5
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_preprocessor_main\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    state,parser,text,input_name=parsed_option_state(original,native,b,a['words'][1:5]);proof.update(state)
+    wide=b['arguments']['wide_vector']
     assert re.findall(r'^number-conversion end=([0-9a-f]+) base=(\d+) last-error=([0-9a-f]+) errno=(-?\d+)$',text,re.M)==[('00000000','10','00000000','0')]
     assert raw_bytes(text,'number-conversion-input')==('1252'+'\0').encode('utf-16le')
     assert re.findall(r'^number-conversion-result (-?\d+) last-error=([0-9a-f]+) errno=(-?\d+)$',text,re.M)==[('1252','00000000','0')]
@@ -741,4 +747,20 @@ def option_number_trial(original,native):
     assert call['before']==call['after']==('1252'+'\0').encode('utf-16le').hex()
     assert proof['application_trace'][-1]=='rc_option_number'
     proof.update(trial='rc_option_number',entry_files=entry_file_state(original,native),preprocessor=parser,numeric=dict(text='1252',result=1252,errno=[0,0],last_error=[0,0],end=None,base=10),parsed_options=dict(remaining=0,defines=3,undefines=0,includes=4,input=input_name,output=raw_bytes(text,'output-temporary')[:-1].decode('ascii'),active=1,E=1,P=0))
+    return proof
+
+
+def open_preprocessor_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_open_preprocessor'and len(config['accepted'])==26
+    a,b,proof=checkpoint(original,native,'rc_set_character_token',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c2450b and a['words'][1:3]==[1,0x24]
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_open_preprocessor\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    text=(original/'events.txt').read_text();forwarded=list(struct.unpack('<4I',raw_bytes(text,'setup-forwarded')))
+    state,parser,text,input_name=parsed_option_state(original,native,b,forwarded);proof.update(state)
+    assert b['arguments']['character']==dict(character=1,token=0x24,formal_bytes=dict(character=2,token=2))
+    assert re.findall(r'^frontier-errors errno=(-?\d+) last-error=([0-9a-f]+)$',text,re.M)==[('0','00000000')]
+    assert b['crt_errors']==dict(errno=0,last_error=0)
+    assert proof['application_trace'][-1]=='rc_open_preprocessor'
+    proof.update(trial='rc_open_preprocessor',preprocessor=parser,character_assignment=dict(character=1,token=0x24,argument_bytes=2,callee_cleanup_bytes=8),numeric_prefix_reference=dict(path='cases/resources-rich/acceptance-0026.json',sha256=sha(HERE/'cases/resources-rich/acceptance-0026.json'),scope='previous typed numeric/import and host-entry proofs; current parsed state,full argument allocation,trace and frontier errors are freshly checked'))
     return proof
