@@ -1671,5 +1671,7 @@ WEAK int recon_iswctype(WCHAR character,WCHAR mask)
 
 WEAK WCHAR recon_towupper(WCHAR character)
 {
-    (void)character;recon_unsupported("unreviewed UTF16 towupper");return 0;
+    if (character>=128 || recon_lc_handle[2] || recon_lc_codepage)
+        recon_unsupported("towupper outside default-C ASCII scope");
+    return character>='a' && character<='z'?character-('a'-'A'):character;
 }

@@ -249,3 +249,8 @@ build/wctype-probe: tests/wctype-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 wctype-check: build/wctype-probe
 	$(PYTHON) tests/check-wctype.py build/wctype-probe
+
+build/towupper-probe: tests/towupper-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+towupper-check: build/towupper-probe
+	$(PYTHON) tests/check-towupper.py build/towupper-probe

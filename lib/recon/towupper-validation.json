@@ -1,0 +1,10 @@
+{
+  "scope": "Default-C ASCII UTF16 towupper; 16-bit return and unchanged errno/LastError. NonASCII and nondefault locale/codepage denied.",
+  "provider_bodies": [
+    "towupper42a4..4305; default-C leaf42ad..42bb and c61f..c62f; locale-dependent calls unimplemented"
+  ],
+  "reference": "tests/towupper-original.json",
+  "original_proof": "Actual loaded canonical CRT/probe hFile equality; all128ASCII x4error pairs,512rows. Actual RCDLL114->low16 82 (rawEAX10052) and35->35. Raw upper EAX bits incidental to 16-bit return.",
+  "native_checks": "GCC and Clang exact original stdout hash/length and3 unsupported-scope controls each; SDK surface positive/negative checks.",
+  "checks_seconds": 0.115284
+}
