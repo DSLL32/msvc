@@ -3416,9 +3416,9 @@
         7
       ],
       "rebuilt_extra_roots": [
-        3655
+        3661
       ],
-      "compiler_root_reason": "Original compiler emits unreachable JMP after returning forward-match switch arms;18cf1(offsete47) jumps18d19 then ordinary finalization. Decode as additional compiler root, not waived bytes."
+      "compiler_root_reason": "Original compiler emits unreachable JMP after returning forward-match switch arms;18cc8(offsete4d) jumps18cf0 then ordinary finalization. Decode as additional compiler root, not waived bytes."
     },
     {
       "name": "get_type_record",
@@ -4074,15 +4074,23 @@
       "native": "compact_type_list",
       "symbol": "@compact_type_list@8",
       "original": 160416,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        160416,
+        162517
+      ],
       "abi": "unsigned short __fastcall compact_type_list(unsigned short,unsigned short)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0071-compact_type_list/proof.json",
       "roots": [],
-      "text_data": [],
+      "text_data": [
+        [
+          162520,
+          162568
+        ]
+      ],
       "parameters": [
         {
           "name": "type",
@@ -4097,7 +4105,71 @@
           "bits": 16
         }
       ],
-      "return_bits": 16
+      "return_bits": 16,
+      "alignment_padding": [
+        [
+          161403,
+          161408
+        ],
+        [
+          161627,
+          161632
+        ]
+      ],
+      "required_pdb_record_proof": true,
+      "required_symbol_output_observation": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      },
+      "switches": {
+        "161330": [
+          161344,
+          161425,
+          161425,
+          161601,
+          161669,
+          161718,
+          161744,
+          161840,
+          161889,
+          161959,
+          162008,
+          162008
+        ]
+      },
+      "switch_tables": [
+        {
+          "start": 162520,
+          "targets": [
+            161344,
+            161425,
+            161425,
+            161601,
+            161669,
+            161718,
+            161744,
+            161840,
+            161889,
+            161959,
+            162008,
+            162008
+          ]
+        }
+      ],
+      "compiler_switch_counts": [
+        12
+      ]
     },
     {
       "name": "intern_type",
@@ -4147,6 +4219,64 @@
         {
           "name": "entry",
           "register": "ecx",
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "add_recursive_offset",
+      "native": "add_recursive_offset",
+      "symbol": "@add_recursive_offset@8",
+      "original": 162576,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void __fastcall add_recursive_offset(TypeRecord *,unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "entry",
+          "register": "ecx",
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "offset",
+          "register": "edx",
+          "kind": "integer",
+          "bits": 16
+        }
+      ]
+    },
+    {
+      "name": "merge_field_list",
+      "native": "merge_field_list",
+      "symbol": "_merge_field_list",
+      "original": 162816,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void merge_field_list(unsigned char *,TypeRecord *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "record",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "entry",
+          "slot": 2,
           "kind": "pointer",
           "bits": 32
         }
@@ -4597,6 +4727,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 70
+    },
+    {
+      "function": "compact_type_list",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 71
     }
   ],
   "support_unmasked": [
@@ -5191,11 +5327,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "3baeef5c317b6d2b2aab47b3ac82e97d17e1a469d44a89e0f3699e8657d1035c"
+    "evidence_sha256": "47da7377fd7cfbb03c99884bd2732f42b3d5bc9ee94aaf3f2097d56213968194"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "72d755407d4608f9530ed185a62edb2ffd85d64af0044bd9808d85dc62922b79"
+    "evidence_sha256": "edfaec92b3cf1eb82098d2d7360bb452578fde30d46031c948d91e03573f051d"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -5227,10 +5363,10 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "69d844743d54d6ec98eb407c6e481462bf42ccacf01f32db0c1d25d5d24a7c7f"
+    "evidence_sha256": "0b830c3e4fbe3f97a5d9c81cbd01c3a9b88d0df4860ab0e929ec5d4f236afac9"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "8bd4b865cb3b7c0b6e4da585263507c4ef189086f8b470086c3bb5ce804bbd48"
+    "evidence_sha256": "f05ad33052d33474582081aef5f6d9ac16a4962118c1df3c68ac6ded385bb983"
   }
 }

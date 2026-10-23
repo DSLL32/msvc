@@ -71,6 +71,9 @@ def main():
     config,original=load()
     from pdb_checks import check as pdb_checks
     pdb_checks(config,original,reject)
+    from symbol_output_checks import check_stored_list
+    stored_symbols=BINARY/'cases/hello-debug-dll/evidence/0071-compact_type_list'
+    if stored_symbols.is_dir():check_stored_list(stored_symbols)
     from symbol_output_checks import check_type_list
     list_symbols=BINARY/'cases/hello-debug-dll/evidence/0070-compact_pointer'
     if list_symbols.is_dir():check_type_list(list_symbols)
@@ -549,23 +552,26 @@ def main():
         end=min(address for address in symbols.values() if address>start)
         instructions=list(Cs(CS_ARCH_X86,CS_MODE_32).disasm(pe.read(start,end-start),start))
         call=next(i for i in instructions if i.mnemonic=='call' and i.op_str=='0x%x'%symbols['_parse_options'])
-        # Use a real leaf RET with two following alignment bytes. The main
-        # function's final RET need not retain padding after a layout change.
-        sites=[]
+        # Change only the immediate of an existing callee-cleanup RET. Expanding
+        # a one-byte C3 would overwrite live following code in packed layouts.
+        terminal=None
         for function in config['functions']:
-            if function['status']=='stub':continue
+            if function['status']=='stub'or not function['stack_cleanup']:continue
             a=symbols[function['symbol']]
             b=min(address for address in symbols.values()if address>a)
             for instruction in Cs(CS_ARCH_X86,CS_MODE_32).disasm(pe.read(a,b-a),a):
-                if instruction.mnemonic=='ret' and instruction.address+3<=b and set(pe.read(instruction.address+1,2))<={0x90,0xcc}:
-                    sites.append(instruction)
-        terminal=sites[0]if sites else next(i for i in instructions if i.mnemonic=='ret' and i.address+3<=end)
+                if instruction.mnemonic=='ret'and instruction.size==3 and instruction.bytes[0]==0xc2:
+                    assert int.from_bytes(instruction.bytes[1:],'little')==function['stack_cleanup']
+                    terminal=instruction;break
+            if terminal:break
+        assert terminal,'no existing callee-cleanup RET for ABI mutation'
         mutations={}
         image=bytearray(pe.data)
         struct.pack_into('<i',image,pe.offset(call.address)+1,symbols['_print_banner']-call.address-5)
         mutations['redirected application callee']=image
         image=bytearray(pe.data)
-        image[pe.offset(terminal.address):pe.offset(terminal.address)+3]=b'\xc2\x04\x00'
+        cleanup=int.from_bytes(terminal.bytes[1:],'little')
+        struct.pack_into('<H',image,pe.offset(terminal.address)+1,cleanup+4)
         mutations['changed callee stack cleanup']=image
         image=bytearray(pe.data)
         image[pe.offset(symbols['_show_logo'])]^=1

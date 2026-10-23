@@ -58,11 +58,22 @@ def compiled_provenance(pe,linked):
     initializers=[i for i in instructions if i.bytes[:2]==b'\xc7\x45'and i.size==7 and i.bytes[3:]==b'\0'*4]
     assert len(initializers)==1,'cache zero helper counter initialization differs'
     counter=initializers[0].bytes[2:3];assert counter!=data_slot
-    loop=(b'\xc7\x45'+counter+b'\0'*4+b'\xe9\x03\0\0\0\xff\x45'+counter+
-          b'\x8b\x45\x08\x39\x45'+counter+b'\x0f\x83\x0f\0\0\0\x8b\x45'+counter+
-          b'\x8b\x4d'+data_slot+b'\xc6\x04\x08\0\xe9\xe2\xff\xff\xff\x8b\x45'+data_slot)
-    assert loop in body,'cache initialized extent/zeroing differs'
-    return dict(call=call.address,size=16,result_frame_offset=slot,publication_start=call.address+at,publication_bytes=raw[at:at+len(publication)+12].hex(),zero_helper=helper,zero_helper_sha256=hashlib.sha256(body).hexdigest(),rebuilt_sha256=hashlib.sha256(pe.data).hexdigest())
+    prefix=b'\xc7\x45'+counter+b'\0'*4+b'\xe9\x03\0\0\0\xff\x45'+counter
+    suffix=b'\x8b\x45'+counter+b'\x8b\x4d'+data_slot+b'\xc6\x04\x08\0\xe9\xe2\xff\xff\xff\x8b\x45'+data_slot
+    # VC1 varies which operand it loads first in this unchanged unsigned loop.
+    # Both complete instruction strings prove exactly counter < requested size;
+    # preserve the bound slot, condition, increment, owner and zero-store bytes.
+    forms=[('size_then_counter',b'\x8b\x45\x08\x39\x45'+counter+b'\x0f\x83\x0f\0\0\0',2),
+           ('counter_then_size',b'\x8b\x45'+counter+b'\x39\x45\x08\x0f\x86\x0f\0\0\0',5)]
+    matches=[]
+    for orientation,condition,bound in forms:
+        loop=prefix+condition+suffix
+        if loop in body:
+            assert body.count(loop)==1,'ambiguous zero helper loop'
+            at=body.index(loop);matches.append((orientation,at+len(prefix)+bound,at+len(prefix)+7))
+    assert len(matches)==1,'cache initialized extent/zeroing differs'
+    orientation,bound,branch=matches[0]
+    return dict(zero_orientation=orientation,zero_bound=helper+bound,zero_branch=helper+branch,call=call.address,size=16,result_frame_offset=slot,publication_start=call.address+at,publication_bytes=raw[at:at+len(publication)+12].hex(),zero_helper=helper,zero_helper_sha256=hashlib.sha256(body).hexdigest(),rebuilt_sha256=hashlib.sha256(pe.data).hexdigest())
 
 def compare(left,right,a,b,original,native):
     """All16 node bytes were initialized by reviewed checked_zero(16)."""

@@ -63,6 +63,8 @@ def compiled_checks():
     deny('cache compiled wrong publication source',lambda:compiled_provenance(changed(proof['publication_start'],2,(proof['result_frame_offset']&255)^4),symbols))
     helper=proof['zero_helper'];end=min(v for v in symbols.values()if v>helper);body=pe.read(helper,end-helper);offset=body.index(b'\xc6\x04\x08\x00')+3
     deny('cache compiled helper fails zero initialization',lambda:compiled_provenance(changed(helper,offset,1),symbols))
+    deny('cache zero loop wrong requested-size slot',lambda:compiled_provenance(changed(proof['zero_bound'],0,12),symbols))
+    deny('cache zero loop wrong unsigned exit condition',lambda:compiled_provenance(changed(proof['zero_branch'],0,0x87),symbols))
     config=json.loads((BINARY/'functions.json').read_text());original=PE(ROOT/config['target']['path'])
     bad=copy.deepcopy(config);bad.pop('type_cache_observations')
     deny('cache allocation/publication proof omitted',lambda:validate(bad,original,pe,symbols))

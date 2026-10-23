@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "compact_type_list",
-    "native_function": "compact_type_list",
+    "logical": "store_type",
+    "native_function": "store_type",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -88,7 +88,8 @@
       "intern_global",
       "compact_new_type",
       "compact_pointer",
-      "compact_type_list"
+      "compact_type_list",
+      "store_type"
     ]
   },
   "complete_reference": {

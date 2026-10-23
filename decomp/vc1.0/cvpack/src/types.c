@@ -550,6 +550,7 @@ again:
     if (entry->flags & 0x80) {
         resolved = entry;
         do {
+            entry = resolved;
             relative = resolved->index-0x1000;
             mapped = 0;
             if (!type_signature && relative == (unsigned short)(0xffff-first_user_type))
@@ -799,4 +800,214 @@ unsigned char __fastcall compact_pointer(TypeRecord *entry)
         }
     }
     return (unsigned char)entry->recursive_count;
+}
+
+unsigned short __fastcall compact_type_list(unsigned short type, unsigned short count)
+{
+    unsigned short relative = type-first_user_type, unused, previous_root;
+    unsigned short candidate, cursor, remaining, converted, recursive_offset, item;
+    TypeRecord *entry, *resolved;
+    TypeConverter convert;
+    unsigned char *record, *base, *field_record;
+    int last, i;
+
+#ifdef RECON_NATIVE_TEST
+#define LIST_LIMIT(test) do { if (!(test)) __asm { int 3 } } while (0)
+#else
+#define LIST_LIMIT(test) ((void)0)
+#endif
+#define NOTE_LIST_RECURSIVE(index) \
+    do { \
+        candidate = (index); \
+        if (candidate) { \
+            if (!recursive_type_root) recursive_type_root = candidate; \
+            else { \
+                last = (int)type_path_depth-1; \
+                LIST_LIMIT(last >= 0 && last < 256); \
+                while (type_path[last] != recursive_type_root) { --last; LIST_LIMIT(last >= 0); } \
+                for (i = 0; i < last; ++i) \
+                    if (type_path[i] == candidate) { recursive_type_root = candidate; break; } \
+            } \
+        } \
+    } while (0)
+#define FIELD_TYPE(offset) \
+    do { \
+        converted = convert(*(unsigned short *)(field_record+(offset))); \
+        base = entry->data+4; \
+        field_record = base+cursor; \
+        *(unsigned short *)(field_record+(offset)) = converted; \
+        recursive_offset = (unsigned short)(field_record-entry->data+(offset)); \
+    } while (0)
+#define SKIP_NUMERIC() \
+    do { \
+        record = base+cursor; \
+        cursor += *(unsigned short *)record < 0x8000 ? 2 : numeric_leaf_size(record); \
+    } while (0)
+
+    if (!type_signature && relative == (unsigned short)(0xffff-first_user_type))
+        entry = empty_type;
+    else {
+        entry = &local_type_records[relative];
+        if (entry->flags & 0x1000)
+            entry = get_type_record((unsigned short)(entry->forward_index-0x1000), &unused);
+    }
+    if (entry->flags & 0x806) {
+        recursive_type_reference = 0;
+        return entry->index;
+    }
+    if (entry->flags & 0x80) {
+        resolved = entry;
+        do {
+            entry = resolved;
+            relative = entry->index-0x1000;
+            if (!type_signature && relative == (unsigned short)(0xffff-first_user_type))
+                resolved = empty_type;
+            else {
+                resolved = &local_type_records[relative];
+                if (resolved->flags & 0x1000)
+                    resolved = get_type_record((unsigned short)(resolved->forward_index-0x1000), &unused);
+            }
+        } while (resolved->flags & 0x80);
+        recursive_type_reference = 1;
+        NOTE_LIST_RECURSIVE(entry->index);
+        return type;
+    }
+    if (entry->flags & 0x40) {
+        recursive_type_reference = 1;
+        NOTE_LIST_RECURSIVE(type);
+        return type;
+    }
+    entry->flags |= 0x40;
+    LIST_LIMIT(type_path_depth < 256);
+    type_path[type_path_depth++] = type;
+    previous_root = recursive_type_root;
+    recursive_type_root = 0;
+    record = entry->data;
+    base = record+2;
+    LIST_LIMIT(type_signature < 2);
+    convert = type_converters[type_signature];
+    entry->recursive_count = 0;
+    switch (*(unsigned short *)base) {
+    case 0x201:                     /* LF_ARGLIST */
+        for (item = 0; item < count; ++item) {
+            converted = convert(*(unsigned short *)(base+4+item*2));
+            base = entry->data+2;
+            *(unsigned short *)(base+4+item*2) = converted;
+            if (recursive_type_reference)
+                add_recursive_offset(entry, (unsigned short)(base-entry->data+4+item*2));
+        }
+        break;
+    case 0x204:                     /* LF_FIELDLIST */
+        cursor = 0;
+        remaining = count;
+        if (!remaining) break;
+        do {
+            base = entry->data+4;
+            field_record = base+cursor;
+            recursive_offset = 0;
+            switch (*(unsigned short *)field_record) {
+            case 0x400:             /* LF_BCLASS */
+                FIELD_TYPE(2);
+                cursor += 6;
+                SKIP_NUMERIC();
+                break;
+            case 0x401: case 0x402:  /* LF_VBCLASS, LF_IVBCLASS */
+                FIELD_TYPE(2);
+                if (recursive_type_reference) add_recursive_offset(entry, recursive_offset);
+                FIELD_TYPE(4);
+                if (recursive_type_reference) add_recursive_offset(entry, recursive_offset);
+                recursive_offset = 0;
+                cursor += 8;
+                SKIP_NUMERIC();
+                SKIP_NUMERIC();
+                break;
+            case 0x403:             /* LF_ENUMERATE */
+                cursor += 4;
+                SKIP_NUMERIC();
+                cursor += (unsigned short)(base[cursor]+1);
+                break;
+            case 0x404:             /* LF_FRIENDFCN */
+                FIELD_TYPE(2);
+                cursor += (short)(signed char)field_record[4]+5;
+                break;
+            case 0x405:             /* LF_INDEX: splice the continuation here. */
+                merge_field_list(field_record, entry);
+                base = entry->data+4;
+                ++remaining;
+                break;
+            case 0x406:             /* LF_MEMBER */
+                FIELD_TYPE(2);
+                cursor += 6;
+                SKIP_NUMERIC();
+                cursor += (unsigned short)(base[cursor]+1);
+                break;
+            case 0x407:             /* LF_STMEMBER */
+                FIELD_TYPE(2);
+                cursor += (short)(signed char)field_record[6]+7;
+                break;
+            case 0x408:             /* LF_METHOD */
+                converted = compact_type_list(*(unsigned short *)(field_record+4), *(unsigned short *)(field_record+2));
+                base = entry->data+4;
+                field_record = base+cursor;
+                *(unsigned short *)(field_record+4) = converted;
+                recursive_offset = (unsigned short)(field_record-entry->data+4);
+                cursor += (short)(signed char)field_record[6]+7;
+                remaining -= *(unsigned short *)(field_record+2);
+                ++remaining;
+                break;
+            case 0x409:             /* LF_NESTTYPE */
+                FIELD_TYPE(2);
+                cursor += (unsigned short)(field_record[4]+5);
+                break;
+            case 0x40a: case 0x40b: /* LF_VFUNCTAB, LF_FRIENDCLS */
+                FIELD_TYPE(2);
+                cursor += 4;
+                break;
+            default:
+                break;
+            }
+            if (remaining > 1 && base[cursor] >= 0xf0) cursor += base[cursor]&0xf;
+            if (recursive_offset && recursive_type_reference)
+                add_recursive_offset(entry, recursive_offset);
+        } while (--remaining);
+        break;
+    case 0x207:                     /* LF_METHODLIST */
+        cursor = 0;
+        remaining = count;
+        while (remaining) {
+            converted = convert(*(unsigned short *)(record+cursor+6));
+            record = entry->data;
+            field_record = record+cursor+4;
+            *(unsigned short *)(field_record+2) = converted;
+            recursive_offset = (unsigned short)(field_record-record+2);
+            cursor += (*(unsigned short *)field_record&0x1c)==0x10 ? 8 : 4;
+            if (recursive_offset && recursive_type_reference)
+                add_recursive_offset(entry, recursive_offset);
+            --remaining;
+        }
+        break;
+    }
+    --type_path_depth;
+    if (recursive_type_root == type) {
+        recursive_type_reference = 0;
+        recursive_type_root = previous_root;
+        entry->index = intern_type(entry, type);
+        return entry->index;
+    }
+    if (recursive_type_root) {
+        recursive_type_reference = 1;
+        entry->index = recursive_type_root;
+        NOTE_LIST_RECURSIVE(previous_root);
+        entry->flags |= 0x80;
+        return type;
+    }
+    recursive_type_reference = 0;
+    recursive_type_root = previous_root;
+    entry->flags |= 4;
+    store_type(entry);
+    return entry->index;
+#undef SKIP_NUMERIC
+#undef FIELD_TYPE
+#undef NOTE_LIST_RECURSIVE
+#undef LIST_LIMIT
 }

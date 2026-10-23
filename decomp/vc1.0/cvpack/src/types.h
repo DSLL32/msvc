@@ -64,6 +64,8 @@ int __fastcall find_named_type(TypeRecord *, TypeCacheEntry **, int);
 void __fastcall queue_type_match(unsigned short, TypeCacheEntry *);
 unsigned char __fastcall compact_pointer(TypeRecord *);
 unsigned short __fastcall compact_type_list(unsigned short, unsigned short);
+void __fastcall add_recursive_offset(TypeRecord *, unsigned short);
+void merge_field_list(unsigned char *, TypeRecord *);
 unsigned short intern_type(TypeRecord *, unsigned short);
 void __fastcall store_type(TypeRecord *);
 void reserve_extra_type(unsigned short, unsigned short *);
