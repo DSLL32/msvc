@@ -117,12 +117,5 @@
     "end": 268443896,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
-  },
-  {
-    "name": "CompilerArena::CommitExtent",
-    "start": 268444518,
-    "end": 268444519,
-    "pending_extent": true,
-    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   }
 ]

@@ -492,18 +492,38 @@ ActualArenaMemberEntry('*0x%x')
                 pool_probe=pool_probe.replace("struct.unpack('<I',gdb.selected_inferior().read_memory(esp,4).tobytes())","struct.unpack('<2I',gdb.selected_inferior().read_memory(esp,8).tobytes())").replace('        assert formals==[]\n','')
                 pool_probe=pool_probe.replace("'args':{},'formal_inventory':formals", "'args':{'this':int(gdb.parse_and_eval('(unsigned int)$ecx')),'arena_index':words[1]},'ecx':int(gdb.parse_and_eval('(unsigned int)$ecx')),'arena_index':words[1],'formal_inventory':formals")
                 pool_probe=pool_probe.replace("'symbol':block.function.name","'symbol':frame.name()")
+                if candidate.get('pool_cycle_observers'):
+                    from pool_cycle_probe import record_returns
+                    pool_probe=record_returns(pool_probe,'set-arena','pool_arena_entries')
                 default_probe+=pool_probe
-                if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit'):
+                if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry'):
                     refill_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] _ZN12CompilerPool6RefillEj$',table,re.M)[1],16)
-                    refill_probe=pool_probe.replace('pool_arena_entries','pool_refill_entries').replace('ActualPoolArenaEntry','ActualPoolRefillEntry').replace("'boundary_rva':0x12b30","'boundary_rva':0xaa9c").replace('arena_index','minimum_bytes').replace('*0x%x'%pool_address,'*0x%x'%refill_address)
+                    refill_base=pool_probe
+                    if candidate.get('pool_cycle_observers'):
+                        refill_base=refill_base.replace("        PoolCycleReturn('set-arena',len(pool_arena_entries)-1,words[0],esp)\n",'').replace("'preserved':pool_cycle_preserved(),'fp':capture_x87(),",'')
+                    refill_probe=refill_base.replace('pool_arena_entries','pool_refill_entries').replace('ActualPoolArenaEntry','ActualPoolRefillEntry').replace("'boundary_rva':0x12b30","'boundary_rva':0xaa9c").replace('arena_index','minimum_bytes').replace('*0x%x'%pool_address,'*0x%x'%refill_address)
                     refill_probe=refill_probe.replace("'caller':{'symbol':caller.name(),'pc':int(caller.pc()),'args':{}}", "'caller':{'symbol':caller.name(),'pc':int(caller.pc()),'args':{key:int(caller.read_var(key).cast(gdb.lookup_type('unsigned int')))for key in ('this','arena_index')}}")
+                    if candidate.get('pool_cycle_observers'):
+                        refill_probe=record_returns(refill_probe,'refill','pool_refill_entries')
                     default_probe+=refill_probe
-                    if candidate['expected_frontier']['kind']=='arena-commit':
+                    if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry'):
                         page_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] _ZN13CompilerArena13AllocatePagesEjPj$',table,re.M)[1],16)
-                        page_probe=refill_probe.replace('pool_refill_entries','arena_page_entries').replace('ActualPoolRefillEntry','ActualArenaPageEntry').replace("'boundary_rva':0xaa9c","'boundary_rva':0xaacb").replace('*0x%x'%refill_address,'*0x%x'%page_address)
+                        page_base=refill_probe
+                        if candidate.get('pool_cycle_observers'):
+                            page_base=page_base.replace("        PoolCycleReturn('refill',len(pool_refill_entries)-1,words[0],esp)\n",'').replace("'preserved':pool_cycle_preserved(),'fp':capture_x87(),",'')
+                        page_probe=page_base.replace('pool_refill_entries','arena_page_entries').replace('ActualPoolRefillEntry','ActualArenaPageEntry').replace("'boundary_rva':0xaa9c","'boundary_rva':0xaacb").replace('*0x%x'%refill_address,'*0x%x'%page_address)
                         page_probe=page_probe.replace("struct.unpack('<2I',gdb.selected_inferior().read_memory(esp,8).tobytes())","struct.unpack('<3I',gdb.selected_inferior().read_memory(esp,12).tobytes())")
                         page_probe=page_probe.replace("'minimum_bytes':words[1]","'pages':words[1],'available_bytes':words[2]").replace("for key in ('this','arena_index')","for key in ('this','minimum_bytes')")
+                        if candidate.get('pool_cycle_observers'):
+                            page_probe=record_returns(page_probe,'allocate-pages','arena_page_entries')
                         default_probe+=page_probe
+                        if candidate.get('pool_cycle_observers'):
+                            commit_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] _ZN13CompilerArena12CommitExtentEv$',table,re.M)[1],16)
+                            commit_probe=page_base.replace('pool_refill_entries','pool_commit_entries').replace('ActualPoolRefillEntry','ActualPoolCommitEntry').replace("'boundary_rva':0xaa9c","'boundary_rva':0x9883").replace('*0x%x'%refill_address,'*0x%x'%commit_address)
+                            commit_probe=commit_probe.replace("struct.unpack('<2I',gdb.selected_inferior().read_memory(esp,8).tobytes())","struct.unpack('<I',gdb.selected_inferior().read_memory(esp,4).tobytes())").replace(",'minimum_bytes':words[1]",'').replace("for key in ('this','arena_index')","for key in ('this','pages','available_bytes')")
+                            default_probe+=record_returns(commit_probe,'commit','pool_commit_entries')
+                            from pool_cycle_probe import definitions
+                            default_probe=definitions(binary,output)+default_probe
 
             main_probe+=member_probe+default_probe
             main_probe+=work_probe+scanner_probe+empty_probe+arena_probe+primary_probe
@@ -517,10 +537,14 @@ ActualArenaMemberEntry('*0x%x')
         if candidate.get('default_pool_order'):
             for name,expression in [('default-pools-entry.json','default_pool_entries'),('pool-arena-entries.json','pool_arena_entries')]:
                 commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')\n"%(str(output/name),expression)+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
-        if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit'):
+        if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry'):
             commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(pool_refill_entries,indent=2)+'\\n')\n"%str(output/'pool-refill-entries.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
-        if candidate['expected_frontier']['kind']=='arena-commit':
+        if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry'):
             commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(arena_page_entries,indent=2)+'\\n')\n"%str(output/'arena-page-entries.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
+        if candidate.get('pool_cycle_observers'):
+            for name,expression in [('pool-cycle-events.json','pool_cycle_events'),('pool-cycle-returns.json','pool_cycle_returns'),('pool-commit-entries.json','pool_commit_entries'),('pool-commit-api-entries.json','pool_commit_api_entries'),('pool-commit-api-returns.json','pool_commit_api_returns')]:
+                commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')\n"%(str(output/name),expression)+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
+            commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'wb').write(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('(unsigned int)c1_bss.arenas[0].base')),int(gdb.parse_and_eval('c1_bss.arenas[0].committed_bytes'))).tobytes())\n"%str(output/'pool-final-committed-000.bin')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         if candidate.get('scaler_observers'):
             from scaler_native_probe import probes
             allocation_probe=allocation_probe.replace('\nend\n','\n'+probes(binary,output,bool(args.restore_probe and candidate.get('reset_observers')))+'end\n')
@@ -621,6 +645,8 @@ class ArenaApiReturn(gdb.Breakpoint):
 """.replace('%%','%')+api_probe
                 for name,expression in [('arena-api-entries.json','arena_api_entries'),('arena-api-returns.json','arena_api_returns')]:
                     commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')\n"%(str(output/name),expression)+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
+            if candidate.get('pool_cycle_observers'):
+                api_probe=api_probe.replace("        assert frame.older().name()=='reserve_work_buffer'","        # The separate strict commit observer owns this exact additional caller.\n        if frame.older().name()=='CompilerArena::CommitExtent':return False\n        assert frame.older().name()=='reserve_work_buffer'")
             api_probe=api_probe.replace('WORK_OUTPUT',repr(str(output)))
             allocation_probe=allocation_probe.replace('\nend\n','\n'+api_probe+'end\n')
             for name,expression in [('work-api-entries.json','work_api_entries'),('work-api-returns.json','work_api_returns'),('work-reserve-entries.json','work_reserve_entries'),('work-reserve-returns.json','work_reserve_returns')]:

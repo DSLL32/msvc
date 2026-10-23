@@ -61,6 +61,9 @@ static int arena_reset_probe;
 static unsigned arena_reset_count;
 static int scaler_probe;
 static DWORD arena_allocation_esp, arena_allocation_error;
+static Range pool_observers[14];
+static int pool_cycle_probe;
+static DWORD pool_commit_address, pool_commit_bytes, pool_commit_esp, pool_commit_error;
 static DWORD system_before_esp, system_before_error;
 
 
@@ -301,6 +304,26 @@ static void prepare_mask(void)
             if (provider != exported(crt_base, "_ftol")) fail("canonical ftol provider");
             fprintf(events, "ftol-provider iat=0005d0cc resolved=%08lx\n", provider);
             save_remote_state("ftol-provider-code", 0, provider, 39);
+        }
+    }
+    {
+        FILE *probe = fopen("pool-cycle-observers.txt", "r");
+        static DWORD const expected[14] = {0x98b9,0x98bf,0xab12,0xaac5,0x12b46,0x12acf,0x12adb,0x12ae7,0x12af3,0x12aff,0x12b0b,0x12b17,0x12b23,0x12b2f};
+        DWORD rva;
+        unsigned index, owner;
+        if (probe) {
+            for (index = 0; index < 14; ++index) {
+                if (fscanf(probe, "%lx", &rva) != 1 || rva != expected[index]) fail("pool cycle observer metadata");
+                for (owner = 0; owner < count; ++owner)
+                    if (ranges[owner].first <= rva && rva < ranges[owner].last) break;
+                if (owner == count) fail("pool observer outside accepted source");
+                readmem(base + rva, &first, 1);
+                if (first != snapshot[rva-code_rva] || first == 0xcc) fail("pool observer relocated byte");
+                pool_observers[index].first = rva; pool_observers[index].saved = first;
+                patch(base + rva, 0xcc);
+            }
+            if (fscanf(probe, "%lx", &rva) != EOF) fail("extra pool observer metadata");
+            fclose(probe); pool_cycle_probe = 1;
         }
     }
     save_remote_state("compiler-callbacks", 0, base + 0x69000, 34 * 4);
@@ -726,6 +749,8 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
             stack[0], stack[1], stack[2], stack[3], stack[4]);
     fprintf(events, "last-error=%lu\n", thread_error(context, thread));
     fprintf(events, "x87-control=%04lx\n", context->FloatSave.ControlWord);
+    if (pool_cycle_probe)
+        fprintf(events, "pool-registers seq=%u ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n", sequence, context->Ebx, context->Esi, context->Edi, context->Ebp);
     if (address == base + 0x12229) {
         environment_address = exported(crt_base, "_environ");
         readmem(environment_address, &environment_address, 4);
@@ -761,6 +786,12 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
     }
     if (address == base + 0x12873) {
         fprintf(events, "allocation-helper-entry index=%u pc=%08lx esp=%08lx edi=%08lx esi=%08lx\n", allocation_call_count / 2, address, context->Esp, context->Edi, context->Esi);
+    }
+    if (pool_cycle_probe && address == base + 0x12b49) {
+        DWORD address, bytes;
+        readmem(base + 0x58fb8, &address, 4); readmem(base + 0x58fbc, &bytes, 4);
+        if (!address || bytes != 0x10000) fail("final pool committed extent");
+        save_remote_state("pool-final-committed", 0, address, bytes);
     }
     save_state();
     if (address == base + 0x126fc) {
@@ -843,6 +874,38 @@ static void observe_allocation(CONTEXT *context, DWORD address, HANDLE thread)
     } else {
         fprintf(events, "allocation-helper-return index=%u pc=%08lx esp=%08lx eax=%08lx edi=%08lx esi=%08lx\n",
                 allocation_call_count / 2 - 1, address, context->Esp, context->Eax, context->Edi, context->Esi);
+    }
+}
+
+static int pool_observer_index(DWORD address)
+{
+    unsigned index;
+    for (index = 0; index < 14; ++index)
+        if (address == base + pool_observers[index].first) return index;
+    return -1;
+}
+
+static void observe_pool_commit(CONTEXT *context, DWORD address, HANDLE thread)
+{
+    DWORD arguments[4], provider, reserve, cursor;
+    MEMORY_BASIC_INFORMATION region;
+    unsigned part;
+    if (address == base + 0x98b9) {
+        readmem(context->Esp, arguments, sizeof(arguments)); readmem(base + 0x5d1c4, &provider, 4);
+        pool_commit_address = arguments[0]; pool_commit_bytes = arguments[1];
+        pool_commit_esp = context->Esp; pool_commit_error = thread_error(context, thread);
+        fprintf(events, "pool-commit-before seq=%u esp=%08lx address=%08lx bytes=%08lx kind=%08lx protection=%08lx provider=%08lx error=%lu\n", sequence, context->Esp, arguments[0], arguments[1], arguments[2], arguments[3], provider, pool_commit_error);
+    } else if (address == base + 0x98bf) {
+        if (context->Eax != pool_commit_address || pool_commit_bytes != 0x10000) fail("actual pool commit success/size");
+        fprintf(events, "pool-commit-after seq=%u esp=%08lx before-esp=%08lx result=%08lx error=%lu before-error=%lu\n", sequence, context->Esp, pool_commit_esp, context->Eax, thread_error(context, thread), pool_commit_error);
+        readmem(base + 0x58fc4, &reserve, 4); cursor = pool_commit_address;
+        for (part = 0; part < 2; ++part) {
+            if (VirtualQueryEx(child, (LPVOID)cursor, &region, sizeof(region)) != sizeof(region)) fail("pool commit region query");
+            fprintf(events, "pool-commit-region part=%u base=%08lx allocation=%08lx allocation-protect=%08lx bytes=%08lx state=%08lx protect=%08lx type=%08lx\n", part, (DWORD)region.BaseAddress, (DWORD)region.AllocationBase, region.AllocationProtect, region.RegionSize, region.State, region.Protect, region.Type);
+            cursor += region.RegionSize;
+        }
+        if (cursor != pool_commit_address + reserve) fail("pool committed/reserved extent closure");
+        save_remote_state("pool-committed", 0, pool_commit_address, pool_commit_bytes);
     }
 }
 
@@ -961,7 +1024,8 @@ int main(int argc, char **argv)
             memset(&context, 0, sizeof(context)); context.ContextFlags = CONTEXT_FULL | CONTEXT_FLOATING_POINT;
             if (!GetThreadContext(thread, &context)) fail("GetThreadContext");
             if (code == EXCEPTION_SINGLE_STEP && pending != -1) {
-                if (pending <= -30 && pending >= -39) patch(base + scaler_observers[-pending - 30].first, 0xcc);
+                if (pending <= -60 && pending >= -73) patch(base + pool_observers[-pending - 60].first, 0xcc);
+                else if (pending <= -30 && pending >= -39) patch(base + scaler_observers[-pending - 30].first, 0xcc);
                 else if (pending == -21 || pending == -22) patch(base + system_observers[-pending - 21].first, 0xcc);
                 else if (pending == -20) patch(base + getenv_observer.first, 0xcc);
                 else if (pending <= -3) patch(base + allocation_observers[-pending - 3].first, 0xcc);
@@ -1113,12 +1177,16 @@ int main(int argc, char **argv)
                         }
                     }
                 }
+                if (pool_cycle_probe && pool_observer_index(address) >= 0) observe_pool_commit(&context, address, thread);
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;
                 if (i < count) {
                     patch(address, ranges[i].saved); pending = i;
                     context.EFlags |= 0x100;
+                } else if (pool_cycle_probe && pool_observer_index(address) >= 0) {
+                    i = pool_observer_index(address); patch(address, pool_observers[i].saved);
+                    pending = -(int)i - 60; context.EFlags |= 0x100;
                 } else if (scaler_probe && (address == base + 0x12a7f || address == base + 0x12a85 || address == base + 0x12a8b || address == base + 0x12a96 || address == base + 0x12a29 || address == base + 0x12a51 || address == base + 0x12a57 || (arena_reset_probe && (address == base + 0x12a70 || address == base + 0x12a0f || address == base + 0x129bc)))) {
                     for (i = 0; i < scaler_observer_count; ++i) if (address == base + scaler_observers[i].first) break;
                     if (i == scaler_observer_count) fail("unknown scaler observer");

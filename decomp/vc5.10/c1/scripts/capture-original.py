@@ -126,6 +126,10 @@ def main():
         (output/'scaler-observers.txt').write_text(''.join('%x\n'%rva for rva in candidate['scaler_observers']['rvas']))
     if candidate.get('reset_observers'):
         (output/'arena-reset-probe.txt').write_text('12ab2 12a70 6\n')
+    if candidate.get('pool_cycle_observers'):
+        points=[0x98b9,0x98bf,0xab12,0xaac5,0x12b46]+[0x12acf+i*12 for i in range(9)]
+        assert candidate['pool_cycle_observers']['rvas']==points
+        (output/'pool-cycle-observers.txt').write_text(''.join('%x\n'%rva for rva in points))
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))

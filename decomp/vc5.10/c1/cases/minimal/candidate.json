@@ -476,6 +476,16 @@
       "start_rva": 43723,
       "end_rva": 43796,
       "entry": 1
+    },
+    {
+      "start_rva": 39043,
+      "end_rva": 39130,
+      "entry": 1
+    },
+    {
+      "start_rva": 178328,
+      "end_rva": 178358,
+      "entry": 0
     }
   ],
   "functions": [
@@ -1455,6 +1465,23 @@
         ]
       ],
       "source": "src/arenas.cpp",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "CompilerArena::CommitExtent",
+      "native_symbol": "_ZN13CompilerArena12CommitExtentEv",
+      "role": "application",
+      "chunks": [
+        [
+          39043,
+          39130
+        ],
+        [
+          178328,
+          178358
+        ]
+      ],
+      "source": "src/arenas.cpp",
       "status": "candidate"
     }
   ],
@@ -1477,17 +1504,17 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 39043,
-    "native_symbol": "CompilerArena::CommitExtent",
-    "native_linkage_symbol": "_ZN13CompilerArena12CommitExtentEv",
-    "kind": "arena-commit",
-    "calling_convention": "thiscall-arena-commit",
+    "rva": 76617,
+    "native_symbol": "parse_command_line",
+    "kind": "command-line-entry",
+    "calling_convention": "cdecl",
     "native_args": [
-      "this"
+      "argc",
+      "argv"
     ],
     "caller": {
-      "native_symbol": "CompilerArena::AllocatePages",
-      "return_rva": 43794
+      "native_symbol": "c1_main",
+      "return_rva": 75774
     }
   },
   "imports": [
@@ -1772,7 +1799,7 @@
       "scope": "owned snapshot interior sentinels and labeled nonzero ints before BSS clear; never dereferenced"
     }
   },
-  "staging_role": "sole73B AllocatePages: output remaining count/cursor writes then genuine ECX-only CommitExtent trap, no memory contents claim",
+  "staging_role": "sole117B CommitExtent, successful actual MEM_COMMIT and complete nine pool member sequences to genuine command-line parser trap",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -1901,5 +1928,25 @@
     4,
     5,
     6
-  ]
+  ],
+  "pool_cycle_observers": {
+    "rvas": [
+      39097,
+      39103,
+      43794,
+      43717,
+      76614,
+      76495,
+      76507,
+      76519,
+      76531,
+      76543,
+      76555,
+      76567,
+      76579,
+      76591
+    ],
+    "commit_unit": 65536,
+    "scope": "Actual owned call/return/API boundaries across all nine default pool bindings; no case completion claim"
+  }
 }

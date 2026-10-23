@@ -100,16 +100,16 @@ def main():
                 value = json.loads(path.read_text())
                 if name == "false-pc": value["pc"] = 1
                 elif name == "wrong-module-token":
-                    if import_boundary: value["caller"]["args"]["module"] = 0x10600000
-                    else: value["args"]["module"] = 0x10600000
+                    value["module_token"] ^= 1
                 elif name == "wrong-module-hash": value["module_identity"]["sha256"] = "0" * 64
                 elif name == "wrong-reason":
-                    if import_boundary: value["caller"]["args"]["reason"] = 2
+                    if candidate.get("case") == "minimal": value["invocation"]["args"]["mode"] ^= 1
+                    elif import_boundary: value["caller"]["args"]["reason"] = 2
                     else: value["args"]["reason"] = 2
                 elif name == "wrong-attach-count": value["crt_attached"] ^= 1
                 elif name == "nonnull-raw-hook": value["raw_dllmain"] = 1
                 elif name == "wrong-x87-control": value["x87_control"] = 0x037f
-                elif name == "wrong-last-error": value["win32_last_error"] = 0
+                elif name == "wrong-last-error": value["win32_last_error"] ^= 1
                 elif name == "initializer-range": value["args"]["end"] += 4
                 elif name == "initializer-slot": value["initializer_slots"] = [1]
                 elif name == "onexit-alias": value["onexit_end"] += 4

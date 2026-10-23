@@ -117,13 +117,5 @@
     "end": 275003329,
     "pending_extent": true,
     "evidence": "genuine internal-switch scanner callee; named INT3 entry only"
-  },
-  {
-    "name": "CompilerArena::CommitExtent",
-    "symbol": "?CommitExtent@CompilerArena@@QAEXXZ",
-    "start": 274765955,
-    "end": 274765956,
-    "pending_extent": true,
-    "evidence": "genuine ECX-only arena commit helper; reloads cursor itself at9887, RET0; named INT3 identity only"
   }
 ]

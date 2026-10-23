@@ -72,7 +72,8 @@
     "_initialize_default_pools",
     "CompilerPool::SetArena",
     "CompilerPool::Refill",
-    "CompilerArena::AllocatePages"
+    "CompilerArena::AllocatePages",
+    "CompilerArena::CommitExtent"
   ],
   "driver": [
     {
@@ -640,6 +641,19 @@
       "symbol": "?AllocatePages@CompilerArena@@QAEPAEIPAI@Z",
       "start": 274770635,
       "end": 274770708,
+      "role": "application"
+    },
+    {
+      "name": "CompilerArena::CommitExtent",
+      "symbol": "?CommitExtent@CompilerArena@@QAEXXZ",
+      "start": 274765955,
+      "end": 274766042,
+      "code_chunks": [
+        [
+          274905240,
+          274905270
+        ]
+      ],
       "role": "application"
     }
   ],

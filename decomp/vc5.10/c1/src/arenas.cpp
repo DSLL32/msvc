@@ -91,5 +91,15 @@ unsigned char *RECON_THISCALL CompilerArena::AllocatePages(unsigned pages, unsig
 
 void RECON_THISCALL CompilerArena::CommitExtent(void)
 {
-    __asm { int 3 }
+    unsigned bytes, unit;
+
+    if ((int)((unsigned)cursor - (unsigned)base) > (int)reserve_bytes)
+        compiler_fatal(76);
+    unit = descriptor->commit_unit;
+    bytes = ((unsigned)cursor - (unsigned)committed_limit + unit - 1) &
+            ~(unit - 1);
+    if (!VirtualAlloc(committed_limit, bytes, MEM_COMMIT, PAGE_READWRITE))
+        compiler_fatal(60);
+    committed_limit += bytes;
+    committed_bytes += bytes;
 }

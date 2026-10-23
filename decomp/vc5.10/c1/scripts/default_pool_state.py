@@ -18,14 +18,14 @@ def boundary(original,native,state,sequence,module):
 
 def validate(original,native,fields,entry,state,entry_sequence,sequence,module,candidate):
     assert candidate['default_pool_order']==ORDER
-    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('default-pool-arena',0x12b30),('pool-refill',0xaa9c),('arena-page-allocation',0xaacb),('arena-commit',0x9883)]
+    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('default-pool-arena',0x12b30),('pool-refill',0xaa9c),('arena-page-allocation',0xaacb),('arena-commit',0x9883),('command-line-entry',0x12b49)]
     binary=captured_native_binary(native);names=symbols(binary)
     first=fields['pools'][8];native_this=names['c1_bss'][0]+first['native_offset'];original_this=module+first['original_object_rva']
     assert first['index']==8 and first['native_size']==16 and first['original_object_rva']==0x54dc0
     assert state['symbol']=='CompilerPool::SetArena' and state['args']==dict(this=native_this,arena_index=0)
     assert state['formal_inventory']==[dict(name='this',type='CompilerPool *'),dict(name='arena_index',type='unsigned int')]
     assert state['caller']['symbol']=='initialize_default_pools' and state['caller']['args']=={}
-    entries=json.loads((native/'pool-arena-entries.json').read_text());assert len(entries)==1;actual=entries[0]
+    entries=json.loads((native/'pool-arena-entries.json').read_text());assert len(entries)==(9 if candidate.get('pool_cycle_observers') else 1);actual=entries[0]
     assert actual['pc']==names['_ZN12CompilerPool8SetArenaEj'][0] and actual['ecx']==native_this and actual['arena_index']==0
     assert actual['formal_inventory']==state['formal_inventory'] and actual['return']==state['caller']['pc']
     call(binary,actual['return'],actual['pc'])
@@ -49,10 +49,10 @@ def validate(original,native,fields,entry,state,entry_sequence,sequence,module,c
 
 def validate_binding(original,native,fields,entry,state,entry_sequence,sequence,module,candidate):
     """Real SetArena entry and its sole pointer store before genuine Refill."""
-    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('pool-refill',0xaa9c),('arena-page-allocation',0xaacb),('arena-commit',0x9883)]
-    rows=re.findall(r'^trap seq=(\d+) rva=00012b30 .*stack=([0-9a-f,]+)$',(original/'events.txt').read_text(),re.M);assert len(rows)==1
+    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('pool-refill',0xaa9c),('arena-page-allocation',0xaacb),('arena-commit',0x9883),('command-line-entry',0x12b49)]
+    rows=re.findall(r'^trap seq=(\d+) rva=00012b30 .*stack=([0-9a-f,]+)$',(original/'events.txt').read_text(),re.M);assert len(rows)==(9 if candidate.get('pool_cycle_observers') else 1)
     at=int(rows[0][0]);assert entry_sequence<at<sequence
-    observed=json.loads((native/'pool-arena-entries.json').read_text());assert len(observed)==1
+    observed=json.loads((native/'pool-arena-entries.json').read_text());assert len(observed)==(9 if candidate.get('pool_cycle_observers') else 1)
     before=copy.deepcopy(observed[0]);before.update(before['crt_state'])
     assert before['boundary_rva']==0x12b30 and before['invocation']==entry['invocation']==state['invocation']
     validate(original,native,fields,entry,before,entry_sequence,at,module,candidate)
@@ -81,10 +81,10 @@ def validate_binding(original,native,fields,entry,state,entry_sequence,sequence,
 
 def validate_refill(original,native,fields,entry,state,entry_sequence,sequence,module,candidate):
     """Unsigned page calculation and real owned remaining-count output address."""
-    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('arena-page-allocation',0xaacb),('arena-commit',0x9883)]
-    rows=re.findall(r'^trap seq=(\d+) rva=0000aa9c .*stack=([0-9a-f,]+)$',(original/'events.txt').read_text(),re.M);assert len(rows)==1
+    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('arena-page-allocation',0xaacb),('arena-commit',0x9883),('command-line-entry',0x12b49)]
+    rows=re.findall(r'^trap seq=(\d+) rva=0000aa9c .*stack=([0-9a-f,]+)$',(original/'events.txt').read_text(),re.M);assert len(rows)==(9 if candidate.get('pool_cycle_observers') else 1)
     at=int(rows[0][0]);assert entry_sequence<at<sequence
-    observed=json.loads((native/'pool-refill-entries.json').read_text());assert len(observed)==1
+    observed=json.loads((native/'pool-refill-entries.json').read_text());assert len(observed)==(9 if candidate.get('pool_cycle_observers') else 1)
     before=copy.deepcopy(observed[0]);before.update(before['crt_state'])
     assert before['boundary_rva']==0xaa9c and before['invocation']==entry['invocation']==state['invocation']
     names=symbols(captured_native_binary(native));assert before['pc']==names['_ZN12CompilerPool6RefillEj'][0]
@@ -118,10 +118,10 @@ def validate_refill(original,native,fields,entry,state,entry_sequence,sequence,m
 
 def validate_allocation(original,native,fields,entry,state,entry_sequence,sequence,module,candidate):
     """Two genuine allocation writes; reservation contents stay opaque."""
-    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])==('arena-commit',0x9883)
-    rows=re.findall(r'^trap seq=(\d+) rva=0000aacb .*stack=([0-9a-f,]+)$',(original/'events.txt').read_text(),re.M);assert len(rows)==1
+    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('arena-commit',0x9883),('command-line-entry',0x12b49)]
+    rows=re.findall(r'^trap seq=(\d+) rva=0000aacb .*stack=([0-9a-f,]+)$',(original/'events.txt').read_text(),re.M);assert len(rows)==(9 if candidate.get('pool_cycle_observers') else 1)
     at=int(rows[0][0]);assert entry_sequence<at<sequence
-    observed=json.loads((native/'arena-page-entries.json').read_text());assert len(observed)==1
+    observed=json.loads((native/'arena-page-entries.json').read_text());assert len(observed)==(9 if candidate.get('pool_cycle_observers') else 1)
     before=copy.deepcopy(observed[0]);before.update(before['crt_state'])
     assert before['boundary_rva']==0xaacb and before['invocation']==entry['invocation']==state['invocation']
     names=symbols(captured_native_binary(native));assert before['pc']==names['_ZN13CompilerArena13AllocatePagesEjPj'][0]
