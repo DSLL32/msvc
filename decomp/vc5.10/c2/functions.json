@@ -46,7 +46,8 @@
     "_c2_reset_symbol_table",
     "_c2_create_type_table",
     "@c2_allocate_node@8",
-    "@c2_node_size@4"
+    "@c2_node_size@4",
+    "@c2_pool_allocate@8"
   ],
   "driver": [
     {
@@ -2564,9 +2565,7 @@
     ],
     "child_cwd": "S:\\vc5.10\\c2\\numeric-control-flow\\original-work"
   },
-  "trial": [
-    "@c2_pool_allocate@8"
-  ],
+  "trial": [],
   "pending_data": [],
   "data_model": "cases/analysis/options-model.json",
   "retain_capture_binaries": true
