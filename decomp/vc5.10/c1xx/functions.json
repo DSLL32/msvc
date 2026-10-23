@@ -62,7 +62,9 @@
     "_initialize_frontend_34",
     "_initialize_type_ranks",
     "_initialize_frontend_35",
-    "_initialize_frontend_36"
+    "_initialize_frontend_36",
+    "_initialize_frontend_37",
+    "PchContext::Initialize"
   ],
   "driver": [
     {
@@ -3256,6 +3258,110 @@
         "original_seconds": 3.621203954331577,
         "native_seconds": 5.329011277295649
       }
+    },
+    {
+      "name": "_initialize_frontend_37",
+      "classification": "application source",
+      "source": "src/pch.cpp",
+      "source_sha256": "42dc66406f29a9ba910330ae9512596d21a23f7786815cb268edf644d82bc22b",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pch-joint-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pch-joint-native-1",
+      "original_receipt_sha256": "450ee5d402a1b5ac17819acb0a30313b3c186a104d2cd793dd11f4685679aeb7",
+      "native_receipt_sha256": "58e6040b835ec9870ff8202055c66cff745ffa6ea12ce8bc2951bae8456e61b9",
+      "trial_sha256": "86b559a754210e0a20734ac003483488b3318d041459733df629b382bf39adfe",
+      "audit_sha256": "b70dd61e85101e2e1147f635e23500a8bfdc8559b183267796fa25f5b758de53",
+      "code_chunks": [
+        [
+          232152,
+          232162
+        ]
+      ],
+      "comparison": {
+        "trial": "_initialize_frontend_37",
+        "frontier": "_initialize_frontend_38",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 951,
+        "native_bss_size": 980,
+        "native_c_padding_bytes": 29,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8431,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 3.6226273253560066,
+        "native_seconds": 5.3363107070326805
+      },
+      "promotion_kind": "reviewed ordered JOINT two-body closure; not a historical single-function proof",
+      "ordered_closure": [
+        "_initialize_frontend_37",
+        "PchContext::Initialize"
+      ]
+    },
+    {
+      "name": "PchContext::Initialize",
+      "classification": "application source",
+      "source": "src/pch.cpp",
+      "source_sha256": "42dc66406f29a9ba910330ae9512596d21a23f7786815cb268edf644d82bc22b",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pch-joint-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pch-joint-native-1",
+      "original_receipt_sha256": "450ee5d402a1b5ac17819acb0a30313b3c186a104d2cd793dd11f4685679aeb7",
+      "native_receipt_sha256": "58e6040b835ec9870ff8202055c66cff745ffa6ea12ce8bc2951bae8456e61b9",
+      "trial_sha256": "86b559a754210e0a20734ac003483488b3318d041459733df629b382bf39adfe",
+      "audit_sha256": "b70dd61e85101e2e1147f635e23500a8bfdc8559b183267796fa25f5b758de53",
+      "code_chunks": [
+        [
+          245057,
+          245075
+        ]
+      ],
+      "comparison": {
+        "trial": "_initialize_frontend_37",
+        "frontier": "_initialize_frontend_38",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 951,
+        "native_bss_size": 980,
+        "native_c_padding_bytes": 29,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8431,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 3.6226273253560066,
+        "native_seconds": 5.3363107070326805
+      },
+      "promotion_kind": "reviewed ordered JOINT two-body closure; not a historical single-function proof",
+      "ordered_closure": [
+        "_initialize_frontend_37",
+        "PchContext::Initialize"
+      ]
     }
   ],
   "imports": [

@@ -164,7 +164,7 @@
     "_initialize_frontend_37",
     "PchContext::Initialize"
   ],
-  "promotion_pending_final_review": true,
+  "promotion_pending_final_review": false,
   "targeted_controls": {
     "result": "PASS",
     "count": 42,
@@ -271,5 +271,11 @@
     "prior_rank_prototype_pool": "cases/minimal/prototype-trials.json",
     "sha256": "d5c1fd69a294e555a183514bc85f3bc0fcefdce4689df618d572443b4b228c4c",
     "reason": "Their exact target bodies and semantic decoders are unchanged; every prior modeled field is rechecked in the four fresh joint pairs. New PCH/prospective/order/return/neighbor controls are fresh42."
+  },
+  "orchestrator_review": {
+    "result": "PASS",
+    "receipt": "/root/.ai-tmp/msvc2/vc5.10/c1xx/pch-joint-orchestrator-review.json",
+    "sha256": "6973b04836834d218bb2efe0fe7bc4876b3f45e21b8eb180b7f539ce38342ba9",
+    "scope": "Explicit ordered JOINT two-body promotion, no prospective acceptance or opaque pointee/unknown initialized byte equivalence"
   }
 }
