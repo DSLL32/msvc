@@ -1,0 +1,144 @@
+{
+  "schema": 1,
+  "candidate": "compact_type_list",
+  "accepted_functions": 65,
+  "application_extent_bytes": 20542,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 32.782228463821774,
+  "qualification": "Application extents / whole text, including CRT/unknown/padding; not non-CRT or branch coverage.",
+  "source_extent": [
+    4209696,
+    4211504
+  ],
+  "associated_text_data": [
+    [
+      4211504,
+      4211548
+    ]
+  ],
+  "original_body_sha256": "e299b786cc837d6a5393732b27f9886c6d6bb2d2ed4b8c42cf0fe510e5e60b96",
+  "source_sha256": "1ea41cc298024aa07a9571724fb5af2396fe8672dc97b1d51dc91067f98b57e3",
+  "fresh_pair": true,
+  "next_frontier": "intern_type",
+  "source_review": [
+    "Complete alias/active recursion and previous-chain merge logic, including unchecked original list-index lookup.",
+    "Reference_count is reset here, unlike compact_type_index. Genuine mapper array selects legacy/modern ECX callbacks by module format.",
+    "Arglist uses supplied count; method/fieldlist offsets address through16-bit truncation and preserve numeric/name/padding layouts.",
+    "Continuation helper restarts at same field offset; method field adjusts remaining by1-methodcount before shared decrement.",
+    "Recursive closure restores previous chain before resolve_recursive_type; nonrecursive path marks4 then interns.",
+    "Named add_type_reference and append_type_field_list stubs retain original boundaries; no helper vertices added for source convenience."
+  ],
+  "executed_scope": "Modern1201arglist, four primitive members. Field/method/continuation branches reconstructed and graph checked; not executed-branch credit.",
+  "mapper_data": {
+    "bytes": 12,
+    "entries": [
+      "compact_legacy_index",
+      "compact_type_index",
+      "compact_type_index"
+    ],
+    "credit": "Ordinary structured program data; no code extent credit."
+  },
+  "typed_frontier": {
+    "root": "type_records",
+    "index": 12,
+    "actual_pointee_bytes": 32,
+    "list_status": "0x444",
+    "parent_status": "0x440",
+    "depth": 1,
+    "retained_stack": [
+      "0x1011",
+      "0x100c"
+    ]
+  },
+  "fresh_negative_count": 12,
+  "affected_controls": {
+    "read-state-checks.json": {
+      "path": "read-state-checks.json",
+      "sha256": "1bc9d470d8b67db1ee621c4ff94f0e3db8b2d90491c5c57828c83fd6524468f3"
+    },
+    "initialized-storage-checks.json": {
+      "path": "initialized-storage-checks.json",
+      "sha256": "bbe1b608f5a40af587ad2bef7933819841efb08f0dd7e0ddcadd26810abf2329"
+    },
+    "type-record-state-checks.json": {
+      "path": "type-record-state-checks.json",
+      "sha256": "2f25932cdf55468b903723ddc72e6a95f9c6004b63ca1437543d119e26d9d5a0"
+    },
+    "abi-state-checks.json": {
+      "path": "abi-state-checks.json",
+      "sha256": "05d498049f8bd42172e0dd460df41ff1fe4f5db4d320772deae83056755fdf54"
+    }
+  },
+  "protocol_checkpoint": {
+    "count": 24,
+    "report": "help-protocol-report.json",
+    "sha256": "d8de9236e6b7999588075f6dca54a58df3edccedca02fc9820861f847e169eff"
+  },
+  "seconds": {
+    "trial": {
+      "original_build": 4.796829112805426,
+      "native_build": 2.5460036154836416,
+      "graph_tool_build": 0.030928838066756725,
+      "original_capture": 6.167354291304946,
+      "native_capture": 0.7415930517017841,
+      "pair_check": 0.5796457547694445
+    },
+    "controls": 2.5357594126835465,
+    "fixtures": {
+      "hello-debug-dll": {
+        "schema": 1,
+        "case": "hello-debug-dll",
+        "terminal": "trap",
+        "native_only": true,
+        "native_sha256": "ce1a6360bd362d07cfba0ab34f5c66dca93619203400c5bfa248f05f1fe13bd0",
+        "reference_receipt_sha256": "993948f76ec75c6dd57192a996de677869d7b9f9546c7dcc224b0f1ce268a1bd",
+        "prepared_resources": {
+          "provider_sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b",
+          "source_rc_sha256": "926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480",
+          "entries": 3,
+          "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de"
+        },
+        "prepared_widen": {
+          "provider_sha256": "808322ba3d6bfccebc996bcc60430afffd3962bfa22c769835114016b7930a92",
+          "contract_sha256": "fe1f3e3109afe67d91745ca1bfaf8f86cb2f2f51f68b5c012cf79637457407d8",
+          "input_dll_sha256": "37c3a6d47173f047a14cae6f4067498d3e0b2905c5f4916bd3f30a4a8e16ae9e",
+          "external_module_sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+          "instances": 21
+        },
+        "seconds": {
+          "preparation": 0.00258705485612154,
+          "execution": 0.7149046985432506,
+          "checks": 0.004017021507024765,
+          "total": 0.9893790315836668
+        }
+      },
+      "help": {
+        "schema": 1,
+        "case": "help",
+        "terminal": "exit",
+        "native_only": true,
+        "native_sha256": "ce1a6360bd362d07cfba0ab34f5c66dca93619203400c5bfa248f05f1fe13bd0",
+        "reference_receipt_sha256": "a55251ff7652c5146d63e73004c183cad25a7196b23947e19300b0453081f688",
+        "prepared_resources": {
+          "provider_sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b",
+          "source_rc_sha256": "926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480",
+          "entries": 3,
+          "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de"
+        },
+        "prepared_widen": null,
+        "seconds": {
+          "preparation": 0.0031343456357717514,
+          "execution": 0.004821985960006714,
+          "checks": 0.0032080160453915596,
+          "total": 0.016063238494098186
+        }
+      }
+    },
+    "protocol": {
+      "native_capture": 0.12973421905189753,
+      "candidate_audit": 0.3255276018753648,
+      "pair_check": 0.15521913394331932,
+      "negative_checks": 1.464609146118164
+    }
+  }
+}

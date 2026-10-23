@@ -59,7 +59,8 @@ void convert_legacy_record(unsigned index) { __asm { int 3 } }
 unsigned char __fastcall compact_legacy_pointer(TypeRecord *record) { __asm { int 3 } return 0; }
 int __fastcall match_forward_type(TypeRecord *record, TypeRecord **match, int insert) { __asm { int 3 } return 0; }
 void __fastcall associate_forward_type(unsigned index, TypeRecord *record) { __asm { int 3 } }
-unsigned __fastcall compact_type_list(unsigned index, unsigned count) { __asm { int 3 } return 0; }
+void __fastcall add_type_reference(TypeRecord *record, unsigned short offset) { __asm { int 3 } }
+void append_type_field_list(unsigned char *field, TypeRecord *record) { __asm { int 3 } }
 unsigned resolve_recursive_type(TypeRecord *record, unsigned index) { __asm { int 3 } return 0; }
 void __fastcall intern_type(TypeRecord *record) { __asm { int 3 } }
 

@@ -1068,5 +1068,15 @@
     "original": 4281576,
     "size": 4,
     "kind": "integer"
+  },
+  {
+    "name": "type_index_mappers",
+    "original": 4268312,
+    "size": 12,
+    "kind": "bytes",
+    "function_table": {
+      "stride": 4,
+      "pointer_offset": 0
+    }
   }
 ]

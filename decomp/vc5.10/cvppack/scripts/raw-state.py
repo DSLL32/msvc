@@ -175,6 +175,11 @@ def compare(config,data,events,native,artifacts=None,views=None):
             offset=value-root;payload=original['memory'][root][offset:offset+item['element_size']]
             assert len(payload)==item['element_size']
             parameters[item['name']]=dict(root=item['root'],index=offset//item['element_size'],bytes=payload.hex())
+        elif item['kind']=='type-record-pointer':
+            row=next(row for row in data if row['name']==item['root']);root=int.from_bytes(original['memory'][row['original']],'little')
+            row=next(row for row in data if row['name']==item['count']);count=int.from_bytes(original['memory'][row['original']],'little')
+            assert root<=value<root+count*32 and (value-root)%32==0,'argument is not an owned original local type record'
+            parameters[item['name']]=dict(root=item['root'],index=(value-root)//32)
         elif item['kind']=='output-buffer':
             assert original['stack'][item['owner_return_slot']]==item['owner_return'],'output buffer original caller site differs'
             assert value==original['esp']+item['original_delta'],'output buffer original stack-local identity differs'
@@ -621,10 +626,14 @@ def compare(config,data,events,native,artifacts=None,views=None):
                     for index in range(count):
                         linked(int.from_bytes(left[index*4:index*4+4],'little'),int.from_bytes(right[index*4:index*4+4],'little'),shape)
         elif item.get('function_table'):
-            assert len(raw)==len(actual)==312,'symbol callback table extent differs'
-            for offset in range(0,312,8):
-                assert raw[offset:offset+4]==actual[offset:offset+4],'symbol callback kind/reserved differs'
-                address=int.from_bytes(raw[offset+4:offset+8],'little');other=int.from_bytes(actual[offset+4:offset+8],'little')
+            spec=item['function_table'] if isinstance(item['function_table'],dict) else {}
+            stride=spec.get('stride',8);pointer=spec.get('pointer_offset',4)
+            assert stride>=4 and 0<=pointer<=stride-4 and item['size']%stride==0
+            assert len(raw)==len(actual)==item['size'],'symbol callback table extent differs'
+            for offset in range(0,item['size'],stride):
+                a=raw[offset:offset+stride];b=actual[offset:offset+stride]
+                assert a[:pointer]==b[:pointer] and a[pointer+4:]==b[pointer+4:],'symbol callback kind/reserved differs'
+                address=int.from_bytes(a[pointer:pointer+4],'little');other=int.from_bytes(b[pointer:pointer+4],'little')
                 if address:
                     function=next(row for row in config['functions'] if row['original']==address)
                     assert other==native['function_addresses'][function['native_symbol']],'symbol callback logical identity differs'

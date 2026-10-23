@@ -17,12 +17,18 @@ def function_tables(available, original=None, rebuilt=None):
     proof=[]
     for item in json.loads((BINARY/'data.json').read_text()):
         if not item.get('function_table'):continue
+        spec=item['function_table'] if isinstance(item['function_table'],dict) else {}
+        stride=spec.get('stride',8);pointer=spec.get('pointer_offset',4)
+        assert stride>=4 and 0<=pointer<=stride-4 and item['size']%stride==0
         before=original.read(item['original'],item['size'])
         after=rebuilt.read(publics['_'+item['name']],item['size']);rows=[]
-        for offset in range(0,item['size'],8):
-            kind,reserved,address=struct.unpack_from('<HHI',before,offset)
-            other_kind,other_reserved,other=struct.unpack_from('<HHI',after,offset)
-            assert (kind,reserved)==(other_kind,other_reserved) and reserved==0,'symbol rewrite table kind/reserved differs'
+        for offset in range(0,item['size'],stride):
+            a=before[offset:offset+stride];b=after[offset:offset+stride]
+            assert a[:pointer]==b[:pointer] and a[pointer+4:]==b[pointer+4:],'symbol rewrite table kind/reserved differs'
+            if stride==8 and pointer==4:
+                kind,reserved=struct.unpack_from('<HH',a);assert reserved==0,'symbol rewrite table kind/reserved differs'
+            else:kind=None
+            address=u32(a,pointer);other=u32(b,pointer)
             if address:
                 function=next(row for row in available if row['original']==address)
                 assert other==publics[function['symbol']],'symbol rewrite table callback identity differs'
@@ -31,7 +37,7 @@ def function_tables(available, original=None, rebuilt=None):
                 assert other==0,'symbol rewrite table NULL callback differs'
                 name=None
             rows.append(dict(kind=kind,function=name))
-        proof.append(dict(name=item['name'],original=item['original'],rebuilt=publics['_'+item['name']],size=item['size'],rows=rows))
+        proof.append(dict(name=item['name'],original=item['original'],rebuilt=publics['_'+item['name']],size=item['size'],stride=stride,pointer_offset=pointer,rows=rows))
     return proof
 
 

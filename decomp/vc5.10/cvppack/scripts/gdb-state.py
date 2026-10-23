@@ -217,6 +217,10 @@ def capture(configuration,data_file,output):
             assert root<=address<root+count*item['element_size'] and (address-root)%item['element_size']==0,'argument is not a directory element'
             parameters[item['name']]=dict(root=item['root'],index=(address-root)//item['element_size'],
                 bytes=bytes(inferior.read_memory(address,item['element_size'])).hex())
+        elif item['kind']=='type-record-pointer':
+            root=int(gdb.parse_and_eval(item['root']));count=int(gdb.parse_and_eval(item['count']));address=int(value)
+            assert root<=address<root+count*32 and (address-root)%32==0,'argument is not an owned local type record'
+            parameters[item['name']]=dict(root=item['root'],index=(address-root)//32)
         elif item['kind']=='output-buffer':
             owner=frame.older()
             while owner is not None and owner.name()!=item['owner']:owner=owner.older()
