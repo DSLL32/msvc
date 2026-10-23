@@ -1241,6 +1241,7 @@ char *recon_fullpath(char *out,const char *name,size_t capacity)
     const char *canonical=getenv("RECON_CANONICAL_CWD"),*input=name&&*name?name:".";
     char host[PATH_MAX],absolute[PATH_MAX],normalized[PATH_MAX],check[PATH_MAX],cwd[PATH_MAX];
     char *part,*save,*result=out,drive='Z'; size_t len=0;
+    int saved_errno=errno;
     if (canonical) {
         if (!canonical[0] || canonical[1]!=':' ||
             (canonical[2]!='\\' && canonical[2]!='/') ||
@@ -1283,7 +1284,7 @@ char *recon_fullpath(char *out,const char *name,size_t capacity)
     if (!len) { normalized[len++]='\\'; normalized[len]=0; }
     if (!result) { capacity=len+3; result=malloc(capacity); if (!result) return NULL; }
     if (capacity<len+3) { errno=ERANGE; return NULL; }
-    result[0]=drive; result[1]=':'; strcpy(result+2,normalized); return result;
+    result[0]=drive; result[1]=':'; strcpy(result+2,normalized); errno=saved_errno; return result;
 }
 /* VC1 _getcwd delegates to _getdcwd(0,...). A NULL destination allocates
    at least the requested capacity, even when that capacity is zero/negative;

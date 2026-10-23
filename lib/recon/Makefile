@@ -313,3 +313,8 @@ build/createfile-errno-probe: tests/createfile-errno-probe.c $(SOURCES) $(HEADER
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 createfile-errno-check: build/createfile-errno-probe
 	$(PYTHON) tests/check-createfile-errno.py build/createfile-errno-probe
+
+build/fullpath-errno-probe: tests/fullpath-errno-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+fullpath-errno-check: build/fullpath-errno-probe
+	$(PYTHON) tests/check-fullpath-errno.py build/fullpath-errno-probe

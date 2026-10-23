@@ -1,0 +1,33 @@
+{
+  "scope": "Successful recon_fullpath restores callererrno after internal Linux path-resolution probes; existing failures and Windows LastError unchanged. No mktemp state reseed/change.",
+  "original_reference": "tests/fullpath-errno-original.json;8calls for resources.res andcurrentdirectory \u00d7errno0/111\u00d7LastError0/12345678, destinationalias/full260-byte buffer/tail equality. Actual canonicalCRT/probe hFiles verified.",
+  "actual_packet": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/rcdll/option-number-trial-original-04/events.txt",
+    "sha256": "7f808574702bba4f0e0c3e1b8b9c79a9893838e96ee19fa3b3311d56400efa4e",
+    "call": "RCDLL _fullpath(output,resources.res,260), originalerrno0/Last0 preserved; native realpath/readlink leakedEINVAL22 beforecorrection"
+  },
+  "native_checks": "GCC/Clang all8 original outputs/fullbuffers/tails; existing default/getcwd/error/canonicalcwd/editorAPI checks pass.",
+  "regression_receipt": "/root/.ai-tmp/msvc2/recon-maintenance/fullpath-errno-regression/receipt.json",
+  "regression_sha256": "5679552610606d5d46500f84fba8eadab1a1c7a9b30d0f25ac4ba93a5974f4b9",
+  "regression_runs": [
+    {
+      "binary": "cl",
+      "build_seconds": 1.3583405259996653,
+      "fixture_wrapper_seconds": 3.1664617797359824,
+      "fixture_status": 0
+    },
+    {
+      "binary": "rc",
+      "build_seconds": 1.4670178396627307,
+      "fixture_wrapper_seconds": 2.6879206355661154,
+      "fixture_status": 0
+    },
+    {
+      "binary": "rcpp",
+      "build_seconds": 1.4145506424829364,
+      "fixture_wrapper_seconds": 0.4218070572242141,
+      "fixture_status": 0
+    }
+  ],
+  "regression_scope": "95finishedcachednativecases passed withstablecompiledsourcehashes; noWine/referencecapture/finishedworkerwake."
+}
