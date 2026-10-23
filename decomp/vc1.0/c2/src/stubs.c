@@ -42,12 +42,10 @@ void __cdecl compiler_report(unsigned code, ...) { __asm int 3 }
 void __fastcall report_context_error(unsigned code, char *source, char *filename) { __asm int 3 }
 int __fastcall suffix_matches(char *pattern, char *text, unsigned action) { __asm int 3 }
 void __fastcall release_initializer(Initializer *initializer) { __asm int 3 }
-short __fastcall input_counted_string(char *buffer, unsigned limit) { __asm int 3 }
 Node *__fastcall intern_typed_label(Function *function, Node *node) { __asm int 3 }
 DoubleBits input_double_bits(void) { __asm int 3 }
 int extended_to_float(const Extended *number, float *result) { __asm int 3 }
 void float_to_extended(const float *number, Extended *result) { __asm int 3 }
-void __fastcall decode_inline_assembly(Node *node, ScopeHash *scope) { __asm int 3 }
 char *__fastcall undecorate_function_name(char *name) { __asm int 3 }
 void __cdecl ide_message(int code, ...) { __asm int 3 }
 void __fastcall set_warning_override(short number, signed char level) { __asm int 3 }
@@ -134,7 +132,6 @@ int __fastcall narrow_result_safe(MachineInstruction *instruction) { __asm int 3
 int __fastcall narrow_comparison_condition(unsigned condition) { __asm int 3 }
 unsigned __fastcall integer_sign_bit(unsigned bytes) { __asm int 3 }
 unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
-void __fastcall append_embedded_record(Node *node) { __asm int 3 }
 
 #include "value-selection.h"
 #include "bitsets.h"

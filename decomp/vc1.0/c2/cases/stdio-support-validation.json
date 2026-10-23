@@ -21,6 +21,6 @@
     "changed linked archive identity",
     "fabricated native internal ABI claim"
   ],
-  "seconds": 0.05073319282382727,
+  "seconds": 0.0499025322496891,
   "scope": "Strict cached observations and exact original archive identities, no Wine/native launch/compiler; no application credit for CRT support"
 }

@@ -227,3 +227,13 @@ Coverage320875/399693=80.280365% is code-extent union, not branch
 coverage. Debug input_counted_string700b0 is next; full debug artifacts still pending.
 Retained unvisited pointer-to-ALIGN%d behavior and case-specific COFF fill limits
 are explicit. See cases/dbglist-initializer-checkpoint.json for failures/timings.
+
+Inline-assembly checkpoint1186 adds six whole application bodies and2306
+original code/text-data bytes. Serialized assembly becomes typed machine IR,
+including symbol-relative base/index aliases and x87/high-byte/branch forms.
+Twenty-two contextual operand descriptors and23 grammar switch targets are
+independently checked.57 whole-instruction and80 operand/id/first-diagnostic
+probes pass alongside24 cleanup ABI checks and selected original /W3 builds.
+All14 native cases pass,13 complete and dbglist at its expected allocation trap.
+Coverage323181/399693=80.857308% is extent union, not branch
+coverage. See cases/dbglist-assembly-checkpoint.json for exact seams and timings.

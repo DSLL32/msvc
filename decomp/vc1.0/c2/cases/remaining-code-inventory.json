@@ -1,14 +1,14 @@
 {
-  "checkpoint": 1180,
+  "checkpoint": 1186,
   "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
   "metric": "Index inventory, not recovered function/branch coverage. Group unions may overlap and are not additive. Provisional entries do not measure bodies.",
   "application": {
-    "indexed_rows": 1263,
-    "accepted_rows": 1089,
-    "accepted_union_bytes": 308211,
-    "unaccepted_rows": 174,
-    "unaccepted_provisional_rows": 168,
-    "unaccepted_indexed_extent_bytes": 694,
+    "indexed_rows": 1266,
+    "accepted_rows": 1095,
+    "accepted_union_bytes": 310517,
+    "unaccepted_rows": 171,
+    "unaccepted_provisional_rows": 165,
+    "unaccepted_indexed_extent_bytes": 691,
     "unaccepted_nonprovisional_indexed_extent_bytes": 448
   },
   "crt": {
@@ -30,8 +30,8 @@
     "unaccepted_nonprovisional_indexed_extent_bytes": 66
   },
   "original_code_bytes": 399693,
-  "unclassified_code_union_bytes": 66190,
-  "unclassified_ranges": 648,
+  "unclassified_code_union_bytes": 63887,
+  "unclassified_ranges": 649,
   "largest_unclassified_ranges": [
     {
       "start": "0x29921",
@@ -52,11 +52,6 @@
       "start": "0x4a011",
       "end": "0x4a8f0",
       "bytes": 2271
-    },
-    {
-      "start": "0x1a971",
-      "end": "0x1b210",
-      "bytes": 2207
     },
     {
       "start": "0x1bc01",
@@ -131,6 +126,11 @@
     {
       "start": "0x4ab41",
       "end": "0x4aea0",
+      "bytes": 863
+    },
+    {
+      "start": "0x65d31",
+      "end": "0x66090",
       "bytes": 863
     }
   ],
@@ -439,13 +439,6 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@decode_inline_assembly@8",
-      "start": 108912,
-      "end": 108913,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
       "name": "@intern_typed_label@8",
       "start": 326240,
       "end": 326241,
@@ -470,13 +463,6 @@
       "name": "_float_to_extended",
       "start": 463665,
       "end": 463666,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@input_counted_string@8",
-      "start": 458928,
-      "end": 458929,
       "provisional": true,
       "extent_status": "entry placeholder"
     },
@@ -617,13 +603,6 @@
       "name": "@integer_width_bits@4",
       "start": 139296,
       "end": 139297,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@append_embedded_record@4",
-      "start": 108880,
-      "end": 108881,
       "provisional": true,
       "extent_status": "entry placeholder"
     },

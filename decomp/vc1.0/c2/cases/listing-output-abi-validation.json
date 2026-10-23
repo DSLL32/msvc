@@ -14,7 +14,7 @@
       ],
       "canonical": [
         {
-          "address": "0x572ef",
+          "address": "0x57fb7",
           "stack_bytes": 0
         }
       ],
@@ -31,7 +31,7 @@
       ],
       "canonical": [
         {
-          "address": "0x57357",
+          "address": "0x5801f",
           "stack_bytes": 0
         }
       ],
@@ -48,7 +48,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5738b",
+          "address": "0x58053",
           "stack_bytes": 0
         }
       ],
@@ -81,7 +81,7 @@
       ],
       "canonical": [
         {
-          "address": "0x57412",
+          "address": "0x580da",
           "stack_bytes": 0
         }
       ],
@@ -98,7 +98,7 @@
       ],
       "canonical": [
         {
-          "address": "0x57545",
+          "address": "0x5820d",
           "stack_bytes": 0
         }
       ],
@@ -115,7 +115,7 @@
       ],
       "canonical": [
         {
-          "address": "0x57697",
+          "address": "0x5835f",
           "stack_bytes": 0
         }
       ],
@@ -144,7 +144,7 @@
       ],
       "canonical": [
         {
-          "address": "0x579ff",
+          "address": "0x586c7",
           "stack_bytes": 0
         }
       ],
@@ -161,7 +161,7 @@
       ],
       "canonical": [
         {
-          "address": "0x57a36",
+          "address": "0x586fe",
           "stack_bytes": 0
         }
       ],
@@ -178,7 +178,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5586a",
+          "address": "0x56532",
           "stack_bytes": 0
         }
       ],
@@ -203,7 +203,7 @@
       ],
       "canonical": [
         {
-          "address": "0x55a93",
+          "address": "0x5675b",
           "stack_bytes": 0
         }
       ],
@@ -220,7 +220,7 @@
       ],
       "canonical": [
         {
-          "address": "0x57b89",
+          "address": "0x58851",
           "stack_bytes": 0
         }
       ],
@@ -237,7 +237,7 @@
       ],
       "canonical": [
         {
-          "address": "0x57c71",
+          "address": "0x58939",
           "stack_bytes": 4
         }
       ],
@@ -274,7 +274,7 @@
       ],
       "canonical": [
         {
-          "address": "0x57edb",
+          "address": "0x58ba3",
           "stack_bytes": 0
         }
       ],
@@ -307,7 +307,7 @@
       ],
       "canonical": [
         {
-          "address": "0x580b7",
+          "address": "0x58d7f",
           "stack_bytes": 0
         }
       ],
@@ -328,7 +328,7 @@
       ],
       "canonical": [
         {
-          "address": "0x581ad",
+          "address": "0x58e75",
           "stack_bytes": 0
         }
       ],
@@ -345,7 +345,7 @@
       ],
       "canonical": [
         {
-          "address": "0x58262",
+          "address": "0x58f2a",
           "stack_bytes": 0
         }
       ],
@@ -362,7 +362,7 @@
       ],
       "canonical": [
         {
-          "address": "0x58283",
+          "address": "0x58f4b",
           "stack_bytes": 0
         }
       ],
@@ -379,7 +379,117 @@
       ],
       "canonical": [
         {
-          "address": "0x58498",
+          "address": "0x59160",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall ECX/EDX with any additional arguments callee-cleaned; byte/word widths declared in original prototypes"
+    },
+    {
+      "name": "@input_counted_string@8",
+      "original": [
+        {
+          "address": "0x70114",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x13508",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall ECX/EDX with any additional arguments callee-cleaned; byte/word widths declared in original prototypes"
+    },
+    {
+      "name": "@decode_inline_assembly@8",
+      "original": [
+        {
+          "address": "0x1a97f",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x166a7",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall ECX/EDX with any additional arguments callee-cleaned; byte/word widths declared in original prototypes"
+    },
+    {
+      "name": "@decode_assembly_instruction@8",
+      "original": [
+        {
+          "address": "0x1ade6",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x1ae10",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x16d34",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall ECX/EDX with any additional arguments callee-cleaned; byte/word widths declared in original prototypes"
+    },
+    {
+      "name": "@decode_assembly_operand@12",
+      "original": [
+        {
+          "address": "0x1b179",
+          "stack_bytes": 4
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x17284",
+          "stack_bytes": 4
+        }
+      ],
+      "callee_stack_bytes": 4,
+      "abi": "fastcall ECX/EDX with any additional arguments callee-cleaned; byte/word widths declared in original prototypes"
+    },
+    {
+      "name": "@read_assembly_symbol_id@4",
+      "original": [
+        {
+          "address": "0x1b207",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x1b20f",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x172d9",
+          "stack_bytes": 0
+        }
+      ],
+      "callee_stack_bytes": 0,
+      "abi": "fastcall ECX/EDX with any additional arguments callee-cleaned; byte/word widths declared in original prototypes"
+    },
+    {
+      "name": "@append_embedded_record@4",
+      "original": [
+        {
+          "address": "0x1a963",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x16d6c",
           "stack_bytes": 0
         }
       ],
@@ -387,10 +497,10 @@
       "abi": "fastcall ECX/EDX with any additional arguments callee-cleaned; byte/word widths declared in original prototypes"
     }
   ],
-  "seconds": 0.320541993714869,
+  "seconds": 0.3698396794497967,
   "accepted_slice": [
     1162,
-    1180
+    1186
   ],
   "word_argument": "coff_write_word original6eff3 storesCX; original/native frontier observed65529, source unsigned short parameter preserves low16 bits",
   "fill_arguments": "coff_fill_bytes CL/EDX byte/count are independently exercised by original/native isolated fill probe"

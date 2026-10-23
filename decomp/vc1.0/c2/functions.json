@@ -1184,7 +1184,13 @@
     "@pad_listing_column@4",
     "@listing_data_directive@4",
     "@write_listing_origin@4",
-    "@write_listing_string@8"
+    "@write_listing_string@8",
+    "@input_counted_string@8",
+    "@decode_inline_assembly@8",
+    "@decode_assembly_instruction@8",
+    "@decode_assembly_operand@12",
+    "@read_assembly_symbol_id@4",
+    "@append_embedded_record@4"
   ],
   "driver": [
     {
@@ -2443,8 +2449,7 @@
     {
       "name": "@decode_inline_assembly@8",
       "start": 108912,
-      "end": 108913,
-      "provisional": true
+      "end": 108928
     },
     {
       "name": "_new_expression",
@@ -2543,8 +2548,7 @@
     {
       "name": "@input_counted_string@8",
       "start": 458928,
-      "end": 458929,
-      "provisional": true
+      "end": 459029
     },
     {
       "name": "@lookup_filename@4",
@@ -3669,8 +3673,7 @@
     {
       "name": "@append_embedded_record@4",
       "start": 108880,
-      "end": 108881,
-      "provisional": true
+      "end": 108900
     },
     {
       "name": "@record_x87_node@4",
@@ -7675,6 +7678,27 @@
       "start": 168112,
       "end": 168113,
       "provisional": true
+    },
+    {
+      "name": "@decode_assembly_instruction@8",
+      "start": 108928,
+      "end": 110097
+    },
+    {
+      "name": "@decode_assembly_operand@12",
+      "start": 110112,
+      "end": 110972,
+      "shared": [
+        [
+          110972,
+          111064
+        ]
+      ]
+    },
+    {
+      "name": "@read_assembly_symbol_id@4",
+      "start": 111072,
+      "end": 111120
     }
   ],
   "cases": {

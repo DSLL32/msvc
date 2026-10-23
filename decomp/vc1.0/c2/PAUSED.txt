@@ -1,3 +1,8 @@
+C2 ACTIVE1186 accepted /1095 source graphs, matching assign_physical_register321a0.
+323181/399693 code-extent union bytes (80.857308%); not branch coverage.
+See cases/dbglist-assembly-checkpoint.json.14 native cases pass:13complete+debug named trap.
+Continue current approved debug/listing/inline-assembly case.
+
 C2 ACTIVE1180 accepted /1089 source graphs, matching input_counted_string700b0.
 320875/399693 code-extent union bytes (80.280365%); not branch coverage.
 See cases/dbglist-initializer-checkpoint.json.14 native cases pass:13complete+debug named trap.

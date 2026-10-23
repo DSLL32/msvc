@@ -1,10 +1,20 @@
 {
   "modules": [
     {
-      "module": "listing",
-      "seconds": 2.076583622954786,
+      "module": "input",
+      "seconds": 1.249244793318212,
+      "returncode": 0
+    },
+    {
+      "module": "inline-assembly",
+      "seconds": 2.047664772719145,
+      "returncode": 0
+    },
+    {
+      "module": "assembly-operands",
+      "seconds": 2.3068686109036207,
       "returncode": 0
     }
   ],
-  "seconds": 2.0767864417284727
+  "seconds": 5.60422458127141
 }

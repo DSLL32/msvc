@@ -123,3 +123,15 @@ Extended __stdcall input_extended(void)
     fread(&result, sizeof(result), 1, input_file);
     return result;
 }
+
+/* Original700b0..70115. The signed compact length is returned unchanged;
+   only positive lengths consume payload bytes, and no terminator is added. */
+short __fastcall input_counted_string(char *buffer, unsigned limit)
+{
+    short length = input_compact_short();
+    int remaining = length;
+    if ((int)length > (int)limit)
+        compiler_internal_error("@(#)ioin.c:1.21", 0xbb);
+    while (remaining-- > 0) *buffer++ = (char)getc(input_file);
+    return length;
+}

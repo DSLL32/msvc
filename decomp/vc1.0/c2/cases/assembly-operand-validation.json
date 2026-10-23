@@ -1,0 +1,1214 @@
+{
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "extent": "1ae20..1b17c",
+  "switch": "1b17c..1b1d8,23 DWORDs",
+  "descriptors": "823e0..82490,22 typed kind/pattern rows",
+  "cases": [
+    {
+      "payload": "0a0000",
+      "normalized": [
+        3,
+        0,
+        1,
+        8,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        0
+      ]
+    },
+    {
+      "payload": "0aff7f",
+      "normalized": [
+        3,
+        0,
+        1,
+        8,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        32767
+      ]
+    },
+    {
+      "payload": "0a00800100",
+      "normalized": [
+        5,
+        0,
+        1,
+        8,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        32768
+      ]
+    },
+    {
+      "payload": "0affffffff",
+      "normalized": [
+        5,
+        0,
+        1,
+        8,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        2147483647
+      ]
+    },
+    {
+      "payload": "00",
+      "diagnostic": "0xa4c"
+    },
+    {
+      "payload": "0106",
+      "normalized": [
+        2,
+        0,
+        0,
+        1,
+        6,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "0211000000",
+      "normalized": [
+        5,
+        0,
+        0,
+        2,
+        17,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "0307001100000004",
+      "normalized": [
+        8,
+        1,
+        1,
+        67,
+        0,
+        17,
+        42,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "04110000000604",
+      "normalized": [
+        7,
+        1,
+        0,
+        68,
+        0,
+        17,
+        0,
+        6,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "050700110000000604",
+      "normalized": [
+        9,
+        1,
+        1,
+        68,
+        0,
+        17,
+        42,
+        6,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "061100000002060404",
+      "normalized": [
+        9,
+        1,
+        0,
+        581,
+        0,
+        17,
+        0,
+        6,
+        2,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "0707001100000002060404",
+      "normalized": [
+        11,
+        1,
+        1,
+        581,
+        0,
+        17,
+        42,
+        6,
+        2,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "08070011000000",
+      "normalized": [
+        7,
+        1,
+        1,
+        6,
+        0,
+        17,
+        42,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "09070011000000",
+      "normalized": [
+        7,
+        1,
+        1,
+        7,
+        0,
+        17,
+        42,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "0a0700",
+      "normalized": [
+        3,
+        0,
+        1,
+        8,
+        42,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "0b0a00",
+      "normalized": [
+        3,
+        0,
+        1,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        10
+      ]
+    },
+    {
+      "payload": "0c11000000",
+      "normalized": [
+        5,
+        0,
+        0,
+        10,
+        17,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "0d",
+      "diagnostic": "0xa4c"
+    },
+    {
+      "payload": "0e",
+      "diagnostic": "0xa4c"
+    },
+    {
+      "payload": "0f",
+      "diagnostic": "0xa4c"
+    },
+    {
+      "payload": "101100000004",
+      "normalized": [
+        6,
+        1,
+        0,
+        76,
+        0,
+        17,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "11",
+      "diagnostic": "0xa4c"
+    },
+    {
+      "payload": "13",
+      "diagnostic": "0xa4c"
+    },
+    {
+      "payload": "1406",
+      "normalized": [
+        2,
+        0,
+        0,
+        11,
+        6,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "15",
+      "diagnostic": "0xa4c"
+    },
+    {
+      "payload": "0100",
+      "normalized": [
+        2,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "1400",
+      "normalized": [
+        2,
+        0,
+        0,
+        11,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "0107",
+      "normalized": [
+        2,
+        0,
+        0,
+        1,
+        7,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "1407",
+      "normalized": [
+        2,
+        0,
+        0,
+        11,
+        7,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "0128",
+      "normalized": [
+        2,
+        0,
+        0,
+        1,
+        40,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "1428",
+      "normalized": [
+        2,
+        0,
+        0,
+        11,
+        40,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "012f",
+      "normalized": [
+        2,
+        0,
+        0,
+        1,
+        47,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "142f",
+      "normalized": [
+        2,
+        0,
+        0,
+        11,
+        47,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "017f",
+      "normalized": [
+        2,
+        0,
+        0,
+        1,
+        127,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "147f",
+      "normalized": [
+        2,
+        0,
+        0,
+        11,
+        127,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "0180",
+      "normalized": [
+        2,
+        0,
+        0,
+        1,
+        65408,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "1480",
+      "normalized": [
+        2,
+        0,
+        0,
+        11,
+        65408,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "01ff",
+      "normalized": [
+        2,
+        0,
+        0,
+        1,
+        65535,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "14ff",
+      "normalized": [
+        2,
+        0,
+        0,
+        11,
+        65535,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "04000000000004",
+      "normalized": [
+        7,
+        1,
+        0,
+        68,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "04ffffffff0004",
+      "normalized": [
+        7,
+        1,
+        0,
+        68,
+        0,
+        4294967295,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "04000000800004",
+      "normalized": [
+        7,
+        1,
+        0,
+        68,
+        0,
+        2147483648,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "04000000008004",
+      "normalized": [
+        7,
+        1,
+        0,
+        68,
+        0,
+        0,
+        0,
+        65408,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "04ffffffff8004",
+      "normalized": [
+        7,
+        1,
+        0,
+        68,
+        0,
+        4294967295,
+        0,
+        65408,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "04000000808004",
+      "normalized": [
+        7,
+        1,
+        0,
+        68,
+        0,
+        2147483648,
+        0,
+        65408,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "0400000000ff04",
+      "normalized": [
+        7,
+        1,
+        0,
+        68,
+        0,
+        0,
+        0,
+        27,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "04ffffffffff04",
+      "normalized": [
+        7,
+        1,
+        0,
+        68,
+        0,
+        4294967295,
+        0,
+        27,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "0400000080ff04",
+      "normalized": [
+        7,
+        1,
+        0,
+        68,
+        0,
+        2147483648,
+        0,
+        27,
+        0,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "050700000000000004",
+      "normalized": [
+        9,
+        1,
+        1,
+        68,
+        0,
+        0,
+        42,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "050700ffffffff0004",
+      "normalized": [
+        9,
+        1,
+        1,
+        68,
+        0,
+        4294967295,
+        42,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "050700000000800004",
+      "normalized": [
+        9,
+        1,
+        1,
+        68,
+        0,
+        2147483648,
+        42,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "050700000000008004",
+      "normalized": [
+        9,
+        1,
+        1,
+        68,
+        0,
+        0,
+        42,
+        65408,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "050700ffffffff8004",
+      "normalized": [
+        9,
+        1,
+        1,
+        68,
+        0,
+        4294967295,
+        42,
+        65408,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "050700000000808004",
+      "normalized": [
+        9,
+        1,
+        1,
+        68,
+        0,
+        2147483648,
+        42,
+        65408,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "05070000000000ff04",
+      "normalized": [
+        9,
+        1,
+        1,
+        68,
+        0,
+        0,
+        42,
+        27,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "050700ffffffffff04",
+      "normalized": [
+        9,
+        1,
+        1,
+        68,
+        0,
+        4294967295,
+        42,
+        27,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "05070000000080ff04",
+      "normalized": [
+        9,
+        1,
+        1,
+        68,
+        0,
+        2147483648,
+        42,
+        27,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "061100000002060104",
+      "normalized": [
+        9,
+        1,
+        0,
+        69,
+        0,
+        17,
+        0,
+        6,
+        2,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "061100000002060204",
+      "normalized": [
+        9,
+        1,
+        0,
+        325,
+        0,
+        17,
+        0,
+        6,
+        2,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "061100000002060404",
+      "normalized": [
+        9,
+        1,
+        0,
+        581,
+        0,
+        17,
+        0,
+        6,
+        2,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "061100000002060804",
+      "normalized": [
+        9,
+        1,
+        0,
+        837,
+        0,
+        17,
+        0,
+        6,
+        2,
+        0
+      ],
+      "symbol_lookups": []
+    },
+    {
+      "payload": "0707001100000002060104",
+      "normalized": [
+        11,
+        1,
+        1,
+        69,
+        0,
+        17,
+        42,
+        6,
+        2,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "0707001100000002060204",
+      "normalized": [
+        11,
+        1,
+        1,
+        325,
+        0,
+        17,
+        42,
+        6,
+        2,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "0707001100000002060404",
+      "normalized": [
+        11,
+        1,
+        1,
+        581,
+        0,
+        17,
+        42,
+        6,
+        2,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "0707001100000002060804",
+      "normalized": [
+        11,
+        1,
+        1,
+        837,
+        0,
+        17,
+        42,
+        6,
+        2,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "0356b424001100000004",
+      "normalized": [
+        10,
+        1,
+        1,
+        67,
+        0,
+        17,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        1193046
+      ]
+    },
+    {
+      "payload": "0556b42400110000000604",
+      "normalized": [
+        11,
+        1,
+        1,
+        68,
+        0,
+        17,
+        0,
+        6,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        1193046
+      ]
+    },
+    {
+      "payload": "0756b424001100000002060404",
+      "normalized": [
+        13,
+        1,
+        1,
+        581,
+        0,
+        17,
+        0,
+        6,
+        2,
+        0
+      ],
+      "symbol_lookups": [
+        1193046
+      ]
+    },
+    {
+      "payload": "0856b4240011000000",
+      "normalized": [
+        9,
+        1,
+        1,
+        6,
+        0,
+        17,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        1193046
+      ]
+    },
+    {
+      "payload": "0956b4240011000000",
+      "normalized": [
+        9,
+        1,
+        1,
+        7,
+        0,
+        17,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        1193046
+      ]
+    },
+    {
+      "payload": "0a56b42400",
+      "normalized": [
+        5,
+        0,
+        1,
+        8,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        1193046
+      ]
+    },
+    {
+      "payload": "1207000904110000000904",
+      "normalized": [
+        11,
+        1,
+        1,
+        68,
+        0,
+        17,
+        42,
+        5,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "12070009061100000009020404",
+      "normalized": [
+        13,
+        1,
+        1,
+        581,
+        0,
+        17,
+        42,
+        2,
+        5,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "1207008004110000008004",
+      "normalized": [
+        11,
+        1,
+        1,
+        68,
+        0,
+        17,
+        42,
+        5,
+        0,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "12070080061100000080020404",
+      "normalized": [
+        13,
+        1,
+        1,
+        581,
+        0,
+        17,
+        42,
+        2,
+        5,
+        0
+      ],
+      "symbol_lookups": [
+        7
+      ]
+    },
+    {
+      "payload": "12070009061100000009090404",
+      "diagnostic": "0xaa1"
+    },
+    {
+      "payload": "1207000904110000000204",
+      "diagnostic": "0xaa1"
+    },
+    {
+      "payload": "12070009050700110000000904",
+      "diagnostic": "0xaa3"
+    },
+    {
+      "payload": "120700090109",
+      "diagnostic": "0xa96"
+    },
+    {
+      "payload": "120a000904110000000904",
+      "diagnostic": "0xa42"
+    }
+  ],
+  "seconds": 0.6561362966895103,
+  "limits": "Lookup and zeroed successful allocator are explicit seams. Actual operand C/compact symbol-id/address allocation/log2 and corresponding original bodies execute. Error cases compare only first diagnostic requests; reporting bodies remain named traps. Descriptor indices outside0..21 and malformed truncated payloads are outside the verified frontend contract, without invented guards."
+}

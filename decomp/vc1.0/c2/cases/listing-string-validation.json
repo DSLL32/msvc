@@ -385,7 +385,7 @@
       "output_hex": "204442200a094442093030482c203030482c203030482c203030482c203030482c203030482c203030482c203030482c203030482c203030482c203030482c203030482c203030480a094442093030482c203030482c203030482c203030482c203030482c203030482c20303048"
     }
   ],
-  "seconds": 0.9687031088396907,
+  "seconds": 0.999000501818955,
   "ctype": "All256 original C-locale table entries independently prove printability mask0x157; MB_CUR_MAX>1 helper calls use observed byte/mask and equivalent C-locale predicate.",
   "limits": "printf formatting and _isctype are isolated contract probes; no CRT helper ABI/body acceptance is claimed, and non-C locales/DBCS behavior is not covered."
 }

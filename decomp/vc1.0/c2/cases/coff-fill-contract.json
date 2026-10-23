@@ -300,5 +300,5 @@
     "No actual oversized direct-file read or adjacent bytes are represented or claimed matching. Mocked request proof stops at fwrite contract.",
     "Case-specific scope proof, not a universal claim that future kind0 paths are unreachable. A future real oversized direct read must HOLD for root-approved bounded native policy; never invent adjacent storage or change predicates. Arbitrary corrupted states and external COFF library APIs are not covered. Failure callbacks remain named boundaries."
   ],
-  "seconds": 3.368605646304786
+  "seconds": 3.3901357520371675
 }

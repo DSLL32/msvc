@@ -2,7 +2,7 @@
   "schema": 2,
   "description": "Fresh shared-prefix original entry projection; no capture or Wine in fixtures",
   "metadata_sha256": {
-    "functions.json": "57290a6754529729dc4aeb5d30689e9868ad4272f82c8a2e15393567183167dc",
+    "functions.json": "90f32e46f5c7e8b7db00f4210ad3a0f9abe04023959af3511c32ec454eb8d99d",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -188,7 +188,7 @@
     },
     "append_embedded_record": {
       "logical": "@append_embedded_record@4",
-      "source": "src/stubs.c"
+      "source": "src/inline-assembly.c"
     },
     "append_environment_arguments": {
       "logical": "@append_environment_arguments@4",
@@ -1178,13 +1178,21 @@
       "logical": "@create_temporary@28",
       "source": "src/symbols.c"
     },
+    "decode_assembly_instruction": {
+      "logical": "@decode_assembly_instruction@8",
+      "source": "src/inline-assembly.c"
+    },
+    "decode_assembly_operand": {
+      "logical": "@decode_assembly_operand@12",
+      "source": "src/assembly-operands.c"
+    },
     "decode_expression": {
       "logical": "@decode_expression@8",
       "source": "src/expression-fields.c"
     },
     "decode_inline_assembly": {
       "logical": "@decode_inline_assembly@8",
-      "source": "src/stubs.c"
+      "source": "src/inline-assembly.c"
     },
     "default_runtime_library": {
       "logical": "_default_runtime_library",
@@ -2184,7 +2192,7 @@
     },
     "input_counted_string": {
       "logical": "@input_counted_string@8",
-      "source": "src/stubs.c"
+      "source": "src/input.c"
     },
     "input_double_bits": {
       "logical": "_input_double_bits",
@@ -3537,6 +3545,10 @@
     "queue_symbol_debug": {
       "logical": "@queue_symbol_debug@4",
       "source": "src/symbol-output.c"
+    },
+    "read_assembly_symbol_id": {
+      "logical": "@read_assembly_symbol_id@4",
+      "source": "src/assembly-operands.c"
     },
     "read_control_fields": {
       "logical": "@read_control_fields@4",
@@ -26611,6 +26623,624 @@
               "total_seconds": 1.4159330921247602
             }
           }
+        },
+        {
+          "accepted_function": "@input_counted_string@8",
+          "accepted_kind": "application",
+          "previous_logical": "@input_counted_string@8",
+          "original_extent": [
+            "0x700b0",
+            "0x70115"
+          ],
+          "before": {
+            "path": "cases/dbglist-original-1180.json",
+            "sha256": "1d89f9f742d16f9addc626f882325c55b49ff568c3720c804a530432361045f0",
+            "capture": {
+              "label": "dbglist-original-1180",
+              "profile": "dbglist",
+              "accepted": 1180,
+              "events": "exception 80000003 rva 000600b0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "bbb4666779462556504e97291c9b2215a8b4d423344da33c1effcaed81ba5614",
+              "config_sha256": "57290a6754529729dc4aeb5d30689e9868ad4272f82c8a2e15393567183167dc",
+              "manifest_sha256": "56a441fba67f022c90ffd10cccf1dafbaac0e1d768506960f7a95ef393efcca6",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "30b6b43f6bffefe9d842164388ad18069dbf3f953a1ea0630b57fdea7225676f",
+                "c2/irsy": "0012dbc669eb273a9a04fe3e5f201d0d58f2af9bf1fa10b9e7c730503c680139",
+                "c2/irin": "5b14515a610a02f77404b9c8ecaa2ecbebf4fd101fed2a94f562bcc6d0d74f55",
+                "c2/irgl": "7ffc0602eca138e424570366f22ebb9e441822da23acf3b575a8b32822acc79d",
+                "c2/irdb": "2078ddf34628c107be2d38ab0c1d5dc8086ee5e833df34c231bffd03d083f396",
+                "c2/dbglist.c": "910bce456e3e9965e7f8fe327abc7b17ded51426355bf8056ad412c74956b285",
+                "c2/msvc.pdb": "a69b767a3f52d0f580593c019de6560b04865c7bbb7131610babfd8717b18570"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f dbglist.c -W 1 -Gs4096 -dos -Fodbglist.obj -ML -G3 -Zi -FAacs -Fa dbglist.cod "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-dbglist-qpjh6ags",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\dbglist",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@input_counted_string@8",
+              "original_va": "0x700b0",
+              "setup_seconds": 0.23184226639568806,
+              "execution_seconds": 1.1586665976792574,
+              "check_seconds": 0.025423807092010975,
+              "total_seconds": 1.4159330921247602
+            }
+          },
+          "after": {
+            "path": "cases/dbglist-original-1181.json",
+            "sha256": "aaafefee2619b6f59dcb61e3332469df0352f07112e807ae22aa93263ccb8537",
+            "capture": {
+              "label": "dbglist-original-1181",
+              "profile": "dbglist",
+              "accepted": 1181,
+              "events": "exception 80000003 rva 0000a970 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "074d91521776e96d18c8f47239cd9fcc15b2ad93ed7550cfa57523a8a3918247",
+              "config_sha256": "24a806802845999897a25314b78cc9a4eefe13935fa47b1586fc6a5f5e0c3bd5",
+              "manifest_sha256": "56a441fba67f022c90ffd10cccf1dafbaac0e1d768506960f7a95ef393efcca6",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "30b6b43f6bffefe9d842164388ad18069dbf3f953a1ea0630b57fdea7225676f",
+                "c2/irsy": "0012dbc669eb273a9a04fe3e5f201d0d58f2af9bf1fa10b9e7c730503c680139",
+                "c2/irin": "5b14515a610a02f77404b9c8ecaa2ecbebf4fd101fed2a94f562bcc6d0d74f55",
+                "c2/irgl": "7ffc0602eca138e424570366f22ebb9e441822da23acf3b575a8b32822acc79d",
+                "c2/irdb": "2078ddf34628c107be2d38ab0c1d5dc8086ee5e833df34c231bffd03d083f396",
+                "c2/dbglist.c": "910bce456e3e9965e7f8fe327abc7b17ded51426355bf8056ad412c74956b285",
+                "c2/msvc.pdb": "a69b767a3f52d0f580593c019de6560b04865c7bbb7131610babfd8717b18570"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f dbglist.c -W 1 -Gs4096 -dos -Fodbglist.obj -ML -G3 -Zi -FAacs -Fa dbglist.cod "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-dbglist-zz8vixfd",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\dbglist",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@decode_inline_assembly@8",
+              "original_va": "0x1a970",
+              "setup_seconds": 0.23510161507874727,
+              "execution_seconds": 0.8245546855032444,
+              "check_seconds": 0.025871352292597294,
+              "total_seconds": 1.0855280309915543
+            }
+          }
+        },
+        {
+          "accepted_function": "@decode_inline_assembly@8",
+          "accepted_kind": "application",
+          "previous_logical": "@decode_inline_assembly@8",
+          "original_extent": [
+            "0x1a970",
+            "0x1a980"
+          ],
+          "before": {
+            "path": "cases/dbglist-original-1181.json",
+            "sha256": "aaafefee2619b6f59dcb61e3332469df0352f07112e807ae22aa93263ccb8537",
+            "capture": {
+              "label": "dbglist-original-1181",
+              "profile": "dbglist",
+              "accepted": 1181,
+              "events": "exception 80000003 rva 0000a970 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "074d91521776e96d18c8f47239cd9fcc15b2ad93ed7550cfa57523a8a3918247",
+              "config_sha256": "24a806802845999897a25314b78cc9a4eefe13935fa47b1586fc6a5f5e0c3bd5",
+              "manifest_sha256": "56a441fba67f022c90ffd10cccf1dafbaac0e1d768506960f7a95ef393efcca6",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "30b6b43f6bffefe9d842164388ad18069dbf3f953a1ea0630b57fdea7225676f",
+                "c2/irsy": "0012dbc669eb273a9a04fe3e5f201d0d58f2af9bf1fa10b9e7c730503c680139",
+                "c2/irin": "5b14515a610a02f77404b9c8ecaa2ecbebf4fd101fed2a94f562bcc6d0d74f55",
+                "c2/irgl": "7ffc0602eca138e424570366f22ebb9e441822da23acf3b575a8b32822acc79d",
+                "c2/irdb": "2078ddf34628c107be2d38ab0c1d5dc8086ee5e833df34c231bffd03d083f396",
+                "c2/dbglist.c": "910bce456e3e9965e7f8fe327abc7b17ded51426355bf8056ad412c74956b285",
+                "c2/msvc.pdb": "a69b767a3f52d0f580593c019de6560b04865c7bbb7131610babfd8717b18570"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f dbglist.c -W 1 -Gs4096 -dos -Fodbglist.obj -ML -G3 -Zi -FAacs -Fa dbglist.cod "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-dbglist-zz8vixfd",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\dbglist",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@decode_inline_assembly@8",
+              "original_va": "0x1a970",
+              "setup_seconds": 0.23510161507874727,
+              "execution_seconds": 0.8245546855032444,
+              "check_seconds": 0.025871352292597294,
+              "total_seconds": 1.0855280309915543
+            }
+          },
+          "after": {
+            "path": "cases/dbglist-original-1182.json",
+            "sha256": "4a2a42f864e8db606da349ffb0dc2f147c94cae66fdd6250239b2f0bed7779eb",
+            "capture": {
+              "label": "dbglist-original-1182",
+              "profile": "dbglist",
+              "accepted": 1182,
+              "events": "exception 80000003 rva 0000a980 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "fe2510576c016b993823a2027409faffb4163cee3c7680c78594f69b8511500a",
+              "config_sha256": "532bfe1af361b567bf5d189c0f608f648cf9456c5e09ab8256af281777c9dd25",
+              "manifest_sha256": "56a441fba67f022c90ffd10cccf1dafbaac0e1d768506960f7a95ef393efcca6",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "30b6b43f6bffefe9d842164388ad18069dbf3f953a1ea0630b57fdea7225676f",
+                "c2/irsy": "0012dbc669eb273a9a04fe3e5f201d0d58f2af9bf1fa10b9e7c730503c680139",
+                "c2/irin": "5b14515a610a02f77404b9c8ecaa2ecbebf4fd101fed2a94f562bcc6d0d74f55",
+                "c2/irgl": "7ffc0602eca138e424570366f22ebb9e441822da23acf3b575a8b32822acc79d",
+                "c2/irdb": "2078ddf34628c107be2d38ab0c1d5dc8086ee5e833df34c231bffd03d083f396",
+                "c2/dbglist.c": "910bce456e3e9965e7f8fe327abc7b17ded51426355bf8056ad412c74956b285",
+                "c2/msvc.pdb": "a69b767a3f52d0f580593c019de6560b04865c7bbb7131610babfd8717b18570"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f dbglist.c -W 1 -Gs4096 -dos -Fodbglist.obj -ML -G3 -Zi -FAacs -Fa dbglist.cod "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-dbglist-a43_mu5i",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\dbglist",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@decode_assembly_instruction@8",
+              "original_va": "0x1a980",
+              "setup_seconds": 0.22909128479659557,
+              "execution_seconds": 0.622813243418932,
+              "check_seconds": 0.026448420248925686,
+              "total_seconds": 0.8783533191308379
+            }
+          }
+        },
+        {
+          "accepted_function": "@decode_assembly_instruction@8",
+          "accepted_kind": "application",
+          "previous_logical": "@decode_assembly_instruction@8",
+          "original_extent": [
+            "0x1a980",
+            "0x1ae11"
+          ],
+          "before": {
+            "path": "cases/dbglist-original-1182.json",
+            "sha256": "4a2a42f864e8db606da349ffb0dc2f147c94cae66fdd6250239b2f0bed7779eb",
+            "capture": {
+              "label": "dbglist-original-1182",
+              "profile": "dbglist",
+              "accepted": 1182,
+              "events": "exception 80000003 rva 0000a980 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "fe2510576c016b993823a2027409faffb4163cee3c7680c78594f69b8511500a",
+              "config_sha256": "532bfe1af361b567bf5d189c0f608f648cf9456c5e09ab8256af281777c9dd25",
+              "manifest_sha256": "56a441fba67f022c90ffd10cccf1dafbaac0e1d768506960f7a95ef393efcca6",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "30b6b43f6bffefe9d842164388ad18069dbf3f953a1ea0630b57fdea7225676f",
+                "c2/irsy": "0012dbc669eb273a9a04fe3e5f201d0d58f2af9bf1fa10b9e7c730503c680139",
+                "c2/irin": "5b14515a610a02f77404b9c8ecaa2ecbebf4fd101fed2a94f562bcc6d0d74f55",
+                "c2/irgl": "7ffc0602eca138e424570366f22ebb9e441822da23acf3b575a8b32822acc79d",
+                "c2/irdb": "2078ddf34628c107be2d38ab0c1d5dc8086ee5e833df34c231bffd03d083f396",
+                "c2/dbglist.c": "910bce456e3e9965e7f8fe327abc7b17ded51426355bf8056ad412c74956b285",
+                "c2/msvc.pdb": "a69b767a3f52d0f580593c019de6560b04865c7bbb7131610babfd8717b18570"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f dbglist.c -W 1 -Gs4096 -dos -Fodbglist.obj -ML -G3 -Zi -FAacs -Fa dbglist.cod "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-dbglist-a43_mu5i",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\dbglist",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@decode_assembly_instruction@8",
+              "original_va": "0x1a980",
+              "setup_seconds": 0.22909128479659557,
+              "execution_seconds": 0.622813243418932,
+              "check_seconds": 0.026448420248925686,
+              "total_seconds": 0.8783533191308379
+            }
+          },
+          "after": {
+            "path": "cases/dbglist-original-1183.json",
+            "sha256": "4b50423d787c810fbfbdddfc74d98af49d3bc7be48a68ab48a46cc11135c2b3b",
+            "capture": {
+              "label": "dbglist-original-1183",
+              "profile": "dbglist",
+              "accepted": 1183,
+              "events": "exception 80000003 rva 0000ae20 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "eb9bf07a8bf174687ec5970317118ac20aca6fe8df0821423e4cebb368392baf",
+              "config_sha256": "bcc4649247503008d29a4de27104865d96001fc8b431ea847569020f9c27bb89",
+              "manifest_sha256": "56a441fba67f022c90ffd10cccf1dafbaac0e1d768506960f7a95ef393efcca6",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "30b6b43f6bffefe9d842164388ad18069dbf3f953a1ea0630b57fdea7225676f",
+                "c2/irsy": "0012dbc669eb273a9a04fe3e5f201d0d58f2af9bf1fa10b9e7c730503c680139",
+                "c2/irin": "5b14515a610a02f77404b9c8ecaa2ecbebf4fd101fed2a94f562bcc6d0d74f55",
+                "c2/irgl": "7ffc0602eca138e424570366f22ebb9e441822da23acf3b575a8b32822acc79d",
+                "c2/irdb": "2078ddf34628c107be2d38ab0c1d5dc8086ee5e833df34c231bffd03d083f396",
+                "c2/dbglist.c": "910bce456e3e9965e7f8fe327abc7b17ded51426355bf8056ad412c74956b285",
+                "c2/msvc.pdb": "a69b767a3f52d0f580593c019de6560b04865c7bbb7131610babfd8717b18570"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f dbglist.c -W 1 -Gs4096 -dos -Fodbglist.obj -ML -G3 -Zi -FAacs -Fa dbglist.cod "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-dbglist-mot9k2mr",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\dbglist",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@decode_assembly_operand@12",
+              "original_va": "0x1ae20",
+              "setup_seconds": 0.23635676223784685,
+              "execution_seconds": 1.6897311508655548,
+              "check_seconds": 0.024864566512405872,
+              "total_seconds": 1.9509530067443848
+            }
+          }
+        },
+        {
+          "accepted_function": "@decode_assembly_operand@12",
+          "accepted_kind": "application",
+          "previous_logical": "@decode_assembly_operand@12",
+          "original_extent": [
+            "0x1ae20",
+            "0x1b17c"
+          ],
+          "before": {
+            "path": "cases/dbglist-original-1183.json",
+            "sha256": "4b50423d787c810fbfbdddfc74d98af49d3bc7be48a68ab48a46cc11135c2b3b",
+            "capture": {
+              "label": "dbglist-original-1183",
+              "profile": "dbglist",
+              "accepted": 1183,
+              "events": "exception 80000003 rva 0000ae20 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "eb9bf07a8bf174687ec5970317118ac20aca6fe8df0821423e4cebb368392baf",
+              "config_sha256": "bcc4649247503008d29a4de27104865d96001fc8b431ea847569020f9c27bb89",
+              "manifest_sha256": "56a441fba67f022c90ffd10cccf1dafbaac0e1d768506960f7a95ef393efcca6",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "30b6b43f6bffefe9d842164388ad18069dbf3f953a1ea0630b57fdea7225676f",
+                "c2/irsy": "0012dbc669eb273a9a04fe3e5f201d0d58f2af9bf1fa10b9e7c730503c680139",
+                "c2/irin": "5b14515a610a02f77404b9c8ecaa2ecbebf4fd101fed2a94f562bcc6d0d74f55",
+                "c2/irgl": "7ffc0602eca138e424570366f22ebb9e441822da23acf3b575a8b32822acc79d",
+                "c2/irdb": "2078ddf34628c107be2d38ab0c1d5dc8086ee5e833df34c231bffd03d083f396",
+                "c2/dbglist.c": "910bce456e3e9965e7f8fe327abc7b17ded51426355bf8056ad412c74956b285",
+                "c2/msvc.pdb": "a69b767a3f52d0f580593c019de6560b04865c7bbb7131610babfd8717b18570"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f dbglist.c -W 1 -Gs4096 -dos -Fodbglist.obj -ML -G3 -Zi -FAacs -Fa dbglist.cod "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-dbglist-mot9k2mr",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\dbglist",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@decode_assembly_operand@12",
+              "original_va": "0x1ae20",
+              "setup_seconds": 0.23635676223784685,
+              "execution_seconds": 1.6897311508655548,
+              "check_seconds": 0.024864566512405872,
+              "total_seconds": 1.9509530067443848
+            }
+          },
+          "after": {
+            "path": "cases/dbglist-original-1184.json",
+            "sha256": "14f379f631efd19747d7d5001cdba192be616ad780dde0630a1a6544f00b5533",
+            "capture": {
+              "label": "dbglist-original-1184",
+              "profile": "dbglist",
+              "accepted": 1184,
+              "events": "exception 80000003 rva 0000b1e0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "36df31e9e220631b3b847f22cb9893de7e7d84046c781a6e781aa54325c46bfd",
+              "config_sha256": "cf1ecdaf0931219ab9bf3ce93983235d3bce1f95372b445d6c36087f1423fc9b",
+              "manifest_sha256": "56a441fba67f022c90ffd10cccf1dafbaac0e1d768506960f7a95ef393efcca6",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "30b6b43f6bffefe9d842164388ad18069dbf3f953a1ea0630b57fdea7225676f",
+                "c2/irsy": "0012dbc669eb273a9a04fe3e5f201d0d58f2af9bf1fa10b9e7c730503c680139",
+                "c2/irin": "5b14515a610a02f77404b9c8ecaa2ecbebf4fd101fed2a94f562bcc6d0d74f55",
+                "c2/irgl": "7ffc0602eca138e424570366f22ebb9e441822da23acf3b575a8b32822acc79d",
+                "c2/irdb": "2078ddf34628c107be2d38ab0c1d5dc8086ee5e833df34c231bffd03d083f396",
+                "c2/dbglist.c": "910bce456e3e9965e7f8fe327abc7b17ded51426355bf8056ad412c74956b285",
+                "c2/msvc.pdb": "a69b767a3f52d0f580593c019de6560b04865c7bbb7131610babfd8717b18570"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f dbglist.c -W 1 -Gs4096 -dos -Fodbglist.obj -ML -G3 -Zi -FAacs -Fa dbglist.cod "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-dbglist-a1n5dc3y",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\dbglist",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@read_assembly_symbol_id@4",
+              "original_va": "0x1b1e0",
+              "setup_seconds": 0.22995029669255018,
+              "execution_seconds": 0.9447150947526097,
+              "check_seconds": 0.022356586530804634,
+              "total_seconds": 1.1970223570242524
+            }
+          }
+        },
+        {
+          "accepted_function": "@read_assembly_symbol_id@4",
+          "accepted_kind": "application",
+          "previous_logical": "@read_assembly_symbol_id@4",
+          "original_extent": [
+            "0x1b1e0",
+            "0x1b210"
+          ],
+          "before": {
+            "path": "cases/dbglist-original-1184.json",
+            "sha256": "14f379f631efd19747d7d5001cdba192be616ad780dde0630a1a6544f00b5533",
+            "capture": {
+              "label": "dbglist-original-1184",
+              "profile": "dbglist",
+              "accepted": 1184,
+              "events": "exception 80000003 rva 0000b1e0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "36df31e9e220631b3b847f22cb9893de7e7d84046c781a6e781aa54325c46bfd",
+              "config_sha256": "cf1ecdaf0931219ab9bf3ce93983235d3bce1f95372b445d6c36087f1423fc9b",
+              "manifest_sha256": "56a441fba67f022c90ffd10cccf1dafbaac0e1d768506960f7a95ef393efcca6",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "30b6b43f6bffefe9d842164388ad18069dbf3f953a1ea0630b57fdea7225676f",
+                "c2/irsy": "0012dbc669eb273a9a04fe3e5f201d0d58f2af9bf1fa10b9e7c730503c680139",
+                "c2/irin": "5b14515a610a02f77404b9c8ecaa2ecbebf4fd101fed2a94f562bcc6d0d74f55",
+                "c2/irgl": "7ffc0602eca138e424570366f22ebb9e441822da23acf3b575a8b32822acc79d",
+                "c2/irdb": "2078ddf34628c107be2d38ab0c1d5dc8086ee5e833df34c231bffd03d083f396",
+                "c2/dbglist.c": "910bce456e3e9965e7f8fe327abc7b17ded51426355bf8056ad412c74956b285",
+                "c2/msvc.pdb": "a69b767a3f52d0f580593c019de6560b04865c7bbb7131610babfd8717b18570"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f dbglist.c -W 1 -Gs4096 -dos -Fodbglist.obj -ML -G3 -Zi -FAacs -Fa dbglist.cod "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-dbglist-a1n5dc3y",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\dbglist",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@read_assembly_symbol_id@4",
+              "original_va": "0x1b1e0",
+              "setup_seconds": 0.22995029669255018,
+              "execution_seconds": 0.9447150947526097,
+              "check_seconds": 0.022356586530804634,
+              "total_seconds": 1.1970223570242524
+            }
+          },
+          "after": {
+            "path": "cases/dbglist-original-1185.json",
+            "sha256": "67d574d02be1807af0d8d05627ee9e191d0e532b91fd725167880deb5da7a4a6",
+            "capture": {
+              "label": "dbglist-original-1185",
+              "profile": "dbglist",
+              "accepted": 1185,
+              "events": "exception 80000003 rva 0000a950 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "5c19f84d2f38d4bd417fde60a4c9b92065eede5992f0f88eb3d6f313d9fc69b2",
+              "config_sha256": "8062da9d360a36e0d06f531bc4e14fbb66271c522ff130695f689a02cb6c08fa",
+              "manifest_sha256": "56a441fba67f022c90ffd10cccf1dafbaac0e1d768506960f7a95ef393efcca6",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "30b6b43f6bffefe9d842164388ad18069dbf3f953a1ea0630b57fdea7225676f",
+                "c2/irsy": "0012dbc669eb273a9a04fe3e5f201d0d58f2af9bf1fa10b9e7c730503c680139",
+                "c2/irin": "5b14515a610a02f77404b9c8ecaa2ecbebf4fd101fed2a94f562bcc6d0d74f55",
+                "c2/irgl": "7ffc0602eca138e424570366f22ebb9e441822da23acf3b575a8b32822acc79d",
+                "c2/irdb": "2078ddf34628c107be2d38ab0c1d5dc8086ee5e833df34c231bffd03d083f396",
+                "c2/dbglist.c": "910bce456e3e9965e7f8fe327abc7b17ded51426355bf8056ad412c74956b285",
+                "c2/msvc.pdb": "a69b767a3f52d0f580593c019de6560b04865c7bbb7131610babfd8717b18570"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f dbglist.c -W 1 -Gs4096 -dos -Fodbglist.obj -ML -G3 -Zi -FAacs -Fa dbglist.cod "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-dbglist-0o772kxp",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\dbglist",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@append_embedded_record@4",
+              "original_va": "0x1a950",
+              "setup_seconds": 0.23179935477674007,
+              "execution_seconds": 1.898528290912509,
+              "check_seconds": 0.025540112517774105,
+              "total_seconds": 2.155868145637214
+            }
+          }
+        },
+        {
+          "accepted_function": "@append_embedded_record@4",
+          "accepted_kind": "application",
+          "previous_logical": "@append_embedded_record@4",
+          "original_extent": [
+            "0x1a950",
+            "0x1a964"
+          ],
+          "before": {
+            "path": "cases/dbglist-original-1185.json",
+            "sha256": "67d574d02be1807af0d8d05627ee9e191d0e532b91fd725167880deb5da7a4a6",
+            "capture": {
+              "label": "dbglist-original-1185",
+              "profile": "dbglist",
+              "accepted": 1185,
+              "events": "exception 80000003 rva 0000a950 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "5c19f84d2f38d4bd417fde60a4c9b92065eede5992f0f88eb3d6f313d9fc69b2",
+              "config_sha256": "8062da9d360a36e0d06f531bc4e14fbb66271c522ff130695f689a02cb6c08fa",
+              "manifest_sha256": "56a441fba67f022c90ffd10cccf1dafbaac0e1d768506960f7a95ef393efcca6",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "30b6b43f6bffefe9d842164388ad18069dbf3f953a1ea0630b57fdea7225676f",
+                "c2/irsy": "0012dbc669eb273a9a04fe3e5f201d0d58f2af9bf1fa10b9e7c730503c680139",
+                "c2/irin": "5b14515a610a02f77404b9c8ecaa2ecbebf4fd101fed2a94f562bcc6d0d74f55",
+                "c2/irgl": "7ffc0602eca138e424570366f22ebb9e441822da23acf3b575a8b32822acc79d",
+                "c2/irdb": "2078ddf34628c107be2d38ab0c1d5dc8086ee5e833df34c231bffd03d083f396",
+                "c2/dbglist.c": "910bce456e3e9965e7f8fe327abc7b17ded51426355bf8056ad412c74956b285",
+                "c2/msvc.pdb": "a69b767a3f52d0f580593c019de6560b04865c7bbb7131610babfd8717b18570"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f dbglist.c -W 1 -Gs4096 -dos -Fodbglist.obj -ML -G3 -Zi -FAacs -Fa dbglist.cod "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-dbglist-0o772kxp",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\dbglist",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@append_embedded_record@4",
+              "original_va": "0x1a950",
+              "setup_seconds": 0.23179935477674007,
+              "execution_seconds": 1.898528290912509,
+              "check_seconds": 0.025540112517774105,
+              "total_seconds": 2.155868145637214
+            }
+          },
+          "after": {
+            "path": "cases/dbglist-original-1186.json",
+            "sha256": "acc782f16ee508debaa05ff97b415178dba63acf745b6da10a4881c05471550b",
+            "capture": {
+              "label": "dbglist-original-1186",
+              "profile": "dbglist",
+              "accepted": 1186,
+              "events": "exception 80000003 rva 000221a0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "ccc9b951ed497de5e00c5d2e27661f75c19b5dabd4f14d362ad338afc7bf79e1",
+              "config_sha256": "90f32e46f5c7e8b7db00f4210ad3a0f9abe04023959af3511c32ec454eb8d99d",
+              "manifest_sha256": "56a441fba67f022c90ffd10cccf1dafbaac0e1d768506960f7a95ef393efcca6",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "30b6b43f6bffefe9d842164388ad18069dbf3f953a1ea0630b57fdea7225676f",
+                "c2/irsy": "0012dbc669eb273a9a04fe3e5f201d0d58f2af9bf1fa10b9e7c730503c680139",
+                "c2/irin": "5b14515a610a02f77404b9c8ecaa2ecbebf4fd101fed2a94f562bcc6d0d74f55",
+                "c2/irgl": "7ffc0602eca138e424570366f22ebb9e441822da23acf3b575a8b32822acc79d",
+                "c2/irdb": "2078ddf34628c107be2d38ab0c1d5dc8086ee5e833df34c231bffd03d083f396",
+                "c2/dbglist.c": "910bce456e3e9965e7f8fe327abc7b17ded51426355bf8056ad412c74956b285",
+                "c2/msvc.pdb": "a69b767a3f52d0f580593c019de6560b04865c7bbb7131610babfd8717b18570"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f dbglist.c -W 1 -Gs4096 -dos -Fodbglist.obj -ML -G3 -Zi -FAacs -Fa dbglist.cod "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-dbglist-hlc1p9mq",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\dbglist",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@assign_physical_register@12",
+              "original_va": "0x321a0",
+              "setup_seconds": 0.23004152439534664,
+              "execution_seconds": 1.5937829734757543,
+              "check_seconds": 0.025804375298321247,
+              "total_seconds": 1.8496293304488063
+            }
+          }
         }
       ]
     }
@@ -38415,7 +39045,7 @@
     },
     "dbglist": {
       "first": 1146,
-      "last": 1180,
+      "last": 1186,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -39503,9 +40133,15 @@
         "listing_data_directive",
         "write_listing_origin",
         "write_listing_string",
-        "input_counted_string"
+        "input_counted_string",
+        "decode_inline_assembly",
+        "decode_assembly_instruction",
+        "decode_assembly_operand",
+        "read_assembly_symbol_id",
+        "append_embedded_record",
+        "assign_physical_register"
       ],
-      "terminal": "@input_counted_string@8",
+      "terminal": "@assign_physical_register@12",
       "terminal_kind": "application",
       "returncode": -5,
       "pending_runtime": false
