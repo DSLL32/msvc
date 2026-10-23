@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "target": "toolchains/watcom10.0a/binb/WASM.EXE",
+  "target_sha256": "a79e0dc11a26b098728aa988cfc974113e7ac5d28c81baded1f077ed27be0513",
+  "target_size": 181668,
+  "loader": "toolchains/watcom10.0a/binnt/WASM.EXE",
+  "loader_sha256": "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d",
+  "loader_size": 7704,
+  "cf": {
+    "header_file_offset": 80,
+    "image_file_offset": 8704,
+    "initialized_size": 164482,
+    "allocation_size": 192512,
+    "entry_rva": 121366,
+    "relocation_stream_rva": 158638,
+    "relocation_count": 2915,
+    "relocation_groups": [
+      {
+        "count": 1203,
+        "first": 15980,
+        "last": 65529
+      },
+      {
+        "count": 1383,
+        "first": 65555,
+        "last": 130974
+      },
+      {
+        "count": 329,
+        "first": 131438,
+        "last": 158634
+      }
+    ],
+    "relocation_stream_end_rva": 164482,
+    "initialized_sha256": "649bbd5afe1e8687978ae542a84c5e9d32a9f44a7d292ff4ef99581bfeace809"
+  },
+  "status": "read-only; no execution or accepted reconstructed functions"
+}
