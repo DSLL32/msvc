@@ -79,10 +79,17 @@
     {
       "binary": "rc",
       "agent": "/root/vc510_orchestrator/rc",
-      "next_case": "resources-rich-driver",
+      "next_case": null,
       "case": "Compile same rich-resource source through RC driver with include/define/output options.",
       "contract": "Reuse producer input receipts; freeze actual full RCDLL invocation, callbacks, output artifacts and status for strict native replay.",
-      "source_policy": "VC1 counterparts seed source/themes only; all references and intermediate inputs must be actual VC5.10 evidence."
+      "source_policy": "VC1 counterparts seed source/themes only; all references and intermediate inputs must be actual VC5.10 evidence.",
+      "state": "Application complete; worker idle.",
+      "completed_cases": [
+        "help",
+        "resources-rich",
+        "missing-percent-source"
+      ],
+      "next_action": "No additional driver reconstruction queued; remaining 3 bytes are an unreached CRT helper."
     }
   ]
 }

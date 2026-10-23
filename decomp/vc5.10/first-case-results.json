@@ -2,7 +2,7 @@
   "schema": 1,
   "project": "vc5.10",
   "purpose": "Preserve first-case workflow trial results separately from ongoing autonomous reconstruction.",
-  "completed_first_cases": 7,
+  "completed_first_cases": 8,
   "total_first_cases": 9,
   "native_policy": "All measured fixtures execute native i386 ELF only, with cached original references.",
   "results": [
@@ -69,10 +69,22 @@
     {
       "binary": "cl",
       "first_case": "/?",
-      "first_case_complete": false,
+      "first_case_complete": true,
       "worker_paused": false,
       "ongoing_queue": "next-cases.json#cl",
-      "state": "First case still in progress; completion not claimed."
+      "application_functions": 50,
+      "application_extent_bytes": 8175,
+      "application_coverage_percent": null,
+      "coverage_qualification": "A complete non-CRT denominator has not been established; accepted application extents are 42.886% of the whole 19062-byte .text section, not branch or instruction coverage.",
+      "completion_proof": "cl/cases/help/completed.json",
+      "independently_verified": true,
+      "support_extent_bytes": 476,
+      "support_qualification": "Nine startup closure records/440 bytes and six additional import leaves/36 bytes; selected support is not application credit or a claim that every record dynamically ran.",
+      "independent_fixture_seconds": 0.028467,
+      "independent_execution_seconds": 0.007967,
+      "commits": [
+        "a19591ab"
+      ]
     },
     {
       "binary": "cvppack",
@@ -145,12 +157,12 @@
       "binary": "rc",
       "first_case": "/help",
       "first_case_complete": true,
-      "worker_paused": false,
-      "ongoing_queue": "next-cases.json#rc",
+      "worker_paused": true,
+      "ongoing_queue": null,
       "application_functions": 2,
       "application_extent_bytes": 277,
       "application_coverage_percent": null,
-      "coverage_qualification": "All277 identified RC-driver application bytes are accepted; this does not count RCDLL implementation.",
+      "coverage_qualification": "All 277 identified RC-driver application bytes are accepted; this does not count RCDLL implementation.",
       "completion_proof": "rc/cases/help/evidence/summary.json",
       "independently_verified": true,
       "crt_source_bytes": 350,
@@ -159,6 +171,11 @@
       "commits": [
         "f66ea865",
         "e6420f0f"
+      ],
+      "state": "Application complete and idle after help, rich resources and missing-percent-source cases; only an unreached 3-byte CRT helper remains.",
+      "completion_commits": [
+        "0802e19d",
+        "64464789"
       ]
     }
   ]

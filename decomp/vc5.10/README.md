@@ -9,9 +9,11 @@ provider; the original first-case pause was lifted by explicit user instruction.
 The Rust integration and root AGENTS advisory prerequisites are complete. These
 folders also retain the target inventories and original-only groundwork records.
 
-C1/C1XX start with DLL attach, export presence
-and detach; their compiler-pass exports remain trapping stubs. Other targets
-start with help, an observed usage diagnostic or a faithful exported help call.
+Eight initial help/lifecycle cases are complete; LINK is finishing its help path.
+`first-case-results.json` preserves those results separately from later work.
+C1/C1XX now reconstruct real compiler-pass invocations. RC's driver application
+is complete after help, rich-resource compilation and an error case; its worker
+is idle. Other workers continue their substantive queues.
 
 `project.json` records the nine targets and their hashes. The requested folder
 `cvppack` contains the actual `CVPACK.EXE` target; `rcdll` contains `RCDLL.DLL`.
@@ -94,7 +96,8 @@ target metadata and retain separate export, ABI and lifecycle checks.
 
 The shared auditor reads a DLL using the CL-shaped index format
 and explicit original/rebuilt/MAP/config/runtime paths; that format has no fixed
-CL addresses. Function names must match decorated MAP symbols. Supply explicit
+CL addresses. Use explicit `symbol` aliases when historical logical identities differ from
+canonical decorated MAP symbols. Supply explicit
 entry roots, text data and switch targets. Export ordinals/signatures, DLL loader
 contracts and the native harness require separate checks; PE graph support alone
 does not certify them. Review this metadata policy before integration.
@@ -106,8 +109,8 @@ does not certify them. Review this metadata policy before integration.
   the initial C1 DLL loaded at its preferred base.
 - Agree on encountered module-resource and imported-runtime contracts with the
   shared maintainer. PDB and C++ disassembler interfaces need separate evidence.
-- Supply and verify VC 5.10 graph metadata, including noncontiguous code chunks
-  when the original has hot/cold partitions.
+- Preserve exact VC 5.10 graph metadata, including noncontiguous code chunks
+  and explicit data regions. Escalate common audit gaps to the tool maintainer.
 - Continue through the authorized queues, reporting completed cases and proposing useful follow-on coverage.
 
 Successful original observations include CL 11.00.7022 help and minimal C
@@ -116,8 +119,11 @@ diagnostic. The original-only debugger probe also captured C1 DLL load, CRT
 entry, invocation and detach in order, plus complete pre-C2 intermediate files.
 C1 receives 27 arguments and Boolean 1 for this case. C2 receives only argv[0];
 its actual options arrive in `MSC_CMD_FLAGS`, whose exact bytes were captured.
-LINK help is also verified (DWORD status 1100, 1,430 stdout bytes). Resource
-conversion, linked output artifacts and debug/PDB variants remain unverified.
+LINK help is also verified (DWORD status 1100, 1,430 stdout bytes). The rich-resource original conversion produces a deterministic 5,080-byte COFF
+object; its reconstructed path has now completed and is receiving final fixture
+verification. Real C/C++ compilation and debug-DLL packing are under
+reconstruction. Linked output and further dependency contracts still need
+case-specific acceptance.
 Shared Wine startup hangs interrupted those
 investigations; no timeout is recorded as an expected target result or native
 fixture oracle.
