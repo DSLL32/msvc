@@ -985,8 +985,32 @@ int __stdcall equivalent_base_type_flags(unsigned short left, unsigned short rig
 }
 
 int __stdcall equivalent_shape_attributes(unsigned short left, unsigned short right);
+/* Original 0x541d0..0x5428f. Report arity and individual parameter
+   differences, keeping extension-mode warnings distinct from errors. Parameter
+   types have already been interned, so their pointer identities are compared. */
 void __stdcall diagnose_parameter_list_difference(FunctionParameters *existing,
-    FunctionParameters *declaration);
+    FunctionParameters *declaration)
+{
+    DeclarationParameterInfo *old_parameters = existing->declarations;
+    DeclarationParameterInfo *new_parameters = declaration->declarations;
+    int count = old_parameters->count, parameter;
+    if (new_parameters->count < count) {
+        count = new_parameters->count;
+        if (options.configuration.extensions_enabled) compiler_warning(1, 30);
+        else report_syntax_error(190);
+    } else if (new_parameters->count > count) {
+        if (options.configuration.extensions_enabled) compiler_warning(1, 31);
+        else report_syntax_error(191);
+    }
+    for (parameter = 1; parameter <= count; ++parameter) {
+        if (old_parameters->types[parameter - 1] !=
+            new_parameters->types[parameter - 1]) {
+            if (options.configuration.extensions_enabled)
+                compiler_warning(1, 28, parameter);
+            else report_syntax_error(192, parameter);
+        }
+    }
+}
 
 /* Original 0x54290..0x5441c. Reconcile shape chains after the caller has
    checked the base type. A leading based/segment modifier has its own

@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 981,
+  "accepted": "_diagnose_parameter_list_difference@8",
+  "terminal": "_select_allocation_function@8",
+  "original_capture": "cases/frontiers/new_delete/0981-diagnose_parameter_list_difference-8/original-receipt.json",
+  "original_capture_sha256": "a5f881ff9bb323ab25440589ef8973584217e1b2917416477dd279bd132fbc06",
+  "original_events": "cases/frontiers/new_delete/0981-diagnose_parameter_list_difference-8/original-events.txt",
+  "original_events_sha256": "fd0b9369bb260c9aacec7b8a0bd2fac45edda109132c9f474400b9f369771f00",
+  "original_configuration": "cases/frontiers/new_delete/0981-diagnose_parameter_list_difference-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

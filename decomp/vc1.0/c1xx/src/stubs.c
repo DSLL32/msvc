@@ -422,8 +422,7 @@ void __stdcall inherit_function_defaults(CppSymbol *declaration, DefaultArgument
 void __stdcall report_named_type_difference(unsigned code, CType *context, char *name,
     CType *source, CType *destination) { __asm { int 3 } }
 
-void __stdcall diagnose_parameter_list_difference(FunctionParameters *existing,
-    FunctionParameters *declaration) { __asm { int 3 } }
+
 
 
 

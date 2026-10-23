@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_diagnose_parameter_list_difference@8",
+    "start": 344528,
+    "end": 344719
+  },
+  "distinct_direct_callees": [
+    "_compiler_warning",
+    "_report_syntax_error"
+  ],
+  "next_frontier": "_select_allocation_function@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.3744064085185528,
+  "total_operation_seconds": 3.107648023404181,
+  "original_capture_seconds": 0.9668367831036448
+}
