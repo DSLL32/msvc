@@ -1,0 +1,9 @@
+{
+  "streams": {
+    "stdout": "5b8a5b4f29a78454f1a650cb40dc7000b467474006846a241f117352ffb55950",
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "status": 0,
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "source_capture_sha256": "150804b7189ed73bfbd37d2f421ba22ce638a112c10ab4e6bc79a9f7ae470108"
+}

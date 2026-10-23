@@ -107,7 +107,8 @@
     "_enable_pass",
     "_set_pass_suffix",
     "_link_arguments",
-    "_option_conflict"
+    "_option_conflict",
+    "_copy_option"
   ],
   "driver": [
     {
@@ -1059,10 +1060,21 @@
     {
       "name": "_copy_option",
       "start": 4202352,
-      "end": 4202353,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "copy_option"
+      "end": 4202385,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "copy_option",
+      "evidence": {
+        "kind": "Complete 33-byte new_option call plus copied origin pointer; cdecl single Option pointer and returned allocation.",
+        "range": "00401f70..00401f91",
+        "abi": {
+          "arguments": [
+            "Option *option"
+          ],
+          "return": "Option *",
+          "cleanup": 0,
+          "hidden_inputs": []
+        }
+      }
     },
     {
       "name": "_unlink_option",

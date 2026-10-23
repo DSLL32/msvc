@@ -3,6 +3,14 @@
 #include <recon.h>
 
 /* 00401fb2..00402006: report original switch spelling and its replacement. */
+Option *copy_option(Option *option)
+{
+    Option *copy = new_option(option->name, option->value,
+                              option->matching, option->flags);
+    copy->origin = option->origin;
+    return copy;
+}
+
 void option_conflict(unsigned id, Option *old, Option *replacement)
 {
     typedef void (*Diagnostic)(unsigned, ...);

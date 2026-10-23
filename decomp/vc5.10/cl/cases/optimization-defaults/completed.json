@@ -1,0 +1,38 @@
+{
+  "state": "completed",
+  "case": "optimization-defaults",
+  "new_application_functions": 1,
+  "new_original_extent_bytes": 33,
+  "application_entries": 52,
+  "status": 0,
+  "stdout_bytes": 3976,
+  "stderr_bytes": 0,
+  "mktemp_calls": 1,
+  "pair": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/copy-option-1/pair.json",
+    "sha256": "c6fd9351f5cca1a489bc633adeac228b88a744c60de38fa667729ad8f757a436"
+  },
+  "reference": "reference/fixture.json",
+  "owned_proof": "completion/manifest.json",
+  "controls": {
+    "actual_formal_fields_and_origin": 12
+  },
+  "fixture": {
+    "schema": 1,
+    "case": "optimization-defaults",
+    "passed": true,
+    "full_dword_status": 0,
+    "application_entries": 52,
+    "stdout_bytes": 3976,
+    "stderr_bytes": 0,
+    "mktemp_calls": 1,
+    "native_sha256": "b51979761ea7193a8e21ae7fc68900498af1fdfac2aef5a6e1ba0f0c77d83d97",
+    "seconds": {
+      "build": 0.007393268868327141,
+      "setup": 0.001748981885612011,
+      "execution": 0.007983529008924961,
+      "checks": 0.0006852950900793076,
+      "total": 0.03147389180958271
+    }
+  }
+}

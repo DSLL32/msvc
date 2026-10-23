@@ -1,0 +1,335 @@
+{
+  "schema": 1,
+  "kind": "linked-native",
+  "shared_revision": "094d818f3852a894f2d6ed96c43c0ead1c72cf2c",
+  "logical_command": [
+    "clang",
+    "-m32",
+    "-std=gnu89",
+    "-fms-extensions",
+    "-fasm-blocks",
+    "-O0",
+    "-g",
+    "-DRECON_NATIVE_TEST",
+    "-DRECON_NATIVE_ENTRY_CONTROLFP_53",
+    "-DRECON_DEFAULT_FMODE=0",
+    "-DRECON_CRT_PROFILE_MSVCRT_510",
+    "-I../../../lib/recon/include",
+    "-I../../../lib/recon/native",
+    "build/native-trace/arguments.o",
+    "build/native-trace/console.o",
+    "build/native-trace/driver.o",
+    "build/native-trace/filenames.o",
+    "build/native-trace/frontiers.o",
+    "build/native-trace/main.o",
+    "build/native-trace/messages.o",
+    "build/native-trace/options.o",
+    "build/native-trace/rules.o",
+    "build/native-trace/settings.o",
+    "scripts/native-host.c",
+    "scripts/mre-host.c",
+    "scripts/dependency-host.c",
+    "../../../lib/recon/src/compat.c",
+    "../../../lib/recon/src/crt.c",
+    "../../../lib/recon/src/decimal.c",
+    "../../../lib/recon/src/entry.c",
+    "../../../lib/recon/src/process.c",
+    "../../../lib/recon/src/win32.c",
+    "../../../lib/recon/src/trace.c",
+    "-Wl,--wrap=main",
+    "-o",
+    "build/native-trace/CL.EXE"
+  ],
+  "command": [
+    "clang",
+    "-m32",
+    "-std=gnu89",
+    "-fms-extensions",
+    "-fasm-blocks",
+    "-O0",
+    "-g",
+    "-DRECON_NATIVE_TEST",
+    "-DRECON_NATIVE_ENTRY_CONTROLFP_53",
+    "-DRECON_DEFAULT_FMODE=0",
+    "-DRECON_CRT_PROFILE_MSVCRT_510",
+    "-I/root/.ai-tmp/msvc2/vc5.10/cl/native-source-sdryp7_v/lib/recon/include",
+    "-I/root/.ai-tmp/msvc2/vc5.10/cl/native-source-sdryp7_v/lib/recon/native",
+    "build/native-trace/arguments.o",
+    "build/native-trace/console.o",
+    "build/native-trace/driver.o",
+    "build/native-trace/filenames.o",
+    "build/native-trace/frontiers.o",
+    "build/native-trace/main.o",
+    "build/native-trace/messages.o",
+    "build/native-trace/options.o",
+    "build/native-trace/rules.o",
+    "build/native-trace/settings.o",
+    "/root/.ai-tmp/msvc2/vc5.10/cl/native-source-sdryp7_v/decomp/vc5.10/cl/scripts/native-host.c",
+    "/root/.ai-tmp/msvc2/vc5.10/cl/native-source-sdryp7_v/decomp/vc5.10/cl/scripts/mre-host.c",
+    "/root/.ai-tmp/msvc2/vc5.10/cl/native-source-sdryp7_v/decomp/vc5.10/cl/scripts/dependency-host.c",
+    "/root/.ai-tmp/msvc2/vc5.10/cl/native-source-sdryp7_v/lib/recon/src/compat.c",
+    "/root/.ai-tmp/msvc2/vc5.10/cl/native-source-sdryp7_v/lib/recon/src/crt.c",
+    "/root/.ai-tmp/msvc2/vc5.10/cl/native-source-sdryp7_v/lib/recon/src/decimal.c",
+    "/root/.ai-tmp/msvc2/vc5.10/cl/native-source-sdryp7_v/lib/recon/src/entry.c",
+    "/root/.ai-tmp/msvc2/vc5.10/cl/native-source-sdryp7_v/lib/recon/src/process.c",
+    "/root/.ai-tmp/msvc2/vc5.10/cl/native-source-sdryp7_v/lib/recon/src/win32.c",
+    "/root/.ai-tmp/msvc2/vc5.10/cl/native-source-sdryp7_v/lib/recon/src/trace.c",
+    "-Wl,--wrap=main",
+    "-o",
+    "build/native-trace/CL.EXE",
+    "-fdebug-prefix-map=/root/.ai-tmp/msvc2/vc5.10/cl/native-source-sdryp7_v=/root/msvc2"
+  ],
+  "source_tree": "/root/.ai-tmp/msvc2/vc5.10/cl/native-source-sdryp7_v",
+  "seconds": 1.8225177396088839,
+  "output_sha256": "b51979761ea7193a8e21ae7fc68900498af1fdfac2aef5a6e1ba0f0c77d83d97",
+  "sources": {
+    "/root/msvc2/lib/recon/include/recon.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/12cf9ad20b3477ef06f06bdc5d6f5b141adfb3778fa11681ec9b10a003c011bb",
+      "sha256": "12cf9ad20b3477ef06f06bdc5d6f5b141adfb3778fa11681ec9b10a003c011bb",
+      "bytes": 27166
+    },
+    "/root/msvc2/lib/recon/include/trace-abi.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+      "sha256": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+      "bytes": 1058
+    },
+    "/root/msvc2/lib/recon/include/win32.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/d221d3befe079427f612f1a3ffdc286415bb22471e883a300663a19f0f51ffa8",
+      "sha256": "d221d3befe079427f612f1a3ffdc286415bb22471e883a300663a19f0f51ffa8",
+      "bytes": 13199
+    },
+    "/root/msvc2/lib/recon/native/direct.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+      "sha256": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+      "bytes": 148
+    },
+    "/root/msvc2/lib/recon/native/excpt.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+      "sha256": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+      "bytes": 198
+    },
+    "/root/msvc2/lib/recon/native/fcntl.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+      "sha256": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+      "bytes": 611
+    },
+    "/root/msvc2/lib/recon/native/float.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42",
+      "sha256": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42",
+      "bytes": 1009
+    },
+    "/root/msvc2/lib/recon/native/io.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+      "sha256": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+      "bytes": 140
+    },
+    "/root/msvc2/lib/recon/native/malloc.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/2eb86ea79987793bde23d2016e7d52ad7d5c6a5818a5812f53a072d980934f21",
+      "sha256": "2eb86ea79987793bde23d2016e7d52ad7d5c6a5818a5812f53a072d980934f21",
+      "bytes": 406
+    },
+    "/root/msvc2/lib/recon/native/mbctype.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50",
+      "sha256": "4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50",
+      "bytes": 91
+    },
+    "/root/msvc2/lib/recon/native/mbstring.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/ce7c483355c795650db82a8174b472747d34bd3462ba3bde375357cb28b0ec34",
+      "sha256": "ce7c483355c795650db82a8174b472747d34bd3462ba3bde375357cb28b0ec34",
+      "bytes": 1024
+    },
+    "/root/msvc2/lib/recon/native/process.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+      "sha256": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+      "bytes": 128
+    },
+    "/root/msvc2/lib/recon/native/setjmp.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/042e72bae39e6d5ae71483c71890e556f65678b2be895f1771afa365a6b82903",
+      "sha256": "042e72bae39e6d5ae71483c71890e556f65678b2be895f1771afa365a6b82903",
+      "bytes": 2214
+    },
+    "/root/msvc2/lib/recon/native/share.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+      "sha256": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+      "bytes": 161
+    },
+    "/root/msvc2/lib/recon/native/signal.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/ba3d6621f3f863b022f6aa9f5d6125a584d594a9f3d79ad172a6ae3f8c12a150",
+      "sha256": "ba3d6621f3f863b022f6aa9f5d6125a584d594a9f3d79ad172a6ae3f8c12a150",
+      "bytes": 806
+    },
+    "/root/msvc2/lib/recon/native/sys/stat.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb",
+      "sha256": "4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb",
+      "bytes": 378
+    },
+    "/root/msvc2/lib/recon/native/sys/timeb.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/56e745d9e9f91dccd40083158914daeb3cab0c97e01b7276c447993aad52a47d",
+      "sha256": "56e745d9e9f91dccd40083158914daeb3cab0c97e01b7276c447993aad52a47d",
+      "bytes": 466
+    },
+    "/root/msvc2/lib/recon/native/windows.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+      "sha256": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+      "bytes": 88
+    },
+    "/root/msvc2/lib/recon/src/compat.c": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/50d9eb568e94117775ee26aeb7cd217d82f5c102665e99fceb8108c1c70a219a",
+      "sha256": "50d9eb568e94117775ee26aeb7cd217d82f5c102665e99fceb8108c1c70a219a",
+      "bytes": 14228
+    },
+    "/root/msvc2/lib/recon/src/crt.c": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/0456e633ae5b7ab7d4d5f5e7fff7f445fbe741c50ba838d4704799ef3bf16a89",
+      "sha256": "0456e633ae5b7ab7d4d5f5e7fff7f445fbe741c50ba838d4704799ef3bf16a89",
+      "bytes": 109193
+    },
+    "/root/msvc2/lib/recon/src/decimal.c": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "sha256": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "bytes": 12018
+    },
+    "/root/msvc2/lib/recon/src/entry.c": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/93bb510da82267823c5b3ab7056d9cc32a3ce955964109876f9be60d0e101963",
+      "sha256": "93bb510da82267823c5b3ab7056d9cc32a3ce955964109876f9be60d0e101963",
+      "bytes": 1302
+    },
+    "/root/msvc2/lib/recon/src/process.c": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/11acf59c2781a152a075940e9eb702b2a1a8a00b1f28eda6583afb4106075f52",
+      "sha256": "11acf59c2781a152a075940e9eb702b2a1a8a00b1f28eda6583afb4106075f52",
+      "bytes": 12973
+    },
+    "/root/msvc2/lib/recon/src/trace.c": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "sha256": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "bytes": 13917
+    },
+    "/root/msvc2/lib/recon/src/win32.c": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/4824c85b7503254bf4bf91ee78d5c7f80c4db838563ba2ccd2bfb6a5b2fc8ace",
+      "sha256": "4824c85b7503254bf4bf91ee78d5c7f80c4db838563ba2ccd2bfb6a5b2fc8ace",
+      "bytes": 57855
+    },
+    "/root/msvc2/lib/recon/tests/return8-shape.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/ebf068030588d278ea929213913d03b86699b7982fc3d2108588b4bf2fb94660",
+      "sha256": "ebf068030588d278ea929213913d03b86699b7982fc3d2108588b4bf2fb94660",
+      "bytes": 1129
+    },
+    "/root/msvc2/decomp/vc5.10/cl/Makefile": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/9b335c0294a9f6f8dd770f0d7f3a693280e17916626d526350eede5336bfece4",
+      "sha256": "9b335c0294a9f6f8dd770f0d7f3a693280e17916626d526350eede5336bfece4",
+      "bytes": 4911
+    },
+    "/root/msvc2/decomp/vc5.10/cl/src/cl.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/309570311215cfc0ed8f722fc23baaa623553839512ea8efebb96a1f0733f868",
+      "sha256": "309570311215cfc0ed8f722fc23baaa623553839512ea8efebb96a1f0733f868",
+      "bytes": 7087
+    },
+    "/root/msvc2/decomp/vc5.10/cl/src/mre.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/da747790e0da2cfbd3b622845f1c28d69ff685cb0fe819221209f0f2efa8bf5e",
+      "sha256": "da747790e0da2cfbd3b622845f1c28d69ff685cb0fe819221209f0f2efa8bf5e",
+      "bytes": 1042
+    },
+    "/root/msvc2/decomp/vc5.10/cl/scripts/native-host.c": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/883f13b0f5fb9a1e31f4ea75c472d21561b026bcad91fbc36e98843636068ba8",
+      "sha256": "883f13b0f5fb9a1e31f4ea75c472d21561b026bcad91fbc36e98843636068ba8",
+      "bytes": 3985
+    },
+    "/root/msvc2/decomp/vc5.10/cl/scripts/mre-host.c": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/bef9048a0f648b152fb9141a976d8b1d6ca238adcd7d8cc221cb90429f7bb564",
+      "sha256": "bef9048a0f648b152fb9141a976d8b1d6ca238adcd7d8cc221cb90429f7bb564",
+      "bytes": 1396
+    },
+    "/root/msvc2/decomp/vc5.10/cl/scripts/dependency-host.c": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/fa0590f74fbf052d0ecc8d6672ccddd5476a2ad329c13af711a384f91c4d33fe",
+      "sha256": "fa0590f74fbf052d0ecc8d6672ccddd5476a2ad329c13af711a384f91c4d33fe",
+      "bytes": 14531
+    }
+  },
+  "objects": {
+    "/root/msvc2/decomp/vc5.10/cl/build/native-trace/arguments.o": {
+      "sha256": "619f994494fd44e3501c39836aabb2b79619e3226c84055b39502c179c71e9db",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/0c788d89e18343d08b03e23290c2131ab13ec9268a051ffe90352701ae5920e2",
+        "sha256": "0c788d89e18343d08b03e23290c2131ab13ec9268a051ffe90352701ae5920e2",
+        "bytes": 10485
+      }
+    },
+    "/root/msvc2/decomp/vc5.10/cl/build/native-trace/console.o": {
+      "sha256": "62414e68cf9de2064abbc5325f5d79e955cdf2b49fbcaa4b3e4c576281463ebe",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/a4b106e48fa852df6451ab09578c43988c9848d401baadaa7448d16be7716935",
+        "sha256": "a4b106e48fa852df6451ab09578c43988c9848d401baadaa7448d16be7716935",
+        "bytes": 10472
+      }
+    },
+    "/root/msvc2/decomp/vc5.10/cl/build/native-trace/driver.o": {
+      "sha256": "0c2f411d17b1940f7d2f68aa0ffba98b81649014e9a52467e04db182720ac0d0",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/b3c54d43c421823fa15eb728dedc7f7b9c97a0ae0dd02a9fb642f99a11b01351",
+        "sha256": "b3c54d43c421823fa15eb728dedc7f7b9c97a0ae0dd02a9fb642f99a11b01351",
+        "bytes": 10470
+      }
+    },
+    "/root/msvc2/decomp/vc5.10/cl/build/native-trace/filenames.o": {
+      "sha256": "49fdf90bdb0124a558defe93803165b647c2ffaaba4e73980860131fea54d73b",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/a460a752e17c87ecb759f5edfbd9d21bdf99265d8d001e965962e8edc8d93268",
+        "sha256": "a460a752e17c87ecb759f5edfbd9d21bdf99265d8d001e965962e8edc8d93268",
+        "bytes": 10484
+      }
+    },
+    "/root/msvc2/decomp/vc5.10/cl/build/native-trace/frontiers.o": {
+      "sha256": "5247d4ed7850405a0bc4b20af9c1c3666465ca6529e923086900cc3313a19608",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/45190e1f16de19eb2f31b5f5a4ccf62acb1eb2e2a1ea47b63a0832237e18ba83",
+        "sha256": "45190e1f16de19eb2f31b5f5a4ccf62acb1eb2e2a1ea47b63a0832237e18ba83",
+        "bytes": 10483
+      }
+    },
+    "/root/msvc2/decomp/vc5.10/cl/build/native-trace/main.o": {
+      "sha256": "a7fb548e7e30a5a4d498099479d8b2084fa7c764849aa27603ed2826ea4acc39",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/9e61454d6241afdb208e8205a302961c9f58cac3acbc4c3de21cb25352070113",
+        "sha256": "9e61454d6241afdb208e8205a302961c9f58cac3acbc4c3de21cb25352070113",
+        "bytes": 10459
+      }
+    },
+    "/root/msvc2/decomp/vc5.10/cl/build/native-trace/messages.o": {
+      "sha256": "4a8271feeb99fe6b0bb720e4647a606efeda1052b6b1b22fcd64efa1481ec94e",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/c61abb0d2ad82b1cfe45ad612dd34f5d78937902b97ea1f1c5662befe245a6bd",
+        "sha256": "c61abb0d2ad82b1cfe45ad612dd34f5d78937902b97ea1f1c5662befe245a6bd",
+        "bytes": 10479
+      }
+    },
+    "/root/msvc2/decomp/vc5.10/cl/build/native-trace/options.o": {
+      "sha256": "d1144adb2ab17a6759ff238af603eac3a0638f0b09b1c804a9609f06d796e618",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/21cfee476771d08e13eda13f29067a64fab7a6030258c518a88e8865fa34c22a",
+        "sha256": "21cfee476771d08e13eda13f29067a64fab7a6030258c518a88e8865fa34c22a",
+        "bytes": 10474
+      }
+    },
+    "/root/msvc2/decomp/vc5.10/cl/build/native-trace/rules.o": {
+      "sha256": "cb8b99d265526905404ee1f7bfb5fdeb3db1d3333fd7f538e8f4c191666f085a",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/7affab76de6ea9fb1268137b529faa07b9fca048ca4e3e9b4edb5ce6b5bee238",
+        "sha256": "7affab76de6ea9fb1268137b529faa07b9fca048ca4e3e9b4edb5ce6b5bee238",
+        "bytes": 10465
+      }
+    },
+    "/root/msvc2/decomp/vc5.10/cl/build/native-trace/settings.o": {
+      "sha256": "ccdd89d0d6f2defa0b5756aa8c22712b87a6bcf9e8f2bf9326b7a8bbeeda37d3",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/c5c72a9f00407c5dcbe900e9fc5460adc021052fad2e5903ccdd062516adac75",
+        "sha256": "c5c72a9f00407c5dcbe900e9fc5460adc021052fad2e5903ccdd062516adac75",
+        "bytes": 10479
+      }
+    }
+  },
+  "builder_sha256": "742cf5ba53458c845878986bf77f7fa87bfcf1894ae1577e57bf2b2d29d748d3",
+  "builder_source": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/742cf5ba53458c845878986bf77f7fa87bfcf1894ae1577e57bf2b2d29d748d3",
+    "sha256": "742cf5ba53458c845878986bf77f7fa87bfcf1894ae1577e57bf2b2d29d748d3",
+    "bytes": 4266
+  }
+}

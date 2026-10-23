@@ -68,6 +68,10 @@ int __wrap_main(int argc, char **argv, char **envp)
         !strcmp(argv[3],"/MD") && !strcmp(argv[4],"/TC") &&
         !strcmp(argv[5],"/TP") && !strcmp(argv[6],"/?"))
         entry_error = 2;
+    else if (profile && !strcmp(profile,"optimization-defaults-canonical-msvcrt-v1") &&
+        argc == 5 && !strcmp(argv[1],"/nologo") && !strcmp(argv[2],"/Og") &&
+        !strcmp(argv[3],"/O1") && !strcmp(argv[4],"/?"))
+        entry_error = 2;
     else
         recon_unsupported("unknown CL native entry profile");
     envp = cl_dependency_bind_entry(argc, argv, envp);

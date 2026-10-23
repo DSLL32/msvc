@@ -174,6 +174,6 @@
     ],
     "total_seconds": 2.0210457863286138
   },
-  "native_GDB_seconds": 0.21510578552260995,
+  "native_GDB_seconds": 0.2151063410565257,
   "native_timing_note": "Measured native controller elapsed time from the retained option-conflict-2 run; raw capture has no per-phase timing field."
 }

@@ -46,9 +46,7 @@ BOOL WINAPI console_control_handler(DWORD event)
 
 
 
-Option *copy_option(Option *option) { __asm int 3
-    return NULL;
-}
+
 
 
 

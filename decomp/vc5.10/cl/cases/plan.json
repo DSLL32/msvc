@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "macro-language-conflict-completed",
+  "state": "optimization-defaults-completed",
   "acceptance_enabled": true,
   "blocked_by": [],
   "themes": [
@@ -98,6 +98,17 @@
       ],
       "source": null,
       "from_vc1": "Authored public 5.10 macro/default preservation and language-switch conflict; no prior oracle reused."
+    },
+    {
+      "id": "optimization-defaults",
+      "arguments": [
+        "/nologo",
+        "/Og",
+        "/O1",
+        "/?"
+      ],
+      "source": null,
+      "from_vc1": "Authored public 5.10 optimization-default detach/copy path; fresh original evidence required."
     }
   ],
   "notes": [
@@ -109,7 +120,7 @@
     "explicit-inputs originalcompletedhelp0, butlowercaseba/bc/bx wereunknown; retain unchanged as input/linkcase, publicpassoptions are separate."
   ],
   "groundwork_capture": "original-probes/host-contract-2/manifest.json",
-  "authorized_case": "macro-language-conflict",
+  "authorized_case": "optimization-defaults",
   "authorized_queue": [
     "help",
     "minimal-c",
@@ -118,7 +129,8 @@
     "unknown-option",
     "explicit-inputs",
     "preprocessor-pass-options",
-    "macro-language-conflict"
+    "macro-language-conflict",
+    "optimization-defaults"
   ],
   "next_case_gate": "Orchestrator approved response-file/options/help followed by diagnostics after minimal compile completion; no new successful dependency boundary authorized.",
   "completed_cases": [
@@ -129,6 +141,7 @@
     "unknown-option",
     "preprocessor-pass-options",
     "explicit-inputs",
-    "macro-language-conflict"
+    "macro-language-conflict",
+    "optimization-defaults"
   ]
 }
