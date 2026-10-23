@@ -1,0 +1,48 @@
+{
+  "builds": [
+    {
+      "kind": "original",
+      "seconds": 5.896976557560265,
+      "status": 0
+    },
+    {
+      "kind": "native",
+      "seconds": 2.7647049985826015,
+      "status": 0
+    },
+    {
+      "kind": "helper",
+      "seconds": 1.3483351301401854,
+      "status": 0
+    }
+  ],
+  "original_capture": {
+    "setup": 0.8787637501955032,
+    "execution": 2.047413785941899,
+    "total": 2.9721565153449774
+  },
+  "native_capture": {
+    "execution": 0.44283287413418293,
+    "total": 0.5702762436121702
+  },
+  "audit_seconds": 0.7926824744790792,
+  "protocol_controls": {
+    "fresh": 4,
+    "reused": 149,
+    "seconds": 4.903233895078301
+  },
+  "list_input_controls": {
+    "fresh": 12,
+    "seconds": 12.915761147625744
+  },
+  "auxiliary_nonzero_code_test": {
+    "seconds": 0.13568668067455292,
+    "scope": "Separate native-only actual compiled reset, no natural case input changes."
+  },
+  "fixture": {
+    "setup": 0.010249030776321888,
+    "execution": 0.0022314339876174927,
+    "checks": 0.00021804310381412506,
+    "total": 0.013164876960217953
+  }
+}

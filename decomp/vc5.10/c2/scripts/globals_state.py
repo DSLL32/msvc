@@ -37,6 +37,9 @@ COFF_GLOBALS = {
     'coff_flags': (0x497d9c, 2), 'coff_pending_e18': (0x497e18, 2),
     'coff_section_count': (0x497d78, 2), 'coff_symbol_count': (0x497d6c, 4),
     'coff_pending_c90': (0x497c90, 4), 'coff_output_list': (0x497d44, 4),
+    'coff_current_list': (0x497d40,4), 'coff_free_chunks': (0x497c70,4),
+    'coff_free_blocks_508': (0x497ce8,4), 'coff_free_blocks_308': (0x497f5c,4),
+    'coff_pending_499690': (0x499690,4),
 }
 ROOTS.update({key:(value[0],key)for key,value in COFF_GLOBALS.items()})
 

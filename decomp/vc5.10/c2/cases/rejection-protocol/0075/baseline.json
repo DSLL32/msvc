@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source_checkpoint": "cases/acceptance/0075-coff-list-reset",
+  "control_result": "cases/acceptance/0075-coff-list-reset/rejections.json",
+  "control_result_sha256": "6db30420056c903de3f3b55b6d25f4b6e4aa54822f57e4be8ecea8ed316da26e",
+  "checker_contracts": {
+    "scripts/check-rejections.py": "4caa2632d6d99796af69a8b50bab8d9d7a2d1a13c4f7223c54e849497cf8a3a8",
+    "scripts/build-index.py": "97e280740713f64c1bf1699d7e376cbea06e7d50f4c7dba7495a2eef87d1030d",
+    "scripts/data_evidence.py": "bff361add0b1def3f83f5e5c13a82dd6fba7ad1ea90a9ac432c06558cbeca793",
+    "scripts/callback_evidence.py": "404eb248f4725d028e2d3a77654f057865d262fcaa9008f4adaad9de0938110f",
+    "scripts/debug-run.c": "5094595d5303cb667d71cfb7c4851dccde1290788689e6d5f8503fc7f92bf775",
+    "scripts/intrinsic_evidence.py": "89e13fbff12ec278801984bd7360b54b392cc50e332d9f449c7f8b9032ab0034",
+    "scripts/globals_state.py": "a59502b8f41d714f88e71fd4a2154086812f13e6312713b529b57ac295ce13bc",
+    "scripts/case_inputs.py": "13ab2ee944896ade6b46c2b2d226fd63233ea9d3191931b1d8a84ddbfaa48aa9",
+    "scripts/import_evidence.py": "00d384d41f63d7d7058d399fdaef731f097f7d9b695f3526549d672cc9556d72",
+    "scripts/native-proof.py": "91fd879644eb159a173dade958a2f78d47ca25738ad3e3452be43757a33d7102",
+    "scripts/capture-native.py": "248a3cfae73a450f2632b95890ddbcb55f1bcc407068d6017b581469ac5df0ae",
+    "scripts/capture-original.py": "c8322a0e0ad03992f4c099a8bfd6fd34ca47b1fd3e7293092b62b68f810cb25d",
+    "scripts/writer_evidence.py": "1c5d32e095baaa2f9546cb49130f7c28be21b115f3274e486d5a6b540f1a8fbd",
+    "scripts/accept.py": "a6b1d5cc50ca30212ae120e5f58a5cf891b17ace4a4378f35fd35f5a2000a11e",
+    "scripts/pending_metadata.py": "4fb55fa9f12620145ccaf5142b9b65c355f2fd8c6e9824e0037e763ff4413634",
+    "scripts/audit.py": "b65efd1fa4753ff1007af3c6915bd9372dbc5a8d479fcfa2a14d2b05eec6b12c",
+    "scripts/check-pending-metadata.py": "f497374b1e272e5162f1e4a1685edb78bef525ff5d060d519a9d8c4312810d25",
+    "scripts/state.py": "7f5e869a7e139e12ffad9d6968c36a87f45c688e6d047bfc8a71bfbf18ef04d6",
+    "scripts/compare.py": "fac5cc27489670b8a748b272022ed416e7ec76da69ec14e4625647cbc869aa58",
+    "scripts/reaudit-capture.py": "47db322d4f96cad39e15681be42151d6b974d95fde39007623bdb68bcacb361e"
+  },
+  "source_directory": "sources",
+  "source_manifest": "source-manifest.json",
+  "source_manifest_sha256": "6671c05aae1d0de0f9ed4518de697ecf70984033304721e25074238458e992b8",
+  "proof_inputs": {
+    "original_receipt": "1d68a5708bac0658fe13ec5df661b43e9dfa5bc5448e1d1526cc38c0c2c7dca7",
+    "native_receipt": "542d8b4ad3f4d57a85536432ed981e3958e5397c7b7e3ee22aa9382ca58f2f5a"
+  },
+  "scope": "153 generic predicates:4 fresh/149 explicitly reviewed reused;12 actual list-input/reset-state mutations and separate auxiliary nonzero code proof. Ordinary exact20 source files; no archives."
+}

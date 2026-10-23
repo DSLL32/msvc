@@ -79,7 +79,11 @@ unsigned coff_symbol_capacity;
 unsigned short coff_default_flags, coff_flags, coff_pending_e18, coff_section_count;
 unsigned coff_symbol_count;
 int coff_pending_c90 = 1;
-C2OutputList *coff_output_list;
+C2OutputList *coff_output_list, *coff_current_list;
+C2OutputChunk *coff_free_chunks;
+C2OutputBlock508 *coff_free_blocks_508;
+C2OutputBlock308 *coff_free_blocks_308;
+unsigned long coff_pending_499690;
 
 int __fastcall initialize_coff_output(C2ObjectOutput *writer)
 {
@@ -146,4 +150,14 @@ C2OutputTable *__fastcall new_output_table(unsigned short capacity)
 void *__fastcall allocate_output_bytes(unsigned bytes)
 {
     return c2_pool_allocate(7, bytes);
+}
+
+void initialize_coff_lists(void)
+{
+    coff_pending_499690 = 0;
+    coff_output_list = NULL;
+    coff_current_list = NULL;
+    coff_free_chunks = NULL;
+    coff_free_blocks_508 = NULL;
+    coff_free_blocks_308 = NULL;
 }

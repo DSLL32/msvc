@@ -7,6 +7,9 @@ typedef void *(__fastcall *C2OutputAllocator)(unsigned bytes);
 typedef struct C2OutputTable C2OutputTable;
 typedef struct C2OutputList C2OutputList;
 typedef struct C2OutputStorage C2OutputStorage;
+typedef struct C2OutputChunk C2OutputChunk;
+typedef struct C2OutputBlock508 C2OutputBlock508;
+typedef struct C2OutputBlock308 C2OutputBlock308;
 
 typedef struct C2OutputPage {
     struct C2OutputPage *next;
@@ -61,6 +64,11 @@ extern long coff_pending04;
 extern unsigned char coff_debug;
 extern C2OutputTable *coff_table;
 extern C2OutputStorage *coff_storage;
+extern C2OutputList *coff_output_list, *coff_current_list;
+extern C2OutputChunk *coff_free_chunks;
+extern C2OutputBlock508 *coff_free_blocks_508;
+extern C2OutputBlock308 *coff_free_blocks_308;
+extern unsigned long coff_pending_499690;
 extern void *coff_symbol_buffer;
 extern unsigned coff_symbol_capacity;
 extern unsigned short coff_default_flags, coff_flags, coff_pending_e18, coff_section_count;

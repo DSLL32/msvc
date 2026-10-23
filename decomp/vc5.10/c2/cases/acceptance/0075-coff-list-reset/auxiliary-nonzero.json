@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "scope": "Actual compiled reset function called with six distinct known-nonzero global values under native GDB. All six zeroed; unrelated sentinel unchanged. No fixture/reference/original execution, no body replacement.",
+  "elf_sha256": "c44b7b28453b4d07a0c1f61cc83048e2252cb5c007c2835675f6411b3a600887",
+  "script": "/root/.ai-tmp/msvc2/vc5.10/c2/lists75-nonzero.gdb",
+  "script_sha256": "688e89bba370952aca7018c29c7c29ee47bb04de3cc992f0d9cbb1411f4cfa8c",
+  "stdout_sha256": "179650dd5f23b0c9b9d1ef1c5617fda9166cf81c6a57e2fd3d6976a5e8bda3a5",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "seconds": 0.13568668067455292
+}

@@ -1,0 +1,7 @@
+Temporary breakpoint 1 at 0xe636: file scripts/native-host.c, line 42.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Temporary breakpoint 1, main (argc=1, argv=0xffffda34, host_environment=0xffffda3c) at scripts/native-host.c:42
+42	    case_id = getenv("C2_CASE");
+C2-NONZERO-RESET {"coff_current_list": 0, "coff_free_blocks_308": 0, "coff_free_blocks_508": 0, "coff_free_chunks": 0, "coff_output_list": 0, "coff_pending_499690": 0}

@@ -547,7 +547,7 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
     complete_program="""if records and records[0].get('state_policy')=='globals-complete':
     exec(MODEL_SOURCE)
     addresses={key:int(gdb.parse_and_eval('&('+item[1]+')'))for key,item in ROOTS.items()}
-    info['globals_complete']=complete_globals(lambda address,size:gdb.selected_inferior().read_memory(address,size).tobytes(),addresses, directives=records[0].get('frontier_contract')in ('output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input'), writer=records[0].get('frontier_contract')in ('object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input'), coff=records[0].get('frontier_contract')in ('coff-table-input','coff-allocate-input','coff-lists-input'),initialized_output=records[0].get('frontier_contract')=='coff-lists-input')
+    info['globals_complete']=complete_globals(lambda address,size:gdb.selected_inferior().read_memory(address,size).tobytes(),addresses, directives=records[0].get('frontier_contract')in ('output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input'), writer=records[0].get('frontier_contract')in ('object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input'), coff=records[0].get('frontier_contract')in ('coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input'),initialized_output=records[0].get('frontier_contract')in ('coff-lists-input','coff-list-input'))
     info['globals_complete']['formals']=[{'name':item.name,'type':str(item.type)}for item in frame.block()if item.is_argument]
     info['globals_complete']['opaque_context_anchor_alias']=int(gdb.parse_and_eval('section_context'))==int(gdb.parse_and_eval('&section_context_identity'))
     if records[0].get('frontier_contract')=='initializer-input':
@@ -558,25 +558,25 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
         'active_globals_alias':int(gdb.parse_and_eval('c2_current_il'))==int(second),
         'input_bytes':gdb.selected_inferior().read_memory(first,32).tobytes().hex(),
         'closed_globals_bytes':gdb.selected_inferior().read_memory(second,32).tobytes().hex()}
-    if records[0].get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input'):
+    if records[0].get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input'):
         info['globals_complete']['streams']['active_input_alias']=int(gdb.parse_and_eval('c2_current_il'))==int(first)
         info['globals_complete']['streams']['valid_input_bytes']=gdb.selected_inferior().read_memory(first.dereference()['_base'],15).tobytes().hex()
-    if records[0].get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input'):
+    if records[0].get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input'):
         opened=[]
         for name in ('expression_input','function_symbol_input'):
             file=gdb.parse_and_eval(name)
             opened.append({'index':(int(file)-iob)//32,'bytes':gdb.selected_inferior().read_memory(file,32).tobytes().hex()})
         info['globals_complete']['streams']['backend_inputs']=opened
-    if records[0].get('frontier_contract')in ('output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input'):
+    if records[0].get('frontier_contract')in ('output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input'):
         info['output_setup']={'group_name':gdb.parse_and_eval('output_group_name').string(),
             'enabled':int(gdb.parse_and_eval('output_enabled')),
             'slots':[{'address':int(gdb.parse_and_eval('&'+name)),
                 'target':int(gdb.parse_and_eval(name+'.target'))}for name in ['output_slot_497de4', 'output_slot_499a00', 'output_slot_497e10', 'output_slot_497dbc', 'output_slot_497de0', 'output_slot_497dec', 'output_slot_497db0', 'output_slot_497dd4', 'output_slot_497ce4', 'output_slot_497ddc', 'output_slot_497dcc', 'output_slot_499750', 'output_slot_491070', 'output_slot_497db4', 'output_slot_491078', 'output_slot_497f60', 'output_slot_497dfc', 'output_slot_497f50', 'output_slot_49971c', 'output_slot_497cec']]}
         gdb.write('C2-OUTPUT-SETUP '+json.dumps(info['output_setup'],sort_keys=True)+'\\n')
-    if records[0].get('frontier_contract')in ('object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input'):
+    if records[0].get('frontier_contract')in ('object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input'):
         contract=records[0].get('frontier_contract')
         if contract=='object-writer-input':argument=frame.read_var('writer');writer_owner=frame.older()
-        elif contract in ('coff-table-input','coff-lists-input'):argument=frame.older().read_var('writer');writer_owner=frame.older().older()
+        elif contract in ('coff-table-input','coff-lists-input','coff-list-input'):argument=frame.older().read_var('writer');writer_owner=frame.older().older()
         else:argument=frame.older().older().read_var('writer');writer_owner=frame.older().older().older()
         pool=gdb.parse_and_eval('c2_pools[7]');file=gdb.parse_and_eval('object_output')
         info['object_writer']={'formals':[{'name':item.name,'type':str(item.type)}for item in frame.block()if item.is_argument],
@@ -586,6 +586,7 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
             'file_bytes':gdb.selected_inferior().read_memory(file,32).tobytes().hex()}
         if records[0].get('frontier_contract')=='coff-table-input':info['object_writer']['capacity']=int(frame.read_var('capacity'))
         if records[0].get('frontier_contract')=='coff-allocate-input':info['object_writer'].update(capacity=int(frame.older().read_var('capacity')),allocation_bytes=int(frame.read_var('bytes')),caller_function=frame.older().name(),caller_formals=[{'name':item.name,'type':str(item.type)}for item in frame.older().block()if item.is_argument])
+        if contract=='coff-list-input':info['object_writer'].update(kind=int(frame.read_var('kind')),context_null=int(frame.read_var('context'))==0)
         gdb.write('C2-OBJECT-WRITER '+json.dumps(info['object_writer'],sort_keys=True)+'\\n')
     if records[0].get('frontier_contract')=='output-directive-input':
         argument=frame.read_var('value')

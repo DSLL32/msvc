@@ -7,12 +7,12 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 69 application functions (15650 bytes) and five CRT
+Current reconstruction has 70 application functions (15683 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at COFF list initialization. Four import thunks (24 bytes) and contextual text tables
-(616 bytes) remain separate. The 16088 source bytes are 2.807% of 573183 `.text`
+currently stops at the COFF list constructor with kind1 and zero second value. Four import thunks (24 bytes) and contextual text tables
+(616 bytes) remain separate. The 16121 source bytes are 2.813% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -263,3 +263,15 @@ by identity/role and original return-global lineage, with its payload unread and
 unmodeled. Fifteen affected controls passed in15.765s;7 refreshed/146 reused
 generic controls took7.957s. Native help remains19 entries/51 stderr/status1
 (2.277ms execution,14.674ms including setup/checks). Full timing is in0074.
+
+Source75 reconstructs the33-byte six-DWORD list-state reset. Exact original
+and rebuilt writer sites bind each named global. In a separate auxiliary
+native code test, all six start with distinct nonzero values and reset tozero,
+while an unrelated sentinel survives (0.136s). Natural acceptance independently
+observes kind1 and NULL second argument at the pending list constructor, with
+both actual formals; these historical zero-only pointer labels will remain
+unchanged as later consumer evidence refines that second value to a count-only
+integer flag. Twelve new input/reset controls passed in12.916s and4 refreshed/
+149 reused protocol controls in4.903s. No free-list payload layout is invented;
+incomplete pointer types and unused499690's DWORD writer stay narrowly scoped.
+Full timing and native fixture evidence are in0075.

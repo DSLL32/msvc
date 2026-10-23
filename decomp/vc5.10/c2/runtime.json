@@ -1048,14 +1048,6 @@
     "evidence": null
   },
   {
-    "name": "_initialize_coff_lists",
-    "start": 4537798,
-    "end": 4537799,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@new_output_list@8",
     "start": 4320150,
     "end": 4320151,
