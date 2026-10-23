@@ -4098,5 +4098,17 @@
     "name": "mac_debug_record_count",
     "size": 2,
     "owner": "src/mac-debug.c"
+  },
+  {
+    "address": 519672,
+    "name": "mac_near_jump_record",
+    "size": 8,
+    "owner": "src/mac-object.c"
+  },
+  {
+    "address": 453864,
+    "name": "mac_native_symbol",
+    "size": 18,
+    "owner": "src/m68k-relocations.c"
   }
 ]

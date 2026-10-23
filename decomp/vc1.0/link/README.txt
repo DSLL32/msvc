@@ -464,3 +464,27 @@ remaining.json suggests original-validating Mac static/resource-ID relocations
 (1766 known bytes/10 bodies) or old C++ undecoration grammar(1012/8), with no new
 case started. Standard regression command remains make -j4 check (native ELF and
 cached references only); make -j4 audit explicitly checks original compilability.
+
+Mac static/resource/relocation checkpoint
+
+Three original-validated cases now close static-symbol and near/static jump
+references, explicit CODE/INIT resource IDs, standalone-code validation, packed
+native/P-code references, __nep entry aliases and duplicated code fixups. Twelve
+C vertices cover all ten nominated bodies plus two comparator callbacks. A prior
+standalone/no-loader layout condition was corrected against the original; full
+native regression passes afterward. Identical qsort/bsearch comparator bytes
+retain separate native graph identities. Resource-ID assignment quirks remain.
+
+All28 native cases pass with586 application first entries. Single-sample suite
+1.923s external:1.732s loop,0.102s trace preparation; combined canonical original
+compiler/audit/native-trace build14.374s. Audits pass612 graphs,603 callbacks,455
+contextual data definitions,766 accepted boundaries and38 ECX cleanup checks.
+Accepted extent221068/281634=78.4948%,760 frontiers. The55 Mac CFG bodies contain
+15828 instructions,268 inline data,165 alignment bytes; no branch coverage claim.
+
+cases/m68k-dupcon/family-validation.json records the family and per-case evidence.
+A failed two-source original probe remains separate from the successful DUPCON
+fixture. The first stage in cases/mac-special-undecorate-queue.json is complete;
+old __based/template/vbtable undecoration is next, with original compiler-backed
+__based and vbtable input preparation already successful. Fixtures remain native
+ELF/cached-reference only; explicit original captures/builds occur outside them.

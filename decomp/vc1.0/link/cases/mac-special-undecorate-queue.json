@@ -1,0 +1,30 @@
+{
+  "authorization": "User selected both suggestions after748-frontier checkpoint; parent dispatch2026-10-23.",
+  "baseline": {
+    "commit": "68eddc1",
+    "accepted_frontiers": 748,
+    "accepted_extent_bytes": 219208,
+    "text_bytes": 281634,
+    "completed_native_cases": 25
+  },
+  "order": [
+    {
+      "family": "mac-static-resources-relocations",
+      "status": "complete",
+      "scope": "Original-valid static-symbol/resource-ID/special-relocation corpus; known10-body1766-byte opportunity, not promised dynamic coverage.",
+      "cases": [
+        "m68k-static-resources",
+        "m68k-pcode-alias",
+        "m68k-dupcon"
+      ],
+      "validation": "cases/m68k-dupcon/family-validation.json"
+    },
+    {
+      "family": "old-cpp-undecoration",
+      "status": "original-validation",
+      "scope": "Original-valid __based/template/vbtable name grammar; known8-body1012-byte opportunity, including version-specific unsupported behavior."
+    }
+  ],
+  "method": "Native i386 -O0 -g/GDB; cached-only fixtures; explicit original-only validation/capture outside fixtures; original-compiler and graph/ABI/data/boundary checks. Shared shims requested from root. Existing prefix/mapping infrastructure retained.",
+  "stop": "Pause after both approved families complete, report verified extent and timings and suggest next action; no unassigned cases."
+}

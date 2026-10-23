@@ -236,6 +236,36 @@
         "code": 0
       },
       "reason": "Fresh masked-original/native GDB exit0; exact streams/full2MB artifact including canonical DOS path and all Mac resource records; cached native fixtures only."
+    },
+    {
+      "case": "m68k-static-resources",
+      "mode": "native",
+      "status": "complete",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Fresh masked-original/native GDB terminal and complete streams/artifact agree; cached native fixture only."
+    },
+    {
+      "case": "m68k-pcode-alias",
+      "mode": "native",
+      "status": "complete",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Fresh masked-original/native GDB completion with complete original-backed output; fixtures consume cached refs only."
+    },
+    {
+      "case": "m68k-dupcon",
+      "mode": "native",
+      "status": "complete",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Fresh masked-original/native GDB terminal and full artifacts agree; cached native fixture only."
     }
   ]
 }

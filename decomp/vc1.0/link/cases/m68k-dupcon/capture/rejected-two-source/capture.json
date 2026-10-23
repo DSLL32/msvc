@@ -1,0 +1,59 @@
+{
+  "method": "Explicit untouched-original-only diagnostic outside fixtures",
+  "arguments": [
+    "-link",
+    "/machine:M68K",
+    "/nodefaultlib",
+    "/entry:main",
+    "/out:mac-dupcon.exe",
+    "/debug:none",
+    "/fixed",
+    "mac-dupcon.obj"
+  ],
+  "helper_exit": 10,
+  "seconds": 1.3874431140720844,
+  "state": "trap 000388fa exception c0000005 esp 0029f800 eax 00000000 ecx 00000040 edx 007d3cb8\nstack 00 007d3cb8\nstack 01 007d0490\nstack 02 008c0294\nstack 03 007d5301\nstack 04 00010618\nstack 05 00010003\nstack 06 000005f0\nstack 07 0029f833\nstack 08 007d0004\nstack 09 007d3cb8\nstack 10 007d3dd0\nstack 11 007d5370\nstack 12 007e1366\nstack 13 007e79e4\nstack 14 60000020\nstack 15 0029f85e\nstack 16 00000002\nexit 99\n",
+  "environment": {
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib"
+  },
+  "unset": [
+    "CL",
+    "_CL_",
+    "LINK",
+    "_LINK_",
+    "MSC_CMD_FLAGS",
+    "LINK32_DB"
+  ],
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "helper_sha256": "9fc160c5a45b0fc50923414ea56e49ae9bae7829d3bf18fee6a25d374fea68ed",
+  "files": {
+    "stdout.bin": {
+      "bytes": 115,
+      "sha256": "563e1c4b87c22077e867f7c37d7e0d978c306c97a0404dbc5a1aaea6a16d9dd7"
+    },
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "helper.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "capture.state": {
+      "bytes": 418,
+      "sha256": "9211ddac67edc1ad82dafab98b24ee881ce5901fa38dd852ff90508907ebeabe"
+    },
+    "mac-dupcon.obj": {
+      "bytes": 366,
+      "sha256": "0738a67aab2b9c2b0025add3832507b6b4e41fb0f0007768b6559e140cd06cb5"
+    },
+    "layout.json": {
+      "bytes": 1231,
+      "sha256": "040c70d284483c4cf90b2786f1448b5f937ce5deae09836382c058cfeada3305"
+    },
+    "mac-dupcon.exe": {
+      "bytes": 2097152,
+      "sha256": "15e75cb216579e0e3dcd0aa69fbda69f937e1b30a6222d794654919b3fb201d2"
+    }
+  }
+}

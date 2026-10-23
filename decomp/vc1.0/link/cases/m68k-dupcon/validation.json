@@ -1,0 +1,151 @@
+{
+  "status": "complete",
+  "accepted_functions": [
+    {
+      "name": "_find_mac_external_reference",
+      "start": 234416,
+      "end": 234577,
+      "implementation": "C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl MacExternalReference *(MacExternalReference **,External *,unsigned long,MacExternalCompare,unsigned char *)",
+      "evidence": "Matched original393b0/native GDB address-reference list,external copyfn,flags0 and comparator identity. Complete161-byte cdecl list lookup/append preserving scratch name, callback and created flag. Fresh39870/native record_mac_duplicate_fixups matches startup copy and partial streams."
+    },
+    {
+      "name": "_record_mac_duplicate_fixups",
+      "start": 235632,
+      "end": 235807,
+      "implementation": "C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl void(Contribution *,MacExternalReference *)",
+      "evidence": "Matched original39870/native GDB startup copy. Complete175-byte cdecl body preserves startup exemption and per-copy data fixups for10/12/38..40, named illegal11 fatal path. Fresh masked-original/native GDB exit0 with115-byte stdout/empty stderr/full2MB artifact identical to frozen original except COFF timestamp. Rejected two-DUPCON original probe kept separate; only successful single-source corpus accepted."
+    }
+  ],
+  "fresh_terminal": {
+    "original": {
+      "exit": 0,
+      "seconds": 1.4180535022169352,
+      "artifact_bytes": 2097152,
+      "normalized_sha256": "8e59c9f105b7673b2913ec385c68f2ddcff62d919bf7b34be98441064c82b8a7"
+    },
+    "native": {
+      "exit": 0,
+      "seconds": 0.16478674579411745,
+      "artifact_bytes": 2097152,
+      "normalized_sha256": "8e59c9f105b7673b2913ec385c68f2ddcff62d919bf7b34be98441064c82b8a7"
+    },
+    "stdout_bytes": 115,
+    "stderr_bytes": 0,
+    "terminal": "exit:0",
+    "artifact_matches_frozen_reference": true,
+    "normalization": "PE COFF timestamp136..139 only"
+  },
+  "native_case": {
+    "case": "m68k-dupcon",
+    "setup_seconds": 0.014840302988886833,
+    "exit": 0,
+    "execution_seconds": 0.0044194553047418594,
+    "stdout_bytes": 115,
+    "stdout_sha256": "563e1c4b87c22077e867f7c37d7e0d978c306c97a0404dbc5a1aaea6a16d9dd7",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "trace_entries": 2,
+    "trace_sha256": "542b3251499e8ce9723222878c3d73a7cc27f49a74db91d65ef21f15aaf14982",
+    "trace_prefix_entries": 584,
+    "trace_check_seconds": 0.00010188110172748566,
+    "status": "pass",
+    "manifest": "decomp/vc1.0/link/cases/m68k-dupcon/manifest.json",
+    "manifest_sha256": "6c1ea16c3d5171df7f1a5285458dc4b31ed50aa6ab869f4cd8f5fccd8efe0f6f",
+    "outputs": [
+      {
+        "name": "mac-dupcon.exe",
+        "bytes": 2097152,
+        "sha256": "6cf2cd3f8deacbcb64003870f2be9491628415fe9fa9d3df882b67b5d67d742a",
+        "normalized_sha256": "8e59c9f105b7673b2913ec385c68f2ddcff62d919bf7b34be98441064c82b8a7",
+        "ignored_fields": [
+          {
+            "offset": 136,
+            "bytes": 4,
+            "name": "PE COFF TimeDateStamp"
+          }
+        ]
+      }
+    ],
+    "oracle_seconds": 0.054813082329928875,
+    "total_seconds": 0.07474173326045275
+  },
+  "family_validation": "cases/m68k-dupcon/family-validation.json",
+  "raw_evidence": [
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-dupcon/build-duplicate.log",
+      "sha256": "86ffbfa9d203dbf7c91407295ef517589bf428c06aba89c599c0f507783a0f14"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-dupcon/build-initial.log",
+      "sha256": "e93e56f57401d4c2f6d73a5c9456cfdf1cdc54f4ddf68a2bf476f1b8eda36258"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-dupcon/build-reference.log",
+      "sha256": "104d7003f3682a98a291f0c99dceb3fa997c983f0b471f5f6ba051a0e1c2c714"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-dupcon/duplicate-entry-native.log",
+      "sha256": "1f0f8dd2bbdb3b3b010c87014825b31d2364ae84e80e5aa30a892ed9ae95b516"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-dupcon/duplicate-entry-original.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-dupcon/duplicate-entry-original.state",
+      "sha256": "3c0bfebd39ce85fcbd606536a04e784a972aff3a0273d701fbcc8fb1f70c1ffb"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-dupcon/duplicate-entry-time.json",
+      "sha256": "d89230a8b9899f8e5e1a9dcb01944b2185df1a06ab59dde234179bd34838adef"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-dupcon/duplicate-entry.gdb",
+      "sha256": "c44ad958adb9a78f38c1fdf06716fd0c7c4ff40e3c750b7cb86ec389b548dedc"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-dupcon/final-native.log",
+      "sha256": "5b7c88c5c40dfe084c36878144da0f4feffbfdbcfff46382b57bedc0cd453fc6"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-dupcon/final-original.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-dupcon/final-original.state",
+      "sha256": "5e0e6077065598e0b3b20a5d8bda3cf3d641ee1039780467e49abeed04b6903c"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-dupcon/final-time.json",
+      "sha256": "5e54e29e1881767af8847c3a798a15840431718beec5e72bf14b8411ae568d82"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-dupcon/final.gdb",
+      "sha256": "3a40f51ff155dea533bd0b8e66b9daccf65c4a0e0185555f9e1476d457ae8c77"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-dupcon/initial-native.log",
+      "sha256": "795a5ddcdcf8317bd199dfbfd14a051abdaee6ba1e442eb9033c9f33cb407f9b"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-dupcon/initial-original.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-dupcon/initial-original.state",
+      "sha256": "01c303436f91c2e8309e26012b9c10c49e3ffcafe910c66ef0bd28f891cbfbbc"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-dupcon/initial-time.json",
+      "sha256": "a725fac2daed5e5e18638db25d318acd36d6adeefb0d3228235cb61c9028299c"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-dupcon/initial.gdb",
+      "sha256": "3c9ca7a6be529e5f7a94f57d27e9330490c0e5a0b20d68f4cafbce639ac509c4"
+    }
+  ]
+}

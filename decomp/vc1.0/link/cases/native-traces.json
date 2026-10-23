@@ -2,9 +2,9 @@
   "schema": 1,
   "description": "Projection of existing original-backed acceptance metadata; no recapture",
   "metadata_sha256": {
-    "functions.json": "11605d5c262fe1b45f4c1417d16032575443a3564f3145bfa5d3b4a11a93d497",
+    "functions.json": "14e60add53a68daf42930ac542530307b5c9f009fd8ffb38943585d10950bba3",
     "runtime.json": "0ec72e80c921c13613bfc93f7da57aec764a4563629512b8ccc741479975b7d9",
-    "replay-cases.json": "9847a10d1e86b31c7a967e278ba95ed0289013864b0e53c45981f22103876b89"
+    "replay-cases.json": "bc6ebd6d74187d2f2859a66a1d16d60423f1c2439806f1fc82538989c340c0bd"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -130,7 +130,7 @@
     "apply_mac_special_relocation": {
       "source": "src/m68k-relocations.c",
       "logical": "_apply_mac_special_relocation",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "apply_opcode": {
       "source": "src/disassembler.c",
@@ -332,10 +332,15 @@
       "logical": "_compare_mac_jump_entries",
       "implementation": "stub-C"
     },
+    "compare_mac_jump_key": {
+      "source": "src/mac-object.c",
+      "logical": "_compare_mac_jump_key",
+      "implementation": "C"
+    },
     "compare_mac_resource_ids": {
       "source": "src/mac-sections.c",
       "logical": "_compare_mac_resource_ids",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "compare_sections_by_rva": {
       "source": "src/modules.c",
@@ -1855,7 +1860,7 @@
     "find_mac_external_reference": {
       "source": "src/mac-object.c",
       "logical": "_find_mac_external_reference",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "find_mac_resource_type": {
       "source": "src/mac-sections.c",
@@ -1863,9 +1868,9 @@
       "implementation": "C"
     },
     "find_mac_static_jump": {
-      "source": "src/m68k-relocations.c",
+      "source": "src/mac-object.c",
       "logical": "_find_mac_static_jump",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "find_module": {
       "source": "src/modules.c",
@@ -2848,9 +2853,9 @@
       "implementation": "C"
     },
     "process_mac_static_symbol": {
-      "source": "src/object-stubs.c",
+      "source": "src/mac-object.c",
       "logical": "_process_mac_static_symbol",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "process_module_output": {
       "source": "src/pass-two.c",
@@ -3070,7 +3075,7 @@
     "record_mac_duplicate_fixups": {
       "source": "src/mac-object.c",
       "logical": "_record_mac_duplicate_fixups",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "record_mac_external": {
       "source": "src/mac-object.c",
@@ -3080,7 +3085,7 @@
     "record_mac_resource_id": {
       "source": "src/mac-sections.c",
       "logical": "_record_mac_resource_id",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "record_mac_section_resource": {
       "source": "src/mac-sections.c",
@@ -3210,12 +3215,12 @@
     "resolve_mac_external": {
       "source": "src/mac-object.c",
       "logical": "_resolve_mac_external",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "resolve_mac_relocation_symbol": {
       "source": "src/m68k-relocations.c",
       "logical": "_resolve_mac_relocation_symbol",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "resolve_section": {
       "source": "src/modules.c",
@@ -3548,9 +3553,9 @@
       "implementation": "C"
     },
     "validate_mac_code_relocation": {
-      "source": "src/object-stubs.c",
+      "source": "src/m68k-relocations.c",
       "logical": "_validate_mac_code_relocation",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "validate_mac_relocation_value": {
       "source": "src/m68k-relocations.c",
@@ -3705,7 +3710,7 @@
     "write_mac_near_jump": {
       "source": "src/mac-object.c",
       "logical": "_write_mac_near_jump",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "write_mac_resources": {
       "source": "src/mac-sections.c",
@@ -4342,7 +4347,19 @@
     "finalize_mac_debug",
     "write_mac_section_debug",
     "write_mac_debug",
-    "write_mac_swapper"
+    "write_mac_swapper",
+    "validate_mac_code_relocation",
+    "process_mac_static_symbol",
+    "record_mac_resource_id",
+    "compare_mac_resource_ids",
+    "write_mac_near_jump",
+    "find_mac_static_jump",
+    "compare_mac_jump_key",
+    "apply_mac_special_relocation",
+    "resolve_mac_external",
+    "resolve_mac_relocation_symbol",
+    "find_mac_external_reference",
+    "record_mac_duplicate_fixups"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4921,9 +4938,9 @@
       }
     },
     "library-list": {
-      "first": 748,
-      "last": 748,
-      "seen_count": 574,
+      "first": 760,
+      "last": 760,
+      "seen_count": 586,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4955,9 +4972,9 @@
       }
     },
     "library-list-trimmed": {
-      "first": 748,
-      "last": 748,
-      "seen_count": 574,
+      "first": 760,
+      "last": 760,
+      "seen_count": 586,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4991,9 +5008,9 @@
       }
     },
     "library-dump-object": {
-      "first": 748,
-      "last": 748,
-      "seen_count": 574,
+      "first": 760,
+      "last": 760,
+      "seen_count": 586,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -5036,9 +5053,9 @@
       }
     },
     "library-dump-edited": {
-      "first": 748,
-      "last": 748,
-      "seen_count": 574,
+      "first": 760,
+      "last": 760,
+      "seen_count": 586,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -5364,6 +5381,51 @@
         "write_mac_section_debug",
         "write_mac_debug",
         "write_mac_swapper"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "m68k-static-resources": {
+      "first": 748,
+      "last": 756,
+      "seen_count": 574,
+      "expected": [
+        "validate_mac_code_relocation",
+        "process_mac_static_symbol",
+        "record_mac_resource_id",
+        "compare_mac_resource_ids",
+        "write_mac_near_jump",
+        "find_mac_static_jump",
+        "compare_mac_jump_key",
+        "apply_mac_special_relocation"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "m68k-pcode-alias": {
+      "first": 756,
+      "last": 758,
+      "seen_count": 582,
+      "expected": [
+        "resolve_mac_external",
+        "resolve_mac_relocation_symbol"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "m68k-dupcon": {
+      "first": 758,
+      "last": 760,
+      "seen_count": 584,
+      "expected": [
+        "find_mac_external_reference",
+        "record_mac_duplicate_fixups"
       ],
       "terminal": {
         "kind": "exit",

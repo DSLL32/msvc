@@ -9,6 +9,7 @@
 extern SymbolTable *mac_symbol_table;
 extern void **mac_object_symbols;
 extern Library *mac_segment_library;
+extern unsigned char mac_loader_present;
 void resolve_mac_relocation_symbol(External **,PIMAGE_SYMBOL *,unsigned short,Contribution *);
 void validate_mac_relocation_value(PIMAGE_RELOCATION,unsigned long,unsigned char);
 unsigned long find_mac_static_jump(unsigned short,PIMAGE_SYMBOL,unsigned char);
@@ -239,8 +240,32 @@ store_long:
     if (!unpaired) fatal_message(path,0x44,group_name);
 }
 
+/* Shared native-symbol scratch [0006ece8,0006ecfa), only fields from the
+   original COFF record plus its selected native entry offset. */
+IMAGE_SYMBOL mac_native_symbol;
+extern External *resolve_mac_external(External *);
+
+/* Original [00038f70,00038fe1); special type20 performs its own selection. */
 void resolve_mac_relocation_symbol(External **external,PIMAGE_SYMBOL *symbol,
-    unsigned short type,Contribution *contribution) { __asm { int 3 } }
+    unsigned short type,Contribution *contribution)
+{
+    PIMAGE_SYMBOL source;
+    if (type==20) return;
+    source=*symbol;
+    if (!*external) mac_native_symbol.Value=*(unsigned long *)((char *)source-10);
+    else {
+        *external=resolve_mac_external(*external);
+        mac_native_symbol.Value=(*external)->symbol.Value-
+            contribution->group->section->rva+contribution->rva;
+    }
+    mac_native_symbol.N.Name.Short=source->N.Name.Short;
+    mac_native_symbol.N.Name.Long=source->N.Name.Long;
+    mac_native_symbol.SectionNumber=source->SectionNumber;
+    mac_native_symbol.Type=source->Type;
+    mac_native_symbol.StorageClass=source->StorageClass;
+    mac_native_symbol.NumberOfAuxSymbols=source->NumberOfAuxSymbols;
+    *symbol=&mac_native_symbol;
+}
 void validate_mac_relocation_value(PIMAGE_RELOCATION relocation,unsigned long value,
     unsigned char standalone)
 {
@@ -265,7 +290,44 @@ void validate_mac_relocation_value(PIMAGE_RELOCATION relocation,unsigned long va
     if (a5_reference && standalone)
         fatal_message(program_name,4,"Illegal a5 ref in sacode.");
 }
-unsigned long find_mac_static_jump(unsigned short section,PIMAGE_SYMBOL symbol,
-    unsigned char wide) { __asm { int 3 } }
+
+/* Original [00038c50,00038e4d), native/P-code packed function reference. */
 void apply_mac_special_relocation(unsigned char *site,const char *name,PIMAGE_SYMBOL symbol,
-    Contribution *contribution,External *external) { __asm { int 3 } }
+    Contribution *contribution,External *external)
+{
+    unsigned long packed=MAC_READ_LONG(site)&0xffffff00UL;
+    unsigned short target=(unsigned short)symbol->SectionNumber;
+    unsigned short source=contribution->group->section->index;
+    unsigned char pcode=(symbol->Type&0x8000) || (external && (external->symbol.Type&0x8000));
+    unsigned char native_reference=(site[0]&0x80) || !pcode;
+    unsigned long value,jump;
+    const char *path=contribution->module->path;
+    if (native_reference && pcode)
+        resolve_mac_relocation_symbol(&external,&symbol,0,contribution);
+    value=symbol->Value;
+    if (!mac_loader_present) value-=4;
+    value>>=1;
+    if (native_reference) {
+        if (source==target) {
+            if (value&0xffe00000) fatal_message(path,0x3b,name);
+            value=(packed&0xffe00000)|0x80200000|value;
+        } else {
+            jump=external?external->mac_jump_offset+2:find_mac_static_jump(target,symbol,1);
+            if ((jump>>1)&0xffe00000) fatal_message(path,0x3b,name);
+            value=(packed&0xffc00000)|0x80000000|(jump>>1);
+        }
+    } else {
+        if (value&0xffff8000) fatal_message(path,0x3b,name);
+        if (mac_section_resources[target-1].id&0x8000) fatal_message(path,0x3b,name);
+        value=(packed&0x8000)|(value<<16);
+        if (source!=target) value|=(long)(short)mac_section_resources[target-1].id;
+    }
+    MAC_STORE_LONG(site,value);
+}
+
+/* Original [0003a280,0003a2be): standalone resources forbid A5/data fixups. */
+void validate_mac_code_relocation(unsigned short type)
+{
+    if ((type>=35 && type<=40) || type==6 || type==9 || type==10 || type==46)
+        fatal_message(program_name,4,"Illegal A5 ref in sacode");
+}

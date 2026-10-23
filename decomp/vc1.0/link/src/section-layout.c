@@ -87,8 +87,10 @@ void layout_sections(Image *image,unsigned long mask,unsigned long *rva,
         prefix=0;
         had_input=0;
         if (mac_image && kind==IMAGE_SCN_CNT_CODE && strncmp(section->name,".jtable",8)) {
-            if (section->mac_type==0x45444f43UL &&
-                (!mac_loader_present || entry_symbol->owner.contribution->group->section==section))
+            if (!mac_loader_present) {
+                if (section->mac_type==0x45444f43UL) prefix=4;
+            } else if (section->mac_type==0x45444f43UL &&
+                entry_symbol->owner.contribution->group->section==section)
                 prefix=4;
             else prefix=40;
             cursor+=prefix;

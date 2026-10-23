@@ -278,5 +278,26 @@ void sort_mac_resource_ids(void)
     for (type=mac_resource_types;type;type=type->next)
         qsort(type->ids,type->count,sizeof(*type->ids),compare_mac_resource_ids);
 }
-int compare_mac_resource_ids(const void *left,const void *right) { __asm { int 3 } }
-unsigned char record_mac_resource_id(MacResourceType *type,unsigned short id,unsigned char insert) { __asm { int 3 } }
+/* Original [0003a0f0,0003a114), signed resource-ID comparison. */
+int compare_mac_resource_ids(const void *left,const void *right)
+{
+    short a=*(const short *)left,b=*(const short *)right;
+    return a<b?-1:(a>b?1:0);
+}
+/* Original [0003a1c0,0003a237). The native loop assigns the requested ID
+   before testing it; preserve that old-target behavior rather than compare.
+   Insertion callers ignore the result; native AL retains the array address. */
+unsigned char record_mac_resource_id(MacResourceType *type,unsigned short id,unsigned char insert)
+{
+    unsigned short index;
+    for (index=0;index<type->count;++index) {
+        type->ids[index]=id;
+        if (id) {
+            if (!insert) return 1;
+            fatal_message(program_name,4,"Duplicate resource numbers specified");
+        }
+    }
+    if (!insert) return 0;
+    type->ids[type->count++]=id;
+    return (unsigned char)(unsigned long)type->ids;
+}

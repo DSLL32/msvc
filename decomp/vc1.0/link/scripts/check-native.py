@@ -20,6 +20,9 @@ ROOT = BINARY.parents[2]
 FIXTURES = BINARY.parent / 'fixtures'
 CASES = {
     'help': None,
+    'm68k-dupcon': (BINARY/'cases/m68k-dupcon','link'),
+    'm68k-pcode-alias': (BINARY/'cases/m68k-pcode-alias','link'),
+    'm68k-static-resources': (BINARY/'cases/m68k-static-resources','link'),
     'm68k-debug-swapper': (BINARY/'cases/m68k-debug-swapper','link'),
     'definition-directives': (BINARY/'cases/definition-directives','library'),
     'm68k-minimal': (BINARY/'cases/m68k-minimal','link'),

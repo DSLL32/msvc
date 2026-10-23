@@ -747,7 +747,19 @@
     "_finalize_mac_debug",
     "_write_mac_section_debug",
     "_write_mac_debug",
-    "_write_mac_swapper"
+    "_write_mac_swapper",
+    "_validate_mac_code_relocation",
+    "_process_mac_static_symbol",
+    "_record_mac_resource_id",
+    "_compare_mac_resource_ids",
+    "_write_mac_near_jump",
+    "_find_mac_static_jump",
+    "_compare_mac_jump_key",
+    "_apply_mac_special_relocation",
+    "_resolve_mac_external",
+    "_resolve_mac_relocation_symbol",
+    "_find_mac_external_reference",
+    "_record_mac_duplicate_fixups"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1560,7 +1572,7 @@
       "implementation": "C",
       "source": "src/section-layout.c",
       "abi": "cdecl void(Image *image,unsigned long mask,unsigned long *rva,unsigned long *file,unsigned long *relocations,unsigned long *lines,unsigned long *source_names)",
-      "evidence": "Matching section-layout frontier219f0..22090; full group/contribution alignment, reachability exclusion, count/offset updates, and Mac branches. Byte2b is alignment padding; COMDAT aux metadata now has observed checksum/association, section, selection fields rather than provisional DWORDs."
+      "evidence": "Matching section-layout frontier219f0..22090; full group/contribution alignment, reachability exclusion, count/offset updates, and Mac branches. Byte2b is alignment padding; COMDAT aux metadata now has observed checksum/association, section, selection fields rather than provisional DWORDs. New static/INIT corpus exposes prior conditional error: original21af7..21b4a reserves zero prologue for standalone non-CODE resource without loader. Corrected nested condition; previous full40-byte prefix caused observable layout mismatch. Whole existing extent/ABI/graph unchanged, all cases rechecked."
     },
     {
       "name": "_write_section_headers",
@@ -2720,10 +2732,11 @@
     {
       "name": "_validate_mac_code_relocation",
       "start": 238208,
-      "end": 238209,
-      "implementation": "stub-C",
-      "source": "src/object-stubs.c",
-      "abi": "cdecl void(unsigned short type)"
+      "end": 238270,
+      "implementation": "C",
+      "source": "src/m68k-relocations.c",
+      "abi": "cdecl void(unsigned short type)",
+      "evidence": "Matched original3a280/native GDB standalone INIT relocation type21. Complete62-byte cdecl classifier preserves forbidden A5/data classes and named fatal branch. Fresh next39340/native process_mac_static_symbol matches helper index1 and exact partial streams."
     },
     {
       "name": "_append_mac_fixup",
@@ -2764,10 +2777,11 @@
     {
       "name": "_process_mac_static_symbol",
       "start": 234304,
-      "end": 234305,
-      "implementation": "stub-C",
-      "source": "src/object-stubs.c",
-      "abi": "cdecl void(Contribution *contribution,PIMAGE_SYMBOL symbol,unsigned long index)"
+      "end": 234410,
+      "implementation": "C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl void(Contribution *contribution,PIMAGE_SYMBOL symbol,unsigned long index)",
+      "evidence": "Matched original39340/native GDB static helper index1. Complete106-byte cdecl body records cross-resource static jump references, prior-record native offset for P-code and near flag. Fresh3a1c0/native record_mac_resource_id agrees resourceID7/insert1 and partial streams."
     },
     {
       "name": "_record_mac_external",
@@ -7496,11 +7510,11 @@
     {
       "name": "_find_mac_external_reference",
       "start": 234416,
-      "end": 234417,
-      "implementation": "stub-C",
+      "end": 234577,
+      "implementation": "C",
       "source": "src/mac-object.c",
       "abi": "cdecl MacExternalReference *(MacExternalReference **,External *,unsigned long,MacExternalCompare,unsigned char *)",
-      "evidence": "Named callback/list callee from complete Mac external-reference recorder; body masked."
+      "evidence": "Matched original393b0/native GDB address-reference list,external copyfn,flags0 and comparator identity. Complete161-byte cdecl list lookup/append preserving scratch name, callback and created flag. Fresh39870/native record_mac_duplicate_fixups matches startup copy and partial streams."
     },
     {
       "name": "_sort_mac_resource_ids",
@@ -7514,20 +7528,20 @@
     {
       "name": "_record_mac_resource_id",
       "start": 238016,
-      "end": 238017,
-      "implementation": "stub-C",
+      "end": 238135,
+      "implementation": "C",
       "source": "src/mac-sections.c",
       "abi": "cdecl unsigned char(MacResourceType *,unsigned short,unsigned char)",
-      "evidence": "Native reserved resource-ID callee; body remains masked."
+      "evidence": "Matched original3a1c0/native GDB CODE resourceID7,insert1. Complete119-byte body preserves actual assignment-before-test loop and native insertion AL scratch address. Fresh next3a0f0/native compare_mac_resource_ids during reserved-ID bsearch; partial streams match."
     },
     {
       "name": "_compare_mac_resource_ids",
       "start": 237808,
-      "end": 237809,
-      "implementation": "stub-C",
+      "end": 237844,
+      "implementation": "C",
       "source": "src/mac-sections.c",
       "abi": "cdecl int(const void *,const void *)",
-      "evidence": "Named original resource-ID comparator; body remains masked."
+      "evidence": "Matched original3a0f0/native GDB reserved-ID bsearch callback. Complete36-byte signed WORD comparator returns -1/0/1 without callees. Fresh369c0/native write_mac_near_jump agrees resource7,offset0 and partial streams."
     },
     {
       "name": "_compare_mac_external_contributions",
@@ -7550,11 +7564,11 @@
     {
       "name": "_record_mac_duplicate_fixups",
       "start": 235632,
-      "end": 235633,
-      "implementation": "stub-C",
+      "end": 235807,
+      "implementation": "C",
       "source": "src/mac-object.c",
       "abi": "cdecl void(Contribution *,MacExternalReference *)",
-      "evidence": "Named relocation-fixup callee for synthetic Mac contributions; masked."
+      "evidence": "Matched original39870/native GDB startup copy. Complete175-byte cdecl body preserves startup exemption and per-copy data fixups for10/12/38..40, named illegal11 fatal path. Fresh masked-original/native GDB exit0 with115-byte stdout/empty stderr/full2MB artifact identical to frozen original except COFF timestamp. Rejected two-DUPCON original probe kept separate; only successful single-source corpus accepted."
     },
     {
       "name": "_sort_mac_fixup_list",
@@ -7577,11 +7591,11 @@
     {
       "name": "_resolve_mac_external",
       "start": 233040,
-      "end": 233041,
-      "implementation": "stub-C",
+      "end": 233313,
+      "implementation": "C",
       "source": "src/mac-object.c",
       "abi": "cdecl External *(External *)",
-      "evidence": "Named Mac final jump-table callee; body remains masked."
+      "evidence": "Matched original38e50/native GDB P-code external entry. Complete273-byte native-name resolver, original WORD capacity, local128-byte buffer/heap fallback and __nep prefix graph. Fresh next38f70/native resolve_mac_relocation_symbol matches source main relocation type8 and partial streams."
     },
     {
       "name": "_append_mac_jump_entry",
@@ -7631,11 +7645,11 @@
     {
       "name": "_write_mac_near_jump",
       "start": 223680,
-      "end": 223681,
-      "implementation": "stub-C",
+      "end": 223734,
+      "implementation": "C",
       "source": "src/mac-object.c",
       "abi": "cdecl void(unsigned short,unsigned long)",
-      "evidence": "Named original Mac jump instruction emitter; body remains masked."
+      "evidence": "Matched original369c0/native GDB resource7,offset0. Complete54-byte cdecl emitter preserves mutable8-byte near-jump record, lowWORD offset and big-endian fields. Fresh37da0/native find_mac_static_jump agrees resource2,static helper,wide0 and partial streams."
     },
     {
       "name": "_sort_mac_section_fixups",
@@ -7658,11 +7672,11 @@
     {
       "name": "_resolve_mac_relocation_symbol",
       "start": 233328,
-      "end": 233329,
-      "implementation": "stub-C",
+      "end": 233441,
+      "implementation": "C",
       "source": "src/m68k-relocations.c",
       "abi": "cdecl void(External **,PIMAGE_SYMBOL *,unsigned short,Contribution *)",
-      "evidence": "Named original relocation helper; body remains masked."
+      "evidence": "Matched original38f70/native GDB main type8 P-code reference; complete113-byte cdecl scratch-symbol replacement, previous-record static entry, __nep external adjustment and type20 no-op. Fresh masked-original/native GDB exit0 and exact115-byte stdout/empty stderr/full2MB artifact match frozen original after only COFF timestamp; both special-reference forms exercised."
     },
     {
       "name": "_validate_mac_relocation_value",
@@ -7683,20 +7697,20 @@
     {
       "name": "_find_mac_static_jump",
       "start": 228768,
-      "end": 228769,
-      "implementation": "stub-C",
-      "source": "src/m68k-relocations.c",
+      "end": 228985,
+      "implementation": "C",
+      "source": "src/mac-object.c",
       "abi": "cdecl unsigned long(unsigned short,PIMAGE_SYMBOL,unsigned char)",
-      "evidence": "Named original relocation helper; body remains masked."
+      "evidence": "Matched original37da0/native GDB static helper/resource2/wide0. Complete217-byte bsearch body. Continuation exposed separate370d0 key callback, byte-identical to qsort37070; corrected source callback identity and kept both vertices distinct. No special-relocation acceptance based on that rejected callback sample."
     },
     {
       "name": "_apply_mac_special_relocation",
       "start": 232528,
-      "end": 232529,
-      "implementation": "stub-C",
+      "end": 233037,
+      "implementation": "C",
       "source": "src/m68k-relocations.c",
       "abi": "cdecl void(unsigned char *,const char *,PIMAGE_SYMBOL,Contribution *,External *)",
-      "evidence": "Named original relocation helper; body remains masked."
+      "evidence": "Matched original38c50/native GDB static helper/site .data and externalNULL. Complete509-byte packed native/P-code pointer body. Fresh masked-original/native GDB terminal after correcting prior layout_sections standalone-prefix branch: exit0, exact115-byte stdout/empty stderr, full2MB artifact matches frozen original after only COFF timestamp."
     },
     {
       "name": "_find_definition_attribute",
@@ -7706,6 +7720,15 @@
       "source": "src/definition-file.c",
       "abi": "cdecl unsigned short(const char *text)",
       "evidence": "Matched original2a970/native GDB EXECUTE entry. Complete70-byte WORD case-insensitive lookup with contextual26-pointer attribute table. Fresh next original2a810/native read_definition_imports; exact partial streams and both SECTIONS/SEGMENTS directives reached."
+    },
+    {
+      "name": "_compare_mac_jump_key",
+      "start": 225488,
+      "end": 225523,
+      "implementation": "C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl int(const void *,const void *)",
+      "evidence": "Matched original370d0/native named key callback after splitting byte-identical qsort37070 vertex. Complete35-byte unsigned-key comparator. Fresh next38c50/native apply_mac_special_relocation trapped stub agrees logical entry and exact partial streams."
     }
   ],
   "c_stub_references": [
@@ -8459,6 +8482,18 @@
     "m68k-debug-swapper",
     "m68k-debug-swapper",
     "m68k-debug-swapper",
-    "m68k-debug-swapper"
+    "m68k-debug-swapper",
+    "m68k-static-resources",
+    "m68k-static-resources",
+    "m68k-static-resources",
+    "m68k-static-resources",
+    "m68k-static-resources",
+    "m68k-static-resources",
+    "m68k-static-resources",
+    "m68k-static-resources",
+    "m68k-pcode-alias",
+    "m68k-pcode-alias",
+    "m68k-dupcon",
+    "m68k-dupcon"
   ]
 }

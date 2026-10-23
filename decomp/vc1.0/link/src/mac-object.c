@@ -8,6 +8,8 @@
 #include "mac.h"
 #include <recon.h>
 
+#pragma intrinsic(strlen,strcpy,strcat)
+
 MacSymbolReference *mac_symbol_references;
 
 /* Original [00039130,00039174). */
@@ -45,6 +47,7 @@ External *resolve_mac_external(External *);
 void append_mac_jump_entry(External *,unsigned short,unsigned long);
 void finalize_mac_jump_list(unsigned short,MacJumpList *);
 int compare_mac_jump_entries(const void *,const void *);
+int compare_mac_jump_key(const void *,const void *);
 void write_mac_jump_table(void);
 void write_mac_far_jump(unsigned short,unsigned long);
 void write_mac_near_jump(unsigned short,unsigned long);
@@ -97,7 +100,24 @@ void finalize_mac_fixups(void)
         finalize_mac_jump_list(index,mac_far_jump_lists);
     write_mac_jump_table();
 }
-External *resolve_mac_external(External *external) { __asm { int 3 } }
+/* Original [00038e50,00038f61), the old native-entry __nep name convention. */
+External *resolve_mac_external(External *external)
+{
+    char buffer[128],*derived=buffer,*name;
+    unsigned short capacity;
+    External *result;
+    if (!external->symbol.N.Name.Short)
+        name=mac_symbol_table->strings.data+external->symbol.N.Name.Long;
+    else name=strncpy(short_symbol_name,(char *)external,8);
+    capacity=(unsigned short)(strlen(name)+6);
+    if (capacity>sizeof(buffer)) derived=malloc(capacity);
+    strcpy(derived,"__nep");
+    strcat(derived,name);
+    result=find_external(mac_symbol_table,(unsigned char)(strlen(derived)<9),derived);
+    if (capacity>sizeof(buffer)) free(derived);
+    if (!result) fatal_message(name,4,"Pcode symbol has no native symbol");
+    return result;
+}
 /* Original [00036f30,0003706b). */
 void append_mac_jump_entry(External *external,unsigned short section,unsigned long offset)
 {
@@ -274,7 +294,18 @@ void write_mac_far_jump(unsigned short resource,unsigned long offset)
     mac_far_jump_record.offset=MAC_BIG_LONG(offset);
     write_file(output_file,&mac_far_jump_record,sizeof(mac_far_jump_record));
 }
-void write_mac_near_jump(unsigned short resource,unsigned long offset) { __asm { int 3 } }
+typedef struct MacNearJumpRecord {
+    unsigned short offset,push,resource,trap;
+} MacNearJumpRecord;
+MacNearJumpRecord mac_near_jump_record={0,0x3c3f,0,0xf0a9};
+
+/* Original [000369c0,000369f6), mutable eight-byte near jump record. */
+void write_mac_near_jump(unsigned short resource,unsigned long offset)
+{
+    mac_near_jump_record.offset=MAC_BIG_SHORT(offset);
+    mac_near_jump_record.resource=MAC_BIG_SHORT(resource);
+    write_file(output_file,&mac_near_jump_record,sizeof(mac_near_jump_record));
+}
 
 /* Original [00039930,00039a2b). */
 unsigned long size_mac_jump_table(SymbolTable *table)
@@ -463,7 +494,25 @@ void initialize_mac_code_section(Section *section,Image *image)
         if (copy->relocation_count) record_mac_duplicate_fixups(copy,entry);
     }
 }
-void record_mac_duplicate_fixups(Contribution *contribution,MacExternalReference *entry) { __asm { int 3 } }
+/* Original [00039870,0003991f), account for each per-resource code copy. */
+void record_mac_duplicate_fixups(Contribution *contribution,MacExternalReference *entry)
+{
+    unsigned long count=entry->external->owner.contribution->relocation_count;
+    PIMAGE_RELOCATION relocation=entry->relocations;
+    unsigned short type;
+    Section *section=contribution->group->section;
+    if (mac_loader_present && entry_symbol->owner.contribution->group->section==section)
+        return;
+    while (count--) {
+        type=relocation->Type;
+        if (type==10 || type==12 || (type>=38 && type<=40))
+            append_mac_fixup(&mac_section_data_fixups[(unsigned short)section->mac_resource_id],
+                contribution,relocation->VirtualAddress-contribution->input_rva);
+        else if (type==11)
+            fatal_message(program_name,4,"Illegal CTOABSC32 reloc in dupcon");
+        ++relocation;
+    }
+}
 
 /* Original [00039580,00039768).  The caller's byte argument is unused.
  * Address-referenced contributions become per-CODE synthetic modules. */
@@ -581,9 +630,27 @@ void record_mac_external(External *external,unsigned long index)
 }
 
 unsigned char compare_mac_external_names(External *left,External *right) { __asm { int 3 } }
+/* Original [000393b0,00039451), insertion-ordered reference list. */
 MacExternalReference *find_mac_external_reference(MacExternalReference **list,
     External *external,unsigned long flags,MacExternalCompare compare,unsigned char *created)
-{ __asm { int 3 } }
+{
+    MacExternalReference *entry=*list,*last;
+    if (external->symbol.N.Name.Short) strncpy(short_symbol_name,(char *)external,8);
+    while (entry && compare(external,entry->external)) {
+        last=entry;
+        entry=entry->next;
+    }
+    if (entry) { *created=0; return entry; }
+    entry=malloc(sizeof(MacExternalReference));
+    if (!*list) *list=entry;
+    else last->next=entry;
+    entry->external=external;
+    entry->relocations=NULL;
+    entry->flags=flags;
+    entry->next=NULL;
+    *created=1;
+    return entry;
+}
 
 /* Original [00039110,00039125), cdecl, no allocation failure branch. */
 void initialize_mac_object_symbols(unsigned long count)
@@ -595,4 +662,42 @@ void initialize_mac_object_symbols(unsigned long count)
 void finish_mac_object_symbols(void)
 {
     free(mac_symbol_references);
+}
+
+/* Original [00039340,000393aa). A static P-code symbol uses the previous
+   COFF record's Value slot when recording its native jump reference. */
+void process_mac_static_symbol(Contribution *contribution,PIMAGE_SYMBOL symbol,unsigned long index)
+{
+    MacSymbolReference *reference=&mac_symbol_references[index];
+    unsigned long offset=symbol->Value;
+    if ((reference->flags&0x40000000 ||
+        (reference->section && contribution->group->section!=reference->section)) &&
+        (contribution->flags&0x20)) {
+        if (symbol->Type&0x8000) offset=*(unsigned long *)((char *)symbol-10);
+        if (reference->flags&0x80000000) offset|=0x80000000;
+        append_mac_fixup(&mac_static_code_references,contribution,offset);
+    }
+}
+
+/* Original [00037da0,00037e79). Wide references may reuse a near entry. */
+unsigned long find_mac_static_jump(unsigned short section,PIMAGE_SYMBOL symbol,unsigned char wide)
+{
+    MacJumpList *list=wide?&mac_far_jump_lists[section]:&mac_near_jump_lists[section];
+    MacJumpEntry *entry;
+    unsigned long offset=symbol->Value;
+    if (!mac_loader_present || section==mac_entry_section) offset-=4;
+    entry=bsearch(&offset,list->entries,list->count,sizeof(MacJumpEntry),compare_mac_jump_key);
+    if (!entry && wide) {
+        list=&mac_near_jump_lists[section];
+        entry=bsearch(&offset,list->entries,list->count,sizeof(MacJumpEntry),compare_mac_jump_key);
+    }
+    return list->offset+2+(((unsigned long)entry-(unsigned long)list->entries)&~7UL);
+}
+
+/* Separate native bsearch callback despite identical qsort comparator bytes. */
+/* Original [000370d0,000370f3), distinct from qsort callback37070. */
+int compare_mac_jump_key(const void *left,const void *right)
+{
+    unsigned long a=*(const unsigned long *)left,b=*(const unsigned long *)right;
+    return a<b?-1:(a>b?1:0);
 }
