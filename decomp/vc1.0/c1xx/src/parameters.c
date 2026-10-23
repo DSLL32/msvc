@@ -241,6 +241,14 @@ void __stdcall merge_function_defaults(FunctionParameters *current, FunctionPara
     validate_function_default_arguments(declaration);
 }
 
+/* Original0x63040..0x6304a, stdcall4. A static member function
+   retains the parameter descriptor while setting its static-function bit. */
+FunctionParameters *__stdcall mark_static_parameters(FunctionParameters *parameters)
+{
+    parameters->flags |= 1;
+    return parameters;
+}
+
 /* Original0x63050..0x6316d, stdcall8. Transform a copied function
    parameter descriptor and intern it back through the surrounding shape.
    The outer pointer/reference shape retains the original in-place link update. */

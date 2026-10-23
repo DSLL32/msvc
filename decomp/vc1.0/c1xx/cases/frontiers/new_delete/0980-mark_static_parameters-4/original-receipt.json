@@ -1,0 +1,79 @@
+{
+  "case": "new_delete",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 980,
+  "terminal": "_diagnose_parameter_list_difference@8",
+  "candidate": "_mark_static_parameters@4",
+  "pending_accepted": [],
+  "configuration_sha256": "02ee96121ca2aa22307f73a5b8ff3ccde6ea049a9d129eb587a156e443c3d2c6",
+  "capture_seconds": 1.8690236564725637,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    "allocation.cpp": {
+      "bytes": 985,
+      "sha256": "034204157e504dc31799f2bc99c51d639aac52d26b683c8980941ce7274a8ba8"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\new-delete",
+  "first_entry_projection": {
+    "accepted_first": 963,
+    "accepted_last": 981,
+    "accepted_prefix_sha256": "df50134cb8f290280d672e96c7299ed205851c8bdd13e760c1c39f479780edee",
+    "expected": [
+      "_read_include_name",
+      "_read_angle_include_name",
+      "_trim_filename_space",
+      "_open_forced_include@8",
+      "_process_pch_include@4",
+      "_search_include_directories@4",
+      "_skip_source_comment",
+      "_match_source_character@4",
+      "_skip_block_comment",
+      "_push_conditional_state",
+      "_skip_conditional_block@4",
+      "_read_skipped_directive",
+      "_skip_source_line",
+      "_define_source_macro",
+      "_expand_macro@4",
+      "_transform_function_parameters@8",
+      "_mark_static_parameters@4"
+    ],
+    "observed": [
+      "_read_include_name",
+      "_read_angle_include_name",
+      "_trim_filename_space",
+      "_open_forced_include@8",
+      "_process_pch_include@4",
+      "_search_include_directories@4",
+      "_skip_source_comment",
+      "_match_source_character@4",
+      "_skip_block_comment",
+      "_push_conditional_state",
+      "_skip_conditional_block@4",
+      "_read_skipped_directive",
+      "_skip_source_line",
+      "_define_source_macro",
+      "_expand_macro@4",
+      "_transform_function_parameters@8",
+      "_mark_static_parameters@4"
+    ],
+    "events_sha256": "f9a08f84c76dd268e74ac2c87504608addc9d107cfab90e3c4e1d208b94f45fe",
+    "plan_sha256": "c76cd5477b5a302c64041960cbd08a05f8bdea739ef3ecb40dc7b2f4bc802a5e"
+  }
+}
