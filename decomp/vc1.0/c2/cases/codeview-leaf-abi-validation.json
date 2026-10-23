@@ -20,7 +20,7 @@
         ],
         [
           {
-            "site": "0x54733",
+            "site": "0x547cf",
             "cleanup": 0
           }
         ]
@@ -46,7 +46,7 @@
         ],
         [
           {
-            "site": "0x54853",
+            "site": "0x548ef",
             "cleanup": 0
           }
         ]
@@ -64,12 +64,31 @@
         ],
         [
           {
-            "site": "0x53f8c",
+            "site": "0x54028",
             "cleanup": 0
           }
         ]
       ],
       "zero_input_proof": "Whole69210..69249 constructs its two local WORDs, overwrites ECX/EDX before callback calls; no incoming GPR/flags/stack/x87 values consumed. Historical name writes S_END. Empty formals intentional and actual observation retained."
+    },
+    {
+      "function": "_finish_debug_module",
+      "formals": [],
+      "returns": [
+        [
+          {
+            "site": "0x69209",
+            "cleanup": 0
+          }
+        ],
+        [
+          {
+            "site": "0x53feb",
+            "cleanup": 0
+          }
+        ]
+      ],
+      "zero_input_proof": "Whole69180..6920a startsMOV ECX7 and constructs all registers/call arguments from constants, named globals and child returns. No incoming GPR/flags/stack/x87 input; RET0. Exact environment/IR set fixed by case manifest."
     }
   ],
   "rejected": [
@@ -89,8 +108,11 @@
     "changed COFF mode",
     "invented zero-formal input",
     "unknown zero-formal register",
+    "missing zero-formal proof",
+    "invented zero-formal input",
+    "unknown zero-formal register",
     "missing zero-formal proof"
   ],
-  "seconds": 0.27125573717057705,
+  "seconds": 0.26506312005221844,
   "scope": "Actual named inline-asm label at current scope list index1, not an invented head alias. Defined44-byte prefix projection/name/COFF+byte-block/function flags/stdio/x87 and original/canonical cleanup. Unrelated hash/instruction addresses remain raw; no general deep alias or unvisited leaf claim."
 }

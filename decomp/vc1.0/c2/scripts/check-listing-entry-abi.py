@@ -159,5 +159,21 @@ for label,change in [('missing displacement hint formal',lambda r:r['formals'].p
     try:validate_displacement(bad)
     except(AssertionError,KeyError):rejected.append(label)
     else:raise AssertionError('Accepted bad displacement ABI: '+label)
-Path('cases/listing-entry-abi-validation.json').write_text(json.dumps(dict(checked=[r['function']for r in receipt['formals']]+[r['function']for p,r in instruction_receipts]+[operand['function'],prefix['function'],register['function'],comment_prefix['function'],data_type['function'],displacement['function']],observed_formals=16+len(instruction_receipts),rejected=rejected,seconds=time.perf_counter()-started,scope='Actual original/native listing-family formals, known state and static no-hidden-input/RET evidence. First encountered inputs only, including next displacement0/hint0; no arbitrary deep pointer or branch equivalence. No Wine/compiler/native launch.'),indent=2)+'\n')
-print(16+len(instruction_receipts),'actual ABI formals, known implicit state and',len(rejected),'rejections pass')
+suffix_path=Path('cases/dbglist-size-suffix-abi/validation.json');suffix=json.loads(suffix_path.read_text())
+import hashlib
+binding=json.loads(suffix_path.with_name('original-binding.json').read_text())
+assert all(hashlib.sha256((suffix_path.parent/n).read_bytes()).hexdigest()==v for n,v in binding['files'].items())
+def validate_suffix(r):
+    assert r['matched']and r['function']=='@listing_size_suffix@4'and r['hidden_inputs']==[]and r['callee_stack_cleanup']==0 and r['no_hidden_inputs_proof']
+    assert r['formals']==[dict(name='bytes',location='ECX',type='unsigned32',value=4)]and r['original_values']==r['native']['values']==[4]
+    assert r['original_state']==dict(column=32,cw=0x27f,sw=0,fastcall=1)
+    assert {k:r['native'][k]for k in ['column','cw','sw']}==dict(column=32,cw=0x27f,sw=0)
+    assert r['native']['stdout']=={k:v for k,v in r['original_stdout'].items()if k not in ['counter','cursor','value','position']}
+validate_suffix(suffix);abi=next(r for r in config['driver']if r['name']==suffix['function'])['abi'];assert abi['parameters']==[dict(name='bytes',location='ECX',type='unsigned32')]and abi['hidden_inputs']==[]and abi['callee_stack_cleanup']==0 and abi['entry_observation']==str(suffix_path)
+for label,change in [('missing suffix formal',lambda r:r.update(formals=[])),('wrong actual suffix size',lambda r:r['native']['values'].__setitem__(0,2)),('unknown hidden suffix input',lambda r:r.update(hidden_inputs=['EDX?']))]:
+    bad=copy.deepcopy(suffix);change(bad)
+    try:validate_suffix(bad)
+    except(AssertionError,KeyError):rejected.append(label)
+    else:raise AssertionError('Accepted bad size-suffix ABI: '+label)
+Path('cases/listing-entry-abi-validation.json').write_text(json.dumps(dict(checked=[r['function']for r in receipt['formals']]+[r['function']for p,r in instruction_receipts]+[operand['function'],prefix['function'],register['function'],comment_prefix['function'],data_type['function'],displacement['function'],suffix['function']],observed_formals=17+len(instruction_receipts),rejected=rejected,seconds=time.perf_counter()-started,scope='Actual original/native listing-family formals, known state and static no-hidden-input/RET evidence. First encountered inputs only, including next displacement0/hint0; no arbitrary deep pointer or branch equivalence. No Wine/compiler/native launch.'),indent=2)+'\n')
+print(17+len(instruction_receipts),'actual ABI formals, known implicit state and',len(rejected),'rejections pass')

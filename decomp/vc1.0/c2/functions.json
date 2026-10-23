@@ -1247,7 +1247,10 @@
     "@write_debug_symbol@4",
     "@write_codeview_label@4",
     "@write_codeview_frame_variable@4",
-    "_begin_debug_function"
+    "_begin_debug_function",
+    "@listing_size_suffix@4",
+    "_finish_debug_module",
+    "@write_codeview_typedef@4"
   ],
   "driver": [
     {
@@ -2059,8 +2062,15 @@
     {
       "name": "_finish_debug_module",
       "start": 430464,
-      "end": 430465,
-      "provisional": true
+      "end": 430602,
+      "abi": {
+        "convention": "cdecl",
+        "parameters": [],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-finish-debug-abi/validation.json",
+        "zero_input_proof": "Whole69180..6920a startsMOV ECX7 and constructs all registers/call arguments from constants, named globals and child returns. No incoming GPR/flags/stack/x87 input; RET0. Exact environment/IR set fixed by case manifest."
+      }
     },
     {
       "name": "@coff_output_symbol@4",
@@ -8113,8 +8123,20 @@
     {
       "name": "@listing_size_suffix@4",
       "start": 174144,
-      "end": 174145,
-      "provisional": true
+      "end": 174198,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "bytes",
+            "location": "ECX",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-size-suffix-abi/validation.json"
+      }
     },
     {
       "name": "@write_operand_prefix@12",
@@ -8313,7 +8335,31 @@
     {
       "name": "@write_codeview_typedef@4",
       "start": 433424,
-      "end": 433425,
+      "end": 433534,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "SymbolHeader pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-codeview-typedef-abi/validation.json"
+      }
+    },
+    {
+      "name": "_write_codeview_compile_record",
+      "start": 433104,
+      "end": 433105,
+      "provisional": true
+    },
+    {
+      "name": "@read_codeview_initializers@4",
+      "start": 433056,
+      "end": 433057,
       "provisional": true
     }
   ],

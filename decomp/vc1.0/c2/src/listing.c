@@ -286,6 +286,18 @@ char *__fastcall listing_data_type(long bytes)
     default: return NULL;
     }
 }
+/* Original2a840..2a876. String-operation width suffixes, with the
+   original fatal diagnostic for sizes outside1/2/4. */
+char *__fastcall listing_size_suffix(unsigned bytes)
+{
+    switch (bytes) {
+    case 1: return "b";
+    case 2: return "w";
+    case 4: return "d";
+    }
+    compiler_internal_error("@(#)listing.c:1.76", 0x522);
+    return NULL;
+}
 
 /* Original28280..282ce. The caller carries the zero return as its
    subsequent-comment flag; a first comment starts at column56. */

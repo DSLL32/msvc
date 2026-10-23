@@ -1,0 +1,75 @@
+{
+  "cases": [
+    {
+      "input": 0,
+      "result": {
+        "value": null,
+        "diagnostics": [
+          [
+            "@(#)listing.c:1.76",
+            1314
+          ]
+        ]
+      }
+    },
+    {
+      "input": 1,
+      "result": {
+        "value": "6200",
+        "diagnostics": []
+      }
+    },
+    {
+      "input": 2,
+      "result": {
+        "value": "7700",
+        "diagnostics": []
+      }
+    },
+    {
+      "input": 3,
+      "result": {
+        "value": null,
+        "diagnostics": [
+          [
+            "@(#)listing.c:1.76",
+            1314
+          ]
+        ]
+      }
+    },
+    {
+      "input": 4,
+      "result": {
+        "value": "6400",
+        "diagnostics": []
+      }
+    },
+    {
+      "input": 8,
+      "result": {
+        "value": null,
+        "diagnostics": [
+          [
+            "@(#)listing.c:1.76",
+            1314
+          ]
+        ]
+      }
+    },
+    {
+      "input": 4294967295,
+      "result": {
+        "value": null,
+        "diagnostics": [
+          [
+            "@(#)listing.c:1.76",
+            1314
+          ]
+        ]
+      }
+    }
+  ],
+  "seconds": 0.3902727607637644,
+  "scope": "Whole54-byte original versus actual original-compiler C: three contextual b/w/d string values plus invalid-size diagnostic source/code and null return after a mocked returning diagnostic. Real fatal diagnostic body/failure outcome not accepted. Literal address identity not observed by recovered callers; ordinary point-of-use literals retain bytes."
+}

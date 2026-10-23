@@ -11,9 +11,10 @@
     "@machine_register_name@8",
     "@write_listing_comment@4",
     "@listing_data_type@4",
-    "@write_listing_displacement@8"
+    "@write_listing_displacement@8",
+    "@listing_size_suffix@4"
   ],
-  "observed_formals": 20,
+  "observed_formals": 21,
   "rejected": [
     "empty formal metadata",
     "omitted stack byte pointer",
@@ -41,8 +42,11 @@
     "missing data-type formal",
     "changed actual data-type width",
     "missing displacement hint formal",
-    "changed actual displacement hint"
+    "changed actual displacement hint",
+    "missing suffix formal",
+    "wrong actual suffix size",
+    "unknown hidden suffix input"
   ],
-  "seconds": 0.013906673528254032,
+  "seconds": 0.020069931633770466,
   "scope": "Actual original/native listing-family formals, known state and static no-hidden-input/RET evidence. First encountered inputs only, including next displacement0/hint0; no arbitrary deep pointer or branch equivalence. No Wine/compiler/native launch."
 }

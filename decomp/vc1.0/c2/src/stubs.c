@@ -90,9 +90,9 @@ void __fastcall write_codeview_register(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall write_codeview_local_data(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall write_codeview_global_data(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall write_codeview_constant(SymbolHeader *symbol) { __asm int 3 }
-void __fastcall write_codeview_typedef(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall write_codeview_block(FunctionSymbol *symbol, unsigned offset, unsigned bytes) { __asm int 3 }
-__declspec(naked) void finish_debug_module(void) { RECON_TRACE_NAKED_ENTRY(finish_debug_module) __asm int 3 }
+void write_codeview_compile_record(void) { __asm int 3 }
+void __fastcall read_codeview_initializers(FILE *file) { __asm int 3 }
 __declspec(naked) void coff_output_value(void) { RECON_TRACE_NAKED_ENTRY(coff_output_value) __asm int 3 }
 __declspec(naked) void omf_output_symbol(void) { RECON_TRACE_NAKED_ENTRY(omf_output_symbol) __asm int 3 }
 __declspec(naked) void omf_select_segment(void) { RECON_TRACE_NAKED_ENTRY(omf_select_segment) __asm int 3 }
@@ -151,7 +151,6 @@ unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
     unsigned char search) { __asm int 3 }
 int __fastcall write_demangled_listing(SymbolHeader *symbol, int first) { __asm int 3 }
 unsigned __fastcall write_listing_line(unsigned line) { __asm int 3 }
-char *__fastcall listing_size_suffix(unsigned bytes) { __asm int 3 }
 void __cdecl compiler_error(unsigned code, ...) { __asm int 3 }
 void __fastcall coff_write_lines(CoffContribution *contribution, unsigned base) { __asm int 3 }
 unsigned input_float_bits(void) { __asm int 3 }

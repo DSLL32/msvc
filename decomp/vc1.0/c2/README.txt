@@ -362,3 +362,14 @@ post-select input order with child mocks. All14 native cases and canonical
 graph/extent/ABI/W3 checks pass;13 finished outputs remain exact. Debug case
 now reaches listing_size_suffix2a840.386new bytes, coverage and full timing
 ledger: cases/dbglist-label-frame-checkpoint.json.
+
+Checkpoint1246 adds54-byte b/w/d listing suffixes,138-byte module-debug
+finalization and110-byte S_UDT records. Global typedef_DebugValue(type4117)
+was observed in actual global_scope bucket41/member0; undefined descriptor
+allocation words remain raw rather than compared or normalized. Module has
+a genuine zero-input proof, visits global symbols and retains db FILE ownership.
+Three suffix values/four diagnostic controls, six module controls and12 typedef
+record shapes pass with explicit child mocks. All14 native cases, canonical
+graph/extent/ABI and original/W3 builds pass.13 outputs remain complete; dbglist
+now reaches write_codeview_local_data697c0.302new extent bytes and detailed
+timing/limits: cases/dbglist-module-typedef-checkpoint.json.

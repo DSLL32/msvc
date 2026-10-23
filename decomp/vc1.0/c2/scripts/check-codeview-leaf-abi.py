@@ -39,22 +39,23 @@ for name,expected,name_bytes,record_index,allocation in profiles:
     for image,records in [(pe,left),(canonical,right)]:
         record=next(r for r in records if r['name']==row['name']);g.edges(image,records,record);sites=[dict(site=hex(a),cleanup=int(op,0)if op else 0)for a,size,mn,op in decoders[-1].visited.values()if mn.split()[-1]=='ret'];assert sites and all(s['cleanup']==0 for s in sites);returns.append(sites)
     checked.append(dict(function=name,formals=r['formals'],returns=returns))
-row=next(r for r in config['driver']if r['name']=='_begin_debug_function');path=Path(row['abi']['entry_observation']);zero=json.loads(path.read_text());binding=json.loads(path.with_name('original-binding.json').read_text())
-assert all(sha(path.parent/n)==v for n,v in binding['files'].items())
-def validate_zero(r,metadata):
-    assert metadata['name']=='_begin_debug_function'and metadata['start']==0x69210 and metadata['end']==0x69249
-    assert metadata['abi']['parameters']==[]and metadata['abi']['hidden_inputs']==[]and metadata['abi']['zero_input_proof']
-    assert r['function']==metadata['name']and r['matched']and r['formals']==[]and r['hidden_inputs']==[]and r['callee_stack_cleanup']==metadata['abi']['callee_stack_cleanup']==0 and r['no_hidden_inputs_proof']
-    assert r['original_raw_values']==r['original_values']==r['native']['values']==[]
-    assert r['native']['stdout']=={k:v for k,v in r['original_stdout'].items()if k not in ['counter','cursor','value','position']}
-    assert {k:r['native'][k]for k in ['column','cw','sw']}=={k:r['original_state'][k]for k in ['column','cw','sw']}
-validate_zero(zero,row);returns=[]
-for image,records in [(pe,left),(canonical,right)]:
-    record=next(r for r in records if r['name']==row['name']);g.edges(image,records,record);sites=[dict(site=hex(a),cleanup=int(op,0)if op else 0)for a,size,mn,op in decoders[-1].visited.values()if mn.split()[-1]=='ret'];assert sites and all(s['cleanup']==0 for s in sites);returns.append(sites)
-checked.append(dict(function=row['name'],formals=[],returns=returns,zero_input_proof=row['abi']['zero_input_proof']))
-for label,change in [('invented zero-formal input',lambda r:r.update(formals=[dict(name='unknown')])),('unknown zero-formal register',lambda r:r.update(hidden_inputs=['ECX?'])),('missing zero-formal proof',lambda r:r.update(no_hidden_inputs_proof=''))]:
-    bad=copy.deepcopy(zero);change(bad)
-    try:validate_zero(bad,row)
-    except(AssertionError,KeyError):rejected.append(label)
-    else:raise AssertionError('Accepted incomplete zero-input proof: '+label)
+for zero_name,zero_start,zero_end in [('_begin_debug_function',0x69210,0x69249),('_finish_debug_module',0x69180,0x6920a)]:
+    row=next(r for r in config['driver']if r['name']==zero_name);path=Path(row['abi']['entry_observation']);zero=json.loads(path.read_text());binding=json.loads(path.with_name('original-binding.json').read_text())
+    assert all(sha(path.parent/n)==v for n,v in binding['files'].items())
+    def validate_zero(r,metadata):
+        assert metadata['name']==zero_name and metadata['start']==zero_start and metadata['end']==zero_end
+        assert metadata['abi']['parameters']==[]and metadata['abi']['hidden_inputs']==[]and metadata['abi']['zero_input_proof']
+        assert r['function']==metadata['name']and r['matched']and r['formals']==[]and r['hidden_inputs']==[]and r['callee_stack_cleanup']==metadata['abi']['callee_stack_cleanup']==0 and r['no_hidden_inputs_proof']
+        assert r['original_raw_values']==r['original_values']==r['native']['values']==[]
+        assert r['native']['stdout']=={k:v for k,v in r['original_stdout'].items()if k not in ['counter','cursor','value','position']}
+        assert {k:r['native'][k]for k in ['column','cw','sw']}=={k:r['original_state'][k]for k in ['column','cw','sw']}
+    validate_zero(zero,row);returns=[]
+    for image,records in [(pe,left),(canonical,right)]:
+        record=next(r for r in records if r['name']==row['name']);g.edges(image,records,record);sites=[dict(site=hex(a),cleanup=int(op,0)if op else 0)for a,size,mn,op in decoders[-1].visited.values()if mn.split()[-1]=='ret'];assert sites and all(s['cleanup']==0 for s in sites);returns.append(sites)
+    checked.append(dict(function=row['name'],formals=[],returns=returns,zero_input_proof=row['abi']['zero_input_proof']))
+    for label,change in [('invented zero-formal input',lambda r:r.update(formals=[dict(name='unknown')])),('unknown zero-formal register',lambda r:r.update(hidden_inputs=['ECX?'])),('missing zero-formal proof',lambda r:r.update(no_hidden_inputs_proof=''))]:
+        bad=copy.deepcopy(zero);change(bad)
+        try:validate_zero(bad,row)
+        except(AssertionError,KeyError):rejected.append(label)
+        else:raise AssertionError('Accepted incomplete zero-input proof: '+label)
 Path('cases/codeview-leaf-abi-validation.json').write_text(json.dumps(dict(checked=checked,rejected=rejected,seconds=time.perf_counter()-started,scope='Actual named inline-asm label at current scope list index1, not an invented head alias. Defined44-byte prefix projection/name/COFF+byte-block/function flags/stdio/x87 and original/canonical cleanup. Unrelated hash/instruction addresses remain raw; no general deep alias or unvisited leaf claim.'),indent=2)+'\n');print(len(checked),'actual leaf pointer/list identities and',len(rejected),'negatives/cleanup pass')

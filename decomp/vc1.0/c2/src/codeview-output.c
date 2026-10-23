@@ -4,12 +4,31 @@
 #include "options.h"
 #include "records.h"
 #include "machine.h"
+#include "listing.h"
 #include <string.h>
 #include <recon.h>
 int codeview_output_started; /* original84fd8 */
 extern int optimize_global, coff_object, byte_block_first;
 DebugScope *codeview_scope_cursor; /* original7e8ac */
 unsigned codeview_allocation_class; /* original84ff8; alias dispatch override */
+FILE *codeview_type_file; /* original7b8ec; db intermediate ownership */
+/* Original69180..6920a. Module-level symbols precede compiler/type records.
+   The db channel is the captured fifth frontend input, not a regenerated PDB. */
+void finish_debug_module(void)
+{
+    debug_symbols_segment = (Segment *)lookup_global_symbol(7);
+    if (!codeview_output_started) {
+        codeview_output_started = 1;
+        write_codeview_signature();
+        write_codeview_object_name();
+    }
+    for_each_symbol(0, write_debug_symbol);
+    write_codeview_compile_record();
+    codeview_type_file = open_intermediate(intermediate_prefix, "db", "r", "db il");
+    if (!codeview_type_file) compiler_internal_error("@(#)emit.c:1.20", 0x361);
+    read_codeview_initializers(codeview_type_file);
+    fclose(codeview_type_file);
+}
 /* Original69210..69249. This historical placeholder name denotes S_END.
    It has no incoming register/stack arguments; the record is four bytes. */
 void begin_debug_function(void)
@@ -251,6 +270,30 @@ void __fastcall write_codeview_frame_variable(SymbolHeader *symbol)
     record.offset = offset;
     record.type = variable->field20;
     copy_codeview_string(record.name, name);
+    output_callbacks.data(&record, length + 2);
+    debug_symbols_segment->symbol.field04 += length + 2;
+}
+#pragma pack(2)
+typedef struct CodeViewTypedefRecord {
+    unsigned short length, kind, type;
+    unsigned char name[302];
+} CodeViewTypedefRecord;
+#pragma pack()
+typedef char CodeViewTypedefSizeCheck[sizeof(CodeViewTypedefRecord) == 308 ? 1 : -1];
+/* Original69d10..69d7e. S_UDT carries only a type index and counted name;
+   unused contents of the44-byte kind11 input descriptor are not consulted. */
+void __fastcall write_codeview_typedef(SymbolHeader *symbol)
+{
+    CodeViewTypedefRecord record;
+    char *name = format_function_name(symbol), *end = name;
+    unsigned length;
+    while (*end++) ;
+    length = (unsigned)(end - name) + 4;
+    record.length = (unsigned short)length;
+    record.kind = 4;
+    record.type = ((BackendSymbol *)symbol)->field20;
+    copy_codeview_string(record.name, name);
+    output_callbacks.select_segment(debug_symbols_segment);
     output_callbacks.data(&record, length + 2);
     debug_symbols_segment->symbol.field04 += length + 2;
 }

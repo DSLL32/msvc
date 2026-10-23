@@ -1,0 +1,12 @@
+{
+  "logical": "@write_codeview_local_data@4",
+  "matched": true,
+  "executable_sha256": "161045efc427e166ec6d6499da8d49e7ca64f19035c2399c2f4930adda24b392",
+  "config_sha256": "85e0c5154ca1209de7bd5a03d88baec1365917608547b55dfce0f6383ecf5f9b",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\dbglist",
+  "setup_seconds": 0.0075416285544633865,
+  "execution_seconds": 0.14320471975952387,
+  "seconds": 0.16114511992782354,
+  "log_sha256": "fd4e6022f9c16a26a66150c3706de3549b7be1619dc6c6a8602d8c3b7dbaa77f",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/dbglist-gdb-dvce_cz4"
+}
