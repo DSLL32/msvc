@@ -7,12 +7,12 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 67 application functions (15557 bytes) and five CRT
+Current reconstruction has 68 application functions (15638 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
-entered the COFF output pipeline. It currently stops before constructing its
-paged pointer table. Four import thunks (24 bytes) and contextual text tables
-(616 bytes) remain separate. The 15995 source bytes are 2.791% of 573183 `.text`
+entered the COFF output pipeline. Its paged pointer-table constructor now stops at the typed allocator
+request for its32-byte record. Four import thunks (24 bytes) and contextual text tables
+(616 bytes) remain separate. The 16076 source bytes are 2.805% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -242,3 +242,12 @@ The historical free-identity negative now selects its reader owner explicitly
 and asserts a real mutation; the prior no-op test failure remains preserved.
 A later fixture-only shared rebuild is retained separately; promotion binds the
 reviewed ELF and its exact immutable compiled-input snapshot.
+
+Source73 reconstructs the81-byte paged pointer-table constructor. Its32-byte
+layout is justified by actual append/index/iterator consumers; the one-element
+page tail keeps the exact capacity*4+8 allocation. Fresh first-call evidence
+checks unsigned allocator bytes32, caller ushort capacity300, both actual GDB
+formal inventories, writer aliases and original return address453d8b. The
+allocator itself still traps. Ten new controls passed in11.474s; the protocol
+refresh passed4 controls/reused149 in4.862s, with39 unchanged prior focused
+controls retained by exact hashes. Timing and all source snapshots are in0073.

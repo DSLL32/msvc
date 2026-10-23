@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source_checkpoint": "cases/acceptance/0073-output-table",
+  "control_result": "cases/acceptance/0073-output-table/rejections.json",
+  "control_result_sha256": "42fafdcb0c0076e3d29cde5c6e19c03ddcbe97f6620528037cabae78aef64824",
+  "checker_contracts": {
+    "scripts/writer_evidence.py": "6b06e3fbbdcfbf11c1113dc476c3ed6dd792ab368396fb23cf509b40e5c9387b",
+    "scripts/callback_evidence.py": "404eb248f4725d028e2d3a77654f057865d262fcaa9008f4adaad9de0938110f",
+    "scripts/native-proof.py": "91fd879644eb159a173dade958a2f78d47ca25738ad3e3452be43757a33d7102",
+    "scripts/debug-run.c": "c4a46b70dc8582d7aa0718dcd022bfa4336d262907b48cecfdb7cdf8c0662549",
+    "scripts/state.py": "7f5e869a7e139e12ffad9d6968c36a87f45c688e6d047bfc8a71bfbf18ef04d6",
+    "scripts/reaudit-capture.py": "47db322d4f96cad39e15681be42151d6b974d95fde39007623bdb68bcacb361e",
+    "scripts/build-index.py": "97e280740713f64c1bf1699d7e376cbea06e7d50f4c7dba7495a2eef87d1030d",
+    "scripts/import_evidence.py": "00d384d41f63d7d7058d399fdaef731f097f7d9b695f3526549d672cc9556d72",
+    "scripts/check-rejections.py": "4caa2632d6d99796af69a8b50bab8d9d7a2d1a13c4f7223c54e849497cf8a3a8",
+    "scripts/capture-original.py": "cb8fa84d10bd063dbdb268981ce56592335d21da1d8befe7dd634331066c6924",
+    "scripts/compare.py": "c33ef88fdbeeefa3d40dab81d48abc833dd6abf77387df8055f8a7b73bfd9e26",
+    "scripts/check-pending-metadata.py": "f497374b1e272e5162f1e4a1685edb78bef525ff5d060d519a9d8c4312810d25",
+    "scripts/globals_state.py": "a6c5f0eb00507298f82bbaf31aed9a6a874a931c88ab18a6be7a5d02fe3c6265",
+    "scripts/case_inputs.py": "13ab2ee944896ade6b46c2b2d226fd63233ea9d3191931b1d8a84ddbfaa48aa9",
+    "scripts/capture-native.py": "38c1a95bf0378c3d014b7e79d43dd97497dc823c3ad2ac78f4ced92f9d1e6897",
+    "scripts/intrinsic_evidence.py": "89e13fbff12ec278801984bd7360b54b392cc50e332d9f449c7f8b9032ab0034",
+    "scripts/accept.py": "a6b1d5cc50ca30212ae120e5f58a5cf891b17ace4a4378f35fd35f5a2000a11e",
+    "scripts/audit.py": "b65efd1fa4753ff1007af3c6915bd9372dbc5a8d479fcfa2a14d2b05eec6b12c",
+    "scripts/data_evidence.py": "bff361add0b1def3f83f5e5c13a82dd6fba7ad1ea90a9ac432c06558cbeca793",
+    "scripts/pending_metadata.py": "4fb55fa9f12620145ccaf5142b9b65c355f2fd8c6e9824e0037e763ff4413634"
+  },
+  "source_directory": "sources",
+  "source_manifest": "source-manifest.json",
+  "source_manifest_sha256": "0d6f0c115af614157cec5cde9003650d96d9a9c468c94a321b96cdc3806f7252",
+  "proof_inputs": {
+    "original_receipt": "5d2cc94b228cc32713277de21ead4a016611879854fcea7b89e630df7c1fe043",
+    "native_receipt": "90b4f9249b728fab032925542b98e90087bda5892d731a572a9b349f96a7e7fe"
+  },
+  "scope": "153 generic predicates:4 fresh/149 explicitly reviewed reused;10 new actual allocator/caller formal+callsite controls,39 previous unchanged focused controls reused separately. Exact ordinary source manifest; no new archive."
+}

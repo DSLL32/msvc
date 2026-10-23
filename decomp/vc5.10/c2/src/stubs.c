@@ -604,11 +604,6 @@ void *__fastcall allocate_output_bytes(unsigned bytes)
 void writer_callback_48511c() { __asm { int 3 } }
 void writer_callback_45477a() { __asm { int 3 } }
 
-C2OutputTable *__fastcall new_output_table(unsigned short capacity)
-{
-    __asm { int 3 }
-    return NULL;
-}
 void initialize_coff_lists(void) { __asm { int 3 } }
 C2OutputList *__fastcall new_output_list(int kind, void *context)
 {

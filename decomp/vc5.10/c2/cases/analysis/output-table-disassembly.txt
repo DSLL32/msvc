@@ -1,0 +1,34 @@
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00453d75 <.text+0x52d75>:
+  453d75:	51                   	push   ecx
+  453d76:	56                   	push   esi
+  453d77:	57                   	push   edi
+  453d78:	66 8b f9             	mov    di,cx
+  453d7b:	b9 20 00 00 00       	mov    ecx,0x20
+  453d80:	66 89 7c 24 08       	mov    WORD PTR [esp+0x8],di
+  453d85:	ff 15 88 7d 49 00    	call   DWORD PTR ds:0x497d88
+  453d8b:	8b f0                	mov    esi,eax
+  453d8d:	8b 44 24 08          	mov    eax,DWORD PTR [esp+0x8]
+  453d91:	25 ff ff 00 00       	and    eax,0xffff
+  453d96:	66 89 7e 04          	mov    WORD PTR [esi+0x4],di
+  453d9a:	33 ff                	xor    edi,edi
+  453d9c:	8d 0c 85 08 00 00 00 	lea    ecx,[eax*4+0x8]
+  453da3:	89 7e 08             	mov    DWORD PTR [esi+0x8],edi
+  453da6:	89 3e                	mov    DWORD PTR [esi],edi
+  453da8:	ff 15 88 7d 49 00    	call   DWORD PTR ds:0x497d88
+  453dae:	89 46 18             	mov    DWORD PTR [esi+0x18],eax
+  453db1:	89 78 04             	mov    DWORD PTR [eax+0x4],edi
+  453db4:	89 46 1c             	mov    DWORD PTR [esi+0x1c],eax
+  453db7:	89 7e 0c             	mov    DWORD PTR [esi+0xc],edi
+  453dba:	89 7e 10             	mov    DWORD PTR [esi+0x10],edi
+  453dbd:	89 7e 14             	mov    DWORD PTR [esi+0x14],edi
+  453dc0:	8b c6                	mov    eax,esi
+  453dc2:	5f                   	pop    edi
+  453dc3:	5e                   	pop    esi
+  453dc4:	59                   	pop    ecx
+  453dc5:	c3                   	ret

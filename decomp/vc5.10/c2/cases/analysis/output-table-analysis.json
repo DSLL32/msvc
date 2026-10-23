@@ -1,0 +1,48 @@
+{
+  "function": "@new_output_table@4",
+  "original": [
+    4537717,
+    4537798
+  ],
+  "bytes": 81,
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "record": {
+    "type": "C2OutputTable",
+    "size": 32,
+    "count": 0,
+    "capacity": 4,
+    "used": 8,
+    "iterator_index": 12,
+    "iterator_used": 16,
+    "iterator_page": 20,
+    "first": 24,
+    "last": 28,
+    "padding": [
+      6,
+      8
+    ]
+  },
+  "page": {
+    "type": "C2OutputPage",
+    "sizeof": 8,
+    "next": 0,
+    "items": 4,
+    "allocation": "capacity*4+8; actual constructor zeros first entry only; accepted pool allocator supplies other zero bytes",
+    "consumer_evidence": "Append41ef35 compares used against capacity, stores item at page+4+used*4, links full page via next; index41f085 walks page chain by capacity; iterator45438b uses fields12/16/20. Analysis-only consumers, no body acceptance."
+  },
+  "allocator_sites": [
+    {
+      "original": 4537733,
+      "slot": 4816264,
+      "request": 32
+    },
+    {
+      "original": 4537768,
+      "slot": 4816264,
+      "request": "4*ushortcapacity+8"
+    }
+  ],
+  "scope": "Both indirect calls use same typed allocator slot; actual adapter complete12B tail enters accepted pool allocator and cannot alter callback slot. No guessed error/clock invocation. Fresh first request32 and callerushort300 checked at genuine masked allocator entry; table storage not yet allocated/claimed at that frontier.",
+  "disassembly_sha256": "dc841a6a0a0ef4ca3bbdb09cb78be9cc971e59e19cafe19210f051af2587a13b",
+  "source_sha256": "0b1bd339d5a61af2835206c91305e14665db81796759e703cf6552e5f1b753ea"
+}

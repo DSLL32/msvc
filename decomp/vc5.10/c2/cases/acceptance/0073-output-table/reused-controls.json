@@ -1,0 +1,13 @@
+{
+  "premises": "Complete_globals model, existing pending callback source guard and finite register contracts unchanged; only new table body/type and fresh actual allocator/caller frontier added. Current positive verifier rechecks all exact imported witnesses/graphs and current pointer model. No new preservation assumption; raw source72 artifact identities unchanged.",
+  "previous_controls": {
+    "cases/acceptance/0072-coff-initialization/coff-controls.json": {
+      "sha256": "7f9b87785c1f8524715e08328eeefa54b4a31ec76c82a2fd1af04b972a070b87",
+      "count": 34
+    },
+    "cases/acceptance/0072-coff-initialization/ESI-ablations/summary.json": {
+      "sha256": "cc61bfd65d50183eef134bb19d19220865f9c341b4ccbb090a8ebbbefe124a99",
+      "count": 5
+    }
+  }
+}

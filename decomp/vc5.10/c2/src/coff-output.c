@@ -123,3 +123,22 @@ int __fastcall initialize_coff_output(C2ObjectOutput *writer)
         add_output_source(coff_source_name);
     return 1;
 }
+
+C2OutputTable *__fastcall new_output_table(unsigned short capacity)
+{
+    C2OutputTable *table;
+    C2OutputPage *page;
+
+    table = output_allocate(sizeof(*table));
+    table->capacity = capacity;
+    table->used = 0;
+    table->count = 0;
+    page = output_allocate(capacity * sizeof(void *) + sizeof(*page));
+    table->first = page;
+    page->items[0] = NULL;
+    table->last = page;
+    table->iterator_index = 0;
+    table->iterator_used = 0;
+    table->iterator_page = NULL;
+    return table;
+}

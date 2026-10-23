@@ -8,6 +8,24 @@ typedef struct C2OutputTable C2OutputTable;
 typedef struct C2OutputList C2OutputList;
 typedef struct C2OutputStorage C2OutputStorage;
 
+typedef struct C2OutputPage {
+    struct C2OutputPage *next;
+    void *items[1];
+} C2OutputPage;
+struct C2OutputTable {
+    unsigned count;
+    unsigned short capacity;
+    unsigned used;
+    unsigned iterator_index, iterator_used;
+    C2OutputPage *iterator_page;
+    C2OutputPage *first, *last;
+};
+typedef char C2OutputTableSizeCheck[sizeof(C2OutputTable) == 32 ? 1 : -1];
+typedef char C2OutputTableCapacityCheck[offsetof(C2OutputTable, capacity) == 4 ? 1 : -1];
+typedef char C2OutputTableUsedCheck[offsetof(C2OutputTable, used) == 8 ? 1 : -1];
+typedef char C2OutputTableFirstCheck[offsetof(C2OutputTable, first) == 24 ? 1 : -1];
+typedef char C2OutputPageSizeCheck[sizeof(C2OutputPage) == 8 ? 1 : -1];
+
 typedef struct C2ObjectOutput {
     unsigned short format, machine;
     long pending04;
