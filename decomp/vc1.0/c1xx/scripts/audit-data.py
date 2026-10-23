@@ -131,7 +131,7 @@ for table in cfg.get('tables', []):
         for field in table['fields']:
             for offset in range(field['bytes']):
                 a, b = field['original'] + offset, names[field['name']] + offset
-                assert state_addresses.setdefault(a, b) == b, 'shared frontend state was split: '+field['name']
+                assert state_addresses.setdefault(a, b) == b, 'shared frontend state was split: %s at original %x (expected %x, previously mapped %x)' % (field['name'], a, b, state_addresses[a])
                 assert state_reverse_addresses.setdefault(b, a) == a, 'distinct frontend state was merged: '+field['name']
             if 'pointer_to' in field:
                 assert field['bytes'] == 4

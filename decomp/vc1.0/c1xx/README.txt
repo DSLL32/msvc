@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 811 accepted frontiers, including 718 frontend
+PARTIAL binary reconstruction: 821 accepted frontiers, including 728 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1861,3 +1861,34 @@ cases and 32 boundary rejection checks pass in 5.000830 seconds. Separate build,
 reference capture, native debugger and fixture timings remain in each receipt.
 Accepted extent union 223341/476418 bytes is 46.879211%, not branch coverage.
 virtual_diamond remains incomplete at format_integer 0x74380.
+
+Diagnostic-pool checkpoint: 821 accepted frontiers, 735 source functions. Ten
+whole helpers beyond 7600a45 recover integer formatting, filename quoting,
+paged block output, pointer keyword spelling and the centered diagnostic-text
+pool's allocation, nesting entry, qualified-name formatting, append, growth and
+handle lookup. Unseen getters and other formatting operations remain named traps.
+
+The whole pool allocator legitimately reaches slot[-1] when all 32 strings are
+occupied. That 16-byte prefix shares forced_source_index and current_forced_source,
+plus the /V string pointer and /FAT filename flag. One typed 528-byte union now
+represents that prefix and 32 slots, with explicit original offsets, audited zero
+defaults and next handle 100. The option-rule alias audit caught the initially
+split /V and /FAT cells before checkpoint acceptance. The failed audit, exact
+conflicting addresses, correction builds and successful state audit are retained.
+No current-case stream, buffer, state or artifact comparison diverged.
+
+The allocator preserves 16-bit capacity/index wrap, the prepend growth's original
+right-boundary addition, backward-prefix return address, and zero-handle lookup
+of unused slots. The paged block writer also preserves its repeated saved source
+block across later full pages; raw instruction evidence records that anomaly.
+Filename quoting returns past a closing quote without adding a NUL. Ordinary
+keyword and digit literals remain at their points of use.
+
+All 0811 through 0820 acceptances match fresh original/native traps, four pending
+buffers, fourteen state fields, streams and visible files. Completed cpp_basic
+remains byte-exact. Full canonical graph/data/default/alias/callback/grammar
+audits, both cached native cases and 32 boundary rejection checks pass in 5.060434
+seconds after the alias correction. Separate original/native/compiler timings,
+the failed 3.972517-second audit and focused correction audit remain documented.
+Accepted extent union 224623/476418 bytes is 47.148303%, not branch coverage.
+virtual_diamond remains incomplete at type_diagnostic_text 0x68a70.

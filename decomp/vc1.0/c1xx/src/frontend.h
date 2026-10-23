@@ -47,8 +47,6 @@ extern int global_expression_scope_active, error_count;
 extern int pch_mode;
 extern char version_string[256];
 extern Vector *forced_source_inputs;
-extern short forced_source_index;
-extern char *current_forced_source;
 extern FILE *expression_file, *symbol_file, *line_file, *global_file;
 extern FILE *debug_file, *preprocessor_file;
 

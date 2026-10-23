@@ -38,6 +38,7 @@
 #include "object-initializers.h"
 #include "call-expressions.h"
 #include "text-format.h"
+#include "type-diagnostics-internal.h"
 #include <recon.h>
 void interrupt_compile(int signal_number) { __asm { int 3 } }
 void initialize_japanese_characters(void) { __asm { int 3 } }
@@ -79,7 +80,6 @@ int __stdcall parameter_stack_bytes(CppSymbol *symbol) { __asm { int 3 } return 
 CppSymbol *__stdcall symbol_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void write_ir_string(char *text) { __asm { int 3 } }
 long __stdcall seek_work_stack(WorkingStack *stack, long offset, int origin) { __asm { int 3 } return 0; }
-char *__stdcall quote_source_filename(char *destination, char *filename) { __asm { int 3 } return 0; }
 void report_ide_source(void) { __asm { int 3 } }
 void browser_include_begin(void) { __asm { int 3 } }
 void browser_open_file(void) { __asm { int 3 } }
@@ -91,7 +91,6 @@ char *__stdcall format_symbol_name(CppSymbol *symbol) { __asm { int 3 } return 0
 void report_declaration_diagnostic(unsigned warning_code, unsigned error_code, ...) { __asm { int 3 } }
 void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *get_current_class_symbol(void) { __asm { int 3 } return 0; }
-unsigned short begin_type_diagnostic(void) { __asm { int 3 } return 0; }
 void end_type_diagnostic(void) { __asm { int 3 } }
 short __stdcall format_declarator(CppSymbol *symbol, CType *type) { __asm { int 3 } return 0; }
 char *__stdcall type_diagnostic_text(short text) { __asm { int 3 } return 0; }
@@ -286,7 +285,6 @@ void finish_pch_output(void) { __asm { int 3 } }
 void chain_initializer_function(void) { __asm { int 3 } }
 void __stdcall register_initializer_function(CppSymbol *function) { __asm { int 3 } }
 void skip_source_line(void) { __asm { int 3 } }
-void __stdcall write_work_bytes(const void *source, unsigned bytes, unsigned count, WorkingStack *stack) { __asm { int 3 } }
 unsigned char __stdcall scan_character_literal(int wide) { __asm { int 3 } return 0; }
 void __stdcall scan_string_literal(int wide, unsigned char delimiter) { __asm { int 3 } }
 void __stdcall copy_quoted_literal(unsigned char delimiter) { __asm { int 3 } }
@@ -344,9 +342,6 @@ void __cdecl format_work_text(WorkingStack *stack, char *format, ...) { __asm { 
 void __stdcall emit_generated_default_constructor(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
 void __stdcall emit_generated_copy_constructor(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
 void __stdcall emit_generated_assignment(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
-char *__stdcall pointer_kind_spelling(unsigned short kind) { __asm { int 3 } return 0; }
-short reserve_type_diagnostic(void) { __asm { int 3 } return 0; }
-void __stdcall format_diagnostic_symbol(short text, CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall print_inline_declaration(CppSymbol *symbol, unsigned *flags) { __asm { int 3 } }
 
 unsigned __stdcall data_member_pointer_size(TypeShape *shape) { __asm { int 3 } return 0; }
@@ -555,7 +550,6 @@ char *__stdcall mangle_based_symbol(char *cursor, unsigned short attributes, Cpp
 char *__stdcall mangle_pointer_base(char *cursor, CType *type) { __asm { int 3 } return 0; }
 char *__stdcall mangle_vcall_model(char *cursor, CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall cache_function_parameter_bytes(CppSymbol *function) { __asm { int 3 } }
-int format_integer(unsigned value, char *cursor, unsigned radix) { __asm { int 3 } return 0; }
 
 IrToken *make_error_expression(void) { __asm { int 3 } return 0; }
 

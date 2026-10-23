@@ -1,0 +1,16 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655a01b in format_diagnostic_symbol (text=101, symbol=0x565f60ec) at src/stubs.c:344
+344	void __stdcall format_diagnostic_symbol(short text, CppSymbol *symbol) { __asm { int 3 } }
+#0  0x5655a01b in format_diagnostic_symbol (text=101, symbol=0x565f60ec) at src/stubs.c:344
+#1  0x565ae3fd in capture_inline_member_declaration (symbol=0x565f60ec, generated_kind=5, generation_context=0, pointer_kind=1) at src/inline-capture.c:97
+#2  0x565b7b49 in emit_pending_runtime_functions () at src/special-members.c:514
+#3  0x565a320d in read_lexical_token () at src/lexer.c:443
+#4  0x565a18a5 in scan_token () at src/lexer.c:226
+#5  0x565a0d85 in read_parser_token () at src/lexer.c:67
+#6  0x5659a0a7 in parse_translation_unit () at src/parser.c:83
+#7  0x5655e088 in compile_translation_unit () at src/frontend.c:73
+#8  0x565587e6 in guarded_compile () at src/c1xx.c:28
+#9  0x565587b4 in main (argc=1, argv=0xffffd8d4, environment=0xffffd8dc) at src/c1xx.c:20

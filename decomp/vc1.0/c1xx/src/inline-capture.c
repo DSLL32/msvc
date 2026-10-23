@@ -293,3 +293,13 @@ char *next_pending_class_name(void)
     ++pending_class_name_index;
     return name;
 }
+
+/* Original 0x35570..0x3559f. Only the two nondefault distance kinds
+   need explicit keywords in synthesized member declarations. */
+char *__stdcall pointer_kind_spelling(unsigned short kind)
+{
+    kind &= 7;
+    if (kind == 2) return "__far";
+    if (kind == 3) return "__far16";
+    return "";
+}

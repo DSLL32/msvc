@@ -233,3 +233,65 @@ int __stdcall write_work_character(int character, WorkingStack *stack)
     stack->next = cursor + 1;
     return character;
 }
+
+/* Keep the original forward word-plus-byte copies inline in the work-stack
+   writer. A helper function would add an edge absent from the original. */
+#define COPY_WORK_BLOCK(destination_, source_, bytes_) do { \
+    copy_target = (unsigned char *)(destination_); \
+    copy_source = (const unsigned char *)(source_); \
+    copy_bytes = (bytes_); \
+    for (copy_words = copy_bytes / 4; copy_words; --copy_words) { \
+        *(unsigned *)copy_target = *(const unsigned *)copy_source; \
+        copy_target += 4; copy_source += 4; \
+    } \
+    for (copy_bytes &= 3; copy_bytes; --copy_bytes) \
+        *copy_target++ = *copy_source++; \
+} while (0)
+
+/* Original 0x32870..0x32997. Fill the current 2040-byte payload, then
+   reuse or allocate linked pages. The saved remainder source is intentionally
+   unchanged between full pages: the original repeats that same source block. */
+void __stdcall write_work_bytes(const void *source, unsigned bytes, unsigned count, WorkingStack *stack)
+{
+    const unsigned char *remainder, *copy_source;
+    unsigned char *page, *next, *copy_target;
+    unsigned total = bytes * count;
+    unsigned space, copy_bytes, copy_words;
+    if (!stack) {
+        COPY_WORK_BLOCK(text_work_cursor, source, total);
+        text_work_cursor += total;
+        return;
+    }
+    page = stack->read;
+    space = 2040 - stack->count;
+    if (total <= space) {
+        COPY_WORK_BLOCK(stack->next, source, total);
+        stack->next += total;
+        stack->count += total;
+        return;
+    }
+    COPY_WORK_BLOCK(stack->next, source, space);
+    total -= space;
+    remainder = (const unsigned char *)source + space;
+    while (total) {
+        next = *(unsigned char **)(page + 2040);
+        if (!next) {
+            next = malloc(2048);
+            *(unsigned char **)(next + 2040) = 0;
+            *(unsigned char **)(page + 2040) = next;
+        }
+        page = *(unsigned char **)(page + 2040);
+        *(unsigned *)(page + 2044) = 0;
+        if (total <= 2040) {
+            COPY_WORK_BLOCK(page, remainder, total);
+            stack->read = page;
+            stack->count = total;
+            stack->next = page + total;
+            total = 0;
+        } else {
+            COPY_WORK_BLOCK(page, remainder, 2040);
+            total -= 2040;
+        }
+    }
+}
+#undef COPY_WORK_BLOCK

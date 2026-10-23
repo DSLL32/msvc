@@ -10,8 +10,6 @@ int global_expression_scope_active, error_count;
 int pch_mode;
 char version_string[256];
 Vector *forced_source_inputs;
-short forced_source_index;
-char *current_forced_source;
 FILE *expression_file, *symbol_file, *line_file, *global_file;
 FILE *debug_file, *preprocessor_file;
 
@@ -28,7 +26,7 @@ int compile_translation_unit(void)
         preprocess_translation_unit();
         goto finish;
     }
-    if (options.option_V) {
+    if (version_directive_text) {
         if (token_allocation_flags & 0x20000020)
             token = allocate_permanent(sizeof(IrToken));
         else {
@@ -41,12 +39,12 @@ int compile_translation_unit(void)
         }
         token->flags = 5;
         token->kind = 3;
-        for (length = 0; options.option_V[length]; ++length)
+        for (length = 0; version_directive_text[length]; ++length)
             ;
         token->tail.string.length = (unsigned short)(length + 1);
         token->value.text = version_string;
         for (i = 0; i < token->tail.string.length; ++i)
-            version_string[i] = options.option_V[i];
+            version_string[i] = version_directive_text[i];
         record_string_literal(token);
         emit_version_token(token);
         global_expression_scope_active = 1;

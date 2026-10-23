@@ -3,6 +3,7 @@
 #include "c1xx.h"
 #include "configuration.h"
 #include "linkage.h"
+#include "type-diagnostics.h"
 #include <recon.h>
 typedef struct Vector {
     short count, capacity;
@@ -23,7 +24,6 @@ typedef struct OptionRule {
 typedef struct CompilerOptions {
     CompilerConfiguration configuration;
     int option_nologo;
-    int option_FAT;
     char *path_characters;
     int option_C;
     Vector *defines;
@@ -39,7 +39,6 @@ typedef struct CompilerOptions {
     char *intermediate_prefix;
     int option_xc;
     int option_m;
-    char *option_V;
     char *option_NV;
     char *option_Fr;
     char *option_FR;

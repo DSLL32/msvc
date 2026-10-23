@@ -7,6 +7,7 @@
 #include "source-input.h"
 #include "lexer.h"
 #include "text-format.h"
+#include "characters.h"
 #include <recon.h>
 #undef _fileno
 
@@ -150,7 +151,7 @@ char *normalize_input_name(char *filename)
 {
     char drive[4], directory[256], name[256], extension[256];
     char *result;
-    if (!options.option_FAT)
+    if (!fat_filenames)
         return filename;
     result = copy_string(filename, 2);
     _splitpath(result, drive, directory, name, extension);
@@ -288,4 +289,29 @@ void emit_line_directive(void)
         write_work_bytes(token_text, end - token_text, 1, compiler_stack);
     else
         fwrite(token_text, end - token_text, 1, preprocessor_stream);
+}
+
+/* Original 0x1edb0..0x1edfd. Quote a source name, doubling escape-class
+   bytes and keeping a multibyte lead/trail pair together. Return past the
+   closing quote; the result deliberately has no terminating NUL. */
+char *__stdcall quote_source_filename(char *destination, char *filename)
+{
+    unsigned char classification;
+    char character;
+    *destination++ = '"';
+    for (;;) {
+        character = *filename;
+        *destination = character;
+        if (!character) break;
+        classification = character_class[(unsigned char)*filename];
+        if (classification == CC_ESCAPE_OR_END) {
+            *++destination = '\\';
+        } else if (classification == CC_LEAD_BYTE) {
+            *++destination = *++filename;
+        }
+        ++filename;
+        ++destination;
+    }
+    *destination++ = '"';
+    return destination;
 }

@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_reserve_type_diagnostic",
+    "start": 428416,
+    "end": 428547
+  },
+  "distinct_direct_callees": [
+    "_malloc"
+  ],
+  "next_frontier": "_format_diagnostic_symbol@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4897138252854347,
+  "total_operation_seconds": 7.127377760596573,
+  "original_capture_seconds": 3.9262152770534158
+}

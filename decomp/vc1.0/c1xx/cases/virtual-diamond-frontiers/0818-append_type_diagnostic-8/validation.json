@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_append_type_diagnostic@8",
+    "start": 423968,
+    "end": 424027
+  },
+  "distinct_direct_callees": [
+    "_reserve_type_diagnostic_bytes@12"
+  ],
+  "next_frontier": "_reserve_type_diagnostic_bytes@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.46958177629858255,
+  "total_operation_seconds": 6.353840773925185,
+  "original_capture_seconds": 3.172939254902303
+}

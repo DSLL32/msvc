@@ -65,3 +65,29 @@ void vformat_text(char *destination, char *format, va_list arguments)
     }
     *destination = 0;
 }
+
+/* Original 0x74380..0x743f8. Build reversed lowercase digits after a
+   zero sentinel, then copy through that sentinel. Decimal treats the 32-bit
+   input as signed; its magnitude still uses unsigned negation for INT_MIN. */
+int format_integer(unsigned value, char *cursor, unsigned radix)
+{
+    char digits[32], character;
+    unsigned used = 1;
+    int length = 0;
+    digits[0] = 0;
+    if ((int)value < 0 && radix == 10) {
+        value = 0U - value;
+        *cursor++ = '-';
+        length = 1;
+    }
+    do {
+        digits[used++] = "0123456789abcdef"[value % radix];
+        value /= radix;
+    } while (value);
+    do {
+        character = digits[--used];
+        *cursor++ = character;
+        if (character) ++length;
+    } while (character);
+    return length;
+}

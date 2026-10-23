@@ -1,0 +1,197 @@
+{
+  "scope": "Unexercised centered diagnostic buffer growth arithmetic and returned boundaries",
+  "prepend_note": "Copy to newbuffer+bytes+33; add bytes+32 to old right, set left bytes+32, then decrement left by requested low16 and return old left pointer",
+  "ranges": [
+    {
+      "start": "0x68b16",
+      "end": "0x68b42",
+      "bytes": "33c9668b4b0833d2668b530a2bd14a8b73048b4424148d7c05218d740e018bcac1e902f3a58bca83e103f3a4",
+      "instructions": [
+        {
+          "address": "0x68b16",
+          "mnemonic": "xor",
+          "operands": "ecx, ecx"
+        },
+        {
+          "address": "0x68b18",
+          "mnemonic": "mov",
+          "operands": "cx, word ptr [ebx + 8]"
+        },
+        {
+          "address": "0x68b1c",
+          "mnemonic": "xor",
+          "operands": "edx, edx"
+        },
+        {
+          "address": "0x68b1e",
+          "mnemonic": "mov",
+          "operands": "dx, word ptr [ebx + 0xa]"
+        },
+        {
+          "address": "0x68b22",
+          "mnemonic": "sub",
+          "operands": "edx, ecx"
+        },
+        {
+          "address": "0x68b24",
+          "mnemonic": "dec",
+          "operands": "edx"
+        },
+        {
+          "address": "0x68b25",
+          "mnemonic": "mov",
+          "operands": "esi, dword ptr [ebx + 4]"
+        },
+        {
+          "address": "0x68b28",
+          "mnemonic": "mov",
+          "operands": "eax, dword ptr [esp + 0x14]"
+        },
+        {
+          "address": "0x68b2c",
+          "mnemonic": "lea",
+          "operands": "edi, [ebp + eax + 0x21]"
+        },
+        {
+          "address": "0x68b30",
+          "mnemonic": "lea",
+          "operands": "esi, [esi + ecx + 1]"
+        },
+        {
+          "address": "0x68b34",
+          "mnemonic": "mov",
+          "operands": "ecx, edx"
+        },
+        {
+          "address": "0x68b36",
+          "mnemonic": "shr",
+          "operands": "ecx, 2"
+        },
+        {
+          "address": "0x68b39",
+          "mnemonic": "rep movsd",
+          "operands": "dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "address": "0x68b3b",
+          "mnemonic": "mov",
+          "operands": "ecx, edx"
+        },
+        {
+          "address": "0x68b3d",
+          "mnemonic": "and",
+          "operands": "ecx, 3"
+        },
+        {
+          "address": "0x68b40",
+          "mnemonic": "rep movsb",
+          "operands": "byte ptr es:[edi], byte ptr [esi]"
+        }
+      ]
+    },
+    {
+      "start": "0x68b52",
+      "end": "0x68b7f",
+      "bytes": "8943048d45206601430a66894308668b4424126689430c668b4308668bc8662bcd66894b0825ffff0000034304",
+      "instructions": [
+        {
+          "address": "0x68b52",
+          "mnemonic": "mov",
+          "operands": "dword ptr [ebx + 4], eax"
+        },
+        {
+          "address": "0x68b55",
+          "mnemonic": "lea",
+          "operands": "eax, [ebp + 0x20]"
+        },
+        {
+          "address": "0x68b58",
+          "mnemonic": "add",
+          "operands": "word ptr [ebx + 0xa], ax"
+        },
+        {
+          "address": "0x68b5c",
+          "mnemonic": "mov",
+          "operands": "word ptr [ebx + 8], ax"
+        },
+        {
+          "address": "0x68b60",
+          "mnemonic": "mov",
+          "operands": "ax, word ptr [esp + 0x12]"
+        },
+        {
+          "address": "0x68b65",
+          "mnemonic": "mov",
+          "operands": "word ptr [ebx + 0xc], ax"
+        },
+        {
+          "address": "0x68b69",
+          "mnemonic": "mov",
+          "operands": "ax, word ptr [ebx + 8]"
+        },
+        {
+          "address": "0x68b6d",
+          "mnemonic": "mov",
+          "operands": "cx, ax"
+        },
+        {
+          "address": "0x68b70",
+          "mnemonic": "sub",
+          "operands": "cx, bp"
+        },
+        {
+          "address": "0x68b73",
+          "mnemonic": "mov",
+          "operands": "word ptr [ebx + 8], cx"
+        },
+        {
+          "address": "0x68b77",
+          "mnemonic": "and",
+          "operands": "eax, 0xffff"
+        },
+        {
+          "address": "0x68b7c",
+          "mnemonic": "add",
+          "operands": "eax, dword ptr [ebx + 4]"
+        }
+      ]
+    },
+    {
+      "start": "0x68c1c",
+      "end": "0x68c33",
+      "bytes": "668b4b0a8d440d006689430a8b430481e1ffff000003c1",
+      "instructions": [
+        {
+          "address": "0x68c1c",
+          "mnemonic": "mov",
+          "operands": "cx, word ptr [ebx + 0xa]"
+        },
+        {
+          "address": "0x68c20",
+          "mnemonic": "lea",
+          "operands": "eax, [ebp + ecx]"
+        },
+        {
+          "address": "0x68c24",
+          "mnemonic": "mov",
+          "operands": "word ptr [ebx + 0xa], ax"
+        },
+        {
+          "address": "0x68c28",
+          "mnemonic": "mov",
+          "operands": "eax, dword ptr [ebx + 4]"
+        },
+        {
+          "address": "0x68c2b",
+          "mnemonic": "and",
+          "operands": "ecx, 0xffff"
+        },
+        {
+          "address": "0x68c31",
+          "mnemonic": "add",
+          "operands": "eax, ecx"
+        }
+      ]
+    }
+  ]
+}

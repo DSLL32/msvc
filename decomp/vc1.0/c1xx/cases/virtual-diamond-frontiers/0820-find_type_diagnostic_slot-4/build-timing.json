@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.051847162656486,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-find-type-diagnostic-slot-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 4.0989653104916215,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-find-type-diagnostic-slot-canonical.log"
+  }
+]

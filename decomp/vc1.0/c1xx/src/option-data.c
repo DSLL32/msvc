@@ -70,7 +70,6 @@ CompilerOptions options = {
         {0}, {0}
     },
     0, /* option_nologo */
-    0, /* option_FAT */
     "/", /* path_characters */
     0, /* option_C */
     0, /* defines */
@@ -86,7 +85,6 @@ CompilerOptions options = {
     "", /* intermediate_prefix */
     0, /* option_xc */
     0, /* option_m */
-    0, /* option_V */
     0, /* option_NV */
     0, /* option_Fr */
     0, /* option_FR */
@@ -138,7 +136,7 @@ static ZRule z_rules[] = {
 
 OptionRule option_rules[] = {
     { "-nologo", &options.option_nologo, 1, 0x1, 0 },
-    { "-FAT", &options.option_FAT, 1, 0x1, 0 },
+    { "-FAT", &fat_filenames, 1, 0x1, 0 },
     { "-pc#", &options.path_characters, 1, 0x22, 0 },
     { "-pf", &options.configuration.option_pf, 1, 0x1, 0 },
     { "-C", &options.option_C, 1, 0x1, 0 },
@@ -171,7 +169,7 @@ OptionRule option_rules[] = {
     { "-il#", &options.intermediate_prefix, 1, 0x22, 0 },
     { "-xc", &options.option_xc, 1, 0x1, 0 },
     { "-m", &options.option_m, 1, 0x1, 0 },
-    { "-V#", &options.option_V, 1, 0x22, 0 },
+    { "-V#", &version_directive_text, 1, 0x22, 0 },
     { "-Gs", &options.configuration.option_Gs, 1, 0x5, 0 },
     { "-Gc", &options.configuration.option_Gc, 1, 0x1, 0 },
     { "-Gr", &options.configuration.option_Gr, 1, 0x1, 0 },

@@ -305,6 +305,8 @@ void __stdcall insert_scope_symbol(SymbolScope *scope, CppSymbol *symbol);
 CppSymbol *__stdcall resolve_declaration(DeclarationType *context, CppSymbol *declaration);
 int __stdcall is_static_data_member(CppSymbol *symbol);
 void __stdcall unwind_qualified_scopes(int stop_at_class);
+extern unsigned type_diagnostic_depth;
+short reserve_type_diagnostic(void);
 unsigned short begin_type_diagnostic(void);
 void end_type_diagnostic(void);
 short __stdcall format_declarator(CppSymbol *symbol, CType *type);

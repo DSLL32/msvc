@@ -1,0 +1,28 @@
+[
+  {
+    "phase": "native",
+    "seconds": 8.47706345655024,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-diagnostic-option-alias-correction-native.log",
+    "durable_raw_log": "evidence/type-text-option-alias-native.log.gz"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 24.61319673154503,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-diagnostic-option-alias-correction-canonical.log",
+    "durable_raw_log": "evidence/type-text-option-alias-canonical.log.gz"
+  }
+]

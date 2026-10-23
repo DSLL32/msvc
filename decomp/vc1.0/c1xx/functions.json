@@ -815,7 +815,17 @@
     "_next_pending_class_name",
     "_emit_line_directive",
     "_format_text",
-    "_vformat_text"
+    "_vformat_text",
+    "_format_integer",
+    "_quote_source_filename@8",
+    "_write_work_bytes@16",
+    "_pointer_kind_spelling@4",
+    "_begin_type_diagnostic",
+    "_reserve_type_diagnostic",
+    "_format_diagnostic_symbol@8",
+    "_append_type_diagnostic@8",
+    "_reserve_type_diagnostic_bytes@12",
+    "_find_type_diagnostic_slot@4"
   ],
   "driver": [
     {
@@ -3033,7 +3043,7 @@
     {
       "name": "_write_work_bytes@16",
       "start": 206960,
-      "end": 206961
+      "end": 207256
     },
     {
       "name": "_scan_character_literal@4",
@@ -3463,17 +3473,17 @@
     {
       "name": "_pointer_kind_spelling@4",
       "start": 218480,
-      "end": 218481
+      "end": 218528
     },
     {
       "name": "_reserve_type_diagnostic",
       "start": 428416,
-      "end": 428417
+      "end": 428547
     },
     {
       "name": "_format_diagnostic_symbol@8",
       "start": 426592,
-      "end": 426593
+      "end": 426646
     },
     {
       "name": "_generated_member_name@4",
@@ -5230,7 +5240,7 @@
     {
       "name": "_format_integer",
       "start": 476032,
-      "end": 476033
+      "end": 476153
     },
     {
       "name": "_make_error_expression",
@@ -6710,12 +6720,27 @@
     {
       "name": "_quote_source_filename@8",
       "start": 126384,
-      "end": 126385
+      "end": 126462
     },
     {
       "name": "_vformat_text",
       "start": 472816,
       "end": 473147
+    },
+    {
+      "name": "_append_type_diagnostic@8",
+      "start": 423968,
+      "end": 424027
+    },
+    {
+      "name": "_reserve_type_diagnostic_bytes@12",
+      "start": 428704,
+      "end": 429129
+    },
+    {
+      "name": "_find_type_diagnostic_slot@4",
+      "start": 428352,
+      "end": 428411
     }
   ],
   "cases": {
@@ -6841,7 +6866,7 @@
       "native_reference": "cases/native-virtual-diamond",
       "frontiers": "cases/virtual-diamond-frontiers",
       "accepted_from": 643,
-      "terminal": "_format_integer",
+      "terminal": "_type_diagnostic_text@4",
       "frontier_extensions": [
         "cases/virtual-diamond-frontiers/0643-complete_declaration-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0644-add_storage_specifier-16/frontier-extension.json",
@@ -7010,9 +7035,19 @@
         "cases/virtual-diamond-frontiers/0807-next_pending_class_name/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0808-emit_line_directive/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0809-format_text/frontier-extension.json",
-        "cases/virtual-diamond-frontiers/0810-vformat_text/frontier-extension.json"
+        "cases/virtual-diamond-frontiers/0810-vformat_text/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0811-format_integer/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0812-quote_source_filename-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0813-write_work_bytes-16/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0814-pointer_kind_spelling-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0815-begin_type_diagnostic/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0816-reserve_type_diagnostic/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0817-format_diagnostic_symbol-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0818-append_type_diagnostic-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0819-reserve_type_diagnostic_bytes-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0820-find_type_diagnostic_slot-4/frontier-extension.json"
       ],
-      "terminal_evidence": "cases/virtual-diamond-frontiers/0810-vformat_text/original-events.txt",
+      "terminal_evidence": "cases/virtual-diamond-frontiers/0820-find_type_diagnostic_slot-4/original-events.txt",
       "original_seed": "cases/virtual_diamond-seed"
     }
   },
@@ -7281,16 +7316,6 @@
         {
           "name": "_forced_source_inputs",
           "original": 593744,
-          "bytes": 4
-        },
-        {
-          "name": "_forced_source_index",
-          "original": 593748,
-          "bytes": 2
-        },
-        {
-          "name": "_current_forced_source",
-          "original": 593752,
           "bytes": 4
         },
         {
@@ -8963,6 +8988,35 @@
         {
           "name": "_pending_class_name_index",
           "original": 650456,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_type_diagnostic_depth",
+      "original": 654528,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_type_diagnostic_depth",
+          "original": 654528,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_type_diagnostic_storage",
+      "original": 593748,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_type_diagnostic_storage",
+          "original": 593748,
+          "bytes": 528
+        },
+        {
+          "name": "_next_type_diagnostic_handle",
+          "original": 663320,
           "bytes": 4
         }
       ]
