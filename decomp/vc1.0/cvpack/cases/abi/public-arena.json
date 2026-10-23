@@ -9,8 +9,8 @@
   "allocation": "allocate_symbol truncates size to16 bits and calls checked_alloc(8100) on exhaustion; one currently live block, no unsupported previous block ownership.",
   "initialized": "Completed intern_public writes next/name_offset,hash/offset/segment and full record including explicit pad bytes. Reserved header bytes6..7 and allocation suffix2 bytes remain undefined; retain their raw evidence.",
   "sources": {
-    "src/modules.c": "980401f576db12845ffd1dbdb5a69ef7112700c6e9c4146074a29bdd84fc3fab",
-    "src/image.h": "95f9817b46242f5bd7465ced9f7181a389a6252b25d3cd49175829c21e74b5e8"
+    "src/modules.c": "93376a195343107758161e17cfbce6ebc480d435a668a6d92bfffc74366ab0a1",
+    "src/image.h": "6143ab95271272a8776b720f4052ffce85ce429f2f98615732068af475c122cf"
   },
   "instructions": [
     {

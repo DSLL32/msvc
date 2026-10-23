@@ -141,7 +141,7 @@ void read_publics(unsigned long directory, const CvDirectoryEntry *entry)
     public_directory = directory;
 }
 
-unsigned long public_symbol_bytes;
+unsigned long symbol_scope_depth;
 
 void pack_public_symbols(void *symbols, CvDirectoryEntry *entry)
 {
@@ -149,7 +149,7 @@ void pack_public_symbols(void *symbols, CvDirectoryEntry *entry)
     unsigned char *cursor, *end;
     unsigned short length, kind;
     unsigned long i;
-    public_symbol_bytes = 0;
+    symbol_scope_depth = 0;
     if (!entry->size) return;
     end = (unsigned char *)symbols+entry->size;
     for (cursor = (unsigned char *)symbols+4; cursor < end; cursor += length) {

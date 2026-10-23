@@ -248,7 +248,10 @@ def capture_symbol_output():
     if not rows:return []
     assert len(rows)==1 and not rows[0].get('error'),'invalid actual symbol allocation'
     entry=rows[0].copy();f=gdb.newest_frame();caller=f.older()
-    assert f.name()in('write_search_symbol','convert_object_name','convert_udt_symbol')and caller.name()=='pack_new_types','unreviewed symbol output consumer'
+    if f.name()=='intern_global':
+        assert caller.name()=='convert_udt_symbol','unreviewed nested symbol output caller'
+        entry['nested_caller']=caller.name();caller=caller.older()
+    assert f.name()in('write_search_symbol','convert_object_name','convert_udt_symbol','intern_global')and caller.name()=='pack_new_types','unreviewed symbol output consumer'
     base,size=entry['base'],entry['size'];cursor=int(gdb.parse_and_eval('symbol_output'))
     assert int(caller.read_var('buffer'))==int(caller.read_var('start'))==base
     assert int(caller.read_var('end'))==entry['input']+4746 and int(caller.read_var('output_size'))==size

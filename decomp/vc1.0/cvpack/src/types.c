@@ -393,7 +393,7 @@ void pack_new_types(void *types, CvDirectoryEntry *entry, ModuleInfo *module,
 
     symbol_input = types;
     suppressed_symbol_depth = 0;
-    public_symbol_bytes = 0;
+    symbol_scope_depth = 0;
     end = (unsigned char *)types+entry->size;
     output_size = entry->size+(unsigned long)*padding_bytes-(unsigned long)*skipped_bytes;
     buffer = malloc(output_size);
@@ -465,5 +465,16 @@ void convert_object_name(void)
         current_module->object_name = malloc(name[0]+1);
         if (!current_module->object_name) fatal_error(13, NULL, NULL);
         memcpy(current_module->object_name, name, name[0]+1);
+    }
+}
+
+void convert_udt_symbol(void)
+{
+    unsigned short *index;
+    if (suppressed_symbol_depth) *(unsigned short *)(symbol_input+2) = 8;
+    if (!suppressed_symbol_depth) {
+        index = (unsigned short *)(symbol_input+4);
+        *index = convert_new_type(*index);
+        if (!symbol_scope_depth) intern_global(symbol_input, hash_public);
     }
 }

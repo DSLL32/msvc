@@ -3661,16 +3661,35 @@
       "native": "convert_udt_symbol",
       "symbol": "_convert_udt_symbol",
       "original": 153600,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        153600,
+        153678
+      ],
       "abi": "void convert_udt_symbol(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0067-convert_udt_symbol/proof.json",
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [],
+      "required_pdb_record_proof": true,
+      "required_symbol_output_observation": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "write_search_symbol",
@@ -3783,6 +3802,35 @@
           "slot": 3,
           "kind": "integer",
           "bits": 16
+        }
+      ]
+    },
+    {
+      "name": "intern_global",
+      "native": "intern_global",
+      "symbol": "@intern_global@8",
+      "original": 111872,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int __fastcall intern_global(unsigned char *,SymbolHash)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "record",
+          "register": "ecx",
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "hash",
+          "register": "edx",
+          "kind": "function",
+          "bits": 32
         }
       ]
     }
@@ -4207,6 +4255,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 66
+    },
+    {
+      "function": "convert_udt_symbol",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 67
     }
   ],
   "support_unmasked": [
@@ -4801,15 +4855,15 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "f2bba014d28c97c64cab5a89ee8d4a072ee9c44c72f57e4eed14d14deccf6df9"
+    "evidence_sha256": "3c5e777b9a16ca3a2de9381281666b5549fd63387b5303dd635eab549d127fff"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "ce4316864ee3917c5c8140d705e6daf11ccb802a9f369105492582334ac54f50"
+    "evidence_sha256": "f501af339d9a25029b281cfb4155aa3c1d909a16b96855000bb369f743b812cf"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
-    "evidence_sha256": "89678d3434d738f8c86fff6e7cbce770cef7ceeb084b77f6a38cc796cdddb1a8"
+    "evidence_sha256": "18b13e8a55e0e89eb84a02e9f07b97d93f897773504995169d9a052ab054f7c9"
   },
   "external_inputs": {
     "evidence": "cases/abi/pdb-input.json",
@@ -4829,18 +4883,18 @@
   },
   "partial_read_observations": {
     "evidence": "cases/abi/partial-public-read.json",
-    "evidence_sha256": "ec9e393081d58a7ab5a9a440420b9d9e314670be203257ef4027dfc62468d85a"
+    "evidence_sha256": "23642338da0dafe95a5da6e4d0724f25139366b55994a55a0bd2ea898f79d34b"
   },
   "module_buffer_publication": {
     "evidence": "cases/abi/module-buffer-publication.json",
-    "evidence_sha256": "f103eee88494a0fc7389afe6a5b45fd5162c0f75995b104fe8ef71f4d1c523ed"
+    "evidence_sha256": "13d44afe4e28af7676a84bff90018b6c759d2ceb63506dfcc2452259f5e13f46"
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "b5fe1319131aa657eb4af487e4394f71bf1f5c58c75c4f0a623b9f46fb13bdee"
+    "evidence_sha256": "19f950473a1daa0bcb8705a86aada127c41e59931cd2f570806eccc8a2eab375"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "02a7ac00a68b2dba4dc6435b439491b2c35bcedfb08c8615889b0b2a44ba8bdf"
+    "evidence_sha256": "5b94e6b3869a435f9a94f238a2792c03f706194fb46cb54de599c1f27eb53401"
   }
 }

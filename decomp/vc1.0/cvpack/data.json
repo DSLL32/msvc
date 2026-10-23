@@ -752,10 +752,11 @@
     "size": 2
   },
   {
-    "name": "public_symbol_bytes",
-    "symbol": "_public_symbol_bytes",
+    "name": "symbol_scope_depth",
+    "symbol": "_symbol_scope_depth",
     "original": 210412,
-    "size": 4
+    "size": 4,
+    "provenance": "335ec: incremented/decremented by symbol scope callbacks; earlier public_symbol_bytes name was provisional."
   },
   {
     "name": "type_recursion_error",

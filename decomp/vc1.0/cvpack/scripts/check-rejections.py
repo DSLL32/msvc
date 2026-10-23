@@ -71,6 +71,9 @@ def main():
     config,original=load()
     from pdb_checks import check as pdb_checks
     pdb_checks(config,original,reject)
+    from symbol_output_checks import check_nested_udt
+    nested_symbols=BINARY/'cases/hello-debug-dll/evidence/0067-convert_udt_symbol'
+    if nested_symbols.is_dir():check_nested_udt(nested_symbols)
     from symbol_output_checks import check_object_copy
     copied=BINARY/'cases/hello-debug-dll/evidence/0066-convert_object_name'
     if copied.is_dir():check_object_copy(copied)

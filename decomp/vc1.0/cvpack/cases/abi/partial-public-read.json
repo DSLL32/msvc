@@ -9,7 +9,7 @@
   "native_line": 340,
   "sources": {
     "src/files.c": "fd7ad4f6cbf4693bef0ffbea48a372e7ed2ad42bb0acd2b28c62326242195499",
-    "src/modules.c": "980401f576db12845ffd1dbdb5a69ef7112700c6e9c4146074a29bdd84fc3fab"
+    "src/modules.c": "93376a195343107758161e17cfbce6ebc480d435a668a6d92bfffc74366ab0a1"
   },
   "instructions": [
     [

@@ -20,12 +20,17 @@
       "start": 114400,
       "end": 114446,
       "bytes": "8b442404668b4c240866c7000a0066c74002050066894808c740040000000083c00ac6000040c6000066b80c00c3"
+    },
+    {
+      "start": 153600,
+      "end": 153678,
+      "bytes": "56833de8350300007414a1e435030066c740020800833de835030000752e8b35e4350300668b4e0483c604e8b00c0000668906833dec350300007510bae0af01008b0de4350300e8b45cffff5ec3"
     }
   ],
   "sources": {
-    "src/types.c": "8db73670a66694f4919e66d47b903250d0230cb227a16a353675dbed0532f853",
+    "src/types.c": "3c98cba90041b231a902dcb83b307ecc12e0d430ddf9b32b3f2aa9ffb238203c",
     "src/types.h": "1550f8ff69cdb7cb329781def2b6437459649f5e91a3dbde420998ed3cb4cd78",
-    "src/image.h": "95f9817b46242f5bd7465ced9f7181a389a6252b25d3cd49175829c21e74b5e8"
+    "src/image.h": "6143ab95271272a8776b720f4052ffce85ce429f2f98615732068af475c122cf"
   },
   "scope": "Same actual module3 allocation5113. Header4; search12 yields16; then completed24-byte S_OBJNAME copy yields40. Exact first respectivecallbacks/parentframes/sourcecursor; later writes not inferred.",
   "frontiers": {
@@ -62,6 +67,20 @@
       "record_length": 34,
       "callback_index": 27,
       "kind": 4
+    },
+    "intern_global": {
+      "original": 111872,
+      "defined": 40,
+      "input_offset": 28,
+      "return_address": 153676,
+      "allocation_esp_delta": 8,
+      "buffer_slot": 7,
+      "input_slot": 10,
+      "record_length": 34,
+      "callback_index": 27,
+      "kind": 4,
+      "nested_return_address": 151922,
+      "nested_return_slot": 2
     }
   }
 }

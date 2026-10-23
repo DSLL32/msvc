@@ -242,7 +242,7 @@
   "source": "src/image.c",
   "source_sha256": "24317f37706b277c40b92fb1963a414dbc84c31e0c6a9ef77022128ab99ad9a4",
   "additional_sources": {
-    "src/modules.c": "980401f576db12845ffd1dbdb5a69ef7112700c6e9c4146074a29bdd84fc3fab",
-    "src/types.c": "8db73670a66694f4919e66d47b903250d0230cb227a16a353675dbed0532f853"
+    "src/modules.c": "93376a195343107758161e17cfbce6ebc480d435a668a6d92bfffc74366ab0a1",
+    "src/types.c": "3c98cba90041b231a902dcb83b307ecc12e0d430ddf9b32b3f2aa9ffb238203c"
   }
 }

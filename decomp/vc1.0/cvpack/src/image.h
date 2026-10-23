@@ -125,8 +125,9 @@ typedef unsigned short (__cdecl *SymbolHash)(const unsigned char *,unsigned long
 unsigned short __fastcall convert_old_type(unsigned short);
 unsigned short __fastcall convert_new_type(unsigned short);
 int intern_public(unsigned char *,SymbolHash);
+int __fastcall intern_global(unsigned char *,SymbolHash);
 unsigned short __cdecl hash_public(const unsigned char *,unsigned long *,unsigned short *,unsigned short *,unsigned long *,unsigned short);
-extern unsigned long public_symbol_bytes;
+extern unsigned long symbol_scope_depth;
 typedef struct PublicSymbol {
     struct PublicSymbol *next;
     unsigned short name_offset, reserved;

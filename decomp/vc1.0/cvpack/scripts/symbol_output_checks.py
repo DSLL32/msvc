@@ -90,3 +90,21 @@ def check_object_copy(pair):
     for field in('before','postbytes'):
         raw=bytearray.fromhex(changed[0][field]);raw[40]^=1;changed[0][field]=raw.hex()
     run(changed)
+
+
+def check_nested_udt(pair):
+    pair=Path(pair);config,pe=load();events=(pair/'original-events').read_text();state=json.loads((pair/'native-gdb.json').read_text());rows=json.loads((pair/'native-symbol-output.json').read_text())
+    spec=json.loads((pair/'walks.json').read_text());old=original_walks(events,spec)
+    def run(e=events,n=rows):return compare(config,pe,e,n,old,state['walks'],True,state)
+    assert run()['defined']==40
+    def deny(label,action):
+        try:action()
+        except (AssertionError,KeyError):print('rejected:',label);return
+        raise AssertionError('accepted invalid '+label)
+    deny('nested UDT wrong immediate return',lambda:run(events.replace('stack 0 0002584c','stack 0 0002584d')))
+    deny('nested UDT wrong outer return',lambda:run(events.replace('stack 2 00025172','stack 2 00025173')))
+    deny('nested UDT wrong callback register',lambda:run(re.sub(r'(^registers .* edx )0001afe0',r'\g<1>0001afe1',events,flags=re.M)))
+    changed=copy.deepcopy(rows);changed[0]['nested_caller']='convert_object_name'
+    deny('nested UDT wrong native parent frame',lambda:run(n=changed))
+    changed=copy.deepcopy(rows);changed[0].pop('nested_caller')
+    deny('nested UDT missing native frame witness',lambda:run(n=changed))
