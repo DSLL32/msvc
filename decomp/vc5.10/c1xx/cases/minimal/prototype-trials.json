@@ -160,7 +160,7 @@
     }
   ],
   "incremental_build_audit_seconds": 0.18524173833429813,
-  "projection_review_required_before_promotion": true,
+  "projection_review_required_before_promotion": false,
   "observed_inputs": {
     "callback36": "cdecl void(void), no incoming reads; actual20-byte value observed at pre/BSS-phase/actual entry/immediate result/frontier",
     "callback37": "cdecl void(void), no incoming values read before MOV ECX,fixed receiver; tailcalled member not reached or reconstructed"
@@ -242,5 +242,11 @@
     "build/native/initializers.o.build.json": 0.11557937320321798,
     "build/native/provenance.json": 1.4661449464038014
   },
-  "audit_seconds": 0.03323359880596399
+  "audit_seconds": 0.03323359880596399,
+  "orchestrator_review": {
+    "result": "PASS",
+    "receipt": "/root/.ai-tmp/msvc2/vc5.10/c1xx/empty-prototype-orchestrator-review.json",
+    "sha256": "e20db349ee3816f6a5ee2163336f96e043d25d63cc248b2bdb8efe2dde712912",
+    "scope": "Exact20-byte whole prototype, no larger-record fields or original gap modeled; original unknown initialized8431 bytes remain unmodeled."
+  }
 }
