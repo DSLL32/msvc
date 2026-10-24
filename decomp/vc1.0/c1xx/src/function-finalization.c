@@ -516,3 +516,18 @@ void emit_pending_function_cleanup(void)
         }
     }
 }
+
+/* Original 0x48510..0x4855e, stdcall4. Synthetic initializer
+   functions enter the ordinary body and scope machinery with capture enabled. */
+void __stdcall begin_initializer_function(CppSymbol *symbol)
+{
+    token_allocation_flags |= 0x40;
+    function_symbol = prepare_function_definition(symbol);
+    token_allocation_flags |= 0x80000;
+    begin_function_body();
+    enter_compound_scope();
+    function_symbol->flags |= 4;
+    declaration_mode = 0;
+    function_symbol->declaration_flags =
+        (function_symbol->declaration_flags & ~0x100) | 0x200;
+}

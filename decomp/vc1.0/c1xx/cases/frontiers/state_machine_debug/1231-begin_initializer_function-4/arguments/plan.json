@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "function": "_begin_initializer_function@4",
+  "native_entry": "begin_initializer_function",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_symbol": "(unsigned)symbol"
+  },
+  "formals": [
+    {
+      "name": "symbol",
+      "stack_index": 0,
+      "native_field": "raw_symbol",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 259081,
+        "original_owner_function": "_emit_pending_function_cleanup",
+        "native_owner_function": "emit_pending_function_cleanup",
+        "native_owner_field": "caller_symbol",
+        "native_owner_local": "symbol",
+        "identity": "Actual accepted cleanup caller loads popped item.value into ESI4f3ea, kind7 branch PUSH ESI4f403/CALL4f404/return4f409; native actual immediate caller symbol is the same queued function owner."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "esi",
+  "ownership_caller_extent": [
+    324544,
+    324617
+  ],
+  "native_caller_locals": {
+    "caller_symbol": {
+      "frame": 1,
+      "function": "emit_pending_function_cleanup",
+      "local": "symbol"
+    }
+  },
+  "abi_analysis": {
+    "original_extent": [
+      296208,
+      296287
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 void RET4",
+    "proof": "Whole79B frameless, symbol entryESP+4, RET4; no incoming register/x87/flags formal. Set low token flags40 before prepare_function_definition(symbol), publish return in existing function_symbol8c140, set high word8 (80000) before begin_function_body/enter_compound_scope. Actual function symbol flagsBYTE+1|4; declaration_mode8c13c=0; high declaration flagsBYTE+3 clear1/set2 (WORD&~100|200). All3 callees accepted, original update ordering and known globals retained; no new data/CRT/guard."
+  }
+}

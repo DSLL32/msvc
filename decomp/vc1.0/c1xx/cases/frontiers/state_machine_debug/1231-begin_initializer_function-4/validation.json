@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_begin_initializer_function@4",
+    "start": 296208,
+    "end": 296287
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_begin_function_body",
+    "_enter_compound_scope",
+    "_prepare_function_definition@4"
+  ],
+  "next_frontier": "_flush_current_function@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8286558911204338,
+  "total_operation_seconds": 5.548980756662786,
+  "original_capture_seconds": 2.170304269529879
+}

@@ -173,7 +173,6 @@ IrToken *__stdcall initialize_allocated_scalar(IrToken *object, IrToken *initial
 
 CppSymbol *__stdcall require_default_constructor_closure(CppSymbol *constructor) { __asm { int 3 } return 0; }
 unsigned short __stdcall fit_string_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
-void __stdcall begin_initializer_function(CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall emit_runtime_symbol_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } }
 int __stdcall remaining_string_initializer_bytes(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall lookup_based_symbol(char *name) { __asm { int 3 } return 0; }

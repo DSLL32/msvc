@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "c92d8da470dd6c8ff43c32fca6f7673817647687d548fd8a5db68bc489e9f146",
+    "functions.json": "4f614c09b0c84dc0720a514650b50bb7a26e6d23334fa73c5548a06558020cec",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "6430b121e331c0f4129dd3dd2e15b42289fd2f7103e105ca50e8f13c388fb3d6",
-    "cases/canonical-map.txt": "f8d9a2da7a83f8c6a7333290bb66567336081d8b2dde079d5218e5c15ddc7123",
+    "cases/original-entry-references.json": "4c22f6e87f6d11a36bb1be0a1637ef051fc1642066592ea74c949db19b2d8ab3",
+    "cases/canonical-map.txt": "ca273394bb7b45b855ca42b445f3f7fdb0214c77815f1cca2b8c26f39ce76160",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -61,9 +61,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1230-emit_pending_function_cleanup/entry-reference/original-receipt.json": "977d9a4ff6d822f355211bc762e953b56e4ac745d4c6bfce16422d7038b481d1",
-    "cases/frontiers/state_machine_debug/1230-emit_pending_function_cleanup/entry-reference/original-events.txt": "91c0651f0d1675e29f278c184f15e6d3073dba1d21eff6de05a8d55316028a22",
-    "cases/frontiers/state_machine_debug/1230-emit_pending_function_cleanup/entry-reference/original-entries.plan": "3eb7f5971447ee11ede388cf12db87ab3624f90d800f20fce2655e73aead7673"
+    "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-receipt.json": "c9cbd20af4610da8f8c35487c1cb632113d35461981bd76aa2f7d60e10400717",
+    "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-events.txt": "a7247c160287c63539d241bef68d979d6d6a4b4649e77c3b542cb394ffce4b8e",
+    "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-entries.plan": "95e3224e0362e24a6ef5b495984403fa23be74272e90e204349cda7924f7f5d6"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -488,7 +488,7 @@
     },
     "begin_initializer_function": {
       "logical": "_begin_initializer_function@4",
-      "source": "src/stubs.c"
+      "source": "src/function-finalization.c"
     },
     "begin_line_record_debug_info": {
       "logical": "_begin_line_record_debug_info",
@@ -7101,7 +7101,8 @@
     "resolve_overloaded_arrow",
     "builtin_operand_is_lvalue",
     "convert_selected_operator_operand",
-    "emit_pending_function_cleanup"
+    "emit_pending_function_cleanup",
+    "begin_initializer_function"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -11224,7 +11225,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1231,
+      "last": 1232,
       "seen": [
         "main",
         "message_text",
@@ -12354,12 +12355,13 @@
         "builtin_operand_is_lvalue",
         "convert_selected_operator_operand",
         "emit_pending_function_cleanup",
-        "begin_initializer_function"
+        "begin_initializer_function",
+        "flush_current_function"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_begin_initializer_function@4",
-        "native": "begin_initializer_function",
+        "logical": "_flush_current_function@4",
+        "native": "flush_current_function",
         "signal": 5
       }
     }
