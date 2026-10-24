@@ -1,0 +1,30 @@
+{
+  "function": "_evaluate_preprocessor_expression",
+  "extent": [
+    99936,
+    100061
+  ],
+  "bytes": 125,
+  "new_state": [
+    {
+      "va": 645040,
+      "name": "preprocessor_expression_token",
+      "initial": 1,
+      "width": 1
+    },
+    {
+      "va": 645044,
+      "name": "preprocessor_expression_parentheses",
+      "initial": 0,
+      "width": 4
+    }
+  ],
+  "value_prefix": "Type WORD0/value DWORD4, natural2B padding uncredited; sizeof8/offsetof4 compile assertions on both targets. Wrapper consumes only valueDWORD4 after parse returns, preserves actual numeric int32 result before releasing arena4.",
+  "initial_default_correction": "Affected data audit caught initial token1 versus first draft0 before promotion. Rebuilt native and canonical after correction, reused unchanged original entry capture with freshly captured native observation; original target/mask/inputs/caller/state contract unchanged. Old raw native pair retained under before-initial-token-correction.",
+  "proof": "cases/frontiers/member_registry_browser/1284-evaluate_preprocessor_expression/arguments/validation.json",
+  "entry_disassembly": "cases/frontiers/member_registry_browser/1284-evaluate_preprocessor_expression/arguments/original-disassembly.txt",
+  "data_audit": "corrected-data-audit.log.gz",
+  "source_sha256": "41066ff46d396e0d4b98db3fdc44a72b34d8599bae6bd8c80bd57f0691f7f24e",
+  "helper": "parse_preprocessor_conditional186e0..1872a74B, still namedINT3; no helper body credit",
+  "clock_normalization": "none"
+}

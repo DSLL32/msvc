@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_evaluate_preprocessor_expression",
+  "case": "member_registry_browser",
+  "accepted_before": 1284,
+  "configuration_sha256": "ca7dcb4d81d8c2d3e14511b5d6e9200b0265edbbcce73ffec0d64fe8e28c3442",
+  "native_entry": "evaluate_preprocessor_expression",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      99936,
+      100061
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl no formals int EAX, savedESI/RET0",
+    "proof": "Whole125B raw disassembly begins explicitly18660 (whole-section linear decoder crosses earlier data, so entry-specific disassembly is authoritative). Sets parenthesesDWORD9d7b4=0 and tokenBYTE9d7b0=93, calls conditional parser cdecl0 returning pointer. Token88 decrements parentheses before old-valuezero fatal_error(12,40); other non1 token warning1/67 literal#if/#elif, positive remaining depth fatal_error(12,41). Loads exact valueDWORD+4 before release_arena std4pool4 and returns numeric value. No stack/register/flags/x87 inputs/newCRT. Encountered8B PreprocessorValue typeWORD0/valueDWORD4 matches whole binary evaluator18250 typeWORD/signedness4000 andvalueoffset; paddingbytes2..3 uncredited. Four callee graph: conditional parser/fatal_error/compiler_warning/release_arena. Conditional helper74B and ABI independently analyzed, remains namedINT3 stub.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "ffdd76324b4ade611290fba3846021efa91dc8b17467435ff80a64f42a532a6a",
+  "capture_timing": {
+    "original_capture_seconds": 0.9664059774950147,
+    "original_reused": true,
+    "native_capture_seconds": 0.1862127548083663,
+    "current_derived_operation_seconds": 0.23640379309654236
+  },
+  "evidence_sha256": {
+    "original-receipt.json": "98df382fec93bd86d20d27ea0456a8171948aca144e989b509f0e0eddc7b182f",
+    "original-disassembly.txt": "a087dea102db20382ec31596776edd6135b88c899dd843bd752c37dafc6d1bf4",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-commands.gdb": "314708f2b8473f8b5f032055bc528e0fd4785f5c1a597ad8426d7437250ba5dd",
+    "native-checkpoint.json": "ed28b8d15ca85a0a42b0f3ac244a5c1c127688433124d62564096a1f0d29249d",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "ff0883322ea95f68c1110b9e53bb78baaade12b19ac692a694733db5d5726556",
+    "plan.json": "b004cc5d6c3376d3dc48a0669fd242816126678bdd52056fce81bb61f6c6ecb8",
+    "original-configuration.json": "ca7dcb4d81d8c2d3e14511b5d6e9200b0265edbbcce73ffec0d64fe8e28c3442",
+    "original-events.txt": "4f597806423805d4d0c3d6d74955e371d32cf5df2521d19c620ed325835ed8f7",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-gdb.log": "73a77c2a41b02cbaf36e5fdf881cbfd5137e4c67c84636b0557e45fed8cf7afd",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": [],
+  "native_initial_data_correction": {
+    "field": "preprocessor_expression_token",
+    "old_native_default": 0,
+    "correct_original_default": 1,
+    "original_raw_reused": true,
+    "reason": "Original target/mask/case/ABI unchanged; wrapper writes93 before consuming token. Initial data audit caught default before promotion. Old native pair retained.",
+    "derived_path_failure": "Relative GDB command path failed before observation in scratch/evaluate-initial-derived-relative-path-failure; retried absolute native path only, same original raw."
+  }
+}

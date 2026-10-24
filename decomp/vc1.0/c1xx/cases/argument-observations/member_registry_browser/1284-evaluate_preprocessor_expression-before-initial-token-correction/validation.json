@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_evaluate_preprocessor_expression",
+  "case": "member_registry_browser",
+  "accepted_before": 1284,
+  "configuration_sha256": "ca7dcb4d81d8c2d3e14511b5d6e9200b0265edbbcce73ffec0d64fe8e28c3442",
+  "native_entry": "evaluate_preprocessor_expression",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      99936,
+      100061
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl no formals int EAX, savedESI/RET0",
+    "proof": "Whole125B raw disassembly begins explicitly18660 (whole-section linear decoder crosses earlier data, so entry-specific disassembly is authoritative). Sets parenthesesDWORD9d7b4=0 and tokenBYTE9d7b0=93, calls conditional parser cdecl0 returning pointer. Token88 decrements parentheses before old-valuezero fatal_error(12,40); other non1 token warning1/67 literal#if/#elif, positive remaining depth fatal_error(12,41). Loads exact valueDWORD+4 before release_arena std4pool4 and returns numeric value. No stack/register/flags/x87 inputs/newCRT. Encountered8B PreprocessorValue typeWORD0/valueDWORD4 matches whole binary evaluator18250 typeWORD/signedness4000 andvalueoffset; paddingbytes2..3 uncredited. Four callee graph: conditional parser/fatal_error/compiler_warning/release_arena. Conditional helper74B and ABI independently analyzed, remains namedINT3 stub.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "df2238240044b9c1290b9e96e89440fd79f171e52fe0b071bf84cec28badd88c",
+  "capture_timing": {
+    "original_capture_seconds": 0.9664059774950147,
+    "native_capture_seconds": 0.22763311862945557,
+    "total_operation_seconds": 1.4997147601097822
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "ed28b8d15ca85a0a42b0f3ac244a5c1c127688433124d62564096a1f0d29249d",
+    "native-commands.gdb": "314708f2b8473f8b5f032055bc528e0fd4785f5c1a597ad8426d7437250ba5dd",
+    "native-gdb.log": "0718c76e9dc8b1390d43e05cc7c78975729e73961a3dc209d38c963137e713a1",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "7737488bc6a0e66668a71ca8d7fee09322e8768bbecb61114c92708428068a08",
+    "original-configuration.json": "ca7dcb4d81d8c2d3e14511b5d6e9200b0265edbbcce73ffec0d64fe8e28c3442",
+    "original-disassembly.txt": "a087dea102db20382ec31596776edd6135b88c899dd843bd752c37dafc6d1bf4",
+    "original-events.txt": "4f597806423805d4d0c3d6d74955e371d32cf5df2521d19c620ed325835ed8f7",
+    "original-receipt.json": "98df382fec93bd86d20d27ea0456a8171948aca144e989b509f0e0eddc7b182f",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "b004cc5d6c3376d3dc48a0669fd242816126678bdd52056fce81bb61f6c6ecb8"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

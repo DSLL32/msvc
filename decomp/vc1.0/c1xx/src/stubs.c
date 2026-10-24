@@ -53,6 +53,7 @@
 #include "directives-internal.h"
 #include "literals-internal.h"
 #include "type-diagnostics-internal.h"
+#include "preprocessor-expressions.h"
 #include <recon.h>
 void interrupt_compile(int signal_number) { __asm { int 3 } }
 void initialize_japanese_characters(void) { __asm { int 3 } }
@@ -475,7 +476,6 @@ unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *
 int __stdcall qualified_path_has_virtual_base(QualifiedDeclarator *path) { __asm { int 3 } return 0; }
 OverloadCandidate *__stdcall report_operator_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
 
-int evaluate_preprocessor_expression(void) { __asm { int 3 } return 0; }
 void undefine_source_macro(void) { __asm { int 3 } }
 void process_pragma(void) { __asm { int 3 } }
 void capture_directive_text(void) { __asm { int 3 } }
@@ -590,3 +590,5 @@ BrowserRecordHeader *pop_last_browser_record(void) { __asm { int 3 } return 0; }
 void suppress_browser_records(void) { __asm { int 3 } }
 CppSymbol *__stdcall static_member_from_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall set_browser_access(unsigned short *attributes, unsigned char access) { __asm { int 3 } }
+
+PreprocessorValue *parse_preprocessor_conditional(void) { __asm { int 3 } return 0; }

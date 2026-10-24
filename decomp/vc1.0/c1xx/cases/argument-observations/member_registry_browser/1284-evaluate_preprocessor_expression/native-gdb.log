@@ -1,0 +1,16 @@
+Breakpoint 1 at 0x2a7d7: file src/preprocessor-expressions.c, line 14.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, evaluate_preprocessor_expression () at src/preprocessor-expressions.c:14
+14	    preprocessor_expression_parentheses = 0;
+#0  evaluate_preprocessor_expression () at src/preprocessor-expressions.c:14
+#1  0x5659ac5b in preprocess_directive () at src/directives.c:292
+#2  0x565c8ed9 in begin_source_line () at src/lexer.c:663
+#3  0x565c8023 in read_lexical_token () at src/lexer.c:470
+#4  0x565c6465 in scan_token () at src/lexer.c:228
+#5  0x565c5945 in read_parser_token () at src/lexer.c:69
+#6  0x565bddc9 in parse_translation_unit () at src/parser.c:85
+#7  0x5655df0f in compile_translation_unit () at src/frontend.c:73
+#8  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#9  0x56558894 in main (argc=1, argv=0xffffd754, environment=0xffffd75c) at src/c1xx.c:20
