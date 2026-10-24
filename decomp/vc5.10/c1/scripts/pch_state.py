@@ -121,7 +121,9 @@ def validate_member(original,native,fields,state,sequence,probe,candidate,module
  returned_native=native_returns[0]
  assert returned_native['pc']==entry['return'] and returned_native['eax']==entry['ecx'] and returned_native['esp']==entry['esp']+4 and returned_native['edi']==entry['edi']
  assert returned_native['values']==[0]*17
- native_expected=list(entry['bss_bytes']);assert len(native_expected)==fields['main_fields']['native_bss_size']
+ # The root inventory owns the current complete BSS size. Nested historical
+ # component inventories retain the layout stage at which they were proved.
+ native_expected=list(entry['bss_bytes']);assert len(native_expected)==fields['native_bss_size']
  native_expected[708:776]=[0]*68
  assert returned_native['bss_bytes']==native_expected
  if probe=='normal':

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Explicit original-only DLL capture. This script is not a fixture dependency."""
 import argparse
-import fcntl
 import hashlib
 import json
 from pathlib import Path
@@ -136,6 +135,8 @@ def main():
         (output/'pool-cycle-observers.txt').write_text(''.join('%x\n'%rva for rva in points))
     if candidate.get('include_alias_observers'):
         (output/'include-alias-observers.txt').write_text('12df6 12e1c 5e414 4\n')
+    if candidate.get('checksum_observers'):
+        (output/'checksum-locale-observers.txt').write_text('12e1c 5d120 5729\n')
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))
@@ -166,15 +167,11 @@ def main():
     if args.case == "minimal":
         shutil.copy2(PROJECT / "cases/minimal/inputs/test.c", output / "test.c")
         command.append("minimal-restore" if args.restore_probe else "minimal")
-    waiting = time.perf_counter()
     with (output / "stdout.bin").open("wb") as stdout, (output / "stderr.bin").open("wb") as stderr:
-        with (Path.home()/'.ai-tmp/msvc2-original-capture.lock').open('a')as lock:
-            fcntl.flock(lock,fcntl.LOCK_EX)
-            lock_wait=time.perf_counter()-waiting
-            started=time.perf_counter()
-            result = subprocess.run(command, cwd=output, env=environment(), stdout=stdout,
-                                    stderr=stderr, timeout=90)
-            elapsed = time.perf_counter() - started
+        started=time.perf_counter()
+        result = subprocess.run(command, cwd=output, env=environment(), stdout=stdout,
+                                stderr=stderr, timeout=90)
+        elapsed = time.perf_counter() - started
     loaded = output / "loaded-target.bin"
     loaded_crt = output / "loaded-msvcrt.bin"
     if loaded.exists():
@@ -187,7 +184,7 @@ def main():
                "value_copy_sign": ("negative" if args.negative_value else "positive") if args.restore_probe else None,
                "pdb_reuse": args.pdb_reuse if args.restore_probe else None, "mode": args.mode,
                "command": command, "cwd": windows(output), "exit": result.returncode,
-               "seconds": elapsed, "capture_lock_wait_seconds": lock_wait, "preflight": checks,
+               "seconds": elapsed, "preflight": checks,
                "target_sha256": sha(TARGET), "canonical_crt_sha256": CRT_HASH,
                "helper_sha256": sha(output / "dll-capture.exe"),
                "candidate_sha256": sha(output / "candidate.json"),

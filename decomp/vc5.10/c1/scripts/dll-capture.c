@@ -72,6 +72,11 @@ static Range pool_observers[14];
 static int pool_cycle_probe;
 static int include_alias_probe;
 static int hfile_offset_probe;
+static int checksum_tables_probe, locale_entry_active, locale_return_active;
+static DWORD locale_entry_address, locale_return_address, locale_entry_esp;
+static BYTE locale_entry_saved, locale_return_saved;
+static int checksum_return_active;
+static BYTE checksum_return_saved;
 static DWORD pool_commit_address, pool_commit_bytes, pool_commit_esp, pool_commit_error;
 static DWORD system_before_esp, system_before_error;
 
@@ -425,6 +430,28 @@ static void prepare_mask(void)
                 entry != 0x12df6 || frontier != 0x12e1c || pointer != 0x5e414 || bytes != 4)
                 fail("include alias observer metadata");
             fclose(probe); include_alias_probe = 1;
+        }
+    }
+    {
+        FILE *probe = fopen("checksum-locale-observers.txt", "r");
+        DWORD entry, iat, provider;
+        if (probe) {
+            if (fscanf(probe, "%lx %lx %lx", &entry, &iat, &provider) != 3 ||
+                    entry != 0x12e1c || iat != 0x5d120 || provider != 0x5729)
+                fail("checksum locale observer metadata");
+            fclose(probe); checksum_tables_probe = 1;
+            readmem(base + iat, &locale_entry_address, 4);
+            if (locale_entry_address != crt_base + provider ||
+                    locale_entry_address != exported(crt_base, "setlocale"))
+                fail("canonical setlocale provider");
+            readmem(locale_entry_address, &locale_entry_saved, 1);
+            if (locale_entry_saved != 0x81) fail("canonical setlocale first byte");
+            save_remote_state("setlocale-provider-entry", 0, locale_entry_address, 6);
+            patch(locale_entry_address, 0xcc); locale_entry_active = 1;
+            readmem(base + 0x12b66, &checksum_return_saved, 1);
+            if (checksum_return_saved != 0x68 || checksum_return_saved != snapshot[0x12b66-code_rva])
+                fail("checksum return ownership");
+            patch(base + 0x12b66, 0xcc); checksum_return_active = 1;
         }
     }
     save_remote_state("compiler-callbacks", 0, base + 0x69000, 34 * 4);
@@ -824,6 +851,16 @@ static void seed_restore_state(void)
         fprintf(events, "main-fields-seed bytes=64 snapshot-phase=7 live-phase=11 snapshot=%08lx pointers=owned\n", saved);
     }
     seed_command_line_live(data, saved);
+    if (checksum_tables_probe) {
+        BYTE table[256];
+        unsigned table_index, byte_index;
+        for (table_index = 0; table_index < 3; ++table_index) {
+            for (byte_index = 0; byte_index < 256; ++byte_index)
+                table[byte_index] = (BYTE)(31 + table_index * 53 + byte_index * 7);
+            write_mem(base + 0x538b8 + table_index * 256, table, 256);
+        }
+        fprintf(events, "checksum-reset-seed rva=000122a5 tables=3 bytes=768 pattern=31+53*table+7*byte\n");
+    }
     free(data);
     write_mem(base + 0x57818, &saved, 4);
     write_mem(base + 0x5f530, &zero, 4);
@@ -1223,6 +1260,52 @@ int main(int argc, char **argv)
                 else patch(base + ranges[pending].first, 0xcc);
                 context.EFlags &= ~0x100; pending = -1;
                 if (!SetThreadContext(thread, &context)) fail("single step context");
+            } else if (code == EXCEPTION_BREAKPOINT && checksum_return_active && address == base + 0x12b66) {
+                char name[64];
+                FILE *floating;
+                fprintf(events, "checksum-return seq=%u pc=%08lx esp=%08lx error=%lu\n", sequence, address, context.Esp, thread_error(&context, thread));
+                fprintf(events, "pool-registers seq=%u ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n", sequence, context.Ebx, context.Esi, context.Edi, context.Ebp);
+                sprintf(name, "fpu-%03u.bin", sequence); floating = fopen(name, "wb");
+                if (!floating || fwrite(&context.FloatSave, 1, sizeof(context.FloatSave), floating) != sizeof(context.FloatSave)) fail("checksum return FP record");
+                fclose(floating); save_state(); patch(address, checksum_return_saved); checksum_return_active = 0;
+                context.Eip = address;
+                if (!SetThreadContext(thread, &context)) fail("checksum return context");
+            } else if (code == EXCEPTION_BREAKPOINT && locale_entry_active && address == locale_entry_address) {
+                DWORD words[3];
+                FILE *floating;
+                char name[64], text[64];
+                readmem(context.Esp, words, sizeof(words));
+                if (words[0] != base + 0x12b73 || words[1] != 2 || words[2] != base + 0x601c1)
+                    fail("actual setlocale call ABI");
+                remote_string(words[2], text, sizeof(text));
+                if (text[0]) fail("actual setlocale empty string");
+                fprintf(events, "public-entry seq=%u module=MSVCRT.dll name=setlocale provider=%08lx rva=00005729 iat=0005d120 esp=%08lx return=%08lx category=%lu locale=%08lx error=%lu\n",
+                        sequence, address, context.Esp, words[0], words[1], words[2], thread_error(&context, thread));
+                fprintf(events, "pool-registers seq=%u ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n", sequence, context.Ebx, context.Esi, context.Edi, context.Ebp);
+                sprintf(name, "fpu-%03u.bin", sequence); floating = fopen(name, "wb");
+                if (!floating || fwrite(&context.FloatSave, 1, sizeof(context.FloatSave), floating) != sizeof(context.FloatSave)) fail("locale entry FP record");
+                fclose(floating); save_remote_state("setlocale-input", 0, words[2], 1); save_state();
+                locale_entry_esp = context.Esp; locale_return_address = words[0];
+                readmem(locale_return_address, &locale_return_saved, 1);
+                if (locale_return_saved != snapshot[0x12b73-code_rva]) fail("locale return ownership");
+                patch(locale_return_address, 0xcc); locale_return_active = 1;
+                patch(address, locale_entry_saved); locale_entry_active = 0; context.Eip = address;
+                if (!SetThreadContext(thread, &context)) fail("locale entry context");
+            } else if (code == EXCEPTION_BREAKPOINT && locale_return_active && address == locale_return_address) {
+                char text[256], name[64];
+                FILE *floating, *output;
+                fprintf(events, "public-return seq=%u module=MSVCRT.dll name=setlocale pc=%08lx esp=%08lx entry-esp=%08lx result=%08lx error=%lu\n",
+                        sequence, address, context.Esp, locale_entry_esp, context.Eax, thread_error(&context, thread));
+                if (context.Eax) {
+                    remote_string(context.Eax, text, sizeof(text)); output = fopen("setlocale-result.bin", "wb");
+                    if (!output || fwrite(text, 1, strlen(text)+1, output) != strlen(text)+1) fail("locale result record");
+                    fclose(output);
+                }
+                sprintf(name, "fpu-%03u.bin", sequence); floating = fopen(name, "wb");
+                if (!floating || fwrite(&context.FloatSave, 1, sizeof(context.FloatSave), floating) != sizeof(context.FloatSave)) fail("locale return FP record");
+                fclose(floating); save_state();
+                patch(address, locale_return_saved); locale_return_active = 0; context.Eip = address;
+                if (!SetThreadContext(thread, &context)) fail("locale return context");
             } else if (code == EXCEPTION_BREAKPOINT && parser_return_active && address == parser_return_address) {
                 fprintf(events, "internal-parser-return index=%lu seq=%u pc=%08lx esp=%08lx entry-esp=%08lx eax=%08lx\n", parser_calls, sequence, address, context.Esp, parser_entry_esp, context.Eax);
                 fprintf(events, "last-error=%lu\n", thread_error(&context, thread));

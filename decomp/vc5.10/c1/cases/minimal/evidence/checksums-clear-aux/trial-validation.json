@@ -1,0 +1,27 @@
+{
+  "status": "matching genuine public CRT entry; no locale behavior accepted",
+  "native_symbol": "recon_setlocale",
+  "public_frontier": {
+    "provider": "MSVCRT.dll",
+    "name": "setlocale",
+    "rva": 22313,
+    "category": 2,
+    "locale_bytes": [
+      0
+    ]
+  },
+  "generated_bss_bytes": 768,
+  "initialized_known_bytes": 1836,
+  "initialized_unmodeled_bytes": 4712,
+  "promotion": "held for concrete public-entry proof review",
+  "execution_receipts": {
+    "original": "1e5489419ab8e272cc1f061a6c8ff1f1d01705caad2b1e4cc2d7d6db2cd7b158",
+    "native": "53d9b0e2821c4cd8ad2ad1de77ec7d7e5dc0c74f2787cf9eab1ed45024ec6607"
+  },
+  "rust_checked_functions": 71,
+  "rust_owned_code_bytes": 5200,
+  "rust_owned_text_data_bytes": 16,
+  "rust_owned_original_bytes": 5216,
+  "current_auditor_sha256": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24",
+  "current_audit_report_sha256": "6e62cca3fc274a795899373c07b07d14fafd487c43885980bd863a8b3229a7e6"
+}

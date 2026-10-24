@@ -53,7 +53,10 @@ before any target DLL load. It took 0.404 s. Its synchronous pointer **does**
 update; no pointer-immutability guarantee is claimed. The failed first probe
 setup omitted the adjacent canonical CRT and remains a separate failed attempt.
 
-All original debugger/reference subprocesses use the root-requested common
-`~/.ai-tmp/msvc2-original-capture.lock`; original builds and native work remain
-outside it. Successful helper adoption used the ordinary fresh serialized
-include-alias captures above, with no duplicate transport-probe campaign.
+During the fix, original debugger/reference subprocesses used the temporary
+common capture lock; builds and native work stayed outside it. Successful helper
+adoption used the ordinary fresh serialized include-alias captures above.
+After all seven corrected default helpers were reviewed, root released this
+temporary serialization. New captures use the corrected reader concurrently;
+old cached helpers with cursor-dependent readers must not run on the shared
+prefix. Historical wait/failure/probe evidence remains unchanged.

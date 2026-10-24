@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """One explicit original-only debugger transport probe; never an acceptance."""
-import argparse,fcntl,json,re,shutil,subprocess,time
+import argparse,json,re,shutil,subprocess,time
 from pathlib import Path
 from provenance import freeze,sha
 from wine_tool_support import PROJECT,TC,PREFIX,SCRATCH,environment,windows
@@ -14,13 +14,11 @@ def main():
  (output/'ranges.txt').write_text('');(output/'hfile-offset-probe.txt').write_text('actual debug-event hFile only; no target execution\n')
  freeze([PROJECT/'scripts/dll-capture.c',Path(__file__),PROJECT/'scripts/wine_tool_support.py'],output/'source-snapshot.json')
  command=['wine',windows(output/'dll-capture.exe'),'--debug',windows(TC/'bin/C1.DLL'),windows(TC/'bin/MSVCRT.DLL'),'masked','ranges.txt','minimal']
- waiting=time.perf_counter()
- with (Path.home()/'.ai-tmp/msvc2-original-capture.lock').open('a')as lock:
-  fcntl.flock(lock,fcntl.LOCK_EX);lock_wait=time.perf_counter()-waiting;started=time.perf_counter()
-  result=subprocess.run(command,cwd=output,env=environment(),stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=20)
-  seconds=time.perf_counter()-started
+ started=time.perf_counter()
+ result=subprocess.run(command,cwd=output,env=environment(),stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=20)
+ seconds=time.perf_counter()-started
  (output/'stdout.bin').write_bytes(result.stdout);(output/'stderr.bin').write_bytes(result.stderr)
- (output/'execution.json').write_text(json.dumps(dict(kind='transport-only probe execution, NOT acceptance',command=command,exit=result.returncode,seconds=seconds,lock_wait_seconds=lock_wait,helper_sha256=sha(helper)),indent=2)+'\n')
+ (output/'execution.json').write_text(json.dumps(dict(kind='transport-only probe execution, NOT acceptance',command=command,exit=result.returncode,seconds=seconds,helper_sha256=sha(helper)),indent=2)+'\n')
  raw=(output/'events.txt').read_text();assert result.returncode==125 and 'failure 'not in raw
  assert 'hfile-probe-complete target-loaded=0 explicit-offset-identity=1\n'in raw
  assert 'name=c1n32_l.dll'not in raw and not(output/'loaded-target.bin').exists()
@@ -36,7 +34,7 @@ def main():
   assert after==offset+count
   assert(output/('hfile-sample-%d.bin'%index)).read_bytes()==reference[offset:offset+count]
   observed.append(dict(offset=offset,position_before=before,position_after=after,requested=32,returned=count,status=status,last_error=error))
- receipt=dict(schema=1,kind='original-only actual-hFile explicit-offset transport probe; NO TARGET ACCEPTANCE',command=command,exit=result.returncode,seconds=seconds,lock_wait_seconds=lock_wait,
+ receipt=dict(schema=1,kind='original-only actual-hFile explicit-offset transport probe; NO TARGET ACCEPTANCE',command=command,exit=result.returncode,seconds=seconds,
   actual_hfile_kernel32=dict(bytes=size,sha256=sha(output/'loaded-kernel32.bin')),helper_sha256=sha(helper),target_executed=False,probe=observed,
   conclusions=['Actual debug hFile reads complete synchronously without ERROR_IO_PENDING','OVERLAPPED.Offset is honored despite deliberately wrong current file pointer','The synchronous file pointer DOES update; do not claim pointer immutability','Partial-tail and EOF returned counts/status are observed, not assumed','The complete actual same-hFile output has canonical size/SHA; no reopen or duplicate supplies actual bytes'],
   artifacts={p.name:dict(bytes=p.stat().st_size,sha256=sha(p))for p in output.iterdir()if p.is_file()})

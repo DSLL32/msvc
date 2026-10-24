@@ -1,0 +1,12 @@
+{
+  "kind": "actual HOST CRT vectors; separate from Invoke11 and Linux host controls",
+  "original_directory": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-checksums-001",
+  "original_receipt_sha256": "77be45bc7412db44e23addda26be57d5e4b3bcfdb9080ae3a945b9567c3c1911",
+  "files": {
+    "original-crt-argv.bin": "0ea6bfc914313725fe7d3df0c19ab533dfd7f66af95841bc2be8454137de2a24",
+    "original-crt-environment.bin": "ec8a3f94a1a5d916ef7f3da4a657ddbda0fbf871d557ef29b8233fddcb1bbbe2"
+  },
+  "host_argc": 3,
+  "environment_count": 78,
+  "pass_argc": 11
+}

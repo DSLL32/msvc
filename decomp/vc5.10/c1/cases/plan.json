@@ -32,7 +32,7 @@
     {
       "order": 2,
       "id": "minimal",
-      "status": "reconstructing; 53B include-alias initializer accepted after full parser;1836 known initialized/4712 UNMODELED; actual noarg initialize_checksums12e1c frontier",
+      "status": "reconstructing; 236B checksum generator accepted,768 generated BSS bytes proved; genuine setlocale public-entry frontier, no native locale success; next real helper12f08 queued",
       "proposed_driver_argv": [
         "/nologo",
         "/c",

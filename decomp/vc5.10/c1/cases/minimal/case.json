@@ -28,5 +28,5 @@
     "minimalin",
     "minimalsy"
   ],
-  "status": "68 application +2 historic CRT source functions accepted; include-alias root initializer reaches initialize_checksums12e1c; minimal compilation incomplete"
+  "status": "69 application +2 historic CRT source functions accepted; checksum generator reaches genuine MSVCRT.setlocale entry, native provider remains unsupported; minimal compilation incomplete"
 }

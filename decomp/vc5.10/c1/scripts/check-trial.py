@@ -92,6 +92,12 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
                                               "native": pair.sha(native / "receipt.json")}})
         return result
     assert o["exit"] == 125 and n["kind"] == ("native-prospective-tail-chain" if prospective_tail_chain else "native-gdb-frontier")
+    if expected.get('kind')=='public-crt-entry':
+        assert not prospective_tail_chain
+        from checksum_state import validate as validate_checksum
+        result=validate_checksum(original,native,candidate,report)
+        result.update(rust_checked_functions=report['checked_functions'],rust_owned_code_bytes=owned['declared_code_bytes'],rust_owned_text_data_bytes=text_bytes(candidate),rust_owned_original_bytes=owned['declared_code_bytes']+text_bytes(candidate),current_auditor_sha256=binding['inputs'][tool_path],current_audit_report_sha256=binding['report_sha256'])
+        return result
     raw = (original / "events.txt").read_text()
     frontiers = re.findall(r"^frontier rva=([0-9a-f]{8})$", raw, re.M)
     traps = re.findall(r"^trap seq=(\d+) rva=([0-9a-f]{8}).*stack=([0-9a-f,]+)\nlast-error=(\d+)$", raw, re.M)

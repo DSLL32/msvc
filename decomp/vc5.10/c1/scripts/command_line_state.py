@@ -12,7 +12,7 @@ from provenance import captured_native_binary
 def expected_fields(fields):
  model=fields['command_line']
  assert model==dict(initialized_known_bytes=INITIALIZED_SIZE,initialized_unknown_bytes=6548-INITIALIZED_SIZE,
-  native_initialized_size=INITIALIZED_SIZE,native_bss_size=BSS_SIZE,initialized_offset=64,bss_offset=996,
+  native_initialized_size=INITIALIZED_SIZE,native_bss_size=fields['native_bss_size'],initialized_offset=64,bss_offset=996,
   persistent_current_pdb_rva=0x5c068,unknown_semantic_consumer_frontier=fields['value_copy']['hard_frontier_rva'],
   option_rule_rva=0x62b78,option_rule_count=85,z_rule_rva=0x62ae8,z_rule_count=12,
   rule_stride=12,warning_defaults_rva=0x63190,warning_default_count=11)
@@ -60,7 +60,7 @@ def validate_projection(original,native,fields,state,sequence,module,candidate,p
  expected_fields(fields)
  assert fields['command_line']['unknown_semantic_consumer_frontier']==candidate.get('projection_actual_frontier',candidate['expected_frontier']['rva'])
  current=state['compiler_state']['option_state'];strings=current['default_strings']
- assert current['layout']==dict(initialized=DATA_OFFSETS,bss=BSS_OFFSETS,initialized_size=INITIALIZED_SIZE,bss_size=BSS_SIZE)
+ assert current['layout']==dict(initialized=DATA_OFFSETS,bss=BSS_OFFSETS,initialized_size=INITIALIZED_SIZE,bss_size=fields['native_bss_size'])
  bases=state['compiler_state']['live_addresses']
  expected_targets={str(rva):bases['initialized']+DATA_OFFSETS[name]for name,rva,kind,default in DATA if '['not in kind}
  expected_targets.update({str(rva):bases['bss']+BSS_OFFSETS[name]for name,rva,kind,default in BSS})

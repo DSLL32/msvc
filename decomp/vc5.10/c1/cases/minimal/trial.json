@@ -75,7 +75,8 @@
     "CompilerArena::AllocatePages",
     "CompilerArena::CommitExtent",
     "_parse_command_line",
-    "_initialize_include_aliases"
+    "_initialize_include_aliases",
+    "_initialize_checksums"
   ],
   "driver": [
     {
@@ -680,6 +681,12 @@
           274925504
         ]
       ],
+      "role": "application"
+    },
+    {
+      "name": "_initialize_checksums",
+      "start": 274804252,
+      "end": 274804488,
       "role": "application"
     }
   ],

@@ -112,107 +112,100 @@
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_initialize_checksums",
+    "name": "_initialize_option_input_12f08",
     "start": 268446129,
     "end": 268446130,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_initialize_option_input_12f08",
+    "name": "_initialize_option_input_12f3e",
     "start": 268446141,
     "end": 268446142,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_initialize_option_input_12f3e",
+    "name": "_read_env_arguments",
     "start": 268446153,
     "end": 268446154,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_read_env_arguments",
+    "name": "_duplicate_argument",
     "start": 268446165,
     "end": 268446166,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_duplicate_argument",
-    "start": 268446177,
-    "end": 268446178,
+    "name": "_report_response_error",
+    "start": 268446179,
+    "end": 268446180,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_report_response_error",
+    "name": "_stop_compiler",
     "start": 268446191,
     "end": 268446192,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_stop_compiler",
+    "name": "_new_option_vector",
     "start": 268446203,
     "end": 268446204,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_new_option_vector",
-    "start": 268446215,
-    "end": 268446216,
-    "pending_extent": true,
-    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
-  },
-  {
     "name": "_next_argument",
-    "start": 268446229,
-    "end": 268446230,
+    "start": 268446217,
+    "end": 268446218,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_match_option",
-    "start": 268446243,
-    "end": 268446244,
+    "start": 268446231,
+    "end": 268446232,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_resolve_option_path",
-    "start": 268446257,
-    "end": 268446258,
+    "start": 268446245,
+    "end": 268446246,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_disable_multibyte_identifiers",
+    "start": 268446259,
+    "end": 268446260,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_initialize_packing",
     "start": 268446271,
     "end": 268446272,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_initialize_packing",
+    "name": "_compare_pch_paths",
     "start": 268446283,
     "end": 268446284,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_compare_pch_paths",
-    "start": 268446295,
-    "end": 268446296,
-    "pending_extent": true,
-    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
-  },
-  {
     "name": "_free_argument_allocation",
-    "start": 268446309,
-    "end": 268446310,
+    "start": 268446297,
+    "end": 268446298,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   }

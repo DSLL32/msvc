@@ -264,7 +264,6 @@ void __cdecl parse_command_line(int argc, char **argv)
     }
 }
 
-void __cdecl initialize_checksums(void) { __asm { int 3 } }
 void __cdecl initialize_option_input_12f08(void) { __asm { int 3 } }
 void __cdecl initialize_option_input_12f3e(void) { __asm { int 3 } }
 void __cdecl read_env_arguments(char *arguments) { __asm { int 3 } }

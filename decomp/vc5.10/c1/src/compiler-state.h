@@ -107,6 +107,12 @@ typedef struct CompilerWorkBuffer {
     BYTE *limit;
 } CompilerWorkBuffer;
 
+typedef struct CompilerChecksumTables {
+    BYTE transform[256];
+    BYTE high[256];
+    BYTE low[256];
+} CompilerChecksumTables;
+
 typedef struct CompilerBss {
     CompilerInitializedState *saved_data;
     int cleanup_count;
@@ -130,6 +136,7 @@ typedef struct CompilerBss {
     CompilerWorkBuffer work_buffers[2];
     CompilerArena arenas[6];
     CompilerOptionBss options;
+    CompilerChecksumTables checksums;
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */
@@ -223,6 +230,7 @@ unsigned __cdecl arena_reservation_bytes(CompilerArenaDescriptor *);
 extern CompilerArenaDescriptor c1_arena_descriptors[6];
 void __cdecl parse_command_line(int, char **);
 void __cdecl initialize_include_aliases(void);
+void __cdecl initialize_checksums(void);
 int __cdecl compile_translation_unit(void);
 #ifdef __cplusplus
 }

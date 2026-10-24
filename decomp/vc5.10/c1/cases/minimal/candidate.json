@@ -3,28 +3,38 @@
   "review_gate": "autonomous same-protocol continuation after reviewed first candidate",
   "ranges": [
     {
+      "start_rva": 39043,
+      "end_rva": 39130,
+      "entry": 1
+    },
+    {
+      "start_rva": 43676,
+      "end_rva": 43723,
+      "entry": 1
+    },
+    {
+      "start_rva": 43723,
+      "end_rva": 43796,
+      "entry": 1
+    },
+    {
+      "start_rva": 59289,
+      "end_rva": 59318,
+      "entry": 1
+    },
+    {
+      "start_rva": 73258,
+      "end_rva": 73276,
+      "entry": 1
+    },
+    {
       "start_rva": 73770,
       "end_rva": 73934,
       "entry": 1
     },
     {
-      "start_rva": 197340,
-      "end_rva": 197400,
-      "entry": 0
-    },
-    {
       "start_rva": 73934,
       "end_rva": 74126,
-      "entry": 1
-    },
-    {
-      "start_rva": 197400,
-      "end_rva": 197435,
-      "entry": 0
-    },
-    {
-      "start_rva": 74275,
-      "end_rva": 74281,
       "entry": 1
     },
     {
@@ -33,34 +43,19 @@
       "entry": 1
     },
     {
+      "start_rva": 74275,
+      "end_rva": 74281,
+      "entry": 1
+    },
+    {
       "start_rva": 74281,
       "end_rva": 74405,
       "entry": 1
     },
     {
-      "start_rva": 197465,
-      "end_rva": 197513,
-      "entry": 0
-    },
-    {
       "start_rva": 74405,
       "end_rva": 74597,
       "entry": 1
-    },
-    {
-      "start_rva": 197513,
-      "end_rva": 197639,
-      "entry": 0
-    },
-    {
-      "start_rva": 59289,
-      "end_rva": 59318,
-      "entry": 1
-    },
-    {
-      "start_rva": 189724,
-      "end_rva": 189739,
-      "entry": 0
     },
     {
       "start_rva": 74597,
@@ -98,14 +93,14 @@
       "entry": 1
     },
     {
-      "start_rva": 74728,
-      "end_rva": 74742,
-      "entry": 0
-    },
-    {
       "start_rva": 74670,
       "end_rva": 74728,
       "entry": 1
+    },
+    {
+      "start_rva": 74728,
+      "end_rva": 74742,
+      "entry": 0
     },
     {
       "start_rva": 74742,
@@ -113,13 +108,13 @@
       "entry": 1
     },
     {
-      "start_rva": 197639,
-      "end_rva": 197664,
-      "entry": 0
-    },
-    {
       "start_rva": 74780,
       "end_rva": 74787,
+      "entry": 1
+    },
+    {
+      "start_rva": 74787,
+      "end_rva": 74845,
       "entry": 1
     },
     {
@@ -128,13 +123,13 @@
       "entry": 0
     },
     {
-      "start_rva": 74787,
-      "end_rva": 74845,
+      "start_rva": 74859,
+      "end_rva": 74866,
       "entry": 1
     },
     {
-      "start_rva": 74859,
-      "end_rva": 74866,
+      "start_rva": 74866,
+      "end_rva": 74924,
       "entry": 1
     },
     {
@@ -143,13 +138,13 @@
       "entry": 0
     },
     {
-      "start_rva": 74866,
-      "end_rva": 74924,
+      "start_rva": 74938,
+      "end_rva": 74945,
       "entry": 1
     },
     {
-      "start_rva": 74938,
-      "end_rva": 74945,
+      "start_rva": 74945,
+      "end_rva": 75003,
       "entry": 1
     },
     {
@@ -158,13 +153,13 @@
       "entry": 0
     },
     {
-      "start_rva": 74945,
-      "end_rva": 75003,
+      "start_rva": 75017,
+      "end_rva": 75024,
       "entry": 1
     },
     {
-      "start_rva": 75017,
-      "end_rva": 75024,
+      "start_rva": 75024,
+      "end_rva": 75082,
       "entry": 1
     },
     {
@@ -173,13 +168,13 @@
       "entry": 0
     },
     {
-      "start_rva": 75024,
-      "end_rva": 75082,
+      "start_rva": 75096,
+      "end_rva": 75103,
       "entry": 1
     },
     {
-      "start_rva": 75096,
-      "end_rva": 75103,
+      "start_rva": 75103,
+      "end_rva": 75161,
       "entry": 1
     },
     {
@@ -188,13 +183,13 @@
       "entry": 0
     },
     {
-      "start_rva": 75103,
-      "end_rva": 75161,
+      "start_rva": 75175,
+      "end_rva": 75182,
       "entry": 1
     },
     {
-      "start_rva": 75175,
-      "end_rva": 75182,
+      "start_rva": 75182,
+      "end_rva": 75240,
       "entry": 1
     },
     {
@@ -203,24 +198,19 @@
       "entry": 0
     },
     {
-      "start_rva": 75182,
-      "end_rva": 75240,
+      "start_rva": 75254,
+      "end_rva": 75261,
       "entry": 1
     },
     {
-      "start_rva": 75254,
-      "end_rva": 75261,
+      "start_rva": 75261,
+      "end_rva": 75319,
       "entry": 1
     },
     {
       "start_rva": 75319,
       "end_rva": 75333,
       "entry": 0
-    },
-    {
-      "start_rva": 75261,
-      "end_rva": 75319,
-      "entry": 1
     },
     {
       "start_rva": 75333,
@@ -248,14 +238,14 @@
       "entry": 1
     },
     {
-      "start_rva": 75425,
-      "end_rva": 75439,
-      "entry": 0
-    },
-    {
       "start_rva": 75382,
       "end_rva": 75425,
       "entry": 1
+    },
+    {
+      "start_rva": 75425,
+      "end_rva": 75439,
+      "entry": 0
     },
     {
       "start_rva": 75439,
@@ -263,14 +253,14 @@
       "entry": 1
     },
     {
-      "start_rva": 75489,
-      "end_rva": 75503,
-      "entry": 0
-    },
-    {
       "start_rva": 75446,
       "end_rva": 75489,
       "entry": 1
+    },
+    {
+      "start_rva": 75489,
+      "end_rva": 75503,
+      "entry": 0
     },
     {
       "start_rva": 75503,
@@ -338,11 +328,6 @@
       "entry": 1
     },
     {
-      "start_rva": 73258,
-      "end_rva": 73276,
-      "entry": 1
-    },
-    {
       "start_rva": 75686,
       "end_rva": 75687,
       "entry": 1
@@ -351,11 +336,6 @@
       "start_rva": 75687,
       "end_rva": 75824,
       "entry": 1
-    },
-    {
-      "start_rva": 197664,
-      "end_rva": 197691,
-      "entry": 0
     },
     {
       "start_rva": 75824,
@@ -368,29 +348,14 @@
       "entry": 1
     },
     {
-      "start_rva": 197691,
-      "end_rva": 197721,
-      "entry": 0
-    },
-    {
       "start_rva": 75953,
       "end_rva": 76032,
       "entry": 1
     },
     {
-      "start_rva": 197721,
-      "end_rva": 197805,
-      "entry": 0
-    },
-    {
       "start_rva": 76032,
       "end_rva": 76164,
       "entry": 1
-    },
-    {
-      "start_rva": 197805,
-      "end_rva": 197889,
-      "entry": 0
     },
     {
       "start_rva": 76168,
@@ -408,19 +373,9 @@
       "entry": 1
     },
     {
-      "start_rva": 197889,
-      "end_rva": 197904,
-      "entry": 0
-    },
-    {
       "start_rva": 76251,
       "end_rva": 76312,
       "entry": 1
-    },
-    {
-      "start_rva": 197904,
-      "end_rva": 197919,
-      "entry": 0
     },
     {
       "start_rva": 76312,
@@ -428,19 +383,9 @@
       "entry": 1
     },
     {
-      "start_rva": 197919,
-      "end_rva": 197924,
-      "entry": 0
-    },
-    {
       "start_rva": 76410,
       "end_rva": 76460,
       "entry": 1
-    },
-    {
-      "start_rva": 197924,
-      "end_rva": 197931,
-      "entry": 0
     },
     {
       "start_rva": 76460,
@@ -463,23 +408,18 @@
       "entry": 1
     },
     {
-      "start_rva": 43676,
-      "end_rva": 43723,
+      "start_rva": 76617,
+      "end_rva": 77302,
       "entry": 1
     },
     {
-      "start_rva": 181239,
-      "end_rva": 181246,
-      "entry": 0
-    },
-    {
-      "start_rva": 43723,
-      "end_rva": 43796,
+      "start_rva": 77302,
+      "end_rva": 77340,
       "entry": 1
     },
     {
-      "start_rva": 39043,
-      "end_rva": 39130,
+      "start_rva": 77340,
+      "end_rva": 77576,
       "entry": 1
     },
     {
@@ -488,19 +428,84 @@
       "entry": 0
     },
     {
-      "start_rva": 76617,
-      "end_rva": 77302,
-      "entry": 1
+      "start_rva": 181239,
+      "end_rva": 181246,
+      "entry": 0
+    },
+    {
+      "start_rva": 189724,
+      "end_rva": 189739,
+      "entry": 0
+    },
+    {
+      "start_rva": 197340,
+      "end_rva": 197400,
+      "entry": 0
+    },
+    {
+      "start_rva": 197400,
+      "end_rva": 197435,
+      "entry": 0
+    },
+    {
+      "start_rva": 197465,
+      "end_rva": 197513,
+      "entry": 0
+    },
+    {
+      "start_rva": 197513,
+      "end_rva": 197639,
+      "entry": 0
+    },
+    {
+      "start_rva": 197639,
+      "end_rva": 197664,
+      "entry": 0
+    },
+    {
+      "start_rva": 197664,
+      "end_rva": 197691,
+      "entry": 0
+    },
+    {
+      "start_rva": 197691,
+      "end_rva": 197721,
+      "entry": 0
+    },
+    {
+      "start_rva": 197721,
+      "end_rva": 197805,
+      "entry": 0
+    },
+    {
+      "start_rva": 197805,
+      "end_rva": 197889,
+      "entry": 0
+    },
+    {
+      "start_rva": 197889,
+      "end_rva": 197904,
+      "entry": 0
+    },
+    {
+      "start_rva": 197904,
+      "end_rva": 197919,
+      "entry": 0
+    },
+    {
+      "start_rva": 197919,
+      "end_rva": 197924,
+      "entry": 0
+    },
+    {
+      "start_rva": 197924,
+      "end_rva": 197931,
+      "entry": 0
     },
     {
       "start_rva": 197931,
       "end_rva": 198577,
       "entry": 0
-    },
-    {
-      "start_rva": 77302,
-      "end_rva": 77340,
-      "entry": 1
     },
     {
       "start_rva": 198577,
@@ -1537,6 +1542,19 @@
       ],
       "source": "src/arenas.cpp",
       "status": "candidate"
+    },
+    {
+      "name": "_initialize_checksums",
+      "native_symbol": "initialize_checksums",
+      "role": "application",
+      "chunks": [
+        [
+          77340,
+          77576
+        ]
+      ],
+      "source": "src/checksums.c",
+      "status": "candidate; hold for authenticated public-import entry proof"
     }
   ],
   "text_data": [
@@ -1558,15 +1576,22 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 77340,
-    "native_symbol": "initialize_checksums",
-    "kind": "command-line-helper",
+    "kind": "public-crt-entry",
+    "rva": 22313,
+    "provider": "MSVCRT.dll",
+    "native_symbol": "recon_setlocale",
     "calling_convention": "cdecl",
-    "native_args": [],
+    "native_args": [
+      "category",
+      "locale"
+    ],
+    "iat_rva": 381216,
     "caller": {
       "native_symbol": "parse_command_line",
-      "return_rva": 76646
-    }
+      "return_rva": 76659
+    },
+    "following_target_stub_rva": 77576,
+    "projection_frontier_rva": 77576
   },
   "imports": [
     {
@@ -2012,5 +2037,13 @@
     "root_bytes": 4,
     "cursor_increment": 4,
     "zero_origin": "earlier actual64KiB MEM_COMMIT; no new clear or data source"
+  },
+  "checksum_observers": {
+    "entry_rva": 77340,
+    "return_rva": 76646,
+    "provider_rva": 22313,
+    "iat_rva": 381216,
+    "locale_rva": 393665,
+    "table_bytes": 768
   }
 }
