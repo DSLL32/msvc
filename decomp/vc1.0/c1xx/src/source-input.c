@@ -10,6 +10,7 @@
 #include "text-format.h"
 #include "characters.h"
 #include "directives-internal.h"
+#include "macro-expansion.h"
 #include <recon.h>
 #undef _fileno
 
@@ -383,4 +384,20 @@ char *__stdcall quote_source_filename(char *destination, char *filename)
     }
     *destination++ = '"';
     return destination;
+}
+
+/* Original 0x21190..0x211df, cdecl0. Token recovery asks for
+   another window and diagnoses EOF according to the active lexer context. */
+void refill_source_or_error(void)
+{
+    if (!fill_source_buffer()) return;
+    if (token_allocation_flags & 0x1000) {
+        fatal_error(71);
+        return;
+    }
+    if (token_allocation_flags & 0x2000) {
+        macro_expansion_error(57);
+        return;
+    }
+    fatal_error(final_newline_emitted ? 10 : 4);
 }

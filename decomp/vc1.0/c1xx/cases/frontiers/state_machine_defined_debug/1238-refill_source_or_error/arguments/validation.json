@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_refill_source_or_error",
+  "case": "state_machine_defined_debug",
+  "accepted_before": 1238,
+  "configuration_sha256": "ffea07488803b50845968ef8f89bbaed715c4a7de9230a3388f0ebe2acf458e2",
+  "native_entry": "refill_source_or_error",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      135568,
+      135648
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl0 void plain RET",
+    "proof": "Whole80B frameless, no stack formal or incoming register/x87/flag ABI input. Existing fill_source_buffer returns0 on successful refill and immediate RET; nonzero checks token flag1000 ->fatal71, else2000 ->macro_expansion_error57, else existing final_newline_emitted ->fatal10 vs4; preserve returns after each branch. fill_source_buffer/fatal_error accepted, existing named stdcall4 macro_expansion_error21170..2118a26B ABI/code fully examined but remains trap/no credit. Actual5318B source reaches a real4096B buffer refill, no fabricatedEOF. No new data/CRT/guard.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "61a048f3884b41261016a57df309e77d420350aa2eef17f41d952a044fc2214d",
+  "capture_timing": {
+    "original_capture_seconds": 0.6656499598175287,
+    "native_capture_seconds": 0.19840571284294128,
+    "total_operation_seconds": 1.136264176107943
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "9b9967524e1fc9e1992da3e2e92309e6fa0041e2c9121e78c8c49471f1f75864",
+    "native-commands.gdb": "7104e7b06fc0ec89416354cd5bd4f850c3313fce3fd0b94cf52c1abf60b7ddfd",
+    "native-gdb.log": "25133993d8744f32e74f19ba6c64c11cc4ff8f832f3ec4419d3a647a08dbca6b",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "b055653354aaf9c6869a94ef3f328b80f69ea351a8dda4f828a515faf813ac3d",
+    "original-configuration.json": "ffea07488803b50845968ef8f89bbaed715c4a7de9230a3388f0ebe2acf458e2",
+    "original-disassembly.txt": "13f832a06bdaeebfd5922274fae492dc84596e8a8165e99e261bd699ec3466f7",
+    "original-events.txt": "3c1ed29d7874c2998e0bc834fa46307e16abe8056b92615f78f3c6a011b19d2d",
+    "original-receipt.json": "ea12d225b8761e58b4a5dbd30b0af6ecdb2e809117683f1c953fb94c5746c9bd",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "bb4367c903ab00b2a21acd8741613e80d25cdfe8577a65b58805e9afc050d631"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

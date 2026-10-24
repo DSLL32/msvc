@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "function": "_refill_source_or_error",
+  "native_entry": "refill_source_or_error",
+  "argument_words": 4,
+  "native_expressions": {},
+  "native_caller_locals": {},
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      135568,
+      135648
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl0 void plain RET",
+    "proof": "Whole80B frameless, no stack formal or incoming register/x87/flag ABI input. Existing fill_source_buffer returns0 on successful refill and immediate RET; nonzero checks token flag1000 ->fatal71, else2000 ->macro_expansion_error57, else existing final_newline_emitted ->fatal10 vs4; preserve returns after each branch. fill_source_buffer/fatal_error accepted, existing named stdcall4 macro_expansion_error21170..2118a26B ABI/code fully examined but remains trap/no credit. Actual5318B source reaches a real4096B buffer refill, no fabricatedEOF. No new data/CRT/guard."
+  }
+}

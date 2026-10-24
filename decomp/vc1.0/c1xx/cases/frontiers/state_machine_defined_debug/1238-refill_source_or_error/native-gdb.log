@@ -1,0 +1,13 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56558e2e in member_pointer_cast_compatible (source=0x56634868, target=0x5663330c, reverse=1) at src/stubs.c:133
+133	int __stdcall member_pointer_cast_compatible(CType *source, CType *target, int reverse) { __asm { int 3 } return 0; }
+#0  0x56558e2e in member_pointer_cast_compatible (source=0x56634868, target=0x5663330c, reverse=1) at src/stubs.c:133
+#1  0x5659efad in cast_to_type (type=0x5663330c, operand=0x56657310) at src/call-expressions.c:90
+#2  0x565a22bc in cast_expression (declaration=0x566572a4, expression=0x56657310) at src/call-expressions.c:526
+#3  0x565c0892 in parse_translation_unit () at src/parser-expression-actions.inc:122
+#4  0x5655e0af in compile_translation_unit () at src/frontend.c:73
+#5  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#6  0x56558894 in main (argc=1, argv=0xffffd814, environment=0xffffd81c) at src/c1xx.c:20

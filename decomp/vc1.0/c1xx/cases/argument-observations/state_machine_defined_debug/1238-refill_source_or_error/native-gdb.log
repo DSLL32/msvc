@@ -1,0 +1,17 @@
+Breakpoint 1 at 0x27c07: file src/source-input.c, line 393.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, refill_source_or_error () at src/source-input.c:393
+393	    if (!fill_source_buffer()) return;
+#0  refill_source_or_error () at src/source-input.c:393
+#1  0x565c2166 in recover_special_character () at src/lexer.c:893
+#2  0x565c5a38 in read_lexical_token () at src/lexer.c:598
+#3  0x565c3415 in scan_token () at src/lexer.c:228
+#4  0x565cb01b in resolve_identifier_token (name=0x56629d5a "Shifted") at src/qualified-names.c:165
+#5  0x565c371e in resolve_typename_token (input=0x0) at src/lexer.c:750
+#6  0x565c295a in read_parser_token () at src/lexer.c:83
+#7  0x565bad79 in parse_translation_unit () at src/parser.c:85
+#8  0x5655e0af in compile_translation_unit () at src/frontend.c:73
+#9  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#10 0x56558894 in main (argc=1, argv=0xffffd794, environment=0xffffd79c) at src/c1xx.c:20
