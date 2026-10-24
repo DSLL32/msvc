@@ -1,0 +1,47 @@
+{
+  "scope": "Opt-in constructor102 unsets host GLIBC_TUNABLES after loader configuration; no allocator behavior or target state seeding, defaults unchanged. Full108FP and three errors preserved; direct-main envp/environ/getenv separation demonstrated.",
+  "option": "RECON_NATIVE_STARTUP_CONSUME_GLIBC_TUNABLES",
+  "proof": "/root/.ai-tmp/msvc2/recon-maintenance/startup-host-control/receipt.json",
+  "probes": [
+    {
+      "name": "gcc-default",
+      "sha256": "82966783885a7f75a553924a902393df85b4368814a2fcd14d7b8c8fc9a2a064",
+      "seconds": 1.3436296517029405,
+      "passed": true
+    },
+    {
+      "name": "gcc-consume",
+      "sha256": "bf00453f36bcd0eafe241bc626e675c6bde1aab42d0781a61da7997fa2d3c723",
+      "seconds": 1.517554116435349,
+      "passed": true
+    },
+    {
+      "name": "clang-default",
+      "sha256": "5f095a9849e72b2f2c7d75bd339292c28985bd907d5c835fca055cbd46005f13",
+      "seconds": 1.5561963636428118,
+      "passed": true
+    },
+    {
+      "name": "clang-consume",
+      "sha256": "8a7480c0c16ecfd44641fc55402f3496aea1f92c75dcb1b12e0566fddfdb2f0c",
+      "seconds": 1.6526381028816104,
+      "passed": true
+    }
+  ],
+  "compatibility": "Default check; startup namespace/state plus4 unsupported controls; existing Watcom FP/default probes pass. No original executions.",
+  "actual_adoption": {
+    "allocation": {
+      "path": "/root/.ai-tmp/vc1.0-cvpack/0142-profile-allocation-observation/allocation.json",
+      "sha256": "1d558d0ad05cd0e70b99dfa6054fb1a8266b58cfa187bfc504cf30fb12c519fa"
+    },
+    "target_namespace": {
+      "path": "/root/.ai-tmp/vc1.0-cvpack/0142-profile-native/hello-debug-dll/host-environment.json",
+      "sha256": "4d4e109a69f3de7de6cd68d22941de30d3d67831e87c6ee6e7f031a2d6daca47"
+    },
+    "scope": "Actual main controls absent/unbound CRT vector proof; observed relevant508 allocation remains mmap-backed/zero before stores and zero tail; worker reports complete29828 output/trace/ABI/artifacts match unchanged original. Case profile persistence and complete comparisons remain worker/root-owned; no generic allocator claim."
+  },
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/startup-host-control/orchestrator-review.json",
+    "sha256": "f33770feba40b8bc4d394cba738106c1f91d8dedf710ba555942efd04233a1a9"
+  }
+}

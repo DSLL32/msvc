@@ -1,3 +1,19 @@
+/* The dynamic loader has already consumed allocator tunables before native
+ * constructors. Hide this host-only input from direct-main target namespaces. */
+#if defined(RECON_NATIVE_TEST) && defined(__linux__) && defined(RECON_NATIVE_STARTUP_CONSUME_GLIBC_TUNABLES)
+#define RECON_SHIM_IMPL
+#include <recon.h>
+static void __attribute__((constructor(102))) consume_host_allocator_control(void)
+{
+    unsigned char fp[108];int saved_errno=errno;
+    unsigned long saved_dos=recon_doserrno;DWORD saved_error=recon_GetLastError();
+    __asm__ __volatile__("fnsave %0":"=m"(fp));
+    if(unsetenv("GLIBC_TUNABLES"))recon_unsupported("consume native host allocator control");
+    __asm__ __volatile__("frstor %0"::"m"(fp));
+    errno=saved_errno;recon_doserrno=saved_dos;recon_SetLastError(saved_error);
+}
+#endif
+
 /* Proven original CRT precision initialization for native direct-main hosts. */
 #if defined(RECON_NATIVE_TEST) && defined(__linux__) && (defined(RECON_NATIVE_STARTUP_CONTROLFP_53) || defined(RECON_NATIVE_STARTUP_WATCOM_100A_FP))
 #define RECON_SHIM_IMPL
