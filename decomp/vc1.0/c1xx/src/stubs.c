@@ -150,7 +150,6 @@ void __stdcall record_conditional_cleanup(IrToken *expression) { __asm { int 3 }
 CppSymbol * __stdcall find_copy_constructor(CType *type) { __asm { int 3 } return 0; }
 IrToken * __stdcall construct_copy_initializer(CppSymbol *constructor, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 
-IrToken *__stdcall new_symbol_reference(unsigned char operation, CppSymbol *symbol, CType *type) { __asm { int 3 } return 0; }
 
 
 int __stdcall emit_qc_loop_control(IrToken *condition, IrToken *increment, WorkList *analysis) { __asm { int 3 } return 0; }

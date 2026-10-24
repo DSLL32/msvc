@@ -172,6 +172,29 @@ replace:
 }
 IrToken *__stdcall based_type_expression(CType *type);
 
+/* Original 0x61310..0x61371, stdcall12. Construct an explicitly
+   typed symbol operand without completing or classifying the symbol type. */
+IrToken *__stdcall new_symbol_reference(unsigned char operation,
+    CppSymbol *symbol, CType *type)
+{
+    ArenaPool *pool;
+    IrToken *reference;
+    if (token_allocation_flags & 0x20000020UL)
+        reference = allocate_permanent(sizeof(IrToken));
+    else {
+        pool = &compiler_arena.pools[2];
+        if (pool->remaining < (int)sizeof(IrToken)) refill_arena(&compiler_arena, pool);
+        reference = (IrToken *)pool->next;
+        pool->remaining -= sizeof(IrToken);
+        pool->next += sizeof(IrToken);
+    }
+    reference->flags = 4;
+    reference->kind = operation;
+    reference->value.pointer = symbol;
+    reference->type = type;
+    return reference;
+}
+
 /* Original 0x61380..0x614f7. Preserve a qualified wrapper in the operand
    while using its target for type classification. Member/overload forms
    deliberately leave type completion to their later resolution path. */

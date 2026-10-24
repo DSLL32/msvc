@@ -1,0 +1,14 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56559b98 in compare_member_pointer_expression (expression=0x5663d1ac) at src/stubs.c:408
+408	IrToken * __stdcall compare_member_pointer_expression(IrToken *expression) { __asm { int 3 } return 0; }
+#0  0x56559b98 in compare_member_pointer_expression (expression=0x5663d1ac) at src/stubs.c:408
+#1  0x56582c67 in convert_binary_operands (expression=0x5663d1ac) at src/binary-expressions.c:461
+#2  0x56581517 in builtin_binary_expression (operation=68 'D', left=0x5663d170, right=0x5663d198) at src/binary-expressions.c:145
+#3  0x56584ba5 in binary_expression (operation=68 'D', left=0x5663d170, right=0x5663d198) at src/binary-expressions.c:865
+#4  0x565be343 in parse_translation_unit () at src/parser-expression-actions.inc:90
+#5  0x5655de6f in compile_translation_unit () at src/frontend.c:73
+#6  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#7  0x56558894 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20

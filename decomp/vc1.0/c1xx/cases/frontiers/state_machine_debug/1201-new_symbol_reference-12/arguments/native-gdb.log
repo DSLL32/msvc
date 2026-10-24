@@ -1,0 +1,12 @@
+Breakpoint 1 at 0x62f6f: file src/identifier-expressions.c, line 182.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, new_symbol_reference (operation=2 '\002', symbol=0x566548c0, type=0x0) at src/identifier-expressions.c:182
+182	    if (token_allocation_flags & 0x20000020UL)
+#0  new_symbol_reference (operation=2 '\002', symbol=0x566548c0, type=0x0) at src/identifier-expressions.c:182
+#1  0x565648f9 in define_named_label (name=0x56626cda "finished") at src/ir.c:544
+#2  0x565bde62 in parse_translation_unit () at src/parser-expression-actions.inc:14
+#3  0x5655de6f in compile_translation_unit () at src/frontend.c:73
+#4  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#5  0x56558894 in main (argc=1, argv=0xffffd7b4, environment=0xffffd7bc) at src/c1xx.c:20

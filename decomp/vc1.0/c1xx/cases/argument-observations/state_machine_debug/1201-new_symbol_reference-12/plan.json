@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "function": "_new_symbol_reference@12",
+  "native_entry": "new_symbol_reference",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_operation": "(unsigned)operation",
+    "raw_symbol": "(unsigned)symbol",
+    "raw_type": "(unsigned)type"
+  },
+  "formals": [
+    {
+      "name": "operation",
+      "stack_index": 0,
+      "native_field": "raw_operation",
+      "binding": {
+        "kind": "scalar",
+        "bits": 8
+      }
+    },
+    {
+      "name": "symbol",
+      "stack_index": 1,
+      "native_field": "raw_symbol",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 177447,
+        "original_owner_function": "_define_named_label@4",
+        "native_owner_function": "define_named_label",
+        "native_owner_field": "caller_label",
+        "native_owner_local": "label",
+        "identity": "Actual accepted caller saves found/new label toEDI3b4ec/3b50b; callee-saved across record_label_definition thenPUSH EDI3b51f withPUSH0type/PUSH2operation/CALL3b522/return3b527. Native actual immediatecaller label local owns this same logical symbol. No type/padding initialization or frozenheap identity."
+      }
+    },
+    {
+      "name": "type",
+      "stack_index": 2,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "null-pointer"
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "edi",
+  "ownership_caller_extent": [
+    242912,
+    242983
+  ],
+  "native_caller_locals": {
+    "caller_label": {
+      "frame": 1,
+      "function": "define_named_label",
+      "local": "label"
+    }
+  },
+  "abi_analysis": {
+    "original_extent": [
+      398096,
+      398194
+    ],
+    "argument_bytes": 12,
+    "convention": "stdcall12 IrToken* returnEAX",
+    "proof": "Whole98B noframe/savedregs, formalsentryESP+4unsignedcharoperation/+8symbol/+12type, RET12. No incomingGPR/x87/flagsformal. Flags20000020 selectexisting allocate_permanent20B elseinlinecompiler_arena.pool2/refill when signedremaining<20; retain exactlyfourwrites flagsBYTE4/kindBYTEoperation/valueDWORDsymbol+12/typeDWORD+4. Othernodebytesunwritten, nozeroing. Actual operation2/typeNULL andacceptedcallersavedEDIsymbol observed. Existingarenacallees/data only, no newCRTbody."
+  }
+}

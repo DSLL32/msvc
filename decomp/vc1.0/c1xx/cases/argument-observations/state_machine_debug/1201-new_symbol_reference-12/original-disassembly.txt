@@ -1,0 +1,31 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00061310 <.text+0x4a310>:
+   61310:	f6 05 90 f7 09 00 20 	test   BYTE PTR ds:0x9f790,0x20
+   61317:	75 37                	jne    0x61350
+   61319:	f6 05 93 f7 09 00 20 	test   BYTE PTR ds:0x9f793,0x20
+   61320:	75 2e                	jne    0x61350
+   61322:	83 3d 7c 27 0a 00 14 	cmp    DWORD PTR ds:0xa277c,0x14
+   61329:	7d 0f                	jge    0x6133a
+   6132b:	68 70 27 0a 00       	push   0xa2770
+   61330:	68 40 27 0a 00       	push   0xa2740
+   61335:	e8 76 1a 01 00       	call   0x72db0
+   6133a:	a1 78 27 0a 00       	mov    eax,ds:0xa2778
+   6133f:	83 2d 7c 27 0a 00 14 	sub    DWORD PTR ds:0xa277c,0x14
+   61346:	83 05 78 27 0a 00 14 	add    DWORD PTR ds:0xa2778,0x14
+   6134d:	eb 08                	jmp    0x61357
+   6134f:	90                   	nop
+   61350:	6a 14                	push   0x14
+   61352:	e8 f9 99 00 00       	call   0x6ad50
+   61357:	c6 40 01 04          	mov    BYTE PTR [eax+0x1],0x4
+   6135b:	8a 4c 24 04          	mov    cl,BYTE PTR [esp+0x4]
+   6135f:	88 08                	mov    BYTE PTR [eax],cl
+   61361:	8b 4c 24 08          	mov    ecx,DWORD PTR [esp+0x8]
+   61365:	89 48 0c             	mov    DWORD PTR [eax+0xc],ecx
+   61368:	8b 4c 24 0c          	mov    ecx,DWORD PTR [esp+0xc]
+   6136c:	89 48 04             	mov    DWORD PTR [eax+0x4],ecx
+   6136f:	c2 0c 00             	ret    0xc
