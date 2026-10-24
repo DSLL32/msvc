@@ -602,9 +602,3 @@ void writer_callback_45477a() { __asm { int 3 } }
 int read_incremental_output(void) { __asm { int 3 } return 0; }
 void restore_incremental_output(void) { __asm { int 3 } }
 void __fastcall add_output_source(char *name) { __asm { int 3 } }
-
-C2OutputChunk *new_output_chunk(void)
-{
-    __asm { int 3 }
-    return NULL;
-}

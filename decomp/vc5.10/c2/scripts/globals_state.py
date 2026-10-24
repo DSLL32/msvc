@@ -44,7 +44,7 @@ COFF_GLOBALS = {
 ROOTS.update({key:(value[0],key)for key,value in COFF_GLOBALS.items()})
 
 
-def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False):
+def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False, list_constructed=False):
     def u32(address): return struct.unpack('<I', read(address, 4))[0]
     pool_words = struct.unpack('<12I', read(addresses['pools'], 48))
     head, cursor, remaining = pool_words[:3]
@@ -184,7 +184,7 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
         assert later_pools[:6] == (0,) * 6, 'unencountered pools5/6 changed'
         writer_head, writer_cursor, writer_remaining = later_pools[6:]
         assert writer_head and writer_head not in (head, directive_head)
-        expected_cursor=(1344 if list_pending else 1320)if initialized_output else 64
+        expected_cursor=(1852 if list_constructed else 1344 if list_pending else 1320)if initialized_output else 64
         expected_remaining=4096-expected_cursor
         assert writer_cursor == writer_head + expected_cursor and writer_remaining == expected_remaining
         data = bytearray(read(writer_head, 4096))
@@ -209,6 +209,11 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
             assert struct.unpack_from('<IH2x6I',data,64)==(0,300,0,0,0,0,writer_head+96,writer_head+96)
             struct.pack_into('<II',data,88,0x60000060,0x60000060)
             assert data[96:1320]==bytes(1224),'new page/storage initial bytes differ'
+        if list_constructed:
+            assert struct.unpack_from('<6I',data,1320)==(1,0,0,0,0,writer_head+1344)
+            assert struct.unpack_from('<I',data,1344)[0]==writer_head+1344
+            assert data[1348:1852]==bytes(504),'new chunk tail differs from allocator zeroing'
+            struct.pack_into('<II',data,1340,0x60000540,0x60000540)
         result['writer'] = dict(offset=8, cursor_offset=expected_cursor, remaining=expected_remaining,
             source_offset=40, source='numeric-control-flow.c', format=1,
             machine=0x14c, pending04=0xffffffff, debug=0,
@@ -224,6 +229,7 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
             allocation=u32(addresses['coff_symbol_buffer'])
             assert allocation and all(not start<=allocation<start+4096 for start in (head,directive_head,writer_head))
             expected.update(coff_table=writer_head+64,coff_storage=writer_head+1304,coff_symbol_buffer=allocation,coff_symbol_capacity=1023)
+        if list_constructed:expected['coff_output_list']=writer_head+1320
         copied = {}
         for key, (_, size) in COFF_GLOBALS.items():
             actual = int.from_bytes(read(addresses[key],size),'little')
@@ -239,5 +245,9 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
         if list_pending:
             assert read(writer_head+1320,24)==bytes(24),'pending constructor list allocation is not allocator-zeroed'
             result['coff_allocations']['pending_list']={'offset':1320,'bytes':24,'contents':'allocator zeroing only; constructor fields await child return'}
+        if list_constructed:
+            copied['coff_output_list']=0x60000528
+            result['coff_allocations']['list']={'offset':1320,'bytes':24,'buffered':1,'count_only':0,'completed_bytes':0,'used_bytes':0,'write_count':0,'last_offset':1344}
+            result['coff_allocations']['chunk']={'offset':1344,'allocation_bytes':508,'next_self_alias':True,'modeled_prefix_bytes':4,'tail':'allocator zeroing only; no payload/layout interpretation'}
         result['coff'] = copied
     return result

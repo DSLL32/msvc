@@ -1,0 +1,153 @@
+{
+  "positive": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/chunk77-original/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/chunk77-original/graph-audit.json",
+    "matched": "@add_output_source@4",
+    "original": "0x4526ed",
+    "native": "add_output_source",
+    "argument_state": "globals-complete",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "add_output_source",
+      "symbol_start": "0x6720",
+      "symbol_size": 83,
+      "static_pc": "0x6758",
+      "int3_sites": [
+        "0x6757"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit",
+      "_c2_register_onexit",
+      "@c2_read_environment@4",
+      "_c2_copy_arguments",
+      "_c2_initialize_options",
+      "_c2_next_argument",
+      "@c2_match_option@16",
+      "@c2_apply_option@12",
+      "@parse_option_integer@4",
+      "@c2_validate_alignment@4",
+      "@c2_open_intermediate@16",
+      "_c2_read_header",
+      "_c2_read_il_byte",
+      "_c2_read_il_word",
+      "_c2_read_il_long",
+      "_c2_reset_symbol_table",
+      "_c2_create_type_table",
+      "@c2_allocate_node@8",
+      "@c2_node_size@4",
+      "@c2_pool_allocate@8",
+      "_c2_initialize_constants",
+      "_c2_real_from_int",
+      "_store_extended",
+      "_c2_initialize_opcodes",
+      "_c2_initialize_machine",
+      "_c2_initialize_trees",
+      "@create_section@12",
+      "@insert_symbol@8",
+      "@append_section@4",
+      "@initialize_section_defaults@4",
+      "_c2_initialize_codegen",
+      "@read_symbols@4",
+      "@read_symbol@4",
+      "_input_varuint",
+      "@input_string@8",
+      "@intern_symbol_name@12",
+      "@arena_strdup@8",
+      "@record_filename@4",
+      "@copy_symbol_type@4",
+      "_input_type",
+      "_input_compact_signed",
+      "_input_compact_short",
+      "@update_symbol_storage@4",
+      "@lookup_global_symbol@4",
+      "_next_symbol_serial",
+      "@put_symbol@8",
+      "_c2_initialize_registers",
+      "@read_initializer_records@4",
+      "_c2_initialize_optimizer",
+      "_initialize_backend",
+      "_initialize_pass_functions",
+      "_default_runtime_library",
+      "@add_output_directive@8",
+      "_initialize_object_output",
+      "@initialize_coff_output@4",
+      "@new_output_table@4",
+      "_writer_callback_41eb8a",
+      "_initialize_coff_lists",
+      "@new_output_list@8",
+      "_new_output_chunk"
+    ],
+    "candidates": [
+      "_new_output_chunk"
+    ],
+    "acceptance": false
+  },
+  "count": 14,
+  "rejected": [
+    {
+      "control": "source char pointer formal omitted",
+      "reason": ""
+    },
+    {
+      "control": "source name differs",
+      "reason": ""
+    },
+    {
+      "control": "source global alias lost",
+      "reason": ""
+    },
+    {
+      "control": "source pool offset differs",
+      "reason": ""
+    },
+    {
+      "control": "completed list last chunk differs",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "completed list count-only differs",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "chunk allocation shortened",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "chunk self alias lost",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "chunk prefix mistaken for full layout",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "chunk tail claimed as object data",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "list last pointer byte differs",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "chunk link byte differs",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "chunk allocator-zeroed tail differs",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "original source alias differs",
+      "reason": ""
+    }
+  ],
+  "seconds": 14.803027633577585,
+  "original_receipt_sha256": "214421e0a9ead62e4458c6b963e006ed571d413aeff2eb2fef6ea46bf9bf678a",
+  "native_receipt_sha256": "c32676a76506df49c037cc3810aa5f507cc35c4e7d3a5033f5cb188b14901519",
+  "checker_sha256": "10f0038ea16f2f2a76a159b177cafbb0d2347d99e12a63a531d047b0975718f9"
+}

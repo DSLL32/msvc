@@ -1070,13 +1070,5 @@
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null
-  },
-  {
-    "name": "_new_output_chunk",
-    "start": 4320202,
-    "end": 4320203,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
   }
 ]

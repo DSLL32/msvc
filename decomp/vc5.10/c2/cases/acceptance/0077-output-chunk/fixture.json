@@ -1,0 +1,14 @@
+{
+  "case": "unsupported-help-diagnostic",
+  "status": "PASS",
+  "application_entries": 19,
+  "stdout_bytes": 0,
+  "stderr_bytes": 51,
+  "seconds": {
+    "setup": 0.010273325257003307,
+    "execution": 0.0031396085396409035,
+    "checks": 0.00027221255004405975,
+    "total": 0.014314070343971252
+  },
+  "transport": "native ELF32 only; frozen original reference"
+}

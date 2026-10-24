@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Explicit original-only reference/frontier capture. Not used by fixtures."""
 import argparse
+import fcntl
 import importlib.util
 import json
 from pathlib import Path
@@ -98,9 +99,15 @@ def main():
     arguments=config['case']['arguments'];assert arguments in ([],['/?'])
     command=['/usr/bin/wine',transport.windows(output/'capture-helper.exe'),
              transport.windows(output/'C2.EXE'),case_value['canonical_argv'][0],' '.join(arguments),transport.windows(output/'plan.txt'),transport.windows(output/'requested-environment.bin'),child_cwd]
-    setup=time.monotonic()-begin;run=time.monotonic()
-    result=subprocess.run(command,cwd=output,env=transport.environment(),capture_output=True,timeout=45)
-    elapsed=time.monotonic()-run
+    setup=time.monotonic()-begin
+    capture_lock=Path('/root/.ai-tmp/msvc2-original-capture.lock')
+    waiting=time.monotonic()
+    with capture_lock.open('a') as lock:
+        fcntl.flock(lock,fcntl.LOCK_EX)
+        lock_wait=time.monotonic()-waiting
+        run=time.monotonic()
+        result=subprocess.run(command,cwd=output,env=transport.environment(),capture_output=True,timeout=45)
+        elapsed=time.monotonic()-run
     (output/'host.stdout').write_bytes(result.stdout);(output/'host.stderr').write_bytes(result.stderr)
     provider=output/'loaded-msvcrt.bin'
     receipt=dict(case_id=config['case']['id'],case_inputs={name:sha((work/name).read_bytes())for name in input_names},artifacts=artifacts(work,case_value,output),helper_inputs_sha256=sha((output/'helper-inputs.json').read_bytes()),data_model_sha256=sha((output/'data-model.json').read_bytes())if data_model else None,data_state_sha256=sha((output/'data-state.bin').read_bytes())if(output/'data-state.bin').exists()else None,explicit_child_environment=True,child_cwd=child_cwd,kind='explicit-original-only',observe_messages=args.observe_messages,observe_startup=args.observe_startup,unmasked=args.unmasked,candidates=args.candidate,
@@ -112,9 +119,9 @@ def main():
                  audit_inputs=audit_input_hashes(),source_hashes=source_hashes(),events_sha256=sha((output/'events.txt').read_bytes())if(output/'events.txt').exists()else None,
                  environment=config['case']['environment'],provider_sha256=sha(provider.read_bytes())if provider.exists()else None,
                  execution_inputs={name:sha((output/name).read_bytes())if(output/name).exists()else None for name in (('child-environment-input.bin','child-command-input.bin','data-plan.txt')if data_model else('child-environment-input.bin','child-command-input.bin'))},
-                 helper_status=result.returncode,seconds={'setup':setup,'execution':elapsed,'total':time.monotonic()-begin})
+                 helper_status=result.returncode,capture_lock=str(capture_lock),seconds={'setup':setup,'lock_wait':lock_wait,'execution':elapsed,'total':time.monotonic()-begin})
     if any(r.get('state_policy')=='globals-complete'for r in config['stubs']):
-        receipt['globals_complete_hashes']={name:sha((output/name).read_bytes())for name in ('unmodeled-original-data.bin','pool-block.bin','header-streams.bin')+ (('writer-pool.bin','output-file.bin')if any(r.get('frontier_contract')in ('object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input')for r in config['stubs'])else())+ (('directive-pool.bin',)if any(r.get('frontier_contract')in ('output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input')for r in config['stubs'])else())+ (('initializer-buffer.bin',)if any(r.get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input') for r in config['stubs'])else())+ (('backend-streams.bin',)if any(r.get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input') for r in config['stubs'])else())+ (('output-directive-value.bin',)if any(r.get('frontier_contract')=='output-directive-input'for r in config['stubs'])else())}
+        receipt['globals_complete_hashes']={name:sha((output/name).read_bytes())for name in ('unmodeled-original-data.bin','pool-block.bin','header-streams.bin')+ (('writer-pool.bin','output-file.bin')if any(r.get('frontier_contract')in ('object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input')for r in config['stubs'])else())+ (('directive-pool.bin',)if any(r.get('frontier_contract')in ('output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input')for r in config['stubs'])else())+ (('initializer-buffer.bin',)if any(r.get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input') for r in config['stubs'])else())+ (('backend-streams.bin',)if any(r.get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input') for r in config['stubs'])else())+ (('output-directive-value.bin',)if any(r.get('frontier_contract')=='output-directive-input'for r in config['stubs'])else())}
     if(output/'unmodeled-original-data.bin').exists():receipt['unmodeled_original_data']={'classification':'UNMODELED; preservation only, no payload/extent/data credit','bytes':(output/'unmodeled-original-data.bin').stat().st_size,'sha256':sha((output/'unmodeled-original-data.bin').read_bytes())}
     for stream in ('stdout','stderr'):
         path=output/(stream+'.bin')

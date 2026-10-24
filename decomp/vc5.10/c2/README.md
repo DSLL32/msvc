@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 71 application functions (15735 bytes) and five CRT
+Current reconstruction has 72 application functions (15769 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at the output-chunk allocator after the list constructor
-allocated its24-byte record. Four import thunks (24 bytes) and contextual text tables
-(616 bytes) remain separate. The 16173 source bytes are 2.822% of 573183 `.text`
+currently stops at source-record initialization after the24-byte list and508-byte
+chunk have been linked. Four import thunks (24 bytes) and contextual text tables
+(616 bytes) remain separate. The 16207 source bytes are 2.828% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -290,3 +290,13 @@ chunk next-pointer prefix is typed; its complete extent remains unclaimed.
 Eleven affected controls passed in12.358s;18 refreshed/135 reused protocol
 controls took8.772s. Exact compiled snapshots, code certificate and elapsed
 accounting are in0076; native help execution remains2.638ms.
+
+Source77 reconstructs the34-byte hot/cold chunk allocator. The free-list path
+pops only the encountered next-pointer prefix; the current path allocates508
+bytes. Fresh evidence proves the completed24-byte list and self-linked chunk,
+all4096 allocator-defined arena bytes, and actual char-pointer source formal
+with its global/pool alias. Other504 chunk bytes retain allocator-zeroing
+provenance without payload/layout credit; the separate malloc buffer stays
+unread. Fourteen focused controls and the refreshed/reused protocol controls
+pass with separate timings in0077. Future original debugger execution uses the
+shared capture flock; builds/native fixtures remain outside it.

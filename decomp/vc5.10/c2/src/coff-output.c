@@ -178,3 +178,13 @@ C2OutputList *__fastcall new_output_list(int buffered, int count_only)
     list->write_count = 0;
     return list;
 }
+
+C2OutputChunk *new_output_chunk(void)
+{
+    C2OutputChunk *chunk = coff_free_chunks;
+    if (chunk) {
+        coff_free_chunks = chunk->next;
+        return chunk;
+    }
+    return output_allocate(508);
+}
