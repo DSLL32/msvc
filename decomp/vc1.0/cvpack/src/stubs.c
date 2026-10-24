@@ -38,7 +38,7 @@ void grow_page_table(FileSlot *slot) { __asm { int 3 } }
 Page *remove_lru_page(void) { __asm { int 3 } return NULL; }
 
 
-int write_buffered_file(FileSlot *slot,const void *buffer,unsigned long size) { __asm { int 3 } return -1; }
+
 int write_mapped_file(FileSlot *slot,const void *buffer,unsigned long size) { __asm { int 3 } return -1; }
 int truncate_file(int handle, long size) { __asm { int 3 } return -1; }
 void read_old_directory(void) { __asm { int 3 } }

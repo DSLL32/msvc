@@ -428,3 +428,33 @@ int write_file(int handle, const void *buffer, unsigned long size)
     if (slot->flags & 8) return write_mapped_file(slot, buffer, size);
     return write_buffered_file(slot, buffer, size);
 }
+
+int write_buffered_file(FileSlot *slot, const void *buffer, unsigned long size)
+{
+    const unsigned char *source = buffer;
+    unsigned long remaining, i;
+    long copied;
+    Page *page;
+
+    if (!size) return size;
+    while ((long)(slot->cursor.page->position+size) >= slot->allocated)
+        grow_page_table(slot);
+    remaining = size;
+    slot->cursor.page->flags |= 2;
+    while (remaining) {
+        page = slot->cursor.page;
+        copied = page->limit-page->position;
+        if (copied >= (long)remaining) copied = remaining;
+        for (i = 0; i < (unsigned long)copied; ++i) page->cursor[i] = source[i];
+        slot->cursor.page->position += copied;
+        slot->cursor.page->cursor += copied;
+        page = slot->cursor.page;
+        if (page->dirty_end < page->position) page->dirty_end = page->position;
+        if (page->limit == page->position) advance_file_page(slot);
+        /* Test precedes subtraction in the original, including the last page. */
+        if (remaining) slot->cursor.page->flags |= 2;
+        remaining -= copied;
+        source += copied;
+    }
+    return size;
+}
