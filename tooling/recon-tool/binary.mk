@@ -12,7 +12,10 @@ NATIVE_CXXFLAGS += $(NATIVE_CFLAGS)
 # Caller provides those via BINARY_SUPPORT_SOURCES, never in individual cases.
 BINARY_ALL_SOURCES := $(BINARY_SOURCES) binary.c
 BINARY_OBJECTS := $(addprefix $(BINARY_BUILD)/pic/,$(addsuffix .o,$(BINARY_ALL_SOURCES)))
-support-object = $(BINARY_BUILD)/support/$(subst /,_,$(subst ..,_up_,$(1))).o
+# Preserve readable source paths instead of flattening ../ into object names.
+BINARY_SOURCE_ROOT ?= $(abspath $(RECON_TOOL_DIR)/../..)
+support-path = $(patsubst /%,external/%,$(patsubst $(BINARY_SOURCE_ROOT)/%,%,$(abspath $(1))))
+support-object = $(BINARY_BUILD)/support/$(call support-path,$(1)).o
 BINARY_SUPPORT_OBJECTS := $(foreach s,$(BINARY_SUPPORT_SOURCES),$(call support-object,$(s)))
 BINARY_LINKER ?= $(if $(filter %.cpp,$(BINARY_ALL_SOURCES)),$(NATIVE_CXX),$(NATIVE_CC))
 .PHONY: recon-native

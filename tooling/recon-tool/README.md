@@ -26,7 +26,11 @@ Include `include/recon-tool.h` for the versioned C ABI. A binary Makefile define
 its source lists/flags, then includes `recon-tool.mk` once. It builds the
 reconstruction, `binary.c`, and uninstrumented support into one PIC `libbinary.so`.
 `case.mk` links only case glue/tests against that library. `binary.mk` remains
-available separately for small harness fixtures.
+available separately for small harness fixtures. Support objects retain their
+source paths under `.build/support/`, relative to `BINARY_SOURCE_ROOT` (the repo
+root by default): `lib/recon/src/trace.c` becomes
+`.build/support/lib/recon/src/trace.c.o`. External sources retain their absolute
+path under `support/external/`.
 
 ```make
 RECON_TOOL_DIR := $(abspath ../../../tooling/recon-tool)

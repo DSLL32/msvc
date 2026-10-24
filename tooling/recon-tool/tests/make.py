@@ -45,14 +45,16 @@ if mode=='tool' and args[0]=='registry-export':
     write('other/one.c', 'int another(void) { return 2; }\n')
     write('template.c', 'int generated(void) { return 3; }\n')
     write('src/runtime.c', 'int original_runtime(void) { return 0; }\n')
-    write('support.c', 'int native_support(void) { return 0; }\n')
+    write('support/a_b.c', 'int native_support(void) { return 0; }\n')
+    write('support/a/b.c', 'int another_support(void) { return 1; }\n')
     write('binary.c', 'int binary_descriptor;\n')
     write('policy.json', '{}')
     write('Makefile', f'''RECON_TOOL_DIR := {TOOL_DIR}
 RECON_TOOL := {root}/tool
 NATIVE_CC := python3 {wrapper} native
 BINARY_SOURCES := src/one.c other/one.c generated/code.c
-BINARY_SUPPORT_SOURCES := support.c
+BINARY_SOURCE_ROOT := {root}
+BINARY_SUPPORT_SOURCES := support/a_b.c support/a/b.c
 ORIGINAL_SOURCES := $(BINARY_SOURCES) src/runtime.c
 ORIGINAL_BUILD := original
 ORIGINAL_OUTPUT := original/app.exe
@@ -107,6 +109,8 @@ include $(RECON_TOOL_DIR)/case.mk
     common_links = [row for row in initial if '-Wl,-soname,libbinary.so' in row]
     assert len(common_links) == 1, common_links
     assert all(row[0] != 'original' for row in initial)
+    assert (root/'.build/support/support/a_b.c.o').is_file()
+    assert (root/'.build/support/support/a/b.c.o').is_file()
     cases = [root/f'cases/{name}/.build/case.so' for name in ['0000-first', '0001-second']]
     mtimes = [path.stat().st_mtime_ns for path in cases]
     make('cases')
