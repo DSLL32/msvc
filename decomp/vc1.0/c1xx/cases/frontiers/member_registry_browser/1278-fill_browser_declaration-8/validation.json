@@ -1,0 +1,25 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_fill_browser_declaration@8",
+    "start": 178176,
+    "end": 178821
+  },
+  "actual_argument_proof": "cases/frontiers/member_registry_browser/1278-fill_browser_declaration-8/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_duplicate_browser_text",
+    "_fill_browser_symbol@8",
+    "_set_browser_access@8",
+    "_static_member_alias@4",
+    "_static_member_from_alias@4",
+    "_suppress_browser_records",
+    "_symbol_alias@4",
+    "_write_decorated_name@16"
+  ],
+  "next_frontier": "_fill_browser_symbol@8",
+  "pending_buffers": 6,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 1.3709507789462805,
+  "total_operation_seconds": 6.171812449581921,
+  "original_capture_seconds": 1.8190210331231356
+}

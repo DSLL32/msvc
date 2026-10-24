@@ -1,0 +1,96 @@
+{
+  "function": "_fill_browser_declaration@8",
+  "original_extent": [
+    178176,
+    178821
+  ],
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "whole_body": "cases/argument-observations/member_registry_browser/1278-fill_browser_declaration-8/original-disassembly.txt",
+  "abi": "Two stack pointer formals, stdcall8 void, saved EBX/ESI/EDI. No hidden register/flags/x87 input. All8 distinct callees have complete independently analyzed extents and named stubs where still pending.",
+  "category_prefix": {
+    "address": 650216,
+    "bytes": 12,
+    "values": [
+      0,
+      0,
+      17,
+      17,
+      0,
+      10,
+      1,
+      1,
+      2,
+      4,
+      3,
+      0
+    ],
+    "claim": "Encountered ordinary-symbol prefix view, not historical complete object extent. Only actual kind7 input is dynamically credited here.",
+    "excluded": "Following12 physical bytes before9ec00 remain unowned; neighboring4DWORD access table is separate. Neither alignment, physical zero bytes nor kind&31 establishes a logical bound.",
+    "typed_symbol_domain": "Ordinary declarators become kinds2/3/6/7/9, tags4, enumerators5, ABI parameters10; ellipsis11 is filtered at function entry. Current actual headerDWORD is7, with initialized complete4B read bound to actual argument1.",
+    "pseudo_records": "Abstract12 remains expression/type grammar; segment13 owns separate global segment chain; base15 is separate class base link; overload16/17 wraps functions and normal typed function resolution selects real6/7; qualifier18 unwraps through binding; pure marker19 rewrites3 at declare_class_member entry. These facts do not prove every malformed/conflicting/corrupt merge route impossible.",
+    "open_routes": "Generic reconcile_declaration has successful-merge returns without an explicit kind range. Out-of-prefix browser lookup through malformed/conflicting/corrupt inputs is unproved, not classified as original UB. Native trap marks unknown data support at the exact indexed read; original Win32 indexing unchanged.",
+    "corroboration_only": "C1 browser.c independently models the identical12B prefix; not used to assert C1XX historical table size."
+  },
+  "access_table": {
+    "address": 650240,
+    "rows": [
+      0,
+      1024,
+      2048,
+      64
+    ],
+    "domain": "Exact flags&3 indexes all4 DWORD rows; only lowWORD participates."
+  },
+  "direct_browser_declaration_call_sites": [
+    {
+      "va": "0x2d6c1",
+      "role": "define_tag_symbol"
+    },
+    {
+      "va": "0x2daee",
+      "role": "allocate_tag_symbol"
+    },
+    {
+      "va": "0x2e4d6",
+      "role": "copied anonymous member after current-scope reconciliation"
+    },
+    {
+      "va": "0x2ef83",
+      "role": "declare_enumerator after current-scope reconciliation"
+    },
+    {
+      "va": "0x2fa46",
+      "role": "declare_class_member real member (not separately created overload wrapper)"
+    },
+    {
+      "va": "0x33f36",
+      "role": "function definition real function"
+    },
+    {
+      "va": "0x33fba",
+      "role": "function ABI parameter chain"
+    },
+    {
+      "va": "0x3c31f",
+      "role": "recover_undeclared_identifier new_symbol kind9"
+    },
+    {
+      "va": "0x51dc1",
+      "role": "apply_declaration_type actual resolved symbol"
+    }
+  ],
+  "aliases": {
+    "name_only": "attributes40 branch copies alias->name while retaining original symbol owner/kind; kind3 uses static_member_alias, others symbol_alias.",
+    "replacement": "Question-mark name branch resolves static_member_name_bindings(alias.name\u2192actual member). Sole registration is register_static_member_alias called by create_static_member_alias, retaining actual member object.",
+    "local_static": "record_local_declaration only accepts real kind9 and copies whole symbol to permanent alias; browser keeps declaration kind9."
+  },
+  "behavior_notes": [
+    "Record flag1 from declaration_flags3000; clear owned-name flag2 before fill_browser_symbol.",
+    "Decoration skips C-linkage flag200 and interned main/WinMain/DllMain names. Existing error_count global8cc88, not a new error counter.",
+    "Storage1/2 nonmember resets attributes40, storage3 resets2; flag20 is conditionally ORed, not universally cleared.",
+    "Tag/access branch retains existing browser_symbol_limit allocation and exact4-entry access table.",
+    "Type4 category tests keep their original priority; no-match leaves prior category unchanged."
+  ],
+  "native_limitation": "Unsupported unmodeled category row only, after original filters/alias/storage/type/member bypasses; no blanket entry guard, zero padding, source repair or graph exemption.",
+  "argument_erratum": "Earlier retained before-domain-analysis exploratory pair had prose incorrectly listing EBP among saved registers and was not used for promotion. Current plan/raw independently show3 saves. Earlier note kind6 was corrected by fresh actual header7; rows6/7 happen equal but identity is not conflated."
+}

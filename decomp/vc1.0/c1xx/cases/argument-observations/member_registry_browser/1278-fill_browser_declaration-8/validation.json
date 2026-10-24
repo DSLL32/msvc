@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_fill_browser_declaration@8",
+  "case": "member_registry_browser",
+  "accepted_before": 1278,
+  "configuration_sha256": "658821bbeee682f1ecb7bdddfdfe0a39f252f9318f5739481e99a9b568983281",
+  "native_entry": "fill_browser_declaration",
+  "declared_formal_count": 2,
+  "formals": [
+    {
+      "name": "record",
+      "stack_index": 0,
+      "native_field": "raw_record",
+      "binding": {
+        "kind": "object-offset",
+        "original_object": 609092,
+        "offset": 264,
+        "native_anchor_field": "ring_owner",
+        "native_object_address": 1449263384
+      },
+      "original_raw": 609356,
+      "native_raw": 1449263648,
+      "result": "match"
+    },
+    {
+      "name": "symbol",
+      "stack_index": 1,
+      "native_field": "raw_symbol",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 113676,
+        "original_owner_function": "_fill_browser_record@8",
+        "native_owner_field": "caller_subject",
+        "native_owner_function": "fill_browser_record",
+        "native_owner_local": "subject",
+        "identity": "Accepted fill_browser_record loads its actual subject from entryESP+8 into EAX at VA2bc01, PUSH EAX2bc05/PUSH ECX2bc06/CALL2bc07, returnVA2bc0c/RVA1bc0c. Native immediate caller subject is the same real forwarded formal. The accepted browser_declaration/apply_declaration_type producer proof establishes the builtin operator-new symbol role; this owner anchor does not establish arbitrary pointee initialization or extent.",
+        "original_owner_value": 8297944,
+        "native_owner_value": 1449348568
+      },
+      "original_raw": 8297944,
+      "native_raw": 1449348568,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      178176,
+      178821
+    ],
+    "argument_bytes": 8,
+    "convention": "stdcall8 void; saves EBX/ESI/EDI, all returns RET8",
+    "proof": "Complete645B body reads record entryESP+4 and symbol entryESP+8; no incoming hidden register, flags or x87 values. Actual ring record94b44+264 is slot11 and its written fields are initialized by accepted append_browser_record. Symbol is the genuine forwarded subject; consumed-field producer and category-table domain analysis remain separately required before promotion. No table extent or padding is inferred by this ABI receipt. Fresh exact header observation is accepted only at this capture actual argument1, with complete4B read and matching initialized header00000007. The accepted declare_operator_new\u2192new_declarator/attach_function_parameters\u2192apply_declaration_type path produces the real function declaration; no recursive object dump or heap address identity is inferred.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "4d236fe31b6d30a203f9bfba2c358ba2a9502b44a067d2c90606d2b94797d18b",
+  "capture_timing": {
+    "original_capture_seconds": 1.1676137652248144,
+    "native_capture_seconds": 0.19523717183619738,
+    "total_operation_seconds": 1.738472961820662
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "ba2d7f4064e870900da078fcbbefdf4f8e991b97b699feef10c4323008095b30",
+    "native-commands.gdb": "1a3c798a6d60e48ac5e11be22398d3d35aed879f1b6719efa5498143c5828c19",
+    "native-gdb.log": "eedeb6f064cc612d16afe8108a45656a00f2434ad43c3c2155bd84fce5057ed2",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "981a87695ee16eb1add441d716e274ae5b2faa2f8b1d5807e9500cbef6cb76ac",
+    "original-configuration.json": "658821bbeee682f1ecb7bdddfdfe0a39f252f9318f5739481e99a9b568983281",
+    "original-disassembly.txt": "6c2bf1f264f157345244f409bca70aef2532078043755e875e16fbefb811d46d",
+    "original-entries.plan": "c0c6047f60f2b99fddcefdb1ac935352065f26a1fb935023c0d2e71558ca420e",
+    "original-events.txt": "34e0a595ee44cb102fb90a0b60ff6648cc997e5f6b76752d961278b5fab726e9",
+    "original-ownership-caller-disassembly.txt": "8872fd7be16ab6f683f1a5515f38f6c25f99a57f89287ac5bc064eb1d4289309",
+    "original-receipt.json": "2641ab52846680bc38c54c305264b1246141131b6662b4ee509e66118a3f5dff",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "77a874d5d3db6253cf787f80e875fbdcf2cedfecb53f80576a39882e2bee34c7"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

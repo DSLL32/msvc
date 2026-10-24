@@ -82,6 +82,9 @@ def main():
     states = [int(s, 16) for s in re.findall(r'^state \d+ ([0-9a-f]+)$', events, re.M)]
     for requirement in plan.get('state_requirements', []):
         assert states[requirement['index']] == checkpoint[requirement['native_field']] == requirement['equals']
+    if name=='_fill_browser_declaration@8':
+        from browser_declaration_inputs import validate as validate_browser_declaration
+        validate_browser_declaration(name, anchors, checkpoint, words)
     if name=='_equal_tail_word_pairs':
         from tail_word_pair_inputs import validate as validate_tail_word_pair_inputs
         validate_tail_word_pair_inputs(name, anchors, checkpoint, words)

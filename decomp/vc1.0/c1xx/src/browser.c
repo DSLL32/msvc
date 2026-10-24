@@ -353,3 +353,97 @@ void __stdcall browser_declaration(CppSymbol *symbol)
 {
     queue_browser_record(3, symbol);
 }
+
+/* Original 0x9ebe8..0x9ebf3: encountered ordinary-symbol prefix only.
+   The following twelve bytes are not owned here. This does not establish
+   the historical array's full extent; see browser-declaration evidence. */
+unsigned char browser_declaration_categories[12] = {
+    0, 0, 17, 17, 0, 10, 1, 1, 2, 4, 3, 0
+};
+/* Original 0x9ec00..0x9ec0f, independently indexed by flags & 3. */
+unsigned browser_access_attributes[4] = { 0, 0x400, 0x800, 0x40 };
+
+/* Original 0x2b800..0x2ba84. Resolve the browse name, storage/access
+   attributes and category while retaining the real declaration identity. */
+void __stdcall fill_browser_declaration(BrowserRecord *record, CppSymbol *symbol)
+{
+    CppSymbol *alias;
+    char *decorated;
+    unsigned kind = symbol->kind & 31;
+    unsigned storage;
+    unsigned short flags;
+    int member;
+    if (kind == 11 || (symbol->flags & 0x80)) {
+        record->header.kind = 0xfc;
+        return;
+    }
+    if (symbol->declaration_flags & 0x3000) record->header.flags |= 1;
+    else record->header.flags &= ~1;
+    record->header.flags &= ~2;
+    fill_browser_symbol(record, symbol);
+    kind = symbol->kind & 31;
+    if ((kind == 6 || kind == 7) && !(symbol->declaration_flags & 0x200) &&
+        symbol->name != name_main && symbol->name != name_winmain &&
+        symbol->name != name_dllmain) {
+        decorated = write_decorated_name(0, symbol, 0, 0);
+        if (error_count) {
+            suppress_browser_records();
+            record->header.kind = 0xfc;
+            return;
+        }
+        record->header.flags |= 2;
+        record->name = duplicate_browser_text(decorated);
+        record->name_identity = 0;
+    }
+    kind = symbol->kind & 31;
+    if (kind >= 1 && kind <= 13 && kind != 5 && (symbol->attributes & 0x40)) {
+        alias = kind == 3 ? static_member_alias(symbol) : symbol_alias(symbol);
+        record->name = alias->name;
+        record->name_identity = 0;
+    } else if (*symbol->name == '?') {
+        record->name = symbol->name;
+        record->name_identity = 0;
+        symbol = static_member_from_alias(symbol);
+    }
+    storage = symbol->storage[0] & 7;
+    if (storage == 7) {
+        record->attributes = 0;
+        record->category = 7;
+        return;
+    }
+    kind = symbol->kind & 31;
+    member = kind == 2 || kind == 3 ||
+        (kind == 7 && (symbol->declaration_flags & 0x400));
+    if (storage == 1 || storage == 2 || storage == 3) {
+        if (storage == 3) record->attributes = 2;
+        else if (!member) record->attributes = 0x40;
+        if (kind == 7 ? !(symbol->flags & 4) :
+            storage == 1 && !(symbol->attributes & 4)) record->attributes |= 0x20;
+    } else if (declaration_mode >= 2) record->attributes |= 1;
+    if (member) {
+        record->attributes |= browser_access_attributes[symbol->flags & 3];
+        if (symbol->storage[1] & 2) record->attributes |= 0x200;
+        if (!symbol->index) {
+            symbol->index = browser_symbol_limit--;
+            record->symbol_index = symbol->index;
+        }
+        set_browser_access(&record->attributes, symbol->flags & 3);
+    }
+    kind = symbol->kind & 31;
+    if (kind == 4) {
+        flags = symbol->type->flags;
+        if ((flags & 0x408) == 0x408) record->category = 15;
+        else if ((flags & 0x402) == 0x402) record->category = 8;
+        else if ((flags & 0x404) == 0x404) record->category = 11;
+        else if (flags & 0x200) record->category = 9;
+    } else if (kind == 7 && (symbol->declaration_flags & 0x400))
+        record->category = 16;
+    else {
+#ifdef RECON_NATIVE_TEST
+        /* Only the encountered ordinary-symbol prefix is reconstructed.
+           Other rows are unknown data, not a proved bug in the original. */
+        if (kind >= sizeof(browser_declaration_categories)) { __asm { int 3 } }
+#endif
+        record->category = browser_declaration_categories[kind];
+    }
+}

@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "function": "_fill_browser_declaration@8",
+  "native_entry": "fill_browser_declaration",
+  "argument_words": 4,
+  "ownership_register": "eax",
+  "ownership_caller_extent": [
+    179120,
+    179321
+  ],
+  "native_caller_locals": {
+    "caller_subject": {
+      "frame": 1,
+      "function": "fill_browser_record",
+      "local": "subject"
+    }
+  },
+  "native_expressions": {
+    "raw_record": "(unsigned)record",
+    "raw_symbol": "(unsigned)symbol",
+    "ring_owner": "(unsigned)&browser_records[0]"
+  },
+  "formals": [
+    {
+      "name": "record",
+      "stack_index": 0,
+      "native_field": "raw_record",
+      "binding": {
+        "kind": "object-offset",
+        "original_object": 609092,
+        "offset": 264,
+        "native_anchor_field": "ring_owner"
+      }
+    },
+    {
+      "name": "symbol",
+      "stack_index": 1,
+      "native_field": "raw_symbol",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 113676,
+        "original_owner_function": "_fill_browser_record@8",
+        "native_owner_field": "caller_subject",
+        "native_owner_function": "fill_browser_record",
+        "native_owner_local": "subject",
+        "identity": "Accepted fill_browser_record loads its actual subject from entryESP+8 into EAX at VA2bc01, PUSH EAX2bc05/PUSH ECX2bc06/CALL2bc07, returnVA2bc0c/RVA1bc0c. Native immediate caller subject is the same real forwarded formal. The accepted browser_declaration/apply_declaration_type producer proof establishes the builtin operator-new symbol role; this owner anchor does not establish arbitrary pointee initialization or extent."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      178176,
+      178821
+    ],
+    "argument_bytes": 8,
+    "convention": "stdcall8 void; saves EBX/ESI/EDI/EBP, all returns RET8",
+    "proof": "Complete645B body reads record entryESP+4 and symbol entryESP+8; no incoming hidden register, flags or x87 values. Actual ring record94b44+264 is slot11 and its written fields are initialized by accepted append_browser_record. Symbol is the genuine forwarded subject; consumed-field producer and category-table domain analysis remain separately required before promotion. No table extent or padding is inferred by this ABI receipt."
+  }
+}

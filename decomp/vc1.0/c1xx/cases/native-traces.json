@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "0bf8d46dc2c918ca0ab01c42498a237e7f0e1fbfb9de8a7e1e6daeade2ffa0d1",
+    "functions.json": "0822ec84b0c5f990f798a76d2186c0e36703f1cbea0b3f36e8f0d9e1a1937da3",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "7cb59803d00e8aed4f2cc395194273b69076dc68586b1d98b1c29cde80e5d5c8",
-    "cases/canonical-map.txt": "d04e12c13f0d01dacc871354d9bdfe11f7c74960d4a6c62438c556cf30949915",
+    "cases/original-entry-references.json": "cbb6d384a19d1098862527cb3c702adc64f37fd193e572e5059a47bd017586cd",
+    "cases/canonical-map.txt": "fd8d17346d9d2afb1b718adf33af7e998a253bd37b4eb07c736818de2cb99bbf",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -78,9 +78,9 @@
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-receipt.json": "aaed00b4fadaebffc9880353fea9e13e29e47c575801ef9b2468683dce4fa7c5",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-events.txt": "101a9376ca702a65d47b1014b7314fcf5bae85308185272f7bfbfd5a54474784",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-entries.plan": "0666913d4e150db042b4ec44837ec92005027e9ae6eb67575b6dd821714b9619",
-    "cases/frontiers/member_registry_browser/1277-browser_declaration-4/entry-reference/original-receipt.json": "ed35b5523815ad67ceee476f9df00824cd4e00d07f9a37698540c63ccc515ea3",
-    "cases/frontiers/member_registry_browser/1277-browser_declaration-4/entry-reference/original-events.txt": "7e1d6d0280013473488c80a835a96548a90503b16a68fe7c0f96cdafab5f59a8",
-    "cases/frontiers/member_registry_browser/1277-browser_declaration-4/entry-reference/original-entries.plan": "25cfbbbbb6ad7e4aef8af3e471abe833840a9cbe663a5013b9c0374164ebe92d"
+    "cases/frontiers/member_registry_browser/1278-fill_browser_declaration-8/entry-reference/original-receipt.json": "b63794ccf05492ea4cc950620455dd309970d6f5408e42cbf1974b6232329188",
+    "cases/frontiers/member_registry_browser/1278-fill_browser_declaration-8/entry-reference/original-events.txt": "2f55f214a29634e86966362a7cf4cbbeddd0b4f4b55cda97d3bfe17ca7a60fa0",
+    "cases/frontiers/member_registry_browser/1278-fill_browser_declaration-8/entry-reference/original-entries.plan": "ec20c2c800bda97c9536fe1d87f5679f2846c896b9dfe3e3b3fb2a733c0203cf"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -2357,7 +2357,7 @@
     },
     "fill_browser_declaration": {
       "logical": "_fill_browser_declaration@8",
-      "source": "src/stubs.c"
+      "source": "src/browser.c"
     },
     "fill_browser_filename": {
       "logical": "_fill_browser_filename",
@@ -5567,6 +5567,10 @@
       "logical": "_set_base_initialization_access@4",
       "source": "src/member-access.c"
     },
+    "set_browser_access": {
+      "logical": "_set_browser_access@8",
+      "source": "src/stubs.c"
+    },
     "set_default_inheritance_model": {
       "logical": "_set_default_inheritance_model@4",
       "source": "src/stubs.c"
@@ -5699,6 +5703,10 @@
       "logical": "_static_member_alias@4",
       "source": "src/symbol-output.c"
     },
+    "static_member_from_alias": {
+      "logical": "_static_member_from_alias@4",
+      "source": "src/stubs.c"
+    },
     "store_extended": {
       "logical": "_store_extended",
       "source": "src/floating.c"
@@ -5725,6 +5733,10 @@
     },
     "subtraction_overflows": {
       "logical": "_subtraction_overflows@16",
+      "source": "src/stubs.c"
+    },
+    "suppress_browser_records": {
+      "logical": "_suppress_browser_records",
       "source": "src/stubs.c"
     },
     "symbol_alias": {
@@ -7284,7 +7296,8 @@
     "browser_open_file",
     "fill_browser_filename",
     "duplicate_browser_text",
-    "browser_declaration"
+    "browser_declaration",
+    "fill_browser_declaration"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -13715,7 +13728,7 @@
     },
     "member_registry_browser": {
       "first": 1257,
-      "last": 1278,
+      "last": 1279,
       "seen": [
         "main",
         "message_text",
@@ -14891,12 +14904,13 @@
         "fill_browser_filename",
         "duplicate_browser_text",
         "browser_declaration",
-        "fill_browser_declaration"
+        "fill_browser_declaration",
+        "fill_browser_symbol"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_fill_browser_declaration@8",
-        "native": "fill_browser_declaration",
+        "logical": "_fill_browser_symbol@8",
+        "native": "fill_browser_symbol",
         "signal": 5
       }
     }

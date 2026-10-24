@@ -584,10 +584,13 @@ IrToken *__stdcall convert_general_data_member_pointer(IrToken *expression, CTyp
 
 IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int displacement) { __asm { int 3 } return 0; }
 void finish_line_record_debug_info(void) { __asm { int 3 } }
-void __stdcall fill_browser_declaration(BrowserRecord *record, CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall fill_browser_reference(BrowserRecord *record, CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall fill_browser_symbol(BrowserRecord *record, CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall fill_browser_base(BrowserRecord *record, void *base) { __asm { int 3 } }
 void __stdcall fill_browser_scope_end(BrowserRecord *record, CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall fill_browser_generated_symbol(BrowserRecord *record) { __asm { int 3 } }
 BrowserRecordHeader *pop_last_browser_record(void) { __asm { int 3 } return 0; }
+
+void suppress_browser_records(void) { __asm { int 3 } }
+CppSymbol *__stdcall static_member_from_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
+void __stdcall set_browser_access(unsigned short *attributes, unsigned char access) { __asm { int 3 } }

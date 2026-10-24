@@ -1282,7 +1282,8 @@
     "_browser_open_file",
     "_fill_browser_filename",
     "_duplicate_browser_text",
-    "_browser_declaration@4"
+    "_browser_declaration@4",
+    "_fill_browser_declaration@8"
   ],
   "driver": [
     {
@@ -8963,6 +8964,21 @@
       "name": "_duplicate_browser_text",
       "start": 178000,
       "end": 178068
+    },
+    {
+      "name": "_suppress_browser_records",
+      "start": 179376,
+      "end": 179442
+    },
+    {
+      "name": "_static_member_from_alias@4",
+      "start": 352176,
+      "end": 352198
+    },
+    {
+      "name": "_set_browser_access@8",
+      "start": 177904,
+      "end": 177985
     }
   ],
   "cases": {
@@ -9515,8 +9531,8 @@
           "original": 585720
         }
       ],
-      "terminal": "_fill_browser_declaration@8",
-      "terminal_evidence": "cases/frontiers/member_registry_browser/1277-browser_declaration-4/original-events.txt",
+      "terminal": "_fill_browser_symbol@8",
+      "terminal_evidence": "cases/frontiers/member_registry_browser/1278-fill_browser_declaration-8/original-events.txt",
       "original_seed": "cases/member_registry_browser-seed",
       "frontier_extensions": [
         "cases/frontiers/member_registry_browser/1257-begin_browser_output/frontier-extension.json",
@@ -9539,7 +9555,8 @@
         "cases/frontiers/member_registry_browser/1274-browser_open_file/frontier-extension.json",
         "cases/frontiers/member_registry_browser/1275-fill_browser_filename/frontier-extension.json",
         "cases/frontiers/member_registry_browser/1276-duplicate_browser_text/frontier-extension.json",
-        "cases/frontiers/member_registry_browser/1277-browser_declaration-4/frontier-extension.json"
+        "cases/frontiers/member_registry_browser/1277-browser_declaration-4/frontier-extension.json",
+        "cases/frontiers/member_registry_browser/1278-fill_browser_declaration-8/frontier-extension.json"
       ],
       "transient_outputs": [
         {
@@ -12317,6 +12334,18 @@
       "name": "_browser_symbol_bit_masks",
       "original": 650208,
       "bytes": 8
+    },
+    {
+      "name": "_browser_declaration_categories",
+      "kind": "bytes",
+      "original": 650216,
+      "bytes": 12
+    },
+    {
+      "name": "_browser_access_attributes",
+      "kind": "bytes",
+      "original": 650240,
+      "bytes": 16
     }
   ],
   "buffered_streams": [
@@ -12591,6 +12620,19 @@
       "authorization": "Established precise original-uninitialized-local policy after independent complete104B def-use/frame check",
       "evidence": "evidence/browser-temporary-name/analysis.json",
       "coverage_note": "SUB4+EBX/ESI/EDI saves12 places adjustedESP+12 atentryESP-4. Only nonempty2ad06 assigns EAX last; empty2ad10 loads untouchedlocal before2ad14 writeslast[1]. Public empty-name reachability UNKNOWN, current registry.sbr nonempty defined; no undefined-stack equivalence claimed."
+    },
+    {
+      "function": "_fill_browser_declaration@8",
+      "original": [
+        178176,
+        178821
+      ],
+      "condition": "category-table lookup after original filters has symbol kind (kind & 31) outside encountered prefix0..11",
+      "behavior": "native-only INT3 immediately before unmodeled category-row read",
+      "win32": "original unguarded table indexing retained",
+      "authorization": "Root approved bounded encountered prefix and exact unsupported-data-domain trap",
+      "evidence": "evidence/browser-declaration/analysis.json",
+      "coverage_note": "Unknown historical full table extent and pseudo-kind lookup reachability; no original-UB or malformed-only classification. Current genuine operator-new symbol is kind7; kind11 suppression and storage7/type4/member7 bypasses retain original ordering."
     }
   ]
 }

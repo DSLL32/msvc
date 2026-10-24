@@ -1,0 +1,84 @@
+{
+  "case": "member_registry_browser",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 1278,
+  "terminal": "_fill_browser_declaration@8",
+  "candidate": null,
+  "pending_accepted": [],
+  "configuration_sha256": "658821bbeee682f1ecb7bdddfdfe0a39f252f9318f5739481e99a9b568983281",
+  "capture_seconds": 1.1676137652248144,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irdb": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "registry.h": {
+      "bytes": 703,
+      "sha256": "a16309303b88af7f9a4a7ad68f6fbcacbc75ed975b9d277a29f9baa6ca38e649"
+    },
+    "registry.sbt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    "registry.cpp": {
+      "bytes": 6998,
+      "sha256": "79744fca0c987fcf884632130d2000185580b0acd358647058f76151e62b8158"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\member-registry-browser-driver",
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "observer_sha256": "b2fb8bfb0f5e6517b3d24996e25c0fbb12e74eb4feb26993f0216508550fff32",
+  "ownership_register_observations": [
+    {
+      "register": "eax",
+      "value": 8297944,
+      "read_succeeded": true
+    }
+  ],
+  "diagnostic_observations": [
+    {
+      "name": "browser_symbol_header",
+      "original": 8297944,
+      "bytes": 4,
+      "value": 7,
+      "read_bytes": 4,
+      "read_succeeded": true
+    }
+  ],
+  "ownership_entry_projection": {
+    "accepted_first": 1257,
+    "accepted_last": 1278,
+    "accepted_prefix_sha256": "b9646b4dbb861551f82e3bcd5686842b75b4b126ad150cc2f6f305a887e85297",
+    "expected": [
+      "_fill_browser_record@8"
+    ],
+    "observed": [
+      "_fill_browser_record@8"
+    ],
+    "events_sha256": "34e0a595ee44cb102fb90a0b60ff6648cc997e5f6b76752d961278b5fab726e9",
+    "plan_sha256": "c0c6047f60f2b99fddcefdb1ac935352065f26a1fb935023c0d2e71558ca420e",
+    "scope": "single explicitly selected accepted ownership caller entry; not a full case trace"
+  }
+}

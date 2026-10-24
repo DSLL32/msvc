@@ -1,18 +1,18 @@
 {
-  "accepted_frontiers": 1278,
-  "driver_functions": 1172,
+  "accepted_frontiers": 1279,
+  "driver_functions": 1173,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 1179,
-  "current_frontier": "_fill_browser_declaration@8",
-  "original_frontier_va": "0x2b800",
+  "reconstructed_source_functions": 1180,
+  "current_frontier": "_fill_browser_symbol@8",
+  "original_frontier_va": "0x2b7d0",
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_fill_browser_declaration@8",
-    "original_va": "0x2b800"
+    "current_frontier": "_fill_browser_symbol@8",
+    "original_va": "0x2b7d0"
   },
-  "current_native_application_entries": 21,
+  "current_native_application_entries": 22,
   "active_queue": [
     "finish cpp_basic",
     "inheritance and virtual dispatch",
@@ -20,12 +20,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 310900,
+    "accepted_code_bytes": 311545,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 65.25781981369302,
-    "accepted_frontiers": 1278,
-    "source_functions": 1179,
-    "accepted_source_text_and_switch_bytes": 295351,
+    "accepted_code_percent": 65.39320512659052,
+    "accepted_frontiers": 1279,
+    "source_functions": 1180,
+    "accepted_source_text_and_switch_bytes": 295996,
     "section_ranges": [
       [
         94208,
@@ -214,16 +214,29 @@
         "authorization": "Established precise original-uninitialized-local policy after independent complete104B def-use/frame check",
         "evidence": "evidence/browser-temporary-name/analysis.json",
         "coverage_note": "SUB4+EBX/ESI/EDI saves12 places adjustedESP+12 atentryESP-4. Only nonempty2ad06 assigns EAX last; empty2ad10 loads untouchedlocal before2ad14 writeslast[1]. Public empty-name reachability UNKNOWN, current registry.sbr nonempty defined; no undefined-stack equivalence claimed."
+      },
+      {
+        "function": "_fill_browser_declaration@8",
+        "original": [
+          178176,
+          178821
+        ],
+        "condition": "category-table lookup after original filters has symbol kind (kind & 31) outside encountered prefix0..11",
+        "behavior": "native-only INT3 immediately before unmodeled category-row read",
+        "win32": "original unguarded table indexing retained",
+        "authorization": "Root approved bounded encountered prefix and exact unsupported-data-domain trap",
+        "evidence": "evidence/browser-declaration/analysis.json",
+        "coverage_note": "Unknown historical full table extent and pseudo-kind lookup reachability; no original-UB or malformed-only classification. Current genuine operator-new symbol is kind7; kind11 suppression and storage7/type4/member7 bypasses retain original ordering."
       }
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 310900,
+    "accepted_code_bytes": 311545,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 65.25781981369302,
-    "accepted_frontiers": 1278,
-    "source_functions": 1179,
-    "accepted_source_text_and_switch_bytes": 295351,
+    "accepted_code_percent": 65.39320512659052,
+    "accepted_frontiers": 1279,
+    "source_functions": 1180,
+    "accepted_source_text_and_switch_bytes": 295996,
     "section_ranges": [
       [
         94208,
@@ -412,13 +425,26 @@
         "authorization": "Established precise original-uninitialized-local policy after independent complete104B def-use/frame check",
         "evidence": "evidence/browser-temporary-name/analysis.json",
         "coverage_note": "SUB4+EBX/ESI/EDI saves12 places adjustedESP+12 atentryESP-4. Only nonempty2ad06 assigns EAX last; empty2ad10 loads untouchedlocal before2ad14 writeslast[1]. Public empty-name reachability UNKNOWN, current registry.sbr nonempty defined; no undefined-stack equivalence claimed."
+      },
+      {
+        "function": "_fill_browser_declaration@8",
+        "original": [
+          178176,
+          178821
+        ],
+        "condition": "category-table lookup after original filters has symbol kind (kind & 31) outside encountered prefix0..11",
+        "behavior": "native-only INT3 immediately before unmodeled category-row read",
+        "win32": "original unguarded table indexing retained",
+        "authorization": "Root approved bounded encountered prefix and exact unsupported-data-domain trap",
+        "evidence": "evidence/browser-declaration/analysis.json",
+        "coverage_note": "Unknown historical full table extent and pseudo-kind lookup reachability; no original-UB or malformed-only classification. Current genuine operator-new symbol is kind7; kind11 suppression and storage7/type4/member7 bypasses retain original ordering."
       }
     ]
   },
   "complete_frontend_case": false,
   "active_case": "member_registry_browser",
   "status": "member_registry_browser reconstruction in progress",
-  "latest_verification": "cases/frontiers/member_registry_browser/1277-browser_declaration-4/validation.json",
+  "latest_verification": "cases/frontiers/member_registry_browser/1278-fill_browser_declaration-8/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -457,11 +483,11 @@
     },
     "member_registry_browser": {
       "status": "partial",
-      "frontier": "_fill_browser_declaration@8",
-      "latest_verification": "cases/frontiers/member_registry_browser/1277-browser_declaration-4/validation.json"
+      "frontier": "_fill_browser_symbol@8",
+      "latest_verification": "cases/frontiers/member_registry_browser/1278-fill_browser_declaration-8/validation.json"
     }
   },
-  "next_operation": "Continue _fill_browser_declaration@8 reconstruction",
+  "next_operation": "Continue _fill_browser_symbol@8 reconstruction",
   "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json",
   "native_limitations": [
     {
@@ -645,6 +671,19 @@
       "authorization": "Established precise original-uninitialized-local policy after independent complete104B def-use/frame check",
       "evidence": "evidence/browser-temporary-name/analysis.json",
       "coverage_note": "SUB4+EBX/ESI/EDI saves12 places adjustedESP+12 atentryESP-4. Only nonempty2ad06 assigns EAX last; empty2ad10 loads untouchedlocal before2ad14 writeslast[1]. Public empty-name reachability UNKNOWN, current registry.sbr nonempty defined; no undefined-stack equivalence claimed."
+    },
+    {
+      "function": "_fill_browser_declaration@8",
+      "original": [
+        178176,
+        178821
+      ],
+      "condition": "category-table lookup after original filters has symbol kind (kind & 31) outside encountered prefix0..11",
+      "behavior": "native-only INT3 immediately before unmodeled category-row read",
+      "win32": "original unguarded table indexing retained",
+      "authorization": "Root approved bounded encountered prefix and exact unsupported-data-domain trap",
+      "evidence": "evidence/browser-declaration/analysis.json",
+      "coverage_note": "Unknown historical full table extent and pseudo-kind lookup reachability; no original-UB or malformed-only classification. Current genuine operator-new symbol is kind7; kind11 suppression and storage7/type4/member7 bypasses retain original ordering."
     }
   ],
   "shared_pin_refresh": {
