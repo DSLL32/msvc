@@ -316,3 +316,12 @@ int __cdecl rc_parse_logical_and(void)
     }
     return value;
 }
+
+int __cdecl rc_parse_bitwise_or(void)
+{
+    int value;
+    value=rc_parse_bitwise_xor();
+    while(rc_accept_expression_token(72))
+        value|=rc_parse_bitwise_xor();
+    return value;
+}
