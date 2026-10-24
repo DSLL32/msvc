@@ -3005,13 +3005,16 @@
       "native": "load_precompiled_types",
       "symbol": "_load_precompiled_types",
       "original": 107232,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        107232,
+        107728
+      ],
       "abi": "void load_precompiled_types(const unsigned char *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/pch-cpp-shared-types/evidence/0170-load_precompiled_types/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -8179,6 +8182,28 @@
           "slot": 2
         }
       ]
+    },
+    {
+      "name": "find_precompiled_module",
+      "native": "find_precompiled_module",
+      "symbol": "_find_precompiled_module",
+      "original": 109552,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "ModuleInfo *find_precompiled_module(const unsigned char *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "name",
+          "slot": 1,
+          "kind": "module-type-record"
+        }
+      ]
     }
   ],
   "review": {
@@ -9219,6 +9244,12 @@
       "case": "pch-cpp-shared-types",
       "kind": "application",
       "sequence": 169
+    },
+    {
+      "function": "load_precompiled_types",
+      "case": "pch-cpp-shared-types",
+      "kind": "application",
+      "sequence": 170
     }
   ],
   "support_unmasked": [
@@ -9921,15 +9952,15 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "b20019ded5a1fa7afc807e08b6dbb7c8bca7f434b7e4254ba8c0f751c561efcc"
+    "evidence_sha256": "fd6df9b155b489a8dd87f6748a5be5e1704dbbd2f2fe0d31ea14e6f47708a50d"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "d52e47f5420bdf283642d06b212896a3a55dcbbfe0fb1ddab6edf9096589e881"
+    "evidence_sha256": "9747724b5927f0c97ac62aaecc65cafb8593b25ffc07bc7f055a12a070317f84"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
-    "evidence_sha256": "b49760f6b241a209e034f1689bde647edf2a7dd6e4fbebf7b32c51a6baf8e160"
+    "evidence_sha256": "6ba4b97995919833fd3c25ef1f07bc3fdabc0e8cb632af6da405b08dd878d6e6"
   },
   "external_inputs": {
     "evidence": "cases/abi/pdb-input.json",
@@ -9957,51 +9988,51 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "3b71327d837bb44f8c625c41cef07e8b5d1e5db463691ba06a6777af84340476"
+    "evidence_sha256": "676d3cf11457a4eeb884c2ee8b2f61e6a91b9ef3e9aa56f69468092f92f113c3"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "436fb1fe5d251686eb472cce402d0dc5416e32ab5f5250081333824372f12900"
+    "evidence_sha256": "0d31fc04918d372d810e51a378bbc078bb5f03eda297940401c40880ce3d4640"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
-    "evidence_sha256": "4409ccb0eddc1da421d96ae82ed468f6b4e02eba63e61f70b9edddb687ce92f1"
+    "evidence_sha256": "5306c28eed2e65ff141abd7378e7d9d73c248385ceada7ea2dc437a811a24967"
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "33bb5c6c404a0c1cd277c59ce2f40986f5e1b88fe9614b6c57b64513ea1ace53"
+    "evidence_sha256": "24b0cc31e55f546d6fffb3a1c21b56ac503a4d73214043feb70e83fceaf39fbb"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
-    "evidence_sha256": "51bfd7a93908e7d18aac8656e33efa44f5f943050efe7e3951775f6972496773"
+    "evidence_sha256": "ce121db8dc89a5bd41d3216064527a6d8a16a31ac04efc4b149cab7ee7400258"
   },
   "resolver_return_observations": {
     "evidence": "cases/abi/resolver-returns.json",
-    "evidence_sha256": "684f60f572042f0cf1cab0dc51ff3828d07de5d0da24b8e72841a86a0b36c4df"
+    "evidence_sha256": "fd3f6e0ec3896122077d836b0455f35904d888ccb5e19451452a0f32824a3e0d"
   },
   "recursive_arena_observations": {
     "evidence": "cases/abi/recursive-arena.json",
-    "evidence_sha256": "cc87024ccd87b174d2d106c9bd2e488e80d77d8af183838a6033d731c2750fa3"
+    "evidence_sha256": "351cc07d319455d4c35e992b8a427035d322aa1673a4004275a13a64b4bea302"
   },
   "packed_arena_observations": {
     "evidence": "cases/abi/packed-arena.json",
-    "evidence_sha256": "928639de31d0f36fc9ec59be1c643973352e9936546ae764eb74ffe8e2cd655f"
+    "evidence_sha256": "7931e9f96b4cb8ceedc5dffa0e00e3d1fe8e3de29042ad17328fb0d3833b196a"
   },
   "symbol_block_observations": {
     "evidence": "cases/abi/symbol-blocks.json",
-    "evidence_sha256": "6b31d2bd3ab5d287b69a10933701b4849e43951024573278305fa5637eb2cdf0"
+    "evidence_sha256": "7a4afc33a01bcbbe996a77db1c81c01c055dcfeddda0827202062722615cfc30"
   },
   "module_address_observations": {
     "evidence": "cases/abi/module-address.json",
-    "evidence_sha256": "27e6459f830a2fe6293139f56bec4b988f8620f0ea31335e6a6de71b7cbd2e1e"
+    "evidence_sha256": "0eee12ada38d40fbd42af7397ea920fcc059f7ad35b7654dbb4c61ba155bc490"
   },
   "symbol_reference_observations": {
     "evidence": "cases/abi/symbol-references.json",
-    "evidence_sha256": "983cb7af6ad6b9fd1b433c7b61902bd5ae761794a7f1223f8bcde54b4531940e"
+    "evidence_sha256": "ac2d0b03a95d7e1b7ce80c4c7e16b6d8c1c2ae291d71edf01f752bee8794f149"
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "0350a5f89f85c291dfede5182546e975fe3228aa9150e77599e0409f8d42cc70"
+    "sha256": "500e991a6a9dfd78e6f2c437e62dda86a5f8ed354b91f4dde715049a9c713e79"
   },
   "freebuf_boundary": {
     "case": "hello-debug-dll",

@@ -1346,5 +1346,26 @@
     "size": 2,
     "source": "src/types.c",
     "provenance": "Original type_scratch compares zero-extended WORD capacity and truncates new requested allocation size to WORD."
+  },
+  {
+    "name": "precompiled_generation",
+    "symbol": "_precompiled_generation",
+    "original": 216712,
+    "size": 2,
+    "source": "src/types.c"
+  },
+  {
+    "name": "precompiled_type_count",
+    "symbol": "_precompiled_type_count",
+    "original": 216728,
+    "size": 2,
+    "source": "src/types.c"
+  },
+  {
+    "name": "previous_precompiled_module",
+    "symbol": "_previous_precompiled_module",
+    "original": 217788,
+    "size": 4,
+    "source": "src/types.c"
   }
 ]

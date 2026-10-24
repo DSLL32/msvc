@@ -110,8 +110,8 @@ static int dump_precompiled_input(HANDLE child,HANDLE log,DWORD frontier,DWORD *
 {
     DWORD module,directory,entries,input,requested,blocks,block0,entry[3],span=0,offset=0,selected=0,i,capacity,size;
     WORD number,length;BYTE record[1024];int used;
-    if(frontier!=0x1a2e0)return 1;
-    if(words[0]!=0x1a0e3 || !recursive_read(child,0x33050,&module,4) || !module ||
+    if(frontier!=0x1a2e0 && frontier!=0x1abf0)return 1;
+    if(words[0]!=(frontier==0x1a2e0?0x1a0e3:0x1a2f1) || !recursive_read(child,0x33050,&module,4) || !module ||
        !recursive_read(child,module,&number,2) || !recursive_read(child,0x33018,&directory,4) ||
        !recursive_read(child,0x3329c,&entries,4) || entries>4096 || !recursive_read(child,0x33064,&input,4) ||
        !recursive_read(child,0x33078,&requested,4) || !recursive_read(child,0x3308c,&blocks,4) ||
@@ -123,7 +123,7 @@ static int dump_precompiled_input(HANDLE child,HANDLE log,DWORD frontier,DWORD *
         }
     }
     capacity=requested<0xffe8?requested:0xffe8;
-    if(!span || span>capacity || words[1]!=input+2 ||
+    if(!span || span>capacity || words[1]!=input+(frontier==0x1a2e0?2:12) ||
        !recursive_read(child,input,&length,2))return 0;
     size=(DWORD)length+2;
     if(size<14 || size>sizeof(record) || size>span || !recursive_read(child,input,record,size) ||

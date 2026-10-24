@@ -57,9 +57,12 @@ def numeric_input(address,size):
 
 def precompiled_input(address):
     f=gdb.newest_frame();caller=f.older()
-    assert f.name()=='load_precompiled_types'and caller.name()=='read_new_global_types'and int(caller.read_var('record'))+2==address
+    if f.name()=='load_precompiled_types':
+        offset=2;assert caller.name()=='read_new_global_types'and int(caller.read_var('record'))+2==address
+    else:
+        offset=12;assert f.name()=='find_precompiled_module'and caller.name()=='load_precompiled_types'and int(caller.read_var('record'))+10==address
     base=int(gdb.parse_and_eval('global_type_data'));capacity=min(int(gdb.parse_and_eval('global_symbol_size')),0xffe8);module=int(gdb.parse_and_eval('current_module[0].module'))
-    assert int(gdb.parse_and_eval('global_symbol_block'))==0 and int(gdb.parse_and_eval('global_symbol_blocks[0]'))==base and address==base+2
+    assert int(gdb.parse_and_eval('global_symbol_block'))==0 and int(gdb.parse_and_eval('global_symbol_blocks[0]'))==base and address==base+offset
     directory=gdb.parse_and_eval('directory_entries');entries=int(gdb.parse_and_eval('directory_entry_count'))
     matches=[(i,directory[i])for i in range(entries)if int(directory[i]['subsection'])==0x121 and int(directory[i]['module'])==module]
     assert len(matches)==1;index,entry=matches[0];span=int(entry['size'])-4;assert 0<span<=capacity

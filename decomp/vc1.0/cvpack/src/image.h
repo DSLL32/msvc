@@ -147,6 +147,7 @@ void read_lines(unsigned long,const CvDirectoryEntry *);
 void read_publics(unsigned long,const CvDirectoryEntry *);
 void read_source_module(unsigned long,const CvDirectoryEntry *);
 void save_precompiled(ModuleInfo *);
+ModuleInfo *find_precompiled_module(const unsigned char *);
 void prepare_symbols(void *,unsigned long);
 void pack_new_symbols(void *,CvDirectoryEntry *);
 void pack_public_symbols(void *,CvDirectoryEntry *);

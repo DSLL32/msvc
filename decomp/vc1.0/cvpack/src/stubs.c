@@ -79,7 +79,6 @@ void pack_old_lines(void * lines,CvDirectoryEntry * entry,ModuleInfo * module) {
 unsigned short __fastcall compact_old_type(unsigned short type) { __asm { int 3 } return 0; }
 
 void read_old_global_types(void *types, unsigned long size) { __asm { int 3 } }
-void load_precompiled_types(const unsigned char *record) { __asm { int 3 } }
 
 int type_server_close(TypeServer *server) { __asm { int 3 } return 0; }
 void *type_server_fill_alloc(unsigned long size, unsigned char value) { __asm { int 3 } return NULL; }
@@ -120,3 +119,5 @@ void __fastcall queue_type_match(unsigned short type, TypeCacheEntry *named) { _
 void merge_field_list(unsigned char *record, TypeRecord *entry) { __asm { int 3 } }
 
 void release_type_data(TypeRecord *entry) { __asm { int 3 } }
+
+ModuleInfo *find_precompiled_module(const unsigned char *name) { __asm { int 3 } return NULL; }

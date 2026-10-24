@@ -2314,3 +2314,47 @@ void *checked_realloc(void *block, unsigned long size)
     if (!result) fatal_error(13, NULL, NULL);
     return result;
 }
+
+/* Consecutive modules may reuse the same saved precompiled translation. */
+unsigned short precompiled_generation, precompiled_type_count;
+ModuleInfo *previous_precompiled_module;
+
+/* Original [0001a2e0,0001a4d0): import a saved type-index translation. */
+void load_precompiled_types(const unsigned char *record)
+{
+    ModuleInfo *module = find_precompiled_module(record+10);
+    PrecompiledTypes *saved = module->precompiled;
+    unsigned short i, count = *(const unsigned short *)(record+4);
+    if (!saved) fatal_error(14, NULL, NULL);
+    if (module->precompiled_signature != *(const unsigned long *)(record+6))
+        fatal_error(33, module_name(current_module), module_name(module));
+    if (saved->count != count ||
+        (int)*(const unsigned short *)(record+2)-(int)local_type_count != 0x1000)
+        fatal_error(30, module_name(current_module), module_name(module));
+    if ((int)precompiled_generation-(int)type_module_count == -1 &&
+        previous_precompiled_module == module) {
+        precompiled_generation = type_module_count;
+        local_type_count = precompiled_type_count;
+        if (previous_type_count > precompiled_type_count)
+            memset(&local_type_records[precompiled_type_count], 0,
+                (unsigned long)(previous_type_count-precompiled_type_count)*sizeof(*local_type_records));
+        previous_type_count = 0;
+        return;
+    }
+    if (previous_type_count) {
+        memset(local_type_records, 0, (unsigned long)previous_type_count*sizeof(*local_type_records));
+        previous_type_count = 0;
+    }
+    for (i = 0; i < *(const unsigned short *)(record+4); ++i) {
+#ifdef RECON_NATIVE_TEST
+        if (local_type_count >= local_type_capacity) __asm { int 3 }
+#endif
+        local_type_records[local_type_count].index = saved->indices[i];
+        local_type_records[local_type_count].flags |= 0x400;
+        local_type_records[local_type_count].flags |= 0x800;
+        ++local_type_count;
+    }
+    precompiled_generation = type_module_count;
+    precompiled_type_count = local_type_count;
+    previous_precompiled_module = module;
+}

@@ -17,8 +17,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "load_precompiled_types",
-    "native_function": "load_precompiled_types",
+    "logical": "find_precompiled_module",
+    "native_function": "find_precompiled_module",
     "application_trace": [
       "main",
       "parse_options",
@@ -104,7 +104,8 @@
       "create_symbol_reference",
       "convert_old_type",
       "map_primitive",
-      "load_precompiled_types"
+      "load_precompiled_types",
+      "find_precompiled_module"
     ],
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
