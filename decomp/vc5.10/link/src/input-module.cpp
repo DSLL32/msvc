@@ -169,8 +169,3 @@ void *__stdcall reallocate_memory(void *memory,unsigned bytes)
     __asm { int 3 }
     return NULL;
 }
-DWORD __cdecl allocate_module_index(void)
-{
-    __asm { int 3 }
-    return 0;
-}

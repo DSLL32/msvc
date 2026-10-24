@@ -46,6 +46,6 @@ def compare(original,state,trap,events,directory):
     # Both pointees are already owned completely by the inherited typed
     # context/argument contracts. No pending detector body or output credit.
 
-    if state['function']in ('initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header','create_input_module','OutputLibrary::FindModule','initialize_module_enumerator','next_module','allocate_module_index'):
+    if state['function']in ('initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header','create_input_module','OutputLibrary::FindModule','initialize_module_enumerator','next_module','allocate_module_index','allocate_module_section_headers'):
         from machine_result_state import compare as compare_result
         compare_result(original,state,trap,events,directory)

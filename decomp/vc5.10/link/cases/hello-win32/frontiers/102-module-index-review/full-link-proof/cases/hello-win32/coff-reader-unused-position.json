@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "target_sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+  "wrapper": {
+    "start": 4391472,
+    "bytes": 25,
+    "sha256": "0759b3c610be061d746b754241d1e81d0bebb376d90d59032fb2e3134e64c255",
+    "actual_call": {
+      "site": 4391491,
+      "target": 4391264
+    }
+  },
+  "common": {
+    "start": 4391264,
+    "bytes": 204,
+    "sha256": "523d921f7cf74a26b5b7205129fb78ed14e6d0eba06cb6ba83409cef654411ed",
+    "terminal_call": {
+      "site": 4391452,
+      "raw": "ff1584114000",
+      "binding": {
+        "library": "MSVCRT.dll",
+        "symbol": "exit",
+        "iat": 4198788
+      }
+    },
+    "scope": "All normal entry-to-RET paths pass unconditional publicCRT exit call; calls/abnormal exits before it cannot make a normalreturn. Canonical shippedactualMSVCRT e390 remains selected; standard exit has no normalreturn. No CRTbody reconstruction/credit."
+  },
+  "reader_fallback": {
+    "original": "At4610fc EDI gets headerpointer in alternateNULL branch; it is subsequently used asoffset only after fatal1213 with alternateNULL/importsignature.",
+    "source": "Initialize otherwise-unused position0; retainconditionalTELL and fullgraph/calls. No noreturn annotation on pendingfatal declaration, no original reexecution solelylocal treatment.",
+    "scope": "Physical EDI fallback is unobserved/unconsumed semanticstate, never claimed as actualoffset."
+  },
+  "provider_reference": {
+    "path": "cases/help/options-provider/module-006.bin",
+    "bytes": 277776,
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "receipt": "cases/help/options-provider/receipt.json",
+    "receipt_sha256": "4acc6424bce0f5b3b123ebcf4c71c2a140517c6afc7e7cd895626fb0b92b4b02"
+  }
+}

@@ -68,10 +68,10 @@ def compare(original,state,trap,events,directory,original_record,native_record):
     assert len(state['big_endian_read_returns'])==1
     assert state['big_endian_read_returns'][0]==dict(nread,normal_return=True,return_stack=nread['stack_pointer']+16,result=4,output=dict(before,after=output.hex(),record_after=with_cursor(bytes.fromhex(state['file_records'][14]),4).hex()))
     assert state['byte_swap_entry']==dict(stack_pointer=nentry['stack_pointer']-frame,formals=[value],hidden_inputs=[])
-    assert struct.unpack_from('<I',bytes.fromhex(state['file_records'][14]),28)[0]==(20 if state['function']in ('create_input_module','OutputLibrary::FindModule','initialize_module_enumerator','next_module','allocate_module_index')else 0 if state['function']=='read_coff_header'else 4)
+    assert struct.unpack_from('<I',bytes.fromhex(state['file_records'][14]),28)[0]==(20 if state['function']in ('create_input_module','OutputLibrary::FindModule','initialize_module_enumerator','next_module','allocate_module_index','allocate_module_section_headers')else 0 if state['function']=='read_coff_header'else 4)
     # The DWORD is passed by value to the current pending helper. Earlier output
     # locals remain return-time history, with no extra live pointer input range.
 
-    if state['function']in ('read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header','create_input_module','OutputLibrary::FindModule','initialize_module_enumerator','next_module','allocate_module_index'):
+    if state['function']in ('read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header','create_input_module','OutputLibrary::FindModule','initialize_module_enumerator','next_module','allocate_module_index','allocate_module_section_headers'):
         from swap_result_state import compare as compare_result
         compare_result(original,state,trap,events,directory,entry,mac,output)

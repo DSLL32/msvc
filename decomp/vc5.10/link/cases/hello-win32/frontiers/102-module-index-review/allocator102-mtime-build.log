@@ -1,0 +1,8 @@
+python3 scripts/weak-import.py build/operator-new-alias.obj
+python3 scripts/weak-import.py --delete build/operator-delete-alias.obj
+python3 scripts/wine-tool.py LINK.EXE /nologo /incremental:no /map:build/link.map /out:build/link.exe build/option-stubs.obj build/symbols.obj build/arguments.obj build/reproduction.obj build/memory.obj build/files.obj build/driver-stubs.obj build/driver.obj build/initializers.obj build/full-link-init.obj build/comdat.obj build/sections.obj build/libraries.obj build/input.obj build/machine.obj build/module-index.obj build/link-driver.obj build/options.obj build/full-link.obj build/full-link-stubs.obj build/section-driver.obj build/pass-one.obj build/input-machine.obj build/input-module.obj build/operator-new-alias.obj build/operator-delete-alias.obj kernel32.lib
+python3 scripts/runtime-identity.py --rebuilt
+{
+  "verified": 11,
+  "unresolved": []
+}

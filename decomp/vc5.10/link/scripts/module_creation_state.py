@@ -25,6 +25,9 @@ def native_contract(path,digest):
     return int(slot[0],16),call.address+call.size,offsets['module'],index+28
 
 def current_record(original,state,trap):
+    if state['function']=='allocate_module_section_headers':
+        from module_index_state import current_record as completed_record
+        return completed_record(original,state,trap)
     current=state['module_creation_current']
     left=(original/'input-module-record.bin').read_bytes();right=bytes.fromhex(current['record'])
     assert len(left)==len(right)==156
@@ -45,6 +48,9 @@ def current_record(original,state,trap):
 
 
 def compare(original,state,trap,events,directory):
+    if state['function']=='allocate_module_section_headers':
+        from module_index_state import compare as compare_index
+        return compare_index(original,state,trap,events,directory)
     left,right=current_record(original,state,trap);lw=struct.unpack('<39I',left);rw=struct.unpack('<39I',right)
     current=state['module_creation_current']
     assert trap['frontier_inputs']==state['frontier_inputs']==dict(formals=[],hidden_register_inputs=[])
@@ -70,6 +76,11 @@ def compare(original,state,trap,events,directory):
     pe=PE(Path(__file__).resolve().parents[4]/'toolchains/5.10/bin/LINK.EXE')
     anchors={0x40ea33:'33d285ed0f94c28810',0x40ea49:'689c000000',0x40ea6e:'6890754600e8680b0400',0x40ea7e:'8bcbc1e106516894754600e8520b0400',0x40ea92:'894568',0x40ea9b:'c7452c00000000',0x40eaa4:'50e8d6120400894500',0x40eab6:'8b460485ff894538',0x40eac0:'57e8ba120400894504',0x40ebd1:'e87a320200'}
     for address,hexdata in anchors.items():assert pe.read(address,len(bytes.fromhex(hexdata)))==bytes.fromhex(hexdata),(hex(address),'constructor writer span')
+    return compare_initial_allocations(original,state,trap,events,entry,nentry,lw,rw)
+
+
+def compare_initial_allocations(original,state,trap,events,entry,nentry,lw,rw):
+    current=state['module_creation_current']
     names=[];copies=[e for e in events if e['event']=='input_module_name_copy']
     assert len(copies)==4 and len(state['link_string_calls'])==21 and len(state['duplicate_calls'])==28
     for i in range(2):

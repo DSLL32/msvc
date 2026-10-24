@@ -31,7 +31,7 @@ def native_contract(path,digest):
 def compare(original,state,trap,events,directory,entry,nmethod):
     # Original SUB16, four saved registers and two pushed actual parameters.
     enumerator=entry-16;formals=[enumerator,trap['module_find_formals']['this']]
-    complete=state['function']in ('next_module','allocate_module_index')
+    complete=state['function']in ('next_module','allocate_module_index','allocate_module_section_headers')
     if complete:
         seen,=[e for e in events if e['event']=='module_enum_entry'];assert seen==dict(event='module_enum_entry',stack_pointer=entry-44,formals=formals,hidden_inputs=[])
     else:assert trap['esp']==entry-44 and trap['stack'][:3]==[0x40f7b4]+formals
@@ -62,7 +62,7 @@ def compare_completed(original,state,trap,events,directory,entry,formals,nmethod
     expected=struct.pack('<4I',0x40fb90,0x40fd90,formals[1],0)
     assert (original/'module-enumerator-after.bin').read_bytes()==(original/'module-enumerator-current.bin').read_bytes()==expected
     done,=[e for e in events if e['event']=='module_enum_return'];assert done==dict(event='module_enum_return',entry_stack=entry-44,return_stack=entry-32)
-    advanced=state['function']=='allocate_module_index'
+    advanced=state['function']in ('allocate_module_index','allocate_module_section_headers')
     if not advanced:assert trap['esp']==entry-40 and trap['stack'][:2]==[0x40f7be,formals[0]]
     assert trap['module_next_formals']==dict(formals=[formals[0]],hidden_inputs=[])
     if not advanced:assert trap['frontier_inputs']==dict(formals=[formals[0]],hidden_register_inputs=[])

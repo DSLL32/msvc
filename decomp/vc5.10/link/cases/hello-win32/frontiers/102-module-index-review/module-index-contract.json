@@ -1,0 +1,160 @@
+{
+  "schema": 1,
+  "function": "_allocate_module_index",
+  "start": 4398672,
+  "end": 4398886,
+  "body_sha256": "f2ce5fb0f7eeadab5825b0d66230c509284c10d75af9e00eb5bc941124fba1a3",
+  "formals": [],
+  "hidden_inputs": [],
+  "returns": [
+    [
+      4398879,
+      0
+    ],
+    [
+      4398885,
+      0
+    ]
+  ],
+  "global_references": [
+    {
+      "address": 4398672,
+      "bytes": "a068734600",
+      "text": "mov al, byte ptr [0x467368]"
+    },
+    {
+      "address": 4398684,
+      "bytes": "c705ac43490000000000",
+      "text": "mov dword ptr [0x4943ac], 0"
+    },
+    {
+      "address": 4398694,
+      "bytes": "c6056873460000",
+      "text": "mov byte ptr [0x467368], 0"
+    },
+    {
+      "address": 4398701,
+      "bytes": "a1ac434900",
+      "text": "mov eax, dword ptr [0x4943ac]"
+    },
+    {
+      "address": 4398709,
+      "bytes": "a1b0434900",
+      "text": "mov eax, dword ptr [0x4943b0]"
+    },
+    {
+      "address": 4398753,
+      "bytes": "a1a8434900",
+      "text": "mov eax, dword ptr [0x4943a8]"
+    },
+    {
+      "address": 4398762,
+      "bytes": "8b0dac434900",
+      "text": "mov ecx, dword ptr [0x4943ac]"
+    },
+    {
+      "address": 4398774,
+      "bytes": "8b15a8434900",
+      "text": "mov edx, dword ptr [0x4943a8]"
+    },
+    {
+      "address": 4398797,
+      "bytes": "8b0dac434900",
+      "text": "mov ecx, dword ptr [0x4943ac]"
+    },
+    {
+      "address": 4398807,
+      "bytes": "8b15a8434900",
+      "text": "mov edx, dword ptr [0x4943a8]"
+    },
+    {
+      "address": 4398822,
+      "bytes": "8935a8434900",
+      "text": "mov dword ptr [0x4943a8], esi"
+    },
+    {
+      "address": 4398828,
+      "bytes": "891db0434900",
+      "text": "mov dword ptr [0x4943b0], ebx"
+    },
+    {
+      "address": 4398834,
+      "bytes": "8b0da8434900",
+      "text": "mov ecx, dword ptr [0x4943a8]"
+    },
+    {
+      "address": 4398840,
+      "bytes": "a190434900",
+      "text": "mov eax, dword ptr [0x494390]"
+    },
+    {
+      "address": 4398845,
+      "bytes": "893dac434900",
+      "text": "mov dword ptr [0x4943ac], edi"
+    },
+    {
+      "address": 4398855,
+      "bytes": "a1a8434900",
+      "text": "mov eax, dword ptr [0x4943a8]"
+    },
+    {
+      "address": 4398860,
+      "bytes": "8b1594434900",
+      "text": "mov edx, dword ptr [0x494394]"
+    },
+    {
+      "address": 4398870,
+      "bytes": "a1ac434900",
+      "text": "mov eax, dword ptr [0x4943ac]"
+    }
+  ],
+  "reset": {
+    "address": 4617064,
+    "bytes": 1,
+    "initial": "01"
+  },
+  "copied_value": {
+    "address": 4801424,
+    "bytes": 8,
+    "initial": "0000000000000000",
+    "basis": "PE virtual-only BSS zero fill; the complete file has only two absolute encoded references, both reads in this function"
+  },
+  "buffer8": {
+    "address": 4801448,
+    "bytes": 12,
+    "source_owner": "initializers.c:buffer8",
+    "fields": [
+      "base",
+      "remaining (becomes used count)",
+      "capacity"
+    ],
+    "record_bytes": 8
+  },
+  "pending": {
+    "name": "_allocate_module_section_headers@4",
+    "start": 4599536,
+    "end": 4599568,
+    "body_sha256": "eccbc81f5e591650652a01c02d87d63baeadc01a475b9531a2b3f22a3749ada9",
+    "formals": [
+      "OutputModule *module"
+    ],
+    "hidden_inputs": [],
+    "returns": [
+      [
+        4599565,
+        4
+      ]
+    ],
+    "qualification": "Read-only input consumer proof; body remains masked/zero application credit"
+  },
+  "second_length": {
+    "observation": "derived, not an invented direct entry event",
+    "caller": 4495469,
+    "caller_bytes": "8b0df8ee470051e80e28fcff89473c",
+    "formal": 14,
+    "normal_return_result": 2262,
+    "cleanup": 4,
+    "physical_return_stack_delta": 8,
+    "basis": "Exact executed PUSH current_input_file14/CALL, three nested actual current20/end2262/restore20 calls+normal returns, EAX store to full current module.file_size, actual next frontier4498c5"
+  }
+}

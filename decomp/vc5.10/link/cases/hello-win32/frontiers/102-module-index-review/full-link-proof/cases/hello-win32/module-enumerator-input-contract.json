@@ -1,0 +1,36 @@
+{
+  "start": 4258656,
+  "end": 4258690,
+  "body_sha256": "e0d284e99c7f6fc61e619509020cbcae9405cf4bc52ca5b625c36adb741389e2",
+  "formals": [
+    "ModuleEnumerator *output",
+    "OutputLibrary *library"
+  ],
+  "hidden_inputs": [],
+  "bytes": 16,
+  "initialized_ranges": [
+    [
+      0,
+      4
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      12,
+      16
+    ],
+    [
+      8,
+      12
+    ]
+  ],
+  "returns": [
+    [
+      4258687,
+      8
+    ]
+  ],
+  "input_contract": "All4DWORDoutput slots written before any output content read; own uninitialized16B are retained only. Pending original body zero credit; actual caller owns complete16B local."
+}

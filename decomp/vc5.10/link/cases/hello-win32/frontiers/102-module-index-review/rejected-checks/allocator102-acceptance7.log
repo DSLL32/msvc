@@ -1,0 +1,28 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc5.10/link/scripts/accept.py", line 572, in <module>
+    if __name__ == '__main__': main()
+                               ~~~~^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/accept.py", line 539, in main
+    else:verify_frontier(args.original, args.native, args.expected_next, trial)
+         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/accept.py", line 140, in verify_frontier
+    compare(expected_name, original, native, traps[0], state)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/boundary_state.py", line 505, in compare
+    compare_release(original,native_state,original_state,completed_options=name!='_release_memory@4',native_directory=native)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/hello_boundary.py", line 91, in compare_release
+    compare_configured(original,state,trap,events,canonical,search,native_directory=native_directory)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/hello_boundary.py", line 175, in compare_configured
+    advanced=compare_sections(original,state,trap,events,native_directory=native_directory)
+  File "/root/msvc2/decomp/vc5.10/link/scripts/section_state.py", line 226, in compare
+    addition=compare_creation(original,state,trap,events,native_directory)
+  File "/root/msvc2/decomp/vc5.10/link/scripts/module_creation_state.py", line 53, in compare
+    return compare_index(original,state,trap,events,directory)
+  File "/root/msvc2/decomp/vc5.10/link/scripts/module_index_state.py", line 92, in compare
+    return compare_initial_allocations(original,state,trap,events,entry,nentry,lw,rw)
+  File "/root/msvc2/decomp/vc5.10/link/scripts/module_creation_state.py", line 90, in compare_initial_allocations
+    assert b['entry_stack']==a['entry_stack']==entry['stack_pointer']-28
+                                               ~~~~~^^^^^^^^^^^^^^^^^
+TypeError: 'int' object is not subscriptable

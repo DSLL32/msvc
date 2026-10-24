@@ -1,0 +1,46 @@
+{
+  "candidate": "_allocate_module_index",
+  "application_functions_if_promoted": 102,
+  "application_extent_bytes_if_promoted": 37062,
+  "support_functions": 13,
+  "support_extent_bytes": 522,
+  "original_capture_seconds": 2.7350061889737844,
+  "native_capture_seconds": 0.9889540057629347,
+  "audit_seconds": 0.6649973662570119,
+  "full_graph_bodies": 115,
+  "strict_graph_bodies": 108,
+  "fresh_affected_state_negatives": 66,
+  "fresh_state_control_times": {
+    "positive": 2.5860777739435434,
+    "affected_negatives_and_scope": 12.272885674610734,
+    "total": 14.858967306092381
+  },
+  "native_help_fixture": {
+    "setup": 0.0632350230589509,
+    "execution": 0.003798798657953739,
+    "checks": 0.00038667675107717514,
+    "total": 0.07088296674191952
+  },
+  "build": "make-j4 original/native/helper; build duration not separately measured",
+  "shared_source": "Coherent publishedf086 source; no new shim APIs or production WIP consumed.",
+  "historical_campaign": "Fresh66 affected controls, no broad historical rerun. Exact unchanged finite imported-provider contracts retained; common current strictgraph/import/RET audit reran.",
+  "retry": "Observer-preparation script rewrote unchanged weak-import.pymtime. Finalmake-q correctly required original-toolchain alias rebuild/relink; nativeELF/application source unchanged. RelinkPE/runtime/FullLink bindings refreshed and one native-only capture bindscurrentrebuiltPE, unchanged actualnmh original. Oldkbr receipt/raw/failure retained. Future scripts write only actualbytechanges.",
+  "original_captures": [
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/link/hello-win32-masked-nmhth858",
+      "elapsed_seconds": 2.7350061889737844
+    }
+  ],
+  "native_captures": [
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/link/native-kbr_amou",
+      "elapsed_seconds": 1.0377635229378939
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/link/native-rx6153w7",
+      "elapsed_seconds": 0.9889540057629347
+    }
+  ],
+  "derived_observation": "Second original get_file_length entry/result/cleanup derives from executedcaller449866pushcurrentfile14/CALL44986d/MOVfile_size449872 +all9actualnestedseekevents/current20/end2262/restore20 +actualpendingreturn4498c5. No invented directentryevent. Native records2normalreturns. Exactphysicalcall/RET/mapping ownership proven, caller errorlocals historical afterreturn.",
+  "coverage_qualification": "Growth, copy and allocation-failure branches are reconstructed/audited but not dynamically exercised by thisfirst-index case; onlyfirstreset/count/write path is observed."
+}

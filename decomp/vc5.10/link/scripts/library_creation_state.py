@@ -30,6 +30,10 @@ def current_record(original,state,trap):
     left=trap['command_line_library'];right=state['command_line_library']
     assert left['address']and right['address']and left['modules']and right['modules']
     expected=record(left['modules'],0x14);nexpected=record(right['modules'],0x14)
+    if state['function']=='allocate_module_section_headers':
+        expected=bytearray(expected);nexpected=bytearray(nexpected)
+        struct.pack_into('<I',expected,56,trap['constructor_local_module']);struct.pack_into('<I',nexpected,56,state['module_creation_current']['module'])
+        expected,nexpected=bytes(expected),bytes(nexpected)
     assert(original/'command-line-library.bin').read_bytes()==expected
     assert bytes.fromhex(right['record'])==nexpected
     return expected,nexpected
@@ -98,14 +102,14 @@ def compare(original,state,trap,events,native_directory):
     assert trap['load_input_formals']==dict(this=context,formals=[argument,pointer],other_hidden_inputs=[])
     load=state['load_input_entry'];assert load['stack_pointer']==nc['stack_pointer']<state['pass_one_entry']['stack_pointer']
     assert load['this']==ncontext and load['formals']==[nargument,npointer]and load['other_hidden_inputs']==[]
-    if state['function']in ('read_input_argument','is_archive','mapped_read','is_mac_resource_file','get_file_length','seek_file','seek_mapped_file','read_big_endian_dword','byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header','create_input_module','OutputLibrary::FindModule','initialize_module_enumerator','next_module','allocate_module_index'):
+    if state['function']in ('read_input_argument','is_archive','mapped_read','is_mac_resource_file','get_file_length','seek_file','seek_mapped_file','read_big_endian_dword','byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header','create_input_module','OutputLibrary::FindModule','initialize_module_enumerator','next_module','allocate_module_index','allocate_module_section_headers'):
         observed,=[e for e in events if e['event']=='load_input_entry']
         call,=[e for e in events if e['event']=='load_input_call']
         assert observed==dict(event='load_input_entry',stack_pointer=create['stack_pointer']+4,this=context,formals=[argument,pointer],other_hidden_inputs=[])
         assert call==dict(event='load_input_call',site=0x44b94f,stack=observed['stack_pointer']+4,this=context,formals=[argument,pointer],other_hidden_inputs=[])
         assert trap['read_input_formals']==dict(formals=[argument,pointer,context],hidden_inputs=[])
         assert state['read_input_entry']==dict(stack_pointer=load['stack_pointer']-48,formals=[nargument,npointer,ncontext],hidden_inputs=[])
-        if state['function']in ('is_archive','mapped_read','is_mac_resource_file','get_file_length','seek_file','seek_mapped_file','read_big_endian_dword','byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header','create_input_module','OutputLibrary::FindModule','initialize_module_enumerator','next_module','allocate_module_index'):
+        if state['function']in ('is_archive','mapped_read','is_mac_resource_file','get_file_length','seek_file','seek_mapped_file','read_big_endian_dword','byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header','create_input_module','OutputLibrary::FindModule','initialize_module_enumerator','next_module','allocate_module_index','allocate_module_section_headers'):
             reader,=[e for e in events if e['event']=='read_input_entry']
             assert reader==dict(event='read_input_entry',stack_pointer=observed['stack_pointer']-32,formals=[argument,pointer,context],hidden_inputs=[])
             if state['function']=='is_archive':

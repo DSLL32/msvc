@@ -118,7 +118,8 @@
     "_create_input_module@48",
     "OutputLibrary::FindModule",
     "_initialize_module_enumerator@8",
-    "_next_module@4"
+    "_next_module@4",
+    "_allocate_module_index"
   ],
   "driver": [
     {
@@ -3053,11 +3054,11 @@
     {
       "name": "_allocate_module_index",
       "start": 4398672,
-      "end": 4398673,
-      "pending_extent": true,
+      "end": 4398886,
+      "pending_extent": false,
       "source": "src/input-module.cpp",
       "native_symbol": "allocate_module_index",
-      "status": "stub",
+      "status": "implemented",
       "abi": "cdecl DWORD(void);no stackformal; globals actualinputs pendingunobserved; namedmaskedtrap/no bodycredit"
     },
     {

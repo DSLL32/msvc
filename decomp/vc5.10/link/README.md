@@ -671,3 +671,17 @@ are 1.858/0.948/0.651 s. Native help takes 80.17 ms, including 3.800 ms executio
 snapshot correction and failed captures. A later native-only SDK-header refresh
 keeps identical executable `.text`, exact checker premises, and the same original;
 its separate promotion receipt records the current binary and fresh positive.
+
+The 214-byte module-index allocator is accepted. It reuses startup `buffer8`:
+its first call clears the count, writes one 8-byte record, and returns DWORD zero.
+The same 4,000-byte allocation remains live; unused bytes are checked unchanged
+within each run. The constructor then publishes the complete module through its
+library and returns with RET48. Its later file-size read is tied to the executed
+caller and three observed seeks; that original observation is explicitly derived.
+The next 32-byte section-header allocator remains masked with one proved pointer
+argument. All 66 focused negatives plus positives pass in 14.859 s; 115 full/108
+strict graph bodies pass. Original/native/audit times are 2.735/0.989/0.665 s.
+Native help takes 70.88 ms, including 3.799 ms execution. The immutable packet,
+array ownership scope, successful normal returns, and native-only relink retry
+are retained in `frontiers/102-module-index-review`. Growth and allocation-failure
+branches have static reconstruction/audit coverage; this case reaches first use.
