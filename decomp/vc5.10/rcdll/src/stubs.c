@@ -95,11 +95,6 @@ int __stdcall rc_macro_text_differs(const WCHAR *value,const WCHAR *prior,unsign
 
 
 
-int __cdecl rc_splice_line(void)
-{
-    __asm int 3
-    return 0;
-}
 
 
 

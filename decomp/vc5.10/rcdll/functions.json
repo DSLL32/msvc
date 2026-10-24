@@ -96,7 +96,8 @@
     "rc_finish_macro_frame",
     "rc_based_integer_kind",
     "rc_skip_inactive",
-    "rc_read_skipped_directive"
+    "rc_read_skipped_directive",
+    "rc_splice_line"
   ],
   "functions": [
     {
@@ -984,8 +985,7 @@
       "end": "0x12b67",
       "abi": "cdecl",
       "stack_bytes": 0,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_handle_directive",

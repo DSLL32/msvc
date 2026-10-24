@@ -2999,3 +2999,61 @@ def skipped_directive_trial(original,native):
     prior=HERE/'cases/resources-rich-trailing-space/inactive-skip-verification.json'
     proof.update(trial='rc_read_skipped_directive',scanner=dict(invocations=11,argument_bytes=0,result_bits=8,cleanup=0,results=[row['result']for row in rows],source_cursor_and_line=True,full_name_bytes=1024,raw_upper_return_bits='retained, unclaimed; original caller consumes AL'),next_formals=[],next_hidden_inputs='No formal/register inputs for pending rc_splice_line; actual source cursor points at LF10 after consumed backslash92, current frame and source/file/output/control globals are bound.',source=dict(depth=2,owned_bytes=8206,cursor_offset=offset,current_word=10,previous_word=92,FILE_position=21000,FILE_defined_bytes=512,FILE_uninitialized_tail_bytes=3584),output=dict(flushed_bytes=4096,defined_buffer_bytes=defined),observer_scope=scope,reused_controls=dict(record=str(prior.relative_to(HERE)),sha256=sha(prior),checker_and_contract_versions=json.loads(prior.read_text())['validation_versions'],reason='Unchanged initial lifecycle, transport, SEH and source ownership controls reused; scanner per-call state and current splice frontier are fresh. Later auxiliary macro/allocation equivalence remains explicitly unobserved.'),limits='Rich case and splice implementation pending. No current macro dictionary or uninitialized FILE tail comparison; pending quoted helper not executed. No per-call FP/error measurement invented; final frontier state/errors and original function graph/ABI audits retained.')
     return proof
+
+
+def splice_line_trial(original,native):
+    config=read_configuration(original/'functions.json');assert config['trial_function']=='rc_splice_line'and len(config['accepted'])==93
+    old,new,proof=checkpoint(original,native,'rc_macro_text_differs',('rc_input_temporary','rc_output_temporary'))
+    text=(original/'events.txt').read_text();raw=(original/'globals.bin').read_bytes();args=new['arguments'];state=args['skip_inactive'];g=args['preprocessor']['globals'];compare=args['macro_compare']
+    assert state['formals']==[]and state['caller']=='rc_define_macro'
+    assert compare['caller']=='rc_define_macro'and compare['formals']==[dict(name='value',value=compare['workspace'],bytes=4),dict(name='prior',value=compare['formals'][1]['value'],bytes=4),dict(name='length',value=13,bytes=4)]
+    assert old['words'][:4]==[0x71c24ca9,0x71c36f08,old['words'][2],13]and old['words'][2]!=0
+    assert compare['workspace_bytes']==4090 and compare['workspace']==compare['formals'][0]['value']
+    assert raw_bytes(text,'compare-value').hex()==compare['value_bytes']==raw_bytes(text,'compare-prior').hex()==compare['prior_bytes']=='30007800300030003000300030003000380030004c0000004400'
+    assert raw[0x2f08:0x2f08+26].hex()==compare['value_bytes']
+    prior=compare['formals'][1]['value'];blocks=new['heap_identity']['blocks'];owner=[b for b in blocks if b['payload']+8==prior];assert len(owner)==1 and owner[0]['bytes']==36 and bytes.fromhex(owner[0]['contents'])[8:34].hex()==compare['prior_bytes']
+    macro_old=raw_bytes(text,'compare-macro');macro_new=bytes.fromhex(compare['macro_record']);assert len(macro_old)==len(macro_new)==24 and macro_old[:8]==macro_new[:8]==bytes(8)and macro_old[20:]==macro_new[20:]==bytes(4)
+    assert struct.unpack_from('<I',macro_old,16)[0]==old['words'][2]and struct.unpack_from('<I',macro_new,16)[0]==prior
+    node=[b for b in blocks if b['payload']+8==compare['macro']];assert len(node)==1 and node[0]['bytes']==24 and node[0]['contents']==compare['macro_record']
+    assert raw_bytes(text,'compare-name').hex()==compare['name']and bytes.fromhex(compare['name']).decode('utf-16le').split('\0',1)[0]=='MF_END'
+    for row in json.loads((native/'preprocess-data.json').read_text())['globals']:
+        if row['kind']in ['integer','byte-buffer']:
+            rva=int(row['original_rva'],16);assert raw[rva-0x14000:rva-0x14000+row['bytes']].hex()==g[row['name']]['bytes'],row['name']
+    assert args['preprocessor']['macros']==[]
+    frame_old=struct.unpack('<9I',raw_bytes(text,'skip-source-frame'));frame_new=struct.unpack('<9I',bytes.fromhex(state['source_frame']))
+    assert tuple(frame_old[i]for i in [0,2,6,7,8])==tuple(frame_new[i]for i in [0,2,6,7,8])==(4098,73,4098,1,0)
+    assert state['source_depth']==int.from_bytes(raw[0xa10:0xa14],'little')==2
+    assert state['source_owner_bytes']==8206 and frame_new[5]==state['source_buffer']
+    source=raw_bytes(text,'skip-source-block');assert len(source)==8206 and source[:8]==bytes(8)and source.hex()==state['source_payload']
+    source_blocks=[b for b in blocks if b['payload']+8==state['source_buffer']];assert len(source_blocks)==1;block=source_blocks[0]
+    assert block['bytes']==8206 and block['flags']==9 and block['owner']==new['heap_identity']['handle']and block['contents']==state['source_payload']
+    cursor=int.from_bytes(raw[0x4120:0x4124],'little');assert cursor-frame_old[5]==state['cursor']-frame_new[5]==1048
+    filename=raw_bytes(text,'skip-source-filename');assert filename.hex()==state['filename']and filename.decode('utf-16le')=='R:\\toolchains\\5.10\\include/winresrc.h\0'
+    assert Path(state['file_host_path']).resolve()==(ROOT/'toolchains/5.10/include/WINRESRC.H').resolve()
+    a=struct.unpack('<8I',raw_bytes(text,'skip-source-file'));b=struct.unpack('<8I',bytes.fromhex(g['rc_source_file']['file_state']))
+    assert a[1:2]+a[3:]==b[1:2]+b[3:]==(510,9,7,0,4096,0)and a[0]-a[2]==b[0]-b[2]==2
+    assert raw_bytes(text,'skip-source-buffer')[:512]==bytes.fromhex(g['rc_source_file']['file_buffer'])[:512]
+    assert re.findall(r'^skip-source-position (\d+)$',text,re.M)==re.findall(r'^pos:\s*(\d+)$',state['file_fdinfo'],re.M)==['29196']
+    a=struct.unpack('<8I',raw_bytes(text,'cpp-output-file'));b=struct.unpack('<8I',bytes.fromhex(g['rc_cpp_output_file']['file_state']));defined=a[0]-a[2]
+    assert a[1:2]+a[3:]==b[1:2]+b[3:]and defined==b[0]-b[2]==2548
+    assert raw_bytes(text,'cpp-output-buffer')==bytes.fromhex(g['rc_cpp_output_file']['file_buffer'])[:defined]
+    assert re.findall(r'^cpp-output-position (\d+)$',text,re.M)==['4096']
+    rows=args['splice_calls'];assert rows==json.loads((native/'splice-calls.json').read_text())and len(rows)==8
+    entries=re.findall(r'^splice-entry index=(\d+) caller=([0-9a-f]+) esp=([0-9a-f]+) cursor=([0-9a-f]+) line=(\d+) active=(-?\d+) previous=(\d+) current=(\d+)$',text,re.M)
+    returns=re.findall(r'^splice-return index=(\d+) result=(-?\d+) esp=([0-9a-f]+) cursor=([0-9a-f]+) line=(\d+)$',text,re.M)
+    assert len(entries)==len(returns)==len(rows)
+    for i,(entry,result,row)in enumerate(zip(entries,returns,rows)):
+        assert int(entry[0])==int(result[0])==i and entry[1]=='71c32aeb'
+        assert row['formals']==[]and row['caller']=='rc_read_nonspace'
+        offset=int(entry[3],16)-frame_old[5];assert 2<=offset<=8196 and offset%2==0 and offset==row['source_before']-frame_new[5]
+        assert int(result[3],16)-frame_old[5]==row['source_after']-frame_new[5]==offset+2
+        assert int(entry[4])==row['line_before']and int(result[4])==row['line_after']==row['line_before']+1
+        assert int(entry[5])==row['active']==1 and int(entry[6])==row['previous']==92 and int(entry[7])==row['current']==10
+        assert int(result[1])==row['result']==1
+        assert int(result[2],16)==int(entry[2],16)+4 and row['return_esp']==row['entry_esp']+4
+    assert [row['line_before']for row in rows]==[580,646,647,648,649,650,653,654]
+    scope=args['observer_scope'];assert scope==json.loads((native/'observer-scope.json').read_text())and scope['trigger']['value']==1024 and scope['trigger']['result']==7
+    assert 'SpliceEntered'not in scope['retired_breakpoints']and new['crt_errors']==dict(errno=2,last_error=0)and proof['application_trace'][-1]=='rc_splice_line'
+    prior_record=HERE/'cases/resources-rich-trailing-space/skipped-directive-verification.json'
+    proof.update(trial='rc_splice_line',splice=dict(invocations=8,argument_bytes=0,result_bits=32,result=1,cleanup=0,input_previous=92,input_current=10,line_delta=1,cursor_byte_delta=2,active=1,normal_input_scope='Each actual input word is observed at entry inside the same live owned8206B SDK source allocation; current content may have been overwritten by later refill, so no stale buffer-content assertion for earlier calls.'),next_formals=compare['formals'],next_hidden_inputs='No hidden/register parameters in complete58B macro-text wrapper; actual value/prior pointers/count13 and fresh26B spans, current macro->text alias and node/workspace ownership are retained. Import wcsncmp has not executed.',source=dict(depth=2,owned_bytes=8206,cursor_offset=1048,FILE_position=29196,FILE_defined_bytes=512,FILE_uninitialized_tail_bytes=3584),output=dict(flushed_bytes=4096,defined_buffer_bytes=defined),observer_scope=scope,reused_controls=dict(record=str(prior_record.relative_to(HERE)),sha256=sha(prior_record),checker_and_contract_versions=json.loads(prior_record.read_text())['validation_versions'],reason='Unchanged initial lifecycle/transport/SEH/scanner/source-owner controls reused; eight splice states and current macro-comparison formals, bytes and aliases are fresh.'),limits='Full rich case and pending comparison remain incomplete; no import behavior or current macro dictionary/FILE tail equivalence claimed. Original01 lacks the later pointee/source observer and remains analysis-only; original02 is the fresh final capture.')
+    return proof

@@ -73,3 +73,26 @@ void __stdcall rc_read_identifier(WCHAR character)
     rc_macro_name_length=cursor-rc_macro_name;
     rc_macro_hash=(unsigned char)hash;
 }
+
+int __cdecl rc_splice_line(void)
+{
+    WCHAR character;
+
+    for(;;){
+        character=*rc_source_cursor++;
+        if(character==L'\r')continue;
+        if(character==0){
+            rc_resume_input();
+            rc_source_cursor[-1]=L'\\';
+            continue;
+        }
+        if(character!=L'\n'){
+            --rc_source_cursor;
+            return 0;
+        }
+        ++rc_preparing_line;
+        if(rc_cpp_active)
+            rc_write_preprocessed(L"\r\n",4,1,rc_cpp_output_file);
+        return 1;
+    }
+}
