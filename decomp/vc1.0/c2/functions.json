@@ -1324,7 +1324,8 @@
     "@reference_assembly_flow_symbol@8",
     "@function_allows_frame_register@4",
     "@prepare_inline_function@4",
-    "_reset_exception_scope_stack"
+    "_reset_exception_scope_stack",
+    "@collect_exception_scopes@4"
   ],
   "driver": [
     {
@@ -9889,13 +9890,44 @@
     {
       "name": "@collect_exception_scopes@4",
       "start": 416512,
-      "end": 416513,
-      "provisional": true
+      "end": 417062,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "function",
+            "location": "ECX",
+            "type": "Function pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/seh-collect-abi/validation.json",
+        "scope": "Original65b00..65d26 consumes soleECX Function, saved for final expressions reload. Directinput Function.expressions+16, closed Expression.next+0/tree+4, Node.opcode+0, conditional label/jump right.symbol+20/markerbyte+13 and pointeridentity; local returnmarker found by opcode47, speciallabel jump relocation searches actualsymbol identity. Global finallydepth7b9a0 updated on8e/90; actual0. New/queried scope pointers and newlabel are childoutputs, not seeded incoming payload. No incoming otherGPR/stack/flags/x87/outpointer; RET0/void. Actual Function aliases wrapperESI/current_function; native parentformal matches."
+      }
     },
     {
       "name": "@rewrite_exception_expressions@4",
       "start": 415536,
       "end": 415537,
+      "provisional": true
+    },
+    {
+      "name": "_current_exception_scope",
+      "start": 418000,
+      "end": 418001,
+      "provisional": true
+    },
+    {
+      "name": "_allocate_exception_scope",
+      "start": 418240,
+      "end": 418241,
+      "provisional": true
+    },
+    {
+      "name": "_pop_exception_scope",
+      "start": 417472,
+      "end": 417473,
       "provisional": true
     }
   ],

@@ -475,6 +475,22 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         sprintf(line,"alignment8_segment pointer %08lx member %08lx identifier %lu index %lu alignment %lu combine %lu position %lu object_section %lu\n",segment,member,id,index,read_word(process,segment+48),read_byte(process,segment+53),read_word(process,segment+4),read_word(process,segment+56));log_line(line);
         dump_bytes(process,"alignment8_segment_name_hex",read_word(process,segment+16),string_bytes(process,read_word(process,segment+16)));
     }
+    if(!strcmp(call->name,"@collect_exception_scopes@4")) {
+        DWORD function=call->args[0],expression=read_word(process,function+16),index=0;
+        sprintf(line,"seh_collect function %08lx current %08lx parent %08lx first %08lx depth %lu return_address %08lx\n",
+            function,read_word(process,image_base+0x731b4),context->Esi,expression,
+            read_word(process,image_base+0x6b9a0),call->return_address);log_line(line);
+        for(;expression;expression=read_word(process,expression),++index) {
+            DWORD tree=read_word(process,expression+4),opcode=read_word(process,tree);
+            if(index>=4096)exit(327);
+            sprintf(line,"seh_expression index %lu pointer %08lx next %08lx tree %08lx opcode %lu\n",
+                index,expression,read_word(process,expression),tree,opcode);log_line(line);
+            if(opcode==0x29||opcode==0x3a) {
+                DWORD symbol=read_word(process,tree+20);
+                sprintf(line,"seh_label pointer %08lx marker %lu\n",symbol,read_byte(process,symbol+13));log_line(line);
+            }
+        }
+    }
     if(!strcmp(call->name,"_reset_exception_scope_stack")) {
         sprintf(line,"seh_reset return_address %08lx\n",call->return_address);log_line(line);
         /* MOV fixedDWORD,0; RET consumes no formal, old cell or register. */

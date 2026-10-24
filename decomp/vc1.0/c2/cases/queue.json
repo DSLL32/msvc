@@ -523,8 +523,8 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "@collect_exception_scopes@4",
-  "current_checkpoint": 1320,
+  "current_application_frontier": "_allocate_exception_scope",
+  "current_checkpoint": 1321,
   "resolved_input_hold": {
     "field": "object_file->_bufsiz",
     "correction": "shared cabec0d10",
@@ -573,5 +573,5 @@
     }
   ],
   "last_completed": "omf-comdat-communal",
-  "next_action": "Observe closed Function.expression input graph and label aliases, reconstruct whole550B scope discovery pass; new scope-query/allocation/pop children stay named traps."
+  "next_action": "Observe no-formal scope allocator/global state then reconstruct whole114B allocation/list append with full48B typed record; ancestor lookup and push remain named traps."
 }

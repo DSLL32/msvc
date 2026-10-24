@@ -16,14 +16,14 @@
     },
     {
       "side": "canonical",
-      "owner": 659456,
-      "empty": 659456,
-      "pool": 659460,
+      "owner": 663552,
+      "empty": 663552,
+      "pool": 663556,
       "slots": [
-        659460,
-        660464,
-        661468,
-        662472
+        663556,
+        664560,
+        665564,
+        666568
       ],
       "bytes": 4020,
       "zero_bytes": 4020
@@ -183,6 +183,6 @@
   ],
   "canonical_section": "OMFREC",
   "source_sha256": "d7a5fc644197375ad28ff96d30bc129a23739a714fccc572fcbbb961e866c98c",
-  "seconds": 0.28694879822432995,
+  "seconds": 0.31096838787198067,
   "scope": "One genuine4020B typed owner: original loader-zero empty-nameDWORD and four1004B records. Canonical dedicated initialized-zero PE section changes file representation only; native BSS explicitly aligned8. Actual member/slot identities and every modulo8, map/nm single definitions and canonical relocation def/use bound. No extra code/function credit."
 }

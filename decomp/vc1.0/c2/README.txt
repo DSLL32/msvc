@@ -1128,3 +1128,18 @@ source change. Its failed log is retained. Original /W3, audits, fresh pair
 and all 17 expected native terminals pass. Build 2.610s, full controls .803s,
 audit/coverage 33.979s, fixture wrapper .971s. Next discovery pass is a separate
 550-byte function, still trapped. Receipt: cases/seh-reset-checkpoint.json.
+
+At 1321 the whole 550-byte scope-discovery pass is accepted. The actual
+Function and 55-expression input graph match, including Node/label identities
+and conditional markers. Thirty-one whole original/canonical controls and
+12 ABI rejects cover nested scopes, label IDs, finally counts, return markers,
+handler-block splices, cached predecessor reuse, exact diagnostic stops and
+fresh/cached values across child mutations. Original malformed-list assumptions
+remain; there is no invented cursor initializer or repair. Actual execution
+stops at the independent allocator, so transformation/diagnostic bodies are
+controlled rather than claimed executed. Original /W3, audits, fresh pair and
+all 17 cached native terminals pass. Audit/coverage 35.022s and fixture wrapper
+1.034s are separate from the 40.600s header-dependency build. A failed source
+preflight mistakenly continued into that build; stable exact owner-confirmed
+bytes, honest postbuild source sampling and ELF/PE hashes are preserved. They
+were published unchanged as f086d3fd2. Full receipt: cases/seh-collect-checkpoint.json.

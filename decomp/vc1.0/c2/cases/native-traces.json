@@ -2,7 +2,7 @@
   "schema": 2,
   "description": "Fresh shared-prefix original entry projection; no capture or Wine in fixtures",
   "metadata_sha256": {
-    "functions.json": "22bdf37f0be28028e9ca31a13a43f95a56125b8621230b6aed52c30035a19c93",
+    "functions.json": "9d11a4fd07057bd8e0f580a383dd18194d7dc3719eaea668f4110614de8121ae",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -117,6 +117,10 @@
     "allocate_descriptor": {
       "logical": "@allocate_descriptor@8",
       "source": "src/symbols.c"
+    },
+    "allocate_exception_scope": {
+      "logical": "_allocate_exception_scope",
+      "source": "src/stubs.c"
     },
     "allocate_frame_symbols": {
       "logical": "@allocate_frame_symbols@8",
@@ -904,7 +908,7 @@
     },
     "collect_exception_scopes": {
       "logical": "@collect_exception_scopes@4",
-      "source": "src/stubs.c"
+      "source": "src/exception-scope.c"
     },
     "collect_frame_accesses": {
       "logical": "@collect_frame_accesses@16",
@@ -1193,6 +1197,10 @@
     "create_temporary": {
       "logical": "@create_temporary@28",
       "source": "src/symbols.c"
+    },
+    "current_exception_scope": {
+      "logical": "_current_exception_scope",
+      "source": "src/stubs.c"
     },
     "decode_assembly_instruction": {
       "logical": "@decode_assembly_instruction@8",
@@ -3525,6 +3533,10 @@
     "place_scheduled_instruction": {
       "logical": "@place_scheduled_instruction@8",
       "source": "src/scheduler.c"
+    },
+    "pop_exception_scope": {
+      "logical": "_pop_exception_scope",
+      "source": "src/stubs.c"
     },
     "pop_float_machine_stack": {
       "logical": "_pop_float_machine_stack",
@@ -43997,6 +44009,107 @@
               "total_seconds": 0.9425938427448273
             }
           }
+        },
+        {
+          "accepted_function": "@collect_exception_scopes@4",
+          "accepted_kind": "application",
+          "previous_logical": "@collect_exception_scopes@4",
+          "original_extent": [
+            "0x65b00",
+            "0x65d26"
+          ],
+          "before": {
+            "path": "cases/seh-original-1320.json",
+            "sha256": "ed971e769979f1ccf17018a619cbfabed27e614d8cd1a220ef5cd0c16d0aea4b",
+            "capture": {
+              "label": "seh-original-1320",
+              "profile": "seh",
+              "accepted": 1320,
+              "events": "exception 80000003 rva 00055b00 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "6456baf365a0306867c79910d5237247db721b7575f97318b832b077e39ed66a",
+              "config_sha256": "22bdf37f0be28028e9ca31a13a43f95a56125b8621230b6aed52c30035a19c93",
+              "manifest_sha256": "a3c1b2119c5bd652d5c54785c0bee71f90ad5ee1c38d31e62b564a1c385b2cc4",
+              "debugger_sha256": "f3f34b0453e01e6cc059a59cead4c6fa8901ef91b89af79081c646e96fa7ba92",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "33055d9128a51ec186bda85a2b269fd8559e1a09228ebedfba2c4b0a857ed34e",
+                "c2/irsy": "6edc60c923502de328c6b1ac03825266ba85293e1113efb0041d447a3ad010ac",
+                "c2/irin": "3c8f811f4e00847e99c01f61c3c6219f5ba3afe0e805bee47c1eddf926ef8325",
+                "c2/irgl": "fe8a823509279a7db5db2cbe1141bc42657cbe621e17011d9ef38e64e1564cc4",
+                "c2/irdb": "835f67570bed42730214dfd882820c184d971a8a7290c422049919fcbdb6e29f",
+                "c2/sehpacket.c": "3278985ed0682dc525c3a8e6601e83f9ee118c9e10c016ec54f49eefcf0d3e95"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f sehpacket.c -W 1 -dos -Fosehpacket.obj -ML -Gs4096 -Gy -G3 -Zi "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-seh-umh6krld",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\sehpacket",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@collect_exception_scopes@4",
+              "original_va": "0x65b00",
+              "setup_seconds": 0.2499685427173972,
+              "execution_seconds": 0.6612690053880215,
+              "check_seconds": 0.03135569207370281,
+              "total_seconds": 0.9425938427448273
+            }
+          },
+          "after": {
+            "path": "cases/seh-original-1321.json",
+            "sha256": "6152f0d74bf63892f71f406c8da607552b2efbee1ec91d630fb3d60f61de453e",
+            "capture": {
+              "label": "seh-original-1321",
+              "profile": "seh",
+              "accepted": 1321,
+              "events": "exception 80000003 rva 000561c0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "804cccc35d14e683f21701a9f74b94088b5be1253defb6f4eb8e2a08170eea84",
+              "config_sha256": "9d11a4fd07057bd8e0f580a383dd18194d7dc3719eaea668f4110614de8121ae",
+              "manifest_sha256": "a3c1b2119c5bd652d5c54785c0bee71f90ad5ee1c38d31e62b564a1c385b2cc4",
+              "debugger_sha256": "f3f34b0453e01e6cc059a59cead4c6fa8901ef91b89af79081c646e96fa7ba92",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "33055d9128a51ec186bda85a2b269fd8559e1a09228ebedfba2c4b0a857ed34e",
+                "c2/irsy": "6edc60c923502de328c6b1ac03825266ba85293e1113efb0041d447a3ad010ac",
+                "c2/irin": "3c8f811f4e00847e99c01f61c3c6219f5ba3afe0e805bee47c1eddf926ef8325",
+                "c2/irgl": "fe8a823509279a7db5db2cbe1141bc42657cbe621e17011d9ef38e64e1564cc4",
+                "c2/irdb": "835f67570bed42730214dfd882820c184d971a8a7290c422049919fcbdb6e29f",
+                "c2/sehpacket.c": "3278985ed0682dc525c3a8e6601e83f9ee118c9e10c016ec54f49eefcf0d3e95"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f sehpacket.c -W 1 -dos -Fosehpacket.obj -ML -Gs4096 -Gy -G3 -Zi "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-seh-pqx686fl",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\sehpacket",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "_allocate_exception_scope",
+              "original_va": "0x661c0",
+              "setup_seconds": 0.2519874544814229,
+              "execution_seconds": 0.8612838611006737,
+              "check_seconds": 0.03115288820117712,
+              "total_seconds": 1.1444245548918843
+            }
+          }
         }
       ]
     }
@@ -59354,7 +59467,7 @@
     },
     "seh": {
       "first": 1311,
-      "last": 1320,
+      "last": 1321,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -60563,9 +60676,10 @@
         "function_allows_frame_register",
         "prepare_inline_function",
         "reset_exception_scope_stack",
-        "collect_exception_scopes"
+        "collect_exception_scopes",
+        "allocate_exception_scope"
       ],
-      "terminal": "@collect_exception_scopes@4",
+      "terminal": "_allocate_exception_scope",
       "terminal_kind": "application",
       "returncode": -5,
       "pending_runtime": false

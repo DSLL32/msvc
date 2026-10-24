@@ -1,5 +1,8 @@
 /* Structured-exception scope discovery and expression preparation. */
 #include "exception-scope.h"
+#include "expression-fields.h"
+#include "tree-rewrite.h"
+#include "instruction-selection.h"
 #include <recon.h>
 ExceptionScope *prepared_exception_scopes;
 Node *exception_return_label;
@@ -26,4 +29,85 @@ void __fastcall prepare_inline_function(Function *function)
 void __cdecl reset_exception_scope_stack(void)
 {
     exception_scope_stack_depth = 0;
+}
+
+/* Original [00065b00,00065d26). Discover protected scopes, attach their
+   labels, and move specially marked handler blocks to their jump sites.
+   The marked-block protocol keeps a predecessor before each target and a
+   closing jump in the moved block; no synthetic cursor initialization or
+   repair is supplied for malformed lists. */
+void __fastcall collect_exception_scopes(Function *function)
+{
+    Expression *expression, *search_start = 0, *return_marker = 0;
+    Expression *cursor, *found, *previous, *last, *saved;
+    Node *node, *tree;
+    SymbolHeader *symbol;
+    LabelSymbol *new_label;
+    ExceptionScope *scope;
+    for (expression = function->expressions; expression; expression = expression->next) {
+        node = expression->tree;
+        switch (node->opcode) {
+        case 0x29:
+            scope = current_exception_scope();
+            ((LabelSymbol *)expression->tree->right.symbol)->field28 =
+                scope ? scope->identifier : ~0U;
+            break;
+        case 0x3a:
+            symbol = node->right.symbol;
+            if (symbol->field0d != 0x47) break;
+            if (!search_start) {
+                for (cursor = expression; cursor; cursor = cursor->next) {
+                    tree = cursor->tree;
+                    if (tree->opcode == 0x29 && tree->right.symbol->field0d == 0x47) break;
+                    search_start = cursor;
+                }
+            }
+            for (found = search_start; found; found = found->next) {
+                tree = found->tree;
+                if (tree->opcode == 0x29 && tree->right.symbol == symbol) break;
+                previous = found;
+            }
+            if (!found) break;
+            saved = expression->next;
+            expression->next = found;
+            for (; found->tree->opcode != 0x3a; found = found->next)
+                last = found;
+            last->next = saved;
+            previous->next = found->next;
+            if (saved->tree->opcode != 0x3a)
+                compiler_internal_error("@(#)except.c:1.25", 0x13c);
+            if (found->tree->right.symbol != saved->tree->right.symbol)
+                compiler_internal_error("@(#)except.c:1.25", 0x13d);
+            release_node(found->tree);
+            release_expression(found);
+            break;
+        case 0x47:
+            return_marker = expression;
+            break;
+        case 0x8d:
+            scope = current_exception_scope();
+            node->right.pointer = scope;
+            scope->kind = 1;
+            break;
+        case 0x8e:
+            scope = current_exception_scope();
+            node->right.pointer = scope;
+            scope->kind = 2;
+            ++exception_finally_depth;
+            break;
+        case 0x8f:
+            node->right.pointer = allocate_exception_scope();
+            break;
+        case 0x90:
+            node->right.pointer = current_exception_scope();
+            pop_exception_scope();
+            if (((ExceptionScope *)node->right.pointer)->kind == 2)
+                --exception_finally_depth;
+            break;
+        }
+    }
+    exception_return_label = new_node(0x29);
+    new_label = new_internal_label();
+    exception_return_label->right.symbol = &new_label->symbol;
+    insert_tree_expression(function->expressions, return_marker->tree, exception_return_label);
 }

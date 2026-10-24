@@ -1,0 +1,1147 @@
+{
+  "matched": true,
+  "function": "@collect_exception_scopes@4",
+  "formals": [
+    {
+      "name": "function",
+      "location": "ECX",
+      "type": "Function pointer",
+      "original": 8124988,
+      "native": 1449392816
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "return_contract": "void; caller ignores EAX",
+  "no_hidden_inputs_proof": "Original65b00..65d26 consumes soleECX Function, saved for final expressions reload. Directinput Function.expressions+16, closed Expression.next+0/tree+4, Node.opcode+0, conditional label/jump right.symbol+20/markerbyte+13 and pointeridentity; local returnmarker found by opcode47, speciallabel jump relocation searches actualsymbol identity. Global finallydepth7b9a0 updated on8e/90; actual0. New/queried scope pointers and newlabel are childoutputs, not seeded incoming payload. No incoming otherGPR/stack/flags/x87/outpointer; RET0/void. Actual Function aliases wrapperESI/current_function; native parentformal matches.",
+  "original": {
+    "function": 8124988,
+    "current": 8124988,
+    "parent": 8124988,
+    "first": 8088044,
+    "depth": 0,
+    "return_address": 415511,
+    "expressions": [
+      {
+        "index": 0,
+        "pointer": 8088044,
+        "next": 8087996,
+        "tree": 8087072,
+        "opcode": 86
+      },
+      {
+        "index": 1,
+        "pointer": 8087996,
+        "next": 8088028,
+        "tree": 8086856,
+        "opcode": 70
+      },
+      {
+        "index": 2,
+        "pointer": 8088028,
+        "next": 8087964,
+        "tree": 8086756,
+        "opcode": 79
+      },
+      {
+        "index": 3,
+        "pointer": 8087964,
+        "next": 8087948,
+        "tree": 8086828,
+        "opcode": 79
+      },
+      {
+        "index": 4,
+        "pointer": 8087948,
+        "next": 8088076,
+        "tree": 8087260,
+        "opcode": 50
+      },
+      {
+        "index": 5,
+        "pointer": 8088076,
+        "next": 8087932,
+        "tree": 8086484,
+        "opcode": 143
+      },
+      {
+        "index": 6,
+        "pointer": 8087932,
+        "next": 8087916,
+        "tree": 8087028,
+        "opcode": 79
+      },
+      {
+        "index": 7,
+        "pointer": 8087916,
+        "next": 8086412,
+        "tree": 8087160,
+        "opcode": 143
+      },
+      {
+        "index": 8,
+        "pointer": 8086412,
+        "next": 8086568,
+        "tree": 8086540,
+        "opcode": 79
+      },
+      {
+        "index": 9,
+        "pointer": 8086568,
+        "next": 8087100,
+        "tree": 8087728,
+        "opcode": 50
+      },
+      {
+        "index": 10,
+        "pointer": 8087100,
+        "next": 8087012,
+        "tree": 8086428,
+        "opcode": 56
+      },
+      {
+        "index": 11,
+        "pointer": 8087012,
+        "next": 8086784,
+        "tree": 8086912,
+        "opcode": 50
+      },
+      {
+        "index": 12,
+        "pointer": 8086784,
+        "next": 8088060,
+        "tree": 8086512,
+        "opcode": 41,
+        "symbol": 8062048,
+        "marker": 30
+      },
+      {
+        "index": 13,
+        "pointer": 8088060,
+        "next": 8087884,
+        "tree": 8088304,
+        "opcode": 56
+      },
+      {
+        "index": 14,
+        "pointer": 8087884,
+        "next": 8087900,
+        "tree": 8088332,
+        "opcode": 58,
+        "symbol": 8062108,
+        "marker": 26
+      },
+      {
+        "index": 15,
+        "pointer": 8087900,
+        "next": 8087980,
+        "tree": 8088360,
+        "opcode": 41,
+        "symbol": 8061988,
+        "marker": 30
+      },
+      {
+        "index": 16,
+        "pointer": 8087980,
+        "next": 8088012,
+        "tree": 8088388,
+        "opcode": 50
+      },
+      {
+        "index": 17,
+        "pointer": 8088012,
+        "next": 8087056,
+        "tree": 8063748,
+        "opcode": 58,
+        "symbol": 8061928,
+        "marker": 8
+      },
+      {
+        "index": 18,
+        "pointer": 8087056,
+        "next": 8087188,
+        "tree": 8063776,
+        "opcode": 41,
+        "symbol": 8061868,
+        "marker": 12
+      },
+      {
+        "index": 19,
+        "pointer": 8087188,
+        "next": 8063888,
+        "tree": 8063804,
+        "opcode": 15
+      },
+      {
+        "index": 20,
+        "pointer": 8063888,
+        "next": 8064016,
+        "tree": 8063860,
+        "opcode": 41,
+        "symbol": 8061928,
+        "marker": 8
+      },
+      {
+        "index": 21,
+        "pointer": 8064016,
+        "next": 8064060,
+        "tree": 8063988,
+        "opcode": 56
+      },
+      {
+        "index": 22,
+        "pointer": 8064060,
+        "next": 8064664,
+        "tree": 8064032,
+        "opcode": 79
+      },
+      {
+        "index": 23,
+        "pointer": 8064664,
+        "next": 8072212,
+        "tree": 8064608,
+        "opcode": 50
+      },
+      {
+        "index": 24,
+        "pointer": 8072212,
+        "next": 8072368,
+        "tree": 8072156,
+        "opcode": 15
+      },
+      {
+        "index": 25,
+        "pointer": 8072368,
+        "next": 8072412,
+        "tree": 8072340,
+        "opcode": 56
+      },
+      {
+        "index": 26,
+        "pointer": 8072412,
+        "next": 8072456,
+        "tree": 8072384,
+        "opcode": 58,
+        "symbol": 8062108,
+        "marker": 26
+      },
+      {
+        "index": 27,
+        "pointer": 8072456,
+        "next": 8072556,
+        "tree": 8072428,
+        "opcode": 41,
+        "symbol": 8061748,
+        "marker": 30
+      },
+      {
+        "index": 28,
+        "pointer": 8072556,
+        "next": 8072628,
+        "tree": 8072528,
+        "opcode": 56
+      },
+      {
+        "index": 29,
+        "pointer": 8072628,
+        "next": 8072672,
+        "tree": 8072600,
+        "opcode": 65
+      },
+      {
+        "index": 30,
+        "pointer": 8072672,
+        "next": 8072716,
+        "tree": 8072644,
+        "opcode": 58,
+        "symbol": 8062228,
+        "marker": 31
+      },
+      {
+        "index": 31,
+        "pointer": 8072716,
+        "next": 8072760,
+        "tree": 8072688,
+        "opcode": 41,
+        "symbol": 8061688,
+        "marker": 30
+      },
+      {
+        "index": 32,
+        "pointer": 8072760,
+        "next": 8072804,
+        "tree": 8072732,
+        "opcode": 79
+      },
+      {
+        "index": 33,
+        "pointer": 8072804,
+        "next": 8072848,
+        "tree": 8072776,
+        "opcode": 58,
+        "symbol": 8061868,
+        "marker": 12
+      },
+      {
+        "index": 34,
+        "pointer": 8072848,
+        "next": 8072892,
+        "tree": 8072820,
+        "opcode": 41,
+        "symbol": 8061808,
+        "marker": 11
+      },
+      {
+        "index": 35,
+        "pointer": 8072892,
+        "next": 8072936,
+        "tree": 8072864,
+        "opcode": 79
+      },
+      {
+        "index": 36,
+        "pointer": 8072936,
+        "next": 8072980,
+        "tree": 8072908,
+        "opcode": 41,
+        "symbol": 8062108,
+        "marker": 26
+      },
+      {
+        "index": 37,
+        "pointer": 8072980,
+        "next": 8088440,
+        "tree": 8072952,
+        "opcode": 142
+      },
+      {
+        "index": 38,
+        "pointer": 8088440,
+        "next": 8088680,
+        "tree": 8072996,
+        "opcode": 79
+      },
+      {
+        "index": 39,
+        "pointer": 8088680,
+        "next": 8088696,
+        "tree": 8088624,
+        "opcode": 15
+      },
+      {
+        "index": 40,
+        "pointer": 8088696,
+        "next": 8088740,
+        "tree": 8088652,
+        "opcode": 79
+      },
+      {
+        "index": 41,
+        "pointer": 8088740,
+        "next": 8088784,
+        "tree": 8088712,
+        "opcode": 144
+      },
+      {
+        "index": 42,
+        "pointer": 8088784,
+        "next": 8088828,
+        "tree": 8088756,
+        "opcode": 79
+      },
+      {
+        "index": 43,
+        "pointer": 8088828,
+        "next": 8089068,
+        "tree": 8088800,
+        "opcode": 41,
+        "symbol": 8062168,
+        "marker": 26
+      },
+      {
+        "index": 44,
+        "pointer": 8089068,
+        "next": 8089112,
+        "tree": 8089040,
+        "opcode": 141
+      },
+      {
+        "index": 45,
+        "pointer": 8089112,
+        "next": 8089380,
+        "tree": 8089084,
+        "opcode": 79
+      },
+      {
+        "index": 46,
+        "pointer": 8089380,
+        "next": 8089396,
+        "tree": 8089324,
+        "opcode": 50
+      },
+      {
+        "index": 47,
+        "pointer": 8089396,
+        "next": 8089440,
+        "tree": 8089352,
+        "opcode": 79
+      },
+      {
+        "index": 48,
+        "pointer": 8089440,
+        "next": 8089524,
+        "tree": 8089412,
+        "opcode": 144
+      },
+      {
+        "index": 49,
+        "pointer": 8089524,
+        "next": 8089568,
+        "tree": 8089496,
+        "opcode": 65
+      },
+      {
+        "index": 50,
+        "pointer": 8089568,
+        "next": 8089612,
+        "tree": 8089540,
+        "opcode": 58,
+        "symbol": 8062228,
+        "marker": 31
+      },
+      {
+        "index": 51,
+        "pointer": 8089612,
+        "next": 8089656,
+        "tree": 8089584,
+        "opcode": 79
+      },
+      {
+        "index": 52,
+        "pointer": 8089656,
+        "next": 8089700,
+        "tree": 8089628,
+        "opcode": 41,
+        "symbol": 8062228,
+        "marker": 31
+      },
+      {
+        "index": 53,
+        "pointer": 8089700,
+        "next": 8089744,
+        "tree": 8089672,
+        "opcode": 79
+      },
+      {
+        "index": 54,
+        "pointer": 8089744,
+        "next": 0,
+        "tree": 8089716,
+        "opcode": 71
+      }
+    ]
+  },
+  "native": {
+    "function": 1449392816,
+    "current": 1449392816,
+    "parent": 1449392816,
+    "first": 1449385756,
+    "depth": 0,
+    "caller": "prepare_inline_function",
+    "expressions": [
+      {
+        "index": 0,
+        "pointer": 1449385756,
+        "next": 1449385708,
+        "tree": 1449384772,
+        "opcode": 86
+      },
+      {
+        "index": 1,
+        "pointer": 1449385708,
+        "next": 1449385740,
+        "tree": 1449384584,
+        "opcode": 70
+      },
+      {
+        "index": 2,
+        "pointer": 1449385740,
+        "next": 1449385676,
+        "tree": 1449384456,
+        "opcode": 79
+      },
+      {
+        "index": 3,
+        "pointer": 1449385676,
+        "next": 1449385660,
+        "tree": 1449384528,
+        "opcode": 79
+      },
+      {
+        "index": 4,
+        "pointer": 1449385660,
+        "next": 1449385788,
+        "tree": 1449384960,
+        "opcode": 50
+      },
+      {
+        "index": 5,
+        "pointer": 1449385788,
+        "next": 1449385644,
+        "tree": 1449384184,
+        "opcode": 143
+      },
+      {
+        "index": 6,
+        "pointer": 1449385644,
+        "next": 1449385628,
+        "tree": 1449384728,
+        "opcode": 79
+      },
+      {
+        "index": 7,
+        "pointer": 1449385628,
+        "next": 1449384112,
+        "tree": 1449384860,
+        "opcode": 143
+      },
+      {
+        "index": 8,
+        "pointer": 1449384112,
+        "next": 1449384268,
+        "tree": 1449384240,
+        "opcode": 79
+      },
+      {
+        "index": 9,
+        "pointer": 1449384268,
+        "next": 1449384800,
+        "tree": 1449385440,
+        "opcode": 50
+      },
+      {
+        "index": 10,
+        "pointer": 1449384800,
+        "next": 1449384712,
+        "tree": 1449384128,
+        "opcode": 56
+      },
+      {
+        "index": 11,
+        "pointer": 1449384712,
+        "next": 1449384484,
+        "tree": 1449384612,
+        "opcode": 50
+      },
+      {
+        "index": 12,
+        "pointer": 1449384484,
+        "next": 1449385772,
+        "tree": 1449384212,
+        "opcode": 41,
+        "symbol": 1449373124,
+        "marker": 30
+      },
+      {
+        "index": 13,
+        "pointer": 1449385772,
+        "next": 1449385596,
+        "tree": 1449386016,
+        "opcode": 56
+      },
+      {
+        "index": 14,
+        "pointer": 1449385596,
+        "next": 1449385612,
+        "tree": 1449386044,
+        "opcode": 58,
+        "symbol": 1449373184,
+        "marker": 26
+      },
+      {
+        "index": 15,
+        "pointer": 1449385612,
+        "next": 1449385692,
+        "tree": 1449386072,
+        "opcode": 41,
+        "symbol": 1449373064,
+        "marker": 30
+      },
+      {
+        "index": 16,
+        "pointer": 1449385692,
+        "next": 1449385724,
+        "tree": 1449386100,
+        "opcode": 50
+      },
+      {
+        "index": 17,
+        "pointer": 1449385724,
+        "next": 1449384756,
+        "tree": 1449387232,
+        "opcode": 58,
+        "symbol": 1449373004,
+        "marker": 8
+      },
+      {
+        "index": 18,
+        "pointer": 1449384756,
+        "next": 1449384888,
+        "tree": 1449387260,
+        "opcode": 41,
+        "symbol": 1449372944,
+        "marker": 12
+      },
+      {
+        "index": 19,
+        "pointer": 1449384888,
+        "next": 1449387372,
+        "tree": 1449387288,
+        "opcode": 15
+      },
+      {
+        "index": 20,
+        "pointer": 1449387372,
+        "next": 1449387500,
+        "tree": 1449387344,
+        "opcode": 41,
+        "symbol": 1449373004,
+        "marker": 8
+      },
+      {
+        "index": 21,
+        "pointer": 1449387500,
+        "next": 1449387544,
+        "tree": 1449387472,
+        "opcode": 56
+      },
+      {
+        "index": 22,
+        "pointer": 1449387544,
+        "next": 1449388148,
+        "tree": 1449387516,
+        "opcode": 79
+      },
+      {
+        "index": 23,
+        "pointer": 1449388148,
+        "next": 1449388440,
+        "tree": 1449388092,
+        "opcode": 50
+      },
+      {
+        "index": 24,
+        "pointer": 1449388440,
+        "next": 1449388596,
+        "tree": 1449388384,
+        "opcode": 15
+      },
+      {
+        "index": 25,
+        "pointer": 1449388596,
+        "next": 1449388640,
+        "tree": 1449388568,
+        "opcode": 56
+      },
+      {
+        "index": 26,
+        "pointer": 1449388640,
+        "next": 1449388684,
+        "tree": 1449388612,
+        "opcode": 58,
+        "symbol": 1449373184,
+        "marker": 26
+      },
+      {
+        "index": 27,
+        "pointer": 1449388684,
+        "next": 1449388784,
+        "tree": 1449388656,
+        "opcode": 41,
+        "symbol": 1449372824,
+        "marker": 30
+      },
+      {
+        "index": 28,
+        "pointer": 1449388784,
+        "next": 1449388856,
+        "tree": 1449388756,
+        "opcode": 56
+      },
+      {
+        "index": 29,
+        "pointer": 1449388856,
+        "next": 1449388900,
+        "tree": 1449388828,
+        "opcode": 65
+      },
+      {
+        "index": 30,
+        "pointer": 1449388900,
+        "next": 1449388944,
+        "tree": 1449388872,
+        "opcode": 58,
+        "symbol": 1449373304,
+        "marker": 31
+      },
+      {
+        "index": 31,
+        "pointer": 1449388944,
+        "next": 1449388988,
+        "tree": 1449388916,
+        "opcode": 41,
+        "symbol": 1449372764,
+        "marker": 30
+      },
+      {
+        "index": 32,
+        "pointer": 1449388988,
+        "next": 1449389032,
+        "tree": 1449388960,
+        "opcode": 79
+      },
+      {
+        "index": 33,
+        "pointer": 1449389032,
+        "next": 1449389076,
+        "tree": 1449389004,
+        "opcode": 58,
+        "symbol": 1449372944,
+        "marker": 12
+      },
+      {
+        "index": 34,
+        "pointer": 1449389076,
+        "next": 1449389120,
+        "tree": 1449389048,
+        "opcode": 41,
+        "symbol": 1449372884,
+        "marker": 11
+      },
+      {
+        "index": 35,
+        "pointer": 1449389120,
+        "next": 1449389164,
+        "tree": 1449389092,
+        "opcode": 79
+      },
+      {
+        "index": 36,
+        "pointer": 1449389164,
+        "next": 1449389208,
+        "tree": 1449389136,
+        "opcode": 41,
+        "symbol": 1449373184,
+        "marker": 26
+      },
+      {
+        "index": 37,
+        "pointer": 1449389208,
+        "next": 1449389284,
+        "tree": 1449389180,
+        "opcode": 142
+      },
+      {
+        "index": 38,
+        "pointer": 1449389284,
+        "next": 1449389524,
+        "tree": 1449389224,
+        "opcode": 79
+      },
+      {
+        "index": 39,
+        "pointer": 1449389524,
+        "next": 1449389540,
+        "tree": 1449389468,
+        "opcode": 15
+      },
+      {
+        "index": 40,
+        "pointer": 1449389540,
+        "next": 1449389584,
+        "tree": 1449389496,
+        "opcode": 79
+      },
+      {
+        "index": 41,
+        "pointer": 1449389584,
+        "next": 1449389628,
+        "tree": 1449389556,
+        "opcode": 144
+      },
+      {
+        "index": 42,
+        "pointer": 1449389628,
+        "next": 1449389672,
+        "tree": 1449389600,
+        "opcode": 79
+      },
+      {
+        "index": 43,
+        "pointer": 1449389672,
+        "next": 1449389912,
+        "tree": 1449389644,
+        "opcode": 41,
+        "symbol": 1449373244,
+        "marker": 26
+      },
+      {
+        "index": 44,
+        "pointer": 1449389912,
+        "next": 1449389956,
+        "tree": 1449389884,
+        "opcode": 141
+      },
+      {
+        "index": 45,
+        "pointer": 1449389956,
+        "next": 1449390224,
+        "tree": 1449389928,
+        "opcode": 79
+      },
+      {
+        "index": 46,
+        "pointer": 1449390224,
+        "next": 1449390240,
+        "tree": 1449390168,
+        "opcode": 50
+      },
+      {
+        "index": 47,
+        "pointer": 1449390240,
+        "next": 1449390284,
+        "tree": 1449390196,
+        "opcode": 79
+      },
+      {
+        "index": 48,
+        "pointer": 1449390284,
+        "next": 1449390380,
+        "tree": 1449390256,
+        "opcode": 144
+      },
+      {
+        "index": 49,
+        "pointer": 1449390380,
+        "next": 1449390424,
+        "tree": 1449390352,
+        "opcode": 65
+      },
+      {
+        "index": 50,
+        "pointer": 1449390424,
+        "next": 1449390468,
+        "tree": 1449390396,
+        "opcode": 58,
+        "symbol": 1449373304,
+        "marker": 31
+      },
+      {
+        "index": 51,
+        "pointer": 1449390468,
+        "next": 1449390512,
+        "tree": 1449390440,
+        "opcode": 79
+      },
+      {
+        "index": 52,
+        "pointer": 1449390512,
+        "next": 1449390556,
+        "tree": 1449390484,
+        "opcode": 41,
+        "symbol": 1449373304,
+        "marker": 31
+      },
+      {
+        "index": 53,
+        "pointer": 1449390556,
+        "next": 1449390600,
+        "tree": 1449390528,
+        "opcode": 79
+      },
+      {
+        "index": 54,
+        "pointer": 1449390600,
+        "next": 0,
+        "tree": 1449390572,
+        "opcode": 71
+      }
+    ]
+  },
+  "projection": [
+    {
+      "opcode": 86,
+      "tree": 0
+    },
+    {
+      "opcode": 70,
+      "tree": 1
+    },
+    {
+      "opcode": 79,
+      "tree": 2
+    },
+    {
+      "opcode": 79,
+      "tree": 3
+    },
+    {
+      "opcode": 50,
+      "tree": 4
+    },
+    {
+      "opcode": 143,
+      "tree": 5
+    },
+    {
+      "opcode": 79,
+      "tree": 6
+    },
+    {
+      "opcode": 143,
+      "tree": 7
+    },
+    {
+      "opcode": 79,
+      "tree": 8
+    },
+    {
+      "opcode": 50,
+      "tree": 9
+    },
+    {
+      "opcode": 56,
+      "tree": 10
+    },
+    {
+      "opcode": 50,
+      "tree": 11
+    },
+    {
+      "opcode": 41,
+      "tree": 12,
+      "symbol": 0,
+      "marker": 30
+    },
+    {
+      "opcode": 56,
+      "tree": 13
+    },
+    {
+      "opcode": 58,
+      "tree": 14,
+      "symbol": 1,
+      "marker": 26
+    },
+    {
+      "opcode": 41,
+      "tree": 15,
+      "symbol": 2,
+      "marker": 30
+    },
+    {
+      "opcode": 50,
+      "tree": 16
+    },
+    {
+      "opcode": 58,
+      "tree": 17,
+      "symbol": 3,
+      "marker": 8
+    },
+    {
+      "opcode": 41,
+      "tree": 18,
+      "symbol": 4,
+      "marker": 12
+    },
+    {
+      "opcode": 15,
+      "tree": 19
+    },
+    {
+      "opcode": 41,
+      "tree": 20,
+      "symbol": 3,
+      "marker": 8
+    },
+    {
+      "opcode": 56,
+      "tree": 21
+    },
+    {
+      "opcode": 79,
+      "tree": 22
+    },
+    {
+      "opcode": 50,
+      "tree": 23
+    },
+    {
+      "opcode": 15,
+      "tree": 24
+    },
+    {
+      "opcode": 56,
+      "tree": 25
+    },
+    {
+      "opcode": 58,
+      "tree": 26,
+      "symbol": 1,
+      "marker": 26
+    },
+    {
+      "opcode": 41,
+      "tree": 27,
+      "symbol": 5,
+      "marker": 30
+    },
+    {
+      "opcode": 56,
+      "tree": 28
+    },
+    {
+      "opcode": 65,
+      "tree": 29
+    },
+    {
+      "opcode": 58,
+      "tree": 30,
+      "symbol": 6,
+      "marker": 31
+    },
+    {
+      "opcode": 41,
+      "tree": 31,
+      "symbol": 7,
+      "marker": 30
+    },
+    {
+      "opcode": 79,
+      "tree": 32
+    },
+    {
+      "opcode": 58,
+      "tree": 33,
+      "symbol": 4,
+      "marker": 12
+    },
+    {
+      "opcode": 41,
+      "tree": 34,
+      "symbol": 8,
+      "marker": 11
+    },
+    {
+      "opcode": 79,
+      "tree": 35
+    },
+    {
+      "opcode": 41,
+      "tree": 36,
+      "symbol": 1,
+      "marker": 26
+    },
+    {
+      "opcode": 142,
+      "tree": 37
+    },
+    {
+      "opcode": 79,
+      "tree": 38
+    },
+    {
+      "opcode": 15,
+      "tree": 39
+    },
+    {
+      "opcode": 79,
+      "tree": 40
+    },
+    {
+      "opcode": 144,
+      "tree": 41
+    },
+    {
+      "opcode": 79,
+      "tree": 42
+    },
+    {
+      "opcode": 41,
+      "tree": 43,
+      "symbol": 9,
+      "marker": 26
+    },
+    {
+      "opcode": 141,
+      "tree": 44
+    },
+    {
+      "opcode": 79,
+      "tree": 45
+    },
+    {
+      "opcode": 50,
+      "tree": 46
+    },
+    {
+      "opcode": 79,
+      "tree": 47
+    },
+    {
+      "opcode": 144,
+      "tree": 48
+    },
+    {
+      "opcode": 65,
+      "tree": 49
+    },
+    {
+      "opcode": 58,
+      "tree": 50,
+      "symbol": 6,
+      "marker": 31
+    },
+    {
+      "opcode": 79,
+      "tree": 51
+    },
+    {
+      "opcode": 41,
+      "tree": 52,
+      "symbol": 6,
+      "marker": 31
+    },
+    {
+      "opcode": 79,
+      "tree": 53
+    },
+    {
+      "opcode": 71,
+      "tree": 54
+    }
+  ],
+  "binding": {
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "manifest_sha256": "a3c1b2119c5bd652d5c54785c0bee71f90ad5ee1c38d31e62b564a1c385b2cc4",
+    "config_sha256": "22bdf37f0be28028e9ca31a13a43f95a56125b8621230b6aed52c30035a19c93",
+    "observer_source_sha256": "aea3f1b84ff697e6fc7e94362fc8a647f1d25edffaf374e65e669dc5552e7c7c",
+    "observer_sha256": "43d31f62dc2dfe7ec143dc21c5dd810a517f70f824718d7064b942c3112b73f2",
+    "files": {
+      "entry-plan.txt": "1c2db072d62301aade19015bc45c3eb731813315ea4a1dc7a04d174e0ec01a7f",
+      "original.txt": "997868f3469ef072f54c2c7f32b41bad154e1c7c489c5d7d3e110ac458b2d115",
+      "original.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original.events": "de3650982618487c7b751386e0ce5efd3cc53aba75d01025963a9875f777ba1d",
+      "observer.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observer.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "native_executable_sha256": "28331a4175860edcb18c39b7871531d3f9ee67ec5985d3ff55a2fa6ef1f28b57",
+  "native_shared_source_revision": "574227e0e09ab9b2aee5d295ecfa185143a9615d",
+  "original_execution_seconds": 1.1386886332184076,
+  "native_debug_seconds": 0.14424885623157024,
+  "total_seconds": 1.5420965878292918,
+  "scope": "Actual soleformal, closed inputexpression graph with conditional label marker fields and both Node/label alias identities, current/caller ownership and globalfinallydepth0. No fullFunction/Node/Symbol snapshots, inactive unions, old write-only label.scope or Node.right outputs, childscope payload/globalstack seed, or priorreturnlabel input. Whole550B body controls/fresh acceptance remain required; initial graph inventory is not an executed splice/branch claim."
+}

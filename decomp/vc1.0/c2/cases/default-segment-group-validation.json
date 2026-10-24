@@ -1,6 +1,6 @@
 {
   "matched": true,
-  "accepted": 1320,
+  "accepted": 1321,
   "original": {
     "pointer": "0x84fd4",
     "object_start": "0x84fc8",
@@ -12,9 +12,9 @@
     }
   },
   "canonical": {
-    "pointer": "0x987e8",
-    "object": "0x987e0",
-    "distinct_from_normal_group": "0x929e8"
+    "pointer": "0x997e8",
+    "object": "0x997e0",
+    "distinct_from_normal_group": "0x939e8"
   },
   "real_initializer_path": {
     "group_words": [
@@ -38,8 +38,8 @@
         "0x6a2c1"
       ],
       "canonical": [
-        "0x15156",
-        "0x151ad"
+        "0x15166",
+        "0x151bd"
       ]
     },
     {
@@ -48,7 +48,7 @@
         "0x6a16c"
       ],
       "canonical": [
-        "0x152d2"
+        "0x152e2"
       ]
     }
   ],
@@ -59,9 +59,9 @@
   ],
   "image_sha256": {
     "original": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-    "canonical": "abb0370ba1fc15655aac71361f78643bb8f6dca069de5664125220920f4bb121"
+    "canonical": "ebaf46129140e442b0168cd2c21df0de61b8aff2a324785234f1145523e8be3b"
   },
   "negative": "Binding default pointer to separate zero normal group is rejected despite equal contents; empty-string object initializer rejected by named target binding.",
-  "seconds": 0.5190701447427273,
+  "seconds": 0.5280781267210841,
   "scope": "Loaded original/canonical PE initial pointer/typed8-byte zero object, no synthetic group input or string padding. Execute real segment_defaults then actual B7 initializer and both real index bodies, no mocked calls, producing group0/segment1. Original/public extent unchanged; typed fields/layout/identity and actual path only, not all group producer coverage. Fresh real finalizer input and15 native cases separately required."
 }
