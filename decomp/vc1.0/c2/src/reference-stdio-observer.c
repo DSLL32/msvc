@@ -277,6 +277,14 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         /* The caller's four-byte index local is write-only at this boundary.
            Its prior uninitialized bytes are neither read nor compared. */
     }
+    if(!strcmp(call->name,"@output_noop_function@16")) {
+        DWORD symbol=read_word(process,image_base+0x731ac),function=read_word(process,image_base+0x731b4);
+        DWORD flags=read_word(process,function+40),symbol_flags=read_word(process,symbol+12)>>16;
+        sprintf(line,"output_noop_begin symbol %08lx filename %08lx frame %lu line %lu symbol_owner %08lx filename_owner %08lx line_owner %lu frame_flags %lu symbol_flags %lu return_address %08lx\n",
+            call->args[0],call->args[1],call->args[2],call->args[3],symbol,
+            read_word(process,image_base+0x6e8a4),read_word(process,image_base+0x6e8a8),flags,symbol_flags,call->return_address);log_line(line);
+        /* All formals are unused by RET8; no pointee payload is read. */
+    }
     if(!strcmp(call->name,"_omf_allocate_fixup")) {
         sprintf(line,"omf_fixup_allocator count %ld return_address %08lx\n",
             (long)read_word(process,image_base+0x75094),call->return_address);log_line(line);

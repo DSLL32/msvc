@@ -1290,7 +1290,8 @@
     "@omf_write_datum@8",
     "@omf_output_bytes@8",
     "@omf_add_fixup@16",
-    "_omf_allocate_fixup"
+    "_omf_allocate_fixup",
+    "@output_noop_function@16"
   ],
   "driver": [
     {
@@ -2045,10 +2046,38 @@
       "end": 429424
     },
     {
-      "name": "_output_noop_function",
+      "name": "@output_noop_function@16",
       "start": 429424,
-      "end": 429425,
-      "provisional": true
+      "end": 429427,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "FunctionSymbol pointer"
+          },
+          {
+            "name": "filename",
+            "location": "EDX",
+            "type": "char pointer"
+          },
+          {
+            "name": "frame",
+            "location": "entryESP+4",
+            "type": "signed32"
+          },
+          {
+            "name": "line",
+            "location": "entryESP+8",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 8,
+        "entry_observation": "cases/output-noop-begin-abi/validation.json",
+        "scope": "Original68d70..68d73 is RET8, four-formal fastcall begin-function callback. Accepted caller67fc0..68300 loads current_symbol ECX/function_source_filename EDX, pushes line then boolean metadata and calls slot7b91c at68272, return68278. All four actual unused formals observed and alias caller globals/metadata calculation, native emit_backend_work local frame_metadata. No pointees consumed or other incoming flags/register/x87/output pointer. Former naked void placeholder had no ABI declaration; this evidence refines it."
+      }
     },
     {
       "name": "_output_noop_value",

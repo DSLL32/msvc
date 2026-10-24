@@ -751,3 +751,14 @@ with0 recompiles versus prior full-grid1285 batch41.853s; this includes a new
 54-byte function, no separate profiling run. Newly changed contracts retain
 focused full controls at acceptance. See cases/omf-new-model-modes.json and
 cases/omf-fixup-allocator-checkpoint.json for timings/scope.
+
+Checkpoint1287 refines output_noop_function from a naked/no-argument stub
+to empty4-argument fastcall C matching originalRET8(3bytes). All4 unused inputs
+are observed through caller aliases, frame0/line34; filename contents unused.
+12 full controls/9 ABI rejects check stack cleanup/saved registers/guards and
+no non-stack access; no assembly adapter or output-flags assertion. Constructors
+assign typed callback directly. Original/W3/ordinary audits/fresh pair and15
+native cases pass(14 complete), next local-external6adc0.343640/399693 extent
+bytes; app/support325340B/1172functions exclude5 historical CRT. New full
+controls separate from historical structural audit21.257s. Timings/scope:
+cases/output-noop-begin-checkpoint.json.

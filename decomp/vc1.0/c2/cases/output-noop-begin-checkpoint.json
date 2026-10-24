@@ -1,0 +1,199 @@
+{
+  "checkpoint": 1287,
+  "previous_checkpoint": 1286,
+  "new_application": [
+    {
+      "name": "@output_noop_function@16",
+      "start": 429424,
+      "end": 429427,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "FunctionSymbol pointer"
+          },
+          {
+            "name": "filename",
+            "location": "EDX",
+            "type": "char pointer"
+          },
+          {
+            "name": "frame",
+            "location": "entryESP+4",
+            "type": "signed32"
+          },
+          {
+            "name": "line",
+            "location": "entryESP+8",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 8,
+        "entry_observation": "cases/output-noop-begin-abi/validation.json",
+        "scope": "Original68d70..68d73 is RET8, four-formal fastcall begin-function callback. Accepted caller67fc0..68300 loads current_symbol ECX/function_source_filename EDX, pushes line then boolean metadata and calls slot7b91c at68272, return68278. All four actual unused formals observed and alias caller globals/metadata calculation, native emit_backend_work local frame_metadata. No pointees consumed or other incoming flags/register/x87/output pointer. Former naked void placeholder had no ABI declaration; this evidence refines it."
+      }
+    }
+  ],
+  "previous_provisional_name": "_output_noop_function",
+  "new_extent_bytes": 3,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1287,
+    "accepted_code_bytes": 343640,
+    "original_code_bytes": 399693,
+    "percentage": 85.97598656969224,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 634
+  },
+  "application_graph_rows": 1177,
+  "reconstructed_application_support_functions": 1172,
+  "existing_handwritten_crt_bodies": 5,
+  "application_support_code_extent_bytes": 325340,
+  "code_denominator_bytes": 399693,
+  "next_frontier": "@omf_emit_local_external@4",
+  "next_original_va": "0x6adc0",
+  "case_results": {
+    "total": 15,
+    "complete": 14,
+    "omf_named_trap": "@omf_emit_local_external@4"
+  },
+  "controls": [
+    "cases/output-noop-begin-validation.json"
+  ],
+  "timings": {
+    "omf1287-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 21.256605013273656,
+      "returncode": 0,
+      "log_sha256": "db7e7ada4ef2338fabf3d20722aba89393404b8aecacfc3783b450ffb1758c62"
+    },
+    "omf1287-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 15.48699858225882,
+      "returncode": 0,
+      "log_sha256": "e7fe87c9a57e2bb6cd09e6ca00cb5e5f1a5a9a8c09e57f01c68f137faf0bdf08"
+    },
+    "omf1287-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1286.json",
+        "--extend-after",
+        "cases/omf-original-1287.json"
+      ],
+      "seconds": 0.329626115038991,
+      "returncode": 0,
+      "log_sha256": "243f1d944bfc4c0e3f6527bef806e9f9bc91956abf697cfb89e9548590a44633"
+    },
+    "omf1287-controls-timing": {
+      "command": [
+        "python3",
+        "scripts/check-output-noop-begin.py"
+      ],
+      "seconds": 0.579075220040977,
+      "returncode": 0,
+      "log_sha256": "95feee634294714d41a6946e57bcf111906869a79aeb100c378dff50e3cfb149"
+    },
+    "omf1287-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-output-noop-begin-entry.py"
+      ],
+      "seconds": 1.9480077298358083,
+      "returncode": 0,
+      "log_sha256": "bef94a9d61abe6910e5efd596efe9859eb192d874737d57c83b0981a53655349"
+    },
+    "omf1287-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 0.9223138298839331,
+      "returncode": 0,
+      "log_sha256": "b47a55aacd5871f8ed93513f77bca72f465dde1bb0cb54368692cad324e7fa7e"
+    },
+    "omf1287-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1287.json"
+      ],
+      "seconds": 0.24416453018784523,
+      "returncode": 0,
+      "log_sha256": "e22fd0fa893a2f2b266d0aa738fc54143b8a653d9e19bfa2a04edb840ff9477b"
+    },
+    "omf1287-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 4.196114929392934,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "omf1287-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1287.json"
+      ],
+      "seconds": 1.595208615064621,
+      "returncode": 0,
+      "log_sha256": "cd62835ba4682c838da9042b5644643e3239af2fa0f637931f6936690e2cf0ec"
+    },
+    "omf1287-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "output"
+      ],
+      "seconds": 1.394533161073923,
+      "returncode": 0,
+      "log_sha256": "510ffe50140d72c7b3d7a5c6ccc036e9a15af54eac0c4d272a4d250f8e6d0886"
+    }
+  },
+  "audit_original_compile_commands": 0,
+  "build_original_compile_commands": 15,
+  "limits": [
+    "Original RET8 at68d70..68d73 is an empty four-formal fastcall begin-function callback, refined from old naked/no-prototype placeholder. Plain empty C supplies exact8-byte stack cleanup; no assembly adapter. Both constructor branches assign the typed callback directly, old cast removed. C logical identity unchanged; cache extension explicitly supports old underscore/newfastcall refinement without relabeling before evidence.",
+    "All four UNUSED formals observed: nonnull FunctionSymbol=current_symbol, nonnull filename=function_source_filename, frame0=caller boolean flags/local, line34=function_source_line; original return68278 and native emit_backend_work match. Defined caller metadata flags observed only for frame producer proof; unused filename contents/pointee tails not consumed or captured. No missing formal excused by empty body.",
+    "12 full original/canonical controls/9 actual ABI negatives verify argument permutation/stack slots/RET8/callee-saved/original stack arguments/guard, varied unused registers/flags. Memory hooks reject non-stack reads/writes, unmapped pointer request-shapes establish no dereference, not frontend-valid data. EFLAGS/void EAX outputs are ordinary caller-clobbered ABI and not asserted, no invented flags input.3-byte full instruction extent unmasks both RET operands; following padding remains masked.",
+    "Original/W3/ordinary graph/extents/RET/ABI/storage/guard audits and fresh original/native pair to local-external6adc0,15 native cases pass(14 complete). New full12 controls separate; historical grids remain explicit. Build15.487s,/W31.395s,audit21.257s,reference1.595s,native.244s,fixtures.922s wrappers; subphases/compile counts retained, analysis/edit unmeasured. Full exact OMF output still pending."
+  ]
+}

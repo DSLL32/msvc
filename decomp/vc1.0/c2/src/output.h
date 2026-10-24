@@ -46,7 +46,7 @@ void output_noop(void);
 void __fastcall output_noop_pair(char *filename);
 void output_noop_data(void);
 void __fastcall output_noop_symbol(void *value);
-void output_noop_function(void);
+void __fastcall output_noop_function(FunctionSymbol *symbol, char *filename, int frame, unsigned line);
 void output_noop_value(void);
 void __fastcall output_noop_debug(unsigned line, unsigned offset);
 unsigned __fastcall output_noop_relocation(Initializer *initializer, SymbolHeader *symbol, Segment *segment);

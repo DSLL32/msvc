@@ -32,6 +32,12 @@ void __fastcall output_noop_debug(unsigned line, unsigned offset)
 void __fastcall output_noop_symbol(void *value)
 {
 }
+/* Original [00068d70,00068d73): disabled begin-function callback, RET8.
+   All four formals are unused; the fastcall signature supplies stack cleanup. */
+void __fastcall output_noop_function(FunctionSymbol *symbol, char *filename,
+    int frame, unsigned line)
+{
+}
 void initialize_output_callbacks(void)
 {
     char *library;
@@ -48,7 +54,7 @@ void initialize_output_callbacks(void)
     if (!object_filename) {
     output_callbacks.symbol = (void (__fastcall *)(FunctionSymbol *))output_noop_symbol;
     output_callbacks.function = (void (__fastcall *)(FunctionSymbol *))output_noop_symbol;
-    output_callbacks.begin_function = (void (__fastcall *)(FunctionSymbol *, char *, int, unsigned))output_noop_function;
+    output_callbacks.begin_function = output_noop_function;
     output_callbacks.data = (void (__fastcall *)(void *, unsigned))output_noop_data;
     output_callbacks.select_segment = (void (__fastcall *)(Segment *))output_noop_symbol;
     output_callbacks.segment_reference = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
@@ -89,7 +95,7 @@ void initialize_output_callbacks(void)
     } else {
     output_callbacks.symbol = (void (__fastcall *)(FunctionSymbol *))omf_output_symbol;
     output_callbacks.function = (void (__fastcall *)(FunctionSymbol *))output_noop_symbol;
-    output_callbacks.begin_function = (void (__fastcall *)(FunctionSymbol *, char *, int, unsigned))output_noop_function;
+    output_callbacks.begin_function = output_noop_function;
     output_callbacks.select_segment = omf_select_segment;
     output_callbacks.data = omf_output_data;
     output_callbacks.segment_reference = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_value;

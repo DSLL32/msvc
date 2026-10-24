@@ -1,0 +1,187 @@
+{
+  "actual_abi": true,
+  "rejected": [
+    "missing unused filename",
+    "missing unused line",
+    "wrong frame slot",
+    "wrong cleanup",
+    "wrong symbol owner",
+    "wrong filename owner",
+    "wrong frame owner",
+    "wrong line owner",
+    "invented pointee input"
+  ],
+  "states": 12,
+  "cases": [
+    {
+      "formals": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "incoming_flags": 514,
+      "result": {
+        "stack_cleanup": 8,
+        "no_pointee_or_global_access": true,
+        "returns": "void"
+      }
+    },
+    {
+      "formals": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "incoming_flags": 515,
+      "result": {
+        "stack_cleanup": 8,
+        "no_pointee_or_global_access": true,
+        "returns": "void"
+      }
+    },
+    {
+      "formals": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "incoming_flags": 582,
+      "result": {
+        "stack_cleanup": 8,
+        "no_pointee_or_global_access": true,
+        "returns": "void"
+      }
+    },
+    {
+      "formals": [
+        3735928559,
+        4294967295,
+        1,
+        34
+      ],
+      "incoming_flags": 514,
+      "result": {
+        "stack_cleanup": 8,
+        "no_pointee_or_global_access": true,
+        "returns": "void"
+      }
+    },
+    {
+      "formals": [
+        3735928559,
+        4294967295,
+        1,
+        34
+      ],
+      "incoming_flags": 515,
+      "result": {
+        "stack_cleanup": 8,
+        "no_pointee_or_global_access": true,
+        "returns": "void"
+      }
+    },
+    {
+      "formals": [
+        3735928559,
+        4294967295,
+        1,
+        34
+      ],
+      "incoming_flags": 582,
+      "result": {
+        "stack_cleanup": 8,
+        "no_pointee_or_global_access": true,
+        "returns": "void"
+      }
+    },
+    {
+      "formals": [
+        4294967295,
+        305419896,
+        2147483648,
+        4294967295
+      ],
+      "incoming_flags": 514,
+      "result": {
+        "stack_cleanup": 8,
+        "no_pointee_or_global_access": true,
+        "returns": "void"
+      }
+    },
+    {
+      "formals": [
+        4294967295,
+        305419896,
+        2147483648,
+        4294967295
+      ],
+      "incoming_flags": 515,
+      "result": {
+        "stack_cleanup": 8,
+        "no_pointee_or_global_access": true,
+        "returns": "void"
+      }
+    },
+    {
+      "formals": [
+        4294967295,
+        305419896,
+        2147483648,
+        4294967295
+      ],
+      "incoming_flags": 582,
+      "result": {
+        "stack_cleanup": 8,
+        "no_pointee_or_global_access": true,
+        "returns": "void"
+      }
+    },
+    {
+      "formals": [
+        4194432,
+        4194688,
+        4294967295,
+        2147483648
+      ],
+      "incoming_flags": 514,
+      "result": {
+        "stack_cleanup": 8,
+        "no_pointee_or_global_access": true,
+        "returns": "void"
+      }
+    },
+    {
+      "formals": [
+        4194432,
+        4194688,
+        4294967295,
+        2147483648
+      ],
+      "incoming_flags": 515,
+      "result": {
+        "stack_cleanup": 8,
+        "no_pointee_or_global_access": true,
+        "returns": "void"
+      }
+    },
+    {
+      "formals": [
+        4194432,
+        4194688,
+        4294967295,
+        2147483648
+      ],
+      "incoming_flags": 582,
+      "result": {
+        "stack_cleanup": 8,
+        "no_pointee_or_global_access": true,
+        "returns": "void"
+      }
+    }
+  ],
+  "seconds": 0.48152267560362816,
+  "scope": "Whole3-byte originalRET8 versus canonical empty four-argument fastcall C, exact entryESP+12/callee-saved and original stack argument/guard preservation. Memory hooks reject any non-stack read/write; arbitrary unmapped pointer/scalar request shapes prove unused formals, not valid frontend data. Incoming EFLAGS varied only as unused inputs; output flags/void EAX are caller-clobbered and not compared. Actual4 unused args all concretely observed by caller global/local aliases and metadata calculation, filename payload not needed. Named callback/cached logical alias refinement preserves C identity; no assembly adapter or invented no-argument ABI."
+}

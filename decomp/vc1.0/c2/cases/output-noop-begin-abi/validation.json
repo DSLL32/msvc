@@ -1,0 +1,78 @@
+{
+  "matched": true,
+  "function": "@output_noop_function@16",
+  "previous_provisional_name": "_output_noop_function",
+  "original_va": "0x68d70",
+  "formals": [
+    {
+      "name": "symbol",
+      "location": "ECX",
+      "type": "FunctionSymbol pointer",
+      "original": 8071560,
+      "native": 1449360000,
+      "use": "unused by original RET8 body"
+    },
+    {
+      "name": "filename",
+      "location": "EDX",
+      "type": "char pointer",
+      "original": 8071536,
+      "native": 1449359976,
+      "use": "unused by original RET8 body"
+    },
+    {
+      "name": "frame",
+      "location": "entryESP+4",
+      "type": "signed32",
+      "original": 0,
+      "native": 0,
+      "use": "unused by original RET8 body"
+    },
+    {
+      "name": "line",
+      "location": "entryESP+8",
+      "type": "unsigned32",
+      "original": 34,
+      "native": 34,
+      "use": "unused by original RET8 body"
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 8,
+  "no_hidden_inputs_proof": "Original68d70..68d73 is RET8, four-formal fastcall begin-function callback. Accepted caller67fc0..68300 loads current_symbol ECX/function_source_filename EDX, pushes line then boolean metadata and calls slot7b91c at68272, return68278. All four actual unused formals observed and alias caller globals/metadata calculation, native emit_backend_work local frame_metadata. No pointees consumed or other incoming flags/register/x87/output pointer. Former naked void placeholder had no ABI declaration; this evidence refines it.",
+  "shape": {
+    "symbol_nonnull": true,
+    "filename_nonnull": true,
+    "frame": 0,
+    "line": 34
+  },
+  "original": {
+    "symbol": 8071560,
+    "filename": 8071536,
+    "frame": 0,
+    "line": 34,
+    "symbol_owner": 8071560,
+    "filename_owner": 8071536,
+    "line_owner": 34,
+    "frame_flags": 0,
+    "symbol_flags": 1,
+    "return_address": 426616
+  },
+  "native": {
+    "symbol": 1449360000,
+    "filename": 1449359976,
+    "frame": 0,
+    "line": 34,
+    "symbol_owner": 1449360000,
+    "filename_owner": 1449359976,
+    "line_owner": 34,
+    "frame_owner": 0,
+    "frame_flags": 0,
+    "symbol_flags": 1,
+    "caller": "emit_backend_work"
+  },
+  "original_execution_seconds": 1.4663067646324635,
+  "native_debug_seconds": 0.14502030797302723,
+  "total_seconds": 1.8731431271880865,
+  "scope": "Four UNUSED formals still concrete/owned, no fabricated pointer payload or inferred no-argument ABI. Filename pointee not dereferenced. Callback body/RET8 matching still requires canonical build/full function controls/fresh next frontier."
+}

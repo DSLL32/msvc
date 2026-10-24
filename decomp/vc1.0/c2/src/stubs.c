@@ -81,7 +81,6 @@ void __fastcall uppercase_name(char *name) { __asm int 3 }
 void __fastcall emit_function_inline_data(Function *function) { __asm int 3 }
 #include "output.h"
 __declspec(naked) void output_noop_data(void) { RECON_TRACE_NAKED_ENTRY(output_noop_data) __asm int 3 }
-__declspec(naked) void output_noop_function(void) { RECON_TRACE_NAKED_ENTRY(output_noop_function) __asm int 3 }
 __declspec(naked) void output_noop_value(void) { RECON_TRACE_NAKED_ENTRY(output_noop_value) __asm int 3 }
 unsigned __fastcall output_noop_relocation(Initializer *initializer, SymbolHeader *symbol, Segment *segment) { __asm int 3 }
 __declspec(naked) void output_noop_record(void) { RECON_TRACE_NAKED_ENTRY(output_noop_record) __asm int 3 }
