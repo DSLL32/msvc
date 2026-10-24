@@ -96,7 +96,8 @@
     "_initialize_file_mapping@12",
     "_create_library@12",
     "_find_library@12",
-    "_initialize_library_enumerator@8"
+    "_initialize_library_enumerator@8",
+    "_next_library@4"
   ],
   "driver": [
     {
@@ -2566,12 +2567,11 @@
     {
       "name": "_next_library@4",
       "start": 4258592,
-      "end": 4258593,
-      "source": "src/pass-one.cpp",
-      "status": "stub",
-      "pending_extent": true,
+      "end": 4258642,
+      "source": "src/libraries.c",
+      "status": "implemented",
       "native_symbol": "next_library",
-      "abi": "stdcall BYTE(LibraryEnumerator *enumerator);one stack input,ALresult,RET4; declarations derived from actual caller/callee inventory; formals captured when reached"
+      "abi": "stdcall BYTE(LibraryEnumerator *enumerator); one physical DWORD input, RET4; no hidden inputs. Complete16B initialized record read, only current slot mutated; AL result."
     },
     {
       "name": "_warn_unused_delay_libraries@0",

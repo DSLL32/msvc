@@ -27,10 +27,14 @@ def check(original,rebuilt,map_text,packet=None):
     assert[dict(site=i.address,bytes=i.bytes.hex())for i in instructions if i.mnemonic=='ret']==body['returns']==[dict(site=0x40fb3d,bytes='c20400'),dict(site=0x40fb4f,bytes='c20400')]
     addresses={name:int(address,16)for name,address in re.findall(r'^\s+[0-9a-fA-F]+:[0-9a-fA-F]+\s+(\S+)\s+([0-9a-fA-F]{8})\b',map_text,re.M)}
     compiled=contract['rebuilt'];assert compiled['symbol']=='_next_library@4'
-    code=bytes.fromhex(compiled['bytes']);assert code==bytes.fromhex('558bec535657cc32c05f5e5b5dc20400')
+    code=bytes.fromhex(compiled['bytes']);assert len(code)==57
     assert rebuilt.read(addresses[compiled['symbol']],len(code))==code
-    # Fully linear current stub: saved EBX at+3, restored at+11, RET4 at+13.
-    assert code[3]==0x53 and code[11]==0x5b and code[13:]==bytes.fromhex('c20400')
+    emitted=list(decoder.disasm(code,0));assert sum(i.size for i in emitted)==len(code)
+    assert[i.address for i in emitted if {'ebx','bx','bl','bh'}&{i.reg_name(r)for r in i.regs_access()[1]}]==compiled['own_ebx_writes']==[]
+    assert[i.address for i in emitted if i.mnemonic=='call']==compiled['calls']==[]
+    assert[dict(offset=i.address,bytes=i.bytes.hex())for i in emitted if i.mnemonic=='ret']==compiled['returns']==[dict(offset=54,bytes='c20400')]
+    starts={i.address for i in emitted}
+    assert all(i.op_str.startswith('0x')and int(i.op_str,16)in starts for i in emitted if i.mnemonic.startswith('j'))
     assert packet['original_cached_sites']==[0x40f6c2]and packet['original_direct_sites']==[0x40f73f]
     return dict(provider=provider,finite_helper_bytes=50,helper_calls=0,preserved_registers=['ebx'])
 

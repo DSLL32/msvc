@@ -1,0 +1,253 @@
+{
+  "schema": 1,
+  "functions": {
+    "_mainCRTStartup": {
+      "original": {
+        "roots": [
+          4608910,
+          4608931
+        ],
+        "text_data": []
+      },
+      "rebuilt": {
+        "roots": [
+          4248510,
+          4248531
+        ],
+        "text_data": []
+      }
+    },
+    "_main": {
+      "original": {
+        "roots": [
+          4251873,
+          4251918
+        ],
+        "text_data": []
+      },
+      "rebuilt": {
+        "roots": [
+          4206314,
+          4206378
+        ],
+        "text_data": []
+      }
+    },
+    "_print_logo": {
+      "original": {
+        "text_data": [
+          [
+            4593260,
+            4593280
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": []
+      },
+      "register_imports": {
+        "require_all_register_calls_resolved": true
+      }
+    },
+    "_configure_link_options@12": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true
+      }
+    },
+    "_parse_switch@8": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true
+      }
+    }
+  },
+  "callback_tables": [
+    {
+      "label": "application constructors",
+      "original": [
+        4616192,
+        4616212
+      ],
+      "rebuilt_begin": "___xc_a",
+      "rebuilt_end": "___xc_z",
+      "require_accepted": false
+    },
+    {
+      "label": "C initializers",
+      "original": [
+        4616216,
+        4616220
+      ],
+      "rebuilt_begin": "___xi_a",
+      "rebuilt_end": "___xi_z",
+      "require_accepted": false
+    }
+  ],
+  "register_imports": {
+    "preservation_contracts": [
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "__p__pgmptr"
+          }
+        },
+        "preserves": [
+          "ebx",
+          "esi",
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/help/options-import-preservation.json",
+          "sha256": "858de1d8d2bac1dd3a8bced26a9ffdbdeb8d38371ccdfc2b8511755705f10c24"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "_makepath"
+          }
+        },
+        "preserves": [
+          "ebx",
+          "esi",
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/help/options-import-preservation.json",
+          "sha256": "858de1d8d2bac1dd3a8bced26a9ffdbdeb8d38371ccdfc2b8511755705f10c24"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "_splitpath"
+          }
+        },
+        "preserves": [
+          "ebx",
+          "esi",
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/help/options-import-preservation.json",
+          "sha256": "858de1d8d2bac1dd3a8bced26a9ffdbdeb8d38371ccdfc2b8511755705f10c24"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "_stricmp"
+          }
+        },
+        "preserves": [
+          "ebx",
+          "esi",
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/help/options-import-preservation.json",
+          "sha256": "858de1d8d2bac1dd3a8bced26a9ffdbdeb8d38371ccdfc2b8511755705f10c24"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "atoi"
+          }
+        },
+        "preserves": [
+          "ebx",
+          "esi",
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/help/options-import-preservation.json",
+          "sha256": "858de1d8d2bac1dd3a8bced26a9ffdbdeb8d38371ccdfc2b8511755705f10c24"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "fopen"
+          }
+        },
+        "preserves": [
+          "ebx",
+          "esi",
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/help/options-import-preservation.json",
+          "sha256": "858de1d8d2bac1dd3a8bced26a9ffdbdeb8d38371ccdfc2b8511755705f10c24"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "strchr"
+          }
+        },
+        "preserves": [
+          "ebx",
+          "esi",
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/help/parser-import-preservation.json",
+          "sha256": "20326f2f088a1b6f7a391225863619d220825e45096eea892e896e41214e71f4"
+        }
+      },
+      {
+        "target": {
+          "function": "_link_fatal"
+        },
+        "preserves": [
+          "ebx",
+          "esi",
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/help/parser-import-preservation.json",
+          "sha256": "20326f2f088a1b6f7a391225863619d220825e45096eea892e896e41214e71f4"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "printf"
+          }
+        },
+        "preserves": [
+          "ebx",
+          "esi",
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/help/logo-import-preservation.json",
+          "sha256": "e7b559954b99e8edad22925cf236a9c12536859b4b3aa5663b6d5a6e19bc0395"
+        }
+      },
+      {
+        "target": {
+          "function": "_append_bytes@12"
+        },
+        "preserves": [
+          "ebx",
+          "esi",
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/help/logo-import-preservation.json",
+          "sha256": "e7b559954b99e8edad22925cf236a9c12536859b4b3aa5663b6d5a6e19bc0395"
+        }
+      }
+    ]
+  }
+}

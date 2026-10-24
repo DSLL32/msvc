@@ -184,5 +184,4 @@ extern "C" void __stdcall finalize_mac_entry(StringNode **entry,LinkContext *con
 extern "C" void __stdcall set_subsystem_version(LinkContext *context) { __asm { int 3 } }
 extern "C" void __stdcall warn_unused_libraries(OutputLibrary *library) { __asm { int 3 } }
 extern "C" void __stdcall warn_missing_default_libraries(LinkPointerList *libraries) { __asm { int 3 } }
-extern "C" BYTE __stdcall next_library(LibraryEnumerator *enumerator) { __asm { int 3 } return 0; }
 extern "C" void __stdcall warn_unused_delay_libraries(void) { __asm { int 3 } }

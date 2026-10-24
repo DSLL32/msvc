@@ -186,7 +186,7 @@ def audit_trial(path):
     inputs = [tool, ROOT/'toolchains/5.10/bin/LINK.EXE', BINARY/'build/link.exe',
               BINARY/'build/link.map',path,BINARY/'runtime.json',BINARY/'build/runtime.json',BINARY/'graph.json',BINARY/'build/graph.json']
     inputs.append(strict_path)
-    inputs += [BINARY/'scripts'/name for name in ['accept.py','boundary_state.py','hello_boundary.py','mask.py','observers.py','environment_profile.py','binary.py','context_heap.py','section_state.py','group_state.py','collision_state.py','file_open_state.py','file_move_state.py','file_mapping_state.py','mapping_completion_state.py','mapped_input_contract.py','capture_sources.py','native-completion.py','check-native.py','completion_cleanup.py','case_inputs.py']]
+    inputs += [BINARY/'scripts'/name for name in ['accept.py','boundary_state.py','hello_boundary.py','mask.py','observers.py','environment_profile.py','binary.py','context_heap.py','section_state.py','group_state.py','collision_state.py','file_open_state.py','file_move_state.py','file_mapping_state.py','mapping_completion_state.py','library_creation_state.py','mapped_input_contract.py','capture_sources.py','native-completion.py','check-native.py','completion_cleanup.py','case_inputs.py']]
     inputs.append(BINARY/'cases/hello-win32/mapped-open-byte-input.json')
     cached_bodies={'_main','_initialize_debug@8','_initialize_repro','_parse_command_line@16','_has_switch@4'} & set(trial['accepted'])
     imported=copy.deepcopy(trial)

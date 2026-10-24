@@ -20,19 +20,19 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 79 application
-functions (32,718 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 80 application
+functions (32,768 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `next_library`; hello-win32 has not completed.
+next frontier is `LinkContext::LoadInputArgument`; hello-win32 has not completed.
 
 ## Original-only probes
 
 Explicitly run `make capture-help`, or `python3 scripts/reference.py --mode
 masked` for fresh acceptance evidence. These invoke originals and are never
-fixture prerequisites. Original debugger execution is serialized by the shared capture lock; setup,
-original builds and native tests remain independent. The helper copies actual
-CREATE_PROCESS/LOAD_DLL `hFile`
-contents for identity hashing. The transport verifies fixed shared R:/S: mappings
+fixture prerequisites. The helper reads actual CREATE_PROCESS/LOAD_DLL `hFile`
+contents at explicit offsets and hashes the complete copies. Concurrent captures
+do not depend on a shared file cursor. Historical cached helpers remain evidence
+only and must not be launched on the shared prefix. The transport verifies fixed shared R:/S: mappings
 and uses fresh `S:\vc5.10\link\...` working directories. Native shipped MSVCRT,
 MSPDB50, MSDIS100 and IMAGEHLP are selected explicitly.
 

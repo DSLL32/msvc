@@ -41,3 +41,10 @@ void __stdcall initialize_library_enumerator(LibraryEnumerator *enumerator,Outpu
     enumerator->current=NULL;
     enumerator->first=first;
 }
+
+BYTE __stdcall next_library(LibraryEnumerator *enumerator)
+{
+    if (!enumerator->current) enumerator->current=enumerator->first;
+    else enumerator->current=enumerator->current->next;
+    return enumerator->current!=NULL;
+}

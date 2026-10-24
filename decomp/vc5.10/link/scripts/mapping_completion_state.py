@@ -67,6 +67,9 @@ def compare(original,state,trap,events,oslots,nslots,handle,nhandle,native_direc
     assert state['mapped_open_return']['arguments']==m['raw_formals']
     assert state['output_open_return']['arguments']==state['open_file_entry']['formals']
     assert trap['file_input_lifetime']==state['file_input_lifetime']=='captured at mapped-opener return before caller locals expire'
+    if state['function']=='LinkContext::LoadInputArgument':
+        assert trap['output_file']==state['output_file']==15
+        return view,nview
     context=trap['validation_context'];ncontext=state['context_this']
     assert trap['library_create_formals']==dict(name=0,path=0,libraries=context+0x1bc)
     assert state['library_create_formals']==dict(name=0,path=0,libraries=ncontext+0x1bc)

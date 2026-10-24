@@ -1,0 +1,116 @@
+{
+  "positive": true,
+  "inventory": {
+    "original_cached": 1,
+    "original_direct": 1,
+    "rebuilt_direct": 2,
+    "opaque": 0
+  },
+  "controls": [
+    {
+      "kind": "contract-removal",
+      "target": {
+        "import": {
+          "dll": "msvcrt.dll",
+          "name": "_splitpath"
+        }
+      },
+      "stderr": "graph-audit: original _find_library@12 register imports: unresolved register import calls: {4257474}\n"
+    },
+    {
+      "kind": "contract-removal",
+      "target": {
+        "import": {
+          "dll": "msvcrt.dll",
+          "name": "_mbsicmp"
+        }
+      },
+      "stderr": "graph-audit: original _find_library@12 register imports: unresolved register import calls: {4257474}\n"
+    },
+    {
+      "kind": "contract-removal",
+      "target": {
+        "function": "_next_library@4"
+      },
+      "stderr": "graph-audit: original _find_library@12 register imports: unresolved register import calls: {4257474}\n"
+    },
+    {
+      "kind": "witness-mutation",
+      "label": "helper body hash"
+    },
+    {
+      "kind": "witness-mutation",
+      "label": "helper wrong extent"
+    },
+    {
+      "kind": "witness-mutation",
+      "label": "helper lost ret"
+    },
+    {
+      "kind": "witness-mutation",
+      "label": "helper wrong name"
+    },
+    {
+      "kind": "witness-mutation",
+      "label": "helper wrong mask"
+    },
+    {
+      "kind": "witness-mutation",
+      "label": "helper rebuilt bytes"
+    },
+    {
+      "kind": "witness-mutation",
+      "label": "provider wrong identity"
+    },
+    {
+      "kind": "witness-mutation",
+      "label": "provider wrong export"
+    },
+    {
+      "kind": "witness-mutation",
+      "label": "lost cached site"
+    }
+  ],
+  "elapsed_seconds": 0.1598192835226655,
+  "command": [
+    "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+    "--profile",
+    "link",
+    "--discovery",
+    "cfg",
+    "--repo",
+    "/root/msvc2",
+    "--project",
+    "/root/msvc2/decomp/vc5.10/link",
+    "--original",
+    "/root/msvc2/toolchains/5.10/bin/LINK.EXE",
+    "--rebuilt",
+    "/root/msvc2/decomp/vc5.10/link/build/link.exe",
+    "--map",
+    "/root/msvc2/decomp/vc5.10/link/build/link.map",
+    "--config",
+    "/root/.ai-tmp/msvc2/vc5.10/link/library-finder-import-review/config.json",
+    "--runtime",
+    "/root/msvc2/decomp/vc5.10/link/runtime.json",
+    "--rebuilt-runtime",
+    "/root/msvc2/decomp/vc5.10/link/build/runtime.json",
+    "--metadata",
+    "/root/.ai-tmp/msvc2/vc5.10/link/library-finder-import-review/metadata.json",
+    "--check-references",
+    "--check-ownership",
+    "--check-extents",
+    "--check-callbacks",
+    "--include-evidenced-runtime",
+    "--check-imports",
+    "--resolve-register-imports"
+  ],
+  "bindings": {
+    "/root/msvc2/decomp/vc5.10/link/cases/hello-win32/library-finder-import-preservation.json": "f667b14d4c1e4b90ca28f702c6e10e68da7c270bfeb230ce3be805c6bec882d9",
+    "/root/msvc2/decomp/vc5.10/link/scripts/library-finder-preservation.py": "2347eb025c417804b06aec84990db26b4886a800e245fae5a33128a5c9d8f8a3",
+    "/root/msvc2/decomp/vc5.10/link/build/link.exe": "9669b6e38d168c97007fb971efad947ef25efb0d04f43b4c6dbef03289405f30",
+    "/root/msvc2/decomp/vc5.10/link/build/link.map": "7a4e424fdeafa09ed4a6de9550fd58078a0515afc4342f199229f238e3e167ed",
+    "/root/.ai-tmp/msvc2/vc5.10/link/library-finder-import-review/config.json": "336633e0639df5cfa8fa5365e79ec2cc62f1524a12640697c99b9e736938944f",
+    "/root/.ai-tmp/msvc2/vc5.10/link/library-finder-import-review/metadata.json": "b6170736eb775fcdb2c9e4f479c051a31dc8eec300d58d5773efbe95986cf2fe",
+    "/root/.ai-tmp/msvc2/vc5.10/link/library-finder-import-review/stdout.json": "5f47f0419121e5aeba1779e18bf613001842d47b21e629e3fce8190ea6aacc6e"
+  }
+}

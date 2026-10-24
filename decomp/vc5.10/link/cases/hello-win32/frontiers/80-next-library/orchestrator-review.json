@@ -1,0 +1,30 @@
+{
+  "result": "PASS",
+  "manifest_sha256": "f8a0a8efdf6afcc02978cb0003444b5038501ffb08758fd13fefea47c72272ac",
+  "frozen_file_count": 728,
+  "independent_current_raw_binding_and_frontier": true,
+  "actual_frontier": "LinkContext::LoadInputArgument",
+  "whole_source": "next_library50B readable BYTE/stdcall enum; complete57B rebuilt counterpart call-free/noEBXwrite/RET4 with12 necessity/witness controls",
+  "state_scope": "Complete new68B record and136B used zero-backed arena, defined fields/creator changes/list aliases/context/input/ECX+twoargs, true ALfalse/RET4+finderNULL+creatorRET12 and20B owned malloc actual request; each own uninitialized array retained/preserved without cross-value equality",
+  "full_graph_functions": 93,
+  "strict_RET_functions": 86,
+  "fresh_state_controls": 371,
+  "finder_witness": {
+    "provider": {
+      "qualified_import_contracts": 2,
+      "application_helper_contracts": 0,
+      "qualification": "Only required canonical-provider/SDK ABI witnesses. Unknown application calls remain barriers; no helper source/object snapshots or target CFG/dataflow walk."
+    },
+    "finite_helper_bytes": 50,
+    "helper_calls": 0,
+    "preserved_registers": [
+      "ebx"
+    ]
+  },
+  "limits": [
+    "Only actual empty-library enumeration branch exercised",
+    "Unused20B malloc content not semantically equated",
+    "Later real loader body still named trap/zero credit",
+    "Whole raw capture binding uses receipt-named scratch originals for omitted module dumps;728 frozen-owned files separately verified. No claim standalone frozen-packet audit completeness."
+  ]
+}

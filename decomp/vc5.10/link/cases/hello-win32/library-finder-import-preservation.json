@@ -84,8 +84,16 @@
     },
     "rebuilt": {
       "symbol": "_next_library@4",
-      "bytes": "558bec535657cc32c05f5e5b5dc20400",
-      "basis": "Current genuine ordinary Win32 stdcall trap stub saves/restores EBX and RET4, with no called helpers or custom ABI. Before replacing it, refresh this concrete counterpart proof. No application acceptance or visited credit for this support witness."
+      "bytes": "558bec8b450883780c00750e8b4d088b55088b420889410ceb0f8b4d088b510c8b45088b4a3c89480c8b550833c0837a0c000f95c05dc20400",
+      "own_ebx_writes": [],
+      "calls": [],
+      "returns": [
+        {
+          "offset": 54,
+          "bytes": "c20400"
+        }
+      ],
+      "basis": "Actual complete57-byte original-compiler next_library implementation: no EBX writes or calls, sole ordinary RET4. Concrete body bytes and branch targets bound; this preservation witness grants no application credit before separate fresh candidate acceptance."
     }
   },
   "original_cached_sites": [
