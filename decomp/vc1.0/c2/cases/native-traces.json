@@ -2,7 +2,7 @@
   "schema": 2,
   "description": "Fresh shared-prefix original entry projection; no capture or Wine in fixtures",
   "metadata_sha256": {
-    "functions.json": "9af141cf57b73dda15b9c9157a714cacc119a8b886b7a9d33f0c476fdb117fa7",
+    "functions.json": "79931b9b248794ec6bf98161c9834b4141f947edae47cf415f21483182174887",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -1968,7 +1968,7 @@
     },
     "function_allows_frame_register": {
       "logical": "@function_allows_frame_register@4",
-      "source": "src/stubs.c"
+      "source": "src/physical-allocation.c"
     },
     "function_float_stack_depth": {
       "logical": "@function_float_stack_depth@4",
@@ -43682,6 +43682,107 @@
               "total_seconds": 0.9748767809942365
             }
           }
+        },
+        {
+          "accepted_function": "@function_allows_frame_register@4",
+          "accepted_kind": "application",
+          "previous_logical": "@function_allows_frame_register@4",
+          "original_extent": [
+            "0x2f500",
+            "0x2f681"
+          ],
+          "before": {
+            "path": "cases/seh-original-1317.json",
+            "sha256": "9e0bef92b82bfae421f812468b31d2634d19d49612da76f1ddb78adfe95aed40",
+            "capture": {
+              "label": "seh-original-1317",
+              "profile": "seh",
+              "accepted": 1317,
+              "events": "exception 80000003 rva 0001f500 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "3be1958d969b25b998b96962e86e4c58ee5a2e2102327054151a5d2b5cb85bda",
+              "config_sha256": "9af141cf57b73dda15b9c9157a714cacc119a8b886b7a9d33f0c476fdb117fa7",
+              "manifest_sha256": "a3c1b2119c5bd652d5c54785c0bee71f90ad5ee1c38d31e62b564a1c385b2cc4",
+              "debugger_sha256": "f3f34b0453e01e6cc059a59cead4c6fa8901ef91b89af79081c646e96fa7ba92",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "33055d9128a51ec186bda85a2b269fd8559e1a09228ebedfba2c4b0a857ed34e",
+                "c2/irsy": "6edc60c923502de328c6b1ac03825266ba85293e1113efb0041d447a3ad010ac",
+                "c2/irin": "3c8f811f4e00847e99c01f61c3c6219f5ba3afe0e805bee47c1eddf926ef8325",
+                "c2/irgl": "fe8a823509279a7db5db2cbe1141bc42657cbe621e17011d9ef38e64e1564cc4",
+                "c2/irdb": "835f67570bed42730214dfd882820c184d971a8a7290c422049919fcbdb6e29f",
+                "c2/sehpacket.c": "3278985ed0682dc525c3a8e6601e83f9ee118c9e10c016ec54f49eefcf0d3e95"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f sehpacket.c -W 1 -dos -Fosehpacket.obj -ML -Gs4096 -Gy -G3 -Zi "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-seh-32dnhd0i",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\sehpacket",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@function_allows_frame_register@4",
+              "original_va": "0x2f500",
+              "setup_seconds": 0.25732898339629173,
+              "execution_seconds": 0.6654612375423312,
+              "check_seconds": 0.052086069248616695,
+              "total_seconds": 0.9748767809942365
+            }
+          },
+          "after": {
+            "path": "cases/seh-original-1318.json",
+            "sha256": "74b5f46cf8c407b74189b733f9dc03e41573d755eba7e1a070596b7845d9bf30",
+            "capture": {
+              "label": "seh-original-1318",
+              "profile": "seh",
+              "accepted": 1318,
+              "events": "exception 80000003 rva 000556e0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "906d71d9e5509003d5e9693217b42d9007b6fe713693a74d1d2012a09e2fc4e2",
+              "config_sha256": "79931b9b248794ec6bf98161c9834b4141f947edae47cf415f21483182174887",
+              "manifest_sha256": "a3c1b2119c5bd652d5c54785c0bee71f90ad5ee1c38d31e62b564a1c385b2cc4",
+              "debugger_sha256": "f3f34b0453e01e6cc059a59cead4c6fa8901ef91b89af79081c646e96fa7ba92",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "33055d9128a51ec186bda85a2b269fd8559e1a09228ebedfba2c4b0a857ed34e",
+                "c2/irsy": "6edc60c923502de328c6b1ac03825266ba85293e1113efb0041d447a3ad010ac",
+                "c2/irin": "3c8f811f4e00847e99c01f61c3c6219f5ba3afe0e805bee47c1eddf926ef8325",
+                "c2/irgl": "fe8a823509279a7db5db2cbe1141bc42657cbe621e17011d9ef38e64e1564cc4",
+                "c2/irdb": "835f67570bed42730214dfd882820c184d971a8a7290c422049919fcbdb6e29f",
+                "c2/sehpacket.c": "3278985ed0682dc525c3a8e6601e83f9ee118c9e10c016ec54f49eefcf0d3e95"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f sehpacket.c -W 1 -dos -Fosehpacket.obj -ML -Gs4096 -Gy -G3 -Zi "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-seh-p_vbfa2v",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\sehpacket",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@prepare_inline_function@4",
+              "original_va": "0x656e0",
+              "setup_seconds": 0.26426578871905804,
+              "execution_seconds": 0.9183238884434104,
+              "check_seconds": 0.03682464640587568,
+              "total_seconds": 1.2194148069247603
+            }
+          }
         }
       ]
     }
@@ -59039,7 +59140,7 @@
     },
     "seh": {
       "first": 1311,
-      "last": 1317,
+      "last": 1318,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -60245,9 +60346,10 @@
         "collect_assembly_reference",
         "normalize_assembly_flow_symbol",
         "reference_assembly_flow_symbol",
-        "function_allows_frame_register"
+        "function_allows_frame_register",
+        "prepare_inline_function"
       ],
-      "terminal": "@function_allows_frame_register@4",
+      "terminal": "@prepare_inline_function@4",
       "terminal_kind": "application",
       "returncode": -5,
       "pending_runtime": false

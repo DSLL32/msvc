@@ -1,0 +1,85 @@
+enter @function_allows_frame_register@4 eax 00000000 args 007b2b18
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
+frame_allow function 007b2b18 current 007b2b18 first_work 007b67b8 return_address 0002bf12
+frame_work index 0 pointer 007b67b8 next 007b6774 block 007b0698 flags 0
+frame_work index 1 pointer 007b6774 next 007b66f8 block 007b78e4 flags 2
+frame_block_first work 1 pointer 007b7904
+frame_instruction work 1 index 0 pointer 007b7904 kind 4
+frame_next pointer 007b7924
+frame_instruction work 1 index 1 pointer 007b7924 kind 4
+frame_next pointer 007b03f0
+frame_instruction work 1 index 2 pointer 007b03f0 kind 0
+frame_next pointer 007b7944
+frame_operation operation 1 count 2 implicit 0
+frame_operand index 1 kind 4
+frame_base value 5
+frame_symbol pointer 007b0394
+frame_symbol_kind value 1
+frame_storage value 48
+frame_operand index 0 kind 1
+frame_register value 0
+frame_instruction work 1 index 3 pointer 007b7944 kind 4
+frame_next pointer 007b0410
+frame_instruction work 1 index 4 pointer 007b0410 kind 0
+frame_next pointer 007b7964
+frame_operation operation 39 count 2 implicit 0
+frame_operand index 1 kind 2
+frame_operand index 0 kind 1
+frame_register value 0
+frame_instruction work 1 index 5 pointer 007b7964 kind 4
+frame_next pointer 007b0430
+frame_instruction work 1 index 6 pointer 007b0430 kind 0
+frame_next pointer 007b7984
+frame_operation operation 51 count 2 implicit 0
+frame_operand index 1 kind 2
+frame_operand index 0 kind 1
+frame_register value 0
+frame_instruction work 1 index 7 pointer 007b7984 kind 4
+frame_next pointer 007b0460
+frame_instruction work 1 index 8 pointer 007b0460 kind 0
+frame_next pointer 007b79a4
+frame_operation operation 15 count 1 implicit 0
+frame_operand index 0 kind 8
+frame_instruction work 1 index 9 pointer 007b79a4 kind 4
+frame_next pointer 007b0480
+frame_instruction work 1 index 10 pointer 007b0480 kind 0
+frame_next pointer 007b79c4
+frame_operation operation 52 count 2 implicit 0
+frame_operand index 1 kind 2
+frame_operand index 0 kind 1
+frame_register value 0
+frame_instruction work 1 index 11 pointer 007b79c4 kind 7
+frame_work index 2 pointer 007b66f8 next 007b6a1c block 007b79c4 flags 2
+frame_block_first work 2 pointer 007b79e4
+frame_instruction work 2 index 0 pointer 007b79e4 kind 4
+frame_next pointer 007b7a04
+frame_instruction work 2 index 1 pointer 007b7a04 kind 1
+frame_next pointer 007b7a24
+frame_instruction work 2 index 2 pointer 007b7a24 kind 4
+frame_next pointer 007b04a0
+frame_instruction work 2 index 3 pointer 007b04a0 kind 0
+frame_next pointer 007b7a44
+frame_operation operation 45 count 2 implicit 0
+frame_operand index 1 kind 2
+frame_operand index 0 kind 1
+frame_register value 0
+frame_instruction work 2 index 4 pointer 007b7a44 kind 4
+frame_next pointer 007b04c0
+frame_instruction work 2 index 5 pointer 007b04c0 kind 0
+frame_next pointer 007b7a64
+frame_operation operation 1 count 2 implicit 0
+frame_operand index 1 kind 1
+frame_register value 0
+frame_operand index 0 kind 4
+frame_base value 5
+frame_symbol pointer 007b0394
+frame_symbol_kind value 1
+frame_storage value 48
+frame_instruction work 2 index 6 pointer 007b7a64 kind 4
+frame_next pointer 007b7a84
+frame_instruction work 2 index 7 pointer 007b7a84 kind 7
+frame_work index 3 pointer 007b6a1c next 007b6a60 block 007b7a84 flags 0
+frame_work index 4 pointer 007b6a60 next 00000000 block 007b7ad4 flags 0
+entry_end

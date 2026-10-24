@@ -1,0 +1,882 @@
+{
+  "matched": true,
+  "function": "@function_allows_frame_register@4",
+  "formals": [
+    {
+      "name": "function",
+      "location": "ECX",
+      "type": "Function pointer",
+      "original": 8071960,
+      "native": 1449372672
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "return_contract": "full EAX boolean0/1",
+  "no_hidden_inputs_proof": "Original2f500..2f681 consumes soleECX function, function.work+12, work.next+0/bodyblock+8, block.flags lowbyte+28 and nextinstruction+0. For flaggedblocks only, kind0 instructions read counts/properties of operationbyte+9, explicitregister4/write predicate, implicitmaskbit10/DATA exclusions, and accepted operand mentions ofregister5. Only basedoperand4 with register5 may read address.symbol+4 and conditional kind/TemporarySymbol.attributes+36 storage bits70; other kinds skip/stop atkind7. No incomingEDX/stack/flags/x87/outpointer. Callee-saved registers set before use. Exact RET0/fullboolean paths.",
+  "original": {
+    "function": 8071960,
+    "current": 8071960,
+    "first_work": 8087480,
+    "return_address": 179986,
+    "works": [
+      {
+        "index": 0,
+        "pointer": 8087480,
+        "next": 8087412,
+        "block": 8062616,
+        "flags": 0
+      },
+      {
+        "index": 1,
+        "pointer": 8087412,
+        "next": 8087288,
+        "block": 8091876,
+        "flags": 2,
+        "first": 8091908,
+        "instructions": [
+          {
+            "work": 1,
+            "index": 0,
+            "pointer": 8091908,
+            "kind": 4,
+            "next": 8091940
+          },
+          {
+            "work": 1,
+            "index": 1,
+            "pointer": 8091940,
+            "kind": 4,
+            "next": 8061936
+          },
+          {
+            "work": 1,
+            "index": 2,
+            "pointer": 8061936,
+            "kind": 0,
+            "next": 8091972,
+            "operation": 1,
+            "count": 2,
+            "implicit": 0,
+            "operands": [
+              {
+                "index": 1,
+                "kind": 4,
+                "base": 5,
+                "symbol_pointer": 8061844,
+                "symbol_kind": 1,
+                "storage": 48
+              },
+              {
+                "index": 0,
+                "kind": 1,
+                "reg": 0
+              }
+            ]
+          },
+          {
+            "work": 1,
+            "index": 3,
+            "pointer": 8091972,
+            "kind": 4,
+            "next": 8061968
+          },
+          {
+            "work": 1,
+            "index": 4,
+            "pointer": 8061968,
+            "kind": 0,
+            "next": 8092004,
+            "operation": 39,
+            "count": 2,
+            "implicit": 0,
+            "operands": [
+              {
+                "index": 1,
+                "kind": 2
+              },
+              {
+                "index": 0,
+                "kind": 1,
+                "reg": 0
+              }
+            ]
+          },
+          {
+            "work": 1,
+            "index": 5,
+            "pointer": 8092004,
+            "kind": 4,
+            "next": 8062000
+          },
+          {
+            "work": 1,
+            "index": 6,
+            "pointer": 8062000,
+            "kind": 0,
+            "next": 8092036,
+            "operation": 51,
+            "count": 2,
+            "implicit": 0,
+            "operands": [
+              {
+                "index": 1,
+                "kind": 2
+              },
+              {
+                "index": 0,
+                "kind": 1,
+                "reg": 0
+              }
+            ]
+          },
+          {
+            "work": 1,
+            "index": 7,
+            "pointer": 8092036,
+            "kind": 4,
+            "next": 8062048
+          },
+          {
+            "work": 1,
+            "index": 8,
+            "pointer": 8062048,
+            "kind": 0,
+            "next": 8092068,
+            "operation": 15,
+            "count": 1,
+            "implicit": 0,
+            "operands": [
+              {
+                "index": 0,
+                "kind": 8
+              }
+            ]
+          },
+          {
+            "work": 1,
+            "index": 9,
+            "pointer": 8092068,
+            "kind": 4,
+            "next": 8062080
+          },
+          {
+            "work": 1,
+            "index": 10,
+            "pointer": 8062080,
+            "kind": 0,
+            "next": 8092100,
+            "operation": 52,
+            "count": 2,
+            "implicit": 0,
+            "operands": [
+              {
+                "index": 1,
+                "kind": 2
+              },
+              {
+                "index": 0,
+                "kind": 1,
+                "reg": 0
+              }
+            ]
+          },
+          {
+            "work": 1,
+            "index": 11,
+            "pointer": 8092100,
+            "kind": 7
+          }
+        ]
+      },
+      {
+        "index": 2,
+        "pointer": 8087288,
+        "next": 8088092,
+        "block": 8092100,
+        "flags": 2,
+        "first": 8092132,
+        "instructions": [
+          {
+            "work": 2,
+            "index": 0,
+            "pointer": 8092132,
+            "kind": 4,
+            "next": 8092164
+          },
+          {
+            "work": 2,
+            "index": 1,
+            "pointer": 8092164,
+            "kind": 1,
+            "next": 8092196
+          },
+          {
+            "work": 2,
+            "index": 2,
+            "pointer": 8092196,
+            "kind": 4,
+            "next": 8062112
+          },
+          {
+            "work": 2,
+            "index": 3,
+            "pointer": 8062112,
+            "kind": 0,
+            "next": 8092228,
+            "operation": 45,
+            "count": 2,
+            "implicit": 0,
+            "operands": [
+              {
+                "index": 1,
+                "kind": 2
+              },
+              {
+                "index": 0,
+                "kind": 1,
+                "reg": 0
+              }
+            ]
+          },
+          {
+            "work": 2,
+            "index": 4,
+            "pointer": 8092228,
+            "kind": 4,
+            "next": 8062144
+          },
+          {
+            "work": 2,
+            "index": 5,
+            "pointer": 8062144,
+            "kind": 0,
+            "next": 8092260,
+            "operation": 1,
+            "count": 2,
+            "implicit": 0,
+            "operands": [
+              {
+                "index": 1,
+                "kind": 1,
+                "reg": 0
+              },
+              {
+                "index": 0,
+                "kind": 4,
+                "base": 5,
+                "symbol_pointer": 8061844,
+                "symbol_kind": 1,
+                "storage": 48
+              }
+            ]
+          },
+          {
+            "work": 2,
+            "index": 6,
+            "pointer": 8092260,
+            "kind": 4,
+            "next": 8092292
+          },
+          {
+            "work": 2,
+            "index": 7,
+            "pointer": 8092292,
+            "kind": 7
+          }
+        ]
+      },
+      {
+        "index": 3,
+        "pointer": 8088092,
+        "next": 8088160,
+        "block": 8092292,
+        "flags": 0
+      },
+      {
+        "index": 4,
+        "pointer": 8088160,
+        "next": 0,
+        "block": 8092372,
+        "flags": 0
+      }
+    ]
+  },
+  "native": {
+    "function": 1449372672,
+    "current": 1449372672,
+    "first_work": 1449385192,
+    "caller": "frame_register_can_be_allocated",
+    "works": [
+      {
+        "index": 0,
+        "pointer": 1449385192,
+        "next": 1449385124,
+        "block": 1449373692,
+        "flags": 0
+      },
+      {
+        "index": 1,
+        "pointer": 1449385124,
+        "next": 1449384988,
+        "block": 1449387556,
+        "flags": 2,
+        "first": 1449387588,
+        "instructions": [
+          {
+            "work": 1,
+            "index": 0,
+            "pointer": 1449387588,
+            "kind": 4,
+            "next": 1449387620
+          },
+          {
+            "work": 1,
+            "index": 1,
+            "pointer": 1449387620,
+            "kind": 4,
+            "next": 1449373012
+          },
+          {
+            "work": 1,
+            "index": 2,
+            "pointer": 1449373012,
+            "kind": 0,
+            "next": 1449387652,
+            "operation": 1,
+            "count": 2,
+            "implicit": 0,
+            "operands": [
+              {
+                "index": 1,
+                "kind": 4,
+                "base": 5,
+                "symbol_pointer": 1449372920,
+                "symbol_kind": 1,
+                "storage": 48
+              },
+              {
+                "index": 0,
+                "kind": 1,
+                "reg": 0
+              }
+            ]
+          },
+          {
+            "work": 1,
+            "index": 3,
+            "pointer": 1449387652,
+            "kind": 4,
+            "next": 1449373044
+          },
+          {
+            "work": 1,
+            "index": 4,
+            "pointer": 1449373044,
+            "kind": 0,
+            "next": 1449387684,
+            "operation": 39,
+            "count": 2,
+            "implicit": 0,
+            "operands": [
+              {
+                "index": 1,
+                "kind": 2
+              },
+              {
+                "index": 0,
+                "kind": 1,
+                "reg": 0
+              }
+            ]
+          },
+          {
+            "work": 1,
+            "index": 5,
+            "pointer": 1449387684,
+            "kind": 4,
+            "next": 1449373076
+          },
+          {
+            "work": 1,
+            "index": 6,
+            "pointer": 1449373076,
+            "kind": 0,
+            "next": 1449387716,
+            "operation": 51,
+            "count": 2,
+            "implicit": 0,
+            "operands": [
+              {
+                "index": 1,
+                "kind": 2
+              },
+              {
+                "index": 0,
+                "kind": 1,
+                "reg": 0
+              }
+            ]
+          },
+          {
+            "work": 1,
+            "index": 7,
+            "pointer": 1449387716,
+            "kind": 4,
+            "next": 1449373124
+          },
+          {
+            "work": 1,
+            "index": 8,
+            "pointer": 1449373124,
+            "kind": 0,
+            "next": 1449387748,
+            "operation": 15,
+            "count": 1,
+            "implicit": 0,
+            "operands": [
+              {
+                "index": 0,
+                "kind": 8
+              }
+            ]
+          },
+          {
+            "work": 1,
+            "index": 9,
+            "pointer": 1449387748,
+            "kind": 4,
+            "next": 1449373156
+          },
+          {
+            "work": 1,
+            "index": 10,
+            "pointer": 1449373156,
+            "kind": 0,
+            "next": 1449387780,
+            "operation": 52,
+            "count": 2,
+            "implicit": 0,
+            "operands": [
+              {
+                "index": 1,
+                "kind": 2
+              },
+              {
+                "index": 0,
+                "kind": 1,
+                "reg": 0
+              }
+            ]
+          },
+          {
+            "work": 1,
+            "index": 11,
+            "pointer": 1449387780,
+            "kind": 7
+          }
+        ]
+      },
+      {
+        "index": 2,
+        "pointer": 1449384988,
+        "next": 1449385804,
+        "block": 1449387780,
+        "flags": 2,
+        "first": 1449387812,
+        "instructions": [
+          {
+            "work": 2,
+            "index": 0,
+            "pointer": 1449387812,
+            "kind": 4,
+            "next": 1449387844
+          },
+          {
+            "work": 2,
+            "index": 1,
+            "pointer": 1449387844,
+            "kind": 1,
+            "next": 1449387876
+          },
+          {
+            "work": 2,
+            "index": 2,
+            "pointer": 1449387876,
+            "kind": 4,
+            "next": 1449373188
+          },
+          {
+            "work": 2,
+            "index": 3,
+            "pointer": 1449373188,
+            "kind": 0,
+            "next": 1449387908,
+            "operation": 45,
+            "count": 2,
+            "implicit": 0,
+            "operands": [
+              {
+                "index": 1,
+                "kind": 2
+              },
+              {
+                "index": 0,
+                "kind": 1,
+                "reg": 0
+              }
+            ]
+          },
+          {
+            "work": 2,
+            "index": 4,
+            "pointer": 1449387908,
+            "kind": 4,
+            "next": 1449373220
+          },
+          {
+            "work": 2,
+            "index": 5,
+            "pointer": 1449373220,
+            "kind": 0,
+            "next": 1449387940,
+            "operation": 1,
+            "count": 2,
+            "implicit": 0,
+            "operands": [
+              {
+                "index": 1,
+                "kind": 1,
+                "reg": 0
+              },
+              {
+                "index": 0,
+                "kind": 4,
+                "base": 5,
+                "symbol_pointer": 1449372920,
+                "symbol_kind": 1,
+                "storage": 48
+              }
+            ]
+          },
+          {
+            "work": 2,
+            "index": 6,
+            "pointer": 1449387940,
+            "kind": 4,
+            "next": 1449387972
+          },
+          {
+            "work": 2,
+            "index": 7,
+            "pointer": 1449387972,
+            "kind": 7
+          }
+        ]
+      },
+      {
+        "index": 3,
+        "pointer": 1449385804,
+        "next": 1449385872,
+        "block": 1449387972,
+        "flags": 0
+      },
+      {
+        "index": 4,
+        "pointer": 1449385872,
+        "next": 0,
+        "block": 1449388052,
+        "flags": 0
+      }
+    ]
+  },
+  "projection": [
+    {
+      "block": 0,
+      "flags": 0
+    },
+    {
+      "block": 1,
+      "flags": 2,
+      "first": 0,
+      "instructions": [
+        {
+          "work": 1,
+          "index": 0,
+          "kind": 4,
+          "pointer": 0,
+          "next": 1
+        },
+        {
+          "work": 1,
+          "index": 1,
+          "kind": 4,
+          "pointer": 1,
+          "next": 2
+        },
+        {
+          "work": 1,
+          "index": 2,
+          "kind": 0,
+          "operation": 1,
+          "count": 2,
+          "implicit": 0,
+          "pointer": 2,
+          "next": 3,
+          "operands": [
+            {
+              "index": 1,
+              "kind": 4,
+              "base": 5,
+              "symbol_pointer": 0,
+              "symbol_kind": 1,
+              "storage": 48
+            },
+            {
+              "index": 0,
+              "kind": 1,
+              "reg": 0
+            }
+          ]
+        },
+        {
+          "work": 1,
+          "index": 3,
+          "kind": 4,
+          "pointer": 3,
+          "next": 4
+        },
+        {
+          "work": 1,
+          "index": 4,
+          "kind": 0,
+          "operation": 39,
+          "count": 2,
+          "implicit": 0,
+          "pointer": 4,
+          "next": 5,
+          "operands": [
+            {
+              "index": 1,
+              "kind": 2
+            },
+            {
+              "index": 0,
+              "kind": 1,
+              "reg": 0
+            }
+          ]
+        },
+        {
+          "work": 1,
+          "index": 5,
+          "kind": 4,
+          "pointer": 5,
+          "next": 6
+        },
+        {
+          "work": 1,
+          "index": 6,
+          "kind": 0,
+          "operation": 51,
+          "count": 2,
+          "implicit": 0,
+          "pointer": 6,
+          "next": 7,
+          "operands": [
+            {
+              "index": 1,
+              "kind": 2
+            },
+            {
+              "index": 0,
+              "kind": 1,
+              "reg": 0
+            }
+          ]
+        },
+        {
+          "work": 1,
+          "index": 7,
+          "kind": 4,
+          "pointer": 7,
+          "next": 8
+        },
+        {
+          "work": 1,
+          "index": 8,
+          "kind": 0,
+          "operation": 15,
+          "count": 1,
+          "implicit": 0,
+          "pointer": 8,
+          "next": 9,
+          "operands": [
+            {
+              "index": 0,
+              "kind": 8
+            }
+          ]
+        },
+        {
+          "work": 1,
+          "index": 9,
+          "kind": 4,
+          "pointer": 9,
+          "next": 10
+        },
+        {
+          "work": 1,
+          "index": 10,
+          "kind": 0,
+          "operation": 52,
+          "count": 2,
+          "implicit": 0,
+          "pointer": 10,
+          "next": 11,
+          "operands": [
+            {
+              "index": 1,
+              "kind": 2
+            },
+            {
+              "index": 0,
+              "kind": 1,
+              "reg": 0
+            }
+          ]
+        },
+        {
+          "work": 1,
+          "index": 11,
+          "kind": 7,
+          "pointer": 11
+        }
+      ]
+    },
+    {
+      "block": 2,
+      "flags": 2,
+      "first": 12,
+      "instructions": [
+        {
+          "work": 2,
+          "index": 0,
+          "kind": 4,
+          "pointer": 12,
+          "next": 13
+        },
+        {
+          "work": 2,
+          "index": 1,
+          "kind": 1,
+          "pointer": 13,
+          "next": 14
+        },
+        {
+          "work": 2,
+          "index": 2,
+          "kind": 4,
+          "pointer": 14,
+          "next": 15
+        },
+        {
+          "work": 2,
+          "index": 3,
+          "kind": 0,
+          "operation": 45,
+          "count": 2,
+          "implicit": 0,
+          "pointer": 15,
+          "next": 16,
+          "operands": [
+            {
+              "index": 1,
+              "kind": 2
+            },
+            {
+              "index": 0,
+              "kind": 1,
+              "reg": 0
+            }
+          ]
+        },
+        {
+          "work": 2,
+          "index": 4,
+          "kind": 4,
+          "pointer": 16,
+          "next": 17
+        },
+        {
+          "work": 2,
+          "index": 5,
+          "kind": 0,
+          "operation": 1,
+          "count": 2,
+          "implicit": 0,
+          "pointer": 17,
+          "next": 18,
+          "operands": [
+            {
+              "index": 1,
+              "kind": 1,
+              "reg": 0
+            },
+            {
+              "index": 0,
+              "kind": 4,
+              "base": 5,
+              "symbol_pointer": 0,
+              "symbol_kind": 1,
+              "storage": 48
+            }
+          ]
+        },
+        {
+          "work": 2,
+          "index": 6,
+          "kind": 4,
+          "pointer": 18,
+          "next": 19
+        },
+        {
+          "work": 2,
+          "index": 7,
+          "kind": 7,
+          "pointer": 19
+        }
+      ]
+    },
+    {
+      "block": 3,
+      "flags": 0
+    },
+    {
+      "block": 4,
+      "flags": 0
+    }
+  ],
+  "binding": {
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "manifest_sha256": "a3c1b2119c5bd652d5c54785c0bee71f90ad5ee1c38d31e62b564a1c385b2cc4",
+    "config_sha256": "9af141cf57b73dda15b9c9157a714cacc119a8b886b7a9d33f0c476fdb117fa7",
+    "observer_source_sha256": "1ff952df1d40ed91972e62ae02633be18748b4e28e5d7b65bbdd87c8f9260a4a",
+    "observer_sha256": "9d7fbe130a46238514164a00e9d47c29bcfe6e8cc3f1a1719c70e5bbcb93559a",
+    "files": {
+      "entry-plan.txt": "cb03b2e78a80a220580fe26bbbf70109643f6025fd128e4fe2d181ea3cda250d",
+      "original.txt": "d175805524b339d2845731f8802d4c5666627f4db1f1d7f728fbe29084542ec2",
+      "original.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original.events": "be401b77e7d0cf09f454e2f19b338b8342817c3f18b74b5bfd101cb282e0cadc",
+      "observer.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observer.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "native_executable_sha256": "ad4120f624dc55eff72e87db0ddf2b1349137bcc96fc2fca6478c70e8bf4e11f",
+  "native_shared_source_revision": "45f7a2ace",
+  "original_execution_seconds": 0.9809563038870692,
+  "native_debug_seconds": 0.1457883520051837,
+  "total_seconds": 1.3883351497352123,
+  "scope": "Actual sole formal aliases current_function; closed work.next graph and all flagged-block machine inputs are typed inventory with conditional live operand fields and pointer-alias shape. This is input inventory, not a claim that body executes every listed row before early return. No full descriptors, inactive unions, WorkItem output storage, hidden global seed, child result or branch execution claim. First entry only; full original/canonical controls and fresh frontier acceptance follow."
+}

@@ -244,7 +244,6 @@ void __fastcall prepare_region_insertion(MachineFlowRegion *region) { __asm int 
 void __fastcall replace_machine_definition(unsigned identifier, MachineInstruction *previous, MachineInstruction *replacement) { __asm int 3 }
 void __fastcall record_machine_definition_range(unsigned short number, MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
 void __fastcall record_region_register(MachineFlowRegion *region, unsigned short number, int definition, int use) { __asm int 3 }
-int __fastcall function_allows_frame_register(Function *function) { __asm int 3 }
 int __fastcall register_spill_homes_compatible(RegisterVariable *left, RegisterVariable *right) { __asm int 3 }
 int __fastcall count_shared_register_conflicts(RegisterVariable *left, RegisterVariable *right) { __asm int 3 }
 

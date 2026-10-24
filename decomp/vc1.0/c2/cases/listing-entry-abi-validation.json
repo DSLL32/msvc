@@ -47,6 +47,6 @@
     "wrong actual suffix size",
     "unknown hidden suffix input"
   ],
-  "seconds": 0.021516159176826477,
+  "seconds": 0.1863390626385808,
   "scope": "Actual original/native listing-family formals, known state and static no-hidden-input/RET evidence. First encountered inputs only, including next displacement0/hint0; no arbitrary deep pointer or branch equivalence. No Wine/compiler/native launch."
 }

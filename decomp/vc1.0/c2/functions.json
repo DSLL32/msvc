@@ -1321,7 +1321,8 @@
     "@visit_machine_symbols@12",
     "@collect_assembly_reference@8",
     "@normalize_assembly_flow_symbol@8",
-    "@reference_assembly_flow_symbol@8"
+    "@reference_assembly_flow_symbol@8",
+    "@function_allows_frame_register@4"
   ],
   "driver": [
     {
@@ -6141,8 +6142,21 @@
     {
       "name": "@function_allows_frame_register@4",
       "start": 193792,
-      "end": 193793,
-      "provisional": true
+      "end": 194177,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "function",
+            "location": "ECX",
+            "type": "Function pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/frame-allow-abi/validation.json",
+        "scope": "Original2f500..2f681 consumes soleECX function, function.work+12, work.next+0/bodyblock+8, block.flags lowbyte+28 and nextinstruction+0. For flaggedblocks only, kind0 instructions read counts/properties of operationbyte+9, explicitregister4/write predicate, implicitmaskbit10/DATA exclusions, and accepted operand mentions ofregister5. Only basedoperand4 with register5 may read address.symbol+4 and conditional kind/TemporarySymbol.attributes+36 storage bits70; other kinds skip/stop atkind7. No incomingEDX/stack/flags/x87/outpointer. Callee-saved registers set before use. Exact RET0/fullboolean paths. ActualFunction/current_function alias and closed5-work graph with2assembly blocks typed active operand inventory matched, including repeated stacklocal symbol alias/storage30; no hidden seed. Inventory scope distinct from body branch execution."
+      }
     },
     {
       "name": "@machine_sequence_cost@4",

@@ -1,10 +1,10 @@
 {
   "modules": [
     {
-      "module": "flow-edges",
-      "seconds": 1.1268839640542865,
+      "module": "physical-allocation",
+      "seconds": 1.7536983555182815,
       "returncode": 0
     }
   ],
-  "seconds": 1.1270753517746925
+  "seconds": 1.753916198387742
 }

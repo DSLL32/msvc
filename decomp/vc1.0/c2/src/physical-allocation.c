@@ -5,6 +5,7 @@
 #include "frame.h"
 #include "instruction-rewrite.h"
 #include "function-input.h"
+#include "register-use.h"
 #include <recon.h>
 extern int cpu_model, optimization_cost, force_risc, optimization_risc;
 extern int codeview_debug, omit_frame_pointer;
@@ -589,4 +590,52 @@ void record_debug_register_locations(void)
                     }
                 }
             }
+}
+
+/* Original [0002f500,0002f681). Inline assembly can share the allocator's
+   EBP when it leaves ESP alone and every explicit EBP use belongs to a
+   compiler-managed stack symbol. Block marker kind7 ends the current block. */
+int __fastcall function_allows_frame_register(Function *function)
+{
+    WorkItem *work;
+    MachineBlockHeader *block;
+    MachineInstruction *instruction;
+    MachineOperand *operand;
+    SymbolHeader *symbol;
+    unsigned kind, operation, storage;
+    int count, index;
+    for (work = function->work; work; work = work->next) {
+        block = work->body.block;
+        if (!(block->flags & 2)) continue;
+        for (instruction = block->next; instruction; instruction = instruction->next) {
+            kind = instruction->opcode & 15;
+            if (kind == 7) break;
+            if (kind) continue;
+            operation = (instruction->opcode >> 8) & 255;
+            if (machine_operand_counts[operation] > 0 &&
+                (instruction->operands[0].flags & 15) == OPERAND_REGISTER &&
+                instruction->operands[0].value.reg.words.number == 4 &&
+                writes_first_operand(instruction)) return 0;
+            operation = (instruction->opcode >> 8) & 255;
+            if ((machine_selection_properties[operation] & MC_IMPLICIT_REGISTERS) &&
+                (implicit_register_mask(instruction, 2) & 0x10)) return 0;
+            operation = (instruction->opcode >> 8) & 255;
+            if (operation == MC_DATA) return 0;
+            count = machine_operand_counts[operation];
+            if (count != 1 && count != 2) continue;
+            for (index = count - 1; index >= 0; --index) {
+                operand = &instruction->operands[index];
+                if (!operand_mentions_register(operand, 5)) continue;
+                if ((operand->flags & 15) != OPERAND_BASED) return 0;
+                symbol = operand->value.address->symbol;
+                if (!symbol) return 0;
+                if (symbol->kind == 1) {
+                    storage = ((TemporarySymbol *)symbol)->attributes & 0x70;
+                    if (storage == 0x10 || storage == 0x30) continue;
+                }
+                if (symbol->kind != 19) return 0;
+            }
+        }
+    }
+    return 1;
 }

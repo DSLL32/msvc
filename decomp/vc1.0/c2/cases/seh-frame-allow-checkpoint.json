@@ -1,0 +1,250 @@
+{
+  "checkpoint": 1318,
+  "status": "Whole385B frame-register allowance scan accepted; nextactual SEH preparation entry remains namedtrap.",
+  "function": {
+    "name": "@function_allows_frame_register@4",
+    "start": "0x2f500",
+    "end": "0x2f681",
+    "bytes": 385,
+    "source": "src/physical-allocation.c"
+  },
+  "actual_abi": "cases/frame-allow-abi/validation.json",
+  "controls": "cases/frame-allow-validation.json",
+  "fresh_before": "cases/seh-original-1317.json",
+  "fresh_after": "cases/seh-original-1318.json",
+  "native_after": "cases/seh-original-1318-native.json",
+  "native_suite": "cases/native-all-validation.json",
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1318,
+    "accepted_code_bytes": 348050,
+    "original_code_bytes": 399693,
+    "percentage": 87.07933338837557,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 658
+  },
+  "timings": {
+    "seh-1318-cache": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/seh-original-1317.json",
+        "--extend-after",
+        "cases/seh-original-1318.json"
+      ],
+      "seconds": 0.3672568155452609,
+      "returncode": 0,
+      "log_sha256": "f76cf70b8103a6ae6383113a98cfbfa6ab1fa85fa6be2abfe68b4515469b9b7a"
+    },
+    "seh-1318-controls-prototypes-fixed": {
+      "command": [
+        "python3",
+        "scripts/check-frame-allow.py"
+      ],
+      "seconds": 18.820855881087482,
+      "returncode": 0,
+      "log_sha256": "d53e5d8253c40130c941d1bdc29a12381d7baff32e3951de47ae06b97449c4a5"
+    },
+    "seh-1318-build": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 2.263773742131889,
+      "returncode": 2,
+      "log_sha256": "e06fefdadc808d0f85a85374d968e4c0177d35f82ea0ad241b35a368b3bff077"
+    },
+    "seh-1318-warnings": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "physical-allocation"
+      ],
+      "seconds": 1.8072741776704788,
+      "returncode": 0,
+      "log_sha256": "59fd3cdcbbcf394356cf912f853e7b1e53377e064b6a68aff7d7a2d97f231868"
+    },
+    "seh-1318-build-prototypes-fixed": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 4.5610341457650065,
+      "returncode": 0,
+      "log_sha256": "619c7500c0f394cead991b727d7a542c60403e930e509d28cd0c27605789df16"
+    },
+    "seh-1318-controls": {
+      "command": [
+        "python3",
+        "scripts/check-frame-allow.py"
+      ],
+      "seconds": 0.15198301244527102,
+      "returncode": 1,
+      "log_sha256": "602372d3f787b6e48cee7b807800733178dda4970859c31610e52bebab46078d"
+    },
+    "seh-1318-native": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "seh",
+        "--reference",
+        "cases/seh-original-1318.json"
+      ],
+      "seconds": 0.21139597054570913,
+      "returncode": 0,
+      "log_sha256": "e45aff5d5a027033e255f8ebd7a9a46fb63b0ee0da3230c11229fd86ab2ecb24"
+    },
+    "seh-1318-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 33.84414406120777,
+      "returncode": 0,
+      "log_sha256": "a6cc4210efc929fad7327d704d1b74a8c6b386258f38df8bc409619183c686fb"
+    },
+    "seh-1318-original": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "seh",
+        "--receipt",
+        "cases/seh-original-1318.json"
+      ],
+      "seconds": 1.314239894039929,
+      "returncode": 0,
+      "log_sha256": "74b5f46cf8c407b74189b733f9dc03e41573d755eba7e1a070596b7845d9bf30"
+    },
+    "seh-1318-fixtures": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 1.0560702960938215,
+      "returncode": 0,
+      "log_sha256": "20909c52e76c7834f2b463475b96b042d9c673f84a4c43a123453cf923cb31c8"
+    },
+    "seh-frame-allow-observer-build": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 3.046821314841509,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "seh-frame-allow-entry": {
+      "command": [
+        "python3",
+        "scripts/observe-frame-allow-entry.py"
+      ],
+      "seconds": 1.4523131027817726,
+      "returncode": 0,
+      "log_sha256": "72ecab4d96bb51e20f69070da4254318045b79187828cbb1e7ad960197a4c541"
+    }
+  },
+  "fixture_timing": {
+    "profile": "seh",
+    "terminal": "@prepare_inline_function@4",
+    "returncode": -5,
+    "application_entries": 8,
+    "seeded_entries": 1196,
+    "output": null,
+    "setup_seconds": 0.014632522128522396,
+    "execution_seconds": 0.00675518624484539,
+    "check_seconds": 0.0007481640204787254,
+    "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-699kg1zx/seh"
+  },
+  "build_inputs": "cases/seh-1318-build-inputs.json",
+  "shared_publication": "574227e0e09ab9b2aee5d295ecfa185143a9615d",
+  "actual_suite_shared_hashes": {
+    "lib/recon/include/recon.h": "8fbaf0e450def645e76f7076522d0234e825aea17411bb599789e6cfe6668fcc",
+    "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "lib/recon/include/win32.h": "2f632c34d9af7f726aa0a1a0eb5605c812ab91b205048d0f07e31c4e5174dbd3",
+    "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+    "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+    "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+    "lib/recon/native/float.h": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42",
+    "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+    "lib/recon/native/locale.h": "a4bcba0ad40ff971717170453d1725d8b4452ddfd8411d1a8ed309809d55a13c",
+    "lib/recon/native/malloc.h": "2eb86ea79987793bde23d2016e7d52ad7d5c6a5818a5812f53a072d980934f21",
+    "lib/recon/native/mbctype.h": "4207df36c7093b86502916601050bef8538d5d32a615498e22144d23500c7b7f",
+    "lib/recon/native/mbstring.h": "9f9b8f200a6e7559a4cda5d5ef61f339cc8f4be7076ae44347ea9ce2903021d3",
+    "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+    "lib/recon/native/setjmp.h": "1063e154c5b2277afe91cad791706358b5cc5163b3374e2f2367b8cfd4e7c7a4",
+    "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+    "lib/recon/native/signal.h": "ba3d6621f3f863b022f6aa9f5d6125a584d594a9f3d79ad172a6ae3f8c12a150",
+    "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+    "lib/recon/spawn.py": "1291d343a241e08970d399145196be11a983254b509b3422615895deffda43b4",
+    "lib/recon/src/compat.c": "13d89c42120816762c64ecf591044f899ba3e6e3fd5d27d1d6218adacb8e10ec",
+    "lib/recon/src/crt.c": "dbe8eeed27ae67a9485981f9df1726642c60234fbfc562635c9a4ba112db4dc9",
+    "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+    "lib/recon/src/entry.c": "33f47565b8fd09dcbdf5254cd47bb895de22eaf8c073668a1f2abf2bfe942db0",
+    "lib/recon/src/process.c": "885ae0c197f2f64933598b3d1435af156086f63c664a04b5b99cbae52d89a42d",
+    "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+    "lib/recon/src/win32.c": "d556539a11591642adb8f4c4651d6c5adc134405c02356391982dc55970c7551"
+  },
+  "scope": "370 whole original/canonical controls and8 ABI rejects. Read-only scan of work chains/flag2 blocks/kind7 terminators, all231 original count and bit40-to-normalizedimplicit identities, explicitESP4/implicitbit10/DATA rejection, reverse EBP5 operands with basedlocal role10/30/kind19 exception. Child mutations verify currentopcode reload after writes/implicit query, lateroperand/kind/nextinstruction/nextwork reload. Full boolean/RET0/nonvolatile/allmemory preserved. Mocked child combinations are controls, not valid public input claims. Actual soleFunction/current_function alias and typed5-work/2assembly-block graph/active operand aliases match; inventory differs from actual body execution transcript.",
+  "failures": [
+    {
+      "stage": "canonical link",
+      "seconds": 2.263773742131889,
+      "cause": "Missing register-use.h for two existing fastcall callees caused cdecl symbol references; owning header added, no ABI workaround.",
+      "evidence": "cases/seh-1318-build-failed.log.gz",
+      "inputs": "cases/seh-1318-failed-build-inputs.json"
+    },
+    {
+      "stage": "premature control launch",
+      "seconds": 0.15198301244527102,
+      "cause": "Buildfailure removed canonical PE; no semantic controls ran.",
+      "evidence": "cases/seh-1318-controls-failed.log.gz"
+    }
+  ],
+  "next_frontier": "@prepare_inline_function@4",
+  "next_extent_analysis": {
+    "start": "0x656e0",
+    "end": "0x65725",
+    "bytes": 69,
+    "status": "Proved wrapper extent, unaccepted; prior1616B envelope spans multiple independent functions, not a function size or credit.",
+    "children": [
+      "0x65af0 resethelper",
+      "0x65b00 functionhelper",
+      "0x65730 functiontransform"
+    ]
+  },
+  "case_completion": false,
+  "timing_limits": "Firstbuildfailed2.264s; corrected combined canonical/native/trace/runtime build4.561s. Fullnewcontrols18.821s, W3 1.807s, ordinary audit+coverage33.844s (Rust-only unmeasured), original1.314s/native.211s. Native17 wrapper1.056s with actualsetup/run/check percase recorded separately. Observerbuild3.047s, original/nativeinput observation1.452s. Analysis not continuously measured."
+}

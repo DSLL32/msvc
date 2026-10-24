@@ -475,6 +475,48 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         sprintf(line,"alignment8_segment pointer %08lx member %08lx identifier %lu index %lu alignment %lu combine %lu position %lu object_section %lu\n",segment,member,id,index,read_word(process,segment+48),read_byte(process,segment+53),read_word(process,segment+4),read_word(process,segment+56));log_line(line);
         dump_bytes(process,"alignment8_segment_name_hex",read_word(process,segment+16),string_bytes(process,read_word(process,segment+16)));
     }
+    if(!strcmp(call->name,"@function_allows_frame_register@4")) {
+        DWORD function=call->args[0],work=read_word(process,function+12),wi=0;
+        sprintf(line,"frame_allow function %08lx current %08lx first_work %08lx return_address %08lx\n",
+            function,read_word(process,image_base+0x731b4),work,call->return_address);log_line(line);
+        for(;work;work=read_word(process,work),++wi) {
+            DWORD block=read_word(process,work+8),flags=read_byte(process,block+28),instruction,ii=0;
+            if(wi>=4096)exit(324);
+            sprintf(line,"frame_work index %lu pointer %08lx next %08lx block %08lx flags %lu\n",
+                wi,work,read_word(process,work),block,flags);log_line(line);
+            if(!(flags&2))continue;
+            instruction=read_word(process,block);
+            sprintf(line,"frame_block_first work %lu pointer %08lx\n",wi,instruction);log_line(line);
+            for(;instruction;instruction=read_word(process,instruction),++ii) {
+                DWORD opcode=read_word(process,instruction+8),kind=opcode&15,operation=(opcode>>8)&255;
+                int count,j;
+                if(ii>=65536)exit(325);
+                sprintf(line,"frame_instruction work %lu index %lu pointer %08lx kind %lu\n",wi,ii,instruction,kind);log_line(line);
+                if(kind==7)break;
+                sprintf(line,"frame_next pointer %08lx\n",read_word(process,instruction));log_line(line);
+                if(kind)continue;
+                count=(signed char)read_byte(process,image_base+0x71560+operation);
+                if(count<0||count>2)exit(326);
+                sprintf(line,"frame_operation operation %lu count %d implicit %lu\n",operation,count,
+                    (read_word(process,image_base+0x72210+2*operation)&0x40)!=0);log_line(line);
+                for(j=count-1;j>=0;--j) {
+                    DWORD operand=instruction+16+8*j,okind=read_word(process,operand)&15,address=0,symbol=0,base=0,index=0;
+                    sprintf(line,"frame_operand index %d kind %lu\n",j,okind);log_line(line);
+                    if(okind==1){sprintf(line,"frame_register value %lu\n",read_word(process,operand+4)&65535);log_line(line);}
+                    if(okind==4||okind==5) {
+                        address=read_word(process,operand+4);
+                        if(okind==5){index=read_word(process,address+12)&65535;sprintf(line,"frame_index value %lu\n",index);log_line(line);}
+                        if(okind==4||index!=5){base=read_word(process,address+8)&65535;sprintf(line,"frame_base value %lu\n",base);log_line(line);}
+                        if(okind==4&&base==5) {
+                            symbol=read_word(process,address+4);sprintf(line,"frame_symbol pointer %08lx\n",symbol);log_line(line);
+                            if(symbol){DWORD skind=read_byte(process,symbol+12);sprintf(line,"frame_symbol_kind value %lu\n",skind);log_line(line);
+                                if(skind==1){sprintf(line,"frame_storage value %lu\n",read_word(process,symbol+36)&0x70);log_line(line);}}
+                        }
+                    }
+                }
+            }
+        }
+    }
     if(!strcmp(call->name,"@normalize_assembly_flow_symbol@8")||
        !strcmp(call->name,"@reference_assembly_flow_symbol@8")) {
         DWORD symbol=call->args[0],identifier=read_word(process,symbol+28);

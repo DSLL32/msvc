@@ -1089,3 +1089,17 @@ a shared-header dependency rebuild; controls 1.728s, audit/coverage 32.413s.
 Check 3.137s includes shared CRT relink; actual fixture loop 1.174s. Next is
 the 385-byte inline-assembly frame-register allowance scan. Full evidence:
 cases/seh-reference-assembly-checkpoint.json.
+
+At 1318 the whole 385-byte inline-assembly frame-register allowance scan is
+accepted. The actual Function/current-function identity and five-work graph
+match, including two assembly blocks and active local-symbol operand aliases.
+The 370 whole original/canonical controls and eight ABI rejects verify explicit
+ESP writes, implicit ESP mask, DATA, EBP local exceptions, all 231 existing
+count/implicit-property identities and fresh reads after child mutations.
+Original /W3, graph/ABI/storage audits, fresh pair and all 17 native cases pass
+on explicitly frozen published 574227 inputs. A missing owning header caused
+one canonical link failure; fixed fastcall declarations and retained failure
+logs. Corrected build 4.561s, full controls 18.821s, audit/coverage 33.844s;
+fixture wrapper 1.056s. Next SEH preparation wrapper is only 69 bytes: the
+earlier 1616-byte analysis envelope contains several separate functions, each
+still trapped. Receipt: cases/seh-frame-allow-checkpoint.json.
