@@ -6,20 +6,71 @@ from case_inputs import verify_dependencies
 from clock_packet import decode
 from link_provider import binding,copy_raw,digest,encoded
 
+PROJECT=Path(__file__).resolve().parents[1];ROOT=PROJECT.parents[2]
+
 def response_packet(directory):
     packet=decode(directory,response=True)
     return {**packet['LINK'],'clock':packet['clock']}
 
+def cached_packet():
+    case=PROJECT/'cases/link-timing';reference=case/'reference'
+    master=json.loads((reference/'fixture.json').read_bytes())
+    raw=(case/'dependency-packet.json').read_bytes()
+    assert digest(raw)==master['clock_response_sha256']
+    proof=master['clock_response_provenance']
+    assert proof['file']=='packet-provenance.json'
+    content=(reference/proof['file']).read_bytes();assert digest(content)==proof['sha256']
+    provenance=json.loads(content)
+    assert provenance['schema']==1 and provenance['kind']=='explicit offline raw-derived clock response'
+    assert provenance['packet_sha256']==digest(raw) and provenance['capture_sha256']==master['capture_sha256']
+    assert {'clock_packet.py','link_response.py','dependency_response.py','clock_provider.py'}<=set(provenance['sources'])
+    for name,record in provenance['sources'].items():
+        assert Path(name).name==name and record['file']=='packet-sources/'+name
+        source=(reference/record['file']).read_bytes()
+        assert len(source)==record['bytes']and digest(source)==record['sha256']
+        assert record['historical_source']=='decomp/vc5.10/cl/scripts/'+name
+    packet=json.loads(raw);assert packet['case']=='link-timing'and packet['clock']['expected_calls']==2
+    assert packet['parent']['status']==0 and packet['parent']['unlink_calls']==1
+    capture=(reference/'original/capture.json').read_bytes()
+    assert digest(capture)==master['capture_sha256']==packet['capture']['sha256']
+    observed=json.loads(capture)
+    assert observed['clock_response']is True and observed['baseline']is False and observed['controller_error']is None
+    manifest=(reference/'original-files.json').read_bytes()
+    assert digest(manifest)==master['owned_original']['sha256']
+    inventory=json.loads(manifest)
+    assert inventory['source_capture_sha256']==master['capture_sha256']
+    return packet,inventory['files']
+
+def copy_cached(original,destination):
+    reference=PROJECT/'cases/link-timing/reference/original'
+    assert original.resolve()==reference.resolve(),'unknown cached timing oracle'
+    packet,inventory=cached_packet();destination.mkdir()
+    names=['MSVCRT.DLL','MSPDB50.DLL','observer/link-output/test.exe']
+    names+=['observer/link-input/'+name for name in packet['child']['inputs']]
+    for name in names:
+        source=original/name;record=inventory[name];raw=source.read_bytes()
+        assert record['bytes']==len(raw)and record['sha256']==digest(raw)
+        if source.is_symlink():
+            assert record.get('repository_original')
+            expected=(ROOT/record['repository_original']).resolve()
+            assert not source.readlink().is_absolute()and source.resolve()==expected and expected.is_relative_to(ROOT/'toolchains/5.10')
+        target=destination/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(raw)
+    return packet
+
 class Provider:
     def __init__(self,original,directory,spawn_reader,cached_fixture=False):
-        assert not cached_fixture,'timing regression not enabled before completed-case review'
         self.directory=Path(directory).resolve();self.raw=self.directory/'clock-original'
-        copy_raw(Path(original),self.raw);self.response=response_packet(self.raw)
+        if cached_fixture:
+            self.response=copy_cached(Path(original),self.raw)
+        else:
+            copy_raw(Path(original),self.raw,'link-timing');self.response=response_packet(self.raw)
         self.identity=digest(encoded(self.response));self.requests=[];self.effects=[]
-        self.initial_files=None;self.cached_fixture=False
+        self.initial_files=None;self.cached_fixture=cached_fixture
         self.response_path=self.directory/'link-response.json'
         self.response_path.write_bytes(encoded(self.response))
         (self.directory/'clock-response.json').write_bytes(encoded(self.response))
+        if cached_fixture:(self.directory/'cached-clock-fixture.json').write_bytes(encoded({
+            'mode':'cached native regression; never fresh acceptance','response_sha256':self.identity}))
         self.binding_path=self.directory/'link-binding.bin';self.binding_path.write_bytes(binding(self.response))
         zone=Path('/usr/share/zoneinfo/UTC');assert zone.is_file()
         self.host_inputs={'TZ':'UTC','TZDIR':'/usr/share/zoneinfo','zonefile':{
@@ -82,7 +133,7 @@ class Provider:
     def finish(self,pid):
         receipt={'pid':pid,'response_sha256':self.identity,'binding_sha256':digest(self.binding_path.read_bytes()),
             'requests':self.broker.requests,'wire':self.requests,'effects':self.effects,
-            'broker_errors':list(self.broker.errors),'cached_fixture':False}
+            'broker_errors':list(self.broker.errors),'cached_fixture':self.cached_fixture}
         (self.directory/'clock-native.json').write_bytes(encoded(receipt))
         self.broker.check();assert not self.broker.errors,self.broker.errors
         assert len(self.broker.requests)==len(self.effects)==len(self.requests)==1
@@ -124,9 +175,13 @@ def projection(response):
         'CRT_OS_FILE_stream_ownership_unchanged':True,'unlink_calls':response['parent']['unlink_calls'],
         'output_sha256':response['child']['output']['sha256']}
 
-def verify(directory):
+def verify(directory,cached_fixture=False):
     directory=Path(directory);response=json.loads((directory/'clock-response.json').read_bytes())
-    assert response==response_packet(directory/'clock-original')
+    native=json.loads((directory/'clock-native.json').read_bytes())
+    assert native['cached_fixture']is cached_fixture and not native['broker_errors']
+    assert (directory/'cached-clock-fixture.json').exists()is cached_fixture
+    if cached_fixture:assert response==cached_packet()[0]
+    else:assert response==response_packet(directory/'clock-original')
     assert response==json.loads((directory/'link-response.json').read_bytes())
     identity=digest(encoded(response));assert binding(response)==(directory/'link-binding.bin').read_bytes()
     host=json.loads((directory/'clock-host-inputs.json').read_bytes())
@@ -135,9 +190,13 @@ def verify(directory):
     assert host['response_sha256']==identity and host['target_TZ']=='absent; CRT and OS namespaces remain bound to the original'
     zone=Path('/usr/share/zoneinfo/UTC')
     assert host['zonefile']=={'path':str(zone),'resolved_path':str(zone.resolve()),'sha256':digest(zone.read_bytes())}
-    assert json.loads((directory/'config.json').read_bytes())==json.loads((directory/'clock-original/config.json').read_bytes())
-    native=json.loads((directory/'clock-native.json').read_bytes())
-    assert native['cached_fixture']is False and not native['broker_errors']
+    if not cached_fixture:
+        assert json.loads((directory/'config.json').read_bytes())==json.loads((directory/'clock-original/config.json').read_bytes())
+    else:
+        assert response['clock']['expected_calls']==2
+    if cached_fixture:
+        assert json.loads((directory/'cached-clock-fixture.json').read_bytes())=={
+            'mode':'cached native regression; never fresh acceptance','response_sha256':identity}
     assert native['response_sha256']==identity and native['binding_sha256']==digest(binding(response))
     pid=json.loads((directory/'native-process.json').read_bytes())['pid'];assert native['pid']==pid
     assert len(native['requests'])==len(native['effects'])==len(native['wire'])==1
@@ -167,6 +226,7 @@ def verify(directory):
         else:assert not current.exists()
     raw=(directory/'test.exe').read_bytes()
     assert expected['output']=={'name':'test.exe','bytes':len(raw),'sha256':digest(raw)}
-    from clock_state import verify as state
-    state(directory,response,identity,pid)
+    if not cached_fixture:
+        from clock_state import verify as state
+        state(directory,response,identity,pid)
     return projection(response)

@@ -1,0 +1,23 @@
+{
+  "scope": "Accepted first13B helper; timing case not yet complete; no cached timing fixture claimed",
+  "build": {
+    "original_make_j4": {
+      "seconds": 3.724333263002336,
+      "status": 0
+    },
+    "native": "not separately timed"
+  },
+  "original_capture": {
+    "setup_seconds": 0.02387948241084814,
+    "reference_execution_seconds": 1.900796540081501
+  },
+  "native_GDB_capture_seconds": 0.3242633156478405,
+  "graph_audit_seconds": 0.6684843255206943,
+  "checks": {
+    "start-timer-raw-controls.json": 6.297354657202959,
+    "start-timer-native-controls.json": 19.87758765090257,
+    "start-timer-host-controls.json": 1.5872872229665518,
+    "start-timer-old-link-host-controls.json": 1.606529782526195,
+    "start-timer-fp-controls.json": 5.003490277566016
+  }
+}

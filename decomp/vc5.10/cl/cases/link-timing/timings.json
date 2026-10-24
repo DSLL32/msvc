@@ -1,0 +1,333 @@
+{
+  "case": "link-timing",
+  "build": {
+    "seconds": 3.764756021089852,
+    "status": 0,
+    "parallel_jobs": 4
+  },
+  "original_reference": {
+    "execution": {
+      "setup_seconds": 0.0237419493496418,
+      "reference_execution_seconds": 3.1544742919504642
+    },
+    "note": "Exactly one required masked stop_timer capture; retained unchanged for native-only controller/cache updates."
+  },
+  "native_GDB_seconds": 0.3659066427499056,
+  "audit_seconds": 0.6638573063537478,
+  "fixture_before_cache_split": {
+    "passed": true,
+    "case": "link-timing",
+    "mode": "cached native regression; fresh GDB proof separate",
+    "application_entries": 72,
+    "status": 0,
+    "object_input_bytes": 275,
+    "response_input_bytes": 82,
+    "executable_output_bytes": 1024,
+    "LINK_calls": 1,
+    "mktemp_calls": 1,
+    "clock_calls": 2,
+    "clock_inventory": "Actual uninstrumented host finish requires shared configured-clock counter2",
+    "native_sha256": "0174be281fec4f298f0eb5dadb67b0bc1fc9c1a43ccd0d60e9505f800207b4cc",
+    "seconds": {
+      "build": 0.006858468055725098,
+      "setup": 0.586150299757719,
+      "execution": 0.016090109944343567,
+      "checks": 0.9693104168400168,
+      "total": 1.6455419268459082
+    }
+  },
+  "fixture": {
+    "passed": true,
+    "case": "link-timing",
+    "mode": "cached native regression; fresh GDB proof separate",
+    "application_entries": 72,
+    "status": 0,
+    "object_input_bytes": 275,
+    "response_input_bytes": 82,
+    "executable_output_bytes": 1024,
+    "LINK_calls": 1,
+    "mktemp_calls": 1,
+    "clock_calls": 2,
+    "clock_inventory": "Actual uninstrumented host finish requires shared configured-clock counter2",
+    "native_sha256": "0174be281fec4f298f0eb5dadb67b0bc1fc9c1a43ccd0d60e9505f800207b4cc",
+    "seconds": {
+      "build": 0.009088254533708096,
+      "setup": 0.047814405523240566,
+      "execution": 0.016135171055793762,
+      "checks": 0.02618772629648447,
+      "total": 0.14986306056380272
+    }
+  },
+  "all_cached_fixtures": {
+    "passed": true,
+    "cases": [
+      {
+        "schema": 1,
+        "case": "help",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 50,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 141,
+        "mktemp_calls": 1,
+        "native_sha256": "0174be281fec4f298f0eb5dadb67b0bc1fc9c1a43ccd0d60e9505f800207b4cc",
+        "seconds": {
+          "build": 0.006585759110748768,
+          "setup": 0.0016645090654492378,
+          "execution": 0.003704776056110859,
+          "checks": 0.0006238128989934921,
+          "total": 0.029597978107631207
+        }
+      },
+      {
+        "case": "minimal-c",
+        "passed": true,
+        "mode": "cached native regression; fresh GDB proof separate",
+        "application_entries": 75,
+        "status": 0,
+        "object_bytes": 275,
+        "C1_calls": 1,
+        "C2_calls": 1,
+        "mktemp_calls": 1,
+        "native_sha256": "0174be281fec4f298f0eb5dadb67b0bc1fc9c1a43ccd0d60e9505f800207b4cc",
+        "held_trial": true,
+        "seconds": {
+          "setup": 0.7988941865041852,
+          "execution": 0.06416402105242014,
+          "checks": 0.3587927035987377,
+          "total": 1.2218861896544695
+        }
+      },
+      {
+        "schema": 1,
+        "case": "response-options",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 56,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 0,
+        "mktemp_calls": 1,
+        "native_sha256": "0174be281fec4f298f0eb5dadb67b0bc1fc9c1a43ccd0d60e9505f800207b4cc",
+        "seconds": {
+          "build": 0.006609521806240082,
+          "setup": 0.002022458240389824,
+          "execution": 0.0077962726354599,
+          "checks": 0.0006664274260401726,
+          "total": 0.029885555617511272
+        }
+      },
+      {
+        "schema": 1,
+        "case": "usage",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 14,
+        "stdout_bytes": 61,
+        "stderr_bytes": 141,
+        "mktemp_calls": 0,
+        "native_sha256": "0174be281fec4f298f0eb5dadb67b0bc1fc9c1a43ccd0d60e9505f800207b4cc",
+        "seconds": {
+          "build": 0.006552604027092457,
+          "setup": 0.0016710655763745308,
+          "execution": 0.0037713488563895226,
+          "checks": 0.0005693119019269943,
+          "total": 0.025328639894723892
+        }
+      },
+      {
+        "schema": 1,
+        "case": "unknown-option",
+        "passed": true,
+        "full_dword_status": 2,
+        "application_entries": 56,
+        "stdout_bytes": 0,
+        "stderr_bytes": 139,
+        "mktemp_calls": 1,
+        "native_sha256": "0174be281fec4f298f0eb5dadb67b0bc1fc9c1a43ccd0d60e9505f800207b4cc",
+        "seconds": {
+          "build": 0.00677543506026268,
+          "setup": 0.002023502252995968,
+          "execution": 0.003761604428291321,
+          "checks": 0.0006519956514239311,
+          "total": 0.026699389331042767
+        }
+      },
+      {
+        "schema": 1,
+        "case": "preprocessor-pass-options",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 53,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 0,
+        "mktemp_calls": 1,
+        "native_sha256": "0174be281fec4f298f0eb5dadb67b0bc1fc9c1a43ccd0d60e9505f800207b4cc",
+        "seconds": {
+          "build": 0.00676666758954525,
+          "setup": 0.0018055224791169167,
+          "execution": 0.007955563254654408,
+          "checks": 0.0006867889314889908,
+          "total": 0.03140316437929869
+        }
+      },
+      {
+        "schema": 1,
+        "case": "explicit-inputs",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 57,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 0,
+        "mktemp_calls": 1,
+        "native_sha256": "0174be281fec4f298f0eb5dadb67b0bc1fc9c1a43ccd0d60e9505f800207b4cc",
+        "seconds": {
+          "build": 0.006921255029737949,
+          "setup": 0.0018737372010946274,
+          "execution": 0.007952469401061535,
+          "checks": 0.0006839493289589882,
+          "total": 0.031507340259850025
+        }
+      },
+      {
+        "schema": 1,
+        "case": "macro-language-conflict",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 54,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 58,
+        "mktemp_calls": 1,
+        "native_sha256": "0174be281fec4f298f0eb5dadb67b0bc1fc9c1a43ccd0d60e9505f800207b4cc",
+        "seconds": {
+          "build": 0.006760202348232269,
+          "setup": 0.0018539642915129662,
+          "execution": 0.007910851389169693,
+          "checks": 0.0006606420502066612,
+          "total": 0.03132589627057314
+        }
+      },
+      {
+        "schema": 1,
+        "case": "optimization-defaults",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 52,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 0,
+        "mktemp_calls": 1,
+        "native_sha256": "0174be281fec4f298f0eb5dadb67b0bc1fc9c1a43ccd0d60e9505f800207b4cc",
+        "seconds": {
+          "build": 0.006698812358081341,
+          "setup": 0.0018742792308330536,
+          "execution": 0.007971062324941158,
+          "checks": 0.0007533794268965721,
+          "total": 0.03171117324382067
+        }
+      },
+      {
+        "passed": true,
+        "case": "link-object",
+        "mode": "cached native regression; fresh GDB proof separate",
+        "application_entries": 69,
+        "status": 0,
+        "object_input_bytes": 275,
+        "response_input_bytes": 82,
+        "executable_output_bytes": 1024,
+        "LINK_calls": 1,
+        "mktemp_calls": 1,
+        "native_sha256": "0174be281fec4f298f0eb5dadb67b0bc1fc9c1a43ccd0d60e9505f800207b4cc",
+        "seconds": {
+          "build": 0.007896841503679752,
+          "setup": 0.20793254300951958,
+          "execution": 0.01593280490487814,
+          "checks": 0.2573200771585107,
+          "total": 0.5574651090428233
+        }
+      },
+      {
+        "passed": true,
+        "case": "link-timing",
+        "mode": "cached native regression; fresh GDB proof separate",
+        "application_entries": 72,
+        "status": 0,
+        "object_input_bytes": 275,
+        "response_input_bytes": 82,
+        "executable_output_bytes": 1024,
+        "LINK_calls": 1,
+        "mktemp_calls": 1,
+        "clock_calls": 2,
+        "clock_inventory": "Actual uninstrumented host finish requires shared configured-clock counter2",
+        "native_sha256": "0174be281fec4f298f0eb5dadb67b0bc1fc9c1a43ccd0d60e9505f800207b4cc",
+        "seconds": {
+          "build": 0.008138333447277546,
+          "setup": 0.04654870182275772,
+          "execution": 0.01607873197644949,
+          "checks": 0.025725657120347023,
+          "total": 0.14995094388723373
+        }
+      },
+      {
+        "schema": 1,
+        "case": "link-naming",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 72,
+        "stdout_bytes": 199,
+        "stderr_bytes": 0,
+        "mktemp_calls": 1,
+        "native_sha256": "0174be281fec4f298f0eb5dadb67b0bc1fc9c1a43ccd0d60e9505f800207b4cc",
+        "seconds": {
+          "build": 0.008890237659215927,
+          "setup": 0.006536682136356831,
+          "execution": 0.008021669462323189,
+          "checks": 0.002978467382490635,
+          "total": 0.04123241547495127
+        }
+      },
+      {
+        "schema": 1,
+        "case": "grouped-dry-run",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 75,
+        "stdout_bytes": 792,
+        "stderr_bytes": 0,
+        "mktemp_calls": 1,
+        "native_sha256": "0174be281fec4f298f0eb5dadb67b0bc1fc9c1a43ccd0d60e9505f800207b4cc",
+        "seconds": {
+          "build": 0.007738612592220306,
+          "setup": 0.04579327907413244,
+          "execution": 0.007907960563898087,
+          "checks": 0.006018426269292831,
+          "total": 0.08132413029670715
+        }
+      }
+    ],
+    "total_seconds": 3.265925230458379
+  },
+  "fresh_control_campaigns": {
+    "stop-timer-original-controls": {
+      "count": 42,
+      "seconds": 10.050426794216037
+    },
+    "stop-timer-native-controls": {
+      "count": 45,
+      "seconds": 21.864615955390036
+    },
+    "stop-timer-fp-controls": {
+      "count": 29,
+      "seconds": 8.383770177140832
+    },
+    "stop-timer-terminal-controls": {
+      "count": 15,
+      "seconds": 8.557460129261017
+    },
+    "stop-timer-cache-controls": {
+      "count": 24,
+      "seconds": 0.33659542817622423
+    }
+  },
+  "reused_controls": "Unchanged prior start_timer/controller/mode/protocol and real-clock missing/extra inventory controls retained by historical source/contract hashes; no repeat campaign claimed.",
+  "fresh_original_captures": 1,
+  "native_only_controller_refreshes": 1
+}

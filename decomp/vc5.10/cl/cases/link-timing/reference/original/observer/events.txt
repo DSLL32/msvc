@@ -1,0 +1,15 @@
+module-unload event=15 base=10000000
+module-unload event=17 base=10000000
+state phase=spawn-before teb=3ffe2000 tid=1792 tls_index=1 ptd=00890100
+snapshot phase=spawn-before event=93 tid=1792 eax=00000002 esp=0031f1bc ebp=0031f220
+state phase=spawn-after teb=3ffe2000 tid=1792 tls_index=1 ptd=00890100
+snapshot phase=spawn-after event=94 tid=1792 eax=00000000 esp=0031f1bc ebp=0031f220
+observed-child family=link result=00000000 putenv_calls=0
+return api=spawn result=00000000 esp=0031f1bc
+state phase=unlink-1-before teb=3ffe2000 tid=1792 tls_index=1 ptd=00890100
+unlink-call sequence=1 function=7801e4fc argument=0031fa74 esp=0031fa70
+state phase=unlink-1-after teb=3ffe2000 tid=1792 tls_index=1 ptd=00890100
+unlink-return sequence=1 result=00000000 esp=0031fa70
+state phase=exit-before teb=3ffe2000 tid=1792 tls_index=1 ptd=00890100
+snapshot phase=exit-before event=104 tid=1792 eax=004095d8 esp=0031fe9c ebp=0031ff00
+exit-call status=0 function=7800509a esp=0031fe9c

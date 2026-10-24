@@ -14,8 +14,8 @@ acceptance journal for the measured evidence.
 
 Help, usage, response/options, the genuine minimal-C compile and an intentional
 unknown-option diagnostic and public preprocessor/pass controls are complete.
-There are now 103 accepted application functions /17,470 original extent bytes
-(91.65% of whole `.text`); the non-CRT
+There are now 104 accepted application functions /17,609 original extent bytes
+(92.38% of whole `.text`); the non-CRT
 denominator remains unclassified. The response-file/options/help case adds five driver functions with 56 actual
 entries, its own cached streams/input/trace and a ~31ms native fixture. The compile executes 75
 distinct application entries, produces the exact 275-byte object and `test.c`
@@ -31,16 +31,26 @@ minimal executable takes about 64 ms and help about 4 ms, with setup/checks spli
 Minimal-C has a separately captured errno0/doserrno0/LastError0 entry profile.
 Its source bytes, arguments and entry state are part of every comparison.
 
-The next case times an existing-object LINK with `/Bt`. Its initial original
-and native executions stop at `start_timer`. A separate baseline-only analysis
-records both actual `_ftime` calls, the complete LINK request/result and a
-0.823-second diagnostic. `cases/link-timing/analysis/` owns the raw evidence and
-hash references to existing toolchain files; it is rejected as fresh acceptance.
-The 13-byte start helper is accepted with its own fresh masked original/native
-clock/child/state proof and graph/ABI/import audits. Its original run took
-1.90 seconds and its native GDB capture 0.32 seconds. `stop_timer` remains a named trap. The whole timer/caller
-proof records that timezone-name labels are unconsumed; original Greenwich
-labels are retained, without claiming equality to the native provider labels.
+The `/Bt` existing-object LINK timing case is complete. It matches 72 actual
+application entries, two `_ftime` calls, the exact timing diagnostic, one strict
+LINK invocation, its 1,024-byte output and response cleanup. The timer helpers
+add 152 original application bytes. Fresh candidate proofs retain full typed
+GDB clock/child/FILE/error/FP state; the cached native fixture takes about 150 ms,
+including 16 ms in CL. Its immutable raw-derived packet is bound to the original
+receipt and 14 frozen decoder source files. Regressions check the actual complete
+child input/effects, two-call clock inventory, status, streams and entry trace;
+they never regenerate that packet or decode the exhaustive original capture.
+The prior 1.65-second fixture and identical executable timings are retained in
+`cases/link-timing/timings.json`. All 13 cached cases pass in 3.27 seconds.
+
+The whole timer/caller proof records that timezone-name labels are unconsumed;
+original Greenwich labels remain retained without equality to native PST/PDT.
+Architectural x87 fields are strict, with only the observed inert Win32/Linux
+CS/DS representation qualified under empty tags, zero pointers and no metadata
+consumer. Baseline analysis, failed UTC0 input, initial start-only frontier and
+final normal completion remain separate owned evidence; no baseline or cached
+fixture can serve as fresh acceptance. Original-toolchain and native builds
+pass with `make -j4`.
 
 The unknown-option case reconstructs warning, variadic message output and fatal
 diagnostics. It matches 56 application entries, 139 stderr bytes and the intended

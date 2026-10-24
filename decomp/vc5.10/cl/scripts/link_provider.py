@@ -13,13 +13,14 @@ digest=lambda data:hashlib.sha256(data).hexdigest()
 encoded=lambda value:(json.dumps(value,sort_keys=True,indent=2)+'\n').encode()
 
 
-def copy_raw(original,destination):
+def copy_raw(original,destination,case_name='link-object'):
     capture=json.loads((original/'capture.json').read_bytes());destination.mkdir()
     for name in ['capture.json',*capture['files']]:
         relative=Path(name);assert not relative.is_absolute() and '..'not in relative.parts
         source=original/relative;target=destination/relative;target.parent.mkdir(parents=True,exist_ok=True)
         if source.is_symlink():
-            proof=json.loads((PROJECT/'cases/link-object/reference/original-files.json').read_bytes())['files'][name]
+            assert case_name in('link-object','link-timing')
+            proof=json.loads((PROJECT/'cases'/case_name/'reference/original-files.json').read_bytes())['files'][name]
             assert proof.get('repository_original')
             expected=(ROOT/proof['repository_original']).resolve()
             assert not Path(source.readlink()).is_absolute() and expected.is_relative_to(ROOT/'toolchains/5.10') and source.resolve()==expected

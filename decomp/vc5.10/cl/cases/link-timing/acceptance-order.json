@@ -11,6 +11,16 @@
         "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-fp2/pair.json",
         "sha256": "b47ebce88afa8691e812eba03b7d8c529f6048f85ce8d9fbacfd189ec54fb87c"
       }
+    },
+    {
+      "order": 2,
+      "candidate": "_stop_timer",
+      "class": "application",
+      "extent_bytes": 139,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2/pair.json",
+        "sha256": "043cb1ac22cdc62e5e86c63412d6c3ef40a2bb2f68fb76608f1ef114012be5af"
+      }
     }
   ]
 }

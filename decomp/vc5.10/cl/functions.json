@@ -115,7 +115,8 @@
     "_file_directory",
     "_make_map_name",
     "_advance_jobs",
-    "_start_timer"
+    "_start_timer",
+    "_stop_timer"
   ],
   "driver": [
     {
@@ -1775,9 +1776,31 @@
       "name": "_stop_timer",
       "native_symbol": "stop_timer",
       "start": 4215818,
-      "end": 4215819,
-      "pending_extent": true,
-      "state": "named INT3 frontier"
+      "end": 4215957,
+      "pending_extent": false,
+      "state": "implemented; pending fresh two-clock normal-completion proof",
+      "source": "src/timing.c",
+      "evidence": {
+        "kind": "Complete139B body, actual preceding candidate name/global input plus baseline observations of both clock effects; source credit only after fresh candidate proof",
+        "path": "cases/link-timing/analysis/decoded/clock-consumers.json"
+      },
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "name",
+            "type": "char *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "hidden_global_inputs": [
+          "default_c_language",
+          "timer_started complete12B static object"
+        ],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete EBPframe body reads name atEBP+8; ESI/EDI saved before assignment, no read-before-definition register parameters. Reads prior time/millitm; writes separate static timeb and local8B digit buffer."
+      }
     },
     {
       "name": "_execute_pass",

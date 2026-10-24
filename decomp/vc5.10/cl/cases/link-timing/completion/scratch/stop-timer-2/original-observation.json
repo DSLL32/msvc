@@ -1,0 +1,235 @@
+{
+  "candidate": "_stop_timer",
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "native_sha256": "0174be281fec4f298f0eb5dadb67b0bc1fc9c1a43ccd0d60e9505f800207b4cc",
+  "rebuilt_sha256": "3e9fa9bddf9f51069e0d5e4a369c2b7c44f65c18c4816b4a811a7a71e7a4f477",
+  "trial_mask_sha256": "63e98418d14a1f29e431339173d72603927605209cf2275580cf04d1e2ece491",
+  "platform": "original",
+  "trial_identity": "daa0c167d00b92a9769fcc3f3db455e024e626143d2646d86bc7e213e8719cfe",
+  "config_snapshot": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/config.json",
+    "sha256": "4600030ca51df39af7fa0b02fd5c6b419573d2944ae333988415001758e6eef0"
+  },
+  "case": "link-timing",
+  "arguments": [
+    "/nologo",
+    "/Bt",
+    "/Fetest.exe",
+    "test.obj",
+    "/link",
+    "/ENTRY:main",
+    "/SUBSYSTEM:CONSOLE",
+    "/NODEFAULTLIB"
+  ],
+  "files": {
+    "stdout": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/stdout.bin",
+      "sha256": "b0892eb790c7c6d52e0bc8462e4abbb8f72555ee5ba08295a9d54aa85252fc02"
+    },
+    "stderr": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/stderr.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "state": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/state-derived-b0a5a82ac9251257.json",
+      "sha256": "b0a5a82ac9251257d830938a20973fec29b0df876a6d3dc02d57a9e7214c6774"
+    },
+    "trace": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/trace.txt",
+      "sha256": "085184976653c244b09f26585df0dc38147c2d37ae253ad96dcbdb4a243e0d36"
+    },
+    "entry_guards": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/entries.txt",
+      "sha256": "ba9e08a243cf2b52230089d21fe93e313acda5d0dbc76f51a6e3b887a82ee809"
+    },
+    "events": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/events.txt",
+      "sha256": "b8ff958937969a412e23787f591d4fe2c43846eab533f4bdae7c1a07b3ec21b8"
+    },
+    "loaded_msvcrt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/loaded-msvcrt.bin",
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    "loaded_target": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/loaded-target.bin",
+      "sha256": "63e98418d14a1f29e431339173d72603927605209cf2275580cf04d1e2ece491"
+    },
+    "resource_events": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/resource-events.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw:events.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/events.txt",
+      "sha256": "b8ff958937969a412e23787f591d4fe2c43846eab533f4bdae7c1a07b3ec21b8"
+    },
+    "raw:capture.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/capture.json",
+      "sha256": "0bb758be53356884d9724d77b6515e4a05d2c3be466c5e76a6debbe7038d7043"
+    },
+    "raw:dependency-inputs.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/dependency-inputs.json",
+      "sha256": "ae5b183a14ac0e3438a8d47765d21b31c754f0ede99a0cb26bc4ffb89021ad0a"
+    },
+    "raw:LINK.EXE": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/LINK.EXE",
+      "sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579"
+    },
+    "raw:case-inputs.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/case-inputs.json",
+      "sha256": "da47ccda0ade754aeb27e89021429256194ce2fd23eac16249b46baf82fce424"
+    },
+    "raw:test.obj": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/test.obj",
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+    },
+    "raw:loaded-msvcrt.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/loaded-msvcrt.bin",
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    "raw:main-entry-context.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/main-entry-context.bin",
+      "sha256": "b14083d5c845b29e4f35f03bc4118c1b2369699859a2b6365e2d31c86792a4ea"
+    },
+    "raw:mktemp-events.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/mktemp-events.txt",
+      "sha256": "e2332332e5e222db09c9686775333b04f1394c96f10d733e708ae17662966ef4"
+    },
+    "raw:mktemp-entry-teb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/mktemp-entry-teb.bin",
+      "sha256": "13654c3f7c1f8ac23acb5b75f628a7928010ba7247be218d059059dc828f29eb"
+    },
+    "raw:mktemp-entry-ptd.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/mktemp-entry-ptd.bin",
+      "sha256": "327aa68b9bed8a62be550a27e6c156847eab54b38d341e95fc436e9a7948de29"
+    },
+    "raw:mktemp-entry-tls-index.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/mktemp-entry-tls-index.bin",
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450"
+    },
+    "raw:streams-entry.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/streams-entry.json",
+      "sha256": "98f32a7cfc831acfef038b037e9813b23030a205a5e9eaa1fb085d4e184d3146"
+    },
+    "raw:streams-entry-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/streams-entry-iob.bin",
+      "sha256": "4d0149241f1bbdf767bd2181c978844a97e5e2fced31a59e5aa8cb165a739763"
+    },
+    "raw:streams-entry-teb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/streams-entry-teb.bin",
+      "sha256": "13654c3f7c1f8ac23acb5b75f628a7928010ba7247be218d059059dc828f29eb"
+    },
+    "raw:streams-entry-peb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/streams-entry-peb.bin",
+      "sha256": "854e47d41f8a456dcece123722b686148bdbd20e6402a95a4aa18030e2230092"
+    },
+    "raw:streams-entry-parameters.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/streams-entry-parameters.bin",
+      "sha256": "12db455ed76ec95107428fb511c5f036c2f929cb254bcfeb935fed2c6be964e0"
+    },
+    "raw:streams-entry-lowio.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/streams-entry-lowio.bin",
+      "sha256": "58968ad1dd95fadf9d6bf8df351b4e04725143e2ae118ed74571781ef359598a"
+    },
+    "raw:streams-entry-pioinfo-slot.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/streams-entry-pioinfo-slot.bin",
+      "sha256": "3da00fca1a11a3b0e80cebf56d2caa88a3771d747dde51b3d00f2d49ac562b03"
+    },
+    "raw:mre-calls.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/mre-calls.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "raw:loaded-mspdb50.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/loaded-mspdb50.bin",
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+    },
+    "raw:input-directory.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/input-directory.json",
+      "sha256": "439a9a8cf21e1fe0f40b9baac2bdc600272c97d55db26c2bc72fec12a7276cfa"
+    },
+    "raw:mktemp-before.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/mktemp-before.bin",
+      "sha256": "e126b1eba52faccd6a3fc442136b3d13ba181f9d979d92af52a3eecdc856e260"
+    },
+    "raw:mktemp-after.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/mktemp-after.bin",
+      "sha256": "2596be010b25dff8c7573753ee620f17826b6e7b5f3d3c4b285c924b26063eaf"
+    },
+    "raw:mktemp-before-teb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/mktemp-before-teb.bin",
+      "sha256": "7d9d9a36b5668e728e77dec58a27c9eb69e510d3442a150b5fa6832d9c18604e"
+    },
+    "raw:mktemp-before-ptd.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/mktemp-before-ptd.bin",
+      "sha256": "327aa68b9bed8a62be550a27e6c156847eab54b38d341e95fc436e9a7948de29"
+    },
+    "raw:mktemp-before-tls-index.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/mktemp-before-tls-index.bin",
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450"
+    },
+    "raw:mktemp-after-teb.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/mktemp-after-teb.bin",
+      "sha256": "ec126a399dfa65412fb124b4319e5ffc905b6b5cc4c0b9a997339717b230e33a"
+    },
+    "raw:mktemp-after-ptd.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/mktemp-after-ptd.bin",
+      "sha256": "8ce1fc1085917d7d42d01eca70862224f35ee89dd004c0ed8edd34233df6756c"
+    },
+    "raw:mktemp-after-tls-index.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/mktemp-after-tls-index.bin",
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450"
+    },
+    "raw:CL.EXE": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/CL.EXE",
+      "sha256": "63e98418d14a1f29e431339173d72603927605209cf2275580cf04d1e2ece491"
+    },
+    "raw:MSPDB50.DLL": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/MSPDB50.DLL",
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+    },
+    "raw:MSVCRT.DLL": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/MSVCRT.DLL",
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    "raw:clock-observer.inc": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/clock-observer.inc",
+      "sha256": "a8ac78cd30746c3981794c56569ce70b42efdfb1f9536ab3830ea040907eec98"
+    },
+    "raw:clock-observer.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/clock-observer.txt",
+      "sha256": "bc09ebc56fe3283bdc009eff1b73de8d82486b88f6f0757a2a7a54a6bc776fd3"
+    },
+    "raw:config.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/config.json",
+      "sha256": "4600030ca51df39af7fa0b02fd5c6b419573d2944ae333988415001758e6eef0"
+    },
+    "raw:dependency-observer.inc": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/dependency-observer.inc",
+      "sha256": "158e39ace380a10a61f4ad25f64216ad1573422c33561c5b5ef8aa92b169801d"
+    },
+    "raw:dependency-observer.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/dependency-observer.txt",
+      "sha256": "0a269f0c3f5606307b152872605c7cd6f5028d2b079082f210d5b5ac4953df7b"
+    },
+    "raw:entries.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/entries.txt",
+      "sha256": "ba9e08a243cf2b52230089d21fe93e313acda5d0dbc76f51a6e3b887a82ee809"
+    },
+    "raw:export-reader.h": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/export-reader.h",
+      "sha256": "64ffe9f75692ee7ac2790d9d8a8e8f5e128189837fda814316446bcd81af7607"
+    },
+    "raw:reference-debugger.c": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/reference-debugger.c",
+      "sha256": "9075c149c81329281ea41c11897dad60fa7d5d16552c99733a5d599d8e1f6be7"
+    },
+    "raw:reference-debugger.exe": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/reference-debugger.exe",
+      "sha256": "8d371b3376648d5c9e08621775d937b2c88c6661dc4c98150cbaf47097319651"
+    }
+  },
+  "schema": 2,
+  "capture_receipt": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-1-original/capture.json",
+    "sha256": "0bb758be53356884d9724d77b6515e4a05d2c3be466c5e76a6debbe7038d7043"
+  }
+}

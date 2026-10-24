@@ -4,7 +4,7 @@ import argparse,copy,json,time
 from pathlib import Path
 from clock_provider import verify
 
-parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('directory',type=Path);args=parser.parse_args()
+parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('directory',type=Path);parser.add_argument('--stop-slice',action='store_true');args=parser.parse_args()
 directory=args.directory.resolve();started=time.perf_counter();passed=[];verify(directory)
 def denied(label,name,change):
     path=directory/name;raw=path.read_bytes()
@@ -21,7 +21,8 @@ def addressed(value,address):
         if 0<=offset<len(raw):raw[offset]^=1;row['data']=raw.hex();changed+=1
     assert changed
 clock=json.loads((directory/'native-clock-gdb.json').read_bytes());count=len(clock['calls'])
-for index in range(count):
+if args.stop_slice:assert count==2
+for index in ([1]if args.stop_slice else range(count)):
     for when in('before','after'):
         for name in('errno','doserrno','last_error','counter','timezone','daylight','started'):
             def corrupt(value,index=index,when=when,name=name):
@@ -40,15 +41,15 @@ for index in range(count):
         denied('clock%d x87 %s'%(index+1,register),'native-clock-gdb.json',corrupt)
 denied('missing clock call','native-clock-gdb.json',lambda v:v['calls'].clear())
 denied('extra clock call','native-clock-gdb.json',lambda v:v['calls'].append(copy.deepcopy(v['calls'][0])))
-for phase in('link-before','link-after'):
+for phase in(()if args.stop_slice else('link-before','link-after')):
     filename='native-'+phase+'-gdb.json'
     for symbol in('errno','doserrno','last_error'):
         denied(phase+' '+symbol,filename,lambda v,symbol=symbol:addressed(v,v['raw_context']['symbols'][symbol]))
-for symbol in('mb_codepage','updates','environment','initenv','os_environment','active_pass','pass_running','mre_calls'):
+for symbol in(()if args.stop_slice else('mb_codepage','updates','environment','initenv','os_environment','active_pass','pass_running','mre_calls')):
     denied('child state '+symbol,'native-link-after-gdb.json',lambda v,symbol=symbol:addressed(v,v['raw_context']['symbols'][symbol]))
-for field in('mode','file','argv'):
+for field in(()if args.stop_slice else('mode','file','argv')):
     denied('spawn formal '+field,'native-link-before-gdb.json',lambda v,field=field:addressed(v,v['raw_context']['spawn_formals'][field]))
-for field in('mode','pass','name','environment','args'):
+for field in(()if args.stop_slice else('mode','pass','name','environment','args')):
     denied('caller formal '+field,'native-link-before-gdb.json',lambda v,field=field:addressed(v,v['raw_context']['caller_formals'][field]))
 for label,change in[
     ('missing child',lambda v:v['requests'].clear()),

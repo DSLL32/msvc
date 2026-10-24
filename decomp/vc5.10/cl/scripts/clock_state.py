@@ -7,6 +7,8 @@ from link_state import decode as link_state
 def compare_fp(original_hex,registers):
     original=bytes.fromhex(original_hex);assert len(original)==112
     saved=struct.unpack_from('<7I',original)
+    assert all(len(bytes.fromhex(registers[name]))==4 for name in
+        ('fctrl','fstat','ftag','fiseg','fioff','foseg','fooff','fop'))
     native={name:int.from_bytes(bytes.fromhex(registers[name]),'little')
         for name in('fctrl','fstat','ftag','fiseg','fioff','foseg','fooff','fop')}
     assert native['fctrl']==saved[0]&0xffff

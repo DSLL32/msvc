@@ -5,7 +5,7 @@ from pathlib import Path
 from clock_provider import verify
 from clock_state import compare_fp
 
-parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('directory',type=Path);args=parser.parse_args()
+parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('directory',type=Path);parser.add_argument('--sequence',type=int,choices=(1,2),default=1);args=parser.parse_args();index=args.sequence-1
 directory=args.directory;path=directory/'native-clock-gdb.json';original=path.read_bytes();passed=[];started=time.perf_counter()
 verify(directory)
 try:
@@ -14,17 +14,22 @@ try:
         # Corrupt both phases equally: mere within-process preservation must
         # not conceal different architectural inputs or selector premises.
         for when in('before','after'):
-            raw=bytearray.fromhex(value['calls'][0][when]['x87_registers'][register]);raw[0]^=1
-            value['calls'][0][when]['x87_registers'][register]=raw.hex()
-            if register=='fctrl':value['calls'][0][when]['fctrl']^=1
+            raw=bytearray.fromhex(value['calls'][index][when]['x87_registers'][register]);raw[0]^=1
+            value['calls'][index][when]['x87_registers'][register]=raw.hex()
+            if register=='fctrl':value['calls'][index][when]['fctrl']^=1
         path.write_text(json.dumps(value,indent=2)+'\n')
         try:verify(directory)
         except(AssertionError,KeyError,ValueError):passed.append('both phases architectural '+register)
         else:raise AssertionError('accepted different FP '+register)
 finally:path.write_bytes(original)
 response=json.loads((directory/'clock-response.json').read_bytes())
-saved=bytes.fromhex(response['clock']['calls'][0]['before']['FloatSave_hex'])
-registers=json.loads(original)['calls'][0]['before']['x87_registers'];compare_fp(saved.hex(),registers)
+saved=bytes.fromhex(response['clock']['calls'][index]['before']['FloatSave_hex'])
+registers=json.loads(original)['calls'][index]['before']['x87_registers'];compare_fp(saved.hex(),registers)
+for name in ['fctrl','fstat','ftag','fioff','fooff','fop','fiseg','foseg']:
+    native=copy.deepcopy(registers);native[name]=native[name]+'00'
+    try:compare_fp(saved.hex(),native)
+    except AssertionError:passed.append('wrong width '+name)
+    else:raise AssertionError('accepted wrong FP register width '+name)
 for label,offset,name,new in[('nonempty tag',8,'ftag',0),('live instruction pointer',12,'fioff',1),('live data pointer',20,'fooff',1)]:
     changed=bytearray(saved);struct.pack_into('<I',changed,offset,new);native=copy.deepcopy(registers)
     native[name]=new.to_bytes(4,'little').hex()

@@ -1,0 +1,278 @@
+{
+  "candidate": "_stop_timer",
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "native_sha256": "0174be281fec4f298f0eb5dadb67b0bc1fc9c1a43ccd0d60e9505f800207b4cc",
+  "rebuilt_sha256": "3e9fa9bddf9f51069e0d5e4a369c2b7c44f65c18c4816b4a811a7a71e7a4f477",
+  "trial_mask_sha256": "63e98418d14a1f29e431339173d72603927605209cf2275580cf04d1e2ece491",
+  "platform": "native",
+  "trial_identity": "daa0c167d00b92a9769fcc3f3db455e024e626143d2646d86bc7e213e8719cfe",
+  "config_snapshot": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/config.json",
+    "sha256": "4600030ca51df39af7fa0b02fd5c6b419573d2944ae333988415001758e6eef0"
+  },
+  "case": "link-timing",
+  "arguments": [
+    "/nologo",
+    "/Bt",
+    "/Fetest.exe",
+    "test.obj",
+    "/link",
+    "/ENTRY:main",
+    "/SUBSYSTEM:CONSOLE",
+    "/NODEFAULTLIB"
+  ],
+  "files": {
+    "stdout": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/stdout.bin",
+      "sha256": "b0892eb790c7c6d52e0bc8462e4abbb8f72555ee5ba08295a9d54aa85252fc02"
+    },
+    "stderr": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/stderr.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "state": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/state.json",
+      "sha256": "7846ce85ab79ecc16f616011d63073fcdd481a8f60fc9823e41c7efb3acf6765"
+    },
+    "trace": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/trace.txt",
+      "sha256": "085184976653c244b09f26585df0dc38147c2d37ae253ad96dcbdb4a243e0d36"
+    },
+    "debugger": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/debugger.txt",
+      "sha256": "1ef84681366503e525c1a1efc4485671ec76652058848037f91b0cf5f102b3a3"
+    },
+    "raw:trace-filter.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/trace-filter.txt",
+      "sha256": "d35dd5f2387367e76715d313880621bd53c4709f892fa2cd28bcb1d1030a0515"
+    },
+    "raw:trace-seen.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/trace-seen.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw:exec-wrapper.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/exec-wrapper.py",
+      "sha256": "046ad9ed27f30a62fb094f3b65431ce1d2347dc658f94d081fcb19b2cdbb8878"
+    },
+    "resource_provider": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/resources.bin",
+      "sha256": "9e98c325540241a981223ad34839b3b4d9c78b54d94dbba4f770b29dffac3e50"
+    },
+    "raw:debugger.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/debugger.txt",
+      "sha256": "1ef84681366503e525c1a1efc4485671ec76652058848037f91b0cf5f102b3a3"
+    },
+    "raw:terminal-status.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/terminal-status.bin",
+      "sha256": "073f2cc7a1b69ebc0224e66bd04060e86723dedfc9339a2e4054c722927904b0"
+    },
+    "raw:status_reader.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/status_reader.py",
+      "sha256": "c024324ec793ad97838fbc040b5d6c2873422764441611bd3918d3e0e3397a65"
+    },
+    "raw:native-process.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/native-process.json",
+      "sha256": "7867a9e0e35ddc5d62599153a56a430762905f65b134e509382376bcb14d5fb8"
+    },
+    "raw:native-build.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/native-build.json",
+      "sha256": "547858ae07494a14c7c07d377c9e06f2d6abf1e16b8f276033982cf3c10bb3a0"
+    },
+    "raw:native_status.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/native_status.py",
+      "sha256": "fdf1eb0fa5783d22b94db7efa9a74de7bdb61b1ad2af54eb04f1faaf909cfd4d"
+    },
+    "raw:gdb_capture.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/gdb_capture.py",
+      "sha256": "dc82481c50011e51978ccd914e76c8c92f6bf7596ee43c8a31fba7bf945fea97"
+    },
+    "raw:gdb-capture.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/gdb-capture.py",
+      "sha256": "d934028887fe57bd6b5f4b2c48c1df9cb0e73bf96a6563c0822b9fbe124214e5"
+    },
+    "raw:entry-profile.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/entry-profile.json",
+      "sha256": "45308e78c79af8062605c1fe1490254d800750b0537a38ac499c498aea814e3d"
+    },
+    "raw:clock-native.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/clock-native.json",
+      "sha256": "e94d2007ba18e10a15b48ef7ea17d2cf108f79755f510eada39921546d2bdd9e"
+    },
+    "raw:clock-response.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/clock-response.json",
+      "sha256": "e6e15ab18d4100c892fd55eb9aad2adbd65518682b604505f90920375578da47"
+    },
+    "raw:clock-host-inputs.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/clock-host-inputs.json",
+      "sha256": "64cdfd39da21c5e6534a13bceec39a3aaa076b5be11306a718a36e6b93f3264d"
+    },
+    "raw:link-response.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/link-response.json",
+      "sha256": "e6e15ab18d4100c892fd55eb9aad2adbd65518682b604505f90920375578da47"
+    },
+    "raw:link-binding.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/link-binding.bin",
+      "sha256": "598bccd7a7992e219e3f1d2a228936a0552994845eaf6eceb54846d6c80f3e0e"
+    },
+    "raw:gdb_clock.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/gdb_clock.py",
+      "sha256": "604b6689564beece849e68fe64300612f093b47d0641da84b340c01e65306503"
+    },
+    "raw:gdb_link.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/gdb_link.py",
+      "sha256": "99ceb2cd8797e8317343bee82ab4958e558e6ac8ccc3afd8d2105961a7e3080d"
+    },
+    "raw:clock_provider.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/clock_provider.py",
+      "sha256": "17a4321cd9a054b7520231f07baacdd9f13b93f77ea3e80d7d8644a29ff4e03c"
+    },
+    "raw:clock_packet.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/clock_packet.py",
+      "sha256": "d36d8a99ef191b8e0fd95056c537e82d06dd783fc91b7a155c1127073f12941f"
+    },
+    "raw:clock_state.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/clock_state.py",
+      "sha256": "d66766904a86f1a3bda6516f8d146903bc88f6009392b813120b7c7550710ef6"
+    },
+    "raw:link_provider.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/link_provider.py",
+      "sha256": "4451e24b4554fdb96a51aa5e73e41903f03b101f8c4199be76e025b7f44d057f"
+    },
+    "raw:link_response.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/link_response.py",
+      "sha256": "16316d67446ad68e293a072b67214d8e8fb6ab27cc821ac18ee09470d57bebec"
+    },
+    "raw:link_state.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/link_state.py",
+      "sha256": "162cf75f1f5794104a2045a3856efd720f01add14f1ce98383dab417ca174e5f"
+    },
+    "raw:spawn_reader.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/spawn_reader.py",
+      "sha256": "1291d343a241e08970d399145196be11a983254b509b3422615895deffda43b4"
+    },
+    "raw:native-clock-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/native-clock-gdb.json",
+      "sha256": "1166e0bef36a552225c4a8f36483582d49847e64a19f4181b84ad8dcab6e9956"
+    },
+    "raw:test.exe": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/test.exe",
+      "sha256": "1291dad9a62c56174d4a97a3cdf4e6252c74a523516be0f7cfa0c440146aab57"
+    },
+    "raw:native-link-postchild-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/native-link-postchild-gdb.json",
+      "sha256": "d0803e99e1e10f874bfc198523872f20c5eba8223c2e1c4d2d68f33f38ca1f0c"
+    },
+    "raw:native-link-exit-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/native-link-exit-gdb.json",
+      "sha256": "2b049187449569d5724fbd92f78fab4d9bc9f795eceba5cb9e21be7b62df021a"
+    },
+    "raw:native-link-unlink-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/native-link-unlink-gdb.json",
+      "sha256": "3683cc30f095d62d6ec1e58fa138f5e876ddd3a04f9a560f955f51d101b63bbc"
+    },
+    "raw:native-link-after-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/native-link-after-gdb.json",
+      "sha256": "3566007e18632f8768e4e47dd0d8fb4cb5f54bd1a518231014d0f8d65ffdc30c"
+    },
+    "raw:native-link-before-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/native-link-before-gdb.json",
+      "sha256": "6afc39c4495889a89dc3e4aa18e380c9d660045620b1f8559f4553baf833ff50"
+    },
+    "raw:streams-link-exit.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/streams-link-exit.json",
+      "sha256": "d40816f161b8bd984444dab652424111d1266d419d497690f79a775c5f46a2e9"
+    },
+    "raw:streams-link-postchild-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/streams-link-postchild-iob.bin",
+      "sha256": "12354fca28b83c864500f4fddf4f8a332b0f6a6aaa84210a51396b61672b4382"
+    },
+    "raw:streams-link-postchild.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/streams-link-postchild.json",
+      "sha256": "d40816f161b8bd984444dab652424111d1266d419d497690f79a775c5f46a2e9"
+    },
+    "raw:streams-link-after-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/streams-link-after-iob.bin",
+      "sha256": "12354fca28b83c864500f4fddf4f8a332b0f6a6aaa84210a51396b61672b4382"
+    },
+    "raw:streams-link-before-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/streams-link-before-iob.bin",
+      "sha256": "12354fca28b83c864500f4fddf4f8a332b0f6a6aaa84210a51396b61672b4382"
+    },
+    "raw:streams-link-before.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/streams-link-before.json",
+      "sha256": "4bb0d4964e550b5ace2516362d39d4198e29d6851cf64617e0790e2ca548663e"
+    },
+    "raw:streams-link-after.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/streams-link-after.json",
+      "sha256": "ac50a7dc2a6da5444e3741437f7009d0e0625e4d1d23300616d92da838ead434"
+    },
+    "raw:streams-link-exit-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/streams-link-exit-iob.bin",
+      "sha256": "12354fca28b83c864500f4fddf4f8a332b0f6a6aaa84210a51396b61672b4382"
+    },
+    "raw:dependency-inputs.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/dependency-inputs.json",
+      "sha256": "ae5b183a14ac0e3438a8d47765d21b31c754f0ede99a0cb26bc4ffb89021ad0a"
+    },
+    "raw:LINK.EXE": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/LINK.EXE",
+      "sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579"
+    },
+    "raw:case-inputs.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/case-inputs.json",
+      "sha256": "da47ccda0ade754aeb27e89021429256194ce2fd23eac16249b46baf82fce424"
+    },
+    "raw:test.obj": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/test.obj",
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+    },
+    "raw:native-entry-errors.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/native-entry-errors.json",
+      "sha256": "d778c37b03dd16b3bb2864d5a04f1bcb5ba9ab356604846b209790105192662c"
+    },
+    "raw:gdb_entry.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/gdb_entry.py",
+      "sha256": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb"
+    },
+    "raw:gdb-entry.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/gdb-entry.py",
+      "sha256": "2f92f27d1e87541af2cb6b4cbac6927b461ae887dcffa203b00455f7bc4156cf"
+    },
+    "raw:streams-entry.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/streams-entry.json",
+      "sha256": "7e26617c7505b651c9d1624dc82589b8d4bec4de43790c2fe0e7f6de7d9871d2"
+    },
+    "raw:streams-entry-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/streams-entry-iob.bin",
+      "sha256": "12354fca28b83c864500f4fddf4f8a332b0f6a6aaa84210a51396b61672b4382"
+    },
+    "raw:gdb_streams.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/gdb_streams.py",
+      "sha256": "5362777b723bca072f787a40e8feb9e1df693287428438cdd473298766243de5"
+    },
+    "raw:mktemp-expected.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/mktemp-expected.json",
+      "sha256": "0a61eb39e7a75b64d02adffda930a117695ce9eea1b90033ce161336cda6e3db"
+    },
+    "raw:mktemp-receipt.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/mktemp-receipt.bin",
+      "sha256": "00c17bed3572ddcf1ad5cd4f1b5ec7b6a30f9147d10a0d15f139c13d4affb063"
+    },
+    "raw:mktemp_reader.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/mktemp_reader.py",
+      "sha256": "5fb2415fea5b0d1ac7c851a79e3e9594e8b70208232c23882dee3c9fa80b7570"
+    },
+    "raw:native-mktemp-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/native-mktemp-gdb.json",
+      "sha256": "a922915f88fc8340cf6c98855cffb179ccf39886feaeb62f94c19a33f31912b8"
+    },
+    "raw:gdb_mktemp.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/gdb_mktemp.py",
+      "sha256": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f"
+    }
+  },
+  "native_build": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/stop-timer-2-native/native-build.json",
+    "sha256": "547858ae07494a14c7c07d377c9e06f2d6abf1e16b8f276033982cf3c10bb3a0"
+  }
+}

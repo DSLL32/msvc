@@ -193,7 +193,7 @@
     "filename-substitutions initial help probe completed without new handlers; user filename % is escaped. Retained analysis receipt, no coverage credit."
   ],
   "groundwork_capture": "original-probes/host-contract-2/manifest.json",
-  "authorized_case": "link-timing",
+  "authorized_case": "mre-dry-run",
   "authorized_queue": [
     "help",
     "minimal-c",
@@ -208,9 +208,10 @@
     "filename-substitutions",
     "link-naming",
     "grouped-dry-run",
-    "link-timing"
+    "link-timing",
+    "mre-dry-run"
   ],
-  "next_case_gate": "Orchestrator approved response-file/options/help followed by diagnostics after minimal compile completion; no new successful dependency boundary authorized.",
+  "next_case_gate": "Parent approved bounded baseline /Gm /Bz analysis after timing completion; new native MRE success requires complete typed external contract review.",
   "completed_cases": [
     "help",
     "minimal-c",
@@ -223,6 +224,7 @@
     "optimization-defaults",
     "link-object",
     "link-naming",
-    "grouped-dry-run"
+    "grouped-dry-run",
+    "link-timing"
   ]
 }
