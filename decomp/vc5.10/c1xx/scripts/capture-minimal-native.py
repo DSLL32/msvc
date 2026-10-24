@@ -79,6 +79,10 @@ if frame.name()=='append_option_vector' and value['pc']==int(gdb.parse_and_eval(
     words=list(struct.unpack('<3I',gdb.selected_inferior().read_memory(value['esp'],12)))
     value['args']=dict(zip(('vector','value'),words[1:]))
     value['raw_entry_abi']={'esp':value['esp'],'return_pc':words[0],'stack_arguments':words[1:]}
+if frame.name()=='resolve_option_path' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&resolve_option_path')):
+    words=list(struct.unpack('<4I',gdb.selected_inferior().read_memory(value['esp'],16)))
+    value['args']=dict(zip(('output','input','capacity'),words[1:]))
+    value['raw_entry_abi']={'esp':value['esp'],'return_pc':words[0],'stack_arguments':words[1:]}
 if frame.name()=='parse_option_integer' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&parse_option_integer')):
     words=list(struct.unpack('<2I',gdb.selected_inferior().read_memory(value['esp'],8)))
     value['args']={'value':words[1]}
@@ -594,6 +598,10 @@ end
         from suffix_probe import setup as setup_suffix
         suffix_observer,suffix_finish=setup_suffix(output,binary,collector)
         observer+=suffix_observer;scaler_finish+=suffix_finish
+    if trial.get('append_observers'):
+        from append_probe import setup as setup_append
+        append_observer,append_finish=setup_append(output,binary,collector)
+        observer+=append_observer;scaler_finish+=append_finish
     from collector_cache import prepare as prepare_collector_cache
     cache_startup=prepare_collector_cache(output,collector)
     def timed_source(match):

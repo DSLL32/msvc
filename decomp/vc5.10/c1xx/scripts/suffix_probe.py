@@ -30,6 +30,7 @@ class SuffixEntry(gdb.Breakpoint):
         SuffixReturn(row);return False
 class SuffixAppendEntry(gdb.Breakpoint):
     def stop(self):
+        if suffix_append_entries:return False  # Keep only actual first-prefix alias.
         row=vector_abi(vector_row('suffix-next'),2)
         row.update(value=action_string(row['args'][1]))
         header=gdb.selected_inferior().read_memory(row['args'][0],12).tobytes()

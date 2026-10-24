@@ -1,0 +1,253 @@
+{
+  "status": "UNPROMOTED natural-only actual proof; restore original held pending observer-cost review",
+  "original_directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-append-original-3",
+  "native_directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-append-native-1",
+  "original_receipt_sha256": "b3d9cd5dbedf70b9083e516bca9b28cc3cf7af12cd26974e9fd92b39bde699d8",
+  "native_receipt_sha256": "b2392544b04fd4b932035e8e8cbe44de90261c663b88476996ac1e4fcb63ee61",
+  "original_helper_sha256": "a47699135431c6d1b14bf1a09dd8ca06f2093ba59aa88943a0afe1b296ed95d6",
+  "original_helper_source_sha256": "9f696ceaea439ed18f40e34222e5a4309e7ad9a8a62e7f1bc6ffef6463041083",
+  "native_elf_sha256": "9a367ff4dea315ef16494f2bd1d94f8ed454a73c2225d263aa9150fab98a8980",
+  "native_source_provenance_sha256": "9228d77218078509d6d048456ef1f88ba45c69822c46b85d36eb61ce89ad36a6",
+  "trial_sha256": "53391651713c32bf0b014b28c64fccba51f6311eaf4c03b071074749557c88ae",
+  "intended_exit125": "exact helper dll-capture.c1695..1697 after all stop checks; logs frontier and returns125. Failures log failure and exit126. Normal3 has zero failure records.",
+  "raw_owned_records": {
+    "count": 50,
+    "bytes": 3197
+  },
+  "scratch_artifacts": {
+    "original_count": 42403,
+    "original_content_bytes": 70934469,
+    "scope": "all full BSS/data/snapshot/mask/helper/ELF/private vectors remain immutable owned scratch; no generated full mask/bulk archive committed"
+  },
+  "reproducibility_limit": "Full historical decoder requires the retained immutable scratch and private captured vectors. This compact Git evidence is not a self-contained original replay; never silently recapture.",
+  "files": {
+    "actions-resolver-entry-0-registers.bin": {
+      "sha256": "c0592aac976d591c035d79b605201bff8fe4c91c6fc393e10b71b38e4514b975",
+      "bytes": 64
+    },
+    "append-0-entry-header.bin": {
+      "sha256": "e90ea8c4f004d2a90997cc215b7df602ca8c512233533fee77e48647565e937e",
+      "bytes": 12
+    },
+    "append-0-entry-input.bin": {
+      "sha256": "5f9d7bb31aa2864a38fe5c9866383360611656ff4de37ace8f623cb7b1c70d96",
+      "bytes": 16
+    },
+    "append-0-entry-items.bin": {
+      "sha256": "b393978842a0fa3d3e1470196f098f473f9678e72463cb65ec4ab5581856c2e4",
+      "bytes": 160
+    },
+    "append-0-entry-registers.bin": {
+      "sha256": "a63fa7b18d4dd434d373463f664e50e16e5103c31b41d26618cca8cce2d51fb7",
+      "bytes": 72
+    },
+    "append-0-return-header.bin": {
+      "sha256": "3316504a2ddf1caf19cde0e83f9b60b3521478a4f147966337e2e938d8ab2ba0",
+      "bytes": 12
+    },
+    "append-0-return-input.bin": {
+      "sha256": "5f9d7bb31aa2864a38fe5c9866383360611656ff4de37ace8f623cb7b1c70d96",
+      "bytes": 16
+    },
+    "append-0-return-items.bin": {
+      "sha256": "c68a7569a09187a90caafc054005e9ef80524069b63718cca7ca3bc84f924511",
+      "bytes": 160
+    },
+    "append-0-return-registers.bin": {
+      "sha256": "a507d28a786a6eb977ed3764c6b45782f82bb75ecd9f33a447596e199811659b",
+      "bytes": 72
+    },
+    "append-1-entry-header.bin": {
+      "sha256": "3316504a2ddf1caf19cde0e83f9b60b3521478a4f147966337e2e938d8ab2ba0",
+      "bytes": 12
+    },
+    "append-1-entry-input.bin": {
+      "sha256": "f774b1104c3e828ba17df21d949e50cbe15da649285a8dc5eaeed4eeea376300",
+      "bytes": 22
+    },
+    "append-1-entry-items.bin": {
+      "sha256": "c68a7569a09187a90caafc054005e9ef80524069b63718cca7ca3bc84f924511",
+      "bytes": 160
+    },
+    "append-1-entry-registers.bin": {
+      "sha256": "5f136672018cf20c3fdc3a7d9161d395f75d77ab84fdab8a8b5028092d550189",
+      "bytes": 72
+    },
+    "append-1-return-header.bin": {
+      "sha256": "83eff6f836501b70794d4f24997c09b91b1f8a88bb3eeae5a17b30d7e2430188",
+      "bytes": 12
+    },
+    "append-1-return-input.bin": {
+      "sha256": "f774b1104c3e828ba17df21d949e50cbe15da649285a8dc5eaeed4eeea376300",
+      "bytes": 22
+    },
+    "append-1-return-items.bin": {
+      "sha256": "3bf9d2836340c50222ff40160529671028ffee5afadf906f722f73f7fb9ef917",
+      "bytes": 160
+    },
+    "append-1-return-registers.bin": {
+      "sha256": "808ebf2526697db92e0d5e10ad04bfda4c15e0879e12f05b75c827486522fee3",
+      "bytes": 72
+    },
+    "append-2-entry-header.bin": {
+      "sha256": "83eff6f836501b70794d4f24997c09b91b1f8a88bb3eeae5a17b30d7e2430188",
+      "bytes": 12
+    },
+    "append-2-entry-input.bin": {
+      "sha256": "1091cf816eb2ab81f6d0c0927ce2162e77ecfcf411730147f572229ca429bcb6",
+      "bytes": 12
+    },
+    "append-2-entry-items.bin": {
+      "sha256": "3bf9d2836340c50222ff40160529671028ffee5afadf906f722f73f7fb9ef917",
+      "bytes": 160
+    },
+    "append-2-entry-registers.bin": {
+      "sha256": "30456ae09ef4e8b2ce67d93e9ba14f142ed09878a0742628372d0237f11ebee9",
+      "bytes": 72
+    },
+    "append-2-return-header.bin": {
+      "sha256": "de7d122b61e1b1cc08638dc8c9a8ec8a7f77686a699ea8adca96236d07f8746a",
+      "bytes": 12
+    },
+    "append-2-return-input.bin": {
+      "sha256": "1091cf816eb2ab81f6d0c0927ce2162e77ecfcf411730147f572229ca429bcb6",
+      "bytes": 12
+    },
+    "append-2-return-items.bin": {
+      "sha256": "755fae4bf287f81c7015def835733c2cce025714c0db356398074c046918d8f5",
+      "bytes": 160
+    },
+    "append-2-return-registers.bin": {
+      "sha256": "de9954f96cb5f1b89f09a24fd4d7ff4a59e627acea4e495d13eed49a05666f4b",
+      "bytes": 72
+    },
+    "append-3-entry-header.bin": {
+      "sha256": "de7d122b61e1b1cc08638dc8c9a8ec8a7f77686a699ea8adca96236d07f8746a",
+      "bytes": 12
+    },
+    "append-3-entry-input.bin": {
+      "sha256": "0d45c5a3ebe2205b5950786b2520e952881c7a3ba2a342e6e2e5e33d0503a650",
+      "bytes": 14
+    },
+    "append-3-entry-items.bin": {
+      "sha256": "755fae4bf287f81c7015def835733c2cce025714c0db356398074c046918d8f5",
+      "bytes": 160
+    },
+    "append-3-entry-registers.bin": {
+      "sha256": "5a4dd6464bb5bb5775d1482d60c7e2e15ff84eec2f04896832cbf4822cd8d29f",
+      "bytes": 72
+    },
+    "append-3-return-header.bin": {
+      "sha256": "8ac2e8ad797394dc3b194c8d42445bfc053bda4bc4219835fbc760efc09639be",
+      "bytes": 12
+    },
+    "append-3-return-input.bin": {
+      "sha256": "0d45c5a3ebe2205b5950786b2520e952881c7a3ba2a342e6e2e5e33d0503a650",
+      "bytes": 14
+    },
+    "append-3-return-items.bin": {
+      "sha256": "9638e8e4cf4447a5415a51f1bec89319e46498d482806c96423f1b8f2e2a8182",
+      "bytes": 160
+    },
+    "append-3-return-registers.bin": {
+      "sha256": "b188d6562b83d8ad6d940804ea45dfe0c84edf5f4feefd42454ea4239fef63dd",
+      "bytes": 72
+    },
+    "append-4-entry-header.bin": {
+      "sha256": "8ac2e8ad797394dc3b194c8d42445bfc053bda4bc4219835fbc760efc09639be",
+      "bytes": 12
+    },
+    "append-4-entry-input.bin": {
+      "sha256": "997f3acb7eecd53cb64dda24bef7c2ab60c438bdbe5a19f567cd64a59b16ca0c",
+      "bytes": 7
+    },
+    "append-4-entry-items.bin": {
+      "sha256": "9638e8e4cf4447a5415a51f1bec89319e46498d482806c96423f1b8f2e2a8182",
+      "bytes": 160
+    },
+    "append-4-entry-registers.bin": {
+      "sha256": "a8ba84e2c435123b92f8a916644735cd7fbd0d79514c8acfcf1a74079578ae4d",
+      "bytes": 72
+    },
+    "append-4-return-header.bin": {
+      "sha256": "49abadc9283c7c2f391f0e63e76ff33a6f4c3881dda8dc52054f490962d36a3f",
+      "bytes": 12
+    },
+    "append-4-return-input.bin": {
+      "sha256": "997f3acb7eecd53cb64dda24bef7c2ab60c438bdbe5a19f567cd64a59b16ca0c",
+      "bytes": 7
+    },
+    "append-4-return-items.bin": {
+      "sha256": "eff53063a1f0bf128b516aac6065a9a2f642d2851d92cb51209d1e243ff64555",
+      "bytes": 160
+    },
+    "append-4-return-registers.bin": {
+      "sha256": "2d9a268f24bcd29738c2a6d8c12f8968054637d2f4e8cc589bc24543465edc30",
+      "bytes": 72
+    },
+    "append-5-entry-header.bin": {
+      "sha256": "4f1340c99ca976373b549f6fff2b1e485434a085966f2afb88694c9e76d3d378",
+      "bytes": 12
+    },
+    "append-5-entry-input.bin": {
+      "sha256": "38bd91fcaeb1311c709b8ec9a3209c5457e200a49b59586c42e2880b2e6b1421",
+      "bytes": 27
+    },
+    "append-5-entry-items.bin": {
+      "sha256": "b393978842a0fa3d3e1470196f098f473f9678e72463cb65ec4ab5581856c2e4",
+      "bytes": 160
+    },
+    "append-5-entry-registers.bin": {
+      "sha256": "d7b1785d2cfc6f4b46cd4850b9fccb6445f9bf2580b11b6aa8683fa6b099ad0b",
+      "bytes": 72
+    },
+    "append-5-return-header.bin": {
+      "sha256": "778e4b1db70327c9a38ba263410bac2f4007ecdb06555545512a5ddb9633744f",
+      "bytes": 12
+    },
+    "append-5-return-input.bin": {
+      "sha256": "38bd91fcaeb1311c709b8ec9a3209c5457e200a49b59586c42e2880b2e6b1421",
+      "bytes": 27
+    },
+    "append-5-return-items.bin": {
+      "sha256": "65f187d98931bcecfbb26f8403d3fa311e85cb754fc9e97d172a38ba12cd5050",
+      "bytes": 160
+    },
+    "append-5-return-registers.bin": {
+      "sha256": "74058fefb16c5da3d66d3965f3682a10b9058809394cd0833b38f926541c1d34",
+      "bytes": 72
+    },
+    "append-resolver-input.bin": {
+      "sha256": "ba8320c4a9a9df04606b3078b0fad61735e5999050c082e80778d7b9a399220d",
+      "bytes": 9
+    },
+    "audit.json": {
+      "sha256": "c5680ca21bd6c0d81300926d4d99c1f14b55fe6ef704968c40743319908a9f56",
+      "bytes": 818
+    },
+    "controls.json": {
+      "sha256": "cf4986abcd71eecf598b9ef736d7fdc9c6181d43e7ae248b93a1aeb1d4262402",
+      "bytes": 6705
+    },
+    "native-appends.json": {
+      "sha256": "a83991c16d8e40f8a7bb562dc89dbcf6d0f8a41413b5a72b8fae36aa89a83a8b",
+      "bytes": 12023
+    },
+    "resolver-consumed-state.json": {
+      "sha256": "98022262b7fbfbcefffa34ebb044d8d99759d226b8efb7c3401134b5b08abf21",
+      "bytes": 1270
+    },
+    "validation.json": {
+      "sha256": "2e200772fcbbbf0fccc5dd4bbab03ac7de478aff11984f6c1ce572e5f7a32400",
+      "bytes": 5812
+    }
+  },
+  "recipes": {
+    "builds": "make -j4 original native; make -j4 build/dll-capture.exe (explicit original build)",
+    "current_static_audit": "python3 scripts/audit.py",
+    "read_only_frozen_validation": "python3 scripts/check-append-history.py --role normal",
+    "current_frontier_validation": "python3 scripts/check-trial.py ORIGINAL NATIVE",
+    "native_only_capture": "C1XX_SYSTEM_INFO_ORIGINAL=OWNED_ORIGINAL python3 scripts/capture-native.py --name FRESH_NAME",
+    "original_capture": "explicit original-only scripts/capture-original.py masked --name FRESH_NAME --timeout N; currently HOLD, never a fixture dependency"
+  }
+}

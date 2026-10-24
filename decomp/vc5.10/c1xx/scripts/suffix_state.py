@@ -32,12 +32,13 @@ def check(s, d, original, native, trial, text, state, prefix):
         need(count == 26 and at == len(data), 'whole separate Invoke input')
         return root, values
 
-    need(trial['trial'] == '_match_option_suffix' and trial['suffix_observers'] == {
+    continuation=trial['trial']=='_append_option_vector' and bool(trial.get('append_observers'))
+    need(trial['trial'] in ('_match_option_suffix','_append_option_vector') and trial['suffix_observers'] == ({
         'entry_rva': 0x39757, 'return_rva': 0x394cf, 'calls': 1,
         'arguments': [{'rule': 29, 'Invoke_slot': 7, 'offset': 2, 'action': 35}],
         'frontier_rva': 0x100ea, 'frontier_formals': ['CompilerVector *vector', 'char *value'],
         'scope': 'whole112B suffix candidate, one actual empty suffix; cold path source+graph only'
-    }, 'exact bounded candidate/actual input contract')
+    } if not continuation else dict(entry_rva=0x39757,return_rva=0x394cf,calls=3,arguments=[{'rule':29,'Invoke_slot':7,'offset':2,'action':35},{'rule':28,'Invoke_slot':10,'offset':3,'action':36},{'rule':48,'Invoke_slot':23,'offset':3,'action':34}],frontier_rva=0x397db,frontier_formals=['char *output','const char *input','unsigned capacity'],scope='three actual empty suffixes in accepted helper; whole43B append candidate')), 'exact bounded candidate/actual input contract')
     need([r for r in trial['ranges'] if r['owner'] == '_match_option_suffix'] == [
         {'owner': '_match_option_suffix', 'start_rva': 0x39757, 'end_rva': 0x39779, 'entry': 1},
         {'owner': '_match_option_suffix', 'start_rva': 0x72623, 'end_rva': 0x72671, 'entry': 0}
@@ -48,10 +49,10 @@ def check(s, d, original, native, trial, text, state, prefix):
     need([v for _, v in oldargs] == [v for _, v in args] and args[7][1] == b'-Ze\0' and
          args[8][1] == b'-D_MSC_EXTENSIONS\0', 'actual argument ownership/full strings')
     entries, ends, append = load('suffix-entries'), load('suffix-returns'), load('suffix-append-entries')
-    need([len(r) for r in (entries, ends, append)] == [1, 1, 1], 'one actual suffix and pending append')
+    need([len(r) for r in (entries, ends, append)] == ([3,3,1] if continuation else [1,1,1]), 'one actual suffix and pending append')
     entry, end, final = entries[0], ends[0], append[0]
     previous = load('integer-suffix-entries')
-    need(len(previous) == 1 and all(entry[k] == v for k, v in previous[0].items()),
+    need(len(previous) == (3 if continuation else 1) and all(entry[k] == v for k, v in previous[0].items()),
          'same real first suffix checkpoint and already validated owners/namespace/FP/state')
     a, b = reg('suffix-entry-0'), reg('suffix-return-0')
     need(a[1] == 0x10439757 and a[10:14] ==
@@ -126,7 +127,7 @@ def check(s, d, original, native, trial, text, state, prefix):
     outer, outer_ends = load('actions-outer-entries'), load('actions-outer-returns')
     calls, results = load('actions-signatures'), load('actions-signature-returns')
     need([len(r) for r in (actions, action_ends, matches, matched, outer, outer_ends, calls, results)] ==
-         [5, 4, 5, 4, 5, 5, 5 if seed else 6, 5 if seed else 6], 'complete actual continuation inventory')
+         ([20,20,21,21,21,21,23 if seed else 24,23 if seed else 24] if continuation else [5,4,5,4,5,5,5 if seed else 6,5 if seed else 6]), 'complete actual continuation inventory')
     rules = load('options-grammar-layout')['option_rules']['address']
     for index, rule_index, slot, offset in ((3, 29, 7, 2), (4, 6, 8, 2)):
         ae = reg('action-entry-%u' % index)
@@ -195,9 +196,9 @@ def check(s, d, original, native, trial, text, state, prefix):
          (original / 'vector-2-committed.bin').read_bytes() and bytes.fromhex(final['committed']) ==
          (native / 'vector-2-committed.bin').read_bytes(), 'entire owned32KiB unchanged from proved vector prefix')
     tail = re.findall(r'^trap seq=(\d+) rva=000100ea esp=(\w+).*stack=([0-9a-f,]+)$', text, re.M)
-    need(len(tail) == 1 and int(tail[0][0]) + 1 == nr[0] and int(tail[0][1], 16) == nr[2] and
+    need(len(tail) == (6 if continuation else 1) and int(tail[0][0]) + (0 if continuation else 1) == nr[0] and int(tail[0][1], 16) == nr[2] and
          [int(v, 16) for v in tail[0][2].split(',')][:3] == list(nr[10:13]) and
-         re.findall(r'^frontier rva=(\w+)$', text, re.M) == ['000100ea'], 'direct final original actual stack frontier')
+         re.findall(r'^frontier rva=(\w+)$', text, re.M) == (['000397db'] if continuation else ['000100ea']), 'direct final original actual stack frontier')
     # The generic trap saves/increments the observer sequence before this
     # same stopped context is recorded by check_suffix_stop; no target runs.
     sequence = int(tail[0][0])
@@ -211,12 +212,11 @@ def check(s, d, original, native, trial, text, state, prefix):
          'whole original direct final state/unknown bytes/architectural FP')
     expected_front = copy.deepcopy(front)
     expected_front.update(command_argc=18, command_argv=root + 32,
-                          current_argument=args[8][0], source_signature=results[-1]['eax'])
+                          current_argument=args[8][0], source_signature=results[4 if seed else 5]['eax'])
     expected_front['options_data']['language_extensions'] = 1
     need(state['symbol'] == 'append_option_vector' and state['args'] ==
-         dict(zip(('vector', 'value'), final['args'])) and names['append_option_vector'][0] < state['pc'] <=
-         sum(names['append_option_vector']) and d.elf_byte(native, state['pc'] - 1) == 0xcc and
-         b'Program received signal SIGTRAP' in (native / 'gdb.txt').read_bytes() and
+         dict(zip(('vector', 'value'), final['args'])) and ((state['pc']==final['pc'] and state['esp']==final['esp']) if continuation else
+          (names['append_option_vector'][0] < state['pc'] <= sum(names['append_option_vector']) and d.elf_byte(native,state['pc']-1)==0xcc and b'Program received signal SIGTRAP' in (native/'gdb.txt').read_bytes())) and
          state['frontend'] == expected_front and state['invocation'] == first['invocation'] and
          state['target_state'] == first['target_state'], 'actual named native trap and entire final modeled state/lifetime')
     need(all(x[0] < y[0] for x, y in zip(chronology, chronology[1:])), 'complete ordered suffix/option continuation')

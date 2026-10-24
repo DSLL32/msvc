@@ -1,0 +1,114 @@
+{
+  "kind": "UNPROMOTED complete43B append natural-case packet; no new fields, restore held",
+  "candidate": "_append_option_vector",
+  "code_bytes": 43,
+  "primary": [
+    65770,
+    65813
+  ],
+  "new_modeled_fields": 0,
+  "proofs": {
+    "normal": {
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-append-original-3",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-append-native-1",
+      "original_receipt_sha256": "b3d9cd5dbedf70b9083e516bca9b28cc3cf7af12cd26974e9fd92b39bde699d8",
+      "native_receipt_sha256": "b2392544b04fd4b932035e8e8cbe44de90261c663b88476996ac1e4fcb63ee61",
+      "validation": "cases/minimal/evidence/append-normal/validation.json",
+      "validation_sha256": "2e200772fcbbbf0fccc5dd4bbab03ac7de478aff11984f6c1ce572e5f7a32400",
+      "audit_sha256": "41614a2ee342a3898a8bb4d7bf056da55b79b20cddba583e698911361a874115",
+      "controls": "cases/minimal/evidence/append-normal/controls.json",
+      "controls_sha256": "cf4986abcd71eecf598b9ef736d7fdc9c6181d43e7ae248b93a1aeb1d4262402"
+    }
+  },
+  "status": "normal strict substantive gate and42 affected controls PASS; no promotion until parent review",
+  "source_function": "signed16 count/capacity; real grow stub on equality; item store then count increment",
+  "actual_appends": 6,
+  "actual_counts_before": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    0
+  ],
+  "defines": 5,
+  "includes": 1,
+  "new_frontier": {
+    "name": "_resolve_option_path",
+    "RVA": 235483,
+    "actual_three_formals": [
+      "output caller-owned uninitialized520-byte local",
+      "borrowed Invoke17+3 vc50.pdbNUL",
+      520
+    ],
+    "body_executed": false
+  },
+  "initialized_semantic_bytes": 2489,
+  "initialized_UNMODELED_bytes": 6031,
+  "files": {
+    "src/option-matcher.c": "630acda9cff845ea989c5e529444f6146dcbb851b314b624247d5fe9565d2262",
+    "functions.json": "75d4dcd1a98a00fb616d0230aee87902038461bafd136228360e22843a4efa65",
+    "graph-metadata.json": "ce1395f5d7244c6a9f833f848fa38eff071c5fe1bbc69457d6fba390d5c40c87",
+    "Makefile": "5a5d3ef630ed1d52c3c61bbb24971d9ba225749d1392831c34e21b54dcd2ab54",
+    "scripts/append_state.py": "e15467792b229593378518668437a1eab146bd76885de3071d6453911134533e",
+    "scripts/append_probe.py": "84e265a314daa6ed05e8065757e39473a8a15518ab248e1a2ba2441266ad1f1d",
+    "scripts/append-observer.inc": "2c39bae9973ff302409d3b50ba3f05c9b889d044ead3636caf873aa00de8ff3c",
+    "scripts/check-append-negative.py": "a28557a9fa3ce169f90f892946a3995918c9ff092892b58985c72dd9ca7adc48",
+    "scripts/check-callback.py": "e44db49a46e6ad8abe4998475fa3b895ebf765e1c5ba57b1fdbcb0e86300d31b",
+    "scripts/check-trial.py": "aff11316ad6bde818214ec1bdc14315e813575d52c477d5de893175625faa966",
+    "scripts/suffix_state.py": "46ce76442cfd38a69c97e96ba9d3e82d9d341499fa73c93540d41dec4dce807e",
+    "scripts/integer_state.py": "c184f5df70a42987d69049ea22034e25845ad457731e3018bf9ebce30e4fadce",
+    "scripts/option_action_state.py": "c844b8436bd0468d173b262269b8c758ba8a9d08c2f92d86f41b34f3b159324b",
+    "scripts/integer_probe.py": "994f9f6a3b6441b7d22516158dc48d284adeed67ad0ce1e0f778b1f9d0ed803b",
+    "scripts/suffix_probe.py": "c663c24137e2cf6d543a88eddbbaefc21e4f62c9768734c3fae2fcd8d87f8e2e",
+    "scripts/option_action_probe.py": "87f9c9f5b159da2872169be695be54e49e8f3b3767db972fd85c821a91bfd0b2",
+    "scripts/prepare-trial.py": "38b0bb0a8321a504dc5a6a12cbcc18da9967f785395f64852f1d75194975f54a",
+    "scripts/capture-original.py": "af594ae5958774fccc46f3844347b35492ef515ddff85cfd63e931992ca7dcff",
+    "scripts/capture-minimal-native.py": "5aeefe1fe0919b5d13f389361153c910503fef7b988db181ccbbaad68495fec2",
+    "scripts/dll-capture.c": "9f696ceaea439ed18f40e34222e5a4309e7ad9a8a62e7f1bc6ffef6463041083",
+    "scripts/integer-observer.inc": "fae88fb50925ea1fbc9488dd8d55a3e9aa05d6880cbdd1be47c398f6cbe3c997",
+    "scripts/option-action-observer.inc": "89bb9b8c1247c9def36842790973179cd0537daab44b86958bc31db46ad33475",
+    "scripts/suffix-observer.inc": "8513f921a08322b841a3df38596f4af1fbd511dca4150afbcff49692364b20e5",
+    "scripts/check-append-history.py": "01b2f723576dc9ded8bb327e44cb8e37353ee92b9d3a91e80a247c099128fc5a"
+  },
+  "owned_manifest": {
+    "path": "cases/minimal/evidence/append-normal/manifest.json",
+    "sha256": "ad3d0af877e673e5d8adf537fd86096012b46aad6712d09ab27c7e81458c40f8"
+  },
+  "timings": {
+    "original_normal": 338.9312105393037,
+    "native_normal": 13.159036655910313,
+    "strict_audit": 0.14010874275118113,
+    "affected_controls": 30.123760344460607,
+    "native_GDB": {
+      "source_command_seconds": 4.229994174093008,
+      "source_command_count": 58,
+      "gdb_total_seconds": 13.159036655910313,
+      "startup_seconds": 0.09205785393714905,
+      "breakpoint_setup_seconds": 0.7403372777625918,
+      "collection_seconds": 5.015090051107109,
+      "serialization_io_seconds": 0.1400964455679059,
+      "residual_inferior_debugger_seconds": 7.171455027535558,
+      "collector_count": 72,
+      "scope": "residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution"
+    }
+  },
+  "shared_scope": "exact reviewed574227e0e source snapshot, before constants-onlyf086; source content retained with actual ELF",
+  "failed_attempts": [
+    "original1 progressing timeout240s atseq387, retained",
+    "original2 reaches actualseq441 resolver but final legacy API-returncount3 assertion fails126 after15actual returns; allraw retained; not acceptance",
+    "native1 succeeds; offline decoder initially lacked expected resolver trace and first-prefix versus whole-loop selection; validator-only corrections retained in logs"
+  ],
+  "counts": {
+    "before_boundaries": 95,
+    "before_APP_functions": 91,
+    "before_APP_bytes": 6973,
+    "prospective_boundaries": 96,
+    "prospective_APP_functions": 92,
+    "prospective_APP_bytes": 7016,
+    "historical_CRT_support_bytes": 451,
+    "generated_import_bytes": 12,
+    "prospective_whole_code_bytes": 7479,
+    "whole_code_denominator": 751216
+  }
+}

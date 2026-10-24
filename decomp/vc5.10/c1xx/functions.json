@@ -100,7 +100,8 @@
     "_match_option",
     "_apply_option_action",
     "_parse_option_integer",
-    "_match_option_suffix"
+    "_match_option_suffix",
+    "_append_option_vector"
   ],
   "driver": [
     {
@@ -1269,11 +1270,19 @@
     {
       "name": "_append_option_vector",
       "start": 272695530,
-      "end": 272695531,
+      "end": 272695573,
       "source": "src/option-matcher.c",
       "abi": "cdecl8",
+      "evidence": "Own43B append: signed16 count/capacity equality\u2192genuine pending grow, pointer element store at signextended count then WORD increment."
+    },
+    {
+      "name": "_grow_option_vector",
+      "start": 272802704,
+      "end": 272802705,
+      "source": "src/option-matcher.c",
+      "abi": "cdecl4",
       "pending_extent": true,
-      "evidence": "Actual full option action direct caller identifies named pending boundary and physical stack formals; no body/credit."
+      "evidence": "Own append cold equality branch call1010b passes vector and callerADD4; no actual call/body/credit in current prefix."
     }
   ],
   "status": "autonomous minimal C++ reconstruction active",
@@ -6053,6 +6062,202 @@
         "nonzero_seed_scope": "typed pointer identities and exact scalar17",
         "original_seconds": 80.7125255940482,
         "native_seconds": 11.546103905886412
+      }
+    },
+    {
+      "name": "_append_option_vector",
+      "classification": "application source",
+      "source": "src/option-matcher.c",
+      "source_sha256": "630acda9cff845ea989c5e529444f6146dcbb851b314b624247d5fe9565d2262",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-append-original-3",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-append-native-1",
+      "original_receipt_sha256": "b3d9cd5dbedf70b9083e516bca9b28cc3cf7af12cd26974e9fd92b39bde699d8",
+      "native_receipt_sha256": "b2392544b04fd4b932035e8e8cbe44de90261c663b88476996ac1e4fcb63ee61",
+      "trial_sha256": "53391651713c32bf0b014b28c64fccba51f6311eaf4c03b071074749557c88ae",
+      "audit_sha256": "41614a2ee342a3898a8bb4d7bf056da55b79b20cddba583e698911361a874115",
+      "code_chunks": [
+        [
+          65770,
+          65813
+        ]
+      ],
+      "comparison": {
+        "matcher_boundary": {
+          "frontier": "_resolve_option_path",
+          "candidate": "_append_option_vector",
+          "code_bytes": 43,
+          "appends": 6,
+          "defines": 5,
+          "includes": 1,
+          "grow_calls": 0,
+          "owned_allocation_bytes": 32768,
+          "full_option_inventory": {
+            "matches": 21,
+            "actions": 20,
+            "outer": 21,
+            "inner": 5,
+            "numeric": 5,
+            "suffix": 3,
+            "CRC": 24
+          },
+          "new_fields": 0,
+          "unknown_initialized_bytes": 6031,
+          "CRT_credit": 0,
+          "prefix": {
+            "frontier": "_append_option_vector",
+            "candidate": "_match_option_suffix",
+            "code_bytes": 112,
+            "actual_suffix_calls": 1,
+            "pattern": "star NUL",
+            "argument": "borrowed Invoke[7]+2 e NUL",
+            "action_slot": 35,
+            "action_slot_consumed": false,
+            "result": 1,
+            "appended": false,
+            "append_formals": 2,
+            "actual_match_calls": 5,
+            "actual_action_entries": 5,
+            "actual_action_returns": 4,
+            "actual_signature_calls": 24,
+            "unvisited_scope": "78B cold suffix comparison source+graph only",
+            "unknown_initialized_bytes": 6031,
+            "dependency_credit": 0,
+            "prefix": {
+              "frontier": "_match_option_suffix",
+              "candidate": "_parse_option_integer",
+              "code_bytes": 135,
+              "numeric_input": "1",
+              "numeric_result": 1,
+              "public_calls": [
+                {
+                  "kind": "isspace",
+                  "argument_role": 49,
+                  "original_raw": 0,
+                  "native_raw": 0,
+                  "comparison": "zero/nonzero only",
+                  "code_credit": 0
+                },
+                {
+                  "kind": "isdigit",
+                  "argument_role": 49,
+                  "original_raw": 4,
+                  "native_raw": 2048,
+                  "comparison": "zero/nonzero only",
+                  "code_credit": 0
+                },
+                {
+                  "kind": "atol",
+                  "argument_role": "borrowed Invoke[6]",
+                  "original_raw": 1,
+                  "native_raw": 1,
+                  "comparison": "exact signed32",
+                  "code_credit": 0
+                }
+              ],
+              "final_suffix_formals": [
+                "pattern",
+                "argument",
+                "action"
+              ],
+              "suffix_action": 35,
+              "actual_matches": 4,
+              "actual_actions": 3,
+              "actual_signature_calls": 5,
+              "unknown_initialized_bytes": 6031,
+              "unvisited_paths": "whitespace/invalid/range source+graph only",
+              "CRT_code_credit": 0,
+              "prefix": {
+                "frontier": "_parse_option_integer",
+                "code_bytes": 373,
+                "table_data_bytes": 71,
+                "table_code_credit": 0,
+                "matches": 3,
+                "actions": 3,
+                "returned_actions": 2,
+                "outer_callbacks": 3,
+                "inner_callbacks": 3,
+                "signature_calls": 3,
+                "final_argument": "borrowed Invoke[6] 1 NUL",
+                "argc_after": 20,
+                "unknown_initialized_bytes": 6031,
+                "prefix": {
+                  "frontier": "_apply_option_action",
+                  "code_bytes": 430,
+                  "table_data_bytes": 74,
+                  "table_code_credit": 0,
+                  "new_BSS_semantic_bytes": 4,
+                  "argument": "borrowed Invoke[1] -il",
+                  "value": "borrowed Invoke[2]",
+                  "argc_before": 25,
+                  "argc_after": 24,
+                  "rule_index": 31,
+                  "rule_action": 34,
+                  "signature": {
+                    "input_hex": "435050",
+                    "defined_literal_hex": "43505000",
+                    "count": 3,
+                    "seed": 4294967295,
+                    "result": 2746358228,
+                    "result_hex": "a3b219d4",
+                    "provider_code_bytes": 53,
+                    "provider_table_bytes": 1024,
+                    "private_stack": "all3 slots observed pre/post, third equals result on both; caller ADD12 before any slot read/escape, only EAX consumed",
+                    "provider_application_credit": 0
+                  },
+                  "prefix": {
+                    "frontier": "_match_option",
+                    "code_bytes": 34,
+                    "executed_case": "actual normal/restore accepted-prefix iterator checkpoint",
+                    "normal_case": "ordinary matcher continuation; no additional iterator acceptance",
+                    "argc_before": 26,
+                    "argc_after": 25,
+                    "argv_advance_bytes": 4,
+                    "result": "borrowed Invoke argv[1] -il NUL",
+                    "matcher_formals": 4,
+                    "vector_prefix": {
+                      "frontier": "public:mspdb50!SigForPbCb",
+                      "code_bytes": 116,
+                      "calls": 3,
+                      "object_bytes": 36,
+                      "pointer_storage_bytes": 480,
+                      "commit_bytes": 32768,
+                      "provider_executed": false,
+                      "provider_return_claimed": false
+                    }
+                  },
+                  "unmodeled_initialized_bytes": 6031
+                }
+              }
+            }
+          }
+        },
+        "trial": "_append_option_vector",
+        "frontier": "_resolve_option_path",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 2797,
+        "native_bss_size": 2828,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 6031,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 338.9312105393037,
+        "native_seconds": 13.159036655910313
       }
     }
   ],

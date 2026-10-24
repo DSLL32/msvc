@@ -39,7 +39,7 @@ build/%.obj: src/%.cpp $(HEADERS) scripts/record-build.py | build
 	$(PYTHON) scripts/record-build.py --record $@.build.json --artifact $@ -- $(TOOL) CL.EXE /nologo /c /MD /Od /GR- /GX- /W3 /I$(RECON)/include /Fo$@ $<
 
 # Original-only debugger/host, outside native fixture dependencies.
-build/dll-capture.obj: scripts/dll-capture.c scripts/invoke-arguments.h scripts/options-fields.h scripts/locale-observer.inc scripts/path-fold-observer.inc scripts/vector-observer.inc scripts/option-action-observer.inc scripts/integer-observer.inc scripts/suffix-observer.inc | build
+build/dll-capture.obj: scripts/dll-capture.c scripts/invoke-arguments.h scripts/options-fields.h scripts/locale-observer.inc scripts/path-fold-observer.inc scripts/vector-observer.inc scripts/option-action-observer.inc scripts/integer-observer.inc scripts/suffix-observer.inc scripts/append-observer.inc | build
 	$(TOOL) CL.EXE /nologo /c /MD /Od /W3 /I$(RECON)/include /Fo$@ $<
 
 build/dll-capture.exe: build/dll-capture.obj

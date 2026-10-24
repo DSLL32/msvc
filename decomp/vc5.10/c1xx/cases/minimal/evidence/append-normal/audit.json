@@ -1,0 +1,24 @@
+{
+  "kind": "strict current shared auditor proof reference; full report retained in owned scratch",
+  "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/append-normal-audit-proof.json",
+  "sha256": "41614a2ee342a3898a8bb4d7bf056da55b79b20cddba583e698911361a874115",
+  "auditor_sha256": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24",
+  "trial_sha256": "53391651713c32bf0b014b28c64fccba51f6311eaf4c03b071074749557c88ae",
+  "seconds": 0.14010874275118113,
+  "checks": [
+    "call_graph",
+    "ret_cleanup",
+    "known_imports",
+    "register_imports",
+    "function_references",
+    "extent_ownership",
+    "whole_extent_boundaries",
+    "evidenced_runtime_graphs",
+    "accepted_index_extents"
+  ],
+  "checked_functions": 94,
+  "checked_unique_accepted_extents": {
+    "original": 96,
+    "rebuilt": 96
+  }
+}

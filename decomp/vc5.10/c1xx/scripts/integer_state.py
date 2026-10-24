@@ -41,15 +41,16 @@ def check(s, d, original, native, trial, text, state, prefix):
         need(count == 26 and at == len(data), 'full independent Invoke26 ownership')
         return root, values
 
-    continuation = trial['trial'] == '_match_option_suffix' and bool(trial.get('suffix_observers'))
-    need(trial['trial'] in ('_parse_option_integer','_match_option_suffix') and trial['integer_observers'] == {
+    append_mode=trial['trial']=='_append_option_vector' and bool(trial.get('append_observers'))
+    continuation = trial['trial'] in ('_match_option_suffix','_append_option_vector') and bool(trial.get('suffix_observers'))
+    need(trial['trial'] in ('_parse_option_integer','_match_option_suffix','_append_option_vector') and trial['integer_observers'] == ({
         'entry_rva': 0x39779, 'return_rva': 0x39694, 'calls': 1,
         'argument': 'borrowed Invoke[6] 1 NUL',
         'provider_names': list(KINDS), 'provider_rvas': list(PROVIDERS),
         'IAT_rvas': [0xc9154, 0xc9090, 0xc9000], 'API_return_rvas': list(RETURNS),
         'frontier_rva': 0x39757,
         'ctype_consumption': 'zero versus nonzero only; raw provider masks retained separately;SBCS1 input49'
-    }, 'exact own observer/input/consumption contract')
+    } if not append_mode else dict(entry_rva=0x39779,return_rva=0x39694,calls=5,argument='five actual borrowed numeric option spans; first Invoke[6] 1 NUL',inputs=['1','8','64','5','0'],provider_names=list(KINDS),provider_rvas=list(PROVIDERS),IAT_rvas=[0xc9154,0xc9090,0xc9000],API_return_rvas=list(RETURNS),frontier_rva=0x397db,ctype_consumption='zero versus nonzero only; raw provider masks retained separately;SBCS1 inputs49/56/54/53/48')), 'exact own observer/input/consumption contract')
     need([r for r in trial['ranges'] if r['owner'] == '_parse_option_integer'] == [
         {'owner': '_parse_option_integer', 'start_rva': 0x39779, 'end_rva': 0x397db, 'entry': 1},
         {'owner': '_parse_option_integer', 'start_rva': 0x72671, 'end_rva': 0x72696, 'entry': 0}
@@ -65,7 +66,7 @@ def check(s, d, original, native, trial, text, state, prefix):
     entries, ends = load('integer-entries'), load('integer-returns')
     api_entries, api_ends = load('integer-api-entries'), load('integer-api-returns')
     suffixes = load('integer-suffix-entries')
-    need([len(r) for r in (entries, ends, api_entries, api_ends, suffixes)] == [1, 1, 3, 3, 1],
+    need([len(r) for r in (entries, ends, api_entries, api_ends, suffixes)] == ([5,5,15,15,3] if append_mode else [1,1,3,3,1]),
          'complete one numeric/three public/one pending suffix inventory')
     entry, end, suffix = entries[0], ends[0], suffixes[0]
     a, b = reg('integer-0-entry'), reg('integer-0-return')
@@ -209,7 +210,8 @@ def check(s, d, original, native, trial, text, state, prefix):
     outer, outer_ends = load('actions-outer-entries'), load('actions-outer-returns')
     calls, results = load('actions-signatures'), load('actions-signature-returns')
     need([len(r) for r in (actions, action_ends, matches, match_ends, outer, outer_ends, calls, results)] ==
-         ([5, 4, 5, 4, 5, 5, 5 if seed else 6, 5 if seed else 6] if continuation else
+         ([20,20,21,21,21,21,23 if seed else 24,23 if seed else 24] if append_mode else
+          [5, 4, 5, 4, 5, 5, 5 if seed else 6, 5 if seed else 6] if continuation else
           [3, 3, 4, 3, 4, 4, 4 if seed else 5, 4 if seed else 5]),
          'complete subsequent loop/API observations, with no extra hidden calls')
     write('options.warning_level', 1, 1)
@@ -252,7 +254,7 @@ def check(s, d, original, native, trial, text, state, prefix):
          matches[3]['argument'] == args[7][1].hex(), 'fourth matcher actual four ABI inputs')
     write('current_argument', oldargs[7][0], args[7][0])
     tail = re.findall(r'^trap seq=(\d+) rva=00039757 esp=(\w+).*stack=([0-9a-f,]+)$', text, re.M)
-    need(len(tail) == 1 and re.findall(r'^frontier rva=(\w+)$', text, re.M) == (['000100ea'] if continuation else ['00039757']),
+    need(len(tail) == (3 if append_mode else 1) and re.findall(r'^frontier rva=(\w+)$', text, re.M) == (['000397db'] if append_mode else ['000100ea'] if continuation else ['00039757']),
          'actual final pending suffix trap')
     sequence = int(tail[0][0]);stack = [int(v, 16) for v in tail[0][2].split(',')]
     rule = pe_read(original / 'loaded-target.bin', 0xd6160 + 29 * 12, 12)

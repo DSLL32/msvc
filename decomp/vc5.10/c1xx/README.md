@@ -421,3 +421,15 @@ receives no credit.80 new affected controls include coherent same-boundary
 owner substitutions. See `cases/minimal/OPTION-SUFFIX.md`/`suffix-acceptance.json`.
 Current91 APP functions/6973B plus historical CRT451B/import12B total7436/751216
 whole code bytes; all6031 unknown initialized bytes remain unmodeled.
+
+The43-byte append function is accepted from six natural entry/return pairs:
+five definitions and one include directory, with counts0,1,2,3,4,0. The exact
+12-byte headers,160-byte item arrays and full32KiB owned allocation change only
+at the selected item and signed-short count. No fields were added; growth remains
+a genuine pending call and was not exercised. All42 new semantic controls reject.
+See `cases/minimal/OPTION-APPEND.md` and `append-acceptance.json`. Current92 APP
+functions/7016B plus historical CRT451B/import12B total7479/751216 whole code bytes;
+6031 initialized bytes remain unmodeled. The next real frontier is
+resolve_option_path(output,vc50.pdb,520). Original observation cost338.931s,
+native GDB observation13.159s; these are acceptance captures, not fixture times.
+Further original captures are held for bounded observer-cost review.

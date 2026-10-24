@@ -192,7 +192,17 @@ invalid:
     return number;
 }
 
+void grow_option_vector(CompilerVector *vector);
+
 void append_option_vector(CompilerVector *vector, char *value)
+{
+    if (vector->count == vector->capacity)
+        grow_option_vector(vector);
+    vector->items[vector->count] = value;
+    ++vector->count;
+}
+
+void grow_option_vector(CompilerVector *vector)
 {
     __asm { int 3 }
 }

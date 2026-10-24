@@ -22,7 +22,7 @@ action_signatures=[]
 action_signature_returns=[]
 action_integer_entries=[]
 def action_string(pointer):
-    if not pointer:raise RuntimeError('NULL actual option string before numeric frontier')
+    if not pointer:return ''  # Actual NULL formal; no bytes are read.
     value=gdb.Value(pointer).cast(gdb.lookup_type('char').pointer()).string(encoding='latin1',length=1024)
     at=value.find(chr(0))
     if at<0:raise RuntimeError('unbounded actual option string')

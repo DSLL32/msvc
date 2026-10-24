@@ -20,37 +20,39 @@ class IntegerReturn(gdb.Breakpoint):
     def __init__(self,entry):
         super(IntegerReturn,self).__init__('*0x%x'%entry['return_pc'],internal=True);self.entry=entry
     def stop(self):
-        row=vector_row('integer-0-return');row.update(entry_esp=self.entry['esp'],value=action_string(self.entry['args'][0]))
+        row=vector_row('integer-%d-return'%self.entry['index']);row.update(index=self.entry['index'],entry_esp=self.entry['esp'],value=action_string(self.entry['args'][0]))
         integer_returns.append(row);self.enabled=False;return False
 class IntegerPublicReturn(gdb.Breakpoint):
     def __init__(self,entry):
         super(IntegerPublicReturn,self).__init__('*0x%x'%entry['return_pc'],internal=True);self.entry=entry
     def stop(self):
-        row=vector_row('integer-0-api-'+self.entry['kind']+'-return')
-        row.update(entry_esp=self.entry['esp'],kind=self.entry['kind'],argument_after=struct.unpack('<I',gdb.selected_inferior().read_memory(row['esp'],4))[0])
+        row=vector_row('integer-%d-api-'%self.entry['index']+self.entry['kind']+'-return')
+        row.update(index=self.entry['index'],entry_esp=self.entry['esp'],kind=self.entry['kind'],argument_after=struct.unpack('<I',gdb.selected_inferior().read_memory(row['esp'],4))[0])
         if self.entry['kind']=='atol':row['input']=action_string(self.entry['args'][0])
         integer_api_returns.append(row);self.enabled=False;return False
 class IntegerPublic(gdb.Breakpoint):
     def __init__(self,kind,address):
         super(IntegerPublic,self).__init__('*0x%x'%address,internal=True);self.kind=kind
     def stop(self):
-        if len(integer_entries)!=1 or integer_returns:raise RuntimeError('public numeric observer escaped active target invocation')
-        row=vector_row('integer-0-api-'+self.kind+'-entry')
+        if len(integer_entries)!=len(integer_returns)+1:raise RuntimeError('public numeric observer escaped active target invocation')
+        index=len(integer_entries)-1;row=vector_row('integer-%d-api-'%index+self.kind+'-entry')
         words=struct.unpack('<2I',gdb.selected_inferior().read_memory(row['esp'],8))
         row.update(return_pc=words[0],args=[words[1]],formal_inventory=None,caller=gdb.newest_frame().older().name(),eflags=int(gdb.parse_and_eval('(unsigned int)$eflags')))
         provider=gdb.solib_name(row['pc'])
         if not provider or not provider.endswith('/libc.so.6'):raise RuntimeError('numeric public observer is not at actual Linux libc entry')
         row.update(provider=provider,provider_entry_bytes=gdb.selected_inferior().read_memory(row['pc'],16).tobytes().hex())
-        row.update(kind=self.kind,formal_observation='one actual raw cdecl argument; external libc has no target DWARF formal claim')
+        row.update(index=index,kind=self.kind,formal_observation='one actual raw cdecl argument; external libc has no target DWARF formal claim')
         if self.kind=='atol':row['input']=action_string(row['args'][0])
         integer_api_entries.append(row);IntegerPublicReturn(row);return False
 class IntegerEntry(gdb.Breakpoint):
     def stop(self):
-        if integer_entries:raise RuntimeError('unexpected second numeric invocation before suffix frontier')
-        row=vector_abi(vector_row('integer-0-entry'),1);row['value']=action_string(row['args'][0])
-        integer_entries.append(row);gdb.execute('source '+@@CHECKPOINT@@)
-        for kind in ('isspace','isdigit','atol'):
-            address=int(gdb.parse_and_eval('(unsigned int)(void*)'+kind));integer_native_providers[kind]=address;IntegerPublic(kind,address)
+        if len(integer_entries)!=len(integer_returns):raise RuntimeError('nested actual numeric invocation')
+        index=len(integer_entries);row=vector_abi(vector_row('integer-%d-entry'%index),1);row.update(index=index,value=action_string(row['args'][0]))
+        integer_entries.append(row)
+        if not index:
+            gdb.execute('source '+@@CHECKPOINT@@)
+            for kind in ('isspace','isdigit','atol'):
+                address=int(gdb.parse_and_eval('(unsigned int)(void*)'+kind));integer_native_providers[kind]=address;IntegerPublic(kind,address)
         IntegerReturn(row);return False
 class IntegerSuffix(gdb.Breakpoint):
     def stop(self):

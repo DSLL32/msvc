@@ -3,7 +3,7 @@
   "project": "vc5.10",
   "toolchain": "5.10",
   "binary": "C1XX.DLL",
-  "state": "autonomous minimal C++ reconstruction:373B option action accepted after complete paired/independent review;93 boundaries accepted, next numeric parser",
+  "state": "autonomous minimal C++ reconstruction:43B append accepted;96 boundaries/92 APP functions, next genuine resolver; original captures held for observer optimization review",
   "cases": [
     {
       "id": "dll-lifecycle-and-exports",
@@ -29,7 +29,7 @@
         "/Od",
         "minimal.cpp"
       ],
-      "status": "active: three option actions accepted; current genuine frontier parse_option_integer(\"1\"), next135B leaf being recovered",
+      "status": "active: six natural append calls accepted; genuine resolve_option_path(output, borrowed vc50.pdb,520) frontier; minimal compilation incomplete",
       "source_sha256": "deac66ccb79f6d31c0fa7d358de48e083c15c02ff50ec1ebd4b64314b9e6e196",
       "contract": "minimal/contract.json",
       "validation": "minimal/invoke-validation.json",
@@ -65,7 +65,10 @@
       "vector_validation": "minimal/vector-trial.json",
       "argument_cursor_validation": "minimal/argument-trial.json",
       "matcher_validation": "minimal/matcher-trial.json",
-      "option_action_validation": "minimal/option-action-trial.json"
+      "option_action_validation": "minimal/option-action-trial.json",
+      "integer_validation": "minimal/integer-trial.json",
+      "suffix_validation": "minimal/suffix-trial.json",
+      "append_validation": "minimal/append-acceptance.json"
     },
     {
       "id": "cpp-basic",

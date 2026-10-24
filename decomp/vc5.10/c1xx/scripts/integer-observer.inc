@@ -3,6 +3,7 @@
 static DWORD integer_esp,integer_return;
 static unsigned integer_calls,integer_returns,integer_api_calls,integer_api_returns;
 static int integer_active,integer_api_active;
+static DWORD integer_first_byte;
 static DWORD integer_argument,integer_api_esp,integer_api_return;
 static DWORD integer_providers[3],integer_api_argument;
 static BYTE integer_saved,integer_provider_saved[3],integer_api_saved;
@@ -32,7 +33,7 @@ static void integer_enter(CONTEXT *context,HANDLE thread,DWORD tid)
 {
     DWORD words[2],provider;unsigned i;char input[100],name[100];
     if(!option_integer_probe)return;
-    if(integer_active || integer_calls>=1)fail("numeric entry count/nesting");
+    if(integer_active || integer_calls>=(option_append_probe?5U:1U))fail("numeric entry count/nesting");
     readmem(context->Esp,words,sizeof(words));
     if(words[0]!=base+0x39694)fail("numeric action caller");
     if(!integer_calls) {
@@ -49,8 +50,11 @@ static void integer_enter(CONTEXT *context,HANDLE thread,DWORD tid)
     }
     integer_esp=context->Esp;integer_return=words[0];integer_argument=words[1];
     remote_string(integer_argument,input,sizeof(input));
-    if(strlen(input)!=1 || input[0]!='1')
-        fail("numeric actual complete input");
+    {
+        const char *expected[5]={"1","8","64","5","0"};
+        if(strcmp(input,expected[integer_calls]))fail("numeric actual complete input");
+    }
+    integer_first_byte=(unsigned char)input[0];
     integer_saved=snapshot[0x39694-code_rva];if(integer_saved!=0x8b)fail("numeric return byte");
     ++integer_calls;integer_active=1;patch(integer_return,0xcc);
     integer_record("entry",base+0x39779,context,thread,tid);
@@ -83,11 +87,11 @@ static int integer_boundary(DWORD address,CONTEXT *context,HANDLE thread,DWORD t
     if(!option_integer_probe)return 0;
     for(kind=0;kind<3;++kind)if(integer_providers[kind] && address==integer_providers[kind])break;
     if(kind<3) {
-        if(!integer_active || integer_api_active || integer_api_calls>=3 || kind!=integer_api_calls%3)
+        if(!integer_active || integer_api_active || integer_api_calls>=(option_append_probe?15U:3U) || kind!=integer_api_calls%3)
             fail("numeric API actual order/count");
         readmem(context->Esp,stack,sizeof(stack));
         if(stack[0]!=base+integer_return_rvas[kind] ||
-           stack[1]!=(kind==2?integer_argument:(DWORD)'1'))
+           stack[1]!=(kind==2?integer_argument:integer_first_byte))
             fail("numeric API actual caller/input");
         integer_api_return=stack[0];integer_api_argument=stack[1];integer_api_esp=context->Esp;
         integer_api_saved=snapshot[integer_return_rvas[kind]-code_rva];
@@ -113,7 +117,7 @@ static int integer_boundary(DWORD address,CONTEXT *context,HANDLE thread,DWORD t
 
 static void check_integer_stop(void)
 {
-    if(option_integer_probe && (integer_calls!=1 || integer_returns!=1 ||
-       integer_api_calls!=3 || integer_api_returns!=3 || integer_active || integer_api_active))
+    if(option_integer_probe && (integer_calls!=(option_append_probe?5U:1U) || integer_returns!=integer_calls ||
+       integer_api_calls!=integer_calls*3 || integer_api_returns!=integer_api_calls || integer_active || integer_api_active))
         fail("complete numeric/public call closure");
 }
