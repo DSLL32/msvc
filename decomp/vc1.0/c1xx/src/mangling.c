@@ -842,3 +842,10 @@ char *__stdcall mangle_static_member_name(CppSymbol *owner, CppSymbol *member)
 {
     return intern_identifier(write_decorated_name(0, member, owner, 0));
 }
+
+/* Original 0x56490..0x564a8, stdcall4. Intern the decorated name of
+   local static storage without a separate enclosing-symbol override. */
+char *__stdcall make_local_static_name(CppSymbol *symbol)
+{
+    return intern_identifier(write_decorated_name(0, symbol, 0, 0));
+}

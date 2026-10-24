@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_make_local_static_name@4",
+    "start": 353424,
+    "end": 353449
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1215-make_local_static_name-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_intern_identifier@4",
+    "_write_decorated_name@16"
+  ],
+  "next_frontier": "_record_function_symbol_alias@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8387676114216447,
+  "total_operation_seconds": 4.176684928126633,
+  "original_capture_seconds": 0.966274905949831
+}

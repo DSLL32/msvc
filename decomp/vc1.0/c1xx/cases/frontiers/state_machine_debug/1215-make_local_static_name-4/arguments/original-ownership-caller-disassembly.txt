@@ -1,0 +1,68 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00053a40 <.text+0x3ca40>:
+   53a40:	53                   	push   ebx
+   53a41:	56                   	push   esi
+   53a42:	57                   	push   edi
+   53a43:	55                   	push   ebp
+   53a44:	8b 5c 24 14          	mov    ebx,DWORD PTR [esp+0x14]
+   53a48:	8a 03                	mov    al,BYTE PTR [ebx]
+   53a4a:	24 1f                	and    al,0x1f
+   53a4c:	3c 09                	cmp    al,0x9
+   53a4e:	0f 85 0b 01 00 00    	jne    0x53b5f
+   53a54:	8a 43 1a             	mov    al,BYTE PTR [ebx+0x1a]
+   53a57:	24 07                	and    al,0x7
+   53a59:	3c 03                	cmp    al,0x3
+   53a5b:	0f 85 fe 00 00 00    	jne    0x53b5f
+   53a61:	6a 34                	push   0x34
+   53a63:	e8 e8 72 01 00       	call   0x6ad50
+   53a68:	8b e8                	mov    ebp,eax
+   53a6a:	8b fd                	mov    edi,ebp
+   53a6c:	8b f3                	mov    esi,ebx
+   53a6e:	b9 0d 00 00 00       	mov    ecx,0xd
+   53a73:	f3 a5                	rep movs DWORD PTR es:[edi],DWORD PTR ds:[esi]
+   53a75:	83 3d 40 c1 08 00 00 	cmp    DWORD PTR ds:0x8c140,0x0
+   53a7c:	74 60                	je     0x53ade
+   53a7e:	a1 40 c1 08 00       	mov    eax,ds:0x8c140
+   53a83:	f6 40 1b 01          	test   BYTE PTR [eax+0x1b],0x1
+   53a87:	74 55                	je     0x53ade
+   53a89:	8a 40 1a             	mov    al,BYTE PTR [eax+0x1a]
+   53a8c:	24 07                	and    al,0x7
+   53a8e:	3c 03                	cmp    al,0x3
+   53a90:	75 0b                	jne    0x53a9d
+   53a92:	a1 40 c1 08 00       	mov    eax,ds:0x8c140
+   53a97:	f6 40 03 04          	test   BYTE PTR [eax+0x3],0x4
+   53a9b:	74 41                	je     0x53ade
+   53a9d:	a1 40 c1 08 00       	mov    eax,ds:0x8c140
+   53aa2:	f6 40 1c 04          	test   BYTE PTR [eax+0x1c],0x4
+   53aa6:	74 27                	je     0x53acf
+   53aa8:	8a 4d 1c             	mov    cl,BYTE PTR [ebp+0x1c]
+   53aab:	80 c9 04             	or     cl,0x4
+   53aae:	88 4d 1c             	mov    BYTE PTR [ebp+0x1c],cl
+   53ab1:	8a 40 1c             	mov    al,BYTE PTR [eax+0x1c]
+   53ab4:	32 c1                	xor    al,cl
+   53ab6:	24 08                	and    al,0x8
+   53ab8:	32 c1                	xor    al,cl
+   53aba:	88 45 1c             	mov    BYTE PTR [ebp+0x1c],al
+   53abd:	8d 55 1a             	lea    edx,[ebp+0x1a]
+   53ac0:	8d 43 1a             	lea    eax,[ebx+0x1a]
+   53ac3:	66 8b 0a             	mov    cx,WORD PTR [edx]
+   53ac6:	66 89 08             	mov    WORD PTR [eax],cx
+   53ac9:	8a 4a 02             	mov    cl,BYTE PTR [edx+0x2]
+   53acc:	88 48 02             	mov    BYTE PTR [eax+0x2],cl
+   53acf:	8a 45 1a             	mov    al,BYTE PTR [ebp+0x1a]
+   53ad2:	24 fa                	and    al,0xfa
+   53ad4:	0c 02                	or     al,0x2
+   53ad6:	88 45 1a             	mov    BYTE PTR [ebp+0x1a],al
+   53ad9:	0c 40                	or     al,0x40
+   53adb:	88 45 1a             	mov    BYTE PTR [ebp+0x1a],al
+   53ade:	66 a1 3c fc 09 00    	mov    ax,ds:0x9fc3c
+   53ae4:	66 89 43 20          	mov    WORD PTR [ebx+0x20],ax
+   53ae8:	66 a1 3c fc 09 00    	mov    ax,ds:0x9fc3c
+   53aee:	66 89 45 20          	mov    WORD PTR [ebp+0x20],ax
+   53af2:	53                   	push   ebx
+   53af3:	e8 98 29 00 00       	call   0x56490

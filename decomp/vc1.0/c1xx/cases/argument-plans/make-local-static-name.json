@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "function": "_make_local_static_name@4",
+  "native_entry": "make_local_static_name",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_symbol": "(unsigned)symbol"
+  },
+  "formals": [
+    {
+      "name": "symbol",
+      "stack_index": 0,
+      "native_field": "raw_symbol",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebx",
+        "original_caller_rva": 277240,
+        "original_owner_function": "_record_local_declaration@4",
+        "native_owner_function": "record_local_declaration",
+        "native_owner_field": "caller_declaration",
+        "native_owner_local": "declaration",
+        "identity": "Accepted localdeclaration recorder keepsactualdeclarationinputEBX, distinctfrompermanentaliasEBP. Afterdefinedscopewrites PUSH EBX53af2/CALL53af3/return53af8. Native actual immediatecaller declarationformal binds same logical symbol, nottheglobalaliascopy."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "ebx",
+  "ownership_caller_extent": [
+    342592,
+    342776
+  ],
+  "native_caller_locals": {
+    "caller_declaration": {
+      "frame": 1,
+      "function": "record_local_declaration",
+      "local": "declaration"
+    }
+  },
+  "abi_analysis": {
+    "original_extent": [
+      353424,
+      353449
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 char* returnEAX",
+    "proof": "Whole25B noframe/savedregs, symbolentryESP+4 (loadedatESP+8afterpush0), RET4. No incomingGPR/x87/CPUflagsformal. Existingwrite_decorated_name(NULLstream,symbol,NULLcontext,0) thenintern_identifier returnedname; no inventedmanglingsyntax/buffercopy/stringobjects. ActualEBX/nativecalleractualdeclaration binding. No newdata/CRTbody."
+  }
+}

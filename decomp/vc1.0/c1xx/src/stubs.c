@@ -106,7 +106,6 @@ void __stdcall initialize_zero_object(CppSymbol *symbol) { __asm { int 3 } }
 
 void __stdcall defer_object_definition(CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall report_symbol_declaration_error(unsigned code, CppSymbol *symbol) { __asm { int 3 } }
-char *__stdcall make_local_static_name(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall record_function_symbol_alias(CppSymbol *symbol, CppSymbol *alias) { __asm { int 3 } }
 void __stdcall check_declarator_prefix(CppSymbol *symbol, TypeShape *prefix) { __asm { int 3 } }
 TypeShape *__stdcall merge_type_shape_prefix(TypeShape *head, TypeShape *tail) { __asm { int 3 } return 0; }

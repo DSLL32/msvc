@@ -1,0 +1,14 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56558cca in record_function_symbol_alias (symbol=0x566556e0, alias=0x56632604) at src/stubs.c:109
+109	void __stdcall record_function_symbol_alias(CppSymbol *symbol, CppSymbol *alias) { __asm { int 3 } }
+#0  0x56558cca in record_function_symbol_alias (symbol=0x566556e0, alias=0x56632604) at src/stubs.c:109
+#1  0x5656a29d in record_local_declaration (declaration=0x566556e0) at src/declaration-lookup.c:208
+#2  0x5656f0ab in resolve_declaration (context=0x56616a8c <declaration_spec_storage+8>, declaration=0x566556e0) at src/resolve-declaration.c:186
+#3  0x5656823e in apply_declaration_type (context=0x56616a8c <declaration_spec_storage+8>, declaration=0x566556e0) at src/declaration-bind.c:158
+#4  0x565badbf in parse_translation_unit () at src/parser-declaration-actions.inc:313
+#5  0x5655de9f in compile_translation_unit () at src/frontend.c:73
+#6  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#7  0x56558894 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20
