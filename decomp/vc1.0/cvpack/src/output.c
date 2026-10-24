@@ -614,4 +614,43 @@ void write_global_symbols(CvDirectoryEntry *entry, unsigned long offset)
         printf("Initial symbol size\t\t= %8.ld\nFinal symbol size\t\t= %8.ld\nGlobal symbol size\t\t= %8.1ld\n",
                total_new_type_bytes, total_packed_symbol_bytes, header.symbols);
 }
+
+void write_static_symbols(CvDirectoryEntry *entry, unsigned long offset)
+{
+    unsigned long zero = 0, bucket, bytes, padding;
+    SymbolHashHeader header;
+    GrowingBuffer names, addresses;
+    PublicSymbol *symbol;
+    BufferBlock *block;
+
+    header.name_kind = header.address_kind = 0;
+    header.symbols = header.names = header.addresses = 0;
+    local_symbol_reference_bytes += pad_symbols(type_hash_extra_c, 0);
+    header.symbols = local_symbol_reference_bytes;
+    build_symbol_name_hash(hash_public, &header.name_kind, &header.names,
+                           &names, local_symbol_references, type_hash_extra_c);
+    build_symbol_address_hash(&header.address_kind, &header.addresses,
+                              &addresses, local_symbol_references, type_hash_extra_c);
+    entry->subsection = 0x134;
+    entry->module = 0xffff;
+    entry->location.offset = offset;
+    entry->size = header.symbols+header.names+header.addresses+sizeof(header);
+    OUTPUT_BYTES(&header, sizeof(header));
+    for (bucket = 0; bucket < 4096; ++bucket) {
+        for (symbol = type_hash_extra_c[bucket]; symbol; symbol = symbol->next) {
+            bytes = *(unsigned short *)symbol->record+2;
+            OUTPUT_BYTES(symbol->record, bytes);
+        }
+    }
+    if (header.name_kind) {
+        for (block = first_buffer_block(&names); block; block = next_buffer_block(block))
+            OUTPUT_BYTES(block->data, block->used);
+    }
+    if (header.address_kind) {
+        for (block = first_buffer_block(&addresses); block; block = next_buffer_block(block))
+            OUTPUT_BYTES(block->data, block->used);
+    }
+    padding = 4-(entry->size & 3);
+    if (padding != 4) OUTPUT_BYTES(&zero, padding);
+}
 #undef OUTPUT_BYTES
