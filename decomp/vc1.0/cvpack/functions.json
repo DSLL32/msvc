@@ -7835,13 +7835,16 @@
       "native": "checksum_image",
       "symbol": "_checksum_image",
       "original": 179808,
-      "source": "src/stubs.c",
+      "source": "src/output.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        179808,
+        179957
+      ],
       "abi": "void *checksum_image(void *,unsigned long,unsigned long *,unsigned long *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0151-checksum_image/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -7870,7 +7873,78 @@
           "kind": "pointer",
           "null_only": true
         }
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          },
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          }
+        ]
+      }
+    },
+    {
+      "name": "checksum_words",
+      "native": "checksum_words",
+      "symbol": "_checksum_words",
+      "original": 180432,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned long checksum_words(unsigned long,const unsigned short *,unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "sum",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "data",
+          "slot": 2,
+          "kind": "mapped-image",
+          "size_argument": "words",
+          "length_slot": 3,
+          "size_scale": 2
+        },
+        {
+          "name": "words",
+          "slot": 3,
+          "kind": "integer",
+          "bits": 32
+        }
       ]
+    },
+    {
+      "name": "image_nt_header",
+      "native": "image_nt_header",
+      "symbol": "_image_nt_header@4",
+      "original": 180208,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void *WINAPI image_nt_header(void *)",
+      "stack_cleanup": 4,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
     }
   ],
   "review": {
@@ -8797,6 +8871,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 150
+    },
+    {
+      "function": "checksum_image",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 151
     }
   ],
   "support_unmasked": [
@@ -9467,7 +9547,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "f2d21ebbf92601b351a3ef2b89b04b1b975d521caf2d07c163f025d0aef07c7e"
+    "evidence_sha256": "f157e7782b34f46038df7851533c4f2142831914272360888a08a697b0a1e071"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -9543,6 +9623,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "ab0c5e74be545789af50761eb990a4d1e46258d21ddb6cb58e0f65401e898bcf"
+    "sha256": "917c472af46600f835b22233009032c09178f68c3565a0b7d92188049c55237a"
   }
 }

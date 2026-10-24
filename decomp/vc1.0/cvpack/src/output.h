@@ -18,6 +18,8 @@ extern unsigned long source_line_bytes;
 extern unsigned char *source_file_index;
 extern unsigned long source_file_index_size;
 void *checksum_image(void *,unsigned long,unsigned long *,unsigned long *);
+unsigned long checksum_words(unsigned long,const unsigned short *,unsigned long);
+void *WINAPI image_nt_header(void *);
 void initialize_output(int);
 unsigned short write_output(const void *,unsigned short);
 unsigned short flush_output(void);

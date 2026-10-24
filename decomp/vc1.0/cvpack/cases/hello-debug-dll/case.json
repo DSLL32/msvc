@@ -15,7 +15,7 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "checksum_image",
+    "logical": "checksum_words",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -167,7 +167,8 @@
       "close_file",
       "release_file_slot",
       "update_image_checksum",
-      "checksum_image"
+      "checksum_image",
+      "checksum_words"
     ],
     "proof_mode": "entry-flow",
     "heap_scope": "Root streamlined routine loop: actual next entry/formals plus reached PE header globals; old module3 proof97 retained. No later symbol-heap equality claim.",
@@ -180,7 +181,7 @@
         "sha256": "e08a1752ab0990c401b98c889ddf5ffc0d071ea9fb5865025cf415bbe1e52c1b"
       }
     ],
-    "native_function": "checksum_image"
+    "native_function": "checksum_words"
   },
   "complete_reference": {
     "path": "decomp/vc1.0/cvpack/cases/hello-debug-dll/reference/packed.dll",

@@ -19,7 +19,7 @@
   "sources": {
     "src/types.c": "afef248401a6632f884cdb80de20103140b43ad3c296779254efd8f642b6d972",
     "src/types.h": "d8f17d9fe8dd9fa00515acc4326cf4ee38d5bc1eb61769a0045948c0ba7b83a4",
-    "src/stubs.c": "4fc9a7be566dc71d02d50dc36398450c3952d32b978d7f4e9332621a998a83c4",
+    "src/stubs.c": "ddea38e8b73dd527c21feefce94ba86f2f8bd566a8d15a1ca0ed641139ed883b",
     "scripts/scalar-block-observer.h": "25cb0a547d06ef8d413a5ef6980efb814d329ce78b230ae161813589d05e3e61",
     "scripts/progress-input-observer.h": "8d6ff670446698f82de35625618a5a6c950d117582f1c58f680cce1a57c4c262",
     "scripts/scalar-block-debug.py": "5a8a3f89a6e696ad25c6865e910558d2d155665f58089498453d87c6f847981c",
@@ -27,8 +27,8 @@
     "scripts/scalar_block.py": "4660c0ae4500d51cf265ad04a16e33e57c43e8ddbb028619e53f0d5275eb4cf8",
     "scripts/accept-scalar-slice.py": "86d61032d061f2da3df2de010ba85e705055cbe2e5960b9f80e7bd648e4ac2f0",
     "scripts/capture-original.py": "f4ad8f5d27c5cd404bf390389ff1306d70e7b24f9330690f08f8a98c8e889b83",
-    "scripts/check-native.py": "f0ff6e659ec2bb569d4ab82eb3ab1a8b785a186bb242f1fd864e7a0c2d69a3f7",
-    "scripts/debug-run.c": "d79a45add1350bb0fccd130b663b4ae6b5c7160adbbe54a8fce49f037f149d94"
+    "scripts/check-native.py": "e82a3431a46b5df6e46ea370e51fce99898c452c842fe610e3d565fcff6b7500",
+    "scripts/debug-run.c": "30408e1f7a85191e6dbe0f019a68a3b93b32405592b99eccefc20c27ec9cf140"
   },
   "instructions": [
     {

@@ -739,6 +739,7 @@ int update_image_checksum(const char *name, unsigned long *old_sum,
     FILE *stream;
     HANDLE mapping;
     void *view;
+    /* Preserve the original CRT calls despite stdio's _fileno macro. */
     stream = fopen(name, new_sum ? "rb" : "r+b");
     if (!stream) return 1;
     mapping = CreateFileMappingA((HANDLE)_get_osfhandle((_fileno)(stream)), NULL,
@@ -751,5 +752,33 @@ int update_image_checksum(const char *name, unsigned long *old_sum,
     UnmapViewOfFile(view);
     fclose(stream);
     return 0;
+}
+
+void *checksum_image(void *image, unsigned long size, unsigned long *old_sum,
+                     unsigned long *new_sum)
+{
+    unsigned char *header;
+    unsigned short sum, part;
+    unsigned long result;
+    if (old_sum) *old_sum = 0;
+    sum = (unsigned short)checksum_words(0, image, (size+1)>>1);
+    header = image_nt_header(image);
+    if (header) {
+        if (old_sum) *old_sum = *(unsigned long *)(header+0x58);
+        part = *(unsigned short *)(header+0x58);
+        sum = (unsigned short)(sum-(part>sum)-part);
+        part = *(unsigned short *)(header+0x5a);
+        sum = (unsigned short)(sum-(part>sum)-part);
+    }
+    result = (unsigned long)sum+size;
+    if (new_sum) *new_sum = result;
+    else {
+#ifdef RECON_NATIVE_TEST
+        /* The original faults here on an invalid image and no output pointer. */
+        if (!header) __asm { int 3 }
+#endif
+        *(unsigned long *)(header+0x58) = result;
+    }
+    return header;
 }
 #undef OUTPUT_BYTES
