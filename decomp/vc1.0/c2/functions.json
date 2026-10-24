@@ -1299,7 +1299,8 @@
     "@omf_output_symbol@4",
     "@omf_output_debug_record@8",
     "@omf_write_line@12",
-    "@omf_output_size@8"
+    "@omf_output_size@8",
+    "@write_codeview_block@12"
   ],
   "driver": [
     {
@@ -8554,8 +8555,31 @@
     {
       "name": "@write_codeview_block@12",
       "start": 432928,
-      "end": 432929,
-      "provisional": true
+      "end": 433047,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "FunctionSymbol pointer"
+          },
+          {
+            "name": "offset",
+            "location": "EDX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "bytes",
+            "location": "entryESP+4",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 4,
+        "entry_observation": "cases/omf-codeview-block-abi/validation.json",
+        "scope": "Original69b20..69b97 consumes ECXsymbol/EDXoffset/stack+4bytes, RET4; no other register/flags/x87/out pointer. Symbol.field04 read before children for relative block offset; debug_symbols_segment original7914c global read before select and reloaded after size child for field04 increment. Actual caller symbol and scope cursor start/end aliases and defined debug offset matched, no initialized local record supplied as input."
+      }
     },
     {
       "name": "@write_codeview_frame_variable@4",

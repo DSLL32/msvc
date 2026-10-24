@@ -1,0 +1,191 @@
+{
+  "checkpoint": 1296,
+  "previous_checkpoint": 1295,
+  "new_application": [
+    {
+      "name": "@write_codeview_block@12",
+      "start": 432928,
+      "end": 433047,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "FunctionSymbol pointer"
+          },
+          {
+            "name": "offset",
+            "location": "EDX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "bytes",
+            "location": "entryESP+4",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 4,
+        "entry_observation": "cases/omf-codeview-block-abi/validation.json",
+        "scope": "Original69b20..69b97 consumes ECXsymbol/EDXoffset/stack+4bytes, RET4; no other register/flags/x87/out pointer. Symbol.field04 read before children for relative block offset; debug_symbols_segment original7914c global read before select and reloaded after size child for field04 increment. Actual caller symbol and scope cursor start/end aliases and defined debug offset matched, no initialized local record supplied as input."
+      }
+    }
+  ],
+  "new_extent_bytes": 119,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1296,
+    "accepted_code_bytes": 344407,
+    "original_code_bytes": 399693,
+    "percentage": 86.16788385085553,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 640
+  },
+  "application_graph_rows": 1186,
+  "reconstructed_application_support_functions": 1181,
+  "existing_handwritten_crt_bodies": 5,
+  "application_support_code_extent_bytes": 326107,
+  "code_denominator_bytes": 399693,
+  "next_frontier": "_omf_output_offset",
+  "next_original_va": "0x6bcf0",
+  "case_results": {
+    "total": 15,
+    "complete": 14,
+    "omf_named_trap": "_omf_output_offset"
+  },
+  "controls": [
+    "cases/codeview-block-validation.json"
+  ],
+  "timings": {
+    "omf1296-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 24.201551714912057,
+      "returncode": 0,
+      "log_sha256": "2adaf8de804c00d7b711d239e3ea9ef64efe55bc4fb6007eed874e7063005b5c"
+    },
+    "omf1296-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 2.7224460942670703,
+      "returncode": 0,
+      "log_sha256": "9f4d450ee9484431bf3de4e157f0122401481357ad69a2432ffac470b94fa7e5"
+    },
+    "omf1296-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1295.json",
+        "--extend-after",
+        "cases/omf-original-1296.json"
+      ],
+      "seconds": 0.3177715456113219,
+      "returncode": 0,
+      "log_sha256": "b9e63b52a39e0429568e48ec72ed126ab1b88fd6d92cdfc4127380291a127b7c"
+    },
+    "omf1296-controls-timing": {
+      "command": [
+        "python3",
+        "scripts/check-codeview-block.py"
+      ],
+      "seconds": 5.5232790959998965,
+      "returncode": 0,
+      "log_sha256": "9129c1b8b45ded50bf420cc4ed7fd19b72c0166a6b834375c8114037a379c533"
+    },
+    "omf1296-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-codeview-block-entry.py"
+      ],
+      "seconds": 1.6532996650785208,
+      "returncode": 0,
+      "log_sha256": "9de236fe77b22ba7e59f7d17f771418128e868d2f2f9f395ccf059637fffc307"
+    },
+    "omf1296-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 0.8415580028668046,
+      "returncode": 0,
+      "log_sha256": "2039ff1dc77d481424e38676e792e7271594742995b3307dfc261d44b9e7c6de"
+    },
+    "omf1296-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1296.json"
+      ],
+      "seconds": 0.22250700369477272,
+      "returncode": 0,
+      "log_sha256": "7f187047f2759200f9dd0378332e68a9ab03e659f2f962d5ac75a04e059564e8"
+    },
+    "omf1296-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 4.5701900608837605,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "omf1296-original-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1296.json"
+      ],
+      "seconds": 1.6881697112694383,
+      "returncode": 0,
+      "log_sha256": "08dd5bee35f7f09972cff478187bf3f96f47577c0f9d0c79d7899c941b155063"
+    },
+    "omf1296-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "codeview-output"
+      ],
+      "seconds": 1.8657739097252488,
+      "returncode": 0,
+      "log_sha256": "260ea2ebbf9db6821815d1eb492ddbfd8f499af379b3a5dcfa7d1a30944ead0a"
+    }
+  },
+  "audit_original_compile_commands": 0,
+  "limits": [
+    "Whole119-byte S_BLOCK32 writer, three typed formals/RET4. Actual offset20/bytes65/functionstart0, caller symbol and cursor scope20..85/debugoffset122 matched. Packed contextual record has24-byte C size but only23 initialized bytes emitted; alignment byte not initialized/emitted/observed, no stack output snapshot supplied as input.",
+    "240 original/canonical independent23-byte wire controls/10 ABI negatives. Unsigned offset subtraction/count wrap, symbol field04 mutation after select proves record formed before children, debug global swaps at select/data/size prove final current owner reload/increment. Exact select/data23/size-7 requests, child clobber,parentRET4/saved registers/stack/full owned guards. Children mocked, no extra cold output credit. Existing true7914c canonical debug storage identity audit retained.",
+    "Canonical/W3/ordinary graph/extents/RET/ABI/storage/fresh masked-original/native relative-reference frontier and15 cached native cases pass(14 complete). New focused full controls5.523s, ordinary structural audit24.202s; build2.722s,/W31.866s,reference1.688s,native.223s,fixtures.842s wrappers. Split phases retained, analysis/edit unmeasured. Full exact OMF object pending."
+  ]
+}

@@ -1,0 +1,6 @@
+enter @write_codeview_block@12 eax 00000041 args 007b2988 00000014 00000041
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
+codeview_block symbol 007b2988 offset 00000014 bytes 00000041 caller_symbol 007b2988 function_start 00000000 scope 007b2dc4 scope_start 00000014 scope_end 00000055 debug 007b1490 debug_offset 0000007a return_address 000695d5
+entry_end

@@ -1,15 +1,10 @@
 {
   "modules": [
     {
-      "module": "omf-output",
-      "seconds": 1.9069063067436218,
-      "returncode": 0
-    },
-    {
-      "module": "output",
-      "seconds": 1.9511406179517508,
+      "module": "codeview-output",
+      "seconds": 1.8163130171597004,
       "returncode": 0
     }
   ],
-  "seconds": 3.8583870362490416
+  "seconds": 1.8165213223546743
 }

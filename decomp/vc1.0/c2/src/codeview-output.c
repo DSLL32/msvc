@@ -405,3 +405,30 @@ unsigned __fastcall copy_codeview_string(unsigned char *destination, char *sourc
     destination[length + 2] = 0;
     return length + 1;
 }
+
+#pragma pack(2)
+typedef struct CodeViewBlockRecord {
+    unsigned short length, kind;
+    unsigned parent, end, code_bytes, offset;
+    unsigned short section;
+    unsigned char name;
+} CodeViewBlockRecord;
+#pragma pack()
+typedef char CodeViewBlockRecordSizeCheck[sizeof(CodeViewBlockRecord) == 24 ? 1 : -1];
+/* Original [00069b20,00069b97). S_BLOCK32 emits23 initialized bytes;
+   the final structure alignment byte is neither initialized nor emitted. */
+void __fastcall write_codeview_block(FunctionSymbol *symbol, unsigned offset, unsigned bytes)
+{
+    CodeViewBlockRecord record;
+    record.length = 21;
+    record.kind = 0x207;
+    record.parent = record.end = 0;
+    record.code_bytes = bytes;
+    record.offset = offset - symbol->symbol.field04;
+    record.section = 0;
+    record.name = 0;
+    output_callbacks.select_segment(debug_symbols_segment);
+    output_callbacks.data(&record, 23);
+    output_callbacks.size((unsigned)-7, &symbol->symbol);
+    debug_symbols_segment->symbol.field04 += 23;
+}

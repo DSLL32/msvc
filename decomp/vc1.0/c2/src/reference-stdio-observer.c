@@ -368,6 +368,13 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
             sprintf(line,"omf_fixup_symbol kind %lu index %lu attributes %lu\n",kind,read_word(process,symbol+20),read_word(process,symbol+36));log_line(line);
         } else exit(300); /* Extend only when a real label input is encountered. */
     }
+    if(!strcmp(call->name,"@write_codeview_block@12")) {
+        DWORD symbol=call->args[0],scope=read_word(process,image_base+0x6e8ac);
+        DWORD debug=read_word(process,image_base+0x6914c);
+        sprintf(line,"codeview_block symbol %08lx offset %08lx bytes %08lx caller_symbol %08lx function_start %08lx scope %08lx scope_start %08lx scope_end %08lx debug %08lx debug_offset %08lx return_address %08lx\n",
+            symbol,call->args[1],call->args[2],context->Ebx,read_word(process,symbol+4),scope,
+            read_word(process,scope+4),read_word(process,scope+8),debug,read_word(process,debug+4),call->return_address);log_line(line);
+    }
     if(!strcmp(call->name,"@omf_output_size@8")) {
         DWORD symbol=call->args[1],id=read_word(process,symbol+28),bucket=id&63,index=0;
         DWORD member=read_word(process,image_base+0x6c158+4*bucket);

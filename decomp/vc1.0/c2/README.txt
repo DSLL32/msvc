@@ -835,3 +835,12 @@ caller/owner.15 controls/8 ABI rejects, original/W3/ordinary audits/fresh pair
 and15 native cases pass(14 complete), next CodeView block69b20.344288/399693
 extent bytes; app/support325988B/1180functions exclude5 historical CRT. Ordinary
 audit24.252s, full object pending. cases/omf-size-checkpoint.json.
+
+Checkpoint1296 adds119-byte lexical S_BLOCK32 writer. Actual offset20/bytes65/
+functionstart0 and lexical scope20..85/debugoffset122 match. Packed24-byte C
+record emits only23 initialized bytes, no alignment padding input/output.240
+full wire/order controls/10 ABI rejects prove pre-child offset cache and final
+debug global reload across all callbacks. Original/W3/ordinary audits/fresh
+pair and15 native cases pass(14 complete), next relative reference6bcf0.344407/
+399693 extent bytes; app/support326107B/1181functions exclude5 historical CRT.
+Audit24.202s, full object pending. cases/codeview-block-checkpoint.json.
