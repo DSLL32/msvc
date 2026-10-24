@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_recognize_compact_method_function@8",
+  "case": "state_machine_defined_debug",
+  "accepted_before": 1240,
+  "configuration_sha256": "2c5632e766c2b4852b8f1e5f1205f4c3270905fa01fd1d17fffd040bf3064084",
+  "native_entry": "recognize_compact_method_function",
+  "declared_formal_count": 2,
+  "formals": [
+    {
+      "name": "expression",
+      "stack_index": 0,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 245704,
+        "original_owner_function": "_convert_compact_method_pointer@24",
+        "native_owner_function": "convert_compact_method_pointer",
+        "native_owner_field": "caller_expression",
+        "native_owner_local": "expression",
+        "identity": "Actual accepted target-model1 branch retains EDI expression; LEA EAX[ESP+16]4bfbd gives real function output local. PUSH EAX/EDI4bfc1/2 CALL4bfc3/return4bfc8. Native actual caller owners are expression formal and function local address; output prestate is unobserved and not initialized.",
+        "original_owner_value": 8452376,
+        "native_owner_value": 1449489344
+      },
+      "original_raw": 8452376,
+      "native_raw": 1449489344,
+      "result": "match"
+    },
+    {
+      "name": "function",
+      "stack_index": 1,
+      "native_field": "raw_function",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 245704,
+        "original_owner_function": "_convert_compact_method_pointer@24",
+        "native_owner_function": "convert_compact_method_pointer",
+        "native_owner_field": "caller_function",
+        "native_owner_local": "function",
+        "identity": "Actual accepted target-model1 branch retains EDI expression; LEA EAX[ESP+16]4bfbd gives real function output local. PUSH EAX/EDI4bfc1/2 CALL4bfc3/return4bfc8. Native actual caller owners are expression formal and function local address; output prestate is unobserved and not initialized.",
+        "native_owner_address": true,
+        "address_only": true,
+        "output_only": true,
+        "original_owner_value": 2948504,
+        "native_owner_value": 4294956036
+      },
+      "original_raw": 2948504,
+      "native_raw": 4294956036,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      311360,
+      311675
+    ],
+    "argument_bytes": 8,
+    "convention": "stdcall8 BOOL EAX RET8",
+    "proof": "Whole315B savesESI/EDI8; expression/output adjustedESP+12/+16, allRET8. No hidden/register/x87/flags input or callees/data. Strip only leading6e wrappers; require exact40/40/3d/5c/a7,7 tree, write output from first assignment.right4c0dd BEFORE remaining kind tests. Require output.kind2, second3d/5c/a7,7/right7, final46/a7; no invented identity/index/type/null-child checks. Output is never read before its writer, may be modified on false; current caller ignores false output and replaces it, true path uses output only after this writer. Native real function local address only; no prestate observed/initialized. Actual accepted method caller EDI expression and EAX LEA[ESP+16]4bfbd, PUSH EAX/EDI4bfc1/2 CALL4bfc3/return4bfc8. ExtraESI owner selector context is not a formal. No newCRT/guard.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "e1f8c883098832aea4845975a61db0fb0ffb0dbef70844a81b94e627fd7ce76b",
+  "capture_timing": {
+    "original_capture_seconds": 1.1675308737903833,
+    "native_capture_seconds": 0.19195095356553793,
+    "total_operation_seconds": 1.627631764858961
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "cb0d674c0133e8be5baea9477065f92ebb2540553622d591283e4d8733dc649e",
+    "native-commands.gdb": "b67aab30627b7cb953dfa826e83dfc6f2aea6badff46c7d751aed245970b9d98",
+    "native-gdb.log": "f5407720f94882056354b0b79d3b4572a462594985a47a52dbd8c57d55f07b2f",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "196e9b4e363ee513858dc41b131e4ec4844699996403089339e7b5d635b07f09",
+    "original-configuration.json": "2c5632e766c2b4852b8f1e5f1205f4c3270905fa01fd1d17fffd040bf3064084",
+    "original-disassembly.txt": "55b8cf91862762e19f004ea47d96fd7fc95e2f2ef02ca52ad1235d4912d4c17d",
+    "original-entries.plan": "af4b78f9a3964108e411a73024a80ca7b1dde98bd85511037c6d98d798faabf5",
+    "original-events.txt": "503215e0adaa33e585e93bb5ad896a5b5185afdb34f3301489ec0d50056f741b",
+    "original-ownership-caller-disassembly.txt": "4f3cdaf9af34160f1bbe47c494a65aa37d3a4d4d8d642967863089891d3abe65",
+    "original-receipt.json": "88091dcf3df3e637820fa467c8bf7d464781201ef117ecdce3f0dcd8ae9cd816",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "2b705e14be0672176a0201993d33dd59cdbec6b139f07f5d31f15afe9f5f4163"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

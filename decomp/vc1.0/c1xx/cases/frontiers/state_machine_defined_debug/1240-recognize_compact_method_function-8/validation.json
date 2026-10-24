@@ -1,0 +1,16 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_recognize_compact_method_function@8",
+    "start": 311360,
+    "end": 311675
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_defined_debug/1240-recognize_compact_method_function-8/arguments/validation.json",
+  "distinct_direct_callees": [],
+  "next_frontier": "_member_pointer_function_value@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8033317374065518,
+  "total_operation_seconds": 3.9543779492378235,
+  "original_capture_seconds": 0.7157524516806006
+}

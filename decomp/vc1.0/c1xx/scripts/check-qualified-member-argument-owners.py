@@ -28,7 +28,7 @@ def main():
     args=parser.parse_args()
     started=time.perf_counter()
     original=json.loads(args.proof.read_text())
-    assert original['function'] in ('_declare_qualified_member@12', '_make_compact_method_pointer@12', '_write_initializer_record@8', '_equal_data_member_null_representation@8', '_preserve_null_data_member_conversion@12')
+    assert original['function'] in ('_declare_qualified_member@12', '_make_compact_method_pointer@12', '_write_initializer_record@8', '_equal_data_member_null_representation@8', '_preserve_null_data_member_conversion@12', '_recognize_compact_method_function@8')
     formals=original['formals']
     assert len(formals) in (2,3) and all(row['binding']['kind']=='caller-owned-pointer' for row in formals)
     registers=[row['binding']['original_register'] for row in formals]

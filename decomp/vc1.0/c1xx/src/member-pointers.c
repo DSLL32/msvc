@@ -722,3 +722,35 @@ int __stdcall member_pointer_cast_compatible(CType *source, CType *target, int r
 {
     return classify_member_pointer_conversion(source, target, reverse) < 0x400;
 }
+
+/* Original 0x4c040..0x4c17a, stdcall8. Recognize the temporary
+   sequence used to package a constant compact method pointer. The output
+   is assigned before the later shape checks, including some false returns. */
+int __stdcall recognize_compact_method_function(IrToken *expression,
+    IrToken **function)
+{
+    IrToken *sequence, *assignment, *storage, *result;
+    if (!expression) return 0;
+    while (expression->kind == 0x6e) {
+        expression = expression->value.pointer;
+        if (!expression) break;
+    }
+    if (!expression || expression->kind != 0x40) return 0;
+    sequence = expression->value.pointer;
+    if (sequence->kind != 0x40) return 0;
+    assignment = sequence->value.pointer;
+    if (assignment->kind != 0x3d) return 0;
+    storage = assignment->value.pointer;
+    if (storage->kind != 0x5c || ((IrToken *)storage->value.pointer)->kind != 0xa7 ||
+        storage->tail.right->kind != 7) return 0;
+    *function = assignment->tail.right;
+    if ((*function)->kind != 2) return 0;
+    assignment = sequence->tail.right;
+    if (assignment->kind != 0x3d) return 0;
+    storage = assignment->value.pointer;
+    if (storage->kind != 0x5c || ((IrToken *)storage->value.pointer)->kind != 0xa7 ||
+        storage->tail.right->kind != 7 || assignment->tail.right->kind != 7)
+        return 0;
+    result = expression->tail.right;
+    return result->kind == 0x46 && ((IrToken *)result->value.pointer)->kind == 0xa7;
+}

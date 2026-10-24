@@ -1,0 +1,28 @@
+{
+  "scope": "Read-only production argument preflight with frozen original configuration; synthetic corruptions, no promotion or original execution",
+  "proof": "cases/argument-observations/state_machine_defined_debug/1240-recognize_compact_method_function-8/validation.json",
+  "proof_sha256": "2d55c050f0ed8a48bc901da5c6b0a81096112d15ff4b6b50f47b3924dc3600fd",
+  "checks": [
+    {
+      "test": "control",
+      "result": "verified",
+      "output": "fresh application arguments verified: _recognize_compact_method_function@8"
+    },
+    {
+      "test": "missing-anchor",
+      "result": "held",
+      "reason": "missing actual owner register anchor"
+    },
+    {
+      "test": "swapped-anchors",
+      "result": "held",
+      "reason": "original caller owner plus offset differs"
+    },
+    {
+      "test": "wrong-native-owner",
+      "result": "held",
+      "reason": "native actual caller local owner differs"
+    }
+  ],
+  "elapsed_seconds": 0.12548391800373793
+}
