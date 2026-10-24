@@ -1237,7 +1237,8 @@
     "_convert_selected_operator_operand",
     "_emit_pending_function_cleanup",
     "_begin_initializer_function@4",
-    "_equal_tail_word_pairs"
+    "_equal_tail_word_pairs",
+    "_convert_compact_method_pointer@24"
   ],
   "driver": [
     {
@@ -8649,7 +8650,7 @@
     {
       "name": "_convert_compact_method_pointer@24",
       "start": 311136,
-      "end": 311137
+      "end": 311353
     },
     {
       "name": "_convert_compact_to_virtual_method_pointer@24",
@@ -8750,6 +8751,26 @@
       "name": "_preserve_null_data_member_conversion@12",
       "start": 312016,
       "end": 312017
+    },
+    {
+      "name": "_recognize_compact_method_function@8",
+      "start": 311360,
+      "end": 311361
+    },
+    {
+      "name": "_member_pointer_function_value@8",
+      "start": 310464,
+      "end": 310465
+    },
+    {
+      "name": "_member_pointer_adjustment_value@8",
+      "start": 310560,
+      "end": 310561
+    },
+    {
+      "name": "_adjust_member_pointer_displacement@8",
+      "start": 316144,
+      "end": 316145
     }
   ],
   "cases": {
@@ -9240,11 +9261,12 @@
           "original": 576700
         }
       ],
-      "terminal": "_convert_compact_method_pointer@24",
-      "terminal_evidence": "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/original-events.txt",
+      "terminal": "_make_multiple_inheritance_method_pointer@12",
+      "terminal_evidence": "cases/frontiers/state_machine_defined_debug/1233-convert_compact_method_pointer-24/original-events.txt",
       "original_seed": "cases/state_machine_defined_debug-seed",
       "frontier_extensions": [
-        "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/frontier-extension.json"
+        "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/frontier-extension.json",
+        "cases/frontiers/state_machine_defined_debug/1233-convert_compact_method_pointer-24/frontier-extension.json"
       ]
     }
   },

@@ -100,7 +100,7 @@ def main():
         elif binding['kind'] == 'extended-stack-value':
             from extended_arguments import validate as validate_extended_argument
             item['by_value_words']=validate_extended_argument(name,item,checkpoint,words)
-        elif binding['kind'] == 'unused-compact-data-path':
+        elif binding['kind'] in ('unused-compact-data-path','unused-compact-method-path'):
             validate_unused_compact_data_path(name, item, checkpoint, words, config)
         elif binding['kind'] == 'unused-conversion-text':
             validate_unused_conversion_text(name, item, anchors, checkpoint, words)
@@ -205,7 +205,7 @@ def main():
             assert binding['original_word']==binding['native_word']
         else:
             raise AssertionError('unsupported logical argument binding: '+item['name'])
-        item['result'] = 'uncredited-unused' if binding['kind'] in ('unused-conversion-text','unused-compact-data-path') else 'match'
+        item['result'] = 'uncredited-unused' if binding['kind'] in ('unused-conversion-text','unused-compact-data-path','unused-compact-method-path') else 'match'
     if name=='_create_generated_object@8':
         validate_generated_linkage_owner(name, anchors, checkpoint)
     if name=='_walk_goto_cleanup@16':

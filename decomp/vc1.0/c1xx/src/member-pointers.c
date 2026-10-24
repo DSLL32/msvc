@@ -14,6 +14,10 @@
 #include <recon.h>
 
 int __stdcall equal_data_member_null_representation(CType *target, CType *source);
+int __stdcall recognize_compact_method_function(IrToken *expression, IrToken **function);
+IrToken *__stdcall member_pointer_function_value(IrToken *storage, IrToken *expression);
+IrToken *__stdcall member_pointer_adjustment_value(IrToken *storage, IrToken *expression);
+IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int displacement);
 IrToken *__stdcall member_pointer_component(IrToken *expression, int component, IrToken **saved);
 IrToken *__stdcall preserve_null_data_member_conversion(IrToken *converted,
     IrToken *original, CType *source);
@@ -593,4 +597,34 @@ int __stdcall equal_data_member_null_representation(CType *target, CType *source
     int source_zero = data_member_pointer_uses_zero_null(source);
     int target_zero = data_member_pointer_uses_zero_null(target);
     return source_zero == target_zero;
+}
+
+/* Original 0x4bf60..0x4c038, stdcall24. Compact method values
+   either retain their representation or materialize function/this-adjustment. */
+IrToken *__stdcall convert_compact_method_pointer(IrToken *expression,
+    CType *type, QualifierBinding *path, int forward, int displacement,
+    BaseClassLink *virtual_base)
+{
+    unsigned target_model = member_pointer_inheritance_model(type);
+    unsigned source_model = member_pointer_inheritance_model(expression->type);
+    IrToken *function, *saved, *adjustment;
+    if (!displacement && source_model == target_model) {
+        expression->type = type;
+        return expression;
+    }
+    if (source_model == 1)
+        return make_compact_method_pointer(type, expression,
+            make_integer_constant(displacement));
+    if (target_model == 1) {
+        if (!recognize_compact_method_function(expression, &function))
+            function = member_pointer_function_value(
+                builtin_unary_expression(OP_BIT_AND, expression), expression);
+        return make_compact_method_pointer(type, function, 0);
+    }
+    function = member_pointer_function_value(
+        member_pointer_component(expression, 0, &saved), expression);
+    adjustment = member_pointer_adjustment_value(
+        member_pointer_component(expression, 1, &saved), expression);
+    adjustment = adjust_member_pointer_displacement(adjustment, displacement);
+    return make_compact_method_pointer(type, function, adjustment);
 }

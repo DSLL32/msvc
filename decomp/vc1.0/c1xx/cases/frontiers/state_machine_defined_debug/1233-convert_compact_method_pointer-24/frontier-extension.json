@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 1233,
+  "accepted": "_convert_compact_method_pointer@24",
+  "terminal": "_make_multiple_inheritance_method_pointer@12",
+  "original_capture": "cases/frontiers/state_machine_defined_debug/1233-convert_compact_method_pointer-24/original-receipt.json",
+  "original_capture_sha256": "3b9b7b73d0bce2221d45cd63daa164adbec81e40f2f16aa102c49ac844b716bd",
+  "original_events": "cases/frontiers/state_machine_defined_debug/1233-convert_compact_method_pointer-24/original-events.txt",
+  "original_events_sha256": "4bad3a862cacf9813c7bcdd955a39fcc2b2761d99ec3318ad53876519eaabf57",
+  "original_configuration": "cases/frontiers/state_machine_defined_debug/1233-convert_compact_method_pointer-24/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

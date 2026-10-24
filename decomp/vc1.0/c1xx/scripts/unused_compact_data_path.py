@@ -1,4 +1,4 @@
-"""One complete compact data-member conversion never uses its path formal.
+"""Two exact complete compact-member callbacks never use their path formal.
 
 Retain both raw ABI words without asserting pointer identity or pointee state.
 The exact body and four table aliases restrict this to the reviewed callback.
@@ -6,14 +6,18 @@ The exact body and four table aliases restrict this to the reviewed callback.
 
 
 def validate(function, formal, native, words, config):
-    assert function == '_convert_compact_data_member_pointer@24'
+    contracts = {
+        '_convert_compact_data_member_pointer@24': ('unused-compact-data-path', [0x4bee0, 0x4bf5f], [16, 17, 20, 21], 1),
+        '_convert_compact_method_pointer@24': ('unused-compact-method-path', [0x4bf60, 0x4c039], [0, 1, 4, 5], 0),
+    }
+    kind, extent, slots, data_member = contracts[function]
     assert formal['name'] == 'path' and formal['stack_index'] == 2
     binding = formal['binding']
-    assert binding['kind'] == 'unused-compact-data-path'
-    assert binding['body_extent'] == [0x4bee0, 0x4bf5f]
+    assert binding['kind'] == kind
+    assert binding['body_extent'] == extent
     assert binding['consumed_stack_indices'] == [0, 1, 4]
     assert binding['table'] == '_member_pointer_conversions'
-    assert binding['callback_slots'] == [16, 17, 20, 21]
+    assert binding['callback_slots'] == slots
     tables = [row for row in config['tables'] if row.get('name') == binding['table']]
     assert len(tables) == 1 and tables[0]['kind'] == 'function_pointers'
     assert len(tables[0]['functions']) == 32
@@ -27,6 +31,6 @@ def validate(function, formal, native, words, config):
         assert owner['local'] == local and owner.get('fields', []) == []
         values.append(owner['value'])
     source, target, data = values
-    assert source in (1, 2) and target in (1, 2) and data == 1, 'actual callback selection differs'
-    assert 16 + 4 * (source - 1) + target - 1 in binding['callback_slots']
+    assert source in (1, 2) and target in (1, 2) and data == data_member, 'actual callback selection differs'
+    assert 16 * data + 4 * (source - 1) + target - 1 in binding['callback_slots']
     return 'uncredited-unused'

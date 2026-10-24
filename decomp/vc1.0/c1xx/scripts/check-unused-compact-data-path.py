@@ -30,10 +30,10 @@ def main():
         formal = copy.deepcopy(next(row for row in proof['formals'] if row['name'] == 'path'))
         native, config = copy.deepcopy(checkpoint), copy.deepcopy(configuration)
         function = proof['function']
-        if name == 'wrong-function': function = '_convert_compact_method_pointer@24'
+        if name == 'wrong-function': function = '_convert_compact_method_pointer@24' if proof['function'] == '_convert_compact_data_member_pointer@24' else '_convert_compact_data_member_pointer@24'
         elif name == 'wrong-formal-index': formal['stack_index'] = 3
         elif name == 'wrong-body': formal['binding']['body_extent'][1] += 1
-        elif name == 'wrong-table-slot': formal['binding']['callback_slots'][0] = 0
+        elif name == 'wrong-table-slot': formal['binding']['callback_slots'][0] = 31
         elif name == 'wrong-table-alias':
             table = next(row for row in config['tables'] if row.get('name') == '_member_pointer_conversions')
             table['functions'][16] = '_convert_compact_method_pointer@24'

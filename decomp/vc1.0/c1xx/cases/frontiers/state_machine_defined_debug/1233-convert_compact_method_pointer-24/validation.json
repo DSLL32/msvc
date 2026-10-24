@@ -1,0 +1,26 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_convert_compact_method_pointer@24",
+    "start": 311136,
+    "end": 311353
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_defined_debug/1233-convert_compact_method_pointer-24/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_adjust_member_pointer_displacement@8",
+    "_builtin_unary_expression@8",
+    "_make_compact_method_pointer@12",
+    "_make_integer_constant@4",
+    "_member_pointer_adjustment_value@8",
+    "_member_pointer_component@12",
+    "_member_pointer_function_value@8",
+    "_member_pointer_inheritance_model@4",
+    "_recognize_compact_method_function@8"
+  ],
+  "next_frontier": "_make_multiple_inheritance_method_pointer@12",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8283755099400878,
+  "total_operation_seconds": 4.71521223988384,
+  "original_capture_seconds": 1.3686227779835463
+}

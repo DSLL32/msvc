@@ -48,11 +48,11 @@
     "plan_sha256": "95e3224e0362e24a6ef5b495984403fa23be74272e90e204349cda7924f7f5d6"
   },
   "state_machine_defined_debug": {
-    "receipt": "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/entry-reference/original-receipt.json",
-    "receipt_sha256": "de4eb5516ae981c144b34f71393b63bf214085e434713aa1e3208551f6a10414",
-    "events": "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/entry-reference/original-events.txt",
-    "events_sha256": "e8f5ae04ca84e80daa5f62e9db9bb2219f92f229b18846a8931336d3fd7467d5",
-    "plan": "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/entry-reference/original-entries.plan",
-    "plan_sha256": "bdcb6d48b986390d334c8c9ee5bd96c19a1811f81b2586229a440c58c4c053c3"
+    "receipt": "cases/frontiers/state_machine_defined_debug/1233-convert_compact_method_pointer-24/entry-reference/original-receipt.json",
+    "receipt_sha256": "3b9b7b73d0bce2221d45cd63daa164adbec81e40f2f16aa102c49ac844b716bd",
+    "events": "cases/frontiers/state_machine_defined_debug/1233-convert_compact_method_pointer-24/entry-reference/original-events.txt",
+    "events_sha256": "4bad3a862cacf9813c7bcdd955a39fcc2b2761d99ec3318ad53876519eaabf57",
+    "plan": "cases/frontiers/state_machine_defined_debug/1233-convert_compact_method_pointer-24/entry-reference/original-entries.plan",
+    "plan_sha256": "698f2216255c791d0d8b4c878b23ed78902a0f03f142d5ada13ba913cedee178"
   }
 }

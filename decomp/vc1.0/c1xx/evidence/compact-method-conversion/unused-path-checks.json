@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "scope": "Focused checks for the one whole-body unused compact-data path formal.",
+  "proof": "cases/argument-observations/state_machine_defined_debug/1233-convert_compact_method_pointer-24/validation.json",
+  "proof_sha256": "eb8aa02683bef89c2ce0e51a420679f688649b264b5381a6532b479a68e0f3a5",
+  "checker_sha256": "ef32d355d05585d1b4b172e4c29653de87402db67310674d3ca9560b8968517e",
+  "validator_sha256": "86db98a1ee08ae8bb18ddd5acba1a4e3c225cf0312751f45eb94e6125d53363e",
+  "checks": [
+    {
+      "test": "control",
+      "result": "uncredited-unused"
+    },
+    {
+      "test": "wrong-function",
+      "result": "held",
+      "reason": ""
+    },
+    {
+      "test": "wrong-formal-index",
+      "result": "held",
+      "reason": ""
+    },
+    {
+      "test": "wrong-body",
+      "result": "held",
+      "reason": ""
+    },
+    {
+      "test": "wrong-table-slot",
+      "result": "held",
+      "reason": ""
+    },
+    {
+      "test": "wrong-table-alias",
+      "result": "held",
+      "reason": "compact callback table aliases differ"
+    },
+    {
+      "test": "wrong-owner",
+      "result": "held",
+      "reason": ""
+    },
+    {
+      "test": "wrong-model",
+      "result": "held",
+      "reason": "actual callback selection differs"
+    },
+    {
+      "test": "wrong-raw-word",
+      "result": "held",
+      "reason": ""
+    }
+  ],
+  "elapsed_seconds": 0.07790907472372055
+}

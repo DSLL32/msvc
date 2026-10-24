@@ -1,0 +1,60 @@
+{
+  "case": "state_machine_defined_debug",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 1233,
+  "terminal": "_make_multiple_inheritance_method_pointer@12",
+  "candidate": "_convert_compact_method_pointer@24",
+  "pending_accepted": [],
+  "configuration_sha256": "dbc528b756b105266a06aa58200e3437d74a08b39366a77eb56596809dc63d25",
+  "capture_seconds": 1.3686227779835463,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "state-machine.cpp": {
+      "bytes": 5318,
+      "sha256": "706784046de178ea63d8db17e4fd9aa20277d7ac7702253700d66dc9408536d6"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irdb": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\state-machine-defined-debug",
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "observer_sha256": "0964731d444a6544b0e1818f6c885d68835bc9611933b7b4af88348defa985b5",
+  "first_entry_projection": {
+    "accepted_first": 1232,
+    "accepted_last": 1234,
+    "accepted_prefix_sha256": "2b0923eab08249f11719fbc586d4039a144d1d92bf5651f7976cb81283d29da4",
+    "expected": [
+      "_equal_tail_word_pairs",
+      "_convert_compact_method_pointer@24"
+    ],
+    "observed": [
+      "_equal_tail_word_pairs",
+      "_convert_compact_method_pointer@24"
+    ],
+    "events_sha256": "4bad3a862cacf9813c7bcdd955a39fcc2b2761d99ec3318ad53876519eaabf57",
+    "plan_sha256": "698f2216255c791d0d8b4c878b23ed78902a0f03f142d5ada13ba913cedee178"
+  }
+}

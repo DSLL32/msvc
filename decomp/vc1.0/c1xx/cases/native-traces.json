@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "2c2b7bb49337bffa614fd685e0e94a1f57c76f7ecf1ba5129eb0846aec29bda0",
+    "functions.json": "69b3a9baac712eeda69955fe905b95cb440df00163c56aadfc7f739fd0de9b07",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "ea98bbd73f1ef8ce846a41037c42c42cbd610aaeef03427f32fedf58257ecfaf",
-    "cases/canonical-map.txt": "561e536ee79ccb2197838fd2899b306ae48af62a0733a4c01d15b52dd705d662",
+    "cases/original-entry-references.json": "cbd5078aa1ccc7be1895fbfaca01e4a33d416cd110df74ef4695acaca9857f86",
+    "cases/canonical-map.txt": "26dfaddfd08193e196d563c90b84a6892d19f2245febe49e5854351d88c6b3bc",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -64,9 +64,9 @@
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-receipt.json": "c9cbd20af4610da8f8c35487c1cb632113d35461981bd76aa2f7d60e10400717",
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-events.txt": "a7247c160287c63539d241bef68d979d6d6a4b4649e77c3b542cb394ffce4b8e",
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-entries.plan": "95e3224e0362e24a6ef5b495984403fa23be74272e90e204349cda7924f7f5d6",
-    "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/entry-reference/original-receipt.json": "de4eb5516ae981c144b34f71393b63bf214085e434713aa1e3208551f6a10414",
-    "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/entry-reference/original-events.txt": "e8f5ae04ca84e80daa5f62e9db9bb2219f92f229b18846a8931336d3fd7467d5",
-    "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/entry-reference/original-entries.plan": "bdcb6d48b986390d334c8c9ee5bd96c19a1811f81b2586229a440c58c4c053c3"
+    "cases/frontiers/state_machine_defined_debug/1233-convert_compact_method_pointer-24/entry-reference/original-receipt.json": "3b9b7b73d0bce2221d45cd63daa164adbec81e40f2f16aa102c49ac844b716bd",
+    "cases/frontiers/state_machine_defined_debug/1233-convert_compact_method_pointer-24/entry-reference/original-events.txt": "4bad3a862cacf9813c7bcdd955a39fcc2b2761d99ec3318ad53876519eaabf57",
+    "cases/frontiers/state_machine_defined_debug/1233-convert_compact_method_pointer-24/entry-reference/original-entries.plan": "698f2216255c791d0d8b4c878b23ed78902a0f03f142d5ada13ba913cedee178"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -136,6 +136,10 @@
     "adjust_member_binding_object": {
       "logical": "_adjust_member_binding_object@20",
       "source": "src/member-expressions.c"
+    },
+    "adjust_member_pointer_displacement": {
+      "logical": "_adjust_member_pointer_displacement@8",
+      "source": "src/stubs.c"
     },
     "adjust_pointer_by_offset": {
       "logical": "_adjust_pointer_by_offset@12",
@@ -1243,7 +1247,7 @@
     },
     "convert_compact_method_pointer": {
       "logical": "_convert_compact_method_pointer@24",
-      "source": "src/stubs.c"
+      "source": "src/member-pointers.c"
     },
     "convert_compact_to_general_data_pointer": {
       "logical": "_convert_compact_to_general_data_pointer@24",
@@ -3909,6 +3913,10 @@
       "logical": "_member_function_pointer_size@4",
       "source": "src/type-sizes.c"
     },
+    "member_pointer_adjustment_value": {
+      "logical": "_member_pointer_adjustment_value@8",
+      "source": "src/stubs.c"
+    },
     "member_pointer_cast_compatible": {
       "logical": "_member_pointer_cast_compatible@12",
       "source": "src/stubs.c"
@@ -3928,6 +3936,10 @@
     "member_pointer_function_type": {
       "logical": "_member_pointer_function_type@4",
       "source": "src/member-pointers.c"
+    },
+    "member_pointer_function_value": {
+      "logical": "_member_pointer_function_value@8",
+      "source": "src/stubs.c"
     },
     "member_pointer_inheritance_model": {
       "logical": "_member_pointer_inheritance_model@4",
@@ -4684,6 +4696,10 @@
     "read_work_stack": {
       "logical": "_read_work_stack@12",
       "source": "src/vectors.c"
+    },
+    "recognize_compact_method_function": {
+      "logical": "_recognize_compact_method_function@8",
+      "source": "src/stubs.c"
     },
     "reconcile_declaration": {
       "logical": "_reconcile_declaration@8",
@@ -7106,7 +7122,8 @@
     "convert_selected_operator_operand",
     "emit_pending_function_cleanup",
     "begin_initializer_function",
-    "equal_tail_word_pairs"
+    "equal_tail_word_pairs",
+    "convert_compact_method_pointer"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -12371,7 +12388,7 @@
     },
     "state_machine_defined_debug": {
       "first": 1232,
-      "last": 1233,
+      "last": 1234,
       "seen": [
         "main",
         "message_text",
@@ -13503,12 +13520,13 @@
       ],
       "expected": [
         "equal_tail_word_pairs",
-        "convert_compact_method_pointer"
+        "convert_compact_method_pointer",
+        "make_multiple_inheritance_method_pointer"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_convert_compact_method_pointer@24",
-        "native": "convert_compact_method_pointer",
+        "logical": "_make_multiple_inheritance_method_pointer@12",
+        "native": "make_multiple_inheritance_method_pointer",
         "signal": 5
       }
     }
