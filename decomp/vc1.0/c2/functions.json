@@ -1285,7 +1285,8 @@
     "@omf_emit_public@8",
     "@omf_emit_external@4",
     "@omf_output_relocation@12",
-    "@omf_write_byte_array@16"
+    "@omf_write_byte_array@16",
+    "@omf_pad_record@8"
   ],
   "driver": [
     {
@@ -8864,8 +8865,26 @@
     {
       "name": "@omf_pad_record@8",
       "start": 438944,
-      "end": 438945,
-      "provisional": true
+      "end": 438972,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "record",
+            "location": "ECX",
+            "type": "OmfRecord pointer"
+          },
+          {
+            "name": "bytes",
+            "location": "EDX",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-pad-abi/validation.json",
+        "scope": "Original6b2a0..6b2bc consumes ECX record count+12/cursor+16 and unsigned EDX count, RET0. No other registers/stack/flags/x87/out pointer input. Actual record pointer/current/four-slot pool identity and count/cursor/capacity observed; destination old bytes are write-only, neither read nor seeded."
+      }
     },
     {
       "name": "@omf_write_index@8",

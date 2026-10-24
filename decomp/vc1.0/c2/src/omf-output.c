@@ -929,3 +929,15 @@ void __fastcall omf_write_byte_array(Segment *segment, unsigned bytes,
     } while (repeat);
     segment->symbol.field04 = position;
 }
+
+/* Original [0006b2a0,0006b2bc). No reserve/flush: the caller provides space. */
+void __fastcall omf_pad_record(OmfRecord *record, unsigned bytes)
+{
+    unsigned char *cursor;
+    while (bytes--) {
+        cursor = record->cursor;
+        ++record->count;
+        *cursor++ = 0;
+        record->cursor = cursor;
+    }
+}

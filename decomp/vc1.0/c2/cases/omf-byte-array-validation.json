@@ -4010,6 +4010,6 @@
       }
     }
   ],
-  "seconds": 1.1810422390699387,
+  "seconds": 1.262549796141684,
   "scope": "Whole172-byte original/canonical controls against independent chunk/repeat model:0/1/38/1000-byte patterns, one/three repeats, record capacity split5/978, source rewind or null padding, combine2/7 tags, unsigned min and position wrap, post-child Segment reloads and final entry-position restoration, exact4-formal child ABI/RET8/callee-saved/owned guards. Child begin/append/pad effects mocked; original restore does not erase child combine mutations.128 bounded core states+4 positions, no repeat0 or nonprogress domain success, no invented guard or source copy claim outside owned width. Actual38-byte pattern/repeat1/data Segment independently observed."
 }

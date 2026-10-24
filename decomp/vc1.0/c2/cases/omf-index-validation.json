@@ -584,6 +584,6 @@
       }
     }
   ],
-  "seconds": 1.0281177442520857,
+  "seconds": 0.9773269686847925,
   "scope": "Whole62-byte original/canonical helper; signed<128 including negative values, high byte truncation/or80, count wrap, cursor and1/2-byte exact writes with full1164-byte record/guard unchanged checks and callee-saved/RET0 ABI. Destination offsets28/1002 remain in1004-byte record; no invented bounds guard or arbitrary adjacent-read/write claim. Actual current pool slot0/index3/count5/cursor28/owned used bytes independently observed; retained previous length55/00 is owned prior state, not consumed by this function. Failed missing-pool/zero-length observer assumptions preserved with original reuse/new native proof."
 }

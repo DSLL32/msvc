@@ -116,7 +116,6 @@ void omf_write_fixups(void) { __asm int 3 }
 
 unsigned char __fastcall omf_comdat_selection(unsigned char selection) { __asm int 3 }
 
-void __fastcall omf_pad_record(OmfRecord *record, unsigned bytes) { __asm int 3 }
 
 
 #include "coff-output.h"

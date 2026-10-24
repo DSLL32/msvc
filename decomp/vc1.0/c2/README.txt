@@ -685,3 +685,12 @@ match. No repeat0/nonprogress success or invented guard; children mocked in
 controls. Original/W3/full audits and15 native cases pass(14 complete), next
 pad6b2a0.342454/399693 extent bytes; app/support324154B/1166functions exclude5
 historical CRT. Timings/limits: cases/omf-byte-array-checkpoint.json.
+
+Checkpoint1282 adds28-byte zero-padding leaf.49 whole original/canonical
+controls/8 actual ABI negatives check unsigned count wrap, exact zero writes,
+bounded payload guards/1004 boundary and RET0. Actual current slot0/request2/
+count38/cursor66 comes from omf_find_record(return6bf15), correcting preliminary
+status inference of a direct null-array call. Old destination is write-only,
+not observed or seeded. Original/W3/full audits and15 native cases pass(14
+complete), next datum6b2d0.342482/399693 extent bytes; app/support324182B and
+1167functions exclude5 historical CRT. Timing: cases/omf-pad-checkpoint.json.

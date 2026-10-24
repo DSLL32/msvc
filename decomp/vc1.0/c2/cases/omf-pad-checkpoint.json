@@ -1,0 +1,186 @@
+{
+  "checkpoint": 1282,
+  "previous_checkpoint": 1281,
+  "new_application": [
+    {
+      "name": "@omf_pad_record@8",
+      "start": 438944,
+      "end": 438972,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "record",
+            "location": "ECX",
+            "type": "OmfRecord pointer"
+          },
+          {
+            "name": "bytes",
+            "location": "EDX",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-pad-abi/validation.json",
+        "scope": "Original6b2a0..6b2bc consumes ECX record count+12/cursor+16 and unsigned EDX count, RET0. No other registers/stack/flags/x87/out pointer input. Actual record pointer/current/four-slot pool identity and count/cursor/capacity observed; destination old bytes are write-only, neither read nor seeded."
+      }
+    }
+  ],
+  "new_extent_bytes": 28,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1282,
+    "accepted_code_bytes": 342482,
+    "original_code_bytes": 399693,
+    "percentage": 85.68626420777947,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 631
+  },
+  "application_graph_rows": 1172,
+  "reconstructed_application_support_functions": 1167,
+  "existing_handwritten_crt_bodies": 5,
+  "application_support_code_extent_bytes": 324182,
+  "code_denominator_bytes": 399693,
+  "next_frontier": "@omf_write_datum@8",
+  "next_original_va": "0x6b2d0",
+  "case_results": {
+    "total": 15,
+    "complete": 14,
+    "omf_named_trap": "@omf_write_datum@8"
+  },
+  "controls": [
+    "cases/omf-pad-validation.json"
+  ],
+  "timings": {
+    "omf1282-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 31.615211633965373,
+      "returncode": 0,
+      "log_sha256": "291e8297ddc7d2946e1ccb969c5f4ea0a1824ebacc33c30695de3391c2de3fbd"
+    },
+    "omf1282-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 2.9691567327827215,
+      "returncode": 0,
+      "log_sha256": "7ad5a0bd26f66fdfed513e9a98d6a67248a4c49c3ff2c8c4c5f18c6fcbe0ad53"
+    },
+    "omf1282-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1281.json",
+        "--extend-after",
+        "cases/omf-original-1282.json"
+      ],
+      "seconds": 0.322872213087976,
+      "returncode": 0,
+      "log_sha256": "3941ba3017071c2cef10d460e41fd74979dd623b73fa4b43b03f01f609073355"
+    },
+    "omf1282-controls-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-pad.py"
+      ],
+      "seconds": 0.7479930324479938,
+      "returncode": 0,
+      "log_sha256": "1b32b10ec18c956d2263cafee8c3a4eedb9f1db589314b3d5055c734a4371cb2"
+    },
+    "omf1282-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-pad-entry.py"
+      ],
+      "seconds": 1.200306880287826,
+      "returncode": 0,
+      "log_sha256": "0ab340f22c3feeccc092af169266e8f43ccd7f4142ee71432c32b7ad24b6b23a"
+    },
+    "omf1282-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 2.5298993214964867,
+      "returncode": 0,
+      "log_sha256": "1e72939badf49844880d3754374a0dadd6711938b1020c6fb9e729edb783c088"
+    },
+    "omf1282-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1282.json"
+      ],
+      "seconds": 0.23204311914741993,
+      "returncode": 0,
+      "log_sha256": "5e83f0e5fbb9e8fe244a4c9aea324306bafd4311347054e004e5594230fc2ceb"
+    },
+    "omf1282-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 2.7757224766537547,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "omf1282-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1282.json"
+      ],
+      "seconds": 2.1325007332488894,
+      "returncode": 0,
+      "log_sha256": "13d979b324df4e20ec4b70a226cef139a4bb1cc88f6a9c87d4a02ed039dbe214"
+    },
+    "omf1282-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 2.1324265636503696,
+      "returncode": 0,
+      "log_sha256": "1f171800293bac705ce37d82cc4c9993e229467dcabfbff536aaa4cd6d480512"
+    }
+  },
+  "audit_original_compile_commands": 0,
+  "limits": [
+    "Whole28-byte leaf and49 original/canonical states/8 actual ABI rejects pass.0/1/2/17/256 bounded requests, zero-only writes, old count38/zero/unsigned wrap, owned payload guards and exact final1004 boundary, stack/callee-saved/RET0. No reserve/flush/helper call or oversized successful request inferred.",
+    "Actual input record=current slot0,request2,count38,cursor66; caller omf_find_record, original return6bf15. This corrects a preliminary parent status inference that first pad was directly from null-source byte-array: observed record alignment is the actual path. Prior accepted byte-array controls cover null-source separately; no source or raw evidence changed. Consumed count/cursor and bounded destination identity observed; old destination is write-only and never captured/read/seeded as ABI input. Synthetic guard bytes are overwrite controls only.",
+    "Original/W3/full graph/extents/RET/ABI/storage/data audits, fresh original/native match to datum6b2d0 and15 cached native cases pass(14 complete). Build2.969s,audit31.615s,original2.133s,native.232s,fixtures2.530s wrappers; measured subphases in receipts, analysis/edit unmeasured. Full exact OMF artifact remains pending."
+  ]
+}

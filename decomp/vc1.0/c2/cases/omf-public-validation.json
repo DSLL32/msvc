@@ -2721,6 +2721,6 @@
     "injected_kind": 2,
     "scope": "Native-only controlled unsupported-kind boundary; original unsupported local type is uninitialized and is neither observed as a defined ABI input nor seeded/emulated. No original equality or frontend-validity claim for kind2."
   },
-  "seconds": 1.2581437900662422,
+  "seconds": 1.5982926059514284,
   "scope": "Whole206-byte emitter on defined kind1/3/4 and genuine invalid-label638 diagnostic: cached entry offset despite child mutation, selected public/local type, post-string record count/cursor reload, LE32 prefix/count wrap and signed typeWORD reload after children, all84 Symbol/72 Segment/1004 record/6 text bytes and callee-saved/RET0 checked.83 controls mock children, error stops genuine diagnostic; unsupported original kind uninitialized local type remains a source assumption, exact native default traps. Known marker/6b710 callers do not establish all public reachability; real other kind holds. No invented default/guard in Win32 or extra incoming parameter."
 }

@@ -1,0 +1,8 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x409c: file src/stubs.c, line 119.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, omf_pad_record (record=0x5661855c <omf_records>, bytes=2) at src/stubs.c:119
+119	void __fastcall omf_pad_record(OmfRecord *record, unsigned bytes) { __asm int 3 }
+C2_PAD {"record": 1449231708, "bytes": 2, "current": 1449231708, "base": 1449231708, "count": 38, "cursor": 1449231774, "caller": "omf_find_record"}
