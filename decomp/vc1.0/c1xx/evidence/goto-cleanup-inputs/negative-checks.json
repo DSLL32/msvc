@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "scope": "Read-only production argument preflight using frozen current function pair; focused synthetic metadata corruptions, no original execution or promotion",
+  "proof": "cases/argument-observations/state_machine_debug/1199-walk_goto_cleanup-16/validation.json",
+  "proof_sha256": "a4b3d4ef7f0df256046a7d1a26caa20872fee28b82e8148d63d4ae80e7572d03",
+  "checker_sha256": "61d2aa1de60309569b6224cc847ed7705a554b19b771ee35587ff6380e2d5d24",
+  "owner_validator_sha256": "e4b0d8f78f4c60bc6bb1410daefadb330999cc2df1af0fe6b550059a98b7d1b5",
+  "checks": [
+    {
+      "test": "control",
+      "result": "verified",
+      "output": "fresh application arguments verified: _walk_goto_cleanup@16"
+    },
+    {
+      "test": "missing-root",
+      "result": "held",
+      "reason": "'label_tail'"
+    },
+    {
+      "test": "wrong-root",
+      "result": "held",
+      "reason": "goto previous field outside actual fresh label owner"
+    },
+    {
+      "test": "wrong-previous-offset",
+      "result": "held",
+      "reason": "goto previous field outside actual fresh label owner"
+    },
+    {
+      "test": "wrong-label-offset",
+      "result": "held",
+      "reason": "goto label field outside actual fresh label owner"
+    },
+    {
+      "test": "short-previous-read",
+      "result": "held",
+      "reason": "missing complete goto input read: tail_previous"
+    },
+    {
+      "test": "unreadable-expression",
+      "result": "held",
+      "reason": "missing complete goto input read: expression_prestate"
+    },
+    {
+      "test": "wrong-expression-prestate",
+      "result": "held",
+      "reason": "initialized incoming goto expression differs"
+    },
+    {
+      "test": "wrong-caller-to",
+      "result": "held",
+      "reason": "native destination field/caller owner differs"
+    },
+    {
+      "test": "wrong-caller-label",
+      "result": "held",
+      "reason": "native destination field/caller owner differs"
+    },
+    {
+      "test": "missing-caller-expression",
+      "result": "held",
+      "reason": "'caller_expression'"
+    },
+    {
+      "test": "wrong-native-label-kind",
+      "result": "held",
+      "reason": "native tail is not actual label record"
+    }
+  ],
+  "elapsed_seconds": 0.38552601356059313
+}

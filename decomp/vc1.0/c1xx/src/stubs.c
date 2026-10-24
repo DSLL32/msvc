@@ -432,9 +432,9 @@ int __stdcall based_pointer_has_indirect_base(TypeShape *shape) { __asm { int 3 
 unsigned __stdcall classify_nested_shape_conversion(TypeShape *target, TypeShape *source) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall resolve_overloaded_initializer(IrToken *expression, CType *type, int mode) { __asm { int 3 } return 0; }
 
-FrontendRecord *__stdcall walk_goto_cleanup(IrToken **expression, FrontendRecord *record, int mode, CppSymbol *label) { __asm { int 3 } return 0; }
 FrontendRecord *__stdcall find_label_record(CppSymbol *label) { __asm { int 3 } return 0; }
 FrontendRecord *__stdcall skip_declaration_records(FrontendRecord *from) { __asm { int 3 } return 0; }
+FrontendRecord *__stdcall skip_previous_declaration_records(FrontendRecord *from) { __asm { int 3 } return 0; }
 
 
 unsigned __stdcall scan_return_paths(FrontendRecord **cursor, unsigned char stop_kind) { __asm { int 3 } return 0; }

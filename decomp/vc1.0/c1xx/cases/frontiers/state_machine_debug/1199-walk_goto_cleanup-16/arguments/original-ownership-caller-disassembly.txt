@@ -1,0 +1,96 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00041bc0 <.text+0x2abc0>:
+   41bc0:	55                   	push   ebp
+   41bc1:	8b ec                	mov    ebp,esp
+   41bc3:	83 ec 28             	sub    esp,0x28
+   41bc6:	53                   	push   ebx
+   41bc7:	56                   	push   esi
+   41bc8:	57                   	push   edi
+   41bc9:	c7 45 fc 00 00 00 00 	mov    DWORD PTR [ebp-0x4],0x0
+   41bd0:	83 3d cc 14 09 00 00 	cmp    DWORD PTR ds:0x914cc,0x0
+   41bd7:	74 3e                	je     0x41c17
+   41bd9:	83 3d 68 0a 0a 00 00 	cmp    DWORD PTR ds:0xa0a68,0x0
+   41be0:	75 35                	jne    0x41c17
+   41be2:	83 3d 64 0a 0a 00 00 	cmp    DWORD PTR ds:0xa0a64,0x0
+   41be9:	0f 85 0d 01 00 00    	jne    0x41cfc
+   41bef:	8d 45 d8             	lea    eax,[ebp-0x28]
+   41bf2:	a3 68 0a 0a 00       	mov    ds:0xa0a68,eax
+   41bf7:	50                   	push   eax
+   41bf8:	e8 83 0f 04 00       	call   0x82b80
+   41bfd:	83 c4 04             	add    esp,0x4
+   41c00:	0b c0                	or     eax,eax
+   41c02:	74 13                	je     0x41c17
+   41c04:	c7 05 68 0a 0a 00 00 	mov    DWORD PTR ds:0xa0a68,0x0
+   41c0b:	00 00 00 
+   41c0e:	5f                   	pop    edi
+   41c0f:	5e                   	pop    esi
+   41c10:	5b                   	pop    ebx
+   41c11:	8b e5                	mov    esp,ebp
+   41c13:	5d                   	pop    ebp
+   41c14:	c2 0c 00             	ret    0xc
+   41c17:	8b 45 0c             	mov    eax,DWORD PTR [ebp+0xc]
+   41c1a:	8b 40 10             	mov    eax,DWORD PTR [eax+0x10]
+   41c1d:	89 45 f8             	mov    DWORD PTR [ebp-0x8],eax
+   41c20:	8b 45 08             	mov    eax,DWORD PTR [ebp+0x8]
+   41c23:	8b 40 0c             	mov    eax,DWORD PTR [eax+0xc]
+   41c26:	89 45 08             	mov    DWORD PTR [ebp+0x8],eax
+   41c29:	8b 45 0c             	mov    eax,DWORD PTR [ebp+0xc]
+   41c2c:	8b 40 0c             	mov    eax,DWORD PTR [eax+0xc]
+   41c2f:	89 45 0c             	mov    DWORD PTR [ebp+0xc],eax
+   41c32:	8b 45 08             	mov    eax,DWORD PTR [ebp+0x8]
+   41c35:	39 45 0c             	cmp    DWORD PTR [ebp+0xc],eax
+   41c38:	0f 84 88 00 00 00    	je     0x41cc6
+   41c3e:	be 02 00 00 00       	mov    esi,0x2
+   41c43:	bf 03 00 00 00       	mov    edi,0x3
+   41c48:	bb 01 00 00 00       	mov    ebx,0x1
+   41c4d:	8d 49 00             	lea    ecx,[ecx+0x0]
+   41c50:	8b 45 08             	mov    eax,DWORD PTR [ebp+0x8]
+   41c53:	8b 4d 0c             	mov    ecx,DWORD PTR [ebp+0xc]
+   41c56:	8b 40 04             	mov    eax,DWORD PTR [eax+0x4]
+   41c59:	39 41 04             	cmp    DWORD PTR [ecx+0x4],eax
+   41c5c:	73 39                	jae    0x41c97
+   41c5e:	39 75 10             	cmp    DWORD PTR [ebp+0x10],esi
+   41c61:	74 1d                	je     0x41c80
+   41c63:	39 7d 10             	cmp    DWORD PTR [ebp+0x10],edi
+   41c66:	74 18                	je     0x41c80
+   41c68:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+   41c6b:	50                   	push   eax
+   41c6c:	6a 00                	push   0x0
+   41c6e:	8b 45 08             	mov    eax,DWORD PTR [ebp+0x8]
+   41c71:	50                   	push   eax
+   41c72:	8d 45 fc             	lea    eax,[ebp-0x4]
+   41c75:	50                   	push   eax
+   41c76:	e8 95 00 00 00       	call   0x41d10
+   41c7b:	89 45 08             	mov    DWORD PTR [ebp+0x8],eax
+   41c7e:	eb 3e                	jmp    0x41cbe
+   41c80:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+   41c83:	50                   	push   eax
+   41c84:	56                   	push   esi
+   41c85:	8b 45 08             	mov    eax,DWORD PTR [ebp+0x8]
+   41c88:	50                   	push   eax
+   41c89:	8d 45 fc             	lea    eax,[ebp-0x4]
+   41c8c:	50                   	push   eax
+   41c8d:	e8 7e 00 00 00       	call   0x41d10
+   41c92:	89 45 08             	mov    DWORD PTR [ebp+0x8],eax
+   41c95:	eb 27                	jmp    0x41cbe
+   41c97:	39 5d 10             	cmp    DWORD PTR [ebp+0x10],ebx
+   41c9a:	74 0d                	je     0x41ca9
+   41c9c:	39 7d 10             	cmp    DWORD PTR [ebp+0x10],edi
+   41c9f:	74 08                	je     0x41ca9
+   41ca1:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+   41ca4:	50                   	push   eax
+   41ca5:	6a 00                	push   0x0
+   41ca7:	eb 05                	jmp    0x41cae
+   41ca9:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+   41cac:	50                   	push   eax
+   41cad:	53                   	push   ebx
+   41cae:	8b 45 0c             	mov    eax,DWORD PTR [ebp+0xc]
+   41cb1:	50                   	push   eax
+   41cb2:	8d 45 fc             	lea    eax,[ebp-0x4]
+   41cb5:	50                   	push   eax
+   41cb6:	e8 55 00 00 00       	call   0x41d10

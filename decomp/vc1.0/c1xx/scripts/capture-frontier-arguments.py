@@ -6,6 +6,7 @@ Unsupported transport holds rather than guessing registers or dumping objects.
 """
 from member_parameter_owner import validate as validate_member_parameter_owner
 from member_path_outputs import validate as validate_member_path_output
+from goto_cleanup_inputs import validate as validate_goto_cleanup_inputs
 import argparse
 from parser_context_owner import validate as validate_parser_context_owner
 from virtual_table_owner import validate as validate_virtual_table_owner, validate_iterator as validate_virtual_iterator
@@ -195,6 +196,8 @@ def main():
         else:
             raise AssertionError('unsupported logical argument binding: '+item['name'])
         item['result'] = 'uncredited-unused' if binding['kind']=='unused-conversion-text' else 'match'
+    if name=='_walk_goto_cleanup@16':
+        validate_goto_cleanup_inputs(name, plan['formals'], anchors, checkpoint)
     assert states[:len(config['checkpoint_state'])] == checkpoint['states']
     assert len(states) == len(config['checkpoint_state']) + len(anchors)
     assert [m[1] for m in re.findall(r'^buffer \d+ (\d+) ([0-9a-f]*)$', events, re.M)] == checkpoint['buffers']

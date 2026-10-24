@@ -5,6 +5,7 @@ Requires a completed canonical/native build and a reviewed complete extent.
 """
 from member_parameter_owner import validate as validate_member_parameter_owner
 from member_path_outputs import validate as validate_member_path_output
+from goto_cleanup_inputs import validate as validate_goto_cleanup_inputs
 import argparse
 from parser_context_owner import validate as validate_parser_context_owner
 from virtual_table_owner import validate as validate_virtual_table_owner, validate_iterator as validate_virtual_iterator
@@ -211,6 +212,8 @@ def main():
         else:
             raise AssertionError('unbound actual argument holds acceptance: '+formal['name'])
     assert argument_proof.get('uncredited_unused_inputs', []) == [formal['name'] for formal in argument_proof['formals'] if formal['binding']['kind']=='unused-conversion-text'], 'uncredited unused input list differs'
+    if args.candidate=='_walk_goto_cleanup@16':
+        validate_goto_cleanup_inputs(args.candidate, argument_proof['formals'], anchors, entry_native)
     if args.check_arguments_only:
         print('fresh application arguments verified: '+args.candidate)
         return

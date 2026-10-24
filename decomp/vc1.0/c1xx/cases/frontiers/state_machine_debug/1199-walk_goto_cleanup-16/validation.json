@@ -1,0 +1,24 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_walk_goto_cleanup@16",
+    "start": 269584,
+    "end": 269948
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1199-walk_goto_cleanup-16/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_append_symbol_destructor@8",
+    "_collect_declaration_cleanup@12",
+    "_find_frontend_record@12",
+    "_report_syntax_error",
+    "_skip_declaration_records@4",
+    "_skip_previous_declaration_records@4",
+    "_walk_goto_cleanup@16"
+  ],
+  "next_frontier": "_skip_previous_declaration_records@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.938058452680707,
+  "total_operation_seconds": 4.441122262738645,
+  "original_capture_seconds": 1.0667046662420034
+}

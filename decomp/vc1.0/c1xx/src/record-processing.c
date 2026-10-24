@@ -11,6 +11,7 @@
 
 FrontendRecord *__stdcall walk_goto_cleanup(IrToken **expression,
     FrontendRecord *record, int mode, CppSymbol *label);
+FrontendRecord *__stdcall skip_previous_declaration_records(FrontendRecord *from);
 
 /* Original 0xa0a38: adjacent entries describe both directions of each pair.
    The pairs group compound, selection, iteration and switch delimiters. */
@@ -441,4 +442,46 @@ void __stdcall resolve_goto_cleanup(FrontendRecord *from, FrontendRecord *to, in
         cpp_parser_flags |= 0x80000000UL;
     emit_nonnull_expression_statement(expression);
     if (ir_record_error_context == recovery) ir_record_error_context = 0;
+}
+
+/* Original 0x41d10..0x41e7b, stdcall16. A declaration contributes
+   destructors when leaving its scope and an initialization diagnostic when
+   entering it. Other paired records skip their nested region as one step. */
+FrontendRecord *__stdcall walk_goto_cleanup(IrToken **expression,
+    FrontendRecord *record, int mode, CppSymbol *label)
+{
+    unsigned char kind = record->kind & 0x3f;
+    FrontendRecord *first;
+    switch (kind) {
+    case 0x0e:
+        if (mode) {
+            *expression = collect_declaration_cleanup(*expression,
+                record->previous, mode);
+            if ((record->kind & 0x80) && mode == 2)
+                *expression = append_symbol_destructor(*expression,
+                    ((SymbolFrontendRecord *)record)->symbol);
+            else if ((record->kind & 0x40) && mode == 1)
+                report_syntax_error(362,
+                    ((SymbolFrontendRecord *)record)->symbol->name, label->name);
+        }
+        return skip_previous_declaration_records(record->previous);
+    case 0x10:
+        return find_frontend_record(record->previous, 0x0f, 1);
+    case 0x15: case 0x17: case 0x1d: case 0x21: case 0x2b: case 0x31:
+        record = find_frontend_record(record->previous,
+            FRONTEND_RECORD_MATE(kind), 1);
+        if (mode) {
+            first = record->next;
+            while ((first->kind & 0x3f) == 0x35 ||
+                   (first->kind & 0x3f) == 0x33 ||
+                   (first->kind & 0x3f) == 0x34)
+                first = first->next;
+            first = skip_declaration_records(first);
+            if ((first->kind & 0x3f) == 0x0e)
+                walk_goto_cleanup(expression, first->next, mode, label);
+        }
+        return record;
+    default:
+        return record->previous;
+    }
 }
