@@ -123,6 +123,9 @@ def main():
         env['VC510_CVPACK_PROBES']+=',40f0d2:source-name-allocation-entry,40f0d7:source-name-allocation-result,40f257:source-output-allocation-entry,40f25c:source-output-allocation-result,40f3ce:source-module-free-entry,40f3d0:source-module-free-return,40f3e7:source-name-free-entry,40f3e9:source-name-free-return'
     if config.get('observe_source_index_entry') or config.get('observe_source_index_complete'):
         env['VC510_CVPACK_PROBES']+=',40f183:source-index-allocation-entry,40f188:source-index-allocation-result'
+    if config.get('observe_output_buffer_init'):
+        env['VC510_CVPACK_OUTPUT_BUFFER']='1'
+        env['VC510_CVPACK_PROBES']+=',4100f3:output-buffer-malloc-call,4100f5:output-buffer-malloc-return'
     if config.get('observe_complete_directory_sort'):
         env['VC510_CVPACK_COMPLETE_SORT']='1'
         env['VC510_CVPACK_PROBES']+=',4063f4:sort-callback-entry,406418:sort-callback-return,40642c:sort-callback-return,40643e:sort-callback-return,406447:sort-callback-return,406454:sort-callback-return,40645a:sort-callback-return,406b3a:sort-wrapper-return'

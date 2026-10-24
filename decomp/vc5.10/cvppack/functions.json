@@ -109,7 +109,8 @@
     "print_statistics",
     "append_source_name",
     "flush_packed_file",
-    "compare_packed_directory_entries"
+    "compare_packed_directory_entries",
+    "begin_buffered_output"
   ],
   "functions": [
     {
@@ -3582,8 +3583,11 @@
       "symbol": "_begin_buffered_output",
       "native_symbol": "begin_buffered_output",
       "original": 4260064,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4260064,
+        4260149
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -3591,7 +3595,8 @@
           "kind": "integer",
           "slot": 1
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0104-output-buffer-initialization/promotion.json"
     },
     {
       "name": "buffered_write",
@@ -3643,7 +3648,14 @@
       "original": 4221088,
       "status": "stub",
       "extent": null,
-      "ret": 0
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "index",
+          "slot": 1,
+          "kind": "integer"
+        }
+      ]
     },
     {
       "name": "write_publics",
@@ -3949,8 +3961,8 @@
   "observe_widen_release": true,
   "observe_main_frees": true,
   "main_free_policy": {
-    "path": "cases/hello-debug-dll/complete-sort-lifetimes.json",
-    "sha256": "d926344239595134bf6c3db54883a5e5f7042f465c86c2d5be429d26ebe5871b"
+    "path": "cases/hello-debug-dll/buffer-init-lifetimes.json",
+    "sha256": "9f2aac85526691b0638f65cc36506306f56a58bf370ac185b514c36cb3e79814"
   },
   "observe_widen_frees": true,
   "observe_derived_finalize_entry": false,
@@ -3958,5 +3970,6 @@
   "observe_source_index_entry": false,
   "observe_source_index_complete": true,
   "observe_output_directory": true,
-  "observe_complete_directory_sort": true
+  "observe_complete_directory_sort": true,
+  "observe_output_buffer_init": true
 }

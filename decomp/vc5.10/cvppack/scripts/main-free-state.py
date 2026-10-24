@@ -28,7 +28,8 @@ def validate(config,data,original,native,image_aliases,image_sizes,reads):
     complete=bool(config.get('observe_source_index_complete'));assert bool(policy.get('source_index_complete'))==complete,'unreviewed complete source-index policy'
     output_directory=bool(config.get('observe_output_directory'));assert bool(policy.get('output_directory'))==output_directory,'unreviewed output directory consumer policy'
     complete_sort=bool(config.get('observe_complete_directory_sort'));assert bool(policy.get('complete_directory_sort'))==complete_sort,'unreviewed complete sort consumer policy'
-    frontier=dict(name='begin_buffered_output',original=0x4100e0,return_pc=0x406b84) if complete_sort else dict(name='compare_packed_directory_entries',original=0x4063f0,return_pc=0x7802551e) if output_directory else dict(name='flush_packed_file',original=0x4069e0,return_pc=0x404776) if complete else dict(name='append_source_name',original=0x40f0d0,return_pc=0x40f1d7) if source_index else dict(name='print_statistics',original=0x40f100,return_pc=0x404771) if tables else dict(name='finalize_derived_types',original=0x40df60,return_pc=0x40b146) if derived else dict(name='free_type_tables',original=0x40b140,return_pc=0x404763) if scratch else dict(name='write_debug_directory',original=0x405230,return_pc=0x40475e)
+    buffer_init=bool(config.get('observe_output_buffer_init'));assert bool(policy.get('output_buffer_init'))==buffer_init,'unreviewed output-buffer consumer policy'
+    frontier=dict(name='write_subsection',original=0x4068a0,return_pc=0x406c17) if buffer_init else dict(name='begin_buffered_output',original=0x4100e0,return_pc=0x406b84) if complete_sort else dict(name='compare_packed_directory_entries',original=0x4063f0,return_pc=0x7802551e) if output_directory else dict(name='flush_packed_file',original=0x4069e0,return_pc=0x404776) if complete else dict(name='append_source_name',original=0x40f0d0,return_pc=0x40f1d7) if source_index else dict(name='print_statistics',original=0x40f100,return_pc=0x404771) if tables else dict(name='finalize_derived_types',original=0x40df60,return_pc=0x40b146) if derived else dict(name='free_type_tables',original=0x40b140,return_pc=0x404763) if scratch else dict(name='write_debug_directory',original=0x405230,return_pc=0x40475e)
     assert bool(policy.get('type_table_cleanup'))==tables,'unreviewed table cleanup consumer policy'
     assert bool(policy.get('type_finalize_entry'))==derived,'unreviewed type cleanup entry policy'
     assert bool(policy.get('widen_scratch_cleanup'))==scratch and policy['target_sha256']==config['target']['sha256'] and policy['allowed_frontiers']==[frontier],'unreviewed main free consumer policy'
@@ -107,6 +108,9 @@ def validate(config,data,original,native,image_aliases,image_sizes,reads):
     if tables:allowed.update(('type_hash_buckets','type_table_primary','type_table_secondary','type_table_pending','type_records'))
     for row in data:
         if row['kind']!='pointer' or (complete and row.get('source_index_output')):continue
+        if buffer_init and row.get('output_buffer_generation'):
+            assert row['name']=='output_buffer' and original['output_buffer_allocations'] and native['output_buffer_allocations'] and value(row['name'])==original['output_buffer_allocations'][-1]['address'] and actual(row['name'])==native['output_buffer_allocations'][-1]['address'],'output buffer lacks distinct new allocation identity'
+            continue
         address=value(row['name']);other=actual(row['name'])
         owners=[(base,state) for base,state in retired.items() if base<=address<base+state['size']]
         if not owners:continue

@@ -96,15 +96,21 @@ def prove(config):
     if config.get('observe_output_directory'):
         assert policy.get('output_directory') is True
         prefix=policy['writer_prefix'];complete_sort=bool(config.get('observe_complete_directory_sort'));assert bool(policy.get('complete_directory_sort'))==complete_sort
-        assert (prefix['start'],prefix['end'])==(0x4069e0,0x406b84 if complete_sort else 0x406b3a)
+        buffer_init=bool(config.get('observe_output_buffer_init'));assert bool(policy.get('output_buffer_init'))==buffer_init
+        assert (prefix['start'],prefix['end'])==(0x4069e0,0x406c17 if buffer_init else 0x406b84 if complete_sort else 0x406b3a)
         body=pe.read(prefix['start'],prefix['end']-prefix['start']);assert hashlib.sha256(body).hexdigest()==prefix['sha256']
         decoded=list(decoder.disasm(body,prefix['start']));assert sum(i.size for i in decoded)==len(body)
-        assert [i.address for i in decoded if i.mnemonic=='call']==[0x406b11,0x406b1a,0x406b34]+([0x406b5a,0x406b70,0x406b7f] if complete_sort else [])
+        assert [i.address for i in decoded if i.mnemonic=='call']==[0x406b11,0x406b1a,0x406b34]+([0x406b5a,0x406b70,0x406b7f] if complete_sort else [])+([0x406bcc,0x406be2,0x406bf0,0x406c12] if buffer_init else [])
         for instruction in decoded:
             for operand in instruction.operands:
                 if operand.type==X86_OP_MEM and not operand.mem.base and not operand.mem.index:
-                    assert operand.mem.disp in {0x415368,0x415640,0x4153b8,0x415388,0x415628,0x4161e0,0x4161f4,0x415654,0x412124},'writer prefix consumes retired root'
+                    assert operand.mem.disp in ({0x415368,0x415640,0x4153b8,0x415388,0x415628,0x4161e0,0x4161f4,0x415654,0x412124}|({0x412d34,0x412d38,0x412d40,0x412138,0x41213c,0x415660} if buffer_init else set())),'writer prefix consumes retired root'
         source_prefix['writer_prefix']=prefix
+        if buffer_init:
+            row=policy['buffer_initializer'];assert (row['start'],row['end'])==(0x4100e0,0x410135)
+            assert hashlib.sha256(pe.read(row['start'],85)).hexdigest()==row['sha256']
+            source_prefix['buffer_initializer']=row
+            source_prefix['buffer_init_validator_sha256']=sha(BINARY/'scripts/output-buffer-state.py')
         if complete_sort:source_prefix['complete_sort_validator_sha256']=sha(BINARY/'scripts/complete-sort-state.py')
     provider=ROOT/'toolchains/5.10/bin/MSVCRT.DLL';crt=PE(provider)
     assert sha(provider)==policy['crt_sha256']

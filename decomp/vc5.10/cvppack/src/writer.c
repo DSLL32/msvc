@@ -10,6 +10,20 @@ unsigned char *output_buffer;
 int output_file;
 unsigned total_packed_source_bytes, packed_file_length;
 
+/* Output-buffer setup [004100e0,00410135). */
+void begin_buffered_output(int file)
+{
+    output_capacity = 65512;
+    do {
+        output_buffer = malloc(output_capacity);
+        if (output_buffer) break;
+        output_capacity >>= 1;
+    } while (output_capacity >= 4096);
+    if (!output_buffer) output_capacity = 0;
+    output_used = 0;
+    output_file = file;
+}
+
 /* The original expands this buffer shortcut at each write site. Keep it in
  * the writer's function body rather than adding a call vertex. */
 #define BUFFER_WRITE(source_, bytes_, result_) do { \

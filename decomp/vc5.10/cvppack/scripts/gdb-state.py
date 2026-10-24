@@ -27,6 +27,7 @@ main_free_calls=[]
 source_index_allocations=[]
 source_family_allocations=[]
 source_family_frees=[]
+output_buffer_allocations=[]
 output_directory_before={}
 output_directory_sort={}
 output_directory_complete={}
@@ -37,6 +38,7 @@ lookup_stack=[]
 type_compare_calls=[]
 live_mappings={}
 def install(configuration):
+    global sort_environment
     config=json.loads(Path(configuration).read_text())
     class Returned(gdb.FinishBreakpoint):
         def __init__(self,call):
@@ -157,15 +159,25 @@ def install(configuration):
             super().__init__(gdb.newest_frame(),internal=True)
         def stop(self):
             self.record['address']=int(gdb.parse_and_eval('$eax'))&0xffffffff
+            if self.record.get('owner')=='begin_buffered_output':self.record.update(exit_esp=int(gdb.parse_and_eval('$esp')),after=sort_environment())
             return False
     class AllocationEntered(gdb.Breakpoint):
         def __init__(self):super().__init__('*malloc',internal=True)
         def stop(self):
             frame=gdb.newest_frame();owner=frame.older()
-            if owner is None or owner.name() not in ('read_codeview_directory','load_debug_subsection','read_image_debug','allocate_bytes','initialize_single_module','allocate_cleared','rewrite_module_symbols','rewrite_module_global_types'):return False
+            if owner is None or owner.name() not in ('read_codeview_directory','load_debug_subsection','read_image_debug','allocate_bytes','initialize_single_module','allocate_cleared','rewrite_module_symbols','rewrite_module_global_types','begin_buffered_output'):return False
             stack=int(gdb.parse_and_eval('$esp'))
             size=int.from_bytes(bytes(gdb.selected_inferior().read_memory(stack+4,4)),'little')
-            if owner.name()=='read_codeview_directory':
+            if owner.name()=='begin_buffered_output':
+                assert config.get('observe_output_buffer_init') and len(main_free_calls)==12 and len(source_family_frees)==2 and all(row.get('returned') for row in main_free_calls+source_family_frees),'buffer allocation before prior lifetimes ended'
+                block=owner.block()
+                while block is not None and block.function is None:block=block.superblock
+                formals={symbol.name:symbol.type.strip_typedefs() for symbol in block if symbol.is_argument}
+                assert set(formals)=={'file'} and formals['file'].code==gdb.TYPE_CODE_INT and formals['file'].sizeof==4,'buffer initializer actual DWARF ABI differs'
+                parent=owner.older();assert parent is not None and parent.name()=='flush_packed_file','buffer allocation parent owner differs'
+                record=dict(sequence=len(output_buffer_allocations),owner=owner.name(),file=int(owner.read_var('file')),size=size,entry_esp=stack,before=sort_environment(),formal_inventory={'file':str(formals['file'])})
+                output_buffer_allocations.append(record)
+            elif owner.name()=='read_codeview_directory':
                 assert not directory_allocation,'directory allocation generation needs an explicit model'
                 directory_allocation['size']=size;record=directory_allocation
             elif owner.name()=='allocate_cleared':
@@ -779,6 +791,7 @@ def capture(configuration,data_file,output):
     state['source_index_allocations']=source_index_allocations
     state['source_family_allocations']=source_family_allocations
     state['source_family_frees']=source_family_frees
+    state['output_buffer_allocations']=output_buffer_allocations
     state['directory_before_writer']=output_directory_before
     state['directory_sort_input']=output_directory_sort
     state['directory_sort_complete']=output_directory_complete
@@ -792,6 +805,10 @@ def capture(configuration,data_file,output):
     state['widen_sequence']=widen_sequence
     state['widen_release_calls']=widen_release_calls
     state['widen_emit_calls']=widen_emit_calls
+    if config.get('observe_output_buffer_init'):
+        address=int(gdb.parse_and_eval('output_buffer'));capacity=int(gdb.parse_and_eval('output_capacity'));used=int(gdb.parse_and_eval('output_used'));file=int(gdb.parse_and_eval('output_file'))
+        assert address and used==8 and used<=capacity and output_buffer_allocations and output_buffer_allocations[-1]['address']==address and output_buffer_allocations[-1]['size']==capacity,'output buffer initialized-prefix observation differs'
+        state['output_buffer_state']=dict(address=address,capacity=capacity,used=used,file=file,bytes=bytes(actual_inferior.read_memory(address,used)).hex(),environment=sort_environment())
     state['widen_query_calls']=widen_query_calls
     state['widen_factory_calls']=widen_factory_calls
     state['subsection_allocations']=subsection_allocations

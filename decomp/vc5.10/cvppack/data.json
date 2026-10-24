@@ -1253,7 +1253,8 @@
     "name": "output_buffer",
     "original": 4271416,
     "size": 4,
-    "kind": "pointer"
+    "kind": "pointer",
+    "output_buffer_generation": true
   },
   {
     "name": "output_used",
@@ -1270,6 +1271,12 @@
   {
     "name": "packed_file_length",
     "original": 4281228,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "output_file",
+    "original": 4271420,
     "size": 4,
     "kind": "integer"
   }
