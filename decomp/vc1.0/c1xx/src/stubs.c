@@ -136,7 +136,9 @@ OverloadCandidate *__stdcall resolve_overload_tie(OverloadSearch *search) { __as
 OverloadCandidate *__stdcall report_call_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
 IrToken *__stdcall cast_to_reference(CType *type, IrToken *operand) { __asm { int 3 } return 0; }
 int __stdcall member_pointer_cast_compatible(CType *source, CType *target, int reverse) { __asm { int 3 } return 0; }
-IrToken *__stdcall lower_member_pointer_call(IrToken *expression, IrToken **prefix) { __asm { int 3 } return 0; }
+IrToken *__stdcall lower_multiple_inheritance_member_call(IrToken *object, IrToken *member, CType *type, IrToken **prefix) { __asm { int 3 } return 0; }
+IrToken *__stdcall lower_virtual_inheritance_member_call(IrToken *object, IrToken *member, CType *type, IrToken **prefix) { __asm { int 3 } return 0; }
+IrToken *__stdcall lower_general_inheritance_member_call(IrToken *object, IrToken *member, CType *type, IrToken **prefix) { __asm { int 3 } return 0; }
 void __stdcall report_argument_conversion(unsigned code, CppSymbol *function,
     CType *function_type, char *name, unsigned argument, CType *source, CType *target) { __asm { int 3 } }
 void __stdcall report_call_argument_error(unsigned code, CppSymbol *function, unsigned index) { __asm { int 3 } }

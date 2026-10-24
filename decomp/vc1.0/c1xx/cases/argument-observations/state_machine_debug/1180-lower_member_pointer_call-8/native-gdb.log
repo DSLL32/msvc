@@ -1,0 +1,12 @@
+Breakpoint 1 at 0x52bdd: file src/member-pointers.c, line 381.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, lower_member_pointer_call (expression=0x5663b248, prefix=0xffffd568) at src/member-pointers.c:381
+381	    IrToken *member = expression->tail.right;
+#0  lower_member_pointer_call (expression=0x5663b248, prefix=0xffffd568) at src/member-pointers.c:381
+#1  0x5659e9ef in build_call_expression (expression=0x5663b248, arguments=0x5663b3c8) at src/call-expressions.c:271
+#2  0x565bd03a in parse_translation_unit () at src/parser-expression-actions.inc:178
+#3  0x5655df4f in compile_translation_unit () at src/frontend.c:73
+#4  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#5  0x56558894 in main (argc=1, argv=0xffffd7a4, environment=0xffffd7ac) at src/c1xx.c:20

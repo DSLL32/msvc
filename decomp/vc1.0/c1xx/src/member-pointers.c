@@ -36,6 +36,13 @@ IrToken *__stdcall apply_simple_data_member_pointer(IrToken *expression);
 IrToken *__stdcall apply_virtual_data_member_pointer(IrToken *expression);
 IrToken *__stdcall apply_general_data_member_pointer(IrToken *expression);
 
+IrToken *__stdcall lower_multiple_inheritance_member_call(IrToken *object,
+    IrToken *member, CType *type, IrToken **prefix);
+IrToken *__stdcall lower_virtual_inheritance_member_call(IrToken *object,
+    IrToken *member, CType *type, IrToken **prefix);
+IrToken *__stdcall lower_general_inheritance_member_call(IrToken *object,
+    IrToken *member, CType *type, IrToken **prefix);
+
 int __stdcall tag_has_base_relation(CppSymbol *derived, CppSymbol *base);
 int __stdcall equal_member_function_parameters(FunctionParameters *source,
     FunctionParameters *target);
@@ -365,4 +372,29 @@ int __stdcall convert_member_pointer_object(IrToken *expression)
     expression->value.pointer = convert_initializer(1, target,
         (IrToken *)expression->value.pointer);
     return expression->value.pointer != 0;
+}
+
+/* Original 0x4ad80..0x4ae16, stdcall8. Separate evaluation required
+   before an indirect member call from its object and callable expression. */
+IrToken *__stdcall lower_member_pointer_call(IrToken *expression, IrToken **prefix)
+{
+    IrToken *member = expression->tail.right;
+    IrToken *object = (IrToken *)expression->value.pointer;
+    CType *type = member->type;
+    CType *object_type;
+    *prefix = 0;
+    switch (member_pointer_inheritance_model(type)) {
+    case 1:
+        object_type = type->related->related->data.parameters->associated_type;
+        return new_left_typed_expression(0xa4, member,
+            new_typed_unary_expression(0x46, object_type, object));
+    case 2:
+        return lower_multiple_inheritance_member_call(object, member, type, prefix);
+    case 3:
+        return lower_virtual_inheritance_member_call(object, member, type, prefix);
+    case 4:
+        return lower_general_inheritance_member_call(object, member, type, prefix);
+    default:
+        return 0;
+    }
 }

@@ -1184,7 +1184,8 @@
     "_begin_do_body_region",
     "_prepare_do_body",
     "_apply_member_pointer@4",
-    "_convert_member_pointer_object@4"
+    "_convert_member_pointer_object@4",
+    "_lower_member_pointer_call@8"
   ],
   "driver": [
     {
@@ -6053,7 +6054,7 @@
     {
       "name": "_lower_member_pointer_call@8",
       "start": 306560,
-      "end": 306561
+      "end": 306711
     },
     {
       "name": "_validate_call_arguments@16",
@@ -8447,6 +8448,21 @@
       "name": "_apply_general_data_member_pointer@4",
       "start": 306064,
       "end": 306065
+    },
+    {
+      "name": "_lower_multiple_inheritance_member_call@16",
+      "start": 306720,
+      "end": 306721
+    },
+    {
+      "name": "_lower_virtual_inheritance_member_call@16",
+      "start": 306848,
+      "end": 306849
+    },
+    {
+      "name": "_lower_general_inheritance_member_call@16",
+      "start": 307040,
+      "end": 307041
     }
   ],
   "cases": {
@@ -8647,7 +8663,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_lower_member_pointer_call@8",
+      "terminal": "_begin_do_condition",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8670,7 +8686,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1179-convert_member_pointer_object-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1180-lower_member_pointer_call-8/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8855,7 +8871,8 @@
         "cases/frontiers/state_machine_debug/1176-begin_do_body_region/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1177-prepare_do_body/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1178-apply_member_pointer-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1179-convert_member_pointer_object-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1179-convert_member_pointer_object-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1180-lower_member_pointer_call-8/frontier-extension.json"
       ]
     }
   },
