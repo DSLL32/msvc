@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "UNPROMOTED116B application candidate; concrete normal public-entry + restore target-frontier review requested",
+  "status": "accepted exactly one116B application function after own normal/restore concrete parentreview",
   "function": "_new_option_vector",
   "source": "src/vectors.cpp",
   "source_sha256": "55f5a3b194b2ffac03d7aa1ae8cc76c84812b54d980cec949e58689e1c93f27a",
@@ -103,8 +103,11 @@
       "frontier": "_next_argument"
     }
   },
-  "application_credit_added": 0,
-  "durable_accepted_count": 89,
+  "application_credit_added": {
+    "functions": 1,
+    "code_bytes": 116
+  },
+  "durable_accepted_count": 90,
   "prospective_accepted_count": 90,
   "new_global_modeled_bytes": 0,
   "dynamic_objects": {
@@ -213,5 +216,29 @@
     "path": "build/audit-proof.json",
     "sha256": "17e7835a1604bb155d3fb38f07f7d4d7d6fbc6a3f31e9c83a9d47499d4a60308",
     "seconds": 0.12263794429600239
+  },
+  "acceptance_result": {
+    "accepted": "_new_option_vector",
+    "accepted_count": 90,
+    "promoted_functions": [
+      "_new_option_vector"
+    ]
+  },
+  "parent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/vector-parent-review.json",
+    "sha256": "788125aa22d54457e5aa1b0d5fa80ab03b03642d6723877cfe106c30f6f3694a",
+    "reviewed_packet_sha256": "365944b2696217aedc5ab71cb1e1668b0aa1c33ec771a1cb2be96af529407f95",
+    "independent_normal_seconds": 9.269,
+    "independent_restore_seconds": 8.929
+  },
+  "checkpoint": {
+    "application_functions": 86,
+    "application_code_bytes": 5889,
+    "historical_CRT_code_bytes": 451,
+    "generated_import_code_bytes": 12,
+    "whole_code_bytes": 6352,
+    "whole_code_denominator": 751216,
+    "whole_percent": 0.8455623948371707,
+    "nonCRT_denominator_known": false
   }
 }

@@ -363,3 +363,13 @@ proofs/timings; `scripts/check-env-arguments-history.py` revalidates immutable
 pairs without execution. Current85 application functions/5773B plus historical
 CRT451B/imports12B total6236/751216 whole code bytes; minimal compilation remains
 incomplete.
+
+The116-byte vector allocator is accepted after independent normal/restore
+review. Three real40/1 calls return12-byte headers and160-byte pointer storage
+from arena1, with a genuine32KiB commitment and full zero/neighbor/ABI checks.
+Normal execution stops at authenticated MSPDB50!SigForPbCb("CPP",3,ffffffff)
+before provider execution; restore reaches next_argument. No provider success
+or code credit is claimed. See `cases/minimal/VECTORS.md`/`vector-trial.json`.
+Current86 application functions/5889B plus historical CRT451B/imports12B total
+6352/751216 whole code bytes; the normal dependency still needs a guarded
+captured response before the minimal C++ compile can continue.

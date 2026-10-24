@@ -91,9 +91,10 @@
     "_initialize_checksums",
     "_initialize_multibyte_categories",
     "_initialize_lowercase_table",
-    "_read_env_arguments"
+    "_read_env_arguments",
+    "_new_option_vector"
   ],
-  "trial": "_new_option_vector",
+  "trial": null,
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -859,5 +860,5 @@
       "entry": 0
     }
   ],
-  "stage": "full116B vector allocator candidate; three real40/1 calls then actual role-specific public/target frontier"
+  "stage": "_new_option_vector accepted; next frontier public:mspdb50!SigForPbCb"
 }

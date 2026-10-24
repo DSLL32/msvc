@@ -1,5 +1,5 @@
-This is an **unpromoted116-byte candidate** pending the orchestrator's concrete
-boundary review. The allocator owns104 hot bytes at682f..6897 and12 cold bytes
+This116-byte allocator is accepted after the orchestrator independently reviewed
+both frozen pairs and current strict audits. The allocator owns104 hot bytes at682f..6897 and12 cold bytes
 at532af..532bb. `src/vectors.cpp` retains both genuine CommitExtent calls; no
 new wrapper, allocation mock or import implementation is introduced.
 
@@ -52,6 +52,7 @@ steps0.710/1.589s. They are not summed parallel wall time. Shared crt390ea919 wa
 captured as coherent WIP and subsequently published unchanged as READYc11fa6763.
 
 No new global data bytes are modeled. Original6031 initialized bytes remain
-unmodeled; no unknown consumer is licensed. Durable credit remains89 boundaries
-until review and actual promotion. Read-only revalidation, with fresh strict
+unmodeled; no unknown consumer is licensed. Durable credit is90 boundaries:86 application functions/5889B, historical CRT451B
+and generated imports12B separately (6352/751216 whole code bytes, not non-CRT
+coverage). Read-only revalidation, with fresh strict
 audits and no execution: `python3 scripts/check-vector-history.py`.
