@@ -1,0 +1,21 @@
+{
+  "scope": "Public WCHAR16/count32 wcsncmp on valid spans. Zero count returns0 without reading pointers; positive nonNULL spans compare unsigned16 units and return exact difference at first mismatch, or0 at equal NUL/count exhaustion. No locale or host wchar32 dependency.",
+  "frozen_receipt": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/wcsncmp/receipt.json",
+    "sha256": "4077bd23de353dbd05db7666bd58e383a706d315ad54c68ddf0da5a6dea070b1"
+  },
+  "design_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/rcdll/wcsncmp-success-design-parent-review.json",
+    "sha256": "961810da95cdf69524a9968e37bfac74945fd37348bcc4a91b2d43453c135162"
+  },
+  "canonical_proof": "Authenticated MSVCRT e390 export742 hot60B plus count0 cold4B, SDK/targetIAT/caller and complete independent64-row probe. Integer-only body has no calls/stores/errors/FP effects; return is unsigned16 subtraction, not normalized sign.",
+  "focused_checks": "Four frozen GCC/Clang default510 suites:64 authenticated original rows,65536 unsigned return magnitudes x empty/live full108FP/errors; zero-countNULL/guardpage no-read, positiveNULL deny125, count-limited page boundary, earlyNUL/mismatch maximumcount, read-only inputs/tails. Shared core passes.",
+  "actual_original": "Real RCDLL call count13/equal26B spans returns0, preserves errno2/Last0, cdeclRET0; wrapper result0/RET12 then actual line-comment frontier. Prior native typed125 result remains explicitly unobserved.",
+  "FP_qualification": "Actual original application per-call FP was not measured. Whole integer-only canonical function and separate64-row full108B FP probe prove preservation; native own before/after FP must be checked at adoption. No invented original afterstate or original process-success claim.",
+  "limits": "Positive unreadable nonNULL spans are outside the valid-span contract; no new memory-validation framework or target CRT function-graph credit. Final independent source/probe review passes; actual RCDLL native adoption remains required before application promotion.",
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/rcdll/wcsncmp-parent-review.json",
+    "sha256": "31420af3fe369ad0b8bfc6b277c039023b4ef05bc75a67315254485fda9ca59d",
+    "result": "PASS:28 live/frozen source and25 reference bindings, all four frozen GCC/Clang default510 suites independently rerun."
+  }
+}
