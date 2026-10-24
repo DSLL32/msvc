@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "invoke-arguments.h"
+#include "options-fields.h"
 #include <recon.h>
 
 typedef struct Range { DWORD first, last; int entry; BYTE saved; } Range;
@@ -93,24 +94,53 @@ static void remote_string(DWORD address, char *text, DWORD capacity)
     fail("long module name");
 }
 
+/* Same actual debug HANDLE; each read has an independent absolute offset. */
+static BOOL read_file_at(HANDLE file, DWORD offset, void *buffer, DWORD bytes,
+                         DWORD *received, DWORD *error)
+{
+    OVERLAPPED position;
+    BOOL status;
+    memset(&position, 0, sizeof(position));
+    position.Offset = offset;
+    *received = 0;
+    status = ReadFile(file, buffer, bytes, received, &position);
+    *error = GetLastError();
+    return status;
+}
+
 static int same_file(HANDLE loaded, const char *reference, const char *output)
 {
     HANDLE expected, saved;
     BYTE actual[8192], wanted[8192];
-    DWORD a, b, wrote;
+    DWORD a, b, wrote, offset = 0, error, bytes, size, expected_size, high;
     int same = 1;
     expected = CreateFileA(reference, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
     if (expected == INVALID_HANDLE_VALUE) fail("open expected file");
+    size = GetFileSize(loaded, &high);
+    if (high || !size || size == 0xffffffffUL) fail("actual identity size");
+    expected_size = GetFileSize(expected, &high);
+    if (high || expected_size == 0xffffffffUL) fail("expected identity size");
+    if (size != expected_size) same = 0;
     saved = CreateFileA(output, GENERIC_WRITE, 0, NULL, CREATE_NEW, 0, NULL);
     if (saved == INVALID_HANDLE_VALUE) fail("save loaded file");
-    if (SetFilePointer(loaded, 0, NULL, FILE_BEGIN) == 0xffffffffUL) fail("rewind loaded file");
-    do {
-        if (!ReadFile(loaded, actual, sizeof(actual), &a, NULL) ||
-            !ReadFile(expected, wanted, sizeof(wanted), &b, NULL)) fail("read file identity");
-        if (a != b || (a && memcmp(actual, wanted, a))) same = 0;
+    while (offset < size) {
+        bytes = size - offset;
+        if (bytes > sizeof(actual)) bytes = sizeof(actual);
+        if (!read_file_at(loaded, offset, actual, bytes, &a, &error) || a != bytes)
+            fail("read actual file identity");
+        if (!ReadFile(expected, wanted, bytes, &b, NULL)) fail("read expected identity");
+        if (a != b) same = 0;
+        else if (a && memcmp(actual, wanted, a)) same = 0;
         if (!WriteFile(saved, actual, a, &wrote, NULL) || wrote != a) fail("save identity");
-    } while (a || b);
+        if (offset > 0xffffffffUL - a) fail("file identity offset overflow");
+        offset += a;
+    }
+    if (offset != size || GetFileSize(loaded, &high) != size || high)
+        fail("actual identity length changed");
+    if (GetFileSize(expected, &high) != expected_size || high)
+        fail("expected identity length changed");
     CloseHandle(saved); CloseHandle(expected);
+    fprintf(events, "file-identity output=%s actual-bytes=%lu explicit-offset=1 equal=%d\n", output, offset, same);
     return same;
 }
 
@@ -220,6 +250,13 @@ static void prepare_mask(void)
         fail("save actual masked image");
     CloseHandle(saved);
     free(masked); initialized = 1;
+    if(getenv("C1XX_OBSERVE_OPTIONS") && !baseline) {
+        BYTE rules[1212],letters[144],warnings[88];
+        readmem(base+0xd6160,rules,sizeof(rules));save_blob("options-rules-loaded.bin",rules,sizeof(rules));
+        readmem(base+0xda388,letters,sizeof(letters));save_blob("options-letters-loaded.bin",letters,sizeof(letters));
+        readmem(base+0xd6628,warnings,sizeof(warnings));save_blob("options-warnings-loaded.bin",warnings,sizeof(warnings));
+        fprintf(events,"options-data rules=100 letters=11 warnings=10 full-loaded-records=1 no-code-mock=1\n");
+    }
     if (getenv("C1XX_OBSERVE_SCALER") && !baseline) {
         BYTE provider_code[39];
         readmem(base+0xc90c8,&scaler_provider,4);
@@ -310,6 +347,20 @@ static void save_frontend_state(const char *suffix)
     DWORD values[36];
     BYTE data[8520];
     char name[80];
+    if (getenv("C1XX_OBSERVE_OPTIONS")) {
+        BYTE *all = (BYTE *)malloc(0xf69c), projected[100];
+        unsigned i, offset = 0;
+        if (!all) fail("options observer allocation");
+        readmem(base + 0xb9000, all, 0xf69c);
+        for (i = 0; i < sizeof(option_fields)/sizeof(option_fields[0]); ++i)
+            if (!option_fields[i].initialized) {
+                memcpy(projected + offset, all + option_fields[i].rva - 0xb9000, option_fields[i].width);
+                offset += option_fields[i].width;
+            }
+        free(all);
+        if (offset != 100) fail("options observer field inventory");
+        sprintf(name, "options-bss-%s.bin", suffix); save_blob(name, projected, sizeof(projected));
+    }
     readmem(base + 0xcd7e0, values, 4);
     readmem(base + 0xc4d50, values + 1, 8);
     readmem(base + 0xcb06c, values + 3, 4);
@@ -465,6 +516,36 @@ static void seed_output_buffer(unsigned index, const char *role)
     value = 37; write_mem(object + 0x120, &value, 4);
     value = 23; write_mem(object + 0x1c, &value, 1);
     fprintf(events, "output-seed object=%u role=%s data=snapshot+0 cursor=snapshot+4 context=snapshot+8 file=snapshot+12 unused-relocation=_initialize_frontend_01 capacity=64 ok=53 descriptor=37 mode=23\n", index + 1, role);
+}
+
+static void seed_options_restore(void)
+{
+    unsigned i;
+    DWORD owned, live, saved, persistent;
+    BYTE bytes[1000];
+    const char *seed = getenv("C1XX_TEST_INIT_RESTORE");
+    if (!getenv("C1XX_OBSERVE_OPTIONS") || !seed) return;
+    if (strcmp(seed, "restore-nonzero") && strcmp(seed, "restore-zero")) fail("options seed role");
+    save_frontend_state("options-before-seed");
+    readmem(base + 0xc4d50, &owned, 4);
+    if (!owned) fail("options seed needs owned snapshot");
+    for (i = 0; i < sizeof(option_fields)/sizeof(option_fields[0]); ++i) {
+        const OptionField *field = option_fields + i;
+        if (field->width > 4) {
+            if (!field->initialized || field->width > sizeof(bytes)) fail("options array seed");
+            memset(bytes, 0xa5, field->width); write_mem(base + field->rva, bytes, field->width);
+            memset(bytes, 0x5a, field->width); write_mem(owned + field->rva - 0xcc000, bytes, field->width);
+        } else {
+            live = field->pointer ? owned + 4*(i+1) + (field->initialized ? 512 : 1024) : 101+i;
+            write_mem(base + field->rva, &live, 4);
+            if (field->initialized) {
+                saved = field->pointer ? owned + 4*(i+1) : 17+i;
+                write_mem(owned + field->rva - 0xcc000, &saved, 4);
+            }
+        }
+    }
+    persistent = base + 0xcb030; write_mem(base + 0xcb000, &persistent, 4);
+    fprintf(events, "options-seed fields=106 initialized=81 bss=25 persistent=1 pointers=owned-interiors never-dereferenced=1 no-code-mock=1 allocation=%08lx\n", owned);
 }
 
 static void seed_frontend_restore(void)
@@ -758,7 +839,7 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
     save_state();
     if(pool_cycle_active) {
         fprintf(events,"pool-registers seq=%u ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",sequence,context->Ebx,context->Esi,context->Edi,context->Ebp);
-        if(address==base+0x38f94 || address==base+0x1ee29 || address==base+0x1ee58 || address==base+0x1d738 || address==base+0x38f1b || address==base+0x38fad) {
+        if(address==base+0x38f94 || address==base+0x1ee29 || address==base+0x1ee58 || address==base+0x1d738 || address==base+0x38f1b || address==base+0x38fad || address==base+0x2b834) {
             BYTE *blob=(BYTE *)malloc(0x10000);char name[80];DWORD committed;
             if(!blob)fail("pool entry full BSS observation");
             readmem(base+0xb9000,blob,0xf69c);sprintf(name,"pool-bss-%03u.bin",sequence);save_blob(name,blob,0xf69c);
@@ -1297,6 +1378,7 @@ int main(int argc, char **argv)
                     readmem(base + 0xb9000, bss, sizeof(bss));
                     save_blob(address == base + 0x38ab7 ? "prototype-bss-entry.bin" : "prototype-bss-result.bin", bss, sizeof(bss));
                 }
+                if (address == base + 0x38550) seed_options_restore();
                 if (address == base + 0x38550 && getenv("C1XX_TEST_PDB_CONTEXT")) {
                     DWORD owned, fields[6], k, object = atoi(getenv("C1XX_TEST_PDB_OBJECT"));
                     DWORD object_base;

@@ -87,7 +87,8 @@
     "CompilerPool::BindArena",
     "CompilerPool::Refill",
     "CompilerArena::AllocatePages",
-    "CompilerArena::CommitExtent"
+    "CompilerArena::CommitExtent",
+    "_process_compiler_options"
   ],
   "driver": [
     {
@@ -836,10 +837,16 @@
     {
       "name": "_process_compiler_options",
       "start": 272863149,
-      "end": 272863150,
-      "source": "src/frontend.c",
-      "pending_extent": true,
-      "abi": "cdecl8"
+      "end": 272863874,
+      "source": "src/options.c",
+      "pending_extent": false,
+      "abi": "cdecl8",
+      "code_chunks": [
+        [
+          273097082,
+          273097739
+        ]
+      ]
     },
     {
       "name": "_compile_translation_unit",
@@ -1005,6 +1012,142 @@
           273030397
         ]
       ]
+    },
+    {
+      "name": "_push_declaration_context",
+      "start": 272807988,
+      "end": 272807989,
+      "pending_extent": true,
+      "source": "src/options.c",
+      "abi": "cdecl4"
+    },
+    {
+      "name": "_initialize_include_aliases",
+      "start": 272863874,
+      "end": 272863875,
+      "pending_extent": true,
+      "source": "src/options.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_checksums",
+      "start": 272863912,
+      "end": 272863913,
+      "pending_extent": true,
+      "source": "src/options.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_multibyte_categories",
+      "start": 272864148,
+      "end": 272864149,
+      "pending_extent": true,
+      "source": "src/options.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_lowercase_table",
+      "start": 272864202,
+      "end": 272864203,
+      "pending_extent": true,
+      "source": "src/options.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_read_env_arguments",
+      "start": 272864275,
+      "end": 272864276,
+      "pending_extent": true,
+      "source": "src/options.c",
+      "abi": "cdecl4"
+    },
+    {
+      "name": "_duplicate_argument",
+      "start": 272953115,
+      "end": 272953116,
+      "pending_extent": true,
+      "source": "src/options.c",
+      "abi": "cdecl8"
+    },
+    {
+      "name": "_report_response_error",
+      "start": 273226155,
+      "end": 273226156,
+      "pending_extent": true,
+      "source": "src/options.c",
+      "abi": "cdecl variadic"
+    },
+    {
+      "name": "_stop_compiler",
+      "start": 273220493,
+      "end": 273220494,
+      "pending_extent": true,
+      "source": "src/options.c",
+      "abi": "cdecl8"
+    },
+    {
+      "name": "_new_option_vector",
+      "start": 272656431,
+      "end": 272656432,
+      "pending_extent": true,
+      "source": "src/options.c",
+      "abi": "cdecl8"
+    },
+    {
+      "name": "_next_argument",
+      "start": 272864296,
+      "end": 272864297,
+      "pending_extent": true,
+      "source": "src/options.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_match_option",
+      "start": 272864330,
+      "end": 272864331,
+      "pending_extent": true,
+      "source": "src/options.c",
+      "abi": "cdecl16"
+    },
+    {
+      "name": "_resolve_option_path",
+      "start": 272865243,
+      "end": 272865244,
+      "pending_extent": true,
+      "source": "src/options.c",
+      "abi": "cdecl12"
+    },
+    {
+      "name": "_disable_multibyte_identifiers",
+      "start": 273154761,
+      "end": 273154762,
+      "pending_extent": true,
+      "source": "src/options.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_packing",
+      "start": 272865549,
+      "end": 272865550,
+      "pending_extent": true,
+      "source": "src/options.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_compare_pch_paths",
+      "start": 272873254,
+      "end": 272873255,
+      "pending_extent": true,
+      "source": "src/options.c",
+      "abi": "cdecl8"
+    },
+    {
+      "name": "_free_argument_allocation",
+      "start": 272774103,
+      "end": 272774104,
+      "pending_extent": true,
+      "source": "src/options.c",
+      "abi": "cdecl4"
     }
   ],
   "status": "autonomous minimal C++ reconstruction active",
@@ -4764,6 +4907,59 @@
         "native_seconds": 5.861977110616863
       },
       "native_trial_sha256": "34a884d4762384b325fd1ea9ea4c112d62caea873468c777b62f46bf5aaff3b8",
+      "native_only_refresh": "original raw execution reused after checked exact native ELF binding-only delta"
+    },
+    {
+      "name": "_process_compiler_options",
+      "classification": "application source",
+      "source": "src/options.c",
+      "source_sha256": "09f40f77da5359ff50af2829a5a6a7a6116f1e60465cc4a052b17562604a18c3",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-options-original-2",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-options-refined-native-3",
+      "original_receipt_sha256": "5858376eb4b578376abc67036b06d9fb08a066f23f0903bae34bfcd6f13a7cab",
+      "native_receipt_sha256": "d1d096f660bdc939ccde9bd55a49816f6dcad8e5711d9ae5f6c01364cf48c5ec",
+      "trial_sha256": "072223e75ef0084d93d6b06d0a6532afa16a1e9948116d698d6b7b188741ad55",
+      "audit_sha256": "8507167d58c7df96fa27015dd10095959711bab6ac43d0774eb34286a7b76972",
+      "code_chunks": [
+        [
+          233389,
+          234114
+        ],
+        [
+          467322,
+          467979
+        ]
+      ],
+      "comparison": {
+        "trial": "_process_compiler_options",
+        "frontier": "_push_declaration_context",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1473,
+        "native_bss_size": 1504,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 6547,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 21.014810424298048,
+        "native_seconds": 6.428510241210461
+      },
+      "native_trial_sha256": "5079efc571980f36aaab7e006694b68b6d654345f8ec5aaaf20892e1200a3974",
       "native_only_refresh": "original raw execution reused after checked exact native ELF binding-only delta"
     }
   ],

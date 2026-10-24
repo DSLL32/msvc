@@ -135,6 +135,10 @@ def prepare():
         trial['arena_reset_observers']={'entry_rva':0x38f0a,'return_rva':0x38ec8,'calls':9,'receiver_rvas':[0xc6500+i*32 for i in range(9)],'return_semantics':'void; caller overwrites EAX','full_original_bss_guard':True}
     if 'CompilerArena::CommitExtent' in accepted:
         trial['pool_cycle_observers']={'rvas':[0x1d76e,0x1d774,0x1ee9f,0x1ee52,0x38faa]+[0x38f27+i*12 for i in range(10)],'pool_order':[9,8,0,1,3,4,5,2,6,7],'calls':10,'commit_API_calls':1,'committed_bytes':65536,'scope':'exact source-owned return/API observations; no extra unmask, helper mock or region-tail reads'}
+    if '_process_compiler_options' in accepted:
+        trial['options_parser_observers']={'entry_rva':0x38fad,'first_call_rva':0x38fb9,'frontier_rva':0x2b834,'frontier_stack_arguments':[0],'rules':[0xd6160,101,12],'letters':[0xda388,12,12],'warnings':[0xd6628,11,8],'scope':'actual first named helper ABI and encountered loaded grammar/default records; no provider execution or mock'}
+        for name in ('options-analysis.json','options-preservation-v1.json','options-preservation-ablation.json','mspdb-signature-boundary.json'):
+            path='cases/minimal/'+name;trial['case_inputs'][path]=sha(PROJECT/path)
     trial['test_arena_reset_seed']=bool(candidate.get('test_arena_reset_seed'))
     if trial['test_arena_reset_seed']:
         if trial_name!='CompilerArena::Reset':raise ValueError('Reset seed requires sole Reset candidate')

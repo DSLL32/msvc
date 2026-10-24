@@ -84,7 +84,8 @@
     "CompilerPool::BindArena",
     "CompilerPool::Refill",
     "CompilerArena::AllocatePages",
-    "CompilerArena::CommitExtent"
+    "CompilerArena::CommitExtent",
+    "_process_compiler_options"
   ],
   "trial": null,
   "ranges": [
@@ -760,7 +761,19 @@
       "start_rva": 400622,
       "end_rva": 400637,
       "entry": 0
+    },
+    {
+      "owner": "_process_compiler_options",
+      "start_rva": 233389,
+      "end_rva": 234114,
+      "entry": 1
+    },
+    {
+      "owner": "_process_compiler_options",
+      "start_rva": 467322,
+      "end_rva": 467979,
+      "entry": 0
     }
   ],
-  "stage": "CompilerArena::CommitExtent accepted; next frontier _process_compiler_options"
+  "stage": "_process_compiler_options accepted; next frontier _push_declaration_context"
 }

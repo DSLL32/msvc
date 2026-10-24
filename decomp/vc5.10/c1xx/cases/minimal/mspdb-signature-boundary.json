@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "status": "static ABI/linkability evidence ONLY; provider function never invoked or reconstructed by this packet",
+  "target": {
+    "path": "toolchains/5.10/bin/C1XX.DLL",
+    "sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+    "import_dll": "mspdb50.dll",
+    "import_name": "SigForPbCb",
+    "iat_rva": 823860
+  },
+  "caller": {
+    "function": "_process_compiler_options",
+    "call_rva": 233625,
+    "return_rva": 233631,
+    "bytes": "a134084c10506a036820664d10ff1534924c1083c40ca334084c10",
+    "stack_arguments": [
+      "pointer to literal CPP at target RVA d6620",
+      "signed byte_count3",
+      "current 32bit source_signature at target RVA c0834"
+    ],
+    "cdecl_caller_pop_bytes": 12,
+    "eax_result": "32bit signature stored to same source_signature",
+    "condition": "only if initialized option_c9il is zero; several genuine pending helper frontiers precede this call"
+  },
+  "provider": {
+    "path": "toolchains/5.10/bin/MSPDB50.DLL",
+    "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+    "export": "SigForPbCb",
+    "ordinal": 127,
+    "rva": 61997,
+    "abi_evidence": {
+      "parameter_offsets_from_ebp": [
+        8,
+        12,
+        16
+      ],
+      "second_parameter": "signed DWORD count: DEC then JS before any byte dereference",
+      "first_parameter": "read-only byte input; provider body reads bytes and never stores through input",
+      "return": "EAX32; C3 RET0, caller owns three stack slots",
+      "extent": [
+        61997,
+        62050
+      ],
+      "bytes_sha256": "0c863c2888221375919652e30969b70894039b67288033e727d321c29ef8f77c"
+    }
+  },
+  "declaration": "unsigned long __cdecl SigForPbCb(const void *bytes, long byte_count, unsigned long signature);",
+  "import_library": {
+    "shipped": "No SigForPbCb symbol/string found in shipped5.10/lib files; no shipped MSPDB import library present",
+    "definition": "scripts/mspdb-import.def",
+    "definition_sha256": "0c44b06a9d6e0defce9f0aac26c4fa870a79b4658b20c16f84be0f67949c43aa",
+    "generated": "build/mspdb-import.lib",
+    "generated_sha256": "7f58eb5a477e28673de71e46587300bb4cbafbc815e432052ef48c0d6cdfb8de",
+    "command": [
+      "python3",
+      "scripts/wine-tool.py",
+      "LIB.EXE",
+      "/nologo",
+      "/machine:i386",
+      "/def:scripts/mspdb-import.def",
+      "/out:build/mspdb-import.lib"
+    ],
+    "inspection": "original LIB5.10 _SigForPbCb FF25 thunk/__imp__SigForPbCb, no@12 decoration; actual rebuilt PE verifies named MSPDB50.DLL SigForPbCb import (provider exportordinal127 is independent)",
+    "superseded_prototype": {
+      "directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/mspdb-import-ordinal-prototype",
+      "status": "earlier DEF@127 prototype caused ordinalimport; corrected before any new acceptance/referenceexecution",
+      "reason": "actual original uses namedimport; providerordinal remains127"
+    }
+  },
+  "requested_native_surface": "shared qualified MSPDB fail125 adapter/remap only; no hashing/provider success/dependency reconstruction granted"
+}

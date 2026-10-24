@@ -2,6 +2,7 @@
 #define C1XX_FRONTEND_H
 #include "c1xx.h"
 #include "output.h"
+#include "options.h"
 #include <recon.h>
 
 enum { FRONTEND_STATE_BYTES = 8520, FRONTEND_INITIALIZERS = 43 };
@@ -24,6 +25,7 @@ typedef struct FrontendData {
     int option_zb;
     int option_bm;
     int option_zm_percent;
+    CompilerOptionData options;
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */
@@ -154,6 +156,7 @@ typedef struct FrontendBss {
     char **command_argv;
     CompilerWorkBuffer work_buffers[2];
     CompilerArena arenas[9];
+    CompilerOptionBss options;
 } FrontendBss;
 
 #ifdef __cplusplus

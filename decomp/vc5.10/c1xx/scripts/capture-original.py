@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Explicit original-only DLL capture; never imported by native fixtures."""
 import argparse
+import fcntl
 import hashlib
 import json
 from pathlib import Path
@@ -121,7 +122,7 @@ def main():
         for row in trial["ranges"]))
     shutil.copy2(PROJECT / "build/dll-capture.exe", output / "dll-capture.exe")
     shutil.copy2(PROJECT / "build/native/c1xx-host", output / "native-executable.elf")
-    for source in ("dll-capture.c", "invoke-arguments.h"):
+    for source in ("dll-capture.c", "invoke-arguments.h", "options-fields.h"):
         shutil.copy2(PROJECT / "scripts" / source, output / source)
     environment = transport.environment()
     if trial["case"] == "minimal":
@@ -143,6 +144,8 @@ def main():
         if trial.get('arena_reset_observers'):environment['C1XX_OBSERVE_ARENA_RESET']='1'
         environment.pop('C1XX_OBSERVE_POOL_CYCLE',None)
         if trial.get('pool_cycle_observers'):environment['C1XX_OBSERVE_POOL_CYCLE']='1'
+        environment.pop('C1XX_OBSERVE_OPTIONS',None)
+        if trial.get('options_parser_observers'):environment['C1XX_OBSERVE_OPTIONS']='1'
         environment.pop('C1XX_TEST_ARENA_RESET',None)
         if trial.get('test_arena_reset_seed'):environment['C1XX_TEST_ARENA_RESET']='1'
         environment.pop('C1XX_TEST_OUTPUT_CONSTRUCTOR',None)
@@ -180,10 +183,14 @@ def main():
     shutil.copy2(CRT, output / "MSVCRT.DLL")
     command = ["wine", transport.windows(output / "dll-capture.exe"), "--debug",
                transport.windows(TARGET), transport.windows(CRT), args.mode, "ranges.txt"]
-    started = time.perf_counter()
+    waiting_started = time.perf_counter()
     with (output / "stdout.bin").open("wb") as stdout, (output / "stderr.bin").open("wb") as stderr:
-        result = subprocess.run(command, cwd=output, env=environment,
-                                stdout=stdout, stderr=stderr, timeout=args.timeout)
+        with (Path.home()/'.ai-tmp/msvc2-original-capture.lock').open('a') as capture_lock:
+            fcntl.flock(capture_lock, fcntl.LOCK_EX)
+            lock_wait_seconds = time.perf_counter() - waiting_started
+            started = time.perf_counter()
+            result = subprocess.run(command, cwd=output, env=environment,
+                                    stdout=stdout, stderr=stderr, timeout=args.timeout)
     elapsed = time.perf_counter() - started
     for item, digest in inputs.items():
         if sha(PROJECT / item) != digest:
@@ -197,6 +204,7 @@ def main():
         raise ValueError("actual loaded MSVCRT file differs")
     receipt = {"schema": 1, "kind": "explicit-original-capture", "mode": args.mode,
                "command": command, "exit": result.returncode, "seconds": elapsed,
+               "capture_lock_wait_seconds": lock_wait_seconds,
                "preflight": checks, "target_sha256": sha(TARGET),
                "canonical_crt_sha256": CRT_HASH, "snapshot_inputs": inputs,
                "helper_sha256": sha(output / "dll-capture.exe"),

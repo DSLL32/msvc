@@ -5,8 +5,8 @@ TOOL = $(PYTHON) scripts/wine-tool.py
 NATIVE_CC ?= clang
 NATIVE_CXX ?= clang++
 CPP_SOURCES = src/pools.cpp src/pch.cpp src/arenas.cpp
-SOURCES = src/startup.c src/dllmain.c src/exports.c src/frontend.c src/initializers.c src/output.c src/pdb-context.c src/types.c
-HEADERS = src/c1xx.h src/frontend.h src/output.h src/pdb-context.h $(RECON)/include/recon.h
+SOURCES = src/startup.c src/dllmain.c src/exports.c src/frontend.c src/initializers.c src/output.c src/pdb-context.c src/types.c src/options.c
+HEADERS = src/c1xx.h src/frontend.h src/output.h src/pdb-context.h src/options.h $(RECON)/include/recon.h
 OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES)) $(patsubst src/%.cpp,build/%.obj,$(CPP_SOURCES))
 NATIVE_OBJECTS = $(patsubst src/%.c,build/native/%.o,$(SOURCES)) $(patsubst src/%.cpp,build/native/%.o,$(CPP_SOURCES))
 NATIVE_SHIMS = $(wildcard $(RECON)/src/*.c)
@@ -39,14 +39,17 @@ build/%.obj: src/%.cpp $(HEADERS) scripts/record-build.py | build
 	$(PYTHON) scripts/record-build.py --record $@.build.json --artifact $@ -- $(TOOL) CL.EXE /nologo /c /MD /Od /GR- /GX- /W3 /I$(RECON)/include /Fo$@ $<
 
 # Original-only debugger/host, outside native fixture dependencies.
-build/dll-capture.obj: scripts/dll-capture.c scripts/invoke-arguments.h | build
+build/dll-capture.obj: scripts/dll-capture.c scripts/invoke-arguments.h scripts/options-fields.h | build
 	$(TOOL) CL.EXE /nologo /c /MD /Od /W3 /I$(RECON)/include /Fo$@ $<
 
 build/dll-capture.exe: build/dll-capture.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< MSVCRT.LIB KERNEL32.LIB
 
-build/c1n32_l.dll build/c1xx.map &: $(OBJECTS) src/c1xx.def Makefile
-	$(PYTHON) scripts/record-build.py --link --record build/win32-provenance.json --artifact build/c1n32_l.dll -- $(TOOL) LINK.EXE /nologo /dll /nodefaultlib /entry:_DllMainCRTStartup@12 /def:src/c1xx.def /map:build/c1xx.map /out:build/c1n32_l.dll $(OBJECTS) MSVCRT.LIB KERNEL32.LIB
+build/mspdb-import.lib: scripts/mspdb-import.def | build
+	$(TOOL) LIB.EXE /nologo /machine:i386 /def:$< /out:$@
+
+build/c1n32_l.dll build/c1xx.map &: $(OBJECTS) src/c1xx.def Makefile build/mspdb-import.lib
+	$(PYTHON) scripts/record-build.py --link --record build/win32-provenance.json --artifact build/c1n32_l.dll -- $(TOOL) LINK.EXE /nologo /dll /nodefaultlib /entry:_DllMainCRTStartup@12 /def:src/c1xx.def /map:build/c1xx.map /out:build/c1n32_l.dll $(OBJECTS) MSVCRT.LIB KERNEL32.LIB build/mspdb-import.lib
 
 build/native/%.o: src/%.c $(HEADERS) scripts/record-build.py $(wildcard $(RECON)/include/*.h $(RECON)/native/*.h) | build/native
 	$(PYTHON) scripts/record-build.py --native --record $@.build.json --artifact $@ -- $(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -Dmain=c1xx_main -Dscan_internal_switches=initialize_intermediate_files -finstrument-functions -c $< -o $@

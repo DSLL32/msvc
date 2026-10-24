@@ -128,7 +128,9 @@ def check(s,d,original,native,trial,text,state,final,traps):
     old_cli=re.findall(r'^trap seq=(\d+) rva=00038fad esp=(\w+) eax=(\w+) ecx=(\w+) edi=(\w+) stack=([0-9a-f,]+)$',text,re.M);require(len(old_cli)==1,'missing actual original command-line frontier');row=old_cli[0]
     old=dict(seq=int(row[0]),esp=int(row[1],16),eax=int(row[2],16),ecx=int(row[3],16),edi=int(row[4],16),stack=[int(v,16)for v in row[5].split(',')]);old_vector,argv=d.b.vector(original/'invoke-entry-argv.bin');native_vector,new_argv=d.b.vector(native/'native-argv.bin')
     require(old['stack'][:3]==[0x10438c54,26,old_vector] and cli['pc']==names['process_compiler_options'][0] and cli['args']==[26,native_vector] and argv==new_argv,'next actual argc/Invoke-vector/caller differs')
-    start,size=names['c1xx_main'];require(start<cli['return_pc']<start+size,'wrong main-to-options caller');call(cli['return_pc'],cli['pc']);require(cli['formal_inventory']==[dict(name='argc',type='int'),dict(name='argv',type='char **')] and state['symbol']=='process_compiler_options' and state['args']==dict(argc=26,argv=native_vector),'next named stub formals/observed arguments differ');same(cli,old)
+    start,size=names['c1xx_main'];require(start<cli['return_pc']<start+size,'wrong main-to-options caller');call(cli['return_pc'],cli['pc']);require(cli['formal_inventory']==[dict(name='argc',type='int'),dict(name='argv',type='char **')],'actual options entry formal inventory differs')
+    if '_process_compiler_options'not in trial['accepted']:require(state['symbol']=='process_compiler_options'and state['args']==dict(argc=26,argv=native_vector),'next named stub arguments differ')
+    same(cli,old)
     require(state['frontend']['arenas']==list(struct.unpack_from('<72I',native_bss,arena_offset)),'final serialized arenas differ from exact writes')
     for i in range(10):
         cursor,remaining,minimum,receiver=struct.unpack_from('<4I',native_bss,storage['pool_%02d.cursor'%(i+1)][0]-native_start)

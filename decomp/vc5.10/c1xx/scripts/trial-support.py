@@ -28,6 +28,9 @@ def frozen_name(item):
     return "rebuilt-runtime.json" if item == "build/runtime.json" else Path(item).name
 
 
+NATIVE_PAIR_DIRECTORY=None
+
+
 def receipt(directory, original=False):
     value = json.loads((directory / "receipt.json").read_text())
     frozen_cfg = json.loads((directory / "functions.json").read_text())
@@ -37,7 +40,13 @@ def receipt(directory, original=False):
         path = directory / frozen_name(item)
         require(sha(path) == value["snapshot_inputs"][item], "historical input changed " + item)
         if HISTORICAL_SNAPSHOT is None and (item != "build/trial.json" or not original):
-            require(path.read_bytes() == (PROJECT / item).read_bytes(), "execution input changed " + item)
+            if path.read_bytes() != (PROJECT / item).read_bytes():
+                require(original and item in ('build/c1n32_l.dll','build/c1xx.map'), "execution input changed " + item)
+                # Exact type-only refinement is proved after both raw receipts
+                # are checked; no general stale-image exemption is granted.
+                from options_abi_refinement import check as check_options_refinement
+                require(NATIVE_PAIR_DIRECTORY is not None,'missing native pair for type-only refinement')
+                check_options_refinement(directory,NATIVE_PAIR_DIRECTORY)
     for name, record in value["artifacts"].items():
         require(Path(name).name == name, "artifact escaped capture directory")
         path = directory / name
@@ -69,6 +78,8 @@ def receipt(directory, original=False):
 
 
 def pair(original, native):
+    global NATIVE_PAIR_DIRECTORY
+    NATIVE_PAIR_DIRECTORY=native
     o, n = receipt(original, True), receipt(native)
     require(o["kind"] == "explicit-original-capture" and o["mode"] == "masked",
             "not masked original evidence")

@@ -1,0 +1,141 @@
+{
+  "schema": 1,
+  "kind": "isolated affected semantic denials after genuine complete raw/strict positive; no receipt mutation",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-options-restore-original-2",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-options-restore-native-2",
+  "bindings": {
+    "original_receipt_sha256": "e4402372066b538992802521c719dec3d4fff33a0f67291e52663b6cadce9782",
+    "native_receipt_sha256": "8019d782f69e847d168cb673a2a9f077db4a68e0a46452557c6f86c39508286e"
+  },
+  "seed": "restore-nonzero",
+  "cases": [
+    {
+      "case": "old-rule-literal",
+      "rejection": "options: actual table range/stride/immutable bytes differ"
+    },
+    {
+      "case": "native-rule-alias",
+      "rejection": "options: native primary literal/alias/action differs"
+    },
+    {
+      "case": "native-rule-action",
+      "rejection": "options: native primary literal/alias/action differs"
+    },
+    {
+      "case": "grammar-pattern",
+      "rejection": "options: native primary literal/alias/action differs"
+    },
+    {
+      "case": "grammar-terminator",
+      "rejection": "options: table terminator differs"
+    },
+    {
+      "case": "letter-destination",
+      "rejection": "options: Z-letter rule differs"
+    },
+    {
+      "case": "warning-value",
+      "rejection": "options: warning default differs"
+    },
+    {
+      "case": "grammar-stride",
+      "rejection": "options: actual table range/stride/immutable bytes differ"
+    },
+    {
+      "case": "grammar-field-offset",
+      "rejection": "options: table semantic member layout differs"
+    },
+    {
+      "case": "default-initializer",
+      "rejection": "options: loader default differs from own file-backed initializer packing_alignment"
+    },
+    {
+      "case": "literal-identity",
+      "rejection": "options: default literal identity/actual bytes differ"
+    },
+    {
+      "case": "initial-array",
+      "rejection": "options: typed semantic value differs warning_levels"
+    },
+    {
+      "case": "final-scalar",
+      "rejection": "options: new fields not restored from saved typed values"
+    },
+    {
+      "case": "saved-scalar",
+      "rejection": "options: new fields not restored from saved typed values"
+    },
+    {
+      "case": "native-BSS",
+      "rejection": "options: typed semantic value differs option_zn"
+    },
+    {
+      "case": "field-inventory",
+      "rejection": "options: option value inventory differs"
+    },
+    {
+      "case": "layout-alias",
+      "rejection": "options: native primary literal/alias/action differs"
+    },
+    {
+      "case": "persistent-context",
+      "rejection": "options: persistent context incorrectly joined reset"
+    },
+    {
+      "case": "helper-argument",
+      "rejection": "options: actual native helper inputs/formals differ"
+    },
+    {
+      "case": "helper-formals",
+      "rejection": "options: actual native helper inputs/formals differ"
+    },
+    {
+      "case": "helper-PC",
+      "rejection": "options: actual native helper inputs/formals differ"
+    },
+    {
+      "case": "helper-caller",
+      "rejection": "options: native real CALL/ownership differs"
+    },
+    {
+      "case": "helper-neighbor",
+      "rejection": "options: parser changed state before first NULL helper"
+    },
+    {
+      "case": "helper-error",
+      "rejection": "options: parser changed state before first NULL helper"
+    },
+    {
+      "case": "original-helper-argument",
+      "rejection": "options: original NULL argument/caller differs"
+    },
+    {
+      "case": "original-before-helper-neighbor",
+      "rejection": "options: original parser changed BSS before first helper"
+    },
+    {
+      "case": "restore-input",
+      "rejection": "options: typed semantic value differs packing_alignment"
+    },
+    {
+      "case": "saved-array",
+      "rejection": "options: new fields not restored from saved typed values"
+    },
+    {
+      "case": "BSS-seed-omitted",
+      "rejection": "options: typed semantic value differs show_includes"
+    },
+    {
+      "case": "persistent-predefault",
+      "rejection": "options: pre-seed semantic inventory/persistent default differs"
+    },
+    {
+      "case": "seed-role",
+      "rejection": "options: undeclared semantic seed roles"
+    }
+  ],
+  "count": 31,
+  "seconds": 3.7685919627547264,
+  "checker_sha256": "18e6d6160d314126566539b8ad56a4a0bc4ea5a0f4e8c255a4b08081d5bf9a81",
+  "semantic_checker_sha256": "5bf91e493f1761935539e7274a19b0fb081d8fc2296c33987bb41935b82909ce"
+}

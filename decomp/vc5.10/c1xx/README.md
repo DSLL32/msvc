@@ -13,11 +13,14 @@ compares its graph/ABI/imports using the shared Rust auditor. Audit/build target
 may use Wine explicitly; fixture dependencies do not. Fixtures inspect the
 already-built Win32 DLL's exports without executing it.
 
-Accepted code is **78 application functions (3,556 bytes)**, **two historical CRT
+Accepted code is **79 application functions (4,938 bytes)**, **two historical CRT
 support functions (451 bytes)** and **two compiler/linker-generated import thunks (12 bytes)**.
-The 4,019 accepted code bytes are 0.5350% of the 751,216-byte code extent; this is not
+The 5,401 accepted code bytes are 0.7190% of the 751,216-byte code extent; this is not
 a non-CRT coverage percentage. The real minimal compilation remains unfinished,
-stopping at actual options processing after all ten pool allocations return.
+stopping at the first scalar language-context helper within the fully reconstructed
+options parser, after all ten pool allocations return. The parser projection,
+tables, defaults, nonzero restore proof and ABI refinement are recorded in
+`cases/minimal/options-trial.json` and `cases/minimal/OPTIONS.md`.
 
 ## Target and ABI
 

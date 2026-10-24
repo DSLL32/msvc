@@ -8,11 +8,15 @@ import time
 
 
 def capture(project,output,binary,trial):
+    if trial.get('options_parser_observers'):
+        import options_projection
+        (output/'options-projection-source.py').write_bytes(Path(options_projection.__file__).read_bytes())
     for item,digest in trial['case_inputs'].items():
         import hashlib
         source=project/item
         if hashlib.sha256(source.read_bytes()).hexdigest()!=digest:raise ValueError('case input changed')
         (output/source.name).write_bytes(source.read_bytes())
+    model=json.loads((output/'state-model.json').read_text())
     cfg=json.loads((output/'functions.json').read_text())
     names=[]
     for row in cfg['driver']:
@@ -247,6 +251,7 @@ if any(f.name=='arenas' for f in gdb.lookup_type('FrontendBss').fields()):
     value['frontend']['storage']['arena_descriptors']=[descriptor_address,180]
     value['frontend']['arena_native_layout']={'size':int(gdb.parse_and_eval('sizeof(CompilerArena)')),'fields':{f.name:[f.bitpos//8,int(f.type.sizeof)] for f in gdb.lookup_type('CompilerArena').fields() if not f.is_base_class and f.bitpos is not None}}
     value['frontend']['descriptor_native_layout']={'size':int(gdb.parse_and_eval('sizeof(ArenaDescriptor)')),'fields':{f.name:[f.bitpos//8,int(f.type.sizeof)] for f in gdb.lookup_type('ArenaDescriptor').fields()}}
+@@OPTIONS@@
 value['frontend']['callback_slots']=[int(gdb.parse_and_eval('(unsigned int)frontend_initializers[%d]'%n)) for n in range(43)]
 value['target_state']['initializer_words']=[int(gdb.parse_and_eval('(unsigned int)crt_initializers[%d]'%n)) for n in range(2)]
 value['target_state']['onexit_first']=int(gdb.parse_and_eval('(unsigned int)*onexit_begin')) if value['target_state']['onexit_begin'] else None
@@ -270,7 +275,7 @@ open(@@ARGV@@,'wb').write(raw)
 open(@@STATE@@,'w').write(json.dumps(value,indent=2)+'\\n')
 recon_collect_timings.append({'state_file':@@STATE@@.rsplit('/',1)[-1],'collection_seconds':recon_serialize_started-recon_collect_started,'serialization_io_seconds':time.perf_counter()-recon_serialize_started})
 end
-'''.replace('@@ARGV@@',repr(str(output/'native-argv.bin'))).replace('@@STATE@@',repr(str(output/'state.json'))))
+'''.replace('@@ARGV@@',repr(str(output/'native-argv.bin'))).replace('@@STATE@@',repr(str(output/'state.json'))).replace('@@OPTIONS@@',__import__('options_projection').gdb_collection()if model['schema']>=32 else''))
     commands=output/'commands.gdb'
     pre=output/'collect-pre.gdb'
     pre.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'pre.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'pre-argv.bin'))))
@@ -280,12 +285,14 @@ end
         for index,field in enumerate(('database','names','types','minimal_rebuild','stream_state')):
             pdb_seed+='set variable '+pdb_object+'.'+field+'=(void *)((unsigned char *)frontend_bss.saved_state+%d)\n'%(index*4)
         pdb_seed+='set variable '+pdb_object+'.read_mode=37\n'
-    observer='break *initialize_compiler_pass\ncommands\nsilent\n'+pdb_seed+'source '+str(pre)+'\ncontinue\nend\n'
+    options_seed=''
+    if model['schema']>=32 and trial.get('test_seed'):
+        options_seed=__import__('options_projection').gdb_seed().replace('@@SEED_PATH@@',repr(str(output/'options-before-seed.json')))
+    observer='break *initialize_compiler_pass\ncommands\nsilent\n'+pdb_seed+options_seed+'source '+str(pre)+'\ncontinue\nend\n'
     if trial['trial']=='_checked_malloc':
         allocation=output/'collect-allocation-entry.gdb'
         allocation.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'allocation-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'allocation-entry-argv.bin'))))
         observer+='break checked_malloc\ncommands\nsilent\nsource '+str(allocation)+'\ncontinue\nend\n'
-    model=json.loads((output/'state-model.json').read_text())
     for i in range(model.get('native_padding',{}).get('output_count',0)):
         number=i+1;name='initialize_output_buffer_%02d'%number
         stem='constructor-entry' if number==1 else 'constructor%02d-entry'%number
@@ -476,6 +483,10 @@ end
         from scaler_probe import setup as setup_scaler
         scaler_observer,scaler_finish=setup_scaler(output,binary,collector,model,trial)
         observer+=scaler_observer
+    if trial.get('options_parser_observers'):
+        from options_probe import setup as setup_options
+        options_observer,options_finish=setup_options(output,binary)
+        observer+=options_observer;scaler_finish+=options_finish
     from collector_cache import prepare as prepare_collector_cache
     cache_startup=prepare_collector_cache(output,collector)
     def timed_source(match):

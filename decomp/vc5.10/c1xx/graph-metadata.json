@@ -23,6 +23,11 @@
           ]
         }
       }
+    },
+    "_process_compiler_options": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true
+      }
     }
   },
   "callback_tables": [],
@@ -53,6 +58,45 @@
         "evidence": {
           "path": "cases/minimal/allocation-preservation-v1.json",
           "sha256": "18eac3cea5b851f9dc33e1f69cb95e1b721d92a804207e0332b3104c5b83a559"
+        }
+      },
+      {
+        "target": {
+          "function": "_read_env_arguments"
+        },
+        "preserves": [
+          "ebx"
+        ],
+        "evidence": {
+          "path": "cases/minimal/options-preservation-v1.json",
+          "sha256": "2bdf4f4dfb5bcbf248701fdff3ab37882e07c3f2d752395bf1865095b228d1ba"
+        }
+      },
+      {
+        "target": {
+          "function": "_duplicate_argument"
+        },
+        "preserves": [
+          "ebx"
+        ],
+        "evidence": {
+          "path": "cases/minimal/options-preservation-v1.json",
+          "sha256": "2bdf4f4dfb5bcbf248701fdff3ab37882e07c3f2d752395bf1865095b228d1ba"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "fgets"
+          }
+        },
+        "preserves": [
+          "ebx"
+        ],
+        "evidence": {
+          "path": "cases/minimal/options-preservation-v1.json",
+          "sha256": "2bdf4f4dfb5bcbf248701fdff3ab37882e07c3f2d752395bf1865095b228d1ba"
         }
       }
     ]

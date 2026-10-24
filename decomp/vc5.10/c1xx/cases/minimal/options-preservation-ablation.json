@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "result": "PASS",
+  "positive": "full original/rebuilt candidate strictaudit with complete3contracts PASS",
+  "negative_count": 3,
+  "mutants": [
+    {
+      "removed_contract": "_read_env_arguments",
+      "exit": 1,
+      "diagnostic": "graph-audit: original _process_compiler_options register imports: unresolved register import calls: {273097303}"
+    },
+    {
+      "removed_contract": "_duplicate_argument",
+      "exit": 1,
+      "diagnostic": "graph-audit: original _process_compiler_options register imports: unresolved register import calls: {273097303}"
+    },
+    {
+      "removed_contract": "fgets",
+      "exit": 1,
+      "diagnostic": "graph-audit: original _process_compiler_options register imports: unresolved register import calls: {273097303}"
+    }
+  ],
+  "seconds": 0.10585852712392807,
+  "auditor_sha256": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24",
+  "baseline_metadata_sha256": "c2a76f2e62b0f3839df2ccc73e31797742612cbbd513757d3442c9365a608285",
+  "scope": "static metadata-only ablation of actual necessary EBX contracts; no original/native execution, no mask or accepted-index change"
+}

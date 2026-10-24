@@ -28,7 +28,10 @@ def prepare(project,original,output,trial):
     for name,row in receipt['artifacts'].items():
         file=original/name
         if Path(name).name!=name or not file.is_file() or sha(file)!=row['sha256'] or file.stat().st_size!=row['size']:raise ValueError('original response artifact drift '+name)
-    refresh=native_only_trial_refresh((original/'trial.json').read_bytes(),(output/'trial.json').read_bytes())
+    try:refresh=native_only_trial_refresh((original/'trial.json').read_bytes(),(output/'trial.json').read_bytes())
+    except ValueError:
+        from options_abi_refinement import check as check_options_refinement
+        refresh=check_options_refinement(original,output)
     original_trial=json.loads((original/'trial.json').read_text())
     if original_trial['bound_inputs']['build/native/c1xx-host']!=receipt['native_sha256'] or trial['bound_inputs']['build/native/c1xx-host']!=sha(output/'native-executable.elf'):raise ValueError('original/current native execution binding differs')
     for side in ('target','msvcrt'):
@@ -63,6 +66,7 @@ def prepare(project,original,output,trial):
     binding=dict(kind='C1XX actual GetSystemInfo-only response and original HOST CRT vectors; Invoke argv remains separate',original_directory=str(original),original_receipt_sha256=reference,trial_sha256=sha(original/'trial.json'),target_sha256=receipt['target_sha256'],canonical_crt_sha256=receipt['canonical_crt_sha256'],provider_hfile_sha256=sha(original/'loaded-kernel32.bin'),provider_export_rva=export_rva(original/'loaded-kernel32.bin','GetSystemInfo'),raw_output_sha256=sha(original/'system-info-after.bin'),profile_sha256=sha(profile),profile_bytes=104,GlobalMemoryStatus_supplied=False,original_crt_inputs={name:sha(original/name) for name in ('original-crt-argv.bin','original-crt-environment.bin')},controllers=controller)
     binding['native_trial_sha256']=sha(output/'trial.json')
     if refresh:binding['native_only_trial_refresh']=refresh
+    if refresh and refresh['kind'].startswith('checked scalar-context'):(output/'options-abi-refinement.json').write_text(json.dumps(refresh,indent=2)+'\n')
     (output/'system-info-binding.json').write_text(json.dumps(binding,indent=2)+'\n')
     if any(sha(root/path)!=row['sha256'] for path,row in controller.items()):raise ValueError('profile factory changed during preparation')
     return reference

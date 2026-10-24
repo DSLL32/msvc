@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "target_sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+  "scope": "only EBX normal-return preservation for actual named duplicate_argument/read_env_arguments and qualified canonical MSVCRT fgets; only cached second fgets CALL72257, no blanket ABI or success behavior",
+  "source_function": "_process_compiler_options",
+  "cache_load_rva": 467374,
+  "calls": [
+    467401,
+    467543
+  ],
+  "cache_import": {
+    "dll": "msvcrt.dll",
+    "name": "fgets",
+    "iat_rva": 823376
+  },
+  "application_callees": [
+    {
+      "name": "_duplicate_argument",
+      "classification": "unreconstructed application callee, static ABI analysis ONLY; remains real named INT3 stub and masked; no credit or helper execution",
+      "ranges": [
+        [
+          323355,
+          323453
+        ],
+        [
+          519386,
+          519398
+        ]
+      ],
+      "range_hashes": [
+        "6f29ba716f634292d9fd6d3720b981d606dcf80956bf2a51529ff9c428f55871",
+        "1b08422dba1514f2495914e72f0e663bd98b38f69a234b999a39d8e75b3fbcbc"
+      ],
+      "save_rva": 323359,
+      "save_byte": "53",
+      "restore_rvas": [
+        323451
+      ],
+      "restore_bytes": [
+        "5b"
+      ],
+      "normal_return_evidence": "PUSH EBX before any EBX write; both commit/noncommit paths rejoin at4ef58 and sole normal C3 return4ef7c follows POP EDI/ESI/EBX. No stacklocal writes; helper forwards ECX-only arena CommitExtent with source-preserved EBX."
+    },
+    {
+      "name": "_read_env_arguments",
+      "classification": "unreconstructed application callee, static ABI analysis ONLY; remains real named INT3 stub and masked; no credit or helper execution",
+      "ranges": [
+        [
+          234515,
+          234536
+        ],
+        [
+          468022,
+          468339
+        ]
+      ],
+      "range_hashes": [
+        "ce3c3a5e99fb51fe2f5fb74445f335194f7b2d953b1d8ad148083024b2b33f3a",
+        "f164d48f57a29b01715fc5c8a90350714b5085ad9b91a1cacbfeeea03170507e"
+      ],
+      "save_rva": 468024,
+      "save_byte": "53",
+      "restore_rvas": [
+        468331
+      ],
+      "restore_bytes": [
+        "5b"
+      ],
+      "normal_return_evidence": "NULL hot path has no EBX write. NonNULL cold path PUSH EDI/EBP/EBX before first use, all ordinary exits join72565\u2192POP EBX/EBP/EDI\u219239423\u2192POP ESI/ADD ESP8/RET0. Destination writes use owned output buffer, not EBX save slot."
+    }
+  ],
+  "provider": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "export": "fgets",
+    "rva": 165902,
+    "range": [
+      165902,
+      166035
+    ],
+    "range_sha256": "e5ffb5241f766cf429c74668daa253dc9d41738107eca3bc21b54090dcb38fe5",
+    "save_rva": 165902,
+    "normal_return_pop_ebx_rvas": [
+      165927,
+      166000,
+      166033
+    ],
+    "normal_ret_rvas": [
+      165928,
+      166001,
+      166034
+    ],
+    "evidence": "PUSH EBX at entry before loading count, all three normal return paths POP EBX directly before C3. No writes to EBX save slot; FILE and caller destination buffers are distinct arguments. Bound CRT canonical identity, not host libc or a generic fgets assumption."
+  },
+  "native_basis": "actual ordinary C caller/stubs and shared recon_fgets compile under the same i386 C convention; no native shim body/function-graph change, no runtime calls granted by this static witness",
+  "runtime_limits": "Natural parser stops at actual first push_declaration_context(NULL), before every listed helper or provider. Later real response-file/provider calls require their own actual argument/return/FILE/buffer/provider evidence; this packet does not establish FILE or locale semantics."
+}

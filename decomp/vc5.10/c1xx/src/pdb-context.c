@@ -2,6 +2,8 @@
 #include "frontend.h"
 #include <recon.h>
 
+CompilerPdbContext *current_pdb_context;
+
 CompilerPdbContext input_pdb_context;
 
 int initialize_pdb_context_01(void)

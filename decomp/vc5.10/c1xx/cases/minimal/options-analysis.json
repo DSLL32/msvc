@@ -1,0 +1,2056 @@
+{
+  "schema": 1,
+  "status": "static full-parser analysis; no new acceptance or dynamic field equivalence yet",
+  "original_sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+  "function_ranges": [
+    [
+      233389,
+      234114
+    ],
+    [
+      467322,
+      467979
+    ]
+  ],
+  "code_bytes": 1382,
+  "first_frontier": {
+    "rva": 178228,
+    "formal": "void *context",
+    "actual_argument": 0,
+    "source_rva": 233401,
+    "caller_return_rva": 233406
+  },
+  "fields": [
+    {
+      "name": "response_file",
+      "rva": 792336,
+      "type": "char *",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.response_file",
+      "existing_alias": false
+    },
+    {
+      "name": "suppress_banner",
+      "rva": 789356,
+      "type": "int",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.suppress_banner",
+      "existing_alias": false
+    },
+    {
+      "name": "fat",
+      "rva": 789368,
+      "type": "int",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.fat",
+      "existing_alias": false
+    },
+    {
+      "name": "path_separators",
+      "rva": 841064,
+      "type": "char *",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 273523576,
+      "default_literal": "\\:/",
+      "expression": "frontend_data.options.path_separators",
+      "existing_alias": false
+    },
+    {
+      "name": "option_pf",
+      "rva": 839904,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.option_pf",
+      "existing_alias": false
+    },
+    {
+      "name": "preserve_comments",
+      "rva": 789168,
+      "type": "int",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.preserve_comments",
+      "existing_alias": false
+    },
+    {
+      "name": "defines",
+      "rva": 788164,
+      "type": "struct CompilerVector *",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.defines",
+      "existing_alias": false
+    },
+    {
+      "name": "preprocess_stdout",
+      "rva": 788856,
+      "type": "int",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.preprocess_stdout",
+      "existing_alias": false
+    },
+    {
+      "name": "include_directories",
+      "rva": 784112,
+      "type": "struct CompilerVector *",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.include_directories",
+      "existing_alias": false
+    },
+    {
+      "name": "forced_includes",
+      "rva": 787844,
+      "type": "struct CompilerVector *",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.forced_includes",
+      "existing_alias": false
+    },
+    {
+      "name": "preprocess_no_lines",
+      "rva": 839900,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.preprocess_no_lines",
+      "existing_alias": false
+    },
+    {
+      "name": "preprocessed_file",
+      "rva": 788460,
+      "type": "char *",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.preprocessed_file",
+      "existing_alias": false
+    },
+    {
+      "name": "source_file",
+      "rva": 784120,
+      "type": "char *",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.source_file",
+      "existing_alias": false
+    },
+    {
+      "name": "unsigned_char",
+      "rva": 839848,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.unsigned_char",
+      "existing_alias": false
+    },
+    {
+      "name": "japanese_identifiers",
+      "rva": 839844,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.japanese_identifiers",
+      "existing_alias": false
+    },
+    {
+      "name": "dump_options",
+      "rva": 789184,
+      "type": "int",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.dump_options",
+      "existing_alias": false
+    },
+    {
+      "name": "option_bu",
+      "rva": 839908,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 175,
+      "expression": "frontend_data.options.option_bu",
+      "existing_alias": false
+    },
+    {
+      "name": "internal_bm",
+      "rva": 840876,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.option_bm",
+      "existing_alias": true
+    },
+    {
+      "name": "pch_memory_limit",
+      "rva": 792320,
+      "type": "int",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.pch_memory_limit",
+      "existing_alias": false
+    },
+    {
+      "name": "reproducible",
+      "rva": 839912,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.reproducible",
+      "existing_alias": false
+    },
+    {
+      "name": "multithread_runtime",
+      "rva": 839880,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.multithread_runtime",
+      "existing_alias": false
+    },
+    {
+      "name": "dll_runtime",
+      "rva": 839876,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.dll_runtime",
+      "existing_alias": false
+    },
+    {
+      "name": "warnings_are_errors",
+      "rva": 789264,
+      "type": "int",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.warnings_are_errors",
+      "existing_alias": false
+    },
+    {
+      "name": "warning_level",
+      "rva": 841020,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 1,
+      "expression": "frontend_data.options.warning_level",
+      "existing_alias": false
+    },
+    {
+      "name": "packing_alignment",
+      "rva": 841072,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 4294967295,
+      "expression": "frontend_data.options.packing_alignment",
+      "existing_alias": false
+    },
+    {
+      "name": "option_zbe",
+      "rva": 839832,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.option_zbe",
+      "existing_alias": false
+    },
+    {
+      "name": "internal_zb",
+      "rva": 839836,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.option_zb",
+      "existing_alias": true
+    },
+    {
+      "name": "error_file",
+      "rva": 807824,
+      "type": "char *",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.error_file",
+      "existing_alias": false
+    },
+    {
+      "name": "il_prefix",
+      "rva": 841068,
+      "type": "char *",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 273483448,
+      "default_literal": "",
+      "expression": "frontend_data.options.il_prefix",
+      "existing_alias": false
+    },
+    {
+      "name": "option_xc",
+      "rva": 789224,
+      "type": "int",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.option_xc",
+      "existing_alias": false
+    },
+    {
+      "name": "version_string",
+      "rva": 787800,
+      "type": "char *",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.version_string",
+      "existing_alias": false
+    },
+    {
+      "name": "stack_checks",
+      "rva": 839924,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 1,
+      "expression": "frontend_data.options.stack_checks",
+      "existing_alias": false
+    },
+    {
+      "name": "pascal_calls",
+      "rva": 839884,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.pascal_calls",
+      "existing_alias": false
+    },
+    {
+      "name": "fastcall_calls",
+      "rva": 839840,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.fastcall_calls",
+      "existing_alias": false
+    },
+    {
+      "name": "cdecl_calls",
+      "rva": 839936,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.cdecl_calls",
+      "existing_alias": false
+    },
+    {
+      "name": "stdcall_calls",
+      "rva": 839940,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.stdcall_calls",
+      "existing_alias": false
+    },
+    {
+      "name": "incremental_compile",
+      "rva": 840844,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.incremental_compile",
+      "existing_alias": false
+    },
+    {
+      "name": "debug_types",
+      "rva": 840848,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.debug_types",
+      "existing_alias": false
+    },
+    {
+      "name": "function_records",
+      "rva": 840856,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 1,
+      "expression": "frontend_data.options.function_records",
+      "existing_alias": false
+    },
+    {
+      "name": "dependency_output",
+      "rva": 840008,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.dependency_output",
+      "existing_alias": false
+    },
+    {
+      "name": "new_version",
+      "rva": 840988,
+      "type": "char *",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.new_version",
+      "existing_alias": false
+    },
+    {
+      "name": "browser_local_file",
+      "rva": 788860,
+      "type": "char *",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.browser_local_file",
+      "existing_alias": false
+    },
+    {
+      "name": "browser_file",
+      "rva": 788536,
+      "type": "char *",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.browser_file",
+      "existing_alias": false
+    },
+    {
+      "name": "database_file",
+      "rva": 841012,
+      "type": "char *",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 273523580,
+      "default_literal": "vc50.pdb",
+      "expression": "frontend_data.options.database_file",
+      "existing_alias": false
+    },
+    {
+      "name": "object_file",
+      "rva": 841008,
+      "type": "char *",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.object_file",
+      "existing_alias": false
+    },
+    {
+      "name": "pool_strings",
+      "rva": 839944,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.pool_strings",
+      "existing_alias": false
+    },
+    {
+      "name": "readonly_strings",
+      "rva": 839952,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.readonly_strings",
+      "existing_alias": false
+    },
+    {
+      "name": "code_based_strings",
+      "rva": 839960,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.code_based_strings",
+      "existing_alias": false
+    },
+    {
+      "name": "assume_no_alias",
+      "rva": 840024,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.assume_no_alias",
+      "existing_alias": false
+    },
+    {
+      "name": "inline_level",
+      "rva": 839972,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.inline_level",
+      "existing_alias": false
+    },
+    {
+      "name": "intrinsics",
+      "rva": 839920,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.intrinsics",
+      "existing_alias": false
+    },
+    {
+      "name": "global_optimize",
+      "rva": 840032,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.global_optimize",
+      "existing_alias": false
+    },
+    {
+      "name": "precise_float",
+      "rva": 840036,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.precise_float",
+      "existing_alias": false
+    },
+    {
+      "name": "optimize_speed",
+      "rva": 840020,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 1,
+      "expression": "frontend_data.options.optimize_speed",
+      "existing_alias": false
+    },
+    {
+      "name": "assume_no_global_alias",
+      "rva": 840028,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.assume_no_global_alias",
+      "existing_alias": false
+    },
+    {
+      "name": "option_oq",
+      "rva": 840820,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.option_oq",
+      "existing_alias": false
+    },
+    {
+      "name": "option_ov",
+      "rva": 840828,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.option_ov",
+      "existing_alias": false
+    },
+    {
+      "name": "omit_frame_pointer",
+      "rva": 840040,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.omit_frame_pointer",
+      "existing_alias": false
+    },
+    {
+      "name": "debug_break",
+      "rva": 792324,
+      "type": "int",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.break_into_debugger",
+      "existing_alias": true
+    },
+    {
+      "name": "exception_handling",
+      "rva": 839992,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.exception_handling",
+      "existing_alias": false
+    },
+    {
+      "name": "runtime_type_info",
+      "rva": 839996,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.runtime_type_info",
+      "existing_alias": false
+    },
+    {
+      "name": "incremental_rebuild",
+      "rva": 840012,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.incremental_rebuild",
+      "existing_alias": false
+    },
+    {
+      "name": "member_pointer_best_case",
+      "rva": 839852,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.member_pointer_best_case",
+      "existing_alias": false
+    },
+    {
+      "name": "member_pointer_general",
+      "rva": 839856,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.member_pointer_general",
+      "existing_alias": false
+    },
+    {
+      "name": "member_pointer_single",
+      "rva": 839860,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.member_pointer_single",
+      "existing_alias": false
+    },
+    {
+      "name": "member_pointer_multiple",
+      "rva": 839864,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.member_pointer_multiple",
+      "existing_alias": false
+    },
+    {
+      "name": "member_pointer_virtual",
+      "rva": 839868,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.member_pointer_virtual",
+      "existing_alias": false
+    },
+    {
+      "name": "vtordisp",
+      "rva": 839872,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 1,
+      "expression": "frontend_data.options.vtordisp",
+      "existing_alias": false
+    },
+    {
+      "name": "option_binl",
+      "rva": 788852,
+      "type": "int",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.option_binl",
+      "existing_alias": false
+    },
+    {
+      "name": "extern_c_no_throw",
+      "rva": 840872,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.extern_c_no_throw",
+      "existing_alias": false
+    },
+    {
+      "name": "pch_use_file",
+      "rva": 840884,
+      "type": "char *",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.pch_use_file",
+      "existing_alias": false
+    },
+    {
+      "name": "pch_use",
+      "rva": 840880,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.pch_use",
+      "existing_alias": false
+    },
+    {
+      "name": "pch_create_file",
+      "rva": 840892,
+      "type": "char *",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.pch_create_file",
+      "existing_alias": false
+    },
+    {
+      "name": "pch_create",
+      "rva": 840888,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.pch_create",
+      "existing_alias": false
+    },
+    {
+      "name": "pch_debug",
+      "rva": 839892,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.pch_debug",
+      "existing_alias": false
+    },
+    {
+      "name": "pch_file",
+      "rva": 840908,
+      "type": "char *",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.pch_file",
+      "existing_alias": false
+    },
+    {
+      "name": "pch_auto_file",
+      "rva": 840900,
+      "type": "char *",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.pch_auto_file",
+      "existing_alias": false
+    },
+    {
+      "name": "pch_auto",
+      "rva": 840896,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.pch_auto",
+      "existing_alias": false
+    },
+    {
+      "name": "pch_link_name",
+      "rva": 840904,
+      "type": "char *",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.pch_link_name",
+      "existing_alias": false
+    },
+    {
+      "name": "pch_no_preprocess",
+      "rva": 840932,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 1,
+      "expression": "frontend_data.options.pch_no_preprocess",
+      "existing_alias": false
+    },
+    {
+      "name": "no_expand_inline",
+      "rva": 841116,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.no_expand_inline",
+      "existing_alias": false
+    },
+    {
+      "name": "minimal_rebuild",
+      "rva": 839968,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 1,
+      "expression": "frontend_data.options.minimal_rebuild",
+      "existing_alias": false
+    },
+    {
+      "name": "processor",
+      "rva": 839964,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.processor",
+      "existing_alias": false
+    },
+    {
+      "name": "move_pch",
+      "rva": 842788,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.move_pch",
+      "existing_alias": false
+    },
+    {
+      "name": "c9_il",
+      "rva": 840840,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.option_c9il",
+      "existing_alias": true
+    },
+    {
+      "name": "split_pdbs",
+      "rva": 840860,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 1,
+      "expression": "frontend_data.options.split_pdbs",
+      "existing_alias": false
+    },
+    {
+      "name": "no_eh_for_new",
+      "rva": 840864,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.no_eh_for_new",
+      "existing_alias": false
+    },
+    {
+      "name": "show_includes",
+      "rva": 787848,
+      "type": "int",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.show_includes",
+      "existing_alias": false
+    },
+    {
+      "name": "option_bcmpconv",
+      "rva": 842844,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.option_bcmpconv",
+      "existing_alias": false
+    },
+    {
+      "name": "no_bool",
+      "rva": 840000,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.no_bool",
+      "existing_alias": false
+    },
+    {
+      "name": "unrecognized_argument",
+      "rva": 841176,
+      "type": "char *",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.unrecognized_argument",
+      "existing_alias": false
+    },
+    {
+      "name": "language_extensions",
+      "rva": 839828,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.language_extensions",
+      "existing_alias": false
+    },
+    {
+      "name": "preprocess_only",
+      "rva": 839824,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.preprocess_only",
+      "existing_alias": false
+    },
+    {
+      "name": "option_zc",
+      "rva": 789364,
+      "type": "int",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.option_zc",
+      "existing_alias": false
+    },
+    {
+      "name": "debug_info",
+      "rva": 839888,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.debug_info",
+      "existing_alias": false
+    },
+    {
+      "name": "debug_old_format",
+      "rva": 841180,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.debug_old_format",
+      "existing_alias": false
+    },
+    {
+      "name": "option_zn",
+      "rva": 783528,
+      "type": "int",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.option_zn",
+      "existing_alias": false
+    },
+    {
+      "name": "option_zf",
+      "rva": 787600,
+      "type": "int",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.option_zf",
+      "existing_alias": false
+    },
+    {
+      "name": "prototypes_only",
+      "rva": 788184,
+      "type": "int",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.prototypes_only",
+      "existing_alias": false
+    },
+    {
+      "name": "edit_and_continue",
+      "rva": 783500,
+      "type": "int",
+      "bytes": 4,
+      "class": "bss",
+      "default": 0,
+      "expression": "frontend_bss.options.edit_and_continue",
+      "existing_alias": false
+    },
+    {
+      "name": "argument_allocation",
+      "rva": 836504,
+      "type": "char **",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.argument_allocation",
+      "existing_alias": false
+    },
+    {
+      "name": "packing_stack",
+      "rva": 836672,
+      "type": "struct CompilerPacking *",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.packing_stack",
+      "existing_alias": false
+    },
+    {
+      "name": "include_aliases",
+      "rva": 836676,
+      "type": "struct CompilerIncludeAliases *",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.include_aliases",
+      "existing_alias": false
+    },
+    {
+      "name": "warning_levels",
+      "rva": 838532,
+      "type": "unsigned char",
+      "bytes": 1000,
+      "class": "initialized",
+      "default": "zero array",
+      "expression": "frontend_data.options.warning_levels",
+      "existing_alias": false
+    },
+    {
+      "name": "lowest_warning",
+      "rva": 839532,
+      "type": "unsigned",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 1000,
+      "expression": "frontend_data.options.lowest_warning",
+      "existing_alias": false
+    },
+    {
+      "name": "highest_warning",
+      "rva": 839536,
+      "type": "unsigned",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 700,
+      "expression": "frontend_data.options.highest_warning",
+      "existing_alias": false
+    },
+    {
+      "name": "line_records",
+      "rva": 840044,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 1,
+      "expression": "frontend_data.options.line_records",
+      "existing_alias": false
+    },
+    {
+      "name": "database_path",
+      "rva": 840048,
+      "type": "char",
+      "bytes": 256,
+      "class": "initialized",
+      "default": "zero array",
+      "expression": "frontend_data.options.database_path",
+      "existing_alias": false
+    },
+    {
+      "name": "pch_link_path",
+      "rva": 840304,
+      "type": "char",
+      "bytes": 256,
+      "class": "initialized",
+      "default": "zero array",
+      "expression": "frontend_data.options.pch_link_path",
+      "existing_alias": false
+    },
+    {
+      "name": "incremental_rebuild_forced",
+      "rva": 840868,
+      "type": "int",
+      "bytes": 4,
+      "class": "initialized",
+      "default": 0,
+      "expression": "frontend_data.options.incremental_rebuild_forced",
+      "existing_alias": false
+    }
+  ],
+  "rules": [
+    {
+      "pattern": "@$",
+      "original_pattern_rva": 894620,
+      "destination_rva": 792336,
+      "destination": "frontend_bss.options.response_file",
+      "result": 1,
+      "action": 34
+    },
+    {
+      "pattern": "-nologo",
+      "original_pattern_rva": 894612,
+      "destination_rva": 789356,
+      "destination": "frontend_bss.options.suppress_banner",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-FAT",
+      "original_pattern_rva": 894604,
+      "destination_rva": 789368,
+      "destination": "frontend_bss.options.fat",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-pc#",
+      "original_pattern_rva": 894596,
+      "destination_rva": 841064,
+      "destination": "frontend_data.options.path_separators",
+      "result": 1,
+      "action": 34
+    },
+    {
+      "pattern": "-pf",
+      "original_pattern_rva": 894592,
+      "destination_rva": 839904,
+      "destination": "frontend_data.options.option_pf",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-C",
+      "original_pattern_rva": 894588,
+      "destination_rva": 789168,
+      "destination": "frontend_bss.options.preserve_comments",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-D#",
+      "original_pattern_rva": 894584,
+      "destination_rva": 788164,
+      "destination": "frontend_bss.options.defines",
+      "result": 1,
+      "action": 38
+    },
+    {
+      "pattern": "-E",
+      "original_pattern_rva": 894580,
+      "destination_rva": 788856,
+      "destination": "frontend_bss.options.preprocess_stdout",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-I#",
+      "original_pattern_rva": 894576,
+      "destination_rva": 784112,
+      "destination": "frontend_bss.options.include_directories",
+      "result": 1,
+      "action": 38
+    },
+    {
+      "pattern": "-FI#",
+      "original_pattern_rva": 894568,
+      "destination_rva": 787844,
+      "destination": "frontend_bss.options.forced_includes",
+      "result": 1,
+      "action": 38
+    },
+    {
+      "pattern": "-EP",
+      "original_pattern_rva": 894564,
+      "destination_rva": 839900,
+      "destination": "frontend_data.options.preprocess_no_lines",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Fi#",
+      "original_pattern_rva": 894556,
+      "destination_rva": 788460,
+      "destination": "frontend_bss.options.preprocessed_file",
+      "result": 1,
+      "action": 34
+    },
+    {
+      "pattern": "-f",
+      "original_pattern_rva": 894552,
+      "destination_rva": 784120,
+      "destination": "frontend_bss.options.source_file",
+      "result": 1,
+      "action": 34
+    },
+    {
+      "pattern": "-J",
+      "original_pattern_rva": 894548,
+      "destination_rva": 839848,
+      "destination": "frontend_data.options.unsigned_char",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Jd",
+      "original_pattern_rva": 894544,
+      "destination_rva": 839844,
+      "destination": "frontend_data.options.japanese_identifiers",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Bd%",
+      "original_pattern_rva": 894536,
+      "destination_rva": 789184,
+      "destination": "frontend_bss.options.dump_options",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Bu#",
+      "original_pattern_rva": 894528,
+      "destination_rva": 839908,
+      "destination": "frontend_data.options.option_bu",
+      "result": 1,
+      "action": 36
+    },
+    {
+      "pattern": "-Bm#",
+      "original_pattern_rva": 894520,
+      "destination_rva": 840876,
+      "destination": "frontend_data.option_bm",
+      "result": 1,
+      "action": 36
+    },
+    {
+      "pattern": "-Zm#",
+      "original_pattern_rva": 894512,
+      "destination_rva": 792320,
+      "destination": "frontend_bss.options.pch_memory_limit",
+      "result": 1,
+      "action": 36
+    },
+    {
+      "pattern": "-Brepro",
+      "original_pattern_rva": 894504,
+      "destination_rva": 839912,
+      "destination": "frontend_data.options.reproducible",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-MT",
+      "original_pattern_rva": 894500,
+      "destination_rva": 839880,
+      "destination": "frontend_data.options.multithread_runtime",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-MD",
+      "original_pattern_rva": 894496,
+      "destination_rva": 839876,
+      "destination": "frontend_data.options.dll_runtime",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-WX",
+      "original_pattern_rva": 894492,
+      "destination_rva": 789264,
+      "destination": "frontend_bss.options.warnings_are_errors",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-W#",
+      "original_pattern_rva": 894488,
+      "destination_rva": 841020,
+      "destination": "frontend_data.options.warning_level",
+      "result": 1,
+      "action": 36
+    },
+    {
+      "pattern": "-Zp",
+      "original_pattern_rva": 894484,
+      "destination_rva": 841072,
+      "destination": "frontend_data.options.packing_alignment",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Zp#",
+      "original_pattern_rva": 894476,
+      "destination_rva": 841072,
+      "destination": "frontend_data.options.packing_alignment",
+      "result": 1,
+      "action": 36
+    },
+    {
+      "pattern": "-ZBe",
+      "original_pattern_rva": 894468,
+      "destination_rva": 839832,
+      "destination": "frontend_data.options.option_zbe",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-ZB",
+      "original_pattern_rva": 878108,
+      "destination_rva": 839836,
+      "destination": "frontend_data.option_zb",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-ZB*",
+      "original_pattern_rva": 894460,
+      "destination_rva": 839836,
+      "destination": "frontend_data.option_zb",
+      "result": 1,
+      "action": 36
+    },
+    {
+      "pattern": "-Z*",
+      "original_pattern_rva": 894456,
+      "destination_rva": 893832,
+      "destination": "letter_options",
+      "result": 1,
+      "action": 35
+    },
+    {
+      "pattern": "-ef#",
+      "original_pattern_rva": 894448,
+      "destination_rva": 807824,
+      "destination": "frontend_bss.options.error_file",
+      "result": 1,
+      "action": 34
+    },
+    {
+      "pattern": "-il$",
+      "original_pattern_rva": 894440,
+      "destination_rva": 841068,
+      "destination": "frontend_data.options.il_prefix",
+      "result": 1,
+      "action": 34
+    },
+    {
+      "pattern": "-xc",
+      "original_pattern_rva": 894436,
+      "destination_rva": 789224,
+      "destination": "frontend_bss.options.option_xc",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-V#",
+      "original_pattern_rva": 894432,
+      "destination_rva": 787800,
+      "destination": "frontend_bss.options.version_string",
+      "result": 1,
+      "action": 34
+    },
+    {
+      "pattern": "-Gs",
+      "original_pattern_rva": 894428,
+      "destination_rva": 839924,
+      "destination": "frontend_data.options.stack_checks",
+      "result": 1,
+      "action": 5
+    },
+    {
+      "pattern": "-Gc",
+      "original_pattern_rva": 894424,
+      "destination_rva": 839884,
+      "destination": "frontend_data.options.pascal_calls",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Gr",
+      "original_pattern_rva": 894420,
+      "destination_rva": 839840,
+      "destination": "frontend_data.options.fastcall_calls",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Gd",
+      "original_pattern_rva": 894416,
+      "destination_rva": 839936,
+      "destination": "frontend_data.options.cdecl_calls",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Gz",
+      "original_pattern_rva": 894412,
+      "destination_rva": 839940,
+      "destination": "frontend_data.options.stdcall_calls",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Gi",
+      "original_pattern_rva": 894408,
+      "destination_rva": 840844,
+      "destination": "frontend_data.options.incremental_compile",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-GI",
+      "original_pattern_rva": 894404,
+      "destination_rva": 840848,
+      "destination": "frontend_data.options.debug_types",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-GFR",
+      "original_pattern_rva": 894396,
+      "destination_rva": 840856,
+      "destination": "frontend_data.options.function_records",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-GFR-",
+      "original_pattern_rva": 894388,
+      "destination_rva": 840856,
+      "destination": "frontend_data.options.function_records",
+      "result": 1,
+      "action": 5
+    },
+    {
+      "pattern": "-FD",
+      "original_pattern_rva": 894384,
+      "destination_rva": 840008,
+      "destination": "frontend_data.options.dependency_output",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-NV#",
+      "original_pattern_rva": 894376,
+      "destination_rva": 840988,
+      "destination": "frontend_data.options.new_version",
+      "result": 1,
+      "action": 34
+    },
+    {
+      "pattern": "-Fr#",
+      "original_pattern_rva": 894368,
+      "destination_rva": 788860,
+      "destination": "frontend_bss.options.browser_local_file",
+      "result": 1,
+      "action": 34
+    },
+    {
+      "pattern": "-FR#",
+      "original_pattern_rva": 894360,
+      "destination_rva": 788536,
+      "destination": "frontend_bss.options.browser_file",
+      "result": 1,
+      "action": 34
+    },
+    {
+      "pattern": "-Fd#",
+      "original_pattern_rva": 894352,
+      "destination_rva": 841012,
+      "destination": "frontend_data.options.database_file",
+      "result": 1,
+      "action": 34
+    },
+    {
+      "pattern": "-Fo*",
+      "original_pattern_rva": 894344,
+      "destination_rva": 841008,
+      "destination": "frontend_data.options.object_file",
+      "result": 1,
+      "action": 34
+    },
+    {
+      "pattern": "-Gf",
+      "original_pattern_rva": 894340,
+      "destination_rva": 839944,
+      "destination": "frontend_data.options.pool_strings",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-GF",
+      "original_pattern_rva": 894336,
+      "destination_rva": 839952,
+      "destination": "frontend_data.options.readonly_strings",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-cbstring",
+      "original_pattern_rva": 894324,
+      "destination_rva": 839960,
+      "destination": "frontend_data.options.code_based_strings",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Oa",
+      "original_pattern_rva": 894320,
+      "destination_rva": 840024,
+      "destination": "frontend_data.options.assume_no_alias",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Ob#",
+      "original_pattern_rva": 894312,
+      "destination_rva": 839972,
+      "destination": "frontend_data.options.inline_level",
+      "result": 1,
+      "action": 36
+    },
+    {
+      "pattern": "-Oi",
+      "original_pattern_rva": 894308,
+      "destination_rva": 839920,
+      "destination": "frontend_data.options.intrinsics",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Og",
+      "original_pattern_rva": 894304,
+      "destination_rva": 840032,
+      "destination": "frontend_data.options.global_optimize",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Op",
+      "original_pattern_rva": 894300,
+      "destination_rva": 840036,
+      "destination": "frontend_data.options.precise_float",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Os",
+      "original_pattern_rva": 894296,
+      "destination_rva": 840020,
+      "destination": "frontend_data.options.optimize_speed",
+      "result": 1,
+      "action": 5
+    },
+    {
+      "pattern": "-Ot",
+      "original_pattern_rva": 894292,
+      "destination_rva": 840020,
+      "destination": "frontend_data.options.optimize_speed",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Ow",
+      "original_pattern_rva": 894288,
+      "destination_rva": 840028,
+      "destination": "frontend_data.options.assume_no_global_alias",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Oq",
+      "original_pattern_rva": 894284,
+      "destination_rva": 840820,
+      "destination": "frontend_data.options.option_oq",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Ov",
+      "original_pattern_rva": 894280,
+      "destination_rva": 840828,
+      "destination": "frontend_data.options.option_ov",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Oy",
+      "original_pattern_rva": 894276,
+      "destination_rva": 840040,
+      "destination": "frontend_data.options.omit_frame_pointer",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-debugBreak%",
+      "original_pattern_rva": 894260,
+      "destination_rva": 792324,
+      "destination": "frontend_bss.break_into_debugger",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-GX",
+      "original_pattern_rva": 894256,
+      "destination_rva": 839992,
+      "destination": "frontend_data.options.exception_handling",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-EHa",
+      "original_pattern_rva": 894248,
+      "destination_rva": 839992,
+      "destination": "frontend_data.options.exception_handling",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-EHs",
+      "original_pattern_rva": 894240,
+      "destination_rva": 839992,
+      "destination": "frontend_data.options.exception_handling",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-GR",
+      "original_pattern_rva": 894236,
+      "destination_rva": 839996,
+      "destination": "frontend_data.options.runtime_type_info",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Gm",
+      "original_pattern_rva": 894232,
+      "destination_rva": 840012,
+      "destination": "frontend_data.options.incremental_rebuild",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-vmb",
+      "original_pattern_rva": 894224,
+      "destination_rva": 839852,
+      "destination": "frontend_data.options.member_pointer_best_case",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-vmg",
+      "original_pattern_rva": 894216,
+      "destination_rva": 839856,
+      "destination": "frontend_data.options.member_pointer_general",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-vms",
+      "original_pattern_rva": 894208,
+      "destination_rva": 839860,
+      "destination": "frontend_data.options.member_pointer_single",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-vmm",
+      "original_pattern_rva": 894200,
+      "destination_rva": 839864,
+      "destination": "frontend_data.options.member_pointer_multiple",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-vmv",
+      "original_pattern_rva": 894192,
+      "destination_rva": 839868,
+      "destination": "frontend_data.options.member_pointer_virtual",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-vd0",
+      "original_pattern_rva": 894184,
+      "destination_rva": 839872,
+      "destination": "frontend_data.options.vtordisp",
+      "result": 1,
+      "action": 5
+    },
+    {
+      "pattern": "-vd1",
+      "original_pattern_rva": 894176,
+      "destination_rva": 839872,
+      "destination": "frontend_data.options.vtordisp",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Binl",
+      "original_pattern_rva": 894168,
+      "destination_rva": 788852,
+      "destination": "frontend_bss.options.option_binl",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-EHc",
+      "original_pattern_rva": 894160,
+      "destination_rva": 840872,
+      "destination": "frontend_data.options.extern_c_no_throw",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Yu*",
+      "original_pattern_rva": 894152,
+      "destination_rva": 840884,
+      "destination": "frontend_data.options.pch_use_file",
+      "result": 1,
+      "action": 34
+    },
+    {
+      "pattern": "-Yu",
+      "original_pattern_rva": 894148,
+      "destination_rva": 840880,
+      "destination": "frontend_data.options.pch_use",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Yc*",
+      "original_pattern_rva": 894140,
+      "destination_rva": 840892,
+      "destination": "frontend_data.options.pch_create_file",
+      "result": 1,
+      "action": 34
+    },
+    {
+      "pattern": "-Yc",
+      "original_pattern_rva": 894136,
+      "destination_rva": 840888,
+      "destination": "frontend_data.options.pch_create",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Yd",
+      "original_pattern_rva": 894132,
+      "destination_rva": 839892,
+      "destination": "frontend_data.options.pch_debug",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Fp#",
+      "original_pattern_rva": 894124,
+      "destination_rva": 840908,
+      "destination": "frontend_data.options.pch_file",
+      "result": 1,
+      "action": 34
+    },
+    {
+      "pattern": "-YX*",
+      "original_pattern_rva": 894116,
+      "destination_rva": 840900,
+      "destination": "frontend_data.options.pch_auto_file",
+      "result": 1,
+      "action": 34
+    },
+    {
+      "pattern": "-YX",
+      "original_pattern_rva": 894112,
+      "destination_rva": 840896,
+      "destination": "frontend_data.options.pch_auto",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Yl*",
+      "original_pattern_rva": 894104,
+      "destination_rva": 840904,
+      "destination": "frontend_data.options.pch_link_name",
+      "result": 1,
+      "action": 34
+    },
+    {
+      "pattern": "-BNOPPCH",
+      "original_pattern_rva": 894092,
+      "destination_rva": 840932,
+      "destination": "frontend_data.options.pch_no_preprocess",
+      "result": 1,
+      "action": 5
+    },
+    {
+      "pattern": "-noexpinl",
+      "original_pattern_rva": 894080,
+      "destination_rva": 841116,
+      "destination": "frontend_data.options.no_expand_inline",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-GM",
+      "original_pattern_rva": 894076,
+      "destination_rva": 839968,
+      "destination": "frontend_data.options.minimal_rebuild",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-G#",
+      "original_pattern_rva": 894072,
+      "destination_rva": 839964,
+      "destination": "frontend_data.options.processor",
+      "result": 1,
+      "action": 36
+    },
+    {
+      "pattern": "-BMOVE",
+      "original_pattern_rva": 894064,
+      "destination_rva": 842788,
+      "destination": "frontend_data.options.move_pch",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-C9IL",
+      "original_pattern_rva": 894056,
+      "destination_rva": 840840,
+      "destination": "frontend_data.option_c9il",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-SplitPdbs",
+      "original_pattern_rva": 894044,
+      "destination_rva": 840860,
+      "destination": "frontend_data.options.split_pdbs",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-SplitPdbs-",
+      "original_pattern_rva": 894032,
+      "destination_rva": 840860,
+      "destination": "frontend_data.options.split_pdbs",
+      "result": 1,
+      "action": 5
+    },
+    {
+      "pattern": "-NoEHForNew",
+      "original_pattern_rva": 894020,
+      "destination_rva": 840864,
+      "destination": "frontend_data.options.no_eh_for_new",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Bshow_incl",
+      "original_pattern_rva": 894008,
+      "destination_rva": 787848,
+      "destination": "frontend_bss.options.show_includes",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-Bcmpconv",
+      "original_pattern_rva": 893996,
+      "destination_rva": 842844,
+      "destination": "frontend_data.options.option_bcmpconv",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "-noBool",
+      "original_pattern_rva": 893988,
+      "destination_rva": 840000,
+      "destination": "frontend_data.options.no_bool",
+      "result": 1,
+      "action": 1
+    },
+    {
+      "pattern": "*",
+      "original_pattern_rva": 893984,
+      "destination_rva": 841176,
+      "destination": "frontend_data.options.unrecognized_argument",
+      "result": 0,
+      "action": 34
+    }
+  ],
+  "letter_rules": [
+    {
+      "letter": "a",
+      "action": 5,
+      "destination_rva": 839828,
+      "destination": "frontend_data.options.language_extensions"
+    },
+    {
+      "letter": "e",
+      "action": 1,
+      "destination_rva": 839828,
+      "destination": "frontend_data.options.language_extensions"
+    },
+    {
+      "letter": "E",
+      "action": 1,
+      "destination_rva": 839824,
+      "destination": "frontend_data.options.preprocess_only"
+    },
+    {
+      "letter": "c",
+      "action": 1,
+      "destination_rva": 789364,
+      "destination": "frontend_bss.options.option_zc"
+    },
+    {
+      "letter": "i",
+      "action": 1,
+      "destination_rva": 839888,
+      "destination": "frontend_data.options.debug_info"
+    },
+    {
+      "letter": "7",
+      "action": 1,
+      "destination_rva": 841180,
+      "destination": "frontend_data.options.debug_old_format"
+    },
+    {
+      "letter": "n",
+      "action": 1,
+      "destination_rva": 783528,
+      "destination": "frontend_bss.options.option_zn"
+    },
+    {
+      "letter": "f",
+      "action": 1,
+      "destination_rva": 787600,
+      "destination": "frontend_bss.options.option_zf"
+    },
+    {
+      "letter": "g",
+      "action": 1,
+      "destination_rva": 788184,
+      "destination": "frontend_bss.options.prototypes_only"
+    },
+    {
+      "letter": "p",
+      "action": 1,
+      "destination_rva": 841072,
+      "destination": "frontend_data.options.packing_alignment"
+    },
+    {
+      "letter": "I",
+      "action": 1,
+      "destination_rva": 783500,
+      "destination": "frontend_bss.options.edit_and_continue"
+    }
+  ],
+  "warning_defaults": [
+    [
+      1,
+      5
+    ],
+    [
+      69,
+      5
+    ],
+    [
+      611,
+      5
+    ],
+    [
+      226,
+      14
+    ],
+    [
+      233,
+      14
+    ],
+    [
+      234,
+      14
+    ],
+    [
+      235,
+      14
+    ],
+    [
+      168,
+      5
+    ],
+    [
+      169,
+      5
+    ],
+    [
+      530,
+      5
+    ]
+  ],
+  "persistent_fields": [
+    {
+      "name": "current_pdb_context",
+      "rva": 831488,
+      "type": "CompilerPdbContext *",
+      "bytes": 4,
+      "default": 0,
+      "class": "external"
+    }
+  ],
+  "limits": [
+    "Every original destination/default/literal is own-PE-derived; sibling used for contextual naming themes only",
+    "Mutable source fields must join exact typed snapshot/reset/nonzero proofs before parser promotion",
+    "All unvisited providers and target callees remain typed failclosed/named traps",
+    "Natural two-byte option-rule padding is not semantic field coverage"
+  ]
+}

@@ -7,7 +7,90 @@ FrontendData frontend_data = {
     { { 0x1, 8 }, { 0x2, 9 }, { 0x3, 10 }, { 0x4, 11 }, { 0x10, 12 }, { 0x20, 13 }, { 0x40, 14 }, { 0x44, 15 }, { 0x0, 0 } },
     0, 0, 0,
     { { 0 }, 4096, NULL, NULL, 0, 0, 0, 65536, 0, 0 },
-    0, 0, 100
+    0, 0, 100,
+    {
+        NULL, /* argument_allocation */
+        NULL, /* packing_stack */
+        NULL, /* include_aliases */
+        { 0 }, /* warning_levels */
+        1000, /* lowest_warning */
+        700, /* highest_warning */
+        0, /* preprocess_only */
+        0, /* language_extensions */
+        0, /* option_zbe */
+        0, /* fastcall_calls */
+        0, /* japanese_identifiers */
+        0, /* unsigned_char */
+        0, /* member_pointer_best_case */
+        0, /* member_pointer_general */
+        0, /* member_pointer_single */
+        0, /* member_pointer_multiple */
+        0, /* member_pointer_virtual */
+        1, /* vtordisp */
+        0, /* dll_runtime */
+        0, /* multithread_runtime */
+        0, /* pascal_calls */
+        0, /* debug_info */
+        0, /* pch_debug */
+        0, /* preprocess_no_lines */
+        0, /* option_pf */
+        175, /* option_bu */
+        0, /* reproducible */
+        0, /* intrinsics */
+        1, /* stack_checks */
+        0, /* cdecl_calls */
+        0, /* stdcall_calls */
+        0, /* pool_strings */
+        0, /* readonly_strings */
+        0, /* code_based_strings */
+        0, /* processor */
+        1, /* minimal_rebuild */
+        0, /* inline_level */
+        0, /* exception_handling */
+        0, /* runtime_type_info */
+        0, /* no_bool */
+        0, /* dependency_output */
+        0, /* incremental_rebuild */
+        1, /* optimize_speed */
+        0, /* assume_no_alias */
+        0, /* assume_no_global_alias */
+        0, /* global_optimize */
+        0, /* precise_float */
+        0, /* omit_frame_pointer */
+        1, /* line_records */
+        { 0 }, /* database_path */
+        { 0 }, /* pch_link_path */
+        0, /* option_oq */
+        0, /* option_ov */
+        0, /* incremental_compile */
+        0, /* debug_types */
+        1, /* function_records */
+        1, /* split_pdbs */
+        0, /* no_eh_for_new */
+        0, /* incremental_rebuild_forced */
+        0, /* extern_c_no_throw */
+        0, /* pch_use */
+        NULL, /* pch_use_file */
+        0, /* pch_create */
+        NULL, /* pch_create_file */
+        0, /* pch_auto */
+        NULL, /* pch_auto_file */
+        NULL, /* pch_link_name */
+        NULL, /* pch_file */
+        1, /* pch_no_preprocess */
+        NULL, /* new_version */
+        NULL, /* object_file */
+        "vc50.pdb", /* database_file */
+        1, /* warning_level */
+        "\\:/", /* path_separators */
+        (char *)compiler_empty_string, /* il_prefix */
+        -1, /* packing_alignment */
+        0, /* no_expand_inline */
+        NULL, /* unrecognized_argument */
+        0, /* debug_old_format */
+        0, /* move_pch */
+        0 /* option_bcmpconv */
+    }
 };
 FrontendBss frontend_bss;
 int restore_mode;
@@ -115,6 +198,31 @@ int initialize_compiler_pass(void)
             frontend_bss.arenas[i].reset_value = 0;
             frontend_bss.arenas[i].mapped_view = 0;
         }
+        frontend_bss.options.edit_and_continue = 0;
+        frontend_bss.options.option_zn = 0;
+        frontend_bss.options.include_directories = NULL;
+        frontend_bss.options.source_file = NULL;
+        frontend_bss.options.option_zf = 0;
+        frontend_bss.options.version_string = NULL;
+        frontend_bss.options.forced_includes = NULL;
+        frontend_bss.options.show_includes = 0;
+        frontend_bss.options.defines = NULL;
+        frontend_bss.options.prototypes_only = 0;
+        frontend_bss.options.preprocessed_file = NULL;
+        frontend_bss.options.browser_file = NULL;
+        frontend_bss.options.option_binl = 0;
+        frontend_bss.options.preprocess_stdout = 0;
+        frontend_bss.options.browser_local_file = NULL;
+        frontend_bss.options.preserve_comments = 0;
+        frontend_bss.options.dump_options = 0;
+        frontend_bss.options.option_xc = 0;
+        frontend_bss.options.warnings_are_errors = 0;
+        frontend_bss.options.suppress_banner = 0;
+        frontend_bss.options.option_zc = 0;
+        frontend_bss.options.fat = 0;
+        frontend_bss.options.pch_memory_limit = 0;
+        frontend_bss.options.response_file = NULL;
+        frontend_bss.options.error_file = NULL;
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;
     }
@@ -253,11 +361,6 @@ void initialize_frontend_hook(void)
 {
 }
 
-
-void process_compiler_options(int argc, char **argv)
-{
-    __asm { int 3 }
-}
 
 int compile_translation_unit(void)
 {
