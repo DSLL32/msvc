@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "7bee0ca60ab47268878f9d3302c1283b5ab66ac38df868ad81b57e25950a5a9a",
+    "functions.json": "03fdb549b9d3499b817441c3a7677217166eeac76c0625701b13fcf721631519",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "60e5c857b784ae4a41bd9877d346f0784fea8f705f5d56df0a16824dd66103c8"
+    "sha256": "b87f3cfd46213f8b2dd5cb16e8a759babcf36dccec31ef31601281626bc5eeb7"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "852411c488eca4d4f829526a17c7b4ae38d70b7375976318ce8f803f5f7008ac"
+    "sha256": "758cd04f100b359171ed63190cd3575a22ac7655e8f0f32cafccdd007be310a9"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -1629,6 +1629,10 @@
       "logical": "_hash_table_count@4",
       "source": "src/hash-table.c"
     },
+    "ide_source_name": {
+      "logical": "_ide_source_name",
+      "source": "src/source-input.c"
+    },
     "initialize_checksums": {
       "logical": "_initialize_checksums",
       "source": "src/checksums.c"
@@ -2769,6 +2773,10 @@
       "logical": "_print_function_declaration@8",
       "source": "src/declaration-text.c"
     },
+    "print_ide_status": {
+      "logical": "_print_ide_status",
+      "source": "src/diagnostics.c"
+    },
     "process_declaration": {
       "logical": "_process_declaration@4",
       "source": "src/declarations.c"
@@ -3119,15 +3127,15 @@
     },
     "report_ide_file_end": {
       "logical": "_report_ide_file_end",
-      "source": "src/stubs.c"
+      "source": "src/source-input.c"
     },
     "report_ide_line": {
       "logical": "_report_ide_line",
-      "source": "src/stubs.c"
+      "source": "src/source-input.c"
     },
     "report_ide_source": {
       "logical": "_report_ide_source",
-      "source": "src/stubs.c"
+      "source": "src/source-input.c"
     },
     "report_macro_error": {
       "logical": "_report_macro_error@4",
@@ -3215,7 +3223,7 @@
     },
     "restore_pch_separate_debug": {
       "logical": "_restore_pch_separate_debug",
-      "source": "src/stubs.c"
+      "source": "src/debug-info.c"
     },
     "restore_pch_state": {
       "logical": "_restore_pch_state",
@@ -4621,7 +4629,13 @@
     "make_symbol_ir_leaf",
     "function_designator_type",
     "clear_type_attributes",
-    "name_has_text_suffix"
+    "name_has_text_suffix",
+    "report_ide_source",
+    "ide_source_name",
+    "print_ide_status",
+    "report_ide_file_end",
+    "report_ide_line",
+    "restore_pch_separate_debug"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6276,6 +6290,34 @@
       "terminal": {
         "kind": "exit",
         "code": 1
+      }
+    },
+    "ide-debug-pch-create": {
+      "first": 1051,
+      "last": 1056,
+      "seen_count": 907,
+      "expected": [
+        "report_ide_source",
+        "ide_source_name",
+        "print_ide_status",
+        "report_ide_file_end",
+        "report_ide_line"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "ide-debug-pch-use": {
+      "first": 1056,
+      "last": 1057,
+      "seen_count": 912,
+      "expected": [
+        "restore_pch_separate_debug"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
       }
     }
   }

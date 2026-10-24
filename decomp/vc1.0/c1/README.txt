@@ -1,7 +1,7 @@
 C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
 ========================================================
 
-Fifty-six native phases are complete: minimal C, optimized Win32 hello, DLL,
+Fifty-eight native phases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
 assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
 automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
@@ -11,13 +11,13 @@ richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
 automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
 the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, typed packet-view/callback adapters, normal/expected-error arena API prototype phases, portability-header diagnostics, explicit-base/goto traversal, typed x87/bit-scan arithmetic, generated-header shutdown failures, protocol-header parser repair, assembler operand diagnostics/SEG, and standalone QuickC regions/loops/memory initialization.
 
-There are 918 accepted source functions and 1051 accepted original entries.
-Of these,907 are application functions; ten historical runtime.c bodies and
+There are 924 accepted source functions and 1057 accepted original entries.
+Of these,913 are application functions; ten historical runtime.c bodies and
 the historical __strgtold12 body in floating.c are CRT, with no application credit.
-Accepted original extents cover 246705/277234 code-section bytes (88.988003%):
-223967 application bytes,22552 CRT bytes and186 import-thunk bytes. This is a
+Accepted original extents cover 246991/277234 code-section bytes (89.091165%):
+224253 application bytes,22552 CRT bytes and186 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
-not branch coverage. Of this union,244870bytes have public-case evidence and
+not branch coverage. Of this union,245156bytes have public-case evidence and
 1835 bytes have separate direct-test evidence for assembler support, expression
 templates, database object methods and legacy segment/type helpers; no public
 trigger is established for those fourteen functions. Unvisited
@@ -41,13 +41,13 @@ excluded from application instrumentation. The original BINMODE.OBJ default is
 retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
-cases/original-entry-references.json binds 56 completed phase histories to fresh
-shared-prefix original first-entry captures. All 893 publicly reached accepted application entries
+cases/original-entry-references.json binds 58 completed phase histories to fresh
+shared-prefix original first-entry captures. All 899 publicly reached accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current56 public plus35 direct regression receipts are in
-cases/legacy-type-support/type-validation.json.
+current58 public plus35 direct regression receipts are in
+cases/ide-debug-pch/validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -550,3 +550,19 @@ Only initialized returned-node fields and their actual owner links are read;
 the temporary description depth returns to its real prior value. Eight direct
 support functions total739 bytes. Segment-stage validation.json remains pinned;
 the later checkpoint is type-validation.json. Public reachability is not claimed.
+
+IDE progress with -Yd debug/browser PCH (2026-10-24)
+--------------------------------------------------
+The standalone C1 -ide/-Yd/-Z7/-FR workflow creates and reuses a guarded
+header PCH with nested macro headers, records, enums and callback functions.
+The native consumer must use the actual native producer's debug.pch, equal
+to the frozen original bytes; no producer.obj or backend execution is needed.
+Two untouched original runs per phase agree on complete PCH/IR/browser files
+and raw IDE progress streams. Six functions/286 bytes are newly covered:
+report_ide_source, ide_source_name, print_ide_status, report_ide_file_end,
+report_ide_line and restore_pch_separate_debug. The source-name buffer and
+variadic progress writer were previously unlisted application callees, not CRT.
+IDE progress retains the original signed sixteen-line group and initial -1.
+Fresh original and ordinary shared native entry traces agree for both phases.
+Twelve named application stubs remain; unclassified bytes are not counted CRT.
+See cases/ide-debug-pch/manifest.json and validation.json.

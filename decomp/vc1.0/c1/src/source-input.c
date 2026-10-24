@@ -9,6 +9,7 @@
 #include "source-input.h"
 #include "preprocessor.h"
 #include "lexer.h"
+#include "diagnostics.h"
 #include <recon.h>
 #undef _fileno
 
@@ -386,5 +387,47 @@ void close_source_inputs(void)
     while (active_input) {
         if (active_input->handle != -1) _close(active_input->handle);
         active_input = active_input->next;
+    }
+}
+
+/* Original 0x1c2c0..0x1c2d4. */
+void report_ide_source(void)
+{
+    print_ide_status("@I4%s\n",ide_source_name());
+}
+
+/* Original 0x43d20..0x43d7b. Each progress record owns a temporary
+   absolute pathname, except reproducible mode reports a fixed dot. */
+char *ide_source_name(void)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    char *name;
+    if (pool->remaining < 256) refill_arena(&compiler_arena,pool);
+    name = (char *)pool->next;
+    pool->remaining -= 256;
+    pool->next += 256;
+    if (!options.option_Brepro) return _fullpath(name,source_filename,256);
+    name[0] = '.';
+    name[1] = 0;
+    return name;
+}
+
+/* Original 0x1c310..0x1c324. */
+void report_ide_file_end(void)
+{
+    print_ide_status("@I6%d\n",source_line_number);
+}
+
+int ide_line_group = -1; /* original 0x6a8e8 */
+
+/* Original 0x1c2e0..0x1c30f. Report progress once per signed group
+   of sixteen source lines, retaining the group across include boundaries. */
+void report_ide_line(void)
+{
+    long line = (long)source_line_number;
+    int group = line / 16;
+    if (ide_line_group != group) {
+        ide_line_group = group;
+        print_ide_status("@I5%ld\n",line);
     }
 }

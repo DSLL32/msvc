@@ -1,0 +1,13 @@
+{
+  "case": "ide-debug-pch-use",
+  "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-nhlbrivt/ide-debug-pch-use/vc1.0/c1/ide-debug-pch",
+  "exit": 0,
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Standalone C1 workflow explicitly shares stdout/stderr; no new CL/backend invocation claim."
+  },
+  "stdout_bytes": 54,
+  "stderr_bytes": 0,
+  "setup_seconds": 0.006228492595255375,
+  "execution_seconds": 0.007726622745394707
+}

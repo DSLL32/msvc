@@ -58,10 +58,13 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'legacy-pdb-cleanup':('legacy-pdb-object','cleanup'),
          'quickc-regions':('quickc-regions','c1'),
          'legacy-counted-records':('legacy-segment-literals','c1'),
-         'legacy-prefix-diagnostic':('legacy-segment-literals','c1-prefix-diagnostic')}
+         'legacy-prefix-diagnostic':('legacy-segment-literals','c1-prefix-diagnostic'),
+         'ide-debug-pch-create':('ide-debug-pch','c1-create'),
+         'ide-debug-pch-use':('ide-debug-pch','c1-use')}
 
 
 CASE_DEPENDENCIES = {
+    'ide-debug-pch-use':('ide-debug-pch-create','debug.pch'),
     'hdrstop-use':('hdrstop-create','hdrstop.pch'),
     'browser-pch-use':('browser-pch-create','api.pch'),
     'pdb-pch-binding-use':('pdb-pch-binding-create','binding.pch'),

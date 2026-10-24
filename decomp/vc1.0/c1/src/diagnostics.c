@@ -394,3 +394,17 @@ unsigned fatal_error(unsigned code, ...)
     exit(error_count);
     return error_count;
 }
+
+/* Original 0x4aed0..0x4af1c. IDE records bypass stdio buffering, using
+   the same restricted formatter as compiler diagnostics. */
+void print_ide_status(char *format, ...)
+{
+    char buffer[512];
+    unsigned length = 0;
+    va_list arguments;
+    va_start(arguments,format);
+    format_text_arguments(buffer,format,arguments);
+    va_end(arguments);
+    while (buffer[length]) ++length;
+    _write(2,buffer,length);
+}

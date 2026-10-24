@@ -1,0 +1,108 @@
+{
+  "restored_functions": [],
+  "pdb_cleanup_probe": false,
+  "expression_unit": null,
+  "support_unit": null,
+  "aborted_function_probe": false,
+  "browser_limit_probe": false,
+  "declaration_scope_probe": false,
+  "complete_type_probe": false,
+  "strdup_probe": false,
+  "direct_call": null,
+  "asm_segment_probe": false,
+  "return8_probe": false,
+  "stop_function": null,
+  "terminal_exit": 99,
+  "expected_exit": 0,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/ide-debug-pch",
+  "phase": "c1-create",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "enum_callback_function": null,
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "timestamp_probe": false,
+  "accepted_count": 1053,
+  "accepted_sha256": "65d970853953900802dbec968357bc9e6910c303d4ee41c78f3903c9e5c996c0",
+  "executable_sha256": "292d19fb739549dd25625b46fca5ec0ef70b3767d1ef56fc45ccd71b6046e4b7",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "6c907039687e4830a2fac2751d7648c7640f2f57fe3fab378c507da5bf6b93e8",
+  "debugger_memory_request": "4b024:4,4b140:4,4b148:1,4b228:4,4b244:4,4ff14:4,50064:4,50228:4,50798:4,5b7f4:4,5b7f8:4,5bb44:4,5bb48:4,5ce6c:1",
+  "debugger_string_request": "4b588:100,4d5b8:100,5be68:100",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f producer.c -Ze -Zp8 -Gs -Foproducer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Yd -ide -FR producer.sbr -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Ycdebug.h -Fpdebug.pch -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\ide-debug-pch",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Standalone C1 workflow explicitly shares stdout/stderr; no new CL/backend invocation claim."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/ide-debug-pch",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.055315797217190266,
+  "execution_seconds": 1.930135109461844,
+  "total_seconds": 1.9854534175246954,
+  "files": [
+    {
+      "name": "consumer.c",
+      "bytes": 512,
+      "sha256": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72"
+    },
+    {
+      "name": "debug.h",
+      "bytes": 1041,
+      "sha256": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418"
+    },
+    {
+      "name": "debug.pch",
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    {
+      "name": "ide-models.h",
+      "bytes": 121,
+      "sha256": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693"
+    },
+    {
+      "name": "ide-values.h",
+      "bytes": 88,
+      "sha256": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82"
+    },
+    {
+      "name": "irdb",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irgl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irsy",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "producer.c",
+      "bytes": 720,
+      "sha256": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467"
+    },
+    {
+      "name": "producer.sbt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "status": "complete",
+  "baseline_commit": "ebb13477905139898163e8c09bc725a3b2a1d7b6",
+  "accepted_from": 1051,
+  "accepted_count": 1057,
+  "new_application_functions": 6,
+  "new_application_bytes": 286,
+  "new_CRT_functions": 0,
+  "accepted_application_functions": 913,
+  "public_application_functions": 899,
+  "direct_only_application_functions": 14,
+  "historical_CRT": {
+    "runtime_c": 10,
+    "floating_c": 1,
+    "changed": false
+  },
+  "coverage": {
+    "public_case_accepted_union_bytes": 245156,
+    "direct_only_accepted_union_bytes": 1835,
+    "direct_only_functions": [
+      "@open_program_database_object@20",
+      "@reload_program_database@4",
+      "_asm_recovery_value@4",
+      "_based_string_modifier@8",
+      "_based_symbol_modifier@8",
+      "_based_type_modifier@4",
+      "_clear_type_attributes@8",
+      "_copy_expression_tree@8",
+      "_function_designator_type@4",
+      "_initializer_address_size@4",
+      "_make_reusable_zero",
+      "_make_symbol_ir_leaf@8",
+      "_name_has_text_suffix@8",
+      "_report_asm_expected_token@8"
+    ],
+    "accepted_union_bytes": 246991,
+    "original_code_bytes": 277234,
+    "accepted_by_origin_bytes": {
+      "frontend_source": 224253,
+      "CRT": 22552,
+      "import_thunks": 186
+    },
+    "origin_classification": "Frontend: accepted application source. CRT: runtime.c overrides, explicit CRT variants elsewhere in source, and matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes accepted reconstruction origins, not a complete original linker map.",
+    "percent": 89.09116486433842,
+    "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
+  },
+  "newly_identified_application_callees": [
+    {
+      "name": "ide_source_name",
+      "start": 277792,
+      "bytes": 91
+    },
+    {
+      "name": "print_ide_status",
+      "start": 306896,
+      "bytes": 76
+    }
+  ],
+  "known_remaining_application_stubs": 12,
+  "unclassified_policy": "Not CRT-only; unknown application/support bytes remain unclassified.",
+  "workflow": "Genuine parsed -ide/-Yd/-Z7/-FR create/reuse with guarded nested headers, macro expansion, records/enums/callbacks; no synthetic IDE state. Actual native producer debug.pch required and compared to frozen original before consumer. No backend/object invocation.",
+  "first_entry_proof": "Fresh masked original one-byte first-entry traps and ordinary shared native accepted-prefix instrumentation; complete raw status/streams/file inventories, no normalization.",
+  "shared_published_commit": "5378eb3b3",
+  "shared_source_catalog": "evidence/final/receipt.json",
+  "timing": {
+    "commands": [
+      {
+        "label": "canonical",
+        "command": [
+          "make",
+          "-j4",
+          "audit-win32",
+          "native",
+          "native-trace",
+          "native-expression-tests",
+          "native-pdb-tests"
+        ],
+        "exit": 0,
+        "seconds": 5.989658750593662
+      },
+      {
+        "label": "suite",
+        "command": [
+          "make",
+          "-j4",
+          "native-trace-check"
+        ],
+        "exit": 0,
+        "seconds": 8.014272348955274
+      },
+      {
+        "label": "adoption",
+        "command": [
+          "make",
+          "-j4",
+          "native-adoption-check"
+        ],
+        "exit": 0,
+        "seconds": 9.257872306741774
+      },
+      {
+        "label": "graph-negatives",
+        "command": [
+          "python3",
+          "scripts/check-graph-audit.py"
+        ],
+        "exit": 0,
+        "seconds": 4.163674997165799
+      }
+    ],
+    "public_native_phases": 58,
+    "direct_native_units": 35,
+    "public_native_fixture_total_seconds": 1.2222659513354301,
+    "new_phases": [
+      {
+        "case": "ide-debug-pch-create",
+        "setup_seconds": 0.005833597853779793,
+        "execution_seconds": 0.0078084031119942665,
+        "checks_seconds": 0.004524450749158859,
+        "total_seconds": 0.018698335625231266
+      },
+      {
+        "case": "ide-debug-pch-use",
+        "setup_seconds": 0.006228492595255375,
+        "execution_seconds": 0.007726622745394707,
+        "checks_seconds": 0.004518968053162098,
+        "total_seconds": 0.019164010882377625
+      }
+    ]
+  },
+  "capture_transport_review": "C1 capture helper only closes debug-event hFile handles; no DLL dump, ReadFile or SetFilePointer cursor use. Global original-capture flock retained during rollout; no adoption-only recapture needed.",
+  "evidence_size": {
+    "ordinary_files": 467,
+    "raw_bytes": 1292634,
+    "individual_gzip_bytes": 261983,
+    "executable_bundles": 0,
+    "necessary_concrete_PCH_input_bytes": 40244
+  }
+}

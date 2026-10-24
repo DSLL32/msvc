@@ -9,6 +9,7 @@ original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
+    ("_ide_line_group",0x6a8e8,4),
     ("_inline_regions_changed",0x60470,4),
     ("_inline_unused_parameter",0x6623c,4),
     ("_fatal_error_depth",0x68348,4),

@@ -1,0 +1,33 @@
+{
+  "buffers": {
+    "expression_file": "00",
+    "symbol_file": "",
+    "line_file": "",
+    "global_file": "1186032e1d30016900000000",
+    "debug_file": "",
+    "pch_file": null,
+    "browser_output": "0002000200533a5c7663312e305c63315c6964652d64656275672d706368000200000301600064005f7365746a6d70000301600065005f657863657074696f6e5f696e666f000301600066005f657863657074696f6e5f636f6465000301600067005f616c6c6f6361000301600068005f61626e6f726d616c5f7465726d696e6174696f6e0003060000ffff5f5f4c494e455f5f0003060000feff5f5f46494c455f5f0003060000fdff5f5f444154455f5f0003060000fcff5f5f54494d455f5f0003060000fbff5f5f54494d455354414d505f5f0003050000faff5f4d53435f5645520003050000f9ff5f57494e33320003050000f8ff5f4d5f4958383600"
+  },
+  "frames": [
+    "report_ide_source",
+    "open_source_file",
+    "define_command_line_macros",
+    "initialize_frontend",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "exit": null,
+  "frontier": "report_ide_source",
+  "pc": 1448704259,
+  "abi_inputs": [],
+  "abi_globals": [],
+  "abi_strings": [],
+  "label_stack_count": 0,
+  "scanner_flags": 0,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ]
+}

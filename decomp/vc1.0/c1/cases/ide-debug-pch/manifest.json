@@ -1,0 +1,844 @@
+{
+  "case": "IDE progress and -Yd debug/browser PCH create/reuse",
+  "status": "complete;58 public/35 direct native regressions and original-compiler graph/ABI audits pass",
+  "authorization": "Root approved coherent real -ide/-Yd debug PCH create/reuse workflow; no synthetic IDE globals",
+  "baseline_commit": "ebb13477905139898163e8c09bc725a3b2a1d7b6",
+  "baseline_accepted_count": 1051,
+  "phases": {
+    "c1-create": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\ide-debug-pch",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f producer.c -Ze -Zp8 -Gs -Foproducer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Yd -ide -FR producer.sbr -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Ycdebug.h -Fpdebug.pch -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/consumer.c",
+          "bytes": 512,
+          "sha256": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/debug.h",
+          "bytes": 1041,
+          "sha256": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/ide-models.h",
+          "bytes": 121,
+          "sha256": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/ide-values.h",
+          "bytes": 88,
+          "sha256": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/producer.c",
+          "bytes": 720,
+          "sha256": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+          "mtime_ns": 1768480496000000000
+        }
+      ],
+      "outputs": [
+        {
+          "path": "outputs/c1-create/debug.pch",
+          "output_name": "debug.pch",
+          "bytes": 40244,
+          "sha256": "11e2b7c1f644b12386e0ad0d41f30cb26815be02471028956134bcc4cfb449b6"
+        },
+        {
+          "path": "outputs/c1-create/irdb",
+          "output_name": "irdb",
+          "bytes": 491,
+          "sha256": "f838e0c12c4dac9f2e09e71252eb1bf17bf213c359d8ac847969ccd826602566"
+        },
+        {
+          "path": "outputs/c1-create/irex",
+          "output_name": "irex",
+          "bytes": 443,
+          "sha256": "f56bbfb71be9e9cf3e0692605596a19302fdff5fba8204ea635d4ba1562e6315"
+        },
+        {
+          "path": "outputs/c1-create/irgl",
+          "output_name": "irgl",
+          "bytes": 328,
+          "sha256": "c2860a03609e265fe37ecd0c55514e5f951a3f915914ef0c73b9f19b3b111003"
+        },
+        {
+          "path": "outputs/c1-create/irin",
+          "output_name": "irin",
+          "bytes": 26,
+          "sha256": "1ffe6fd137c8a030647b22444565a280996e59b6654e465d5f462e4bc81f5611"
+        },
+        {
+          "path": "outputs/c1-create/irsy",
+          "output_name": "irsy",
+          "bytes": 87,
+          "sha256": "d9d62e66877e7c4dd7ef658b864b6aa7a57d5f9e701b29356dd5407e59ad08f0"
+        },
+        {
+          "path": "outputs/c1-create/producer.sbr",
+          "output_name": "producer.sbr",
+          "bytes": 1429,
+          "sha256": "696e89c3002cc18195cfa837ca2dc45a94edc6c98c7a91818b6de651c93137b0"
+        }
+      ],
+      "expected_exit": 0,
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 workflow explicitly shares stdout/stderr; no new CL/backend invocation claim."
+      },
+      "expected_stdout": "@I4S:\\vc1.0\\c1\\ide-debug-pch\\producer.c\r\n@I4S:\\vc1.0\\c1\\ide-debug-pch\\debug.h\r\n@I4S:\\vc1.0\\c1\\ide-debug-pch\\ide-models.h\r\n@I4S:\\vc1.0\\c1\\ide-debug-pch\\ide-values.h\r\n@I66\r\n@I4S:\\vc1.0\\c1\\ide-debug-pch\\ide-models.h\r\n@I66\r\n@I4S:\\vc1.0\\c1\\ide-debug-pch\\debug.h\r\n@I56\r\n@I516\r\n@I532\r\n@I647\r\n@I4S:\\vc1.0\\c1\\ide-debug-pch\\producer.c\r\n@I52\r\n@I516\r\n@I623\r\n",
+      "expected_stderr": "",
+      "immutable_input_names": [
+        "consumer.c",
+        "debug.h",
+        "ide-models.h",
+        "ide-values.h",
+        "producer.c"
+      ],
+      "expected_absent_outputs": [
+        "producer.obj",
+        "consumer.obj",
+        "producer.exe",
+        "consumer.exe"
+      ]
+    },
+    "c1-use": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\ide-debug-pch",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f consumer.c -Ze -Zp8 -Gs -Foconsumer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Yd -ide -FR consumer.sbr -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Yudebug.h -Fpdebug.pch -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "captured/debug.pch",
+          "bytes": 40244,
+          "sha256": "11e2b7c1f644b12386e0ad0d41f30cb26815be02471028956134bcc4cfb449b6",
+          "mtime_ns": 1792799868971364151
+        },
+        {
+          "path": "inputs/consumer.c",
+          "bytes": 512,
+          "sha256": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/debug.h",
+          "bytes": 1041,
+          "sha256": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/ide-models.h",
+          "bytes": 121,
+          "sha256": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/ide-values.h",
+          "bytes": 88,
+          "sha256": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/producer.c",
+          "bytes": 720,
+          "sha256": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+          "mtime_ns": 1768480496000000000
+        }
+      ],
+      "outputs": [
+        {
+          "path": "outputs/c1-use/consumer.sbr",
+          "output_name": "consumer.sbr",
+          "bytes": 193,
+          "sha256": "39c33c44e38f1edb390ee74d1de364a00978074618973dc60f8b9970f0a3acfa"
+        },
+        {
+          "path": "outputs/c1-use/irdb",
+          "output_name": "irdb",
+          "bytes": 487,
+          "sha256": "8db74ba433e42502932ff486e68b80859ce8ab0405d5a375ea30e7ad7b7e88ef"
+        },
+        {
+          "path": "outputs/c1-use/irex",
+          "output_name": "irex",
+          "bytes": 1212,
+          "sha256": "ec406a9afc5b4330500afc5c0ea7ddd0a46ff7bc1003e5be937c64a95c578c42"
+        },
+        {
+          "path": "outputs/c1-use/irgl",
+          "output_name": "irgl",
+          "bytes": 313,
+          "sha256": "30b77cd775fb20223fbe7116e0d0949f80369f6787bc0ca3882bf280b2b023ee"
+        },
+        {
+          "path": "outputs/c1-use/irin",
+          "output_name": "irin",
+          "bytes": 6,
+          "sha256": "d2ea64c3e89b2858b0d69bbb96e6828b88df20122c613ac568c843bce4a57429"
+        },
+        {
+          "path": "outputs/c1-use/irsy",
+          "output_name": "irsy",
+          "bytes": 108,
+          "sha256": "ed20583d95cb610eb9b9fd664a35eb22eda144493fed8c88fac0d1f658223003"
+        }
+      ],
+      "expected_exit": 0,
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 workflow explicitly shares stdout/stderr; no new CL/backend invocation claim."
+      },
+      "expected_stdout": "@I4S:\\vc1.0\\c1\\ide-debug-pch\\consumer.c\r\n@I52\r\n@I613\r\n",
+      "expected_stderr": "",
+      "immutable_input_names": [
+        "consumer.c",
+        "debug.h",
+        "debug.pch",
+        "ide-models.h",
+        "ide-values.h",
+        "producer.c"
+      ],
+      "expected_absent_outputs": [
+        "producer.obj",
+        "consumer.obj",
+        "producer.exe",
+        "consumer.exe"
+      ],
+      "generated_input_dependency": {
+        "case": "ide-debug-pch-create",
+        "output_name": "debug.pch",
+        "input_name": "debug.pch"
+      }
+    }
+  },
+  "notes": [
+    "The first untouched preflight inherited an old descriptive CL-transport annotation from the seed manifest; the actual explicit shared-stream setting was correct. Its raw receipt is retained unchanged; later captures use the corrected standalone description."
+  ],
+  "preflight_evidence": [
+    {
+      "directory": "evidence/create-original1",
+      "files": {
+        "capture-status.json": "047ae359168ea19f437bcb2cb82d38980953c0204398f9527d58612b037b766c",
+        "events": "28d3b9e880a77975493dc7e359144c0295a4f694cfe0af4f928c22307bc5c320",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "716a87f40d0b3aa364756e340288064bb3ebdcf09148bf320bc3bb956d7c6016",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "09b0846a92875db9213e51d0d2403a297ee881bd6376470915974438611248f8",
+        "work/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+        "work/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+        "work/debug.pch": "11e2b7c1f644b12386e0ad0d41f30cb26815be02471028956134bcc4cfb449b6",
+        "work/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+        "work/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+        "work/irdb": "f838e0c12c4dac9f2e09e71252eb1bf17bf213c359d8ac847969ccd826602566",
+        "work/irex": "f56bbfb71be9e9cf3e0692605596a19302fdff5fba8204ea635d4ba1562e6315",
+        "work/irgl": "c2860a03609e265fe37ecd0c55514e5f951a3f915914ef0c73b9f19b3b111003",
+        "work/irin": "1ffe6fd137c8a030647b22444565a280996e59b6654e465d5f462e4bc81f5611",
+        "work/irsy": "d9d62e66877e7c4dd7ef658b864b6aa7a57d5f9e701b29356dd5407e59ad08f0",
+        "work/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+        "work/producer.sbr": "696e89c3002cc18195cfa837ca2dc45a94edc6c98c7a91818b6de651c93137b0"
+      }
+    },
+    {
+      "directory": "evidence/create-original2",
+      "files": {
+        "capture-status.json": "b7b205d5ba244e0503c80afa4e43d4523157f5982fdd4b460cee364487f07c50",
+        "events": "28d3b9e880a77975493dc7e359144c0295a4f694cfe0af4f928c22307bc5c320",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "9021110964286fb029b85039b25b60649adddfd6fcf5e1da0cfd3a8217599545",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "09b0846a92875db9213e51d0d2403a297ee881bd6376470915974438611248f8",
+        "work/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+        "work/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+        "work/debug.pch": "11e2b7c1f644b12386e0ad0d41f30cb26815be02471028956134bcc4cfb449b6",
+        "work/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+        "work/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+        "work/irdb": "f838e0c12c4dac9f2e09e71252eb1bf17bf213c359d8ac847969ccd826602566",
+        "work/irex": "f56bbfb71be9e9cf3e0692605596a19302fdff5fba8204ea635d4ba1562e6315",
+        "work/irgl": "c2860a03609e265fe37ecd0c55514e5f951a3f915914ef0c73b9f19b3b111003",
+        "work/irin": "1ffe6fd137c8a030647b22444565a280996e59b6654e465d5f462e4bc81f5611",
+        "work/irsy": "d9d62e66877e7c4dd7ef658b864b6aa7a57d5f9e701b29356dd5407e59ad08f0",
+        "work/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+        "work/producer.sbr": "696e89c3002cc18195cfa837ca2dc45a94edc6c98c7a91818b6de651c93137b0"
+      }
+    },
+    {
+      "directory": "evidence/use-original1",
+      "files": {
+        "capture-status.json": "456499f64b58263335709fae73ac2d8e73278b0ad048f1d5b5a0e3dba6bf0a0e",
+        "events": "28d3b9e880a77975493dc7e359144c0295a4f694cfe0af4f928c22307bc5c320",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "00b5f0f546485250b32ca5c5642f4783c88297b7cd1386348bd943d2b5e1014e",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "02422715e72947bc1c740c827533162ae5fb489fab1f40fc5f07a2c7e5a79bb8",
+        "work/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+        "work/consumer.sbr": "39c33c44e38f1edb390ee74d1de364a00978074618973dc60f8b9970f0a3acfa",
+        "work/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+        "work/debug.pch": "11e2b7c1f644b12386e0ad0d41f30cb26815be02471028956134bcc4cfb449b6",
+        "work/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+        "work/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+        "work/irdb": "8db74ba433e42502932ff486e68b80859ce8ab0405d5a375ea30e7ad7b7e88ef",
+        "work/irex": "ec406a9afc5b4330500afc5c0ea7ddd0a46ff7bc1003e5be937c64a95c578c42",
+        "work/irgl": "30b77cd775fb20223fbe7116e0d0949f80369f6787bc0ca3882bf280b2b023ee",
+        "work/irin": "d2ea64c3e89b2858b0d69bbb96e6828b88df20122c613ac568c843bce4a57429",
+        "work/irsy": "ed20583d95cb610eb9b9fd664a35eb22eda144493fed8c88fac0d1f658223003",
+        "work/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467"
+      }
+    },
+    {
+      "directory": "evidence/use-original2",
+      "files": {
+        "capture-status.json": "18791287901671d14844d2c236dbf2180499212beddf16b84379cf12ac9e7e00",
+        "events": "28d3b9e880a77975493dc7e359144c0295a4f694cfe0af4f928c22307bc5c320",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "d1fcc69bd275debc967d1bf83d10c8c0d127c8f6104b6238b8e6ec773fec2385",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "02422715e72947bc1c740c827533162ae5fb489fab1f40fc5f07a2c7e5a79bb8",
+        "work/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+        "work/consumer.sbr": "39c33c44e38f1edb390ee74d1de364a00978074618973dc60f8b9970f0a3acfa",
+        "work/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+        "work/debug.pch": "11e2b7c1f644b12386e0ad0d41f30cb26815be02471028956134bcc4cfb449b6",
+        "work/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+        "work/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+        "work/irdb": "8db74ba433e42502932ff486e68b80859ce8ab0405d5a375ea30e7ad7b7e88ef",
+        "work/irex": "ec406a9afc5b4330500afc5c0ea7ddd0a46ff7bc1003e5be937c64a95c578c42",
+        "work/irgl": "30b77cd775fb20223fbe7116e0d0949f80369f6787bc0ca3882bf280b2b023ee",
+        "work/irin": "d2ea64c3e89b2858b0d69bbb96e6828b88df20122c613ac568c843bce4a57429",
+        "work/irsy": "ed20583d95cb610eb9b9fd664a35eb22eda144493fed8c88fac0d1f658223003",
+        "work/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467"
+      }
+    }
+  ],
+  "normalization": "None; raw source/header times pinned, complete PCH/IR/browser and IDE streams exact.",
+  "frontiers": [
+    {
+      "phase": "c1-create",
+      "stage": 0,
+      "original": {
+        "directory": "evidence/create-frontier0-original",
+        "files": {
+          "capture-status.json": "0da90c45a81206b021e68c0f59c2dcd31805c3a194e08beeb7e4b19c45296e53",
+          "events": "22a987c5781966878910ec866f804ad17193d6e6526fd891c8cbe20abd96fdef",
+          "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "receipt.json": "c05cf8b32d68da54b5bd7af7d1980a6eb54fba3577510bc549ce7f156b7fa37b",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+          "work/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+          "work/debug.pch": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+          "work/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+          "work/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+          "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+          "work/producer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "native": {
+        "directory": "evidence/create-frontier0-native",
+        "files": {
+          "commands.gdb": "83c0cecbd4331d325e95d86b52defe51fc77280c29052698fa32372bd733a0b4",
+          "gdb.log": "1e74ddd3ee5f42f9de217c70c9ebc47b6cce270c11fb6acf43db6637bdacc83a",
+          "receipt.json": "5a1414aff367ad6a52d2f03fed8216c52a8b73ab2f6142a277ff79592ae336f3",
+          "state.json": "bf2f2412920d741c03d25214662876dfb916b315652afd2af9cd700cf2dfad32",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+          "vc1.0/c1/ide-debug-pch/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+          "vc1.0/c1/ide-debug-pch/debug.pch": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+          "vc1.0/c1/ide-debug-pch/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+          "vc1.0/c1/ide-debug-pch/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+          "vc1.0/c1/ide-debug-pch/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+          "vc1.0/c1/ide-debug-pch/producer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "phase": "c1-create",
+      "stage": 1,
+      "original": {
+        "directory": "evidence/create-frontier1-original",
+        "files": {
+          "capture-status.json": "7df6c162bdf555f6f866a057ef8200b9c00a833c0e3767d135c056fa2eb014c8",
+          "events": "df437df0953aa76e6ce4b265d9217647940677e92298b5ca3966f10a24160a18",
+          "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "receipt.json": "8ebb0bae35be033b60c0ec3fdb3b5bae632de782988270ccdea897fa8b6f4c31",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+          "work/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+          "work/debug.pch": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+          "work/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+          "work/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+          "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+          "work/producer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "native": {
+        "directory": "evidence/create-frontier1-native",
+        "files": {
+          "commands.gdb": "4e44f038417b6ef71662e7ae2d7f8059abc139548a65f75081cf42b7a6d28392",
+          "gdb.log": "bc62ce7c0837060337cf969856d9e97f14029f22c4b37fbe55dd9411f77c9ca6",
+          "receipt.json": "8e3c2ed5821725836f261e9cd3ef59d6a9eed06dd7e36ffd5d343785e2782758",
+          "state.json": "895af24ced1e3d0430e9486ca00ba97ed7e09919292d71bfe40b81448825ebf1",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+          "vc1.0/c1/ide-debug-pch/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+          "vc1.0/c1/ide-debug-pch/debug.pch": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+          "vc1.0/c1/ide-debug-pch/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+          "vc1.0/c1/ide-debug-pch/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+          "vc1.0/c1/ide-debug-pch/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+          "vc1.0/c1/ide-debug-pch/producer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "phase": "c1-create",
+      "stage": 2,
+      "original": {
+        "directory": "evidence/create-frontier2-original",
+        "files": {
+          "capture-status.json": "2578ac30529b6d7c500cefe54ddbc6e3c4e3f81a803070dee61ba16aba1f98f8",
+          "events": "3313d1efbeb5c7170f3991a9e169806fea2101bf43d1c46a70c131fc6be69f04",
+          "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "receipt.json": "21ca03660713c1b969eaf2ba7a560650364a0aaba398e8905ba1f16ea5356218",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+          "work/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+          "work/debug.pch": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+          "work/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+          "work/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+          "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+          "work/producer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "native": {
+        "directory": "evidence/create-frontier2-native",
+        "files": {
+          "commands.gdb": "4eee63a599b455e13a4b08a3b3c94f64f529f1e603dd26c3a0c706fbede3a55b",
+          "gdb.log": "fcb56e3cdbc678c5a11f6cd0a5dfb97b0c5407d25033c3d59c7e4b2332326f68",
+          "receipt.json": "7430c7abdb44f55fa02d45b65e4c5146c8cb733e5ec57b1f5da31ae5bb48b3a1",
+          "state.json": "8df01cbe5ff8fab386debad08eb7b38832e873088348d50471ccec48da553a8b",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+          "vc1.0/c1/ide-debug-pch/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+          "vc1.0/c1/ide-debug-pch/debug.pch": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+          "vc1.0/c1/ide-debug-pch/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+          "vc1.0/c1/ide-debug-pch/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+          "vc1.0/c1/ide-debug-pch/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+          "vc1.0/c1/ide-debug-pch/producer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "phase": "c1-create",
+      "stage": 3,
+      "original": {
+        "directory": "evidence/create-frontier3-original",
+        "files": {
+          "capture-status.json": "88bd99684f22977c1eaebdb1b39a4c097138fb1da740404813e5b5b41d51c2ff",
+          "events": "6b8eba05a8f160abd9607910f92e5215a508c3eef44dd6863ec52ff4b0a6c00a",
+          "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "receipt.json": "fe7d2f408e565e76b28d556a8003f0ad79de878cf573b4245929fb28287c5925",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "e873041f73424a6abed9c301ffffeb64f296bb20438556b3d60d02e427c08416",
+          "work/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+          "work/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+          "work/debug.pch": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+          "work/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+          "work/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+          "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+          "work/producer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "native": {
+        "directory": "evidence/create-frontier3-native",
+        "files": {
+          "commands.gdb": "aec88f3a6a8238f2746909148be5ccaac740b62284acbe8f916f31b137a8a319",
+          "gdb.log": "e3ec92fbb0eb12c506f0b775cd84a25d671ca9b3b5cf4645bc003fd5f8dbf372",
+          "receipt.json": "6249ec22ca5258bcbdf66adb803b2740ebb8cca38aa9d44f2344ff933abfe56c",
+          "state.json": "d9f9e0a42e1e7c14f8825fc118003d16f0d7e2a0d23af0f97decb29965cc62af",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "e873041f73424a6abed9c301ffffeb64f296bb20438556b3d60d02e427c08416",
+          "vc1.0/c1/ide-debug-pch/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+          "vc1.0/c1/ide-debug-pch/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+          "vc1.0/c1/ide-debug-pch/debug.pch": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+          "vc1.0/c1/ide-debug-pch/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+          "vc1.0/c1/ide-debug-pch/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+          "vc1.0/c1/ide-debug-pch/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+          "vc1.0/c1/ide-debug-pch/producer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "phase": "c1-create",
+      "stage": 4,
+      "original": {
+        "directory": "evidence/create-frontier4-original",
+        "files": {
+          "capture-status.json": "d70ce5da0a0f9212dd351e288b920084da7531f23d17f514c388f23baa873eca",
+          "events": "883b14800dadfe8f4eed1bab47ab896dfc983907ea77745c53190c47ed0655fe",
+          "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "receipt.json": "690edc7f70f61b90f01cd53650fd7877c305cd43c406faddfde3c231089c14c7",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "c6c5918b7bf92103e3050063696a822ff290cd7542b699d00813241069eb8a61",
+          "work/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+          "work/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+          "work/debug.pch": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+          "work/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+          "work/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+          "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+          "work/producer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "native": {
+        "directory": "evidence/create-frontier4-native",
+        "files": {
+          "commands.gdb": "48d9358b165357f2c7d28f608561b76fd6a1c7158920bad38b1643114e5f6b42",
+          "gdb.log": "891e6a88f7c4f4908e6070c0de5f2313c05c4de9ea4c60040f2df979a922a4ed",
+          "receipt.json": "a21eae7dd14551933097dd4f5e4d4a2b2b468ad7f49ac913e1482b88841a71ab",
+          "state.json": "ec4b17f564ead1afa2d67c19392e810c32512c935f76572421ebdb01c1e06816",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "c6c5918b7bf92103e3050063696a822ff290cd7542b699d00813241069eb8a61",
+          "vc1.0/c1/ide-debug-pch/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+          "vc1.0/c1/ide-debug-pch/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+          "vc1.0/c1/ide-debug-pch/debug.pch": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+          "vc1.0/c1/ide-debug-pch/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+          "vc1.0/c1/ide-debug-pch/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+          "vc1.0/c1/ide-debug-pch/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+          "vc1.0/c1/ide-debug-pch/producer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "phase": "c1-create",
+      "stage": 5,
+      "original": {
+        "directory": "evidence/create-frontier5-original",
+        "files": {
+          "capture-status.json": "a7675227d61f0b3b16b83573122c80243ea35b4810f7a8c0142bae95f088a3e2",
+          "events": "28d3b9e880a77975493dc7e359144c0295a4f694cfe0af4f928c22307bc5c320",
+          "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "receipt.json": "cd1ad666e26946b861add8f75f0956c17a17f725f01ca602c5d258424a170a64",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "09b0846a92875db9213e51d0d2403a297ee881bd6376470915974438611248f8",
+          "work/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+          "work/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+          "work/debug.pch": "11e2b7c1f644b12386e0ad0d41f30cb26815be02471028956134bcc4cfb449b6",
+          "work/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+          "work/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+          "work/irdb": "f838e0c12c4dac9f2e09e71252eb1bf17bf213c359d8ac847969ccd826602566",
+          "work/irex": "f56bbfb71be9e9cf3e0692605596a19302fdff5fba8204ea635d4ba1562e6315",
+          "work/irgl": "c2860a03609e265fe37ecd0c55514e5f951a3f915914ef0c73b9f19b3b111003",
+          "work/irin": "1ffe6fd137c8a030647b22444565a280996e59b6654e465d5f462e4bc81f5611",
+          "work/irsy": "d9d62e66877e7c4dd7ef658b864b6aa7a57d5f9e701b29356dd5407e59ad08f0",
+          "work/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+          "work/producer.sbr": "696e89c3002cc18195cfa837ca2dc45a94edc6c98c7a91818b6de651c93137b0"
+        }
+      },
+      "native": {
+        "directory": "evidence/create-frontier5-native",
+        "files": {
+          "commands.gdb": "0a7e44604789fd2348ef9b1d7ec97ffbe3d347db27df1c73619ffa50ec764768",
+          "gdb.log": "d2f68a1d3c9423f82ea14c1fc92d42e4c95fd5572a283b7422178062c1925c37",
+          "receipt.json": "4450d665663587450f3d72d2bf06e4bb586bcc0ad4cd3e4f77f95988da52780b",
+          "state.json": "908f6a55ed97daa3e22ab860f7953220373ebb5c0d0aa540156e058526104fc0",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "09b0846a92875db9213e51d0d2403a297ee881bd6376470915974438611248f8",
+          "vc1.0/c1/ide-debug-pch/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+          "vc1.0/c1/ide-debug-pch/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+          "vc1.0/c1/ide-debug-pch/debug.pch": "11e2b7c1f644b12386e0ad0d41f30cb26815be02471028956134bcc4cfb449b6",
+          "vc1.0/c1/ide-debug-pch/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+          "vc1.0/c1/ide-debug-pch/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+          "vc1.0/c1/ide-debug-pch/irdb": "f838e0c12c4dac9f2e09e71252eb1bf17bf213c359d8ac847969ccd826602566",
+          "vc1.0/c1/ide-debug-pch/irex": "f56bbfb71be9e9cf3e0692605596a19302fdff5fba8204ea635d4ba1562e6315",
+          "vc1.0/c1/ide-debug-pch/irgl": "c2860a03609e265fe37ecd0c55514e5f951a3f915914ef0c73b9f19b3b111003",
+          "vc1.0/c1/ide-debug-pch/irin": "1ffe6fd137c8a030647b22444565a280996e59b6654e465d5f462e4bc81f5611",
+          "vc1.0/c1/ide-debug-pch/irsy": "d9d62e66877e7c4dd7ef658b864b6aa7a57d5f9e701b29356dd5407e59ad08f0",
+          "vc1.0/c1/ide-debug-pch/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+          "vc1.0/c1/ide-debug-pch/producer.sbr": "696e89c3002cc18195cfa837ca2dc45a94edc6c98c7a91818b6de651c93137b0"
+        }
+      }
+    },
+    {
+      "phase": "c1-use",
+      "stage": 0,
+      "original": {
+        "directory": "evidence/use-frontier0-original",
+        "files": {
+          "capture-status.json": "95dc81dc012711d1a39ba326bb490731e373a85b86be935b608cf659c8695b91",
+          "events": "a5b540278bf9de076cdb4db432b124f9bbe6c4e3fcc5cc9e3e7ee0a13d5d7b35",
+          "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "receipt.json": "9a3690654f42371e56b8d7e6ce932f6e7d07d239aebc079e4cbbb38d89ada8bf",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "d8098eae1ae02162dad3f7459ac92e4b46e0d43d719677b99a14210893431b67",
+          "work/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+          "work/consumer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+          "work/debug.pch": "11e2b7c1f644b12386e0ad0d41f30cb26815be02471028956134bcc4cfb449b6",
+          "work/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+          "work/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+          "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+          "work/irgl": "65459a875a30d77e55c5c2549a74d221888fd408556e0c9fb6024d3b7147f263",
+          "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "work/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467"
+        }
+      },
+      "native": {
+        "directory": "evidence/use-frontier0-native",
+        "files": {
+          "commands.gdb": "1d2fe6b8a40351920c538892a167a8e8539c9fa47ec705fe9a74f38ba0a5ea2d",
+          "gdb.log": "e9d4451907c791451bf078f27f9b11c8c3dbda0338192917e248af213f4cde22",
+          "receipt.json": "0aa877753f7ca8f30d213fd8cc8192761bc9931083403eef70552697611f74e7",
+          "state.json": "843f1e3517a21679aff3e646dfaff5139b0a4624c8bb69d69f05fb2fa8e883a7",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "d8098eae1ae02162dad3f7459ac92e4b46e0d43d719677b99a14210893431b67",
+          "vc1.0/c1/ide-debug-pch/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+          "vc1.0/c1/ide-debug-pch/consumer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+          "vc1.0/c1/ide-debug-pch/debug.pch": "11e2b7c1f644b12386e0ad0d41f30cb26815be02471028956134bcc4cfb449b6",
+          "vc1.0/c1/ide-debug-pch/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+          "vc1.0/c1/ide-debug-pch/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+          "vc1.0/c1/ide-debug-pch/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+          "vc1.0/c1/ide-debug-pch/irgl": "65459a875a30d77e55c5c2549a74d221888fd408556e0c9fb6024d3b7147f263",
+          "vc1.0/c1/ide-debug-pch/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "vc1.0/c1/ide-debug-pch/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467"
+        }
+      }
+    },
+    {
+      "phase": "c1-use",
+      "stage": 1,
+      "original": {
+        "directory": "evidence/use-frontier1-original",
+        "files": {
+          "capture-status.json": "b8779ab41acd516022f170e165da761cf4da629497737aee585b21989e6ab3d5",
+          "events": "28d3b9e880a77975493dc7e359144c0295a4f694cfe0af4f928c22307bc5c320",
+          "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "receipt.json": "026f9fbe9f7357c0aa80d22aec5033420aa7998f0228625d6bbb6671646c7946",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "02422715e72947bc1c740c827533162ae5fb489fab1f40fc5f07a2c7e5a79bb8",
+          "work/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+          "work/consumer.sbr": "39c33c44e38f1edb390ee74d1de364a00978074618973dc60f8b9970f0a3acfa",
+          "work/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+          "work/debug.pch": "11e2b7c1f644b12386e0ad0d41f30cb26815be02471028956134bcc4cfb449b6",
+          "work/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+          "work/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+          "work/irdb": "8db74ba433e42502932ff486e68b80859ce8ab0405d5a375ea30e7ad7b7e88ef",
+          "work/irex": "ec406a9afc5b4330500afc5c0ea7ddd0a46ff7bc1003e5be937c64a95c578c42",
+          "work/irgl": "30b77cd775fb20223fbe7116e0d0949f80369f6787bc0ca3882bf280b2b023ee",
+          "work/irin": "d2ea64c3e89b2858b0d69bbb96e6828b88df20122c613ac568c843bce4a57429",
+          "work/irsy": "ed20583d95cb610eb9b9fd664a35eb22eda144493fed8c88fac0d1f658223003",
+          "work/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467"
+        }
+      },
+      "native": {
+        "directory": "evidence/use-frontier1-native",
+        "files": {
+          "commands.gdb": "77c08a2dd8626821f1ef26e9306f146078d2f47afbef16ed924cfa97d0c63bc4",
+          "gdb.log": "ee3f8709749023012014d0075ba251a84bc7268ed392e14e2d037ec4f421c3ad",
+          "receipt.json": "a11819374b9a14ef1884e4b4d0119808a5bd44f9f208aedca018c9b7c5ac3b0f",
+          "state.json": "908f6a55ed97daa3e22ab860f7953220373ebb5c0d0aa540156e058526104fc0",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "02422715e72947bc1c740c827533162ae5fb489fab1f40fc5f07a2c7e5a79bb8",
+          "vc1.0/c1/ide-debug-pch/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+          "vc1.0/c1/ide-debug-pch/consumer.sbr": "39c33c44e38f1edb390ee74d1de364a00978074618973dc60f8b9970f0a3acfa",
+          "vc1.0/c1/ide-debug-pch/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+          "vc1.0/c1/ide-debug-pch/debug.pch": "11e2b7c1f644b12386e0ad0d41f30cb26815be02471028956134bcc4cfb449b6",
+          "vc1.0/c1/ide-debug-pch/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+          "vc1.0/c1/ide-debug-pch/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+          "vc1.0/c1/ide-debug-pch/irdb": "8db74ba433e42502932ff486e68b80859ce8ab0405d5a375ea30e7ad7b7e88ef",
+          "vc1.0/c1/ide-debug-pch/irex": "ec406a9afc5b4330500afc5c0ea7ddd0a46ff7bc1003e5be937c64a95c578c42",
+          "vc1.0/c1/ide-debug-pch/irgl": "30b77cd775fb20223fbe7116e0d0949f80369f6787bc0ca3882bf280b2b023ee",
+          "vc1.0/c1/ide-debug-pch/irin": "d2ea64c3e89b2858b0d69bbb96e6828b88df20122c613ac568c843bce4a57429",
+          "vc1.0/c1/ide-debug-pch/irsy": "ed20583d95cb610eb9b9fd664a35eb22eda144493fed8c88fac0d1f658223003",
+          "vc1.0/c1/ide-debug-pch/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467"
+        }
+      }
+    }
+  ],
+  "first_entries": {
+    "ide-debug-pch-create": {
+      "directory": "evidence/create-entries-1056",
+      "files": {
+        "capture-status.json": "724e4e63ce9f76977601a7a08d231c41720969f2ac42ab2903a61f71b3d883c2",
+        "entry-plan.txt": "716c9ded7dd54bcd209f7098282720f43df530073fa7abc45c7ad2a26662207a",
+        "events": "83cedc352ca1769c0e43dacc0714a85518c97b88b1d588a35bc2916d1c0204df",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "3db822dc7e156ce9a3c2550d8830aeaf93bab68bcd6a8d6cec1ce23427f799a3",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "09b0846a92875db9213e51d0d2403a297ee881bd6376470915974438611248f8",
+        "work/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+        "work/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+        "work/debug.pch": "11e2b7c1f644b12386e0ad0d41f30cb26815be02471028956134bcc4cfb449b6",
+        "work/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+        "work/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+        "work/irdb": "f838e0c12c4dac9f2e09e71252eb1bf17bf213c359d8ac847969ccd826602566",
+        "work/irex": "f56bbfb71be9e9cf3e0692605596a19302fdff5fba8204ea635d4ba1562e6315",
+        "work/irgl": "c2860a03609e265fe37ecd0c55514e5f951a3f915914ef0c73b9f19b3b111003",
+        "work/irin": "1ffe6fd137c8a030647b22444565a280996e59b6654e465d5f462e4bc81f5611",
+        "work/irsy": "d9d62e66877e7c4dd7ef658b864b6aa7a57d5f9e701b29356dd5407e59ad08f0",
+        "work/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+        "work/producer.sbr": "696e89c3002cc18195cfa837ca2dc45a94edc6c98c7a91818b6de651c93137b0"
+      }
+    },
+    "ide-debug-pch-use": {
+      "directory": "evidence/use-entries-1057",
+      "files": {
+        "capture-status.json": "be0c5c1e478292c71eeae991215b5041627661f3235ea3001690eec668c7917c",
+        "entry-plan.txt": "92b5a1a909182d2dc5c778f03d22391808fc2c171fb04f307e565453f80f3355",
+        "events": "2b0b9fca6072c90985a5e1ce90ac4285f251154d892b9778d96c307b91d3be0c",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "086e8c3ff5ec47031e8e9b0c4e95d8722554a8764d9cb2805d15268e99fbb1bb",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "02422715e72947bc1c740c827533162ae5fb489fab1f40fc5f07a2c7e5a79bb8",
+        "work/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+        "work/consumer.sbr": "39c33c44e38f1edb390ee74d1de364a00978074618973dc60f8b9970f0a3acfa",
+        "work/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+        "work/debug.pch": "11e2b7c1f644b12386e0ad0d41f30cb26815be02471028956134bcc4cfb449b6",
+        "work/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+        "work/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+        "work/irdb": "8db74ba433e42502932ff486e68b80859ce8ab0405d5a375ea30e7ad7b7e88ef",
+        "work/irex": "ec406a9afc5b4330500afc5c0ea7ddd0a46ff7bc1003e5be937c64a95c578c42",
+        "work/irgl": "30b77cd775fb20223fbe7116e0d0949f80369f6787bc0ca3882bf280b2b023ee",
+        "work/irin": "d2ea64c3e89b2858b0d69bbb96e6828b88df20122c613ac568c843bce4a57429",
+        "work/irsy": "ed20583d95cb610eb9b9fd664a35eb22eda144493fed8c88fac0d1f658223003",
+        "work/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467"
+      }
+    }
+  },
+  "accepted_count": 1057,
+  "capture_coordination": "Original captures from create-frontier4/use-frontier0 onward acquired temporary global /root/.ai-tmp/msvc2-original-capture.lock; earlier captures predated advisory and showed no failure.",
+  "final_evidence": {
+    "directory": "evidence/final",
+    "files": {
+      "adoption.log": "09372589c5b82eb158608a2fd97af335a0fc68ff9417298f9ea25f26c2753085",
+      "canonical.log": "0266be37925d7a456cc6f53e5a5729512a7e2d9ebcf4f2473b41c859ebfe42e4",
+      "graph-negatives.log": "7b005ec84d2c90c5701b6db20a2cf0de8e806bf292a272aef77a9012343ef824",
+      "ide-debug-pch-create/entries": "f933e64715d43308db3c301ba165d5f5f091275625b7e3e93f53b8813dfa113c",
+      "ide-debug-pch-create/execution.json": "617a377633febeee04f25c6ac20705a5d3a869e33102580951f9090610c07885",
+      "ide-debug-pch-create/receipt.json": "c70654c2def4f361d4235c539835fc2197d24e9bd1c73358988bbee37001b139",
+      "ide-debug-pch-create/seen": "1220b7cfb0fc568c5e3c7fcbf91d4532bff2a9b6d24c5d33c7814fcd7e93df6c",
+      "ide-debug-pch-create/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ide-debug-pch-create/stdout": "09b0846a92875db9213e51d0d2403a297ee881bd6376470915974438611248f8",
+      "ide-debug-pch-create/trace.state": "0af19ed9408da26873c0e3e6c598d70559ea70c08e06528e8893035eb2fb7a36",
+      "ide-debug-pch-create/vc1.0/c1/ide-debug-pch/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+      "ide-debug-pch-create/vc1.0/c1/ide-debug-pch/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+      "ide-debug-pch-create/vc1.0/c1/ide-debug-pch/debug.pch": "11e2b7c1f644b12386e0ad0d41f30cb26815be02471028956134bcc4cfb449b6",
+      "ide-debug-pch-create/vc1.0/c1/ide-debug-pch/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+      "ide-debug-pch-create/vc1.0/c1/ide-debug-pch/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+      "ide-debug-pch-create/vc1.0/c1/ide-debug-pch/irdb": "f838e0c12c4dac9f2e09e71252eb1bf17bf213c359d8ac847969ccd826602566",
+      "ide-debug-pch-create/vc1.0/c1/ide-debug-pch/irex": "f56bbfb71be9e9cf3e0692605596a19302fdff5fba8204ea635d4ba1562e6315",
+      "ide-debug-pch-create/vc1.0/c1/ide-debug-pch/irgl": "c2860a03609e265fe37ecd0c55514e5f951a3f915914ef0c73b9f19b3b111003",
+      "ide-debug-pch-create/vc1.0/c1/ide-debug-pch/irin": "1ffe6fd137c8a030647b22444565a280996e59b6654e465d5f462e4bc81f5611",
+      "ide-debug-pch-create/vc1.0/c1/ide-debug-pch/irsy": "d9d62e66877e7c4dd7ef658b864b6aa7a57d5f9e701b29356dd5407e59ad08f0",
+      "ide-debug-pch-create/vc1.0/c1/ide-debug-pch/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+      "ide-debug-pch-create/vc1.0/c1/ide-debug-pch/producer.sbr": "696e89c3002cc18195cfa837ca2dc45a94edc6c98c7a91818b6de651c93137b0",
+      "ide-debug-pch-use/entries": "02da874fce3b45675f643cfe09b53e58a7f999cb2fde8fbb59253196f30e3fb4",
+      "ide-debug-pch-use/execution.json": "c46c577be46c0fb1b8c6dfe8e507f8ca70f644c2afae7909ee60a474d5d9ab24",
+      "ide-debug-pch-use/receipt.json": "32405d1545a817eaebabd1fc5064fad9991fcb08e88994e9657974ac0b6706d3",
+      "ide-debug-pch-use/seen": "8323414f1dd6e15578c4ba2a4eb9f08decc94aeeee47767353e211bae852298e",
+      "ide-debug-pch-use/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ide-debug-pch-use/stdout": "02422715e72947bc1c740c827533162ae5fb489fab1f40fc5f07a2c7e5a79bb8",
+      "ide-debug-pch-use/trace.state": "fe88049dd7b468af878216cef1a2c697bdac68298cec3e0fc25ee01170dba1c0",
+      "ide-debug-pch-use/vc1.0/c1/ide-debug-pch/consumer.c": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+      "ide-debug-pch-use/vc1.0/c1/ide-debug-pch/consumer.sbr": "39c33c44e38f1edb390ee74d1de364a00978074618973dc60f8b9970f0a3acfa",
+      "ide-debug-pch-use/vc1.0/c1/ide-debug-pch/debug.h": "aa2ab5ac733b2a9a3500c015bd75e43900a13ac727a070fb5a2e443651455418",
+      "ide-debug-pch-use/vc1.0/c1/ide-debug-pch/debug.pch": "11e2b7c1f644b12386e0ad0d41f30cb26815be02471028956134bcc4cfb449b6",
+      "ide-debug-pch-use/vc1.0/c1/ide-debug-pch/ide-models.h": "413cc6aef86d230f0951a5da07f37d742587e83b195ddd4ff6dfbc2d561e4693",
+      "ide-debug-pch-use/vc1.0/c1/ide-debug-pch/ide-values.h": "d1ee7dbe383a7f9423de8c69bdf2efd1cd76f1a0627ea142584f5e05a5e15a82",
+      "ide-debug-pch-use/vc1.0/c1/ide-debug-pch/irdb": "8db74ba433e42502932ff486e68b80859ce8ab0405d5a375ea30e7ad7b7e88ef",
+      "ide-debug-pch-use/vc1.0/c1/ide-debug-pch/irex": "ec406a9afc5b4330500afc5c0ea7ddd0a46ff7bc1003e5be937c64a95c578c42",
+      "ide-debug-pch-use/vc1.0/c1/ide-debug-pch/irgl": "30b77cd775fb20223fbe7116e0d0949f80369f6787bc0ca3882bf280b2b023ee",
+      "ide-debug-pch-use/vc1.0/c1/ide-debug-pch/irin": "d2ea64c3e89b2858b0d69bbb96e6828b88df20122c613ac568c843bce4a57429",
+      "ide-debug-pch-use/vc1.0/c1/ide-debug-pch/irsy": "ed20583d95cb610eb9b9fd664a35eb22eda144493fed8c88fac0d1f658223003",
+      "ide-debug-pch-use/vc1.0/c1/ide-debug-pch/producer.c": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+      "public-native-receipt.json": "f7bb55f95c22701b0ade00c25891be9b344a2e9e938f923d716c4c1a615ab464",
+      "receipt.json": "16d7d477e3be3fc254c111beb19b1c619fbb32347a7e797ace838295714ea405",
+      "suite.log": "9b3e0f003a1e2ded37c3b219735020c6ab01e3e980855a8cb8669d8b09ccbf3a"
+    }
+  }
+}

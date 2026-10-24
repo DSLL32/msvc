@@ -38,6 +38,7 @@ int fill_source_buffer(void);
 int __stdcall get_file_timestamp(int handle, long *timestamp);
 void emit_line_directive(void);
 void report_ide_source(void);
+char *ide_source_name(void);
 void __stdcall record_line_information(unsigned flags);
 void browser_include_begin(void);
 void browser_open_file(void);

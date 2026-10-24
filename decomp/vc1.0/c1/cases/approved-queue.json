@@ -2,7 +2,7 @@
   "authorization": "Root-approved substantial standalone QuickC and legacy declaration/literal cases; real parsed flags, frozen originals and native-only regression.",
   "baseline_commit": "160ef1dcc8e61a9227cfdee0ffaa43102f1cec27",
   "baseline_accepted_count": 1015,
-  "status": "Eight direct legacy type/segment helpers verified; remaining support analysis continues",
+  "status": "IDE/-Yd PCH public case complete; remaining application/support analysis continues",
   "cases": [
     {
       "case": "legacy-pdb-object",
@@ -30,6 +30,12 @@
       "phase": "direct",
       "authorization": "Root approved direct support in genuinely parsed declaration context; no forced parser/global/token state",
       "status": "Eight helpers/739 B across two checkpoints, real parsed owners, original/native outputs/RET/nonvolatiles and first-entry order verified; dormant public producer remains unknown"
+    },
+    {
+      "case": "ide-debug-pch",
+      "phase": "c1-create/c1-use",
+      "authorization": "Root approved coherent genuine -ide/-Yd debug PCH workflow, no synthetic IDE globals",
+      "status": "Six whole app functions/286 B; untouched originals repeat, native generated PCH dependency/raw outputs and ordinary first-entry traces pass"
     }
   ]
 }

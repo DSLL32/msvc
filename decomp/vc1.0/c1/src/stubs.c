@@ -99,7 +99,7 @@ void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
 
 
 
-void report_ide_source(void) { __asm { int 3 } }
+
 
 void release_input_handle(void) { __asm { int 3 } }
 
@@ -127,7 +127,7 @@ void release_input_handle(void) { __asm { int 3 } }
 
 
 
-void report_ide_line(void) { __asm { int 3 } }
+
 
 
 /* Original 0x18f90. */
@@ -398,7 +398,7 @@ void report_ide_line(void) { __asm { int 3 } }
 
 
 
-void report_ide_file_end(void) { __asm { int 3 } }
+
 
 
 
@@ -838,7 +838,7 @@ void __stdcall materialize_based_symbol(FrontendSymbol *symbol) { __asm { int 3 
 
 
 
-void restore_pch_separate_debug(void) { __asm { int 3 } }
+
 
 
 /* Original 0x2c710. */
@@ -868,3 +868,6 @@ void __stdcall validate_self_based_source(IrToken *value) { __asm { int 3 } }
 
 /* Accepted external database methods are in program-database.c. Their direct
    owned-unit evidence does not establish a public source trigger. */
+
+/* Original 0x43d20; reached from IDE source progress. */
+/* Original 0x4aed0; shared IDE progress formatter. */

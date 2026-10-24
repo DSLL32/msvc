@@ -9,6 +9,7 @@ typedef struct DiagnosticMessagePosition {
 } DiagnosticMessagePosition;
 extern DiagnosticMessagePosition diagnostic_message_positions[20];
 void format_text_arguments(char *destination, char *format, char *arguments);
+void print_ide_status(char *format, ...);
 extern FILE *diagnostic_message_file;
 extern unsigned fatal_error_depth;
 extern char diagnostic_message_buffer[256];

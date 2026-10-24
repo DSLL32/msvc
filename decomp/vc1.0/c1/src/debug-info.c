@@ -1047,3 +1047,14 @@ unsigned short write_codeview_symbol(unsigned char *destination, FrontendSymbol 
     record[0] = length;
     return length;
 }
+
+/* Original 0x47430..0x47450. PCH reuse restarts the selected debug
+   writer without emitting the fresh translation-unit subsection header. */
+void restore_pch_separate_debug(void)
+{
+    if (options.line_records) {
+        begin_program_database();
+        return;
+    }
+    debug_record_buffer = checked_malloc(4096);
+}

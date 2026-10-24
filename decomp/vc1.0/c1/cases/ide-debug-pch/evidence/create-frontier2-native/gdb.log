@@ -1,0 +1,7 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x49f6: file src/stubs.c, line 874.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, print_ide_status (format=0x566c2b27 "@I4%s\n") at src/stubs.c:874
+874	void print_ide_status(char *format, ...) { __asm { int 3 } }

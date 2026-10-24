@@ -224,6 +224,14 @@
     "legacy-prefix-diagnostic": {
       "receipt": "cases/legacy-segment-literals/evidence/entries-prefix-1043/receipt.json",
       "sha256": "bde588a13a7baf7d171f3a22b1ca886c5c88cf8f0cef7ec606ad083998234ddc"
+    },
+    "ide-debug-pch-create": {
+      "receipt": "cases/ide-debug-pch/evidence/create-entries-1056/receipt.json",
+      "sha256": "3db822dc7e156ce9a3c2550d8830aeaf93bab68bcd6a8d6cec1ce23427f799a3"
+    },
+    "ide-debug-pch-use": {
+      "receipt": "cases/ide-debug-pch/evidence/use-entries-1057/receipt.json",
+      "sha256": "086e8c3ff5ec47031e8e9b0c4e95d8722554a8764d9cb2805d15268e99fbb1bb"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."
