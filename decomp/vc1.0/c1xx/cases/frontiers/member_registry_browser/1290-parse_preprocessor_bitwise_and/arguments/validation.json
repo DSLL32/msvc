@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_parse_preprocessor_bitwise_and",
+  "case": "member_registry_browser",
+  "accepted_before": 1290,
+  "configuration_sha256": "3f7e1fd127ba9c25526539f7e2c19e8e60ee198ec95a864680705dd14c5ad687",
+  "native_entry": "parse_preprocessor_bitwise_and",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      100464,
+      100514
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl no formals PreprocessorValue*EAX, savedESI, RET0",
+    "proof": "Whole50B mandatory equality cdecl0pointer result\u2192ESI, accept std4BYTE3a; loop parsesright thenbinary std12(BYTE3a,left,right), storesreturnedleft, repeats. No own global/stackformal/register/flags/x87 input/allocation/newdata/CRT. Equality next68B independently read: relational cdecl0pointer then single optional equal44 ornotequal55, binary std12; no equality chain loop invented. Sharedaccept/binary completeextents remainnamed pendingstubs. Existing known OperatorToken names now replace numeric spellings in this C unit, identical constant values/ABIs.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "b2f697c85f4ef841a1228e2d1ed4e560ca48925e58362e5f1f8782fe846a2e5e",
+  "capture_timing": {
+    "original_capture_seconds": 0.9671163056045771,
+    "native_capture_seconds": 0.18457976076751947,
+    "total_operation_seconds": 1.400186525657773
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "e1412d860a6f8ec8ae6a1528d421033aa364cfab7552932ba4aab220dc32a086",
+    "native-commands.gdb": "e696669e49d65eb0da7b57b63ddc1a828457c7c86953c91bc3778f2f582f572c",
+    "native-gdb.log": "4276127f424b4658bcb8bc53dfa4ee64b6dcf2e91d8791ad889702cd8ec07e6f",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "44b666f06aa3bab768b7a7315a5a2f2c0077104b8d9fc51b5f3ad6dd36aba5af",
+    "original-configuration.json": "3f7e1fd127ba9c25526539f7e2c19e8e60ee198ec95a864680705dd14c5ad687",
+    "original-disassembly.txt": "7e48855dc32025b3e122ec0e8aeb06066657f3648054730519f17ae2c7909755",
+    "original-events.txt": "f6177b913f33700f2a5c6d05b0ec6c897ff5cd5857bfbd8fe5e9f7c1d0898b46",
+    "original-receipt.json": "d37465fe20fe3532c6b92ed732b9912caa57d411ded5dcfb629eac4bab8727b8",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "f4c191b4dac560183e43967674d3a9236bd59cea89f9a6b6026eba8d68583748"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

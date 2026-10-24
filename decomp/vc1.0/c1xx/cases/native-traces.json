@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "d4e784459c8126a576e5175449219e6a0b613b8380f2eac07b7d56e64ea50cae",
+    "functions.json": "303b4b94e5411cd96976158a513272337717f5307443816d3e9d7c43e2deeb4f",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "e6e070f585dea949805705623bbc98ac33aa4782ea35cadc84b4b8fe42980154",
-    "cases/canonical-map.txt": "1a43fa1d54da18e0b415d7407115b06a99cb28047c835d5d551f3341071349f7",
+    "cases/original-entry-references.json": "6faabd432a029cea1162019bcdc14fc242f1680e340bd372119af7687e616f63",
+    "cases/canonical-map.txt": "ea0ece29e21f1e44153c3c3446d3d3bf751a5ff4ef4df84eba87f57c43365eb0",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -78,9 +78,9 @@
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-receipt.json": "aaed00b4fadaebffc9880353fea9e13e29e47c575801ef9b2468683dce4fa7c5",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-events.txt": "101a9376ca702a65d47b1014b7314fcf5bae85308185272f7bfbfd5a54474784",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-entries.plan": "0666913d4e150db042b4ec44837ec92005027e9ae6eb67575b6dd821714b9619",
-    "cases/frontiers/member_registry_browser/1289-parse_preprocessor_bitwise_xor/entry-reference/original-receipt.json": "8e6ddae43e021d1a41a1028b7823a5251eacb12e94339ec066450a9c9fc0e44e",
-    "cases/frontiers/member_registry_browser/1289-parse_preprocessor_bitwise_xor/entry-reference/original-events.txt": "253d4440142849fac988b4090313415c3b0eedd83751196bed3ae024c9aaacf5",
-    "cases/frontiers/member_registry_browser/1289-parse_preprocessor_bitwise_xor/entry-reference/original-entries.plan": "dd1fad8644ca13e0dbc04fec3f7183b636f06ffc7130b45a185da528d32ed3fc"
+    "cases/frontiers/member_registry_browser/1290-parse_preprocessor_bitwise_and/entry-reference/original-receipt.json": "7c0bb8ff1b5f09923043a11e90e1619100141fe76bcdda5d9dc059f55f27e03a",
+    "cases/frontiers/member_registry_browser/1290-parse_preprocessor_bitwise_and/entry-reference/original-events.txt": "435d51f146ae9945a07a1919e29200b9c9c9b6c102fc31a62d2606dbceaf1e88",
+    "cases/frontiers/member_registry_browser/1290-parse_preprocessor_bitwise_and/entry-reference/original-entries.plan": "856a1aaf1eb8ee27be1fa974f197fe7b4f6a1f74b84486e302ec5ad84b232f56"
   },
   "application_definitions": {
     "accept_preprocessor_token": {
@@ -4437,7 +4437,7 @@
     },
     "parse_preprocessor_bitwise_and": {
       "logical": "_parse_preprocessor_bitwise_and",
-      "source": "src/stubs.c"
+      "source": "src/preprocessor-expressions.c"
     },
     "parse_preprocessor_bitwise_or": {
       "logical": "_parse_preprocessor_bitwise_or",
@@ -4450,6 +4450,10 @@
     "parse_preprocessor_conditional": {
       "logical": "_parse_preprocessor_conditional",
       "source": "src/preprocessor-expressions.c"
+    },
+    "parse_preprocessor_equality": {
+      "logical": "_parse_preprocessor_equality",
+      "source": "src/stubs.c"
     },
     "parse_preprocessor_logical_and": {
       "logical": "_parse_preprocessor_logical_and",
@@ -7348,7 +7352,8 @@
     "parse_preprocessor_logical_or",
     "parse_preprocessor_logical_and",
     "parse_preprocessor_bitwise_or",
-    "parse_preprocessor_bitwise_xor"
+    "parse_preprocessor_bitwise_xor",
+    "parse_preprocessor_bitwise_and"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -13779,7 +13784,7 @@
     },
     "member_registry_browser": {
       "first": 1257,
-      "last": 1290,
+      "last": 1291,
       "seen": [
         "main",
         "message_text",
@@ -14967,12 +14972,13 @@
         "parse_preprocessor_logical_and",
         "parse_preprocessor_bitwise_or",
         "parse_preprocessor_bitwise_xor",
-        "parse_preprocessor_bitwise_and"
+        "parse_preprocessor_bitwise_and",
+        "parse_preprocessor_equality"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_parse_preprocessor_bitwise_and",
-        "native": "parse_preprocessor_bitwise_and",
+        "logical": "_parse_preprocessor_equality",
+        "native": "parse_preprocessor_equality",
         "signal": 5
       }
     }

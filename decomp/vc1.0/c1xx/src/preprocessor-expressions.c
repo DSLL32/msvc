@@ -1,6 +1,7 @@
 /* Integer expression evaluation for #if and #elif. */
 #include "preprocessor-expressions.h"
 #include "frontend.h"
+#include "operators.h"
 #include <recon.h>
 unsigned char preprocessor_expression_token = 1; /* original 0x9d7b0 */
 int preprocessor_expression_parentheses; /* original 0x9d7b4 */
@@ -50,10 +51,10 @@ PreprocessorValue *parse_preprocessor_logical_or(void)
     int saved = preprocessor_skip_evaluation;
     PreprocessorValue *left, *right;
     left = parse_preprocessor_logical_and();
-    while (accept_preprocessor_token(0x58)) {
+    while (accept_preprocessor_token(OP_LOGICAL_OR)) {
         if (left->value) ++preprocessor_skip_evaluation;
         right = parse_preprocessor_logical_and();
-        left = evaluate_preprocessor_binary(0x58, left, right);
+        left = evaluate_preprocessor_binary(OP_LOGICAL_OR, left, right);
     }
     preprocessor_skip_evaluation = saved;
     return left;
@@ -68,10 +69,10 @@ PreprocessorValue *parse_preprocessor_logical_and(void)
     int saved = preprocessor_skip_evaluation;
     PreprocessorValue *left, *right;
     left = parse_preprocessor_bitwise_or();
-    while (accept_preprocessor_token(0x3b)) {
+    while (accept_preprocessor_token(OP_LOGICAL_AND)) {
         if (!left->value) ++preprocessor_skip_evaluation;
         right = parse_preprocessor_bitwise_or();
-        left = evaluate_preprocessor_binary(0x3b, left, right);
+        left = evaluate_preprocessor_binary(OP_LOGICAL_AND, left, right);
     }
     preprocessor_skip_evaluation = saved;
     return left;
@@ -84,9 +85,9 @@ PreprocessorValue *parse_preprocessor_bitwise_or(void)
 {
     PreprocessorValue *left, *right;
     left = parse_preprocessor_bitwise_xor();
-    while (accept_preprocessor_token(0x56)) {
+    while (accept_preprocessor_token(OP_BIT_OR)) {
         right = parse_preprocessor_bitwise_xor();
-        left = evaluate_preprocessor_binary(0x56, left, right);
+        left = evaluate_preprocessor_binary(OP_BIT_OR, left, right);
     }
     return left;
 }
@@ -98,9 +99,23 @@ PreprocessorValue *parse_preprocessor_bitwise_xor(void)
 {
     PreprocessorValue *left, *right;
     left = parse_preprocessor_bitwise_and();
-    while (accept_preprocessor_token(0x64)) {
+    while (accept_preprocessor_token(OP_BIT_XOR)) {
         right = parse_preprocessor_bitwise_and();
-        left = evaluate_preprocessor_binary(0x64, left, right);
+        left = evaluate_preprocessor_binary(OP_BIT_XOR, left, right);
+    }
+    return left;
+}
+
+PreprocessorValue *parse_preprocessor_equality(void);
+
+/* Original 0x18870..0x188a1. */
+PreprocessorValue *parse_preprocessor_bitwise_and(void)
+{
+    PreprocessorValue *left, *right;
+    left = parse_preprocessor_equality();
+    while (accept_preprocessor_token(OP_BIT_AND)) {
+        right = parse_preprocessor_equality();
+        left = evaluate_preprocessor_binary(OP_BIT_AND, left, right);
     }
     return left;
 }
