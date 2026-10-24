@@ -12,10 +12,23 @@
   "focused_checks": "Four frozen GCC/Clang default510 suites:64 authenticated original rows,65536 unsigned return magnitudes x empty/live full108FP/errors; zero-countNULL/guardpage no-read, positiveNULL deny125, count-limited page boundary, earlyNUL/mismatch maximumcount, read-only inputs/tails. Shared core passes.",
   "actual_original": "Real RCDLL call count13/equal26B spans returns0, preserves errno2/Last0, cdeclRET0; wrapper result0/RET12 then actual line-comment frontier. Prior native typed125 result remains explicitly unobserved.",
   "FP_qualification": "Actual original application per-call FP was not measured. Whole integer-only canonical function and separate64-row full108B FP probe prove preservation; native own before/after FP must be checked at adoption. No invented original afterstate or original process-success claim.",
-  "limits": "Positive unreadable nonNULL spans are outside the valid-span contract; no new memory-validation framework or target CRT function-graph credit. Final independent source/probe review passes; actual RCDLL native adoption remains required before application promotion.",
+  "limits": "Positive unreadable nonNULL spans are outside the valid-span contract; no new memory-validation framework or target CRT function-graph credit. Final independent source/probe review passes; actual RCDLL native adoption is accepted in1493f44ca; later application work remains separate.",
   "independent_review": {
     "path": "/root/.ai-tmp/msvc2/vc5.10/rcdll/wcsncmp-parent-review.json",
     "sha256": "31420af3fe369ad0b8bfc6b277c039023b4ef05bc75a67315254485fda9ca59d",
     "result": "PASS:28 live/frozen source and25 reference bindings, all four frozen GCC/Clang default510 suites independently rerun."
+  },
+  "actual_RCDLL_adoption": {
+    "accepted_commit": "1493f44ca",
+    "acceptance": "0095",
+    "packet": {
+      "path": "/root/msvc2/decomp/vc5.10/rcdll/cases/resources-rich-trailing-space/macro-compare-verification.json",
+      "sha256": "47b1f58a66c5b8694dfeebd3e290c7e15bcfe830271f556a1a509282496f79a8"
+    },
+    "integration_receipt": {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/wcsncmp/integration/receipt.json",
+      "sha256": "e0dff498b713d000a16362054aceb33e6927da83881c076d53f2edb3645c1bba"
+    },
+    "result": "Accepted same-original01/native02 actual count13/equal26B result0/cdeclRET0, wrapper0/RET12/full checkpoint at real line-comment;17 controls and parent review pass. FP qualification preserved."
   }
 }
