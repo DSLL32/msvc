@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "76ff48bb933765b31e500d8cf044194818da725d101272ed9c33e11b18a2a0b7",
+    "functions.json": "221623fbf24c40727290a4c618282e0c3682cfef90ebf62d0fbb6b43d7113d79",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "0fea751d75cfcfb5e978bbf41308db5b73fd687ac7f8f0ad5a55653d7dcbe3a7",
-    "cases/canonical-map.txt": "0f8579a2cd13b780fc71459923e4efb90fa919cc9b4008e97132aa52a65833b7",
+    "cases/original-entry-references.json": "24819d9018fc727eee08d66e9559d98f4cdaa29fef8702f362b780590a667d08",
+    "cases/canonical-map.txt": "8a05b481bc06d74764441bfeedefe806a0a768ff96cddb73ef2fa81db3bd1c59",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -64,9 +64,9 @@
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-receipt.json": "c9cbd20af4610da8f8c35487c1cb632113d35461981bd76aa2f7d60e10400717",
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-events.txt": "a7247c160287c63539d241bef68d979d6d6a4b4649e77c3b542cb394ffce4b8e",
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-entries.plan": "95e3224e0362e24a6ef5b495984403fa23be74272e90e204349cda7924f7f5d6",
-    "cases/frontiers/state_machine_defined_debug/1251-emit_declaration_thunk-8/entry-reference/original-receipt.json": "3c9dd10bbde4ff25d42dbec871214990ea4a14405f9c119d5316543ccf831d92",
-    "cases/frontiers/state_machine_defined_debug/1251-emit_declaration_thunk-8/entry-reference/original-events.txt": "00af4d61033dc7c09ee7cb3ddc70bcfdbc8a9bd3a80ad671894b72f30695ee6c",
-    "cases/frontiers/state_machine_defined_debug/1251-emit_declaration_thunk-8/entry-reference/original-entries.plan": "8eb6be59741723d96d42b85196a9a95ea9ace8c3d184f92a9ed177a244e2d720"
+    "cases/frontiers/state_machine_defined_debug/1252-mangle_vcall_model-8/entry-reference/original-receipt.json": "e8a6066e03e4a685e9c58fd35c8e1d77cd58d678a450e3afbbd13ba2940fdc50",
+    "cases/frontiers/state_machine_defined_debug/1252-mangle_vcall_model-8/entry-reference/original-events.txt": "2256cb7c540403957ecd3d2f7d7a92b59a50d93513593cc7902fae6fb96e3610",
+    "cases/frontiers/state_machine_defined_debug/1252-mangle_vcall_model-8/entry-reference/original-entries.plan": "b2f9b6f792733443606604f7a29a3f6e2655a538a1fd5f0b2261a21a83cf21f6"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -3855,7 +3855,7 @@
     },
     "mangle_vcall_model": {
       "logical": "_mangle_vcall_model@8",
-      "source": "src/stubs.c"
+      "source": "src/mangling.c"
     },
     "mark_evaluation_boundary": {
       "logical": "_mark_evaluation_boundary",
@@ -7153,7 +7153,8 @@
     "make_adjusted_member_call",
     "begin_hash_iteration",
     "next_hash_entry",
-    "emit_declaration_thunk"
+    "emit_declaration_thunk",
+    "mangle_vcall_model"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -12418,7 +12419,7 @@
     },
     "state_machine_defined_debug": {
       "first": 1232,
-      "last": 1252,
+      "last": 1253,
       "seen": [
         "main",
         "message_text",
@@ -13569,12 +13570,13 @@
         "begin_hash_iteration",
         "next_hash_entry",
         "emit_declaration_thunk",
-        "mangle_vcall_model"
+        "mangle_vcall_model",
+        "format_qualified_tag_name"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_mangle_vcall_model@8",
-        "native": "mangle_vcall_model",
+        "logical": "_format_qualified_tag_name@8",
+        "native": "format_qualified_tag_name",
         "signal": 5
       }
     }

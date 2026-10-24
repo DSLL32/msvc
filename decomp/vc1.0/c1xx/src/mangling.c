@@ -454,6 +454,14 @@ char *__stdcall mangle_symbol_encoding(char *cursor, CppSymbol *symbol,
     return cursor;
 }
 
+/* Original 0x44280..0x44299. The generated vcall symbol stores
+   its three-bit model in the existing member-qualifier byte. */
+char *__stdcall mangle_vcall_model(char *cursor, CppSymbol *symbol)
+{
+    *cursor++ = (char)('A' + ((symbol->cpp.parts.member_qualifiers & 0x38) >> 3));
+    return cursor;
+}
+
 /* Original 0x43880..0x439a7. Combine distance, cv and member-pointer
    qualifiers, then append the declaring class or based-pointer information. */
 char *__stdcall mangle_type_qualifiers(char *cursor, CType *type, int object)

@@ -1,0 +1,16 @@
+Breakpoint 1 at 0x57879: file src/mangling.c, line 461.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, mangle_vcall_model (cursor=0x5661e6ac <decorated_name_workspace+8> "d@@UAE@XZ", symbol=0x56634400) at src/mangling.c:461
+461	    *cursor++ = (char)('A' + ((symbol->cpp.parts.member_qualifiers & 0x38) >> 3));
+#0  mangle_vcall_model (cursor=0x5661e6ac <decorated_name_workspace+8> "d@@UAE@XZ", symbol=0x56634400) at src/mangling.c:461
+#1  0x565ac243 in mangle_symbol_encoding (cursor=0x5661e6ac <decorated_name_workspace+8> "d@@UAE@XZ", symbol=0x56634400, context=0x0, encoding=47417) at src/mangling.c:448
+#2  0x565ab531 in mangle_symbol_name (cursor=0x5661e6a9 <decorated_name_workspace+5> "$B3d@@UAE@XZ", symbol=0x56634400, context=0x56634400) at src/mangling.c:152
+#3  0x565ab272 in write_decorated_name (stream=0x56620b1c <recon_iob+128>, symbol=0x56634400, context=0x0, flags=0) at src/mangling.c:111
+#4  0x56578395 in write_global_record (tag=14, symbol=0x56634400) at src/global-ir.c:248
+#5  0x565af9f2 in write_function_directory () at src/function-finalization.c:424
+#6  0x565af515 in finish_expression_output () at src/function-finalization.c:349
+#7  0x5655df97 in compile_translation_unit () at src/frontend.c:79
+#8  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#9  0x56558894 in main (argc=1, argv=0xffffd794, environment=0xffffd79c) at src/c1xx.c:20

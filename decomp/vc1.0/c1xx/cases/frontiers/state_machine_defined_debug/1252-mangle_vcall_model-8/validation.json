@@ -1,0 +1,16 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_mangle_vcall_model@8",
+    "start": 279168,
+    "end": 279194
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_defined_debug/1252-mangle_vcall_model-8/arguments/validation.json",
+  "distinct_direct_callees": [],
+  "next_frontier": "_format_qualified_tag_name@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8590704649686813,
+  "total_operation_seconds": 4.584409350529313,
+  "original_capture_seconds": 1.1679067676886916
+}

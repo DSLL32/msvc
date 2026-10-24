@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 1252,
+  "accepted": "_mangle_vcall_model@8",
+  "terminal": "_format_qualified_tag_name@8",
+  "original_capture": "cases/frontiers/state_machine_defined_debug/1252-mangle_vcall_model-8/original-receipt.json",
+  "original_capture_sha256": "e8a6066e03e4a685e9c58fd35c8e1d77cd58d678a450e3afbbd13ba2940fdc50",
+  "original_events": "cases/frontiers/state_machine_defined_debug/1252-mangle_vcall_model-8/original-events.txt",
+  "original_events_sha256": "2256cb7c540403957ecd3d2f7d7a92b59a50d93513593cc7902fae6fb96e3610",
+  "original_configuration": "cases/frontiers/state_machine_defined_debug/1252-mangle_vcall_model-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

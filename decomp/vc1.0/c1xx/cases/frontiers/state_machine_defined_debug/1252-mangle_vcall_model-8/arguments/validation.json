@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_mangle_vcall_model@8",
+  "case": "state_machine_defined_debug",
+  "accepted_before": 1252,
+  "configuration_sha256": "18760f6be5c726f1f912cac7ce7cce4ff95f523950035d02c7f8c78b973c0873",
+  "native_entry": "mangle_vcall_model",
+  "declared_formal_count": 2,
+  "formals": [
+    {
+      "name": "cursor",
+      "stack_index": 0,
+      "native_field": "raw_cursor",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 210673,
+        "original_owner_function": "_mangle_symbol_encoding@16",
+        "native_owner_function": "mangle_symbol_encoding",
+        "native_owner_field": "caller_cursor",
+        "native_owner_local": "cursor",
+        "identity": "Accepted caller model39 branch EDIactualsymbol; mangle_number returns updatedcursorEAX after CALL436e5/return436ea; PUSH EDI436ea/PUSHEAX436eb/CALL436ec/return436f1. Native actual symbol formal and updated cursor local own pointers; existing generated-thunk producer initializes cpp.member_qualifiers+51 modelbits38.",
+        "original_owner_value": 621632,
+        "native_owner_value": 1449256620
+      },
+      "original_raw": 621632,
+      "native_raw": 1449256620,
+      "result": "match"
+    },
+    {
+      "name": "symbol",
+      "stack_index": 1,
+      "native_field": "raw_symbol",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 210673,
+        "original_owner_function": "_mangle_symbol_encoding@16",
+        "native_owner_function": "mangle_symbol_encoding",
+        "native_owner_field": "caller_symbol",
+        "native_owner_local": "symbol",
+        "identity": "Accepted caller model39 branch EDIactualsymbol; mangle_number returns updatedcursorEAX after CALL436e5/return436ea; PUSH EDI436ea/PUSHEAX436eb/CALL436ec/return436f1. Native actual symbol formal and updated cursor local own pointers; existing generated-thunk producer initializes cpp.member_qualifiers+51 modelbits38.",
+        "original_owner_value": 8311808,
+        "native_owner_value": 1449346048
+      },
+      "original_raw": 8311808,
+      "native_raw": 1449346048,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      279168,
+      279194
+    ],
+    "argument_bytes": 8,
+    "convention": "stdcall8 char* EAX RET8",
+    "proof": "Whole26B frameless cursor/symbol entryESP+4/+8, RET8. Load BYTEsymbol+51 member_qualifiers, mask38 shift3 add41, store onebytecursor, returncursor+1. Existing symbol fieldproducer emit_member_pointer_virtual_thunk sets modelkind<<3; no adjacentbytes/newdata/callees/CRT/guard. No hidden/register/x87/flagsinput. Acceptedcaller whole switch model39 exact PUSH/CALL raw VA436ea..436f1 and RVA336f1; no address-equalityacrossprocesses.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "638492df4fb858c1927a458f368e18672a6b0e681a500e114e8a0c600e19b81f",
+  "capture_timing": {
+    "original_capture_seconds": 0.8169831726700068,
+    "native_capture_seconds": 0.18338480032980442,
+    "total_operation_seconds": 1.303430013358593
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "0c3e9bfa93eb14fe0cf18c02e7b2260b4aba9bd5d10969299c38b405bf1e1c26",
+    "native-commands.gdb": "a802983f41073bfd54929e537ff8dcf6bc9ccbc047558d40e021cbc5914e3568",
+    "native-gdb.log": "7eeae0453211d049df704141ce48eeb126b39a6080c41c51adf2f696a076cd0d",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "64fc516ffcc42db7d62fc948d6a50a04c4ed46836f38b4eb9dfb6adae3010188",
+    "original-configuration.json": "18760f6be5c726f1f912cac7ce7cce4ff95f523950035d02c7f8c78b973c0873",
+    "original-disassembly.txt": "593660cd423d0dd0bbc7287ce019f84bed223d36959321b70699af9de5c258d5",
+    "original-entries.plan": "565da023eeb7e019665fa99c801de92e2c3792c75b74f39e4f4758675f6ce105",
+    "original-events.txt": "98b1b894384783b14cb2132c4f7d707b1b4834e43d8739f92600f877adc4b1d0",
+    "original-ownership-caller-disassembly.txt": "3159a0f1591df312b50e738936087de0e284da39bc131e3b0b9a10804c9f1704",
+    "original-receipt.json": "449e854f8a601d7f8e2b8598283759e447e90011b9d3dd1d3efec5d9171155c2",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "babe4889d9634fb871bcfc06c1feda7492a79214790f36658d691f2e76741eb3"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}
