@@ -82,6 +82,9 @@ def main():
     states = [int(s, 16) for s in re.findall(r'^state \d+ ([0-9a-f]+)$', events, re.M)]
     for requirement in plan.get('state_requirements', []):
         assert states[requirement['index']] == checkpoint[requirement['native_field']] == requirement['equals']
+    if name=='_equal_tail_word_pairs':
+        from tail_word_pair_inputs import validate as validate_tail_word_pair_inputs
+        validate_tail_word_pair_inputs(name, anchors, checkpoint, words)
     x87_result=None
     if plan.get('x87_inputs') or plan.get('x87_single'):
         from x87_inputs import validate_range_inputs,validate_store_inputs,validate_finish_inputs

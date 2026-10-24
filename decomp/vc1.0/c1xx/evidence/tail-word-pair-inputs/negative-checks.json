@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "scope": "Focused missing/read/offset/value checks for the actual thunk-key tail words.",
+  "proof": "cases/argument-observations/state_machine_defined_debug/1232-equal_tail_word_pairs/validation.json",
+  "proof_sha256": "d5b7f5c1960ec9e28d85d20c892a240040d9b04f3035f16fc5cb6327404ae077",
+  "checker_sha256": "13dfb76a5f337524cfbc81b65fa8bd52cd75eb8ad8ba46eccce8c4ac91647506",
+  "validator_sha256": "2b37098a219cb434248eb5aee52bb4a77b6a06dad511f2428bf3e58e6167b512",
+  "checks": [
+    {
+      "test": "control",
+      "result": "verified"
+    },
+    {
+      "test": "missing-word",
+      "result": "held",
+      "reason": "'right_kind'"
+    },
+    {
+      "test": "short-read",
+      "result": "held",
+      "reason": "missing complete initialized key word"
+    },
+    {
+      "test": "unreadable-word",
+      "result": "held",
+      "reason": "missing complete initialized key word"
+    },
+    {
+      "test": "wrong-offset",
+      "result": "held",
+      "reason": "key word does not belong to actual argument"
+    },
+    {
+      "test": "wrong-native-value",
+      "result": "held",
+      "reason": "actual initialized tail word differs"
+    },
+    {
+      "test": "wrong-function",
+      "result": "held",
+      "reason": ""
+    }
+  ],
+  "elapsed_seconds": 0.0018076496198773384
+}

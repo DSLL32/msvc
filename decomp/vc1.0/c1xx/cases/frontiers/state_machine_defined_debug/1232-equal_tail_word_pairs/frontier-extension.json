@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 1232,
+  "accepted": "_equal_tail_word_pairs",
+  "terminal": "_convert_compact_method_pointer@24",
+  "original_capture": "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/original-receipt.json",
+  "original_capture_sha256": "de4eb5516ae981c144b34f71393b63bf214085e434713aa1e3208551f6a10414",
+  "original_events": "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/original-events.txt",
+  "original_events_sha256": "e8f5ae04ca84e80daa5f62e9db9bb2219f92f229b18846a8931336d3fd7467d5",
+  "original_configuration": "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

@@ -48,11 +48,11 @@
     "plan_sha256": "95e3224e0362e24a6ef5b495984403fa23be74272e90e204349cda7924f7f5d6"
   },
   "state_machine_defined_debug": {
-    "receipt": "cases/state_machine_defined_debug-seed/entry-reference/original-receipt.json",
-    "receipt_sha256": "e1d24354f2748dcbe67f3a08b92744314162b66487f9a729a1300d5e6c314a05",
-    "events": "cases/state_machine_defined_debug-seed/entry-reference/original-events.txt",
-    "events_sha256": "9b82060bcaf3722620b91046528f43ad9ae195bab11723664ef74700e94c1f5a",
-    "plan": "cases/state_machine_defined_debug-seed/entry-reference/original-entries.plan",
-    "plan_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    "receipt": "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/entry-reference/original-receipt.json",
+    "receipt_sha256": "de4eb5516ae981c144b34f71393b63bf214085e434713aa1e3208551f6a10414",
+    "events": "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/entry-reference/original-events.txt",
+    "events_sha256": "e8f5ae04ca84e80daa5f62e9db9bb2219f92f229b18846a8931336d3fd7467d5",
+    "plan": "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/entry-reference/original-entries.plan",
+    "plan_sha256": "bdcb6d48b986390d334c8c9ee5bd96c19a1811f81b2586229a440c58c4c053c3"
   }
 }

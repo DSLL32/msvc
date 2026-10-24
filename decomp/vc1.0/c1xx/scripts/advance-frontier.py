@@ -104,6 +104,9 @@ def main():
         assert argument_proof['register_inputs']==x87_result['registers'], 'bound x87 formal values differ'
         assert argument_proof['x87_environment']==x87_result['environment'], 'bound x87 entry environment differs'
     words=dict((int(index),int(value,16)) for index,value in re.findall(r'^argument (\d+) ([0-9a-f]+)$',(argument_directory/'original-events.txt').read_text(),re.M))
+    if args.candidate=='_equal_tail_word_pairs':
+        from tail_word_pair_inputs import validate as validate_tail_word_pair_inputs
+        validate_tail_word_pair_inputs(args.candidate, anchors, entry_native, words)
     for formal in argument_proof['formals']:
         assert formal['original_raw']==words[formal['stack_index']]
         assert formal['native_raw']==entry_native[formal['native_field']]

@@ -2,6 +2,7 @@
 #include "hash-table.h"
 #include "options.h"
 #include "declarations.h"
+#include "member-pointers.h"
 #include <recon.h>
 
 /* Original 0x4ec10..0x4ecd5. */
@@ -202,4 +203,12 @@ unsigned __cdecl hash_symbol_index(void *key)
 unsigned __cdecl hash_low_pointer_bits(void *key)
 {
     return (unsigned)key & 0xfff;
+}
+
+/* Original 0x4dfb0..0x4dfd2, cdecl8. The virtual-member thunk
+   cache compares the two trailing words; the function word is not its key. */
+int __cdecl equal_tail_word_pairs(void *left, void *right)
+{
+    MemberPointerThunkKey *a = left, *b = right;
+    return a->displacement == b->displacement && a->kind == b->kind;
 }

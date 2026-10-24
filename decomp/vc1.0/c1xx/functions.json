@@ -1236,7 +1236,8 @@
     "_builtin_operand_is_lvalue@4",
     "_convert_selected_operator_operand",
     "_emit_pending_function_cleanup",
-    "_begin_initializer_function@4"
+    "_begin_initializer_function@4",
+    "_equal_tail_word_pairs"
   ],
   "driver": [
     {
@@ -6705,7 +6706,7 @@
     {
       "name": "_equal_tail_word_pairs",
       "start": 319408,
-      "end": 319409
+      "end": 319443
     },
     {
       "name": "_equal_declaration_indices",
@@ -9239,9 +9240,12 @@
           "original": 576700
         }
       ],
-      "terminal": "_equal_tail_word_pairs",
-      "terminal_evidence": "cases/state_machine_defined_debug-seed/original-events.txt",
-      "original_seed": "cases/state_machine_defined_debug-seed"
+      "terminal": "_convert_compact_method_pointer@24",
+      "terminal_evidence": "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/original-events.txt",
+      "original_seed": "cases/state_machine_defined_debug-seed",
+      "frontier_extensions": [
+        "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/frontier-extension.json"
+      ]
     }
   },
   "runtime_data": [

@@ -79,5 +79,11 @@
   ],
   "validated_source_unchanged": true,
   "seed": "cases/state_machine_defined_debug-seed/validation.json",
-  "actual_first_frontier": "_equal_tail_word_pairs"
+  "actual_first_frontier": "_equal_tail_word_pairs",
+  "shared_pin_review": {
+    "maintainer": "/root/recon_lib_maintenance",
+    "retained": "bf7d2cbfdbe1a071c1cd79d4c8ec46b8b8f23ccc",
+    "decision": "Reviewed later default-profile FILE-slot/ctype/error-preservation fixes; no reached mismatch, retain immutable pin and existing honest receipts. No original recapture or pin refresh solely for bookkeeping.",
+    "status": "seven cached native case phases pass"
+  }
 }

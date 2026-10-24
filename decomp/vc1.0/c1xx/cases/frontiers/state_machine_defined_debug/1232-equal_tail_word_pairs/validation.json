@@ -1,0 +1,16 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_equal_tail_word_pairs",
+    "start": 319408,
+    "end": 319443
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/arguments/validation.json",
+  "distinct_direct_callees": [],
+  "next_frontier": "_convert_compact_method_pointer@24",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8462438629940152,
+  "total_operation_seconds": 4.868358791805804,
+  "original_capture_seconds": 1.5685547953471541
+}
