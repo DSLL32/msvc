@@ -14,8 +14,8 @@
     }
   ],
   "current": {
-    "terminal": "trap",
-    "logical": "image_nt_header",
+    "terminal": "exit",
+    "logical": "complete",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -172,17 +172,17 @@
       "image_nt_header"
     ],
     "proof_mode": "entry-flow",
-    "heap_scope": "Root streamlined routine loop: actual next entry/formals plus reached PE header globals; old module3 proof97 retained. No later symbol-heap equality claim.",
+    "heap_scope": "Complete actual filtered trace/status/streams/full71800-byte output match; no unobserved later-module heap equality claim.",
     "observed_globals": [],
     "observed_walks": [],
     "artifacts": [
       {
         "name": "hello-debug.dll",
         "bytes": 71800,
-        "sha256": "e08a1752ab0990c401b98c889ddf5ffc0d071ea9fb5865025cf415bbe1e52c1b"
+        "sha256": "6a22d74889ac7ff812a06f6db99fb33b5c958adad98e5321a8fb53e47b02b275"
       }
     ],
-    "native_function": "image_nt_header"
+    "exit": 0
   },
   "complete_reference": {
     "path": "decomp/vc1.0/cvpack/cases/hello-debug-dll/reference/packed.dll",
@@ -197,5 +197,7 @@
   "native_host_allocator": {
     "profile": "cases/hello-debug-dll/native-host-allocator/profile.json",
     "sha256": "6e17996420ce95dbb1a079a3741f4b9854fba856be5d4132706bdfc4dcb9aaa1"
-  }
+  },
+  "status": "complete",
+  "completion": "cases/hello-debug-dll/evidence/0153-image_nt_header/proof.json"
 }

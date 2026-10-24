@@ -15,7 +15,8 @@
         "/cvnew",
         "hello-debug.dll"
       ],
-      "status": "active"
+      "status": "complete",
+      "completion": "cases/hello-debug-dll/evidence/0153-image_nt_header/proof.json"
     }
   ]
 }

@@ -310,6 +310,8 @@ static int finish_sopen(HANDLE child, HANDLE log, HANDLE thread)
     return SetThreadContext(thread, &context) ? 1 : denied_sopen(log, "return-resume");
 }
 
+#include "freebuf-observer.h"
+
 static int dump_file_descriptor(HANDLE child, HANDLE log, DWORD root, DWORD index)
 {
     DWORD fd, flags = 0, handle, bytes, written, type = 0, position = 0;
@@ -1239,6 +1241,7 @@ int main(int argc, char **argv)
             if (!GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_PDB_INPUT", sopen_pdb_master, sizeof(sopen_pdb_master))) return 14;
         }
     }
+    freebuf_enabled = GetEnvironmentVariableA("CVPACK_CAPTURE_FREEBUF", program, sizeof(program)) != 0;
     pdb_read_enabled = GetEnvironmentVariableA("CVPACK_CAPTURE_PDB_HEADER", program, sizeof(program)) != 0;
     if (GetEnvironmentVariableA("CVPACK_CAPTURE_READS", program, sizeof(program))) {
         char *cursor = program;
@@ -1403,6 +1406,20 @@ int main(int argc, char **argv)
                 }
                 if (pdb_read_step && thread && event.u.Exception.ExceptionRecord.ExceptionCode == EXCEPTION_SINGLE_STEP) {
                     if (!rearm_pdb_header(child.hProcess,log,thread,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress)) return 26;
+                    ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
+                }
+                if(freebuf_enabled && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
+                   (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==0x2ff90) {
+                    if(!begin_freebuf(child.hProcess,original,thread,log,event.dwThreadId))return 57;
+                    ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
+                }
+                if(freebuf_step && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_SINGLE_STEP) {
+                    if(!rearm_freebuf(child.hProcess,thread,log,event.dwThreadId,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress))return 58;
+                    ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
+                }
+                if(freebuf_return && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
+                   (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==freebuf_return) {
+                    if(!finish_freebuf(child.hProcess,thread,log,event.dwThreadId))return 59;
                     ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
                 }
                 if (sopen_return && thread && event.u.Exception.ExceptionRecord.ExceptionCode == EXCEPTION_BREAKPOINT &&

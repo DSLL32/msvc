@@ -337,6 +337,12 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
         marker='set argv[0] = recon_pgmptr\n'
         observer='python\nimport json\nvector=gdb.parse_and_eval("(char **)environ");entries=[]\nfor i in range(16384):\n p=vector[i]\n if not int(p): break\n value=p.string(encoding="latin1");assert len(value)<=4096;entries.append(value)\nelse: raise RuntimeError("unterminated target environment")\nassert not any(v.startswith(("GLIBC_TUNABLES=","MALLOC_"))for v in entries),"host allocator control leaked to target environment"\nassert int(gdb.parse_and_eval("recon_crt_arguments_bound"))==0,"unexpected target CRT namespace"\njson.dump(dict(host_controls_absent=True,unbound_CRT_uses_host_vector=True),open('+repr(str(directory/'host-environment.json'))+',"w"))\nend\n'
         text=script.read_text();assert marker in text;script.write_text(text.replace(marker,marker+observer,1))
+    if name=='hello-debug-dll'and config.get('freebuf_boundary'):
+        from freebuf import validate as validate_freebuf
+        validate_freebuf(config,original)
+        text=script.read_text();marker='set argv[0] = recon_pgmptr\n'
+        observer='python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_freebuf_observer"]('+repr(str(directory/'freebuf-returns.json'))+')\nend\n'
+        assert marker in text;script.write_text(text.replace(marker,marker+observer,1))
     env = os.environ.copy()
     for variable in list(env):
         if variable.startswith(('WINE','RECON_','MALLOC_')) or variable=='GLIBC_TUNABLES' or variable in ('CL','_CL_','LINK','_LINK_','MSC_CMD_FLAGS','_MSC_IDE_FLAGS','LINK32_DB'):

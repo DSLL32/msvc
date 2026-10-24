@@ -125,21 +125,33 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
     import tempfile
     record=json.loads((BINARY/'cases'/args.case/'case.json').read_text());current=record['current'];work=native/args.case
     assert current.get('proof_mode')=='entry-flow'and captured['entry_progress_only']and not(captured.get('reference_completion')or captured.get('scalar_completion')or captured.get('guard_probe')or captured.get('stop_at')or captured['unmasked']),'unapproved flow capture mode'
-    assert receipt['terminal']=='trap'and receipt['status']==-5 and captured['helper_status']==0,'not corresponding genuine traps'
-    events=(original/'events').read_text();traps=re.findall(r'^exception ([0-9a-f]+) va ([0-9a-f]+) ',events,re.M);assert len(traps)==1 and traps[0][0]=='80000003'and 'exit 99\n'in events,'unknown original terminal'
-    apps={r['original']:r for r in config['functions']};frontier=apps[int(traps[0][1],16)];assert frontier['status']=='stub'and frontier['native']==current['native_function'],'original next entry is not cached next stub'
+    assert captured['helper_status']==0,'original controller did not finish normally'
+    events=(original/'events').read_text();traps=re.findall(r'^exception ([0-9a-f]+) va ([0-9a-f]+) ',events,re.M)
+    apps={r['original']:r for r in config['functions']};frontier=None;complete=current['terminal']=='exit'
+    if complete:
+        assert receipt['terminal']=='exit'and receipt['status']==current['exit']==0,'native completion status differs'
+        assert not traps and re.findall(r'^exit (\d+)$',events,re.M)==['0'],'original did not finish normally'
+    else:
+        assert receipt['terminal']=='trap'and receipt['status']==-5,'native genuine trap missing'
+        assert len(traps)==1 and traps[0][0]=='80000003'and 'exit 99\n'in events,'unknown original terminal'
+        frontier=apps[int(traps[0][1],16)];assert frontier['status']=='stub'and frontier['native']==current['native_function'],'original next entry is not cached next stub'
     allocator=record.get('native_host_allocator')
     if allocator:
         profile=BINARY/allocator['profile'];assert sha(profile)==allocator['sha256'],'stale host allocator profile'
         expected_profile=json.loads(profile.read_text());assert receipt.get('native_host_allocator')==dict(profile_sha256=allocator['sha256'],launch=expected_profile),'native host allocator receipt differs'
         assert sha(Path(expected_profile['libc']['path']))==expected_profile['libc']['sha256'],'native host libc changed'
         assert json.loads((work/'host-environment.json').read_text())==dict(host_controls_absent=True,unbound_CRT_uses_host_vector=True),'host allocator controls visible to target'
-    state=json.loads((work/'gdb.json').read_text());assert state['signal']==5 and state['frames'][0]==frontier['native']and state['later_heap_equality']is False,'native next named trap differs'
+    state=json.loads((work/'gdb.json').read_text());assert state['later_heap_equality']is False
+    if complete:
+        assert state['signal']==0 and state['exit']==0 and state['frames']==[]and state['parameters']=={}and state['globals']=={}and state['walks']=={},'native terminal debugger observation differs'
+    else:assert state['signal']==5 and state['frames'][0]==frontier['native'],'native next named trap differs'
     words={int(a):int(b,16)for a,b in re.findall(r'^stack (\d+) ([0-9a-f]+)$',events,re.M)};parameters={}
-    registers=re.search(r'^registers (.*)$',events,re.M);assert registers,'missing original ABI register state'
-    words.update({k:int(v,16)for k,v in zip(registers[1].split()[::2],registers[1].split()[1::2])})
-    assert set(state['parameters'])=={r['name']for r in frontier['parameters']},'new frontier ABI observation incomplete'
-    for item in frontier['parameters']:
+    registers=re.search(r'^registers (.*)$',events,re.M)
+    if not complete:
+        assert registers,'missing original ABI register state'
+        words.update({k:int(v,16)for k,v in zip(registers[1].split()[::2],registers[1].split()[1::2])})
+    assert set(state['parameters'])=={r['name']for r in frontier['parameters']}if frontier else not state['parameters'],'new frontier ABI observation incomplete'
+    for item in frontier['parameters']if frontier else []:
         if item['kind']=='integer':parameters[item['name']]=compare_integer(item,frontier['parameters'],words,state['parameters'])
         elif item['kind']=='symbol-sort-key':parameters[item['name']]=compare_symbol_sort_key(item,words,state['parameters'][item['name']],events)
         elif item['kind']=='function':
@@ -185,7 +197,8 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
             f=apps[a];assert f['status']=='accepted'or f['name']==function['name'],'unaccepted app body restored';assert f['extent']==[a,b];entries.append(f['native'])
         else:
             identity=identities[(a,b)];support.append(dict(name=identity['name'],start=a,end=b))
-    entries.append(frontier['native']);assert function['native']in entries and entries==(work/'trace').read_text().splitlines()==current['application_trace'],'complete entry trace differs'
+    if frontier:entries.append(frontier['native'])
+    assert function['native']in entries and entries==(work/'trace').read_text().splitlines()==current['application_trace'],'complete entry trace differs'
     # The executable itself must be the exact declared mask, with only accepted
     # application entries trapped for first-entry tracing. No hidden body grants.
     from state import mask
@@ -197,9 +210,17 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
     from seams import approved,compare_returns,check_policy_snapshot
     seams=approved(config,pe,runtime,args.case);assert captured['conditional_runtime']==seams;policy=captured['conditional_support_sha256'];assert policy==receipt['conditional_support_sha256'];check_policy_snapshot(original,policy);check_policy_snapshot(work,policy)
     crt=compare_returns(events,json.loads((work/'crt-returns.json').read_text()),seams,function.get('required_conditional_calls_by_case',{}).get(args.case))
+    from freebuf import validate as validate_freebuf,compare as compare_freebuf
+    freebuf_policy=validate_freebuf(config,pe);freebuf_proof=None
+    if freebuf_policy and args.case==freebuf_policy['case']:
+        freebuf_proof=compare_freebuf(events,json.loads((work/'freebuf-returns.json').read_text()),freebuf_policy)
     for stream in('stdout','stderr'):assert(original/stream).read_bytes()==(work/stream).read_bytes(),'streams differ'
     assert {p.name for p in(original/'work').iterdir()}=={p.name for p in(work/'work').iterdir()},'artifact inventory differs'
     for path in(original/'work').iterdir():assert path.read_bytes()==(work/'work'/path.name).read_bytes(),'full artifact differs'
+    if complete:
+        for artifact in current['artifacts']:
+            path=work/'work'/artifact['name']
+            assert path.stat().st_size==artifact['bytes']and sha(path)==artifact['sha256'],'terminal artifact differs from immutable master'
     memory={}
     for a,raw in re.findall(r'^memory ([0-9a-f]+) ([0-9a-f]+)$',events,re.M):memory.update((int(a,16)+i,v)for i,v in enumerate(bytes.fromhex(raw)))
     definitions={r['name']:r for r in json.loads((BINARY/'data.json').read_text())};matched={};assert set(state['globals'])==set(current.get('observed_globals',[])),'consumed global observation inventory differs'
@@ -212,15 +233,15 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
     subprocess.run(['python3',str(BINARY/'scripts/audit.py')],check=True)
     if args.check_only:print('Fresh whole-function entry-flow proof passes:',args.function);return
     sequence=len(config['accepted_order'])+1;directory=BINARY/'cases'/args.case/'evidence'/('%04d-%s'%(sequence,args.function));directory.mkdir(exist_ok=False)
-    for label,source,names in(('original',original,('events','receipt.json','configuration.json','runtime-support.json','runtime-plan','stdout','stderr')),('native',work,('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','configuration.json','runtime-support.json','crt-returns.json','host-environment.json','stdout','stderr'))):
+    for label,source,names in(('original',original,('events','receipt.json','configuration.json','runtime-support.json','runtime-plan','stdout','stderr')),('native',work,('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','configuration.json','runtime-support.json','crt-returns.json','freebuf-returns.json','host-environment.json','stdout','stderr'))):
         for name in names:
             if(source/name).exists():shutil.copyfile(source/name,directory/(label+'-'+name))
     if args.original_rebind:shutil.copytree(args.original_rebind.parent,directory/'native-only-rebind')
     shutil.copyfile(native/'receipt.json',directory/'native-receipt.json');path=str((directory/'proof.json').relative_to(BINARY));prior={(r['start'],r['end'])for r in config.get('support_unmasked',[])}
     for r in support:
         if(r['start'],r['end'])not in prior:config.setdefault('support_unmasked',[]).append(dict(r,evidence=path))
-    proof=dict(function=function['name'],sequence=sequence,case=args.case,extent=function['extent'],original_frontier=frontier['original'],native_frontier=frontier['native'],application_entries=entries,matched_frontier_parameters=state['parameters'],typed_frontier_parameters=parameters,matched_application_globals=matched,observed_objects=owners,conditional_CRT_support=crt,runtime_unmasked=support,seconds=receipt['seconds'],classification='routine-whole-function-and-genuine-next-entry',later_module_heap_equality=False,prior_module3='cases/hello-debug-dll/evidence/0097-create_symbol_reference/proof.json',scope='Root streamlined normal loop; actual formal/selected consumed globals checked, old full module3 contracts retained; additional state probes only for concrete ambiguities/mismatches')
-    (directory/'proof.json').write_text(json.dumps(proof,indent=2)+'\n');function.update(status='accepted',evidence=path);config['accepted_order'].append(dict(function=function['name'],case=args.case,kind='application',sequence=sequence));(BINARY/'functions.json').write_text(json.dumps(config,indent=2)+'\n');print('Accepted',sequence,function['name'],'next',frontier['native'])
+    proof=dict(function=function['name'],sequence=sequence,case=args.case,extent=function['extent'],original_frontier=frontier['original']if frontier else None,native_frontier=frontier['native']if frontier else 'exit',application_entries=entries,matched_frontier_parameters=state['parameters'],typed_frontier_parameters=parameters,matched_application_globals=matched,observed_objects=owners,conditional_CRT_support=crt,freebuf_noop_boundary=freebuf_proof,runtime_unmasked=support,seconds=receipt['seconds'],classification='routine-whole-function-and-exact-terminal-output'if complete else 'routine-whole-function-and-genuine-next-entry',later_module_heap_equality=False,prior_module3='cases/hello-debug-dll/evidence/0097-create_symbol_reference/proof.json',scope='Root streamlined normal loop; actual formal/selected consumed globals checked, old full module3 contracts retained; additional state probes only for concrete ambiguities/mismatches')
+    (directory/'proof.json').write_text(json.dumps(proof,indent=2)+'\n');function.update(status='accepted',evidence=path);config['accepted_order'].append(dict(function=function['name'],case=args.case,kind='application',sequence=sequence));(BINARY/'functions.json').write_text(json.dumps(config,indent=2)+'\n');print('Accepted',sequence,function['name'],'next',frontier['native']if frontier else 'case complete')
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)

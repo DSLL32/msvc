@@ -1,0 +1,100 @@
+{
+  "scope": "Root-approved actual final153 __freebuf no-op call only. Static_iob3/flag80/null buffer/exact return/third open checked before every restore; native identical logical owner; fullFILE/descriptor/errors/x87 unchanged. Identity anchor remains unaccepted/unmasked; no application coverage credit or generic CRT equivalence.",
+  "proof": "cases/hello-debug-dll/evidence/0153-image_nt_header/proof.json",
+  "original_seconds": {
+    "setup": 0.34085170086473227,
+    "execution": 1.698371916078031,
+    "total": 2.064784628339112
+  },
+  "native_seconds": {
+    "setup": 0.31914819963276386,
+    "execution": 0.02542581781744957,
+    "debugging": 0.7970258938148618,
+    "checks": 0.007499913685023785,
+    "total": 1.1491054203361273
+  },
+  "cached_native_fixtures": [
+    {
+      "case": "help",
+      "terminal": "exit",
+      "status": 1,
+      "function": "print_banner",
+      "executable_sha256": "e01730ee77cc1dace87888ac2accb02642b259d0d372646085e3a74f9de80d83",
+      "configuration_sha256": "122fdb01eae6c822fdb2b7104defc90bf0511659ba8ea5b3d47c9e0561b23b71",
+      "original_sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+      "conditional_support_sha256": "4d882e3c906e7e74da827059156327944d468c0f1054c461fc7dbde1cadbeae5",
+      "native_host_allocator": null,
+      "process_boundary": {
+        "requests": [
+          {
+            "mode": 0,
+            "pid": 2045815,
+            "file": "qh.exe",
+            "cwd": "/root/.ai-tmp/vc1.0-cvpack/native-1792803395673882394/help/work",
+            "argv": [
+              "qh",
+              "-u",
+              "cvpack.exe"
+            ],
+            "action": "replay",
+            "status": -1,
+            "errno": 2
+          }
+        ],
+        "errors": []
+      },
+      "seconds": {
+        "setup": 0.2168956445530057,
+        "execution": 0.012856610119342804,
+        "debugging": 0,
+        "checks": 0.006546790711581707,
+        "total": 0.23630311992019415
+      }
+    },
+    {
+      "case": "hello-debug-dll",
+      "terminal": "exit",
+      "status": 0,
+      "function": null,
+      "executable_sha256": "e01730ee77cc1dace87888ac2accb02642b259d0d372646085e3a74f9de80d83",
+      "configuration_sha256": "122fdb01eae6c822fdb2b7104defc90bf0511659ba8ea5b3d47c9e0561b23b71",
+      "original_sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+      "conditional_support_sha256": "4d882e3c906e7e74da827059156327944d468c0f1054c461fc7dbde1cadbeae5",
+      "native_host_allocator": {
+        "profile_sha256": "6e17996420ce95dbb1a079a3741f4b9854fba856be5d4132706bdfc4dcb9aaa1",
+        "launch": {
+          "schema": 1,
+          "environment": {
+            "GLIBC_TUNABLES": "glibc.malloc.tcache_count=0:glibc.malloc.mmap_threshold=0:glibc.malloc.trim_threshold=0"
+          },
+          "libc": {
+            "path": "/lib32/libc.so.6",
+            "sha256": "f2ed349542c0be517ea7e66381f342eda08857e01772d6aa33916ca41702f61c",
+            "version": "Debian GLIBC 2.41-12+deb13u4"
+          },
+          "startup_define": "RECON_NATIVE_STARTUP_CONSUME_GLIBC_TUNABLES",
+          "scope": "Explicit native host allocator choice for hello-debug-dll only. Observed508-byte source_file_index allocation has zero prebytes and untouched alignment tail; no universal malloc initialization guarantee. Full output comparison remains exact; no normalization or target writes. Startup consumes host tunable before target main; absent from target environment.",
+          "observation": {
+            "cases/hello-debug-dll/native-host-allocator/observation/allocation.json": "1d558d0ad05cd0e70b99dfa6054fb1a8266b58cfa187bfc504cf30fb12c519fa",
+            "cases/hello-debug-dll/native-host-allocator/observation/environment.json": "7fc4537d6161eb27fdb5a849b7a9fbd4c498730d3431cf16eae896fa631e1640",
+            "cases/hello-debug-dll/native-host-allocator/observation/host-environment.json": "4d4e109a69f3de7de6cd68d22941de30d3d67831e87c6ee6e7f031a2d6daca47",
+            "cases/hello-debug-dll/native-host-allocator/observation/commands.gdb": "98e01337e121ab1ccdfb4fa3aedf9d4331e8bf09e19a413365bc50600f1b64dd",
+            "cases/hello-debug-dll/native-host-allocator/observation/stdout": "1b4ccc8e91da16d2fd18f9c08fb7ecb468ec878648f5d6cdcb0eaf5bc8293596",
+            "cases/hello-debug-dll/native-host-allocator/observation/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "process_boundary": {
+        "requests": [],
+        "errors": []
+      },
+      "seconds": {
+        "setup": 0.2938200095668435,
+        "execution": 0.02494294662028551,
+        "debugging": 0,
+        "checks": 0.006872045807540417,
+        "total": 0.32563874777406454
+      }
+    }
+  ]
+}

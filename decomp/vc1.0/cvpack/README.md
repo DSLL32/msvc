@@ -8,7 +8,8 @@ The PE/COFF analysis reader was reused from LINK; no sibling files are changed.
 `make -j4 native check` builds/runs native i386 fixtures. `make -j4 all audit`
 also verifies original-compiler compilability. Debug with GDB against
 `build/native/CVPACK.EXE`. `/help` is complete: exact 219-byte stdout, exit 1 and
-empty stderr. The independent DLL case is progressing through packed output;
+empty stderr. The independent DLL case is complete: exit 0, empty streams and
+the exact 71,800-byte master DLL (no normalization);
 `functions.json` and the ordered case evidence are the authoritative counts and
 current frontier. The orchestrator's ten- and fifty-function reviews passed.
 CRT startup and case-specific runtime variants remain separate from application
@@ -42,8 +43,8 @@ its exact invocation and -1/errno2 response are frozen and brokered natively.
 
 `runtime-anchors.json` contains reviewed identity-only `_freebuf` and `_setvbuf`
 variants. For `_freebuf`,
-the original clears flag 0x8, while shipped LIBC clears 0x408. It resolves exact
-caller identities but is never an accepted/unmasked range or coverage gain. The
+the original clears flag 0x8, while shipped LIBC clears 0x408. The anchor resolves exact
+caller identities but never grants unconditional unmasking or coverage. The
 mask-negative check verifies this even under the entire exact runtime closure.
 
 Root reviewed and passed the scaffold before reconstruction, with graph/ABI/data
@@ -184,3 +185,12 @@ zero before stores, with its two unwritten alignment bytes unchanged. This is a
 concrete host configuration, not a malloc initialization guarantee. The failed
 default-allocator comparison is retained; full output comparisons stay exact.
 Routine fixtures do not install allocation observers.
+
+Both initial cases are complete at 153 application functions (50,714 original
+code-extent bytes). The final DLL is raw-exact SHA256
+`6a22d74889ac7ff812a06f6db99fb33b5c958adad98e5321a8fb53e47b02b275`.
+The reached `_freebuf` variant has a separately guarded no-op boundary in
+`cases/runtime-variants/freebuf-noop-review/`: only registered stream 3, flag 0x80,
+no allocated buffer, exact fclose return and third-open phase. Each invocation
+checks full FILE/descriptor/error/x87 state unchanged. Its identity-only anchor
+still grants no unconditional unmasking or application coverage.

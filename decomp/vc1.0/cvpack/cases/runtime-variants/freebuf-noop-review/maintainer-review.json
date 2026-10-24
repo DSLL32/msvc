@@ -1,0 +1,162 @@
+{
+  "result": "PASS",
+  "scope": "Root-approved exact slot3 flag80/no-buffer normal fclose no-op only; no shared change or generic CRT identity",
+  "artifacts_sha256": "6a22d74889ac7ff812a06f6db99fb33b5c958adad98e5321a8fb53e47b02b275",
+  "proof": {
+    "original": {
+      "entry": {
+        "thread": 1368,
+        "esp": 2423276,
+        "file": "0000000000000000000000008000000003000000000000000000000000000000",
+        "errno": 0,
+        "doserrno": 0,
+        "last_error": 0,
+        "handle": 56,
+        "osfile": 1,
+        "fp": "7f02ffff0000ffffffffffff0000000023000000000000002b00ffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "returned": {
+        "thread": 1368,
+        "esp": 2423280,
+        "file": "0000000000000000000000008000000003000000000000000000000000000000",
+        "errno": 0,
+        "doserrno": 0,
+        "last_error": 0,
+        "handle": 56,
+        "osfile": 1,
+        "fp": "7f02ffff0000ffffffffffff0000000023000000000000002b00ffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    "native": {
+      "owner": "recon_iob[3]",
+      "address": 1448876660,
+      "caller": "recon_fclose",
+      "outer_caller": "update_image_checksum",
+      "thread": [
+        2043847,
+        2043847,
+        0
+      ],
+      "entry": {
+        "file": "0000000000000000000000008000000003000000000000000000000000000000",
+        "errno": 0,
+        "doserrno": 0,
+        "last_error": 0,
+        "handle": 4,
+        "osfile": 1,
+        "fp": {
+          "st0": "0x00000000000000000000",
+          "st1": "0x00000000000000000000",
+          "st2": "0x00000000000000000000",
+          "st3": "0x00000000000000000000",
+          "st4": "0x00000000000000000000",
+          "st5": "0x00000000000000000000",
+          "st6": "0x00000000000000000000",
+          "st7": "0x00000000000000000000",
+          "fctrl": "0x0000037f",
+          "fstat": "0x00000000",
+          "ftag": "0x0000ffff",
+          "fiseg": "0x00000000",
+          "fioff": "0x00000000",
+          "foseg": "0x00000000",
+          "fooff": "0x00000000",
+          "fop": "0x00000000"
+        }
+      },
+      "return_thread": [
+        2043847,
+        2043847,
+        0
+      ],
+      "return": {
+        "file": "0000000000000000000000008000000003000000000000000000000000000000",
+        "errno": 0,
+        "doserrno": 0,
+        "last_error": 0,
+        "handle": 4,
+        "osfile": 1,
+        "fp": {
+          "st0": "0x00000000000000000000",
+          "st1": "0x00000000000000000000",
+          "st2": "0x00000000000000000000",
+          "st3": "0x00000000000000000000",
+          "st4": "0x00000000000000000000",
+          "st5": "0x00000000000000000000",
+          "st6": "0x00000000000000000000",
+          "st7": "0x00000000000000000000",
+          "fctrl": "0x0000037f",
+          "fstat": "0x00000000",
+          "ftag": "0x0000ffff",
+          "fiseg": "0x00000000",
+          "fioff": "0x00000000",
+          "foseg": "0x00000000",
+          "fooff": "0x00000000",
+          "fop": "0x00000000"
+        }
+      }
+    },
+    "scope": "Only actual static slot3 flag80 with no owned buffer, normal fclose caller; both full FILE/private descriptor/error/x87 states unchanged. No CRT application credit, no cross-platform raw x87 baseline equality or void EAX claim."
+  },
+  "body_disassembly": [
+    "2ff90: push esi",
+    "2ff91: mov esi, dword ptr [esp + 8]",
+    "2ff95: mov eax, dword ptr [esi + 0xc]",
+    "2ff98: test al, 0x83",
+    "2ff9a: je 0x2ffc4",
+    "2ff9c: test al, 8",
+    "2ff9e: je 0x2ffc4",
+    "2ffa0: mov eax, dword ptr [esi + 8]",
+    "2ffa3: push eax",
+    "2ffa4: call 0x2c900",
+    "2ffa9: add esp, 4",
+    "2ffac: and dword ptr [esi + 0xc], 0xfffffff7",
+    "2ffb0: mov dword ptr [esi], 0",
+    "2ffb6: mov dword ptr [esi + 8], 0",
+    "2ffbd: mov dword ptr [esi + 4], 0",
+    "2ffc4: pop esi",
+    "2ffc5: ret "
+  ],
+  "offline_denials": [
+    "extra invocation",
+    "wrong owner",
+    "changed native return"
+  ],
+  "files": [
+    {
+      "path": "/root/msvc2/decomp/vc1.0/cvpack/scripts/freebuf.py",
+      "sha256": "d0afafdca6fce1655d5ffdba462df247510bd0200058d9411a4034f7393b5866"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc1.0/cvpack/scripts/freebuf-observer.h",
+      "sha256": "f29739d10eb3507155d128cbaf9ade3ffb0288344f791111c54ea8f7625430f4"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc1.0/cvpack/scripts/native-debug.py",
+      "sha256": "cf315f4f1157e0da6788dead9c1dcd6e6e7f1cf0364e6b51c9900def8be43fba"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc1.0/cvpack/scripts/debug-run.c",
+      "sha256": "ceca878ad6b7fc578494e5b4a524f991be4aec5076f1f701332e7918823774da"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc1.0/cvpack/scripts/accept.py",
+      "sha256": "71336bf974779d0b8c9f57c2caf9d4474253785002f6005b30d7bc012b3f000a"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc1.0/cvpack/functions.json",
+      "sha256": "ff24ef87d523e3155a8aa5a935084fa8353d81372c56f9218b57284184460acb"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-cvpack/0153-guard-original/events",
+      "sha256": "11459d3ed4afee1a3e00da4addbdc743b677fec6cc254f78854b84ca92fed228"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-cvpack/0153-guard-original/receipt.json",
+      "sha256": "70698e2598b29a4067327ac78ff3646a2a762a044dcedbaff2d671f6b48d1156"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-cvpack/0153-guard-native/hello-debug-dll/freebuf-returns.json",
+      "sha256": "dd987033c5fd8782c57c1e71e02ccf0e7f98f5bab7b22e9242ecfaf772c65128"
+    }
+  ]
+}

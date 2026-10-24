@@ -130,6 +130,9 @@ def main():
         else:
             env['CVPACK_CAPTURE_SOPEN_PDB_NAME']=seam['guard']['name']
             env['CVPACK_CAPTURE_SOPEN_PDB_INPUT']=tool.windows(ROOT/seam['input']['path'])
+    from freebuf import validate as validate_freebuf
+    freebuf_policy=validate_freebuf(config,original)
+    if freebuf_policy and args.case==freebuf_policy['case']:env['CVPACK_CAPTURE_FREEBUF']='1'
     from pdb_read import validate as validate_pdb_read
     if validate_pdb_read(config,original)and args.case=='hello-debug-dll':env['CVPACK_CAPTURE_PDB_HEADER']='1'
     env['CVPACK_CAPTURE_READS']=','.join('%x:%x'%(r['call'],r['returned'])for r in read_sites)

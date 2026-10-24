@@ -1,0 +1,29 @@
+{
+  "scope": "Six focused offline mutations of new no-op CRT observation only; no historical suite or extra original execution",
+  "checks": [
+    {
+      "name": "missing-both-observations",
+      "rejected": "missing/extra freebuf observations"
+    },
+    {
+      "name": "wrong-FILE-ownership-flag",
+      "rejected": "unsupported FILE state"
+    },
+    {
+      "name": "original-return-frame",
+      "rejected": "freebuf invocation/frame mismatch"
+    },
+    {
+      "name": "native-x87-side-effect",
+      "rejected": "native no-op state changed"
+    },
+    {
+      "name": "error-states-differ",
+      "rejected": "freebuf error state differs"
+    },
+    {
+      "name": "missing-entry-rearm",
+      "rejected": "missing/extra freebuf observations"
+    }
+  ]
+}

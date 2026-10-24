@@ -796,4 +796,14 @@ unsigned long checksum_words(unsigned long sum, const unsigned short *data,
     sum = (sum & 0xffff)+(sum >> 16);
     return (sum+(sum >> 16)) & 0xffff;
 }
+
+void *WINAPI image_nt_header(void *image)
+{
+    unsigned char *header = image;
+    if (*(unsigned short *)header == IMAGE_DOS_SIGNATURE) {
+        header += *(long *)(header+0x3c);
+        if (*(unsigned long *)header != IMAGE_NT_SIGNATURE) return NULL;
+    }
+    return header;
+}
 #undef OUTPUT_BYTES

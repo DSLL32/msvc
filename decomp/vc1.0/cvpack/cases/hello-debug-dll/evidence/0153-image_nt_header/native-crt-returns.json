@@ -1,0 +1,83 @@
+[
+  {
+    "name": "hello-debug.dll",
+    "mode": 32770,
+    "share": 64,
+    "permission": 438,
+    "createfile": {
+      "name": "hello-debug.dll",
+      "access": 3221225472,
+      "share": 3,
+      "disposition": 3,
+      "attrs": 128,
+      "inherit": false
+    },
+    "return": {
+      "descriptor": 3,
+      "errno": 0,
+      "last_error": 0,
+      "osfile": 1,
+      "type": 1,
+      "position": 0,
+      "owned": true,
+      "host_descriptor": 3,
+      "access_mode": 2,
+      "input_matches": true,
+      "input_sha256": "81a603fcfffc6229f408dc056a54441d3806b09c8526cab8b3a1b5de74959036"
+    }
+  },
+  {
+    "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+    "mode": 32768,
+    "share": 64,
+    "permission": 438,
+    "createfile": {
+      "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+      "access": 2147483648,
+      "share": 3,
+      "disposition": 3,
+      "attrs": 128,
+      "inherit": false
+    },
+    "return": {
+      "descriptor": 4,
+      "errno": 0,
+      "last_error": 0,
+      "osfile": 1,
+      "type": 1,
+      "position": 0,
+      "owned": true,
+      "host_descriptor": 5,
+      "access_mode": 0,
+      "input_matches": true,
+      "input_sha256": "6421bc52a3c6b42958d229e92b0b4612dfb5335be933fe4ec995cd66fb30cd28"
+    }
+  },
+  {
+    "name": "hello-debug.dll",
+    "mode": 32770,
+    "share": 64,
+    "permission": 438,
+    "createfile": {
+      "name": "hello-debug.dll",
+      "access": 3221225472,
+      "share": 3,
+      "disposition": 3,
+      "attrs": 128,
+      "inherit": false
+    },
+    "return": {
+      "descriptor": 3,
+      "errno": 0,
+      "last_error": 0,
+      "osfile": 1,
+      "type": 1,
+      "position": 0,
+      "owned": true,
+      "host_descriptor": 3,
+      "access_mode": 2,
+      "input_matches": true,
+      "input_sha256": "e08a1752ab0990c401b98c889ddf5ffc0d071ea9fb5865025cf415bbe1e52c1b"
+    }
+  }
+]

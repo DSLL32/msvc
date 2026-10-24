@@ -637,3 +637,47 @@ def capture_type_page():
     assert int(f.read_var('buffer'))==int(gdb.parse_and_eval('&type_symbol_storage'))
     result.update(frontier=f.name(),postbytes=bytes(gdb.selected_inferior().read_memory(result['base'],2048)).hex(),roots_after=bytes(gdb.selected_inferior().read_memory(roots.address,480)).hex())
     return [result]
+
+
+def install_freebuf_observer(output):
+    """Read-only observation of the reached unbuffered static stream branch."""
+    import re
+    events=[];output=Path(output)
+    names={'st'+str(i)for i in range(8)}|{'fctrl','fstat','ftag','fiseg','fioff','foseg','fooff','fop'}
+    def save():output.write_text(json.dumps(events,indent=2)+'\n')
+    def snapshot(address):
+        raw=bytes(gdb.selected_inferior().read_memory(address,32));fd=int.from_bytes(raw[16:20],'little')
+        assert raw[:16]==bytes(12)+b'\x80\0\0\0'and raw[20:]==bytes(12),'unsupported native FILE state'
+        assert 0<=fd<int(gdb.parse_and_eval('recon_nhandle'))
+        regs={}
+        for line in gdb.execute('maintenance print raw-registers',to_string=True).splitlines():
+            words=line.split()
+            if words and words[0]in names:
+                assert re.fullmatch('0x[0-9a-f]+',words[-1]);regs[words[0]]=words[-1]
+        assert set(regs)==names,'incomplete native x87 register snapshot'
+        return dict(file=raw.hex(),errno=int(gdb.parse_and_eval('(int)errno')),doserrno=int(gdb.parse_and_eval('recon_doserrno')),
+            last_error=int(gdb.parse_and_eval("'win32.c'::last_error")),handle=int(gdb.parse_and_eval('recon_osfhnd[%d]'%fd)),
+            osfile=int(gdb.parse_and_eval('recon_osfile[%d]'%fd)),fp=regs)
+    class Returned(gdb.FinishBreakpoint):
+        def __init__(self,event,address):
+            self.event,self.address=event,address
+            super().__init__(gdb.newest_frame(),internal=True)
+        def stop(self):
+            try:
+                self.event['return_thread']=list(gdb.selected_thread().ptid)
+                self.event['return']=snapshot(self.address);save()
+                assert self.event['return_thread']==self.event['thread']and self.event['entry']==self.event['return'],'native freebuf no-op state changed'
+                return False
+            except Exception as error:self.event['error']=str(error);save();return True
+    class Entered(gdb.Breakpoint):
+        def __init__(self):super().__init__('recon_freebuf',internal=True)
+        def stop(self):
+            event={};events.append(event)
+            try:
+                frame=gdb.newest_frame();address=int(frame.read_var('s'))
+                assert len(events)==1 and address==int(gdb.parse_and_eval('&recon_iob[3]')),'unknown native freebuf owner/invocation'
+                event.update(owner='recon_iob[3]',address=address,caller=frame.older().name(),outer_caller=frame.older().older().name(),thread=list(gdb.selected_thread().ptid),entry=snapshot(address))
+                assert event['caller']=='recon_fclose'and event['outer_caller']=='update_image_checksum'and event['entry']['osfile']==1,'unknown native freebuf caller/descriptor'
+                save();Returned(event,address);return False
+            except Exception as error:event['error']=str(error);save();return True
+    Entered();save()

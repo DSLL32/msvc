@@ -7958,13 +7958,16 @@
       "native": "image_nt_header",
       "symbol": "_image_nt_header@4",
       "original": 180208,
-      "source": "src/stubs.c",
+      "source": "src/output.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        180208,
+        180245
+      ],
       "abi": "void *WINAPI image_nt_header(void *)",
       "stack_cleanup": 4,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0153-image_nt_header/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -7974,7 +7977,26 @@
           "kind": "mapped-image",
           "length_slot": 8
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          },
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          }
+        ]
+      }
     }
   ],
   "review": {
@@ -8913,6 +8935,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 152
+    },
+    {
+      "function": "image_nt_header",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 153
     }
   ],
   "support_unmasked": [
@@ -9575,6 +9603,18 @@
       "start": 200416,
       "end": 200528,
       "evidence": "cases/hello-debug-dll/evidence/0150-update_image_checksum/proof.json"
+    },
+    {
+      "name": "import:UnmapViewOfFile",
+      "start": 199222,
+      "end": 199228,
+      "evidence": "cases/hello-debug-dll/evidence/0153-image_nt_header/proof.json"
+    },
+    {
+      "name": "_fclose",
+      "start": 188704,
+      "end": 188816,
+      "evidence": "cases/hello-debug-dll/evidence/0153-image_nt_header/proof.json"
     }
   ],
   "read_observations": {
@@ -9583,7 +9623,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "af0cd388e61d58865f45453ed092b28471381908c04d847016ae2f4a149f5f96"
+    "evidence_sha256": "b6d7c88e50c983271f4007da99d4c607348c1cee7eb4087cc9ea8d7fd4279271"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -9659,6 +9699,24 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "4fd9d56c347ac91fa14ea21daf120417540e93bfdc182ff4a0a310702dd29542"
+    "sha256": "a3fcecc1a62a61aacc3fcca98e71c069c4e4a99579330e6a3b8babbaa2fde4b6"
+  },
+  "freebuf_boundary": {
+    "case": "hello-debug-dll",
+    "start": 196496,
+    "end": 196550,
+    "return_site": 188757,
+    "iob": 234384,
+    "slot": 3,
+    "size": 32,
+    "flag": 128,
+    "phase": 3,
+    "every_invocation": true,
+    "expected_calls": 1,
+    "body_sha256": "e325a15bb828e50fe14829b574ed07638647d03318107c2b2187d38b238f6047",
+    "evidence": "cases/runtime-variants/freebuf.json",
+    "classification": "case-specific-guarded-CRT-no-op",
+    "application_coverage": false,
+    "unconditionally_unmask": false
   }
 }

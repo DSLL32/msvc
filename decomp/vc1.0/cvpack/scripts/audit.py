@@ -258,6 +258,8 @@ def main():
     cached=json.loads((BINARY/'runtime.json').read_text())
     assert runtime==cached,'strict runtime identities changed'
     validate_ownership(config,original,runtime,json.loads((BINARY/'data.json').read_text()))
+    from freebuf import validate as validate_freebuf
+    validate_freebuf(config,original)
     from seams import approved
     approved(config,original,runtime)
     oi=identity_table(runtime,functions)
