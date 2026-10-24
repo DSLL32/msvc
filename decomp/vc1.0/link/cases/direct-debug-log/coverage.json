@@ -1,0 +1,19 @@
+{
+  "accepted_frontiers": 1001,
+  "application_functions": 802,
+  "public_CLI_functions": 759,
+  "direct_only_functions": 43,
+  "historical_CRT_overrides": 16,
+  "new_application_extent_bytes": 125,
+  "new_CFG_instruction_bytes": 119,
+  "new_alignment_bytes": 6,
+  "new_shipped_CRT_extent_bytes": 208,
+  "app_only_extent_bytes": 229367,
+  "whole_text_denominator": 281634,
+  "app_only_percent": 81.44151629419744,
+  "support_inclusive_extent_bytes": 260306,
+  "support_inclusive_percent": 92.42705071120675,
+  "unaccepted_unclassified_bytes": 11883,
+  "full_nonCRT_denominator": null,
+  "limits": "Partial knownbody inventory; unknown is notCRT. Both new functions directsupport, no publicCLI claim. Two complete shipped CRT bodies are support only, no new handwrittenCRT; existing16 historicaloverrides remain separate."
+}

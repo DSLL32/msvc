@@ -496,3 +496,18 @@ All89cached native, originalVC1-j4 and835CFG/817callback/514data/41ECX checks pa
 App-only229242/281634=81.3971%; support-inclusive259973=92.3088%;800appfunctions
 (759public/41direct),16historicalCRT separate.12216unclassified bytes remain notCRT.
 See cases/direct-bind-parser/README.txt and its validation/timing/coverage records.
+
+Direct diagnostic-log lifecycle is complete (cases/direct-debug-log). Real
+initialization, missing-directory failure, lazy open, replacement, route toggles
+and final close match 36 fresh observations and complete streams/files/report.
+open_debug_log and set_debug_flag add 125 application extent bytes; _perror and
+_setbuf are verified shipped support, with no new CRT C or application credit.
+The native runner uses the original regular-file redirection contract. The first
+PIPE failure and explicit native status-125 denial remain preserved. The corrected
+new case and prior 89 pass on identical frozen ELFs; check/replay cover 90 cases.
+There are 1001 frontiers and 802 application functions (759 public, 43 direct):
+229367 application bytes / 281634 = 81.4415%; with support, 260306 / 281634 =
+92.4271%. The existing 16 CRT overrides remain separate. The 11883 unaccepted,
+unclassified bytes are not called CRT. Original compiler, 839 CFG graphs,
+819 callbacks, 514 data definitions, 41 ECX ABIs and focused controls pass. See the
+case's receipts, timing/coverage records and historical debug_flags limitation.

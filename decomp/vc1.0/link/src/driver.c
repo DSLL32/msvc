@@ -1,6 +1,6 @@
 #include "link.h"
 #include <recon.h>
-/* The following independent global begins at original 0005c06c. */
+/* The following independent global begins at original 0005c008. */
 char debug_flags[100];
 void debug_initialize(char *text,char *variable)
 {
@@ -13,6 +13,11 @@ void debug_initialize(char *text,char *variable)
         while (*text && isdigit(*text)) ++text;
         while (*text && !isdigit(*text)) ++text;
     }
+}
+/* Original [0003a970,0003a97f): only the low argument byte is stored. */
+void set_debug_flag(int index,unsigned char value)
+{
+    debug_flags[index]=value;
 }
 int debug_enabled(int index) { return debug_flags[index]; }
 BOOL WINAPI control_handler(DWORD event) { link_cleanup(); return FALSE; }

@@ -1,0 +1,19 @@
+{
+  "command": [
+    "gdb",
+    "-q",
+    "-nx",
+    "-batch",
+    "-ex",
+    "file /root/msvc2/decomp/vc1.0/link/build/native/debug-log",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc1.0/link/debug-log-gdb-xrgm5ubd/observe.py"
+  ],
+  "seconds": 0.16358616668730974,
+  "status": 0,
+  "trial": [
+    "open_debug_log"
+  ],
+  "support": [],
+  "elf_sha256": "ddbe8ba411eb0d9210e8908fdcbe08d5f77770b78f9518cfcf8ee0eb1015dcb7"
+}

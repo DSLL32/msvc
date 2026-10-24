@@ -112,6 +112,8 @@ if len(sys.argv)==1:
 # _find is a complete byte-exact shipped CRT match, including imported call
 # relocations. Native correspondence is at this CRT boundary, not each IAT thunk.
 for r in records:
+    if r['name'] in ('_perror','_setbuf'):
+        r['evidence']='Complete byte-exact shipped PERROR.OBJ144B/SETBUF.OBJ64B and all14 relocations verified; native correspondence only at actual open_debug_log-qualified public boundary with every formal/FILE/errors/FP/returnABI and full36-observation lifecycle/artifacts in cases/direct-debug-log. Zero application credit/no new handwritten CRT or native internalhelper ABI claim.'
     if r['name']=='__filelength':
         r['evidence']='shipped FLENGTH.OBJ112-byte body: all instructions/relocations exact except CMP ESI,EDI versus CMP EDI,ESI before JE, whose consumed ZF is identical. Three __lseek edges and errno/DOS/nhandle globals verified. Native correspondence only at public _filelength, no new CRT C/ABI claim; cases/direct-image-checksum.'
     if r['name']=='_vfprintf':

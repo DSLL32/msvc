@@ -1,0 +1,519 @@
+{
+  "events": [
+    {
+      "event": "entry",
+      "phase": 0,
+      "name": "debug_initialize",
+      "esp": 4294956908,
+      "eip": 1448629536,
+      "eax": 1449209912,
+      "ebx": 1449025524,
+      "esi": 1449013404,
+      "edi": 4160736096,
+      "ebp": 4294957000,
+      "caller": 1448919713,
+      "actual_caller": "__wrap_main",
+      "arguments": [
+        1449209880,
+        1449209912
+      ],
+      "stack_argument_words": [
+        1449209880,
+        1449209912
+      ],
+      "errors": [
+        0,
+        0,
+        0
+      ],
+      "names_address": 1449209880,
+      "names": "3100a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54c494e4b33325f444200a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a56d697373696e672f6c6f672e74787400a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a566697273740a00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57365636f6e642e6c6f6700a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57365636f6e640a00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a566696e616c0a00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+      "debug_flags_address": 1449109030,
+      "debug_flags": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "debug_log": 0,
+      "iob_address": 1449114620,
+      "streams": [
+        {
+          "index": 1,
+          "raw": [
+            0,
+            0,
+            0,
+            2,
+            1,
+            0,
+            0,
+            0
+          ],
+          "pending": ""
+        },
+        {
+          "index": 2,
+          "raw": [
+            0,
+            0,
+            0,
+            2,
+            2,
+            0,
+            0,
+            0
+          ],
+          "pending": ""
+        },
+        {
+          "index": 3,
+          "raw": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "pending": ""
+        }
+      ],
+      "fp_control": 639,
+      "fp_status": 0,
+      "fp_tag": 65535,
+      "fp_raw": "  R7: Empty   0x00000000000000000000\n  R6: Empty   0x00000000000000000000\n  R5: Empty   0x00000000000000000000\n  R4: Empty   0x00000000000000000000\n  R3: Empty   0x00000000000000000000\n  R2: Empty   0x00000000000000000000\n  R1: Empty   0x00000000000000000000\n=>R0: Empty   0x00000000000000000000\n\nStatus Word:         0x0000                                            \n                       TOP: 0\nControl Word:        0x027f   IM DM ZM OM UM PM\n                       PC: Double Precision (53-bits)\n                       RC: Round to nearest\nTag Word:            0xffff\nInstruction Pointer: 0x00:0x00000000\nOperand Pointer:     0x00:0x00000000\nOpcode:              0x0000\n",
+      "argument_strings": [
+        "3100",
+        "4c494e4b33325f444200"
+      ],
+      "native_symbol": "debug_initialize"
+    },
+    {
+      "event": "return",
+      "phase": 0,
+      "name": "debug_initialize",
+      "esp": 4294956912,
+      "eip": 1448919713,
+      "eax": 4294967295,
+      "ebx": 1449025524,
+      "esi": 1449013404,
+      "edi": 4160736096,
+      "ebp": 4294957000,
+      "caller": 1449209881,
+      "actual_caller": "__wrap_main",
+      "arguments": [
+        1449209880,
+        1449209912
+      ],
+      "stack_argument_words": [
+        1449209881,
+        1449209912
+      ],
+      "errors": [
+        0,
+        0,
+        0
+      ],
+      "names_address": 1449209880,
+      "names": "3100a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54c494e4b33325f444200a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a56d697373696e672f6c6f672e74787400a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a566697273740a00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57365636f6e642e6c6f6700a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57365636f6e640a00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a566696e616c0a00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+      "debug_flags_address": 1449109030,
+      "debug_flags": "00010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "debug_log": 0,
+      "iob_address": 1449114620,
+      "streams": [
+        {
+          "index": 1,
+          "raw": [
+            0,
+            0,
+            0,
+            2,
+            1,
+            0,
+            0,
+            0
+          ],
+          "pending": ""
+        },
+        {
+          "index": 2,
+          "raw": [
+            0,
+            0,
+            0,
+            2,
+            2,
+            0,
+            0,
+            0
+          ],
+          "pending": ""
+        },
+        {
+          "index": 3,
+          "raw": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "pending": ""
+        }
+      ],
+      "fp_control": 639,
+      "fp_status": 0,
+      "fp_tag": 65535,
+      "fp_raw": "  R7: Empty   0x00000000000000000000\n  R6: Empty   0x00000000000000000000\n  R5: Empty   0x00000000000000000000\n  R4: Empty   0x00000000000000000000\n  R3: Empty   0x00000000000000000000\n  R2: Empty   0x00000000000000000000\n  R1: Empty   0x00000000000000000000\n=>R0: Empty   0x00000000000000000000\n\nStatus Word:         0x0000                                            \n                       TOP: 0\nControl Word:        0x027f   IM DM ZM OM UM PM\n                       PC: Double Precision (53-bits)\n                       RC: Round to nearest\nTag Word:            0xffff\nInstruction Pointer: 0x00:0x00000000\nOperand Pointer:     0x00:0x00000000\nOpcode:              0x0000\n",
+      "argument_strings": [
+        "3100",
+        "4c494e4b33325f444200"
+      ]
+    },
+    {
+      "event": "entry",
+      "phase": 1,
+      "name": "open_debug_log",
+      "esp": 4294956908,
+      "eip": 1448457952,
+      "eax": 1449209944,
+      "ebx": 1449025524,
+      "esi": 1449013404,
+      "edi": 4160736096,
+      "ebp": 4294957000,
+      "caller": 1448919751,
+      "actual_caller": "__wrap_main",
+      "arguments": [
+        1449209944
+      ],
+      "stack_argument_words": [
+        1449209944
+      ],
+      "errors": [
+        0,
+        0,
+        0
+      ],
+      "names_address": 1449209880,
+      "names": "3100a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54c494e4b33325f444200a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a56d697373696e672f6c6f672e74787400a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a566697273740a00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57365636f6e642e6c6f6700a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57365636f6e640a00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a566696e616c0a00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+      "debug_flags_address": 1449109030,
+      "debug_flags": "00010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "debug_log": 0,
+      "iob_address": 1449114620,
+      "streams": [
+        {
+          "index": 1,
+          "raw": [
+            0,
+            0,
+            0,
+            2,
+            1,
+            0,
+            0,
+            0
+          ],
+          "pending": ""
+        },
+        {
+          "index": 2,
+          "raw": [
+            0,
+            0,
+            0,
+            2,
+            2,
+            0,
+            0,
+            0
+          ],
+          "pending": ""
+        },
+        {
+          "index": 3,
+          "raw": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "pending": ""
+        }
+      ],
+      "fp_control": 639,
+      "fp_status": 0,
+      "fp_tag": 65535,
+      "fp_raw": "  R7: Empty   0x00000000000000000000\n  R6: Empty   0x00000000000000000000\n  R5: Empty   0x00000000000000000000\n  R4: Empty   0x00000000000000000000\n  R3: Empty   0x00000000000000000000\n  R2: Empty   0x00000000000000000000\n  R1: Empty   0x00000000000000000000\n=>R0: Empty   0x00000000000000000000\n\nStatus Word:         0x0000                                            \n                       TOP: 0\nControl Word:        0x027f   IM DM ZM OM UM PM\n                       PC: Double Precision (53-bits)\n                       RC: Round to nearest\nTag Word:            0xffff\nInstruction Pointer: 0x00:0x00000000\nOperand Pointer:     0x00:0x00000000\nOpcode:              0x0000\n",
+      "argument_strings": [
+        "6d697373696e672f6c6f672e74787400"
+      ],
+      "native_symbol": "open_debug_log"
+    },
+    {
+      "event": "entry",
+      "phase": 1,
+      "name": "fopen",
+      "esp": 4294956876,
+      "eip": 1448855984,
+      "eax": 1448935410,
+      "ebx": 1449025524,
+      "esi": 1449013404,
+      "edi": 4160736096,
+      "ebp": 4294956904,
+      "caller": 1448458055,
+      "actual_caller": "open_debug_log",
+      "arguments": [
+        1449209944,
+        1448935410
+      ],
+      "stack_argument_words": [
+        1449209944,
+        1448935410
+      ],
+      "errors": [
+        0,
+        0,
+        0
+      ],
+      "names_address": 1449209880,
+      "names": "3100a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54c494e4b33325f444200a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a56d697373696e672f6c6f672e74787400a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a566697273740a00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57365636f6e642e6c6f6700a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57365636f6e640a00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a566696e616c0a00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+      "debug_flags_address": 1449109030,
+      "debug_flags": "00010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "debug_log": 0,
+      "iob_address": 1449114620,
+      "streams": [
+        {
+          "index": 1,
+          "raw": [
+            0,
+            0,
+            0,
+            2,
+            1,
+            0,
+            0,
+            0
+          ],
+          "pending": ""
+        },
+        {
+          "index": 2,
+          "raw": [
+            0,
+            0,
+            0,
+            2,
+            2,
+            0,
+            0,
+            0
+          ],
+          "pending": ""
+        },
+        {
+          "index": 3,
+          "raw": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "pending": ""
+        }
+      ],
+      "fp_control": 639,
+      "fp_status": 0,
+      "fp_tag": 65535,
+      "fp_raw": "  R7: Empty   0x00000000000000000000\n  R6: Empty   0x00000000000000000000\n  R5: Empty   0x00000000000000000000\n  R4: Empty   0x00000000000000000000\n  R3: Empty   0x00000000000000000000\n  R2: Empty   0x00000000000000000000\n  R1: Empty   0x00000000000000000000\n=>R0: Empty   0x00000000000000000000\n\nStatus Word:         0x0000                                            \n                       TOP: 0\nControl Word:        0x027f   IM DM ZM OM UM PM\n                       PC: Double Precision (53-bits)\n                       RC: Round to nearest\nTag Word:            0xffff\nInstruction Pointer: 0x00:0x00000000\nOperand Pointer:     0x00:0x00000000\nOpcode:              0x0000\n",
+      "argument_strings": [
+        "6d697373696e672f6c6f672e74787400",
+        "7700"
+      ],
+      "native_symbol": "recon_fopen"
+    },
+    {
+      "event": "return",
+      "phase": 1,
+      "name": "fopen",
+      "esp": 4294956880,
+      "eip": 1448458055,
+      "eax": 0,
+      "ebx": 1449025524,
+      "esi": 1449013404,
+      "edi": 4160736096,
+      "ebp": 4294956904,
+      "caller": 1449209944,
+      "actual_caller": "open_debug_log",
+      "arguments": [
+        1449209944,
+        1448935410
+      ],
+      "stack_argument_words": [
+        1449209944,
+        1448935410
+      ],
+      "errors": [
+        2,
+        2,
+        2
+      ],
+      "names_address": 1449209880,
+      "names": "3100a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54c494e4b33325f444200a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a56d697373696e672f6c6f672e74787400a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a566697273740a00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57365636f6e642e6c6f6700a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57365636f6e640a00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a566696e616c0a00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+      "debug_flags_address": 1449109030,
+      "debug_flags": "00010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "debug_log": 0,
+      "iob_address": 1449114620,
+      "streams": [
+        {
+          "index": 1,
+          "raw": [
+            0,
+            0,
+            0,
+            2,
+            1,
+            0,
+            0,
+            0
+          ],
+          "pending": ""
+        },
+        {
+          "index": 2,
+          "raw": [
+            0,
+            0,
+            0,
+            2,
+            2,
+            0,
+            0,
+            0
+          ],
+          "pending": ""
+        },
+        {
+          "index": 3,
+          "raw": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "pending": ""
+        }
+      ],
+      "fp_control": 639,
+      "fp_status": 0,
+      "fp_tag": 65535,
+      "fp_raw": "  R7: Empty   0x00000000000000000000\n  R6: Empty   0x00000000000000000000\n  R5: Empty   0x00000000000000000000\n  R4: Empty   0x00000000000000000000\n  R3: Empty   0x00000000000000000000\n  R2: Empty   0x00000000000000000000\n  R1: Empty   0x00000000000000000000\n=>R0: Empty   0x00000000000000000000\n\nStatus Word:         0x0000                                            \n                       TOP: 0\nControl Word:        0x027f   IM DM ZM OM UM PM\n                       PC: Double Precision (53-bits)\n                       RC: Round to nearest\nTag Word:            0xffff\nInstruction Pointer: 0x00:0x00000000\nOperand Pointer:     0x00:0x00000000\nOpcode:              0x0000\n",
+      "argument_strings": [
+        "6d697373696e672f6c6f672e74787400",
+        "7700"
+      ]
+    },
+    {
+      "event": "frontier",
+      "phase": 1,
+      "name": "perror",
+      "esp": 4294956876,
+      "eip": 1448452752,
+      "eax": 1449209944,
+      "ebx": 1449025524,
+      "esi": 1449013404,
+      "edi": 4160736096,
+      "ebp": 4294956904,
+      "caller": 1448458089,
+      "actual_caller": "open_debug_log",
+      "arguments": [
+        1449209944
+      ],
+      "stack_argument_words": [
+        1449209944
+      ],
+      "errors": [
+        2,
+        2,
+        2
+      ],
+      "names_address": 1449209880,
+      "names": "3100a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54c494e4b33325f444200a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a56d697373696e672f6c6f672e74787400a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a566697273740a00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57365636f6e642e6c6f6700a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57365636f6e640a00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a566696e616c0a00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+      "debug_flags_address": 1449109030,
+      "debug_flags": "00010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "debug_log": 0,
+      "iob_address": 1449114620,
+      "streams": [
+        {
+          "index": 1,
+          "raw": [
+            0,
+            0,
+            0,
+            2,
+            1,
+            0,
+            0,
+            0
+          ],
+          "pending": ""
+        },
+        {
+          "index": 2,
+          "raw": [
+            0,
+            0,
+            0,
+            2,
+            2,
+            0,
+            0,
+            0
+          ],
+          "pending": ""
+        },
+        {
+          "index": 3,
+          "raw": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "pending": ""
+        }
+      ],
+      "fp_control": 639,
+      "fp_status": 0,
+      "fp_tag": 65535,
+      "fp_raw": "  R7: Empty   0x00000000000000000000\n  R6: Empty   0x00000000000000000000\n  R5: Empty   0x00000000000000000000\n  R4: Empty   0x00000000000000000000\n  R3: Empty   0x00000000000000000000\n  R2: Empty   0x00000000000000000000\n  R1: Empty   0x00000000000000000000\n=>R0: Empty   0x00000000000000000000\n\nStatus Word:         0x0000                                            \n                       TOP: 0\nControl Word:        0x027f   IM DM ZM OM UM PM\n                       PC: Double Precision (53-bits)\n                       RC: Round to nearest\nTag Word:            0xffff\nInstruction Pointer: 0x00:0x00000000\nOperand Pointer:     0x00:0x00000000\nOpcode:              0x0000\n",
+      "argument_strings": [
+        "6d697373696e672f6c6f672e74787400"
+      ],
+      "native_symbol": "'perror@plt'"
+    }
+  ],
+  "terminal": [
+    {
+      "event": "exit",
+      "code": null
+    }
+  ],
+  "unavailable": []
+}

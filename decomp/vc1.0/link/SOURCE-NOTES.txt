@@ -1485,3 +1485,23 @@ match exactstderr/report/2MBfile/exit0, strict errors/CW/SW/tags/emptyregisters.
 All89native,835CFG/817callback/514data/41ECX anddenials pass; no newCRT/shim/support.
 App-only229242/281634=81.3971%, support-inclusive259973=92.3088%; remaining12216
 unclassified bytes notCRT. See direct-bind-parser for full evidence/timing/proof.
+
+Direct debug-log checkpoint: open_debug_log at 3a900..3a96e uses ordinary C
+fclose/NULL-close/fopen/perror/setbuf logic; set_debug_flag at 3a970..3a97f stores
+only its low argument byte. Both are direct support. The actual debug_printf
+inner edge is retained, with no public CLI reach claim. NULL-close leaves
+original debug_log intact; final flag 1=0 skips both global loads, and normal
+CRT cleanup uses closed FILE flags. There is no subsequent reopen or reuse.
+Actual debug_flags is 100 bytes at 5c008, with setter/getter bodies and full
+transitions proved. The old COMDAT 5c06c adjacent sample remains a historical
+observer-address limitation, not mode-identity proof. All raw evidence remains.
+Shipped PERROR.OBJ (144 bytes), SETBUF.OBJ (64 bytes) and 14 relocations match;
+no target CRT implementation was added. Missing-parent errors, free-slot reset
+and perror text-mode provider gaps were held and corrected centrally from actual
+state/output. The fresh 36-state lifecycle and complete artifacts match strictly,
+without error or FP qualifications. Current totals: 1001 frontiers, 802 application
+functions, 229367 application bytes (81.4415%), 260306 including support (92.4271%).
+Partial known body inventory is 194239/194916; 11883 unknown bytes remain, not CRT.
+Cached 90-case proof uses the same ELFs for the preceding 89 passes and corrected
+regular-file runner. The initial PIPE failure and explicit native status-125
+denial are distinct evidence. See cases/direct-debug-log for full accounting.

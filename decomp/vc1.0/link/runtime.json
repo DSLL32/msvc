@@ -604,14 +604,16 @@
     "start": 341552,
     "end": 341616,
     "object": "stdio\\obj\\i386\\SETBUF.OBJ",
-    "library": "LIBC.LIB"
+    "library": "LIBC.LIB",
+    "evidence": "Complete byte-exact shipped PERROR.OBJ144B/SETBUF.OBJ64B and all14 relocations verified; native correspondence only at actual open_debug_log-qualified public boundary with every formal/FILE/errors/FP/returnABI and full36-observation lifecycle/artifacts in cases/direct-debug-log. Zero application credit/no new handwritten CRT or native internalhelper ABI claim."
   },
   {
     "name": "_perror",
     "start": 341616,
     "end": 341760,
     "object": "misc\\obj\\i386\\PERROR.OBJ",
-    "library": "LIBC.LIB"
+    "library": "LIBC.LIB",
+    "evidence": "Complete byte-exact shipped PERROR.OBJ144B/SETBUF.OBJ64B and all14 relocations verified; native correspondence only at actual open_debug_log-qualified public boundary with every formal/FILE/errors/FP/returnABI and full36-observation lifecycle/artifacts in cases/direct-debug-log. Zero application credit/no new handwritten CRT or native internalhelper ABI claim."
   },
   {
     "name": "_strcspn",

@@ -522,8 +522,8 @@
     }
   },
   "metadata_sha256": {
-    "functions.json": "2b0db3cd9a37c2f11aeebcbf7a2be6daad2e1c833af46b66d03567f2e868a39a",
-    "runtime.json": "75567dfa19b12934940c97f2eccf3941dd4201912d48e81ac33fc96c3736cb69",
+    "functions.json": "0322a86a2e9b76d2c93744ea60ce6f16e43087457314273f4cda3db22aad54cc",
+    "runtime.json": "c5a820dffbad538a74e4d274647f08967524a5f6a3851ea7ff84fead1af24d97",
     "replay-cases.json": "7917cd8dc1c964b39204545c7e4d0ea8e81c848fbc16d374d455dcc084748d60"
   },
   "application_definitions": {
@@ -3470,7 +3470,7 @@
     "open_debug_log": {
       "source": "src/comdat-diagnostics.c",
       "logical": "_open_debug_log",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "open_diagnostic_file": {
       "source": "src/diagnostics.c",
@@ -4165,6 +4165,11 @@
     "select_machine": {
       "source": "src/machine.c",
       "logical": "_select_machine",
+      "implementation": "C"
+    },
+    "set_debug_flag": {
+      "source": "src/driver.c",
+      "logical": "_set_debug_flag",
       "implementation": "C"
     },
     "set_external_defined": {
@@ -5418,7 +5423,9 @@
     "checksum_image_file",
     "make_import_section_read_only",
     "insert_other_input",
-    "parse_bind_arguments"
+    "parse_bind_arguments",
+    "open_debug_log",
+    "set_debug_flag"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5575,7 +5582,9 @@
       "_vfprintf",
       "__setmode",
       "__fileno",
-      "__filelength"
+      "__filelength",
+      "_perror",
+      "_setbuf"
     ],
     "import": [
       "import:GetCommandLineA",

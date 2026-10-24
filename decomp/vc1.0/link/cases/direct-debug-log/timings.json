@@ -1,0 +1,281 @@
+{
+  "scope": "One untouched baseline plus five required fresh originalfrontier/closure runs; no automatic baseline repeat. Native-only provider retries reuse unchanged originals. Build/GDB/capture timings separate from cached fixture setup/ELF/oracle/trace. Shared review wait unmeasured/not fixture time.",
+  "original_baseline": {
+    "seconds": 1.9453174378722906,
+    "receipt": "reference/receipt.json"
+  },
+  "fresh_original": [
+    {
+      "stage": "frontier",
+      "seconds": 1.678184668533504,
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "receipt": "cases/direct-debug-log/acceptance/frontier/original-receipt.json",
+      "mode": "masked",
+      "trial": null,
+      "support": [],
+      "candidate": []
+    },
+    {
+      "stage": "missing-parent-hold",
+      "seconds": 1.0742129646241665,
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "receipt": "cases/direct-debug-log/acceptance/missing-parent-hold/original-receipt.json",
+      "mode": "masked",
+      "trial": "open_debug_log",
+      "support": [],
+      "candidate": []
+    },
+    {
+      "stage": "perror-hold",
+      "seconds": 1.3833270696923137,
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "receipt": "cases/direct-debug-log/acceptance/perror-hold/original-receipt.json",
+      "mode": "masked",
+      "trial": "open_debug_log",
+      "support": [
+        "_perror"
+      ],
+      "candidate": []
+    },
+    {
+      "stage": "setter-frontier",
+      "seconds": 0.6863294159993529,
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "receipt": "cases/direct-debug-log/acceptance/setter-frontier/original-receipt.json",
+      "mode": "masked",
+      "trial": "open_debug_log",
+      "support": [
+        "_perror",
+        "_setbuf"
+      ],
+      "candidate": []
+    },
+    {
+      "stage": "complete",
+      "seconds": 1.995032616890967,
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "receipt": "cases/direct-debug-log/acceptance/complete/original-receipt.json",
+      "mode": "masked",
+      "trial": "open_debug_log",
+      "support": [
+        "_perror",
+        "_setbuf"
+      ],
+      "candidate": [
+        "_set_debug_flag"
+      ]
+    }
+  ],
+  "native_GDB": [
+    {
+      "stage": "frontier",
+      "seconds": 0.16843244433403015,
+      "receipt": "cases/direct-debug-log/acceptance/frontier/native-receipt.json",
+      "ELF_sha256": "bb229ec51cd2d9dd55b5b4d0bbdb982ca7f1fccd2960facb1ccbd9cbe15254b6"
+    },
+    {
+      "stage": "missing-parent-hold",
+      "seconds": 0.16825538408011198,
+      "receipt": "cases/direct-debug-log/acceptance/missing-parent-hold/native-receipt.json",
+      "ELF_sha256": "a85abf5c749e34bcdcdaa07799487dcb9dfa8b3c1aaa5d57fd13cc81ef194e6c"
+    },
+    {
+      "stage": "missing-parent-candidate",
+      "seconds": 0.16358616668730974,
+      "receipt": "cases/direct-debug-log/acceptance/missing-parent-candidate/native-receipt.json",
+      "ELF_sha256": "ddbe8ba411eb0d9210e8908fdcbe08d5f77770b78f9518cfcf8ee0eb1015dcb7"
+    },
+    {
+      "stage": "missing-parent-fixed",
+      "seconds": 0.16319740563631058,
+      "receipt": "cases/direct-debug-log/acceptance/missing-parent-fixed/native-receipt.json",
+      "ELF_sha256": "d351b27ffb7baec7ed8d8324e25a5cfc4bfc19dfde7a04c5ae5f4fbc454f721e"
+    },
+    {
+      "stage": "perror-hold",
+      "seconds": 0.21351976692676544,
+      "receipt": "cases/direct-debug-log/acceptance/perror-hold/native-receipt.json",
+      "ELF_sha256": "d351b27ffb7baec7ed8d8324e25a5cfc4bfc19dfde7a04c5ae5f4fbc454f721e"
+    },
+    {
+      "stage": "perror-fixed",
+      "seconds": 0.18112295679748058,
+      "receipt": "cases/direct-debug-log/acceptance/perror-fixed/native-receipt.json",
+      "ELF_sha256": "d74155b5c2e5391fb07119b56c0ed9045987ae5565a98479d376135532b25c6d"
+    },
+    {
+      "stage": "setter-frontier",
+      "seconds": 0.19163704104721546,
+      "receipt": "cases/direct-debug-log/acceptance/setter-frontier/native-receipt.json",
+      "ELF_sha256": "d74155b5c2e5391fb07119b56c0ed9045987ae5565a98479d376135532b25c6d"
+    },
+    {
+      "stage": "complete",
+      "seconds": 0.2225924115628004,
+      "receipt": "cases/direct-debug-log/acceptance/complete/native-receipt.json",
+      "ELF_sha256": "6f671be21b907e2c735990c65161c98831a3a1d0d179b765e05d3b2016ade295"
+    }
+  ],
+  "canonical": [
+    {
+      "status": 0,
+      "seconds": 21.57531840261072,
+      "command": [
+        "make",
+        "-j4",
+        "all"
+      ],
+      "scope": "Explicit original-compiler build only; no fixture/reference execution",
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/debug-log-canonical-perror-header-build.log.json"
+    },
+    {
+      "status": 0,
+      "seconds": 8.095341147854924,
+      "command": [
+        "make",
+        "-j4",
+        "all",
+        "audit"
+      ],
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/debug-log-final-canonical-audit.log.json"
+    }
+  ],
+  "measured_candidate_builds": [
+    {
+      "status": 0,
+      "seconds": 1.7358735045418143,
+      "command": [
+        "make",
+        "-j4",
+        "build/native/debug-log"
+      ],
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/debug-log-fopen-candidate-build.log.json"
+    },
+    {
+      "status": 0,
+      "seconds": 4.649587552063167,
+      "command": [
+        "make",
+        "-j4",
+        "build/native/debug-log"
+      ],
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/debug-log-perror-candidate-build.log.json"
+    }
+  ],
+  "initial_native_and_controller_builds": "Unmeasured; raw scratch logs retained. Initial native driver compile lacked debug_log declaration, fixed host declaration before baseline. Initial canonical progress build also unmeasured.",
+  "final_native_initial_steps": [
+    {
+      "label": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "build/native/legacy-diagnostics",
+        "build/native/ide-protocol",
+        "build/native/comdat-diagnostics",
+        "build/native/dispatcher",
+        "build/native/cvtomf",
+        "build/native/file-resize",
+        "build/native/symbol-tables",
+        "build/native/module-diagnostics",
+        "build/native/image-checksum",
+        "build/native/priority-archives",
+        "build/native/bind-parser",
+        "build/native/debug-log",
+        "native-trace",
+        "build/native-trace/legacy-diagnostics",
+        "build/native-trace/ide-protocol",
+        "build/native-trace/comdat-diagnostics",
+        "build/native-trace/dispatcher",
+        "build/native-trace/cvtomf",
+        "build/native-trace/file-resize",
+        "build/native-trace/symbol-tables",
+        "build/native-trace/module-diagnostics",
+        "build/native-trace/image-checksum",
+        "build/native-trace/priority-archives",
+        "build/native-trace/bind-parser",
+        "build/native-trace/debug-log"
+      ],
+      "seconds": 14.72430795058608,
+      "status": 0
+    },
+    {
+      "label": "trace-cache",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 1.186388029716909,
+      "status": 0
+    },
+    {
+      "label": "cached90",
+      "command": [
+        "make",
+        "-j4",
+        "native-trace-check"
+      ],
+      "seconds": 10.495562732219696,
+      "status": 2
+    }
+  ],
+  "final_native_targeted_steps": [
+    {
+      "label": "new-case-trace",
+      "command": [
+        "python3",
+        "scripts/check-debug-log.py",
+        "--trace"
+      ],
+      "seconds": 0.3136745300143957,
+      "status": 0
+    },
+    {
+      "label": "output-only",
+      "command": [
+        "python3",
+        "scripts/check-debug-log.py"
+      ],
+      "seconds": 0.08975086733698845,
+      "status": 0
+    },
+    {
+      "label": "cache-negatives",
+      "command": [
+        "python3",
+        "scripts/check-native-rejections.py"
+      ],
+      "seconds": 0.2815681751817465,
+      "status": 0
+    }
+  ],
+  "new_case_traced": {
+    "setup_seconds": 0.22062944248318672,
+    "trace_prepare_seconds": 0.2115607364103198,
+    "execution_seconds": 0.008690706454217434,
+    "oracle_seconds": 0.001033601351082325,
+    "trace_seconds": 0.00012626592069864273,
+    "total_seconds": 0.2304853731766343
+  },
+  "new_case_output_only": {
+    "setup_seconds": 0.008877469226717949,
+    "trace_prepare_seconds": 0,
+    "execution_seconds": 0.004219799302518368,
+    "oracle_seconds": 0.00075568538159132,
+    "trace_seconds": 7.14324414730072e-07,
+    "total_seconds": 0.01385709922760725
+  },
+  "first_aggregate_note": "89 old cases passed; new90th used incorrect PIPE transport and failed before saving child return/streams. Full aggregate stdout/stderr retained; separate explicit PIPE diagnostic125 retained. Corrected new case alone against identical ELF, no unchanged89 rerun.",
+  "negative_PIPE_diagnostic": {
+    "status": "expected-native-denial",
+    "exit": 125,
+    "seconds": 0.0017139529809355736,
+    "stdout_hex": "",
+    "stderr_hex": "7265636f6e3a20756e737570706f72746564206e6174697665206f7065726174696f6e3a20706572726f7220726567697374657265642074657874207374646572720a",
+    "ELF_sha256": "9db01dbc05ecc4c2b5c73d7919d491300047161329663a11570f502cbd5cf43f",
+    "scope": "Native-only concrete PIPE transport denial. Actual original binds regular redirected stderr; status125 is unsupported native route, not original behavior. Earlier aggregate assertion failed before saving child streams/status and is preserved separately; this is a new explicit diagnostic.",
+    "receipt_directory": "/root/.ai-tmp/msvc2/vc1.0/link/debug-log-pipe-denial-y7liv4g7"
+  },
+  "offline_controls_seconds": 0.07322319503873587
+}

@@ -996,7 +996,11 @@
     "__filelength",
     "_make_import_section_read_only",
     "_insert_other_input",
-    "_parse_bind_arguments"
+    "_parse_bind_arguments",
+    "_open_debug_log",
+    "_perror",
+    "_setbuf",
+    "_set_debug_flag"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -8455,11 +8459,11 @@
     {
       "name": "_open_debug_log",
       "start": 239872,
-      "end": 239873,
-      "implementation": "stub-C",
+      "end": 239982,
+      "implementation": "C",
       "source": "src/comdat-diagnostics.c",
       "abi": "cdecl int(const char *path)",
-      "evidence": "Unreached named logger callee; full extent remains pending"
+      "evidence": "Whole readable C body, exact actual typed formals/callers/returnESP+nonvolatiles,100B flags5c008/other98 unchanged, FILE ownership/pending/errors/CW027f/SW0/tagsFFFF/emptyregs and complete36-observation fresh lifecycle. Exact14/44Bstreams,7/8Blogs,1384Bexternalreport andnormalCRT exit0. Direct support, no publicCLI caller claim; cases/direct-debug-log. Void setter incidentalEAX unconsumed; no closedglobal reuse/dereference."
     },
     {
       "name": "_omf_convert_debug_type",
@@ -8668,6 +8672,15 @@
       "source": "src/editor-bind.c",
       "abi": "cdecl int(int argc,char **argv)",
       "evidence": "Fresh14actualentry-return observations, genuine zero-init/persistedBINDglobals/liveargcargv+guards/BoundImage36 initialized12..32/realmapclose, returnESP+nonvolatiles/errors/fullCW+SW+tags+emptyregisters strict. Full27Bstderr/1344Bexternalreport/2MBunchangedclient andexit0 exact. Externaldirectsupport, no publiccaller claim. cases/direct-bind-parser."
+    },
+    {
+      "name": "_set_debug_flag",
+      "start": 239984,
+      "end": 239999,
+      "implementation": "C",
+      "source": "src/driver.c",
+      "abi": "cdecl void(int index,unsigned char value); EAXindex incidental/unconsumed",
+      "evidence": "Whole readable C body, exact actual typed formals/callers/returnESP+nonvolatiles,100B flags5c008/other98 unchanged, FILE ownership/pending/errors/CW027f/SW0/tagsFFFF/emptyregs and complete36-observation fresh lifecycle. Exact14/44Bstreams,7/8Blogs,1384Bexternalreport andnormalCRT exit0. Direct support, no publicCLI caller claim; cases/direct-debug-log. Void setter incidentalEAX unconsumed; no closedglobal reuse/dereference."
     }
   ],
   "c_stub_references": [
@@ -9670,6 +9683,10 @@
     "direct-image-checksum",
     "direct-image-checksum",
     "direct-priority-archives",
-    "direct-bind-parser"
+    "direct-bind-parser",
+    "direct-debug-log",
+    "direct-debug-log",
+    "direct-debug-log",
+    "direct-debug-log"
   ]
 }

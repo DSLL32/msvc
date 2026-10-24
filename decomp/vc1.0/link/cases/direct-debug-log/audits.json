@@ -1,0 +1,30 @@
+{
+  "checked_accepted_extents": {
+    "original": 1007,
+    "rebuilt": 1004
+  },
+  "checked_functions": 839,
+  "checked_unique_accepted_extents": {
+    "original": 1002,
+    "rebuilt": 1001
+  },
+  "checks": [
+    "call_graph",
+    "ret_cleanup",
+    "function_references",
+    "extent_ownership",
+    "whole_extent_boundaries",
+    "evidenced_runtime_graphs",
+    "accepted_index_extents"
+  ],
+  "discovery": "cfg",
+  "profile": "link",
+  "callbacks": 819,
+  "contextual_data": 514,
+  "ECX": 41,
+  "canonical_build": "Original VC1 -j4 all/audit PASS",
+  "canonical_receipt": "/root/.ai-tmp/msvc2/vc1.0/link/debug-log-final-canonical-audit.log.json",
+  "graph_controls_receipt": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-od048kix/receipt.json",
+  "observer_controls": "checks.json",
+  "CFG": "body-inventory.json"
+}

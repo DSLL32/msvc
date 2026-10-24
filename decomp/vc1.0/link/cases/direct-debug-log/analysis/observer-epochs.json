@@ -1,0 +1,29 @@
+{
+  "status": "Observer-only epoch update; no baseline repeat",
+  "baseline": {
+    "receipt": "reference/receipt.json",
+    "controller": "reference/controller.c",
+    "controller_sha256": "6147a79682e5642f5f50d0891357e46a6ed8f30da75312e05510dae39eb64ea4",
+    "caller_field": false
+  },
+  "fresh": {
+    "receipt": "acceptance/missing-parent-hold/original-receipt.json",
+    "controller_sha256": "d4a67ab7b5f98008a7de8fb14fb383fb31163ab88f019db47a9a1b8bddb9dee7",
+    "caller_field": true
+  },
+  "change": "Emit actual saved return PC at each public/direct entry and its corresponding return; target execution, inputs, mask semantics and owned observations unchanged. Baseline remains raw/immutable. Public support acceptance requires the fresh caller field, not inference from baseline.",
+  "required_original_return_PCs": {
+    "fopen": "0x3a931",
+    "fclose": "0x3a910",
+    "setbuf": "0x3a95d",
+    "perror": "0x3a943",
+    "open_debug_log_inner": "0x3a8d6"
+  },
+  "native_required_callers": {
+    "fopen": "open_debug_log",
+    "fclose": "open_debug_log",
+    "setbuf": "open_debug_log",
+    "perror": "open_debug_log",
+    "open_debug_log_inner": "debug_printf"
+  }
+}

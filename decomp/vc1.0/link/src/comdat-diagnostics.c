@@ -62,4 +62,21 @@ int debug_printf(const char *format,...)
     va_end(arguments);
     return result;
 }
-int open_debug_log(const char *path){__asm { int 3 }return 0;}
+/* Closing with NULL retains the original pointer; subsequent file use is
+ * disabled by the flag. Do not replace this with a pointer-clearing repair. */
+int open_debug_log(const char *path)
+{
+    if (debug_log) fclose(debug_log);
+    if (!path) {
+        debug_flags[1]=0;
+        return 0;
+    }
+    debug_log=fopen(path,"w");
+    if (!debug_log) {
+        perror(path);
+        return 0;
+    }
+    setbuf(debug_log,NULL);
+    debug_flags[1]=1;
+    return 1;
+}

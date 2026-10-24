@@ -1,0 +1,10 @@
+{
+  "status": "expected-native-denial",
+  "exit": 125,
+  "seconds": 0.0017139529809355736,
+  "stdout_hex": "",
+  "stderr_hex": "7265636f6e3a20756e737570706f72746564206e6174697665206f7065726174696f6e3a20706572726f7220726567697374657265642074657874207374646572720a",
+  "ELF_sha256": "9db01dbc05ecc4c2b5c73d7919d491300047161329663a11570f502cbd5cf43f",
+  "scope": "Native-only concrete PIPE transport denial. Actual original binds regular redirected stderr; status125 is unsupported native route, not original behavior. Earlier aggregate assertion failed before saving child streams/status and is preserved separately; this is a new explicit diagnostic.",
+  "receipt_directory": "/root/.ai-tmp/msvc2/vc1.0/link/debug-log-pipe-denial-y7liv4g7"
+}

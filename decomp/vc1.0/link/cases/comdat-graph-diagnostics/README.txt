@@ -91,3 +91,16 @@ Next root-approved coherent workflow is public dispatcher -helper plus separatel
 labeled direct driver_usage after complete caller/dormancy/mutation proof. Its
 257B opportunity is modest. Read-only classification of larger unknown/gated
 regions continues; no uninitialized converter state or private-g mode is seeded.
+
+Historical observer-coordinate limitation (identified during direct-debug-log):
+The old original controller sampled100bytes at5c06c, which is the end of the actual
+100-byte debug_flags array at5c008. That raw field name is misleading: it is an
+adjacent zero sample, not actual-original-array identity proof. The historical
+comdat_diagnostic_abi assertion and wrong-debug-mode offline mutation operate on
+that adjacent sample; current reporting does not claim they prove actual mode
+identity. Oldraw/controller snapshots/comparison/control evidence is preserved.
+Genuine fulloutput/control and known loader-zero actual flags remain separate.
+Native observer/data-symbol ownership already use the correct array. The new
+cases/direct-debug-log proof binds5c008/full100/getter/setter/actual transitions;
+its historical-flags-observer-limitation.json inventories exact dependencies.
+No broad replay or silent oldsample reinterpretation occurred.

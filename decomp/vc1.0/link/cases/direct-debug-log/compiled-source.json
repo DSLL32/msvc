@@ -1,0 +1,875 @@
+{
+  "status": "Frozen end of granted stable build/suite window; Python runner correction follows against identical ELF",
+  "shared_READY_commit": "574227e0e09ab9b2aee5d295ecfa185143a9615d",
+  "sources": {
+    "../../../lib/recon/include/recon.h": {
+      "bytes": 29501,
+      "sha256": "8fbaf0e450def645e76f7076522d0234e825aea17411bb599789e6cfe6668fcc"
+    },
+    "../../../lib/recon/include/trace-abi.h": {
+      "bytes": 1058,
+      "sha256": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7"
+    },
+    "../../../lib/recon/include/win32.h": {
+      "bytes": 13280,
+      "sha256": "2f632c34d9af7f726aa0a1a0eb5605c812ab91b205048d0f07e31c4e5174dbd3"
+    },
+    "../../../lib/recon/native/direct.h": {
+      "bytes": 148,
+      "sha256": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e"
+    },
+    "../../../lib/recon/native/excpt.h": {
+      "bytes": 198,
+      "sha256": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660"
+    },
+    "../../../lib/recon/native/fcntl.h": {
+      "bytes": 611,
+      "sha256": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a"
+    },
+    "../../../lib/recon/native/float.h": {
+      "bytes": 1009,
+      "sha256": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42"
+    },
+    "../../../lib/recon/native/io.h": {
+      "bytes": 140,
+      "sha256": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b"
+    },
+    "../../../lib/recon/native/locale.h": {
+      "bytes": 508,
+      "sha256": "a4bcba0ad40ff971717170453d1725d8b4452ddfd8411d1a8ed309809d55a13c"
+    },
+    "../../../lib/recon/native/malloc.h": {
+      "bytes": 406,
+      "sha256": "2eb86ea79987793bde23d2016e7d52ad7d5c6a5818a5812f53a072d980934f21"
+    },
+    "../../../lib/recon/native/mbctype.h": {
+      "bytes": 413,
+      "sha256": "4207df36c7093b86502916601050bef8538d5d32a615498e22144d23500c7b7f"
+    },
+    "../../../lib/recon/native/mbstring.h": {
+      "bytes": 1105,
+      "sha256": "9f9b8f200a6e7559a4cda5d5ef61f339cc8f4be7076ae44347ea9ce2903021d3"
+    },
+    "../../../lib/recon/native/process.h": {
+      "bytes": 128,
+      "sha256": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a"
+    },
+    "../../../lib/recon/native/setjmp.h": {
+      "bytes": 2495,
+      "sha256": "1063e154c5b2277afe91cad791706358b5cc5163b3374e2f2367b8cfd4e7c7a4"
+    },
+    "../../../lib/recon/native/share.h": {
+      "bytes": 161,
+      "sha256": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b"
+    },
+    "../../../lib/recon/native/signal.h": {
+      "bytes": 806,
+      "sha256": "ba3d6621f3f863b022f6aa9f5d6125a584d594a9f3d79ad172a6ae3f8c12a150"
+    },
+    "../../../lib/recon/native/windows.h": {
+      "bytes": 88,
+      "sha256": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a"
+    },
+    "../../../lib/recon/src/compat.c": {
+      "bytes": 19025,
+      "sha256": "13d89c42120816762c64ecf591044f899ba3e6e3fd5d27d1d6218adacb8e10ec"
+    },
+    "../../../lib/recon/src/crt.c": {
+      "bytes": 124253,
+      "sha256": "dbe8eeed27ae67a9485981f9df1726642c60234fbfc562635c9a4ba112db4dc9"
+    },
+    "../../../lib/recon/src/decimal.c": {
+      "bytes": 12018,
+      "sha256": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4"
+    },
+    "../../../lib/recon/src/entry.c": {
+      "bytes": 2444,
+      "sha256": "33f47565b8fd09dcbdf5254cd47bb895de22eaf8c073668a1f2abf2bfe942db0"
+    },
+    "../../../lib/recon/src/process.c": {
+      "bytes": 13138,
+      "sha256": "885ae0c197f2f64933598b3d1435af156086f63c664a04b5b99cbae52d89a42d"
+    },
+    "../../../lib/recon/src/trace.c": {
+      "bytes": 13917,
+      "sha256": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328"
+    },
+    "../../../lib/recon/src/win32.c": {
+      "bytes": 58959,
+      "sha256": "d556539a11591642adb8f4c4651d6c5adc134405c02356391982dc55970c7551"
+    },
+    "Makefile": {
+      "bytes": 23199,
+      "sha256": "da6822483edcd0e3e27fbf3f2a54fe9fcf0981cdb6484cd43ddd7f3c1fc8e1f8"
+    },
+    "scripts/native-bind-parser.c": {
+      "bytes": 2898,
+      "sha256": "9c418c3e900353ffce3f1824cb17fd0c3dd4ca23d875e2dd4dcbafd235535298"
+    },
+    "scripts/native-comdat-diagnostics.c": {
+      "bytes": 1848,
+      "sha256": "adfb6a48ee6bbc993a1d7c3e0c7a3cdd6751334c8013adf23f5514a739e5774b"
+    },
+    "scripts/native-cvtomf.c": {
+      "bytes": 546,
+      "sha256": "440378c1796109b0ffd5899e4720c64eac59606d07288fee90fad3d4875723ce"
+    },
+    "scripts/native-debug-log.c": {
+      "bytes": 2401,
+      "sha256": "6c20260624d0e61993001145e3721b83e0d674aec668afa2edf3f683c52a7398"
+    },
+    "scripts/native-dispatcher.c": {
+      "bytes": 604,
+      "sha256": "72cfb06d96f49669568e5f3f901774dd1d556606934f85deb152e0ca094c59c3"
+    },
+    "scripts/native-file-resize.c": {
+      "bytes": 2888,
+      "sha256": "b521cb739a8311e7fd2d4498f371b88c21bc4cbb39f25c33f6c3a24e5a21eadb"
+    },
+    "scripts/native-ide-protocol.c": {
+      "bytes": 3235,
+      "sha256": "2095a2e5873e5505f1d1ab3a111fa141ca1be09609c5c644e4aed8b88e40c874"
+    },
+    "scripts/native-image-checksum.c": {
+      "bytes": 3493,
+      "sha256": "7ac416e94007adcf81394ecec00a969c8dab0b72abaef37fdba051b5bfa8afa6"
+    },
+    "scripts/native-legacy-diagnostics.c": {
+      "bytes": 1950,
+      "sha256": "f2e0aee68847db55d13fa4006f790ba027eff1bf243bf0ea0c5d72dc201008f3"
+    },
+    "scripts/native-module-diagnostics.c": {
+      "bytes": 3131,
+      "sha256": "95efb6470605e630114350211b767cfa98f6a8b0b37d28117c8d9db82b71a2f9"
+    },
+    "scripts/native-module.c": {
+      "bytes": 2826,
+      "sha256": "ce4e416ec3f04023e7aecad2b0ba3c51aebf60358e6b07afa1130cf3f3869ef3"
+    },
+    "scripts/native-priority-archives.c": {
+      "bytes": 2213,
+      "sha256": "dd9c0d500457deb8d65e5ea4de61ba36e0cb7e98a55193ed293317a3344c4361"
+    },
+    "scripts/native-symbol-tables.c": {
+      "bytes": 3473,
+      "sha256": "9e8b7cb9a5b4770f190bebe512d13516655497e513671fbfe86fa938cc2b6042"
+    },
+    "src/archive.c": {
+      "bytes": 6236,
+      "sha256": "ea1130f6a3892ce9b5fd684cc02082edff7ffe2ad8501b1decdce28fa2155d69"
+    },
+    "src/archive.h": {
+      "bytes": 593,
+      "sha256": "fa081131d4d2351fe8639a4b5d174226bd80c3152cd4063d6af5513fbd98eeaf"
+    },
+    "src/arena.c": {
+      "bytes": 1653,
+      "sha256": "0902f2f28a7ab9ca7cddb68fe88f0ae9da3307bd2fa593e217007d345940c78c"
+    },
+    "src/argument-stubs.c": {
+      "bytes": 105,
+      "sha256": "9b9b8b6cac77bd40e7fa07303282524561f70f4fe0f80c7f8a0cd63604e49073"
+    },
+    "src/arguments.c": {
+      "bytes": 9113,
+      "sha256": "dd8297809089fb242b84dcab4d500b5deb1dfd07604ceb01385df1128edb85b6"
+    },
+    "src/arguments.h": {
+      "bytes": 1049,
+      "sha256": "0e9b49626dcc1a90d34d848797df7f70b0a0a21b89f268d817d343b2bd7149da"
+    },
+    "src/base-relocations.c": {
+      "bytes": 4052,
+      "sha256": "15b92afe122daad54a5bd5f71be7d0d8790a157b8e67cd2b835b602286b794dd"
+    },
+    "src/capture-bind-parser.c": {
+      "bytes": 12548,
+      "sha256": "283b150431b6a6654cfaeb0e19f1500305ddfda58cad1a2bc5e8570ce0bdc8e7"
+    },
+    "src/capture-comdat-diagnostics.c": {
+      "bytes": 13959,
+      "sha256": "3858a4e03373f2634809203221a35d73863934d03742300ecfcb1adf6626f725"
+    },
+    "src/capture-cvtomf.c": {
+      "bytes": 25172,
+      "sha256": "01bcd365b7a6a80bd9e7649500c9068327844c84ec9078d4789f8de5f30af63c"
+    },
+    "src/capture-debug-log.c": {
+      "bytes": 14722,
+      "sha256": "d4a67ab7b5f98008a7de8fb14fb383fb31163ab88f019db47a9a1b8bddb9dee7"
+    },
+    "src/capture-dispatcher.c": {
+      "bytes": 9541,
+      "sha256": "9004e5bead7744ad31ed04620b58d22e4e5ac581b6a2bbadfaeb0783e13c9ec4"
+    },
+    "src/capture-file-resize.c": {
+      "bytes": 14965,
+      "sha256": "472309e06ab8871716c9e416ff725c92f736be04b8c4d2a322048cc33587342b"
+    },
+    "src/capture-ide-protocol.c": {
+      "bytes": 17101,
+      "sha256": "11ce62c4c672809f5d86ea5b5bdc8520f401fe04a7000b914881d1aac6281c7c"
+    },
+    "src/capture-image-checksum.c": {
+      "bytes": 13128,
+      "sha256": "a19a4c1b5d8f89478ac59a5ce52d4ecf1126e8d70672caf369dc0404e6168a52"
+    },
+    "src/capture-legacy-diagnostics.c": {
+      "bytes": 10500,
+      "sha256": "d6619555ff7051af0dddeadcece31c437990ab9adf7fcaeae0c028f8c21c99ff"
+    },
+    "src/capture-module-diagnostics.c": {
+      "bytes": 17334,
+      "sha256": "5bff8d3452adcf129d4f673594fdf25b3746d216e10e294d69d4c74bc3ee889d"
+    },
+    "src/capture-original.c": {
+      "bytes": 51227,
+      "sha256": "6b24e45a985468418d1fec6d4572894dec917c3ae4c047021876ba616bf79299"
+    },
+    "src/capture-priority-archives.c": {
+      "bytes": 12068,
+      "sha256": "b4c451f987176f33f6e223e2bc88cef35a5def54381934617027e6a67191dec3"
+    },
+    "src/capture-symbol-tables.c": {
+      "bytes": 14498,
+      "sha256": "c71842790bd9b0294be681914006638d6c4c792291b829357b20aa69afa2c9ee"
+    },
+    "src/checksum.c": {
+      "bytes": 3223,
+      "sha256": "54dcfed429df8b227273c2a1503cd712126685ac8c2fc24dac292ef277ef3755"
+    },
+    "src/codeview.c": {
+      "bytes": 13356,
+      "sha256": "1e86017208630c932b8a8f77ac0580af2d623998ea8617303237eceec8b5af9f"
+    },
+    "src/codeview.h": {
+      "bytes": 1123,
+      "sha256": "bde2f35f20943306b0d0142b184f4985f123de2b212545b300310eed5dbf4406"
+    },
+    "src/coff-io.c": {
+      "bytes": 6898,
+      "sha256": "3efacbde355b7f2eb1d353cf1938f998d553e76c3ebe845838d100791ef03533"
+    },
+    "src/comdat-diagnostics.c": {
+      "bytes": 2841,
+      "sha256": "bb9acc28dbfeb10f32328876b8cdb521b28419419a929642c03adca5faadd996"
+    },
+    "src/comdat-diagnostics.h": {
+      "bytes": 368,
+      "sha256": "631b56f282f04b8eeddcf788c78253e7f2462a77e40e615c10d0e99a5891303e"
+    },
+    "src/comdat-selection.c": {
+      "bytes": 4326,
+      "sha256": "f0414123a83cb19e22a715eed1544ee086c56271cdbc76b899aa8a460ec70942"
+    },
+    "src/comdat.c": {
+      "bytes": 8367,
+      "sha256": "2e9dda885e3d1273f6f0c96ac8961b15d8a827d50501982626e2254f73f3f1d4"
+    },
+    "src/comdat.h": {
+      "bytes": 2465,
+      "sha256": "b9a2eddaa0c8447d708c53be85e5f3c7c68fe416a73da1b67c579224551278e4"
+    },
+    "src/crt-anchors.c": {
+      "bytes": 424,
+      "sha256": "de8794b7a781b9bdc1b39004b566d2766469abe971a28dfafdd5cd6a858a8a4b"
+    },
+    "src/debug-symbols.c": {
+      "bytes": 6617,
+      "sha256": "2a3793d05de8b101a1719ae8c04ea4da301c63988a9aba2f4b1eae2c9929bbae"
+    },
+    "src/definition-file.c": {
+      "bytes": 19688,
+      "sha256": "e246947b76486d75bc9abb1b012ce8dbcd1f112459b3a5c38a88354d1d0301e4"
+    },
+    "src/definition-file.h": {
+      "bytes": 1281,
+      "sha256": "2a2cab9df3d1ec0114d286e2950ccaa6adc13e63ae34a8fb20b46e7ced1816ce"
+    },
+    "src/definition-stubs.c": {
+      "bytes": 116,
+      "sha256": "43f03dd439a849c14520e0abd60a74656c95660572e9dff2cf0f31ee43c3f6de"
+    },
+    "src/demangle-stubs.c": {
+      "bytes": 183,
+      "sha256": "1e1412e51ada8d3d42540e0bc2012ee9cb0e34f6278dfd4c44b45f9456bf892e"
+    },
+    "src/demangle.c": {
+      "bytes": 78047,
+      "sha256": "eae326f0311c1140d6d9412be333ef0f8e44e0fd28f13235ddde785675bc119b"
+    },
+    "src/demangle.h": {
+      "bytes": 8998,
+      "sha256": "d247d5aa8714a82b2bb5eb6c81c9cb2e8fa9f71f28a72b8d30c66c18f41a08a4"
+    },
+    "src/diagnostics.c": {
+      "bytes": 5813,
+      "sha256": "0635de4d70348ff51cdda04c04417d9f066a7621197b27dff1adee32984c77f2"
+    },
+    "src/disassembler-stubs.c": {
+      "bytes": 333,
+      "sha256": "0a6840616c9bb22be709c95134500b888d814d8b95f601e6413e1f73e73c15e6"
+    },
+    "src/disassembler.c": {
+      "bytes": 69814,
+      "sha256": "282661961e411330b0c842d07efc912769d0599454836961a2e890e6eb1b198c"
+    },
+    "src/disassembler.h": {
+      "bytes": 14567,
+      "sha256": "41cb7ba4cc17146bccfc879f4e27504a77b4f3192c5f0c3f5681c7ff98c6417c"
+    },
+    "src/disassembly-output.c": {
+      "bytes": 16341,
+      "sha256": "a5315bddb72c093538bbabb399f7e67eabbaeb89023d78f5726f6d088722b0a5"
+    },
+    "src/dos-stub.c": {
+      "bytes": 879,
+      "sha256": "3d90b4429c55a9efc6f3bcb29b7d62a7a1981bed578eb33c98545805c15de3b9"
+    },
+    "src/dos-stub.h": {
+      "bytes": 996,
+      "sha256": "2af743af7316d24fee19f38c536d5e9a37d3c15a9996e9407a216fcde1be1a5e"
+    },
+    "src/driver-stubs.c": {
+      "bytes": 113,
+      "sha256": "5e8045e7176b23b44d2cd324b117a2f26f88b1f458ed3d2d08ee2c02a7a0972c"
+    },
+    "src/driver.c": {
+      "bytes": 759,
+      "sha256": "c392116bb2034c43b5b938968f5ff0be8f66ef1575088b4899de29f6eda2ca4d"
+    },
+    "src/dump-stubs.c": {
+      "bytes": 83,
+      "sha256": "5abe5d9db65adbe045506c4e40f8c75589c9d566fdd4a680f70092c4c42ccbd2"
+    },
+    "src/dump.c": {
+      "bytes": 65298,
+      "sha256": "ceea606ac267b2608ee154f359699b704381e63e050f439f50df8be2c5fe273d"
+    },
+    "src/dump.h": {
+      "bytes": 1019,
+      "sha256": "e5285ccc583772ba11ac52f8a677825dc78193a3cc5f2e56128273caa654c1f9"
+    },
+    "src/edit-stubs.c": {
+      "bytes": 290,
+      "sha256": "5094a02b940039b61a54d462d8b3d2ca5ae3d5a3f04010351d637bc6ff393c55"
+    },
+    "src/editor-bind.c": {
+      "bytes": 15403,
+      "sha256": "da2f788b855fc8241e4d680e89c34062441f9e15d93ec3588480db7df2f9eeb7"
+    },
+    "src/editor-image.h": {
+      "bytes": 3459,
+      "sha256": "7d4950462f576c7cbb586da612f714643fbbb603db1abbe3c5b71b1859d8a3d4"
+    },
+    "src/editor-rebase.c": {
+      "bytes": 12671,
+      "sha256": "9bffbee69758d3934c5d7dff6ae44257e0604c7e92c9e3914c1f2bd2a71b75c1"
+    },
+    "src/editor.c": {
+      "bytes": 12931,
+      "sha256": "44250f463addd3d9549c2106d146cf9ab42aed95ccc2b42df3396865ae56f58e"
+    },
+    "src/editor.h": {
+      "bytes": 354,
+      "sha256": "d54509422b4678197049f67b7e8c6cfffa78d0f73d075e9e6c47dfd5d740bcbf"
+    },
+    "src/export-directives.c": {
+      "bytes": 4361,
+      "sha256": "d4216be35860f3a3ef5a273ac723b331f6258985808931208c2822b942104b30"
+    },
+    "src/export-object.c": {
+      "bytes": 11755,
+      "sha256": "13430277747c5fd90868d5eb42c2f31466cabb58fcb846015407682a5c5379f4"
+    },
+    "src/export-resolution.c": {
+      "bytes": 9467,
+      "sha256": "542787212cd5e2c6f267c5f2a79f9daa698bfe158136fd3192dc5008e3013a91"
+    },
+    "src/exports.c": {
+      "bytes": 3240,
+      "sha256": "526a8d948dea67a5bed2a41d2d538008466911e08afae6540807bcd57ed8ab6e"
+    },
+    "src/external-output.c": {
+      "bytes": 3167,
+      "sha256": "84037bb12374f58ed68a1c78135475d81729f96389c1d7de176b79e2601c167e"
+    },
+    "src/files-stubs.c": {
+      "bytes": 101,
+      "sha256": "941f58f54a8dfd6d2c901e053eacd7903423cee32ab131ad494a92ad1f78efdf"
+    },
+    "src/files.c": {
+      "bytes": 23605,
+      "sha256": "733bf52cdeb4f52025e7a65bf6733ac702ca1ce66e2818c0083f1fa96e714f16"
+    },
+    "src/files.h": {
+      "bytes": 2244,
+      "sha256": "44c4e7b74bd224c7dcf1b8d19cf90de67212f54c0d6b3a8f7db516e51c2d9433"
+    },
+    "src/i386-relocations.c": {
+      "bytes": 4719,
+      "sha256": "7e6821709f3e78d12f897bbdd787ee661bc64ce5c089943bc518afc646a39ece"
+    },
+    "src/ide.c": {
+      "bytes": 2228,
+      "sha256": "47ad96b6dc8f9c81492a06a7b77f34e2caa8ce82ef86ffabae0f4632dd3cd4b6"
+    },
+    "src/ide.h": {
+      "bytes": 813,
+      "sha256": "ea78716533198156d4ab708d766321932371f4ef987bbe37c4f6a665623d049d"
+    },
+    "src/image.c": {
+      "bytes": 2375,
+      "sha256": "38fcfd7f1c0327cd701ff41cccae728839e34e38c728dcb155c499e7a7592f06"
+    },
+    "src/image.h": {
+      "bytes": 2136,
+      "sha256": "ed39e9f81387320e3b7cec8cdd71c2a1ab37b6ef30560b7360042fadacaade90"
+    },
+    "src/import-archive.c": {
+      "bytes": 5424,
+      "sha256": "97135bd86d9c053f5d17673765089cd467a22d6bbb6acf4ea79477f31520d92e"
+    },
+    "src/import-library-stubs.c": {
+      "bytes": 125,
+      "sha256": "e4415a372a854518b9f7b3a1b5a09fcef4975ba49be884ae2e3afd5d7f2e95d5"
+    },
+    "src/import-library.c": {
+      "bytes": 9897,
+      "sha256": "cc23094ead75c11d9ac5176c7241c8d08df477628a36deca42eae24c238d398f"
+    },
+    "src/import-library.h": {
+      "bytes": 4633,
+      "sha256": "d3efeda19661064b949caa187eb1de47399a052933868d9f82f70d28eb1b38d7"
+    },
+    "src/import-members.c": {
+      "bytes": 20353,
+      "sha256": "d9302aea1f993ba4e80a9dac958d031db696ba6c1eb97e59a671fd076872b2b7"
+    },
+    "src/imports.c": {
+      "bytes": 4623,
+      "sha256": "c325abb92c4a4c1516ee6b259c121312406b52f8599dc6649a6c5033e7a05d56"
+    },
+    "src/library-options.c": {
+      "bytes": 3620,
+      "sha256": "ede12805a59288519a86a04fe52f8c1b00ac13c9151ae1022f309eb5f24c7fec"
+    },
+    "src/library-output.c": {
+      "bytes": 7393,
+      "sha256": "db6feca64173e55e7b5938ce8105976a21a270b7e7008b14c37a9a4a92a5a658"
+    },
+    "src/library-stubs.c": {
+      "bytes": 107,
+      "sha256": "8e48c9a82a738990bdc57519670328a3976842f8b9801601cc28e180c800faa3"
+    },
+    "src/library.c": {
+      "bytes": 11568,
+      "sha256": "411f763b540be3f16581fb607de9ad305edbfd5cf309d2af1d53c15a913e3e6d"
+    },
+    "src/library.h": {
+      "bytes": 640,
+      "sha256": "8e056b56d4f9ccfb9dd99582817e9e2aeeb58f9ae96b73db8bcce79bc242a506"
+    },
+    "src/link-pass-stubs.c": {
+      "bytes": 385,
+      "sha256": "fb70c6be0005a4b33c2df58b3cc339b2d3f13083752300318db835d0559e8c79"
+    },
+    "src/link-pass.c": {
+      "bytes": 38239,
+      "sha256": "de45c2d242cc5e26b4edf67f7df97af4f433aedfb9111002be62168dc6d97681"
+    },
+    "src/link-pass.h": {
+      "bytes": 5527,
+      "sha256": "b44eac883f24c8a308c75fc221b0e8aa63350879e15d025e13a5666c55ef7d1b"
+    },
+    "src/link.c": {
+      "bytes": 4176,
+      "sha256": "507d0514efd512221ee3d8bab58e3932eefc4624b381eaae94d0ca31b1a9d5cc"
+    },
+    "src/link.h": {
+      "bytes": 1062,
+      "sha256": "980366c6f2a6d222a199c5f03ad7bdadc24c97b7f85eb5cc37c9630b02bc280b"
+    },
+    "src/linker-types.h": {
+      "bytes": 1298,
+      "sha256": "b9bc4539393b86c21e9ba240b8961827e967e9d200be4cd9925fd76f99fe153e"
+    },
+    "src/linker.c": {
+      "bytes": 6009,
+      "sha256": "3258323c389e938f621326cb58b7f8403dcaa06170d61110ef3f0f831f368859"
+    },
+    "src/m68k-relocations.c": {
+      "bytes": 15043,
+      "sha256": "1b2bb9dc2497b7d73bb704d50650ae879a9c810b4f449be93c88cc7cb3bbe7cd"
+    },
+    "src/mac-debug.c": {
+      "bytes": 3179,
+      "sha256": "72bf33af5373d3fc180660b543c0c2ad46d099b674ab0cb51582cf5db0c19bc3"
+    },
+    "src/mac-fixups.c": {
+      "bytes": 8932,
+      "sha256": "b8d44d8c7bb35f09b34f2a28b293abe36bc1747fc19470d6d85dc005c04b883b"
+    },
+    "src/mac-object.c": {
+      "bytes": 31209,
+      "sha256": "6db2922c3d00d0e7ef881dbe6b2a914fc1957c5adf4ff14e07c565826e73f150"
+    },
+    "src/mac-sections.c": {
+      "bytes": 11483,
+      "sha256": "c6e0c9f56ecdf64b2e96fb786e0906afb66f948b6d5b19cbd3a33d655aa58c06"
+    },
+    "src/mac.h": {
+      "bytes": 574,
+      "sha256": "e01129e593983a576e9da0ee5d116f0f1c7f09a6be90239fc0197aae53b9f648"
+    },
+    "src/machine-stubs.c": {
+      "bytes": 93,
+      "sha256": "a9d5cff417ccd62a514a486aa62106b634de16071e98b0799e4f74fe931739a0"
+    },
+    "src/machine.c": {
+      "bytes": 2958,
+      "sha256": "0e9b2fe38af58170584284543ab812cd081e47b86c4430684339be437759e7fc"
+    },
+    "src/machine.h": {
+      "bytes": 384,
+      "sha256": "681efd29ad0a5c93745c8f2a0828d3bb14409aadc1e0cad246b4c09fdf8d8535"
+    },
+    "src/map-file.c": {
+      "bytes": 8437,
+      "sha256": "41df1a9c8653343663bda9bdab6d824ce0e2be99b4191f5910aeb53d4cec7212"
+    },
+    "src/module-stubs.c": {
+      "bytes": 185,
+      "sha256": "6c7258e33bc2ffcdacd6ed776620ebd905f03275148cf8022c4f3142c8fd26b5"
+    },
+    "src/modules.c": {
+      "bytes": 18950,
+      "sha256": "518831eee1a1cb5118edec8341b70eae96f66851350995ecb327b80b23879edc"
+    },
+    "src/modules.h": {
+      "bytes": 6741,
+      "sha256": "9c2016a8f4d09660bedcd1a23ec6edb5da96fd0b734d6325fc89abfd5866f39b"
+    },
+    "src/object-stubs.c": {
+      "bytes": 124,
+      "sha256": "5f2e0b088054ea588e32d68f0e6acbacf59b804bc298ebaa6a60ad8ae70cc16d"
+    },
+    "src/object.c": {
+      "bytes": 23955,
+      "sha256": "a06ef7aaaf66699105212ed5a002a5408898c601daecd1469ca742a8053e2825"
+    },
+    "src/object.h": {
+      "bytes": 2988,
+      "sha256": "4b59d36449554ebbc578627fc81b567be27c3257d0deeb10b084b4a53b5a83bc"
+    },
+    "src/omf-debug.c": {
+      "bytes": 34317,
+      "sha256": "b899e8811ecfd3bfbdd279ac14a58e875fc36a2361a9357dedb47d7753adfb76"
+    },
+    "src/omf-stubs.c": {
+      "bytes": 294,
+      "sha256": "c1c5ef89c978e9d553d16e28eff0004b777d72fad7028441af958717f7dce02f"
+    },
+    "src/omf.c": {
+      "bytes": 60552,
+      "sha256": "c629719d281423889fbd2d723131e94de248234a4443caa2723a2ae4db39fee1"
+    },
+    "src/omf.h": {
+      "bytes": 11013,
+      "sha256": "4d97a0ac52ac96e9eb185279080a0cc92c0903c270365c31e4ea749266634b93"
+    },
+    "src/opcode-table.c": {
+      "bytes": 43028,
+      "sha256": "3982f87726e48c7b26396a73409e1ceb70aaf7dec5844e1f55f3766e6b879e13"
+    },
+    "src/option-stubs.c": {
+      "bytes": 102,
+      "sha256": "722e72e1bdfe46d7b7dc2fc7f95b2c1d37c8363970b78daf3072725fab3e516b"
+    },
+    "src/options.c": {
+      "bytes": 25783,
+      "sha256": "088b4dc70d619272f1f9e1cfed1e3b713cc543b632d2f1e90ca16c5f26d1e0dd"
+    },
+    "src/options.h": {
+      "bytes": 1556,
+      "sha256": "a3d0c1ca94008f711e106111f89f9cf34ba458fb94e239654a1c44ec4b7b2c61"
+    },
+    "src/ordering.c": {
+      "bytes": 4725,
+      "sha256": "2667f684866382bb91ff0e3b03e416a3fffb3e4bdae5ce2b45c3026e65faf863"
+    },
+    "src/parse-switch.c": {
+      "bytes": 1244,
+      "sha256": "f55627c5b2ed825513df16bc0e009dbddac6a768af2c84f35f42e69c1cad68be"
+    },
+    "src/pass-one.c": {
+      "bytes": 15191,
+      "sha256": "aa8a3ed412aea66ea80cee3913a4d9d7c06d87a68a5e129de758a75f13c51a0b"
+    },
+    "src/pass-one.h": {
+      "bytes": 1228,
+      "sha256": "24990dcc403b72d0e1a237457c862177e4f7cb4ccc4bb0819d508a5ca471ea9c"
+    },
+    "src/pass-stubs.c": {
+      "bytes": 274,
+      "sha256": "288530103cd782f8c5a325581f5dac666047a3d845af8646c17c9960a033ec13"
+    },
+    "src/pass-two-stubs.c": {
+      "bytes": 191,
+      "sha256": "1207b22807f6d34287402001f64ff9cdf28a2f512393b738041028d8f7b58036"
+    },
+    "src/pass-two.c": {
+      "bytes": 24051,
+      "sha256": "80aefc17616a024f74759ca739c0c50e914bd2a741272c0c081f11a7f1f21b5f"
+    },
+    "src/pass-two.h": {
+      "bytes": 2246,
+      "sha256": "4641c087132942f4b3333c824eaed0c2af25cc4c986a1e78d78adb422a6a7b30"
+    },
+    "src/repro.c": {
+      "bytes": 1477,
+      "sha256": "ad0164bb83febc34e1563546103df7965c02a451bacc98166723d1c99d560f2d"
+    },
+    "src/resource-legacy.c": {
+      "bytes": 17720,
+      "sha256": "8af71db8e1171f8da6bed8e03391eb848de7b73a5e15c1d8ef9e4d2f2e99d584"
+    },
+    "src/resources.c": {
+      "bytes": 25245,
+      "sha256": "0341c2d61fa91d480920f384ef998e5f2874753b55f77a3b9edec11080f5433e"
+    },
+    "src/resources.h": {
+      "bytes": 2248,
+      "sha256": "6f42745d3305f383c1b9959689f60e0417fb6b467d2ad65dc73cc4a3fc00295a"
+    },
+    "src/runtime.c": {
+      "bytes": 18936,
+      "sha256": "b790d9cff5d75f7b9136d34f542d7d6beb07fd97fa0e3af3463e5e23349a15b2"
+    },
+    "src/section-layout.c": {
+      "bytes": 17880,
+      "sha256": "1531a3ecdf8bf62e7a50e5b25a7b6c91ea264e7c0b90a5be5d1655aeda820276"
+    },
+    "src/stubs.c": {
+      "bytes": 123,
+      "sha256": "e3d791e277ce4ec7faf02d97c654190217eb9e7bbab7410a88958c6635fb5d19"
+    },
+    "src/symbols.c": {
+      "bytes": 20686,
+      "sha256": "b6cc52fbaf66839c112c38af1bac5e2071c8ff82afd98433b76de64239e0a14b"
+    },
+    "src/symbols.h": {
+      "bytes": 5046,
+      "sha256": "8bf1a74018465200790ba8f41ceae75702a751e21d2be7c155daf9d158817fcc"
+    },
+    "src/text-buffer.c": {
+      "bytes": 1021,
+      "sha256": "70267855d654642310eb2205e7324970d90258363269cb0d6998865f26bf3c29"
+    },
+    "src/usage.c": {
+      "bytes": 2109,
+      "sha256": "562db82ce93d0dda9db98ae6c5ce8f5801934d5e69d7da26555714084820b096"
+    }
+  },
+  "ELFs": {
+    "build/native/linker.o": "956fcf5d0af47d57e63b216ab6320ea4e3637250255b325e313f055493490c34",
+    "build/native/import-library.o": "c3168c432345ccf6d75227cb7521c08d9e4e4455975a5c64d394dfe6ac73dcb9",
+    "build/native/demangle-stubs.o": "67e855ac58264e6379fa14e5d176db96c3bbed97d61ff9ddb0a7e20856285ff4",
+    "build/native/imports.o": "bae54acd83b7b3e616d8baaec25c65ebeb09d7e5753e95440f7dc31be79c5074",
+    "build/native/omf-stubs.o": "f6245d628abe7b1ec5dda3c997c2ec66fd4bfe1655139a79954da4da55ae21b2",
+    "build/native/files.o": "6bd8651dc8c65093ac11315205a8e75c83cc8bc7eb2a4bc2541d3f7bb7e7c7de",
+    "build/native/argument-stubs.o": "a2b284ef1d92f33f7cf2548158cd0aaaab56d98cfb7e41e6373ca23e2da76a2f",
+    "build/native/comdat-selection.o": "fd068ddffff582c0a6a9aeb858a8844c06850817936bf9b328539e98b545b184",
+    "build/native/driver.o": "2cbc86e08370c354a91b99bc4d2427582b8c5f693a93cda818cf7d9dbcaacc27",
+    "build/native/dump-stubs.o": "281a677afad82ff784219b89535c8a0b3b6810d4d996c09197e1fbe727001da3",
+    "build/native/resources.o": "b68be5675ae429c2ed201e1c7e0efee3ca7889fd2db5191cb8291f46da72cdda",
+    "build/native/parse-switch.o": "693429bca16c7cdc229f1be02a0a79e203529a62e735fcd5b167e2b293510af1",
+    "build/native/library-output.o": "e0792a940cfe7410184c31b05b091688c7638081458a2d4b5c5f98d3d5043c9b",
+    "build/native/mac-sections.o": "ccc810c389b9e4c0b4ecc8dcaaaf9bc8f57cfddaed31b76f6e4e638ac3fa5125",
+    "build/native/symbols.o": "b7ce09b82854d92a5589d450894d933809e67ec94ffb0d9b2ba5bbb8aad14ee8",
+    "build/native/m68k-relocations.o": "310e3f750fac91520d9d34384efdf715f36bc043cbbdf1bd565b9ec07674bfac",
+    "build/native/definition-stubs.o": "5b5a43b1e80e9ecf63aefb634c461d7448077fba701d1eda974fe3f0406d0db0",
+    "build/native/disassembly-output.o": "790e3428f6ef7edd5316127911ee2f8b4268f531fefb8268a5a1f283129a8251",
+    "build/native/exports.o": "da16ffe4cd5fa7233afea522cbee0086686538cce6cd333b8682c97ef2a3c1fc",
+    "build/native/file-resize": "0259650f835a9d770948ed4a2d1697540fab6ba2b12a8f538e9804bb95f03d50",
+    "build/native/ordering.o": "4899f6f2005c6fb3aa891590cab4e67fd7153b587d1394a0d8b5379f9ceac77e",
+    "build/native/machine-stubs.o": "af9c7d3fc5dc3b07edcdfde4ef54ba29e59919e1293054d35ab2d6aff08af40f",
+    "build/native/LINK.EXE": "535db35f2b6df3c29a05d2c0a9741a59d542d647a6f5a2907b78811ff02bd201",
+    "build/native/external-output.o": "d9124c5c17b926000ece300a38e6040b1ba9a907a4006a389539d44af75aec8a",
+    "build/native/base-relocations.o": "496fc96edb9b07a933d209cc782deb90977bfb26d0899de1cf6658b217b56741",
+    "build/native/machine.o": "350884a4e8a997c35cd8ba3a098d323dcfab0d1492db94e0e904f527eafa0527",
+    "build/native/arena.o": "ea5659daeaf87cbfb65fe0e13711b683a9ace94197dec007be27f15a81c2cd84",
+    "build/native/mac-debug.o": "c1b930e38df0349756149501a905ec40fc34d9a73b149f82d724deb0c33e6bac",
+    "build/native/import-archive.o": "8f56a8ec6fc85d588594b8dba8ebbf44c3c0b0d5286abc850dce82646bec49f7",
+    "build/native/files-stubs.o": "9cf0d53df5a42c6f9ab3741757f0efcb06145fbfc1590bfebe9b26160cb3ec5a",
+    "build/native/module-stubs.o": "bd0a56536d7527bea7929ff96ab9fe3c4e824fcc2250d14673bfff8a3b2caace",
+    "build/native/export-resolution.o": "bcf9bf7063108031cdd74da74ab662ec4c5490a16168558cd27323c95e94db7e",
+    "build/native/runtime.o": "a9b5aea7b8e9a39e3404043daec1b2c9b43811ae9b96fbf5a34e4ff23b815588",
+    "build/native/import-library-stubs.o": "a461555177087a9f64aa930ce1ca83ee3b1a793cad53a9e98c774516cc4c197e",
+    "build/native/dump.o": "1304981a881c8396dc8160bada696b495a0af083dbed194c098979a40f561da7",
+    "build/native/pass-stubs.o": "4a3a8355a7c5b3d0a09379f8e914247f98b2370a37c977fb2614aa44688610e6",
+    "build/native/modules.o": "6c4d0c79278ce091005de78294b00cd545dd1ee3bf42c93d0b1078c83686f23e",
+    "build/native/comdat-diagnostics": "433c4d9b3ff4c6a84f05c0e02c1d954c7b38dc12c0d6bfd26dd928ddb8601f54",
+    "build/native/repro.o": "e51fd6e83c5eb118ef4b9a3938b661a2fbf4c86f48455b8a4d067df4b8fa1e47",
+    "build/native/import-members.o": "8ad15b310546264d7a13eebb6bf8151a33d863d4de34bcd016ad5ed9f5e9e21d",
+    "build/native/pass-two.o": "6bd87026ffabdaccafe95c5d6e21bff7fa5d95a8206291dce6796b1531557d5e",
+    "build/native/i386-relocations.o": "7e3e99c78383a5c46767873250749372bedc1186d9633f3c4689eeef330e26af",
+    "build/native/omf.o": "89cf09934c3ba75e10cbc2ec44e3301e6f81d2daa927cd13cce3dd04c0c1817f",
+    "build/native/section-layout.o": "2ae1bab635b935fb4e0a5aa7392084771de1d7e00b68224765c2d96f86aba70c",
+    "build/native/coff-io.o": "dab5338840fb404b3f417009e00d0ec776d243d848f1c0b158c670e12566e9b8",
+    "build/native/arguments.o": "13f312eb067da73375b12d445b2ff713411721a9173140cedd73b16c5458d719",
+    "build/native/module-diagnostics": "0668bef1dbc6119090b7d9d39647e7e0cd1cba4d26844c6f6a17aa361cb816d8",
+    "build/native/resource-legacy.o": "5b6f2145f7fcc6a0dcb4c6cfb12dfbd441a43f35bf6bfd764041cb227d7afce1",
+    "build/native/mac-fixups.o": "f9a45491ba2039ab479c7ddef1ba27dc9319c1c464111b46bdbd709f853400c0",
+    "build/native/ide.o": "09f989037d465085e1ca37d84330350d95d0b1c5e4beadafd0f543842662b26e",
+    "build/native/text-buffer.o": "a6f9aeed79106ded5c24175a4b3544636ba655945b0e3086169a4c09178de8b2",
+    "build/native/link.o": "bac407d0ea0abb8b86487b9f676630ac03be4485b9ca2f034d3cab3d625216be",
+    "build/native/link-pass.o": "c0a983a7ae8f8addb1a91be2dfec6a292b076966c7c7970068571b24d9357b26",
+    "build/native/editor-bind.o": "a5a92fa865d4e7e979d7567c60d5b1238c6af6d6c5c06eb723b38a1c8d14b9d5",
+    "build/native/library-options.o": "144785f9f39cc2da792cfdc1396f0cbf08160d9bf5bf9408e75048058a60d4b0",
+    "build/native/cvtomf": "5ae04f44b699599be1a65315d351166b3a0552e416b0e3d4226485e75ba72a39",
+    "build/native/export-object.o": "ffebbac936e3ffe64fae47a3336668a61afbc42097b959b88290a6d5d7566dc1",
+    "build/native/checksum.o": "b62f2e9c7339ed0f22b4ee466a7bdd4d4b5780086fd258b2142e57eb7df78072",
+    "build/native/debug-log": "9db01dbc05ecc4c2b5c73d7919d491300047161329663a11570f502cbd5cf43f",
+    "build/native/disassembler.o": "56dbbc048012127e4410cd0708cc9f80f5f7e26539fbd163c8d40d130c8509fc",
+    "build/native/legacy-diagnostics": "0cb0e64e324c27d776ecb8803499fa3e8cc5f072cd26fbeafa34fb75e09bf7f2",
+    "build/native/archive.o": "4d56a9ed392742b248932d59143312ebe4fcdf62bb5e3179d5a40ac934582170",
+    "build/native/edit-stubs.o": "a83e37c361ed21e51cbc425c64e8df825fdf03868ab4094a452ac7525adf3bcc",
+    "build/native/pass-two-stubs.o": "1f80bcba21b993dbb55c810be4f88b616bee8a7a0d1638c11d6bd0f39221ff5b",
+    "build/native/crt-anchors.o": "ac95857e5e4497be10c6227027b3c49f277153620a02c183166b65ff812df325",
+    "build/native/bind-parser": "5c08c38cc568ff13a91bdb36cbf5fd468e47ae7555a81e66f627718d647e1439",
+    "build/native/export-directives.o": "c88bf4b98196738e29ed1d1ea577291c8356dc5755a7706261040c751a543e46",
+    "build/native/comdat-diagnostics.o": "50f0a0ba072027513e7fbedb87cde5e6b7a6e52590954ab8f1dc49dd9a7b8c65",
+    "build/native/mac-object.o": "72a0d21e56182df54702d7600ff2e30523126f0ea04b03e6d67daae4b0c75835",
+    "build/native/pass-one.o": "560af77169a8744e520af15b3a308c4eec409ef19aad930345634523a461b3f9",
+    "build/native/object.o": "8f1cf532a6287662d14edb320ea6e388482275916762466fef153a5601b8ceaa",
+    "build/native/symbol-tables": "4f7070ca9be063fd1946f91721928af7b3d72f01a5d4287f3eec18dadca6cf27",
+    "build/native/driver-stubs.o": "6c14c4d59a5490ac634d32d05c3fade8cd8d294ccec1709b4346eef72bf9de8e",
+    "build/native/usage.o": "33f073c9039e8a755784f2911f7dfb6dfe053f44816aac4bdfa42d31481398a5",
+    "build/native/omf-debug.o": "1f4763c7bdd8cd378675b3ad1a4be94d5c51f4d7cce997ac85e1a23c90ae2b14",
+    "build/native/option-stubs.o": "de02419abd4e253079be92cf0d425bca102d435d7086940b62a3dfb8289fd1ae",
+    "build/native/demangle.o": "a5c309409e8cc0d0261695a1e844ce1670ea85186d40f9f6ae3558f4235ecb6f",
+    "build/native/codeview.o": "38f473aa69fe265cde2e096091e88cdd218fa763029acf1d90adc53f1ecbb610",
+    "build/native/editor-rebase.o": "f58f74eb777bb06265daacf026bf53d2eb1dd6516b74598fe3b1d2003bde8d6b",
+    "build/native/opcode-table.o": "bf7cf279bd621c24b15b6e0f38ce373c56b45ce5e868e4e96d1a24b26d50bbf8",
+    "build/native/priority-archives": "1d01e91c486362cc1630e218e5186c73508eac4785a4296454b843bb9e5e3ea4",
+    "build/native/stubs.o": "1d6220a82ac1b527a0647ae02291c21004a956d3399f090f5aa1730d45d950ce",
+    "build/native/dispatcher": "810c9986184c5564493bbccba0cb28cd7930f32d7150427f2f860a512c165d61",
+    "build/native/link-pass-stubs.o": "08c8cc65ebd8129dbeb6b8e8e907920c3aebbdb168d65698b02f5a7722a5394c",
+    "build/native/dos-stub.o": "d0d486ce7302215c13a483fe4606c0befc6f2a526646864e145d6b1b22bf4f2e",
+    "build/native/debug-symbols.o": "f50ac3d43c958bd4557850486c261dece4286efd92df7130ccc3a86bbad2594f",
+    "build/native/comdat.o": "47ba307b02197372bc620ce4a28cf0fd82836ab4827a6eb266f53349d883e6e1",
+    "build/native/options.o": "20259e8caaced7906b7dbc41aca5c54c8560f21fe52078b92b226192f5bfeccb",
+    "build/native/definition-file.o": "bb5a26d8a21813217231ca74a76dd533af72a50e7d2730032285b54535fd8d92",
+    "build/native/image.o": "93cd40fa9bba1b3557776d3aeebdc7ce6500a29f0adc41c8d7e24a3d85efc10b",
+    "build/native/library.o": "a7d290dbbfbcedffdb81d4ba67ea270827601449a8beda5d9ac063087ad7304d",
+    "build/native/map-file.o": "477c06bee8dafb0acea12085b1e24b51466f77ecc25aa89757bdbad8507dc63b",
+    "build/native/ide-protocol": "8358d92871737202b7e51ab38c46a3b5542e030c26056ffcd51e3299990f329e",
+    "build/native/library-stubs.o": "cae2a7e8f49c76d82fb75234eb8e3427a3821416b746d32288f20304d8338e01",
+    "build/native/editor.o": "33933585dc1d2988e047c57e2e1feb8833b03d4fff3fc7dc43aaae04a19bc4ed",
+    "build/native/image-checksum": "98abee03ce223b22ef34fe5d3fb5f3768cd0e1d6a78a7e4c2e6cd38de3e68c1e",
+    "build/native/disassembler-stubs.o": "a9f68c7115bbedc869273fe36abaa0e9488e4439531e1e24adf86a0c79f2756d",
+    "build/native/diagnostics.o": "d298ae0484d0ec61a708c0f506577cfc76c57f4a31e0b34e0b0029d3745632bc",
+    "build/native/object-stubs.o": "d7b2cf87b71fce0d8f69152a2035ab1378f1227a63e550b654be71fdab091de7",
+    "build/native-trace/import-archive.o": "6c124e0f7c2b641942722c3359d7e827f62e4fa246204c7dc227e93f03892284",
+    "build/native-trace/pass-one.o": "d78e15209be5c093ae04fb6bd300fc0c80130441e2cfa38345ef389ff952d3e6",
+    "build/native-trace/machine.o": "f5d443c0dad572410b96d0f85e5288e3dae40a757e9c5c94148b4b8c746c3508",
+    "build/native-trace/parse-switch.o": "f86d92613b0a00c126b4616bd9980756ff0de8d601641b47cb9b757f1c67e931",
+    "build/native-trace/codeview.o": "753226ca802fe659cf524ac7adf9f86c94d1e0540b1bf4f808fefb56d47f2883",
+    "build/native-trace/demangle.o": "4a085833a9f8d296c8ffd9751237c4c3a773055b605fcfc6bdccdfee33b351f0",
+    "build/native-trace/module-diagnostics": "097f895ca074bed9de0a384fa76bce2f5b73d2c2431ec05b58f142eeeddb3263",
+    "build/native-trace/dos-stub.o": "d0d486ce7302215c13a483fe4606c0befc6f2a526646864e145d6b1b22bf4f2e",
+    "build/native-trace/image.o": "11d3cdb60f383f23f3293e7cff63ba7ab6fad358e0f0c62c181f5e65c4ba0039",
+    "build/native-trace/mac-object.o": "95749ec1077420baf9b90d36ca9af6e8c3efcc7a9176a06d9025ea0717ce123d",
+    "build/native-trace/export-object.o": "980ce011727f6d1c5dcdfc5c3ea8ed8661c46522dc7217b0b4f1172751855474",
+    "build/native-trace/mac-sections.o": "45847cbf67bc3f4f964fc12616c2bb6e0f28d8e8ea95c8b2f41191126654e830",
+    "build/native-trace/dispatcher": "3fce4fbac3b77b454082467e6ddaecdb1c57a4089d285b4b273b48e951739eed",
+    "build/native-trace/import-members.o": "4974b4e4a315745156e0cd0f781e2e5e9a56b1fba0239e3fde2335cff20054bf",
+    "build/native-trace/usage.o": "c0a86a2d93fadbea0fe9ee3dd7db17fae7bd5faf926cf24082a3ee736dc90405",
+    "build/native-trace/legacy-diagnostics": "8e3ef96fdfa2db179339ebd2b4cbc3852811a2f1e69c8509b358f4d64c9bb7f3",
+    "build/native-trace/disassembly-output.o": "c9e2222f2db011a99bd390ead4434122bafde003407a07e0f60bc9f19a3d86db",
+    "build/native-trace/section-layout.o": "b0abe99297fb4e2df8b3be3ae065d4496d4214161f4cf8e97f59eecda98f820a",
+    "build/native-trace/modules.o": "32fbb7f703632b49d007a61dc4869fea4172caa6a266144f10bbc05223234b10",
+    "build/native-trace/ide-protocol": "4b81b3e37d994ce1f94b36c96fbb420fef156c8d9fc0a701db862c7b34c4a90c",
+    "build/native-trace/external-output.o": "52f44e97ed6ffe4e29540fd7b19d9710af81b060ee9d3db0ef0cfd792d4e60a1",
+    "build/native-trace/bind-parser": "333a654b4f468ec8218569aa8691485c3b1995e828d46288af04806e311dedc1",
+    "build/native-trace/stubs.o": "651bd7a197aabfb5db18ea7f3a2aba7fdcdd5696427b62f50aa342e27a2ddd6e",
+    "build/native-trace/driver.o": "08408bc7c3d91f91cb79f97d338d724e761208ce18c1c39746566f25903b6e1a",
+    "build/native-trace/omf.o": "f1b312c310816d3a0cc7e77cecb0deb0b12cd5360a50e355c533a60613943fc0",
+    "build/native-trace/omf-debug.o": "b9d39ae7f71632b69c3e5fad0126cbaff0e7e8595fe8b25daec7116e5efa9a44",
+    "build/native-trace/runtime.o": "a9b5aea7b8e9a39e3404043daec1b2c9b43811ae9b96fbf5a34e4ff23b815588",
+    "build/native-trace/map-file.o": "e0061ebf5b03f81f88a9c5aa667357a8e6ad0dea9be66a7e1f6d7f4940e76251",
+    "build/native-trace/linker.o": "669d37f99d9d4c5c5fef746709d964ad00a5c129387a76763b46f9bfe351dd28",
+    "build/native-trace/link-pass.o": "afff2f8b6ec911ee0babdae5a62710641504602e77c6535570afbebc1a3e2f97",
+    "build/native-trace/library-stubs.o": "cae2a7e8f49c76d82fb75234eb8e3427a3821416b746d32288f20304d8338e01",
+    "build/native-trace/argument-stubs.o": "a2b284ef1d92f33f7cf2548158cd0aaaab56d98cfb7e41e6373ca23e2da76a2f",
+    "build/native-trace/mac-fixups.o": "12f6f19a9dfaef4411fd9b55b02ed8d8384e29c89353bc45c94a4e730c0635cf",
+    "build/native-trace/debug-symbols.o": "c2b9c58ce2a956b5775550c4e50b0a7d6c0659a5a13ad13ade030e5f7167655a",
+    "build/native-trace/link.o": "e044ed4cb35ca285c8ddc3bdf0791984f8a34d6122d71f5128b03a49fcecbdfe",
+    "build/native-trace/import-library.o": "8e7aecccb515981038b544ecc8eba25638d8a0c7227e8f2db3319465ba11830b",
+    "build/native-trace/demangle-stubs.o": "744ad3c5274524343fffb46508ce9d70fec4ab4aab1d592390a8c0e6a9468e53",
+    "build/native-trace/imports.o": "5ad086c9dfd08da3ca35330ee6da0cfcd5095d408d14d8356cd8f443293d74e0",
+    "build/native-trace/editor-rebase.o": "40aca9687d492eb5d7237deef8f196e220f90f98eeb9a0257d9dbc12eaf76d7d",
+    "build/native-trace/arguments.o": "b1187ecbdc67c57296e56339644e4ce1e61b31a6ac32314196e796bc8f75feef",
+    "build/native-trace/exports.o": "160eacbf56a0cb1713384c1be082757e19ebf44cae593a3c22fbe4c75c18a5e0",
+    "build/native-trace/cvtomf": "c150c1c9b52fa216144290dd73f07c1c07920635389c77c02b533942e427478d",
+    "build/native-trace/checksum.o": "6660c2fa444494b0142d848961bf035500f394522b2fd5fd06f1310095f98f73",
+    "build/native-trace/edit-stubs.o": "3d3853d927d53e5d132c6eb510ad35495dfb670cd34311d1b5e781392f6f9914",
+    "build/native-trace/module-stubs.o": "9eac99e98ac4e3882f9f1253acb28b33988e7b45c00b2ee7fa38900fade37b3a",
+    "build/native-trace/export-directives.o": "cc98db0f15ac5d5bfd321850817037544dd42d1aefd46e924e924ae0b4a070d0",
+    "build/native-trace/LINK.EXE": "3dd43756aba2fc8ea517dcdefbe707d1543df6cd8cf438b18a1e49a56aba5a2a",
+    "build/native-trace/library-output.o": "262ada223384b6ee3a43a30ba41161f045ad491234ecf9f540e6ca4bfdb263ca",
+    "build/native-trace/files-stubs.o": "9cf0d53df5a42c6f9ab3741757f0efcb06145fbfc1590bfebe9b26160cb3ec5a",
+    "build/native-trace/symbols.o": "6087a61d29019ded709ab8f2947bd085d1602e2ac59c5af8eb1f834cf7892a93",
+    "build/native-trace/import-library-stubs.o": "a461555177087a9f64aa930ce1ca83ee3b1a793cad53a9e98c774516cc4c197e",
+    "build/native-trace/ordering.o": "2a6ff14abee246ea75b08c71ed266908481daee1686cc4ce72d149376d0ab394",
+    "build/native-trace/comdat-selection.o": "1ba51d9f0ce615596227ded7f8114acfbc0b253a8a394519e649eb8d11263bdf",
+    "build/native-trace/editor-bind.o": "8eb6b42b269c5047ddcaa912a327c75c0e5ae0830dc0cea2e007a81d760e2769",
+    "build/native-trace/disassembler.o": "393ed53a3503b390eaaa0289ffb46136e2b92a5ba98eb10b25b61ba451349d65",
+    "build/native-trace/definition-file.o": "b8a977a79ebdd4ddee5dde689f744117ff68a2f762698878a70f580b1908ee9f",
+    "build/native-trace/repro.o": "02434f00263d429cfff18a3e1f51140ff4c89c0471b36cbf093feb09aec30877",
+    "build/native-trace/pass-two-stubs.o": "0b670debfd23997fd5752a273f1aa0f453db620601c3ba5b50fe21d56db2e076",
+    "build/native-trace/file-resize": "0534f1d85197d4fe5b0c740fd9244f193a3176b28cfbe3c8fdb92d810a9fd62a",
+    "build/native-trace/definition-stubs.o": "5b5a43b1e80e9ecf63aefb634c461d7448077fba701d1eda974fe3f0406d0db0",
+    "build/native-trace/pass-stubs.o": "bb85e521230307fd1f54f85fcc0550566d678439ad89569db9139b9d5711958b",
+    "build/native-trace/library.o": "5f3ab669002c1137986d78fab5c2741025b8f4c9ceb0515a14e05e225f1b3b62",
+    "build/native-trace/link-pass-stubs.o": "e082417746ef2ff49bc3a3731a3d699d72650fbbdce049aa91a55a72f6cf975a",
+    "build/native-trace/dump.o": "df95bf13b06e68165c05f9103b8df0d7e148a9bef65206c96c146325e1c81342",
+    "build/native-trace/mac-debug.o": "4da933851ea011f8ed74d49f33024dfcae6a0b0f650673887c9631fdb2009a23",
+    "build/native-trace/options.o": "c951e032e2c772d24ae6b60ab0ba1e1a2c687ae411312c7c9e5c1b2f34593495",
+    "build/native-trace/m68k-relocations.o": "dc286874be7cd7d8d9e6cffea6d5ce59bba9a7a06faeab52a3990a390a573132",
+    "build/native-trace/text-buffer.o": "650c4639b7dc878690415cfcc7885c87969afca9470d7ea3592d3db7cdf4b248",
+    "build/native-trace/pass-two.o": "03174f874ad8cce2b7b3f6074b73ded34964747f295197d7fec0bf71fdfe526d",
+    "build/native-trace/priority-archives": "db35b63fbff5fa2dc0ad8588c33767a955e05d6e8446605c57913fd4c288006c",
+    "build/native-trace/arena.o": "21acb6407f35b7c538d5104bfab2c9e5cd27c0a521dd960360ca6a11b821bf5c",
+    "build/native-trace/image-checksum": "9cfc5843eb8b44df27fd37708b6e07591bfde6d800022da91939ed66fb834dca",
+    "build/native-trace/resources.o": "425a1da188586414c1d2fd9906b27ed9a53151921ed7f248409d7cb632897523",
+    "build/native-trace/ide.o": "1f93cc43c74f4d2b9619562acec93765adde582bf7d18735dde3b4372991af6e",
+    "build/native-trace/object-stubs.o": "d7b2cf87b71fce0d8f69152a2035ab1378f1227a63e550b654be71fdab091de7",
+    "build/native-trace/library-options.o": "a5ce4b71848d1baf867dd8555cc3efcdd073dddea0a34c921307083ece294956",
+    "build/native-trace/editor.o": "fe0e44981e4de0c152e9d8a95a131357ade3c104ed170a65dc4507f0a304d705",
+    "build/native-trace/dump-stubs.o": "281a677afad82ff784219b89535c8a0b3b6810d4d996c09197e1fbe727001da3",
+    "build/native-trace/comdat-diagnostics.o": "7fd085625f850952b273dbbd0372a1c3695c20b78f48ffe3b1be8430202a7586",
+    "build/native-trace/base-relocations.o": "c7576a4d8471bcfe0b0f4f26552783d6e97e88d178e7c00dbb32faa90d5992d4",
+    "build/native-trace/coff-io.o": "841bd6e15d9ad8fd0a88402ba3f6b2f9d6a2e42103679ea679f4939583acc5f1",
+    "build/native-trace/diagnostics.o": "74723f8b67f4d2c989dfaafbf57892bb57498ad3f583804a1244ecabfa9c0414",
+    "build/native-trace/comdat.o": "c1253f528381c3b2eef29eed995421d98cf28f442c0dda982140c2cb33297559",
+    "build/native-trace/opcode-table.o": "bf7cf279bd621c24b15b6e0f38ce373c56b45ce5e868e4e96d1a24b26d50bbf8",
+    "build/native-trace/crt-anchors.o": "ac95857e5e4497be10c6227027b3c49f277153620a02c183166b65ff812df325",
+    "build/native-trace/files.o": "457efe1b3c6a4e0b15cafb0f1eeb982300ed87d4bff009ce360ac78d28aa8c8a",
+    "build/native-trace/archive.o": "0003e164ef92120c4eeae8efc9f5c4ad5a52a167e81441b81b7319cc289de379",
+    "build/native-trace/option-stubs.o": "de02419abd4e253079be92cf0d425bca102d435d7086940b62a3dfb8289fd1ae",
+    "build/native-trace/resource-legacy.o": "159553445d5d4ae12c25a51ae8fcf341e2bcbf1eaafd64b3aeef14801797a9ce",
+    "build/native-trace/i386-relocations.o": "b71ab645b8cbdb37549724978f4d33012b6d368f6bfd350a6543e292389e9d95",
+    "build/native-trace/omf-stubs.o": "1995447b2c7de410c7da931a67c97f4f3c7486d5a8ba4f28207a76a9309d9583",
+    "build/native-trace/disassembler-stubs.o": "b9f892220bb957047ca0e928ed79899a9eb6dec8bf67f24e56334ce95cb609ae",
+    "build/native-trace/symbol-tables": "21346fe948c7bc5b1b5ca62d077224cd9a2c1e84af62e334aa0ec1a4235d0032",
+    "build/native-trace/comdat-diagnostics": "5eae88d36f7f5d6ac7f3964634a8a7c6025196f46a46b55a6e221789c842b4b4",
+    "build/native-trace/export-resolution.o": "93a0d15058d1e9cead2ddbc8757ad2f9e2194206f8fae769910d189327463b25",
+    "build/native-trace/debug-log": "f4962acbe65ebf73c03b955b2e86050290ea0ebd3b19bee39cf5682f7ebbf7a2",
+    "build/native-trace/machine-stubs.o": "af9c7d3fc5dc3b07edcdfde4ef54ba29e59919e1293054d35ab2d6aff08af40f",
+    "build/native-trace/object.o": "7ed72515cc9c63eb5a8d1e347e6a699a31d585351cd5fe74c6433433bdf0c434",
+    "build/native-trace/driver-stubs.o": "6c14c4d59a5490ac634d32d05c3fade8cd8d294ccec1709b4346eef72bf9de8e"
+  },
+  "scope": "Maintainer granted exact committed C/H stable window through build+prior89 passes; no own C/H mutations. Hashes recorded at window end; initial batch aborted on new runner PIPE transport mismatch, not target C."
+}
