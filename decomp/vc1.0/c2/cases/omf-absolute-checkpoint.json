@@ -1,0 +1,187 @@
+{
+  "checkpoint": 1284,
+  "previous_checkpoint": 1283,
+  "new_application": [
+    {
+      "name": "@omf_output_bytes@8",
+      "start": 438976,
+      "end": 438992,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "displacement",
+            "location": "ECX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "symbol",
+            "location": "EDX",
+            "type": "SymbolHeader pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-absolute-abi/validation.json",
+        "scope": "Original6b2c0..6b2d0 forwards ECX displacement/EDX symbol as child ECXsymbol/EDX9/stack displacement/0; RET0, no other incoming registers/stack/flags/x87/out pointer. Actual original EBP referenced pointer at return6b145 aliases lookup member for caller initializer id, native omf_output_relocation referenced/local id and closed global chain match. Wrapper never dereferences symbol; no invented pointee fields."
+      }
+    }
+  ],
+  "new_extent_bytes": 16,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1284,
+    "accepted_code_bytes": 342743,
+    "original_code_bytes": 399693,
+    "percentage": 85.75156432561991,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 632
+  },
+  "application_graph_rows": 1174,
+  "reconstructed_application_support_functions": 1169,
+  "existing_handwritten_crt_bodies": 5,
+  "application_support_code_extent_bytes": 324443,
+  "code_denominator_bytes": 399693,
+  "next_frontier": "@omf_add_fixup@16",
+  "next_original_va": "0x6b990",
+  "case_results": {
+    "total": 15,
+    "complete": 14,
+    "omf_named_trap": "@omf_add_fixup@16"
+  },
+  "controls": [
+    "cases/omf-absolute-validation.json"
+  ],
+  "timings": {
+    "omf1284-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 33.25165545474738,
+      "returncode": 0,
+      "log_sha256": "4b28e95ebc132444f02cd93e785af5f363e834d96af9b35151aac883908a1293"
+    },
+    "omf1284-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 2.7635349379852414,
+      "returncode": 0,
+      "log_sha256": "e141702a4f0bc2b34ebe7b8116790d6c3749678da33a2c693dfe682535403c66"
+    },
+    "omf1284-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1283.json",
+        "--extend-after",
+        "cases/omf-original-1284.json"
+      ],
+      "seconds": 0.3409772152081132,
+      "returncode": 0,
+      "log_sha256": "958219d6c8b3ddf963099a6b8218b8884506c7d7bc96920dd948fd4c6f1fcb86"
+    },
+    "omf1284-controls-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-absolute.py"
+      ],
+      "seconds": 0.5492300316691399,
+      "returncode": 0,
+      "log_sha256": "0389584994fbc1605e0c90ad168cb5db8be473c48e6a628bd7527880ef191e9b"
+    },
+    "omf1284-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-absolute-entry.py"
+      ],
+      "seconds": 1.2068136502057314,
+      "returncode": 0,
+      "log_sha256": "4750e9e8d1b2ec0d9d0bb6a8b01ee932e4c26b7071ef5a9eb63c8c0cfb953a73"
+    },
+    "omf1284-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 2.5417971136048436,
+      "returncode": 0,
+      "log_sha256": "9bbafeba77b5f95da84efeba47a5db0751735a6051c8bc2f3b371daa2453b003"
+    },
+    "omf1284-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1284.json"
+      ],
+      "seconds": 0.2427734760567546,
+      "returncode": 0,
+      "log_sha256": "8053b4839e94b1d9fada887f1d2359fb219111ad91942710a4327717681ac8e6"
+    },
+    "omf1284-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 2.713720311410725,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "omf1284-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1284.json"
+      ],
+      "seconds": 1.585637521930039,
+      "returncode": 0,
+      "log_sha256": "145869104df8f3e19b84a13f4adc2ee3bd5af66fe71d34cb9b566c169072a0b7"
+    },
+    "omf1284-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 1.1690487815067172,
+      "returncode": 0,
+      "log_sha256": "8ad43c61c5026f89e154572a81e55427e6440688e26ae4d2f046423bc7326777"
+    }
+  },
+  "audit_original_compile_commands": 0,
+  "limits": [
+    "Whole16-byte existing absolute-reference callback and15 original/canonical forwarding controls/8 actual ABI negatives pass. Original input ECX displacement/EDXsymbol becomes childECXsymbol/DL9/stack(displacement,0), childRET8 then parentRET0; callee-saved/stack guards. Child type is unsigned8, high EDX outside ABI; opaque/unmapped/null synthetic symbol pointers are forwarding-only shapes, not valid child/frontend successes.",
+    "Actual displacement-4 and symbol alias original EBP referenced result/member for caller initializerid118/bucket54/index0, native parentlocal/closedhash match; return6b145. Wrapper never dereferences symbol; no invented pointee inputs. New named omf_add_fixup6b990 stays trapping until separately reconstructed, no callee behavior/return credit.",
+    "Count prose correction: prior byte-array claim132 was arithmetic error; retained actual validation always68=4*2*2*2*2+4. Prior raw/checkpoint preserved, explicit correction cases/omf-byte-array-count-correction.json and checker scope updated64+4 only. No source behavior change/new replay justified by correction.",
+    "Original/W3/full graph/extents/RET/ABI/storage/data audits, fresh original/native pair to fixup6b990 and15 cached native cases pass(14 complete). Build2.764s,audit33.252s,original1.586s,native.243s; fixture wrapper/phase times retained, analysis/edit unmeasured. Full exact OMF artifact pending."
+  ]
+}

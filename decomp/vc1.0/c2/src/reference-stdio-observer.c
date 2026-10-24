@@ -277,6 +277,15 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         /* The caller's four-byte index local is write-only at this boundary.
            Its prior uninitialized bytes are neither read nor compared. */
     }
+    if(!strcmp(call->name,"@omf_output_bytes@8")) {
+        DWORD symbol=call->args[1],node=context->Ebx;
+        DWORD id=read_word(process,node+8),bucket=id&63,index=0;
+        DWORD member=read_word(process,image_base+0x6c158+4*bucket);
+        while(member&&read_word(process,member+28)!=id&&index<1024){member=read_word(process,member);++index;}
+        if(!member||index==1024)exit(297);
+        sprintf(line,"omf_absolute displacement %08lx symbol %08lx referenced_owner %08lx return_address %08lx identifier %lu bucket %lu index %lu member %08lx\n",
+            call->args[0],symbol,context->Ebp,call->return_address,id,bucket,index,member);log_line(line);
+    }
     if(!strcmp(call->name,"@omf_write_datum@8")) {
         DWORD record=call->args[0],node=call->args[1];
         long width=(short)(read_word(process,node+8)>>16);

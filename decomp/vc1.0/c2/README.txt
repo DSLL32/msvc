@@ -704,3 +704,16 @@ NUL literal length failure retained; no target change for it. Original/W3/full
 audits and15 native cases pass(14 complete), next absolute-reference6b2c0.
 342727/399693 extent bytes; app/support324427B/1168functions exclude5 historical
 CRT. Timings/limits: cases/omf-datum-checkpoint.json.
+
+Correction to checkpoint1281 prose: byte-array controls total68, not132.
+The retained raw validation always reports68:4x2x2x2x2=64 core states plus4
+positions. No behavior/check failure or missing case; prior raw evidence and
+checkpoint retained. See cases/omf-byte-array-count-correction.json.
+
+Checkpoint1284 adds16-byte absolute-reference adapter with15 forwarding
+controls/8 actual ABI rejects. Actual displacement-4 and lookup-owned symbol
+id118/bucket54 match; childtype9/displacement/relative0 andRET8 preserved, no
+pointee dereference or child behavior inferred. Original/W3/full audits and15
+native cases pass(14 complete), next fixup6b990.342743/399693 extent bytes;
+app/support324443B/1169functions exclude5 historical CRT. Timings/scope:
+cases/omf-absolute-checkpoint.json.

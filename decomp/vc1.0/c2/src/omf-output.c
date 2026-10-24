@@ -32,6 +32,7 @@ void __fastcall omf_emit_comdat_external(SymbolHeader *symbol);
 unsigned __fastcall omf_local_name_index(char *name);
 void __fastcall omf_emit_communal(SymbolHeader *symbol);
 void __fastcall omf_emit_weak_external(FunctionSymbol *symbol);
+void __fastcall omf_add_fixup(SymbolHeader *symbol, unsigned char type, unsigned displacement, int relative);
 void __fastcall omf_write_byte_array(Segment *segment, unsigned bytes, unsigned repeat, void *data);
 void __fastcall omf_write_iterated_data(Segment *segment, int repeat, unsigned bytes, void *data);
 unsigned __fastcall omf_write_datum(OmfRecord *record, Initializer *initializer);
@@ -987,4 +988,10 @@ unsigned __fastcall omf_write_datum(OmfRecord *record, Initializer *initializer)
         break;
     }
     return initializer->content.datum.bytes;
+}
+
+/* Original [0006b2c0,0006b2d0). Absolute32 reference adapter. */
+void __fastcall omf_output_bytes(unsigned displacement, SymbolHeader *symbol)
+{
+    omf_add_fixup(symbol, 9, displacement, 0);
 }

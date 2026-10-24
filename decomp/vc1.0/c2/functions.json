@@ -1287,7 +1287,8 @@
     "@omf_output_relocation@12",
     "@omf_write_byte_array@16",
     "@omf_pad_record@8",
-    "@omf_write_datum@8"
+    "@omf_write_datum@8",
+    "@omf_output_bytes@8"
   ],
   "driver": [
     {
@@ -2318,8 +2319,26 @@
     {
       "name": "@omf_output_bytes@8",
       "start": 438976,
-      "end": 438977,
-      "provisional": true
+      "end": 438992,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "displacement",
+            "location": "ECX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "symbol",
+            "location": "EDX",
+            "type": "SymbolHeader pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-absolute-abi/validation.json",
+        "scope": "Original6b2c0..6b2d0 forwards ECX displacement/EDX symbol as child ECXsymbol/EDX9/stack displacement/0; RET0, no other incoming registers/stack/flags/x87/out pointer. Actual original EBP referenced pointer at return6b145 aliases lookup member for caller initializer id, native omf_output_relocation referenced/local id and closed global chain match. Wrapper never dereferences symbol; no invented pointee fields."
+      }
     },
     {
       "name": "_omf_output_offset",
@@ -9197,6 +9216,12 @@
         "entry_observation": "cases/omf-datum-abi/validation.json",
         "scope": "Original6b2d0..6b3c5 consumes ECX record/EDX initializer, RET0, returns sign-extended current width after writes/child. Width/type+8/+10, active inline value+12 and record count/cursor consumed, no other incoming registers/flags/x87/stack inputs. Caller return6b0a4/EBX initializer/EDI record and native omf_output_relocation locals prove identities; current four-slot record/defined source width observed. Old destination bytes are write-only, not input."
       }
+    },
+    {
+      "name": "@omf_add_fixup@16",
+      "start": 440720,
+      "end": 440721,
+      "provisional": true
     }
   ],
   "cases": {

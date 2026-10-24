@@ -127,7 +127,7 @@
       ],
       "canonical": [
         {
-          "site": "0x57df5",
+          "site": "0x57e19",
           "storage": "0x909cc",
           "mnemonic": "cmp",
           "operand": 0,
@@ -135,7 +135,7 @@
           "width": 4
         },
         {
-          "site": "0x57e0f",
+          "site": "0x57e33",
           "storage": "0x909cc",
           "mnemonic": "mov",
           "operand": 1,
@@ -166,7 +166,7 @@
       ],
       "canonical": [
         {
-          "site": "0x575fa",
+          "site": "0x5761e",
           "storage": "0x96080",
           "mnemonic": "mov",
           "operand": 1,
@@ -174,7 +174,7 @@
           "width": 4
         },
         {
-          "site": "0x5764c",
+          "site": "0x57670",
           "storage": "0x909cc",
           "mnemonic": "cmp",
           "operand": 0,
@@ -182,7 +182,7 @@
           "width": 4
         },
         {
-          "site": "0x5765e",
+          "site": "0x57682",
           "storage": "0x909cc",
           "mnemonic": "mov",
           "operand": 1,
@@ -298,7 +298,7 @@
       ],
       "canonical": [
         {
-          "site": "0x5b33c",
+          "site": "0x5b360",
           "storage": "0x90850",
           "mnemonic": "mov",
           "operand": 0,
@@ -338,6 +338,6 @@
     "wrong function filename domain",
     "wrong current-source store domain"
   ],
-  "seconds": 0.4948636665940285,
+  "seconds": 0.5163340382277966,
   "scope": "Three existing distinct typed storages: primary805ec, current7901c, diagnostic85db4. Initial PE values/string and actual-f# option destination/action. All accepted original/canonical CFG instruction memory/address operands, including base/index displacement and address escape constructions, bind to the same domain sets per function. Does not prove arbitrary indirect aliases or unaccepted code. Failed begin-lines handle10/12 and callback formal pointer evidence retained separately; no handle normalization or new initialization."
 }

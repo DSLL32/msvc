@@ -97,7 +97,8 @@ __declspec(naked) void omf_output_symbol(void) { RECON_TRACE_NAKED_ENTRY(omf_out
 __declspec(naked) void omf_output_debug_pair(void) { RECON_TRACE_NAKED_ENTRY(omf_output_debug_pair) __asm int 3 }
 __declspec(naked) void omf_output_debug_record(void) { RECON_TRACE_NAKED_ENTRY(omf_output_debug_record) __asm int 3 }
 __declspec(naked) void omf_output_value(void) { RECON_TRACE_NAKED_ENTRY(omf_output_value) __asm int 3 }
-void __fastcall omf_output_bytes(unsigned displacement, SymbolHeader *symbol) { __asm int 3 }
+void __fastcall omf_add_fixup(SymbolHeader *symbol, unsigned char type,
+    unsigned displacement, int relative) { __asm int 3 }
 __declspec(naked) void omf_output_offset(void) { RECON_TRACE_NAKED_ENTRY(omf_output_offset) __asm int 3 }
 __declspec(naked) void omf_output_size(void) { RECON_TRACE_NAKED_ENTRY(omf_output_size) __asm int 3 }
 __declspec(naked) void omf_finish_module(void) { RECON_TRACE_NAKED_ENTRY(omf_finish_module) __asm int 3 }

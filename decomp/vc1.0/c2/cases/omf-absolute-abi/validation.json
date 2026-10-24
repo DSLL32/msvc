@@ -1,0 +1,54 @@
+{
+  "matched": true,
+  "function": "@omf_output_bytes@8",
+  "original_va": "0x6b2c0",
+  "formals": [
+    {
+      "name": "displacement",
+      "location": "ECX",
+      "type": "unsigned32",
+      "original": 4294967292,
+      "native": 4294967292
+    },
+    {
+      "name": "symbol",
+      "location": "EDX",
+      "type": "SymbolHeader pointer",
+      "original": 8073364,
+      "native": 1449349528
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "no_hidden_inputs_proof": "Original6b2c0..6b2d0 forwards ECX displacement/EDX symbol as child ECXsymbol/EDX9/stack displacement/0; RET0, no other incoming registers/stack/flags/x87/out pointer. Actual original EBP referenced pointer at return6b145 aliases lookup member for caller initializer id, native omf_output_relocation referenced/local id and closed global chain match. Wrapper never dereferences symbol; no invented pointee fields.",
+  "shape": {
+    "displacement": 4294967292,
+    "identifier": 118,
+    "bucket": 54,
+    "index": 0
+  },
+  "original": {
+    "displacement": 4294967292,
+    "symbol": 8073364,
+    "referenced_owner": 8073364,
+    "return_address": 438597,
+    "identifier": 118,
+    "bucket": 54,
+    "index": 0,
+    "member": 8073364
+  },
+  "native": {
+    "displacement": 4294967292,
+    "symbol": 1449349528,
+    "referenced_owner": 1449349528,
+    "identifier": 118,
+    "bucket": 54,
+    "index": 0,
+    "member": 1449349528,
+    "caller": "omf_output_relocation"
+  },
+  "original_execution_seconds": 0.7456352300941944,
+  "native_debug_seconds": 0.1428060196340084,
+  "total_seconds": 1.1427421029657125,
+  "scope": "Actual displacement-4 and proved symbol pointer identity only; child behavior/data not inferred. Identifier/hash traversal is observer ownership proof,1024 bound observer-only."
+}

@@ -876,6 +876,6 @@
       }
     }
   ],
-  "seconds": 0.5918910186737776,
+  "seconds": 0.7451052088290453,
   "scope": "Whole64-byte original/canonical EXTDEF writer; next-external loaded after begin, Symbol.field14 assigned before display/counter increment, unsigned wrap/child counter mutation preservation, post-string cursor/count reload and exact zero type byte, all128 Symbol/1004 record/6 text bytes/callee-saved/RET0 checked.32 controls mock children; old output pattern is synthetic overwrite guard only, actual prior field14 is not input/read/dump/seed. Actual owned name/counter1 and original/canonical PE1 distinct typed storage observed; no child semantics or final object claim."
 }
