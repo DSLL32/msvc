@@ -722,4 +722,13 @@ void build_type_offsets(void)
         ++index;
     }
 }
+
+unsigned short flush_output(void)
+{
+    unsigned long size = output_used;
+    if (write_file(output_handle, output_buffer, size) != size) return 0;
+    free(output_buffer);
+    output_capacity = 0;
+    return 1;
+}
 #undef OUTPUT_BYTES

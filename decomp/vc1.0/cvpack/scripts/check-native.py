@@ -157,7 +157,7 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
         ' if description["kind"]!="global-owner": continue\n'
         ' root=int(gdb.parse_and_eval(description["root"]));argument=parameters[description["name"]]\n'
         ' if not root or root!=argument["address"]: raise RuntimeError("argument differs from published table owner")\n'
-        ' argument["owner"]=dict(root=description["root"],address=root,requested_size=description["requested_size"])\n'
+        ' argument["owner"]=dict(root=description["root"],address=root,requested_size=int(gdb.parse_and_eval(description["size_global"]))if description.get("size_global")else description["requested_size"])\n'
         'for description in frontier.get("parameters",[]):\n'
         ' if description["kind"]!="symbol-sort-key": continue\n'
         ' sorter=current.older()\n'

@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "flush_output",
-    "native_function": "flush_output",
+    "logical": "write_file",
+    "native_function": "write_file",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -160,7 +160,8 @@
       "write_static_symbols",
       "write_packed_types",
       "build_type_offsets",
-      "flush_output"
+      "flush_output",
+      "write_file"
     ],
     "proof_mode": "entry-flow",
     "heap_scope": "Root streamlined routine loop: actual next entry/formals plus reached PE header globals; old module3 proof97 retained. No later symbol-heap equality claim.",

@@ -55,6 +55,13 @@ def compare_symbol_sort_key(item,words,actual,events):
     return dict(original_cell=pointer,native_cell=actual['address'],array_index=array['index'],array_count=count,original_symbol=node,native_symbol=actual['symbol']['address'],consumed_offset=offset,original_raw=raw.hex(),native_raw=new.hex(),scope='Actual qsort array allocation/call; comparator consumes PublicSymbol offset DWORD12 only, no wider node/heap equality claimed')
 
 def compare_global_owner(item,words,actual,events):
+    if item['root']=='output_buffer':
+        assert (item['original_root'],item['size_global'])==(0x335c0,'output_capacity'),'unknown output allocation root'
+        scalar=lambda address:int.from_bytes(bytes.fromhex(re.findall(r'^memory %08x ([0-9a-f]+)$'%address,events,re.M)[0]),'little')
+        root,capacity,used=scalar(0x335c0),scalar(0x335c4),scalar(0x335c8)
+        assert root==words[item['slot']]!=0 and 0<used<=capacity<=65512 and words[item['length_slot']]==used,'output argument/count outside live allocation'
+        owner=actual['owner'];assert owner==dict(root='output_buffer',address=actual['address'],requested_size=capacity)and not actual['null'],'native output owner/capacity differs'
+        return dict(original_address=root,native_address=actual['address'],owner='output_buffer',requested_size=capacity,defined_prefix=used,scope='initialize_output live allocation; exact defined payload compared by output_buffer walk, no capacity-tail reads')
     assert (item['root'],item['original_root'],item['requested_size'])==('public_symbol_hash',0x3717c,0x4000),'unreviewed published table allocation'
     matches=re.findall(r'^memory %08x ([0-9a-f]+)$'%item['original_root'],events,re.M)
     assert len(matches)==1 and len(bytes.fromhex(matches[0]))==4,'missing original table root'

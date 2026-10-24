@@ -17,7 +17,7 @@ void *type_scratch(unsigned long size) { __asm { int 3 } return NULL; }
 
 
 unsigned short write_output(const void *buffer,unsigned short size) { __asm { int 3 } return 0; }
-unsigned short flush_output(void) { __asm { int 3 } return 0; }
+
 
 
 
