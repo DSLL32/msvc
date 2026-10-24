@@ -152,6 +152,9 @@ void initialize_machine_registers(void);
 typedef struct C2SectionContext C2SectionContext;
 typedef struct C2SectionGroup C2SectionGroup;
 typedef struct C2SymbolScope C2SymbolScope;
+typedef struct C2Record C2Record;
+typedef struct C2BasicBlock C2BasicBlock;
+typedef struct C2FlowGraph C2FlowGraph;
 
 #pragma pack(2)
 struct C2Symbol {
@@ -271,13 +274,26 @@ struct C2FunctionListing {
     unsigned begin, end, available;
     unsigned short source_index, pending0e;
 };
+/* Only the record-list consumer's encountered block/flow prefixes. */
+struct C2BasicBlock { unsigned char pending00[28]; C2Record *records; };
+struct C2FlowGraph { C2BasicBlock *entry; };
 typedef struct C2Function {
     C2FunctionSymbol *symbol;
-    unsigned char pending04[12];
+    unsigned pending04;
+    C2FlowGraph *flow;
+    unsigned pending0c;
     C2ScopeHash *symbols;
-    unsigned char pending14[32];
+    unsigned char pending14[12];
+    C2DebugScope *debug_scope;
+    unsigned source_line_base;
+    unsigned char pending28[12];
     unsigned flags;
 } C2Function;
+typedef char C2FunctionFlowCheck[offsetof(C2Function, flow) == 8 ? 1 : -1];
+typedef char C2FunctionDebugCheck[offsetof(C2Function, debug_scope) == 32 ? 1 : -1];
+typedef char C2FunctionLineCheck[offsetof(C2Function, source_line_base) == 36 ? 1 : -1];
+typedef char C2FunctionSizeCheck[sizeof(C2Function) == 56 ? 1 : -1];
+typedef char C2BasicBlockRecordsCheck[offsetof(C2BasicBlock, records) == 28 ? 1 : -1];
 typedef char C2FunctionFlagsCheck[offsetof(C2Function, flags) == 52 ? 1 : -1];
 typedef char C2FunctionListingSizeCheck[sizeof(C2FunctionListing) == 16 ? 1 : -1];
 typedef char C2FunctionListingFieldCheck[offsetof(C2FunctionSymbol, listing) == 94 ? 1 : -1];

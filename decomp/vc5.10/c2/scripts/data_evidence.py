@@ -200,7 +200,9 @@ def verify(config):
             else:assert cstring(read,actual)==cstring(original_read,row['initial'])
     from coff_section_data import verify as verify_coff_section
     coff_sections=verify_coff_section(BINARY,config)
-    return {'coff_sections':coff_sections,'model_sha256':sha((BINARY/config['data_model']).read_bytes()),'option_records':53,
+    from record_data import verify as verify_record_data
+    prepared_records=verify_record_data(BINARY,config)
+    return {'prepared_records':prepared_records,'coff_sections':coff_sections,'model_sha256':sha((BINARY/config['data_model']).read_bytes()),'option_records':53,
             'selector_records':sum(len(t['entries'])for t in value['selectors']),
             'objects':len(value['objects']),'node_size_dispatch':node_sizes,'symbol_dispatch':symbol_dispatch,'record_dispatch':record_dispatch,'name_dispatch':name_dispatch,'intrinsics':intrinsics,'sides':['original PE','rebuilt Win32 PE'],
             'checks':['pattern text','destination logical aliases','result/kind/record ABI','selector contents','initial scalar/string values']}

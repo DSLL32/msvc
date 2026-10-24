@@ -1,0 +1,50 @@
+{
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "source_sha256": "c7846ad67df7144e14ce593d323f9c90d4f5b1acb46f574abe1aa9c6a2ecfd7e",
+  "rebuilt_offsets": [
+    [
+      802,
+      818
+    ],
+    [
+      818,
+      833
+    ],
+    [
+      833,
+      853
+    ]
+  ],
+  "rebuilt_code_end_offset": 802,
+  "scope": "Contextual switches only; tablepositions are logical expressions/symbolreference/declaration/default and expressionreference/symbol/indirect variants. Alignment excluded fromoriginal ownership.",
+  "original": {
+    "record_target_offsets": [
+      177,
+      74,
+      89,
+      237
+    ],
+    "expression_target_offsets": [
+      314,
+      314,
+      338,
+      324,
+      324
+    ]
+  },
+  "rebuilt": {
+    "record_target_offsets": [
+      191,
+      511,
+      529,
+      669
+    ],
+    "expression_target_offsets": [
+      307,
+      307,
+      323,
+      377,
+      377
+    ]
+  }
+}

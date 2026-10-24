@@ -107,7 +107,8 @@
     "@output_list_position@4",
     "@write_output_bytes@8",
     "@write_output_byte@4",
-    "@initialize_source_output@4"
+    "@initialize_source_output@4",
+    "@prepare_function_records@4"
   ],
   "driver": [
     {
@@ -256,7 +257,7 @@
               212,
               312
             ],
-            "lifetime_sha256": "7a12bfa642e19c7b30a180ef49c359c3e3c707a3bbb70c1112bf2f94bb49538b",
+            "lifetime_sha256": "37f714392302f87d514dbb30d4756e78085bd0c402bb7f44400ec771a1da50d0",
             "instructions": [
               {
                 "offset": 212,
@@ -659,7 +660,7 @@
               38,
               154
             ],
-            "lifetime_sha256": "a5db23d24e66fcc6f9e1bf43827b52987dc31572d1be0645f7bd8f29f0212c2e",
+            "lifetime_sha256": "7f235dffab1fc545eeacc9261298fc8f74995e8d23e915b156922525b5b16346",
             "instructions": [
               {
                 "offset": 38,
@@ -720,7 +721,7 @@
               46,
               154
             ],
-            "lifetime_sha256": "c7b23a0b8337aeec94ad85d696ed62970eae73aec96481c0ea901e7c53b91e34",
+            "lifetime_sha256": "3801a4e34257f055faf8f49f41e0a8f9ccc90257fe3260806de48a2b55ff9a3a",
             "instructions": [
               {
                 "offset": 46,
@@ -1498,7 +1499,7 @@
               6,
               198
             ],
-            "lifetime_sha256": "9d84cc9ccbed5b09021abf64fd9039f4bb704375ffab39ec6eaf560fe5d31665"
+            "lifetime_sha256": "ec566b605f15423875bd16a590378a1f99919b165e007ba3dc1d39ffe483332e"
           }
         }
       ]
@@ -1688,7 +1689,7 @@
               6,
               377
             ],
-            "lifetime_sha256": "b06e88fadbd10ced53359043ec72d8375dcf7ce6011cc6b95d711870ff853143"
+            "lifetime_sha256": "33aef68bfdad982d0ca43414f74739bc37d1a5bcf61b324f8066c18348ab0fdd"
           }
         }
       ]
@@ -4125,7 +4126,7 @@
               6,
               827
             ],
-            "lifetime_sha256": "0853f7c8539692b256a41476816e1107dac254f96d36bf9d3504109cbdfc8eae",
+            "lifetime_sha256": "6dd5979f9f4c8237e7be912a1664c029125121a2ada0f7ef85328bb78d8d80b8",
             "instructions": [
               {
                 "offset": 6,
@@ -4385,7 +4386,7 @@
               27,
               145
             ],
-            "lifetime_sha256": "2e0efb54d81684f25dad7856c8f8af7d0dd48d1eeb4cee2cde100e7dc68c1d91",
+            "lifetime_sha256": "bd1166d445f645d60d3ca095a95787d427707f0cde672733675e6aaa2ea10584",
             "instructions": [
               {
                 "offset": 27,
@@ -5579,7 +5580,7 @@
               6,
               489
             ],
-            "lifetime_sha256": "8f80f6d727c3e00d64c1c4c3ebc2fa0365a6132f54b297ba5cd38a5ffe63b709",
+            "lifetime_sha256": "40e4fe228cedf29189aee0130d2f36a24c8e6807908b521d582307d08a7d8b91",
             "instructions": [
               {
                 "offset": 6,
@@ -5834,7 +5835,7 @@
               6,
               315
             ],
-            "lifetime_sha256": "759a2d396108dcf24c415f103a623b162704297bc063154f206134f873eb70b0",
+            "lifetime_sha256": "d465240ad2c7b76e1e06b86e16a52303cee7edaf8501c0cc1808cf444346e63c",
             "instructions": [
               {
                 "offset": 6,
@@ -6826,7 +6827,7 @@
         "-G5"
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
       "symbol": "_read_initializers",
       "evidence": "cases/analysis/read-initializers-disassembly.txt:11B4532fa..453305 loads c2_input intoECX and tailjumps4523d2. Prior scaffold-name described registers incorrectly; original logicalID preserved, actualsource/Win32name read_initializers. Cdecl noargs, inheritedRET0 from fastcallFILE reader; reader remains unaccepted/trapped."
     },
@@ -7022,7 +7023,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7296,7 +7297,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7492,7 +7493,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7680,7 +7681,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7875,7 +7876,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -8069,7 +8070,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -8261,7 +8262,7 @@
       "expected_argv": [
         "-G5"
       ],
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
       "frontier_contract": "output-directives-complete",
       "code_chunks": [
         [
@@ -8496,7 +8497,7 @@
         "-G5"
       ],
       "frontier_contract": "object-writer-input",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
       "code_chunks": [
         [
           4672729,
@@ -8729,7 +8730,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-table-input",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440"
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91"
     },
     {
       "name": "_writer_callback_41eb8a",
@@ -8919,7 +8920,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-allocate-input",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440"
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91"
     },
     {
       "name": "_initialize_coff_lists",
@@ -9107,7 +9108,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-lists-input",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440"
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91"
     },
     {
       "name": "@new_output_list@8",
@@ -9295,7 +9296,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-list-input",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440"
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91"
     },
     {
       "name": "_new_output_chunk",
@@ -9483,7 +9484,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-chunk-input",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
       "code_chunks": [
         [
           4626548,
@@ -9683,7 +9684,7 @@
           4670578
         ]
       ],
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440"
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91"
     },
     {
       "name": "@add_coff_symbol@4",
@@ -9871,7 +9872,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440"
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91"
     },
     {
       "name": "_write_output_directives",
@@ -10054,7 +10055,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10245,7 +10246,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10465,7 +10466,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10661,7 +10662,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10851,7 +10852,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -11136,7 +11137,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -11484,7 +11485,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -11680,7 +11681,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -11870,7 +11871,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -11882,6 +11883,224 @@
         [
           4672912,
           4672944
+        ]
+      ]
+    },
+    {
+      "name": "@prepare_function_records@4",
+      "native": "prepare_function_records",
+      "start": 4322716,
+      "end": 4323219,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "fastcall C2Function*ECX; C2DebugLink*EAX RET0",
+      "evidence": "cases/analysis/prepare-records-analysis.json",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "coff-output-ready",
+      "section_caller": "initialize_source_output",
+      "pending_signature": false,
+      "shared": [
+        [
+          4323232,
+          4323248
+        ],
+        [
+          4323248,
+          4323263
+        ],
+        [
+          4323264,
+          4323284
+        ]
+      ],
+      "rebuilt_record_dispatch_offsets": [
+        [
+          802,
+          818
+        ],
+        [
+          818,
+          833
+        ],
+        [
+          833,
+          853
         ]
       ]
     }
@@ -12789,196 +13008,6 @@
       "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
     },
     {
-      "name": "@prepare_function_records@4",
-      "native": "prepare_function_records",
-      "start": 4322716,
-      "end": 4322717,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall functionECX; record*EAX RET0",
-      "evidence": "Actual typed call/argument transfer in cases/analysis/backend-setup-disassembly.txt. Child remains named INT3, masked, unaccepted and zero source credit.",
-      "state_policy": "globals-complete",
-      "state": [
-        {
-          "original": "0x499708",
-          "native": "(unsigned long)c2_onexit_end"
-        },
-        {
-          "original": "0x4996d4",
-          "native": "(unsigned long)c2_onexit_begin"
-        },
-        {
-          "original": "0x49975c",
-          "native": "c2_fmode"
-        },
-        {
-          "original": "0x4980d4",
-          "native": "c2_commode"
-        },
-        {
-          "original": "0x499718",
-          "native": "c2_adjust_fdiv"
-        },
-        {
-          "original": "0x499694",
-          "native": "c2_default_math_error"
-        },
-        {
-          "original": "0x4980d0",
-          "native": "c2_new_mode"
-        },
-        {
-          "original": "0x4980cc",
-          "native": "c2_wildcards"
-        },
-        {
-          "original": "0x7803fa88",
-          "native": "recon_fmode"
-        },
-        {
-          "original": "0x7803fa94",
-          "native": "recon_commode"
-        },
-        {
-          "original": "0x7803f928",
-          "native": "recon_adjust_fdiv"
-        },
-        {
-          "original": "0x7803fa90",
-          "native": "recon_crt_app_type"
-        },
-        {
-          "original": "0x7803f198",
-          "native": "recon_crt_newmode"
-        },
-        {
-          "original": "0x490b7c",
-          "native": "c2_il_extended_header"
-        },
-        {
-          "original": "0x4972f8",
-          "native": "c2_il_source_table"
-        },
-        {
-          "original": "0x497df8",
-          "native": "c2_il_symbol_count"
-        },
-        {
-          "original": "0x491050",
-          "native": "c2_il_initial_symbol_count"
-        },
-        {
-          "original": "0x497f6c",
-          "native": "c2_il_target_size"
-        },
-        {
-          "original": "0x497de8",
-          "native": "c2_il_eight_byte_target"
-        },
-        {
-          "original": "0x48fb68",
-          "native": "(unsigned long)global_scope.previous"
-        },
-        {
-          "original": "0x491040",
-          "native": "c2_node_bytes[0]"
-        },
-        {
-          "original": "0x491044",
-          "native": "c2_node_bytes[1]"
-        },
-        {
-          "original": "0x491048",
-          "native": "c2_node_bytes[2]"
-        },
-        {
-          "original": "0x49104c",
-          "native": "c2_node_bytes[3]"
-        },
-        {
-          "original": "0x491074",
-          "native": "selected_save_register_mask"
-        },
-        {
-          "original": "0x495f34",
-          "native": "call_clobbered_register_mask"
-        },
-        {
-          "original": "0x49745c",
-          "native": "stack_alignment"
-        },
-        {
-          "original": "0x4973e8",
-          "native": "(unsigned long)current_debug_scope"
-        },
-        {
-          "original": "0x490b84",
-          "native": "(unsigned long)current_symbol_list_scope"
-        },
-        {
-          "original": "0x4972fc",
-          "native": "(unsigned long)global_special_symbols"
-        },
-        {
-          "original": "0x49d634",
-          "native": "current_source_file"
-        },
-        {
-          "original": "0x49739c",
-          "native": "last_section_serial"
-        },
-        {
-          "original": "0x4973b0",
-          "native": "il_option_flags"
-        },
-        {
-          "original": "0x4973a0",
-          "native": "(unsigned long)auxiliary_prefix"
-        },
-        {
-          "original": "0x497390",
-          "native": "(unsigned long)aux_expression_file"
-        },
-        {
-          "original": "0x497380",
-          "native": "(unsigned long)aux_symbol_file"
-        },
-        {
-          "original": "0x497c6c",
-          "native": "c2_constant_strings"
-        },
-        {
-          "original": "0x4973c0",
-          "native": "c2_omit_frame_pointer"
-        },
-        {
-          "original": "0x495f1c",
-          "native": "(unsigned long)current_symbol"
-        },
-        {
-          "original": "0x490b78",
-          "native": "(unsigned long)c2_internal_listing"
-        },
-        {
-          "original": "0x4973f8",
-          "native": "(unsigned long)default_storage_section"
-        },
-        {
-          "original": "0x490b70",
-          "native": "(unsigned long)local_symbol_table"
-        }
-      ],
-      "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
-      "expected_argc": 0,
-      "expected_argv": [
-        "-G5"
-      ],
-      "frontier_contract": "coff-output-ready",
-      "section_caller": "initialize_source_output",
-      "pending_signature": false
-    },
-    {
       "name": "@process_records@4",
       "native": "process_records",
       "start": 4322452,
@@ -13530,7 +13559,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440"
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91"
     },
     {
       "name": "@reserve_incremental_symbols@12",
@@ -13718,7 +13747,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440"
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91"
     },
     {
       "name": "_grow_coff_symbol_buffer",
@@ -13913,7 +13942,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -13991,6 +14020,207 @@
       "kind": "application",
       "abi": "fastcall char*source ECX;callerignoresresult RET0",
       "evidence": "cases/analysis/initialize-source-output-analysis.json: completeactualcaller andnormalRET0/pushECXsource proof. UnreachedcoldnamedINT3, masked/unaccepted/zero bodycredit."
+    },
+    {
+      "name": "_prepare_global_records",
+      "native": "prepare_global_records",
+      "start": 4323284,
+      "end": 4323285,
+      "pending_extent": true,
+      "pending_signature": false,
+      "kind": "application",
+      "abi": "cdecl noargs; C2DebugLink*EAX RET0",
+      "evidence": "cases/analysis/prepare-records-analysis.json: actual caller/normalreturn/parameter evidence; masked namedINT3, no bodycredit",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "state_model_sha256": "11b4d5fc9c35e11fde621eca473861fb43f733cc8e73053c3c81e42aa7b10c91",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "coff-output-ready",
+      "section_caller": "prepare_function_records"
+    },
+    {
+      "name": "@has_local_symbol@4",
+      "native": "has_local_symbol",
+      "start": 4500303,
+      "end": 4500304,
+      "pending_extent": true,
+      "pending_signature": false,
+      "kind": "application",
+      "abi": "fastcall unsignedserialECX; boolintEAX RET0",
+      "evidence": "cases/analysis/prepare-records-analysis.json: actual caller/normalreturn/parameter evidence; masked namedINT3, no bodycredit"
     }
   ],
   "text_data": [
@@ -14153,6 +14383,27 @@
       "end": 4321077,
       "kind": "21classmapbytes",
       "evidence": "cases/analysis/create-coff-section-analysis.json"
+    },
+    {
+      "name": "record-kind-dispatch",
+      "owner": "@prepare_function_records@4",
+      "start": 4323232,
+      "end": 4323248,
+      "evidence": "cases/analysis/prepare-records-analysis.json: exact contextual tagged record/expression switch data; no codecredit"
+    },
+    {
+      "name": "record-kind-classes",
+      "owner": "@prepare_function_records@4",
+      "start": 4323248,
+      "end": 4323263,
+      "evidence": "cases/analysis/prepare-records-analysis.json: exact contextual tagged record/expression switch data; no codecredit"
+    },
+    {
+      "name": "expression-kind-dispatch",
+      "owner": "@prepare_function_records@4",
+      "start": 4323264,
+      "end": 4323284,
+      "evidence": "cases/analysis/prepare-records-analysis.json: exact contextual tagged record/expression switch data; no codecredit"
     }
   ],
   "support": [
@@ -14271,7 +14522,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14283,7 +14534,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14295,7 +14546,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14307,7 +14558,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14319,7 +14570,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14331,7 +14582,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14343,7 +14594,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14355,7 +14606,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14367,7 +14618,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14379,7 +14630,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14393,7 +14644,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14405,7 +14656,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14420,7 +14671,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14432,7 +14683,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14444,7 +14695,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14456,7 +14707,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14468,7 +14719,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14480,7 +14731,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14495,7 +14746,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14510,7 +14761,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14522,7 +14773,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14534,7 +14785,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14546,7 +14797,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {
@@ -14561,7 +14812,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
+          "sha256": "e27dc6420bd5542947e7a635ebe835652f8b053fc042ec979d1211785082108b"
         }
       },
       {

@@ -438,12 +438,7 @@ void __fastcall function_pass_433906(C2Function *function)
     __asm { int 3 }
 }
 
-C2Record *__fastcall prepare_function_records(C2Function *function)
-{
-    __asm { int 3 }
-    return NULL;
-}
-void __fastcall process_records(C2Record *records)
+void __fastcall process_records(C2DebugLink *records)
 {
     __asm { int 3 }
 }
@@ -624,4 +619,16 @@ unsigned char get_assembly_comment_character(void)
 void __fastcall write_assembly_header(char *source)
 {
     __asm { int 3 }
+}
+
+C2DebugLink *prepare_global_records(void)
+{
+    __asm { int 3 }
+    return NULL;
+}
+
+int __fastcall has_local_symbol(unsigned serial)
+{
+    __asm { int 3 }
+    return 0;
 }

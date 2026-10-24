@@ -991,7 +991,7 @@ def main():
         mutations=selected
         reuse={'baseline':str(a.reviewed_baseline.resolve()),'baseline_sha256':sha(a.reviewed_baseline.read_bytes()),
             'baseline_control_result_sha256':baseline['control_result_sha256'],'baseline_checker_contracts':actual,
-            'current_checker_contracts':{name:sha((BINARY/name).read_bytes())for name in set(actual)|{'scripts/callback_evidence.py','scripts/writer_evidence.py'}},
+            'current_checker_contracts':{name:sha((BINARY/name).read_bytes())for name in set(actual)|{'scripts/callback_evidence.py','scripts/writer_evidence.py'}|({'scripts/record_data.py'}if(BINARY/'scripts/record_data.py').exists()else set())},
             'baseline_proof_inputs':baseline['proof_inputs'],'review':a.review_note,'reused':reused,'count':len(reused)}
     with tempfile.TemporaryDirectory(prefix='candidate-negatives-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c2')as scratch:
         for index,(name,change)in enumerate(mutations):

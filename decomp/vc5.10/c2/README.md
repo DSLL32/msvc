@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 92 application functions (19383 bytes) and five CRT
+Current reconstruction has 93 application functions (19886 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at record preparation with its actualNULL function pointer,
-assembly-output disabled and the38-byte directive payload/counters matched. Four import thunks (24 bytes) and contextual text tables
-(725 bytes) remain separate. The 19821 source bytes are 3.458% of 573183 `.text`
+currently stops at the no-argument global-record helper, with its real caller
+NULL function/owner context and the38-byte directive payload/counters matched. Four import thunks (24 bytes) and contextual text tables
+(776 bytes) remain separate. The 20324 source bytes are 3.546% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -453,3 +453,5 @@ Source95 reconstructs the332-byte hot/cold byte writer with count-only, directFI
 Source96 reconstructs the21-byte uchar wrapper using ordinary address-taken C and the accepted byte writer. Both library directives complete: exact38-byte -defaultlib:LIBC -defaultlib:OLDNAMES payload with spaces, used38/write_count6/section_size38. The fresh next frontier has actual source char* and original497dc4/globalalias, full source string and live initialize_backend caller; returned directiveframes are not asserted. Eighteen affected controls take20.929s;6fresh/147reused protocol controls7.322s. Original/native/helper builds2.244/2.027/2.250s plus2.165s corrected-observer rebuild. Earlier successful execution raw retained with its invalid oldno-formals validator premise and wrongobserver-global label; corrected helper has its own fresh original. Full separate timings and correction scope are in0096.
 
 Source97 reconstructs the78-byte hot/cold assembly-source initializer in assembly-output.c. Actual assembly-enabled/mixed flags normalize a four-byte active flag; the cold comment-character/header children remain named maskedINT3 with actual uchar/cdecl and sourcechar*/fastcall signatures, zero bodycredit. The fresh pair reaches record preparation with actualNULL C2Function* ECX, active0/comment0, unchanged full38B output and all defined globals. Fourteen affected controls take16.621s;6fresh/147reused protocol controls7.405s. An explicitly auxiliary native controlled7-to0 reset check takes0.155s and adds no original/case coverage. Original/native/helper builds6.499/2.792/1.346s; no failed execution/setup. Exact separate timings are in0097.
+
+Source98 reconstructs the503-byte typed record walker and51-byte structured dispatch data, counted separately. C2Function remains56B with flags52; newly encountered flow8/debugscope32/linebase36 replace only proved holes. Actual returned list is an8B C2DebugLink chain, refining a provisional pointer return/process input without prior payloadcredit. Fresh noarg global-record helper frontier matches real parentNULLfunction/owner context and unchanged complete output/global state. Thirteen affected controls take15.869s;12 finite data/ownership controls0.417s, plus a separately recorded current-checker rerun after unused-import cleanup. Six fresh/147reused protocol controls7.573s, with23 complete owned checker sources. Original/native/helper builds6.421/2.820/2.218s; no failed executions. Data ownership/content and all98 wholefunction strict graphs pass. Exact timings and both finite-control receipts are in0098.

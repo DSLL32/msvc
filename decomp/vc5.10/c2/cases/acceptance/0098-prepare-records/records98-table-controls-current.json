@@ -1,0 +1,166 @@
+{
+  "positive": {
+    "scope": "Exact4recordtargets/15classbytes/5expressiontargets, normalized logical case positions and explicit textdata ownership;51B data separate from503B originalcode. Common Rust independently verifies all graph/extent/instruction ownership.",
+    "evidence_sha256": "887d89beaa3fa653a8e6292f9d519ef831a9cea3ed212c76befd3ae241b547d7",
+    "sides": {
+      "original": {
+        "record_targets": [
+          4322893,
+          4322790,
+          4322805,
+          4322953
+        ],
+        "classmap": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          3,
+          1,
+          3,
+          3,
+          2
+        ],
+        "expression_targets": [
+          4323030,
+          4323030,
+          4323054,
+          4323040,
+          4323040
+        ],
+        "intervals": [
+          [
+            4323232,
+            4323248
+          ],
+          [
+            4323248,
+            4323263
+          ],
+          [
+            4323264,
+            4323284
+          ]
+        ],
+        "sha256s": [
+          "e8b227ff9cbbebddf5d650d1681a470a66e0ef8c14279e5e74da36857c1a7871",
+          "194d90bba63ae54c334767d7238f27a29be53804a706600e85fda8a966211a08",
+          "ac2f789092db18a0496d21c62f3d33d09c2357875f73a827df9c4a111d638417"
+        ]
+      },
+      "rebuilt": {
+        "record_targets": [
+          4221087,
+          4221407,
+          4221425,
+          4221565
+        ],
+        "classmap": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          3,
+          1,
+          3,
+          3,
+          2
+        ],
+        "expression_targets": [
+          4221203,
+          4221203,
+          4221219,
+          4221273,
+          4221273
+        ],
+        "intervals": [
+          [
+            4221698,
+            4221714
+          ],
+          [
+            4221714,
+            4221729
+          ],
+          [
+            4221729,
+            4221749
+          ]
+        ],
+        "sha256s": [
+          "975974c602b32fe4968335e136e66f184233b75806520ae44d906e2a880b7884",
+          "194d90bba63ae54c334767d7238f27a29be53804a706600e85fda8a966211a08",
+          "9a0b79117c298f698b09bce493d8d7b9db06d50be51bc999e51a13a476c6bf65"
+        ]
+      }
+    }
+  },
+  "count": 12,
+  "rejected": [
+    {
+      "control": "rebuilt record target content differs",
+      "reason": "dispatch target outside actual source body"
+    },
+    {
+      "control": "rebuilt class content differs",
+      "reason": "record classmap content differs"
+    },
+    {
+      "control": "rebuilt expression alias differs",
+      "reason": "expression logical case target differs"
+    },
+    {
+      "control": "original record target differs with hash rebound",
+      "reason": "record logical case target differs"
+    },
+    {
+      "control": "original class content differs with hash rebound",
+      "reason": "record classmap content differs"
+    },
+    {
+      "control": "original expression target differs with hash rebound",
+      "reason": "expression logical case target differs"
+    },
+    {
+      "control": "original shared data owner omitted",
+      "reason": ""
+    },
+    {
+      "control": "original shared classmap owner shortened",
+      "reason": ""
+    },
+    {
+      "control": "original shared gap envelope invented",
+      "reason": ""
+    },
+    {
+      "control": "text data classmap missing",
+      "reason": ""
+    },
+    {
+      "control": "rebuilt data owner interval shortened",
+      "reason": ""
+    },
+    {
+      "control": "rebuilt source byte identity differs",
+      "reason": ""
+    }
+  ],
+  "seconds": 0.42957454174757004,
+  "checker_sha256": "c95f30caea50121003731d909f9e97c6b796f7966a662992abfc0c47d93b4bcb",
+  "validator_sha256": "44205f387c941ba1265ab7c945ddc87f43497f109003a13fb81c83c16d277291",
+  "configuration_sha256": "12d8f7dd126a101726050c04d29bcba014dba052ced023b8c3dea9f158183841",
+  "scope": "Exact encountered51B structured data and disjoint ownership only. Original hash is deliberately rebound in owned temporary controls to reach actual content checks; repository original never mutated. Commonstrictgraph audit separately handles all instruction/extent ownership."
+}

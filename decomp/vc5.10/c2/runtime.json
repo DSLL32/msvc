@@ -748,14 +748,6 @@
     "evidence": null
   },
   {
-    "name": "@prepare_function_records@4",
-    "start": 4322716,
-    "end": 4322717,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@process_records@4",
     "start": 4322452,
     "end": 4322501,
@@ -1111,6 +1103,22 @@
     "name": "@write_assembly_header@4",
     "start": 4720946,
     "end": 4720947,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_prepare_global_records",
+    "start": 4323284,
+    "end": 4323285,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@has_local_symbol@4",
+    "start": 4500303,
+    "end": 4500304,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

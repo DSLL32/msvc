@@ -1,0 +1,63 @@
+{
+  "logical": "@prepare_function_records@4",
+  "code": [
+    4322716,
+    4323219
+  ],
+  "code_bytes": 503,
+  "text_data": [
+    [
+      4323232,
+      4323248
+    ],
+    [
+      4323248,
+      4323263
+    ],
+    [
+      4323264,
+      4323284
+    ]
+  ],
+  "data_bytes": 51,
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "code_sha256": "7ae30f058d4f5ebecd13a5c5b9696ea108cdf84d820afe61c28611398cdea946",
+  "original_switches": {
+    "record_targets": [
+      4322893,
+      4322790,
+      4322805,
+      4322953
+    ],
+    "record_classmap": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      3,
+      1,
+      3,
+      3,
+      2
+    ],
+    "expression_targets": [
+      4323030,
+      4323030,
+      4323054,
+      4323040,
+      4323040
+    ]
+  },
+  "role": "Traverse function flow.entry recordchain; queue symbolrefs in typed tagged operands/declarations, update source line globals, then prepare global/debuglink list and reserve symbol storage with optional local symbol section assignment. ActualNULL path calls noarg prepare_global_records before writes.",
+  "abi": "fastcall C2Function*ECX, C2DebugLink*EAX RET0; output8B debuglink uses next0/symbol4. Priorpointerreturn provisional, no earlier payloadcredit. No implicitEBXparam: callerholds ownerlocalacrossnormalcallee, childsave/BLwrite precedesreads.",
+  "layout": "C2Function symbols16/flags52/size56 unchanged; encounteredflow8,debugscope32,linebase36. Record32/Expression32 typedcontextualfields. No payloaddefaults or dormantallocation claims.",
+  "helpers": "Existingqueue_symbol_debug, reserve_symbol_storage, select_symbol_section remain actualnamedmaskedchildren. Newlocalbool44ab4f usesunsignedserialECX and RET0; noarg41f7d4 returnsdebuglinkchain, bothmaskedpendingzero bodycredit.",
+  "source_sha256": "c7846ad67df7144e14ce593d323f9c90d4f5b1acb46f574abe1aa9c6a2ecfd7e",
+  "disassembly_sha256": "3ef0e134e0eab80bfe2a4a44ff499b67a4e0d8f432fd7c6e31b5c7815f27d26d"
+}

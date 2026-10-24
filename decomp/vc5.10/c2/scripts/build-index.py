@@ -109,6 +109,19 @@ def main():
             assert all(start<=address<intervals[0][0]for address in targets)
             assert read(intervals[1][0],size)==original[offset(inventory,original_classes,size):offset(inventory,original_classes,size)+size]
             function.setdefault('rebuilt',{})['text_data']=intervals
+    for record in config['driver']:
+        if record.get('rebuilt_record_dispatch_offsets'):
+            assert record['name']=='@prepare_function_records@4'
+            start=symbols[record['name']]
+            intervals=[[start+a,start+z]for a,z in record['rebuilt_record_dispatch_offsets']]
+            assert [z-a for a,z in intervals]==[16,15,20]
+            assert read(intervals[0][0]-1,1)==b'\xc3'
+            assert read(intervals[1][0],15)==original[offset(inventory,0x41f7b0,15):offset(inventory,0x41f7b0,15)+15]
+            for (a,z),count in ((intervals[0],4),(intervals[2],5)):
+                assert all(start<=x<intervals[0][0]for x in struct.unpack('<%dI'%count,read(a,z-a)))
+            function=metadata['functions'].setdefault(record['name'],{})
+            function.setdefault('original',{})['text_data']=record['shared']
+            function.setdefault('rebuilt',{})['text_data']=intervals
     (BINARY/'build/graph-metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
 
 if __name__=='__main__':main()
