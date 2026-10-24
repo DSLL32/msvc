@@ -63,10 +63,13 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'ide-debug-pch-use':('ide-debug-pch','c1-use'),
          'forced-container-context':('forced-container-support','context'),
          'nested-input-valid':('nested-input-resources','valid'),
-         'nested-input-missing':('nested-input-resources','missing')}
+         'nested-input-missing':('nested-input-resources','missing'),
+         'pch-metadata-create':('pch-metadata-interface','create'),
+         'pch-metadata-use':('pch-metadata-interface','use')}
 
 
 CASE_DEPENDENCIES = {
+    'pch-metadata-use':('pch-metadata-create','metadata.pch'),
     'ide-debug-pch-use':('ide-debug-pch-create','debug.pch'),
     'hdrstop-use':('hdrstop-create','hdrstop.pch'),
     'browser-pch-use':('browser-pch-create','api.pch'),

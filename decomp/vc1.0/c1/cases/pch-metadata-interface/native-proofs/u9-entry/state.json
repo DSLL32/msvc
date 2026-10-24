@@ -1,0 +1,28 @@
+{
+  "inferior_pid": 2299693,
+  "exit": null,
+  "status": "entry",
+  "calls": [
+    {
+      "function": "format_initializer_text",
+      "registers": {
+        "eip": 1449486560,
+        "esp": 4289895516,
+        "ebx": 1450110964,
+        "esi": 1455718672,
+        "edi": 1455718672,
+        "ebp": 4289896552,
+        "fctrl": 895
+      },
+      "frame": [
+        1449916426,
+        1455718672,
+        1450022111,
+        1455597222,
+        6
+      ]
+    }
+  ],
+  "nested_calls": [],
+  "browser_hook_entries": []
+}

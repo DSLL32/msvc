@@ -1,0 +1,10 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+
+Program stopped.
+0xf7f1d6a0 in ?? () from /lib/ld-linux.so.2
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint -1, format_initializer_text (buffer=0x56c3f1f0, format=0x56c3f2a4 "\005\003") at src/stubs.c:27
+27	unsigned format_initializer_text(InitializerBuffer *buffer, char *format, ...) { __asm { int 3 } return 0; }
+[Inferior 1 (process 2299693) killed]

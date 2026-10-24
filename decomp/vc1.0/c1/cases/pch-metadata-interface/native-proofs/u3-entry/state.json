@@ -1,0 +1,25 @@
+{
+  "inferior_pid": 2278212,
+  "status": "entry",
+  "calls": [
+    {
+      "function": "copy_permanent_bytes",
+      "registers": {
+        "eip": 1449244928,
+        "esp": 4289869724,
+        "ebx": 1449861108,
+        "esi": 25744,
+        "edi": 1476909932,
+        "ebp": 4289870184,
+        "fctrl": 895
+      },
+      "frame": [
+        1449671177,
+        1476909660,
+        24,
+        32
+      ]
+    }
+  ],
+  "nested_calls": []
+}

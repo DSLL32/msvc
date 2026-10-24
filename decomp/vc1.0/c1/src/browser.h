@@ -26,6 +26,7 @@ typedef char BrowserRecord_source[(offsetof(BrowserRecord,source_name) == 16) ? 
 typedef char BrowserRecord_attrs[(offsetof(BrowserRecord,attributes) == 20) ? 1 : -1];
 typedef char BrowserRecord_kind[(offsetof(BrowserRecord,symbol_kind) == 22) ? 1 : -1];
 extern int browser_suppressed, browser_last_line;
+void suppress_browser_output(void);
 extern FrontendSymbol *browser_last_reference;
 extern unsigned browser_pending_flags;
 extern BrowserRecord browser_line_template;

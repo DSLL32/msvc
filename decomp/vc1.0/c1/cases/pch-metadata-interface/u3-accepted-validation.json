@@ -1,0 +1,18 @@
+{
+  "status": "pass",
+  "unit": 3,
+  "public_reachability": false,
+  "scope": "Actual constructor-owned completed argument chain, PCH vectors and parsed symbols; individual entry/cleanup/nonvolatile/pending-output contract.",
+  "initial_cache_original": {
+    "reference": 0,
+    "base": 0,
+    "page": 65535
+  },
+  "initial_cache_native": {
+    "reference": 0,
+    "base": 0,
+    "page": 0
+  },
+  "inactive_page_difference": "Retained raw65535/0 discrepancy. Walker: every actual nonNULL slot unsigned offset>0xeffc; accepted lookup writes page before consumption. Encoder/decoder setup invoke lookup directly; full poststate strict after lookup. Other fixed methods do not consume the cache and preserve each complete raw state within side.",
+  "unwritten_storage": "Node padding and allocation tail/guard compared only within side for no mutation. No cross-side uninitialized-tail equality. Pascal result meaningful AX only; void result has no EAX contract."
+}

@@ -1,0 +1,18 @@
+{
+  "status": "pass",
+  "unit": 1,
+  "public_reachability": false,
+  "scope": "Actual constructor-owned completed argument chain and PCH vector; whole entry/RET4/nonvolatile/pending-output contract.",
+  "initial_cache_original": {
+    "reference": 0,
+    "base": 0,
+    "page": 65535
+  },
+  "initial_cache_native": {
+    "reference": 0,
+    "base": 0,
+    "page": 0
+  },
+  "inactive_page_difference": "Retained raw65535/0 discrepancy. Walker: every actual nonNULL slot unsigned offset>0xeffc; accepted lookup writes page before consumption. Encoder: every item invokes lookup directly. NULL slots return without consuming cache. Full poststate strict.",
+  "unwritten_storage": "Node padding compared only within side for no mutation; no cross-side padding equality or EAX void-result contract."
+}

@@ -1,0 +1,61 @@
+{
+  "inferior_pid": 2294947,
+  "exit": 99,
+  "status": "completed",
+  "calls": [
+    {
+      "function": "suppress_browser_output",
+      "registers": {
+        "eip": 1449202128,
+        "esp": 4291207452,
+        "ebx": 1449422836,
+        "esi": 1466093264,
+        "edi": 1466093708,
+        "ebp": 4291208200,
+        "fctrl": 895
+      },
+      "frame": [
+        1449227578
+      ],
+      "returned_registers": {
+        "eip": 1449227578,
+        "esp": 4291207456,
+        "ebx": 1449422836,
+        "esi": 1466093264,
+        "edi": 1466093708,
+        "ebp": 4291208200,
+        "fctrl": 895,
+        "eax": 1449422836
+      }
+    },
+    {
+      "function": "suppress_browser_output",
+      "registers": {
+        "eip": 1449202128,
+        "esp": 4291207452,
+        "ebx": 1449422836,
+        "esi": 1466093264,
+        "edi": 1466093708,
+        "ebp": 4291208200,
+        "fctrl": 895
+      },
+      "frame": [
+        1449227627
+      ],
+      "returned_registers": {
+        "eip": 1449227627,
+        "esp": 4291207456,
+        "ebx": 1449422836,
+        "esi": 1466093264,
+        "edi": 1466093708,
+        "ebp": 4291208200,
+        "fctrl": 895,
+        "eax": 1449422836
+      }
+    }
+  ],
+  "nested_calls": [],
+  "browser_hook_entries": [
+    1448979104
+  ]
+}

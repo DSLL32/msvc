@@ -142,6 +142,16 @@ unsigned short copy_codeview_name(char *destination, char *source)
     return (unsigned short)(append_codeview_name(destination, source) - destination);
 }
 
+/* Original 0x4a360..0x4a3a5, cdecl. This symbol-name form retains the
+   NUL after its counted bytes. Only AX carries the signed-byte result. */
+short copy_pascal_symbol_name(char *destination, FrontendSymbol *symbol)
+{
+    unsigned length;
+    for (length = 0; (destination[length + 1] = symbol->name[length]) != 0; ++length) ;
+    destination[0] = (char)length;
+    return (signed char)length;
+}
+
 /* Original 0x4bd50..0x4bd93. CodeView names have one length byte and
    at most 255 characters; the returned cursor follows the copied name. */
 char *__stdcall append_codeview_name(char *destination, char *source)

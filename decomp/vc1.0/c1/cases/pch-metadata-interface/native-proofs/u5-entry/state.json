@@ -1,0 +1,24 @@
+{
+  "inferior_pid": 2284803,
+  "status": "entry",
+  "calls": [
+    {
+      "function": "copy_pascal_symbol_name",
+      "registers": {
+        "eip": 1448974560,
+        "esp": 4293064908,
+        "ebx": 1449590772,
+        "esi": 1467070656,
+        "edi": 4293065044,
+        "ebp": 4293065656,
+        "fctrl": 895
+      },
+      "frame": [
+        1449402401,
+        4293065044,
+        1467070656
+      ]
+    }
+  ],
+  "nested_calls": []
+}

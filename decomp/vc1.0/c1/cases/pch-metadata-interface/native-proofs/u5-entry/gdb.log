@@ -1,0 +1,11 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+
+Program stopped.
+0xf7f486a0 in ?? () from /lib/ld-linux.so.2
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint -1, copy_pascal_symbol_name (destination=0x5772a1f0 "r\002", symbol=0x5772a2a4) at src/stubs.c:27
+27	short copy_pascal_symbol_name(char *destination, FrontendSymbol *symbol) { __asm { int 3 } return 0; }
+Python Exception <class 'AttributeError'>: 'gdb.ExitedEvent' object has no attribute 'exit_code'
+[Inferior 1 (process 2284803) killed]

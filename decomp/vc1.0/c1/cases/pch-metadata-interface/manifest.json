@@ -1,0 +1,835 @@
+{
+  "case": "Debug PCH metadata and genuine call-owner interfaces",
+  "status": "complete: two exact public phases plus ten direct units accepting nine whole application functions696B; fresh entry/body/ABI/output/first-entry proof,63public+94direct native cached units and original compiler/all audits pass",
+  "baseline_commit": "dde6825fca4329972997ad322f5c186ae48cdfc0",
+  "baseline_accepted_count": 1108,
+  "authorization": "Root approved coherent public debug-PCH create/reuse plus nine bounded direct metadata candidates696B. Actual complete argument owners and full permanent-page nonoverlap mandatory; no state/token seeds or uninitialized-tail comparison.",
+  "phases": {
+    "create": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\pch-metadata-interface",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f producer.c -Ze -Zp8 -Gs -Foproducer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Yd -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Ycmetadata.h -Fpmetadata.pch -FR producer.sbr -DMETA_SCALE=3 -DMETA_KIND=7 -DMETA_NAME_LENGTH=12 -I . -I ../metadata-extra -I ../metadata-compat -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/metadata.h",
+          "bytes": 520,
+          "sha256": "9a13a1e4d1e7bdbc15fc454df4d992436a6f478a2038f8e0aad76ac6942c4c21",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/producer.c",
+          "bytes": 310,
+          "sha256": "efc64d3fb8b97e70fc81a89e3b2cc286e6d7f37e9ae357052bf16e2591224956",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/consumer.c",
+          "bytes": 485,
+          "sha256": "ed588d75bd0b55e1c35a5faa26e556557faa72254d318fa357eb511c2432cdf2",
+          "mtime_ns": 1768480496000000000
+        }
+      ],
+      "outputs": [
+        {
+          "path": "outputs/create/irdb",
+          "bytes": 211,
+          "sha256": "a5d049684007fd234b710a666fedf17f4a01cd9327a2c297570c566768362e92",
+          "output_name": "irdb"
+        },
+        {
+          "path": "outputs/create/irex",
+          "bytes": 103,
+          "sha256": "d13e8f029398fcb95c5b711c5b8b3e90e052e53279acde5dd86b2447dfbc32ac",
+          "output_name": "irex"
+        },
+        {
+          "path": "outputs/create/irgl",
+          "bytes": 236,
+          "sha256": "cc6dbc20f7d92f391295534d7ad59e46bdacc39d068b0f9ce4f23a94a24de3ac",
+          "output_name": "irgl"
+        },
+        {
+          "path": "outputs/create/irin",
+          "bytes": 75,
+          "sha256": "ead57fa8aa790e0599423d280711655a282189a6f6ab487b0f6bce9c890cc517",
+          "output_name": "irin"
+        },
+        {
+          "path": "outputs/create/irsy",
+          "bytes": 35,
+          "sha256": "a598c929f8ab5ec6bf9d8f8004cbdf55a4c7d02639b4671ae1b8ffa2a70d9176",
+          "output_name": "irsy"
+        },
+        {
+          "path": "outputs/create/metadata.pch",
+          "bytes": 38479,
+          "sha256": "e7f52d539ceeb21391521d1c79d51bd4be48e7564c25f6edace14455d32f3c69",
+          "output_name": "metadata.pch"
+        },
+        {
+          "path": "outputs/create/producer.sbr",
+          "bytes": 829,
+          "sha256": "0b980fca233f8371f9c57d954757a74e71dd90f4e108841ebbecf67d3a81401a",
+          "output_name": "producer.sbr"
+        }
+      ],
+      "expected_exit": 0,
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 workflow explicitly shares stdout/stderr; no new CL/backend invocation claim."
+      },
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "immutable_input_names": [
+        "metadata.h",
+        "producer.c",
+        "consumer.c"
+      ],
+      "expected_absent_outputs": [
+        "producer.obj",
+        "consumer.obj",
+        "producer.exe",
+        "consumer.exe"
+      ]
+    },
+    "use": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\pch-metadata-interface",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f consumer.c -Ze -Zp8 -Gs -Foconsumer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Yd -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Yumetadata.h -Fpmetadata.pch -FR consumer.sbr -DMETA_SCALE=3 -DMETA_KIND=7 -DMETA_NAME_LENGTH=12 -I . -I ../metadata-extra -I ../metadata-compat -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/metadata.pch",
+          "bytes": 38479,
+          "sha256": "e7f52d539ceeb21391521d1c79d51bd4be48e7564c25f6edace14455d32f3c69",
+          "mtime_ns": 1792814765812683289
+        },
+        {
+          "path": "inputs/metadata.h",
+          "bytes": 520,
+          "sha256": "9a13a1e4d1e7bdbc15fc454df4d992436a6f478a2038f8e0aad76ac6942c4c21",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/producer.c",
+          "bytes": 310,
+          "sha256": "efc64d3fb8b97e70fc81a89e3b2cc286e6d7f37e9ae357052bf16e2591224956",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/consumer.c",
+          "bytes": 485,
+          "sha256": "ed588d75bd0b55e1c35a5faa26e556557faa72254d318fa357eb511c2432cdf2",
+          "mtime_ns": 1768480496000000000
+        }
+      ],
+      "outputs": [
+        {
+          "path": "outputs/use/consumer.sbr",
+          "bytes": 313,
+          "sha256": "a32160461b07072ad4e64dc49c5f6a9fff8a2b8f737f8b07129d74aded3106a6",
+          "output_name": "consumer.sbr"
+        },
+        {
+          "path": "outputs/use/irdb",
+          "bytes": 259,
+          "sha256": "347ddfd9c56a9b687fe42e8507d99fe1432fcd9b1f526b2168f2a7e9626cfffe",
+          "output_name": "irdb"
+        },
+        {
+          "path": "outputs/use/irex",
+          "bytes": 1272,
+          "sha256": "7c3d591d5bc3db12d1f9a55e8b35d7019c3f92efa97d62c5c6b13212245e206a",
+          "output_name": "irex"
+        },
+        {
+          "path": "outputs/use/irgl",
+          "bytes": 234,
+          "sha256": "aac5f3705e326325164d6962cf978f80937b4edd8b8406df0be11115d5592405",
+          "output_name": "irgl"
+        },
+        {
+          "path": "outputs/use/irin",
+          "bytes": 3,
+          "sha256": "6414ec16d65141003eeeb77ac0d2137d2a31315183bf51c7a1aad6b97989934f",
+          "output_name": "irin"
+        },
+        {
+          "path": "outputs/use/irsy",
+          "bytes": 203,
+          "sha256": "3172f6d94c82ad9fd004677ba59b1cdd1f9fab85b4bd668c6d637c46e40540e8",
+          "output_name": "irsy"
+        }
+      ],
+      "expected_exit": 0,
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 workflow explicitly shares stdout/stderr; no new CL/backend invocation claim."
+      },
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "immutable_input_names": [
+        "metadata.h",
+        "producer.c",
+        "consumer.c",
+        "metadata.pch"
+      ],
+      "expected_absent_outputs": [
+        "producer.obj",
+        "consumer.obj",
+        "producer.exe",
+        "consumer.exe"
+      ],
+      "generated_input_dependency": {
+        "case": "pch-metadata-create",
+        "output_name": "metadata.pch",
+        "input_name": "metadata.pch"
+      }
+    },
+    "context": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\pch-metadata-interface",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f consumer.c -Ze -Zp8 -Gs -Foconsumer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Yd -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Yumetadata.h -Fpmetadata.pch -FR consumer.sbr -DMETA_SCALE=3 -DMETA_KIND=7 -DMETA_NAME_LENGTH=12 -I . -I ../metadata-extra -I ../metadata-compat -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/metadata.pch",
+          "bytes": 38479,
+          "sha256": "e7f52d539ceeb21391521d1c79d51bd4be48e7564c25f6edace14455d32f3c69",
+          "mtime_ns": 1792814765812683289
+        },
+        {
+          "path": "inputs/metadata.h",
+          "bytes": 520,
+          "sha256": "9a13a1e4d1e7bdbc15fc454df4d992436a6f478a2038f8e0aad76ac6942c4c21",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/producer.c",
+          "bytes": 310,
+          "sha256": "efc64d3fb8b97e70fc81a89e3b2cc286e6d7f37e9ae357052bf16e2591224956",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/consumer.c",
+          "bytes": 485,
+          "sha256": "ed588d75bd0b55e1c35a5faa26e556557faa72254d318fa357eb511c2432cdf2",
+          "mtime_ns": 1768480496000000000
+        }
+      ],
+      "outputs": [],
+      "expected_exit": 99,
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 workflow explicitly shares stdout/stderr; no new CL/backend invocation claim."
+      },
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "immutable_input_names": [
+        "metadata.h",
+        "producer.c",
+        "consumer.c",
+        "metadata.pch"
+      ],
+      "expected_absent_outputs": [
+        "producer.obj",
+        "consumer.obj",
+        "producer.exe",
+        "consumer.exe"
+      ],
+      "capture_scope": "Read-only natural finish_call_arguments prefix with frozen exact producer PCH; no continuation or new function credit."
+    }
+  },
+  "direct_plan": [
+    {
+      "unit": 0,
+      "function": "_mark_pch_ir_node@4",
+      "phase": "context",
+      "request_arguments": [
+        0
+      ],
+      "public_reachability": false,
+      "start": 279328,
+      "provisional_end": 279507,
+      "status": "accepted: actual owner, fresh entry/wholebody/RET4/nonvolatile/output proof; fresh matching original/native first-entry replay complete"
+    },
+    {
+      "unit": 1,
+      "function": "_encode_pch_vector@4",
+      "phase": "context",
+      "request_arguments": [
+        0
+      ],
+      "public_reachability": false,
+      "start": 280224,
+      "provisional_end": 280294,
+      "status": "accepted: actual owner, fresh entry/wholebody/RET4/returned-owner/nonvolatile/no-store proof; fresh matching original/native first-entry replay complete"
+    },
+    {
+      "unit": 2,
+      "function": "_decode_pch_vector@4",
+      "phase": "context",
+      "request_arguments": [
+        0
+      ],
+      "public_reachability": false,
+      "start": 280992,
+      "provisional_end": 281080,
+      "status": "accepted: genuine constructor-derived refs, fresh entry/wholebody/RET4/returned-owner/nonvolatile/no-store proof; fresh matching original/native first-entry replay complete"
+    },
+    {
+      "unit": 3,
+      "function": "_copy_permanent_bytes@12",
+      "phase": "context",
+      "request_arguments": [
+        0,
+        0,
+        0
+      ],
+      "public_reachability": false,
+      "start": 281600,
+      "provisional_end": 281654,
+      "status": "accepted: real source/allocator owner, fresh copy/min entry and body/RET12/RET8/defined-prefix/within-side-tail proof; fresh matching original/native first-entry replay complete"
+    },
+    {
+      "unit": 4,
+      "function": "_copy_permanent_bytes@12",
+      "phase": "context",
+      "request_arguments": [
+        0,
+        0,
+        0
+      ],
+      "public_reachability": false,
+      "start": 281600,
+      "provisional_end": 281654,
+      "status": "accepted supplementary10B-truncation/minimum unsigned alternate branch; no new function credit"
+    },
+    {
+      "unit": 5,
+      "function": "_copy_pascal_symbol_name",
+      "phase": "context",
+      "request_arguments": [
+        0,
+        0
+      ],
+      "public_reachability": false,
+      "start": 303968,
+      "provisional_end": 304037,
+      "status": "accepted: real symbol/owned output/fresh entry/cdecl/meaningful AX/name/NUL/tail proof; fresh matching original/native first-entry replay complete"
+    },
+    {
+      "unit": 6,
+      "function": "_symbol_has_qualifiers@4",
+      "phase": "context",
+      "request_arguments": [
+        0
+      ],
+      "public_reachability": false,
+      "start": 181280,
+      "provisional_end": 181319,
+      "status": "accepted: genuine qualified scalar/fresh entry/body/RET4/bool/immutable type proof; fresh matching original/native first-entry replay complete"
+    },
+    {
+      "unit": 7,
+      "function": "_symbol_has_qualifiers@4",
+      "phase": "context",
+      "request_arguments": [
+        0
+      ],
+      "public_reachability": false,
+      "start": 181280,
+      "provisional_end": 181319,
+      "status": "accepted supplementary genuine unqualified scalar/bool0 branch; no new function credit"
+    },
+    {
+      "unit": 8,
+      "function": "_suppress_browser_output",
+      "phase": "context",
+      "request_arguments": [],
+      "public_reachability": false,
+      "start": 159968,
+      "provisional_end": 160034,
+      "status": "accepted: live FILE/template/known empty hook, fresh entry/two cdecl returns, exactly one0e packet and second-call no-op; fresh matching original/native first-entry replay complete"
+    },
+    {
+      "unit": 9,
+      "function": "_format_initializer_text",
+      "phase": "context",
+      "request_arguments": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "public_reachability": false,
+      "start": 172464,
+      "provisional_end": 172578,
+      "status": "accepted: genuine NULL-input constructor/16B owner/2048B block/four cdecl slots/15B written prefix/finish-reset-read/untouched output tail; fresh matching original/native first-entry replay complete"
+    }
+  ],
+  "initial_cache_qualification": {
+    "original_page": 65535,
+    "native_page": 0,
+    "reference": 0,
+    "base": 0,
+    "proof": "Actual raw discrepancy retained. All actual nonNULL walker slots unsigned offsets exceed0xeffc from NULL base, forcing accepted lookup to overwrite page before it is consumed. Vector encoder calls lookup directly; decoder input setup uses actual accepted lookup outputs. NULL slots return without reading cached page. No state initialized or repaired.",
+    "root_review": "Parent independently read both accepted lookup/mark bodies and approved this exact bounded qualification."
+  },
+  "direct_oracles": [
+    {
+      "unit": 0,
+      "directory": "original-u0-accepted",
+      "input": {
+        "unit": 0,
+        "function": "_mark_pch_ir_node@4",
+        "phase": "context",
+        "request_arguments": [
+          0
+        ],
+        "public_reachability": false,
+        "start": 279328,
+        "provisional_end": 279507,
+        "status": "accepted: actual owner, fresh entry/wholebody/RET4/nonvolatile/output proof; fresh matching original/native first-entry replay complete"
+      },
+      "accepted_from": 1108,
+      "accepted_count": 1109,
+      "accepted_functions": [
+        "_mark_pch_ir_node@4"
+      ],
+      "phase_sha256": "177f7eb3ab3d8fd1df058438dd71d2bed44686970b8d871f26c2f5326644f699",
+      "files": {
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events": "318945e88c319a4931e08c6ea891eca0abaae8d06f5c1a108b503332bafb43c3",
+        "receipt.json": "0faec8ac69ac41eebc02c6035c9d548903e1d96f419f4c9c9d308ddb08fd567d",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "2bc596c94d9c33f9e682ac5aee08005dae58c5ec500dc27ff43a30d05f0c2870",
+        "entry-plan.txt": "0a388368575e44eb455d2081293370be9a4136944dd57117b4f09e745121664c",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/producer.c": "efc64d3fb8b97e70fc81a89e3b2cc286e6d7f37e9ae357052bf16e2591224956",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/consumer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/consumer.c": "ed588d75bd0b55e1c35a5faa26e556557faa72254d318fa357eb511c2432cdf2",
+        "work/irgl": "65459a875a30d77e55c5c2549a74d221888fd408556e0c9fb6024d3b7147f263",
+        "work/metadata.h": "9a13a1e4d1e7bdbc15fc454df4d992436a6f478a2038f8e0aad76ac6942c4c21",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/metadata.pch": "e7f52d539ceeb21391521d1c79d51bd4be48e7564c25f6edace14455d32f3c69"
+      }
+    },
+    {
+      "unit": 1,
+      "directory": "original-u1-accepted",
+      "input": {
+        "unit": 1,
+        "function": "_encode_pch_vector@4",
+        "phase": "context",
+        "request_arguments": [
+          0
+        ],
+        "public_reachability": false,
+        "start": 280224,
+        "provisional_end": 280294,
+        "status": "accepted: actual owner, fresh entry/wholebody/RET4/returned-owner/nonvolatile/no-store proof; fresh matching original/native first-entry replay complete"
+      },
+      "accepted_from": 1109,
+      "accepted_count": 1110,
+      "accepted_functions": [
+        "_encode_pch_vector@4"
+      ],
+      "phase_sha256": "177f7eb3ab3d8fd1df058438dd71d2bed44686970b8d871f26c2f5326644f699",
+      "files": {
+        "events": "30fb2b14f5c413e9e4f557b1747b1d483026406d292865913f87ee7221363267",
+        "receipt.json": "b9266e7bb785a17afad3c02d9ca5b2d901dc62e08e9d927197e4fa807db2db48",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "28f75f8a4ec8b3141928b3fc6f034e26043d2dd3dffe6f496447204687b90bb8",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "c014f15718c44717f42c91f7dceb007ae4f6ca9e695e8fc349fe905366b5edd2",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/consumer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irgl": "65459a875a30d77e55c5c2549a74d221888fd408556e0c9fb6024d3b7147f263",
+        "work/metadata.h": "9a13a1e4d1e7bdbc15fc454df4d992436a6f478a2038f8e0aad76ac6942c4c21",
+        "work/producer.c": "efc64d3fb8b97e70fc81a89e3b2cc286e6d7f37e9ae357052bf16e2591224956",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/consumer.c": "ed588d75bd0b55e1c35a5faa26e556557faa72254d318fa357eb511c2432cdf2",
+        "work/metadata.pch": "e7f52d539ceeb21391521d1c79d51bd4be48e7564c25f6edace14455d32f3c69",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "unit": 2,
+      "directory": "original-u2-accepted",
+      "input": {
+        "unit": 2,
+        "function": "_decode_pch_vector@4",
+        "phase": "context",
+        "request_arguments": [
+          0
+        ],
+        "public_reachability": false,
+        "start": 280992,
+        "provisional_end": 281080,
+        "status": "accepted: genuine constructor-derived refs, fresh entry/wholebody/RET4/returned-owner/nonvolatile/no-store proof; fresh matching original/native first-entry replay complete"
+      },
+      "accepted_from": 1110,
+      "accepted_count": 1111,
+      "accepted_functions": [
+        "_decode_pch_vector@4"
+      ],
+      "phase_sha256": "177f7eb3ab3d8fd1df058438dd71d2bed44686970b8d871f26c2f5326644f699",
+      "files": {
+        "events": "8873520ac8b9d1adb35d11f7c64008d9455d8f61be7a57ee24225432e27404e4",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "aa695f7be75e7c377b232a4f13e1c11eb97bc32cb06f836aa472dc3150f50d2f",
+        "capture-status.json": "42646adccc74feb5e7c67c05c4796869768052940338cdf734e1dfb3aa0c7cde",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "86e4785df600d70a19cca832ce8b191885777aa90fc41e6499ac10a1b91f8b6e",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/metadata.h": "9a13a1e4d1e7bdbc15fc454df4d992436a6f478a2038f8e0aad76ac6942c4c21",
+        "work/irgl": "65459a875a30d77e55c5c2549a74d221888fd408556e0c9fb6024d3b7147f263",
+        "work/metadata.pch": "e7f52d539ceeb21391521d1c79d51bd4be48e7564c25f6edace14455d32f3c69",
+        "work/producer.c": "efc64d3fb8b97e70fc81a89e3b2cc286e6d7f37e9ae357052bf16e2591224956",
+        "work/consumer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/consumer.c": "ed588d75bd0b55e1c35a5faa26e556557faa72254d318fa357eb511c2432cdf2"
+      }
+    },
+    {
+      "unit": 3,
+      "directory": "original-u3-accepted",
+      "input": {
+        "unit": 3,
+        "function": "_copy_permanent_bytes@12",
+        "phase": "context",
+        "request_arguments": [
+          0,
+          0,
+          0
+        ],
+        "public_reachability": false,
+        "start": 281600,
+        "provisional_end": 281654,
+        "status": "accepted: real source/allocator owner, fresh copy/min entry and body/RET12/RET8/defined-prefix/within-side-tail proof; fresh matching original/native first-entry replay complete"
+      },
+      "accepted_from": 1111,
+      "accepted_count": 1113,
+      "accepted_functions": [
+        "_copy_permanent_bytes@12",
+        "_smaller_size@8"
+      ],
+      "phase_sha256": "177f7eb3ab3d8fd1df058438dd71d2bed44686970b8d871f26c2f5326644f699",
+      "files": {
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "5e37887a6b26a970f4a2e79a39517b7bc8bd49f25622c564e68d9c11713e9300",
+        "receipt.json": "fc1cee13d6fd68a7dc4716edb86a415779a2b40d3ce3ab7eaaeb663149c86836",
+        "events": "40373055321b0d9cb5ec0d14fc2c13fd1e95efc7afd1060744870687587921d6",
+        "capture-status.json": "013469fb48edf6c8158ed9ce2b5bd5ed4eff09799447f8ee243be743899e9068",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/metadata.h": "9a13a1e4d1e7bdbc15fc454df4d992436a6f478a2038f8e0aad76ac6942c4c21",
+        "work/metadata.pch": "e7f52d539ceeb21391521d1c79d51bd4be48e7564c25f6edace14455d32f3c69",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irgl": "65459a875a30d77e55c5c2549a74d221888fd408556e0c9fb6024d3b7147f263",
+        "work/consumer.c": "ed588d75bd0b55e1c35a5faa26e556557faa72254d318fa357eb511c2432cdf2",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/producer.c": "efc64d3fb8b97e70fc81a89e3b2cc286e6d7f37e9ae357052bf16e2591224956",
+        "work/consumer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+      }
+    },
+    {
+      "unit": 4,
+      "directory": "original-u4-accepted",
+      "input": {
+        "unit": 4,
+        "function": "_copy_permanent_bytes@12",
+        "phase": "context",
+        "request_arguments": [
+          0,
+          0,
+          0
+        ],
+        "public_reachability": false,
+        "start": 281600,
+        "provisional_end": 281654,
+        "status": "accepted supplementary10B-truncation/minimum unsigned alternate branch; no new function credit"
+      },
+      "accepted_from": 1113,
+      "accepted_count": 1113,
+      "accepted_functions": [],
+      "phase_sha256": "177f7eb3ab3d8fd1df058438dd71d2bed44686970b8d871f26c2f5326644f699",
+      "files": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "52b4e148b4c146a6c6281364f7e127eef71900c254f17075c4e9bb1539da27bc",
+        "events": "98a40e83fa626c1c0346cbca679dddadc87f3b7cec50235d94e97690157f91ad",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "f133b6494d6d20e83afe5f7912e1a389753275e545ff6750395283ad10cddd7a",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/metadata.pch": "e7f52d539ceeb21391521d1c79d51bd4be48e7564c25f6edace14455d32f3c69",
+        "work/consumer.c": "ed588d75bd0b55e1c35a5faa26e556557faa72254d318fa357eb511c2432cdf2",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/producer.c": "efc64d3fb8b97e70fc81a89e3b2cc286e6d7f37e9ae357052bf16e2591224956",
+        "work/metadata.h": "9a13a1e4d1e7bdbc15fc454df4d992436a6f478a2038f8e0aad76ac6942c4c21",
+        "work/irgl": "65459a875a30d77e55c5c2549a74d221888fd408556e0c9fb6024d3b7147f263",
+        "work/consumer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "unit": 5,
+      "directory": "original-u5-accepted",
+      "input": {
+        "unit": 5,
+        "function": "_copy_pascal_symbol_name",
+        "phase": "context",
+        "request_arguments": [
+          0,
+          0
+        ],
+        "public_reachability": false,
+        "start": 303968,
+        "provisional_end": 304037,
+        "status": "accepted: real symbol/owned output/fresh entry/cdecl/meaningful AX/name/NUL/tail proof; fresh matching original/native first-entry replay complete"
+      },
+      "accepted_from": 1113,
+      "accepted_count": 1114,
+      "accepted_functions": [
+        "_copy_pascal_symbol_name"
+      ],
+      "phase_sha256": "177f7eb3ab3d8fd1df058438dd71d2bed44686970b8d871f26c2f5326644f699",
+      "files": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "6586c9bfa2c9807c514947a619cde7858d79d5b9ac2ea5fdff2f1ee133c17cdf",
+        "capture-status.json": "edaba314e909d44e880441af2143f4c15630d14d03628bef12234c00ec0223a3",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events": "7e736ff00669b48261c404280dbcc9c613716a559c8500c541951eda30078b6b",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "ef34db1a2e47eb877ea8f7fd5a91546f84c77bc343c6168e326675cc563e1a65",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/consumer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/metadata.h": "9a13a1e4d1e7bdbc15fc454df4d992436a6f478a2038f8e0aad76ac6942c4c21",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/producer.c": "efc64d3fb8b97e70fc81a89e3b2cc286e6d7f37e9ae357052bf16e2591224956",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irgl": "65459a875a30d77e55c5c2549a74d221888fd408556e0c9fb6024d3b7147f263",
+        "work/metadata.pch": "e7f52d539ceeb21391521d1c79d51bd4be48e7564c25f6edace14455d32f3c69",
+        "work/consumer.c": "ed588d75bd0b55e1c35a5faa26e556557faa72254d318fa357eb511c2432cdf2"
+      }
+    },
+    {
+      "unit": 6,
+      "directory": "original-u6-accepted",
+      "input": {
+        "unit": 6,
+        "function": "_symbol_has_qualifiers@4",
+        "phase": "context",
+        "request_arguments": [
+          0
+        ],
+        "public_reachability": false,
+        "start": 181280,
+        "provisional_end": 181319,
+        "status": "accepted: genuine qualified scalar/fresh entry/body/RET4/bool/immutable type proof; fresh matching original/native first-entry replay complete"
+      },
+      "accepted_from": 1114,
+      "accepted_count": 1115,
+      "accepted_functions": [
+        "_symbol_has_qualifiers@4"
+      ],
+      "phase_sha256": "177f7eb3ab3d8fd1df058438dd71d2bed44686970b8d871f26c2f5326644f699",
+      "files": {
+        "receipt.json": "9b5d0d5df91d63f388356923b58cecff3795673a294d807974694042d7249004",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "2784fe21d7bef93159b6f61b1de3dda3fd3a629486def2df842065b7d74932f3",
+        "events": "5933b6cc585f01a0f69946fed25218092586551589c201a588d5798f765e97b1",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "fb0a5af72d19be7e0a1fa389efba0db03a8488928e7ef2b36d6aabce5f14b777",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irgl": "65459a875a30d77e55c5c2549a74d221888fd408556e0c9fb6024d3b7147f263",
+        "work/producer.c": "efc64d3fb8b97e70fc81a89e3b2cc286e6d7f37e9ae357052bf16e2591224956",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/consumer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/consumer.c": "ed588d75bd0b55e1c35a5faa26e556557faa72254d318fa357eb511c2432cdf2",
+        "work/metadata.pch": "e7f52d539ceeb21391521d1c79d51bd4be48e7564c25f6edace14455d32f3c69",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/metadata.h": "9a13a1e4d1e7bdbc15fc454df4d992436a6f478a2038f8e0aad76ac6942c4c21"
+      }
+    },
+    {
+      "unit": 7,
+      "directory": "original-u7-accepted",
+      "input": {
+        "unit": 7,
+        "function": "_symbol_has_qualifiers@4",
+        "phase": "context",
+        "request_arguments": [
+          0
+        ],
+        "public_reachability": false,
+        "start": 181280,
+        "provisional_end": 181319,
+        "status": "accepted supplementary genuine unqualified scalar/bool0 branch; no new function credit"
+      },
+      "accepted_from": 1115,
+      "accepted_count": 1115,
+      "accepted_functions": [],
+      "phase_sha256": "177f7eb3ab3d8fd1df058438dd71d2bed44686970b8d871f26c2f5326644f699",
+      "files": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "d7449adcd130a50bb62323cb6e2feea4a3ede65d5cf9370d3ff5c1707be0625f",
+        "events": "aa3f8e34d2fe75278f6bcbf1ccabfec4e7f5bd0a18a3928526be0047d477cddf",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "48505f88a0965e3375233e450ac6cd9b4c377a771ad88856d5793df8b83b5ba1",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/consumer.c": "ed588d75bd0b55e1c35a5faa26e556557faa72254d318fa357eb511c2432cdf2",
+        "work/metadata.pch": "e7f52d539ceeb21391521d1c79d51bd4be48e7564c25f6edace14455d32f3c69",
+        "work/producer.c": "efc64d3fb8b97e70fc81a89e3b2cc286e6d7f37e9ae357052bf16e2591224956",
+        "work/irgl": "65459a875a30d77e55c5c2549a74d221888fd408556e0c9fb6024d3b7147f263",
+        "work/metadata.h": "9a13a1e4d1e7bdbc15fc454df4d992436a6f478a2038f8e0aad76ac6942c4c21",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/consumer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+      }
+    },
+    {
+      "unit": 8,
+      "directory": "original-u8-accepted",
+      "input": {
+        "unit": 8,
+        "function": "_suppress_browser_output",
+        "phase": "context",
+        "request_arguments": [],
+        "public_reachability": false,
+        "start": 159968,
+        "provisional_end": 160034,
+        "status": "accepted: live FILE/template/known empty hook, fresh entry/two cdecl returns, exactly one0e packet and second-call no-op; fresh matching original/native first-entry replay complete"
+      },
+      "accepted_from": 1115,
+      "accepted_count": 1116,
+      "accepted_functions": [
+        "_suppress_browser_output"
+      ],
+      "phase_sha256": "177f7eb3ab3d8fd1df058438dd71d2bed44686970b8d871f26c2f5326644f699",
+      "files": {
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "14a19da52a252239a30350670aa6a4f3e44deebbcb75740a747414196f64080f",
+        "events": "c0dd009bd7a2b8dc7e95c7c22eeda17515253aafad6c5dd3ca1c100bb342e171",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "175dec0407503a784eba84243409746dc0bb0992e41ec4ab784f7238816f5233",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "c7a45fd2c3915af2b850a6796ea2e7dabb6ca405d8d21cf7fb4cd67c0c1b646f",
+        "work/irgl": "65459a875a30d77e55c5c2549a74d221888fd408556e0c9fb6024d3b7147f263",
+        "work/producer.c": "efc64d3fb8b97e70fc81a89e3b2cc286e6d7f37e9ae357052bf16e2591224956",
+        "work/consumer.c": "ed588d75bd0b55e1c35a5faa26e556557faa72254d318fa357eb511c2432cdf2",
+        "work/consumer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/metadata.pch": "e7f52d539ceeb21391521d1c79d51bd4be48e7564c25f6edace14455d32f3c69",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/metadata.h": "9a13a1e4d1e7bdbc15fc454df4d992436a6f478a2038f8e0aad76ac6942c4c21"
+      }
+    },
+    {
+      "unit": 9,
+      "directory": "original-u9-accepted",
+      "input": {
+        "unit": 9,
+        "function": "_format_initializer_text",
+        "phase": "context",
+        "request_arguments": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "public_reachability": false,
+        "start": 172464,
+        "provisional_end": 172578,
+        "status": "accepted: genuine NULL-input constructor/16B owner/2048B block/four cdecl slots/15B written prefix/finish-reset-read/untouched output tail; fresh matching original/native first-entry replay complete"
+      },
+      "accepted_from": 1116,
+      "accepted_count": 1117,
+      "accepted_functions": [
+        "_format_initializer_text"
+      ],
+      "phase_sha256": "177f7eb3ab3d8fd1df058438dd71d2bed44686970b8d871f26c2f5326644f699",
+      "files": {
+        "entry-plan.txt": "aa57aaf2d55e54739cb50a231d88eb883de0be658e31d118356cf899f2cc9afb",
+        "events": "cce1b8c36c45c6a3e160dd33ad043f17afab1fee63b5efc7ff7ca62a8bf74ba1",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "d7d2c1d202bff167b8e9154b5de711bb47fc3561849961590a318181cf6c82a2",
+        "capture-status.json": "89b7b5e90434e318d3cb280d5d4e384e336a8d3ecb578f03d46d1c8e5f72ca20",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irgl": "65459a875a30d77e55c5c2549a74d221888fd408556e0c9fb6024d3b7147f263",
+        "work/metadata.h": "9a13a1e4d1e7bdbc15fc454df4d992436a6f478a2038f8e0aad76ac6942c4c21",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/metadata.pch": "e7f52d539ceeb21391521d1c79d51bd4be48e7564c25f6edace14455d32f3c69",
+        "work/consumer.c": "ed588d75bd0b55e1c35a5faa26e556557faa72254d318fa357eb511c2432cdf2",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/consumer.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/producer.c": "efc64d3fb8b97e70fc81a89e3b2cc286e6d7f37e9ae357052bf16e2591224956"
+      }
+    }
+  ]
+}

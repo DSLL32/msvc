@@ -19,6 +19,8 @@
 #include "initializers.h"
 #include "control-ir.h"
 #include "expressions.h"
+#include <recon.h>
+
 
 /* Original 0x43ea0. */
 
@@ -787,7 +789,6 @@
 
 
 
-#include "pch-relocate.h"
 #include "asm.h"
 #include <recon.h>
 

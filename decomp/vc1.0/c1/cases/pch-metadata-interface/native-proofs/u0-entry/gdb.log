@@ -1,0 +1,11 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+
+Program stopped.
+0xf7f516a0 in ?? () from /lib/ld-linux.so.2
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint -1, mark_pch_ir_node (node=0x571c2200) at src/stubs.c:26
+26	void __stdcall mark_pch_ir_node(IrToken *node) { __asm { int 3 } }
+Python Exception <class 'AttributeError'>: 'gdb.ExitedEvent' object has no attribute 'exit_code'
+[Inferior 1 (process 2259313) killed]

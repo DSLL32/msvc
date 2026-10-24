@@ -1,0 +1,22 @@
+{
+  "inferior_pid": 2259313,
+  "status": "entry",
+  "calls": [
+    {
+      "function": "mark_pch_ir_node",
+      "registers": {
+        "eip": 1449347296,
+        "esp": 4292957996,
+        "ebx": 1449959412,
+        "esi": 3,
+        "edi": 1461461612,
+        "ebp": 4292958424,
+        "fctrl": 895
+      },
+      "frame": [
+        1449770693,
+        1461461704
+      ]
+    }
+  ]
+}

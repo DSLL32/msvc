@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "b162c78822ed9c43ca99571d26e2c6619b1a5c3d3fb5105dbeddba9fb165a446",
+    "functions.json": "dfbc41808fe0e93d10ac35aa7ec193d334dec2110a5df15e766cf32bee5dd1a9",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "f54e2e7256bc905a5b7533c39ac6524889b424b1d8e35a11df0f8c7010c8d301"
+    "sha256": "037b4a55fa316dd2bbfa440e06d23bbf1c840cda00551ec17e525d33f83be246"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "c7d05c550b2e422a80a8263fd9e1229498e4408a4198a93662f3e8e96562a738"
+    "sha256": "e95cd74899f408cb12081e56f553eb0b5746922f3518ac5eaa33167bedc9a1e6"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -857,9 +857,17 @@
       "logical": "_copy_mutable_type@4",
       "source": "src/types.c"
     },
+    "copy_pascal_symbol_name": {
+      "logical": "_copy_pascal_symbol_name",
+      "source": "src/debug-info.c"
+    },
     "copy_pch_stream": {
       "logical": "_copy_pch_stream@12",
       "source": "src/pch-files.c"
+    },
+    "copy_permanent_bytes": {
+      "logical": "_copy_permanent_bytes@12",
+      "source": "src/memory.c"
     },
     "copy_program_database_record": {
       "logical": "@copy_program_database_record@20",
@@ -960,6 +968,10 @@
     "decode_escape": {
       "logical": "_decode_escape@8",
       "source": "src/lexer.c"
+    },
+    "decode_pch_vector": {
+      "logical": "_decode_pch_vector@4",
+      "source": "src/pch-relocate.c"
     },
     "default_argument_promotion": {
       "logical": "_default_argument_promotion@4",
@@ -1216,6 +1228,10 @@
     "encode_name_number": {
       "logical": "_encode_name_number@8",
       "source": "src/literal-names.c"
+    },
+    "encode_pch_vector": {
+      "logical": "_encode_pch_vector@4",
+      "source": "src/pch-relocate.c"
     },
     "encode_string_pool_name": {
       "logical": "_encode_string_pool_name@16",
@@ -1576,6 +1592,10 @@
     "fold_floating_binary": {
       "logical": "_fold_floating_binary@12",
       "source": "src/expressions.c"
+    },
+    "format_initializer_text": {
+      "logical": "_format_initializer_text",
+      "source": "src/initializer-records.c"
     },
     "format_integer": {
       "logical": "_format_integer",
@@ -2183,6 +2203,10 @@
     },
     "mark_pch_include_directories": {
       "logical": "_mark_pch_include_directories",
+      "source": "src/pch-relocate.c"
+    },
+    "mark_pch_ir_node": {
+      "logical": "_mark_pch_ir_node@4",
       "source": "src/pch-relocate.c"
     },
     "mark_pch_macro_entries": {
@@ -3521,6 +3545,10 @@
       "logical": "_skip_source_line",
       "source": "src/lexer.c"
     },
+    "smaller_size": {
+      "logical": "_smaller_size@8",
+      "source": "src/memory.c"
+    },
     "source_file_timestamp": {
       "logical": "_source_file_timestamp",
       "source": "src/source-input.c"
@@ -3557,6 +3585,10 @@
       "logical": "_subtraction_overflows@16",
       "source": "src/constants.c"
     },
+    "suppress_browser_output": {
+      "logical": "_suppress_browser_output",
+      "source": "src/browser.c"
+    },
     "swap_asm_pointer_slots": {
       "logical": "_swap_asm_pointer_slots@8",
       "source": "src/asm-instructions.c"
@@ -3568,6 +3600,10 @@
     "symbol_element_size": {
       "logical": "_symbol_element_size@4",
       "source": "src/types.c"
+    },
+    "symbol_has_qualifiers": {
+      "logical": "_symbol_has_qualifiers@4",
+      "source": "src/calls.c"
     },
     "synchronize_pch_pragma": {
       "logical": "_synchronize_pch_pragma",
@@ -4846,7 +4882,16 @@
     "retry_malloc",
     "release_input_handle",
     "report_error",
-    "compiler_signal"
+    "compiler_signal",
+    "mark_pch_ir_node",
+    "encode_pch_vector",
+    "decode_pch_vector",
+    "copy_permanent_bytes",
+    "smaller_size",
+    "copy_pascal_symbol_name",
+    "symbol_has_qualifiers",
+    "suppress_browser_output",
+    "format_initializer_text"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6559,6 +6604,26 @@
       "terminal": {
         "kind": "exit",
         "code": 1
+      }
+    },
+    "pch-metadata-create": {
+      "first": 1108,
+      "last": 1108,
+      "seen_count": 964,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "pch-metadata-use": {
+      "first": 1108,
+      "last": 1108,
+      "seen_count": 964,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
       }
     }
   }

@@ -54,6 +54,7 @@ typedef struct CallContext {
     unsigned char flags, reserved[3];
 } CallContext;
 extern CallContext *call_context;
+int __stdcall symbol_has_qualifiers(FrontendSymbol *symbol);
 extern int call_designator_depth;
 CType *__stdcall function_designator_type(CType *type);
 void __stdcall push_call_context(CType *function_type);

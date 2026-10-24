@@ -1,0 +1,1 @@
+3a360 56 _copy_pascal_symbol_name

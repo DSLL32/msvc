@@ -76,7 +76,7 @@ build/native-trace/C13232.EXE: $(NATIVE_TRACE_OBJECTS) $(NATIVE_SHIMS) $(RECON)/
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_SHIMS) $(RECON)/src/trace.c -o $@
 
 NATIVE_CASES = $(if $(filter all,$(CASE)),,$(foreach case,$(CASE),--case $(case)))
-native-direct-check: native native-trace native-expression-tests native-pdb-tests native-pdb-trace-tests native-resource-tests
+native-direct-check: native native-trace native-expression-tests native-pdb-tests native-pdb-trace-tests native-resource-tests native-metadata-tests
 	$(PYTHON) scripts/check-direct.py
 	$(PYTHON) scripts/check-expression-tests.py
 	$(PYTHON) scripts/check-pdb-objects.py
@@ -84,8 +84,9 @@ native-direct-check: native native-trace native-expression-tests native-pdb-test
 	$(PYTHON) scripts/check-container.py
 	$(PYTHON) scripts/check-pdb-queries.py
 	$(PYTHON) scripts/check-resource-tests.py
+	$(PYTHON) scripts/check-metadata-tests.py
 
-native-check: native native-trace native-expression-tests native-pdb-tests native-pdb-trace-tests native-resource-tests
+native-check: native native-trace native-expression-tests native-pdb-tests native-pdb-trace-tests native-resource-tests native-metadata-tests
 	$(PYTHON) scripts/check-native.py $(NATIVE_CASES)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-direct.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-expression-tests.py,@true)
@@ -94,7 +95,8 @@ native-check: native native-trace native-expression-tests native-pdb-tests nativ
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-container.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-pdb-queries.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-resource-tests.py,@true)
-native-trace-check: native native-trace native-expression-tests native-pdb-tests native-pdb-trace-tests native-resource-tests
+	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-metadata-tests.py,@true)
+native-trace-check: native native-trace native-expression-tests native-pdb-tests native-pdb-trace-tests native-resource-tests native-metadata-tests
 	$(PYTHON) scripts/check-native.py --trace $(NATIVE_CASES)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-direct.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-expression-tests.py,@true)
@@ -103,6 +105,7 @@ native-trace-check: native native-trace native-expression-tests native-pdb-tests
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-container.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-pdb-queries.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-resource-tests.py,@true)
+	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-metadata-tests.py,@true)
 
 # Private oracle mutations; no new fixture inputs or original execution.
 native-adoption-check: native native-trace native-expression-tests native-pdb-tests native-quickc-tests
@@ -167,3 +170,15 @@ build/resource-tests/C13232.EXE: $(NATIVE_OBJECTS) build/resource-tests/external
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) build/resource-tests/external.o $(NATIVE_SHIMS) -Wl,--wrap=main,--wrap=report_fatal,--wrap=recon_exit -o $@
 build/resource-tests-trace/C13232.EXE: $(NATIVE_TRACE_OBJECTS) build/resource-tests/external.o $(NATIVE_SHIMS) $(RECON)/src/trace.c $(NATIVE_HEADERS) Makefile | build/resource-tests-trace
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) build/resource-tests/external.o $(NATIVE_SHIMS) $(RECON)/src/trace.c -Wl,--wrap=main,--wrap=report_fatal,--wrap=recon_exit -o $@
+
+# Bounded metadata interfaces borrow real parsed completed-call ownership.
+.PHONY: native-metadata-tests
+native-metadata-tests: build/metadata-tests/C13232.EXE build/metadata-tests-trace/C13232.EXE
+build/metadata-tests build/metadata-tests-trace:
+	mkdir -p $@
+build/metadata-tests/external.o: cases/pch-metadata-interface/external-native.c $(NATIVE_HEADERS) Makefile | build/metadata-tests
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
+build/metadata-tests/C13232.EXE: $(NATIVE_OBJECTS) build/metadata-tests/external.o $(NATIVE_SHIMS) $(NATIVE_HEADERS) Makefile
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) build/metadata-tests/external.o $(NATIVE_SHIMS) -Wl,--wrap=main,--wrap=finish_call_arguments -o $@
+build/metadata-tests-trace/C13232.EXE: $(NATIVE_TRACE_OBJECTS) build/metadata-tests/external.o $(NATIVE_SHIMS) $(RECON)/src/trace.c $(NATIVE_HEADERS) Makefile | build/metadata-tests-trace
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) build/metadata-tests/external.o $(NATIVE_SHIMS) $(RECON)/src/trace.c -Wl,--wrap=main,--wrap=finish_call_arguments -o $@

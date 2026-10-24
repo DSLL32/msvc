@@ -15,6 +15,7 @@ extern unsigned char initializer_tag;
 void __stdcall write_literal_initializer(FrontendSymbol *symbol, IrToken *token, FILE *stream);
 typedef WorkingBlock InitializerBlock;
 typedef WorkingStack InitializerBuffer;
+unsigned format_initializer_text(InitializerBuffer *buffer, char *format, ...);
 /* Source replay and initializer output reuse original 0x5f4f4. */
 #define initializer_buffer compiler_stack
 void __stdcall finish_initializer_buffer(InitializerBuffer *buffer);

@@ -1,0 +1,33 @@
+{
+  "unit": 5,
+  "exit": null,
+  "setup_seconds": 0.011908401735126972,
+  "execution_seconds": 0.16460033506155014,
+  "total_seconds": 0.17694202065467834,
+  "command": [
+    "gdb",
+    "--nx",
+    "--batch",
+    "-ex",
+    "set $metadata_settings = \"/root/.ai-tmp/msvc2/vc1.0/c1/pch-metadata-u5-native-entry/settings.json\"",
+    "-ex",
+    "source /root/msvc2/decomp/vc1.0/c1/scripts/metadata-unit-gdb.py",
+    "/root/msvc2/decomp/vc1.0/c1/build/metadata-tests/C13232.EXE"
+  ],
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f consumer.c -Ze -Zp8 -Gs -Foconsumer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Yd -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Yumetadata.h -Fpmetadata.pch -FR consumer.sbr -DMETA_SCALE=3 -DMETA_KIND=7 -DMETA_NAME_LENGTH=12 -I . -I ../metadata-extra -I ../metadata-compat -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2",
+    "RECON_DRIVE_S": "/root/.ai-tmp/msvc2/vc1.0/c1/pch-metadata-u5-native-entry",
+    "RECON_CANONICAL_CWD": "S:\\vc1.0\\c1\\pch-metadata-interface",
+    "RECON_TRACE_FD": "3",
+    "RECON_TRACE_FILTER": "/root/.ai-tmp/msvc2/vc1.0/c1/pch-metadata-u5-native-entry/filter",
+    "RECON_TRACE_SEEN": "/root/.ai-tmp/msvc2/vc1.0/c1/pch-metadata-u5-native-entry/seen"
+  },
+  "executable_sha256": "bd80a45c9b7fc88b15fe671c2799ee889b8dd99056c8cb48d247545bff765986",
+  "work": "/root/.ai-tmp/msvc2/vc1.0/c1/pch-metadata-u5-native-entry/vc1.0/c1/pch-metadata-interface",
+  "public_reachability": false,
+  "policy": "Owned native i386 process; fixed real completed-call owners. No Wine/reference refresh. GDB only for fresh acceptance when explicitly requested."
+}

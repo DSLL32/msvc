@@ -244,6 +244,14 @@
     "nested-input-missing": {
       "receipt": "cases/nested-input-resources/original-missing-accepted/receipt.json",
       "sha256": "ab9690e88ef2a696f1dee2212b0528e2d3bb42339843241aecb455253c6d8d1b"
+    },
+    "pch-metadata-create": {
+      "receipt": "cases/pch-metadata-interface/original-create-accepted/receipt.json",
+      "sha256": "a10a148989db6c573978e93b17a950968fbe14aacc9b2669c382d7a22f763b06"
+    },
+    "pch-metadata-use": {
+      "receipt": "cases/pch-metadata-interface/original-use-accepted/receipt.json",
+      "sha256": "d179a560e13c3178ff3bc62bf4bd5c3963cb88f301b3e9745f8ecac8816bf318"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

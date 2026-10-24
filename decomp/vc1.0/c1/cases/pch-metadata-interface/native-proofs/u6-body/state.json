@@ -1,0 +1,34 @@
+{
+  "inferior_pid": 2285938,
+  "exit": 99,
+  "status": "completed",
+  "calls": [
+    {
+      "function": "symbol_has_qualifiers",
+      "registers": {
+        "eip": 1448938032,
+        "esp": 4293128876,
+        "ebx": 1449205748,
+        "esi": 1464445356,
+        "edi": 1464420044,
+        "ebp": 4293129624,
+        "fctrl": 895
+      },
+      "frame": [
+        1449013753,
+        1464445308
+      ],
+      "returned_registers": {
+        "eip": 1449013753,
+        "esp": 4293128884,
+        "ebx": 1449205748,
+        "esi": 1464445356,
+        "edi": 1464420044,
+        "ebp": 4293129624,
+        "fctrl": 895,
+        "eax": 1
+      }
+    }
+  ],
+  "nested_calls": []
+}

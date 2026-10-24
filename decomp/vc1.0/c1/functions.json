@@ -1112,7 +1112,16 @@
     "_retry_malloc@4",
     "_release_input_handle",
     "_report_error",
-    "_compiler_signal"
+    "_compiler_signal",
+    "_mark_pch_ir_node@4",
+    "_encode_pch_vector@4",
+    "_decode_pch_vector@4",
+    "_copy_permanent_bytes@12",
+    "_smaller_size@8",
+    "_copy_pascal_symbol_name",
+    "_symbol_has_qualifiers@4",
+    "_suppress_browser_output",
+    "_format_initializer_text"
   ],
   "driver": [
     {
@@ -2329,6 +2338,11 @@
       "end": 159961
     },
     {
+      "name": "_suppress_browser_output",
+      "start": 159968,
+      "end": 160034
+    },
+    {
       "name": "_write_browser_record@8",
       "start": 160048,
       "end": 160144
@@ -2662,6 +2676,11 @@
       "end": 172457
     },
     {
+      "name": "_format_initializer_text",
+      "start": 172464,
+      "end": 172578
+    },
+    {
       "name": "_current_aggregate_tag",
       "start": 172592,
       "end": 172615
@@ -2884,6 +2903,11 @@
       "name": "_report_declaration_error@8",
       "start": 181152,
       "end": 181271
+    },
+    {
+      "name": "_symbol_has_qualifiers@4",
+      "start": 181280,
+      "end": 181319
     },
     {
       "name": "_find_expression_symbol@4",
@@ -5136,6 +5160,11 @@
       "end": 279316
     },
     {
+      "name": "_mark_pch_ir_node@4",
+      "start": 279328,
+      "end": 279507
+    },
+    {
       "name": "_mark_pch_macros",
       "start": 279520,
       "end": 279563
@@ -5191,6 +5220,11 @@
       "end": 280216
     },
     {
+      "name": "_encode_pch_vector@4",
+      "start": 280224,
+      "end": 280294
+    },
+    {
       "name": "_relocate_pch_state",
       "start": 280304,
       "end": 280353
@@ -5206,6 +5240,11 @@
       "end": 280988
     },
     {
+      "name": "_decode_pch_vector@4",
+      "start": 280992,
+      "end": 281080
+    },
+    {
       "name": "_restore_pch_pointers",
       "start": 281088,
       "end": 281330
@@ -5216,9 +5255,19 @@
       "end": 281466
     },
     {
+      "name": "_smaller_size@8",
+      "start": 281472,
+      "end": 281489
+    },
+    {
       "name": "_allocate_permanent@4",
       "start": 281504,
       "end": 281578
+    },
+    {
+      "name": "_copy_permanent_bytes@12",
+      "start": 281600,
+      "end": 281654
     },
     {
       "name": "_write_pch_pages",
@@ -5684,6 +5733,11 @@
       "name": "_remove_pdb_type_qualifiers",
       "start": 303904,
       "end": 303963
+    },
+    {
+      "name": "_copy_pascal_symbol_name",
+      "start": 303968,
+      "end": 304037
     },
     {
       "name": "_write_codeview_signed_number",
@@ -6847,6 +6901,16 @@
       "accepted_from": 1104,
       "accepted_count": 1104,
       "expected_exit": 1
+    },
+    "pch-metadata-create": {
+      "accepted_from": 1108,
+      "accepted_count": 1108,
+      "expected_exit": 0
+    },
+    "pch-metadata-use": {
+      "accepted_from": 1108,
+      "accepted_count": 1108,
+      "expected_exit": 0
     }
   },
   "buffered_streams": [
@@ -6942,6 +7006,14 @@
       "accepted_count": 1108,
       "public_reachability": false,
       "units": 4
+    },
+    "pch-metadata-interface": {
+      "accepted_from": 1108,
+      "accepted_count": 1117,
+      "public_reachability": false,
+      "units": 10,
+      "manifest": "cases/pch-metadata-interface/manifest.json",
+      "scope": "Nine whole application bodies696B accepted through ten bounded direct units; independent public PCH create/reuse fixtures"
     }
   }
 }

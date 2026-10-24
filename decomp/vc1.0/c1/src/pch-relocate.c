@@ -204,6 +204,39 @@ void mark_pch_scopes(void)
     mark_pch_symbol_chain(pending_global_symbols);
 }
 
+/* Original 0x44320..0x443d3, RET4. The low flag bits select the node's
+   payload layout. Recursion is needed only for an expression link whose
+   slot belongs to the permanent graph; argument links retain their order. */
+void __stdcall mark_pch_ir_node(IrToken *node)
+{
+    ArgumentNode *argument;
+    while (node) {
+        PCH_MARK(node->type);
+        PCH_MARK(node->field08);
+        switch (node->flags & 7) {
+        case 1:
+            PCH_MARK(node->value.pointer);
+            node = node->value.pointer;
+            break;
+        case 2:
+            argument = (ArgumentNode *)node;
+            PCH_MARK(argument->previous);
+            if (PCH_MARK(argument->expression))
+                mark_pch_ir_node(argument->expression);
+            node = (IrToken *)argument->previous;
+            break;
+        case 3:
+            if (node->type->flags & 0x100) PCH_MARK(node->value.pointer);
+            return;
+        case 4: case 5:
+            PCH_MARK(node->value.pointer);
+            return;
+        default:
+            return;
+        }
+    }
+}
+
 /* Original 0x44db0..0x44e35. Nonzero pointer cells are marked by byte
    offset in their containing permanent page, even when not word-aligned. */
 int __stdcall mark_pch_pointer(void **slot)
@@ -244,6 +277,36 @@ void __stdcall pointer_to_pch_reference(void *pointer)
     pch_reference = 0xffffffff;
     pch_reference_page = 0xffff;
     pch_reference_base = 0;
+}
+
+/* Original 0x446a0..0x446e6, RET4. This metadata interface computes each
+   encoded value but never stores it in the vector. Retain that missing
+   store: its observable changes are confined to the reference cache.
+   Fresh direct proof also establishes EAX equal to the input owner. */
+Vector *__stdcall encode_pch_vector(Vector *vector)
+{
+    short index = 0;
+    unsigned reference;
+    while (index < vector->count) {
+        pointer_to_pch_reference(vector->items[index++]);
+        reference = pch_reference;
+    }
+    return vector;
+}
+
+/* Original 0x449a0..0x449f8, RET4. As in the encoder, the computed
+   local value is never stored back. Preserve the original missing store,
+   including its unchecked page index, and the observed owner result. */
+Vector *__stdcall decode_pch_vector(Vector *vector)
+{
+    short index = 0;
+    void *pointer;
+    while (index < vector->count) {
+        pointer = vector->items[index++];
+        pointer = permanent_pages[(unsigned)pointer >> 16].start +
+                  ((unsigned)pointer & 0xffff);
+    }
+    return vector;
 }
 
 /* Original 0x43fd0..0x4407a; switch table 0x4407c..0x440ac. Each

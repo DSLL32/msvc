@@ -1,0 +1,22 @@
+{
+  "inferior_pid": 2267075,
+  "status": "entry",
+  "calls": [
+    {
+      "function": "decode_pch_vector",
+      "registers": {
+        "eip": 1449253088,
+        "esp": 4294478684,
+        "ebx": 1449869300,
+        "esi": 1472007020,
+        "edi": 1449784907,
+        "ebp": 4294479128,
+        "fctrl": 895
+      },
+      "frame": [
+        1449678276,
+        1472007020
+      ]
+    }
+  ]
+}

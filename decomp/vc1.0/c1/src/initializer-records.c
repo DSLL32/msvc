@@ -1,13 +1,30 @@
 /* Initializer-value records share the ordinary and buffered output encodings. */
 #include <stdlib.h>
+#include <stdarg.h>
 #include "initializer-records.h"
 #include "initializers.h"
 #include "literal-names.h"
 #include "global-ir.h"
 #include "control-ir.h"
+#include "diagnostics.h"
 #include <recon.h>
 
 FrontendSymbol *pending_initializer_symbol; /* original 0x6c068 */
+
+/* Original 0x2a1b0..0x2a222, cdecl variadic. The original checks its
+   fixed text buffer after formatting; callers must keep the result bounded. */
+unsigned format_initializer_text(InitializerBuffer *buffer, char *format, ...)
+{
+    char text[1024];
+    unsigned length = 0;
+    va_list arguments;
+    va_start(arguments,format);
+    format_text_arguments(text,format,arguments);
+    va_end(arguments);
+    while (text[length]) ++length;
+    if (length >= sizeof(text)) fatal_error(1,pch_diagnostic_name,315);
+    return write_initializer_bytes(text,length,1,buffer);
+}
 
 /* These macros keep the original writer's direct call edges and its
    choice between FILE output and the segmented initializer buffer. */

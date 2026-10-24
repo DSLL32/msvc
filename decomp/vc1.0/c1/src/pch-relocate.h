@@ -38,6 +38,9 @@ void __stdcall pointer_to_pch_reference(void *pointer);
 void initialize_pch_relocations(void);
 void relocate_pch_pages(void);
 int __stdcall mark_pch_pointer(void **slot);
+void __stdcall mark_pch_ir_node(IrToken *node);
+Vector *__stdcall encode_pch_vector(Vector *vector);
+Vector *__stdcall decode_pch_vector(Vector *vector);
 void __stdcall mark_pch_hash_entries(struct HashEntry *entry,
     void (__stdcall *mark_key)(void *), void (__stdcall *mark_value)(void *));
 void __stdcall mark_pch_hash_table(struct HashTable *table,

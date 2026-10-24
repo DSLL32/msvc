@@ -1,0 +1,28 @@
+{
+  "unit": 7,
+  "exit": 99,
+  "setup_seconds": 0.00926241371780634,
+  "execution_seconds": 0.007841160520911217,
+  "total_seconds": 0.01729749236255884,
+  "command": [
+    "/root/msvc2/decomp/vc1.0/c1/build/metadata-tests-trace/C13232.EXE",
+    "7",
+    "/root/.ai-tmp/msvc2/vc1.0/c1/pch-metadata-first-cached-suite/7/report"
+  ],
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f consumer.c -Ze -Zp8 -Gs -Foconsumer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Yd -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Yumetadata.h -Fpmetadata.pch -FR consumer.sbr -DMETA_SCALE=3 -DMETA_KIND=7 -DMETA_NAME_LENGTH=12 -I . -I ../metadata-extra -I ../metadata-compat -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2",
+    "RECON_DRIVE_S": "/root/.ai-tmp/msvc2/vc1.0/c1/pch-metadata-first-cached-suite/7",
+    "RECON_CANONICAL_CWD": "S:\\vc1.0\\c1\\pch-metadata-interface",
+    "RECON_TRACE_FD": "3",
+    "RECON_TRACE_FILTER": "/root/.ai-tmp/msvc2/vc1.0/c1/pch-metadata-first-cached-suite/7/filter",
+    "RECON_TRACE_SEEN": "/root/.ai-tmp/msvc2/vc1.0/c1/pch-metadata-first-cached-suite/7/seen"
+  },
+  "executable_sha256": "050c2da1851fa2bcdde7541a2581fd188c945995d9684339b60c6acbe74aa367",
+  "work": "/root/.ai-tmp/msvc2/vc1.0/c1/pch-metadata-first-cached-suite/7/vc1.0/c1/pch-metadata-interface",
+  "public_reachability": false,
+  "policy": "Owned native i386 process; fixed real completed-call owners. No Wine/reference refresh. GDB only for fresh acceptance when explicitly requested."
+}

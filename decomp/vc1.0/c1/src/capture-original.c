@@ -689,6 +689,7 @@ static CONTEXT direct_saved;
 
 #include "capture-container-unit.h"
 #include "capture-resource-unit.h"
+#include "capture-metadata-unit.h"
 
 /* Direct literal support uses the genuine stopped initializer arguments.
    Only debugger breakpoints and an owned call stack are changed. */
@@ -882,6 +883,7 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
     current.ContextFlags = CONTEXT_FULL | CONTEXT_FLOATING_POINT;
     if (!GetThreadContext(thread,&current)) return -1;
     if(direct_active&&container_stage)return container_constructor_return(process,thread,log,base,&current,buffers);
+    if(direct_active&&metadata_stage)return metadata_constructed(process,thread,log,base,&current);
     if (!direct_active) {
         direct_saved = current;
         direct_marker = site;
@@ -954,6 +956,8 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
             }
         }
         if(resource_unit>=0&&!resource_prepare(process,log,base,&current))return -1;
+        if(metadata_unit>=0&&!metadata_prepare(process,thread,log,base,metadata_teb))return -1;
+        if(metadata_stage){metadata_streams=buffers;return metadata_launch(process,thread,log,base,&current);}
         if(container_unit>=0&&!container_prepare(process,log,base))return -1;
         if(container_stage)return container_call(process,thread,log,base,&current,1);
         if(direct_count>7)return -1;
@@ -977,7 +981,7 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
         return 1;
     }
     sprintf(line,"direct-return eax %08lx edx %08lx esp %08lx expected %08lx nonvolatile %u fctrl %08lx before %08lx\n",
-        current.Eax,current.Edx,current.Esp,direct_stack+4+4*((resource_unit==1||container_unit==15||(container_unit>=26&&container_unit<=28))?0:direct_count),
+        current.Eax,current.Edx,current.Esp,direct_stack+4+4*((metadata_unit==5||metadata_unit==9||resource_unit==1||container_unit==15||(container_unit>=26&&container_unit<=28))?0:direct_count),
         current.Ebx==direct_saved.Ebx && current.Esi==direct_saved.Esi &&
         current.Edi==direct_saved.Edi && current.Ebp==direct_saved.Ebp,
         current.FloatSave.ControlWord,direct_saved.FloatSave.ControlWord);
@@ -1001,9 +1005,12 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
         sprintf(line,"support-type-depth after %lu\n",depth);WriteFile(log,line,strlen(line),&written,0);
     }
     if(resource_unit>=0&&!resource_snapshot(process,log,base,"after"))return -1;
+    if(metadata_unit>=0&&!metadata_return(process,log,base,current.Eax))return -1;
     if(container_unit>=0&&!container_return(process,log,base,current.Eax))return -1;
     dump_asm_operand(process,log,base,"direct-return");
     if (buffers) dump_stream_buffers(process,log,base,buffers);
+    if(metadata_unit==8&&metadata_browser_calls==1)return metadata_launch(process,thread,log,base,&current);
+    if(metadata_unit==9&&metadata_stage)return metadata_launch(process,thread,log,base,&current);
     TerminateProcess(process,99);
     return 1;
 }
@@ -1050,7 +1057,7 @@ int main(int argc, char **argv)
         if (sscanf(flag_option,"%lx,%lx,%u,%lx,%lx,%lx,%lx,%lx,%lx,%lx",&direct_marker_rva,
                 &direct_target_rva,&direct_count,&direct_arguments[0],&direct_arguments[1],&direct_arguments[2],
                 &direct_arguments[3],&direct_arguments[4],&direct_arguments[5],&direct_arguments[6]) < 5 ||
-                direct_count>7 || (!direct_count && !getenv("C1_TEMPLATE_UNIT")&&!getenv("C1_CONTAINER_UNIT")&&!getenv("C1_RESOURCE_UNIT")) || (argc==11 && !getenv("C1_SUPPORT_UNIT") && !getenv("C1_CONTAINER_UNIT") && !getenv("C1_RESOURCE_UNIT"))) return 2;
+                direct_count>7 || (!direct_count && !getenv("C1_TEMPLATE_UNIT")&&!getenv("C1_CONTAINER_UNIT")&&!getenv("C1_RESOURCE_UNIT")&&!getenv("C1_METADATA_UNIT")) || (argc==11 && !getenv("C1_SUPPORT_UNIT") && !getenv("C1_CONTAINER_UNIT") && !getenv("C1_RESOURCE_UNIT")&&!getenv("C1_METADATA_UNIT"))) return 2;
     }
     flag_option=getenv("C1_SUPPORT_UNIT");
     if(flag_option) {
@@ -1088,7 +1095,16 @@ int main(int argc, char **argv)
            direct_arguments[0]!=(DWORD)(resource_unit==0?96:resource_unit==3?2:0))return 2;
         for(i=1;i<7;++i)if(direct_arguments[i])return 2;
     }
-    if(direct_count>3&&container_unit!=25&&resource_unit!=2)return 2;
+    flag_option=getenv("C1_METADATA_UNIT");
+    if(flag_option) {
+        static DWORD targets[10]={0x34320,0x346a0,0x349a0,0x34c00,0x34c00,0x3a360,0x1c420,0x1c420,0x170e0,0x1a1b0};
+        static unsigned counts[10]={1,1,1,3,3,2,1,1,0,4};
+        metadata_unit=atoi(flag_option);
+        if(metadata_unit<0||metadata_unit>9||support_unit>=0||container_unit>=0||resource_unit>=0||
+           direct_marker_rva!=0x1c220||direct_target_rva!=targets[metadata_unit]||direct_count!=counts[metadata_unit])return 2;
+        for(i=0;i<7;++i)if(direct_arguments[i])return 2;
+    }
+    if(direct_count>3&&container_unit!=25&&resource_unit!=2&&metadata_unit!=9)return 2;
     flag_option=getenv("C1_TEMPLATE_UNIT");
     if(flag_option) {
         template_unit=atoi(flag_option);
@@ -1162,6 +1178,7 @@ int main(int argc, char **argv)
         if (ev.dwDebugEventCode == CREATE_PROCESS_DEBUG_EVENT) {
             base = (DWORD)ev.u.CreateProcessInfo.lpBaseOfImage;
             pdb_teb=(DWORD)ev.u.CreateProcessInfo.lpThreadLocalBase;
+            metadata_teb=pdb_teb;
             if (ev.u.CreateProcessInfo.hFile)
                 CloseHandle(ev.u.CreateProcessInfo.hFile);
         } else if(pdb_unit>=0&&ev.dwDebugEventCode==CREATE_THREAD_DEBUG_EVENT) {
@@ -1285,6 +1302,10 @@ int main(int argc, char **argv)
                         pdb_memory(&pdb_observer,"object-entry",context.Ecx-72,116);
                         pdb_list(&pdb_observer,"entry",context.Ecx,1);
                     }
+                }
+                if(getenv("C1_METADATA_CONTEXT")) {
+                    if((DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress!=base+0x1c220||
+                       !metadata_context(pi.hProcess,pi.hThread,log,base,pdb_teb))failed=11;
                 }
                 dump_asm_operand(pi.hProcess,log,base,"stop");
                 if (argc >= 9) dump_stream_buffers(pi.hProcess, log, base, argv[8]);

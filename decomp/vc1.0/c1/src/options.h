@@ -146,6 +146,8 @@ typedef struct PackingStack {
     PackingEntry *active, *free;
 } PackingStack;
 void *__stdcall allocate_permanent(unsigned bytes);
+unsigned __stdcall smaller_size(unsigned left, unsigned right);
+void *__stdcall copy_permanent_bytes(void *source, unsigned bytes, unsigned capacity);
 void *__stdcall checked_malloc(unsigned bytes);
 typedef struct BitSet {
     unsigned bit_count;

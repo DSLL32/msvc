@@ -1,0 +1,78 @@
+{
+  "status": "pass",
+  "units": [
+    {
+      "unit": 0,
+      "status": "pass",
+      "setup_seconds": 0.012252042070031166,
+      "execution_seconds": 0.008047020062804222,
+      "checks_seconds": 0.004953612573444843
+    },
+    {
+      "unit": 1,
+      "status": "pass",
+      "setup_seconds": 0.009440399706363678,
+      "execution_seconds": 0.007891809567809105,
+      "checks_seconds": 0.004975692369043827
+    },
+    {
+      "unit": 2,
+      "status": "pass",
+      "setup_seconds": 0.009406918659806252,
+      "execution_seconds": 0.007920959033071995,
+      "checks_seconds": 0.005867069587111473
+    },
+    {
+      "unit": 3,
+      "status": "pass",
+      "setup_seconds": 0.011911775916814804,
+      "execution_seconds": 0.007918651215732098,
+      "checks_seconds": 0.004630276933312416
+    },
+    {
+      "unit": 4,
+      "status": "pass",
+      "setup_seconds": 0.010644585825502872,
+      "execution_seconds": 0.00811317190527916,
+      "checks_seconds": 0.004062584601342678
+    },
+    {
+      "unit": 5,
+      "status": "pass",
+      "setup_seconds": 0.010386161506175995,
+      "execution_seconds": 0.007947754114866257,
+      "checks_seconds": 0.004316247999668121
+    },
+    {
+      "unit": 6,
+      "status": "pass",
+      "setup_seconds": 0.012147180736064911,
+      "execution_seconds": 0.007942045107483864,
+      "checks_seconds": 0.0039022816345095634
+    },
+    {
+      "unit": 7,
+      "status": "pass",
+      "setup_seconds": 0.009327233768999577,
+      "execution_seconds": 0.007887868210673332,
+      "checks_seconds": 0.0036375103518366814
+    },
+    {
+      "unit": 8,
+      "status": "pass",
+      "setup_seconds": 0.0096253901720047,
+      "execution_seconds": 0.007908728905022144,
+      "checks_seconds": 0.004372183233499527
+    },
+    {
+      "unit": 9,
+      "status": "pass",
+      "setup_seconds": 0.009302137419581413,
+      "execution_seconds": 0.007805986329913139,
+      "checks_seconds": 0.004646472632884979
+    }
+  ],
+  "total_seconds": 0.5253079077228904,
+  "public_reachability": false,
+  "scope": "Ten fixed native i386 units over genuine parsed argument/symbol/vector/browser owners; cached original ABI/entries/states/streams/files/full terminal status; no Wine/debugger/original refresh."
+}

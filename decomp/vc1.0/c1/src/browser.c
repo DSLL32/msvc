@@ -46,6 +46,19 @@ void browser_macro_end(void)
 
 int browser_suppressed; /* original0x6b58c */
 
+/* Original 0x270e0..0x27122, cdecl. Emit the terminal browser marker
+   once; later callers leave the stream untouched. */
+void suppress_browser_output(void)
+{
+    BrowserRecord record = browser_line_template;
+    if (!browser_suppressed) {
+        browser_include_begin();
+        record.kind = 14;
+        append_browser_record(&record);
+        browser_suppressed = 1;
+    }
+}
+
 /* Original0x27130..0x2718f. Initialize only the record's meaningful fields;
    retain the original reserved/padding bytes rather than clearing the object. */
 void __stdcall write_browser_record(unsigned char kind, void *value)

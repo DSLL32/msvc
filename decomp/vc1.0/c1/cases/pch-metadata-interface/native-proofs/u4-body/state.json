@@ -1,0 +1,64 @@
+{
+  "inferior_pid": 2281096,
+  "exit": 99,
+  "status": "completed",
+  "calls": [
+    {
+      "function": "copy_permanent_bytes",
+      "registers": {
+        "eip": 1448960160,
+        "esp": 4293357212,
+        "ebx": 1449566196,
+        "esi": 25744,
+        "edi": 1473682284,
+        "ebp": 4293357672,
+        "fctrl": 895
+      },
+      "frame": [
+        1449376475,
+        1473682012,
+        24,
+        10
+      ],
+      "returned_registers": {
+        "eip": 1449376475,
+        "esp": 4293357228,
+        "ebx": 1449566196,
+        "esi": 25744,
+        "edi": 1473682284,
+        "ebp": 4293357672,
+        "fctrl": 895,
+        "eax": 1473682284
+      }
+    }
+  ],
+  "nested_calls": [
+    {
+      "function": "smaller_size",
+      "registers": {
+        "eip": 1448960112,
+        "esp": 4293357164,
+        "ebx": 1449566196,
+        "esi": 25744,
+        "edi": 1473682284,
+        "ebp": 4293357208,
+        "fctrl": 895
+      },
+      "frame": [
+        1448960229,
+        10,
+        24
+      ],
+      "returned_registers": {
+        "eip": 1448960229,
+        "esp": 4293357176,
+        "ebx": 1449566196,
+        "esi": 25744,
+        "edi": 1473682284,
+        "ebp": 4293357208,
+        "fctrl": 895,
+        "eax": 10
+      }
+    }
+  ]
+}

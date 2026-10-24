@@ -1,0 +1,400 @@
+{
+  "status": "read-only analysis, no execution/coverage credit",
+  "baseline": "dde6825fca4329972997ad322f5c186ae48cdfc0",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "keyword_table_address": 437072,
+  "original_keywords": [
+    {
+      "index": 0,
+      "name": "auto",
+      "token": 11
+    },
+    {
+      "index": 1,
+      "name": "break",
+      "token": 97
+    },
+    {
+      "index": 2,
+      "name": "case",
+      "token": 98
+    },
+    {
+      "index": 3,
+      "name": "cdecl",
+      "token": 19
+    },
+    {
+      "index": 4,
+      "name": "char",
+      "token": 34
+    },
+    {
+      "index": 5,
+      "name": "const",
+      "token": 32
+    },
+    {
+      "index": 6,
+      "name": "continue",
+      "token": 102
+    },
+    {
+      "index": 7,
+      "name": "__declspec",
+      "token": 151
+    },
+    {
+      "index": 8,
+      "name": "default",
+      "token": 103
+    },
+    {
+      "index": 9,
+      "name": "do",
+      "token": 105
+    },
+    {
+      "index": 10,
+      "name": "double",
+      "token": 37
+    },
+    {
+      "index": 11,
+      "name": "else",
+      "token": 107
+    },
+    {
+      "index": 12,
+      "name": "enum",
+      "token": 45
+    },
+    {
+      "index": 13,
+      "name": "extern",
+      "token": 13
+    },
+    {
+      "index": 14,
+      "name": "far",
+      "token": 29
+    },
+    {
+      "index": 15,
+      "name": "float",
+      "token": 36
+    },
+    {
+      "index": 16,
+      "name": "for",
+      "token": 113
+    },
+    {
+      "index": 17,
+      "name": "fortran",
+      "token": 17
+    },
+    {
+      "index": 18,
+      "name": "goto",
+      "token": 115
+    },
+    {
+      "index": 19,
+      "name": "huge",
+      "token": 31
+    },
+    {
+      "index": 20,
+      "name": "if",
+      "token": 116
+    },
+    {
+      "index": 21,
+      "name": "__inline",
+      "token": 14
+    },
+    {
+      "index": 22,
+      "name": "int",
+      "token": 35
+    },
+    {
+      "index": 23,
+      "name": "long",
+      "token": 39
+    },
+    {
+      "index": 24,
+      "name": "near",
+      "token": 28
+    },
+    {
+      "index": 25,
+      "name": "pascal",
+      "token": 18
+    },
+    {
+      "index": 26,
+      "name": "register",
+      "token": 15
+    },
+    {
+      "index": 27,
+      "name": "return",
+      "token": 127
+    },
+    {
+      "index": 28,
+      "name": "short",
+      "token": 38
+    },
+    {
+      "index": 29,
+      "name": "signed",
+      "token": 43
+    },
+    {
+      "index": 30,
+      "name": "sizeof",
+      "token": 132
+    },
+    {
+      "index": 31,
+      "name": "static",
+      "token": 12
+    },
+    {
+      "index": 32,
+      "name": "struct",
+      "token": 46
+    },
+    {
+      "index": 33,
+      "name": "switch",
+      "token": 135
+    },
+    {
+      "index": 34,
+      "name": "typedef",
+      "token": 16
+    },
+    {
+      "index": 35,
+      "name": "union",
+      "token": 47
+    },
+    {
+      "index": 36,
+      "name": "unsigned",
+      "token": 44
+    },
+    {
+      "index": 37,
+      "name": "void",
+      "token": 40
+    },
+    {
+      "index": 38,
+      "name": "volatile",
+      "token": 33
+    },
+    {
+      "index": 39,
+      "name": "while",
+      "token": 141
+    },
+    {
+      "index": 40,
+      "name": "__syscall",
+      "token": 21
+    },
+    {
+      "index": 41,
+      "name": "__asm",
+      "token": 26
+    },
+    {
+      "index": 42,
+      "name": "__near",
+      "token": 28
+    },
+    {
+      "index": 43,
+      "name": "__far",
+      "token": 29
+    },
+    {
+      "index": 44,
+      "name": "__far16",
+      "token": 30
+    },
+    {
+      "index": 45,
+      "name": "__huge",
+      "token": 31
+    },
+    {
+      "index": 46,
+      "name": "__cdecl",
+      "token": 19
+    },
+    {
+      "index": 47,
+      "name": "__fortran",
+      "token": 17
+    },
+    {
+      "index": 48,
+      "name": "__pascal",
+      "token": 18
+    },
+    {
+      "index": 49,
+      "name": "__export",
+      "token": 25
+    },
+    {
+      "index": 50,
+      "name": "__based",
+      "token": 27
+    },
+    {
+      "index": 51,
+      "name": "__fastcall",
+      "token": 20
+    },
+    {
+      "index": 52,
+      "name": "__except",
+      "token": 111
+    },
+    {
+      "index": 53,
+      "name": "__finally",
+      "token": 112
+    },
+    {
+      "index": 54,
+      "name": "__stdcall",
+      "token": 133
+    },
+    {
+      "index": 55,
+      "name": "__try",
+      "token": 137
+    },
+    {
+      "index": 56,
+      "name": "__leave",
+      "token": 149
+    }
+  ],
+  "candidates": [
+    {
+      "name": "unlisted_ir_walker",
+      "start": 279328,
+      "end": 279507,
+      "bytes": 179
+    },
+    {
+      "name": "unlisted_vector_encoder",
+      "start": 280224,
+      "end": 280294,
+      "bytes": 70
+    },
+    {
+      "name": "unlisted_vector_decoder",
+      "start": 280992,
+      "end": 281080,
+      "bytes": 88
+    },
+    {
+      "name": "unlisted_min",
+      "start": 281472,
+      "end": 281489,
+      "bytes": 17
+    },
+    {
+      "name": "unlisted_permanent_copy",
+      "start": 281600,
+      "end": 281654,
+      "bytes": 54
+    },
+    {
+      "name": "unlisted_pascal_name",
+      "start": 303968,
+      "end": 304037,
+      "bytes": 69
+    },
+    {
+      "name": "unlisted_qualifier_query",
+      "start": 181280,
+      "end": 181319,
+      "bytes": 39
+    },
+    {
+      "name": "unlisted_browser_suppression",
+      "start": 159968,
+      "end": 160034,
+      "bytes": 66
+    },
+    {
+      "name": "unlisted_initializer_formatter",
+      "start": 172464,
+      "end": 172578,
+      "bytes": 114
+    },
+    {
+      "name": "unlisted_declaration_diagnostic",
+      "start": 173232,
+      "end": 173277,
+      "bytes": 45
+    },
+    {
+      "name": "unlisted_weekday",
+      "start": 310864,
+      "end": 310994,
+      "bytes": 130
+    }
+  ],
+  "direct_instruction_references": [
+    {
+      "owner": "_convert_based_pointer@8",
+      "owner_start": 156176,
+      "site": 156309,
+      "operation": "call",
+      "target": 156032
+    },
+    {
+      "owner": "unlisted_ir_walker",
+      "owner_start": 279328,
+      "site": 279436,
+      "operation": "call",
+      "target": 279328
+    },
+    {
+      "owner": "unlisted_permanent_copy",
+      "owner_start": 281600,
+      "site": 281621,
+      "operation": "call",
+      "target": 281472
+    }
+  ],
+  "absolute_byte_candidates": [],
+  "limitations": "Instruction discovery linear within known whole bodies/candidates; manually inspect any relevant callsite before reachability claims. Raw absolute occurrences are candidates only, not relocation/callback proof. No17070/17140 classification promotion.",
+  "bss_caution": "PE.read does not virtualize .bss raw offset0; no raw-browser-template read is evidence. .bss loader-zero initialization is structural; actual live fields need capture.",
+  "constructor_owner_sources": {
+    "src/calls.c": "ca1c141c0ef8ddd8b0e11f4f5f6647e10104c88bda86544bc096b725379b14f0",
+    "src/frontend.h": "7c07520074c2ace73e3d7369ecb981dd9ead512a5d6b72d085830a1033efada8",
+    "src/parser.c": "11fb9c846049bb327429f0243a099a128de5e084e9963c8a8d532a3be2a2f92a",
+    "src/pch.c": "a1debe088583f5f3c385b75fca028bb8fe58644ec8a85dd68ed7f0d5b7fc08c0",
+    "src/pch-relocate.c": "e279ebc0638a5900ff4843f34fea8e1ee9e302ff1cc5a38abe077fef196e5ea4",
+    "src/types.c": "3bf43934408c3fe2d85a9da23cea1822875ff595fd35fd1d04c37d19753117ed",
+    "src/keywords.c": "cd2faaa74bfc71c55ca6b49314e457acbadb7785f270a6db0af999afe743d230",
+    "src/lexer.c": "9496f87f384c9cc385879d095c26c48be31fa0f2b5cd99b9d6000042a467c63a",
+    "src/vectors.c": "b140e7890f73056d3fb0b9c6dfb6dea41cc72bc8f8c3b3adcde66ae7dc507620",
+    "src/initializer-records.c": "c546b5fbfa4226feede41691b54458e521719d44adcbea20631b1117f6906a4d",
+    "src/browser.c": "b74ccf59699901d4e4e795e70e583febdb1370a45bb4262385a9e6878a3cef08"
+  }
+}

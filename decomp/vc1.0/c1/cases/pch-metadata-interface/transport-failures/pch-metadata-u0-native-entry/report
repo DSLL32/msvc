@@ -1,0 +1,5 @@
+metadata-page 0 start 57239000 bytes0000effc marks 57248540 bits 61436
+metadata-arena-block 0 address 5724fed0 allocation 16384 data 5724fed8 used 1012 next 00000000 last 1
+metadata-argument 0 address 572502b8 type 572417e8 next 5725025c expression 572502a4 previous 57250284 owned20 outside-all-pages
+metadata-argument 1 address 57250284 type 572416fc next 572502b8 expression 57250270 previous 5725025c owned20 outside-all-pages
+metadata-argument 2 address 5725025c type 57241868 next 57250284 expression 57250214 previous 00000000 owned20 outside-all-pages

@@ -1,0 +1,192 @@
+{
+  "status": "pass",
+  "scope": "Read-only natural owner proof; no helper called and no new accepted function.",
+  "pages": 1,
+  "arena_allocations": [
+    {
+      "bytes": 16384,
+      "used": 1012
+    }
+  ],
+  "arguments": [
+    {
+      "address": [
+        "temporary",
+        0,
+        992
+      ],
+      "type": [
+        "permanent",
+        0,
+        34792
+      ],
+      "next": [
+        "temporary",
+        0,
+        900
+      ],
+      "expression": [
+        "temporary",
+        0,
+        972
+      ],
+      "previous": [
+        "temporary",
+        0,
+        940
+      ]
+    },
+    {
+      "address": [
+        "temporary",
+        0,
+        940
+      ],
+      "type": [
+        "permanent",
+        0,
+        34556
+      ],
+      "next": [
+        "temporary",
+        0,
+        992
+      ],
+      "expression": [
+        "temporary",
+        0,
+        920
+      ],
+      "previous": [
+        "temporary",
+        0,
+        900
+      ]
+    },
+    {
+      "address": [
+        "temporary",
+        0,
+        900
+      ],
+      "type": [
+        "permanent",
+        0,
+        34920
+      ],
+      "next": [
+        "temporary",
+        0,
+        940
+      ],
+      "expression": [
+        "temporary",
+        0,
+        828
+      ],
+      "previous": null
+    }
+  ],
+  "vectors": {
+    "defines": {
+      "count": 6,
+      "capacity": 6,
+      "arena": 0,
+      "names": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "references": [
+        [
+          "permanent",
+          0,
+          35444
+        ],
+        [
+          "permanent",
+          0,
+          35460
+        ],
+        [
+          "permanent",
+          0,
+          35468
+        ],
+        [
+          "permanent",
+          0,
+          35480
+        ],
+        [
+          "permanent",
+          0,
+          35496
+        ],
+        [
+          "permanent",
+          0,
+          35508
+        ]
+      ]
+    },
+    "directories": {
+      "count": 4,
+      "capacity": 4,
+      "arena": 0,
+      "names": [
+        ".",
+        "../metadata-extra",
+        "../metadata-compat",
+        "R:\\toolchains\\1.0-nt\\include"
+      ],
+      "references": [
+        [
+          "permanent",
+          0,
+          35332
+        ],
+        [
+          "permanent",
+          0,
+          35336
+        ],
+        [
+          "permanent",
+          0,
+          35356
+        ],
+        [
+          "permanent",
+          0,
+          35376
+        ]
+      ]
+    }
+  },
+  "browser": {
+    "pending": 444,
+    "flags": 138,
+    "template": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "files_compared": 10,
+  "original_events_sha256": "ed20e4bea1533dc86220659326393408fc14f638068d75ecf31f0fc06a644b55",
+  "native_state_sha256": "7d3404b9a7fb02c6be78281486311e8d42285f1d6bc19a3f21db3baeee04eab7",
+  "original_receipt_sha256": "8f643034650ca93f1509fb8846dcc7c96bc8081ddb273fe9db135631e0f4273e",
+  "native_receipt_sha256": "fa2d44edea17bb6c0e1a3cb0f1ccdc04e16c36f8ea4f5f9fe8083429ca461b35",
+  "limitations": [
+    "No recursive expression traversal, mutating helper or parser continuation was attempted.",
+    "Saved definition names are genuinely NUL-cleared by accepted PCH macro reconciliation.",
+    "Browser template zeros were observed in live process memory, not derived from PE raw offset zero."
+  ]
+}

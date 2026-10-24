@@ -1,0 +1,2 @@
+34c00 53 _copy_permanent_bytes@12
+34b80 8b _smaller_size@8

@@ -603,3 +603,19 @@ units run natively. See debug-validation.json; earlier variant receipts stay
 frozen. Seven named stubs and unlisted candidate application routines remain.
 The baseline-only residual survey distinguishes provisional bodies, padding
 and data; it grants no coverage or CRT classification.
+
+Debug PCH metadata interfaces (2026-10-24)
+------------------------------------------
+The guarded -Z7/-Yd/-FR PCH producer/consumer matches complete original files;
+the native consumer uses its actual native producer's PCH. Ten fixed direct
+units use genuine completed-call arguments, parsed symbols, constructor-created
+vectors and WorkingStack plus the live browser FILE. Nine whole application
+functions add696 bytes;1117 accepted entries/973 application functions. Both
+vector missing-store bugs and the meaningful AX-only Pascal result are retained.
+Unwritten allocation tails have no cross-side equality claim. The raw inactive
+PCH page discrepancy is explicitly qualified by actual lookup-before-use; no
+global is reseeded. New cached native checks take0.330s. See
+cases/pch-metadata-interface/README.md and validation.json for exact ownership,
+ABI/output evidence, timings and remaining unknowns. Eleven historical CRT
+source bodies remain unchanged; self-based validation and unlisted/ambiguous
+application candidates remain unresolved.

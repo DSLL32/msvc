@@ -28,6 +28,24 @@ void *__stdcall allocate_permanent(unsigned bytes)
     return result;
 }
 
+/* Original 0x44b80..0x44b91, RET8. Sizes use the unsigned comparison. */
+unsigned __stdcall smaller_size(unsigned left, unsigned right)
+{
+    return right < left ? right : left;
+}
+
+/* Original 0x44c00..0x44c36, RET12. Capacity controls the allocation;
+   only the smaller of the source byte count and capacity is copied. */
+void *__stdcall copy_permanent_bytes(void *source, unsigned bytes, unsigned capacity)
+{
+    unsigned char *copy = allocate_permanent(capacity);
+    unsigned count = smaller_size(capacity, bytes);
+    unsigned index;
+    for (index = 0; index < count; ++index)
+        copy[index] = ((unsigned char *)source)[index];
+    return copy;
+}
+
 /* Pages and relocation maps used to serialize permanent arena pointers. */
 PermanentPage permanent_pages[512]; /* original 0x66370 */
 int permanent_page_count;           /* original 0x6de00 */

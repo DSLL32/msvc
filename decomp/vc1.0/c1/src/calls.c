@@ -6,6 +6,13 @@ CallContext *call_context; /* original 0x6b5d4 */
 int call_designator_depth; /* original 0x6bf6c */
 typedef char CallContext_must_be_36_bytes[sizeof(CallContext) == 36 ? 1 : -1];
 
+/* Original 0x2c420..0x2c447, RET4. Follow the type's effective
+   qualifier owner rather than relying on the symbol's storage flags. */
+int __stdcall symbol_has_qualifiers(FrontendSymbol *symbol)
+{
+    return symbol && (effective_type_qualifiers(symbol->type) & 0x3000) != 0;
+}
+
 /* Original 0x2b960..0x2bb83. Establish prototype/diagnostic state before
    arguments are parsed, including the target's intrinsic and SEH rules. */
 IrToken *__stdcall prepare_call_expression(IrToken *function)

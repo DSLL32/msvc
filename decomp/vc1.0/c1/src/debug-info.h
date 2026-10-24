@@ -194,5 +194,6 @@ unsigned program_database_signature(ProgramDatabase *self);
 unsigned program_database_age(ProgramDatabase *self);
 char *__stdcall append_codeview_name(char *destination, char *source);
 unsigned short copy_codeview_name(char *destination, char *source);
+short copy_pascal_symbol_name(char *destination, FrontendSymbol *symbol);
 unsigned short pad_codeview_record(unsigned char *destination, unsigned short bytes);
 #endif
