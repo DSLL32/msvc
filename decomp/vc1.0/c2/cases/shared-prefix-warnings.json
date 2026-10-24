@@ -2,49 +2,9 @@
   "modules": [
     {
       "module": "omf-output",
-      "seconds": 1.2147481562569737,
-      "returncode": 0
-    },
-    {
-      "module": "backend-symbols",
-      "seconds": 1.9638739479705691,
-      "returncode": 0
-    },
-    {
-      "module": "coff-output",
-      "seconds": 2.1918475227430463,
-      "returncode": 0
-    },
-    {
-      "module": "coff-functions",
-      "seconds": 2.3492979882285,
-      "returncode": 0
-    },
-    {
-      "module": "coff-initializers",
-      "seconds": 2.0509039741009474,
-      "returncode": 0
-    },
-    {
-      "module": "coff-segments",
-      "seconds": 2.2296501230448484,
-      "returncode": 0
-    },
-    {
-      "module": "listing",
-      "seconds": 2.0220365105196834,
-      "returncode": 0
-    },
-    {
-      "module": "segment-storage",
-      "seconds": 2.0091041289269924,
-      "returncode": 0
-    },
-    {
-      "module": "segments",
-      "seconds": 1.3768359944224358,
+      "seconds": 1.1577936569228768,
       "returncode": 0
     }
   ],
-  "seconds": 17.409144318662584
+  "seconds": 1.1579882940277457
 }

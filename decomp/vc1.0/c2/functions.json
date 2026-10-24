@@ -1273,7 +1273,9 @@
     "@omf_write_comment@8",
     "@omf_name_index@4",
     "@omf_intern_name@8",
-    "@omf_write_segment_definition@4"
+    "@omf_write_segment_definition@4",
+    "@omf_alignment@4",
+    "@omf_write_index@8"
   ],
   "driver": [
     {
@@ -8739,8 +8741,26 @@
     {
       "name": "@omf_write_index@8",
       "start": 443056,
-      "end": 443057,
-      "provisional": true
+      "end": 443118,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "record",
+            "location": "ECX",
+            "type": "OmfRecord pointer"
+          },
+          {
+            "name": "index",
+            "location": "EDX",
+            "type": "signed32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-index-final-abi/validation.json",
+        "scope": "Actual record aliases current pool slot0; count5/cursor+28 and owned28 used bytes, index3 observed. Original retained prior length55/00 is not consumed by this helper; destination bytes write-only. Signed<128 and byte truncation preserved, no new guards."
+      }
     },
     {
       "name": "@omf_comdat_selection@4",
@@ -8751,8 +8771,21 @@
     {
       "name": "@omf_alignment@4",
       "start": 434960,
-      "end": 434961,
-      "provisional": true
+      "end": 435014,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "alignment",
+            "location": "ECX",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-alignment-abi/validation.json",
+        "scope": "Actual4 observed.1/2/4/16 have defined EAX1/2/5/3; unsupported original RET retains incoming EAX/missing-return source behavior. Native exact unsupported default traps; reachability beyond bounded known Segment producers is unproved, any real other value holds for incoming-EAX ABI treatment."
+      }
     },
     {
       "name": "@omf_append_bytes@12",

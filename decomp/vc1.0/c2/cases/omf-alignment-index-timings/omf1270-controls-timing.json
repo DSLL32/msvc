@@ -1,0 +1,10 @@
+{
+  "command": [
+    "python3",
+    "scripts/check-omf-alignment.py",
+    "--native-guard"
+  ],
+  "seconds": 0.7745331712067127,
+  "returncode": 0,
+  "log_sha256": "25f615137f5af7e85a7e52e9c6034c6113748304d10244ffb77ae9e7fa3bf78a"
+}

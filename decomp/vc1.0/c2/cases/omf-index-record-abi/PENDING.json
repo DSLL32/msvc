@@ -1,0 +1,5 @@
+{
+  "status": "OBSERVER ASSERTION WRONG, raw inputs match",
+  "reason": "SEGDEF reused record retains prior wire length bytes55/00; the initializer does not zero those bytes. Raw original/native both995500a900000000, parser incorrectly expected zero previous length. Failed raw retained. Reuse immutable original with corrected parser/new native receipt, no target change.",
+  "retry": "cases/omf-index-final-abi"
+}

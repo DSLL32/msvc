@@ -1,0 +1,8 @@
+{
+  "path": "cases/omf-alignment-native-guard.txt",
+  "sha256": "5835af4db3ed3af573b690596e69d8bf61ddce5780fffac2a72242d0136a5469",
+  "seconds": 0.14259728975594044,
+  "actual_valid_input": 4,
+  "injected_unsupported": 3,
+  "scope": "Native-only controlled change of actual alignment formal at entry; unsupported value must SIGTRAP in this function. Not evidence that original frontend produces3 or unsupported original equivalence."
+}

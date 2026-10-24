@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/observe-scalar-entry.py", line 84, in <module>
+    assert pool_input is not None
+           ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

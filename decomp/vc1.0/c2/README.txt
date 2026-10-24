@@ -570,3 +570,16 @@ pass (14 complete); next alignment6a310 with actual ECX4 already observed.
 Original/W3 passes all9 renamed modules; graph/extent/ABI/data pass.340753/399693
 accepted extent bytes; app/support322453B and1154functions exclude5 historical
 CRT bodies. Scope/timings: cases/omf-segment-checkpoint.json.
+
+Checkpoint1271 adds54-byte alignment mapping and62-byte index writer. Actual
+alignment4 maps5; original1/2/4/16 return1/2/5/3. Original unsupported RET leaves
+EAX unassigned: Win32 source keeps the missing return, native exact unsupported
+branch traps (verified by controlled GDB input3). Public reach of other values
+is unproved; any real such input holds for register-ABI review, not a guessed
+result. Original/W3 passes. Index signed<128 and high-byte truncation/count wrap
+match52 whole controls; actual slot0/index3/count5/cursor28 observed. A mistaken
+observer zero-length assumption is retained as failure; corrected native-only
+retry binds the unchanged original995500 prefix. Full audits and15 cached native
+cases pass (14 complete); next group definition6a850.340869/399693 accepted
+extent bytes, app/support322569B and1156functions exclude5 historical CRT bodies.
+Detailed limits/failed attempts/timings: cases/omf-alignment-index-checkpoint.json.

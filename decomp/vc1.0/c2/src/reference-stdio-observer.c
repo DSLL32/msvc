@@ -288,7 +288,8 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
     }
     if(!strcmp(call->name,"_omf_flush_records") ||
        !strcmp(call->name,"@omf_flush_record@4") ||
-       !strcmp(call->name,"@omf_write_record@4")) {
+       !strcmp(call->name,"@omf_write_record@4") ||
+       !strcmp(call->name,"@omf_write_index@8")) {
         DWORD current=read_word(process,image_base+0x6b88c);
         DWORD record=!strcmp(call->name,"_omf_flush_records")?current:call->args[0];
         DWORD cursor=read_word(process,record+16),bytes=cursor-record;

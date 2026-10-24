@@ -424,7 +424,7 @@
       "evidence": "cases/dbglist-completion-checkpoint.json"
     }
   ],
-  "status": "Derived OMF case at1256: record dependency/first-type flush complete; matching original/native cache lookup80/NULL frontier6bd50.14 prior cases complete.",
+  "status": "Derived OMF case at1271: SEGDEF/alignment/index writer reconstructed; matching original/native group definition6a850.14 prior cases complete.",
   "next_case_proposals": [],
   "current_runtime_frontier": null,
   "historical_proposals": [
@@ -487,8 +487,8 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "@omf_write_segment_definition@4",
-  "current_checkpoint": 1268,
+  "current_application_frontier": "@omf_write_group_definition@8",
+  "current_checkpoint": 1271,
   "current_hold": null,
   "resolved_input_hold": {
     "field": "object_file->_bufsiz",
@@ -496,5 +496,19 @@
     "failed_evidence": "cases/omf-write-record-abi/PENDING.json",
     "passing_native_only_evidence": "cases/omf-write-record-abi-native-candidate/validation.json",
     "ready_source_same_as_candidate": true
-  }
+  },
+  "native_contract_limits": [
+    {
+      "function": "@omf_alignment@4",
+      "defined_inputs": [
+        1,
+        2,
+        4,
+        16
+      ],
+      "actual_input": 4,
+      "unsupported_native": "Exact default INT3; original unsupported missing return retains incoming EAX. Hold any real newly reached other alignment for explicit incoming-register ABI treatment.",
+      "evidence": "cases/omf-alignment-index-checkpoint.json"
+    }
+  ]
 }

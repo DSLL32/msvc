@@ -1,0 +1,127 @@
+{
+  "original_reference": {
+    "directory": "cases/omf-index-record-abi",
+    "binding_sha256": "151f0fc377a12e0692d3c984b4e9a6f53dd887a707556367924ec7248c493049"
+  },
+  "matched": true,
+  "function": "@omf_write_index@8",
+  "profile": "omf",
+  "omf_state": null,
+  "pool_input": null,
+  "record_input": {
+    "original": {
+      "pointer": 501980,
+      "current": 501980,
+      "base": 501980,
+      "bytes": 28,
+      "hex": "99000000000000000000000005000000f8a80700995500a900000000"
+    },
+    "native": {
+      "pointer": 1449227612,
+      "current": 1449227612,
+      "base": 1449227612,
+      "bytes": 28,
+      "hex": "9900000000000000000000000500000078756156995500a900000000"
+    },
+    "scope": "Actual current slot0 defined header/used payload only; cursor and owner aliases retained. No uninitialized tail dump or arbitrary record claim."
+  },
+  "object_input": null,
+  "record_pointer_formals": [
+    {
+      "name": "record",
+      "slot": 0,
+      "original_pointer": 501980,
+      "native_pointer": 1449227612,
+      "defined_pointee": "actual28-byte used record"
+    }
+  ],
+  "native_raw_values": [
+    1449227612,
+    3
+  ],
+  "null_pointer_formals": [],
+  "formals": [
+    {
+      "name": "record",
+      "location": "ECX",
+      "type": "omf_record_current32",
+      "value": 0
+    },
+    {
+      "name": "index",
+      "location": "EDX",
+      "type": "signed32",
+      "value": 3
+    }
+  ],
+  "hidden_inputs": [],
+  "no_hidden_inputs_proof": "ECX aliases current1004-byte OMF pool record, EDX signed index3; count5/cursor+28 and all28 owned used bytes observed including retained prior length55/00, which this function does not read. RET0, no hidden pointer/register/stack/flags/x87 input. Cursor destination is write-only, no old uninitialized output bytes consumed or seeded.",
+  "callee_stack_cleanup": 0,
+  "original_raw_values": [
+    501980,
+    3
+  ],
+  "original_values": [
+    0,
+    3
+  ],
+  "original_state": {
+    "column": 4294967295,
+    "cw": 639,
+    "sw": 0,
+    "fastcall": 1
+  },
+  "native": {
+    "values": [
+      0,
+      3
+    ],
+    "omf_pool": {
+      "base": 1449227612,
+      "current": 1449227612,
+      "headers": [
+        "9900000000000000000000000500000078756156",
+        "0000000000000000000000000000000000000000",
+        "0000000000000000000000000000000000000000",
+        "0000000000000000000000000000000000000000"
+      ]
+    },
+    "coff_object": 0,
+    "column": 4294967295,
+    "cw": 639,
+    "sw": 0,
+    "stdout": {
+      "flags": 2,
+      "count": 0,
+      "fd": 1,
+      "size": 0,
+      "null": 1,
+      "used": 0,
+      "buffer_hex": ""
+    }
+  },
+  "original_stdout": {
+    "flags": 2,
+    "count": 0,
+    "fd": 1,
+    "size": 0,
+    "null": 1,
+    "used": 0,
+    "position": 0,
+    "counter": 0,
+    "cursor": 0,
+    "value": 0,
+    "buffer_hex": ""
+  },
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "manifest_sha256": "23d816b9638b58c44cb1045109412b9270c1925c62f99ea69438685881ea5e13",
+  "config_sha256": "b14f04a2066ea2189a3fa612a61e65d26af74dfdeb363e56c5790a63b1273f5a",
+  "observer_source_sha256": "c62716912fac578817b79fc0c88270778048b7341c1bc2229ba1823a53943b8b",
+  "observer_sha256": "8d9710356464de874d0a9d4d0f103dc63429e868756fa43eb0fb638b505a12b3",
+  "native_executable_sha256": "342699dd109e06493aefba6ebf1092584aa20a276321d32c92d7c354148f28d6",
+  "original_execution_seconds": null,
+  "reused_immutable_original": true,
+  "native_debug_seconds": 0.15070873964577913,
+  "total_seconds": 0.20908687822520733,
+  "scope": "Actual scalar fastcall register/stack formals (16-bit parameters compare their proved lower-word contract; full original register/slot words retained) and known stdout/column/x87 entry state. No injected calls, return observation, child behavior, arbitrary-input equivalence or completed artifact claim."
+}

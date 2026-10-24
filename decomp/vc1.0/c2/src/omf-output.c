@@ -600,3 +600,45 @@ void __fastcall omf_write_segment_definition(Segment *segment)
     omf_write_index(record, segment->object_attributes.omf_class_index);
     omf_write_index(record, omf_empty_name);
 }
+
+/* Original [0006a310,0006a346). Only these four alignment values have
+   defined results. The original default RET does not assign EAX: preserve the
+   Win32 missing return rather than initialize a made-up result. Native callers
+   outside this proved producer contract trap explicitly; a real such case
+   requires its incoming-register ABI to be recovered before proceeding. */
+unsigned __fastcall omf_alignment(unsigned alignment)
+{
+    switch (alignment) {
+    case 1: return 1;
+    case 2: return 2;
+    case 4: return 5;
+    case 16: return 3;
+    }
+#ifdef RECON_NATIVE_TEST
+    __asm int 3
+#endif
+}
+
+/* Original [0006c2b0,0006c2ee). The original comparison is signed:
+   negative indices take the one-byte path; the two-byte path truncates each
+   encoded byte without an invented range or capacity check. */
+void __fastcall omf_write_index(OmfRecord *record, int index)
+{
+    unsigned char *cursor;
+    unsigned count;
+    if (index < 128) {
+        cursor = record->cursor;
+        ++record->count;
+        *cursor++ = (unsigned char)index;
+        record->cursor = cursor;
+    } else {
+        count = record->count + 1;
+        record->count = count;
+        cursor = record->cursor;
+        *cursor++ = (unsigned char)((index >> 8) | 0x80);
+        record->cursor = cursor;
+        record->count = ++count;
+        *cursor++ = (unsigned char)index;
+        record->cursor = cursor;
+    }
+}

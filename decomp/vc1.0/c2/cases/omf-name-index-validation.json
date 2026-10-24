@@ -1307,6 +1307,6 @@
       }
     }
   ],
-  "seconds": 1.1032360158860683,
+  "seconds": 1.1229104800149798,
   "scope": "Whole49-byte original/canonical wrapper: new/reused/nonzero truth results, exact96/NULL begin then same name pointer, returned record pointer forwarded to string writer, always return4-byte local output after all calls (including explicit mocked escaped-local mutation), poisoned uninitialized stack never seeded as input, exact ESP. Child interner/string/record bodies mocked. Actual nonnull empty NUL input observed independently."
 }
