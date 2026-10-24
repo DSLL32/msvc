@@ -123,6 +123,13 @@ typedef struct CompilerArena {
 #endif
 } CompilerArena;
 
+/* The initializer and 16-bit checksum consumer use all three byte tables. */
+typedef struct CompilerChecksumTables {
+    unsigned char update[256];
+    unsigned char high[256];
+    unsigned char low[256];
+} CompilerChecksumTables;
+
 typedef struct FrontendBss {
     FrontendData *saved_state;
     int cleanup_count;
@@ -159,6 +166,7 @@ typedef struct FrontendBss {
     CompilerArena arenas[9];
     CompilerOptionBss options;
     int language_contexts[10];
+    CompilerChecksumTables checksum_tables;
 } FrontendBss;
 
 #ifdef __cplusplus

@@ -87,7 +87,8 @@
     "CompilerArena::CommitExtent",
     "_process_compiler_options",
     "_push_declaration_context",
-    "_initialize_include_aliases"
+    "_initialize_include_aliases",
+    "_initialize_checksums"
   ],
   "trial": null,
   "ranges": [
@@ -799,7 +800,13 @@
       "start_rva": 467979,
       "end_rva": 467994,
       "entry": 0
+    },
+    {
+      "owner": "_initialize_checksums",
+      "start_rva": 234152,
+      "end_rva": 234388,
+      "entry": 1
     }
   ],
-  "stage": "_initialize_include_aliases accepted; next frontier _initialize_checksums"
+  "stage": "_initialize_checksums accepted; next frontier _initialize_multibyte_categories"
 }

@@ -62,6 +62,11 @@ int main(void)
             recon_load_system_info_profile(profile,reference);
         }
     }
+    {
+        const char *reference=recon_host_getenv("C1XX_EMPTY_CTYPE_REFERENCE_SHA256");
+        if(reference)
+            recon_crt_bind_empty_ctype_1252("e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",reference);
+    }
     spec.name = "C1XX.DLL";
     spec.path = "R:\\toolchains\\5.10\\bin\\C1XX.DLL";
     spec.sha256 = "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9";

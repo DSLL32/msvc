@@ -144,6 +144,10 @@ def prepare():
         if trial.get('test_seed'):trial['language_context_auxiliary']={'initializer_live_depth':7,'initializer_saved_depth':3,'initializer_slots':[1+(i&1)for i in range(10)],'helper_entry_slots':[1+(i&1)for i in range(10)],'helper_argument_unchanged':0,'code_or_helper_mock':False}
     if '_initialize_include_aliases'in accepted:
         trial['alias_root_observers']={'entry_rva':0x39282,'return_rva':0x38fcf,'request_bytes':4,'arena':0,'pointee_layout':'UNMODELED; bytes untouched','source_formals':[],'ABI':'cdecl0/RET0'}
+    if '_initialize_checksums'in accepted:
+        trial['checksum_observers']={'entry_rva':0x392a8,'end_rva':0x39394,'tables_rva':0xbe970,'table_bytes':768,'taps_rva':0xd5c58,'taps':[0,1,3,6,8,13,15,-1],'next_CRT_API':{'name':'setlocale','category':2,'locale':'','IAT_rva':0xc914c,'provider_export_rva':0x5729},'next_target_helper_rva':0x39394}
+    if '_initialize_checksums'in accepted:
+        trial['case_inputs']['cases/minimal/locale-schema.json']=sha(PROJECT/'cases/minimal/locale-schema.json')
     trial['test_arena_reset_seed']=bool(candidate.get('test_arena_reset_seed'))
     if trial['test_arena_reset_seed']:
         if trial_name!='CompilerArena::Reset':raise ValueError('Reset seed requires sole Reset candidate')

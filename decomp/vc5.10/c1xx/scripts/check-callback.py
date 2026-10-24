@@ -28,7 +28,7 @@ def check(original,native,require_audit=True,audit_path=None):
     allocation_candidate=trial['trial']=='_reserve_work_buffer'
     early_options_candidate=trial['trial']=='_initialize_intermediate_files'
     early_switch_candidate=trial['trial']=='_process_early_option'
-    reset_candidate=trial['trial'] in ('CompilerArena::Reset','_initialize_pool_arenas','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','_process_compiler_options','_push_declaration_context','_initialize_include_aliases')
+    reset_candidate=trial['trial'] in ('CompilerArena::Reset','_initialize_pool_arenas','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','_process_compiler_options','_push_declaration_context','_initialize_include_aliases','_initialize_checksums')
     scaler_candidate=reset_candidate or trial['trial']=='_calculate_arena_reservation'
     reserve_arena_candidate=trial['trial']=='CompilerArena::Reserve'
     default_arena_candidate=trial['trial']=='_initialize_default_arena'
@@ -52,7 +52,7 @@ def check(original,native,require_audit=True,audit_path=None):
     wrapper09=index>=9
     seed=trial.get('test_seed')
     model=json.loads((native/'state-model.json').read_text())
-    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33),'context fields omitted from typed snapshot/BSS model')
+    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34),'context fields omitted from typed snapshot/BSS model')
     context_names=['context_stack']+(['saved_context_stack'] if model['schema']>=3 else [])
     if model['schema']>=4:context_names.append('nested_context_stacks')
     if model['schema']>=5:context_names.append('source_position')
@@ -133,6 +133,7 @@ def check(original,native,require_audit=True,audit_path=None):
     if '_process_compiler_options' in trial['accepted']:path.append(('push_declaration_context',0x2b834))
     if '_push_declaration_context' in trial['accepted']:path.append(('initialize_checksums',0x392a8)if seed else('initialize_include_aliases',0x39282))
     if '_initialize_include_aliases'in trial['accepted']and not seed:path.append(('initialize_checksums',0x392a8))
+    if '_initialize_checksums'in trial['accepted']:path.append(('initialize_multibyte_categories',0x39394))
     expected += [(str((7 if seed else 8)+i),'%08x'%rva) for i,(_,rva) in enumerate(path)]
     final='%03d'%int(expected[-1][0]);frontier=path[-1][0]
     expected_frontier=expected[-1][1]
@@ -146,7 +147,7 @@ def check(original,native,require_audit=True,audit_path=None):
         if trace_name not in trace:trace.append(trace_name)
     s.require((native/'trace.txt').read_text()==''.join(name+'\n' for name in trace),'native first-entry callback trace differs')
     registered=sum(name=='register_cleanup' for name,_ in path[:-1])
-    s.require(state['symbol']==frontier and (constructor or frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset','c1xx_main','reserve_work_buffer','initialize_intermediate_files','process_early_option','calculate_arena_reservation','process_compiler_options','push_declaration_context','initialize_include_aliases','initialize_checksums') or state['args']=={}) and
+    s.require(state['symbol']==frontier and (constructor or frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset','c1xx_main','reserve_work_buffer','initialize_intermediate_files','process_early_option','calculate_arena_reservation','process_compiler_options','push_declaration_context','initialize_include_aliases','initialize_checksums','initialize_multibyte_categories') or state['args']=={}) and
               'Program received signal SIGTRAP' in (native/'gdb.txt').read_text(),'not a real native callback frontier')
     if frontier=='c1xx_main':
         s.require(struct.unpack_from('<I',(original/('state-'+final+'.bin')).read_bytes(),8)[0]==1,'original mode assignment before main differs')
@@ -271,9 +272,12 @@ def check(original,native,require_audit=True,audit_path=None):
     if model['schema']>=33:
         from language_context_state import check as check_language
         check_language(s,d,original,native,trial,text,pre,phase,state,seed,final,traps)
-    if '_initialize_include_aliases'in trial['accepted']:
+    if '_initialize_include_aliases'in trial['accepted'] and not seed:
         from include_alias_state import check as check_alias
         check_alias(s,d,original,native,trial,text,state,final,traps)
+    if model['schema'] >= 34 and trial['trial'] == '_initialize_checksums':
+        from checksum_state import check as check_checksum
+        check_checksum(s,d,original,native,trial,text,pre,phase,state,seed,final,traps)
     if require_audit:s.audit(trial,audit_path)
     return {'trial':trial['trial'],'frontier':'_main' if frontier=='c1xx_main' else frontier if frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset') else '_'+frontier,'seed':seed,
             'modeled_context_fields':sum(counts.values()),'original_default_context':[0,0,0],

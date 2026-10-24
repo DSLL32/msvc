@@ -318,7 +318,7 @@ void push_declaration_context(int context)
     frontend_bss.language_contexts[frontend_data.language_context_depth] = context;
 }
 
-void initialize_checksums(void) { __asm { int 3 } }
+
 void initialize_multibyte_categories(void) { __asm { int 3 } }
 void initialize_lowercase_table(void) { __asm { int 3 } }
 void read_env_arguments(char *arguments) { __asm { int 3 } }

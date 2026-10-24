@@ -11,7 +11,7 @@ def check(s,d,original,native,trial,text,pre,phase,state,seed,final,traps):
     def raw(suffix):
         blob=(original/('language-context-'+suffix+'.bin')).read_bytes();require(len(blob)==44,'typed depth/slot observation absent');return struct.unpack('<11i',blob)
     def values(snapshot):return(snapshot['frontend']['language_context_depth'],*snapshot['frontend']['language_contexts'])
-    require(trial['trial']in ('_push_declaration_context','_initialize_include_aliases') and trial['language_context_observers']=={'entry_rva':0x2b834,'caller_return_rva':0x38fbe,'argument':0,'depth_rva':0xcd580,'slots_rva':0xc13d0,'slots':10,'scope':'scalar language context; actual first NULL-independent zero push, no mocked call'},'wrong scalar observer contract')
+    require(trial['trial']in ('_push_declaration_context','_initialize_include_aliases','_initialize_checksums') and trial['language_context_observers']=={'entry_rva':0x2b834,'caller_return_rva':0x38fbe,'argument':0,'depth_rva':0xcd580,'slots_rva':0xc13d0,'slots':10,'scope':'scalar language context; actual first NULL-independent zero push, no mocked call'},'wrong scalar observer contract')
     require(pe_read(original/'loaded-target.bin',0xcd580,4)==struct.pack('<i',-1) and raw('000')==(-1,*([0]*10)),'own scalar/BSS defaults differ')
     require(raw('006')==values(pre)==((7,*[1+(i&1)for i in range(10)])if seed else(-1,*([0]*10))),'nonzero typed initializer input/default differs')
     require(raw('phase')==values(phase)==((3,*([0]*10))if seed else(-1,*([0]*10))),'new initialized depth restore or all40 BSS clear differs')
@@ -32,7 +32,11 @@ def check(s,d,original,native,trial,text,pre,phase,state,seed,final,traps):
     struct.pack_into('<i',data,2024,after[0]);struct.pack_into('<i',bss,1504+after[0]*4,0);expected_guard=copy.deepcopy(entry['guard']);expected_guard.update(data=data.hex(),bss=bss.hex())
     require(returned['guard']==next_entry['guard']==expected_guard,'helper/next changed neighboring native modeled/padding/saved/external state')
     original_data=bytearray((original/('frontend-data-%03d.bin'%seq)).read_bytes());struct.pack_into('<i',original_data,0x1580,after[0]);require((original/'frontend-data-language-return.bin').read_bytes()==(original/('frontend-data-'+language_next_suffix+'.bin')).read_bytes()==bytes(original_data),'original initialized neighbor or unknown bytes changed')
-    original_bss=bytearray((original/('pool-bss-%03d.bin'%(seq+1))).read_bytes());struct.pack_into('<i',original_bss,0xc13d0-0xb9000+after[0]*4,0);require((original/'language-return-bss.bin').read_bytes()==(original/('pool-bss-%03d.bin'%(language_next_seq+1))).read_bytes()==bytes(original_bss),'original whole BSS changed beyond one actual scalar slot')
+    original_bss=bytearray((original/('pool-bss-%03d.bin'%(seq+1))).read_bytes());struct.pack_into('<i',original_bss,0xc13d0-0xb9000+after[0]*4,0)
+    # A declared checksum data auxiliary seeds only after this real handoff.
+    # Compare the observed pre-seed checkpoint, never erase the actual seed.
+    next_bss=original/('checksum-entry-before-seed-BSS.bin' if seed and trial.get('checksum_observers') else 'pool-bss-%03d.bin'%(language_next_seq+1))
+    require((original/'language-return-bss.bin').read_bytes()==next_bss.read_bytes()==bytes(original_bss),'original whole BSS changed beyond one actual scalar slot')
     saved=(original/('frontend-snapshot-%03d.bin'%seq)).read_bytes();require(saved==(original/'frontend-snapshot-language-return.bin').read_bytes()==(original/('frontend-snapshot-'+final+'.bin')).read_bytes(),'original complete saved internal snapshot changed')
     retrows=re.findall(r'^language-return pc=(\w+) esp=(\w+) eax=(\w+) ebx=(\w+) esi=(\w+) edi=(\w+) ebp=(\w+) error=(\d+)$',text,re.M);require(len(retrows)==1,'actual original return observation absent');old=retrows[0]
     entryesp=int(re.search(r'^trap seq=%d .*esp=(\w+)'%seq,text,re.M)[1],16);require(int(old[0],16)==0x10438fbe and int(old[1],16)==entryesp+4 and int(old[7])==203,'original actual return/RET0/error differs')

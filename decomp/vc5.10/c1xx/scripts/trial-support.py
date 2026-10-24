@@ -107,9 +107,13 @@ def pair(original, native):
             "actual target module differs")
     require(sha(original / "loaded-msvcrt.bin") == o["canonical_crt_sha256"] == sha(crt) ==
             "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210", "actual CRT provider differs")
-    expected_helper = sha(original / "dll-capture.exe") if HISTORICAL_SNAPSHOT else sha(PROJECT / "build/dll-capture.exe")
-    require(sha(original / "dll-capture.exe") == o["helper_sha256"] == expected_helper,
-            "original controller changed")
+    # The executed controller is the immutable captured helper, not whichever
+    # helper happens to be built now (for example a later restore-only probe).
+    # receipt() authenticated every frozen source/artifact above; the exact
+    # candidate, ranges, case inputs and auxiliary mode are bound separately.
+    require(sha(original / "dll-capture.exe") == o["helper_sha256"] and
+            "dll-capture.exe" in o["artifacts"] and "dll-capture.c" in o["artifacts"],
+            "original actual controller/source identity absent")
     text = (original / "events.txt").read_text()
     require("failure " not in text, "original controller failure")
     modules = re.findall(r"^module name=c1n32_l.dll actual=([0-9a-f]{8}) preferred=([0-9a-f]{8}) entry=([0-9a-f]{8})$", text, re.M)

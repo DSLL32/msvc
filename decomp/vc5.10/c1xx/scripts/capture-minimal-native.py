@@ -39,6 +39,10 @@ def capture(project,output,binary,trial):
     if trial.get('scaler_observers'):
         from x87_reference import prepare as prepare_x87
         environment['C1XX_X87_ENTRY_REFERENCE']=prepare_x87(project,Path(environment['C1XX_SYSTEM_INFO_ORIGINAL']),output,trial)
+    environment.pop('C1XX_EMPTY_CTYPE_REFERENCE_SHA256',None)
+    if trial.get('checksum_observers'):
+        from locale_reference import prepare as prepare_locale
+        environment['C1XX_EMPTY_CTYPE_REFERENCE_SHA256']=prepare_locale(Path(environment['C1XX_SYSTEM_INFO_ORIGINAL']),output)
     environment.pop('C1XX_TEST_INIT_RESTORE',None)
     if trial.get('test_seed'):environment['C1XX_TEST_INIT_RESTORE']=trial['test_seed']
     wrapper=output/'exec-wrapper.py'
@@ -258,6 +262,12 @@ if 'language_contexts'in value['frontend']['declared_fields']['bss']:
     value['frontend']['language_contexts']=[int(gdb.parse_and_eval('frontend_bss.language_contexts[%d]'%i))for i in range(10)]
     value['frontend']['storage']['language_context_depth']=[int(gdb.parse_and_eval('(unsigned int)&frontend_data.language_context_depth')),4]
     value['frontend']['storage']['language_contexts']=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.language_contexts')),40]
+if 'checksum_tables'in value['frontend']['declared_fields']['bss']:
+    checksum_obj=gdb.parse_and_eval('frontend_bss.checksum_tables');checksum_type=checksum_obj.type;checksum_address=int(checksum_obj.address)
+    checksum_raw=gdb.selected_inferior().read_memory(checksum_address,768).tobytes()
+    value['frontend']['checksum_tables']={key:list(checksum_raw[i*256:(i+1)*256])for i,key in enumerate(('update','high','low'))}
+    value['frontend']['storage']['checksum_tables']=[checksum_address,768]
+    value['frontend']['checksum_native_layout']={'size':int(checksum_type.sizeof),'fields':{f.name:[f.bitpos//8,int(f.type.sizeof),str(f.type)]for f in checksum_type.fields()}}
 value['frontend']['callback_slots']=[int(gdb.parse_and_eval('(unsigned int)frontend_initializers[%d]'%n)) for n in range(43)]
 value['target_state']['initializer_words']=[int(gdb.parse_and_eval('(unsigned int)crt_initializers[%d]'%n)) for n in range(2)]
 value['target_state']['onexit_first']=int(gdb.parse_and_eval('(unsigned int)*onexit_begin')) if value['target_state']['onexit_begin'] else None
@@ -297,6 +307,8 @@ end
     if model['schema']>=33 and trial.get('test_seed'):
         options_seed+='set variable frontend_data.language_context_depth=7\nset variable frontend_bss.saved_state->language_context_depth=3\n'
         for i in range(10):options_seed+='set variable frontend_bss.language_contexts[%d]=%d\n'%(i,1+(i&1))
+    if model['schema']>=34 and trial.get('test_seed'):
+        options_seed+="python\nobj=gdb.parse_and_eval('frontend_bss.checksum_tables');gdb.selected_inferior().write_memory(int(obj.address),bytes([0xa5])*768)\nend\n"
     observer='break *initialize_compiler_pass\ncommands\nsilent\n'+pdb_seed+options_seed+'source '+str(pre)+'\ncontinue\nend\n'
     if trial['trial']=='_checked_malloc':
         allocation=output/'collect-allocation-entry.gdb'
@@ -496,6 +508,10 @@ end
         from options_probe import setup as setup_options
         options_observer,options_finish=setup_options(output,binary)
         observer+=options_observer;scaler_finish+=options_finish
+    if trial.get('checksum_observers'):
+        from checksum_probe import setup as setup_checksum
+        checksum_observer,checksum_finish=setup_checksum(output,binary)
+        observer+=checksum_observer;scaler_finish+=checksum_finish
     from collector_cache import prepare as prepare_collector_cache
     cache_startup=prepare_collector_cache(output,collector)
     def timed_source(match):

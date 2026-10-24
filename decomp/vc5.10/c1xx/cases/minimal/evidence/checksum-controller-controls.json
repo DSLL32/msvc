@@ -1,0 +1,22 @@
+{
+  "kind": "fresh bounded immutable-helper/source/mode denials; originals unchanged",
+  "checker_sha256": "0c115ac76479260243656297485d12b68806ddcb8d0bc4de78d3a12e8c93b31e",
+  "normal_receipt_sha256": "ebdbb204d8af623e8e00defcad03832006960fa7f4c88ec22317b76c0c638568",
+  "auxiliary_receipt_sha256": "70ed317f52d12bea6697f80ae71b0fcbc4a12be48220a1a6bfc13c4ec5455e08",
+  "count": 3,
+  "cases": [
+    {
+      "case": "helper-binary",
+      "rejection": "explicit identity assertion rejected"
+    },
+    {
+      "case": "helper-source",
+      "rejection": "controller delta exceeds exact pre-seed observation"
+    },
+    {
+      "case": "wrong-auxiliary-mode",
+      "rejection": "explicit identity assertion rejected"
+    }
+  ],
+  "seconds": 0.1142091415822506
+}

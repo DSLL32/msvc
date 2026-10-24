@@ -90,7 +90,8 @@
     "CompilerArena::CommitExtent",
     "_process_compiler_options",
     "_push_declaration_context",
-    "_initialize_include_aliases"
+    "_initialize_include_aliases",
+    "_initialize_checksums"
   ],
   "driver": [
     {
@@ -1046,10 +1047,10 @@
     {
       "name": "_initialize_checksums",
       "start": 272863912,
-      "end": 272863913,
-      "pending_extent": true,
-      "source": "src/options.c",
-      "abi": "cdecl0"
+      "end": 272864148,
+      "source": "src/checksum.c",
+      "abi": "cdecl0",
+      "evidence": "own236B complete noarg initializer; all768byte table writes, eight polynomial taps atd5c58 and unsigned domain; consumer2bf2b useslow/highseed bytes andupdate table, produces16-bit checksum"
     },
     {
       "name": "_initialize_multibyte_categories",
@@ -5077,6 +5078,55 @@
         "original_seconds": 22.304406334646046,
         "native_seconds": 6.177830656990409
       }
+    },
+    {
+      "name": "_initialize_checksums",
+      "classification": "application source",
+      "source": "src/checksum.c",
+      "source_sha256": "0141db40cb3f5b92950f622dc2027a586ff42c65fddeedf6ce09c49dfb3ac99e",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-checksum-locale-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-checksum-locale-native-2",
+      "original_receipt_sha256": "ebdbb204d8af623e8e00defcad03832006960fa7f4c88ec22317b76c0c638568",
+      "native_receipt_sha256": "f3aa5cfd71d51cc11abe339fb686bd6778c561eac001333ca340f0cebd4e966e",
+      "trial_sha256": "163113c6508c1298bd3438907fb3e93409d00e5cc360b2ea8f12b32870dddd91",
+      "audit_sha256": "0bea9fb5b798516488a0ab4a9065241b4be6322860f6c7634a615a8e84709808",
+      "code_chunks": [
+        [
+          234152,
+          234388
+        ]
+      ],
+      "comparison": {
+        "trial": "_initialize_checksums",
+        "frontier": "_initialize_multibyte_categories",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 2281,
+        "native_bss_size": 2312,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 6543,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 24.311954450793564,
+        "native_seconds": 6.025521132163703
+      },
+      "native_trial_sha256": "c10c52de4496b07faaad5c6a09c326fb6e84c598da5046feef48d75310252474",
+      "native_only_refresh": "original raw execution reused after checked exact native ELF binding-only delta"
     }
   ],
   "imports": [

@@ -1,0 +1,216 @@
+{
+  "schema": 1,
+  "status": "accepted exactly one application function after normal/declared restore pairs; native-only shared adoption",
+  "function": "_initialize_checksums",
+  "original_rva": [
+    234152,
+    234388
+  ],
+  "code_bytes": 236,
+  "source": "src/checksum.c",
+  "source_sha256": "0141db40cb3f5b92950f622dc2027a586ff42c65fddeedf6ce09c49dfb3ac99e",
+  "proofs": {
+    "normal": {
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-checksum-locale-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-checksum-locale-native-2",
+      "original_receipt_sha256": "ebdbb204d8af623e8e00defcad03832006960fa7f4c88ec22317b76c0c638568",
+      "native_receipt_sha256": "f3aa5cfd71d51cc11abe339fb686bd6778c561eac001333ca340f0cebd4e966e",
+      "trial_sha256": "163113c6508c1298bd3438907fb3e93409d00e5cc360b2ea8f12b32870dddd91",
+      "native_trial_sha256": "c10c52de4496b07faaad5c6a09c326fb6e84c598da5046feef48d75310252474",
+      "native_ELF_sha256": "118fcc1e4be3588bbaf04f66b32e0869299e9e0a92ffd7553451f94c1128cd06",
+      "native_compiled_source_record_sha256": "e0aaabd2d8312dea57c501447bdd83ccf0f255996656d76482a782753b26eda7",
+      "original_helper_sha256": "e6b87d727dce74440d56aac0ed65b6ecc159418af78ad99e34f161ddf6abbf3d",
+      "original_helper_source_sha256": "3160ca13553bed4416f891e800f892923442d1a91f2b1b75066ecd73def1a7a1",
+      "original_seconds": 24.311954450793564,
+      "native_GDB_seconds": 6.025521132163703,
+      "native_outer_accounting": {
+        "snapshot_provenance_setup_seconds": 0.03405230771750212,
+        "execution_seconds": 6.025521132163703,
+        "post_execution_verification_seconds": 3.9833133509382606,
+        "scope": "outer setup and verification; GDB subphases are in gdb-timing.json for minimal captures"
+      },
+      "native_GDB_accounting": {
+        "source_command_seconds": 3.79151779320091,
+        "source_command_count": 58,
+        "gdb_total_seconds": 6.025521132163703,
+        "startup_seconds": 0.09585720486938953,
+        "breakpoint_setup_seconds": 0.6120324414223433,
+        "collection_seconds": 4.0319460388273,
+        "serialization_io_seconds": 0.10662341862916946,
+        "residual_inferior_debugger_seconds": 1.1790620284155011,
+        "collector_count": 64,
+        "scope": "residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution"
+      }
+    },
+    "restore": {
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-checksum-restore-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-checksum-restore-native-1",
+      "original_receipt_sha256": "70ed317f52d12bea6697f80ae71b0fcbc4a12be48220a1a6bfc13c4ec5455e08",
+      "native_receipt_sha256": "7df868dde2fb4d9da336d666c9c7af0535c078b3a72ceb430ef18fa8aaf6a7ec",
+      "trial_sha256": "3c320ae0acec069563476eced41f4684b6ba7d12403d7459d58fd55939582d0d",
+      "native_trial_sha256": "3c320ae0acec069563476eced41f4684b6ba7d12403d7459d58fd55939582d0d",
+      "native_ELF_sha256": "118fcc1e4be3588bbaf04f66b32e0869299e9e0a92ffd7553451f94c1128cd06",
+      "native_compiled_source_record_sha256": "e0aaabd2d8312dea57c501447bdd83ccf0f255996656d76482a782753b26eda7",
+      "original_helper_sha256": "0b95e55bec3c9fa43bda691edcb8d8044d52932635f0ef584a83b03d5b1d1c01",
+      "original_helper_source_sha256": "feae3a511865074dcca23c736d5ec6990f73a37a6ec9d67ea65f9265ecdf3d95",
+      "original_seconds": 25.52987858094275,
+      "native_GDB_seconds": 6.965587763115764,
+      "native_outer_accounting": {
+        "snapshot_provenance_setup_seconds": 0.03400483727455139,
+        "execution_seconds": 6.965587763115764,
+        "post_execution_verification_seconds": 4.019105146639049,
+        "scope": "outer setup and verification; GDB subphases are in gdb-timing.json for minimal captures"
+      },
+      "native_GDB_accounting": {
+        "source_command_seconds": 4.135828956030309,
+        "source_command_count": 58,
+        "gdb_total_seconds": 6.965587763115764,
+        "startup_seconds": 0.099223836325109,
+        "breakpoint_setup_seconds": 1.1250135423615575,
+        "collection_seconds": 4.378882477991283,
+        "serialization_io_seconds": 0.11444307491183281,
+        "residual_inferior_debugger_seconds": 1.2480248315259814,
+        "collector_count": 64,
+        "scope": "residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution"
+      }
+    }
+  },
+  "affected_evidence": {
+    "checksum-locale-original-validation.json": {
+      "path": "cases/minimal/evidence/checksum-locale-original-validation.json",
+      "sha256": "da8c70cd1b3d291db08b4c95e12e8f2522d81c6eae930b4380bb205b50220248"
+    },
+    "checksum-locale-original-controls.json": {
+      "path": "cases/minimal/evidence/checksum-locale-original-controls.json",
+      "sha256": "51186df1991d264076926cd6bd2f4c4643b010a5bf61096bc4bbadf247a746b0"
+    },
+    "checksum-native-controls.json": {
+      "path": "cases/minimal/evidence/checksum-native-controls.json",
+      "sha256": "774a9dea3e7118f6e3ca6c1f25c76d9bb6e03a00c04516fa49c06ee81c1e346c"
+    },
+    "checksum-controller-controls.json": {
+      "path": "cases/minimal/evidence/checksum-controller-controls.json",
+      "sha256": "0d5b98b92f21a96eb50c4fc8eb7b2cd92053c57c57b982a1befbbc3326ed9f1e"
+    },
+    "checksum-controller-delta.json": {
+      "path": "cases/minimal/evidence/checksum-controller-delta.json",
+      "sha256": "250a1c583102cfb75db6794d849af4c3fd57c56fa45f23de9b456fbd6365d578"
+    }
+  },
+  "parent_reviews": {
+    "checksum-controller-parent-review.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/checksum-controller-parent-review.json",
+      "sha256": "93705addf847a18c497f9b1d7bb6de19e4e6673ce24c4f4876a5013b073dfee1"
+    }
+  },
+  "fresh_controls": {
+    "original_locale": 13,
+    "native_checksum_and_API": 22,
+    "controller_identity_and_mode": 3,
+    "seconds": 51.955201629549265
+  },
+  "auxiliary_roles": {
+    "initializer_tables": "768B value165 before BSS clear",
+    "actual_checksum_entry_tables": "768B value165; separately observed pre-seed real handoff",
+    "code_argument_allocator_or_callee_return_mock": false,
+    "normal_promotion_input": false
+  },
+  "shared_adoption": {
+    "commit": "f96537bfe",
+    "profile": "RECON_CRT_PROFILE_MSVCRT_510",
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "binding": "own original receipt before target lifecycle; actual API performs transition",
+    "initial_denied_profile_attempt_preserved": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-checksum-locale-native-1",
+    "unvisited_FILE_roles_claimed": false
+  },
+  "data_projection": {
+    "new_BSS_semantic_bytes": 768,
+    "total_BSS_semantic_bytes": 2281,
+    "native_BSS_bytes": 2312,
+    "BSS_padding_bytes": 31,
+    "initialized_semantic_bytes": 1977,
+    "initialized_native_padding_bytes": 51,
+    "original_unmodeled_snapshot_bytes": 6543,
+    "original_snapshot_bytes": 8520,
+    "native_snapshot_byte_equivalence_claimed": false
+  },
+  "coverage": {
+    "accepted_boundaries": 86,
+    "application_functions": 82,
+    "application_code_bytes": 5280,
+    "historical_CRT_support_functions": 2,
+    "historical_CRT_support_bytes": 451,
+    "generated_import_boundaries": 2,
+    "generated_import_bytes": 12,
+    "whole_code_extent_bytes": 751216,
+    "total_accepted_code_bytes": 5743,
+    "not_a_non_CRT_percentage": true
+  },
+  "fixture": {
+    "case": "dll-lifecycle-and-exports",
+    "Wine_calls": 0,
+    "build_seconds": 0.006081451661884785,
+    "setup_seconds": 0.0008420310914516449,
+    "execution_seconds": 0.0022015245631337166,
+    "checks_seconds": 0.003753015771508217,
+    "total_seconds": 0.013603797182440758
+  },
+  "acceptance": {
+    "name": "_initialize_checksums",
+    "classification": "application source",
+    "source": "src/checksum.c",
+    "source_sha256": "0141db40cb3f5b92950f622dc2027a586ff42c65fddeedf6ce09c49dfb3ac99e",
+    "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-checksum-locale-original-1",
+    "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-checksum-locale-native-2",
+    "original_receipt_sha256": "ebdbb204d8af623e8e00defcad03832006960fa7f4c88ec22317b76c0c638568",
+    "native_receipt_sha256": "f3aa5cfd71d51cc11abe339fb686bd6778c561eac001333ca340f0cebd4e966e",
+    "trial_sha256": "163113c6508c1298bd3438907fb3e93409d00e5cc360b2ea8f12b32870dddd91",
+    "audit_sha256": "0bea9fb5b798516488a0ab4a9065241b4be6322860f6c7634a615a8e84709808",
+    "code_chunks": [
+      [
+        234152,
+        234388
+      ]
+    ],
+    "comparison": {
+      "trial": "_initialize_checksums",
+      "frontier": "_initialize_multibyte_categories",
+      "seed": null,
+      "modeled_context_fields": 35,
+      "original_default_context": [
+        0,
+        0,
+        0
+      ],
+      "typed_bss_bytes": 2281,
+      "native_bss_size": 2312,
+      "native_c_padding_bytes": 31,
+      "output_constructor_fields_checked": 72,
+      "cleanup_registration_checked": true,
+      "nonzero_output_constructor_input_checked": false,
+      "token_semantic_bytes_checked": 17,
+      "token_pointer_arm_tested": false,
+      "token_unknown_tail_bytes_each": 32,
+      "deferred_work_pointer_checked": true,
+      "nonzero_deferred_constructor_input_checked": false,
+      "nonzero_expanded_BSS_restore_checked": false,
+      "original_unmodeled_snapshot_bytes": 6543,
+      "native_snapshot_byte_equivalence_claimed": false,
+      "whole_mask_bytes_checked": 751216,
+      "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+      "original_seconds": 24.311954450793564,
+      "native_seconds": 6.025521132163703
+    },
+    "native_trial_sha256": "c10c52de4496b07faaad5c6a09c326fb6e84c598da5046feef48d75310252474",
+    "native_only_refresh": "original raw execution reused after checked exact native ELF binding-only delta"
+  },
+  "next_frontier": "_initialize_multibyte_categories RVA39394; no body/MB selection success accepted",
+  "build_and_audit_accounting": {
+    "original_checksum_compile_seconds": 0.6824356438592076,
+    "original_final_link_seconds": 0.7311640297994018,
+    "native_checksum_compile_seconds": 0.10466586705297232,
+    "native_final_compile_and_link_seconds": 1.6308802235871553,
+    "strict_graph_audit_seconds": 0.1140829361975193,
+    "scope": "measured individual compiler/link/audit commands; parallel build wall time not inferred by summing jobs"
+  }
+}

@@ -226,6 +226,11 @@ int initialize_compiler_pass(void)
         frontend_bss.options.error_file = NULL;
         for (i = 0; i < 10; ++i)
             frontend_bss.language_contexts[i] = 0;
+        for (i = 0; i < 256; ++i) {
+            frontend_bss.checksum_tables.update[i] = 0;
+            frontend_bss.checksum_tables.high[i] = 0;
+            frontend_bss.checksum_tables.low[i] = 0;
+        }
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;
     }

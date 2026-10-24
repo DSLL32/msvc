@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "kind": "independently authenticated static isolated locale observation schema; no success implementation",
+  "provider_path": "toolchains/5.10/bin/MSVCRT.DLL",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "provider_bytes": 277776,
+  "target_sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+  "call": {
+    "IAT_rva": 823628,
+    "caller_return_rva": 233441,
+    "call_instruction_rva": 233435,
+    "call_bytes": "ff154c914c10",
+    "arguments": [
+      2,
+      273483448
+    ],
+    "locale_literal_bytes": "00",
+    "ABI": "cdecl8/RET0"
+  },
+  "exports": {
+    "__mb_cur_max": 261024,
+    "__lc_codepage": 260344,
+    "__lc_handle": 258472,
+    "_pctype": 261020,
+    "_mbctype": 258504,
+    "_ctype": 261032,
+    "setlocale": 22313,
+    "__argc": 260740,
+    "__argv": 260748,
+    "_environ": 260348,
+    "_errno": 25654,
+    "__doserrno": 25645,
+    "_getmbcp": 42355
+  },
+  "internal_state": {
+    "mb_flag_rva": 260476,
+    "mb_codepage_rva": 258496,
+    "TLS_index_rva": 249860,
+    "PTD_errno_offset": 8,
+    "PTD_doserrno_offset": 12
+  },
+  "canonical_instructions": [
+    {
+      "rva": 25654,
+      "bytes": "e888b1ffff83c008c3"
+    },
+    {
+      "rva": 25645,
+      "bytes": "e891b1ffff83c00cc3"
+    },
+    {
+      "rva": 5571,
+      "bytes": "5657ff154c6003788bf8a104d0037850ff15746003788bf085f6740c57"
+    },
+    {
+      "rva": 42355,
+      "bytes": "a17cf903788b0dc0f10378f7d81bc023c1c3"
+    },
+    {
+      "rva": 8791,
+      "bytes": "83ec14535556576a19e8aceeffff8b44242c83c40450e8de0000008bc8a1c0f1037883c4043bc8894c24280f84960000"
+    },
+    {
+      "rva": 22313,
+      "bytes": "81ec90000000535556578bbc24a40000"
+    }
+  ],
+  "table_sizes": {
+    "mbctype_bytes": 257,
+    "ctype_WORDS": 257,
+    "ctype_bytes": 514,
+    "lc_handles": 6
+  },
+  "observation_phases": [
+    "before actual public entry body",
+    "after actual API return before caller cleanup",
+    "next target helper entry"
+  ],
+  "ownership": "actual pointers, complete bounded bytes, VirtualQueryEx base/region/type/protection, provider static identity, old/new aliases and lifetime. No malloc object extent claim; no allocator interception.",
+  "target_and_vectors": "full original8520 live/snapshot and63132BSS, actual CRT3 argv/env separate Invoke26 complete roots/contents/ordering before/after/next; private vectors not emitted/committed",
+  "no_child_query_calls": true,
+  "no_state_seeding_for_API": true,
+  "transport_source": {
+    "path": "scripts/locale-observer.inc",
+    "sha256": "937791bdc4096b31fb59bcafb668c025805f91ed49259a0c99140ccf3afd9578"
+  }
+}

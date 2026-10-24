@@ -341,3 +341,17 @@ native GDB and2.41s lifecycle fixture including2.40s native rebuild (2.46ms
 execution). The original was reused unchanged across the reviewed shared-source
 rebuild; both immutable native executions remain available. No new fields or
 shared support were needed.
+
+The236-byte checksum initializer is accepted, adding three complete256-byte
+tables and reaching the actual multibyte helper at39394. Normal and nonzero
+restore/overwrite pairs match the full table outputs, callee ABI, unknown-byte
+and neighbor guards. The intervening isolated `setlocale(LC_CTYPE, "")` is now
+served by reviewed shared support: LCcodepage1252 and a new classification table,
+with internalMBflag/codepage still0, retained oldtable, persistent returned string,
+unchanged errors/FP/private vectors. Native builds explicitly select the510CRT
+profile; the initially denied unprofiled attempt is retained.38 affected denials
+pass. `cases/minimal/checksum-trial.json` records original24.31/25.53s and native
+GDB6.03/6.97s; native-only lifecycle replay is13.60ms (2.20ms execution).
+`scripts/check-checksum-history.py` statically revalidates both frozen pairs.
+The checkpoint has82 application functions/5280codebytes; historical CRT451B
+and generated imports12B are separate, against the751216B whole code extent.

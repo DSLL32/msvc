@@ -121,7 +121,7 @@ def main():
         for row in trial["ranges"]))
     shutil.copy2(PROJECT / "build/dll-capture.exe", output / "dll-capture.exe")
     shutil.copy2(PROJECT / "build/native/c1xx-host", output / "native-executable.elf")
-    for source in ("dll-capture.c", "invoke-arguments.h", "options-fields.h"):
+    for source in ("dll-capture.c", "invoke-arguments.h", "options-fields.h", "locale-observer.inc"):
         shutil.copy2(PROJECT / "scripts" / source, output / source)
     environment = transport.environment()
     if trial["case"] == "minimal":
@@ -149,6 +149,11 @@ def main():
         if trial.get('language_context_observers'):environment['C1XX_OBSERVE_LANGUAGE_CONTEXT']='1'
         environment.pop('C1XX_OBSERVE_ALIAS_ROOT',None)
         if trial.get('alias_root_observers'):environment['C1XX_OBSERVE_ALIAS_ROOT']='1'
+        environment.pop('C1XX_OBSERVE_CHECKSUM_TABLES',None)
+        environment.pop('C1XX_OBSERVE_ISOLATED_LOCALE',None)
+        if trial.get('checksum_observers'):
+            environment['C1XX_OBSERVE_CHECKSUM_TABLES']='1'
+            environment['C1XX_OBSERVE_ISOLATED_LOCALE']='1'
         environment.pop('C1XX_TEST_ARENA_RESET',None)
         if trial.get('test_arena_reset_seed'):environment['C1XX_TEST_ARENA_RESET']='1'
         environment.pop('C1XX_TEST_OUTPUT_CONSTRUCTOR',None)

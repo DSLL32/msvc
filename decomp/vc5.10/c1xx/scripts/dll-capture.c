@@ -37,6 +37,13 @@ static BYTE language_return_byte;
 static int alias_return_active;
 static DWORD alias_return_pc;
 static BYTE alias_return_byte;
+static DWORD locale_entry_pc,locale_return_pc,locale_entry_esp,locale_old_pctype,locale_result;
+static BYTE locale_entry_byte,locale_return_byte;
+static int locale_entry_active,locale_return_active,locale_complete;
+static int checksum_return_active;
+static DWORD checksum_return_pc;
+static BYTE checksum_return_byte;
+static void prepare_locale_observer(void);
 static BYTE restore_observer_byte;
 static DWORD aux_old_base, aux_new_base;
 static int aux_returned;
@@ -328,6 +335,10 @@ static void prepare_mask(void)
         patch(base+0x38c42,0xcc);system_observer_active=1;
         fprintf(events,"system-info-observer before=00038c42 after=00038c48 iat=000c91f4 provider=%08lx after-mask-readback=1\n",system_observer_provider);
     }
+    if(getenv("C1XX_OBSERVE_CHECKSUM_TABLES") && !baseline) {
+        BYTE taps[32];readmem(base+0xd5c58,taps,32);save_blob("checksum-taps-loaded.bin",taps,32);
+    }
+    prepare_locale_observer();
     fprintf(events, "mask snapshot=relocated-text.bin baseline=%d ranges=%u\n", baseline, count);
 }
 
@@ -372,6 +383,9 @@ static void save_frontend_state(const char *suffix)
         readmem(base + 0xcd580, language, 4);
         readmem(base + 0xc13d0, language + 1, 40);
         sprintf(name, "language-context-%s.bin", suffix); save_blob(name, language, sizeof(language));
+    }
+    if(getenv("C1XX_OBSERVE_CHECKSUM_TABLES")) {
+        readmem(base+0xbe970,data,768);sprintf(name,"checksum-tables-%s.bin",suffix);save_blob(name,data,768);
     }
     readmem(base + 0xcd7e0, values, 4);
     readmem(base + 0xc4d50, values + 1, 8);
@@ -530,6 +544,8 @@ static void seed_output_buffer(unsigned index, const char *role)
     fprintf(events, "output-seed object=%u role=%s data=snapshot+0 cursor=snapshot+4 context=snapshot+8 file=snapshot+12 unused-relocation=_initialize_frontend_01 capacity=64 ok=53 descriptor=37 mode=23\n", index + 1, role);
 }
 
+#include "locale-observer.inc"
+
 static void seed_options_restore(void)
 {
     unsigned i;
@@ -562,6 +578,10 @@ static void seed_options_restore(void)
         for (i=0;i<10;++i)slots[i]=1+(i&1);
         write_mem(base+0xc13d0,slots,40);
         fprintf(events,"language-seed point=initializer live-depth=7 saved-depth=3 slots=alternating1,2 no-code-mock=1\n");
+    }
+    if(getenv("C1XX_OBSERVE_CHECKSUM_TABLES")) {
+        BYTE tables[768];memset(tables,0xa5,sizeof(tables));write_mem(base+0xbe970,tables,sizeof(tables));
+        fprintf(events,"checksum-seed point=initializer bytes=768 value=165 code-mock=0\n");
     }
     persistent = base + 0xcb030; write_mem(base + 0xcb000, &persistent, 4);
     fprintf(events, "options-seed fields=106 initialized=81 bss=25 persistent=1 pointers=owned-interiors never-dereferenced=1 no-code-mock=1 allocation=%08lx\n", owned);
@@ -858,7 +878,7 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
     save_state();
     if(pool_cycle_active) {
         fprintf(events,"pool-registers seq=%u ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",sequence,context->Ebx,context->Esi,context->Edi,context->Ebp);
-        if(address==base+0x38f94 || address==base+0x1ee29 || address==base+0x1ee58 || address==base+0x1d738 || address==base+0x38f1b || address==base+0x38fad || address==base+0x2b834 || address==base+0x39282 || address==base+0x392a8) {
+        if(address==base+0x38f94 || address==base+0x1ee29 || address==base+0x1ee58 || address==base+0x1d738 || address==base+0x38f1b || address==base+0x38fad || address==base+0x2b834 || address==base+0x39282 || address==base+0x392a8 || address==base+0x39394) {
             BYTE *blob=(BYTE *)malloc(0x10000);char name[80];DWORD committed;
             if(!blob)fail("pool entry full BSS observation");
             readmem(base+0xb9000,blob,0xf69c);sprintf(name,"pool-bss-%03u.bin",sequence);save_blob(name,blob,0xf69c);
@@ -1117,6 +1137,26 @@ int main(int argc, char **argv)
                 patch(return_address, return_saved); return_active = 0;
                 context.Eip = address;
                 if (!SetThreadContext(thread, &context)) fail("CRT return context");
+            } else if(code==EXCEPTION_BREAKPOINT && checksum_return_active && address==checksum_return_pc) {
+                BYTE *bss=(BYTE *)malloc(0xf69c);if(!bss)fail("checksum return observer allocation");
+                fprintf(events,"checksum-return pc=%08lx esp=%08lx eax=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx error=%lu\n",address,context.Esp,context.Eax,context.Ebx,context.Esi,context.Edi,context.Ebp,thread_error(&context,thread));
+                save_frontend_state("checksum-return");readmem(base+0xb9000,bss,0xf69c);save_blob("checksum-return-BSS.bin",bss,0xf69c);free(bss);
+                save_blob("checksum-return-fp.bin",&context.FloatSave,sizeof(context.FloatSave));
+                patch(address,checksum_return_byte);checksum_return_active=0;context.Eip=address;if(!SetThreadContext(thread,&context))fail("checksum return context");
+            } else if(code==EXCEPTION_BREAKPOINT && locale_entry_active && address==locale_entry_pc) {
+                DWORD words[3];char input[2];readmem(context.Esp,words,sizeof(words));
+                if(words[0]!=base+0x38fe1 || words[1]!=2 || words[2]!=base+0xd06b8)fail("isolated locale actual caller/args");
+                readmem(words[2],input,1);if(input[0])fail("isolated locale empty literal");
+                fprintf(events,"locale-entry seq=%u pc=%08lx esp=%08lx return=%08lx category=%lu argument=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",sequence,address,context.Esp,words[0],words[1],words[2],context.Ebx,context.Esi,context.Edi,context.Ebp);
+                save_blob("locale-input.bin",input,1);locale_snapshot("before",&context,thread,event.dwThreadId);
+                locale_entry_esp=context.Esp;locale_return_pc=words[0];locale_return_byte=snapshot[locale_return_pc-base-code_rva];
+                if(locale_return_byte!=0x83)fail("locale caller return opcode");patch(locale_return_pc,0xcc);locale_return_active=1;
+                patch(address,locale_entry_byte);locale_entry_active=0;context.Eip=address;if(!SetThreadContext(thread,&context))fail("locale entry context");
+            } else if(code==EXCEPTION_BREAKPOINT && locale_return_active && address==locale_return_pc) {
+                locale_result=context.Eax;
+                fprintf(events,"locale-return seq=%u pc=%08lx esp=%08lx entry-esp=%08lx result=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",sequence,address,context.Esp,locale_entry_esp,locale_result,context.Ebx,context.Esi,context.Edi,context.Ebp);
+                locale_snapshot("after",&context,thread,event.dwThreadId);patch(address,locale_return_byte);locale_return_active=0;locale_complete=1;
+                context.Eip=address;if(!SetThreadContext(thread,&context))fail("locale return context");
             } else if (code == EXCEPTION_BREAKPOINT && alias_return_active && address == alias_return_pc) {
                 BYTE *bss=(BYTE *)malloc(0xf69c);
                 if (!bss) fail("alias return observer allocation");
@@ -1164,6 +1204,19 @@ int main(int argc, char **argv)
                     prepare_mask();
                 }
                 if (address == base + 0x384d4) seed_frontend_restore();
+                if(address==base+0x392a8 && getenv("C1XX_OBSERVE_CHECKSUM_TABLES")) {
+                    if(checksum_return_active)fail("duplicate checksum initializer");
+                    if(getenv("C1XX_TEST_INIT_RESTORE")) {
+                        BYTE *before,tables[768];before=(BYTE *)malloc(0xf69c);if(!before)fail("checksum pre-seed observer allocation");
+                        readmem(base+0xb9000,before,0xf69c);save_blob("checksum-entry-before-seed-BSS.bin",before,0xf69c);free(before);
+                        memset(tables,0xa5,sizeof(tables));write_mem(base+0xbe970,tables,sizeof(tables));
+                        fprintf(events,"checksum-seed point=actual-helper-entry bytes=768 value=165 code-mock=0\n");
+                    }
+                    readmem(context.Esp,&checksum_return_pc,4);if(checksum_return_pc!=base+0x38fd4)fail("checksum actual caller");
+                    checksum_return_byte=snapshot[checksum_return_pc-base-code_rva];if(checksum_return_byte!=0x68)fail("checksum return opcode");
+                    patch(checksum_return_pc,0xcc);checksum_return_active=1;
+                }
+                if(address==base+0x39394 && locale_complete)locale_snapshot("next",&context,thread,event.dwThreadId);
                 if (address == base + 0x39282 && getenv("C1XX_OBSERVE_ALIAS_ROOT")) {
                     if (alias_return_active) fail("duplicate alias initializer");
                     readmem(context.Esp,&alias_return_pc,4);

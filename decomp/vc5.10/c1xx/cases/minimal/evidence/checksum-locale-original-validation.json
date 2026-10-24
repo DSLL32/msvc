@@ -1,0 +1,270 @@
+{
+  "kind": "original-only isolated canonical setlocale witness; no native success or function acceptance",
+  "original_directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-checksum-locale-original-1",
+  "original_receipt_sha256": "ebdbb204d8af623e8e00defcad03832006960fa7f4c88ec22317b76c0c638568",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "target_sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+  "trial_sha256": "163113c6508c1298bd3438907fb3e93409d00e5cc360b2ea8f12b32870dddd91",
+  "schema_sha256": "8375d2bd054b98a325a7325f6974758c8eb6228dc0032be4aa111fb4ba0c3d16",
+  "checker_sha256": "9b2617bf35cdf088b42df3c4a232b83c5d6a9bdd8bd6e4c7ea8ae0dc70773d72",
+  "phases": {
+    "before": {
+      "words": [
+        2013265920,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2013526954,
+        2013526952,
+        3,
+        9048592,
+        9044384,
+        2013526954,
+        0
+      ],
+      "errors": [
+        0,
+        0,
+        203
+      ],
+      "fp": {
+        "cw": 639,
+        "sw": 32,
+        "tag": 65535,
+        "top": 0,
+        "live": []
+      },
+      "result": "",
+      "mapped_regions": {
+        "ctype": [
+          2013523968,
+          2013265920,
+          128,
+          20480,
+          4096,
+          8,
+          16777216
+        ],
+        "old-ctype": [
+          2013523968,
+          2013265920,
+          128,
+          20480,
+          4096,
+          8,
+          16777216
+        ],
+        "result": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "table_sha256": {
+        "mbctype": "2cdc20a27a8fc6b37dca7a733ffba7159c9a4feb9e07e4658a04e66def29e3ee",
+        "ctype": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725",
+        "old-ctype": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725"
+      }
+    },
+    "after": {
+      "words": [
+        2013265920,
+        1,
+        1252,
+        0,
+        0,
+        1033,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3883642,
+        2013526952,
+        3,
+        9048592,
+        9044384,
+        2013526954,
+        9050656
+      ],
+      "errors": [
+        0,
+        0,
+        203
+      ],
+      "fp": {
+        "cw": 639,
+        "sw": 32,
+        "tag": 65535,
+        "top": 0,
+        "live": []
+      },
+      "result": "English_United States.1252\u0000",
+      "mapped_regions": {
+        "ctype": [
+          3883008,
+          3866624,
+          4,
+          49152,
+          4096,
+          4,
+          131072
+        ],
+        "old-ctype": [
+          2013523968,
+          2013265920,
+          128,
+          20480,
+          4096,
+          8,
+          16777216
+        ],
+        "result": [
+          9048064,
+          9043968,
+          4,
+          61440,
+          4096,
+          4,
+          131072
+        ]
+      },
+      "table_sha256": {
+        "mbctype": "2cdc20a27a8fc6b37dca7a733ffba7159c9a4feb9e07e4658a04e66def29e3ee",
+        "ctype": "aba319e028b28540f24afb197c5735b0e29dc130fc8f5d165f27edf8de28296d",
+        "old-ctype": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725"
+      }
+    },
+    "next": {
+      "words": [
+        2013265920,
+        1,
+        1252,
+        0,
+        0,
+        1033,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3883642,
+        2013526952,
+        3,
+        9048592,
+        9044384,
+        2013526954,
+        9050656
+      ],
+      "errors": [
+        0,
+        0,
+        203
+      ],
+      "fp": {
+        "cw": 639,
+        "sw": 32,
+        "tag": 65535,
+        "top": 0,
+        "live": []
+      },
+      "result": "English_United States.1252\u0000",
+      "mapped_regions": {
+        "ctype": [
+          3883008,
+          3866624,
+          4,
+          49152,
+          4096,
+          4,
+          131072
+        ],
+        "old-ctype": [
+          2013523968,
+          2013265920,
+          128,
+          20480,
+          4096,
+          8,
+          16777216
+        ],
+        "result": [
+          9048064,
+          9043968,
+          4,
+          61440,
+          4096,
+          4,
+          131072
+        ]
+      },
+      "table_sha256": {
+        "mbctype": "2cdc20a27a8fc6b37dca7a733ffba7159c9a4feb9e07e4658a04e66def29e3ee",
+        "ctype": "aba319e028b28540f24afb197c5735b0e29dc130fc8f5d165f27edf8de28296d",
+        "old-ctype": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725"
+      }
+    }
+  },
+  "private_vectors": {
+    "before": {
+      "CRT-argv": {
+        "count": 3,
+        "sha256": "7003aeb46034505032b61697b7025ddc156fd3055adace4ed32da26545dbb5e3"
+      },
+      "CRT-environment": {
+        "count": 93,
+        "sha256": "c93e031a8b1b2947b7d66fe9f3ae5f48b7509db2cdb97c43c0f95fab5aca432b"
+      },
+      "Invoke-argv": {
+        "count": 26,
+        "sha256": "9f45a9ef66d783d5d869157e10b66f85990d021214ad35a3a196dfd0828a313f"
+      }
+    },
+    "after": {
+      "CRT-argv": {
+        "count": 3,
+        "sha256": "7003aeb46034505032b61697b7025ddc156fd3055adace4ed32da26545dbb5e3"
+      },
+      "CRT-environment": {
+        "count": 93,
+        "sha256": "c93e031a8b1b2947b7d66fe9f3ae5f48b7509db2cdb97c43c0f95fab5aca432b"
+      },
+      "Invoke-argv": {
+        "count": 26,
+        "sha256": "9f45a9ef66d783d5d869157e10b66f85990d021214ad35a3a196dfd0828a313f"
+      }
+    },
+    "next": {
+      "CRT-argv": {
+        "count": 3,
+        "sha256": "7003aeb46034505032b61697b7025ddc156fd3055adace4ed32da26545dbb5e3"
+      },
+      "CRT-environment": {
+        "count": 93,
+        "sha256": "c93e031a8b1b2947b7d66fe9f3ae5f48b7509db2cdb97c43c0f95fab5aca432b"
+      },
+      "Invoke-argv": {
+        "count": 26,
+        "sha256": "9f45a9ef66d783d5d869157e10b66f85990d021214ad35a3a196dfd0828a313f"
+      }
+    }
+  },
+  "complete_original_checksum_bytes": 768,
+  "pointer_ownership": "actual pointers/static-provider identities/mapped regions only; heap object extents UNPROVEN",
+  "full112_FP_unchanged": true,
+  "target_live_snapshot_BSS_unchanged": true,
+  "next_target_rva": 234388,
+  "artifacts_checked": 10772,
+  "seconds": 1.2907355977222323
+}

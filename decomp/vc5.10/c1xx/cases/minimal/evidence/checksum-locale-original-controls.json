@@ -1,0 +1,76 @@
+{
+  "kind": "fresh isolated API semantic denials; originals unchanged; no native equivalence",
+  "original_directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-checksum-locale-original-1",
+  "original_receipt_sha256": "ebdbb204d8af623e8e00defcad03832006960fa7f4c88ec22317b76c0c638568",
+  "checker_sha256": "9b2617bf35cdf088b42df3c4a232b83c5d6a9bdd8bd6e4c7ea8ae0dc70773d72",
+  "control_checker_sha256": "e9ff456bfddf49d226b0d1842d51d75cdc6ee85c27c6ae4e967815a7677096a4",
+  "count": 13,
+  "cases": [
+    {
+      "case": "internal-MB-flag",
+      "rejection": "isolated locale: actual isolated transition",
+      "transport_hash_rebound": true
+    },
+    {
+      "case": "MB-table",
+      "rejection": "isolated locale: return-to-next lifetime/FP/error stability",
+      "transport_hash_rebound": true
+    },
+    {
+      "case": "static-ctype-EOF",
+      "rejection": "isolated locale: static initial ctype content identity",
+      "transport_hash_rebound": true
+    },
+    {
+      "case": "retained-old-table",
+      "rejection": "isolated locale: return-to-next lifetime/FP/error stability",
+      "transport_hash_rebound": true
+    },
+    {
+      "case": "result-lifetime",
+      "rejection": "isolated locale: return-to-next lifetime/FP/error stability",
+      "transport_hash_rebound": true
+    },
+    {
+      "case": "FP-control",
+      "rejection": "isolated locale: return-to-next lifetime/FP/error stability",
+      "transport_hash_rebound": true
+    },
+    {
+      "case": "target-unknown-BSS",
+      "rejection": "isolated locale: full original target live/snapshot/BSS mutation",
+      "transport_hash_rebound": true
+    },
+    {
+      "case": "private-vector",
+      "rejection": "isolated locale: private ordered vector/storage drift: CRT-environment",
+      "transport_hash_rebound": true
+    },
+    {
+      "case": "mapped-region-state",
+      "rejection": "isolated locale: observed mapped range: ctype",
+      "transport_hash_rebound": true
+    },
+    {
+      "case": "checksum-table",
+      "rejection": "isolated locale: complete original checksum output/API prestate",
+      "transport_hash_rebound": true
+    },
+    {
+      "case": "saved-snapshot",
+      "rejection": "isolated locale: full original target live/snapshot/BSS mutation",
+      "transport_hash_rebound": true
+    },
+    {
+      "case": "public-category",
+      "rejection": "isolated locale: cdecl arguments/RET0/nonvolatile ABI",
+      "transport_hash_rebound": true
+    },
+    {
+      "case": "public-return-stack",
+      "rejection": "isolated locale: cdecl arguments/RET0/nonvolatile ABI",
+      "transport_hash_rebound": true
+    }
+  ],
+  "seconds": 22.017015273682773
+}
