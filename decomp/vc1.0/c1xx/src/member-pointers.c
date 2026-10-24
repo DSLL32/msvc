@@ -497,3 +497,13 @@ int __stdcall data_member_pointer_uses_zero_null(CType *type)
     CppSymbol *owner = member_pointer_owner_class(type);
     return (owner->detail.class_info->alignment_flags & 0x40) != 0;
 }
+
+/* Original 0x4a9d0..0x4a9f6, stdcall4. Interpret the member offset
+   as pointer addition, then dereference using the member's unwrapped type. */
+IrToken *__stdcall apply_simple_data_member_pointer(IrToken *expression)
+{
+    CType *type = intern_type((TypeDescription *)drop_first_type_shape(
+        expression->tail.right->type));
+    expression->kind = 0x5a;
+    return new_typed_unary_expression(0x46, type, expression);
+}

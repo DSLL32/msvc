@@ -401,7 +401,6 @@ void __stdcall type_warning(unsigned level, unsigned code, CType *type) { __asm 
 IrToken *__stdcall make_address_temporary(IrToken *expression) { __asm { int 3 } return 0; }
 int __stdcall subtraction_overflows(int left, int right, short unsigned_arithmetic, unsigned short bytes) { __asm { int 3 } return 0; }
 int compare_extended(unsigned short mask, const Extended *left, const Extended *right) { __asm { int 3 } return 0; }
-IrToken *__stdcall apply_simple_data_member_pointer(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall apply_virtual_data_member_pointer(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall apply_general_data_member_pointer(IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall resolve_untyped_binary_operand(unsigned char operation, IrToken **operand, IrToken *other) { __asm { int 3 } }

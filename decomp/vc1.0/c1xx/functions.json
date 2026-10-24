@@ -1213,7 +1213,8 @@
     "_make_null_member_function@4",
     "_member_pointer_function_type@4",
     "_make_null_simple_data_pointer@4",
-    "_data_member_pointer_uses_zero_null@4"
+    "_data_member_pointer_uses_zero_null@4",
+    "_apply_simple_data_member_pointer@4"
   ],
   "driver": [
     {
@@ -8465,7 +8466,7 @@
     {
       "name": "_apply_simple_data_member_pointer@4",
       "start": 305616,
-      "end": 305617
+      "end": 305655
     },
     {
       "name": "_apply_virtual_data_member_pointer@4",
@@ -8811,7 +8812,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_apply_simple_data_member_pointer@4",
+      "terminal": "_find_label_record@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8834,7 +8835,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1208-data_member_pointer_uses_zero_null-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1209-apply_simple_data_member_pointer-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -9048,7 +9049,8 @@
         "cases/frontiers/state_machine_debug/1205-make_null_member_function-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1206-member_pointer_function_type-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1207-make_null_simple_data_pointer-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1208-data_member_pointer_uses_zero_null-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1208-data_member_pointer_uses_zero_null-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1209-apply_simple_data_member_pointer-4/frontier-extension.json"
       ]
     }
   },
