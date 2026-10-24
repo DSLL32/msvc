@@ -522,8 +522,8 @@
     }
   },
   "metadata_sha256": {
-    "functions.json": "251d46f5215472612adbc45cf81ac7f4862e303f973482d75f9fc0679ec9acfd",
-    "runtime.json": "7894cd38e5c6476a65e8f6402e57cc2d3bab15ea1438dcbfe07469fae6014b3b",
+    "functions.json": "ec9dd73b273ee2c8f94d4c0db0dc4a06c21646ca17d808432eee9008ae255a96",
+    "runtime.json": "75567dfa19b12934940c97f2eccf3941dd4201912d48e81ac33fc96c3736cb69",
     "replay-cases.json": "7917cd8dc1c964b39204545c7e4d0ea8e81c848fbc16d374d455dcc084748d60"
   },
   "application_definitions": {
@@ -735,6 +735,11 @@
     "check_explicit_modules": {
       "source": "src/pass-one.c",
       "logical": "_check_explicit_modules",
+      "implementation": "C"
+    },
+    "checksum_image_file": {
+      "source": "src/checksum.c",
+      "logical": "_checksum_image_file",
       "implementation": "C"
     },
     "checksum_mapped_image": {
@@ -1061,11 +1066,6 @@
       "source": "src/modules.c",
       "logical": "_create_section",
       "implementation": "C"
-    },
-    "crt_filelength": {
-      "source": "src/option-stubs.c",
-      "logical": "_crt_filelength",
-      "implementation": "stub-C"
     },
     "debug_enabled": {
       "source": "src/driver.c",
@@ -2875,6 +2875,11 @@
     "main": {
       "source": "src/link.c",
       "logical": "_main",
+      "implementation": "C"
+    },
+    "make_import_section_read_only": {
+      "source": "src/editor-bind.c",
+      "logical": "_make_import_section_read_only",
       "implementation": "C"
     },
     "make_section_header": {
@@ -5399,7 +5404,9 @@
     "print_external_table",
     "copy_defined_names",
     "add_default_libraries",
-    "print_module_debug_info"
+    "print_module_debug_info",
+    "checksum_image_file",
+    "make_import_section_read_only"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5554,7 +5561,9 @@
       "__unlink",
       "__snprintf",
       "_vfprintf",
-      "__setmode"
+      "__setmode",
+      "__fileno",
+      "__filelength"
     ],
     "import": [
       "import:GetCommandLineA",

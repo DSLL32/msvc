@@ -1,0 +1,54 @@
+{
+  "status": "Proven shippedCRT variant, zeroappcredit/no handwrittenCRT",
+  "library": "toolchains/1.0-nt/lib/LIBC.LIB",
+  "member": "lowio\\obj\\i386\\FLENGTH.OBJ",
+  "object_sha256": "a9d3177d187153ee732cb5f619282ee4c7f57a7c4f14c320648b68f87d3a6e21",
+  "start": 333488,
+  "end": 333600,
+  "original_body_sha256": "d620254a38d81af175815f525cd06daabdf642caeb86da903075a79801d9ccc8",
+  "relocations": [
+    {
+      "offset": 9,
+      "kind": 6,
+      "symbol": "__nhandle",
+      "actual_target": "0x85618"
+    },
+    {
+      "offset": 17,
+      "kind": 6,
+      "symbol": "_errno",
+      "actual_target": "0x852d8"
+    },
+    {
+      "offset": 27,
+      "kind": 6,
+      "symbol": "__doserrno",
+      "actual_target": "0x852dc"
+    },
+    {
+      "offset": 50,
+      "kind": 20,
+      "symbol": "__lseek",
+      "actual_target": "0x55bb0"
+    },
+    {
+      "offset": 81,
+      "kind": 20,
+      "symbol": "__lseek",
+      "actual_target": "0x55bb0"
+    },
+    {
+      "offset": 99,
+      "kind": 20,
+      "symbol": "__lseek",
+      "actual_target": "0x55bb0"
+    }
+  ],
+  "only_nonrelocation_difference": {
+    "offset": 90,
+    "original": "CMP EDI,ESI",
+    "shipped": "CMP ESI,EDI",
+    "consumer": "JE uses onlyZF, symmetric equality; no other flags read beforenextproducer"
+  },
+  "native_scope": "Public _filelength actualfd/length/errno/DOS/Last/FP and caller. No internalCRTABI equivalence claim; shared recon_filelength uses genuine tell/end/restore."
+}

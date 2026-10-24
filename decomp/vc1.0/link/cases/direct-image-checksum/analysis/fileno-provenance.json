@@ -1,0 +1,9 @@
+{
+  "status": "Byte-exact shippedCRT, zeroappcredit/no handwrittenCRT",
+  "member": "stdio\\obj\\i386\\FILENO.OBJ",
+  "object_sha256": "0997df6d99e7fc2d364ca6e3966505dba76417ca09f7e9a0c75b866daad9537d",
+  "start": 375728,
+  "end": 375744,
+  "code_sha256": "7eb2ad80e2715f11bfbde60840984c102712660d2fd9fc9bd67707b24af40928",
+  "public_contract": "Actual fopen-owned FILE* and consumed descriptor DWORD+16, returns3, caller returnPC4ecaa/4ed25 within checksumwrapper. Native recon_fileno only actualchecksum_image_file caller, identical10entry/returnobservations; no CRT-private layout equivalence claim."
+}

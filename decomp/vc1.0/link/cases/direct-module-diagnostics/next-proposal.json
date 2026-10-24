@@ -1,0 +1,43 @@
+{
+  "status": "Read-only proposal awaiting parentreview; no capture/reconstruction started",
+  "name": "Direct image-helper finalization/checksum lifecycle",
+  "reach": "Explicit external direct support, not public EDIT CLI reach of dormant wrappers",
+  "starting_checkpoint": "a25ef055d9cdd7f8b25ee496062ce618d0545cf2",
+  "targets": [
+    {
+      "entry": "0x4f4f0",
+      "end": "0x4f537",
+      "extent_bytes": 71,
+      "proposed_name": "make_import_section_read_only",
+      "ABI": "cdecl void(BoundImage *)",
+      "proof": "Actual section_count+28/sections+32 from genuine accepted map_bind_image; 40Bsection scan, first .idata headerCharacteristics=(old&3fffffff)|40000000."
+    },
+    {
+      "entry": "0x4ec70",
+      "end": "0x4ed57",
+      "extent_bytes": 231,
+      "proposed_name": "checksum_image_file",
+      "ABI": "cdecl int(const char *,unsigned long *previous,unsigned long *checksum)",
+      "proof": "Actual3formals, thirdpointer doubles as read-only mode predicate; existing internal checksum_mapped_image does algorithm/writeback.0success,1openfailure,2mappingfailure,3viewfailure from originalbody; do not force rare providerfailure."
+    }
+  ],
+  "provisional_extent_bytes": 302,
+  "CRT_policy": "No new handwritten CRT; reached __filelength is shipped/publicboundarysupport with strict identity/ABI/mask and zeroappcredit. Existing recon_filelength/native APIs available; new shim needs only if actual evidence shows gap.",
+  "owned_input_plan": {
+    "source": "cases/editor-rebase-bind/inputs/client.exe",
+    "bytes": 2097152,
+    "sha256": "2c92f7b485af6f6c475315024749fe605a123402c1e5687ab609a24816c2783a",
+    "provenance": "Prior original-validated editor workflow, real PE imports+relocations and .idata initiallyC0000040. Copy immutableowned input, never mutate priorcase.",
+    "normalization": []
+  },
+  "workflow": [
+    "External typed driver reads checksum via new filewrapper with owned previous/calculatedDWORD outputs+guards. Fullimage unchanged; independently calculate against fullphysicalbytes.",
+    "Use accepted map_bind_image(file,&owned36Bworkspace,0,0) to establish live actualbase/NTheaders/sectionowners, then new first-.idata read-only helper. Verify only intendedCharacteristics DWORD changed and genuineowners/guards preserved; actualUnmapViewOfFile/CloseHandle persist output. No privateglobalstate seed, no special module-span FlushView seam.",
+    "Calculate on actualmodifiedfile, then new checksum wrapper with checksumNULL performs realr+b mapping and writes checksum. Re-read through nonNULLwrapper and prove stored/computed equality and idempotentwrite on actualpreviousoutput.",
+    "Optional ordinary missing filename within same APIworkflow only if useful: actualfopenfailure1 and observed liveerrors/fileabsence, no forced mapping/viewfailure.",
+    "Externalreport records actualinputformals/returns/outputDWORDs and header before/after. Cachednativefixture feeds its own prior-stageartifact; fullrawfiles/status/streams/inventory exact, no outputrepair/clocknormalization."
+  ],
+  "acceptance_plan": "One untouchedoriginal baseline of coherentworkflow using existing owned-stack cdecl seam; observe wholeparentformals/BoundImageowners, stack/nonvolatiles/actualFP startup53/liveerrors; then freshmasked/native firstentries+returns in actual order. Unexpectedcalls staystubs. Wholefunction C, originalcompiler/commongraph/data/ABI/extent checks, cached86+newcase andfocuseddenials. No automaticrepeat absentinstability.",
+  "provenance_review": "analysis/residual-review.json: complete LIBC417/LIBCMT421/LIBCX32all9code sections, no matching sections; positive nonCRTclassification instead rests on exact internalPEchecksum/BoundImage ownership. No complete nonCRTdenominator.",
+  "other_pending": "12996unacceptedunclassifiedbytes remain. Resource/far-string provenance staysunresolved; originalstaleC6/legacyresource/cancellationdefects separate. Additional standaloneBIND parser4faf0 and allocationstatistics36290/362c0 are not bundled into thiscase."
+}

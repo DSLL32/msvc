@@ -1,0 +1,91 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "control": "empty-observations",
+      "status": "rejected"
+    },
+    {
+      "control": "wrong-filename-owner",
+      "status": "rejected"
+    },
+    {
+      "control": "wrong-previous-owner",
+      "status": "rejected"
+    },
+    {
+      "control": "missing-formal",
+      "status": "rejected"
+    },
+    {
+      "control": "wrong-output-value",
+      "status": "rejected"
+    },
+    {
+      "control": "wrong-CW",
+      "status": "rejected"
+    },
+    {
+      "control": "wrong-status",
+      "status": "rejected"
+    },
+    {
+      "control": "wrong-tags",
+      "status": "rejected"
+    },
+    {
+      "control": "wrong-error",
+      "status": "rejected"
+    },
+    {
+      "control": "wrong-DOS",
+      "status": "rejected"
+    },
+    {
+      "control": "wrong-LastError",
+      "status": "rejected"
+    },
+    {
+      "control": "guard-write",
+      "status": "rejected"
+    },
+    {
+      "control": "wrong-stream-descriptor",
+      "status": "rejected"
+    },
+    {
+      "control": "wrong-public-caller",
+      "status": "rejected"
+    },
+    {
+      "control": "wrong-original-caller",
+      "status": "rejected"
+    },
+    {
+      "control": "wrong-return",
+      "status": "rejected"
+    },
+    {
+      "control": "wrong-nonvolatile",
+      "status": "rejected"
+    },
+    {
+      "control": "wrong-stack-cleanup",
+      "status": "rejected"
+    },
+    {
+      "control": "wrong-mapped-owner",
+      "status": "rejected"
+    },
+    {
+      "control": "wrong-section-bytes",
+      "status": "rejected"
+    },
+    {
+      "control": "missing-file-wrong-error",
+      "status": "rejected"
+    }
+  ],
+  "seconds": 0.06335228029638529,
+  "scope": "Frozen packets only; no target/debugger/original/Wine. No state exclusions."
+}

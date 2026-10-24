@@ -1,0 +1,23 @@
+{
+  "status": "Preserved failed preacceptance observer inventory, corrected atnextactualfrontier",
+  "original_receipt": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-image-checksum/masked-dzqzatlz/receipt.json",
+    "bytes": 2487,
+    "sha256": "4bf7dad6246478213922b4a1283efb1aa3a0e1e4fafe325a62e68adf09bb8b1f"
+  },
+  "native_receipt": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/image-checksum-gdb-m645suev/receipt.json",
+    "bytes": 438,
+    "sha256": "1cf99414c720a42803bd53d4e77d5d66b8114a88c51f683a1eb7d716c51ece49"
+  },
+  "difference": "Original first stopped at unaccepted __fileno5bbb0; initial nativeobserver omittedthat actualCRTboundary and stopped at recon_filelength. No acceptance from mismatchedinventory; namedcaller-qualified __fileno observation added, nextpair matches.",
+  "corrected": "acceptance/fileno-frontier/comparison.json",
+  "native_initial_link_failure": {
+    "log": {
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-image-checksum/native-initial-build.stderr",
+      "bytes": 14170,
+      "sha256": "88a4c4c18bb54f3d2246bf6108b099ca09384235c451460f056320224499bcaf"
+    },
+    "cause": "Removed old unaccepted crt_filelength stub while process_options still referencedalias; sourcecall corrected to ordinary _filelength with verified sameoriginaltarget. No new CRT source."
+  }
+}

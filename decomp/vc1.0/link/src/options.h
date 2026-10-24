@@ -33,5 +33,4 @@ unsigned char read_switch_number(ParsedSwitch *,unsigned short,unsigned long *);
 typedef void (*FatalRoutine)(const char *,int,...);
 typedef void (*WarningRoutine)(const char *,unsigned,...);
 void initialize_order(FatalRoutine,WarningRoutine);
-long crt_filelength(int);
 #endif

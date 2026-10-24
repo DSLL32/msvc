@@ -306,7 +306,7 @@ void process_options(Image *image,unsigned char directives,unsigned char library
                 }
                 if (!stream) { fatal_message(program_name,7,text+5); goto next; }
             }
-            size=crt_filelength(stream->_file);
+            size=_filelength(stream->_file);
             if (size<64) fatal_message(program_name,0x23,text+5);
             aligned=(size+7)&~7UL;
             dos_stub_template=malloc(aligned+4);

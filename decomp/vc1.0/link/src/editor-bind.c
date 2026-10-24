@@ -336,3 +336,19 @@ int resolve_bound_import(const unsigned long *lookup,BoundImage *image,
         fprintf(stdout,"BIND: Hint %lx Name %s Bound to %lx\n",(unsigned long)hint,name->name,*output);
     return 1;
 }
+
+/* Original [0004f4f0,0004f537). Change only the first import section's
+ * read/write bits; other section characteristics remain as supplied. */
+void make_import_section_read_only(BoundImage *image)
+{
+    PIMAGE_SECTION_HEADER section;
+    unsigned long index;
+    section=image->sections;
+    for (index=0;index<image->section_count;++index,++section) {
+        if (!_strcmpi((const char *)section->Name,".idata")) {
+            section->Characteristics &= 0x3fffffffUL;
+            section->Characteristics |= IMAGE_SCN_MEM_READ;
+            break;
+        }
+    }
+}

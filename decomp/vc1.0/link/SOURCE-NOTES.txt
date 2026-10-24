@@ -1437,3 +1437,22 @@ full raw EXE/MAP/streams/report equality. No timestamp normalization or original
 repeat. Case README/analysis/acceptance/receipts retain scope and35 offline denials.
 All86cached native cases, canonical build and830CFG audits pass; no fixture invokes
 Wine/debugger/original capture. Coverage12996unclassified bytes remains pending.
+
+Direct image-helper lifecycle, 995 frontiers
+-------------------------------------------
+checksum_image_file4ec70..4ed57 uses actual third-pointer nonNULL as read-only mode
+and checksum output, NULL as writable-mode/writeback selection. Close mapping
+handle before filelength/checksum, then unmap/fclose exactly as original. Actual
+_fileno calls remain functions despite SDKmacro, preserving graph; the old unaccepted
+crt_filelength alias is replaced by public _filelength with verified same target.
+make_import_section_read_only4f4f0..4f537 scans actual BoundImage+28/+32,40-byte
+sections and first .idata; mask3fffffff thenOR40000000, leaving other flags intact.
+Two whole bodies add302instructions/302extent bytes. No new target globals.
+Fresh50 actual formals/owners/definedstate/stack/returns and full7stage files match
+with independent full-file checksum/idempotentwrite/missing-file proof. No state
+qualification/normalization. Two shippedCRT public support entries128extent bytes
+are separately identified, including FLENGTH's reversed symmetricCMP beforeJE;
+no original/internal CRT ABI imitation or new C bodies. Original untampered input
+and failed observer/link attempts remain ordinary owned raw/path+hash evidence.
+All87cached native cases and833commonCFG/canonical checks pass. See caseREADME,
+provenance/comparison/coverage/timing records for exact direct/public scope.

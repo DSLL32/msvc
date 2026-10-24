@@ -71,4 +71,6 @@ PIMAGE_NT_HEADERS WINAPI mapped_image_headers(void *);
 void *WINAPI mapped_image_directory(void *,unsigned char,unsigned short,unsigned long *);
 void *mapped_rebase_rva(unsigned long,RebaseImage *);
 PIMAGE_NT_HEADERS checksum_mapped_image(void *,unsigned long,unsigned long *,unsigned long *);
+int checksum_image_file(const char *,unsigned long *,unsigned long *);
+void make_import_section_read_only(BoundImage *);
 #endif

@@ -1,0 +1,17 @@
+{
+  "command": [
+    "gdb",
+    "-q",
+    "-nx",
+    "-batch",
+    "-ex",
+    "file /root/msvc2/decomp/vc1.0/link/build/native/image-checksum",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc1.0/link/image-checksum-gdb-gczuc6r8/observe.py"
+  ],
+  "seconds": 0.1483070058748126,
+  "status": 0,
+  "trial": [],
+  "support": [],
+  "elf_sha256": "a5c1015ead0bdb250a0889e2bba01211adcaf5780ed4b09a4dc82b9c24d1a415"
+}

@@ -990,7 +990,11 @@
     "_print_external_table",
     "_copy_defined_names",
     "_add_default_libraries",
-    "_print_module_debug_info"
+    "_print_module_debug_info",
+    "_checksum_image_file",
+    "__fileno",
+    "__filelength",
+    "_make_import_section_read_only"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1554,14 +1558,6 @@
       "source": "src/runtime.c",
       "abi": "cdecl size_t(void *,size_t,size_t,FILE *)",
       "evidence": "Matched native fread51550..516a4 after renaming prior unaccepted crt_fread stub. Full old CRT buffering/direct-read/refill loop, unsigned product/count behavior, EOF/error partial element count and intrinsic copy. Calls only existing _read55980 and _filbuf53b30; shipped CRT body not assumed equivalent."
-    },
-    {
-      "name": "_crt_filelength",
-      "start": 333488,
-      "end": 333489,
-      "implementation": "stub-C",
-      "source": "src/option-stubs.c",
-      "abi": "cdecl long(int file)"
     },
     {
       "name": "_release_text",
@@ -8634,6 +8630,24 @@
       "implementation": "C",
       "abi": "cdecl void(void), actual global ModuleDebugInfo pointer/count inputs observed",
       "evidence": "Fresh direct-module-diagnostics entry/return, actualformals/hiddenmoduleowner inputs, immutablelifetimes, exactfreshclock-aligned EXE/MAP/stdout/report and savedmainexit0. Only reviewed deadpost-mainLast1224/0+C0 qualify; DR0+API/nativewatchzeroaccess through exit. Directsupport, notpublicCLI."
+    },
+    {
+      "name": "_checksum_image_file",
+      "start": 322672,
+      "end": 322903,
+      "implementation": "C",
+      "source": "src/checksum.c",
+      "abi": "cdecl int(const char *filename,unsigned long *previous,unsigned long *checksum)",
+      "evidence": "Fresh direct-image-checksum actual formals/ownedBoundImage+FILEdescriptor/guards/fullFP+liveerrors,50entry-return observations and complete7rawstage files original/native/baseline exact. Externaldirectsupport; publicCLI reach notclaimed. Cases/direct-image-checksum."
+    },
+    {
+      "name": "_make_import_section_read_only",
+      "start": 324848,
+      "end": 324919,
+      "implementation": "C",
+      "source": "src/editor-bind.c",
+      "abi": "cdecl void(BoundImage *image)",
+      "evidence": "Fresh direct-image-checksum actual formals/ownedBoundImage+FILEdescriptor/guards/fullFP+liveerrors,50entry-return observations and complete7rawstage files original/native/baseline exact. Externaldirectsupport; publicCLI reach notclaimed. Cases/direct-image-checksum."
     }
   ],
   "c_stub_references": [
@@ -9630,6 +9644,10 @@
     "direct-symbol-tables",
     "direct-symbol-tables",
     "direct-module-diagnostics",
-    "direct-module-diagnostics"
+    "direct-module-diagnostics",
+    "direct-image-checksum",
+    "direct-image-checksum",
+    "direct-image-checksum",
+    "direct-image-checksum"
   ]
 }

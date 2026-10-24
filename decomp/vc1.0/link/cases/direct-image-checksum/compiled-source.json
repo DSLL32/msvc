@@ -1,0 +1,92 @@
+{
+  "status": "pass",
+  "files": [
+    {
+      "path": "src/checksum.c",
+      "bytes": 3223,
+      "sha256": "54dcfed429df8b227273c2a1503cd712126685ac8c2fc24dac292ef277ef3755"
+    },
+    {
+      "path": "src/editor-bind.c",
+      "bytes": 14596,
+      "sha256": "4dddadd22b7bf720634f1cd486005f4036aa72f6595bb786132f95ce165272f0"
+    },
+    {
+      "path": "src/editor-image.h",
+      "bytes": 3420,
+      "sha256": "87ce292ab60ad598dbfcc9b7122fffb6806b4b80cf181ab8d69cf0591cb9a565"
+    },
+    {
+      "path": "src/options.c",
+      "bytes": 25783,
+      "sha256": "088b4dc70d619272f1f9e1cfed1e3b713cc543b632d2f1e90ca16c5f26d1e0dd"
+    },
+    {
+      "path": "src/options.h",
+      "bytes": 1556,
+      "sha256": "a3d0c1ca94008f711e106111f89f9cf34ba458fb94e239654a1c44ec4b7b2c61"
+    },
+    {
+      "path": "src/option-stubs.c",
+      "bytes": 102,
+      "sha256": "722e72e1bdfe46d7b7dc2fc7f95b2c1d37c8363970b78daf3072725fab3e516b"
+    },
+    {
+      "path": "scripts/native-image-checksum.c",
+      "bytes": 3493,
+      "sha256": "7ac416e94007adcf81394ecec00a969c8dab0b72abaef37fdba051b5bfa8afa6"
+    },
+    {
+      "path": "scripts/native-module.c",
+      "bytes": 2826,
+      "sha256": "ce4e416ec3f04023e7aecad2b0ba3c51aebf60358e6b07afa1130cf3f3869ef3"
+    },
+    {
+      "path": "Makefile",
+      "bytes": 19310,
+      "sha256": "e327d5b989dbb74355863a7211e58de8e320bcf224a81d0429ec92d28c9ec2de"
+    },
+    {
+      "path": "functions.json",
+      "bytes": 421035,
+      "sha256": "ec9dd73b273ee2c8f94d4c0db0dc4a06c21646ca17d808432eee9008ae255a96"
+    },
+    {
+      "path": "runtime.json",
+      "bytes": 40286,
+      "sha256": "75567dfa19b12934940c97f2eccf3941dd4201912d48e81ac33fc96c3736cb69"
+    },
+    {
+      "path": "scripts/identify-runtime.py",
+      "bytes": 9009,
+      "sha256": "fe3bc99ca9ca0e4d252e2da25cd285f48fb638a015f5273e0bf7889b7565e53a"
+    },
+    {
+      "path": "build/native/image-checksum",
+      "bytes": 1446384,
+      "sha256": "b707f091254c4b17d7f9ca37ecd8fad2fbc7ec44df0c0f7f31c3bfd166513589"
+    },
+    {
+      "path": "build/native-trace/image-checksum",
+      "bytes": 1517912,
+      "sha256": "d709e88a4c5b1eaf97f5fe227d88160ac305faf5a9ab9bd1560b61785789e431"
+    },
+    {
+      "path": "build/link.exe",
+      "bytes": 2097152,
+      "sha256": "f8283d9615185839751ea78c0eb3190ff9f555da85fc44c4250e999708359161"
+    }
+  ],
+  "shared_inventory": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-image-checksum/final/shared-before.json",
+    "bytes": 17245,
+    "sha256": "4824aefefa76e05c8fdeccbc4b9029980c2892c46095000c1db994a8298b1667"
+  },
+  "scope": "Same reconstructed Win32 C, VC1-compilable; uninstrumented externaldriver and startup53 only for thislink. CRT fromshippedlibrary/shared publicboundary, no target-local CRTimplementation. Exact reviewed sharedc11fa6763C/H unchanged through build/suite.",
+  "post_validation_whitespace_cleanup": {
+    "path": "src/edit-stubs.c",
+    "compiled_sha256": "385c0b57565ba8f42bc9e0cb9f2fd7cabecb51a77294857de73d35e2696ded22",
+    "current_sha256": "5094a02b940039b61a54d462d8b3d2ca5ae3d5a3f04010351d637bc6ff393c55",
+    "change": "Removed one additional EOF LF only, restoring exact preexisting fallback source fromHEAD; no code/ABI/instruction change. Tested ELF hashes retained, no runtime rerun for this nonfunctional cleanup."
+  }
+}

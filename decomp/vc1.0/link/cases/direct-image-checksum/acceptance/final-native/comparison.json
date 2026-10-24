@@ -1,0 +1,11 @@
+{
+  "status": "pass",
+  "matched_observations": 50,
+  "complete": true,
+  "scope": "Actual formals/ownededges/guards/liveheaders/errors/CW/SW/tags/emptyregisters strict; voidhelperEAX unconsumed, no cross-imageaddress claim",
+  "original_capture": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-image-checksum/masked-7grkliz1",
+  "native_capture": "/root/.ai-tmp/msvc2/vc1.0/link/image-checksum-gdb-6h7rxbdf",
+  "normalization": [],
+  "stage_files_exact": 7,
+  "external_report_exact": true
+}

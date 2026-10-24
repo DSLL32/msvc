@@ -1,4 +1,7 @@
 /* Image checksum entry point shared by linking and editing. */
+#include <stdio.h>
+#include <io.h>
+#undef _fileno
 #include "pass-two.h"
 #include "editor-image.h"
 #include <recon.h>
@@ -63,4 +66,34 @@ unsigned long checksum_words(unsigned long sum,const unsigned short *words,
     sum=(sum&0xffff)+(sum>>16);
     sum+=sum>>16;
     return sum&0xffff;
+}
+
+/* Original [0004ec70,0004ed57). A checksum output requests read-only access;
+ * omitting that output requests the existing mapped helper's file writeback. */
+int checksum_image_file(const char *filename,unsigned long *previous,
+    unsigned long *checksum)
+{
+    FILE *file;
+    HANDLE mapping;
+    void *view;
+    unsigned long size;
+    file=fopen(filename,checksum?"rb":"r+b");
+    if (!file) return 1;
+    mapping=CreateFileMappingA((HANDLE)_get_osfhandle(_fileno(file)),NULL,
+        checksum?PAGE_READONLY:PAGE_READWRITE,0,0,NULL);
+    if (!mapping) {
+        fclose(file);
+        return 2;
+    }
+    view=MapViewOfFile(mapping,checksum?FILE_MAP_READ:FILE_MAP_WRITE,0,0,0);
+    CloseHandle(mapping);
+    if (!view) {
+        fclose(file);
+        return 3;
+    }
+    size=_filelength(_fileno(file));
+    checksum_mapped_image(view,size,previous,checksum);
+    UnmapViewOfFile(view);
+    fclose(file);
+    return 0;
 }

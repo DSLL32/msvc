@@ -454,3 +454,19 @@ and830CFG/813callback/512data/41ECX audits pass. App-only extent228478/281634=
 81.1259%; support-inclusive259081/281634=91.9921%. There are796app functions
 (759public/37direct),16 historical CRT separate. Unclassified12996bytes remain
 pending; the full nonCRT denominator is unavailable. No new CRT implementation.
+
+Direct image-helper checkpoint (995 frontiers)
+---------------------------------------------
+Two readable C bodies finalize the actual mapped .idata section and calculate or
+write a full-file checksum through a genuine file/mapping lifecycle. External
+direct support only: actualBoundImage owners, third-pointer mode, all50 entry/
+return observations,7rawstage files,280B scalar/errorreport and missing-file result
+match with no normalization/state exclusions. Shipped __fileno/__filelength add
+only verified publicCRT support, zero application credit; no new handwritten CRT.
+All87nativecases, originalVC1-j4 and833CFG/815callback/512data/41ECX checks pass.
+App-only228780/281634=81.2331%; support-inclusive259511/281634=92.1448%.
+798appfunctions(759public/39direct),16historicalCRT separate;12678unclassified bytes
+remain pending, with no complete nonCRT denominator. Traced newfixture.352s/ELF
+40.75ms; output-only.155s/ELF37.84ms includes7externalstage copies. Full make wall
+12.978s includes unmeasured olderhost relinks; perfixture timings excludebuild.
+See cases/direct-image-checksum for exact effects, rawrefs and split accounting.

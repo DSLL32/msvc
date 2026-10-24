@@ -104,7 +104,7 @@ for r in records:
 # These routines have the same ABI and control flow as LIBC.LIB; LINK used
 # different register allocation. Ranges were checked instruction by instruction.
 if len(sys.argv) == 1:
-    for name, start, end in [('__fpmath',0x52ce0,0x52cf0), ('_parse_cmdline',0x54530,0x546a0), ('__heap_grow_emptylist',0x53590,0x535f0), ('__control87',0x592c0,0x59300), ('__write',0x532d0,0x53500), ('_doexit',0x517b0,0x51830), ('__read',0x55980,0x55bb0), ('__close',0x555f0,0x55690), ('__free_osfhnd',0x53e10,0x53e80)]:
+    for name, start, end in [('__filelength',0x516b0,0x51720), ('__fpmath',0x52ce0,0x52cf0), ('_parse_cmdline',0x54530,0x546a0), ('__heap_grow_emptylist',0x53590,0x535f0), ('__control87',0x592c0,0x59300), ('__write',0x532d0,0x53500), ('_doexit',0x517b0,0x51830), ('__read',0x55980,0x55bb0), ('__close',0x555f0,0x55690), ('__free_osfhnd',0x53e10,0x53e80)]:
         records.append(dict(name=name,start=start,end=end,library='LIBC.LIB',
                             evidence='equivalent register allocation; manually disassembled'))
 if len(sys.argv)==1:
@@ -112,6 +112,8 @@ if len(sys.argv)==1:
 # _find is a complete byte-exact shipped CRT match, including imported call
 # relocations. Native correspondence is at this CRT boundary, not each IAT thunk.
 for r in records:
+    if r['name']=='__filelength':
+        r['evidence']='shipped FLENGTH.OBJ112-byte body: all instructions/relocations exact except CMP ESI,EDI versus CMP EDI,ESI before JE, whose consumed ZF is identical. Three __lseek edges and errno/DOS/nhandle globals verified. Native correspondence only at public _filelength, no new CRT C/ABI claim; cases/direct-image-checksum.'
     if r['name']=='_vfprintf':
         r['evidence']='byte-exact shipped VFPRINTF.OBJ including _stbuf/_output/_ftbuf callees; native public boundary qualified by actual omf_warning caller, stdout/plainformat/va_listowner/no consumedvariadicwords and exact entry/result/FILEbuffer/errors/fullarchive in cases/omf-continuation. Earlier recon_printf/recon_fprintf are alreadyaccepted publicCRTaliases, logged not newgraph credit.'
     if r['name']=='__snprintf':

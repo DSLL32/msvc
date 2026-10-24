@@ -189,6 +189,13 @@
     "library": "LIBC.LIB"
   },
   {
+    "name": "__filelength",
+    "start": 333488,
+    "end": 333600,
+    "library": "LIBC.LIB",
+    "evidence": "shipped FLENGTH.OBJ112-byte body: all instructions/relocations exact except CMP ESI,EDI versus CMP EDI,ESI before JE, whose consumed ZF is identical. Three __lseek edges and errno/DOS/nhandle globals verified. Native correspondence only at public _filelength, no new CRT C/ABI claim; cases/direct-image-checksum."
+  },
+  {
     "name": "__cinit",
     "start": 333600,
     "end": 333648,
