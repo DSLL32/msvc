@@ -1,0 +1,35 @@
+{
+  "status": "proposed-awaiting-root-review",
+  "case": "two-pdb-providers",
+  "purpose": "Exercise genuine linked type-provider switching and destruction, retaining two independently produced PDB inputs rather than only a single initial provider.",
+  "producer": "Two genuine original C++ TUs pdb-one.cpp and pdb-two.cpp, each11-byte name so counted basename pair totals24B/aligned. /Od /Zi /G3 with distinct supported /Fdpdb-one.pdb and /Fdpdb-two.pdb. Each TU exports a used function on its own recursive struct/class with arrays, enum/member pointers and shared compatible declarations. LINK established /dll /debug:full /debugtype:cv /nopack. No PCH or debug-byte editing.",
+  "argv": [
+    "/nologo",
+    "/cvnew",
+    "/verbose",
+    "providers.dll"
+  ],
+  "producer_gate": "Verify original CL actually supports distinct/Fd outputs, both PDB signatures/age/header geometry and DLL actual NB05 module global-type LF_TYPESERVER records refer to different authenticated names/signatures. Require a real module processing transition between those two records. If LINK folds/replaces references with one provider or compiler rejects route, stop/report; no producer variants or fabricated records.",
+  "static_lead": {
+    "name": "type_server_close",
+    "original": "0x2bbe8",
+    "extent_end": "0x2bc9f",
+    "estimated_extent_bytes": 183,
+    "reason": "import_type_server copies new provider name, explicitly calls type_server_close(current_type_server) when nonNULL, then opens new provider; the same-name fast path cannot apply when authenticated record names differ."
+  },
+  "excluded_leads": "type_server_fill_alloc and type_server_record_init depend on actual server incremental state, so no promise of either. No allocator, cache/growth or legacy-format gains inferred.",
+  "original_validation": "Only after producer gate, run one standalone original CVPACK to require success and freeze complete input/output/streams/status/environment. Freeze BOTH complete PDBs as owned immutable inputs retaining actual embedded paths and compiler provenance. Validate actual initialized filename index, no padding repair/resampling.",
+  "native_inputs": "Extend existing small ancillary-input specification to this second explicit case/two files and prepare both in the already implemented isolated RECON_DRIVE_Z namespace. No fixtures depend on compiler scratch or Wine, no target path/header modification.",
+  "CRT_scope": "Existing successful8002/share40 DLL and8000/share40 PDB read-only binary-variant paths only anticipated, with exact ordered [DLL,PDBone,PDBtwo] records and per-call fullfile/result/error/descriptor/CreateFile proof. Request root/maintainer review of smallest bounded two-PDB guard extension after actual records exist; no new open modes/create boundary/global whitelist or target-local CRT source.",
+  "ownership": "Reuse actual TypeServer116B, arena blocks and current_type_server publication. Observe only concrete newly consumed close fields/list owners/lifetimes when reached; retain uninitialized field provenance and stop actual ambiguity/mismatch instead of assuming defaultzero. No historical fullheap/return-observer framework.",
+  "allocator": "Default allocator initially; existing explicit host profile only if separately justified by a real reached mismatch and root review. No generic initialization claim.",
+  "normal_validation": "Original compiler/static graph/ABI; actual masked/native corresponding frontier and exact cached trace/status/streams/artifacts. Small affected checks only. Historical heavy proof/negative pipeline remains forbidden.",
+  "estimated_extent_gain": 183,
+  "inventory": {
+    "accepted_application_functions": 186,
+    "accepted_extent_bytes": 56576,
+    "whole_text_bytes": 111678,
+    "named_stubs": 21,
+    "non_CRT_denominator": null
+  }
+}
