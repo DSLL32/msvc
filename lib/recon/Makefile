@@ -522,3 +522,9 @@ build/local-clock-count-probe: tests/local-clock-count-probe.c $(SOURCES) $(HEAD
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 local-clock-count-check: build/local-clock-count-probe
 	$(PYTHON) tests/check-local-clock-count.py build/local-clock-count-probe
+
+.PHONY: mb-codepage-surface-check
+build/mb-codepage-surface: tests/mb-codepage-surface.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) tests/mb-codepage-surface.c $(SOURCES) -o $@
+mb-codepage-surface-check: build/mb-codepage-surface
+	$(PYTHON) tests/check-mb-codepage-surface.py build/mb-codepage-surface

@@ -2323,6 +2323,14 @@ WEAK size_t recon_mbsspn(const unsigned char *text,const unsigned char *accept)
 
 /* Typed link surface only: locale selection needs its reached provider/state
  * contract; never forward Microsoft category numbers to host libc. */
+/* Build-only public codepage boundary. Do not infer its state transition
+ * from an existing combined locale profile or forward it to host libc. */
+WEAK int __cdecl recon_setmbcp(int codepage)
+{
+    (void)codepage;
+    recon_unsupported("unreviewed _setmbcp selection");return -1;
+}
+
 WEAK char *recon_setlocale(int category,const char *locale)
 {
     (void)category;(void)locale;

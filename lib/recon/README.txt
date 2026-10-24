@@ -946,3 +946,8 @@ starts at zero and advances at each configured _ftime call. Its existing resets
 on configuration change or leaving configured mode remain in _ftime. Fixtures
 bind the clock once and assert their own exact call inventory at the appropriate
 frontier/completion; the generic clock remains unconstrained.
+
+The native mbctype.h surface exposes the encountered Microsoft _M1 bit and
+_MB_CP_LOCALE selector. _mbctype aliases the existing shared257-byte table;
+_setmbcp has its cdecl int(int) signature but every selection fails125 until
+the reached provider's independent codepage/state transition is established.

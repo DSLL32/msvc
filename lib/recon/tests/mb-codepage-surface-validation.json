@@ -1,0 +1,90 @@
+{
+  "scope": "Typed int cdecl(int) always125 _setmbcp; existing257-byte MB array alias and two witnessed SDK constants only. No selection or locale semantics.",
+  "sources": [
+    {
+      "path": "/root/msvc2/lib/recon/include/recon.h",
+      "sha256": "b735a2c069260ec0b9c631dab7d045bd54e40392c994a7b7206c4596e31d6cb4",
+      "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/mb-codepage-surface/sources/include/recon.h"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/native/mbctype.h",
+      "sha256": "4207df36c7093b86502916601050bef8538d5d32a615498e22144d23500c7b7f",
+      "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/mb-codepage-surface/sources/native/mbctype.h"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/mb-codepage-surface.c",
+      "sha256": "316818cee686a4c981a54ed9e7f995dc9e4fa61e6b44246718aae07d4e47557d",
+      "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/mb-codepage-surface/sources/tests/mb-codepage-surface.c"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/check-mb-codepage-surface.py",
+      "sha256": "bf7a9136b6da1bb947aa2a01d82bf7cbe4e9137a7554e1b1408b09d0e74e2fc7",
+      "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/mb-codepage-surface/sources/tests/check-mb-codepage-surface.py"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/src/entry.c",
+      "sha256": "33f47565b8fd09dcbdf5254cd47bb895de22eaf8c073668a1f2abf2bfe942db0",
+      "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/mb-codepage-surface/sources/src/entry.c"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/src/crt.c",
+      "sha256": "1713f596711cb4c2fca2191c959492b678e6c49512e2ac1401798abfdc4d8b56",
+      "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/mb-codepage-surface/sources/src/crt.c"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/src/process.c",
+      "sha256": "885ae0c197f2f64933598b3d1435af156086f63c664a04b5b99cbae52d89a42d",
+      "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/mb-codepage-surface/sources/src/process.c"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/src/compat.c",
+      "sha256": "12db85b894e15e950eaabebd6e07b3bc60e7d709281bcf89fd6d9380caf26f49",
+      "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/mb-codepage-surface/sources/src/compat.c"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/src/decimal.c",
+      "sha256": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/mb-codepage-surface/sources/src/decimal.c"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/src/win32.c",
+      "sha256": "9efe3109c97039271d66574e6274f639a9405c837c341e67a4417a72f610fd8f",
+      "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/mb-codepage-surface/sources/src/win32.c"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/src/trace.c",
+      "sha256": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/mb-codepage-surface/sources/src/trace.c"
+    }
+  ],
+  "packet": {
+    "path": "/root/msvc2/decomp/vc5.10/c1/cases/minimal/scanner-imports.json",
+    "sha256": "8c237544abc9850af444e1e160bc022bd3af12e4b76c4ed1b6ac4f34f6e0821e",
+    "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/mb-codepage-surface/scanner-imports.json"
+  },
+  "binaries": [
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/mb-codepage-surface/clang-510-reviewed",
+      "sha256": "588997aa1ed10085c31466061ae6f7dc020770f70b9386f71c4d82ab85426dc8"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/mb-codepage-surface/clang-default-reviewed",
+      "sha256": "53925eac151f1aeb6a213ec66afd8166ce07039f84474cdc5def212df355e9ea"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/mb-codepage-surface/gcc-510-reviewed",
+      "sha256": "dcd5503ab3f09e0ff3897189c8409526fadac084b5d9002e1f681a88756547dc"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/mb-codepage-surface/gcc-default-reviewed",
+      "sha256": "24e0bc3342efc16c187aadced465eba6d8e38b9c95d15a9079a0239a9957ac27"
+    }
+  ],
+  "validation": "Four GCC/Clang default/510 surface checks pass; seven codepage selections each deny125; target/provider/SDK hashes and complete caller hot/cold bytes independently verified",
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/mb-codepage-surface/orchestrator-review.json",
+    "sha256": "4e29b4e26e9850b2df155f7b3c96ae7cc83cd58db08bbacb2da03d46ed5b3230"
+  },
+  "default_check": "make -j4 check passed",
+  "original_execution": "none; typed unvisited surface only"
+}
