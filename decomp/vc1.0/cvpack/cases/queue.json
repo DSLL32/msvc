@@ -100,6 +100,17 @@
       ],
       "status": "complete",
       "completion": "cases/dos-mapped-growth-feedback/evidence/0185-module_name/proof.json"
+    },
+    {
+      "name": "buffered-strip-cache",
+      "argv": [
+        "/nologo",
+        "/strip",
+        "symbols.dbg",
+        "pch-strip.dll"
+      ],
+      "status": "queued",
+      "reason": "Not dispatched: genuine baseline preserved, sequential-page reuse disproves eviction lead; root stopped guard/restoration expansion. Keep queued/excluded from fixtures."
     }
   ]
 }

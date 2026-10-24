@@ -1,0 +1,41 @@
+{
+  "name": "buffered-strip-cache",
+  "argv": [
+    "/nologo",
+    "/strip",
+    "symbols.dbg",
+    "pch-strip.dll"
+  ],
+  "inputs": [
+    {
+      "path": "decomp/vc1.0/cvpack/cases/buffered-strip-cache/input/pch-strip.dll",
+      "name": "pch-strip.dll",
+      "bytes": 2097152,
+      "sha256": "b54198873c4d98a7a247dbee97ec45d2a32ae3876ed364c9236b9fd6c8c3a5ae"
+    }
+  ],
+  "current": {
+    "terminal": "pending-reference",
+    "proof_mode": "entry-flow"
+  },
+  "target_environment": {},
+  "provenance": "Exact b5419887 original PCH-case input; root-approved buffered strip/cache case, no producer or debug rewriting.",
+  "complete_reference": {
+    "terminal": "exit",
+    "exit": 0,
+    "stdout": "reference/stdout",
+    "stderr": "reference/stderr",
+    "artifacts": [
+      {
+        "name": "pch-strip.dll",
+        "bytes": 331588,
+        "sha256": "1a70f710d874d157b607a243f18ef1110af5353e80a7532140344241c05fd90c"
+      },
+      {
+        "name": "symbols.dbg",
+        "bytes": 1765564,
+        "sha256": "7b641bf7f575547ebe1e73a0ad1927946efb5ce599f31ffbacfa8e7f265599ba"
+      }
+    ]
+  }
+}

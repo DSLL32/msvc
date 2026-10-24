@@ -1,5 +1,5 @@
 {
-  "status": "proposed-awaiting-root-review",
+  "status": "baseline-preserved-lead-disproved-not-accepted",
   "case": "buffered-strip-cache",
   "purpose": "Exercise genuine debug extraction/truncation and buffered page-cache eviction using an existing authenticated large original DLL; no new producer or transformed debug records.",
   "input": {
@@ -38,5 +38,7 @@
     "named_stubs": 22,
     "non_CRT_denominator": null,
     "uncertainty": "Remaining code includes authentic legacy formats lacking compatible existing inputs, application-private small pools, file-cache/growth and linked PDB dependencies. Unknown bytes remain unclassified, not CRT by default."
-  }
+  },
+  "actual_baseline": "Original exit0, empty streams, DLL331588B exact prefix and symbols.dbg1765564B exact entire suffix; receipt and both artifacts owned under cases/buffered-strip-cache.",
+  "lead_correction": "advance_file_page flushes and reuses each cursor Page for a sequential sentinel/NULL next entry. Copy size does not imply allocating one Page per4096B, so predicted eviction is unsubstantiated. Root stopped create-guard/restoration work; no new function/case acceptance."
 }

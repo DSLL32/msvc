@@ -1,0 +1,27 @@
+{
+  "result": "exit0/empty streams/both exact outputs",
+  "input_sha256": "b54198873c4d98a7a247dbee97ec45d2a32ae3876ed364c9236b9fd6c8c3a5ae",
+  "input_size": 2097152,
+  "cv_file_offset": 331588,
+  "cv_signature": "NB05",
+  "artifacts": [
+    {
+      "name": "pch-strip.dll",
+      "bytes": 331588,
+      "sha256": "1a70f710d874d157b607a243f18ef1110af5353e80a7532140344241c05fd90c"
+    },
+    {
+      "name": "symbols.dbg",
+      "bytes": 1765564,
+      "sha256": "7b641bf7f575547ebe1e73a0ad1927946efb5ce599f31ffbacfa8e7f265599ba"
+    }
+  ],
+  "copy_relation": "input prefix[0,331588) and full suffix[331588,2097152), physical zeros retained",
+  "target_environment": {},
+  "baseline_seconds": {
+    "setup": 0.33901546709239483,
+    "execution": 1.5255875661969185,
+    "total": 1.8899388629943132
+  },
+  "scope": "Only unmasked baseline; no new CRT scope or masked restoration authorized by this receipt."
+}
