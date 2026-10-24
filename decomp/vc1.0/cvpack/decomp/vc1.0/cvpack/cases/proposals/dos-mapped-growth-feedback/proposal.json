@@ -1,0 +1,36 @@
+{
+  "status": "proposed-root-review",
+  "case": "dos-mapped-growth-feedback",
+  "purpose": "Exercise genuine mapped-file expansion plus normal CVPACK progress diagnostics and warning formatting on a small executable whose packed debug output is larger than its input.",
+  "producer": "Reuse the already validated two small Watcom16 DOS C sources, existing binnt/WCC -bt=dos -ms -0 -od -d2 -hc and unchanged validated .patched/WLINK format dos/debug codeview. No Watcom reconstruction/team/patch/gateway or generatedDOS execution. Use one chosen sourcebasename and ownedcwd so full counted source-filename index length is aligned before producing, based on actual established WCC absolutefilename syntax; validate actual complete index has no unwritten padding before freezing. No producer resampling for allocator residue.",
+  "known_lead": "Prior genuine DOS input5577B compacted to6864B. The same logical compaction with /mapio must pass write_mapped_file allocated bound and reach grow_mapping, unless actual original mapping behavior disproves the lead.",
+  "argv": [
+    "/nologo",
+    "/unknown",
+    "/cvnew",
+    "/verbose",
+    "/mapio",
+    "dos-mapped.exe"
+  ],
+  "target_environment": {
+    "_MSC_IDE_FLAGS": "-FEEDBACK fixture"
+  },
+  "environment_scope": "This explicit original target environment enables main feedback path and module_name; add only this case-owned deterministic key to the existing sanitized original/native launchers. Host allocator settings stay separate/absent. No generic environment framework.",
+  "static_leads": {
+    "warning": 121,
+    "module_name": 77,
+    "grow_mapping": 72
+  },
+  "estimated_extent_gain": 270,
+  "normal_validation": "Original producer and standalone original success/actualwarning+feedback+output required first. Freeze full input/master/environment. Existing typed FileSlot/mapping and current_module facilities can be reused for genuinely consumed inputs; no new observer campaign. Fresh ordinary masked/native function loop and exact full-artifact/status/streams/trace fixtures.",
+  "risks": "Mapped growth may leave a larger physical file because original closes mapping after attempted truncation; measure and preserve actual result. Existing shims already implement the APIs, but report a real mismatch to maintainer. If original emits an instability or unsupported producer outcome, stop before further input tweaks.",
+  "inventory": {
+    "accepted_application_functions": 183,
+    "accepted_extent_bytes": 56251,
+    "whole_text_bytes": 111678,
+    "whole_text_extent_percent": 50.37,
+    "named_stubs": 24,
+    "non_CRT_denominator": null,
+    "uncertainty": "Authentic compatible NB02/NB08 inputs remain unavailable in shipped353containers; known legacy-format application stubs and unclassified code remain. Small32B pool helpers newly identified but not yet reached."
+  }
+}
