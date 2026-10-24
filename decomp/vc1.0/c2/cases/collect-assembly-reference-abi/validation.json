@@ -1,0 +1,65 @@
+{
+  "matched": true,
+  "function": "@collect_assembly_reference@8",
+  "formals": [
+    {
+      "name": "symbol",
+      "location": "ECX",
+      "type": "SymbolHeader pointer",
+      "original": 8061848,
+      "native": 1449372936
+    },
+    {
+      "name": "context",
+      "location": "EDX",
+      "type": "callback context pointing to Node * head",
+      "original": 2752120,
+      "native": 4294957736
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "return_contract": "full EAX zero",
+  "no_hidden_inputs_proof": "Original279a0..27a1e consumes ECXsymbol kind byte+12 and EDXcontext interpreted as Node**. Kind3/4 skip, other non1 kind takes original4bf diagnostic then continues if it returns. On kind1 the existing head/list references are inputs; actual headNULL and current-scope closed bucket membership observed, same symbol as caller cached slot and same parent local context. No incoming stack/register/flags/x87 hidden operands. ReturnEAX0/RET0 on all recovered return paths; no SymbolHeader payload dump or context seeding.",
+  "original": {
+    "symbol": 8061848,
+    "kind": 1,
+    "context": 2752120,
+    "head": 0,
+    "parent_slot": 8061928,
+    "parent_symbol": 8061848,
+    "return_address": 162171,
+    "scope": 8124580,
+    "identifier": 160,
+    "member": 8061848,
+    "index": 0
+  },
+  "native": {
+    "symbol": 1449372936,
+    "kind": 1,
+    "context": 4294957736,
+    "head": 0,
+    "parent_slot": 1449373016,
+    "parent_symbol": 1449372936,
+    "parent_context": 4294957736,
+    "scope": 1449392420,
+    "identifier": 160,
+    "member": 1449372936,
+    "index": 0,
+    "caller": "visit_machine_symbols"
+  },
+  "original_parent": {
+    "instruction": 8061940,
+    "visitor": 162208,
+    "context": 2752120,
+    "entry_sp": 2752108,
+    "return_address": 161902,
+    "operation": 1,
+    "count": 2,
+    "initial_head": 0
+  },
+  "original_execution_seconds": 1.1621646136045456,
+  "native_debug_seconds": 0.1293539647012949,
+  "total_seconds": 1.5528704691678286,
+  "scope": "Actual kind1 symbol and empty Node* head, cached visitor symbol-slot identity/context forwarding, bounded closed64-bucket scope ownership by identifier. Identifier is ownership provenance, not an extra semantic input read by callback. Nonempty/duplicate lists and diagnostic behavior require whole-body controls; no actual branch-execution claim for them."
+}

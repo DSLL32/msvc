@@ -180,9 +180,27 @@ Node *__fastcall extract_assembly_labels(Node *node)
     result->right.node = head;
     while (head->opcode != 0x4c) {
         symbol = head->left.node->right.symbol;
-        ((FunctionSymbol *)symbol)->field24 |= 0x2000;
+        ((TemporarySymbol *)symbol)->attributes |= 0x2000;
         symbol->field0e |= 0x2000;
         head = head->second.node;
     }
     return result;
+}
+
+/* Original [000279a0,00027a1e). Only local kind1 symbols enter the
+   reference list; function/external kinds3/4 are ignored. Context is the
+   parent's Node* head slot. Keep pointer identity when suppressing duplicates,
+   then reload the head after construction before prepending the new marker. */
+unsigned __fastcall collect_assembly_reference(SymbolHeader *symbol, void *context)
+{
+    Node **head = context, *node;
+    int kind = symbol->kind;
+    if (kind == 3 || kind == 4) return 0;
+    if (kind != 1) compiler_internal_error("@(#)MDmisc.c:1.87", 0x4bf);
+    for (node = *head; node; node = node->second.node)
+        if (node->left.node->right.symbol == symbol) return 0;
+    node = build_tree("PNt", intern_leaf(0x26, 0, symbol, 0, 0x404), 0x55, 0x404);
+    node->second.node = *head;
+    *head = node;
+    return 0;
 }

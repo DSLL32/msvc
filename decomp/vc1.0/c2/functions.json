@@ -1318,7 +1318,8 @@
     "@codeview_register_number@4",
     "@register_partial_write_safe@4",
     "@extract_assembly_labels@4",
-    "@visit_machine_symbols@12"
+    "@visit_machine_symbols@12",
+    "@collect_assembly_reference@8"
   ],
   "driver": [
     {
@@ -9784,8 +9785,26 @@
     {
       "name": "@collect_assembly_reference@8",
       "start": 162208,
-      "end": 162209,
-      "provisional": true
+      "end": 162334,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "SymbolHeader pointer"
+          },
+          {
+            "name": "context",
+            "location": "EDX",
+            "type": "callback context pointing to Node * head"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/collect-assembly-reference-abi/validation.json",
+        "scope": "Original126B callback consumes kindbyte atSymbolHeader+12 and Node** context/head with conditional list left/reference/rightsymbol pointer identity. Actualkind1/headNULL, symbol aliases cached visitor slot and current64-bucket scope memberidentifier160/index0; context matches parent-owned outputhead. Kind3/4 skip, invalidkind diagnostic4bf retained, EAX0/RET0. No SymbolHeader other payload read/dump, no context/list seeding."
+      }
     }
   ],
   "cases": {

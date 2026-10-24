@@ -1047,3 +1047,15 @@ signed counts match existing original data. Original /W3, ordinary audits and
 all 17 native cases pass; the actual callback still traps, so substitution and
 callback-body execution remain unclaimed. Build3.012s, controls7.982s,
 audit/coverage31.672s, suite1.052s; cases/seh-machine-symbol-checkpoint.json.
+
+At1315 the whole126-byte collection callback is accepted. Actual kind1 symbol
+and initially NULL parent-owned head have matching register/caller/storage
+identity.216 whole original/canonical controls and8 ABI rejects cover pointer
+duplicates, kind bypasses, diagnostic and constructor calls, and head reload
+after constructors. Other paths are controlled rather than claimed executed.
+Original /W3, ordinary audits and all17 native cases pass. A stale parent audit
+assertion was corrected to allow the now-accepted callback, retaining its failed
+30.625s log. Shared header changes caused full canonical/trace rebuilds inside
+the64.515s audit and7.262s check batches; actual fixture loop took .689s. Normal
+native-only refresh5.960s. Next normalization49B remains a named trap. Full
+evidence/timing: cases/seh-collect-reference-checkpoint.json.

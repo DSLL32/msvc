@@ -1,0 +1,12 @@
+{
+  "logical": "@normalize_assembly_flow_symbol@8",
+  "matched": true,
+  "executable_sha256": "d6ce5dc58f424e41a9cd60bede73960ec9fe5ac6d41832621bd93f3e23f9f1bd",
+  "config_sha256": "543a58e497976b6a3b874567f73d7c73de8b421dfe712b33cd0a8da9c9b51329",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\sehpacket",
+  "setup_seconds": 0.007777566090226173,
+  "execution_seconds": 0.13670875038951635,
+  "seconds": 0.166583351790905,
+  "log_sha256": "1f348ff02df23a14c9bb78b4d3d38022f3ce7e9011ad5bc518dbf997809d1b8b",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/seh-gdb-ngijrv01"
+}

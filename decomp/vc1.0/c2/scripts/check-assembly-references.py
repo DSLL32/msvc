@@ -19,9 +19,11 @@ for label,edit in [('missing formal',lambda d:d.update(formals=[])),('wrong regi
  else:raise AssertionError('accepted '+label)
 assert row['start']==0x27850 and row['end']==0x27912 and original.read(0x27911,1)==b'\xc3'
 assert original.string(0x80d18)=='NPNt'and original.read(0x27861,5)==b'\xba'+struct.pack('<I',0x279a0)
-callback=next(r for r in cfg['driver']if r['start']==0x279a0);assert callback['name']=='@collect_assembly_reference@8'and callback.get('provisional')and callback['name']not in cfg['accepted']
+callback=next(r for r in cfg['driver']if r['start']==0x279a0);assert callback['name']=='@collect_assembly_reference@8'
+if callback['name']not in cfg['accepted']:assert callback.get('provisional')and callback['end']==0x279a1
+else:assert not callback.get('provisional')and callback['end']==0x27a1e and callback['abi']['entry_observation']=='cases/collect-assembly-reference-abi/validation.json'
 source=Path('src/inline-assembly.c').read_text();assert 'visit_machine_symbols(node->left.pointer, collect_assembly_reference, &head);'in source and 'Node *head = NULL, *tail, *result;'in source
-if args.abi_only:print('Assembly-reference actual pointer/forwarded field/caller ABI,194B extent/callback trap and7 rejects pass');raise SystemExit
+if args.abi_only:print('Assembly-reference actual pointer/forwarded field/caller ABI,194B extent/callback identity and7 rejects pass');raise SystemExit
 
 def run(image,side,count,flags,word,alias):
  u=Uc(UC_ARCH_X86,UC_MODE_32)
@@ -61,4 +63,4 @@ def run(image,side,count,flags,word,alias):
 rows=[]
 for count,flags,word,alias in itertools.product([0,1,2,5],[0,0x2000,0xffffffff],[0,0x2000,0xffff],[False,True]):
  a=run(original,False,count,flags,word,alias);b=run(canonical,True,count,flags,word,alias);assert a==b;rows.append(dict(count=count,flags=flags,word=word,duplicate_symbol_alias=alias,result=a))
-Path('cases/assembly-references-validation.json').write_text(json.dumps(dict(actual_abi=True,rejected=reject,states=len(rows),cases=rows,seconds=time.perf_counter()-started,scope='Whole194B original/canonical: sole forwarded instruction pointer, callback identity and local head initiallyNULL; empty and1/2/5-node output lists, exact tail sentinel link, intern_leaf cdecl args/typed integer fastcall/outer build_tree varargs NPNt, returned wrapper right=head, every node/symbol byte except exact DWORD+36/WORD+14 OR2000 remains unchanged. Duplicate symbol aliases/idempotence and already-set bits, RET0/nonvolatile exact. Child bodies mocked; actual visitor/callback remain named traps, no assertion transformation body is executed yet by real case.'),indent=2)+'\n');print(len(rows),'whole assembly-reference controls and7 actual ABI negatives pass')
+Path('cases/assembly-references-validation.json').write_text(json.dumps(dict(actual_abi=True,rejected=reject,states=len(rows),cases=rows,seconds=time.perf_counter()-started,scope='Whole194B original/canonical: sole forwarded instruction pointer, callback identity and local head initiallyNULL; empty and1/2/5-node output lists, exact tail sentinel link, intern_leaf cdecl args/typed integer fastcall/outer build_tree varargs NPNt, returned wrapper right=head, every node/symbol byte except exact DWORD+36/WORD+14 OR2000 remains unchanged. Duplicate symbol aliases/idempotence and already-set bits, RET0/nonvolatile exact. Child bodies mocked; their acceptance and real-case transformation execution are tracked by separate fresh frontier receipts.'),indent=2)+'\n');print(len(rows),'whole assembly-reference controls and7 actual ABI negatives pass')

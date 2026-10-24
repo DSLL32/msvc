@@ -475,6 +475,17 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         sprintf(line,"alignment8_segment pointer %08lx member %08lx identifier %lu index %lu alignment %lu combine %lu position %lu object_section %lu\n",segment,member,id,index,read_word(process,segment+48),read_byte(process,segment+53),read_word(process,segment+4),read_word(process,segment+56));log_line(line);
         dump_bytes(process,"alignment8_segment_name_hex",read_word(process,segment+16),string_bytes(process,read_word(process,segment+16)));
     }
+    if(!strcmp(call->name,"@collect_assembly_reference@8")) {
+        DWORD symbol=call->args[0],output=call->args[1],identifier=read_word(process,symbol+28);
+        DWORD scope=read_word(process,image_base+0x6c150),member,index=0;
+        member=read_word(process,scope+4+4*(identifier&63));
+        while(member&&member!=symbol&&++index<4096)member=read_word(process,member);
+        if(member!=symbol||index==4096)exit(322);
+        sprintf(line,"assembly_reference symbol %08lx kind %lu context %08lx head %08lx parent_slot %08lx parent_symbol %08lx return_address %08lx\n",
+            symbol,read_byte(process,symbol+12),output,read_word(process,output),context->Ebp,read_word(process,context->Ebp),call->return_address);log_line(line);
+        sprintf(line,"assembly_reference_owner scope %08lx identifier %lu member %08lx index %lu\n",
+            scope,identifier,member,index);log_line(line);
+    }
     if(!strcmp(call->name,"@visit_machine_symbols@12")) {
         DWORD instruction=call->args[0],visitor=call->args[1],callback_context=call->args[2];
         unsigned operation=read_byte(process,instruction+9);

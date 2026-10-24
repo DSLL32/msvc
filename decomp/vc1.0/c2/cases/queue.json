@@ -454,7 +454,7 @@
       "evidence": "cases/omf-completion-checkpoint.json"
     }
   ],
-  "status": "Active approved derived standalone COMDAT/communal OMF case; first communal writer accepted, size encoder pending.",
+  "status": "Active original-validated SEH packet case; assembly-reference collection accepted, flow normalization pending.",
   "next_case_proposals": [
     {
       "case": "omf-comdat-communal",
@@ -523,8 +523,8 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "@collect_assembly_reference@8",
-  "current_checkpoint": 1314,
+  "current_application_frontier": "@normalize_assembly_flow_symbol@8",
+  "current_checkpoint": 1315,
   "resolved_input_hold": {
     "field": "object_file->_bufsiz",
     "correction": "shared cabec0d10",
@@ -573,5 +573,5 @@
     }
   ],
   "last_completed": "omf-comdat-communal",
-  "next_action": "Recover the actual symbol-kind/owned local-head callback inputs, then reconstruct its whole126B body; continue the same SEH case."
+  "next_action": "Observe actual normalization callback formals and reconstruct its whole49B body; continue SEH case."
 }
