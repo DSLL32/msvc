@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_make_adjusted_member_call@12",
+  "case": "state_machine_defined_debug",
+  "accepted_before": 1248,
+  "configuration_sha256": "6601f71df7ab415e10636c15599b7823464cdd262e7ffa67c2bd71265538bb1b",
+  "native_entry": "make_adjusted_member_call",
+  "declared_formal_count": 3,
+  "formals": [
+    {
+      "name": "function",
+      "stack_index": 0,
+      "native_field": "raw_function",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 241302,
+        "original_owner_function": "_lower_multiple_inheritance_member_call@16",
+        "native_owner_function": "lower_multiple_inheritance_member_call",
+        "native_owner_field": "caller_function",
+        "native_owner_local": "function",
+        "identity": "Accepted caller stores member_pointer_function_value return EDI4ae67; new_left_typed_expression5a returns actual adjusted object EAX4ae8a; loads type ECX from formal adjustedESP+24. PUSH ECX/EAX/EDI4ae8e..4ae90 CALL4ae91 return4ae96. Native binds actual function/adjusted/type caller locals, no raw cross-process address equality.",
+        "original_owner_value": 8449296,
+        "native_owner_value": 1449490344
+      },
+      "original_raw": 8449296,
+      "native_raw": 1449490344,
+      "result": "match"
+    },
+    {
+      "name": "object",
+      "stack_index": 1,
+      "native_field": "raw_object",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 241302,
+        "original_owner_function": "_lower_multiple_inheritance_member_call@16",
+        "native_owner_function": "lower_multiple_inheritance_member_call",
+        "native_owner_field": "caller_adjusted",
+        "native_owner_local": "adjusted",
+        "identity": "Accepted caller stores member_pointer_function_value return EDI4ae67; new_left_typed_expression5a returns actual adjusted object EAX4ae8a; loads type ECX from formal adjustedESP+24. PUSH ECX/EAX/EDI4ae8e..4ae90 CALL4ae91 return4ae96. Native binds actual function/adjusted/type caller locals, no raw cross-process address equality.",
+        "original_owner_value": 8449376,
+        "native_owner_value": 1449490424
+      },
+      "original_raw": 8449376,
+      "native_raw": 1449490424,
+      "result": "match"
+    },
+    {
+      "name": "type",
+      "stack_index": 2,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ecx",
+        "original_caller_rva": 241302,
+        "original_owner_function": "_lower_multiple_inheritance_member_call@16",
+        "native_owner_function": "lower_multiple_inheritance_member_call",
+        "native_owner_field": "caller_type",
+        "native_owner_local": "type",
+        "identity": "Accepted caller stores member_pointer_function_value return EDI4ae67; new_left_typed_expression5a returns actual adjusted object EAX4ae8a; loads type ECX from formal adjustedESP+24. PUSH ECX/EAX/EDI4ae8e..4ae90 CALL4ae91 return4ae96. Native binds actual function/adjusted/type caller locals, no raw cross-process address equality.",
+        "original_owner_value": 8317032,
+        "native_owner_value": 1449351272
+      },
+      "original_raw": 8317032,
+      "native_raw": 1449351272,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      307632,
+      307679
+    ],
+    "argument_bytes": 12,
+    "convention": "stdcall12 IrToken* EAX RET12",
+    "proof": "Whole47B frameless threepointerformals entryESP+4/+8/+12; RET12. Type.related+4 -> related+4 -> parameters+8 -> associated_type+0. new_typed_unary_expression46(object_type,object) thennew_left_typed_expressiona4(function,bound_object); two accepted callees, no additional helper/data/CRT/guard. No hidden/register/x87/flags input. Actualcaller EDI/EAX/ECX are ownership anchors only, not callee ABI formals.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "668e2581ca4f1b939715da05c15aa70dfa78936b3165af837ce0c27c8b741582",
+  "capture_timing": {
+    "original_capture_seconds": 1.568575918674469,
+    "native_capture_seconds": 0.18682935182005167,
+    "total_operation_seconds": 2.044614367187023
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "1e86794f62691606275124e6d5a654c56fb4781cfa2c3ea91f41ad1a79ebfde0",
+    "native-commands.gdb": "fe05eeebb6c3f04615652187b1b5c38e7b212ba8ac7886b7872b29e57c8adbcf",
+    "native-gdb.log": "48c4cf6a181c938de472b9c6decb8c03dc9921c60852cb7bb3d8fecd0ebc140a",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "4469811e7251cf611b3391adc2c75d6e4f2186a883c0426c9a7a7dbcb4550691",
+    "original-configuration.json": "6601f71df7ab415e10636c15599b7823464cdd262e7ffa67c2bd71265538bb1b",
+    "original-disassembly.txt": "afe56bc1ed7ead1a8e4bdf9fbe31d6828eb81182ba0d618ab41107dffef7191c",
+    "original-entries.plan": "12e4d9b23940a79675fb62e776e4c7e759025d7246c0477db2774c8aae8edcf4",
+    "original-events.txt": "c62dbbf3042d25d3e4a7755be09e9da490512ca401acf52d0d86fdad3f0b5d26",
+    "original-ownership-caller-disassembly.txt": "9a6b3220aaafbcd8282074f602e8ab5b488e5c407a07bfda679a2f669d1515a5",
+    "original-receipt.json": "0b106542ff22cf1d109231ea57f72b3b6f2f801cceba0858052d9ba198e7df35",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "f4ca60271300ef169298fd80e668c3a1a0cf99e187497fb4354762c993ab32f5"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

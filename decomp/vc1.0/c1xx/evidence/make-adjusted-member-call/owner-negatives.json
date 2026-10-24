@@ -1,0 +1,28 @@
+{
+  "scope": "Read-only production argument preflight with frozen original configuration; synthetic corruptions, no promotion or original execution",
+  "proof": "cases/argument-observations/state_machine_defined_debug/1248-make_adjusted_member_call-12/validation.json",
+  "proof_sha256": "2277560e54cc30dcc5dd6ee3684b53e516d11db1bdfea84b5fdcd30ba54fb4e3",
+  "checks": [
+    {
+      "test": "control",
+      "result": "verified",
+      "output": "fresh application arguments verified: _make_adjusted_member_call@12"
+    },
+    {
+      "test": "missing-anchor",
+      "result": "held",
+      "reason": "missing actual owner register anchor"
+    },
+    {
+      "test": "swapped-anchors",
+      "result": "held",
+      "reason": "original caller owner plus offset differs"
+    },
+    {
+      "test": "wrong-native-owner",
+      "result": "held",
+      "reason": "native actual caller local owner differs"
+    }
+  ],
+  "elapsed_seconds": 0.12589740380644798
+}

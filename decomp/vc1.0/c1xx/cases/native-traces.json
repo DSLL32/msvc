@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "bf74f9ec22c408b599b30543cb1188ac2f25c203655452a75863a0363786409b",
+    "functions.json": "dba383f7fb2a49dffcc9e98121b66cd5a64354bb26c74a35947432135667f12b",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "41aa70279dbeb4169a2ac2ca2a895c9f3234b0bc39dc0e8699050b1ff4dc4a8d",
-    "cases/canonical-map.txt": "35279c4363f9dd0f0e522a6b726d7dd0dce2e132d87560780bdb45d7e1d158b0",
+    "cases/original-entry-references.json": "299207cf7ef06cc648fb72d4adf2ab50ae9fe2b1c5f7a918d6e1c210b11a7aa6",
+    "cases/canonical-map.txt": "9d308bc15ca4d575bd3efad0ab70b4c628c14e5172d3dc965e0b5406e341fc97",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -64,9 +64,9 @@
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-receipt.json": "c9cbd20af4610da8f8c35487c1cb632113d35461981bd76aa2f7d60e10400717",
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-events.txt": "a7247c160287c63539d241bef68d979d6d6a4b4649e77c3b542cb394ffce4b8e",
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-entries.plan": "95e3224e0362e24a6ef5b495984403fa23be74272e90e204349cda7924f7f5d6",
-    "cases/frontiers/state_machine_defined_debug/1247-lower_multiple_inheritance_member_call-16/entry-reference/original-receipt.json": "6c131c813d26fbcfdf41d32e48a7fcf02b27fd443fd226f136b1a5239908deeb",
-    "cases/frontiers/state_machine_defined_debug/1247-lower_multiple_inheritance_member_call-16/entry-reference/original-events.txt": "2900fce5dd3b8c1cd259ab13c03e86aef541018d9709b46f4d59c0ba8e2c2f10",
-    "cases/frontiers/state_machine_defined_debug/1247-lower_multiple_inheritance_member_call-16/entry-reference/original-entries.plan": "c91bc7a9f9047a52fc23173f8b490b3df458de3b2fdd80dad7e8a649417d235e"
+    "cases/frontiers/state_machine_defined_debug/1248-make_adjusted_member_call-12/entry-reference/original-receipt.json": "9f5562c3eca135599277908ea16511f40d1c2fa9b207c9da2f6286d13348943d",
+    "cases/frontiers/state_machine_defined_debug/1248-make_adjusted_member_call-12/entry-reference/original-events.txt": "631afd299e1789671de540c706b29bece165b3934c621f12089a0cb6dd1cb10e",
+    "cases/frontiers/state_machine_defined_debug/1248-make_adjusted_member_call-12/entry-reference/original-entries.plan": "cefddfcd0aec3c5b0743988257c76cd77a4375ddce2e3708cf957ac888a6ba51"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -3499,7 +3499,7 @@
     },
     "make_adjusted_member_call": {
       "logical": "_make_adjusted_member_call@12",
-      "source": "src/stubs.c"
+      "source": "src/member-pointers.c"
     },
     "make_anonymous_identifier": {
       "logical": "_make_anonymous_identifier",
@@ -7149,7 +7149,8 @@
     "member_pointer_adjustment_value",
     "member_pointer_integer_field",
     "check_conversion_qualifiers",
-    "lower_multiple_inheritance_member_call"
+    "lower_multiple_inheritance_member_call",
+    "make_adjusted_member_call"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -12414,7 +12415,7 @@
     },
     "state_machine_defined_debug": {
       "first": 1232,
-      "last": 1248,
+      "last": 1249,
       "seen": [
         "main",
         "message_text",
@@ -13561,12 +13562,13 @@
         "member_pointer_integer_field",
         "check_conversion_qualifiers",
         "lower_multiple_inheritance_member_call",
-        "make_adjusted_member_call"
+        "make_adjusted_member_call",
+        "begin_hash_iteration"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_make_adjusted_member_call@12",
-        "native": "make_adjusted_member_call",
+        "logical": "_begin_hash_iteration@8",
+        "native": "begin_hash_iteration",
         "signal": 5
       }
     }

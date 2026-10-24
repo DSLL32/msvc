@@ -1,0 +1,76 @@
+{
+  "case": "state_machine_defined_debug",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 1248,
+  "terminal": "_make_adjusted_member_call@12",
+  "candidate": null,
+  "pending_accepted": [],
+  "configuration_sha256": "6601f71df7ab415e10636c15599b7823464cdd262e7ffa67c2bd71265538bb1b",
+  "capture_seconds": 1.568575918674469,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "state-machine.cpp": {
+      "bytes": 5318,
+      "sha256": "706784046de178ea63d8db17e4fd9aa20277d7ac7702253700d66dc9408536d6"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irdb": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 4915,
+      "sha256": "f53184bb22506dacc86f7a4bed71304bbf6d0eda0bce61954d76e888bf54f1a6"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\state-machine-defined-debug",
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "observer_sha256": "b2fb8bfb0f5e6517b3d24996e25c0fbb12e74eb4feb26993f0216508550fff32",
+  "ownership_register_observations": [
+    {
+      "register": "edi",
+      "value": 8449296,
+      "read_succeeded": true
+    },
+    {
+      "register": "eax",
+      "value": 8449376,
+      "read_succeeded": true
+    },
+    {
+      "register": "ecx",
+      "value": 8317032,
+      "read_succeeded": true
+    }
+  ],
+  "ownership_entry_projection": {
+    "accepted_first": 1232,
+    "accepted_last": 1248,
+    "accepted_prefix_sha256": "9ede8c6256872f90a1f542e4754a681833ea58516ac3bd481dfec629e4f8968c",
+    "expected": [
+      "_lower_multiple_inheritance_member_call@16"
+    ],
+    "observed": [
+      "_lower_multiple_inheritance_member_call@16"
+    ],
+    "events_sha256": "c62dbbf3042d25d3e4a7755be09e9da490512ca401acf52d0d86fdad3f0b5d26",
+    "plan_sha256": "12e4d9b23940a79675fb62e776e4c7e759025d7246c0477db2774c8aae8edcf4",
+    "scope": "single explicitly selected accepted ownership caller entry; not a full case trace"
+  }
+}

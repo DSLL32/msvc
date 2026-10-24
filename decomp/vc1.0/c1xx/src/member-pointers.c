@@ -442,6 +442,16 @@ int __stdcall convert_member_pointer_object(IrToken *expression)
 
 /* Original 0x4ad80..0x4ae16, stdcall8. Separate evaluation required
    before an indirect member call from its object and callable expression. */
+/* Original 0x4b1b0..0x4b1de. Bind the adjusted object to the
+   selected member function using the owning class type. */
+IrToken *__stdcall make_adjusted_member_call(IrToken *function, IrToken *object,
+    CType *type)
+{
+    CType *object_type = type->related->related->data.parameters->associated_type;
+    IrToken *bound_object = new_typed_unary_expression(0x46, object_type, object);
+    return new_left_typed_expression(0xa4, function, bound_object);
+}
+
 /* Original 0x4ae20..0x4ae9d. Reuse an addressable member pointer,
    or retain its initial evaluation separately in the caller's prefix. */
 IrToken *__stdcall lower_multiple_inheritance_member_call(IrToken *object,

@@ -595,4 +595,3 @@ IrToken *__stdcall convert_general_to_virtual_data_pointer(IrToken *expression, 
 IrToken *__stdcall convert_general_data_member_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base) { __asm { int 3 } return 0; }
 
 IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int displacement) { __asm { int 3 } return 0; }
-IrToken *__stdcall make_adjusted_member_call(IrToken *function, IrToken *object, CType *type) { __asm { int 3 } return 0; }

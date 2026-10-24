@@ -1252,7 +1252,8 @@
     "_member_pointer_adjustment_value@8",
     "_member_pointer_integer_field@12",
     "_check_conversion_qualifiers@16",
-    "_lower_multiple_inheritance_member_call@16"
+    "_lower_multiple_inheritance_member_call@16",
+    "_make_adjusted_member_call@12"
   ],
   "driver": [
     {
@@ -8799,7 +8800,7 @@
     {
       "name": "_make_adjusted_member_call@12",
       "start": 307632,
-      "end": 307633
+      "end": 307679
     }
   ],
   "cases": {
@@ -9290,8 +9291,8 @@
           "original": 576700
         }
       ],
-      "terminal": "_make_adjusted_member_call@12",
-      "terminal_evidence": "cases/frontiers/state_machine_defined_debug/1247-lower_multiple_inheritance_member_call-16/original-events.txt",
+      "terminal": "_begin_hash_iteration@8",
+      "terminal_evidence": "cases/frontiers/state_machine_defined_debug/1248-make_adjusted_member_call-12/original-events.txt",
       "original_seed": "cases/state_machine_defined_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/frontier-extension.json",
@@ -9309,7 +9310,8 @@
         "cases/frontiers/state_machine_defined_debug/1244-member_pointer_adjustment_value-8/frontier-extension.json",
         "cases/frontiers/state_machine_defined_debug/1245-member_pointer_integer_field-12/frontier-extension.json",
         "cases/frontiers/state_machine_defined_debug/1246-check_conversion_qualifiers-16/frontier-extension.json",
-        "cases/frontiers/state_machine_defined_debug/1247-lower_multiple_inheritance_member_call-16/frontier-extension.json"
+        "cases/frontiers/state_machine_defined_debug/1247-lower_multiple_inheritance_member_call-16/frontier-extension.json",
+        "cases/frontiers/state_machine_defined_debug/1248-make_adjusted_member_call-12/frontier-extension.json"
       ]
     }
   },

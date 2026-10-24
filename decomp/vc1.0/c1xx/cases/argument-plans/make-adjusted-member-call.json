@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "function": "_make_adjusted_member_call@12",
+  "native_entry": "make_adjusted_member_call",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_function": "(unsigned)function",
+    "raw_object": "(unsigned)object",
+    "raw_type": "(unsigned)type"
+  },
+  "formals": [
+    {
+      "name": "function",
+      "stack_index": 0,
+      "native_field": "raw_function",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 241302,
+        "original_owner_function": "_lower_multiple_inheritance_member_call@16",
+        "native_owner_function": "lower_multiple_inheritance_member_call",
+        "native_owner_field": "caller_function",
+        "native_owner_local": "function",
+        "identity": "Accepted caller stores member_pointer_function_value return EDI4ae67; new_left_typed_expression5a returns actual adjusted object EAX4ae8a; loads type ECX from formal adjustedESP+24. PUSH ECX/EAX/EDI4ae8e..4ae90 CALL4ae91 return4ae96. Native binds actual function/adjusted/type caller locals, no raw cross-process address equality."
+      }
+    },
+    {
+      "name": "object",
+      "stack_index": 1,
+      "native_field": "raw_object",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 241302,
+        "original_owner_function": "_lower_multiple_inheritance_member_call@16",
+        "native_owner_function": "lower_multiple_inheritance_member_call",
+        "native_owner_field": "caller_adjusted",
+        "native_owner_local": "adjusted",
+        "identity": "Accepted caller stores member_pointer_function_value return EDI4ae67; new_left_typed_expression5a returns actual adjusted object EAX4ae8a; loads type ECX from formal adjustedESP+24. PUSH ECX/EAX/EDI4ae8e..4ae90 CALL4ae91 return4ae96. Native binds actual function/adjusted/type caller locals, no raw cross-process address equality."
+      }
+    },
+    {
+      "name": "type",
+      "stack_index": 2,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ecx",
+        "original_caller_rva": 241302,
+        "original_owner_function": "_lower_multiple_inheritance_member_call@16",
+        "native_owner_function": "lower_multiple_inheritance_member_call",
+        "native_owner_field": "caller_type",
+        "native_owner_local": "type",
+        "identity": "Accepted caller stores member_pointer_function_value return EDI4ae67; new_left_typed_expression5a returns actual adjusted object EAX4ae8a; loads type ECX from formal adjustedESP+24. PUSH ECX/EAX/EDI4ae8e..4ae90 CALL4ae91 return4ae96. Native binds actual function/adjusted/type caller locals, no raw cross-process address equality."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "edi,eax,ecx",
+  "ownership_caller_extent": [
+    306720,
+    306846
+  ],
+  "native_caller_locals": {
+    "caller_function": {
+      "frame": 1,
+      "function": "lower_multiple_inheritance_member_call",
+      "local": "function"
+    },
+    "caller_adjusted": {
+      "frame": 1,
+      "function": "lower_multiple_inheritance_member_call",
+      "local": "adjusted"
+    },
+    "caller_type": {
+      "frame": 1,
+      "function": "lower_multiple_inheritance_member_call",
+      "local": "type"
+    }
+  },
+  "abi_analysis": {
+    "original_extent": [
+      307632,
+      307679
+    ],
+    "argument_bytes": 12,
+    "convention": "stdcall12 IrToken* EAX RET12",
+    "proof": "Whole47B frameless threepointerformals entryESP+4/+8/+12; RET12. Type.related+4 -> related+4 -> parameters+8 -> associated_type+0. new_typed_unary_expression46(object_type,object) thennew_left_typed_expressiona4(function,bound_object); two accepted callees, no additional helper/data/CRT/guard. No hidden/register/x87/flags input. Actualcaller EDI/EAX/ECX are ownership anchors only, not callee ABI formals."
+  }
+}
