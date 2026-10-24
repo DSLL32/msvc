@@ -97,5 +97,70 @@
     "sha256": "f1ae027f7b45b4bd820b545f9eba4a0a077c1ee6c7004120172f1ea867bef2d2"
   },
   "affected_checks": "Default native, unbound MB surface and68624oldpost1252 rows+23denials pass",
-  "remaining": "Own actual C1 native normal/restore adoption required before application acceptance; no _getmbcp API or other codepage behavior enabled."
+  "remaining": "C1 own normal/restore adoption complete; separate C1XX Last203 extension88b264783 has its own validation/adoption record.",
+  "actual_C1_adoption": {
+    "accepted_checkpoint": "4fa2f58a",
+    "shared_source_commit": "b9863419d",
+    "proofs": {
+      "normal": {
+        "proof": {
+          "path": "decomp/vc5.10/c1/cases/minimal/evidence/multibyte-normal/acceptance-proof.json",
+          "sha256": "53c966ed63b86b1c158065b2f87cc61930606d538e0cb643ffdab3f7cfd693cd"
+        },
+        "validation_sha256": "1a4fa8ccb1536735fa969526826b84fd461268520739952aa05e11530417c45c",
+        "capture_inputs": {
+          "original": {
+            "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-multibyte-001",
+            "receipt_sha256": "d2dbc20e792aaba5b168a4c9c4c233ee306b407770d5be7527b5fdd204b857d5"
+          },
+          "native": {
+            "path": "/root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-multibyte-001",
+            "receipt_sha256": "d5029b5ef0a54b880968527fb88b63584f19db06eee88066ec2de6bab37fc84a"
+          }
+        },
+        "native_ELF_sha256": "db387b8d2998f977b2a012d8169e7015181cf7559b9e03bfee6dea3692b5f0de",
+        "native_compiled_build_sha256": "3f0a1773967434406ea94d74567ceec7603101280a723521e512e9bc19524d2f",
+        "parent_reviews": {
+          "grouped-reader-parent-review.json": {
+            "path": "cases/minimal/evidence/scanner-policy/grouped-reader-parent-review.json",
+            "sha256": "e881319ca097647f6bc58a1c2fa1a9831e2e933b177f93874d5e4a63ab786ccc"
+          },
+          "scanner-policy-parent-review.json": {
+            "path": "cases/minimal/evidence/scanner-policy/scanner-policy-parent-review.json",
+            "sha256": "13cc8cd2435f3034428b39db893b8c7b9774e363f648a39812909f6afd1e6d39"
+          }
+        }
+      },
+      "restore": {
+        "proof": {
+          "path": "decomp/vc5.10/c1/cases/minimal/evidence/multibyte-restore/acceptance-proof.json",
+          "sha256": "bdaa29606a76957f61998a890b64a8debd56149541c1fbc51d922c104e768c97"
+        },
+        "validation_sha256": "ccdbedbfa74b7fb28be88d0da76a61b950e745aa7665e5b57fd04e90c40a3862",
+        "capture_inputs": {
+          "original": {
+            "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-multibyte-restore-001",
+            "receipt_sha256": "224af79880cc992c95621c89c2ee807d6468f58685b8d3d8161871736cd1ec79"
+          },
+          "native": {
+            "path": "/root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-multibyte-restore-002",
+            "receipt_sha256": "4d4fed819846b8778bd4f26ffdede05cc41f0d14900b56bae50740bdc8476ea4"
+          }
+        },
+        "native_ELF_sha256": "db387b8d2998f977b2a012d8169e7015181cf7559b9e03bfee6dea3692b5f0de",
+        "native_compiled_build_sha256": "3f0a1773967434406ea94d74567ceec7603101280a723521e512e9bc19524d2f",
+        "parent_reviews": {
+          "grouped-reader-parent-review.json": {
+            "path": "cases/minimal/evidence/scanner-policy/grouped-reader-parent-review.json",
+            "sha256": "e881319ca097647f6bc58a1c2fa1a9831e2e933b177f93874d5e4a63ab786ccc"
+          },
+          "scanner-policy-parent-review.json": {
+            "path": "cases/minimal/evidence/scanner-policy/scanner-policy-parent-review.json",
+            "sha256": "13cc8cd2435f3034428b39db893b8c7b9774e363f648a39812909f6afd1e6d39"
+          }
+        }
+      }
+    },
+    "scope": "Actual own normal/restore isolatedLC_CTYPE then_setmbcp(-4), all257MB/257current-oldctype/result/pointer-lifetime/errors0/0/0/FP/privatevectors and next12f3e match. Real target APIs perform transitions after own receipt binding; no CRT application credit or DBCS claim."
+  }
 }
