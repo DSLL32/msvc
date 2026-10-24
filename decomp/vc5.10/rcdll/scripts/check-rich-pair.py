@@ -30,7 +30,13 @@ with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/ms
             # their typed predicate rather than an unrelated cross-pin.
             reference=json.loads(reference_before);reference['original_receipt_sha256']=sha(old/'receipt.json');(new/'case-reference.json').write_text(json.dumps(reference));refresh(new,'case-reference.json')
         try:validate(old,new)
-        except (AssertionError,KeyError):controls.append(name)
+        except (AssertionError,KeyError)as error:
+            if a.stage=='evaluate-condition':
+                trace=error.__traceback__
+                while trace.tb_next:trace=trace.tb_next
+                assert trace.tb_frame.f_code.co_filename.endswith('/rich_protocol.py'),'semantic negative rejected at outer transport: '+name
+                scope_controls.append(dict(name=name,predicate_function=trace.tb_frame.f_code.co_name,predicate_line=trace.tb_lineno,semantic_rejection=True))
+            controls.append(name)
         else:raise AssertionError('bad evidence passed: '+name)
         path.write_bytes(original);(directory/'receipt.json').write_bytes(receipt)
         if reference_before is not None:
