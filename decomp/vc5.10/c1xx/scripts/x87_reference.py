@@ -6,11 +6,8 @@ from pathlib import Path
 def prepare(project,original,output,trial):
     sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
     original=original.resolve();receipt=json.loads((original/'receipt.json').read_text());binding=json.loads((output/'system-info-binding.json').read_text());reference=sha(original/'receipt.json')
-    from system_info_reference import native_only_trial_refresh
-    try:refresh=native_only_trial_refresh((original/'trial.json').read_bytes(),(output/'trial.json').read_bytes())
-    except ValueError:
-        from options_abi_refinement import check as check_options_refinement
-        refresh=check_options_refinement(original,output)
+    from system_info_reference import checked_trial_refresh
+    refresh=checked_trial_refresh(original,output,trial)
     if binding.get('native_only_trial_refresh')!=refresh or binding.get('native_trial_sha256')!=sha(output/'trial.json'):raise ValueError('x87 native refresh lacks checked exact trial identity')
     if binding['original_directory']!=str(original) or binding['original_receipt_sha256']!=reference or binding['trial_sha256']!=sha(original/'trial.json'):raise ValueError('x87 profile is not the already verified exact original input closure')
     raw=original/'x87-context-000.bin';row=receipt['artifacts'].get(raw.name)

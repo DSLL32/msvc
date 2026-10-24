@@ -3,7 +3,7 @@
   "project": "vc5.10",
   "toolchain": "5.10",
   "binary": "C1XX.DLL",
-  "state": "autonomous minimal C++ reconstruction: multibyte lexer initializer accepted; lowercase-table helper frontier",
+  "state": "autonomous minimal C++ reconstruction: filename folding accepted; actual read_env_arguments(NULL) frontier",
   "cases": [
     {
       "id": "dll-lifecycle-and-exports",
@@ -29,7 +29,7 @@
         "/Od",
         "minimal.cpp"
       ],
-      "status": "active: multibyte categories initializer accepted72B; actual lowercase-table helper frontier",
+      "status": "active: filename case-map initializer accepted83B; actual NULL environment-arguments frontier",
       "source_sha256": "deac66ccb79f6d31c0fa7d358de48e083c15c02ff50ec1ebd4b64314b9e6e196",
       "contract": "minimal/contract.json",
       "validation": "minimal/invoke-validation.json",
@@ -59,7 +59,8 @@
       "options_validation": "minimal/options-trial.json",
       "language_context_validation": "minimal/language-context-trial.json",
       "include_aliases_validation": "minimal/include-aliases-trial.json",
-      "scanner_validation": "minimal/scanner-trial.json"
+      "scanner_validation": "minimal/scanner-trial.json",
+      "filename_case_validation": "minimal/path-fold-trial.json"
     },
     {
       "id": "cpp-basic",

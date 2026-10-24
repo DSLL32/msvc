@@ -1,5 +1,5 @@
 {
-  "schema": 35,
+  "schema": 36,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -3926,6 +3926,16 @@
       ],
       "component_type": "unsigned char[256]",
       "evidence": "own complete256-byte unsigned input domains; ASCII semantic map and both GCC standalone/original5.10 DLL compiled512-byte defaults compared against own canonical target"
+    },
+    {
+      "name": "filename_case_map",
+      "class": "bss",
+      "original_address": 273421304,
+      "bytes": 512,
+      "native_expression": "frontend_bss.filename_case_map",
+      "original_default": "zero BSS WORD256",
+      "component_type": "unsigned short[256]",
+      "evidence": "own initializer393ca..39413/cold7242c..72436 and filename canonicalizer398cd..3990d; exact512-byte map/FFFF lead sentinel/slash forcedbackslash"
     }
   ],
   "initializers": [
@@ -4499,5 +4509,14 @@
     "lead_flag_or": 128,
     "mbctype_mask": 4,
     "limits": "all original gaps unknown; table flag meanings beyond encountered bit80/actualconsumer map not inferred"
+  },
+  "filename_case_projection": {
+    "original_rva": 791544,
+    "bytes": 512,
+    "native_offset": 2312,
+    "consumer_rva": 235725,
+    "new_BSS_semantic_bytes": 512,
+    "native_BSS_bytes": 2824,
+    "unknown_initialized_bytes": 6031
   }
 }

@@ -319,7 +319,6 @@ void push_declaration_context(int context)
 }
 
 
-void initialize_lowercase_table(void) { __asm { int 3 } }
 void read_env_arguments(char *arguments) { __asm { int 3 } }
 char *duplicate_argument(const char *argument, int copy) { __asm { int 3 } return NULL; }
 int report_response_error(int number, ...) { __asm { int 3 } return 0; }

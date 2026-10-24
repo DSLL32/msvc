@@ -271,6 +271,10 @@ if 'checksum_tables'in value['frontend']['declared_fields']['bss']:
     value['frontend']['checksum_tables']={key:list(checksum_raw[i*256:(i+1)*256])for i,key in enumerate(('update','high','low'))}
     value['frontend']['storage']['checksum_tables']=[checksum_address,768]
     value['frontend']['checksum_native_layout']={'size':int(checksum_type.sizeof),'fields':{f.name:[f.bitpos//8,int(f.type.sizeof),str(f.type)]for f in checksum_type.fields()}}
+if 'filename_case_map'in value['frontend']['declared_fields']['bss']:
+    obj=gdb.parse_and_eval('frontend_bss.filename_case_map');address=int(obj.address)
+    value['frontend']['filename_case_map']=list(struct.unpack('<256H',gdb.selected_inferior().read_memory(address,512)))
+    value['frontend']['storage']['filename_case_map']=[address,512]
 if 'scanner'in value['frontend']['declared_fields']['initialized']:
     obj=gdb.parse_and_eval('frontend_data.scanner');address=int(obj.address);raw=gdb.selected_inferior().read_memory(address,512).tobytes()
     saved=gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&frontend_bss.saved_state->scanner')),512).tobytes()if value['frontend']['saved_state']else None
@@ -321,6 +325,8 @@ end
         options_seed+="python\nobj=gdb.parse_and_eval('frontend_bss.checksum_tables');gdb.selected_inferior().write_memory(int(obj.address),bytes([0xa5])*768)\nend\n"
     if model['schema']>=35 and trial.get('test_seed'):
         options_seed+="python\nfor expression,start in [('frontend_data.scanner',31),('frontend_bss.saved_state->scanner',11)]:\n    obj=gdb.parse_and_eval(expression);gdb.selected_inferior().write_memory(int(obj.address),bytes((69*7+i+start)&255 for i in range(512)))\nend\n"
+    if model['schema']>=36 and trial.get('test_seed'):
+        options_seed+="python\nobj=gdb.parse_and_eval('frontend_bss.filename_case_map');gdb.selected_inferior().write_memory(int(obj.address),struct.pack('<256H',*[(0x8101+37*i)&65535 for i in range(256)]))\nend\n"
     observer='break *initialize_compiler_pass\ncommands\nsilent\n'+pdb_seed+options_seed+'source '+str(pre)+'\ncontinue\nend\n'
     if trial['trial']=='_checked_malloc':
         allocation=output/'collect-allocation-entry.gdb'
@@ -509,7 +515,7 @@ end
     system_finish=''
     if trial.get('system_info_observers'):
         from system_info_probe import setup as setup_system_info
-        system_observer,system_finish=setup_system_info(output,collector)
+        system_observer,system_finish=setup_system_info(output,collector,allow_options=bool(trial.get('lowercase_observers')))
         observer+=system_observer
     scaler_finish=''
     if trial.get('scaler_observers'):
@@ -528,6 +534,10 @@ end
         from scanner_probe import setup as setup_scanner
         scanner_observer,scanner_finish=setup_scanner(output,binary)
         observer+=scanner_observer;scaler_finish+=scanner_finish
+    if trial.get('lowercase_observers'):
+        from path_fold_probe import setup as setup_fold
+        fold_observer,fold_finish=setup_fold(output,binary,trial.get('test_seed'))
+        observer+=fold_observer;scaler_finish+=fold_finish
     from collector_cache import prepare as prepare_collector_cache
     cache_startup=prepare_collector_cache(output,collector)
     def timed_source(match):
@@ -541,7 +551,7 @@ end
     commands.write_text(timing_start+cache_startup+'set pagination off\nset confirm off\nset exec-wrapper '+str(wrapper)+'\n'+observer+timing_before_run+'run > '+str(output/'stdout.bin')+' 2> '+str(output/'stderr.bin')+'\n'+timing_after_run+auxiliary+'bt\nsource '+str(collector)+'\n'+allocation_finish+switch_finish+system_finish+scaler_finish+timing_finish+'quit\n')
     started=time.perf_counter()
     result=subprocess.run(['gdb','--batch','-x',str(commands),'--args',str(binary)],cwd=output,env=environment,
-                          stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=15)
+                          stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=30 if trial.get('lowercase_observers') else 15)
     elapsed=time.perf_counter()-started
     (output/'gdb.txt').write_bytes(result.stdout)
     if (output/'gdb-timing.json').exists():

@@ -97,6 +97,8 @@ def main():
     if not trial_path.is_file():
         raise ValueError("prepare the exact whole-function trial before capture")
     trial = json.loads(trial_path.read_text())
+    if trial.get('lowercase_observers') and b'path-fold-observer entry=000393ca iat=000c9054' not in (PROJECT/'build/dll-capture.exe').read_bytes():
+        raise ValueError('build/dll-capture.exe lacks required filename-fold observations; rebuild that explicit target')
     candidate_path = json.loads((PROJECT / "functions.json").read_text()).get("candidate_path", "cases/lifecycle/candidate.json")
     snapshot = [PROJECT / candidate_path, PROJECT / "functions.json",
                 PROJECT / "runtime.json", PROJECT / "graph-metadata.json",
@@ -121,7 +123,7 @@ def main():
         for row in trial["ranges"]))
     shutil.copy2(PROJECT / "build/dll-capture.exe", output / "dll-capture.exe")
     shutil.copy2(PROJECT / "build/native/c1xx-host", output / "native-executable.elf")
-    for source in ("dll-capture.c", "invoke-arguments.h", "options-fields.h", "locale-observer.inc"):
+    for source in ("dll-capture.c", "invoke-arguments.h", "options-fields.h", "locale-observer.inc", "path-fold-observer.inc"):
         shutil.copy2(PROJECT / "scripts" / source, output / source)
     environment = transport.environment()
     if trial["case"] == "minimal":
@@ -156,6 +158,8 @@ def main():
             environment['C1XX_OBSERVE_ISOLATED_LOCALE']='1'
         environment.pop('C1XX_OBSERVE_MULTIBYTE',None)
         if trial.get('multibyte_observers'):environment['C1XX_OBSERVE_MULTIBYTE']='1'
+        environment.pop('C1XX_OBSERVE_LOWERCASE',None)
+        if trial.get('lowercase_observers'):environment['C1XX_OBSERVE_LOWERCASE']='1'
         environment.pop('C1XX_TEST_ARENA_RESET',None)
         if trial.get('test_arena_reset_seed'):environment['C1XX_TEST_ARENA_RESET']='1'
         environment.pop('C1XX_TEST_OUTPUT_CONSTRUCTOR',None)

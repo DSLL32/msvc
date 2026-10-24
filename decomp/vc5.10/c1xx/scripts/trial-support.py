@@ -44,9 +44,13 @@ def receipt(directory, original=False):
                 require(original and item in ('build/c1n32_l.dll','build/c1xx.map'), "execution input changed " + item)
                 # Exact type-only refinement is proved after both raw receipts
                 # are checked; no general stale-image exemption is granted.
-                from options_abi_refinement import check as check_options_refinement
-                require(NATIVE_PAIR_DIRECTORY is not None,'missing native pair for type-only refinement')
-                check_options_refinement(directory,NATIVE_PAIR_DIRECTORY)
+                require(NATIVE_PAIR_DIRECTORY is not None,'missing native pair for exact compiled-source refinement')
+                if json.loads((directory/'trial.json').read_text()).get('trial')=='_initialize_lowercase_table':
+                    from path_fold_reset_refinement import check as check_reset_refinement
+                    check_reset_refinement(directory,NATIVE_PAIR_DIRECTORY)
+                else:
+                    from options_abi_refinement import check as check_options_refinement
+                    check_options_refinement(directory,NATIVE_PAIR_DIRECTORY)
     for name, record in value["artifacts"].items():
         require(Path(name).name == name, "artifact escaped capture directory")
         path = directory / name

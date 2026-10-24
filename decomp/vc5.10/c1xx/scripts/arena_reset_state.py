@@ -14,7 +14,7 @@ def check(s,d,original,native,trial,text,state,final,symbol_table,traps):
     def call(ret,destination):
         code=bytes(d.elf_byte(native,ret-5+i)for i in range(5));require(code[0]==0xe8 and ret+struct.unpack_from('<i',code,1)[0]==destination,'not actual native CALL')
     names=elf_symbols(native/'native-executable.elf');metadata=read('scaler-probe-metadata');require(metadata==describe(native/'native-executable.elf'),'stale/guessed conversion instruction metadata')
-    require(trial['trial'] in ('CompilerArena::Reset','_initialize_pool_arenas','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','_process_compiler_options','_push_declaration_context','_initialize_include_aliases','_initialize_checksums','_initialize_multibyte_categories') and 'import:_ftol' in trial['accepted'] and not trial.get('support_imports'),'not sole Reset candidate with durable compiler import')
+    require(trial['trial'] in ('CompilerArena::Reset','_initialize_pool_arenas','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','_process_compiler_options','_push_declaration_context','_initialize_include_aliases','_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table') and 'import:_ftol' in trial['accepted'] and not trial.get('support_imports'),'not sole Reset candidate with durable compiler import')
     require(trial['arena_reset_observers']=={'entry_rva':0x38f0a,'return_rva':0x38ec8,'calls':9,'receiver_rvas':[0xc6500+i*32 for i in range(9)],'return_semantics':'void; caller overwrites EAX','full_original_bss_guard':True},'wrong declared Reset observer scope')
     rows=re.findall(r'^scaler point=(\d+) seq=(\d+) rva=(\w+) eax=(\w+) edx=(\w+) ecx=(\w+) edi=(\w+) esi=(\w+) ebx=(\w+) esp=(\w+) error=(\d+) cw=(\w+) sw=(\w+) tag=(\w+) stack=([0-9a-f,]+)$',text,re.M)
     points=[0x38ed7,0x38edd,0x38ee3,0x38ee9,0x38eee,0x38e81,0x38ea9,0x38eaf]
@@ -122,6 +122,8 @@ def check(s,d,original,native,trial,text,state,final,symbol_table,traps):
         loop_state['language_contexts']=list(struct.unpack_from('<10i',bytes.fromhex(pool['guard']['bss']),1504))
     if '_initialize_include_aliases'in trial['accepted']:
         loop_state['options_data']['include_aliases']=struct.unpack_from('<I',bytes.fromhex(pool['guard']['data']),loop_state['options_data_layout']['fields']['include_aliases'][0]+200)[0]
+    if 'filename_case_map'in loop_state:
+        loop_state['filename_case_map']=list(struct.unpack('<256H',bytes.fromhex(pool['guard']['bss'])[2312:2824]))
     if 'checksum_tables'in loop_state:
         tables=bytes.fromhex(pool['guard']['bss'])[1544:2312];loop_state['checksum_tables']={key:list(tables[i*256:(i+1)*256])for i,key in enumerate(('update','high','low'))}
     if 'CompilerPool::BindArena' in trial['accepted']:loop_state['pools'][9]['arena']=0

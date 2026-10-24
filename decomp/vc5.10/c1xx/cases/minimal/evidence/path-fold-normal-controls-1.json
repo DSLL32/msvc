@@ -1,0 +1,107 @@
+{
+  "kind": "fresh affected filename projection/public-vector semantic controls after whole strict positive; no original/native execution",
+  "bindings": {
+    "original_receipt_sha256": "407c8063150937f6fb78aa13ddea9bbfa3059843b04782a5218b618bd2480efd",
+    "native_receipt_sha256": "3f72a10416c5c40b5d2cd8e54dd6d64df9fca85a3b503f8cf1ed73d6a18a53ec"
+  },
+  "original_directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-original-2",
+  "native_directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1",
+  "count": 23,
+  "cases": [
+    {
+      "case": "entry-PC",
+      "rejection": "filename fold: actual helper/next PC/formals/NULL input"
+    },
+    {
+      "case": "entry-formal",
+      "rejection": "filename fold: actual helper/next PC/formals/NULL input"
+    },
+    {
+      "case": "map-alias",
+      "rejection": "filename fold: actual512 WORD array storage/alias"
+    },
+    {
+      "case": "input-live",
+      "rejection": "filename fold: all512 new fields/default/nonzero reset"
+    },
+    {
+      "case": "BSS-clear",
+      "rejection": "filename fold: all512 new fields/default/nonzero reset"
+    },
+    {
+      "case": "helper-input",
+      "rejection": "filename fold: actual labeled helper overwrite input"
+    },
+    {
+      "case": "map-output",
+      "rejection": "filename fold: complete512B output/forcedslash/fullneighbor/lifetime"
+    },
+    {
+      "case": "serialized-map",
+      "rejection": "filename fold: complete512B output/forcedslash/fullneighbor/lifetime"
+    },
+    {
+      "case": "neighbor",
+      "rejection": "filename fold: complete512B output/forcedslash/fullneighbor/lifetime"
+    },
+    {
+      "case": "helper-RET",
+      "rejection": "filename fold: actual helper RET0/nonvolatile; no incidental EAX claim"
+    },
+    {
+      "case": "helper-nonvolatile",
+      "rejection": "filename fold: actual helper RET0/nonvolatile; no incidental EAX claim"
+    },
+    {
+      "case": "next-input",
+      "rejection": "filename fold: actual helper/next PC/formals/NULL input"
+    },
+    {
+      "case": "next-formal",
+      "rejection": "filename fold: actual helper/next PC/formals/NULL input"
+    },
+    {
+      "case": "public-count",
+      "rejection": "filename fold: complete actual public call inventory"
+    },
+    {
+      "case": "public-input",
+      "rejection": "filename fold: actual public PC/unsigned formal/input"
+    },
+    {
+      "case": "public-formal",
+      "rejection": "filename fold: actual public PC/unsigned formal/input"
+    },
+    {
+      "case": "public-unsigned-result",
+      "rejection": "filename fold: actual public cdecl4/RET0/full unsigned result/nonvolatile"
+    },
+    {
+      "case": "public-RET",
+      "rejection": "filename fold: actual public cdecl4/RET0/full unsigned result/nonvolatile"
+    },
+    {
+      "case": "public-nonvolatile",
+      "rejection": "filename fold: actual public cdecl4/RET0/full unsigned result/nonvolatile"
+    },
+    {
+      "case": "public-FP",
+      "rejection": "filename fold: full API locale/oldtable/result/selection/error/architecturalFP state"
+    },
+    {
+      "case": "public-state",
+      "rejection": "filename fold: full API locale/oldtable/result/selection/error/architecturalFP state"
+    },
+    {
+      "case": "public-partial-map",
+      "rejection": "filename fold: all partial512 outputs/only owned writes/API no target mutation"
+    },
+    {
+      "case": "private-vector",
+      "rejection": "filename fold: private vectors/content/identity/lifetime"
+    }
+  ],
+  "seconds": 50.74794294685125,
+  "checker_sha256": "ace244139cae8fa511d2a6dfeeb2396a474a6c9c2e452c90c217fa62593404f2",
+  "semantic_checker_sha256": "21776a38105a637c6734e1da50dc490b9df5621b4f080b58238eb8f813ea5a41"
+}

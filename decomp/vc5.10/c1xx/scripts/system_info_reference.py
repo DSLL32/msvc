@@ -21,6 +21,20 @@ def native_only_trial_refresh(original_bytes,current_bytes):
     if after!=before:raise ValueError('original execution input changed beyond native ELF binding')
     return {'kind':'same immutable original execution; changed native ELF binding only','original_trial_sha256':hashlib.sha256(original_bytes).hexdigest(),'native_trial_sha256':hashlib.sha256(current_bytes).hexdigest(),'original_bound_native_sha256':old,'current_native_sha256':new,'only_changed_field':'bound_inputs.build/native/c1xx-host'}
 
+def checked_trial_refresh(original,output,trial):
+    try:return native_only_trial_refresh((original/'trial.json').read_bytes(),(output/'trial.json').read_bytes())
+    except ValueError:
+        if trial.get('lowercase_observers'):
+            import path_fold_reset_refinement as reset
+            result=reset.check(original,output)
+            for source,name in ((Path(reset.__file__),'path-fold-reset-refinement-source.py'),(Path(result['rule_path']),'path-fold-reset-refinement.json')):
+                (output/name).write_bytes(source.read_bytes())
+            result['validator_sha256']=sha(Path(reset.__file__))
+            return result
+        from options_abi_refinement import check as check_options_refinement
+        return check_options_refinement(original,output)
+
+
 def prepare(project,original,output,trial):
     original=original.resolve();root=project.parents[2]
     receipt=json.loads((original/'receipt.json').read_text())
@@ -28,10 +42,7 @@ def prepare(project,original,output,trial):
     for name,row in receipt['artifacts'].items():
         file=original/name
         if Path(name).name!=name or not file.is_file() or sha(file)!=row['sha256'] or file.stat().st_size!=row['size']:raise ValueError('original response artifact drift '+name)
-    try:refresh=native_only_trial_refresh((original/'trial.json').read_bytes(),(output/'trial.json').read_bytes())
-    except ValueError:
-        from options_abi_refinement import check as check_options_refinement
-        refresh=check_options_refinement(original,output)
+    refresh=checked_trial_refresh(original,output,trial)
     original_trial=json.loads((original/'trial.json').read_text())
     if original_trial['bound_inputs']['build/native/c1xx-host']!=receipt['native_sha256'] or trial['bound_inputs']['build/native/c1xx-host']!=sha(output/'native-executable.elf'):raise ValueError('original/current native execution binding differs')
     for side in ('target','msvcrt'):

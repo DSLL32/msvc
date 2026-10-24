@@ -1,4 +1,5 @@
 #include <mbctype.h>
+#include <mbstring.h>
 #include "frontend.h"
 #include <recon.h>
 
@@ -20,4 +21,16 @@ void initialize_multibyte_categories(void)
             frontend_data.scanner.classes[character] = SC_LEAD;
         }
     }
+}
+void initialize_lowercase_table(void)
+{
+    unsigned character;
+
+    for (character = 0; character < 256; ++character) {
+        if (frontend_data.scanner.classes[(unsigned char)character] == SC_LEAD)
+            frontend_bss.filename_case_map[character] = 0xffff;
+        else
+            frontend_bss.filename_case_map[character] = (WORD)_mbctolower(character);
+    }
+    frontend_bss.filename_case_map['/'] = '\\';
 }

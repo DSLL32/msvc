@@ -1,0 +1,26 @@
+{
+  "kind": "four original semantic controls; temporary mutated artifacts with explicitly rebound transport hashes, no target execution",
+  "original_receipt_sha256": "407c8063150937f6fb78aa13ddea9bbfa3059843b04782a5218b618bd2480efd",
+  "count": 4,
+  "cases": [
+    {
+      "case": "public-input",
+      "rejection": "original filename fold: actual cdecl4 argument/RET0"
+    },
+    {
+      "case": "cached-EBP",
+      "rejection": "original filename fold: nonvolatile/cached EBP preservation"
+    },
+    {
+      "case": "extended-unsigned-result",
+      "rejection": "original filename fold: full unsigned public result"
+    },
+    {
+      "case": "unknown-neighbor",
+      "rejection": "original filename fold: only owned512BSS writes/full neighbor/next frontier guard"
+    }
+  ],
+  "seconds": 8.75044019240886,
+  "checker_sha256": "dacde25a3794d26e8d8383472af246922fd5c837d86ee9bbfe38c92fc88ffdd9",
+  "semantic_checker_sha256": "a7ad5ad510b0de163620e53ff92e65abec2d1ac589ba031fed4c47c60240459f"
+}

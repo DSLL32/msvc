@@ -38,7 +38,7 @@
   },
   "compiled_original_DLL": {
     "artifact": "build/c1n32_l.dll",
-    "artifact_sha256": "66325eb7f6d1068b9422d900f9819bf0a972095ed0871971f7396e74335b0105",
+    "artifact_sha256": "fc352097b97cc13e0b143336e82bbe1a010a3864d59743b67cfc1afe3f23ceb9",
     "frontend_data_rva": 20480,
     "scanner_offset": 2028,
     "bytes": 512,

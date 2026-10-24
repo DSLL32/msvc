@@ -13,13 +13,13 @@ compares its graph/ABI/imports using the shared Rust auditor. Audit/build target
 may use Wine explicitly; fixture dependencies do not. Fixtures inspect the
 already-built Win32 DLL's exports without executing it.
 
-Accepted code is **83 application functions (5,352 bytes)**, **two historical CRT
+Accepted code is **84 application functions (5,435 bytes)**, **two historical CRT
 support functions (451 bytes)** and **two compiler/linker-generated import thunks (12 bytes)**.
-The 5,815 accepted code bytes are 0.7741% of the 751,216-byte code extent; this is not
+The 5,898 accepted code bytes are 0.7851% of the 751,216-byte code extent; this is not
 a non-CRT coverage percentage. The real minimal compilation remains unfinished,
-stopping at lowercase-table initialization after the multibyte lexer initializer.
+stopping at `read_env_arguments(NULL)` after complete filename case-map initialization.
 The latest normal/restore proofs, public CRT adoption, affected controls and timing
-accounting are in `cases/minimal/scanner-trial.json` and `MULTIBYTE.md`.
+accounting are in `cases/minimal/path-fold-trial.json` and `cases/minimal/PATH-FOLD.md`.
 
 ## Target and ABI
 

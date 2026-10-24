@@ -48,6 +48,8 @@ static DWORD checksum_return_pc;
 static BYTE checksum_return_byte;
 static void prepare_locale_observer(void);
 static void prepare_multibyte_observer(void);
+static void path_fold_prepare(void);
+static void save_state(void);
 static BYTE restore_observer_byte;
 static DWORD aux_old_base, aux_new_base;
 static int aux_returned;
@@ -344,6 +346,7 @@ static void prepare_mask(void)
     }
     prepare_locale_observer();
     prepare_multibyte_observer();
+    path_fold_prepare();
     fprintf(events, "mask snapshot=relocated-text.bin baseline=%d ranges=%u\n", baseline, count);
 }
 
@@ -390,6 +393,7 @@ static void save_frontend_state(const char *suffix)
         sprintf(name, "language-context-%s.bin", suffix); save_blob(name, language, sizeof(language));
     }
     if(getenv("C1XX_OBSERVE_CHECKSUM_TABLES")) {
+        readmem(base+0xc13f8,data,512);sprintf(name,"filename-case-map-%s.bin",suffix);save_blob(name,data,512);
         readmem(base+0xbe970,data,768);sprintf(name,"checksum-tables-%s.bin",suffix);save_blob(name,data,768);
     }
     readmem(base + 0xcd7e0, values, 4);
@@ -550,6 +554,7 @@ static void seed_output_buffer(unsigned index, const char *role)
 }
 
 #include "locale-observer.inc"
+#include "path-fold-observer.inc"
 
 static void seed_options_restore(void)
 {
@@ -592,6 +597,10 @@ static void seed_options_restore(void)
         for(i=0;i<512;++i)bytes[i]=(BYTE)(69*7+i+31);write_mem(base+0xcc008,bytes,512);
         for(i=0;i<512;++i)bytes[i]=(BYTE)(69*7+i+11);write_mem(owned+8,bytes,512);
         fprintf(events,"scanner-seed point=initializer live-start=31 saved-start=11 bytes=512 no-code-mock=1\n");
+    }
+    if(getenv("C1XX_OBSERVE_LOWERCASE")) {
+        WORD words[256];for(i=0;i<256;++i)words[i]=(WORD)(0x8101+37*i);write_mem(base+0xc13f8,words,512);
+        fprintf(events,"path-fold-seed phase=reset bytes=512 first=8101 step=37\n");
     }
     persistent = base + 0xcb030; write_mem(base + 0xcb000, &persistent, 4);
     fprintf(events, "options-seed fields=106 initialized=81 bss=25 persistent=1 pointers=owned-interiors never-dereferenced=1 no-code-mock=1 allocation=%08lx\n", owned);
@@ -888,7 +897,7 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
     save_state();
     if(pool_cycle_active) {
         fprintf(events,"pool-registers seq=%u ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",sequence,context->Ebx,context->Esi,context->Edi,context->Ebp);
-        if(address==base+0x38f94 || address==base+0x1ee29 || address==base+0x1ee58 || address==base+0x1d738 || address==base+0x38f1b || address==base+0x38fad || address==base+0x2b834 || address==base+0x39282 || address==base+0x392a8 || address==base+0x39394 || address==base+0x393ca) {
+        if(address==base+0x38f94 || address==base+0x1ee29 || address==base+0x1ee58 || address==base+0x1d738 || address==base+0x38f1b || address==base+0x38fad || address==base+0x2b834 || address==base+0x39282 || address==base+0x392a8 || address==base+0x39394 || address==base+0x393ca || address==base+0x39413) {
             BYTE *blob=(BYTE *)malloc(0x10000);char name[80];DWORD committed;
             if(!blob)fail("pool entry full BSS observation");
             readmem(base+0xb9000,blob,0xf69c);sprintf(name,"pool-bss-%03u.bin",sequence);save_blob(name,blob,0xf69c);
@@ -1153,6 +1162,8 @@ int main(int argc, char **argv)
                 save_frontend_state("checksum-return");readmem(base+0xb9000,bss,0xf69c);save_blob("checksum-return-BSS.bin",bss,0xf69c);free(bss);
                 save_blob("checksum-return-fp.bin",&context.FloatSave,sizeof(context.FloatSave));
                 patch(address,checksum_return_byte);checksum_return_active=0;context.Eip=address;if(!SetThreadContext(thread,&context))fail("checksum return context");
+            } else if(code==EXCEPTION_BREAKPOINT && path_fold_boundary(address,&context,thread,event.dwThreadId)) {
+                /* Actual provider/body observer; context reset by the handler. */
             } else if(code==EXCEPTION_BREAKPOINT && mb_entry_active && address==mb_entry_pc) {
                 DWORD words[2];readmem(context.Esp,words,sizeof(words));
                 if(words[0]!=base+0x3939e || words[1]!=0xfffffffc)fail("multibyte public caller/argument");
@@ -1246,7 +1257,10 @@ int main(int argc, char **argv)
                     readmem(context.Esp,&mb_helper_return_pc,4);if(mb_helper_return_pc!=base+0x38fe9 || mb_helper_return_active)fail("multibyte actual helper caller");
                     mb_helper_return_byte=snapshot[mb_helper_return_pc-base-code_rva];if(mb_helper_return_byte!=0xe8)fail("multibyte helper return opcode");patch(mb_helper_return_pc,0xcc);mb_helper_return_active=1;
                 }
-                if(address==base+0x393ca && mb_complete)locale_snapshot("mb-next",&context,thread,event.dwThreadId);
+                if(address==base+0x393ca && mb_complete) {
+                    path_fold_enter(&context);locale_snapshot("mb-next",&context,thread,event.dwThreadId);
+                }
+                if(address==base+0x39413 && path_fold_probe)locale_snapshot("fold-next",&context,thread,event.dwThreadId);
                 if (address == base + 0x39282 && getenv("C1XX_OBSERVE_ALIAS_ROOT")) {
                     if (alias_return_active) fail("duplicate alias initializer");
                     readmem(context.Esp,&alias_return_pc,4);

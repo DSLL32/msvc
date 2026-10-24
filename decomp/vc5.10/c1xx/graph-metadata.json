@@ -28,6 +28,11 @@
       "register_imports": {
         "require_all_register_calls_resolved": true
       }
+    },
+    "_initialize_lowercase_table": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true
+      }
     }
   },
   "callback_tables": [],
@@ -97,6 +102,21 @@
         "evidence": {
           "path": "cases/minimal/options-preservation-v1.json",
           "sha256": "2bdf4f4dfb5bcbf248701fdff3ab37882e07c3f2d752395bf1865095b228d1ba"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "_mbctolower"
+          }
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/minimal/path-fold-imports.json",
+          "sha256": "f51c6082eed70ea5ee069ee73e6c0529639273610acf67457485ada3d12da6d9"
         }
       }
     ]

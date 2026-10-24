@@ -31,7 +31,7 @@ def check(directory):
     spec.loader.exec_module(locale)
     prerequisite = locale.check(directory)
     trial = json.loads((directory / 'trial.json').read_text())
-    require(trial['trial'] == '_initialize_multibyte_categories' and trial['multibyte_observers'] == {'entry_rva':0x39394,'return_rva':0x38fe9,'public_entry_rva':0x2257,'IAT_rva':0xc9184,'data_IAT_rva':0xc90c4,'codepage':-4,'next_rva':0x393ca,'flags_rva':0xcc108,'classes_rva':0xcc008,'bytes':512,'selection_support':'unclaimed until own203 captured and reviewed'}, 'wrong actual candidate/observer contract')
+    require(trial['trial'] in ('_initialize_multibyte_categories','_initialize_lowercase_table') and trial['multibyte_observers'] == {'entry_rva':0x39394,'return_rva':0x38fe9,'public_entry_rva':0x2257,'IAT_rva':0xc9184,'data_IAT_rva':0xc90c4,'codepage':-4,'next_rva':0x393ca,'flags_rva':0xcc108,'classes_rva':0xcc008,'bytes':512,'selection_support':'unclaimed until own203 captured and reviewed'}, 'wrong actual candidate/observer contract')
     provider, target = directory / 'loaded-msvcrt.bin', directory / 'loaded-target.bin'
     require(export_rva(provider, '_setmbcp') == 0x2257 and pe_read(target, 0x39398, 6) == bytes.fromhex('ff1584914c10') and pe_read(target, 0x39396, 2) == bytes.fromhex('6afc'), 'actual canonical public import/call/argument')
     require((directory / 'mb-provider-entry.bin').read_bytes() == pe_read(provider, 0x2257, 16), 'actual loaded provider entry bytes')
@@ -68,7 +68,14 @@ def check(directory):
         for name in ('teb','ptd'):
             require(read(name) == (directory / ('locale-mb-before-' + name + '.bin')).read_bytes(), 'actual thread/PTD lifetime: ' + name)
         for prefix, suffix in (('frontend-data-locale-','.bin'),('frontend-snapshot-locale-','.bin'),('locale-','-target-BSS.bin')):
-            require((directory / (prefix+phase+suffix)).read_bytes() == (directory / (prefix+'next'+suffix)).read_bytes(), 'complete original target live/snapshot/BSS preservation')
+            expected_target=(directory / (prefix+'next'+suffix)).read_bytes()
+            if trial['trial']=='_initialize_lowercase_table' and trial.get('test_seed') and phase=='mb-next' and prefix=='locale-':
+                # A labeled later helper-entry DATA seed follows the MB helper
+                # return; it is not an API effect or a relaxed neighbor guard.
+                require(text.count('path-fold-seed phase=helper bytes=512 first=4303 step=37\n')==1 and (directory/'path-fold-helper-before-seed.bin').read_bytes()==bytes(512),'explicit later512-byte auxiliary handoff')
+                expected_target=bytearray(expected_target);offset=0xc13f8-0xb9000
+                expected_target[offset:offset+512]=struct.pack('<256H',*[(0x4303+37*i)&65535 for i in range(256)])
+            require((directory / (prefix+phase+suffix)).read_bytes() == expected_target, 'complete original target live/snapshot/BSS preservation with exact labeled later seed')
         observed[phase] = dict(words=words,errors=[0,0,203],FP_sha256=sha(directory/('locale-'+phase+'-fp.bin')),table_sha256={name:sha(directory/('locale-'+phase+'-'+name+'.bin'))for name in ('mbctype','ctype','old-ctype','result')})
     require((directory/'locale-mb-before-words.bin').read_bytes() == (directory/'locale-next-words.bin').read_bytes(), 'actual helper-entry to API prestate')
     require(all(not (byte & 4) for byte in (directory/'locale-mb-after-mbctype.bin').read_bytes()[1:]), 'actual complete SBCS unsigned-byte lead domain')

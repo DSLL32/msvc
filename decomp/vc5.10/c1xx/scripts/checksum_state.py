@@ -24,8 +24,8 @@ def check(s, d, original, native, trial, text, pre, phase, state, seed, final, t
     spec.loader.exec_module(locale)
     original_locale = locale.check(original)
     expected_tables = locale.checksum_tables()
-    require(trial['trial'] in ('_initialize_checksums','_initialize_multibyte_categories') and trial.get('checksum_observers') is not None, 'wrong whole-function candidate/observer contract')
-    require(state['symbol'] == ('initialize_lowercase_table' if trial['trial']=='_initialize_multibyte_categories' else 'initialize_multibyte_categories') and state['args'] == {}, 'genuine next named noarg frontier')
+    require(trial['trial'] in ('_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table') and trial.get('checksum_observers') is not None, 'wrong whole-function candidate/observer contract')
+    require(state['symbol'] == {'_initialize_multibyte_categories':'initialize_lowercase_table','_initialize_lowercase_table':'read_env_arguments'}.get(trial['trial'],'initialize_multibyte_categories') and state['args'] == ({'arguments':0}if trial['trial']=='_initialize_lowercase_table'else{}), 'genuine next named noarg frontier')
     names = symbols(native / 'native-executable.elf')
     binding_entry, binding_return, first_entry = (one(name) for name in ('binding-entries', 'binding-returns', 'first-entries'))
     reference = original_locale['original_receipt_sha256']

@@ -231,6 +231,7 @@ int initialize_compiler_pass(void)
             frontend_bss.checksum_tables.update[i] = 0;
             frontend_bss.checksum_tables.high[i] = 0;
             frontend_bss.checksum_tables.low[i] = 0;
+            frontend_bss.filename_case_map[i] = 0;
         }
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;

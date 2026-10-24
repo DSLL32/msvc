@@ -18,7 +18,7 @@ def check(s,d,original,native,trial,text,pre,phase,state,seed,final,traps):
         rows=read(name);require(len(rows)==1,'actual '+name+' inventory');return rows[0]
     spec=importlib.util.spec_from_file_location('scanner_original_multibyte',Path(__file__).with_name('check-isolated-multibyte.py'));reference=importlib.util.module_from_spec(spec);spec.loader.exec_module(reference)
     original_state=reference.check(original)
-    require(trial['trial']=='_initialize_multibyte_categories' and state['symbol']=='initialize_lowercase_table' and state['args']=={},'candidate/next genuine noarg frontier')
+    require(trial['trial'] in ('_initialize_multibyte_categories','_initialize_lowercase_table') and ((state['symbol']=='initialize_lowercase_table' and state['args']=={})if trial['trial']=='_initialize_multibyte_categories'else(state['symbol']=='read_env_arguments' and state['args']=={'arguments':0})),'candidate/next genuine noarg frontier')
     names=symbols(native/'native-executable.elf')
     entry,returned,before,after,next_entry=(one(name)for name in ('entries','returns','api-entries','api-returns','next-entries'))
     expected_defaults=b''.join(bytes(defaults()[name])for name in ('classes','flags'))

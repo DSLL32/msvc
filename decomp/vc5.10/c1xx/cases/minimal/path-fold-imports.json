@@ -1,0 +1,84 @@
+{
+  "target": {
+    "path": "toolchains/5.10/bin/C1XX.DLL",
+    "sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9"
+  },
+  "provider": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+  },
+  "sdk": {
+    "path": "toolchains/5.10/include/MBSTRING.H",
+    "sha256": "6633bde8407252be8a3a71463342b43e06a5126076e90f5e9d4cd3f365deb179",
+    "declaration": "_CRTIMP unsigned int __cdecl _mbctolower(unsigned int);"
+  },
+  "caller": {
+    "name": "initialize_lowercase_table",
+    "hot": [
+      234442,
+      234515
+    ],
+    "cold": [
+      468012,
+      468022
+    ],
+    "code_bytes": 83,
+    "bytes": "53558b2d54904c10565733ffbef8134c10b3238bc725ff000000389808c04c100f843c90030057ffd583c40466890683c6024781fef8154c1072d85f5e5d66c70556144c105c005bc3",
+    "cold_bytes": "66c706ffffe9c36ffcff",
+    "import_register": "ebp",
+    "argument": "unsigned character0..255, excluding actual scanner class35",
+    "return_consumed": "low16 to WORDtablec13f8, except forced slash mapping",
+    "calling_convention": "cdecl",
+    "caller_cleanup": 4
+  },
+  "import_identity": {
+    "module": "MSVCRT.dll",
+    "name": "_mbctolower",
+    "import_by": "name",
+    "iat_rva": 823380,
+    "provider_export": {
+      "ordinal": 336,
+      "name": "_mbctolower",
+      "rva": 42451,
+      "forwarder": null
+    },
+    "entry_bytes": "83ec08538b5c241081fbff0000000f87ae6200008a93c9f1037880e21080fa1074078bc35b83c408c333c08a83f8f703"
+  },
+  "table": {
+    "original_rva": 791544,
+    "bytes": 512,
+    "kind": "WORD[256]",
+    "initial": "canonical BSS zero; capture proof pending",
+    "consumers": [
+      {
+        "rva": 235725,
+        "end": 235789,
+        "role": "in-place filename/path case-slash folding; WORDffff skips a multibyte pair"
+      }
+    ]
+  },
+  "request": "typed fail125-only unsigned int __cdecl remap in mbstring.h; no target-local CRT and no successful selection until own actual API input/prestate/effects evidence",
+  "finite_preservation": {
+    "register": "ebp",
+    "input_domain": [
+      0,
+      255
+    ],
+    "provider_hot_chunks": [
+      [
+        42451,
+        42505
+      ]
+    ],
+    "provider_hot_bytes": "83ec08538b5c241081fbff0000000f87ae6200008a93c9f1037880e21080fa1074078bc35b83c408c333c08a83f8f703785b83c408c3",
+    "proof": "Every target loop argument is unsigned0..255. Canonical provider JAbove at a5e1 is never taken; all reachable hot instructions a5d3..a609 leave EBP untouched, no calls, both RET0 exits. Full graph still requires all cached EBP calls resolved; no generic caller-save assumptions.",
+    "callee_saved": [
+      "ebx",
+      "esi",
+      "edi",
+      "ebp"
+    ],
+    "source_input_proof": "unsigned character initialized0 and incremented while<256; only condition skips class35"
+  },
+  "provenance": "Own target bytes/defaults/import/consumer and canonical provider independently verified; finite EBP witness mechanism patterned on sibling C1, no peer oracle/output reuse"
+}

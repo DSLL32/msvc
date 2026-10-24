@@ -39,7 +39,7 @@ def field_map(model,observed):
            'cleanup_callbacks':(0x104c4d58,128,'bss','frontend_bss.cleanup_callbacks'),
            'restore_mode':(0x104cb06c,4,'external','restore_mode'),
            'compiler_mode':(0x104cb008,4,'external','compiler_mode')}
-    s.require(model['schema'] in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35),'unknown state-model schema')
+    s.require(model['schema'] in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36),'unknown state-model schema')
     if model['schema']>=2:
         known['context_stack']=(0x104ba900,12,'bss','frontend_bss.context_stack')
         s.require(observed['context_stack_fields']==(['origin','position','top'] if model['schema']>=5 else ['begin','end','top']),
@@ -137,6 +137,9 @@ def field_map(model,observed):
     if model['schema']>=34:
         known['checksum_tables']=(0x104be970,768,'bss','frontend_bss.checksum_tables')
         s.require(observed['storage']['checksum_tables']==[observed['bss_address']+1544,768] and observed['checksum_native_layout']=={'size':768,'fields':{'update':[0,256,'unsigned char [256]'],'high':[256,256,'unsigned char [256]'],'low':[512,256,'unsigned char [256]']}},'checksum table array/alias/layout differs')
+    if model['schema']>=36:
+        known['filename_case_map']=(0x104c13f8,512,'bss','frontend_bss.filename_case_map')
+        s.require(observed['storage']['filename_case_map']==[observed['bss_address']+2312,512],'filename WORD map/storage/alias differs')
     if model['schema']>=35:
         for index,name in enumerate(('classes','flags')):
             known['scanner.'+name]=(0x104cc008+index*256,256,'initialized','frontend_data.scanner.'+name)
@@ -191,8 +194,9 @@ def field_map(model,observed):
     if model['schema']>=33:initialized += ['language_context_depth'];fields += ['language_contexts']
     if model['schema']>=34:fields.append('checksum_tables')
     if model['schema']>=35:initialized.append('scanner')
+    if model['schema']>=36:fields.append('filename_case_map')
     s.require(observed['declared_fields']=={'initialized':initialized,'bss':fields} and
-              observed['known_sizes']=={'initialized':2540 if model['schema']>=35 else 2028 if model['schema']>=33 else 2024 if model['schema']>=32 else 200 if model['schema']>=30 else 188 if model['schema']>=28 else 140 if model['schema']>=22 else 4,'bss':{1:136,2:148,3:160,4:268,5:276,6:312,7:348,8:384,9:420,10:456,11:492,12:528,13:564,14:568,15:588,16:592,17:592,18:592,19:608,20:592+16*pool_count,21:596+16*pool_count,22:732+16*pool_count,23:752+16*pool_count,24:820+16*pool_count,25:828+16*pool_count,26:916+16*pool_count,27:928+16*pool_count,28:940+16*pool_count,29:956+16*pool_count,30:956+16*pool_count,31:1244+16*pool_count,32:1344+16*pool_count,33:1384+16*pool_count,34:2152+16*pool_count,35:2152+16*pool_count}[model['schema']]},
+              observed['known_sizes']=={'initialized':2540 if model['schema']>=35 else 2028 if model['schema']>=33 else 2024 if model['schema']>=32 else 200 if model['schema']>=30 else 188 if model['schema']>=28 else 140 if model['schema']>=22 else 4,'bss':{1:136,2:148,3:160,4:268,5:276,6:312,7:348,8:384,9:420,10:456,11:492,12:528,13:564,14:568,15:588,16:592,17:592,18:592,19:608,20:592+16*pool_count,21:596+16*pool_count,22:732+16*pool_count,23:752+16*pool_count,24:820+16*pool_count,25:828+16*pool_count,26:916+16*pool_count,27:928+16*pool_count,28:940+16*pool_count,29:956+16*pool_count,30:956+16*pool_count,31:1244+16*pool_count,32:1344+16*pool_count,33:1384+16*pool_count,34:2152+16*pool_count,35:2152+16*pool_count,36:2664+16*pool_count}[model['schema']]},
               'typed structs contain unmodeled/omitted storage')
     if model['schema']>=33:
         s.require(observed['storage']['language_context_depth']==[observed['storage']['first_invocation'][0]+2024,4] and observed['storage']['language_contexts']==[observed['bss_address']+1504,40],'language-context field storage/alias differs')
@@ -210,7 +214,7 @@ def field_map(model,observed):
         ranges.sort()
         s.require(ranges[0][0]==observed['bss_address'] and
                   all(a[1]==b[0] for a,b in zip(ranges,ranges[1:])) and
-                  ranges[-1][1]==observed['bss_address']+276+36*output_count+(4 if model['schema']>=14 else 0)+(20 if model['schema']>=15 else 0)+(4 if model['schema']>=16 else 0)+(16*pool_count if model['schema']>=19 else 0)+(4 if model['schema']>=21 else 0)+(136 if model['schema']>=22 else 0)+(20 if model['schema']>=23 else 0)+(68 if model['schema']>=24 else 0)+(8 if model['schema']>=25 else 0)+(88 if model['schema']>=26 else 0)+(12 if model['schema']>=27 else 0)+(12 if model['schema']>=28 else 0)+(16 if model['schema']>=29 else 0)+(288 if model['schema']>=31 else 0)+(100 if model['schema']>=32 else 0)+(40 if model['schema']>=33 else 0)+(768 if model['schema']>=34 else 0),'unaccounted native padding/storage gap')
+                  ranges[-1][1]==observed['bss_address']+276+36*output_count+(4 if model['schema']>=14 else 0)+(20 if model['schema']>=15 else 0)+(4 if model['schema']>=16 else 0)+(16*pool_count if model['schema']>=19 else 0)+(4 if model['schema']>=21 else 0)+(136 if model['schema']>=22 else 0)+(20 if model['schema']>=23 else 0)+(68 if model['schema']>=24 else 0)+(8 if model['schema']>=25 else 0)+(88 if model['schema']>=26 else 0)+(12 if model['schema']>=27 else 0)+(12 if model['schema']>=28 else 0)+(16 if model['schema']>=29 else 0)+(288 if model['schema']>=31 else 0)+(100 if model['schema']>=32 else 0)+(40 if model['schema']>=33 else 0)+(768 if model['schema']>=34 else 0)+(512 if model['schema']>=36 else 0),'unaccounted native padding/storage gap')
 
 
 def callback_table(model,original,native,state):

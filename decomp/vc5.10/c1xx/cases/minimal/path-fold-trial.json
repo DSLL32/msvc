@@ -1,0 +1,1517 @@
+{
+  "schema": 1,
+  "status": "accepted exactly one83B application function after full normal/restore proofs, reviewed reset-only refinement and six added owner controls",
+  "function": "_initialize_lowercase_table",
+  "source": "src/scanner.c",
+  "source_sha256": "2729a565a57e9991c407fb081e9b693b9a278a7f042e8914922ac8ebb52d2a27",
+  "chunks": [
+    [
+      234442,
+      234515
+    ],
+    [
+      468012,
+      468022
+    ]
+  ],
+  "code_bytes": 83,
+  "proofs": {
+    "normal": {
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-original-2",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1",
+      "original_receipt_sha256": "407c8063150937f6fb78aa13ddea9bbfa3059843b04782a5218b618bd2480efd",
+      "native_receipt_sha256": "3f72a10416c5c40b5d2cd8e54dd6d64df9fca85a3b503f8cf1ed73d6a18a53ec",
+      "trial_sha256": "88cf64f8c134b6df3671357ff662d3785a7f9e646f4211c355f991eb87f4edf1",
+      "native_trial_sha256": "e4998650d540f6f5571bc389fc7a5e883efdc84249d8b07126ed7f3ad9a3125d",
+      "native_ELF_sha256": "ccd981dbde4097577f8dc27c65d18a9358e90ea221718aa53e59280f98bbbcbf",
+      "native_compiled_source_record_sha256": "be7b33b0cae9b5f60e37ea3dd7c7ee5104154f30f27259d71ce790ddd86b067c",
+      "original_helper_sha256": "d7502c5f105e89ce29f5f0e8a21bb82cc70e70991b111f98973b435c897bdf58",
+      "original_helper_source_sha256": "623e2736cc6bc9d90485f7b42611e4699d7a8c738eced6e9203e85ec01582afd",
+      "original_seconds": 31.029884698800743,
+      "native_GDB_seconds": 9.89383604656905,
+      "native_outer_accounting": {
+        "snapshot_provenance_setup_seconds": 0.03740119282156229,
+        "execution_seconds": 9.89383604656905,
+        "post_execution_verification_seconds": 5.296777689829469,
+        "scope": "outer setup and verification; GDB subphases are in gdb-timing.json for minimal captures"
+      },
+      "native_GDB_accounting": {
+        "first_command": 6410059.849398063,
+        "before_run": 6410060.580817308,
+        "after_run": 6410069.321819917,
+        "collectors": [
+          {
+            "state_file": "pre.json",
+            "collection_seconds": 0.06869554426521063,
+            "serialization_io_seconds": 0.0018362291157245636
+          },
+          {
+            "state_file": "phase.json",
+            "collection_seconds": 0.05974733829498291,
+            "serialization_io_seconds": 0.0023806430399417877
+          },
+          {
+            "state_file": "constructor-entry.json",
+            "collection_seconds": 0.05507421866059303,
+            "serialization_io_seconds": 0.0018160026520490646
+          },
+          {
+            "state_file": "registration-entry.json",
+            "collection_seconds": 0.05322031490504742,
+            "serialization_io_seconds": 0.0017999568954110146
+          },
+          {
+            "state_file": "constructor02-entry.json",
+            "collection_seconds": 0.05295428168028593,
+            "serialization_io_seconds": 0.0018306169658899307
+          },
+          {
+            "state_file": "registration02-entry.json",
+            "collection_seconds": 0.05350576248019934,
+            "serialization_io_seconds": 0.0018709218129515648
+          },
+          {
+            "state_file": "constructor03-entry.json",
+            "collection_seconds": 0.05325527396053076,
+            "serialization_io_seconds": 0.0018623871728777885
+          },
+          {
+            "state_file": "registration03-entry.json",
+            "collection_seconds": 0.052901750430464745,
+            "serialization_io_seconds": 0.00183867197483778
+          },
+          {
+            "state_file": "constructor04-entry.json",
+            "collection_seconds": 0.05310862138867378,
+            "serialization_io_seconds": 0.001842721365392208
+          },
+          {
+            "state_file": "registration04-entry.json",
+            "collection_seconds": 0.05334840156137943,
+            "serialization_io_seconds": 0.0018558651208877563
+          },
+          {
+            "state_file": "constructor05-entry.json",
+            "collection_seconds": 0.053264839574694633,
+            "serialization_io_seconds": 0.001823369413614273
+          },
+          {
+            "state_file": "registration05-entry.json",
+            "collection_seconds": 0.05340743623673916,
+            "serialization_io_seconds": 0.0018069222569465637
+          },
+          {
+            "state_file": "constructor06-entry.json",
+            "collection_seconds": 0.05298665538430214,
+            "serialization_io_seconds": 0.0018079867586493492
+          },
+          {
+            "state_file": "registration06-entry.json",
+            "collection_seconds": 0.05358928255736828,
+            "serialization_io_seconds": 0.0018016519024968147
+          },
+          {
+            "state_file": "constructor07-entry.json",
+            "collection_seconds": 0.0569915222004056,
+            "serialization_io_seconds": 0.002539859153330326
+          },
+          {
+            "state_file": "registration07-entry.json",
+            "collection_seconds": 0.053419518284499645,
+            "serialization_io_seconds": 0.0017999466508626938
+          },
+          {
+            "state_file": "constructor08-entry.json",
+            "collection_seconds": 0.05333376955240965,
+            "serialization_io_seconds": 0.0018115388229489326
+          },
+          {
+            "state_file": "registration08-entry.json",
+            "collection_seconds": 0.05315198376774788,
+            "serialization_io_seconds": 0.0019094757735729218
+          },
+          {
+            "state_file": "deferred-entry.json",
+            "collection_seconds": 0.052678520791232586,
+            "serialization_io_seconds": 0.0018112454563379288
+          },
+          {
+            "state_file": "deferred-registration.json",
+            "collection_seconds": 0.05297835636883974,
+            "serialization_io_seconds": 0.001794658601284027
+          },
+          {
+            "state_file": "value-copy-entry.json",
+            "collection_seconds": 0.053208157420158386,
+            "serialization_io_seconds": 0.0019465666264295578
+          },
+          {
+            "state_file": "value-copy-result.json",
+            "collection_seconds": 0.05309045035392046,
+            "serialization_io_seconds": 0.001805456355214119
+          },
+          {
+            "state_file": "signature-entry.json",
+            "collection_seconds": 0.053010464645922184,
+            "serialization_io_seconds": 0.0018145199865102768
+          },
+          {
+            "state_file": "pdb-entry.json",
+            "collection_seconds": 0.05318609066307545,
+            "serialization_io_seconds": 0.0018193544819951057
+          },
+          {
+            "state_file": "pdb-registration.json",
+            "collection_seconds": 0.05269829370081425,
+            "serialization_io_seconds": 0.0018294360488653183
+          },
+          {
+            "state_file": "pdb02-entry.json",
+            "collection_seconds": 0.052419111132621765,
+            "serialization_io_seconds": 0.0018442198634147644
+          },
+          {
+            "state_file": "pdb02-registration.json",
+            "collection_seconds": 0.0533416923135519,
+            "serialization_io_seconds": 0.001841401681303978
+          },
+          {
+            "state_file": "pool-entry-01.json",
+            "collection_seconds": 0.11182859726250172,
+            "serialization_io_seconds": 0.0018263822421431541
+          },
+          {
+            "state_file": "pool-entry-02.json",
+            "collection_seconds": 0.09985930472612381,
+            "serialization_io_seconds": 0.0018001748248934746
+          },
+          {
+            "state_file": "pool-entry-03.json",
+            "collection_seconds": 0.09932537842541933,
+            "serialization_io_seconds": 0.0018130820244550705
+          },
+          {
+            "state_file": "pool-entry-04.json",
+            "collection_seconds": 0.09862848278135061,
+            "serialization_io_seconds": 0.001842397265136242
+          },
+          {
+            "state_file": "pool-entry-05.json",
+            "collection_seconds": 0.09944270923733711,
+            "serialization_io_seconds": 0.0021519735455513
+          },
+          {
+            "state_file": "pool-entry-06.json",
+            "collection_seconds": 0.09738098084926605,
+            "serialization_io_seconds": 0.001848498359322548
+          },
+          {
+            "state_file": "pool-entry-07.json",
+            "collection_seconds": 0.09723726846277714,
+            "serialization_io_seconds": 0.0018750382587313652
+          },
+          {
+            "state_file": "pool-entry-08.json",
+            "collection_seconds": 0.09703346621245146,
+            "serialization_io_seconds": 0.001788802444934845
+          },
+          {
+            "state_file": "pool-entry-09.json",
+            "collection_seconds": 0.09702173341065645,
+            "serialization_io_seconds": 0.001806573010981083
+          },
+          {
+            "state_file": "pool-entry-10.json",
+            "collection_seconds": 0.09744400251656771,
+            "serialization_io_seconds": 0.0018506115302443504
+          },
+          {
+            "state_file": "prototype-entry.json",
+            "collection_seconds": 0.05357870552688837,
+            "serialization_io_seconds": 0.0018453644588589668
+          },
+          {
+            "state_file": "prototype-result.json",
+            "collection_seconds": 0.06993203517049551,
+            "serialization_io_seconds": 0.0019867056980729103
+          },
+          {
+            "state_file": "pch-entry.json",
+            "collection_seconds": 0.10822634305804968,
+            "serialization_io_seconds": 0.0018388964235782623
+          },
+          {
+            "state_file": "pch-return.json",
+            "collection_seconds": 0.06993361935019493,
+            "serialization_io_seconds": 0.0018289610743522644
+          },
+          {
+            "state_file": "group-entry.json",
+            "collection_seconds": 0.05204355716705322,
+            "serialization_io_seconds": 0.001791992224752903
+          },
+          {
+            "state_file": "group-result.json",
+            "collection_seconds": 0.05196314211934805,
+            "serialization_io_seconds": 0.0018128221854567528
+          },
+          {
+            "state_file": "comment-entry.json",
+            "collection_seconds": 0.05215379688888788,
+            "serialization_io_seconds": 0.0018104473128914833
+          },
+          {
+            "state_file": "comment-result.json",
+            "collection_seconds": 0.052005309611558914,
+            "serialization_io_seconds": 0.0018431423231959343
+          },
+          {
+            "state_file": "action-entry.json",
+            "collection_seconds": 0.05214311275631189,
+            "serialization_io_seconds": 0.0020799031481146812
+          },
+          {
+            "state_file": "action-result.json",
+            "collection_seconds": 0.053056429140269756,
+            "serialization_io_seconds": 0.002071000635623932
+          },
+          {
+            "state_file": "main-entry.json",
+            "collection_seconds": 0.0543329818174243,
+            "serialization_io_seconds": 0.0023596975952386856
+          },
+          {
+            "state_file": "work-entry.json",
+            "collection_seconds": 0.05201779305934906,
+            "serialization_io_seconds": 0.001915285363793373
+          },
+          {
+            "state_file": "reserve-entry-01.json",
+            "collection_seconds": 0.05199970863759518,
+            "serialization_io_seconds": 0.0017976779490709305
+          },
+          {
+            "state_file": "reserve-return-01.json",
+            "collection_seconds": 0.05183865875005722,
+            "serialization_io_seconds": 0.0018800310790538788
+          },
+          {
+            "state_file": "reserve-entry-02.json",
+            "collection_seconds": 0.052073853090405464,
+            "serialization_io_seconds": 0.0017751064151525497
+          },
+          {
+            "state_file": "reserve-return-02.json",
+            "collection_seconds": 0.05157508049160242,
+            "serialization_io_seconds": 0.001836240291595459
+          },
+          {
+            "state_file": "early-options-entry.json",
+            "collection_seconds": 0.0522103002294898,
+            "serialization_io_seconds": 0.0018123667687177658
+          },
+          {
+            "state_file": "early-option-entry.json",
+            "collection_seconds": 0.052072515711188316,
+            "serialization_io_seconds": 0.001829046756029129
+          },
+          {
+            "state_file": "hook-entry.json",
+            "collection_seconds": 0.05165270064026117,
+            "serialization_io_seconds": 0.0018177703022956848
+          },
+          {
+            "state_file": "system-info-entry.json",
+            "collection_seconds": 0.054340085946023464,
+            "serialization_io_seconds": 0.002097741700708866
+          },
+          {
+            "state_file": "system-info-return.json",
+            "collection_seconds": 0.05178399011492729,
+            "serialization_io_seconds": 0.0018411455675959587
+          },
+          {
+            "state_file": "arena-entry.json",
+            "collection_seconds": 0.07096464186906815,
+            "serialization_io_seconds": 0.001888149417936802
+          },
+          {
+            "state_file": "arena-member-entry.json",
+            "collection_seconds": 0.10511113423854113,
+            "serialization_io_seconds": 0.0018858760595321655
+          },
+          {
+            "state_file": "arena-size-entry.json",
+            "collection_seconds": 0.07216322422027588,
+            "serialization_io_seconds": 0.0018209079280495644
+          },
+          {
+            "state_file": "scaler-return.json",
+            "collection_seconds": 0.09198662918061018,
+            "serialization_io_seconds": 0.0019893087446689606
+          },
+          {
+            "state_file": "arena-reset-entry.json",
+            "collection_seconds": 0.09384835697710514,
+            "serialization_io_seconds": 0.0020213229581713676
+          },
+          {
+            "state_file": "state.json",
+            "collection_seconds": 0.05328941810876131,
+            "serialization_io_seconds": 0.002125057391822338
+          }
+        ],
+        "source_commands": [
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/observe-allocation.gdb",
+            "seconds": 0.02625194564461708
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/observe-early-switches.gdb",
+            "seconds": 0.013898090459406376
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/observe-system-info.gdb",
+            "seconds": 0.02950278017669916
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/observe-scaler.gdb",
+            "seconds": 0.0783481178805232
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-pre.gdb",
+            "seconds": 0.07442464865744114
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-phase.gdb",
+            "seconds": 0.06594828236848116
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-constructor-entry.gdb",
+            "seconds": 0.06088127475231886
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-registration-entry.gdb",
+            "seconds": 0.05902153067290783
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-constructor02-entry.gdb",
+            "seconds": 0.05865078140050173
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-registration02-entry.gdb",
+            "seconds": 0.05944038089364767
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-constructor03-entry.gdb",
+            "seconds": 0.05915106926113367
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-registration03-entry.gdb",
+            "seconds": 0.05827545654028654
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-constructor04-entry.gdb",
+            "seconds": 0.05857046041637659
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-registration04-entry.gdb",
+            "seconds": 0.05911986157298088
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-constructor05-entry.gdb",
+            "seconds": 0.05897779017686844
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-registration05-entry.gdb",
+            "seconds": 0.058455148711800575
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-constructor06-entry.gdb",
+            "seconds": 0.0589367663487792
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-registration06-entry.gdb",
+            "seconds": 0.05719337332993746
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-constructor07-entry.gdb",
+            "seconds": 0.0630897032096982
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-registration07-entry.gdb",
+            "seconds": 0.05884212534874678
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-constructor08-entry.gdb",
+            "seconds": 0.05930872168391943
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-registration08-entry.gdb",
+            "seconds": 0.059307340532541275
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-deferred-entry.gdb",
+            "seconds": 0.05827942304313183
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-deferred-registration.gdb",
+            "seconds": 0.05826032068580389
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-value-copy-entry.gdb",
+            "seconds": 0.058355760760605335
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-value-copy-result.gdb",
+            "seconds": 0.05832044780254364
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-signature-entry.gdb",
+            "seconds": 0.05857468489557505
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-pdb-entry.gdb",
+            "seconds": 0.05872466787695885
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-pdb-registration.gdb",
+            "seconds": 0.05806217063218355
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-pdb02-entry.gdb",
+            "seconds": 0.05805227346718311
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-pdb02-registration.gdb",
+            "seconds": 0.05849074758589268
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/observe-pool-entries.gdb",
+            "seconds": 0.11945281829684973
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/observe-pool-entries.gdb",
+            "seconds": 0.10706920735538006
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/observe-pool-entries.gdb",
+            "seconds": 0.10861308127641678
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/observe-pool-entries.gdb",
+            "seconds": 0.10807378310710192
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/observe-pool-entries.gdb",
+            "seconds": 0.10928308311849833
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/observe-pool-entries.gdb",
+            "seconds": 0.10468899551779032
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/observe-pool-entries.gdb",
+            "seconds": 0.1065699914470315
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/observe-pool-entries.gdb",
+            "seconds": 0.10602558497339487
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/observe-pool-entries.gdb",
+            "seconds": 0.10624778177589178
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/observe-pool-entries.gdb",
+            "seconds": 0.1046343445777893
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-prototype-entry.gdb",
+            "seconds": 0.05716558173298836
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-prototype-result.gdb",
+            "seconds": 0.07614432647824287
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-pch-entry.gdb",
+            "seconds": 0.1137407748028636
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/observe-pch-return.gdb",
+            "seconds": 0.0022243792191147804
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-group-entry.gdb",
+            "seconds": 0.055578095838427544
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-group-result.gdb",
+            "seconds": 0.05545648839324713
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-comment-entry.gdb",
+            "seconds": 0.05777263455092907
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-comment-result.gdb",
+            "seconds": 0.057363253086805344
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-action-entry.gdb",
+            "seconds": 0.05787203647196293
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-action-result.gdb",
+            "seconds": 0.05918167531490326
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-main-entry.gdb",
+            "seconds": 0.059994788840413094
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-work-entry.gdb",
+            "seconds": 0.055687897838652134
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-early-options-entry.gdb",
+            "seconds": 0.05731520801782608
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-hook-entry.gdb",
+            "seconds": 0.05511583015322685
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-arena-entry.gdb",
+            "seconds": 0.07454314362257719
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-arena-member-entry.gdb",
+            "seconds": 0.11114588379859924
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/collect-arena-size-entry.gdb",
+            "seconds": 0.07792449649423361
+          }
+        ],
+        "summary": {
+          "source_command_seconds": 3.925601312890649,
+          "source_command_count": 58,
+          "gdb_total_seconds": 9.89383604656905,
+          "startup_seconds": 0.09940670989453793,
+          "breakpoint_setup_seconds": 0.7314192457124591,
+          "collection_seconds": 4.136066700331867,
+          "serialization_io_seconds": 0.12094712723046541,
+          "residual_inferior_debugger_seconds": 4.80599626339972,
+          "collector_count": 64,
+          "scope": "residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution"
+        }
+      },
+      "public_entry_return_observers": 512,
+      "residual_timing_scope": "includes all uninstrumented public-API state reads/512or510breakpoint callbacks plus inferior/GDB work; NOT standalone execution time",
+      "source_reset_derivation": {
+        "kind": "checked filename-map reset-only compiled source correction; identical original target/mask/case/config/ABI/runtime inputs",
+        "rule_path": "/root/msvc2/decomp/vc5.10/c1xx/cases/minimal/path-fold-reset-refinement.json",
+        "rule_sha256": "8a795cec8456a1efceda8c1bb62d7c639089e85fe80cff99f95bf204bd73d0c2",
+        "original_receipt_sha256": "407c8063150937f6fb78aa13ddea9bbfa3059843b04782a5218b618bd2480efd",
+        "original_trial_sha256": "88cf64f8c134b6df3671357ff662d3785a7f9e646f4211c355f991eb87f4edf1",
+        "native_trial_sha256": "e4998650d540f6f5571bc389fc7a5e883efdc84249d8b07126ed7f3ad9a3125d",
+        "old_compiled_source": "77c0d8fb4e332dc1c5cc997ec2ea53373546724bdccc35a2d94e4b5886a43b28",
+        "new_compiled_source": "797a2e1b8d1defb4098e2a2975a96bb0c1c5c9b6a195ca629f51abb11c87fe26",
+        "allowed_build_bindings": [
+          "build/c1n32_l.dll",
+          "build/c1xx.map",
+          "build/native/c1xx-host"
+        ],
+        "old_ELF": "03302cad17a80d2f5308cd1e96c095d3701be58dd10e9a5e237063f7de45096a",
+        "new_ELF": "ccd981dbde4097577f8dc27c65d18a9358e90ea221718aa53e59280f98bbbcbf",
+        "semantic_correctness_claimed": false,
+        "current_strict_audit_required": true,
+        "validator_sha256": "1c719b419b297a6381ff6428549b5cbb74a01e51a5698ceadba64e5405b12ebe"
+      }
+    },
+    "restore": {
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5",
+      "original_receipt_sha256": "efa1b836f576e9d876c4024ace9376194d4e4b131fc3dcb1aeaf2ed6d6efbb85",
+      "native_receipt_sha256": "00fa1026c305fc9321a23dc1f52c4fab211378ccf207ee74f537fd11d998006d",
+      "trial_sha256": "97641669fe754a581b1a56ffa0188f02f593fc7fbe6b61e1d769c29c868e6dc5",
+      "native_trial_sha256": "fdf9d5b521eb90859e41b04956e9327f73c7e1238dbd19e71e952425ce789298",
+      "native_ELF_sha256": "ccd981dbde4097577f8dc27c65d18a9358e90ea221718aa53e59280f98bbbcbf",
+      "native_compiled_source_record_sha256": "be7b33b0cae9b5f60e37ea3dd7c7ee5104154f30f27259d71ce790ddd86b067c",
+      "original_helper_sha256": "d7502c5f105e89ce29f5f0e8a21bb82cc70e70991b111f98973b435c897bdf58",
+      "original_helper_source_sha256": "623e2736cc6bc9d90485f7b42611e4699d7a8c738eced6e9203e85ec01582afd",
+      "original_seconds": 30.928809862583876,
+      "native_GDB_seconds": 10.41404018457979,
+      "native_outer_accounting": {
+        "snapshot_provenance_setup_seconds": 0.03662806935608387,
+        "execution_seconds": 10.41404018457979,
+        "post_execution_verification_seconds": 5.300559286028147,
+        "scope": "outer setup and verification; GDB subphases are in gdb-timing.json for minimal captures"
+      },
+      "native_GDB_accounting": {
+        "first_command": 6409942.485075708,
+        "before_run": 6409943.444582462,
+        "after_run": 6409952.462359286,
+        "collectors": [
+          {
+            "state_file": "pre.json",
+            "collection_seconds": 0.07152334973216057,
+            "serialization_io_seconds": 0.002125273458659649
+          },
+          {
+            "state_file": "phase.json",
+            "collection_seconds": 0.055789017118513584,
+            "serialization_io_seconds": 0.001864500343799591
+          },
+          {
+            "state_file": "constructor-entry.json",
+            "collection_seconds": 0.056701998226344585,
+            "serialization_io_seconds": 0.0018741600215435028
+          },
+          {
+            "state_file": "registration-entry.json",
+            "collection_seconds": 0.055494786240160465,
+            "serialization_io_seconds": 0.0018725832924246788
+          },
+          {
+            "state_file": "constructor02-entry.json",
+            "collection_seconds": 0.056132868863642216,
+            "serialization_io_seconds": 0.0018572872504591942
+          },
+          {
+            "state_file": "registration02-entry.json",
+            "collection_seconds": 0.055606020614504814,
+            "serialization_io_seconds": 0.0018739989027380943
+          },
+          {
+            "state_file": "constructor03-entry.json",
+            "collection_seconds": 0.05558857321739197,
+            "serialization_io_seconds": 0.001912001520395279
+          },
+          {
+            "state_file": "registration03-entry.json",
+            "collection_seconds": 0.05672671180218458,
+            "serialization_io_seconds": 0.0019355770200490952
+          },
+          {
+            "state_file": "constructor04-entry.json",
+            "collection_seconds": 0.055403013713657856,
+            "serialization_io_seconds": 0.0018679751083254814
+          },
+          {
+            "state_file": "registration04-entry.json",
+            "collection_seconds": 0.05655026715248823,
+            "serialization_io_seconds": 0.0018888209015130997
+          },
+          {
+            "state_file": "constructor05-entry.json",
+            "collection_seconds": 0.055515908636152744,
+            "serialization_io_seconds": 0.0018836921080946922
+          },
+          {
+            "state_file": "registration05-entry.json",
+            "collection_seconds": 0.05572546925395727,
+            "serialization_io_seconds": 0.0018973127007484436
+          },
+          {
+            "state_file": "constructor06-entry.json",
+            "collection_seconds": 0.055847554467618465,
+            "serialization_io_seconds": 0.0018593259155750275
+          },
+          {
+            "state_file": "registration06-entry.json",
+            "collection_seconds": 0.05767348315566778,
+            "serialization_io_seconds": 0.002169880084693432
+          },
+          {
+            "state_file": "constructor07-entry.json",
+            "collection_seconds": 0.055865807458758354,
+            "serialization_io_seconds": 0.001876162365078926
+          },
+          {
+            "state_file": "registration07-entry.json",
+            "collection_seconds": 0.05549473036080599,
+            "serialization_io_seconds": 0.00187587458640337
+          },
+          {
+            "state_file": "constructor08-entry.json",
+            "collection_seconds": 0.05565768666565418,
+            "serialization_io_seconds": 0.0018730517476797104
+          },
+          {
+            "state_file": "registration08-entry.json",
+            "collection_seconds": 0.05535914842039347,
+            "serialization_io_seconds": 0.0018664821982383728
+          },
+          {
+            "state_file": "deferred-entry.json",
+            "collection_seconds": 0.05679055768996477,
+            "serialization_io_seconds": 0.0018878402188420296
+          },
+          {
+            "state_file": "deferred-registration.json",
+            "collection_seconds": 0.05601648148149252,
+            "serialization_io_seconds": 0.0019139954820275307
+          },
+          {
+            "state_file": "value-copy-entry.json",
+            "collection_seconds": 0.055551095865666866,
+            "serialization_io_seconds": 0.0019263587892055511
+          },
+          {
+            "state_file": "value-copy-result.json",
+            "collection_seconds": 0.05535409227013588,
+            "serialization_io_seconds": 0.0018905466422438622
+          },
+          {
+            "state_file": "signature-entry.json",
+            "collection_seconds": 0.05522401724010706,
+            "serialization_io_seconds": 0.0019064899533987045
+          },
+          {
+            "state_file": "pdb-entry.json",
+            "collection_seconds": 0.055263690650463104,
+            "serialization_io_seconds": 0.0018767118453979492
+          },
+          {
+            "state_file": "pdb-registration.json",
+            "collection_seconds": 0.0551103837788105,
+            "serialization_io_seconds": 0.0018646065145730972
+          },
+          {
+            "state_file": "pdb02-entry.json",
+            "collection_seconds": 0.05506713408976793,
+            "serialization_io_seconds": 0.0019163992255926132
+          },
+          {
+            "state_file": "pdb02-registration.json",
+            "collection_seconds": 0.05507306382060051,
+            "serialization_io_seconds": 0.0018757618963718414
+          },
+          {
+            "state_file": "pool-entry-01.json",
+            "collection_seconds": 0.11564180348068476,
+            "serialization_io_seconds": 0.0020589297637343407
+          },
+          {
+            "state_file": "pool-entry-02.json",
+            "collection_seconds": 0.10377746168524027,
+            "serialization_io_seconds": 0.00214251596480608
+          },
+          {
+            "state_file": "pool-entry-03.json",
+            "collection_seconds": 0.10432351380586624,
+            "serialization_io_seconds": 0.0022727539762854576
+          },
+          {
+            "state_file": "pool-entry-04.json",
+            "collection_seconds": 0.1048744898289442,
+            "serialization_io_seconds": 0.002011861652135849
+          },
+          {
+            "state_file": "pool-entry-05.json",
+            "collection_seconds": 0.10354079492390156,
+            "serialization_io_seconds": 0.0018856218084692955
+          },
+          {
+            "state_file": "pool-entry-06.json",
+            "collection_seconds": 0.10294037032872438,
+            "serialization_io_seconds": 0.0018498534336686134
+          },
+          {
+            "state_file": "pool-entry-07.json",
+            "collection_seconds": 0.10310601629316807,
+            "serialization_io_seconds": 0.0018463507294654846
+          },
+          {
+            "state_file": "pool-entry-08.json",
+            "collection_seconds": 0.10305946506559849,
+            "serialization_io_seconds": 0.0018457761034369469
+          },
+          {
+            "state_file": "pool-entry-09.json",
+            "collection_seconds": 0.10475455969572067,
+            "serialization_io_seconds": 0.0019101817160844803
+          },
+          {
+            "state_file": "pool-entry-10.json",
+            "collection_seconds": 0.10365085676312447,
+            "serialization_io_seconds": 0.001984158530831337
+          },
+          {
+            "state_file": "prototype-entry.json",
+            "collection_seconds": 0.0590209998190403,
+            "serialization_io_seconds": 0.002176579087972641
+          },
+          {
+            "state_file": "prototype-result.json",
+            "collection_seconds": 0.0737465787678957,
+            "serialization_io_seconds": 0.0018769027665257454
+          },
+          {
+            "state_file": "pch-entry.json",
+            "collection_seconds": 0.11514727398753166,
+            "serialization_io_seconds": 0.0019053546711802483
+          },
+          {
+            "state_file": "pch-return.json",
+            "collection_seconds": 0.07446088641881943,
+            "serialization_io_seconds": 0.0019133621826767921
+          },
+          {
+            "state_file": "group-entry.json",
+            "collection_seconds": 0.055910046212375164,
+            "serialization_io_seconds": 0.001855531707406044
+          },
+          {
+            "state_file": "group-result.json",
+            "collection_seconds": 0.0556095652282238,
+            "serialization_io_seconds": 0.0019241375848650932
+          },
+          {
+            "state_file": "comment-entry.json",
+            "collection_seconds": 0.055547905154526234,
+            "serialization_io_seconds": 0.0018903035670518875
+          },
+          {
+            "state_file": "comment-result.json",
+            "collection_seconds": 0.05552804935723543,
+            "serialization_io_seconds": 0.0018858853727579117
+          },
+          {
+            "state_file": "action-entry.json",
+            "collection_seconds": 0.055461992509663105,
+            "serialization_io_seconds": 0.0018767686560750008
+          },
+          {
+            "state_file": "action-result.json",
+            "collection_seconds": 0.05640849843621254,
+            "serialization_io_seconds": 0.0019455039873719215
+          },
+          {
+            "state_file": "main-entry.json",
+            "collection_seconds": 0.055661918595433235,
+            "serialization_io_seconds": 0.0019044149667024612
+          },
+          {
+            "state_file": "work-entry.json",
+            "collection_seconds": 0.05509566701948643,
+            "serialization_io_seconds": 0.0018638819456100464
+          },
+          {
+            "state_file": "reserve-entry-01.json",
+            "collection_seconds": 0.05667740013450384,
+            "serialization_io_seconds": 0.0018864953890442848
+          },
+          {
+            "state_file": "reserve-return-01.json",
+            "collection_seconds": 0.05537385120987892,
+            "serialization_io_seconds": 0.0018564313650131226
+          },
+          {
+            "state_file": "reserve-entry-02.json",
+            "collection_seconds": 0.05582954082638025,
+            "serialization_io_seconds": 0.0018669404089450836
+          },
+          {
+            "state_file": "reserve-return-02.json",
+            "collection_seconds": 0.0586030138656497,
+            "serialization_io_seconds": 0.0021905945613980293
+          },
+          {
+            "state_file": "early-options-entry.json",
+            "collection_seconds": 0.0569811100140214,
+            "serialization_io_seconds": 0.0018970249220728874
+          },
+          {
+            "state_file": "early-option-entry.json",
+            "collection_seconds": 0.05608818493783474,
+            "serialization_io_seconds": 0.0019012615084648132
+          },
+          {
+            "state_file": "hook-entry.json",
+            "collection_seconds": 0.055502437986433506,
+            "serialization_io_seconds": 0.0018943911418318748
+          },
+          {
+            "state_file": "system-info-entry.json",
+            "collection_seconds": 0.05696350708603859,
+            "serialization_io_seconds": 0.0018656393513083458
+          },
+          {
+            "state_file": "system-info-return.json",
+            "collection_seconds": 0.057239653542637825,
+            "serialization_io_seconds": 0.0019033066928386688
+          },
+          {
+            "state_file": "arena-entry.json",
+            "collection_seconds": 0.07511118333786726,
+            "serialization_io_seconds": 0.0018729539588093758
+          },
+          {
+            "state_file": "arena-member-entry.json",
+            "collection_seconds": 0.11159735731780529,
+            "serialization_io_seconds": 0.0019678957760334015
+          },
+          {
+            "state_file": "arena-size-entry.json",
+            "collection_seconds": 0.07680367864668369,
+            "serialization_io_seconds": 0.001949976198375225
+          },
+          {
+            "state_file": "scaler-return.json",
+            "collection_seconds": 0.09891076199710369,
+            "serialization_io_seconds": 0.0019928645342588425
+          },
+          {
+            "state_file": "arena-reset-entry.json",
+            "collection_seconds": 0.0989968990907073,
+            "serialization_io_seconds": 0.001847994513809681
+          },
+          {
+            "state_file": "state.json",
+            "collection_seconds": 0.056820218451321125,
+            "serialization_io_seconds": 0.0021861372515559196
+          }
+        ],
+        "source_commands": [
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/observe-allocation.gdb",
+            "seconds": 0.025176643393933773
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/observe-early-switches.gdb",
+            "seconds": 0.013174221850931644
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/observe-system-info.gdb",
+            "seconds": 0.030979402363300323
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/observe-scaler.gdb",
+            "seconds": 0.07983115408569574
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-pre.gdb",
+            "seconds": 0.07519389502704144
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-phase.gdb",
+            "seconds": 0.05919807404279709
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-constructor-entry.gdb",
+            "seconds": 0.06023482047021389
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-registration-entry.gdb",
+            "seconds": 0.06071994733065367
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-constructor02-entry.gdb",
+            "seconds": 0.06202069669961929
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-registration02-entry.gdb",
+            "seconds": 0.06154999602586031
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-constructor03-entry.gdb",
+            "seconds": 0.06053542159497738
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-registration03-entry.gdb",
+            "seconds": 0.0630857553333044
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-constructor04-entry.gdb",
+            "seconds": 0.061455599032342434
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-registration04-entry.gdb",
+            "seconds": 0.062211581505835056
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-constructor05-entry.gdb",
+            "seconds": 0.060836729593575
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-registration05-entry.gdb",
+            "seconds": 0.06163229141384363
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-constructor06-entry.gdb",
+            "seconds": 0.061754208989441395
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-registration06-entry.gdb",
+            "seconds": 0.06445447076112032
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-constructor07-entry.gdb",
+            "seconds": 0.061346315778791904
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-registration07-entry.gdb",
+            "seconds": 0.06100132875144482
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-constructor08-entry.gdb",
+            "seconds": 0.06171618681401014
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-registration08-entry.gdb",
+            "seconds": 0.05895319115370512
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-deferred-entry.gdb",
+            "seconds": 0.06257538311183453
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-deferred-registration.gdb",
+            "seconds": 0.062125531025230885
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-value-copy-entry.gdb",
+            "seconds": 0.061581989750266075
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-value-copy-result.gdb",
+            "seconds": 0.06043350137770176
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-signature-entry.gdb",
+            "seconds": 0.060936213470995426
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-pdb-entry.gdb",
+            "seconds": 0.06078406050801277
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-pdb-registration.gdb",
+            "seconds": 0.05863197986036539
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-pdb02-entry.gdb",
+            "seconds": 0.06084161624312401
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-pdb02-registration.gdb",
+            "seconds": 0.06003809440881014
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/observe-pool-entries.gdb",
+            "seconds": 0.12578961346298456
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/observe-pool-entries.gdb",
+            "seconds": 0.11294813733547926
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/observe-pool-entries.gdb",
+            "seconds": 0.11411263700574636
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/observe-pool-entries.gdb",
+            "seconds": 0.11230003647506237
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/observe-pool-entries.gdb",
+            "seconds": 0.11311919800937176
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/observe-pool-entries.gdb",
+            "seconds": 0.11153297778218985
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/observe-pool-entries.gdb",
+            "seconds": 0.1115611083805561
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/observe-pool-entries.gdb",
+            "seconds": 0.11256453488022089
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/observe-pool-entries.gdb",
+            "seconds": 0.11414692085236311
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/observe-pool-entries.gdb",
+            "seconds": 0.11111008562147617
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-prototype-entry.gdb",
+            "seconds": 0.06533944886177778
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-prototype-result.gdb",
+            "seconds": 0.07962383516132832
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-pch-entry.gdb",
+            "seconds": 0.12003418058156967
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/observe-pch-return.gdb",
+            "seconds": 0.0022446876391768456
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-group-entry.gdb",
+            "seconds": 0.06162380147725344
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-group-result.gdb",
+            "seconds": 0.06151409912854433
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-comment-entry.gdb",
+            "seconds": 0.06090906821191311
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-comment-result.gdb",
+            "seconds": 0.06089690513908863
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-action-entry.gdb",
+            "seconds": 0.061178309842944145
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-action-result.gdb",
+            "seconds": 0.059982264414429665
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-main-entry.gdb",
+            "seconds": 0.0613305913284421
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-work-entry.gdb",
+            "seconds": 0.060745599679648876
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-early-options-entry.gdb",
+            "seconds": 0.06297035049647093
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-hook-entry.gdb",
+            "seconds": 0.06152396276593208
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-arena-entry.gdb",
+            "seconds": 0.08074697759002447
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-arena-member-entry.gdb",
+            "seconds": 0.11738032009452581
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/collect-arena-size-entry.gdb",
+            "seconds": 0.08306216821074486
+          }
+        ],
+        "summary": {
+          "source_command_seconds": 4.115302122198045,
+          "source_command_count": 58,
+          "gdb_total_seconds": 10.41404018457979,
+          "startup_seconds": 0.09723997954279184,
+          "breakpoint_setup_seconds": 0.9595067547634244,
+          "collection_seconds": 4.3668744238093495,
+          "serialization_io_seconds": 0.12333920784294605,
+          "residual_inferior_debugger_seconds": 4.867079818621278,
+          "collector_count": 64,
+          "scope": "residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution"
+        }
+      },
+      "public_entry_return_observers": 510,
+      "residual_timing_scope": "includes all uninstrumented public-API state reads/512or510breakpoint callbacks plus inferior/GDB work; NOT standalone execution time",
+      "source_reset_derivation": {
+        "kind": "checked filename-map reset-only compiled source correction; identical original target/mask/case/config/ABI/runtime inputs",
+        "rule_path": "/root/msvc2/decomp/vc5.10/c1xx/cases/minimal/path-fold-reset-refinement.json",
+        "rule_sha256": "8a795cec8456a1efceda8c1bb62d7c639089e85fe80cff99f95bf204bd73d0c2",
+        "original_receipt_sha256": "efa1b836f576e9d876c4024ace9376194d4e4b131fc3dcb1aeaf2ed6d6efbb85",
+        "original_trial_sha256": "97641669fe754a581b1a56ffa0188f02f593fc7fbe6b61e1d769c29c868e6dc5",
+        "native_trial_sha256": "fdf9d5b521eb90859e41b04956e9327f73c7e1238dbd19e71e952425ce789298",
+        "old_compiled_source": "77c0d8fb4e332dc1c5cc997ec2ea53373546724bdccc35a2d94e4b5886a43b28",
+        "new_compiled_source": "797a2e1b8d1defb4098e2a2975a96bb0c1c5c9b6a195ca629f51abb11c87fe26",
+        "allowed_build_bindings": [
+          "build/c1n32_l.dll",
+          "build/c1xx.map",
+          "build/native/c1xx-host"
+        ],
+        "old_ELF": "03302cad17a80d2f5308cd1e96c095d3701be58dd10e9a5e237063f7de45096a",
+        "new_ELF": "ccd981dbde4097577f8dc27c65d18a9358e90ea221718aa53e59280f98bbbcbf",
+        "semantic_correctness_claimed": false,
+        "current_strict_audit_required": true,
+        "validator_sha256": "abc6b019fd130c68fc173539489072c76cbda57cbd95e8f3d35671f453d90546"
+      }
+    }
+  },
+  "affected_evidence": {
+    "path-fold-original-controls-1.json": {
+      "path": "cases/minimal/evidence/path-fold-original-controls-1.json",
+      "sha256": "3227006101fd55878b3469146e1a2f5aec3c83aae282e178b8663371097052f3"
+    },
+    "path-fold-normal-controls-1.json": {
+      "path": "cases/minimal/evidence/path-fold-normal-controls-1.json",
+      "sha256": "dcf79f55df6920354c1d5e6db2c90fbaf5cc82ee1646db346ce8f7ee338bacbd"
+    },
+    "path-fold-restore-controls-1.json": {
+      "path": "cases/minimal/evidence/path-fold-restore-controls-1.json",
+      "sha256": "08b1760fd5c887a9e762fdd8836323a727026142106be00639270b00481d415c"
+    },
+    "path-fold-reset-controls-1.json": {
+      "path": "cases/minimal/evidence/path-fold-reset-controls-1.json",
+      "sha256": "edbfa4e4988946e3b65e430325bc2211303a96e543254c39d59709ee496ca772"
+    },
+    "path-fold-ebp-ablation.json": {
+      "path": "cases/minimal/evidence/path-fold-ebp-ablation.json",
+      "sha256": "2eafc240c12a2c7b7cfdff66d3e855b05f83b7f445f9e0f343120a144743d64a"
+    },
+    "path-fold-owner-controls-1.json": {
+      "path": "cases/minimal/evidence/path-fold-owner-controls-1.json",
+      "sha256": "79a3e0ac6052d960f723a6f62330c77cc87625f3e05b2a04d0e2ce307bf49daa"
+    }
+  },
+  "original_only_validations": {
+    "normal": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/path-fold-original-normal-validation-1.json",
+      "sha256": "29ac1e2b4b096f8d3905a34c0f45a7ee99a258cdcc83532b80f825241f900246"
+    },
+    "restore": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/path-fold-original-restore-validation-1.json",
+      "sha256": "eb263645b644941438c1850da36f41d2ae4e35631ad190834b2de9a2e0b5bccd"
+    }
+  },
+  "projection": {
+    "new_BSS_semantic_bytes": 512,
+    "BSS_semantic_bytes": 2793,
+    "BSS_native_padding_bytes": 31,
+    "BSS_native_size": 2824,
+    "initialized_semantic_bytes": 2489,
+    "initialized_native_padding_bytes": 51,
+    "original_snapshot_bytes": 8520,
+    "original_unmodeled_snapshot_bytes": 6031,
+    "native_snapshot_byte_equivalence_claimed": false
+  },
+  "shared_CRT_adoption": {
+    "publication": "61155226d",
+    "crt_c_sha256": "ee55a842081fcee814bc344fb662ba7eca0d0da40ceeea7dd470a2d2570d6030",
+    "canonical_provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "public_input_domain": [
+      0,
+      255
+    ],
+    "actual_call_counts": [
+      256,
+      255
+    ],
+    "error_tuple_preserved": [
+      0,
+      0,
+      203
+    ],
+    "full_original112_FP_preserved": true,
+    "native_FP_claim": "architectural/live x87 values, no OS-specific IP/DP/payload equality",
+    "application_credit": 0
+  },
+  "next_boundary": {
+    "function": "_read_env_arguments",
+    "rva": 234515,
+    "source_formals": {
+      "arguments": "char *"
+    },
+    "actual_input": null,
+    "actual_original_caller_return_rva": 233505,
+    "qualification": "Actual next-consumer NULL plus authenticated contiguous original getenv/name/push/call chain; no direct original getenv-entry/RET observation claimed. Native second target-bound MSC_CMD_FLAGS call observed fully."
+  },
+  "parent_reset_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/pathfold-reset-parent-review.json",
+    "sha256": "3f8fbb1339f37f667ff9af70f0bcd00a27aaa4d65516b99432802c7d0e1bc31f"
+  },
+  "cached_native_fixture": {
+    "case": "dll-lifecycle-and-exports",
+    "Wine_calls": 0,
+    "build_seconds": 0.00652637891471386,
+    "setup_seconds": 0.0008331378921866417,
+    "execution_seconds": 0.0023775948211550713,
+    "checks_seconds": 0.0037174057215452194,
+    "total_seconds": 0.014175023883581161
+  },
+  "retained_failed_attempts": [
+    {
+      "directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-original-1",
+      "scope": "old helper lacked required API observations; not acceptance"
+    },
+    {
+      "directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-1",
+      "scope": "newly reached second getenv rejected by old observer"
+    },
+    {
+      "directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-2",
+      "scope": "actual frontier reached; typed newfield reset incorrectly remained8101; source corrected"
+    },
+    {
+      "directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-3",
+      "scope": "setup rejected changed rebuilt DLL/MAP provenance; no target execution"
+    },
+    {
+      "directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-4",
+      "scope": "second profile setup gate rejected same provenance delta; no target execution"
+    }
+  ],
+  "build_and_audit_accounting": {
+    "original_prefix_compile_seconds": 1.205984209664166,
+    "native_prefix_compile_seconds": 0.14179019257426262,
+    "native_final_compile_and_link_seconds": 1.6344636948779225,
+    "current_strict_graph_audit_seconds": 0.1151128662750125,
+    "scope": "individual commands; parallel walltime not inferred by summing jobs"
+  },
+  "owner_identity_followup": {
+    "semantic_checker_sha256": "2d30be0ee1baf075dc2768f34891c86268b3e4ed2c6ddac217a925eb5b03b1e4",
+    "guard": "sameactualPC; fold-entry pctype/old_pctype/static_ctype/result_pointer/fullselection/CRTargc+argv/environment records equal immediately preceding authenticated scanner-next",
+    "fresh_positives": [
+      {
+        "role": "normal",
+        "result": {
+          "trial": "_initialize_lowercase_table",
+          "frontier": "_read_env_arguments",
+          "seed": null,
+          "modeled_context_fields": 35,
+          "original_default_context": [
+            0,
+            0,
+            0
+          ],
+          "typed_bss_bytes": 2793,
+          "native_bss_size": 2824,
+          "native_c_padding_bytes": 31,
+          "output_constructor_fields_checked": 72,
+          "cleanup_registration_checked": true,
+          "nonzero_output_constructor_input_checked": false,
+          "token_semantic_bytes_checked": 17,
+          "token_pointer_arm_tested": false,
+          "token_unknown_tail_bytes_each": 32,
+          "deferred_work_pointer_checked": true,
+          "nonzero_deferred_constructor_input_checked": false,
+          "nonzero_expanded_BSS_restore_checked": false,
+          "original_unmodeled_snapshot_bytes": 6031,
+          "native_snapshot_byte_equivalence_claimed": false,
+          "whole_mask_bytes_checked": 751216,
+          "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+          "original_seconds": 31.029884698800743,
+          "native_seconds": 9.89383604656905
+        },
+        "current_audit": "/root/msvc2/decomp/vc5.10/c1xx/build/historical-audit-proof.json",
+        "seconds": 9.905051451176405
+      },
+      {
+        "role": "restore",
+        "result": {
+          "trial": "_initialize_lowercase_table",
+          "frontier": "_read_env_arguments",
+          "seed": "restore-nonzero",
+          "modeled_context_fields": 35,
+          "original_default_context": [
+            0,
+            0,
+            0
+          ],
+          "typed_bss_bytes": 2793,
+          "native_bss_size": 2824,
+          "native_c_padding_bytes": 31,
+          "output_constructor_fields_checked": 72,
+          "cleanup_registration_checked": true,
+          "nonzero_output_constructor_input_checked": false,
+          "token_semantic_bytes_checked": 17,
+          "token_pointer_arm_tested": false,
+          "token_unknown_tail_bytes_each": 32,
+          "deferred_work_pointer_checked": true,
+          "nonzero_deferred_constructor_input_checked": false,
+          "nonzero_expanded_BSS_restore_checked": true,
+          "original_unmodeled_snapshot_bytes": 6031,
+          "native_snapshot_byte_equivalence_claimed": false,
+          "whole_mask_bytes_checked": 751216,
+          "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+          "original_seconds": 30.928809862583876,
+          "native_seconds": 10.41404018457979
+        },
+        "current_audit": "/root/msvc2/decomp/vc5.10/c1xx/build/historical-audit-proof.json",
+        "seconds": 9.85763079021126
+      }
+    ],
+    "fresh_controls": "cases/minimal/evidence/path-fold-owner-controls-1.json",
+    "unchanged_base_controls_reused": "23normal+4restore remain bound to their recorded previous checker hash; parent requested only added-owner controls, no rerun",
+    "no_original_or_native_execution": true
+  },
+  "coverage": {
+    "accepted_boundaries": 88,
+    "application_functions": 84,
+    "application_code_bytes": 5435,
+    "historical_CRT_support_functions": 2,
+    "historical_CRT_support_bytes": 451,
+    "generated_import_boundaries": 2,
+    "generated_import_bytes": 12,
+    "whole_code_extent_bytes": 751216,
+    "total_accepted_code_bytes": 5898,
+    "not_a_non_CRT_percentage": true
+  },
+  "acceptance": {
+    "name": "_initialize_lowercase_table",
+    "classification": "application source",
+    "source": "src/scanner.c",
+    "source_sha256": "2729a565a57e9991c407fb081e9b693b9a278a7f042e8914922ac8ebb52d2a27",
+    "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-original-2",
+    "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1",
+    "original_receipt_sha256": "407c8063150937f6fb78aa13ddea9bbfa3059843b04782a5218b618bd2480efd",
+    "native_receipt_sha256": "3f72a10416c5c40b5d2cd8e54dd6d64df9fca85a3b503f8cf1ed73d6a18a53ec",
+    "trial_sha256": "88cf64f8c134b6df3671357ff662d3785a7f9e646f4211c355f991eb87f4edf1",
+    "audit_sha256": "2d0ae0875595267e6c02f2ee0da478b90fe989f4959d4a316898d205c69f3ff6",
+    "code_chunks": [
+      [
+        234442,
+        234515
+      ],
+      [
+        468012,
+        468022
+      ]
+    ],
+    "comparison": {
+      "trial": "_initialize_lowercase_table",
+      "frontier": "_read_env_arguments",
+      "seed": null,
+      "modeled_context_fields": 35,
+      "original_default_context": [
+        0,
+        0,
+        0
+      ],
+      "typed_bss_bytes": 2793,
+      "native_bss_size": 2824,
+      "native_c_padding_bytes": 31,
+      "output_constructor_fields_checked": 72,
+      "cleanup_registration_checked": true,
+      "nonzero_output_constructor_input_checked": false,
+      "token_semantic_bytes_checked": 17,
+      "token_pointer_arm_tested": false,
+      "token_unknown_tail_bytes_each": 32,
+      "deferred_work_pointer_checked": true,
+      "nonzero_deferred_constructor_input_checked": false,
+      "nonzero_expanded_BSS_restore_checked": false,
+      "original_unmodeled_snapshot_bytes": 6031,
+      "native_snapshot_byte_equivalence_claimed": false,
+      "whole_mask_bytes_checked": 751216,
+      "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+      "original_seconds": 31.029884698800743,
+      "native_seconds": 9.89383604656905
+    },
+    "native_trial_sha256": "e4998650d540f6f5571bc389fc7a5e883efdc84249d8b07126ed7f3ad9a3125d",
+    "native_only_refresh": "original raw execution reused after checked exact native ELF binding-only delta"
+  },
+  "parent_final_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/pathfold-parent-final-review.json",
+    "sha256": "50422e9a98f174313a588ae03ecc3e00c35bbe67b956e5c50b9ef79470bf0292",
+    "reviewed_pre_promotion_packet_sha256": "fdfafd26d97c9ab5c377e84bb19117fec29196898e360fd997c6a515915491fc"
+  }
+}

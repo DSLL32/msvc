@@ -17,6 +17,9 @@ def prepare(original, output):
         checker=Path(__file__).with_name('check-isolated-multibyte.py')
         (output/'locale-prerequisite-checker.py').write_bytes(prerequisite.read_bytes())
         (output/'scanner-reference-projection.py').write_bytes(Path(__file__).with_name('scanner_projection.py').read_bytes())
+    if trial.get('lowercase_observers'):
+        checker=Path(__file__).with_name('path_fold_original.py')
+        (output/'multibyte-prerequisite-checker.py').write_bytes(Path(__file__).with_name('check-isolated-multibyte.py').read_bytes())
     spec = importlib.util.spec_from_file_location('isolated_locale_reference', checker)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)

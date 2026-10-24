@@ -34,6 +34,12 @@ def check(s,d,original,native,trial,text,state,final,symbols,traps):
     old_before=re.findall(r'^system-info-before pc=(\w+) esp=(\w+) argument=(\w+) provider=(\w+) edi=(\w+) esi=(\w+) ebx=(\w+) error=(\d+) fpu=(\w+)$',text,re.M);old_after=re.findall(r'^system-info-after pc=(\w+) esp=(\w+) edi=(\w+) esi=(\w+) ebx=(\w+) error=(\d+) fpu=(\w+)$',text,re.M)
     require(len(old_before)==len(old_after)==1,'original API inventory differs');ob,oa=old_before[0],old_after[0];kernel=int(re.search(r'^module name=KERNEL32.dll actual=([0-9a-f]+) ',text,re.M)[1],16)
     require([int(ob[i],16) for i in (0,2,3)]==[0x10438c42,0x104cd7b8,kernel+export_rva(original/'loaded-kernel32.bin','GetSystemInfo')] and int(oa[0],16)==0x10438c48 and int(oa[1],16)==int(ob[1],16)+4 and oa[2:5]==ob[4:7] and int(ob[7])==int(oa[5])==203 and int(ob[8],16)&0xffff==int(oa[6],16)&0xffff==0x27f,'actual original GetSystemInfo argument/provider/RET4/register/context differs')
+    refresh=binding.get('native_only_trial_refresh')
+    if refresh and refresh['kind'].startswith('checked filename-map reset-only'):
+        from path_fold_reset_refinement import check as check_reset
+        require(s.sha(native/'path-fold-reset-refinement-source.py')==refresh['validator_sha256']and s.sha(native/'path-fold-reset-refinement.json')==refresh['rule_sha256'],'frozen exact reset derivation source/rule identity')
+        current=check_reset(original,native);current['validator_sha256']=refresh['validator_sha256']
+        require(current==refresh,'current static reset-only derivation does not match native capture binding')
     require(binding['target_sha256']==trial['target']['sha256'] and binding['canonical_crt_sha256']==s.sha(original/'loaded-msvcrt.bin') and binding['profile_bytes']==104 and (native/'system-info-profile.bin').read_bytes()==b'RSI1'+reference.encode('ascii')+raw and binding['profile_sha256']==s.sha(native/'system-info-profile.bin'),'wrong shared capability/profile bytes')
     require(binding['original_crt_inputs']=={name:s.sha(original/name) for name in ('original-crt-argv.bin','original-crt-environment.bin')} and all((native/name).read_bytes()==(original/name).read_bytes() for name in binding['original_crt_inputs']),'wrong captured CRT input closure')
     require(set(binding['controllers'])=={'lib/recon/system_profile.py','decomp/vc5.10/c1xx/scripts/system_info_reference.py'} and all(s.sha(native/row['artifact'])==row['sha256'] for row in binding['controllers'].values()),'wrong profile encoder/factory content snapshots')
