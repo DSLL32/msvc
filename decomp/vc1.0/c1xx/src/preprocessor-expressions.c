@@ -138,3 +138,29 @@ PreprocessorValue *parse_preprocessor_equality(void)
     }
     return left;
 }
+
+PreprocessorValue *parse_preprocessor_shift(void);
+
+/* Original 0x18900..0x1897e. */
+PreprocessorValue *parse_preprocessor_relational(void)
+{
+    PreprocessorValue *left, *right;
+    left = parse_preprocessor_shift();
+    if (accept_preprocessor_token(OP_LESS)) {
+        right = parse_preprocessor_shift();
+        return evaluate_preprocessor_binary(OP_LESS, left, right);
+    }
+    if (accept_preprocessor_token(OP_GREATER)) {
+        right = parse_preprocessor_shift();
+        return evaluate_preprocessor_binary(OP_GREATER, left, right);
+    }
+    if (accept_preprocessor_token(OP_LESS_EQUAL)) {
+        right = parse_preprocessor_shift();
+        return evaluate_preprocessor_binary(OP_LESS_EQUAL, left, right);
+    }
+    if (accept_preprocessor_token(OP_GREATER_EQUAL)) {
+        right = parse_preprocessor_shift();
+        return evaluate_preprocessor_binary(OP_GREATER_EQUAL, left, right);
+    }
+    return left;
+}

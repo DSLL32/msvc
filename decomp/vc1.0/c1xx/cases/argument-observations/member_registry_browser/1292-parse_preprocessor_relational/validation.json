@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_parse_preprocessor_relational",
+  "case": "member_registry_browser",
+  "accepted_before": 1292,
+  "configuration_sha256": "a07d320726493d2e61e5fb84cf353a230d2992280ec0b321998308cf475e74a4",
+  "native_entry": "parse_preprocessor_relational",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      100608,
+      100735
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl no formals PreprocessorValue*EAX, savedESI, RET0",
+    "proof": "Whole127B mandatory shift cdecl0pointer result\u2192ESI. Probe std4BYTE tokens4d(<),47(>),4e(<=),48(>=) inexactorder; matchedbranch parsesone rightshift thenbinary std12(BYTEoperation,left,right), immediatelyreturns pointer. None matched returnsleft. No invented relational chain loop, own global/incomingstack/register/flags/x87 input/newdata/CRT. Three outgoingcallees independently read: shift68B cdecl0pointer with optional right61 thenleft4c andadditive child; sharedaccept57B/scannertail195B andbinary865B+43DWORDstd12 remainpending stubs. Complete childbody has no formal/hidden incomingregister values.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "386151fc1a7b98764ed603e53a0feada40e8bf0f3936ee7a50a6ef16d842e8ae",
+  "capture_timing": {
+    "original_capture_seconds": 1.5185259198769927,
+    "native_capture_seconds": 0.1823804834857583,
+    "total_operation_seconds": 1.9840029533952475
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "89158e68d3db7d6120ea71c2c82413ab8be7e6468a85b10cf9b38519dfaba07d",
+    "native-commands.gdb": "c334172b06b57188998da4ba6521785cf115edf441f8b5343416e53df1d50bc7",
+    "native-gdb.log": "6149818b245d78c57f5e5ade786bd74e19471d13fd530ab094c5bc64ab7fb479",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "854da4248e47e12903a0b9cf0c7450115c844eff72ccc251ddf8a8ec17384b04",
+    "original-configuration.json": "a07d320726493d2e61e5fb84cf353a230d2992280ec0b321998308cf475e74a4",
+    "original-disassembly.txt": "5fa0d643f4d952fa1266dc84f909e2383ba3b153477eff8a8b5aa72503422f52",
+    "original-events.txt": "d549a5324517b60ab72cfadc8f9b19d61521a7b4695371cc6c34d9283e27b49c",
+    "original-receipt.json": "0c014667d5be9a1acb328eceab507284301d5425344aa4cb5e13ded90f2bf28d",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "fdd49acf27888b1875aa3ec1adbe686328e7127ac5515111de9557a7f2eb024d"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

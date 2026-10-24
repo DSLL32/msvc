@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "c6fd559f942d19edc7901ae5d166b6628f1ec74c8ee14952599ef26ad0080697",
+    "functions.json": "f4cf754a73c573376e0adcae0e064bb31b50f104cd2659f2ac617f646384a547",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "025756a7e613705646cd1241c9dfd0774c5e6da7770ba802588b20df6586b01d",
-    "cases/canonical-map.txt": "a351bcdd8d304617785c0377aa49078534dc13c16c96ed324c8404bceb26bd09",
+    "cases/original-entry-references.json": "02d7062d46edb3f42fe6e9a6c83c5baebbf01d5c7e4d3fa04ee2e032b3b77724",
+    "cases/canonical-map.txt": "3309255343ae8ad84b4e56e49281472ef8540e370ecbecb89c6877a81a467e4a",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -78,9 +78,9 @@
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-receipt.json": "aaed00b4fadaebffc9880353fea9e13e29e47c575801ef9b2468683dce4fa7c5",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-events.txt": "101a9376ca702a65d47b1014b7314fcf5bae85308185272f7bfbfd5a54474784",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-entries.plan": "0666913d4e150db042b4ec44837ec92005027e9ae6eb67575b6dd821714b9619",
-    "cases/frontiers/member_registry_browser/1291-parse_preprocessor_equality/entry-reference/original-receipt.json": "2d861cc232b569cf66ada4f0e738c71e9ccf9bb0b8babc3cb53546a26d7441ef",
-    "cases/frontiers/member_registry_browser/1291-parse_preprocessor_equality/entry-reference/original-events.txt": "c2a7bdaf54f7d67d60d60eedd50953b262f0bbf26658edde29cc1d0d4f961413",
-    "cases/frontiers/member_registry_browser/1291-parse_preprocessor_equality/entry-reference/original-entries.plan": "a13f000cdcebcbfceb98029ae5c21209dd24d60a24dea0bbb6927f4654098dd0"
+    "cases/frontiers/member_registry_browser/1292-parse_preprocessor_relational/entry-reference/original-receipt.json": "eab88d39f8e3262bc8b069548f2d3e2721fc5b82b14415766a24fd73c115dfd4",
+    "cases/frontiers/member_registry_browser/1292-parse_preprocessor_relational/entry-reference/original-events.txt": "89fb17dddb4079292a197941619b144df1f5862872620113afd1279bf6b6eb26",
+    "cases/frontiers/member_registry_browser/1292-parse_preprocessor_relational/entry-reference/original-entries.plan": "f2cd4bbd3d84dd1be61efed823bcec2fc0444e32146d58a8cab7acf2123453d7"
   },
   "application_definitions": {
     "accept_preprocessor_token": {
@@ -4465,6 +4465,10 @@
     },
     "parse_preprocessor_relational": {
       "logical": "_parse_preprocessor_relational",
+      "source": "src/preprocessor-expressions.c"
+    },
+    "parse_preprocessor_shift": {
+      "logical": "_parse_preprocessor_shift",
       "source": "src/stubs.c"
     },
     "parse_translation_unit": {
@@ -7358,7 +7362,8 @@
     "parse_preprocessor_bitwise_or",
     "parse_preprocessor_bitwise_xor",
     "parse_preprocessor_bitwise_and",
-    "parse_preprocessor_equality"
+    "parse_preprocessor_equality",
+    "parse_preprocessor_relational"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -13789,7 +13794,7 @@
     },
     "member_registry_browser": {
       "first": 1257,
-      "last": 1292,
+      "last": 1293,
       "seen": [
         "main",
         "message_text",
@@ -14979,12 +14984,13 @@
         "parse_preprocessor_bitwise_xor",
         "parse_preprocessor_bitwise_and",
         "parse_preprocessor_equality",
-        "parse_preprocessor_relational"
+        "parse_preprocessor_relational",
+        "parse_preprocessor_shift"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_parse_preprocessor_relational",
-        "native": "parse_preprocessor_relational",
+        "logical": "_parse_preprocessor_shift",
+        "native": "parse_preprocessor_shift",
         "signal": 5
       }
     }
