@@ -109,7 +109,7 @@ def normal(call,cleanup):
 def compare(original,state,trap,events,native_directory=None):
     verify() # The mapped opener consumes only the low BYTE of physical arg3.
     loader_contract()
-    if state['function']in ('is_archive','mapped_read','is_mac_resource_file','get_file_length','seek_file','seek_mapped_file','read_big_endian_dword','byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend'):reader_contract()
+    if state['function']in ('is_archive','mapped_read','is_mac_resource_file','get_file_length','seek_file','seek_mapped_file','read_big_endian_dword','byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header'):reader_contract()
     from collision_state import compare as compare_collision
     compare_collision(original,state,trap,events)
     directory=Path(native_directory)
@@ -282,8 +282,8 @@ def compare(original,state,trap,events,native_directory=None):
         assert avail['entry_stack']==nopens[i]['stack_pointer']-80
         assert move['entry_stack']==nopens[i]['stack_pointer']-128
         assert lookup['entry_stack']==nopens[i]['stack_pointer']-80
-        oactive[index]=(owned,0x1b if i==0 else 9,index,0 if i==0 else size,handle,view,size,4 if i==1 and state['function']in ('byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend')else 8 if i==1 and state['function']in ('is_mac_resource_file','get_file_length','seek_file','seek_mapped_file')else 0,0,oslots[15]if i else 0)
-        nactive[index]=(nowned,0x1b if i==0 else 9,index,0 if i==0 else size,nhandle,nview,size,4 if i==1 and state['function']in ('byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend')else 8 if i==1 and state['function']in ('is_mac_resource_file','get_file_length','seek_file','seek_mapped_file')else 0,0,nslots[15]if i else 0)
+        oactive[index]=(owned,0x1b if i==0 else 9,index,0 if i==0 else size,handle,view,size,0 if state['function']=='read_coff_header'else 4 if i==1 and state['function']in ('byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header')else 8 if i==1 and state['function']in ('is_mac_resource_file','get_file_length','seek_file','seek_mapped_file')else 0,0,oslots[15]if i else 0)
+        nactive[index]=(nowned,0x1b if i==0 else 9,index,0 if i==0 else size,nhandle,nview,size,0 if state['function']=='read_coff_header'else 4 if i==1 and state['function']in ('byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header')else 8 if i==1 and state['function']in ('is_mac_resource_file','get_file_length','seek_file','seek_mapped_file')else 0,0,nslots[15]if i else 0)
         ranges.extend([dict(original_base=owned,native_base=nowned,bytes=len(contents)),dict(original_base=view,native_base=nview,bytes=size)])
         if i==1:
             assert state['file_record_formals']==caller
@@ -327,7 +327,7 @@ def compare(original,state,trap,events,native_directory=None):
     ranges.extend(dict(original_base=a,native_base=b,bytes=40)for a,b in zip(oslots,nslots))
     ranges.append(dict(original_base=struct.unpack('<I',(original/'file-pointers.bin').read_bytes()[:4])[0],native_base=state['file_globals']['file_slots'],bytes=64))
     ranges.append(dict(original_base=0x4670c4,native_base=globals_['current_phase'],bytes=32))
-    if state['function']in ('mapped_read','is_mac_resource_file','get_file_length','seek_file','seek_mapped_file','read_big_endian_dword','byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend'):
+    if state['function']in ('mapped_read','is_mac_resource_file','get_file_length','seek_file','seek_mapped_file','read_big_endian_dword','byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header'):
         from archive_state import compare as compare_archive
         live_output=compare_archive(original,state,trap,events,native_directory,oslots,nslots)
         if live_output is not None:ranges.append(live_output)

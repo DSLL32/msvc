@@ -1,0 +1,26 @@
+{
+  "candidate": "_initialize_x86_backend@8",
+  "application_functions_if_promoted": 96,
+  "application_extent_bytes_if_promoted": 35369,
+  "support_functions": 13,
+  "support_extent_bytes": 522,
+  "original_capture_seconds": 1.569150964729488,
+  "native_capture_seconds": 0.9061207910999656,
+  "audit_seconds": 0.630104691721499,
+  "fresh_affected_controls": 70,
+  "fresh_control_times": {
+    "positive": 1.8050683196634054,
+    "negatives_and_scope_positive": 10.733902686275542,
+    "total": 12.538975968956947
+  },
+  "native_help_fixture": {
+    "setup": 0.0628817854449153,
+    "execution": 0.003881523385643959,
+    "checks": 0.00037993304431438446,
+    "total": 0.07040827628225088
+  },
+  "shared_ready": "4021ad738 crt7defa7a2/headerf2b44b6d; no new API/gap or retry",
+  "historical_controls": "Earlier campaign raw/checkers remain historical, not rerun or labelled unchanged-wholefile reuse. Currentstage checker source deltas pinned.",
+  "retained_failures": "First two acceptance attempts correctly rejected inherited currentcursor4 assumptions after real sixthseek reset to0; historical4 record scope fixed explicitly. Same immutable captures; no rerun originals.",
+  "build": "Both original/native/runtime and currenthelper make-j4; separate buildtime not measured."
+}

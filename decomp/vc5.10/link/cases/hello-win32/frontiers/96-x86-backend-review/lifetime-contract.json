@@ -1,0 +1,45 @@
+{
+  "backend": {
+    "bytes": 133,
+    "application_credit_if_promoted": 133,
+    "real_support_byte": {
+      "before": 0,
+      "after": 1,
+      "original_owner": "initializer entryESP-1, live only through backend return",
+      "native_owner": "initializer DWARF BYTE local entryESP-5; actualsizeof1"
+    },
+    "callback_stores": {
+      "process_relocations": {
+        "original_slot": 4714532,
+        "target": 4395696,
+        "native": "process_x86_relocations"
+      },
+      "classify_relocation": {
+        "original_slot": 4714184,
+        "target": 4395568,
+        "native": "classify_x86_relocation"
+      },
+      "scope": "Actual stored target identities only; pending namedtraps, no invocation/bodycredit/hidden-input assumption. Provisional pointer types held until actual consumer ABI qualification."
+    },
+    "normal_returns": "ActualbackendRET8+12 and initializerRET4+8 observed, fullownvoidEAX preserved."
+  },
+  "context": "Complete664B unchanged, SectionAlignment4096/FileAlignment512; machine_initialized0\u21921 independently observed after initializer.",
+  "sixth_seek": {
+    "original_error_owner": "Original incoming contextargument slot objectentryESP+8, after context savedEBX; entryformals remain historical, current4B errorzero capturedbefore/after.",
+    "native_error_owner": "DWARF DWORDerror entryESP-44; ownsizeof4",
+    "current_file_record": "Full40B cursor4\u21920; priorarchive/BE/detector cursor observations remain historical4/8."
+  },
+  "next_header": {
+    "original_owner": "20B objectcaller allocated output atentryESP-20, entirely live at readerentry",
+    "native_owner": "DWARF IMAGE_FILE_HEADER sizeof20 atentryESP-36",
+    "formals": [
+      "14",
+      "liveheader20B",
+      "NULLalternate_header",
+      "NULLalternateBYTEoutput"
+    ],
+    "initial_bytes": "Own uninitialized raw20B on eachside, never crosscompared; currentcomplete2262B input/cursor0 ensures20available for nextbody.",
+    "retired_owners": "Initializer supportBYTE retired after genuine initializer return; not included in currentpointerranges. Only currentheader20B added."
+  },
+  "pending_reader": "Readonly complete273B/nohidden/RET16, no acceptedbodycredit"
+}

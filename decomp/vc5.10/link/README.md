@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 95 application
-functions (35,236 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 96 application
+functions (35,369 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `initialize_x86_backend`; hello-win32 has not completed.
+next frontier is `read_coff_header`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -582,3 +582,17 @@ whole-context, RET4, output ownership, hidden-input and exact literal-padding
 checks. Their time and all original/native/audit/fixture times are recorded in
 `frontiers/95-delay-validator-review/accounting.json`. No earlier broad campaign
 was rerun. The pending backend's 133 bytes have no accepted credit.
+
+The 133-byte x86 backend is accepted. Its support BYTE changes from zero to one
+while live, then the initializer returns and sets its separate initialization
+flag. Two installed relocation targets retain genuine named pending stubs; no
+callback invocation or body credit is claimed. The sixth actual seek resets
+the input cursor to zero. Its original error DWORD reuses the incoming context
+argument slot after the context was saved in EBX; entry formals stay historical.
+The next COFF reader receives four actual inputs and a live 20-byte output
+owned by its caller. The returned initializer BYTE is retired from live ranges.
+Both builds, 109 full/102 strict graph bodies and 70 fresh affected controls
+pass; controls take 12.539 s. Original/native/audit times are 1.569/0.906/0.630 s.
+Native help is 70.41 ms including 3.882 ms execution. Independent review and
+preserved historical-cursor checker rejections are in
+`frontiers/96-x86-backend-review`.

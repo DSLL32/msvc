@@ -31,14 +31,18 @@ def compare(original,state,trap,events,directory):
     nentry=state['validate_delay_entry'];nreturned,=state['validate_delay_returns']
     assert nreturned==dict(nentry,normal_return=True,return_stack=nentry['stack_pointer']+8,raw_result=nreturned['raw_result'],context_after=state['link_context'])
     for value in(returned['raw_result'],nreturned['raw_result']):assert 0<=value<=0xffffffff # Void: retain each raw EAX only.
-    assert trap['esp']==stack-24 and trap['stack'][:3]==[0x44968e,context,stack-1]
+    if state['function']=='initialize_x86_backend':
+        assert trap['esp']==stack-24 and trap['stack'][:3]==[0x44968e,context,stack-1]
+        assert trap['frontier_inputs']==dict(formals=[context,stack-1],hidden_register_inputs=[])
+    else:
+        backend,=[e for e in events if e['event']=='x86_backend_entry']
+        assert backend==dict(event='x86_backend_entry',stack_pointer=stack-24,formals=[context,stack-1],hidden_inputs=[])
     assert trap['x86_backend_formals']==dict(formals=[context,stack-1],hidden_inputs=[])
-    assert trap['frontier_inputs']==dict(formals=[context,stack-1],hidden_register_inputs=[])
     ninit=state['initialize_machine_entry'];nstack=ninit['stack_pointer'];ncontext=ninit['formals'][0]
     receipt=json.loads((directory/'receipt.json').read_text());elf=str(directory/'compiled/native-LINK.EXE');frame,offset=native_contract(elf,receipt['native_sha256'])
     formals=[ncontext,nstack+offset]
     assert state['x86_backend_entry']==dict(stack_pointer=nstack-frame,formals=formals,hidden_inputs=[])
-    assert state['frontier_inputs']==dict(formals=formals,hidden_register_inputs=[])
+    if state['function']=='initialize_x86_backend':assert state['frontier_inputs']==dict(formals=formals,hidden_register_inputs=[])
     assert state['x86_incremental_support_output']==dict(address=nstack+offset,owner_local_address=nstack+offset,bytes=1,owner_local_bytes=1,before='00')
     # Bind the actual C caller's address-of-BYTE and call target in its exact ELF.
     rows=[r.split()for r in subprocess.check_output(['nm','-S','--defined-only',elf],text=True).splitlines()]
@@ -56,3 +60,7 @@ def compare(original,state,trap,events,directory):
     assert proof['formals']==['LinkContext *context','BYTE *incremental_supported']and proof['hidden_inputs']==[]
     assert proof['output']==dict(pointer_formal=1,bytes=1,store=dict(address=0x4318e3,raw='c60201'))
     assert pe.read(0x449683,6).hex()=='8d4c240b5156' # The original initialized BYTE's address, then context.
+
+    if state['function']=='read_coff_header':
+        from x86_backend_state import compare as compare_backend
+        compare_backend(original,state,trap,events,directory)

@@ -69,6 +69,7 @@ def plan(accepted,case="help"):
     if '_detect_input_machine@8'in accepted:
         result.extend([(0x1040b,'observe:seek_detect_call'),(0x10410,'observe:seek_detect_return'),(0x1043b,'observe:detect_read_call'),(0x10440,'observe:detect_read_return'),(0x10541,'observe:detect_machine_return'),(0x497f5,'observe:input_machine_return')])
     if '_validate_delay_load_options@4'in accepted:result.append((0x49669,'observe:validate_delay_return'))
+    if '_initialize_x86_backend@8'in accepted:result.extend([(0x4968e,'observe:x86_backend_return'),(0x49804,'observe:initialize_machine_return'),(0x4981b,'observe:seek_object_call'),(0x49820,'observe:seek_object_return')])
     if '_close_timing' in accepted:result.append((0x44eb6,'observe:timing_end'))
     for suffix,address in [('4',0x431e30),('8',0x431dc0),('12',0x424eb0)]:
         if '_free_buffer'+suffix in accepted:result += [(address+10-0x400000,'observe:delete_call_'+suffix),(address+15-0x400000,'observe:delete_return_'+suffix)]

@@ -38,6 +38,15 @@ void __stdcall initialize_mac_ppc_backend(LinkContext *,BYTE *);
 void __stdcall initialize_ppc_backend(LinkContext *,BYTE *);
 void __stdcall initialize_arm_backend(LinkContext *,BYTE *);
 extern BYTE small_section_alignment;
+/* Only pointer installation is reached. Consumer ABI and opaque pointees must
+ * be requalified before an invocation is reconstructed. Physical cleanup slots
+ * are known from the original callbacks' actual RET16/RET28 instructions. */
+typedef BYTE (__stdcall *RelocationClassifier)(Contribution *,WORD,DWORD,BYTE);
+typedef void (__stdcall *RelocationProcessor)(Contribution *,void *,DWORD,void *,void *,LinkContext *,DWORD);
+extern RelocationClassifier classify_relocation;
+extern RelocationProcessor process_relocations;
+BYTE __stdcall classify_x86_relocation(Contribution *,WORD,DWORD,BYTE);
+void __stdcall process_x86_relocations(Contribution *,void *,DWORD,void *,void *,LinkContext *,DWORD);
 extern InputArguments delay_libraries;
 BYTE __stdcall read_coff_header(int,IMAGE_FILE_HEADER *,void *,BYTE *);
 OutputModule *__stdcall create_input_module(const char *,const char *,const void *,IMAGE_FILE_HEADER *,OutputLibrary *,BYTE *,BYTE,DWORD,IMAGE_SECTION_HEADER *,BYTE *,void *,DWORD);

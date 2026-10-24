@@ -39,7 +39,7 @@ def compare(original,state,trap,events,directory):
     entry,=[e for e in events if e['event']=='detect_machine_entry'];stack=entry['stack_pointer']
     record=struct.unpack('<16I',(original/'file-slots.bin').read_bytes())[14]
     nrecord=struct.unpack('<16I',bytes.fromhex(state['file_slots_bytes']))[14]
-    current=(original/'file-record-14.bin').read_bytes();ncurrent=bytes.fromhex(state['file_records'][14])
+    current=with_cursor((original/'file-record-14.bin').read_bytes(),4);ncurrent=with_cursor(bytes.fromhex(state['file_records'][14]),4)
     receipt=json.loads((directory/'receipt.json').read_text());offsets,frame,parent_frame=native_contract(str(directory/'compiled/native-LINK.EXE'),receipt['native_sha256'])
     nentry=state['detect_machine_entry'];nstack=nentry['stack_pointer'];error=stack-4;nerror=nstack+offsets['error']
     formals=[14,0,0,error];nformals=[14,0,0,nerror]

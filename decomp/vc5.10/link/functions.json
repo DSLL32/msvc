@@ -112,7 +112,8 @@
     "_check_input_machine@8",
     "_detect_input_machine@8",
     "_initialize_machine@4",
-    "_validate_delay_load_options@4"
+    "_validate_delay_load_options@4",
+    "_initialize_x86_backend@8"
   ],
   "driver": [
     {
@@ -2916,12 +2917,12 @@
     {
       "name": "_initialize_x86_backend@8",
       "start": 4397200,
-      "end": 4397201,
-      "pending_extent": true,
+      "end": 4397333,
+      "pending_extent": false,
       "source": "src/machine.c",
       "native_symbol": "initialize_x86_backend",
-      "status": "stub",
-      "abi": "stdcall void(LinkContext *context,BYTE *incremental_supported); RET8; no hidden receiver; all actual formals/outputs must be captured if reached"
+      "status": "implemented",
+      "abi": "stdcall void(LinkContext *,BYTE *); one context and live1B outputpointer,RET8,nohidden; complete133B backend"
     },
     {
       "name": "_initialize_mips_backend@8",
@@ -2992,6 +2993,26 @@
       "native_symbol": "get_machine_name",
       "status": "stub",
       "abi": "stdcall const char *(LinkContext *context,unsigned machine); two fullDWORD inputs,RET8,no hidden inputs; full178B pendinganalysis; actual values required if reached"
+    },
+    {
+      "name": "_classify_x86_relocation@16",
+      "start": 4395568,
+      "end": 4395569,
+      "pending_extent": true,
+      "source": "src/machine.c",
+      "native_symbol": "classify_x86_relocation",
+      "status": "stub",
+      "abi": "Pending installed callback: actualRET16 supports4 physicalDWORDslots; sourcepointerformal roles provisional; actual inputs/hiddenregisters unobserved, typedinvocation promotion HOLD until complete consumer/ABI proof; zero bodycredit"
+    },
+    {
+      "name": "_process_x86_relocations@28",
+      "start": 4395696,
+      "end": 4395697,
+      "pending_extent": true,
+      "source": "src/machine.c",
+      "native_symbol": "process_x86_relocations",
+      "status": "stub",
+      "abi": "Pending installed callback: actualRET28 supports7 physicalDWORDslots; sourcepointerformal roles provisional; actual inputs/hiddenregisters unobserved, typedinvocation promotion HOLD until complete consumer/ABI proof; zero bodycredit"
     }
   ],
   "text_data": [
@@ -5210,6 +5231,14 @@
       "reason": "validate_delay_load_options contextual literal b'DRIVER\\x00'",
       "sha256": "44d5a5387ffcd29a88911743781ab2aca7677f112980fedcb00dc850da8d4574",
       "evidence": "Complete original41f9b0..41faa1 PUSH/MOV argument xrefs; source literal at point of use; no padding"
+    },
+    {
+      "start": 4199472,
+      "end": 4199479,
+      "accepted": true,
+      "reason": "initialize_x86_backend exact GPSIZE diagnostic literal",
+      "sha256": "9b1a05c8ecb414b28ee3c6769ebfeacc17e8a49537f689f0d0690329399e0948",
+      "evidence": "PUSH401430 at4318c1; original133B completebody, literal kept at pointofuse"
     }
   ],
   "cases": {

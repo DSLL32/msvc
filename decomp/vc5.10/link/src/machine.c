@@ -15,6 +15,8 @@ extern StringNode *entry_symbol;
 BYTE small_section_alignment;
 /* The first encountered consumer reads this command-line list's count. */
 InputArguments delay_libraries;
+RelocationClassifier classify_relocation;
+RelocationProcessor process_relocations;
 
 void __stdcall initialize_machine(LinkContext *context)
 {
@@ -69,7 +71,24 @@ void __stdcall validate_delay_load_options(LinkContext *context)
     }
 }
 const char *__stdcall get_machine_name(LinkContext *context,unsigned machine) { __asm { int 3 } return NULL; }
-void __stdcall initialize_x86_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }
+void __stdcall initialize_x86_backend(LinkContext *context,BYTE *incremental_supported)
+{
+    if (!(context->specified_switches & 1) && context->is_vxd!=1)
+        context->optional_header.SectionAlignment=0x1000;
+    if (context->specified_switches & 8) {
+        link_warning(NULL,4062,"GPSIZE","IX86");
+        context->options.gp_size=0;
+    }
+    *incremental_supported=1;
+    process_relocations=process_x86_relocations;
+    classify_relocation=classify_x86_relocation;
+    if (context->optional_header.SectionAlignment<0x1000) {
+        small_section_alignment=1;
+        context->optional_header.FileAlignment=context->optional_header.SectionAlignment;
+    }
+}
+BYTE __stdcall classify_x86_relocation(Contribution *contribution,WORD type,DWORD mode,BYTE vxd) { __asm { int 3 } return 0; }
+void __stdcall process_x86_relocations(Contribution *contribution,void *relocations,DWORD count,void *contents,void *symbols,LinkContext *context,DWORD mode) { __asm { int 3 } }
 void __stdcall initialize_mips_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }
 void __stdcall initialize_alpha_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }
 void __stdcall initialize_sh_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }

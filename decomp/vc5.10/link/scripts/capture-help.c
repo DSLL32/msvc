@@ -23,6 +23,7 @@ static DWORD read_input_entry_stack,read_input_arguments[3];
 static DWORD object_read_entry_stack,object_read_arguments[3];
 static DWORD input_machine_entry_stack,input_machine_arguments[2];
 static DWORD detect_machine_entry_stack,detect_machine_arguments[2];
+static DWORD x86_backend_entry_stack,x86_backend_arguments[2];
 static DWORD initialize_machine_entry_stack,initialize_machine_argument,validate_delay_entry_stack,validate_delay_argument;
 static DWORD detect_read_stack,detect_read_arguments[3],detect_read_count;
 static DWORD archive_entry_stack,archive_arguments[2];
@@ -269,7 +270,7 @@ static int snapshot_file_records(const char *phase)
 static int snapshot(DWORD address)
 {
     CONTEXT context;
-    int input_read_boundary=address==base+0x498d0||address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030||address==base+0xca10||address==base+0x4e5c0||address==base+0x5d890||address==base+0x497e0||address==base+0x10530||address==base+0x103f0||(address==base+0x49630||(address==base+0x1f9b0||address==base+0x31890));
+    int input_read_boundary=address==base+0x498d0||address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030||address==base+0xca10||address==base+0x4e5c0||address==base+0x5d890||address==base+0x497e0||address==base+0x10530||address==base+0x103f0||(address==base+0x49630||(address==base+0x1f9b0||(address==base+0x31890||address==base+0x610c0)));
     DWORD got, stack[32];
     unsigned index, argument_index;
     unsigned char bytes[65536];
@@ -388,8 +389,9 @@ static int snapshot(DWORD address)
             fprintf(events,"\"formals\":[");
             if(address==base+0xc030||address==base+0xca10)fprintf(events,"%lu,%lu,%lu,%lu",stack[1],stack[2],stack[3],stack[4]);
             else if(address==base+0x4e620||address==base+0xc080||address==base+0x4e5c0||address==base+0x5d890)fprintf(events,"%lu",stack[1]);
-            else if(address==base+0x31890)fprintf(events,"%lu,%lu",stack[1],stack[2]);
-            else if((address==base+0x49630||(address==base+0x1f9b0||address==base+0x31890)))fprintf(events,"%lu",stack[1]);
+            else if(address==base+0x610c0)fprintf(events,"%lu,%lu,%lu,%lu",stack[1],stack[2],stack[3],stack[4]);
+            else if((address==base+0x31890||address==base+0x610c0))fprintf(events,"%lu,%lu",stack[1],stack[2]);
+            else if((address==base+0x49630||(address==base+0x1f9b0||(address==base+0x31890||address==base+0x610c0))))fprintf(events,"%lu",stack[1]);
             else if(address==base+0x10530||address==base+0x103f0)fprintf(events,"%lu,%lu",stack[1],stack[2]);
             else if(address==base+0xcab0)fprintf(events,"%lu,%lu,%lu",stack[1],stack[2],stack[3]);
             else if(address==base+0x5cd40)fprintf(events,"%lu,%lu",stack[1],stack[2]);
@@ -588,14 +590,14 @@ static int snapshot(DWORD address)
         fprintf(events,",\"library_enum_input\":{\"address\":%lu,\"bytes\":16,\"formals\":[%lu,%lu],\"hidden_inputs\":[]}",library_enum_arguments[0],library_enum_arguments[0],library_enum_arguments[1]);
     }
     if((address==base+0x49a50 || input_read_boundary)) {
-        DWORD library=(address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030||address==base+0xca10||address==base+0x4e5c0||address==base+0x5d890||address==base+0x497e0||address==base+0x10530||address==base+0x103f0||(address==base+0x49630||(address==base+0x1f9b0||address==base+0x31890)))?read_input_arguments[1]:stack[2],array,current;
+        DWORD library=(address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030||address==base+0xca10||address==base+0x4e5c0||address==base+0x5d890||address==base+0x497e0||address==base+0x10530||address==base+0x103f0||(address==base+0x49630||(address==base+0x1f9b0||(address==base+0x31890||address==base+0x610c0))))?read_input_arguments[1]:stack[2],array,current;
         if(!ReadProcessMemory(process,(void *)(library+4),&array,4,&got)||got!=4||
            !ReadProcessMemory(process,(void *)(base+0x7f0a8),&current,4,&got)||got!=4||
            !save_memory(library,68,"command-line-library.bin")||!save_memory(array,20,"command-line-library-array.bin"))return 0;
         fprintf(events,",\"load_input_formals\":{\"this\":%lu,\"formals\":[%lu,%lu],\"other_hidden_inputs\":[]},\"command_line_library\":{\"address\":%lu,\"modules\":%lu,\"global_slot\":%lu,\"current\":%lu},\"library_enum_input\":{\"address\":%lu,\"bytes\":16,\"formals\":[%lu,%lu],\"hidden_inputs\":[]}",(input_read_boundary?load_input_receiver:context.Ecx),(input_read_boundary?load_input_arguments[0]:stack[1]),(input_read_boundary?load_input_arguments[1]:stack[2]),library,array,base+0x7f0a8,current,library_enum_arguments[0],library_enum_arguments[0],library_enum_arguments[1]);
     }
     if(input_read_boundary) {
-        DWORD *actual=(address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030||address==base+0xca10||address==base+0x4e5c0||address==base+0x5d890||address==base+0x497e0||address==base+0x10530||address==base+0x103f0||(address==base+0x49630||(address==base+0x1f9b0||address==base+0x31890)))?read_input_arguments:stack+1;
+        DWORD *actual=(address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030||address==base+0xca10||address==base+0x4e5c0||address==base+0x5d890||address==base+0x497e0||address==base+0x10530||address==base+0x103f0||(address==base+0x49630||(address==base+0x1f9b0||(address==base+0x31890||address==base+0x610c0))))?read_input_arguments:stack+1;
         fprintf(events,",\"read_input_formals\":{\"formals\":[%lu,%lu,%lu],\"hidden_inputs\":[]}",actual[0],actual[1],actual[2]);
     }
     if(address==base+0xcab0) {
@@ -619,30 +621,36 @@ static int snapshot(DWORD address)
     if(address==base+0x4e5c0) {
         fprintf(events,",\"big_endian_formals\":{\"formals\":[%lu],\"hidden_inputs\":[]}",stack[1]);
     }
-    if(address==base+0x497e0||address==base+0x10530||address==base+0x103f0||(address==base+0x49630||(address==base+0x1f9b0||address==base+0x31890))) {
+    if(address==base+0x497e0||address==base+0x10530||address==base+0x103f0||(address==base+0x49630||(address==base+0x1f9b0||(address==base+0x31890||address==base+0x610c0)))) {
         DWORD *actual=address==base+0x497e0?stack+1:object_read_arguments;
         if(!save_memory(base+0x7f030,1,"object-read-mode.bin"))return 0;
         fprintf(events,",\"object_read_formals\":{\"formals\":[%lu,%lu,%lu],\"hidden_inputs\":[]}",actual[0],actual[1],actual[2]);
     }
-    if(address==base+0x10530||address==base+0x103f0||(address==base+0x49630||(address==base+0x1f9b0||address==base+0x31890))) {
+    if(address==base+0x10530||address==base+0x103f0||(address==base+0x49630||(address==base+0x1f9b0||(address==base+0x31890||address==base+0x610c0)))) {
         DWORD *actual=address==base+0x10530?stack+1:input_machine_arguments;
         fprintf(events,",\"input_machine_formals\":{\"formals\":[%lu,%lu],\"hidden_inputs\":[]}",actual[0],actual[1]);
     }
-    if(address==base+0x103f0||(address==base+0x49630||(address==base+0x1f9b0||address==base+0x31890))) {
+    if(address==base+0x103f0||(address==base+0x49630||(address==base+0x1f9b0||(address==base+0x31890||address==base+0x610c0)))) {
         DWORD *actual=address==base+0x103f0?stack+1:detect_machine_arguments;
         fprintf(events,",\"detect_machine_formals\":{\"formals\":[%lu,%lu],\"hidden_inputs\":[]}",actual[0],actual[1]);
     }
-    if((address==base+0x49630||(address==base+0x1f9b0||address==base+0x31890))) {
-        fprintf(events,",\"initialize_machine_formals\":{\"formals\":[%lu],\"hidden_inputs\":[]}",(address==base+0x1f9b0||address==base+0x31890)?initialize_machine_argument:stack[1]);
+    if((address==base+0x49630||(address==base+0x1f9b0||(address==base+0x31890||address==base+0x610c0)))) {
+        fprintf(events,",\"initialize_machine_formals\":{\"formals\":[%lu],\"hidden_inputs\":[]}",(address==base+0x1f9b0||(address==base+0x31890||address==base+0x610c0))?initialize_machine_argument:stack[1]);
     }
-    if((address==base+0x1f9b0||address==base+0x31890)) {
-        if(!save_memory(initialize_machine_entry_stack-1,1,"incremental-supported.bin")||
+    if((address==base+0x1f9b0||(address==base+0x31890||address==base+0x610c0))) {
+        if((address!=base+0x610c0&&!save_memory(initialize_machine_entry_stack-1,1,"incremental-supported.bin"))||
            !save_memory(base+0x80888,12,"delay-libraries.bin")||
            !save_memory(base+0x7f100,1,"small-section-alignment.bin")||
            !save_memory(base+0x7f13c,4,"entry-symbol.bin")||
            !save_memory(base+0x94440,4,"entry-point-name.bin"))return 0;
-        fprintf(events,",\"validate_delay_formals\":{\"formals\":[%lu],\"hidden_inputs\":[]}",address==base+0x31890?validate_delay_argument:stack[1]);
-        if(address==base+0x31890)fprintf(events,",\"x86_backend_formals\":{\"formals\":[%lu,%lu],\"hidden_inputs\":[]}",stack[1],stack[2]);
+        fprintf(events,",\"validate_delay_formals\":{\"formals\":[%lu],\"hidden_inputs\":[]}",(address==base+0x31890||address==base+0x610c0)?validate_delay_argument:stack[1]);
+        if((address==base+0x31890||address==base+0x610c0))fprintf(events,",\"x86_backend_formals\":{\"formals\":[%lu,%lu],\"hidden_inputs\":[]}",address==base+0x610c0?x86_backend_arguments[0]:stack[1],address==base+0x610c0?x86_backend_arguments[1]:stack[2]);
+    }
+    if(address==base+0x610c0) {
+        if(!save_memory(stack[2],20,"coff-header-before.bin")||
+           !save_memory(base+0x7f024,4,"relocation-processor.bin")||
+           !save_memory(base+0x7eec8,4,"relocation-classifier.bin"))return 0;
+        fprintf(events,",\"coff_header_formals\":{\"formals\":[%lu,%lu,%lu,%lu],\"hidden_inputs\":[]}",stack[1],stack[2],stack[3],stack[4]);
     }
     if(address==base+0x5d890) {
         fprintf(events,",\"swap_dword_formals\":{\"formals\":[%lu],\"hidden_inputs\":[]}",stack[1]);
@@ -957,6 +965,18 @@ int main(int argc, char **argv)
                         fprintf(events,"}\n");
                         if(!rearm_observer(before?"observe:collision_compare_return":"observe:collision_compare_call")){failed=6;break;}
                         if(!before)++collision_compare_count;
+                    } else if(!strcmp(entries[index].name,"observe:x86_backend_return")) {
+                        if(context.Esp!=x86_backend_entry_stack+12||
+                           !save_memory(x86_backend_arguments[1],1,"x86-support-after.bin")||
+                           !save_memory(x86_backend_arguments[0],664,"x86-context-after.bin")||
+                           !save_memory(base+0x7f024,4,"relocation-processor-after.bin")||
+                           !save_memory(base+0x7eec8,4,"relocation-classifier-after.bin")){failed=6;break;}
+                        fprintf(events,"{\"event\":\"x86_backend_return\",\"entry_stack\":%lu,\"return_stack\":%lu,\"raw_result\":%lu}\n",x86_backend_entry_stack,context.Esp,context.Eax);
+                    } else if(!strcmp(entries[index].name,"observe:initialize_machine_return")) {
+                        if(context.Esp!=initialize_machine_entry_stack+8||
+                           !save_memory(initialize_machine_argument,664,"initialize-machine-context-after.bin")||
+                           !save_memory(base+0x7f030,1,"machine-initialized-after.bin")){failed=6;break;}
+                        fprintf(events,"{\"event\":\"initialize_machine_return\",\"entry_stack\":%lu,\"return_stack\":%lu,\"raw_result\":%lu}\n",initialize_machine_entry_stack,context.Esp,context.Eax);
                     } else if(!strcmp(entries[index].name,"observe:validate_delay_return")) {
                         if(context.Esp!=validate_delay_entry_stack+8||
                            !save_memory(validate_delay_argument,664,"validate-delay-context-after.bin")||
@@ -1540,6 +1560,14 @@ int main(int argc, char **argv)
                             }
                             if(!save_memory(base+0x670c4,32,"input-diagnostic-before.bin")){failed=6;break;}
                         }
+                        if(!strcmp(entries[index].name,"_initialize_x86_backend@8")) {
+                            DWORD got;x86_backend_entry_stack=context.Esp;
+                            if(!ReadProcessMemory(process,(void *)(context.Esp+4),x86_backend_arguments,8,&got)||got!=8||
+                               !save_memory(x86_backend_arguments[1],1,"x86-support-before.bin")||
+                               !save_memory(base+0x7f024,4,"relocation-processor-before.bin")||
+                               !save_memory(base+0x7eec8,4,"relocation-classifier-before.bin")){failed=6;break;}
+                            fprintf(events,"{\"event\":\"x86_backend_entry\",\"stack_pointer\":%lu,\"formals\":[%lu,%lu],\"hidden_inputs\":[]}\n",context.Esp,x86_backend_arguments[0],x86_backend_arguments[1]);
+                        }
                         if(!strcmp(entries[index].name,"_validate_delay_load_options@4")) {
                             DWORD got;validate_delay_entry_stack=context.Esp;
                             if(!ReadProcessMemory(process,(void *)(context.Esp+4),&validate_delay_argument,4,&got)||got!=4){failed=6;break;}
@@ -1563,7 +1591,7 @@ int main(int argc, char **argv)
                         }
                         if(!strcmp(entries[index].name,"_read_object_file@12")) {
                             DWORD got;object_read_entry_stack=context.Esp;
-                            if(!ReadProcessMemory(process,(void *)(context.Esp+4),object_read_arguments,12,&got)||got!=12){failed=6;break;}
+                            if(!ReadProcessMemory(process,(void *)(context.Esp+4),object_read_arguments,12,&got)||got!=12||!save_memory(base+0x7f030,1,"object-read-mode-entry.bin")){failed=6;break;}
                             fprintf(events,"{\"event\":\"object_read_entry\",\"stack_pointer\":%lu,\"formals\":[%lu,%lu,%lu],\"hidden_inputs\":[]}\n",context.Esp,object_read_arguments[0],object_read_arguments[1],object_read_arguments[2]);
                         }
                         if(!strcmp(entries[index].name,"_byte_swap_dword@4")) {

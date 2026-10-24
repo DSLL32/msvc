@@ -7,6 +7,7 @@ import re
 import struct
 import subprocess
 from binary import PE
+from mapped_seek_state import with_cursor
 
 
 @functools.lru_cache(maxsize=8)
@@ -50,7 +51,7 @@ def compare(original,state,trap,events,directory,original_record,native_record):
     assert len(data)==master['bytes']==2262 and hashlib.sha256(data).hexdigest()==master['sha256']
     output=data[:4];value=struct.unpack('<I',output)[0]
     assert (original/'big-endian-read-0-after.bin').read_bytes()==output
-    assert (original/'big-endian-read-0-record-after.bin').read_bytes()==(original/'file-record-14.bin').read_bytes()
+    assert (original/'big-endian-read-0-record-after.bin').read_bytes()==with_cursor((original/'file-record-14.bin').read_bytes(),4)
     if state['function']=='byte_swap_dword':
         assert trap['esp']==entry['stack_pointer']-12 and trap['stack'][:2]==[0x44e5f9,value]
         assert trap['swap_dword_formals']==dict(formals=[value],hidden_inputs=[])
@@ -65,12 +66,12 @@ def compare(original,state,trap,events,directory,original_record,native_record):
     assert before==dict(address=nlocal,bytes=4,owner_local_address=nlocal,owner_local_bytes=4,before=before['before'],initial_value_contract='uninitialized DWORD output; no incoming bytes consumed')
     assert len(bytes.fromhex(before['before']))==4
     assert len(state['big_endian_read_returns'])==1
-    assert state['big_endian_read_returns'][0]==dict(nread,normal_return=True,return_stack=nread['stack_pointer']+16,result=4,output=dict(before,after=output.hex(),record_after=state['file_records'][14]))
+    assert state['big_endian_read_returns'][0]==dict(nread,normal_return=True,return_stack=nread['stack_pointer']+16,result=4,output=dict(before,after=output.hex(),record_after=with_cursor(bytes.fromhex(state['file_records'][14]),4).hex()))
     assert state['byte_swap_entry']==dict(stack_pointer=nentry['stack_pointer']-frame,formals=[value],hidden_inputs=[])
-    assert struct.unpack_from('<I',bytes.fromhex(state['file_records'][14]),28)[0]==4
+    assert struct.unpack_from('<I',bytes.fromhex(state['file_records'][14]),28)[0]==(0 if state['function']=='read_coff_header'else 4)
     # The DWORD is passed by value to the current pending helper. Earlier output
     # locals remain return-time history, with no extra live pointer input range.
 
-    if state['function']in ('read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend'):
+    if state['function']in ('read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header'):
         from swap_result_state import compare as compare_result
         compare_result(original,state,trap,events,directory,entry,mac,output)

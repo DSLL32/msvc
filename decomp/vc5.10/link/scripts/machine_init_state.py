@@ -53,7 +53,7 @@ def compare(original,state,trap,events,directory):
     assert state['validate_delay_entry']==dict(stack_pointer=nstack-frame,formals=[ncontext],hidden_inputs=[])
     if state['function']=='validate_delay_load_options':assert state['frontier_inputs']==dict(formals=[ncontext],hidden_register_inputs=[])
     assert state['incremental_support_output']==dict(address=nstack+offset,bytes=1,value=0)
-    assert (original/'incremental-supported.bin').read_bytes()==b'\0'
+    assert (original/('x86-support-before.bin'if state['function']=='read_coff_header'else 'incremental-supported.bin')).read_bytes()==b'\0'
     assert pe.read(0x44963d,5).hex()=='c644240b00' # Actual initialized entryESP-1 BYTE.
     original_before=(original/'initialize-machine-context-before.bin').read_bytes()
     assert len(original_before)==664 and original_before==(original/'link-context.bin').read_bytes()==(original/'input-machine-context-after.bin').read_bytes()
@@ -63,7 +63,7 @@ def compare(original,state,trap,events,directory):
     assert state['machine_init_globals']==dict(delay_libraries=bytes(12).hex(),small_section_alignment=0,entry_symbol=0,entry_point_name=0)
     for name,size in [('delay-libraries.bin',12),('small-section-alignment.bin',1),('entry-symbol.bin',4),('entry-point-name.bin',4)]:
         assert (original/name).read_bytes()==bytes(size)
-    assert (original/'object-read-mode.bin').read_bytes()==b'\0'and state['object_read_mode']['value']==0
+    assert (original/('object-read-mode-entry.bin'if state['function']=='read_coff_header'else 'object-read-mode.bin')).read_bytes()==b'\0'and state['object_read_mode']['value']==0
     proof=json.loads((root/'cases/hello-win32/validate-delay-input-contract.json').read_text());body=pe.read(0x41f9b0,241)
     assert hashlib.sha256(body).hexdigest()==proof['body_sha256']
     from capstone import Cs,CS_ARCH_X86,CS_MODE_32
@@ -73,6 +73,6 @@ def compare(original,state,trap,events,directory):
     assert proof['formals']==['LinkContext *context']and proof['hidden_inputs']==[]
     assert body[:8].hex()=='a1900848005685c0' # Reads list count; ECX is not an input.
 
-    if state['function']=='initialize_x86_backend':
+    if state['function']in ('initialize_x86_backend','read_coff_header'):
         from delay_validator_state import compare as compare_delay
         compare_delay(original,state,trap,events,directory)
