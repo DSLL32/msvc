@@ -31,7 +31,7 @@ def native_contract(path,digest):
 def compare(original,state,trap,events,directory,entry,nmethod):
     # Original SUB16, four saved registers and two pushed actual parameters.
     enumerator=entry-16;formals=[enumerator,trap['module_find_formals']['this']]
-    complete=state['function']=='next_module'
+    complete=state['function']in ('next_module','allocate_module_index')
     if complete:
         seen,=[e for e in events if e['event']=='module_enum_entry'];assert seen==dict(event='module_enum_entry',stack_pointer=entry-44,formals=formals,hidden_inputs=[])
     else:assert trap['esp']==entry-44 and trap['stack'][:3]==[0x40f7b4]+formals
@@ -62,9 +62,10 @@ def compare_completed(original,state,trap,events,directory,entry,formals,nmethod
     expected=struct.pack('<4I',0x40fb90,0x40fd90,formals[1],0)
     assert (original/'module-enumerator-after.bin').read_bytes()==(original/'module-enumerator-current.bin').read_bytes()==expected
     done,=[e for e in events if e['event']=='module_enum_return'];assert done==dict(event='module_enum_return',entry_stack=entry-44,return_stack=entry-32)
-    assert trap['esp']==entry-40 and trap['stack'][:2]==[0x40f7be,formals[0]]
+    advanced=state['function']=='allocate_module_index'
+    if not advanced:assert trap['esp']==entry-40 and trap['stack'][:2]==[0x40f7be,formals[0]]
     assert trap['module_next_formals']==dict(formals=[formals[0]],hidden_inputs=[])
-    assert trap['frontier_inputs']==dict(formals=[formals[0]],hidden_register_inputs=[])
+    if not advanced:assert trap['frontier_inputs']==dict(formals=[formals[0]],hidden_register_inputs=[])
     callback=state['module_enum_callbacks'];assert set(callback)=={'next','end'}
     # Resolve actual frozen ELF symbols independently of observer-supplied values.
     symbols={r[3]:int(r[0],16)for r in[x.split()for x in subprocess.check_output(['nm','-S','--defined-only',str(directory/'compiled/native-LINK.EXE')],text=True).splitlines()]if len(r)==4 and r[2]=='T'}
@@ -73,10 +74,31 @@ def compare_completed(original,state,trap,events,directory,entry,formals,nmethod
     assert bytes.fromhex(state['module_enum_current'])==nexpected
     ndone,=state['module_enum_returns'];assert ndone==dict(nentry,normal_return=True,return_stack=nentry['stack_pointer']+12,output=dict(output,after=nexpected.hex()))
     nextentry=dict(stack_pointer=nmethod['stack_pointer']-48,formals=[nentry['formals'][0]],hidden_inputs=[])
-    assert state['module_next_entry']==nextentry and state['frontier_inputs']==dict(formals=nextentry['formals'],hidden_register_inputs=[])
+    assert state['module_next_entry']==nextentry
+    if not advanced:assert state['frontier_inputs']==dict(formals=nextentry['formals'],hidden_register_inputs=[])
     # The actual next CALL is offset76 in the exact method ELF, with the same
     # complete caller frame and enumerator pointer as the preceding init call.
     path=directory/'compiled/native-LINK.EXE';start=symbols['_ZN13OutputLibrary10FindModuleEPKcPKv']
     listing=subprocess.check_output(['objdump','-w','-d','--start-address='+str(start+67),'--stop-address='+str(start+81),str(path)],text=True)
     raw=b''.join(bytes.fromhex(m.group(1))for m in re.finditer(r'^\s*[0-9a-f]+:\s*((?:[0-9a-f]{2}\s+)+)',listing,re.M))
     assert raw[:9].hex()=='83ec088d45ec890424'and raw[9:]==b'\xe8'+struct.pack('<i',symbols['next_module']-start-81)
+
+    if advanced:
+        call,=[e for e in events if e['event']=='module_next_call']
+        returned,=[e for e in events if e['event']=='module_next_return']
+        assert call==dict(event='module_next_call',index=0,site=0x40f7b9,entry_stack=entry-40,formals=[formals[0]],hidden_inputs=[])
+        assert returned==dict(event='module_next_return',index=0,site=0x40f7be,entry_stack=entry-40,return_stack=entry-32,raw_result=returned['raw_result'],result=0)
+        assert (original/'module-next-0-before.bin').read_bytes()==(original/'module-next-0-after.bin').read_bytes()==expected
+        ncall,=state['module_next_calls'];nreturned,=state['module_next_returns']
+        assert ncall==dict(nextentry,before=nexpected.hex())
+        assert nreturned==dict(ncall,normal_return=True,return_stack=nextentry['stack_pointer']+8,raw_result=nreturned['raw_result'],result=0,after=nexpected.hex())
+        for value in(returned['raw_result'],nreturned['raw_result']):assert 0<=value<=0xffffffff and value&255==0
+        # The actual caller tests AL immediately; full EAX is retained separately.
+        pe=PE(Path(__file__).resolve().parents[4]/'toolchains/5.10/bin/LINK.EXE')
+        assert pe.read(0x40f7be,4).hex()=='84c0745e'
+        listing=subprocess.check_output(['objdump','-w','-d','--start-address='+str(start+81),'--stop-address='+str(start+88),str(path)],text=True)
+        consumed=b''.join(bytes.fromhex(m.group(1))for m in re.finditer(r'^\s*[0-9a-f]+:\s*((?:[0-9a-f]{2}\s+)+)',listing,re.M))
+        assert consumed[:6].hex()=='83ec043c0074'
+        done,=[e for e in events if e['event']=='module_find_return']
+        assert done==dict(event='module_find_return',entry_stack=entry,return_stack=entry+12,result=0)
+        ndone,=state['module_find_returns'];assert ndone==dict(nmethod,normal_return=True,return_stack=nmethod['stack_pointer']+12,result=0)

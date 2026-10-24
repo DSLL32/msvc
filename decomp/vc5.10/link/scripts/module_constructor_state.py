@@ -27,7 +27,7 @@ def compare(original,state,trap,events,directory,formals,nformals,header):
     creator,=[r for r in config['driver']if r['name']=='_create_input_module@48']
     assert (creator['start'],creator['end'])==(0x40ea00,0x40edcc)
     method,=[r for r in config['driver']if r['name']=='OutputLibrary::FindModule']
-    child=state['function']in ('initialize_module_enumerator','next_module')
+    child=state['function']in ('initialize_module_enumerator','next_module','allocate_module_index')
     assert method['start']==0x40f7a0
     if child:assert not method['pending_extent']and method['end']==0x40f82c
     else:assert method['pending_extent']
@@ -41,8 +41,9 @@ def compare(original,state,trap,events,directory,formals,nformals,header):
         assert trap['ecx']==formals[4]
         assert trap['frontier_inputs']==dict(formals=expected['formals'],hidden_register_inputs=[dict(register='ecx',value=formals[4])])
     assert trap['module_find_formals']==expected
-    assert (original/'module-find-header.bin').read_bytes()==header
-    assert (original/'module-find-created.bin').read_bytes()==(original/'input-module-created-before.bin').read_bytes()
+    prefix='module-find-entry-'if state['function']=='allocate_module_index'else 'module-find-'
+    assert (original/(prefix+'header.bin')).read_bytes()==header
+    assert (original/(prefix+'created.bin')).read_bytes()==(original/'input-module-created-before.bin').read_bytes()
     assert (original/'module-mac-target.bin').read_bytes()==(original/'module-native-ppc.bin').read_bytes()==b'\0'
     # Complete original method establishes incomingECX and both stack inputs;
     # EAX/EDX/ESI/EDI/EBP/EBX are overwritten before semantic use, flags defined.

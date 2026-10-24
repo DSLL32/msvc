@@ -117,7 +117,8 @@
     "_read_coff_header@16",
     "_create_input_module@48",
     "OutputLibrary::FindModule",
-    "_initialize_module_enumerator@8"
+    "_initialize_module_enumerator@8",
+    "_next_module@4"
   ],
   "driver": [
     {
@@ -3072,12 +3073,12 @@
     {
       "name": "_next_module@4",
       "start": 4258704,
-      "end": 4258705,
-      "pending_extent": true,
-      "status": "stub",
+      "end": 4258764,
+      "pending_extent": false,
+      "status": "implemented",
       "source": "src/input-module.cpp",
       "native_symbol": "next_module",
-      "abi": "stdcall BYTE(ModuleEnumerator*);RET4,1physicalslot,nohidden; complete60B readonly successor"
+      "abi": "stdcall BYTE(ModuleEnumerator*);RET4,1physicalpointer,nohidden; complete60B root/successor, preserves current iflibraryNULL; meaningful AL consumed by actualcallerTESTAL"
     }
   ],
   "text_data": [

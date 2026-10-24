@@ -656,3 +656,18 @@ records the genuine return. That failed history and the final immutable packet
 are in `frontiers/100-module-enum-init-review`. The exact shared WIP snapshot
 subsequently published as READY45f7a2ace is bound separately, without replay
 solely for publication.
+
+The 60-byte next-module helper is accepted. Its real RET4 returns BYTE zero;
+original and native callers consume AL, and both full EAX values remain raw.
+The library lookup then returns NULL with RET8, retiring its stack enumerator.
+At the next allocator-index trap, the constructor owns a new 156-byte module,
+448 bytes of contribution storage, and two separate 10-byte filename copies.
+Only the four fields written so far are initialized in the module; its remaining
+bytes and the unused arena page stay zero. The allocator has no arguments or
+hidden inputs and remains masked. Forty-six focused negatives plus positives
+pass in 9.775 s; 114 full/107 strict graph bodies pass. Original/native/audit times
+are 1.858/0.948/0.651 s. Native help takes 80.17 ms, including 3.800 ms execution.
+`frontiers/101-module-next-review` preserves the full packet, genuine entry/current
+snapshot correction and failed captures. A later native-only SDK-header refresh
+keeps identical executable `.text`, exact checker premises, and the same original;
+its separate promotion receipt records the current binary and fresh positive.

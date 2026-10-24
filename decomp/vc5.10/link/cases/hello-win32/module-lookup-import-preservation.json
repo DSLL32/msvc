@@ -66,22 +66,17 @@
     },
     "rebuilt": {
       "symbol": "_next_module@4",
-      "bytes": "558bec535657cc32c05f5e5b5dc20400",
+      "classification": "call-free implementation",
+      "bytes": "558bec8b45088378080074298b4d0883790c0075118b55088b42088b4d088b503889510ceb0f8b45088b480c8b55088b416c89420c8b4d0833c083790c000f95c05dc20400",
       "own_ebx_writes": [],
       "calls": [],
       "returns": [
         {
-          "offset": 13,
+          "offset": 66,
           "bytes": "c20400"
         }
       ],
-      "basis": "Actual complete15B original-compiler trapping boundary: EBX savedPUSH3/restoredPOP11 with only balanced ESI/EDI saves and AL0 between, no ownEBXwrites/calls, soleRET4. No appcredit; refresh on body reconstruction.",
-      "ebx_save_restore": {
-        "save_offset": 3,
-        "restore_offset": 11,
-        "save": "53",
-        "restore": "5b"
-      }
+      "basis": "Actual complete69B original-compiler next_module implementation: no EBX writes/calls, all branch targets inside body, sole normalRET4. Original60B/provider/ABI semantic witness unchanged; no bodycredit before fresh candidate acceptance."
     }
   },
   "original_cached_sites": [

@@ -106,7 +106,7 @@ def compare(original,state,trap,events,directory):
     nodes=next(e for e in events if e['event']=='argument_list'and e['name']=='link_files')['nodes'];argument=nodes[0]['words']
     name,original_name=argument[0:2];library=args[2];created=stack+4
     formals=[original_name,name,0,header,library,created,0,20,0,0,0,0]
-    completed=state['function']in ('OutputLibrary::FindModule','initialize_module_enumerator','next_module')
+    completed=state['function']in ('OutputLibrary::FindModule','initialize_module_enumerator','next_module','allocate_module_index')
     if completed:
         module,=[e for e in events if e['event']=='input_module_entry']
         assert module==dict(event='input_module_entry',stack_pointer=stack-84,formals=formals,hidden_inputs=[])

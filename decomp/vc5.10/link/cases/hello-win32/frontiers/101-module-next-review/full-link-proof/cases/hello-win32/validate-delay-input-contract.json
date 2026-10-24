@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "address": 4323760,
+  "bytes": 241,
+  "body_sha256": "72ee16983cb37c10fb34a861c10dbab14957b667b20328c92d70ddfba4fcec93",
+  "formals": [
+    "LinkContext *context"
+  ],
+  "hidden_inputs": [],
+  "returns": [
+    [
+      4323853,
+      4
+    ],
+    [
+      4323998,
+      4
+    ]
+  ],
+  "scope": "Complete read-only241B pending delay-load option validator; twoRET4 paths/no hidden input. First read is delay_libraries.count at480890, physical12B list zero in currentcase; no pending bodycredit."
+}

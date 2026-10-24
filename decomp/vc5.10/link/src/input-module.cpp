@@ -157,8 +157,12 @@ void __stdcall initialize_module_enumerator(ModuleEnumerator *enumerator,OutputL
 }
 BYTE __stdcall next_module(ModuleEnumerator *enumerator)
 {
-    __asm { int 3 }
-    return 0;
+    if (enumerator->library) {
+        if (!enumerator->current)
+            enumerator->current=enumerator->library->module_head;
+        else enumerator->current=enumerator->current->next;
+    }
+    return enumerator->current!=NULL;
 }
 void *__stdcall reallocate_memory(void *memory,unsigned bytes)
 {

@@ -1,0 +1,25 @@
+{
+  "previous": "cases/hello-win32/frontiers/100-module-enum-init-review/original/mask.bin.gz",
+  "previous_decoded_sha256": "90bfc6906c3e103f2cdf78c6453d3598d7efda1bd168de40f9392ff31252735b",
+  "current_mask_sha256": "13e39cb5c9d98e2fbf8e9ccf259b458808ec1bde191978648391136c4db2c34d",
+  "changed_bytes": 68,
+  "newly_unmasked_body_bytes": 59,
+  "new_actual_observer_INT3_sites": [
+    4254249,
+    4254373,
+    4254378,
+    4254401,
+    4254406,
+    4257721,
+    4257726,
+    4257789,
+    4257794
+  ],
+  "changed_range": [
+    4258705,
+    4258764
+  ],
+  "entry_remains_INT3": true,
+  "padding_after_function": "cccccccc",
+  "data_credit": 0
+}

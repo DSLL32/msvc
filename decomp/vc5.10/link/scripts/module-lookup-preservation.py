@@ -22,12 +22,18 @@ def check(original,rebuilt,map_text,packet=None):
     counterpart=contract['rebuilt'];assert counterpart['symbol']=='_next_module@4'
     code=bytes.fromhex(counterpart['bytes']);assert rebuilt.read(publics[counterpart['symbol']],len(code))==code
     emitted=list(cs.disasm(code,0));assert sum(i.size for i in emitted)==len(code)
-    assert any(i.mnemonic=='int3'for i in emitted),'next_module reconstructed: refresh actual complete counterpart witness first'
-    assert[i.address for i in emitted if {'ebx','bx','bl','bh'}&{i.reg_name(r)for r in i.regs_access()[1]}and not(i.mnemonic=='pop'and i.op_str=='ebx')]==counterpart['own_ebx_writes']==[]
-    assert code.hex()=='558bec535657cc32c05f5e5b5dc20400'
-    assert counterpart['ebx_save_restore']==dict(save_offset=3,restore_offset=11,save='53',restore='5b')
-    # Exact complete straight-line body pushes EBX once, changes neither saved
-    # stack slot nor EBX, then restores that same slot before sole RET4.
+    classification=counterpart.get('classification','named trapping boundary')
+    writes=[i.address for i in emitted if {'ebx','bx','bl','bh'}&{i.reg_name(r)for r in i.regs_access()[1]}and not(i.mnemonic=='pop'and i.op_str=='ebx')]
+    assert writes==counterpart['own_ebx_writes']==[]
+    if classification=='named trapping boundary':
+        assert code.hex()=='558bec535657cc32c05f5e5b5dc20400'
+        assert counterpart['ebx_save_restore']==dict(save_offset=3,restore_offset=11,save='53',restore='5b')
+    else:
+        assert classification=='call-free implementation'and len(code)==69
+        assert not any(i.mnemonic=='int3'or(i.mnemonic=='pop'and i.op_str=='ebx')for i in emitted)
+        assert not any({'ebx','bx','bl','bh'}&{i.reg_name(r)for r in i.regs_access()[1]}for i in emitted)
+        starts={i.address for i in emitted}
+        assert all(i.op_str.startswith('0x')and int(i.op_str,16)in starts for i in emitted if i.mnemonic.startswith('j'))
     assert[i.address for i in emitted if i.mnemonic=='call']==counterpart['calls']==[]
     assert[dict(offset=i.address,bytes=i.bytes.hex())for i in emitted if i.mnemonic=='ret']==counterpart['returns']
     assert emitted[-1].mnemonic=='ret'and emitted[-1].op_str=='4'

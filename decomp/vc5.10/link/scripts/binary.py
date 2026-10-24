@@ -51,7 +51,7 @@ def archive(path):
             end = names.find(b'\0', q)
             if end < 0: end = names.find(b'\n', q)
             yield names[q:end].decode().rstrip('/'), payload
-        elif name not in ('/', '//'):
+        elif name not in ('/','//'):
             yield name.rstrip('/'), payload
         p += 60 + size + (size & 1)
 
