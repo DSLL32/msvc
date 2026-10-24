@@ -343,3 +343,14 @@ int __cdecl rc_parse_bitwise_and(void)
         value&=rc_parse_equality();
     return value;
 }
+
+int __cdecl rc_parse_equality(void)
+{
+    int value;
+    value=rc_parse_relational();
+    if(rc_accept_expression_token(54))
+        return value==rc_parse_relational();
+    if(rc_accept_expression_token(71))
+        return value!=rc_parse_relational();
+    return value;
+}

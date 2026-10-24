@@ -78,7 +78,8 @@
     "rc_parse_logical_and",
     "rc_parse_bitwise_or",
     "rc_parse_bitwise_xor",
-    "rc_parse_bitwise_and"
+    "rc_parse_bitwise_and",
+    "rc_parse_equality"
   ],
   "functions": [
     {
@@ -1547,6 +1548,14 @@
       "name": "rc_parse_equality",
       "start": "0x2e7c",
       "end": "0x2ebc",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application"
+    },
+    {
+      "name": "rc_parse_relational",
+      "start": "0x2ebc",
+      "end": "0x2f2e",
       "abi": "cdecl",
       "stack_bytes": 0,
       "kind": "application",

@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Seventy-three application functions (21,631 original code bytes), two embedded CRT functions
+Seventy-four application functions (21,695 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_parse_equality`.
+currently matches at the next named trap, `rc_parse_relational`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -624,3 +624,10 @@ Bitwise AND is reconstructed (32 bytes), reaching the actual equality-parser
 child with unchanged live expression input. [Verification](cases/resources-rich-trailing-space/bitwise-and-verification.json)
 records nine affected semantic controls, both builds, graph/ABI checks and
 cached native help. Operator matching and expression results remain pending.
+
+Equality parsing is reconstructed (64 bytes), preserving the original single
+comparison instead of a loop. The first relational call is the next actual
+frontier. [Verification](cases/resources-rich-trailing-space/equality-verification.json)
+records nine affected semantic controls, unchanged live input, both builds,
+graph/ABI checks and cached native help. The shared typed-only surface was
+built coherently and accepted only after publication with identical bytes.
