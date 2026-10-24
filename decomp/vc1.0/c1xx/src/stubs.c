@@ -527,7 +527,6 @@ IrToken *__stdcall retain_reference_temporary(CType *referent, CType *reference,
 IrToken *__stdcall initialize_reference_temporary(CType *referent, CType *reference, IrToken *expression) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall class_tag_for_result_type(CType *type) { __asm { int 3 } return 0; }
 int __stdcall temporary_cleanup_is_suppressed(IrToken *object, unsigned index) { __asm { int 3 } return 0; }
-IrToken *convert_selected_operator_operand(OverloadCandidate *candidate, unsigned index, IrToken *operand) { __asm { int 3 } return 0; }
 int __stdcall equivalent_operand_types(CType *left, CType *right) { __asm { int 3 } return 0; }
 
 IrToken *__stdcall convert_delete_operand_to_pointer(IrToken *expression) { __asm { int 3 } return 0; }

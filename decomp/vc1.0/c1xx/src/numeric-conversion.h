@@ -3,6 +3,7 @@
 #include "binary-expressions.h"
 #include <recon.h>
 IrToken *__stdcall try_class_pointer_initializer(CType *type, IrToken *expression);
+IrToken *__stdcall invoke_user_conversion(CppSymbol *conversion, IrToken *expression, CType *type);
 IrToken *__stdcall try_user_defined_conversion(CType *type, IrToken *expression, int convert_result);
 IrToken *__stdcall new_cast_expression(CType *type, IrToken *expression);
 IrToken *__stdcall convert_class_pointer(IrToken *expression, CType *type,

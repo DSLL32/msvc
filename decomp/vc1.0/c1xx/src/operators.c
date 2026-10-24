@@ -9,6 +9,7 @@
 #include "constructor-initializers.h"
 #include "inline-vector.h"
 #include "unary-expressions.h"
+#include "numeric-conversion.h"
 #include <recon.h>
 
 /* Original [0x61540,0x615dc). Some class operations have a builtin form
@@ -667,4 +668,15 @@ IrToken *__stdcall resolve_overloaded_arrow(IrToken *object)
 int __stdcall builtin_operand_is_lvalue(IrToken *expression)
 {
     return modifiable_lvalue(expression, 0) != 0;
+}
+
+/* Original 0x778d0..0x778fc, cdecl12. Only operands with a
+   selected conversion member need another call; preserve the other operand. */
+IrToken *convert_selected_operator_operand(OverloadCandidate *candidate,
+    unsigned index, IrToken *operand)
+{
+    OverloadArgumentRank *rank = &candidate->ranks[index];
+    if (rank->conversion)
+        return invoke_user_conversion(rank->conversion, operand, rank->parameter_type);
+    return operand;
 }

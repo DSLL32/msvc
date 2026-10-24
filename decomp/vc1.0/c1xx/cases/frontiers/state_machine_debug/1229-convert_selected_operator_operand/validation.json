@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_convert_selected_operator_operand",
+    "start": 489680,
+    "end": 489725
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1229-convert_selected_operator_operand/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_invoke_user_conversion@12"
+  ],
+  "next_frontier": "_emit_pending_function_cleanup",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8190538017079234,
+  "total_operation_seconds": 5.102284567430615,
+  "original_capture_seconds": 1.7692510159686208
+}
