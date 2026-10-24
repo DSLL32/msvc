@@ -309,3 +309,27 @@ int __stdcall scan_preprocessor_token(unsigned char token)
     preprocessor_expression_token = 7;
     return 0;
 }
+
+/* Original 0x18b10..0x18ba2. Expression values use the dedicated
+   eight-byte arena; parentheses retain the same parsed value object. */
+PreprocessorValue *parse_preprocessor_primary(void)
+{
+    ArenaPool *pool;
+    PreprocessorValue *value;
+    if (accept_preprocessor_token(0x80)) {
+        ++preprocessor_expression_parentheses;
+        value = parse_preprocessor_conditional();
+        if (!accept_preprocessor_token(0x88)) fatal_error(12, ')');
+        --preprocessor_expression_parentheses;
+        return value;
+    }
+    if (!accept_preprocessor_token(7)) fatal_error(17);
+    pool = &compiler_arena.pools[4];
+    if (pool->remaining < (int)sizeof(PreprocessorValue))
+        refill_arena(&compiler_arena, pool);
+    value = (PreprocessorValue *)pool->next;
+    pool->remaining -= sizeof(PreprocessorValue);
+    pool->next += sizeof(PreprocessorValue);
+    *value = preprocessor_literal;
+    return value;
+}

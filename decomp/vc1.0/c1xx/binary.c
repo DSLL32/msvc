@@ -1,9 +1,10 @@
 /* Single original function registry; RVAs are relative to image base 0x10000.
- * Reviewed baseline: 3c751d03a, 1297 frontiers / 1191 application bodies.
- * Bounded shared-harness trial: token accept/scan helpers freshly validated.
- * CRT/import entries carry no implementation credit.
- * The seven historical CRT source overrides remain qualified in README.txt.
- * Unimplemented one-byte extents are entry placeholders, not whole bodies. */
+ * Paused after the five-function shared-harness trial: 1302 historical accepted
+ * frontiers / 1196 implemented application bodies. Baseline was 3c751d03a,
+ * 1297 / 1191; the retained token-helper WIP received fresh acceptance here.
+ * CRT/import entries carry no implementation credit. The seven historical
+ * CRT source overrides remain qualified in README.txt. Unimplemented one-byte
+ * extents are entry placeholders, not whole bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
@@ -187,6 +188,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "parse_preprocessor_primary",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_deferred_tokens_may_be_declaration",

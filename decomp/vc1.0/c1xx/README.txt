@@ -1,22 +1,43 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction. Bounded five-function shared-harness trial in progress.
-Reviewed baseline: 3c751d03a, 1297 frontiers / 1191 application source functions
-plus seven historical CRT source functions. Current: 1301 / 1195 application.
+PARTIAL reconstruction, PAUSED after the five-function shared-harness trial.
+Reviewed baseline: 3c751d03a, 1297 frontiers / 1191 application source functions.
+Current: 1302 / 1196 application functions plus seven unchanged historical CRT
+source functions. Five additional application bodies total 1084 original bytes:
 
-accept_preprocessor_token (RVA0x8140, 57 bytes) reuses the tagged WIP body, now
-freshly validated with shared original --progress and native replay at scanner
-RVA0x8180, exact first-entry order and partial artifacts. Newly written scanner
-RVA0x8180..0x8243 (195 bytes) is also freshly matched at check_defined_macro
-RVA0x14550, including exact entry order and partial artifacts. The final oracle is
-unchanged. check_defined_macro (RVA0x14550..0x146d2, 386 bytes) now matches
-the fresh original at skip_macro_space RVA0x11040 with 43 first entries. Original
-compilation, graph/ABI audit and all eight cached cases pass.
-skip_macro_space (RVA0x11040..0x1116b, 299 bytes) freshly matches at
-parse_preprocessor_primary RVA0x8b10, with 44 first entries and exact partial
-outputs; native/original builds and graph/ABI checks pass.
-This fresh acceptance is separate from the earlier migration replay.
+    accept_preprocessor_token    RVA0x08140..0x08179     57 bytes (retained WIP)
+    scan_preprocessor_token      RVA0x08180..0x08243    195 bytes (new source)
+    check_defined_macro          RVA0x14550..0x146d2    386 bytes (new source)
+    skip_macro_space             RVA0x11040..0x1116b    299 bytes (new source)
+    parse_preprocessor_primary   RVA0x08b10..0x08ba3    147 bytes (new source)
+
+Each received a fresh masked-original/native matching pair through recon-tool.
+The retained token-helper body is now accepted; earlier migration replay did
+not count as acceptance. The case now genuinely stops at reference_browser_macro,
+RVA0x1c440 (original VA0x2c440), with 45 unseeded first entries after its seed.
+Original/native order, owning INT3 frontier, streams and complete applicable
+partial-file assertions match. The final six-artifact oracle remains unchanged;
+the partial case has not completed. Original-compiler builds and graph/ABI audits
+pass, as do all eight cached native cases and the 14 existing narrow unit-test
+groups. No sixth function was reconstructed.
+
+Fresh original captures took 1.34--2.06 seconds each; native matched runs took
+19.8--21.3 ms, with about 12--14 ms setup, 3--4 ms execution and 4 ms checks.
+The final changed-function native build took 0.99 s, original build 2.78 s,
+and graph/ABI audit 1.84 s. The eight cached cases took about 0.16 s execution
+including setup/checks (0.26 s through make). Earlier combined native/original
+build measurements were not split. Diagnostic timing logs remain in scratch,
+not in case directories.
+
+The trial exposed one shared discovery issue, fixed in recon-tool: original
+--progress permits a stale expected App frontier after candidate implementation;
+ordinary native replay remains strict. The scanner's already captured pair used
+a provisionally specified next frontier, independently confirmed by the actual
+original run; subsequent captures discovered their next frontier directly.
+The graph audit also rejected an extra strcmp edge in the first spelling-check
+draft. A local C comparison preserves the original inline comparison graph;
+the unchanged original capture was reused for fresh corrected-native validation.
 
 Build and run
 -------------
