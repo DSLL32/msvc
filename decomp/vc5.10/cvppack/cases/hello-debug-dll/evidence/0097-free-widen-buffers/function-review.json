@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "candidate": "write_debug_directory",
+  "source_name": "free_widen_buffers",
+  "historical_alias": "write_debug_directory was a provisional incorrect purpose label; retained as logical evidence ID only",
+  "source_extent": [
+    4215344,
+    4215376
+  ],
+  "accepted_functions": 97,
+  "application_extent_bytes": 28477,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 45.44540550892088,
+  "qualification": "Application extents / whole text including CRT/unknown/padding; not non-CRT or branch coverage.",
+  "associated_switch_bytes_total": 784,
+  "associated_callback_bytes_total": 324,
+  "support": {
+    "crt_bodies": 4,
+    "crt_extent_bytes": 400,
+    "import_thunks": 5,
+    "import_extent_bytes": 30
+  },
+  "source_review": [
+    "Readable32B cdecl source frees the two Widen scratch arrays without changing their stored pointer identities. Qualified graph resolves exactly both cached free sites; full97 graph plus strictRET96 preserves reviewed Release residual.",
+    "Seven actual frees retire6 nonNULL allocations,21934 initialized bytes checked before release. Scratch initialized ranges are maximum103B output and32B fixups belonging to the actual freed allocation generation; all remaining capacity stays each side own uninitialized bytes.",
+    "Original main74B and scratch32B contain no released-payload consumer. Actual next namedtrap free_type_tables40b140 is the only allowed finite frontier; unknown consumers remain held."
+  ],
+  "next_frontier": "free_type_tables",
+  "fresh_pair": true,
+  "fresh_negative_count": 14,
+  "fresh_controls": {
+    "path": "cleanup-checks.json",
+    "sha256": "d5af13522fb1047c3106fe4b8160327f5a04b6f3c5d6b5d30884339069afd683"
+  },
+  "reused_controls": {
+    "main_free": {
+      "path": "cases/hello-debug-dll/evidence/0096-enter-symbol-scope-lifetimes/lifetime-checks-v2.json",
+      "sha256": "13558d4b04e21f853854b95246d44c763d595f8823a5ed016139f2a08417cd68",
+      "scope": "20 prior interval-overlap/lifetime/source controls and2 scope unit branches; new scratch paths receive14 fresh controls."
+    },
+    "release": {
+      "path": "cases/hello-debug-dll/evidence/0095-release-widen-retained/release-checks-v2.json",
+      "sha256": "acfa6ab091d680e3c093f30c9e336430cbdd62d61576a76c2d8a1349d9c2aaf7",
+      "scope": "28 reviewed Release/projection/lifetime controls; unchanged Release/provider code."
+    },
+    "provider": {
+      "path": "cases/hello-debug-dll/checkpoint50-controls/widen-provider.json",
+      "sha256": "8242fe40cb36423d7bc17016c85d34f6440d2329aacf6c1d9489ad0fb6f8c45c",
+      "provider_source_sha256": "5e5076d9ac9f8200f3e1b1152c8696e489802b325e51f94aeecb481498098399",
+      "scope": "21-lifetime positive and23 semantic negatives; unchanged implementation5e5076d9... ."
+    },
+    "protocol": {
+      "path": "cases/hello-debug-dll/evidence/0095-release-widen-retained/function-review.json",
+      "sha256": "2e67256935669ea74b7cccc1ccec7f981e891debea64fff94d7c21ac1b973f5d",
+      "scope": "Prior protocol/help/ABI controls remain hash-bound there; new main-free/state/scope paths receive20 fresh controls plus2 scope branches."
+    }
+  },
+  "original_receipt_sha256": "b587e3ccc8068c3f82430760ab56005edb15ef2b0acff79862ac87c627863ed6",
+  "native_receipt_sha256": "3194fd8e8ed2d7711d1eee7393c85946f7c1ec5598fb87c4f9a47721779aaec3",
+  "audit": {
+    "path": "corrected-static/audit.json",
+    "sha256": "5a5cd6af07550382decc6d7e0d717ba8c775ef7c3594136b338ead5c654714f2"
+  },
+  "seconds": {
+    "stages": {
+      "original_build": 8.000648562796414,
+      "native_build": 2.774937892332673,
+      "graph_tool_build": 0.043329416774213314,
+      "original_capture": 21.908741670660675,
+      "native_capture": 2.5185910938307643,
+      "pair_check": 2.2618551151826978
+    },
+    "original_capture": {
+      "setup": 1.2887055957689881,
+      "execution": 20.076693988405168,
+      "total": 21.61706844251603
+    },
+    "native_capture": {
+      "direct_execution": 0.019073481671512127,
+      "gdb_execution": 2.3130851574242115,
+      "total": 2.4426935352385044
+    },
+    "controls": 15.130205248482525,
+    "help_fixture": {
+      "preparation": 0.0027960026636719704,
+      "execution": 0.007652256637811661,
+      "checks": 0.0029808469116687775,
+      "total": 0.018904292955994606
+    },
+    "debug_fixture": {
+      "preparation": 0.0026265252381563187,
+      "execution": 2.3296288270503283,
+      "checks": 0.004996486008167267,
+      "total": 3.7504842784255743
+    }
+  },
+  "corrections": [
+    "Initial pair_check.log preserves observer counter shadow failure; renamed local only and statically revalidated identical raw.",
+    "Promotion preserved original current-audit. Post-promotion corrected-static/check-only.json fixes a report-only main_interval end variable shadow (actual checked bytes were always correct). New static proof explicitly asserts404719..404763; no original/native rerun."
+  ]
+}

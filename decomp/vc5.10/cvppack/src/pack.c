@@ -259,3 +259,10 @@ void rewrite_module_global_types(void *types, CodeViewDirectoryEntry *entry, Mod
     info->source_lines = copy;
     info->source_lines_size = entry->size;
 }
+
+/* Release the two Widen scratch arrays [00405230,00405250). */
+void free_widen_buffers(void)
+{
+    free(pack_buffer);
+    free(pack_fixups);
+}

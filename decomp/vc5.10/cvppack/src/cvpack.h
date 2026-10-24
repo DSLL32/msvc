@@ -24,7 +24,7 @@ void initialize_type_tables(void);
 void read_image_debug(void);
 void initialize_module_pack(void);
 int pack_module(unsigned short module);
-void write_debug_directory(void);
+void free_widen_buffers(void);
 void free_type_tables(void);
 void print_statistics(void);
 void flush_packed_file(void);

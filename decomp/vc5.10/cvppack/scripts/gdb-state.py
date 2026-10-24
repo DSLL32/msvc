@@ -191,14 +191,18 @@ def install(configuration):
             def __init__(self):super().__init__('recon_free',internal=True)
             def stop(self):
                 frame=gdb.newest_frame();owner=frame.older()
-                if owner is None or owner.name()!='cvpack_main':return False
+                if owner is None or owner.name() not in ('cvpack_main','free_widen_buffers'):return False
                 names=['debug_directory','line_data','symbol_data','type_data','module_data']
                 capacities=['module_capacity','type_segment_bytes','symbol_capacity','line_capacity','type_capacity']
-                index=len(main_free_calls);assert index<5,'unexpected additional main free'
+                if config.get('observe_widen_frees'):
+                    names+=['pack_buffer','pack_fixups'];capacities+=['pack_buffer_size','pack_fixup_count']
+                index=len(main_free_calls);assert index<len(names),'unexpected additional main free'
                 name=names[index];address=int(frame.read_var('pointer'))
+                assert owner.name()==('cvpack_main' if index<5 else 'free_widen_buffers'),'cleanup free owner/order differs'
                 assert address==int(gdb.parse_and_eval(name)),'main free argument is not its actual source global'
                 size=int(gdb.parse_and_eval(capacities[index])) if address else 0
                 if index==1:size=min(size,0xffe8)
+                if index==6:size*=8
                 assert 0<=size<=65536,'main free exceeds observed allocation bound'
                 inferior=gdb.selected_inferior();call=dict(name=name,index=index,address=address,size=size,
                     before=bytes(inferior.read_memory(address,size)).hex() if address else '',
@@ -207,7 +211,7 @@ def install(configuration):
                     segment0=int(gdb.parse_and_eval('type_segments[0]')),
                     symbol_cursor=int(gdb.parse_and_eval('symbol_input')),
                     module_symbol_records=int(gdb.parse_and_eval('module_symbol_records')),
-                    owner='cvpack_main',entry_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")))
+                    owner=owner.name(),entry_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")))
                 main_free_calls.append(call);MainFreeReturned(call);return False
         MainFreeEntered()
 
@@ -642,6 +646,7 @@ def capture(configuration,data_file,output):
         call=widen_emit_calls[-1]
         for name,address,count in [('pack_buffer',call['output_address'],call['output_capacity']),('pack_fixups',call['fixup_address'],call['fixup_capacity']*8)]:
             assert address==int(gdb.parse_and_eval(name)),'live emitted scratch allocation identity differs'
+            if released(address):continue
             memory[str(address)]=bytes(inferior.read_memory(address,count)).hex()
     state["last_error"]=int(gdb.parse_and_eval("'win32.c'::last_error"))
     def linked(head,shape):

@@ -102,7 +102,8 @@
     "query_widen",
     "emit_widen",
     "release_widen",
-    "enter_symbol_scope"
+    "enter_symbol_scope",
+    "write_debug_directory"
   ],
   "functions": [
     {
@@ -340,13 +341,19 @@
     },
     {
       "name": "write_debug_directory",
-      "symbol": "_write_debug_directory",
-      "native_symbol": "write_debug_directory",
+      "symbol": "_free_widen_buffers",
+      "native_symbol": "free_widen_buffers",
       "original": 4215344,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4215344,
+        4215376
+      ],
       "ret": 0,
-      "parameters": []
+      "parameters": [],
+      "source_name": "free_widen_buffers",
+      "scope": "Historical logical ID retained; original routine frees Widen scratch arrays, not a debug directory. Known original symbol unavailable.",
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0097-free-widen-buffers/promotion.json"
     },
     {
       "name": "free_type_tables",
@@ -355,7 +362,8 @@
       "original": 4239680,
       "status": "stub",
       "extent": null,
-      "ret": 0
+      "ret": 0,
+      "parameters": []
     },
     {
       "name": "print_statistics",
@@ -3729,7 +3737,8 @@
   "observe_widen_release": true,
   "observe_main_frees": true,
   "main_free_policy": {
-    "path": "cases/hello-debug-dll/main-free-lifetimes.json",
-    "sha256": "08aa581b9e15724dbf99264fb92825ad6a8e792789ef74d97cd6c96b56dda57f"
-  }
+    "path": "cases/hello-debug-dll/widen-cleanup-lifetimes.json",
+    "sha256": "6d6c4cabcc43b1abc6477b8c5900004dbe86dd52e52ea3b9cc7ab6a1a66012dc"
+  },
+  "observe_widen_frees": true
 }

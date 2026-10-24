@@ -37,7 +37,7 @@ int main(int argc, char **argv, char **environment)
         free(symbol_data);
         free(type_data);
         free(module_data);
-        write_debug_directory();
+        free_widen_buffers();
         free_type_tables();
         if (current_module_has_types) print_statistics();
         flush_packed_file();

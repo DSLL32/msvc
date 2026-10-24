@@ -120,6 +120,8 @@ def prepare(checked,destination,available=None):
                 row['evidence']=dict(path=str(path.relative_to(BINARY)),sha256=sha(path))
         proof['type_reference_import_witness_sha256']=sha(path)
         metadata['functions']['@add_type_reference@8']=dict(register_imports=dict(require_all_register_calls_resolved=True))
+    if any(row['symbol']=='_free_widen_buffers' for row in checked):
+        metadata['functions']['_free_widen_buffers']=dict(register_imports=dict(require_all_register_calls_resolved=True))
     metadata['functions']['_main']=dict(register_imports=dict(require_all_register_calls_resolved=False))
     if any(row['name']=='pack_module' for row in checked):
         path=BINARY/'build/pack.obj';obj=COFF(path.read_bytes())
@@ -208,7 +210,16 @@ def check_import_sites(graph):
         actual={site:name for site,name in report['rebuilt']['direct_import_calls'].items() if name==identity}
         assert len(actual)==2,'type reference rebuilt two free calls missing'
         reference_sites=dict(evidence_sha256=sha(path),original_free_sites=typed['target']['sites'],rebuilt_free_sites=sorted(map(int,actual)))
-    result=dict(evidence_sha256=sha(evidence),original_free_sites=witness['target']['sites'],
+    scratch_sites=None
+    if '_free_widen_buffers' in graph['functions']:
+        scratch=graph['functions']['_free_widen_buffers']['register_imports']
+        assert scratch['original']['resolved_register_calls']=={str(site):identity for site in (0x40523d,0x405249)},'scratch cached free site inventory differs'
+        assert scratch['original']['unresolved_register_calls']==scratch['original']['other_unresolved_calls']==[],'unknown scratch original call'
+        assert scratch['rebuilt']['resolved_register_calls']=={} and scratch['rebuilt']['unresolved_register_calls']==scratch['rebuilt']['other_unresolved_calls']==[],'unknown scratch rebuilt call'
+        imported={site:name for site,name in scratch['rebuilt']['direct_import_calls'].items() if name==identity}
+        assert len(imported)==2,'scratch rebuilt two free calls missing'
+        scratch_sites=dict(original=[0x40523d,0x405249],rebuilt=sorted(map(int,imported)))
+    result=dict(scratch_cleanup_free_sites=scratch_sites,evidence_sha256=sha(evidence),original_free_sites=witness['target']['sites'],
         original_checksum_callback=witness['dynamic_callback']['site'],rebuilt_free_sites=sorted(map(int,calls)),
         rebuilt_checksum_callback=callback,
         scope='Per-site report checks; no secondary CFG or import inference.')

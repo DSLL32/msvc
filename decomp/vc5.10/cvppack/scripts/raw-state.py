@@ -296,7 +296,11 @@ def compare(config,data,events,native,artifacts=None,views=None):
                 assert old_after[:written]==new_after[:written],'emit initialized output prefix differs'
                 assert old_before[written:]==old_after[written:] and new_before[written:]==new_after[written:],'emit changed own unwritten capacity tail'
                 if instance==len(calls)-1:
-                    assert original['memory'][old_pointer]==old_after and bytes.fromhex(native['memory'][str(new_pointer)])==new_after,'live emitted scratch buffer state differs'
+                    ended={call['address'] for call in original.get('main_free_calls',[]) if 'exit_esp' in call}
+                    if old_pointer in ended:
+                        assert config.get('observe_widen_frees') and any(call['address']==new_pointer and call.get('returned') for call in native.get('main_free_calls',[])),'emitted scratch lifetime lacks actual free return'
+                    else:
+                        assert original['memory'][old_pointer]==old_after and bytes.fromhex(native['memory'][str(new_pointer)])==new_after,'live emitted scratch buffer state differs'
             if not config.get('observe_widen_release'):
                 old_input,new_input=observed_global('type_data')
                 assert original['memory'][old_input][4:4+final[0]]==before['after'][initial[2]][:final[0]] and bytes.fromhex(native['memory'][str(new_input)])[4:4+final[0]]==bytes.fromhex(after['output_after'])[:final[0]],'caller copied emitted initialized bytes differ'

@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0096-enter-symbol-scope-lifetimes/original",
-  "reference_receipt_sha256": "8592ed471ae844551724f24de15ff85f6f3535fe181d04e040beeff551ff9a62",
+  "reference": "cases/hello-debug-dll/evidence/0097-free-widen-buffers/original",
+  "reference_receipt_sha256": "b587e3ccc8068c3f82430760ab56005edb15ef2b0acff79862ac87c627863ed6",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -102,6 +102,7 @@
     "emit_widen",
     "release_widen",
     "enter_symbol_scope",
-    "write_debug_directory"
+    "free_widen_buffers",
+    "free_type_tables"
   ]
 }
