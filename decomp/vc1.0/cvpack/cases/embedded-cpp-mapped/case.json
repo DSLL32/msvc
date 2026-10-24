@@ -1,0 +1,61 @@
+{
+  "name": "embedded-cpp-mapped",
+  "argv": [
+    "/nologo",
+    "/cvnew",
+    "/verbose",
+    "/mapio",
+    "embedded-cpp.dll"
+  ],
+  "inputs": [
+    {
+      "path": "decomp/vc1.0/cvpack/cases/embedded-cpp-mapped/input/embedded-cpp.dll",
+      "name": "embedded-cpp.dll",
+      "bytes": 2097152,
+      "sha256": "82280049eec21ffb28d274bb7c03d8ae7bbaedd30b4e26b2fc7d2401a762c70b"
+    }
+  ],
+  "current": {
+    "terminal": "trap",
+    "logical": "map_file",
+    "native_function": "map_file",
+    "application_trace": [
+      "main",
+      "parse_options",
+      "files_initialize",
+      "new_page",
+      "new_file_slot",
+      "open_file",
+      "find_cached_file",
+      "acquire_file_slot",
+      "move_file_slot",
+      "open_mapped_file",
+      "map_file"
+    ],
+    "stdout": "frontier.stdout",
+    "stderr": "frontier.stderr",
+    "proof_mode": "entry-flow",
+    "observed_globals": [],
+    "observed_walks": [],
+    "artifacts": []
+  },
+  "status": "active",
+  "complete_reference": {
+    "terminal": "exit",
+    "exit": 0,
+    "artifacts": [
+      {
+        "name": "embedded-cpp.dll",
+        "bytes": 2097152,
+        "sha256": "f2eb22dde08839863cc7262d11d0735cbbfa35db947ee46c533e0fd4aca77c60"
+      }
+    ],
+    "stdout": "reference/stdout",
+    "stderr": "reference/stderr"
+  },
+  "initial_frontier": {
+    "original": "0x2aa30",
+    "native": "open_mapped_file",
+    "scope": "Logical baseline only; no new function acceptance or full formal proof at this initial trap"
+  }
+}

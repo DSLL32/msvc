@@ -670,16 +670,37 @@
       "native": "open_mapped_file",
       "symbol": "_open_mapped_file",
       "original": 174640,
-      "source": "src/stubs.c",
+      "source": "src/files.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        174640,
+        174928
+      ],
       "abi": "int open_mapped_file(FileSlot *,int,unsigned char)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/embedded-cpp-mapped/evidence/0154-open_mapped_file/proof.json",
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [
+        {
+          "name": "slot",
+          "slot": 1,
+          "kind": "file-slot"
+        },
+        {
+          "name": "mode",
+          "slot": 2,
+          "kind": "integer"
+        },
+        {
+          "name": "created",
+          "slot": 3,
+          "kind": "integer",
+          "bits": 8
+        }
+      ],
+      "source_sha256": "db07287c5af12ceb9b0a0d7d412f50da5183a41e0549c83236af62a1126075c8"
     },
     {
       "name": "open_buffered_file",
@@ -7997,6 +8018,29 @@
           }
         ]
       }
+    },
+    {
+      "name": "map_file",
+      "native": "map_file",
+      "symbol": "_map_file",
+      "original": 175408,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int map_file(FileSlot *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "slot",
+          "slot": 1,
+          "kind": "file-slot",
+          "source_win32_handle": true
+        }
+      ]
     }
   ],
   "review": {
@@ -8941,6 +8985,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 153
+    },
+    {
+      "function": "open_mapped_file",
+      "case": "embedded-cpp-mapped",
+      "kind": "application",
+      "sequence": 154
     }
   ],
   "support_unmasked": [
@@ -9615,6 +9665,24 @@
       "start": 188704,
       "end": 188816,
       "evidence": "cases/hello-debug-dll/evidence/0153-image_nt_header/proof.json"
+    },
+    {
+      "name": "import:GetModuleHandleA",
+      "start": 179776,
+      "end": 179782,
+      "evidence": "cases/embedded-cpp-mapped/evidence/0154-open_mapped_file/proof.json"
+    },
+    {
+      "name": "import:GetProcAddress",
+      "start": 179764,
+      "end": 179770,
+      "evidence": "cases/embedded-cpp-mapped/evidence/0154-open_mapped_file/proof.json"
+    },
+    {
+      "name": "import:LoadLibraryA",
+      "start": 179770,
+      "end": 179776,
+      "evidence": "cases/embedded-cpp-mapped/evidence/0154-open_mapped_file/proof.json"
     }
   ],
   "read_observations": {
@@ -9623,7 +9691,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "b6d7c88e50c983271f4007da99d4c607348c1cee7eb4087cc9ea8d7fd4279271"
+    "evidence_sha256": "43b7998ddbf731119c27dc5a143aacfeb46184b720c459f68e15cb3cea102cc6"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -9647,7 +9715,7 @@
   },
   "partial_read_observations": {
     "evidence": "cases/abi/partial-public-read.json",
-    "evidence_sha256": "b1faf18d0dbda3c7c6b19ca48523f2d1d953f446fa74d82bfd985e53ad02c240"
+    "evidence_sha256": "9f81ee45ecf08b27718e2f2fa2d6c85e15387457121549c652635b2c85cd031c"
   },
   "module_buffer_publication": {
     "evidence": "cases/abi/module-buffer-publication.json",
@@ -9699,7 +9767,7 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "a3fcecc1a62a61aacc3fcca98e71c069c4e4a99579330e6a3b8babbaa2fde4b6"
+    "sha256": "4ebf8c76ea36fdf6e116d98e6edd5d2d021f381f340894b6ceebe6097246b257"
   },
   "freebuf_boundary": {
     "case": "hello-debug-dll",

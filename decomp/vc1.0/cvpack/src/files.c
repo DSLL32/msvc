@@ -529,3 +529,38 @@ int release_file_slot(FileSlot *slot)
     slot->storage.pages = NULL;
     return result;
 }
+
+/* Original [0002aa30,0002ab50): create or reuse a mapped file slot. */
+int open_mapped_file(FileSlot *slot, int mode, unsigned char created)
+{
+    struct _stat status;
+    int writing, truncate;
+    long size;
+    if (!created) {
+        seek_mapped_file(slot, 0, SEEK_SET);
+        return 0;
+    }
+    writing = (mode & 3) != 0;
+    truncate = mode & 0x100;
+    if (writing)
+        slot->source.handle = CreateFileA(slot->name, GENERIC_READ|GENERIC_WRITE,
+            0, NULL, truncate ? CREATE_ALWAYS : OPEN_ALWAYS,
+            FILE_ATTRIBUTE_NORMAL, NULL);
+    else
+        slot->source.handle = CreateFileA(slot->name, GENERIC_READ,
+            FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+    if (slot->source.handle == INVALID_HANDLE_VALUE) {
+        slot->source.handle = NULL;
+        return -1;
+    }
+    if (!truncate && _stat(slot->name, &status) == -1)
+        file_failure(15, slot->name, NULL);
+    if (writing) {
+        slot->length = truncate ? 0 : status.st_size;
+        size = slot->length > 0x200000 ? slot->length : 0x200000;
+    } else size = slot->length = status.st_size;
+    slot->allocated = size;
+    if (!map_file(slot)) return -1;
+    slot->flags |= 8;
+    return 0;
+}

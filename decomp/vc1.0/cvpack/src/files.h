@@ -53,6 +53,7 @@ FileSlot *new_file_slot(void);
 FileSlot *find_cached_file(const char *);
 FileSlot *acquire_file_slot(void);
 int open_mapped_file(FileSlot *,int,unsigned char);
+int map_file(FileSlot *);
 int open_buffered_file(FileSlot *,int,int,unsigned char);
 void move_file_slot(FileSlot *,FileSlot **,FileSlot **,FileSlot **,FileSlot **,unsigned char);
 int release_file_slot(FileSlot *);

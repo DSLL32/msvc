@@ -1,0 +1,47 @@
+[
+  {
+    "argv": [
+      "CL.EXE",
+      "/nologo",
+      "/c",
+      "/Od",
+      "/Z7",
+      "/G3",
+      "/Foembedded-cpp.obj",
+      "embedded-cpp.cpp"
+    ],
+    "status": 0,
+    "seconds": 1.995711519382894
+  },
+  {
+    "argv": [
+      "LINK.EXE",
+      "/nologo",
+      "/dll",
+      "/entry:DllMain@12",
+      "/debug:full",
+      "/debugtype:cv",
+      "/nopack",
+      "/out:embedded-cpp.dll",
+      "embedded-cpp.obj",
+      "libc.lib"
+    ],
+    "status": 23,
+    "seconds": 1.614766551181674
+  },
+  {
+    "argv": [
+      "LINK.EXE",
+      "/nologo",
+      "/dll",
+      "/debug:full",
+      "/debugtype:cv",
+      "/nopack",
+      "/out:embedded-cpp.dll",
+      "embedded-cpp.obj",
+      "libc.lib"
+    ],
+    "status": 0,
+    "seconds": 0.734955033287406
+  }
+]

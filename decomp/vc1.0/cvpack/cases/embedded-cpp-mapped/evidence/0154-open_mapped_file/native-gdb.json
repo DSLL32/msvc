@@ -1,0 +1,1 @@
+{"signal": 5, "frames": ["map_file", "open_mapped_file", "open_file", "main"], "parameters": {"slot": {"null": false, "address": 1452596272, "owner": {"handle": 15, "limit": 16}, "bytes": "60dc9456030000000f00000000002000040000000000000000000000000020000000000000000000"}}, "globals": {}, "walks": {}, "later_heap_equality": false}

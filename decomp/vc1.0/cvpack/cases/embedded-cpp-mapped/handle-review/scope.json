@@ -1,0 +1,18 @@
+{
+  "function": "open_mapped_file",
+  "sequence": 154,
+  "proof": "cases/embedded-cpp-mapped/evidence/0154-open_mapped_file/proof.json",
+  "root_approval": "Actual CreateFileA request/result carried into published slot with independent disk/size/position identity. Preserve raw handle values. No mapping/view credit until actual creation.",
+  "original_seconds": {
+    "setup": 0.33426077850162983,
+    "execution": 0.8487990461289883,
+    "total": 1.209392772987485
+  },
+  "native_seconds": {
+    "setup": 0.23409406188875437,
+    "execution": 0.00984189286828041,
+    "debugging": 0.598825984634459,
+    "checks": 0.015488740988075733,
+    "total": 0.8582550501450896
+  }
+}

@@ -180,8 +180,13 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
             handle,table,limit=rows[0];handle,limit=int(handle),int(limit);assert actual['owner']==dict(handle=handle,limit=limit)and 0<=handle<limit<=64,'FileSlot table index/count differs'
             raw=re.findall(r'^input-buffer %08x ([0-9a-f]+)$'%pointer,events,re.M);assert len(raw)==1,'missing FileSlot raw input'
             old,new=bytes.fromhex(raw[0]),bytes.fromhex(actual['bytes']);assert len(old)==len(new)==40 and int.from_bytes(old[8:12],'little')==handle and not actual['null'],'FileSlot handle/extent differs'
-            assert old[4:20]==new[4:20]and old[28:32]==new[28:32]and not(old[4]&8),'FileSlot buffered scalar fields differ'
-            parameters[item['name']]=dict(original_address=pointer,native_address=actual['address'],handle=handle,table_limit=limit,original_raw=old.hex(),native_raw=new.hex(),compared_ranges=[[4,20],[28,32]],scope='Published file_slots[handle] identity and buffered scalar inputs; pointer raw retained, no all-page/heap equality claim')
+            source_proof=None
+            if item.get('source_win32_handle'):
+                from mapped_slot import compare as compare_mapped_slot
+                assert args.case=='embedded-cpp-mapped'and frontier['name']=='map_file','unknown active HANDLE consumer'
+                source_proof=compare_mapped_slot(pointer,old,new,actual,events,json.loads((work/'mapped-open.json').read_text()))
+            else:assert old[4:20]==new[4:20]and old[28:32]==new[28:32]and not(old[4]&8),'FileSlot buffered scalar fields differ'
+            parameters[item['name']]=dict(original_address=pointer,native_address=actual['address'],handle=handle,table_limit=limit,original_raw=old.hex(),native_raw=new.hex(),source_HANDLE=source_proof,compared_ranges=[[4,16],[28,36]]if source_proof else [[4,20],[28,32]],scope='Published file_slots[handle] identity and buffered scalar inputs; pointer raw retained, no all-page/heap equality claim')
         elif item['kind']=='global-owner':parameters[item['name']]=compare_global_owner(item,words,state['parameters'][item['name']],events)
         elif item['kind']in('directory-key','directory-output'):parameters[item['name']]=compare_directory_key(item,words,state['parameters'][item['name']],events)
         elif item['kind']=='counted-string':parameters[item['name']]=compare_counted_name(item,words,state['parameters'][item['name']],events)
@@ -233,7 +238,7 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
     subprocess.run(['python3',str(BINARY/'scripts/audit.py')],check=True)
     if args.check_only:print('Fresh whole-function entry-flow proof passes:',args.function);return
     sequence=len(config['accepted_order'])+1;directory=BINARY/'cases'/args.case/'evidence'/('%04d-%s'%(sequence,args.function));directory.mkdir(exist_ok=False)
-    for label,source,names in(('original',original,('events','receipt.json','configuration.json','runtime-support.json','runtime-plan','stdout','stderr')),('native',work,('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','configuration.json','runtime-support.json','crt-returns.json','freebuf-returns.json','host-environment.json','stdout','stderr'))):
+    for label,source,names in(('original',original,('events','receipt.json','configuration.json','runtime-support.json','runtime-plan','stdout','stderr')),('native',work,('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','configuration.json','runtime-support.json','crt-returns.json','mapped-open.json','freebuf-returns.json','host-environment.json','stdout','stderr'))):
         for name in names:
             if(source/name).exists():shutil.copyfile(source/name,directory/(label+'-'+name))
     if args.original_rebind:shutil.copytree(args.original_rebind.parent,directory/'native-only-rebind')

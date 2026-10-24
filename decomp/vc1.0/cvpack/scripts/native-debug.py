@@ -681,3 +681,38 @@ def install_freebuf_observer(output):
                 save();Returned(event,address);return False
             except Exception as error:event['error']=str(error);save();return True
     Entered();save()
+
+
+def install_mapped_open_observer(output):
+    """Bind the actual mapped-input CreateFile request/result to its slot."""
+    events=[];output=Path(output)
+    def save():output.write_text(json.dumps(events,indent=2)+'\n')
+    class Returned(gdb.FinishBreakpoint):
+        def __init__(self,event):self.event=event;super().__init__(gdb.newest_frame(),internal=True)
+        def stop(self):
+            try:
+                handle=int(self.return_value);host=handle-1;pid=gdb.selected_inferior().pid
+                path=Path('/proc/%d/fd/%d'%(pid,host));actual=os.stat(path);expected=os.stat(self.event['name'])
+                info=Path('/proc/%d/fdinfo/%d'%(pid,host)).read_text()
+                position=int(next(s.split()[1]for s in info.splitlines()if s.startswith('pos:')))
+                mode=int(next(s.split()[1]for s in info.splitlines()if s.startswith('flags:')),8)&3
+                self.event['return']=dict(handle=handle,host_descriptor=host,type=1 if stat.S_ISREG(actual.st_mode)else -1,
+                    size=actual.st_size,position=position,access_mode=mode,owned=(actual.st_dev,actual.st_ino)==(expected.st_dev,expected.st_ino),
+                    device=actual.st_dev,inode=actual.st_ino)
+                save();assert self.event['return']['owned']and position==0 and mode==2 and self.event['return']['type']==1
+                return False
+            except Exception as error:self.event['error']=str(error);save();return True
+    class Entered(gdb.Breakpoint):
+        def __init__(self):super().__init__('recon_CreateFileA',internal=True)
+        def stop(self):
+            frame=gdb.newest_frame();caller=frame.older()
+            if caller.name()!='open_mapped_file':return False
+            event=dict(slot=int(caller.read_var('slot')),name=frame.read_var('name').string(),
+                access=int(frame.read_var('access')),share=int(frame.read_var('share')),security=int(frame.read_var('security')),
+                disposition=int(frame.read_var('disposition')),attrs=int(frame.read_var('attributes')),template=int(frame.read_var('template')))
+            events.append(event)
+            try:
+                assert len(events)==1 and event['name']=='embedded-cpp.dll'and event['access']==0xc0000000 and event['share']==event['security']==event['template']==0 and event['disposition']==4 and event['attrs']==128,'unapproved mapped-input request'
+                save();Returned(event);return False
+            except Exception as error:event['error']=str(error);save();return True
+    Entered();save()

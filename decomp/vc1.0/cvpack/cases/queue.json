@@ -17,6 +17,17 @@
       ],
       "status": "complete",
       "completion": "cases/hello-debug-dll/evidence/0153-image_nt_header/proof.json"
+    },
+    {
+      "name": "embedded-cpp-mapped",
+      "argv": [
+        "/nologo",
+        "/cvnew",
+        "/verbose",
+        "/mapio",
+        "embedded-cpp.dll"
+      ],
+      "status": "active"
     }
   ]
 }

@@ -311,6 +311,7 @@ static int finish_sopen(HANDLE child, HANDLE log, HANDLE thread)
 }
 
 #include "freebuf-observer.h"
+#include "mapped-slot-observer.h"
 
 static int dump_file_descriptor(HANDLE child, HANDLE log, DWORD root, DWORD index)
 {
@@ -918,13 +919,14 @@ static int dump_output_buffers(HANDLE child, HANDLE log, DWORD entry, DWORD *wor
             for (i = 0; i < size; ++i) used += sprintf(object_line+used, "%02x", observed[i]);
             object_line[used++] = '\n';
             if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
-            if ((entry == 0x2a450 || entry == 0x29c50 || entry == 0x29f50) && slot == 1 && size == 40 && input) {
+            if ((entry == 0x2a450 || entry == 0x29c50 || entry == 0x29f50 || entry == 0x2aa30 || entry == 0x2ad30) && slot == 1 && size == 40 && input) {
                 DWORD table, limit, handle, actual;
                 handle = *(DWORD *)(original_bytes+8);
                 if (!ReadProcessMemory(child, (void *)0x33000, &table, 4, &bytes) || bytes != 4 ||
                     !ReadProcessMemory(child, (void *)0x352c0, &limit, 4, &bytes) || bytes != 4 ||
                     handle >= limit || limit > 64 || !table ||
                     !ReadProcessMemory(child, (void *)(table+handle*4), &actual, 4, &bytes) || bytes != 4 || actual != pointer) return 0;
+                if(entry==0x2ad30 && !dump_mapped_source(child,log,pointer,(DWORD *)original_bytes))return 0;
                 used = sprintf(object_line, "file-slot-owner %08lx %lu %08lx %lu\n", pointer, handle, table, limit);
                 if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
             }
@@ -1241,6 +1243,7 @@ int main(int argc, char **argv)
             if (!GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_PDB_INPUT", sopen_pdb_master, sizeof(sopen_pdb_master))) return 14;
         }
     }
+    GetEnvironmentVariableA("CVPACK_CAPTURE_MAPPED_SLOT", mapped_slot_name, sizeof(mapped_slot_name));
     freebuf_enabled = GetEnvironmentVariableA("CVPACK_CAPTURE_FREEBUF", program, sizeof(program)) != 0;
     pdb_read_enabled = GetEnvironmentVariableA("CVPACK_CAPTURE_PDB_HEADER", program, sizeof(program)) != 0;
     if (GetEnvironmentVariableA("CVPACK_CAPTURE_READS", program, sizeof(program))) {
@@ -1408,6 +1411,20 @@ int main(int argc, char **argv)
                     if (!rearm_pdb_header(child.hProcess,log,thread,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress)) return 26;
                     ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
                 }
+                if(mapped_slot_name[0] && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
+                   (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==0x2aa90) {
+                    if(!begin_mapped_open(child.hProcess,thread,log,event.dwThreadId))return 60;
+                    ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
+                }
+                if(mapped_open_step && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_SINGLE_STEP) {
+                    if(!step_mapped_open(child.hProcess,thread,event.dwThreadId,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress))return 61;
+                    ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
+                }
+                if(mapped_open_active && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
+                   (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==0x2aa95) {
+                    if(!finish_mapped_open(child.hProcess,thread,log,event.dwThreadId))return 62;
+                    ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
+                }
                 if(freebuf_enabled && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
                    (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==0x2ff90) {
                     if(!begin_freebuf(child.hProcess,original,thread,log,event.dwThreadId))return 57;
@@ -1468,6 +1485,7 @@ int main(int argc, char **argv)
                         (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress);
                 if (restored < 0) return 9;
                 if (restored > 0) {
+                    if(mapped_slot_name[0] && (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==0x2aa30 && !arm_mapped_open(child.hProcess))return 63;
                     if(scalar_completion && (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==0x25450 &&
                        !begin_scalar_block(child.hProcess,log,thread,event.dwThreadId))return 55;
                     ContinueDebugEvent(event.dwProcessId, event.dwThreadId, disposition);

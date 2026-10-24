@@ -33,11 +33,12 @@ def main():
     assert not args.scalar_completion or(args.entry_progress_only and args.candidate==["begin_symbol_block"]),"only98 scalar slice"
     assert not(args.entry_progress_only and args.reference_completion), 'capture modes are separate'
     assert not((args.entry_progress_only or args.reference_completion)and(args.unmasked or args.guard_probe or args.stop_at)), 'bounded capture modes require normal masked candidate'
-    assert not(args.entry_progress_only or args.reference_completion)or(args.case=='hello-debug-dll'and len(args.candidate)==1), 'only reviewed function97 boundary'
+    assert not args.entry_progress_only or len(args.candidate)<=1,'routine entry progression takes at most one candidate'
     assert not args.reference_completion or args.candidate==['create_symbol_reference'],'reference completion remains exact97 only'
     start = time.perf_counter()
     config, original = load()
     record = case(args.case)
+    assert not args.entry_progress_only or record['current'].get('proof_mode')=='entry-flow','routine progression needs an explicit entry-flow case'
     if args.guard_probe:
         assert args.case=='hello-debug-dll' and not args.unmasked and args.discover_runtime
         markers={'good-twice':'G','first-text':'F','second-text':'T','second-share':'S','pdb-good-twice':'P','pdb-second-write':'W','pdb-second-share':'H','pdb-second-name':'N'}
@@ -130,6 +131,7 @@ def main():
         else:
             env['CVPACK_CAPTURE_SOPEN_PDB_NAME']=seam['guard']['name']
             env['CVPACK_CAPTURE_SOPEN_PDB_INPUT']=tool.windows(ROOT/seam['input']['path'])
+    if args.case=='embedded-cpp-mapped':env['CVPACK_CAPTURE_MAPPED_SLOT']='embedded-cpp.dll'
     from freebuf import validate as validate_freebuf
     freebuf_policy=validate_freebuf(config,original)
     if freebuf_policy and args.case==freebuf_policy['case']:env['CVPACK_CAPTURE_FREEBUF']='1'

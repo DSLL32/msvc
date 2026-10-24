@@ -1,0 +1,9 @@
+{
+  "source_sha256": "bf8c0ef8205cf8e73e4ee81775b5b516d8f555e1994f573e5a87d97173df36e6",
+  "object_sha256": "c7913aee434249e477c8a345fe0d055f7994a6e82b6d1ce81dd1a9049ad09de4",
+  "input_sha256": "82280049eec21ffb28d274bb7c03d8ae7bbaedd30b4e26b2fc7d2401a762c70b",
+  "commands": "build.json",
+  "compiler_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "linker_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "scope": "Actual original /Z7 C++ object; successful default DLL CRT entry and /nopack linker. First explicit DllMain entry attempt failed resolving _main through static CRT0; failure retained. No /pdb:none supported/used. Genuine NB05 with 0x124 local-symbol and 0x121 type subsections. COFF line numbers present, but LINK emits no separate CV line subsection in this actual configuration; no line-path coverage promised."
+}
