@@ -1,0 +1,7 @@
+{
+  "status": "accepted shipped library identity only",
+  "function": "__getcwd",
+  "next_frontier": "_write_ir_string",
+  "boundary_evidence": "evidence/browser-working-directory/pending-library.json",
+  "downstream_comparison": "cases/frontiers/member_registry_browser/1271-browser_working_directory/validation.json"
+}

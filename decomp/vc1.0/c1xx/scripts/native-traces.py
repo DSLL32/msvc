@@ -49,6 +49,16 @@ def runtime_evidence(config):
         for relative in case.get('frontier_extensions',[]):
             extension_path=BINARY/relative
             extension=json.loads(extension_path.read_text())
+            if 'pending_library_evidence' in extension:
+                from cwd_pending_library import verify
+                path=BINARY/extension['pending_library_evidence']
+                assert sha(path)==extension['pending_library_evidence_sha256'], 'GETCWD boundary evidence changed'
+                if path not in verified:
+                    verified[path]=verify(path,config,'_browser_working_directory','member_registry_browser',historical=True)
+                    files.extend([path,*[path.parent/name for name in verified[path]['evidence_sha256']]])
+                assert extension['accepted']=='__getcwd' and verified[path]['library_order']==['__getcwd']
+                covered.add('__getcwd');files.append(extension_path)
+                continue
             if 'runtime_evidence' not in extension:continue
             path=BINARY/extension['runtime_evidence']
             assert sha(path)==extension['runtime_evidence_sha256'], 'runtime acceptance evidence changed'
@@ -60,6 +70,7 @@ def runtime_evidence(config):
                 assert extension['accepted'] in proof['runtime_order'], 'runtime seam lacks observed boundary'
                 covered.add(extension['accepted'])
             files.append(extension_path)
+    if '__getcwd' in config['accepted']: assert '__getcwd' in covered, 'getcwd cannot be filtered without its positive boundary proof'
     if '_strchr' in config['accepted']:
         assert '_strchr' in covered, 'strchr cannot be filtered without its original/native boundary proof'
     return list(dict.fromkeys(files))

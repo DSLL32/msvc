@@ -1,18 +1,18 @@
 {
-  "accepted_frontiers": 1271,
-  "driver_functions": 1166,
+  "accepted_frontiers": 1273,
+  "driver_functions": 1167,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 1173,
-  "current_frontier": "_browser_working_directory",
-  "original_frontier_va": "0x69aa0",
+  "reconstructed_source_functions": 1174,
+  "current_frontier": "_write_ir_string",
+  "original_frontier_va": "0x741a0",
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_browser_working_directory",
-    "original_va": "0x69aa0"
+    "current_frontier": "_write_ir_string",
+    "original_va": "0x741a0"
   },
-  "current_native_application_entries": 15,
+  "current_native_application_entries": 16,
   "active_queue": [
     "finish cpp_basic",
     "inheritance and virtual dispatch",
@@ -20,12 +20,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 310582,
+    "accepted_code_bytes": 310702,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 65.1910717059389,
-    "accepted_frontiers": 1271,
-    "source_functions": 1173,
-    "accepted_source_text_and_switch_bytes": 295065,
+    "accepted_code_percent": 65.21625967112914,
+    "accepted_frontiers": 1273,
+    "source_functions": 1174,
+    "accepted_source_text_and_switch_bytes": 295153,
     "section_ranges": [
       [
         94208,
@@ -218,12 +218,12 @@
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 310582,
+    "accepted_code_bytes": 310702,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 65.1910717059389,
-    "accepted_frontiers": 1271,
-    "source_functions": 1173,
-    "accepted_source_text_and_switch_bytes": 295065,
+    "accepted_code_percent": 65.21625967112914,
+    "accepted_frontiers": 1273,
+    "source_functions": 1174,
+    "accepted_source_text_and_switch_bytes": 295153,
     "section_ranges": [
       [
         94208,
@@ -418,7 +418,7 @@
   "complete_frontend_case": false,
   "active_case": "member_registry_browser",
   "status": "member_registry_browser reconstruction in progress",
-  "latest_verification": "cases/frontiers/member_registry_browser/1270-serialize_browser_record-8/validation.json",
+  "latest_verification": "cases/frontiers/member_registry_browser/1271-browser_working_directory/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -457,11 +457,11 @@
     },
     "member_registry_browser": {
       "status": "partial",
-      "frontier": "_browser_working_directory",
-      "latest_verification": "cases/frontiers/member_registry_browser/1270-serialize_browser_record-8/validation.json"
+      "frontier": "_write_ir_string",
+      "latest_verification": "cases/frontiers/member_registry_browser/1271-browser_working_directory/validation.json"
     }
   },
-  "next_operation": "Continue _browser_working_directory reconstruction",
+  "next_operation": "Continue _write_ir_string reconstruction",
   "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json",
   "native_limitations": [
     {
@@ -648,10 +648,19 @@
     }
   ],
   "shared_pin_refresh": {
-    "verification": "evidence/startup-precision53/validation.json",
+    "verification": "evidence/browser-working-directory/pin-refresh.json",
     "profile": "RECON_NATIVE_STARTUP_CONTROLFP_53",
-    "manifest_sha256": "3e9fce922e970282d3b9a6a5ddfb86023c24a9b248918db0b2c105d71b6e113c",
-    "commit": "bf7d2cbfdbe1a071c1cd79d4c8ec46b8b8f23ccc",
-    "scope": "Native startup input correction at genuine main, no application call/entry/graph change or reconstruction credit"
-  }
+    "manifest_sha256": "c47901b8851a2b3611eaf342b8cf873139e092206806a435ea63eed2d9561e22",
+    "commit": "e4f17cae9e32249373f16cd2a612dc2b8aa24587",
+    "scope": "Reached default getcwd success errno correction; same retained original boundary, exact output/tail/return/errors/FP and eight native cached phases, no newCRTbody/application credit"
+  },
+  "shared_pin_refresh_history": [
+    {
+      "verification": "evidence/startup-precision53/validation.json",
+      "profile": "RECON_NATIVE_STARTUP_CONTROLFP_53",
+      "manifest_sha256": "3e9fce922e970282d3b9a6a5ddfb86023c24a9b248918db0b2c105d71b6e113c",
+      "commit": "bf7d2cbfdbe1a071c1cd79d4c8ec46b8b8f23ccc",
+      "scope": "Native startup input correction at genuine main, no application call/entry/graph change or reconstruction credit"
+    }
+  ]
 }

@@ -1,0 +1,94 @@
+{
+  "case": "member_registry_browser",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 1271,
+  "terminal": "__getcwd",
+  "candidate": "_browser_working_directory",
+  "pending_accepted": [],
+  "configuration_sha256": "e8d8a39d33f7a8bc4ecbc6ad962493d95426b0192b1978b41e48f8da1a02640d",
+  "capture_seconds": 1.3676521126180887,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irdb": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "registry.h": {
+      "bytes": 703,
+      "sha256": "a16309303b88af7f9a4a7ad68f6fbcacbc75ed975b9d277a29f9baa6ca38e649"
+    },
+    "registry.sbt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    "registry.cpp": {
+      "bytes": 6998,
+      "sha256": "79744fca0c987fcf884632130d2000185580b0acd358647058f76151e62b8158"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\member-registry-browser-driver",
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "observer_sha256": "b2fb8bfb0f5e6517b3d24996e25c0fbb12e74eb4feb26993f0216508550fff32",
+  "first_entry_projection": {
+    "accepted_first": 1257,
+    "accepted_last": 1272,
+    "accepted_prefix_sha256": "f983beac3391434a9441568059dddc195fac4f3c887fbe1268148b18ab8042ed",
+    "expected": [
+      "_begin_browser_output",
+      "_format_browser_temporary_name@4",
+      "_begin_browser_records",
+      "_queue_browser_record@8",
+      "_append_browser_record@12",
+      "_fill_browser_record@8",
+      "_first_browser_record",
+      "_second_browser_record",
+      "_browser_record_from_end@4",
+      "_browser_macro@4",
+      "_fill_browser_macro@8",
+      "_pop_first_browser_record",
+      "_emit_browser_record@4",
+      "_serialize_browser_record@8",
+      "_browser_working_directory"
+    ],
+    "observed": [
+      "_begin_browser_output",
+      "_format_browser_temporary_name@4",
+      "_begin_browser_records",
+      "_queue_browser_record@8",
+      "_append_browser_record@12",
+      "_fill_browser_record@8",
+      "_first_browser_record",
+      "_second_browser_record",
+      "_browser_record_from_end@4",
+      "_browser_macro@4",
+      "_fill_browser_macro@8",
+      "_pop_first_browser_record",
+      "_emit_browser_record@4",
+      "_serialize_browser_record@8",
+      "_browser_working_directory"
+    ],
+    "events_sha256": "78d33b8df2cfea65eccd82e1f9801c7ddcbbc6a59f4685c4994a38003126e54b",
+    "plan_sha256": "be91afae720e3e8b41b19a3b9ed86d98e9f95f998df2b2df44bf9c56f47fca67"
+  }
+}

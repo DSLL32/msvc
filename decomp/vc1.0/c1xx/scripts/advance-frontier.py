@@ -42,12 +42,14 @@ def main():
     parser.add_argument('--case',default='cpp_basic')
     parser.add_argument('--candidate',required=True)
     parser.add_argument('--check-arguments-only',action='store_true',help='verify fresh current argument proof without capture or promotion')
+    parser.add_argument('--pending-library',type=Path,help='positively verified single GETCWD library boundary; no general unmask list')
     parser.add_argument('--original',type=Path)
     parser.add_argument('--native',type=Path)
     parser.add_argument('--build-timing',type=Path)
     parser.add_argument('--argument-proof',type=Path,required=True,
         help='explicit current-function actual ABI argument observations and logical bindings')
     args=parser.parse_args()
+    if args.pending_library: args.pending_library=args.pending_library.resolve()
     started=time.perf_counter()
     config_path=BINARY/'functions.json'
     config=json.loads(config_path.read_text())
@@ -238,6 +240,12 @@ def main():
     if args.check_arguments_only:
         print('fresh application arguments verified: '+args.candidate)
         return
+    pending_library = []
+    if args.pending_library:
+        from cwd_pending_library import verify
+        library_proof = verify(args.pending_library, config, args.candidate, args.case)
+        pending_library = library_proof['library_order']
+        assert args.original is not None, 'explicit genuine downstream library capture required'
     if args.original is None:
         captured=subprocess.check_output([sys.executable,str(BINARY/'scripts/capture-original.py'),'--candidate',args.candidate,'--case',args.case,'--entry-plan'],cwd=BINARY,text=True)
         args.original=Path(captured.strip().splitlines()[-1]).parent
@@ -245,7 +253,12 @@ def main():
     assert 'first_entry_projection' in original, 'fresh original application entry plan required'
     assert original['configuration_sha256']==sha(config_path)
     assert original.get('case','cpp_basic')==args.case
-    assert original['candidate']==args.candidate and original['accepted_count']==len(config['accepted'])
+    if pending_library:
+        assert original['candidate'] == '__getcwd' and pending_library == ['__getcwd']
+        assert original['accepted_count'] == len(config['accepted'])+1
+        assert original['pending_accepted'] == [args.candidate]
+    else:
+        assert original['candidate']==args.candidate and original['accepted_count']==len(config['accepted'])
     trace=module('c1xx_frontier_names','native-traces.py')
     if args.native is None:
         import tempfile
@@ -311,9 +324,27 @@ def main():
     extension_path=record/'frontier-extension.json'
     extension_path.write_text(json.dumps(extension,indent=2)+'\n')
     config['accepted'].append(args.candidate)
+    if pending_library:
+        # This one shipped function receives identity/first-entry credit only.
+        # All application, stream, inventory and cached regression gates above
+        # and below are shared with the ordinary function acceptance path.
+        library_record = frontier_root/('%04d-getcwd-library' % len(config['accepted']))
+        library_record.mkdir()
+        library_extension = dict(schema=1,accepted_before=len(config['accepted']),accepted='__getcwd',terminal=original['terminal'],
+            original_capture=relative(record/'original-receipt.json'),original_capture_sha256=sha(record/'original-receipt.json'),
+            original_events=relative(record/'original-events.txt'),original_events_sha256=sha(record/'original-events.txt'),
+            original_configuration=relative(record/'original-configuration.json'),
+            scope='Exact shipped GETCWD.OBJ32B/REL32/ABI, genuine first entry and complete caller-buffer return proof; zero application/source credit',
+            pending_library_evidence=relative(args.pending_library),pending_library_evidence_sha256=sha(args.pending_library),
+            downstream_comparison=relative(record/'validation.json'))
+        library_extension_path=library_record/'frontier-extension.json'
+        library_extension_path.write_text(json.dumps(library_extension,indent=2)+'\n')
+        (library_record/'validation.json').write_text(json.dumps(dict(status='accepted shipped library identity only',function='__getcwd',next_frontier=original['terminal'],boundary_evidence=relative(args.pending_library),downstream_comparison=relative(record/'validation.json')),indent=2)+'\n')
+        config['accepted'].append('__getcwd')
     case['terminal']=original['terminal']
     case['terminal_evidence']=relative(record/'original-events.txt')
     case.setdefault('frontier_extensions',[]).append(relative(extension_path))
+    if pending_library: case['frontier_extensions'].append(relative(library_extension_path))
     config_path.write_text(json.dumps(config,indent=2)+'\n')
     from original_entries import register
     register(args.case,args.original,record/'entry-reference')
@@ -347,6 +378,7 @@ def main():
     report=dict(status='accepted',function=candidate,actual_argument_proof=relative(record/'arguments'/args.argument_proof.name),distinct_direct_callees=sorted(left),next_frontier=original['terminal'],
         pending_buffers=len(buffers),checkpoint_fields=len(states),fixture_seconds=time.perf_counter()-checked,
         total_operation_seconds=time.perf_counter()-started,original_capture_seconds=original['capture_seconds'])
+    if pending_library: report.update(library_acceptance=pending_library,library_boundary=relative(args.pending_library))
     (record/'validation.json').write_text(json.dumps(report,indent=2)+'\n')
     cache=json.loads((BINARY/'cases/native-traces.json').read_text())
     application_count=len(cache['accepted_application'])

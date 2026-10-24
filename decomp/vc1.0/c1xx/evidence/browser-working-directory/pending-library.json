@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "function": "_browser_working_directory",
+  "case": "member_registry_browser",
+  "library_order": [
+    "__getcwd"
+  ],
+  "accepted_before": 1271,
+  "accepted_prefix_sha256": "02764ea66c27e1013d54688f26ef2a6e4fb40578e58d750d5ed68986e75625ff",
+  "configuration_sha256": "e8d8a39d33f7a8bc4ecbc6ad962493d95426b0192b1978b41e48f8da1a02640d",
+  "native_executable_sha256": "b02e68d2b5c5eceea77b5ef896c3a4c36f6c511ecc23057818b6472303d79fe6",
+  "origin_receipt": "origin-receipt.json",
+  "origin_events": "origin-events.txt",
+  "boundary_receipt": "verified-receipt.json",
+  "original_observation": "verified-original-observation.txt",
+  "native_observation": "verified-native-observation.json",
+  "evidence_sha256": {
+    "verified-original-observation.txt": "3ddb6a381adc9ace2e640723489cadf02e0ef53b747c4232ae6f84cf3a573d01",
+    "verified-native-observation.json": "e221e4de196c9e2d2acdf6f809ab8f0adb905657079594d31160d5a6abf8a39a",
+    "verified-native-gdb.log": "bbd7b4a349f6057b7c41c203cafc3b96601ddd08719dcd0a5e77fea4d2a668c9",
+    "verified-native.gdb": "f15c72f2d20c591b4e24ed699408b53e2bbc258c9fa7af62577f16ea88dca609",
+    "verified-receipt.json": "6301177c5ff7b92ea01332fcd55f9c604aeccf71cfc36231d99a0414e411f19c",
+    "origin-receipt.json": "f833570305d4812b1498205286ffc0dc182e9e3dacf3c4ce8706d1ed1943c9ca",
+    "origin-events.txt": "78d33b8df2cfea65eccd82e1f9801c7ddcbbc6a59f4685c4994a38003126e54b",
+    "teb-reader-binding.json": "392160245cc727848fdefdddce494e348d2d1ca15cd7f9187080d8d1f2d6530d",
+    "wine-getlasterror-disassembly.txt": "01770684456a7523f1c33fa822f3ce63475d04d8f463e6c6456f7f5fe7750662"
+  },
+  "scope": "One actual shipped GETCWD.OBJ32B first entry, exact ABI/relocation and caller256B buffer result/errors/FP; no new CRT source or application credit. Original boundary reused unchanged; corrected immutable e4 native pin.",
+  "shared_pin": {
+    "schema": 1,
+    "commit": "e4f17cae9e32249373f16cd2a612dc2b8aa24587",
+    "tree": "50e097cf4a1104db7ea2400b11296bae5e8313e9",
+    "verification": "Reviewed immutable Git commit/tree and per-file manifest; refresh invoked with --pin-commit",
+    "policy": "Deliberate committed-source reference; ignore evolving shared worktree contents until explicitly refreshed",
+    "previous_references": [
+      {
+        "commit": "23dd0e2aa23bacb970408dad7168a2479fa8a4be",
+        "tree": "35875f48d7bdba1ac878fd9416d58c000a009a5c"
+      },
+      {
+        "commit": "499e1fe81eed52a6807d1577468b73d5b6df0898",
+        "tree": "6836ab62e54629bcaadf01017b51b99ce0d4e369"
+      },
+      {
+        "commit": "410fea959714b77efb2e45161f83e7c82857ca03",
+        "tree": "c8e4b0ef2e74ceea54bf6f96f439f6ec950df61c"
+      },
+      {
+        "commit": "6f61ec34eb71e071c747feda82e663e589fff9ef",
+        "tree": "e632207f009cd5e0ca6159be1c818cb0a5d9a327"
+      },
+      {
+        "commit": "bf7d2cbfdbe1a071c1cd79d4c8ec46b8b8f23ccc",
+        "tree": "364e7bc295f79c11f63bdca0430c5ff4881cfb2b"
+      }
+    ],
+    "storage": "git-blobs"
+  }
+}

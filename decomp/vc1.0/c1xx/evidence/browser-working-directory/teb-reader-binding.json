@@ -1,0 +1,11 @@
+{
+  "installed_path": "/usr/lib/i386-linux-gnu/wine/i386-windows/kernelbase.dll",
+  "prefix_path": "/root/.ai-tmp/vc1.0-capture/wine/drive_c/windows/system32/kernelbase.dll",
+  "sha256": "0487dccab70545e92be2cd427c0f5255928f2a39d03113ab171ec2609c9611e3",
+  "export": "GetLastError",
+  "body_address": 2064110464,
+  "body": "MOV EAX,FS:[18h]; MOV EAX,[EAX+34h]; RET",
+  "owner": "Actual stopped child CONTEXT.SegFs\u2192GetThreadSelectorEntry descriptor base; require DWORD(base+18h)==base before reading actual DWORD(base+34h). No observer GetLastError substitution or target call.",
+  "error_globals": "Exact existing GETDCWD.OBJ relocation identity binds _errno0xaaa4c and __doserrno0xaaa50; both8B read success required",
+  "fp": "GetThreadContext(CONTEXT_FULL|CONTEXT_FLOATING_POINT) success required; actual CW/status/tags before/after, no seed/unused FP payload claim"
+}

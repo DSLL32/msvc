@@ -71,6 +71,9 @@ build/reference-realloc-observer.exe: build/reference-realloc-observer.obj
 build/reference-empty-include-observer.obj: src/reference-empty-include-observer.c src/debug-run.c
 build/reference-empty-include-observer.exe: build/reference-empty-include-observer.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
+build/reference-cwd-observer.obj: src/reference-cwd-observer.c src/debug-run.c
+build/reference-cwd-observer.exe: build/reference-cwd-observer.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 build/reference-string-observer.obj: src/reference-string-observer.c src/debug-run.c
 build/reference-string-observer.exe: build/reference-string-observer.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<

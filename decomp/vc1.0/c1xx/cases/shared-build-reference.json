@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "commit": "bf7d2cbfdbe1a071c1cd79d4c8ec46b8b8f23ccc",
-  "tree": "364e7bc295f79c11f63bdca0430c5ff4881cfb2b",
+  "commit": "e4f17cae9e32249373f16cd2a612dc2b8aa24587",
+  "tree": "50e097cf4a1104db7ea2400b11296bae5e8313e9",
   "verification": "Reviewed immutable Git commit/tree and per-file manifest; refresh invoked with --pin-commit",
   "policy": "Deliberate committed-source reference; ignore evolving shared worktree contents until explicitly refreshed",
   "previous_references": [
@@ -20,6 +20,10 @@
     {
       "commit": "6f61ec34eb71e071c747feda82e663e589fff9ef",
       "tree": "e632207f009cd5e0ca6159be1c818cb0a5d9a327"
+    },
+    {
+      "commit": "bf7d2cbfdbe1a071c1cd79d4c8ec46b8b8f23ccc",
+      "tree": "364e7bc295f79c11f63bdca0430c5ff4881cfb2b"
     }
   ],
   "storage": "git-blobs"

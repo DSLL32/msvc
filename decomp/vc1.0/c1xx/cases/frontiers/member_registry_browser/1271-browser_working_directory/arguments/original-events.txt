@@ -1,0 +1,28 @@
+exception 80000003 rva 00059aa0 base 00010000 first 1
+buffer 0 1 00
+buffer 1 0 
+buffer 2 0 
+buffer 3 0 
+buffer 4 0 
+buffer 5 5 0002000700
+state 0 00000000
+state 1 00000001
+state 2 00000000
+state 3 00000000
+state 4 ffffffff
+state 5 00000000
+state 6 00000000
+state 7 00000000
+state 8 00000064
+state 9 00000000
+state 10 00000000
+state 11 00000000
+state 12 00000000
+state 13 00000000
+caller 0001ae20
+argument 0 00094b44
+argument 1 00094b44
+argument 2 00000000
+argument 3 0002b657
+argument-words requested 4 actual 4 context 1
+exit 99

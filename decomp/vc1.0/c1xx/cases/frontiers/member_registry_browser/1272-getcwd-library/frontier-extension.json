@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "accepted_before": 1272,
+  "accepted": "__getcwd",
+  "terminal": "_write_ir_string",
+  "original_capture": "cases/frontiers/member_registry_browser/1271-browser_working_directory/original-receipt.json",
+  "original_capture_sha256": "104b6a0e2196e41cf72695d2d8c04ffd8a0a83df72d341bc127abe00babbdca5",
+  "original_events": "cases/frontiers/member_registry_browser/1271-browser_working_directory/original-events.txt",
+  "original_events_sha256": "090057e2747c8341d8994e70047160545002b2fd5d111875fb14ea708a4db41a",
+  "original_configuration": "cases/frontiers/member_registry_browser/1271-browser_working_directory/original-configuration.json",
+  "scope": "Exact shipped GETCWD.OBJ32B/REL32/ABI, genuine first entry and complete caller-buffer return proof; zero application/source credit",
+  "pending_library_evidence": "evidence/browser-working-directory/pending-library.json",
+  "pending_library_evidence_sha256": "7f35bb299a6b34351d4ef78ccba56f99970a6c4dc5c6afb9d73e473950964cdb",
+  "downstream_comparison": "cases/frontiers/member_registry_browser/1271-browser_working_directory/validation.json"
+}

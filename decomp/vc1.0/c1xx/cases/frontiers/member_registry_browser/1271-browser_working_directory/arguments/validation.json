@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_browser_working_directory",
+  "case": "member_registry_browser",
+  "accepted_before": 1271,
+  "configuration_sha256": "e8d8a39d33f7a8bc4ecbc6ad962493d95426b0192b1978b41e48f8da1a02640d",
+  "native_entry": "browser_working_directory",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      432800,
+      432888
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl0 charpointer EAX RET0",
+    "proof": "Whole88B: signedremaininga277c<256 refill_arena(compiler_arenaa2740,poola2770); poola2770=compiler_arena.pools[2] exactly8+2*20, next+8/remaining+12 alreadydefined audited128BArena. EAX=nexta2778, remaining-=256,next+=256, ifconfiguration.option_Brepro9f828==0 callshipped _getcwd(EAX,256) and returnitsactualEAX (NULLpossible); otherwisewrite . NUL toallocatedbuffer/returnpointer. Two existinglibrary/appcallees, no newCRTsource/data/graphwaiver; no incomingformals/hiddenregister/flags/x87inputs. Correctcaptured canonicalcwd is actualcaseinput, no pathnormalization or guessed drive.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "b02e68d2b5c5eceea77b5ef896c3a4c36f6c511ecc23057818b6472303d79fe6",
+  "capture_timing": {
+    "original_capture_seconds": 1.6186409089714289,
+    "native_capture_seconds": 0.18037586007267237,
+    "total_operation_seconds": 2.0732157677412033
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "c22213bee86af01c5899be73e382b688dd9e37b6fe73aaac085ef5413f9b39ea",
+    "native-commands.gdb": "69792ac994f6233343019e717bee1aa033eaf5f29a7c124e111ca6fc7f1acc30",
+    "native-gdb.log": "84882824c63a26dd29ffe953e913c8932808c099d135843b5315d1de985eccb4",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "a0fb22e47d0f6e7361a269e1910d6287de31efefbdddb001029f7e95eef2bd17",
+    "original-configuration.json": "e8d8a39d33f7a8bc4ecbc6ad962493d95426b0192b1978b41e48f8da1a02640d",
+    "original-disassembly.txt": "0d76a23b1ed30d7732c12a46defa21a32ff45c085a7d3efb54e037c421b56b08",
+    "original-events.txt": "798f72e19cae7db04f9569e673716452efccd90007ccbb799d05991f01949b9f",
+    "original-receipt.json": "5cc8d44e48ddcd9fce1bb00bf2615b8d31490de46c106acdc41c8e449feb754c",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "f2dc2afa8925e942de99749e0ed75289c90627d1680b034df53158083d8934c9"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

@@ -1,6 +1,7 @@
 /* Browse-information stream setup and record transport. */
 #include "browser.h"
 #include "initialization.h"
+#include <direct.h>
 #include <recon.h>
 
 /* Original 0x2bfe0..0x2c04f. Use the browser's separate temporary
@@ -294,3 +295,21 @@ void __stdcall serialize_browser_record(BrowserRecord *record, int track_symbols
 }
 #undef BROWSER_TRACK_INDEX
 #undef BROWSER_WRITE_SHORT
+
+/* Original 0x69aa0..0x69af7. Reserve a complete 256-byte path in
+   compiler pool 2, retaining _getcwd's return on ordinary builds. */
+char *browser_working_directory(void)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    char *directory;
+    if (pool->remaining < 256)
+        refill_arena(&compiler_arena, pool);
+    directory = (char *)pool->next;
+    pool->remaining -= 256;
+    pool->next += 256;
+    if (!options.configuration.option_Brepro)
+        return _getcwd(directory, 256);
+    directory[0] = '.';
+    directory[1] = 0;
+    return directory;
+}

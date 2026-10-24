@@ -1,10 +1,10 @@
 C1XX3232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 ==========================================================
 
-PARTIAL binary reconstruction: 1271 accepted frontiers, including 1166 frontend
+PARTIAL binary reconstruction: 1273 accepted frontiers, including 1167 frontend
 functions and seven older CRT functions reconstructed as source.
 Complete cases: cpp_basic, virtual_diamond, copy_assignment, stack_lifetime, new_delete, state_machine_defined_debug.
-Active case member_registry_browser stops at _browser_working_directory, original VA 0x69aa0.
+Active case member_registry_browser stops at _write_ir_string, original VA 0x741a0.
 All unimplemented callees remain meaningful named INT3 stubs.
 The user selected preservation of scope entry's original Win32 uninitialized
 token bug, with an explicit native-only INT3 when cached parser lookahead would
@@ -78,7 +78,7 @@ The distinct defined-debug successor keeps the scalar cache and adds substantial
 multiple-base member-pointer conversions, round trips and virtual calls.
 cases/reconstruction-queue.json records completion and subsequent case review.
 
-Accepted original extents cover 310582 / 476418 code-section bytes (65.191072%).
+Accepted original extents cover 310702 / 476418 code-section bytes (65.216260%).
 The union includes function bodies, shared text data, positively identified CRT and import
 thunks, clipped to section VirtualSize (backed raw size only if zero). This is
 not branch coverage. Whole functions include statically recovered unvisited paths.
@@ -92,9 +92,13 @@ reached inputs must match or hold. This adds no application/source function cred
 
 Native build and regressions
 ----------------------------
-The reviewed shared bf7d2cbfd pin uses RECON_NATIVE_STARTUP_CONTROLFP_53.
+The reviewed shared e4f17cae9 pin uses RECON_NATIVE_STARTUP_CONTROLFP_53.
 This reproduces original main-entry CW027f/status0/tagsffff without an app call
 or entry rename; evidence/startup-precision53 records the original/native check.
+The later e4 refresh corrects a reached successful _getcwd errno clobber through
+shared _fullpath. evidence/browser-working-directory retains the old failure,
+unchanged original boundary and corrected full-buffer/return/errors/FP proof;
+all eight native cached phases pass. Shipped GETCWD.OBJ is library-only credit.
 
 Run from this binary directory:
 
@@ -120,7 +124,7 @@ cases/original-entry-references.json binds fresh original first-entry plans,
 raw events and capture receipts. Each debugger first-entry trap is checked,
 restored, instruction-cache flushed and EIP rewound. Missing/out-of-order entries,
 unexpected exceptions and early exit reject the capture. functions.json retains
-the ordered 1271-entry acceptance provenance and full original extents; the cache
+the ordered 1273-entry acceptance provenance and full original extents; the cache
 also classifies exact CRT/import entries. The projection cache is rebuilt only
 explicitly after verified metadata changes:
 
