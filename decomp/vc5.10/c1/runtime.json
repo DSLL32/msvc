@@ -112,13 +112,6 @@
     "evidence": "genuine internal-switch scanner callee; named INT3 entry only"
   },
   {
-    "name": "_read_env_arguments",
-    "start": 274804615,
-    "end": 274804616,
-    "pending_extent": true,
-    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
-  },
-  {
     "name": "_duplicate_argument",
     "start": 274866634,
     "end": 274866635,
@@ -194,5 +187,12 @@
     "end": 274857079,
     "pending_extent": true,
     "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
+  },
+  {
+    "name": "_get_argument_append_slot",
+    "start": 274983823,
+    "end": 274983824,
+    "pending_extent": true,
+    "evidence": "actual no-argument allocation/append-slot helper called by read_env_arguments non-NULL branch; typed named INT3 only"
   }
 ]

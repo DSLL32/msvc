@@ -28,5 +28,5 @@
     "minimalin",
     "minimalsy"
   ],
-  "status": "71 application +2 historic CRT source functions accepted; path-fold initializer and own CP1252 API vectors reach read_env_arguments(NULL)12f87; minimal compilation incomplete"
+  "status": "72 application +2 historic CRT source functions accepted; NULL environment tokenizer returns, warning defaults set; genuine new_option_vector(40,1) frontier11e3c; compilation incomplete"
 }

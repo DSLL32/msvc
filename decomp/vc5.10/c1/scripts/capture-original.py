@@ -144,6 +144,8 @@ def main():
     if candidate.get("path_fold_observers"):
         (output/"path-fold-observers.txt").write_text("12f3e 5d05c a5d3\n")
         shutil.copy2(PROJECT/"scripts/path-fold-observer.inc",output/"path-fold-observer.inc")
+    if candidate.get("environment_argument_observers"):
+        (output/"environment-argument-observers.txt").write_text("12f87 12bb3 11e3c\n")
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))

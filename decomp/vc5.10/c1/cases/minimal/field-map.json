@@ -6498,7 +6498,7 @@
         23897
       ]
     ],
-    "hard_frontier_rva": 77703,
+    "hard_frontier_rva": 73276,
     "policy": "reviewed specific internal transfer; tail remains UNMODELED and cannot be semantically consumed before a named trap"
   },
   "pdb_signature": {
@@ -6982,11 +6982,11 @@
     "initialized_known_bytes": 1836,
     "initialized_unknown_bytes": 4712,
     "native_initialized_size": 2348,
-    "native_bss_size": 1860,
+    "native_bss_size": 2372,
     "initialized_offset": 64,
     "bss_offset": 996,
     "persistent_current_pdb_rva": 376936,
-    "unknown_semantic_consumer_frontier": 77703,
+    "unknown_semantic_consumer_frontier": 73276,
     "option_rule_rva": 404344,
     "option_rule_count": 85,
     "z_rule_rva": 404200,

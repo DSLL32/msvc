@@ -6,16 +6,16 @@ from path_fold_fields import expected_fields,read,seed,RVA,SIZE
 from allocation_state import symbols,call
 from scaler_state import semantic,original_fp
 
-def validate(original,native,candidate,report):
+def validate(original,native,candidate,report,stage_state=None):
  from provenance import PROJECT
  fields=json.loads((PROJECT/candidate['field_map']).read_text());expected_fields(fields)
  own=check_original(original);binary=captured_native_binary(native);names=symbols(binary)
  from path_fold_layout import validate_native_schema,validate_bound_inputs
  validate_native_schema(native,names['c1_bss'][1])
- layout_derivation=validate_bound_inputs(original,native)
+ layout_derivation=validate_bound_inputs(original,native)if stage_state is None else None
  entries=json.loads((native/'path-fold-entries.json').read_text());returns=json.loads((native/'path-fold-returns.json').read_text());calls=json.loads((native/'path-fold-calls.json').read_text())
  assert len(entries)==len(returns)==1 and len(calls)==own['calls']
- entry,end=entries[0],returns[0];state=json.loads((native/'state.json').read_text())
+ entry,end=entries[0],returns[0];state=stage_state if stage_state is not None else json.loads((native/'state.json').read_text())
  assert entry['pc']==names['initialize_path_fold_table'][0]and entry['symbol']=='initialize_path_fold_table'
  assert entry['formal_inventory']==[]and entry['return']==entry['caller']['pc']and entry['caller']['symbol']=='parse_command_line'
  call(binary,entry['return'],entry['pc'])
@@ -32,7 +32,7 @@ def validate(original,native,candidate,report):
  table=read((original/'path-fold-complete-target-BSS.bin').read_bytes());wanted=copy.deepcopy(entry['compiler_state']);wanted['path_fold']=table
  assert end['compiler_state']==state['compiler_state']==wanted
  assert state['symbol']=='read_env_arguments'and state['args']==dict(arguments=0)and state['formal_inventory']==[dict(name='arguments',type='char *')]
- assert names['read_env_arguments'][0]<state['pc']<=sum(names['read_env_arguments'])
+ assert state['pc']==names['read_env_arguments'][0]if stage_state is not None else names['read_env_arguments'][0]<state['pc']<=sum(names['read_env_arguments'])
  assert state['caller']['symbol']=='parse_command_line'and state['caller']['args']==entry['caller']['args'];call(binary,state['caller']['pc'],names['read_env_arguments'][0])
  getters=json.loads((native/'path-fold-getenv-entries.json').read_text());getter_returns=json.loads((native/'path-fold-getenv-returns.json').read_text());assert len(getters)==len(getter_returns)==1
  get,got=getters[0],getter_returns[0]

@@ -1,0 +1,144 @@
+{
+  "status": "PASS",
+  "scope": "fresh affected tokenizer ABI/state/caller/whole-state checks; unchanged full-prefix controls reused",
+  "positive_sha256": "a6d62607411b50c0b1570da2faca7827ef9d9df1d887316b1c713a9084c45119",
+  "execution_receipts": {
+    "original": "5ce7e237644edb89e61fac83368e351962f0746baba24f08ee65b64a61c5b9fc",
+    "native": "5378879712b60f9fecb62219d8482629c593cdc5e9c95f43d905637fc0b0ba12"
+  },
+  "checker_sha256": "0b7da1a954e8a0dd957f03410b1a847f3916a3fd398517a3c46ab01d260cf3fc",
+  "controller_sha256": "525603743b6cb7f913f540cfd2d634a0b8ca826eb50e69ba6f32a2f0ff43e5ce",
+  "controls": [
+    {
+      "side": "native",
+      "control": "input-nonNULL",
+      "seconds": 0.03875188436359167
+    },
+    {
+      "side": "native",
+      "control": "raw-stack-input",
+      "seconds": 0.03987180907279253
+    },
+    {
+      "side": "native",
+      "control": "missing-formal",
+      "seconds": 0.04071056470274925
+    },
+    {
+      "side": "native",
+      "control": "wrong-formal-type",
+      "seconds": 0.038169133476912975
+    },
+    {
+      "side": "native",
+      "control": "wrong-entry-PC",
+      "seconds": 0.0438940329477191
+    },
+    {
+      "side": "native",
+      "control": "wrong-caller",
+      "seconds": 0.04076720401644707
+    },
+    {
+      "side": "native",
+      "control": "missing-call",
+      "seconds": 0.040079846046864986
+    },
+    {
+      "side": "native",
+      "control": "return-PC",
+      "seconds": 0.04387910012155771
+    },
+    {
+      "side": "native",
+      "control": "cdecl-cleanup",
+      "seconds": 0.04428726248443127
+    },
+    {
+      "side": "native",
+      "control": "callee-save",
+      "seconds": 0.04267201665788889
+    },
+    {
+      "side": "native",
+      "control": "return-state-write",
+      "seconds": 0.04394443705677986
+    },
+    {
+      "side": "native",
+      "control": "full-FP-status",
+      "seconds": 0.04452116787433624
+    },
+    {
+      "side": "native",
+      "control": "warning-default",
+      "seconds": 0.05037208180874586
+    },
+    {
+      "side": "native",
+      "control": "warning-neighbor",
+      "seconds": 0.05079999566078186
+    },
+    {
+      "side": "native",
+      "control": "next-count",
+      "seconds": 0.05144846998155117
+    },
+    {
+      "side": "native",
+      "control": "next-mode",
+      "seconds": 0.05054168589413166
+    },
+    {
+      "side": "native",
+      "control": "omitted-next-formal",
+      "seconds": 0.05163995549082756
+    },
+    {
+      "side": "native",
+      "control": "wrong-next-PC",
+      "seconds": 0.049993639811873436
+    },
+    {
+      "side": "original",
+      "control": "entry-registers",
+      "seconds": 0.0033617326989769936
+    },
+    {
+      "side": "original",
+      "control": "return-address",
+      "seconds": 0.003203870728611946
+    },
+    {
+      "side": "original",
+      "control": "return-cleanup",
+      "seconds": 0.003272036090493202
+    },
+    {
+      "side": "original",
+      "control": "callee-save",
+      "seconds": 0.0034042280167341232
+    },
+    {
+      "side": "original",
+      "control": "entry-FP",
+      "seconds": 0.007236262783408165
+    },
+    {
+      "side": "original",
+      "control": "unknown-data-write",
+      "seconds": 0.0067513082176446915
+    },
+    {
+      "side": "original",
+      "control": "BSS-neighbor-write",
+      "seconds": 0.00675338227301836
+    },
+    {
+      "side": "original",
+      "control": "snapshot-write",
+      "seconds": 0.0066518718376755714
+    }
+  ],
+  "seconds": 3.458765952847898
+}

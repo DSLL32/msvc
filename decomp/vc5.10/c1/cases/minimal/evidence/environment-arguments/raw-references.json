@@ -1,0 +1,54 @@
+{
+  "minimal-env-arguments-002": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-env-arguments-002",
+    "receipt_sha256": "5ce7e237644edb89e61fac83368e351962f0746baba24f08ee65b64a61c5b9fc",
+    "kind": "explicit-original-capture",
+    "seconds": 5.374471505172551,
+    "candidate_sha256": "628d32efb689361a535775bf6f4eee80dd1a7c61440909f8cac5071c986187ff",
+    "config_sha256": "a14f027f9fb7610432888b622155677c9199c52af5e875ba8985e7dac1feaecd",
+    "helper_or_elf_sha256": "b18be9835ad5a5af949835078a9bf1c81e834ea6f3de8f29eaa7a6c40ec8c775",
+    "all_artifacts": "complete size/SHA inventory retained in immutable receipt"
+  },
+  "minimal-env-arguments-restore-002": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-env-arguments-restore-002",
+    "receipt_sha256": "f51f9f4335e1ec52d3ff1aca513408a1d5f21046111994d913f0a650d882e48e",
+    "kind": "explicit-original-capture",
+    "seconds": 5.92680016066879,
+    "candidate_sha256": "628d32efb689361a535775bf6f4eee80dd1a7c61440909f8cac5071c986187ff",
+    "config_sha256": "a14f027f9fb7610432888b622155677c9199c52af5e875ba8985e7dac1feaecd",
+    "helper_or_elf_sha256": "b18be9835ad5a5af949835078a9bf1c81e834ea6f3de8f29eaa7a6c40ec8c775",
+    "all_artifacts": "complete size/SHA inventory retained in immutable receipt"
+  },
+  "native-minimal-env-arguments-001": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-env-arguments-001",
+    "receipt_sha256": "5378879712b60f9fecb62219d8482629c593cdc5e9c95f43d905637fc0b0ba12",
+    "kind": "native-gdb-frontier",
+    "seconds": 6.952233234420419,
+    "candidate_sha256": "628d32efb689361a535775bf6f4eee80dd1a7c61440909f8cac5071c986187ff",
+    "config_sha256": "a14f027f9fb7610432888b622155677c9199c52af5e875ba8985e7dac1feaecd",
+    "helper_or_elf_sha256": "b18be9835ad5a5af949835078a9bf1c81e834ea6f3de8f29eaa7a6c40ec8c775",
+    "all_artifacts": "complete size/SHA inventory retained in immutable receipt"
+  },
+  "native-minimal-env-arguments-restore-001": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-env-arguments-restore-001",
+    "receipt_sha256": "d987b9f2111a7f8c57325142faf059da75aea4d33083a2e648059bf72d14b0f7",
+    "kind": "native-gdb-frontier",
+    "seconds": 7.358255443163216,
+    "candidate_sha256": "628d32efb689361a535775bf6f4eee80dd1a7c61440909f8cac5071c986187ff",
+    "config_sha256": "a14f027f9fb7610432888b622155677c9199c52af5e875ba8985e7dac1feaecd",
+    "helper_or_elf_sha256": "b18be9835ad5a5af949835078a9bf1c81e834ea6f3de8f29eaa7a6c40ec8c775",
+    "all_artifacts": "complete size/SHA inventory retained in immutable receipt"
+  },
+  "minimal-env-arguments-001": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-env-arguments-001",
+    "receipt_sha256": "5f8b3e57ec520241222817d24ea10bd7a9611dc599511244685f62f9c0e4af03",
+    "kind": "explicit-original-capture",
+    "seconds": 1.417336936108768
+  },
+  "minimal-env-arguments-restore-001": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-env-arguments-restore-001",
+    "receipt_sha256": "0c6274c5c2afe8637996fb57558fea9641ac8ec9fc66292d46534439bb63d191",
+    "kind": "explicit-original-capture",
+    "seconds": 1.6182844806462526
+  }
+}

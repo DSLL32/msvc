@@ -1510,6 +1510,7 @@ int main(int argc, char **argv)
                 if (pool_cycle_probe && pool_observer_index(address) >= 0) observe_pool_commit(&context, address, thread);
                 if(isolated_locale_probe && mb_complete && address==base+0x12f3e)locale_snapshot("next",&context,thread,event.dwThreadId);
                 if(path_fold_probe && address==base+0x12f3e)path_fold_enter(&context);
+                if(path_fold_probe && address==base+0x12f87)environment_enter(&context);
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;

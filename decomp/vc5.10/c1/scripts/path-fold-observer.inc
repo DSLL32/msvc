@@ -3,6 +3,9 @@
 static int path_fold_probe, path_fold_api_active, path_fold_return_active;
 static int path_fold_helper_active;
 static DWORD path_fold_api, path_fold_calls, path_fold_argument;
+static int environment_probe, environment_return_active;
+static DWORD environment_entry_esp;
+static BYTE environment_return_saved;
 static DWORD path_fold_api_esp, path_fold_helper_esp;
 static BYTE path_fold_api_saved, path_fold_return_saved, path_fold_helper_saved;
 
@@ -25,6 +28,15 @@ static void path_fold_prepare(void)
     path_fold_helper_saved=snapshot[0x12b80-code_rva];
     if(path_fold_return_saved!=0x83 || path_fold_helper_saved!=0x83)
         fail("path fold return instruction ownership");
+    probe=fopen("environment-argument-observers.txt","r");
+    if(probe) {
+        DWORD returned,frontier;
+        if(fscanf(probe,"%lx %lx %lx",&entry,&returned,&frontier)!=3 || entry!=0x12f87 || returned!=0x12bb3 || frontier!=0x11e3c || fgetc(probe)!='\n' || fgetc(probe)!=EOF)
+            fail("environment argument observer plan");
+        fclose(probe);environment_probe=1;
+        environment_return_saved=snapshot[0x12bb3-code_rva];
+        if(environment_return_saved!=0xa1)fail("environment return ownership");
+    }
     path_fold_probe=1;
     fprintf(events,"path-fold-observer entry=00012f3e iat=0005d05c provider=0000a5d3 table=00055928 bytes=512 no-query-calls=1\n");
 }
@@ -80,11 +92,39 @@ static void path_fold_record(unsigned phase,DWORD address,CONTEXT *context,HANDL
     fprintf(events,"path-fold-api phase=%s index=%lu seq=%u pc=%08lx esp=%08lx argument=%lu result=%08lx\n",phase?"return":"entry",path_fold_calls,sequence,address,context->Esp,path_fold_argument,context->Eax);
 }
 
+static void environment_record(const char *phase,DWORD address,CONTEXT *context)
+{
+    DWORD words[12],stack[2];char name[100];
+    readmem(context->Esp,stack,sizeof(stack));
+    words[0]=sequence;words[1]=address;words[2]=context->Esp;
+    words[3]=context->Eax;words[4]=context->Ebx;words[5]=context->Esi;
+    words[6]=context->Edi;words[7]=context->Ebp;words[8]=stack[0];
+    words[9]=stack[1];words[10]=environment_entry_esp;words[11]=base;
+    sprintf(name,"environment-%s-registers.bin",phase);save_blob(name,words,sizeof(words));
+    sprintf(name,"environment-%s-fp.bin",phase);save_blob(name,&context->FloatSave,sizeof(context->FloatSave));
+    sprintf(name,"environment-%s",phase);save_frontend_state(name);
+    fprintf(events,"environment-argument phase=%s seq=%u pc=%08lx esp=%08lx entry-esp=%08lx\n",phase,sequence,address,context->Esp,environment_entry_esp);
+}
+
+static void environment_enter(CONTEXT *context)
+{
+    DWORD stack[2];
+    if(!environment_probe)return;
+    readmem(context->Esp,stack,sizeof(stack));
+    if(environment_return_active || stack[0]!=base+0x12bb3 || stack[1])fail("actual NULL environment input");
+    environment_entry_esp=context->Esp;
+    environment_record("entry",base+0x12f87,context);
+    patch(base+0x12bb3,0xcc);environment_return_active=1;
+}
+
 static int path_fold_boundary(DWORD address,CONTEXT *context,HANDLE thread,DWORD tid)
 {
     DWORD stack[2];
     if(!path_fold_probe)return 0;
-    if(path_fold_api_active && address==path_fold_api) {
+    if(environment_return_active && address==base+0x12bb3) {
+        environment_record("return",address,context);save_state();
+        patch(address,environment_return_saved);environment_return_active=0;
+    } else if(path_fold_api_active && address==path_fold_api) {
         readmem(context->Esp,stack,sizeof(stack));
         if(!mb_complete || stack[0]!=base+0x12f67 || stack[1]>255 || path_fold_return_active || path_fold_calls>=256)
             fail("actual _mbctolower ABI/caller/inventory");

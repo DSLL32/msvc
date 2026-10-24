@@ -263,7 +263,69 @@ void __cdecl parse_command_line(int argc, char **argv)
     }
 }
 
-void __cdecl read_env_arguments(char *arguments) { __asm { int 3 } }
+/* The environment/response string is tokenized in place. The allocation
+ * helper supplies its append slot; it remains a separate pending function. */
+char **__cdecl get_argument_append_slot(void);
+void __cdecl read_env_arguments(char *arguments)
+{
+    char **slot;
+    char *input, *output;
+    int quoted, copy, slashes;
+
+    if (!arguments)
+        return;
+    slot = get_argument_append_slot();
+    input = arguments;
+    while (*input == ' ')
+        ++input;
+    while (*input) {
+        *slot++ = input;
+        if ((((int)((char *)slot -
+                    (char *)c1_data.options.argument_allocation)) & ~3) >= 800)
+            compiler_error(77, 200);
+        ++c1_bss.command_argc;
+        output = input;
+        quoted = 0;
+        for (;;) {
+            copy = 1;
+            slashes = 0;
+            while (*input == '\\') {
+                ++input;
+                ++slashes;
+            }
+            if (*input == '"') {
+                if (slashes % 2 == 0) {
+                    if (quoted && input[1] == '"')
+                        ++input;
+                    else
+                        copy = 0;
+                    quoted = !quoted;
+                }
+                slashes /= 2;
+            }
+            while (slashes--)
+                *output++ = '\\';
+            if (!*input || (!quoted && *input == ' '))
+                break;
+            if (copy) {
+                if (c1_data.scanner.classes[(unsigned char)*input] == SC_LEAD)
+                    *output++ = *input++;
+                *output++ = *input;
+            }
+            ++input;
+        }
+        while (*input == ' ')
+            ++input;
+        *output = 0;
+    }
+    *slot = NULL;
+}
+
+char **__cdecl get_argument_append_slot(void)
+{
+    __asm { int 3 }
+    return NULL;
+}
 char *__cdecl duplicate_argument(const char *argument, int copy) { __asm { int 3 } return NULL; }
 void __cdecl report_response_error(int code, ...) { __asm { int 3 } }
 void __cdecl stop_compiler(int status, int detail) { __asm { int 3 } }

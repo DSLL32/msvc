@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": "_read_env_arguments",
+  "application_code_bytes": 338,
+  "application_functions": 72,
+  "application_bytes": 5230,
+  "all_code_bytes": 5693,
+  "text_data_bytes": 16,
+  "text_denominator": 322288,
+  "proof_packet_sha256": "e3b72c872f5c414ecb5cc3f563204d0e53a224f7716d50df47f192a244c9865a",
+  "proof_packet": "cases/minimal/environment-argument-review.json",
+  "durable_config_sha256": "a14f027f9fb7610432888b622155677c9199c52af5e875ba8985e7dac1feaecd",
+  "scope": "reached NULL input only; full338B source/graph; nonNULL append-slot allocator remains named trap",
+  "next_frontier": {
+    "rva": 73276,
+    "symbol": "new_option_vector",
+    "count": 40,
+    "mode": 1
+  }
+}

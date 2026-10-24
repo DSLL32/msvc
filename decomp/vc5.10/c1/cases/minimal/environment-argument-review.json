@@ -1,0 +1,134 @@
+{
+  "status": "fresh normal and restore candidate proofs pass",
+  "candidate": "_read_env_arguments",
+  "code_bytes": 338,
+  "chunks": [
+    [
+      77703,
+      77724
+    ],
+    [
+      198620,
+      198937
+    ]
+  ],
+  "scope": "actual NULL entry and cdecl return; complete nonNULL tokenizer source/graph retained, append-slot helper pending",
+  "accepted_before": {
+    "application_functions": 71,
+    "application_code_bytes": 4892
+  },
+  "trial_after": {
+    "application_functions": 72,
+    "application_code_bytes": 5230,
+    "all_source_functions": 74,
+    "all_code_bytes": 5693,
+    "text_data_bytes": 16
+  },
+  "new_fields": false,
+  "known_initialized": 2348,
+  "unknown_initialized": 4200,
+  "native_BSS": 2372,
+  "next_frontier": {
+    "rva": 73276,
+    "symbol": "new_option_vector",
+    "args": {
+      "count": 40,
+      "mode": 1
+    }
+  },
+  "files": {
+    "src/command-line.c": "686c197e99527dcd616787d0c87f8312ec24742dfe89060682380f4493061774",
+    "cases/minimal/candidate.json": "628d32efb689361a535775bf6f4eee80dd1a7c61440909f8cac5071c986187ff",
+    "cases/minimal/trial.json": "a14f027f9fb7610432888b622155677c9199c52af5e875ba8985e7dac1feaecd",
+    "cases/minimal/field-map.json": "ffcf80984ba89c27b501372d16edd89203912a181d2ec6679c0d0f09f6883e14",
+    "scripts/environment_argument_state.py": "0b7da1a954e8a0dd957f03410b1a847f3916a3fd398517a3c46ab01d260cf3fc",
+    "scripts/environment_argument_probe.py": "a1a0b948990978192553bb8b63c8978e1d6ad0f8c969a1db6f40c3748e8a4133",
+    "scripts/path-fold-observer.inc": "f2f1602af659521ac082606dd86167adf2a47a4e8dc5bcfea7109247f990c83b"
+  },
+  "evidence": {
+    "cases/minimal/evidence/environment-arguments/minimal-env-arguments-002-environment-return-fp.bin": "a7bcc92cce85c22d0f3a04e1bf21813e67be129dff515926a31df8af1c8ca5cf",
+    "cases/minimal/evidence/environment-arguments/minimal-env-arguments-restore-002-environment-return-registers.bin": "87ff94ad490c3bd7094e173518fce8a16e77bc855c9f9c0cb2f4c81cae638a50",
+    "cases/minimal/evidence/environment-arguments/raw-references.json": "281e580ea441c0dae5b681901111db114b5db3e921d20caff8282892c2b80f2a",
+    "cases/minimal/evidence/environment-arguments/minimal-env-arguments-restore-002-environment-return-fp.bin": "34eb57f2698b2727418a1eee6da89714b07536b1cf7ec80917985fa642a01419",
+    "cases/minimal/evidence/environment-arguments/minimal-env-arguments-restore-002-environment-entry-fp.bin": "34eb57f2698b2727418a1eee6da89714b07536b1cf7ec80917985fa642a01419",
+    "cases/minimal/evidence/environment-arguments/native-minimal-env-arguments-001-environment-returns.json": "a8a275a13c0d8415bf77da766b827e53c60e71af7eca59553a7bb970a1a4dd21",
+    "cases/minimal/evidence/environment-arguments/native-minimal-env-arguments-001-environment-entries.json": "0d7813bcc3db9536f5b3450152558ceab176375cebb82dc2ccd483d0e2ec7d24",
+    "cases/minimal/evidence/environment-arguments/environment-restore-validation-1.json": "17a16f652fab9e6863f4f1ee8694a8fb96f14dad7eb9139888fb4f1f5bb84cd3",
+    "cases/minimal/evidence/environment-arguments/environment-normal-validation-1.json": "a6d62607411b50c0b1570da2faca7827ef9d9df1d887316b1c713a9084c45119",
+    "cases/minimal/evidence/environment-arguments/minimal-env-arguments-002-environment-entry-registers.bin": "f67af5ac5de83bbd22a1258aebd79771fc4cb34c7d770188f353d50810226fd9",
+    "cases/minimal/evidence/environment-arguments/environment-negative-1.json": "f4d2c38da19d5c77299e0fcd37e56e444aa5ce21b90117da928de65cf9b06362",
+    "cases/minimal/evidence/environment-arguments/native-minimal-env-arguments-restore-001-environment-entries.json": "b52f772bc0421df96539bc57b0e4435366505f7789dbdd761cd200d1bb517f22",
+    "cases/minimal/evidence/environment-arguments/native-minimal-env-arguments-restore-001-environment-returns.json": "31239d11e3009201faa3b38b0e1ab5542103e2ca275c80718c8cd0f001ab03e7",
+    "cases/minimal/evidence/environment-arguments/minimal-env-arguments-002-environment-entry-fp.bin": "a7bcc92cce85c22d0f3a04e1bf21813e67be129dff515926a31df8af1c8ca5cf",
+    "cases/minimal/evidence/environment-arguments/minimal-env-arguments-002-environment-return-registers.bin": "87ff94ad490c3bd7094e173518fce8a16e77bc855c9f9c0cb2f4c81cae638a50",
+    "cases/minimal/evidence/environment-arguments/minimal-env-arguments-restore-002-environment-entry-registers.bin": "f67af5ac5de83bbd22a1258aebd79771fc4cb34c7d770188f353d50810226fd9"
+  },
+  "build": {
+    "native_sha256": "b18be9835ad5a5af949835078a9bf1c81e834ea6f3de8f29eaa7a6c40ec8c775",
+    "native_seconds": 1.6842449977993965,
+    "original": "incremental actual VC5 /Od /MD /G5 compile and link pass; elapsed not instrumented"
+  },
+  "audit": {
+    "schema": 1,
+    "auditor_path": "tooling/graph-audit/target/release/graph-audit",
+    "inputs": {
+      "decomp/vc5.10/c1/cases/minimal/candidate.json": "628d32efb689361a535775bf6f4eee80dd1a7c61440909f8cac5071c986187ff",
+      "decomp/vc5.10/c1/cases/minimal/trial.json": "a14f027f9fb7610432888b622155677c9199c52af5e875ba8985e7dac1feaecd",
+      "decomp/vc5.10/c1/runtime.json": "1e429a09110f423cf6662779130d0a883eb422761fb48640e2f153ca6a317c50",
+      "decomp/vc5.10/c1/runtime-rebuilt.json": "938963e2fe0bd8255adbb6c3ff53ff843b00f9840c3483c8b72b908e55670113",
+      "decomp/vc5.10/c1/build/c1.map": "0596daa7e1bebbbea74d6aff9b9c756e5450c301efcc6597a6346972a6b2cf87",
+      "decomp/vc5.10/c1/build/c1.dll": "a830c84f42f99aec539ebceeac9824b4158dfb253b93fa5aa0bfc5241de982b5",
+      "decomp/vc5.10/c1/build/native/c1-host": "b18be9835ad5a5af949835078a9bf1c81e834ea6f3de8f29eaa7a6c40ec8c775",
+      "toolchains/5.10/bin/C1.DLL": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+      "tooling/graph-audit/target/release/graph-audit": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24",
+      "decomp/vc5.10/c1/cases/minimal/field-map.json": "ffcf80984ba89c27b501372d16edd89203912a181d2ec6679c0d0f09f6883e14",
+      "decomp/vc5.10/c1/cases/minimal/audit-metadata.json": "36a37001bf1de8dd058ce2203a582b27ba5f4fcc724322d44123d5efdd53b246",
+      "decomp/vc5.10/c1/cases/minimal/allocation-preservation.json": "597fce87fdab27e4ef38338f40298773ce58fbcaf9ba8100da17ddacd7156a18",
+      "decomp/vc5.10/c1/cases/minimal/command-line-preservation.json": "b8323576f10101c25049d769decf0109d1d3d8ad5359dd7c3f9b9f60f4d018ca",
+      "decomp/vc5.10/c1/cases/minimal/path-fold-imports.json": "d37947e7da7f9a9af374859dcbbbfa75314af8b57cd00bf333245b3ea446c96c"
+    },
+    "report_sha256": "0e0af8680db3e501d89701a80ae61af583c6fff5269bf736e708383619b6d2fa",
+    "command": [
+      "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+      "--profile",
+      "cl",
+      "--discovery",
+      "cfg",
+      "--repo",
+      "/root/msvc2",
+      "--project",
+      "/root/msvc2/decomp/vc5.10/c1",
+      "--original",
+      "/root/msvc2/toolchains/5.10/bin/C1.DLL",
+      "--rebuilt",
+      "/root/msvc2/decomp/vc5.10/c1/build/c1.dll",
+      "--map",
+      "/root/msvc2/decomp/vc5.10/c1/build/c1.map",
+      "--config",
+      "/root/msvc2/decomp/vc5.10/c1/cases/minimal/trial.json",
+      "--runtime",
+      "/root/msvc2/decomp/vc5.10/c1/runtime.json",
+      "--rebuilt-runtime",
+      "/root/msvc2/decomp/vc5.10/c1/runtime-rebuilt.json",
+      "--check-imports",
+      "--check-ret",
+      "--check-ownership",
+      "--check-extents",
+      "--metadata",
+      "/root/msvc2/decomp/vc5.10/c1/cases/minimal/audit-metadata.json",
+      "--resolve-register-imports"
+    ],
+    "seconds": 0.04494160134345293
+  },
+  "fixtures": {
+    "lifecycle_native_seconds": 0.004778765141963959,
+    "exports": "exact1/2 andRET4/12 pass"
+  },
+  "controls": {
+    "fresh": 26,
+    "seconds": 3.458765952847898,
+    "unchanged_prefix": "reused prior immutable controls; complete current positives freshly validated",
+    "no_full_unknown_byte_equivalence": true
+  },
+  "retained_failures": "two first originals rejected before startup body by observer expecting83 instead of actualA1 at return; authentic instruction corrected and fresh pair captured; original failures unchanged"
+}

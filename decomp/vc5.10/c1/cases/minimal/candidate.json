@@ -433,6 +433,11 @@
       "entry": 1
     },
     {
+      "start_rva": 77703,
+      "end_rva": 77724,
+      "entry": 1
+    },
+    {
       "start_rva": 178328,
       "end_rva": 178358,
       "entry": 0
@@ -530,6 +535,11 @@
     {
       "start_rva": 198610,
       "end_rva": 198620,
+      "entry": 0
+    },
+    {
+      "start_rva": 198620,
+      "end_rva": 198937,
       "entry": 0
     }
   ],
@@ -1608,7 +1618,24 @@
         ]
       ],
       "source": "src/scanner.c",
-      "status": "trial only; public _mbctolower success held until shared review and actual native proof"
+      "status": "accepted prefix"
+    },
+    {
+      "name": "_read_env_arguments",
+      "native_symbol": "read_env_arguments",
+      "role": "application",
+      "chunks": [
+        [
+          77703,
+          77724
+        ],
+        [
+          198620,
+          198937
+        ]
+      ],
+      "status": "trial body; not yet accepted",
+      "source": "src/command-line.c"
     }
   ],
   "text_data": [
@@ -1630,16 +1657,17 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 77703,
-    "native_symbol": "read_env_arguments",
-    "kind": "path-fold-complete",
+    "rva": 73276,
+    "native_symbol": "new_option_vector",
+    "kind": "environment-arguments-complete",
     "calling_convention": "cdecl",
     "native_args": [
-      "arguments"
+      "count",
+      "mode"
     ],
     "caller": {
       "native_symbol": "parse_command_line",
-      "return_rva": 76723
+      "return_rva": 76779
     }
   },
   "imports": [
@@ -1925,7 +1953,7 @@
     },
     "path_fold": "labeled reset-before-clear and helper-entry nonzero WORD table seeds; no snapshot ownership"
   },
-  "staging_role": "real72-byte scanner candidate; no app acceptance until genuine native/reference pair matches; original-only CRT suffix is analysis",
+  "staging_role": "sole338-byte environment argument tokenizer candidate; actual reached NULL path followed by first40,1 vector allocation",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -2120,5 +2148,11 @@
     "table_rva": 350504,
     "table_bytes": 512,
     "analysis_only_until_native_success": true
+  },
+  "environment_argument_observers": {
+    "entry_rva": 77703,
+    "return_rva": 76723,
+    "argument": null,
+    "accepted_input_scope": "NULL only; full non-NULL tokenizer body retained, allocator pending"
   }
 }

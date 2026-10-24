@@ -30,7 +30,7 @@ def validate(original,native,candidate,report,stage_state=None):
  project=Path(__file__).resolve().parents[1];fields=json.loads((project/candidate['field_map']).read_text());expected_fields(fields)
  following=stage_state is not None
  if following:
-  assert candidate.get('path_fold_observers')and candidate['expected_frontier']['kind']=='path-fold-complete'and candidate['expected_frontier']['rva']==0x12f87
+  assert candidate.get('path_fold_observers')and (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('path-fold-complete',0x12f87),('environment-arguments-complete',0x11e3c)]
  else:assert candidate['expected_frontier']==dict(rva=0x12f3e,native_symbol='initialize_option_input_12f3e',kind='multibyte-scanner-complete',calling_convention='cdecl',native_args=[],caller=dict(native_symbol='parse_command_line',return_rva=0x12b80))
  spec=importlib.util.spec_from_file_location('own_original_locale',project/'scripts/check-isolated-locale.py');checker=importlib.util.module_from_spec(spec);spec.loader.exec_module(checker);own=checker.check(original)
  binary=captured_native_binary(native);names=symbols(binary);events=(original/'events.txt').read_text();module=0x10600000

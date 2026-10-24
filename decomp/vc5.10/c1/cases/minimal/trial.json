@@ -78,7 +78,8 @@
     "_initialize_include_aliases",
     "_initialize_checksums",
     "_initialize_multibyte_scanner",
-    "_initialize_path_fold_table"
+    "_initialize_path_fold_table",
+    "_read_env_arguments"
   ],
   "driver": [
     {
@@ -711,6 +712,18 @@
         [
           274925522,
           274925532
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_read_env_arguments",
+      "start": 274804615,
+      "end": 274804636,
+      "code_chunks": [
+        [
+          274925532,
+          274925849
         ]
       ],
       "role": "application"

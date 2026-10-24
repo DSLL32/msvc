@@ -36,7 +36,9 @@ def check(directory):
  scanner=[row for row in candidate['functions']if row['name']=='_initialize_multibyte_scanner']
  require(len(scanner)==1 and scanner[0]['chunks']==[[0x12f08,0x12f3e],[0x307c0,0x307d2]],'exact actual scanner body')
  if following:
-  require(candidate['expected_frontier']['rva']==0x12f87 and candidate['functions'][-1]['name']=='_initialize_path_fold_table'and candidate['functions'][-1]['chunks']==[[0x12f3e,0x12f87],[0x307d2,0x307dc]],'explicit next83B stage')
+  fold=[row for row in candidate['functions']if row['name']=='_initialize_path_fold_table']
+  require(len(fold)==1 and fold[0]['chunks']==[[0x12f3e,0x12f87],[0x307d2,0x307dc]],'explicit83B prefix')
+  require((candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('path-fold-complete',0x12f87),('environment-arguments-complete',0x11e3c)],'explicit next stage')
  else:require(candidate['functions'][-1]==scanner[0]and candidate['expected_frontier']['rva']==0x12f3e,'honest current scanner trial')
  require(candidate['isolated_locale_observers']['analysis_only_until_native_success'],'honest current role')
  for name,rva in schema['exports'].items():require(export_rva(crt,name)==rva,'canonical export '+name)
@@ -46,7 +48,7 @@ def check(directory):
   call=schema[key];require(pe_read(target,call['call_instruction_rva'],6)==bytes.fromhex(call['call_bytes']),'actual caller '+key)
  require(pe_read(target,schema['call']['arguments'][1]-0x10600000,1)==b'\0','own empty string identity')
  events=(directory/'events.txt').read_text();require('failure 'not in events,'controller failure')
- require(re.findall(r'^frontier rva=(\w+)$',events,re.M)==['00012f87'if following else'00012f3e'],'genuine next target frontier')
+ require(re.findall(r'^frontier rva=(\w+)$',events,re.M)==['%08x'%candidate['expected_frontier']['rva']],'genuine next target frontier')
  if following:require(len(re.findall(r'^trap seq=\d+ rva=00012f3e ',events,re.M))==1,'actual earlier scanner completion boundary')
  require(events.count('isolated-locale-observer setlocale-iat=0005d120 setmbcp-iat=0005d148 exports=14 no-query-calls=1 no-seeds=1\n')==1,'observer contract')
  module=int(re.search(r'^module name=c1n32_l.dll actual=(\w+) ',events,re.M)[1],16);base=int(re.search(r'^module name=MSVCRT.dll actual=(\w+) ',events,re.M|re.I)[1],16);require(module==0x10600000,'preferred target base only')

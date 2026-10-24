@@ -6,7 +6,8 @@ The lifecycle-only first case is complete. Minimal C compilation is in progress,
 all initialization callbacks and main are complete. After internal-switch parsing,
 the captured GetSystemInfo response, all nine pool bindings, a proved64KiB
 commit and the full command-line parser, checksum generation and multibyte
-scanner and path-fold initialization now reach read_env_arguments(NULL)12f87. The actual
+scanner, path-fold and NULL environment parsing now reach
+new_option_vector(40,1)11e3c. The actual
 setlocale and _setmbcp calls match the own canonical SBCS1252 reference,
 including full tables, pointer lifetime, errors and FP state. Initialized state
 is2348 known/4200 UNMODELED bytes. The native i386
@@ -22,10 +23,10 @@ remains incomplete; the lifecycle fixture is a separate completed case.
 The83-byte path-fold initializer is also accepted; see
 `cases/minimal/PATH-FOLD.md` for its complete API/state proof.
 
-Accepted ownership is71 application functions /4892 original code bytes plus16
+Accepted ownership is72 application functions /5230 original code bytes plus16
 owned switch-table bytes,2 CRT support
-functions /451 bytes and two6-byte import thunks:5371 of the `.text` virtual
-extent's322288 bytes (1.6665%). That denominator includes CRT and unclassified
+functions /451 bytes and two6-byte import thunks:5709 of the `.text` virtual
+extent's322288 bytes (1.7714%). That denominator includes CRT and unclassified
 code; it is not non-CRT coverage. The original17-DWORD PCH-context initializer
 and its tail wrapper were explicitly accepted as one ordered JOINT two-function
 closure after separate non-promotable prospective input evidence.
