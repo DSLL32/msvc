@@ -551,13 +551,16 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
         let mut timed_out = false;
         let mut errors = vec![];
         let mut debugger_started = false;
+        let mut debugger: Option<debug::Session> = None;
         loop {
             if debug.enabled && !debugger_started && root.join("debug-ready").exists() {
                 debugger_started = true;
-                if let Err(e) = debug::session(debug, &root, || SIGNAL.load(Ordering::Relaxed) != 0)
-                {
-                    errors.push(format!("{e:#}"));
-                    kill_descendants();
+                match debug::start(debug, &root) {
+                    Ok(session) => debugger = Some(session),
+                    Err(e) => {
+                        errors.push(format!("{e:#}"));
+                        kill_descendants();
+                    }
                 }
             }
             if let Some(w) = writer.as_mut() {
@@ -629,6 +632,16 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
             let mut status = 0;
             let n = unsafe { libc::waitpid(-1, &mut status, libc::WNOHANG) };
             if n > 0 {
+                if debugger.as_ref().is_some_and(|session| session.pid == n) {
+                    use std::os::unix::process::ExitStatusExt;
+                    if let Err(e) = debugger
+                        .take()
+                        .unwrap()
+                        .finish(std::process::ExitStatus::from_raw(status))
+                    {
+                        errors.push(format!("{e:#}"));
+                    }
+                }
                 if n == pid {
                     executor_status = Some(status)
                 }

@@ -70,6 +70,9 @@ try:
             else:args+=['--io',scratch/'io.bin']
             result=subprocess.run(args,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,check=True)
             assert 'RECON_GDB_HIT' in result.stdout and 'PASS' in result.stdout
+        script=scratch/'events.gdb';script.write_text('continue\n')
+        result=subprocess.run([TOOL,'run',CASES/'0004-event','--io',scratch/'event.bin','--gdb-script',script],stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=5,check=True)
+        assert 'PASS' in result.stdout
     print('shared native smoke checks passed')
 finally:
     shutil.rmtree(scratch)
