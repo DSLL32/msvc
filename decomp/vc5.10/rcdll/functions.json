@@ -80,7 +80,8 @@
     "rc_parse_bitwise_xor",
     "rc_parse_bitwise_and",
     "rc_parse_equality",
-    "rc_parse_relational"
+    "rc_parse_relational",
+    "rc_parse_shift"
   ],
   "functions": [
     {
@@ -1565,6 +1566,14 @@
       "name": "rc_parse_shift",
       "start": "0x2f2e",
       "end": "0x2f64",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application"
+    },
+    {
+      "name": "rc_parse_additive",
+      "start": "0x2f64",
+      "end": "0x2f98",
       "abi": "cdecl",
       "stack_bytes": 0,
       "kind": "application",

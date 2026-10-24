@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Seventy-five application functions (21,809 original code bytes), two embedded CRT functions
+Seventy-six application functions (21,863 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_parse_shift`.
+currently matches at the next named trap, `rc_parse_additive`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -583,7 +583,7 @@ the shared explicit-offset transport release. Parameter-table traversal and
 conditional evaluation remain pending; native help passes in12.35ms total.
 
 The conditional evaluator wrapper is accepted (195 bytes): it resets the actual
-parenthesis counter0 and token1, then reaches the no-formal conditional parser
+parenthesis counter0 and expression lookahead1, then reaches the no-formal conditional parser
 without consuming another source word. [Verification](cases/resources-rich-trailing-space/evaluate-condition-verification.json)
 records nine affected controls, exact caller and hidden state, both builds and
 cached native help. New original-event negatives refresh their dependent receipt
@@ -638,3 +638,17 @@ frontier. [Verification](cases/resources-rich-trailing-space/relational-verifica
 records nine affected semantic negatives, unchanged live expression state,
 both builds, graph/ABI checks and cached native help. Operator matching and
 expression results remain pending.
+
+Shift parsing is reconstructed (54 bytes), reaching the actual additive-parser
+child before any shift operand/result. [Verification](cases/resources-rich-trailing-space/shift-verification.json)
+records eleven affected semantic negatives, both builds, graph/ABI checks and
+cached native help.
+
+The evaluator's expression lookahead byte at original RVA149dc is distinct from
+the lexer byte at144f4. Earlier source wrongly reused the lexer variable; both
+normal values happened to be1, so old value-only receipts missed that alias.
+The [approved correction](cases/resources-rich-trailing-space/expression-storage-correction.json)
+introduces distinct storage, binds exact original/rebuilt readers and writers,
+and proves noncoincident reset sentinels in original and production native runs.
+Wrong-read/write mutants reject. Historical raw and receipts remain unchanged
+and are explicitly limited; the correction adds no code or data extent credit.

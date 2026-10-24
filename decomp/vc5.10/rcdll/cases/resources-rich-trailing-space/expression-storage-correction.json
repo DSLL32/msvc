@@ -1,0 +1,218 @@
+{
+  "status": "approved",
+  "bug": "Original149dc expression lookahead is distinct from original144f4 lexer token. Earlier source used rc_token_kind for both because normal checkpoint values happened both1. This was an actual wrong-global source reconstruction, not merely a metadata naming error.",
+  "correction": "Contextual unsigned char rc_expression_token=1 with distinct storage; evaluator accesses it instead of rc_token_kind. Current GDB schema binds distinct ELF data symbols+width1 to actual runtime base and separately retains lexer byte.",
+  "prior_evidence": {
+    "record": "cases/resources-rich-trailing-space/evaluate-condition-verification.json",
+    "sha256": "95e4170104336b7267c35353efd3b16f8ce118dbdd069240076f9cd1618e2d1b",
+    "interpretation": "Historical value-only receipts and all raw artifacts remain untouched; they do not prove these storage identities. Accepted app extent credit unchanged by correction."
+  },
+  "original_store_probe": {
+    "directory": "/root/.ai-tmp/msvc2/vc5.10/rcdll/expression-store-probe-original-01",
+    "status": 123,
+    "status_scope": "Explicit controller termination at first child, not application success"
+  },
+  "native_store_probe": {
+    "directory": "/root/.ai-tmp/msvc2/vc5.10/rcdll/expression-store-probe-native-01",
+    "status": 0,
+    "status_scope": "GDB auxiliary checkpoint, not target completion"
+  },
+  "noncoincident_proof": {
+    "record": "/root/.ai-tmp/msvc2/vc5.10/rcdll/expression-storage-proof-02/receipt.json",
+    "sha256": "373f54c9c6165f2d6b10c2d8d7ce322ce9ad42f4b8ba917afd6b7bb9c60bb58a",
+    "proof": {
+      "status": "pass",
+      "original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/expression-store-probe-original-01",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/expression-store-probe-native-01",
+      "original_receipt_sha256": "562b2ec65a99c771aed2e6fa4206c3e1279d8b21f22b231816ee452315937480",
+      "native_receipt_sha256": "2b5485cc622b1a2737780a795fe39286cee3ca0fadd7d390ae5d717d38ee72f1",
+      "original_target_sha256": "bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0",
+      "original_crt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "native_elf_sha256": "6c5724deacbc25901e16c2ec1f0bf0b7d9780ea48be6c6cb0fee8f5698a653cf",
+      "before": {
+        "counter": 287454020,
+        "lookahead": 165,
+        "lexer": 90
+      },
+      "after": {
+        "counter": 0,
+        "lookahead": 1,
+        "lexer": 90
+      },
+      "original_storage": {
+        "counter": "0x71c38e7c",
+        "lookahead": "0x71c349dc",
+        "lexer": "0x71c344f4"
+      },
+      "native_storage": {
+        "rc_expression_parentheses": 1448663756,
+        "rc_expression_token": 1448654269,
+        "rc_token_kind": 1448654268
+      },
+      "widths": {
+        "rc_expression_parentheses": 4,
+        "rc_expression_token": 1,
+        "rc_token_kind": 1
+      },
+      "static_reader_identity": {
+        "original": "MOV AL,[lookahead149dc], no lexer144f4 read",
+        "rebuilt": "MOV AL and MOV CL,[MAP lookahead], no MAP lexer read",
+        "read_branch_dynamic_scope": "Actual sentinel run stops before first child parsing; post-child read role separately bound by exact original/rebuilt opcodes and contextual C source, not claimed dynamically traversed."
+      },
+      "rebuilt_publics": {
+        "rc_evaluate_condition": "0x100036fd",
+        "rc_parse_conditional_expression": "0x10003801",
+        "rc_expression_parentheses": "0x10018dcc",
+        "rc_expression_token": "0x1000a5f4",
+        "rc_token_kind": "0x1000a5f0"
+      },
+      "negative_controls": [
+        "wrong-lookahead-write",
+        "lexer-overwritten",
+        "counter-not-reset",
+        "compiled-wrong-lexer-destination",
+        "compiled-wrong-lexer-read"
+      ],
+      "scope": "Opt-in debugger-written noncoincident inputs; actual production wrapper executes through both stores and stops at first conditional child. Original123 is controller-selected termination; native GDB0 is not target completion. No function/data credit added. Earlier value-only proofs remain historical and are not storage-identity proof.",
+      "files": {
+        "rebuilt.dll": "3a43319feb22312cd2e018af2429f3c288e962b6e16fead9fc55cb6924cfa9a6",
+        "rebuilt.map": "b922cf0691e7e3e7646ff0fa216ded6bcdb98d3565f0d08c68cb09f85ef07ec1"
+      },
+      "checker_sha256": "2c7021703b1139aa97bdfe1642879612aecc57cc9d2dc0eef26bacafdd1a4ddf",
+      "seconds": 0.054918901063501835
+    }
+  },
+  "fresh_current_pair": {
+    "original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/shift-corrected-trial-original-01",
+    "native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/shift-corrected-trial-native-01",
+    "record": "/root/.ai-tmp/msvc2/vc5.10/rcdll/shift-corrected-pair-01.json",
+    "sha256": "adf0e350e3651c2b248fcc2d58f62c557176f5c5a653fb184a3cb2789937a2ef",
+    "matched_frontier": "rc_parse_additive",
+    "fresh_semantic_negatives": [
+      "wrong-initialized-parenthesis-counter",
+      "wrong-initialized-token",
+      "expression-lexer-storage-alias",
+      "expression-token-wrong-width",
+      "invented-expression-formal",
+      "wrong-expression-parser-caller",
+      "wrong-original-counter-store",
+      "wrong-original-token-store",
+      "wrong-next-source-word",
+      "wrong-active-directive",
+      "retired-parser-local-added"
+    ],
+    "predicate_locations": [
+      {
+        "name": "wrong-initialized-parenthesis-counter",
+        "predicate_function": "_include_search_checkpoint",
+        "predicate_line": 2073,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-initialized-token",
+        "predicate_function": "_include_search_checkpoint",
+        "predicate_line": 2073,
+        "semantic_rejection": true
+      },
+      {
+        "name": "expression-lexer-storage-alias",
+        "predicate_function": "_include_search_checkpoint",
+        "predicate_line": 2074,
+        "semantic_rejection": true
+      },
+      {
+        "name": "expression-token-wrong-width",
+        "predicate_function": "_include_search_checkpoint",
+        "predicate_line": 2074,
+        "semantic_rejection": true
+      },
+      {
+        "name": "invented-expression-formal",
+        "predicate_function": "_include_search_checkpoint",
+        "predicate_line": 2073,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-expression-parser-caller",
+        "predicate_function": "_include_search_checkpoint",
+        "predicate_line": 2073,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-original-counter-store",
+        "predicate_function": "_include_search_checkpoint",
+        "predicate_line": 2084,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-original-token-store",
+        "predicate_function": "_include_search_checkpoint",
+        "predicate_line": 2084,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-next-source-word",
+        "predicate_function": "_include_search_checkpoint",
+        "predicate_line": 1870,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-active-directive",
+        "predicate_function": "_include_search_checkpoint",
+        "predicate_line": 2032,
+        "semantic_rejection": true
+      },
+      {
+        "name": "retired-parser-local-added",
+        "predicate_function": "_include_search_checkpoint",
+        "predicate_line": 2038,
+        "semantic_rejection": true
+      }
+    ]
+  },
+  "builds": [
+    {
+      "targets": [
+        "original",
+        "build/debug-original.exe"
+      ],
+      "status": 0,
+      "seconds": 7.906802797690034
+    },
+    {
+      "targets": [
+        "native"
+      ],
+      "status": 0,
+      "seconds": 2.6913653826341033
+    }
+  ],
+  "stable_shared_inputs": "/root/.ai-tmp/msvc2/vc5.10/rcdll/analysis/expression-storage-build/stable-shared-inputs.json",
+  "native_help_fixture": {
+    "logical_name_aliases": {
+      "rcdll_main": "DllMain",
+      "recon_dll_entry": "_DllMainCRTStartup",
+      "rcdll_crt_init": "_CRT_INIT",
+      "rc_main": "main",
+      "rcdll_command_main": "main"
+    },
+    "case": "help",
+    "status": "pass",
+    "stdout_bytes": 589,
+    "application_entries": 9,
+    "seconds": {
+      "setup": 0.004109927453100681,
+      "execution": 0.00245001632720232,
+      "checks": 0.0011554732918739319,
+      "total": 0.008348149247467518
+    },
+    "native_sha256": "6c5724deacbc25901e16c2ec1f0bf0b7d9780ea48be6c6cb0fee8f5698a653cf",
+    "reference_manifest_sha256": "387c741bdb3fa4d388da034d339b5d21e872667d27934bb570e03d448db05524"
+  },
+  "promotion": "Correction approved with zero new function/data credit; ordinary shift78 acceptance uses fresh corrected current pair.",
+  "reader_scope": "Actual before-first-child dynamic reset proof; post-child reads separately exact original/rebuilt opcodes+source checked, with wrong-lexer-read binary mutant. No dynamic diagnostic/return branch claim.",
+  "parent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/rcdll/expression-storage-parent-review.json",
+    "sha256": "c18f8af7e6c2f7f34fc98a318cbc6d0e023171f69bbe295d60131337d477b481"
+  }
+}

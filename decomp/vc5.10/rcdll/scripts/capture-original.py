@@ -19,7 +19,7 @@ def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 def main():
     p=argparse.ArgumentParser();p.add_argument('--mode',choices=['baseline','masked'],required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--timeout',type=float,default=45);p.add_argument('--case',choices=['help','resources-rich','resources-rich-trailing-space'],default='help')
     p.add_argument('--heap-observations',type=int,default=1);p.add_argument('--free-observations',type=int,default=0);p.add_argument('--character-observations',type=int,default=0);p.add_argument('--api-census',action='store_true')
-    p.add_argument('--path-errors',action='store_true')
+    p.add_argument('--path-errors',action='store_true');p.add_argument('--expression-probe',action='store_true')
     a=p.parse_args();out=a.output.resolve()
     limits=[a.heap_observations,a.free_observations,a.character_observations]
     if a.api_census:limits=[8192,8192,8192]
@@ -91,6 +91,8 @@ def main():
     env.update({key:str(value)for key,value in zip(['RCDLL_CAPTURE_HEAP_LIMIT','RCDLL_CAPTURE_FREE_LIMIT','RCDLL_CAPTURE_CHARACTER_LIMIT'],limits)})
     if a.path_errors:env['RCDLL_CAPTURE_PATH_ERRORS']='1'
     else:env.pop('RCDLL_CAPTURE_PATH_ERRORS',None)
+    if a.expression_probe:env['RCDLL_CAPTURE_EXPRESSION_STORE_PROBE']='1'
+    else:env.pop('RCDLL_CAPTURE_EXPRESSION_STORE_PROBE',None)
     command=['wine',str(out/'debug-original.exe'),a.mode,tools.windows(out/'RC.EXE'),'ranges.txt']
     if child_cwd:command += ['case-args.txt',child_cwd]
     with (out/'stdout.bin').open('wb') as stdout,(out/'stderr.bin').open('wb') as stderr:
@@ -107,6 +109,7 @@ def main():
     report['capture_lock_wait_seconds']=capture_wait
     report['observation_limits']=dict(zip(['heap','free','character'],limits));report['api_census']=a.api_census
     report['path_error_probe']=a.path_errors
+    report['expression_store_probe']=a.expression_probe
     for name in ['helper-compiled-source.json','case-args.txt','environment-utf16.bin','compiled-source.json','candidate.json','functions.json','ranges.txt','validation-versions.json','stdout.bin','stderr.bin','events.txt','relocated-text.bin','masked-text.bin','globals.bin','completion-globals.bin','loaded-target.bin','loaded-crt.bin','loaded-driver.bin']:
         f=out/name
         if f.exists():report['files'][name]=dict(bytes=f.stat().st_size,sha256=sha(f))
