@@ -2,13 +2,20 @@
 """Fresh leaf/public-ABI/CWD/span and parser-state controls; no executions."""
 import argparse,json,re,tempfile,time
 from pathlib import Path
-from normalizer_state import validate_sequence
+from normalizer_state import validate_sequence as validate_sequence_impl
+from vector_state import snapshot
 from provenance import PROJECT,sha
 
 class Overlay:
  def __init__(self,base,files):self.base,self.files=base,files
  def __truediv__(self,name):return self.files.get(name,self.base/name)
  def resolve(self):return self.base.resolve()
+
+def validate_sequence(original,native,candidate):
+ if candidate['expected_frontier']['kind']=='packing-initializer-allocator':
+  state=json.loads((native/'state.json').read_text());rows=json.loads((native/'packing-entries.json').read_text());assert len(rows)==1
+  return validate_sequence_impl(original,native,candidate,stage_state=snapshot(original,native,state,rows[0]))
+ return validate_sequence_impl(original,native,candidate)
 
 def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('original',type=Path);p.add_argument('native',type=Path);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
@@ -19,7 +26,9 @@ def main():
   else:raise AssertionError('accepted '+label)
   controls.append(dict(control=label,scope=scope))
  def native(label,name,change):
-  data=json.loads((a.native/name).read_text());change(data)
+  if c['expected_frontier']['kind']=='packing-initializer-allocator'and name=='state.json':
+   name='packing-entries.json';data=json.loads((a.native/name).read_text());change(data[0])
+  else:data=json.loads((a.native/name).read_text());change(data)
   with tempfile.TemporaryDirectory(prefix='normalizer-control-',dir=a.native.parent)as tmp:
    path=Path(tmp)/name;path.write_text(json.dumps(data));overlay=Overlay(a.native,{name:path});reject(label,'native',lambda:validate_sequence(a.original,overlay,c))
  for label,name,change in [

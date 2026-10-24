@@ -86,7 +86,8 @@
     "_apply_option_action",
     "_parse_option_integer",
     "_resolve_option_path",
-    "_normalize_path"
+    "_normalize_path",
+    "_initialize_packing"
   ],
   "driver": [
     {
@@ -821,6 +822,18 @@
         [
           274926320,
           274926328
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_initialize_packing",
+      "start": 274805901,
+      "end": 274805961,
+      "code_chunks": [
+        [
+          274926328,
+          274926338
         ]
       ],
       "role": "application"

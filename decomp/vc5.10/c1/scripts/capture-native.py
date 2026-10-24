@@ -298,6 +298,11 @@ def capture_modeled():
             allocation_probe=allocation_probe.replace('\nend\n','\n'+definitions(binary,output)+'end\n')
             save_line="open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json')
             commands=commands.replace(save_line,final_observation(output)+save_line)
+        if candidate.get('packing_observers'):
+            from packing_probe import definitions,final_observation
+            allocation_probe=allocation_probe.replace('\nend\n','\n'+definitions(binary,output)+'end\n')
+            save_line="open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json')
+            commands=commands.replace(save_line,final_observation(output)+save_line)
         if field_map.get("pools"):
             symbol = field_map["pools"][0]["native_linkage_symbol"]
             table = subprocess.check_output(["nm", "-S", "--defined-only", str(binary)], text=True)
@@ -603,7 +608,7 @@ ActualArenaMemberEntry('*0x%x')
                     from pool_cycle_probe import record_returns
                     pool_probe=record_returns(pool_probe,'set-arena','pool_arena_entries')
                 default_probe+=pool_probe
-                if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete','path-fold-complete','environment-arguments-complete','option-vectors-complete','argument-cursor-complete','option-match-action','option-action-integer','option-integers-complete','option-path-normalizer','path-normalizer-complete'):
+                if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete','path-fold-complete','environment-arguments-complete','option-vectors-complete','argument-cursor-complete','option-match-action','option-action-integer','option-integers-complete','option-path-normalizer','path-normalizer-complete','packing-initializer-allocator'):
                     refill_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] _ZN12CompilerPool6RefillEj$',table,re.M)[1],16)
                     refill_base=pool_probe
                     if candidate.get('pool_cycle_observers'):
@@ -613,7 +618,7 @@ ActualArenaMemberEntry('*0x%x')
                     if candidate.get('pool_cycle_observers'):
                         refill_probe=record_returns(refill_probe,'refill','pool_refill_entries')
                     default_probe+=refill_probe
-                    if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete','path-fold-complete','environment-arguments-complete','option-vectors-complete','argument-cursor-complete','option-match-action','option-action-integer','option-integers-complete','option-path-normalizer','path-normalizer-complete'):
+                    if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete','path-fold-complete','environment-arguments-complete','option-vectors-complete','argument-cursor-complete','option-match-action','option-action-integer','option-integers-complete','option-path-normalizer','path-normalizer-complete','packing-initializer-allocator'):
                         page_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] _ZN13CompilerArena13AllocatePagesEjPj$',table,re.M)[1],16)
                         page_base=refill_probe
                         if candidate.get('pool_cycle_observers'):
@@ -646,9 +651,9 @@ ActualArenaMemberEntry('*0x%x')
         if candidate.get('default_pool_order'):
             for name,expression in [('default-pools-entry.json','default_pool_entries'),('pool-arena-entries.json','pool_arena_entries')]:
                 commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')\n"%(str(output/name),expression)+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
-        if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete','path-fold-complete','environment-arguments-complete','option-vectors-complete','argument-cursor-complete','option-match-action','option-action-integer','option-integers-complete','option-path-normalizer','path-normalizer-complete'):
+        if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete','path-fold-complete','environment-arguments-complete','option-vectors-complete','argument-cursor-complete','option-match-action','option-action-integer','option-integers-complete','option-path-normalizer','path-normalizer-complete','packing-initializer-allocator'):
             commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(pool_refill_entries,indent=2)+'\\n')\n"%str(output/'pool-refill-entries.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
-        if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete','path-fold-complete','environment-arguments-complete','option-vectors-complete','argument-cursor-complete','option-match-action','option-action-integer','option-integers-complete','option-path-normalizer','path-normalizer-complete'):
+        if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete','path-fold-complete','environment-arguments-complete','option-vectors-complete','argument-cursor-complete','option-match-action','option-action-integer','option-integers-complete','option-path-normalizer','path-normalizer-complete','packing-initializer-allocator'):
             commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(arena_page_entries,indent=2)+'\\n')\n"%str(output/'arena-page-entries.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         if candidate.get('pool_cycle_observers'):
             for name,expression in [('pool-cycle-events.json','pool_cycle_events'),('pool-cycle-returns.json','pool_cycle_returns'),('pool-commit-entries.json','pool_commit_entries'),('pool-commit-api-entries.json','pool_commit_api_entries'),('pool-commit-api-returns.json','pool_commit_api_returns')]:

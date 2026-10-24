@@ -97,6 +97,6 @@ static int normalizer_boundary(DWORD address,CONTEXT *context,HANDLE thread,DWOR
 
 static void check_normalizer_stop(DWORD address)
 {
-    if(option_normalizer_probe && (address!=base+0x1348d || normalize_calls!=2 || normalize_returns!=2 || fullpath_calls!=1 || fullpath_returns!=1 || !resolver_returned || normalize_active || fullpath_active))
+    if(option_normalizer_probe && (address!=base+(option_action_frontier==0x134c9?0x134c9:0x1348d) || normalize_calls!=2 || normalize_returns!=2 || fullpath_calls!=1 || fullpath_returns!=1 || !resolver_returned || normalize_active || fullpath_active))
         fail("whole normalizer/fullpath/resolver closure");
 }

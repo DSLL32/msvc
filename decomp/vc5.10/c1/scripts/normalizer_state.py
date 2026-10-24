@@ -15,11 +15,11 @@ BASE=0x10600000
 
 def registers(original,name,count):return list(struct.unpack('<%uI'%count,(original/(name+'-registers.bin')).read_bytes()))
 
-def validate(original,native,candidate,report):
+def validate(original,native,candidate,report,stage_state=None):
  first=load(native,'normalizer-entries')[0];state=load(native,'state');stage=snapshot(original,native,state,first)
  for key in ('resolver_local_buffer','resolver_path_bytes','resolver_locale'):stage[key]=first[key]
  prefix=validate_resolver(original,native,candidate,report,stage_state=stage)
- result=validate_sequence(original,native,candidate);result['prefix']=prefix;return result
+ result=validate_sequence(original,native,candidate,stage_state=stage_state);result['prefix']=prefix;return result
 
 def fold(data,table):
  result=bytearray(data);at=0
@@ -51,13 +51,13 @@ def validate_namespace(original,native,rows):
  assert(original/'fullpath-entry-cwd-identity.bin').read_bytes()==(original/'fullpath-return-cwd-identity.bin').read_bytes()
  return cwd
 
-def validate_sequence(original,native,candidate):
+def validate_sequence(original,native,candidate,stage_state=None):
  assert candidate['allowed_probes']==['normal']and load(original,'receipt')['probe']==load(native,'receipt')['probe']=='normal'
- assert candidate['expected_frontier']==dict(kind='path-normalizer-complete',rva=0x1348d,native_symbol='initialize_packing',native_args=[],calling_convention='cdecl',caller=dict(native_symbol='parse_command_line',return_rva=0x12d55))
+ if stage_state is None:assert candidate['expected_frontier']==dict(kind='path-normalizer-complete',rva=0x1348d,native_symbol='initialize_packing',native_args=[],calling_convention='cdecl',caller=dict(native_symbol='parse_command_line',return_rva=0x12d55))
  assert candidate['normalizer_observers']==dict(entry_rva=0x1344d,return_rvas=[0x133c9,0x1343f],calls=2,fullpath_iat_rva=0x5d040,fullpath_export_rva=0x1dabe,fullpath_return_rva=0x1342e,resolver_return_rva=0x12c8b,frontier_rva=0x1348d)
  fn=[r for r in candidate['functions']if r['name']=='_normalize_path'];assert len(fn)==1 and fn[0]['chunks']==[[0x1344d,0x1348d],[0x30af0,0x30af8]]and fn[0]['role']=='application'
  events=(original/'events.txt').read_text();validate_original_frontier(events,candidate,'normal');validate_native_stop(native,candidate)
- entries=load(native,'normalizer-entries');ends=load(native,'normalizer-returns');api=load(native,'fullpath-entries');returns=load(native,'fullpath-returns');resolver=load(native,'resolver-entries');resolved=load(native,'resolver-returns');state=load(native,'state')
+ entries=load(native,'normalizer-entries');ends=load(native,'normalizer-returns');api=load(native,'fullpath-entries');returns=load(native,'fullpath-returns');resolver=load(native,'resolver-entries');resolved=load(native,'resolver-returns');state=load(native,'state')if stage_state is None else stage_state
  assert len(entries)==len(ends)==2 and len(api)==len(returns)==len(resolver)==len(resolved)==1
  allrows=entries+ends+api+returns+resolved;cwd=validate_namespace(original,native,allrows)
  expected_output=(cwd.rstrip('\\')+'\\vc50.pdb').encode('ascii')+b'\0';assert len(expected_output)<256
@@ -119,10 +119,10 @@ def validate_sequence(original,native,candidate):
  assert rr[1]==entry_r[2]+4 and rr[2]==entry_r[11]and rr[3]==BASE
  assert native_return['pc']==resolver[0]['words'][0]and native_return['esp']==resolver[0]['esp']+4 and native_return['eax']==resolver[0]['args']['output']and native_return['preserved']==resolver[0]['preserved']
  assert native_return['output_bytes']==list(fold(expected_output,table));phase('resolver-return',native_return,rr[0])
- endpoint=validate_parser(original,native,state,known,baseline,outside,fold(expected_output,table),names,binary,crt,inv,architecture)
+ endpoint=validate_parser(original,native,state,known,baseline,outside,fold(expected_output,table),names,binary,crt,inv,architecture,following=stage_state is not None)
  return dict(status='matching72B normalizer, actual fullpath and parser continuation',application_candidate='_normalize_path',candidate_code_bytes=72,normalizer_calls=2,normalizer_returns=2,fullpath_calls=1,logical_cwd=cwd,defined_output_bytes=len(expected_output),output_tail='each own remaining520-byte buffer tail unchanged, cross-target uninitialized equality unclaimed',private_argument_slots='actual original low-byte normalizer temporaries and fullpath capacity reuse retained; only dead discarded caller-area representation differs',CRT_credit=0,UNMODELED_initialized_bytes=4200,UNMODELED_literal_tail_bytes=16,endpoint=endpoint,execution_receipts=dict(original=sha(original/'receipt.json'),native=sha(native/'receipt.json')))
 
-def validate_parser(original,native,state,known,baseline,outside,value,names,binary,crt,inv,architecture):
+def validate_parser(original,native,state,known,baseline,outside,value,names,binary,crt,inv,architecture,following=False):
  expected=copy.deepcopy(known);options=expected['option_state']['initialized'];raw={k:bytearray(v)for k,v in baseline.items()};external=bytearray(outside)
  assert not options['debug_old_format']and not options['japanese_identifiers']and not options['packing_stack']and options['split_pdbs']==1
  options['database_path'][:len(value)]=list(value);raw['data'][0xfc8:0xfc8+len(value)]=value
@@ -135,8 +135,8 @@ def validate_parser(original,native,state,known,baseline,outside,value,names,bin
  for region,stem in [('data','compiler-data'),('BSS','compiler-bss'),('snapshot','compiler-snapshot')]:assert(original/('%s-%03d.bin'%(stem,seq))).read_bytes()==bytes(raw[region])
  assert(original/('state-%03d.bin'%seq)).read_bytes()==bytes(external)
  assert state['compiler_state']==expected and state['symbol']=='initialize_packing'and state['args']=={}and state['formal_inventory']==[]
- assert names['initialize_packing'][0]<state['pc']<=sum(names['initialize_packing'])
- opcode=subprocess.check_output(['objdump','-d','--start-address='+str(state['pc']-1),'--stop-address='+str(state['pc']),str(binary)],text=True);assert 'int3'in opcode
+ assert names['initialize_packing'][0]<=state['pc']<=sum(names['initialize_packing'])
+ opcode=subprocess.check_output(['objdump','-d','--start-address='+str(state['pc']-1),'--stop-address='+str(state['pc']),str(binary)],text=True);assert (state['pc']==names['initialize_packing'][0]if following else 'int3'in opcode)
  assert state['caller']['symbol']=='parse_command_line'and state['caller']['args']=={k:inv['args'][k]for k in ('argc','argv')};call(binary,state['caller']['pc'],names['initialize_packing'][0])
  assert state['invocation']==inv and semantic(state['command_line_fp'])==architecture and state['pass_mode']==known['pass_mode']
  for key,item in crt.items():assert state[key]==item

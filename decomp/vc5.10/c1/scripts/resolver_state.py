@@ -15,7 +15,7 @@ FORMALS=[dict(name=k,type=t)for k,t in [('output','char *'),('input','const char
 def validate(original,native,candidate,report,stage_state=None):
  assert candidate['allowed_probes']==['normal']and load(original,'receipt')['probe']==load(native,'receipt')['probe']=='normal'
  if stage_state is None:assert candidate['expected_frontier']==dict(kind='option-path-normalizer',rva=0x1344d,native_symbol='normalize_path',native_args=['path'],calling_convention='cdecl',caller=dict(native_symbol='resolve_option_path',return_rva=0x133c9))
- else:assert candidate['expected_frontier']['kind']=='path-normalizer-complete'
+ else:assert candidate['expected_frontier']['kind']in ('path-normalizer-complete','packing-initializer-allocator')
  assert candidate['resolver_observers']==dict(entry_rva=0x1335b,frontier_rva=0x1344d,input='vc50.pdb',input_bytes=9,local_buffer_bytes=260,output_buffer_bytes=520)
  functions=[r for r in candidate['functions']if r['name']=='_resolve_option_path'];assert len(functions)==1 and functions[0]['chunks']==[[0x1335b,0x1344d],[0x30a3c,0x30af0]]and functions[0]['role']=='application'
  rows=load(native,'resolver-entries');assert len(rows)==1;entry=rows[0];state=load(native,'state')if stage_state is None else stage_state
@@ -24,7 +24,7 @@ def validate(original,native,candidate,report,stage_state=None):
 
 def validate_copy(original,native,candidate,entry=None,state=None,following=False):
  assert candidate['allowed_probes']==['normal']and load(original,'receipt')['probe']==load(native,'receipt')['probe']=='normal'
- assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])==(('path-normalizer-complete',0x1348d)if following else('option-path-normalizer',0x1344d))
+ assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in ([('path-normalizer-complete',0x1348d),('packing-initializer-allocator',0x134c9)]if following else[('option-path-normalizer',0x1344d)])
  rows=load(native,'resolver-entries');assert len(rows)==1;entry=rows[0]if entry is None else entry;state=load(native,'state')if state is None else state
  events=(original/'events.txt').read_text();validate_original_frontier(events,candidate,'normal');validate_native_stop(native,candidate)
  r=list(struct.unpack('<16I',(original/'resolver-entry-registers.bin').read_bytes()))

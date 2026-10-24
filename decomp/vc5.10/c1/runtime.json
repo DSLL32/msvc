@@ -140,13 +140,6 @@
     "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
   },
   {
-    "name": "_initialize_packing",
-    "start": 274805901,
-    "end": 274805902,
-    "pending_extent": true,
-    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
-  },
-  {
     "name": "_compare_pch_paths",
     "start": 274980318,
     "end": 274980319,
@@ -180,5 +173,27 @@
     "end": 274800293,
     "pending_extent": true,
     "evidence": "two cdecl args vector/item; actual pointer append and signedshort header consumers ground signature; named typed INT3 stub only"
+  },
+  {
+    "name": "_allocate_packing_memory",
+    "start": 274805961,
+    "end": 274805962,
+    "pending_extent": true,
+    "evidence": "genuine packing callee entry; named INT3 only, no body/extent credit"
+  },
+  {
+    "name": "CompilerPacking::Push",
+    "start": 274781272,
+    "end": 274781273,
+    "pending_extent": true,
+    "evidence": "genuine packing callee entry; named INT3 only, no body/extent credit",
+    "symbol": "?Push@CompilerPacking@@QAEPAUCompilerPackingFrame@@XZ"
+  },
+  {
+    "name": "_push_packing",
+    "start": 274781339,
+    "end": 274781340,
+    "pending_extent": true,
+    "evidence": "genuine packing callee entry; named INT3 only, no body/extent credit"
   }
 ]
