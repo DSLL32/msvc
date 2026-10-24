@@ -148,3 +148,7 @@ build/wcschr-api-probe.exe: build/wcschr-api-probe.obj
 build/native/include-workspace-boundary-host: $(NATIVE_OBJECTS) scripts/include-workspace-boundary-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/include-workspace-boundary-host.c $(NATIVE_SHIMS) -Wl,--wrap=rc_open_source -o $@
 	$(PYTHON) scripts/source-snapshot.py native build/native-include-workspace-boundary-source.json --host scripts/include-workspace-boundary-host.c
+
+build/native/parameter-storage-host: $(NATIVE_OBJECTS) scripts/parameter-storage-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/parameter-storage-host.c $(NATIVE_SHIMS) -o $@
+	$(PYTHON) scripts/source-snapshot.py native build/native-parameter-storage-source.json --host scripts/parameter-storage-host.c

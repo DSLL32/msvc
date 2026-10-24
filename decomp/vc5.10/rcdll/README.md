@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Ninety-four application functions (25,168 original code bytes), two embedded CRT functions
+Ninety-five application functions (25,732 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_parse_macro_parameters`.
+currently matches at the next named trap, `rc_run_preprocessor`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -84,7 +84,7 @@ is checked separately.
 ## Counts, timing and future inputs
 
 The provisional Ghidra inventory discovers 299 application functions / 66,295 code
-bytes. Current accepted application extent coverage is 37.96% (94 functions). This denominator
+bytes. Current accepted application extent coverage is 38.81% (95 functions). This denominator
 is analysis discovery, not a claim that every remaining original extent has passed
 an ownership audit. [Inventory](cases/function-inventory.json) excludes separately
 identified embedded CRT and import thunks; switch/literal data is excluded from

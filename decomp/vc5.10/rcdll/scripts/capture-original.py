@@ -70,7 +70,7 @@ def main():
     (out/'candidate.json').write_text(json.dumps(candidate(),indent=2)+'\n')
     (out/'validation-versions.json').write_text(json.dumps(validation_versions(),indent=2)+'\n')
     config=json.loads((HERE/'functions.json').read_text())
-    if a.focus_after_based and config.get('trial_function')!='rc_skip_line_comment':p.error('focused-prefix trial must be rc_skip_line_comment')
+    if a.focus_after_based and config.get('trial_function')not in ['rc_skip_line_comment','rc_parse_macro_parameters']:p.error('focused-prefix trial must have the validated based-kind prefix')
     ranges=[]
     for f in config['functions']:
         if f['name'] in config['accepted']+[config.get('trial_function')]:

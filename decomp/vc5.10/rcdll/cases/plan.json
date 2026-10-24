@@ -98,7 +98,8 @@
     "rc_read_skipped_directive",
     "rc_splice_line",
     "rc_macro_text_differs",
-    "rc_skip_line_comment"
+    "rc_skip_line_comment",
+    "rc_parse_macro_parameters"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

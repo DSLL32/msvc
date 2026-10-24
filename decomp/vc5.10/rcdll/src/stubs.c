@@ -188,10 +188,6 @@ unsigned char __stdcall rc_unsigned_integer_kind(unsigned value)
 
 
 
-void __cdecl rc_parse_macro_parameters(void)
-{
-    __asm int 3
-}
 
 
 WCHAR *__stdcall rc_copy_replacement_quoted(WCHAR *cursor,WCHAR delimiter)

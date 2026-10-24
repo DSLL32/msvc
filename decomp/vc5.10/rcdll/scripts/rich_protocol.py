@@ -3229,3 +3229,78 @@ def line_comment_trial(original,native):
     prior=HERE/'cases/resources-rich-trailing-space/macro-compare-verification.json'
     proof.update(trial='rc_skip_line_comment',comments=dict(invocations=4,formals=[],return_type='void; rawEAX retained but not an ABI result',cleanup=0,source_spans='Actual per-entry initialized spans through firstLF, unchangedline and source cursor ending at that LF; no NUL/refill path traversed',span_bytes=[len(bytes.fromhex(row['input_span']))for row in rows]),next_formals=[],next_hidden_inputs='Complete pending564B parameter parser establishes own frame/register locals, with no caller-register input. Actual parameter count0/replacement=4090Bworkspace, current1024Bmacro name, current source/frame/FILE/output/control globals retained; no future writes/results/layout inferred.',source=dict(depth=2,owned_bytes=8206,cursor_offset=offset,current_word=current_word,FILE_position=int(positions[0]),FILE_defined_bytes=512,FILE_uninitialized_tail_bytes=3584),output=dict(flushed_bytes=int(flushed[0]),defined_buffer_bytes=defined),observer_scope=dict(native=scope,original_trigger=t,retired_points=retired),reused_controls=dict(record=str(prior.relative_to(HERE)),sha256=sha(prior),checker_and_contract_versions=json.loads(prior.read_text())['validation_versions'],reason='Unchanged transport/SEH/sourceownership/token-table and sharedwcsncmp premises retain earlier controls. Fresh controls bind current4comment spans/cleanup, originalobserver retirement and genuine noarg parameter-parser frontier.'),limits='Rich case and parameter parser incomplete. Original01 timedout and02/native01 missing boundary source remain analysis-only. No postretirement legacy per-call equivalence/currentmacro dictionary/uninitialized FILE tail/original per-callFP claim.')
     return proof
+
+
+def parameter_parser_trial(original,native):
+    config=read_configuration(original/'functions.json');assert config['trial_function']=='rc_parse_macro_parameters'and len(config['accepted'])==96
+    old,new,proof=checkpoint(original,native,'rc_run_preprocessor',('rc_input_temporary','rc_output_temporary'))
+    text=(original/'events.txt').read_text();raw=(original/'globals.bin').read_bytes();args=new['arguments'];state=args['skip_inactive'];g=args['preprocessor']['globals']
+    assert old['words'][0]==0x71c2bdfa and state['formals']==[]and state['caller']=='rc_preprocessor_main'
+    for item in json.loads((native/'preprocess-data.json').read_text())['globals']:
+        if item['kind']in ['integer','byte-buffer']:
+            rva=int(item['original_rva'],16);assert raw[rva-0x14000:rva-0x14000+item['bytes']].hex()==g[item['name']]['bytes'],item['name']
+    assert args['preprocessor']['macros']==[]
+    frame_old=struct.unpack('<9I',raw_bytes(text,'skip-source-frame'));frame_new=struct.unpack('<9I',bytes.fromhex(state['source_frame']))
+    assert tuple(frame_old[i]for i in [0,2,6,7,8])==tuple(frame_new[i]for i in [0,2,6,7,8])
+    assert frame_old[0]==4098 and frame_old[6]<=frame_old[0]and frame_old[7]==1
+    assert state['source_depth']==int.from_bytes(raw[0xa10:0xa14],'little')==3 and state['source_owner_bytes']==8206 and frame_new[5]==state['source_buffer']
+    source=raw_bytes(text,'skip-source-block');assert len(source)==8206 and source[:8]==bytes(8)and source.hex()==state['source_payload']
+    blocks=[b for b in new['heap_identity']['blocks']if b['payload']+8==state['source_buffer']];assert len(blocks)==1;block=blocks[0]
+    assert block['bytes']==8206 and block['flags']==9 and block['owner']==new['heap_identity']['handle']and block['contents']==state['source_payload']
+    cursor=int.from_bytes(raw[0x4120:0x4124],'little');offset=cursor-frame_old[5]
+    assert offset==state['cursor']-frame_new[5]and 0<=offset<=frame_old[6]*2 and not offset%2
+    current_word=struct.unpack_from('<H',source,8+offset)[0]
+    filename=raw_bytes(text,'skip-source-filename');assert filename.hex()==state['filename']and filename.decode('utf-16le')=='R:\\toolchains\\5.10\\include/dlgs.h\0'
+    assert Path(state['file_host_path']).resolve()==(ROOT/'toolchains/5.10/include/DLGS.H').resolve()
+    file_old=struct.unpack('<8I',raw_bytes(text,'skip-source-file'));file_new=struct.unpack('<8I',bytes.fromhex(g['rc_source_file']['file_state']))
+    assert file_old[1:2]+file_old[3:]==file_new[1:2]+file_new[3:]and file_old[0]-file_old[2]==file_new[0]-file_new[2]
+    assert file_old[6]==512 and 0<=file_old[0]-file_old[2]<=512 and 0<=file_old[1]<=512
+    assert raw_bytes(text,'skip-source-buffer')[:512]==bytes.fromhex(g['rc_source_file']['file_buffer'])[:512]
+    positions=re.findall(r'^skip-source-position (\d+)$',text,re.M);assert positions==re.findall(r'^pos:\s*(\d+)$',state['file_fdinfo'],re.M)and len(positions)==1
+    a=struct.unpack('<8I',raw_bytes(text,'cpp-output-file'));b=struct.unpack('<8I',bytes.fromhex(g['rc_cpp_output_file']['file_state']));defined=a[0]-a[2]
+    assert a[1:2]+a[3:]==b[1:2]+b[3:]and defined==b[0]-b[2]and 0<=defined<=4096
+    assert raw_bytes(text,'cpp-output-buffer')==bytes.fromhex(g['rc_cpp_output_file']['file_buffer'])[:defined]
+    flushed=re.findall(r'^cpp-output-position (\d+)$',text,re.M);assert len(flushed)==1
+
+    rows=args['parameter_parsers'];assert rows==json.loads((native/'parameter-parsers.json').read_text())and len(rows)==2
+    entries=re.findall(r'^parameter-parser-entry index=(\d+) caller=([0-9a-f]+) esp=([0-9a-f]+) cursor=([0-9a-f]+) count=(-?\d+) replacement=([0-9a-f]+) line=(\d+)$',text,re.M)
+    returns=re.findall(r'^parameter-parser-return index=(\d+) raw=([0-9a-f]+) esp=([0-9a-f]+) cursor=([0-9a-f]+) count=(-?\d+) replacement=([0-9a-f]+) line=(\d+)$',text,re.M)
+    spans=re.findall(r'^parameter-parser-source index=(\d+) depth=(\d+) buffer=([0-9a-f]+) capacity=(\d+) initialized-words=(\d+) span-bytes=(\d+) terminator=(\d+)$',text,re.M)
+    assert len(entries)==len(returns)==len(spans)==len(rows)
+    import subprocess
+    symbols=subprocess.check_output(['nm','-S','--defined-only',str(native/'captured-native.elf')],text=True)
+    linked=re.findall(r'^([0-9a-f]+) [0-9a-f]+ T rc_run_preprocessor$',symbols,re.M)
+    runtime=re.findall(r'^Symbol "rc_run_preprocessor" is a function at address (0x[0-9a-f]+)',(native/'gdb.stdout').read_text(),re.M)
+    workspace=re.findall(r'^([0-9a-f]+) ([0-9a-f]+) [BbDd] rc_string_buffer$',symbols,re.M)
+    assert len(linked)==len(runtime)==len(workspace)==1 and int(workspace[0][1],16)==4090
+    workspace_address=int(workspace[0][0],16)+int(runtime[0],16)-int(linked[0],16)
+    packed=struct.pack('<7H',14,ord('q'),ord('u'),ord('o'),ord('t'),ord('e'),0)
+    for i,(e,r,span,row)in enumerate(zip(entries,returns,spans,rows)):
+        assert int(e[0])==int(r[0])==int(span[0])==i and e[1]=='71c24979'and row['formals']==[]and row['caller']=='rc_parse_define'
+        assert int(r[2],16)==int(e[2],16)+4 and row['return_esp']==row['entry_esp']+4
+        assert int(e[4])==row['count_before']==0 and int(r[4])==row['count_after']==1
+        assert int(e[5],16)==0x71c36f08 and int(r[5],16)==0x71c36f16
+        assert row['workspace_bytes']==4090 and row['workspace']==row['replacement_before']==workspace_address and row['replacement_after']==workspace_address+14
+        assert int(e[6])==int(r[6])==row['line_before']==row['line_after']==[1415,1417][i]
+        assert int(r[3],16)-int(e[3],16)==row['source_after']-row['source_before']==12
+        before=raw_bytes(text,'parameter-parser-before-%d'%i);after=raw_bytes(text,'parameter-parser-after-%d'%i)
+        assert len(before)==len(after)==4090 and before.hex()==row['workspace_before']and after.hex()==row['workspace_after']
+        assert after==packed+before[14:],'packed parameter or untouched workspace tail differs'
+        name=raw_bytes(text,'parameter-parser-name-%d'%i);assert name.hex()==row['name']and name.decode('utf-16le').split('\0',1)[0]==['__TEXT','TEXT'][i]
+        assert int(span[1])==row['source_depth']==2 and int(span[3])==row['source_capacity']==4098
+        initialized=int(span[4]);assert initialized==row['initialized_words']and 0<initialized<=4099
+        original_offset=int(e[3],16)-int(span[2],16);native_offset=row['source_before']-row['source_buffer'];assert original_offset==native_offset and 0<=original_offset<initialized*2 and not original_offset%2
+        payload=raw_bytes(text,'parameter-parser-input-%d'%i);assert payload.hex()==row['input_span']and len(payload)==int(span[5])and original_offset+len(payload)<=2*initialized
+        assert payload.startswith('quote)'.encode('utf-16le'))and payload.endswith(b'\x0a\0')and int(span[6])==row['input_terminator']==10
+        assert all(payload[n:n+2]!=b'\0\0'for n in range(0,len(payload)-2,2))
+        owners=[block for block in new['heap_identity']['blocks']if block['payload']+8==row['source_buffer']];assert len(owners)==1 and owners[0]['bytes']==8206 and owners[0]['flags']==9 and owners[0]['owner']==new['heap_identity']['handle']
+        parent_frame=struct.unpack_from('<9I',raw,0x4e80+36*2);assert parent_frame[5]==int(span[2],16)
+        assert 0<=row['raw_eax']<=0xffffffff and 0<=int(r[1],16)<=0xffffffff
+    scope=args['observer_scope'];assert scope==json.loads((native/'observer-scope.json').read_text())and scope['trigger']['function']=='rc_based_integer_kind'and scope['trigger']['value']==1024 and scope['trigger']['result']==7
+    assert 'ParameterParserEntered'not in scope['retired_breakpoints']
+    assert re.findall(r'^observer-retirement function=([0-9a-f]+) input=(\d+) result=(\d+).* primary-count=(\d+) resume-count=(\d+)$',text,re.M)==[('00012698','1024','7','2','2')]
+    assert new['crt_errors']==dict(errno=2,last_error=0)and proof['application_trace'][-1]=='rc_parse_macro_parameters'
+    assert g['rc_token_kind']['bytes']==raw[0x4f4:0x4f5].hex()=='01'
+    prior=HERE/'cases/resources-rich-trailing-space/line-comment-verification.json'
+    proof.update(trial='rc_parse_macro_parameters',parameters=dict(invocations=2,formals=[],return_type='void; incidental rawEAX retained/unclaimed',cleanup=0,packed_prefix_bytes=14,packed_prefix=packed.hex(),untouched_workspace_tail_bytes=4076,source_byte_advance=12,parameter_count_before=0,parameter_count_after=1,names=['__TEXT','TEXT'],normal_scope='Actual initialized quote) source spans in live source-depth2 buffers, no truncation/duplicate/error/refill path traversed'),next_formals=[],next_hidden_inputs='Whole124B pending loop establishes own registers and firstcalls next_token; no caller-register/frame input. Fresh depth3 DLGS.H source/frame/FILE/output/scalars and lexer tokenBYTE1 retained; descriptor rows remain unobserved/unclaimed until a real consumer.',source=dict(depth=3,owned_bytes=8206,cursor_offset=offset,current_word=current_word,FILE_position=int(positions[0]),FILE_defined_bytes=512,FILE_uninitialized_tail_bytes=max(0,file_old[6]-512)),output=dict(flushed_bytes=int(flushed[0]),defined_buffer_bytes=defined),observer_scope=scope,reused_controls=dict(record=str(prior.relative_to(HERE)),sha256=sha(prior),checker_and_contract_versions=json.loads(prior.read_text())['validation_versions'],reason='Unchanged transport/SEH/token/source and original bounded observer retirement retain earlier controls; fresh2parameter spans/packed writes/tails/cleanup/aliases and current actual be41 sourceFILE state checked. Native production storage guard has separate actual-object controls.'),limits='Full rich case and pending output loop incomplete. Original01/native01 lack current frontier/source input observer state and remain partial. No descriptor defaults/currentmacro dictionary/original per-callFP or future parameter overflow/truncation/error equivalence claimed.')
+    return proof

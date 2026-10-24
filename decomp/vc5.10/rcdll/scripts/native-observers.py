@@ -526,11 +526,11 @@ class DecimalIntegerKindReturned(gdb.FinishBreakpoint):
         self.entry.update(result=int(gdb.parse_and_eval('$eax'))&255,raw_eax=int(gdb.parse_and_eval('$eax'))&0xffffffff,return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff)
         save_integer_kinds()
         selected=json.loads(Path(os.environ['RCDLL_NATIVE_CONFIG']).read_text())
-        if selected.get('trial_function')in ['rc_based_integer_kind','rc_skip_inactive','rc_read_skipped_directive','rc_splice_line','rc_macro_text_differs','rc_skip_line_comment']and self.entry['function']=='rc_based_integer_kind'and self.entry['value']==1024:
+        if selected.get('trial_function')in ['rc_based_integer_kind','rc_skip_inactive','rc_read_skipped_directive','rc_splice_line','rc_macro_text_differs','rc_skip_line_comment','rc_parse_macro_parameters']and self.entry['function']=='rc_based_integer_kind'and self.entry['value']==1024:
             assert self.entry['result']==7 and self.entry['return_esp']==self.entry['entry_esp']+8
             retired=[]
             for breakpoint in gdb.breakpoints():
-                if breakpoint.enabled and type(breakpoint).__name__ not in ['SkippedDirectiveEntered','SpliceEntered','MacroTextCompareEntered','WideCompareEntered','LineCommentEntered']:
+                if breakpoint.enabled and type(breakpoint).__name__ not in ['SkippedDirectiveEntered','SpliceEntered','MacroTextCompareEntered','WideCompareEntered','LineCommentEntered','ParameterParserEntered']:
                     retired.append(type(breakpoint).__name__);breakpoint.enabled=False
             (path.parent/'observer-scope.json').write_text(json.dumps(dict(trigger=self.entry,retired_breakpoints=retired,scope='Only completed initial-prefix observers retained; subsequent legacy auxiliary activity unobserved. Full application entry instrumentation, production guards and genuine pending INT3 stops remain active. Fresh current source/output/formals are inspected at the actual frontier; macros dictionary is not collected or claimed at that boundary.'),indent=2)+'\n')
         return False
@@ -993,3 +993,28 @@ class LineCommentEntered(gdb.Breakpoint):
         entry.update(source_depth=depth,source_buffer=buffer,source_capacity=capacity,initialized_words=initialized,input_span=payload.hex(),input_terminator=int.from_bytes(word,'little'))
         line_comments.append(entry);save_line_comments();LineCommentReturned(frame,entry);return False
 LineCommentEntered('rc_skip_line_comment',internal=True);save_line_comments()
+
+parameter_parsers=[]
+def save_parameter_parsers():(path.parent/'parameter-parsers.json').write_text(json.dumps(parameter_parsers,indent=2)+'\n')
+class ParameterParserReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(raw_eax=int(gdb.parse_and_eval('$eax'))&0xffffffff,return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,source_after=int(gdb.parse_and_eval('rc_source_cursor')),count_after=int(gdb.parse_and_eval('rc_macro_parameter_count')),replacement_after=int(gdb.parse_and_eval('rc_macro_replacement')),line_after=int(gdb.parse_and_eval('rc_preparing_line')),workspace_after=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_string_buffer')),4090)).hex())
+        save_parameter_parsers();return False
+class ParameterParserEntered(gdb.Breakpoint):
+    def stop(self):
+        assert len(parameter_parsers)<256
+        frame=gdb.newest_frame();entry=dict(formals=[],caller=frame.older().name(),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,source_before=int(gdb.parse_and_eval('rc_source_cursor')),count_before=int(gdb.parse_and_eval('rc_macro_parameter_count')),replacement_before=int(gdb.parse_and_eval('rc_macro_replacement')),line_before=int(gdb.parse_and_eval('rc_preparing_line')),workspace=int(gdb.parse_and_eval('&rc_string_buffer')),workspace_bytes=gdb.parse_and_eval('rc_string_buffer').type.sizeof,workspace_before=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_string_buffer')),4090)).hex(),name=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_macro_name')),1024)).hex())
+        depth=int(gdb.parse_and_eval('rc_source_depth'));assert 0<=depth<1024
+        source=gdb.parse_and_eval('rc_source_frames[%d]'%depth)
+        buffer=int(source['buffer']);capacity=int(source['capacity']);initialized=int(source['chars_read'])+1;cursor=entry['source_before']
+        assert capacity==4098 and 0<initialized<=capacity+1 and cursor>=buffer and not(cursor-buffer)%2
+        offset=(cursor-buffer)//2;assert offset<initialized
+        payload=bytearray()
+        for at in range(offset,initialized):
+            word=bytes(gdb.selected_inferior().read_memory(buffer+2*at,2));payload.extend(word)
+            if word in [b'\0\0',b'\x0a\0']:break
+        else:raise AssertionError('parameter source has no bounded terminator')
+        entry.update(source_depth=depth,source_buffer=buffer,source_capacity=capacity,initialized_words=initialized,input_span=payload.hex(),input_terminator=int.from_bytes(word,'little'))
+        parameter_parsers.append(entry);save_parameter_parsers();ParameterParserReturned(frame,entry);return False
+ParameterParserEntered('rc_parse_macro_parameters',internal=True);save_parameter_parsers()

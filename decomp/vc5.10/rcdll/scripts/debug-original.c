@@ -34,7 +34,7 @@ static DWORD macro_copy_results[8192],macro_copy_lengths[8192];
 static DWORD skipped_sp,skipped_index;
 static DWORD splice_sp,splice_index;
 static DWORD macro_compare_sp,macro_compare_index,wide_compare_sp;
-static DWORD line_comment_sp,line_comment_index;
+static DWORD line_comment_sp,line_comment_index,parameter_parser_sp,parameter_parser_index;
 static DWORD macro_finish_sp,macro_finish_pointer,resume_sp,resume_index,resume_macro,expansion_sp;
 static DWORD macro_push_sp,macro_push_index,macro_select_sp,macro_select_pointer,active_number_sp,active_number_count;
 static DWORD expression_space_sp,expression_space_index,primary_sp,primary_index;
@@ -193,7 +193,7 @@ static void crt_file_state(DWORD pointer,const char *label,int full_buffer)
 static int retained_observer(int kind)
 {
     return kind==1||kind==2||kind==3||kind==4||kind==7||kind==8||
-        kind==9||kind==10||kind==21||(kind>=105&&kind<=114);
+        kind==9||kind==10||kind==21||(kind>=105&&kind<=116);
 }
 static void retire_prefix_observers(CONTEXT *context,DWORD entry_sp)
 {
@@ -487,6 +487,29 @@ static void line_comment_begin(CONTEXT *context)
     }
     fprintf(events,"line-comment-entry index=%lu caller=%08lx esp=%08lx cursor=%08lx line=%lu first=%u second=%u current=%u\n",line_comment_index,caller,context->Esp,cursor,line,pair[0],pair[1],pair[2]);point(caller,113);
 }
+static void parameter_parser_begin(CONTEXT *context)
+{
+    DWORD caller,cursor,count,replacement,line;char label[80];
+    readmem(context->Esp,&caller,4);parameter_parser_sp=context->Esp;
+    readmem(base+0x18120,&cursor,4);readmem(base+0x21e94,&count,4);readmem(base+0x21e98,&replacement,4);readmem(base+0x16ce8,&line,4);
+    fprintf(events,"parameter-parser-entry index=%lu caller=%08lx esp=%08lx cursor=%08lx count=%ld replacement=%08lx line=%lu\n",parameter_parser_index,caller,context->Esp,cursor,(long)count,replacement,line);
+    {
+        DWORD depth,frame[9],offset,size;WORD value;
+        readmem(base+0x14a10,&depth,4);if(depth>=1024)fail("parameter-source-depth");
+        readmem(base+0x18e80+36*depth,frame,36);
+        if(frame[0]!=4098||frame[6]>frame[0]||cursor<frame[5]||((cursor-frame[5])&1))fail("parameter-source-span");
+        offset=(cursor-frame[5])/2;if(offset>frame[6])fail("parameter-source-cursor");
+        size=0;do{
+            if(offset+size/2>frame[6])fail("parameter-source-terminator");
+            readmem(cursor+size,&value,2);size+=2;
+        }while(value&&value!=10);
+        fprintf(events,"parameter-parser-source index=%lu depth=%lu buffer=%08lx capacity=%lu initialized-words=%lu span-bytes=%lu terminator=%u\n",parameter_parser_index,depth,frame[5],frame[0],frame[6]+1,size,value);
+        sprintf(label,"parameter-parser-input-%lu",parameter_parser_index);hexbytes(label,cursor,size);
+    }
+    sprintf(label,"parameter-parser-before-%lu",parameter_parser_index);hexbytes(label,base+0x16f08,4090);
+    sprintf(label,"parameter-parser-name-%lu",parameter_parser_index);hexbytes(label,base+0x18128,1024);
+    point(caller,115);
+}
 static int trap(HANDLE thread,DWORD address,DWORD thread_id)
 {
     CONTEXT c;DWORD words[12];unsigned n;Point *p=NULL;
@@ -564,6 +587,7 @@ static int trap(HANDLE thread,DWORD address,DWORD thread_id)
             if(address==base+0x12afc)splice_begin(&c);
             if(address==base+0x4ddf)macro_compare_begin(&c);
             if(address==base+0x70ce)line_comment_begin(&c);
+            if(address==base+0x49fb)parameter_parser_begin(&c);
         }
         else if(p->kind==3){
             export_inputs(&c);
@@ -684,6 +708,14 @@ static int trap(HANDLE thread,DWORD address,DWORD thread_id)
         }else if(p->kind==102){fprintf(events,"macro-expansion-return result=%ld esp=%08lx\n",(long)c.Eax,c.Esp);if(c.Esp!=expansion_sp+8)fail("macro-expansion-return-stack");
         }else if(p->kind==104){resume_begin(&c);
         }else if(p->kind==100){fprintf(events,"resume-return index=%lu result=%ld esp=%08lx\n",resume_index,(long)c.Eax,c.Esp);if(c.Esp!=resume_sp+4)fail("resume-return-stack");resume_state("after");/* This observer owns only the first completed D/R pair. */if(++resume_index<2)point(base+0x6135,104);
+        }else if(p->kind==116){parameter_parser_begin(&c);
+        }else if(p->kind==115){
+            DWORD cursor,count,replacement,line;char label[80];
+            readmem(base+0x18120,&cursor,4);readmem(base+0x21e94,&count,4);readmem(base+0x21e98,&replacement,4);readmem(base+0x16ce8,&line,4);
+            fprintf(events,"parameter-parser-return index=%lu raw=%08lx esp=%08lx cursor=%08lx count=%ld replacement=%08lx line=%lu\n",parameter_parser_index,c.Eax,c.Esp,cursor,(long)count,replacement,line);
+            if(c.Esp!=parameter_parser_sp+4)fail("parameter-parser-stack");
+            sprintf(label,"parameter-parser-after-%lu",parameter_parser_index);hexbytes(label,base+0x16f08,4090);
+            if(++parameter_parser_index<256)point(base+0x49fb,116);
         }else if(p->kind==114){line_comment_begin(&c);
         }else if(p->kind==113){DWORD cursor,line;WORD current;readmem(base+0x18120,&cursor,4);readmem(base+0x16ce8,&line,4);readmem(cursor,&current,2);
             fprintf(events,"line-comment-return index=%lu raw=%08lx esp=%08lx cursor=%08lx line=%lu current=%u\n",line_comment_index,c.Eax,c.Esp,cursor,line,current);
@@ -916,7 +948,7 @@ static int trap(HANDLE thread,DWORD address,DWORD thread_id)
             if(total>1048576)fail("wide-preprocessor-buffer-size");if(cpp_allocation_size<total+8||cpp_allocation_size>total+10)fail("wide-allocation-observation");hexbytes("wide-argument-block",vector-8,cpp_allocation_size);
             hexbytes("prepared-closed-input",line_file,32);readmem(base+0x149c4,&pointer,4);hexbytes("prepared-filename",pointer,514);
         }
-        if(address==base+0x6ae1||address==base+0x6d53||address==base+0x6cbc||address==base+0x70ce||address==base+0x12afc||address==base+0x4ddf||address==base+0x47f0||address==base+0x7093||address==base+0x49fb){DWORD depth,frame[9],file,filename;
+        if(address==base+0x6ae1||address==base+0x6d53||address==base+0x6cbc||address==base+0x70ce||address==base+0x12afc||address==base+0x4ddf||address==base+0x47f0||address==base+0x7093||address==base+0x49fb||address==base+0x521c||address==base+0xbe41){DWORD depth,frame[9],file,filename;
             readmem(base+0x14a10,&depth,4);if(depth>=1024)fail("skip-source-depth");readmem(base+0x18e80+depth*36,frame,36);
             if(address==base+0x6ae1)fprintf(events,"skip-inactive-entry level=%lu caller=%08lx depth=%lu\n",words[1],words[0],depth);
             else if(address==base+0x6d53){DWORD mode;readmem(c.Esp+24,&mode,4);fprintf(events,"skipped-directive-entry caller=%08lx depth=%lu mode=%lu nesting=%ld branch=%u rawbranch=%08lx\n",words[0],depth,mode,(long)c.Ebp,(BYTE)c.Ebx,c.Ebx);}
@@ -924,6 +956,11 @@ static int trap(HANDLE thread,DWORD address,DWORD thread_id)
             hexbytes("skip-source-frame",base+0x18e80+depth*36,36);hexbytes("skip-source-block",frame[5]-8,8206);
             readmem(base+0x149c4,&filename,4);hexbytes("skip-source-filename",filename,wide_string_bytes(filename));
             crt_file_state(frame[1],"skip-source",1);readmem(base+0x18e74,&file,4);crt_file_state(file,"cpp-output",0);
+        }
+        if(address==base+0x521c){
+            fprintf(events,"replacement-quoted-entry caller=%08lx cursor=%08lx delimiter-slot=%08lx\n",words[0],words[1],words[2]);
+            hexbytes("replacement-quoted-workspace",base+0x16f08,4090);
+            hexbytes("replacement-quoted-count",base+0x21e94,4);hexbytes("replacement-quoted-pointer",base+0x21e98,4);
         }
         if(address==base+0x49fb){
             DWORD pointer;readmem(base+0x21e98,&pointer,4);
