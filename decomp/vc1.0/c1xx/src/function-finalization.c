@@ -422,3 +422,13 @@ int defer_global_symbol(CppSymbol *symbol)
     }
     return 0;
 }
+
+/* Original 0x55ed0..0x55efd, stdcall8. Local static storage keeps
+   its declaration-to-global alias map in the current function's arena. */
+void __stdcall record_function_symbol_alias(CppSymbol *symbol, CppSymbol *alias)
+{
+    HashTable *table = function_symbol_aliases;
+    if (!table) table = new_hash_table(31, 1, 2, 1);
+    function_symbol_aliases = table;
+    set_hash_value(table, symbol, alias);
+}

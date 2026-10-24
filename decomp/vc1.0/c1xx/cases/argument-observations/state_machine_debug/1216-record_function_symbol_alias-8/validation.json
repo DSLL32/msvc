@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_record_function_symbol_alias@8",
+  "case": "state_machine_debug",
+  "accepted_before": 1216,
+  "configuration_sha256": "da00220f054053fd8e173e81401d956395ffff9e3cbc815b2a9f5d59d591c9d7",
+  "native_entry": "record_function_symbol_alias",
+  "declared_formal_count": 2,
+  "formals": [
+    {
+      "name": "symbol",
+      "stack_index": 0,
+      "native_field": "raw_symbol",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebx",
+        "original_caller_rva": 277331,
+        "original_owner_function": "_record_local_declaration@4",
+        "native_owner_function": "record_local_declaration",
+        "native_owner_field": "caller_declaration",
+        "native_owner_local": "declaration",
+        "identity": "Actual accepted localstaticrecorder retainsdeclarationEBX/permanentaliasEBP; afteraliasindex/flagsassignment PUSH EBP53b4c/PUSH EBX53b4d/CALL53b4e/return53b53. Native actualimmediatecaller declaration andalias locals bind distinctrealowners. Existingtripleregisterselector also recordsESIcontext unusedforformalcredit; no extraABIinput.",
+        "original_owner_value": 8449272,
+        "native_owner_value": 1449482096
+      },
+      "original_raw": 8449272,
+      "native_raw": 1449482096,
+      "result": "match"
+    },
+    {
+      "name": "alias",
+      "stack_index": 1,
+      "native_field": "raw_alias",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebp",
+        "original_caller_rva": 277331,
+        "original_owner_function": "_record_local_declaration@4",
+        "native_owner_function": "record_local_declaration",
+        "native_owner_field": "caller_alias",
+        "native_owner_local": "alias",
+        "identity": "Actual accepted localstaticrecorder retainsdeclarationEBX/permanentaliasEBP; afteraliasindex/flagsassignment PUSH EBP53b4c/PUSH EBX53b4d/CALL53b4e/return53b53. Native actualimmediatecaller declaration andalias locals bind distinctrealowners. Existingtripleregisterselector also recordsESIcontext unusedforformalcredit; no extraABIinput.",
+        "original_owner_value": 8312324,
+        "native_owner_value": 1449338372
+      },
+      "original_raw": 8312324,
+      "native_raw": 1449338372,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      351952,
+      351998
+    ],
+    "argument_bytes": 8,
+    "convention": "stdcall8 void",
+    "proof": "Whole46B noframe/savedregs; symbolentryESP+4/aliasentryESP+8 (symbolreloadESP+8afterpushalias); RET8. No incomingGPR/x87/CPUflagsformal. Existingfunction_symbol_aliases0xa0d24 lazily new_hash_table31buckets/arena1/hashkind2/equalitykind1; preserveunconditionalglobalstore thenexisting set_hash_value(table,symbol,alias). Bothactualpointersindependentlybound currentEBX/EBP andnativecalleractualdeclaration/alias. Existinginitializedglobal andhashcallbacks only/no newdata/CRTbody.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "e34895cd4ac5b700a69b4b7f98abc7dc54596bc3349040873568102f4797da17",
+  "capture_timing": {
+    "original_capture_seconds": 0.9164706123992801,
+    "native_capture_seconds": 0.17817322909832,
+    "total_operation_seconds": 1.351618287153542
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "0d3619140c1994ae19b884d4e8c91d4f137803b53f1e5f53fcd307c4d7aec8df",
+    "native-commands.gdb": "9a62aa27eba7773247cb2821b349fe07891253f84bb04a062fc768134e6aa81c",
+    "native-gdb.log": "d13530e4b7374a2bc656f7e1994866b3f15827cce901db36465f5c5c16fd3b16",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "d07073604f8aaa067196f190c8f6ac59a6828bfdec9c4bcb40d48998e08be3dd",
+    "original-configuration.json": "da00220f054053fd8e173e81401d956395ffff9e3cbc815b2a9f5d59d591c9d7",
+    "original-disassembly.txt": "e6616191fcd2ca3da6e2fed157b74983d26f39380b7cde3fa05c8475cb6e1222",
+    "original-entries.plan": "f98776021bf20a3d54a688914d04bd62fb3a0016db4ce1ec25dfc250592e423d",
+    "original-events.txt": "c884a5311263c556223a34e616ee6347236bae457474b1375c89fcc4fd2e3d84",
+    "original-ownership-caller-disassembly.txt": "7a2a738fc7f402befa08c2948956e15c5008ea9253ebc72150c802fd410ba917",
+    "original-receipt.json": "133bd400e8b87cd8fe19216fadbad08205e8b62208cc74a3af33b0774f44c814",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "50b875282c04d72aabcd641324d9df79604c8806e14d7caebf496037989a188a"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

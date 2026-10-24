@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x5865c: file src/function-finalization.c, line 430.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, record_function_symbol_alias (symbol=0x56655770, alias=0x56632604) at src/function-finalization.c:430
+430	    HashTable *table = function_symbol_aliases;
+#0  record_function_symbol_alias (symbol=0x56655770, alias=0x56632604) at src/function-finalization.c:430
+#1  0x5656a28d in record_local_declaration (declaration=0x56655770) at src/declaration-lookup.c:208
+#2  0x5656f09b in resolve_declaration (context=0x56616a8c <declaration_spec_storage+8>, declaration=0x56655770) at src/resolve-declaration.c:186
+#3  0x5656822e in apply_declaration_type (context=0x56616a8c <declaration_spec_storage+8>, declaration=0x56655770) at src/declaration-bind.c:158
+#4  0x565bae3f in parse_translation_unit () at src/parser-declaration-actions.inc:313
+#5  0x5655de8f in compile_translation_unit () at src/frontend.c:73
+#6  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#7  0x56558894 in main (argc=1, argv=0xffffd7a4, environment=0xffffd7ac) at src/c1xx.c:20
