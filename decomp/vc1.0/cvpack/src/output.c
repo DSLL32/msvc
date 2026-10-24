@@ -653,4 +653,50 @@ void write_static_symbols(CvDirectoryEntry *entry, unsigned long offset)
     padding = 4-(entry->size & 3);
     if (padding != 4) OUTPUT_BYTES(&zero, padding);
 }
+
+/* NB09 global types: relative offsets, then records in 48K logical pages. */
+unsigned long write_packed_types(void)
+{
+    unsigned long count = (unsigned short)(next_type_index-0x1000);
+    unsigned long signature = 1, zero = 0, index, chunk, total;
+    unsigned short page_used = 0, length, padding, fill;
+    unsigned char *record, *end;
+    BufferBlock *block;
+
+    build_type_offsets();
+    OUTPUT_BYTES(&signature, sizeof(signature));
+    OUTPUT_BYTES(&count, sizeof(count));
+    for (index = 0; index < count; index += chunk) {
+        chunk = count-index;
+        if (chunk >= 512) chunk = 512;
+        OUTPUT_BYTES(type_pages[index/512], chunk*4);
+    }
+    total = count*4+8;
+    for (block = first_buffer_block(&type_symbol_storage); block;
+         block = next_buffer_block(block)) {
+        record = block->data;
+        end = record+block->used;
+        while (record < end) {
+            length = (unsigned short)(*(unsigned short *)record+2);
+            padding = (unsigned short)(3-((length-1)&3));
+            if ((unsigned long)page_used+length+padding > 0xc000) {
+                fill = (unsigned short)(0xc000-page_used);
+                total += fill;
+                if (fill) {
+                    fill = (unsigned short)((unsigned short)(fill+3)>>2);
+                    do { OUTPUT_BYTES(&zero, 4); } while (--fill);
+                }
+                page_used = 0;
+            }
+            page_used = (unsigned short)(page_used+length+padding);
+            OUTPUT_BYTES(record, length);
+            if (padding) OUTPUT_BYTES(&zero, padding);
+            record += length;
+            total += length+padding;
+        }
+    }
+    output_padding = 4-(total&3);
+    if (output_padding != 4) OUTPUT_BYTES(output_zeroes, output_padding);
+    return total;
+}
 #undef OUTPUT_BYTES

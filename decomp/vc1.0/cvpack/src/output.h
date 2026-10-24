@@ -30,6 +30,7 @@ BufferBlock *next_buffer_block(const BufferBlock *);
 void write_global_publics(CvDirectoryEntry *,unsigned long);
 void write_global_symbols(CvDirectoryEntry *,unsigned long);
 void write_static_symbols(CvDirectoryEntry *,unsigned long);
+void build_type_offsets(void);
 unsigned long write_packed_types(void);
 unsigned long write_old_packed_types(void);
 int __cdecl compare_symbol_address(const void *,const void *);

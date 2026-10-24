@@ -6973,16 +6973,33 @@
       "native": "write_packed_types",
       "symbol": "_write_packed_types",
       "original": 134848,
-      "source": "src/stubs.c",
+      "source": "src/output.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        134848,
+        135857
+      ],
       "abi": "unsigned long write_packed_types(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0141-write_packed_types/proof.json",
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "write_old_packed_types",
@@ -7419,6 +7436,22 @@
           }
         ]
       }
+    },
+    {
+      "name": "build_type_offsets",
+      "native": "build_type_offsets",
+      "symbol": "_build_type_offsets",
+      "original": 111168,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void build_type_offsets(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
     }
   ],
   "review": {
@@ -8285,6 +8318,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 140
+    },
+    {
+      "function": "write_packed_types",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 141
     }
   ],
   "support_unmasked": [
@@ -8895,7 +8934,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "f4d68144df5230917460e7bd33734cfab4205da4983b475a7dc19cc7ae433602"
+    "evidence_sha256": "a429f86b27f6dc4714ec110447b2cdfb3fe70e8bdcac72b4cd39335270a62d87"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -8927,11 +8966,11 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "b24999966f87bc12c24076d7f5cab252d0c4466afb543caef016b0205379bdbe"
+    "evidence_sha256": "d29b61eb2e230e03d61a1f399646049038a8a1dd6ae905d0e56224424a27bc41"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "c9f45337c7cbfddb2f3526a23a18d7092851401b8aaab0b137ab482e97df9c33"
+    "evidence_sha256": "ab5bf885852278db9504b97cfd368d79d37a26028a454dad0dd8de3eee101b43"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
@@ -8939,15 +8978,15 @@
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "9d74d6d597d1b10074c1ed6e44062479bdfc453518160c9b0512aea3bb69670d"
+    "evidence_sha256": "7cb2351f99f4ea70a801cd1a264349fc904e4a515200991da58314d409e0ed8f"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
-    "evidence_sha256": "e12ea5ef5f1f7c6f4162eaee69aa13c7e45cbf7a377ed211a295afb80108d10c"
+    "evidence_sha256": "c69424ef093111f6a2f0d014f4a68a111f56f722ff84b1f363d8ae7d33b2776f"
   },
   "resolver_return_observations": {
     "evidence": "cases/abi/resolver-returns.json",
-    "evidence_sha256": "02d6446c795be51c33c086a4df1d7df4f7e37f6659f9a69c843c9e2e1412239a"
+    "evidence_sha256": "b21ee6ccc594dc0a30b4125f0a4c0b205af5f7447793bef8ea9e25dcf2bf75ba"
   },
   "recursive_arena_observations": {
     "evidence": "cases/abi/recursive-arena.json",
@@ -8967,10 +9006,10 @@
   },
   "symbol_reference_observations": {
     "evidence": "cases/abi/symbol-references.json",
-    "evidence_sha256": "c523f457526181f83378571e7876ebc2b835117e004546b0307ff6374090aa3f"
+    "evidence_sha256": "c6981c3e0b5c465fba8ffeeb02cfcca5e25ea7034409037cee729696c97cccc4"
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "76050d2ee067f9b8bc1b187a343e3388eb5141531ff0bde9f43163d3c3e0586c"
+    "sha256": "a558b81eeb34555a27758178eccf4ab2aee1a44c718f2cf6906e7e3091ab7955"
   }
 }

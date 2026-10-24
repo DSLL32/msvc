@@ -26,7 +26,7 @@ unsigned short flush_output(int handle) { __asm { int 3 } return 0; }
 
 
 
-unsigned long write_packed_types(void) { __asm { int 3 } return 0; }
+void build_type_offsets(void) { __asm { int 3 } }
 unsigned long write_old_packed_types(void) { __asm { int 3 } return 0; }
 
 int update_image_checksum(const char *name, unsigned long length, unsigned char read_only)
