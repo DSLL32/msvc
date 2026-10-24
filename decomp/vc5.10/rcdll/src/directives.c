@@ -294,3 +294,14 @@ int __cdecl rc_parse_conditional_expression(void)
     }
     return value;
 }
+
+int __cdecl rc_parse_logical_or(void)
+{
+    int value,right;
+    value=rc_parse_logical_and();
+    while(rc_accept_expression_token(74)){
+        right=rc_parse_logical_and();
+        if(right || value)value=1;
+    }
+    return value;
+}

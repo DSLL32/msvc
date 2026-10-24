@@ -72,7 +72,8 @@
     "rc_check_macro_space",
     "rc_find_macro_parameter",
     "rc_evaluate_condition",
-    "rc_parse_conditional_expression"
+    "rc_parse_conditional_expression",
+    "rc_parse_logical_or"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

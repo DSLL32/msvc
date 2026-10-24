@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Sixty-eight application functions (21,449 original code bytes), two embedded CRT functions
+Sixty-nine application functions (21,490 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_parse_logical_or`.
+currently matches at the next named trap, `rc_parse_logical_and`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -596,3 +596,9 @@ all live expression state remain unchanged. [Verification](cases/resources-rich-
 records nine affected negatives, each attributed to its typed state predicate,
 and both builds plus cached native help. Retired or uninitialized parser locals
 are not treated as observed inputs. Ternary branches remain untraversed.
+
+Logical OR is reconstructed (41 bytes). Its first logical-AND call is the next
+actual named trap, with unchanged source and expression state. Both parser
+operands remain explicit calls before boolean combination. [Verification](cases/resources-rich-trailing-space/logical-or-verification.json)
+records nine affected semantic negatives, current graph/ABI checks and native
+help. Neither an operator matcher return nor an expression result is claimed.

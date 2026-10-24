@@ -73,7 +73,8 @@
     "rc_check_macro_space",
     "rc_find_macro_parameter",
     "rc_evaluate_condition",
-    "rc_parse_conditional_expression"
+    "rc_parse_conditional_expression",
+    "rc_parse_logical_or"
   ],
   "functions": [
     {
@@ -1495,8 +1496,7 @@
       "end": "0x2def",
       "abi": "cdecl",
       "stack_bytes": 0,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_accept_expression_token",
@@ -1504,6 +1504,15 @@
       "end": "0x7093",
       "abi": "stdcall",
       "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_parse_logical_and",
+      "start": "0x2def",
+      "end": "0x2e1c",
+      "abi": "cdecl",
+      "stack_bytes": 0,
       "kind": "application",
       "stub": true
     }
