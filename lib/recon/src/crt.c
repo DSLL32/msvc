@@ -1435,7 +1435,13 @@ WEAK ShimFILE *recon_openfile(const char *name,const char *mode,int sharing,Shim
 ShimFILE *recon_fopen(const char *name,const char *mode)
 {
     int n;
-    for (n=3;n<20;++n) if (!recon_iob[n]._flag) return recon_openfile(name,mode,0x40,&recon_iob[n]);
+    for (n=3;n<20;++n) if (!recon_iob[n]._flag) {
+        ShimFILE *stream=&recon_iob[n];
+        /* Canonical getstream prepares a free slot before attempting open.
+         * charbuf, bufsiz and tmpfname survive selection, including failure. */
+        stream->_ptr=stream->_base=NULL;stream->_cnt=stream->_flag=0;stream->_file=-1;
+        return recon_openfile(name,mode,0x40,stream);
+    }
     errno=EMFILE; return NULL;
 }
 WEAK int recon_fclose(ShimFILE *s)

@@ -9,4 +9,4 @@ for live in (False,True):
   assert p.stdout==b'missing-parent/leaf/nondirectory/success/API-CRT errors/full108FP/FILE state PASS\n' and not p.stderr
   assert sorted(str(q.relative_to(work))for q in Path(work).rglob('*'))==['parent','parent/new','regular']
   assert (Path(work)/'parent/new').read_bytes()==(Path(work)/'regular').read_bytes()==b''
-print('four-path success/missing-leaf/missing-parent/ENOTDIR +invalidmode; API independenterrno +CRT mapped errors/fullFP/unchanged FILE; empty/live PASS')
+print('four-path success/missing-leaf/missing-parent/ENOTDIR +invalidmode; API independenterrno +CRT mapped errors/fullFP/prepared FILE; empty/live PASS')

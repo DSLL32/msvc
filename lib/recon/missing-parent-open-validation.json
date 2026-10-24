@@ -11,5 +11,9 @@
     "path": "/root/.ai-tmp/msvc2/vc5.10/missing-parent-open-parent-review.json",
     "sha256": "f6949961c6179cdc2b2c6d1ea9b8d5f118dbbb2cfaa96553ef1441df5eb392ea",
     "result": "PASS28source/frozenhashes+10rawreferencebindings/fullsourceprobe/allfourGCCClangsuite reruns; separateFILEboundaryheld"
+  },
+  "separate_FILE_followup": {
+    "path": "lib/recon/fopen-selection-validation.json",
+    "scope": "Newseparate candidate closeslaterFILEselectiongap; originalerror-onlyreceipt/frozenprobes/sequentialfailedraw retained unchanged. No historicalwholecaseclaim rewritten."
   }
 }

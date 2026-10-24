@@ -1,0 +1,16 @@
+{
+  "scope": "Free-slot preparation inside recon_fopen before calling recon_openfile: ptr/cnt/base/flag0,file-1; retaincharbuf/bufsize/tmpfname. Direct recon_openfilefailure no-FILE-writes unchanged.",
+  "frozen_receipt": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/fopen-selection/receipt.json",
+    "sha256": "90d56d292a05b1336add2dbdcfca4115a55eac346ae2ef63ad236f595a6febde"
+  },
+  "canonical_proof": "Priorindependent wholegetstream/openfile/freebuf disassemblies+hashes cf3515 review rebound; currentactualLINK FILEreturn follows samepreparedslotstate.",
+  "native_checks": "EightGCC/Clangdefault510 frozenprobes: selectedfull32B/retained20,24,28/neighbors/lowio/directopenfilefailure/success and existingmissing-parentfourpath/errors/full108FP empty/live;corePASS.",
+  "actual_LINK_fopen_closure": "Sameoriginal native-onlyretry matches6observations, fullFILE/errors2/3/3/FP/callers/formals/return ABI; matchingperrorfrontier/bodynotrun. No wholecaseacceptance orperrorcredit.",
+  "history": "Initialnative2/2/2errormismatch retained; separatepublished9bf errorfix thennativeFILEfd0vsoriginal-1 retained; thisseparatefollowup closesFILEselection gap. No originalrerun/reseed.",
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/fopen-selection-parent-review.json",
+    "sha256": "1d93cb36b0a63bf259aa81cb103b7d8134ce29374138ba886609ba0124623d8e",
+    "result": "PASS28source/15referencebindings, originalwholegetstreamfields,8frozenGCCClangsuite reruns; no directopenfilefailure change"
+  }
+}

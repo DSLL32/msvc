@@ -21,6 +21,9 @@ static void crt(const char *path,const char *mode,unsigned long expected)
     errno=0;recon_doserrno=0;recon_SetLastError(0);
     fp(before);result=recon_fopen(path,mode);fp(after);
     assert(!result && errno==ENOENT && recon_doserrno==expected && recon_GetLastError()==expected);
+    /* Free-slot selection occurs before the failed open; original getstream
+     * initializes these fields even though openfile itself writes nothing. */
+    streams[3]._ptr=streams[3]._base=NULL;streams[3]._cnt=streams[3]._flag=0;streams[3]._file=-1;
     assert(!memcmp(before,after,108) && !memcmp(streams,recon_iob,sizeof(streams)) && !memcmp(osfile,recon_osfile,sizeof(osfile)));
 }
 int main(int argc,char **argv)
