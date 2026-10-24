@@ -17,8 +17,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "numeric_leaf_size",
-    "native_function": "numeric_leaf_size",
+    "logical": "convert_constant_symbol",
+    "native_function": "convert_constant_symbol",
     "application_trace": [
       "main",
       "parse_options",
@@ -92,12 +92,18 @@
       "end_symbol_block",
       "compare_recursive_type",
       "add_derived_type",
-      "numeric_leaf_size"
+      "numeric_leaf_size",
+      "convert_udt_symbol",
+      "intern_global",
+      "convert_constant_symbol"
     ],
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "proof_mode": "entry-flow",
-    "observed_globals": [],
+    "observed_globals": [
+      "suppressed_symbol_depth",
+      "symbol_scope_depth"
+    ],
     "observed_walks": [],
     "artifacts": []
   },

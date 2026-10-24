@@ -1,0 +1,10 @@
+Breakpoint 1 at 0x7097: file src/main.c, line 13.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main (argc=6, argv=0xff990034, environment=0xff990050) at src/main.c:13
+13	{
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565698ef in convert_constant_symbol () at src/stubs.c:106
+106	void convert_constant_symbol(void) { __asm { int 3 } }

@@ -2158,3 +2158,24 @@ void add_derived_type(unsigned short type, unsigned short base)
     entry->list[entry->count] = type;
     ++entry->count;
 }
+
+/* Original [0001f1d0,0001f21f): encoded numeric leaf length. */
+unsigned short numeric_leaf_size(const unsigned char *leaf)
+{
+    unsigned short kind = *(const unsigned short *)leaf;
+    switch (kind) {
+    case 0x8000: return 3;             /* LF_CHAR */
+    case 0x8001:                      /* LF_SHORT */
+    case 0x8002: return 4;             /* LF_USHORT */
+    case 0x8003:                      /* LF_LONG */
+    case 0x8004:                      /* LF_ULONG */
+    case 0x8005: return 6;             /* LF_REAL32 */
+    case 0x8006: return 10;            /* LF_REAL64 */
+    case 0x8007: return 12;            /* LF_REAL80 */
+    case 0x8008: return 18;            /* LF_REAL128 */
+    default:
+        if (kind < 0x8000) return 2;
+        /* The original leaves its switch index in AX for unknown leaves. */
+        return (unsigned short)(kind-0x8000);
+    }
+}
