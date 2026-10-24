@@ -110,6 +110,9 @@ def main():
             validate_parser_context_owner(name, item, anchors, checkpoint, words, receipt, events, config, sha(original/'events.txt'))
         elif binding['kind'] == 'member-function-parameter-owner':
             validate_member_parameter_owner(name, item, anchors, checkpoint, words, receipt, events, config, sha(original/'events.txt'))
+        elif binding['kind'] == 'forwarded-method-adjustment':
+            from forwarded_method_adjustment import validate as validate_forwarded_method_adjustment
+            validate_forwarded_method_adjustment(name, item, checkpoint, words, receipt, events, config, sha(original/'events.txt'))
         elif binding['kind'] == 'default-argument-expression':
             validate_default_argument_owner(name, item, anchors, checkpoint, words, receipt, events, config, sha(original/'events.txt'))
         elif binding['kind'] == 'null-pointer':

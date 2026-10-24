@@ -562,7 +562,6 @@ IrToken * __stdcall make_virtual_method_pointer(CType *type, IrToken *function, 
 IrToken * __stdcall make_general_method_pointer(CType *type, IrToken *function, IrToken *adjustment, int vbptr_offset, IrToken *vbtable_offset) { __asm { int 3 } return 0; }
 IrToken * __stdcall make_virtual_data_member_pointer(CType *type, IrToken *offset, IrToken *virtual_offset) { __asm { int 3 } return 0; }
 IrToken * __stdcall make_general_data_member_pointer(CType *type, IrToken *offset, int vbptr_offset, IrToken *vbtable_offset) { __asm { int 3 } return 0; }
-IrToken *__stdcall make_multiple_inheritance_method_pointer(CType *type, IrToken *function, IrToken *adjustment) { __asm { int 3 } return 0; }
 void __stdcall save_macro_argument_text(char *start, char *end) { __asm { int 3 } }
 void advance_macro_argument(void) { __asm { int 3 } }
 void browser_end_macro_expansion(void) { __asm { int 3 } }

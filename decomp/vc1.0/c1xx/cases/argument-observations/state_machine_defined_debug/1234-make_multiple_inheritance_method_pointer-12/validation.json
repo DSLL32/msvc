@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_make_multiple_inheritance_method_pointer@12",
+  "case": "state_machine_defined_debug",
+  "accepted_before": 1234,
+  "configuration_sha256": "0ff8e952e8572759bd78fb4fa0d1fef6fdd25be220b846cfba76cfbc0692116e",
+  "native_entry": "make_multiple_inheritance_method_pointer",
+  "declared_formal_count": 3,
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 238232,
+        "original_owner_function": "_make_compact_method_pointer@12",
+        "native_owner_function": "make_compact_method_pointer",
+        "native_owner_field": "caller_type",
+        "native_owner_local": "type",
+        "identity": "Actual accepted caller keeps target type in ESI, loads function formal EAX4a28d/PUSH4a291 then typeESI4a292/CALL4a293/return4a298. Native real immediate caller formals own both pointers.",
+        "original_owner_value": 8317032,
+        "native_owner_value": 1449347176
+      },
+      "original_raw": 8317032,
+      "native_raw": 1449347176,
+      "result": "match"
+    },
+    {
+      "name": "function",
+      "stack_index": 1,
+      "native_field": "raw_function",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 238232,
+        "original_owner_function": "_make_compact_method_pointer@12",
+        "native_owner_function": "make_compact_method_pointer",
+        "native_owner_field": "caller_function",
+        "native_owner_local": "function",
+        "identity": "Actual accepted caller keeps target type in ESI, loads function formal EAX4a28d/PUSH4a291 then typeESI4a292/CALL4a293/return4a298. Native real immediate caller formals own both pointers.",
+        "original_owner_value": 8450396,
+        "native_owner_value": 1449487380
+      },
+      "original_raw": 8450396,
+      "native_raw": 1449487380,
+      "result": "match"
+    },
+    {
+      "name": "adjustment",
+      "stack_index": 2,
+      "native_field": "raw_adjustment",
+      "binding": {
+        "kind": "forwarded-method-adjustment",
+        "original_owner_function": "_make_compact_method_pointer@12",
+        "original_caller_rva": 238232,
+        "caller_parameter_offset": 12,
+        "load_instruction": 303752,
+        "push_instruction": 303756,
+        "call_instruction": 303763,
+        "native_owner_field": "caller_adjustment",
+        "pointee_credit": "none from forwarding alone",
+        "identity": "Fresh actual argument word is the caller formal loaded from saved-ESI adjusted ESP+16 (entryESP+12), PUSH before any intervening call/write; exact original def-use pins this forwarding role. Native actual caller adjustment formal binds its process pointer. Original/native addresses are not compared. Existing current producer is accepted compact conversion make_integer_constant(displacement), as proved in the prior genuine whole-body/current-case pair."
+      },
+      "original_raw": 8450548,
+      "native_raw": 1449487532,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      303776,
+      304029
+    ],
+    "argument_bytes": 12,
+    "convention": "stdcall12 IrToken* EAX RET12",
+    "proof": "Whole253B saves EBX/ESI/EDI/EBP; formals type/function/adjustment adjustedESP+20/+24/+28, RET12; no hidden/register/x87/flag inputs. Existing next_symbol_index overflow/browser rollover checks before increment; drop first shape, make ordinary pointer attrs&f77, compute actual pointer size. New temporary reference receives current index/type. Clone its storage twice, assign function at offset0 and adjustment at pointer-size using existing typed IR3d/5c, sequence both then resulting indirect temporary using right-typed40. Preserve actual helper order via explicit locals. Source adjustment comes from accepted caller formal, exactly forwarded load/PUSH; forwarding alone gives no pointee initialization/extent credit. Current reached producer is accepted compact conversion source-model1 branch make_integer_constant(displacement); existing IR constructor/record evidence supplies consumed state, not a fabricated object. All12 distinct callees accepted; no new data/CRT/guard.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "c4ea17cbddedb41d1f78f1bff83a47e600401cc7b0645d9631df56bb4333ebe9",
+  "capture_timing": {
+    "original_capture_seconds": 0.6660389732569456,
+    "native_capture_seconds": 0.1828287187963724,
+    "total_operation_seconds": 1.1130208224058151
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "b779b2c8a59fb6b0dffcfe225a5bf566afd68897035f213a34247cdcb4039e16",
+    "native-commands.gdb": "9f7f202354f08ccd4990479fcd25e9fc22bd9d3102f5e622487a1c55076f8658",
+    "native-gdb.log": "ce4247962c01c3afd576748ef0bdf3de44f6fa5c073cadc1136f8f085ef18535",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "d46ed5a3b1392ab36a554903dc63e8e2aee9934cbc17ca3405e898cc8fa29b72",
+    "original-configuration.json": "0ff8e952e8572759bd78fb4fa0d1fef6fdd25be220b846cfba76cfbc0692116e",
+    "original-disassembly.txt": "fa414bec17c3821133460070a6c1d104ac3b7ad8024f75c3cb5caf020957b09a",
+    "original-entries.plan": "6e8c983ed94a50ae883fd879bae719fc1d2c0281082564ae8297659b20e1c6e9",
+    "original-events.txt": "a13545bc084eaa156ef9e20bd088c74aa926bea53658652f8fc7896162ae35b5",
+    "original-ownership-caller-disassembly.txt": "61d71803f45fe1190b25def467cad0a418e9e678be324e99e4dad5fcf2a87129",
+    "original-receipt.json": "dd81b8025b4fba2bd1efe26435de7bf0365d81603a4285cf5ade823125bf269c",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "f8a96d0dacb30719b6226f67e8b64477bc66f3963a711197ef04bd60398273e9"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": [],
+  "metadata_correction": "Corrected prose-only distinct-callee count11 to12 from whole original call sites; frozen captured plan and all raw evidence hashes retained unchanged. Actual graph/ABI gates independently compare the full measured edge set."
+}

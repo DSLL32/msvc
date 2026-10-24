@@ -8,6 +8,9 @@
 #include "parameters.h"
 #include "member-pointers.h"
 #include "member-expressions.h"
+#include "expression-preparation.h"
+#include "type-sizes.h"
+#include "return-statements.h"
 #include "hash-table.h"
 #include "function-finalization.h"
 #include "global-ir.h"
@@ -627,4 +630,36 @@ IrToken *__stdcall convert_compact_method_pointer(IrToken *expression,
         member_pointer_component(expression, 1, &saved), expression);
     adjustment = adjust_member_pointer_displacement(adjustment, displacement);
     return make_compact_method_pointer(type, function, adjustment);
+}
+
+/* Original 0x4a2a0..0x4a39c, stdcall12. Store the function and
+   this-adjustment in a fresh aggregate temporary, then yield that value. */
+IrToken *__stdcall make_multiple_inheritance_method_pointer(CType *type,
+    IrToken *function, IrToken *adjustment)
+{
+    unsigned index, displacement;
+    CType *function_type, *pointer_type, *integer_type;
+    IrToken *temporary, *offset, *storage, *first, *second, *sequence;
+    if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename)
+        browser_symbol_rollover();
+    index = next_symbol_index++;
+    function_type = drop_first_type_shape(type);
+    pointer_type = make_qualified_type(function_type, 3,
+        function_type->related->attributes & 0x0f77, 0);
+    displacement = pointer_kind_size(function_type->related->attributes & 0x0f77);
+    temporary = new_temporary_reference(index, type);
+    offset = make_integer_constant(0);
+    storage = clone_expression(temporary, 0);
+    first = new_ir_expression(0x5c, storage, offset, pointer_type);
+    first = new_ir_expression(0x3d, first, function, pointer_type);
+    integer_type = builtin_integer_type();
+    offset = make_integer_constant(displacement);
+    storage = clone_expression(temporary, 0);
+    second = new_ir_expression(0x5c, storage, offset, integer_type);
+    integer_type = builtin_integer_type();
+    second = new_ir_expression(0x3d, second, adjustment, integer_type);
+    sequence = new_right_typed_expression(0x40, first, second);
+    return new_right_typed_expression(0x40, sequence,
+        indirect_storage_expression(temporary));
 }
