@@ -87,7 +87,8 @@
     "rc_accept_expression_token",
     "rc_evaluate_defined",
     "rc_skip_expression_space",
-    "rc_parse_primary"
+    "rc_parse_primary",
+    "rc_expand_macro"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

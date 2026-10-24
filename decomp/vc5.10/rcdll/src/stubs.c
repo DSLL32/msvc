@@ -2,6 +2,7 @@
 #include "command.h"
 #include "preprocess.h"
 #include "directives.h"
+#include "macro-expansion.h"
 #include <recon.h>
 
 /* Named, ABI-correct INT3 stubs. None is accepted reconstruction. */
@@ -189,11 +190,6 @@ int __stdcall rc_read_macro_identifier(WCHAR first)
     return 0;
 }
 
-int __stdcall rc_expand_macro(RcMacro *macro)
-{
-    __asm int 3
-    return 0;
-}
 
 unsigned char __stdcall rc_based_integer_kind(int value)
 {
@@ -241,4 +237,31 @@ int __stdcall rc_collect_macro_identifier(WCHAR first)
 {
     __asm int 3
     return 0;
+}
+
+void __stdcall rc_push_macro(RcMacro *macro)
+{
+    __asm int 3
+}
+void __cdecl rc_select_macro_text(void)
+{
+    __asm int 3
+}
+int __cdecl rc_finish_macro_frame(void)
+{
+    __asm int 3
+    return 0;
+}
+void __stdcall rc_expand_macro_arguments(RcMacro *macro,int count)
+{
+    __asm int 3
+}
+int __cdecl rc_macro_is_wide(void)
+{
+    __asm int 3
+    return 0;
+}
+void __stdcall rc_copy_expanded_quoted(WCHAR delimiter,int wide)
+{
+    __asm int 3
 }

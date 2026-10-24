@@ -88,7 +88,8 @@
     "rc_accept_expression_token",
     "rc_evaluate_defined",
     "rc_skip_expression_space",
-    "rc_parse_primary"
+    "rc_parse_primary",
+    "rc_expand_macro"
   ],
   "functions": [
     {
@@ -1345,7 +1346,12 @@
       "abi": "stdcall",
       "stack_bytes": 4,
       "kind": "application",
-      "stub": true
+      "text_data": [
+        [
+          "0x130c",
+          "0x131c"
+        ]
+      ]
     },
     {
       "name": "rc_parse_integer_value",
@@ -1651,6 +1657,60 @@
       "end": "0x6135",
       "abi": "stdcall",
       "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_push_macro",
+      "start": "0x5c3a",
+      "end": "0x5cd5",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_select_macro_text",
+      "start": "0x5cd5",
+      "end": "0x5cf1",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_finish_macro_frame",
+      "start": "0x59ce",
+      "end": "0x5a87",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_expand_macro_arguments",
+      "start": "0x5693",
+      "end": "0x59ce",
+      "abi": "stdcall",
+      "stack_bytes": 8,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_macro_is_wide",
+      "start": "0x6001",
+      "end": "0x6051",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_copy_expanded_quoted",
+      "start": "0x5b07",
+      "end": "0x5bfa",
+      "abi": "stdcall",
+      "stack_bytes": 8,
       "kind": "application",
       "stub": true
     }

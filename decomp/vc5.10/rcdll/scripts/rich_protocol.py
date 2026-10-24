@@ -2321,15 +2321,16 @@ def macro_output_initialization(data,address,pointee):
     assert len(hits)==1 and hits[0][0]==3
     return dict(address=hex(address),pointee=hex(pointee),field_file_offset=field,relocation_file_offset=hits[0][1],relocation_type='HIGHLOW')
 
-def primary_trial(original,native):
+def primary_trial(original,native,expansion=False):
     """Primary returns and its actual next macro-expansion ABI/state."""
     import subprocess
     config=read_configuration(original/'functions.json')
-    assert config['trial_function']=='rc_parse_primary'and len(config['accepted'])==84
-    a,b,proof=checkpoint(original,native,'rc_expand_macro',('rc_input_temporary','rc_output_temporary'))
+    trial='rc_expand_macro'if expansion else'rc_parse_primary';frontier_name='rc_push_macro'if expansion else'rc_expand_macro';caller='rc_expand_macro'if expansion else'rc_next_token'
+    assert config['trial_function']==trial and len(config['accepted'])==(85 if expansion else 84)
+    a,b,proof=checkpoint(original,native,frontier_name,('rc_input_temporary','rc_output_temporary'))
     text=(original/'events.txt').read_text();raw=(original/'globals.bin').read_bytes();args=b['arguments'];x=args['macro_expand'];globals=args['preprocessor']['globals']
-    assert a['words'][0]==0x71c236ec and x['caller']=='rc_next_token'
-    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_next_token\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    assert a['words'][0]==(0x71c25381 if expansion else 0x71c236ec)and x['caller']==caller
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in '+caller+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
     assert x['formals']==[dict(name='macro',value=next(row['pointer']for row in args['preprocessor']['macros']if row['name']==x['name']),bytes=4)]and x['macro_bytes']==16
     pointer=x['formals'][0]['value'];old_node=raw_bytes(text,'expand-macro-record');node=bytes.fromhex(x['record']);fields=struct.unpack('<4I',old_node[8:]);native_fields=struct.unpack('<4I',node[8:])
     assert len(old_node)==len(node)==24 and old_node[:8]==node[:8]==bytes(8)and fields[0]==native_fields[0]==fields[3]==native_fields[3]==0
@@ -2375,12 +2376,29 @@ def primary_trial(original,native):
     assert args['prepared_lines']==int.from_bytes(raw[0x29458-0x14000:0x2945c-0x14000],'little')==279
     assert b['crt_errors']==dict(errno=2,last_error=0)
     output_old=struct.unpack('<8I',raw_bytes(text,'cpp-output-file'));output_new=struct.unpack('<8I',bytes.fromhex(globals['rc_cpp_output_file']['file_state']));defined=output_old[0]-output_old[2]
-    assert output_old[1:2]+output_old[3:]==output_new[1:2]+output_new[3:]and defined==output_new[0]-output_new[2]==1466
-    assert raw_bytes(text,'cpp-output-buffer')==bytes.fromhex(globals['rc_cpp_output_file']['file_buffer'])[:defined]
+    assert output_old[1:2]+output_old[3:]==output_new[1:2]+output_new[3:]and defined==output_new[0]-output_new[2]
+    output_bytes=raw_bytes(text,'cpp-output-buffer');assert output_bytes==bytes.fromhex(globals['rc_cpp_output_file']['file_buffer'])[:defined]
+    # Full output bytes stay exact. Its first #line path is a genuine input
+    # derived from the current captured packed argv, not a fixed byte count.
+    assert args['count']==len(args['argv'])==len(args['wide_vector'])==20 and args['wide_terminator']==0
+    old_base=int(re.findall(r'^wide-args 20 ([0-9a-f]+)$',text,re.M)[0],16);native_base=args['vector_pointer']
+    old_packed=raw_bytes(text,'wide-argument-block');owner=next(v for v in b['heap_identity']['blocks']if v['payload']+8==native_base)
+    assert owner['owner']==b['heap_identity']['handle']and owner['flags']==9 and owner['bytes']==len(old_packed)
+    packed=bytes.fromhex(owner['contents']);assert old_packed[:8]==packed[:8]==bytes(8)and old_packed[92:]==packed[92:]
+    old_pointers=[int(value,16)for value in re.findall(r'^wide-pointer \d+ ([0-9a-f]+)$',text,re.M)];assert len(old_pointers)==20
+    for index,(argument,row)in enumerate(zip(args['argv'],args['wide_vector'])):
+        payload=(argument+'\0').encode('utf-16le');assert raw_bytes(text,'wide-argv-%d'%index)==bytes.fromhex(row['bytes'])==payload
+        offset=old_pointers[index]-old_base;assert offset==row['pointer']-native_base and 84<=offset and offset+len(payload)<=len(packed)-8
+        assert struct.unpack_from('<I',old_packed,8+4*index)[0]==old_pointers[index]and struct.unpack_from('<I',packed,8+4*index)[0]==row['pointer']
+        assert old_packed[8+offset:8+offset+len(payload)]==packed[8+offset:8+offset+len(payload)]==payload
+    assert old_packed[88:92]==packed[88:92]==bytes(4)
+    initial_line=('#line 1 "'+args['argv'][4].replace('\\','\\\\')+'"\r\n').encode('utf-16le')
+    assert output_bytes.startswith(initial_line)and defined==len(initial_line)+1330
+
     # Newly reached hidden DWORD input: static initialized pointer relocation
     # plus actual current workspace-base alias; no new pointee extent credit.
     symbols=subprocess.check_output(['nm','-S','--defined-only',str(native/'captured-native.elf')],text=True)
-    frontier=re.findall(r'^([0-9a-f]+) [0-9a-f]+ T rc_expand_macro$',symbols,re.M);runtime=re.findall(r'^Symbol "rc_expand_macro" is a function at address (0x[0-9a-f]+)',(native/'gdb.stdout').read_text(),re.M);assert len(frontier)==len(runtime)==1
+    frontier=re.findall(r'^([0-9a-f]+) [0-9a-f]+ T '+frontier_name+r'$',symbols,re.M);runtime=re.findall(r'^Symbol "'+frontier_name+r'" is a function at address (0x[0-9a-f]+)',(native/'gdb.stdout').read_text(),re.M);assert len(frontier)==len(runtime)==1
     bias=int(runtime[0],16)-int(frontier[0],16)
     rows=re.findall(r'^([0-9a-f]+) ([0-9a-f]+) [BbDd] rc_macro_output_cursor$',symbols,re.M);assert len(rows)==1
     assert x['output_cursor_bytes']==int(rows[0][1],16)==4 and x['output_cursor_address']==int(rows[0][0],16)+bias
@@ -2415,7 +2433,29 @@ def primary_trial(original,native):
             assert(int(value),int(balance),int(token),int(lexer))==(after['value'],after['balance'],after['token'],after['lexer'])==[(1,0,1,63),(0,0,1,55)][index]
         else:assert not any(key in row for key in ['result','return_esp','after']),'third primary is genuinely pending at its macro-expansion child'
     include=include_open_lifo(text,args['include_opens']);assert args['include_opens']==json.loads((native/'include-opens.json').read_text())
-    proof.update(trial='rc_parse_primary',primary=dict(formals=[],normal_returns=[1,0],cleanup=0,entries=3,third_return_pending=True,current_parentheses=1,current_lookahead=1,current_lexer_token=113,current_expression_value=0),macro_frontier=dict(name='WINVER',physical_formal_bytes=4,macro_record_bytes=16,owner_header_bytes=8,name_bytes=14,text_owner_bytes=26,parameters=0,flags=0,reserved=0,output_cursor=dict(original_rva='0x14a84',bytes=4,alias='rc_string_buffer',native_address=x['output_cursor_address'],initialization='Canonical .data initialized pointer71c36f08 with HIGHLOW relocation14a84; actual current raw pointer separately observed',pointee_extent='Existing contextual4090B workspace, no additional extent credit'),source_depth=2,source_cursor_offset=8156,current_source_word=32,source_owner_bytes=8206,defined_FILE_buffer_bytes=512,uninitialized_FILE_tail_bytes=3584,number_buffer_offset=2056,work_buffer_bytes=4090,primary_parent_local='value not initialized yet and deliberately not observed',additional_register_inputs='No incoming register/out-pointer/parent-frame formal identified; prologue overwrites scratch registers, saves caller registers and initializes its own locals.'),nested_include_opens=include,output_cursor_static=dict(original=initialized_original,rebuilt=initialized_rebuilt),output_defined_bytes=defined,current_macro_table_scope='111 native nodes are retained; only the reached WINVER original node/name/text ownership is compared at this boundary. Other current original node fields are not claimed from pointer equality.')
+    proof.update(trial=trial,primary=dict(formals=[],normal_returns=[1,0],cleanup=0,entries=3,third_return_pending=True,current_parentheses=1,current_lookahead=1,current_lexer_token=113,current_expression_value=0),macro_frontier=dict(name='WINVER',physical_formal_bytes=4,macro_record_bytes=16,owner_header_bytes=8,name_bytes=14,text_owner_bytes=26,parameters=0,flags=0,reserved=0,output_cursor=dict(original_rva='0x14a84',bytes=4,alias='rc_string_buffer',native_address=x['output_cursor_address'],initialization='Canonical .data initialized pointer71c36f08 with HIGHLOW relocation14a84; actual current raw pointer separately observed',pointee_extent='Existing contextual4090B workspace, no additional extent credit'),source_depth=2,source_cursor_offset=8156,current_source_word=32,source_owner_bytes=8206,defined_FILE_buffer_bytes=512,uninitialized_FILE_tail_bytes=3584,number_buffer_offset=2056,work_buffer_bytes=4090,primary_parent_local='value not initialized yet and deliberately not observed',additional_register_inputs='No incoming register/out-pointer/parent-frame formal identified; prologue overwrites scratch registers, saves caller registers and initializes its own locals.'),nested_include_opens=include,output_cursor_static=dict(original=initialized_original,rebuilt=initialized_rebuilt),output_defined_bytes=defined,current_macro_table_scope='111 native nodes are retained; only the reached WINVER original node/name/text ownership is compared at this boundary. Other current original node fields are not claimed from pointer equality.')
+    if expansion:
+        parent=args['expansion_parent'];assert set(parent)=={'formals','caller','result','parameters','result_bytes','parameters_bytes','parent_macro'}
+        assert parent['formals']==x['formals']and parent['caller']=='rc_expand_macro'and parent['parent_macro']==pointer
+        assert parent['result']==a['words'][6]==1 and parent['parameters']==a['registers']['edi']==0 and parent['result_bytes']==parent['parameters_bytes']==4
+        assert a['words'][8]==a['words'][1]and a['words'][7]==0x71c236ec
+        expected=[('rc_saved_macro_number',0x14a88,4,x['number_pointer'],0x71c37710),('rc_expansion_line',0x21e9c,4,161,161),('rc_expanded_argument_count',0x222a0,4,0,0),('rc_saved_macro_output',0x222a4,4,x['string_buffer'],0x71c36f08)]
+        observed=[];addresses=[]
+        for name,rva,width,value,old_value in expected:
+            row=globals[name];symbol=re.findall(r'^([0-9a-f]+) ([0-9a-f]+) [BbDd] '+name+r'$',symbols,re.M);assert len(symbol)==1
+            assert row['address']==int(symbol[0][0],16)+bias and int(symbol[0][1],16)==width
+            assert int.from_bytes(raw[rva-0x14000:rva-0x14000+width],'little')==old_value and int.from_bytes(bytes.fromhex(row['bytes']),'little')==value
+            addresses.append(row['address']);observed.append(dict(name=name,original_rva=hex(rva),bytes=width,original_value=hex(old_value),native_address=hex(row['address']),native_value=hex(value)))
+        assert len(set(addresses+[x['output_cursor_address']]))==5
+        frames=globals['rc_macro_frames'];symbol=re.findall(r'^([0-9a-f]+) ([0-9a-f]+) [BbDd] rc_macro_frames$',symbols,re.M);assert len(symbol)==1
+        assert frames['address']==int(symbol[0][0],16)+bias and frames['address']%4==0 and int(symbol[0][1],16)==1280
+        assert raw[0x222a8-0x14000:0x227a8-0x14000]==bytes.fromhex(frames['bytes'])==bytes(1280)
+        assert int.from_bytes(raw[0x16f00-0x14000:0x16f04-0x14000],'little')==int.from_bytes(bytes.fromhex(globals['rc_expanding_macro']['bytes']),'little')==0
+        assert int.from_bytes(raw[0x21e90-0x14000:0x21e94-0x14000],'little')==int.from_bytes(bytes.fromhex(globals['rc_number_buffer_active']['bytes']),'little')==0
+        proof['macro_expansion']=dict(formal_bytes=4,macro='WINVER',parameters=0,parent_result=1,parent_parameters_bytes=4,initialized_globals=observed,frame_table=dict(original_start='0x222a8',original_end='0x227a8',native_address=hex(frames['address']),bytes=1280,rows=64,row_bytes=20,all_current_bytes_zero=True,default_scope='Exact non-file-backed PE span and runtime raw independently agree; no frame has been pushed or returned yet'),next_formals=[dict(name='macro',type='RcMacro*',physical_slot_bytes=4,alias='Same current WINVER owner as rc_expand_macro input')],next_hidden_inputs=dict(expansion_depth=0,active_macro_input_depth=0,source_cursor_offset=8156,saved_number_buffer_offset=2056,saved_output_buffer_offset=0,argument_count=0,line=161),scope='Only initialized result1 and parameter count0 parent locals are read; saved_output and later temporary number/character/token locals remain uninitialized and unobserved. rc_push_macro is a genuine entry trap, no frame writes/child result/whole-expansion return assumed.')
+        proof['reused_controls']=dict(record='cases/resources-rich-trailing-space/primary-verification.json',sha256=sha(HERE/'cases/resources-rich-trailing-space/primary-verification.json'),checker_and_contract_versions=json.loads((HERE/'cases/resources-rich-trailing-space/primary-verification.json').read_text())['validation_versions'],reason='Primary returns, nested include LIFO/ESP/threads, advanced workspace/FILE/source, canonical output pointer relocation and earlier transport controls are unchanged hash-bound reuse; fresh positive raw checks still run. New expansion parent/global copies/default table and actual next macro-push inputs have affected controls.')
+        assert proof['application_trace'][-1]==trial
+        return proof
     prior=HERE/'cases/resources-rich-trailing-space/expression-space-verification.json';prior_record=json.loads(prior.read_text())
     proof['reused_controls']=dict(record=str(prior.relative_to(HERE)),sha256=sha(prior),checker_and_contract_versions=prior_record['validation_versions'],reason='Unchanged source-copy SEH, transport hFile reader, lexical-table/default identity, marker and macro ownership controls retain exact earlier proof hashes. New primary returns/recursion, nested include call stack, advanced work-pointer guard and actual next macro ABI have fresh affected checks.')
     return proof
@@ -2453,3 +2493,7 @@ def include_open_lifo(text,rows):
             assert int(error)==row['errno_after']==2 and int(last,16)==row['last_error_after']==2
         else:assert not any(key in row for key in ['result','return_esp','errno_after','last_error_after','thread_after'])
     return dict(entries=8,failed_returns=6,pending_entries=[3,7],maximum_depth=2,original_thread=thread,native_thread=native_thread,return_role='Actual shared callsite6c1a→rc_open_source/return6c1f, each RET8 leaves entryESP+12; current pending successful opens have no invented return')
+
+
+def expansion_trial(original,native):
+    return primary_trial(original,native,expansion=True)

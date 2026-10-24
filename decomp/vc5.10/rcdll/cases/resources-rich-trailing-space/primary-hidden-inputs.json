@@ -15,8 +15,9 @@
   ],
   "alias": "rc_string_buffer",
   "alias_rva": "0x16f08",
-  "reached_consumer": "rc_expand_macro5329 reads DWORD and saves it to22aa4 before first helper; later context helpers update/restore this output cursor",
+  "reached_consumer": "rc_expand_macro5329 reads DWORD and saves it to222a4 before first helper; later context helpers update/restore this output cursor",
   "native_initializer": "WCHAR *rc_macro_output_cursor=rc_string_buffer;",
   "prior_failed_assumption": "New native04 placeholder0 was rejected by the first typed positive gate; this was never accepted. Original .data and all raw captures consistently contained pointer71c36f08.",
-  "scope": "One newly encountered current input pointer, no broad global discovery or additional data extent credit"
+  "scope": "One newly encountered current input pointer, no broad global discovery or additional data extent credit",
+  "metadata_correction": "The earlier consumer-description text omitted a2 in destination RVA222a4. Actual14a84 input address/width, canonical relocation/runtime alias checks and accepted primary source were unaffected; historical raw/acceptance remain unchanged."
 }

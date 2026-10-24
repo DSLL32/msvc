@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Eighty-three application functions (23,043 original code bytes), two embedded CRT functions
+Eighty-four application functions (23,964 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_expand_macro`.
+currently matches at the next named trap, `rc_push_macro`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -84,7 +84,7 @@ is checked separately.
 ## Counts, timing and future inputs
 
 The provisional Ghidra inventory discovers 299 application functions / 66,295 code
-bytes. Current accepted application extent coverage is 11.46% (19 functions). This denominator
+bytes. Current accepted application extent coverage is 36.15% (84 functions). This denominator
 is analysis discovery, not a claim that every remaining original extent has passed
 an ownership audit. [Inventory](cases/function-inventory.json) excludes separately
 identified embedded CRT and import thunks; switch/literal data is excluded from
@@ -716,3 +716,11 @@ help. The new macro-output cursor uses its actual initialized work-buffer alias;
 [its field mapping](cases/resources-rich-trailing-space/primary-hidden-inputs.json)
 records the original pointer relocation and the rejected zero assumption.
 The third primary result and complete rich resource case remain pending.
+
+Macro expansion is reconstructed (921 bytes), reaching its first context-push
+child with the owned `WINVER` record. The initialized parent result1/parameter0,
+distinct saved pointers, line and argument counter, and untouched1280-byte frame
+array match. [Verification](cases/resources-rich-trailing-space/macro-expansion-verification.json)
+records17 fresh semantic negatives, an opposite-state production-ELF store probe,
+both builds, graph/ABI checks and cached native help. Six named dependencies
+remain traps; no completed expansion or rich-case result is claimed.

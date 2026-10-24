@@ -101,6 +101,7 @@ int __stdcall rc_read_macro_identifier(WCHAR first);
 int __stdcall rc_expand_macro(RcMacro *macro);
 extern WCHAR *rc_number_buffer;
 extern WCHAR *rc_macro_output_cursor;
+extern int rc_in_condition_expression;
 extern WCHAR rc_string_buffer[2045];
 #define rc_number_spelling_address_identity (rc_string_buffer[1024])
 unsigned __stdcall rc_parse_integer_value(const WCHAR *text,int radix);

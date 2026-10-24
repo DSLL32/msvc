@@ -409,6 +409,38 @@
       "bytes": 4,
       "pointee_rva": "0x16f08",
       "identity": "rc_string_buffer"
+    },
+    {
+      "name": "rc_saved_macro_number",
+      "original_rva": "0x14a88",
+      "kind": "address-identity",
+      "bytes": 4,
+      "pointee_rva": "0x17708",
+      "identity": "rc_string_buffer[1024]"
+    },
+    {
+      "name": "rc_expansion_line",
+      "original_rva": "0x21e9c",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_expanded_argument_count",
+      "original_rva": "0x222a0",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_saved_macro_output",
+      "original_rva": "0x222a4",
+      "kind": "context-pointer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_macro_frames",
+      "original_rva": "0x222a8",
+      "kind": "macro-frames",
+      "bytes": 1280
     }
   ],
   "options": {
