@@ -1,10 +1,10 @@
 {
   "modules": [
     {
-      "module": "omf-output",
-      "seconds": 1.8907583644613624,
+      "module": "physical-allocation",
+      "seconds": 1.5813096575438976,
       "returncode": 0
     }
   ],
-  "seconds": 1.8909811191260815
+  "seconds": 1.5815023770555854
 }

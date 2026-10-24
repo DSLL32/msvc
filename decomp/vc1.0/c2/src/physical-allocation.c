@@ -4,6 +4,7 @@
 #include "bitsets.h"
 #include "frame.h"
 #include "instruction-rewrite.h"
+#include "function-input.h"
 #include <recon.h>
 extern int cpu_model, optimization_cost, force_risc, optimization_risc;
 extern int codeview_debug, omit_frame_pointer;
@@ -564,3 +565,28 @@ int __fastcall i386_instruction_cost(MachineInstruction *instruction)
 #undef COST_SIMPLE_SOURCE
 #undef COST_IMMEDIATE_SOURCE
 #undef COST_DISPLACED_MEMORY
+
+/* Original [0002b1b0,0002b249). Preserve the original home symbol and
+   list successor when a coalesced variable resolves to its representative. */
+void record_debug_register_locations(void)
+{
+    RegisterVariable *variable, *next;
+    TemporarySymbol *symbol;
+    unsigned group, bucket;
+    for (group = 0; group < REGISTER_VARIABLE_CLASSES; ++group)
+        for (bucket = 0; bucket < REGISTER_VARIABLE_BUCKETS; ++bucket)
+            for (variable = register_variable_buckets[group][bucket];
+                 variable; variable = next) {
+                next = variable->next;
+                symbol = (TemporarySymbol *)variable->home_symbol;
+                if (symbol && symbol->symbol.kind == 1 &&
+                    (symbol->attributes & 0x70) == 0x10) {
+                    if (variable->flags & 0x800)
+                        variable = lookup_register_variable(variable->representative, 1);
+                    if (variable->spill_cost || variable->conflicts) {
+                        symbol->attributes |= 0x8000;
+                        symbol->field28 = (unsigned short)(variable->flags & 0x3f);
+                    }
+                }
+            }
+}

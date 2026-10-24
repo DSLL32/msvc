@@ -465,6 +465,33 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         /* Only the count/cursor are consumed; old destination bytes are write-only. */
         dump_bytes(process,"omf_pad_count_cursor_hex",record+12,8);
     }
+    if(!strcmp(call->name,"_record_debug_register_locations")) {
+        DWORD group,bucket,node,next,home,kind,attributes,flags,target,representative,index;
+        sprintf(line,"debug_register_caller %08lx\n",call->return_address);log_line(line);
+        for(group=0;group<3;++group)for(bucket=0;bucket<32;++bucket) {
+            node=read_word(process,image_base+0x6c730+(group*32+bucket)*4);index=0;
+            sprintf(line,"debug_register_head %lu %lu %08lx\n",group,bucket,node);log_line(line);
+            while(node) {
+                if(++index>4096)exit(314);
+                next=read_word(process,node);home=read_word(process,node+44);
+                kind=home?read_byte(process,home+12):0;attributes=home&&kind==1?read_word(process,home+36):0;
+                sprintf(line,"debug_register_node %08lx next %08lx home %08lx kind %lu attributes %08lx\n",node,next,home,kind,attributes);log_line(line);
+                if(home&&kind==1&&(attributes&0x70)==0x10) {
+                    flags=read_word(process,node+28);representative=(flags&0x800)?read_word(process,node+26)&65535:0;
+                    target=node;
+                    if(flags&0x800) {
+                        DWORD count=0;
+                        if((representative>>14)>=3)exit(315);
+                        target=read_word(process,image_base+0x6c730+((representative>>14)*32+(representative&31))*4);
+                        while(target&&(read_word(process,target+24)&65535)!=representative&&++count<4096)target=read_word(process,target);
+                        if(!target||count==4096)exit(316);
+                    }
+                    sprintf(line,"debug_register_effective owner %08lx source_flags %08lx representative %lu target %08lx flags %08lx cost %ld conflicts %lu\n",node,flags,representative,target,read_word(process,target+28),(long)(short)(read_word(process,target+22)&65535),read_word(process,target+8)!=0);log_line(line);
+                }
+                node=next;
+            }
+        }
+    }
     if(!strcmp(call->name,"@omf_write_iterated_data@16")) {
         DWORD segment=call->args[0],bytes=call->args[2],source=call->args[3];
         DWORD initializer=context->Ebx,kind=read_word(process,initializer)&65535;

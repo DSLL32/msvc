@@ -1307,7 +1307,8 @@
     "_omf_write_module_end",
     "@omf_emit_communal@4",
     "@omf_write_communal_size@8",
-    "@omf_write_iterated_data@16"
+    "@omf_write_iterated_data@16",
+    "_record_debug_register_locations"
   ],
   "driver": [
     {
@@ -5926,8 +5927,15 @@
     {
       "name": "_record_debug_register_locations",
       "start": 176560,
-      "end": 176561,
-      "provisional": true
+      "end": 176713,
+      "abi": {
+        "convention": "cdecl",
+        "parameters": [],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/debug-register-abi/validation.json",
+        "scope": "Original2b1b0..2b249 initializes own three groups/32 buckets/800mask and consumes no incoming register/stack/flags/x87/out pointer; RET0. Actual global3x32 closed register lists, next/home identity, conditional symbolkind/attributes, eligible variable aliasflags/representative and actual effective target flags/spillcost/conflicts presence observed. Childlookup is accepted/read-only; resolved effective target aliases captured bucket member. Old symbolfield28 output is never read/dumped/seeded. Caller allocate_machine_registers and original return recorded."
+      }
     },
     {
       "name": "@frame_references_exceed_cost@8",

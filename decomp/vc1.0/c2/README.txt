@@ -932,3 +932,12 @@ model controls only. Iterated body ends at6b293RET8, excluding padding from
 earlier196B provisional envelope. Next CodeView register-location pass2b1b0.
 Split timings/extent/current limitations: cases/comdat-size-checkpoint.json
 and cases/comdat-iterated-checkpoint.json. Exact final object still pending.
+
+At1304 the153B CodeView register-location pass is accepted: actual27-node
+closed register lists/two eligible temporaries/no-formal ABI match;384 whole
+controls/7 negatives preserve saved home+next across representative lookup,
+signed cost/conflicts gating and outputregister low6bits. Original/W3/fresh
+matching and16 native cases pass. The corrected ordinary audit27.615s follows
+a retained test-only BSS/raw-file assertion failure; no target behavior changed.
+Next expand_zero_extension at24740,1213B analysis body, still named trap.
+See cases/comdat-debug-register-checkpoint.json including failed timings.

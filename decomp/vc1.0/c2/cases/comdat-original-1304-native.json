@@ -1,0 +1,12 @@
+{
+  "logical": "@expand_zero_extension@4",
+  "matched": true,
+  "executable_sha256": "c2579f2774106ae1592a9755dd4d4d483195ac493e16ea55ea0add0f0b4bf61a",
+  "config_sha256": "495536b69e2b1129fb3fe2c6ecdbfade6d7767c646887597146eb12b97bcbf7a",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\packets",
+  "setup_seconds": 0.00760210957378149,
+  "execution_seconds": 0.13294765539467335,
+  "seconds": 0.15842587314546108,
+  "log_sha256": "830eeae9eb21a67b05e008e6a880c29019955a07fa4b544ffc8e735020cd3db7",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/comdat-gdb-hnusalrb"
+}
