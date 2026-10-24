@@ -371,7 +371,10 @@ fn describe(d: &Decoder, pe: &impl ImageView, r: &Record) -> Result<Description>
                     && i.m != "jmp"
                     && !i.jump
                 {
-                    out.references.insert(*v);
+                    // TEST's immediate is a bitmask, even if it equals a function VA.
+                    if i.m != "test" {
+                        out.references.insert(*v);
+                    }
                     if let Ok(bytes) = pe.read(*v, 12)
                         && bytes.len() == 12
                         && crate::pe::u32_at(bytes, 0)? == u32::MAX
@@ -1589,5 +1592,71 @@ mod alias_tests {
             (4, BTreeSet::from(["b".into()])),
         ]);
         assert!(equivalent(&left, &right, &oa, &ra));
+    }
+    #[test]
+    fn test_immediate_mask_is_not_a_function_reference() {
+        let target = 0x401080;
+        // A real indexed RET function resides at target. TEST's equal-valued
+        // mask is not address-taking; MOV/PUSH/CMP still carry its identity.
+        for (instruction, is_reference) in [
+            (
+                vec![0xf7, 0x05, 0xf0, 0x10, 0x40, 0, 0x80, 0x10, 0x40, 0],
+                false,
+            ),
+            (vec![0xb8, 0x80, 0x10, 0x40, 0], true),
+            (vec![0x68, 0x80, 0x10, 0x40, 0], true),
+            (vec![0x3d, 0x80, 0x10, 0x40, 0], true),
+        ] {
+            let mut code = vec![0; 0x81];
+            code[..instruction.len()].copy_from_slice(&instruction);
+            code[instruction.len()] = 0xc3;
+            code[0x80] = 0xc3;
+            let image = crate::tests::image(&code);
+            let record = Record {
+                name: "caller".into(),
+                start: 0x401000,
+                end: 0x401001 + instruction.len() as u32,
+                shared: vec![],
+                code_chunks: vec![],
+                evidence: Value::Null,
+                pending_extent: false,
+            };
+            let mut callback = record.clone();
+            callback.name = "callback".into();
+            callback.start = target;
+            callback.end = target + 1;
+            let known = aliases(&[record.clone(), callback]);
+            let decoder = Decoder::new().unwrap();
+            let legacy = describe(&decoder, &image, &record).unwrap();
+            let cfg = crate::flow::walk(
+                &decoder,
+                &image,
+                record.start,
+                record.end,
+                &crate::flow::Options::default(),
+            )
+            .unwrap();
+            for (references, calls, returns) in [
+                (&legacy.references, &legacy.calls, &legacy.returns),
+                (&cfg.references, &cfg.calls, &cfg.returns),
+            ] {
+                let identified: BTreeSet<_> = references
+                    .iter()
+                    .filter(|a| known.contains_key(a))
+                    .copied()
+                    .collect();
+                assert_eq!(
+                    identified,
+                    if is_reference {
+                        BTreeSet::from([target])
+                    } else {
+                        BTreeSet::new()
+                    },
+                    "{instruction:x?}"
+                );
+                assert!(calls.is_empty());
+                assert_eq!(returns, &BTreeSet::from([0]));
+            }
+        }
     }
 }

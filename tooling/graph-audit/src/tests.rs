@@ -4,7 +4,7 @@ use crate::{
     pe::Pe,
 };
 use std::collections::BTreeSet;
-fn image(code: &[u8]) -> Pe {
+pub(crate) fn image(code: &[u8]) -> Pe {
     let mut b = vec![0; 0x600];
     b[..2].copy_from_slice(b"MZ");
     b[60..64].copy_from_slice(&0x80u32.to_le_bytes());

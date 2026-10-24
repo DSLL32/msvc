@@ -115,7 +115,10 @@ pub fn walk(
                 && i.m != "jmp"
                 && !i.jump
             {
-                out.references.insert(*v);
+                // TEST's immediate is a bitmask, even if it equals a function VA.
+                if i.m != "test" {
+                    out.references.insert(*v);
+                }
                 if (options.infer_seh || options.require_explicit_seh_roots)
                     && let Ok(b) = pe.read(*v, 12)
                     && b.len() == 12
