@@ -69,7 +69,6 @@ unsigned __stdcall source_file_timestamp(char *filename) { __asm { int 3 } retur
 int __stdcall search_source_include(char *filename) { __asm { int 3 } return 0; }
 void __stdcall record_pch_open_include(char *filename) { __asm { int 3 } }
 void __stdcall emit_deferred_type_table(void *description, CppSymbol *symbol) { __asm { int 3 } }
-void finish_debug_info(void) { __asm { int 3 } }
 void generate_inline_queries(void) { __asm { int 3 } }
 void finish_browser_output(void) { __asm { int 3 } }
 void report_error(unsigned code, ...) { __asm { int 3 } }
@@ -588,3 +587,4 @@ IrToken *__stdcall convert_general_to_virtual_data_pointer(IrToken *expression, 
 IrToken *__stdcall convert_general_data_member_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base) { __asm { int 3 } return 0; }
 
 IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int displacement) { __asm { int 3 } return 0; }
+void finish_line_record_debug_info(void) { __asm { int 3 } }

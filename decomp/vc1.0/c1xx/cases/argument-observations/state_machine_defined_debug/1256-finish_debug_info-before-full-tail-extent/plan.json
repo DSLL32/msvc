@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "function": "_finish_debug_info",
+  "native_entry": "finish_debug_info",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_line_records": "(unsigned)options.configuration.line_records"
+  },
+  "original_observations": [
+    {
+      "name": "line_records",
+      "original": 653456
+    }
+  ],
+  "state_requirements": [
+    {
+      "index": 14,
+      "native_field": "raw_line_records",
+      "equals": 0
+    }
+  ],
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      448192,
+      448219
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl void/no formals RET0",
+    "proof": "Whole27B frameless; options.configuration.line_records9f890 selects tailJMP70950 or cdeclwrite_debug_record7/pop4/RET. No hidden/register/x87/flagsinput; no consumed return value. Existing configuration field fresh0/ordinary CodeViewcase. Newnamed79B helper70950..7099f cdecl/noargs/RET0: write_debug_record7 thenconditionalglobala269c producer checks18020/17ee0, error471 at73180 with9f894, clearglobal. It remains trap/no implementation/data credit. No newCRT/data/guard."
+  }
+}

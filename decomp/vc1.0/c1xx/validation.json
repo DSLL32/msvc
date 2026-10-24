@@ -1,16 +1,16 @@
 {
-  "accepted_frontiers": 1256,
-  "driver_functions": 1151,
+  "accepted_frontiers": 1257,
+  "driver_functions": 1152,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 1158,
-  "current_frontier": "_finish_debug_info",
-  "original_frontier_va": "0x6d6c0",
+  "reconstructed_source_functions": 1159,
+  "current_frontier": "exit:0",
+  "original_frontier_va": null,
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_finish_debug_info",
-    "original_va": "0x6d6c0"
+    "current_frontier": "exit:0",
+    "original_va": null
   },
   "current_native_application_entries": 25,
   "active_queue": [
@@ -20,12 +20,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 308224,
+    "accepted_code_bytes": 308251,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 64.69612818995084,
-    "accepted_frontiers": 1256,
-    "source_functions": 1158,
-    "accepted_source_text_and_switch_bytes": 292707,
+    "accepted_code_percent": 64.70179548211864,
+    "accepted_frontiers": 1257,
+    "source_functions": 1159,
+    "accepted_source_text_and_switch_bytes": 292734,
     "section_ranges": [
       [
         94208,
@@ -205,12 +205,12 @@
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 308224,
+    "accepted_code_bytes": 308251,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 64.69612818995084,
-    "accepted_frontiers": 1256,
-    "source_functions": 1158,
-    "accepted_source_text_and_switch_bytes": 292707,
+    "accepted_code_percent": 64.70179548211864,
+    "accepted_frontiers": 1257,
+    "source_functions": 1159,
+    "accepted_source_text_and_switch_bytes": 292734,
     "section_ranges": [
       [
         94208,
@@ -389,10 +389,10 @@
       }
     ]
   },
-  "complete_frontend_case": false,
+  "complete_frontend_case": true,
   "active_case": "state_machine_defined_debug",
-  "status": "state_machine_defined_debug reconstruction in progress",
-  "latest_verification": "cases/frontiers/state_machine_defined_debug/1255-emit_debug_bit_field-4/validation.json",
+  "status": "state_machine_defined_debug reconstruction complete",
+  "latest_verification": "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -425,12 +425,12 @@
       "limitation": "evidence/empty-output-scope/receipt.json"
     },
     "state_machine_defined_debug": {
-      "status": "partial",
-      "frontier": "_finish_debug_info",
-      "latest_verification": "cases/frontiers/state_machine_defined_debug/1255-emit_debug_bit_field-4/validation.json"
+      "status": "complete",
+      "frontier": "exit:0",
+      "latest_verification": "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/validation.json"
     }
   },
-  "next_operation": "Continue _finish_debug_info reconstruction",
+  "next_operation": "Seed the next approved C++ queue case",
   "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json",
   "native_limitations": [
     {

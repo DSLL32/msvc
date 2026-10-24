@@ -5,17 +5,10 @@
   "target": "C1XX3232.EXE",
   "authorization": "User-selected autonomous queue; continue without routine confirmation",
   "current": {
-    "case": "state_machine_debug",
-    "fixture": "../fixtures/c1xx-state-machine-debug",
-    "status": "active; full original pipeline validated, exact five-buffer original/native seed",
-    "runtime_contract": {
-      "exit": 0,
-      "interpreted_result": 39,
-      "marks": 11121,
-      "live_before_main_return": 1,
-      "destroyed_before_main_return": 1
-    },
-    "seed": "cases/state_machine_debug-seed/validation.json"
+    "case": "state_machine_defined_debug",
+    "fixture": "../fixtures/c1xx-state-machine-defined-debug",
+    "status": "complete: original/native exit0 and five frozen IR outputs exact",
+    "verification": "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/validation.json"
   },
   "pending": [
     {
@@ -29,15 +22,6 @@
       "proposal": "cases/proposals/state-machine-debug/proposal.json",
       "last_verified_boundary": "_flush_current_function@4",
       "limitation": "evidence/empty-output-scope/receipt.json"
-    },
-    {
-      "case": "state_machine_defined_debug",
-      "family": "Defined state machine plus multiple-base member pointers and embedded debug",
-      "intent": "Distinct approved successor; scalar cache avoids unsupported synthetic local-static cleanup, real method/data pointer adjustments, round trips, null/unequal/virtual checks",
-      "fixture": "../fixtures/c1xx-state-machine-defined-debug",
-      "status": "original full pipeline validated, matching native seed, active reconstruction",
-      "proposal": "cases/proposals/state-machine-defined-debug/proposal.json",
-      "seed": "cases/state_machine_defined_debug-seed/validation.json"
     }
   ],
   "requirements": [
@@ -47,8 +31,8 @@
     "Do not assume newer C++ language features",
     "At each substantial case boundary, review newer verified committed lib/recon fixes with its maintainer and deliberately refresh the shared-build pin where applicable"
   ],
-  "completion": "Five selected cases complete; frozen state_machine_debug explicitly unsupported beyond retained boundary; distinct approved state_machine_defined_debug active",
-  "next_case": "state_machine_defined_debug",
+  "completion": "Six complete frontend cases; frozen state_machine_debug remains explicitly unsupported beyond retained flush boundary",
+  "next_case": "Propose substantial single remaining-application case for root review before original baseline",
   "completed": [
     {
       "case": "cpp_basic",
@@ -101,12 +85,23 @@
       "validation": "../fixtures/c1xx-new-delete/validation.json",
       "case": "new_delete",
       "verification": "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/validation.json"
+    },
+    {
+      "case": "state_machine_defined_debug",
+      "family": "Defined state machine plus multiple-base member pointers and embedded debug",
+      "intent": "Distinct approved successor; scalar cache avoids unsupported synthetic local-static cleanup, real method/data pointer adjustments, round trips, null/unequal/virtual checks",
+      "fixture": "../fixtures/c1xx-state-machine-defined-debug",
+      "status": "complete: exit0, five exact frontend artifacts and streams",
+      "proposal": "cases/proposals/state-machine-defined-debug/proposal.json",
+      "seed": "cases/state_machine_defined_debug-seed/validation.json",
+      "verification": "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/validation.json",
+      "accepted_application_functions": 25
     }
   ],
   "after_selected_queue": {
     "intent": "Propose one substantial combined case targeting the largest remaining non-CRT application families, obtain root review before original execution, then repeat while application families remain",
     "authorization": "User authorized autonomous additional VC1.0 cases while away; root review requires concrete routines/known extents, public reachability, combined features and original validation plan",
-    "status": "Root reviewed concrete state-machine/debug source and options; actual original whole pipeline exit0 validated, native seed matches at997 accepted"
+    "status": "Defined state-machine successor complete; review remaining non-CRT application families and concrete next source with root"
   },
   "shared_fix_review_pending": {
     "commit": "6f61ec34",

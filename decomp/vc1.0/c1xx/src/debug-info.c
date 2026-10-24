@@ -25,6 +25,17 @@ void begin_debug_info(void)
     debug_stream_offset += 4;
 }
 
+/* Original 0x6d6c0..0x6d6da. Line-record mode closes its own
+   debug producer; ordinary CodeView output ends with record seven. */
+void finish_debug_info(void)
+{
+    if (options.configuration.line_records) {
+        finish_line_record_debug_info();
+        return;
+    }
+    write_debug_record(7);
+}
+
 /* These thirteen encountered record schemas belong to the debug stream.
    The second word of each original eight-byte row is not read by this writer. */
 char *debug_record_formats[13] = {

@@ -1,0 +1,100 @@
+{
+  "case": "state_machine_defined_debug",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 1256,
+  "terminal": "exit:0",
+  "candidate": "_finish_debug_info",
+  "pending_accepted": [],
+  "configuration_sha256": "a1e40531944b087fec4a75a791c8f7794b69ecde365e6f21a23353a587a12574",
+  "capture_seconds": 0.6660403711721301,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irsy": {
+      "bytes": 2496,
+      "sha256": "2968c5afac69714f0149183b221f31004d623d319933117a0b822c6299bacb7c"
+    },
+    "state-machine.cpp": {
+      "bytes": 5318,
+      "sha256": "706784046de178ea63d8db17e4fd9aa20277d7ac7702253700d66dc9408536d6"
+    },
+    "irgl": {
+      "bytes": 2090,
+      "sha256": "8f8568e8061ac771c1e485ed1134d161d713b90c21dbeba832b4deab78977216"
+    },
+    "irdb": {
+      "bytes": 2301,
+      "sha256": "fa0d6c1e3e346d9f2413dbb834c8b313f49427056304ced3db74f491637a47f1"
+    },
+    "irin": {
+      "bytes": 212,
+      "sha256": "f9fc4d621242821a6cf7db3ddcb974737e8ed1970443ffe228eef1f5d5e10ba1"
+    },
+    "irex": {
+      "bytes": 7410,
+      "sha256": "92f86b27b5ade86c31315a2cec6f9d25061de389b4c1c471a19acd23e15e4b45"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\state-machine-defined-debug",
+  "observer_sha256": "b2fb8bfb0f5e6517b3d24996e25c0fbb12e74eb4feb26993f0216508550fff32",
+  "first_entry_projection": {
+    "accepted_first": 1232,
+    "accepted_last": 1257,
+    "accepted_prefix_sha256": "eee934305449f12a5c4948efe01ee8ad6e40e0513c5f91d7a410ff6313616e5e",
+    "expected": [
+      "_equal_tail_word_pairs",
+      "_convert_compact_method_pointer@24",
+      "_make_multiple_inheritance_method_pointer@12",
+      "_member_pointer_component@12",
+      "_can_reuse_member_pointer_storage@4",
+      "_preserve_null_data_member_conversion@12",
+      "_refill_source_or_error",
+      "_member_pointer_cast_compatible@12",
+      "_recognize_compact_method_function@8",
+      "_member_pointer_function_value@8",
+      "_dispatch_member_pointer_comparison@8",
+      "_compare_multiple_method_pointer@16",
+      "_member_pointer_adjustment_value@8",
+      "_member_pointer_integer_field@12",
+      "_check_conversion_qualifiers@16",
+      "_lower_multiple_inheritance_member_call@16",
+      "_make_adjusted_member_call@12",
+      "_begin_hash_iteration@8",
+      "_next_hash_entry@4",
+      "_emit_declaration_thunk@8",
+      "_mangle_vcall_model@8",
+      "_format_qualified_tag_name@8",
+      "_emit_debug_array_type@8",
+      "_emit_debug_bit_field@4",
+      "_finish_debug_info"
+    ],
+    "observed": [
+      "_equal_tail_word_pairs",
+      "_convert_compact_method_pointer@24",
+      "_make_multiple_inheritance_method_pointer@12",
+      "_member_pointer_component@12",
+      "_can_reuse_member_pointer_storage@4",
+      "_preserve_null_data_member_conversion@12",
+      "_refill_source_or_error",
+      "_member_pointer_cast_compatible@12",
+      "_recognize_compact_method_function@8",
+      "_member_pointer_function_value@8",
+      "_dispatch_member_pointer_comparison@8",
+      "_compare_multiple_method_pointer@16",
+      "_member_pointer_adjustment_value@8",
+      "_member_pointer_integer_field@12",
+      "_check_conversion_qualifiers@16",
+      "_lower_multiple_inheritance_member_call@16",
+      "_make_adjusted_member_call@12",
+      "_begin_hash_iteration@8",
+      "_next_hash_entry@4",
+      "_emit_declaration_thunk@8",
+      "_mangle_vcall_model@8",
+      "_format_qualified_tag_name@8",
+      "_emit_debug_array_type@8",
+      "_emit_debug_bit_field@4",
+      "_finish_debug_info"
+    ],
+    "events_sha256": "101a9376ca702a65d47b1014b7314fcf5bae85308185272f7bfbfd5a54474784",
+    "plan_sha256": "0666913d4e150db042b4ec44837ec92005027e9ae6eb67575b6dd821714b9619"
+  }
+}

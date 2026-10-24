@@ -1,0 +1,26 @@
+entry _equal_tail_word_pairs rva 0003dfb0 byte 8b
+entry _convert_compact_method_pointer@24 rva 0003bf60 byte 83
+entry _make_multiple_inheritance_method_pointer@12 rva 0003a2a0 byte 53
+entry _member_pointer_component@12 rva 0003bb10 byte 56
+entry _can_reuse_member_pointer_storage@4 rva 0003bbf0 byte 56
+entry _preserve_null_data_member_conversion@12 rva 0003c2d0 byte 56
+entry _refill_source_or_error rva 00011190 byte e8
+entry _member_pointer_cast_compatible@12 rva 00054ef0 byte 8b
+entry _recognize_compact_method_function@8 rva 0003c040 byte 56
+entry _member_pointer_function_value@8 rva 0003bcc0 byte 8b
+entry _dispatch_member_pointer_comparison@8 rva 0003b4e0 byte 8b
+entry _compare_multiple_method_pointer@16 rva 0003b520 byte 83
+entry _member_pointer_adjustment_value@8 rva 0003bd20 byte 56
+entry _member_pointer_integer_field@12 rva 0003bdf0 byte 56
+entry _check_conversion_qualifiers@16 rva 00050f00 byte 53
+entry _lower_multiple_inheritance_member_call@16 rva 0003ae20 byte 83
+entry _make_adjusted_member_call@12 rva 0003b1b0 byte 8b
+entry _begin_hash_iteration@8 rva 0003ee60 byte 8b
+entry _next_hash_entry@4 rva 0003ee80 byte 56
+entry _emit_declaration_thunk@8 rva 0003ddb0 byte 56
+entry _mangle_vcall_model@8 rva 00034280 byte 8b
+entry _format_qualified_tag_name@8 rva 000342f0 byte 56
+entry _emit_debug_array_type@8 rva 0005e590 byte 56
+entry _emit_debug_bit_field@4 rva 0005f8f0 byte 56
+entry _finish_debug_info rva 0005d6c0 byte 83
+exit 0

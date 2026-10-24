@@ -1,48 +1,47 @@
 {
   "case": "state_machine_defined_debug",
-  "scope": "1256 accepted frontiers; explicit original-backed current partial frontend terminal",
-  "reference_receipt": "cases/frontiers/state_machine_defined_debug/1255-emit_debug_bit_field-4/original-receipt.json",
-  "reference_receipt_sha256": "12741a2940e2a713064da014ca379dbee52b89ed311ba95e8f5bd803a16fcba9",
+  "scope": "1257 accepted frontiers; explicit original-backed completed frontend terminal",
+  "reference_receipt": "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/original-receipt.json",
+  "reference_receipt_sha256": "aaed00b4fadaebffc9880353fea9e13e29e47c575801ef9b2468683dce4fa7c5",
   "reference_original_image_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
   "canonical_map": "canonical-map.txt",
-  "canonical_map_sha256": "c57c85cd65cdb544144d804137375b987a41fa768bb0c71b7c711def77bf0ff6",
+  "canonical_map_sha256": "1f1176109826926f54576e31edf91b1945311bef89221be333104444731bbde1",
   "terminal": {
-    "kind": "frontier",
-    "logical": "_finish_debug_info",
-    "native_signal": 5,
-    "original_exception": "80000003"
+    "kind": "exit",
+    "logical": "exit:0",
+    "status": 0
   },
   "expected_stdout": "",
   "expected_stderr": "",
   "outputs": [
     {
       "path": "irex",
-      "bytes": 4915,
-      "sha256": "f53184bb22506dacc86f7a4bed71304bbf6d0eda0bce61954d76e888bf54f1a6"
+      "bytes": 7410,
+      "sha256": "92f86b27b5ade86c31315a2cec6f9d25061de389b4c1c471a19acd23e15e4b45"
     },
     {
       "path": "irsy",
-      "bytes": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "bytes": 2496,
+      "sha256": "2968c5afac69714f0149183b221f31004d623d319933117a0b822c6299bacb7c"
     },
     {
       "path": "irin",
-      "bytes": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "bytes": 212,
+      "sha256": "f9fc4d621242821a6cf7db3ddcb974737e8ed1970443ffe228eef1f5d5e10ba1"
     },
     {
       "path": "irgl",
-      "bytes": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "bytes": 2090,
+      "sha256": "8f8568e8061ac771c1e485ed1134d161d713b90c21dbeba832b4deab78977216"
     },
     {
       "path": "irdb",
-      "bytes": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "bytes": 2301,
+      "sha256": "fa0d6c1e3e346d9f2413dbb834c8b313f49427056304ced3db74f491637a47f1"
     }
   ],
   "normalization": "none; captured visible bytes, not unflushed CRT buffers",
-  "capture_seconds": 1.9197869673371315,
+  "capture_seconds": 0.6660403711721301,
   "dependencies": [
     {
       "path": "toolchains/1.0-nt/bin/C1.ERR",

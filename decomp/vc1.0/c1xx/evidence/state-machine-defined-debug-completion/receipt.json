@@ -1,0 +1,262 @@
+{
+  "schema": 1,
+  "case": "state_machine_defined_debug",
+  "status": "complete",
+  "verification": "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/validation.json",
+  "verification_sha256": "fc3d25f054f503edfc7f74a265efdc05a0c87eaacef70d46e17d59265540d07e",
+  "configuration_sha256": "2908e208dcb2e329c468ef9fb624243b87408472237808558a5d3e396398b474",
+  "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "accepted_before": 1232,
+  "accepted_after": 1257,
+  "new_application_support_functions": 25,
+  "new_function_extents": [
+    {
+      "name": "_finish_debug_info",
+      "start": 448192,
+      "end": 448219
+    },
+    {
+      "name": "_check_conversion_qualifiers@16",
+      "start": 397056,
+      "end": 397310
+    },
+    {
+      "name": "_format_qualified_tag_name@8",
+      "start": 279280,
+      "end": 279362
+    },
+    {
+      "name": "_refill_source_or_error",
+      "start": 135568,
+      "end": 135648
+    },
+    {
+      "name": "_begin_hash_iteration@8",
+      "start": 323168,
+      "end": 323195
+    },
+    {
+      "name": "_next_hash_entry@4",
+      "start": 323200,
+      "end": 323283
+    },
+    {
+      "name": "_emit_declaration_thunk@8",
+      "start": 318896,
+      "end": 319031
+    },
+    {
+      "name": "_mangle_vcall_model@8",
+      "start": 279168,
+      "end": 279194
+    },
+    {
+      "name": "_equal_tail_word_pairs",
+      "start": 319408,
+      "end": 319443
+    },
+    {
+      "name": "_member_pointer_cast_compatible@12",
+      "start": 413424,
+      "end": 413460
+    },
+    {
+      "name": "_emit_debug_array_type@8",
+      "start": 451984,
+      "end": 452052
+    },
+    {
+      "name": "_emit_debug_bit_field@4",
+      "start": 456944,
+      "end": 457036
+    },
+    {
+      "name": "_make_multiple_inheritance_method_pointer@12",
+      "start": 303776,
+      "end": 304029
+    },
+    {
+      "name": "_lower_multiple_inheritance_member_call@16",
+      "start": 306720,
+      "end": 306846
+    },
+    {
+      "name": "_dispatch_member_pointer_comparison@8",
+      "start": 308448,
+      "end": 308499
+    },
+    {
+      "name": "_compare_multiple_method_pointer@16",
+      "start": 308512,
+      "end": 308766
+    },
+    {
+      "name": "_convert_compact_method_pointer@24",
+      "start": 311136,
+      "end": 311353
+    },
+    {
+      "name": "_member_pointer_component@12",
+      "start": 310032,
+      "end": 310244
+    },
+    {
+      "name": "_preserve_null_data_member_conversion@12",
+      "start": 312016,
+      "end": 312086
+    },
+    {
+      "name": "_recognize_compact_method_function@8",
+      "start": 311360,
+      "end": 311675
+    },
+    {
+      "name": "_member_pointer_function_value@8",
+      "start": 310464,
+      "end": 310507
+    },
+    {
+      "name": "_member_pointer_adjustment_value@8",
+      "start": 310560,
+      "end": 310625
+    },
+    {
+      "name": "_can_reuse_member_pointer_storage@4",
+      "start": 310256,
+      "end": 310311
+    },
+    {
+      "name": "_member_pointer_integer_field@12",
+      "start": 310768,
+      "end": 310863
+    },
+    {
+      "name": "_make_adjusted_member_call@12",
+      "start": 307632,
+      "end": 307679
+    }
+  ],
+  "new_code_extent_bytes": 2748,
+  "application_support_source_functions": 1152,
+  "historical_crt_functions_unchanged": 7,
+  "coverage": {
+    "accepted_code_bytes": 308251,
+    "total_executable_code_bytes": 476418,
+    "accepted_code_percent": 64.70179548211864,
+    "accepted_frontiers": 1257,
+    "source_functions": 1159,
+    "accepted_source_text_and_switch_bytes": 292734,
+    "section_ranges": [
+      [
+        94208,
+        570626
+      ]
+    ]
+  },
+  "coverage_scope": "Accepted executable-extent union includes source/switch data/shipped CRT/imports; not non-CRT denominator or branch coverage",
+  "frozen_original_baseline": "../fixtures/c1xx-state-machine-defined-debug/validation.json",
+  "frozen_original_baseline_sha256": "896d9e3f9703525ef5a8ef01dbcc13c7f12f887390e091329489acdaf1608a30",
+  "native_cases": [
+    {
+      "case": "cpp_basic",
+      "status": "pass",
+      "terminal": {
+        "kind": "exit",
+        "logical": "exit:0",
+        "status": 0
+      },
+      "complete": true,
+      "execution_seconds": 0.0106208436191082,
+      "total_seconds": 0.0170805836096406
+    },
+    {
+      "case": "virtual_diamond",
+      "status": "pass",
+      "terminal": {
+        "kind": "exit",
+        "logical": "exit:0",
+        "status": 0
+      },
+      "complete": true,
+      "execution_seconds": 0.009149436838924885,
+      "total_seconds": 0.015234162099659443
+    },
+    {
+      "case": "copy_assignment",
+      "status": "pass",
+      "terminal": {
+        "kind": "exit",
+        "logical": "exit:0",
+        "status": 0
+      },
+      "complete": true,
+      "execution_seconds": 0.007146582007408142,
+      "total_seconds": 0.013037184253334999
+    },
+    {
+      "case": "stack_lifetime",
+      "status": "pass",
+      "terminal": {
+        "kind": "exit",
+        "logical": "exit:0",
+        "status": 0
+      },
+      "complete": true,
+      "execution_seconds": 0.007154165767133236,
+      "total_seconds": 0.013426314108073711
+    },
+    {
+      "case": "new_delete",
+      "status": "pass",
+      "terminal": {
+        "kind": "exit",
+        "logical": "exit:0",
+        "status": 0
+      },
+      "complete": true,
+      "execution_seconds": 0.008209074847400188,
+      "total_seconds": 0.014558309689164162
+    },
+    {
+      "case": "state_machine_debug",
+      "status": "pass",
+      "terminal": {
+        "kind": "frontier",
+        "logical": "_flush_current_function@4",
+        "native_signal": 5,
+        "original_exception": "80000003"
+      },
+      "complete": false,
+      "execution_seconds": 0.011209310032427311,
+      "total_seconds": 0.017492540180683136
+    },
+    {
+      "case": "state_machine_defined_debug",
+      "status": "pass",
+      "terminal": {
+        "kind": "exit",
+        "logical": "exit:0",
+        "status": 0
+      },
+      "complete": true,
+      "execution_seconds": 0.011226666159927845,
+      "total_seconds": 0.017794343642890453
+    }
+  ],
+  "timing": {
+    "latest_fixture_total_seconds": 0.8199537573382258,
+    "fixture_trace_setup_seconds": 0.6229285383597016,
+    "fixture_execution_seconds": 0.06471607927232981,
+    "fixture_case_setup_seconds": 0.034606361761689186,
+    "fresh_final_original_capture_seconds": 0.6660403711721301,
+    "fresh_final_total_operation_seconds": 3.9372987765818834,
+    "builds": "Separate per-frontier build-timing.json native/canonical make-j4 splits; no fixture Wine"
+  },
+  "preserved_unsupported_case": {
+    "case": "state_machine_debug",
+    "boundary": "_flush_current_function@4",
+    "evidence": "evidence/empty-output-scope/receipt.json"
+  },
+  "tail_target_extent_correction": "evidence/finish-debug-info/boundary-correction.txt",
+  "remaining_scope": "Application/support remains; no assertion that only CRT remains"
+}
