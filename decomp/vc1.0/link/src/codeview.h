@@ -28,6 +28,7 @@ typedef struct CvDirectoryEntry {
 } CvDirectoryEntry;
 CvModuleSegment *collect_module_segments(Module *,unsigned short *,Image *);
 void collect_module_publics(Image *);
+void print_module_debug_info(void);
 void emit_module_publics(Image *,ModuleDebugInfo *);
 void emit_cv_public(SymbolTable *,External *,unsigned short);
 #endif

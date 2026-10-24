@@ -1,0 +1,16 @@
+{
+  "command": [
+    "gdb",
+    "-q",
+    "-nx",
+    "-batch",
+    "-ex",
+    "file /root/msvc2/decomp/vc1.0/link/build/native/module-diagnostics",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc1.0/link/module-diagnostics-gdb-4nez22om/observe.py"
+  ],
+  "seconds": 0.17718212958425283,
+  "status": 0,
+  "trial": null,
+  "elf_sha256": "2dbdfa95682921b5d788f6fa0654a5a771b7cfd32e32e5d24f3ec6cf0dd35973"
+}

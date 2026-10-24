@@ -1,0 +1,19 @@
+{
+  "accepted_frontiers": 991,
+  "application_functions": 796,
+  "public_CLI_functions": 759,
+  "direct_only_functions": 37,
+  "historical_CRT_overrides": 16,
+  "new_application_extent_bytes": 158,
+  "new_CFG_instruction_bytes": 158,
+  "new_alignment_bytes": 0,
+  "new_shipped_CRT_extent_bytes": 0,
+  "app_only_extent_bytes": 228478,
+  "whole_text_denominator": 281634,
+  "app_only_percent": 81.12585838357585,
+  "support_inclusive_extent_bytes": 259081,
+  "support_inclusive_percent": 91.99208902334234,
+  "unaccepted_unclassified_bytes": 12996,
+  "full_nonCRT_denominator": null,
+  "limits": "Partial known-body inventory, not full provenance denominator. Unknown bytes are not CRT; direct support is not public CLI reach or branch coverage."
+}

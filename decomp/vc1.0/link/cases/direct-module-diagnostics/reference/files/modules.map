@@ -1,0 +1,30 @@
+ modules
+
+ Timestamp is 6adc19d5 (Fri Oct 23 19:37:09 2026)
+
+ Preferred load address is 00010000
+
+ Start         Length     Name                   Class
+ 0001:00000000 00000050H .text                   CODE
+ 0002:00000000 00000054H .rdata                  DATA
+ 0003:00000000 00000008H .data                   DATA
+ 0005:00000000 000006efH .debug$C                DATA
+ 0005:000006f0 00000030H .debug$F                DATA
+ 0005:00000720 00000000H .debug$G                DATA
+ 0005:00000720 00000008H .debug$H                DATA
+ 0005:00000728 000001adH .debug$S                DATA
+ 0005:000008d5 00000098H .debug$T                DATA
+
+  Address         Publics by Value              Rva+Base   Lib:Object
+
+ 0001:00000000       ?shared_increment@@YAHH@Z  00011000 f helpers:beta.obj
+ 0001:00000010       _beta                      00011010 f helpers:beta.obj
+ 0001:00000030       _alpha                     00011030 f helpers:member-with-a-long-name-alpha.obj
+ 0003:00000000       _beta_address              00013000   helpers:beta.obj
+ 0003:00000004       _alpha_address             00013004   helpers:member-with-a-long-name-alpha.obj
+
+ entry point at        0001:00000030
+
+ Static symbols
+
+

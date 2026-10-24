@@ -1,0 +1,302 @@
+{
+  "scope": "Single measured final batch, no benchmark repetitions. Build/capture/GDB separate from cached native fixture times. Setup includes trace preparation; do not add it twice.",
+  "final_native": [
+    {
+      "label": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/native/legacy-diagnostics",
+        "build/native/ide-protocol",
+        "build/native/comdat-diagnostics",
+        "build/native/dispatcher",
+        "build/native/cvtomf",
+        "build/native/file-resize",
+        "build/native/symbol-tables",
+        "build/native/module-diagnostics",
+        "build/native-trace/legacy-diagnostics",
+        "build/native-trace/ide-protocol",
+        "build/native-trace/comdat-diagnostics",
+        "build/native-trace/dispatcher",
+        "build/native-trace/cvtomf",
+        "build/native-trace/file-resize",
+        "build/native-trace/symbol-tables",
+        "build/native-trace/module-diagnostics"
+      ],
+      "seconds": 11.41507759410888,
+      "status": 0
+    },
+    {
+      "label": "trace-cache",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 1.1416051592677832,
+      "status": 0
+    },
+    {
+      "label": "cached86",
+      "command": [
+        "make",
+        "-j4",
+        "native-trace-check"
+      ],
+      "seconds": 8.827353772707283,
+      "status": 0
+    }
+  ],
+  "canonical": {
+    "command": [
+      "make",
+      "-j4",
+      "all"
+    ],
+    "seconds": 21.195154859684408,
+    "status": 0
+  },
+  "host_audits": [
+    {
+      "label": "audit",
+      "command": [
+        "make",
+        "-j4",
+        "audit"
+      ],
+      "seconds": 6.821007800288498,
+      "status": 0
+    },
+    {
+      "label": "graph-controls",
+      "command": [
+        "python3",
+        "scripts/check-graph-audit.py"
+      ],
+      "seconds": 18.99058914370835,
+      "status": 0
+    },
+    {
+      "label": "instructions",
+      "command": [
+        "../../../tooling/graph-audit/target/release/graph-audit",
+        "--profile",
+        "link",
+        "--project",
+        ".",
+        "--repo",
+        "../../..",
+        "--include-evidenced-runtime",
+        "--check-accepted-extents",
+        "--check-ret",
+        "--check-references",
+        "--check-ownership",
+        "--check-extents",
+        "--export-instructions",
+        "--report",
+        "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/final/instructions.json"
+      ],
+      "seconds": 2.198712161742151,
+      "status": 0
+    }
+  ],
+  "original_observations": [
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/masked-0o8angqc/receipt.json",
+        "bytes": 3346,
+        "sha256": "fcb4e1b703eca283b7c4892be81958f3524bae1e6c8c27603dda6ad9f672ab2f"
+      },
+      "mode": "masked",
+      "trial": "add_default_libraries",
+      "seconds": 1.6821467215195298,
+      "summary": {
+        "event": "summary",
+        "failed": 0,
+        "stopped": 2,
+        "exit": 17,
+        "phase": 4,
+        "stdout_bytes": 67,
+        "stderr_bytes": 0
+      },
+      "scope": "Explicit original-only observation, outside fixtures; failures retained."
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/masked-toa2d6ca/receipt.json",
+        "bytes": 3402,
+        "sha256": "02452bf759acd61bcf0127f86c49db51af4987646fe8a6ed5a44320007eaa20f"
+      },
+      "mode": "masked",
+      "trial": "print_module_debug_info",
+      "seconds": 1.8390639927238226,
+      "summary": {
+        "event": "summary",
+        "failed": 0,
+        "stopped": 1,
+        "exit": 0,
+        "phase": 6,
+        "stdout_bytes": 203,
+        "stderr_bytes": 0
+      },
+      "scope": "Explicit original-only observation, outside fixtures; failures retained."
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/masked-w3pumojg/receipt.json",
+        "bytes": 3325,
+        "sha256": "5dad312e4336b186ceaf815da638cba88f6e31beab0ecfdb160bfc152f12aeaa"
+      },
+      "mode": "masked",
+      "trial": null,
+      "seconds": 1.559147397056222,
+      "summary": {
+        "event": "summary",
+        "failed": 0,
+        "stopped": 2,
+        "exit": 17,
+        "phase": 2,
+        "stdout_bytes": 67,
+        "stderr_bytes": 0
+      },
+      "scope": "Explicit original-only observation, outside fixtures; failures retained."
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/original-p8oeguq2/receipt.json",
+        "bytes": 3188,
+        "sha256": "b35d7a85023783795a9492ec9938d9bbee73c74dcc2b65abf67844647c068f8b"
+      },
+      "mode": "original",
+      "trial": null,
+      "seconds": 0.8963065026327968,
+      "summary": {
+        "event": "summary",
+        "failed": 0,
+        "stopped": 0,
+        "exit": 23,
+        "phase": 0,
+        "stdout_bytes": 332,
+        "stderr_bytes": 0
+      },
+      "scope": "Explicit original-only observation, outside fixtures; failures retained."
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/original-y7gcyb0q/receipt.json",
+        "bytes": 3342,
+        "sha256": "5b10e210d002a07f2c4acaff5df965c4509401c05af568c47c49bd4345a07d42"
+      },
+      "mode": "original",
+      "trial": null,
+      "seconds": 1.0035280548036098,
+      "summary": {
+        "event": "summary",
+        "failed": 0,
+        "stopped": 1,
+        "exit": 0,
+        "phase": 6,
+        "stdout_bytes": 203,
+        "stderr_bytes": 0
+      },
+      "scope": "Explicit original-only observation, outside fixtures; failures retained."
+    }
+  ],
+  "native_GDB": [
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/module-diagnostics-gdb-4nez22om/receipt.json",
+        "bytes": 402,
+        "sha256": "8ae92c4a7434a19e89032ced7b2c13ae4517454ee658180ea81a77ea7efa9e64"
+      },
+      "seconds": 0.17718212958425283,
+      "status": 0,
+      "trial": null,
+      "clock_value": null,
+      "scope": "Explicit native GDB acceptance/diagnosis, outside cached fixture execution."
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/module-diagnostics-gdb-6u4v78tj/receipt.json",
+        "bytes": 672,
+        "sha256": "6c292075596b8675e14aea635caf9c30fe74f81ea488aa47ae3b6e18789fc425"
+      },
+      "seconds": 0.21369297336786985,
+      "status": 0,
+      "trial": "print_module_debug_info",
+      "clock_value": 1792810165,
+      "scope": "Explicit native GDB acceptance/diagnosis, outside cached fixture execution."
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/module-diagnostics-gdb-rsxjfv2n/receipt.json",
+        "bytes": 421,
+        "sha256": "f7c112473c477e5ff0e6797a92f338b9f2a6dc2574727aeb2934359f71914b4f"
+      },
+      "seconds": 0.21430532820522785,
+      "status": 0,
+      "trial": "add_default_libraries",
+      "clock_value": null,
+      "scope": "Explicit native GDB acceptance/diagnosis, outside cached fixture execution."
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/module-diagnostics-gdb-szark04f/receipt.json",
+        "bytes": 421,
+        "sha256": "1bfeb9f0c7c280f079bd508698adc5b9ee083e514c543a727abac26e880cad2b"
+      },
+      "seconds": 0.20922903716564178,
+      "status": 0,
+      "trial": "add_default_libraries",
+      "clock_value": null,
+      "scope": "Explicit native GDB acceptance/diagnosis, outside cached fixture execution."
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/module-diagnostics-gdb-ukdbj011/receipt.json",
+        "bytes": 423,
+        "sha256": "8d3810e7450cbfe3957d3945c0fa7a547c55f508b7b032f6180634e7b9a1519c"
+      },
+      "seconds": 0.22528399527072906,
+      "status": 0,
+      "trial": "print_module_debug_info",
+      "clock_value": null,
+      "scope": "Explicit native GDB acceptance/diagnosis, outside cached fixture execution."
+    }
+  ],
+  "output_only": {
+    "receipt": {
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/module-diagnostics-cached-bp_qfv2_/receipt.json",
+      "bytes": 1102,
+      "sha256": "0cc610ca454622b13d661a0b080ba01a570a70c85f845eef6280fd0fc055a665"
+    },
+    "timing": {
+      "setup_seconds": 0.018312381580471992,
+      "trace_prepare_seconds": 0,
+      "execution_seconds": 0.005366634577512741,
+      "oracle_seconds": 0.022383452393114567,
+      "trace_seconds": 5.681067705154419e-07,
+      "total_seconds": 0.05199548415839672
+    }
+  },
+  "new_trace_fixture": {
+    "receipt": {
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/module-diagnostics-cached-0z8i8n2t/receipt.json",
+      "bytes": 1177,
+      "sha256": "0bd502af897ba58e0a9c38e14a01c48b1b1b5d7be507a591e0e960246bd19235"
+    },
+    "timing": {
+      "setup_seconds": 0.22806053515523672,
+      "trace_prepare_seconds": 0.2093842588365078,
+      "execution_seconds": 0.006476571783423424,
+      "oracle_seconds": 0.031090814620256424,
+      "trace_seconds": 0.00014837458729743958,
+      "total_seconds": 0.2738535311073065
+    }
+  },
+  "offline_controls_seconds": 0.04660665150731802,
+  "helper_build_timing": "Intermediate controller/diagnosis builds unmeasured; canonical final and full native final measured above.",
+  "full_suite": "native-validation.json has all per-case raw receipt paths/hashes and component timings; external make wall8.827s includes Python imports/setup/checks."
+}

@@ -1,0 +1,170 @@
+
+build/native/module-diagnostics:     file format elf32-i386
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+000367f0 <find_hash_entry>:
+   367f0:	55                   	push   %ebp
+   367f1:	89 e5                	mov    %esp,%ebp
+   367f3:	53                   	push   %ebx
+   367f4:	56                   	push   %esi
+   367f5:	83 ec 40             	sub    $0x40,%esp
+   367f8:	e8 00 00 00 00       	call   367fd <find_hash_entry+0xd>
+   367fd:	58                   	pop    %eax
+   367fe:	81 c0 f7 a7 05 00    	add    $0x5a7f7,%eax
+   36804:	89 45 d4             	mov    %eax,-0x2c(%ebp)
+   36807:	8b 4d 18             	mov    0x18(%ebp),%ecx
+   3680a:	8b 4d 14             	mov    0x14(%ebp),%ecx
+   3680d:	8a 4d 10             	mov    0x10(%ebp),%cl
+   36810:	8b 4d 0c             	mov    0xc(%ebp),%ecx
+   36813:	8b 4d 08             	mov    0x8(%ebp),%ecx
+   36816:	8b 55 0c             	mov    0xc(%ebp),%edx
+   36819:	8b 4a 08             	mov    0x8(%edx),%ecx
+   3681c:	8b 52 0c             	mov    0xc(%edx),%edx
+   3681f:	89 55 e0             	mov    %edx,-0x20(%ebp)
+   36822:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
+   36829:	df 6d e0             	fildll -0x20(%ebp)
+   3682c:	89 4d d8             	mov    %ecx,-0x28(%ebp)
+   3682f:	c7 45 dc 00 00 00 00 	movl   $0x0,-0x24(%ebp)
+   36836:	df 6d d8             	fildll -0x28(%ebp)
+   36839:	de f9                	fdivrp %st,%st(1)
+   3683b:	d9 80 14 70 fe ff    	flds   -0x18fec(%eax)
+   36841:	d9 c9                	fxch   %st(1)
+   36843:	df e9                	fucomip %st(1),%st
+   36845:	dd d8                	fstp   %st(0)
+   36847:	76 17                	jbe    36860 <find_hash_entry+0x70>
+   36849:	eb 00                	jmp    3684b <find_hash_entry+0x5b>
+   3684b:	8b 5d d4             	mov    -0x2c(%ebp),%ebx
+   3684e:	8b 4d 0c             	mov    0xc(%ebp),%ecx
+   36851:	8b 45 14             	mov    0x14(%ebp),%eax
+   36854:	89 0c 24             	mov    %ecx,(%esp)
+   36857:	89 44 24 04          	mov    %eax,0x4(%esp)
+   3685b:	e8 00 04 00 00       	call   36c60 <expand_hash>
+   36860:	8b 5d d4             	mov    -0x2c(%ebp),%ebx
+   36863:	8b 4d 08             	mov    0x8(%ebp),%ecx
+   36866:	8b 45 0c             	mov    0xc(%ebp),%eax
+   36869:	89 0c 24             	mov    %ecx,(%esp)
+   3686c:	89 44 24 04          	mov    %eax,0x4(%esp)
+   36870:	e8 cb 06 00 00       	call   36f40 <hash_bucket>
+   36875:	89 45 f0             	mov    %eax,-0x10(%ebp)
+   36878:	8b 45 0c             	mov    0xc(%ebp),%eax
+   3687b:	8b 40 28             	mov    0x28(%eax),%eax
+   3687e:	89 45 cc             	mov    %eax,-0x34(%ebp)
+   36881:	8b 45 f0             	mov    -0x10(%ebp),%eax
+   36884:	8b 4d 0c             	mov    0xc(%ebp),%ecx
+   36887:	31 d2                	xor    %edx,%edx
+   36889:	f7 71 18             	divl   0x18(%ecx)
+   3688c:	89 c1                	mov    %eax,%ecx
+   3688e:	8b 45 cc             	mov    -0x34(%ebp),%eax
+   36891:	8b 04 88             	mov    (%eax,%ecx,4),%eax
+   36894:	8b 00                	mov    (%eax),%eax
+   36896:	89 45 d0             	mov    %eax,-0x30(%ebp)
+   36899:	8b 45 f0             	mov    -0x10(%ebp),%eax
+   3689c:	8b 4d 0c             	mov    0xc(%ebp),%ecx
+   3689f:	31 d2                	xor    %edx,%edx
+   368a1:	f7 71 18             	divl   0x18(%ecx)
+   368a4:	8b 45 d0             	mov    -0x30(%ebp),%eax
+   368a7:	c1 e2 02             	shl    $0x2,%edx
+   368aa:	01 d0                	add    %edx,%eax
+   368ac:	89 45 ec             	mov    %eax,-0x14(%ebp)
+   368af:	8b 45 ec             	mov    -0x14(%ebp),%eax
+   368b2:	8b 00                	mov    (%eax),%eax
+   368b4:	89 45 e8             	mov    %eax,-0x18(%ebp)
+   368b7:	83 7d e8 00          	cmpl   $0x0,-0x18(%ebp)
+   368bb:	74 51                	je     3690e <find_hash_entry+0x11e>
+   368bd:	8b 5d d4             	mov    -0x2c(%ebp),%ebx
+   368c0:	8b 45 08             	mov    0x8(%ebp),%eax
+   368c3:	89 45 c8             	mov    %eax,-0x38(%ebp)
+   368c6:	8b 45 0c             	mov    0xc(%ebp),%eax
+   368c9:	8b 40 20             	mov    0x20(%eax),%eax
+   368cc:	8b 4d e8             	mov    -0x18(%ebp),%ecx
+   368cf:	8b 11                	mov    (%ecx),%edx
+   368d1:	8b 4d 14             	mov    0x14(%ebp),%ecx
+   368d4:	89 14 24             	mov    %edx,(%esp)
+   368d7:	89 4c 24 04          	mov    %ecx,0x4(%esp)
+   368db:	ff d0                	call   *%eax
+   368dd:	8b 5d d4             	mov    -0x2c(%ebp),%ebx
+   368e0:	8b 4d c8             	mov    -0x38(%ebp),%ecx
+   368e3:	89 c2                	mov    %eax,%edx
+   368e5:	89 e0                	mov    %esp,%eax
+   368e7:	89 50 04             	mov    %edx,0x4(%eax)
+   368ea:	89 08                	mov    %ecx,(%eax)
+   368ec:	e8 7f e7 fc ff       	call   5070 <strcmp@plt>
+   368f1:	83 f8 00             	cmp    $0x0,%eax
+   368f4:	75 0b                	jne    36901 <find_hash_entry+0x111>
+   368f6:	8b 45 e8             	mov    -0x18(%ebp),%eax
+   368f9:	89 45 f4             	mov    %eax,-0xc(%ebp)
+   368fc:	e9 d0 00 00 00       	jmp    369d1 <find_hash_entry+0x1e1>
+   36901:	eb 00                	jmp    36903 <find_hash_entry+0x113>
+   36903:	8b 45 e8             	mov    -0x18(%ebp),%eax
+   36906:	8b 40 04             	mov    0x4(%eax),%eax
+   36909:	89 45 e8             	mov    %eax,-0x18(%ebp)
+   3690c:	eb a9                	jmp    368b7 <find_hash_entry+0xc7>
+   3690e:	80 7d 10 00          	cmpb   $0x0,0x10(%ebp)
+   36912:	75 0c                	jne    36920 <find_hash_entry+0x130>
+   36914:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+   3691b:	e9 b1 00 00 00       	jmp    369d1 <find_hash_entry+0x1e1>
+   36920:	8b 45 d4             	mov    -0x2c(%ebp),%eax
+   36923:	8b 4d 18             	mov    0x18(%ebp),%ecx
+   36926:	c6 01 01             	movb   $0x1,(%ecx)
+   36929:	8d 88 84 4b 01 00    	lea    0x14b84(%eax),%ecx
+   3692f:	8b 11                	mov    (%ecx),%edx
+   36931:	8d 88 88 4b 01 00    	lea    0x14b88(%eax),%ecx
+   36937:	8d b0 84 4b 01 00    	lea    0x14b84(%eax),%esi
+   3693d:	89 11                	mov    %edx,(%ecx)
+   3693f:	8d 80 84 4b 01 00    	lea    0x14b84(%eax),%eax
+   36945:	83 38 08             	cmpl   $0x8,(%eax)
+   36948:	73 14                	jae    3695e <find_hash_entry+0x16e>
+   3694a:	8b 5d d4             	mov    -0x2c(%ebp),%ebx
+   3694d:	c7 04 24 08 00 00 00 	movl   $0x8,(%esp)
+   36954:	e8 f7 4f 02 00       	call   5b950 <allocate_pool_block>
+   36959:	89 45 e8             	mov    %eax,-0x18(%ebp)
+   3695c:	eb 3b                	jmp    36999 <find_hash_entry+0x1a9>
+   3695e:	8b 55 d4             	mov    -0x2c(%ebp),%edx
+   36961:	8d 82 84 4b 01 00    	lea    0x14b84(%edx),%eax
+   36967:	8b 08                	mov    (%eax),%ecx
+   36969:	8d 82 84 4b 01 00    	lea    0x14b84(%edx),%eax
+   3696f:	83 e9 08             	sub    $0x8,%ecx
+   36972:	8d 82 84 4b 01 00    	lea    0x14b84(%edx),%eax
+   36978:	89 08                	mov    %ecx,(%eax)
+   3697a:	8d 82 80 4b 01 00    	lea    0x14b80(%edx),%eax
+   36980:	8b 00                	mov    (%eax),%eax
+   36982:	8d 8a 1c 09 00 00    	lea    0x91c(%edx),%ecx
+   36988:	03 01                	add    (%ecx),%eax
+   3698a:	31 c9                	xor    %ecx,%ecx
+   3698c:	8d 92 88 4b 01 00    	lea    0x14b88(%edx),%edx
+   36992:	2b 0a                	sub    (%edx),%ecx
+   36994:	01 c8                	add    %ecx,%eax
+   36996:	89 45 e8             	mov    %eax,-0x18(%ebp)
+   36999:	8b 45 e8             	mov    -0x18(%ebp),%eax
+   3699c:	c7 00 00 00 00 00    	movl   $0x0,(%eax)
+   369a2:	8b 45 e8             	mov    -0x18(%ebp),%eax
+   369a5:	c7 40 04 00 00 00 00 	movl   $0x0,0x4(%eax)
+   369ac:	8b 45 ec             	mov    -0x14(%ebp),%eax
+   369af:	8b 08                	mov    (%eax),%ecx
+   369b1:	8b 45 e8             	mov    -0x18(%ebp),%eax
+   369b4:	89 48 04             	mov    %ecx,0x4(%eax)
+   369b7:	8b 4d e8             	mov    -0x18(%ebp),%ecx
+   369ba:	8b 45 ec             	mov    -0x14(%ebp),%eax
+   369bd:	89 08                	mov    %ecx,(%eax)
+   369bf:	8b 45 0c             	mov    0xc(%ebp),%eax
+   369c2:	8b 48 0c             	mov    0xc(%eax),%ecx
+   369c5:	83 c1 01             	add    $0x1,%ecx
+   369c8:	89 48 0c             	mov    %ecx,0xc(%eax)
+   369cb:	8b 45 e8             	mov    -0x18(%ebp),%eax
+   369ce:	89 45 f4             	mov    %eax,-0xc(%ebp)
+   369d1:	8b 45 f4             	mov    -0xc(%ebp),%eax
+   369d4:	83 c4 40             	add    $0x40,%esp
+   369d7:	5e                   	pop    %esi
+   369d8:	5b                   	pop    %ebx
+   369d9:	5d                   	pop    %ebp
+   369da:	c3                   	ret
+
+Disassembly of section .fini:

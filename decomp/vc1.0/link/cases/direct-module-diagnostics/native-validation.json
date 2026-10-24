@@ -1,0 +1,335 @@
+{
+  "status": "pass",
+  "completed_native_cases": 86,
+  "new_cases": 1,
+  "accepted_frontiers": 991,
+  "application_functions": 796,
+  "public_CLI_functions": 759,
+  "direct_only_functions": 37,
+  "historical_CRT_overrides": 16,
+  "new_application_functions": 2,
+  "new_CRT_bodies": 0,
+  "new_shipped_support": 0,
+  "normalization": [],
+  "suites": [
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/native/native-check-lbrnqpdy/receipt.json",
+        "bytes": 141659,
+        "sha256": "bd58fb48a34b3af765742976816965689ee12f51ed32141aa8006aa7dfe22349"
+      },
+      "summary": {
+        "status": "pass",
+        "total_seconds": 5.5694832894951105,
+        "trace_prepare_seconds": 0.1946434285491705
+      }
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/legacy-cached-j8iyd846/receipt.json",
+        "bytes": 1975,
+        "sha256": "a631325f6ff133fdfa1cbbced6ab434d92c1bc3ed0bb7c65745a258a52fefd6f"
+      },
+      "summary": {
+        "status": "pass",
+        "trace_prepare_seconds": 0.20626869797706604
+      }
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/ide-cached-4mpgapqc/receipt.json",
+        "bytes": 920,
+        "sha256": "4c1849003c54359c14a6907870247afb858ec565048129e1ca42b30b638cb419"
+      },
+      "case": "ide-callback-protocol",
+      "entries": [
+        "initialize_ide_api",
+        "emit_ide_message",
+        "read_ide_flags"
+      ],
+      "timing": {
+        "setup_seconds": 0.2105482779443264,
+        "trace_prepare_seconds": 0.19134460389614105,
+        "execution_seconds": 0.004613208584487438,
+        "oracle_seconds": 0.00028953608125448227,
+        "trace_seconds": 0.00010577775537967682,
+        "total_seconds": 0.22225935477763414
+      },
+      "summary": {
+        "status": "pass"
+      }
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/comdat-cached-xclojfb1/receipt.json",
+        "bytes": 945,
+        "sha256": "6c6acc3edfa55dd8bc1616c69153e6b371090671a85949d62408cf89f92a58dd"
+      },
+      "case": "comdat-graph-diagnostics",
+      "entries": [
+        "dump_comdat_graph",
+        "debug_printf",
+        "print_comdat_node",
+        "comdat_usage_label",
+        "print_comdat_edge"
+      ],
+      "timing": {
+        "setup_seconds": 0.22053547110408545,
+        "trace_prepare_seconds": 0.20563265401870012,
+        "execution_seconds": 0.004871480166912079,
+        "oracle_seconds": 0.0002407524734735489,
+        "trace_seconds": 0.00016890838742256165,
+        "total_seconds": 0.23446148820221424
+      },
+      "summary": {
+        "status": "pass"
+      }
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/dispatcher-cached-5u_07_nq/receipt.json",
+        "bytes": 788,
+        "sha256": "d26ed185eb0e8d05fbec21ae63245897ed5c8fa74f5ace1346d42485937988ff"
+      },
+      "case": "dispatcher-assistance-helper",
+      "entries": [
+        "helper_main"
+      ],
+      "timing": {
+        "setup_seconds": 0.19287671521306038,
+        "trace_prepare_seconds": 0.19134681671857834,
+        "execution_seconds": 0.00357202161103487,
+        "oracle_seconds": 0.00018142908811569214,
+        "trace_seconds": 0.0001131296157836914,
+        "total_seconds": 0.20353082567453384
+      },
+      "summary": {
+        "status": "pass"
+      }
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/dispatcher-cached-sx_q0l81/receipt.json",
+        "bytes": 842,
+        "sha256": "5a8be4c95e3c68045c0108f2f64c71e89e233ad4ae7b663cdc02f451def9a7cd"
+      },
+      "case": "dispatcher-assistance-direct",
+      "entries": [
+        "driver_usage"
+      ],
+      "timing": {
+        "setup_seconds": 0.18811504170298576,
+        "trace_prepare_seconds": 0.1866715345531702,
+        "execution_seconds": 0.0030126087367534637,
+        "oracle_seconds": 0.00019544176757335663,
+        "trace_seconds": 0.0001182379201054573,
+        "total_seconds": 0.19803030136972666
+      },
+      "summary": {
+        "status": "pass"
+      }
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-cached-nt1obojp/receipt.json",
+        "bytes": 1508,
+        "sha256": "97f8b46b551ecc33ea2e46997778f4b51ee3f759261584f9835c57639720f443"
+      },
+      "case": "direct-cvtomf-codeview-no-lines",
+      "entries": [
+        "omf_write_debug_symbol_data",
+        "omf_save_debug_fixups",
+        "omf_write_debug_type_data",
+        "omf_convert_debug_types",
+        "omf_convert_debug_type",
+        "omf_convert_debug_structure",
+        "omf_debug_number",
+        "omf_debug_index",
+        "omf_debug_is_union",
+        "omf_debug_primitive_type",
+        "omf_debug_primitive_size",
+        "omf_resolve_debug_types",
+        "omf_convert_debug_symbols",
+        "omf_compare_debug_fixups",
+        "omf_debug_type_auxiliary",
+        "omf_debug_register",
+        "omf_find_debug_fixup",
+        "omf_finish_debug_types"
+      ],
+      "timing": {
+        "setup_seconds": 0.20433066599071026,
+        "trace_prepare_seconds": 0.19618253782391548,
+        "execution_seconds": 0.003954884596168995,
+        "oracle_seconds": 0.0008824365213513374,
+        "trace_seconds": 0.00010416749864816666,
+        "total_seconds": 0.21608468145132065
+      },
+      "summary": {
+        "status": "pass"
+      }
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/file-resize-cached-mjqlxzje/receipt.json",
+        "bytes": 1006,
+        "sha256": "0bd49edaa5f63d6c91990fda7420bf6ed3836e9b5819667d1ab222bc88583bd3"
+      },
+      "case": "direct-file-resize-mapped",
+      "entries": [
+        "resize_file",
+        "resize_mapped_file"
+      ],
+      "timing": {
+        "setup_seconds": 0.23081893008202314,
+        "trace_prepare_seconds": 0.20610960945487022,
+        "execution_seconds": 0.005753831006586552,
+        "oracle_seconds": 0.0427820710465312,
+        "trace_seconds": 0.00011596176773309708,
+        "total_seconds": 0.2868505632504821
+      },
+      "summary": {
+        "status": "pass"
+      }
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/file-resize-cached-3jdrrq_p/receipt.json",
+        "bytes": 1014,
+        "sha256": "00f1935a4d7f1ac2b1884c6c5fbe14c69350277fc84729f35e78af9b75566e8f"
+      },
+      "case": "direct-file-resize-buffered",
+      "entries": [
+        "resize_file",
+        "resize_buffered_file"
+      ],
+      "timing": {
+        "setup_seconds": 0.20637613348662853,
+        "trace_prepare_seconds": 0.2044427590444684,
+        "execution_seconds": 0.0038960743695497513,
+        "oracle_seconds": 0.0007034065201878548,
+        "trace_seconds": 0.00015753228217363358,
+        "total_seconds": 0.22130690328776836
+      },
+      "summary": {
+        "status": "pass"
+      }
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/symbol-tables-cached-9bat1rwc/receipt.json",
+        "bytes": 949,
+        "sha256": "99d603a690a378cab20a49ead996cb2934ceb37159367afcab3b5a44c23074f2"
+      },
+      "case": "direct-symbol-tables",
+      "entries": [
+        "print_external_table",
+        "copy_defined_names"
+      ],
+      "timing": {
+        "setup_seconds": 0.21490517538040876,
+        "trace_prepare_seconds": 0.20512613467872143,
+        "execution_seconds": 0.0058857593685388565,
+        "oracle_seconds": 0.000914216972887516,
+        "trace_seconds": 0.00016997847706079483,
+        "total_seconds": 0.23093501385301352
+      },
+      "summary": {
+        "status": "pass"
+      }
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/module-diagnostics-cached-0z8i8n2t/receipt.json",
+        "bytes": 1177,
+        "sha256": "0bd502af897ba58e0a9c38e14a01c48b1b1b5d7be507a591e0e960246bd19235"
+      },
+      "case": "direct-module-diagnostics",
+      "entries": [
+        "add_default_libraries",
+        "print_module_debug_info"
+      ],
+      "timing": {
+        "setup_seconds": 0.22806053515523672,
+        "trace_prepare_seconds": 0.2093842588365078,
+        "execution_seconds": 0.006476571783423424,
+        "oracle_seconds": 0.031090814620256424,
+        "trace_seconds": 0.00014837458729743958,
+        "total_seconds": 0.2738535311073065
+      },
+      "summary": {
+        "status": "pass"
+      }
+    }
+  ],
+  "commands": [
+    {
+      "label": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/native/legacy-diagnostics",
+        "build/native/ide-protocol",
+        "build/native/comdat-diagnostics",
+        "build/native/dispatcher",
+        "build/native/cvtomf",
+        "build/native/file-resize",
+        "build/native/symbol-tables",
+        "build/native/module-diagnostics",
+        "build/native-trace/legacy-diagnostics",
+        "build/native-trace/ide-protocol",
+        "build/native-trace/comdat-diagnostics",
+        "build/native-trace/dispatcher",
+        "build/native-trace/cvtomf",
+        "build/native-trace/file-resize",
+        "build/native-trace/symbol-tables",
+        "build/native-trace/module-diagnostics"
+      ],
+      "seconds": 11.41507759410888,
+      "status": 0
+    },
+    {
+      "label": "trace-cache",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 1.1416051592677832,
+      "status": 0
+    },
+    {
+      "label": "cached86",
+      "command": [
+        "make",
+        "-j4",
+        "native-trace-check"
+      ],
+      "seconds": 8.827353772707283,
+      "status": 0
+    }
+  ],
+  "shared_before": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/final/shared-before.json",
+    "bytes": 18576,
+    "sha256": "0c63f5a762bef63d33a1345d6c36b1c7223a5f0501b31682cdb2fb6d5af0c6fb"
+  },
+  "shared_after": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/final/shared-after.json",
+    "bytes": 18576,
+    "sha256": "0c63f5a762bef63d33a1345d6c36b1c7223a5f0501b31682cdb2fb6d5af0c6fb"
+  },
+  "shared_publication": "READY61155226d, actual C/H byte inventory identical before/after build and86 cases;542c06486 metadata only",
+  "fresh_acceptance": "acceptance/closure/fresh-pair.json",
+  "state_qualification": "analysis/state-qualification.json",
+  "normal_target_dryrun": {
+    "status": "pass",
+    "receipt": {
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/final/normal-targets-dryrun.txt",
+      "bytes": 457,
+      "sha256": "403ffe4f41462ff8bcdc6cc75d80cc4de17ff07ae3d342b334f67e66fd087d5e"
+    },
+    "scope": "Dryrun only, no additional fixture timing; check/replay native commands only."
+  }
+}

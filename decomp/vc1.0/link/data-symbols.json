@@ -4638,5 +4638,14 @@
     "name": "omf_debug_record",
     "size": 128,
     "owner": "src/omf-debug.c"
+  },
+  {
+    "address": 495832,
+    "name": "default_library_delimiters",
+    "size": 4,
+    "owner": "src/options.c",
+    "string_pointers": [
+      0
+    ]
   }
 ]

@@ -1416,3 +1416,24 @@ FP state strict. Raw mismatches remain; no seed or original repeat for C0 alignm
 Two functions add308extent/301instruction bytes, no CRT implementation/support
 frontier added. Native85suite/canonical/audits PASS; cases/direct-symbol-tables
 contains ordinary owned evidence files and external raw-log path/hash references.
+
+Direct library/module diagnostic checkpoint, 991 frontiers
+---------------------------------------------------------
+add_default_libraries35760..3579a takes char*/LibraryList*, uses the actual shared
+comma delimiter pointer790d8 and strtok loop into accepted add_default_library.
+print_module_debug_info35520..35584 has no stack formals; it reads the genuine
+module_debug_info7b794/output_module_index7b798 owners and three string fields of
+each76-byte row. Both are readable C,158instructions/158extent bytes, no new CRT.
+External direct support preserves real main(3,argv) and saved return0, source rows,
+owner lifetimes, nonvolatile/stack continuation and normal exit. Definitions and
+whole graph/data/ABI/layout checks remain originalVC1-compilable.
+Parent-reviewed inherited post-main ambientLast1224/0 and dead C0-only qualification
+is bound to actual hardware/API guards through exit and exact producer/read proof.
+Raw unexplained state and empty-tag inert payload/IP remain, never byte-equality
+claims; strict live fields and any future reader reopen the gate. Separate retained
+clock-accounting failure distinguishes baseline equality from actual fresh-pair
+closure: one native-only run uses the fresh original's observed time and restores
+full raw EXE/MAP/streams/report equality. No timestamp normalization or original
+repeat. Case README/analysis/acceptance/receipts retain scope and35 offline denials.
+All86cached native cases, canonical build and830CFG audits pass; no fixture invokes
+Wine/debugger/original capture. Coverage12996unclassified bytes remains pending.

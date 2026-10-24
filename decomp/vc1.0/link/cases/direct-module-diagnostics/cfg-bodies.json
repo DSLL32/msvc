@@ -1,0 +1,25 @@
+{
+  "target_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "function_count": 2,
+  "functions": {
+    "_add_default_libraries": {
+      "start": 218976,
+      "end": 219034,
+      "internal_tables": []
+    },
+    "_print_module_debug_info": {
+      "start": 218400,
+      "end": 218500,
+      "internal_tables": []
+    }
+  },
+  "instruction_bytes": 158,
+  "extent_gap_ranges": [],
+  "unresolved_jumps": [],
+  "scope": "Common CFG exact decoded instructions; dynamic branches and alignment distinct.",
+  "source_report": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/final/instructions.json",
+    "bytes": 16747673,
+    "sha256": "0d8027f707a6bb3474d43c67a534e2a6802449f0f5763cb301bd78b196a2fcf0"
+  }
+}

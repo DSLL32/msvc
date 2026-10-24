@@ -1,0 +1,93 @@
+{
+  "status": "pass",
+  "clock_input": {
+    "event": "clock_boundary",
+    "caller": "link_passes",
+    "pointer": 8192828,
+    "result": 1792810165,
+    "output": 1792810165
+  },
+  "native_clock_source": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/masked-toa2d6ca/events.jsonl",
+    "sha256": "3d078040b6d2e9bf51c36567842342986abe5358e44d8c7866db8e28e54ff10c"
+  },
+  "native_receipt": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/module-diagnostics-gdb-6u4v78tj/receipt.json",
+    "bytes": 672,
+    "sha256": "6c292075596b8675e14aea635caf9c30fe74f81ea488aa47ae3b6e18789fc425"
+  },
+  "original_receipt": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/masked-toa2d6ca/receipt.json",
+    "bytes": 3402,
+    "sha256": "02452bf759acd61bcf0127f86c49db51af4987646fe8a6ed5a44320007eaa20f"
+  },
+  "full_raw_equal": [
+    {
+      "artifact": "modules.exe",
+      "original": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/masked-toa2d6ca/files/modules.exe",
+        "bytes": 2097152,
+        "sha256": "f13fd7d7b282db2d44091787c008c9955905deb1c0f6d695772925c26f806cff"
+      },
+      "native": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/module-diagnostics-gdb-6u4v78tj/vc1.0/link/direct-module-diagnostics/modules.exe",
+        "bytes": 2097152,
+        "sha256": "f13fd7d7b282db2d44091787c008c9955905deb1c0f6d695772925c26f806cff"
+      }
+    },
+    {
+      "artifact": "modules.map",
+      "original": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/masked-toa2d6ca/files/modules.map",
+        "bytes": 1228,
+        "sha256": "2137de37c2a859f2e834e15010d2ce02274a09127b5c264d65fd635acfa8fa5f"
+      },
+      "native": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/module-diagnostics-gdb-6u4v78tj/vc1.0/link/direct-module-diagnostics/modules.map",
+        "bytes": 1228,
+        "sha256": "2137de37c2a859f2e834e15010d2ce02274a09127b5c264d65fd635acfa8fa5f"
+      }
+    },
+    {
+      "artifact": "stdout.bin",
+      "original": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/masked-toa2d6ca/stdout.bin",
+        "bytes": 203,
+        "sha256": "f0585ec4e5f82c570395b74b78ca2600aaf850b9f4a3cb95c973fbd13d807e50"
+      },
+      "native": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/module-diagnostics-gdb-6u4v78tj/stdout.bin",
+        "bytes": 203,
+        "sha256": "f0585ec4e5f82c570395b74b78ca2600aaf850b9f4a3cb95c973fbd13d807e50"
+      }
+    },
+    {
+      "artifact": "stderr.bin",
+      "original": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/masked-toa2d6ca/stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "native": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/module-diagnostics-gdb-6u4v78tj/stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "artifact": "driver-report",
+      "original": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/masked-toa2d6ca/diagnostics.bin",
+        "bytes": 433,
+        "sha256": "d03d5ad8a30236a7049914e891f498fe606cd4d7cc3a0adc986e8b0f4b8ed70d"
+      },
+      "native": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/module-diagnostics-gdb-6u4v78tj/vc1.0/link/direct-module-diagnostics/diagnostics.bin",
+        "bytes": 433,
+        "sha256": "d03d5ad8a30236a7049914e891f498fe606cd4d7cc3a0adc986e8b0f4b8ed70d"
+      }
+    }
+  ],
+  "normalization": [],
+  "scope": "Truefreshpair equality after native-only clockinput alignment. Earlier nativevsbaseline proof and rawclocks remain distinct. Source/no-read proof separately reviewed, not substituted for files."
+}

@@ -1,0 +1,197 @@
+{
+  "events": [
+    {
+      "event": "entry",
+      "name": "main",
+      "phase": 0,
+      "arguments": [
+        3,
+        4294957116
+      ],
+      "caller": 1448917550,
+      "esp": 4294956876,
+      "eax": 4294957116,
+      "ebx": 1449025524,
+      "esi": 1449013404,
+      "edi": 4160736096,
+      "ebp": 4294956920,
+      "errors": [
+        0,
+        0,
+        0
+      ],
+      "fp_control": 639,
+      "fp_status": 0,
+      "fp_tag": 65535,
+      "fp_raw": "  R7: Empty   0x00000000000000000000\n  R6: Empty   0x00000000000000000000\n  R5: Empty   0x00000000000000000000\n  R4: Empty   0x00000000000000000000\n  R3: Empty   0x00000000000000000000\n  R2: Empty   0x00000000000000000000\n  R1: Empty   0x00000000000000000000\n=>R0: Empty   0x00000000000000000000\n\nStatus Word:         0x0000                                            \n                       TOP: 0\nControl Word:        0x027f   IM DM ZM OM UM PM\n                       PC: Double Precision (53-bits)\n                       RC: Round to nearest\nTag Word:            0xffff\nInstruction Pointer: 0x00:0x00000000\nOperand Pointer:     0x00:0x00000000\nOpcode:              0x0000\n",
+      "stdout_file": [
+        0,
+        0,
+        0,
+        2,
+        1,
+        0,
+        0,
+        0
+      ],
+      "pending": "",
+      "input": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a52c4c4942434d542e4c49422c6c6962636d742c5553455233322e6c69622c7573657233322c47444933322e6c69622c2c67646933322c00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a52c2c2c00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+      "guards": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+      "modules": {
+        "owner": 0,
+        "count": 0,
+        "rows": []
+      },
+      "libraries": null,
+      "argv": [
+        4294957684,
+        4294957718,
+        4294957724,
+        0
+      ],
+      "argv_names": [
+        "523a5c746f6f6c636861696e735c312e302d6e745c62696e5c4c494e4b2e45584500",
+        "2d6c696e6b00",
+        "406d6f64756c65732e72737000"
+      ],
+      "actual_caller": null
+    },
+    {
+      "event": "return",
+      "name": "main",
+      "phase": 0,
+      "arguments": [
+        3,
+        4294957116
+      ],
+      "caller": 2,
+      "esp": 4294956880,
+      "eax": 0,
+      "ebx": 1449025524,
+      "esi": 1449013404,
+      "edi": 4160736096,
+      "ebp": 4294956920,
+      "errors": [
+        0,
+        0,
+        0
+      ],
+      "fp_control": 639,
+      "fp_status": 0,
+      "fp_tag": 65535,
+      "fp_raw": "  R7: Empty   0x4000c000000000000000\n  R6: Empty   0x3ff7e000000000000000\n  R5: Empty   0x00000000000000000000\n  R4: Empty   0x00000000000000000000\n  R3: Empty   0x00000000000000000000\n  R2: Empty   0x00000000000000000000\n  R1: Empty   0x00000000000000000000\n=>R0: Empty   0x00000000000000000000\n\nStatus Word:         0x0000                                            \n                       TOP: 0\nControl Word:        0x027f   IM DM ZM OM UM PM\n                       PC: Double Precision (53-bits)\n                       RC: Round to nearest\nTag Word:            0xffff\nInstruction Pointer: 0x00:0x5658b7a5\nOperand Pointer:     0x00:0x565cd008\nOpcode:              0x0000\n",
+      "stdout_file": [
+        1449340896,
+        0,
+        1449340896,
+        10,
+        1,
+        0,
+        2048,
+        0
+      ],
+      "pending": "",
+      "input": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a52c4c4942434d542e4c49422c6c6962636d742c5553455233322e6c69622c7573657233322c47444933322e6c69622c2c67646933322c00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a52c2c2c00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+      "guards": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+      "modules": {
+        "owner": 1449393456,
+        "count": 2,
+        "rows": [
+          {
+            "address": 1449393456,
+            "raw": "a0f46356008a635660f7635650fe6356c0150000320000000000000022140000b300000000000000211500004c000000000000000000000000000000000000006d1500003600000000000000",
+            "names": [
+              "68656c706572732e6c696200",
+              "6d656d6265722d776974682d612d6c6f6e672d6e616d652d616c7068612e6f626a00",
+              "616c7068612e63707000"
+            ]
+          },
+          {
+            "address": 1449393532,
+            "raw": "609b6356008a63563054635600ff6356f2150000560000000000000028130000fa00000000000000d51400004c00000000000000000000000000000000000000a31500001d00000000000000",
+            "names": [
+              "68656c706572732e6c696200",
+              "626574612e6f626a00",
+              "626574612e63707000"
+            ]
+          }
+        ]
+      },
+      "libraries": null
+    },
+    {
+      "event": "frontier",
+      "name": "add_default_libraries",
+      "phase": 2,
+      "arguments": [
+        1449209900,
+        1449399556
+      ],
+      "caller": 1448917671,
+      "esp": 4294956876,
+      "eax": 1449399556,
+      "ebx": 1449025524,
+      "esi": 1449013404,
+      "edi": 4160736096,
+      "ebp": 4294956920,
+      "errors": [
+        0,
+        0,
+        0
+      ],
+      "fp_control": 639,
+      "fp_status": 0,
+      "fp_tag": 65535,
+      "fp_raw": "  R7: Empty   0x4000c000000000000000\n  R6: Empty   0x3ff7e000000000000000\n  R5: Empty   0x00000000000000000000\n  R4: Empty   0x00000000000000000000\n  R3: Empty   0x00000000000000000000\n  R2: Empty   0x00000000000000000000\n  R1: Empty   0x00000000000000000000\n=>R0: Empty   0x00000000000000000000\n\nStatus Word:         0x0000                                            \n                       TOP: 0\nControl Word:        0x027f   IM DM ZM OM UM PM\n                       PC: Double Precision (53-bits)\n                       RC: Round to nearest\nTag Word:            0xffff\nInstruction Pointer: 0x00:0x5658b7a5\nOperand Pointer:     0x00:0x565cd008\nOpcode:              0x0000\n",
+      "stdout_file": [
+        1449340896,
+        0,
+        1449340896,
+        10,
+        1,
+        0,
+        2048,
+        0
+      ],
+      "pending": "",
+      "input": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a52c4c4942434d542e4c49422c6c6962636d742c5553455233322e6c69622c7573657233322c47444933322e6c69622c2c67646933322c00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a52c2c2c00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+      "guards": "c0136456a5a5a5a5a5a5a5a5a5a5a5a5",
+      "modules": {
+        "owner": 1449393456,
+        "count": 2,
+        "rows": [
+          {
+            "address": 1449393456,
+            "raw": "a0f46356008a635660f7635650fe6356c0150000320000000000000022140000b300000000000000211500004c000000000000000000000000000000000000006d1500003600000000000000",
+            "names": [
+              "68656c706572732e6c696200",
+              "6d656d6265722d776974682d612d6c6f6e672d6e616d652d616c7068612e6f626a00",
+              "616c7068612e63707000"
+            ]
+          },
+          {
+            "address": 1449393532,
+            "raw": "609b6356008a63563054635600ff6356f2150000560000000000000028130000fa00000000000000d51400004c00000000000000000000000000000000000000a31500001d00000000000000",
+            "names": [
+              "68656c706572732e6c696200",
+              "626574612e6f626a00",
+              "626574612e63707000"
+            ]
+          }
+        ]
+      },
+      "libraries": {
+        "image": 1449399232,
+        "list": 1449399556,
+        "header": "00000000041564560000000000000000",
+        "rows": []
+      }
+    }
+  ],
+  "terminal": [
+    {
+      "event": "exit",
+      "code": null
+    }
+  ]
+}

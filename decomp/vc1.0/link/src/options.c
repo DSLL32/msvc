@@ -8,6 +8,8 @@
 ArgumentList switches,section_merges,section_overrides,exports;
 TextBuffer image_comments;
 char *option_delimiters=" \t";
+/* Separate pointer object consumed by the comma-list helper. */
+char *default_library_delimiters=",";
 IncludedExternal *included_externals;
 unsigned char base_pair,no_entry,verbose_link,mapped_debug,split_image,nt_beta1;
 unsigned char old_library_format;
@@ -373,6 +375,16 @@ void process_directives(char *text,Image *image,const char *display,unsigned cha
         token=tokenize_response(NULL,delimiters,NULL);
     }
     process_options(image,1,library_member,display);
+}
+
+/* Original [00035760,0003579a). The separate comma list uses strtok. */
+void add_default_libraries(char *text,LibraryList *libraries)
+{
+    char *name=strtok(text,default_library_delimiters);
+    while (name) {
+        add_default_library(name,libraries);
+        name=strtok(NULL,default_library_delimiters);
+    }
 }
 
 /* Original [00035890,00035910). Append each requested default library once. */

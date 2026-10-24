@@ -435,3 +435,22 @@ CanonicalVC1-j4 and828CFG/811callback/511data/41ECX audits pass. App-only extent
 794appfunctions (759public/35direct) and16 historical CRT overrides separately.
 13154 unaccepted unclassified bytes remain pending; no full nonCRT denominator.
 See cases/direct-symbol-tables for precise scope, timings, proofs and references.
+
+Direct module/library diagnostic checkpoint (991 frontiers)
+----------------------------------------------------------
+Two readable C functions now parse populated/empty default-library lists and print
+actual module-debug metadata after the genuine full-CodeView main returns. This
+is external direct support with live owners, actual formals/hidden inputs, saved
+main result and normal CRT continuation; public CLI reach is not claimed.
+Fresh raw EXE/MAP/203-byte stdout/433-byte report match with captured clock input,
+zero normalization. An earlier baseline-versus-fresh clock mismatch is preserved
+and corrected by one native-only clock-aligned observation. Narrow inherited dead
+LastError/C0 differences retain raw state and reviewed no-reader guards through
+exit; all consumed state stays strict. See cases/direct-module-diagnostics.
+
+All86 cached native cases pass8.827s; native/trace build11.415s. New traced ELF
+6.477ms (fixture total.274s), output-only ELF5.367ms (total.052s). CanonicalVC1-j4
+and830CFG/813callback/512data/41ECX audits pass. App-only extent228478/281634=
+81.1259%; support-inclusive259081/281634=91.9921%. There are796app functions
+(759public/37direct),16 historical CRT separate. Unclassified12996bytes remain
+pending; the full nonCRT denominator is unavailable. No new CRT implementation.

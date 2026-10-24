@@ -11,6 +11,17 @@ typedef char cv_segment_descriptor_layout[(sizeof(CvSegmentDescriptor)==20)?1:-1
 typedef char cv_directory_header_layout[(sizeof(CvDirectoryHeader)==16)?1:-1];
 typedef char cv_directory_entry_layout[(sizeof(CvDirectoryEntry)==12)?1:-1];
 
+/* Diagnostic view of the module records retained by normal CodeView output. */
+void print_module_debug_info(void)
+{
+    unsigned long index;
+    for (index=0;index<output_module_index;++index) {
+        printf("Library %s\n",module_debug_info[index].library_name);
+        printf("Source %s\n",module_debug_info[index].source_name);
+        printf("Object %s\n",module_debug_info[index].module_name);
+    }
+}
+
 /* Original [00034850,000351f0). NB05 CodeView subsections and directory. */
 void emit_codeview(Image *image)
 {

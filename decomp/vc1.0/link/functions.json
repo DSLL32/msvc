@@ -988,7 +988,9 @@
     "_resize_buffered_file",
     "_resize_mapped_file",
     "_print_external_table",
-    "_copy_defined_names"
+    "_copy_defined_names",
+    "_add_default_libraries",
+    "_print_module_debug_info"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -8614,6 +8616,24 @@
       "implementation": "C",
       "abi": "cdecl SymbolTable *(SymbolTable *)",
       "evidence": "Fresh direct-symbol-tables whole-case acceptance: all12 root entry/returns, actual table formal, source immutability/owned graph edges/returned new tables, exact1274stdout and1432externalreport, counts32/21/0/0; new entries intentionally undefined. C0-only qualification separately reviewed; direct support, not CLI."
+    },
+    {
+      "name": "_add_default_libraries",
+      "start": 218976,
+      "end": 219034,
+      "source": "src/options.c",
+      "implementation": "C",
+      "abi": "cdecl void(char *text,LibraryList *libraries)",
+      "evidence": "Fresh direct-module-diagnostics entry/return, actualformals/hiddenmoduleowner inputs, immutablelifetimes, exactfreshclock-aligned EXE/MAP/stdout/report and savedmainexit0. Only reviewed deadpost-mainLast1224/0+C0 qualify; DR0+API/nativewatchzeroaccess through exit. Directsupport, notpublicCLI."
+    },
+    {
+      "name": "_print_module_debug_info",
+      "start": 218400,
+      "end": 218500,
+      "source": "src/codeview.c",
+      "implementation": "C",
+      "abi": "cdecl void(void), actual global ModuleDebugInfo pointer/count inputs observed",
+      "evidence": "Fresh direct-module-diagnostics entry/return, actualformals/hiddenmoduleowner inputs, immutablelifetimes, exactfreshclock-aligned EXE/MAP/stdout/report and savedmainexit0. Only reviewed deadpost-mainLast1224/0+C0 qualify; DR0+API/nativewatchzeroaccess through exit. Directsupport, notpublicCLI."
     }
   ],
   "c_stub_references": [
@@ -9608,6 +9628,8 @@
     "direct-file-resize-buffered",
     "direct-file-resize-mapped",
     "direct-symbol-tables",
-    "direct-symbol-tables"
+    "direct-symbol-tables",
+    "direct-module-diagnostics",
+    "direct-module-diagnostics"
   ]
 }

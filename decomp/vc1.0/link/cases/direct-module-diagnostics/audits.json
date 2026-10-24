@@ -1,0 +1,40 @@
+{
+  "checked_accepted_extents": {
+    "original": 997,
+    "rebuilt": 994
+  },
+  "checked_functions": 830,
+  "checked_unique_accepted_extents": {
+    "original": 992,
+    "rebuilt": 991
+  },
+  "checks": [
+    "call_graph",
+    "ret_cleanup",
+    "function_references",
+    "extent_ownership",
+    "whole_extent_boundaries",
+    "evidenced_runtime_graphs",
+    "accepted_index_extents"
+  ],
+  "discovery": "cfg",
+  "profile": "link",
+  "status": "pass",
+  "callbacks": 813,
+  "contextual_data": 512,
+  "ECX": 41,
+  "canonical_build": "Original VC1 -j4 all PASS",
+  "log": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/final/audit.stdout",
+    "bytes": 192082,
+    "sha256": "2e51043039c5eb87e110d39cd7e5ba3de52929222648e6772f490782b8c7e406"
+  },
+  "graph_negative_log": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/final/graph-controls.stdout",
+    "bytes": 331,
+    "sha256": "629f5237f4fc122d156b4c8c5246a732efaa072b0c9b83c4e716e05e014c94d2"
+  },
+  "case_negative_controls": "negative-controls.json",
+  "CFG": "cfg-bodies.json",
+  "source_proof": "Two whole direct-support functions; genuine main-produced live ModuleDebugInfo owners and create_image LibraryList, actual formals/hidden globals, continuation and reviewed post-main no-consumer qualification."
+}

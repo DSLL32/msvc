@@ -1,0 +1,101 @@
+{
+  "status": "Whole-body/typed/lifetime proof complete before any original capture; no new stepping/re-entry mechanism",
+  "reach": "Explicit external direct support after genuine full-CodeView normalmain, not public CLI reach of newfunctions",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "functions": [
+    {
+      "name": "add_default_libraries",
+      "start": 218976,
+      "end": 219034,
+      "ABI": "cdecl void(char *text,LibraryList *libraries)",
+      "inputs": "Owned mutable comma-separated bytes+guards, actual create_image output.libraries; both actual2formals observed",
+      "sha256": "1e631c079c24af15417465259e0fac63ff583161e8dcc6694b4d419502c25b1b"
+    },
+    {
+      "name": "print_module_debug_info",
+      "start": 218400,
+      "end": 218500,
+      "ABI": "cdecl void(void)",
+      "inputs": "No formals; actual globals module_debug_info@7b794 and output_module_index@7b798, full76Brows and library_name+4/module_name+8/source_name+12 live strings observed",
+      "sha256": "be763b83a800a0ed47decc07b262c1f460749961245b8b9e91a5b94658a6b3fe"
+    }
+  ],
+  "boundary": "Existing owned-stack cdecl call/sentinel protocol, sequential phase0 calls actual main(3,ownedargv) to completion; its normalreturn is held before real CRT continuation. Later phases create_image/tokenizer/diagnostic/publicfflush, then original CRT return resumed with savedmainresult. No nested interruption, synthetic targetrecords, privateglobalwrite or callback injection.",
+  "continuation": {
+    "original_call": "50a80 CALL26b40;50a85 ADDESP,12;50a88 PUSHEAX;50a89 CALL51750(exit)",
+    "live": "Restore actual CRT continuationEIP/ESP and saved normalmainEAX, preserve EBX/ESI/EDI/EBP through every cdecl phase. EFLAGS are overwritten byADD before read; FP/errors consumed by actual later path remain observed, no reseed/blanket normalization.",
+    "native": "Uninstrumented __wrap_main calls __real_main with exactly canonicalargv0,-link,@modules.rsp, saves result, makes same typed calls and returns savedresult. No support-returnvalue becomes processstatus.",
+    "exact_original_bytes": "e8bb60fdff83c40c50e8c20c0000",
+    "status_preservation": "Each cdecl phase must preserve actualnonvolatiles/ESP; savedmainEAX supplies finalexitstatus. Raw pre/postFP/errors/stdio are observed, finalbefore_crt state logged. Never seed errors/FP; hold if actual consumed state cannot match."
+  },
+  "lifetime": {
+    "array": "link_passes calloc(count_modules,...76) at actualexisting writer, write_module increments real count; global array has no free in completed main/linker_main paths.",
+    "names": "library_name/module_name borrow persistent Library.name/Module.path strdup allocations; source_name calloc copied COFF FILE auxiliary strings or persistent Module.path fallback. read_coff_symbol/string release does not own these retained strings.",
+    "codeview": "emit_codeview frees only temporary CvModuleSegment/public-node lists; leaves76Barray/names live. close_all_files/remove_temporary_inputs/fcloseMAP do not free Modules/Library strings/debugarray.",
+    "appended_calls": "create_image allocates a distinct owned Image/empty symbols/libraries; no writes/release of module_debug_info/output_module_index. add_default_library mutates only passed list and its allocations, never module_debug_info. Full array/count/names snapshots before+after appended calls required.",
+    "exact_global_coordinates": {
+      "module_debug_info": "0x7b794",
+      "output_module_index": "0x7b798",
+      "rowsize": 76,
+      "library_name_offset": 4,
+      "module_name_offset": 8,
+      "source_name_offset": 12
+    },
+    "array_proof_sources": [
+      "src/link-pass.c:calloc ofcount_modules, no free",
+      "src/pass-two.c:write_module/write_contribution/store_file_symbol retainmodule/path/library/copiedsource owners",
+      "src/codeview.c:emit_codeview consumes names but frees temporarysegments/publicnodes only",
+      "src/linker.c:normalreturn afterfiles/tempcleanup+fcloseMAP; no metadata free",
+      "src/image.c:create_image writes own allocatedimage only",
+      "src/options.c:add_default_library mutates passedownedlist, no module-global access"
+    ]
+  },
+  "normal_execution": {
+    "argv": [
+      "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+      "-link",
+      "@modules.rsp"
+    ],
+    "cwd": "S:\\vc1.0\\link\\direct-module-diagnostics",
+    "options": "FullCOFF+CodeView,NOPACK,explicitMAP,entryalpha/include_beta,nodefaultlib; archive has realalpha/beta/sharedCOMDAT and CodeView debugrecords. Explicit console subsystem avoids speculative main/WinMain inference even for customentry.",
+    "stdout": "Explicit MAP required because linker_main otherwise fclose(default map_stream==stdout). MAPfileclosed, stdout remainsvalid for appended diagnostics.",
+    "children": "NOPACK disablesCVPACK; noexports/DLL means no selfspawn. Reject any unexpected child/thread.",
+    "execution": "Produced image is structurally inspected/compared, not executed; customalpha entry used only as valid linker entry."
+  },
+  "inputs": [
+    {
+      "path": "inputs/helpers.lib",
+      "bytes": 4184,
+      "sha256": "e599a7f1611fbb2dc2f9946cf90ade080426b07fa341b16b668f751dc88d5fa1"
+    },
+    {
+      "path": "inputs/libraries.bin",
+      "bytes": 256,
+      "sha256": "694961852f3f216cbc97c5172d079d69cf09edae293dbbde69892c24424e6e27"
+    },
+    {
+      "path": "inputs/modules.rsp",
+      "bytes": 162,
+      "sha256": "b91cd23327ddd2c7691d808b59e73d950b4c307c72b06fd1bda2ed1e33c2286b"
+    }
+  ],
+  "archive_provenance": {
+    "source": "../fixtures/link-debug-dll/inputs/link/helpers.lib",
+    "source_manifest": "../fixtures/link-debug-dll/manifest.json",
+    "source_manifest_sha256": "985af7548bc11808bd5c527ede488978dd6e11033526fb36962fad119fb004b4",
+    "sources": [
+      "../fixtures/link-debug-dll/sources/alpha.cpp",
+      "../fixtures/link-debug-dll/sources/beta.cpp",
+      "../fixtures/link-debug-dll/sources/inline.h"
+    ],
+    "scope": "Immutable owned byte-identical existing untouched-original compiler/archive product, no new compiler-output claim."
+  },
+  "policy": "One untouched baseline unless concrete instability; preserve normal artifacts and exact diagnostic streams/report. Any uncertain lifetime/continuation/new mechanism holds before capture. Original capture external to native fixtures, sharedR/S only.",
+  "preserved_failed_preflight": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/original-p8oeguq2",
+    "exit": 23,
+    "phase": 0,
+    "reason": "Subsystem omitted causes pass-one infer_subsystem to add_main/_WinMain undefined entries; new bodies never reached. Corrected public-subsystem input distinct, no repair/normalization."
+  },
+  "undefined_padding": "DefaultLibrary malloc layout has3paddingbytes+9..11 neverwritten/read by its realtyped functions. Rawbytes preserved and per-side listimmutability strict; cross-image comparison uses next/name/actualenabledBYTE, externalreport serializesonlythatBYTE, no padding repair/seeding/normalization."
+}

@@ -1,0 +1,97 @@
+{
+  "mode": "masked",
+  "trial": "add_default_libraries",
+  "support": [],
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-module-diagnostics.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "S:\\vc1.0\\link\\new-captures\\direct-module-diagnostics\\masked-0o8angqc\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\direct-module-diagnostics\\masked-0o8angqc\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\direct-module-diagnostics\\masked-0o8angqc\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\direct-module-diagnostics\\masked-0o8angqc\\events.jsonl",
+    "S:\\vc1.0\\link\\new-captures\\direct-module-diagnostics\\masked-0o8angqc\\diagnostics.bin",
+    "S:\\vc1.0\\link\\direct-module-diagnostics",
+    "R:\\decomp\\vc1.0\\link\\cases\\direct-module-diagnostics\\inputs\\libraries.bin"
+  ],
+  "seconds": 1.6821467215195298,
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "failed": 0,
+    "stopped": 2,
+    "exit": 17,
+    "phase": 4,
+    "stdout_bytes": 67,
+    "stderr_bytes": 0
+  },
+  "files": [
+    {
+      "path": "modules.map",
+      "bytes": 1228,
+      "sha256": "ed4d486812cafa1c13984518d47f79d8f7279ad64ef5856f7688f83daa9570d0"
+    },
+    {
+      "path": "modules.rsp",
+      "bytes": 162,
+      "sha256": "b91cd23327ddd2c7691d808b59e73d950b4c307c72b06fd1bda2ed1e33c2286b"
+    },
+    {
+      "path": "modules.exe",
+      "bytes": 2097152,
+      "sha256": "8222bcd55c33a0b330a55f187544256419a27a1b9eca6ec9e2082a92244a92f9"
+    },
+    {
+      "path": "helpers.lib",
+      "bytes": 4184,
+      "sha256": "e599a7f1611fbb2dc2f9946cf90ade080426b07fa341b16b668f751dc88d5fa1"
+    }
+  ],
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "helper_sha256": "8a1ee40141ea4c967b0efcfd978d46968121c7d4912e9880574cc6e12e7efbeb",
+  "helper_source_sha256": "6c85fae1affacf92389abf5c11d96754aab9a807483d538c3c80c04e8d57130f",
+  "accepted_count": 989,
+  "accepted_sha256": "0489917673d9d01db073985e86fb7df8c6cf789c26c1956e865738bbc332b84d",
+  "canonical_cwd": "S:\\vc1.0\\link\\direct-module-diagnostics",
+  "target_argv": [
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-link",
+    "@modules.rsp"
+  ],
+  "target_environment": {
+    "TZ": "PST8PDT"
+  },
+  "scope": "Explicit external direct support caller; actual symbol API setup, no private-global seeds, no public CLI claim",
+  "stdout.bin": {
+    "bytes": 67,
+    "sha256": "81984887bba7437fc03985df3eefba8680b5b85912ffe8dd80ed60865f8f953b"
+  },
+  "text.bin": {
+    "bytes": 282120,
+    "sha256": "d88266935b54e6d1e77ad460e98b0cd052b9533687688ceb3603876736b87794"
+  },
+  "host.stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr.bin": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "events.jsonl": {
+    "bytes": 13685,
+    "sha256": "7727a0a5dc3466152aa3ba2deefd31a9a0b20c6510c3dcd5bc990b4fd074a16d"
+  },
+  "diagnostics.bin": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "host.stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "controller.c": {
+    "bytes": 16670,
+    "sha256": "6c85fae1affacf92389abf5c11d96754aab9a807483d538c3c80c04e8d57130f"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "command": [
+    "gdb",
+    "-q",
+    "-nx",
+    "-batch",
+    "-ex",
+    "file /root/msvc2/decomp/vc1.0/link/build/native/module-diagnostics",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc1.0/link/module-diagnostics-gdb-6u4v78tj/observe.py"
+  ],
+  "seconds": 0.21369297336786985,
+  "status": 0,
+  "trial": "print_module_debug_info",
+  "clock_value": 1792810165,
+  "clock_origin": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/masked-toa2d6ca/events.jsonl",
+    "sha256": "3d078040b6d2e9bf51c36567842342986abe5358e44d8c7866db8e28e54ff10c"
+  },
+  "elf_sha256": "acf6dc11082cfcb961d23d6fb08a014eb89de7556348085cf1a080a1c5d12d85"
+}

@@ -1,0 +1,71 @@
+{
+  "status": "pass",
+  "files": [
+    {
+      "path": "src/options.c",
+      "bytes": 25786,
+      "sha256": "3d1758e587ebbae8dff403dec2720dbd7e139bab85b806c7e2783d10caa99055"
+    },
+    {
+      "path": "src/options.h",
+      "bytes": 1582,
+      "sha256": "59da4ba2a8694e0c7d0105953b5f210a08e7c3c412cc752bc1f5cc80b75e7f19"
+    },
+    {
+      "path": "src/codeview.c",
+      "bytes": 13356,
+      "sha256": "1e86017208630c932b8a8f77ac0580af2d623998ea8617303237eceec8b5af9f"
+    },
+    {
+      "path": "src/codeview.h",
+      "bytes": 1123,
+      "sha256": "bde2f35f20943306b0d0142b184f4985f123de2b212545b300310eed5dbf4406"
+    },
+    {
+      "path": "scripts/native-module-diagnostics.c",
+      "bytes": 3131,
+      "sha256": "95efb6470605e630114350211b767cfa98f6a8b0b37d28117c8d9db82b71a2f9"
+    },
+    {
+      "path": "scripts/native-module.c",
+      "bytes": 2826,
+      "sha256": "ce4e416ec3f04023e7aecad2b0ba3c51aebf60358e6b07afa1130cf3f3869ef3"
+    },
+    {
+      "path": "Makefile",
+      "bytes": 17942,
+      "sha256": "af6417fbbd70d4b640d3dd779864f1353f18ea4bcbedde28fbd2e68e49fa17b7"
+    },
+    {
+      "path": "functions.json",
+      "bytes": 419970,
+      "sha256": "251d46f5215472612adbc45cf81ac7f4862e303f973482d75f9fc0679ec9acfd"
+    },
+    {
+      "path": "data-symbols.json",
+      "bytes": 80224,
+      "sha256": "a6309c0807f6cc8e85ecf6160be7961a7fb2019873413681efa973969805e6e0"
+    },
+    {
+      "path": "build/native/module-diagnostics",
+      "bytes": 1449372,
+      "sha256": "acf6dc11082cfcb961d23d6fb08a014eb89de7556348085cf1a080a1c5d12d85"
+    },
+    {
+      "path": "build/native-trace/module-diagnostics",
+      "bytes": 1520880,
+      "sha256": "f7b3786eebb07356517f9fa1356637866331d729e55357e41ee6ff71e03f1011"
+    },
+    {
+      "path": "build/link.exe",
+      "bytes": 2097152,
+      "sha256": "5fd4364b850c222cf5c2547240009f40ad193c0a00d2305d51a54547ab72f805"
+    }
+  ],
+  "shared_inventory": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-module-diagnostics/final/shared-before.json",
+    "bytes": 18576,
+    "sha256": "0c63f5a762bef63d33a1345d6c36b1c7223a5f0501b31682cdb2fb6d5af0c6fb"
+  },
+  "scope": "Same Win32 reconstruction sources, originalVC1-compilable. Native external driver uninstrumented; startup53 before main. Shared production61155226d exact hashes unchanged through suite."
+}

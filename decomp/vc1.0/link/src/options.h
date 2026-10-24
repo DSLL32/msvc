@@ -23,6 +23,8 @@ extern unsigned char base_pair,no_entry,verbose_link,mapped_debug,split_image,nt
 extern unsigned char old_library_format;
 extern unsigned short warning_level;
 void add_default_library(const char *,LibraryList *);
+void add_default_libraries(char *,LibraryList *);
+extern char *default_library_delimiters;
 unsigned char matches_default_library(const char *,DefaultLibrary *);
 void exclude_default_library(const char *,LibraryList *);
 void exclude_all_default_libraries(const char *,LibraryList *);

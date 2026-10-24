@@ -1,0 +1,8 @@
+{
+  "status": "pass",
+  "observations": 3,
+  "frontier": "add_default_libraries",
+  "qualification": true,
+  "owners_required": false,
+  "scope": "Actual main2formals/newparser2formals/newdiagnostic0formals+required hiddenglobals/typedowners, fullpayload/list/source immutability and savedmainreturn/CRTcontinuation. Qualified only reviewed incomingC0 and unconsumed post-mainLastError; errno/DOS/live state strict."
+}

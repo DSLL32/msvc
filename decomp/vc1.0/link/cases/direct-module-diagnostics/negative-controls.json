@@ -1,0 +1,147 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "control": "native-Last-other-value",
+      "status": "rejected"
+    },
+    {
+      "control": "original-Last-other-value",
+      "status": "rejected"
+    },
+    {
+      "control": "errno",
+      "status": "rejected"
+    },
+    {
+      "control": "DOS",
+      "status": "rejected"
+    },
+    {
+      "control": "wrong-control",
+      "status": "rejected"
+    },
+    {
+      "control": "wrong-tag",
+      "status": "rejected"
+    },
+    {
+      "control": "missing-formal",
+      "status": "rejected"
+    },
+    {
+      "control": "wrong-text-formal",
+      "status": "rejected"
+    },
+    {
+      "control": "missing-global-owner",
+      "status": "rejected"
+    },
+    {
+      "control": "missing-watch",
+      "status": "rejected"
+    },
+    {
+      "control": "writeonly-watch",
+      "status": "rejected"
+    },
+    {
+      "control": "narrow-watch",
+      "status": "rejected"
+    },
+    {
+      "control": "native-read-event",
+      "status": "rejected"
+    },
+    {
+      "control": "original-read-event",
+      "status": "rejected"
+    },
+    {
+      "control": "new-thread",
+      "status": "rejected"
+    },
+    {
+      "control": "failed-controller",
+      "status": "rejected"
+    },
+    {
+      "control": "both-empty",
+      "status": "rejected"
+    },
+    {
+      "control": "late-watch",
+      "status": "rejected"
+    },
+    {
+      "control": "other-FP-bit-0x1",
+      "status": "rejected"
+    },
+    {
+      "control": "other-FP-bit-0x2",
+      "status": "rejected"
+    },
+    {
+      "control": "other-FP-bit-0x4",
+      "status": "rejected"
+    },
+    {
+      "control": "other-FP-bit-0x8",
+      "status": "rejected"
+    },
+    {
+      "control": "other-FP-bit-0x10",
+      "status": "rejected"
+    },
+    {
+      "control": "other-FP-bit-0x20",
+      "status": "rejected"
+    },
+    {
+      "control": "other-FP-bit-0x40",
+      "status": "rejected"
+    },
+    {
+      "control": "other-FP-bit-0x80",
+      "status": "rejected"
+    },
+    {
+      "control": "other-FP-bit-0x200",
+      "status": "rejected"
+    },
+    {
+      "control": "other-FP-bit-0x400",
+      "status": "rejected"
+    },
+    {
+      "control": "other-FP-bit-0x800",
+      "status": "rejected"
+    },
+    {
+      "control": "other-FP-bit-0x1000",
+      "status": "rejected"
+    },
+    {
+      "control": "other-FP-bit-0x2000",
+      "status": "rejected"
+    },
+    {
+      "control": "other-FP-bit-0x4000",
+      "status": "rejected"
+    },
+    {
+      "control": "other-FP-bit-0x8000",
+      "status": "rejected"
+    },
+    {
+      "control": "only-deadC0-change",
+      "status": "accepted-bounded-qualification"
+    },
+    {
+      "control": "unqualified-raw-mismatch",
+      "status": "held"
+    }
+  ],
+  "seconds": 0.04660665150731802,
+  "scope": "Frozenobservations only; no program/debugger/original/Wine run. Onlypost-mainambientLast1224/0 anddeadC0 permitted; strict consumedstate and guardinterval."
+}
