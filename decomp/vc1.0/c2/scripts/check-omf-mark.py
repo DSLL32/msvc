@@ -13,7 +13,7 @@ def validate(e):
  assert [{k:f[k]for k in ['name','location','type']}for f in e['formals']]==row['abi']['parameters']==[dict(name='symbol',location='ECX',type='SymbolHeader pointer')]
  expected=dict(kind=1,symbol_flags=0x980,segment_identifier=2,identifier=121,output_flags=4,attributes=0xa3,name_hex=b'_omf_callback\0'.hex());assert e['consumed_fields']==expected
  for side in ['original','native']:
-  d=e[side];assert d['pointer']==d['member']==e['formals'][0][side]and d['pointer']and d['bucket']==57 and d['index']==0 and fields(d)==expected
+  d=e[side];assert d['pointer']==d['member']==e['formals'][0][side]and d['pointer']and d['bucket']==57 and d['index']==0 and fields(d)==expected;assert bytes.fromhex(d['header_hex'])[1]==0  # observed SymbolHeader.field0d naming discriminator
 validate(e);reject=[]
 for label,change in [('missing pointer',lambda e:e.update(formals=[])),('wrong ECX',lambda e:e['formals'][0].update(location='EDX')),('wrong owner',lambda e:e['native'].update(member=0)),('wrong hash bucket',lambda e:e['original'].update(bucket=0)),('wrong output flags',lambda e:e['native'].update(flags_hex='0500'+e['native']['flags_hex'][4:])),('wrong storage class',lambda e:e['native'].update(flags_hex=e['native']['flags_hex'][:4]+'a3010000')),('missing input name',lambda e:e['native'].update(name_hex='')),('unproved hidden register',lambda e:e.update(hidden_inputs=['EAX']))]:
  bad=copy.deepcopy(e);change(bad)

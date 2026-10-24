@@ -1282,7 +1282,8 @@
     "@omf_output_data@8",
     "@omf_reserve_bytes@8",
     "@omf_mark_symbol@4",
-    "@omf_emit_public@8"
+    "@omf_emit_public@8",
+    "@omf_emit_external@4"
   ],
   "driver": [
     {
@@ -9036,8 +9037,21 @@
     {
       "name": "@omf_emit_external@4",
       "start": 437632,
-      "end": 437633,
-      "provisional": true
+      "end": 437696,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "SymbolHeader pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-external-abi/validation.json",
+        "scope": "Actual _omf_external kind4/name_class0/flags1/attributes41/identifier115 in closed global hash owner and mutable next-external1 observed. Global85078 originalPE1 has one contextual unsigned storage. Symbol.field14 output assigned after begin, old value not inspected or seeded; sole ECX pointer/RET0 no hidden register/stack/flags/x87 input."
+      }
     },
     {
       "name": "@omf_emit_local_external@4",

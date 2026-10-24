@@ -48,6 +48,7 @@ OmfGroup omf_group_storage;
 OmfGroup *omf_default_group = &omf_group_storage;
 OmfFixupThreads omf_fixup_threads; /* 0007a8c4..0007a8d8 */
 unsigned omf_empty_name; /* 0007a8d8 */
+unsigned omf_next_external = 1; /* 00085078, original PE initializer */
 unsigned omf_next_group = 1; /* 0008507c */
 unsigned omf_next_segment = 1; /* 00085080 */
 unsigned omf_next_frame_thread; /* 00085088 */
@@ -795,4 +796,21 @@ void __fastcall omf_emit_public(SymbolHeader *symbol, Segment *segment)
     record->count = ++count; *cursor++ = (unsigned char)(value >> 16); record->cursor = cursor;
     record->count = ++count; *cursor++ = (unsigned char)(value >> 24); record->cursor = cursor;
     omf_write_index(record, (short)((BackendSymbol *)symbol)->field20);
+}
+
+/* Original [0006ad80,0006adc0). EXTDEF assigns the index after record
+   lookup and before name formatting. The zero type index is one raw byte. */
+void __fastcall omf_emit_external(SymbolHeader *symbol)
+{
+    OmfRecord *record = omf_begin_record(0x8c, NULL);
+    unsigned index;
+    unsigned char *cursor;
+    index = omf_next_external;
+    symbol->field14 = index;
+    omf_next_external = index + 1;
+    omf_append_string(record, symbol_display_name(symbol));
+    cursor = record->cursor;
+    ++record->count;
+    *cursor++ = 0;
+    record->cursor = cursor;
 }

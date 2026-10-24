@@ -194,6 +194,6 @@
       "free_head": 2099168
     }
   ],
-  "seconds": 0.7526476252824068,
+  "seconds": 0.6365010235458612,
   "scope": "Actual ECX input chain3 kinds10/1/1 and empty free-head, raw28-byte nodes retained; only consumed topology/identity equated, unused payload pointer bytes not normalized.30 original/canonical whole-body controls include null/single/long chains, empty/external/aliased prior heads and poisoned fields. Exact+8 writes, reversed free chain, preserved+4/other node bytes/external head, RET0 and single allocator/release static storage identity checked. No children mocked; host observation bound is not a function guard. No cyclic-next input equivalence claimed."
 }

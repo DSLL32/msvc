@@ -13,7 +13,7 @@ def validate(e):
  assert [{k:f[k]for k in ['name','location','type']}for f in e['formals']]==row['abi']['parameters']==[dict(name='symbol',location='ECX',type='SymbolHeader pointer'),dict(name='segment',location='EDX',type='Segment pointer')]
  expected=dict(offset=136,kind=1,symbol_flags=0x980,segment_identifier=2,identifier=121,type=0x1014,output_flags=5,attributes=0xa3,name_hex=b'_omf_callback\0'.hex());assert e['observed_fields']==expected
  for side in ['original','native']:
-  d=e[side];assert d['symbol']==d['member']==e['formals'][0][side]and d['segment']==d['segment_owner']==e['formals'][1][side]and d['symbol']and d['segment']and d['bucket']==57 and d['index']==0 and fields(d)==expected
+  d=e[side];assert d['symbol']==d['member']==e['formals'][0][side]and d['segment']==d['segment_owner']==e['formals'][1][side]and d['symbol']and d['segment']and d['bucket']==57 and d['index']==0 and fields(d)==expected;assert bytes.fromhex(d['header_hex'])[1]==0  # observed SymbolHeader.field0d naming discriminator
 validate(e);reject=[]
 for label,change in [('missing context formal',lambda e:e['formals'].pop()),('wrong context register',lambda e:e['formals'][1].update(location='entryESP+4')),('wrong Segment owner',lambda e:e['native'].update(segment_owner=0)),('wrong global owner',lambda e:e['original'].update(member=0)),('wrong offset',lambda e:e['native'].update(offset_hex='00000000')),('wrong type WORD',lambda e:e['native'].update(type_hex='ffff'+e['native']['type_hex'][4:])),('missing source name',lambda e:e['native'].update(name_hex='')),('invented stack input',lambda e:e.update(hidden_inputs=['record_type']))]:
  bad=copy.deepcopy(e);change(bad)

@@ -651,3 +651,15 @@ The old uninitialized local is neither observed as ABI input nor seeded.
 Original/W3/full audits and15 native cases pass (14 complete); next external
 6ad80.341697/399693 accepted extent bytes; app/support323397B/1163functions
 exclude5 historical CRT bodies. Timings/limits: cases/omf-public-checkpoint.json.
+
+Checkpoint1279 adds64-byte EXTDEF writer with32 whole original/canonical
+controls/7 actual ABI negatives. The encountered next-external85078 counter
+is one typed unsigned PE1 storage, distinct from name/group/segment counters.
+Actual _omf_external descriptor/global owner/name context and counter1 match;
+old Symbol.field14 is write-only and is never captured/seeded. Counter ordering/
+wrap/child mutations, post-string state reload and zero type byte preserved.
+Correction: prior mark/public prose called byte13 padding; it is field0d naming
+discriminator. Retained actual raw0 now explicitly checked, no raw evidence
+changed. Original/W3/full audits and15 native cases pass (14 complete), next
+relocation6afc0.341761/399693 accepted extent bytes; app/support323461B/1164
+functions exclude5 historical CRT bodies. Timings/scope: omf-external-checkpoint.json.

@@ -424,7 +424,7 @@
       "evidence": "cases/dbglist-completion-checkpoint.json"
     }
   ],
-  "status": "Derived OMF case at1278: public emitter reconstructed; matching original/native external emitter6ad80.14 prior cases complete.",
+  "status": "Derived OMF case at1279: EXTDEF writer reconstructed; matching original/native relocation callback6afc0.14 prior cases complete.",
   "next_case_proposals": [],
   "current_runtime_frontier": null,
   "historical_proposals": [
@@ -487,8 +487,8 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "@omf_emit_external@4",
-  "current_checkpoint": 1278,
+  "current_application_frontier": "@omf_output_relocation@12",
+  "current_checkpoint": 1279,
   "current_hold": null,
   "resolved_input_hold": {
     "field": "object_file->_bufsiz",

@@ -103,7 +103,7 @@ __declspec(naked) void omf_output_size(void) { RECON_TRACE_NAKED_ENTRY(omf_outpu
 __declspec(naked) void omf_finish_module(void) { RECON_TRACE_NAKED_ENTRY(omf_finish_module) __asm int 3 }
 unsigned __fastcall omf_output_relocation(Initializer *initializer, SymbolHeader *symbol, Segment *segment) { __asm int 3 }
 
-void __fastcall omf_emit_external(SymbolHeader *symbol) { __asm int 3 }
+
 void __fastcall omf_emit_local_external(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall omf_emit_comdat_external(SymbolHeader *symbol) { __asm int 3 }
 unsigned __fastcall omf_local_name_index(char *name) { __asm int 3 }

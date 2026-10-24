@@ -1,0 +1,176 @@
+{
+  "checkpoint": 1279,
+  "previous_checkpoint": 1278,
+  "new_application": [
+    {
+      "name": "@omf_emit_external@4",
+      "start": 437632,
+      "end": 437696,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "SymbolHeader pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-external-abi/validation.json",
+        "scope": "Actual _omf_external kind4/name_class0/flags1/attributes41/identifier115 in closed global hash owner and mutable next-external1 observed. Global85078 originalPE1 has one contextual unsigned storage. Symbol.field14 output assigned after begin, old value not inspected or seeded; sole ECX pointer/RET0 no hidden register/stack/flags/x87 input."
+      }
+    }
+  ],
+  "new_extent_bytes": 64,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1279,
+    "accepted_code_bytes": 341761,
+    "original_code_bytes": 399693,
+    "percentage": 85.50587575964553,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 627
+  },
+  "application_graph_rows": 1169,
+  "reconstructed_application_support_functions": 1164,
+  "existing_handwritten_crt_bodies": 5,
+  "application_support_code_extent_bytes": 323461,
+  "code_denominator_bytes": 399693,
+  "next_frontier": "@omf_output_relocation@12",
+  "next_original_va": "0x6afc0",
+  "case_results": {
+    "total": 15,
+    "complete": 14,
+    "omf_named_trap": "@omf_output_relocation@12"
+  },
+  "controls": [
+    "cases/omf-external-validation.json"
+  ],
+  "timings": {
+    "omf1279-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 25.977636146359146,
+      "returncode": 0,
+      "log_sha256": "5c55f50f03c6be149955c7274e16ecbd7bc7da051b7eacab809f6ec0ab0135c0"
+    },
+    "omf1279-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 2.828204983845353,
+      "returncode": 0,
+      "log_sha256": "e141702a4f0bc2b34ebe7b8116790d6c3749678da33a2c693dfe682535403c66"
+    },
+    "omf1279-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1278.json",
+        "--extend-after",
+        "cases/omf-original-1279.json"
+      ],
+      "seconds": 0.3457320975139737,
+      "returncode": 0,
+      "log_sha256": "27595ea9c634b85e9334071c13ce73ecb4b629c1cc7bc220f1a8e14bbab66f57"
+    },
+    "omf1279-entry-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 2.525372196920216,
+      "returncode": 0,
+      "log_sha256": "f03ad60fc96b9521e7414b5f62c0d4ff512b68ede819154c8b1ae2afbfb0eeb4"
+    },
+    "omf1279-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-external-entry.py"
+      ],
+      "seconds": 2.063109983690083,
+      "returncode": 0,
+      "log_sha256": "72ab502eb3838c9be8e8adb5215b0a37d08cafa13c762eb99b25d1456fac8b21"
+    },
+    "omf1279-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 0.8867638576775789,
+      "returncode": 0,
+      "log_sha256": "5a59382c6379540c0c5e8007d8bc66f0d95b2ff1449da8a5d913edb2d341a22f"
+    },
+    "omf1279-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1279.json"
+      ],
+      "seconds": 0.21566929016262293,
+      "returncode": 0,
+      "log_sha256": "8161856210c528c8fd6a67d6370e5a300e08e3d52b4f92e259bd9ddfab8d5ba8"
+    },
+    "omf1279-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1279.json"
+      ],
+      "seconds": 1.0746627179905772,
+      "returncode": 0,
+      "log_sha256": "c0f531d1700ddb0ac2697b90020bbbfa0105c5a2e63ac9729cd227f1bcf8880c"
+    },
+    "omf1279-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 1.2890785029157996,
+      "returncode": 0,
+      "log_sha256": "a02df9f9489e32e0a37e9067b485a97528dc3155a6155cf01fece287529f2f11"
+    }
+  },
+  "limits": [
+    "Whole64-byte EXTDEF body,32 original/canonical controls/7 actual ABI negatives. Counter loads after begin, symbol index stores before increment/name child, unsigned wrap and child counter changes preserved. Record count/cursor reload after counted-string child and exact zero type byte, full bounded state/callee-saved/RET0 checked. No added helper edges or inferred child behavior.",
+    "Actual _omf_external kind4/name_class0/flags1/attributes41/identifier115/bucket51/member0 and owned NUL name/counter1 observed. One contextual unsigned omf_next_external storage original85078, PE initializer1 matches canonical and actual native; distinct from group/segment/name counters. Symbol.field14 prior output is not input, never read/dumped/seeded. Synthetic old-word patterns in controls are overwrite guards only.",
+    "Wording correction to prior mark/public prose: byte13 is SymbolHeader.field0d naming discriminator, not padding. It is not directly consumed by those parent bodies; retained raw actual original/native header byte is0. Existing marker/public ABI validators now explicitly assert that defined0 for name-provider context. Previous raw evidence untouched, no source behavior change or new capture.",
+    "Original/W3, full graph/extents/RET/ABI/storage/data, fresh pair to relocation6afc0 and15 native cases pass (14 complete). Full OMF object oracle pending. Main entry-build2.525s/body-build2.828s, audit+coverage25.978s and other measured phases retained separately; analysis/edit unmeasured."
+  ]
+}
