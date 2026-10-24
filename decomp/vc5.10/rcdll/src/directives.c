@@ -395,3 +395,18 @@ int __cdecl rc_parse_additive(void)
         else return value;
     }
 }
+
+int __cdecl rc_parse_multiplicative(void)
+{
+    int value;
+    value=rc_parse_unary();
+    for(;;){
+        if(rc_accept_expression_token(69))
+            value*=rc_parse_unary();
+        else if(rc_accept_expression_token(52))
+            value/=rc_parse_unary();
+        else if(rc_accept_expression_token(67))
+            value%=rc_parse_unary();
+        else return value;
+    }
+}

@@ -82,7 +82,8 @@
     "rc_parse_equality",
     "rc_parse_relational",
     "rc_parse_shift",
-    "rc_parse_additive"
+    "rc_parse_additive",
+    "rc_parse_multiplicative"
   ],
   "functions": [
     {
@@ -1583,6 +1584,14 @@
       "name": "rc_parse_multiplicative",
       "start": "0x2f98",
       "end": "0x2fed",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application"
+    },
+    {
+      "name": "rc_parse_unary",
+      "start": "0x2fed",
+      "end": "0x302e",
       "abi": "cdecl",
       "stack_bytes": 0,
       "kind": "application",

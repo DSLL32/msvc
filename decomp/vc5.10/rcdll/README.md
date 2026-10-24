@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Seventy-seven application functions (21,915 original code bytes), two embedded CRT functions
+Seventy-eight application functions (22,000 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_parse_multiplicative`.
+currently matches at the next named trap, `rc_parse_unary`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -658,3 +658,10 @@ child before arithmetic operands/results. [Verification](cases/resources-rich-tr
 records eleven affected semantic negatives, current distinct lookahead/lexer
 symbols and widths, both builds, graph/ABI checks and cached native help.
 The coherent shared snapshot was accepted only after identical-byte publication.
+
+Multiplicative parsing is reconstructed (85 bytes), preserving the signed i386
+multiply/divide/remainder loop and reaching the actual unary-parser child.
+[Verification](cases/resources-rich-trailing-space/multiplicative-verification.json)
+records eleven affected semantic controls, unchanged live input, both builds,
+graph/ABI checks and cached native help. No arithmetic result or division
+exception behavior is claimed by this checkpoint.
