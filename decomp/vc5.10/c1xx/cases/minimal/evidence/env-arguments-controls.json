@@ -1,0 +1,109 @@
+{
+  "kind": "fresh affected parser+next allocator controls; existing controller campaigns reused unchanged",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-original-1",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2",
+  "bindings": {
+    "original_receipt_sha256": "fa7680dc71480f053df384d19f9b37d47ffba90927932018e0f764814a89df43",
+    "native_receipt_sha256": "c1fc2ca13a902c7f4558338216231143127f82393c0feda7a176b58c343a044b"
+  },
+  "positive": {
+    "trial": "_read_env_arguments",
+    "frontier": "_new_option_vector",
+    "seed": null,
+    "modeled_context_fields": 35,
+    "original_default_context": [
+      0,
+      0,
+      0
+    ],
+    "typed_bss_bytes": 2793,
+    "native_bss_size": 2824,
+    "native_c_padding_bytes": 31,
+    "output_constructor_fields_checked": 72,
+    "cleanup_registration_checked": true,
+    "nonzero_output_constructor_input_checked": false,
+    "token_semantic_bytes_checked": 17,
+    "token_pointer_arm_tested": false,
+    "token_unknown_tail_bytes_each": 32,
+    "deferred_work_pointer_checked": true,
+    "nonzero_deferred_constructor_input_checked": false,
+    "nonzero_expanded_BSS_restore_checked": false,
+    "original_unmodeled_snapshot_bytes": 6031,
+    "native_snapshot_byte_equivalence_claimed": false,
+    "whole_mask_bytes_checked": 751216,
+    "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+    "original_seconds": 31.920455891638994,
+    "native_seconds": 10.144919336773455
+  },
+  "positive_seconds": 8.672774260863662,
+  "count": 16,
+  "cases": [
+    {
+      "case": "NULL-input",
+      "rejection": "environment arguments: actual parser PC/formal/NULL input"
+    },
+    {
+      "case": "source-formal",
+      "rejection": "environment arguments: actual parser PC/formal/NULL input"
+    },
+    {
+      "case": "return-stack",
+      "rejection": "environment arguments: actual parser RET0/nonvolatile; EAX has no semantic return"
+    },
+    {
+      "case": "return-register",
+      "rejection": "environment arguments: actual parser RET0/nonvolatile; EAX has no semantic return"
+    },
+    {
+      "case": "return-target-byte",
+      "rejection": "environment arguments: NULL parser changes no target/saved/external bytes"
+    },
+    {
+      "case": "return-saved-byte",
+      "rejection": "environment arguments: NULL parser changes no target/saved/external bytes"
+    },
+    {
+      "case": "next-capacity",
+      "rejection": "environment arguments: actual next allocator PC/complete formals/inputs"
+    },
+    {
+      "case": "next-arena",
+      "rejection": "environment arguments: actual next allocator PC/complete formals/inputs"
+    },
+    {
+      "case": "next-formal",
+      "rejection": "environment arguments: actual next allocator PC/complete formals/inputs"
+    },
+    {
+      "case": "next-PC",
+      "rejection": "environment arguments: actual next allocator PC/complete formals/inputs"
+    },
+    {
+      "case": "next-caller",
+      "rejection": "environment arguments: actual direct CALL/target"
+    },
+    {
+      "case": "warning-extra-byte",
+      "rejection": "environment arguments: only ten known warning writes in full native target/saved/external state"
+    },
+    {
+      "case": "return-owner",
+      "rejection": "environment arguments: native provider/owner/vector/error/full architectural FP preserved"
+    },
+    {
+      "case": "return-FP",
+      "rejection": "environment arguments: native provider/owner/vector/error/full architectural FP preserved"
+    },
+    {
+      "case": "private-vector",
+      "rejection": "environment arguments: native private ordered vector content/lifetime"
+    },
+    {
+      "case": "original-return-error",
+      "rejection": "environment arguments: actual original RET0/nonvolatile/error"
+    }
+  ],
+  "seconds": 0.7838892312720418,
+  "checker_sha256": "a196d9e0a4641380fef1e574f2ec7e4b9b8cc4d7fa0236f5c5ccdac095cea311",
+  "semantic_checker_sha256": "016eef4249fa728b5f47e44eba698fc4b51bf09f35ac39d901f4955aa9b0ccdb"
+}

@@ -150,6 +150,8 @@ def prepare():
         trial['case_inputs']['cases/minimal/locale-schema.json']=sha(PROJECT/'cases/minimal/locale-schema.json')
     if '_initialize_lowercase_table' in accepted:
         trial['lowercase_observers']={'entry_rva':0x393ca,'return_rva':0x38fee,'IAT_rva':0xc9054,'public_entry_rva':0xa5d3,'provider_hot_bytes':54,'provider_case_table_rva':0x3f7f8,'provider_case_table_bytes':256,'target_map_rva':0xc13f8,'target_map_bytes':512,'next_rva':0x39413,'scope':'all actual unsigned-byte public calls/ABI/errors/fullFP and fullmap output; provider success unclaimed until reviewed'}
+    if '_read_env_arguments' in accepted:
+        trial['environment_argument_observers']={'entry_rva':0x39413,'return_rva':0x39021,'next_rva':0x682f,'argument':None,'next_arguments':[40,1],'scope':'actual NULL input/RET0/no state mutation, then owned caller warning writes and genuine allocation frontier; nonNULL path source+graph only'}
     if '_initialize_multibyte_categories' in accepted:
         trial['multibyte_observers']={'entry_rva':0x39394,'return_rva':0x38fe9,'public_entry_rva':0x2257,'IAT_rva':0xc9184,'data_IAT_rva':0xc90c4,'codepage':-4,'next_rva':0x393ca,'flags_rva':0xcc108,'classes_rva':0xcc008,'bytes':512,'selection_support':'unclaimed until own203 captured and reviewed'}
         trial['case_inputs']['cases/minimal/scanner-data.json']=sha(PROJECT/'cases/minimal/scanner-data.json')

@@ -1,0 +1,1307 @@
+{
+  "schema": 1,
+  "status": "accepted exactly one338B application function; actual NULL runtime path, full cold source/graph only",
+  "function": "_read_env_arguments",
+  "source": "src/options.c",
+  "source_sha256": "d904888e014f0985d8b3fc8ec76b994907c80844d77eb08ea35d668b0f2a42d5",
+  "chunks": [
+    [
+      234515,
+      234536
+    ],
+    [
+      468022,
+      468339
+    ]
+  ],
+  "code_bytes": 338,
+  "proofs": {
+    "normal": {
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2",
+      "original_receipt_sha256": "fa7680dc71480f053df384d19f9b37d47ffba90927932018e0f764814a89df43",
+      "native_receipt_sha256": "c1fc2ca13a902c7f4558338216231143127f82393c0feda7a176b58c343a044b",
+      "original_helper_sha256": "022f56896b964e90fb89b4a13dd6f054a207e53d7c51f85c1d62e7b632e3c9cb",
+      "original_helper_source_sha256": "b2216a2bbef113fe74226f4009020f15f46e2f604aba4afeb50b4616a9d1b9a9",
+      "original_seconds": 31.920455891638994,
+      "native_GDB_seconds": 10.144919336773455,
+      "native_ELF_sha256": "7417616353e944fb7688ccab5c81f04ef8be16e1aa89008f76ca83486ded5631",
+      "native_compiled_source_provenance_sha256": "03673555024998c9de655acf4eefe1109162c4a76c3b5f1ff044be4c5acdb24d",
+      "trial_sha256": "e094458ef250220402771faae433666c3b541455a6fb6368924e53c9142241d3",
+      "validation": "cases/minimal/evidence/env-arguments-normal-validation.json",
+      "validation_sha256": "0fb710bfcece441ffdf030e0a1d019c3e5dbd0b6ce5624ebe3f7b5ab2956ffe2",
+      "native_outer_accounting": null,
+      "native_GDB_accounting": {
+        "first_command": 6411680.325192019,
+        "before_run": 6411680.992666584,
+        "after_run": 6411690.049093215,
+        "collectors": [
+          {
+            "state_file": "pre.json",
+            "collection_seconds": 0.07045116927474737,
+            "serialization_io_seconds": 0.0018078461289405823
+          },
+          {
+            "state_file": "phase.json",
+            "collection_seconds": 0.05740802176296711,
+            "serialization_io_seconds": 0.0018253577873110771
+          },
+          {
+            "state_file": "constructor-entry.json",
+            "collection_seconds": 0.059340049512684345,
+            "serialization_io_seconds": 0.002825017087161541
+          },
+          {
+            "state_file": "registration-entry.json",
+            "collection_seconds": 0.05796720273792744,
+            "serialization_io_seconds": 0.001821582205593586
+          },
+          {
+            "state_file": "constructor02-entry.json",
+            "collection_seconds": 0.058145683258771896,
+            "serialization_io_seconds": 0.001832648180425167
+          },
+          {
+            "state_file": "registration02-entry.json",
+            "collection_seconds": 0.05785234086215496,
+            "serialization_io_seconds": 0.0018905876204371452
+          },
+          {
+            "state_file": "constructor03-entry.json",
+            "collection_seconds": 0.05810605641454458,
+            "serialization_io_seconds": 0.0017962781712412834
+          },
+          {
+            "state_file": "registration03-entry.json",
+            "collection_seconds": 0.05744886305183172,
+            "serialization_io_seconds": 0.0017695548012852669
+          },
+          {
+            "state_file": "constructor04-entry.json",
+            "collection_seconds": 0.05815320834517479,
+            "serialization_io_seconds": 0.001834752969443798
+          },
+          {
+            "state_file": "registration04-entry.json",
+            "collection_seconds": 0.057493324391543865,
+            "serialization_io_seconds": 0.0017986539751291275
+          },
+          {
+            "state_file": "constructor05-entry.json",
+            "collection_seconds": 0.05812716390937567,
+            "serialization_io_seconds": 0.0018150731921195984
+          },
+          {
+            "state_file": "registration05-entry.json",
+            "collection_seconds": 0.05738979298621416,
+            "serialization_io_seconds": 0.0018109194934368134
+          },
+          {
+            "state_file": "constructor06-entry.json",
+            "collection_seconds": 0.0577000193297863,
+            "serialization_io_seconds": 0.0018108123913407326
+          },
+          {
+            "state_file": "registration06-entry.json",
+            "collection_seconds": 0.05735095124691725,
+            "serialization_io_seconds": 0.0017953664064407349
+          },
+          {
+            "state_file": "constructor07-entry.json",
+            "collection_seconds": 0.05781511589884758,
+            "serialization_io_seconds": 0.0017774859443306923
+          },
+          {
+            "state_file": "registration07-entry.json",
+            "collection_seconds": 0.05778686236590147,
+            "serialization_io_seconds": 0.0018886998295783997
+          },
+          {
+            "state_file": "constructor08-entry.json",
+            "collection_seconds": 0.05777746718376875,
+            "serialization_io_seconds": 0.0018225209787487984
+          },
+          {
+            "state_file": "registration08-entry.json",
+            "collection_seconds": 0.05750970635563135,
+            "serialization_io_seconds": 0.0018015746027231216
+          },
+          {
+            "state_file": "deferred-entry.json",
+            "collection_seconds": 0.05730237066745758,
+            "serialization_io_seconds": 0.0017933854833245277
+          },
+          {
+            "state_file": "deferred-registration.json",
+            "collection_seconds": 0.05737388040870428,
+            "serialization_io_seconds": 0.0018204310908913612
+          },
+          {
+            "state_file": "value-copy-entry.json",
+            "collection_seconds": 0.05767791159451008,
+            "serialization_io_seconds": 0.0018050186336040497
+          },
+          {
+            "state_file": "value-copy-result.json",
+            "collection_seconds": 0.057578823529183865,
+            "serialization_io_seconds": 0.0018184725195169449
+          },
+          {
+            "state_file": "signature-entry.json",
+            "collection_seconds": 0.057618431746959686,
+            "serialization_io_seconds": 0.0017800917848944664
+          },
+          {
+            "state_file": "pdb-entry.json",
+            "collection_seconds": 0.05709772929549217,
+            "serialization_io_seconds": 0.0018206508830189705
+          },
+          {
+            "state_file": "pdb-registration.json",
+            "collection_seconds": 0.05729766469448805,
+            "serialization_io_seconds": 0.0018228581175208092
+          },
+          {
+            "state_file": "pdb02-entry.json",
+            "collection_seconds": 0.05714576505124569,
+            "serialization_io_seconds": 0.0017777709290385246
+          },
+          {
+            "state_file": "pdb02-registration.json",
+            "collection_seconds": 0.057549974881112576,
+            "serialization_io_seconds": 0.0018252888694405556
+          },
+          {
+            "state_file": "pool-entry-01.json",
+            "collection_seconds": 0.11291587352752686,
+            "serialization_io_seconds": 0.0018047019839286804
+          },
+          {
+            "state_file": "pool-entry-02.json",
+            "collection_seconds": 0.1001120051369071,
+            "serialization_io_seconds": 0.001916416920721531
+          },
+          {
+            "state_file": "pool-entry-03.json",
+            "collection_seconds": 0.10065512359142303,
+            "serialization_io_seconds": 0.001995137892663479
+          },
+          {
+            "state_file": "pool-entry-04.json",
+            "collection_seconds": 0.1001599133014679,
+            "serialization_io_seconds": 0.0018301289528608322
+          },
+          {
+            "state_file": "pool-entry-05.json",
+            "collection_seconds": 0.1019287696108222,
+            "serialization_io_seconds": 0.002066865563392639
+          },
+          {
+            "state_file": "pool-entry-06.json",
+            "collection_seconds": 0.10044821910560131,
+            "serialization_io_seconds": 0.0019126608967781067
+          },
+          {
+            "state_file": "pool-entry-07.json",
+            "collection_seconds": 0.10053059086203575,
+            "serialization_io_seconds": 0.0019125519320368767
+          },
+          {
+            "state_file": "pool-entry-08.json",
+            "collection_seconds": 0.10015485621988773,
+            "serialization_io_seconds": 0.0018533570691943169
+          },
+          {
+            "state_file": "pool-entry-09.json",
+            "collection_seconds": 0.1003932524472475,
+            "serialization_io_seconds": 0.0018518585711717606
+          },
+          {
+            "state_file": "pool-entry-10.json",
+            "collection_seconds": 0.09995895251631737,
+            "serialization_io_seconds": 0.0018076999112963676
+          },
+          {
+            "state_file": "prototype-entry.json",
+            "collection_seconds": 0.07370430789887905,
+            "serialization_io_seconds": 0.002024918794631958
+          },
+          {
+            "state_file": "prototype-result.json",
+            "collection_seconds": 0.07467113062739372,
+            "serialization_io_seconds": 0.0018369704484939575
+          },
+          {
+            "state_file": "pch-entry.json",
+            "collection_seconds": 0.11571318376809359,
+            "serialization_io_seconds": 0.0018741469830274582
+          },
+          {
+            "state_file": "pch-return.json",
+            "collection_seconds": 0.07533213589340448,
+            "serialization_io_seconds": 0.0018190136179327965
+          },
+          {
+            "state_file": "group-entry.json",
+            "collection_seconds": 0.05723696853965521,
+            "serialization_io_seconds": 0.0017900988459587097
+          },
+          {
+            "state_file": "group-result.json",
+            "collection_seconds": 0.05713838804513216,
+            "serialization_io_seconds": 0.0017768200486898422
+          },
+          {
+            "state_file": "comment-entry.json",
+            "collection_seconds": 0.05736225936561823,
+            "serialization_io_seconds": 0.001793745905160904
+          },
+          {
+            "state_file": "comment-result.json",
+            "collection_seconds": 0.05713101103901863,
+            "serialization_io_seconds": 0.001793653704226017
+          },
+          {
+            "state_file": "action-entry.json",
+            "collection_seconds": 0.057175192050635815,
+            "serialization_io_seconds": 0.0018258439376950264
+          },
+          {
+            "state_file": "action-result.json",
+            "collection_seconds": 0.05719993822276592,
+            "serialization_io_seconds": 0.0017972895875573158
+          },
+          {
+            "state_file": "main-entry.json",
+            "collection_seconds": 0.05701559316366911,
+            "serialization_io_seconds": 0.0017964066937565804
+          },
+          {
+            "state_file": "work-entry.json",
+            "collection_seconds": 0.0566677562892437,
+            "serialization_io_seconds": 0.0018276385962963104
+          },
+          {
+            "state_file": "reserve-entry-01.json",
+            "collection_seconds": 0.057331970892846584,
+            "serialization_io_seconds": 0.0018242737278342247
+          },
+          {
+            "state_file": "reserve-return-01.json",
+            "collection_seconds": 0.057003230787813663,
+            "serialization_io_seconds": 0.0017993832007050514
+          },
+          {
+            "state_file": "reserve-entry-02.json",
+            "collection_seconds": 0.05738442111760378,
+            "serialization_io_seconds": 0.0017907293513417244
+          },
+          {
+            "state_file": "reserve-return-02.json",
+            "collection_seconds": 0.0569950332865119,
+            "serialization_io_seconds": 0.0017921226099133492
+          },
+          {
+            "state_file": "early-options-entry.json",
+            "collection_seconds": 0.05735333822667599,
+            "serialization_io_seconds": 0.0018290858715772629
+          },
+          {
+            "state_file": "early-option-entry.json",
+            "collection_seconds": 0.057222165167331696,
+            "serialization_io_seconds": 0.0017683422192931175
+          },
+          {
+            "state_file": "hook-entry.json",
+            "collection_seconds": 0.0573172802105546,
+            "serialization_io_seconds": 0.00184645876288414
+          },
+          {
+            "state_file": "system-info-entry.json",
+            "collection_seconds": 0.05854500364512205,
+            "serialization_io_seconds": 0.0018611866980791092
+          },
+          {
+            "state_file": "system-info-return.json",
+            "collection_seconds": 0.05717733595520258,
+            "serialization_io_seconds": 0.0018000882118940353
+          },
+          {
+            "state_file": "arena-entry.json",
+            "collection_seconds": 0.07593787275254726,
+            "serialization_io_seconds": 0.0018464075401425362
+          },
+          {
+            "state_file": "arena-member-entry.json",
+            "collection_seconds": 0.11075905803591013,
+            "serialization_io_seconds": 0.001868387684226036
+          },
+          {
+            "state_file": "arena-size-entry.json",
+            "collection_seconds": 0.07739683985710144,
+            "serialization_io_seconds": 0.001868516206741333
+          },
+          {
+            "state_file": "scaler-return.json",
+            "collection_seconds": 0.0976983169093728,
+            "serialization_io_seconds": 0.0019182860851287842
+          },
+          {
+            "state_file": "arena-reset-entry.json",
+            "collection_seconds": 0.09868142753839493,
+            "serialization_io_seconds": 0.002095620147883892
+          },
+          {
+            "state_file": "state.json",
+            "collection_seconds": 0.05822200607508421,
+            "serialization_io_seconds": 0.002084796316921711
+          }
+        ],
+        "source_commands": [
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/observe-allocation.gdb",
+            "seconds": 0.02313766721636057
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/observe-early-switches.gdb",
+            "seconds": 0.011965927667915821
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/observe-system-info.gdb",
+            "seconds": 0.02711550612002611
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/observe-scaler.gdb",
+            "seconds": 0.0716001046821475
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-pre.gdb",
+            "seconds": 0.07568021956831217
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-phase.gdb",
+            "seconds": 0.06230682600289583
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-constructor-entry.gdb",
+            "seconds": 0.06644693668931723
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-registration-entry.gdb",
+            "seconds": 0.06380268558859825
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-constructor02-entry.gdb",
+            "seconds": 0.06165839545428753
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-registration02-entry.gdb",
+            "seconds": 0.06371781136840582
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-constructor03-entry.gdb",
+            "seconds": 0.06401235517114401
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-registration03-entry.gdb",
+            "seconds": 0.0632544457912445
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-constructor04-entry.gdb",
+            "seconds": 0.06373771280050278
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-registration04-entry.gdb",
+            "seconds": 0.06333973165601492
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-constructor05-entry.gdb",
+            "seconds": 0.06368551403284073
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-registration05-entry.gdb",
+            "seconds": 0.060838633216917515
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-constructor06-entry.gdb",
+            "seconds": 0.06297958921641111
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-registration06-entry.gdb",
+            "seconds": 0.060838401317596436
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-constructor07-entry.gdb",
+            "seconds": 0.06343544460833073
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-registration07-entry.gdb",
+            "seconds": 0.06139338295906782
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-constructor08-entry.gdb",
+            "seconds": 0.06357374228537083
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-registration08-entry.gdb",
+            "seconds": 0.06333963759243488
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-deferred-entry.gdb",
+            "seconds": 0.06294173840433359
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-deferred-registration.gdb",
+            "seconds": 0.06257769744843245
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-value-copy-entry.gdb",
+            "seconds": 0.06285372283309698
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-value-copy-result.gdb",
+            "seconds": 0.06287311855703592
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-signature-entry.gdb",
+            "seconds": 0.06103439349681139
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-pdb-entry.gdb",
+            "seconds": 0.0604488467797637
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-pdb-registration.gdb",
+            "seconds": 0.06075898837298155
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-pdb02-entry.gdb",
+            "seconds": 0.06263907719403505
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-pdb02-registration.gdb",
+            "seconds": 0.06330037675797939
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/observe-pool-entries.gdb",
+            "seconds": 0.12241697497665882
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/observe-pool-entries.gdb",
+            "seconds": 0.10920894797891378
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/observe-pool-entries.gdb",
+            "seconds": 0.10988426581025124
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/observe-pool-entries.gdb",
+            "seconds": 0.10700759571045637
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/observe-pool-entries.gdb",
+            "seconds": 0.11127072107046843
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/observe-pool-entries.gdb",
+            "seconds": 0.10923243965953588
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/observe-pool-entries.gdb",
+            "seconds": 0.10889794584363699
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/observe-pool-entries.gdb",
+            "seconds": 0.10704661440104246
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/observe-pool-entries.gdb",
+            "seconds": 0.10902578104287386
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/observe-pool-entries.gdb",
+            "seconds": 0.10888394806534052
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-prototype-entry.gdb",
+            "seconds": 0.07883237674832344
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-prototype-result.gdb",
+            "seconds": 0.0807295348495245
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-pch-entry.gdb",
+            "seconds": 0.12157901097089052
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/observe-pch-return.gdb",
+            "seconds": 0.0022872313857078552
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-group-entry.gdb",
+            "seconds": 0.06263616029173136
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-group-result.gdb",
+            "seconds": 0.06274243537336588
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-comment-entry.gdb",
+            "seconds": 0.06320667266845703
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-comment-result.gdb",
+            "seconds": 0.06277596950531006
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-action-entry.gdb",
+            "seconds": 0.06254758220165968
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-action-result.gdb",
+            "seconds": 0.0629008924588561
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-main-entry.gdb",
+            "seconds": 0.06234375387430191
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-work-entry.gdb",
+            "seconds": 0.06241610553115606
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-early-options-entry.gdb",
+            "seconds": 0.06335714273154736
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-hook-entry.gdb",
+            "seconds": 0.06257333047688007
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-arena-entry.gdb",
+            "seconds": 0.07957046013325453
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-arena-member-entry.gdb",
+            "seconds": 0.11653942242264748
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-2/collect-arena-size-entry.gdb",
+            "seconds": 0.0829495768994093
+          }
+        ],
+        "summary": {
+          "source_command_seconds": 4.134151523932815,
+          "source_command_count": 58,
+          "gdb_total_seconds": 10.144919336773455,
+          "startup_seconds": 0.09526816755533218,
+          "breakpoint_setup_seconds": 0.6674745650961995,
+          "collection_seconds": 4.419096272438765,
+          "serialization_io_seconds": 0.11889031156897545,
+          "residual_inferior_debugger_seconds": 4.844190020114183,
+          "collector_count": 64,
+          "scope": "residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution"
+        }
+      }
+    },
+    "restore": {
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1",
+      "original_receipt_sha256": "a3be4aa6901724f7053bbcb642ef9315fed32b984a673af1a734dc31340255af",
+      "native_receipt_sha256": "bfe47cfc3c559d17723c06d381265b3b77e0192ab0552612431761200f5f4098",
+      "original_helper_sha256": "022f56896b964e90fb89b4a13dd6f054a207e53d7c51f85c1d62e7b632e3c9cb",
+      "original_helper_source_sha256": "b2216a2bbef113fe74226f4009020f15f46e2f604aba4afeb50b4616a9d1b9a9",
+      "original_seconds": 33.69817114062607,
+      "native_GDB_seconds": 10.772109661251307,
+      "native_ELF_sha256": "7417616353e944fb7688ccab5c81f04ef8be16e1aa89008f76ca83486ded5631",
+      "native_compiled_source_provenance_sha256": "03673555024998c9de655acf4eefe1109162c4a76c3b5f1ff044be4c5acdb24d",
+      "trial_sha256": "95d0894fa75da28e64b8f6c5ea99656ff242f652731cd2b07d82bf28a507814f",
+      "validation": "cases/minimal/evidence/env-arguments-restore-validation.json",
+      "validation_sha256": "cc94bc432aac64bc0c48d7da17e3e0d22a4436358ecd9c448bf6996112ddff25",
+      "native_outer_accounting": null,
+      "native_GDB_accounting": {
+        "first_command": 6411873.836296474,
+        "before_run": 6411875.029071995,
+        "after_run": 6411884.170522139,
+        "collectors": [
+          {
+            "state_file": "pre.json",
+            "collection_seconds": 0.07242145203053951,
+            "serialization_io_seconds": 0.002188965678215027
+          },
+          {
+            "state_file": "phase.json",
+            "collection_seconds": 0.057548834942281246,
+            "serialization_io_seconds": 0.002020125277340412
+          },
+          {
+            "state_file": "constructor-entry.json",
+            "collection_seconds": 0.058109626173973083,
+            "serialization_io_seconds": 0.0019316617399454117
+          },
+          {
+            "state_file": "registration-entry.json",
+            "collection_seconds": 0.05759646091610193,
+            "serialization_io_seconds": 0.0018779067322611809
+          },
+          {
+            "state_file": "constructor02-entry.json",
+            "collection_seconds": 0.05658288300037384,
+            "serialization_io_seconds": 0.001912090927362442
+          },
+          {
+            "state_file": "registration02-entry.json",
+            "collection_seconds": 0.05750046391040087,
+            "serialization_io_seconds": 0.0019215093925595284
+          },
+          {
+            "state_file": "constructor03-entry.json",
+            "collection_seconds": 0.05660677421838045,
+            "serialization_io_seconds": 0.0020759152248501778
+          },
+          {
+            "state_file": "registration03-entry.json",
+            "collection_seconds": 0.05659950524568558,
+            "serialization_io_seconds": 0.001886778511106968
+          },
+          {
+            "state_file": "constructor04-entry.json",
+            "collection_seconds": 0.05732952896505594,
+            "serialization_io_seconds": 0.001903824508190155
+          },
+          {
+            "state_file": "registration04-entry.json",
+            "collection_seconds": 0.05903520714491606,
+            "serialization_io_seconds": 0.0023181717842817307
+          },
+          {
+            "state_file": "constructor05-entry.json",
+            "collection_seconds": 0.05665351636707783,
+            "serialization_io_seconds": 0.0018899207934737206
+          },
+          {
+            "state_file": "registration05-entry.json",
+            "collection_seconds": 0.05653578694909811,
+            "serialization_io_seconds": 0.0019416054710745811
+          },
+          {
+            "state_file": "constructor06-entry.json",
+            "collection_seconds": 0.056569562293589115,
+            "serialization_io_seconds": 0.0019223177805542946
+          },
+          {
+            "state_file": "registration06-entry.json",
+            "collection_seconds": 0.05660667084157467,
+            "serialization_io_seconds": 0.0019067293033003807
+          },
+          {
+            "state_file": "constructor07-entry.json",
+            "collection_seconds": 0.057565934024751186,
+            "serialization_io_seconds": 0.0018710298463702202
+          },
+          {
+            "state_file": "registration07-entry.json",
+            "collection_seconds": 0.05655136052519083,
+            "serialization_io_seconds": 0.00205939169973135
+          },
+          {
+            "state_file": "constructor08-entry.json",
+            "collection_seconds": 0.05696643516421318,
+            "serialization_io_seconds": 0.0018781255930662155
+          },
+          {
+            "state_file": "registration08-entry.json",
+            "collection_seconds": 0.057701277546584606,
+            "serialization_io_seconds": 0.0018720775842666626
+          },
+          {
+            "state_file": "deferred-entry.json",
+            "collection_seconds": 0.05725203454494476,
+            "serialization_io_seconds": 0.001947532407939434
+          },
+          {
+            "state_file": "deferred-registration.json",
+            "collection_seconds": 0.05647497717291117,
+            "serialization_io_seconds": 0.0018929829820990562
+          },
+          {
+            "state_file": "value-copy-entry.json",
+            "collection_seconds": 0.056463598273694515,
+            "serialization_io_seconds": 0.001888449303805828
+          },
+          {
+            "state_file": "value-copy-result.json",
+            "collection_seconds": 0.0562518909573555,
+            "serialization_io_seconds": 0.001900460571050644
+          },
+          {
+            "state_file": "signature-entry.json",
+            "collection_seconds": 0.05628782603889704,
+            "serialization_io_seconds": 0.0019046636298298836
+          },
+          {
+            "state_file": "pdb-entry.json",
+            "collection_seconds": 0.0559686403721571,
+            "serialization_io_seconds": 0.0018858583644032478
+          },
+          {
+            "state_file": "pdb-registration.json",
+            "collection_seconds": 0.056314107961952686,
+            "serialization_io_seconds": 0.0018714414909482002
+          },
+          {
+            "state_file": "pdb02-entry.json",
+            "collection_seconds": 0.056107647716999054,
+            "serialization_io_seconds": 0.0018883785232901573
+          },
+          {
+            "state_file": "pdb02-registration.json",
+            "collection_seconds": 0.056266529485583305,
+            "serialization_io_seconds": 0.0018613943830132484
+          },
+          {
+            "state_file": "pool-entry-01.json",
+            "collection_seconds": 0.11277095321565866,
+            "serialization_io_seconds": 0.0019996175542473793
+          },
+          {
+            "state_file": "pool-entry-02.json",
+            "collection_seconds": 0.09937095269560814,
+            "serialization_io_seconds": 0.0020214607939124107
+          },
+          {
+            "state_file": "pool-entry-03.json",
+            "collection_seconds": 0.09894741419702768,
+            "serialization_io_seconds": 0.0019118059426546097
+          },
+          {
+            "state_file": "pool-entry-04.json",
+            "collection_seconds": 0.09900261554867029,
+            "serialization_io_seconds": 0.0018756110221147537
+          },
+          {
+            "state_file": "pool-entry-05.json",
+            "collection_seconds": 0.09878076240420341,
+            "serialization_io_seconds": 0.0018902067095041275
+          },
+          {
+            "state_file": "pool-entry-06.json",
+            "collection_seconds": 0.09884805046021938,
+            "serialization_io_seconds": 0.0018768524751067162
+          },
+          {
+            "state_file": "pool-entry-07.json",
+            "collection_seconds": 0.09921439364552498,
+            "serialization_io_seconds": 0.0018670838326215744
+          },
+          {
+            "state_file": "pool-entry-08.json",
+            "collection_seconds": 0.09887459967285395,
+            "serialization_io_seconds": 0.0018945848569273949
+          },
+          {
+            "state_file": "pool-entry-09.json",
+            "collection_seconds": 0.10035729873925447,
+            "serialization_io_seconds": 0.002099243924021721
+          },
+          {
+            "state_file": "pool-entry-10.json",
+            "collection_seconds": 0.09919116646051407,
+            "serialization_io_seconds": 0.0018667513504624367
+          },
+          {
+            "state_file": "prototype-entry.json",
+            "collection_seconds": 0.058458566665649414,
+            "serialization_io_seconds": 0.0020535727962851524
+          },
+          {
+            "state_file": "prototype-result.json",
+            "collection_seconds": 0.07358133140951395,
+            "serialization_io_seconds": 0.001879085786640644
+          },
+          {
+            "state_file": "pch-entry.json",
+            "collection_seconds": 0.11465886142104864,
+            "serialization_io_seconds": 0.0021387776359915733
+          },
+          {
+            "state_file": "pch-return.json",
+            "collection_seconds": 0.07426787447184324,
+            "serialization_io_seconds": 0.0019034771248698235
+          },
+          {
+            "state_file": "group-entry.json",
+            "collection_seconds": 0.05623968597501516,
+            "serialization_io_seconds": 0.0018685972318053246
+          },
+          {
+            "state_file": "group-result.json",
+            "collection_seconds": 0.05649663135409355,
+            "serialization_io_seconds": 0.0019266922026872635
+          },
+          {
+            "state_file": "comment-entry.json",
+            "collection_seconds": 0.056699550710618496,
+            "serialization_io_seconds": 0.0019226958975195885
+          },
+          {
+            "state_file": "comment-result.json",
+            "collection_seconds": 0.056252202950417995,
+            "serialization_io_seconds": 0.0018898975104093552
+          },
+          {
+            "state_file": "action-entry.json",
+            "collection_seconds": 0.05615166760981083,
+            "serialization_io_seconds": 0.0018532807007431984
+          },
+          {
+            "state_file": "action-result.json",
+            "collection_seconds": 0.05621359311044216,
+            "serialization_io_seconds": 0.0018628081306815147
+          },
+          {
+            "state_file": "main-entry.json",
+            "collection_seconds": 0.05943235009908676,
+            "serialization_io_seconds": 0.0024017849937081337
+          },
+          {
+            "state_file": "work-entry.json",
+            "collection_seconds": 0.0574213620275259,
+            "serialization_io_seconds": 0.0018904432654380798
+          },
+          {
+            "state_file": "reserve-entry-01.json",
+            "collection_seconds": 0.05691642686724663,
+            "serialization_io_seconds": 0.0020121512934565544
+          },
+          {
+            "state_file": "reserve-return-01.json",
+            "collection_seconds": 0.056501769460737705,
+            "serialization_io_seconds": 0.0018909862264990807
+          },
+          {
+            "state_file": "reserve-entry-02.json",
+            "collection_seconds": 0.05673082172870636,
+            "serialization_io_seconds": 0.001901477575302124
+          },
+          {
+            "state_file": "reserve-return-02.json",
+            "collection_seconds": 0.0567104397341609,
+            "serialization_io_seconds": 0.0018786173313856125
+          },
+          {
+            "state_file": "early-options-entry.json",
+            "collection_seconds": 0.056822728365659714,
+            "serialization_io_seconds": 0.0018852148205041885
+          },
+          {
+            "state_file": "early-option-entry.json",
+            "collection_seconds": 0.05668232589960098,
+            "serialization_io_seconds": 0.0019511682912707329
+          },
+          {
+            "state_file": "hook-entry.json",
+            "collection_seconds": 0.05646248161792755,
+            "serialization_io_seconds": 0.0018782159313559532
+          },
+          {
+            "state_file": "system-info-entry.json",
+            "collection_seconds": 0.05751042906194925,
+            "serialization_io_seconds": 0.0019122939556837082
+          },
+          {
+            "state_file": "system-info-return.json",
+            "collection_seconds": 0.056455506943166256,
+            "serialization_io_seconds": 0.0021049752831459045
+          },
+          {
+            "state_file": "arena-entry.json",
+            "collection_seconds": 0.07498969975858927,
+            "serialization_io_seconds": 0.001917663961648941
+          },
+          {
+            "state_file": "arena-member-entry.json",
+            "collection_seconds": 0.10946348775178194,
+            "serialization_io_seconds": 0.0018733683973550797
+          },
+          {
+            "state_file": "arena-size-entry.json",
+            "collection_seconds": 0.07656410615891218,
+            "serialization_io_seconds": 0.0018899068236351013
+          },
+          {
+            "state_file": "scaler-return.json",
+            "collection_seconds": 0.09672001749277115,
+            "serialization_io_seconds": 0.0020672185346484184
+          },
+          {
+            "state_file": "arena-reset-entry.json",
+            "collection_seconds": 0.09805221203714609,
+            "serialization_io_seconds": 0.002045891247689724
+          },
+          {
+            "state_file": "state.json",
+            "collection_seconds": 0.05889617744833231,
+            "serialization_io_seconds": 0.002723551355302334
+          }
+        ],
+        "source_commands": [
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/observe-allocation.gdb",
+            "seconds": 0.025190120562911034
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/observe-early-switches.gdb",
+            "seconds": 0.012736579403281212
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/observe-system-info.gdb",
+            "seconds": 0.029003250412642956
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/observe-scaler.gdb",
+            "seconds": 0.07824724353849888
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-pre.gdb",
+            "seconds": 0.07755938731133938
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-phase.gdb",
+            "seconds": 0.06302076205611229
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-constructor-entry.gdb",
+            "seconds": 0.06377063319087029
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-registration-entry.gdb",
+            "seconds": 0.06116809602826834
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-constructor02-entry.gdb",
+            "seconds": 0.06218031141906977
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-registration02-entry.gdb",
+            "seconds": 0.06354075018316507
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-constructor03-entry.gdb",
+            "seconds": 0.060512072406709194
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-registration03-entry.gdb",
+            "seconds": 0.062070525251328945
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-constructor04-entry.gdb",
+            "seconds": 0.06340426672250032
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-registration04-entry.gdb",
+            "seconds": 0.06561380811035633
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-constructor05-entry.gdb",
+            "seconds": 0.06274795532226562
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-registration05-entry.gdb",
+            "seconds": 0.06271121092140675
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-constructor06-entry.gdb",
+            "seconds": 0.06161964125931263
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-registration06-entry.gdb",
+            "seconds": 0.06267883069813251
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-constructor07-entry.gdb",
+            "seconds": 0.061163078993558884
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-registration07-entry.gdb",
+            "seconds": 0.06277927942574024
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-constructor08-entry.gdb",
+            "seconds": 0.060550316236913204
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-registration08-entry.gdb",
+            "seconds": 0.06344689521938562
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-deferred-entry.gdb",
+            "seconds": 0.06085045449435711
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-deferred-registration.gdb",
+            "seconds": 0.06261119619011879
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-value-copy-entry.gdb",
+            "seconds": 0.06240974459797144
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-value-copy-result.gdb",
+            "seconds": 0.06225635576993227
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-signature-entry.gdb",
+            "seconds": 0.059860547073185444
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-pdb-entry.gdb",
+            "seconds": 0.06124284956604242
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-pdb-registration.gdb",
+            "seconds": 0.06177692301571369
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-pdb02-entry.gdb",
+            "seconds": 0.06133320927619934
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-pdb02-registration.gdb",
+            "seconds": 0.059850323013961315
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/observe-pool-entries.gdb",
+            "seconds": 0.12317876890301704
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/observe-pool-entries.gdb",
+            "seconds": 0.10689917672425508
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/observe-pool-entries.gdb",
+            "seconds": 0.10849016439169645
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/observe-pool-entries.gdb",
+            "seconds": 0.10846897587180138
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/observe-pool-entries.gdb",
+            "seconds": 0.10602280125021935
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/observe-pool-entries.gdb",
+            "seconds": 0.10824613831937313
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/observe-pool-entries.gdb",
+            "seconds": 0.10855161678045988
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/observe-pool-entries.gdb",
+            "seconds": 0.10611877124756575
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/observe-pool-entries.gdb",
+            "seconds": 0.11123904399573803
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/observe-pool-entries.gdb",
+            "seconds": 0.1086622616276145
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-prototype-entry.gdb",
+            "seconds": 0.062297144904732704
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-prototype-result.gdb",
+            "seconds": 0.07717840652912855
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-pch-entry.gdb",
+            "seconds": 0.1204250743612647
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/observe-pch-return.gdb",
+            "seconds": 0.002306835725903511
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-group-entry.gdb",
+            "seconds": 0.05972975958138704
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-group-result.gdb",
+            "seconds": 0.062016370706260204
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-comment-entry.gdb",
+            "seconds": 0.06265346892178059
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-comment-result.gdb",
+            "seconds": 0.06215374357998371
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-action-entry.gdb",
+            "seconds": 0.06183638051152229
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-action-result.gdb",
+            "seconds": 0.061970725655555725
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-main-entry.gdb",
+            "seconds": 0.0657725976780057
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-work-entry.gdb",
+            "seconds": 0.06344552896916866
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-early-options-entry.gdb",
+            "seconds": 0.06305917911231518
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-hook-entry.gdb",
+            "seconds": 0.06221605837345123
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-arena-entry.gdb",
+            "seconds": 0.08096789382398129
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-arena-member-entry.gdb",
+            "seconds": 0.11553786229342222
+          },
+          {
+            "command": "source /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-restore-native-1/collect-arena-size-entry.gdb",
+            "seconds": 0.08229882922023535
+          }
+        ],
+        "summary": {
+          "source_command_seconds": 4.0996501967310905,
+          "source_command_count": 58,
+          "gdb_total_seconds": 10.772109661251307,
+          "startup_seconds": 0.10130472667515278,
+          "breakpoint_setup_seconds": 1.192775521427393,
+          "collection_seconds": 4.358579047955573,
+          "serialization_io_seconds": 0.1252463422715664,
+          "residual_inferior_debugger_seconds": 4.994204022921622,
+          "collector_count": 64,
+          "scope": "residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution"
+        }
+      }
+    }
+  },
+  "controls": {
+    "path": "cases/minimal/evidence/env-arguments-controls.json",
+    "sha256": "9adbb922b2f9419e0b30d513789b34cac338d8fc83e5d244d63edbb108f38f14",
+    "count": 16,
+    "seconds": 0.7838892312720418,
+    "positive_seconds": 8.672774260863662,
+    "scope": "fresh affected ABI/NULL/preserved state/next allocator formals/warning writes; old protocol campaigns reused with their existing checker/input provenance"
+  },
+  "audit": {
+    "path": "build/audit-proof.json",
+    "sha256": "b85dbd971ce5abc2e144d6de3c8f04639ddf96e75217c893414551fb0f5165fd",
+    "seconds": 0.12053306587040424,
+    "auditor_sha256": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24"
+  },
+  "build_accounting": {
+    "build/options.obj.build.json": {
+      "seconds": 1.1052649952471256,
+      "sha256": "7aaeca848ddb15c50bcdb1e8c543aef0b69862385f5b7ae72a6ac031d9de48dc"
+    },
+    "build/win32-provenance.json": {
+      "seconds": 0.7253213217481971,
+      "sha256": "e21c72763be19633d7b6d541a886ebf35c2dbadc76694e36bacd21f617e66c67"
+    },
+    "build/native/options.o.build.json": {
+      "seconds": 0.13604071643203497,
+      "sha256": "2f038ace1a9c7a9a24fec38f8123b1574fc0946a0e5f92af7675687bf7ffc416"
+    },
+    "build/native/provenance.json": {
+      "seconds": 1.6615145709365606,
+      "sha256": "03673555024998c9de655acf4eefe1109162c4a76c3b5f1ff044be4c5acdb24d"
+    }
+  },
+  "fixture": {
+    "path": "cases/minimal/evidence/env-arguments-lifecycle-fixture.txt",
+    "sha256": "6a76d4e3b567b7734be3e331f0d950805f4970df4012fbddc70aef371ce3558c"
+  },
+  "next_frontier": {
+    "function": "_new_option_vector",
+    "rva": 26671,
+    "source_formals": [
+      [
+        "capacity",
+        "unsigned int"
+      ],
+      [
+        "arena_index",
+        "int"
+      ]
+    ],
+    "actual_arguments": [
+      40,
+      1
+    ]
+  },
+  "runtime_scope": "genuine NULL input only; full21+317B body/ABI/edges statically checked; nonNULL quote/backslash/MBCS path not runtime exercised",
+  "data_scope": {
+    "new_modeled_bytes": 0,
+    "initialized_semantic_bytes": 2489,
+    "initialized_padding_bytes": 51,
+    "original_initialized_unknown_bytes": 6031,
+    "BSS_semantic_bytes": 2793,
+    "BSS_native_padding_bytes": 31
+  },
+  "failures_preserved": [
+    {
+      "directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-env-arguments-native-1",
+      "scope": "pre-execution denial: scanner default evidence still pinned entire old compiledDLL hash; checker now authenticates actual frozen trialDLL and exact same512B initializer; no original repeated"
+    },
+    {
+      "paths": [
+        "build/read-env-check1-error.txt",
+        "build/read-env-check2-error.txt",
+        "build/read-env-check3-error.txt",
+        "build/read-env-check4-error.txt"
+      ],
+      "scope": "read-only decoder extension failures; missing dispatch/prefixwarning scope/stale staticaudit/new checker field-name corrected, no execution proof relabel"
+    }
+  ],
+  "acceptance_result": {
+    "accepted": "_read_env_arguments",
+    "accepted_count": 89,
+    "promoted_functions": [
+      "_read_env_arguments"
+    ]
+  },
+  "checkpoint": {
+    "accepted_boundaries": 89,
+    "application_functions": 85,
+    "application_code_bytes": 5773,
+    "historical_CRT_code_bytes": 451,
+    "generated_import_code_bytes": 12,
+    "whole_code_bytes": 6236,
+    "whole_code_denominator": 751216,
+    "whole_code_percent": 0.8301207642009755,
+    "nonCRT_denominator_known": false
+  },
+  "validation_sources": {
+    "scripts/env_arguments_state.py": "016eef4249fa728b5f47e44eba698fc4b51bf09f35ac39d901f4955aa9b0ccdb",
+    "scripts/env_arguments_probe.py": "bd15e11e9f6d9dec10316e490cfbde346fcea322036b3ad19ac59d25859d58d7",
+    "scripts/check-env-arguments-negative.py": "a196d9e0a4641380fef1e574f2ec7e4b9b8cc4d7fa0236f5c5ccdac095cea311",
+    "scripts/check-callback.py": "3f3f03b7b4ebd7dd6b3eb26b01e888b696e8fa6dee1dcc917f5daad9621f377b",
+    "scripts/checksum_state.py": "b1ececde54951be57874154ab6915e388346c36b7f29f534629c1eb7631288aa",
+    "scripts/scanner_state.py": "07abc1835e45131c24999c76c9ab37a9d7caec24a0f908ecf1caee9756f188fa",
+    "scripts/path_fold_state.py": "c3abb3c3a23d49ebe7cb624883b3dbcd2c69184311095c92186172d5a534a689",
+    "scripts/path_fold_original.py": "353a88e61ca7e3d7cefb58349e0dee647ba4eba23fcbc83b4f4b3cb96dfaec3f",
+    "scripts/options_state.py": "bb5f1006cd666fd5355135c590df27ca36634e4be4ff1ea75552297a16c5362c",
+    "scripts/check-isolated-multibyte.py": "2b265320c04564277c01f1e5f969e59c43999dd816b4b0ad13aab8a074876c48",
+    "scripts/check-isolated-locale.py": "52e25b08d3dc7c4ed00fbc4b7cf57ac0bc87cc76dd4110ab8ca05e9aa91db7ba"
+  }
+}

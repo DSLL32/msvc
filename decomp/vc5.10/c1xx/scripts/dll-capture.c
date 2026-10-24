@@ -11,6 +11,9 @@ typedef struct Range { DWORD first, last; int entry; BYTE saved; } Range;
 static HANDLE child;
 static FILE *events;
 static DWORD base, entry_rva, code_rva, code_size, image_size;
+static DWORD env_arguments_esp;
+static BYTE env_arguments_return_byte;
+static int env_arguments_return_active;
 static DWORD crt_base, return_address, return_reason;
 static DWORD kernel_base, kernelbase_base;
 static unsigned allocation_api_count, allocation_helper_count;
@@ -1162,6 +1165,11 @@ int main(int argc, char **argv)
                 save_frontend_state("checksum-return");readmem(base+0xb9000,bss,0xf69c);save_blob("checksum-return-BSS.bin",bss,0xf69c);free(bss);
                 save_blob("checksum-return-fp.bin",&context.FloatSave,sizeof(context.FloatSave));
                 patch(address,checksum_return_byte);checksum_return_active=0;context.Eip=address;if(!SetThreadContext(thread,&context))fail("checksum return context");
+            } else if(code==EXCEPTION_BREAKPOINT && env_arguments_return_active && address==base+0x39021) {
+                fprintf(events,"env-arguments-return pc=%08lx esp=%08lx entry-esp=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx error=%lu\n",address,context.Esp,env_arguments_esp,context.Ebx,context.Esi,context.Edi,context.Ebp,thread_error(&context,thread));
+                locale_snapshot("env-return",&context,thread,event.dwThreadId);
+                patch(address,env_arguments_return_byte);env_arguments_return_active=0;context.Eip=address;
+                if(!SetThreadContext(thread,&context))fail("environment argument return context");
             } else if(code==EXCEPTION_BREAKPOINT && path_fold_boundary(address,&context,thread,event.dwThreadId)) {
                 /* Actual provider/body observer; context reset by the handler. */
             } else if(code==EXCEPTION_BREAKPOINT && mb_entry_active && address==mb_entry_pc) {
@@ -1261,6 +1269,16 @@ int main(int argc, char **argv)
                     path_fold_enter(&context);locale_snapshot("mb-next",&context,thread,event.dwThreadId);
                 }
                 if(address==base+0x39413 && path_fold_probe)locale_snapshot("fold-next",&context,thread,event.dwThreadId);
+                if(address==base+0x39413 && getenv("C1XX_OBSERVE_ENV_ARGUMENTS")) {
+                    DWORD words[2];readmem(context.Esp,words,sizeof(words));
+                    if(words[0]!=base+0x39021 || words[1] || env_arguments_return_active)fail("env arguments actual NULL caller");
+                    env_arguments_esp=context.Esp;env_arguments_return_byte=snapshot[0x39021-code_rva];
+                    if(env_arguments_return_byte!=0xa1)fail("env arguments return instruction");
+                    patch(base+0x39021,0xcc);env_arguments_return_active=1;
+                    fprintf(events,"env-arguments-observer entry=00039413 return=00039021 argument=NULL next=0000682f no-code-mock=1\n");
+                }
+                if(address==base+0x682f && getenv("C1XX_OBSERVE_ENV_ARGUMENTS"))locale_snapshot("env-next",&context,thread,event.dwThreadId);
+
                 if (address == base + 0x39282 && getenv("C1XX_OBSERVE_ALIAS_ROOT")) {
                     if (alias_return_active) fail("duplicate alias initializer");
                     readmem(context.Esp,&alias_return_pc,4);

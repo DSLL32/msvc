@@ -15,7 +15,7 @@ def check(s,d,original,native,trial,text,pre,phase,state,seed,final,traps):
         result=rows(name);need(len(result)==1,'actual '+name+' inventory');return result[0]
     entry,returned,next_entry=(one(x)for x in ('entries','returns','next-entries'));calls,returns=rows('api-entries'),rows('api-returns');names=symbols(native/'native-executable.elf');count=reference['calls']
     need(len(calls)==len(returns)==count,'complete actual public call inventory')
-    need(entry['pc']==names['initialize_lowercase_table'][0] and entry['formal_inventory']==[] and next_entry['pc']==names['read_env_arguments'][0] and next_entry['formal_inventory']==[{'name':'arguments','type':'char *'}] and next_entry['args']==[0] and state['symbol']=='read_env_arguments' and state['args']=={'arguments':0},'actual helper/next PC/formals/NULL input')
+    need(entry['pc']==names['initialize_lowercase_table'][0] and entry['formal_inventory']==[] and next_entry['pc']==names['read_env_arguments'][0] and next_entry['formal_inventory']==[{'name':'arguments','type':'char *'}] and next_entry['args']==[0] and ((state['symbol'],state['args'])==('read_env_arguments',{'arguments':0})if trial['trial']=='_initialize_lowercase_table'else(state['symbol'],state['args'])==('new_option_vector',{'capacity':40,'arena_index':1})),'actual helper/next PC/formals/NULL input')
     need(entry['map_address']==returned['map_address']==next_entry['map_address']==state['frontend']['storage']['filename_case_map'][0]==state['frontend']['bss_address']+2312,'actual512 WORD array storage/alias')
     preceding=json.loads((native/'scanner-next-entries.json').read_text())
     need(len(preceding)==1 and preceding[0]['pc']==entry['pc'],'same actual scanner-next/fold-entry boundary')

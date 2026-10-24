@@ -90,6 +90,7 @@ def check(original, native, require_audit=True, audit_path=None):
                   '_initialize_checksums':'check-callback.py',
                   '_initialize_multibyte_categories':'check-callback.py',
                   '_initialize_lowercase_table':'check-callback.py',
+                  '_read_env_arguments':'check-callback.py',
                   '_initialize_frontend_01':'check-callback.py'}.get(candidate['trial'])
         if (candidate['trial'] or '').startswith('_initialize_frontend_'):
             filename='check-callback.py'

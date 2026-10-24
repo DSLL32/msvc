@@ -90,7 +90,8 @@
     "_initialize_include_aliases",
     "_initialize_checksums",
     "_initialize_multibyte_categories",
-    "_initialize_lowercase_table"
+    "_initialize_lowercase_table",
+    "_read_env_arguments"
   ],
   "trial": null,
   "ranges": [
@@ -832,7 +833,19 @@
       "start_rva": 468012,
       "end_rva": 468022,
       "entry": 0
+    },
+    {
+      "owner": "_read_env_arguments",
+      "start_rva": 234515,
+      "end_rva": 234536,
+      "entry": 1
+    },
+    {
+      "owner": "_read_env_arguments",
+      "start_rva": 468022,
+      "end_rva": 468339,
+      "entry": 0
     }
   ],
-  "stage": "_initialize_lowercase_table accepted; next frontier _read_env_arguments"
+  "stage": "_read_env_arguments accepted; next frontier _new_option_vector"
 }

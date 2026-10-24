@@ -14,7 +14,7 @@ def check(s,d,original,native,trial,text,pre,phase,state,seed,final,traps):
     def read(name):return json.loads((native/(name+'.json')).read_text())
     analysis=json.loads((original/'options-analysis.json').read_text());target=original/'loaded-target.bin'
     require(s.sha(target)==analysis['original_sha256'],'target inventory changed')
-    require(trial['trial']in ('_process_compiler_options','_push_declaration_context','_initialize_include_aliases','_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table') and trial['options_parser_observers']['frontier_rva']==0x2b834,'wrong parser trial contract')
+    require(trial['trial']in ('_process_compiler_options','_push_declaration_context','_initialize_include_aliases','_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments') and trial['options_parser_observers']['frontier_rva']==0x2b834,'wrong parser trial contract')
     names=symbols(native/'native-executable.elf');layout=read('options-grammar-layout');patterns=read('options-native-patterns')
     if (native/'options-abi-refinement.json').exists():
         from options_abi_refinement import check as check_refinement
@@ -107,7 +107,12 @@ def check(s,d,original,native,trial,text,pre,phase,state,seed,final,traps):
         original_preseed=original_values('options-before-seed','initialized')
         require(original_preseed==initial,'original new semantic defaults changed before declared seed')
         require(all(v==0 for v in original_values('options-before-seed','bss').values()),'original new BSS defaults changed before declared seed')
-        require(phase['frontend']['options_data']==pre['frontend']['saved_options_data']==phase['frontend']['saved_options_data']==state['frontend']['options_data']==state['frontend']['saved_options_data'],'new fields not restored from saved typed values')
+        require(phase['frontend']['options_data']==pre['frontend']['saved_options_data']==phase['frontend']['saved_options_data']==state['frontend']['saved_options_data'],'new fields not restored from saved typed values')
+        expected_live=dict(phase['frontend']['options_data'])
+        if trial.get('environment_argument_observers'):
+            expected_live['warning_levels']=list(expected_live['warning_levels'])
+            for code,flags in analysis['warning_defaults']:expected_live['warning_levels'][code]=flags
+        require(state['frontend']['options_data']==expected_live,'post-restore live options differ beyond actually reached warning defaults')
         require(phase['frontend']['current_pdb_context']==pre['frontend']['current_pdb_context']==state['frontend']['current_pdb_context'],'persistent context incorrectly joined reset')
     for suffix,snapshot in [('006',pre),('phase',phase),(final,state)]:
         equivalent(original_values(suffix,'initialized'),snapshot['frontend']['options_data'],'initialized',oldowned,nowned)

@@ -97,6 +97,8 @@ def main():
     if not trial_path.is_file():
         raise ValueError("prepare the exact whole-function trial before capture")
     trial = json.loads(trial_path.read_text())
+    if trial.get('environment_argument_observers') and b'env-arguments-observer entry=00039413' not in (PROJECT/'build/dll-capture.exe').read_bytes():
+        raise ValueError('rebuild original helper: environment argument observations absent')
     if trial.get('lowercase_observers') and b'path-fold-observer entry=000393ca iat=000c9054' not in (PROJECT/'build/dll-capture.exe').read_bytes():
         raise ValueError('build/dll-capture.exe lacks required filename-fold observations; rebuild that explicit target')
     candidate_path = json.loads((PROJECT / "functions.json").read_text()).get("candidate_path", "cases/lifecycle/candidate.json")
@@ -160,6 +162,7 @@ def main():
         if trial.get('multibyte_observers'):environment['C1XX_OBSERVE_MULTIBYTE']='1'
         environment.pop('C1XX_OBSERVE_LOWERCASE',None)
         if trial.get('lowercase_observers'):environment['C1XX_OBSERVE_LOWERCASE']='1'
+        if trial.get('environment_argument_observers'):environment['C1XX_OBSERVE_ENV_ARGUMENTS']='1'
         environment.pop('C1XX_TEST_ARENA_RESET',None)
         if trial.get('test_arena_reset_seed'):environment['C1XX_TEST_ARENA_RESET']='1'
         environment.pop('C1XX_TEST_OUTPUT_CONSTRUCTOR',None)

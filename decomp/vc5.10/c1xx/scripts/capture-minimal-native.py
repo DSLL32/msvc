@@ -538,6 +538,10 @@ end
         from path_fold_probe import setup as setup_fold
         fold_observer,fold_finish=setup_fold(output,binary,trial.get('test_seed'))
         observer+=fold_observer;scaler_finish+=fold_finish
+    if trial.get('environment_argument_observers'):
+        from env_arguments_probe import setup as setup_env_arguments
+        env_observer,env_finish=setup_env_arguments(output,binary)
+        observer+=env_observer;scaler_finish+=env_finish
     from collector_cache import prepare as prepare_collector_cache
     cache_startup=prepare_collector_cache(output,collector)
     def timed_source(match):

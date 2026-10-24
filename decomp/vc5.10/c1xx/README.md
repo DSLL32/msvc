@@ -352,3 +352,14 @@ GDB6.03/6.97s; native-only lifecycle replay is13.60ms (2.20ms execution).
 `scripts/check-checksum-history.py` statically revalidates both frozen pairs.
 The checkpoint has82 application functions/5280codebytes; historical CRT451B
 and generated imports12B are separate, against the751216B whole code extent.
+
+The338-byte environment-argument parser is accepted after fresh natural and
+nonzero restore proofs. Its full quote/backslash/MBCS body compiles and passes
+the strict graph audit; this case executes the genuine NULL path only. Both
+sides return unchanged, the caller applies ten warning defaults, and the next
+real trap is `new_option_vector(40, 1)`. Sixteen affected controls reject. See
+`cases/minimal/ENVIRONMENT-ARGUMENTS.md` and `env-arguments-trial.json` for exact
+proofs/timings; `scripts/check-env-arguments-history.py` revalidates immutable
+pairs without execution. Current85 application functions/5773B plus historical
+CRT451B/imports12B total6236/751216 whole code bytes; minimal compilation remains
+incomplete.

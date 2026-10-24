@@ -155,6 +155,7 @@ void initialize_checksums(void);
 void initialize_multibyte_categories(void);
 void initialize_lowercase_table(void);
 void read_env_arguments(char *arguments);
+char **prepare_argument_append(void);
 char *duplicate_argument(const char *argument, int copy);
 int report_response_error(int number, ...);
 void stop_compiler(int status, int detail);
@@ -319,7 +320,67 @@ void push_declaration_context(int context)
 }
 
 
-void read_env_arguments(char *arguments) { __asm { int 3 } }
+/* The command environment uses spaces only as separators. Quoted runs and
+ * backslash pairs are compacted in place; a scanner lead byte copies its
+ * following byte without treating it as punctuation. */
+void read_env_arguments(char *arguments)
+{
+    char **slot;
+    char *output;
+    int in_quotes, backslashes, copy_character;
+
+    if (!arguments)
+        return;
+    slot = prepare_argument_append();
+    while (*arguments == ' ')
+        ++arguments;
+    while (*arguments) {
+        *slot++ = arguments;
+        if (((int)((char *)slot -
+                   (char *)frontend_data.options.argument_allocation) & ~3)
+            >= 800)
+            report_compiler_diagnostic(77, 200);
+        ++frontend_bss.command_argc;
+        output = arguments;
+        in_quotes = 0;
+        for (;;) {
+            backslashes = 0;
+            copy_character = 1;
+            while (*arguments == '\\') {
+                ++arguments;
+                ++backslashes;
+            }
+            if (*arguments == '"') {
+                if (!(backslashes & 1)) {
+                    if (in_quotes && arguments[1] == '"')
+                        ++arguments;
+                    else
+                        copy_character = 0;
+                    in_quotes = !in_quotes;
+                }
+                backslashes /= 2;
+            }
+            while (backslashes--)
+                *output++ = '\\';
+            if (!*arguments || (!in_quotes && *arguments == ' '))
+                break;
+            if (copy_character) {
+                if (frontend_data.scanner.classes[(unsigned char)*arguments]
+                    == 35)
+                    *output++ = *arguments++;
+                *output++ = *arguments;
+            }
+            ++arguments;
+        }
+        while (*arguments == ' ')
+            ++arguments;
+        *output = 0;
+    }
+    *slot = NULL;
+}
+
+/* Genuine non-NULL environment path, not reached by the minimal case. */
+char **prepare_argument_append(void) { __asm { int 3 } return NULL; }
 char *duplicate_argument(const char *argument, int copy) { __asm { int 3 } return NULL; }
 int report_response_error(int number, ...) { __asm { int 3 } return 0; }
 void stop_compiler(int status, int detail) { __asm { int 3 } }
