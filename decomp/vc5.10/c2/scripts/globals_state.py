@@ -29,6 +29,8 @@ ROOTS = {
 COFF_GLOBALS = {
     'output_allocate': (0x497d88, 4), 'output_error_handler': (0x4999f4, 4),
     'output_clock_handler': (0x497e00, 4), 'coff_new_output': (0x497da0, 4),
+    'assembly_output_active': (0x497da4,4), 'assembly_comment_character': (0x49e69c,1),
+    'c2_assembly_enabled': (0x497f98,4), 'c2_mixed_assembly': (0x497f94,4),
     'coff_machine': (0x497e04, 2), 'coff_source_name': (0x4999e8, 4),
     'coff_output': (0x497e14, 4), 'coff_pending04': (0x4999ec, 4),
     'coff_debug': (0x497ccd, 1), 'coff_table': (0x497d74, 4),

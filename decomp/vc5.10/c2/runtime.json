@@ -748,14 +748,6 @@
     "evidence": null
   },
   {
-    "name": "@initialize_source_output@4",
-    "start": 4537956,
-    "end": 4537957,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@prepare_function_records@4",
     "start": 4322716,
     "end": 4322717,
@@ -1103,6 +1095,22 @@
     "name": "@mark_debug_section@4",
     "start": 4746574,
     "end": 4746575,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_get_assembly_comment_character",
+    "start": 4720943,
+    "end": 4720944,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@write_assembly_header@4",
+    "start": 4720946,
+    "end": 4720947,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

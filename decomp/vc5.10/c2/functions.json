@@ -106,7 +106,8 @@
     "@query_coff_position@4",
     "@output_list_position@4",
     "@write_output_bytes@8",
-    "@write_output_byte@4"
+    "@write_output_byte@4",
+    "@initialize_source_output@4"
   ],
   "driver": [
     {
@@ -6825,7 +6826,7 @@
         "-G5"
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
       "symbol": "_read_initializers",
       "evidence": "cases/analysis/read-initializers-disassembly.txt:11B4532fa..453305 loads c2_input intoECX and tailjumps4523d2. Prior scaffold-name described registers incorrectly; original logicalID preserved, actualsource/Win32name read_initializers. Cdecl noargs, inheritedRET0 from fastcallFILE reader; reader remains unaccepted/trapped."
     },
@@ -7021,7 +7022,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7295,7 +7296,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7491,7 +7492,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7679,7 +7680,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7874,7 +7875,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -8068,7 +8069,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -8260,7 +8261,7 @@
       "expected_argv": [
         "-G5"
       ],
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
       "frontier_contract": "output-directives-complete",
       "code_chunks": [
         [
@@ -8495,7 +8496,7 @@
         "-G5"
       ],
       "frontier_contract": "object-writer-input",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
       "code_chunks": [
         [
           4672729,
@@ -8728,7 +8729,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-table-input",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747"
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440"
     },
     {
       "name": "_writer_callback_41eb8a",
@@ -8918,7 +8919,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-allocate-input",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747"
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440"
     },
     {
       "name": "_initialize_coff_lists",
@@ -9106,7 +9107,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-lists-input",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747"
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440"
     },
     {
       "name": "@new_output_list@8",
@@ -9294,7 +9295,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-list-input",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747"
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440"
     },
     {
       "name": "_new_output_chunk",
@@ -9482,7 +9483,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-chunk-input",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
       "code_chunks": [
         [
           4626548,
@@ -9682,7 +9683,7 @@
           4670578
         ]
       ],
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747"
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440"
     },
     {
       "name": "@add_coff_symbol@4",
@@ -9870,7 +9871,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747"
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440"
     },
     {
       "name": "_write_output_directives",
@@ -10053,7 +10054,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10244,7 +10245,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10464,7 +10465,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10660,7 +10661,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10850,7 +10851,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -11135,7 +11136,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -11483,7 +11484,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -11679,7 +11680,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -11687,6 +11688,202 @@
       "frontier_contract": "coff-section-input",
       "section_caller": "write_output_bytes",
       "pending_signature": false
+    },
+    {
+      "name": "@initialize_source_output@4",
+      "native": "initialize_source_output",
+      "start": 4537956,
+      "end": 4538002,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "fastcall sourcechar*ECX; void RET0",
+      "evidence": "cases/analysis/initialize-source-output-analysis.json",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "coff-output-ready",
+      "section_caller": "write_output_byte",
+      "pending_signature": false,
+      "code_chunks": [
+        [
+          4672912,
+          4672944
+        ]
+      ]
     }
   ],
   "stubs": [
@@ -12592,13 +12789,13 @@
       "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
     },
     {
-      "name": "@initialize_source_output@4",
-      "native": "initialize_source_output",
-      "start": 4537956,
-      "end": 4537957,
+      "name": "@prepare_function_records@4",
+      "native": "prepare_function_records",
+      "start": 4322716,
+      "end": 4322717,
       "pending_extent": true,
       "kind": "application",
-      "abi": "fastcall sourcechar*ECX; void RET0",
+      "abi": "fastcall functionECX; record*EAX RET0",
       "evidence": "Actual typed call/argument transfer in cases/analysis/backend-setup-disassembly.txt. Child remains named INT3, masked, unaccepted and zero source credit.",
       "state_policy": "globals-complete",
       "state": [
@@ -12772,24 +12969,14 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
       ],
       "frontier_contract": "coff-output-ready",
-      "section_caller": "write_output_byte",
+      "section_caller": "initialize_source_output",
       "pending_signature": false
-    },
-    {
-      "name": "@prepare_function_records@4",
-      "native": "prepare_function_records",
-      "start": 4322716,
-      "end": 4322717,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall functionECX; record*EAX RET0",
-      "evidence": "Actual typed call/argument transfer in cases/analysis/backend-setup-disassembly.txt. Child remains named INT3, masked, unaccepted and zero source credit."
     },
     {
       "name": "@process_records@4",
@@ -13343,7 +13530,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747"
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440"
     },
     {
       "name": "@reserve_incremental_symbols@12",
@@ -13531,7 +13718,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747"
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440"
     },
     {
       "name": "_grow_coff_symbol_buffer",
@@ -13726,7 +13913,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "4c76561ef4b09c06e87d98096376db54751fba1b59067f6eab6846551c772747",
+      "state_model_sha256": "33c34da5f4d9e7aec5a760bcc420b5f4f780925b0e66b4a0120c6e9660b82440",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -13782,6 +13969,28 @@
       "pending_signature": false,
       "abi": "fastcall unsignedsectionECX; callerignoresresultRET0",
       "evidence": "cases/analysis/create-coff-section-analysis.json"
+    },
+    {
+      "name": "_get_assembly_comment_character",
+      "native": "get_assembly_comment_character",
+      "start": 4720943,
+      "end": 4720944,
+      "pending_extent": true,
+      "pending_signature": false,
+      "kind": "application",
+      "abi": "cdecl noargs unsignedcharAL RET0",
+      "evidence": "cases/analysis/initialize-source-output-analysis.json: completeactualcaller andnormalRET0/pushECXsource proof. UnreachedcoldnamedINT3, masked/unaccepted/zero bodycredit."
+    },
+    {
+      "name": "@write_assembly_header@4",
+      "native": "write_assembly_header",
+      "start": 4720946,
+      "end": 4720947,
+      "pending_extent": true,
+      "pending_signature": false,
+      "kind": "application",
+      "abi": "fastcall char*source ECX;callerignoresresult RET0",
+      "evidence": "cases/analysis/initialize-source-output-analysis.json: completeactualcaller andnormalRET0/pushECXsource proof. UnreachedcoldnamedINT3, masked/unaccepted/zero bodycredit."
     }
   ],
   "text_data": [
@@ -14062,7 +14271,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14074,7 +14283,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14086,7 +14295,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14098,7 +14307,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14110,7 +14319,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14122,7 +14331,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14134,7 +14343,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14146,7 +14355,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14158,7 +14367,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14170,7 +14379,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14184,7 +14393,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14196,7 +14405,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14211,7 +14420,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14223,7 +14432,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14235,7 +14444,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14247,7 +14456,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14259,7 +14468,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14271,7 +14480,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14286,7 +14495,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14301,7 +14510,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14313,7 +14522,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14325,7 +14534,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14337,7 +14546,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {
@@ -14352,7 +14561,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "4488d23ab22a2addbff7cc84f5b70d741a4d701ff517f90ad4cb19beaf06e9e9"
+          "sha256": "16b410287c84363508994a2e38e767bc96e43fb11ef22cf5e7e883baa024747f"
         }
       },
       {

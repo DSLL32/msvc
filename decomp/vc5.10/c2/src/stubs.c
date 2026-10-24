@@ -438,10 +438,6 @@ void __fastcall function_pass_433906(C2Function *function)
     __asm { int 3 }
 }
 
-void __fastcall initialize_source_output(char *source)
-{
-    __asm { int 3 }
-}
 C2Record *__fastcall prepare_function_records(C2Function *function)
 {
     __asm { int 3 }
@@ -615,6 +611,17 @@ unsigned char __fastcall coff_selection_code(unsigned char selection)
     return 0;
 }
 void __fastcall mark_debug_section(unsigned section)
+{
+    __asm { int 3 }
+}
+
+unsigned char get_assembly_comment_character(void)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+void __fastcall write_assembly_header(char *source)
 {
     __asm { int 3 }
 }
