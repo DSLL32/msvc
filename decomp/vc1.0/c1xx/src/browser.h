@@ -37,6 +37,7 @@ void __stdcall serialize_browser_record(BrowserRecord *record, int track_symbols
 char *browser_working_directory(void);
 void __stdcall fill_browser_record(BrowserRecord *record, void *subject);
 void fill_browser_filename(BrowserRecord *record);
+char *duplicate_browser_text(char *text);
 void __stdcall fill_browser_declaration(BrowserRecord *record, CppSymbol *symbol);
 void __stdcall fill_browser_reference(BrowserRecord *record, CppSymbol *symbol);
 void __stdcall fill_browser_symbol(BrowserRecord *record, CppSymbol *symbol);

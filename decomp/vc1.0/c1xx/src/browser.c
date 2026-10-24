@@ -321,3 +321,12 @@ void browser_open_file(void)
 {
     queue_browser_record(1, 0);
 }
+
+/* Original 0x2b7a0..0x2b7c3. File records own a copy of the active
+   filename, rather than keeping an interner-name identity. */
+void fill_browser_filename(BrowserRecord *record)
+{
+    record->header.flags |= 2;
+    record->name = duplicate_browser_text(source_filename);
+    record->name_identity = 0;
+}

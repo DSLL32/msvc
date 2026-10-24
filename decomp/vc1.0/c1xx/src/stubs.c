@@ -585,7 +585,7 @@ IrToken *__stdcall convert_general_data_member_pointer(IrToken *expression, CTyp
 
 IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int displacement) { __asm { int 3 } return 0; }
 void finish_line_record_debug_info(void) { __asm { int 3 } }
-void fill_browser_filename(BrowserRecord *record) { __asm { int 3 } }
+char *duplicate_browser_text(char *text) { __asm { int 3 } return 0; }
 void __stdcall fill_browser_declaration(BrowserRecord *record, CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall fill_browser_reference(BrowserRecord *record, CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall fill_browser_symbol(BrowserRecord *record, CppSymbol *symbol) { __asm { int 3 } }
