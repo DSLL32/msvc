@@ -1,7 +1,0 @@
-type-entry 0 0029fdd4 007b97f8
-tag-byte entry 007b95f0 2
-flag-words 0 entry 00280000 00000000
-type-finish 0 0029fddc 00000002 00000000
-tag-byte finish 007b95f0 130
-flag-words 0 finish 00280000 00000000
-exit 4

@@ -1,8 +1,0 @@
-{
-  "directory": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-u8-native-entry",
-  "unit": 8,
-  "function": "close_program_database_handle",
-  "arguments": 0,
-  "pop": 0,
-  "entry_only": true
-}

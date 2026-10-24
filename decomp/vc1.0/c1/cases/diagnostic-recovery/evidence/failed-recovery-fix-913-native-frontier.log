@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/root/msvc2/decomp/vc1.0/c1/scripts/debug-frontier.py", line 226, in <module>
-    main()
-    ~~~~^^
-  File "/root/msvc2/decomp/vc1.0/c1/scripts/debug-frontier.py", line 216, in main
-    assert (reference/'stdout').read_bytes() == (directory/'stdout').read_bytes(), 'stdout differs at frontier'
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError: stdout differs at frontier

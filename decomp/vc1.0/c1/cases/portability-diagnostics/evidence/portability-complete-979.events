@@ -1,9 +1,0 @@
-entry _report_macro_error@4 rva 0001d3c0 byte 8b
-entry _warn_expected_identifier rva 0001d3a0 byte 33
-entry _warn_ignored_token rva 0001d380 byte 33
-entry _warn_bad_pragma rva 0000e530 byte 68
-entry _report_type_conflict@20 rva 0002c1f0 byte 53
-entry _report_declaration_error@8 rva 0001c3a0 byte 56
-entry _report_type_syntax_error@8 rva 0002c180 byte e8
-entry _report_symbol_error@8 rva 00023720 byte 56
-exit 6

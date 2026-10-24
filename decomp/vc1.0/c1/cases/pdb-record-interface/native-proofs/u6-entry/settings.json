@@ -1,8 +1,0 @@
-{
-  "directory": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-u6-native-entry-3",
-  "unit": 6,
-  "function": "query_program_database_record",
-  "arguments": 1,
-  "pop": 4,
-  "entry_only": true
-}

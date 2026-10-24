@@ -1,3 +1,0 @@
-probe.c
-probe.c(1) : error C2065: '__self' : undeclared identifier
-probe.c(1) : error C2165: '_far' : cannot modify pointers to data

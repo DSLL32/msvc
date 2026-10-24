@@ -1,2 +1,0 @@
-packet.c(33) : warning C4133: 'initializing' : incompatible types - from 'struct Packet *' to 'unsigned char *'
-packet.c(35) : warning C4090: 'initializing' : different 'const' qualifiers

@@ -1,9 +1,0 @@
-entry _report_syntax_error rva 0003a9d0 byte 8d
-entry _report_syntax_error_arguments rva 0003a9f0 byte 56
-entry _note_browser_error rva 00017570 byte 83
-entry _report_parser_error@4 rva 00012d42 byte 55
-entry _recover_undeclared_identifier@4 rva 0001d0e0 byte 56
-entry _declare_implicit_function@4 rva 0001b5d0 byte 83
-entry _read_parenthesized_pragma_argument@4 rva 0000e5b0 byte e8
-entry _read_pragma_argument@4 rva 0000e650 byte 83
-exit 6

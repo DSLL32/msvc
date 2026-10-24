@@ -1,184 +1,107 @@
 PYTHON ?= python3
-CASE ?= all
-TOOL = $(PYTHON) scripts/wine-tool.py
-TC = ../../../toolchains/1.0-nt
+RECON_TOOL_DIR = $(abspath ../../../tooling/recon-tool)
 RECON = ../../../lib/recon
+NATIVE_CC = clang
+NATIVE_CXX = clang++
+NATIVE_CPPFLAGS = -DRECON_NATIVE_TRACE -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I$(RECON)/include -I$(RECON)/native -Isrc
+NATIVE_CFLAGS = -std=gnu89 -fms-extensions -fasm-blocks
+BINARY_SOURCES = src/c1.c \
+    src/stubs.c \
+    src/diagnostics.c \
+    src/options.c \
+    src/option-data.c \
+    src/option-state.c \
+    src/packing.c \
+    src/memory.c \
+    src/hash-table.c \
+    src/checksums.c \
+    src/characters.c \
+    src/arguments.c \
+    src/vectors.c \
+    src/frontend.c \
+    src/initialization.c \
+    src/preprocessor.c \
+    src/preprocessor-directives.c \
+    src/pch.c \
+    src/pch-auto.c \
+    src/pch-files.c \
+    src/pch-relocate.c \
+    src/pch-reader.c \
+    src/pp-expression.c \
+    src/pragma.c \
+    src/keywords.c \
+    src/floating.c \
+    src/intermediate.c \
+    src/constants.c \
+    src/ir.c \
+    src/ir-formats.c \
+    src/types.c \
+    src/based-pointers.c \
+    src/scopes.c \
+    src/parameters.c \
+    src/builtins.c \
+    src/builtin-data.c \
+    src/macros.c \
+    src/macro-expand.c \
+    src/global-ir.c \
+    src/global-formats.c \
+    src/source-input.c \
+    src/lexer.c \
+    src/token-data.c \
+    src/parser.c \
+    src/asm.c \
+    src/asm-lexer.c \
+    src/asm-mnemonics.c \
+    src/asm-instructions.c \
+    src/asm-registers.c \
+    src/asm-symbols.c \
+    src/asm-validation.c \
+    src/asm-output.c \
+    src/asm-numbers.c \
+    src/asm-expressions.c \
+    src/asm-parser.c \
+    src/asm-grammar.c \
+    src/asm-stubs.c \
+    src/seh.c \
+    src/parser-grammar.c \
+    src/declarations.c \
+    src/declaration-text.c \
+    src/control-ir.c \
+    src/control-formats.c \
+    src/expression-records.c \
+    src/conversions.c \
+    src/expressions.c \
+    src/calls.c \
+    src/literal-names.c \
+    src/initializer-records.c \
+    src/initializers.c \
+    src/debug-info.c \
+    src/debug-legacy.c \
+    src/browser.c \
+    src/browser-stubs.c \
+    src/program-database.c \
+    src/inline-query.c
+BINARY_SUPPORT_SOURCES = src/runtime.c $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
 
-.PHONY: all clean check replay prefix win32 audit-win32 native native-check native-trace native-trace-check native-adoption-check native-direct-check
-all: native-trace
+ORIGINAL_TOOLCHAIN = 1.0-nt
+ORIGINAL_SOURCES = $(BINARY_SOURCES) src/runtime.c
+ORIGINAL_BUILD = build
+ORIGINAL_OUTPUT = $(ORIGINAL_BUILD)/c1.exe
+ORIGINAL_CPPFLAGS = /Isrc /I$(RECON)/include
+ORIGINAL_CFLAGS = /nologo /c /Od /G3
+ORIGINAL_LDFLAGS = /nologo /subsystem:console /map:$(ORIGINAL_BUILD)/c1.map
+ORIGINAL_LDLIBS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/BINMODE.OBJ
+ORIGINAL_INCLUDE_DIRS = src $(RECON)/include $(ORIGINAL_TOOLCHAIN_ROOT)/include
 
-include ../../../tooling/graph-audit/graph-audit.mk
-check replay: native-trace-check
+RECON_AUDIT_PROFILE = c1
+RECON_IMAGE_BASE = 65536
+RECON_POLICY = policy-data.json
+RECON_AUDIT_FLAGS = -q --discovery cfg --check-ret --check-references --check-ownership --check-extents
+RECON_AUDIT_IDENTIFY_RUNTIME = 1
+RECON_RUNTIME_OVERRIDE_OBJECTS = $(ORIGINAL_BUILD)/obj/src/runtime.c.obj
+RECON_RUNTIME_OVERRIDE_MAP = $(ORIGINAL_BUILD)/c1.map
+include $(RECON_TOOL_DIR)/recon-tool.mk
 
-# Explicit original-toolchain compilation/audits; never fixture prerequisites.
-win32: build/c1.exe build/runtime.json runtime.json
-prefix:
-	$(PYTHON) scripts/wine-tool.py --init
-runtime.json: scripts/identify-runtime.py scripts/binary.py $(TC)/bin/C13232.EXE $(TC)/lib/LIBC.LIB $(TC)/lib/SETARGV.OBJ
-	$(PYTHON) scripts/identify-runtime.py
-build/runtime.json: build/c1.exe scripts/identify-runtime.py scripts/binary.py
-	$(PYTHON) scripts/identify-runtime.py build/c1.exe $@
-audit-win32: win32 $(GRAPH_AUDIT_BIN)
-	"$(GRAPH_AUDIT_BIN)" --profile c1 --project . --repo ../../.. --discovery cfg --check-ret --check-references --check-ownership --check-extents
-	$(PYTHON) scripts/audit-flag-words.py
-	$(PYTHON) scripts/audit-text-masks.py
-	$(PYTHON) scripts/audit-state.py
-	$(PYTHON) scripts/audit-grammar.py
-	$(PYTHON) scripts/audit-asm-grammar.py
-
-build:
-	mkdir -p $@
-
-build/%.obj: src/%.c $(RECON)/include/recon.h scripts/wine-tool.py scripts/case_paths.py | build prefix
-	$(TOOL) CL.EXE /nologo /c /Od /G3 /I$(RECON)/include /Fobuild/$*.obj $<
-
-OBJECTS = build/c1.obj build/stubs.obj build/diagnostics.obj build/options.obj build/option-data.obj build/option-state.obj build/packing.obj build/memory.obj build/hash-table.obj build/checksums.obj build/characters.obj build/arguments.obj build/vectors.obj build/frontend.obj build/initialization.obj build/preprocessor.obj build/preprocessor-directives.obj build/pch.obj build/pch-auto.obj build/pch-files.obj build/pch-relocate.obj build/pch-reader.obj build/pp-expression.obj build/pragma.obj build/keywords.obj build/floating.obj build/intermediate.obj build/runtime.obj build/constants.obj build/ir.obj build/ir-formats.obj build/types.obj build/based-pointers.obj build/scopes.obj build/parameters.obj build/builtins.obj build/builtin-data.obj build/macros.obj build/macro-expand.obj build/global-ir.obj build/global-formats.obj build/source-input.obj build/lexer.obj build/token-data.obj build/parser.obj build/asm.obj build/asm-lexer.obj build/asm-mnemonics.obj build/asm-instructions.obj build/asm-registers.obj build/asm-symbols.obj build/asm-validation.obj build/asm-output.obj build/asm-numbers.obj build/asm-expressions.obj build/asm-parser.obj build/asm-grammar.obj build/asm-stubs.obj build/seh.obj build/parser-grammar.obj build/declarations.obj build/declaration-text.obj build/control-ir.obj build/control-formats.obj build/expression-records.obj build/conversions.obj build/expressions.obj build/calls.obj build/literal-names.obj build/initializer-records.obj build/initializers.obj build/debug-info.obj build/debug-legacy.obj build/browser.obj build/browser-stubs.obj build/program-database.obj
-
-OBJECTS += build/inline-query.obj
-
-build/c1.exe: $(OBJECTS) $(TC)/lib/BINMODE.OBJ Makefile
-	$(TOOL) LINK.EXE /nologo /subsystem:console /map:build/c1.map /out:$@ $(OBJECTS) $(TC)/lib/BINMODE.OBJ
-
-
-clean:
-	rm -rf build
-
-# Follow project-local includes transitively without rebuilding unrelated modules.
-build/dependencies.mk: scripts/dependencies.py $(wildcard src/*.c) $(wildcard src/*.h) | build
-	$(PYTHON) scripts/dependencies.py
-
-ifneq ($(MAKECMDGOALS),clean)
--include build/dependencies.mk
-endif
-
-# Native i386 fixtures use the original source and shared Win32/CRT boundary.
-NATIVE_CC ?= clang
-NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g
-NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I$(RECON)/include -I$(RECON)/native
-NATIVE_HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h)
-NATIVE_OBJECTS = $(patsubst build/%.obj,build/native/%.o,$(OBJECTS))
-NATIVE_SHIMS = $(filter-out $(RECON)/src/trace.c,$(wildcard $(RECON)/src/*.c))
-NATIVE_TRACE_OBJECTS = $(patsubst build/native/%,build/native-trace/%,$(NATIVE_OBJECTS))
-.PHONY: native native-trace
-native: build/native/C13232.EXE
-native-trace: build/native-trace/C13232.EXE
-build/native build/native-trace:
-	mkdir -p $@
-build/native/%.o: src/%.c $(NATIVE_HEADERS) Makefile | build/native
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
-build/native/C13232.EXE: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HEADERS) Makefile
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) $(NATIVE_SHIMS) -o $@
-build/native-trace/%.o: src/%.c $(NATIVE_HEADERS) Makefile | build/native-trace
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -DRECON_NATIVE_TRACE -finstrument-functions -c $< -o $@
-build/native-trace/runtime.o: src/runtime.c $(NATIVE_HEADERS) | build/native-trace
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
-build/native-trace/C13232.EXE: $(NATIVE_TRACE_OBJECTS) $(NATIVE_SHIMS) $(RECON)/src/trace.c $(NATIVE_HEADERS) Makefile
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_SHIMS) $(RECON)/src/trace.c -o $@
-
-NATIVE_CASES = $(if $(filter all,$(CASE)),,$(foreach case,$(CASE),--case $(case)))
-native-direct-check: native native-trace native-expression-tests native-pdb-tests native-pdb-trace-tests native-resource-tests native-metadata-tests
-	$(PYTHON) scripts/check-direct.py
-	$(PYTHON) scripts/check-expression-tests.py
-	$(PYTHON) scripts/check-pdb-objects.py
-	$(PYTHON) scripts/check-support.py
-	$(PYTHON) scripts/check-container.py
-	$(PYTHON) scripts/check-pdb-queries.py
-	$(PYTHON) scripts/check-resource-tests.py
-	$(PYTHON) scripts/check-metadata-tests.py
-
-native-check: native native-trace native-expression-tests native-pdb-tests native-pdb-trace-tests native-resource-tests native-metadata-tests
-	$(PYTHON) scripts/check-native.py $(NATIVE_CASES)
-	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-direct.py,@true)
-	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-expression-tests.py,@true)
-	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-pdb-objects.py,@true)
-	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-support.py,@true)
-	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-container.py,@true)
-	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-pdb-queries.py,@true)
-	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-resource-tests.py,@true)
-	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-metadata-tests.py,@true)
-native-trace-check: native native-trace native-expression-tests native-pdb-tests native-pdb-trace-tests native-resource-tests native-metadata-tests
-	$(PYTHON) scripts/check-native.py --trace $(NATIVE_CASES)
-	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-direct.py,@true)
-	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-expression-tests.py,@true)
-	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-pdb-objects.py,@true)
-	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-support.py,@true)
-	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-container.py,@true)
-	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-pdb-queries.py,@true)
-	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-resource-tests.py,@true)
-	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-metadata-tests.py,@true)
-
-# Private oracle mutations; no new fixture inputs or original execution.
-native-adoption-check: native native-trace native-expression-tests native-pdb-tests native-quickc-tests
-	$(PYTHON) scripts/check-native-rejections.py
-	$(PYTHON) scripts/check-direct-rejections.py
-	$(PYTHON) scripts/check-frontier-abi.py
-	$(PYTHON) scripts/check-expression-rejections.py
-	$(PYTHON) scripts/check-pdb-cleanup.py
-	$(PYTHON) scripts/check-pdb-object-rejections.py
-	$(PYTHON) scripts/check-quickc-guard.py
-
-# Grammar generation consumes only named source and precedence, never the PE.
-src/asm-grammar.c: src/asm-grammar.y scripts/generate-asm-grammar.py scripts/grammar.py
+src/asm-grammar.c: src/asm-grammar.y scripts/grammar.py scripts/generate-asm-grammar.py
 	$(PYTHON) scripts/generate-asm-grammar.py
 src/asm-grammar.h: src/asm-grammar.c
-	@test -f $@
-
-# External direct unit instrumentation is outside the reconstructed graph.
-.PHONY: native-pdb-tests
-native-pdb-tests: build/pdb-tests/C13232.EXE
-build/pdb-tests:
-	mkdir -p $@
-build/pdb-tests/external.o: cases/legacy-pdb-object/external-native.c cases/legacy-pdb-object/external.h cases/pdb-record-interface/external-native.h $(NATIVE_HEADERS) Makefile | build/pdb-tests
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -pthread -c $< -o $@
-build/pdb-tests/C13232.EXE: $(NATIVE_OBJECTS) build/pdb-tests/external.o $(NATIVE_SHIMS) $(NATIVE_HEADERS) Makefile
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -pthread -rdynamic $(NATIVE_OBJECTS) build/pdb-tests/external.o $(NATIVE_SHIMS) -Wl,--wrap=main,--wrap=open_program_database,--wrap=malloc -ldl -o $@
-
-.PHONY: native-pdb-trace-tests
-native-pdb-trace-tests: build/pdb-tests-trace/C13232.EXE
-build/pdb-tests-trace:
-	mkdir -p $@
-build/pdb-tests-trace/C13232.EXE: $(NATIVE_TRACE_OBJECTS) build/pdb-tests/external.o $(NATIVE_SHIMS) $(RECON)/src/trace.c $(NATIVE_HEADERS) Makefile | build/pdb-tests-trace
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -pthread -rdynamic $(NATIVE_TRACE_OBJECTS) build/pdb-tests/external.o $(NATIVE_SHIMS) $(RECON)/src/trace.c -Wl,--wrap=main,--wrap=open_program_database,--wrap=malloc -ldl -o $@
-
-.PHONY: native-expression-tests
-native-expression-tests: build/expression-tests/C13232.EXE
-build/expression-tests:
-	mkdir -p $@
-build/expression-tests/external.o: cases/expression-templates/external-native.c cases/expression-templates/external.h $(NATIVE_HEADERS) Makefile | build/expression-tests
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
-build/expression-tests/C13232.EXE: $(NATIVE_OBJECTS) build/expression-tests/external.o $(NATIVE_SHIMS) $(NATIVE_HEADERS) Makefile
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) build/expression-tests/external.o $(NATIVE_SHIMS) -Wl,--wrap=main,--wrap=finish_declarations -o $@
-
-# A precise guard for the original builtin helper's undefined default path.
-.PHONY: native-quickc-tests
-native-quickc-tests: build/quickc-tests/C13232.EXE
-build/quickc-tests:
-	mkdir -p $@
-build/quickc-tests/guard.o: cases/quickc-regions/native-guard.c $(NATIVE_HEADERS) Makefile | build/quickc-tests
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
-build/quickc-tests/C13232.EXE: $(NATIVE_OBJECTS) build/quickc-tests/guard.o $(NATIVE_SHIMS) $(NATIVE_HEADERS) Makefile
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) build/quickc-tests/guard.o $(NATIVE_SHIMS) -Wl,--wrap=main -o $@
-
-# Fixed direct units borrow the actual missing-include owner stack.
-.PHONY: native-resource-tests
-native-resource-tests: build/resource-tests/C13232.EXE build/resource-tests-trace/C13232.EXE
-build/resource-tests build/resource-tests-trace:
-	mkdir -p $@
-build/resource-tests/external.o: cases/nested-input-resources/external-native.c $(NATIVE_HEADERS) Makefile | build/resource-tests
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
-build/resource-tests/C13232.EXE: $(NATIVE_OBJECTS) build/resource-tests/external.o $(NATIVE_SHIMS) $(NATIVE_HEADERS) Makefile
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) build/resource-tests/external.o $(NATIVE_SHIMS) -Wl,--wrap=main,--wrap=report_fatal,--wrap=recon_exit -o $@
-build/resource-tests-trace/C13232.EXE: $(NATIVE_TRACE_OBJECTS) build/resource-tests/external.o $(NATIVE_SHIMS) $(RECON)/src/trace.c $(NATIVE_HEADERS) Makefile | build/resource-tests-trace
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) build/resource-tests/external.o $(NATIVE_SHIMS) $(RECON)/src/trace.c -Wl,--wrap=main,--wrap=report_fatal,--wrap=recon_exit -o $@
-
-# Bounded metadata interfaces borrow real parsed completed-call ownership.
-.PHONY: native-metadata-tests
-native-metadata-tests: build/metadata-tests/C13232.EXE build/metadata-tests-trace/C13232.EXE
-build/metadata-tests build/metadata-tests-trace:
-	mkdir -p $@
-build/metadata-tests/external.o: cases/pch-metadata-interface/external-native.c $(NATIVE_HEADERS) Makefile | build/metadata-tests
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
-build/metadata-tests/C13232.EXE: $(NATIVE_OBJECTS) build/metadata-tests/external.o $(NATIVE_SHIMS) $(NATIVE_HEADERS) Makefile
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) build/metadata-tests/external.o $(NATIVE_SHIMS) -Wl,--wrap=main,--wrap=finish_call_arguments -o $@
-build/metadata-tests-trace/C13232.EXE: $(NATIVE_TRACE_OBJECTS) build/metadata-tests/external.o $(NATIVE_SHIMS) $(RECON)/src/trace.c $(NATIVE_HEADERS) Makefile | build/metadata-tests-trace
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) build/metadata-tests/external.o $(NATIVE_SHIMS) $(RECON)/src/trace.c -Wl,--wrap=main,--wrap=finish_call_arguments -o $@

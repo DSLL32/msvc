@@ -1,3 +1,0 @@
-audit.c(6) : error C2027: use of undefined type 'PendingPacket'
-audit.c(7) : error C2027: use of undefined type 'PendingPacket'
-audit.c(8) : warning C4047: '=' : 'int (*)[4]' differs in levels of indirection from 'int *'

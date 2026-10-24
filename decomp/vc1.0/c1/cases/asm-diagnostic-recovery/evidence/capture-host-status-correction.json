@@ -1,4 +1,0 @@
-{
-  "observation": "Original capture helper returns0 when debugger succeeds, while actualCLtargetexit2 is recorded inevents and C1childexit4 in001-result.txt.",
-  "scope": "Capture script initially asserted helperhostexit2 after valid data was saved, then failed. Both raw captures are valid unchanged; corrected interpretation does not silently recapture or rewrite them."
-}

@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x692d9: file src/inline-query.c, line 468.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, expand_qc_operand (operand=0x5719be58) at src/inline-query.c:468
-468	    if (operand->operation == TOK_IDENTIFIER)

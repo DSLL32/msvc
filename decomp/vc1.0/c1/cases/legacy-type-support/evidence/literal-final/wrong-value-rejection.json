@@ -1,5 +1,0 @@
-{
-  "status": "pass",
-  "rejected": true,
-  "mutation": "Converted float bytes0000a03f replaced with00000000 in private native observation; original oracle/inputs unchanged."
-}

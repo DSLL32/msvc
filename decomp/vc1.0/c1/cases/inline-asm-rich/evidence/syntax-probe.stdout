@@ -1,2 +1,0 @@
-asm-rich.c
-asm-rich.c(44) : error C2094: label 'Sample' was undefined

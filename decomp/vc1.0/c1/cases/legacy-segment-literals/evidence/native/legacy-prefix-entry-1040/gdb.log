@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x49bf: file src/stubs.c, line 370.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, copy_shape_prefix (symbol=0x57322310, shape=0x57331dc8, prefix=0xffb45970, is_typedef=1) at src/stubs.c:370
-370	void __stdcall copy_shape_prefix(FrontendSymbol *symbol, TypeShape *shape, TypeShape **prefix, int is_typedef) { __asm { int 3 } }

@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x4acf: file src/stubs.c, line 681.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, emit_inline_memory_initializer (operation=172, target=0x57a7c380, value=0x57a7c338, bytes=0x57a7c394) at src/stubs.c:681
-681	void __stdcall emit_inline_memory_initializer(unsigned operation, IrToken *target, IrToken *value, IrToken *bytes) { __asm { int 3 } }

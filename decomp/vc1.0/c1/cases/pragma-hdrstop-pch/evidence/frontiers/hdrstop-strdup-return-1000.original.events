@@ -1,7 +1,0 @@
-strdup-entry 0 0029fd70 0005f508
-pointer-text entry 0005f508 68647273746f702e70636800
-flag-words 0 entry 00010000 00000000
-strdup-finish 0 0029fd74 007e4c44 0005f508
-pointer-text finish 007e4c44 68647273746f702e70636800
-flag-words 0 finish 00010000 00000000
-exit 0

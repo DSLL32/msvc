@@ -1,2 +1,0 @@
-12770 56 _copy_block_comment
-126a0 56 _copy_line_comment

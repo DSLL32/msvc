@@ -1,6 +1,0 @@
-src/capture-original.c
-src/capture-resource-unit.h(37) : warning C4018: '!=' : signed/unsigned mismatch
-src/capture-original.c(1062) : warning C4018: '!=' : signed/unsigned mismatch
-src/capture-original.c(1064) : warning C4018: '!=' : signed/unsigned mismatch
-src/capture-original.c(1097) : warning C4018: '!=' : signed/unsigned mismatch
-src/capture-original.c(1098) : warning C4018: '!=' : signed/unsigned mismatch

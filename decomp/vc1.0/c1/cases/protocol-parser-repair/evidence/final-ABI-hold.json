@@ -1,9 +1,0 @@
-{
-  "status": "held; recovery helper unaccepted",
-  "original": "22cc6..22d42 returns actual ParserValue in EDX:EAX and RET4; caller23435..23449 pushes token only and stores EAX/EDX into parser_value",
-  "preliminary_probe_limit": "Simple mixed union8 matches under -freg-struct-return, but exact nested DeclarationSpec member forces hidden output pointer under native Clang and GCC",
-  "observed_failure": "Original inputslot1=130; native formal token130 but actual inputslot1 is hidden returnpointer. Explicit GDB stack/formal check rejects before promotion",
-  "approved_accommodation": "Shared native uint64 carrier + constant8 builtinmemcpy return/assignment, no initialization, alias UB, helper vertices or assembly. Win32 ParserValue signature remains exact. Only C recovery helper and its sole parser.c caller affected; assembler helper untouched",
-  "ineffective_flag": "Removed before integration; no broad native ABI switch",
-  "raw_failures": ["validation/parser-recovery-hidden-pointer-negative/gdb.log", "validation/parser-recovery-inputs-corrected-993/gdb.log", "analysis/parser-return-abi/native-helper.disasm.txt", "analysis/parser-gcc-reg.o"]
-}

@@ -1,8 +1,0 @@
-1d3c0 8b _report_macro_error@4
-1d3a0 33 _warn_expected_identifier
-1d380 33 _warn_ignored_token
-e530 68 _warn_bad_pragma
-2c1f0 53 _report_type_conflict@20
-1c3a0 56 _report_declaration_error@8
-2c180 e8 _report_type_syntax_error@8
-23720 56 _report_symbol_error@8

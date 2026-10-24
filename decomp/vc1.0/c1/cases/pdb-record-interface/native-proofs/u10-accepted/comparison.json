@@ -1,8 +1,0 @@
-{
-  "status": "pass",
-  "unit": 10,
-  "public_reachability": false,
-  "kind": "actual constructor-owned PDB interface body/ABI/output",
-  "loaded_indices": 8,
-  "record_bytes": 32
-}

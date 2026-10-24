@@ -1,7 +1,0 @@
-gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x4bc0: file src/stubs.c, line 745.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, destroy_pdb_buffer_list (self=0x56647ff4) at src/stubs.c:745
-745	void __fastcall destroy_pdb_buffer_list(PdbBufferList *self) { __asm { int 3 } }

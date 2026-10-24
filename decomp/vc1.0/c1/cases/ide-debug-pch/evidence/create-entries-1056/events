@@ -1,6 +1,0 @@
-entry _report_ide_source rva 0000c2c0 byte e8
-entry _ide_source_name rva 00033d20 byte 81
-entry _print_ide_status rva 0003aed0 byte 81
-entry _report_ide_file_end rva 0000c310 byte a1
-entry _report_ide_line rva 0000c2e0 byte 56
-exit 0

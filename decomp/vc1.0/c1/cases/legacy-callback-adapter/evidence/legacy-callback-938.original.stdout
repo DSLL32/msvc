@@ -1,3 +1,0 @@
-adapter.c(18) : warning C4131: 'promoted_pair' : uses old-style declarator
-adapter.c(21) : warning C4028: formal parameter 1 different from declaration
-adapter.c(21) : warning C4028: formal parameter 2 different from declaration

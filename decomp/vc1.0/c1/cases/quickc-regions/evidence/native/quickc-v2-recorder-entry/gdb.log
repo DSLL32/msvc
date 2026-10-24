@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x677f9: file src/inline-query.c, line 56.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, record_inline_parameter (parameter=0x5855e30c) at src/inline-query.c:56
-56	    CType *type = parameter->type;

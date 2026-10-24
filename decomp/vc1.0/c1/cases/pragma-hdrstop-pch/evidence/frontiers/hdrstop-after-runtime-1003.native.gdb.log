@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x48d6: file src/stubs.c, line 29.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, clear_packing (entry=0x5696b968) at src/stubs.c:29
-29	void clear_packing(PackingEntry *entry) { __asm { int 3 } }

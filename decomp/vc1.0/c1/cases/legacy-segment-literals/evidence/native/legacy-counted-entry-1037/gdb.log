@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x48e3: file src/stubs.c, line 26.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, disable_multibyte_identifier_bytes () at src/stubs.c:26
-26	void disable_multibyte_identifier_bytes(void) { __asm { int 3 } }

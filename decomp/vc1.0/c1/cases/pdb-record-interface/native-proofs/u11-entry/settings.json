@@ -1,8 +1,0 @@
-{
-  "directory": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-u11-native-entry",
-  "unit": 11,
-  "function": "program_database_magic",
-  "arguments": 0,
-  "pop": 0,
-  "entry_only": true
-}

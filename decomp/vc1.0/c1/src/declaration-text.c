@@ -487,3 +487,14 @@ void __stdcall print_function_prototype(FrontendSymbol *symbol, FILE *stream)
     print_function_declaration(symbol, stream);
     declaration_output_override = 0;
 }
+
+/* Original 0x2a4b0..0x2a4dd, RET8. This parallel diagnostic takes a
+   symbol, not a CType: build_declaration_text receives (symbol,NULL). */
+void __stdcall report_declaration_syntax_error(unsigned code, FrontendSymbol *symbol)
+{
+    char *declaration;
+    begin_declaration_text();
+    declaration = declaration_text_value(build_declaration_text(symbol,0));
+    report_syntax_error(code,declaration);
+    end_declaration_text();
+}

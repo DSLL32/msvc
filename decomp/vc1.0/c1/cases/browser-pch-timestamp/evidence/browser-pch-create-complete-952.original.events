@@ -1,4 +1,0 @@
-entry _begin_browser_pch_record rva 00017680 byte 83
-entry _source_file_timestamp rva 0000b5b0 byte 83
-entry _get_file_timestamp@8 rva 0003be10 byte 83
-exit 0

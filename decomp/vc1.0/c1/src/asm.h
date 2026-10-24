@@ -114,4 +114,5 @@ unsigned char __stdcall asm_size_encoding(unsigned bytes);
 FrontendSymbol *__stdcall find_asm_member(FrontendSymbol *members, char *name);
 FrontendSymbol *__stdcall find_asm_scope_member(char *name);
 unsigned __stdcall asm_member_offset(char *name);
+void write_asm_segment_prefix(void);
 #endif

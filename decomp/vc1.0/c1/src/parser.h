@@ -379,4 +379,5 @@ typedef char QcLoopState_must_be_36_bytes[sizeof(QcLoopState) == 36 ? 1 : -1];
 extern LabelStack *qc_loop_labels, *qc_loop_work;
 int __stdcall recognize_qc_loop(IrToken *condition, IrToken *increment, LabelStack *entry);
 void finish_qc_loop(void);
+void __stdcall report_declaration_syntax_error(unsigned code, FrontendSymbol *symbol);
 #endif

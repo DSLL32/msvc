@@ -27,4 +27,10 @@ void truncate_extended(void);
 void store_extended(void);
 /* Private arithmetic tail: destination ESI, value ST(0), status EAX. */
 int finish_extended_arithmetic(void);
+int extended_format(const Extended *value);
+int copy_extended(const Extended *source, Extended *destination);
+int extended_to_ten_bytes(const Extended *source, void *destination);
+int ten_bytes_to_extended(const void *source, Extended *destination);
+int extended_to_unsigned(const Extended *source, unsigned *destination);
+int round_extended_to_integer(const Extended *source, int *destination);
 #endif

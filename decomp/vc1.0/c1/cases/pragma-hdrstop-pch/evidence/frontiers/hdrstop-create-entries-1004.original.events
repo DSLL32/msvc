@@ -1,3 +1,0 @@
-entry _synchronize_pch_pragma rva 0000ffc0 byte 56
-entry _clear_packing rva 0000e810 byte 8b
-exit 0

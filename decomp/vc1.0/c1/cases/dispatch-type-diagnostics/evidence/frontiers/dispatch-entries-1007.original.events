@@ -1,4 +1,0 @@
-entry _require_complete_type@4 rva 00022b90 byte 56
-entry _report_conversion_mismatch@12 rva 0002e710 byte 8b
-entry _report_function_operand@8 rva 0002f4f0 byte 8b
-exit 4

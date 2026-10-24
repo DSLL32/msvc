@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x49b6: file src/stubs.c, line 252.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, emit_inline_jump (kind=2) at src/stubs.c:252
-252	void __stdcall emit_inline_jump(int kind) { __asm { int 3 } }

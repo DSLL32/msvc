@@ -1,7 +1,0 @@
-3dc65 56 _copy_asm_comment
-3f62b 56 _fits_asm_integer@8
-3e449 0f _set_asm_directive@8
-3da61 56 _parse_asm_binary_digits@4
-40260 56 _evaluate_asm_unary@8
-40541 53 _apply_asm_segment@8
-3defc 66 _set_asm_address_operator@4

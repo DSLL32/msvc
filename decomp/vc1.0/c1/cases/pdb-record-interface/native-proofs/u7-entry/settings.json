@@ -1,8 +1,0 @@
-{
-  "directory": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-u7-native-entry",
-  "unit": 7,
-  "function": "copy_program_database_record",
-  "arguments": 3,
-  "pop": 12,
-  "entry_only": true
-}

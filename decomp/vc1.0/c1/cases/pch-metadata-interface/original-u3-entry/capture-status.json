@@ -1,8 +1,0 @@
-{
-  "host_exit": 0,
-  "preparation_seconds": 0.055825842544436455,
-  "execution_seconds": 1.1784068839624524,
-  "total_seconds": 1.2342359302565455,
-  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
-  "target_sha256": "502fdda384855a0da34a2668bd9c481872c98555131da86896c25bba05f3b6ab"
-}

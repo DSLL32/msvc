@@ -1,4 +1,0 @@
-entry _make_based_address@8 rva 0002f820 byte 53
-entry _emit_named_label@4 rva 0001c5b0 byte 56
-entry _same_based_pointer_base@8 rva 00016340 byte 8b
-exit 0

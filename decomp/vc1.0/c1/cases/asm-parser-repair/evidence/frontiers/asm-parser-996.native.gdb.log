@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x43357: file src/asm-stubs.c, line 48.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, make_asm_segment_value (value=0x56916d94) at src/asm-stubs.c:48
-48	AsmExpression * __stdcall make_asm_segment_value(AsmExpression *value) { __asm { int 3 } return 0; }

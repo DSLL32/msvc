@@ -7,6 +7,7 @@
 #include <recon.h>
 
 extern int _atoldbl(Extended *result, const char *text);
+extern Extended extended_round_limit;
 
 /* Original 0x4c380..0x4c38d. */
 void initialize_floating_point(void)
@@ -48,6 +49,23 @@ int __stdcall parse_floating_literal(char *text, Extended *number)
     number->format = 8;
     if (extended_to_double(number, &wide)) return 1;
     double_to_extended(&wide, number);
+    return 0;
+}
+
+/* Original 0x4c4b0..0x4c4c5. The representation word is sign-extended. */
+int extended_format(const Extended *value)
+{
+    return (short)value->format;
+}
+
+/* Original 0x4c4c5..0x4c4e9. Six forward word transfers include the
+   representation tag, retaining the original word-copy ordering. */
+int copy_extended(const Extended *source, Extended *destination)
+{
+    const unsigned short *from = (const unsigned short *)source;
+    unsigned short *to = (unsigned short *)destination;
+    unsigned index;
+    for (index = 0; index < 6; ++index) to[index] = from[index];
     return 0;
 }
 
@@ -282,6 +300,26 @@ int check_extended_range(void)
         __asm { fchs }
     }
     return (status & 0x100) != 0;
+}
+
+/* Original 0x4c673..0x4c696. Period C has no ten-byte scalar type;
+   these narrow x87 transfers retain the private range-check ABI. Unlike
+   the float/double interfaces, this store occurs even after a range error. */
+int extended_to_ten_bytes(const Extended *source, void *destination)
+{
+    int overflow;
+    __asm {
+        mov eax, source
+        fld tbyte ptr [eax]
+        fld tbyte ptr extended_round_limit
+    }
+    overflow = check_extended_range();
+    __asm {
+        mov eax, destination
+        fstp tbyte ptr [eax]
+        fwait
+    }
+    return overflow;
 }
 
 /* Original 0x4c696..0x4c6b8. The store entry takes ESI and ST(0),
@@ -562,6 +600,84 @@ void truncate_extended(void)
         frndint
         fldcw word ptr floating_workspace + 6
     }
+}
+
+/* Original 0x4c6da..0x4c6fc. The ten-byte load and ESI/ST(0) store
+   entry cannot be expressed by the original C compiler's double type. */
+int ten_bytes_to_extended(const void *source, Extended *destination)
+{
+    __asm {
+        mov eax, source
+        fld tbyte ptr [eax]
+    }
+    destination->format = 10;
+    __asm {
+        mov esi, destination
+        call store_extended
+    }
+    return 0;
+}
+
+/* Exact unsigned32-bit limit at original 0x7109c. Only its ten numeric
+   bytes are consumed by the private range interface. */
+Extended unsigned_integer_limit = { 0, 0xffffffffU, 0x401e, 0 };
+
+/* Original 0x4c77f..0x4c7c4. The private helpers retain an 80-bit value
+   that period C cannot name. Negative values return a sign status but still
+   store the low32 bits; a genuine range failure alone skips the store. */
+int extended_to_unsigned(const Extended *source, unsigned *destination)
+{
+    int overflow;
+    unsigned words[2];
+    __asm {
+        mov eax, source
+        fld tbyte ptr [eax]
+    }
+    truncate_extended();
+    __asm { fld tbyte ptr unsigned_integer_limit }
+    overflow = check_extended_range();
+    if (!overflow) {
+        overflow |= floating_workspace.check.negative;
+        __asm {
+            lea eax, words
+            fistp qword ptr [eax]
+            fwait
+        }
+        *destination = words[0];
+    }
+    return overflow;
+}
+
+/* Original 0x710a6. Addressable for the original x87 half-step transfer. */
+float integer_round_half = 0.5F;
+
+/* Original 0x4c7c4..0x4c80f. Preserve the 80-bit half-step and private
+   x87 helper ABIs; C selects its sign and controls the range/output path. */
+int round_extended_to_integer(const Extended *source, int *destination)
+{
+    int overflow;
+    __asm {
+        mov eax, source
+        fld tbyte ptr [eax]
+        ftst
+        fstsw word ptr floating_workspace + 4
+        fld dword ptr integer_round_half
+    }
+    if (floating_workspace.check.status & 0x100) {
+        __asm { fchs }
+    }
+    __asm { faddp st(1), st(0) }
+    truncate_extended();
+    __asm { fld tbyte ptr signed_integer_limit }
+    overflow = check_extended_range();
+    if (!overflow) {
+        __asm {
+            mov eax, destination
+            fistp dword ptr [eax]
+            fwait
+        }
+    }
+    return overflow;
 }
 
 /* Original0x4c6fc..0x4c71e. Signed integer expansion uses the existing

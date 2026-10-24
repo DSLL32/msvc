@@ -1,9 +1,0 @@
-{
-  "status": "pass",
-  "kind": "direct owned legacy debug fixup",
-  "public_reachability": false,
-  "offset": 8,
-  "bytes": 4,
-  "allocation_bytes": 4096,
-  "scope": "Actual parsed segment and checked_malloc4096 workspace; one real arena1 node, RET12, no record/global seeding or EAX claim for void helper."
-}

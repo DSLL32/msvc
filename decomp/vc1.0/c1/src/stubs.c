@@ -19,6 +19,7 @@
 #include "initializers.h"
 #include "control-ir.h"
 #include "expressions.h"
+#include "asm.h"
 #include <recon.h>
 
 
@@ -790,6 +791,7 @@
 
 
 #include "asm.h"
+#include "asm.h"
 #include <recon.h>
 
 
@@ -858,7 +860,7 @@
 /* Original 0x3f3b0. Symbol-typed value-bearing leaf wrapper. */
 
 /* Original 0x26180. Self-based conversion source validation. */
-void __stdcall validate_self_based_source(IrToken *value) { __asm { int 3 } }
+
 
 /* Fatal shutdown entries, named before their first accepted caller. */
 
@@ -867,3 +869,14 @@ void __stdcall validate_self_based_source(IrToken *value) { __asm { int 3 } }
 
 /* Original 0x43d20; reached from IDE source progress. */
 /* Original 0x4aed0; shared IDE progress formatter. */
+
+/* Approved residual interfaces remain unaccepted until fresh owner/ABI proof. */
+
+
+
+
+
+
+
+
+void write_asm_segment_prefix(void) { __asm { int 3 } }

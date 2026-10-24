@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x4ac7: file src/stubs.c, line 681.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, convert_initializer_pointer (value=0x56a60348) at src/stubs.c:681
-681	IrToken *__stdcall convert_initializer_pointer(IrToken *value) { __asm { int 3 } }

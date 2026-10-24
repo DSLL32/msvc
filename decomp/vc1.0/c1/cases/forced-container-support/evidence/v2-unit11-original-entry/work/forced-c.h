@@ -1,9 +1,0 @@
-#ifndef FORCED_C_H
-#define FORCED_C_H
-#if defined(CONTAINER_COUNT) && CONTAINER_COUNT > 2
-#define CONTAINER_LIMIT CONTAINER_COUNT
-#else
-#define CONTAINER_LIMIT 2
-#endif
-#define CONTAINER_TITLE CONTAINER_STRING(CONTAINER_JOIN(container_,records))
-#endif

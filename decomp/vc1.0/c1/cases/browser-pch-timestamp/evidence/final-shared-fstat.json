@@ -1,7 +1,0 @@
-{
-  "scope": "VC1 legacy36-byte descriptor fstat regular/char/pipe/bounds/closed, untouched padding and error behavior",
-  "reference": "tests/fstat-original.json",
-  "provider_analysis": "C13232 fstat5a850..5aadd +gmtotime57930..579b7, verified shipped FSTAT.OBJ",
-  "native_checks": "GCC/Clang full36-byte output/error equality for seven descriptor cases; default check",
-  "combined_build_checks_seconds": 2.379
-}

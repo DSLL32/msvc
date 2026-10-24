@@ -1,1 +1,0 @@
-3b980 a1 _write_ir_double

@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x4af9: file src/stubs.c, line 612.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, report_function_operand (operation=69 'E', argument=1) at src/stubs.c:612
-612	void __stdcall report_function_operand(unsigned char operation, int argument) { __asm { int 3 } }

@@ -1,9 +1,0 @@
-24f80 8b _is_function_pointer_type@4
-1b610 56 _make_parameter@4
-1b530 53 _declare_old_style_parameter@8
-1b420 56 _compatible_parameter_types@8
-1ad40 56 _define_register_parameter@4
-23070 8b _pop_work_list@4
-30220 56 _change_function_reference_kind@8
-2efc0 83 _compare_prototype_parameter_types@8
-2e730 83 _warn_void_function_pointer

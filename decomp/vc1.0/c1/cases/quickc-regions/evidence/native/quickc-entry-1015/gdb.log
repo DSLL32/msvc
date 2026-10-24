@@ -1,8 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x48f3: file src/stubs.c, line 84.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, initialize_inline_queries () at src/stubs.c:84
-warning: Source file is more recent than executable.
-84	void initialize_inline_queries(void) { __asm { int 3 } }

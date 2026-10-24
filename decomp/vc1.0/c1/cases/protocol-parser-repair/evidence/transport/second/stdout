@@ -1,5 +1,0 @@
-audit.c
-protocol.h(6) : error C2143: syntax error : missing ';' before 'type'
-protocol.h(9) : error C2282: 'export_route' is followed by 'stray' (missing ','?)
-protocol.h(11) : error C2079: 'item' uses undefined class/struct/union 'Pending'
-protocol.h(14) : error C2040: 'codec' : 'int (int )' differs in levels of indirection from 'int '

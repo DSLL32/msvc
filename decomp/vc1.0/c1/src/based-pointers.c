@@ -86,6 +86,32 @@ IrToken *__stdcall make_based_pointer_base(CType *type)
     return base;
 }
 
+/* Original 0x26180..0x26203. Constants cannot supply a self base. A genuine
+   symbol lvalue is accepted unless its storage is one of the based classes;
+   only other expressions require the final pointer-shape check. */
+void __stdcall validate_self_based_source(IrToken *value)
+{
+    IrToken *lvalue;
+    FrontendSymbol *symbol;
+    TypeShape *shape;
+    unsigned storage;
+    if ((value->flags & 7) == 3) {
+        report_syntax_error(101,token_names[TOK_SELF]);
+        return;
+    }
+    lvalue = modifiable_lvalue(value,0);
+    if (lvalue && (lvalue->flags & 7) == 4) {
+        symbol = lvalue->value.pointer;
+        storage = symbol->storage[0] & 7;
+        if (storage >= 5 && storage <= 6)
+            report_syntax_error(103,token_names[TOK_SELF]);
+        return;
+    }
+    shape = value->type->related;
+    if (!shape || !(shape->flags & 3))
+        report_syntax_error(102,token_names[TOK_SELF]);
+}
+
 /* Original 0x26210..0x262d6. Constants retain an ordinary pointer type;
    other sources either subtract a base or retain their based representation. */
 IrToken *__stdcall convert_based_pointer(CType *target, IrToken *value)

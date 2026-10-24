@@ -1,7 +1,0 @@
-enum-callback 0 0000006d 00011170 0000006a ffff7fff
-enum-callback 1 0000006c 00000007 0000006d 00011170
-enum-callback 2 0000006b fffffffd 0000006d 00011170
-enum-callback 3 0000006b fffffffd 0000006a ffff7fff
-enum-callback 4 0000006c 00000007 0000006b fffffffd
-enum-callback 5 0000006b fffffffd 0000006a ffff7fff
-exit 0

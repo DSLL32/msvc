@@ -1,4 +1,0 @@
-probe.c
-probe.c(2) : error C2493: illegal form of __based
-probe.c(3) : error C2493: illegal form of __based
-probe.c(3) : error C2215: ':>' operator only for objects based on 'void'

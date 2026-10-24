@@ -1,9 +1,0 @@
-entry _declare_pch_debug_library rva 00038a00 byte 53
-entry _copy_bytes_end@12 rva 00008c40 byte 53
-entry _pdb_complete_enum_type_index rva 00039a20 byte 83
-entry _pdb_enum_type_index rva 00039960 byte 56
-entry _pdb_enum_field_list rva 00039b20 byte 83
-entry _compare_pdb_enumerators rva 00039c90 byte 8b
-entry _write_codeview_signed_leaf rva 0003a3d0 byte 8b
-entry _write_codeview_symbol rva 0003a490 byte 56
-exit 0

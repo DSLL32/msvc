@@ -1,4 +1,0 @@
-traverse.c
-traverse.c(18) : error C2215: ':>' operator only for objects based on 'void'
-traverse.c(19) : error C2215: ':>' operator only for objects based on 'void'
-traverse.c(28) : error C2215: ':>' operator only for objects based on 'void'

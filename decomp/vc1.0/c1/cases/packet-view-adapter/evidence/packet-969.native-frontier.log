@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/root/msvc2/decomp/vc1.0/c1/scripts/debug-frontier.py", line 292, in <module>
-    main()
-    ~~~~^^
-  File "/root/msvc2/decomp/vc1.0/c1/scripts/debug-frontier.py", line 246, in main
-    assert state['exit'] == phase['expected_exit'], ('native terminal status differs',state['exit'],phase['expected_exit'])
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError: ('native terminal status differs', None, 0)

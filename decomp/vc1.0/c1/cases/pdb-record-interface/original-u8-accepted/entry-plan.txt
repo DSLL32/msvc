@@ -1,1 +1,0 @@
-7b40 56 @close_program_database_handle@4

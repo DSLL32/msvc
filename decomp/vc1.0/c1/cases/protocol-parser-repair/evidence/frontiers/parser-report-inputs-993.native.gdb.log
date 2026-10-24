@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x3945c: file src/parser.c, line 1824.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, report_expected_token (actual=143, expected=130) at src/parser.c:1824
-1824	    if (parser_flags & 0x2000) return;

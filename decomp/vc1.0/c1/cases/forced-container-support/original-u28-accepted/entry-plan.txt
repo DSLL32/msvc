@@ -1,1 +1,0 @@
-1a250 83 _current_aggregate_name

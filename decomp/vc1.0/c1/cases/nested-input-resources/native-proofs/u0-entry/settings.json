@@ -1,8 +1,0 @@
-{
-  "unit": 0,
-  "directory": "/root/.ai-tmp/msvc2/vc1.0/c1/nested-resource-u0-native-entry",
-  "function": "retry_malloc",
-  "entry_only": true,
-  "arguments": 1,
-  "pop": 4
-}

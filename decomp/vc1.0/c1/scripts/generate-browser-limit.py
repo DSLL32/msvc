@@ -17,17 +17,14 @@ def content():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--write', action='store_true')
+    parser.add_argument('output', type=Path, help='Generated source path in scratch or .build')
     options = parser.parse_args()
-    target = BINARY/'cases/browser-index-limit/inputs/bulk-registry.h'
     data = content()
-    if options.write:
-        target.parent.mkdir(parents=True,exist_ok=True)
-        target.write_bytes(data)
-    assert target.read_bytes() == data, 'generated browser-limit input differs'
-    print(json.dumps(dict(path=str(target.relative_to(BINARY)),declarations=COUNT,
+    options.output.parent.mkdir(parents=True, exist_ok=True)
+    options.output.write_bytes(data)
+    print(json.dumps(dict(path=str(options.output), declarations=COUNT,
                          order='ascending decimal indices 00000 through 65999',
-                         bytes=len(data),sha256=hashlib.sha256(data).hexdigest())))
+                         bytes=len(data), sha256=hashlib.sha256(data).hexdigest())))
 
 if __name__ == '__main__':
     main()

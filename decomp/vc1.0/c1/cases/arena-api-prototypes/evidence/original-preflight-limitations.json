@@ -1,8 +1,0 @@
-{
-  "initial_modifiers": "Original draft1 hard-errors on obsolete __far and unsupported __loadds syntax. Removed before final source selection; raw failed source/logs retained.",
-  "ordinary": "Adjusted draft2 untouched normal compile/link/runtime0 with exact C4131 warning.",
-  "prototype": "Untouched /Zg prints all six complete prototype rows but diagnoses C2213 for entry_base, then C4131; C1exit1/CLexit2, no output artifacts. Two captures agree.",
-  "cause": "Original normalize_type_attributes2cb33 tests prototypes_only5b244 and immediately returns input attributes; normal pointer defaults remain0 in prototype mode. resolve_based_pointer_symbol25e7c masks base-shape attributes&7 and accepts only1/2; model0 takes diagnostic213. Independent raw instructions saved.",
-  "transport": "Normal C1 diagnostics share CL fd1/fd2; /Zg preserves separate prototype stdout and diagnostic stderr. Captured childresult intervals prove these distinct stream contracts.",
-  "status": "Root approved honest expected-error prototype phase before reconstruction; no repair or normalization."
-}

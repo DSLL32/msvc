@@ -1,5 +1,0 @@
-{
-  "failure": "Preparation script reused its path variable and wrote the intended manifest into a temporary v2 input copy; following phase lookup failed before original invocation.",
-  "correction": "Intended manifest installed at its actual path; temporary v2 copies restored byte-exact from unchanged evidence/v2-case/inputs and checked against frozen hashes.",
-  "historical_raw_evidence_changed": false
-}

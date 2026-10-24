@@ -1,5 +1,0 @@
-c2c0 e8 _report_ide_source
-33d20 81 _ide_source_name
-3aed0 81 _print_ide_status
-c310 a1 _report_ide_file_end
-c2e0 56 _report_ide_line

@@ -1,8 +1,0 @@
-recovery.c(3) : error C2020: 'member' : 'struct' member redefinition
-recovery.c(6) : error C2118: negative subscript or subscript is too large
-recovery.c(8) : error C2371: 'conflicting_declaration' : redefinition; different basic types
-recovery.c(13) : error C2059: syntax error : ';'
-recovery.c(14) : error C2065: 'missing_object' : undeclared identifier
-recovery.c(15) : error C2198: 'declared_call' : too few actual parameters
-recovery.c(20) : warning C4013: 'missing_function' undefined; assuming extern returning int
-RECOVERY_TAIL_REACHED

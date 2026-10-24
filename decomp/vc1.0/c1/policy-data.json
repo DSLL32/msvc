@@ -1,0 +1,34 @@
+{
+  "buffered_streams": [
+    {
+      "name": "_expression_file",
+      "original": 374156
+    },
+    {
+      "name": "_symbol_file",
+      "original": 374160
+    },
+    {
+      "name": "_line_file",
+      "original": 374164
+    },
+    {
+      "name": "_global_file",
+      "original": 374168
+    },
+    {
+      "name": "_debug_file",
+      "original": 373344,
+      "output_name": "irdb"
+    },
+    {
+      "name": "_pch_file",
+      "original": 374144,
+      "output_name": "state.pch"
+    },
+    {
+      "name": "_browser_output",
+      "original": 382368
+    }
+  ]
+}

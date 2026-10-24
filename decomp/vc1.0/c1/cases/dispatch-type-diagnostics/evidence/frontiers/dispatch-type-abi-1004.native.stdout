@@ -1,1 +1,0 @@
-audit.c(6) : error C2027: use of undefined type 'PendingPacket'

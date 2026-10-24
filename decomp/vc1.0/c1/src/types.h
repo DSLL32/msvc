@@ -75,4 +75,5 @@ int __stdcall merge_selected_flags(unsigned *target, unsigned added);
 TypeShape *__stdcall last_type_shape(TypeShape *shape);
 CType *__stdcall identity_type(CType *type);
 TypeShape *__stdcall identity_type_shape(TypeShape *shape);
+struct FrontendSymbol *__stdcall record_type_tag(struct FrontendSymbol *symbol);
 #endif

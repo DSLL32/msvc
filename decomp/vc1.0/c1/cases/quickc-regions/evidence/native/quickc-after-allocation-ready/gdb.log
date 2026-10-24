@@ -1,7 +1,0 @@
-/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x4a33: file src/stubs.c, line 381.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, reset_inline_function_state () at src/stubs.c:381
-381	void reset_inline_function_state(void) { __asm { int 3 } }

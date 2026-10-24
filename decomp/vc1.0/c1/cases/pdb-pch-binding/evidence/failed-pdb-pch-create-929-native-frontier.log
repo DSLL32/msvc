@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/root/msvc2/decomp/vc1.0/c1/scripts/debug-frontier.py", line 276, in <module>
-    main()
-    ~~~~^^
-  File "/root/msvc2/decomp/vc1.0/c1/scripts/debug-frontier.py", line 264, in main
-    assert originals == natives, 'visible input/output files differ at frontier'
-           ^^^^^^^^^^^^^^^^^^^^
-AssertionError: visible input/output files differ at frontier

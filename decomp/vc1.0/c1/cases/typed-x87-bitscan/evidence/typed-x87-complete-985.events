@@ -1,4 +1,0 @@
-entry _asm_operand_has_type_flags@8 rva 0003f64e byte 8b
-entry _swap_asm_pointer_slots@8 rva 0003e97c byte 56
-entry _asm_operand_accepts_size@8 rva 0003f689 byte 8b
-exit 0

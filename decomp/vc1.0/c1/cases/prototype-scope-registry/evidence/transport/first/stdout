@@ -1,2 +1,0 @@
-registry.c
-registry.h(4) : warning C4115: 'RegistryPacket' : named type definition in parentheses

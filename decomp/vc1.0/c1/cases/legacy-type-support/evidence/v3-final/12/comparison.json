@@ -1,9 +1,0 @@
-{
-  "status": "pass",
-  "kind": "direct existing intrinsic fallback owner",
-  "public_reachability": false,
-  "operation": 172,
-  "returned": "actual parsed memcpy symbol",
-  "constructor_branch": "Reconstructed statically and graph-audited; this direct phase exercises the existing declaration branch.",
-  "public_gate": "type_requires_intrinsic_fallback returns false in original; public producer remains dormant."
-}

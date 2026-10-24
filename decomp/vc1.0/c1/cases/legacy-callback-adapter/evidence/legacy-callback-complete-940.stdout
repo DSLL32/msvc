@@ -1,6 +1,0 @@
-adapter.c(18) : warning C4131: 'promoted_pair' : uses old-style declarator
-adapter.c(21) : warning C4028: formal parameter 1 different from declaration
-adapter.c(21) : warning C4028: formal parameter 2 different from declaration
-adapter.c(56) : warning C4028: formal parameter 1 different from declaration
-adapter.c(57) : warning C4152: nonstandard extension, function/data pointer conversion in expression
-adapter.c(58) : warning C4152: nonstandard extension, function/data pointer conversion in expression

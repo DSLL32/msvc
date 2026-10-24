@@ -1,7 +1,0 @@
-{
-  "remaining_not_in_accepted_or_identified_CRT_import": 24681,
-  "known_CRT_import_total": 39539,
-  "remaining_total": 44379,
-  "unaccepted_driver_names": 101,
-  "caveat": "Remaining outside identified CRT/imports includes application functions, unresolved support, shared data and padding; no claim all bytes are reachable application instructions. Accepted source count and extent do not establish branch completion."
-}

@@ -885,3 +885,18 @@ TypeShape *__stdcall last_type_shape(TypeShape *shape)
         shape = shape->related;
     return shape;
 }
+
+/* Original 0x28bf0..0x28c28. A record declaration names its tag unless a
+   substantive derived type remains after its optional declaration prefix. */
+FrontendSymbol *__stdcall record_type_tag(FrontendSymbol *symbol)
+{
+    CType *type = symbol->type;
+    TypeShape *shape;
+    if (!type || !(type->flags & 0x400)) return 0;
+    if (!(symbol->flags & 0x10)) {
+        shape = type->related;
+        if (shape && !(shape->flags & 7)) shape = shape->related;
+        if (shape) return 0;
+    }
+    return (FrontendSymbol *)type->field08;
+}
