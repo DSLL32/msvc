@@ -13,9 +13,9 @@ typedef struct ContributionGroup ContributionGroup;
 typedef struct Contribution Contribution;
 typedef struct ComdatRoot ComdatRoot;
 
-/* Only fields consumed by FullLink are named here. These are prefixes, not
+/* Only fields consumed by reached reconstruction logic are named here. These are prefixes, not
  * claims about an allocation's complete size or its as-yet unknown tail. */
-/* The initializer allocates complete156-byte module and68-byte library records.
+/* The initializer allocates complete 156-byte module and 68-byte library records.
  * Name fields as their producers/consumers are reached; retain unknown gaps. */
 struct OutputLibrary {
     char *name;

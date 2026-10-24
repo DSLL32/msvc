@@ -3,7 +3,6 @@
 #include <recon.h>
 BYTE __stdcall switch_number(SwitchInfo *info,WORD index,DWORD *value) { __asm { int 3 } return 0; }
 BYTE __stdcall valid_section_name(const unsigned char *name) { __asm { int 3 } return 0; }
-void *__stdcall find_library(const unsigned char *name,void *list,BYTE before) { __asm { int 3 } return NULL; }
 void __stdcall exclude_default_library(const char *name,LinkPointerList *list) { __asm { int 3 } }
 void __stdcall add_default_library(const char *name,LinkPointerList *list) { __asm { int 3 } }
 void __stdcall disallow_library(const char *name,LinkPointerList *list,void *owner) { __asm { int 3 } }

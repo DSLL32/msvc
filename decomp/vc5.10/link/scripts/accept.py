@@ -196,7 +196,8 @@ def audit_trial(path):
     pass_one_candidate='LinkContext::PassOne'in trial['accepted']
     collision_candidate='_check_output_input_collision@8'in trial['accepted']
     mapping_candidate='_initialize_file_mapping@12'in trial['accepted']
-    imported['accepted']=[name for name in imported['accepted'] if name not in cached_bodies and name not in register_candidates and not(full_link_candidate and name=='?FullLink@LinkContext@@QAEHPAE@Z')and not(pass_one_candidate and name=='LinkContext::PassOne')and not(collision_candidate and name=='_check_output_input_collision@8')and not(mapping_candidate and name=='_initialize_file_mapping@12')]
+    finder_candidate='_find_library@12'in trial['accepted']
+    imported['accepted']=[name for name in imported['accepted'] if name not in cached_bodies and name not in register_candidates and not(full_link_candidate and name=='?FullLink@LinkContext@@QAEHPAE@Z')and not(pass_one_candidate and name=='LinkContext::PassOne')and not(collision_candidate and name=='_check_output_input_collision@8')and not(mapping_candidate and name=='_initialize_file_mapping@12')and not(finder_candidate and name=='_find_library@12')]
     import_path=path.parent/'direct-import-config.json'
     import_path.write_text(json.dumps(imported,indent=2)+'\n')
     inputs.append(import_path)
@@ -357,6 +358,25 @@ def audit_trial(path):
         packet=json.loads(mapping_checker.PACKET.read_text());provider=packet['provider']
         inputs += [BINARY/provider['path'],BINARY/provider['receipt']]
         inputs += [ROOT/d['path'] for d in packet['declarations']]
+    finder_command=None
+    finder_witness=None
+    if finder_candidate:
+        import importlib
+        from binary import PE
+        finder_checker=importlib.import_module('library-finder-preservation')
+        finder_witness=finder_checker.check(PE(ROOT/'toolchains/5.10/bin/LINK.EXE'),PE(BINARY/'build/link.exe'),(BINARY/'build/link.map').read_text())
+        finder_config=copy.deepcopy(trial);finder_config['accepted']=[finder_checker.OWNER]
+        finder_config_path=path.parent/'finder-import-config.json';finder_config_path.write_text(json.dumps(finder_config,indent=2)+'\n')
+        finder_metadata=json.loads((BINARY/'build/graph.json').read_text())
+        finder_metadata['functions'].setdefault(finder_checker.OWNER,{})['register_imports']={'require_all_register_calls_resolved':True}
+        finder_metadata['register_imports']={'preservation_contracts':finder_checker.contracts()}
+        finder_metadata_path=path.parent/'finder-import-metadata.json';finder_metadata_path.write_text(json.dumps(finder_metadata,indent=2)+'\n')
+        finder_command=command.copy();finder_command[finder_command.index('--config')+1]=str(finder_config_path);finder_command[finder_command.index('--metadata')+1]=str(finder_metadata_path)
+        finder_command+=['--check-imports','--resolve-register-imports']
+        inputs += [finder_config_path,finder_metadata_path,finder_checker.PACKET,BINARY/'scripts/library-finder-preservation.py']
+        packet=json.loads(finder_checker.PACKET.read_text());provider=packet['canonical_provider']
+        inputs += [BINARY/provider['owned_receipt']]+[BINARY/item['path']for item in provider['owned_hfile_copies']]
+        inputs += [ROOT/item['path']for imported in packet['imports']for item in imported['declarations']]
     delete_support=None
     if 'import:??3@YAXPAX@Z' in trial['accepted']:
         import importlib
@@ -426,6 +446,12 @@ def audit_trial(path):
         mapping_report=json.loads(resolved.stdout)
         mapping_audit=dict(command=mapping_command,witness_binding=mapping_witness,
             inventory=mapping_checker.check_resolution(mapping_report,PE(BINARY/'build/link.exe')),report=mapping_report,stderr=resolved.stderr.decode())
+    finder_audit=None
+    if finder_command:
+        resolved=subprocess.run(finder_command,stdout=subprocess.PIPE,stderr=subprocess.PIPE,check=True)
+        finder_report=json.loads(resolved.stdout)
+        finder_audit=dict(command=finder_command,witness_binding=finder_witness,
+            inventory=finder_checker.check_resolution(finder_report,PE(BINARY/'build/link.exe')),report=finder_report,stderr=resolved.stderr.decode())
     member_pointer_contract=None
     if 'LinkContext::Initialize' in trial['accepted']:
         from member_pointers import check_static
@@ -442,7 +468,7 @@ def audit_trial(path):
     assert full_report['discovery'] == 'cfg'
     assert set(report['functions']) == set(strict['accepted']), 'strict body subset differs'
     assert set(full_report['functions']) == set(trial['accepted']), 'full trial graph subset differs'
-    return dict(elapsed_seconds=elapsed,total_elapsed_seconds=time.perf_counter()-audit_started,binding_and_setup_seconds=started-audit_started,delete_support=delete_support,register_import_audit=register_audit,full_link_import_audit=full_link_audit,pass_one_import_audit=pass_one_audit,collision_import_audit=collision_audit,mapping_import_audit=mapping_audit,member_pointer_contract=member_pointer_contract,full_command=full_command,strict_command=strict_command,import_command=import_command,import_report=import_report,cached_import_residual=residual,
+    return dict(elapsed_seconds=elapsed,total_elapsed_seconds=time.perf_counter()-audit_started,binding_and_setup_seconds=started-audit_started,delete_support=delete_support,register_import_audit=register_audit,full_link_import_audit=full_link_audit,pass_one_import_audit=pass_one_audit,collision_import_audit=collision_audit,mapping_import_audit=mapping_audit,finder_import_audit=finder_audit,member_pointer_contract=member_pointer_contract,full_command=full_command,strict_command=strict_command,import_command=import_command,import_report=import_report,cached_import_residual=residual,
                 strict_projection_excludes_only_verified_import_thunks=sorted(import_leaves & set(trial['accepted'])),
                 input_sha256_before=before, input_sha256_after=after,
                 full_report=full_report,strict_report=report,

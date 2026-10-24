@@ -1,0 +1,26 @@
+{
+  "result": "PASS",
+  "witness": {
+    "provider": {
+      "qualified_import_contracts": 2,
+      "application_helper_contracts": 0,
+      "qualification": "Only required canonical-provider/SDK ABI witnesses. Unknown application calls remain barriers; no helper source/object snapshots or target CFG/dataflow walk."
+    },
+    "finite_helper_bytes": 50,
+    "helper_calls": 0,
+    "preserved_registers": [
+      "ebx"
+    ]
+  },
+  "sites": {
+    "original_cached": 1,
+    "original_direct": 1,
+    "rebuilt_direct": 2,
+    "opaque": 0
+  },
+  "validation_sha256": "11b704c0bb19bc31b268de2e29b5809dfc2d3baf4b3a57ab98e549e8ca147bd9",
+  "packet_sha256": "29fa8399db329b3b9a1ef72719d486c642e78acdc306eab099591e7a5716bbf8",
+  "checker_sha256": "3f403d872ba445b812b8b5318a35c5c702983d149f00c2063fe0007e73056471",
+  "independent_static_report_sha256": "6523be9d3a58a71dd1d57d8bfe519fe0d31195464528b9811507640ad370155f",
+  "qualification": "Only finite EBX normal-return witnesses for two qualified CRT imports and exact 50-byte call-free helper/current typed stub; no pending helper body credit"
+}

@@ -94,7 +94,8 @@
     "_move_file_record@24",
     "_open_mapped_file@16",
     "_initialize_file_mapping@12",
-    "_create_library@12"
+    "_create_library@12",
+    "_find_library@12"
   ],
   "driver": [
     {
@@ -905,10 +906,10 @@
       "start": 4257360,
       "end": 4257682,
       "pending_extent": false,
-      "status": "stub",
-      "source": "src/option-stubs.c",
+      "status": "implemented",
+      "source": "src/libraries.c",
       "native_symbol": "find_library",
-      "abi": "stdcall stack12/RET12"
+      "abi": "stdcall void *(const unsigned char *name,void *first,BYTE before); three physical DWORD stack slots,RET12; no hidden inputs; before consumes only low eight bits"
     },
     {
       "name": "_exclude_default_library@8",

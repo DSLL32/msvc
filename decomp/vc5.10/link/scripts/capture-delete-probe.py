@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Explicit original-only delete probe; fixtures never call this script."""
-import hashlib,importlib,json,struct,subprocess,tempfile,time,shutil
+import fcntl,hashlib,importlib,json,struct,subprocess,tempfile,time,shutil
 from pathlib import Path
 BINARY=Path(__file__).resolve().parents[1]
 transport=importlib.import_module('wine-tool')
@@ -15,12 +15,15 @@ assert sha(canonical_path.read_bytes())=='e390b0529fb9ee1214bb68302a4658b578134d
 shutil.copyfile(probe,work/'delete-probe.exe');shutil.copyfile(canonical_path,work/'MSVCRT.DLL')
 launched_probe=work/'delete-probe.exe'
 command=['wine',transport.windows(helper),transport.windows(launched_probe),transport.windows(raw),'-',transport.windows(raw/'entries.txt'),transport.windows(work)]
-start=time.perf_counter();result=subprocess.run(command,cwd=work,env=transport.environment(),stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=30);elapsed=time.perf_counter()-start
+lock_path=Path('/root/.ai-tmp/msvc2-original-capture.lock');waiting=time.perf_counter()
+with lock_path.open('a')as capture_lock:
+    fcntl.flock(capture_lock,fcntl.LOCK_EX);lock_wait=time.perf_counter()-waiting
+    start=time.perf_counter();result=subprocess.run(command,cwd=work,env=transport.environment(),stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=30);elapsed=time.perf_counter()-start
 (raw/'helper.stdout').write_bytes(result.stdout);(raw/'helper.stderr').write_bytes(result.stderr)
 files={p.name:dict(bytes=p.stat().st_size,sha256=sha(p.read_bytes()))for p in raw.iterdir()if p.is_file()}
 canonical='e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210'
 provider=[n for n,v in files.items()if n.startswith('module-')and v['sha256']==canonical]
-receipt=dict(kind='explicit-original-only-owned-new-delete-matrix',command=command,status=result.returncode,elapsed_seconds=elapsed,target_sha256=sha(probe.read_bytes()),actual_target_hfile_verified=files.get('module-000.bin',{}).get('sha256')==sha(probe.read_bytes()),actual_loaded_canonical_provider=provider,files=files)
+receipt=dict(kind='explicit-original-only-owned-new-delete-matrix',command=command,status=result.returncode,elapsed_seconds=elapsed,capture_execution_lock=str(lock_path),capture_lock_wait_seconds=lock_wait,target_sha256=sha(probe.read_bytes()),actual_target_hfile_verified=files.get('module-000.bin',{}).get('sha256')==sha(probe.read_bytes()),actual_loaded_canonical_provider=provider,files=files)
 (raw/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(scratch,flush=True)
 assert result.returncode==0 and receipt['actual_target_hfile_verified'] and provider,'probe/provider capture failed; retain raw'
 events=[json.loads(line)for line in (raw/'events.jsonl').read_text().splitlines()];assert events[-1]==dict(event='summary',failed=0,status=0)

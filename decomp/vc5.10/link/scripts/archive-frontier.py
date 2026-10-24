@@ -44,7 +44,7 @@ if validation['audit'].get('full_link_import_audit'):
             'scripts/accept.py','scripts/boundary_state.py','scripts/hello_boundary.py',
             'scripts/context_heap.py','scripts/section_state.py','scripts/group_state.py','scripts/observers.py',
             'scripts/pass-one-preservation.py','cases/hello-win32/pass-one-import-preservation.json',
-            'scripts/collision-preservation.py','scripts/collision_state.py','scripts/file_open_state.py','scripts/file_move_state.py','scripts/file_mapping_state.py','scripts/mapping_completion_state.py','scripts/mapping-preservation.py','cases/hello-win32/mapping-import-preservation.json','scripts/mapped_input_contract.py','cases/hello-win32/mapped-open-byte-input.json','cases/hello-win32/collision-import-preservation.json',
+            'scripts/collision-preservation.py','scripts/collision_state.py','scripts/file_open_state.py','scripts/file_move_state.py','scripts/file_mapping_state.py','scripts/mapping_completion_state.py','scripts/mapping-preservation.py','scripts/library-finder-preservation.py','cases/hello-win32/library-finder-import-preservation.json','cases/hello-win32/mapping-import-preservation.json','scripts/mapped_input_contract.py','cases/hello-win32/mapped-open-byte-input.json','cases/hello-win32/collision-import-preservation.json',
             'cases/hello-win32/full-link-import-preservation.json',
             'cases/hello-win32/full-link-closed-slot.json',
             'cases/hello-win32/full-link-audit-trial/metadata.json'}or

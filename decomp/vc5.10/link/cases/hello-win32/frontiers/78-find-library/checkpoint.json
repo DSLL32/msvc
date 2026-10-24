@@ -1,0 +1,117 @@
+{
+  "application_count": 78,
+  "application_extent_bytes": 32684,
+  "candidate_extent_bytes": 322,
+  "unaccepted_next": "_initialize_library_enumerator@8",
+  "case_complete": false,
+  "full_graph_vertices": 91,
+  "strict_ret_functions": 84,
+  "original_seconds": 2.650708976201713,
+  "capture_lock_wait_seconds": 5.812663584947586e-05,
+  "native_seconds": 0.7973808562383056,
+  "strict_audit_seconds": 1.1110765961930156,
+  "fresh_negative_count": 331,
+  "reused_negative_count": 0,
+  "state_control_elapsed": {
+    "positive": 0.18307555094361305,
+    "negative_checks": 10.45814121235162,
+    "total": 10.641220820136368
+  },
+  "fixture": {
+    "case": "help",
+    "status": "passed",
+    "logical_status": 1100,
+    "posix_status": 76,
+    "native_pid": 1988854,
+    "terminal_record_hex": "5254533101000000f6581e00010000004c04000000000000",
+    "application_entries": 45,
+    "application_trace": [
+      "_initialize_buffer12",
+      "_allocate_buffer12",
+      "_register_buffer12_cleanup",
+      "_initialize_buffer8",
+      "_allocate_buffer8",
+      "_register_buffer8_cleanup",
+      "_initialize_buffer4",
+      "_allocate_buffer4",
+      "_register_buffer4_cleanup",
+      "_initialize_timing",
+      "_setup_timing",
+      "_register_timing_cleanup",
+      "_main",
+      "_initialize_debug@8",
+      "_initialize_file_cache@16",
+      "_get_debug_flag@4",
+      "_zero_allocate@4",
+      "_new_file_record",
+      "_initialize_memory",
+      "_run_linker@8",
+      "_initialize_repro",
+      "_collect_file_arguments@16",
+      "_parse_command_line@16",
+      "_parse_argument@8",
+      "_is_libpath@4",
+      "_append_argument@8",
+      "_append_argument_record@12",
+      "_has_switch@4",
+      "_allocate_link_memory@8",
+      "LinkContext::Initialize",
+      "_create_string_table@12",
+      "_initialize_hash_table@20",
+      "_hash_allocate@16",
+      "_reserve_memory@8",
+      "_create_memory_arena@4",
+      "_allocate_memory@4",
+      "_configure_link_options@12",
+      "_parse_switch@8",
+      "_duplicate_argument@4",
+      "_linker_usage",
+      "_print_logo",
+      "_close_timing",
+      "_free_buffer4",
+      "_free_buffer8",
+      "_free_buffer12"
+    ],
+    "native_sha256": "e3b9a8f71fc0a7f94e2b6b2228ac6467d3aac6171d443a3c01ed21738bf0f173",
+    "reference_receipt_sha256": "1f53bf40f53951c31c76ecdb0ccd9a11103499ccce36b790d1c6cf6b8640331d",
+    "work_directory": "/root/.ai-tmp/msvc2/vc5.10/link/fixture-help-j7zc2ton",
+    "elapsed_seconds": {
+      "setup": 0.057120281271636486,
+      "execution": 0.003750060684978962,
+      "checks": 0.00037069711834192276,
+      "total": 0.06436746940016747
+    },
+    "build": "Makefile native prerequisite, outside these runner timings; no original/ref recapture."
+  },
+  "finite_import_controls": 12,
+  "finite_import_control_seconds": 0.1672169454395771,
+  "failed_history": [
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/link/library-find-build.log",
+      "owned": "capture-provenance/library-find-build.log",
+      "sha256": "2c2b907229d27f4620f0547cd9f4f1aba206247b2609700de9d99fbacdee171b"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/link/library-find-boundary.log",
+      "owned": "capture-provenance/library-find-boundary.log",
+      "sha256": "99a3aa102c880042e7ce157bdefa032b5eac30292a403fa6ccdbb13b3952826c"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/link/library-find-accept.log",
+      "owned": "capture-provenance/library-find-accept.log",
+      "sha256": "2fe3a153618bd089aba25db4904b84dc5fb8602651664592f1191d350a34938d"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/link/library-find-accept-fixed.log",
+      "owned": "capture-provenance/library-find-accept-fixed.log",
+      "sha256": "4ced3b38a73e7793a922b40308ced56d16a23fd5b0c1a769c678c4d29bab85dd"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/link/native-xk_0f2_w",
+      "reason": "Old native observer read trap-time ESP after stub prologue; real entry words captured in subsequent native-only retry.",
+      "receipt_sha256": "270b088b96cba95762db6d81dbe6ceee730db0c2327a0cd0cb547f3d945d5b17",
+      "state_sha256": "566ba511056a3cd9b0ca9acf468841411414ba1a07a09cf9a833968851ceb5b2"
+    }
+  ],
+  "scope": "Finder complete322B; real initializer receives caller-owned16B uninitialized output and NULLhead. Both raw output bytes retained independently, no cross-platform equality or visited initializer credit."
+}

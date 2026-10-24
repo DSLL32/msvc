@@ -37,7 +37,7 @@ def enum_bytes(next_function,end_function,first,current):
 
 
 def compare(original,state,trap,events,native_directory=None):
-    mapped=state['function']in ('open_mapped_file','initialize_file_mapping','create_library','find_library')
+    mapped=state['function']in ('open_mapped_file','initialize_file_mapping','create_library','find_library','initialize_library_enumerator')
     file_move=state['function']=='move_file_record'
     file_available=state['function']=='get_available_file_record'or file_move
     file_finder=state['function']=='find_cached_file'or file_available
@@ -62,8 +62,8 @@ def compare(original,state,trap,events,native_directory=None):
             assert nformals==dict(this=ncontext,stack_formals=[],other_hidden_inputs=[])
             entry,=[e for e in events if e['event']=='pass_one_entry']
             assert entry['this']==formals['this']==context and entry['stack_formals']==entry['other_hidden_inputs']==[]
-            assert trap['esp']==entry['stack_pointer']-(76 if state['function']=='find_library'else 48 if state['function']=='create_library'else 124 if state['function']=='initialize_file_mapping'else 92 if mapped else 140 if file_move else 108 if file_available else 112 if file_finder else 92 if file_record else 48 if after_collision else 44)
-            assert trap['stack'][0]==(0x40ede7 if state['function']=='find_library'else 0x44b906 if state['function']=='create_library'else 0x40c9cf if state['function']=='initialize_file_mapping'else 0x40b84a if mapped else 0x40b956 if file_move else 0x40b88a if file_available else 0x40b87d if file_finder else 0x40b82e if file_record else 0x44b8e5 if after_collision else 0x44b8d0)
+            assert trap['esp']==entry['stack_pointer']-(896 if state['function']=='initialize_library_enumerator'else 76 if state['function']=='find_library'else 48 if state['function']=='create_library'else 124 if state['function']=='initialize_file_mapping'else 92 if mapped else 140 if file_move else 108 if file_available else 112 if file_finder else 92 if file_record else 48 if after_collision else 44)
+            assert trap['stack'][0]==(0x40f674 if state['function']=='initialize_library_enumerator'else 0x40ede7 if state['function']=='find_library'else 0x44b906 if state['function']=='create_library'else 0x40c9cf if state['function']=='initialize_file_mapping'else 0x40b84a if mapped else 0x40b956 if file_move else 0x40b88a if file_available else 0x40b87d if file_finder else 0x40b82e if file_record else 0x44b8e5 if after_collision else 0x44b8d0)
             nentry=state['pass_one_entry']
             assert nentry['this']==ncontext and nentry['stack_formals']==nentry['other_hidden_inputs']==[]
             if after_collision:
@@ -93,7 +93,7 @@ def compare(original,state,trap,events,native_directory=None):
                 assert current['text']==ncurrent['text']=='hello.exe'
                 assert trap['frontier_inputs']==dict(formals=[current['output'],current['inputs']],hidden_register_inputs=[])
                 assert state['frontier_inputs']==dict(formals=[ncurrent['output'],ncurrent['inputs']],hidden_register_inputs=[])
-            assert trap['pass_one_flags']==state['pass_one_flags']==dict(verbose_link=0,output_file_open=1 if state['function']in ('create_library','find_library')else 0,current_image_file=15 if state['function']in ('create_library','find_library')else -1,arch_data_ignored=0)
+            assert trap['pass_one_flags']==state['pass_one_flags']==dict(verbose_link=0,output_file_open=1 if state['function']in ('create_library','find_library','initialize_library_enumerator')else 0,current_image_file=15 if state['function']in ('create_library','find_library','initialize_library_enumerator')else -1,arch_data_ignored=0)
         else:
             assert trap['ecx']==context
             assert nformals==dict(this=ncontext,raw_ecx=ncontext,stack_formals=[],other_hidden_inputs=[])
@@ -228,7 +228,7 @@ def check_calls(original,state,trap,events,left,right,sections,group_model):
     group_initializer=state['function']in ('initialize_group_enumerator','next_contribution_group')
     resolution_count=17 if completed else 9 if group_initializer else 8
     resolutions=list(pairs(events,'section_resolve_observation',resolution_count))
-    for key,expected_count in [('section_lookup_calls',count),('section_create_calls',count),('section_flag_calls',count*2),('section_enum_calls',count),('section_next_calls',count*(count+1)//2),('section_end_calls',count),('section_resolve_calls',resolution_count),('link_string_calls',19 if completed else 10),('duplicate_calls',25 if state['function']in ('open_mapped_file','initialize_file_mapping','create_library','find_library')else 24 if completed else 15)]:
+    for key,expected_count in [('section_lookup_calls',count),('section_create_calls',count),('section_flag_calls',count*2),('section_enum_calls',count),('section_next_calls',count*(count+1)//2),('section_end_calls',count),('section_resolve_calls',resolution_count),('link_string_calls',19 if completed else 10),('duplicate_calls',25 if state['function']in ('open_mapped_file','initialize_file_mapping','create_library','find_library','initialize_library_enumerator')else 24 if completed else 15)]:
         assert len(state[key])==expected_count,key
     context=trap['validation_context'];ncontext=state['context_this']
     next_function=state['section_callback_addresses']['next_output_section']

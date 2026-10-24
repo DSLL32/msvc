@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc5.10/link/scripts/check-boundary.py", line 21, in <module>
+    compare(args.frontier,args.original,args.native,original,native)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/boundary_state.py", line 480, in compare
+    compare_release(original,native_state,original_state,completed_options=name!='_release_memory@4',native_directory=native)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/hello_boundary.py", line 91, in compare_release
+    compare_configured(original,state,trap,events,canonical,search,native_directory=native_directory)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/hello_boundary.py", line 175, in compare_configured
+    advanced=compare_sections(original,state,trap,events,native_directory=native_directory)
+  File "/root/msvc2/decomp/vc5.10/link/scripts/section_state.py", line 213, in compare
+    ranges+=compare_move(original,state,trap,events,native_directory=native_directory)
+            ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/file_move_state.py", line 120, in compare
+    view,nview=compare_mapping(original,state,trap,events,oslots,nslots,handle,nhandle,native_directory)
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/mapping_completion_state.py", line 75, in compare
+    assert n['bytes']==16 and n['address']and n['formals']==[n['address'],0]and n['hidden_inputs']==[]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

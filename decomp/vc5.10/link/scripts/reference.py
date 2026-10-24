@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Explicit original-only reference / masked acceptance capture."""
 import argparse
+import fcntl
 import hashlib
 import importlib.util
 import json
@@ -126,13 +127,18 @@ def main():
     if args.case!='help':command.append(subprocess.list2cmdline([transport.windows(ROOT/config['target']['path'])]+manifest['arguments']))
     env = transport.environment()
     env['TEMP'] = env['TMP'] = transport.windows(work)
-    start = time.perf_counter()
-    try:
-        result = subprocess.run(command, cwd=work, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=45)
-        helper_status, helper_out, helper_err = result.returncode, result.stdout, result.stderr
-    except subprocess.TimeoutExpired as error:
-        helper_status, helper_out, helper_err = 'timeout', error.stdout or b'', error.stderr or b''
-    elapsed = time.perf_counter() - start
+    lock_path = Path('/root/.ai-tmp/msvc2-original-capture.lock')
+    lock_start = time.perf_counter()
+    with lock_path.open('a') as capture_lock:
+        fcntl.flock(capture_lock, fcntl.LOCK_EX)
+        lock_wait = time.perf_counter() - lock_start
+        start = time.perf_counter()
+        try:
+            result = subprocess.run(command, cwd=work, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=45)
+            helper_status, helper_out, helper_err = result.returncode, result.stdout, result.stderr
+        except subprocess.TimeoutExpired as error:
+            helper_status, helper_out, helper_err = 'timeout', error.stdout or b'', error.stderr or b''
+        elapsed = time.perf_counter() - start
     (capture / 'helper.stdout').write_bytes(helper_out); (capture / 'helper.stderr').write_bytes(helper_err)
     if work_owner:
         from case_inputs import save_artifacts
@@ -152,6 +158,7 @@ def main():
                    helper_sha256=sha(helper.read_bytes()), helper_status=helper_status,
                    actual_loaded_crt_hfile_copies=loaded_crt,
                    actual_loaded_crt_verified=bool(loaded_crt), elapsed_seconds=elapsed,
+                   capture_execution_lock=str(lock_path), capture_lock_wait_seconds=lock_wait,
                    actual_loaded_target_hfile_verified=loaded_target,
                    native_sha256=sha((BINARY / 'build/native/LINK.EXE').read_bytes()),
                    rebuilt_sha256=sha((BINARY / 'build/link.exe').read_bytes()),

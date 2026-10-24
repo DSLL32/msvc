@@ -55,14 +55,32 @@ def compare(original,state,trap,events,oslots,nslots,handle,nhandle,native_direc
     assert state['library_create_formals']==dict(name=0,path=0,libraries=ncontext+0x1bc)
     assert (original/'library-list-input.bin').read_bytes()==struct.pack('<4I',0,context+0x1bc,0,0)
     assert bytes.fromhex(state['library_list_input'])==struct.pack('<4I',0,ncontext+0x1bc,0,0)
-    if state['function']=='find_library':
+    if state['function']in ('find_library','initialize_library_enumerator'):
         parent,=[e for e in events if e['event']=='library_create_entry']
         assert parent['formals']==[0,0,context+0x1bc]and parent['hidden_inputs']==[]
-        assert trap['esp']==parent['stack_pointer']-28
+        assert trap['esp']==parent['stack_pointer']-(848 if state['function']=='initialize_library_enumerator'else 28)
         assert trap['find_library_formals']==state['find_library_formals']==dict(name=0,first=0,before=0,raw_before_word=0)
         assert state['library_find_entry']['raw_formals']==[0,0,0]and state['library_find_entry']['hidden_inputs']==[]
-        assert trap['stack'][1:4]==[0,0,0]
-        assert trap['frontier_inputs']==state['frontier_inputs']==dict(formals=[0,0,0],hidden_register_inputs=[])
+        if state['function']=='find_library':
+            assert trap['stack'][1:4]==[0,0,0]
+            assert trap['frontier_inputs']==state['frontier_inputs']==dict(formals=[0,0,0],hidden_register_inputs=[])
+        else:
+            finder,=[e for e in events if e['event']=='library_find_entry']
+            assert finder['formals']==[0,0,0]and finder['hidden_inputs']==[]
+            assert finder['stack_pointer']==parent['stack_pointer']-28
+            assert trap['esp']==finder['stack_pointer']-820 and trap['stack'][0]==0x40f674
+            o=trap['library_enum_input'];n=state['library_enum_input']
+            assert o==dict(address=trap['esp']+32,bytes=16,formals=[trap['esp']+32,0],hidden_inputs=[])
+            assert trap['stack'][1:3]==o['formals']
+            assert state['library_enum_entry']==dict(stack_pointer=state['library_enum_entry']['stack_pointer'],formals=n['formals'],hidden_inputs=[])
+            assert state['library_enum_entry']['stack_pointer']<n['address']
+            assert n['bytes']==16 and n['address']and n['formals']==[n['address'],0]and n['hidden_inputs']==[]
+            assert n['address']<state['library_find_entry']['stack_pointer']and n['address']+16<=state['library_find_entry']['stack_pointer']
+            # Both records are uninitialized caller output locals. Preserve raw bytes;
+            # constructor overwrites all16 bytes and reads none, so no value equality.
+            assert len((original/'library-enum-before.bin').read_bytes())==len(bytes.fromhex(n['raw_before']))==16
+            assert trap['frontier_inputs']==dict(formals=o['formals'],hidden_register_inputs=[])
+            assert state['frontier_inputs']==dict(formals=n['formals'],hidden_register_inputs=[])
     else:
         assert trap['stack'][1:4]==[0,0,context+0x1bc]
         assert trap['frontier_inputs']==dict(formals=[0,0,context+0x1bc],hidden_register_inputs=[])
