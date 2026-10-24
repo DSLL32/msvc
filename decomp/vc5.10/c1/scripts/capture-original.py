@@ -166,12 +166,14 @@ def main():
     if candidate.get('option_match_observers'):
         (output/'option-match-observers.txt').write_text('12fbe 131aa 12c31\n')
     if candidate.get("option_action_observers"):
-        (output/"option-action-observers.txt").write_text("131aa %x\n"%(0x1344d if candidate.get('resolver_observers')else 0x1335b if candidate.get("integer_observers")else 0x132f9))
+        (output/"option-action-observers.txt").write_text("131aa %x\n"%(0x1348d if candidate.get('normalizer_observers')else 0x1344d if candidate.get('resolver_observers')else 0x1335b if candidate.get("integer_observers")else 0x132f9))
         shutil.copy2(PROJECT/"scripts/option-action-observer.inc",output/"option-action-observer.inc")
     if candidate.get("integer_observers"):
         shutil.copy2(PROJECT/"scripts/integer-observer.inc",output/"integer-observer.inc")
     if candidate.get('resolver_observers'):
         shutil.copy2(PROJECT/'scripts/resolver-observer.inc',output/'resolver-observer.inc')
+    if candidate.get('normalizer_observers'):
+        shutil.copy2(PROJECT/'scripts/normalizer-observer.inc',output/'normalizer-observer.inc')
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))

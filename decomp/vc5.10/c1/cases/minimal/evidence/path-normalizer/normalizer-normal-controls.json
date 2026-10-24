@@ -1,0 +1,191 @@
+{
+  "status": "all affected normalizer/fullpath controls rejected",
+  "count": 44,
+  "seconds": 4.377689114771783,
+  "controls": [
+    {
+      "control": "second-call-omission",
+      "scope": "native"
+    },
+    {
+      "control": "entry-formal-omission",
+      "scope": "native"
+    },
+    {
+      "control": "entry-physical-PC",
+      "scope": "native"
+    },
+    {
+      "control": "second-output-role",
+      "scope": "native"
+    },
+    {
+      "control": "low-byte-fold",
+      "scope": "native"
+    },
+    {
+      "control": "original-pointer-return",
+      "scope": "native"
+    },
+    {
+      "control": "normalizer-RET-cleanup",
+      "scope": "native"
+    },
+    {
+      "control": "normalizer-callee-save",
+      "scope": "native"
+    },
+    {
+      "control": "native-private-slot-record",
+      "scope": "native"
+    },
+    {
+      "control": "public-call-omission",
+      "scope": "native"
+    },
+    {
+      "control": "public-formal-omission",
+      "scope": "native"
+    },
+    {
+      "control": "public-capacity",
+      "scope": "native"
+    },
+    {
+      "control": "public-input-NUL",
+      "scope": "native"
+    },
+    {
+      "control": "public-entry-identity",
+      "scope": "native"
+    },
+    {
+      "control": "public-result-alias",
+      "scope": "native"
+    },
+    {
+      "control": "public-output-path",
+      "scope": "native"
+    },
+    {
+      "control": "public-callee-save",
+      "scope": "native"
+    },
+    {
+      "control": "public-errors",
+      "scope": "native"
+    },
+    {
+      "control": "public-FP",
+      "scope": "native"
+    },
+    {
+      "control": "logical-cwd",
+      "scope": "native"
+    },
+    {
+      "control": "physical-cwd",
+      "scope": "native"
+    },
+    {
+      "control": "private-root-fallback",
+      "scope": "native"
+    },
+    {
+      "control": "input-provenance",
+      "scope": "native"
+    },
+    {
+      "control": "R-repo-mapping",
+      "scope": "native"
+    },
+    {
+      "control": "parser-path-output",
+      "scope": "native"
+    },
+    {
+      "control": "parser-c9-il",
+      "scope": "native"
+    },
+    {
+      "control": "parser-function-records",
+      "scope": "native"
+    },
+    {
+      "control": "parser-line-records",
+      "scope": "native"
+    },
+    {
+      "control": "parser-current-PDB",
+      "scope": "native"
+    },
+    {
+      "control": "snapshot-neighbor",
+      "scope": "native"
+    },
+    {
+      "control": "packing-formal-omission",
+      "scope": "native"
+    },
+    {
+      "control": "packing-physical-trap",
+      "scope": "native"
+    },
+    {
+      "control": "original-normalizer-slot",
+      "scope": "original"
+    },
+    {
+      "control": "original-normalizer-return",
+      "scope": "original"
+    },
+    {
+      "control": "original-fullpath-capacity",
+      "scope": "original"
+    },
+    {
+      "control": "original-fullpath-result",
+      "scope": "original"
+    },
+    {
+      "control": "original-CWD-length",
+      "scope": "original"
+    },
+    {
+      "control": "original-CWD-character",
+      "scope": "original"
+    },
+    {
+      "control": "original-public-errors",
+      "scope": "original"
+    },
+    {
+      "control": "original-public-FP",
+      "scope": "original"
+    },
+    {
+      "control": "original-public-locale-table",
+      "scope": "original"
+    },
+    {
+      "control": "original-output-tail",
+      "scope": "original"
+    },
+    {
+      "control": "native-output-tail",
+      "scope": "native"
+    },
+    {
+      "control": "original-parser-PDB",
+      "scope": "original"
+    }
+  ],
+  "execution_receipts": {
+    "original": "003a3c58816e13188a48bfd64f5f02f47a273a9c456a704cd8fbbcd549270a2c",
+    "native": "8dcd8f96c75f58f3cec0a688de8799bbcf65f2e6cdcd6412b6e5a5a6897d5589"
+  },
+  "validators": {
+    "/root/msvc2/decomp/vc5.10/c1/scripts/check-normalizer-negative.py": "b9b5f1f11775a674ff36521e6329e6c8e6ff13efeed2ebbd6c4056a4c241841d",
+    "/root/msvc2/decomp/vc5.10/c1/scripts/normalizer_state.py": "8dc7bc119b85df22b6c84b227b56996958407386360d903d82eceac2d6b16516"
+  }
+}

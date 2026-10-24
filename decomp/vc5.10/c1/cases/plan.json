@@ -32,7 +32,7 @@
     {
       "order": 2,
       "id": "minimal",
-      "status": "reconstructing;422-byte resolver accepted normal-only, known vc50.pdb copied to actual local260B buffer at normalize_path1344d; old restore remains held at1335b with opaque input",
+      "status": "reconstructing;72-byte normalizer accepted normal-only through actual fullpath and parser continuation to initialize_packing1348d; old restore held before opaque resolver input",
       "proposed_driver_argv": [
         "/nologo",
         "/c",

@@ -2,6 +2,7 @@
  * No target value is seeded here and every mutable point is read afresh. */
 static int option_integer_probe;
 static int option_resolver_probe;
+static int option_normalizer_probe;
 static DWORD option_action_frontier;
 static void integer_enter(CONTEXT *,HANDLE,DWORD);
 static unsigned action_matches, action_calls, action_returns;
@@ -24,11 +25,12 @@ static void prepare_option_action_observer(void)
     if(!file)return;
     if(baseline || !option_match_probe || !vector_probe || signature_reference ||
        fscanf(file,"%lx %lx",&entry,&frontier)!=2 || entry!=0x131aa ||
-       (frontier!=0x132f9 && frontier!=0x1335b && frontier!=0x1344d) || fgetc(file)!='\n' || fgetc(file)!=EOF)
+       (frontier!=0x132f9 && frontier!=0x1335b && frontier!=0x1344d && frontier!=0x1348d) || fgetc(file)!='\n' || fgetc(file)!=EOF)
         fail("option action observer plan");
     fclose(file);option_action_probe=1;signature_continue=0;
     option_integer_probe=frontier!=0x132f9;
-    option_resolver_probe=frontier==0x1344d;
+    option_resolver_probe=frontier==0x1344d || frontier==0x1348d;
+    option_normalizer_probe=frontier==0x1348d;
     option_action_frontier=frontier;
     if(option_resolver_probe && restore_probe)fail("opaque restored resolver input is not authorized");
     fprintf(events,"option-actions-plan ordinary=1 no-seeds=1 action=000131aa frontier=%08lx\n",frontier);

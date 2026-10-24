@@ -478,6 +478,11 @@
       "entry": 1
     },
     {
+      "start_rva": 78925,
+      "end_rva": 78989,
+      "entry": 1
+    },
+    {
       "start_rva": 178328,
       "end_rva": 178358,
       "entry": 0
@@ -605,6 +610,11 @@
     {
       "start_rva": 199228,
       "end_rva": 199408,
+      "entry": 0
+    },
+    {
+      "start_rva": 199408,
+      "end_rva": 199416,
       "entry": 0
     }
   ],
@@ -1816,6 +1826,20 @@
         ]
       ],
       "role": "application"
+    },
+    {
+      "name": "_normalize_path",
+      "chunks": [
+        [
+          78925,
+          78989
+        ],
+        [
+          199408,
+          199416
+        ]
+      ],
+      "role": "application"
     }
   ],
   "text_data": [
@@ -1837,16 +1861,14 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "kind": "option-path-normalizer",
-    "rva": 78925,
-    "native_symbol": "normalize_path",
-    "native_args": [
-      "path"
-    ],
+    "kind": "path-normalizer-complete",
+    "rva": 78989,
+    "native_symbol": "initialize_packing",
+    "native_args": [],
     "calling_convention": "cdecl",
     "caller": {
-      "native_symbol": "resolve_option_path",
-      "return_rva": 78793
+      "native_symbol": "parse_command_line",
+      "return_rva": 77141
     }
   },
   "imports": [
@@ -2132,7 +2154,7 @@
     },
     "path_fold": "labeled reset-before-clear and helper-entry nonzero WORD table seeds; no snapshot ownership"
   },
-  "staging_role": "sole422-byte path resolver candidate, normal-only known vc50.pdb; old opaque restore oracle remains held at1335b",
+  "staging_role": "sole72-byte path normalizer candidate; normal-only actual fullpath/cwd plus parser continuation to packing initializer",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -2406,5 +2428,18 @@
     "input_bytes": 9,
     "local_buffer_bytes": 260,
     "output_buffer_bytes": 520
+  },
+  "normalizer_observers": {
+    "entry_rva": 78925,
+    "return_rvas": [
+      78793,
+      78911
+    ],
+    "calls": 2,
+    "fullpath_iat_rva": 380992,
+    "fullpath_export_rva": 121534,
+    "fullpath_return_rva": 78894,
+    "resolver_return_rva": 76939,
+    "frontier_rva": 78989
   }
 }

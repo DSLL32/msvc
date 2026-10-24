@@ -38,7 +38,7 @@ def check(directory):
  if following:
   fold=[row for row in candidate['functions']if row['name']=='_initialize_path_fold_table']
   require(len(fold)==1 and fold[0]['chunks']==[[0x12f3e,0x12f87],[0x307d2,0x307dc]],'explicit83B prefix')
-  require((candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('path-fold-complete',0x12f87),('environment-arguments-complete',0x11e3c),('option-vectors-complete',0x12f9c),('argument-cursor-complete',0x12fbe),('option-match-action',0x131aa),('option-action-integer',0x132f9),('option-integers-complete',0x1335b),('option-path-normalizer',0x1344d)],'explicit next stage')
+  require((candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('path-fold-complete',0x12f87),('environment-arguments-complete',0x11e3c),('option-vectors-complete',0x12f9c),('argument-cursor-complete',0x12fbe),('option-match-action',0x131aa),('option-action-integer',0x132f9),('option-integers-complete',0x1335b),('option-path-normalizer',0x1344d),('path-normalizer-complete',0x1348d)],'explicit next stage')
  else:require(candidate['functions'][-1]==scanner[0]and candidate['expected_frontier']['rva']==0x12f3e,'honest current scanner trial')
  require(candidate['isolated_locale_observers']['analysis_only_until_native_success'],'honest current role')
  for name,rva in schema['exports'].items():require(export_rva(crt,name)==rva,'canonical export '+name)

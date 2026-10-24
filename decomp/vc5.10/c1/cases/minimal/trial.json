@@ -85,7 +85,8 @@
     "_match_option",
     "_apply_option_action",
     "_parse_option_integer",
-    "_resolve_option_path"
+    "_resolve_option_path",
+    "_normalize_path"
   ],
   "driver": [
     {
@@ -808,6 +809,18 @@
         [
           274926140,
           274926320
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_normalize_path",
+      "start": 274805837,
+      "end": 274805901,
+      "code_chunks": [
+        [
+          274926320,
+          274926328
         ]
       ],
       "role": "application"

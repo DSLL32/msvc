@@ -582,6 +582,7 @@ static void save_frontend_state(const char *phase)
 #include "option-action-observer.inc"
 #include "integer-observer.inc"
 #include "resolver-observer.inc"
+#include "normalizer-observer.inc"
 
 /* Labeled auxiliary values: the stream and relocation callback are never
  * dereferenced/invoked. Only their mapped pointer identities are exercised. */
@@ -1316,6 +1317,7 @@ int main(int argc, char **argv)
                 else patch(base + ranges[pending].first, 0xcc);
                 context.EFlags &= ~0x100; pending = -1;
                 if (!SetThreadContext(thread, &context)) fail("single step context");
+            } else if (code == EXCEPTION_BREAKPOINT && normalizer_boundary(address,&context,thread,event.dwThreadId)) {
             } else if (code == EXCEPTION_BREAKPOINT && integer_boundary(address,&context,thread,event.dwThreadId)) {
             } else if (code == EXCEPTION_BREAKPOINT && option_action_boundary(address,&context,thread,event.dwThreadId)) {
             } else if (code == EXCEPTION_BREAKPOINT && vector_boundary(address,&context,thread,event.dwThreadId)) {
@@ -1541,6 +1543,7 @@ int main(int argc, char **argv)
                 observe_option_action_entry(address,&context);
                 if(option_integer_probe && address==base+0x132f9)integer_enter(&context,thread,event.dwThreadId);
                 if(option_resolver_probe && address==base+0x1335b)resolver_enter(&context,thread,event.dwThreadId);
+                if(option_normalizer_probe && address==base+0x1344d)normalizer_enter(&context,thread,event.dwThreadId);
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;
@@ -1576,6 +1579,7 @@ int main(int argc, char **argv)
                         check_option_action_stop(address);
                         check_integer_stop();
                         check_resolver_stop(address,&context,thread,event.dwThreadId);
+                        check_normalizer_stop(address);
                         fprintf(events, "frontier rva=%08lx\n", address - base); fflush(events);
                         TerminateProcess(child, 125); return 125;
                     }

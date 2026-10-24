@@ -19,7 +19,8 @@ class ResolverEntry(gdb.Breakpoint):
 ResolverEntry('*0x%x')
 '''%names['resolve_option_path'][0]
 
-def final_observation(output):
+def final_observation(output,following=False):
+ if following:return "open(%r,'w').write(json.dumps(resolver_entries,indent=2)+'\\n')\n"%str(output/'resolver-entries.json')
  return r'''assert value['symbol']=='normalize_path'
 caller=gdb.newest_frame().older()
 assert caller.name()=='resolve_option_path'

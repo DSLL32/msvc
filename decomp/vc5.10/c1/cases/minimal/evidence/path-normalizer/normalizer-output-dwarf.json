@@ -1,0 +1,17 @@
+{
+  "kind": "static immutable ELF/DWARF check; no target execution",
+  "native_elf": "/root/.ai-tmp/msvc2/vc5.10/c1/native-binary-store/aeb34681e20028469ac699fd55632744fbdee1f98333cca094c35f8513bc5c14",
+  "native_sha256": "aeb34681e20028469ac699fd55632744fbdee1f98333cca094c35f8513bc5c14",
+  "command": [
+    "gdb",
+    "--batch",
+    "-ex",
+    "file /root/.ai-tmp/msvc2/vc5.10/c1/native-binary-store/aeb34681e20028469ac699fd55632744fbdee1f98333cca094c35f8513bc5c14",
+    "-ex",
+    "p sizeof('parse_command_line'::resolved)",
+    "-ex",
+    "ptype 'parse_command_line'::resolved"
+  ],
+  "result": "$1 = 520\ntype = char [520]\n",
+  "source_ownership": "parse_command_line::resolved actual char[520]; runtime address independently binds caller frame/ABI"
+}

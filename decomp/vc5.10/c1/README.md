@@ -8,8 +8,10 @@ the captured GetSystemInfo response, all nine pool bindings, a proved64KiB
 commit and the full command-line parser, checksum generation and multibyte
 scanner, path-fold, NULL environment parsing and three vector allocations are
 complete. Argument iteration, option matching and the373-byte action handler
-now process -il, -f and -W; both modes stop at genuine
-parse_option_integer("1"). All repeated MSPDB signature calls match the original.
+now process the full captured option loop, numeric values, and the normal-only
+PDB path resolver/normalizer through actual _fullpath. The next genuine trap is
+initialize_packing. The old restore case remains held before its opaque resolver
+input. All repeated MSPDB signature calls match the original.
 The actual
 setlocale and _setmbcp calls match the own canonical SBCS1252 reference,
 including full tables, pointer lifetime, errors and FP state. Initialized state
@@ -26,10 +28,10 @@ remains incomplete; the lifecycle fixture is a separate completed case.
 The83-byte path-fold initializer is also accepted; see
 `cases/minimal/PATH-FOLD.md` for its complete API/state proof.
 
-Accepted ownership is76 application functions /6192 original code bytes plus161
+Accepted ownership is79 application functions /6821 original code bytes plus161
 owned switch-table bytes,2 CRT support
-functions /451 bytes and two6-byte import thunks:6816 of the `.text` virtual
-extent's322288 bytes (2.1149%). That denominator includes CRT and unclassified
+functions /451 bytes and two6-byte import thunks:7445 of the `.text` virtual
+extent's322288 bytes (2.3100%). That denominator includes CRT and unclassified
 code; it is not non-CRT coverage. The original17-DWORD PCH-context initializer
 and its tail wrapper were explicitly accepted as one ordered JOINT two-function
 closure after separate non-promotable prospective input evidence.
@@ -513,3 +515,8 @@ normalizer call, with the nine defined `vc50.pdb` bytes copied into an owned
 260-byte local buffer. No path API executes before that boundary. Both capture
 transports reject the old opaque restore input before execution. See
 `cases/minimal/OPTION-RESOLVER.md`.
+The normal-only72-byte path normalizer is accepted through two actual calls,
+the canonical `_fullpath` response and the parser continuation to packing.
+The native run uses a private S: tree with the original logical cwd; both own
+520-byte output tails and discarded private stack slots are checked within
+their explicit ownership limits. See `cases/minimal/PATH-NORMALIZER.md`.

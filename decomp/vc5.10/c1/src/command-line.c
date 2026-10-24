@@ -388,7 +388,16 @@ char *__cdecl resolve_option_path(char *output, const char *input, unsigned size
 
 char *__cdecl normalize_path(char *path)
 {
-    __asm { int 3 }
+    char *cursor = path;
+    WORD folded;
+
+    while (*cursor) {
+        folded = c1_bss.path_fold[(unsigned char)*cursor];
+        if (folded == 0xffff)
+            cursor += 2;
+        else
+            *cursor++ = (char)folded;
+    }
     return path;
 }
 void __cdecl disable_multibyte_identifiers(void) { __asm { int 3 } }

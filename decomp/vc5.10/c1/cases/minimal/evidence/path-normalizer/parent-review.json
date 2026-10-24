@@ -1,0 +1,13 @@
+{
+  "packet_sha256": "fa1d7e4e41efef5368d640a48cb94cf53065ff6316a62d8dc6cada1718dc076c",
+  "verified_source_checker_proof_bindings": 24,
+  "independent_full_production_check_seconds": 10.466894851997495,
+  "result_sha256": "7481e5911d0020ed2289d8a6340aa3e83801d9357d4c8fc19f88510174283590",
+  "source_review": "Whole72B leaf64hot+8cold, readable table-based byte fold preservingFFFF skip2 and original pointer return; no calls/new fields/data. Skip2/non-ASCII alternatives source/static only.",
+  "actual_ABI": "Two leaf entries/returns and real canonical fullpath3slots/cdeclRET0/returned output alias; exact caller byte sequences prove only discarded incoming slot differs: normalizer lowbyte temporary and fullpath capacity520 reused within output. Native genuine by-value slots remain unchanged; no full stack-byte equality claim.",
+  "namespace": "Actual PEB UTF16cwd/context lengths/identities read before/after; same logicalS cwd mapped into private native own tree with hash-bound test.c only, truthful host cwd and canonical env controls; no original raw writes/fallback/Wine mappings changed.",
+  "defined_data": "Actual57B fullpath output and normalized result strict, each own520B tails unchanged/uncompared cross-image; exact errors/fullFP/tables/invocation and projected2348known bytes.4200unknown initialized+16literal tail guarded, snapshot unchanged.",
+  "parser": "Only proven databasepath prefix/c9_il/function_records/line_records/persistentPDBcontext identity mutate through real initialize_packing noarg trap. No newglobal or unknownconsumer permission.",
+  "controls": "44 fresh meaningful controls reviewed, parent reran fullpositive only. Prior protocol historical/reused by explicit provenance. Exact readonly SDK/fullpath provider identity bound, zero CRTapp credit.",
+  "release": "Release normal-only successful acceptance/scoped commit for72B candidate and actual fullpath path, then next genuine packing initializer. Old restore remains held before opaqueinput; no extra original or broadcontrols for review."
+}

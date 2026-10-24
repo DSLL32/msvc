@@ -1,6 +1,7 @@
 /* Normal-only known input before any path-resolution instruction runs. */
 static int resolver_entered;
 static DWORD resolver_esp;
+static void prepare_normalizer(CONTEXT *,HANDLE,DWORD);
 static void resolver_enter(CONTEXT *context,HANDLE thread,DWORD tid)
 {
     DWORD words[16];char input[40];
@@ -18,6 +19,7 @@ static void resolver_enter(CONTEXT *context,HANDLE thread,DWORD tid)
     save_blob("resolver-entry-input.bin",input,strlen(input)+1);
     locale_snapshot("resolver-entry",context,thread,tid);
     resolver_esp=context->Esp;resolver_entered=1;
+    if(option_normalizer_probe)prepare_normalizer(context,thread,tid);
     fprintf(events,"resolver-entry seq=%u pc=%08lx esp=%08lx defined-input=9\n",sequence,base+0x1335b,context->Esp);
 }
 
@@ -25,6 +27,7 @@ static void check_resolver_stop(DWORD address,CONTEXT *context,HANDLE thread,DWO
 {
     DWORD words[2];char path[40];
     if(!option_resolver_probe)return;
+    if(option_normalizer_probe)return;
     if(!resolver_entered || address!=base+0x1344d || context->Esp!=resolver_esp-284)
         fail("real first normalizer frame");
     readmem(context->Esp,words,sizeof(words));

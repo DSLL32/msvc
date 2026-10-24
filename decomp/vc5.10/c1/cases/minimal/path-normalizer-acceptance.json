@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "status": "accepted normal-only",
+  "candidate": "_normalize_path",
+  "application_functions": 79,
+  "application_code_bytes": 6821,
+  "support_code_bytes": 451,
+  "import_code_bytes": 12,
+  "separate_text_data_bytes": 161,
+  "reviewed_trial_packet": {
+    "path": "cases/minimal/path-normalizer-review.json",
+    "sha256": "fa1d7e4e41efef5368d640a48cb94cf53065ff6316a62d8dc6cada1718dc076c"
+  },
+  "parent_release": {
+    "path": "cases/minimal/evidence/path-normalizer/parent-review.json",
+    "sha256": "3e41c8730f74e045b29d5abe741cfc1b1e4e41a4a6e673ea232d8c776fd5730f"
+  },
+  "promotion": "Exact reviewed candidate-inclusive trial copied to durable functions.json; historical trial/raw/source records remain unchanged.",
+  "next_frontier": {
+    "rva": 78989,
+    "symbol": "initialize_packing",
+    "formals": []
+  },
+  "scope": "normal only; prior opaque restore input remains held at resolver entry; no new data or CRT credit"
+}
