@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 1247,
+  "accepted": "_lower_multiple_inheritance_member_call@16",
+  "terminal": "_make_adjusted_member_call@12",
+  "original_capture": "cases/frontiers/state_machine_defined_debug/1247-lower_multiple_inheritance_member_call-16/original-receipt.json",
+  "original_capture_sha256": "6c131c813d26fbcfdf41d32e48a7fcf02b27fd443fd226f136b1a5239908deeb",
+  "original_events": "cases/frontiers/state_machine_defined_debug/1247-lower_multiple_inheritance_member_call-16/original-events.txt",
+  "original_events_sha256": "2900fce5dd3b8c1cd259ab13c03e86aef541018d9709b46f4d59c0ba8e2c2f10",
+  "original_configuration": "cases/frontiers/state_machine_defined_debug/1247-lower_multiple_inheritance_member_call-16/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

@@ -48,11 +48,11 @@
     "plan_sha256": "95e3224e0362e24a6ef5b495984403fa23be74272e90e204349cda7924f7f5d6"
   },
   "state_machine_defined_debug": {
-    "receipt": "cases/frontiers/state_machine_defined_debug/1246-check_conversion_qualifiers-16/entry-reference/original-receipt.json",
-    "receipt_sha256": "5a6fa864bfbd49c68fda0b8ccfd9c4bcae7d666c6c03a068a2409d953846b39a",
-    "events": "cases/frontiers/state_machine_defined_debug/1246-check_conversion_qualifiers-16/entry-reference/original-events.txt",
-    "events_sha256": "dbb583346d759a05140e21d55b37800990a0594c428cf18cb4d9c9e2755b7124",
-    "plan": "cases/frontiers/state_machine_defined_debug/1246-check_conversion_qualifiers-16/entry-reference/original-entries.plan",
-    "plan_sha256": "8692e698ddc8012cefd7a43522e448204ec4cf96da09106dcb2c64eea69e78a5"
+    "receipt": "cases/frontiers/state_machine_defined_debug/1247-lower_multiple_inheritance_member_call-16/entry-reference/original-receipt.json",
+    "receipt_sha256": "6c131c813d26fbcfdf41d32e48a7fcf02b27fd443fd226f136b1a5239908deeb",
+    "events": "cases/frontiers/state_machine_defined_debug/1247-lower_multiple_inheritance_member_call-16/entry-reference/original-events.txt",
+    "events_sha256": "2900fce5dd3b8c1cd259ab13c03e86aef541018d9709b46f4d59c0ba8e2c2f10",
+    "plan": "cases/frontiers/state_machine_defined_debug/1247-lower_multiple_inheritance_member_call-16/entry-reference/original-entries.plan",
+    "plan_sha256": "c91bc7a9f9047a52fc23173f8b490b3df458de3b2fdd80dad7e8a649417d235e"
   }
 }

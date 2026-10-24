@@ -130,7 +130,6 @@ void __stdcall diagnose_overload_failure(OverloadCandidate *candidate, OverloadS
 OverloadCandidate *__stdcall resolve_overload_tie(OverloadSearch *search) { __asm { int 3 } return 0; }
 OverloadCandidate *__stdcall report_call_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
 IrToken *__stdcall cast_to_reference(CType *type, IrToken *operand) { __asm { int 3 } return 0; }
-IrToken *__stdcall lower_multiple_inheritance_member_call(IrToken *object, IrToken *member, CType *type, IrToken **prefix) { __asm { int 3 } return 0; }
 IrToken *__stdcall lower_virtual_inheritance_member_call(IrToken *object, IrToken *member, CType *type, IrToken **prefix) { __asm { int 3 } return 0; }
 IrToken *__stdcall lower_general_inheritance_member_call(IrToken *object, IrToken *member, CType *type, IrToken **prefix) { __asm { int 3 } return 0; }
 void __stdcall report_argument_conversion(unsigned code, CppSymbol *function,
@@ -596,3 +595,4 @@ IrToken *__stdcall convert_general_to_virtual_data_pointer(IrToken *expression, 
 IrToken *__stdcall convert_general_data_member_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base) { __asm { int 3 } return 0; }
 
 IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int displacement) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_adjusted_member_call(IrToken *function, IrToken *object, CType *type) { __asm { int 3 } return 0; }

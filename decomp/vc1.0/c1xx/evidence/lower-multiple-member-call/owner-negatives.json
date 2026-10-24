@@ -1,0 +1,28 @@
+{
+  "scope": "Read-only production argument preflight with frozen original configuration; synthetic corruptions, no promotion or original execution",
+  "proof": "cases/argument-observations/state_machine_defined_debug/1247-lower_multiple_inheritance_member_call-16/validation.json",
+  "proof_sha256": "df4a3e715a6893da274296abd3bb1e8a63fafacbbe54943a46d144b21b3bf5f8",
+  "checks": [
+    {
+      "test": "control",
+      "result": "verified",
+      "output": "fresh application arguments verified: _lower_multiple_inheritance_member_call@16"
+    },
+    {
+      "test": "missing-anchor",
+      "result": "held",
+      "reason": "missing actual owner register anchor"
+    },
+    {
+      "test": "swapped-anchors",
+      "result": "held",
+      "reason": "original caller owner plus offset differs"
+    },
+    {
+      "test": "wrong-native-owner",
+      "result": "held",
+      "reason": "native actual caller local owner differs"
+    }
+  ],
+  "elapsed_seconds": 0.12779995519667864
+}

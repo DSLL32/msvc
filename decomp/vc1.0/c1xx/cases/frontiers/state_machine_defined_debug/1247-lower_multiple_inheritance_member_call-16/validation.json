@@ -1,0 +1,23 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_lower_multiple_inheritance_member_call@16",
+    "start": 306720,
+    "end": 306846
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_defined_debug/1247-lower_multiple_inheritance_member_call-16/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_can_reuse_member_pointer_storage@4",
+    "_make_adjusted_member_call@12",
+    "_member_pointer_adjustment_value@8",
+    "_member_pointer_component@12",
+    "_member_pointer_function_value@8",
+    "_new_left_typed_expression@12"
+  ],
+  "next_frontier": "_make_adjusted_member_call@12",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8220883617177606,
+  "total_operation_seconds": 4.567640386521816,
+  "original_capture_seconds": 1.2674371656030416
+}

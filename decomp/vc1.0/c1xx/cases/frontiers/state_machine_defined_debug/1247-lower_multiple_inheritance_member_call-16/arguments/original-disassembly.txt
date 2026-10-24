@@ -1,0 +1,59 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0004ae20 <.text+0x33e20>:
+   4ae20:	83 ec 04             	sub    esp,0x4
+   4ae23:	56                   	push   esi
+   4ae24:	57                   	push   edi
+   4ae25:	8b 74 24 14          	mov    esi,DWORD PTR [esp+0x14]
+   4ae29:	56                   	push   esi
+   4ae2a:	e8 c1 0d 00 00       	call   0x4bbf0
+   4ae2f:	0b c0                	or     eax,eax
+   4ae31:	74 0d                	je     0x4ae40
+   4ae33:	8d 44 24 08          	lea    eax,[esp+0x8]
+   4ae37:	56                   	push   esi
+   4ae38:	50                   	push   eax
+   4ae39:	6a 00                	push   0x0
+   4ae3b:	eb 1e                	jmp    0x4ae5b
+   4ae3d:	8d 49 00             	lea    ecx,[ecx+0x0]
+   4ae40:	8d 44 24 08          	lea    eax,[esp+0x8]
+   4ae44:	50                   	push   eax
+   4ae45:	6a 00                	push   0x0
+   4ae47:	56                   	push   esi
+   4ae48:	e8 c3 0c 00 00       	call   0x4bb10
+   4ae4d:	8b 4c 24 1c          	mov    ecx,DWORD PTR [esp+0x1c]
+   4ae51:	56                   	push   esi
+   4ae52:	89 01                	mov    DWORD PTR [ecx],eax
+   4ae54:	8d 44 24 0c          	lea    eax,[esp+0xc]
+   4ae58:	50                   	push   eax
+   4ae59:	6a 01                	push   0x1
+   4ae5b:	56                   	push   esi
+   4ae5c:	e8 af 0c 00 00       	call   0x4bb10
+   4ae61:	50                   	push   eax
+   4ae62:	e8 59 0e 00 00       	call   0x4bcc0
+   4ae67:	8b f8                	mov    edi,eax
+   4ae69:	8d 44 24 08          	lea    eax,[esp+0x8]
+   4ae6d:	56                   	push   esi
+   4ae6e:	50                   	push   eax
+   4ae6f:	6a 01                	push   0x1
+   4ae71:	56                   	push   esi
+   4ae72:	e8 99 0c 00 00       	call   0x4bb10
+   4ae77:	50                   	push   eax
+   4ae78:	e8 a3 0e 00 00       	call   0x4bd20
+   4ae7d:	50                   	push   eax
+   4ae7e:	8b 44 24 14          	mov    eax,DWORD PTR [esp+0x14]
+   4ae82:	50                   	push   eax
+   4ae83:	6a 5a                	push   0x5a
+   4ae85:	e8 b6 63 01 00       	call   0x61240
+   4ae8a:	8b 4c 24 18          	mov    ecx,DWORD PTR [esp+0x18]
+   4ae8e:	51                   	push   ecx
+   4ae8f:	50                   	push   eax
+   4ae90:	57                   	push   edi
+   4ae91:	e8 1a 03 00 00       	call   0x4b1b0
+   4ae96:	5f                   	pop    edi
+   4ae97:	5e                   	pop    esi
+   4ae98:	83 c4 04             	add    esp,0x4
+   4ae9b:	c2 10 00             	ret    0x10

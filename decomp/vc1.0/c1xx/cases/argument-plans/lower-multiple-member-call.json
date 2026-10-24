@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "function": "_lower_multiple_inheritance_member_call@16",
+  "native_entry": "lower_multiple_inheritance_member_call",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_object": "(unsigned)object",
+    "raw_member": "(unsigned)member",
+    "raw_type": "(unsigned)type",
+    "raw_prefix": "(unsigned)prefix"
+  },
+  "formals": [
+    {
+      "name": "object",
+      "stack_index": 0,
+      "native_field": "raw_object",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 241136,
+        "original_owner_function": "_lower_member_pointer_call@8",
+        "native_owner_function": "lower_member_pointer_call",
+        "native_owner_field": "caller_object",
+        "native_owner_local": "object",
+        "identity": "Accepted caller loads expression EAX4ad84,prefix EBX4ad88,member ESI from expression+16,object EDI from expression+12,type EBP from member+4; initializes *prefix0 at4ad95. Model2 PUSH EBX/EBP/ESI/EDI4ade7..4adea CALL4adeb return4adf0 forwards exact four actual locals. Current body never reads *prefix; no prestate/pointee credit from this identity alone."
+      }
+    },
+    {
+      "name": "member",
+      "stack_index": 1,
+      "native_field": "raw_member",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 241136,
+        "original_owner_function": "_lower_member_pointer_call@8",
+        "native_owner_function": "lower_member_pointer_call",
+        "native_owner_field": "caller_member",
+        "native_owner_local": "member",
+        "identity": "Accepted caller loads expression EAX4ad84,prefix EBX4ad88,member ESI from expression+16,object EDI from expression+12,type EBP from member+4; initializes *prefix0 at4ad95. Model2 PUSH EBX/EBP/ESI/EDI4ade7..4adea CALL4adeb return4adf0 forwards exact four actual locals. Current body never reads *prefix; no prestate/pointee credit from this identity alone."
+      }
+    },
+    {
+      "name": "type",
+      "stack_index": 2,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebp",
+        "original_caller_rva": 241136,
+        "original_owner_function": "_lower_member_pointer_call@8",
+        "native_owner_function": "lower_member_pointer_call",
+        "native_owner_field": "caller_type",
+        "native_owner_local": "type",
+        "identity": "Accepted caller loads expression EAX4ad84,prefix EBX4ad88,member ESI from expression+16,object EDI from expression+12,type EBP from member+4; initializes *prefix0 at4ad95. Model2 PUSH EBX/EBP/ESI/EDI4ade7..4adea CALL4adeb return4adf0 forwards exact four actual locals. Current body never reads *prefix; no prestate/pointee credit from this identity alone."
+      }
+    },
+    {
+      "name": "prefix",
+      "stack_index": 3,
+      "native_field": "raw_prefix",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebx",
+        "original_caller_rva": 241136,
+        "original_owner_function": "_lower_member_pointer_call@8",
+        "native_owner_function": "lower_member_pointer_call",
+        "native_owner_field": "caller_prefix",
+        "native_owner_local": "prefix",
+        "identity": "Accepted caller loads expression EAX4ad84,prefix EBX4ad88,member ESI from expression+16,object EDI from expression+12,type EBP from member+4; initializes *prefix0 at4ad95. Model2 PUSH EBX/EBP/ESI/EDI4ade7..4adea CALL4adeb return4adf0 forwards exact four actual locals. Current body never reads *prefix; no prestate/pointee credit from this identity alone."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "edi,esi,ebp,ebx",
+  "ownership_caller_extent": [
+    306560,
+    306711
+  ],
+  "native_caller_locals": {
+    "caller_object": {
+      "frame": 1,
+      "function": "lower_member_pointer_call",
+      "local": "object"
+    },
+    "caller_member": {
+      "frame": 1,
+      "function": "lower_member_pointer_call",
+      "local": "member"
+    },
+    "caller_type": {
+      "frame": 1,
+      "function": "lower_member_pointer_call",
+      "local": "type"
+    },
+    "caller_prefix": {
+      "frame": 1,
+      "function": "lower_member_pointer_call",
+      "local": "prefix"
+    }
+  },
+  "abi_analysis": {
+    "original_extent": [
+      306720,
+      306846
+    ],
+    "argument_bytes": 16,
+    "convention": "stdcall16 IrToken* EAX RET16; four pointer formals",
+    "proof": "Whole126B SUB4/saveESIEDI8; object/member/type/prefix entryESP+4/+8/+12/+16, finalRET16. No hidden/register/x87/flags input. can_reuse(member) selects component0 retained in function value or writes it into caller prefix then uses component1. Both paths initialize real saved local via component0 before component1 reads. Extract function then component1 adjustment, new_left_typed_expression5a(object,adjustment), make_adjusted_member_call(function,adjusted,type). Six distinct callees: five accepted, new47B helper4b1b0..4b1df is stdcall12, type.related.related.parameters.associated_type ->new_typed_unary_expression46 thennew_left_typed_expressiona4(function,object), RET12; remains namedstub/no credit. No new data/CRT/guard."
+  }
+}

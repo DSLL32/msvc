@@ -90,6 +90,8 @@ IrToken *__stdcall apply_simple_data_member_pointer(IrToken *expression);
 IrToken *__stdcall apply_virtual_data_member_pointer(IrToken *expression);
 IrToken *__stdcall apply_general_data_member_pointer(IrToken *expression);
 
+IrToken *__stdcall make_adjusted_member_call(IrToken *function, IrToken *object,
+    CType *type);
 IrToken *__stdcall lower_multiple_inheritance_member_call(IrToken *object,
     IrToken *member, CType *type, IrToken **prefix);
 IrToken *__stdcall lower_virtual_inheritance_member_call(IrToken *object,
@@ -440,6 +442,25 @@ int __stdcall convert_member_pointer_object(IrToken *expression)
 
 /* Original 0x4ad80..0x4ae16, stdcall8. Separate evaluation required
    before an indirect member call from its object and callable expression. */
+/* Original 0x4ae20..0x4ae9d. Reuse an addressable member pointer,
+   or retain its initial evaluation separately in the caller's prefix. */
+IrToken *__stdcall lower_multiple_inheritance_member_call(IrToken *object,
+    IrToken *member, CType *type, IrToken **prefix)
+{
+    IrToken *saved, *storage, *function, *adjustment, *adjusted;
+    if (can_reuse_member_pointer_storage(member)) {
+        storage = member_pointer_component(member, 0, &saved);
+    } else {
+        *prefix = member_pointer_component(member, 0, &saved);
+        storage = member_pointer_component(member, 1, &saved);
+    }
+    function = member_pointer_function_value(storage, member);
+    storage = member_pointer_component(member, 1, &saved);
+    adjustment = member_pointer_adjustment_value(storage, member);
+    adjusted = new_left_typed_expression(0x5a, object, adjustment);
+    return make_adjusted_member_call(function, adjusted, type);
+}
+
 IrToken *__stdcall lower_member_pointer_call(IrToken *expression, IrToken **prefix)
 {
     IrToken *member = expression->tail.right;

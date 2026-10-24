@@ -1,0 +1,13 @@
+Breakpoint 1 at 0x54632: file src/member-pointers.c, line 451.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, lower_multiple_inheritance_member_call (object=0x566576cc, member=0x56657708, type=0x56635868, prefix=0xffffd528) at src/member-pointers.c:451
+451	    if (can_reuse_member_pointer_storage(member)) {
+#0  lower_multiple_inheritance_member_call (object=0x566576cc, member=0x56657708, type=0x56635868, prefix=0xffffd528) at src/member-pointers.c:451
+#1  0x565a9c1d in lower_member_pointer_call (expression=0x5665771c, prefix=0xffffd528) at src/member-pointers.c:477
+#2  0x5659fc9f in build_call_expression (expression=0x5665771c, arguments=0x56657764) at src/call-expressions.c:271
+#3  0x565c16ac in parse_translation_unit () at src/parser-expression-actions.inc:179
+#4  0x5655dfcf in compile_translation_unit () at src/frontend.c:73
+#5  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#6  0x56558894 in main (argc=1, argv=0xffffd764, environment=0xffffd76c) at src/c1xx.c:20
