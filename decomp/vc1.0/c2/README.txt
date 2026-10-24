@@ -941,3 +941,14 @@ matching and16 native cases pass. The corrected ordinary audit27.615s follows
 a retained test-only BSS/raw-file assertion failure; no target behavior changed.
 Next expand_zero_extension at24740,1213B analysis body, still named trap.
 See cases/comdat-debug-register-checkpoint.json including failed timings.
+
+At1305 the1213B zero-extension expansion is accepted as readable C in
+src/zero-extension.c.768 independent ISA-plan original/canonical controls
+cover register/highbyte/alignment/addressalias/followingAND forms,8 ABI
+negatives, exact child arguments/list effects/RET0. Actual indexedglobal
+MOVZXW4 dest1 context matches; other shapes are cold controls. No new data,
+assembly or helper edges. Original/W3/audit/fresh pair/native16 cases pass.
+New source list caused one full41.012s build; focused controls14.706s,
+ordinary audit28.596s, fresh original1.200s/native.220s, suite1.019s.
+Next local OMF name6ae50; exact final object pending. Split receipt:
+cases/comdat-zero-extension-checkpoint.json.

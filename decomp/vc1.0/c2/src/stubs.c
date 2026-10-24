@@ -140,7 +140,6 @@ unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
 
 #include "unoptimized.h"
 unsigned __fastcall spill_lowering_register(MachineInstruction *instruction, unsigned reg) { __asm int 3 }
-int __fastcall expand_zero_extension(MachineInstruction *instruction) { __asm int 3 }
 
 #include "machine-layout.h"
 

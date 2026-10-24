@@ -1308,7 +1308,8 @@
     "@omf_emit_communal@4",
     "@omf_write_communal_size@8",
     "@omf_write_iterated_data@16",
-    "_record_debug_register_locations"
+    "_record_debug_register_locations",
+    "@expand_zero_extension@4"
   ],
   "driver": [
     {
@@ -4290,8 +4291,21 @@
     {
       "name": "@expand_zero_extension@4",
       "start": 149312,
-      "end": 149313,
-      "provisional": true
+      "end": 150525,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "instruction",
+            "location": "ECX",
+            "type": "MachineInstruction pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/zero-extension-abi/validation.json",
+        "scope": "Original24740..24bfd consumes soleECX instruction, RET0. No other incoming register/stack/flags/x87/out pointer. Current instruction belongs to closed machine_instructions chain and next.previous aliases current. Defined opcode, destination flags/register, source flags/active register or typed address fields, following opcode/conditional operands, local-symbol kind/role/offset observed. Previous/record12/outputnewinstruction payload not consumed/captured/seeded. Address high-byte adjustment and later inserted instruction are future effects, not invented incoming data."
+      }
     },
     {
       "name": "@optimize_sahf@4",

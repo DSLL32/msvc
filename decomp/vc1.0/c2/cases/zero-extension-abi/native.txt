@@ -1,0 +1,8 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x4077: file src/stubs.c, line 143.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, expand_zero_extension (instruction=0x5663f7c4) at src/stubs.c:143
+143	int __fastcall expand_zero_extension(MachineInstruction *instruction) { __asm int 3 }
+C2_ZERO_EXTENSION {"instruction": 1449392068, "index": 19, "next": 1449392212, "next_previous": 1449392068, "opcode": 312128, "destination_flags": 1, "destination_register": 1, "source_flags": 2309, "source_value": 1449392020, "following": {"opcode": 508480}, "following_operands": null, "address": {"pointer": 1449392020, "displacement": 0, "symbol": 1449368212, "base": 27, "index": 1, "symbol_kind": 1, "attributes": 66086, "local": 0, "symbol_offset": 0}, "caller": "finalize_machine_context"}

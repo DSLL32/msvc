@@ -465,6 +465,24 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         /* Only the count/cursor are consumed; old destination bytes are write-only. */
         dump_bytes(process,"omf_pad_count_cursor_hex",record+12,8);
     }
+    if(!strcmp(call->name,"@expand_zero_extension@4")) {
+        DWORD instruction=call->args[0],node=read_word(process,image_base+0x6b940),index=0;
+        DWORD next=read_word(process,instruction),kind=read_word(process,instruction+24)&15;
+        while(node&&node!=instruction&&++index<65536)node=read_word(process,node);
+        if(node!=instruction||index==65536)exit(317);
+        sprintf(line,"zero_extension instruction %08lx index %lu next %08lx next_previous %08lx opcode %08lx destination_flags %08lx destination_register %lu source_flags %08lx source_value %08lx return_address %08lx\n",
+            instruction,index,next,read_word(process,next+4),read_word(process,instruction+8),read_word(process,instruction+16),read_word(process,instruction+20)&65535,read_word(process,instruction+24),read_word(process,instruction+28),call->return_address);log_line(line);
+        sprintf(line,"zero_extension_following opcode %08lx\n",read_word(process,next+8));log_line(line);
+        if(!(read_word(process,next+8)&15)&&((read_word(process,next+8)>>8)&255)==0x2e) {
+            sprintf(line,"zero_extension_following_operands destination_flags %08lx destination_register %lu source_kind %lu immediate %08lx\n",read_word(process,next+16),read_word(process,next+20)&65535,read_word(process,next+24)&15,(read_word(process,next+24)&15)==2?read_word(process,next+28):0);log_line(line);
+        }
+        if(kind!=1) {
+            DWORD address=read_word(process,instruction+28),symbol=read_word(process,address+4);
+            DWORD symbol_kind=symbol?read_byte(process,symbol+12):0,attributes=symbol&&symbol_kind==1?read_word(process,symbol+36):0;
+            int local=symbol&&((symbol_kind==1&&((attributes&0x70)==0x10||(attributes&0x70)==0x30))||symbol_kind==0x13);
+            sprintf(line,"zero_extension_address pointer %08lx displacement %08lx symbol %08lx base %lu index %lu symbol_kind %lu attributes %08lx local %lu symbol_offset %08lx\n",address,read_word(process,address),symbol,read_word(process,address+8)&65535,kind==5?read_word(process,address+12)&65535:0,symbol_kind,attributes,(DWORD)local,local?read_word(process,symbol+4):0);log_line(line);
+        }
+    }
     if(!strcmp(call->name,"_record_debug_register_locations")) {
         DWORD group,bucket,node,next,home,kind,attributes,flags,target,representative,index;
         sprintf(line,"debug_register_caller %08lx\n",call->return_address);log_line(line);

@@ -1,0 +1,8 @@
+enter @expand_zero_extension@4 eax 00000000 args 007bbe34
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
+zero_extension instruction 007bbe34 index 19 next 007bbec4 next_previous 007bbe34 opcode 0004c340 destination_flags 00000001 destination_register 1 source_flags 00000905 source_value 007bbe04 return_address 0002457c
+zero_extension_following opcode 0007c240
+zero_extension_address pointer 007bbe04 displacement 00000000 symbol 007b29a4 base 27 index 1 symbol_kind 1 attributes 00010226 local 0 symbol_offset 00000000
+entry_end

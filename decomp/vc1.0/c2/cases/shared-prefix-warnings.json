@@ -1,10 +1,10 @@
 {
   "modules": [
     {
-      "module": "physical-allocation",
-      "seconds": 1.5813096575438976,
+      "module": "zero-extension",
+      "seconds": 1.2085519591346383,
       "returncode": 0
     }
   ],
-  "seconds": 1.5815023770555854
+  "seconds": 1.2087527737021446
 }

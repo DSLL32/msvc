@@ -1,0 +1,97 @@
+{
+  "matched": true,
+  "function": "@expand_zero_extension@4",
+  "original_va": "0x24740",
+  "formals": [
+    {
+      "name": "instruction",
+      "location": "ECX",
+      "type": "MachineInstruction pointer",
+      "original": 8109620,
+      "native": 1449392068
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "no_hidden_inputs_proof": "Original24740..24bfd consumes soleECX instruction, RET0. No other incoming register/stack/flags/x87/out pointer. Current instruction belongs to closed machine_instructions chain and next.previous aliases current. Defined opcode, destination flags/register, source flags/active register or typed address fields, following opcode/conditional operands, local-symbol kind/role/offset observed. Previous/record12/outputnewinstruction payload not consumed/captured/seeded. Address high-byte adjustment and later inserted instruction are future effects, not invented incoming data.",
+  "shape": {
+    "index": 19,
+    "opcode": 312128,
+    "destination_flags": 1,
+    "destination_register": 1,
+    "source_flags": 2309,
+    "source_value": null,
+    "following": {
+      "opcode": 508480
+    },
+    "following_operands": null,
+    "address": {
+      "displacement": 0,
+      "base": 27,
+      "index": 1,
+      "symbol_kind": 1,
+      "attributes": 66086,
+      "local": 0,
+      "symbol_offset": 0
+    },
+    "address_symbol_present": true
+  },
+  "original": {
+    "instruction": 8109620,
+    "index": 19,
+    "next": 8109764,
+    "next_previous": 8109620,
+    "opcode": 312128,
+    "destination_flags": 1,
+    "destination_register": 1,
+    "source_flags": 2309,
+    "source_value": 8109572,
+    "return_address": 148860,
+    "following": {
+      "opcode": 508480
+    },
+    "following_operands": null,
+    "address": {
+      "pointer": 8109572,
+      "displacement": 0,
+      "symbol": 8071588,
+      "base": 27,
+      "index": 1,
+      "symbol_kind": 1,
+      "attributes": 66086,
+      "local": 0,
+      "symbol_offset": 0
+    }
+  },
+  "native": {
+    "instruction": 1449392068,
+    "index": 19,
+    "next": 1449392212,
+    "next_previous": 1449392068,
+    "opcode": 312128,
+    "destination_flags": 1,
+    "destination_register": 1,
+    "source_flags": 2309,
+    "source_value": 1449392020,
+    "following": {
+      "opcode": 508480
+    },
+    "following_operands": null,
+    "address": {
+      "pointer": 1449392020,
+      "displacement": 0,
+      "symbol": 1449368212,
+      "base": 27,
+      "index": 1,
+      "symbol_kind": 1,
+      "attributes": 66086,
+      "local": 0,
+      "symbol_offset": 0
+    },
+    "caller": "finalize_machine_context"
+  },
+  "original_execution_seconds": 1.1297549474984407,
+  "native_debug_seconds": 0.14162025786936283,
+  "total_seconds": 1.5335635533556342,
+  "scope": "Actual sole formal/closed list links and conditional operands/address context only. Native active pointer identity normalized, no bulk record dump. Full1213B body/controls/fresh matching pending."
+}

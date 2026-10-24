@@ -1,0 +1,40 @@
+"""Observe datum/current record and only active scalar payload bytes."""
+from pathlib import Path
+import hashlib,json,os,re,shutil,struct,subprocess,tempfile,time
+import pe_indexes as idx
+from case_paths import C2_SCRATCH,capture_lock,native_work,windows
+started=time.perf_counter();receipt=Path('cases/zero-extension-abi');receipt.mkdir();name='@expand_zero_extension@4';fixture=Path('../fixtures/c2-omf-comdat-communal');phase=json.loads((fixture/'manifest.json').read_text())['phases']['c2']
+def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+with capture_lock():
+ scratch=Path(tempfile.mkdtemp(prefix='zero-extension-entry-original-',dir=C2_SCRATCH));work=C2_SCRATCH/'packets'
+ for p in work.iterdir():assert p.is_file()and not p.is_symlink();p.unlink()
+ for r in phase['inputs']:
+  p=fixture/r['path'];assert sha(p)==r['sha256'];shutil.copyfile(p,work/p.name)
+ original,canonical,cfg,_,_=idx.indexes();row=next(r for r in cfg['driver']if r['name']==name);assert row['start']==0x24740;plan=receipt/'entry-plan.txt';plan.write_text('%x %02x 257 %s\n'%(row['start']-original.base,original.read(row['start'],1)[0],name));image=scratch/'C23232.EXE';image.write_bytes(original.data);env=idx.wt.environment()
+ for k in ['C2_PRINTF_FORMAT','C2_STREAM_INPUT','C2_STOP_RETURN']:env.pop(k,None)
+ env.update(MSC_CMD_FLAGS=phase['environment']['MSC_CMD_FLAGS'].format(bin=windows(idx.wt.TC/'bin')),C2_CRT_CAPTURE=windows(receipt/'original.txt'),C2_CRT_PLAN=windows(plan),C2_ENTRY_INPUT='1',C2_STOP_ENTRY=name);t=time.perf_counter();r=subprocess.run(['wine',windows(Path('build/reference-stdio-observer.exe')),windows(image),'',*[windows(receipt/('original.'+k))for k in ['stdout','stderr','events']],windows(work)],env=env,capture_output=True,timeout=60);original_seconds=time.perf_counter()-t;(receipt/'observer.stdout').write_bytes(r.stdout);(receipt/'observer.stderr').write_bytes(r.stderr);assert r.returncode==0,(r.stdout,r.stderr)
+binding=dict(target_sha256=sha(idx.wt.TC/'bin/C23232.EXE'),manifest_sha256=sha(fixture/'manifest.json'),config_sha256=sha('functions.json'),observer_source_sha256=sha('src/reference-stdio-observer.c'),observer_sha256=sha('build/reference-stdio-observer.exe'),files={n:sha(receipt/n)for n in ['entry-plan.txt','original.txt','original.stdout','original.stderr','original.events','observer.stdout','observer.stderr']});(receipt/'original-binding.json').write_text(json.dumps(binding,indent=2)+'\n')
+scratch=Path(tempfile.mkdtemp(prefix='zero-extension-entry-native-',dir=C2_SCRATCH));work,env=native_work(scratch,phase['canonical_working_directory'])
+for r in phase['inputs']:shutil.copyfile(fixture/r['path'],work/Path(r['path']).name)
+env.update(PATH=os.defpath,LC_ALL='C',TZ='UTC',MSC_CMD_FLAGS=phase['environment']['MSC_CMD_FLAGS'].format(bin=windows(idx.wt.TC/'bin')),RECON_PROGRAM_PATH=windows(idx.wt.TC/'bin/C23232.EXE'))
+script="""import gdb,json
+p=gdb.parse_and_eval('instruction');node=gdb.parse_and_eval('machine_instructions');index=0
+while int(node)and int(node)!=int(p):node=node['next'];index+=1;assert index<65536
+assert int(node)==int(p);n=p['next'];left=p['operands'][0];right=p['operands'][1];kind=int(right['flags'])&15;following=dict(opcode=int(n['opcode']));address=None;following_operands=None
+if following['opcode']&15==0 and(following['opcode']>>8)&255==0x2e:
+ following_operands=dict(destination_flags=int(n['operands'][0]['flags']),destination_register=int(n['operands'][0]['value']['reg']['words']['number']),source_kind=int(n['operands'][1]['flags'])&15,immediate=int(n['operands'][1]['value']['constant'])if int(n['operands'][1]['flags'])&15==2 else 0)
+if kind!=1:
+ a=right['value']['address'];sym=a['symbol'];sk=int(sym['kind'])if int(sym)else 0;attrs=int(sym.cast(gdb.lookup_type('BackendSymbol').pointer())['attributes'])if int(sym)and sk==1 else 0;local=bool(int(sym)and(sk==1 and attrs&0x70 in[0x10,0x30]or sk==0x13));address=dict(pointer=int(a),displacement=int(a['first']['displacement'])&0xffffffff,symbol=int(sym),base=int(a['base']['words']['number']),index=int(a['index']['words']['number'])if kind==5 else 0,symbol_kind=sk,attributes=attrs,local=int(local),symbol_offset=int(sym['field04'])if local else 0)
+print('C2_ZERO_EXTENSION '+json.dumps(dict(instruction=int(p),index=index,next=int(n),next_previous=int(n['previous']),opcode=int(p['opcode']),destination_flags=int(left['flags']),destination_register=int(left['value']['reg']['words']['number']),source_flags=int(right['flags']),source_value=int(right['value']['constant']),following=following,following_operands=following_operands,address=address,caller=gdb.selected_frame().older().name())))"""
+command=['gdb','-q','--batch','-ex','set pagination off','-ex','break expand_zero_extension','-ex','run > native-inferior.stdout','-ex','python '+script,str(Path('build/native/C23232.EXE').resolve())];t=time.perf_counter();r=subprocess.run(command,cwd=work,env=env,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=30);native_seconds=time.perf_counter()-t;(receipt/'native.txt').write_bytes(r.stdout);assert r.returncode==0,r.stdout;native=json.loads(re.search(rb'C2_ZERO_EXTENSION (.*)',r.stdout)[1]);lines=(receipt/'original.txt').read_text().splitlines();assert lines[-1]=='entry_end'and lines[0].split()[:2]==['enter',name];formal=int(lines[0].split()[5],16)
+def parse(prefix,decimal):
+ parts=next(v for v in lines if v.startswith(prefix+' ')).split()[1:];return{parts[n]:int(parts[n+1],10 if parts[n]in decimal else 16)for n in range(0,len(parts),2)}
+observed=parse('zero_extension',['index','destination_register']);observed['following']=parse('zero_extension_following',[]);observed['following_operands']=parse('zero_extension_following_operands',['destination_register','source_kind'])if any(v.startswith('zero_extension_following_operands ')for v in lines)else None;observed['address']=parse('zero_extension_address',['base','index','symbol_kind','local'])if any(v.startswith('zero_extension_address ')for v in lines)else None;assert formal==observed['instruction']
+def shape(d):
+ assert d['next_previous']==d['instruction']and d['instruction']and d['next']
+ a=d['address'];kind=d['source_flags']&15
+ if a:assert kind in[4,5]and a['pointer']==d['source_value']
+ return dict(index=d['index'],opcode=d['opcode'],destination_flags=d['destination_flags'],destination_register=d['destination_register'],source_flags=d['source_flags'],source_value=d['source_value']if kind==1 else None,following=d['following'],following_operands=d['following_operands'],address={k:v for k,v in a.items()if k not in['pointer','symbol']}if a else None,address_symbol_present=bool(a and a['symbol']))
+assert shape(observed)==shape(native)
+r=dict(matched=True,function=name,original_va='0x24740',formals=[dict(name='instruction',location='ECX',type='MachineInstruction pointer',original=observed['instruction'],native=native['instruction'])],hidden_inputs=[],callee_stack_cleanup=0,no_hidden_inputs_proof='Original24740..24bfd consumes soleECX instruction, RET0. No other incoming register/stack/flags/x87/out pointer. Current instruction belongs to closed machine_instructions chain and next.previous aliases current. Defined opcode, destination flags/register, source flags/active register or typed address fields, following opcode/conditional operands, local-symbol kind/role/offset observed. Previous/record12/outputnewinstruction payload not consumed/captured/seeded. Address high-byte adjustment and later inserted instruction are future effects, not invented incoming data.',shape=shape(observed),original=observed,native=native,original_execution_seconds=original_seconds,native_debug_seconds=native_seconds,total_seconds=time.perf_counter()-started,scope='Actual sole formal/closed list links and conditional operands/address context only. Native active pointer identity normalized, no bulk record dump. Full1213B body/controls/fresh matching pending.')
+(receipt/'validation.json').write_text(json.dumps(r,indent=2)+'\n');print('Actual zero-extension inputs match',r['shape'],hex(observed['return_address']))

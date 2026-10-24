@@ -1,0 +1,165 @@
+{
+  "checkpoint": 1305,
+  "status": "Whole1213B zero-extension lowering accepted; next local OMF name6ae50",
+  "new_function": {
+    "name": "@expand_zero_extension@4",
+    "start": 149312,
+    "end": 150525,
+    "abi": {
+      "convention": "fastcall",
+      "parameters": [
+        {
+          "name": "instruction",
+          "location": "ECX",
+          "type": "MachineInstruction pointer"
+        }
+      ],
+      "hidden_inputs": [],
+      "callee_stack_cleanup": 0,
+      "entry_observation": "cases/zero-extension-abi/validation.json",
+      "scope": "Original24740..24bfd consumes soleECX instruction, RET0. No other incoming register/stack/flags/x87/out pointer. Current instruction belongs to closed machine_instructions chain and next.previous aliases current. Defined opcode, destination flags/register, source flags/active register or typed address fields, following opcode/conditional operands, local-symbol kind/role/offset observed. Previous/record12/outputnewinstruction payload not consumed/captured/seeded. Address high-byte adjustment and later inserted instruction are future effects, not invented incoming data."
+    }
+  },
+  "extent_delta": 1213,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1305,
+    "accepted_code_bytes": 346655,
+    "original_code_bytes": 399693,
+    "percentage": 86.73031551715943,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 647
+  },
+  "actual_abi": "cases/zero-extension-abi/validation.json",
+  "focused_controls": "cases/zero-extension-validation.json",
+  "fresh_before": "cases/comdat-original-1304.json",
+  "fresh_after": "cases/comdat-original-1305.json",
+  "native_after": "cases/comdat-original-1305-native.json",
+  "native_suite": "cases/native-all-validation.json",
+  "timings": {
+    "comdat-zero-extension-observer-build": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 4.270243218168616,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "comdat-zero-extension-entry": {
+      "command": [
+        "python3",
+        "scripts/observe-zero-extension-entry.py"
+      ],
+      "seconds": 1.6018977276980877,
+      "returncode": 0,
+      "log_sha256": "d1c2b39f77ecb816e048679dd5f27317fc5d7c0e6986615baa9f2dae006bae8d"
+    },
+    "comdat-1305-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 41.0119026331231,
+      "returncode": 0,
+      "log_sha256": "da55eb39f7345619fab3f74b0d9ae80aac099ac34a1de50651d6a8c0081e19a2"
+    },
+    "comdat-1305-controls": {
+      "command": [
+        "python3",
+        "scripts/check-zero-extension.py"
+      ],
+      "seconds": 14.705667407251894,
+      "returncode": 0,
+      "log_sha256": "bdc2d39a6026d9827d4226f30cc9d9290a157ba630272bce097036861a0ca035"
+    },
+    "comdat-1305-warnings": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "zero-extension"
+      ],
+      "seconds": 1.2563434317708015,
+      "returncode": 0,
+      "log_sha256": "db4ad82eb598b667395041a03013608e7486abd25e5ad5b05f3e05348fb44c3c"
+    },
+    "comdat-1305-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 28.595580603927374,
+      "returncode": 0,
+      "log_sha256": "b73c441c11caee9157bc14716750e49834ef427f43da756c8728230c80bb3e77"
+    },
+    "comdat-1305-original": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "comdat",
+        "--receipt",
+        "cases/comdat-original-1305.json"
+      ],
+      "seconds": 1.2003220934420824,
+      "returncode": 0,
+      "log_sha256": "af4376c757ac499dcf07032d0d67b7b27683f9a5931529567ec376a4496df6b5"
+    },
+    "comdat-1305-native": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "comdat",
+        "--reference",
+        "cases/comdat-original-1305.json"
+      ],
+      "seconds": 0.21980895567685366,
+      "returncode": 0,
+      "log_sha256": "a4915b0da01940c69a6d936a63d092626823611b8c357b3587ebebfdf20c26c4"
+    },
+    "comdat-1305-cache": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/comdat-original-1304.json",
+        "--extend-after",
+        "cases/comdat-original-1305.json"
+      ],
+      "seconds": 0.34338018391281366,
+      "returncode": 0,
+      "log_sha256": "9e624c0cb2668c850b916c1cc78cb83098694f33c6633c572adbeb0ba571eafb"
+    },
+    "comdat-1305-fixtures": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 1.018521367572248,
+      "returncode": 0,
+      "log_sha256": "1091f20318ebfd84804a77be93a653356853f9c2c1dcae6723e2bcc6ab37d16a"
+    }
+  },
+  "scope": "768 independent ISA-plan whole original/canonical controls/8 ABI rejects; no new target data or helper/asm. Actual indexedglobal MOVZXW4 dest1/base27/index1 belongs closed list index19, next.previous identity and conditionally active symbol context match. Other register/highbyte/alignment/followingAND shapes are full-model controls, not case branch-coverage claims. Original/W3/common graph/extents/RET/ABI/storage and fresh pair/native16 cases pass. New source Makefile list triggered one full41.012s canonical build, retained; future recipe-only timestamps suppressed with-oMakefile. Exact completed1962B object pending. Analysis/edit time unmeasured."
+}
