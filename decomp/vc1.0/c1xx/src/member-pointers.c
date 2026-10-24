@@ -28,6 +28,9 @@ IrToken *__stdcall member_pointer_general_virtual_offset_value(IrToken *storage,
 IrToken *__stdcall virtual_data_member_offset(IrToken *storage, IrToken *expression);
 IrToken *__stdcall virtual_data_table_offset(IrToken *storage, IrToken *expression);
 IrToken *__stdcall data_member_integer_field(IrToken *storage, unsigned component);
+IrToken *__stdcall general_data_member_offset(IrToken *storage, IrToken *expression);
+IrToken *__stdcall general_data_vbptr_offset(IrToken *storage, IrToken *expression);
+IrToken *__stdcall general_data_table_offset(IrToken *storage, IrToken *expression);
 IrToken *__stdcall member_pointer_integer_field(IrToken *storage, IrToken *expression,
     unsigned component);
 IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int displacement);
@@ -98,6 +101,16 @@ int __stdcall convert_member_pointer_object(IrToken *expression);
 IrToken *__stdcall apply_simple_data_member_pointer(IrToken *expression);
 IrToken *__stdcall apply_virtual_data_member_pointer(IrToken *expression);
 IrToken *__stdcall apply_general_data_member_pointer(IrToken *expression);
+
+void __stdcall class_virtual_base_pointer_layout(CppSymbol *tag,
+    unsigned *offset, CType **pointer_type);
+IrToken *__stdcall adjust_general_member_pointer_object(IrToken *object,
+    IrToken *address, IrToken *adjustment, IrToken *pointer_offset,
+    IrToken *virtual_offset, CType *type);
+void __stdcall prepare_member_pointer_object(IrToken *object, IrToken **value,
+    IrToken **address, IrToken **prefix);
+IrToken *__stdcall adjust_virtual_member_pointer_object(IrToken *object,
+    IrToken *address, IrToken *adjustment, IrToken *virtual_offset, CType *type);
 
 IrToken *__stdcall make_adjusted_member_call(IrToken *function, IrToken *object,
     CType *type);
@@ -478,6 +491,132 @@ IrToken *__stdcall lower_multiple_inheritance_member_call(IrToken *object,
     adjustment = member_pointer_adjustment_value(storage, member);
     adjusted = new_left_typed_expression(0x5a, object, adjustment);
     return make_adjusted_member_call(function, adjusted, type);
+}
+
+/* Original 0x4aea0..0x4af58, stdcall16. Retain the object's
+   evaluation, then adjust its address through the virtual-base table. */
+IrToken *__stdcall lower_virtual_inheritance_member_call(IrToken *object,
+    IrToken *member, CType *type, IrToken **prefix)
+{
+    IrToken *saved, *storage, *function, *adjustment, *virtual_offset;
+    IrToken *value, *address, *adjusted;
+    if (can_reuse_member_pointer_storage(member)) {
+        storage = member_pointer_component(member, 0, &saved);
+    } else {
+        *prefix = member_pointer_component(member, 0, &saved);
+        storage = member_pointer_component(member, 1, &saved);
+    }
+    function = member_pointer_function_value(storage, member);
+    storage = member_pointer_component(member, 1, &saved);
+    adjustment = member_pointer_adjustment_value(storage, member);
+    storage = member_pointer_component(member, 1, &saved);
+    virtual_offset = member_pointer_virtual_offset_value(storage, member);
+    prepare_member_pointer_object(object, &value, &address, prefix);
+    adjusted = adjust_virtual_member_pointer_object(value, address, adjustment,
+        virtual_offset, member->type);
+    return make_adjusted_member_call(function, adjusted, type);
+}
+
+/* Original 0x4af60..0x4b0de, stdcall16. The general model
+   conditionally applies a virtual-base adjustment, retaining object evaluation
+   and the nonvirtual fallback as distinct expression branches. */
+IrToken *__stdcall lower_general_inheritance_member_call(IrToken *object,
+    IrToken *member, CType *type, IrToken **prefix)
+{
+    CppSymbol *owner = member_pointer_owner_class(member->type);
+    IrToken *saved, *storage, *function, *adjustment, *value, *address;
+    IrToken *virtual_offset, *pointer_offset, *fallback, *adjusted, *test, *zero;
+    IrToken *first, *second;
+    if (can_reuse_member_pointer_storage(member)) {
+        storage = member_pointer_component(member, 0, &saved);
+        function = member_pointer_function_value(storage, member);
+    } else {
+        *prefix = member_pointer_component(member, 0, &saved);
+        storage = member_pointer_component(member, 1, &saved);
+        function = member_pointer_function_value(storage, member);
+    }
+    storage = member_pointer_component(member, 1, &saved);
+    adjustment = member_pointer_adjustment_value(storage, member);
+    if ((owner->flags & 0x400) && !(owner->detail.class_info->flags & 0x10)) {
+        adjusted = new_left_typed_expression(0x5a, object, adjustment);
+    } else {
+        prepare_member_pointer_object(object, &value, &address, prefix);
+        second = clone_expression(adjustment, 0);
+        first = clone_expression(address, 0);
+        fallback = new_left_typed_expression(0x5a, first, second);
+        storage = member_pointer_component(member, 1, &saved);
+        virtual_offset = member_pointer_general_virtual_offset_value(storage, member);
+        if (owner->flags & 0x400) {
+            adjusted = adjust_virtual_member_pointer_object(value, address,
+                adjustment, virtual_offset, member->type);
+        } else {
+            storage = member_pointer_component(member, 1, &saved);
+            pointer_offset = member_pointer_vbptr_offset_value(storage, member);
+            adjusted = adjust_general_member_pointer_object(value, address,
+                adjustment, pointer_offset, virtual_offset, member->type);
+        }
+        adjusted = new_left_typed_expression(0x3f, fallback, adjusted);
+        zero = make_integer_constant(0);
+        first = clone_expression(virtual_offset, 0);
+        test = new_right_typed_expression(0x44, first, zero);
+        adjusted = new_right_typed_expression(0x5f, test, adjusted);
+    }
+    return make_adjusted_member_call(function, adjusted, type);
+}
+
+/* Original 0x7bea0..0x7bed0, stdcall12. This class's first
+   virtual-base group supplies the pointer type; its class record owns offset. */
+void __stdcall class_virtual_base_pointer_layout(CppSymbol *tag,
+    unsigned *offset, CType **pointer_type)
+{
+    VirtualTableGroup *group = first_vector_item(tag->detail.class_info->virtual_table_groups);
+    *offset = tag->detail.class_info->virtual_base_pointer_offset;
+    if (pointer_type) *pointer_type = group->virtual_base_pointer->type;
+}
+
+/* Original 0x4aa80..0x4ab0d, stdcall20. Load the displacement
+   through this class's vbptr and add the ordinary member adjustment. */
+IrToken *__stdcall adjust_virtual_member_pointer_object(IrToken *object,
+    IrToken *address, IrToken *adjustment, IrToken *virtual_offset, CType *type)
+{
+    unsigned pointer_offset;
+    CType *pointer_type;
+    IrToken *base, *table, *offset, *result;
+    class_virtual_base_pointer_layout(member_pointer_owner_class(type),
+        &pointer_offset, &pointer_type);
+    offset = make_integer_constant(pointer_offset);
+    base = new_ir_expression(0x5a, object, offset, pointer_type);
+    offset = make_integer_constant(pointer_offset);
+    table = new_ir_expression(0x5a, address, offset, pointer_type);
+    table = indirect_storage_expression(table);
+    table = new_right_typed_expression(0x5a, table, virtual_offset);
+    table = indirect_storage_expression(table);
+    result = new_left_typed_expression(0x5a, base, table);
+    return new_left_typed_expression(0x5a, result, adjustment);
+}
+
+/* Original 0x4b0e0..0x4b1ab, stdcall16. Make two repeatable
+   object expressions, retaining any one-time temporary assignment in prefix. */
+void __stdcall prepare_member_pointer_object(IrToken *object, IrToken **value,
+    IrToken **address, IrToken **prefix)
+{
+    IrToken *temporary, *assignment;
+    unsigned index;
+    if (expression_can_be_repeated(object)) {
+        *value = object;
+        *address = clone_expression(object, 0);
+        return;
+    }
+    if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename)
+        browser_symbol_rollover();
+    index = next_symbol_index++;
+    temporary = new_temporary_reference(index, object->type);
+    assignment = new_left_typed_expression(0x3d, temporary, object);
+    *value = indirect_storage_expression(clone_expression(temporary, 0));
+    *address = indirect_storage_expression(clone_expression(temporary, 0));
+    if (*prefix) *prefix = new_left_typed_expression(0x40, *prefix, assignment);
+    else *prefix = assignment;
 }
 
 IrToken *__stdcall lower_member_pointer_call(IrToken *expression, IrToken **prefix)
@@ -877,6 +1016,37 @@ IrToken *__stdcall compare_virtual_data_pointer(IrToken *expression,
     return new_right_typed_expression(0x40, zero, result);
 }
 
+/* Original 0x4b6e0..0x4b7e2, stdcall16. General data pointers
+   compare the member offset, vbptr offset and vbtable displacement. The fourth
+   formal is retained but the whole body neither reads nor forwards it. */
+IrToken *__stdcall compare_general_data_pointer(IrToken *expression,
+    unsigned char comparison, unsigned char combine, unsigned char null_combine)
+{
+    IrToken *left = expression->value.pointer, *right, *saved, *storage;
+    IrToken *left_offset, *left_vbptr, *left_virtual, *right_offset, *right_vbptr, *right_virtual;
+    IrToken *offset_test, *vbptr_test, *virtual_test, *result, *zero;
+    storage = member_pointer_component(left, 0, &saved);
+    left_offset = general_data_member_offset(storage, left);
+    storage = member_pointer_component(left, 1, &saved);
+    left_vbptr = general_data_vbptr_offset(storage, left);
+    storage = member_pointer_component(left, 1, &saved);
+    left_virtual = general_data_table_offset(storage, left);
+    right = expression->tail.right;
+    storage = member_pointer_component(right, 0, &saved);
+    right_offset = general_data_member_offset(storage, right);
+    storage = member_pointer_component(right, 1, &saved);
+    right_vbptr = general_data_vbptr_offset(storage, right);
+    storage = member_pointer_component(right, 1, &saved);
+    right_virtual = general_data_table_offset(storage, right);
+    offset_test = new_ir_expression(comparison, left_offset, right_offset, type_0064);
+    vbptr_test = new_ir_expression(comparison, left_vbptr, right_vbptr, type_0064);
+    virtual_test = new_ir_expression(comparison, left_virtual, right_virtual, type_0064);
+    result = new_left_typed_expression(combine, offset_test, vbptr_test);
+    result = new_left_typed_expression(combine, result, virtual_test);
+    zero = make_integer_constant(0);
+    return new_right_typed_expression(0x40, zero, result);
+}
+
 /* Original 0x4b7f0..0x4b94c, stdcall16. Null function pointers
    compare independently of this and virtual-base adjustments. */
 IrToken *__stdcall compare_virtual_method_pointer(IrToken *expression,
@@ -963,6 +1133,34 @@ IrToken *__stdcall compare_general_method_pointer(IrToken *expression,
 IrToken *__stdcall virtual_data_member_offset(IrToken *storage, IrToken *expression)
 {
     return data_member_integer_field(storage, 0);
+}
+
+/* Original 0x4bc40..0x4bc4e, stdcall8. As above, the expression
+   formal is unused; the virtual data model stores vbtable offset in field one. */
+IrToken *__stdcall virtual_data_table_offset(IrToken *storage, IrToken *expression)
+{
+    return data_member_integer_field(storage, 1);
+}
+
+/* Original 0x4bc50..0x4bc5e, stdcall8. The expression
+   formal is unused; integer field 0 supplies the general data member byte offset. */
+IrToken *__stdcall general_data_member_offset(IrToken *storage, IrToken *expression)
+{
+    return data_member_integer_field(storage, 0);
+}
+
+/* Original 0x4bc60..0x4bc6e, stdcall8. The expression
+   formal is unused; integer field 1 supplies the general data vbptr location. */
+IrToken *__stdcall general_data_vbptr_offset(IrToken *storage, IrToken *expression)
+{
+    return data_member_integer_field(storage, 1);
+}
+
+/* Original 0x4bc70..0x4bc7e, stdcall8. The expression
+   formal is unused; integer field 2 supplies the general data vbtable displacement. */
+IrToken *__stdcall general_data_table_offset(IrToken *storage, IrToken *expression)
+{
+    return data_member_integer_field(storage, 2);
 }
 
 /* Original 0x4bc80..0x4bcb3, stdcall8. Data-member aggregate

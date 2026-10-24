@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1362 historical frontiers/1256 App bodies.
+ * Current reviewed boundary:1372 historical frontiers/1266 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -6880,18 +6880,46 @@ static const ReconFunction functions[] = {
     {
         .name = "_lower_virtual_inheritance_member_call@16",
         .entry_rva = 0x3aea0,
-        .code = (const ReconExtent[]) { { 0x3aea0, 0x3aea1 } },
+        .code = (const ReconExtent[]) { { 0x3aea0, 0x3af59 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "lower_virtual_inheritance_member_call",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_lower_general_inheritance_member_call@16",
         .entry_rva = 0x3af60,
-        .code = (const ReconExtent[]) { { 0x3af60, 0x3af61 } },
+        .code = (const ReconExtent[]) { { 0x3af60, 0x3b0df } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "lower_general_inheritance_member_call",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_prepare_member_pointer_object@16",
+        .entry_rva = 0x3b0e0,
+        .code = (const ReconExtent[]) { { 0x3b0e0, 0x3b1ac } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "prepare_member_pointer_object",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_adjust_general_member_pointer_object@24",
+        .entry_rva = 0x3ab10,
+        .code = (const ReconExtent[]) { { 0x3ab10, 0x3ab11 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "adjust_general_member_pointer_object",
+    },
+    {
+        .name = "_adjust_virtual_member_pointer_object@20",
+        .entry_rva = 0x3aa80,
+        .code = (const ReconExtent[]) { { 0x3aa80, 0x3ab0e } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "adjust_virtual_member_pointer_object",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_make_adjusted_member_call@12",
@@ -7040,10 +7068,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_compare_general_data_pointer@16",
         .entry_rva = 0x3b6e0,
-        .code = (const ReconExtent[]) { { 0x3b6e0, 0x3b6e1 } },
+        .code = (const ReconExtent[]) { { 0x3b6e0, 0x3b7e3 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "compare_general_data_pointer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_compare_virtual_method_pointer@16",
@@ -7093,10 +7122,38 @@ static const ReconFunction functions[] = {
     {
         .name = "_virtual_data_table_offset@8",
         .entry_rva = 0x3bc40,
-        .code = (const ReconExtent[]) { { 0x3bc40, 0x3bc41 } },
+        .code = (const ReconExtent[]) { { 0x3bc40, 0x3bc4f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "virtual_data_table_offset",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_general_data_member_offset@8",
+        .entry_rva = 0x3bc50,
+        .code = (const ReconExtent[]) { { 0x3bc50, 0x3bc5f } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "general_data_member_offset",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_general_data_vbptr_offset@8",
+        .entry_rva = 0x3bc60,
+        .code = (const ReconExtent[]) { { 0x3bc60, 0x3bc6f } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "general_data_vbptr_offset",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_general_data_table_offset@8",
+        .entry_rva = 0x3bc70,
+        .code = (const ReconExtent[]) { { 0x3bc70, 0x3bc7f } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "general_data_table_offset",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_data_member_integer_field@8",
@@ -13658,6 +13715,15 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "find_virtual_base_pointer",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_class_virtual_base_pointer_layout@12",
+        .entry_rva = 0x6bea0,
+        .code = (const ReconExtent[]) { { 0x6bea0, 0x6bed1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "class_virtual_base_pointer_layout",
         .implementation = RECON_IMPLEMENTED,
     },
     {
