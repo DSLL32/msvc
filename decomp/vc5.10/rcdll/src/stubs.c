@@ -237,11 +237,6 @@ int __stdcall rc_find_macro_parameter(const WCHAR *name)
     return 0;
 }
 
-void __stdcall rc_check_macro_space(WCHAR *cursor)
-{
-    __asm int 3
-}
-
 WCHAR *__stdcall rc_copy_replacement_quoted(WCHAR *cursor,WCHAR delimiter)
 {
     __asm int 3

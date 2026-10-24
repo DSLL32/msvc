@@ -116,3 +116,12 @@ next_character:
     character=*rc_source_cursor++;
     goto scan;
 }
+
+void __stdcall rc_check_macro_space(WCHAR *cursor)
+{
+    if(cursor>=rc_string_buffer+2043){
+        rc_error_template=rc_message(1011);
+        rc_format(rc_error_text,2048,rc_error_template,rc_macro_name);
+        rc_input_fatal(1011);
+    }
+}

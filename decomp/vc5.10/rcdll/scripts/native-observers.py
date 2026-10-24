@@ -726,3 +726,16 @@ class DefineParserEntered(gdb.Breakpoint):
         frame=gdb.newest_frame();entry=dict(formals=[],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,cursor=int(gdb.parse_and_eval('rc_source_cursor')),line=int(gdb.parse_and_eval('rc_preparing_line')),caller=frame.older().name())
         define_parsers.append(entry);save_define_parsers();DefineParserReturned(frame,entry);return False
 DefineParserEntered('rc_parse_define',internal=True);save_define_parsers()
+
+macro_space_checks=[]
+def save_macro_space_checks():(path.parent/'macro-space-checks.json').write_text(json.dumps(macro_space_checks,indent=2)+'\n')
+class MacroSpaceReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff)
+        save_macro_space_checks();return False
+class MacroSpaceEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();cursor=frame.read_var('cursor');entry=dict(cursor=int(cursor),formal_bytes=cursor.type.sizeof,entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name())
+        macro_space_checks.append(entry);save_macro_space_checks();MacroSpaceReturned(frame,entry);return False
+MacroSpaceEntered('rc_check_macro_space',internal=True);save_macro_space_checks()

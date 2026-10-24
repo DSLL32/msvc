@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Sixty-four application functions (21,062 original code bytes), two embedded CRT functions
+Sixty-five application functions (21,123 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_check_macro_space`.
+currently matches at the next named trap, `rc_find_macro_parameter`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -559,3 +559,12 @@ and both operator flags0. [Verification](cases/resources-rich-trailing-space/rep
 records ten affected controls and the typed32-bit bounds pointer. No length
 return or numeric replacement completion is claimed. Parameter lookup and
 quoted-copy dependencies remain named traps; cached native help still passes.
+
+Replacement bounds checking is accepted (61 bytes): seven cursor checks below
+buffer+4,086 return with ret4. The reader writes14 bytes (`0x0400` plus NUL),
+leaving4,076 bytes unchanged, then reaches parameter lookup for `x0400` at
+buffer+2 with parameter count0. [Verification](cases/resources-rich-trailing-space/macro-space-verification.json)
+records fourteen affected controls. Original module dumping now reads each
+actual debug-event hFile with explicit OVERLAPPED offsets and exact bounded
+chunks; target/CRT/driver full hashes match. Offset/short/missing/size mutants
+reject. This was verified in the ordinary fresh pair, with no extra probe.

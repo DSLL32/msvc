@@ -66,6 +66,21 @@ def bind_current(snapshot,side):
         assert path.is_file() and path.stat().st_size==info['bytes'] and sha(path)==info['sha256'],'changed raw capture '+name
     return receipt
 
+def module_offset_reads(snapshot,text):
+    proof={}
+    for name in ['loaded-target.bin','loaded-crt.bin','loaded-driver.bin']:
+        size=(snapshot/name).stat().st_size
+        assert re.findall(r'^module-hfile-size '+re.escape(name)+r' (\d+)$',text,re.M)==[str(size)]
+        rows=re.findall(r'^module-read-at '+re.escape(name)+r' offset=(\d+) requested=(\d+) received=(\d+) status=(\d+) error=([0-9a-f]+)$',text,re.M)
+        offset=0
+        for at,wanted,received,status,error in rows:
+            length=min(16384,size-offset)
+            assert int(at)==offset and int(wanted)==int(received)==length and length>0 and int(status)==1
+            offset+=length
+        assert rows and offset==size and re.findall(r'^module-file '+re.escape(name)+r' (\d+)$',text,re.M)==[str(size)]
+        proof[name]=dict(bytes=size,reads=len(rows),sha256=sha(snapshot/name),same_actual_hFile=True,explicit_offsets=True)
+    return proof
+
 def original_raw(snapshot,complete=False):
     receipt=bind_current(snapshot,'original')
     assert receipt['mode']=='masked' and not receipt['timed_out'] and receipt['status']==(0 if complete else 124)
@@ -79,6 +94,7 @@ def original_raw(snapshot,complete=False):
     expected=bytearray(b'\xcc'*len(relocated))
     for start,end in [(0x1000,0x114c),(0x12e2c,0x13371)]:expected[start-0x1000:end-0x1000]=relocated[start-0x1000:end-0x1000]
     active=read_configuration(snapshot/'functions.json')
+    if active.get('original_capture_io')=='actual-hFile-overlapped-offset-v1':module_offset_reads(snapshot,text)
     for function in active['functions']:
         if function['name'] in active['accepted']+[active.get('trial_function')]:
             start,end=int(function['start'],16),int(function['end'],16)
