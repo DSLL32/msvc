@@ -11,7 +11,7 @@ def check(s,d,original,native,trial,text,pre,phase,state,seed,final,traps):
     def raw(suffix):
         blob=(original/('language-context-'+suffix+'.bin')).read_bytes();require(len(blob)==44,'typed depth/slot observation absent');return struct.unpack('<11i',blob)
     def values(snapshot):return(snapshot['frontend']['language_context_depth'],*snapshot['frontend']['language_contexts'])
-    require(trial['trial']in ('_push_declaration_context','_initialize_include_aliases','_initialize_checksums') and trial['language_context_observers']=={'entry_rva':0x2b834,'caller_return_rva':0x38fbe,'argument':0,'depth_rva':0xcd580,'slots_rva':0xc13d0,'slots':10,'scope':'scalar language context; actual first NULL-independent zero push, no mocked call'},'wrong scalar observer contract')
+    require(trial['trial']in ('_push_declaration_context','_initialize_include_aliases','_initialize_checksums','_initialize_multibyte_categories') and trial['language_context_observers']=={'entry_rva':0x2b834,'caller_return_rva':0x38fbe,'argument':0,'depth_rva':0xcd580,'slots_rva':0xc13d0,'slots':10,'scope':'scalar language context; actual first NULL-independent zero push, no mocked call'},'wrong scalar observer contract')
     require(pe_read(original/'loaded-target.bin',0xcd580,4)==struct.pack('<i',-1) and raw('000')==(-1,*([0]*10)),'own scalar/BSS defaults differ')
     require(raw('006')==values(pre)==((7,*[1+(i&1)for i in range(10)])if seed else(-1,*([0]*10))),'nonzero typed initializer input/default differs')
     require(raw('phase')==values(phase)==((3,*([0]*10))if seed else(-1,*([0]*10))),'new initialized depth restore or all40 BSS clear differs')

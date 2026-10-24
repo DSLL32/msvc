@@ -40,10 +40,14 @@ static BYTE alias_return_byte;
 static DWORD locale_entry_pc,locale_return_pc,locale_entry_esp,locale_old_pctype,locale_result;
 static BYTE locale_entry_byte,locale_return_byte;
 static int locale_entry_active,locale_return_active,locale_complete;
+static DWORD mb_entry_pc,mb_return_pc,mb_entry_esp,mb_helper_return_pc;
+static BYTE mb_entry_byte,mb_return_byte,mb_helper_return_byte;
+static int mb_entry_active,mb_return_active,mb_complete,mb_helper_return_active;
 static int checksum_return_active;
 static DWORD checksum_return_pc;
 static BYTE checksum_return_byte;
 static void prepare_locale_observer(void);
+static void prepare_multibyte_observer(void);
 static BYTE restore_observer_byte;
 static DWORD aux_old_base, aux_new_base;
 static int aux_returned;
@@ -339,6 +343,7 @@ static void prepare_mask(void)
         BYTE taps[32];readmem(base+0xd5c58,taps,32);save_blob("checksum-taps-loaded.bin",taps,32);
     }
     prepare_locale_observer();
+    prepare_multibyte_observer();
     fprintf(events, "mask snapshot=relocated-text.bin baseline=%d ranges=%u\n", baseline, count);
 }
 
@@ -582,6 +587,11 @@ static void seed_options_restore(void)
     if(getenv("C1XX_OBSERVE_CHECKSUM_TABLES")) {
         BYTE tables[768];memset(tables,0xa5,sizeof(tables));write_mem(base+0xbe970,tables,sizeof(tables));
         fprintf(events,"checksum-seed point=initializer bytes=768 value=165 code-mock=0\n");
+    }
+    if(getenv("C1XX_OBSERVE_MULTIBYTE")) {
+        for(i=0;i<512;++i)bytes[i]=(BYTE)(69*7+i+31);write_mem(base+0xcc008,bytes,512);
+        for(i=0;i<512;++i)bytes[i]=(BYTE)(69*7+i+11);write_mem(owned+8,bytes,512);
+        fprintf(events,"scanner-seed point=initializer live-start=31 saved-start=11 bytes=512 no-code-mock=1\n");
     }
     persistent = base + 0xcb030; write_mem(base + 0xcb000, &persistent, 4);
     fprintf(events, "options-seed fields=106 initialized=81 bss=25 persistent=1 pointers=owned-interiors never-dereferenced=1 no-code-mock=1 allocation=%08lx\n", owned);
@@ -878,7 +888,7 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
     save_state();
     if(pool_cycle_active) {
         fprintf(events,"pool-registers seq=%u ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",sequence,context->Ebx,context->Esi,context->Edi,context->Ebp);
-        if(address==base+0x38f94 || address==base+0x1ee29 || address==base+0x1ee58 || address==base+0x1d738 || address==base+0x38f1b || address==base+0x38fad || address==base+0x2b834 || address==base+0x39282 || address==base+0x392a8 || address==base+0x39394) {
+        if(address==base+0x38f94 || address==base+0x1ee29 || address==base+0x1ee58 || address==base+0x1d738 || address==base+0x38f1b || address==base+0x38fad || address==base+0x2b834 || address==base+0x39282 || address==base+0x392a8 || address==base+0x39394 || address==base+0x393ca) {
             BYTE *blob=(BYTE *)malloc(0x10000);char name[80];DWORD committed;
             if(!blob)fail("pool entry full BSS observation");
             readmem(base+0xb9000,blob,0xf69c);sprintf(name,"pool-bss-%03u.bin",sequence);save_blob(name,blob,0xf69c);
@@ -1143,6 +1153,21 @@ int main(int argc, char **argv)
                 save_frontend_state("checksum-return");readmem(base+0xb9000,bss,0xf69c);save_blob("checksum-return-BSS.bin",bss,0xf69c);free(bss);
                 save_blob("checksum-return-fp.bin",&context.FloatSave,sizeof(context.FloatSave));
                 patch(address,checksum_return_byte);checksum_return_active=0;context.Eip=address;if(!SetThreadContext(thread,&context))fail("checksum return context");
+            } else if(code==EXCEPTION_BREAKPOINT && mb_entry_active && address==mb_entry_pc) {
+                DWORD words[2];readmem(context.Esp,words,sizeof(words));
+                if(words[0]!=base+0x3939e || words[1]!=0xfffffffc)fail("multibyte public caller/argument");
+                fprintf(events,"mb-entry seq=%u pc=%08lx esp=%08lx return=%08lx codepage=%ld ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",sequence,address,context.Esp,words[0],(LONG)words[1],context.Ebx,context.Esi,context.Edi,context.Ebp);
+                locale_snapshot("mb-before",&context,thread,event.dwThreadId);mb_entry_esp=context.Esp;mb_return_pc=words[0];mb_return_byte=snapshot[mb_return_pc-base-code_rva];
+                if(mb_return_byte!=0x8b)fail("multibyte public caller opcode");patch(mb_return_pc,0xcc);mb_return_active=1;
+                patch(address,mb_entry_byte);mb_entry_active=0;context.Eip=address;if(!SetThreadContext(thread,&context))fail("multibyte public entry context");
+            } else if(code==EXCEPTION_BREAKPOINT && mb_return_active && address==mb_return_pc) {
+                fprintf(events,"mb-return seq=%u pc=%08lx esp=%08lx entry-esp=%08lx result=%ld ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",sequence,address,context.Esp,mb_entry_esp,(LONG)context.Eax,context.Ebx,context.Esi,context.Edi,context.Ebp);
+                locale_snapshot("mb-after",&context,thread,event.dwThreadId);patch(address,mb_return_byte);mb_return_active=0;mb_complete=1;
+                context.Eip=address;if(!SetThreadContext(thread,&context))fail("multibyte public return context");
+            } else if(code==EXCEPTION_BREAKPOINT && mb_helper_return_active && address==mb_helper_return_pc) {
+                fprintf(events,"mb-helper-return pc=%08lx esp=%08lx eax=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx error=%lu\n",address,context.Esp,context.Eax,context.Ebx,context.Esi,context.Edi,context.Ebp,thread_error(&context,thread));
+                locale_snapshot("mb-helper-return",&context,thread,event.dwThreadId);patch(address,mb_helper_return_byte);mb_helper_return_active=0;
+                context.Eip=address;if(!SetThreadContext(thread,&context))fail("multibyte helper return context");
             } else if(code==EXCEPTION_BREAKPOINT && locale_entry_active && address==locale_entry_pc) {
                 DWORD words[3];char input[2];readmem(context.Esp,words,sizeof(words));
                 if(words[0]!=base+0x38fe1 || words[1]!=2 || words[2]!=base+0xd06b8)fail("isolated locale actual caller/args");
@@ -1217,6 +1242,11 @@ int main(int argc, char **argv)
                     patch(checksum_return_pc,0xcc);checksum_return_active=1;
                 }
                 if(address==base+0x39394 && locale_complete)locale_snapshot("next",&context,thread,event.dwThreadId);
+                if(address==base+0x39394 && getenv("C1XX_OBSERVE_MULTIBYTE")) {
+                    readmem(context.Esp,&mb_helper_return_pc,4);if(mb_helper_return_pc!=base+0x38fe9 || mb_helper_return_active)fail("multibyte actual helper caller");
+                    mb_helper_return_byte=snapshot[mb_helper_return_pc-base-code_rva];if(mb_helper_return_byte!=0xe8)fail("multibyte helper return opcode");patch(mb_helper_return_pc,0xcc);mb_helper_return_active=1;
+                }
+                if(address==base+0x393ca && mb_complete)locale_snapshot("mb-next",&context,thread,event.dwThreadId);
                 if (address == base + 0x39282 && getenv("C1XX_OBSERVE_ALIAS_ROOT")) {
                     if (alias_return_active) fail("duplicate alias initializer");
                     readmem(context.Esp,&alias_return_pc,4);

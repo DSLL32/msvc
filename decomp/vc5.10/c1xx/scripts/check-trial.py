@@ -88,6 +88,7 @@ def check(original, native, require_audit=True, audit_path=None):
                   '_push_declaration_context':'check-callback.py',
                   '_initialize_include_aliases':'check-callback.py',
                   '_initialize_checksums':'check-callback.py',
+                  '_initialize_multibyte_categories':'check-callback.py',
                   '_initialize_frontend_01':'check-callback.py'}.get(candidate['trial'])
         if (candidate['trial'] or '').startswith('_initialize_frontend_'):
             filename='check-callback.py'

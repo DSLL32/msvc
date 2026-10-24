@@ -24,8 +24,8 @@ def check(s, d, original, native, trial, text, pre, phase, state, seed, final, t
     spec.loader.exec_module(locale)
     original_locale = locale.check(original)
     expected_tables = locale.checksum_tables()
-    require(trial['trial'] == '_initialize_checksums' and trial.get('checksum_observers') is not None, 'wrong whole-function candidate/observer contract')
-    require(state['symbol'] == 'initialize_multibyte_categories' and state['args'] == {}, 'genuine next named noarg frontier')
+    require(trial['trial'] in ('_initialize_checksums','_initialize_multibyte_categories') and trial.get('checksum_observers') is not None, 'wrong whole-function candidate/observer contract')
+    require(state['symbol'] == ('initialize_lowercase_table' if trial['trial']=='_initialize_multibyte_categories' else 'initialize_multibyte_categories') and state['args'] == {}, 'genuine next named noarg frontier')
     names = symbols(native / 'native-executable.elf')
     binding_entry, binding_return, first_entry = (one(name) for name in ('binding-entries', 'binding-returns', 'first-entries'))
     reference = original_locale['original_receipt_sha256']
@@ -33,8 +33,10 @@ def check(s, d, original, native, trial, text, pre, phase, state, seed, final, t
     require(binding_return['pc'] == binding_entry['return_pc'] and binding_return['esp'] == binding_entry['esp'] + 4 and binding_entry['guard'] == binding_return['guard'], 'host-only binder RET0 or target-state mutation')
     old_binding = copy.deepcopy(binding_entry['locale'])
     expected_binding = copy.deepcopy(old_binding)
-    require(old_binding['selection'] == dict(bound=0, calls=0, reference='', result=0), 'initial selection inventory')
-    expected_binding['selection'] = dict(bound=1, calls=0, reference=reference, result=0)
+    initial_selection=dict(bound=0,calls=0,reference='',result=0)
+    if 'mb_calls'in old_binding['selection']:initial_selection['mb_calls']=0
+    require(old_binding['selection'] == initial_selection, 'initial selection inventory')
+    expected_binding['selection'] = dict(initial_selection,bound=1,reference=reference)
     require(binding_return['locale'] == expected_binding and first_entry['locale']['selection'] == expected_binding['selection'] and first_entry['locale']['lc_codepage'] == 0 and first_entry['locale']['pctype'] == old_binding['pctype'], 'enable changed locale before actual target/API entry')
     entry, returned, before, after, next_entry = (one(name) for name in ('entries', 'returns', 'locale-entries', 'locale-returns', 'next-entries'))
     require(entry['pc'] == names['initialize_checksums'][0] and entry['formal_inventory'] == [] and next_entry['pc'] == names['initialize_multibyte_categories'][0] and next_entry['formal_inventory'] == [], 'actual candidate/next PC and source formals')
@@ -99,7 +101,9 @@ def check(s, d, original, native, trial, text, pre, phase, state, seed, final, t
         old = original_locale['phases'][label]
         current = row['locale']
         require([current['mb_cur_max'], current['lc_codepage'], *current['lc_handle'], current['mb_codepage']] == [old['words'][1], old['words'][2], *old['words'][3:9], old['words'][10]] and old['words'][9] == 0, 'isolated exact locale scalars/MB-zero scope')
-        require(current['mb_gate'] == old['words'][9] and current['selection'] == dict(bound=1, calls=0 if label == 'before' else 1, reference=reference, result=0 if label == 'before' else after['eax']), 'actual independent MB gate and once-only receipt/call/result inventory')
+        selection=dict(bound=1,calls=0 if label=='before' else 1,reference=reference,result=0 if label=='before' else after['eax'])
+        if 'mb_calls'in current['selection']:selection['mb_calls']=0
+        require(current['mb_gate'] == old['words'][9] and current['selection'] == selection, 'actual independent MB gate and once-only receipt/call/result inventory')
         require(current['errors'] == old['errors'], 'native original errno/DOS/LastError')
         for name in ('mbctype', 'ctype', 'old-ctype'):
             require(bytes.fromhex(current[name.replace('-', '_')]) == (original / ('locale-' + label + '-' + name + '.bin')).read_bytes(), 'full current/retained table identity: ' + name)

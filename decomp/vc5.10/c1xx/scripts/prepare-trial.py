@@ -148,6 +148,9 @@ def prepare():
         trial['checksum_observers']={'entry_rva':0x392a8,'end_rva':0x39394,'tables_rva':0xbe970,'table_bytes':768,'taps_rva':0xd5c58,'taps':[0,1,3,6,8,13,15,-1],'next_CRT_API':{'name':'setlocale','category':2,'locale':'','IAT_rva':0xc914c,'provider_export_rva':0x5729},'next_target_helper_rva':0x39394}
     if '_initialize_checksums'in accepted:
         trial['case_inputs']['cases/minimal/locale-schema.json']=sha(PROJECT/'cases/minimal/locale-schema.json')
+    if '_initialize_multibyte_categories' in accepted:
+        trial['multibyte_observers']={'entry_rva':0x39394,'return_rva':0x38fe9,'public_entry_rva':0x2257,'IAT_rva':0xc9184,'data_IAT_rva':0xc90c4,'codepage':-4,'next_rva':0x393ca,'flags_rva':0xcc108,'classes_rva':0xcc008,'bytes':512,'selection_support':'unclaimed until own203 captured and reviewed'}
+        trial['case_inputs']['cases/minimal/scanner-data.json']=sha(PROJECT/'cases/minimal/scanner-data.json')
     trial['test_arena_reset_seed']=bool(candidate.get('test_arena_reset_seed'))
     if trial['test_arena_reset_seed']:
         if trial_name!='CompilerArena::Reset':raise ValueError('Reset seed requires sole Reset candidate')

@@ -69,7 +69,7 @@ def check(directory):
         path = directory / name
         require(Path(name).name == name and path.is_file() and path.stat().st_size == row['size'] and sha(path) == row['sha256'], 'capture artifact drift: ' + name)
     trial = json.loads((directory / 'trial.json').read_text())
-    require(trial['trial'] == '_initialize_checksums', 'not the required genuine checksum candidate')
+    require(trial['trial'] in ('_initialize_checksums','_initialize_multibyte_categories'), 'not a genuine encountered checksum/scanner candidate')
     for name, digest in trial['case_inputs'].items():
         require(sha(directory / Path(name).name) == digest, 'case input drift: ' + name)
     schema = json.loads((directory / 'locale-schema.json').read_text())
@@ -93,7 +93,8 @@ def check(directory):
     base = int(re.search(r'^module name=MSVCRT.dll actual=(\w+) ', text, re.M | re.I)[1], 16)
     require(int(entry[1], 16) == base + schema['exports']['setlocale'] and int(entry[3], 16) == int(returned[1], 16) == 0x10400000 + call['caller_return_rva'], 'public entry/return PCs')
     require(int(entry[4]) == 2 and int(entry[5], 16) == call['arguments'][1] and int(returned[2], 16) == int(entry[2], 16) + 4 and returned[3] == entry[2] and returned[0] == entry[0] and entry[6:] == returned[5:], 'cdecl arguments/RET0/nonvolatile ABI')
-    require('locale-observer canonical-export=00005729 actual=%08x iat=000c914c no-query-calls=1 no-seeds=1' % (base + 0x5729) in text and re.findall(r'^frontier rva=(\w+)$', text, re.M) == ['00039394'], 'isolated transport/final target frontier')
+    expected_frontier='000393ca' if trial['trial']=='_initialize_multibyte_categories' else '00039394'
+    require('locale-observer canonical-export=00005729 actual=%08x iat=000c914c no-query-calls=1 no-seeds=1' % (base + 0x5729) in text and re.findall(r'^frontier rva=(\w+)$', text, re.M) == [expected_frontier], 'isolated transport/final target frontier')
     require((directory / 'locale-provider-entry.bin').read_bytes() == pe_read(provider, 0x5729, 16), 'actual loaded provider entry bytes')
     observed, private = {}, {}
     first_words = None

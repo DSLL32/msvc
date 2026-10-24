@@ -11,6 +11,9 @@ def capture(project,output,binary,trial):
     if trial.get('options_parser_observers'):
         import options_projection
         (output/'options-projection-source.py').write_bytes(Path(options_projection.__file__).read_bytes())
+    if trial.get('multibyte_observers'):
+        import scanner_projection
+        (output/'scanner-projection-source.py').write_bytes(Path(scanner_projection.__file__).read_bytes())
     for item,digest in trial['case_inputs'].items():
         import hashlib
         source=project/item
@@ -268,6 +271,13 @@ if 'checksum_tables'in value['frontend']['declared_fields']['bss']:
     value['frontend']['checksum_tables']={key:list(checksum_raw[i*256:(i+1)*256])for i,key in enumerate(('update','high','low'))}
     value['frontend']['storage']['checksum_tables']=[checksum_address,768]
     value['frontend']['checksum_native_layout']={'size':int(checksum_type.sizeof),'fields':{f.name:[f.bitpos//8,int(f.type.sizeof),str(f.type)]for f in checksum_type.fields()}}
+if 'scanner'in value['frontend']['declared_fields']['initialized']:
+    obj=gdb.parse_and_eval('frontend_data.scanner');address=int(obj.address);raw=gdb.selected_inferior().read_memory(address,512).tobytes()
+    saved=gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&frontend_bss.saved_state->scanner')),512).tobytes()if value['frontend']['saved_state']else None
+    value['frontend']['scanner']={name:list(raw[index*256:(index+1)*256])for index,name in enumerate(('classes','flags'))}
+    value['frontend']['saved_scanner']={name:list(saved[index*256:(index+1)*256])for index,name in enumerate(('classes','flags'))}if saved is not None else None
+    value['frontend']['scanner_native_layout']={'size':int(obj.type.sizeof),'fields':{f.name:[f.bitpos//8,int(f.type.sizeof)]for f in obj.type.fields()}}
+    for index,name in enumerate(('classes','flags')):value['frontend']['storage']['scanner.'+name]=[address+index*256,256]
 value['frontend']['callback_slots']=[int(gdb.parse_and_eval('(unsigned int)frontend_initializers[%d]'%n)) for n in range(43)]
 value['target_state']['initializer_words']=[int(gdb.parse_and_eval('(unsigned int)crt_initializers[%d]'%n)) for n in range(2)]
 value['target_state']['onexit_first']=int(gdb.parse_and_eval('(unsigned int)*onexit_begin')) if value['target_state']['onexit_begin'] else None
@@ -309,6 +319,8 @@ end
         for i in range(10):options_seed+='set variable frontend_bss.language_contexts[%d]=%d\n'%(i,1+(i&1))
     if model['schema']>=34 and trial.get('test_seed'):
         options_seed+="python\nobj=gdb.parse_and_eval('frontend_bss.checksum_tables');gdb.selected_inferior().write_memory(int(obj.address),bytes([0xa5])*768)\nend\n"
+    if model['schema']>=35 and trial.get('test_seed'):
+        options_seed+="python\nfor expression,start in [('frontend_data.scanner',31),('frontend_bss.saved_state->scanner',11)]:\n    obj=gdb.parse_and_eval(expression);gdb.selected_inferior().write_memory(int(obj.address),bytes((69*7+i+start)&255 for i in range(512)))\nend\n"
     observer='break *initialize_compiler_pass\ncommands\nsilent\n'+pdb_seed+options_seed+'source '+str(pre)+'\ncontinue\nend\n'
     if trial['trial']=='_checked_malloc':
         allocation=output/'collect-allocation-entry.gdb'
@@ -512,6 +524,10 @@ end
         from checksum_probe import setup as setup_checksum
         checksum_observer,checksum_finish=setup_checksum(output,binary)
         observer+=checksum_observer;scaler_finish+=checksum_finish
+    if trial.get('multibyte_observers'):
+        from scanner_probe import setup as setup_scanner
+        scanner_observer,scanner_finish=setup_scanner(output,binary)
+        observer+=scanner_observer;scaler_finish+=scanner_finish
     from collector_cache import prepare as prepare_collector_cache
     cache_startup=prepare_collector_cache(output,collector)
     def timed_source(match):

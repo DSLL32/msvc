@@ -27,6 +27,7 @@ def checksum_locale_state(phase,vectors=True):
     selection=gdb.parse_and_eval('ctype_selection')
     result={'pctype':old,'old_pctype':checksum_locale_old,'static_ctype':int(gdb.parse_and_eval('&character_flags')),'mb_cur_max':int(gdb.parse_and_eval('recon_mb_cur_max')),'mb_codepage':int(gdb.parse_and_eval('recon_mb_codepage')),'mb_gate':int(gdb.parse_and_eval('recon_mb_codepage_gate')),'lc_codepage':int(gdb.parse_and_eval('recon_lc_codepage')),'lc_handle':[int(gdb.parse_and_eval('recon_lc_handle[%d]'%i))for i in range(6)],'errors':[int(gdb.parse_and_eval('*(int *)&errno')),int(gdb.parse_and_eval('recon_doserrno')),int(gdb.parse_and_eval('last_error'))],'selection':{'bound':int(selection['bound']),'calls':int(selection['calls']),'reference':selection['reference_sha256'].string(),'result':int(selection['result'])}}
     result['mbctype']=inferior.read_memory(int(gdb.parse_and_eval('&recon_mbctype')),257).tobytes().hex()
+    if any(field.name=='mb_calls'for field in selection.type.fields()):result['selection']['mb_calls']=int(selection['mb_calls'])
     result['ctype']=inferior.read_memory(old-2,514).tobytes().hex();result['old_ctype']=inferior.read_memory(checksum_locale_old-2,514).tobytes().hex()
     result['result_pointer']=checksum_locale_result
     result['result_bytes']=(gdb.Value(checksum_locale_result).cast(gdb.lookup_type('char').pointer()).string(encoding='latin1').encode('latin1')+b'\\0').hex()if checksum_locale_result else ''

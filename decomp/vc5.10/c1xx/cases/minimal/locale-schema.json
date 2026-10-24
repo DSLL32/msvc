@@ -30,7 +30,8 @@
     "_environ": 260348,
     "_errno": 25654,
     "__doserrno": 25645,
-    "_getmbcp": 42355
+    "_getmbcp": 42355,
+    "_setmbcp": 8791
   },
   "internal_state": {
     "mb_flag_rva": 260476,
@@ -82,6 +83,6 @@
   "no_state_seeding_for_API": true,
   "transport_source": {
     "path": "scripts/locale-observer.inc",
-    "sha256": "937791bdc4096b31fb59bcafb668c025805f91ed49259a0c99140ccf3afd9578"
+    "sha256": "ba692d84d26bc61fde77290ee18668acf3fbcd4c7311a56d737127e2d7ab1e3f"
   }
 }

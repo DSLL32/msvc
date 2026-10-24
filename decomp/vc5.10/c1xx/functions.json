@@ -91,7 +91,8 @@
     "_process_compiler_options",
     "_push_declaration_context",
     "_initialize_include_aliases",
-    "_initialize_checksums"
+    "_initialize_checksums",
+    "_initialize_multibyte_categories"
   ],
   "driver": [
     {
@@ -1055,10 +1056,16 @@
     {
       "name": "_initialize_multibyte_categories",
       "start": 272864148,
-      "end": 272864149,
-      "pending_extent": true,
-      "source": "src/options.c",
-      "abi": "cdecl0"
+      "end": 272864202,
+      "source": "src/scanner.c",
+      "abi": "cdecl0",
+      "code_chunks": [
+        [
+          273097754,
+          273097772
+        ]
+      ],
+      "evidence": "own54B hot+18B cold; exactcdecl_setmbcp(-4), directpublic_mbctype dataimport, unsigned256-domain andleadclass35/flagOR128 writes"
     },
     {
       "name": "_initialize_lowercase_table",
@@ -5126,6 +5133,59 @@
         "native_seconds": 6.025521132163703
       },
       "native_trial_sha256": "c10c52de4496b07faaad5c6a09c326fb6e84c598da5046feef48d75310252474",
+      "native_only_refresh": "original raw execution reused after checked exact native ELF binding-only delta"
+    },
+    {
+      "name": "_initialize_multibyte_categories",
+      "classification": "application source",
+      "source": "src/scanner.c",
+      "source_sha256": "949257aadf9b34a2d0aba1c40ff317f465221af6aaac06e329e04bcff6473e89",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-multibyte-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-multibyte-native-1",
+      "original_receipt_sha256": "d34beb0e96bee39de0d943b9113b5264f2fb6443295c1b54b14ed4f634b00337",
+      "native_receipt_sha256": "1fe12b99a7c9e7253af32ef087f305d395f8767b1d3d571c03caa534d0fd8300",
+      "trial_sha256": "c5046ff8f15165304a934900aec3c8467753b67f81c8522f719bf297327d02fc",
+      "audit_sha256": "a53361186afc45cb9f4c9ee45b4378a2288a251443b9ce5c408c5097ec34298a",
+      "code_chunks": [
+        [
+          234388,
+          234442
+        ],
+        [
+          467994,
+          468012
+        ]
+      ],
+      "comparison": {
+        "trial": "_initialize_multibyte_categories",
+        "frontier": "_initialize_lowercase_table",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 2281,
+        "native_bss_size": 2312,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 6031,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 25.609310009516776,
+        "native_seconds": 6.305321819148958
+      },
+      "native_trial_sha256": "66fe27def7a9bb0fdbf9b0f3847eb7153a49b4c2841f0adaeb7f1002bb1f986a",
       "native_only_refresh": "original raw execution reused after checked exact native ELF binding-only delta"
     }
   ],

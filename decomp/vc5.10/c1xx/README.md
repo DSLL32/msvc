@@ -13,16 +13,13 @@ compares its graph/ABI/imports using the shared Rust auditor. Audit/build target
 may use Wine explicitly; fixture dependencies do not. Fixtures inspect the
 already-built Win32 DLL's exports without executing it.
 
-Accepted code is **81 application functions (5,044 bytes)**, **two historical CRT
+Accepted code is **83 application functions (5,352 bytes)**, **two historical CRT
 support functions (451 bytes)** and **two compiler/linker-generated import thunks (12 bytes)**.
-The 5,507 accepted code bytes are 0.7331% of the 751,216-byte code extent; this is not
+The 5,815 accepted code bytes are 0.7741% of the 751,216-byte code extent; this is not
 a non-CRT coverage percentage. The real minimal compilation remains unfinished,
-stopping at checksum-table initialization after the scalar language-context
-push and four-byte include-alias root allocation. The parser projection,
-tables, defaults, nonzero restore proof and ABI refinement are recorded in
-`cases/minimal/options-trial.json` and `cases/minimal/OPTIONS.md`. The scalar
-stack push/reset/return proofs are in `cases/minimal/language-context-trial.json`;
-the opaque root allocation proof is in `cases/minimal/include-aliases-trial.json`.
+stopping at lowercase-table initialization after the multibyte lexer initializer.
+The latest normal/restore proofs, public CRT adoption, affected controls and timing
+accounting are in `cases/minimal/scanner-trial.json` and `MULTIBYTE.md`.
 
 ## Target and ABI
 

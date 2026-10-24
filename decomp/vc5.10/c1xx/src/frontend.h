@@ -3,6 +3,7 @@
 #include "c1xx.h"
 #include "output.h"
 #include "options.h"
+#include "scanner.h"
 #include <recon.h>
 
 enum { FRONTEND_STATE_BYTES = 8520, FRONTEND_INITIALIZERS = 43 };
@@ -27,6 +28,7 @@ typedef struct FrontendData {
     int option_zm_percent;
     CompilerOptionData options;
     int language_context_depth;
+    CompilerScannerTables scanner;
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */

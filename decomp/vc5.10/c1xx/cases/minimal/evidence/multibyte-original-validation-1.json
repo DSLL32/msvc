@@ -1,0 +1,156 @@
+{
+  "kind": "own original-only canonical _setmbcp(-4) Last203 witness; native success unclaimed",
+  "original_directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-multibyte-original-1",
+  "original_receipt_sha256": "d34beb0e96bee39de0d943b9113b5264f2fb6443295c1b54b14ed4f634b00337",
+  "target_sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "trial_sha256": "c5046ff8f15165304a934900aec3c8467753b67f81c8522f719bf297327d02fc",
+  "checker_sha256": "7bd993d0a4e8184b60380fa9659c62cc9a1fb06b749bdb28de4f7db9513dfdac",
+  "locale_prerequisite_checker_sha256": "898ea42dc2dc4b368515e8a4ec6e27cd2ad11e7baced43832d4490dcb9c7624d",
+  "phases": {
+    "mb-before": {
+      "words": [
+        2013265920,
+        1,
+        1252,
+        0,
+        0,
+        1033,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3883642,
+        2013526952,
+        3,
+        9048592,
+        9044384,
+        2013526954,
+        9050656
+      ],
+      "errors": [
+        0,
+        0,
+        203
+      ],
+      "FP_sha256": "12a29d22306eefbc9f6e549428b3542c5bac52cd86b45c9640c1c4e26b01f18a",
+      "table_sha256": {
+        "mbctype": "2cdc20a27a8fc6b37dca7a733ffba7159c9a4feb9e07e4658a04e66def29e3ee",
+        "ctype": "aba319e028b28540f24afb197c5735b0e29dc130fc8f5d165f27edf8de28296d",
+        "old-ctype": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725",
+        "result": "a8b0c18819fac549be1b55e7141182cc9ae915a340c03e9f55c0cf99401f0673"
+      }
+    },
+    "mb-after": {
+      "words": [
+        2013265920,
+        1,
+        1252,
+        0,
+        0,
+        1033,
+        0,
+        0,
+        0,
+        0,
+        1252,
+        3883642,
+        2013526952,
+        3,
+        9048592,
+        9044384,
+        2013526954,
+        9050656
+      ],
+      "errors": [
+        0,
+        0,
+        203
+      ],
+      "FP_sha256": "12a29d22306eefbc9f6e549428b3542c5bac52cd86b45c9640c1c4e26b01f18a",
+      "table_sha256": {
+        "mbctype": "2cdc20a27a8fc6b37dca7a733ffba7159c9a4feb9e07e4658a04e66def29e3ee",
+        "ctype": "aba319e028b28540f24afb197c5735b0e29dc130fc8f5d165f27edf8de28296d",
+        "old-ctype": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725",
+        "result": "a8b0c18819fac549be1b55e7141182cc9ae915a340c03e9f55c0cf99401f0673"
+      }
+    },
+    "mb-helper-return": {
+      "words": [
+        2013265920,
+        1,
+        1252,
+        0,
+        0,
+        1033,
+        0,
+        0,
+        0,
+        0,
+        1252,
+        3883642,
+        2013526952,
+        3,
+        9048592,
+        9044384,
+        2013526954,
+        9050656
+      ],
+      "errors": [
+        0,
+        0,
+        203
+      ],
+      "FP_sha256": "12a29d22306eefbc9f6e549428b3542c5bac52cd86b45c9640c1c4e26b01f18a",
+      "table_sha256": {
+        "mbctype": "2cdc20a27a8fc6b37dca7a733ffba7159c9a4feb9e07e4658a04e66def29e3ee",
+        "ctype": "aba319e028b28540f24afb197c5735b0e29dc130fc8f5d165f27edf8de28296d",
+        "old-ctype": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725",
+        "result": "a8b0c18819fac549be1b55e7141182cc9ae915a340c03e9f55c0cf99401f0673"
+      }
+    },
+    "mb-next": {
+      "words": [
+        2013265920,
+        1,
+        1252,
+        0,
+        0,
+        1033,
+        0,
+        0,
+        0,
+        0,
+        1252,
+        3883642,
+        2013526952,
+        3,
+        9048592,
+        9044384,
+        2013526954,
+        9050656
+      ],
+      "errors": [
+        0,
+        0,
+        203
+      ],
+      "FP_sha256": "12a29d22306eefbc9f6e549428b3542c5bac52cd86b45c9640c1c4e26b01f18a",
+      "table_sha256": {
+        "mbctype": "2cdc20a27a8fc6b37dca7a733ffba7159c9a4feb9e07e4658a04e66def29e3ee",
+        "ctype": "aba319e028b28540f24afb197c5735b0e29dc130fc8f5d165f27edf8de28296d",
+        "old-ctype": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725",
+        "result": "a8b0c18819fac549be1b55e7141182cc9ae915a340c03e9f55c0cf99401f0673"
+      }
+    }
+  },
+  "complete_target_table_bytes": 512,
+  "old_current_tables_result_vectors_errors_FP_preserved": true,
+  "internal_MB_codepage_before": 0,
+  "internal_MB_codepage_after": 1252,
+  "independent_MB_gate": 0,
+  "actual_public_return": 0,
+  "next_target_rva": 234442,
+  "seconds": 1.479361917823553
+}

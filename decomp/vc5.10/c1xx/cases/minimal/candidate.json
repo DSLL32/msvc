@@ -88,7 +88,8 @@
     "_process_compiler_options",
     "_push_declaration_context",
     "_initialize_include_aliases",
-    "_initialize_checksums"
+    "_initialize_checksums",
+    "_initialize_multibyte_categories"
   ],
   "trial": null,
   "ranges": [
@@ -806,7 +807,19 @@
       "start_rva": 234152,
       "end_rva": 234388,
       "entry": 1
+    },
+    {
+      "owner": "_initialize_multibyte_categories",
+      "start_rva": 234388,
+      "end_rva": 234442,
+      "entry": 1
+    },
+    {
+      "owner": "_initialize_multibyte_categories",
+      "start_rva": 467994,
+      "end_rva": 468012,
+      "entry": 0
     }
   ],
-  "stage": "_initialize_checksums accepted; next frontier _initialize_multibyte_categories"
+  "stage": "_initialize_multibyte_categories accepted; next frontier _initialize_lowercase_table"
 }

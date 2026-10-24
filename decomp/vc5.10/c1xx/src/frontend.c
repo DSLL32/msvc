@@ -91,7 +91,8 @@ FrontendData frontend_data = {
         0, /* move_pch */
         0 /* option_bcmpconv */
     },
-    -1 /* language_context_depth */
+    -1, /* language_context_depth */
+    C1XX_SCANNER_DEFAULTS
 };
 FrontendBss frontend_bss;
 int restore_mode;

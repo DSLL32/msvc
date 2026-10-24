@@ -7,7 +7,7 @@ from scaler_state import fp,semantic
 def check(s,d,original,native,trial,text,state,final,traps):
     def require(ok,message):s.require(ok,'include-alias root: '+message)
     def read(name):return json.loads((native/(name+'.json')).read_text())
-    require(trial['trial']in ('_initialize_include_aliases','_initialize_checksums')and not trial.get('test_seed')and trial['alias_root_observers']=={'entry_rva':0x39282,'return_rva':0x38fcf,'request_bytes':4,'arena':0,'pointee_layout':'UNMODELED; bytes untouched','source_formals':[],'ABI':'cdecl0/RET0'},'wrong allocation observer/candidate/auxiliary scope')
+    require(trial['trial']in ('_initialize_include_aliases','_initialize_checksums','_initialize_multibyte_categories')and not trial.get('test_seed')and trial['alias_root_observers']=={'entry_rva':0x39282,'return_rva':0x38fcf,'request_bytes':4,'arena':0,'pointee_layout':'UNMODELED; bytes untouched','source_formals':[],'ABI':'cdecl0/RET0'},'wrong allocation observer/candidate/auxiliary scope')
     names=symbols(native/'native-executable.elf');entries=read('options-next-entries');returns=read('options-alias-returns');require(len(entries)==2 and len(returns)==1,'actual alias/checksum/return inventory differs');entry,next_entry=entries;returned=returns[0]
     storage=state['frontend']['storage'];arena_offset=storage['arenas'][0]-state['frontend']['bss_address'];root_offset=200+state['frontend']['options_data_layout']['fields']['include_aliases'][0]
     before_bss=bytearray.fromhex(entry['guard']['bss']);before_data=bytearray.fromhex(entry['guard']['data']);cursor,limit,base,committed=struct.unpack_from('<4I',before_bss,arena_offset);root=struct.unpack_from('<I',before_data,root_offset)[0]

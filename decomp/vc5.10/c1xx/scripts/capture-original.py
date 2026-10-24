@@ -154,6 +154,8 @@ def main():
         if trial.get('checksum_observers'):
             environment['C1XX_OBSERVE_CHECKSUM_TABLES']='1'
             environment['C1XX_OBSERVE_ISOLATED_LOCALE']='1'
+        environment.pop('C1XX_OBSERVE_MULTIBYTE',None)
+        if trial.get('multibyte_observers'):environment['C1XX_OBSERVE_MULTIBYTE']='1'
         environment.pop('C1XX_TEST_ARENA_RESET',None)
         if trial.get('test_arena_reset_seed'):environment['C1XX_TEST_ARENA_RESET']='1'
         environment.pop('C1XX_TEST_OUTPUT_CONSTRUCTOR',None)

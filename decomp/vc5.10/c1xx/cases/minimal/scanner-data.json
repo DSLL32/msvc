@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "status": "analysis/source only; candidate unaccepted",
+  "target_sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+  "chunks": [
+    [
+      234388,
+      234442
+    ],
+    [
+      467994,
+      468012
+    ]
+  ],
+  "tables": [
+    {
+      "name": "classes",
+      "original_rva": 835592,
+      "bytes": 256,
+      "native_offset": 2028,
+      "default_sha256": "b1a73aaf4fdf7d014bfc9e2e67ee47eb8daa22643a70c95a6300477482854d3a"
+    },
+    {
+      "name": "flags",
+      "original_rva": 835848,
+      "bytes": 256,
+      "native_offset": 2284,
+      "default_sha256": "d645f55079641302bd7dbcd532137b1a9b94ae6f643793c832639f20ae9f1300"
+    }
+  ],
+  "full_default_sha256": "03163f0b9ff2eb5bfdccdf5651b2039d39f15c514d0b11cb577c08759473a986",
+  "source_header": "src/scanner.h",
+  "source_header_sha256": "d3d2e8910a7efc8f8b94430d23b84f9956cb4af12454b0124c8b18354d826238",
+  "compiled_standalone": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/scanner-defaults/defaults",
+    "bytes": 512,
+    "output_sha256": "03163f0b9ff2eb5bfdccdf5651b2039d39f15c514d0b11cb577c08759473a986"
+  },
+  "compiled_original_DLL": {
+    "artifact": "build/c1n32_l.dll",
+    "artifact_sha256": "66325eb7f6d1068b9422d900f9819bf0a972095ed0871971f7396e74335b0105",
+    "frontend_data_rva": 20480,
+    "scanner_offset": 2028,
+    "bytes": 512,
+    "identical_to_own_canonical": true
+  },
+  "lifetime": "initialized snapshot/restore; excluded from BSS reset",
+  "no_provider_success_claim": true
+}

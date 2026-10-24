@@ -1,0 +1,127 @@
+{
+  "kind": "fresh affected scanner/new-projection/public-API semantic controls after full paired strict positive; no original/native execution",
+  "bindings": {
+    "original_receipt_sha256": "d34beb0e96bee39de0d943b9113b5264f2fb6443295c1b54b14ed4f634b00337",
+    "native_receipt_sha256": "1fe12b99a7c9e7253af32ef087f305d395f8767b1d3d571c03caa534d0fd8300"
+  },
+  "original_directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-multibyte-original-1",
+  "native_directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-multibyte-native-1",
+  "count": 28,
+  "cases": [
+    {
+      "case": "entry-PC",
+      "rejection": "multibyte scanner: actual application entry/next noarg ABI"
+    },
+    {
+      "case": "entry-formal",
+      "rejection": "multibyte scanner: actual application entry/next noarg ABI"
+    },
+    {
+      "case": "entry-array",
+      "rejection": "multibyte scanner: actual typed receiver/storage/input array identities"
+    },
+    {
+      "case": "entry-alias",
+      "rejection": "multibyte scanner: actual typed receiver/storage/input array identities"
+    },
+    {
+      "case": "native-RET",
+      "rejection": "multibyte scanner: actual void helper RET0/nonvolatile; no incidental EAX claim"
+    },
+    {
+      "case": "native-nonvolatile",
+      "rejection": "multibyte scanner: actual void helper RET0/nonvolatile; no incidental EAX claim"
+    },
+    {
+      "case": "next-PC",
+      "rejection": "multibyte scanner: actual application entry/next noarg ABI"
+    },
+    {
+      "case": "next-formal",
+      "rejection": "multibyte scanner: actual application entry/next noarg ABI"
+    },
+    {
+      "case": "output-array",
+      "rejection": "multibyte scanner: all512 helper outputs/full native neighbors and lifetime"
+    },
+    {
+      "case": "output-neighbor",
+      "rejection": "multibyte scanner: all512 helper outputs/full native neighbors and lifetime"
+    },
+    {
+      "case": "input-live",
+      "rejection": "multibyte scanner: actual typed nonzero/default pre-initializer input"
+    },
+    {
+      "case": "restored-array",
+      "rejection": "multibyte scanner: new512 initialized snapshot/restore or inappropriate BSS clearing"
+    },
+    {
+      "case": "saved-lifetime",
+      "rejection": "multibyte scanner: saved512byte array lifetime"
+    },
+    {
+      "case": "serialized-result",
+      "rejection": "multibyte scanner: all512 helper outputs/full native neighbors and lifetime"
+    },
+    {
+      "case": "public-argument",
+      "rejection": "multibyte scanner: actual public source formal/argument inventory"
+    },
+    {
+      "case": "public-formal",
+      "rejection": "multibyte scanner: actual public source formal/argument inventory"
+    },
+    {
+      "case": "public-result",
+      "rejection": "multibyte scanner: actual public cdecl4/RET0/result/nonvolatile ABI"
+    },
+    {
+      "case": "public-RET",
+      "rejection": "multibyte scanner: actual public cdecl4/RET0/result/nonvolatile ABI"
+    },
+    {
+      "case": "public-FP",
+      "rejection": "multibyte scanner: actual complete architectural FP/Last203"
+    },
+    {
+      "case": "public-nonvolatile",
+      "rejection": "multibyte scanner: actual public cdecl4/RET0/result/nonvolatile ABI"
+    },
+    {
+      "case": "MB-gate",
+      "rejection": "multibyte scanner: independent actual MBgate/codepage/MBmax/LC handles"
+    },
+    {
+      "case": "MB-codepage",
+      "rejection": "multibyte scanner: independent actual MBgate/codepage/MBmax/LC handles"
+    },
+    {
+      "case": "MB-inventory",
+      "rejection": "multibyte scanner: once-only ownreceipt/LC+MBcall/result/error inventory"
+    },
+    {
+      "case": "LC-handle",
+      "rejection": "multibyte scanner: independent actual MBgate/codepage/MBmax/LC handles"
+    },
+    {
+      "case": "MB-table",
+      "rejection": "multibyte scanner: complete current/oldtable/result and lifetime: mbctype"
+    },
+    {
+      "case": "old-table",
+      "rejection": "multibyte scanner: complete current/oldtable/result and lifetime: old-ctype"
+    },
+    {
+      "case": "result-identity",
+      "rejection": "multibyte scanner: existing locale table/result allocation identities preserved"
+    },
+    {
+      "case": "private-vector",
+      "rejection": "multibyte scanner: actual private vector storage/content/lifetime"
+    }
+  ],
+  "seconds": 38.8759421762079,
+  "checker_sha256": "1b03e81100bce394bd0d8cc96d7ece1bfa1964b5d81d4d0484889e45e954564c",
+  "semantic_checker_sha256": "10e90bc2c877313af823ee492fce720fbf953bf34901c13ea978da0586769bb9"
+}

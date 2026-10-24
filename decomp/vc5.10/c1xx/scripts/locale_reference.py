@@ -11,6 +11,12 @@ def sha(path):
 
 def prepare(original, output):
     checker = Path(__file__).with_name('check-isolated-locale.py')
+    trial=json.loads((output/'trial.json').read_text())
+    if trial.get('multibyte_observers'):
+        prerequisite=checker
+        checker=Path(__file__).with_name('check-isolated-multibyte.py')
+        (output/'locale-prerequisite-checker.py').write_bytes(prerequisite.read_bytes())
+        (output/'scanner-reference-projection.py').write_bytes(Path(__file__).with_name('scanner_projection.py').read_bytes())
     spec = importlib.util.spec_from_file_location('isolated_locale_reference', checker)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -20,6 +26,6 @@ def prepare(original, output):
     (output / 'locale-original-validation.json').write_text(json.dumps(evidence, indent=2) + '\n')
     for path, name in ((checker, 'locale-original-checker.py'), (Path(__file__), 'locale-reference-source.py')):
         (output / name).write_bytes(path.read_bytes())
-    binding = dict(kind='enable actual isolated LC_CTYPE empty selection; no bind-time locale mutation', original_directory=str(original.resolve()), original_receipt_sha256=evidence['original_receipt_sha256'], provider_sha256=evidence['provider_sha256'], original_trial_sha256=evidence['trial_sha256'], current_native_trial_sha256=sha(output / 'trial.json'), original_validation_sha256=sha(output / 'locale-original-validation.json'), checker_sha256=sha(checker), factory_sha256=sha(Path(__file__)))
+    binding = dict(kind='enable actual isolated LC_CTYPE empty selection; no bind-time locale mutation', original_directory=str(original.resolve()), original_receipt_sha256=evidence['original_receipt_sha256'], provider_sha256=evidence['provider_sha256'], original_trial_sha256=evidence['trial_sha256'], current_native_trial_sha256=sha(output / 'trial.json'), original_validation_sha256=sha(output / 'locale-original-validation.json'), checker_sha256=sha(checker), factory_sha256=sha(Path(__file__)), own_multibyte_Last203_witness_validated=bool(trial.get('multibyte_observers')))
     (output / 'locale-selection-binding.json').write_text(json.dumps(binding, indent=2) + '\n')
     return evidence['original_receipt_sha256']

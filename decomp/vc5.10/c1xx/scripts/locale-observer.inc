@@ -7,7 +7,7 @@ static DWORD locale_export(const char *wanted)
         {"__mb_cur_max",0x3fba0,0},{"__lc_codepage",0x3f8f8,0},{"__lc_handle",0x3f1a8,0},
         {"_pctype",0x3fb9c,0},{"_mbctype",0x3f1c8,0},{"_ctype",0x3fba8,0},{"setlocale",0x5729,0},
         {"__argc",0x3fa84,0},{"__argv",0x3fa8c,0},{"_environ",0x3f8fc,0},
-        {"_errno",0x6436,0},{"__doserrno",0x642d,0},{"_getmbcp",0xa573,0}
+        {"_errno",0x6436,0},{"__doserrno",0x642d,0},{"_getmbcp",0xa573,0},{"_setmbcp",0x2257,0}
     };
     static DWORD module;
     unsigned item; DWORD index,name,address,rva; WORD slot; char text[128];
@@ -112,4 +112,16 @@ static void prepare_locale_observer(void)
     locale_entry_pc=locale_export("setlocale");readmem(base+0xc914c,&actual,4);if(actual!=locale_entry_pc)fail("locale actual resolved IAT");
     readmem(locale_entry_pc,code,sizeof(code));if(code[0]!=0x81)fail("locale entry opcode");save_blob("locale-provider-entry.bin",code,sizeof(code));locale_entry_byte=code[0];patch(locale_entry_pc,0xcc);locale_entry_active=1;
     fprintf(events,"locale-observer canonical-export=00005729 actual=%08lx iat=000c914c no-query-calls=1 no-seeds=1\n",locale_entry_pc);
+}
+
+static void prepare_multibyte_observer(void)
+{
+    DWORD actual;BYTE code[16];
+    if(!getenv("C1XX_OBSERVE_MULTIBYTE") || baseline)return;
+    mb_entry_pc=locale_export("_setmbcp");readmem(base+0xc9184,&actual,4);
+    if(actual!=mb_entry_pc || mb_entry_pc!=crt_base+0x2257)fail("multibyte actual resolved provider/IAT");
+    readmem(mb_entry_pc,code,sizeof(code));if(code[0]!=0x83)fail("multibyte canonical public entry opcode");
+    save_blob("mb-provider-entry.bin",code,sizeof(code));mb_entry_byte=code[0];patch(mb_entry_pc,0xcc);mb_entry_active=1;
+    readmem(base+0xc90c4,&actual,4);if(actual!=locale_export("_mbctype"))fail("multibyte direct data import identity");
+    fprintf(events,"mb-observer canonical-export=00002257 actual=%08lx iat=000c9184 direct-data-IAT=000c90c4 resolved=%08lx no-query-calls=1 no-seeds=1\n",mb_entry_pc,actual);
 }
