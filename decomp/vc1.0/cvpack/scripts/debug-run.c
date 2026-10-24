@@ -1292,6 +1292,12 @@ int main(int argc, char **argv)
     if (!environment_length || environment_length >= sizeof(child_environment)-16) return 10;
     strcpy(child_environment+4+environment_length+1, "PATH=");
     child_environment[4+environment_length+1+6] = 0;
+    if (GetEnvironmentVariableA("_MSC_IDE_FLAGS", program, sizeof(program))) {
+        if (strcmp(program, "-FEEDBACK fixture") ||
+            environment_length+11+sizeof("_MSC_IDE_FLAGS=-FEEDBACK fixture")+1 > sizeof(child_environment)) return 10;
+        strcpy(child_environment+environment_length+11, "_MSC_IDE_FLAGS=-FEEDBACK fixture");
+        child_environment[environment_length+11+sizeof("_MSC_IDE_FLAGS=-FEEDBACK fixture")] = 0;
+    }
     if (!CreateProcessA(argv[1], command, 0, 0, TRUE, DEBUG_ONLY_THIS_PROCESS,
                          child_environment, argv[6], &startup, &child)) return 4;
     if (sopen_start) {
@@ -1562,6 +1568,7 @@ int main(int argc, char **argv)
                 }
                 if(!dump_recursive_inputs(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,&context,words))return 67;
                 if(!dump_type_recycle_owner(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,&context,words))return 67;
+                if(!dump_module_name_input(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,words))return 67;
                 if(!dump_numeric_input(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,words))return 68;
                 if(!dump_precompiled_input(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,words))return 68;
                 if(!dump_symbol_prefix(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,&context,words))return 69;

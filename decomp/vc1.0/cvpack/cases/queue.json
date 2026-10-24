@@ -87,6 +87,19 @@
       ],
       "status": "complete",
       "completion": "cases/fieldlist-continuations-aligned/evidence/0183-recycle_medium_type/proof.json"
+    },
+    {
+      "name": "dos-mapped-growth-feedback",
+      "argv": [
+        "/nologo",
+        "/unknown",
+        "/cvnew",
+        "/verbose",
+        "/mapio",
+        "dos-mapped.exe"
+      ],
+      "status": "complete",
+      "completion": "cases/dos-mapped-growth-feedback/evidence/0185-module_name/proof.json"
     }
   ]
 }

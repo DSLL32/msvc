@@ -140,6 +140,8 @@ def main():
     if validate_pdb_read(config,original)and args.case=='hello-debug-dll':env['CVPACK_CAPTURE_PDB_HEADER']='1'
     env['CVPACK_CAPTURE_READS']=','.join('%x:%x'%(r['call'],r['returned'])for r in read_sites)
     env.pop('_MSC_IDE_FLAGS',None)
+    from case_environment import apply as apply_environment
+    target_environment=apply_environment(record,env)
     env['CVPACK_CAPTURE_ARGV0']=tool.windows(ROOT/config['target']['path'])
     env['CVPACK_CAPTURE_INSPECT']=','.join(args.inspect)
     walks=json.loads((BINARY/'walks.json').read_text()) if (BINARY/'walks.json').exists() else []
@@ -213,7 +215,7 @@ def main():
     assert sha(snapshot)==sha(BINARY/'functions.json'),'configuration changed during original run'
     check_policy_snapshot(output,policy_hash)
     assert original_inputs(record)==ancillary_inputs,'original ancillary inputs changed'
-    receipt = dict(ancillary_inputs=ancillary_inputs,case=args.case, unmasked=args.unmasked, command=argv,
+    receipt = dict(ancillary_inputs=ancillary_inputs,case=args.case,target_environment=target_environment, unmasked=args.unmasked, command=argv,
         original_sha256=config['target']['sha256'], executable_sha256=sha(masked),
         debugger_sha256=sha(debugger), configuration_sha256=sha(snapshot),
         discover_runtime=args.discover_runtime,canonical_argv0=env['CVPACK_CAPTURE_ARGV0'],
@@ -224,7 +226,7 @@ def main():
         conditional_runtime=seam_records,
         conditional_support_sha256=policy_hash,
         stop_at=args.stop_at,
-        environment={'LIB':env['LIB'],'PATH':'','_MSC_IDE_FLAGS':None},
+        environment={'LIB':env['LIB'],'PATH':'','_MSC_IDE_FLAGS':target_environment.get('_MSC_IDE_FLAGS')},
         accepted=[r['name'] for r in config['functions'] if r['status']=='accepted'],
         seconds=dict(setup=setup,execution=execution,total=time.perf_counter()-start),
         artifacts=[dict(name=p.name,bytes=p.stat().st_size,sha256=sha(p)) for p in sorted(work.iterdir())])

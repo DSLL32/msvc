@@ -108,6 +108,11 @@ def compare_global_owner(item,words,actual,events):
         assert len(roots)==len(raws)==1 and int.from_bytes(bytes.fromhex(roots[0]),'little')==words[item['slot']]!=0,'actual module argument is not current_module'
         assert actual['owner']==dict(root='current_module',address=actual['address'],requested_size=48)and not actual['null'],'native current module owner differs'
         old,new=bytes.fromhex(raws[0]),bytes.fromhex(actual['bytes']);assert len(old)==len(new)==48 and old[:4]==new[:4]and old[8:12]==new[8:12],'defined consumed module/signature fields differ'
+        if item.get('input_record'):
+            rows=re.findall(r'^module-name-record module ([0-9a-f]+) directory (\d+) record ([0-9a-f]+) size (\d+) bytes ([0-9a-f]+)$',events,re.M);assert len(rows)==1
+            r=rows[0];record=actual['record'];size=int(r[3]);assert int(r[0],16)==words[item['slot']]and int(r[2],16)==int.from_bytes(old[12:16],'little')and record['address']==int.from_bytes(new[12:16],'little'),'module record publication differs'
+            assert size==record['size']==int.from_bytes(old[16:20],'little')==int.from_bytes(new[16:20],'little')and int(r[1])==record['directory']and len(bytes.fromhex(r[4]))==size and r[4]==record['bytes'],'complete defined module record differs'
+            data=bytes.fromhex(r[4]);offset=8+12*int.from_bytes(data[4:6],'little');assert offset<size and data[offset]<128 and data[offset]+1<=size-offset,'counted module name outside defined record'
         return dict(original_address=words[item['slot']],native_address=actual['address'],owner='current_module',requested_size=48,original_raw=old.hex(),native_raw=new.hex(),compared_ranges=[[0,4],[8,12]],scope='Actual pack_module current_module publication and48B find_module object; module/signature consumed by save_precompiled. Raw unconsumed pointer/list/map fields retained, no whole-module-list equality claim.')
     assert (item['root'],item['original_root'],item['requested_size'])==('public_symbol_hash',0x3717c,0x4000),'unreviewed published table allocation'
     matches=re.findall(r'^memory %08x ([0-9a-f]+)$'%item['original_root'],events,re.M)
@@ -168,6 +173,7 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
     """Routine whole-function/real frontier proof; grow state only for actual gaps."""
     import tempfile
     record=json.loads((BINARY/'cases'/args.case/'case.json').read_text());current=record['current'];work=native/args.case
+    assert captured.get('target_environment',{})==receipt.get('target_environment',{})==record.get('target_environment',{}),'original/native target environment differs'
     assert current.get('proof_mode')=='entry-flow'and captured['entry_progress_only']and not(captured.get('reference_completion')or captured.get('scalar_completion')or captured.get('guard_probe')or captured.get('stop_at')or captured['unmasked']),'unapproved flow capture mode'
     assert captured['helper_status']==0,'original controller did not finish normally'
     events=(original/'events').read_text();traps=re.findall(r'^exception ([0-9a-f]+) va ([0-9a-f]+) ',events,re.M)

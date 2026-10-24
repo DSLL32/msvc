@@ -1,0 +1,9 @@
+{
+  "affected_controls": [
+    "changed-module-record-byte",
+    "wrong-record-publication",
+    "feedback-env-other-case-denied"
+  ],
+  "actual_owned_record_size": 88,
+  "scope": "Current module record publication, complete defined input, and one explicit target environment key. No broader replay."
+}

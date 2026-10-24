@@ -175,13 +175,16 @@
       "native": "warning",
       "symbol": "_warning",
       "original": 126496,
-      "source": "src/stubs.c",
+      "source": "src/diagnostics.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        126496,
+        126617
+      ],
       "abi": "void warning(int, const char *, const char *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/dos-mapped-growth-feedback/evidence/0184-warning/proof.json",
       "roots": [],
       "text_data": []
     },
@@ -1931,21 +1934,28 @@
       "native": "module_name",
       "symbol": "_module_name",
       "original": 126624,
-      "source": "src/stubs.c",
+      "source": "src/modules.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        126624,
+        126701
+      ],
       "abi": "const char *module_name(ModuleInfo *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/dos-mapped-growth-feedback/evidence/0185-module_name/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
         {
           "name": "module",
           "slot": 1,
-          "kind": "pointer",
-          "bits": 32
+          "kind": "global-owner",
+          "root": "current_module",
+          "original_root": 208976,
+          "requested_size": 48,
+          "input_bytes": 48,
+          "input_record": true
         }
       ]
     },
@@ -9530,6 +9540,18 @@
       "case": "fieldlist-continuations-aligned",
       "kind": "application",
       "sequence": 183
+    },
+    {
+      "function": "warning",
+      "case": "dos-mapped-growth-feedback",
+      "kind": "application",
+      "sequence": 184
+    },
+    {
+      "function": "module_name",
+      "case": "dos-mapped-growth-feedback",
+      "kind": "application",
+      "sequence": 185
     }
   ],
   "support_unmasked": [
@@ -10228,19 +10250,25 @@
       "start": 184512,
       "end": 184846,
       "evidence": "cases/pch-cpp-shared-types/evidence/0167-add_old_type/proof.json"
+    },
+    {
+      "name": "__snprintf",
+      "start": 182624,
+      "end": 182736,
+      "evidence": "cases/dos-mapped-growth-feedback/evidence/0184-warning/proof.json"
     }
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "0a8e7fb5ae102039cd954ad6b3c3705a93e90079003b30879fa0c5c9afb123c6"
+    "evidence_sha256": "5f0f09757d1e8228354ca6851d369b0003676f6601d956ac19d035dd968360b7"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "8518eeb7c6d6b007a0b9690179707fca8d1215e749fc55093011d5b9a7344013"
+    "evidence_sha256": "8be1e22073f7eb4f03824d303f15c684dbd5a00ad55a41164fdaa23d2c64957f"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
-    "evidence_sha256": "feb0b1c3187323ab5f4f0ff1fce40f1c62ba1c7ff3ed0b91e6ca3f62dec326bd"
+    "evidence_sha256": "b5a539f892bd6e58638e82669f8157a30eb7591fe8bc8a9f3b9fb0a7d6bd046d"
   },
   "external_inputs": {
     "evidence": "cases/abi/pdb-input.json",
@@ -10260,11 +10288,11 @@
   },
   "partial_read_observations": {
     "evidence": "cases/abi/partial-public-read.json",
-    "evidence_sha256": "ca82a024a65ae544cf2eaa673494d44bafeacf4d4e17d3eabb32c774e27cf9a6"
+    "evidence_sha256": "1df3c48ebf3659994a073d57f18bf2bd2d155059049cb423cafcd3c3b3fad05d"
   },
   "module_buffer_publication": {
     "evidence": "cases/abi/module-buffer-publication.json",
-    "evidence_sha256": "8a957e6c644573a620065720285bff5e299ff888dd3d4434faf5f35f753cbd51"
+    "evidence_sha256": "baedba3e3efff48e3db8b67826bf126bace884f54b69c395b0a93ece8cf22279"
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
@@ -10280,7 +10308,7 @@
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "5967788d535353ce14ce048f1460e546a712cfcf5a8363a264062547c65c0d4c"
+    "evidence_sha256": "dc6524456d7dfc5746e2863ca03a4a00bb684555764ebcc7f462c051f6caaad1"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
@@ -10292,27 +10320,27 @@
   },
   "recursive_arena_observations": {
     "evidence": "cases/abi/recursive-arena.json",
-    "evidence_sha256": "56becd1e9708e4ecc3e4a7a9544902a898116451a5865a0db74fb5325b247da4"
+    "evidence_sha256": "0e8099b09b4c1e7e83904c84507eb70a71ce666e16ef8731790d64a228676bdb"
   },
   "packed_arena_observations": {
     "evidence": "cases/abi/packed-arena.json",
-    "evidence_sha256": "5da917bf02782fbae3a2a24d621c559c3235d6a336e5493989d808c26be485ab"
+    "evidence_sha256": "336e02f7b92027f62824f764a0c9aa9ee8c08a0be9eb3e708516a32c3d8a4eac"
   },
   "symbol_block_observations": {
     "evidence": "cases/abi/symbol-blocks.json",
-    "evidence_sha256": "d1ef090bbab7d1cfd024de25bf5a2e0c564625893919ec6d24cf4f89e6c8b593"
+    "evidence_sha256": "f12980ca126ae295b0c464384565a0ac898e278b047fe53ed4791aad8788f2b8"
   },
   "module_address_observations": {
     "evidence": "cases/abi/module-address.json",
-    "evidence_sha256": "9ee39183bc92a89cbbcf1c51b58bb1b8d422305cb23ebbd290f573fbc09f3329"
+    "evidence_sha256": "95a04fde30f61eb4ff7047c3295496664eeacaf9056f80ccaeb86e3d9544a31f"
   },
   "symbol_reference_observations": {
     "evidence": "cases/abi/symbol-references.json",
-    "evidence_sha256": "10983d2ad9b2fb88bc54156fe15ad52c6049eb6d0f61690c97143bf4ed5bc03f"
+    "evidence_sha256": "489a740d5a4359e80fe64c86c9be15b5f918d1da4314001eae19686f02659124"
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "d297f5a47c98c009026d7b1b6bfb10f6d9b39ee0d14f35f949ff9dca31cb18e5"
+    "sha256": "995f79fb94a48214eb1851dda923795a2a3bdf69f2822c3bc91ce1befec54c85"
   },
   "freebuf_boundary": {
     "case": "hello-debug-dll",

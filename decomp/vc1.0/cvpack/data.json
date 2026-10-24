@@ -1381,5 +1381,12 @@
     "original": 227392,
     "size": 2,
     "source": "src/types.c"
+  },
+  {
+    "name": "module_name_buffer",
+    "symbol": "_module_name_buffer",
+    "original": 210772,
+    "size": 260,
+    "source": "src/modules.c"
   }
 ]

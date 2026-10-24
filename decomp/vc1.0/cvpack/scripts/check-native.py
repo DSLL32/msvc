@@ -168,6 +168,9 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
         ' if description.get("input_bytes")==48 and description["root"]=="current_module":\n'
         '  assert current.read_var(description["name"]).type.target().sizeof==48;argument["bytes"]=bytes(gdb.selected_inferior().read_memory(root,48)).hex()\n'
         'for description in frontier.get("parameters",[]):\n'
+        ' if not description.get("input_record"): continue\n'
+        ' assert current.name()=="module_name"and current.older().name()=="pack_module";argument=parameters[description["name"]];module=current.read_var(description["name"]);size=int(module["record_size"]);address=int(module["record"]);assert 8<=size<=1024;directory=gdb.parse_and_eval("directory_entries");count=int(gdb.parse_and_eval("directory_entry_count"));assert 0<count<=4096;matches=[i for i in range(count)if int(directory[i]["subsection"])==0x120 and int(directory[i]["module"])==int(module["module"])];assert len(matches)==1;index=matches[0];assert int(directory[index]["location"]["data"])==address and int(directory[index]["size"])==size;argument["record"]=dict(address=address,size=size,directory=index,bytes=bytes(gdb.selected_inferior().read_memory(address,size)).hex())\n'
+        'for description in frontier.get("parameters",[]):\n'
         ' if description["kind"]!="mapped-image": continue\n'
         ' owner=current.older();argument=parameters[description["name"]];size=parameters[description["size_argument"]]*description.get("size_scale",1)if description.get("size_argument")else None\n'
         ' while owner and owner.name()!="update_image_checksum": owner=owner.older()\n'
@@ -378,6 +381,8 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
     env.update(LC_ALL='C',TZ='PST8PDT',RECON_PROGRAM_PATH=canonical,PATH='',
                LIB='Z:'+str(ROOT/'toolchains/1.0-nt/lib').replace('/','\\'))
     if host_profile: env.update(host_profile['environment'])
+    from case_environment import apply as apply_environment
+    target_environment=apply_environment(record,env)
     from inputs import environment as input_environment,verify as verify_inputs
     input_environment(record,work,env)
     symbols=directory/'trace-filter'
@@ -456,7 +461,7 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
     assert sha(executable)==executable_hash,'native executable changed during run'
     check_policy_snapshot(directory,policy_hash)
     if allocator: assert sha(BINARY/allocator['profile'])==allocator['sha256'],'host allocator profile changed during run'
-    return dict(case=name,terminal=expected['terminal'],status=child.returncode,function=expected.get('native_function'),
+    return dict(case=name,terminal=expected['terminal'],status=child.returncode,function=expected.get('native_function'),target_environment=target_environment,
         executable_sha256=executable_hash,configuration_sha256=sha(snapshot),original_sha256=config['target']['sha256'],
         conditional_support_sha256=policy_hash,
         native_host_allocator=dict(profile_sha256=allocator["sha256"],launch=host_profile)if host_profile else None,

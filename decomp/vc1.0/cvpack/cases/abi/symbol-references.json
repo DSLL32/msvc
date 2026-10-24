@@ -59,7 +59,7 @@
   "sources": {
     "src/types.c": "c793c9e497255e5b3b33995185bde050366d1b869888e710a24c03125f3f57a2",
     "src/types.h": "3a8ae1a4f3b47395fa6aa75b66266c4c17b5df4bb5c14270456191984bbf7f4a",
-    "src/modules.c": "074e617dad13afb4d38498ea3bc8c8284edaa6fa031e718cb3433eff6f284bec",
+    "src/modules.c": "d87085c6287c13d971ea57dfb6da9b71bda73bf5c76b2a2f5930fa66db03e712",
     "src/image.h": "98fa2fadb7c4529fffb5490ff253f2a74ff86944fe4affeb77416353747bb02e"
   },
   "instructions": [

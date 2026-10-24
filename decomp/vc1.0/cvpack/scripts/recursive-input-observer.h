@@ -176,3 +176,26 @@ static int dump_type_recycle_owner(HANDLE child,HANDLE log,DWORD frontier,CONTEX
     used=sprintf(object_line,"input-buffer %08lx ",owner);
     return recursive_line(log,used,(BYTE *)header,28);
 }
+
+/* The feedback name is a counted string in the current module's read record. */
+static int dump_module_name_input(HANDLE child,HANDLE log,DWORD frontier,DWORD *words)
+{
+    DWORD root,header[12],directory,entries,i,record[3],found=0,index=0,offset;
+    BYTE data[1024];int used;
+    if(frontier!=0x1eea0)return 1;
+    if(!recursive_read(child,0x33050,&root,4) || root!=words[1] ||
+       !recursive_read(child,root,header,48) || !header[3] || header[4]<8 || header[4]>sizeof(data) ||
+       !recursive_read(child,0x33018,&directory,4) || !recursive_read(child,0x3329c,&entries,4) || entries>4096)return 0;
+    for(i=0;i<entries;++i) {
+        if(!recursive_read(child,directory+i*12,record,12))return 0;
+        if((record[0]&0xffff)==0x120 && (record[0]>>16)==(header[0]&0xffff)) {
+            if(record[1]!=header[3] || record[2]!=header[4])return 0;
+            ++found;index=i;
+        }
+    }
+    if(found!=1 || !recursive_read(child,header[3],data,header[4]))return 0;
+    offset=8+12*(DWORD)*(WORD *)(data+4);
+    if(offset>=header[4] || data[offset]>=128 || (DWORD)data[offset]+1>header[4]-offset)return 0;
+    used=sprintf(object_line,"module-name-record module %08lx directory %lu record %08lx size %lu bytes ",root,index,header[3],header[4]);
+    return recursive_line(log,used,data,header[4]);
+}

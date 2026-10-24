@@ -1,0 +1,8 @@
+format dos
+debug codeview
+option map=dos-mapped.map
+name dos-mapped.exe
+file dos-mainx.obj,dos-visit.obj
+libpath R:\toolchains\watcom10.0a\lib286
+libpath R:\toolchains\watcom10.0a\lib286\DOS
+library clibs

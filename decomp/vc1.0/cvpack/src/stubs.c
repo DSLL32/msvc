@@ -6,7 +6,7 @@
 #include "output.h"
 #include <recon.h>
 
-void warning(int code, const char *first, const char *second) { __asm { int 3 } }
+
 
 
 void cache_closed_file(FileSlot *slot) { __asm { int 3 } }
@@ -47,7 +47,7 @@ void grow_mapping(FileSlot *slot, long size) { __asm { int 3 } }
 void read_old_module(unsigned long directory,ModuleInfo * module) { __asm { int 3 } }
 
 
-const char *module_name(ModuleInfo * module) { __asm { int 3 } return NULL; }
+
 
 void read_symbols(unsigned long directory,const CvDirectoryEntry * entry) { __asm { int 3 } }
 

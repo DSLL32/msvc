@@ -1,5 +1,5 @@
 {
-  "status": "proposed-root-review",
+  "status": "complete-actual-warning-and-progress-paths",
   "case": "dos-mapped-growth-feedback",
   "purpose": "Exercise genuine mapped-file expansion plus normal CVPACK progress diagnostics and warning formatting on a small executable whose packed debug output is larger than its input.",
   "producer": "Reuse the already validated two small Watcom16 DOS C sources, existing binnt/WCC -bt=dos -ms -0 -od -d2 -hc and unchanged validated .patched/WLINK format dos/debug codeview. No Watcom reconstruction/team/patch/gateway or generatedDOS execution. Use one chosen sourcebasename and ownedcwd so full counted source-filename index length is aligned before producing, based on actual established WCC absolutefilename syntax; validate actual complete index has no unwritten padding before freezing. No producer resampling for allocator residue.",
@@ -32,5 +32,6 @@
     "named_stubs": 24,
     "non_CRT_denominator": null,
     "uncertainty": "Authentic compatible NB02/NB08 inputs remain unavailable in shipped353containers; known legacy-format application stubs and unclassified code remain. Small32B pool helpers newly identified but not yet reached."
-  }
+  },
+  "actual": "Original/native complete exact2MB master. warning121B+module_name77B reconstructed; grow_mapping was not reached because initialmappedallocation min2MB. One deliberately alignedbasename dos-mainx.c produced fullydefined208B filenameindex; no padding workaround/profile/resampling."
 }

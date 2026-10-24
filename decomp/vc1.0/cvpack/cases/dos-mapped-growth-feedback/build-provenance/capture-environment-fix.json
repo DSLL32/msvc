@@ -1,0 +1,6 @@
+{
+  "finding": "Initial184 helper launch received controller feedback environment but its explicit child environment contained LIB/PATH only; receipt.environment correctly showed the target key absent and target emitted no progress. No acceptance was made.",
+  "fix": "Append only exact authorized _MSC_IDE_FLAGS=-FEEDBACK fixture to the explicitly sanitized child environment; bind effective key in receipt. All other target keys remain absent.",
+  "failed_raw": "/root/.ai-tmp/vc1.0-cvpack/0184-original",
+  "fresh_pair": "Required after actual observation/launch contract correction, no historical replay."
+}

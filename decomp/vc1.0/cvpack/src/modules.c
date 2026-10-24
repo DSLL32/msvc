@@ -589,3 +589,23 @@ void pack_old_lines(void *lines, CvDirectoryEntry *entry, ModuleInfo *module)
     module->line_size = entry->size;
     module->lines = buffer;
 }
+
+char module_name_buffer[260];
+
+/* This original counted-byte copy is a library call, not an intrinsic. */
+#pragma function(memcpy)
+const char *module_name(ModuleInfo *module)
+{
+    unsigned char *record = module->record, *name;
+    if (!record) fatal_error(14, NULL, NULL);
+    name = record+8+*(unsigned short *)(record+4)*12;
+#ifdef RECON_NATIVE_TEST
+    /* The original sign-extends the count before memcpy and indexing. */
+    if ((signed char)*name < 0) __asm { int 3 }
+#endif
+    memcpy(module_name_buffer, name+1, (signed char)*name);
+    module_name_buffer[(signed char)*name] = 0;
+    return module_name_buffer;
+}
+
+#pragma intrinsic(memcpy)

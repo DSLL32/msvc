@@ -68,3 +68,17 @@ void fatal_error(int code, const char *first, const char *second)
     printf(message);
     exit(1);
 }
+
+void warning(int code, const char *first, const char *second)
+{
+    char message[300];
+    int length;
+    if (code >= 11) return;
+#ifdef RECON_NATIVE_TEST
+    if (code < 0) __asm { int 3 }
+#endif
+    length = sprintf(message, "CVPACK : warning CK4%03d: ", code);
+    length += sprintf(message+length, diagnostics[code], first, second);
+    sprintf(message+length, "\n");
+    printf(message);
+}

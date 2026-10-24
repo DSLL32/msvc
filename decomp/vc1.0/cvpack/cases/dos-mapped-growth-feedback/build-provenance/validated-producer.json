@@ -1,0 +1,22 @@
+{
+  "input_bytes": 5599,
+  "input_sha256": "ba779c930e2a3f5955d88337798ccf23d7dea35f72cbc2d65175167eb0df6693",
+  "output_bytes": 2097152,
+  "output_sha256": "1eb4827c4c022fdadad880d49e71ef8d97883b50f6855b2edff235541fdcaf7f",
+  "selected_basename": "dos-mainx.c",
+  "predicted_fully_initialized_index": 208,
+  "actual_index": {
+    "bytes": 208,
+    "defined_bytes": 208,
+    "padding_bytes": 0,
+    "names": [
+      "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\dos-mapped-growth-feedback\\dos-mainx.c",
+      "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\dos-mapped-growth-feedback\\dos-visit.c"
+    ]
+  },
+  "target_environment": {
+    "_MSC_IDE_FLAGS": "-FEEDBACK fixture"
+  },
+  "physical_output_tail": "00000000000000000000000000000000",
+  "scope": "One genuine producer and baseline; no source/debug/header store repair or output normalization; mapped physical size preserved."
+}
