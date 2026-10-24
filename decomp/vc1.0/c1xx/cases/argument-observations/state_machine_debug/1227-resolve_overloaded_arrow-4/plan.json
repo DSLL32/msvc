@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "function": "_resolve_overloaded_arrow@4",
+  "native_entry": "resolve_overloaded_arrow",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_object": "(unsigned)object"
+  },
+  "formals": [
+    {
+      "name": "object",
+      "stack_index": 0,
+      "native_field": "raw_object",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebp",
+        "original_caller_rva": 425003,
+        "original_owner_function": "_resolve_operator_overload@24",
+        "native_owner_function": "resolve_operator_overload",
+        "native_owner_field": "caller_left",
+        "native_owner_local": "left",
+        "identity": "Actual accepted operator dispatcher loads left formal into EBP at77c21, pushes EBP77c25, CALL77c26/return77c2b. Native actual immediate caller left owns this expression."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "ebp",
+  "ownership_caller_extent": [
+    490529,
+    490539
+  ],
+  "native_caller_locals": {
+    "caller_left": {
+      "frame": 1,
+      "function": "resolve_operator_overload",
+      "local": "left"
+    }
+  },
+  "abi_analysis": {
+    "original_extent": [
+      490000,
+      490140
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 IrToken* return EAX",
+    "proof": "Whole140B saves EBX/ESI/EDI, object adjusted ESP+16; both RET4. No incoming register/x87/flag formal. Lookup uses actual class context and initialized arrow name, category2/diagnostic0. Qualified resolution+12/binding+0/target+8 selects existing OverloadSet.functions+12; make_resolved_call(symbol,address-of object,NULL,0,NULL). Reload result class context; return when no class or related shape low flags&77==1, otherwise repeat. All3 callees accepted, existing layouts/globals; no new data/CRT/guard."
+  }
+}

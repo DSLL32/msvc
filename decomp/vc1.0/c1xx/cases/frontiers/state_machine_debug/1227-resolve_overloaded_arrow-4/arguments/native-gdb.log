@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x2878c: file src/operators.c, line 653.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, resolve_overloaded_arrow (object=0x56640200) at src/operators.c:653
+653	        qualified = lookup_class_name(cpp_context_stack->items[object->type->field08],
+#0  resolve_overloaded_arrow (object=0x56640200) at src/operators.c:653
+#1  0x5657d5f1 in resolve_operator_overload (operation=92 '\\', left=0x56640200, right=0x0, arity=1, diagnose=1, failure=0x0) at src/operators.c:260
+#2  0x5657d43c in resolve_operator_expression (operation=92 '\\', left=0x56640200, right=0x0, arity=1, failure=0x0) at src/operators.c:217
+#3  0x565a790e in begin_member_lookup (operation=92 '\\', object=0x56640200, mode=0) at src/member-expressions.c:232
+#4  0x565c0129 in parse_translation_unit () at src/parser-expression-actions.inc:182
+#5  0x5655e14f in compile_translation_unit () at src/frontend.c:73
+#6  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#7  0x56558894 in main (argc=1, argv=0xffffd7a4, environment=0xffffd7ac) at src/c1xx.c:20

@@ -1,0 +1,63 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00077a10 <.text+0x60a10>:
+   77a10:	53                   	push   ebx
+   77a11:	56                   	push   esi
+   77a12:	57                   	push   edi
+   77a13:	8b 7c 24 10          	mov    edi,DWORD PTR [esp+0x10]
+   77a17:	2b f6                	sub    esi,esi
+   77a19:	8d a4 24 00 00 00 00 	lea    esp,[esp+0x0]
+   77a20:	8b 47 04             	mov    eax,DWORD PTR [edi+0x4]
+   77a23:	8b 15 2c f3 09 00    	mov    edx,DWORD PTR ds:0x9f32c
+   77a29:	0f bf 40 08          	movsx  eax,WORD PTR [eax+0x8]
+   77a2d:	56                   	push   esi
+   77a2e:	6a 02                	push   0x2
+   77a30:	8b 0d 0c f2 09 00    	mov    ecx,DWORD PTR ds:0x9f20c
+   77a36:	51                   	push   ecx
+   77a37:	8b 44 82 04          	mov    eax,DWORD PTR [edx+eax*4+0x4]
+   77a3b:	50                   	push   eax
+   77a3c:	e8 df 09 00 00       	call   0x78420
+   77a41:	3b c6                	cmp    eax,esi
+   77a43:	74 47                	je     0x77a8c
+   77a45:	8b 40 0c             	mov    eax,DWORD PTR [eax+0xc]
+   77a48:	56                   	push   esi
+   77a49:	8b 00                	mov    eax,DWORD PTR [eax]
+   77a4b:	56                   	push   esi
+   77a4c:	8b 58 08             	mov    ebx,DWORD PTR [eax+0x8]
+   77a4f:	56                   	push   esi
+   77a50:	57                   	push   edi
+   77a51:	6a 3a                	push   0x3a
+   77a53:	e8 b8 77 fe ff       	call   0x5f210
+   77a58:	50                   	push   eax
+   77a59:	8b 43 0c             	mov    eax,DWORD PTR [ebx+0xc]
+   77a5c:	50                   	push   eax
+   77a5d:	e8 2e 1b fc ff       	call   0x39590
+   77a62:	8b f8                	mov    edi,eax
+   77a64:	8b 0d 2c f3 09 00    	mov    ecx,DWORD PTR ds:0x9f32c
+   77a6a:	8b 47 04             	mov    eax,DWORD PTR [edi+0x4]
+   77a6d:	0f bf 40 08          	movsx  eax,WORD PTR [eax+0x8]
+   77a71:	39 74 81 04          	cmp    DWORD PTR [ecx+eax*4+0x4],esi
+   77a75:	74 1d                	je     0x77a94
+   77a77:	8b 47 04             	mov    eax,DWORD PTR [edi+0x4]
+   77a7a:	8b 40 04             	mov    eax,DWORD PTR [eax+0x4]
+   77a7d:	3b c6                	cmp    eax,esi
+   77a7f:	74 9f                	je     0x77a20
+   77a81:	66 8b 00             	mov    ax,WORD PTR [eax]
+   77a84:	24 77                	and    al,0x77
+   77a86:	3c 01                	cmp    al,0x1
+   77a88:	74 0a                	je     0x77a94
+   77a8a:	eb 94                	jmp    0x77a20
+   77a8c:	2b c0                	sub    eax,eax
+   77a8e:	5f                   	pop    edi
+   77a8f:	5e                   	pop    esi
+   77a90:	5b                   	pop    ebx
+   77a91:	c2 04 00             	ret    0x4
+   77a94:	8b c7                	mov    eax,edi
+   77a96:	5f                   	pop    edi
+   77a97:	5e                   	pop    esi
+   77a98:	5b                   	pop    ebx
+   77a99:	c2 04 00             	ret    0x4

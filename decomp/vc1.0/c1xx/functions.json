@@ -1231,7 +1231,8 @@
     "_append_default_call_argument@8",
     "_convert_member_pointer_representation@16",
     "_convert_compact_data_member_pointer@24",
-    "_equal_data_member_null_representation@8"
+    "_equal_data_member_null_representation@8",
+    "_resolve_overloaded_arrow@4"
   ],
   "driver": [
     {
@@ -7100,7 +7101,7 @@
     {
       "name": "_resolve_overloaded_arrow@4",
       "start": 490000,
-      "end": 490001
+      "end": 490140
     },
     {
       "name": "_new_operator_search@16",
@@ -8944,7 +8945,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_resolve_overloaded_arrow@4",
+      "terminal": "_builtin_operand_is_lvalue@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8967,7 +8968,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1226-equal_data_member_null_representation-8/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1227-resolve_overloaded_arrow-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -9199,7 +9200,8 @@
         "cases/frontiers/state_machine_debug/1223-append_default_call_argument-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1224-convert_member_pointer_representation-16/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1225-convert_compact_data_member_pointer-24/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1226-equal_data_member_null_representation-8/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1226-equal_data_member_null_representation-8/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1227-resolve_overloaded_arrow-4/frontier-extension.json"
       ]
     }
   },

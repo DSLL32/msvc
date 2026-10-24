@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_resolve_overloaded_arrow@4",
+    "start": 490000,
+    "end": 490140
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1227-resolve_overloaded_arrow-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_builtin_unary_expression@8",
+    "_lookup_class_name@16",
+    "_make_resolved_call@20"
+  ],
+  "next_frontier": "_builtin_operand_is_lvalue@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8285958059132099,
+  "total_operation_seconds": 5.1380217568948865,
+  "original_capture_seconds": 1.8186208344995975
+}

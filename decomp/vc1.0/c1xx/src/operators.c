@@ -641,3 +641,23 @@ void __stdcall add_builtin_operator_candidate(OverloadSearch *search,
     candidate->flags |= 0x10;
     save_overload_candidate_cursor(search, candidate, ranks);
 }
+
+/* Original 0x77a10..0x77a9b, stdcall4. Follow overloaded arrows
+   until a call yields an ordinary pointer or a nonclass expression. */
+IrToken *__stdcall resolve_overloaded_arrow(IrToken *object)
+{
+    QualifiedDeclarator *qualified;
+    OverloadSet *functions;
+    TypeShape *shape;
+    for (;;) {
+        qualified = lookup_class_name(cpp_context_stack->items[object->type->field08],
+            name_arrow_operator, 2, 0);
+        if (!qualified) return 0;
+        functions = (OverloadSet *)qualified->resolution->binding->target;
+        object = make_resolved_call(functions->functions,
+            builtin_unary_expression(OP_BIT_AND, object), 0, 0, 0);
+        if (!cpp_context_stack->items[object->type->field08]) return object;
+        shape = object->type->related;
+        if (shape && (shape->flags & 0x77) == 1) return object;
+    }
+}
