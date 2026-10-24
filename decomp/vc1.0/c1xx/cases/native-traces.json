@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "0853d29edfe69d5da81ba402591f12c7740b56c9484666b75b5311caa96903b0",
+    "functions.json": "b4d29de56d7717676155aa755c6652704ce0cb03c4e527dbfd7c6c0e34de7150",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "24a9ad8bc91e2505b7d1875244808429ddd554f615f93ff4ace22d178fc7c205",
-    "cases/canonical-map.txt": "d76160e47e40c512322acc0b45e3b4e80a816c44f9ede86705d13dc4acc2a290",
+    "cases/original-entry-references.json": "ac61fc1478806a48c84f1c3ff303f6e73bb9d938248886209947b95fc3541935",
+    "cases/canonical-map.txt": "bd2334979154ebdcc0a04099d20a0997e47201b96af81825d480659639a9232a",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -64,9 +64,9 @@
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-receipt.json": "c9cbd20af4610da8f8c35487c1cb632113d35461981bd76aa2f7d60e10400717",
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-events.txt": "a7247c160287c63539d241bef68d979d6d6a4b4649e77c3b542cb394ffce4b8e",
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-entries.plan": "95e3224e0362e24a6ef5b495984403fa23be74272e90e204349cda7924f7f5d6",
-    "cases/frontiers/state_machine_defined_debug/1249-begin_hash_iteration-8/entry-reference/original-receipt.json": "aed5ac5b7901732a813206112f1bf83b82536a2e5d7ee63dbdd083d8245cd907",
-    "cases/frontiers/state_machine_defined_debug/1249-begin_hash_iteration-8/entry-reference/original-events.txt": "fff1ed340a2c3dc370e0e3d08e2229a63c13b61a63f8bc0343f35e103b21ea77",
-    "cases/frontiers/state_machine_defined_debug/1249-begin_hash_iteration-8/entry-reference/original-entries.plan": "45d83c3fb6e6f74f327236c674f238cd4847e2000c998ba5820b533cce9ef3f8"
+    "cases/frontiers/state_machine_defined_debug/1250-next_hash_entry-4/entry-reference/original-receipt.json": "01dc88c9136849bda1693da6ae7c2514de3bd07010466c2eceb3e590c3d2e9e4",
+    "cases/frontiers/state_machine_defined_debug/1250-next_hash_entry-4/entry-reference/original-events.txt": "4567edced8df7094c600dc77d9189644c8ecff332f41c3e28c99270d51e3b500",
+    "cases/frontiers/state_machine_defined_debug/1250-next_hash_entry-4/entry-reference/original-entries.plan": "3a49ce8bf5db461a302a1c00307da128944e31c9608a5bc674a18d8f64c295b0"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -4227,7 +4227,7 @@
     },
     "next_hash_entry": {
       "logical": "_next_hash_entry@4",
-      "source": "src/stubs.c"
+      "source": "src/hash-table.c"
     },
     "next_member_context": {
       "logical": "_next_member_context@4",
@@ -7151,7 +7151,8 @@
     "check_conversion_qualifiers",
     "lower_multiple_inheritance_member_call",
     "make_adjusted_member_call",
-    "begin_hash_iteration"
+    "begin_hash_iteration",
+    "next_hash_entry"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -12416,7 +12417,7 @@
     },
     "state_machine_defined_debug": {
       "first": 1232,
-      "last": 1250,
+      "last": 1251,
       "seen": [
         "main",
         "message_text",
@@ -13565,12 +13566,13 @@
         "lower_multiple_inheritance_member_call",
         "make_adjusted_member_call",
         "begin_hash_iteration",
-        "next_hash_entry"
+        "next_hash_entry",
+        "emit_declaration_thunk"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_next_hash_entry@4",
-        "native": "next_hash_entry",
+        "logical": "_emit_declaration_thunk@8",
+        "native": "emit_declaration_thunk",
         "signal": 5
       }
     }

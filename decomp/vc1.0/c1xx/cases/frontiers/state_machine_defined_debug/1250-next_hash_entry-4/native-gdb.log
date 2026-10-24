@@ -1,0 +1,11 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565589ea in emit_declaration_thunk (description=0x56634434, function=0x56634400) at src/stubs.c:71
+71	void __stdcall emit_declaration_thunk(void *description, CppSymbol *function) { __asm { int 3 } }
+#0  0x565589ea in emit_declaration_thunk (description=0x56634434, function=0x56634400) at src/stubs.c:71
+#1  0x565af2a5 in finish_declarations () at src/function-finalization.c:299
+#2  0x5655dfaf in compile_translation_unit () at src/frontend.c:76
+#3  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#4  0x56558894 in main (argc=1, argv=0xffffd814, environment=0xffffd81c) at src/c1xx.c:20

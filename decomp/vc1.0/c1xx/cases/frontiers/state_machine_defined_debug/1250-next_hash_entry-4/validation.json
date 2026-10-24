@@ -1,0 +1,16 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_next_hash_entry@4",
+    "start": 323200,
+    "end": 323283
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_defined_debug/1250-next_hash_entry-4/arguments/validation.json",
+  "distinct_direct_callees": [],
+  "next_frontier": "_emit_declaration_thunk@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8489490132778883,
+  "total_operation_seconds": 4.54329489916563,
+  "original_capture_seconds": 1.2173467492684722
+}

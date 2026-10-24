@@ -50,6 +50,21 @@ void __stdcall begin_hash_iteration(HashIterator *iterator, HashTable *table)
     iterator->next = 0;
 }
 
+/* Original 0x4ee80..0x4eed2. Advance within a chain, then scan
+   buckets. An exhausted iterator leaves its last key and value intact. */
+int __stdcall next_hash_entry(HashIterator *iterator)
+{
+    while (!iterator->next) {
+        if (iterator->bucket >= iterator->table->bucket_count) return 0;
+        iterator->next = iterator->table->buckets[iterator->bucket];
+        ++iterator->bucket;
+    }
+    iterator->key = iterator->next->key;
+    iterator->value = iterator->next->value;
+    iterator->next = iterator->next->next;
+    return 1;
+}
+
 unsigned __stdcall hash_table_bucket(HashTable *table, void *key);
 HashEntry *__stdcall find_hash_entry(HashTable *table, void *key, unsigned bucket);
 

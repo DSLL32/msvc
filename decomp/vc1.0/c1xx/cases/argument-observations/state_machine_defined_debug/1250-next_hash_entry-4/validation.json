@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_next_hash_entry@4",
+  "case": "state_machine_defined_debug",
+  "accepted_before": 1250,
+  "configuration_sha256": "3a9355162c843836ce78773341de8434de5e6d3e1af88d8b9f2ce6ff949eb28a",
+  "native_entry": "next_hash_entry",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "iterator",
+      "stack_index": 0,
+      "native_field": "raw_iterator",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 253318,
+        "original_owner_function": "_finish_declarations",
+        "native_owner_function": "finish_declarations",
+        "native_owner_field": "caller_iterator",
+        "native_owner_local": "iterator",
+        "native_owner_address": true,
+        "identity": "Accepted caller SUBESP20 owns real20B iterator. Immediately preceding accepted begin_hash_iteration writes table/next/bucket before this call. LEAEAX[ESP]4dd7c/PUSH4dd80/CALL4dd81/return4dd86 passes same real iterator. Native caller address only avoids dumping still-unwritten key/value; ownership alone grants no initialized prestate beyond accepted producer.",
+        "original_owner_value": 2948784,
+        "native_owner_value": 4294956624
+      },
+      "original_raw": 2948784,
+      "native_raw": 4294956624,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      323200,
+      323283
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 int EAX RET4",
+    "proof": "Whole83B saveESI4; iterator adjustedESP+8; both exitsRET4. If nextNULL read table,bucket; zeroextended unsignedWORD table.bucket_count+12 compared unsigned JBE bucket; if exhaustedreturn0 without writing key/value. Otherwise load buckets+16[index], incrementbucket, loop empties. NonNULLentry copies key0,value4 intoiterator12/16 thennext8 intoiterator4, return1. Established24B table/12B entry/20B iterator layouts and accepted producers define exactly consumed fields, no padding/keyvalue-prestate read. No calls/data/hidden/register/x87/flags input or newCRT/guard.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "3791078fc22badc32b5a1dcee7d92d721e0e6a9f6e07ea4fe69fdcc183cfd0fd",
+  "capture_timing": {
+    "original_capture_seconds": 1.417968395166099,
+    "native_capture_seconds": 0.17957891710102558,
+    "total_operation_seconds": 1.8746480634436011
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "4d8cb9b5d94b2b07660882ae27f75a0bc83106ceb481030561a8961e0050bd11",
+    "native-commands.gdb": "111d27c4ef03bebc9b628000dc3a818ce5a3f47e13f3ab89ed7a02230b2e2c62",
+    "native-gdb.log": "ca7f673b46f327f200714ca97cb9d8c4230336dc812a8ba4ba021b4f6051ebd1",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "f1dd7a334174aac44d05f548ee5d0007ab0330dedac36439da4d3c35313e447b",
+    "original-configuration.json": "3a9355162c843836ce78773341de8434de5e6d3e1af88d8b9f2ce6ff949eb28a",
+    "original-disassembly.txt": "cd88ab939609aad4ec306061eb4c67d992d0b02c6da679b6c70c4818cd695c09",
+    "original-entries.plan": "6ee4d0e5c8ec1cece7d71959c75aaf61d4573820647261115089f314cc190b4b",
+    "original-events.txt": "c892e7daac17df0c6540189fc52bbf06aa2ee022623d3028be2f10a765c59454",
+    "original-ownership-caller-disassembly.txt": "2104a1e8fe5c28f3588e9b2095f7376c839bb1422888d55a74f09bfcdb8e33fc",
+    "original-receipt.json": "c1d747a796f99f58e563cd63d90a899067d68cda99b2e28440b764de10601207",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "2900d94aeed5a76da33c4348e8b51a5976e2aa97fdc9bce31d1a79cdf94e56b7"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}
