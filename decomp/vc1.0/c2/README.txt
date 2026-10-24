@@ -791,3 +791,13 @@ reject pool-field accesses. Original/W3/ordinary audits/fresh pair and15 native
 cases pass(14 complete), next named serializer6c680.343764/399693 extent bytes;
 app/support325464B/1175functions exclude5 historical CRT. Audit23.551s, focused
 controls separate; full object still pending. cases/omf-fixup-writer-checkpoint.json.
+
+Checkpoint1291 adds whole306-byte FIXUPP32 serializer in typed C. Actual
+sole pointer/slot0/count4/type9/location120/flags7/addend40 and conditional
+fields match; no padding/opaque entry dump.888 independent wire/control states
+plus8 ABI rejects cover flags/threads/indices/addend suppression/signed type
+bits and child mutations, cached flags versus later reloads. Original/W3/
+ordinary audits/fresh pair and15 native cases pass(14 complete), next public
+symbol callback6b710.344070/399693 extent bytes; app/support325770B/1176functions
+exclude5 historical CRT. New full controls20.839s, ordinary structural audit
+23.228s, full object pending. cases/omf-fixup-entry-checkpoint.json.

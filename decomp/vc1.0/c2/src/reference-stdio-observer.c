@@ -295,6 +295,18 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
             read_word(process,image_base+0x6e8a4),read_word(process,image_base+0x6e8a8),flags,symbol_flags,call->return_address);log_line(line);
         /* All formals are unused by RET8; no pointee payload is read. */
     }
+    if(!strcmp(call->name,"@omf_write_fixup@4")) {
+        DWORD pointer=call->args[0],pool=image_base+0x69154,flags=read_word(process,pointer+8);
+        DWORD frame=read_byte(process,pointer+12),target=read_byte(process,pointer+13);
+        if(pointer<pool||pointer>=pool+6000||(pointer-pool)%24)exit(302);
+        sprintf(line,"omf_fixup_entry pointer %08lx pool %08lx slot %lu count %ld type %lu location %lu flags %08lx frame %lu target %lu return_address %08lx\n",
+            pointer,pool,(pointer-pool)/24,(long)read_word(process,image_base+0x75094),
+            read_byte(process,pointer+4),read_word(process,pointer+4)>>16,flags,frame,target,call->return_address);log_line(line);
+        if(!(flags&8)){sprintf(line,"omf_fixup_addend %08lx\n",read_word(process,pointer+20));log_line(line);}
+        if(!(flags&2)&&frame<=2){sprintf(line,"omf_fixup_frame_datum %lu\n",read_word(process,pointer+12)>>16);log_line(line);}
+        if(!(flags&4)){sprintf(line,"omf_fixup_target_datum %lu\n",read_word(process,pointer+16)&65535);log_line(line);}
+        /* Reserved00 and padding5/18..19 are never input; no opaque dump. */
+    }
     if(!strcmp(call->name,"_omf_write_fixups")) {
         sprintf(line,"omf_fixup_writer count %ld pool %08lx return_address %08lx\n",
             (long)read_word(process,image_base+0x75094),image_base+0x69154,call->return_address);log_line(line);

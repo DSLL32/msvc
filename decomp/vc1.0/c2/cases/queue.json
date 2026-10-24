@@ -424,7 +424,7 @@
       "evidence": "cases/dbglist-completion-checkpoint.json"
     }
   ],
-  "status": "Derived OMF case at1290: pending fixup traversal accepted, matching original/native serializer6c680.14 prior cases complete.",
+  "status": "Derived OMF case at1291: FIXUPP32 serializer accepted, matching original/native public-symbol callback6b710.14 prior cases complete.",
   "next_case_proposals": [],
   "current_runtime_frontier": null,
   "historical_proposals": [
@@ -487,8 +487,8 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "@omf_write_fixup@4",
-  "current_checkpoint": 1290,
+  "current_application_frontier": "_omf_output_symbol",
+  "current_checkpoint": 1291,
   "current_hold": null,
   "resolved_input_hold": {
     "field": "object_file->_bufsiz",

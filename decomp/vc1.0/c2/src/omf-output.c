@@ -1184,3 +1184,42 @@ void omf_write_fixups(void)
         omf_fixup_count = 0;
     }
 }
+
+/* Original [0006c680,0006c7b2). FIXUPP32 entry. Preserve cached flags
+   across index children, but reload their later datum/addend and record state. */
+void __fastcall omf_write_fixup(OmfFixup *fixup)
+{
+    unsigned flags = fixup->flags, location, count, addend;
+    unsigned char fix_data, *cursor;
+    OmfRecord *record;
+    if (!(flags & OMF_FIXUP_NO_ADDEND) && !fixup->addend)
+        fixup->flags = flags | OMF_FIXUP_NO_ADDEND;
+    record = omf_begin_record(0x9d, NULL);
+    location = ((fixup->location & 0xff) << 8) |
+        ((fixup->location & 0x300) >> 8) | 0x80;
+    flags = fixup->flags;
+    location |= (flags & OMF_FIXUP_SEGMENT_RELATIVE) << 6;
+    location |= (unsigned)(signed char)fixup->type << 2;
+    count = record->count + 1;
+    cursor = record->cursor;
+    record->count = count; *cursor++ = (unsigned char)location; record->cursor = cursor;
+    record->count = ++count; *cursor++ = (unsigned char)(location >> 8); record->cursor = cursor;
+    fix_data = (unsigned char)(((flags >> 1) << 7) |
+        (fixup->frame_code << 4) | (((flags >> 2) & 1) << 3) |
+        (((flags >> 3) & 1) << 2));
+    fix_data += fixup->target_code & 3;
+    record->count = ++count; *cursor++ = fix_data; record->cursor = cursor;
+    if (!(flags & OMF_FIXUP_FRAME_THREAD) && fixup->frame_code <= 2)
+        omf_write_index(record, fixup->frame_datum);
+    if (!(flags & OMF_FIXUP_TARGET_THREAD))
+        omf_write_index(record, fixup->target_datum);
+    if (!(flags & OMF_FIXUP_NO_ADDEND)) {
+        addend = fixup->addend;
+        count = record->count + 1;
+        cursor = record->cursor;
+        record->count = count; *cursor++ = (unsigned char)addend; record->cursor = cursor;
+        record->count = ++count; *cursor++ = (unsigned char)(addend >> 8); record->cursor = cursor;
+        record->count = ++count; *cursor++ = (unsigned char)(addend >> 16); record->cursor = cursor;
+        record->count = ++count; *cursor++ = (unsigned char)(addend >> 24); record->cursor = cursor;
+    }
+}

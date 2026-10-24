@@ -1,0 +1,181 @@
+{
+  "checkpoint": 1291,
+  "previous_checkpoint": 1290,
+  "new_application": [
+    {
+      "name": "@omf_write_fixup@4",
+      "start": 444032,
+      "end": 444338,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "fixup",
+            "location": "ECX",
+            "type": "OmfFixup pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-fixup-entry-abi/validation.json",
+        "scope": "Original6c680..6c7b2 sole ECX typed fixup, RET0. No EDX/stack/flags/x87/out pointer. Actual pool slot0/count4/caller alias, type9/location120/flags7/frame0/target1/addend40 observed; conditional datum inputs not read under actual threads. Reserved/padding bytes never dumped/read/seeded. Child begin record is future output; preserve later reloads and cached flags."
+      }
+    }
+  ],
+  "new_extent_bytes": 306,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1291,
+    "accepted_code_bytes": 344070,
+    "original_code_bytes": 399693,
+    "percentage": 86.08356913931442,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 637
+  },
+  "application_graph_rows": 1181,
+  "reconstructed_application_support_functions": 1176,
+  "existing_handwritten_crt_bodies": 5,
+  "application_support_code_extent_bytes": 325770,
+  "code_denominator_bytes": 399693,
+  "next_frontier": "_omf_output_symbol",
+  "next_original_va": "0x6b710",
+  "case_results": {
+    "total": 15,
+    "complete": 14,
+    "omf_named_trap": "_omf_output_symbol"
+  },
+  "controls": [
+    "cases/omf-fixup-entry-validation.json"
+  ],
+  "timings": {
+    "omf1291-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 23.2278118962422,
+      "returncode": 0,
+      "log_sha256": "a922e6010f0a8ddb96575f547a13246b41f4f642a312ac57798541e76ad9678e"
+    },
+    "omf1291-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 2.7601860584691167,
+      "returncode": 0,
+      "log_sha256": "7ad5a0bd26f66fdfed513e9a98d6a67248a4c49c3ff2c8c4c5f18c6fcbe0ad53"
+    },
+    "omf1291-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1290.json",
+        "--extend-after",
+        "cases/omf-original-1291.json"
+      ],
+      "seconds": 0.32688592094928026,
+      "returncode": 0,
+      "log_sha256": "36cb1379d9dea49b8f95052ada2a03f0ada94c8f2e52956690d30b216e6df239"
+    },
+    "omf1291-controls-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-fixup-entry.py"
+      ],
+      "seconds": 20.839436917565763,
+      "returncode": 0,
+      "log_sha256": "e9f2b8d244339339c4f2d73d07b702f4bdbd3753c6f1f613b199f95d4d75d8ca"
+    },
+    "omf1291-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-fixup-entry-record.py"
+      ],
+      "seconds": 2.2148223305121064,
+      "returncode": 0,
+      "log_sha256": "28cfc7b52ebf6ea1ea876e1268d9e0742a3c68b0f520ddb5df82522dcdad1ecc"
+    },
+    "omf1291-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 0.9205289101228118,
+      "returncode": 0,
+      "log_sha256": "510c6fdc92a76503a2115871f5cf2a22142d46641b66a062f9fe1ea389797591"
+    },
+    "omf1291-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1291.json"
+      ],
+      "seconds": 0.22654360067099333,
+      "returncode": 0,
+      "log_sha256": "eee348581d363fe67bb73f35c74eb6298e22913d8c0326c7175311cdca7a6557"
+    },
+    "omf1291-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 3.249139334075153,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "omf1291-original-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1291.json"
+      ],
+      "seconds": 1.1228690026327968,
+      "returncode": 0,
+      "log_sha256": "10e6dd5625da51f63406ea040479c38a535c83d82de7a4adc45026ab112a3c75"
+    },
+    "omf1291-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 1.7275710310786963,
+      "returncode": 0,
+      "log_sha256": "5063019acb905ad9a4253022160a1b318b73bf6f7b53adb394f181b8b0059df0"
+    }
+  },
+  "audit_original_compile_commands": 0,
+  "limits": [
+    "Whole306-byte FIXUPP32 serializer in ordinary typed C. Actual sole ECX entry aliases typed pool slot0/caller loop index0, count4/type9/location120/flags7/frame0/target1/addend40. Defined conditional input fields only, no reserved00/padding5/18..19/opaque entry/destination snapshot or seed. Begin result remains child output, not fabricated input.",
+    "888 full original/canonical controls/8 actual ABI rejects. Independent bit/datum wire model covers16 low flag combinations, frame0/2/3/5/8/15,target0/3/4/6,zero/nonzero addend, signed-byte type+10-bit location, unsigned index0/127/128/65535, count wrap/cursor guards, begin mutations, index mutations showing cached flags versus reloaded later datum/addend/record state. All owned object/padding/stack/saved registers checked. Children mocked with explicit bounded changes, no cold real-child execution claim.",
+    "Canonical/W3, ordinary graph/extents/RET/ABI/storage, fresh masked-original/native symbol frontier and15 native cases pass(14 complete). New full controls20.839s separate from lightweight historical ordinary audit23.228s; native-only regressions. Build2.760s,/W31.728s,reference1.123s,native.227s,fixtures.921s wrappers; split phases retained, analysis/edit unmeasured. Full exact OMF object pending."
+  ]
+}

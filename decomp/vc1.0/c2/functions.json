@@ -1294,7 +1294,8 @@
     "@output_noop_function@16",
     "@omf_emit_local_external@4",
     "@omf_output_debug_pair@4",
-    "_omf_write_fixups"
+    "_omf_write_fixups",
+    "@omf_write_fixup@4"
   ],
   "driver": [
     {
@@ -9334,8 +9335,21 @@
     {
       "name": "@omf_write_fixup@4",
       "start": 444032,
-      "end": 444033,
-      "provisional": true
+      "end": 444338,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "fixup",
+            "location": "ECX",
+            "type": "OmfFixup pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-fixup-entry-abi/validation.json",
+        "scope": "Original6c680..6c7b2 sole ECX typed fixup, RET0. No EDX/stack/flags/x87/out pointer. Actual pool slot0/count4/caller alias, type9/location120/flags7/frame0/target1/addend40 observed; conditional datum inputs not read under actual threads. Reserved/padding bytes never dumped/read/seeded. Child begin record is future output; preserve later reloads and cached flags."
+      }
     }
   ],
   "cases": {
