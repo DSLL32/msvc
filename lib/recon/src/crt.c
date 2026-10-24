@@ -20,6 +20,22 @@ WEAK char *recon_strcpy(char *destination,const char *source)
     while ((*destination++=*source++)!=0) {}
     return result;
 }
+/* VC5 MSVCRT compares unsigned bytes and normalizes every mismatch. The
+ * complete canonical leaf has no locale, error, allocation or FP effects. */
+WEAK int __cdecl recon_strcmp(const char *left,const char *right)
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    const unsigned char *a=(const unsigned char *)left,*b=(const unsigned char *)right;
+    if (!a || !b) recon_unsupported("strcmp null input");
+    while (*a==*b) {
+        if (!*a) return 0;
+        ++a;++b;
+    }
+    return *a<*b?-1:1;
+#else
+    (void)left;(void)right;recon_unsupported("strcmp requires MSVCRT510 profile");return 0;
+#endif
+}
 /* The Win32 CRT writes a 16-bit wchar_t. The C locale maps all unsigned
  * bytes directly; source==NULL or n==0 is a no-op, not a host EILSEQ. */
 WEAK int recon_mbtowc(WCHAR *destination,const char *source,size_t count)

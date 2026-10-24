@@ -1,0 +1,17 @@
+{
+  "scope": "Explicit MSVCRT510 valid terminated byte strings compared as unsigned bytes; canonical normalized -1/0/+1 return. NULL125. Default targetstrcmp and SHIM_IMPL hostinternals unchanged. No locale/binder/counter/table state.",
+  "frozen_receipt": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/strcmp-510/receipt.json",
+    "sha256": "a791f12803fdcd5790b06446f7dcab3b78ec86c93b4ca9454916047bf1407e14"
+  },
+  "actual_observation": "Canonical first CL callback -Ze versus -Gs4096 returns1. Native first callback ALSO returned1; no actual libc magnitude mismatch claimed for thisinput.",
+  "canonical_proof": "MSVCRT e390 provider ordinal694/RVA2daf2..2db73,129B SHA4b31452c3fe0fd48872e745a17d11582cbb0ca160b359dae9cbf3e791aee444b. All mismatches normalize unsigned comparison, equality0; no calls/stores/locale/errors/FP.",
+  "native_checks": "GCC/Clang default510 four frozenprobes;65536 unsignedpairs+3072prefix/alignmentcases+capturedcallback+guardpage+inputsentinels/errors/full108FP x empty/live. Explicit5103NULL/default4explicitAPI denials. Corecheck passed.",
+  "qualification": "Original initialized strings observed without allocationtail claims. Only first actualcallback, not full qsortschedule. Local nativebuffer tails/guardpages independently tested. First checker LF/CRLF mismatch retained/correctedcheckeronly; production unchanged.",
+  "actual_CL_adoption": "Pending reviewed-publication pin and native-only ordinary comparison against unchanged original; no API-only original campaign required.",
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-response/strcmp-parent-review.json",
+    "sha256": "bc294856d93863fb04c73a91d5cb1a3f27762d58ec2495e6dcd8bb343008ea9a",
+    "result": "PASS28live/frozenhashes/fourimmutableELFs+fourchecker reruns; completeproduction/profileguard andexhaustiveprobe review"
+  }
+}

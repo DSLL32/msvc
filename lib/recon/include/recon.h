@@ -301,6 +301,7 @@ void *recon_watcom_malloc(size_t),*recon_watcom_calloc(size_t,size_t);
 void *recon_watcom_realloc(void *,size_t);
 void recon_watcom_free(void *);
 char *recon_watcom_strdup(const char *);
+int __cdecl recon_strcmp(const char *,const char *);
 int recon_isctype(int,int),recon_toupper(int),recon_tolower(int);
 void recon_tzset(void),recon_endstdio(void),recon_rmtmp(void);
 int recon_isindst(struct tm *);
@@ -568,6 +569,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _tempnam recon_tempnam
 #define _getpath recon_getpath
 #define _searchenv recon_searchenv
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+#define strcmp recon_strcmp
+#endif
 #define _isctype recon_isctype
 #define _endstdio recon_endstdio
 #define _rmtmp recon_rmtmp
