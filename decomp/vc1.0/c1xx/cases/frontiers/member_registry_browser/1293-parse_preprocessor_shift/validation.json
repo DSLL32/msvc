@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_parse_preprocessor_shift",
+    "start": 100736,
+    "end": 100804
+  },
+  "actual_argument_proof": "cases/frontiers/member_registry_browser/1293-parse_preprocessor_shift/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_accept_preprocessor_token@4",
+    "_evaluate_preprocessor_binary@12",
+    "_parse_preprocessor_additive"
+  ],
+  "next_frontier": "_parse_preprocessor_additive",
+  "pending_buffers": 6,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 1.1887800442054868,
+  "total_operation_seconds": 5.076782993040979,
+  "original_capture_seconds": 0.966957044787705
+}

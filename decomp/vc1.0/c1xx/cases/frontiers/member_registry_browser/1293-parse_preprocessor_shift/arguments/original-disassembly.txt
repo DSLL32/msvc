@@ -1,0 +1,36 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00018980 <.text+0x1980>:
+   18980:	56                   	push   esi
+   18981:	e8 4a 00 00 00       	call   0x189d0
+   18986:	8b f0                	mov    esi,eax
+   18988:	6a 61                	push   0x61
+   1898a:	e8 b1 f7 ff ff       	call   0x18140
+   1898f:	0b c0                	or     eax,eax
+   18991:	74 10                	je     0x189a3
+   18993:	e8 38 00 00 00       	call   0x189d0
+   18998:	50                   	push   eax
+   18999:	56                   	push   esi
+   1899a:	6a 61                	push   0x61
+   1899c:	e8 af f8 ff ff       	call   0x18250
+   189a1:	5e                   	pop    esi
+   189a2:	c3                   	ret
+   189a3:	6a 4c                	push   0x4c
+   189a5:	e8 96 f7 ff ff       	call   0x18140
+   189aa:	0b c0                	or     eax,eax
+   189ac:	74 12                	je     0x189c0
+   189ae:	e8 1d 00 00 00       	call   0x189d0
+   189b3:	50                   	push   eax
+   189b4:	56                   	push   esi
+   189b5:	6a 4c                	push   0x4c
+   189b7:	e8 94 f8 ff ff       	call   0x18250
+   189bc:	5e                   	pop    esi
+   189bd:	c3                   	ret
+   189be:	8b ff                	mov    edi,edi
+   189c0:	8b c6                	mov    eax,esi
+   189c2:	5e                   	pop    esi
+   189c3:	c3                   	ret

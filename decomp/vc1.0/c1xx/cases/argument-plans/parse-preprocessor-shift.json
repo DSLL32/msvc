@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "_parse_preprocessor_shift",
+  "native_entry": "parse_preprocessor_shift",
+  "argument_words": 4,
+  "native_expressions": {},
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      100736,
+      100804
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl no formals PreprocessorValue*EAX, savedESI, RET0",
+    "proof": "Whole68B mandatory additive cdecl0pointer result\u2192ESI. Accept std4BYTE61(rightshift) thenoptional4c(leftshift); matchedbranch parsesone rightadditive, binary std12(BYTEoperation,left,right), immediatelyreturns pointer; else returnsleft. Exactly one shift per invocation, no invented chain loop; no own global/incomingstack/register/flags/x87 input/newdata/CRT. Three outgoingcallees: additive next95B cdecl0pointer, accept57B plus195B scanner tail, binary865B+43DWORDstd12. Whole95B additive independently read, including original redundant thirdADD probe, remainsnamedstub; no source optimization/repair."
+  }
+}

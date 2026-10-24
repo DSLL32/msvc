@@ -164,3 +164,21 @@ PreprocessorValue *parse_preprocessor_relational(void)
     }
     return left;
 }
+
+PreprocessorValue *parse_preprocessor_additive(void);
+
+/* Original 0x18980..0x189c3. The right-shift probe precedes left shift. */
+PreprocessorValue *parse_preprocessor_shift(void)
+{
+    PreprocessorValue *left, *right;
+    left = parse_preprocessor_additive();
+    if (accept_preprocessor_token(OP_SHIFT_RIGHT)) {
+        right = parse_preprocessor_additive();
+        return evaluate_preprocessor_binary(OP_SHIFT_RIGHT, left, right);
+    }
+    if (accept_preprocessor_token(OP_SHIFT_LEFT)) {
+        right = parse_preprocessor_additive();
+        return evaluate_preprocessor_binary(OP_SHIFT_LEFT, left, right);
+    }
+    return left;
+}
