@@ -426,5 +426,26 @@
       "Future MREcalls/close/fileeffects unknown and denied; dependency responses must remain complete-input/prestate/ownedfile bound"
     ],
     "metadata_check": "Read-only owned receipt/manifest/compiled-source/retention hashes verified; no target execution/rebuild/reference replay; no private environment values emitted"
+  },
+  "actual_CL_completed_case_adoption": {
+    "accepted_commit": "ebadea10e04daf43ae3c1b4fb6e6f09b158eb477",
+    "coverage_only_commit": "d3638f5b",
+    "immutable_shared_revision": "5a8cb5ac92899546946119757a7bea42fcc9b60a",
+    "manifest": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/completion/manifest.json",
+      "sha256": "bfb9fbcd906023c83f923f9b6d81a5abd6a345c05e9ed005576dcedede0f05c3",
+      "records_verified": 3894
+    },
+    "parent_review": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-response/integration-parent-review.json",
+      "sha256": "228b87d384cbd8f6cfb6ba8c61b3589df577807f918d183050c9878d5310457e"
+    },
+    "integration_receipt": {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/cl-completion-integration/receipt.json",
+      "sha256": "299ee24144f0b2a35b893e7d0ea8960a471f3fb21b0383e848a3923a793fefc8"
+    },
+    "effects": "Complete exact six-call typed external MRE contract and mandatory inventory accepted: genuine existing sopen fd3/lowio11/RDWR/CLOEXEC, exact IDB bytes/position; Release preserves real descriptor/file; Close uses genuine seek/write/close, final25600B and natural lowio/handle closure/errors2/2/0. No manual error/flag reseeding or new shared API.",
+    "scope": "Only newly authenticated object-only six-call case, with unchanged provider/profile constraints. Earlier prefix-only history remains explicitly limited; no generic MRE lifecycle/provider-private object/lock/heap/thread/allocation-tail claim. Zero provider graph credit.",
+    "method": "Metadata-only read and hash verification of durable accepted owned proof and independent parent review; no C/H edit, build, GDB, Wine, replay or new reference."
   }
 }
