@@ -1,6 +1,8 @@
 /* Original-only complete ordered option/action/callback/public-call inventory.
  * No target value is seeded here and every mutable point is read afresh. */
 static int option_integer_probe;
+static int option_resolver_probe;
+static DWORD option_action_frontier;
 static void integer_enter(CONTEXT *,HANDLE,DWORD);
 static unsigned action_matches, action_calls, action_returns;
 static unsigned action_outer_calls, action_outer_returns;
@@ -22,10 +24,13 @@ static void prepare_option_action_observer(void)
     if(!file)return;
     if(baseline || !option_match_probe || !vector_probe || signature_reference ||
        fscanf(file,"%lx %lx",&entry,&frontier)!=2 || entry!=0x131aa ||
-       (frontier!=0x132f9 && frontier!=0x1335b) || fgetc(file)!='\n' || fgetc(file)!=EOF)
+       (frontier!=0x132f9 && frontier!=0x1335b && frontier!=0x1344d) || fgetc(file)!='\n' || fgetc(file)!=EOF)
         fail("option action observer plan");
     fclose(file);option_action_probe=1;signature_continue=0;
-    option_integer_probe=frontier==0x1335b;
+    option_integer_probe=frontier!=0x132f9;
+    option_resolver_probe=frontier==0x1344d;
+    option_action_frontier=frontier;
+    if(option_resolver_probe && restore_probe)fail("opaque restored resolver input is not authorized");
     fprintf(events,"option-actions-plan ordinary=1 no-seeds=1 action=000131aa frontier=%08lx\n",frontier);
 }
 
@@ -196,12 +201,12 @@ static void check_option_action_stop(DWORD address)
 {
     if(!option_action_probe)return;
     if(option_integer_probe) {
-        if(address!=base+0x1335b || action_matches!=8 || action_calls!=7 || action_returns!=7 ||
+        if(address!=base+option_action_frontier || action_matches!=8 || action_calls!=7 || action_returns!=7 ||
            action_outer_calls!=8 || action_outer_returns!=8 || action_inner_calls!=3 || action_inner_returns!=3 ||
            action_api_calls!=(restore_probe?8U:9U) || action_api_returns!=action_api_calls ||
            action_api_active || action_next_active || action_match_active || action_handler_active)
             fail("complete integer option-loop frontier inventory");
-        fprintf(events,"option-actions-complete matches=8 actions=7 returned=7 outer=8 inner=3 signatures=%u actual-frontier=0001335b\n",action_api_calls);
+        fprintf(events,"option-actions-complete matches=8 actions=7 returned=7 outer=8 inner=3 signatures=%u actual-frontier=%08lx\n",action_api_calls,option_action_frontier);
         return;
     }
     if(address!=base+0x132f9 || action_matches!=3 || action_calls!=3 || action_returns!=2 ||

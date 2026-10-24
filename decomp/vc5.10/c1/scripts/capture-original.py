@@ -86,6 +86,7 @@ def main():
     output = SCRATCH / "vc5.10/c1" / args.name
     output.mkdir(parents=True, exist_ok=False)
     candidate = json.loads((PROJECT / ("cases/" + args.case + "/candidate.json")).read_text())
+    assert ('restore' if args.restore_probe else 'normal') in candidate.get('allowed_probes',['normal','restore']), 'this candidate must not consume the opaque restored resolver input'
     if candidate.get("field_map"):
         field_map = json.loads((PROJECT / candidate["field_map"]).read_text())
         probes = field_map.get("output_buffers", [])
@@ -165,10 +166,12 @@ def main():
     if candidate.get('option_match_observers'):
         (output/'option-match-observers.txt').write_text('12fbe 131aa 12c31\n')
     if candidate.get("option_action_observers"):
-        (output/"option-action-observers.txt").write_text("131aa %x\n"%(0x1335b if candidate.get("integer_observers")else 0x132f9))
+        (output/"option-action-observers.txt").write_text("131aa %x\n"%(0x1344d if candidate.get('resolver_observers')else 0x1335b if candidate.get("integer_observers")else 0x132f9))
         shutil.copy2(PROJECT/"scripts/option-action-observer.inc",output/"option-action-observer.inc")
     if candidate.get("integer_observers"):
         shutil.copy2(PROJECT/"scripts/integer-observer.inc",output/"integer-observer.inc")
+    if candidate.get('resolver_observers'):
+        shutil.copy2(PROJECT/'scripts/resolver-observer.inc',output/'resolver-observer.inc')
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))

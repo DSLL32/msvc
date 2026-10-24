@@ -1,8 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
+#include <mbctype.h>
+#include <mbstring.h>
 #include "compiler-state.h"
 #include <recon.h>
+
+/* The original uses the public data import, not the /MD SDK accessor macro. */
+#if defined(_MSC_VER) && defined(_M_IX86) && defined(_DLL)
+#undef _mbctype
+_CRTIMP extern unsigned char _mbctype[];
+#endif
 
 __declspec(dllimport) unsigned long __cdecl SigForPbCb(const void *, long,
                                                        unsigned long);
@@ -337,7 +345,52 @@ char *__cdecl next_argument(void)
     return NULL;
 }
 
-char *__cdecl resolve_option_path(char *output, const char *input, unsigned size) { __asm { int 3 } return NULL; }
+char *__cdecl normalize_path(char *);
+
+/* Preserve a rooted path that already needs no relative-component expansion.
+ * The temporary path is normalized before examining UNC/drive punctuation;
+ * the final returned spelling is normalized independently. */
+char *__cdecl resolve_option_path(char *output, const char *input, unsigned size)
+{
+    char path[260];
+    unsigned length, index;
+    int unchanged = 0, unc = 0, rooted = 0;
+
+    for (length = 0; input[length]; ++length)
+        ;
+    if (length >= size)
+        compiler_error(81, input, size);
+    for (index = 0; (path[index] = input[index]) != 0; ++index)
+        ;
+    for (length = 0; path[length]; ++length)
+        ;
+    if (length > 2) {
+        normalize_path(path);
+        if (!(_mbctype[(unsigned char)path[0] + 1] & _M1)) {
+            if (path[0] == '\\' && path[1] == '\\')
+                unc = rooted = 1;
+            else if ((unsigned char)path[0] < 0x80 && path[1] == ':')
+                rooted = 1;
+            if (rooted) {
+                unchanged = !_mbsstr((unsigned char *)path,
+                                     (const unsigned char *)".\\");
+                if (unchanged && !unc)
+                    unchanged = !!_mbsstr((unsigned char *)path,
+                                          (const unsigned char *)":\\");
+            }
+        }
+    }
+    if (unchanged || !_fullpath(output, input, size))
+        for (index = 0; (output[index] = input[index]) != 0; ++index)
+            ;
+    return normalize_path(output);
+}
+
+char *__cdecl normalize_path(char *path)
+{
+    __asm { int 3 }
+    return path;
+}
 void __cdecl disable_multibyte_identifiers(void) { __asm { int 3 } }
 void __cdecl initialize_packing(void) { __asm { int 3 } }
 int __cdecl compare_pch_paths(const char *left, const char *right) { __asm { int 3 } return 0; }

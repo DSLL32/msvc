@@ -5,7 +5,11 @@ def validate_original_frontier(events,candidate,probe):
  target=re.findall(r'^frontier rva=(\w+)$',events,re.M)
  dependency=re.findall(r'^dependency-frontier module=(\S+) rva=(\w+) seq=(\d+)$',events,re.M)
  expected=candidate['expected_frontier']
- if expected['kind']=='option-integers-complete':
+ if expected['kind']=='option-path-normalizer':
+  assert probe=='normal'and candidate['allowed_probes']==['normal']
+  assert expected==dict(kind='option-path-normalizer',rva=0x1344d,native_symbol='normalize_path',native_args=['path'],calling_convention='cdecl',caller=dict(native_symbol='resolve_option_path',return_rva=0x133c9))
+  assert target==['0001344d']and not dependency
+ elif expected['kind']=='option-integers-complete':
   assert expected==dict(kind='option-integers-complete',rva=0x1335b,native_symbol='resolve_option_path',native_args=['output','input','size'],calling_convention='cdecl',caller=dict(native_symbol='parse_command_line',return_rva=0x12c8b))
   assert target==['0001335b']and not dependency
  elif expected['kind']=='option-action-integer':

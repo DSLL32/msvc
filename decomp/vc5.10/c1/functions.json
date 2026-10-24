@@ -84,7 +84,8 @@
     "_next_argument",
     "_match_option",
     "_apply_option_action",
-    "_parse_option_integer"
+    "_parse_option_integer",
+    "_resolve_option_path"
   ],
   "driver": [
     {
@@ -795,6 +796,18 @@
         [
           274926103,
           274926140
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_resolve_option_path",
+      "start": 274805595,
+      "end": 274805837,
+      "code_chunks": [
+        [
+          274926140,
+          274926320
         ]
       ],
       "role": "application"

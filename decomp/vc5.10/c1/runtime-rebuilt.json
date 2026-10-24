@@ -133,37 +133,30 @@
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_resolve_option_path",
-    "start": 268446885,
-    "end": 268446886,
-    "pending_extent": true,
-    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
-  },
-  {
     "name": "_disable_multibyte_identifiers",
-    "start": 268446899,
-    "end": 268446900,
+    "start": 268447493,
+    "end": 268447494,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_initialize_packing",
-    "start": 268446911,
-    "end": 268446912,
+    "start": 268447505,
+    "end": 268447506,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_compare_pch_paths",
-    "start": 268446923,
-    "end": 268446924,
+    "start": 268447517,
+    "end": 268447518,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_free_argument_allocation",
-    "start": 268446937,
-    "end": 268446938,
+    "start": 268447531,
+    "end": 268447532,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
@@ -176,15 +169,22 @@
   },
   {
     "name": "_match_option_suffix",
-    "start": 268448373,
-    "end": 268448374,
+    "start": 268448965,
+    "end": 268448966,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_append_option_vector",
-    "start": 268449061,
-    "end": 268449062,
+    "start": 268449653,
+    "end": 268449654,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_normalize_path",
+    "start": 268447478,
+    "end": 268447479,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   }

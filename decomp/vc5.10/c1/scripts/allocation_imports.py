@@ -30,6 +30,9 @@ def check_static():
  if '_parse_option_integer'in metadata['functions']:
   from integer_imports import check_static as check_integer
   check_integer()
+ if '_resolve_option_path'in metadata['functions']:
+  from resolver_imports import check_static as check_resolver
+  check_resolver()
  if '_parse_command_line'in metadata['functions']:
   from command_line_state import check_preservation_static
   check_preservation_static(P,ROOT)
@@ -61,6 +64,9 @@ def check_report(report):
  if '_parse_option_integer'in report['functions']:
   from integer_imports import check_report as check_integer_report
   check_integer_report(report)
+ if '_resolve_option_path'in report['functions']:
+  from resolver_imports import check_report as check_resolver_report
+  check_resolver_report(report)
  if '_parse_command_line'in report['functions']:
   from command_line_state import check_register_report
   check_register_report(report)

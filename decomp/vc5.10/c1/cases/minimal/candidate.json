@@ -473,6 +473,11 @@
       "entry": 1
     },
     {
+      "start_rva": 78683,
+      "end_rva": 78925,
+      "entry": 1
+    },
+    {
       "start_rva": 178328,
       "end_rva": 178358,
       "entry": 0
@@ -596,6 +601,11 @@
       "start_rva": 199191,
       "end_rva": 199228,
       "entry": 1
+    },
+    {
+      "start_rva": 199228,
+      "end_rva": 199408,
+      "entry": 0
     }
   ],
   "functions": [
@@ -1792,6 +1802,20 @@
       ],
       "status": "trial whole135B integer parser; public ctype/atol inputs/results pending fresh observation",
       "source": "src/option-matcher.c"
+    },
+    {
+      "name": "_resolve_option_path",
+      "chunks": [
+        [
+          78683,
+          78925
+        ],
+        [
+          199228,
+          199408
+        ]
+      ],
+      "role": "application"
     }
   ],
   "text_data": [
@@ -1813,18 +1837,16 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "kind": "option-integers-complete",
-    "rva": 78683,
-    "native_symbol": "resolve_option_path",
+    "kind": "option-path-normalizer",
+    "rva": 78925,
+    "native_symbol": "normalize_path",
     "native_args": [
-      "output",
-      "input",
-      "size"
+      "path"
     ],
     "calling_convention": "cdecl",
     "caller": {
-      "native_symbol": "parse_command_line",
-      "return_rva": 76939
+      "native_symbol": "resolve_option_path",
+      "return_rva": 78793
     }
   },
   "imports": [
@@ -1894,7 +1916,7 @@
       "minimalin",
       "minimalsy"
     ],
-    "status": "reconstructing; completed initialization and observed option prefix; minimal IR outputs still pending"
+    "status": "normal-only reconstruction; complete native IR outputs not reached; historic restore retained at resolver entry"
   },
   "field_map": "cases/minimal/field-map.json",
   "restore_probe": {
@@ -2110,7 +2132,7 @@
     },
     "path_fold": "labeled reset-before-clear and helper-entry nonzero WORD table seeds; no snapshot ownership"
   },
-  "staging_role": "sole135-byte integer-parser candidate; complete option-loop continuation to genuine resolve_option_path stub; public ctype and atoi effects need own evidence",
+  "staging_role": "sole422-byte path resolver candidate, normal-only known vc50.pdb; old opaque restore oracle remains held at1335b",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -2373,5 +2395,16 @@
     "isspace_iat_rva": 381228,
     "isdigit_iat_rva": 380952,
     "atol_iat_rva": 381052
+  },
+  "allowed_probes": [
+    "normal"
+  ],
+  "resolver_observers": {
+    "entry_rva": 78683,
+    "frontier_rva": 78925,
+    "input": "vc50.pdb",
+    "input_bytes": 9,
+    "local_buffer_bytes": 260,
+    "output_buffer_bytes": 520
   }
 }

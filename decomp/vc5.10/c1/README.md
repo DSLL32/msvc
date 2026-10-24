@@ -507,3 +507,9 @@ nonzero predicate. Strict79-source audits pass. See
 `cases/minimal/OPTION-INTEGERS.md`. Both current modes reach the genuine path
 resolver; further work is normal-only because restore's input pointer remains
 opaque and must not be read.
+
+The normal-only 422-byte path resolver is accepted through its first real
+normalizer call, with the nine defined `vc50.pdb` bytes copied into an owned
+260-byte local buffer. No path API executes before that boundary. Both capture
+transports reject the old opaque restore input before execution. See
+`cases/minimal/OPTION-RESOLVER.md`.

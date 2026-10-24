@@ -97,6 +97,21 @@
           "path": "cases/minimal/integer-imports.json",
           "sha256": "c86d59b4799e96c4c101c2d8d77fe576933900a32640a9a2bc3554f48dc894c5"
         }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "_mbsstr"
+          }
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/minimal/resolver-imports.json",
+          "sha256": "1294259dd5f44aacac759296437e01e5eb0705b8cee6b4bc74d08af5d05b8b27"
+        }
       }
     ]
   },
@@ -157,19 +172,19 @@
       "rebuilt": {
         "text_data": [
           [
-            268448299,
-            268448373
+            268448891,
+            268448965
           ]
         ],
         "switches": {
-          "268447711": [
-            268448029,
-            268447898,
-            268447891,
-            268447718,
-            268447822,
-            268447736,
-            268448170
+          "268448303": [
+            268448621,
+            268448490,
+            268448483,
+            268448310,
+            268448414,
+            268448328,
+            268448762
           ]
         }
       }
@@ -198,25 +213,30 @@
       "rebuilt": {
         "text_data": [
           [
-            268448857,
-            268448928
+            268449449,
+            268449520
           ]
         ],
         "switches": {
-          "268448434": [
-            268448441,
-            268448458,
-            268448579,
-            268448625,
-            268448780,
-            268448802,
-            268448475,
-            268448853
+          "268449026": [
+            268449033,
+            268449050,
+            268449171,
+            268449217,
+            268449372,
+            268449394,
+            268449067,
+            268449445
           ]
         }
       }
     },
     "_parse_option_integer": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true
+      }
+    },
+    "_resolve_option_path": {
       "register_imports": {
         "require_all_register_calls_resolved": true
       }

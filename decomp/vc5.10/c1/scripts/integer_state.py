@@ -28,20 +28,22 @@ def sig_registers(original,index,phase):return list(struct.unpack('<17I',(origin
 def locale_raw(original,phase):return {key:(original/('locale-'+phase+'-target-'+key+'.bin')).read_bytes()for key in ('data','BSS','snapshot')}
 def raw_fp(original,phase):return fp((original/('locale-'+phase+'-fp.bin')).read_bytes())
 
-def validate(original,native,candidate,report):
+def validate(original,native,candidate,report,stage_state=None):
  first=load(native,'option-action-entries')[0];state=load(native,'state')
  prefix=validate_first_match(original,native,candidate,report,stage_state=snapshot(original,native,state,first))
- result=validate_loop(original,native,candidate);result['prefix']=prefix
+ result=validate_loop(original,native,candidate,stage_state=stage_state);result['prefix']=prefix
  return result
 
-def validate_loop(original,native,candidate):
- expected=candidate['expected_frontier'];assert expected==dict(kind='option-integers-complete',rva=0x1335b,native_symbol='resolve_option_path',native_args=['output','input','size'],calling_convention='cdecl',caller=dict(native_symbol='parse_command_line',return_rva=0x12c8b))
+def validate_loop(original,native,candidate,stage_state=None):
+ expected=candidate['expected_frontier']
+ if stage_state is None:assert expected==dict(kind='option-integers-complete',rva=0x1335b,native_symbol='resolve_option_path',native_args=['output','input','size'],calling_convention='cdecl',caller=dict(native_symbol='parse_command_line',return_rva=0x12c8b))
+ else:assert expected['kind']=='option-path-normalizer'and expected['rva']==0x1344d and candidate['allowed_probes']==['normal']
  fn=[f for f in candidate['functions']if f['name']=='_parse_option_integer'];assert len(fn)==1 and fn[0]['chunks']==[[0x132f9,0x1335b],[0x30a17,0x30a3c]]and fn[0]['role']=='application'
  assert candidate['integer_observers']==dict(entry_rva=0x132f9,return_rva=0x1320c,frontier_rva=0x1335b,expected_inputs=['1','5','0'],isspace_iat_rva=0x5d12c,isdigit_iat_rva=0x5d018,atol_iat_rva=0x5d07c)
  receipt=load(original,'receipt');normal=receipt['probe']=='normal';assert normal or receipt['probe']=='restore'
  events=(original/'events.txt').read_text();validate_original_frontier(events,candidate,receipt['probe']);validate_native_stop(native,candidate)
- assert events.count('option-actions-complete matches=8 actions=7 returned=7 outer=8 inner=3 signatures=%u actual-frontier=0001335b\n'%(9 if normal else 8))==1
- binary=captured_native_binary(native);names=symbols(binary);state=load(native,'state')
+ assert events.count('option-actions-complete matches=8 actions=7 returned=7 outer=8 inner=3 signatures=%u actual-frontier=%08x\n'%((9 if normal else 8),expected['rva']))==1
+ binary=captured_native_binary(native);names=symbols(binary);state=load(native,'state')if stage_state is None else stage_state
  grouped={name:load(native,file)for name,file in [('outer-entry','argument-cursor-entries'),('outer-return','argument-cursor-returns'),('inner-entry','option-next-entries'),('inner-return','option-next-returns'),('match-entry','option-match-entries'),('match-return','option-match-returns'),('action-entry','option-action-entries'),('action-return','option-action-returns'),('numeric-entry','integer-entries'),('numeric-return','integer-returns'),('signature-entry','signature-call-entries'),('signature-return','signature-call-returns'),('public-entry','integer-api-entries'),('public-return','integer-api-returns')]}
  for name,rows in grouped.items():assert len(rows)==(8 if name.startswith(('outer','match'))else 3 if name.startswith(('inner','numeric'))else 7 if name.startswith('action')else 9 if name.startswith('public')else 9 if normal else 8)
  known=copy.deepcopy(grouped['outer-entry'][0]['compiler_state']);inv=grouped['outer-entry'][0]['invocation'];crt=grouped['outer-entry'][0]['crt_state'];architecture=semantic(grouped['outer-entry'][0]['fp'])
@@ -167,7 +169,7 @@ def validate_loop(original,native,candidate):
   if name=='signature-return':known['bss']['pdb_signature']=r[3];struct.pack_into('<I',raw['BSS'],0x4de0,r[3])
  assert saved_numeric=={0:1,1:5,2:0}
  validate_public_static(original,native,proofs)
- endpoint=validate_endpoint(original,native,candidate,state,grouped,known,raw,crt,architecture,names,binary,crt_raw)
+ endpoint=validate_endpoint(original,native,candidate,state,grouped,known,raw,crt,architecture,names,binary,crt_raw,following=stage_state is not None)
  return dict(status='matching whole135B integer parser and complete option loop',application_candidate='_parse_option_integer',candidate_code_bytes=135,numeric_inputs=['1','5','0'],numeric_returns=[1,5,0],public_calls=proofs,matcher_calls=8,action_calls=7,outer_callbacks=8,inner_callbacks=3,signature_calls=9 if normal else 8,endpoint=endpoint,unvisited_paths='whitespace/invalid/range errors remain source+graph only',initialized_known_bytes=2348,initialized_UNMODELED_bytes=4200,CRT_credit=0,execution_receipts=dict(original=sha(original/'receipt.json'),native=sha(native/'receipt.json')))
 
 
@@ -206,14 +208,16 @@ def validate_public_static(original,native,proofs):
  assert len(proofs)==9
 
 
-def validate_endpoint(original,native,candidate,state,grouped,known,raw,crt,architecture,names,binary,crt_raw):
+def validate_endpoint(original,native,candidate,state,grouped,known,raw,crt,architecture,names,binary,crt_raw,following=False):
  events=(original/'events.txt').read_text();rows=re.findall(r'^trap seq=(\d+) rva=0001335b esp=(\w+).*stack=([\w,]+)$',events,re.M);assert len(rows)==1
  seq=int(rows[0][0]);esp=int(rows[0][1],16);stack=[int(v,16)for v in rows[0][2].split(',')];assert stack[0]==BASE+0x12c8b and stack[1]==esp+32 and stack[3]==520
  assert stack[2]==struct.unpack_from('<I',raw['data'],0x1358)[0]
  for region,stem in [('data','compiler-data'),('BSS','compiler-bss'),('snapshot','compiler-snapshot')]:assert(original/('%s-%03d.bin'%(stem,seq))).read_bytes()==bytes(raw[region])
  assert(original/('state-%03d.bin'%seq)).read_bytes()==crt_raw
- assert state['compiler_state']==known and state['symbol']=='resolve_option_path'and names['resolve_option_path'][0]<state['pc']<=sum(names['resolve_option_path'])
- opcode=subprocess.check_output(['objdump','-d','--start-address='+str(state['pc']-1),'--stop-address='+str(state['pc']),str(binary)],text=True);assert 'int3'in opcode
+ assert state['compiler_state']==known and state['symbol']=='resolve_option_path'and names['resolve_option_path'][0]<=state['pc']<=sum(names['resolve_option_path'])
+ if following:assert state['pc']==names['resolve_option_path'][0]
+ else:
+  opcode=subprocess.check_output(['objdump','-d','--start-address='+str(state['pc']-1),'--stop-address='+str(state['pc']),str(binary)],text=True);assert 'int3'in opcode
  assert state['formal_inventory']==[dict(name=k,type=t)for k,t in [('output','char *'),('input','const char *'),('size','unsigned int')]]
  assert state['args']['size']==520 and state['args']['input']==known['option_state']['initialized']['database_file']
  frame=grouped['match-return'][-1]['preserved']['ebp'];assert state['args']['output']==frame-0x20c

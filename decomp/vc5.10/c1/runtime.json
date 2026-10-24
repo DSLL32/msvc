@@ -133,13 +133,6 @@
     "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
   },
   {
-    "name": "_resolve_option_path",
-    "start": 274805595,
-    "end": 274805596,
-    "pending_extent": true,
-    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
-  },
-  {
     "name": "_disable_multibyte_identifiers",
     "start": 274972906,
     "end": 274972907,
@@ -187,5 +180,12 @@
     "end": 274800293,
     "pending_extent": true,
     "evidence": "two cdecl args vector/item; actual pointer append and signedshort header consumers ground signature; named typed INT3 stub only"
+  },
+  {
+    "name": "_normalize_path",
+    "start": 274805837,
+    "end": 274805838,
+    "pending_extent": true,
+    "evidence": "actual resolver direct call and typed named INT3 only; full extent not accepted"
   }
 ]

@@ -581,6 +581,7 @@ static void save_frontend_state(const char *phase)
 #include "vector-observer.inc"
 #include "option-action-observer.inc"
 #include "integer-observer.inc"
+#include "resolver-observer.inc"
 
 /* Labeled auxiliary values: the stream and relocation callback are never
  * dereferenced/invoked. Only their mapped pointer identities are exercised. */
@@ -1539,6 +1540,7 @@ int main(int argc, char **argv)
                 if(!option_action_probe && option_match_probe && address==base+0x131aa)option_match_record("action",address,&context);
                 observe_option_action_entry(address,&context);
                 if(option_integer_probe && address==base+0x132f9)integer_enter(&context,thread,event.dwThreadId);
+                if(option_resolver_probe && address==base+0x1335b)resolver_enter(&context,thread,event.dwThreadId);
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;
@@ -1573,6 +1575,7 @@ int main(int argc, char **argv)
                         if(signature_reference && (!signature_reference_complete || address!=base+0x12f9c))fail("signature reference controlled next_argument stop");
                         check_option_action_stop(address);
                         check_integer_stop();
+                        check_resolver_stop(address,&context,thread,event.dwThreadId);
                         fprintf(events, "frontier rva=%08lx\n", address - base); fflush(events);
                         TerminateProcess(child, 125); return 125;
                     }

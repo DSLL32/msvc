@@ -1,0 +1,36 @@
+{
+  "minimal-option-resolver-normal-001": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-option-resolver-normal-001",
+    "receipt_sha256": "0cc4af4b95d23814f2da851372817e6f6c09266e465952b16748c51d16972fec",
+    "kind": "explicit-original-capture",
+    "seconds": 11.136257847771049,
+    "source_manifest_sha256": "d641d70cb442a30b34df1acd04be924a5720c4a84958aa9089d3cf9f8ff19802",
+    "artifacts": 3791,
+    "audit_binding_sha256": "ad5c74cd20c580c16b81c623a14f5394e4b5c210ad7ba672b28f070f55e5b1c6",
+    "target_sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "native_sha256": "79b2a88a92aaa4443611295902d4de512f523d04c673a08e83c0af11917012c3",
+    "rebuilt_sha256": "728a5efbf21ecf96115715d1a15bb0f6f4e52b5bb666aafd1c81fa8a41a8df87"
+  },
+  "native-minimal-option-resolver-normal-001": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-option-resolver-normal-001",
+    "receipt_sha256": "004cd93f62d5f038900ebfffcbfa60c79574a7e7f5beac987cf516b2c0c5462a",
+    "kind": "native-gdb-frontier",
+    "seconds": 10.041201057843864,
+    "source_manifest_sha256": "fe59cfcc3ec5e78dc02af466e22ad221888d7a830845fa7717c6570aa0a92732",
+    "artifacts": 3764,
+    "audit_binding_sha256": "ad5c74cd20c580c16b81c623a14f5394e4b5c210ad7ba672b28f070f55e5b1c6",
+    "target_sha256": null,
+    "provider_sha256": null,
+    "native_sha256": "79b2a88a92aaa4443611295902d4de512f523d04c673a08e83c0af11917012c3",
+    "rebuilt_sha256": "728a5efbf21ecf96115715d1a15bb0f6f4e52b5bb666aafd1c81fa8a41a8df87"
+  },
+  "held_restore_reference": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-option-integers-restore-002",
+    "receipt_sha256": "405096007ae714b4b91d2db474f461a7816cd7cb0bbd8f333e17827031f17b8e",
+    "native_path": "/root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-option-integers-restore-001",
+    "native_receipt_sha256": "c2bde256b6d0bf3c6c35bf5e54a588c36510727b63b0694c603b7d733005aae8",
+    "frontier": 78683,
+    "input": "opaque owned snapshot sentinel; no semantic read; never replay through current resolver"
+  }
+}
