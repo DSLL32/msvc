@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_dispatch_member_pointer_comparison@8",
+    "start": 308448,
+    "end": 308499
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_defined_debug/1242-dispatch_member_pointer_comparison-8/arguments/validation.json",
+  "distinct_direct_callees": [
+    "indirect"
+  ],
+  "next_frontier": "_compare_multiple_method_pointer@16",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8361325534060597,
+  "total_operation_seconds": 5.0405268939211965,
+  "original_capture_seconds": 1.6186843318864703
+}

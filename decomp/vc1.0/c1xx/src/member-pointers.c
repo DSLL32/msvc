@@ -765,3 +765,15 @@ IrToken *__stdcall member_pointer_function_value(IrToken *storage,
     IrToken *offset = make_integer_constant(0);
     return indirect_storage_expression(new_ir_expression(0x5c, storage, offset, type));
 }
+
+/* Original 0x4b4e0..0x4b512, stdcall8. Aggregate comparisons
+   combine equal fields with AND and unequal fields with OR. */
+IrToken *__stdcall dispatch_member_pointer_comparison(IrToken *expression,
+    MemberPointerComparison compare)
+{
+    switch (expression->kind) {
+    case 0x44: return compare(expression, 0x44, 0x3b, 0x58);
+    case 0x55: return compare(expression, 0x55, 0x58, 0x3b);
+    default: return 0;
+    }
+}
