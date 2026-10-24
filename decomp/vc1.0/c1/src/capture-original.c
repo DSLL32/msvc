@@ -635,6 +635,180 @@ static int direct_active;
 static DWORD direct_stack, direct_marker;
 static CONTEXT direct_saved;
 
+/* Direct literal support uses the genuine stopped initializer arguments.
+   Only debugger breakpoints and an owned call stack are changed. */
+static DWORD literal_return, literal_storage, literal_token, literal_writer;
+static unsigned char literal_return_byte, literal_writer_byte;
+static int literal_return_patched, literal_marker_open, literal_writer_patched;
+static int literal_reentered, literal_written, literal_stepping;
+static CONTEXT literal_step_context;
+static int literal_cleanup(HANDLE process,HANDLE log)
+{
+    DWORD written,got;
+    unsigned char byte;
+    char line[160];
+    int ok=1;
+    if(literal_return_patched) {
+        if(!patch_debug_byte(process,literal_return,literal_return_byte))ok=0;
+        else literal_return_patched=0;
+    }
+    if(literal_marker_open) {
+        if(!patch_debug_byte(process,direct_marker,0xcc))ok=0;
+        else literal_marker_open=0;
+    }
+    if(literal_writer_patched) {
+        if(!patch_debug_byte(process,literal_writer,literal_writer_byte))ok=0;
+        else literal_writer_patched=0;
+    }
+    if(literal_return && (!ReadProcessMemory(process,(void *)literal_return,&byte,1,&got)||got!=1||byte!=literal_return_byte))ok=0;
+    if(direct_marker && (!ReadProcessMemory(process,(void *)direct_marker,&byte,1,&got)||got!=1||byte!=0xcc))ok=0;
+    sprintf(line,"literal-cleanup %u return %08lx byte %02x marker %08lx byte cc\n",
+        ok,literal_return,literal_return_byte,direct_marker);
+    WriteFile(log,line,strlen(line),&written,0);
+    return ok;
+}
+static int literal_observe(HANDLE process,HANDLE log,DWORD base,
+                           const char *boundary,CONTEXT *current)
+{
+    DWORD token_type,extended,line_stream,auxiliary,index,got,written;
+    unsigned short head,type_flags;
+    unsigned char value[10];
+    char line[512],*out;
+    unsigned i;
+    if(!ReadProcessMemory(process,(void *)literal_token,&head,2,&got)||got!=2||
+       !ReadProcessMemory(process,(void *)(literal_token+4),&token_type,4,&got)||got!=4||
+       !ReadProcessMemory(process,(void *)token_type,&type_flags,2,&got)||got!=2||
+       !ReadProcessMemory(process,(void *)(literal_token+12),&extended,4,&got)||got!=4||
+       !ReadProcessMemory(process,(void *)extended,value,10,&got)||got!=10||
+       !ReadProcessMemory(process,(void *)(base+0x4b594),&line_stream,4,&got)||got!=4||
+       !ReadProcessMemory(process,(void *)(base+0x5e434),&auxiliary,4,&got)||got!=4||
+       !ReadProcessMemory(process,(void *)(support_symbol+16),&index,4,&got)||got!=4||
+       !line_stream || ((head>>8)&7)!=3 || !(type_flags&0x100))return 0;
+    sprintf(line,"literal-state %s symbol %08lx token %08lx head %04x type %08lx flags %04x extended %08lx line %08lx auxiliary %08lx index %lu value ",
+        boundary,support_symbol,literal_token,head,token_type,type_flags,extended,line_stream,auxiliary,index);
+    out=line+strlen(line);for(i=0;i<10;++i){sprintf(out,"%02x",value[i]);out+=2;}strcpy(out,"\n");
+    return WriteFile(log,line,strlen(line),&written,0)&&written==strlen(line);
+}
+static int literal_event(HANDLE process,HANDLE thread,HANDLE log,
+                         DWORD code,DWORD site,DWORD base,char *buffers)
+{
+    CONTEXT current;
+    DWORD words[8],got,written,line_stream,auxiliary,pointer,displacement;
+    unsigned char call[5],value[8];
+    char line[512],name[32],*out;
+    unsigned i,width=support_unit==8?4:8;
+    typedef LPVOID (WINAPI *AllocateInProcess)(HANDLE,LPVOID,DWORD,DWORD,DWORD);
+    AllocateInProcess allocate;
+    if(literal_stepping) {
+        memset(&current,0,sizeof(current));current.ContextFlags=CONTEXT_FULL|CONTEXT_FLOATING_POINT;
+        if(code!=EXCEPTION_SINGLE_STEP||site!=literal_return+2||
+           !GetThreadContext(thread,&current)||current.Eip!=literal_return+2||
+           current.Esp!=literal_step_context.Esp||current.Eax!=literal_step_context.Eax||
+           current.Ecx!=literal_step_context.Ecx||current.Edx!=literal_step_context.Edx||
+           current.Ebx!=literal_step_context.Ebx||current.Esi!=literal_step_context.Esi||
+           current.Edi!=literal_step_context.Edi||current.Ebp!=literal_step_context.Ebp)return -1;
+        if(!patch_debug_byte(process,literal_return,0xcc))return -1;
+        literal_return_patched=1;literal_stepping=0;current.EFlags&=~0x100UL;
+        sprintf(line,"literal-internal-step pc %08lx esp %08lx restored-trap cc\n",current.Eip,current.Esp);
+        WriteFile(log,line,strlen(line),&written,0);
+        return SetThreadContext(thread,&current)?1:-1;
+    }
+    if(code!=EXCEPTION_BREAKPOINT)return 0;
+    if(site!=base+direct_marker_rva && (!direct_active || (site!=literal_return&&site!=literal_writer)))return 0;
+    memset(&current,0,sizeof(current));current.ContextFlags=CONTEXT_FULL|CONTEXT_FLOATING_POINT;
+    if(!GetThreadContext(thread,&current))return -1;
+    if(!direct_active) {
+        if(!ReadProcessMemory(process,(void *)current.Esp,words,16,&got)||got!=16||words[3])return -1;
+        direct_saved=current;direct_marker=site;literal_return=words[0];support_symbol=words[1];literal_token=words[2];
+        if(literal_return<base+0x1000||literal_return>=base+0x44af2||
+           !ReadProcessMemory(process,(void *)(literal_return-5),call,5,&got)||got!=5||call[0]!=0xe8)return -1;
+        memcpy(&displacement,call+1,4);
+        if(literal_return+displacement!=site ||
+           !ReadProcessMemory(process,(void *)literal_return,&literal_return_byte,1,&got)||got!=1||literal_return_byte==0xcc||
+           !ReadProcessMemory(process,(void *)(support_symbol+8),&pointer,4,&got)||got!=4||
+           !ReadProcessMemory(process,(void *)pointer,name,sizeof(name),&got)||got!=sizeof(name)||
+           strcmp(name,support_unit==8?"support_single":"support_double"))return -1;
+        literal_writer=base+(support_unit==8?0x3b960:0x3b980);
+        if(!ReadProcessMemory(process,(void *)literal_writer,&literal_writer_byte,1,&got)||got!=1)return -1;
+        allocate=(AllocateInProcess)GetProcAddress(GetModuleHandleA("kernel32.dll"),"VirtualAllocEx");
+        if(!allocate)return -1;
+        literal_storage=(DWORD)allocate(process,0,65536,MEM_RESERVE|MEM_COMMIT,PAGE_READWRITE);
+        if(!literal_storage)return -1;
+        direct_stack=literal_storage+65536-512;
+        if(!observe_support(process,log,base,"before")||!literal_observe(process,log,base,"before",&current))return -1;
+        for(i=0;i<8;++i)words[i]=0xa5a5a5a5;
+        words[0]=literal_return;words[1]=support_symbol;words[2]=literal_token;
+        if(!WriteProcessMemory(process,(void *)direct_stack,words,sizeof(words),&written)||written!=sizeof(words)||
+           !patch_debug_byte(process,literal_return,0xcc))return -1;
+        literal_return_patched=1;
+        if(literal_writer_byte!=0xcc) {
+            if(!patch_debug_byte(process,literal_writer,0xcc))return -1;
+            literal_writer_patched=1;
+        }
+        sprintf(line,"literal-start parent %08lx marker %08lx return %08lx byte %02x storage %08lx stack %08lx symbol %08lx token %08lx\n",
+            base+direct_target_rva,site,literal_return,literal_return_byte,literal_storage,direct_stack,support_symbol,literal_token);
+        WriteFile(log,line,strlen(line),&written,0);
+        if(buffers)dump_stream_buffers(process,log,base,buffers);
+        current.Eip=base+direct_target_rva;current.Esp=direct_stack;direct_active=1;
+        if(!SetThreadContext(thread,&current))return -1;
+        return 1;
+    }
+    if(site==direct_marker) {
+        if(literal_reentered++||current.Esp<literal_storage||current.Esp+16>direct_stack||
+           !ReadProcessMemory(process,(void *)current.Esp,words,16,&got)||got!=16||
+           words[1]!=support_symbol||words[2]!=literal_token||
+           !ReadProcessMemory(process,(void *)(base+0x4b594),&line_stream,4,&got)||got!=4||!line_stream||words[3]!=line_stream)return -1;
+        sprintf(line,"literal-reentry marker %08lx esp %08lx symbol %08lx token %08lx stream %08lx\n",site,current.Esp,words[1],words[2],words[3]);
+        WriteFile(log,line,strlen(line),&written,0);
+        if(!patch_debug_byte(process,direct_marker,0x83))return -1;
+        literal_marker_open=1;current.Eip=site;
+        return SetThreadContext(thread,&current)?1:-1;
+    }
+    if(site==literal_writer) {
+        if(literal_written++||literal_reentered!=1||current.Esp<literal_storage||current.Esp+8>direct_stack||
+           !ReadProcessMemory(process,(void *)(current.Esp+4),&pointer,4,&got)||got!=4||
+           pointer<literal_storage||pointer+width>direct_stack||
+           !ReadProcessMemory(process,(void *)pointer,value,width,&got)||got!=width||
+           !ReadProcessMemory(process,(void *)(base+0x4b594),&line_stream,4,&got)||got!=4||
+           !ReadProcessMemory(process,(void *)(base+0x5e434),&auxiliary,4,&got)||got!=4||!line_stream||auxiliary!=line_stream)return -1;
+        sprintf(line,"literal-writer entry %08lx esp %08lx value %08lx width %u stream %08lx bytes ",site,current.Esp,pointer,width,auxiliary);
+        out=line+strlen(line);for(i=0;i<width;++i){sprintf(out,"%02x",value[i]);out+=2;}strcpy(out,"\n");WriteFile(log,line,strlen(line),&written,0);
+        if(literal_writer_byte==0xcc)return 0; /* Ordinary frontier/entry-plan handler owns this trap. */
+        if(!patch_debug_byte(process,literal_writer,literal_writer_byte))return -1;
+        literal_writer_patched=0;current.Eip=site;
+        return SetThreadContext(thread,&current)?1:-1;
+    }
+    if(current.Esp!=direct_stack+12) {
+        DWORD format;
+        unsigned char instruction[2];
+        if(literal_return!=base+0x2b2d5||literal_return_byte!=0x38||
+           current.Esp!=direct_stack-48||current.Esi!=support_symbol||
+           !ReadProcessMemory(process,(void *)(base+0x4b594),&line_stream,4,&got)||got!=4||current.Ebp!=line_stream||
+           !ReadProcessMemory(process,(void *)(base+0x5ed30),&format,4,&got)||got!=4||
+           current.Edi<format+1||current.Edi>format+4||
+           !ReadProcessMemory(process,(void *)literal_return,instruction,2,&got)||got!=2||
+           instruction[0]!=0xcc||instruction[1]!=0x1f)return -1;
+        sprintf(line,"literal-internal-hit pc %08lx esp %08lx symbol %08lx stream %08lx format-offset %lu instruction 381f\n",
+            site,current.Esp,current.Esi,current.Ebp,current.Edi-format);
+        WriteFile(log,line,strlen(line),&written,0);
+        if(!patch_debug_byte(process,literal_return,literal_return_byte))return -1;
+        literal_return_patched=0;literal_stepping=1;literal_step_context=current;
+        current.Eip=literal_return;current.EFlags|=0x100UL;
+        return SetThreadContext(thread,&current)?1:-1;
+    }
+    if(literal_reentered!=1||literal_written!=1||current.Esp!=direct_stack+12||
+       current.Ebx!=direct_saved.Ebx||current.Esi!=direct_saved.Esi||current.Edi!=direct_saved.Edi||current.Ebp!=direct_saved.Ebp||
+       current.FloatSave.ControlWord!=direct_saved.FloatSave.ControlWord||
+       !ReadProcessMemory(process,(void *)(direct_stack+12),words,16,&got)||got!=16)return -1;
+    for(i=0;i<4;++i)if(words[i]!=0xa5a5a5a5)return -1;
+    sprintf(line,"literal-return esp %08lx expected %08lx nonvolatile 1 fctrl %08lx before %08lx canary a5a5a5a5 a5a5a5a5 a5a5a5a5 a5a5a5a5\n",current.Esp,direct_stack+12,current.FloatSave.ControlWord,direct_saved.FloatSave.ControlWord);
+    WriteFile(log,line,strlen(line),&written,0);
+    if(!observe_support(process,log,base,"after")||!literal_observe(process,log,base,"after",&current))return -1;
+    if(buffers)dump_stream_buffers(process,log,base,buffers);
+    if(!literal_cleanup(process,log))return -1;
+    TerminateProcess(process,99);return 1;
+}
+
 static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
                         DWORD code, DWORD site, DWORD base, char *buffers)
 {
@@ -645,6 +819,7 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
     AllocateInProcess allocate;
     char line[512];
     unsigned index;
+    if(support_unit>=8)return literal_event(process,thread,log,code,site,base,buffers);
     if (!direct_marker_rva || code != EXCEPTION_BREAKPOINT ||
         site != base + direct_marker_rva) return 0;
     memset(&current,0,sizeof(current));
@@ -799,9 +974,9 @@ int main(int argc, char **argv)
     if(flag_option) {
         support_unit=atoi(flag_option);
         {
-            static const DWORD targets[8]={0x15ed0,0x15f90,0x16030,0x2b2f0,0x2f3b0,0x302b0,0x236f0,0x25a30};
-            static const unsigned counts[8]={2,2,1,1,2,1,2,2};
-            if(support_unit<0||support_unit>7||direct_marker_rva!=0x262c0||
+            static const DWORD targets[10]={0x15ed0,0x15f90,0x16030,0x2b2f0,0x2f3b0,0x302b0,0x236f0,0x25a30,0x2b080,0x2b080};
+            static const unsigned counts[10]={2,2,1,1,2,1,2,2,2,2};
+            if(support_unit<0||support_unit>9||direct_marker_rva!=(support_unit<8?0x262c0:0x2b3a0)||
                direct_target_rva!=targets[support_unit]||direct_count!=counts[support_unit]||
                direct_arguments[0]!=(support_unit<3?0x800:support_unit==4?2:0)||
                (support_unit==6&&direct_arguments[1]!=7))return 2;
@@ -874,7 +1049,7 @@ int main(int argc, char **argv)
         return 3;
     }
     for (;;) {
-        if (!WaitForDebugEvent(&ev, 30000)) { TerminateProcess(pi.hProcess,99); return 4; }
+        if (!WaitForDebugEvent(&ev, 30000)) { if(support_unit>=8)literal_cleanup(pi.hProcess,log); TerminateProcess(pi.hProcess,99); return 4; }
         status = DBG_CONTINUE;
         if (ev.dwDebugEventCode == CREATE_PROCESS_DEBUG_EVENT) {
             base = (DWORD)ev.u.CreateProcessInfo.lpBaseOfImage;
@@ -922,7 +1097,7 @@ int main(int argc, char **argv)
                 if(flag_result<0) {failed=10;TerminateProcess(pi.hProcess,99);}
             } else if ((flag_result = direct_event(pi.hProcess,pi.hThread,log,code,
                         (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress,base,argc>=9?argv[8]:0)) != 0) {
-                if (flag_result < 0) { failed=9; TerminateProcess(pi.hProcess,99); }
+                if (flag_result < 0) { if(support_unit>=8)literal_cleanup(pi.hProcess,log); failed=9; TerminateProcess(pi.hProcess,99); }
             } else if ((flag_result = observe_flag_boundary(pi.hProcess,pi.hThread,log,code,
                         (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress,base)) != 0) {
                 if (flag_result < 0) { failed = 8; TerminateProcess(pi.hProcess,99); }
@@ -961,11 +1136,13 @@ int main(int argc, char **argv)
                     !FlushInstructionCache(pi.hProcess,(void *)site,1) ||
                     !VirtualProtectEx(pi.hProcess,(void *)site,1,old_protection,&restored_protection)) {
                     failed = 6;
+                    if(support_unit>=8)literal_cleanup(pi.hProcess,log);
                     TerminateProcess(pi.hProcess,99);
                 } else {
                     context.Eip = site;
                     if (!SetThreadContext(pi.hThread,&context)) {
                         failed = 6;
+                        if(support_unit>=8)literal_cleanup(pi.hProcess,log);
                         TerminateProcess(pi.hProcess,99);
                     } else {
                         sprintf(line,"entry %s rva %08lx byte %02x\n",
@@ -1003,6 +1180,7 @@ int main(int argc, char **argv)
                 }
                 dump_asm_operand(pi.hProcess,log,base,"stop");
                 if (argc >= 9) dump_stream_buffers(pi.hProcess, log, base, argv[8]);
+                if(support_unit>=8&&!literal_cleanup(pi.hProcess,log))failed=9;
                 TerminateProcess(pi.hProcess, 99);
             }
         } else if (ev.dwDebugEventCode == EXIT_PROCESS_DEBUG_EVENT) {

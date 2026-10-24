@@ -1,0 +1,78 @@
+support-state before 9 007b982c 007b364f 007b985c 00000000 9 00008004 0 0108 1010 0000 0000 00000000 1 0
+literal-state before symbol 007b982c token 007c9c54 head 0305 type 007b981c flags 0108 extended 007c9c7c line 00073408 auxiliary 00000000 index 109 value 00000000000000a000c0
+literal-start parent 0003b080 marker 0003b3a0 return 0003b2d5 byte 38 storage 008c0000 stack 008cfe00 symbol 007b982c token 007c9c54
+buffer 0 1 00
+buffer 1 0 
+buffer 2 0 
+buffer 3 12 1186032e1d30016900000000
+buffer 4 10 0c000a00030401000000
+buffer 5 unopened
+buffer 6 unopened
+literal-internal-hit pc 0003b2d5 esp 008cfdd0 symbol 007b982c stream 00073408 format-offset 1 instruction 381f
+literal-internal-step pc 0003b2d7 esp 008cfdd0 restored-trap cc
+literal-internal-hit pc 0003b2d5 esp 008cfdd0 symbol 007b982c stream 00073408 format-offset 2 instruction 381f
+literal-internal-step pc 0003b2d7 esp 008cfdd0 restored-trap cc
+literal-internal-hit pc 0003b2d5 esp 008cfdd0 symbol 007b982c stream 00073408 format-offset 3 instruction 381f
+literal-internal-step pc 0003b2d7 esp 008cfdd0 restored-trap cc
+literal-reentry marker 0003b3a0 esp 008cfdc0 symbol 007b982c token 007c9c54 stream 00073408
+literal-writer entry 0004b980 esp 008cfd5c value 008cfdac width 8 stream 00073408 bytes 00000000000004c0
+exception 80000003 rva 0003b980 base 00010000 first 1
+registers eax 008cfdac ecx 00000000 edx 00000108 ebx 00000008 esi 007b982c edi 007c9c54 ebp 00000000 esp 008cfd5c
+stack 0 0003b911
+stack 1 008cfdac
+stack 2 00073408
+stack 3 0006ecf4
+stack 4 007b982c
+stack 5 00000000
+stack 6 08000000
+stack 7 00050000
+stack 8 00000000
+stack 9 00000000
+stack 10 00000000
+stack 11 00000000
+stack 12 00000000
+stack 13 00000000
+stack 14 00000000
+stack 15 0006ecfc
+stack 16 00000001
+stack 17 00000000
+stack 18 00000000
+stack 19 00000000
+stack 20 00000000
+stack 21 c0040000
+stack 22 00073408
+stack 23 0006ecf1
+stack 24 007b982c
+stack 25 0003b2d5
+stack 26 007b982c
+stack 27 007c9c54
+stack 28 00073408
+stack 29 00000000
+stack 30 0006ecf4
+stack 31 007b982c
+memory 0004b024 4 00000000
+memory 0004b140 4 00000000
+memory 0004b148 1 00
+memory 0004b228 4 00000000
+memory 0004b244 4 00000000
+memory 0004ff14 4 00000000
+memory 00050064 4 00000000
+memory 00050228 4 00000000
+memory 00050798 4 00000000
+memory 0005b7f4 4 6e000000
+memory 0005b7f8 4 ffff0000
+memory 0005bb44 4 00000000
+memory 0005bb48 4 00000000
+memory 0005ce6c 1 00
+string 0004b588 00000000 
+string 0004d5b8 00000000 
+string 0005be68 00000000 
+buffer 0 1 00
+buffer 1 0 
+buffer 2 7 006d0000010508
+buffer 3 12 1186032e1d30016900000000
+buffer 4 10 0c000a00030401000000
+buffer 5 unopened
+buffer 6 unopened
+literal-cleanup 1 return 0003b2d5 byte 38 marker 0003b3a0 byte cc
+exit 99

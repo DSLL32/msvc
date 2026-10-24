@@ -1,0 +1,12 @@
+support-state before 8 007b982c 007b364f 007b985c 00000000 9 00008004 0 0104 1010 0000 0000 00000000 1 0
+literal-state before symbol 007b982c token 007c9c54 head 0304 type 007b981c flags 0104 extended 007c9c48 line 00073408 auxiliary 00000000 index 32772 value 00000000000000a0ff3f
+literal-start parent 0003b080 marker 0003b3a0 return 0003b2d5 byte 38 storage 008c0000 stack 008cfe00 symbol 007b982c token 007c9c54
+buffer 0 1 00
+buffer 1 0 
+buffer 2 0 
+buffer 3 12 1186032e1d30016900000000
+buffer 4 10 0c000a00030401000000
+buffer 5 unopened
+buffer 6 unopened
+literal-cleanup 1 return 0003b2d5 byte 38 marker 0003b3a0 byte cc
+exit 99

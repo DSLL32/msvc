@@ -1,0 +1,78 @@
+{
+  "status": "pass",
+  "public_reachability": false,
+  "units": [
+    {
+      "unit": 0,
+      "status": "pass",
+      "setup_seconds": 0.007992368191480637,
+      "execution_seconds": 0.18506364803761244,
+      "checks_seconds": 0.003732641227543354
+    },
+    {
+      "unit": 1,
+      "status": "pass",
+      "setup_seconds": 0.00813724473118782,
+      "execution_seconds": 0.1856198664754629,
+      "checks_seconds": 0.003599652089178562
+    },
+    {
+      "unit": 2,
+      "status": "pass",
+      "setup_seconds": 0.008117609657347202,
+      "execution_seconds": 0.17391244694590569,
+      "checks_seconds": 0.004808160476386547
+    },
+    {
+      "unit": 3,
+      "status": "pass",
+      "setup_seconds": 0.008315373212099075,
+      "execution_seconds": 0.18335392605513334,
+      "checks_seconds": 0.0028321705758571625
+    },
+    {
+      "unit": 4,
+      "status": "pass",
+      "setup_seconds": 0.008385943248867989,
+      "execution_seconds": 0.17562475707381964,
+      "checks_seconds": 0.0028234608471393585
+    },
+    {
+      "unit": 5,
+      "status": "pass",
+      "setup_seconds": 0.00794523861259222,
+      "execution_seconds": 0.17577173374593258,
+      "checks_seconds": 0.003206998109817505
+    },
+    {
+      "unit": 6,
+      "status": "pass",
+      "setup_seconds": 0.00840012263506651,
+      "execution_seconds": 0.17843998223543167,
+      "checks_seconds": 0.0026153624057769775
+    },
+    {
+      "unit": 7,
+      "status": "pass",
+      "setup_seconds": 0.009014797396957874,
+      "execution_seconds": 0.17634636163711548,
+      "checks_seconds": 0.0025041718035936356
+    },
+    {
+      "unit": 8,
+      "status": "pass",
+      "setup_seconds": 0.0084279989823699,
+      "execution_seconds": 0.17590771056711674,
+      "checks_seconds": 0.00622844323515892
+    },
+    {
+      "unit": 9,
+      "status": "pass",
+      "setup_seconds": 0.00817553885281086,
+      "execution_seconds": 0.17144230287522078,
+      "checks_seconds": 0.003802794963121414
+    }
+  ],
+  "elapsed_seconds": 2.7121123746037483,
+  "policy": "Native i386/GDB only; cached originals, real parsed owners, no target global seeding"
+}

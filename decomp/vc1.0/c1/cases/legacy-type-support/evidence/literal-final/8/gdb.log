@@ -1,0 +1,19 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint -1, write_initializer_value (symbol=0x567cd82c, value=0x567dded8, stream=0x0) at src/initializer-records.c:54
+54	{
+
+Breakpoint -6, emit_literal_initializer (symbol=0x567cd82c, token=0x567dded8) at src/ir.c:702
+702	{
+
+Breakpoint -1, write_initializer_value (symbol=0x567cd82c, value=0x567dded8, stream=0x566d4794 <recon_iob+192>) at src/initializer-records.c:54
+54	{
+
+Breakpoint -8, write_ir_float (value=0x567cd82c) at src/initializer-records.c:398
+398	{
+
+Breakpoint -7, 0x5663d36d in write_literal_initializer (symbol=0x567cd82c, token=0x567dded8, stream=0x0) at src/ir.c:752
+752	            write_initializer_value(symbol, token, stream);
+[Inferior 1 (process 2022030) killed]

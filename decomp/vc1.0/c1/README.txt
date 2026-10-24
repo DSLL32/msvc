@@ -11,16 +11,16 @@ richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
 automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
 the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, typed packet-view/callback adapters, normal/expected-error arena API prototype phases, portability-header diagnostics, explicit-base/goto traversal, typed x87/bit-scan arithmetic, generated-header shutdown failures, protocol-header parser repair, assembler operand diagnostics/SEG, and standalone QuickC regions/loops/memory initialization.
 
-There are 924 accepted source functions and 1057 accepted original entries.
-Of these,913 are application functions; ten historical runtime.c bodies and
+There are 926 accepted source functions and 1059 accepted original entries.
+Of these,915 are application functions; ten historical runtime.c bodies and
 the historical __strgtold12 body in floating.c are CRT, with no application credit.
-Accepted original extents cover 246991/277234 code-section bytes (89.091165%):
-224253 application bytes,22552 CRT bytes and186 import-thunk bytes. This is a
+Accepted original extents cover 247039/277234 code-section bytes (89.108479%):
+224301 application bytes,22552 CRT bytes and186 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Of this union,245156bytes have public-case evidence and
-1835 bytes have separate direct-test evidence for assembler support, expression
+1883 bytes have separate direct-test evidence for assembler support, expression
 templates, database object methods and legacy segment/type helpers; no public
-trigger is established for those fourteen functions. Unvisited
+trigger is established for those sixteen functions. Unvisited
 functions retain named trapping stubs.
 
 Native build and checks
@@ -46,8 +46,8 @@ shared-prefix original first-entry captures. All 899 publicly reached accepted a
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current58 public plus35 direct regression receipts are in
-cases/ide-debug-pch/validation.json.
+current58 public plus37 direct regression receipts are in
+cases/legacy-type-support/literal-validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -91,7 +91,7 @@ Original builds and reference capture
 -------------------------------------
 These explicit operations are separate from fixtures:
 
-  make -j2 audit-win32
+  make -j4 audit-win32
   python3 scripts/coverage.py
   python3 scripts/build-capture-helper.py
 
@@ -110,8 +110,8 @@ Wrong entry order is rejected. scripts/capture-frontier.py validates the
 plan, frozen source dependencies and exact one-entry MSC_CMD_FLAGS environment.
 Full-reference captures and masked captures are explicit, never silent.
 
-Original compiler audits check778 function graphs and instruction boundaries,
-286 state/default aliases,105 PCH roots and12 callbacks, the21-entry function
+Original compiler audits check926 function graphs and instruction boundaries,
+298 state/default aliases,105 PCH roots and12 callbacks, the21-entry function
 shape cache, scalar options, pragmas, intrinsic groups and serialization data.
 The C grammar audit checks376 states,57904 actions/timings,227 productions and
 34216 gotos. The assembler audit checks136 states,6936 actions/errors,
@@ -566,3 +566,22 @@ IDE progress retains the original signed sixteen-line group and initial -1.
 Fresh original and ordinary shared native entry traces agree for both phases.
 Twelve named application stubs remain; unclassified bytes are not counted CRT.
 See cases/ide-debug-pch/manifest.json and validation.json.
+
+Direct streamed float/double literals (2026-10-24)
+-------------------------------------------------
+The same support workflow now accepts write_ir_float and write_ir_double
+(two 24-byte cdecl wrappers). A versioned coherent source places each real
+floating initializer first; the stopped symbol, token and Extended owner are
+passed to the accepted literal parent, which supplies its actual line_file.
+The driver records the genuine value-writer re-entry and converted stack-local
+value; it seeds no parser state or stream. Original/native pending bytes,
+complete files/streams, parent RET8/nonvolatiles/x87/canaries and fresh leaf
+entry order match. The exact known original dispatch-tail instruction shares
+the caller return address: owned internal hits are checked and single-stepped
+before reinstating that one trap. Normal and failure cleanup restore exact
+prior bytes. The initial collision and native pre-run PIE-address mistake
+remain in raw evidence; no general stepper is introduced.
+Ten support functions total787 bytes. See literal-validation.json alongside
+the unchanged earlier segment/type checkpoint summaries. Public reachability
+is not claimed. Ten named application stubs remain, with unclassified code
+still separate from CRT; all historical CRT bodies remain unchanged.

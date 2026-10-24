@@ -13,7 +13,7 @@ ROOT=BINARY.parents[2]
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--function',choices=['report_asm_expected_token','asm_recovery_value'])
-    parser.add_argument('--support-unit',type=int,choices=range(8))
+    parser.add_argument('--support-unit',type=int,choices=range(10))
     parser.add_argument('--seen-count',type=int,help='Explicit accepted-prefix seed for support entry tracing')
     parser.add_argument('--arguments',nargs='+',type=lambda v:int(v,0))
     parser.add_argument('--directory',required=True,type=Path)
@@ -23,7 +23,7 @@ def main():
     support=options.support_unit is not None
     assert support or (options.function is not None and options.arguments is not None)
     assert not support or (options.function is None and options.arguments is None)
-    case=BINARY/('cases/legacy-type-support'if support else'cases/asm-direct-callbacks');manifest=json.loads((case/'manifest.json').read_text());phase=manifest['phases']['direct'if support else'c1']
+    case=BINARY/('cases/legacy-type-support'if support else'cases/asm-direct-callbacks');manifest=json.loads((case/'manifest.json').read_text());phase=manifest['phases'][manifest['direct_plan'][options.support_unit].get('phase','direct')if support else'c1']
     if support:
         plan=manifest['direct_plan'][options.support_unit]
         options.function=plan['function'][1:].split('@')[0]
@@ -41,7 +41,8 @@ def main():
     settings=dict(directory=str(directory),function=options.function,arguments=options.arguments,formals=formals,body=options.body,buffered_streams=[r['name'][1:]for r in config['buffered_streams']])
     trace=None;run_options={}
     if support:
-        settings.update(kind='legacy-support',marker='finish_declarations',owner_name=plan['owner'],unit=options.support_unit)
+        settings.update(kind='legacy-support',marker=plan.get('marker','_finish_declarations')[1:].split('@')[0],owner_name=plan['owner'],unit=options.support_unit)
+        if options.support_unit>=8:settings.update(literal_writer=plan['accepts'][1:],literal_width=4 if options.support_unit==8 else 8)
         cache=json.loads((BINARY/'cases/native-traces.json').read_text())
         seen_count=options.seen_count if options.seen_count is not None else manifest['baseline_accepted_count']
         assert 0<=seen_count<=len(config['accepted'])

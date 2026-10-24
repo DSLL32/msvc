@@ -1,0 +1,9 @@
+{
+  "status": "pass",
+  "kind": "direct literal body/ABI/output",
+  "public_reachability": false,
+  "writer": "_write_ir_double",
+  "width": 8,
+  "value": "00000000000004c0",
+  "internal_dispatch_hits": 4
+}

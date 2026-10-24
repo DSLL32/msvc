@@ -1,6 +1,6 @@
 {
   "case": "Direct external legacy type/literal support",
-  "status": "Eight complete direct type/segment helpers; public producer remains unidentified",
+  "status": "Ten complete direct type/segment/literal helpers; public producer remains unidentified",
   "public_reachability": false,
   "authorization": "Root approved one direct-support workflow in genuinely parsed declaration context, ordinary owners/arguments/constructors; no parser/global/token forcing; reuse external-unit facility.",
   "baseline_commit": "e9c7b5816bdaeb3e0b5ab7e6d512a553e311d95b",
@@ -133,6 +133,210 @@
         "support.obj",
         "support.exe"
       ]
+    },
+    "context-float": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\legacy-type-support-float",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f support-v2.c -Ze -Zp8 -Gs -Fosupport.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob2 -Ot -D_M_IX86=500 -G4 -W 3 -I {include} -DSUPPORT_DOUBLE_FIRST=0 "
+      },
+      "inputs": [
+        {
+          "path": "inputs/support-v2.c",
+          "bytes": 583,
+          "sha256": "30fbd86fc2fc9a568b1974be38399a8ff16453a48547a18887ed09df62b741e4"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "outputs/context-float/irdb",
+          "bytes": 171,
+          "sha256": "aa751179330f965b23ef75b6ce567d982457fbbb57cab2ce98998bc3a668408d"
+        },
+        {
+          "path": "outputs/context-float/irex",
+          "bytes": 1002,
+          "sha256": "a55bd22970766b79d9e8a1406a9523620a8eb8506d222a773e6dc0f30bfb5370"
+        },
+        {
+          "path": "outputs/context-float/irgl",
+          "bytes": 271,
+          "sha256": "8fcf04db53e40d6fb2e502c1d217cc10fb15fdcecf2867b742e15193bbe52024"
+        },
+        {
+          "path": "outputs/context-float/irin",
+          "bytes": 34,
+          "sha256": "cacd2c9dacb688804092d94fa331c1fd690636249c663cc2766aeef1c10e6ba7"
+        },
+        {
+          "path": "outputs/context-float/irsy",
+          "bytes": 70,
+          "sha256": "377fed0b131fba78c9e92ee1ecc6554cd12bcf9a6d3dfd13a46f33085ba082f4"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "immutable_input_names": [
+        "support-v2.c"
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+      },
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "expected_absent_outputs": [
+        "support.obj",
+        "support.exe"
+      ]
+    },
+    "context-double": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\legacy-type-support-double",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f support-v2.c -Ze -Zp8 -Gs -Fosupport.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob2 -Ot -D_M_IX86=500 -G4 -W 3 -I {include} -DSUPPORT_DOUBLE_FIRST=1 "
+      },
+      "inputs": [
+        {
+          "path": "inputs/support-v2.c",
+          "bytes": 583,
+          "sha256": "30fbd86fc2fc9a568b1974be38399a8ff16453a48547a18887ed09df62b741e4"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "outputs/context-double/irdb",
+          "bytes": 171,
+          "sha256": "1dd4870aa6f78da8a7c9999f98ff5d7da6150f1be078a5d5a06c4a6bc856976d"
+        },
+        {
+          "path": "outputs/context-double/irex",
+          "bytes": 1002,
+          "sha256": "a55bd22970766b79d9e8a1406a9523620a8eb8506d222a773e6dc0f30bfb5370"
+        },
+        {
+          "path": "outputs/context-double/irgl",
+          "bytes": 271,
+          "sha256": "4610f1acd1047434ea8342f04a7eecbbf9551f05efbd2835f99ebeb9d26b620c"
+        },
+        {
+          "path": "outputs/context-double/irin",
+          "bytes": 34,
+          "sha256": "05e4c03225032207f13e4b71a02255b9fb85e78030a02fb05df7991d08bf0ea0"
+        },
+        {
+          "path": "outputs/context-double/irsy",
+          "bytes": 70,
+          "sha256": "377fed0b131fba78c9e92ee1ecc6554cd12bcf9a6d3dfd13a46f33085ba082f4"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "immutable_input_names": [
+        "support-v2.c"
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+      },
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "expected_absent_outputs": [
+        "support.obj",
+        "support.exe"
+      ]
+    },
+    "literal-float": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\legacy-type-support-float",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f support-v2.c -Ze -Zp8 -Gs -Fosupport.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob2 -Ot -D_M_IX86=500 -G4 -W 3 -I {include} -DSUPPORT_DOUBLE_FIRST=0 "
+      },
+      "inputs": [
+        {
+          "path": "inputs/support-v2.c",
+          "bytes": 583,
+          "sha256": "30fbd86fc2fc9a568b1974be38399a8ff16453a48547a18887ed09df62b741e4"
+        }
+      ],
+      "outputs": [],
+      "expected_exit": 99,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "immutable_input_names": [
+        "support-v2.c"
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+      },
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "expected_absent_outputs": [
+        "support.obj",
+        "support.exe"
+      ]
+    },
+    "literal-double": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\legacy-type-support-double",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f support-v2.c -Ze -Zp8 -Gs -Fosupport.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob2 -Ot -D_M_IX86=500 -G4 -W 3 -I {include} -DSUPPORT_DOUBLE_FIRST=1 "
+      },
+      "inputs": [
+        {
+          "path": "inputs/support-v2.c",
+          "bytes": 583,
+          "sha256": "30fbd86fc2fc9a568b1974be38399a8ff16453a48547a18887ed09df62b741e4"
+        }
+      ],
+      "outputs": [],
+      "expected_exit": 99,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "immutable_input_names": [
+        "support-v2.c"
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+      },
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "expected_absent_outputs": [
+        "support.obj",
+        "support.exe"
+      ]
     }
   },
   "direct_plan": [
@@ -234,6 +438,42 @@
         "suffix"
       ],
       "result_bits": 32,
+      "status": "accepted; direct support only"
+    },
+    {
+      "unit": 8,
+      "function": "_emit_literal_initializer@8",
+      "accepts": "_write_ir_float",
+      "owner": "support_single",
+      "arguments": 2,
+      "request_arguments": [
+        0,
+        0
+      ],
+      "formals": [
+        "symbol",
+        "token"
+      ],
+      "phase": "literal-float",
+      "marker": "_write_initializer_value@12",
+      "status": "accepted; direct support only"
+    },
+    {
+      "unit": 9,
+      "function": "_emit_literal_initializer@8",
+      "accepts": "_write_ir_double",
+      "owner": "support_double",
+      "arguments": 2,
+      "request_arguments": [
+        0,
+        0
+      ],
+      "formals": [
+        "symbol",
+        "token"
+      ],
+      "phase": "literal-double",
+      "marker": "_write_initializer_value@12",
       "status": "accepted; direct support only"
     }
   ],
@@ -543,6 +783,88 @@
       },
       "accepted_from": 1050,
       "accepted_count": 1051
+    },
+    {
+      "status": "pass",
+      "directory": "evidence/literal-float-first-entry",
+      "input": {
+        "unit": 8,
+        "function": "_emit_literal_initializer@8",
+        "accepts": "_write_ir_float",
+        "owner": "support_single",
+        "arguments": 2,
+        "request_arguments": [
+          0,
+          0
+        ],
+        "formals": [
+          "symbol",
+          "token"
+        ],
+        "phase": "literal-float",
+        "marker": "_write_initializer_value@12",
+        "status": "accepted; direct support only"
+      },
+      "accepted_from": 1057,
+      "accepted_count": 1058,
+      "phase_sha256": "76bb080e190e3a50e7db221d8baef18353fc866357a7daf03f4251d8d6275e39",
+      "files": {
+        "capture-status.json": "5a2635f9f28e8e11707da26570382f48284c3a5b7c8835a6bb0f635bb0a5c632",
+        "receipt.json": "03275e57c5823460a94845c79537ab1c28ae38f159e22f02b0e8dedb38fabeba",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events": "3877b01a3ef1e0aa43af4d0fbe365c38182a9bd044c658dae92786932a3be213",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "c1c414881524ec229f091d207b93470499e72955f2cd2c4cbabf5d07d8b9c896",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/support-v2.c": "30fbd86fc2fc9a568b1974be38399a8ff16453a48547a18887ed09df62b741e4",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "evidence/literal-double-first-entry",
+      "input": {
+        "unit": 9,
+        "function": "_emit_literal_initializer@8",
+        "accepts": "_write_ir_double",
+        "owner": "support_double",
+        "arguments": 2,
+        "request_arguments": [
+          0,
+          0
+        ],
+        "formals": [
+          "symbol",
+          "token"
+        ],
+        "phase": "literal-double",
+        "marker": "_write_initializer_value@12",
+        "status": "accepted; direct support only"
+      },
+      "accepted_from": 1058,
+      "accepted_count": 1059,
+      "phase_sha256": "5e9ea2a873c9a4ac1992ed52807315bd4207dcadb94e535419e6dcc8a8aaf080",
+      "files": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events": "6304ecf8841c5b96f239133c4750ec76453364004c6265b8a40afa9f63f88b3b",
+        "receipt.json": "9a6f598a9bb0c7525b5f4a81fabb1183bbdb835b54942c13e75ef697d2bebeb3",
+        "entry-plan.txt": "1268c2f86225056e2d997d4a5e8a5395c8b4114f3865e5c008b99d602c15e5ad",
+        "capture-status.json": "a6592618e3b33a2c2deeb3374a150d00da9fa438d6f4e454d60f8309a917e2c6",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/support-v2.c": "30fbd86fc2fc9a568b1974be38399a8ff16453a48547a18887ed09df62b741e4",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
     }
   ],
   "proof_evidence": [
@@ -1394,5 +1716,6 @@
       "support-binding-check.log": "8a44407263bfe30429e71cfd66f6bb7f3e2e4e834a5dc18ad52b7a60918084c9",
       "support-native-receipt.json": "b7a78be7d16b0fc244f54149ddc193443720f5ccf4fc9878f7683138573d9628"
     }
-  }
+  },
+  "literal_extension_authorization": "Root approved real write_initializer_value entry symbol/token, accepted emit_literal_initializer parent, separately checked actual caller-return breakpoint and genuine parent re-entry; direct support only."
 }

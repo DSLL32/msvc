@@ -391,3 +391,15 @@ unsigned __stdcall initializer_address_size(FrontendSymbol *symbol)
     if (model == 2 || model == 3) return 8;
     return data_pointer_bytes;
 }
+
+/* Original 0x4b960..0x4b978 and 0x4b980..0x4b998. The value writer
+   supplies the converted target representation and selects the IR stream. */
+void write_ir_float(float *value)
+{
+    fwrite(value, 4, 1, auxiliary_ir_stream);
+}
+
+void write_ir_double(double *value)
+{
+    fwrite(value, 8, 1, auxiliary_ir_stream);
+}

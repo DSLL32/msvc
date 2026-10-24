@@ -1,0 +1,3127 @@
+{
+  "status": "passed",
+  "executable": "/root/msvc2/decomp/vc1.0/c1/build/native-trace/C13232.EXE",
+  "executable_sha256": "5f0f7519f4afb8700deba41aeb009c3f3c1ab6d8fa5aad0ab0d15a1415c7c04c",
+  "trace": true,
+  "trace_prepare_seconds": 0.13514346349984407,
+  "cases": [
+    {
+      "case": "minimal",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/minimal/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": false
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.004089093767106533,
+      "execution_seconds": 0.007410090416669846,
+      "application_entries": 172,
+      "accepted_prefix": 0,
+      "trace_sha256": "d388c26a6f76c839c2bf11c1e38f80d6efc649c67421ed64826a3a5d0d46b79f",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/fixtures/minimal-c/manifest.json",
+      "manifest_sha256": "906638b80803ebc9b951039b27acefc782898a1baa3edff3efd560b376bc55f4",
+      "outputs": [
+        {
+          "name": "irex",
+          "bytes": 866,
+          "sha256": "0d9286f298f6b7c7ed18130d6ad429da4a053b7bed65abd223c606b689e71070"
+        },
+        {
+          "name": "irsy",
+          "bytes": 13,
+          "sha256": "a7f231245a77dfb06e5ce3790fcb7187f73b3a23270e5e16deaa431cfe524671"
+        },
+        {
+          "name": "irin",
+          "bytes": 3,
+          "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b"
+        },
+        {
+          "name": "irgl",
+          "bytes": 50,
+          "sha256": "97b9a9b6d3935f0bf52fc9ce60ecec9696e25f15d6776c3dee7e865db7c28e8f"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0018702475354075432,
+      "total_seconds": 0.014212717302143574
+    },
+    {
+      "case": "hello-win32",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/hello-win32/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": false
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.014942518435418606,
+      "execution_seconds": 0.06998020503669977,
+      "application_entries": 249,
+      "accepted_prefix": 172,
+      "trace_sha256": "b93a65ab2380a476bed1117e0f54c1eb7599ec8d0ae9d8d49a920625d16a9c71",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/fixtures/hello-win32/manifest.json",
+      "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+      "outputs": [
+        {
+          "name": "irex",
+          "bytes": 2066,
+          "sha256": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a"
+        },
+        {
+          "name": "irsy",
+          "bytes": 422,
+          "sha256": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467"
+        },
+        {
+          "name": "irin",
+          "bytes": 46,
+          "sha256": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50"
+        },
+        {
+          "name": "irgl",
+          "bytes": 629,
+          "sha256": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.002005290240049362,
+      "total_seconds": 0.08773691486567259
+    },
+    {
+      "case": "hello-dll",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/hello-dll/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": false
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.014518432319164276,
+      "execution_seconds": 0.06784160435199738,
+      "application_entries": 1,
+      "accepted_prefix": 421,
+      "trace_sha256": "89945c575debdf6d0b8927665b2ab67d97c9806734b38a601315c1b5c757be7a",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/fixtures/hello-dll/manifest.json",
+      "manifest_sha256": "0b14e83671667bd5133d698010a00ac7bf447a8ca5479a8d059aac15adef547e",
+      "outputs": [
+        {
+          "name": "irex",
+          "bytes": 2129,
+          "sha256": "6df18a9be0cc854ae53d417309f52e801a3a88901d69be13e0501820d8e49622"
+        },
+        {
+          "name": "irsy",
+          "bytes": 499,
+          "sha256": "d0ae0c3e86ff5b49f909a34ba9e5e95f0778637400ccf7eb7a2e5878a25a04f7"
+        },
+        {
+          "name": "irin",
+          "bytes": 49,
+          "sha256": "b6fd24e98e6f4ab38566a4d2063b8ba26a0ff1fadf508b1f8f2a4f249d0fa254"
+        },
+        {
+          "name": "irgl",
+          "bytes": 669,
+          "sha256": "d00c510a18b5bc1040e7e61ce3e4dfaab64d92b36976d12473fedef8b2916789"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0017676930874586105,
+      "total_seconds": 0.08488958235830069
+    },
+    {
+      "case": "numeric-varargs",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/numeric-varargs/vc1.0/c1/numeric-varargs",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": false
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 84,
+      "setup_seconds": 0.005533084273338318,
+      "execution_seconds": 0.012056157924234867,
+      "application_entries": 103,
+      "accepted_prefix": 422,
+      "trace_sha256": "e81656ef841e8bd724f5b0c1954805f11c813e2ade7ce11cb00ebee9c34fc2bf",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/numeric-varargs/manifest.json",
+      "manifest_sha256": "2ac31b691ee0106f45ec65ccb9fd78bf2defa74381c7eceb69501577dc4583d6",
+      "outputs": [
+        {
+          "name": "irex",
+          "bytes": 2330,
+          "sha256": "611080288cc5d61aeb31f22956b3fcddaea2c9b14058ff64923f91099e256e56"
+        },
+        {
+          "name": "irsy",
+          "bytes": 535,
+          "sha256": "5ca184105b4d1138a7679df2bb3524326a39d1af325b0381867af16ad6345756"
+        },
+        {
+          "name": "irin",
+          "bytes": 149,
+          "sha256": "10ef60d30d2b65ce595cfe075ccb2e4782d12e6961a93d41435a9896384645e6"
+        },
+        {
+          "name": "irgl",
+          "bytes": 402,
+          "sha256": "80f0c8be490942aea0b41e2fa3cf3567be63f05c0dbeb2eebc6a9d40c531c8b9"
+        },
+        {
+          "name": "irdb",
+          "bytes": 63,
+          "sha256": "d9adaa392c753da2f25856908d3ad663ff7f15c9e357cbafbd50684cb646fa6e"
+        },
+        {
+          "name": "msvc.pdb",
+          "bytes": 574,
+          "sha256": "ea6bb6b4d3c54867cef17d0a772cc88199bc0e804655abf7bf04a9493ae239a7"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0026857098564505577,
+      "total_seconds": 0.021097012795507908
+    },
+    {
+      "case": "pch-create",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/pch-create/vc1.0/c1/pch",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": false
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.005459931679069996,
+      "execution_seconds": 0.006627652794122696,
+      "application_entries": 43,
+      "accepted_prefix": 525,
+      "trace_sha256": "2264b23eae072c2b896c25c0f43f97ab28d79ed290c3a9b6fb02138048b956d0",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/pch/manifest.json",
+      "manifest_sha256": "29d7c9a32f9f7973f0cf0ff1b8ead6a89494daadc3551349803642a62c200d63",
+      "outputs": [
+        {
+          "name": "irex",
+          "bytes": 94,
+          "sha256": "3824b3a4eb7c135c5c4291131115fe194252bfcd916446796780fbfe706d7887"
+        },
+        {
+          "name": "irsy",
+          "bytes": 33,
+          "sha256": "c90290406c71bedb00865b04bab157c1b67cd0418a754cf6302e2d6513b6d794"
+        },
+        {
+          "name": "irin",
+          "bytes": 3,
+          "sha256": "9e83ad5430b7f2282ca3775b5f2048ca89a2d7971f12be376e92910d00a58215"
+        },
+        {
+          "name": "irgl",
+          "bytes": 68,
+          "sha256": "e68d5d2de9da43c9606bc5ec7280a47490155fbead2833fc8b11d33352f1ce79"
+        },
+        {
+          "name": "state.pch",
+          "bytes": 38156,
+          "sha256": "788b79dbe57cc99a9667e918a6557b61026e62e3097c5bd53427492e4031154a"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0028035249561071396,
+      "total_seconds": 0.0156528502702713
+    },
+    {
+      "case": "pch-use",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/pch-use/vc1.0/c1/pch",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": false
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.006331280805170536,
+      "execution_seconds": 0.007099593989551067,
+      "application_entries": 7,
+      "accepted_prefix": 568,
+      "trace_sha256": "f3771ecf0a4f826b520ba8f1469b67636530b54c3fbef686084ab444cda33854",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/pch/manifest.json",
+      "manifest_sha256": "29d7c9a32f9f7973f0cf0ff1b8ead6a89494daadc3551349803642a62c200d63",
+      "outputs": [
+        {
+          "name": "irex",
+          "bytes": 1071,
+          "sha256": "74f377fefb567e4db39e832d40ee10f59ba1c1b69cb83f263603b1c8c2751862"
+        },
+        {
+          "name": "irsy",
+          "bytes": 116,
+          "sha256": "c827b94193530fc8f14afaaeec8e1991c680ef643eb338bf5ce8b5f7ebeedaba"
+        },
+        {
+          "name": "irin",
+          "bytes": 47,
+          "sha256": "532cf4146915aa2b25c542fe30940c92f3c79acc993550b84e54ed293faf89e1"
+        },
+        {
+          "name": "irgl",
+          "bytes": 87,
+          "sha256": "606f9c03ab7d168472f0d634a20a9cb516c000670b46deffeab32410481dce31"
+        }
+      ],
+      "generated_dependency": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/pch-create/vc1.0/c1/pch/state.pch",
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.001921866089105606,
+      "total_seconds": 0.016084183007478714
+    },
+    {
+      "case": "do-while",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/do-while/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": false
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.004240731708705425,
+      "execution_seconds": 0.004541169852018356,
+      "application_entries": 1,
+      "accepted_prefix": 575,
+      "trace_sha256": "d276fc4d3cf249d20f3116c607acf4e3d9ff6ff709dc34f1ca25d0fdd34a764c",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/do-while/manifest.json",
+      "manifest_sha256": "41b760921fd96e2a5486d484a50d9a2d99b1ad29f4be9a7be0674fa5b3e506e4",
+      "outputs": [
+        {
+          "name": "irex",
+          "bytes": 888,
+          "sha256": "b2b0a390e53ae3c0c00995616bbe8870a5a868670bc5aef8e29a8c25732d9a3e"
+        },
+        {
+          "name": "irsy",
+          "bytes": 39,
+          "sha256": "89aa493e259ba970fd0db34aa1cfb5b9c5967c99cf3c8c9905fd852f98a0eaba"
+        },
+        {
+          "name": "irin",
+          "bytes": 3,
+          "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b"
+        },
+        {
+          "name": "irgl",
+          "bytes": 50,
+          "sha256": "866f618f5e2880dd26f27bdbeb906af7c507b8c289c0800ea10795a8971bbcc8"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0016832482069730759,
+      "total_seconds": 0.011251118965446949
+    },
+    {
+      "case": "seh",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/seh/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": false
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.004275411367416382,
+      "execution_seconds": 0.004595567472279072,
+      "application_entries": 10,
+      "accepted_prefix": 576,
+      "trace_sha256": "c62a4302f6599e401b824e5dc3c823efbb33dcfaad44c3f964ac6820e13a93c1",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/seh/manifest.json",
+      "manifest_sha256": "700c2b4dd4194bcd045259583519ed7b8251caa5bc88e5e119705f820a9a85e3",
+      "outputs": [
+        {
+          "name": "irex",
+          "bytes": 1134,
+          "sha256": "72486daa9a707f2e7a6bdfa5832a4a9e5e6ad9b506474ce7428dc7e43d76e3ec"
+        },
+        {
+          "name": "irgl",
+          "bytes": 79,
+          "sha256": "e9c739d928671667d9fc3f9d23e095ebcc6c7bc62daa319bdbd576ddab810efd"
+        },
+        {
+          "name": "irin",
+          "bytes": 6,
+          "sha256": "3056851f7c60fd62611aff049b4b214cca39cf2d393411c2964006e62a1c4beb"
+        },
+        {
+          "name": "irsy",
+          "bytes": 114,
+          "sha256": "1c047a089533d8368854de105439a7dad51d89c00b50993efef45ede442cf51e"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0017001889646053314,
+      "total_seconds": 0.011286512948572636
+    },
+    {
+      "case": "inline-asm",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/inline-asm/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": false
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.004302864894270897,
+      "execution_seconds": 0.004962176084518433,
+      "application_entries": 33,
+      "accepted_prefix": 586,
+      "trace_sha256": "4893adad6177610f56d10c46f74872511bd61d64817e5b0dcd9bd7c27dcd1309",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/inline-asm/manifest.json",
+      "manifest_sha256": "60d5cf4041e532c5644eb120e0dfc925d8544ee604b7c942d870d6fbf1e2c349",
+      "outputs": [
+        {
+          "name": "irex",
+          "bytes": 1100,
+          "sha256": "a22408cd1a46e7128dee3772a156aab650c681908182e22d305062ebd59b84c1"
+        },
+        {
+          "name": "irgl",
+          "bytes": 75,
+          "sha256": "cee25d67e191939b8f01da4dda4f815913c0223c30c6c2765706f6f79f9d1f40"
+        },
+        {
+          "name": "irin",
+          "bytes": 6,
+          "sha256": "869d19d9cff8d65800fc1e47c755d10c7d3bd3c2c203bc473c1867f6bb01903f"
+        },
+        {
+          "name": "irsy",
+          "bytes": 107,
+          "sha256": "db88fce9148ba401afb2d0466bd2f2df1b6eaf3987a582df5dd2ce284a119f0a"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0017265025526285172,
+      "total_seconds": 0.01174065563827753
+    },
+    {
+      "case": "browser",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/browser/vc1.0/c1/browser",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": false
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.005204482935369015,
+      "execution_seconds": 0.005600114353001118,
+      "application_entries": 27,
+      "accepted_prefix": 619,
+      "trace_sha256": "db1ffb9782d354e47843acb79f2557a4beb4d002bd0c1193a27e036a048aff0c",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/browser/manifest.json",
+      "manifest_sha256": "bc0b51380e879e3d3a4c657e1c70adc2ef0ffbfbc75839cee3ce1542cf3f50bc",
+      "outputs": [
+        {
+          "name": "irex",
+          "bytes": 971,
+          "sha256": "1a09e74a4141a9fb495f3f1eb3a41c7b73ffd07097c748dda7027ce99d471536"
+        },
+        {
+          "name": "irgl",
+          "bytes": 79,
+          "sha256": "7439c42f7e13035b421ec0eb075ad2ecdf44a9bc662b5c32ab25014f21614070"
+        },
+        {
+          "name": "irin",
+          "bytes": 6,
+          "sha256": "f05b28582588e85d520eadd8f109f10e4b57bb24fa800d62bf3dcd8304465ea1"
+        },
+        {
+          "name": "irsy",
+          "bytes": 69,
+          "sha256": "dd7d6076fc3f5797d3c1417bb950d6b68cca54bccebf40e7be1f7d1a6087ee84"
+        },
+        {
+          "name": "test.sbr",
+          "bytes": 245,
+          "sha256": "67b1072ac6cbc082472f5eba4f676909da4fdc0c1577b2d9eee7820d4c05caab"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0020197704434394836,
+      "total_seconds": 0.013600165955722332
+    },
+    {
+      "case": "preprocessor-E",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/preprocessor-E/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": false
+      },
+      "stdout_bytes": 381,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.004137199372053146,
+      "execution_seconds": 0.004123352468013763,
+      "application_entries": 8,
+      "accepted_prefix": 646,
+      "trace_sha256": "3a1b60ebb56636873796f00ffe1edcbde26bf1f06687e1ce57c970e96cdb709a",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/preprocessor/manifest.json",
+      "manifest_sha256": "38de0a4114ba8deb3d9f12729ca3df419fe518945bc4c89ab36f43859d8f2857",
+      "outputs": [],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0006134649738669395,
+      "total_seconds": 0.00966749805957079
+    },
+    {
+      "case": "preprocessor-EP",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/preprocessor-EP/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": false
+      },
+      "stdout_bytes": 292,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.004153297282755375,
+      "execution_seconds": 0.0047813905403018,
+      "application_entries": 0,
+      "accepted_prefix": 654,
+      "trace_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/preprocessor/manifest.json",
+      "manifest_sha256": "38de0a4114ba8deb3d9f12729ca3df419fe518945bc4c89ab36f43859d8f2857",
+      "outputs": [],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0005928035825490952,
+      "total_seconds": 0.010330861434340477
+    },
+    {
+      "case": "preprocessor-P",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/preprocessor-P/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": false
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.004437020979821682,
+      "execution_seconds": 0.005251957103610039,
+      "application_entries": 0,
+      "accepted_prefix": 654,
+      "trace_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/preprocessor/manifest.json",
+      "manifest_sha256": "38de0a4114ba8deb3d9f12729ca3df419fe518945bc4c89ab36f43859d8f2857",
+      "outputs": [
+        {
+          "name": "test.i",
+          "bytes": 381,
+          "sha256": "67eaec182fb700a3a7140a03159b6377c9743a9c5d70634418b0f1bc615032de"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0008007204160094261,
+      "total_seconds": 0.011316457763314247
+    },
+    {
+      "case": "comments",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/comments/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": false
+      },
+      "stdout_bytes": 337,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0042695412412285805,
+      "execution_seconds": 0.004167808219790459,
+      "application_entries": 2,
+      "accepted_prefix": 654,
+      "trace_sha256": "785eb14b177c1e9dd0387559a09f93a8a7d8089e8b377fcbcefe2af4d382e2dd",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/comments/manifest.json",
+      "manifest_sha256": "48ad093777ad43d418c6466ce5b09fd283e854581526d6f2d5ed10980d87b0a7",
+      "outputs": [],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0005767485126852989,
+      "total_seconds": 0.009809819981455803
+    },
+    {
+      "case": "prototypes",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/prototypes/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); automatic-PCH status writes via C1 stderr observed on CL stdout. Preserve descriptor alias without output normalization."
+      },
+      "stdout_bytes": 360,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.004108390770852566,
+      "execution_seconds": 0.004364240914583206,
+      "application_entries": 24,
+      "accepted_prefix": 656,
+      "trace_sha256": "cdfd29f1dfb9f26f4a206e1e479cb10139c63f452a7854a7723020c5fc0c4091",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/prototypes/manifest.json",
+      "manifest_sha256": "2025fe93ab0b604171491c87ee6442fb57c73a80237fa70a1299676a62271c8f",
+      "outputs": [],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0005946541205048561,
+      "total_seconds": 0.009866251610219479
+    },
+    {
+      "case": "automatic-pch-create",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/automatic-pch-create/vc1.0/c1/automatic-pch",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); automatic-PCH status writes via C1 stderr observed on CL stdout. Preserve descriptor alias without output normalization."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.005794232711195946,
+      "execution_seconds": 0.00709215272217989,
+      "application_entries": 14,
+      "accepted_prefix": 680,
+      "trace_sha256": "3c911de28ec6d33017ed468c01f109c736e1ffb6883378d14e97acc46ff6ad5d",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/automatic-pch/manifest.json",
+      "manifest_sha256": "d04a32ad3ee57d72efc465f57958c848379f50299e7a757b9bc40a14220ee182",
+      "outputs": [
+        {
+          "name": "irex",
+          "bytes": 179,
+          "sha256": "49c0444f25095a5dfdfb6386ab603d7541914e9ffa87ab58338ebbc35950717d"
+        },
+        {
+          "name": "irgl",
+          "bytes": 77,
+          "sha256": "35bd6463c34b705acfc8a5d7fe2879076ad6a8ab01ac597c282895263435732a"
+        },
+        {
+          "name": "irin",
+          "bytes": 6,
+          "sha256": "53aa7b980ec02d4ef6fc7d3dec8719d24372523c830f93ea81147ed809b52c5e"
+        },
+        {
+          "name": "irsy",
+          "bytes": 67,
+          "sha256": "d7ed73572ab64c2920f006a73e0354fd436cce884359760f8cd80ff84739eb3b"
+        },
+        {
+          "name": "state.pch",
+          "bytes": 38021,
+          "sha256": "5f95acb10d71e1256fa645354bf62e595db12343264705a297ce23d199b2f364"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.00289891567081213,
+      "total_seconds": 0.016559644602239132
+    },
+    {
+      "case": "automatic-pch-reuse",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/automatic-pch-reuse/vc1.0/c1/automatic-pch",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); automatic-PCH status writes via C1 stderr observed on CL stdout. Preserve descriptor alias without output normalization."
+      },
+      "stdout_bytes": 26,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0062775323167443275,
+      "execution_seconds": 0.005232455208897591,
+      "application_entries": 4,
+      "accepted_prefix": 694,
+      "trace_sha256": "0ffdfb0b36da25d1b19d4c370a2178bee8ea151bfac24bb0041765bc3f684d0b",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/automatic-pch/manifest.json",
+      "manifest_sha256": "d04a32ad3ee57d72efc465f57958c848379f50299e7a757b9bc40a14220ee182",
+      "outputs": [
+        {
+          "name": "irex",
+          "bytes": 999,
+          "sha256": "38b680f84a94b124fb0fb78f7ec0182bf786d6fe4a164ee71e91da9fc143f0f1"
+        },
+        {
+          "name": "irgl",
+          "bytes": 85,
+          "sha256": "d5b23aadd9142aad1160be6e7a0240bb33358dbc014430da500b2ddf6918af9d"
+        },
+        {
+          "name": "irin",
+          "bytes": 6,
+          "sha256": "53aa7b980ec02d4ef6fc7d3dec8719d24372523c830f93ea81147ed809b52c5e"
+        },
+        {
+          "name": "irsy",
+          "bytes": 67,
+          "sha256": "d7ed73572ab64c2920f006a73e0354fd436cce884359760f8cd80ff84739eb3b"
+        }
+      ],
+      "generated_dependency": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/automatic-pch-create/vc1.0/c1/automatic-pch/state.pch",
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.00184737890958786,
+      "total_seconds": 0.014148233458399773
+    },
+    {
+      "case": "automatic-pch-changed",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/automatic-pch-changed/vc1.0/c1/automatic-pch",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); automatic-PCH status writes via C1 stderr observed on CL stdout. Preserve descriptor alias without output normalization."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.00667689461261034,
+      "execution_seconds": 0.008804021403193474,
+      "application_entries": 1,
+      "accepted_prefix": 698,
+      "trace_sha256": "ee3c298adac388f22ea7ad346570d456b838b6eb8965aec904628c76f27a7e16",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/automatic-pch/manifest.json",
+      "manifest_sha256": "d04a32ad3ee57d72efc465f57958c848379f50299e7a757b9bc40a14220ee182",
+      "outputs": [
+        {
+          "name": "irex",
+          "bytes": 179,
+          "sha256": "43a4c0613db511bd3199bd0888c1e009fa3e2b75b1c50afc913946876c7e416b"
+        },
+        {
+          "name": "irgl",
+          "bytes": 77,
+          "sha256": "35bd6463c34b705acfc8a5d7fe2879076ad6a8ab01ac597c282895263435732a"
+        },
+        {
+          "name": "irin",
+          "bytes": 6,
+          "sha256": "53aa7b980ec02d4ef6fc7d3dec8719d24372523c830f93ea81147ed809b52c5e"
+        },
+        {
+          "name": "irsy",
+          "bytes": 67,
+          "sha256": "d7ed73572ab64c2920f006a73e0354fd436cce884359760f8cd80ff84739eb3b"
+        },
+        {
+          "name": "state.pch",
+          "bytes": 38022,
+          "sha256": "2611b5a1af6e2065bd6dd79178d96ffbefe66da5d1c755edd4220e9fd6f5876c"
+        }
+      ],
+      "generated_dependency": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/automatic-pch-reuse/vc1.0/c1/automatic-pch/state.pch",
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.002743588760495186,
+      "total_seconds": 0.01897368486970663
+    },
+    {
+      "case": "embedded-codeview",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/embedded-codeview/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); original child _spawnvpe transport and stream slices captured."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.004253992810845375,
+      "execution_seconds": 0.0050632767379283905,
+      "application_entries": 19,
+      "accepted_prefix": 699,
+      "trace_sha256": "4b1188fd07693b60d187cadd511a5214680e4f12dceec079a908b4fe772c3482",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/embedded-codeview/manifest.json",
+      "manifest_sha256": "c9d8395877e8b4ca1b2d7a21fe168253b9115c83e0c2f060d871a15a49b9a3bf",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 643,
+          "sha256": "f5c55c5b62da4b32801102d30d9868089bd5e7f9d52c1253c7bbb6e19d16e2c7"
+        },
+        {
+          "name": "irex",
+          "bytes": 1196,
+          "sha256": "8ffaaa82423b1015edbf09d4327836b648b1b24b3b6e12274beffe663e305f25"
+        },
+        {
+          "name": "irgl",
+          "bytes": 332,
+          "sha256": "95a8065819efd0a06a291355aa63d42a332450aee22c749e201a416d0aa7a634"
+        },
+        {
+          "name": "irin",
+          "bytes": 74,
+          "sha256": "dc0ce5f2c18c811088dacb6ed08474b927bdaa69f82d2cd6928789969f10779a"
+        },
+        {
+          "name": "irsy",
+          "bytes": 177,
+          "sha256": "728862bc5ac8d8be1b3bca0813a63ecaefd94a299b012af6a6dc6156633c0864"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.001906716264784336,
+      "total_seconds": 0.011946739628911018
+    },
+    {
+      "case": "inlining-ob1",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/inlining-ob1/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); original child _spawnvpe transport and stream slices captured."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0041435351595282555,
+      "execution_seconds": 0.004657545126974583,
+      "application_entries": 0,
+      "accepted_prefix": 718,
+      "trace_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/inlining/manifest.json",
+      "manifest_sha256": "8bb27e95cf4cf6ef8c5451ed18984d446a9d3137813e80eb9931aa8ceb979639",
+      "outputs": [
+        {
+          "name": "irex",
+          "bytes": 1369,
+          "sha256": "1ba8627d9d725cc691c3acb63c0acdc311996458acc0e608f60d286dde6b2a2e"
+        },
+        {
+          "name": "irgl",
+          "bytes": 162,
+          "sha256": "6393f872cee0b4515a2ffe0c5333e7f8ee3543676e4a0a41e37f011422827421"
+        },
+        {
+          "name": "irin",
+          "bytes": 15,
+          "sha256": "17998068ba1f79dc225ef1cc6e3268d15874083a8d0d6e916a0b55df851fe0f2"
+        },
+        {
+          "name": "irsy",
+          "bytes": 223,
+          "sha256": "fd486854ec29a29bcad36d3341a6df210041f1d79ad3fb72e5274c77580d8979"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.00165461003780365,
+      "total_seconds": 0.011197611689567566
+    },
+    {
+      "case": "inlining-ob2",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/inlining-ob2/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); original child _spawnvpe transport and stream slices captured."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.004198148846626282,
+      "execution_seconds": 0.004785829223692417,
+      "application_entries": 0,
+      "accepted_prefix": 718,
+      "trace_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/inlining/manifest.json",
+      "manifest_sha256": "8bb27e95cf4cf6ef8c5451ed18984d446a9d3137813e80eb9931aa8ceb979639",
+      "outputs": [
+        {
+          "name": "irex",
+          "bytes": 1369,
+          "sha256": "1ba8627d9d725cc691c3acb63c0acdc311996458acc0e608f60d286dde6b2a2e"
+        },
+        {
+          "name": "irgl",
+          "bytes": 162,
+          "sha256": "c24ba54a0f40ff19967942025f976900b6b6a94cf0a4d16cedd995a26d6d7d6e"
+        },
+        {
+          "name": "irin",
+          "bytes": 15,
+          "sha256": "17998068ba1f79dc225ef1cc6e3268d15874083a8d0d6e916a0b55df851fe0f2"
+        },
+        {
+          "name": "irsy",
+          "bytes": 223,
+          "sha256": "fd486854ec29a29bcad36d3341a6df210041f1d79ad3fb72e5274c77580d8979"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0011915229260921478,
+      "total_seconds": 0.010899337939918041
+    },
+    {
+      "case": "combined-types-literals",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/combined-types-literals/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); original _spawnvpe child transport and complete boundary inventories captured."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0030386578291654587,
+      "execution_seconds": 0.005547359585762024,
+      "application_entries": 10,
+      "accepted_prefix": 718,
+      "trace_sha256": "9070cc1f5da7fbe667b36b80dedc792c4639324d08fbd06c56f3c6df66653aff",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/combined-types-literals/manifest.json",
+      "manifest_sha256": "3a22225c00c064929c04f3294cace2a68dd7a9757d6e07d037326fd2598b56e0",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 1261,
+          "sha256": "f025b1d214f98ceed422b99cdd1267b101c1cbb365f195baf0392f2549c28f09"
+        },
+        {
+          "name": "irex",
+          "bytes": 1611,
+          "sha256": "87af8bc38913f1ca978839c30f06155c4bf1abcaced0ebef45a916d1b647cb1e"
+        },
+        {
+          "name": "irgl",
+          "bytes": 484,
+          "sha256": "30170cc1e43eda890989f14b5aa3800530d37e2c8b4d5baa29f679451f20b4c0"
+        },
+        {
+          "name": "irin",
+          "bytes": 198,
+          "sha256": "f7659c483af6a80467c39dfded7bc1d46ad47876407b85a08b5558997fdee4a2"
+        },
+        {
+          "name": "irsy",
+          "bytes": 186,
+          "sha256": "8d9648c92e6d7c69ac30655340d3f511ce07c96344c0e507ed0ebb0e95add8c3"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0013738516718149185,
+      "total_seconds": 0.010496101342141628
+    },
+    {
+      "case": "debug-pch-create",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/debug-pch-create/vc1.0/c1/debug-pch",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0041973162442445755,
+      "execution_seconds": 0.006911400705575943,
+      "application_entries": 8,
+      "accepted_prefix": 728,
+      "trace_sha256": "043bc461ce1a3701c40c1d18192c26fcd75d9dfb4c5c74bca09aa902ee6d260e",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/debug-pch/manifest.json",
+      "manifest_sha256": "5055f1d55ed9de5eec0ad8f607594f92c8dafb5f769e1f1ddfbfe3dabd3a90b3",
+      "outputs": [
+        {
+          "name": "irgl",
+          "bytes": 462,
+          "sha256": "896de3fcb6e487ab63bf1ef28cca3004115b1ebe6c007ee1487f86938558ca89"
+        },
+        {
+          "name": "irsy",
+          "bytes": 87,
+          "sha256": "36ac6112d0029c38aad8bb0687a8a072b52b4f3f1ccc3bbb646a21b961369cd0"
+        },
+        {
+          "name": "irex",
+          "bytes": 443,
+          "sha256": "f56bbfb71be9e9cf3e0692605596a19302fdff5fba8204ea635d4ba1562e6315"
+        },
+        {
+          "name": "irin",
+          "bytes": 26,
+          "sha256": "1ffe6fd137c8a030647b22444565a280996e59b6654e465d5f462e4bc81f5611"
+        },
+        {
+          "name": "irdb",
+          "bytes": 619,
+          "sha256": "d40478f383bb029f1d59fc9e7b6b5fbc27dd774cdd5d411e08a1e4c9c0d3f83a"
+        },
+        {
+          "name": "debug.pch",
+          "bytes": 40167,
+          "sha256": "3336bc4295ab6dae33cc74a7d6d8dfa4dc381bc3a9ea57e4db62b1ff023730ee"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0022268109023571014,
+      "total_seconds": 0.013894998468458652
+    },
+    {
+      "case": "debug-pch-use",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/debug-pch-use/vc1.0/c1/debug-pch",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0051677897572517395,
+      "execution_seconds": 0.005573898553848267,
+      "application_entries": 1,
+      "accepted_prefix": 736,
+      "trace_sha256": "c73bc975cf175e4796c81349b1f2eac3d2ccb9075737c238451ff6cb152c2e96",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/debug-pch/manifest.json",
+      "manifest_sha256": "5055f1d55ed9de5eec0ad8f607594f92c8dafb5f769e1f1ddfbfe3dabd3a90b3",
+      "outputs": [
+        {
+          "name": "irgl",
+          "bytes": 215,
+          "sha256": "2f816931208b8c4d6d2d7f42aa59edeb742fc23acb805026914d74f2517ac23e"
+        },
+        {
+          "name": "debug.pch",
+          "bytes": 40167,
+          "sha256": "3336bc4295ab6dae33cc74a7d6d8dfa4dc381bc3a9ea57e4db62b1ff023730ee"
+        },
+        {
+          "name": "irsy",
+          "bytes": 108,
+          "sha256": "143d83e1e17bf597b18cb89aa3365a96f1c71d18263e69a6bcfee805cb2d07aa"
+        },
+        {
+          "name": "irex",
+          "bytes": 1212,
+          "sha256": "ec406a9afc5b4330500afc5c0ea7ddd0a46ff7bc1003e5be937c64a95c578c42"
+        },
+        {
+          "name": "irin",
+          "bytes": 6,
+          "sha256": "d2ea64c3e89b2858b0d69bbb96e6828b88df20122c613ac568c843bce4a57429"
+        },
+        {
+          "name": "irdb",
+          "bytes": 67,
+          "sha256": "d6a295603f71bc4d5c22a5ef6db86cd06ccbb80f319b2ad9993aaf189669774c"
+        }
+      ],
+      "generated_dependency": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/debug-pch-create/vc1.0/c1/debug-pch/debug.pch",
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0022373581305146217,
+      "total_seconds": 0.013567565940320492
+    },
+    {
+      "case": "inline-asm-rich",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/inline-asm-rich/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); original _spawnvpe child transport and complete boundary inventories captured."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.003205743618309498,
+      "execution_seconds": 0.005622627213597298,
+      "application_entries": 12,
+      "accepted_prefix": 737,
+      "trace_sha256": "931bee469c3419b3ce42435afa2bcf19813764134eeecb132659e0509c1db7df",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/inline-asm-rich/manifest.json",
+      "manifest_sha256": "c4034cb89b837c86d2b777821a70cf37941476b07c355ddb4bf65b96d11441be",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 195,
+          "sha256": "892c2a56fd0636f881590897c1ac7de595ae0ff2ec7dbbd7dd0afdaea5470140"
+        },
+        {
+          "name": "irex",
+          "bytes": 1688,
+          "sha256": "35fd85ebfd1182ed50aa14850d84cc21b95566c952a89734d735e3a47611b342"
+        },
+        {
+          "name": "irgl",
+          "bytes": 260,
+          "sha256": "e0bc4fe3dd575174eff22c568c312a419c3cc681f6c42ec7cb6f7fe78d975b0b"
+        },
+        {
+          "name": "irin",
+          "bytes": 109,
+          "sha256": "43cddf928eaafb2a0c1c312d51b7dbacbda9c953b43d015f8872b8421a6341cc"
+        },
+        {
+          "name": "irsy",
+          "bytes": 249,
+          "sha256": "8b0605f3cbc540a655950e94f2c148fbb5cef88e974868e34d8dd68d3e354367"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0013723475858569145,
+      "total_seconds": 0.010821687988936901
+    },
+    {
+      "case": "storage-pragmas",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/storage-pragmas/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); original _spawnvpe child transport and complete boundary inventories captured."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.003073456697165966,
+      "execution_seconds": 0.005419100634753704,
+      "application_entries": 18,
+      "accepted_prefix": 749,
+      "trace_sha256": "71c6eff413e635ca579c9659820928626b6d910a9aff093cb118ba7953070e69",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/storage-pragmas/manifest.json",
+      "manifest_sha256": "fd2ddc51913a77818f2c5bfc21032481aa82f6dddc4a1e09ccc5ec55a192e82a",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 311,
+          "sha256": "232351e77ecea570b6a3284f2c3e8a85b57860dd120085ffe0334405fa001d02"
+        },
+        {
+          "name": "irex",
+          "bytes": 1625,
+          "sha256": "44c91452fc70250ec9823daefad2c6a361c8e5eef02b9d46d83b1ab40fe65e25"
+        },
+        {
+          "name": "irgl",
+          "bytes": 312,
+          "sha256": "a6a1f561762a8af90302abcfbfd3862fd51da6fd1d2a1c2fa9cdc9a5fd8bd3b1"
+        },
+        {
+          "name": "irin",
+          "bytes": 50,
+          "sha256": "d9450359d82d0ea9b49dd46086085fa9ab83e6aec12687d056e315bba9082587"
+        },
+        {
+          "name": "irsy",
+          "bytes": 220,
+          "sha256": "605095aadcec5095baa7aa23db43854b4841baf2535470fb18b1f1c71b90c654"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0012784982100129128,
+      "total_seconds": 0.010289937257766724
+    },
+    {
+      "case": "diagnostic-recovery",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/diagnostic-recovery/work",
+      "exit": 6,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual spawn return captures stdout offsets12..564 and child exit6. The12-byte CL source banner is outside C1 invocation."
+      },
+      "stdout_bytes": 552,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0027241306379437447,
+      "execution_seconds": 0.005316091701388359,
+      "application_entries": 8,
+      "accepted_prefix": 767,
+      "trace_sha256": "ac059fb713af0f3c8ee86f7bca535c6da5d3c6217b5989c3ee067887caffe28e",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/diagnostic-recovery/manifest.json",
+      "manifest_sha256": "ed9b34048ba58074bf4396bb203e20eace34cb0201f2c1e57a73cd0c1fb9f91a",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 11,
+          "sha256": "008a3c8db329cffa3250d9c0ed7be51cc5c4305501dd4ebbd7b9ffd4febdc94b"
+        },
+        {
+          "name": "irex",
+          "bytes": 968,
+          "sha256": "db2dfc31dbb20ababaefa302787957d41f962bf97fbe809366bc58d338bce024"
+        },
+        {
+          "name": "irgl",
+          "bytes": 26,
+          "sha256": "d1b65a256c801e2a2cbd75e901f182f7926cdb65414674e93b46ea47b1ac0680"
+        },
+        {
+          "name": "irin",
+          "bytes": 9,
+          "sha256": "464c4342514f3580d796fd19a74f18cc7b6fdab93da758d959154ea79182b73a"
+        },
+        {
+          "name": "irsy",
+          "bytes": 3,
+          "sha256": "56a42ea06e5f6c892189b3cb763c725f7265743ec82b994e6cefddb930710aea"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0013320846483111382,
+      "total_seconds": 0.009876059368252754
+    },
+    {
+      "case": "based-record-arena",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/based-record-arena/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); original _spawnvpe child transport and complete boundary inventories captured."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0026849601417779922,
+      "execution_seconds": 0.005274134688079357,
+      "application_entries": 8,
+      "accepted_prefix": 775,
+      "trace_sha256": "96fa352fb0c53b14163b3bc7c80ca997224f9e22e253815dc83c07c0e9118d52",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/based-record-arena/manifest.json",
+      "manifest_sha256": "5674162805ce14b02e10d91bd48272ba20fb29819f1045495fc7f5ea71cd0f94",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 459,
+          "sha256": "7986cbc545989c70a04841978dce106c6e4c9776187e139ee459c32f0e67cbc7"
+        },
+        {
+          "name": "irex",
+          "bytes": 3269,
+          "sha256": "9fb7d7fd6d2b3c84a3aa0e8c2cc6bde84f6c79e6e8bc6c430e32d980ab6e2761"
+        },
+        {
+          "name": "irgl",
+          "bytes": 318,
+          "sha256": "ec00e8885c7d80dab4c26240470e5cb07b771e00b4e14bd5fa9b7857f67a4ffc"
+        },
+        {
+          "name": "irin",
+          "bytes": 12,
+          "sha256": "e4738a568ff05727ce074bddb2214bfb81815cd4137a063b34d366bbf577265a"
+        },
+        {
+          "name": "irsy",
+          "bytes": 659,
+          "sha256": "9f2806ac9f4fdd5b26b494d4ba7b44b14c3bcfddc5b5d8d9ce4eee85c41c646c"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.00125911645591259,
+      "total_seconds": 0.009691894054412842
+    },
+    {
+      "case": "pdb-pch-binding-create",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/pdb-pch-binding-create/vc1.0/c1/pdb-pch-binding",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.003918007016181946,
+      "execution_seconds": 0.007009967230260372,
+      "application_entries": 8,
+      "accepted_prefix": 783,
+      "trace_sha256": "e0a7f372560292bde54187b9b7f1d2acefafc1ca3bd05aeb2a8a01d7d9bf740c",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/pdb-pch-binding/manifest.json",
+      "manifest_sha256": "a6c9c9b93c04cf143b15ce10206df3ce096656a988d19f575b1f26e218abcbc8",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 63,
+          "sha256": "b2a4ad9484ff423d8fe2744101e01ea2205a52c9ae67f4d969d92eb438d37bd3"
+        },
+        {
+          "name": "irex",
+          "bytes": 1177,
+          "sha256": "2646facbf8e5401a776abb8a861107ad084bf6e1b0abd4e620ce9754cb85c750"
+        },
+        {
+          "name": "irgl",
+          "bytes": 611,
+          "sha256": "bdc21f5859b34c1728668053636f37eeea8a4b857b9040a1ca3e975cacb193c7"
+        },
+        {
+          "name": "irin",
+          "bytes": 34,
+          "sha256": "e5c563aa3f5a41dd7d65f86dd5701b165db694c7a94be7067ef672d8a4f56c1c"
+        },
+        {
+          "name": "irsy",
+          "bytes": 132,
+          "sha256": "1ef64d61d8cd0eb8b229a8159a3835dcc316f55eb11edf722cadfc09ca7501ce"
+        },
+        {
+          "name": "binding.pch",
+          "bytes": 39884,
+          "sha256": "eafab8a8cb7814613ae4e8e5b97bcbc92447cb1230cac1780251b0436abe3213"
+        },
+        {
+          "name": "msvc.pdb",
+          "bytes": 958,
+          "sha256": "16f4e2f0ef5e60ea4d6ad668ef28c4912eb6040f54ba39952d6edebbd2947920"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0024753278121352196,
+      "total_seconds": 0.013910136185586452
+    },
+    {
+      "case": "pdb-pch-binding-use",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/pdb-pch-binding-use/vc1.0/c1/pdb-pch-binding",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.007682193070650101,
+      "execution_seconds": 0.0053540682420134544,
+      "application_entries": 2,
+      "accepted_prefix": 791,
+      "trace_sha256": "5e899c16c3b032a76f43e83f687b626444b26a60d7b909e2edd93cc280a30f66",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/pdb-pch-binding/manifest.json",
+      "manifest_sha256": "a6c9c9b93c04cf143b15ce10206df3ce096656a988d19f575b1f26e218abcbc8",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 63,
+          "sha256": "6e39fb8b06fb2cc0c773449e9a6b038e3c85d7261019a270e41ec6d8f26fce12"
+        },
+        {
+          "name": "irex",
+          "bytes": 1585,
+          "sha256": "7f589531f5f9bbba5678c7cfd229f9705d099e6ffcf638e89c01d1d695e1c648"
+        },
+        {
+          "name": "irgl",
+          "bytes": 262,
+          "sha256": "02a4bc2a4071341ba3be7b57819766dbaac99c08d3ac78077dc779646e2a2893"
+        },
+        {
+          "name": "irin",
+          "bytes": 60,
+          "sha256": "1ad33bef1fd6691ca33e78429b55ac833f464090614ab210e9e1f3bb0c91be06"
+        },
+        {
+          "name": "irsy",
+          "bytes": 193,
+          "sha256": "58d2c71b54ccaf5c69e75b055a7ae230511e1cab9dbae013ffde0b854b0201c7"
+        },
+        {
+          "name": "binding.pch",
+          "bytes": 39884,
+          "sha256": "eafab8a8cb7814613ae4e8e5b97bcbc92447cb1230cac1780251b0436abe3213"
+        },
+        {
+          "name": "msvc.pdb",
+          "bytes": 968,
+          "sha256": "bd4063f8a67fb99bbe4e5304fedbaf10fcd49b123837f77e0feaaf65d2d293f8"
+        }
+      ],
+      "generated_dependency": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/pdb-pch-binding-create/vc1.0/c1/pdb-pch-binding/binding.pch",
+      "generated_sources": [],
+      "generated_input_contract": [
+        {
+          "name": "irdb",
+          "bytes": 63,
+          "sha256": "b2a4ad9484ff423d8fe2744101e01ea2205a52c9ae67f4d969d92eb438d37bd3"
+        },
+        {
+          "name": "irex",
+          "bytes": 1177,
+          "sha256": "2646facbf8e5401a776abb8a861107ad084bf6e1b0abd4e620ce9754cb85c750"
+        },
+        {
+          "name": "irgl",
+          "bytes": 611,
+          "sha256": "bdc21f5859b34c1728668053636f37eeea8a4b857b9040a1ca3e975cacb193c7"
+        },
+        {
+          "name": "irin",
+          "bytes": 34,
+          "sha256": "e5c563aa3f5a41dd7d65f86dd5701b165db694c7a94be7067ef672d8a4f56c1c"
+        },
+        {
+          "name": "irsy",
+          "bytes": 132,
+          "sha256": "1ef64d61d8cd0eb8b229a8159a3835dcc316f55eb11edf722cadfc09ca7501ce"
+        },
+        {
+          "name": "binding.pch",
+          "bytes": 39884,
+          "sha256": "eafab8a8cb7814613ae4e8e5b97bcbc92447cb1230cac1780251b0436abe3213"
+        },
+        {
+          "name": "msvc.pdb",
+          "bytes": 958,
+          "sha256": "16f4e2f0ef5e60ea4d6ad668ef28c4912eb6040f54ba39952d6edebbd2947920"
+        }
+      ],
+      "generated_input_signature": 1792802120,
+      "oracle_seconds": 0.00257806945592165,
+      "total_seconds": 0.01609734818339348
+    },
+    {
+      "case": "legacy-callback-adapter",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/legacy-callback-adapter/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual spawn stdout intervals isolate child warnings from CL source banner."
+      },
+      "stdout_bytes": 514,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0027674827724695206,
+      "execution_seconds": 0.005372975952923298,
+      "application_entries": 9,
+      "accepted_prefix": 793,
+      "trace_sha256": "b5c3adc90f2d657566d419759d0768fecbb6d27101e4ee3a672150bcb8a4f126",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/legacy-callback-adapter/manifest.json",
+      "manifest_sha256": "ad0a6601859eb781c55f3d8e0aae6ffac2a42837ff02f6126faddecd8bfca06f",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 451,
+          "sha256": "76edcc78d202ebcf436abd4dab03ac369c2691221d1916cba274820302908db2"
+        },
+        {
+          "name": "irex",
+          "bytes": 2097,
+          "sha256": "ad2df86e966a1028d87c1f80c2ee46fefe8e734e94e8bdd34ebbb127cde16ea0"
+        },
+        {
+          "name": "irgl",
+          "bytes": 374,
+          "sha256": "550ab92fb6328328261ea972c067df719ca775347c14c5c5b7a4650259ce4ca9"
+        },
+        {
+          "name": "irin",
+          "bytes": 21,
+          "sha256": "3ffc69b841087027fc1cd55036e5b61925f722dd2cc35e4b1bf86a6c0b3980b4"
+        },
+        {
+          "name": "irsy",
+          "bytes": 587,
+          "sha256": "0fbad911bd4ff4e42219130d01d3d182f5f12edd302213c88e5516b0053d2633"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0014674486592411995,
+      "total_seconds": 0.010138262994587421
+    },
+    {
+      "case": "inline-asm-expressions",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/inline-asm-expressions/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual spawn stdout intervals isolate child warnings from CL source banner."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.002810254693031311,
+      "execution_seconds": 0.004518039524555206,
+      "application_entries": 7,
+      "accepted_prefix": 802,
+      "trace_sha256": "770a8534a53233970e65d1fbc4d5e9858047fb31cd1ee57cd63b76d07f1ac3e5",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/inline-asm-expressions/manifest.json",
+      "manifest_sha256": "6177f428379e227cceaf9a4dcaa7c6a93d700ad14e57e3535405dd095b81129c",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 63,
+          "sha256": "44aa56d795ef9a53353bf228cd05c0beb6e9d413ae9ed96155756f6bbf50a978"
+        },
+        {
+          "name": "irex",
+          "bytes": 1480,
+          "sha256": "be7a463d2c541bc877717d31aaf9ca0a30282b91fcd03de54e54f33740b5b598"
+        },
+        {
+          "name": "irgl",
+          "bytes": 104,
+          "sha256": "86b55a0f146adc9110d9928b72c98897a73caf1363c78f2b2aebfb45dfbb2c95"
+        },
+        {
+          "name": "irin",
+          "bytes": 6,
+          "sha256": "75cd2ec2239eba2bfbe4565430134f1e64bc6bab095ddac7f79c6d0d14a1abd6"
+        },
+        {
+          "name": "irsy",
+          "bytes": 214,
+          "sha256": "9571169b89b918e17d0c24d98c590d66450a4e8ec87df900a6ddbf830857e47d"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0013736644759774208,
+      "total_seconds": 0.009185539558529854
+    },
+    {
+      "case": "browser-pch-create",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/browser-pch-create/vc1.0/c1/browser-pch-timestamp",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.003934177570044994,
+      "execution_seconds": 0.0067179519683122635,
+      "application_entries": 3,
+      "accepted_prefix": 809,
+      "trace_sha256": "64bd851e2702aca76cf35b4bb12c70184c7ea4b84b4fab546f75a691ef84826d",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/browser-pch-timestamp/manifest.json",
+      "manifest_sha256": "aa1aee1a6c8c7c20e145cdd278ce9d76d785a27b374c8a43d189a06f9415d3ff",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 335,
+          "sha256": "694208f2be4a23e4f78f86a35ca958f8c128c4ee8452af898b01cb6a8dd79708"
+        },
+        {
+          "name": "irex",
+          "bytes": 246,
+          "sha256": "e5a62d066794b9af082bfe24e1c29dd42e3b4384c8713f3524280c69fd17e642"
+        },
+        {
+          "name": "irgl",
+          "bytes": 305,
+          "sha256": "0e285ab6215bd0f63d1b8743d13c3b148a335814f17cca7a9f18c584f4bfa698"
+        },
+        {
+          "name": "irin",
+          "bytes": 58,
+          "sha256": "36ce72865d6632f448d6b2445066872e0aed6cd0fa8e34e780ddf2f2d2ff69e6"
+        },
+        {
+          "name": "irsy",
+          "bytes": 97,
+          "sha256": "525f557fd84c11843a24d1df6808d2b09ac78f1dbfc29c4ada1cc87ef89394e4"
+        },
+        {
+          "name": "api.pch",
+          "bytes": 38857,
+          "sha256": "b9ec240d13dd0a22288139e790b0c8ce3dbff563a8ea7111948d9d738da77795"
+        },
+        {
+          "name": "producer.sbr",
+          "bytes": 1078,
+          "sha256": "bff367ea16163b932d1e8279c843c5fe90bbf15b0ab1bf41ab53fb6765d88c23"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0024116700515151024,
+      "total_seconds": 0.013540089130401611
+    },
+    {
+      "case": "browser-pch-use",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/browser-pch-use/vc1.0/c1/browser-pch-timestamp",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.007271247915923595,
+      "execution_seconds": 0.005678226239979267,
+      "application_entries": 1,
+      "accepted_prefix": 812,
+      "trace_sha256": "2f041954dad977244ef598b3537fbcf21c28495429fd9870b9284f24337bf451",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/browser-pch-timestamp/manifest.json",
+      "manifest_sha256": "aa1aee1a6c8c7c20e145cdd278ce9d76d785a27b374c8a43d189a06f9415d3ff",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 127,
+          "sha256": "e587e86032d953517c7db6af71118656d539d17fd660cb577aa8a31822d4d787"
+        },
+        {
+          "name": "irex",
+          "bytes": 1394,
+          "sha256": "48ff84a11a4b63ea777e834330831633b1cd8a4f3c85fbd35810f73c7cd55cab"
+        },
+        {
+          "name": "irgl",
+          "bytes": 275,
+          "sha256": "22e0913cab4649430a3f00e7062b6e5f85e481d470f3d23d2aaed4166b04dcee"
+        },
+        {
+          "name": "irin",
+          "bytes": 110,
+          "sha256": "e66dec36a6f7e6611c6cc783e229d2405c95ff4cbc297e078df0c8e7ff470475"
+        },
+        {
+          "name": "irsy",
+          "bytes": 245,
+          "sha256": "f102ddaa68b89a75d7c34710824fcc0df88fec03b22d9f60af69f37bcf9cdafd"
+        },
+        {
+          "name": "api.pch",
+          "bytes": 38857,
+          "sha256": "b9ec240d13dd0a22288139e790b0c8ce3dbff563a8ea7111948d9d738da77795"
+        },
+        {
+          "name": "consumer.sbr",
+          "bytes": 412,
+          "sha256": "bde71b79dbfc1d04a9f7960ba8b1bf18f0217ae183860438f52325c6b1e436bc"
+        },
+        {
+          "name": "producer.sbr",
+          "bytes": 1078,
+          "sha256": "bff367ea16163b932d1e8279c843c5fe90bbf15b0ab1bf41ab53fb6765d88c23"
+        }
+      ],
+      "generated_dependency": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/browser-pch-create/vc1.0/c1/browser-pch-timestamp/api.pch",
+      "generated_sources": [],
+      "generated_input_contract": [
+        {
+          "name": "irdb",
+          "bytes": 335,
+          "sha256": "694208f2be4a23e4f78f86a35ca958f8c128c4ee8452af898b01cb6a8dd79708"
+        },
+        {
+          "name": "irex",
+          "bytes": 246,
+          "sha256": "e5a62d066794b9af082bfe24e1c29dd42e3b4384c8713f3524280c69fd17e642"
+        },
+        {
+          "name": "irgl",
+          "bytes": 305,
+          "sha256": "0e285ab6215bd0f63d1b8743d13c3b148a335814f17cca7a9f18c584f4bfa698"
+        },
+        {
+          "name": "irin",
+          "bytes": 58,
+          "sha256": "36ce72865d6632f448d6b2445066872e0aed6cd0fa8e34e780ddf2f2d2ff69e6"
+        },
+        {
+          "name": "irsy",
+          "bytes": 97,
+          "sha256": "525f557fd84c11843a24d1df6808d2b09ac78f1dbfc29c4ada1cc87ef89394e4"
+        },
+        {
+          "name": "api.pch",
+          "bytes": 38857,
+          "sha256": "b9ec240d13dd0a22288139e790b0c8ce3dbff563a8ea7111948d9d738da77795"
+        },
+        {
+          "name": "producer.sbr",
+          "bytes": 1078,
+          "sha256": "bff367ea16163b932d1e8279c843c5fe90bbf15b0ab1bf41ab53fb6765d88c23"
+        }
+      ],
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0025499938055872917,
+      "total_seconds": 0.015980012714862823
+    },
+    {
+      "case": "asm-diagnostic-recovery",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/asm-diagnostic-recovery/vc1.0/c1/asm-diagnostic-recovery",
+      "exit": 4,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual spawn stdout intervals isolate four child errors from CL source banner."
+      },
+      "stdout_bytes": 296,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0031213052570819855,
+      "execution_seconds": 0.006936401128768921,
+      "application_entries": 5,
+      "accepted_prefix": 813,
+      "trace_sha256": "93ae0854a9403e9c884aa007302d0e2cc5663f771a6df83b97ab0f71f8111fb1",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/asm-diagnostic-recovery/manifest.json",
+      "manifest_sha256": "33278d214630943d3d90ac0656238e5e8035c379797b466d45dbb59b906326b4",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 11,
+          "sha256": "008a3c8db329cffa3250d9c0ed7be51cc5c4305501dd4ebbd7b9ffd4febdc94b"
+        },
+        {
+          "name": "irex",
+          "bytes": 969,
+          "sha256": "bcca64445fbf54312c9f273dd27224895bc540da7f37279d5af8dc138f3260a7"
+        },
+        {
+          "name": "irgl",
+          "bytes": 28,
+          "sha256": "ffadb1cd51d95e062aa4d312c9daa2f0f873b2c40bd849e9e9533b0524d1d53f"
+        },
+        {
+          "name": "irin",
+          "bytes": 6,
+          "sha256": "90ea10f68e698e2804142dc7b96ee962b425f553c1a5da02c9041626575334bf"
+        },
+        {
+          "name": "irsy",
+          "bytes": 2,
+          "sha256": "53bd9133146631a2a2a89188f7d799e4ab85b473b7e927dd8b7782d91fe4ee0c"
+        },
+        {
+          "name": "errors.sbr",
+          "bytes": 159,
+          "sha256": "cce78a71a54ae4c693df5b0c7488dcfbeeb12d66ce812014bc3877b7c47a44bc"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0015851454809308052,
+      "total_seconds": 0.0121603449806571
+    },
+    {
+      "case": "calibration-table",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/calibration-table/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child intervals isolate oneC4051warning from CL source banner."
+      },
+      "stdout_bytes": 75,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0027489420026540756,
+      "execution_seconds": 0.00518893264234066,
+      "application_entries": 8,
+      "accepted_prefix": 818,
+      "trace_sha256": "e02cfa230d19f09f65a4c611ca377cd0999c67d91a93c07e85c4ea66fe3e70c5",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/calibration-table/manifest.json",
+      "manifest_sha256": "1643f93025dc75d419cf32891a986b6baf9e773f0b192c358ed285db03344acd",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 295,
+          "sha256": "6d368ac4c27da14fe3b7d3c082c259882da9e406706f8cea8ca4783a01fbae93"
+        },
+        {
+          "name": "irex",
+          "bytes": 1940,
+          "sha256": "a2fe3ef467a99dc45f91b4f97f630372777464fc6466075f5ea3ae5dc0bc3a2a"
+        },
+        {
+          "name": "irgl",
+          "bytes": 318,
+          "sha256": "7b3ba9ffd759e9bac632cb19e90ceef32732215ba01f4ea68182cccf13ecd57a"
+        },
+        {
+          "name": "irin",
+          "bytes": 296,
+          "sha256": "1c87ae0071357afc74966c1df0be99994ffde97373fa1a9df9ff2c7f4cee4c02"
+        },
+        {
+          "name": "irsy",
+          "bytes": 294,
+          "sha256": "daeb08fd63286226e1541c535048f9fe53dd02ce98ba12f5a4bececd4811cfe1"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.001400739885866642,
+      "total_seconds": 0.009856270626187325
+    },
+    {
+      "case": "packet-view-adapter",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/packet-view-adapter/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child intervals isolate five exact warnings from CL source banner."
+      },
+      "stdout_bytes": 563,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0027707070112228394,
+      "execution_seconds": 0.005523670464754105,
+      "application_entries": 3,
+      "accepted_prefix": 826,
+      "trace_sha256": "2c4520b443c3570b850c8c8c7fb6504a97fdb60607cb7d0b45b06abd295bb867",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/packet-view-adapter/manifest.json",
+      "manifest_sha256": "08ae81c4fb4972de074942f60d704af1272c80a515c16a74f4b0412eef727141",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 291,
+          "sha256": "4d55f49bb1d943415ff9c3a2ee0205f479cebf0c2048076d9a656f33ea62e217"
+        },
+        {
+          "name": "irex",
+          "bytes": 2032,
+          "sha256": "f7a6cfff80e5ef45e50104521e1a41066419302d2a777b92e4f39edf54a3c7ca"
+        },
+        {
+          "name": "irgl",
+          "bytes": 291,
+          "sha256": "1bf0e043abf68dbaa6202c9499290b0e75c8733329699f107867870e7b9a6c14"
+        },
+        {
+          "name": "irin",
+          "bytes": 12,
+          "sha256": "789f0aa30a88cdf2f770561be54a906590b73351d0a99516de48c7a4e7e1d018"
+        },
+        {
+          "name": "irsy",
+          "bytes": 573,
+          "sha256": "425b719d08242eca20cb9f669e28583d80055a3fc52cec25eec2fea9a4dd14b6"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0013957424089312553,
+      "total_seconds": 0.010203582234680653
+    },
+    {
+      "case": "arena-api-compile",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/arena-api-compile/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Actual original CL normal compilation aliases diagnostics to fd1; prototype mode retains separate stdout prototypes/stderr diagnostics. Child intervals prove raw per-stream boundaries."
+      },
+      "stdout_bytes": 71,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.002771223895251751,
+      "execution_seconds": 0.005146839655935764,
+      "application_entries": 1,
+      "accepted_prefix": 829,
+      "trace_sha256": "01494ae012a527b20df60f5a34cc322e6bb7f8754c2df235dba5f72d99d0d66e",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/arena-api-prototypes/manifest.json",
+      "manifest_sha256": "18e752ece738a25fe745c7f6fb4359c632a96e67a67800b06d959a2dd715e136",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 363,
+          "sha256": "8be1d58af05a3ee990cb5e4f52ff4b49acd004d2e05a21f1a942b5002d5fb3a2"
+        },
+        {
+          "name": "irex",
+          "bytes": 2396,
+          "sha256": "685c2b42428c2f1cde87f88b27ac9e4c45825ed121f266ad7744b929d353460d"
+        },
+        {
+          "name": "irgl",
+          "bytes": 355,
+          "sha256": "6b755ad13844264adffb370160ad7488895bbc751f1bf25e517c19267cad6911"
+        },
+        {
+          "name": "irin",
+          "bytes": 18,
+          "sha256": "690a7236c049992b690e62ea52675388478dc336b1b3c4facef33af036124126"
+        },
+        {
+          "name": "irsy",
+          "bytes": 369,
+          "sha256": "5e3e526ecf2434e4f491cc9283b9048dba61072c45beabb68e0f7a4aca1f9772"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0014428747817873955,
+      "total_seconds": 0.009860646910965443
+    },
+    {
+      "case": "arena-api-prototypes",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/arena-api-prototypes/work",
+      "exit": 1,
+      "stdio": {
+        "stderr_to_stdout": false,
+        "provenance": "Actual original CL normal compilation aliases diagnostics to fd1; prototype mode retains separate stdout prototypes/stderr diagnostics. Child intervals prove raw per-stream boundaries."
+      },
+      "stdout_bytes": 375,
+      "stderr_bytes": 139,
+      "setup_seconds": 0.0023251818493008614,
+      "execution_seconds": 0.004591220058500767,
+      "application_entries": 1,
+      "accepted_prefix": 830,
+      "trace_sha256": "6a8a06b3f3d3938d7a13e2ec0bfe846db511f4d69a63ebb3315be2f1fdf8cbd5",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/arena-api-prototypes/manifest.json",
+      "manifest_sha256": "18e752ece738a25fe745c7f6fb4359c632a96e67a67800b06d959a2dd715e136",
+      "outputs": [],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0005114097148180008,
+      "total_seconds": 0.007959806360304356
+    },
+    {
+      "case": "portability-diagnostics",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/portability-diagnostics/vc1.0/c1/portability-diagnostics",
+      "exit": 6,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual spawn stdout intervals isolate six errors/seven warnings from CL source banner."
+      },
+      "stdout_bytes": 1124,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.003356698900461197,
+      "execution_seconds": 0.007026339881122112,
+      "application_entries": 8,
+      "accepted_prefix": 831,
+      "trace_sha256": "f0dfc12c5eb762bbc8ed79701d9b804a7e9acb13bea4219b56a917e070ab6c95",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/portability-diagnostics/manifest.json",
+      "manifest_sha256": "d6923630760b08bc39f84054c8e750a37eea415d1b48c952e13a69dde6d72a0f",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 11,
+          "sha256": "008a3c8db329cffa3250d9c0ed7be51cc5c4305501dd4ebbd7b9ffd4febdc94b"
+        },
+        {
+          "name": "irex",
+          "bytes": 918,
+          "sha256": "83e48d08eadc17eb63b8f51cab632e07329b52123510c7f4fffb849b91825a01"
+        },
+        {
+          "name": "irgl",
+          "bytes": 23,
+          "sha256": "b8ab720e6ce10cad6eca5d45a208459e2d1671020dd8c77ae7c4ffa36cad4272"
+        },
+        {
+          "name": "irin",
+          "bytes": 6,
+          "sha256": "c5ae27aa81a56316155ed95df679eb50b93225c85efdc0fa13d1e1af6df601e1"
+        },
+        {
+          "name": "irsy",
+          "bytes": 2,
+          "sha256": "53bd9133146631a2a2a89188f7d799e4ab85b473b7e927dd8b7782d91fe4ee0c"
+        },
+        {
+          "name": "audit.sbr",
+          "bytes": 289,
+          "sha256": "76c50885df0d84c77f477812be461aab53319bd17ebd3ac6669a9c807a30af91"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0016293292865157127,
+      "total_seconds": 0.012531879357993603
+    },
+    {
+      "case": "explicit-base-control",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/explicit-base-control/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child intervals isolate silent child streams from CL source banner."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.002765434794127941,
+      "execution_seconds": 0.0048587629571557045,
+      "application_entries": 3,
+      "accepted_prefix": 839,
+      "trace_sha256": "8408e54fcac340b52bce87b89278b8b324d79f7f5def91e202e9d2806dc8ef31",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/explicit-base-control/manifest.json",
+      "manifest_sha256": "c5ba50983f325d073cadc1d7f834838654e2b0bbb632307d6d5a8fd103d8c91f",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 203,
+          "sha256": "16eb3d2914438e7bb5540e429e617403863974cb4fe3f1263b6b3ffe34116ab4"
+        },
+        {
+          "name": "irex",
+          "bytes": 2062,
+          "sha256": "6afad1e3a52053e107b1795c203021eaae9ead1641fa7529e1b6437eeceacc7c"
+        },
+        {
+          "name": "irgl",
+          "bytes": 294,
+          "sha256": "f4753152f6760dbcbe86b5755c1710905e9af68ceb83dd278f7da503da7e731f"
+        },
+        {
+          "name": "irin",
+          "bytes": 73,
+          "sha256": "5b1ea48e575884d5eb5412787e91e72ef78fef3a8fc96bb8886d6e643dceb10b"
+        },
+        {
+          "name": "irsy",
+          "bytes": 460,
+          "sha256": "b500f2f8b9434ba84e8557f7378cbccd30aca61a7b46cb2452aeb65da83e31bc"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.001398470252752304,
+      "total_seconds": 0.009495994076132774
+    },
+    {
+      "case": "typed-x87-bitscan",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/typed-x87-bitscan/work",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child intervals isolate silent child streams from CL source banner."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0027832919731736183,
+      "execution_seconds": 0.004562066867947578,
+      "application_entries": 3,
+      "accepted_prefix": 842,
+      "trace_sha256": "679bd553feab0d41e5c92b8f59e33f45970078cd257f690173fb20b781dbe14e",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/typed-x87-bitscan/manifest.json",
+      "manifest_sha256": "16338d1acbc1d12cab68f5c2aaf31729e0b400238cc7b2e50a11365b7057784b",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 31,
+          "sha256": "b0e195f8dce11f9b62fe34f4166852baf517ba092308be80e7426b148690fe7a"
+        },
+        {
+          "name": "irex",
+          "bytes": 1232,
+          "sha256": "5e8ca08f73a8a49062f5c62614b975ab75a36d2e2380c27151e7db09484fec60"
+        },
+        {
+          "name": "irgl",
+          "bytes": 230,
+          "sha256": "d7c65e56b6051934ff914c90c0a1e02fc1ecb060d58a0b6ec0802a7c35a4b239"
+        },
+        {
+          "name": "irin",
+          "bytes": 78,
+          "sha256": "71e8ce1b1316542860137ad2e4afabff87bd2c55d8059613ef4e2b1a7f3fe8b2"
+        },
+        {
+          "name": "irsy",
+          "bytes": 133,
+          "sha256": "a1c8303e5d563566fb9543bc99a9d4859b8e87e835dff75bb01466bd3a782bd8"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0013838624581694603,
+      "total_seconds": 0.0092082554474473
+    },
+    {
+      "case": "generated-header-missing",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/generated-header-missing/vc1.0/c1/generated-header-failures",
+      "exit": 1,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Actual CL prepare_execution aliases fd2 to fd1 before C1; child intervals isolate fatal diagnostic from CL source banner."
+      },
+      "stdout_bytes": 102,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0029859356582164764,
+      "execution_seconds": 0.006003290414810181,
+      "application_entries": 5,
+      "accepted_prefix": 845,
+      "trace_sha256": "5bf46edc3fb190ed0c958a4db16bf15cff93f7eeac7c4184faa5b0d600ee833c",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/generated-header-failures/manifest.json",
+      "manifest_sha256": "fb13c11f814ee7b456575998a6c9e3d08605c1bc525e43a98257058d697cb046",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 10,
+          "sha256": "3db5535bebb2e31c6202f3ea04b2b506726f087e15f00683d74c273fafd4e2d8"
+        },
+        {
+          "name": "irex",
+          "bytes": 893,
+          "sha256": "b2a9ad4cce95c6403a54b60ed8738db04f0963ff51292a2f2cddd176a117c8e4"
+        },
+        {
+          "name": "irgl",
+          "bytes": 23,
+          "sha256": "ffb46c2aca14e0ea446f4e1a8cb58a5b41a5a85bf9f0aee1498307fcd9602de0"
+        },
+        {
+          "name": "irin",
+          "bytes": 3,
+          "sha256": "78a65bedbf44a8dae4437a12156dd6bf026eb0504287d4385cd62ec69ed7c967"
+        },
+        {
+          "name": "irsy",
+          "bytes": 34,
+          "sha256": "de3b137d28f0d9d9154e59551272b8607a6701b50411dcf562a838c8c95cc95e"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0015313485637307167,
+      "total_seconds": 0.011032100766897202
+    },
+    {
+      "case": "generated-header-incomplete",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/generated-header-incomplete/vc1.0/c1/generated-header-failures",
+      "exit": 1,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Actual CL prepare_execution aliases fd2 to fd1 before C1; child intervals isolate fatal diagnostic from CL source banner."
+      },
+      "stdout_bytes": 79,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0032050861045718193,
+      "execution_seconds": 0.005703428760170937,
+      "application_entries": 1,
+      "accepted_prefix": 850,
+      "trace_sha256": "f6ba894dbb714de58687a45627fb16f237b61417d3fd99494dbab2058ae558f6",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/generated-header-failures/manifest.json",
+      "manifest_sha256": "fb13c11f814ee7b456575998a6c9e3d08605c1bc525e43a98257058d697cb046",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 10,
+          "sha256": "3db5535bebb2e31c6202f3ea04b2b506726f087e15f00683d74c273fafd4e2d8"
+        },
+        {
+          "name": "irex",
+          "bytes": 893,
+          "sha256": "b2a9ad4cce95c6403a54b60ed8738db04f0963ff51292a2f2cddd176a117c8e4"
+        },
+        {
+          "name": "irgl",
+          "bytes": 23,
+          "sha256": "ffb46c2aca14e0ea446f4e1a8cb58a5b41a5a85bf9f0aee1498307fcd9602de0"
+        },
+        {
+          "name": "irin",
+          "bytes": 3,
+          "sha256": "78a65bedbf44a8dae4437a12156dd6bf026eb0504287d4385cd62ec69ed7c967"
+        },
+        {
+          "name": "irsy",
+          "bytes": 34,
+          "sha256": "de3b137d28f0d9d9154e59551272b8607a6701b50411dcf562a838c8c95cc95e"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0015081064775586128,
+      "total_seconds": 0.010924145579338074
+    },
+    {
+      "case": "protocol-parser-repair",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/protocol-parser-repair/vc1.0/c1/protocol-parser-repair",
+      "exit": 4,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual spawn stdout intervals isolate four errors from CL source banner."
+      },
+      "stdout_bytes": 335,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0033182818442583084,
+      "execution_seconds": 0.006445875391364098,
+      "application_entries": 3,
+      "accepted_prefix": 851,
+      "trace_sha256": "849c7a613a3fa85954353792724756f4bfb0b5f12f628dacf1e6104b865cb94a",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/protocol-parser-repair/manifest.json",
+      "manifest_sha256": "d5801811505627135c7002786bc72fccdf93fe18c1c840199af1d54a3a2395dc",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 11,
+          "sha256": "008a3c8db329cffa3250d9c0ed7be51cc5c4305501dd4ebbd7b9ffd4febdc94b"
+        },
+        {
+          "name": "irex",
+          "bytes": 1012,
+          "sha256": "176bb43b71b32e2511ac803d3251c96d26ce6fcfc91a0934c2b8190fa687df58"
+        },
+        {
+          "name": "irgl",
+          "bytes": 37,
+          "sha256": "ae67e61fbeda1a4cb88c378cb9d147ef14c9ad00a7281503f74bb257dcc365c4"
+        },
+        {
+          "name": "irin",
+          "bytes": 12,
+          "sha256": "7219b793779d9e3862f6719bc0d5021ed293b764f21aa3dfa9489cbb85310978"
+        },
+        {
+          "name": "irsy",
+          "bytes": 37,
+          "sha256": "9db7382362f95911cb75353de2d02d83db84f4eb5e82561f79b73e03c5bd567e"
+        },
+        {
+          "name": "audit.sbr",
+          "bytes": 392,
+          "sha256": "6a22921d9ae1c15efc61c41fcef169ffb5acf9d67741b23b80ac6402ccf44068"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0015793107450008392,
+      "total_seconds": 0.011855214834213257
+    },
+    {
+      "case": "asm-parser-repair",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/asm-parser-repair/vc1.0/c1/asm-parser-repair",
+      "exit": 5,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual spawn stdout intervals isolate five errors from CL source banner."
+      },
+      "stdout_bytes": 378,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.00309122446924448,
+      "execution_seconds": 0.0055772727355360985,
+      "application_entries": 2,
+      "accepted_prefix": 854,
+      "trace_sha256": "11e4ba230edda78c4c7d07f9ff7ee6ec9facb9bdc0a613137d74d0bdcec2e3c9",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/asm-parser-repair/manifest.json",
+      "manifest_sha256": "5ae2f130951cdc4b544908276813af4ca13c377484031eb96045080da5e3ace1",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 11,
+          "sha256": "008a3c8db329cffa3250d9c0ed7be51cc5c4305501dd4ebbd7b9ffd4febdc94b"
+        },
+        {
+          "name": "irex",
+          "bytes": 1020,
+          "sha256": "20133a17625f671f531c06483f20533abfd239e93f531acc08a16d19527c4fae"
+        },
+        {
+          "name": "irgl",
+          "bytes": 23,
+          "sha256": "b63985daf5e1e6415376f53f529f5ca94f9114c0e815c6adb10a1584d5e35364"
+        },
+        {
+          "name": "irin",
+          "bytes": 6,
+          "sha256": "19aac90f415d2c7957b427fff2ffb2ebead00f644462d2cda706e3ca98ec4391"
+        },
+        {
+          "name": "irsy",
+          "bytes": 2,
+          "sha256": "53bd9133146631a2a2a89188f7d799e4ab85b473b7e927dd8b7782d91fe4ee0c"
+        },
+        {
+          "name": "audit.sbr",
+          "bytes": 165,
+          "sha256": "5532806e6377349bb2657b3dddd2efc1c6e37dc786fd2070d3b59e143453d43f"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0015590479597449303,
+      "total_seconds": 0.010730323381721973
+    },
+    {
+      "case": "hdrstop-create",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/hdrstop-create/vc1.0/c1/pragma-hdrstop-pch",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.003930211067199707,
+      "execution_seconds": 0.006354695186018944,
+      "application_entries": 2,
+      "accepted_prefix": 858,
+      "trace_sha256": "b9d6c16878bd4515c1c099e0a362ca027576b717f0c2bab1427633290e0019ff",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/pragma-hdrstop-pch/manifest.json",
+      "manifest_sha256": "63a7f8f57d46af2de6a95f277bb08169ab4b4273427524c850a37a243466a3ee",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 159,
+          "sha256": "a8bee61376336792a138853cdfe43e740db14484c6c1662fb5de8f71e55d29f4"
+        },
+        {
+          "name": "irex",
+          "bytes": 158,
+          "sha256": "43f6fc7375034e06ce63b0d4887f87a1625b653e7f96c08b3b1a6295fe60890a"
+        },
+        {
+          "name": "irgl",
+          "bytes": 142,
+          "sha256": "578423c335ad605ad9d34c2cbef472c21d8c3faa0ce3ce71eb99f98c5c673116"
+        },
+        {
+          "name": "irin",
+          "bytes": 3,
+          "sha256": "94444ca8ff75bf51d1bc311c614fb8084422adfeab714f0d9b02a434456ad488"
+        },
+        {
+          "name": "irsy",
+          "bytes": 58,
+          "sha256": "ddbbd575ad2a0d2e1db64df9fa910991cb530240cd58404e8f157cee75f30c97"
+        },
+        {
+          "name": "hdrstop.pch",
+          "bytes": 38101,
+          "sha256": "d3ca21ba17570561711184667637ca6004609b7d9e7fde89633fd0fce19100d2"
+        },
+        {
+          "name": "producer.sbr",
+          "bytes": 768,
+          "sha256": "cd781ad7e328e3da62898ece6e23c9a02567fdc11f15b82fbba7145ef2df0852"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0029349327087402344,
+      "total_seconds": 0.013701899908483028
+    },
+    {
+      "case": "hdrstop-use",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/hdrstop-use/vc1.0/c1/pragma-hdrstop-pch",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.007677068933844566,
+      "execution_seconds": 0.005277168937027454,
+      "application_entries": 0,
+      "accepted_prefix": 860,
+      "trace_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/pragma-hdrstop-pch/manifest.json",
+      "manifest_sha256": "63a7f8f57d46af2de6a95f277bb08169ab4b4273427524c850a37a243466a3ee",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 79,
+          "sha256": "c5593426fa63ae55c17268c18152860fc9c378675a7dea4f7426f57459b67e75"
+        },
+        {
+          "name": "irex",
+          "bytes": 1080,
+          "sha256": "6def64cf3065bebe872f2954c203908d0eed64c43256d5c0efa93f2efc460caa"
+        },
+        {
+          "name": "irgl",
+          "bytes": 98,
+          "sha256": "bcea7f54e3ea444bcc489736248a28e1158d0919efd0607b39f4f1b70ac9a707"
+        },
+        {
+          "name": "irin",
+          "bytes": 3,
+          "sha256": "87ff79aafb82c994aee0847de0d77731ad9345f73beff27c5f279e7eab6ddd91"
+        },
+        {
+          "name": "irsy",
+          "bytes": 84,
+          "sha256": "e11a4f101e9d4b60f7e11be93ecd44b5d2f0a0a5d58f9211d239813947058038"
+        },
+        {
+          "name": "consumer.sbr",
+          "bytes": 178,
+          "sha256": "7f5af13da9b00415fd5aa19e1fb652452d7d95536bacdd1f40752db8fa0b2826"
+        },
+        {
+          "name": "hdrstop.pch",
+          "bytes": 38101,
+          "sha256": "d3ca21ba17570561711184667637ca6004609b7d9e7fde89633fd0fce19100d2"
+        },
+        {
+          "name": "producer.sbr",
+          "bytes": 768,
+          "sha256": "cd781ad7e328e3da62898ece6e23c9a02567fdc11f15b82fbba7145ef2df0852"
+        }
+      ],
+      "generated_dependency": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/hdrstop-create/vc1.0/c1/pragma-hdrstop-pch/hdrstop.pch",
+      "generated_sources": [],
+      "generated_input_contract": [
+        {
+          "name": "irdb",
+          "bytes": 159,
+          "sha256": "a8bee61376336792a138853cdfe43e740db14484c6c1662fb5de8f71e55d29f4"
+        },
+        {
+          "name": "irex",
+          "bytes": 158,
+          "sha256": "43f6fc7375034e06ce63b0d4887f87a1625b653e7f96c08b3b1a6295fe60890a"
+        },
+        {
+          "name": "irgl",
+          "bytes": 142,
+          "sha256": "578423c335ad605ad9d34c2cbef472c21d8c3faa0ce3ce71eb99f98c5c673116"
+        },
+        {
+          "name": "irin",
+          "bytes": 3,
+          "sha256": "94444ca8ff75bf51d1bc311c614fb8084422adfeab714f0d9b02a434456ad488"
+        },
+        {
+          "name": "irsy",
+          "bytes": 58,
+          "sha256": "ddbbd575ad2a0d2e1db64df9fa910991cb530240cd58404e8f157cee75f30c97"
+        },
+        {
+          "name": "hdrstop.pch",
+          "bytes": 38101,
+          "sha256": "d3ca21ba17570561711184667637ca6004609b7d9e7fde89633fd0fce19100d2"
+        },
+        {
+          "name": "producer.sbr",
+          "bytes": 768,
+          "sha256": "cd781ad7e328e3da62898ece6e23c9a02567fdc11f15b82fbba7145ef2df0852"
+        }
+      ],
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0032253405079245567,
+      "total_seconds": 0.01667374186217785
+    },
+    {
+      "case": "dispatch-type-diagnostics",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/dispatch-type-diagnostics/vc1.0/c1/dispatch-type-diagnostics",
+      "exit": 4,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL aliases fd2 to fd1 before child launch; exact captured child intervals."
+      },
+      "stdout_bytes": 540,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0033426638692617416,
+      "execution_seconds": 0.0057036783546209335,
+      "application_entries": 3,
+      "accepted_prefix": 860,
+      "trace_sha256": "b9eb744e940162cffa7d188201268996798140b6be7bbb4125f6906ea2b3b615",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/dispatch-type-diagnostics/manifest.json",
+      "manifest_sha256": "61fbac5fea6aaae45e0549b59c1b87b399da884e46026940347f7e57fa5ebfa1",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 11,
+          "sha256": "008a3c8db329cffa3250d9c0ed7be51cc5c4305501dd4ebbd7b9ffd4febdc94b"
+        },
+        {
+          "name": "irex",
+          "bytes": 941,
+          "sha256": "8822b3c10b3e540c99f18e7be6ad88e4abdb8ec8da8769850082c3c9c0debde0"
+        },
+        {
+          "name": "irgl",
+          "bytes": 23,
+          "sha256": "c041c85760d0c5e88967115ccd56c5d1e79eb33ea377c86bb90a9dc201a41ce6"
+        },
+        {
+          "name": "irin",
+          "bytes": 6,
+          "sha256": "5e7c445bc27c934f1f4e2a736b63784937c9b088d1a23170c5f0b24d997bdb34"
+        },
+        {
+          "name": "irsy",
+          "bytes": 2,
+          "sha256": "53bd9133146631a2a2a89188f7d799e4ab85b473b7e927dd8b7782d91fe4ee0c"
+        },
+        {
+          "name": "audit.sbr",
+          "bytes": 466,
+          "sha256": "ad75460c6230a91cd28f97932ecfc3e4031d190bf9781656b952eca7bdd5e618"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0016659656539559364,
+      "total_seconds": 0.011226864531636238
+    },
+    {
+      "case": "prototype-scope-registry",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/prototype-scope-registry/vc1.0/c1/prototype-scope-registry",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL aliases fd2 to fd1 before child launch; exact captured child intervals."
+      },
+      "stdout_bytes": 88,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.003981094807386398,
+      "execution_seconds": 0.007951177656650543,
+      "application_entries": 1,
+      "accepted_prefix": 863,
+      "trace_sha256": "b4b9f7738664569d0ebea27cc012a10976ff0c4d960b4f6ae93b21df987a896e",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/prototype-scope-registry/manifest.json",
+      "manifest_sha256": "8b0e47603686d6f9a41e70b6b8e905d9dc76f87b4cd083266658cb642ddc13a5",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 343,
+          "sha256": "40ee3391fa4821c7177bfcb5599ca3ec3331667035e617cf1947cdd1ec5fa852"
+        },
+        {
+          "name": "irex",
+          "bytes": 1780,
+          "sha256": "08b0f69d9eec4216929ca6ba9db550257422bfd519ed64e152edb389c801225e"
+        },
+        {
+          "name": "irgl",
+          "bytes": 358,
+          "sha256": "11d854cc74d587d8141b83194d1fe3cda18ca5e63ef3178d9f2aea16f82412ff"
+        },
+        {
+          "name": "irin",
+          "bytes": 47,
+          "sha256": "dac9a26f98b14adfd1f4cfcbcd59a805e45362e7117be86d2fd26000269b19c0"
+        },
+        {
+          "name": "irsy",
+          "bytes": 447,
+          "sha256": "b4e80d4e7eb84bc61df76bfb915b544a974177d0c6d8e016d46a73952b6d3b73"
+        },
+        {
+          "name": "registry.sbr",
+          "bytes": 907,
+          "sha256": "9c4369dca2263405779a472253c248aab73c95e691d63711049f9468e3d04daf"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0019114529713988304,
+      "total_seconds": 0.014447461813688278
+    },
+    {
+      "case": "browser-index-limit",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/browser-index-limit/vc1.0/c1/browser-index-limit",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL aliases fd2 to fd1 before child launch; exact captured child intervals."
+      },
+      "stdout_bytes": 85,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.057419090531766415,
+      "execution_seconds": 0.38966378942131996,
+      "application_entries": 1,
+      "accepted_prefix": 864,
+      "trace_sha256": "0ee6257e96b31dd110681689eb1028d83b630b6724acbbb855e4f59c853b9b76",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/browser-index-limit/manifest.json",
+      "manifest_sha256": "a9def40541d3505c0f55c1034fe8f54b39bd27c7557937d9c9ca6da3440f3900",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 43,
+          "sha256": "431c8797581e55200692413851e695a48d48d7a2f186bf419e3a8e450daafea7"
+        },
+        {
+          "name": "irex",
+          "bytes": 1074,
+          "sha256": "26ce9105d226e6e361e98ff2745987bb1354b95054d62c3536a353c04d36804d"
+        },
+        {
+          "name": "irgl",
+          "bytes": 245,
+          "sha256": "17f3f032e3a6d51c93f6b0a765e8257de984771977342e4eb8f64075bdeaea33"
+        },
+        {
+          "name": "irin",
+          "bytes": 52,
+          "sha256": "c97e21177cf48b2db15226c7ccfdeba8871fb51ca75cdc3d2ee995faa8218e25"
+        },
+        {
+          "name": "irsy",
+          "bytes": 51,
+          "sha256": "bc090fdd3b484d921b134909bd1310a348fd3234ce0aa7e72c5fbd4b00a76091"
+        },
+        {
+          "name": "registry.sbr",
+          "bytes": 73,
+          "sha256": "4ae1bf7ae4f922fa5023b94500638dc37c8508a91cba7a1d78e68e587ddca689"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [
+        {
+          "path": "inputs/bulk-registry.h",
+          "declarations": 66000,
+          "bytes": 2442112,
+          "sha256": "245ed1ed636a7489633be6ad936011acbc5eeca3a09b1cecb2db9054ccc8f301"
+        }
+      ],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0018634889274835587,
+      "total_seconds": 0.44959774799644947
+    },
+    {
+      "case": "callback-body-recovery",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/callback-body-recovery/vc1.0/c1/callback-body-recovery",
+      "exit": 2,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL aliases fd2 to fd1 before child launch; exact captured child intervals."
+      },
+      "stdout_bytes": 133,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.003783085383474827,
+      "execution_seconds": 0.007503040134906769,
+      "application_entries": 1,
+      "accepted_prefix": 865,
+      "trace_sha256": "4541db98cbead1bd72b14ddf55a68b776ccdada624ffbb982649d9bbdd6d8c25",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/callback-body-recovery/manifest.json",
+      "manifest_sha256": "ea80d46629e79534fcde86979b481a6c82966be24690097d5ba9e0ba92aff7bd",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 11,
+          "sha256": "008a3c8db329cffa3250d9c0ed7be51cc5c4305501dd4ebbd7b9ffd4febdc94b"
+        },
+        {
+          "name": "irex",
+          "bytes": 877,
+          "sha256": "84b867a3f724860812854f9f8c8d3d3214ffc96156d18690059cd293cdad19fe"
+        },
+        {
+          "name": "irgl",
+          "bytes": 23,
+          "sha256": "110820ac8e14b890e342bd502c707a470341f4a58fdc3308e3b4d4a49b452258"
+        },
+        {
+          "name": "irin",
+          "bytes": 3,
+          "sha256": "eb108c9c5be96cb5fb12122329072bce0f4e3a3dbf5ec56389fa3a4acbcf0b39"
+        },
+        {
+          "name": "irsy",
+          "bytes": 1,
+          "sha256": "67586e98fad27da0b9968bc039a1ef34c939b9b8e523a8bef89d478608c5ecf6"
+        },
+        {
+          "name": "audit.sbr",
+          "bytes": 264,
+          "sha256": "132adceeda47824812effba97783897a26f41f970483ee2ffa68c1fe99e45ee3"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0017072288319468498,
+      "total_seconds": 0.013567070476710796
+    },
+    {
+      "case": "legacy-pdb-cleanup",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/legacy-pdb-cleanup/vc1.0/c1/legacy-pdb-object-cleanup",
+      "exit": 1,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Actual original CL child handles alias fd1/fd2."
+      },
+      "stdout_bytes": 84,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.00391243863850832,
+      "execution_seconds": 0.00550471618771553,
+      "application_entries": 1,
+      "accepted_prefix": 868,
+      "trace_sha256": "994b04c69c1c4217d4c2d90f52254249a94b3864e702ca6e6aa6e1887cb27594",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/legacy-pdb-object/manifest.json",
+      "manifest_sha256": "a1eb34a85eac5923fe141de4e045c430ef013b167f841f2c17c90ac417d546f1",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 1,
+          "sha256": "ca358758f6d27e6cf45272937977a748fd88391db679ceda7dc7bf1f005ee879"
+        },
+        {
+          "name": "irex",
+          "bytes": 897,
+          "sha256": "1f19c154009fc910ab2c7255993faa1c715a935d5ea2627817247181610d7f58"
+        },
+        {
+          "name": "irgl",
+          "bytes": 22,
+          "sha256": "2d2d884cc73b1677c54758c1944d3774116d6e1683a32738b2cfad32bffbad8c"
+        },
+        {
+          "name": "irin",
+          "bytes": 19,
+          "sha256": "e0a12ab8aeed02a09622062a1d0151a40c129c5ae821608c2f36af14dfef872e"
+        },
+        {
+          "name": "irsy",
+          "bytes": 2,
+          "sha256": "53bd9133146631a2a2a89188f7d799e4ab85b473b7e927dd8b7782d91fe4ee0c"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.001963939517736435,
+      "total_seconds": 0.011933088302612305
+    },
+    {
+      "case": "quickc-regions",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/quickc-regions/vc1.0/c1/quickc-regions",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.003277611918747425,
+      "execution_seconds": 0.0056869518011808395,
+      "application_entries": 22,
+      "accepted_prefix": 871,
+      "trace_sha256": "b604bb1574054b3cb7a623a18c3405a7d877835a9f85d9952256f3e4d1761c5e",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/quickc-regions/manifest.json",
+      "manifest_sha256": "3579b810198d3f6a5968d69bdc131322f2ab2a5c5ccf35b278a948b09893313e",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 351,
+          "sha256": "f330d095229fe36a90ea5f2af9d9451d8143dff002a55877040b6da389c8f20a"
+        },
+        {
+          "name": "irex",
+          "bytes": 3344,
+          "sha256": "e774bb5ccd67e50ac4ba7b7e3fe78a36436d4c2fc1951a28e9296adf7adaf35a"
+        },
+        {
+          "name": "irgl",
+          "bytes": 369,
+          "sha256": "ec66081512c9b854cab8f8fb3ee33c899cb29474c53cb0180cc900050fed8276"
+        },
+        {
+          "name": "irin",
+          "bytes": 73,
+          "sha256": "6bd6e55f23c823a8e0ff20b1b2303aaeb05e132d8f62a122a733463e98052556"
+        },
+        {
+          "name": "irsy",
+          "bytes": 1382,
+          "sha256": "dd1c168d243610b371cdb0e3abef6aade7667c811538a02e23f0a38e4469ae55"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0016666827723383904,
+      "total_seconds": 0.011183011345565319
+    },
+    {
+      "case": "legacy-counted-records",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/legacy-counted-records/vc1.0/c1/legacy-segment-literals",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0035630036145448685,
+      "execution_seconds": 0.006432456895709038,
+      "application_entries": 3,
+      "accepted_prefix": 893,
+      "trace_sha256": "6e95f396bd413cd31fcbc14986334e618ed2976760d4952c609e824a59248f61",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/legacy-segment-literals/manifest.json",
+      "manifest_sha256": "2ab7ad80f9375967773d22875cc1b98a2ebe240d260f6fdf65e9fb1125cd4fa6",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 435,
+          "sha256": "f4a5c16bedf8360d0404fb9d6e17b39ee7127202ab39c22eb423e536dba21a82"
+        },
+        {
+          "name": "irex",
+          "bytes": 2364,
+          "sha256": "2db5f8d0adbc6352d9931e892344cb717fe15fe0740eeba9e73ca069c4aa0313"
+        },
+        {
+          "name": "irgl",
+          "bytes": 561,
+          "sha256": "4125bd33792972fa7b435de6aa4fd27c2f8f6bcf8e949c4f7a75cb2c458e81e8"
+        },
+        {
+          "name": "irin",
+          "bytes": 107,
+          "sha256": "73b338e95793dfb2545dd02b97ce14cb73c3786c8f3421005922a5c9c94b215b"
+        },
+        {
+          "name": "irsy",
+          "bytes": 480,
+          "sha256": "c848eea7f1da884c2515a43491e787ebe07c1cbd4073e2bd3ff59c0772dfb091"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.001845240592956543,
+      "total_seconds": 0.012364475056529045
+    },
+    {
+      "case": "legacy-prefix-diagnostic",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/legacy-prefix-diagnostic/vc1.0/c1/legacy-segment-literals",
+      "exit": 1,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+      },
+      "stdout_bytes": 150,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.003514721989631653,
+      "execution_seconds": 0.006063172593712807,
+      "application_entries": 3,
+      "accepted_prefix": 896,
+      "trace_sha256": "33b78ee1c1408d55421c8c922644e7ee7db739cfd9a4bd9d517e6af219a7f5a3",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/legacy-segment-literals/manifest.json",
+      "manifest_sha256": "2ab7ad80f9375967773d22875cc1b98a2ebe240d260f6fdf65e9fb1125cd4fa6",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 11,
+          "sha256": "008a3c8db329cffa3250d9c0ed7be51cc5c4305501dd4ebbd7b9ffd4febdc94b"
+        },
+        {
+          "name": "irex",
+          "bytes": 1244,
+          "sha256": "b3a39e766f76db0caec40d2112f18f9b2544eaf9fa4c53532e860112b4d3ff74"
+        },
+        {
+          "name": "irgl",
+          "bytes": 24,
+          "sha256": "e8bd052c566f7aa18b5a952166b3e7f4d23820f9d5cac7fac93b5ec1ff29ef07"
+        },
+        {
+          "name": "irin",
+          "bytes": 107,
+          "sha256": "0e4c410b762e6363c8294e45df6c9dcebb235dade867fc5654d909bc75c727fe"
+        },
+        {
+          "name": "irsy",
+          "bytes": 5,
+          "sha256": "d8b0954dbff07d3bb65f8ef42c093f5a6cff8c0f206da1b2e3dde58672ee9c3a"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0018060589209198952,
+      "total_seconds": 0.011944614350795746
+    },
+    {
+      "case": "ide-debug-pch-create",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/ide-debug-pch-create/vc1.0/c1/ide-debug-pch",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 workflow explicitly shares stdout/stderr; no new CL/backend invocation claim."
+      },
+      "stdout_bytes": 346,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.005076256580650806,
+      "execution_seconds": 0.00795808993279934,
+      "application_entries": 5,
+      "accepted_prefix": 907,
+      "trace_sha256": "f933e64715d43308db3c301ba165d5f5f091275625b7e3e93f53b8813dfa113c",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/ide-debug-pch/manifest.json",
+      "manifest_sha256": "d66e8990e29f62d667b014b561f020ff4c8c7a350a9dcdd5c8c842b79f78b5af",
+      "outputs": [
+        {
+          "name": "debug.pch",
+          "bytes": 40244,
+          "sha256": "11e2b7c1f644b12386e0ad0d41f30cb26815be02471028956134bcc4cfb449b6"
+        },
+        {
+          "name": "irdb",
+          "bytes": 491,
+          "sha256": "f838e0c12c4dac9f2e09e71252eb1bf17bf213c359d8ac847969ccd826602566"
+        },
+        {
+          "name": "irex",
+          "bytes": 443,
+          "sha256": "f56bbfb71be9e9cf3e0692605596a19302fdff5fba8204ea635d4ba1562e6315"
+        },
+        {
+          "name": "irgl",
+          "bytes": 328,
+          "sha256": "c2860a03609e265fe37ecd0c55514e5f951a3f915914ef0c73b9f19b3b111003"
+        },
+        {
+          "name": "irin",
+          "bytes": 26,
+          "sha256": "1ffe6fd137c8a030647b22444565a280996e59b6654e465d5f462e4bc81f5611"
+        },
+        {
+          "name": "irsy",
+          "bytes": 87,
+          "sha256": "d9d62e66877e7c4dd7ef658b864b6aa7a57d5f9e701b29356dd5407e59ad08f0"
+        },
+        {
+          "name": "producer.sbr",
+          "bytes": 1429,
+          "sha256": "696e89c3002cc18195cfa837ca2dc45a94edc6c98c7a91818b6de651c93137b0"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.003679330460727215,
+      "total_seconds": 0.01728619448840618
+    },
+    {
+      "case": "ide-debug-pch-use",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/ide-debug-pch-use/vc1.0/c1/ide-debug-pch",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 workflow explicitly shares stdout/stderr; no new CL/backend invocation claim."
+      },
+      "stdout_bytes": 54,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.005408640019595623,
+      "execution_seconds": 0.0064571816474199295,
+      "application_entries": 1,
+      "accepted_prefix": 912,
+      "trace_sha256": "02da874fce3b45675f643cfe09b53e58a7f999cb2fde8fbb59253196f30e3fb4",
+      "shared_state_bytes": 957,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/ide-debug-pch/manifest.json",
+      "manifest_sha256": "d66e8990e29f62d667b014b561f020ff4c8c7a350a9dcdd5c8c842b79f78b5af",
+      "outputs": [
+        {
+          "name": "consumer.sbr",
+          "bytes": 193,
+          "sha256": "39c33c44e38f1edb390ee74d1de364a00978074618973dc60f8b9970f0a3acfa"
+        },
+        {
+          "name": "irdb",
+          "bytes": 487,
+          "sha256": "8db74ba433e42502932ff486e68b80859ce8ab0405d5a375ea30e7ad7b7e88ef"
+        },
+        {
+          "name": "irex",
+          "bytes": 1212,
+          "sha256": "ec406a9afc5b4330500afc5c0ea7ddd0a46ff7bc1003e5be937c64a95c578c42"
+        },
+        {
+          "name": "irgl",
+          "bytes": 313,
+          "sha256": "30b77cd775fb20223fbe7116e0d0949f80369f6787bc0ca3882bf280b2b023ee"
+        },
+        {
+          "name": "irin",
+          "bytes": 6,
+          "sha256": "d2ea64c3e89b2858b0d69bbb96e6828b88df20122c613ac568c843bce4a57429"
+        },
+        {
+          "name": "irsy",
+          "bytes": 108,
+          "sha256": "ed20583d95cb610eb9b9fd664a35eb22eda144493fed8c88fac0d1f658223003"
+        }
+      ],
+      "generated_dependency": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp/ide-debug-pch-create/vc1.0/c1/ide-debug-pch/debug.pch",
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0033696433529257774,
+      "total_seconds": 0.0157788023352623
+    }
+  ],
+  "fixture_total_seconds": 1.3052810253575444,
+  "execution_policy": "Only native i386 ELF; immutable reference metadata/bytes; no Wine or original execution.",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-kzoj_bcp"
+}

@@ -49,8 +49,80 @@ def result_contract(text,state,before,plan,eax):
     assert not result['related']and not result['shapes']
     return dict(eax_mask=0xffffffff,owner='existing interned parsed type',cleared_mask=7)
 
+def literal_state(text,boundary):
+    m=re.search(r'^literal-state '+boundary+r' symbol (\w+) token (\w+) head (\w+) type (\w+) flags (\w+) extended (\w+) line (\w+) auxiliary (\w+) index (\d+) value (\w+)$',text,re.M)
+    assert m,'missing genuine literal state'
+    result={n:int(v,16)for n,v in zip(['symbol','token','head','type','flags','extended','line','auxiliary'],m.groups()[:8])}
+    result.update(index=int(m[9]),value=m[10]);return result
+
+def validate_literal(original,native,plan,config):
+    text=(original/'events').read_text();state=json.loads((native/'state.json').read_text())
+    returned='literal-return esp 'in text
+    split=text.index('literal-return esp 'if returned else'exception 80000003')
+    names=[r['name'][1:]for r in config['buffered_streams']]
+    # The first dump precedes the direct call; the last is the reached writer.
+    before_text=text[:text.index('literal-reentry ')]
+    before=original_state(before_text,'before',names)
+    for key in FIELDS:
+        if key in {'owner','name_address','type','related','based_symbol'}:assert bool(before[key])==bool(state['before'][key]),key
+        else:assert before[key]==state['before'][key],('literal parsed owner differs',key)
+    assert before['buffers']==state['before']['buffers']and state['before']['owner_name']==plan['owner']
+    observed=literal_state(text,'before');actual=state['literal_before']
+    assert observed['symbol']==before['owner'] and actual['symbol']==state['before']['owner']
+    for key in ['token','type','extended','line','auxiliary']:assert bool(observed[key])==bool(actual[key]),key
+    assert observed['head']==int.from_bytes(bytes.fromhex(actual['head']),'little')
+    assert observed['flags']==actual['flags']and observed['value']==actual['value']and observed['index']==actual['index']
+    assert observed['index']>0 and not observed['auxiliary']
+    start=re.search(r'^literal-start parent (\w+) marker (\w+) return (\w+) byte (\w+) storage (\w+) stack (\w+) symbol (\w+) token (\w+)$',text,re.M);assert start
+    parent=next(r for r in config['driver']if r['name']==plan['function']);marker=next(r for r in config['driver']if r['name']==plan['marker'])
+    assert int(start[1],16)==parent['start']and int(start[2],16)==marker['start']and int(start[3],16)==0x3b2d5 and start[4]=='38'
+    storage=int(start[5],16);stack=int(start[6],16);assert stack==storage+65536-512
+    assert [int(start[7],16),int(start[8],16)]==[observed['symbol'],observed['token']]
+    assert state['arguments']==state['formals']==[actual['symbol'],actual['token']]
+    reentry=re.findall(r'^literal-reentry marker (\w+) esp (\w+) symbol (\w+) token (\w+) stream (\w+)$',text,re.M);assert len(reentry)==1
+    r=[int(v,16)for v in reentry[0]];assert r[0]==marker['start']and storage<=r[1]and r[1]+16<=stack and r[2:]==[observed['symbol'],observed['token'],observed['line']]
+    assert state['reentry']['arguments']==[actual['symbol'],actual['token'],actual['line']]
+    internal=re.findall(r'^literal-internal-hit pc (\w+) esp (\w+) symbol (\w+) stream (\w+) format-offset (\d+) instruction 381f$',text,re.M)
+    steps=re.findall(r'^literal-internal-step pc (\w+) esp (\w+) restored-trap cc$',text,re.M)
+    assert len(internal)==len(steps)==(4 if returned else 3),'bounded parent dispatch hits differ'
+    for hit,step in zip(internal,steps):
+        pc,sp,symbol,stream,offset=[int(v,10 if i==4 else 16)for i,v in enumerate(hit)]
+        assert pc==int(start[3],16)and sp==stack-48 and symbol==observed['symbol']and stream==observed['line']and 1<=offset<=4
+        assert int(step[0],16)==pc+2 and int(step[1],16)==sp
+    writer=re.search(r'^literal-writer entry (\w+) esp (\w+) value (\w+) width (\d+) stream (\w+) bytes (\w+)$',text,re.M);assert writer
+    leaf=next(r for r in config['driver']if r['name']==plan['accepts']);width=4 if plan['unit']==8 else 8
+    expected='0000a03f'if width==4 else'00000000000004c0'
+    assert int(writer[1],16)==leaf['start']and int(writer[4])==state['writer']['width']==width
+    assert storage<=int(writer[2],16)and int(writer[2],16)+8<=stack and storage<=int(writer[3],16)and int(writer[3],16)+width<=stack
+    assert int(writer[5],16)==observed['line']and writer[6]==state['writer']['bytes']==expected
+    assert state['writer']['stream']==actual['line']and state['breakpoints_restored']
+    cleanup=re.findall(r'^literal-cleanup (\d+) return (\w+) byte (\w+) marker (\w+) byte cc$',text,re.M)
+    assert len(cleanup)==1 and cleanup[0]==('1',start[3],start[4],start[2]),'original breakpoint restoration differs'
+    if returned:
+        ret=re.search(r'^literal-return esp (\w+) expected (\w+) nonvolatile 1 fctrl (\w+) before (\w+) canary (.+)$',text,re.M)
+        assert ret and ret[1]==ret[2]and int(ret[1],16)==stack+12 and ret[3]==ret[4]and ret[5]=='a5a5a5a5 '*3+'a5a5a5a5'
+        assert state['status']=='returned'and state['canary']=='a5'*16
+        after=original_state(text[split:],'after',names)
+        for key in FIELDS:assert after[key]==before[key]and state['after'][key]==state['before'][key],('literal owner changed',key)
+        assert after['buffers']==state['after']['buffers'],'complete pending literal bytes differ'
+        orig_after=literal_state(text,'after');nat_after=state['literal_after']
+        for a,b in [(observed,orig_after),(actual,nat_after)]:
+            for key in a:assert b[key]==(a['line']if key=='auxiliary'else a[key]),('literal input/stream changed',key)
+    else:
+        assert state['status']=='entry'
+        exception=re.search(r'^exception 80000003 rva (\w+) base (\w+)',text,re.M);assert exception and int(exception[1],16)+int(exception[2],16)==leaf['start']
+        pending={names[int(i)]:None if n=='unopened'else h for i,n,h in re.findall(r'^buffer (\d+) (unopened|\d+)(?: ([0-9a-f]*))?$',text,re.M)}
+        assert pending==state['writer_context']['buffers'],'fresh writer prefix differs'
+    for name in ['stdout','stderr']:assert (original/name).read_bytes()==(native/name).read_bytes()
+    receipt=json.loads((native/'receipt.json').read_text())
+    from case_paths import canonical_parts
+    work=Path(receipt['environment']['RECON_DRIVE_S']).joinpath(*canonical_parts(json.loads((Path(__file__).resolve().parents[1]/'cases/legacy-type-support/manifest.json').read_text())['phases'][plan['phase']]['canonical_working_directory']))
+    assert {p.name:p.read_bytes()for p in (original/'work').iterdir()}=={p.name:p.read_bytes()for p in work.iterdir()},'complete literal owned files differ'
+    return dict(status='pass',kind='direct literal body/ABI/output'if returned else'fresh direct literal writer entry',public_reachability=False,writer=plan['accepts'],width=width,value=expected,internal_dispatch_hits=len(internal))
+
 def validate(original,native,plan,config):
     original=Path(original);native=Path(native)
+    if plan['unit']>=8:return validate_literal(original,native,plan,config)
     text=(original/'events').read_text();state=json.loads((native/'state.json').read_text())
     returned='direct-return eax 'in text
     split=text.index('direct-return eax 'if returned else'exception 80000003')

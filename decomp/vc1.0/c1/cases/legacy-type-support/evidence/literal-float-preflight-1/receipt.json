@@ -1,0 +1,83 @@
+{
+  "restored_functions": [],
+  "pdb_cleanup_probe": false,
+  "expression_unit": null,
+  "support_unit": null,
+  "aborted_function_probe": false,
+  "browser_limit_probe": false,
+  "declaration_scope_probe": false,
+  "complete_type_probe": false,
+  "strdup_probe": false,
+  "direct_call": null,
+  "asm_segment_probe": false,
+  "return8_probe": false,
+  "stop_function": null,
+  "terminal_exit": 0,
+  "expected_exit": 0,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/legacy-type-support",
+  "phase": "context-float",
+  "unmasked": true,
+  "enum_callback_trace": false,
+  "enum_callback_function": null,
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "timestamp_probe": false,
+  "accepted_count": 1057,
+  "accepted_sha256": "89474a273c42cdcb00787f12e7f3a8f11c61ba5393b8055f4ca81d10ad1c4bd6",
+  "executable_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "6c907039687e4830a2fac2751d7648c7640f2f57fe3fab378c507da5bf6b93e8",
+  "debugger_memory_request": "4b024:4,4b140:4,4b148:1,4b228:4,4b244:4,4ff14:4,50064:4,50228:4,50798:4,5b7f4:4,5b7f8:4,5bb44:4,5bb48:4,5ce6c:1",
+  "debugger_string_request": "4b588:100,4d5b8:100,5be68:100",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f support-v2.c -Ze -Zp8 -Gs -Fosupport.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob2 -Ot -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include -DSUPPORT_DOUBLE_FIRST=0 "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\legacy-type-support-float",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/legacy-type-support-float",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.009370318613946438,
+  "execution_seconds": 1.865591324865818,
+  "total_seconds": 1.8749643536284566,
+  "files": [
+    {
+      "name": "irdb",
+      "bytes": 171,
+      "sha256": "aa751179330f965b23ef75b6ce567d982457fbbb57cab2ce98998bc3a668408d"
+    },
+    {
+      "name": "irex",
+      "bytes": 1002,
+      "sha256": "a55bd22970766b79d9e8a1406a9523620a8eb8506d222a773e6dc0f30bfb5370"
+    },
+    {
+      "name": "irgl",
+      "bytes": 271,
+      "sha256": "8fcf04db53e40d6fb2e502c1d217cc10fb15fdcecf2867b742e15193bbe52024"
+    },
+    {
+      "name": "irin",
+      "bytes": 34,
+      "sha256": "cacd2c9dacb688804092d94fa331c1fd690636249c663cc2766aeef1c10e6ba7"
+    },
+    {
+      "name": "irsy",
+      "bytes": 70,
+      "sha256": "377fed0b131fba78c9e92ee1ecc6554cd12bcf9a6d3dfd13a46f33085ba082f4"
+    },
+    {
+      "name": "support-v2.c",
+      "bytes": 583,
+      "sha256": "30fbd86fc2fc9a568b1974be38399a8ff16453a48547a18887ed09df62b741e4"
+    }
+  ]
+}

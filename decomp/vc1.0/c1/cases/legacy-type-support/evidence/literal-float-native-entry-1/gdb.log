@@ -1,0 +1,9 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint -1, write_initializer_value (symbol=0x5869982c, value=0x586a9ed8, stream=0x0) at src/initializer-records.c:54
+54	{
+[Inferior 1 (process 2009925) killed]
+Python Exception <class 'AssertionError'>: natural initializer entry differs
+Error occurred in Python: natural initializer entry differs

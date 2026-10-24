@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "03fdb549b9d3499b817441c3a7677217166eeac76c0625701b13fcf721631519",
+    "functions.json": "f291ba2a204ad0921725fb1e2499fbe933ade34a9ff64c849bc6b30ab9fc0632",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "b87f3cfd46213f8b2dd5cb16e8a759babcf36dccec31ef31601281626bc5eeb7"
+    "sha256": "4cf52bb434bfa36eefd26023c259381851dae1d9d6e52735023995700ad6b348"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
@@ -3615,7 +3615,7 @@
     },
     "write_ir_double": {
       "logical": "_write_ir_double",
-      "source": "src/stubs.c"
+      "source": "src/initializer-records.c"
     },
     "write_ir_filename": {
       "logical": "_write_ir_filename",
@@ -3623,7 +3623,7 @@
     },
     "write_ir_float": {
       "logical": "_write_ir_float",
-      "source": "src/stubs.c"
+      "source": "src/initializer-records.c"
     },
     "write_ir_index": {
       "logical": "_write_ir_index",
@@ -4635,7 +4635,9 @@
     "print_ide_status",
     "report_ide_file_end",
     "report_ide_line",
-    "restore_pch_separate_debug"
+    "restore_pch_separate_debug",
+    "write_ir_float",
+    "write_ir_double"
   ],
   "excluded_accepted": {
     "CRT": [

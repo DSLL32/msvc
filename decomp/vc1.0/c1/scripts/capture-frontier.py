@@ -33,7 +33,7 @@ def main():
     parser.add_argument('--stop-function',help='Explicit first-entry trap for one accepted application ABI observation')
     parser.add_argument('--direct-function',help='Explicit debugger-only support callback after real marker; no public-reach claim')
     parser.add_argument('--direct-arguments',nargs='*',type=lambda s:int(s,0))
-    parser.add_argument('--support-unit',type=int,choices=range(8),help='Direct legacy support method using genuinely parsed owners')
+    parser.add_argument('--support-unit',type=int,choices=range(10),help='Direct legacy support method using genuinely parsed owners')
     parser.add_argument('--expression-unit',type=int,choices=range(6),help='External direct expression unit; owned test input, not target-global seeding')
     parser.add_argument('--direct-body',action='store_true',help='Restore exactly selected candidate body/shared text for explicit direct verification')
     parser.add_argument('--restore-function',action='append',default=[],help='Explicit candidate body/shared-text restoration, without accepting it')
@@ -181,9 +181,11 @@ def main():
         direct = next(r for r in config['driver'] if r['name']==options.direct_function)
         assert options.direct_arguments is not None
         if options.support_unit is not None:
-            assert case.name=='legacy-type-support' and options.phase=='direct'
-            assert options.stop_function=='_finish_declarations' and options.expression_unit is None
+            assert case.name=='legacy-type-support' and options.expression_unit is None
             support_plan=json.loads((case/'manifest.json').read_text())['direct_plan'][options.support_unit]
+            assert options.phase==support_plan.get('phase','direct')
+            assert options.stop_function==support_plan.get('marker','_finish_declarations')
+            if options.support_unit>=8:assert original.read(next(r['start']for r in drivers if r['name']==options.stop_function),3)==bytes.fromhex('83ec4c')
             assert options.direct_function==support_plan['function']
             assert options.direct_arguments==support_plan.get('request_arguments',([0x800,0]if options.support_unit<2 else[0x800]))
         elif options.expression_unit is None:

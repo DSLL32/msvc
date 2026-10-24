@@ -1,0 +1,190 @@
+{
+  "before": {
+    "type_description_depth": 0,
+    "registers": {
+      "eax": 0,
+      "ecx": 1467604680,
+      "edx": 1467537452,
+      "ebx": 1450115060,
+      "esi": 1467537436,
+      "edi": 1459617824,
+      "ebp": 4287821608,
+      "esp": 4287821548,
+      "eip": 1449849872,
+      "eflags": 531,
+      "fctrl": 895
+    },
+    "owner": 1467537452,
+    "name_address": 1467512399,
+    "type": 1467537500,
+    "related": 0,
+    "kind": 9,
+    "attributes": 32772,
+    "references": 0,
+    "type_flags": 260,
+    "type_attributes": 4112,
+    "shape_flags": 0,
+    "shape_attributes": 0,
+    "based_symbol": 0,
+    "debug_info": 1,
+    "error_count": 0,
+    "owner_name": "support_single",
+    "buffers": {
+      "expression_file": "00",
+      "symbol_file": "",
+      "line_file": "",
+      "global_file": "1186032e1d30016900000000",
+      "debug_file": "0c000a00030401000000",
+      "pch_file": null,
+      "browser_output": null
+    }
+  },
+  "literal_before": {
+    "symbol": 1467537452,
+    "token": 1467604680,
+    "head": "0403",
+    "type": 1467537436,
+    "flags": 260,
+    "extended": 1467604668,
+    "value": "00000000000000a0ff3f",
+    "line": 1450211220,
+    "auxiliary": 0,
+    "index": 109
+  },
+  "storage": 1467716448,
+  "stack": 1467781472,
+  "arguments": [
+    1467537452,
+    1467604680
+  ],
+  "formals": [
+    1467537452,
+    1467604680
+  ],
+  "reentry": {
+    "marker": 1449849872,
+    "esp": 1467781376,
+    "arguments": [
+      1467537452,
+      1467604680,
+      1450211220
+    ]
+  },
+  "writer": {
+    "entry": 1449856400,
+    "esp": 1467781168,
+    "value": 1467781288,
+    "width": 4,
+    "stream": 1450211220,
+    "bytes": "0000a03f"
+  },
+  "writer_context": {
+    "type_description_depth": 0,
+    "registers": {
+      "eax": 1467781288,
+      "ecx": 1449564032,
+      "edx": 176949,
+      "ebx": 1450115060,
+      "esi": 1450156244,
+      "edi": 1459617824,
+      "ebp": 1467781372,
+      "esp": 1467781168,
+      "eip": 1449856400,
+      "eflags": 514,
+      "fctrl": 895
+    },
+    "owner": 1467537452,
+    "name_address": 1467512399,
+    "type": 1467537500,
+    "related": 0,
+    "kind": 9,
+    "attributes": 32772,
+    "references": 0,
+    "type_flags": 260,
+    "type_attributes": 4112,
+    "shape_flags": 0,
+    "shape_attributes": 0,
+    "based_symbol": 0,
+    "debug_info": 1,
+    "error_count": 0,
+    "owner_name": "support_single",
+    "buffers": {
+      "expression_file": "00",
+      "symbol_file": "",
+      "line_file": "006d0000010504",
+      "global_file": "1186032e1d30016900000000",
+      "debug_file": "0c000a00030401000000",
+      "pch_file": null,
+      "browser_output": null
+    }
+  },
+  "literal_writer": {
+    "symbol": 1467537452,
+    "token": 1467604680,
+    "head": "0403",
+    "type": 1467537436,
+    "flags": 260,
+    "extended": 1467604668,
+    "value": "00000000000000a0ff3f",
+    "line": 1450211220,
+    "auxiliary": 1450211220,
+    "index": 109
+  },
+  "status": "returned",
+  "return_address": 1449591661,
+  "return_byte": "83",
+  "after": {
+    "type_description_depth": 0,
+    "registers": {
+      "eax": 1449590656,
+      "ecx": 1449590656,
+      "edx": 1467621024,
+      "ebx": 1450115060,
+      "esi": 1467537436,
+      "edi": 1459617824,
+      "ebp": 4287821608,
+      "esp": 1467781484,
+      "eip": 1449591661,
+      "eflags": 514,
+      "fctrl": 895
+    },
+    "owner": 1467537452,
+    "name_address": 1467512399,
+    "type": 1467537500,
+    "related": 0,
+    "kind": 9,
+    "attributes": 32772,
+    "references": 0,
+    "type_flags": 260,
+    "type_attributes": 4112,
+    "shape_flags": 0,
+    "shape_attributes": 0,
+    "based_symbol": 0,
+    "debug_info": 1,
+    "error_count": 0,
+    "owner_name": "support_single",
+    "buffers": {
+      "expression_file": "00",
+      "symbol_file": "",
+      "line_file": "006d00000105040000a03f07",
+      "global_file": "1186032e1d30016900000000",
+      "debug_file": "0c000a00030401000000",
+      "pch_file": null,
+      "browser_output": null
+    }
+  },
+  "literal_after": {
+    "symbol": 1467537452,
+    "token": 1467604680,
+    "head": "0403",
+    "type": 1467537436,
+    "flags": 260,
+    "extended": 1467604668,
+    "value": "00000000000000a0ff3f",
+    "line": 1450211220,
+    "auxiliary": 1450211220,
+    "index": 109
+  },
+  "canary": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+  "breakpoints_restored": true
+}

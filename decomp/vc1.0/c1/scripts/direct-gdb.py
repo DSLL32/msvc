@@ -69,9 +69,93 @@ def support_snapshot():
         based_symbol=number('based_declarator_symbol'),debug_info=number('options.debug_info'),
         error_count=number('error_count'),owner_name=symbol['name'].string(),buffers=buffers)
 
+
+def literal_snapshot():
+    token=support_token.dereference()
+    head=memory(int(support_token),2).hex()
+    value_type=token['type'].dereference()
+    return dict(symbol=int(support_owner),token=int(support_token),head=head,
+        type=int(token['type']),flags=int(value_type['flags']),
+        extended=int(token['value']['pointer']),
+        value=memory(int(token['value']['pointer']),10).hex(),
+        line=number('line_file'),auxiliary=number('auxiliary_ir_stream'),
+        index=int(support_owner.dereference()['index']))
+
+def run_literal():
+    global support_owner,support_token
+    breakpoints=[];prior_bytes={}
+    try:
+        marker_name=settings['marker'];marker_address=number('(unsigned)'+marker_name)
+        marker=gdb.Breakpoint('*'+marker_name,internal=True);breakpoints.append(marker)
+        gdb.execute('run >'+str(output/'stdout')+' 2>&1')
+        marker_address=number('(unsigned)'+marker_name)
+        assert number('$eip')==marker_address,'natural initializer entry differs'
+        prior_bytes[marker_address]=memory(marker_address,1)
+        original_stack=number('$esp');ret,symbol,token,stream=struct.unpack('<IIII',memory(original_stack,16))
+        assert stream==0 and symbol and token
+        prior_bytes[ret]=memory(ret,1)
+        call=memory(ret-5,5)
+        assert call[0]==0xe8 and (ret+struct.unpack('<i',call[1:])[0])&0xffffffff==marker_address,'actual caller is not a direct call to the marker'
+        support_owner=gdb.parse_and_eval('(FrontendSymbol *)'+str(symbol))
+        support_token=gdb.parse_and_eval('(IrToken *)'+str(token))
+        assert support_owner.dereference()['name'].string()==settings['owner_name']
+        before=snapshot();literal_before=literal_snapshot()
+        assert literal_before['flags']&0x100 and (int(support_token.dereference()['flags'])&7)==3 and literal_before['line']
+        gdb.execute('set $direct_storage = ((void *(*)(unsigned))malloc)(65536)')
+        storage=number('$direct_storage');assert storage and snapshot()==before and literal_snapshot()==literal_before
+        stack=storage+65536-512
+        words=[ret,symbol,token]
+        gdb.selected_inferior().write_memory(stack,struct.pack('<III',*words)+b'\xa5'*20)
+        parent=settings['function'];entry=gdb.Breakpoint(parent,internal=True);breakpoints.append(entry)
+        returned=gdb.Breakpoint('*'+str(ret),internal=True);returned.condition='$esp == '+str(stack+12);breakpoints.append(returned)
+        gdb.execute('set $esp = '+str(stack));gdb.execute('set $eip = (unsigned)'+parent);gdb.execute('continue')
+        assert gdb.newest_frame().name()==parent
+        slots=[struct.unpack('<I',memory(number('$ebp')+8+4*i,4))[0]for i in range(2)]
+        formals=[number(n)for n in settings['formals']]
+        assert slots==formals==[symbol,token]
+        entry.delete();gdb.execute('continue')
+        assert number('$eip')==marker_address,'genuine parent did not re-enter initializer'
+        nested_sp=number('$esp');nested=list(struct.unpack('<IIII',memory(nested_sp,16)))
+        assert storage<=nested_sp and nested_sp+16<=stack
+        assert nested[1:]==[symbol,token,literal_before['line']]
+        reentry=dict(marker=marker_address,esp=nested_sp,arguments=nested[1:])
+        marker.delete()
+        writer_name=settings['literal_writer'];writer_address=number('(unsigned)'+writer_name)
+        writer=gdb.Breakpoint('*'+writer_name,internal=True);breakpoints.append(writer)
+        gdb.execute('continue');assert number('$eip')==writer_address,'wrong literal leaf entry'
+        writer_sp=number('$esp');value=struct.unpack('<I',memory(writer_sp+4,4))[0];width=settings['literal_width']
+        assert storage<=writer_sp and writer_sp+8<=stack and storage<=value and value+width<=stack
+        assert number('auxiliary_ir_stream')==number('line_file')==literal_before['line']
+        leaf=dict(entry=writer_address,esp=writer_sp,value=value,width=width,stream=number('auxiliary_ir_stream'),bytes=memory(value,width).hex())
+        report=dict(before=before,literal_before=literal_before,storage=storage,stack=stack,arguments=slots,formals=formals,reentry=reentry,writer=leaf,writer_context=snapshot(),literal_writer=literal_snapshot(),status='entry',return_address=ret,return_byte=memory(ret,1).hex())
+        if settings['body']:
+            writer.delete();gdb.execute('continue');assert number('$eip')==ret,'literal parent did not return to its actual caller'
+            after=snapshot();literal_after=literal_snapshot()
+            assert after['registers']['esp']==stack+12
+            for register in ['ebx','esi','edi','ebp','fctrl']:assert after['registers'][register]==before['registers'][register],('literal nonvolatile differs',register)
+            canary=memory(stack+12,16);assert canary==b'\xa5'*16
+            report.update(after=after,literal_after=literal_after,canary=canary.hex(),status='returned')
+        # GDB owns the physical trap bytes. Delete both harness breakpoints on
+        # success and failure, restoring the exact underlying application bytes.
+        for breakpoint in breakpoints:
+            if breakpoint.is_valid():breakpoint.delete()
+        assert all(memory(address,1)==byte for address,byte in prior_bytes.items())
+        report['breakpoints_restored']=True
+        (output/'state.json').write_text(json.dumps(report,indent=2)+'\n')
+    finally:
+        for breakpoint in breakpoints:
+            if breakpoint.is_valid():breakpoint.delete()
+        cleanup={str(address):dict(expected=byte.hex(),observed=memory(address,1).hex())for address,byte in prior_bytes.items()}
+        (output/'breakpoint-cleanup.json').write_text(json.dumps(cleanup,indent=2)+'\n')
+        assert all(item['expected']==item['observed']for item in cleanup.values()),'native harness breakpoint restoration differs'
+        gdb.execute('kill')
+
 gdb.execute('set pagination off')
 gdb.execute('set confirm off')
 gdb.execute('set disable-randomization off')
+if settings.get('unit',-1)>=8:
+    run_literal()
+    gdb.execute('quit')
 marker_name=settings.get('marker','report_asm_operand_error')
 marker=gdb.Breakpoint('*'+marker_name,internal=True)
 gdb.execute('run >'+str(output/'stdout')+' 2>&1')

@@ -1061,7 +1061,9 @@
     "_print_ide_status",
     "_report_ide_file_end",
     "_report_ide_line",
-    "_restore_pch_separate_debug"
+    "_restore_pch_separate_debug",
+    "_write_ir_float",
+    "_write_ir_double"
   ],
   "driver": [
     {
@@ -4341,12 +4343,12 @@
     {
       "name": "_write_ir_float",
       "start": 309600,
-      "end": 309601
+      "end": 309624
     },
     {
       "name": "_write_ir_double",
       "start": 309632,
-      "end": 309633
+      "end": 309656
     },
     {
       "name": "_write_ir_short",
@@ -6643,6 +6645,12 @@
       "public_reachability": false,
       "units": 8,
       "manifest": "cases/legacy-type-support/manifest.json"
+    },
+    "legacy-type-support-literals": {
+      "accepted_from": 1057,
+      "accepted_count": 1059,
+      "public_reachability": false,
+      "description": "Same support workflow extension; real parsed float/double initializer, actual parent-owned line_file and converted value, checked conditional caller-return trap."
     }
   }
 }

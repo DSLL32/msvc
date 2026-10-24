@@ -1,0 +1,137 @@
+{
+  "before": {
+    "type_description_depth": 0,
+    "registers": {
+      "eax": 0,
+      "ecx": 1481883352,
+      "edx": 1481816108,
+      "ebx": 1450008564,
+      "esi": 1481816092,
+      "edi": 1476395040,
+      "ebp": 4289056856,
+      "esp": 4289056796,
+      "eip": 1449743536,
+      "eflags": 531,
+      "fctrl": 895
+    },
+    "owner": 1481816108,
+    "name_address": 1481791055,
+    "type": 1481816156,
+    "related": 0,
+    "kind": 9,
+    "attributes": 32772,
+    "references": 0,
+    "type_flags": 264,
+    "type_attributes": 4112,
+    "shape_flags": 0,
+    "shape_attributes": 0,
+    "based_symbol": 0,
+    "debug_info": 1,
+    "error_count": 0,
+    "owner_name": "support_double",
+    "buffers": {
+      "expression_file": "00",
+      "symbol_file": "",
+      "line_file": "",
+      "global_file": "1186032e1d30016900000000",
+      "debug_file": "0c000a00030401000000",
+      "pch_file": null,
+      "browser_output": null
+    }
+  },
+  "literal_before": {
+    "symbol": 1481816108,
+    "token": 1481883352,
+    "head": "0503",
+    "type": 1481816092,
+    "flags": 264,
+    "extended": 1481883392,
+    "value": "00000000000000a000c0",
+    "line": 1450104724,
+    "auxiliary": 0,
+    "index": 109
+  },
+  "storage": 1481995120,
+  "stack": 1482060144,
+  "arguments": [
+    1481816108,
+    1481883352
+  ],
+  "formals": [
+    1481816108,
+    1481883352
+  ],
+  "reentry": {
+    "marker": 1449743536,
+    "esp": 1482060048,
+    "arguments": [
+      1481816108,
+      1481883352,
+      1450104724
+    ]
+  },
+  "writer": {
+    "entry": 1449352112,
+    "esp": 1482059840,
+    "value": 1482059948,
+    "width": 8,
+    "stream": 1450104724,
+    "bytes": "00000000000004c0"
+  },
+  "writer_context": {
+    "type_description_depth": 0,
+    "registers": {
+      "eax": 1482059948,
+      "ecx": 1449457456,
+      "edx": 176936,
+      "ebx": 1450008564,
+      "esi": 1450049748,
+      "edi": 1476395040,
+      "ebp": 1482060044,
+      "esp": 1482059840,
+      "eip": 1449352112,
+      "eflags": 514,
+      "fctrl": 895
+    },
+    "owner": 1481816108,
+    "name_address": 1481791055,
+    "type": 1481816156,
+    "related": 0,
+    "kind": 9,
+    "attributes": 32772,
+    "references": 0,
+    "type_flags": 264,
+    "type_attributes": 4112,
+    "shape_flags": 0,
+    "shape_attributes": 0,
+    "based_symbol": 0,
+    "debug_info": 1,
+    "error_count": 0,
+    "owner_name": "support_double",
+    "buffers": {
+      "expression_file": "00",
+      "symbol_file": "",
+      "line_file": "006d0000010508",
+      "global_file": "1186032e1d30016900000000",
+      "debug_file": "0c000a00030401000000",
+      "pch_file": null,
+      "browser_output": null
+    }
+  },
+  "literal_writer": {
+    "symbol": 1481816108,
+    "token": 1481883352,
+    "head": "0503",
+    "type": 1481816092,
+    "flags": 264,
+    "extended": 1481883392,
+    "value": "00000000000000a000c0",
+    "line": 1450104724,
+    "auxiliary": 1450104724,
+    "index": 109
+  },
+  "status": "entry",
+  "return_address": 1449485325,
+  "return_byte": "83",
+  "breakpoints_restored": true
+}

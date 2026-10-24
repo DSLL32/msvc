@@ -1,0 +1,9 @@
+{
+  "src/capture-original.c": "753b3d010e5af1e3f4da8e7242d859c70c5395c1f6a0cf08ca689b9d0ccb9e62",
+  "scripts/capture-frontier.py": "967dda8ed738871d63d80111d8acd9070928d95b7c04ae2881cd39ce941ed9e2",
+  "scripts/direct-native.py": "6d8782686a2b46af28bca8a7be2ecf6d94982ab21f559ab370b5ce2918a8d67d",
+  "scripts/direct-gdb.py": "b1dcbeac717b009d351c78b2abb0a6d0a38dd1eb0bcd4c3cd9ba0ebe92412b29",
+  "scripts/support-contract.py": "3c64c698b578574a8e79950e80c9375fb82c0924f970f57ceb7ed50f03ff1e18",
+  "scripts/check-support.py": "0ba9a12b59bc51081e5639e0e08e58faabbed3db9159d4f974d6e091ea316046",
+  "src/initializer-records.c": "c546b5fbfa4226feede41691b54458e521719d44adcbea20631b1117f6906a4d"
+}
