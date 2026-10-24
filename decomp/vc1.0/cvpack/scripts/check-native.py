@@ -346,6 +346,7 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
     if name=='embedded-cpp-mapped':
         text=script.read_text();marker='set argv[0] = recon_pgmptr\n'
         observer='python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_mapped_open_observer"]('+repr(str(directory/'mapped-open.json'))+')\nend\n'
+        observer+='python\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_mapping_observer"]('+repr(str(directory/'mapping-returns.json'))+')\nend\n'
         assert marker in text;script.write_text(text.replace(marker,marker+observer,1))
     env = os.environ.copy()
     for variable in list(env):

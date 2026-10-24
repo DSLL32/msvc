@@ -919,14 +919,14 @@ static int dump_output_buffers(HANDLE child, HANDLE log, DWORD entry, DWORD *wor
             for (i = 0; i < size; ++i) used += sprintf(object_line+used, "%02x", observed[i]);
             object_line[used++] = '\n';
             if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
-            if ((entry == 0x2a450 || entry == 0x29c50 || entry == 0x29f50 || entry == 0x2aa30 || entry == 0x2ad30) && slot == 1 && size == 40 && input) {
+            if ((entry == 0x2a450 || entry == 0x29c50 || entry == 0x29f50 || entry == 0x2aa30 || entry == 0x2ad30 || entry == 0x2ab50) && slot == 1 && size == 40 && input) {
                 DWORD table, limit, handle, actual;
                 handle = *(DWORD *)(original_bytes+8);
                 if (!ReadProcessMemory(child, (void *)0x33000, &table, 4, &bytes) || bytes != 4 ||
                     !ReadProcessMemory(child, (void *)0x352c0, &limit, 4, &bytes) || bytes != 4 ||
                     handle >= limit || limit > 64 || !table ||
                     !ReadProcessMemory(child, (void *)(table+handle*4), &actual, 4, &bytes) || bytes != 4 || actual != pointer) return 0;
-                if(entry==0x2ad30 && !dump_mapped_source(child,log,pointer,(DWORD *)original_bytes))return 0;
+                if((entry==0x2ad30 || entry==0x2ab50) && !dump_mapped_source(child,log,pointer,(DWORD *)original_bytes))return 0;
                 used = sprintf(object_line, "file-slot-owner %08lx %lu %08lx %lu\n", pointer, handle, table, limit);
                 if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
             }
@@ -1412,6 +1412,16 @@ int main(int argc, char **argv)
                     ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
                 }
                 if(mapped_slot_name[0] && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
+                   ((DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==0x2ad55 || (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==0x2ad9d)) {
+                    if(!begin_mapping_call(child.hProcess,thread,log,event.dwThreadId,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress))return 64;
+                    ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
+                }
+                if(mapped_api_active && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
+                   (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==mapped_api_active+6) {
+                    if(!finish_mapping_call(child.hProcess,thread,log,event.dwThreadId,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress))return 65;
+                    ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
+                }
+                if(mapped_slot_name[0] && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
                    (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==0x2aa90) {
                     if(!begin_mapped_open(child.hProcess,thread,log,event.dwThreadId))return 60;
                     ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
@@ -1486,6 +1496,7 @@ int main(int argc, char **argv)
                 if (restored < 0) return 9;
                 if (restored > 0) {
                     if(mapped_slot_name[0] && (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==0x2aa30 && !arm_mapped_open(child.hProcess))return 63;
+                    if(mapped_slot_name[0] && (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==0x2ad30 && !arm_mapping_calls(child.hProcess))return 66;
                     if(scalar_completion && (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==0x25450 &&
                        !begin_scalar_block(child.hProcess,log,thread,event.dwThreadId))return 55;
                     ContinueDebugEvent(event.dwProcessId, event.dwThreadId, disposition);

@@ -716,3 +716,21 @@ def install_mapped_open_observer(output):
                 save();Returned(event);return False
             except Exception as error:event['error']=str(error);save();return True
     Entered();save()
+
+
+def install_mapping_observer(output):
+    events=[];output=Path(output)
+    def save():output.write_text(json.dumps(events,indent=2)+'\n')
+    class Returned(gdb.FinishBreakpoint):
+        def __init__(self,event):self.event=event;super().__init__(gdb.newest_frame(),internal=True)
+        def stop(self):
+            self.event['value']=int(self.return_value);save();return not bool(self.event['value'])
+    class Entered(gdb.Breakpoint):
+        def __init__(self,name,stage,formals):self.stage,self.formals=stage,formals;super().__init__(name,internal=True)
+        def stop(self):
+            frame=gdb.newest_frame();caller=frame.older()
+            if caller.name()!='map_file':return False
+            event=dict(stage=self.stage,slot=int(caller.read_var('slot')),arguments={name:int(frame.read_var(name))for name in self.formals})
+            events.append(event);save();Returned(event);return False
+    Entered('recon_CreateFileMappingA',1,['file','security','protection','high','low','name'])
+    Entered('recon_MapViewOfFile',2,['handle','access','high','low','bytes']);save()

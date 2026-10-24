@@ -1610,21 +1610,20 @@
       "parameters": [
         {
           "name": "slot",
+          "kind": "file-slot",
           "slot": 1,
-          "kind": "pointer",
-          "bits": 32
+          "source_win32_handle": true,
+          "mapped_seek": true
         },
         {
           "name": "offset",
-          "slot": 2,
           "kind": "integer",
-          "bits": 32
+          "slot": 2
         },
         {
           "name": "origin",
-          "slot": 3,
           "kind": "integer",
-          "bits": 32
+          "slot": 3
         }
       ]
     },
@@ -8024,13 +8023,16 @@
       "native": "map_file",
       "symbol": "_map_file",
       "original": 175408,
-      "source": "src/stubs.c",
+      "source": "src/files.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        175408,
+        175575
+      ],
       "abi": "int map_file(FileSlot *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/embedded-cpp-mapped/evidence/0155-map_file/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -8991,6 +8993,12 @@
       "case": "embedded-cpp-mapped",
       "kind": "application",
       "sequence": 154
+    },
+    {
+      "function": "map_file",
+      "case": "embedded-cpp-mapped",
+      "kind": "application",
+      "sequence": 155
     }
   ],
   "support_unmasked": [
@@ -9691,7 +9699,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "43b7998ddbf731119c27dc5a143aacfeb46184b720c459f68e15cb3cea102cc6"
+    "evidence_sha256": "e6edb48686085aef4714be3aa5fbf524149466f61051e39d0d60735430423725"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -9715,7 +9723,7 @@
   },
   "partial_read_observations": {
     "evidence": "cases/abi/partial-public-read.json",
-    "evidence_sha256": "9f81ee45ecf08b27718e2f2fa2d6c85e15387457121549c652635b2c85cd031c"
+    "evidence_sha256": "ad9e2158f81479cee3e777ed5fad68a533a34d2fd54bbbcd29c08289bdec693e"
   },
   "module_buffer_publication": {
     "evidence": "cases/abi/module-buffer-publication.json",
@@ -9767,7 +9775,7 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "4ebf8c76ea36fdf6e116d98e6edd5d2d021f381f340894b6ceebe6097246b257"
+    "sha256": "2dbadeda991046a9eb1f971c03994e11425e94151673c1dafb4c769eaf6f8f9a"
   },
   "freebuf_boundary": {
     "case": "hello-debug-dll",

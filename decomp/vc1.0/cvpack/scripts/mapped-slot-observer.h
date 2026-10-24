@@ -76,3 +76,53 @@ static int dump_mapped_source(HANDLE child,HANDLE log,DWORD pointer,DWORD *slot)
         info.nFileIndexHigh,info.nFileIndexLow,info.dwFileAttributes);
     return WriteFile(log,line,strlen(line),&written,0);
 }
+
+static DWORD mapped_api_active,mapped_api_thread,mapped_api_esp,mapped_api_callback;
+static DWORD mapped_api_mapping,mapped_api_view;
+static BYTE mapped_api_return_byte;
+
+static int arm_mapping_calls(HANDLE child)
+{
+    BYTE trap=0xcc;DWORD bytes;
+    return WriteProcessMemory(child,(void *)0x2ad55,&trap,1,&bytes) && bytes==1 &&
+        WriteProcessMemory(child,(void *)0x2ad9d,&trap,1,&bytes) && bytes==1 && FlushInstructionCache(child,0,0);
+}
+
+static int begin_mapping_call(HANDLE child,HANDLE thread,HANDLE log,DWORD tid,DWORD address)
+{
+    CONTEXT context;DWORD args[6],slot[10],bytes,written,i,count,returned,callback;
+    BYTE call=0xff,trap=0xcc;char line[256];int used;
+    count=address==0x2ad55?6:5;returned=address+6;
+    memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL;
+    if(mapped_api_active || !GetThreadContext(thread,&context) || context.Esi!=mapped_open_slot ||
+       !ReadProcessMemory(child,(void *)context.Esp,args,count*4,&bytes) || bytes!=count*4 ||
+       !ReadProcessMemory(child,(void *)context.Esi,slot,40,&bytes) || bytes!=40 ||
+       !ReadProcessMemory(child,(void *)(address==0x2ad55?0x38ce4:0x38ce8),&callback,4,&bytes) || bytes!=4 || !callback)return 0;
+    if(slot[4]!=mapped_open_handle || slot[3]!=0x200000 || slot[7]!=0x200000 || slot[1]!=3)return 0;
+    if(count==6) {
+        if(mapped_api_mapping || args[0]!=slot[4] || args[1] || args[2]!=PAGE_READWRITE || args[3] || args[4]!=slot[7] || args[5])return 0;
+    } else if(!mapped_api_mapping || mapped_api_view || args[0]!=mapped_api_mapping || slot[5]!=mapped_api_mapping ||
+        args[1]!=FILE_MAP_ALL_ACCESS || args[2] || args[3] || args[4])return 0;
+    used=sprintf(line,"mapped-api-request stage %lu thread %lu slot %08lx esp %08lx callback %08lx args",count==6?1UL:2UL,tid,context.Esi,context.Esp,callback);
+    for(i=0;i<count;++i)used+=sprintf(line+used," %08lx",args[i]);line[used++]='\n';WriteFile(log,line,used,&written,0);
+    if(!ReadProcessMemory(child,(void *)returned,&mapped_api_return_byte,1,&bytes) || bytes!=1 || mapped_api_return_byte==trap ||
+       !WriteProcessMemory(child,(void *)address,&call,1,&bytes) || bytes!=1 ||
+       !WriteProcessMemory(child,(void *)returned,&trap,1,&bytes) || bytes!=1)return 0;
+    FlushInstructionCache(child,0,0);mapped_api_active=address;mapped_api_thread=tid;mapped_api_esp=context.Esp;mapped_api_callback=callback;
+    context.Eip=address;return SetThreadContext(thread,&context);
+}
+
+static int finish_mapping_call(HANDLE child,HANDLE thread,HANDLE log,DWORD tid,DWORD address)
+{
+    CONTEXT context;DWORD bytes,written,count;BYTE trap=0xcc;char line[160];
+    count=mapped_api_active==0x2ad55?6:5;
+    memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL;
+    if(!mapped_api_active || address!=mapped_api_active+6 || tid!=mapped_api_thread || !GetThreadContext(thread,&context) ||
+       context.Esi!=mapped_open_slot || context.Esp!=mapped_api_esp+count*4 || !context.Eax ||
+       !WriteProcessMemory(child,(void *)address,&mapped_api_return_byte,1,&bytes) || bytes!=1 ||
+       !WriteProcessMemory(child,(void *)mapped_api_active,&trap,1,&bytes) || bytes!=1)return 0;
+    if(count==6)mapped_api_mapping=context.Eax;else mapped_api_view=context.Eax;
+    sprintf(line,"mapped-api-return stage %lu thread %lu slot %08lx esp %08lx value %08lx\n",count==6?1UL:2UL,tid,context.Esi,context.Esp,context.Eax);
+    WriteFile(log,line,strlen(line),&written,0);FlushInstructionCache(child,0,0);mapped_api_active=0;
+    context.Eip=address;return SetThreadContext(thread,&context);
+}

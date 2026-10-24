@@ -1,0 +1,1 @@
+{"signal": 5, "frames": ["seek_mapped_file", "seek_file", "read_image_debug", "main"], "parameters": {"slot": {"null": false, "address": 1477647408, "owner": {"handle": 15, "limit": 16}, "bytes": "601c13580b0000000f0000000000200004000000801c135800a0a9f7000020000000000000000000"}, "offset": 0, "origin": 0}, "globals": {}, "walks": {}, "later_heap_equality": false}

@@ -564,3 +564,26 @@ int open_mapped_file(FileSlot *slot, int mode, unsigned char created)
     slot->flags |= 8;
     return 0;
 }
+
+/* Original [0002ad30,0002add7): create the mapping and its initial full view. */
+int map_file(FileSlot *slot)
+{
+    slot->storage.mapping = mapping_create(slot->source.handle, NULL,
+        (slot->flags & 2) ? PAGE_READWRITE : PAGE_READONLY,
+        0, slot->allocated, NULL);
+    if (!slot->storage.mapping) {
+        CloseHandle(slot->source.handle);
+        slot->source.handle = NULL;
+        slot->storage.mapping = NULL;
+        return 0;
+    }
+    slot->contents.view = mapping_map(slot->storage.mapping,
+        (slot->flags & 2) ? FILE_MAP_ALL_ACCESS : FILE_MAP_READ, 0, 0, 0);
+    if (!slot->contents.view) {
+        CloseHandle(slot->source.handle);
+        slot->source.handle = NULL;
+        slot->storage.mapping = NULL;
+        return 0;
+    }
+    return 1;
+}

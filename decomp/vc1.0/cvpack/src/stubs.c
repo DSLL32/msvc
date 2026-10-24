@@ -8,7 +8,7 @@
 
 void warning(int code, const char *first, const char *second) { __asm { int 3 } }
 
-int map_file(FileSlot *slot) { __asm { int 3 } return 0; }
+
 void cache_closed_file(FileSlot *slot) { __asm { int 3 } }
 int close_mapped_file(FileSlot *slot) { __asm { int 3 } return -1; }
 

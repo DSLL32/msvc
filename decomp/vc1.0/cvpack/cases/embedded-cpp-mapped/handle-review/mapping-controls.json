@@ -1,0 +1,17 @@
+{
+  "scope": "Three offline mutations only for newly observed actual mapping API calls; no historical replay.",
+  "checks": [
+    {
+      "name": "both-mapping-observations-missing",
+      "rejected": "missing actual mapping request/return"
+    },
+    {
+      "name": "different-returned-view",
+      "rejected": "native mapping request/result differs"
+    },
+    {
+      "name": "different-mapping-extent-request",
+      "rejected": "native mapping request/result differs"
+    }
+  ]
+}
