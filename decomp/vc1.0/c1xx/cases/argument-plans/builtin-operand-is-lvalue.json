@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "function": "_builtin_operand_is_lvalue@4",
+  "native_entry": "builtin_operand_is_lvalue",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_expression": "(unsigned)expression"
+  },
+  "formals": [
+    {
+      "name": "expression",
+      "stack_index": 0,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 421877,
+        "original_owner_function": "_next_builtin_operand_type@4",
+        "native_owner_function": "next_builtin_operand_type",
+        "native_owner_field": "caller_expression",
+        "native_owner_local": "iterator",
+        "native_owner_fields": [
+          "expression"
+        ],
+        "identity": "Actual accepted iterator caller loads iterator.expression from ESI+0 into EAX76fdc, checks nonNULL and require_lvalue then PUSH EAX76fef/CALL76ff0/return76ff5. Native actual caller iterator.expression field owns argument."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "eax",
+  "ownership_caller_extent": [
+    487376,
+    487413
+  ],
+  "native_caller_locals": {
+    "caller_expression": {
+      "frame": 1,
+      "function": "next_builtin_operand_type",
+      "local": "iterator",
+      "fields": [
+        "expression"
+      ]
+    }
+  },
+  "abi_analysis": {
+    "original_extent": [
+      488512,
+      488533
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 BOOL return EAX",
+    "proof": "Whole21B reads expression at entryESP+4, pushes mode0 then expression, CALL accepted modifiable_lvalue; CMP EAX1/SBB/INC returns pointer!=NULL, RET4. No incoming hidden/register/x87/flags input. No data/CRT/guard."
+  }
+}

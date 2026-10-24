@@ -661,3 +661,10 @@ IrToken *__stdcall resolve_overloaded_arrow(IrToken *object)
         if (shape && (shape->flags & 0x77) == 1) return object;
     }
 }
+
+/* Original 0x77440..0x77454, stdcall4. Probe without diagnostics;
+   only the existence of a modifiable storage expression matters here. */
+int __stdcall builtin_operand_is_lvalue(IrToken *expression)
+{
+    return modifiable_lvalue(expression, 0) != 0;
+}

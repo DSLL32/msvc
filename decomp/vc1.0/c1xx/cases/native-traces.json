@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "1c25ccda8f76092afb2f8f16696863cf5fab402c20c0c35e5ff4affd8e73812f",
+    "functions.json": "ef6dd0e69f8e4f8e19a613e33383eb209f0478ef2f87619a770d0a01f4e1b5d6",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "687caa95422bd497b169ff689e1116d90d27049eaf0c36f889a6b3f3ba41ac64",
-    "cases/canonical-map.txt": "44086a38c9a5325adc270557e25ee533336e383696103c8a66064bdade353010",
+    "cases/original-entry-references.json": "6ea9229d553278a33a5276a9a03a3faf271e63bb4cc8bab0e5225d435cb52214",
+    "cases/canonical-map.txt": "3e049e3fdb418b7fd6b7ffdd72ff0a539ee8a2540ae2e609841255114546d155",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -61,9 +61,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1227-resolve_overloaded_arrow-4/entry-reference/original-receipt.json": "b9b4ffc74029f69757877cd5906bbe69f4547fef739b24087123628f936c915c",
-    "cases/frontiers/state_machine_debug/1227-resolve_overloaded_arrow-4/entry-reference/original-events.txt": "5761c5edb9016a875eab5ffcdd3e781e064e0f1d25d241741bae83a33bdce3dd",
-    "cases/frontiers/state_machine_debug/1227-resolve_overloaded_arrow-4/entry-reference/original-entries.plan": "d74f2a73f7c558de71b6a2f74be39b142b056fe3225913600308e4034f3f1383"
+    "cases/frontiers/state_machine_debug/1228-builtin_operand_is_lvalue-4/entry-reference/original-receipt.json": "e2eb366a63c7673e4e339aaa1d215f853ecdda60ba20c834d202e63d9afd1ee9",
+    "cases/frontiers/state_machine_debug/1228-builtin_operand_is_lvalue-4/entry-reference/original-events.txt": "10eb6b0f100f1b300293c050c2c80f3395601ce75ffa85d0ac9ed96fca248770",
+    "cases/frontiers/state_machine_debug/1228-builtin_operand_is_lvalue-4/entry-reference/original-entries.plan": "380532b5c9be679ccad8c58671d62bd145aee361524749552e13cccf6f99fd1d"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -712,7 +712,7 @@
     },
     "builtin_operand_is_lvalue": {
       "logical": "_builtin_operand_is_lvalue@4",
-      "source": "src/stubs.c"
+      "source": "src/operators.c"
     },
     "builtin_operand_type_matches": {
       "logical": "_builtin_operand_type_matches@16",
@@ -7098,7 +7098,8 @@
     "convert_member_pointer_representation",
     "convert_compact_data_member_pointer",
     "equal_data_member_null_representation",
-    "resolve_overloaded_arrow"
+    "resolve_overloaded_arrow",
+    "builtin_operand_is_lvalue"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -11221,7 +11222,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1228,
+      "last": 1229,
       "seen": [
         "main",
         "message_text",
@@ -12348,12 +12349,13 @@
         "convert_compact_data_member_pointer",
         "equal_data_member_null_representation",
         "resolve_overloaded_arrow",
-        "builtin_operand_is_lvalue"
+        "builtin_operand_is_lvalue",
+        "convert_selected_operator_operand"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_builtin_operand_is_lvalue@4",
-        "native": "builtin_operand_is_lvalue",
+        "logical": "_convert_selected_operator_operand",
+        "native": "convert_selected_operator_operand",
         "signal": 5
       }
     }
