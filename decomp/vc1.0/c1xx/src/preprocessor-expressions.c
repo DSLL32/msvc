@@ -182,3 +182,31 @@ PreprocessorValue *parse_preprocessor_shift(void)
     }
     return left;
 }
+
+PreprocessorValue *parse_preprocessor_multiplicative(void);
+
+/* Original 0x189d0..0x18a2e. The repeated addition probe is present
+   in the original; retain its call and token-state behavior. */
+PreprocessorValue *parse_preprocessor_additive(void)
+{
+    PreprocessorValue *left, *right;
+    left = parse_preprocessor_multiplicative();
+    for (;;) {
+        if (accept_preprocessor_token(OP_ADD)) {
+            right = parse_preprocessor_multiplicative();
+            left = evaluate_preprocessor_binary(OP_ADD, left, right);
+            continue;
+        }
+        if (accept_preprocessor_token(OP_SUBTRACT)) {
+            right = parse_preprocessor_multiplicative();
+            left = evaluate_preprocessor_binary(OP_SUBTRACT, left, right);
+            continue;
+        }
+        if (accept_preprocessor_token(OP_ADD)) {
+            right = parse_preprocessor_multiplicative();
+            left = evaluate_preprocessor_binary(OP_ADD, left, right);
+            continue;
+        }
+        return left;
+    }
+}
