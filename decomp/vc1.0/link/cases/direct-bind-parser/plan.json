@@ -69,37 +69,55 @@
   },
   "workflow": [
     {
-      "phase": "empty initial parser",
+      "phase": 0,
+      "call": "parse_bind_arguments",
       "argv": [
         "BIND"
-      ],
-      "setup": "Actual loader-zero globals, no private seed/reset. Observe every initial field, argc/argv and fullownedvector/stringguards.",
-      "expected_static": "Return0 because real zero-init image_name remainsNULL; actual original determines frozen outcome."
+      ]
     },
     {
-      "phase": "valid grouped flags and P operand",
+      "phase": 1,
+      "call": "parse_bind_arguments",
       "argv": [
         "BIND",
-        "-Uv",
+        "-u",
         "-p",
         ".",
         "client.exe"
-      ],
-      "expected_static": "Return1; actual parser establishes update0, verbose1, searchpath borrowed-dot string, image_name borrowed-client string. No inferred global reset."
+      ]
     },
     {
-      "phase": "consume actual parsed image name",
-      "setup": "Existing map_bind_image(actual editor_image_name, owned36B BoundImage,0,actual bind_read_only); inspect real header/section owners then genuine unmap/close. Do not call bind_imports: its separate list initialization belongs to terminating bind_main, which is not called or simulated here.",
-      "effects": "No intended image edit; fullimmutable originalinput/fileinventory exact after realmapclose. Actual ownership/fileeffects govern, not assumedunchanged."
+      "phase": 2,
+      "call": "map_bind_image",
+      "arguments": "actualparsedimage_name,owned36Bworkspace,0,actualparsedbind_read_only"
     },
     {
-      "phase": "usage and unknown option",
+      "phase": 3,
+      "call": "UnmapViewOfFile",
+      "arguments": "actualmappedbase"
+    },
+    {
+      "phase": 4,
+      "call": "CloseHandle",
+      "arguments": "actualfilehandle"
+    },
+    {
+      "phase": 5,
+      "call": "parse_bind_arguments",
+      "argv": [
+        "BIND",
+        "-Uv",
+        "client.exe"
+      ]
+    },
+    {
+      "phase": 6,
+      "call": "parse_bind_arguments",
       "argv": [
         "BIND",
         "-?Z",
         "client.exe"
-      ],
-      "expected_static": "Actual usage flag1 and invalid-Z stderr; return0, prior valid fields persist where no write. All three owner vectors/strings remain live throughCRT. No invalid pointer/missing-P input."
+      ]
     }
   ],
   "input": {
@@ -134,5 +152,6 @@
       "bytes": 2097152,
       "sha256": "2c92f7b485af6f6c475315024749fe605a123402c1e5687ab609a24816c2783a"
     }
-  ]
+  ],
+  "initial_proposal": "cases/direct-priority-archives/next-proposal.json"
 }

@@ -1,0 +1,173 @@
+{
+  "status": "Read-only proposal pendingrootreview; no newcapture/reconstruction",
+  "name": "Direct diagnostic log replacement, route toggling and final close lifecycle",
+  "starting_checkpoint": "ed5ec0652",
+  "reach": "Explicitdirectsupport testcaller; actual accepted debug_printf\u2192open_debug_log call exists at3a8d1. setter3a970 has no known caller/pointerxref, directscope only. Do not claim public LINK CLI route.",
+  "target_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "targets": [
+    {
+      "name": "open_debug_log",
+      "ABI": "cdecl int(const char *path)",
+      "start": "0x3a900",
+      "end": "0x3a96e",
+      "extent_bytes": 110,
+      "instruction_bytes": 104,
+      "alignment_gaps": [
+        [
+          "0x3a94a",
+          "0x3a950"
+        ]
+      ],
+      "body_sha256": "22081346850a1172b22eb789b4572992b2b23372f58d9b38784960d2be0de3e0",
+      "calls": [
+        {
+          "address": "0x3a90b",
+          "target": "0x51000"
+        },
+        {
+          "address": "0x3a92c",
+          "target": "0x51140"
+        },
+        {
+          "address": "0x3a93e",
+          "target": "0x53670"
+        },
+        {
+          "address": "0x3a958",
+          "target": "0x53630"
+        }
+      ]
+    },
+    {
+      "name": "set_debug_flag",
+      "ABI": "cdecl void(int index,unsigned char value); EAX happens to holdindex, unconsumed bycaller, no defined intreturnclaim",
+      "start": "0x3a970",
+      "end": "0x3a97f",
+      "extent_bytes": 15,
+      "instruction_bytes": 15,
+      "alignment_gaps": [],
+      "body_sha256": "fcd0a54f8196254607e94d6828aa3cf10f5e5bdc3bbbf9ad068099f427b2ffdf",
+      "calls": []
+    }
+  ],
+  "positive_ownership": "Both use exact existing debug_flags100bytes at5c008 and debug_log7f07c. Actual accepted debug_initialize/debug_enabled/debug_printf and COMDAT diagnostic source own these globals. No guessed CRT attribution or globalforcing; parameterindices1/2 are inbounds.",
+  "workflow": [
+    {
+      "phase": "real debug initialization",
+      "call": "debug_initialize",
+      "arguments": "ownedASCIItext1 plus variableLINK32_DB",
+      "effect": "Existing target API enables flag1. No text-lessenvironment dependence or private flag seed."
+    },
+    {
+      "phase": "ordinary filefailure",
+      "call": "open_debug_log",
+      "arguments": "ownedrelative missing/log.txt with verifiedmissing parent",
+      "effect": "First genuine fopenfailure/perror returns0; freeze real stderr/errors/fileinventory. No forced provider failure; hold if nativecontract differs."
+    },
+    {
+      "phase": "actual lazy diagnostic open",
+      "call": "debug_printf",
+      "arguments": "oneplain literal first newline",
+      "effect": "Real caller routes stdout and invokes open_debug_log(db.log), setbufNULL and vfprintf. No pointerformat/uninitializedreturn."
+    },
+    {
+      "phase": "replace active log",
+      "call": "open_debug_log",
+      "arguments": "ownedrelative second.log",
+      "effect": "Actual fclose first log, opens second/unbuffered, flag1 enabled; freeze first file bytes."
+    },
+    {
+      "phase": "log-only route",
+      "call": "set_debug_flag(2,1);debug_printf",
+      "arguments": "plain second newline",
+      "effect": "Actual setter suppresses stdout while flag1 ensures defined file result. Full100byteflags comparison, byte2 alone changes."
+    },
+    {
+      "phase": "final close and stdout-only route",
+      "call": "set_debug_flag(2,0);open_debug_log(NULL);debug_printf",
+      "arguments": "plain final newline",
+      "effect": "Close currentFILE/clearflag1, then stdout-only returnsdefined result. Original debug_log pointer is not cleared; retain rawclosedidentity but never reopen/dereference it again. Prove branch/CRT cleanup do notconsume closedglobal; hold if actual lifetime differs."
+    }
+  ],
+  "owners": "Three live caller-owned relative path strings and literalformat payloads/guards, actual fopen FILE owners/publicdescriptors and close transitions; names remainlive through normalCRT. No fabricated stream/graph nodes, no indexoutside100. Existing sequentialownedstack seam/startup53; no new nested machinery.",
+  "support": "Shipped _fopen/_fclose alreadyaccepted; _setbuf53630..53670 and _perror53670..53700 are notyetaccepted. Verify exact shipped identities/masks/extent/ABIs, native publicboundaries/formals/results/liveFILE/errors/output; zeroappcredit, no new handwrittenCRT. Unexpectedsupport helper/call staysmasked; requestmaintainer only actualprovider gap.",
+  "validation": "One original coherentbaseline, then freshmasked/nativeentry and allactualformals/hiddenregisters/returnABI/errorFP/guard/flags/FILEpublicsemantics/fullstdoutstderr+2logfiles+absenceinventory. Actualerrors preservedstrict until proven; no inheritedqualification byanalogy. Cachednative90thcase +prior89/canonical/common graph/runtime/callback/data/ABI/extent checks and bounded negatives.",
+  "limits": "125extentbytes total,119instructionbytes if currentCFGconfirmed. Modestremainingeligiblecontext, no completeapplicationclaim. No privatefault/allocatorfailure/cancellationtransport or all-priority-tail exploration bundled.",
+  "read_only_residual_findings": {
+    "malloc_stats": {
+      "wrappers": [
+        {
+          "start": "0x36290",
+          "end": "0x362bd",
+          "extent_bytes": 45,
+          "instruction_bytes": 45,
+          "alignment_gaps": [],
+          "body_sha256": "1820d3d6eb61e7d07a40e7685622b72143b9700c33a47317a957afb6949909a4",
+          "calls": [
+            {
+              "address": "0x3629d",
+              "target": "0x362c0"
+            },
+            {
+              "address": "0x362b4",
+              "target": "0x50f60"
+            }
+          ]
+        },
+        {
+          "start": "0x362c0",
+          "end": "0x362f6",
+          "extent_bytes": 54,
+          "instruction_bytes": 54,
+          "alignment_gaps": [],
+          "body_sha256": "342286cccce1aaff68c97afe5b3cbbc1b0f40091028ba760f773c21e174a5610",
+          "calls": []
+        }
+      ],
+      "table": "16rows x12bytes at5c0ec..5c1ac",
+      "real_CRT_xref_owners": [
+        {
+          "reference": "0x50cc6",
+          "owners": [
+            "__expand"
+          ]
+        },
+        {
+          "reference": "0x53523",
+          "owners": [
+            "__heap_term"
+          ]
+        },
+        {
+          "reference": "0x5491e",
+          "owners": [
+            "__heap_new_region"
+          ]
+        },
+        {
+          "reference": "0x54982",
+          "owners": [
+            "__heap_grow_region"
+          ]
+        },
+        {
+          "reference": "0x54a38",
+          "owners": [
+            "__heap_free_region"
+          ]
+        },
+        {
+          "reference": "0x54a4d",
+          "owners": [
+            "__heap_free_region"
+          ]
+        }
+      ],
+      "limit": "Exact initializedtable belongs to shipped heap lifecycle, stronger ownership lead thanearlierunknown. Custom perfstats wrappers are not relabeledCRT. Nativehostallocator has a different internalrepresentation; no live statecontract/mirroringseed/shim proposed, so stillpending."
+    },
+    "remaining_unaccepted_unclassified_bytes": 12216,
+    "known_target_inventory_remaining": 677,
+    "full_nonCRT_denominator": null,
+    "other_pending": "Resource/far-string/custom8byte sort provenance, dormant/error OMF/debug paths and originaldefects remain unclassified/held. Cancellation publicthread transport remains held. Unknown is notCRT."
+  }
+}
