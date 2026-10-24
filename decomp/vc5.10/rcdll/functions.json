@@ -94,7 +94,8 @@
     "rc_select_macro_text",
     "rc_resume_input",
     "rc_finish_macro_frame",
-    "rc_based_integer_kind"
+    "rc_based_integer_kind",
+    "rc_skip_inactive"
   ],
   "functions": [
     {
@@ -1119,8 +1120,7 @@
       "end": "0x6b80",
       "abi": "stdcall",
       "stack_bytes": 4,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_push_condition",
@@ -1738,6 +1738,15 @@
       "end": "0xc036",
       "abi": "stdcall",
       "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_read_skipped_directive",
+      "start": "0x6d53",
+      "end": "0x6df3",
+      "abi": "cdecl",
+      "stack_bytes": 0,
       "kind": "application",
       "stub": true
     }

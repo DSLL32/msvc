@@ -814,9 +814,10 @@ static int trap(HANDLE thread,DWORD address,DWORD thread_id)
             if(total>1048576)fail("wide-preprocessor-buffer-size");if(cpp_allocation_size<total+8||cpp_allocation_size>total+10)fail("wide-allocation-observation");hexbytes("wide-argument-block",vector-8,cpp_allocation_size);
             hexbytes("prepared-closed-input",line_file,32);readmem(base+0x149c4,&pointer,4);hexbytes("prepared-filename",pointer,514);
         }
-        if(address==base+0x6ae1){DWORD depth,frame[9],file,filename;
+        if(address==base+0x6ae1||address==base+0x6d53){DWORD depth,frame[9],file,filename;
             readmem(base+0x14a10,&depth,4);if(depth>=1024)fail("skip-source-depth");readmem(base+0x18e80+depth*36,frame,36);
-            fprintf(events,"skip-inactive-entry level=%lu caller=%08lx depth=%lu\n",words[1],words[0],depth);
+            if(address==base+0x6ae1)fprintf(events,"skip-inactive-entry level=%lu caller=%08lx depth=%lu\n",words[1],words[0],depth);
+            else{DWORD mode;readmem(c.Esp+24,&mode,4);fprintf(events,"skipped-directive-entry caller=%08lx depth=%lu mode=%lu nesting=%ld branch=%u rawbranch=%08lx\n",words[0],depth,mode,(long)c.Ebp,(BYTE)c.Ebx,c.Ebx);}
             hexbytes("skip-source-frame",base+0x18e80+depth*36,36);hexbytes("skip-source-block",frame[5]-8,8206);
             readmem(base+0x149c4,&filename,4);hexbytes("skip-source-filename",filename,wide_string_bytes(filename));
             crt_file_state(frame[1],"skip-source",1);readmem(base+0x18e74,&file,4);crt_file_state(file,"cpp-output",0);

@@ -2842,11 +2842,13 @@ def finish_reference_reuse(original,native):
     return note
 
 
-def based_kind_trial(original,native):
+def based_kind_trial(original,native,skipping=False):
     """Integer-only leaf followed by the genuine inactive-conditional boundary."""
     import subprocess
-    config=read_configuration(original/'functions.json');assert config['trial_function']=='rc_based_integer_kind'and len(config['accepted'])==90
-    old,new,proof=checkpoint(original,native,'rc_skip_inactive',('rc_input_temporary','rc_output_temporary'))
+    config=read_configuration(original/'functions.json');assert config['trial_function']==('rc_skip_inactive'if skipping else'rc_based_integer_kind')and len(config['accepted'])==(91 if skipping else 90)
+    reuse=inactive_reference_reuse(original,native)if skipping and(native/'original-reuse.json').exists()else None
+    old,new,proof=checkpoint(original,native,'rc_read_skipped_directive'if skipping else'rc_skip_inactive',('rc_input_temporary','rc_output_temporary'),original_reuse=reuse)
+    if reuse:proof['original_reference_reuse']=reuse
     args=new['arguments'];kind_rows=args['integer_kinds'];assert kind_rows==json.loads((native/'integer-kinds.json').read_text())
     kinds=[row for row in kind_rows if row['function']=='rc_based_integer_kind'];assert len(kinds)==1;kind=kinds[0]
     assert kind['caller']=='rc_read_number'and kind['value']==1024 and kind['formal_bytes']==4
@@ -2865,9 +2867,18 @@ def based_kind_trial(original,native):
     assert not re.search(r'\s(?:fld|fst|fadd|fsub|fmul|fdiv|fnst|fnsave|frstor|ldmxcsr|stmxcsr)\w*\s',body)
     scope=args['observer_scope'];assert scope==json.loads((native/'observer-scope.json').read_text())and scope['trigger']==kind and scope['retired_breakpoints']
     assert {'MacroCopyEntered','CharacterClassScope','MacroExpansionEntered'}<=set(scope['retired_breakpoints'])
-    state=args['skip_inactive'];assert state['formals']==[dict(name='level',value=5,bytes=4)]and state['caller']=='rc_handle_directive'
-    assert old['words'][0]==0x71c264d5 and old['words'][1]==5
-    assert re.findall(r'^skip-inactive-entry level=(\d+) caller=([0-9a-f]+) depth=(\d+)$',text,re.M)==[('5','71c264d5','2')]
+    state=args['skip_inactive']
+    if not skipping:
+        assert state['formals']==[dict(name='level',value=5,bytes=4)]and state['caller']=='rc_handle_directive'
+        assert old['words'][0]==0x71c264d5 and old['words'][1]==5
+        assert re.findall(r'^skip-inactive-entry level=(\d+) caller=([0-9a-f]+) depth=(\d+)$',text,re.M)==[('5','71c264d5','2')]
+    else:
+        assert state['formals']==[]and state['caller']=='rc_skip_inactive'
+        assert state['parent_mode']==dict(value=5,bytes=4)and state['parent_depth']==dict(value=0,bytes=4)and state['parent_branch']==dict(value=11,bytes=1)
+        entry=re.findall(r'^skipped-directive-entry caller=([0-9a-f]+) depth=(\d+) mode=(\d+) nesting=(-?\d+) branch=(\d+) rawbranch=([0-9a-f]+)$',text,re.M)
+        assert len(entry)==1 and entry[0][:5]==('71c26aee','2','5','0','11')and int(entry[0][5],16)&255==11
+        assert old['words'][0]==0x71c26aee and old['words'][6]==5 and old['registers']['ebp']==0 and old['registers']['ebx']&255==11
+        assert relocated[0x5ae1:0x5aee]==bytes.fromhex('5355565733edb30be865020000')
     raw=(original/'globals.bin').read_bytes();g=args['preprocessor']['globals'];assert args['preprocessor']['macros']==[]
     for row in json.loads((native/'preprocess-data.json').read_text())['globals']:
         if row['kind']in ['integer','byte-buffer']:
@@ -2888,10 +2899,41 @@ def based_kind_trial(original,native):
     assert raw_bytes(text,'skip-source-buffer')[:512]==bytes.fromhex(g['rc_source_file']['file_buffer'])[:512]
     assert re.findall(r'^skip-source-position (\d+)$',text,re.M)==re.findall(r'^pos:\s*(\d+)$',state['file_fdinfo'],re.M)==['12804']
     a=struct.unpack('<8I',raw_bytes(text,'cpp-output-file'));b=struct.unpack('<8I',bytes.fromhex(g['rc_cpp_output_file']['file_state']));defined=a[0]-a[2]
-    assert a[1:2]+a[3:]==b[1:2]+b[3:]and defined==b[0]-b[2]==2664
+    assert a[1:2]+a[3:]==b[1:2]+b[3:]and defined==b[0]-b[2]
+    temporary=raw_bytes(text,'input-temporary')[:-1].decode('ascii')
+    prefix=('#line 1 \"'+temporary.replace('\\','\\\\')+'\"\r\n').encode('utf-16le')
+    assert raw_bytes(text,'cpp-output-buffer').startswith(prefix)and defined==len(prefix)+2522
     assert raw_bytes(text,'cpp-output-buffer')==bytes.fromhex(g['rc_cpp_output_file']['file_buffer'])[:defined]
     assert new['crt_errors']==dict(errno=2,last_error=0)
-    assert proof['application_trace'][-1]=='rc_based_integer_kind'
-    prior=HERE/'cases/resources-rich-trailing-space/macro-finish-verification.json'
-    proof.update(trial='rc_based_integer_kind',based_kind=dict(value=1024,input_bits=32,result=7,result_bits=8,cleanup=4,original_raw_return=returns[1][1],native_raw_return=hex(kind['raw_eax']),body_bytes=23,architectural_scope='Canonical complete23B leaf has only integer operations, one stack input read and RET4; no stores/calls/FP instructions. No measured per-call108B FP or error pair claimed; native instrumentation/support outside application graph. Caller consumes only AL, raw upperEAX retained unclaimed.'),next_formals=state['formals'],next_hidden_inputs='None read before the new pending directive-scanner call: skip_inactive initializes own nesting/register locals and uses its fullDWORD mode formal later. Current source/FILE/output/control state retained freshly for its future consumer.',source=dict(depth=2,owned_bytes=8206,cursor_offset=6224,current_word=current_word,FILE_position=12804,FILE_defined_bytes=512,FILE_uninitialized_tail_bytes=3584,filename=filename.hex()),output_defined_bytes=defined,observer_scope=scope,reused_controls=dict(record=str(prior.relative_to(HERE)),sha256=sha(prior),checker_and_contract_versions=json.loads(prior.read_text())['validation_versions'],reason='Unchanged initial D/R lifecycle, initial two primary calls, source/heap/SEH/transport/number guards retain exact prior hashes. Later per-call allocation/copy/macro observations explicitly retired after real based-kind return; full current input files/artifacts, actual entry trace, next formal and current source/FILE/output/scalars are fresh.'),limits='Full rich output and inactive-skip body remain pending. No live global macro dictionary comparison or later per-call auxiliary equivalence claim; native copy/allocation guards remain compiled. No stale numeric caller-frame/upperEAX/FILE-tail bytes compared.')
+    assert proof['application_trace'][-1]==('rc_skip_inactive'if skipping else'rc_based_integer_kind')
+    prior=HERE/('cases/resources-rich-trailing-space/based-kind-verification.json'if skipping else'cases/resources-rich-trailing-space/macro-finish-verification.json')
+    proof.update(trial='rc_skip_inactive'if skipping else'rc_based_integer_kind',based_kind=dict(value=1024,input_bits=32,result=7,result_bits=8,cleanup=4,original_raw_return=returns[1][1],native_raw_return=hex(kind['raw_eax']),body_bytes=23,architectural_scope='Canonical complete23B leaf has only integer operations, one stack input read and RET4; no stores/calls/FP instructions. No measured per-call108B FP or error pair claimed; native instrumentation/support outside application graph. Caller consumes only AL, raw upperEAX retained unclaimed.'),next_formals=state['formals'],next_hidden_inputs='None read before the new pending directive-scanner call: skip_inactive initializes own nesting/register locals and uses its fullDWORD mode formal later. Current source/FILE/output/control state retained freshly for its future consumer.',source=dict(depth=2,owned_bytes=8206,cursor_offset=6224,current_word=current_word,FILE_position=12804,FILE_defined_bytes=512,FILE_uninitialized_tail_bytes=3584,filename=filename.hex()),output_defined_bytes=defined,observer_scope=scope,reused_controls=dict(record=str(prior.relative_to(HERE)),sha256=sha(prior),checker_and_contract_versions=json.loads(prior.read_text())['validation_versions'],reason='Unchanged initial D/R lifecycle, initial two primary calls, source/heap/SEH/transport/number guards retain exact prior hashes. Later per-call allocation/copy/macro observations explicitly retired after real based-kind return; full current input files/artifacts, actual entry trace, next formal and current source/FILE/output/scalars are fresh.'),limits='Full rich output and inactive-skip body remain pending. No live global macro dictionary comparison or later per-call auxiliary equivalence claim; native copy/allocation guards remain compiled. No stale numeric caller-frame/upperEAX/FILE-tail bytes compared.')
     return proof
+
+
+def inactive_skip_trial(original,native):
+    proof=based_kind_trial(original,native,skipping=True)
+    proof['inactive_skip']=dict(mode=5,mode_bits=32,nesting_initialized=0,nesting_bytes=4,branch_initialized=11,branch_bits=8,next_formals=[],caller='rc_skip_inactive',original_return='0x71c26aee',scope='Only actual initializations/pushes and first genuine child call have executed; skip result, scanning, nesting changes, diagnostics and branch-string uses remain pending. Original EBX upper24 and saved-register stack slots are raw nonformal storage, not normalized or compared.')
+    proof['next_hidden_inputs']='Directive scanner has no formal/register inputs; fresh current source LF10 at offset6224, source depth2/owned8206B, line/output flags and defined FILE/output bytes are retained. Parent mode5/nesting0/branch11 separately bound, not invented callee arguments.'
+    proof['limits']='Inactive skip is pending inside its named160B directive scanner, with no scanned result or skip return claimed. Same finite prefix-observer exclusion/current source/FILE-tail/macro-dictionary limits as preceding acceptance.'
+    return proof
+
+
+def inactive_reference_reuse(original,native):
+    """Only correct the unvisited mode6 diagnostic's real call identity."""
+    from protocol import candidate
+    note=json.loads((native/'original-reuse.json').read_text());receipt=json.loads((native/'receipt.json').read_text())
+    assert receipt['files']['original-reuse.json']==dict(bytes=(native/'original-reuse.json').stat().st_size,sha256=sha(native/'original-reuse.json'))
+    previous=json.loads((original/'candidate.json').read_text());current=candidate()
+    assert note['schema']==1 and note['reason']=='inactive-unvisited-fatal-edge'and note['previous']==previous and note['current']==current
+    assert note['original_candidate_sha256']==sha(original/'candidate.json')
+    allowed=['decomp/vc5.10/rcdll/build/RCDLL.DLL','decomp/vc5.10/rcdll/build/rcdll.map','decomp/vc5.10/rcdll/build/native/rcdll-host']
+    assert note['allowed_changed_files']==allowed and{key for key in previous['files']if previous['files'][key]!=current['files'][key]}==set(allowed)
+    assert(original/'functions.json').read_bytes()==(native/'functions.json').read_bytes()==(HERE/'functions.json').read_bytes()
+    config=read_configuration(original/'functions.json');assert config['trial_function']=='rc_skip_inactive'and len(config['accepted'])==91
+    original_source=json.loads((original/'compiled-source.json').read_text());rebuilt=json.loads((HERE/'build/original-source.json').read_text())
+    changes={key for key in original_source['contents']if original_source['contents'][key]!=rebuilt['contents'][key]};key='decomp/vc5.10/rcdll/src/directives.c';assert changes=={key}
+    a=original_source['contents'][key]['text'];b=rebuilt['contents'][key]['text'];assert a.count('rc_input_error(1022);')==1 and a.replace('rc_input_error(1022);','rc_input_fatal(1022);')==b
+    assert note['original_source_sha256']==sha(original/'compiled-source.json')and note['rebuilt_source_sha256']==sha(HERE/'build/original-source.json')
+    assert note['masked_text_sha256']==sha(original/'masked-text.bin')and note['relocated_text_sha256']==sha(original/'relocated-text.bin')
+    return note

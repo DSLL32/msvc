@@ -34,6 +34,7 @@ void __stdcall rc_read_identifier(WCHAR);
 unsigned char __stdcall rc_directive_code(const WCHAR *);
 void __stdcall rc_expect_end(const WCHAR *);
 int __stdcall rc_skip_inactive(int);
+unsigned char __cdecl rc_read_skipped_directive(void);
 int __cdecl rc_push_condition(void);
 int __cdecl rc_evaluate_condition(void);
 int __cdecl rc_parse_conditional_expression(void);

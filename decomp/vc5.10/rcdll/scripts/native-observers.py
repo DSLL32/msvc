@@ -526,7 +526,7 @@ class DecimalIntegerKindReturned(gdb.FinishBreakpoint):
         self.entry.update(result=int(gdb.parse_and_eval('$eax'))&255,raw_eax=int(gdb.parse_and_eval('$eax'))&0xffffffff,return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff)
         save_integer_kinds()
         selected=json.loads(Path(os.environ['RCDLL_NATIVE_CONFIG']).read_text())
-        if selected.get('trial_function')=='rc_based_integer_kind'and self.entry['function']=='rc_based_integer_kind'and self.entry['value']==1024:
+        if selected.get('trial_function')in ['rc_based_integer_kind','rc_skip_inactive']and self.entry['function']=='rc_based_integer_kind'and self.entry['value']==1024:
             assert self.entry['result']==7 and self.entry['return_esp']==self.entry['entry_esp']+8
             retired=[]
             for breakpoint in gdb.breakpoints():

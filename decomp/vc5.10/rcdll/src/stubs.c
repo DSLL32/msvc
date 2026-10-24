@@ -106,11 +106,6 @@ int __cdecl rc_splice_line(void)
 
 
 
-int __stdcall rc_skip_inactive(int level)
-{
-    __asm int 3
-    return 0;
-}
 
 
 void __cdecl rc_skip_line(void)
@@ -256,4 +251,10 @@ void __cdecl rc_advance_macro_text(void)
 void __stdcall rc_emit_macro_reference(RcMacro *macro)
 {
     __asm int 3
+}
+
+unsigned char __cdecl rc_read_skipped_directive(void)
+{
+    __asm int 3
+    return 0;
 }

@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Eighty-nine application functions (24,634 original code bytes), two embedded CRT functions
+Ninety application functions (24,793 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_skip_inactive(5)`.
+currently matches at the next named trap, `rc_read_skipped_directive`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -84,7 +84,7 @@ is checked separately.
 ## Counts, timing and future inputs
 
 The provisional Ghidra inventory discovers 299 application functions / 66,295 code
-bytes. Current accepted application extent coverage is 37.16% (89 functions). This denominator
+bytes. Current accepted application extent coverage is 37.40% (90 functions). This denominator
 is analysis discovery, not a claim that every remaining original extent has passed
 an ownership audit. [Inventory](cases/function-inventory.json) excludes separately
 identified embedded CRT and import thunks; switch/literal data is excluded from
@@ -767,3 +767,11 @@ output bytes. [Integer-kind verification](cases/resources-rich-trailing-space/ba
 records16 fresh rejections and the finite auxiliary-observer scope. Retiring old
 observers after the actual leaf return brings the native debugger capture back
 to14.9s, while application entry tracing and production traps remain active.
+
+Inactive-block skipping is accepted (159 bytes), reaching its genuine directive
+scanner with no arguments. Mode5, nesting0 and branch byte11 are freshly bound;
+the scanner result and skip return are pending.
+[Inactive-skip verification](cases/resources-rich-trailing-space/inactive-skip-verification.json)
+records16 affected rejections, exact source/FILE/output state, the preserved
+failed call-graph diagnosis and a narrowly bound original-reference reuse.
+Whole-candidate graph preflight now runs after building and before new captures.

@@ -579,3 +579,33 @@ int __cdecl rc_parse_primary(void)
     rc_input_fatal(message);
     return rc_expression_value;
 }
+
+int __stdcall rc_skip_inactive(int mode)
+{
+    int depth=0;
+    unsigned char branch=11,directive;
+
+    for(;;){
+        directive=rc_read_skipped_directive();
+        if(directive==3){
+            if(depth){--depth;continue;}
+            rc_expect_end(L"#endif");
+            return 4;
+        }
+        if(directive==1||directive==2){
+            if(directive==2)branch=2;
+            if(depth){branch=11;continue;}
+            if(mode==6){
+                strcpy(rc_error_text,rc_message(1022));
+                rc_input_fatal(1022);
+                continue;
+            }
+            if(branch==2){
+                rc_expect_end(L"#else");
+                return 3;
+            }
+            return 2;
+        }
+        if(directive==0||directive==4||directive==5)++depth;
+    }
+}
