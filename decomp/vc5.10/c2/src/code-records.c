@@ -187,3 +187,15 @@ append:
     global_records_processing = 0;
     return head;
 }
+
+C2DebugLink *pending_debug_symbols;
+
+void __fastcall process_records(C2DebugLink *records)
+{
+    if (!c2_zero_alignment)
+        align_pending_debug_symbols(pending_debug_symbols);
+    write_pending_debug_symbols();
+    write_assembly_symbols();
+    write_codeview_records(records);
+    write_assembly_records(records);
+}

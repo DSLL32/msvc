@@ -438,10 +438,6 @@ void __fastcall function_pass_433906(C2Function *function)
     __asm { int 3 }
 }
 
-void __fastcall process_records(C2DebugLink *records)
-{
-    __asm { int 3 }
-}
 
 void output_callback_41eb89()
 {
@@ -633,3 +629,28 @@ void __fastcall record_symbol_references(C2Symbol *symbol) { __asm { int 3 } }
 int __fastcall symbol_requires_references(C2Symbol *symbol) { __asm { int 3 } return 0; }
 int __fastcall initializer_is_static(C2InitRecord *record) { __asm { int 3 } return 0; }
 C2DebugLink *new_symbol_link(void) { __asm { int 3 } return NULL; }
+
+void __fastcall align_pending_debug_symbols(C2DebugLink *symbols)
+{
+    __asm { int 3 }
+}
+
+void write_pending_debug_symbols(void)
+{
+    __asm { int 3 }
+}
+
+void write_assembly_symbols(void)
+{
+    __asm { int 3 }
+}
+
+void __fastcall write_codeview_records(C2DebugLink *records)
+{
+    __asm { int 3 }
+}
+
+void __fastcall write_assembly_records(C2DebugLink *records)
+{
+    __asm { int 3 }
+}

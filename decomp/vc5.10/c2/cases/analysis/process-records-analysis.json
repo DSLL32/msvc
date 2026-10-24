@@ -1,0 +1,70 @@
+{
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "function": {
+    "logical": "@process_records@4",
+    "start": 4322452,
+    "end": 4322501,
+    "bytes": 49,
+    "sha256": "9c69decdef28d91b10e8e5b08e348f884d6425b8633e8923baefe5d2004f4bf2",
+    "ABI": "void __fastcall(C2DebugLink *recordsECX),RET0; savedESIrecords across five helpers"
+  },
+  "pending_debug_symbols": {
+    "original": 4813912,
+    "type": "C2DebugLink *",
+    "initial": 0,
+    "writer": "Actualqueue_symbol_debug41ff45 allocates8B pool1, stores next0/symbol4, pushesto497458. CurrentlyNULL; no nodepayload claimed."
+  },
+  "children": [
+    {
+      "start": 4322501,
+      "proposed": "align_pending_debug_symbols",
+      "ABI": "void fastcall(C2DebugLink *ECX);113Bhot+13Bcold, namedINT3 zero credit",
+      "caller_ecx": "pending_debug_symbols"
+    },
+    {
+      "start": 4322614,
+      "proposed": "write_pending_debug_symbols",
+      "ABI": "void(void),RET0; original35B",
+      "calls_slot": 4816108
+    },
+    {
+      "start": 4322649,
+      "proposed": "write_assembly_symbols",
+      "ABI": "void(void),hot14Bpluscoldpending"
+    },
+    {
+      "start": 4322663,
+      "proposed": "write_codeview_records",
+      "ABI": "voidfastcall(C2DebugLink*ECX),RET0"
+    },
+    {
+      "start": 4322700,
+      "proposed": "write_assembly_records",
+      "ABI": "voidfastcall(C2DebugLink*ECX),RET0"
+    }
+  ],
+  "actual_path": "c2_zero_alignment0 => first align_pending_debug_symbols(NULL) trap; no accepted callback invocation.17 erased aliases unchanged, 497cec pending slot notconsumed bysource100.",
+  "disassembly_sha256": "756a36a9809667761188d8f8d6a82c7e2e6766b8ed5f1fa70c8e8bdcfd250339",
+  "next_helper_preview": {
+    "name": "align_pending_debug_symbols",
+    "primary": [
+      4322501,
+      4322614
+    ],
+    "cold": [
+      [
+        4627555,
+        4627568
+      ]
+    ],
+    "bytes": 126,
+    "actual_known_callee": {
+      "entry": 4329521,
+      "logical": "@has_local_symbol@4",
+      "argument": "unsigned symbol.serialECX",
+      "return": "intEAX"
+    },
+    "encountered_data": "Existing8B C2DebugLink next/symbol; symbol.serial40 and signed interpretation of section_size16, no new node storage/layout credit.",
+    "behavior": "If head exists and first serial belongs to local-symbol set, visit neighboring list nodes. For current size>=4096 and next signed size>=4096, if ((next_size%8192)/2)/32==0, adjust next_size by32-((next_size%8192)/2). Entire cold write must be owned before helper acceptance. Natural currentheadNULL exercises only earlyreturn; allbody graph/ABI still required."
+  }
+}

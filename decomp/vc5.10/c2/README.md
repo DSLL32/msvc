@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 94 application functions (20451 bytes) and five CRT
+Current reconstruction has 95 application functions (20500 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at process_records with its actual NULL C2DebugLink pointer
+currently stops at align_pending_debug_symbols with its actual NULL C2DebugLink pointer
 and the 38-byte directive payload/counters matched. Four import thunks (24 bytes) and contextual text tables
-(812 bytes) remain separate. The 20889 source bytes are 3.644% of 573183 `.text`
+(812 bytes) remain separate. The 20938 source bytes are 3.653% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -22,7 +22,7 @@ case, and `cases/acceptance/` retains each subsequent promotion in order.
 checks the Win32 reconstruction with the shipped compiler and `/MD` runtime.
 `make audit` uses the common Rust CFG/RET/ownership/extent tool with explicit
 paths. `make -j4 fixtures` runs only the native executable against frozen streams and
-19 original application entries. Current measurements: 2.3 ms execution, 15.0 ms
+19 original application entries. Current measurements: 2.2 ms execution, 14.0 ms
 including fixture setup/checks. New capture helpers retain their actual executable
 and immutable compiled inputs; newer captures also retain ELF/PE/MAP and
 static-index snapshots in scratch for independent review. Earlier raw evidence
@@ -458,4 +458,6 @@ Source98 reconstructs the503-byte typed record walker and51-byte structured disp
 
 The global initializer preparer is reconstructed: two typed passes, exact 36-byte switch/classification data ownership and the reviewed direct physical empty-function call. The numeric case reaches process_records(C2DebugLink *NULL); pending children and seventeen callback aliases retain their guards. Source99 adds 559 application bytes; its empty-body call adds no extra credit.
 
-Current byte accounting sums the exact common-audit owned code ranges: 20,451 application bytes and 438 historical CRT bytes. This corrects a six-byte understatement in the previous running tally; it adds no reconstruction credit and leaves historical reports unchanged.
+At source99, byte accounting summed the exact common-audit owned code ranges: 20,451 application bytes and 438 historical CRT bytes. This corrects a six-byte understatement in the previous running tally; it adds no reconstruction credit and leaves historical reports unchanged.
+
+Source100 reconstructs the 49-byte record dispatcher with five distinct named helper calls. The fresh pair reaches align_pending_debug_symbols(C2DebugLink *NULL), with actual ECX/global-root and caller ESI/records formals checked. The current zero flag and list root are bound to the genuine original/rebuilt slots, including emitted native PIC loads; no allocated node payload is claimed. Fifteen new controls pass, with unchanged source99 no-op/table predicates reused under their exact receipts and current positive checks.

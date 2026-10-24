@@ -1,0 +1,181 @@
+{
+  "positive": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/process100-original-complete/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/process100-original-complete/graph-audit.json",
+    "matched": "@align_pending_debug_symbols@4",
+    "original": "0x41f4c5",
+    "native": "align_pending_debug_symbols",
+    "argument_state": "globals-complete",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "align_pending_debug_symbols",
+      "symbol_start": "0x6b30",
+      "symbol_size": 83,
+      "static_pc": "0x6b68",
+      "int3_sites": [
+        "0x6b67"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit",
+      "_c2_register_onexit",
+      "@c2_read_environment@4",
+      "_c2_copy_arguments",
+      "_c2_initialize_options",
+      "_c2_next_argument",
+      "@c2_match_option@16",
+      "@c2_apply_option@12",
+      "@parse_option_integer@4",
+      "@c2_validate_alignment@4",
+      "@c2_open_intermediate@16",
+      "_c2_read_header",
+      "_c2_read_il_byte",
+      "_c2_read_il_word",
+      "_c2_read_il_long",
+      "_c2_reset_symbol_table",
+      "_c2_create_type_table",
+      "@c2_allocate_node@8",
+      "@c2_node_size@4",
+      "@c2_pool_allocate@8",
+      "_c2_initialize_constants",
+      "_c2_real_from_int",
+      "_store_extended",
+      "_c2_initialize_opcodes",
+      "_c2_initialize_machine",
+      "_c2_initialize_trees",
+      "@create_section@12",
+      "@insert_symbol@8",
+      "@append_section@4",
+      "@initialize_section_defaults@4",
+      "_c2_initialize_codegen",
+      "@read_symbols@4",
+      "@read_symbol@4",
+      "_input_varuint",
+      "@input_string@8",
+      "@intern_symbol_name@12",
+      "@arena_strdup@8",
+      "@record_filename@4",
+      "@copy_symbol_type@4",
+      "_input_type",
+      "_input_compact_signed",
+      "_input_compact_short",
+      "@update_symbol_storage@4",
+      "@lookup_global_symbol@4",
+      "_next_symbol_serial",
+      "@put_symbol@8",
+      "_c2_initialize_registers",
+      "@read_initializer_records@4",
+      "_c2_initialize_optimizer",
+      "_initialize_backend",
+      "_initialize_pass_functions",
+      "_default_runtime_library",
+      "@add_output_directive@8",
+      "_initialize_object_output",
+      "@initialize_coff_output@4",
+      "@new_output_table@4",
+      "_writer_callback_41eb8a",
+      "_initialize_coff_lists",
+      "@new_output_list@8",
+      "_new_output_chunk",
+      "@add_output_source@4",
+      "@add_coff_symbol@4",
+      "_write_output_directives",
+      "_output_callback_453e02",
+      "@write_coff_directive@16",
+      "_output_callback_41ec20",
+      "@create_coff_section@4",
+      "@add_coff_section@16",
+      "@append_output_table@8",
+      "@initialize_coff_section@8",
+      "@lookup_output_table@8",
+      "@initialize_coff_symbols@4",
+      "@register_coff_storage@4",
+      "@record_output_section@4",
+      "@select_coff_section@4",
+      "@query_coff_position@4",
+      "@output_list_position@4",
+      "@write_output_bytes@8",
+      "@write_output_byte@4",
+      "@initialize_source_output@4",
+      "@prepare_function_records@4",
+      "_prepare_global_records",
+      "@process_records@4"
+    ],
+    "candidates": [
+      "@process_records@4"
+    ],
+    "acceptance": false
+  },
+  "count": 15,
+  "rejected": [
+    {
+      "control": "symbols formal omitted",
+      "reason": "actual queued-debug symbols/caller-records formals differ"
+    },
+    {
+      "control": "symbols formal wrong type",
+      "reason": "actual queued-debug symbols/caller-records formals differ"
+    },
+    {
+      "control": "symbols NULL lost",
+      "reason": "actual queued-debug symbols/caller-records formals differ"
+    },
+    {
+      "control": "symbols global alias lost",
+      "reason": "actual queued-debug symbols/caller-records formals differ"
+    },
+    {
+      "control": "caller formal omitted",
+      "reason": "actual queued-debug symbols/caller-records formals differ"
+    },
+    {
+      "control": "caller records NULL lost",
+      "reason": "actual queued-debug symbols/caller-records formals differ"
+    },
+    {
+      "control": "wrong caller",
+      "reason": "actual queued-debug symbols/caller-records formals differ"
+    },
+    {
+      "control": "alignment branch flag wrong",
+      "reason": "actual queued-debug symbols/caller-records formals differ"
+    },
+    {
+      "control": "full model formal wrong",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "native queued list root nonNULL",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "original queued root nonNULL",
+      "reason": "COFF copied/default global differs: pending_debug_symbols"
+    },
+    {
+      "control": "original zero alignment flag nonzero",
+      "reason": "COFF copied/default global differs: c2_zero_alignment"
+    },
+    {
+      "control": "original incoming symbols ECX nonNULL",
+      "reason": ""
+    },
+    {
+      "control": "original parent records ESI nonNULL",
+      "reason": ""
+    },
+    {
+      "control": "original queued root mismatch",
+      "reason": ""
+    }
+  ],
+  "seconds": 18.57342697121203,
+  "checker_sha256": "b7aba0cdacc3b3cb7e3b74b937de739ad6b2a5940ba3e2c3bac4147f34858a88",
+  "original_receipt_sha256": "fb032567f400e206e6c031165024a3114a920a4b1d6bc9f2436761e775333222",
+  "native_receipt_sha256": "d4ee2319023c4b281d334561f43d4f0eacb2db4f5afc4829fa1099465ca4dadb",
+  "scope": "Actual C2DebugLink*NULL symbols, shared queued root identity, process_records formal/NULL, actual zero alignment branch; original ECX/ESI/global reads and full globals. Same99 finite empty-call ABI checked positively and prior31controls reused with exact source99 proof. All100wholefunction strict graphs independent."
+}

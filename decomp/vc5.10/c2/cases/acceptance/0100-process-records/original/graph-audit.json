@@ -1,0 +1,4892 @@
+{
+  "checked_accepted_extents": {
+    "original": 100,
+    "rebuilt": 100
+  },
+  "checked_functions": 100,
+  "checked_unique_accepted_extents": {
+    "original": 100,
+    "rebuilt": 100
+  },
+  "checks": [
+    "call_graph",
+    "ret_cleanup",
+    "known_imports",
+    "register_imports",
+    "function_references",
+    "extent_ownership",
+    "whole_extent_boundaries",
+    "accepted_index_extents"
+  ],
+  "discovery": "cfg",
+  "functions": {
+    "@add_coff_section@16": {
+      "edges": [
+        "@append_output_table@8",
+        "indirect"
+      ],
+      "imports": []
+    },
+    "@add_coff_symbol@4": {
+      "edges": [
+        "_grow_coff_symbol_buffer"
+      ],
+      "imports": []
+    },
+    "@add_output_directive@8": {
+      "edges": [
+        "@c2_pool_allocate@8"
+      ],
+      "imports": []
+    },
+    "@add_output_source@4": {
+      "edges": [
+        "@add_coff_symbol@4",
+        "@add_incremental_symbol@4",
+        "@reserve_incremental_symbols@12",
+        "indirect"
+      ],
+      "imports": []
+    },
+    "@append_output_table@8": {
+      "edges": [
+        "indirect"
+      ],
+      "imports": []
+    },
+    "@append_section@4": {
+      "edges": [],
+      "imports": []
+    },
+    "@arena_strdup@8": {
+      "edges": [
+        "@c2_pool_allocate@8"
+      ],
+      "imports": []
+    },
+    "@c2_allocate_node@8": {
+      "edges": [
+        "@c2_node_size@4",
+        "@c2_pool_allocate@8"
+      ],
+      "imports": []
+    },
+    "@c2_apply_option@12": {
+      "edges": [
+        "@c2_report_internal@8",
+        "@parse_option_integer@4",
+        "_c2_fatal"
+      ],
+      "imports": [
+        {
+          "dll": "msvcrt.dll",
+          "name": "_strdup"
+        }
+      ]
+    },
+    "@c2_get_diagnostic_string@4": {
+      "edges": [
+        "@find_cached_message@4",
+        "_initialize_messages"
+      ],
+      "imports": []
+    },
+    "@c2_match_option@16": {
+      "edges": [
+        "@c2_apply_option@12",
+        "@c2_wildcard_match@12",
+        "indirect"
+      ],
+      "imports": []
+    },
+    "@c2_node_size@4": {
+      "edges": [
+        "@c2_report_internal@8"
+      ],
+      "imports": []
+    },
+    "@c2_open_intermediate@16": {
+      "edges": [
+        "@c2_get_diagnostic_string@4",
+        "@c2_report_internal@8",
+        "@c2_system_fatal@12"
+      ],
+      "imports": [
+        {
+          "dll": "msvcrt.dll",
+          "name": "fopen"
+        }
+      ]
+    },
+    "@c2_pool_allocate@8": {
+      "edges": [
+        "_c2_fatal"
+      ],
+      "imports": [
+        {
+          "dll": "msvcrt.dll",
+          "name": "malloc"
+        }
+      ]
+    },
+    "@c2_read_environment@4": {
+      "edges": [
+        "_c2_copy_arguments"
+      ],
+      "imports": []
+    },
+    "@c2_validate_alignment@4": {
+      "edges": [],
+      "imports": []
+    },
+    "@c2_wildcard_match@12": {
+      "edges": [],
+      "imports": []
+    },
+    "@copy_symbol_type@4": {
+      "edges": [
+        "_input_type"
+      ],
+      "imports": []
+    },
+    "@create_coff_section@4": {
+      "edges": [
+        "@add_associative_coff_section@24",
+        "@add_coff_section@16",
+        "@coff_selection_code@4",
+        "@initialize_coff_section@8",
+        "@mark_debug_section@4",
+        "@record_output_section@4"
+      ],
+      "imports": [
+        {
+          "dll": "msvcrt.dll",
+          "name": "strncmp"
+        }
+      ],
+      "register_imports": {
+        "original": {
+          "direct_import_calls": {},
+          "other_unresolved_calls": [],
+          "resolved_register_calls": {
+            "4320446": {
+              "dll": "msvcrt.dll",
+              "name": "strncmp"
+            },
+            "4320467": {
+              "dll": "msvcrt.dll",
+              "name": "strncmp"
+            },
+            "4320488": {
+              "dll": "msvcrt.dll",
+              "name": "strncmp"
+            },
+            "4320509": {
+              "dll": "msvcrt.dll",
+              "name": "strncmp"
+            },
+            "4320530": {
+              "dll": "msvcrt.dll",
+              "name": "strncmp"
+            }
+          },
+          "roots": [
+            4320345
+          ],
+          "unresolved_register_calls": []
+        },
+        "rebuilt": {
+          "direct_import_calls": {
+            "4226256": {
+              "dll": "msvcrt.dll",
+              "name": "strncmp"
+            },
+            "4226280": {
+              "dll": "msvcrt.dll",
+              "name": "strncmp"
+            },
+            "4226304": {
+              "dll": "msvcrt.dll",
+              "name": "strncmp"
+            },
+            "4226337": {
+              "dll": "msvcrt.dll",
+              "name": "strncmp"
+            },
+            "4226370": {
+              "dll": "msvcrt.dll",
+              "name": "strncmp"
+            }
+          },
+          "other_unresolved_calls": [],
+          "resolved_register_calls": {},
+          "roots": [
+            4226123
+          ],
+          "unresolved_register_calls": []
+        },
+        "require_all_register_calls_resolved": true
+      }
+    },
+    "@create_section@12": {
+      "edges": [
+        "@append_section@4",
+        "@c2_allocate_node@8",
+        "@insert_symbol@8"
+      ],
+      "imports": []
+    },
+    "@find_cached_message@4": {
+      "edges": [],
+      "imports": []
+    },
+    "@format_integer@12": {
+      "edges": [],
+      "imports": []
+    },
+    "@initialize_coff_output@4": {
+      "edges": [
+        "@add_output_source@4",
+        "@c2_report_internal@8",
+        "@new_output_list@8",
+        "@new_output_table@4",
+        "_initialize_coff_lists",
+        "_read_incremental_output",
+        "_restore_incremental_output",
+        "indirect"
+      ],
+      "imports": [
+        {
+          "dll": "msvcrt.dll",
+          "name": "malloc"
+        }
+      ],
+      "register_imports": {
+        "original": {
+          "direct_import_calls": {},
+          "other_unresolved_calls": [
+            4537553
+          ],
+          "resolved_register_calls": {
+            "4537584": {
+              "dll": "msvcrt.dll",
+              "name": "malloc"
+            },
+            "4672766": {
+              "dll": "msvcrt.dll",
+              "name": "malloc"
+            }
+          },
+          "roots": [
+            4537434
+          ],
+          "unresolved_register_calls": []
+        },
+        "rebuilt": {
+          "direct_import_calls": {
+            "4224785": {
+              "dll": "msvcrt.dll",
+              "name": "malloc"
+            },
+            "4224930": {
+              "dll": "msvcrt.dll",
+              "name": "malloc"
+            }
+          },
+          "other_unresolved_calls": [
+            4224760
+          ],
+          "resolved_register_calls": {},
+          "roots": [
+            4224600
+          ],
+          "unresolved_register_calls": []
+        },
+        "require_all_register_calls_resolved": true
+      }
+    },
+    "@initialize_coff_section@8": {
+      "edges": [
+        "@initialize_coff_symbols@4",
+        "@lookup_output_table@8",
+        "@new_output_list@8",
+        "@register_coff_storage@4",
+        "indirect"
+      ],
+      "imports": []
+    },
+    "@initialize_coff_symbols@4": {
+      "edges": [
+        "@add_coff_symbol@4",
+        "@add_incremental_symbol@4",
+        "@reserve_incremental_symbols@12",
+        "indirect"
+      ],
+      "imports": []
+    },
+    "@initialize_section_defaults@4": {
+      "edges": [],
+      "imports": []
+    },
+    "@initialize_source_output@4": {
+      "edges": [
+        "@write_assembly_header@4",
+        "_get_assembly_comment_character"
+      ],
+      "imports": []
+    },
+    "@input_string@8": {
+      "edges": [
+        "@c2_report_internal@8",
+        "indirect"
+      ],
+      "imports": []
+    },
+    "@insert_symbol@8": {
+      "edges": [],
+      "imports": []
+    },
+    "@intern_symbol_name@12": {
+      "edges": [
+        "@arena_strdup@8",
+        "@uppercase_symbol_name@4"
+      ],
+      "imports": [
+        {
+          "dll": "msvcrt.dll",
+          "name": "memmove"
+        }
+      ]
+    },
+    "@load_message@16": {
+      "edges": [
+        "@unescape_message@4"
+      ],
+      "imports": [
+        {
+          "dll": "kernel32.dll",
+          "name": "GetModuleHandleA"
+        },
+        {
+          "dll": "user32.dll",
+          "name": "LoadStringA"
+        }
+      ]
+    },
+    "@lookup_global_symbol@4": {
+      "edges": [],
+      "imports": []
+    },
+    "@lookup_message@8": {
+      "edges": [
+        "@load_message@16",
+        "_initialize_messages"
+      ],
+      "imports": []
+    },
+    "@lookup_output_table@8": {
+      "edges": [
+        "@c2_report_internal@8"
+      ],
+      "imports": []
+    },
+    "@new_output_list@8": {
+      "edges": [
+        "_new_output_chunk",
+        "indirect"
+      ],
+      "imports": []
+    },
+    "@new_output_table@4": {
+      "edges": [
+        "indirect"
+      ],
+      "imports": []
+    },
+    "@output_list_position@4": {
+      "edges": [],
+      "imports": []
+    },
+    "@parse_option_integer@4": {
+      "edges": [
+        "_c2_fatal",
+        "indirect"
+      ],
+      "imports": [
+        {
+          "dll": "msvcrt.dll",
+          "name": "strtol"
+        }
+      ]
+    },
+    "@prepare_function_records@4": {
+      "edges": [
+        "@c2_pool_allocate@8",
+        "@has_local_symbol@4",
+        "@queue_symbol_debug@4",
+        "@reserve_symbol_storage@4",
+        "@select_symbol_section@8",
+        "_prepare_global_records"
+      ],
+      "imports": []
+    },
+    "@process_records@4": {
+      "edges": [
+        "@align_pending_debug_symbols@4",
+        "@write_assembly_records@4",
+        "@write_codeview_records@4",
+        "_write_assembly_symbols",
+        "_write_pending_debug_symbols"
+      ],
+      "imports": []
+    },
+    "@put_symbol@8": {
+      "edges": [],
+      "imports": []
+    },
+    "@query_coff_position@4": {
+      "edges": [
+        "@c2_report_internal@8",
+        "@lookup_output_table@8",
+        "@output_list_position@4"
+      ],
+      "imports": []
+    },
+    "@read_initializer_records@4": {
+      "edges": [
+        "@c2_report_internal@8",
+        "@emit_initializer@4",
+        "@free_initializer@4",
+        "@input_string@8",
+        "@lookup_source_file@8",
+        "@new_initializer@4",
+        "@queue_initializer@4",
+        "@read_initializer_records@4",
+        "@read_initializer_values@4",
+        "_c2_read_il_byte",
+        "_input_compact_signed",
+        "_input_varuint"
+      ],
+      "imports": [
+        {
+          "dll": "msvcrt.dll",
+          "name": "free"
+        }
+      ],
+      "register_imports": {
+        "original": {
+          "direct_import_calls": {},
+          "other_unresolved_calls": [],
+          "resolved_register_calls": {
+            "4669984": {
+              "dll": "msvcrt.dll",
+              "name": "free"
+            }
+          },
+          "roots": [
+            4531154
+          ],
+          "unresolved_register_calls": []
+        },
+        "rebuilt": {
+          "direct_import_calls": {
+            "4207950": {
+              "dll": "msvcrt.dll",
+              "name": "free"
+            }
+          },
+          "other_unresolved_calls": [],
+          "resolved_register_calls": {},
+          "roots": [
+            4207640
+          ],
+          "unresolved_register_calls": []
+        },
+        "require_all_register_calls_resolved": true
+      }
+    },
+    "@read_symbol@4": {
+      "edges": [
+        "@arena_strdup@8",
+        "@c2_allocate_node@8",
+        "@c2_node_size@4",
+        "@c2_open_intermediate@16",
+        "@c2_pool_allocate@8",
+        "@c2_report_internal@8",
+        "@clone_alias_symbol@4",
+        "@copy_symbol_type@4",
+        "@input_string@8",
+        "@intern_symbol_name@12",
+        "@lookup_global_symbol@4",
+        "@lookup_source_file@8",
+        "@queue_symbol_debug@4",
+        "@read_module_directive@4",
+        "@read_qualified_symbol@8",
+        "@read_symbols@4",
+        "@register_source_file@4",
+        "_c2_read_il_byte",
+        "_compiler_warning",
+        "_input_compact_short",
+        "_input_compact_signed",
+        "_input_extended_flags",
+        "_input_varuint"
+      ],
+      "imports": [
+        {
+          "dll": "msvcrt.dll",
+          "name": "free"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "strncmp"
+        }
+      ]
+    },
+    "@read_symbols@4": {
+      "edges": [
+        "@append_section@4",
+        "@c2_pool_allocate@8",
+        "@c2_report_internal@8",
+        "@function_retains_symbols@8",
+        "@initialize_section_defaults@4",
+        "@insert_symbol@8",
+        "@lookup_symbol@8",
+        "@put_symbol@8",
+        "@queue_symbol_debug@4",
+        "@read_symbol@4",
+        "@record_filename@4",
+        "@reserve_symbol_storage@4",
+        "@update_symbol_storage@4"
+      ],
+      "imports": []
+    },
+    "@record_filename@4": {
+      "edges": [
+        "@c2_pool_allocate@8"
+      ],
+      "imports": []
+    },
+    "@record_output_section@4": {
+      "edges": [
+        "@c2_pool_allocate@8"
+      ],
+      "imports": []
+    },
+    "@register_coff_storage@4": {
+      "edges": [
+        "indirect"
+      ],
+      "imports": []
+    },
+    "@select_coff_section@4": {
+      "edges": [
+        "@lookup_output_table@8"
+      ],
+      "imports": []
+    },
+    "@unescape_message@4": {
+      "edges": [],
+      "imports": []
+    },
+    "@update_symbol_storage@4": {
+      "edges": [
+        "@c2_pool_allocate@8",
+        "@c2_report_internal@8",
+        "@create_section@12",
+        "@is_constant_symbol@4",
+        "@is_known_symbol@4",
+        "@lookup_global_symbol@4",
+        "@select_symbol_section@8",
+        "_next_symbol_serial"
+      ],
+      "imports": []
+    },
+    "@write_coff_directive@16": {
+      "edges": [
+        "@write_output_byte@4",
+        "@write_output_bytes@8",
+        "_output_callback_41ec20"
+      ],
+      "imports": []
+    },
+    "@write_output_byte@4": {
+      "edges": [
+        "@write_output_bytes@8"
+      ],
+      "imports": []
+    },
+    "@write_output_bytes@8": {
+      "edges": [
+        "@c2_report_internal@8",
+        "_new_output_chunk",
+        "indirect"
+      ],
+      "imports": [
+        {
+          "dll": "msvcrt.dll",
+          "name": "fwrite"
+        }
+      ]
+    },
+    "_c2_cleanup": {
+      "edges": [
+        "indirect"
+      ],
+      "imports": []
+    },
+    "_c2_copy_arguments": {
+      "edges": [],
+      "imports": []
+    },
+    "_c2_create_type_table": {
+      "edges": [
+        "@c2_allocate_node@8"
+      ],
+      "imports": []
+    },
+    "_c2_crt_startup": {
+      "edges": [
+        "_c2_main",
+        "_c2_set_argv",
+        "_c2_set_default_precision"
+      ],
+      "imports": [
+        {
+          "dll": "msvcrt.dll",
+          "name": "_XcptFilter"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "__getmainargs"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "__p___initenv"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "__p__commode"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "__p__fmode"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "__set_app_type"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "__setusermatherr"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "_exit"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "_initterm"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "exit"
+        }
+      ]
+    },
+    "_c2_fatal": {
+      "edges": [
+        "@lookup_message@8",
+        "_emit_diagnostic"
+      ],
+      "imports": [
+        {
+          "dll": "msvcrt.dll",
+          "name": "_fcloseall"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "exit"
+        }
+      ]
+    },
+    "_c2_initialize_codegen": {
+      "edges": [
+        "@read_symbols@4"
+      ],
+      "imports": [
+        {
+          "dll": "msvcrt.dll",
+          "name": "fclose"
+        }
+      ]
+    },
+    "_c2_initialize_constants": {
+      "edges": [
+        "_c2_real_from_int"
+      ],
+      "imports": []
+    },
+    "_c2_initialize_machine": {
+      "edges": [],
+      "imports": []
+    },
+    "_c2_initialize_opcodes": {
+      "edges": [],
+      "imports": []
+    },
+    "_c2_initialize_optimizer": {
+      "edges": [
+        "@activate_scope@4",
+        "@c2_open_intermediate@16",
+        "@c2_pool_allocate@8",
+        "@c2_report_internal@8",
+        "@canonicalize_function@4",
+        "@function_pass_402b6e@4",
+        "@function_pass_402c2c@4",
+        "@function_pass_402cb6@4",
+        "@function_pass_4088c7@4",
+        "@function_pass_409c5c@4",
+        "@function_pass_409dac@8",
+        "@function_pass_40d254@4",
+        "@function_pass_40d9be@8",
+        "@function_pass_4120d4@4",
+        "@function_pass_412292@4",
+        "@function_pass_412412@4",
+        "@function_pass_412457@4",
+        "@function_pass_412d5c@4",
+        "@function_pass_413245@4",
+        "@function_pass_4132fa@4",
+        "@function_pass_413369@4",
+        "@function_pass_4144ef@4",
+        "@function_pass_414862@4",
+        "@function_pass_414a64@4",
+        "@function_pass_416e6a@4",
+        "@function_pass_41759e@4",
+        "@function_pass_4180e8@4",
+        "@function_pass_42127d@4",
+        "@function_pass_421bdf@4",
+        "@function_pass_421e34@4",
+        "@function_pass_427d89@4",
+        "@function_pass_42a8aa@4",
+        "@function_pass_42b3e2@4",
+        "@function_pass_42b750@4",
+        "@function_pass_42d635@4",
+        "@function_pass_42d65a@4",
+        "@function_pass_42e689@4",
+        "@function_pass_42e6a6@4",
+        "@function_pass_42f060@4",
+        "@function_pass_42f3e4@4",
+        "@function_pass_42f446@4",
+        "@function_pass_4330f7@4",
+        "@function_pass_433546@4",
+        "@function_pass_4338ab@4",
+        "@function_pass_433906@4",
+        "@function_pass_456857@8",
+        "@function_pass_456b13@4",
+        "@function_pass_4570e0@8",
+        "@function_pass_45729f@4",
+        "@function_pass_458c9f@4",
+        "@function_pass_463ff1@4",
+        "@function_pass_46481c@4",
+        "@function_pass_464b8a@4",
+        "@function_pass_465486@4",
+        "@function_pass_47d1d3@4",
+        "@function_pass_4828f8@4",
+        "@function_pass_483b6f@4",
+        "@function_pass_483f46@4",
+        "@listing_source_index@8",
+        "@read_function@4",
+        "@skip_global_optimization@4",
+        "_begin_function_input",
+        "_check_extended_backend",
+        "_finish_deferred_function",
+        "_finish_function",
+        "_initialize_backend",
+        "_prepare_deferred_function"
+      ],
+      "imports": []
+    },
+    "_c2_initialize_options": {
+      "edges": [
+        "@c2_get_diagnostic_string@4",
+        "@c2_match_option@16",
+        "@c2_system_fatal@12",
+        "@c2_validate_alignment@4",
+        "_c2_fatal",
+        "_c2_next_argument",
+        "indirect"
+      ],
+      "imports": [
+        {
+          "dll": "msvcrt.dll",
+          "name": "freopen"
+        }
+      ]
+    },
+    "_c2_initialize_registers": {
+      "edges": [
+        "@read_initializer_records@4"
+      ],
+      "imports": []
+    },
+    "_c2_initialize_trees": {
+      "edges": [
+        "@create_section@12",
+        "@initialize_section_defaults@4"
+      ],
+      "imports": []
+    },
+    "_c2_main": {
+      "edges": [
+        "@c2_open_intermediate@16",
+        "@c2_read_environment@4",
+        "@c2_report_internal@8",
+        "_c2_compile_unit",
+        "_c2_create_type_table",
+        "_c2_fatal",
+        "_c2_finalize_output",
+        "_c2_flush_debug",
+        "_c2_initialize_codegen",
+        "_c2_initialize_constants",
+        "_c2_initialize_machine",
+        "_c2_initialize_opcodes",
+        "_c2_initialize_optimizer",
+        "_c2_initialize_options",
+        "_c2_initialize_registers",
+        "_c2_initialize_trees",
+        "_c2_print_banner",
+        "_c2_read_header",
+        "_c2_register_exit",
+        "_c2_reset_symbol_table",
+        "_c2_set_argv"
+      ],
+      "imports": [
+        {
+          "dll": "kernel32.dll",
+          "name": "SetConsoleCtrlHandler"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "_controlfp"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "exit"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "getenv"
+        }
+      ]
+    },
+    "_c2_next_argument": {
+      "edges": [],
+      "imports": []
+    },
+    "_c2_read_header": {
+      "edges": [
+        "@c2_open_pdb@8",
+        "@c2_report_internal@8",
+        "_c2_fatal",
+        "_c2_read_il_byte",
+        "_c2_read_il_long",
+        "_c2_read_il_word"
+      ],
+      "imports": []
+    },
+    "_c2_read_il_byte": {
+      "edges": [],
+      "imports": [
+        {
+          "dll": "msvcrt.dll",
+          "name": "_filbuf"
+        }
+      ]
+    },
+    "_c2_read_il_long": {
+      "edges": [
+        "indirect"
+      ],
+      "imports": []
+    },
+    "_c2_read_il_word": {
+      "edges": [
+        "indirect"
+      ],
+      "imports": []
+    },
+    "_c2_real_from_int": {
+      "edges": [
+        "_store_extended"
+      ],
+      "imports": []
+    },
+    "_c2_register_exit": {
+      "edges": [
+        "_c2_register_onexit"
+      ],
+      "imports": []
+    },
+    "_c2_register_onexit": {
+      "edges": [],
+      "imports": [
+        {
+          "dll": "msvcrt.dll",
+          "name": "__dllonexit"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "_onexit"
+        }
+      ]
+    },
+    "_c2_reset_symbol_table": {
+      "edges": [],
+      "imports": []
+    },
+    "_c2_set_argv": {
+      "edges": [],
+      "imports": []
+    },
+    "_c2_set_default_precision": {
+      "edges": [],
+      "imports": [
+        {
+          "dll": "msvcrt.dll",
+          "name": "_controlfp"
+        }
+      ]
+    },
+    "_default_runtime_library": {
+      "edges": [],
+      "imports": []
+    },
+    "_emit_diagnostic": {
+      "edges": [
+        "@c2_get_diagnostic_string@4",
+        "@resolve_diagnostic_location@8",
+        "_format_diagnostic",
+        "_format_diagnostic_args",
+        "indirect"
+      ],
+      "imports": []
+    },
+    "_format_diagnostic": {
+      "edges": [
+        "_format_diagnostic_args"
+      ],
+      "imports": []
+    },
+    "_format_diagnostic_args": {
+      "edges": [
+        "@format_integer@12"
+      ],
+      "imports": []
+    },
+    "_initialize_backend": {
+      "edges": [
+        "@initialize_source_output@4",
+        "@prepare_function_records@4",
+        "@process_records@4",
+        "_initialize_pass_functions"
+      ],
+      "imports": []
+    },
+    "_initialize_coff_lists": {
+      "edges": [],
+      "imports": []
+    },
+    "_initialize_messages": {
+      "edges": [
+        "@lookup_message@8",
+        "indirect"
+      ],
+      "imports": []
+    },
+    "_initialize_object_output": {
+      "edges": [
+        "@arena_strdup@8",
+        "@c2_get_diagnostic_string@4",
+        "@c2_pool_allocate@8",
+        "@c2_report_internal@8",
+        "@c2_system_fatal@12",
+        "@create_section@12",
+        "@initialize_coff_output@4",
+        "@read_incremental_stream@8",
+        "_next_symbol_serial",
+        "_prepare_output_486a23",
+        "_prepare_output_486e67",
+        "_prepare_output_48710f",
+        "_query_incremental_stream_size",
+        "_read_incremental_byte",
+        "_validate_incremental_options",
+        "_write_output_directives"
+      ],
+      "imports": [
+        {
+          "dll": "msvcrt.dll",
+          "name": "fclose"
+        },
+        {
+          "dll": "msvcrt.dll",
+          "name": "fopen"
+        }
+      ],
+      "register_imports": {
+        "original": {
+          "direct_import_calls": {
+            "4672532": {
+              "dll": "msvcrt.dll",
+              "name": "fclose"
+            }
+          },
+          "other_unresolved_calls": [],
+          "resolved_register_calls": {
+            "4537148": {
+              "dll": "msvcrt.dll",
+              "name": "fopen"
+            },
+            "4672513": {
+              "dll": "msvcrt.dll",
+              "name": "fopen"
+            }
+          },
+          "roots": [
+            4537100
+          ],
+          "unresolved_register_calls": []
+        },
+        "rebuilt": {
+          "direct_import_calls": {
+            "4223998": {
+              "dll": "msvcrt.dll",
+              "name": "fopen"
+            },
+            "4224028": {
+              "dll": "msvcrt.dll",
+              "name": "fclose"
+            },
+            "4224175": {
+              "dll": "msvcrt.dll",
+              "name": "fopen"
+            }
+          },
+          "other_unresolved_calls": [],
+          "resolved_register_calls": {},
+          "roots": [
+            4223968
+          ],
+          "unresolved_register_calls": []
+        },
+        "require_all_register_calls_resolved": true
+      }
+    },
+    "_initialize_pass_functions": {
+      "edges": [
+        "@add_output_directive@8",
+        "_default_runtime_library",
+        "_initialize_codeview_output",
+        "_initialize_object_output"
+      ],
+      "imports": []
+    },
+    "_input_compact_short": {
+      "edges": [
+        "indirect"
+      ],
+      "imports": []
+    },
+    "_input_compact_signed": {
+      "edges": [
+        "indirect"
+      ],
+      "imports": []
+    },
+    "_input_type": {
+      "edges": [
+        "_c2_read_il_byte"
+      ],
+      "imports": []
+    },
+    "_input_varuint": {
+      "edges": [
+        "indirect"
+      ],
+      "imports": []
+    },
+    "_new_output_chunk": {
+      "edges": [
+        "indirect"
+      ],
+      "imports": []
+    },
+    "_next_symbol_serial": {
+      "edges": [
+        "_c2_fatal"
+      ],
+      "imports": []
+    },
+    "_output_callback_41ec20": {
+      "edges": [
+        "@create_coff_section@4",
+        "@query_coff_position@4",
+        "@select_coff_section@4",
+        "@write_output_fill@8"
+      ],
+      "imports": []
+    },
+    "_output_callback_453e02": {
+      "edges": [
+        "@c2_report_internal@8",
+        "@emit_incremental_string@4",
+        "@write_coff_directive@16"
+      ],
+      "imports": []
+    },
+    "_prepare_global_records": {
+      "edges": [
+        "@initializer_is_static@4",
+        "@lookup_global_symbol@4",
+        "@record_symbol_references@4",
+        "@reserve_symbol_storage@4",
+        "@resolve_alias_symbol@4",
+        "@symbol_requires_references@4",
+        "@update_symbol_storage@4",
+        "_c2_set_argv",
+        "_new_symbol_link"
+      ],
+      "imports": []
+    },
+    "_store_extended": {
+      "edges": [],
+      "imports": []
+    },
+    "_write_output_directives": {
+      "edges": [
+        "indirect"
+      ],
+      "imports": []
+    },
+    "_writer_callback_41eb8a": {
+      "edges": [
+        "@c2_pool_allocate@8"
+      ],
+      "imports": []
+    }
+  },
+  "import_catalogs": {
+    "original": {
+      "normalizable_thunks": 6,
+      "slots": {
+        "4771840": {
+          "dll": "mspdb50.dll",
+          "name": "StreamAppend"
+        },
+        "4771844": {
+          "dll": "mspdb50.dll",
+          "name": "StreamReplace"
+        },
+        "4771848": {
+          "dll": "mspdb50.dll",
+          "name": "ILModGetILVer"
+        },
+        "4771852": {
+          "dll": "mspdb50.dll",
+          "name": "ILModGetIL"
+        },
+        "4771856": {
+          "dll": "mspdb50.dll",
+          "name": "StreamQueryCb"
+        },
+        "4771860": {
+          "dll": "mspdb50.dll",
+          "name": "StreamRead"
+        },
+        "4771864": {
+          "dll": "mspdb50.dll",
+          "name": "ILModRelease"
+        },
+        "4771868": {
+          "dll": "mspdb50.dll",
+          "name": "ILStoreRelease"
+        },
+        "4771872": {
+          "dll": "mspdb50.dll",
+          "name": "StreamRelease"
+        },
+        "4771876": {
+          "dll": "mspdb50.dll",
+          "name": "PDBCommit"
+        },
+        "4771880": {
+          "dll": "mspdb50.dll",
+          "name": "SigForPbCb"
+        },
+        "4771884": {
+          "dll": "mspdb50.dll",
+          "name": "PDBClose"
+        },
+        "4771888": {
+          "dll": "mspdb50.dll",
+          "name": "ILStoreGetILMod"
+        },
+        "4771892": {
+          "dll": "mspdb50.dll",
+          "name": "PDBOpen"
+        },
+        "4771896": {
+          "dll": "mspdb50.dll",
+          "name": "PDBOpenStream"
+        },
+        "4771900": {
+          "dll": "mspdb50.dll",
+          "name": "ILStoreOpen"
+        },
+        "4771908": {
+          "dll": "user32.dll",
+          "name": "LoadStringA"
+        },
+        "4771916": {
+          "dll": "msvcrt.dll",
+          "name": "fwrite"
+        },
+        "4771920": {
+          "dll": "msvcrt.dll",
+          "name": "fputc"
+        },
+        "4771924": {
+          "dll": "msvcrt.dll",
+          "name": "fseek"
+        },
+        "4771928": {
+          "dll": "msvcrt.dll",
+          "name": "__set_app_type"
+        },
+        "4771932": {
+          "dll": "msvcrt.dll",
+          "name": "__p__fmode"
+        },
+        "4771936": {
+          "dll": "msvcrt.dll",
+          "name": "__p__commode"
+        },
+        "4771940": {
+          "dll": "msvcrt.dll",
+          "name": "_adjust_fdiv"
+        },
+        "4771944": {
+          "dll": "msvcrt.dll",
+          "name": "__setusermatherr"
+        },
+        "4771948": {
+          "dll": "msvcrt.dll",
+          "name": "_initterm"
+        },
+        "4771952": {
+          "dll": "msvcrt.dll",
+          "name": "__getmainargs"
+        },
+        "4771956": {
+          "dll": "msvcrt.dll",
+          "name": "__p___initenv"
+        },
+        "4771960": {
+          "dll": "msvcrt.dll",
+          "name": "_XcptFilter"
+        },
+        "4771964": {
+          "dll": "msvcrt.dll",
+          "name": "_exit"
+        },
+        "4771968": {
+          "dll": "msvcrt.dll",
+          "name": "_onexit"
+        },
+        "4771972": {
+          "dll": "msvcrt.dll",
+          "name": "__dllonexit"
+        },
+        "4771976": {
+          "dll": "msvcrt.dll",
+          "name": "freopen"
+        },
+        "4771980": {
+          "dll": "msvcrt.dll",
+          "name": "_iob"
+        },
+        "4771984": {
+          "dll": "msvcrt.dll",
+          "name": "strpbrk"
+        },
+        "4771988": {
+          "dll": "msvcrt.dll",
+          "name": "strchr"
+        },
+        "4771992": {
+          "dll": "msvcrt.dll",
+          "name": "printf"
+        },
+        "4771996": {
+          "dll": "msvcrt.dll",
+          "name": "exit"
+        },
+        "4772000": {
+          "dll": "msvcrt.dll",
+          "name": "_controlfp"
+        },
+        "4772004": {
+          "dll": "msvcrt.dll",
+          "name": "getenv"
+        },
+        "4772008": {
+          "dll": "msvcrt.dll",
+          "name": "_except_handler3"
+        },
+        "4772012": {
+          "dll": "msvcrt.dll",
+          "name": "fclose"
+        },
+        "4772016": {
+          "dll": "msvcrt.dll",
+          "name": "remove"
+        },
+        "4772020": {
+          "dll": "msvcrt.dll",
+          "name": "strncpy"
+        },
+        "4772024": {
+          "dll": "msvcrt.dll",
+          "name": "_write"
+        },
+        "4772028": {
+          "dll": "msvcrt.dll",
+          "name": "fflush"
+        },
+        "4772032": {
+          "dll": "msvcrt.dll",
+          "name": "fopen"
+        },
+        "4772036": {
+          "dll": "msvcrt.dll",
+          "name": "strncmp"
+        },
+        "4772040": {
+          "dll": "msvcrt.dll",
+          "name": "time"
+        },
+        "4772044": {
+          "dll": "msvcrt.dll",
+          "name": "malloc"
+        },
+        "4772048": {
+          "dll": "msvcrt.dll",
+          "name": "_fullpath"
+        },
+        "4772052": {
+          "dll": "msvcrt.dll",
+          "name": "_pctype"
+        },
+        "4772056": {
+          "dll": "msvcrt.dll",
+          "name": "ftell"
+        },
+        "4772060": {
+          "dll": "msvcrt.dll",
+          "name": "_strdup"
+        },
+        "4772064": {
+          "dll": "msvcrt.dll",
+          "name": "free"
+        },
+        "4772068": {
+          "dll": "msvcrt.dll",
+          "name": "atoi"
+        },
+        "4772072": {
+          "dll": "msvcrt.dll",
+          "name": "_chsize"
+        },
+        "4772076": {
+          "dll": "msvcrt.dll",
+          "name": "fread"
+        },
+        "4772080": {
+          "dll": "msvcrt.dll",
+          "name": "__unDName"
+        },
+        "4772084": {
+          "dll": "msvcrt.dll",
+          "name": "memmove"
+        },
+        "4772088": {
+          "dll": "msvcrt.dll",
+          "name": "fgets"
+        },
+        "4772092": {
+          "dll": "msvcrt.dll",
+          "name": "_fcloseall"
+        },
+        "4772096": {
+          "dll": "msvcrt.dll",
+          "name": "_isctype"
+        },
+        "4772100": {
+          "dll": "msvcrt.dll",
+          "name": "__mb_cur_max"
+        },
+        "4772104": {
+          "dll": "msvcrt.dll",
+          "name": "sprintf"
+        },
+        "4772108": {
+          "dll": "msvcrt.dll",
+          "name": "_filbuf"
+        },
+        "4772112": {
+          "dll": "msvcrt.dll",
+          "name": "_strerror"
+        },
+        "4772116": {
+          "dll": "msvcrt.dll",
+          "name": "strtol"
+        },
+        "4772120": {
+          "dll": "msvcrt.dll",
+          "name": "_errno"
+        },
+        "4772128": {
+          "dll": "kernel32.dll",
+          "name": "GetModuleHandleA"
+        },
+        "4772132": {
+          "dll": "kernel32.dll",
+          "name": "SetConsoleCtrlHandler"
+        }
+      }
+    },
+    "rebuilt": {
+      "normalizable_thunks": 5,
+      "slots": {
+        "4231168": {
+          "dll": "kernel32.dll",
+          "name": "GetModuleHandleA"
+        },
+        "4231172": {
+          "dll": "kernel32.dll",
+          "name": "SetConsoleCtrlHandler"
+        },
+        "4231180": {
+          "dll": "msvcrt.dll",
+          "name": "_onexit"
+        },
+        "4231184": {
+          "dll": "msvcrt.dll",
+          "name": "_iob"
+        },
+        "4231188": {
+          "dll": "msvcrt.dll",
+          "name": "_exit"
+        },
+        "4231192": {
+          "dll": "msvcrt.dll",
+          "name": "_XcptFilter"
+        },
+        "4231196": {
+          "dll": "msvcrt.dll",
+          "name": "exit"
+        },
+        "4231200": {
+          "dll": "msvcrt.dll",
+          "name": "__p___initenv"
+        },
+        "4231204": {
+          "dll": "msvcrt.dll",
+          "name": "__getmainargs"
+        },
+        "4231208": {
+          "dll": "msvcrt.dll",
+          "name": "_initterm"
+        },
+        "4231212": {
+          "dll": "msvcrt.dll",
+          "name": "__setusermatherr"
+        },
+        "4231216": {
+          "dll": "msvcrt.dll",
+          "name": "_adjust_fdiv"
+        },
+        "4231220": {
+          "dll": "msvcrt.dll",
+          "name": "__p__commode"
+        },
+        "4231224": {
+          "dll": "msvcrt.dll",
+          "name": "__p__fmode"
+        },
+        "4231228": {
+          "dll": "msvcrt.dll",
+          "name": "__set_app_type"
+        },
+        "4231232": {
+          "dll": "msvcrt.dll",
+          "name": "_except_handler3"
+        },
+        "4231236": {
+          "dll": "msvcrt.dll",
+          "name": "_controlfp"
+        },
+        "4231240": {
+          "dll": "msvcrt.dll",
+          "name": "getenv"
+        },
+        "4231244": {
+          "dll": "msvcrt.dll",
+          "name": "__dllonexit"
+        },
+        "4231248": {
+          "dll": "msvcrt.dll",
+          "name": "fopen"
+        },
+        "4231252": {
+          "dll": "msvcrt.dll",
+          "name": "freopen"
+        },
+        "4231256": {
+          "dll": "msvcrt.dll",
+          "name": "_filbuf"
+        },
+        "4231260": {
+          "dll": "msvcrt.dll",
+          "name": "strpbrk"
+        },
+        "4231264": {
+          "dll": "msvcrt.dll",
+          "name": "_strdup"
+        },
+        "4231268": {
+          "dll": "msvcrt.dll",
+          "name": "strtol"
+        },
+        "4231272": {
+          "dll": "msvcrt.dll",
+          "name": "_errno"
+        },
+        "4231276": {
+          "dll": "msvcrt.dll",
+          "name": "_pctype"
+        },
+        "4231280": {
+          "dll": "msvcrt.dll",
+          "name": "__mb_cur_max"
+        },
+        "4231284": {
+          "dll": "msvcrt.dll",
+          "name": "_isctype"
+        },
+        "4231288": {
+          "dll": "msvcrt.dll",
+          "name": "fwrite"
+        },
+        "4231292": {
+          "dll": "msvcrt.dll",
+          "name": "remove"
+        },
+        "4231296": {
+          "dll": "msvcrt.dll",
+          "name": "fclose"
+        },
+        "4231300": {
+          "dll": "msvcrt.dll",
+          "name": "free"
+        },
+        "4231304": {
+          "dll": "msvcrt.dll",
+          "name": "_fcloseall"
+        },
+        "4231308": {
+          "dll": "msvcrt.dll",
+          "name": "memmove"
+        },
+        "4231312": {
+          "dll": "msvcrt.dll",
+          "name": "malloc"
+        },
+        "4231316": {
+          "dll": "msvcrt.dll",
+          "name": "strncmp"
+        },
+        "4231324": {
+          "dll": "user32.dll",
+          "name": "LoadStringA"
+        }
+      }
+    }
+  },
+  "original_accepted_graphs": {
+    "@add_coff_section@16": {
+      "calls": [
+        4321077
+      ],
+      "references": [
+        8,
+        24
+      ]
+    },
+    "@add_coff_symbol@4": {
+      "calls": [
+        4580199
+      ],
+      "references": []
+    },
+    "@add_output_directive@8": {
+      "calls": [
+        4198400
+      ],
+      "references": [
+        1,
+        12,
+        4817088
+      ]
+    },
+    "@add_output_source@4": {
+      "calls": [
+        4320227,
+        4740034,
+        4740287
+      ],
+      "references": [
+        0,
+        1,
+        2,
+        5,
+        8,
+        12,
+        954437177,
+        4294967295
+      ]
+    },
+    "@append_output_table@8": {
+      "calls": [],
+      "references": [
+        0
+      ]
+    },
+    "@append_section@4": {
+      "calls": [],
+      "references": []
+    },
+    "@arena_strdup@8": {
+      "calls": [
+        4198400
+      ],
+      "references": [
+        2,
+        3,
+        4294967295
+      ]
+    },
+    "@c2_allocate_node@8": {
+      "calls": [
+        4198400,
+        4248884
+      ],
+      "references": []
+    },
+    "@c2_apply_option@12": {
+      "calls": [
+        4533799,
+        4746044,
+        4764519
+      ],
+      "references": [
+        0,
+        1,
+        4,
+        12,
+        16,
+        31,
+        38,
+        48,
+        57,
+        93,
+        94,
+        211,
+        221,
+        4842020,
+        4294967295
+      ]
+    },
+    "@c2_get_diagnostic_string@4": {
+      "calls": [
+        4765358,
+        4765448
+      ],
+      "references": [
+        4813743
+      ]
+    },
+    "@c2_match_option@16": {
+      "calls": [
+        4533502,
+        4765688
+      ],
+      "references": [
+        0,
+        8,
+        12,
+        32,
+        45,
+        255
+      ]
+    },
+    "@c2_node_size@4": {
+      "calls": [
+        4746044
+      ],
+      "references": [
+        15,
+        64,
+        68,
+        70,
+        86,
+        90,
+        110,
+        1514,
+        4838968
+      ]
+    },
+    "@c2_open_intermediate@16": {
+      "calls": [
+        4746044,
+        4765320,
+        4765390
+      ],
+      "references": [
+        2,
+        3,
+        8,
+        83,
+        260,
+        311,
+        326,
+        4841860,
+        4294967295
+      ]
+    },
+    "@c2_pool_allocate@8": {
+      "calls": [
+        4764519
+      ],
+      "references": [
+        0,
+        2,
+        3,
+        4,
+        8,
+        4088,
+        4096,
+        4294967292
+      ]
+    },
+    "@c2_read_environment@4": {
+      "calls": [
+        4532888
+      ],
+      "references": [
+        0,
+        4,
+        32,
+        34,
+        92
+      ]
+    },
+    "@c2_validate_alignment@4": {
+      "calls": [],
+      "references": [
+        0
+      ]
+    },
+    "@c2_wildcard_match@12": {
+      "calls": [],
+      "references": [
+        0,
+        1,
+        4
+      ]
+    },
+    "@copy_symbol_type@4": {
+      "calls": [
+        4326187
+      ],
+      "references": [
+        6,
+        15,
+        16,
+        31,
+        64,
+        239,
+        4294967280
+      ]
+    },
+    "@create_coff_section@4": {
+      "calls": [
+        4321155,
+        4321651,
+        4325425,
+        4325496,
+        4530924,
+        4746574
+      ],
+      "references": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        12,
+        16,
+        20,
+        2560,
+        65535,
+        4815992,
+        4816004,
+        4816020,
+        4816028,
+        4816036,
+        4816052,
+        4816060,
+        4816068,
+        4816080,
+        4816092,
+        4816252,
+        4816272,
+        4838884,
+        1073741888,
+        1107296328,
+        1610612768,
+        3221225536,
+        3221225600
+      ]
+    },
+    "@create_section@12": {
+      "calls": [
+        4248839,
+        4249000,
+        4322350
+      ],
+      "references": [
+        4,
+        9
+      ]
+    },
+    "@find_cached_message@4": {
+      "calls": [],
+      "references": [
+        8,
+        4841936
+      ]
+    },
+    "@format_integer@12": {
+      "calls": [],
+      "references": [
+        0,
+        1,
+        4,
+        10,
+        32,
+        45
+      ]
+    },
+    "@initialize_coff_output@4": {
+      "calls": [
+        4320150,
+        4531949,
+        4537717,
+        4537798,
+        4740322,
+        4741010,
+        4746044
+      ],
+      "references": [
+        0,
+        1,
+        4,
+        16,
+        300,
+        807,
+        838,
+        1023,
+        4096,
+        4838924
+      ]
+    },
+    "@initialize_coff_section@8": {
+      "calls": [
+        4320150,
+        4321413,
+        4321476,
+        4321574
+      ],
+      "references": [
+        0,
+        1,
+        2,
+        3,
+        16,
+        60,
+        308,
+        508,
+        65535,
+        3221225600
+      ]
+    },
+    "@initialize_coff_symbols@4": {
+      "calls": [
+        4320227,
+        4740034,
+        4740287
+      ],
+      "references": [
+        2,
+        5,
+        12,
+        16
+      ]
+    },
+    "@initialize_section_defaults@4": {
+      "calls": [],
+      "references": [
+        2
+      ]
+    },
+    "@initialize_source_output@4": {
+      "calls": [
+        4720943,
+        4720946
+      ],
+      "references": [
+        1
+      ]
+    },
+    "@input_string@8": {
+      "calls": [
+        4746044
+      ],
+      "references": [
+        4,
+        294,
+        4841860
+      ]
+    },
+    "@insert_symbol@8": {
+      "calls": [],
+      "references": [
+        1023
+      ]
+    },
+    "@intern_symbol_name@12": {
+      "calls": [
+        4326224,
+        4745583
+      ],
+      "references": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        10,
+        12,
+        16,
+        25,
+        28,
+        36,
+        63,
+        64,
+        95,
+        4813920,
+        4813921,
+        4294967295
+      ]
+    },
+    "@load_message@16": {
+      "calls": [
+        4765626
+      ],
+      "references": [
+        0,
+        8
+      ]
+    },
+    "@lookup_global_symbol@4": {
+      "calls": [],
+      "references": [
+        1023
+      ]
+    },
+    "@lookup_message@8": {
+      "calls": [
+        4765448,
+        4765580
+      ],
+      "references": [
+        384,
+        4842704
+      ]
+    },
+    "@lookup_output_table@8": {
+      "calls": [
+        4746044
+      ],
+      "references": [
+        3551,
+        4838924
+      ]
+    },
+    "@new_output_list@8": {
+      "calls": [
+        4320202
+      ],
+      "references": [
+        24
+      ]
+    },
+    "@new_output_table@4": {
+      "calls": [],
+      "references": [
+        32,
+        65535
+      ]
+    },
+    "@output_list_position@4": {
+      "calls": [],
+      "references": []
+    },
+    "@parse_option_integer@4": {
+      "calls": [
+        4764519
+      ],
+      "references": [
+        0,
+        1,
+        8,
+        12,
+        34,
+        49
+      ]
+    },
+    "@prepare_function_records@4": {
+      "calls": [
+        4198400,
+        4251079,
+        4323284,
+        4325189,
+        4500303,
+        4547313
+      ],
+      "references": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        8,
+        14,
+        16,
+        32,
+        64,
+        187,
+        298,
+        65535,
+        4294967285,
+        4294967294
+      ]
+    },
+    "@process_records@4": {
+      "calls": [
+        4322501,
+        4322614,
+        4322649,
+        4322663,
+        4322700
+      ],
+      "references": []
+    },
+    "@put_symbol@8": {
+      "calls": [],
+      "references": [
+        1023
+      ]
+    },
+    "@query_coff_position@4": {
+      "calls": [
+        4321413,
+        4321895,
+        4746044
+      ],
+      "references": [
+        1,
+        2404,
+        2413,
+        65535,
+        4838924
+      ]
+    },
+    "@read_initializer_records@4": {
+      "calls": [
+        4325585,
+        4325621,
+        4325968,
+        4329076,
+        4499141,
+        4499172,
+        4530866,
+        4531154,
+        4531369,
+        4538474,
+        4746044,
+        4766384
+      ],
+      "references": [
+        0,
+        1,
+        4,
+        16,
+        36,
+        2058,
+        2205,
+        2221,
+        4811264,
+        4838968,
+        4294967295
+      ]
+    },
+    "@read_symbol@4": {
+      "calls": [
+        4198400,
+        4248839,
+        4248884,
+        4322387,
+        4325189,
+        4325585,
+        4325621,
+        4325829,
+        4325968,
+        4326224,
+        4326292,
+        4329076,
+        4329147,
+        4359092,
+        4508034,
+        4530997,
+        4553883,
+        4562073,
+        4745531,
+        4746044,
+        4763693,
+        4766336,
+        4766384
+      ],
+      "references": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        12,
+        13,
+        14,
+        15,
+        16,
+        20,
+        22,
+        23,
+        27,
+        32,
+        48,
+        64,
+        79,
+        95,
+        96,
+        112,
+        128,
+        144,
+        152,
+        160,
+        223,
+        240,
+        248,
+        249,
+        384,
+        512,
+        714,
+        768,
+        794,
+        850,
+        865,
+        883,
+        896,
+        1024,
+        1152,
+        1920,
+        2058,
+        2128,
+        4160,
+        65536,
+        4811264,
+        4813568,
+        4813576,
+        4813700,
+        4813732,
+        4813743,
+        4838884,
+        4838968,
+        4294965375,
+        4294965631,
+        4294967183,
+        4294967215,
+        4294967295
+      ]
+    },
+    "@read_symbols@4": {
+      "calls": [
+        4198400,
+        4249000,
+        4251079,
+        4322350,
+        4325189,
+        4327095,
+        4347234,
+        4350333,
+        4359139,
+        4359656,
+        4534992,
+        4538002,
+        4746044
+      ],
+      "references": [
+        1,
+        3,
+        8,
+        12,
+        16,
+        22,
+        24,
+        28,
+        32,
+        48,
+        64,
+        80,
+        96,
+        112,
+        127,
+        251,
+        256,
+        354,
+        512,
+        1152,
+        1920,
+        4782952,
+        4813780,
+        4838968
+      ]
+    },
+    "@record_filename@4": {
+      "calls": [
+        4198400
+      ],
+      "references": [
+        12
+      ]
+    },
+    "@record_output_section@4": {
+      "calls": [
+        4198400
+      ],
+      "references": [
+        7,
+        8,
+        15
+      ]
+    },
+    "@register_coff_storage@4": {
+      "calls": [],
+      "references": [
+        8
+      ]
+    },
+    "@select_coff_section@4": {
+      "calls": [
+        4321413
+      ],
+      "references": [
+        2,
+        65535
+      ]
+    },
+    "@unescape_message@4": {
+      "calls": [],
+      "references": [
+        0,
+        9,
+        10,
+        92,
+        110,
+        116
+      ]
+    },
+    "@update_symbol_storage@4": {
+      "calls": [
+        4198400,
+        4249048,
+        4322295,
+        4322387,
+        4329521,
+        4538458,
+        4547313,
+        4746044
+      ],
+      "references": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        12,
+        15,
+        32,
+        64,
+        96,
+        128,
+        223,
+        797,
+        1152,
+        131072,
+        262144,
+        4813688,
+        4813764,
+        4813772,
+        4813792,
+        4816092,
+        4826628,
+        4294967215,
+        4294967279
+      ]
+    },
+    "@write_coff_directive@16": {
+      "calls": [
+        4320288,
+        4321904,
+        4538195
+      ],
+      "references": [
+        2,
+        8,
+        32,
+        34,
+        4294967295
+      ]
+    },
+    "@write_output_byte@4": {
+      "calls": [
+        4321904
+      ],
+      "references": [
+        1
+      ]
+    },
+    "@write_output_bytes@8": {
+      "calls": [
+        4320202,
+        4746044
+      ],
+      "references": [
+        0,
+        1,
+        2,
+        3,
+        8,
+        14,
+        16,
+        500,
+        3254,
+        3265,
+        4838924
+      ]
+    },
+    "_c2_cleanup": {
+      "calls": [],
+      "references": [
+        1,
+        4,
+        32
+      ]
+    },
+    "_c2_copy_arguments": {
+      "calls": [],
+      "references": [
+        4,
+        4816888
+      ]
+    },
+    "_c2_create_type_table": {
+      "calls": [
+        4248839
+      ],
+      "references": [
+        1
+      ]
+    },
+    "_c2_crt_startup": {
+      "calls": [
+        4320137,
+        4532369,
+        4532394,
+        4532400,
+        4767924
+      ],
+      "references": [
+        0,
+        1,
+        4,
+        8,
+        12,
+        20,
+        4484380,
+        4767691,
+        4772816,
+        4822704,
+        4822708,
+        4823544,
+        4823548,
+        4294967264,
+        4294967295
+      ]
+    },
+    "_c2_fatal": {
+      "calls": [
+        4764624,
+        4765416
+      ],
+      "references": [
+        4,
+        16,
+        1000
+      ]
+    },
+    "_c2_initialize_codegen": {
+      "calls": [
+        4326292
+      ],
+      "references": [
+        4
+      ]
+    },
+    "_c2_initialize_constants": {
+      "calls": [
+        4534407
+      ],
+      "references": [
+        0,
+        1,
+        2,
+        8,
+        4782208,
+        4782856,
+        4788312
+      ]
+    },
+    "_c2_initialize_machine": {
+      "calls": [],
+      "references": [
+        4,
+        5,
+        14,
+        16,
+        464
+      ]
+    },
+    "_c2_initialize_opcodes": {
+      "calls": [],
+      "references": [
+        4,
+        16,
+        344,
+        4817133
+      ]
+    },
+    "_c2_initialize_optimizer": {
+      "calls": [
+        4198400,
+        4205422,
+        4205612,
+        4205750,
+        4229319,
+        4234332,
+        4234668,
+        4248148,
+        4250046,
+        4268244,
+        4268690,
+        4269074,
+        4269143,
+        4271452,
+        4272709,
+        4272890,
+        4273001,
+        4277487,
+        4278370,
+        4278884,
+        4288106,
+        4289950,
+        4292840,
+        4330109,
+        4332511,
+        4333108,
+        4344071,
+        4344094,
+        4357513,
+        4358376,
+        4359680,
+        4368554,
+        4371426,
+        4372304,
+        4380213,
+        4380250,
+        4384393,
+        4384422,
+        4386912,
+        4387812,
+        4387910,
+        4403447,
+        4404550,
+        4405419,
+        4405510,
+        4413445,
+        4530997,
+        4536542,
+        4548695,
+        4549395,
+        4550880,
+        4551327,
+        4557983,
+        4603889,
+        4605980,
+        4606858,
+        4609158,
+        4706771,
+        4729080,
+        4733807,
+        4734790,
+        4738805,
+        4746044,
+        4747387,
+        4747580,
+        4766011,
+        4766723
+      ],
+      "references": [
+        1,
+        2,
+        6,
+        8,
+        16,
+        32,
+        128,
+        420,
+        1000,
+        4096,
+        3145728,
+        4813568,
+        4813780,
+        4822744,
+        4822752,
+        4822756,
+        4822760,
+        4838580
+      ]
+    },
+    "_c2_initialize_options": {
+      "calls": [
+        4533175,
+        4533209,
+        4533915,
+        4764519,
+        4765320,
+        4765390
+      ],
+      "references": [
+        0,
+        1,
+        6,
+        7,
+        8,
+        12,
+        32,
+        83,
+        310,
+        2058,
+        4822880,
+        4826574,
+        4826578,
+        4826582,
+        4826586,
+        4826590
+      ]
+    },
+    "_c2_initialize_registers": {
+      "calls": [
+        4531154
+      ],
+      "references": []
+    },
+    "_c2_initialize_trees": {
+      "calls": [
+        4322295,
+        4538002
+      ],
+      "references": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        19,
+        20,
+        4813688,
+        4813764,
+        4813772,
+        4813792,
+        4816820,
+        4816832,
+        4816840,
+        4816848,
+        4816872
+      ]
+    },
+    "_c2_main": {
+      "calls": [
+        4320137,
+        4530997,
+        4532715,
+        4532721,
+        4532770,
+        4532939,
+        4533924,
+        4534290,
+        4534317,
+        4534326,
+        4534439,
+        4534522,
+        4534572,
+        4534958,
+        4535034,
+        4535045,
+        4538855,
+        4541174,
+        4738355,
+        4746044,
+        4764519,
+        4766214
+      ],
+      "references": [
+        0,
+        1,
+        4,
+        8,
+        63,
+        379,
+        525,
+        524319,
+        4541188,
+        4737491,
+        4767691,
+        4772800,
+        4813568,
+        4822768,
+        4822784,
+        4822796,
+        4822804,
+        4822852,
+        4838580,
+        3221225477,
+        3221225725,
+        4294967284,
+        4294967295
+      ]
+    },
+    "_c2_next_argument": {
+      "calls": [],
+      "references": [
+        4
+      ]
+    },
+    "_c2_read_header": {
+      "calls": [
+        4325585,
+        4534091,
+        4534165,
+        4746044,
+        4764519,
+        4765792
+      ],
+      "references": [
+        1,
+        8,
+        17,
+        20,
+        900,
+        902,
+        923,
+        977,
+        9094,
+        4838968,
+        4838994,
+        4838998,
+        19931217,
+        19940811,
+        19960416,
+        19960701,
+        19960702
+      ]
+    },
+    "_c2_read_il_byte": {
+      "calls": [],
+      "references": [
+        4
+      ]
+    },
+    "_c2_read_il_long": {
+      "calls": [],
+      "references": [
+        4
+      ]
+    },
+    "_c2_read_il_word": {
+      "calls": [],
+      "references": [
+        4
+      ]
+    },
+    "_c2_real_from_int": {
+      "calls": [
+        4609886
+      ],
+      "references": [
+        4
+      ]
+    },
+    "_c2_register_exit": {
+      "calls": [
+        4532742
+      ],
+      "references": [
+        4
+      ]
+    },
+    "_c2_register_onexit": {
+      "calls": [
+        4767918
+      ],
+      "references": [
+        4,
+        12,
+        4822740,
+        4822792,
+        4294967295
+      ]
+    },
+    "_c2_reset_symbol_table": {
+      "calls": [],
+      "references": [
+        0,
+        1024,
+        4782956
+      ]
+    },
+    "_c2_set_argv": {
+      "calls": [],
+      "references": []
+    },
+    "_c2_set_default_precision": {
+      "calls": [
+        4532388
+      ],
+      "references": [
+        8,
+        65536,
+        196608
+      ]
+    },
+    "_default_runtime_library": {
+      "calls": [],
+      "references": [
+        4822856,
+        4822868,
+        4826688,
+        4826696,
+        4826704,
+        4826712
+      ]
+    },
+    "_emit_diagnostic": {
+      "calls": [
+        4413704,
+        4765030,
+        4765054,
+        4765390
+      ],
+      "references": [
+        0,
+        1,
+        2,
+        3,
+        12,
+        16,
+        64,
+        67,
+        301,
+        302,
+        303,
+        1000,
+        2000,
+        2320,
+        4000,
+        4841838,
+        4841916,
+        4841924,
+        4294967295
+      ]
+    },
+    "_format_diagnostic": {
+      "calls": [
+        4765054
+      ],
+      "references": [
+        12
+      ]
+    },
+    "_format_diagnostic_args": {
+      "calls": [
+        4482726
+      ],
+      "references": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        10,
+        37,
+        50,
+        100,
+        4294967226,
+        4294967295
+      ]
+    },
+    "_initialize_backend": {
+      "calls": [
+        4322452,
+        4322716,
+        4536572,
+        4537956
+      ],
+      "references": []
+    },
+    "_initialize_coff_lists": {
+      "calls": [],
+      "references": []
+    },
+    "_initialize_messages": {
+      "calls": [
+        4765416
+      ],
+      "references": [
+        1,
+        4,
+        8,
+        301,
+        302,
+        303,
+        4841936,
+        4841992,
+        4842000,
+        4842012
+      ]
+    },
+    "_initialize_object_output": {
+      "calls": [
+        4198400,
+        4249048,
+        4322295,
+        4326224,
+        4537434,
+        4537831,
+        4707690,
+        4739862,
+        4745763,
+        4746044,
+        4746855,
+        4747535,
+        4765320,
+        4765390,
+        4766779,
+        4766795
+      ],
+      "references": [
+        0,
+        1,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        32,
+        83,
+        195,
+        234,
+        310,
+        332,
+        4320138,
+        4540282,
+        4739356,
+        4813743,
+        4816252,
+        4816752,
+        4816756,
+        4816760,
+        4816772,
+        4822712,
+        4838856,
+        4838878,
+        4294967295
+      ]
+    },
+    "_initialize_pass_functions": {
+      "calls": [
+        4537010,
+        4537044,
+        4537100,
+        4554247
+      ],
+      "references": [
+        4,
+        4320137,
+        4320288,
+        4322290,
+        4323844,
+        4407609,
+        4409039,
+        4412979,
+        4413368,
+        4414198,
+        4417898,
+        4467615,
+        4468001,
+        4468019,
+        4468879,
+        4469409,
+        4499357,
+        4537858,
+        4538867,
+        4541352,
+        4737522,
+        4737525,
+        4737530,
+        4739317,
+        4816860,
+        4822724,
+        4838636
+      ]
+    },
+    "_input_compact_short": {
+      "calls": [],
+      "references": [
+        4,
+        128
+      ]
+    },
+    "_input_compact_signed": {
+      "calls": [],
+      "references": [
+        4,
+        128
+      ]
+    },
+    "_input_type": {
+      "calls": [
+        4325585
+      ],
+      "references": [
+        127,
+        128
+      ]
+    },
+    "_input_varuint": {
+      "calls": [],
+      "references": [
+        1,
+        4,
+        6,
+        8,
+        14,
+        63,
+        64,
+        127,
+        128,
+        255,
+        4194176
+      ]
+    },
+    "_new_output_chunk": {
+      "calls": [],
+      "references": [
+        508
+      ]
+    },
+    "_next_symbol_serial": {
+      "calls": [
+        4764519
+      ],
+      "references": [
+        4,
+        55
+      ]
+    },
+    "_output_callback_41ec20": {
+      "calls": [
+        4320345,
+        4321696,
+        4321781,
+        4538588
+      ],
+      "references": []
+    },
+    "_output_callback_453e02": {
+      "calls": [
+        4538027,
+        4739971,
+        4746044
+      ],
+      "references": [
+        0,
+        1,
+        9,
+        1514,
+        4813743,
+        4822688,
+        4825376,
+        4838824,
+        4838840,
+        4838856
+      ]
+    },
+    "_prepare_global_records": {
+      "calls": [
+        4251079,
+        4320137,
+        4322387,
+        4359139,
+        4499796,
+        4500100,
+        4500288,
+        4554043,
+        4745656
+      ],
+      "references": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        8,
+        15,
+        16,
+        32,
+        64,
+        96,
+        112,
+        128,
+        251,
+        512,
+        1920,
+        4608,
+        4294966143
+      ]
+    },
+    "_store_extended": {
+      "calls": [],
+      "references": []
+    },
+    "_write_output_directives": {
+      "calls": [],
+      "references": []
+    },
+    "_writer_callback_41eb8a": {
+      "calls": [
+        4198400
+      ],
+      "references": [
+        7
+      ]
+    }
+  },
+  "owned_code_chunks": {
+    "original": {
+      "declared_code_bytes": 20938,
+      "functions": {
+        "@add_coff_section@16": [
+          [
+            4530924,
+            4530997
+          ],
+          [
+            4669778,
+            4669842
+          ]
+        ],
+        "@add_coff_symbol@4": [
+          [
+            4320227,
+            4320288
+          ]
+        ],
+        "@add_output_directive@8": [
+          [
+            4537044,
+            4537100
+          ]
+        ],
+        "@add_output_source@4": [
+          [
+            4531949,
+            4532119
+          ],
+          [
+            4670520,
+            4670578
+          ]
+        ],
+        "@append_output_table@8": [
+          [
+            4321077,
+            4321155
+          ]
+        ],
+        "@append_section@4": [
+          [
+            4322350,
+            4322387
+          ]
+        ],
+        "@arena_strdup@8": [
+          [
+            4326224,
+            4326292
+          ]
+        ],
+        "@c2_allocate_node@8": [
+          [
+            4248839,
+            4248884
+          ]
+        ],
+        "@c2_apply_option@12": [
+          [
+            4533502,
+            4533727
+          ],
+          [
+            4671231,
+            4671496
+          ]
+        ],
+        "@c2_get_diagnostic_string@4": [
+          [
+            4765390,
+            4765416
+          ]
+        ],
+        "@c2_match_option@16": [
+          [
+            4533209,
+            4533422
+          ],
+          [
+            4671127,
+            4671231
+          ]
+        ],
+        "@c2_node_size@4": [
+          [
+            4248884,
+            4248933
+          ],
+          [
+            4616605,
+            4616626
+          ]
+        ],
+        "@c2_open_intermediate@16": [
+          [
+            4530997,
+            4531154
+          ],
+          [
+            4669842,
+            4669894
+          ]
+        ],
+        "@c2_pool_allocate@8": [
+          [
+            4198400,
+            4198618
+          ],
+          [
+            4609967,
+            4610006
+          ]
+        ],
+        "@c2_read_environment@4": [
+          [
+            4532770,
+            4532888
+          ],
+          [
+            4670837,
+            4670880
+          ]
+        ],
+        "@c2_validate_alignment@4": [
+          [
+            4533915,
+            4533924
+          ],
+          [
+            4671534,
+            4671557
+          ]
+        ],
+        "@c2_wildcard_match@12": [
+          [
+            4765688,
+            4765792
+          ]
+        ],
+        "@copy_symbol_type@4": [
+          [
+            4359092,
+            4359139
+          ]
+        ],
+        "@create_coff_section@4": [
+          [
+            4320345,
+            4321004
+          ],
+          [
+            4626557,
+            4626872
+          ]
+        ],
+        "@create_section@12": [
+          [
+            4322295,
+            4322350
+          ]
+        ],
+        "@find_cached_message@4": [
+          [
+            4765358,
+            4765390
+          ]
+        ],
+        "@format_integer@12": [
+          [
+            4482726,
+            4482821
+          ],
+          [
+            4657364,
+            4657389
+          ]
+        ],
+        "@initialize_coff_output@4": [
+          [
+            4537434,
+            4537717
+          ],
+          [
+            4672729,
+            4672832
+          ]
+        ],
+        "@initialize_coff_section@8": [
+          [
+            4321155,
+            4321413
+          ],
+          [
+            4626872,
+            4627067
+          ]
+        ],
+        "@initialize_coff_symbols@4": [
+          [
+            4321476,
+            4321574
+          ],
+          [
+            4627091,
+            4627148
+          ]
+        ],
+        "@initialize_section_defaults@4": [
+          [
+            4538002,
+            4538027
+          ]
+        ],
+        "@initialize_source_output@4": [
+          [
+            4537956,
+            4538002
+          ],
+          [
+            4672912,
+            4672944
+          ]
+        ],
+        "@input_string@8": [
+          [
+            4329076,
+            4329147
+          ],
+          [
+            4629740,
+            4629760
+          ]
+        ],
+        "@insert_symbol@8": [
+          [
+            4249000,
+            4249048
+          ]
+        ],
+        "@intern_symbol_name@12": [
+          [
+            4329147,
+            4329419
+          ],
+          [
+            4629760,
+            4629794
+          ]
+        ],
+        "@load_message@16": [
+          [
+            4765580,
+            4765626
+          ]
+        ],
+        "@lookup_global_symbol@4": [
+          [
+            4322387,
+            4322452
+          ],
+          [
+            4627540,
+            4627555
+          ]
+        ],
+        "@lookup_message@8": [
+          [
+            4765416,
+            4765448
+          ]
+        ],
+        "@lookup_output_table@8": [
+          [
+            4321413,
+            4321476
+          ],
+          [
+            4627067,
+            4627091
+          ]
+        ],
+        "@new_output_list@8": [
+          [
+            4320150,
+            4320202
+          ]
+        ],
+        "@new_output_table@4": [
+          [
+            4537717,
+            4537798
+          ]
+        ],
+        "@output_list_position@4": [
+          [
+            4321895,
+            4321904
+          ]
+        ],
+        "@parse_option_integer@4": [
+          [
+            4533799,
+            4533915
+          ],
+          [
+            4671496,
+            4671534
+          ]
+        ],
+        "@prepare_function_records@4": [
+          [
+            4322716,
+            4323219
+          ]
+        ],
+        "@process_records@4": [
+          [
+            4322452,
+            4322501
+          ]
+        ],
+        "@put_symbol@8": [
+          [
+            4359656,
+            4359680
+          ]
+        ],
+        "@query_coff_position@4": [
+          [
+            4321781,
+            4321895
+          ],
+          [
+            4627356,
+            4627401
+          ]
+        ],
+        "@read_initializer_records@4": [
+          [
+            4531154,
+            4531317
+          ],
+          [
+            4669894,
+            4670020
+          ]
+        ],
+        "@read_symbol@4": [
+          [
+            4327095,
+            4328984
+          ],
+          [
+            4628851,
+            4629740
+          ]
+        ],
+        "@read_symbols@4": [
+          [
+            4326292,
+            4327018
+          ],
+          [
+            4628747,
+            4628851
+          ]
+        ],
+        "@record_filename@4": [
+          [
+            4534992,
+            4535034
+          ]
+        ],
+        "@record_output_section@4": [
+          [
+            4321651,
+            4321696
+          ]
+        ],
+        "@register_coff_storage@4": [
+          [
+            4321574,
+            4321651
+          ],
+          [
+            4627148,
+            4627338
+          ]
+        ],
+        "@select_coff_section@4": [
+          [
+            4321696,
+            4321781
+          ],
+          [
+            4627338,
+            4627356
+          ]
+        ],
+        "@unescape_message@4": [
+          [
+            4765626,
+            4765688
+          ]
+        ],
+        "@update_symbol_storage@4": [
+          [
+            4359139,
+            4359628
+          ],
+          [
+            4636483,
+            4636673
+          ]
+        ],
+        "@write_coff_directive@16": [
+          [
+            4538027,
+            4538195
+          ],
+          [
+            4672944,
+            4672989
+          ]
+        ],
+        "@write_output_byte@4": [
+          [
+            4538195,
+            4538216
+          ]
+        ],
+        "@write_output_bytes@8": [
+          [
+            4321904,
+            4322139
+          ],
+          [
+            4627401,
+            4627498
+          ]
+        ],
+        "_c2_cleanup": [
+          [
+            4541188,
+            4541225
+          ],
+          [
+            4674916,
+            4675022
+          ]
+        ],
+        "_c2_copy_arguments": [
+          [
+            4532888,
+            4532939
+          ]
+        ],
+        "_c2_create_type_table": [
+          [
+            4534317,
+            4534326
+          ]
+        ],
+        "_c2_crt_startup": [
+          [
+            4532119,
+            4532369
+          ],
+          [
+            4670578,
+            4670673
+          ]
+        ],
+        "_c2_fatal": [
+          [
+            4764519,
+            4764588
+          ]
+        ],
+        "_c2_initialize_codegen": [
+          [
+            4534958,
+            4534992
+          ]
+        ],
+        "_c2_initialize_constants": [
+          [
+            4534326,
+            4534407
+          ]
+        ],
+        "_c2_initialize_machine": [
+          [
+            4534522,
+            4534572
+          ],
+          [
+            4671885,
+            4671900
+          ]
+        ],
+        "_c2_initialize_opcodes": [
+          [
+            4534439,
+            4534522
+          ]
+        ],
+        "_c2_initialize_optimizer": [
+          [
+            4535045,
+            4536542
+          ],
+          [
+            4671900,
+            4672297
+          ]
+        ],
+        "_c2_initialize_options": [
+          [
+            4532939,
+            4533175
+          ],
+          [
+            4670880,
+            4671127
+          ]
+        ],
+        "_c2_initialize_registers": [
+          [
+            4535034,
+            4535045
+          ]
+        ],
+        "_c2_initialize_trees": [
+          [
+            4534572,
+            4534958
+          ]
+        ],
+        "_c2_main": [
+          [
+            4532400,
+            4532715
+          ],
+          [
+            4670673,
+            4670813
+          ]
+        ],
+        "_c2_next_argument": [
+          [
+            4533175,
+            4533209
+          ]
+        ],
+        "_c2_read_header": [
+          [
+            4533924,
+            4534091
+          ],
+          [
+            4671557,
+            4671782
+          ]
+        ],
+        "_c2_read_il_byte": [
+          [
+            4325585,
+            4325621
+          ]
+        ],
+        "_c2_read_il_long": [
+          [
+            4534165,
+            4534290
+          ],
+          [
+            4671817,
+            4671885
+          ]
+        ],
+        "_c2_read_il_word": [
+          [
+            4534091,
+            4534165
+          ],
+          [
+            4671782,
+            4671817
+          ]
+        ],
+        "_c2_real_from_int": [
+          [
+            4534407,
+            4534439
+          ]
+        ],
+        "_c2_register_exit": [
+          [
+            4532721,
+            4532742
+          ]
+        ],
+        "_c2_register_onexit": [
+          [
+            4532742,
+            4532770
+          ],
+          [
+            4670813,
+            4670837
+          ]
+        ],
+        "_c2_reset_symbol_table": [
+          [
+            4534290,
+            4534317
+          ]
+        ],
+        "_c2_set_argv": [
+          [
+            4320137,
+            4320138
+          ]
+        ],
+        "_c2_set_default_precision": [
+          [
+            4532369,
+            4532388
+          ]
+        ],
+        "_default_runtime_library": [
+          [
+            4537010,
+            4537044
+          ],
+          [
+            4672442,
+            4672502
+          ]
+        ],
+        "_emit_diagnostic": [
+          [
+            4764624,
+            4765030
+          ]
+        ],
+        "_format_diagnostic": [
+          [
+            4765030,
+            4765054
+          ]
+        ],
+        "_format_diagnostic_args": [
+          [
+            4765054,
+            4765320
+          ]
+        ],
+        "_initialize_backend": [
+          [
+            4536542,
+            4536572
+          ]
+        ],
+        "_initialize_coff_lists": [
+          [
+            4537798,
+            4537831
+          ]
+        ],
+        "_initialize_messages": [
+          [
+            4765448,
+            4765580
+          ]
+        ],
+        "_initialize_object_output": [
+          [
+            4537100,
+            4537434
+          ],
+          [
+            4672502,
+            4672729
+          ]
+        ],
+        "_initialize_pass_functions": [
+          [
+            4536572,
+            4537010
+          ],
+          [
+            4672297,
+            4672442
+          ]
+        ],
+        "_input_compact_short": [
+          [
+            4325829,
+            4325968
+          ]
+        ],
+        "_input_compact_signed": [
+          [
+            4325621,
+            4325829
+          ]
+        ],
+        "_input_type": [
+          [
+            4326187,
+            4326224
+          ]
+        ],
+        "_input_varuint": [
+          [
+            4325968,
+            4326187
+          ],
+          [
+            4628522,
+            4628747
+          ]
+        ],
+        "_new_output_chunk": [
+          [
+            4320202,
+            4320227
+          ],
+          [
+            4626548,
+            4626557
+          ]
+        ],
+        "_next_symbol_serial": [
+          [
+            4249048,
+            4249077
+          ],
+          [
+            4616626,
+            4616641
+          ]
+        ],
+        "_output_callback_41ec20": [
+          [
+            4320288,
+            4320345
+          ]
+        ],
+        "_output_callback_453e02": [
+          [
+            4537858,
+            4537914
+          ],
+          [
+            4672832,
+            4672912
+          ]
+        ],
+        "_prepare_global_records": [
+          [
+            4323284,
+            4323805
+          ],
+          [
+            4627686,
+            4627724
+          ]
+        ],
+        "_store_extended": [
+          [
+            4609886,
+            4609890
+          ]
+        ],
+        "_write_output_directives": [
+          [
+            4537831,
+            4537858
+          ]
+        ],
+        "_writer_callback_41eb8a": [
+          [
+            4320138,
+            4320150
+          ]
+        ]
+      },
+      "interval_count": 147,
+      "logical_function_count": 100,
+      "unique_code_bytes": 20938
+    },
+    "rebuilt": {
+      "declared_code_bytes": 29228,
+      "functions": {
+        "@add_coff_section@16": [
+          [
+            4227443,
+            4227644
+          ]
+        ],
+        "@add_coff_symbol@4": [
+          [
+            4225676,
+            4225765
+          ]
+        ],
+        "@add_output_directive@8": [
+          [
+            4223594,
+            4223682
+          ]
+        ],
+        "@add_output_source@4": [
+          [
+            4225401,
+            4225676
+          ]
+        ],
+        "@append_output_table@8": [
+          [
+            4227644,
+            4227800
+          ]
+        ],
+        "@append_section@4": [
+          [
+            4212221,
+            4212289
+          ]
+        ],
+        "@arena_strdup@8": [
+          [
+            4218494,
+            4218583
+          ]
+        ],
+        "@c2_allocate_node@8": [
+          [
+            4211123,
+            4211200
+          ]
+        ],
+        "@c2_apply_option@12": [
+          [
+            4203491,
+            4204192
+          ]
+        ],
+        "@c2_get_diagnostic_string@4": [
+          [
+            4209140,
+            4209193
+          ]
+        ],
+        "@c2_match_option@16": [
+          [
+            4202864,
+            4203326
+          ]
+        ],
+        "@c2_node_size@4": [
+          [
+            4210956,
+            4211123
+          ]
+        ],
+        "@c2_open_intermediate@16": [
+          [
+            4204368,
+            4204606
+          ]
+        ],
+        "@c2_pool_allocate@8": [
+          [
+            4210560,
+            4210956
+          ]
+        ],
+        "@c2_read_environment@4": [
+          [
+            4201981,
+            4202288
+          ]
+        ],
+        "@c2_validate_alignment@4": [
+          [
+            4202820,
+            4202864
+          ]
+        ],
+        "@c2_wildcard_match@12": [
+          [
+            4203326,
+            4203491
+          ]
+        ],
+        "@copy_symbol_type@4": [
+          [
+            4218583,
+            4218704
+          ]
+        ],
+        "@create_coff_section@4": [
+          [
+            4226123,
+            4227443
+          ]
+        ],
+        "@create_section@12": [
+          [
+            4212143,
+            4212221
+          ]
+        ],
+        "@find_cached_message@4": [
+          [
+            4209193,
+            4209248
+          ]
+        ],
+        "@format_integer@12": [
+          [
+            4209809,
+            4210000
+          ]
+        ],
+        "@initialize_coff_output@4": [
+          [
+            4224600,
+            4225014
+          ]
+        ],
+        "@initialize_coff_section@8": [
+          [
+            4227800,
+            4228482
+          ]
+        ],
+        "@initialize_coff_symbols@4": [
+          [
+            4228608,
+            4228791
+          ]
+        ],
+        "@initialize_section_defaults@4": [
+          [
+            4212289,
+            4212334
+          ]
+        ],
+        "@initialize_source_output@4": [
+          [
+            4222768,
+            4222864
+          ]
+        ],
+        "@input_string@8": [
+          [
+            4206538,
+            4206710
+          ]
+        ],
+        "@insert_symbol@8": [
+          [
+            4210205,
+            4210296
+          ]
+        ],
+        "@intern_symbol_name@12": [
+          [
+            4217974,
+            4218494
+          ]
+        ],
+        "@load_message@16": [
+          [
+            4208386,
+            4208447
+          ]
+        ],
+        "@lookup_global_symbol@4": [
+          [
+            4210296,
+            4210434
+          ]
+        ],
+        "@lookup_message@8": [
+          [
+            4208152,
+            4208195
+          ]
+        ],
+        "@lookup_output_table@8": [
+          [
+            4228482,
+            4228608
+          ]
+        ],
+        "@new_output_list@8": [
+          [
+            4225247,
+            4225352
+          ]
+        ],
+        "@new_output_table@4": [
+          [
+            4225014,
+            4225158
+          ]
+        ],
+        "@output_list_position@4": [
+          [
+            4229708,
+            4229731
+          ]
+        ],
+        "@parse_option_integer@4": [
+          [
+            4204192,
+            4204368
+          ]
+        ],
+        "@prepare_function_records@4": [
+          [
+            4221040,
+            4221893
+          ]
+        ],
+        "@process_records@4": [
+          [
+            4222711,
+            4222768
+          ]
+        ],
+        "@put_symbol@8": [
+          [
+            4210478,
+            4210560
+          ]
+        ],
+        "@query_coff_position@4": [
+          [
+            4229521,
+            4229708
+          ]
+        ],
+        "@read_initializer_records@4": [
+          [
+            4207640,
+            4208048
+          ]
+        ],
+        "@read_symbol@4": [
+          [
+            4214576,
+            4217974
+          ]
+        ],
+        "@read_symbols@4": [
+          [
+            4213400,
+            4214576
+          ]
+        ],
+        "@record_filename@4": [
+          [
+            4213328,
+            4213400
+          ]
+        ],
+        "@record_output_section@4": [
+          [
+            4229307,
+            4229393
+          ]
+        ],
+        "@register_coff_storage@4": [
+          [
+            4228791,
+            4229307
+          ]
+        ],
+        "@select_coff_section@4": [
+          [
+            4229393,
+            4229521
+          ]
+        ],
+        "@unescape_message@4": [
+          [
+            4208447,
+            4208594
+          ]
+        ],
+        "@update_symbol_storage@4": [
+          [
+            4212334,
+            4213328
+          ]
+        ],
+        "@write_coff_directive@16": [
+          [
+            4225765,
+            4226036
+          ]
+        ],
+        "@write_output_byte@4": [
+          [
+            4230147,
+            4230172
+          ]
+        ],
+        "@write_output_bytes@8": [
+          [
+            4229731,
+            4230147
+          ]
+        ],
+        "_c2_cleanup": [
+          [
+            4210000,
+            4210160
+          ]
+        ],
+        "_c2_copy_arguments": [
+          [
+            4201904,
+            4201981
+          ]
+        ],
+        "_c2_create_type_table": [
+          [
+            4210191,
+            4210205
+          ]
+        ],
+        "_c2_crt_startup": [
+          [
+            4200944,
+            4201300
+          ]
+        ],
+        "_c2_fatal": [
+          [
+            4208048,
+            4208152
+          ]
+        ],
+        "_c2_initialize_codegen": [
+          [
+            4207586,
+            4207624
+          ]
+        ],
+        "_c2_initialize_constants": [
+          [
+            4211237,
+            4211328
+          ]
+        ],
+        "_c2_initialize_machine": [
+          [
+            4211536,
+            4211600
+          ]
+        ],
+        "_c2_initialize_opcodes": [
+          [
+            4211328,
+            4211536
+          ]
+        ],
+        "_c2_initialize_optimizer": [
+          [
+            4218704,
+            4221004
+          ]
+        ],
+        "_c2_initialize_options": [
+          [
+            4202288,
+            4202766
+          ]
+        ],
+        "_c2_initialize_registers": [
+          [
+            4207624,
+            4207640
+          ]
+        ],
+        "_c2_initialize_trees": [
+          [
+            4211600,
+            4212143
+          ]
+        ],
+        "_c2_main": [
+          [
+            4201376,
+            4201840
+          ]
+        ],
+        "_c2_next_argument": [
+          [
+            4202766,
+            4202820
+          ]
+        ],
+        "_c2_read_header": [
+          [
+            4204606,
+            4205040
+          ]
+        ],
+        "_c2_read_il_byte": [
+          [
+            4205040,
+            4205128
+          ]
+        ],
+        "_c2_read_il_long": [
+          [
+            4205330,
+            4205711
+          ]
+        ],
+        "_c2_read_il_word": [
+          [
+            4205128,
+            4205330
+          ]
+        ],
+        "_c2_real_from_int": [
+          [
+            4211200,
+            4211233
+          ]
+        ],
+        "_c2_register_exit": [
+          [
+            4201305,
+            4201344
+          ]
+        ],
+        "_c2_register_onexit": [
+          [
+            4201840,
+            4201904
+          ]
+        ],
+        "_c2_reset_symbol_table": [
+          [
+            4210160,
+            4210191
+          ]
+        ],
+        "_c2_set_argv": [
+          [
+            4201300,
+            4201305
+          ]
+        ],
+        "_c2_set_default_precision": [
+          [
+            4201344,
+            4201376
+          ]
+        ],
+        "_default_runtime_library": [
+          [
+            4223495,
+            4223594
+          ]
+        ],
+        "_emit_diagnostic": [
+          [
+            4208594,
+            4209140
+          ]
+        ],
+        "_format_diagnostic": [
+          [
+            4209248,
+            4209289
+          ]
+        ],
+        "_format_diagnostic_args": [
+          [
+            4209289,
+            4209809
+          ]
+        ],
+        "_initialize_backend": [
+          [
+            4221004,
+            4221040
+          ]
+        ],
+        "_initialize_coff_lists": [
+          [
+            4225182,
+            4225247
+          ]
+        ],
+        "_initialize_messages": [
+          [
+            4208195,
+            4208386
+          ]
+        ],
+        "_initialize_object_output": [
+          [
+            4223968,
+            4224600
+          ]
+        ],
+        "_initialize_pass_functions": [
+          [
+            4222864,
+            4223495
+          ]
+        ],
+        "_input_compact_short": [
+          [
+            4207199,
+            4207514
+          ]
+        ],
+        "_input_compact_signed": [
+          [
+            4206710,
+            4207199
+          ]
+        ],
+        "_input_type": [
+          [
+            4207514,
+            4207586
+          ]
+        ],
+        "_input_varuint": [
+          [
+            4205711,
+            4206538
+          ]
+        ],
+        "_new_output_chunk": [
+          [
+            4225352,
+            4225401
+          ]
+        ],
+        "_next_symbol_serial": [
+          [
+            4210434,
+            4210478
+          ]
+        ],
+        "_output_callback_41ec20": [
+          [
+            4226036,
+            4226123
+          ]
+        ],
+        "_output_callback_453e02": [
+          [
+            4223725,
+            4223968
+          ]
+        ],
+        "_prepare_global_records": [
+          [
+            4221893,
+            4222711
+          ]
+        ],
+        "_store_extended": [
+          [
+            4211233,
+            4211237
+          ]
+        ],
+        "_write_output_directives": [
+          [
+            4223682,
+            4223725
+          ]
+        ],
+        "_writer_callback_41eb8a": [
+          [
+            4225158,
+            4225182
+          ]
+        ]
+      },
+      "interval_count": 100,
+      "logical_function_count": 100,
+      "unique_code_bytes": 29228
+    }
+  },
+  "profile": "cl",
+  "register_import_inputs": {
+    "enabled_functions": [
+      "@create_coff_section@4",
+      "@initialize_coff_output@4",
+      "@read_initializer_records@4",
+      "_initialize_object_output"
+    ],
+    "metadata_sha256": "edd503d53a65aba90271ddc0da2549225a6806cff7cadc04dfcf92b81e89204d",
+    "original_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+    "preservation_contracts": [
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "target": {
+          "function": "@new_initializer@4"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "target": {
+          "function": "_input_varuint"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "target": {
+          "function": "_input_compact_signed"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "target": {
+          "function": "@read_initializer_values@4"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "target": {
+          "function": "@queue_initializer@4"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "target": {
+          "function": "@emit_initializer@4"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "target": {
+          "function": "@free_initializer@4"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "target": {
+          "function": "_c2_read_il_byte"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "target": {
+          "function": "@input_string@8"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "target": {
+          "function": "@lookup_source_file@8"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "ebp",
+          "edi",
+          "esi"
+        ],
+        "target": {
+          "function": "@c2_report_internal@8"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "target": {
+          "function": "@read_initializer_records@4"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "free"
+          }
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "@c2_pool_allocate@8"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_query_incremental_stream_size"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "@read_incremental_stream@8"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_read_incremental_byte"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "function": "_validate_incremental_options"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "fopen"
+          }
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "fclose"
+          }
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "target": {
+          "function": "_initialize_coff_lists"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "target": {
+          "function": "@new_output_list@8"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "target": {
+          "function": "_read_incremental_output"
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "malloc"
+          }
+        }
+      },
+      {
+        "evidence": {
+          "path": "cases/analysis/strncmp-ebp-contract.json",
+          "sha256": "1ff5defb3dd330606ebc995bb1e75477d66b430884bb6e998cf2f2e131ac9d30"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "strncmp"
+          }
+        }
+      }
+    ],
+    "rebuilt_sha256": "03aeb3998aa9bbc80777e66a491d7c7780109b1f80fa168c8cac013299e7154d"
+  }
+}

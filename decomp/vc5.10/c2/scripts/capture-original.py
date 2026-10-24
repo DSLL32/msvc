@@ -32,6 +32,7 @@ def main():
     work=transport.SCRATCH/child_cwd[3:].replace('\\','/')
     input_names=materialize(case_directory,case_value,work)
     assert args.candidate==config['trial'],'candidate must be explicit in immutable trial configuration'
+    assert all(r.get('state')and 'expected_argc'in r and 'expected_argv'in r for r in config['stubs']if r.get('state_policy')=='globals-complete'),'complete-data frontier needs scalar and consumed-command state maps before capture'
     output=args.output.resolve();output.mkdir(parents=True,exist_ok=False)
     (output/'base_configuration.json').write_bytes(base_snapshot)
     if config.get('writer_callback_boundary'):

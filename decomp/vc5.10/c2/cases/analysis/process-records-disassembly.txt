@@ -1,0 +1,139 @@
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0041f494 <.text+0x1e494>:
+  41f494:	a1 74 0b 49 00       	mov    eax,ds:0x490b74
+  41f499:	56                   	push   esi
+  41f49a:	85 c0                	test   eax,eax
+  41f49c:	8b f1                	mov    esi,ecx
+  41f49e:	75 0b                	jne    0x41f4ab
+  41f4a0:	8b 0d 58 74 49 00    	mov    ecx,DWORD PTR ds:0x497458
+  41f4a6:	e8 1a 00 00 00       	call   0x41f4c5
+  41f4ab:	e8 86 00 00 00       	call   0x41f536
+  41f4b0:	e8 a4 00 00 00       	call   0x41f559
+  41f4b5:	8b ce                	mov    ecx,esi
+  41f4b7:	e8 ab 00 00 00       	call   0x41f567
+  41f4bc:	8b ce                	mov    ecx,esi
+  41f4be:	e8 c9 00 00 00       	call   0x41f58c
+  41f4c3:	5e                   	pop    esi
+  41f4c4:	c3                   	ret
+  41f4c5:	53                   	push   ebx
+  41f4c6:	55                   	push   ebp
+  41f4c7:	56                   	push   esi
+  41f4c8:	8b f1                	mov    esi,ecx
+  41f4ca:	85 f6                	test   esi,esi
+  41f4cc:	57                   	push   edi
+  41f4cd:	74 62                	je     0x41f531
+  41f4cf:	8b 46 04             	mov    eax,DWORD PTR [esi+0x4]
+  41f4d2:	8b 48 28             	mov    ecx,DWORD PTR [eax+0x28]
+  41f4d5:	e8 57 1b 00 00       	call   0x421031
+  41f4da:	85 c0                	test   eax,eax
+  41f4dc:	74 53                	je     0x41f531
+  41f4de:	85 f6                	test   esi,esi
+  41f4e0:	74 4f                	je     0x41f531
+  41f4e2:	bd 00 10 00 00       	mov    ebp,0x1000
+  41f4e7:	eb 0e                	jmp    0x41f4f7
+  41f4e9:	3b cd                	cmp    ecx,ebp
+  41f4eb:	0f 8d 72 a7 04 00    	jge    0x469c63
+  41f4f1:	8b f3                	mov    esi,ebx
+  41f4f3:	85 f6                	test   esi,esi
+  41f4f5:	74 3a                	je     0x41f531
+  41f4f7:	8b 1e                	mov    ebx,DWORD PTR [esi]
+  41f4f9:	85 db                	test   ebx,ebx
+  41f4fb:	74 f4                	je     0x41f4f1
+  41f4fd:	8b 4e 04             	mov    ecx,DWORD PTR [esi+0x4]
+  41f500:	39 69 10             	cmp    DWORD PTR [ecx+0x10],ebp
+  41f503:	7c ec                	jl     0x41f4f1
+  41f505:	8b 7b 04             	mov    edi,DWORD PTR [ebx+0x4]
+  41f508:	8b 4f 10             	mov    ecx,DWORD PTR [edi+0x10]
+  41f50b:	8b c1                	mov    eax,ecx
+  41f50d:	99                   	cdq
+  41f50e:	33 c2                	xor    eax,edx
+  41f510:	2b c2                	sub    eax,edx
+  41f512:	25 ff 1f 00 00       	and    eax,0x1fff
+  41f517:	33 c2                	xor    eax,edx
+  41f519:	2b c2                	sub    eax,edx
+  41f51b:	99                   	cdq
+  41f51c:	2b c2                	sub    eax,edx
+  41f51e:	8b f0                	mov    esi,eax
+  41f520:	d1 fe                	sar    esi,1
+  41f522:	8b c6                	mov    eax,esi
+  41f524:	99                   	cdq
+  41f525:	83 e2 1f             	and    edx,0x1f
+  41f528:	03 c2                	add    eax,edx
+  41f52a:	c1 f8 05             	sar    eax,0x5
+  41f52d:	75 c2                	jne    0x41f4f1
+  41f52f:	eb b8                	jmp    0x41f4e9
+  41f531:	5f                   	pop    edi
+  41f532:	5e                   	pop    esi
+  41f533:	5d                   	pop    ebp
+  41f534:	5b                   	pop    ebx
+  41f535:	c3                   	ret
+  41f536:	a1 58 74 49 00       	mov    eax,ds:0x497458
+  41f53b:	85 c0                	test   eax,eax
+  41f53d:	74 19                	je     0x41f558
+  41f53f:	8b 48 04             	mov    ecx,DWORD PTR [eax+0x4]
+  41f542:	ff 15 ec 7c 49 00    	call   DWORD PTR ds:0x497cec
+  41f548:	a1 58 74 49 00       	mov    eax,ds:0x497458
+  41f54d:	8b 00                	mov    eax,DWORD PTR [eax]
+  41f54f:	85 c0                	test   eax,eax
+  41f551:	a3 58 74 49 00       	mov    ds:0x497458,eax
+  41f556:	75 e7                	jne    0x41f53f
+  41f558:	c3                   	ret
+  41f559:	a1 a4 7d 49 00       	mov    eax,ds:0x497da4
+  41f55e:	85 c0                	test   eax,eax
+  41f560:	0f 85 0a a7 04 00    	jne    0x469c70
+  41f566:	c3                   	ret
+  41f567:	a1 ac 7c 49 00       	mov    eax,ds:0x497cac
+  41f56c:	56                   	push   esi
+  41f56d:	85 c0                	test   eax,eax
+  41f56f:	74 06                	je     0x41f577
+  41f571:	85 c9                	test   ecx,ecx
+  41f573:	8b f1                	mov    esi,ecx
+  41f575:	75 02                	jne    0x41f579
+  41f577:	5e                   	pop    esi
+  41f578:	c3                   	ret
+  41f579:	8b 46 04             	mov    eax,DWORD PTR [esi+0x4]
+  41f57c:	8b 48 32             	mov    ecx,DWORD PTR [eax+0x32]
+  41f57f:	e8 60 b1 02 00       	call   0x44a6e4
+  41f584:	8b 36                	mov    esi,DWORD PTR [esi]
+  41f586:	85 f6                	test   esi,esi
+  41f588:	75 ef                	jne    0x41f579
+  41f58a:	eb eb                	jmp    0x41f577
+  41f58c:	a1 a4 7d 49 00       	mov    eax,ds:0x497da4
+  41f591:	56                   	push   esi
+  41f592:	85 c0                	test   eax,eax
+  41f594:	0f 85 24 a7 04 00    	jne    0x469cbe
+  41f59a:	5e                   	pop    esi
+  41f59b:	c3                   	ret
+
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0041ff45 <.text+0x1ef45>:
+  41ff45:	a1 78 0b 49 00       	mov    eax,ds:0x490b78
+  41ff4a:	56                   	push   esi
+  41ff4b:	85 c0                	test   eax,eax
+  41ff4d:	8b f1                	mov    esi,ecx
+  41ff4f:	0f 85 30 a0 04 00    	jne    0x469f85
+  41ff55:	8a 46 31             	mov    al,BYTE PTR [esi+0x31]
+  41ff58:	a8 05                	test   al,0x5
+  41ff5a:	74 02                	je     0x41ff5e
+  41ff5c:	5e                   	pop    esi
+  41ff5d:	c3                   	ret
+  41ff5e:	0c 04                	or     al,0x4
+  41ff60:	ba 08 00 00 00       	mov    edx,0x8
+  41ff65:	b9 01 00 00 00       	mov    ecx,0x1
+  41ff6a:	88 46 31             	mov    BYTE PTR [esi+0x31],al
+  41ff6d:	e8 8e 10 fe ff       	call   0x401000
+  41ff72:	8b 0d 58 74 49 00    	mov    ecx,DWORD PTR ds:0x497458
+  41ff78:	89 70 04             	mov    DWORD PTR [eax+0x4],esi
+  41ff7b:	89 08                	mov    DWORD PTR [eax],ecx
+  41ff7d:	a3 58 74 49 00       	mov    ds:0x497458,eax
+  41ff82:	eb d8                	jmp    0x41ff5c

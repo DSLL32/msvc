@@ -748,18 +748,6 @@
     "evidence": null
   },
   {
-    "name": "@process_records@4",
-    "start": 4322452,
-    "end": 4322501,
-    "pending_extent": false,
-    "kind": "unaccepted-application-tail-target",
-    "evidence": null,
-    "classification": "application",
-    "accepted": false,
-    "extent_evidence": "cases/analysis/backend-setup-disassembly.txt:full49B41f494..41f4c5 straight primary with calls/conditionalbranch and terminalRET0; application only extent transport, no body acceptance/unmask/credit.",
-    "provenance": "Original extent/RET evidence only; source remains INT3, no unmask or source-coverage credit"
-  },
-  {
     "name": "_output_callback_41eb89",
     "start": 4320137,
     "end": 4320138,
@@ -1151,6 +1139,46 @@
     "name": "_new_symbol_link",
     "start": 4500288,
     "end": 4500289,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@align_pending_debug_symbols@4",
+    "start": 4322501,
+    "end": 4322502,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_write_pending_debug_symbols",
+    "start": 4322614,
+    "end": 4322615,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_write_assembly_symbols",
+    "start": 4322649,
+    "end": 4322650,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@write_codeview_records@4",
+    "start": 4322663,
+    "end": 4322664,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@write_assembly_records@4",
+    "start": 4322700,
+    "end": 4322701,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null
