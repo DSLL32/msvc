@@ -603,6 +603,3 @@ IrToken *__stdcall make_null_virtual_data_pointer(CType *type) { __asm { int 3 }
 IrToken *__stdcall make_null_general_data_pointer(CType *type) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_null_virtual_method_pointer(CType *type) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_null_general_method_pointer(CType *type) { __asm { int 3 } return 0; }
-
-
-CType *__stdcall member_pointer_function_type(CType *type) { __asm { int 3 } return 0; }

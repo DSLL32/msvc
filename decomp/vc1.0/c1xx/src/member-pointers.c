@@ -470,3 +470,11 @@ IrToken *__stdcall make_null_member_function(CType *type)
     function->type = member_pointer_function_type(type);
     return function;
 }
+
+/* Original 0x4bcf0..0x4bd13, stdcall4. Replace the member-pointer
+   shape with an ordinary callable pointer, clearing member-only attributes. */
+CType *__stdcall member_pointer_function_type(CType *type)
+{
+    type = drop_first_type_shape(type);
+    return make_qualified_type(type, 3, type->related->attributes & 0x0f77, 0);
+}

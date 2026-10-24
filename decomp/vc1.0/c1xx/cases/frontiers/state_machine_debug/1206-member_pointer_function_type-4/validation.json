@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_member_pointer_function_type@4",
+    "start": 310512,
+    "end": 310548
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1206-member_pointer_function_type-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_drop_first_type_shape@4",
+    "_make_qualified_type@16"
+  ],
+  "next_frontier": "_make_null_simple_data_pointer@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.7942777229472995,
+  "total_operation_seconds": 4.598440931178629,
+  "original_capture_seconds": 1.367413042113185
+}

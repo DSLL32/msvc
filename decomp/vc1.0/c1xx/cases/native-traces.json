@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "9806e856847faf065b801f4e092c75355553d50d10702ddc6bbcdef29d7a90ca",
+    "functions.json": "94a26bf440fc9c841edfa0cd247a34ac09edb4ce73e7c8a824d4b5fd16500cf9",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "3148b9430ac18f72de8180ebf9e993d93a77b82e24595a9e7b028403018bd98e",
-    "cases/canonical-map.txt": "bc1d6164b8c082a1065ed18527271d37c36b48b8d5c5e48a26620c7146f21147",
+    "cases/original-entry-references.json": "0b90c96d76de958dbe89e4ef88b4f595bb1f1ba4aa23a41bd8b9f58c6ee178d3",
+    "cases/canonical-map.txt": "774545cfbf4bbd7db9ece4c1e651877f6e9f71b93ec24355dd3b9ba2b4c1fa11",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -61,9 +61,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1205-make_null_member_function-4/entry-reference/original-receipt.json": "19662f404e62d33bfd0c1c993d90f85326f0c34d7742f601e5b13f203af79b45",
-    "cases/frontiers/state_machine_debug/1205-make_null_member_function-4/entry-reference/original-events.txt": "cf09844fd487d50591f1c5fdbe1478eb0c03d932c5a7a29460f1aaacd8dc1150",
-    "cases/frontiers/state_machine_debug/1205-make_null_member_function-4/entry-reference/original-entries.plan": "11e1aef340a56a3b2a5d88716d4253e3b312139661bfd1cfec147c09c632b311"
+    "cases/frontiers/state_machine_debug/1206-member_pointer_function_type-4/entry-reference/original-receipt.json": "5063887c56169dd5455e9e7abe9a16fc69f38411ca5e70a18db17a508bb6454a",
+    "cases/frontiers/state_machine_debug/1206-member_pointer_function_type-4/entry-reference/original-events.txt": "7f862bdb7ef480778b94b6d62a67cfd26cda4a54a0cbd2f2b8fb9cc89e9c7e4c",
+    "cases/frontiers/state_machine_debug/1206-member_pointer_function_type-4/entry-reference/original-entries.plan": "510f652702856463a209bf4d869466be5ce23a18c29e216bca8e5f4d7d1106ce"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -3832,7 +3832,7 @@
     },
     "member_pointer_function_type": {
       "logical": "_member_pointer_function_type@4",
-      "source": "src/stubs.c"
+      "source": "src/member-pointers.c"
     },
     "member_pointer_inheritance_model": {
       "logical": "_member_pointer_inheritance_model@4",
@@ -6980,7 +6980,8 @@
     "compare_member_pointer_expression",
     "make_null_member_pointer",
     "make_null_compact_method_pointer",
-    "make_null_member_function"
+    "make_null_member_function",
+    "member_pointer_function_type"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -11103,7 +11104,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1206,
+      "last": 1207,
       "seen": [
         "main",
         "message_text",
@@ -12208,12 +12209,13 @@
         "make_null_member_pointer",
         "make_null_compact_method_pointer",
         "make_null_member_function",
-        "member_pointer_function_type"
+        "member_pointer_function_type",
+        "make_null_simple_data_pointer"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_member_pointer_function_type@4",
-        "native": "member_pointer_function_type",
+        "logical": "_make_null_simple_data_pointer@4",
+        "native": "make_null_simple_data_pointer",
         "signal": 5
       }
     }

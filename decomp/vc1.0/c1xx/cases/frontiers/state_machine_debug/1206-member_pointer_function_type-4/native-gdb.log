@@ -1,0 +1,19 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655aa48 in make_null_simple_data_pointer (type=0x56631460) at src/stubs.c:601
+601	IrToken *__stdcall make_null_simple_data_pointer(CType *type) { __asm { int 3 } return 0; }
+#0  0x5655aa48 in make_null_simple_data_pointer (type=0x56631460) at src/stubs.c:601
+#1  0x565a86e4 in make_null_member_pointer (type=0x56631460) at src/member-pointers.c:443
+#2  0x565a4bff in convert_derived_initializer (type=0x56631460, expression=0x5663e2a0) at src/numeric-conversion.c:321
+#3  0x5658833c in convert_initializer (operation=68 'D', type=0x56631460, expression=0x5663e2a0) at src/constructor-initializers.c:707
+#4  0x56584d57 in convert_operand_if_needed (operation=68 'D', type=0x56631460, expression=0x5663e2a0) at src/binary-expressions.c:1114
+#5  0x56583868 in convert_pointer_operands (expression=0x5663e2b4, left=0x5663e28c, right=0x5663e2a0) at src/binary-expressions.c:986
+#6  0x56582d0d in convert_binary_operands (expression=0x5663e2b4) at src/binary-expressions.c:455
+#7  0x56581637 in builtin_binary_expression (operation=68 'D', left=0x5663e28c, right=0x5663e2a0) at src/binary-expressions.c:145
+#8  0x56584cc5 in binary_expression (operation=68 'D', left=0x5663e28c, right=0x5663e2a0) at src/binary-expressions.c:865
+#9  0x565be7d3 in parse_translation_unit () at src/parser-expression-actions.inc:90
+#10 0x5655df8f in compile_translation_unit () at src/frontend.c:73
+#11 0x565588c6 in guarded_compile () at src/c1xx.c:28
+#12 0x56558894 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20
