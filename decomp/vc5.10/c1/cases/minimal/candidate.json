@@ -428,6 +428,11 @@
       "entry": 1
     },
     {
+      "start_rva": 77630,
+      "end_rva": 77703,
+      "entry": 1
+    },
+    {
       "start_rva": 178328,
       "end_rva": 178358,
       "entry": 0
@@ -521,6 +526,11 @@
       "start_rva": 198592,
       "end_rva": 198610,
       "entry": 0
+    },
+    {
+      "start_rva": 198610,
+      "end_rva": 198620,
+      "entry": 0
     }
   ],
   "functions": [
@@ -538,7 +548,7 @@
           197400
         ]
       ],
-      "status": "accepted-prefix",
+      "status": "accepted prefix",
       "source": "src/native-crt.c"
     },
     {
@@ -556,7 +566,7 @@
         ]
       ],
       "source": "src/native-crt.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_DllMain@12",
@@ -569,7 +579,7 @@
         ]
       ],
       "source": "src/dllmain.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_InvokeCompilerPass@12",
@@ -586,7 +596,7 @@
         ]
       ],
       "source": "src/exports.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_compiler_pass",
@@ -603,7 +613,7 @@
         ]
       ],
       "source": "src/pass.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_allocate_compiler_memory",
@@ -620,7 +630,7 @@
         ]
       ],
       "source": "src/pass.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_12365",
@@ -633,7 +643,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_12377",
@@ -646,7 +656,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_12389",
@@ -659,7 +669,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_123a4",
@@ -672,7 +682,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_123a5",
@@ -685,7 +695,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_123a6",
@@ -698,7 +708,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_123a7",
@@ -715,7 +725,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_output_buffer_123ae",
@@ -728,7 +738,7 @@
         ]
       ],
       "source": "src/buffers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_register_compiler_cleanup",
@@ -745,7 +755,7 @@
         ]
       ],
       "source": "src/pass.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_1241c",
@@ -762,7 +772,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_output_buffer_12423",
@@ -775,7 +785,7 @@
         ]
       ],
       "source": "src/buffers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_1246b",
@@ -792,7 +802,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_output_buffer_12472",
@@ -805,7 +815,7 @@
         ]
       ],
       "source": "src/buffers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_124ba",
@@ -822,7 +832,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_output_buffer_124c1",
@@ -835,7 +845,7 @@
         ]
       ],
       "source": "src/buffers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_12509",
@@ -852,7 +862,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_output_buffer_12510",
@@ -865,7 +875,7 @@
         ]
       ],
       "source": "src/buffers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_12558",
@@ -882,7 +892,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_output_buffer_1255f",
@@ -895,7 +905,7 @@
         ]
       ],
       "source": "src/buffers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_125a7",
@@ -912,7 +922,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_output_buffer_125ae",
@@ -925,7 +935,7 @@
         ]
       ],
       "source": "src/buffers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_125f6",
@@ -942,7 +952,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_output_buffer_125fd",
@@ -955,7 +965,7 @@
         ]
       ],
       "source": "src/buffers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_12645",
@@ -968,7 +978,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_12646",
@@ -981,7 +991,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_12663",
@@ -994,7 +1004,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_12664",
@@ -1007,7 +1017,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_1266f",
@@ -1024,7 +1034,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_pdb_context_12676",
@@ -1037,7 +1047,7 @@
         ]
       ],
       "source": "src/pdb.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_126af",
@@ -1054,7 +1064,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_pdb_context_126b6",
@@ -1067,7 +1077,7 @@
         ]
       ],
       "source": "src/pdb.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_126ef",
@@ -1080,7 +1090,7 @@
         ]
       ],
       "source": "src/pools.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "CompilerPool::Initialize",
@@ -1093,7 +1103,7 @@
         ]
       ],
       "source": "src/pools.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_12712",
@@ -1106,7 +1116,7 @@
         ]
       ],
       "source": "src/pools.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_1271f",
@@ -1119,7 +1129,7 @@
         ]
       ],
       "source": "src/pools.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_1272c",
@@ -1132,7 +1142,7 @@
         ]
       ],
       "source": "src/pools.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_12739",
@@ -1145,7 +1155,7 @@
         ]
       ],
       "source": "src/pools.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_12746",
@@ -1158,7 +1168,7 @@
         ]
       ],
       "source": "src/pools.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_12753",
@@ -1171,7 +1181,7 @@
         ]
       ],
       "source": "src/pools.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_12760",
@@ -1184,7 +1194,7 @@
         ]
       ],
       "source": "src/pools.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_1276d",
@@ -1197,7 +1207,7 @@
         ]
       ],
       "source": "src/pools.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_1277a",
@@ -1210,7 +1220,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_1277b",
@@ -1223,7 +1233,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_1279c",
@@ -1236,7 +1246,7 @@
         ]
       ],
       "source": "src/pch-state.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "CompilerPchState::Initialize",
@@ -1250,7 +1260,7 @@
         ]
       ],
       "source": "src/pch-state.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_127a6",
@@ -1263,7 +1273,7 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_main",
@@ -1280,7 +1290,7 @@
         ]
       ],
       "source": "src/main.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_work_buffers",
@@ -1293,7 +1303,7 @@
         ]
       ],
       "source": "src/work-buffers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_reserve_work_buffer",
@@ -1310,7 +1320,7 @@
         ]
       ],
       "source": "src/work-buffers.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_scan_internal_switches",
@@ -1327,7 +1337,7 @@
         ]
       ],
       "source": "src/options.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_parse_internal_switch",
@@ -1348,7 +1358,7 @@
         ]
       ],
       "source": "src/options.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_state_12998",
@@ -1361,7 +1371,7 @@
         ]
       ],
       "source": "src/main.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_compiler_arenas",
@@ -1378,7 +1388,7 @@
         ]
       ],
       "source": "src/arenas.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_primary_arenas",
@@ -1395,7 +1405,7 @@
         ]
       ],
       "source": "src/arenas.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "CompilerArena::Initialize",
@@ -1413,7 +1423,7 @@
         ]
       ],
       "source": "src/arenas.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_arena_reservation_bytes",
@@ -1430,7 +1440,7 @@
         ]
       ],
       "source": "src/arenas.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "CompilerArena::Reset",
@@ -1444,7 +1454,7 @@
         ]
       ],
       "source": "src/arenas.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_default_pools",
@@ -1457,7 +1467,7 @@
         ]
       ],
       "source": "src/pools.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "CompilerPool::SetArena",
@@ -1470,7 +1480,7 @@
         ]
       ],
       "source": "src/pools.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "CompilerPool::Refill",
@@ -1487,7 +1497,7 @@
         ]
       ],
       "source": "src/pools.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "CompilerArena::AllocatePages",
@@ -1500,7 +1510,7 @@
         ]
       ],
       "source": "src/arenas.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "CompilerArena::CommitExtent",
@@ -1517,7 +1527,7 @@
         ]
       ],
       "source": "src/arenas.cpp",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_parse_command_line",
@@ -1534,7 +1544,7 @@
         ]
       ],
       "source": "src/command-line.c",
-      "status": "accepted-prefix"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_include_aliases",
@@ -1551,7 +1561,7 @@
         ]
       ],
       "source": "src/arenas.cpp",
-      "status": "candidate"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_checksums",
@@ -1564,7 +1574,7 @@
         ]
       ],
       "source": "src/checksums.c",
-      "status": "candidate; hold for authenticated public-import entry proof"
+      "status": "accepted prefix"
     },
     {
       "name": "_initialize_multibyte_scanner",
@@ -1581,7 +1591,24 @@
         ]
       ],
       "source": "src/scanner.c",
-      "status": "trial only; native locale/selection behavior held until shared contract and own actual paired evidence"
+      "status": "accepted prefix"
+    },
+    {
+      "name": "_initialize_path_fold_table",
+      "native_symbol": "initialize_path_fold_table",
+      "role": "application",
+      "chunks": [
+        [
+          77630,
+          77703
+        ],
+        [
+          198610,
+          198620
+        ]
+      ],
+      "source": "src/scanner.c",
+      "status": "trial only; public _mbctolower success held until shared review and actual native proof"
     }
   ],
   "text_data": [
@@ -1603,14 +1630,16 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 77630,
-    "native_symbol": "initialize_option_input_12f3e",
-    "kind": "multibyte-scanner-complete",
+    "rva": 77703,
+    "native_symbol": "read_env_arguments",
+    "kind": "path-fold-complete",
     "calling_convention": "cdecl",
-    "native_args": [],
+    "native_args": [
+      "arguments"
+    ],
     "caller": {
       "native_symbol": "parse_command_line",
-      "return_rva": 76672
+      "return_rva": 76723
     }
   },
   "imports": [
@@ -1893,7 +1922,8 @@
       ],
       "integer_seed": 71,
       "scope": "owned snapshot interior sentinels and labeled nonzero ints before BSS clear; never dereferenced"
-    }
+    },
+    "path_fold": "labeled reset-before-clear and helper-entry nonzero WORD table seeds; no snapshot ownership"
   },
   "staging_role": "real72-byte scanner candidate; no app acceptance until genuine native/reference pair matches; original-only CRT suffix is analysis",
   "registered_cleanup": [
@@ -2079,6 +2109,16 @@
       "mb-after",
       "next"
     ],
+    "analysis_only_until_native_success": true
+  },
+  "path_fold_observers": {
+    "entry_rva": 77630,
+    "return_rva": 76672,
+    "iat_rva": 381020,
+    "provider_rva": 42451,
+    "api_return_rva": 77671,
+    "table_rva": 350504,
+    "table_bytes": 512,
     "analysis_only_until_native_success": true
   }
 }

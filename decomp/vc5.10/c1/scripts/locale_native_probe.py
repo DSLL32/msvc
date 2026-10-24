@@ -100,8 +100,9 @@ ScannerInitEntry('*0x%x'%SCANNER_PC)
  code=code.replace('SETLOCALE_PC',str(names['recon_setlocale'][0])).replace('SETMBCP_PC',str(names['recon_setmbcp'][0])).replace('SCANNER_PC',str(names['initialize_multibyte_scanner'][0]))
  return 'LOCALE_OUTPUT=%r\n'%str(output)+code
 
-def final_observation(output):
- return '''locale_native_records.append(dict(native_locale_snapshot('next'),kind='next',name='target-stub'))
+def final_observation(output,following_stage=False):
+ prefix=''if following_stage else "locale_native_records.append(dict(native_locale_snapshot('next'),kind='next',name='target-stub'))\n"
+ return prefix+'''
 open(%r,'w').write(json.dumps(locale_native_records,indent=2)+'\\n')
 open(%r,'w').write(json.dumps(scanner_init_entries,indent=2)+'\\n')
 open(%r,'w').write(json.dumps(scanner_init_returns,indent=2)+'\\n')

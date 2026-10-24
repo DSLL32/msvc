@@ -32,8 +32,13 @@ def check(directory):
  schema=json.loads((directory/'locale-schema.json').read_text());candidate=json.loads((directory/'candidate.json').read_text());target=directory/'loaded-target.bin';crt=directory/'loaded-msvcrt.bin'
  require(sha(target)==receipt['target_sha256']==schema['target_sha256'],'actual target hFile');require(sha(crt)==receipt['canonical_crt_sha256']==schema['provider_sha256']and crt.stat().st_size==schema['provider_bytes'],'actual canonical CRT hFile')
  require(sha(directory/'locale-observer.inc')==schema['transport_source']['sha256'],'compiled locale observer')
- require(candidate['functions'][-1]['name']=='_initialize_multibyte_scanner'and candidate['functions'][-1]['chunks']==[[0x12f08,0x12f3e],[0x307c0,0x307d2]],'exact actual scanner trial')
- require(candidate['expected_frontier']['rva']==0x12f3e and candidate['isolated_locale_observers']['analysis_only_until_native_success'],'honest current role')
+ following=bool(candidate.get('path_fold_observers'))
+ scanner=[row for row in candidate['functions']if row['name']=='_initialize_multibyte_scanner']
+ require(len(scanner)==1 and scanner[0]['chunks']==[[0x12f08,0x12f3e],[0x307c0,0x307d2]],'exact actual scanner body')
+ if following:
+  require(candidate['expected_frontier']['rva']==0x12f87 and candidate['functions'][-1]['name']=='_initialize_path_fold_table'and candidate['functions'][-1]['chunks']==[[0x12f3e,0x12f87],[0x307d2,0x307dc]],'explicit next83B stage')
+ else:require(candidate['functions'][-1]==scanner[0]and candidate['expected_frontier']['rva']==0x12f3e,'honest current scanner trial')
+ require(candidate['isolated_locale_observers']['analysis_only_until_native_success'],'honest current role')
  for name,rva in schema['exports'].items():require(export_rva(crt,name)==rva,'canonical export '+name)
  for row in schema['canonical_instructions']:
   raw=bytes.fromhex(row['bytes']);require(pe_read(crt,row['rva'],len(raw))==raw,'canonical CRT instructions')
@@ -41,7 +46,8 @@ def check(directory):
   call=schema[key];require(pe_read(target,call['call_instruction_rva'],6)==bytes.fromhex(call['call_bytes']),'actual caller '+key)
  require(pe_read(target,schema['call']['arguments'][1]-0x10600000,1)==b'\0','own empty string identity')
  events=(directory/'events.txt').read_text();require('failure 'not in events,'controller failure')
- require(re.findall(r'^frontier rva=(\w+)$',events,re.M)==['00012f3e'],'genuine next target frontier')
+ require(re.findall(r'^frontier rva=(\w+)$',events,re.M)==['00012f87'if following else'00012f3e'],'genuine next target frontier')
+ if following:require(len(re.findall(r'^trap seq=\d+ rva=00012f3e ',events,re.M))==1,'actual earlier scanner completion boundary')
  require(events.count('isolated-locale-observer setlocale-iat=0005d120 setmbcp-iat=0005d148 exports=14 no-query-calls=1 no-seeds=1\n')==1,'observer contract')
  module=int(re.search(r'^module name=c1n32_l.dll actual=(\w+) ',events,re.M)[1],16);base=int(re.search(r'^module name=MSVCRT.dll actual=(\w+) ',events,re.M|re.I)[1],16);require(module==0x10600000,'preferred target base only')
  entry=re.findall(r'^public-entry seq=(\d+) module=MSVCRT.dll name=setlocale provider=(\w+) rva=00005729 iat=0005d120 esp=(\w+) return=(\w+) category=(\d+) locale=(\w+) error=(\d+)$',events,re.M)

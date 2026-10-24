@@ -139,6 +139,9 @@ typedef struct CompilerBss {
     CompilerArena arenas[6];
     CompilerOptionBss options;
     CompilerChecksumTables checksums;
+    /* Byte-indexed case folding for path comparison. A lead byte is 0xffff;
+     * ordinary entries hold the converted character and '/' maps to '\\'. */
+    WORD path_fold[256];
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */

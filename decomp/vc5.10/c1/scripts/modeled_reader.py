@@ -78,7 +78,7 @@ def schema():
   for root in ROOTS:
    symbol=gdb.lookup_global_symbol(root);require(symbol is not None,'missing global '+root)
    result[root]=scalar_schema(symbol.type)
-  require(result['c1_data']['size']==2348 and result['c1_bss']['size']==1860,'current source object sizeof')
+  require(result['c1_data']['size']==2348 and result['c1_bss']['size']==2372,'current source object sizeof')
   require(result['c1_pdb_context']['size']==result['c1_output_pdb_context']['size']==24,'persistent object sizes')
   require(result['c1_initialization_callbacks']['size']==136 and result['c1_arena_descriptors']['size']==120,'source table extents')
   require(_field_map is not None,'field map absent')
@@ -86,6 +86,9 @@ def schema():
    for row in _field_map[region]:
     root,offset,node=locate(row['native_field'],result)
     require(root==('c1_data'if region=='modeled_initialized'else'c1_bss')and offset==row['native_offset']and node['size']==row['bytes'],'field map/DWARF disagreement '+row['name'])
+  require(_field_map.get('path_fold')is not None,'current encountered path table absent')
+  root,offset,node=locate('c1_bss.path_fold',result)
+  require(root=='c1_bss'and offset==1860 and node['kind']=='array'and node['count']==256 and node['size']==512 and node['element']['kind']=='scalar'and node['element']['size']==2 and node['element']['signed']is False,'unsigned WORD[256] path-table layout')
   result['saved']=result['c1_data']
   text=json.dumps(result,sort_keys=True,indent=2)+'\n';(_directory/'grouped-layout.json').write_text(text)
   _schema=result

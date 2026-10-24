@@ -32,7 +32,7 @@ def validate(original,native,candidate,report,public_state=None):
  project=Path(__file__).resolve().parents[1];fields=json.loads((project/candidate['field_map']).read_text())
  expected_fields(fields);stage=public_state is not None
  if stage:
-  assert candidate['expected_frontier']['kind']=='multibyte-scanner-complete'and candidate['expected_frontier']['rva']==0x12f3e
+  assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('multibyte-scanner-complete',0x12f3e),('path-fold-complete',0x12f87)]
   expected=dict(kind='public-crt-entry',rva=0x5729,provider='MSVCRT.dll',native_symbol='recon_setlocale',calling_convention='cdecl',native_args=['category','locale'],iat_rva=0x5d120,caller=dict(native_symbol='parse_command_line',return_rva=0x12b73),following_target_stub_rva=0x12f08,projection_frontier_rva=0x12f08)
  else:expected=candidate['expected_frontier']
  assert expected==dict(kind='public-crt-entry',rva=0x5729,provider='MSVCRT.dll',native_symbol='recon_setlocale',calling_convention='cdecl',native_args=['category','locale'],iat_rva=0x5d120,caller=dict(native_symbol='parse_command_line',return_rva=0x12b73),following_target_stub_rva=0x12f08,projection_frontier_rva=0x12f08)

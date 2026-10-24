@@ -61,6 +61,9 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
  if fields.get('checksums'):
   import checksum_fields
   expected_bss.update(checksum_fields.expected_fields(fields))
+ if fields.get('path_fold'):
+  import path_fold_fields
+  expected_bss.update(path_fold_fields.expected_fields(fields))
  assert {r['name']:(r['original_rva'],r['bytes'],r['native_offset']) for r in fields['modeled_bss']}==expected_bss
  first=fields['modeled_initialized'][0]
  assert first['snapshot_original_offset']==first['original_rva']-fields['original_initialized_region_rva'][0]==0x1530
@@ -70,6 +73,13 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
  assert layout=={'initialized_members':{name:native for name,(rva,size,native) in main_fields.INITIALIZED.items()},'system_info_size':36,'system_info_members':main_fields.SYSTEM_MEMBERS,'command_members':{name:native for name,(rva,size,native) in main_fields.COMMAND.items()},'initialized_size':fields['main_fields']['native_initialized_size'],'bss_size':fields['native_bss_size'],'arenas':804,'arena_count':6,'arena_size':32,'arena_members':arena_state.MEMBERS,'arena_descriptor_size':20,'arena_descriptor_members':arena_state.DESCRIPTOR_MEMBERS,'work_buffers':788,'work_buffer_count':2,'work_buffer_size':8,'work_buffer_members':{'data':0,'limit':4},'pch_state':708,'pch_state_size':68,'pch_members':pch_state.MEMBERS,'mapping_handle_count':6,'empty_record_prototype':688,'empty_record_prototype_size':20,'pools':544,'pool_count':len(fields['pools']),'pool_size':16,'pool_members':{'cursor':0,'remaining':4,'minimum_pages':8,'arena':12},'pdb_signature':540,'literal':520,'saved_literal':528,'saved_literal_available':536,'value_size':8,'first_call':0,'saved_data':0,'cleanup_count':4,'cleanup_callbacks':8,'context':136,'current_context':148,'contexts':160,'contexts_stride':12,'output_buffers':232,'output_buffer_count':len(fields['output_buffers']),'output_buffer_size':36,'buffer_members':{name:native for name,(original,native,size) in buffer_state.FIELDS.items()},'context_members':{'object':0,'value':4,'saved_frame':8}}
  data=(original/('compiler-data-%03d.bin'%sequence)).read_bytes();bss=(original/('compiler-bss-%03d.bin'%sequence)).read_bytes()
  assert len(data)==6548 and len(bss)==0xa06c
+ if fields.get('path_fold'):
+  import path_fold_fields
+  assert path_fold_fields.read((original/'compiler-bss-000.bin').read_bytes())==[0]*256
+  assert current['path_fold']==path_fold_fields.read(bss)==[0]*256
+  if probe=='restore':
+   observations=json.loads((native/'restore-observations.json').read_text())
+   assert observations['pre_seed']['path_fold']==[0]*256 and observations['before']['path_fold']==path_fold_fields.seed('reset')and observations['post_restore']['path_fold']==[0]*256
  if fields.get('checksums'):
   from checksum_state import validate_prefix
   validate_prefix(original,native,fields,state,sequence,probe)

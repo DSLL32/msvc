@@ -33,6 +33,7 @@ def main():
     parser.add_argument("--reuse-build-from", type=Path, help="prior verified capture of the same ELF and owned sources")
     parser.add_argument("--pdb-reuse", type=int, choices=(0,1), default=0, help="labeled persistent-context helper reuse branch")
     parser.add_argument("--grouped-equivalence",action="store_true",help="compare fresh bounded typed-object decoder and legacy observer at each existing stopped checkpoint")
+    parser.add_argument("--stop-before-mbctolower",action="store_true",help="analysis-only genuine public entry; cannot supply a complete candidate acceptance")
     args = parser.parse_args()
     assert not args.restore_probe or args.case == "minimal"
     assert not args.negative_value or args.restore_probe
@@ -44,6 +45,7 @@ def main():
     binary_sha = sha(binary)
     candidate_path = PROJECT / ("cases/" + args.case + "/candidate.json")
     candidate = json.loads(candidate_path.read_text())
+    assert not args.stop_before_mbctolower or candidate.get('path_fold_observers')
     assert not args.prospective_tail_chain or not args.reuse_build_from
     source_reuse = None
     compiled_build = None
@@ -77,6 +79,7 @@ def main():
     import_boundary = candidate.get("expected_frontier", {}).get("kind") == "import-boundary"
     public_boundary = candidate.get('expected_frontier',{}).get('kind')=='public-crt-entry'
     breakpoint_command = "break *recon_setlocale\n" if public_boundary else "break recon_initterm\n" if import_boundary else ""
+    if args.stop_before_mbctolower:breakpoint_command="break *recon_mbctolower\n"
     pass_boundary = candidate.get("expected_frontier", {}).get("kind") == "compiler-pass-entry"
     arguments = (("argc", "argv", "mode") if pass_boundary else
                  ("begin", "end") if import_boundary else ("module", "reason", "reserved"))
@@ -143,6 +146,7 @@ value['compiler_state']={
  'option_state':capture_command_line_state(),
  'checksum_state':capture_checksum_state(),
  'multibyte_state':capture_multibyte_state(),
+ 'path_fold':capture_path_fold_state(),
  'live_addresses':{'initialized':int(gdb.parse_and_eval('(unsigned int)&c1_data')),'bss':int(gdb.parse_and_eval('(unsigned int)&c1_bss'))},
  'initialized':{'first_call':int(gdb.parse_and_eval('c1_data.first_call')),'compiler_phase':int(gdb.parse_and_eval('c1_data.compiler_phase')),'c9_il':int(gdb.parse_and_eval('c1_data.c9_il')),'compiler_flags':int(gdb.parse_and_eval('(unsigned int)c1_data.compiler_flags')),'system_info':{key:int(gdb.parse_and_eval('(unsigned int)c1_data.system_info.'+key)) for key in SYS_KEYS},'internal_bm_flags':int(gdb.parse_and_eval('c1_data.internal_bm_flags')),'internal_zb_value':int(gdb.parse_and_eval('c1_data.internal_zb_value')),'memory_percent':int(gdb.parse_and_eval('c1_data.memory_percent'))},
  'bss':{'arenas':[{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.arenas[%%d].'%%i+key))for key in ('cursor','committed_limit','base','committed_bytes','descriptor','reserve_bytes','reset_value','mapped_view')}for i in range(6)],'work_buffers':[{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.work_buffers[%%d].'%%i+key)) for key in ('data','limit')} for i in range(2)],'debug_break':int(gdb.parse_and_eval('c1_bss.debug_break')),'command_argc':int(gdb.parse_and_eval('c1_bss.command_argc')),'command_argv':int(gdb.parse_and_eval('(unsigned int)c1_bss.command_argv')),'pch_state':{key:([int(gdb.parse_and_eval('(unsigned int)c1_bss.pch_state.mapping_handles[%%d]'%%i)) for i in range(6)] if key=='mapping_handles' else int(gdb.parse_and_eval(('(int)' if key in ('image_count','loaded_image_count') else '(unsigned int)')+'c1_bss.pch_state.'+key))) for key in PCH_KEYS},'empty_record_prototype':[int(gdb.parse_and_eval('c1_bss.empty_record_prototype[%%d]'%%i)) for i in range(20)],'pools':[{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.pools[%%d].'%%i+key)) for key in ('cursor','remaining','minimum_pages','arena')} for i in range(POOL_COUNT)],'pdb_signature':int(gdb.parse_and_eval('c1_bss.pdb_signature')),'literal':int(gdb.parse_and_eval('c1_bss.literal.integer')),'saved_literal':int(gdb.parse_and_eval('c1_bss.saved_literal.integer')),'saved_literal_available':int(gdb.parse_and_eval('c1_bss.saved_literal_available')),'saved_data':int(gdb.parse_and_eval('(unsigned int)c1_bss.saved_data')),
@@ -247,7 +251,12 @@ def capture_modeled():
             else:
                 from locale_native_probe import definitions as locale_definitions,final_observation as locale_final
                 allocation_probe=allocation_probe.replace('\nend\n','\n'+locale_definitions(binary,output)+'end\n')
-                commands=commands.replace(save_line,locale_final(output)+save_line)
+                commands=commands.replace(save_line,locale_final(output,bool(candidate.get('path_fold_observers')))+save_line)
+        if candidate.get('path_fold_observers'):
+            from path_fold_native_probe import definitions,final_observation
+            allocation_probe=allocation_probe.replace('\nend\n','\n'+definitions(binary,output,args.restore_probe)+'end\n')
+            save_line="open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json')
+            commands=commands.replace(save_line,final_observation(output)+save_line)
         if field_map.get("pools"):
             symbol = field_map["pools"][0]["native_linkage_symbol"]
             table = subprocess.check_output(["nm", "-S", "--defined-only", str(binary)], text=True)
@@ -553,7 +562,7 @@ ActualArenaMemberEntry('*0x%x')
                     from pool_cycle_probe import record_returns
                     pool_probe=record_returns(pool_probe,'set-arena','pool_arena_entries')
                 default_probe+=pool_probe
-                if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete'):
+                if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete','path-fold-complete'):
                     refill_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] _ZN12CompilerPool6RefillEj$',table,re.M)[1],16)
                     refill_base=pool_probe
                     if candidate.get('pool_cycle_observers'):
@@ -563,7 +572,7 @@ ActualArenaMemberEntry('*0x%x')
                     if candidate.get('pool_cycle_observers'):
                         refill_probe=record_returns(refill_probe,'refill','pool_refill_entries')
                     default_probe+=refill_probe
-                    if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete'):
+                    if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete','path-fold-complete'):
                         page_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] _ZN13CompilerArena13AllocatePagesEjPj$',table,re.M)[1],16)
                         page_base=refill_probe
                         if candidate.get('pool_cycle_observers'):
@@ -594,9 +603,9 @@ ActualArenaMemberEntry('*0x%x')
         if candidate.get('default_pool_order'):
             for name,expression in [('default-pools-entry.json','default_pool_entries'),('pool-arena-entries.json','pool_arena_entries')]:
                 commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')\n"%(str(output/name),expression)+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
-        if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete'):
+        if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete','path-fold-complete'):
             commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(pool_refill_entries,indent=2)+'\\n')\n"%str(output/'pool-refill-entries.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
-        if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete'):
+        if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete','path-fold-complete'):
             commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(arena_page_entries,indent=2)+'\\n')\n"%str(output/'arena-page-entries.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         if candidate.get('pool_cycle_observers'):
             for name,expression in [('pool-cycle-events.json','pool_cycle_events'),('pool-cycle-returns.json','pool_cycle_returns'),('pool-commit-entries.json','pool_commit_entries'),('pool-commit-api-entries.json','pool_commit_api_entries'),('pool-commit-api-returns.json','pool_commit_api_returns')]:
@@ -899,6 +908,7 @@ gdb.execute('set var c1_reuse_state = 9')
 seed_command_line_restore()
 seed_checksum_restore()
 seed_multibyte_restore()
+seed_path_fold_restore()
 restore_observations['before']=capture_modeled()
 end
 break %s:%d
@@ -1014,10 +1024,10 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
     commands=commands.replace("PCH_KEYS",repr(tuple(field_map.get("pch_state",{}).get("members",PCH_MEMBERS))))
     commands = commands.replace("BUFFER_COUNT", str(len(buffer_models))).replace("POOL_COUNT", str(len(field_map.get("pools", []))))
     import shutil
-    for script in ('command_line_probe.py','command_line_fields.py','checksum_fields.py','checksum_probe.py','multibyte_fields.py','multibyte_probe.py'):
+    for script in ('command_line_probe.py','command_line_fields.py','checksum_fields.py','checksum_probe.py','multibyte_fields.py','multibyte_probe.py','path_fold_fields.py','path_fold_probe.py'):
         shutil.copy2(PROJECT/'scripts'/script,output/script)
     command_line_setup="python\nimport sys\nsys.path.insert(0,%r)\nfrom command_line_probe import capture as capture_command_line_state,seed_restore as seed_command_line_restore,invocation as capture_invocation,crt_state as capture_command_line_crt_state\nend\n"%str(output)
-    command_line_setup=command_line_setup.replace('from command_line_probe import', 'from checksum_probe import capture as capture_checksum_state,seed_restore as seed_checksum_restore\nfrom multibyte_probe import capture as capture_multibyte_state,seed_restore as seed_multibyte_restore\nfrom command_line_probe import')
+    command_line_setup=command_line_setup.replace('from command_line_probe import', 'from checksum_probe import capture as capture_checksum_state,seed_restore as seed_checksum_restore\nfrom multibyte_probe import capture as capture_multibyte_state,seed_restore as seed_multibyte_restore\nfrom path_fold_probe import capture as capture_path_fold_state,seed_restore as seed_path_fold_restore\nfrom command_line_probe import')
     commands=command_line_setup+commands
     if public_boundary:
         # Before the provider prologue, some DWARF formal locations still use
@@ -1025,6 +1035,9 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
         # from the actual cdecl entry stack, with no target instruction run.
         marker="assert {row['name'] for row in formals}==set(args), 'omitted or invented native formal'"
         commands=commands.replace(marker,marker+"\npublic_words=struct.unpack('<3I',gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('(unsigned int)$esp')),12).tobytes())\nargs={'category':public_words[1],'locale':public_words[2]}\nvalue['args']=args")
+    if args.stop_before_mbctolower:
+        marker="assert {row['name'] for row in formals}==set(args), 'omitted or invented native formal'"
+        commands=commands.replace(marker,marker+"\npublic_words=struct.unpack('<2I',gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('(unsigned int)$esp')),8).tobytes())\nargs={'character':public_words[1]}\nvalue['args']=args")
     if field_map.get('command_line'):
         save_line="open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json')
         commands=commands.replace(save_line,"value['command_line_fp']=capture_x87()\n"+save_line)
@@ -1066,7 +1079,9 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
     elapsed = time.perf_counter() - started
     (output / "gdb.txt").write_bytes(result.stdout)
     assert result.returncode == 0
-    if public_boundary:
+    if args.stop_before_mbctolower:
+        assert re.search(rb'Breakpoint \d+, recon_mbctolower \(',result.stdout)
+    elif public_boundary:
         assert re.search(rb'Breakpoint \d+, recon_setlocale \(',result.stdout)
     elif import_boundary:
         assert b"Breakpoint 1, recon_initterm (" in result.stdout
@@ -1087,7 +1102,7 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
         assert all(sha(ROOT / path) == value for path, value in binding["inputs"].items())
         for source, target in (("trial-audit.json", "audit.json"), ("trial-audit-binding.json", "audit-binding.json")):
             (output / target).write_bytes((PROJECT / "build" / source).read_bytes())
-    receipt = {"schema": 1, "kind": "native-prospective-tail-chain" if args.prospective_tail_chain else "native-gdb-frontier",
+    receipt = {"schema": 1, "kind": "native-gdb-public-entry-analysis" if args.stop_before_mbctolower else "native-prospective-tail-chain" if args.prospective_tail_chain else "native-gdb-frontier",
                "candidate_path": "cases/" + args.case + "/candidate.json",
                "probe": "restore" if args.restore_probe else "normal",
                "value_copy_sign": ("negative" if args.negative_value else "positive") if args.restore_probe else None,

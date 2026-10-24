@@ -60,4 +60,11 @@ typedef struct CompilerScannerTables {
 }
 /* Remaining flag elements are the actual zero defaults, not a section gap. */
 #define C1_SCANNER_DEFAULTS { C1_SCANNER_CLASSES, C1_SCANNER_FLAGS }
+#ifdef __cplusplus
+extern "C" {
+#endif
+void __cdecl initialize_path_fold_table(void);
+#ifdef __cplusplus
+}
+#endif
 #endif

@@ -24,6 +24,9 @@ def export_rva(path,wanted):
 
 def check_static():
  metadata=json.loads((P/'cases/minimal/audit-metadata.json').read_text())
+ if '_initialize_path_fold_table'in metadata['functions']:
+  from path_fold_imports import check_static as check_path_fold
+  check_path_fold()
  if '_parse_command_line'in metadata['functions']:
   from command_line_state import check_preservation_static
   check_preservation_static(P,ROOT)
@@ -42,6 +45,9 @@ def check_static():
 def check_report(report):
  metadata=json.loads((P/'cases/minimal/audit-metadata.json').read_text())
  assert report['register_import_inputs']['preservation_contracts']==metadata['register_imports']['preservation_contracts']
+ if '_initialize_path_fold_table'in report['functions']:
+  from path_fold_imports import check_report as check_path_fold
+  check_path_fold(report)
  function=report['functions']['_reserve_work_buffer'];result=function['register_imports']
  assert result['require_all_register_calls_resolved'] is True
  assert result['original']['resolved_register_calls']=={str(0x10612889):dict(dll='kernel32.dll',name='VirtualAlloc'),str(0x106128a2):dict(dll='kernel32.dll',name='VirtualAlloc')}

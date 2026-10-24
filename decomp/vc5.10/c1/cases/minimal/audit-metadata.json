@@ -67,6 +67,21 @@
           "path": "cases/minimal/command-line-preservation.json",
           "sha256": "b8323576f10101c25049d769decf0109d1d3d8ad5359dd7c3f9b9f60f4d018ca"
         }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "_mbctolower"
+          }
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/minimal/path-fold-imports.json",
+          "sha256": "d37947e7da7f9a9af374859dcbbbfa75314af8b57cd00bf333245b3ea446c96c"
+        }
       }
     ]
   },
@@ -95,6 +110,11 @@
       }
     },
     "_parse_command_line": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true
+      }
+    },
+    "_initialize_path_fold_table": {
       "register_imports": {
         "require_all_register_calls_resolved": true
       }

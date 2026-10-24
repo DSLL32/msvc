@@ -26,18 +26,21 @@ def validate_prefix(original,native,fields,state,sequence,probe):
   assert current['initialized']==current['snapshot']==seed('snapshot')
  else:assert current['initialized']==current['snapshot']==defaults()
 
-def validate(original,native,candidate,report):
+def validate(original,native,candidate,report,stage_state=None):
  project=Path(__file__).resolve().parents[1];fields=json.loads((project/candidate['field_map']).read_text());expected_fields(fields)
- assert candidate['expected_frontier']==dict(rva=0x12f3e,native_symbol='initialize_option_input_12f3e',kind='multibyte-scanner-complete',calling_convention='cdecl',native_args=[],caller=dict(native_symbol='parse_command_line',return_rva=0x12b80))
+ following=stage_state is not None
+ if following:
+  assert candidate.get('path_fold_observers')and candidate['expected_frontier']['kind']=='path-fold-complete'and candidate['expected_frontier']['rva']==0x12f87
+ else:assert candidate['expected_frontier']==dict(rva=0x12f3e,native_symbol='initialize_option_input_12f3e',kind='multibyte-scanner-complete',calling_convention='cdecl',native_args=[],caller=dict(native_symbol='parse_command_line',return_rva=0x12b80))
  spec=importlib.util.spec_from_file_location('own_original_locale',project/'scripts/check-isolated-locale.py');checker=importlib.util.module_from_spec(spec);spec.loader.exec_module(checker);own=checker.check(original)
  binary=captured_native_binary(native);names=symbols(binary);events=(original/'events.txt').read_text();module=0x10600000
  public=json.loads((native/'locale-native-setlocale-entry-state.json').read_text())
  from checksum_state import validate as validate_checksum,preserved
  prefix=validate_checksum(original,native,candidate,report,public_state=public)
  assert prefix['status']=='matching genuine public CRT entry; no locale behavior accepted'
- state=json.loads((native/'state.json').read_text());records=json.loads((native/'locale-native-records.json').read_text())
+ state=stage_state if following else json.loads((native/'state.json').read_text());records=json.loads((native/'locale-native-records.json').read_text())
  assert [row['phase']for row in records]==['before','after','mb-before','mb-after','next']
- assert [(row['kind'],row['name'])for row in records]==[('entry','setlocale'),('return','setlocale'),('entry','_setmbcp'),('return','_setmbcp'),('next','target-stub')]
+ assert [(row['kind'],row['name'])for row in records]==[('entry','setlocale'),('return','setlocale'),('entry','_setmbcp'),('return','_setmbcp'),('next','path-fold-entry-before-auxiliary'if following else'target-stub')]
  binding=json.loads((native/'isolated-locale-binding.json').read_text());assert binding['receipt_sha256']==sha(original/'receipt.json')
  native_names=('CRT-argv','CRT-environment','Invoke-argv');original_names=native_names
  from crt_vectors import vector,disjoint
@@ -87,11 +90,14 @@ def validate(original,native,candidate,report):
  assert semantic(state['command_line_fp'])==semantic(records[-1]['fp'])
  assert state['module_identity']==public['module_identity']and state['module_token']==public['module_token']
  for key,value in records[-1]['crt_state'].items():assert state[key]==value
- assert state['formal_inventory']==[]and state['args']=={}and state['symbol']=='initialize_option_input_12f3e'
+ symbol='initialize_path_fold_table'if following else'initialize_option_input_12f3e'
+ assert state['formal_inventory']==[]and state['args']=={}and state['symbol']==symbol
  assert state['caller']['symbol']=='parse_command_line'and state['caller']['args']==public['caller']['args']
- assert names['initialize_option_input_12f3e'][0]<state['pc']<=sum(names['initialize_option_input_12f3e'])
- opcode=__import__('subprocess').check_output(['objdump','-d','--start-address='+str(state['pc']-1),'--stop-address='+str(state['pc']),str(binary)],text=True);assert'int3'in opcode
- call(binary,state['caller']['pc'],names['initialize_option_input_12f3e'][0])
+ if following:assert state['pc']==names[symbol][0]
+ else:
+  assert names[symbol][0]<state['pc']<=sum(names[symbol])
+  opcode=__import__('subprocess').check_output(['objdump','-d','--start-address='+str(state['pc']-1),'--stop-address='+str(state['pc']),str(binary)],text=True);assert'int3'in opcode
+ call(binary,state['caller']['pc'],names[symbol][0])
  entries=json.loads((native/'scanner-init-entries.json').read_text());returns=json.loads((native/'scanner-init-returns.json').read_text());assert len(entries)==len(returns)==1
  entry,end=entries[0],returns[0];assert entry['pc']==names['initialize_multibyte_scanner'][0]and entry['formal_inventory']==[]and entry['caller']['symbol']=='parse_command_line'and entry['caller']['args']==public['caller']['args']
  assert entry['return']==entry['caller']['pc'];call(binary,entry['return'],entry['pc'])
@@ -103,7 +109,13 @@ def validate(original,native,candidate,report):
  public_seq=int(re.findall(r'^public-entry seq=(\d+) module=MSVCRT.dll name=setlocale ',events,re.M)[0])
  assert (original/('state-%03d.bin'%int(next_at))).read_bytes()==(original/('state-%03d.bin'%public_seq)).read_bytes()
  for region in ('compiler-data','compiler-bss','compiler-snapshot'):
-  assert (original/('%s-%03d.bin'%(region,int(next_at)))).read_bytes()==(original/('locale-next-target-'+{'compiler-data':'data','compiler-bss':'BSS','compiler-snapshot':'snapshot'}[region]+'.bin')).read_bytes()
+  boundary=(original/('%s-%03d.bin'%(region,int(next_at)))).read_bytes();before=(original/('locale-next-target-'+{'compiler-data':'data','compiler-bss':'BSS','compiler-snapshot':'snapshot'}[region]+'.bin')).read_bytes()
+  if following and region=='compiler-bss'and json.loads((original/'receipt.json').read_text())['probe']=='restore':
+   from path_fold_fields import RVA,SIZE,seed as fold_seed
+   expected=bytearray(before);assert before[RVA-0x50000:RVA-0x50000+SIZE]==bytes(SIZE)
+   expected[RVA-0x50000:RVA-0x50000+SIZE]=struct.pack('<256H',*fold_seed('helper'))
+   assert boundary==bytes(expected),'only explicitly labeled known512B helper input seed intervenes'
+  else:assert boundary==before
  probe=json.loads((original/'receipt.json').read_text())['probe'];validate_prefix(original,native,fields,state,int(next_at),probe)
  assert state['compiler_state']['multibyte_state']==entry['compiler_state']['multibyte_state']
  transcript=(native/'gdb.txt').read_text();assert'Program received signal SIGTRAP'in transcript and'recon_unsupported'not in transcript and'NativeLocaleEntry'in(native/'commands.gdb').read_text()

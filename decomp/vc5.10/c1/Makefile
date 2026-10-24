@@ -46,7 +46,7 @@ build/c1n32_l.dll: build/dllmain.obj build/exports.obj build/native-crt.obj buil
 build/c1.dll: build/c1n32_l.dll
 	cp $< $@
 
-build/dll-capture.obj: scripts/dll-capture.c scripts/locale-observer.inc | build
+build/dll-capture.obj: scripts/dll-capture.c scripts/locale-observer.inc scripts/path-fold-observer.inc | build
 	$(TOOL) CL.EXE /nologo /c /Od /MD /G5 /I$(RECON)/include /Fo$@ $<
 build/dll-capture.exe: build/dll-capture.obj
 	$(TOOL) LINK.EXE /nologo /out:$@ $< $(TC)/lib/MSVCRT.LIB $(TC)/lib/KERNEL32.LIB

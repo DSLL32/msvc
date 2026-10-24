@@ -1,4 +1,5 @@
 #include <mbctype.h>
+#include <mbstring.h>
 #include "compiler-state.h"
 #include <recon.h>
 
@@ -19,4 +20,16 @@ void __cdecl initialize_multibyte_scanner(void)
             c1_data.scanner.classes[character] = SC_LEAD;
         }
     }
+}
+
+void __cdecl initialize_path_fold_table(void)
+{
+    unsigned character;
+    for (character = 0; character < 256; ++character) {
+        if (c1_data.scanner.classes[(unsigned char)character] == SC_LEAD)
+            c1_bss.path_fold[character] = 0xffff;
+        else
+            c1_bss.path_fold[character] = (WORD)_mbctolower(character);
+    }
+    c1_bss.path_fold['/'] = '\\';
 }

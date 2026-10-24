@@ -82,6 +82,8 @@ static int mb_entry_active,mb_return_active,mb_complete;
 static DWORD mb_entry_address,mb_return_address,mb_entry_esp;
 static BYTE mb_entry_saved,mb_return_saved;
 static void prepare_isolated_locale_observer(void);
+static void path_fold_prepare(void);
+static void path_fold_seed(const char *,WORD);
 static int checksum_return_active;
 static BYTE checksum_return_saved;
 static DWORD pool_commit_address, pool_commit_bytes, pool_commit_esp, pool_commit_error;
@@ -460,6 +462,7 @@ static void prepare_mask(void)
                 fail("checksum return ownership");
             patch(base + 0x12b66, 0xcc); checksum_return_active = 1;
             prepare_isolated_locale_observer();
+            path_fold_prepare();
         }
     }
     save_remote_state("compiler-callbacks", 0, base + 0x69000, 34 * 4);
@@ -563,6 +566,7 @@ static void save_frontend_state(const char *phase)
     readmem(base+0x50000,bytes,0xa06c);sprintf(name,"%s-target-BSS.bin",phase);save_blob(name,bytes,0xa06c);free(bytes);
 }
 #include "locale-observer.inc"
+#include "path-fold-observer.inc"
 
 /* Labeled auxiliary values: the stream and relocation callback are never
  * dereferenced/invoked. Only their mapped pointer identities are exercised. */
@@ -885,6 +889,7 @@ static void seed_restore_state(void)
         fprintf(events, "main-fields-seed bytes=64 snapshot-phase=7 live-phase=11 snapshot=%08lx pointers=owned\n", saved);
     }
     seed_command_line_live(data, saved);
+    if(path_fold_probe)path_fold_seed("reset",0x8101);
     if (checksum_tables_probe) {
         BYTE table[256];
         unsigned table_index, byte_index;
@@ -1295,6 +1300,8 @@ int main(int argc, char **argv)
                 else patch(base + ranges[pending].first, 0xcc);
                 context.EFlags &= ~0x100; pending = -1;
                 if (!SetThreadContext(thread, &context)) fail("single step context");
+            } else if (code == EXCEPTION_BREAKPOINT && path_fold_boundary(address,&context,thread,event.dwThreadId)) {
+                /* Genuine public call/return or owned helper return. */
             } else if (code == EXCEPTION_BREAKPOINT && checksum_return_active && address == base + 0x12b66) {
                 char name[64];
                 FILE *floating;
@@ -1502,6 +1509,7 @@ int main(int argc, char **argv)
                 }
                 if (pool_cycle_probe && pool_observer_index(address) >= 0) observe_pool_commit(&context, address, thread);
                 if(isolated_locale_probe && mb_complete && address==base+0x12f3e)locale_snapshot("next",&context,thread,event.dwThreadId);
+                if(path_fold_probe && address==base+0x12f3e)path_fold_enter(&context);
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;

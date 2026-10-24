@@ -112,13 +112,6 @@
     "evidence": "genuine internal-switch scanner callee; named INT3 entry only"
   },
   {
-    "name": "_initialize_option_input_12f3e",
-    "start": 274804542,
-    "end": 274804543,
-    "pending_extent": true,
-    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
-  },
-  {
     "name": "_read_env_arguments",
     "start": 274804615,
     "end": 274804616,
