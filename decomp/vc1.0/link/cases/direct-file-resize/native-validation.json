@@ -1,0 +1,571 @@
+{
+  "status": "pass",
+  "completed_native_cases": 84,
+  "new_cases": 2,
+  "accepted_frontiers": 987,
+  "application_functions": 792,
+  "public_CLI_functions": 759,
+  "direct_only_functions": 33,
+  "historical_CRT_overrides": 16,
+  "new_application_functions": 3,
+  "new_shipped_support": 1,
+  "normalization": [],
+  "suites": [
+    {
+      "group": "suite",
+      "case_count": 74,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/native/native-check-e21p1q4p/receipt.json",
+        "bytes": 141660,
+        "sha256": "c838ccfa6b36a49398a2909a0247d3c807fc42c30ed4d2ce2f33abadf1c2833b"
+      },
+      "summary": {
+        "status": "pass",
+        "mode": "captured-reference-only",
+        "trace_mode": "cached application first-entry segments",
+        "trace_prepare_seconds": 0.19052319508045912,
+        "total_seconds": 5.5688205091282725
+      }
+    },
+    {
+      "group": "suite",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/legacy-cached-qe_3gi4l/receipt.json",
+        "bytes": 1979,
+        "sha256": "096a6f3b29f8c9297aabe6c9e65588cfa0888c1e19bfdb01ced3a138a23c05a6"
+      },
+      "summary": {
+        "status": "pass",
+        "cases": [
+          {
+            "case": "strings",
+            "status": "pass",
+            "scope": "external direct code test; not public CLI",
+            "entries": [
+              "display_legacy_strings"
+            ],
+            "stdout_bytes": 123,
+            "stderr_bytes": 0,
+            "exit": 0,
+            "timing": {
+              "setup_seconds": 0.010812349617481232,
+              "execution_seconds": 0.005088037811219692,
+              "oracle_seconds": 0.00040334463119506836,
+              "trace_seconds": 0.00013981666415929794,
+              "total_seconds": 0.016460408456623554
+            }
+          },
+          {
+            "case": "menu",
+            "status": "pass",
+            "scope": "external direct code test; not public CLI",
+            "entries": [
+              "display_legacy_menu"
+            ],
+            "stdout_bytes": 349,
+            "stderr_bytes": 0,
+            "exit": 0,
+            "timing": {
+              "setup_seconds": 0.012406188063323498,
+              "execution_seconds": 0.004947451874613762,
+              "oracle_seconds": 0.00031828973442316055,
+              "trace_seconds": 0.00015049893409013748,
+              "total_seconds": 0.0178369153290987
+            }
+          },
+          {
+            "case": "dialog",
+            "status": "pass",
+            "scope": "external direct code test; not public CLI",
+            "entries": [
+              "display_legacy_dialog"
+            ],
+            "stdout_bytes": 910,
+            "stderr_bytes": 0,
+            "exit": 0,
+            "timing": {
+              "setup_seconds": 0.012667720206081867,
+              "execution_seconds": 0.0035218065604567528,
+              "oracle_seconds": 0.00026106368750333786,
+              "trace_seconds": 0.00010773632675409317,
+              "total_seconds": 0.016568811610341072
+            }
+          }
+        ],
+        "case_count": 3,
+        "trace": true,
+        "trace_prepare_seconds": 0.1894134059548378,
+        "internal_suite_seconds": 0.24625682551413774,
+        "receipt_directory": "/root/.ai-tmp/msvc2/vc1.0/link/legacy-cached-qe_3gi4l",
+        "elf_sha256": "4bec3699c729bb9ddce2ec64f6556f4724d2d67f55cc9a441a9584f999799f2e",
+        "manifest_sha256": "4efaf5e5c5a76020bacd667250eb5ec59f7e6f7b0ed6b352304b469fb7288b63"
+      }
+    },
+    {
+      "group": "suite",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/ide-cached-ufmd66z8/receipt.json",
+        "bytes": 918,
+        "sha256": "8ad8bcaba040ebea363251dfa1b4658874d434d064e3960fe471ded0c98090ea"
+      },
+      "summary": {
+        "status": "pass",
+        "case": "ide-callback-protocol",
+        "trace": true,
+        "entries": [
+          "initialize_ide_api",
+          "emit_ide_message",
+          "read_ide_flags"
+        ],
+        "driver_exit": 0,
+        "stdout_bytes": 0,
+        "stderr_bytes": 0,
+        "protocol_bytes": 1392,
+        "protocol_sha256": "ad591941aa9707f03728f1b95eea7743aadec2b71e5279ade25e4c5b9271a2a5",
+        "elf_sha256": "33aea536bdb049e287d2952166a882e5c148e891ddcd109eeeeafe8d385aaa0a",
+        "manifest_sha256": "a57bc8abf86f9a040581ce87a9202df0c13d30a4c8720d86c600af82e64ee9c0",
+        "timing": {
+          "setup_seconds": 0.22992656007409096,
+          "trace_prepare_seconds": 0.2102994341403246,
+          "execution_seconds": 0.004502658732235432,
+          "oracle_seconds": 0.0004931390285491943,
+          "trace_seconds": 0.00017467141151428223,
+          "total_seconds": 0.2462358372285962
+        },
+        "scope": "Direct external test; no public CLI/callback application-vertex claim; no original/DLL/debugger runs"
+      }
+    },
+    {
+      "group": "suite",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/comdat-cached-u0570c4_/receipt.json",
+        "bytes": 943,
+        "sha256": "97277e90d90759490d71a56cff8ea2620d281a77316f8e5914c6ad5dcd388db8"
+      },
+      "summary": {
+        "status": "pass",
+        "case": "comdat-graph-diagnostics",
+        "trace": true,
+        "entries": [
+          "dump_comdat_graph",
+          "debug_printf",
+          "print_comdat_node",
+          "comdat_usage_label",
+          "print_comdat_edge"
+        ],
+        "stdout_bytes": 287,
+        "stderr_bytes": 0,
+        "exit": 0,
+        "input_sha256": "79e6bdc8b22b997b7f8996745445a0e3a0a68316f2e7d448a15402e037948a94",
+        "elf_sha256": "aae7576c3d90e8a7ca392169ac2e680f8deb0c17381b644ae9b6f0c1aca0745b",
+        "manifest_sha256": "294ac5bf0159291384f19a86d5e11fb2e7984ef429e2de9d300544c16ff3d7f0",
+        "timing": {
+          "setup_seconds": 0.22829960100352764,
+          "trace_prepare_seconds": 0.2120555080473423,
+          "execution_seconds": 0.004608854651451111,
+          "oracle_seconds": 0.0002617267891764641,
+          "trace_seconds": 0.0001961681991815567,
+          "total_seconds": 0.24406000413000584
+        },
+        "scope": "Explicit external direct test; exact controlled caller addresses, no normalization, no Wine/helper/debugger"
+      }
+    },
+    {
+      "group": "suite",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/dispatcher-cached-0mnsxnoi/receipt.json",
+        "bytes": 787,
+        "sha256": "70478474e31a00ed7ec8431d836cc99ade21262f60d6bfded47e33cfc673a5bb"
+      },
+      "summary": {
+        "status": "pass",
+        "case": "dispatcher-assistance-helper",
+        "trace": true,
+        "reach": "Public -helper CLI Tool.run",
+        "entries": [
+          "helper_main"
+        ],
+        "stdout_bytes": 163,
+        "stderr_bytes": 0,
+        "exit": 3,
+        "elf_sha256": "262e9076018b19c0456847804cc94a9947e8fd1afe023f0d8b847474310e5b4c",
+        "manifest_sha256": "318a5c2eafcde1c63f824208bc2204c833775c2c9ee79d91539720e8b04d3535",
+        "timing": {
+          "setup_seconds": 0.2145943082869053,
+          "trace_prepare_seconds": 0.21303097158670425,
+          "execution_seconds": 0.0053959796205163,
+          "oracle_seconds": 0.00025170762091875076,
+          "trace_seconds": 0.00017497222870588303,
+          "total_seconds": 0.23088126070797443
+        },
+        "scope": "ELF and captured references only; public helper vs explicit direct usage caller distinguished"
+      }
+    },
+    {
+      "group": "suite",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/dispatcher-cached-5qgyhe98/receipt.json",
+        "bytes": 841,
+        "sha256": "34929fcfedca8093243174dc864951c8f4573828439ba494c5f824e40a918951"
+      },
+      "summary": {
+        "status": "pass",
+        "case": "dispatcher-assistance-direct",
+        "trace": true,
+        "reach": "Explicit external direct argumentless test; normal CLI dormancy invariant proved",
+        "entries": [
+          "driver_usage"
+        ],
+        "stdout_bytes": 71,
+        "stderr_bytes": 0,
+        "exit": 3,
+        "elf_sha256": "262e9076018b19c0456847804cc94a9947e8fd1afe023f0d8b847474310e5b4c",
+        "manifest_sha256": "318a5c2eafcde1c63f824208bc2204c833775c2c9ee79d91539720e8b04d3535",
+        "timing": {
+          "setup_seconds": 0.22084199450910091,
+          "trace_prepare_seconds": 0.2187394518405199,
+          "execution_seconds": 0.004618494771420956,
+          "oracle_seconds": 0.0002312939614057541,
+          "trace_seconds": 0.00017644092440605164,
+          "total_seconds": 0.23539228551089764
+        },
+        "scope": "ELF and captured references only; public helper vs explicit direct usage caller distinguished"
+      }
+    },
+    {
+      "group": "suite",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-cached-hwcsogig/receipt.json",
+        "bytes": 1507,
+        "sha256": "92833f4b3288159221a1a2a75816c0370674ee6ab7345986018076ed8db25b13"
+      },
+      "summary": {
+        "status": "pass",
+        "case": "direct-cvtomf-codeview-no-lines",
+        "trace": true,
+        "entries": [
+          "omf_write_debug_symbol_data",
+          "omf_save_debug_fixups",
+          "omf_write_debug_type_data",
+          "omf_convert_debug_types",
+          "omf_convert_debug_type",
+          "omf_convert_debug_structure",
+          "omf_debug_number",
+          "omf_debug_index",
+          "omf_debug_is_union",
+          "omf_debug_primitive_type",
+          "omf_debug_primitive_size",
+          "omf_resolve_debug_types",
+          "omf_convert_debug_symbols",
+          "omf_compare_debug_fixups",
+          "omf_debug_type_auxiliary",
+          "omf_debug_register",
+          "omf_find_debug_fixup",
+          "omf_finish_debug_types"
+        ],
+        "exit": 0,
+        "stdout_bytes": 108,
+        "stderr_bytes": 0,
+        "inventory": [
+          "converted.obj",
+          "legacy.obj"
+        ],
+        "normalization": [
+          {
+            "offset": 4,
+            "size": 4
+          }
+        ],
+        "executable_sha256": "0bc3b9aa587c54c7ad24856c2bc2de215423da3e908bb9482c44c47be48d68ad",
+        "manifest_sha256": "51cf87763173256934ae0aa8682cc77c694123c0581e9e3d1d9c7b00152eadf5",
+        "timing": {
+          "setup_seconds": 0.21763786394149065,
+          "trace_prepare_seconds": 0.20929265208542347,
+          "execution_seconds": 0.004311246797442436,
+          "oracle_seconds": 0.0011130552738904953,
+          "trace_seconds": 0.00013972166925668716,
+          "total_seconds": 0.2322535729035735
+        },
+        "scope": "Only native ELF; cached original references exclusively. Direct parser-owned boundary, no public LINK CLI claim. Unsupported line variant status125 is native policy, not original behavior."
+      }
+    },
+    {
+      "group": "suite",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/file-resize-cached-ugutgggi/receipt.json",
+        "bytes": 1007,
+        "sha256": "4b08941d72c9c9e412619d263cdaa8f1e4212149d0fac8e459eb6bf83a8fce21"
+      },
+      "summary": {
+        "status": "pass",
+        "case": "direct-file-resize-mapped",
+        "reach": "External direct support; not public CLI",
+        "trace": true,
+        "entries": [
+          "resize_file",
+          "resize_mapped_file"
+        ],
+        "exit": 0,
+        "inventory": [
+          "results.bin",
+          "work.bin"
+        ],
+        "elf_sha256": "2a4cfbecc44dec3708948f028384afe01e98a234b96b7c5ea65f982af9a1635f",
+        "manifest_sha256": "725b26b5fd17ccc5df4a2f913a41b38f2cbf2e4dce40f145ad3dbc5b032681ad",
+        "startup": "RECON_NATIVE_STARTUP_CONTROLFP_53, constructor103 before app entry",
+        "timing": {
+          "setup_seconds": 0.2332491148263216,
+          "trace_prepare_seconds": 0.20694808010011911,
+          "execution_seconds": 0.006021579727530479,
+          "oracle_seconds": 0.035889110527932644,
+          "trace_seconds": 0.00012560933828353882,
+          "total_seconds": 0.2830578964203596
+        },
+        "scope": "Captured references exclusively, zero normalization. Native ELF only, no Wine/debugger/original/response recapture. results.bin is external driver report, not original target artifact."
+      }
+    },
+    {
+      "group": "suite",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/file-resize-cached-t3whfpxa/receipt.json",
+        "bytes": 1014,
+        "sha256": "9235488455403e7e03170f321a3035f8ef51e942655ad8619bb5fe6dc5199e23"
+      },
+      "summary": {
+        "status": "pass",
+        "case": "direct-file-resize-buffered",
+        "reach": "External direct support; not public CLI",
+        "trace": true,
+        "entries": [
+          "resize_file",
+          "resize_buffered_file"
+        ],
+        "exit": 0,
+        "inventory": [
+          "results.bin",
+          "work.bin"
+        ],
+        "elf_sha256": "2a4cfbecc44dec3708948f028384afe01e98a234b96b7c5ea65f982af9a1635f",
+        "manifest_sha256": "725b26b5fd17ccc5df4a2f913a41b38f2cbf2e4dce40f145ad3dbc5b032681ad",
+        "startup": "RECON_NATIVE_STARTUP_CONTROLFP_53, constructor103 before app entry",
+        "timing": {
+          "setup_seconds": 0.20796819683164358,
+          "trace_prepare_seconds": 0.20629739481955767,
+          "execution_seconds": 0.005113787017762661,
+          "oracle_seconds": 0.0006848648190498352,
+          "trace_seconds": 0.00016132183372974396,
+          "total_seconds": 0.22459357604384422
+        },
+        "scope": "Captured references exclusively, zero normalization. Native ELF only, no Wine/debugger/original/response recapture. results.bin is external driver report, not original target artifact."
+      }
+    },
+    {
+      "group": "resize-output",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/file-resize-cached-1tg2b6ul/receipt.json",
+        "bytes": 948,
+        "sha256": "5a8d2dc6f87dd1157307138522cfd9aaaacdad3e2bcd4b806d8bde19bed1e9c7"
+      },
+      "summary": {
+        "status": "pass",
+        "case": "direct-file-resize-mapped",
+        "reach": "External direct support; not public CLI",
+        "trace": false,
+        "entries": null,
+        "exit": 0,
+        "inventory": [
+          "results.bin",
+          "work.bin"
+        ],
+        "elf_sha256": "29dfa3eb5f3f77d36d7cb9b58ba2dc4c3c8bb912c51a4bd8fae102b8af0a4f7d",
+        "manifest_sha256": "725b26b5fd17ccc5df4a2f913a41b38f2cbf2e4dce40f145ad3dbc5b032681ad",
+        "startup": "RECON_NATIVE_STARTUP_CONTROLFP_53, constructor103 before app entry",
+        "timing": {
+          "setup_seconds": 0.025685892440378666,
+          "trace_prepare_seconds": 0,
+          "execution_seconds": 0.0036187535151839256,
+          "oracle_seconds": 0.027048672549426556,
+          "trace_seconds": 6.342306733131409e-07,
+          "total_seconds": 0.06306683085858822
+        },
+        "scope": "Captured references exclusively, zero normalization. Native ELF only, no Wine/debugger/original/response recapture. results.bin is external driver report, not original target artifact."
+      }
+    },
+    {
+      "group": "resize-output",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/file-resize-cached-fkj0frgm/receipt.json",
+        "bytes": 954,
+        "sha256": "d1ad374009f8bb4d987af41b2df01a31711a181ef083bbc40b24e656a5ee21ce"
+      },
+      "summary": {
+        "status": "pass",
+        "case": "direct-file-resize-buffered",
+        "reach": "External direct support; not public CLI",
+        "trace": false,
+        "entries": null,
+        "exit": 0,
+        "inventory": [
+          "results.bin",
+          "work.bin"
+        ],
+        "elf_sha256": "29dfa3eb5f3f77d36d7cb9b58ba2dc4c3c8bb912c51a4bd8fae102b8af0a4f7d",
+        "manifest_sha256": "725b26b5fd17ccc5df4a2f913a41b38f2cbf2e4dce40f145ad3dbc5b032681ad",
+        "startup": "RECON_NATIVE_STARTUP_CONTROLFP_53, constructor103 before app entry",
+        "timing": {
+          "setup_seconds": 0.0014712754637002945,
+          "trace_prepare_seconds": 0,
+          "execution_seconds": 0.0031464947387576103,
+          "oracle_seconds": 0.00045834295451641083,
+          "trace_seconds": 8.121132850646973e-07,
+          "total_seconds": 0.011216924525797367
+        },
+        "scope": "Captured references exclusively, zero normalization. Native ELF only, no Wine/debugger/original/response recapture. results.bin is external driver report, not original target artifact."
+      }
+    }
+  ],
+  "runs": [
+    {
+      "label": "build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/native/legacy-diagnostics",
+        "build/native/ide-protocol",
+        "build/native/comdat-diagnostics",
+        "build/native/dispatcher",
+        "build/native/cvtomf",
+        "build/native/file-resize",
+        "build/native-trace/legacy-diagnostics",
+        "build/native-trace/ide-protocol",
+        "build/native-trace/comdat-diagnostics",
+        "build/native-trace/dispatcher",
+        "build/native-trace/cvtomf",
+        "build/native-trace/file-resize"
+      ],
+      "seconds": 9.741106933914125,
+      "status": 0,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/build.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/build.stderr"
+    },
+    {
+      "label": "cache",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 0.20097172912210226,
+      "status": 1,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/cache.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/cache.stderr"
+    },
+    {
+      "label": "cache-corrected",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 1.003833269700408,
+      "status": 1,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/cache-corrected.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/cache-corrected.stderr"
+    },
+    {
+      "label": "cache-final",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 1.1375582525506616,
+      "status": 0,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/cache-final.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/cache-final.stderr"
+    },
+    {
+      "label": "suite",
+      "command": [
+        "make",
+        "-j4",
+        "native-trace-check"
+      ],
+      "seconds": 8.28882754407823,
+      "status": 0,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/suite.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/suite.stderr"
+    },
+    {
+      "label": "resize-output",
+      "command": [
+        "python3",
+        "scripts/check-file-resize.py"
+      ],
+      "seconds": 0.14810986537486315,
+      "status": 0,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/resize-output.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/resize-output.stderr"
+    },
+    {
+      "label": "audit-final",
+      "command": [
+        "make",
+        "-j4",
+        "audit"
+      ],
+      "seconds": 5.489476102404296,
+      "status": 0,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/audit-final.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/audit-final.stderr"
+    },
+    {
+      "label": "graph-controls",
+      "command": [
+        "python3",
+        "scripts/check-graph-audit.py"
+      ],
+      "seconds": 18.49983924627304,
+      "status": 0,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/graph-controls.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/graph-controls.stderr"
+    },
+    {
+      "label": "coverage",
+      "command": [
+        "python3",
+        "scripts/measure-coverage.py",
+        "--output",
+        "cases/direct-file-resize/total-extents.json"
+      ],
+      "seconds": 0.19631277490407228,
+      "status": 0,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/coverage.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/coverage.stderr"
+    }
+  ],
+  "source_snapshot": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/source-snapshot.json",
+    "bytes": 7282,
+    "sha256": "b51699578b3d71a8dc9e4c11bda4a4a232fd63711df8a8ccb686eff2eb205faf"
+  },
+  "fresh_state": "analysis/final-acceptance.json",
+  "default_startup": "Only new file-resize hosts opt into existing RECON_NATIVE_STARTUP_CONTROLFP_53; old82 unchanged",
+  "limitations": "Original mapped shrink failure/physical growth preserved. Earlier text-mode failure, over-wide observer and FP/error discrepancy packets retained; no source/allocator repair.",
+  "manifest_finalization": "Only final status prose changed after passing suite; receipt tested hashes retained. Inputs/oracles/trace expectations/normalization unchanged, no rerun solely for prose.",
+  "default_check_dry_run": {
+    "command": [
+      "make",
+      "-n",
+      "-j4",
+      "check",
+      "replay"
+    ],
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/default-dry-run.txt",
+    "sha256": "c7b96b4a6e96350586d84e619a14dbae2d1a5b3927831ab0bcecfa08c68ecac1",
+    "status": "Native build/check commands only, no Wine/reference/capture dependencies",
+    "timing": "Not fixture execution; unmeasured"
+  }
+}

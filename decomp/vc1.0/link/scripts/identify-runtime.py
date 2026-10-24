@@ -118,6 +118,8 @@ for r in records:
         r['evidence']='byte-exact SNPRINTF.OBJ including verified _output/_flsbuf callees; native public CRT boundary observes3fixedslots+onevariadicDWORD,340-byte caller output ownership, actual defined text/result/errno and full EDIT error files/streams in cases/editor-errors. No native internal CRT or unwritten-tail ABI claim.'
     if r['name']=='__unlink':
         r['evidence']='byte-exact UNLINK.OBJ wrapper; object-local public _remove callee identity independently matched; native public CRT boundary has actual filename/caller/result/live-error and full fatal cleanup proof in cases/resource-identity (ambient LastError explicitly not equated)'
+    if r['name']=='__setmode':
+        r['evidence']='byte-exact shipped SETMODE.OBJ including full original/canonical graph/ABI/extent. Reached inside alreadyaccepted public __chsize during direct-file-resize; native correspondence at public recon_chsize only, actual3fd/length/result/error/FP and fullfiles, zeroapplicationcredit; no native internalhelperABIclaim.'
     if r['name']=='__find':
         r['evidence']='byte-exact shipped _SETARGV.OBJ; Find* relocations verified; native CRT-boundary differential proof in lib/recon/find-validation.json'
     if r['name'] in ('_strtoul','_strtoxl'):

@@ -522,8 +522,8 @@
     }
   },
   "metadata_sha256": {
-    "functions.json": "7c95954672f8454182b3c48afe5ccc74e901c6d916cf71b3b9895f13a28da4ab",
-    "runtime.json": "66d9b98b4e9819622266f974ad10d446f42ef52de3204544beca788bd8251ec0",
+    "functions.json": "84227e3a4b12f652e10628069c842d8b4b0be29f814d72abc6c215f734d3575c",
+    "runtime.json": "7894cd38e5c6476a65e8f6402e57cc2d3bab15ea1438dcbfe07469fae6014b3b",
     "replay-cases.json": "7917cd8dc1c964b39204545c7e4d0ea8e81c848fbc16d374d455dcc084748d60"
   },
   "application_definitions": {
@@ -3957,6 +3957,21 @@
       "logical": "_reserve_text",
       "implementation": "C"
     },
+    "resize_buffered_file": {
+      "source": "src/files.c",
+      "logical": "_resize_buffered_file",
+      "implementation": "C"
+    },
+    "resize_file": {
+      "source": "src/files.c",
+      "logical": "_resize_file",
+      "implementation": "C"
+    },
+    "resize_mapped_file": {
+      "source": "src/files.c",
+      "logical": "_resize_mapped_file",
+      "implementation": "C"
+    },
     "resolve_bound_import": {
       "source": "src/editor-bind.c",
       "logical": "_resolve_bound_import",
@@ -5357,7 +5372,10 @@
     "omf_debug_type_auxiliary",
     "omf_debug_register",
     "omf_find_debug_fixup",
-    "omf_finish_debug_types"
+    "omf_finish_debug_types",
+    "resize_file",
+    "resize_buffered_file",
+    "resize_mapped_file"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5511,7 +5529,8 @@
       "__local_unwind2",
       "__unlink",
       "__snprintf",
-      "_vfprintf"
+      "_vfprintf",
+      "__setmode"
     ],
     "import": [
       "import:GetCommandLineA",

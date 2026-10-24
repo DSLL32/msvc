@@ -1,0 +1,65 @@
+{
+  "mode": "original",
+  "phase": "mapped",
+  "trial": null,
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-file-resize.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "mapped",
+    "S:\\vc1.0\\link\\new-captures\\direct-file-resize\\mapped-original-ys5rg7vu\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\direct-file-resize\\mapped-original-ys5rg7vu\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\direct-file-resize\\mapped-original-ys5rg7vu\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\direct-file-resize\\mapped-original-ys5rg7vu\\events.jsonl",
+    "S:\\vc1.0\\link\\direct-file-resize-mapped",
+    "R:\\decomp\\vc1.0\\link\\cases\\direct-file-resize\\inputs\\payload.bin"
+  ],
+  "seconds": 1.8420679839327931,
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "failed": 0,
+    "stopped": 1,
+    "exit": 0,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0
+  },
+  "files": [
+    {
+      "path": "work.bin",
+      "bytes": 5242881,
+      "sha256": "77d57c18dc0259dc5e15559adbaa76675f586a0b8ac3338f87a0d8c24cf1e33b"
+    }
+  ],
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "helper_sha256": "8c4b66c5e2e9b8bad6814e0e5c28583736934ee86206f4df389124f9789163c4",
+  "helper_source_sha256": "5126edf34317c8ca1283f32cca8211d90478cd6aeadf802f28d4a6cd20490e8e",
+  "accepted_count": 983,
+  "accepted_sha256": "6f3cbb33105a9e5a49dfb702bd539babbe930cb0ae0e4743ac313c3378f282ad",
+  "canonical_cwd": "S:\\vc1.0\\link\\direct-file-resize-mapped",
+  "scope": "Explicit external direct support caller; actual file API setup, no private-global seeds, no public CLI claim",
+  "host.stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "text.bin": {
+    "bytes": 282120,
+    "sha256": "4aae0ed6ec55f693b01abd4e9706190b516b15753e2cb2631043bddac98200ce"
+  },
+  "stderr.bin": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "host.stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout.bin": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "events.jsonl": {
+    "bytes": 12604,
+    "sha256": "98f144bf420821b420bc3f2428d948be7ba9784df74f7e2537f23310dab8df27"
+  }
+}

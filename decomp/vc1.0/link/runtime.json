@@ -1215,7 +1215,8 @@
     "start": 359344,
     "end": 359504,
     "object": "lowio\\obj\\i386\\SETMODE.OBJ",
-    "library": "LIBC.LIB"
+    "library": "LIBC.LIB",
+    "evidence": "byte-exact shipped SETMODE.OBJ including full original/canonical graph/ABI/extent. Reached inside alreadyaccepted public __chsize during direct-file-resize; native correspondence at public recon_chsize only, actual3fd/length/result/error/FP and fullfiles, zeroapplicationcredit; no native internalhelperABIclaim."
   },
   {
     "name": "__fpclear",

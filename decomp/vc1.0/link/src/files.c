@@ -693,3 +693,48 @@ void grow_buffered_file(FileSlot *file)
     memset(file->storage.pages+pages,0,(new_pages-pages)*sizeof(Page *));
     file->allocated=new_pages<<12;
 }
+
+/* Original [0003c340,0003c379): dispatch a logical size change. */
+int resize_file(int handle,long length)
+{
+    FileSlot *file=files[handle];
+    if (file->length==length) return 0;
+    if (file->flags&8) return resize_mapped_file(file,length);
+    return resize_buffered_file(file,length);
+}
+
+/* Original [0003c380,0003c3e6): change the mapped logical size. */
+int resize_mapped_file(FileSlot *file,long length)
+{
+    unsigned char resized=1;
+    if (file->length<length) grow_mapping(file,length);
+    else {
+        if (file->cursor.position>=length) file->cursor.position=length;
+        SetFilePointer(file->source.handle,length,NULL,FILE_BEGIN);
+        resized=(unsigned char)SetEndOfFile(file->source.handle);
+        SetFilePointer(file->source.handle,file->cursor.position,NULL,FILE_BEGIN);
+    }
+    file->length=length;
+    return resized>=1 ? 1 : -1;
+}
+
+/* Original [0003c3f0,0003c466): discard pages beyond the requested size. */
+int resize_buffered_file(FileSlot *file,long length)
+{
+    long first,count;
+    Page *page;
+    if (file->length>=length) {
+        first=length>>12;
+        count=((long)file->allocated>>12)-first;
+        while (count>0) {
+            page=file->storage.pages[first++];
+            if (page && page!=(Page *)1) detach_file_page(page);
+            --count;
+        }
+    } else {
+        while ((long)file->allocated<=length) grow_buffered_file(file);
+    }
+    file->contents.capacity=length;
+    file->length=length;
+    return _chsize(file->source.descriptor,length);
+}

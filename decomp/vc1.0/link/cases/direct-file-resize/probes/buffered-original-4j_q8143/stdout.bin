@@ -1,0 +1,4 @@
+Microsoft (R) (null) Version 1.00
+Copyright (C) Microsoft Corp 1992-93. All rights reserved.
+
+work.bin : error LNK1107: invalid or corrupt file : cannot read at 0x3000

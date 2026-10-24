@@ -1373,3 +1373,31 @@ application192638/193315 is not a full denominator;13768 unaccepted unclassified
 bytes and181known OMF bytes remain pending. Metadata/raw evidence and timing live
 under cases/direct-cvtomf-codeview. No extra original campaign or historical
 replay was used to validate the final native host-only guard.
+
+Direct file resize, 987-frontier checkpoint
+
+resize_file3c340..3c379 takes int handle/long length, compares the existing
+FileSlot.length, and dispatches bit8. resize_mapped_file3c380..3c3e6 grows through
+existing grow_mapping or clamps position and attempts seek/SetEndOfFile/seek,
+then updates length and converts the lowBYTE success into1/-1. Real mapped shrink
+fails1224 while logical length changes; output remains5242881physical bytes even
+after close/reopen. resize_buffered_file3c3f0..3c466 detaches populated pages from
+the requested page onward or grows the pointer table, stores capacity/length and
+returns public _chsize. Buffered detached Page allocations remain pool-owned;
+flush updates table cells and later close/read observations prove exact4097bytes.
+FileSlot is40B (length12,contents24,cursor32,next36), not the initial observer's48B;
+unowned trailing bytes are excluded with failed packet preserved. Three whole
+bodies add269CFG instruction/8alignment bytes. No inline table/new target global.
+
+Actual _chsize enters with fd3 and three ordinary positive sizes; shipped
+SETMODE.OBJ is reached support only, native correspondence at public _chsize,
+zero application credit/no new CRT source. Whole original/canonical graph and
+ABI/extent checks retain it. The mapped public API sequence establishes that a
+successful final seek preserves1224 in original; shared c2a12ca40 corrects this
+narrow successful NULL-highword seam. Original027f/native037f startup precision
+mismatch is retained raw; only the new driver uses the existing startup53 option
+before app entry, matching control/status/tags/empty payloads without late seeds.
+All84nativefixtures consume captured refs only; test reports/sentinels are
+external transport, not target output/callers/vertices. Readable target source
+stays Win32/originalVC1-compilable. See cases/direct-file-resize/README.txt,
+analysis/final-acceptance.json, cfg-bodies.json and timings.json.

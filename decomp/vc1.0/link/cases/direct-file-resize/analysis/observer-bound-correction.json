@@ -1,0 +1,7 @@
+{
+  "status": "Rejected observer ownership assertion",
+  "original": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/mapped-masked-lrjzvtub",
+  "native": "/root/.ai-tmp/msvc2/vc1.0/link/file-resize-gdb-ckufv0lg",
+  "invalid_sample": "12DWORDs read at FileSlot pointer; actual owned struct is10DWORDs/40B. Final8bytes are adjacent allocator/unowned bytes, no comparison or reconstruction credit.",
+  "correction": "Both observers now use40B; originalVC1 sizeof/offsetof assertions match existingnative layout. Fresh bounded packets root-frontier.json/mapped-frontier.json supersede over-wide observation only. Untouched original lifecycle/full-artifact baselines are retained."
+}

@@ -1,0 +1,304 @@
+{
+  "status": "Actual API discrepancy confirmed; mapped reconstruction acceptance held",
+  "original": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/mapped-masked-ge4lxuon",
+  "native": "/root/.ai-tmp/msvc2/vc1.0/link/file-resize-gdb-buu_iu1f",
+  "observations": {
+    "original": [
+      {
+        "event": "api_entry",
+        "phase": 8,
+        "api": 373128,
+        "esp": 9301972,
+        "eax": 68,
+        "caller": 246714,
+        "arguments": [
+          68,
+          4097,
+          0,
+          0
+        ],
+        "errors": [
+          0,
+          0,
+          0
+        ],
+        "fp_control": 4294902399,
+        "fp_status": 4294901760,
+        "fp_tag": 4294967295,
+        "fp_raw": "7f02ffff0000ffffffffffff0000000023000000000000002b00ffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "event": "api_return",
+        "phase": 8,
+        "api": 373128,
+        "esp": 9301992,
+        "eax": 4097,
+        "caller": 246714,
+        "arguments": [
+          68,
+          4097,
+          0,
+          0
+        ],
+        "errors": [
+          0,
+          0,
+          0
+        ],
+        "fp_control": 4294902399,
+        "fp_status": 4294901760,
+        "fp_tag": 4294967295,
+        "fp_raw": "7f02ffff0000ffffffffffff0000000023000000000000002b00ffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "event": "api_entry",
+        "phase": 8,
+        "api": 373134,
+        "esp": 9301984,
+        "eax": 68,
+        "caller": 246723,
+        "arguments": [
+          68
+        ],
+        "errors": [
+          0,
+          0,
+          0
+        ],
+        "fp_control": 4294902399,
+        "fp_status": 4294901760,
+        "fp_tag": 4294967295,
+        "fp_raw": "7f02ffff0000ffffffffffff0000000023000000000000002b00ffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "event": "api_return",
+        "phase": 8,
+        "api": 373134,
+        "esp": 9301992,
+        "eax": 0,
+        "caller": 246723,
+        "arguments": [
+          68
+        ],
+        "errors": [
+          0,
+          0,
+          1224
+        ],
+        "fp_control": 4294902399,
+        "fp_status": 4294901760,
+        "fp_tag": 4294967295,
+        "fp_raw": "7f02ffff0000ffffffffffff0000000023000000000000002b00ffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "event": "api_entry",
+        "phase": 8,
+        "api": 373128,
+        "esp": 9301972,
+        "eax": 68,
+        "caller": 246742,
+        "arguments": [
+          68,
+          64,
+          0,
+          0
+        ],
+        "errors": [
+          0,
+          0,
+          1224
+        ],
+        "fp_control": 4294902399,
+        "fp_status": 4294901760,
+        "fp_tag": 4294967295,
+        "fp_raw": "7f02ffff0000ffffffffffff0000000023000000000000002b00ffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "event": "api_return",
+        "phase": 8,
+        "api": 373128,
+        "esp": 9301992,
+        "eax": 64,
+        "caller": 246742,
+        "arguments": [
+          68,
+          64,
+          0,
+          0
+        ],
+        "errors": [
+          0,
+          0,
+          1224
+        ],
+        "fp_control": 4294902399,
+        "fp_status": 4294901760,
+        "fp_tag": 4294967295,
+        "fp_raw": "7f02ffff0000ffffffffffff0000000023000000000000002b00ffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    ],
+    "native": [
+      {
+        "event": "api_entry",
+        "name": "recon_SetFilePointer",
+        "phase": 8,
+        "esp": 4294956972,
+        "eax": 4097,
+        "ebx": 1449025524,
+        "esi": 1449013404,
+        "edi": 4160736096,
+        "ebp": 4294957016,
+        "caller": 1448639427,
+        "arguments": [
+          4,
+          4097,
+          0,
+          0
+        ],
+        "errors": [
+          0,
+          0,
+          0
+        ],
+        "fp_control": 895,
+        "fp_status": 0,
+        "fp_tag": 65535,
+        "fp_raw": "  R7: Empty   0x00000000000000000000\n  R6: Empty   0x00000000000000000000\n  R5: Empty   0x00000000000000000000\n  R4: Empty   0x00000000000000000000\n  R3: Empty   0x00000000000000000000\n  R2: Empty   0x00000000000000000000\n  R1: Empty   0x00000000000000000000\n=>R0: Empty   0x00000000000000000000\n\nStatus Word:         0x0000                                            \n                       TOP: 0\nControl Word:        0x037f   IM DM ZM OM UM PM\n                       PC: Extended Precision (64-bits)\n                       RC: Round to nearest\nTag Word:            0xffff\nInstruction Pointer: 0x00:0x00000000\nOperand Pointer:     0x00:0x00000000\nOpcode:              0x0000\n",
+        "actual_caller": "resize_mapped_file"
+      },
+      {
+        "event": "api_return",
+        "name": "recon_SetFilePointer",
+        "phase": 8,
+        "esp": 4294956992,
+        "eax": 4097,
+        "ebx": 1449025524,
+        "esi": 1449013404,
+        "edi": 4160736096,
+        "ebp": 4294957016,
+        "caller": 1448639427,
+        "arguments": [
+          4,
+          4097,
+          0,
+          0
+        ],
+        "errors": [
+          0,
+          0,
+          0
+        ],
+        "fp_control": 895,
+        "fp_status": 0,
+        "fp_tag": 65535,
+        "fp_raw": "  R7: Empty   0x00000000000000000000\n  R6: Empty   0x00000000000000000000\n  R5: Empty   0x00000000000000000000\n  R4: Empty   0x00000000000000000000\n  R3: Empty   0x00000000000000000000\n  R2: Empty   0x00000000000000000000\n  R1: Empty   0x00000000000000000000\n=>R0: Empty   0x00000000000000000000\n\nStatus Word:         0x0000                                            \n                       TOP: 0\nControl Word:        0x037f   IM DM ZM OM UM PM\n                       PC: Extended Precision (64-bits)\n                       RC: Round to nearest\nTag Word:            0xffff\nInstruction Pointer: 0x00:0x00000000\nOperand Pointer:     0x00:0x00000000\nOpcode:              0x0000\n"
+      },
+      {
+        "event": "api_entry",
+        "name": "recon_SetEndOfFile",
+        "phase": 8,
+        "esp": 4294956972,
+        "eax": 4,
+        "ebx": 1449025524,
+        "esi": 1449013404,
+        "edi": 4160736096,
+        "ebp": 4294957016,
+        "caller": 1448639447,
+        "arguments": [
+          4
+        ],
+        "errors": [
+          0,
+          0,
+          0
+        ],
+        "fp_control": 895,
+        "fp_status": 0,
+        "fp_tag": 65535,
+        "fp_raw": "  R7: Empty   0x00000000000000000000\n  R6: Empty   0x00000000000000000000\n  R5: Empty   0x00000000000000000000\n  R4: Empty   0x00000000000000000000\n  R3: Empty   0x00000000000000000000\n  R2: Empty   0x00000000000000000000\n  R1: Empty   0x00000000000000000000\n=>R0: Empty   0x00000000000000000000\n\nStatus Word:         0x0000                                            \n                       TOP: 0\nControl Word:        0x037f   IM DM ZM OM UM PM\n                       PC: Extended Precision (64-bits)\n                       RC: Round to nearest\nTag Word:            0xffff\nInstruction Pointer: 0x00:0x00000000\nOperand Pointer:     0x00:0x00000000\nOpcode:              0x0000\n",
+        "actual_caller": "resize_mapped_file"
+      },
+      {
+        "event": "api_return",
+        "name": "recon_SetEndOfFile",
+        "phase": 8,
+        "esp": 4294956980,
+        "eax": 0,
+        "ebx": 1449025524,
+        "esi": 1449013404,
+        "edi": 4160736096,
+        "ebp": 4294957016,
+        "caller": 1448639447,
+        "arguments": [
+          4
+        ],
+        "errors": [
+          0,
+          0,
+          1224
+        ],
+        "fp_control": 895,
+        "fp_status": 0,
+        "fp_tag": 65535,
+        "fp_raw": "  R7: Empty   0x00000000000000000000\n  R6: Empty   0x00000000000000000000\n  R5: Empty   0x00000000000000000000\n  R4: Empty   0x00000000000000000000\n  R3: Empty   0x00000000000000000000\n  R2: Empty   0x00000000000000000000\n  R1: Empty   0x00000000000000000000\n=>R0: Empty   0x00000000000000000000\n\nStatus Word:         0x0000                                            \n                       TOP: 0\nControl Word:        0x037f   IM DM ZM OM UM PM\n                       PC: Extended Precision (64-bits)\n                       RC: Round to nearest\nTag Word:            0xffff\nInstruction Pointer: 0x00:0x00000000\nOperand Pointer:     0x00:0x00000000\nOpcode:              0x0000\n"
+      },
+      {
+        "event": "api_entry",
+        "name": "recon_SetFilePointer",
+        "phase": 8,
+        "esp": 4294956972,
+        "eax": 64,
+        "ebx": 1449025524,
+        "esi": 1449013404,
+        "edi": 4160736096,
+        "ebp": 4294957016,
+        "caller": 1448639498,
+        "arguments": [
+          4,
+          64,
+          0,
+          0
+        ],
+        "errors": [
+          0,
+          0,
+          1224
+        ],
+        "fp_control": 895,
+        "fp_status": 0,
+        "fp_tag": 65535,
+        "fp_raw": "  R7: Empty   0x00000000000000000000\n  R6: Empty   0x00000000000000000000\n  R5: Empty   0x00000000000000000000\n  R4: Empty   0x00000000000000000000\n  R3: Empty   0x00000000000000000000\n  R2: Empty   0x00000000000000000000\n  R1: Empty   0x00000000000000000000\n=>R0: Empty   0x00000000000000000000\n\nStatus Word:         0x0000                                            \n                       TOP: 0\nControl Word:        0x037f   IM DM ZM OM UM PM\n                       PC: Extended Precision (64-bits)\n                       RC: Round to nearest\nTag Word:            0xffff\nInstruction Pointer: 0x00:0x00000000\nOperand Pointer:     0x00:0x00000000\nOpcode:              0x0000\n",
+        "actual_caller": "resize_mapped_file"
+      },
+      {
+        "event": "api_return",
+        "name": "recon_SetFilePointer",
+        "phase": 8,
+        "esp": 4294956992,
+        "eax": 64,
+        "ebx": 1449025524,
+        "esi": 1449013404,
+        "edi": 4160736096,
+        "ebp": 4294957016,
+        "caller": 1448639498,
+        "arguments": [
+          4,
+          64,
+          0,
+          0
+        ],
+        "errors": [
+          0,
+          0,
+          0
+        ],
+        "fp_control": 895,
+        "fp_status": 0,
+        "fp_tag": 65535,
+        "fp_raw": "  R7: Empty   0x00000000000000000000\n  R6: Empty   0x00000000000000000000\n  R5: Empty   0x00000000000000000000\n  R4: Empty   0x00000000000000000000\n  R3: Empty   0x00000000000000000000\n  R2: Empty   0x00000000000000000000\n  R1: Empty   0x00000000000000000000\n=>R0: Empty   0x00000000000000000000\n\nStatus Word:         0x0000                                            \n                       TOP: 0\nControl Word:        0x037f   IM DM ZM OM UM PM\n                       PC: Extended Precision (64-bits)\n                       RC: Round to nearest\nTag Word:            0xffff\nInstruction Pointer: 0x00:0x00000000\nOperand Pointer:     0x00:0x00000000\nOpcode:              0x0000\n"
+      }
+    ]
+  },
+  "attribution": "Final successful SetFilePointer(FILE_BEGIN,64,NULL) enters withLast1224 on both sides, original returns64 withLast1224, shared native returns64 withLast0. Other definedAPIreturns and errno/DOS match. No CloseHandle claim, reseed or normalization.",
+  "scope": "Exactly3APIcalls within resize_mapped_file shrink phase8, SDKstdcall formals/returns/nonvolatiles/ESP and actualFP. Original API source target at5b188/5b18e, native named caller required."
+}

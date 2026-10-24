@@ -28,6 +28,10 @@ typedef HANDLE (WINAPI *CreateMapping)(HANDLE,LPSECURITY_ATTRIBUTES,DWORD,DWORD,
 typedef LPVOID (WINAPI *MapFileView)(HANDLE,DWORD,DWORD,DWORD,DWORD);
 typedef BOOL (WINAPI *UnmapFileView)(LPCVOID);
 
+int resize_file(int,long);
+int resize_mapped_file(FileSlot *,long);
+int resize_buffered_file(FileSlot *,long);
+
 Page *new_page(void);
 FileSlot *new_file_slot(void);
 FileSlot *find_cached_file(const char *);

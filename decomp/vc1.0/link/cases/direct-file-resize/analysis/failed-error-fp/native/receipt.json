@@ -1,0 +1,17 @@
+{
+  "command": [
+    "gdb",
+    "-q",
+    "-nx",
+    "-batch",
+    "-ex",
+    "file /root/msvc2/decomp/vc1.0/link/build/native/file-resize",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc1.0/link/file-resize-gdb-buu_iu1f/observe.py"
+  ],
+  "seconds": 0.17626194842159748,
+  "exit": 0,
+  "phase": "mapped",
+  "trial": "resize_mapped_file",
+  "elf_sha256": "5bed059e978bb352aca6f5d45f6d09e2d26efbe0329c82b1295abd7799b21c9e"
+}

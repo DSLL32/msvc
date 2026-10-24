@@ -1,0 +1,72 @@
+{
+  "mode": "masked",
+  "phase": "buffered",
+  "trial": "resize_buffered_file",
+  "support": [
+    "__setmode"
+  ],
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-file-resize.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "buffered",
+    "S:\\vc1.0\\link\\new-captures\\direct-file-resize\\buffered-masked-av9lk7nw\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\direct-file-resize\\buffered-masked-av9lk7nw\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\direct-file-resize\\buffered-masked-av9lk7nw\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\direct-file-resize\\buffered-masked-av9lk7nw\\events.jsonl",
+    "S:\\vc1.0\\link\\direct-file-resize-buffered",
+    "R:\\decomp\\vc1.0\\link\\cases\\direct-file-resize\\inputs\\payload.bin"
+  ],
+  "seconds": 0.8525942601263523,
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "failed": 0,
+    "stopped": 1,
+    "exit": 0,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0
+  },
+  "files": [
+    {
+      "path": "work.bin",
+      "bytes": 4097,
+      "sha256": "042a02b55ba342cdd30322331816b6e4bca073f33bdb80149dc74a6f949802f4"
+    }
+  ],
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "helper_sha256": "0329452a99bb1084b8c13e11162e3925aee1de42b5bfb9077371857d7d0dba32",
+  "helper_source_sha256": "472309e06ab8871716c9e416ff725c92f736be04b8c4d2a322048cc33587342b",
+  "accepted_count": 984,
+  "accepted_sha256": "bacb50a0b644b01e8cbd3d1cba05895eb106331e01b6e49237bc29af605d8792",
+  "canonical_cwd": "S:\\vc1.0\\link\\direct-file-resize-buffered",
+  "scope": "Explicit external direct support caller; actual file API setup, no private-global seeds, no public CLI claim",
+  "text.bin": {
+    "bytes": 282120,
+    "sha256": "ad25cbaee096535d372b678e0d7438e9f37a4521b7f81a3b70c28bb721e4dfd5"
+  },
+  "events.jsonl": {
+    "bytes": 22803,
+    "sha256": "26fceaae8574283e7baee17249fb8fb185f7d1a15b89ff64e817aa0ece8e9242"
+  },
+  "stdout.bin": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "host.stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr.bin": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "controller.c": {
+    "bytes": 14965,
+    "sha256": "472309e06ab8871716c9e416ff725c92f736be04b8c4d2a322048cc33587342b"
+  },
+  "host.stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

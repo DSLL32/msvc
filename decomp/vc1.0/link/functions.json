@@ -982,7 +982,11 @@
     "_omf_debug_type_auxiliary",
     "_omf_debug_register",
     "_omf_find_debug_fixup",
-    "_omf_finish_debug_types"
+    "_omf_finish_debug_types",
+    "_resize_file",
+    "__setmode",
+    "_resize_buffered_file",
+    "_resize_mapped_file"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -8563,6 +8567,33 @@
         ]
       ],
       "inline_data_evidence": "19 bounded old-register switch targets, excluding adjacent alignment."
+    },
+    {
+      "name": "_resize_file",
+      "start": 246592,
+      "end": 246649,
+      "source": "src/files.c",
+      "evidence": "Complete dispatcher3c340..3c379; actual int handle/long length, owned40B files slot, fresh matching frontier and equal-length cdecl return0, backend stubs preserved; cases/direct-file-resize/analysis/root-frontier.json and mapped-frontier.json",
+      "implementation": "C",
+      "abi": "cdecl int(int,long)"
+    },
+    {
+      "name": "_resize_mapped_file",
+      "start": 246656,
+      "end": 246758,
+      "source": "src/files.c",
+      "evidence": "Whole3c380..3c3e6: actual40BFileSlot*/long formals; cdeclgrow1/shrink-1, actualSetFilePointer/SetEndOfFile/SetFilePointer SDKstdcallinputs/returns/errors/FP027f and full5242881B after close/reopen. Preserve original logical4097 vsphysical5242881 failure; fresh mapped-masked-ge4lxuon vsnative file-resize-gdb-amcvkjpe, shared c2a12ca40 exactcandidate READY. See cases/direct-file-resize/analysis/final-acceptance.json.",
+      "implementation": "C",
+      "abi": "cdecl int(FileSlot *,long)"
+    },
+    {
+      "name": "_resize_buffered_file",
+      "start": 246768,
+      "end": 246886,
+      "source": "src/files.c",
+      "evidence": "Whole3c3f0..3c466: actual owned40BFileSlot/long formals, populatedpagepool/table/cursor changes, cdeclreturn0/nonvolatiles/ESP, public_chsize2formals/return/errors/FP027f and exact4097B close/reopen output. Fresh original buffered-masked-av9lk7nw vs native file-resize-gdb-a0w81szm; shared c2a12ca40 exactcandidate READY, startup53 driver only. See cases/direct-file-resize/analysis/final-acceptance.json.",
+      "implementation": "C",
+      "abi": "cdecl int(FileSlot *,long)"
     }
   ],
   "c_stub_references": [
@@ -9551,6 +9582,10 @@
     "direct-cvtomf-codeview",
     "direct-cvtomf-codeview",
     "direct-cvtomf-codeview",
-    "direct-cvtomf-codeview"
+    "direct-cvtomf-codeview",
+    "direct-file-resize-mapped",
+    "direct-file-resize-buffered",
+    "direct-file-resize-buffered",
+    "direct-file-resize-mapped"
   ]
 }

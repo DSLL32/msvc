@@ -1,0 +1,39 @@
+{
+  "target_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "function_count": 3,
+  "functions": {
+    "_resize_file": {
+      "start": 246592,
+      "end": 246649,
+      "internal_tables": []
+    },
+    "_resize_mapped_file": {
+      "start": 246656,
+      "end": 246758,
+      "internal_tables": []
+    },
+    "_resize_buffered_file": {
+      "start": 246768,
+      "end": 246886,
+      "internal_tables": []
+    }
+  },
+  "instruction_bytes": 269,
+  "extent_gap_ranges": [
+    [
+      246634,
+      246640
+    ],
+    [
+      246686,
+      246688
+    ]
+  ],
+  "unresolved_jumps": [],
+  "scope": "Common successful CFG instruction export, not dynamic branch coverage. Gaps are alignment separate from decoded instructions.",
+  "source_report": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/final/instructions.json",
+    "sha256": "dc186b651b54fd02166c45695ac32ee14bbfca445b44e65e2e3ca8f48b3de97f",
+    "bytes": 16703235
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "status": "pass",
+  "controls": [
+    {
+      "phase": "mapped",
+      "control": "missing-formal",
+      "status": "rejected"
+    },
+    {
+      "phase": "mapped",
+      "control": "wrong-size",
+      "status": "rejected"
+    },
+    {
+      "phase": "mapped",
+      "control": "over-wide-slot",
+      "status": "rejected"
+    },
+    {
+      "phase": "mapped",
+      "control": "wrong-live-error",
+      "status": "rejected"
+    },
+    {
+      "phase": "mapped",
+      "control": "wrong-public-owner",
+      "status": "rejected"
+    },
+    {
+      "phase": "mapped",
+      "control": "wrong-precision",
+      "status": "rejected"
+    },
+    {
+      "phase": "mapped",
+      "control": "missing-public-boundary",
+      "status": "rejected"
+    },
+    {
+      "phase": "mapped",
+      "control": "wrong-return",
+      "status": "rejected"
+    },
+    {
+      "phase": "mapped",
+      "control": "bad-stack-cleanup",
+      "status": "rejected"
+    },
+    {
+      "phase": "mapped",
+      "control": "clobbered-nonvolatile",
+      "status": "rejected"
+    },
+    {
+      "phase": "mapped",
+      "control": "both-empty",
+      "status": "rejected"
+    },
+    {
+      "phase": "buffered",
+      "control": "missing-formal",
+      "status": "rejected"
+    },
+    {
+      "phase": "buffered",
+      "control": "wrong-size",
+      "status": "rejected"
+    },
+    {
+      "phase": "buffered",
+      "control": "over-wide-slot",
+      "status": "rejected"
+    },
+    {
+      "phase": "buffered",
+      "control": "wrong-live-error",
+      "status": "rejected"
+    },
+    {
+      "phase": "buffered",
+      "control": "wrong-public-owner",
+      "status": "rejected"
+    },
+    {
+      "phase": "buffered",
+      "control": "wrong-precision",
+      "status": "rejected"
+    },
+    {
+      "phase": "buffered",
+      "control": "missing-public-boundary",
+      "status": "rejected"
+    },
+    {
+      "phase": "buffered",
+      "control": "wrong-return",
+      "status": "rejected"
+    },
+    {
+      "phase": "buffered",
+      "control": "bad-stack-cleanup",
+      "status": "rejected"
+    },
+    {
+      "phase": "buffered",
+      "control": "clobbered-nonvolatile",
+      "status": "rejected"
+    },
+    {
+      "phase": "buffered",
+      "control": "both-empty",
+      "status": "rejected"
+    },
+    {
+      "phase": "buffered",
+      "control": "wrong-page-owner",
+      "status": "rejected"
+    }
+  ],
+  "seconds": 0.04579490702599287,
+  "scope": "Copied frozen observations only. No native/original/debugger/Wine execution."
+}

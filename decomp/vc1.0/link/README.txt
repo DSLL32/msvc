@@ -402,3 +402,19 @@ includes actual ELF4.76ms; output-only .01842s. Canonical822CFG/806callbacks/
 inclusive258178/281634=91.6715%;789appfunctions (759public/30direct),16 historical
 CRT separate. Full nonCRT denominator unavailable;13768 unclassified bytes remain
 pending. See cases/direct-cvtomf-codeview for ordinary raw evidence and timings.
+
+Direct file resize checkpoint (987 frontiers)
+
+Three readable C bodies now resize the custom cached-file backend through genuine
+API-owned mapped/buffered setup. Explicit direct support only: actual two formals,
+40B slot/page ownership, cdecl/SDK returns and full close/reopen files match. The
+mapped shrink failure remains-1/Last1224 with5242881physical bytes; buffered output
+is4097bytes. A real final-seek error-state discrepancy was fixed centrally in
+c2a12ca40; only the new direct host opts into the existing53-bit startup policy.
+Earlier error/precision/observer failures remain raw with separate correction
+proof. No target repair, normalization or new CRT C body. All84cachednativecases,
+826CFG/809callbacks/511data/41ECX and focused denials pass. App-only union
+228012/281634=80.9604%; support-inclusive258615/281634=91.8266%. There are792app
+functions (759public/33direct),16historicalCRT separate;13462unclassified bytes
+remain pending, not CRT. Full suite8.289s; actual new traced ELF calls6.02/5.11ms.
+See cases/direct-file-resize for split accounting and ordinary evidence.
