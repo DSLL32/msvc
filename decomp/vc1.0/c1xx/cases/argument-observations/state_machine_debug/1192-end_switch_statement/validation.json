@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_end_switch_statement",
+  "case": "state_machine_debug",
+  "accepted_before": 1192,
+  "configuration_sha256": "c8e9ed1f8a54d4201c89a2145717f40cef967b437b059fcecaf68002db23eb6c",
+  "native_entry": "end_switch_statement",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      263616,
+      264288
+    ],
+    "argument_bytes": 0,
+    "convention": "cdeclvoid",
+    "proof": "Whole672B SUB36/save4GPR16/plainRET acrossallpaths; zero incomingstack/GPR/x87/CPUflagsformals. Suppressionreturnsbefore whole102B bodycloser40550..405b6 (independently reviewed empty30removeelsezero16B31append/process0/emit), leftnamedtrap. Empty2d andtail2f collapse branches restoreactualnesting+16 andwarn3/60 with originalremoveordering. Normal32closingappend thenrestoreparent, reverse actual20/24Bcase-label chain+16 while updating opener.case_records+20 asoriginal; default-onlywarn3/65,no-labelwarn3/60. Opener+16 repurposed to actualdetachedevaluationchain after parentrestored, explicitsamewordunion; linkclosing. Enumflag4 usesexisting28BEnumeratorSymbol.value+24, definedtagflags4 and20BHashIterator.value+16 onlyafter nextreturns1. Wholebegin27B/next83B hashhelpers ABI reviewed existingstubs, key/value prestate uncredited. Missing-enum warning4/61(default) or3/62(no default), extra-case3/63, incompletetag3/64; explicit originaltag-then-enumerator formatting callorder retained. No newdata/recursiveobservations/CRTbody/ABItransport.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "8f9480bc19e0c47911b4891d949e5ff9bca828fd17704031342de4daeee6076f",
+  "capture_timing": {
+    "original_capture_seconds": 0.6663010036572814,
+    "native_capture_seconds": 0.18019134644418955,
+    "total_operation_seconds": 1.1214211778715253
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "a6998117c10c9fec83b190a057a03b99d8385b892ef21e5da9d1f24b83278dfb",
+    "native-commands.gdb": "3fd6a945355f825d1d31cbb9aa41ddfb91df231bcedb953befa53aebca8d5270",
+    "native-gdb.log": "342afe3355e9abdb127545f2dd9bf6a3e74c148bf094ae66972751b1c28eaebb",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "e35fa00adca6aac7166cbff0b5b16dfe2eaffeba056fec917dac49bbfbb1459e",
+    "original-configuration.json": "c8e9ed1f8a54d4201c89a2145717f40cef967b437b059fcecaf68002db23eb6c",
+    "original-disassembly.txt": "697624d7c63e8ba66bea643e49ed44337ea24306b8fefe8d9df18ba658ff43b6",
+    "original-events.txt": "b6daa2b8eb7a72ba8fd4a698b31f021ef6b1b8dd9117d17dbfbc02b621aa54c6",
+    "original-receipt.json": "157078536fb4e89334794fb697d2bec9e632746db4c6d859df13273852977358",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "7db04cca99e58c6d198a5c70ed4c23699993df8b3e1aa95eb518138fd15cb4eb"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

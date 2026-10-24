@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "_end_switch_statement",
+  "native_entry": "end_switch_statement",
+  "argument_words": 4,
+  "native_expressions": {},
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      263616,
+      264288
+    ],
+    "argument_bytes": 0,
+    "convention": "cdeclvoid",
+    "proof": "Whole672B SUB36/save4GPR16/plainRET acrossallpaths; zero incomingstack/GPR/x87/CPUflagsformals. Suppressionreturnsbefore whole102B bodycloser40550..405b6 (independently reviewed empty30removeelsezero16B31append/process0/emit), leftnamedtrap. Empty2d andtail2f collapse branches restoreactualnesting+16 andwarn3/60 with originalremoveordering. Normal32closingappend thenrestoreparent, reverse actual20/24Bcase-label chain+16 while updating opener.case_records+20 asoriginal; default-onlywarn3/65,no-labelwarn3/60. Opener+16 repurposed to actualdetachedevaluationchain after parentrestored, explicitsamewordunion; linkclosing. Enumflag4 usesexisting28BEnumeratorSymbol.value+24, definedtagflags4 and20BHashIterator.value+16 onlyafter nextreturns1. Wholebegin27B/next83B hashhelpers ABI reviewed existingstubs, key/value prestate uncredited. Missing-enum warning4/61(default) or3/62(no default), extra-case3/63, incompletetag3/64; explicit originaltag-then-enumerator formatting callorder retained. No newdata/recursiveobservations/CRTbody/ABItransport."
+  }
+}

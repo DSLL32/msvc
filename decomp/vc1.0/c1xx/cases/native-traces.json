@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "6b2b1fa15a98d2f0a0a48c139054fc95163e2a186381a828dce4b79d16ad820d",
+    "functions.json": "4838618bc64d0451e8f0dc4efd1ff4999db4c1e5ee6f578ccfba4242a12b7414",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "6c985f6ff7e1d3b8b1c9f5c44522de0009bcb605c6b4409478dbc398d7580121",
-    "cases/canonical-map.txt": "e0919abc55b9f2a8af11e18c8a43474de52f635ad30d9f1291c7c68298de1c7a",
+    "cases/original-entry-references.json": "653bade9e00ad9c66aebf773c548250e2c0e0679165b6137a7d99ba6976a475c",
+    "cases/canonical-map.txt": "4fb128cf00a169d6f2bd36207971846d4f8afe6f58754e17d2951d3f82b08f85",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -61,9 +61,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1191-write_switch_dispatch/entry-reference/original-receipt.json": "5e615bee5d24578418b64b637661be9794543a42b833b48c9fbd98fed515ae02",
-    "cases/frontiers/state_machine_debug/1191-write_switch_dispatch/entry-reference/original-events.txt": "7a73ac43068aef6910a9198d2bba7565f684c714be6dd0e55db63c94b3fd88a7",
-    "cases/frontiers/state_machine_debug/1191-write_switch_dispatch/entry-reference/original-entries.plan": "4290a3163341d75009d5f6855a84c25d63af0a6430d270e69bcc3c8a8bd52ac8"
+    "cases/frontiers/state_machine_debug/1192-end_switch_statement/entry-reference/original-receipt.json": "a182721a5190f516ae7c253655162111fcb02735fd8d7ad812fe02b30817fca0",
+    "cases/frontiers/state_machine_debug/1192-end_switch_statement/entry-reference/original-events.txt": "77814d8a2d15dd7b10c8a022e51151dd7139f13c27b912a6ec927f75fc2cd5a1",
+    "cases/frontiers/state_machine_debug/1192-end_switch_statement/entry-reference/original-entries.plan": "f677a10b458459eb2f42c65fe55b3fff30b928e14ee38e51cfe3d2fef423db23"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -2030,13 +2030,17 @@
       "logical": "_end_seh_try",
       "source": "src/stubs.c"
     },
+    "end_switch_body_region": {
+      "logical": "_end_switch_body_region",
+      "source": "src/stubs.c"
+    },
     "end_switch_condition_region": {
       "logical": "_end_switch_condition_region",
       "source": "src/frontend-records.c"
     },
     "end_switch_statement": {
       "logical": "_end_switch_statement",
-      "source": "src/stubs.c"
+      "source": "src/frontend-records.c"
     },
     "end_type_diagnostic": {
       "logical": "_end_type_diagnostic",
@@ -6886,7 +6890,8 @@
     "find_label",
     "new_label",
     "record_goto",
-    "write_switch_dispatch"
+    "write_switch_dispatch",
+    "end_switch_statement"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -11009,7 +11014,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1192,
+      "last": 1193,
       "seen": [
         "main",
         "message_text",
@@ -12100,12 +12105,13 @@
         "new_label",
         "record_goto",
         "write_switch_dispatch",
-        "end_switch_statement"
+        "end_switch_statement",
+        "end_switch_body_region"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_end_switch_statement",
-        "native": "end_switch_statement",
+        "logical": "_end_switch_body_region",
+        "native": "end_switch_body_region",
         "signal": 5
       }
     }

@@ -73,7 +73,8 @@ typedef char CaseFrontendValueOffsetMustBe20[(offsetof(CaseFrontendRecord, value
 /* A switch retains its enclosing switch and later case/type bookkeeping. */
 typedef struct SwitchFrontendRecord {
     FrontendRecord header;
-    FrontendRecord *outer_switch;
+    /* The nesting link becomes the detached evaluation chain on closure. */
+    union { FrontendRecord *outer_switch, *evaluation_records; };
     SwitchLabelFrontendRecord *case_records;
     unsigned constant_condition;
     CppSymbol *enum_tag;

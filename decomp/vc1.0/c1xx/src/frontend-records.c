@@ -6,6 +6,8 @@
 #include "parser.h"
 #include "record-processing.h"
 #include "cpp-context.h"
+#include "hash-table.h"
+#include "enumerators.h"
 #include <setjmp.h>
 #include <recon.h>
 
@@ -16,6 +18,7 @@ void begin_for_increment_region(void);
 void end_for_increment_region(void);
 void begin_switch_condition_region(void);
 void end_switch_condition_region(void);
+void end_switch_body_region(void);
 void __stdcall check_switch_case_initialization(int is_case);
 
 FrontendRecord *ir_record_head; /* original 0xa0a00 */
@@ -1249,4 +1252,104 @@ void __stdcall record_goto(CppSymbol *label, int known)
     append_frontend_record(&forward.header, sizeof(forward));
     ir_goto_records = ir_record_tail;
     write_ir_record(0x3a, forward.cleanup_label);
+}
+
+/* Original 0x405c0..0x4085f. Finish switch nesting, restore source
+   order to its label records, and diagnose enum values missing from cases. */
+void end_switch_statement(void)
+{
+    FrontendRecord record, *closing;
+    SwitchFrontendRecord *opening;
+    SwitchLabelFrontendRecord *label, *previous;
+    HashIterator iterator;
+    EnumeratorSymbol *enumerator;
+    CppSymbol *tag;
+    char *tag_name, *enumerator_name;
+    int found;
+    if (ir_records_suppressed) return;
+    end_switch_body_region();
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 0x2d) {
+        ir_switch_records = ((SwitchFrontendRecord *)ir_switch_records)->outer_switch;
+        remove_last_frontend_record();
+        compiler_warning(3, 60);
+        return;
+    }
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 0x2f) {
+        remove_last_frontend_record();
+        remove_matching_frontend_record(0x2e);
+        remove_matching_frontend_record(0x2d);
+        ir_switch_records = ((SwitchFrontendRecord *)ir_switch_records)->outer_switch;
+        if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 0x3d)
+            remove_last_frontend_record();
+        compiler_warning(3, 60);
+        return;
+    }
+    record.kind = 0x32;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+    opening = (SwitchFrontendRecord *)ir_switch_records;
+    closing = ir_record_tail;
+    ir_switch_records = opening->outer_switch;
+    label = opening->case_records;
+    if (label) {
+        previous = 0;
+        if (!label->next_label && (label->header.kind & 0x3f) == 0x34)
+            compiler_warning(3, 65);
+        while (label->next_label) {
+            opening->case_records = label->next_label;
+            label->next_label = previous;
+            previous = label;
+            label = opening->case_records;
+        }
+        label->next_label = previous;
+    } else compiler_warning(3, 60);
+    opening->evaluation_records = opening->header.next;
+    opening->header.next = closing;
+    closing->previous = &opening->header;
+    if (!(opening->header.flags & 4)) return;
+    tag = opening->enum_tag;
+    if (!(tag->flags & 4)) {
+        compiler_warning(3, 64, format_symbol_name(tag));
+        return;
+    }
+    begin_hash_iteration(&iterator, tag->auxiliary.enumerators);
+    while (next_hash_entry(&iterator)) {
+        enumerator = (EnumeratorSymbol *)iterator.value;
+        found = 0;
+        label = opening->case_records;
+        while (label && !found) {
+            if ((label->header.kind & 0x3f) == 0x33 &&
+                ((CaseFrontendRecord *)label)->value == enumerator->value) found = 1;
+            label = label->next_label;
+        }
+        if (!found) {
+            /* Retain the original formatting order: tag, then enumerator. */
+            if (opening->header.kind & 0x40) {
+                tag_name = format_symbol_name(tag);
+                enumerator_name = format_symbol_name((CppSymbol *)enumerator);
+                compiler_warning(4, 61, enumerator_name, tag_name);
+            } else {
+                tag_name = format_symbol_name(tag);
+                enumerator_name = format_symbol_name((CppSymbol *)enumerator);
+                compiler_warning(3, 62, enumerator_name, tag_name);
+            }
+        }
+    }
+    for (label = opening->case_records; label; label = label->next_label) {
+        if ((label->header.kind & 0x3f) != 0x33) continue;
+        found = 0;
+        begin_hash_iteration(&iterator, tag->auxiliary.enumerators);
+        while (!found && next_hash_entry(&iterator)) {
+            enumerator = (EnumeratorSymbol *)iterator.value;
+            if (((CaseFrontendRecord *)label)->value == enumerator->value) found = 1;
+        }
+        if (!found) {
+            tag_name = format_symbol_name(tag);
+            compiler_warning(3, 63, ((CaseFrontendRecord *)label)->value, tag_name);
+        }
+    }
 }
