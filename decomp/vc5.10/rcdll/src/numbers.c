@@ -2,6 +2,9 @@
 #include <wctype.h>
 #include "command.h"
 #include "directives.h"
+#ifdef RECON_NATIVE_TEST
+#include "macro-expansion.h"
+#endif
 #include <recon.h>
 
 #ifdef _MSC_VER
@@ -20,7 +23,17 @@ unsigned char __stdcall rc_read_number(WCHAR first)
     unsigned char token=7;
 
 #ifdef RECON_NATIVE_TEST
-    if(rc_number_buffer_active){ __asm int 3 }
+    if(rc_number_buffer_active){
+        RcMacro *macro;
+        if(rc_number_buffer_active!=1||rc_expanding_macro<1||rc_expanding_macro>=64||
+           ((DWORD)rc_number_buffer&1)||
+           (DWORD)rc_number_buffer<(DWORD)&rc_string_buffer[1024]||
+           (DWORD)rc_number_buffer>=(DWORD)&rc_string_buffer[2045]){ __asm int 3 }
+        macro=rc_macro_frames[rc_expanding_macro].macro;
+        if(!macro||!macro->text||rc_source_cursor!=macro->text+1||
+           macro->text[0]!=first||wcslen(macro->text)+1>
+           (unsigned)(&rc_string_buffer[2045]-rc_number_buffer)){ __asm int 3 }
+    }
 #endif
     begin=rc_number_buffer_active?rc_number_buffer:rc_macro_name;
     cursor=begin;

@@ -807,3 +807,37 @@ class MacroPushEntered(gdb.Breakpoint):
         frame=gdb.newest_frame();formal=frame.read_var('macro');entry=dict(formals=[dict(name='macro',value=int(formal),bytes=formal.type.sizeof)],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name(),before=macro_push_state())
         macro_push_calls.append(entry);save_macro_push_calls();MacroPushReturned(frame,entry);return False
 MacroPushEntered('rc_push_macro',internal=True);save_macro_push_calls()
+
+macro_select_calls=[]
+def save_macro_select_calls():(path.parent/'macro-select-calls.json').write_text(json.dumps(macro_select_calls,indent=2)+'\n')
+def macro_select_state():
+    depth=int(gdb.parse_and_eval('rc_expanding_macro'));assert 0<=depth<64
+    macro=int(gdb.parse_and_eval('rc_macro_frames[%d].macro'%depth));text=int(gdb.parse_and_eval('rc_macro_frames[%d].macro->text'%depth))
+    return dict(depth=depth,macro=macro,text=text,cursor=int(gdb.parse_and_eval('rc_source_cursor')),record=bytes(gdb.selected_inferior().read_memory(macro-8,24)).hex())
+class MacroSelectReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,after=macro_select_state());save_macro_select_calls();return False
+class MacroSelectEntered(gdb.Breakpoint):
+    def stop(self):
+        assert not macro_select_calls,'additional selector requires observation scope review'
+        frame=gdb.newest_frame();entry=dict(formals=[],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name(),before=macro_select_state())
+        macro_select_calls.append(entry);save_macro_select_calls();MacroSelectReturned(frame,entry);return False
+MacroSelectEntered('rc_select_macro_text',internal=True);save_macro_select_calls()
+
+active_number_calls=[]
+def save_active_number_calls():(path.parent/'active-number-calls.json').write_text(json.dumps(active_number_calls,indent=2)+'\n')
+def active_number_state():
+    return dict(source=int(gdb.parse_and_eval('rc_source_cursor')),number=int(gdb.parse_and_eval('rc_number_buffer')),active=int(gdb.parse_and_eval('rc_number_buffer_active')),work=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_string_buffer')),4090)).hex())
+class ActiveNumberReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(self.return_value),return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,after=active_number_state());save_active_number_calls();return False
+class ActiveNumberEntered(gdb.Breakpoint):
+    def stop(self):
+        if not int(gdb.parse_and_eval('rc_number_buffer_active')):return False
+        assert not active_number_calls,'additional active-number requires observation scope review'
+        frame=gdb.newest_frame();first=frame.read_var('first');sp=int(gdb.parse_and_eval('$ebp'))+4
+        entry=dict(formals=[dict(name='first',value=int(first),bytes=first.type.sizeof,physical_slot_bytes=4,slot=bytes(gdb.selected_inferior().read_memory(sp+4,4)).hex())],entry_esp=sp,caller=frame.older().name(),before=active_number_state())
+        active_number_calls.append(entry);save_active_number_calls();ActiveNumberReturned(frame,entry);return False
+ActiveNumberEntered('rc_read_number',internal=True);save_active_number_calls()

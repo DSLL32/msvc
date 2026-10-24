@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Eighty-five application functions (24,119 original code bytes), two embedded CRT functions
+Eighty-six application functions (24,147 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_select_macro_text`.
+currently matches at the next named trap, `rc_resume_input`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -84,7 +84,7 @@ is checked separately.
 ## Counts, timing and future inputs
 
 The provisional Ghidra inventory discovers 299 application functions / 66,295 code
-bytes. Current accepted application extent coverage is 36.38% (85 functions). This denominator
+bytes. Current accepted application extent coverage is 36.42% (86 functions). This denominator
 is analysis discovery, not a claim that every remaining original extent has passed
 an ownership audit. [Inventory](cases/function-inventory.json) excludes separately
 identified embedded CRT and import thunks; switch/literal data is excluded from
@@ -732,3 +732,12 @@ records the actual counter/pointer transitions, untouched frame/reserved bytes,
 checks and native help. The next no-argument selector and whole expansion remain
 pending. The record retains an earlier15-second debugger timeout and native-only
 retry; native fixtures still take about9ms.
+
+Macro-text selection is reconstructed (28 bytes), switching to owned `WINVER`
+text and changing its flag0→1. The newly reached number-reader mode writes exactly
+14 initialized bytes into the existing work area and returns1/RET4.
+[Verification](cases/resources-rich-trailing-space/macro-selection-verification.json)
+records22 fresh semantic controls, nine production bounds probes, unchanged
+Win32 section/relocation bytes, exact initialized D-marker provenance, both
+builds and graph/ABI/native checks. The next no-argument input-resume helper
+remains a trap; rich output and complete expansion are pending.

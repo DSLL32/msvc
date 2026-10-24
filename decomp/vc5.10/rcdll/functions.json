@@ -90,7 +90,8 @@
     "rc_skip_expression_space",
     "rc_parse_primary",
     "rc_expand_macro",
-    "rc_push_macro"
+    "rc_push_macro",
+    "rc_select_macro_text"
   ],
   "functions": [
     {

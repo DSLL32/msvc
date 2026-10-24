@@ -1,0 +1,591 @@
+{
+  "function": "rc_select_macro_text",
+  "original_start": "0x5cd5",
+  "original_end": "0x5cf1",
+  "original_code_bytes": 28,
+  "abi": "cdecl no arguments, void, RET0",
+  "accepted_application_functions": 86,
+  "accepted_application_bytes": 24147,
+  "provisional_application_denominator": 66295,
+  "provisional_coverage_percent": 36.42356135455162,
+  "denominator_scope": "Provisional physical application-code extent discovery; not branch coverage. Startup555/import12/compiler47 bytes separate.",
+  "case": "resources-rich-trailing-space",
+  "raw_original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/select-original-02",
+  "raw_native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/select-native-03",
+  "original_seconds": 5.376126112416387,
+  "native_gdb_seconds": 14.956380809657276,
+  "initial_builds": [
+    {
+      "targets": [
+        "original",
+        "build/debug-original.exe"
+      ],
+      "status": 0,
+      "seconds": 2.88974651042372
+    },
+    {
+      "targets": [
+        "native"
+      ],
+      "status": 0,
+      "seconds": 1.8640902563929558
+    }
+  ],
+  "native_guard_builds": {
+    "original_compile_seconds": 0.8813910456374288,
+    "native_seconds": 1.8580349292606115
+  },
+  "standalone_helper_rebuild_seconds": 2.0582784777507186,
+  "shared_status": "PublishedREADYc11fa6763 source hashes identical across both released windows.",
+  "shared_inputs": [
+    "/root/.ai-tmp/msvc2/vc5.10/rcdll/analysis/select-build/stable-shared-inputs.json",
+    "/root/.ai-tmp/msvc2/vc5.10/rcdll/analysis/select-build/stable-shared-inputs-02.json"
+  ],
+  "original_guard_equivalence": {
+    "record": "/root/.ai-tmp/msvc2/vc5.10/rcdll/analysis/select-build/guard-win32-identity.json",
+    "sha256": "a9260ef7fae0a79d4de98a89ec8919e2cd22104d88df175f9bba1eb5aea1c26b",
+    "proof": {
+      "production_object": "build/numbers.obj",
+      "production_sha256": "4701c08eecf1def650fb3f2712fad4cbbae93631fe6bbf84fabad46c60a485c8",
+      "fresh_original_compile": "/root/.ai-tmp/msvc2/vc5.10/rcdll/analysis/select-build/number-guard.obj",
+      "fresh_sha256": "f8b03ed78443be560409eacbd9e57a5fbcaf75038334bde6d2d0ae6cd05c6e3f",
+      "seconds": 0.8813910456374288,
+      "sections": [
+        {
+          "name": ".drectve",
+          "size": 40,
+          "data_sha256": "9fa149728da4e42f66a346761877e132fda50fe458d52e98b3fb568078967a4b",
+          "relocations": 0,
+          "relocations_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": ".data",
+          "size": 4,
+          "data_sha256": "cbfd218787df784c39fbc4f4fad92a8f28e2a880430c210b6d0d8dc133c07e66",
+          "relocations": 1,
+          "relocations_sha256": "306c86e39f2045b507d0e5794807b98b545819f39f89ae7e9546520011efa5cb"
+        },
+        {
+          "name": ".text",
+          "size": 979,
+          "data_sha256": "ef1d5296d62e8f902aff34024d535550d53d3ec6ea449cc5bdd90af8d3a48b0c",
+          "relocations": 51,
+          "relocations_sha256": "f8ba0ea5de4a4c5adf36c193532853c23d2c56d88815aa817440f756d0507769"
+        }
+      ],
+      "scope": "Every original COFF section payload and relocation record unchanged; guard/include is native-only. Retain already linked Win32DLL/MAP and existing original02 physical mask/controller/executioninputs, no timestamp relink or original replay."
+    }
+  },
+  "original_reuse": "Native-only reader guard is excluded by original compiler: all COFF section payloads and relocation records unchanged; actual linked Win32DLL/MAP, exact trial mask/config/controller/case/provider and original02 execution inputs remain unchanged. New native03/source snapshot is explicit, no raw history relabel.",
+  "pair_record": "/root/.ai-tmp/msvc2/vc5.10/rcdll/select-pair-01.json",
+  "pair_sha256": "d8a07254665ccfd3780f0ef5352685d36874330741980bdfdcf03b6e00622550",
+  "gate_seconds": 30.832247647456825,
+  "fresh_negative_controls": [
+    "active-number-calls.json",
+    "active-number-calls.json",
+    "active-number-calls.json",
+    "active-number-calls.json",
+    "active-number-calls.json",
+    "active-number-calls.json",
+    "active-number-calls.json",
+    "active-number-calls.json",
+    "active-number-calls.json",
+    "active-number-calls.json",
+    "active-number-calls.json",
+    "active-number-calls.json",
+    "active-number-calls.json",
+    "active-number-calls.json",
+    "active-number-calls.json",
+    "active-number-calls.json",
+    "active-number-calls.json",
+    "active-number-calls.json",
+    "active-number-calls.json",
+    "active-number-calls.json",
+    "wrong-original-numeric-lowWORD",
+    "wrong-initialized-D-marker"
+  ],
+  "scope_controls": [
+    {
+      "name": "active-number-calls.json",
+      "predicate_function": "primary_trial",
+      "predicate_line": 2335,
+      "semantic_rejection": true
+    },
+    {
+      "name": "active-number-calls.json",
+      "predicate_function": "macro_selection_transition",
+      "predicate_line": 2578,
+      "semantic_rejection": true
+    },
+    {
+      "name": "active-number-calls.json",
+      "predicate_function": "macro_selection_transition",
+      "predicate_line": 2583,
+      "semantic_rejection": true
+    },
+    {
+      "name": "active-number-calls.json",
+      "predicate_function": "macro_selection_transition",
+      "predicate_line": 2578,
+      "semantic_rejection": true
+    },
+    {
+      "name": "active-number-calls.json",
+      "predicate_function": "macro_selection_transition",
+      "predicate_line": 2585,
+      "semantic_rejection": true
+    },
+    {
+      "name": "active-number-calls.json",
+      "predicate_function": "macro_selection_transition",
+      "predicate_line": 2582,
+      "semantic_rejection": true
+    },
+    {
+      "name": "active-number-calls.json",
+      "predicate_function": "macro_selection_transition",
+      "predicate_line": 2589,
+      "semantic_rejection": true
+    },
+    {
+      "name": "active-number-calls.json",
+      "predicate_function": "macro_selection_transition",
+      "predicate_line": 2609,
+      "semantic_rejection": true
+    },
+    {
+      "name": "active-number-calls.json",
+      "predicate_function": "macro_selection_transition",
+      "predicate_line": 2609,
+      "semantic_rejection": true
+    },
+    {
+      "name": "active-number-calls.json",
+      "predicate_function": "macro_selection_transition",
+      "predicate_line": 2609,
+      "semantic_rejection": true
+    },
+    {
+      "name": "active-number-calls.json",
+      "predicate_function": "macro_selection_transition",
+      "predicate_line": 2611,
+      "semantic_rejection": true
+    },
+    {
+      "name": "active-number-calls.json",
+      "predicate_function": "macro_selection_transition",
+      "predicate_line": 2612,
+      "semantic_rejection": true
+    },
+    {
+      "name": "active-number-calls.json",
+      "predicate_function": "macro_selection_transition",
+      "predicate_line": 2614,
+      "semantic_rejection": true
+    },
+    {
+      "name": "active-number-calls.json",
+      "predicate_function": "macro_selection_transition",
+      "predicate_line": 2616,
+      "semantic_rejection": true
+    },
+    {
+      "name": "active-number-calls.json",
+      "predicate_function": "macro_selection_transition",
+      "predicate_line": 2616,
+      "semantic_rejection": true
+    },
+    {
+      "name": "active-number-calls.json",
+      "predicate_function": "macro_selection_transition",
+      "predicate_line": 2619,
+      "semantic_rejection": true
+    },
+    {
+      "name": "active-number-calls.json",
+      "predicate_function": "primary_trial",
+      "predicate_line": 2447,
+      "semantic_rejection": true
+    },
+    {
+      "name": "active-number-calls.json",
+      "predicate_function": "primary_trial",
+      "predicate_line": 2448,
+      "semantic_rejection": true
+    },
+    {
+      "name": "active-number-calls.json",
+      "predicate_function": "primary_trial",
+      "predicate_line": 2446,
+      "semantic_rejection": true
+    },
+    {
+      "name": "active-number-calls.json",
+      "predicate_function": "primary_trial",
+      "predicate_line": 2442,
+      "semantic_rejection": true
+    },
+    {
+      "name": "wrong-original-numeric-lowWORD",
+      "predicate_function": "macro_selection_transition",
+      "predicate_line": 2604,
+      "semantic_rejection": true
+    },
+    {
+      "name": "wrong-initialized-D-marker",
+      "predicate_function": "macro_selection_transition",
+      "predicate_line": 2598,
+      "semantic_rejection": true
+    }
+  ],
+  "reused_controls": {
+    "record": "cases/resources-rich-trailing-space/macro-push-verification.json",
+    "sha256": "f298177c5e473198444f387b8822c725e5f1dc849b1aed3369673fc8e6bda1e9",
+    "checker_and_contract_versions": {
+      "decomp/vc5.10/rcdll/scripts/accept.py": "0c0c72eff6e11decf004daf5d5483698b91ccd07065e13bddb4a767434a712b7",
+      "decomp/vc5.10/rcdll/scripts/audit.py": "10ca68f41c5bd1c3183a101d5a1f33de15c4c88209ead1966d9f4a554e852d60",
+      "decomp/vc5.10/rcdll/scripts/cache-rich-reference.py": "2164ca862a64c1708c7a13f6c7b0330df90c383149e067b218b45871dec3511c",
+      "decomp/vc5.10/rcdll/scripts/capture-native.py": "3844a4d4adcb247baef2c08835de4a079070d29f1ff219cf371df63d2f5effb5",
+      "decomp/vc5.10/rcdll/scripts/capture-original.py": "92f627b0b5f7f557b7339d7039b7ab94a2dd7f1db24a8d5a81a07ef4d15955c1",
+      "decomp/vc5.10/rcdll/scripts/capture-source-line-format.py": "c24b391d7d050556e6e89fd4c4ff2ed62f135637e1c0201d968233138dd1d832",
+      "decomp/vc5.10/rcdll/scripts/capture-wcschr.py": "3a003289498306857eb66733873f83ba9976289a847c83c22f47bc4b15886c85",
+      "decomp/vc5.10/rcdll/scripts/check-abi.py": "83f3fffa968c62999e0272c64bf9d15a3c9626d45b93e3cb6cd9af61513b4201",
+      "decomp/vc5.10/rcdll/scripts/check-character-controls.py": "655fd611ea139f09752876eea98de9c259bdceac7f39346e305948115838f6a4",
+      "decomp/vc5.10/rcdll/scripts/check-characters.py": "77f3d3612ac0df0e50a9fd480a52ebaa05ead70e1b0f2c98ad6733c1a99ad5e1",
+      "decomp/vc5.10/rcdll/scripts/check-class-boundary.py": "90f3fae6132e1655a6063e32cf79179304a8284fafa8c0d57e993566874c77ce",
+      "decomp/vc5.10/rcdll/scripts/check-compiler-support.py": "59a4cebd7a658aa9870cfbb612bf50d919ad9f48f3d022c778c2dcd7f5bc101c",
+      "decomp/vc5.10/rcdll/scripts/check-completion.py": "c98946e5f142082737ce5bb72e47fdc6ad48430c77b55c5a2f8f93a6f121daf9",
+      "decomp/vc5.10/rcdll/scripts/check-copy-seh-controls.py": "7dd3931d60dbfd18ede91fb4d8bd820571b0da16f21ffed61b158bdf8063887f",
+      "decomp/vc5.10/rcdll/scripts/check-copy-seh.py": "b3375c3e687672316cda1131b177b214ef728f99d9762d601f50efed1be59a8d",
+      "decomp/vc5.10/rcdll/scripts/check-directive-table.py": "533dd63c3f8ebabb8f7822065f945fa33e5272f66ce781b96f428b940d793847",
+      "decomp/vc5.10/rcdll/scripts/check-dispatcher-switch-controls.py": "909ca7d5ab62bff4ee49ba5b3c470a771b8d939845e768c0e2b0eda983d49480",
+      "decomp/vc5.10/rcdll/scripts/check-dispatcher-switch.py": "f91d78cd25495a160d4ba45b421990894bfa3a967745513774b51fd6f893fb53",
+      "decomp/vc5.10/rcdll/scripts/check-expression-storage.py": "2c7021703b1139aa97bdfe1642879612aecc57cc9d2dc0eef26bacafdd1a4ddf",
+      "decomp/vc5.10/rcdll/scripts/check-initial.py": "f1e69f898368b7b2df6d68fbc7ee0d47f5babec355b9863a13f436335e0a0824",
+      "decomp/vc5.10/rcdll/scripts/check-lexer-correction.py": "0f61fee2017134c343c4631acd7115db65218059cacdfec8d1267b6111c4cd90",
+      "decomp/vc5.10/rcdll/scripts/check-lexer-relocations.py": "40d3d5762cf18c78210e8f9d9adfd3a7f404952c9ef93f2df301002745c651a0",
+      "decomp/vc5.10/rcdll/scripts/check-lexer-state.py": "0f229a7fe50cfab73a34e993cd866f4069949cada0100be94a17cd3988b0a0f0",
+      "decomp/vc5.10/rcdll/scripts/check-number-word-correction.py": "12a887daf408815a98b8ad0f3d239f2fe7f021a8d82ca8df8c239ca636c8e765",
+      "decomp/vc5.10/rcdll/scripts/check-plan.py": "34e66d1d7356daad243123672a2ceea8d15f4ea5a57d7bd2fe15d94a6d46320e",
+      "decomp/vc5.10/rcdll/scripts/check-rich-pair.py": "0fd39412ab36e45ecc060534fa4425b7fa3e02c9d09e63c7900839173c0f577e",
+      "decomp/vc5.10/rcdll/scripts/check-string-storage.py": "037bb530777ce2df02b09617aaad047c15c429e2e69005f4900a37e4d4b50ff0",
+      "decomp/vc5.10/rcdll/scripts/check-token-info.py": "38f149a2be01b60dfd3ac3c25c0490550b14fa52c21276d9e57ee0d8b044d38e",
+      "decomp/vc5.10/rcdll/scripts/check-trial.py": "ea46359d73d9134a047c512e0419b6f512ef9e95dadba97e61e16b51e707f0a5",
+      "decomp/vc5.10/rcdll/scripts/compiler-frame-gdb.py": "0f2ea9470f79ff73c626dc93fd7c54d506a46d799827d739af2efac3c98f882d",
+      "decomp/vc5.10/rcdll/scripts/expression-token-gdb.py": "31e35e1b2c08f57316030894d168a96ee933e3a752ef2c33d6dfb6bf89109c41",
+      "decomp/vc5.10/rcdll/scripts/fixtures.py": "8039adf2390603d111d5aef75952a4959193a3b491f94e00ccf851f33cdd8847",
+      "decomp/vc5.10/rcdll/scripts/macro-init-gdb.py": "41e2b8fe1eb7dfc3135cf8d4dfb66ad779438c6b8bb7795bdcbe0016b7442e6d",
+      "decomp/vc5.10/rcdll/scripts/macro-push-gdb.py": "2c2f7e077d1915a29e67e5d0cdb406e2082811a1690b2e4d28686dcb7dc2fdc6",
+      "decomp/vc5.10/rcdll/scripts/native-gdb.py": "d3e3efc0745a65da2767f6363ee909f86b1a0ca4e3abdb4a9eac9eda699f1103",
+      "decomp/vc5.10/rcdll/scripts/native-observers.py": "07064bf2a1c4c2884782ee64f2d67cf5d518c214e859ba8c5dee980a71ef320b",
+      "decomp/vc5.10/rcdll/scripts/native-preprocess.py": "be98eb5fb2e4d792ec16c0e3b67039e8f9ceaf6c195336fc0a50f6fa2f43dad1",
+      "decomp/vc5.10/rcdll/scripts/pe_inventory.py": "fb06b8d3138d32e185ad86bb5e2d3dc775bd0a304387537f8a97ae967a2c1869",
+      "decomp/vc5.10/rcdll/scripts/prepare-resources.py": "b32f452aa2534efabb780923d34675f6514c8e933ac2993896a415fb37bd24b7",
+      "decomp/vc5.10/rcdll/scripts/protocol.py": "e15721e68e82ad6f39d9406aceae38cfd751ee8371bcbaa59fc08855adca4670",
+      "decomp/vc5.10/rcdll/scripts/rich_protocol.py": "ff769802d063ac8478d6465ce18fab782ae2bbf22d06d4405dbc675b5c049f34",
+      "decomp/vc5.10/rcdll/scripts/source-snapshot.py": "a09bc2f8719f3fd7ab69549d1ebc421cb8ca68726935057ac13eca0a432951ff",
+      "decomp/vc5.10/rcdll/scripts/wine-tool.py": "8bbce5c4f84dfc5eb820df7a502103009f26a89e86308bfa2eeb00d1b7e467bf",
+      "decomp/vc5.10/rcdll/data.json": "fa5c8a453d0eff8e1396f1ac6e346548b31fc4b44b4cdb8a5a43c3e48f82fbed"
+    },
+    "reason": "Unchanged push/parent/source/FILE/argv/transport and SEH controls retained by hash. Fresh affected selector, alternate-number ownership/aliases/writes and next resume hidden-input checks."
+  },
+  "validation_versions": {
+    "decomp/vc5.10/rcdll/scripts/accept.py": "40d04237ada6af61426c870bb3e0331cfb67fb5ff6bae1fc0b05790c1e0ca8b7",
+    "decomp/vc5.10/rcdll/scripts/audit.py": "10ca68f41c5bd1c3183a101d5a1f33de15c4c88209ead1966d9f4a554e852d60",
+    "decomp/vc5.10/rcdll/scripts/cache-rich-reference.py": "2164ca862a64c1708c7a13f6c7b0330df90c383149e067b218b45871dec3511c",
+    "decomp/vc5.10/rcdll/scripts/capture-native.py": "3844a4d4adcb247baef2c08835de4a079070d29f1ff219cf371df63d2f5effb5",
+    "decomp/vc5.10/rcdll/scripts/capture-original.py": "92f627b0b5f7f557b7339d7039b7ab94a2dd7f1db24a8d5a81a07ef4d15955c1",
+    "decomp/vc5.10/rcdll/scripts/capture-source-line-format.py": "c24b391d7d050556e6e89fd4c4ff2ed62f135637e1c0201d968233138dd1d832",
+    "decomp/vc5.10/rcdll/scripts/capture-wcschr.py": "3a003289498306857eb66733873f83ba9976289a847c83c22f47bc4b15886c85",
+    "decomp/vc5.10/rcdll/scripts/check-abi.py": "83f3fffa968c62999e0272c64bf9d15a3c9626d45b93e3cb6cd9af61513b4201",
+    "decomp/vc5.10/rcdll/scripts/check-character-controls.py": "655fd611ea139f09752876eea98de9c259bdceac7f39346e305948115838f6a4",
+    "decomp/vc5.10/rcdll/scripts/check-characters.py": "77f3d3612ac0df0e50a9fd480a52ebaa05ead70e1b0f2c98ad6733c1a99ad5e1",
+    "decomp/vc5.10/rcdll/scripts/check-class-boundary.py": "90f3fae6132e1655a6063e32cf79179304a8284fafa8c0d57e993566874c77ce",
+    "decomp/vc5.10/rcdll/scripts/check-compiler-support.py": "59a4cebd7a658aa9870cfbb612bf50d919ad9f48f3d022c778c2dcd7f5bc101c",
+    "decomp/vc5.10/rcdll/scripts/check-completion.py": "c98946e5f142082737ce5bb72e47fdc6ad48430c77b55c5a2f8f93a6f121daf9",
+    "decomp/vc5.10/rcdll/scripts/check-copy-seh-controls.py": "7dd3931d60dbfd18ede91fb4d8bd820571b0da16f21ffed61b158bdf8063887f",
+    "decomp/vc5.10/rcdll/scripts/check-copy-seh.py": "b3375c3e687672316cda1131b177b214ef728f99d9762d601f50efed1be59a8d",
+    "decomp/vc5.10/rcdll/scripts/check-directive-table.py": "533dd63c3f8ebabb8f7822065f945fa33e5272f66ce781b96f428b940d793847",
+    "decomp/vc5.10/rcdll/scripts/check-dispatcher-switch-controls.py": "909ca7d5ab62bff4ee49ba5b3c470a771b8d939845e768c0e2b0eda983d49480",
+    "decomp/vc5.10/rcdll/scripts/check-dispatcher-switch.py": "f91d78cd25495a160d4ba45b421990894bfa3a967745513774b51fd6f893fb53",
+    "decomp/vc5.10/rcdll/scripts/check-expression-storage.py": "2c7021703b1139aa97bdfe1642879612aecc57cc9d2dc0eef26bacafdd1a4ddf",
+    "decomp/vc5.10/rcdll/scripts/check-initial.py": "f1e69f898368b7b2df6d68fbc7ee0d47f5babec355b9863a13f436335e0a0824",
+    "decomp/vc5.10/rcdll/scripts/check-lexer-correction.py": "0f61fee2017134c343c4631acd7115db65218059cacdfec8d1267b6111c4cd90",
+    "decomp/vc5.10/rcdll/scripts/check-lexer-relocations.py": "40d3d5762cf18c78210e8f9d9adfd3a7f404952c9ef93f2df301002745c651a0",
+    "decomp/vc5.10/rcdll/scripts/check-lexer-state.py": "0f229a7fe50cfab73a34e993cd866f4069949cada0100be94a17cd3988b0a0f0",
+    "decomp/vc5.10/rcdll/scripts/check-number-word-correction.py": "12a887daf408815a98b8ad0f3d239f2fe7f021a8d82ca8df8c239ca636c8e765",
+    "decomp/vc5.10/rcdll/scripts/check-plan.py": "34e66d1d7356daad243123672a2ceea8d15f4ea5a57d7bd2fe15d94a6d46320e",
+    "decomp/vc5.10/rcdll/scripts/check-rich-pair.py": "a9d3f466eed6c9f61080424e8f2e428be943a81c2666a105db5e5950c72420c4",
+    "decomp/vc5.10/rcdll/scripts/check-string-storage.py": "037bb530777ce2df02b09617aaad047c15c429e2e69005f4900a37e4d4b50ff0",
+    "decomp/vc5.10/rcdll/scripts/check-token-info.py": "38f149a2be01b60dfd3ac3c25c0490550b14fa52c21276d9e57ee0d8b044d38e",
+    "decomp/vc5.10/rcdll/scripts/check-trial.py": "ea46359d73d9134a047c512e0419b6f512ef9e95dadba97e61e16b51e707f0a5",
+    "decomp/vc5.10/rcdll/scripts/compiler-frame-gdb.py": "0f2ea9470f79ff73c626dc93fd7c54d506a46d799827d739af2efac3c98f882d",
+    "decomp/vc5.10/rcdll/scripts/expression-token-gdb.py": "31e35e1b2c08f57316030894d168a96ee933e3a752ef2c33d6dfb6bf89109c41",
+    "decomp/vc5.10/rcdll/scripts/fixtures.py": "8039adf2390603d111d5aef75952a4959193a3b491f94e00ccf851f33cdd8847",
+    "decomp/vc5.10/rcdll/scripts/macro-init-gdb.py": "41e2b8fe1eb7dfc3135cf8d4dfb66ad779438c6b8bb7795bdcbe0016b7442e6d",
+    "decomp/vc5.10/rcdll/scripts/macro-number-gdb.py": "97f7f7e03b6040c1f4b8e581de85617a7f25aad514016f873e2b3ada761f4677",
+    "decomp/vc5.10/rcdll/scripts/macro-push-gdb.py": "2c2f7e077d1915a29e67e5d0cdb406e2082811a1690b2e4d28686dcb7dc2fdc6",
+    "decomp/vc5.10/rcdll/scripts/native-gdb.py": "3262ee70f9abf64d8bdc5f01b8661f681c7c93e9ac5749ba9f05ed2153adc910",
+    "decomp/vc5.10/rcdll/scripts/native-observers.py": "133e1455b07681e2c7dedbfeba01a94ddf6448fad5bf8d373544ea6600f29880",
+    "decomp/vc5.10/rcdll/scripts/native-preprocess.py": "be98eb5fb2e4d792ec16c0e3b67039e8f9ceaf6c195336fc0a50f6fa2f43dad1",
+    "decomp/vc5.10/rcdll/scripts/pe_inventory.py": "fb06b8d3138d32e185ad86bb5e2d3dc775bd0a304387537f8a97ae967a2c1869",
+    "decomp/vc5.10/rcdll/scripts/prepare-resources.py": "b32f452aa2534efabb780923d34675f6514c8e933ac2993896a415fb37bd24b7",
+    "decomp/vc5.10/rcdll/scripts/protocol.py": "e15721e68e82ad6f39d9406aceae38cfd751ee8371bcbaa59fc08855adca4670",
+    "decomp/vc5.10/rcdll/scripts/rich_protocol.py": "029bb0786c2b8f13368d76da4b252dcdf341519180c2ea667d05f05201709621",
+    "decomp/vc5.10/rcdll/scripts/source-snapshot.py": "a09bc2f8719f3fd7ab69549d1ebc421cb8ca68726935057ac13eca0a432951ff",
+    "decomp/vc5.10/rcdll/scripts/wine-tool.py": "8bbce5c4f84dfc5eb820df7a502103009f26a89e86308bfa2eeb00d1b7e467bf",
+    "decomp/vc5.10/rcdll/data.json": "fa5c8a453d0eff8e1396f1ac6e346548b31fc4b44b4cdb8a5a43c3e48f82fbed"
+  },
+  "acceptance_record": "cases/resources-rich-trailing-space/acceptance-0088.json",
+  "audit_record": "cases/resources-rich-trailing-space/audit-0088.json",
+  "audit_seconds": 0.17206417582929134,
+  "audit_engine_sha256": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24",
+  "other_check_times": [
+    {
+      "check": "abi",
+      "status": 0,
+      "seconds": 0.058047590777277946
+    },
+    {
+      "check": "fixtures",
+      "status": 0,
+      "seconds": 0.07119863945990801
+    },
+    {
+      "check": "acceptance",
+      "status": 0,
+      "seconds": 1.743746637366712
+    }
+  ],
+  "native_help": {
+    "logical_name_aliases": {
+      "rcdll_main": "DllMain",
+      "recon_dll_entry": "_DllMainCRTStartup",
+      "rcdll_crt_init": "_CRT_INIT",
+      "rc_main": "main",
+      "rcdll_command_main": "main"
+    },
+    "case": "help",
+    "status": "pass",
+    "stdout_bytes": 589,
+    "application_entries": 9,
+    "seconds": {
+      "setup": 0.004176989197731018,
+      "execution": 0.0023345984518527985,
+      "checks": 0.0011376617476344109,
+      "total": 0.008311388082802296
+    },
+    "native_sha256": "87b1a3596242fea59354b46ec6b91f106f48d99378847559fee19f69d15e276d",
+    "reference_manifest_sha256": "387c741bdb3fa4d388da034d339b5d21e872667d27934bb570e03d448db05524"
+  },
+  "selection_and_numeric_mode": {
+    "selector": {
+      "formals": [],
+      "cleanup": 0,
+      "flags_before": 0,
+      "flags_after": 1,
+      "source_alias": "Owned current WINVER.text",
+      "record_bytes": 16,
+      "original_source": "0xe64e58",
+      "native_source": "0xf7d48028"
+    },
+    "initialized_text": {
+      "copy_index": 8,
+      "copy_count_WCHAR": 8,
+      "source_work_rva": "0x16f08",
+      "source_bytes": 16,
+      "allocation_bytes": 26,
+      "header_bytes": 8,
+      "initialized_text_bytes": 18,
+      "spelling_NUL_offset": 12,
+      "marker_offset": 14,
+      "marker": "D",
+      "final_NUL_offset": 16,
+      "writer": "rc_read_macro_replacement explicitly writes NUL,D; rc_copy_macro_text copies8 initialized WCHAR and appends its own NUL"
+    },
+    "numeric_mode": {
+      "formals": [
+        {
+          "name": "first",
+          "value": 48,
+          "bytes": 2,
+          "physical_slot_bytes": 4,
+          "slot": "30000000"
+        }
+      ],
+      "original_raw_slot": "00e60030",
+      "original_raw_return": "00e60001",
+      "compared_input_bits": 16,
+      "compared_return_bits": 8,
+      "result": 1,
+      "cleanup": 4,
+      "source_before": 2,
+      "source_after": 12,
+      "source_after_loop": 14,
+      "number_before": 2056,
+      "number_after": 2068,
+      "write_begin": 2056,
+      "write_end": 2070,
+      "write_bytes": 14,
+      "untouched_work_bytes": 4076,
+      "guard_scope": "Native active1, bounded current macro frame/text+1/first WCHAR alias, WCHAR-aligned existing4090B workspace and remaining full spelling+NUL capacity; no buffer growth/reset"
+    },
+    "next_formals": [],
+    "next_hidden_inputs": {
+      "expansion_depth": 1,
+      "active_input_depth": 1,
+      "macro_flags": 1,
+      "source_text_offset": 14,
+      "source_word": 68,
+      "initialized_source_remaining_bytes": 4,
+      "number_offset": 2068,
+      "frame_source": "Saved SDK cursor8156",
+      "frame_output": "work base",
+      "frame_number": "work+2056",
+      "parent_character": 0,
+      "parent_character_bits": 16,
+      "parent_token": 3,
+      "parent_saved_output": 0
+    },
+    "limits": "Only reached normal spelling path; no fault/unknown mode/whole expansion or input-resume result. Raw upper16 input slot and upper24 return bits retained but unclaimed; callee/source WORD/BYTE consumption proved separately."
+  },
+  "production_guard": {
+    "record": "/root/.ai-tmp/msvc2/vc5.10/rcdll/analysis/select-build/number-guard.json",
+    "sha256": "1833e6b6ab4eba7290bf941bc3a2a4832712f301dc114817e5f9528d83b82221",
+    "proof": {
+      "ELF": "/root/.ai-tmp/msvc2/vc5.10/rcdll/analysis/select-build/number-guard.elf",
+      "ELF_sha256": "87b1a3596242fea59354b46ec6b91f106f48d99378847559fee19f69d15e276d",
+      "script_sha256": "97f7f7e03b6040c1f4b8e581de85617a7f25aad514016f873e2b3ada761f4677",
+      "checks": [
+        {
+          "mode": "supported",
+          "status": "success",
+          "result": 1,
+          "write_begin": 2056,
+          "write_end": 2070,
+          "work_bytes": 4090,
+          "seconds": 0.14683874230831861
+        },
+        {
+          "mode": "exact-end",
+          "status": "success",
+          "result": 1,
+          "write_begin": 4076,
+          "write_end": 4090,
+          "work_bytes": 4090,
+          "seconds": 0.15378271881490946
+        },
+        {
+          "mode": "underflow",
+          "status": "production-INT3",
+          "function": "rc_read_number",
+          "PC": "0x56561610",
+          "executed_byte": "cc",
+          "offset": 2046,
+          "seconds": 0.1509184567257762
+        },
+        {
+          "mode": "unaligned",
+          "status": "production-INT3",
+          "function": "rc_read_number",
+          "PC": "0x56561610",
+          "executed_byte": "cc",
+          "offset": 2057,
+          "seconds": 0.15412821434438229
+        },
+        {
+          "mode": "overrun",
+          "status": "production-INT3",
+          "function": "rc_read_number",
+          "PC": "0x56561697",
+          "executed_byte": "cc",
+          "offset": 4078,
+          "seconds": 0.14389711618423462
+        },
+        {
+          "mode": "outside",
+          "status": "production-INT3",
+          "function": "rc_read_number",
+          "PC": "0x56561610",
+          "executed_byte": "cc",
+          "offset": 4090,
+          "seconds": 0.137312401086092
+        },
+        {
+          "mode": "wrong-active",
+          "status": "production-INT3",
+          "function": "rc_read_number",
+          "PC": "0x56561610",
+          "executed_byte": "cc",
+          "offset": 2056,
+          "seconds": 0.13972076401114464
+        },
+        {
+          "mode": "wrong-source",
+          "status": "production-INT3",
+          "function": "rc_read_number",
+          "PC": "0x56561697",
+          "executed_byte": "cc",
+          "offset": 2056,
+          "seconds": 0.13774369936436415
+        },
+        {
+          "mode": "wrong-first",
+          "status": "production-INT3",
+          "function": "rc_read_number",
+          "PC": "0x56561697",
+          "executed_byte": "cc",
+          "offset": 2056,
+          "seconds": 0.14114018250256777
+        }
+      ],
+      "scope": "Auxiliary GDB calls actual production reader before native host entry; two initialized in-array numeric outputs and seven production-guard INT3s corroborated by actual frame/PC/byte. No original oracle/case result/extra code credit."
+    }
+  },
+  "next_frontier": {
+    "name": "rc_resume_input",
+    "start": "0x6135",
+    "end": "0x624c",
+    "original_code_bytes": 279,
+    "formals": [],
+    "abi": "cdecl noargs/int/RET0",
+    "original_return": "0x71c2549d",
+    "hidden_inputs": {
+      "expansion_depth": 1,
+      "active_input_depth": 1,
+      "macro_flags": 1,
+      "source_text_offset": 14,
+      "source_word": 68,
+      "initialized_source_remaining_bytes": 4,
+      "number_offset": 2068,
+      "frame_source": "Saved SDK cursor8156",
+      "frame_output": "work base",
+      "frame_number": "work+2056",
+      "parent_character": 0,
+      "parent_character_bits": 16,
+      "parent_token": 3,
+      "parent_saved_output": 0
+    }
+  },
+  "retained_attempts": [
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/rcdll/select-original-01",
+      "reason": "Actual resume frontier reached; active-number entry observer had only watched its first earlier ordinary invocation, so this capture does not establish active-number entry/return. Helper02 rearms exactly at selector return; new original02 supplies complete evidence."
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/rcdll/select-native-01",
+      "reason": "Old compiled unknown-alternate-mode guard traps rc_read_number as intended; observer also rejects its new parent chain. Snapshot is error/controller125, not a target exit125 or accepted success."
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/rcdll/select-native-02",
+      "reason": "Supported current pair reaches resume; next snapshot additionally records actual now-initialized parent character/token/saved_output. No invented original/native observation or relabel."
+    }
+  ],
+  "limits": [
+    "Only selector28B adds code credit. Existing number-reader body/ABI/Win32 graph unchanged; native guard permits the newly proved owned path and denies other scoped modes.",
+    "Current input source is18 initialized text bytes from actual8-WCHAR work-buffer copy plus helper NUL, not merely26B allocator capacity. D marker at14 and final NUL at16 are explicitly defined by original replacement/copy writers.",
+    "Original numeric argument full raw00e60030 and return00e60001 retained. Only genuine WCHAR low16 input and BYTE low8 result compared, bound to actual CMPW/whole-slot-overwrite and AL1/RET4 opcodes; upper bits unclaimed.",
+    "Parent saved_output0/character0/token3 are now initialized and captured at resume. Retired parameters and uninitialized number local are not presented as current original register values.",
+    "No resume result, frame pop/final expansion return or rich resource completion claimed. Earlier FILE/source/SEH/unsupported-boundary scopes remain."
+  ]
+}

@@ -2321,20 +2321,20 @@ def macro_output_initialization(data,address,pointee):
     assert len(hits)==1 and hits[0][0]==3
     return dict(address=hex(address),pointee=hex(pointee),field_file_offset=field,relocation_file_offset=hits[0][1],relocation_type='HIGHLOW')
 
-def primary_trial(original,native,expansion=False,push=False):
+def primary_trial(original,native,expansion=False,push=False,selection=False):
     """Primary returns and its actual next macro-expansion ABI/state."""
     import subprocess
     config=read_configuration(original/'functions.json')
-    trial='rc_push_macro'if push else'rc_expand_macro'if expansion else'rc_parse_primary';frontier_name='rc_select_macro_text'if push else'rc_push_macro'if expansion else'rc_expand_macro';caller='rc_expand_macro'if expansion or push else'rc_next_token'
-    assert config['trial_function']==trial and len(config['accepted'])==(86 if push else 85 if expansion else 84)
+    trial='rc_select_macro_text'if selection else'rc_push_macro'if push else'rc_expand_macro'if expansion else'rc_parse_primary';frontier_name='rc_resume_input'if selection else'rc_select_macro_text'if push else'rc_push_macro'if expansion else'rc_expand_macro';caller='rc_expand_macro'if expansion or push else'rc_next_token'
+    assert config['trial_function']==trial and len(config['accepted'])==(87 if selection else 86 if push else 85 if expansion else 84)
     a,b,proof=checkpoint(original,native,frontier_name,('rc_input_temporary','rc_output_temporary'))
     text=(original/'events.txt').read_text();raw=(original/'globals.bin').read_bytes();args=b['arguments'];x=args['macro_expand'];globals=args['preprocessor']['globals']
-    assert a['words'][0]==(0x71c25386 if push else 0x71c25381 if expansion else 0x71c236ec)and x['caller']==caller
+    assert a['words'][0]==(0x71c2549d if selection else 0x71c25386 if push else 0x71c25381 if expansion else 0x71c236ec)and x['caller']==caller
     assert re.search(r'^#1\s+0x[0-9a-f]+ in '+caller+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
     pointer=next(row['pointer']for row in args['preprocessor']['macros']if row['name']==x['name'])
     assert x['formals']==([]if push else[dict(name='macro',value=pointer,bytes=4)])and x['macro_bytes']==16
     old_node=raw_bytes(text,'expand-macro-record');node=bytes.fromhex(x['record']);fields=struct.unpack('<4I',old_node[8:]);native_fields=struct.unpack('<4I',node[8:])
-    assert len(old_node)==len(node)==24 and old_node[:8]==node[:8]==bytes(8)and fields[0]==native_fields[0]==fields[3]==native_fields[3]==0
+    assert len(old_node)==len(node)==24 and old_node[:8]==node[:8]==bytes(8)and fields[0]==native_fields[0]==0 and fields[3]==native_fields[3]==(0x100 if selection else 0)
     assert native_fields[1:3]==(x['name'],x['text'])
     assert raw_bytes(text,'expand-macro-name')==bytes.fromhex(x['name_bytes'])=='WINVER\0'.encode('utf-16le')
     assert raw_bytes(text,'expand-macro-text')==bytes.fromhex(x['text_owner'])==bytes(8)+'0x0400\0D\0'.encode('utf-16le')
@@ -2359,7 +2359,7 @@ def primary_trial(original,native,expansion=False,push=False):
     assert tuple(old_frame[i]for i in [0,2,6,7,8])==tuple(new_frame[i]for i in [0,2,6,7,8])==(4098,73,4098,1,0)
     assert raw[0x18e80-0x14000+72:0x18e80-0x14000+108]==raw_bytes(text,'expand-source-frame')
     assert bytes.fromhex(globals['rc_source_frames']['bytes'])[72:108]==bytes.fromhex(x['source_frame'])
-    old_cursor=int.from_bytes(raw[0x18120-0x14000:0x18124-0x14000],'little');assert old_cursor-old_frame[5]==x['source_cursor']-new_frame[5]==8156
+    old_cursor=int.from_bytes(raw[0x18120-0x14000:0x18124-0x14000],'little');assert (old_cursor-fields[2]==x['source_cursor']-x['text']==14 if selection else old_cursor-old_frame[5]==x['source_cursor']-new_frame[5]==8156)
     master=(ROOT/'toolchains/5.10/include/WINRESRC.H').read_bytes();source=bytes(8)+master[:4098].decode('cp1252').encode('utf-16le')+bytes(2)
     assert raw_bytes(text,'expand-source-block')==source and len(source)==8206 and struct.unpack_from('<H',source,8164)[0]==32
     owner=next(v for v in b['heap_identity']['blocks']if v['payload']+8==new_frame[5]);assert owner['owner']==b['heap_identity']['handle']and owner['flags']==9 and owner['bytes']==8206 and bytes.fromhex(owner['contents'])==source
@@ -2371,8 +2371,10 @@ def primary_trial(original,native,expansion=False,push=False):
     assert Path(x['file_host_path']).resolve()==(ROOT/'toolchains/5.10/include/WINRESRC.H').resolve()
     assert raw_bytes(text,'expand-source-filename')==bytes.fromhex(args['filename'])==('R:\\toolchains\\5.10\\include/winresrc.h\0').encode('utf-16le')+bytes(514-76)
     work=raw_bytes(text,'expand-work-buffer');assert len(work)==x['string_buffer_bytes']==4090 and work==bytes.fromhex(x['work_buffer'])
-    assert work[2048:2056]=='()()'.encode('utf-16le')and work[2056:2132]==('R:\\toolchains\\5.10\\include/winresrc.h\0').encode('utf-16le')
-    assert int.from_bytes(raw[0x14a80-0x14000:0x14a84-0x14000],'little')==0x71c37710 and x['number_pointer']==x['string_buffer']+2056
+    assert work[2048:2056]=='()()'.encode('utf-16le')
+    before_work=raw_bytes(text,'active-number-buffer-before')if selection else work
+    assert before_work[2056:2132]==('R:\\toolchains\\5.10\\include/winresrc.h\0').encode('utf-16le')
+    assert int.from_bytes(raw[0x14a80-0x14000:0x14a84-0x14000],'little')==(0x71c3771c if selection else 0x71c37710)and x['number_pointer']==x['string_buffer']+(2068 if selection else 2056)
     assert args['current_line']==int.from_bytes(raw[0x16ce8-0x14000:0x16cec-0x14000],'little')==161
     assert args['prepared_lines']==int.from_bytes(raw[0x29458-0x14000:0x2945c-0x14000],'little')==279
     assert b['crt_errors']==dict(errno=2,last_error=0)
@@ -2436,11 +2438,17 @@ def primary_trial(original,native,expansion=False,push=False):
     include=include_open_lifo(text,args['include_opens']);assert args['include_opens']==json.loads((native/'include-opens.json').read_text())
     proof.update(trial=trial,primary=dict(formals=[],normal_returns=[1,0],cleanup=0,entries=3,third_return_pending=True,current_parentheses=1,current_lookahead=1,current_lexer_token=113,current_expression_value=0),macro_frontier=dict(name='WINVER',physical_formal_bytes=4,macro_record_bytes=16,owner_header_bytes=8,name_bytes=14,text_owner_bytes=26,parameters=0,flags=0,reserved=0,output_cursor=dict(original_rva='0x14a84',bytes=4,alias='rc_string_buffer',native_address=x['output_cursor_address'],initialization='Canonical .data initialized pointer71c36f08 with HIGHLOW relocation14a84; actual current raw pointer separately observed',pointee_extent='Existing contextual4090B workspace, no additional extent credit'),source_depth=2,source_cursor_offset=8156,current_source_word=32,source_owner_bytes=8206,defined_FILE_buffer_bytes=512,uninitialized_FILE_tail_bytes=3584,number_buffer_offset=2056,work_buffer_bytes=4090,primary_parent_local='value not initialized yet and deliberately not observed',additional_register_inputs='No incoming register/out-pointer/parent-frame formal identified; prologue overwrites scratch registers, saves caller registers and initializes its own locals.'),nested_include_opens=include,output_cursor_static=dict(original=initialized_original,rebuilt=initialized_rebuilt),output_defined_bytes=defined,current_macro_table_scope='111 native nodes are retained; only the reached WINVER original node/name/text ownership is compared at this boundary. Other current original node fields are not claimed from pointer equality.')
     if expansion or push:
-        parent=args['expansion_parent'];assert set(parent)=={'formals','caller','result','parameters','result_bytes','parameters_bytes','parent_macro'}
+        parent=args['expansion_parent']
+        assert set(parent)==({'formals','caller','result','result_bytes','parent_macro','saved_output','saved_output_bytes','character','character_bytes','token','token_bytes'}if selection else{'formals','caller','result','parameters','result_bytes','parameters_bytes','parent_macro'})
         assert parent['formals']==x['formals']and parent['caller']=='rc_expand_macro'and parent['parent_macro']==pointer
-        assert parent['result']==a['words'][5 if push else 6]==1 and parent['parameters']==a['registers']['edi']==0 and parent['result_bytes']==parent['parameters_bytes']==4
+        assert parent['result']==a['words'][5 if push else 6]==1 and parent['result_bytes']==4
+        if selection:
+            assert parent['saved_output']==a['registers']['edi']==0 and parent['saved_output_bytes']==4
+            assert parent['character']==a['registers']['esi']&0xffff==0 and parent['character_bytes']==2
+            assert parent['token']==a['registers']['eax']==3 and parent['token_bytes']==2
+        else:assert parent['parameters']==a['registers']['edi']==0 and parent['parameters_bytes']==4
         assert a['words'][7 if push else 8]==(int(re.findall(r'^macro-push-entry index=0 macro=([0-9a-f]+)',text,re.M)[0],16)if push else a['words'][1])and a['words'][6 if push else 7]==0x71c236ec
-        expected=[('rc_saved_macro_number',0x14a88,4,x['number_pointer'],0x71c37710),('rc_expansion_line',0x21e9c,4,161,161),('rc_expanded_argument_count',0x222a0,4,0,0),('rc_saved_macro_output',0x222a4,4,x['string_buffer'],0x71c36f08)]
+        expected=[('rc_saved_macro_number',0x14a88,4,x['string_buffer']+2056,0x71c37710),('rc_expansion_line',0x21e9c,4,161,161),('rc_expanded_argument_count',0x222a0,4,0,0),('rc_saved_macro_output',0x222a4,4,x['string_buffer'],0x71c36f08)]
         observed=[];addresses=[]
         for name,rva,width,value,old_value in expected:
             row=globals[name];symbol=re.findall(r'^([0-9a-f]+) ([0-9a-f]+) [BbDd] '+name+r'$',symbols,re.M);assert len(symbol)==1
@@ -2451,7 +2459,7 @@ def primary_trial(original,native,expansion=False,push=False):
         frames=globals['rc_macro_frames'];symbol=re.findall(r'^([0-9a-f]+) ([0-9a-f]+) [BbDd] rc_macro_frames$',symbols,re.M);assert len(symbol)==1
         assert frames['address']==int(symbol[0][0],16)+bias and frames['address']%4==0 and int(symbol[0][1],16)==1280
         if push:
-            push_proof=macro_push_transition(text,args,native,raw,globals,x,pointer,fields,frames)
+            push_proof=macro_push_transition(text,args,native,raw,globals,x,pointer,fields,frames,selection)
         else:assert raw[0x222a8-0x14000:0x227a8-0x14000]==bytes.fromhex(frames['bytes'])==bytes(1280)
         assert int.from_bytes(raw[0x16f00-0x14000:0x16f04-0x14000],'little')==int.from_bytes(bytes.fromhex(globals['rc_expanding_macro']['bytes']),'little')==int(push)
         assert int.from_bytes(raw[0x21e90-0x14000:0x21e94-0x14000],'little')==int.from_bytes(bytes.fromhex(globals['rc_number_buffer_active']['bytes']),'little')==int(push)
@@ -2459,6 +2467,7 @@ def primary_trial(original,native,expansion=False,push=False):
         proof['reused_controls']=dict(record='cases/resources-rich-trailing-space/primary-verification.json',sha256=sha(HERE/'cases/resources-rich-trailing-space/primary-verification.json'),checker_and_contract_versions=json.loads((HERE/'cases/resources-rich-trailing-space/primary-verification.json').read_text())['validation_versions'],reason='Primary returns, nested include LIFO/ESP/threads, advanced workspace/FILE/source, canonical output pointer relocation and earlier transport controls are unchanged hash-bound reuse; fresh positive raw checks still run. New expansion parent/global copies/default table and actual next macro-push inputs have affected controls.')
         if push:
             proof['macro_push']=push_proof
+            if selection:proof['macro_selection']=macro_selection_transition(text,args,native,raw,globals,x,pointer,fields,frames,a,original)
             proof['macro_expansion']['frame_table']['all_current_bytes_zero']=False
             proof['macro_expansion']['frame_table']['default_scope']='Static full zero span; actual first row1 writes proved by fresh entry/return, row0 and rows2..63 unchanged.'
             proof['macro_expansion']['scope']='Parent result1/parameters0 remain initialized; push returned RET4 and first frame writes are bound. No select/helper result or final expansion return claimed.'
@@ -2467,6 +2476,13 @@ def primary_trial(original,native,expansion=False,push=False):
             proof['macro_expansion']['next_hidden_inputs']['active_macro_input_depth']=1
             prior=HERE/'cases/resources-rich-trailing-space/macro-expansion-verification.json'
             proof['reused_controls']=dict(record=str(prior.relative_to(HERE)),sha256=sha(prior),checker_and_contract_versions=json.loads(prior.read_text())['validation_versions'],reason='Unchanged parent initialization, source/FILE/argv, primary returns and earlier transport/SEH controls retain prior exact hashes. Fresh affected push-formal/RET4/frame writes and select hidden-input controls only.')
+        if selection:
+            proof['macro_frontier']['flags']=1
+            proof['macro_frontier']['source_cursor_offset']='Current initialized macro text+14; saved SDK cursor remains8156'
+            proof['macro_frontier']['number_buffer_offset']=2068
+            proof['macro_expansion']['scope']='Selector returned RET0, macro flags0→1, active numeric spelling result1/RET4 and14 initialized output bytes observed. Next resume is still a genuine noarg trap; no whole expansion result.'
+            prior=HERE/'cases/resources-rich-trailing-space/macro-push-verification.json'
+            proof['reused_controls']=dict(record=str(prior.relative_to(HERE)),sha256=sha(prior),checker_and_contract_versions=json.loads(prior.read_text())['validation_versions'],reason='Unchanged push/parent/source/FILE/argv/transport and SEH controls retained by hash. Fresh affected selector, alternate-number ownership/aliases/writes and next resume hidden-input checks.')
         assert proof['application_trace'][-1]==trial
         return proof
     prior=HERE/'cases/resources-rich-trailing-space/expression-space-verification.json';prior_record=json.loads(prior.read_text())
@@ -2512,7 +2528,7 @@ def expansion_trial(original,native):
     return primary_trial(original,native,expansion=True)
 
 
-def macro_push_transition(text,args,native,raw,globals,x,pointer,fields,frames):
+def macro_push_transition(text,args,native,raw,globals,x,pointer,fields,frames,selection):
     """Actual155B push call/RET4 and typed row1 writes; no select execution."""
     rows=args['macro_push_calls'];assert rows==json.loads((native/'macro-push-calls.json').read_text())and len(rows)==1
     row=rows[0];entry=re.findall(r'^macro-push-entry index=(\d+) macro=([0-9a-f]+) esp=([0-9a-f]+) caller=([0-9a-f]+)$',text,re.M);returned=re.findall(r'^macro-push-return index=(\d+) esp=([0-9a-f]+)$',text,re.M)
@@ -2538,20 +2554,73 @@ def macro_push_transition(text,args,native,raw,globals,x,pointer,fields,frames):
     assert row['after']['rc_expanding_macro']['value']==row['after']['rc_number_buffer_active']['value']==1
     for name in names[2:]:
         assert before[name]==after[name]and row['before'][name]==row['after'][name]
-        assert int.from_bytes(bytes.fromhex(globals[name]['bytes']),'little')==row['after'][name]['value']
-    assert after['rc_source_cursor']==int.from_bytes(raw[0x18120-0x14000:0x18124-0x14000],'little')
+        if not selection or name not in ['rc_source_cursor','rc_number_buffer']:assert int.from_bytes(bytes.fromhex(globals[name]['bytes']),'little')==row['after'][name]['value']
+    assert after['rc_source_cursor']==(struct.unpack('<9I',raw_bytes(text,'expand-source-frame'))[5]+8156 if selection else int.from_bytes(raw[0x18120-0x14000:0x18124-0x14000],'little'))
     assert after['rc_number_buffer']==after['rc_saved_macro_number']==0x71c37710
     assert after['rc_saved_macro_output']==0x71c36f08 and after['rc_expanded_argument_count']==0
-    native_after=row['after'];assert native_after['rc_source_cursor']['value']==x['source_cursor']
-    assert native_after['rc_number_buffer']['value']==native_after['rc_saved_macro_number']['value']==x['number_pointer']
+    native_after=row['after'];assert native_after['rc_source_cursor']['value']==(struct.unpack('<9I',bytes.fromhex(x['source_frame']))[5]+8156 if selection else x['source_cursor'])
+    assert native_after['rc_number_buffer']['value']==native_after['rc_saved_macro_number']['value']==x['string_buffer']+2056
     assert native_after['rc_saved_macro_output']['value']==x['string_buffer']and native_after['rc_expanded_argument_count']['value']==0
     old_before=raw_bytes(text,'macro-push-before-0');old_after=raw_bytes(text,'macro-push-after-0');new_before=bytes.fromhex(row['before']['frames']['contents']);new_after=bytes.fromhex(row['after']['frames']['contents'])
     assert old_before==new_before==bytes(1280)
     old_expected=struct.pack('<4IBBH',after['rc_source_cursor'],after['rc_saved_macro_output'],after['rc_saved_macro_number'],int(macro,16),0,0,0)
-    new_expected=struct.pack('<4IBBH',x['source_cursor'],x['string_buffer'],x['number_pointer'],pointer,0,0,0)
+    new_expected=struct.pack('<4IBBH',native_after['rc_source_cursor']['value'],x['string_buffer'],x['string_buffer']+2056,pointer,0,0,0)
     assert old_after==raw[0x222a8-0x14000:0x227a8-0x14000]==bytes(20)+old_expected+bytes(1240)
     assert new_after==bytes.fromhex(frames['bytes'])==bytes(20)+new_expected+bytes(1240)
     assert int(macro,16)>0 and fields[2]>0 and pointer>0 and x['text']>0
     return dict(formals=row['formals'],caller=row['caller'],cleanup=4,original_entry_esp=hex(int(sp,16)),original_return_esp=hex(int(end,16)),native_entry_esp=hex(row['entry_esp']),native_return_esp=hex(row['return_esp']),depth_before=0,depth_after=1,active_before=0,active_after=1,frame_index=1,frame_bytes=20,frame_original=old_expected.hex(),frame_native=new_expected.hex(),untouched_bytes=1260,reserved_tail='Actual before/after two-byte zero tail unchanged, not written by push',next_formals=[],next_hidden_inputs=dict(depth=1,frame_macro_alias='same owned WINVER',record_bytes=16,text_owner_bytes=26,flags=0,source_cursor='still current WINRESRC.H cursor; select has not replaced it'))
 
 def push_macro_trial(original,native):return primary_trial(original,native,expansion=True,push=True)
+
+def macro_selection_transition(text,args,native,raw,globals,x,pointer,fields,frames,frontier,original):
+    """Actual selector return plus newly reached, owned alternate numeric mode."""
+    calls=args['macro_select_calls'];assert calls==json.loads((native/'macro-select-calls.json').read_text())and len(calls)==1
+    row=calls[0];assert row['formals']==[]and row['caller']=='rc_expand_macro'
+    entered=re.findall(r'^macro-select-entry depth=(\d+) macro=([0-9a-f]+) cursor=([0-9a-f]+) esp=([0-9a-f]+) caller=([0-9a-f]+)$',text,re.M)
+    returned=re.findall(r'^macro-select-return cursor=([0-9a-f]+) esp=([0-9a-f]+)$',text,re.M);assert len(entered)==len(returned)==1
+    depth,macro,cursor,sp,caller=entered[0];end_cursor,end=returned[0]
+    assert int(depth)==row['before']['depth']==row['after']['depth']==1 and int(caller,16)==0x71c25386
+    assert int(end,16)==int(sp,16)+4 and row['return_esp']==row['entry_esp']+4
+    assert row['before']['macro']==row['after']['macro']==pointer and row['before']['text']==row['after']['text']==x['text']
+    assert int(end_cursor,16)==fields[2]and row['after']['cursor']==x['text']
+    saved=args['macro_push_calls'][0]['after'];assert row['before']['cursor']==saved['rc_source_cursor']['value']
+    old_frame=struct.unpack('<4I',raw[0x222a8-0x14000+20:0x222a8-0x14000+36]);assert int(cursor,16)==old_frame[0]and int(macro,16)==old_frame[3]
+    before=raw_bytes(text,'macro-select-record-before');after=raw_bytes(text,'macro-select-record-after');new_before=bytes.fromhex(row['before']['record']);new_after=bytes.fromhex(row['after']['record'])
+    assert before[20:]==new_before[20:]==bytes(4)and after[20:]==new_after[20:]==b'\0\1\0\0'
+    assert before[:21]+b'\1'+before[22:]==after and new_before[:21]+b'\1'+new_before[22:]==new_after
+    assert after==raw_bytes(text,'expand-macro-record')and new_after==bytes.fromhex(x['record'])
+    # Encountered initialized spelling and D marker: actual prior8-WCHAR copy
+    # from the contextual work buffer, followed by the copy helper's own NUL.
+    copies=re.findall(r'^macro-copy-return (\d+) result=([0-9a-f]+) esp=([0-9a-f]+)$',text,re.M)
+    index=[index for index,address,sp in copies if int(address,16)==fields[2]];assert len(index)==1;index=index[0]
+    source=re.findall(r'^macro-copy-call '+index+r' site=([0-9a-f]+) source=([0-9a-f]+) count=(\d+) esp=([0-9a-f]+)$',text,re.M);assert len(source)==1
+    assert source[0][0]=='00004d63'and int(source[0][1],16)==0x71c36f08 and int(source[0][2])==8
+    assert raw_bytes(text,'macro-copy-source-'+index)=='0x0400\0D'.encode('utf-16le')
+    initialized=bytes(8)+'0x0400\0D\0'.encode('utf-16le');assert raw_bytes(text,'macro-copy-result-'+index)==raw_bytes(text,'expand-macro-text')==bytes.fromhex(x['text_owner'])==initialized
+    numbers=args['active_number_calls'];assert numbers==json.loads((native/'active-number-calls.json').read_text())and len(numbers)==1;number=numbers[0]
+    first=re.findall(r'^active-number-entry first=([0-9a-f]+) source=([0-9a-f]+) number=([0-9a-f]+) active=(\d+) esp=([0-9a-f]+) caller=([0-9a-f]+)$',text,re.M)
+    result=re.findall(r'^active-number-return result=(\d+) raw=([0-9a-f]+) source=([0-9a-f]+) number=([0-9a-f]+) esp=([0-9a-f]+)$',text,re.M);assert len(first)==len(result)==1
+    raw_first,source_before,number_before,active,sp,caller=first[0];value,raw_return,source_after,number_after,end=result[0]
+    assert int(raw_first,16)&0xffff==0x30 and int(caller,16)==0x71c255b4 and int(active)==1
+    relocated=(original/'relocated-text.bin').read_bytes()
+    for rva,expected in [(0x121a1,'66837d08308bdf0f85c1000000e8b4090000'),(0x121ba,'894508'),(0x1230e,'668323003b3d804ac3717508891d804ac371eb23'),(0x12345,'b001eb68'),(0x123b1,'5f5e5bc9c20400'),(0x55af,'e8c2cb0000893d1c81c371')]:
+        assert relocated[rva-0x1000:rva-0x1000+len(bytes.fromhex(expected))]==bytes.fromhex(expected),'numeric WORD/BYTE/customslot ABI opcode mismatch'
+
+    formal=number['formals'];assert len(formal)==1 and formal[0]['name']=='first'and formal[0]['value']==0x30 and formal[0]['bytes']==2 and formal[0]['physical_slot_bytes']==4
+    assert len(bytes.fromhex(formal[0]['slot']))==4 and int.from_bytes(bytes.fromhex(formal[0]['slot'])[:2],'little')==0x30
+    assert int(value)==int(raw_return,16)&255==number['result']==1 and number['caller']=='rc_expand_macro'
+    assert int(end,16)==int(sp,16)+8 and number['return_esp']==number['entry_esp']+8
+    assert int(source_before,16)==fields[2]+2 and int(source_after,16)==fields[2]+12
+    assert number['before']['source']==x['text']+2 and number['after']['source']==x['text']+12
+    assert int(number_before,16)==0x71c37710 and int(number_after,16)==0x71c3771c
+    assert number['before']['number']==x['string_buffer']+2056 and number['after']['number']==x['string_buffer']+2068
+    assert number['before']['active']==number['after']['active']==1
+    before=raw_bytes(text,'active-number-buffer-before');after=raw_bytes(text,'active-number-buffer-after');assert len(before)==len(after)==4090
+    assert before==bytes.fromhex(number['before']['work'])and after==bytes.fromhex(number['after']['work'])==bytes.fromhex(x['work_buffer'])
+    assert after==before[:2056]+'0x0400\0'.encode('utf-16le')+before[2070:]
+    assert x['source_cursor']==x['text']+14 and int.from_bytes(raw[0x18120-0x14000:0x18124-0x14000],'little')==fields[2]+14
+    assert initialized[8+14:8+18]=='D\0'.encode('utf-16le')
+    assert frontier['words'][0]==0x71c2549d and args['expansion_parent']['character']==0 and args['expansion_parent']['token']==3
+    return dict(selector=dict(formals=[],cleanup=0,flags_before=0,flags_after=1,source_alias='Owned current WINVER.text',record_bytes=16,original_source=hex(fields[2]),native_source=hex(x['text'])),initialized_text=dict(copy_index=int(index),copy_count_WCHAR=8,source_work_rva='0x16f08',source_bytes=16,allocation_bytes=26,header_bytes=8,initialized_text_bytes=18,spelling_NUL_offset=12,marker_offset=14,marker='D',final_NUL_offset=16,writer='rc_read_macro_replacement explicitly writes NUL,D; rc_copy_macro_text copies8 initialized WCHAR and appends its own NUL'),numeric_mode=dict(formals=formal,original_raw_slot=raw_first,original_raw_return=raw_return,compared_input_bits=16,compared_return_bits=8,result=1,cleanup=4,source_before=2,source_after=12,source_after_loop=14,number_before=2056,number_after=2068,write_begin=2056,write_end=2070,write_bytes=14,untouched_work_bytes=4076,guard_scope='Native active1, bounded current macro frame/text+1/first WCHAR alias, WCHAR-aligned existing4090B workspace and remaining full spelling+NUL capacity; no buffer growth/reset'),next_formals=[],next_hidden_inputs=dict(expansion_depth=1,active_input_depth=1,macro_flags=1,source_text_offset=14,source_word=68,initialized_source_remaining_bytes=4,number_offset=2068,frame_source='Saved SDK cursor8156',frame_output='work base',frame_number='work+2056',parent_character=0,parent_character_bits=16,parent_token=3,parent_saved_output=0),limits='Only reached normal spelling path; no fault/unknown mode/whole expansion or input-resume result. Raw upper16 input slot and upper24 return bits retained but unclaimed; callee/source WORD/BYTE consumption proved separately.')
+
+def select_macro_trial(original,native):return primary_trial(original,native,expansion=True,push=True,selection=True)

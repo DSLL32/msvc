@@ -167,3 +167,12 @@ void __stdcall rc_push_macro(RcMacro *macro)
     rc_number_buffer=rc_saved_macro_number;
     rc_macro_frames[rc_expanding_macro].number=rc_saved_macro_number;
 }
+
+void __cdecl rc_select_macro_text(void)
+{
+#ifdef RECON_NATIVE_TEST
+    if(rc_expanding_macro<0||rc_expanding_macro>=64){ __asm int 3 }
+#endif
+    rc_source_cursor=rc_macro_frames[rc_expanding_macro].macro->text;
+    ++rc_macro_frames[rc_expanding_macro].macro->flags;
+}
