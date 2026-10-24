@@ -65,6 +65,7 @@ audit: build/runtime.json runtime.json $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-omf-alignment.py --abi-only
 	$(PYTHON) scripts/check-omf-index.py --abi-only
 	$(PYTHON) scripts/check-omf-group.py --abi-only
+	$(PYTHON) scripts/check-default-segment-group.py
 	$(PYTHON) scripts/check-omf-thread.py --abi-only
 	$(PYTHON) scripts/check-omf-select.py --abi-only
 	$(PYTHON) scripts/check-omf-data.py --abi-only
@@ -135,6 +136,7 @@ audit-negatives: $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-omf-alignment.py --abi-only
 	$(PYTHON) scripts/check-omf-index.py --abi-only
 	$(PYTHON) scripts/check-omf-group.py --abi-only
+	$(PYTHON) scripts/check-default-segment-group.py
 	$(PYTHON) scripts/check-omf-thread.py --abi-only
 	$(PYTHON) scripts/check-omf-select.py --abi-only
 	$(PYTHON) scripts/check-omf-data.py --abi-only
@@ -179,6 +181,7 @@ audit-data: build/c2.exe native build/native/check-codeview-string build/native/
 	$(PYTHON) scripts/check-omf-alignment.py
 	$(PYTHON) scripts/check-omf-index.py
 	$(PYTHON) scripts/check-omf-group.py
+	$(PYTHON) scripts/check-default-segment-group.py
 	$(PYTHON) scripts/check-omf-thread.py
 	$(PYTHON) scripts/check-omf-select.py
 	$(PYTHON) scripts/check-omf-data.py

@@ -12,7 +12,7 @@ typedef struct SymbolHeader {
     unsigned short field0e;
     char *name;
     unsigned field14;
-    union { void *pointer; char *group; unsigned identifier; } field18;
+    union { void *pointer; struct OmfGroup *group; unsigned identifier; } field18;
     unsigned identifier;
 } SymbolHeader;
 typedef struct ScopeHash {

@@ -171,7 +171,7 @@ OmfRecord *__fastcall omf_find_record(unsigned type, void *context)
             case 0x91: case 0xb7:
                 old_segment = (Segment *)record->context;
                 if (((OmfGroup *)old_segment->symbol.field18.pointer)->number !=
-                    ((OmfGroup *)segment->symbol.field18.pointer)->number ||
+                    segment->symbol.field18.group->number ||
                     old_segment->identity.order != segment->identity.order || remaining < 256)
                     return omf_initialize_record(record, type, context);
                 return record;
@@ -182,7 +182,7 @@ OmfRecord *__fastcall omf_find_record(unsigned type, void *context)
             case 0x9a:
                 old_segment = (Segment *)record->context;
                 if (((OmfGroup *)old_segment->symbol.field18.pointer)->name_index !=
-                    ((OmfGroup *)segment->symbol.field18.pointer)->name_index || remaining < 25)
+                    segment->symbol.field18.group->name_index || remaining < 25)
                     return omf_initialize_record(record, type, context);
                 return record;
             case 0x9d:
@@ -253,11 +253,11 @@ OmfRecord *__fastcall omf_initialize_record(OmfRecord *record, unsigned type, vo
     record->cursor = record->bytes + 3;
     switch (type) {
     case 0x91: case 0x95: case 0xb7:
-        omf_write_index(record, ((OmfGroup *)segment->symbol.field18.pointer)->number);
+        omf_write_index(record, segment->symbol.field18.group->number);
         omf_write_index(record, segment->identity.order);
         break;
     case 0x9a:
-        OMF_RECORD_BYTE(record, ((OmfGroup *)segment->symbol.field18.pointer)->name_index);
+        OMF_RECORD_BYTE(record, segment->symbol.field18.group->name_index);
         break;
     case 0xa1: case 0xa3:
         omf_write_index(record, segment->identity.order);
@@ -280,7 +280,7 @@ OmfRecord *__fastcall omf_initialize_record(OmfRecord *record, unsigned type, vo
         OMF_RECORD_BYTE(record, value >> 24);
         omf_write_index(record, (short)((FunctionSymbol *)segment->identity.owner)->field20);
         parent = segment->parent;
-        omf_write_index(record, ((OmfGroup *)parent->symbol.field18.pointer)->number);
+        omf_write_index(record, parent->symbol.field18.group->number);
         omf_write_index(record, parent->identity.order);
         omf_write_index(record, segment->object_section);
         break;
@@ -666,7 +666,7 @@ void __fastcall omf_write_group_definition(Segment *segment, OmfGroup *group)
 {
     OmfRecord *record;
     unsigned char *cursor;
-    segment->symbol.field18.pointer = group;
+    segment->symbol.field18.group = group;
     record = omf_begin_record(0x9a, segment);
     if (!dos_object) {
         cursor = record->cursor;

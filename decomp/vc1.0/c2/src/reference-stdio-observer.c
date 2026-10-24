@@ -375,6 +375,29 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
             symbol,call->args[1],call->args[2],context->Ebx,read_word(process,symbol+4),scope,
             read_word(process,scope+4),read_word(process,scope+8),debug,read_word(process,debug+4),call->return_address);log_line(line);
     }
+    if(!strcmp(call->name,"_omf_finish_module")) {
+        DWORD file=read_word(process,image_base+0x74fb0),fields[8],got,used;
+        DWORD handle,position,high=0,file_bytes,node=read_word(process,image_base+0x74fac),index=0;
+        HANDLE copy;
+        if(!ReadProcessMemory(process,(void*)file,fields,sizeof(fields),&got)||got!=sizeof(fields))exit(307);
+        used=fields[0]&&fields[2]?fields[0]-fields[2]:0;
+        if(used>4096||fields[4]>=64)exit(308);
+        handle=read_word(process,image_base+0x767b8+4*fields[4]);
+        if(!DuplicateHandle(process,(HANDLE)handle,GetCurrentProcess(),&copy,0,FALSE,DUPLICATE_SAME_ACCESS))exit(309);
+        position=SetFilePointer(copy,0,(LONG*)&high,FILE_CURRENT);file_bytes=GetFileSize(copy,0);CloseHandle(copy);
+        if(high||position==0xffffffff||file_bytes==0xffffffff)exit(310);
+        sprintf(line,"omf_finish_file stream %08lx flags %lu count %ld fd %lu size %lu null %lu used %lu position %lu osfile %lu file_bytes %lu return_address %08lx\n",
+            file,fields[3],(long)fields[1],fields[4],fields[6],!fields[0]&&!fields[2],used,position,
+            read_word(process,image_base+0x76778+fields[4])&255,file_bytes,call->return_address);log_line(line);
+        dump_bytes(process,"omf_finish_buffer_hex",fields[2],used);
+        while(node&&index<256) {
+            DWORD next=read_word(process,node+36),combine=read_byte(process,node+53);
+            sprintf(line,"omf_finish_segment index %lu pointer %08lx next %08lx combine %lu",index,node,next,combine);log_line(line);
+            if(combine!=7){sprintf(line," header_end %lu order %lu",read_word(process,node+60),read_word(process,node+64));log_line(line);}
+            log_line("\n");node=next;++index;
+        }
+        if(node)exit(311); /* Observation-only traversal bound. */
+    }
     if(!strcmp(call->name,"@write_codeview_global_data@4")) {
         DWORD symbol=call->args[0],id=read_word(process,symbol+28),bucket=id&63,index=0;
         DWORD member=read_word(process,image_base+0x6c158+4*bucket),debug=read_word(process,image_base+0x6914c);

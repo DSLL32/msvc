@@ -424,7 +424,7 @@
       "evidence": "cases/dbglist-completion-checkpoint.json"
     }
   ],
-  "status": "Derived OMF case at1298: global CodeView data writer accepted, matching original/native module finalizer6a9d0.14 prior cases complete.",
+  "status": "Derived OMF1298: corrected true8-byte default-group object; full1994-byte finalizer input prefix now matches, finalizer6a9d0 still unaccepted.14 prior cases complete.",
   "next_case_proposals": [],
   "current_runtime_frontier": null,
   "historical_proposals": [
@@ -520,6 +520,13 @@
       "actual_kind": 1,
       "unsupported_native": "Exact other-kind INT3; original uninitialized local record type remains original source assumption. No old local seed or invented type. Real other kind holds for contract/ABI review.",
       "evidence": "cases/omf-public-checkpoint.json"
+    }
+  ],
+  "resolved_output_holds": [
+    {
+      "cause": "Original84fd4 points to typed8-byte group84fc8; native empty literal misclassification supplied unrelated group-number bytes",
+      "first_difference": 636,
+      "evidence": "cases/default-segment-group-checkpoint.json"
     }
   ]
 }

@@ -862,3 +862,23 @@ finalizer6a9d0.344614/399693 extent bytes; app/support326314B/1183functions
 exclude5 historical CRT. Full new controls19.541s, structural audit25.780s;
 names>255 original length behavior still unexercised, no guard/normalization.
 Full exact object pending. cases/codeview-global-data-checkpoint.json.
+
+At the unaccepted module-finalizer input, exact buffered output comparison
+found original1994/native1996 bytes, first difference636 in LPUBDEF at635.
+Original group0/segment1 became native group94c/segment1: an older default
+segment group was misclassified as an empty C string. Original84fd4 points at
+a two-DWORD zero descriptor84fc8..84fd0, whose number field is at+4. It now
+uses typed OmfGroup ungrouped_segment and the same bound pointer; type/8-byte
+extent/offsets, distinct-zero/string/null negatives and real initializer use
+are checked. No string padding or record/checksum compensation.
+
+Fresh finalizer input now matches all1994 defined bytes, FILE state and7
+segment rows; unchanged original failed-prefix bytes also match the new
+reference exactly. Failed raw prefixes and observation remain under
+cases/omf-module-end-abi; passing evidence under omf-module-end-abi-corrected.
+Original/native builds,/W3,affected full prefix initializer,ordinary graph/
+extents/ABI/storage and15 native cases pass(14 complete). Ordinary audit
+26.752s, real identity/path.606s; full measured attempts/splits retained in
+cases/default-segment-group-checkpoint.json. Accepted1298/344614 bytes and
+app1183functions remain unchanged; finalizer6a9d0 still unaccepted, full exact
+OMF object pending.

@@ -1,0 +1,232 @@
+{
+  "status": "corrected older storage classification; no new function accepted",
+  "accepted": 1298,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1298,
+    "accepted_code_bytes": 344614,
+    "original_code_bytes": 399693,
+    "percentage": 86.2196735994876,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 641
+  },
+  "application_graph_rows": 1188,
+  "reconstructed_application_support_functions": 1183,
+  "existing_handwritten_crt_bodies": 5,
+  "application_support_code_extent_bytes": 326314,
+  "earliest_failure": {
+    "record_offset": 635,
+    "type": "0xb7 LPUBDEF",
+    "first_difference": 636,
+    "original_length_field": 21,
+    "native_length_field": 22,
+    "original_group_index": 0,
+    "native_group_index": "0x94c",
+    "original_used_bytes": 1994,
+    "native_used_bytes": 1996,
+    "evidence": "cases/omf-module-end-abi/PENDING.json",
+    "original_prefix": {
+      "path": "cases/omf-module-end-abi/original-prefix.bin",
+      "sha256": "d6dacbb9da965a55d2343f8d62ee47130bee6569b7cfb8c59df44828ca3dee1c"
+    },
+    "native_failed_prefix": {
+      "path": "cases/omf-module-end-abi/native-prefix.bin",
+      "sha256": "490d6907266ac90564a40b5b73ba6f958adc2746c1a0b75d3e26d5097fb1e128"
+    }
+  },
+  "cause": {
+    "original_pointer": "0x84fd4",
+    "original_object": [
+      "0x84fc8",
+      "0x84fd0"
+    ],
+    "bytes": 8,
+    "fields": {
+      "name_index_offset": 0,
+      "number_offset": 4
+    },
+    "old": "default_segment_group pointed to empty C literal; original initializer reads group number at+4, so native consumed unrelated neighboring string bytes",
+    "corrected": "Typed OmfGroup ungrouped_segment {0,0}, default pointer bound to same8-byte object; distinct from normal group84fb8/84fc4, no string padding or synthetic storage init"
+  },
+  "validation": {
+    "real_loaded_initializer_path": "cases/default-segment-group-validation.json",
+    "affected_full_initializer": "cases/omf-initialize-validation.json",
+    "fresh_entry": "cases/omf-module-end-abi-corrected/validation.json",
+    "matched_prefix": {
+      "path": "cases/omf-module-end-abi-corrected/matched-prefix.bin",
+      "bytes": 1994,
+      "sha256": "d6dacbb9da965a55d2343f8d62ee47130bee6569b7cfb8c59df44828ca3dee1c",
+      "equals_unchanged_first_original_prefix": true
+    },
+    "fresh_masked_reference": "cases/omf-original-default-group-corrected.json",
+    "fresh_native_frontier": "cases/omf-original-default-group-corrected-native.json",
+    "case_results": {
+      "total": 15,
+      "complete": 14,
+      "omf_expected_stub": "_omf_finish_module"
+    }
+  },
+  "timings": {
+    "omf1299-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-module-end.py"
+      ],
+      "seconds": 1.915365925990045,
+      "returncode": 1,
+      "log_sha256": "689de51d5fb59b7a9611f38dae82adf288e6388a3c7b0ef16f513111110a194d"
+    },
+    "omf1299-group-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 26.75210897717625,
+      "returncode": 0,
+      "log_sha256": "7b02e18f6359fdd3f6c7e17b9c587beb1fe1f94e625485b0c8716674e0a2e17d"
+    },
+    "omf1299-group-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 39.19974858220667,
+      "returncode": 0,
+      "log_sha256": "365a76e7369c97441fa2e77fdea68ae268d85b6cdacea28ecc4d2d3104f35e3d"
+    },
+    "omf1299-group-controls-timing": {
+      "command": [
+        "python3",
+        "scripts/check-default-segment-group.py"
+      ],
+      "seconds": 0.33148226980119944,
+      "returncode": 0,
+      "log_sha256": "9f132ebc70158e12e781aff0ee24a832e896ef76a142c0516ea5fec9677d17ba"
+    },
+    "omf1299-group-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-module-end.py",
+        "--receipt",
+        "cases/omf-module-end-abi-corrected"
+      ],
+      "seconds": 1.0777536453679204,
+      "returncode": 0,
+      "log_sha256": "0fce1b95ac65ede76b6f8f8a60972a7996e24742fe99b7528a1d1ab93632e9f8"
+    },
+    "omf1299-group-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 0.8219092972576618,
+      "returncode": 0,
+      "log_sha256": "c8a67c1d0e762f585b6d1017cbde658ce9fce478d927bd8f2364b115283638b3"
+    },
+    "omf1299-group-identity-timing": {
+      "command": [
+        "python3",
+        "scripts/check-default-segment-group.py"
+      ],
+      "seconds": 0.606416248716414,
+      "returncode": 0,
+      "log_sha256": "9f132ebc70158e12e781aff0ee24a832e896ef76a142c0516ea5fec9677d17ba"
+    },
+    "omf1299-group-initializer-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-initialize.py"
+      ],
+      "seconds": 3.118327702395618,
+      "returncode": 0,
+      "log_sha256": "65b53b77c819c95b56f0850bc9ca2f9e2c2b2b030d5830bd5cf83ba9b9ec905b"
+    },
+    "omf1299-group-layout-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 17.79949966724962,
+      "returncode": 0,
+      "log_sha256": "d6af6956f97f52b8c9c01f9057de6fecae10823373e49ee9ff4b61ed611d4e79"
+    },
+    "omf1299-group-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-default-group-corrected.json"
+      ],
+      "seconds": 0.20728902146220207,
+      "returncode": 0,
+      "log_sha256": "07751dd36a709184bf302f38c4062411512cd7d9df9a77963946e45eea376be0"
+    },
+    "omf1299-group-original-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-default-group-corrected.json"
+      ],
+      "seconds": 1.3008301071822643,
+      "returncode": 0,
+      "log_sha256": "f98be35bde6c06db9bd7ea71bf4aaa9745cbb5bcf478a7fcd8bbdd6654477c66"
+    },
+    "omf1299-group-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "segments",
+        "omf-output"
+      ],
+      "seconds": 2.3886191360652447,
+      "returncode": 0,
+      "log_sha256": "3b2fec4ae29115cbeb9d3d5abe2ddcc9c4db4264b12b3b52ca97c7e7becdc0b7"
+    },
+    "omf1299-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 1.9277258636429906,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    }
+  },
+  "audit_original_compile_commands": 0,
+  "limits": [
+    "Finalizer remains the named unaccepted trap6a9d0;253-byte body and future MODEND child not implemented/promoted. Exact current accepted count remains1298, with no source-function/app extent credit for data correction.",
+    "Real PE original/canonical initializer pointer identity and8-byte zero descriptor, typed size/offset assertions, distinct-zero/string/null target rejects and actual absolute operand uses in segment_defaults/initialize_segments are checked. Real segment_defaults\u2192B7 initializer\u2192two real index bodies produce0001 without model-supplied group/mock child.",
+    "Changed source domain only: Segment.symbol.field18.group now typed OmfGroup pointer; the group type moved to segment header, default object introduced as encountered. Existing OMF typed group casts/stores refined. No surrounding data copied, no emitted record length/checksum adjustment or output normalization.",
+    "Fresh actual finalizer FILE state/full1994 initialized byte prefix and7 ordered segment nodes now match exactly; newly captured original prefix equals original failed-observation prefix, not replaced. Native count/used2102/1994 now equal original. Undefined record/FILE/Segment tails not captured/seeded. Failed observations/raw prefixes preserved.",
+    "Original compiler/native builds include preliminary object typing39.200s and subsequent exact layout assertion build17.799s; final W32.389s,real identity .606s,affected full initializer3.118s,ordinary structural audit26.752s,fresh entry1.078s,masked reference1.301s,native.207s,15 native cases.822s wrappers. Initial failure1.915s retained. All split receipts included, analysis/edit unmeasured. Full exact2594-byte OMF object still pending."
+  ]
+}

@@ -2,7 +2,16 @@
 #define SEGMENTS_H
 #include "c2.h"
 #include "symbols.h"
+#include <stddef.h>
 #include <recon.h>
+/* OMF group descriptor: original name index at0 and group number at4. */
+typedef struct OmfGroup {
+    unsigned name_index, number;
+} OmfGroup;
+typedef char OmfGroupSizeCheck[sizeof(OmfGroup) == 8 &&
+    offsetof(OmfGroup, name_index) == 0 && offsetof(OmfGroup, number) == 4 ? 1 : -1];
+extern OmfGroup ungrouped_segment; /* original84fc8..84fd0 */
+extern OmfGroup *default_segment_group; /* original84fd4 */
 typedef struct Segment {
     SymbolHeader symbol;
     unsigned field20;

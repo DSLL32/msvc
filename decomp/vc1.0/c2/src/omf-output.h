@@ -4,9 +4,6 @@
 #include "output.h"
 #include <stddef.h>
 #include <recon.h>
-typedef struct OmfGroup {
-    unsigned name_index, number;
-} OmfGroup;
 typedef struct OmfFixupThreads {
     unsigned group_frame, bss_target, data_target, const_target, code_target;
 } OmfFixupThreads;

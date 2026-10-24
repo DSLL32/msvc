@@ -4,7 +4,12 @@ extern int floating_frontend, codeview_debug, stack_alignment;
 int default_segment_alignment = 4; /* 000806cc; also used by argument/temporary allocation */
 char *code_segment_name = "_TEXT", *data_segment_name = "_DATA";
 char *bss_segment_name = "_BSS", *const_segment_name = "CONST";
-char *tls_segment_name = "_TLS", *default_segment_group = "";
+char *tls_segment_name = "_TLS";
+/* Original84fd4 points at the two-DWORD zero descriptor84fc8..84fd0.
+   It is a group object: prefix initialization reads number at+4, not a C
+   empty string whose neighboring bytes have no group meaning. */
+OmfGroup ungrouped_segment = { 0, 0 };
+OmfGroup *default_segment_group = &ungrouped_segment;
 Segment *code_segment, *data_segment, *const_segment, *bss_segment;
 Segment *debug_symbols_segment, *debug_types_segment, *tls_segment;
 /* Original [0006a180,0006a310). */
