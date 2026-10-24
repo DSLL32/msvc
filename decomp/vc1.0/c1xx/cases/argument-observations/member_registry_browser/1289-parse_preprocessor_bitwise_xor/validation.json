@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_parse_preprocessor_bitwise_xor",
+  "case": "member_registry_browser",
+  "accepted_before": 1289,
+  "configuration_sha256": "07495db3842215462ca09dad88e8ab7c86f6bfbc6fb5ba14da0b9e119afd2fb3",
+  "native_entry": "parse_preprocessor_bitwise_xor",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      100400,
+      100450
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl no formals PreprocessorValue*EAX, savedESI, RET0",
+    "proof": "Whole50B mandatory bitwiseAND cdecl0pointer result\u2192ESI, accept std4BYTE64; loop parsesright thenbinary std12(BYTE64,left,right), storesreturnedleft, repeats. No own global/stackformal/register/flags/x87 input/allocation/newdata/CRT. BitwiseAND next50B independently read, threecallee graph(equality parsercdecl0pointer/acceptstd4BYTE3a/binary std12); sharedaccept/binary completeextents known, pendingbodies namedINT3stubs. No pointedrecord state claimed before its actual reached consumer.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "116e9aabef98f8788f69bb0d8508fa5b4ce832cd8bc8c02b3570ec0a17193fe2",
+  "capture_timing": {
+    "original_capture_seconds": 0.6155964843928814,
+    "native_capture_seconds": 0.18785993102937937,
+    "total_operation_seconds": 1.0496938433498144
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "de8e8723d45b5a83c2a22a2cca8723462dac5b3b0021695f210573200d67ad73",
+    "native-commands.gdb": "55ae163a65a1087e23299edaaccad6dfcbb476f93aa353ab2adb406420561d24",
+    "native-gdb.log": "466ff59dd4488e7073b3035131b37ad4ff93e7fcd2fe68d842037e00399d67a8",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "ee6f3b4c73f7695bbab660e443e4c6b1e96ed4ffec4464442d25e0dce01de1d3",
+    "original-configuration.json": "07495db3842215462ca09dad88e8ab7c86f6bfbc6fb5ba14da0b9e119afd2fb3",
+    "original-disassembly.txt": "619139082ae1d75523524670e884755bdf30f77c0535dce05151a5ca66dbfc4c",
+    "original-events.txt": "05b0857459c039e55cd44b91300076e7b67567c8a63f89bf22f712a99de6a039",
+    "original-receipt.json": "d1b00766a9877d08f7cc6b26c7c7946ff1a68a54ec5b2ef87ff651fb256fe6bf",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "0f107fe69df19e464e622df48ecf8636f82e372eee4a3f2b90aab485a3353b42"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

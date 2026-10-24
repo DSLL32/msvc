@@ -1,0 +1,21 @@
+Breakpoint 1 at 0x2ab87: file src/preprocessor-expressions.c, line 100.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, parse_preprocessor_bitwise_xor () at src/preprocessor-expressions.c:100
+100	    left = parse_preprocessor_bitwise_and();
+#0  parse_preprocessor_bitwise_xor () at src/preprocessor-expressions.c:100
+#1  0x5657fb2b in parse_preprocessor_bitwise_or () at src/preprocessor-expressions.c:86
+#2  0x5657fa94 in parse_preprocessor_logical_and () at src/preprocessor-expressions.c:70
+#3  0x5657f9f4 in parse_preprocessor_logical_or () at src/preprocessor-expressions.c:52
+#4  0x5657f93b in parse_preprocessor_conditional () at src/preprocessor-expressions.c:32
+#5  0x5657f85c in evaluate_preprocessor_expression () at src/preprocessor-expressions.c:16
+#6  0x5659af8b in preprocess_directive () at src/directives.c:292
+#7  0x565c9209 in begin_source_line () at src/lexer.c:663
+#8  0x565c8353 in read_lexical_token () at src/lexer.c:470
+#9  0x565c6795 in scan_token () at src/lexer.c:228
+#10 0x565c5c75 in read_parser_token () at src/lexer.c:69
+#11 0x565be0f9 in parse_translation_unit () at src/parser.c:85
+#12 0x5655df6f in compile_translation_unit () at src/frontend.c:73
+#13 0x565588c6 in guarded_compile () at src/c1xx.c:28
+#14 0x56558894 in main (argc=1, argv=0xffffd774, environment=0xffffd77c) at src/c1xx.c:20

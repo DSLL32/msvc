@@ -90,3 +90,17 @@ PreprocessorValue *parse_preprocessor_bitwise_or(void)
     }
     return left;
 }
+
+PreprocessorValue *parse_preprocessor_bitwise_and(void);
+
+/* Original 0x18830..0x18861. */
+PreprocessorValue *parse_preprocessor_bitwise_xor(void)
+{
+    PreprocessorValue *left, *right;
+    left = parse_preprocessor_bitwise_and();
+    while (accept_preprocessor_token(0x64)) {
+        right = parse_preprocessor_bitwise_and();
+        left = evaluate_preprocessor_binary(0x64, left, right);
+    }
+    return left;
+}

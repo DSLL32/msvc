@@ -598,4 +598,5 @@ int __stdcall scan_preprocessor_token(unsigned char token) { __asm { int 3 } ret
 PreprocessorValue *__stdcall evaluate_preprocessor_binary(unsigned char operation, PreprocessorValue *left, PreprocessorValue *right) { __asm { int 3 } return 0; }
 
 
-PreprocessorValue *parse_preprocessor_bitwise_xor(void) { __asm { int 3 } return 0; }
+
+PreprocessorValue *parse_preprocessor_bitwise_and(void) { __asm { int 3 } return 0; }
