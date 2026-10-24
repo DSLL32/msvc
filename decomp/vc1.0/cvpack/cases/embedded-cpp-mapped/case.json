@@ -17,8 +17,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "convert_constant_symbol",
-    "native_function": "convert_constant_symbol",
+    "logical": "convert_local_data32",
+    "native_function": "convert_local_data32",
     "application_trace": [
       "main",
       "parse_options",
@@ -95,7 +95,9 @@
       "numeric_leaf_size",
       "convert_udt_symbol",
       "intern_global",
-      "convert_constant_symbol"
+      "convert_constant_symbol",
+      "convert_global_data32",
+      "convert_local_data32"
     ],
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",

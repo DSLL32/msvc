@@ -2179,3 +2179,16 @@ unsigned short numeric_leaf_size(const unsigned char *leaf)
         return (unsigned short)(kind-0x8000);
     }
 }
+
+/* Original [00025570,000255be): remap a constant's type and intern globals. */
+void convert_constant_symbol(void)
+{
+    unsigned short *type;
+    if (suppressed_symbol_depth) {
+        *(unsigned short *)(symbol_input+2) = 8;
+        if (suppressed_symbol_depth) return;
+    }
+    type = (unsigned short *)(symbol_input+4);
+    *type = convert_new_type(*type);
+    if (!symbol_scope_depth) intern_global(symbol_input, hash_public);
+}
