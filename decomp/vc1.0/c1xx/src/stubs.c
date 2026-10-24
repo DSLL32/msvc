@@ -88,7 +88,6 @@ int __stdcall macro_replacement_diff(char *left, char *right, unsigned bytes) { 
 void __stdcall browser_macro(MacroDefinition *definition) { __asm { int 3 } }
 CppSymbol *__stdcall lookup_symbol_binding(CppSymbol *symbol, CppSymbol **value) { __asm { int 3 } return 0; }
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
-CppSymbol *__stdcall symbol_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void write_ir_string(char *text) { __asm { int 3 } }
 void report_ide_source(void) { __asm { int 3 } }
 void browser_include_begin(void) { __asm { int 3 } }

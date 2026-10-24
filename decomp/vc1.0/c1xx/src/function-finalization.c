@@ -432,3 +432,10 @@ void __stdcall record_function_symbol_alias(CppSymbol *symbol, CppSymbol *alias)
     function_symbol_aliases = table;
     set_hash_value(table, symbol, alias);
 }
+
+/* Original 0x55f00..0x55f12, stdcall4. The recorded function-local
+   declaration is the key; the value supplies its serialized global identity. */
+CppSymbol *__stdcall symbol_alias(CppSymbol *symbol)
+{
+    return find_hash_value(function_symbol_aliases, symbol);
+}
