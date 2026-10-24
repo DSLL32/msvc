@@ -1265,3 +1265,9 @@ void __fastcall omf_output_size(unsigned displacement, SymbolHeader *symbol)
 {
     omf_add_fixup(symbol, 11, displacement, 0);
 }
+
+/* Original [0006bcf0,0006bd00): relative32 operand reference. */
+void __fastcall omf_output_offset(unsigned displacement, SymbolHeader *symbol)
+{
+    omf_add_fixup(symbol, 9, displacement, 1);
+}

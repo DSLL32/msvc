@@ -1300,7 +1300,8 @@
     "@omf_output_debug_record@8",
     "@omf_write_line@12",
     "@omf_output_size@8",
-    "@write_codeview_block@12"
+    "@write_codeview_block@12",
+    "@omf_output_offset@8"
   ],
   "driver": [
     {
@@ -2425,10 +2426,28 @@
       }
     },
     {
-      "name": "_omf_output_offset",
+      "name": "@omf_output_offset@8",
       "start": 441584,
-      "end": 441585,
-      "provisional": true
+      "end": 441600,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "displacement",
+            "location": "ECX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "symbol",
+            "location": "EDX",
+            "type": "SymbolHeader pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-relative-abi/validation.json",
+        "scope": "Original6bcf0..6bd00 consumes ECXdisplacement/EDXsymbol, forwards child ECXsymbol/DL9/stack(displacement,1), RET0. No other registers/stack/flags/x87/out pointer. Actual original callerEBX/native encode_operand local symbol and closed global hash member prove identity; displacement equals encoding_cursor-buffer and native caller local offset. No symbol payload read by wrapper."
+      }
     },
     {
       "name": "@omf_output_size@8",

@@ -375,6 +375,15 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
             symbol,call->args[1],call->args[2],context->Ebx,read_word(process,symbol+4),scope,
             read_word(process,scope+4),read_word(process,scope+8),debug,read_word(process,debug+4),call->return_address);log_line(line);
     }
+    if(!strcmp(call->name,"@omf_output_offset@8")) {
+        DWORD symbol=call->args[1],id=read_word(process,symbol+28),bucket=id&63,index=0;
+        DWORD member=read_word(process,image_base+0x6c158+4*bucket);
+        while(member&&member!=symbol&&index<1024){member=read_word(process,member);++index;}
+        if(member!=symbol||index==1024)exit(305);
+        sprintf(line,"omf_relative displacement %08lx symbol %08lx identifier %lu bucket %lu index %lu member %08lx caller_symbol %08lx buffer %08lx cursor %08lx return_address %08lx\n",
+            call->args[0],symbol,id,bucket,index,member,context->Ebx,
+            read_word(process,image_base+0x6cab8),read_word(process,image_base+0x6cabc),call->return_address);log_line(line);
+    }
     if(!strcmp(call->name,"@omf_output_size@8")) {
         DWORD symbol=call->args[1],id=read_word(process,symbol+28),bucket=id&63,index=0;
         DWORD member=read_word(process,image_base+0x6c158+4*bucket);

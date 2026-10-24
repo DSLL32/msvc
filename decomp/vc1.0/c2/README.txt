@@ -844,3 +844,11 @@ debug global reload across all callbacks. Original/W3/ordinary audits/fresh
 pair and15 native cases pass(14 complete), next relative reference6bcf0.344407/
 399693 extent bytes; app/support326107B/1181functions exclude5 historical CRT.
 Audit24.202s, full object pending. cases/codeview-block-checkpoint.json.
+
+Checkpoint1297 adds16-byte relative operand adapter: symbol/type9/
+displacement/relative1 permutation, childRET8/parentRET0 match. Actual
+displacement1=encoder cursor-buffer/caller offset and global symbolID124
+aliases observed.15 controls/8 ABI rejects, original/W3/ordinary audits/fresh
+pair and15 native cases pass(14 complete), next global CodeView data69f30.
+344423/399693 extent bytes; app/support326123B/1182functions exclude5 historical
+CRT. Audit24.542s, full object pending. cases/omf-relative-checkpoint.json.

@@ -17,6 +17,6 @@
     "wrong next offset slot",
     "unknown next hidden register"
   ],
-  "seconds": 0.012383615598082542,
+  "seconds": 0.012494770810008049,
   "scope": "Actual original/native filename, NUL bytes, source/listing aliases and known guard/stdio/x87 state. Original raw capture hashes remain immutable; legacy decoration correction preserves C identity/VA. Initial guard false, no cold-child execution claim. No Wine/compiler/native launch."
 }
