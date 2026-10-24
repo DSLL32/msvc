@@ -715,3 +715,10 @@ IrToken *__stdcall preserve_null_data_member_conversion(IrToken *converted,
     alternatives = new_left_typed_expression(0x3f, null_value, converted);
     return new_right_typed_expression(0x5f, condition, alternatives);
 }
+
+/* Original 0x64ef0..0x64f13, stdcall12. Explicit casts accept
+   every member-pointer conversion rank below the incompatible threshold. */
+int __stdcall member_pointer_cast_compatible(CType *source, CType *target, int reverse)
+{
+    return classify_member_pointer_conversion(source, target, reverse) < 0x400;
+}

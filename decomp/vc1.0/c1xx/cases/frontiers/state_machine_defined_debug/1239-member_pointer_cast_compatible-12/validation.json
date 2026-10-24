@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_member_pointer_cast_compatible@12",
+    "start": 413424,
+    "end": 413460
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_defined_debug/1239-member_pointer_cast_compatible-12/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_classify_member_pointer_conversion@12"
+  ],
+  "next_frontier": "_recognize_compact_method_function@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8368681566789746,
+  "total_operation_seconds": 5.177873522043228,
+  "original_capture_seconds": 1.819417666643858
+}

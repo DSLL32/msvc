@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "f78a75fbe4395b01530a130b5042df72fa9c85a73976a583ca8f2177e4ecb046",
+    "functions.json": "cdd2279bf902e788578e8fcb5b2983025c6d7ade5a1eb927280d130b082d4c64",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "ccb89ec7b8e2a2904899a2c33865ff57264fb3bc8f47493e813943746892584a",
-    "cases/canonical-map.txt": "f804595cb77a60d893979047ab032c41a17ef6471002f1354e7bfe7cdd7b2f51",
+    "cases/original-entry-references.json": "45266ab825ccb87b8549d67adef551f6649bf03b570bb3751783f6e2c3ab0f86",
+    "cases/canonical-map.txt": "534839c37c2d88f21d0f96c226812a1174d9dc2dbea1ffb74c88f5bfed279140",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -64,9 +64,9 @@
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-receipt.json": "c9cbd20af4610da8f8c35487c1cb632113d35461981bd76aa2f7d60e10400717",
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-events.txt": "a7247c160287c63539d241bef68d979d6d6a4b4649e77c3b542cb394ffce4b8e",
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-entries.plan": "95e3224e0362e24a6ef5b495984403fa23be74272e90e204349cda7924f7f5d6",
-    "cases/frontiers/state_machine_defined_debug/1238-refill_source_or_error/entry-reference/original-receipt.json": "a85e4c49fd86f6f3b4ee4728dc42c467982f3421fa40f40273f0a301bafd6ad6",
-    "cases/frontiers/state_machine_defined_debug/1238-refill_source_or_error/entry-reference/original-events.txt": "439db2a5b2b4564a76310517ff5dd96460f184b71974fd1a1a12b8cd64c6fb0e",
-    "cases/frontiers/state_machine_defined_debug/1238-refill_source_or_error/entry-reference/original-entries.plan": "658c9c2382464229425ad97dcd5c373f9fecd5ebb00da859b05ac0a454321756"
+    "cases/frontiers/state_machine_defined_debug/1239-member_pointer_cast_compatible-12/entry-reference/original-receipt.json": "eb38a0e9f6b0c3fb2262510fc63bca4d3d63b1779fb418fade21e38bd9529675",
+    "cases/frontiers/state_machine_defined_debug/1239-member_pointer_cast_compatible-12/entry-reference/original-events.txt": "6d4e4506631887416543a5decdcbc32a888d63e03ca2b7ee3867117eb91fa64a",
+    "cases/frontiers/state_machine_defined_debug/1239-member_pointer_cast_compatible-12/entry-reference/original-entries.plan": "b585d3d2833a3b2aa82f26ad1f4190a484cfb62463e248169933c93d67a8834b"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -3923,7 +3923,7 @@
     },
     "member_pointer_cast_compatible": {
       "logical": "_member_pointer_cast_compatible@12",
-      "source": "src/stubs.c"
+      "source": "src/member-pointers.c"
     },
     "member_pointer_class_kind": {
       "logical": "_member_pointer_class_kind@4",
@@ -7132,7 +7132,8 @@
     "member_pointer_component",
     "can_reuse_member_pointer_storage",
     "preserve_null_data_member_conversion",
-    "refill_source_or_error"
+    "refill_source_or_error",
+    "member_pointer_cast_compatible"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -12397,7 +12398,7 @@
     },
     "state_machine_defined_debug": {
       "first": 1232,
-      "last": 1239,
+      "last": 1240,
       "seen": [
         "main",
         "message_text",
@@ -13535,12 +13536,13 @@
         "can_reuse_member_pointer_storage",
         "preserve_null_data_member_conversion",
         "refill_source_or_error",
-        "member_pointer_cast_compatible"
+        "member_pointer_cast_compatible",
+        "recognize_compact_method_function"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_member_pointer_cast_compatible@12",
-        "native": "member_pointer_cast_compatible",
+        "logical": "_recognize_compact_method_function@8",
+        "native": "recognize_compact_method_function",
         "signal": 5
       }
     }

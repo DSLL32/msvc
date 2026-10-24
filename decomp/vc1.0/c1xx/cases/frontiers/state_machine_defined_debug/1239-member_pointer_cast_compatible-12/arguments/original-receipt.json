@@ -1,0 +1,76 @@
+{
+  "case": "state_machine_defined_debug",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 1239,
+  "terminal": "_member_pointer_cast_compatible@12",
+  "candidate": null,
+  "pending_accepted": [],
+  "configuration_sha256": "5f83d2b0c3b06bed8307717ff0fc7077eca5d9113a3cec0dfba3d5f282e49039",
+  "capture_seconds": 1.7692504692822695,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "state-machine.cpp": {
+      "bytes": 5318,
+      "sha256": "706784046de178ea63d8db17e4fd9aa20277d7ac7702253700d66dc9408536d6"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irdb": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\state-machine-defined-debug",
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "observer_sha256": "ed7835399c05c06d7d0f5f0767173b1c9e1950122c271faee6d5b16d1c64bfa9",
+  "ownership_register_observations": [
+    {
+      "register": "esi",
+      "value": 8311564,
+      "read_succeeded": true
+    },
+    {
+      "register": "ebx",
+      "value": 8317032,
+      "read_succeeded": true
+    },
+    {
+      "register": "ebp",
+      "value": 589856,
+      "read_succeeded": true
+    }
+  ],
+  "ownership_entry_projection": {
+    "accepted_first": 1232,
+    "accepted_last": 1239,
+    "accepted_prefix_sha256": "9f28872d6ca9254a5039ce49f3a200c0b2b90ed30472b39ca2e40f84c51e0318",
+    "expected": [
+      "_cast_to_type@8"
+    ],
+    "observed": [
+      "_cast_to_type@8"
+    ],
+    "events_sha256": "c1ef3374ebfa2fe4b122724f7aa98272dcb57930f4b2034e9a3ffb160ccad3c3",
+    "plan_sha256": "56c309c1ae0826b739428e2b470b9325647ecb0907a9aeba00d46670199d1fe0",
+    "scope": "single explicitly selected accepted ownership caller entry; not a full case trace"
+  }
+}
