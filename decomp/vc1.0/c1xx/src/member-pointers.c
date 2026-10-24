@@ -777,3 +777,35 @@ IrToken *__stdcall dispatch_member_pointer_comparison(IrToken *expression,
     default: return 0;
     }
 }
+
+/* Original 0x4b520..0x4b61d, stdcall16. Compare both stored
+   function and adjustment fields, ignoring adjustment differences for nulls. */
+IrToken *__stdcall compare_multiple_method_pointer(IrToken *expression,
+    unsigned char comparison, unsigned char combine, unsigned char null_combine)
+{
+    IrToken *left = expression->value.pointer, *right, *saved, *storage;
+    IrToken *left_function, *left_repeated, *left_adjustment, *null_function;
+    IrToken *right_function, *right_adjustment, *function_test, *null_test;
+    IrToken *adjustment_test, *result, *zero;
+    CType *result_type;
+    storage = member_pointer_component(left, 0, &saved);
+    left_function = member_pointer_function_value(storage, left);
+    storage = member_pointer_component(left, 1, &saved);
+    left_repeated = member_pointer_function_value(storage, left);
+    storage = member_pointer_component(left, 1, &saved);
+    left_adjustment = member_pointer_adjustment_value(storage, left);
+    null_function = make_null_member_function(left->type);
+    right = expression->tail.right;
+    storage = member_pointer_component(right, 0, &saved);
+    right_function = member_pointer_function_value(storage, right);
+    storage = member_pointer_component(right, 1, &saved);
+    right_adjustment = member_pointer_adjustment_value(storage, right);
+    function_test = new_ir_expression(comparison, left_function, right_function, type_0064);
+    null_test = new_ir_expression(comparison, left_repeated, null_function, type_0064);
+    adjustment_test = new_ir_expression(comparison, left_adjustment, right_adjustment, type_0064);
+    result = new_left_typed_expression(null_combine, null_test, adjustment_test);
+    result = new_left_typed_expression(combine, function_test, result);
+    result_type = result->type;
+    zero = make_integer_constant(0);
+    return new_ir_expression(0x40, zero, result, result_type);
+}

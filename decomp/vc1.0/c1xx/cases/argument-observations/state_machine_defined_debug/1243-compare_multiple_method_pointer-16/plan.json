@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "function": "_compare_multiple_method_pointer@16",
+  "native_entry": "compare_multiple_method_pointer",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_expression": "(unsigned)expression",
+    "raw_comparison": "(unsigned)comparison",
+    "raw_combine": "(unsigned)combine",
+    "raw_null_combine": "(unsigned)null_combine"
+  },
+  "formals": [
+    {
+      "name": "expression",
+      "stack_index": 0,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ecx",
+        "original_caller_rva": 242946,
+        "original_owner_function": "_dispatch_member_pointer_comparison@8",
+        "native_owner_function": "dispatch_member_pointer_comparison",
+        "native_owner_field": "caller_expression",
+        "native_owner_local": "expression",
+        "identity": "Actual accepted dispatcher loads expression ECX4b4e0, kind44 branch PUSH58/3b/44/ECX4b4f7..4b4fd then indirect CALL4b4fe/return4b502. Callback pointer separately bound in prior fresh dispatcher proof; native actual caller expression formal owns this input."
+      }
+    },
+    {
+      "name": "comparison",
+      "stack_index": 1,
+      "native_field": "raw_comparison",
+      "binding": {
+        "kind": "scalar",
+        "bits": 8
+      }
+    },
+    {
+      "name": "combine",
+      "stack_index": 2,
+      "native_field": "raw_combine",
+      "binding": {
+        "kind": "scalar",
+        "bits": 8
+      }
+    },
+    {
+      "name": "null_combine",
+      "stack_index": 3,
+      "native_field": "raw_null_combine",
+      "binding": {
+        "kind": "scalar",
+        "bits": 8
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "eax,ebx,ecx",
+  "ownership_caller_extent": [
+    308448,
+    308482
+  ],
+  "native_caller_locals": {
+    "caller_expression": {
+      "frame": 1,
+      "function": "dispatch_member_pointer_comparison",
+      "local": "expression"
+    }
+  },
+  "abi_analysis": {
+    "original_extent": [
+      308512,
+      308766
+    ],
+    "argument_bytes": 16,
+    "convention": "stdcall16 IrToken* EAX; three unsigned-byte operation formals in word slots",
+    "proof": "Whole254B SUB12/saveEBXESIEDIEBP16; expression/comparison/combine/null_combine adjustedESP+32/+36/+40/+44; RET16. Three operations consumed as BYTE, upper24bits uncredited. No hidden/register/x87/flag inputs. Left component0 writes saved before component1; extract function twice (first side effects then repeat), adjustment once and null function. Reuse same real saved slot for right component0 then1, extract function and adjustment. Build function/null/adjustment compares with type0064; combine null vs adjustment under null_combine, then function via combine; retain final comma with actual integer0 and result.type, no folding. Seven distinct callees; all accepted except existing named65B std8 member_pointer_adjustment_value4bd20..4bd61, already whole ABI analyzed, remains trap/no credit. No new data/CRT/guard."
+  }
+}

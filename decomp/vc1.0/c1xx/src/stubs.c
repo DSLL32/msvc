@@ -567,7 +567,6 @@ char *__stdcall encode_literal_name_byte(char *cursor, signed char character) { 
 int add_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
 int divide_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
 
-IrToken *__stdcall compare_multiple_method_pointer(IrToken *expression, unsigned char comparison, unsigned char combine, unsigned char null_combine) { __asm { int 3 } return 0; }
 IrToken *__stdcall compare_virtual_data_pointer(IrToken *expression, unsigned char comparison, unsigned char combine, unsigned char null_combine) { __asm { int 3 } return 0; }
 IrToken *__stdcall compare_general_data_pointer(IrToken *expression, unsigned char comparison, unsigned char combine, unsigned char null_combine) { __asm { int 3 } return 0; }
 IrToken *__stdcall compare_virtual_method_pointer(IrToken *expression, unsigned char comparison, unsigned char combine, unsigned char null_combine) { __asm { int 3 } return 0; }

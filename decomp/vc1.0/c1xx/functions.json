@@ -1247,7 +1247,8 @@
     "_member_pointer_cast_compatible@12",
     "_recognize_compact_method_function@8",
     "_member_pointer_function_value@8",
-    "_dispatch_member_pointer_comparison@8"
+    "_dispatch_member_pointer_comparison@8",
+    "_compare_multiple_method_pointer@16"
   ],
   "driver": [
     {
@@ -8579,7 +8580,7 @@
     {
       "name": "_compare_multiple_method_pointer@16",
       "start": 308512,
-      "end": 308513
+      "end": 308766
     },
     {
       "name": "_compare_virtual_data_pointer@16",
@@ -9275,8 +9276,8 @@
           "original": 576700
         }
       ],
-      "terminal": "_compare_multiple_method_pointer@16",
-      "terminal_evidence": "cases/frontiers/state_machine_defined_debug/1242-dispatch_member_pointer_comparison-8/original-events.txt",
+      "terminal": "_member_pointer_adjustment_value@8",
+      "terminal_evidence": "cases/frontiers/state_machine_defined_debug/1243-compare_multiple_method_pointer-16/original-events.txt",
       "original_seed": "cases/state_machine_defined_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/frontier-extension.json",
@@ -9289,7 +9290,8 @@
         "cases/frontiers/state_machine_defined_debug/1239-member_pointer_cast_compatible-12/frontier-extension.json",
         "cases/frontiers/state_machine_defined_debug/1240-recognize_compact_method_function-8/frontier-extension.json",
         "cases/frontiers/state_machine_defined_debug/1241-member_pointer_function_value-8/frontier-extension.json",
-        "cases/frontiers/state_machine_defined_debug/1242-dispatch_member_pointer_comparison-8/frontier-extension.json"
+        "cases/frontiers/state_machine_defined_debug/1242-dispatch_member_pointer_comparison-8/frontier-extension.json",
+        "cases/frontiers/state_machine_defined_debug/1243-compare_multiple_method_pointer-16/frontier-extension.json"
       ]
     }
   },
