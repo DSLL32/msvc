@@ -16,6 +16,7 @@ void end_do_body_region(void);
 void end_do_condition_region(void);
 void begin_for_increment_region(void);
 void end_for_increment_region(void);
+void end_for_body_region(void);
 void begin_switch_condition_region(void);
 void end_switch_condition_region(void);
 void end_switch_body_region(void);
@@ -1371,4 +1372,74 @@ void end_switch_body_region(void)
     record.previous = 0;
     append_frontend_record(&record, sizeof(record));
     emit_nonnull_expression_statement(process_expression_records(0));
+}
+
+/* Original 0x3ffd0..0x4021f. Detach a for-loop's evaluation chain,
+   moving its increment after the body while preserving condition markers. */
+void end_for_statement(void)
+{
+    FrontendRecord record, *closing, *condition, *increment, *body;
+    FrontendRecord *condition_end, *body_end, *increment_end, *value;
+    LoopFrontendRecord *loop;
+    unsigned char kind;
+    jmp_buf recovery;
+    if (ir_records_suppressed) return;
+    end_for_body_region();
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 0x25) {
+        remove_last_frontend_record();
+        return;
+    }
+    condition = increment = body = 0;
+    record.kind = 0x2c;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    if (syntax_diagnostic_count && !ir_record_error_context) {
+        if (ir_records_suppressed) return;
+        ir_record_error_context = recovery;
+        if (setjmp(recovery)) {
+            ir_record_error_context = 0;
+            return;
+        }
+    }
+    append_frontend_record(&record, sizeof(record));
+    closing = ir_record_tail;
+    loop = (LoopFrontendRecord *)find_frontend_record(closing->previous, 0x25, 1);
+    condition = find_forward_frontend_record(loop->header.next, 0x26, 0);
+    increment = find_forward_frontend_record(loop->header.next, 0x28, 0);
+    body = find_forward_frontend_record(loop->header.next, 0x2a, 0);
+    if (condition) {
+        loop->condition_records = condition;
+        condition_end = find_forward_frontend_record(condition->next, 0x27, 1);
+        value = condition_end->previous;
+        kind = value->kind & 0x3f;
+        if (kind == 0x3b || kind == 0x3c) {
+            loop->header.flags |= kind == 0x3b ? 4 : 8;
+            remove_frontend_record(value);
+        }
+        if (body && increment) {
+            body_end = find_forward_frontend_record(body->next, 0x2b, 1);
+            increment_end = find_forward_frontend_record(increment->next, 0x29, 1);
+            condition_end->next = body;
+            body->previous = condition_end;
+            body_end->next = increment;
+            increment->previous = body_end;
+            increment_end->next = closing;
+        }
+    } else if (body) {
+        loop->condition_records = body;
+        if (increment) {
+            body_end = find_forward_frontend_record(body->next, 0x2b, 1);
+            increment_end = find_forward_frontend_record(increment->next, 0x29, 1);
+            body->previous = &loop->header;
+            body_end->next = increment;
+            increment->previous = body_end;
+            increment_end->next = closing;
+        }
+    } else loop->condition_records = increment;
+    loop->header.next = closing;
+    closing->previous = &loop->header;
+    if (ir_record_error_context == recovery) ir_record_error_context = 0;
 }

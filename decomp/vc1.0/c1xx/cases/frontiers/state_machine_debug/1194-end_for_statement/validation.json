@@ -1,0 +1,24 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_end_for_statement",
+    "start": 262096,
+    "end": 262688
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1194-end_for_statement/arguments/validation.json",
+  "distinct_direct_callees": [
+    "__setjmp",
+    "_append_frontend_record@8",
+    "_end_for_body_region",
+    "_find_forward_frontend_record@12",
+    "_find_frontend_record@12",
+    "_remove_frontend_record@4",
+    "_remove_last_frontend_record"
+  ],
+  "next_frontier": "_end_for_body_region",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8406488047912717,
+  "total_operation_seconds": 4.345746378414333,
+  "original_capture_seconds": 0.9674017848446965
+}

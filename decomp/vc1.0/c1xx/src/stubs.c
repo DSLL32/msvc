@@ -161,7 +161,7 @@ void __stdcall emit_seh_filter(IrToken *expression) { __asm { int 3 } }
 void emit_seh_leave(void) { __asm { int 3 } }
 void end_else_statement(void) { __asm { int 3 } }
 
-void end_for_statement(void) { __asm { int 3 } }
+void end_for_body_region(void) { __asm { int 3 } }
 void __stdcall remove_matching_frontend_record(unsigned char kind) { __asm { int 3 } }
 void end_qc_control(void) { __asm { int 3 } }
 void end_seh_except(void) { __asm { int 3 } }
