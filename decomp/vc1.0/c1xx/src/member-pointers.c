@@ -43,6 +43,7 @@ IrToken *__stdcall lower_virtual_inheritance_member_call(IrToken *object,
 IrToken *__stdcall lower_general_inheritance_member_call(IrToken *object,
     IrToken *member, CType *type, IrToken **prefix);
 
+int __stdcall data_member_pointer_uses_zero_null(CType *type);
 CType *__stdcall member_pointer_function_type(CType *type);
 IrToken *__stdcall make_null_member_function(CType *type);
 IrToken *__stdcall make_null_compact_method_pointer(CType *type);
@@ -477,4 +478,14 @@ CType *__stdcall member_pointer_function_type(CType *type)
 {
     type = drop_first_type_shape(type);
     return make_qualified_type(type, 3, type->related->attributes & 0x0f77, 0);
+}
+
+/* Original 0x4b330..0x4b34c, stdcall4. This constructor deliberately
+   uses the plain integer constructor: even zero has no null-literal flag. */
+IrToken *__stdcall make_null_simple_data_pointer(CType *type)
+{
+    IrToken *value = new_integer_constant(
+        data_member_pointer_uses_zero_null(type) ? 0 : (unsigned)-1);
+    value->type = type;
+    return value;
 }

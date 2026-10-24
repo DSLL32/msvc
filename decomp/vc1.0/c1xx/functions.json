@@ -1211,7 +1211,8 @@
     "_make_null_member_pointer@4",
     "_make_null_compact_method_pointer@4",
     "_make_null_member_function@4",
-    "_member_pointer_function_type@4"
+    "_member_pointer_function_type@4",
+    "_make_null_simple_data_pointer@4"
   ],
   "driver": [
     {
@@ -8573,7 +8574,7 @@
     {
       "name": "_make_null_simple_data_pointer@4",
       "start": 308016,
-      "end": 308017
+      "end": 308045
     },
     {
       "name": "_make_null_virtual_data_pointer@4",
@@ -8604,6 +8605,11 @@
       "name": "_member_pointer_function_type@4",
       "start": 310512,
       "end": 310548
+    },
+    {
+      "name": "_data_member_pointer_uses_zero_null@4",
+      "start": 308048,
+      "end": 308049
     }
   ],
   "cases": {
@@ -8804,7 +8810,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_make_null_simple_data_pointer@4",
+      "terminal": "_data_member_pointer_uses_zero_null@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8827,7 +8833,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1206-member_pointer_function_type-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1207-make_null_simple_data_pointer-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -9039,7 +9045,8 @@
         "cases/frontiers/state_machine_debug/1203-make_null_member_pointer-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1204-make_null_compact_method_pointer-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1205-make_null_member_function-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1206-member_pointer_function_type-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1206-member_pointer_function_type-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1207-make_null_simple_data_pointer-4/frontier-extension.json"
       ]
     }
   },
