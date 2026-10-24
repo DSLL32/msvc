@@ -131,6 +131,10 @@ case checks its expected exit and complete outputs. An unfinished case checks
 the expected named INT3 frontier and applicable partial observations. It cannot
 be required to produce final outputs before the missing code is reconstructed.
 
+`scripts/` is for project-specific helpers that do not warrant shared support,
+such as generators for that binary's grammar. Common build, capture, replay,
+CRT-identification and graph-audit machinery belongs in shared tooling.
+
 ## Inputs and assertions
 
 `capture.bin` is an uncompressed, versioned binary fixture. Applicable fields include
@@ -262,6 +266,12 @@ local. Optional audit profile/image-base/policy variables enable common registry
 projection and the existing Rust graph checker; target-specific build inputs
 remain local. `audit` inherits the Rust function-graph/ABI checks from the
 shared include; registry export can also generate callback-table metadata.
+Shared `identify-runtime` performs read-only library/COFF matching and relocation
+checks for CRT names. Migrated binaries must use this command and the inherited
+runtime rule, removing local identify-runtime scripts and unused parsing helpers.
+Extend the shared implementation for needed variants instead of retaining a
+per-binary Python identifier. Cached original identities remain reference data;
+this analysis does not reconstruct CRT functions.
 Keep parser/data generators needed for builds. One-time comparisons against
 original parser tables or data belong in scratch work, not a routine audit on
 every reconstruction turn. Use case replay and narrow behavior tests for routine
@@ -274,7 +284,7 @@ optionally merging separate non-function policy data. It does not duplicate the
 function registry or replace the graph engine. JSON authoring files and generated
 reports belong outside committed case directories.
 
-The fixture format is `RECONIO\0`, u32 version1, u64 payload length (little endian),
+The fixture format is `RECONIO\0`, u32 version2, u64 payload length (little endian),
 then uncompressed CBOR. JSON pack/unpack uses `text:`/`hex:` byte strings and
 preserves absent versus empty. See the tool README for its concrete fields.
 Top-level outputs describe final completion; optional `partial` assertions apply

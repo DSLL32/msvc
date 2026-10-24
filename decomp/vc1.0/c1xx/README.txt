@@ -61,6 +61,8 @@ scripts were one-time verification and are retired in Git history. Routine
 regression uses the native cases, rather than rerunning those proof scripts.
 runtime.json is the read-only library/member-identification audit input, with no
 application implementation credit; binary.c remains the discovered-function registry.
+The shared identify-runtime command generates rebuilt identities through the
+inherited audit rule. Only the parser generators remain under scripts/.
 
 The previous frontier/argument-observation trees were repeated captures of these
 eight invocation workloads, not separate public cases. They and the superseded

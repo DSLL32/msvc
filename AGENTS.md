@@ -58,7 +58,8 @@ native final link. Use `make -j4`. Wine is for explicit original-toolchain build
 and reference capture, outside fixture execution. Use
 `recon-tool original tool TOOLCHAIN TOOL -- ARGS` for original-toolchain commands;
 it selects the shared prefix and toolchain environment. Do not add per-binary
-Wine launcher scripts.
+Wine launcher scripts. Migrated binaries also use shared `identify-runtime`
+for CRT identification and remove their local identifiers and unused helpers.
 
 Regressions compare native entry traces, status, streams and artifacts against
 cached original references. Never silently recapture or run originals on each

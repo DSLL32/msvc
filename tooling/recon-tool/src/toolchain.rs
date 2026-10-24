@@ -21,7 +21,7 @@ pub struct Tool {
     pub args: Vec<OsString>,
 }
 
-fn repository(explicit: Option<&Path>) -> Result<PathBuf> {
+pub(crate) fn repository(explicit: Option<&Path>) -> Result<PathBuf> {
     if let Some(root) = explicit {
         return root.canonicalize().context("repository root");
     }

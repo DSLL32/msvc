@@ -103,6 +103,14 @@ uses the graph tool's quiet build include. One-time comparisons against original
 parser tables or data belong in scratch; routine regression uses case replay and
 narrow behavior tests.
 
+`RECON_AUDIT_IDENTIFY_RUNTIME=1` enables the inherited rebuilt-CRT identity rule.
+It takes `ORIGINAL_TOOLCHAIN`/`ORIGINAL_OUTPUT` and writes
+`RECON_AUDIT_RUNTIME` (default `build/runtime.json`) for the graph audit.
+`RECON_RUNTIME_FLAGS` supplies explicit library/object options when needed;
+`RECON_RUNTIME_INPUTS` lists their file dependencies (default 1.0-nt LIBC.LIB and
+SETARGV.OBJ). Migrated binaries remove their local identification scripts and
+unused PE/COFF/archive helpers. Cached original identities stay unchanged.
+
 The executor loads the library, applies fixture environment and cwd, and runs
 optional `setup` once. Setup must remain single-threaded and create no children.
 Application first-entry tracing begins only for the IO/direct execution, after
@@ -195,6 +203,28 @@ whether the case passed. Debug timing includes the time spent in GDB.
 The shared make rules build the release runner incrementally. `build-quiet.sh` retains
 successful Cargo output in scratch and prints diagnostics only when building
 fails. It never launches Wine.
+
+## CRT identification
+
+```sh
+recon-tool identify-runtime 1.0-nt build/example.exe --output build/runtime.json
+recon-tool identify-runtime 1.0-nt toolchains/1.0-nt/bin/C1XX3232.EXE \
+  --bindings decomp/vc1.0/c1xx/runtime-compatible.json --output ~/.ai-tmp/original-runtime.json
+```
+
+This is read-only PE32/i386 COFF/archive analysis; it never launches Wine.
+Identification masks relocation operands for byte matching, then validates REL32
+callee identities to reject misleading byte matches. Whole-section matches take
+precedence, with per-function fallback where neighboring code differs.
+The 1.0-nt default is LIBC.LIB plus SETARGV.OBJ. `--library PATH` and `--object PATH`
+replace these inputs explicitly; other toolchains require explicit inputs until
+their identification variant is migrated into the shared tool.
+
+`--bindings FILE` adds an already approved compatible-library record only after
+checking its target/body/library/member hashes and zero reconstruction credit.
+It must match the identified image; rebuilt images normally omit this option.
+The identifier supplies CRT names for analysis, never function acceptance or
+application coverage credit.
 
 ## Original toolchain launcher
 

@@ -6,6 +6,7 @@ mod fixture;
 mod native;
 mod original;
 mod original_image;
+mod runtime;
 mod toolchain;
 mod trap;
 mod wine;
@@ -23,6 +24,8 @@ struct Cli {
 }
 #[derive(Subcommand)]
 enum Command {
+    /// Identify shipped i386 COFF runtime code without executing the image.
+    IdentifyRuntime(runtime::Options),
     /// Inspect descriptors without running the case.
     Inspect { case: PathBuf },
     /// Generate graph-audit's legacy config from the single binary registry.
@@ -107,6 +110,7 @@ fn main() {
 }
 fn execute() -> Result<()> {
     match Cli::parse().command {
+        Command::IdentifyRuntime(options) => runtime::identify(options)?,
         Command::Inspect { case } => println!(
             "{}",
             serde_json::to_string_pretty(&native::inspect(&case.canonicalize()?)?)?

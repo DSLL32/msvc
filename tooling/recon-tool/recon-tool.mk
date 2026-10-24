@@ -44,6 +44,17 @@ $(RECON_REGISTRY_OUTPUTS) &: binary.c Makefile $(RECON_TOOL_DIR)/recon-tool.mk $
 	@test -n "$(RECON_IMAGE_BASE)" || { echo 'Set RECON_IMAGE_BASE for registry export' >&2; exit 1; }
 	@mkdir -p $(dir $(RECON_REGISTRY_OUTPUTS))
 	$(RECON_TOOL) registry-export $(firstword $(CASE_DIRS)) --image-base $(RECON_IMAGE_BASE) $(if $(RECON_POLICY),--policy $(RECON_POLICY)) --output $(RECON_REGISTRY) $(if $(filter 1,$(RECON_AUDIT_REGISTRY_METADATA)),--metadata-output $(RECON_AUDIT_METADATA))
+# CRT naming for the rebuilt image is shared read-only analysis, never Wine.
+ifeq ($(RECON_AUDIT_IDENTIFY_RUNTIME),1)
+RECON_AUDIT_RUNTIME ?= $(ORIGINAL_BUILD)/runtime.json
+RECON_RUNTIME_INPUTS ?= $(ORIGINAL_TOOLCHAIN_ROOT)/lib/LIBC.LIB $(ORIGINAL_TOOLCHAIN_ROOT)/lib/SETARGV.OBJ
+$(RECON_AUDIT_RUNTIME): Makefile $(RECON_TOOL_DIR)/recon-tool.mk $(ORIGINAL_OUTPUT) $(RECON_TOOL) $(RECON_RUNTIME_INPUTS)
+	@test -n "$(ORIGINAL_TOOLCHAIN)" || { echo 'Runtime identification needs ORIGINAL_TOOLCHAIN' >&2; exit 1; }
+	@mkdir -p $(@D)
+	$(RECON_TOOL) identify-runtime $(ORIGINAL_TOOLCHAIN) $(ORIGINAL_OUTPUT) --output $@ $(RECON_RUNTIME_FLAGS)
+RECON_AUDIT_PREREQUISITES += $(RECON_AUDIT_RUNTIME)
+RECON_AUDIT_FLAGS += --rebuilt-runtime $(RECON_AUDIT_RUNTIME)
+endif
 .PHONY: audit recon-graph-audit
 audit: recon-graph-audit
 recon-graph-audit: $(GRAPH_AUDIT_BIN) $(RECON_REGISTRY) $(RECON_AUDIT_METADATA) $(RECON_AUDIT_PREREQUISITES)

@@ -30,8 +30,8 @@ if mode=='native':
 if mode=='original':
     output=next(arg[3:] for arg in args if arg.startswith('/Fo')) if '/c' in args else next(arg[5:] for arg in args if arg.startswith('/out:'))
     Path(output).write_text('original')
-if mode=='tool' and args[0]=='registry-export':
-    Path(args[args.index('--output')+1]).write_text('{}')
+if mode=='tool' and args[0] in ('registry-export','identify-runtime'):
+    Path(args[args.index('--output')+1]).write_text('[]' if args[0]=='identify-runtime' else '{}')
 ''')
     write('tool', f'#!/bin/sh\nexec python3 {wrapper} tool "$@"\n').chmod(0o755)
     write('graph/graph-audit.mk', '')
@@ -157,6 +157,16 @@ local-audit:
     assert '--profile' in graph and 'example' in graph and '--check-ret' in graph
     assert '--metadata' in graph and '--report' in graph
     assert (root/'original/local-audit').is_file()
+    # Runtime identification is an inherited incremental rule, not a local script.
+    runtime_flags = ['RECON_AUDIT_IDENTIFY_RUNTIME=1', 'ORIGINAL_TOOLCHAIN=1.0-nt',
+                     'RECON_RUNTIME_INPUTS=']
+    make('audit', *runtime_flags)
+    assert (root/'original/runtime.json').read_text() == '[]'
+    identified = [row for row in commands() if row[:2] == ['tool', 'identify-runtime']]
+    assert len(identified) == 1 and identified[0][2:4] == ['1.0-nt', 'original/app.exe']
+    assert '--rebuilt-runtime' in [row for row in commands() if row[0] == 'graph'][-1]
+    make('audit', *runtime_flags)
+    assert [row for row in commands() if row[:2] == ['tool', 'identify-runtime']] == identified
     # Dependency scanning must terminate on ordinary include-guard cycles too.
     write('src/cycle-a.h', '#include "cycle-b.h"\n')
     write('src/cycle-b.h', '#include "cycle-a.h"\n#include "nested.h"\n')

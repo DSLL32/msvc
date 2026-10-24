@@ -134,7 +134,7 @@ RECON_IMAGE_BASE = 65536
 RECON_POLICY = policy-data.json
 RECON_AUDIT_FLAGS = -q --discovery cfg --check-ret --check-references --check-callbacks --check-ownership --check-extents
 RECON_AUDIT_REGISTRY_METADATA = 1
-RECON_AUDIT_PREREQUISITES = build/runtime.json $(ORIGINAL_OUTPUT)
+RECON_AUDIT_IDENTIFY_RUNTIME = 1
 include $(RECON_TOOL_DIR)/recon-tool.mk
 
 build/parser-grammar.c: scripts/generate-parser.py scripts/grammar.py src/grammar.bnf
@@ -144,6 +144,3 @@ build/parser-grammar.c: scripts/generate-parser.py scripts/grammar.py src/gramma
 build/lookahead-grammar.c: scripts/generate-lookahead.py scripts/generate-parser.py scripts/grammar.py src/lookahead.bnf
 	@mkdir -p $(@D)
 	$(PYTHON) scripts/generate-lookahead.py $@
-
-build/runtime.json: $(ORIGINAL_OUTPUT) scripts/identify-runtime.py scripts/binary.py scripts/win32_indexes.py scripts/decimal_variant.py
-	$(PYTHON) scripts/identify-runtime.py $(ORIGINAL_OUTPUT) $@
