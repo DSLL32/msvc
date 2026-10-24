@@ -189,6 +189,7 @@ def audit_trial(path):
     inputs += [BINARY/'scripts'/name for name in ['accept.py','boundary_state.py','hello_boundary.py','mask.py','observers.py','environment_profile.py','binary.py','context_heap.py','section_state.py','group_state.py','collision_state.py','file_open_state.py','file_move_state.py','file_mapping_state.py','mapping_completion_state.py','library_creation_state.py','input_open_state.py','mapped_input_contract.py','capture_sources.py','native-completion.py','check-native.py','completion_cleanup.py','case_inputs.py']]
     inputs.append(BINARY/'cases/hello-win32/mapped-open-byte-input.json')
     inputs.append(BINARY/'cases/hello-win32/input-loader-contract.json')
+    inputs.append(BINARY/'cases/hello-win32/input-reader-contract.json')
     cached_bodies={'_main','_initialize_debug@8','_initialize_repro','_parse_command_line@16','_has_switch@4'} & set(trial['accepted'])
     imported=copy.deepcopy(trial)
     register_candidates=[name for name in ['_configure_link_options@12','_parse_switch@8','_print_logo']if name in trial['accepted']]

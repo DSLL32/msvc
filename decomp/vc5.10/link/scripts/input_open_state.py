@@ -42,6 +42,25 @@ def loader_contract():
     return proof
 
 
+@functools.lru_cache(maxsize=1)
+def reader_contract():
+    from binary import PE
+    from capstone import Cs,CS_ARCH_X86,CS_MODE_32
+    binary=Path(__file__).resolve().parents[1]
+    target=binary.parents[2]/'toolchains/5.10/bin/LINK.EXE'
+    proof=json.loads((binary/'cases/hello-win32/input-reader-contract.json').read_text())
+    assert hashlib.sha256(target.read_bytes()).hexdigest()==proof['target_sha256']
+    pe=PE(target);body=pe.read(0x4498d0,177)
+    assert hashlib.sha256(body).hexdigest()==proof['body_sha256']
+    instructions=list(Cs(CS_ARCH_X86,CS_MODE_32).disasm(body,0x4498d0))
+    assert sum(i.size for i in instructions)==177
+    assert [[i.address,int(i.op_str,0)]for i in instructions if i.mnemonic=='call']==proof['calls']
+    assert [[i.address,int(i.op_str,0)]for i in instructions if i.mnemonic=='ret']==proof['returns']==[[0x449940,12],[0x449968,12],[0x44997e,12]]
+    assert pe.read(0x449935,6).hex()=='8b530c895634' # Opaque DWORD tag: argument+12 →library+52.
+    assert proof['formals']==['InputArgument *','OutputLibrary *','LinkContext *']and proof['hidden_inputs']==[]
+    return proof
+
+
 def words(data):
     assert len(data)==40
     return struct.unpack('<10I',data)
@@ -90,6 +109,7 @@ def normal(call,cleanup):
 def compare(original,state,trap,events,native_directory=None):
     verify() # The mapped opener consumes only the low BYTE of physical arg3.
     loader_contract()
+    if state['function']=='is_archive':reader_contract()
     from collision_state import compare as compare_collision
     compare_collision(original,state,trap,events)
     directory=Path(native_directory)

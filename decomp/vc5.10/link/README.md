@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 81 application
-functions (32,915 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 82 application
+functions (33,092 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `read_input_argument`; hello-win32 has not completed.
+next frontier is `is_archive`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -472,3 +472,13 @@ reusing the unchanged predicate campaign by exact hashes. Independent review,
 failed repeated-snapshot history and final READYf965 binding are under
 `frontiers/81-load-input-{review,current,ready}`. Final native help is 65.24 ms,
 including 3.779 ms ELF execution. Hello-win32 remains incomplete.
+
+The 177-byte input reader is accepted through `is_archive("hello.obj",14)`.
+Its three physical incoming arguments and the archive predicate's two inputs
+are captured independently, with no hidden register arguments. Both builds,
+95 full/88 strict graph bodies and 222 fresh state negatives pass. The unchanged
+two-file views/records and complete context still match. Native help takes
+63.91 ms including 3.812 ms execution; state checks take 8.736 s. The opaque
+argument/library DWORD is named `input_tag` without inferring a higher-level
+meaning. Evidence and timing are under `frontiers/82-read-input`; archive, Mac
+resource and object-reader callees remain named traps.

@@ -27,7 +27,7 @@ struct OutputLibrary {
     DWORD reserved18;
     /* Opaque library-owned index buffers, released after input processing. */
     void *index_data[5];
-    DWORD flags, reserved34[2];
+    DWORD flags, input_tag, reserved38;
     OutputLibrary *next;
     DWORD reserved40;
 };

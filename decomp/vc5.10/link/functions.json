@@ -98,7 +98,8 @@
     "_find_library@12",
     "_initialize_library_enumerator@8",
     "_next_library@4",
-    "LinkContext::LoadInputArgument"
+    "LinkContext::LoadInputArgument",
+    "_read_input_argument@12"
   ],
   "driver": [
     {
@@ -2690,12 +2691,12 @@
     {
       "name": "_read_input_argument@12",
       "start": 4495568,
-      "end": 4495569,
-      "status": "stub",
-      "pending_extent": true,
+      "end": 4495745,
+      "status": "implemented",
+      "pending_extent": false,
       "source": "src/input.c",
       "native_symbol": "read_input_argument",
-      "abi": "stdcall OutputModule *(InputArgument *,OutputLibrary *,LinkContext *); three physical DWORD inputs, RET12; no hidden inputs; formal observations required when reached."
+      "abi": "stdcall OutputModule*(InputArgument*,OutputLibrary*,LinkContext*); three physical stack arguments, RET12; no hidden inputs"
     },
     {
       "name": "_load_object_module@16",
@@ -2716,6 +2717,36 @@
       "source": "src/input.c",
       "native_symbol": "infer_output_file_name",
       "abi": "stdcall void(LinkContext *,InputArgument *); two physical DWORD inputs, RET8; no hidden inputs; observations required when reached."
+    },
+    {
+      "name": "_read_library_index@8",
+      "start": 4495280,
+      "end": 4495281,
+      "pending_extent": true,
+      "source": "src/input.c",
+      "status": "stub",
+      "native_symbol": "read_library_index",
+      "abi": "stdcall void(OutputLibrary*,LinkContext*); RET8; actual inputs observed when reached"
+    },
+    {
+      "name": "_is_mac_resource_file@4",
+      "start": 4515360,
+      "end": 4515361,
+      "pending_extent": true,
+      "source": "src/input.c",
+      "status": "stub",
+      "native_symbol": "is_mac_resource_file",
+      "abi": "stdcall BYTE(int file); RET4; result consumed in AL; actual inputs observed when reached"
+    },
+    {
+      "name": "_read_object_file@12",
+      "start": 4495328,
+      "end": 4495329,
+      "pending_extent": true,
+      "source": "src/input.c",
+      "status": "stub",
+      "native_symbol": "read_object_file",
+      "abi": "stdcall OutputModule*(InputArgument*,LinkContext*,OutputLibrary*); RET12; actual inputs observed when reached"
     }
   ],
   "text_data": [
