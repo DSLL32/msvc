@@ -1,0 +1,16 @@
+{
+  "kind": "Initial native MRE prefix experiment, NOT acceptance",
+  "seconds": 0.31734674144536257,
+  "original_capture_sha256": "f19dc1f4916ea5f2dac8e29189f85438a92146e5e48ac693cf4500dd5351a3fb",
+  "native_sha256": "0199a512edc8f10ca7b93964944094dc739878fb98a4e08104d74912c7b6796c",
+  "native_build_sha256": "4b0a22fa9861de30d142ba04975c1463c5ff3c7fa711618621ec4032fb538563",
+  "sources": {
+    "mre_native.py": "3bfaef34d4a75e9ec2e8154cfcfc212348aa137b100a326e6d5b360e7737af4e",
+    "mre-provider.c": "7d3f75e9d5c7fe730b2bf954089f5fd6957cdd2dc0ac1d627e6856a383bd2cf9",
+    "mre-host.c": "e0e6452ccf44f718c743881be4b92ed3b603748cdd6338def7e11d3041c74873",
+    "native-host.c": "912cfc5d912a525d67cc20ba8f467dbb43f5d45446c6461a3652fdb8379cca4e",
+    "native-mre-prefix.py": "2ee0c6638df1ff8b554f8883cbc7638f6b5cc94969395580620b9c144dbdfad2",
+    "gdb_mre.py": "66951bc426795fd89835e301a71acfa4075c079bbf5ed439aa3a123f61df175c"
+  },
+  "error": "AssertionError('MRE mandatory1/1/1 inventory failed')"
+}

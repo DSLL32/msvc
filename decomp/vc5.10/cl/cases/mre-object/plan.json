@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "pre-use-review; no native MRE success",
+  "state": "Initial MRE dependency prefix observed and natively matched; subsequent function trials pending",
   "arguments": [
     "/nologo",
     "/Gm",
@@ -37,10 +37,9 @@
     "acknowledgement": "Original-only per-phase atomic exclusive ack file under owned observer/: exact32-byte current request+phase NUL, created after full bytes and host receipt, C strict bounded binary/EOF check under10s deadline; no stdin peek or fallback."
   },
   "native_hold": [
-    "Actual new object-only complete input/provider/error/entry profile not yet observed",
-    "Per-return intermediate file bytes and fd/path relationship need actual capture",
-    "Genuine fd3 binary/noinherit/access/sharing/lifetime effects need shared owner contract; no manual lowio flags",
-    "Later MRE query/release/close still unobserved; no final output substitutes for intermediate bytes"
+    "Initial three-call dependency prefix is supported and independently reviewed; this gives zero app/normal-completion credit.",
+    "All later MRE APIs and normal close/release remain denied until their actual effects are captured and reviewed.",
+    "Fresh candidate acceptance requires its own candidate-inclusive original/native evidence and exact provider/ABI/state/inventory checks."
   ],
   "prior_source_case": "mre-prefix remains separately hash-bound analysis; no oracle reused",
   "acceptance": "mre_response unconditionally rejected until typed provider/native comparator implemented and reviewed"

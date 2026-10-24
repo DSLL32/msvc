@@ -355,3 +355,8 @@ The reviewed prefix took 3.856 seconds; its native provider is awaiting genuine
 shared descriptor/noinherit support. No function has been accepted for this
 checkpoint: application coverage remains 104/112 functions, 17609/18545 bytes
 (94.95%); CRT/import support is separate.
+
+The initial object-only MRE dependency prefix now matches on Linux with real
+descriptor/file effects and typed before/after state checks. The bounded
+provider/evidence are under `cases/mre-object/`; later MRE operations remain
+denied. This adds no application credit: eight application frontiers remain.

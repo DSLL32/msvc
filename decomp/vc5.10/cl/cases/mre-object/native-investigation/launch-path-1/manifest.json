@@ -1,0 +1,75 @@
+{
+  "kind": "Preserved failed native investigation, zero acceptance",
+  "execution_directory": "/root/.ai-tmp/msvc2/vc5.10/cl/mre-provider-native-1",
+  "reason": "Host Windows PATH hid bare gdb; no target execution.",
+  "files": {
+    "gdb_mre.py": {
+      "bytes": 5764,
+      "sha256": "66951bc426795fd89835e301a71acfa4075c079bbf5ed439aa3a123f61df175c"
+    },
+    "gdb-entry.py": {
+      "bytes": 362,
+      "sha256": "92d59373681e2c1010dd96c29acb644f5ec674984da64bd604fea5c51eb74f93"
+    },
+    "native-build.json": {
+      "bytes": 18815,
+      "sha256": "4b0a22fa9861de30d142ba04975c1463c5ff3c7fa711618621ec4032fb538563"
+    },
+    "gdb_mktemp.py": {
+      "bytes": 1855,
+      "sha256": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f"
+    },
+    "mktemp-expected.json": {
+      "bytes": 409,
+      "sha256": "726d069b07b8ca2db013bfdf7d24f402ebfd2ec90506e7bb19814794bd22d3c2"
+    },
+    "resources.bin": {
+      "bytes": 5655,
+      "sha256": "18a0a7a878846acd3d40008dcc38a2f3d7a0bd6a275900afabc578be136c037f"
+    },
+    "gdb_streams.py": {
+      "bytes": 2190,
+      "sha256": "5362777b723bca072f787a40e8feb9e1df693287428438cdd473298766243de5"
+    },
+    "trace-filter.txt": {
+      "bytes": 1403,
+      "sha256": "d35dd5f2387367e76715d313880621bd53c4709f892fa2cd28bcb1d1030a0515"
+    },
+    "test.obj": {
+      "bytes": 275,
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+    },
+    "mre-binding.bin": {
+      "bytes": 32199,
+      "sha256": "2fd7d3d4b67d15de7864320da4b1c3dbb568b7f9a524f23e6994840639a60123"
+    },
+    "gdb-frontier.py": {
+      "bytes": 173,
+      "sha256": "1076aadbc456ea3525073d206573abbf5df779e56a1de3b69bb9e6be97ae8e20"
+    },
+    "mre-response.json": {
+      "bytes": 368371,
+      "sha256": "0e27aae3091c8d5430c7e27656f21a47abc731859b618952a947cc1b5e2ee37d"
+    },
+    "trace-seen.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "exec-wrapper.py": {
+      "bytes": 355,
+      "sha256": "c5e52620b803d3ca040775d73b6dbdb734b768dd40eaddf5be49c45c8686192b"
+    },
+    "native-prefix.json": {
+      "bytes": 1001,
+      "sha256": "5edf6ac9882fab15cac2fd4d782671f37bb45f1c9ce5589576c5a9328f3d111b"
+    },
+    "config.json": {
+      "bytes": 86568,
+      "sha256": "8f5cbd7ee6cb840aa8b8a54d7a4bce8fc9cbab3bd25bb5efc628b6b6797d47d8"
+    },
+    "gdb_entry.py": {
+      "bytes": 794,
+      "sha256": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb"
+    }
+  }
+}

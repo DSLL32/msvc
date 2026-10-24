@@ -1,0 +1,115 @@
+{
+  "kind": "Preserved failed native investigation, zero acceptance",
+  "execution_directory": "/root/.ai-tmp/msvc2/vc5.10/cl/mre-provider-native-3",
+  "reason": "Read-only GDB helper local name shadowed its own address lookup function; no MRE Open effect.",
+  "files": {
+    "trace.txt": {
+      "bytes": 836,
+      "sha256": "442a582012ea22b0bfd93289738d8ced0cf1ad539650ede42fed122d5319b06c"
+    },
+    "gdb_streams.py": {
+      "bytes": 2190,
+      "sha256": "5362777b723bca072f787a40e8feb9e1df693287428438cdd473298766243de5"
+    },
+    "native-process.json": {
+      "bytes": 17,
+      "sha256": "702d1abaf23f234291244c9d9cbea6246197b155ed168b527a11708fdcb67106"
+    },
+    "trace-seen.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "streams-entry.json": {
+      "bytes": 1039,
+      "sha256": "deec73cec3ceaaf2cf94457107b79e4594e5c2222e7dfa7402bca52daf805f70"
+    },
+    "resources.bin": {
+      "bytes": 5655,
+      "sha256": "18a0a7a878846acd3d40008dcc38a2f3d7a0bd6a275900afabc578be136c037f"
+    },
+    "mre-native.json": {
+      "bytes": 64899,
+      "sha256": "05ca45f168693c5d079f8df4d71204404ff7fb0af4889acf45963d4b7646b1e9"
+    },
+    "native-mktemp-gdb.json": {
+      "bytes": 381,
+      "sha256": "1ce5b15b2b54c168d4690f83c5ad4575f2f66c355b0f0b40fb204571125a45c6"
+    },
+    "native-entry-errors.json": {
+      "bytes": 80,
+      "sha256": "d778c37b03dd16b3bb2864d5a04f1bcb5ba9ab356604846b209790105192662c"
+    },
+    "gdb_mktemp.py": {
+      "bytes": 1855,
+      "sha256": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f"
+    },
+    "gdb_entry.py": {
+      "bytes": 794,
+      "sha256": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb"
+    },
+    "test.obj": {
+      "bytes": 275,
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+    },
+    "mre-response.json": {
+      "bytes": 368371,
+      "sha256": "0e27aae3091c8d5430c7e27656f21a47abc731859b618952a947cc1b5e2ee37d"
+    },
+    "config.json": {
+      "bytes": 86568,
+      "sha256": "8f5cbd7ee6cb840aa8b8a54d7a4bce8fc9cbab3bd25bb5efc628b6b6797d47d8"
+    },
+    "trace-filter.txt": {
+      "bytes": 1403,
+      "sha256": "d35dd5f2387367e76715d313880621bd53c4709f892fa2cd28bcb1d1030a0515"
+    },
+    "native-prefix.json": {
+      "bytes": 1002,
+      "sha256": "d9f703afe8c61e7abed9770d7c3f46f340a863e7e84c1399cc40e63d3a2daa17"
+    },
+    "exec-wrapper.py": {
+      "bytes": 355,
+      "sha256": "d3674419634757ece88089ff164f4ca726b23ad5cce521edbda00d9ccc87c266"
+    },
+    "gdb_mre.py": {
+      "bytes": 5931,
+      "sha256": "5fff539e0ba5b6f5754e05bdbc71cdc48390c10dac0a8711702a04b1d93f9ff7"
+    },
+    "streams-entry-iob.bin": {
+      "bytes": 96,
+      "sha256": "133fcf6756e1559d2b4360042cc9229913ba0f245b73c5c7641a0ffbc5244aea"
+    },
+    "gdb-entry.py": {
+      "bytes": 362,
+      "sha256": "216a163913e7501432815e2d60fc651ce819328b9f28297138918d399cd01b2e"
+    },
+    "debugger.txt": {
+      "bytes": 817,
+      "sha256": "b7cca77b223f7e2edfda97858cdc5100a373a81ffdd7c6162d5824f165ac322d"
+    },
+    "mktemp-expected.json": {
+      "bytes": 409,
+      "sha256": "726d069b07b8ca2db013bfdf7d24f402ebfd2ec90506e7bb19814794bd22d3c2"
+    },
+    "stderr.bin": {
+      "bytes": 61,
+      "sha256": "c237d1b34f85ce6fe6439f8f5b726a01c80e92a93daa4b6883a0c063bea33a3b"
+    },
+    "native-build.json": {
+      "bytes": 18815,
+      "sha256": "4b0a22fa9861de30d142ba04975c1463c5ff3c7fa711618621ec4032fb538563"
+    },
+    "mre-binding.bin": {
+      "bytes": 32199,
+      "sha256": "2fd7d3d4b67d15de7864320da4b1c3dbb568b7f9a524f23e6994840639a60123"
+    },
+    "gdb-frontier.py": {
+      "bytes": 173,
+      "sha256": "010c8f772cc7b77de23de750bbe834b276d20922d378faf30250bd05228c1597"
+    },
+    "stdout.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

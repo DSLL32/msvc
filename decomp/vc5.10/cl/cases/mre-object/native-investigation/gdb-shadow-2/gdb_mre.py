@@ -1,0 +1,98 @@
+"""Read-only native MRE ABI/CRT observations at actual calls and named trap."""
+import json,os,stat,struct
+from pathlib import Path
+import gdb
+
+
+def observe(directory,phase,arguments,call=None):
+    directory=Path(directory);inferior=gdb.selected_inferior();frame=gdb.newest_frame();ranges=[]
+    value=lambda expression:int(gdb.parse_and_eval(expression))&0xffffffff
+    def read(address,length):
+        raw=bytes(inferior.read_memory(address,length));ranges.append({'address':address,'bytes':raw.hex()});return raw
+    symbols={name:value('(unsigned)&'+name)for name in(
+        'recon_doserrno','last_error','recon_fmode','recon_commode','recon_mb_cur_max','recon_mb_codepage',
+        'recon_lc_codepage','recon_lc_handle','recon_pctype','recon_crt_environment','recon_crt_initenv',
+        'recon_crt_os_environment','recon_crt_os_environment_units','recon_crt_environment_updates',
+        'driver','minimal_rebuild','reproducible','first_dependency_scan','interrupted','pass_running','pdb_name','mre_call_count')}
+    symbols['errno']=value('(unsigned)&errno')
+    for name,address in symbols.items():read(address,24 if name=='recon_lc_handle' else 4)
+    read(value('(unsigned)recon_mbctype'),257);read(value('(unsigned)recon_pctype')-2,514)
+    read(value('(unsigned)recon_iob'),96);read(value('(unsigned)recon_osfile'),256)
+    read(value('(unsigned)recon_osfhnd'),1024);read(value('(unsigned)standard_handles'),12)
+    def text(pointer):
+        if not pointer:return
+        for offset in range(32768):
+            if read(pointer+offset,1)==b'\0':return
+        raise AssertionError('unbounded native MRE string')
+    def vector(pointer):
+        assert pointer
+        for i in range(4096):
+            address=struct.unpack('<I',read(pointer+4*i,4))[0]
+            if not address:return
+            text(address)
+        raise AssertionError('unbounded native MRE vector')
+    vector(value('(unsigned)recon_crt_environment'));vector(value('(unsigned)recon_crt_initenv'))
+    read(value('(unsigned)recon_crt_os_environment'),2*value('recon_crt_os_environment_units'))
+    driver=value('(unsigned)driver');words=struct.unpack('<11I',read(driver,44))
+    read(value('(unsigned)option_buffer'),1024)
+    options=words[0]
+    for count in range(4096):
+        if not options:break
+        row=struct.unpack('<6I',read(options,24))
+        for pointer in row[2:5]:text(pointer)
+        options=row[0]
+    else:raise AssertionError('native MRE option list cycle')
+    text(value('(unsigned)pdb_name'))
+    if call is not None:
+        size=(6,2,1)[call];read(arguments['stack'],4*(size+1))
+        args=arguments['values']
+        if call==0:
+            text(args[1]);read(args[3],1024)
+            if phase.endswith('after'):read(args[0],4);read(args[2],4)
+        elif call==1 and phase.endswith('after'):read(args[1],4)
+    else:
+        state=int(frame.read_var('state'))&0xffffffff
+        slot=int(frame.read_var('state').address)&0xffffffff
+        read(slot,4);assert state==driver
+        caller=frame.older();assert caller.name()=='prepare_jobs'
+        pending=int(caller.read_var('pending'))&0xffffffff
+        read(pending,20)
+        arguments={'state':state,'slot':slot,'pending':pending,'caller':'prepare_jobs'}
+    registers={name:frame.read_register(name).bytes.hex()for name in
+        ['fctrl','fstat','ftag','fiseg','fioff','foseg','fooff','fop']+['st%d'%i for i in range(8)]}
+    general={name:value('$'+name)for name in('eip','esp','eax','ebx','esi','edi','ebp')}
+    descriptor=None
+    if value('recon_osfile[3]')&1:
+        handle=value('recon_osfhnd[3]');fd=handle-1
+        info=os.stat('/proc/%d/fd/%d'%(inferior.pid,fd))
+        details=dict(row.split(':',1)for row in Path('/proc/%d/fdinfo/%d'%(inferior.pid,fd)).read_text().splitlines())
+        assert stat.S_ISREG(info.st_mode)
+        descriptor={'handle':handle,'device':info.st_dev,'inode':info.st_ino,'size':info.st_size,
+            'position':int(details['pos']),'flags':int(details['flags'],8)}
+    record={'phase':phase,'pid':inferior.pid,'symbols':symbols,
+        'data_addresses':{name:value('(unsigned)'+name)for name in('recon_mbctype','recon_iob','recon_osfile','recon_osfhnd','standard_handles','option_buffer')},
+        'arguments':arguments,'general':general,'x87':registers,'ranges':ranges,'descriptor3':descriptor}
+    path=directory/('native-'+phase+'-gdb.json');assert not path.exists()
+    path.write_text(json.dumps(record,indent=2)+'\n')
+    from gdb_streams import capture
+    capture(directory,phase)
+
+
+def install(directory):
+    calls=[]
+    names=('MREFOpenByName','MREQueryMreDrv','MREDrvOneTimeInit')
+    class Return(gdb.Breakpoint):
+        def __init__(self,address,index,arguments):
+            super().__init__('*%#x'%address,temporary=True,internal=True);self.index=index;self.arguments=arguments
+        def stop(self):observe(directory,'mre-%d-after'%(self.index+1),self.arguments,self.index);return False
+    class Entry(gdb.Breakpoint):
+        def __init__(self,index):super().__init__('*'+names[index],internal=True);self.index=index
+        def stop(self):
+            assert self.index==len(calls),'extra/unordered native MRE entry'
+            frame=gdb.newest_frame();assert frame.name()==names[self.index]and frame.older().name()=='prepare_jobs'
+            sp=int(gdb.parse_and_eval('$esp'))&0xffffffff
+            words=struct.unpack('<%dI'%((6,2,1)[self.index]+1),bytes(gdb.selected_inferior().read_memory(sp,4*((6,2,1)[self.index]+1))))
+            arguments={'stack':sp,'return':words[0],'values':list(words[1:])};calls.append(self.index)
+            observe(directory,'mre-%d-before'%(self.index+1),arguments,self.index)
+            Return(words[0],self.index,arguments);return False
+    for i in range(3):Entry(i)

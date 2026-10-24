@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "Proposal only; local native MRE exports remain fail125",
+  "state": "Implemented and independently reviewed for exact initial Open/Query/Init prefix only",
   "case": "mre-object",
   "packet": {
     "path": "cases/mre-object/prefix-packet.json",
@@ -54,7 +54,7 @@
     "preferred_existing_seam": "Use genuine shared sopen/open+seek ownership; no direct recon_osfile writes or token-only descriptor",
     "observed_registration": "CRTfd3, lowio0x11 FOPEN|FNOINHERIT, actual grantedaccess0x12019f RDWR, binary, fileidentity/position1024/lifetime throughfrontier",
     "flags_support": "Provided MSPDB static _sopen(flags8182,share10,mode180) path matches canonical SDK constants; static internal callsite not dynamically observed. Actual earlier sameCLI diagnostic proves independent GENERIC_READ denied32; freshprefix5 metadata-only path identity and RDWR are independent actual observations. This analysis supports access/sharing class, not an output oracle reused from another capture.",
-    "known_gaps": "recon_sopen currently omits FNOINHERIT and ignores ordinary sharing outside _fsopen. Owner should select smallest evidenced public open/registration+sharing correction; provider itself remains local/outside graph.",
+    "known_gaps": "Resolved for the explicit5108182/share10/mode180/create-absent lease by c11fa6763; no generic sharing/registration behavior claimed.",
     "sharing_qualification": "Metadata-only observation makes NO Windows data-read-sharing claim. Original lease is exclusive based on separately retained actual32/static provider evidence. No generic Windows loader/PDB implementation requested."
   },
   "native_proof": [
@@ -63,5 +63,16 @@
     "Unknown inputs, extra/missing calls, altered artifact/state/alias/access/lifetime fail; cached fixture uses prepared immutable packet, never Wine",
     "Later accepted app candidate must use a new candidate-inclusive masked original response; current prefix is not candidate acceptance"
   ],
-  "application_credit": 0
+  "application_credit": 0,
+  "implementation": {
+    "shared_revision": "c11fa676334418d274b456a0206f6dd960764db2",
+    "provider": "scripts/mre-provider.c + scripts/mre_native.py",
+    "raw_native": "cases/mre-object/native-prefix",
+    "independent_state": "scripts/mre_state.py + scripts/mre_elf.py",
+    "parent_review_sha256": "4ba8400b15ddd94746c33c3f9dcab11b25c1abf3d2cd65242ff44097ea8d318a",
+    "qualifications": [
+      "Initial frontier saved caller words unobserved; actual saved8B added in next required candidate capture.",
+      "No source/application function accepted by this dependency-prefix experiment."
+    ]
+  }
 }
