@@ -287,6 +287,13 @@ unsigned char __stdcall rc_hash_macro_name(const WCHAR *name)
 
 RcMacro *rc_macro_buckets[256];
 
+int __stdcall rc_macro_text_differs(const WCHAR *value,const WCHAR *prior,unsigned length)
+{
+    if(prior && value)
+        return wcsncmp(value,prior,length)!=0;
+    return value!=prior;
+}
+
 void __stdcall rc_define_macro(const WCHAR *value,unsigned length,int parameters)
 {
     RcMacro *macro;

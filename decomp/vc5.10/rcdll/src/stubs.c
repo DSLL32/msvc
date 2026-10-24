@@ -86,11 +86,6 @@ void __cdecl rc_close_preprocessor(void)
     __asm int 3
 }
 
-int __stdcall rc_macro_text_differs(const WCHAR *value,const WCHAR *prior,unsigned length)
-{
-    __asm int 3
-    return 0;
-}
 
 
 

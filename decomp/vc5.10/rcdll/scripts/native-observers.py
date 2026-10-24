@@ -526,11 +526,11 @@ class DecimalIntegerKindReturned(gdb.FinishBreakpoint):
         self.entry.update(result=int(gdb.parse_and_eval('$eax'))&255,raw_eax=int(gdb.parse_and_eval('$eax'))&0xffffffff,return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff)
         save_integer_kinds()
         selected=json.loads(Path(os.environ['RCDLL_NATIVE_CONFIG']).read_text())
-        if selected.get('trial_function')in ['rc_based_integer_kind','rc_skip_inactive','rc_read_skipped_directive','rc_splice_line']and self.entry['function']=='rc_based_integer_kind'and self.entry['value']==1024:
+        if selected.get('trial_function')in ['rc_based_integer_kind','rc_skip_inactive','rc_read_skipped_directive','rc_splice_line','rc_macro_text_differs']and self.entry['function']=='rc_based_integer_kind'and self.entry['value']==1024:
             assert self.entry['result']==7 and self.entry['return_esp']==self.entry['entry_esp']+8
             retired=[]
             for breakpoint in gdb.breakpoints():
-                if breakpoint.enabled and type(breakpoint).__name__ not in ['SkippedDirectiveEntered','SpliceEntered']:
+                if breakpoint.enabled and type(breakpoint).__name__ not in ['SkippedDirectiveEntered','SpliceEntered','MacroTextCompareEntered','WideCompareEntered']:
                     retired.append(type(breakpoint).__name__);breakpoint.enabled=False
             (path.parent/'observer-scope.json').write_text(json.dumps(dict(trigger=self.entry,retired_breakpoints=retired,scope='Only completed initial-prefix observers retained; subsequent legacy auxiliary activity unobserved. Full application entry instrumentation, production guards and genuine pending INT3 stops remain active. Fresh current source/output/formals are inspected at the actual frontier; macros dictionary is not collected or claimed at that boundary.'),indent=2)+'\n')
         return False
@@ -939,3 +939,33 @@ class SpliceEntered(gdb.Breakpoint):
         frame=gdb.newest_frame();entry=dict(formals=[],caller=frame.older().name(),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,source_before=int(gdb.parse_and_eval('rc_source_cursor')),line_before=int(gdb.parse_and_eval('rc_preparing_line')),active=int(gdb.parse_and_eval('rc_cpp_active')),previous=int(gdb.parse_and_eval('rc_source_cursor[-1]')),current=int(gdb.parse_and_eval('*rc_source_cursor')))
         splice_calls.append(entry);save_splice_calls();SpliceReturned(frame,entry);return False
 SpliceEntered('rc_splice_line',internal=True);save_splice_calls()
+
+macro_text_compares=[]
+wide_compares=[]
+def save_macro_text_compares():(path.parent/'macro-text-compares.json').write_text(json.dumps(macro_text_compares,indent=2)+'\n')
+def save_wide_compares():(path.parent/'wide-compares.json').write_text(json.dumps(wide_compares,indent=2)+'\n')
+class MacroTextCompareReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(gdb.parse_and_eval('$eax')),return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,errno_after=int(gdb.parse_and_eval('*(int *)&errno')),last_error_after=int(gdb.parse_and_eval('last_error')))
+        save_macro_text_compares();return False
+class MacroTextCompareEntered(gdb.Breakpoint):
+    def stop(self):
+        assert len(macro_text_compares)<8192
+        frame=gdb.newest_frame();value=frame.read_var('value');prior=frame.read_var('prior');count=frame.read_var('length');assert 0<=int(count)<=2045
+        entry=dict(formals=[dict(name=n,value=int(frame.read_var(n)),bytes=frame.read_var(n).type.sizeof)for n in ['value','prior','length']],caller=frame.older().name(),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,value_bytes=bytes(gdb.selected_inferior().read_memory(int(value),int(count)*2)).hex()if int(value)else None,prior_bytes=bytes(gdb.selected_inferior().read_memory(int(prior),int(count)*2)).hex()if int(prior)else None,errno_before=int(gdb.parse_and_eval('*(int *)&errno')),last_error_before=int(gdb.parse_and_eval('last_error')))
+        macro_text_compares.append(entry);save_macro_text_compares();MacroTextCompareReturned(frame,entry);return False
+MacroTextCompareEntered('rc_macro_text_differs',internal=True);save_macro_text_compares()
+class WideCompareReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(gdb.parse_and_eval('$eax')),return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,errno_after=int(gdb.parse_and_eval('*(int *)&errno')),last_error_after=int(gdb.parse_and_eval('last_error')),fp_after=gdb.execute('info float',to_string=True))
+        save_wide_compares();return False
+class WideCompareEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame()
+        if frame.older().name()!='rc_macro_text_differs':return False
+        bp=int(gdb.parse_and_eval('$ebp'));raw=bytes(gdb.selected_inferior().read_memory(bp+8,12));value,prior,count=[int.from_bytes(raw[i:i+4],'little')for i in [0,4,8]];assert count<=2045
+        entry=dict(caller=frame.older().name(),value=value,prior=prior,count=count,formal_bytes=[4,4,4],entry_esp=bp+4,value_bytes=bytes(gdb.selected_inferior().read_memory(value,count*2)).hex(),prior_bytes=bytes(gdb.selected_inferior().read_memory(prior,count*2)).hex(),errno_before=int(gdb.parse_and_eval('*(int *)&errno')),last_error_before=int(gdb.parse_and_eval('last_error')),fp_before=gdb.execute('info float',to_string=True))
+        wide_compares.append(entry);save_wide_compares();WideCompareReturned(frame,entry);return False
+WideCompareEntered('recon_wcsncmp',internal=True);save_wide_compares()

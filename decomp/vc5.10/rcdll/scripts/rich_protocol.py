@@ -3057,3 +3057,94 @@ def splice_line_trial(original,native):
     prior_record=HERE/'cases/resources-rich-trailing-space/skipped-directive-verification.json'
     proof.update(trial='rc_splice_line',splice=dict(invocations=8,argument_bytes=0,result_bits=32,result=1,cleanup=0,input_previous=92,input_current=10,line_delta=1,cursor_byte_delta=2,active=1,normal_input_scope='Each actual input word is observed at entry inside the same live owned8206B SDK source allocation; current content may have been overwritten by later refill, so no stale buffer-content assertion for earlier calls.'),next_formals=compare['formals'],next_hidden_inputs='No hidden/register parameters in complete58B macro-text wrapper; actual value/prior pointers/count13 and fresh26B spans, current macro->text alias and node/workspace ownership are retained. Import wcsncmp has not executed.',source=dict(depth=2,owned_bytes=8206,cursor_offset=1048,FILE_position=29196,FILE_defined_bytes=512,FILE_uninitialized_tail_bytes=3584),output=dict(flushed_bytes=4096,defined_buffer_bytes=defined),observer_scope=scope,reused_controls=dict(record=str(prior_record.relative_to(HERE)),sha256=sha(prior_record),checker_and_contract_versions=json.loads(prior_record.read_text())['validation_versions'],reason='Unchanged initial lifecycle/transport/SEH/scanner/source-owner controls reused; eight splice states and current macro-comparison formals, bytes and aliases are fresh.'),limits='Full rich case and pending comparison remain incomplete; no import behavior or current macro dictionary/FILE tail equivalence claimed. Original01 lacks the later pointee/source observer and remains analysis-only; original02 is the fresh final capture.')
     return proof
+
+
+def macro_compare_trial(original,native):
+    config=read_configuration(original/'functions.json');assert config['trial_function']=='rc_macro_text_differs'and len(config['accepted'])==94
+    old,new,proof=checkpoint(original,native,'rc_skip_line_comment',('rc_input_temporary','rc_output_temporary'))
+    text=(original/'events.txt').read_text();raw=(original/'globals.bin').read_bytes();args=new['arguments'];state=args['skip_inactive'];g=args['preprocessor']['globals']
+    assert old['words'][0]==0x71c32a24 and state['formals']==[]and state['caller']=='rc_scan_comment'
+    rows=args['macro_text_compares'];imports=args['wide_compares'];assert rows==json.loads((native/'macro-text-compares.json').read_text())and imports==json.loads((native/'wide-compares.json').read_text())and len(rows)==len(imports)==1
+    row=rows[0];call=imports[0];assert row['caller']=='rc_define_macro'and call['caller']=='rc_macro_text_differs'
+    assert [f['name']for f in row['formals']]==['value','prior','length']and [f['bytes']for f in row['formals']]==[4,4,4]
+    value,prior,count=[f['value']for f in row['formals']];assert count==13 and value and prior and value!=prior
+    import subprocess
+    symbols=subprocess.check_output(['nm','-S','--defined-only',str(native/'captured-native.elf')],text=True)
+    entry=re.findall(r'^([0-9a-f]+) [0-9a-f]+ T rc_skip_line_comment$',symbols,re.M);runtime=re.findall(r'^Symbol "rc_skip_line_comment" is a function at address (0x[0-9a-f]+)',(native/'gdb.stdout').read_text(),re.M);assert len(entry)==len(runtime)==1
+    bias=int(runtime[0],16)-int(entry[0],16);workspace=re.findall(r'^([0-9a-f]+) ([0-9a-f]+) [BbDd] rc_string_buffer$',symbols,re.M);assert len(workspace)==1 and int(workspace[0][1],16)==4090 and value==int(workspace[0][0],16)+bias
+    prior_owners=[block for block in new['heap_identity']['blocks']if block['payload']+8==prior];assert len(prior_owners)==1 and prior_owners[0]['bytes']==36 and prior_owners[0]['owner']==new['heap_identity']['handle']and prior_owners[0]['flags']==9
+    expected='30007800300030003000300030003000380030004c0000004400'
+    assert bytes.fromhex(prior_owners[0]['contents'])[8:34].hex()==expected
+    assert row['value_bytes']==row['prior_bytes']==call['value_bytes']==call['prior_bytes']==expected
+    assert (call['value'],call['prior'],call['count'],call['formal_bytes'])==(value,prior,13,[4,4,4])
+    assert row['result']==call['result']==0 and row['return_esp']==row['entry_esp']+16 and call['return_esp']==call['entry_esp']+4
+    assert call['fp_before']==call['fp_after']
+    for item in [row,call]:assert item['errno_before']==item['errno_after']==2 and item['last_error_before']==item['last_error_after']==0
+    entries=re.findall(r'^macro-compare-entry index=(\d+) caller=([0-9a-f]+) esp=([0-9a-f]+) value=([0-9a-f]+) prior=([0-9a-f]+) count=(\d+) errno=(-?\d+) last-error=([0-9a-f]+)$',text,re.M)
+    returns=re.findall(r'^macro-compare-return index=(\d+) result=(-?\d+) esp=([0-9a-f]+) errno=(-?\d+) last-error=([0-9a-f]+)$',text,re.M)
+    calls=re.findall(r'^wide-compare-call index=(\d+) value=([0-9a-f]+) prior=([0-9a-f]+) count=(\d+) esp=([0-9a-f]+) errno=(-?\d+) last-error=([0-9a-f]+)$',text,re.M)
+    results=re.findall(r'^wide-compare-result index=(\d+) result=(-?\d+) esp=([0-9a-f]+) errno=(-?\d+) last-error=([0-9a-f]+)$',text,re.M)
+    assert len(entries)==len(returns)==len(calls)==len(results)==1;e=entries[0];r=returns[0];c=calls[0];z=results[0]
+    assert e[:2]==('0','71c24ca9')and e[3:]==('71c36f08','01017f10','13','2','00000000')
+    assert r[0:2]==z[0:2]==('0','0')and r[3:]==z[3:]==('2','00000000')
+    assert c[0:4]==('0',e[3],e[4],'13')and c[5:]==('2','00000000')
+    assert int(r[2],16)==int(e[2],16)+16 and int(z[2],16)==int(c[4],16)
+    assert raw_bytes(text,'macro-compare-value-0').hex()==raw_bytes(text,'macro-compare-prior-0').hex()==expected
+    for item in json.loads((native/'preprocess-data.json').read_text())['globals']:
+        if item['kind']in ['integer','byte-buffer']:
+            rva=int(item['original_rva'],16);assert raw[rva-0x14000:rva-0x14000+item['bytes']].hex()==g[item['name']]['bytes'],item['name']
+    assert args['preprocessor']['macros']==[]
+    frame_old=struct.unpack('<9I',raw_bytes(text,'skip-source-frame'));frame_new=struct.unpack('<9I',bytes.fromhex(state['source_frame']))
+    assert tuple(frame_old[i]for i in [0,2,6,7,8])==tuple(frame_new[i]for i in [0,2,6,7,8])==(4098,73,4098,1,0)
+    assert state['source_depth']==int.from_bytes(raw[0xa10:0xa14],'little')==2 and state['source_owner_bytes']==8206 and frame_new[5]==state['source_buffer']
+    source=raw_bytes(text,'skip-source-block');assert len(source)==8206 and source[:8]==bytes(8)and source.hex()==state['source_payload']
+    blocks=[b for b in new['heap_identity']['blocks']if b['payload']+8==state['source_buffer']];assert len(blocks)==1;block=blocks[0]
+    assert block['bytes']==8206 and block['flags']==9 and block['owner']==new['heap_identity']['handle']and block['contents']==state['source_payload']
+    cursor=int.from_bytes(raw[0x4120:0x4124],'little');offset=cursor-frame_old[5];assert offset==state['cursor']-frame_new[5]==3414 and source[8+offset-4:8+offset+2]==bytes.fromhex('2f002f002000')
+    filename=raw_bytes(text,'skip-source-filename');assert filename.hex()==state['filename']and filename.decode('utf-16le')=='R:\\toolchains\\5.10\\include/winresrc.h\0'
+    assert Path(state['file_host_path']).resolve()==(ROOT/'toolchains/5.10/include/WINRESRC.H').resolve()
+    a=struct.unpack('<8I',raw_bytes(text,'skip-source-file'));b=struct.unpack('<8I',bytes.fromhex(g['rc_source_file']['file_state']))
+    assert a[1:2]+a[3:]==b[1:2]+b[3:]==(510,9,7,0,4096,0)and a[0]-a[2]==b[0]-b[2]==2
+    assert raw_bytes(text,'skip-source-buffer')[:512]==bytes.fromhex(g['rc_source_file']['file_buffer'])[:512]
+    assert re.findall(r'^skip-source-position (\d+)$',text,re.M)==re.findall(r'^pos:\s*(\d+)$',state['file_fdinfo'],re.M)==['41490']
+    a=struct.unpack('<8I',raw_bytes(text,'cpp-output-file'));b=struct.unpack('<8I',bytes.fromhex(g['rc_cpp_output_file']['file_state']));defined=a[0]-a[2]
+    assert a[1:2]+a[3:]==b[1:2]+b[3:]and defined==b[0]-b[2]==2116
+    assert raw_bytes(text,'cpp-output-buffer')==bytes.fromhex(g['rc_cpp_output_file']['file_buffer'])[:defined]and re.findall(r'^cpp-output-position (\d+)$',text,re.M)==['8192']
+    scope=args['observer_scope'];assert scope==json.loads((native/'observer-scope.json').read_text())and scope['trigger']['value']==1024 and scope['trigger']['result']==7
+    assert not {'MacroTextCompareEntered','WideCompareEntered'}&set(scope['retired_breakpoints'])
+    assert new['crt_errors']==dict(errno=2,last_error=0)and proof['application_trace'][-1]=='rc_macro_text_differs'
+    prior_record=HERE/'cases/resources-rich-trailing-space/splice-line-verification.json'
+    adoption=macro_compare_native_adoption(original,native)
+    proof['native_shared_adoption']=adoption
+    proof.update(trial='rc_macro_text_differs',comparison=dict(invocations=1,formals_bytes=[4,4,4],count=13,input_bytes=26,wrapper_result=0,wrapper_cleanup=12,import_result=0,import_cleanup=0,errors_preserved=True,FP_scope='Actual native info-float pre/post unchanged; original actual per-call FP unmeasured. Whole canonical integer-only wcsncmp hot8b2f..8b6b/count0fb2c..fb30 plus separate64-row full108B probe proves provider no-touch; no fabricated target FP pair.'),next_formals=[],next_hidden_inputs='Pending line-comment scanner has no formals or hidden register arguments; source cursor points at space32 after actual // inside live8206B SDK source allocation. Token table and current source/FILE/output/scalars retained freshly.',source=dict(depth=2,owned_bytes=8206,cursor_offset=offset,current_word=32,FILE_position=41490,FILE_defined_bytes=512,FILE_uninitialized_tail_bytes=3584),output=dict(flushed_bytes=8192,defined_buffer_bytes=defined),reused_controls=dict(record=str(prior_record.relative_to(HERE)),sha256=sha(prior_record),checker_and_contract_versions=json.loads(prior_record.read_text())['validation_versions'],reason='Unchanged initial lifecycle/transport/SEH/source-owner controls reused; wrapper/import formals, buffers/results/cleanup/errors and new line-comment source frontier are fresh.'),limits='Rich case and line-comment implementation remain incomplete; no current macro dictionary/FILE tail equivalence or original per-call FP measurement claimed.')
+    return proof
+
+
+
+def macro_compare_native_adoption(original,native):
+    """Bind the reviewed native-only shim correction without relabeling original raw."""
+    before=json.loads((original/'candidate.json').read_text());after=json.loads((native/'candidate.json').read_text())
+    key='decomp/vc5.10/rcdll/build/native/rcdll-host'
+    delta={name for name in before['files']if before['files'][name]!=after['files'][name]}
+    assert delta=={key},'only native shared shim adoption may reuse this original'
+    note=json.loads((native/'shared-adoption.json').read_text());receipt=json.loads((native/'receipt.json').read_text())
+    path=native/'shared-adoption.json';assert receipt['files']['shared-adoption.json']==dict(bytes=path.stat().st_size,sha256=sha(path))
+    assert note['schema']==1 and note['reason']=='reviewed-wcsncmp-native-success'and note['previous']==before and note['current']==after
+    assert note['original_receipt_sha256']==sha(original/'receipt.json')and note['original_mask_sha256']==sha(original/'masked-text.bin')and note['original_snapshot_sha256']==sha(original/'relocated-text.bin')
+    origin=Path(json.loads((original/'receipt.json').read_text())['command'][1]).parent
+    baseline=Path(note['native_before']);assert origin.name=='macro-compare-original-01'and baseline.name=='macro-compare-native-01'and baseline.parent==origin.parent
+    assert note['native_before_receipt_sha256']==sha(baseline/'receipt.json')and note['native_before_source_sha256']==sha(baseline/'compiled-source.json')and note['native_after_source_sha256']==sha(native/'compiled-source.json')
+    assert note['native_capture_receipt_sha256']==sha(native/'capture-receipt.json')
+    assert sha(baseline/'captured-native.elf')==before['files'][key]and sha(native/'captured-native.elf')==after['files'][key]
+    old_source=json.loads((baseline/'compiled-source.json').read_text())['contents'];new_source=json.loads((native/'compiled-source.json').read_text())['contents']
+    assert old_source.keys()==new_source.keys()
+    changes={name for name in old_source if old_source[name]!=new_source[name]}
+    assert changes and all(name.startswith('lib/recon/')for name in changes),'target source changed during native-only shim adoption'
+    assert note['changed_source_files']==sorted(changes)
+    contract=HERE/'cases/resources-rich-trailing-space/wcsncmp-shared-adoption.json';approved=json.loads(contract.read_text())
+    assert note['shared_review_sha256']==sha(contract)and note['reviewed_shared_revision']==approved['revision']
+    assert approved['status']=='published'
+    assert approved['canonical_CRT_sha256']==sha(original/'loaded-crt.bin')
+    assert all(new_source[name]['sha256']==digest for name,digest in approved['native_shared_sources'].items())
+    assert set(approved['native_shared_sources'])==set(name for name in new_source if name.startswith('lib/recon/'))
+    return note

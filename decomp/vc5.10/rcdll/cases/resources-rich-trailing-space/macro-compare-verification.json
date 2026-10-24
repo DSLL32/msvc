@@ -1,0 +1,430 @@
+{
+  "function": "rc_macro_text_differs",
+  "original_start": "0x4ddf",
+  "original_end": "0x4e19",
+  "original_code_bytes": 58,
+  "abi": "stdcall three32-bit slots: value/prior WCHAR16 pointers and unsigned count; int32 result, RET12",
+  "accepted_application_functions": 93,
+  "accepted_application_bytes": 25118,
+  "provisional_application_denominator": 66295,
+  "provisional_coverage_percent": 37.8882268647711,
+  "denominator_scope": "Provisional physical application-code extents, not branch coverage; historical CRT555/import12/compiler47 separate.",
+  "case": "resources-rich-trailing-space",
+  "raw_original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/macro-compare-original-01",
+  "raw_native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/macro-compare-native-02",
+  "original_seconds": 43.54418188985437,
+  "native_gdb_seconds": 15.28729046229273,
+  "typed_failure": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/rcdll/macro-compare-native-01",
+    "receipt_sha256": "304e4d34717918f428272ac70a3276751baa12c836baf811b47ea2fde075d255",
+    "scope": "Expected native shim denial125; capture reported failure/GDB1. No accepted next frontier or import return invented."
+  },
+  "builds": [
+    {
+      "targets": [
+        "original",
+        "build/debug-original.exe"
+      ],
+      "status": 0,
+      "seconds": 9.091174772940576
+    },
+    {
+      "targets": [
+        "native"
+      ],
+      "status": 0,
+      "seconds": 2.8359419088810682
+    }
+  ],
+  "native_only_builds": [
+    {
+      "targets": [
+        "native"
+      ],
+      "status": 0,
+      "seconds": 2.7720422679558396
+    }
+  ],
+  "stable_shared_inputs": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/rcdll/analysis/macro-compare-native-adoption/stable-shared-inputs.json",
+    "sha256": "bbec21bbae89a13e349c24e2711927bdc4240b14598970090fcb4970943d1e6e",
+    "scope": "Recursive actual before/after C/H equal; exact coherent dbe8crt/8fbheader/d556win32 later published unchanged574227e0e09ab9b2aee5d295ecfa185143a9615d."
+  },
+  "shared_native_adoption": {
+    "schema": 1,
+    "reason": "reviewed-wcsncmp-native-success",
+    "previous": {
+      "schema": 2,
+      "files": {
+        "decomp/vc5.10/rcdll/functions.json": "0071abe176f28e89d5d19e719a77c1ebf00ed9dd826a746e05f00076f08ea937",
+        "decomp/vc5.10/rcdll/build/RCDLL.DLL": "0ff927dcaa529832873da14469e0a02964cf865469674cf351aea9cd8b05ef82",
+        "decomp/vc5.10/rcdll/build/rcdll.map": "a678fb32aa60057a2f0fc294a1264e30c48b3dd6966467dd496bae407394b571",
+        "decomp/vc5.10/rcdll/build/native/rcdll-host": "641b9be9f9144690527866f911c7fcafc8538bf329da1b24ff87ac70ef63e766",
+        "decomp/vc5.10/rcdll/build/debug-original.exe": "13aa6ea76af537f91e5d92f6cbe60b0f64e335fbce908127a8bf882e50c663fe",
+        "decomp/vc5.10/rcdll/build/help-resources.bin": "c481eb7ab20aa484b67df877eef1ad06f247f78f7d00ee69c9358f62d2dffd9c",
+        "toolchains/5.10/bin/RCDLL.DLL": "bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0",
+        "toolchains/5.10/bin/MSVCRT.DLL": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+        "toolchains/5.10/bin/RC.EXE": "c9f7e207bbae4be91baf6db564bd6b7f660d10287ea46302c792c3dd27b05399"
+      }
+    },
+    "current": {
+      "schema": 2,
+      "files": {
+        "decomp/vc5.10/rcdll/functions.json": "0071abe176f28e89d5d19e719a77c1ebf00ed9dd826a746e05f00076f08ea937",
+        "decomp/vc5.10/rcdll/build/RCDLL.DLL": "0ff927dcaa529832873da14469e0a02964cf865469674cf351aea9cd8b05ef82",
+        "decomp/vc5.10/rcdll/build/rcdll.map": "a678fb32aa60057a2f0fc294a1264e30c48b3dd6966467dd496bae407394b571",
+        "decomp/vc5.10/rcdll/build/native/rcdll-host": "291f5f5da9b0856892313c63b31d63c8ad0ee3d619c2bcfe7434b664a91d0baf",
+        "decomp/vc5.10/rcdll/build/debug-original.exe": "13aa6ea76af537f91e5d92f6cbe60b0f64e335fbce908127a8bf882e50c663fe",
+        "decomp/vc5.10/rcdll/build/help-resources.bin": "c481eb7ab20aa484b67df877eef1ad06f247f78f7d00ee69c9358f62d2dffd9c",
+        "toolchains/5.10/bin/RCDLL.DLL": "bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0",
+        "toolchains/5.10/bin/MSVCRT.DLL": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+        "toolchains/5.10/bin/RC.EXE": "c9f7e207bbae4be91baf6db564bd6b7f660d10287ea46302c792c3dd27b05399"
+      }
+    },
+    "original_receipt_sha256": "0d125f5712d88d66376e9137882615a4e85585641baf15dc5de1b2c178ca48eb",
+    "original_mask_sha256": "34f78f19e8a55b3e97228cf53210563de0bd686a2646da24569882e6f2feb04b",
+    "original_snapshot_sha256": "5276b0f5c878a3648053617914ba01bfb62f7ad7508a8d37e8366184824a81b3",
+    "native_before": "/root/.ai-tmp/msvc2/vc5.10/rcdll/macro-compare-native-01",
+    "native_before_receipt_sha256": "304e4d34717918f428272ac70a3276751baa12c836baf811b47ea2fde075d255",
+    "native_before_source_sha256": "04d2b70770e88e9b33f1f3b1a84f5188ceab6c5cbd02a4c3c462b8363a5fbec1",
+    "native_after_source_sha256": "044137b065f51a34cc414784f3f35bf7a70df6db7128d5572c71482825ccd78e",
+    "native_capture_receipt_sha256": "23f56da710983dd7e46a38080f803f4ab68888a091868ab204bb0f6260cce0c4",
+    "changed_source_files": [
+      "lib/recon/include/recon.h",
+      "lib/recon/src/crt.c"
+    ],
+    "reviewed_shared_revision": "574227e0e09ab9b2aee5d295ecfa185143a9615d",
+    "shared_review_sha256": "8f7ba4b6f34a00b37886542b96584d8af0551727c6226d8bd48c8b3c37dded7b",
+    "scope": "Only native ELF changed in execution candidate; all target C/header source unchanged. Captured original/controller/config/mask/case inputs preserved. Original actual appFP unmeasured; native actual FP and separate original64-row fullFP probe distinct."
+  },
+  "pre_capture_graph_preflight": {
+    "original_log": "/root/.ai-tmp/msvc2/vc5.10/rcdll/analysis/macro-compare-build/audit-preflight.log",
+    "native_adoption_log": "/root/.ai-tmp/msvc2/vc5.10/rcdll/analysis/macro-compare-native-adoption/audit-preflight.log",
+    "status": "strict95 candidate-inclusive graph pass before original and fresh native executions"
+  },
+  "fresh_controls": {
+    "count": 17,
+    "names": [
+      "adoption-wrong-original-mask",
+      "adoption-wrong-shared-review",
+      "wrong-wrapper-count",
+      "wrong-wrapper-pointer-width",
+      "wrong-wrapper-buffer",
+      "wrong-wrapper-result",
+      "wrong-wrapper-RET12",
+      "wrong-import-forwarded-count",
+      "wrong-import-forwarded-pointer",
+      "wrong-import-result",
+      "wrong-import-cdecl-RET0",
+      "wrong-import-error-preservation",
+      "wrong-import-FP-preservation",
+      "retired-required-import-observer",
+      "invented-next-line-comment-formal",
+      "wrong-next-line-comment-source",
+      "wrong-original-import-result"
+    ],
+    "seconds": 61.276748241856694,
+    "semantic_predicates": [
+      {
+        "name": "adoption-wrong-original-mask",
+        "predicate_function": "macro_compare_native_adoption",
+        "predicate_line": 3133,
+        "semantic_rejection": true
+      },
+      {
+        "name": "adoption-wrong-shared-review",
+        "predicate_function": "macro_compare_native_adoption",
+        "predicate_line": 3145,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-wrapper-count",
+        "predicate_function": "macro_compare_trial",
+        "predicate_line": 3070,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-wrapper-pointer-width",
+        "predicate_function": "macro_compare_trial",
+        "predicate_line": 3069,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-wrapper-buffer",
+        "predicate_function": "macro_compare_trial",
+        "predicate_line": 3078,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-wrapper-result",
+        "predicate_function": "macro_compare_trial",
+        "predicate_line": 3080,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-wrapper-RET12",
+        "predicate_function": "macro_compare_trial",
+        "predicate_line": 3080,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-import-forwarded-count",
+        "predicate_function": "macro_compare_trial",
+        "predicate_line": 3079,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-import-forwarded-pointer",
+        "predicate_function": "macro_compare_trial",
+        "predicate_line": 3079,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-import-result",
+        "predicate_function": "macro_compare_trial",
+        "predicate_line": 3080,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-import-cdecl-RET0",
+        "predicate_function": "macro_compare_trial",
+        "predicate_line": 3080,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-import-error-preservation",
+        "predicate_function": "macro_compare_trial",
+        "predicate_line": 3082,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-import-FP-preservation",
+        "predicate_function": "macro_compare_trial",
+        "predicate_line": 3081,
+        "semantic_rejection": true
+      },
+      {
+        "name": "retired-required-import-observer",
+        "predicate_function": "macro_compare_trial",
+        "predicate_line": 3114,
+        "semantic_rejection": true
+      },
+      {
+        "name": "invented-next-line-comment-formal",
+        "predicate_function": "macro_compare_trial",
+        "predicate_line": 3066,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-next-line-comment-source",
+        "predicate_function": "macro_compare_trial",
+        "predicate_line": 3103,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-original-import-result",
+        "predicate_function": "macro_compare_trial",
+        "predicate_line": 3089,
+        "semantic_rejection": true
+      }
+    ],
+    "gate_path": "/root/.ai-tmp/msvc2/vc5.10/rcdll/analysis/macro-compare-native-adoption/gate.json",
+    "sha256": "7826d8466b69a729cd394b05e0430a7878cc8597dfa52ade5c28bbd2cdbbdebf"
+  },
+  "comparison": {
+    "invocations": 1,
+    "formals_bytes": [
+      4,
+      4,
+      4
+    ],
+    "count": 13,
+    "input_bytes": 26,
+    "wrapper_result": 0,
+    "wrapper_cleanup": 12,
+    "import_result": 0,
+    "import_cleanup": 0,
+    "errors_preserved": true,
+    "FP_scope": "Actual native info-float pre/post unchanged; original actual per-call FP unmeasured. Whole canonical integer-only wcsncmp hot8b2f..8b6b/count0fb2c..fb30 plus separate64-row full108B probe proves provider no-touch; no fabricated target FP pair."
+  },
+  "source": {
+    "depth": 2,
+    "owned_bytes": 8206,
+    "cursor_offset": 3414,
+    "current_word": 32,
+    "FILE_position": 41490,
+    "FILE_defined_bytes": 512,
+    "FILE_uninitialized_tail_bytes": 3584
+  },
+  "output": {
+    "flushed_bytes": 8192,
+    "defined_buffer_bytes": 2116
+  },
+  "next_frontier": "rc_skip_line_comment",
+  "next_formals": [],
+  "next_hidden_inputs": "Pending line-comment scanner has no formals or hidden register arguments; source cursor points at space32 after actual // inside live8206B SDK source allocation. Token table and current source/FILE/output/scalars retained freshly.",
+  "reused_controls": {
+    "record": "cases/resources-rich-trailing-space/splice-line-verification.json",
+    "sha256": "c435d201a88bc05c84154b0845fceabea4e70dbc007c7c95d862af4dff2663a8",
+    "checker_and_contract_versions": {
+      "decomp/vc5.10/rcdll/scripts/accept.py": "a7de115a93ccd9115d8751ca8496a3c9ae66f82c76803bd42ef0585be88b46f7",
+      "decomp/vc5.10/rcdll/scripts/audit.py": "10ca68f41c5bd1c3183a101d5a1f33de15c4c88209ead1966d9f4a554e852d60",
+      "decomp/vc5.10/rcdll/scripts/cache-rich-reference.py": "2164ca862a64c1708c7a13f6c7b0330df90c383149e067b218b45871dec3511c",
+      "decomp/vc5.10/rcdll/scripts/capture-native.py": "3844a4d4adcb247baef2c08835de4a079070d29f1ff219cf371df63d2f5effb5",
+      "decomp/vc5.10/rcdll/scripts/capture-original.py": "92f627b0b5f7f557b7339d7039b7ab94a2dd7f1db24a8d5a81a07ef4d15955c1",
+      "decomp/vc5.10/rcdll/scripts/capture-source-line-format.py": "c24b391d7d050556e6e89fd4c4ff2ed62f135637e1c0201d968233138dd1d832",
+      "decomp/vc5.10/rcdll/scripts/capture-wcschr.py": "3a003289498306857eb66733873f83ba9976289a847c83c22f47bc4b15886c85",
+      "decomp/vc5.10/rcdll/scripts/check-abi.py": "83f3fffa968c62999e0272c64bf9d15a3c9626d45b93e3cb6cd9af61513b4201",
+      "decomp/vc5.10/rcdll/scripts/check-character-controls.py": "655fd611ea139f09752876eea98de9c259bdceac7f39346e305948115838f6a4",
+      "decomp/vc5.10/rcdll/scripts/check-characters.py": "77f3d3612ac0df0e50a9fd480a52ebaa05ead70e1b0f2c98ad6733c1a99ad5e1",
+      "decomp/vc5.10/rcdll/scripts/check-class-boundary.py": "90f3fae6132e1655a6063e32cf79179304a8284fafa8c0d57e993566874c77ce",
+      "decomp/vc5.10/rcdll/scripts/check-compiler-support.py": "59a4cebd7a658aa9870cfbb612bf50d919ad9f48f3d022c778c2dcd7f5bc101c",
+      "decomp/vc5.10/rcdll/scripts/check-completion.py": "c98946e5f142082737ce5bb72e47fdc6ad48430c77b55c5a2f8f93a6f121daf9",
+      "decomp/vc5.10/rcdll/scripts/check-copy-seh-controls.py": "7dd3931d60dbfd18ede91fb4d8bd820571b0da16f21ffed61b158bdf8063887f",
+      "decomp/vc5.10/rcdll/scripts/check-copy-seh.py": "b3375c3e687672316cda1131b177b214ef728f99d9762d601f50efed1be59a8d",
+      "decomp/vc5.10/rcdll/scripts/check-directive-table.py": "533dd63c3f8ebabb8f7822065f945fa33e5272f66ce781b96f428b940d793847",
+      "decomp/vc5.10/rcdll/scripts/check-dispatcher-switch-controls.py": "909ca7d5ab62bff4ee49ba5b3c470a771b8d939845e768c0e2b0eda983d49480",
+      "decomp/vc5.10/rcdll/scripts/check-dispatcher-switch.py": "f91d78cd25495a160d4ba45b421990894bfa3a967745513774b51fd6f893fb53",
+      "decomp/vc5.10/rcdll/scripts/check-expression-storage.py": "2c7021703b1139aa97bdfe1642879612aecc57cc9d2dc0eef26bacafdd1a4ddf",
+      "decomp/vc5.10/rcdll/scripts/check-initial.py": "f1e69f898368b7b2df6d68fbc7ee0d47f5babec355b9863a13f436335e0a0824",
+      "decomp/vc5.10/rcdll/scripts/check-lexer-correction.py": "0f61fee2017134c343c4631acd7115db65218059cacdfec8d1267b6111c4cd90",
+      "decomp/vc5.10/rcdll/scripts/check-lexer-relocations.py": "40d3d5762cf18c78210e8f9d9adfd3a7f404952c9ef93f2df301002745c651a0",
+      "decomp/vc5.10/rcdll/scripts/check-lexer-state.py": "0f229a7fe50cfab73a34e993cd866f4069949cada0100be94a17cd3988b0a0f0",
+      "decomp/vc5.10/rcdll/scripts/check-number-word-correction.py": "12a887daf408815a98b8ad0f3d239f2fe7f021a8d82ca8df8c239ca636c8e765",
+      "decomp/vc5.10/rcdll/scripts/check-plan.py": "34e66d1d7356daad243123672a2ceea8d15f4ea5a57d7bd2fe15d94a6d46320e",
+      "decomp/vc5.10/rcdll/scripts/check-rich-pair.py": "1da1dbddccc5e2df5f3650f74e010a3bf3e6bd6578b766a85bcd610f21693c1b",
+      "decomp/vc5.10/rcdll/scripts/check-string-storage.py": "037bb530777ce2df02b09617aaad047c15c429e2e69005f4900a37e4d4b50ff0",
+      "decomp/vc5.10/rcdll/scripts/check-token-info.py": "38f149a2be01b60dfd3ac3c25c0490550b14fa52c21276d9e57ee0d8b044d38e",
+      "decomp/vc5.10/rcdll/scripts/check-trial.py": "ea46359d73d9134a047c512e0419b6f512ef9e95dadba97e61e16b51e707f0a5",
+      "decomp/vc5.10/rcdll/scripts/compiler-frame-gdb.py": "0f2ea9470f79ff73c626dc93fd7c54d506a46d799827d739af2efac3c98f882d",
+      "decomp/vc5.10/rcdll/scripts/expression-token-gdb.py": "31e35e1b2c08f57316030894d168a96ee933e3a752ef2c33d6dfb6bf89109c41",
+      "decomp/vc5.10/rcdll/scripts/fixtures.py": "8039adf2390603d111d5aef75952a4959193a3b491f94e00ccf851f33cdd8847",
+      "decomp/vc5.10/rcdll/scripts/macro-init-gdb.py": "41e2b8fe1eb7dfc3135cf8d4dfb66ad779438c6b8bb7795bdcbe0016b7442e6d",
+      "decomp/vc5.10/rcdll/scripts/macro-number-gdb.py": "97f7f7e03b6040c1f4b8e581de85617a7f25aad514016f873e2b3ada761f4677",
+      "decomp/vc5.10/rcdll/scripts/macro-push-gdb.py": "2c2f7e077d1915a29e67e5d0cdb406e2082811a1690b2e4d28686dcb7dc2fdc6",
+      "decomp/vc5.10/rcdll/scripts/macro-restore-gdb.py": "bbacb6685f1baf5b90478c1096064cf75924374706fe49cfaa3ea6de211d3ebb",
+      "decomp/vc5.10/rcdll/scripts/native-gdb.py": "cd7176fc8c6a5a8b14d84fd9bf98d0f666517025e7aa292bfce93a2093906e5e",
+      "decomp/vc5.10/rcdll/scripts/native-observers.py": "2d3df9e3284a910491d19c6e706644a2d8d914aa69730dcfbbae9ba8907c501d",
+      "decomp/vc5.10/rcdll/scripts/native-preprocess.py": "6b9334a6f90fdb9d6316aabb642a98362098f29b872396f986e89947b589bd7e",
+      "decomp/vc5.10/rcdll/scripts/pe_inventory.py": "fb06b8d3138d32e185ad86bb5e2d3dc775bd0a304387537f8a97ae967a2c1869",
+      "decomp/vc5.10/rcdll/scripts/prepare-resources.py": "b32f452aa2534efabb780923d34675f6514c8e933ac2993896a415fb37bd24b7",
+      "decomp/vc5.10/rcdll/scripts/protocol.py": "31fb1ceb5df6a439021afb34411a9813b984113a8ee903d2ac9faeb88954c157",
+      "decomp/vc5.10/rcdll/scripts/rich_protocol.py": "773764d5a19a4c5bc17050d875c06f09fefe4dbffed920ea1579cbdbf06ec055",
+      "decomp/vc5.10/rcdll/scripts/source-snapshot.py": "a09bc2f8719f3fd7ab69549d1ebc421cb8ca68726935057ac13eca0a432951ff",
+      "decomp/vc5.10/rcdll/scripts/wine-tool.py": "8bbce5c4f84dfc5eb820df7a502103009f26a89e86308bfa2eeb00d1b7e467bf",
+      "decomp/vc5.10/rcdll/data.json": "fa5c8a453d0eff8e1396f1ac6e346548b31fc4b44b4cdb8a5a43c3e48f82fbed"
+    },
+    "reason": "Unchanged initial lifecycle/transport/SEH/source-owner controls reused; wrapper/import formals, buffers/results/cleanup/errors and new line-comment source frontier are fresh."
+  },
+  "limits": "Rich case and line-comment implementation remain incomplete; no current macro dictionary/FILE tail equivalence or original per-call FP measurement claimed.",
+  "fixture": {
+    "logical_name_aliases": {
+      "rcdll_main": "DllMain",
+      "recon_dll_entry": "_DllMainCRTStartup",
+      "rcdll_crt_init": "_CRT_INIT",
+      "rc_main": "main",
+      "rcdll_command_main": "main"
+    },
+    "case": "help",
+    "status": "pass",
+    "stdout_bytes": 589,
+    "application_entries": 9,
+    "seconds": {
+      "setup": 0.00410983432084322,
+      "execution": 0.002180490642786026,
+      "checks": 0.0011606616899371147,
+      "total": 0.008083726279437542
+    },
+    "native_sha256": "291f5f5da9b0856892313c63b31d63c8ad0ee3d619c2bcfe7434b664a91d0baf",
+    "reference_manifest_sha256": "387c741bdb3fa4d388da034d339b5d21e872667d27934bb570e03d448db05524"
+  },
+  "export_abi": {
+    "status": "pass",
+    "exports": {
+      "Handler": 1,
+      "RC": 2
+    },
+    "entry_symbol": "__DllMainCRTStartup@12",
+    "application_entry_symbol": "_DllMain@12",
+    "tls": false,
+    "message_ids": [
+      10001,
+      20001
+    ],
+    "message_language": 1033,
+    "rebuilt_sha256": "0ff927dcaa529832873da14469e0a02964cf865469674cf351aea9cd8b05ef82"
+  },
+  "canonical_API_probe": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/rcdll/wcsncmp-api-original-01",
+    "receipt_sha256": "11b25ec3fc09fd211c6b1e76e58daacccfeb18c0e280eade7ef216712e9bb8a4",
+    "seconds": 1.2180046793073416,
+    "rows": 64,
+    "input_bytes": 32,
+    "FP_bytes": 108,
+    "scope": "Separate canonical provider probe, not original app per-call FP measurement."
+  },
+  "checker_correction": {
+    "failure_log": "/root/.ai-tmp/msvc2/vc5.10/rcdll/analysis/macro-compare-native-adoption/gate-copy-scope-failure.log",
+    "before": "/root/.ai-tmp/msvc2/vc5.10/rcdll/analysis/macro-compare-native-adoption/pre-copy-scope-fix-rich_protocol.py",
+    "before_sha256": "2871cf44b9abdf3da55bc0068545fcd8946d44a717a925827575f51c89830499",
+    "after": "/root/.ai-tmp/msvc2/vc5.10/rcdll/analysis/macro-compare-native-adoption/verified-rich_protocol.py",
+    "after_sha256": "9a4acb197b74e0ae8d3fc9e6491ca39e78ae56ef0afd50f52635eb3734895641",
+    "scope": "Checker origin derives immutable receipt path instead of temporary copy parent. Failed copied-positive preliminary run not counted among successful17 controls; no raw/source/execution changes."
+  },
+  "parent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/rcdll/analysis/macro-compare-native-adoption/parent-review.json",
+    "sha256": "fabd7d0d4d1f968782702d036a2bb34ed7395665aa9f50de604616ad4c10726c",
+    "scope": "Independent full production positive3.669s, source/adoption/17 recorded controls inspected; no61s control rerun."
+  },
+  "validation_versions": {
+    "decomp/vc5.10/rcdll/scripts/accept.py": "debc6153bdfdac313a031ee7c60a093f143d7d59b843056380ede9ca609d38ac",
+    "decomp/vc5.10/rcdll/scripts/audit.py": "10ca68f41c5bd1c3183a101d5a1f33de15c4c88209ead1966d9f4a554e852d60",
+    "decomp/vc5.10/rcdll/scripts/cache-rich-reference.py": "2164ca862a64c1708c7a13f6c7b0330df90c383149e067b218b45871dec3511c",
+    "decomp/vc5.10/rcdll/scripts/capture-native.py": "3844a4d4adcb247baef2c08835de4a079070d29f1ff219cf371df63d2f5effb5",
+    "decomp/vc5.10/rcdll/scripts/capture-original.py": "92f627b0b5f7f557b7339d7039b7ab94a2dd7f1db24a8d5a81a07ef4d15955c1",
+    "decomp/vc5.10/rcdll/scripts/capture-source-line-format.py": "c24b391d7d050556e6e89fd4c4ff2ed62f135637e1c0201d968233138dd1d832",
+    "decomp/vc5.10/rcdll/scripts/capture-wcschr.py": "3a003289498306857eb66733873f83ba9976289a847c83c22f47bc4b15886c85",
+    "decomp/vc5.10/rcdll/scripts/capture-wcsncmp.py": "8a2e8a30d9fcc3e722fa8abba639ac348f4e78907ef28015b059e0b6858699a0",
+    "decomp/vc5.10/rcdll/scripts/check-abi.py": "83f3fffa968c62999e0272c64bf9d15a3c9626d45b93e3cb6cd9af61513b4201",
+    "decomp/vc5.10/rcdll/scripts/check-character-controls.py": "655fd611ea139f09752876eea98de9c259bdceac7f39346e305948115838f6a4",
+    "decomp/vc5.10/rcdll/scripts/check-characters.py": "77f3d3612ac0df0e50a9fd480a52ebaa05ead70e1b0f2c98ad6733c1a99ad5e1",
+    "decomp/vc5.10/rcdll/scripts/check-class-boundary.py": "90f3fae6132e1655a6063e32cf79179304a8284fafa8c0d57e993566874c77ce",
+    "decomp/vc5.10/rcdll/scripts/check-compiler-support.py": "59a4cebd7a658aa9870cfbb612bf50d919ad9f48f3d022c778c2dcd7f5bc101c",
+    "decomp/vc5.10/rcdll/scripts/check-completion.py": "c98946e5f142082737ce5bb72e47fdc6ad48430c77b55c5a2f8f93a6f121daf9",
+    "decomp/vc5.10/rcdll/scripts/check-copy-seh-controls.py": "7dd3931d60dbfd18ede91fb4d8bd820571b0da16f21ffed61b158bdf8063887f",
+    "decomp/vc5.10/rcdll/scripts/check-copy-seh.py": "b3375c3e687672316cda1131b177b214ef728f99d9762d601f50efed1be59a8d",
+    "decomp/vc5.10/rcdll/scripts/check-directive-table.py": "533dd63c3f8ebabb8f7822065f945fa33e5272f66ce781b96f428b940d793847",
+    "decomp/vc5.10/rcdll/scripts/check-dispatcher-switch-controls.py": "909ca7d5ab62bff4ee49ba5b3c470a771b8d939845e768c0e2b0eda983d49480",
+    "decomp/vc5.10/rcdll/scripts/check-dispatcher-switch.py": "f91d78cd25495a160d4ba45b421990894bfa3a967745513774b51fd6f893fb53",
+    "decomp/vc5.10/rcdll/scripts/check-expression-storage.py": "2c7021703b1139aa97bdfe1642879612aecc57cc9d2dc0eef26bacafdd1a4ddf",
+    "decomp/vc5.10/rcdll/scripts/check-initial.py": "f1e69f898368b7b2df6d68fbc7ee0d47f5babec355b9863a13f436335e0a0824",
+    "decomp/vc5.10/rcdll/scripts/check-lexer-correction.py": "0f61fee2017134c343c4631acd7115db65218059cacdfec8d1267b6111c4cd90",
+    "decomp/vc5.10/rcdll/scripts/check-lexer-relocations.py": "40d3d5762cf18c78210e8f9d9adfd3a7f404952c9ef93f2df301002745c651a0",
+    "decomp/vc5.10/rcdll/scripts/check-lexer-state.py": "0f229a7fe50cfab73a34e993cd866f4069949cada0100be94a17cd3988b0a0f0",
+    "decomp/vc5.10/rcdll/scripts/check-number-word-correction.py": "12a887daf408815a98b8ad0f3d239f2fe7f021a8d82ca8df8c239ca636c8e765",
+    "decomp/vc5.10/rcdll/scripts/check-plan.py": "34e66d1d7356daad243123672a2ceea8d15f4ea5a57d7bd2fe15d94a6d46320e",
+    "decomp/vc5.10/rcdll/scripts/check-rich-pair.py": "6184d177512ffa06c1125fd633166d43c96ac732dc63ae325b9f77baf6f22f74",
+    "decomp/vc5.10/rcdll/scripts/check-string-storage.py": "037bb530777ce2df02b09617aaad047c15c429e2e69005f4900a37e4d4b50ff0",
+    "decomp/vc5.10/rcdll/scripts/check-token-info.py": "38f149a2be01b60dfd3ac3c25c0490550b14fa52c21276d9e57ee0d8b044d38e",
+    "decomp/vc5.10/rcdll/scripts/check-trial.py": "ea46359d73d9134a047c512e0419b6f512ef9e95dadba97e61e16b51e707f0a5",
+    "decomp/vc5.10/rcdll/scripts/compiler-frame-gdb.py": "0f2ea9470f79ff73c626dc93fd7c54d506a46d799827d739af2efac3c98f882d",
+    "decomp/vc5.10/rcdll/scripts/expression-token-gdb.py": "31e35e1b2c08f57316030894d168a96ee933e3a752ef2c33d6dfb6bf89109c41",
+    "decomp/vc5.10/rcdll/scripts/fixtures.py": "8039adf2390603d111d5aef75952a4959193a3b491f94e00ccf851f33cdd8847",
+    "decomp/vc5.10/rcdll/scripts/macro-init-gdb.py": "41e2b8fe1eb7dfc3135cf8d4dfb66ad779438c6b8bb7795bdcbe0016b7442e6d",
+    "decomp/vc5.10/rcdll/scripts/macro-number-gdb.py": "97f7f7e03b6040c1f4b8e581de85617a7f25aad514016f873e2b3ada761f4677",
+    "decomp/vc5.10/rcdll/scripts/macro-push-gdb.py": "2c2f7e077d1915a29e67e5d0cdb406e2082811a1690b2e4d28686dcb7dc2fdc6",
+    "decomp/vc5.10/rcdll/scripts/macro-restore-gdb.py": "bbacb6685f1baf5b90478c1096064cf75924374706fe49cfaa3ea6de211d3ebb",
+    "decomp/vc5.10/rcdll/scripts/native-gdb.py": "e8977c69b70edad020325c8d778b58e01a1f86223eb016e0eac24420c936da5a",
+    "decomp/vc5.10/rcdll/scripts/native-observers.py": "ab65a60b84117a1215ab33beb7a6a2da9572804246cf484800dd67c23be1e2ef",
+    "decomp/vc5.10/rcdll/scripts/native-preprocess.py": "6b9334a6f90fdb9d6316aabb642a98362098f29b872396f986e89947b589bd7e",
+    "decomp/vc5.10/rcdll/scripts/pe_inventory.py": "fb06b8d3138d32e185ad86bb5e2d3dc775bd0a304387537f8a97ae967a2c1869",
+    "decomp/vc5.10/rcdll/scripts/prepare-resources.py": "b32f452aa2534efabb780923d34675f6514c8e933ac2993896a415fb37bd24b7",
+    "decomp/vc5.10/rcdll/scripts/protocol.py": "31fb1ceb5df6a439021afb34411a9813b984113a8ee903d2ac9faeb88954c157",
+    "decomp/vc5.10/rcdll/scripts/rich_protocol.py": "9a4acb197b74e0ae8d3fc9e6491ca39e78ae56ef0afd50f52635eb3734895641",
+    "decomp/vc5.10/rcdll/scripts/source-snapshot.py": "a09bc2f8719f3fd7ab69549d1ebc421cb8ca68726935057ac13eca0a432951ff",
+    "decomp/vc5.10/rcdll/scripts/wine-tool.py": "8bbce5c4f84dfc5eb820df7a502103009f26a89e86308bfa2eeb00d1b7e467bf",
+    "decomp/vc5.10/rcdll/data.json": "fa5c8a453d0eff8e1396f1ac6e346548b31fc4b44b4cdb8a5a43c3e48f82fbed"
+  },
+  "acceptance": "cases/resources-rich-trailing-space/acceptance-0095.json",
+  "audit": "cases/resources-rich-trailing-space/audit-0095.json"
+}

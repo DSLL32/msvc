@@ -1,0 +1,42 @@
+{
+  "status": "published",
+  "revision": "574227e0e09ab9b2aee5d295ecfa185143a9615d",
+  "canonical_CRT_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "native_shared_sources": {
+    "lib/recon/include/recon.h": "8fbaf0e450def645e76f7076522d0234e825aea17411bb599789e6cfe6668fcc",
+    "lib/recon/src/compat.c": "13d89c42120816762c64ecf591044f899ba3e6e3fd5d27d1d6218adacb8e10ec",
+    "lib/recon/src/crt.c": "dbe8eeed27ae67a9485981f9df1726642c60234fbfc562635c9a4ba112db4dc9",
+    "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+    "lib/recon/src/entry.c": "33f47565b8fd09dcbdf5254cd47bb895de22eaf8c073668a1f2abf2bfe942db0",
+    "lib/recon/src/process.c": "885ae0c197f2f64933598b3d1435af156086f63c664a04b5b99cbae52d89a42d",
+    "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+    "lib/recon/src/win32.c": "d556539a11591642adb8f4c4651d6c5adc134405c02356391982dc55970c7551",
+    "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "lib/recon/include/win32.h": "2f632c34d9af7f726aa0a1a0eb5605c812ab91b205048d0f07e31c4e5174dbd3",
+    "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+    "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+    "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+    "lib/recon/native/float.h": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42",
+    "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+    "lib/recon/native/locale.h": "a4bcba0ad40ff971717170453d1725d8b4452ddfd8411d1a8ed309809d55a13c",
+    "lib/recon/native/malloc.h": "2eb86ea79987793bde23d2016e7d52ad7d5c6a5818a5812f53a072d980934f21",
+    "lib/recon/native/mbctype.h": "4207df36c7093b86502916601050bef8538d5d32a615498e22144d23500c7b7f",
+    "lib/recon/native/mbstring.h": "9f9b8f200a6e7559a4cda5d5ef61f339cc8f4be7076ae44347ea9ce2903021d3",
+    "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+    "lib/recon/native/setjmp.h": "1063e154c5b2277afe91cad791706358b5cc5163b3374e2f2367b8cfd4e7c7a4",
+    "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+    "lib/recon/native/signal.h": "ba3d6621f3f863b022f6aa9f5d6125a584d594a9f3d79ad172a6ae3f8c12a150",
+    "lib/recon/native/sys/stat.h": "4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb",
+    "lib/recon/native/sys/timeb.h": "56e745d9e9f91dccd40083158914daeb3cab0c97e01b7276c447993aad52a47d",
+    "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a"
+  },
+  "shared_validation": {
+    "path": "lib/recon/wcsncmp-validation.json",
+    "sha256": "28ec24a9538ae6d450b4af25d5a3c608544fd160e6b82e72c64dc90c3205b34c"
+  },
+  "canonical_probe": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/rcdll/wcsncmp-api-original-01",
+    "receipt_sha256": "11b25ec3fc09fd211c6b1e76e58daacccfeb18c0e280eade7ef216712e9bb8a4"
+  },
+  "scope": "Reviewed shared WCHAR16 success; exact coherent dbe8crt/8fbheader/d556win32 snapshot published unchanged. Native-only adoption, no original execution change and zero application credit for shared CRT."
+}

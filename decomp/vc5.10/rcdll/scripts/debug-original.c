@@ -32,6 +32,7 @@ static unsigned macro_copy_count;
 static DWORD macro_copy_results[8192],macro_copy_lengths[8192];
 static DWORD skipped_sp,skipped_index;
 static DWORD splice_sp,splice_index;
+static DWORD macro_compare_sp,macro_compare_index,wide_compare_sp;
 static DWORD macro_finish_sp,macro_finish_pointer,resume_sp,resume_index,resume_macro,expansion_sp;
 static DWORD macro_push_sp,macro_push_index,macro_select_sp,macro_select_pointer,active_number_sp,active_number_count;
 static DWORD expression_space_sp,expression_space_index,primary_sp,primary_index;
@@ -431,6 +432,15 @@ static void splice_begin(CONTEXT *context)
     readmem(base+0x18120,&cursor,4);readmem(base+0x16ce8,&line,4);readmem(base+0x1811c,&active,4);readmem(cursor-2,pair,4);
     fprintf(events,"splice-entry index=%lu caller=%08lx esp=%08lx cursor=%08lx line=%lu active=%ld previous=%u current=%u\n",splice_index,caller,context->Esp,cursor,line,(long)active,pair[0],pair[1]);point(caller,107);
 }
+static void macro_compare_begin(CONTEXT *context)
+{
+    DWORD words[4],error;char label[80];readmem(context->Esp,words,16);macro_compare_sp=context->Esp;
+    if(words[3]>2045)fail("macro-compare-observation-bound");readmem(initial_teb+0x34,&error,4);
+    fprintf(events,"macro-compare-entry index=%lu caller=%08lx esp=%08lx value=%08lx prior=%08lx count=%lu errno=%ld last-error=%08lx\n",macro_compare_index,words[0],context->Esp,words[1],words[2],words[3],(long)crt_errno_value(),error);
+    if(words[1]){sprintf(label,"macro-compare-value-%lu",macro_compare_index);hexbytes(label,words[1],words[3]*2);}
+    if(words[2]){sprintf(label,"macro-compare-prior-%lu",macro_compare_index);hexbytes(label,words[2],words[3]*2);}
+    point(words[0],111);point(base+0x4df7,109);
+}
 static int trap(HANDLE thread,DWORD address,DWORD thread_id)
 {
     CONTEXT c;DWORD words[12];unsigned n;Point *p=NULL;
@@ -486,6 +496,7 @@ static int trap(HANDLE thread,DWORD address,DWORD thread_id)
             if(address==base+0x52fa)expansion_begin(&c);
             if(address==base+0x6d53)skipped_begin(&c);
             if(address==base+0x12afc)splice_begin(&c);
+            if(address==base+0x4ddf)macro_compare_begin(&c);
             if(address==base+0x12176)active_number_begin(&c);
             if(address==base+0x519f){readmem(c.Esp,words,8);parameter_sp=c.Esp;parameter_name=words[1];fprintf(events,"parameter-lookup-entry name=%08lx esp=%08lx caller=%08lx\n",words[1],c.Esp,words[0]);hexbytes("parameter-lookup-name",words[1],wide_string_bytes(words[1]));point(words[0],87);}
             if(address==base+0x51df)space_begin(&c);
@@ -624,6 +635,15 @@ static int trap(HANDLE thread,DWORD address,DWORD thread_id)
         }else if(p->kind==102){fprintf(events,"macro-expansion-return result=%ld esp=%08lx\n",(long)c.Eax,c.Esp);if(c.Esp!=expansion_sp+8)fail("macro-expansion-return-stack");
         }else if(p->kind==104){resume_begin(&c);
         }else if(p->kind==100){fprintf(events,"resume-return index=%lu result=%ld esp=%08lx\n",resume_index,(long)c.Eax,c.Esp);if(c.Esp!=resume_sp+4)fail("resume-return-stack");resume_state("after");/* This observer owns only the first completed D/R pair. */if(++resume_index<2)point(base+0x6135,104);
+        }else if(p->kind==112){macro_compare_begin(&c);
+        }else if(p->kind==111){DWORD error;readmem(initial_teb+0x34,&error,4);
+            fprintf(events,"macro-compare-return index=%lu result=%ld esp=%08lx errno=%ld last-error=%08lx\n",macro_compare_index,(long)c.Eax,c.Esp,(long)crt_errno_value(),error);
+            if(c.Esp!=macro_compare_sp+16)fail("macro-compare-return-stack");if(++macro_compare_index<8192)point(base+0x4ddf,112);
+        }else if(p->kind==109){DWORD error;readmem(c.Esp,words,12);wide_compare_sp=c.Esp;readmem(initial_teb+0x34,&error,4);
+            fprintf(events,"wide-compare-call index=%lu value=%08lx prior=%08lx count=%lu esp=%08lx errno=%ld last-error=%08lx\n",macro_compare_index,words[0],words[1],words[2],c.Esp,(long)crt_errno_value(),error);point(base+0x4dfd,110);
+        }else if(p->kind==110){DWORD error;readmem(initial_teb+0x34,&error,4);
+            fprintf(events,"wide-compare-result index=%lu result=%ld esp=%08lx errno=%ld last-error=%08lx\n",macro_compare_index,(long)c.Eax,c.Esp,(long)crt_errno_value(),error);
+            if(c.Esp!=wide_compare_sp)fail("wide-compare-cdecl-stack");
         }else if(p->kind==108){splice_begin(&c);
         }else if(p->kind==107){DWORD cursor,line;readmem(base+0x18120,&cursor,4);readmem(base+0x16ce8,&line,4);
             fprintf(events,"splice-return index=%lu result=%ld esp=%08lx cursor=%08lx line=%lu\n",splice_index,(long)c.Eax,c.Esp,cursor,line);
@@ -839,7 +859,7 @@ static int trap(HANDLE thread,DWORD address,DWORD thread_id)
             if(total>1048576)fail("wide-preprocessor-buffer-size");if(cpp_allocation_size<total+8||cpp_allocation_size>total+10)fail("wide-allocation-observation");hexbytes("wide-argument-block",vector-8,cpp_allocation_size);
             hexbytes("prepared-closed-input",line_file,32);readmem(base+0x149c4,&pointer,4);hexbytes("prepared-filename",pointer,514);
         }
-        if(address==base+0x6ae1||address==base+0x6d53||address==base+0x6cbc||address==base+0x70ce||address==base+0x12afc||address==base+0x4ddf){DWORD depth,frame[9],file,filename;
+        if(address==base+0x6ae1||address==base+0x6d53||address==base+0x6cbc||address==base+0x70ce||address==base+0x12afc||address==base+0x4ddf||address==base+0x47f0||address==base+0x7093){DWORD depth,frame[9],file,filename;
             readmem(base+0x14a10,&depth,4);if(depth>=1024)fail("skip-source-depth");readmem(base+0x18e80+depth*36,frame,36);
             if(address==base+0x6ae1)fprintf(events,"skip-inactive-entry level=%lu caller=%08lx depth=%lu\n",words[1],words[0],depth);
             else if(address==base+0x6d53){DWORD mode;readmem(c.Esp+24,&mode,4);fprintf(events,"skipped-directive-entry caller=%08lx depth=%lu mode=%lu nesting=%ld branch=%u rawbranch=%08lx\n",words[0],depth,mode,(long)c.Ebp,(BYTE)c.Ebx,c.Ebx);}
@@ -847,6 +867,15 @@ static int trap(HANDLE thread,DWORD address,DWORD thread_id)
             hexbytes("skip-source-frame",base+0x18e80+depth*36,36);hexbytes("skip-source-block",frame[5]-8,8206);
             readmem(base+0x149c4,&filename,4);hexbytes("skip-source-filename",filename,wide_string_bytes(filename));
             crt_file_state(frame[1],"skip-source",1);readmem(base+0x18e74,&file,4);crt_file_state(file,"cpp-output",0);
+        }
+        if(address==base+0x47f0){
+            BYTE hash;DWORD length,node,index=0,fields[4];char label[80];readmem(base+0x16cec,&hash,1);readmem(base+0x16ce0,&length,4);readmem(base+0x21ea0+4*hash,&node,4);
+            fprintf(events,"undefine-entry hash=%u length=%lu bucket=%08lx head=%08lx\n",hash,length,base+0x21ea0+4*hash,node);
+            hexbytes("undefine-current-name",base+0x18128,1024);
+            while(node){if(index>=256)fail("undefine-bucket-limit");readmem(node,fields,16);fprintf(events,"undefine-node index=%lu pointer=%08lx\n",index,node);
+                sprintf(label,"undefine-node-%lu",index);hexbytes(label,node-8,24);sprintf(label,"undefine-name-%lu",index);hexbytes(label,fields[1],wide_string_bytes(fields[1]));node=fields[0];++index;
+            }
+            fprintf(events,"undefine-nodes %lu\n",index);
         }
         if(address==base+0x4ddf){
             if(words[3]>2045)fail("compare-text-length");

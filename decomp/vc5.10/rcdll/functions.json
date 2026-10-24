@@ -97,7 +97,8 @@
     "rc_based_integer_kind",
     "rc_skip_inactive",
     "rc_read_skipped_directive",
-    "rc_splice_line"
+    "rc_splice_line",
+    "rc_macro_text_differs"
   ],
   "functions": [
     {
@@ -868,8 +869,7 @@
       "end": "0x4e19",
       "abi": "stdcall",
       "stack_bytes": 12,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_copy_macro_text",
