@@ -120,7 +120,8 @@ def run(executable, directory, tracing, accounting, case_name='cpp_basic'):
     artifacts = []
     if 'phase_output_presence' in metadata:
         presence = metadata['phase_output_presence']
-        declared = {item['output_name'] for item in phase['outputs']}
+        from checkpoint_files import declared_outputs
+        declared = set(declared_outputs(phase,config['cases'][case_name]))
         assert len(presence) == len(declared) and {item['path'] for item in presence} == declared, 'incomplete declared output presence'
         assert {item['path'] for item in presence if item['present']} == {item['path'] for item in metadata['outputs']}, 'presence/cache output list differs'
         for item in presence:

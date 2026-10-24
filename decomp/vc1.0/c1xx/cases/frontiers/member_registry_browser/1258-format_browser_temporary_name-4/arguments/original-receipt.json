@@ -1,0 +1,50 @@
+{
+  "case": "member_registry_browser",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 1258,
+  "terminal": "_format_browser_temporary_name@4",
+  "candidate": null,
+  "pending_accepted": [],
+  "configuration_sha256": "ee50da937dda1042b1d0fe33263bd700e63cd3ccf4d8819e2f9266ddf1b0e570",
+  "capture_seconds": 1.3178321029990911,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "registry.h": {
+      "bytes": 703,
+      "sha256": "a16309303b88af7f9a4a7ad68f6fbcacbc75ed975b9d277a29f9baa6ca38e649"
+    },
+    "registry.cpp": {
+      "bytes": 6998,
+      "sha256": "79744fca0c987fcf884632130d2000185580b0acd358647058f76151e62b8158"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\member-registry-browser-driver",
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "observer_sha256": "b2fb8bfb0f5e6517b3d24996e25c0fbb12e74eb4feb26993f0216508550fff32",
+  "ownership_register_observations": [
+    {
+      "register": "eax",
+      "value": 2948540,
+      "read_succeeded": true
+    }
+  ],
+  "ownership_entry_projection": {
+    "accepted_first": 1257,
+    "accepted_last": 1258,
+    "accepted_prefix_sha256": "e77f378722dafa7bdf215582dbf1ff428e5235a1287c6ed36646fcdcd3fa7359",
+    "expected": [
+      "_begin_browser_output"
+    ],
+    "observed": [
+      "_begin_browser_output"
+    ],
+    "events_sha256": "e5e6754b8dbc00f9c0a95f29cc092fac4da87ce812563aba3cd324678b5fc3aa",
+    "plan_sha256": "e46868f70e4d2c719770e5e4ab7e8877c1bac8499781ab3fd6c73d64e314254f",
+    "scope": "single explicitly selected accepted ownership caller entry; not a full case trace"
+  }
+}

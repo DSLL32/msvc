@@ -1,0 +1,41 @@
+{
+  "buffers": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "states": [
+    0,
+    1,
+    0,
+    0,
+    4294967295,
+    0,
+    0,
+    0,
+    100,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "function": "format_browser_temporary_name",
+  "signal": 5,
+  "declared_arguments": [
+    "filename"
+  ],
+  "raw_filename": 4294956276,
+  "caller_locals": {
+    "caller_filename": {
+      "function": "begin_browser_output",
+      "local": "filename",
+      "fields": [],
+      "value": null,
+      "address": 4294956276
+    }
+  }
+}

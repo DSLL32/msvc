@@ -269,7 +269,9 @@ def main():
         assert (args.original/stream).read_bytes()==(args.native/stream).read_bytes(),stream+' differs'
     expected={p.name:p.read_bytes() for p in (args.original/'case').iterdir() if p.is_file()}
     phase = json.loads((fixture/'manifest.json').read_text())['phases']['c1']
-    declared = {item['output_name'] for item in phase['outputs']}
+    from checkpoint_files import declared_outputs
+    output_names = declared_outputs(phase,case)
+    declared = set(output_names)
     inputs = {Path(item['path']).name for item in phase['inputs']}
     assert inputs <= expected.keys() <= inputs | declared, 'unknown/missing original checkpoint files'
     actual={p.name:p.read_bytes() for p in (args.native/'case').iterdir() if p.is_file()}
@@ -327,9 +329,9 @@ def main():
     metadata['canonical_map_sha256']=sha(snapshot)
     metadata['capture_seconds']=original['capture_seconds']
     metadata['scope']='%d accepted frontiers; explicit original-backed %s frontend terminal'%(len(config['accepted']),'completed' if complete else 'current partial')
-    metadata['phase_output_presence'] = [dict(path=item['output_name'], present=item['output_name'] in expected) for item in phase['outputs']]
+    metadata['phase_output_presence'] = [dict(path=name, present=name in expected) for name in output_names]
     metadata['visible_files'] = [dict(path=name, bytes=len(data), sha256=hashlib.sha256(data).hexdigest()) for name,data in sorted(expected.items())]
-    metadata['outputs'] = [dict(path=item['output_name']) for item in phase['outputs'] if item['output_name'] in expected]
+    metadata['outputs'] = [dict(path=name) for name in output_names if name in expected]
     for output in metadata['outputs']:
         path=reference/output['path']
         path.write_bytes(expected[output['path']])

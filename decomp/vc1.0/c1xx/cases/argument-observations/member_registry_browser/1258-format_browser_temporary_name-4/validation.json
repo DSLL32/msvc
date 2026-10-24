@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_format_browser_temporary_name@4",
+  "case": "member_registry_browser",
+  "accepted_before": 1258,
+  "configuration_sha256": "ee50da937dda1042b1d0fe33263bd700e63cd3ccf4d8819e2f9266ddf1b0e570",
+  "native_entry": "format_browser_temporary_name",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "filename",
+      "stack_index": 0,
+      "native_field": "raw_filename",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 114672,
+        "original_owner_function": "_begin_browser_output",
+        "native_owner_function": "begin_browser_output",
+        "native_owner_field": "caller_filename",
+        "native_owner_local": "filename",
+        "native_owner_address": true,
+        "output_only": true,
+        "identity": "Accepted caller SUBESP256 realfilename array, LEAEAX[ESP]2bfe6/PUSH2bfea/CALL2bfeb return2bff0. Native actual caller array address only, no unwritten output prestate read.",
+        "original_owner_value": 2948540,
+        "native_owner_value": 4294956276
+      },
+      "original_raw": 2948540,
+      "native_raw": 4294956276,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      175312,
+      175416
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 void RET4, oneoutput char*",
+    "proof": "Whole104B SUB4/saveEBXESIEDI12, filename adjustedESP+20, RET4. Copy options.option_Fr includingNUL using forward bytes; scan copiedstring toretainlastpointer, truncateafterlast thenchoose suffix t ornext cycliclowercaseletter ifcollision. No calls/extrahelper/data or hidden/register/x87/flags input. Currentstringregistry.sbr nonempty, choosesregistry.sbt. Empty copiedstring has proven unwritten entryESP-4 lastcursor at2ad10, Win32 sourcebugpreserved; exact nativeguard onlythatbranch beforefirstuse. PublicreachUNKNOWN. Existing option grammar alias8cff4 is retained, no duplicate global/string/image bytes.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "027109f2da3e59151c85af9d89e1f3d67bd55018964f5ff686040e4e97833c70",
+  "capture_timing": {
+    "original_capture_seconds": 1.3178321029990911,
+    "native_capture_seconds": 0.18072818685323,
+    "total_operation_seconds": 1.7795494496822357
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "57fbeaa03c0c8e20a8b8ea7076c47d52ab02adc4791ce98bd614cd8450baf208",
+    "native-commands.gdb": "f819a2fe740c4b6a177d1b60e0831067acad563ffe6a84759bd21b3f7c3fe44a",
+    "native-gdb.log": "b9ed115f4c75a874aba1740c582e4deea5092d7d4528133802d4792b392d31a4",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "4d080bcb0ed8b5d03c1902a72890245e8efa3fc95db642806c81de26a5651b28",
+    "original-configuration.json": "ee50da937dda1042b1d0fe33263bd700e63cd3ccf4d8819e2f9266ddf1b0e570",
+    "original-disassembly.txt": "3f9dc4f05316812d005f0720e6dfdfc831efee4b3f9c1d3bef78b1b6f85ec97a",
+    "original-entries.plan": "e46868f70e4d2c719770e5e4ab7e8877c1bac8499781ab3fd6c73d64e314254f",
+    "original-events.txt": "e5e6754b8dbc00f9c0a95f29cc092fac4da87ce812563aba3cd324678b5fc3aa",
+    "original-ownership-caller-disassembly.txt": "81da4abdcc8c3bc9ac4cfaf47c433fee7fbd6634b3b8db2a330b3aafcc624e15",
+    "original-receipt.json": "690b43f406c6f523b2f5abda6969a1b64e57e6b32f8786d7049594186400b797",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "3409ba7cff70eece95f00704b6ead598562b5cd2188f9dd3e98ddad564ed17fc"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "status": "Actual matched transient discovery; candidate not accepted yet",
+  "function": "_format_browser_temporary_name@4",
+  "configuration_sha256": "d002c3956946b9c117a77e6e3e1ca4d2aa29cd5b0f106127f506e9083017d903",
+  "original": "/root/.ai-tmp/msvc2/vc1.0/c1xx/original-capture-mtr9apbe",
+  "native": "/root/.ai-tmp/msvc2/vc1.0/c1xx/browser-temp-discovery-native",
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\member-registry-browser-driver",
+  "visible_files": [
+    {
+      "path": "registry.cpp",
+      "bytes": 6998,
+      "sha256": "79744fca0c987fcf884632130d2000185580b0acd358647058f76151e62b8158"
+    },
+    {
+      "path": "registry.h",
+      "bytes": 703,
+      "sha256": "a16309303b88af7f9a4a7ad68f6fbcacbc75ed975b9d277a29f9baa6ca38e649"
+    },
+    {
+      "path": "registry.sbt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "unknown_before_explicit_registration": [
+    "registry.sbt"
+  ],
+  "pending_streams": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    ""
+  ],
+  "next_frontier": "_begin_browser_records",
+  "all14_states_equal": true,
+  "disposition": "Explicit case transient allowlist only after this concrete original/native producer evidence; not a final frontend output or comparison normalization",
+  "producer": "format_browser_temporary_name changes finalr to t; accepted begin_browser_output fopenw+ opens registry.sbt in original/native actual cwd; binary-default FILE and buffering match",
+  "evidence": {
+    "discovery-original-configuration.json": "d002c3956946b9c117a77e6e3e1ca4d2aa29cd5b0f106127f506e9083017d903",
+    "discovery-original-events.txt": "3320e869993d26c3743cdcd05b29c021b03cec2307b8f4ff2197a046a6421285",
+    "discovery-native-checkpoint.json": "bf33a44a0a5efe09842eea98e2d165d0c64b29338d455e1bd206342bf93de645",
+    "discovery-native-gdb.log": "fb0ede7e2e6a08a8f2aafecadd47a020487f7653e7d5968e9c2366ea70225bb0",
+    "discovery-original-receipt.json": "43d5a4b3cff9629bc3c7dfb816d4d64cbbd1221165ba4ce6138bc18323e07460"
+  }
+}

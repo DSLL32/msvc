@@ -1,0 +1,28 @@
+{
+  "buffers": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "states": [
+    0,
+    1,
+    0,
+    0,
+    4294967295,
+    0,
+    0,
+    0,
+    100,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "function": "format_browser_temporary_name",
+  "signal": 5
+}

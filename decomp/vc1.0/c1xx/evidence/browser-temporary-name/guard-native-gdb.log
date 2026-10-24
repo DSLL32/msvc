@@ -1,0 +1,17 @@
+Breakpoint 1 at 0x374b5: file src/browser.c, line 23.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, format_browser_temporary_name (filename=0xffffd564 "") at src/browser.c:23
+23	    char *source = options.option_Fr;
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+format_browser_temporary_name (filename=0xffffd564 "") at src/browser.c:34
+34	    while (*cursor) last = cursor++;
+   0x5658c506 <format_browser_temporary_name+102>:	int3
+#0  format_browser_temporary_name (filename=0xffffd564 "") at src/browser.c:34
+#1  0x5658c3da in begin_browser_output () at src/browser.c:11
+#2  0x5655ebe5 in initialize_frontend () at src/initialization.c:156
+#3  0x5655dbac in compile_translation_unit () at src/frontend.c:22
+#4  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#5  0x56558894 in main (argc=1, argv=0xffffd7e4, environment=0xffffd7ec) at src/c1xx.c:20

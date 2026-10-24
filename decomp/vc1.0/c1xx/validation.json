@@ -1,18 +1,18 @@
 {
-  "accepted_frontiers": 1258,
-  "driver_functions": 1153,
+  "accepted_frontiers": 1259,
+  "driver_functions": 1154,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 1160,
-  "current_frontier": "_format_browser_temporary_name@4",
-  "original_frontier_va": "0x2acd0",
+  "reconstructed_source_functions": 1161,
+  "current_frontier": "_begin_browser_records",
+  "original_frontier_va": "0x2c3f0",
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_format_browser_temporary_name@4",
-    "original_va": "0x2acd0"
+    "current_frontier": "_begin_browser_records",
+    "original_va": "0x2c3f0"
   },
-  "current_native_application_entries": 2,
+  "current_native_application_entries": 3,
   "active_queue": [
     "finish cpp_basic",
     "inheritance and virtual dispatch",
@@ -20,12 +20,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 308363,
+    "accepted_code_bytes": 308467,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 64.72530424962953,
-    "accepted_frontiers": 1258,
-    "source_functions": 1160,
-    "accepted_source_text_and_switch_bytes": 292846,
+    "accepted_code_percent": 64.74713381946106,
+    "accepted_frontiers": 1259,
+    "source_functions": 1161,
+    "accepted_source_text_and_switch_bytes": 292950,
     "section_ranges": [
       [
         94208,
@@ -201,16 +201,29 @@
         "authorization": "Parent approved established original-UB policy after concrete valid-input original/native divergence and exact whole-body owner/read proof",
         "evidence": "evidence/empty-output-scope/receipt.json",
         "coverage_note": "Public valid-input reach is proven by frozen state_machine_debug synthetic local-static cleanup. Original symbol buffer1802B vs unguarded native1801B omitted06; guarded native1634B matches original prefix before06. Unaccepted flush candidate remains a patch/stub boundary; no original stale-stack equivalence or current-case completion claim."
+      },
+      {
+        "function": "_format_browser_temporary_name@4",
+        "original": [
+          175312,
+          175416
+        ],
+        "condition": "copied options.option_Fr filename is empty",
+        "behavior": "exact native-only INT3 before original2ad10 unwritten entryESP-4 last-pointer read/write-through",
+        "win32": "original-style uninitialized last pointer retained",
+        "authorization": "Established precise original-uninitialized-local policy after independent complete104B def-use/frame check",
+        "evidence": "evidence/browser-temporary-name/analysis.json",
+        "coverage_note": "SUB4+EBX/ESI/EDI saves12 places adjustedESP+12 atentryESP-4. Only nonempty2ad06 assigns EAX last; empty2ad10 loads untouchedlocal before2ad14 writeslast[1]. Public empty-name reachability UNKNOWN, current registry.sbr nonempty defined; no undefined-stack equivalence claimed."
       }
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 308363,
+    "accepted_code_bytes": 308467,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 64.72530424962953,
-    "accepted_frontiers": 1258,
-    "source_functions": 1160,
-    "accepted_source_text_and_switch_bytes": 292846,
+    "accepted_code_percent": 64.74713381946106,
+    "accepted_frontiers": 1259,
+    "source_functions": 1161,
+    "accepted_source_text_and_switch_bytes": 292950,
     "section_ranges": [
       [
         94208,
@@ -386,13 +399,26 @@
         "authorization": "Parent approved established original-UB policy after concrete valid-input original/native divergence and exact whole-body owner/read proof",
         "evidence": "evidence/empty-output-scope/receipt.json",
         "coverage_note": "Public valid-input reach is proven by frozen state_machine_debug synthetic local-static cleanup. Original symbol buffer1802B vs unguarded native1801B omitted06; guarded native1634B matches original prefix before06. Unaccepted flush candidate remains a patch/stub boundary; no original stale-stack equivalence or current-case completion claim."
+      },
+      {
+        "function": "_format_browser_temporary_name@4",
+        "original": [
+          175312,
+          175416
+        ],
+        "condition": "copied options.option_Fr filename is empty",
+        "behavior": "exact native-only INT3 before original2ad10 unwritten entryESP-4 last-pointer read/write-through",
+        "win32": "original-style uninitialized last pointer retained",
+        "authorization": "Established precise original-uninitialized-local policy after independent complete104B def-use/frame check",
+        "evidence": "evidence/browser-temporary-name/analysis.json",
+        "coverage_note": "SUB4+EBX/ESI/EDI saves12 places adjustedESP+12 atentryESP-4. Only nonempty2ad06 assigns EAX last; empty2ad10 loads untouchedlocal before2ad14 writeslast[1]. Public empty-name reachability UNKNOWN, current registry.sbr nonempty defined; no undefined-stack equivalence claimed."
       }
     ]
   },
   "complete_frontend_case": false,
   "active_case": "member_registry_browser",
   "status": "member_registry_browser reconstruction in progress",
-  "latest_verification": "cases/frontiers/member_registry_browser/1257-begin_browser_output/validation.json",
+  "latest_verification": "cases/frontiers/member_registry_browser/1258-format_browser_temporary_name-4/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -431,11 +457,11 @@
     },
     "member_registry_browser": {
       "status": "partial",
-      "frontier": "_format_browser_temporary_name@4",
-      "latest_verification": "cases/frontiers/member_registry_browser/1257-begin_browser_output/validation.json"
+      "frontier": "_begin_browser_records",
+      "latest_verification": "cases/frontiers/member_registry_browser/1258-format_browser_temporary_name-4/validation.json"
     }
   },
-  "next_operation": "Continue _format_browser_temporary_name@4 reconstruction",
+  "next_operation": "Continue _begin_browser_records reconstruction",
   "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json",
   "native_limitations": [
     {
@@ -606,6 +632,19 @@
       "authorization": "Parent approved established original-UB policy after concrete valid-input original/native divergence and exact whole-body owner/read proof",
       "evidence": "evidence/empty-output-scope/receipt.json",
       "coverage_note": "Public valid-input reach is proven by frozen state_machine_debug synthetic local-static cleanup. Original symbol buffer1802B vs unguarded native1801B omitted06; guarded native1634B matches original prefix before06. Unaccepted flush candidate remains a patch/stub boundary; no original stale-stack equivalence or current-case completion claim."
+    },
+    {
+      "function": "_format_browser_temporary_name@4",
+      "original": [
+        175312,
+        175416
+      ],
+      "condition": "copied options.option_Fr filename is empty",
+      "behavior": "exact native-only INT3 before original2ad10 unwritten entryESP-4 last-pointer read/write-through",
+      "win32": "original-style uninitialized last pointer retained",
+      "authorization": "Established precise original-uninitialized-local policy after independent complete104B def-use/frame check",
+      "evidence": "evidence/browser-temporary-name/analysis.json",
+      "coverage_note": "SUB4+EBX/ESI/EDI saves12 places adjustedESP+12 atentryESP-4. Only nonempty2ad06 assigns EAX last; empty2ad10 loads untouchedlocal before2ad14 writeslast[1]. Public empty-name reachability UNKNOWN, current registry.sbr nonempty defined; no undefined-stack equivalence claimed."
     }
   ],
   "shared_pin_refresh": {

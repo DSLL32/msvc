@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "function": "_format_browser_temporary_name@4",
+  "extent": [
+    175312,
+    175416
+  ],
+  "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "formal": "output char* entryESP+4, stdcallRET4, output buffer written before scanned; no input prestate consumed",
+  "read_only_global": "options.option_Fr grammar-owned original8cff4; current exact captured flag -FRregistry.sbr",
+  "frame": "SUBESP4 then PUSH EBX/ESI/EDI12; local adjustedESP+12=entryESP-4 never written",
+  "nonempty": "2ad01 tests copiedfilename[0]; nonemptyloop2ad06 MOV EAX,EBX retains finalcharacterpointer",
+  "empty": "2ad10 MOV EAX,[ESP+12], no reaching writer;2ad14 MOVBYTE[EAX+1],0 firstuse,2ad18 reads*last",
+  "win32": "Keep original uninitialized char*last empty-name behavior",
+  "native": "Exact empty copiedfilename only INT3 before first last use",
+  "public_reachability": "UNKNOWN; no assertion of malformed-only or actual original empty-stack equivalence",
+  "current_case": "Nonempty registry.sbr, expected temporaryregistry.sbt; actual artifact must be observed before lifecycle registration",
+  "scope": "Whole104B source recovery, no extra appcredit from guard/domain proof"
+}

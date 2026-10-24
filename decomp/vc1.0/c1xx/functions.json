@@ -1262,7 +1262,8 @@
     "_emit_debug_array_type@8",
     "_emit_debug_bit_field@4",
     "_finish_debug_info",
-    "_begin_browser_output"
+    "_begin_browser_output",
+    "_format_browser_temporary_name@4"
   ],
   "driver": [
     {
@@ -9377,11 +9378,20 @@
           "original": 585720
         }
       ],
-      "terminal": "_format_browser_temporary_name@4",
-      "terminal_evidence": "cases/frontiers/member_registry_browser/1257-begin_browser_output/original-events.txt",
+      "terminal": "_begin_browser_records",
+      "terminal_evidence": "cases/frontiers/member_registry_browser/1258-format_browser_temporary_name-4/original-events.txt",
       "original_seed": "cases/member_registry_browser-seed",
       "frontier_extensions": [
-        "cases/frontiers/member_registry_browser/1257-begin_browser_output/frontier-extension.json"
+        "cases/frontiers/member_registry_browser/1257-begin_browser_output/frontier-extension.json",
+        "cases/frontiers/member_registry_browser/1258-format_browser_temporary_name-4/frontier-extension.json"
+      ],
+      "transient_outputs": [
+        {
+          "output_name": "registry.sbt",
+          "evidence": "evidence/browser-temporary-name/transient-discovery.json",
+          "evidence_sha256": "50f1678d5412d54a6c5dc4f8f344b041adfe12a77716f538ace38e6f65074431",
+          "scope": "Actual compiler-created browser temporary; final six-output baseline remains unchanged"
+        }
       ]
     }
   },
@@ -12298,6 +12308,19 @@
       "authorization": "Parent approved established original-UB policy after concrete valid-input original/native divergence and exact whole-body owner/read proof",
       "evidence": "evidence/empty-output-scope/receipt.json",
       "coverage_note": "Public valid-input reach is proven by frozen state_machine_debug synthetic local-static cleanup. Original symbol buffer1802B vs unguarded native1801B omitted06; guarded native1634B matches original prefix before06. Unaccepted flush candidate remains a patch/stub boundary; no original stale-stack equivalence or current-case completion claim."
+    },
+    {
+      "function": "_format_browser_temporary_name@4",
+      "original": [
+        175312,
+        175416
+      ],
+      "condition": "copied options.option_Fr filename is empty",
+      "behavior": "exact native-only INT3 before original2ad10 unwritten entryESP-4 last-pointer read/write-through",
+      "win32": "original-style uninitialized last pointer retained",
+      "authorization": "Established precise original-uninitialized-local policy after independent complete104B def-use/frame check",
+      "evidence": "evidence/browser-temporary-name/analysis.json",
+      "coverage_note": "SUB4+EBX/ESI/EDI saves12 places adjustedESP+12 atentryESP-4. Only nonempty2ad06 assigns EAX last; empty2ad10 loads untouchedlocal before2ad14 writeslast[1]. Public empty-name reachability UNKNOWN, current registry.sbr nonempty defined; no undefined-stack equivalence claimed."
     }
   ]
 }

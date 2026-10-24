@@ -1,0 +1,30 @@
+entry _begin_browser_output rva 0001bfe0 byte 81
+exception 80000003 rva 0001acd0 base 00010000 first 1
+buffer 0 unopened
+buffer 1 unopened
+buffer 2 unopened
+buffer 3 unopened
+buffer 4 unopened
+buffer 5 unopened
+state 0 00000000
+state 1 00000001
+state 2 00000000
+state 3 00000000
+state 4 ffffffff
+state 5 00000000
+state 6 00000000
+state 7 00000000
+state 8 00000064
+state 9 00000000
+state 10 00000000
+state 11 00000000
+state 12 00000000
+state 13 00000000
+caller 0001bff0
+argument 0 002cfdbc
+argument 1 00000000
+argument 2 00000000
+argument 3 3fff1000
+argument-words requested 4 actual 4 context 1
+ownership-anchor eax 002cfdbc
+exit 99

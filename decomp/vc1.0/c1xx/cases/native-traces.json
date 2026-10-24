@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "e1714364370e048832a3751418cf53df142f14c2ff548d8a94fe369abce90faa",
+    "functions.json": "9195069a36ba9eee50339f8b0672b7f8ba5a0dd45a4a817ea2d360f19dd24bed",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "e3794b2d439dc4aa126eda8472376bcdc765a507bb58fa99f54a8ddddec9fe1f",
-    "cases/canonical-map.txt": "6bb3dab6c166d3dce70601fd7f5d46c26c5484a70fc9dec315ff91f6d3710af6",
+    "cases/original-entry-references.json": "054ea85d5b1e099afc4e9e5a2ed569fa4111030d0dfdaa5bb9e02cc182de939f",
+    "cases/canonical-map.txt": "100b5b74e8e03ac542cd36fa87e83693f83a1b2c5fa5a9dc106f694b1b3e7fae",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -67,9 +67,9 @@
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-receipt.json": "aaed00b4fadaebffc9880353fea9e13e29e47c575801ef9b2468683dce4fa7c5",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-events.txt": "101a9376ca702a65d47b1014b7314fcf5bae85308185272f7bfbfd5a54474784",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-entries.plan": "0666913d4e150db042b4ec44837ec92005027e9ae6eb67575b6dd821714b9619",
-    "cases/frontiers/member_registry_browser/1257-begin_browser_output/entry-reference/original-receipt.json": "7c100e9e87cdcc463e9fe96a353173efc6bf62ce6e64676008e4bdb7f0c410fb",
-    "cases/frontiers/member_registry_browser/1257-begin_browser_output/entry-reference/original-events.txt": "231e51ab55d987aa7edcd3c379daee183b72668b7dd4c6d53ca1fe55505e991e",
-    "cases/frontiers/member_registry_browser/1257-begin_browser_output/entry-reference/original-entries.plan": "e46868f70e4d2c719770e5e4ab7e8877c1bac8499781ab3fd6c73d64e314254f"
+    "cases/frontiers/member_registry_browser/1258-format_browser_temporary_name-4/entry-reference/original-receipt.json": "0a42a5c50e7628b590953775f8e5355296e568b0acb907688c02c644bc4dbd34",
+    "cases/frontiers/member_registry_browser/1258-format_browser_temporary_name-4/entry-reference/original-events.txt": "3320e869993d26c3743cdcd05b29c021b03cec2307b8f4ff2197a046a6421285",
+    "cases/frontiers/member_registry_browser/1258-format_browser_temporary_name-4/entry-reference/original-entries.plan": "79510fa34ff0332b0e472c6b85bc59884816c65f5f08a86d81bfa1e80ef7ce6e"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -2722,7 +2722,7 @@
     },
     "format_browser_temporary_name": {
       "logical": "_format_browser_temporary_name@4",
-      "source": "src/stubs.c"
+      "source": "src/browser.c"
     },
     "format_declaration_base_type": {
       "logical": "_format_declaration_base_type@8",
@@ -7174,7 +7174,8 @@
     "emit_debug_array_type",
     "emit_debug_bit_field",
     "finish_debug_info",
-    "begin_browser_output"
+    "begin_browser_output",
+    "format_browser_temporary_name"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -13604,7 +13605,7 @@
     },
     "member_registry_browser": {
       "first": 1257,
-      "last": 1258,
+      "last": 1259,
       "seen": [
         "main",
         "message_text",
@@ -14761,12 +14762,13 @@
       ],
       "expected": [
         "begin_browser_output",
-        "format_browser_temporary_name"
+        "format_browser_temporary_name",
+        "begin_browser_records"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_format_browser_temporary_name@4",
-        "native": "format_browser_temporary_name",
+        "logical": "_begin_browser_records",
+        "native": "begin_browser_records",
         "signal": 5
       }
     }

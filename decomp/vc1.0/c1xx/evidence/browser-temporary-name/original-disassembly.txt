@@ -1,0 +1,44 @@
+   2acd0:	83 ec 04             	sub    esp,0x4
+   2acd3:	53                   	push   ebx
+   2acd4:	56                   	push   esi
+   2acd5:	57                   	push   edi
+   2acd6:	b2 74                	mov    dl,0x74
+   2acd8:	8b 3d f4 cf 08 00    	mov    edi,DWORD PTR ds:0x8cff4
+   2acde:	b9 ff ff ff ff       	mov    ecx,0xffffffff
+   2ace3:	2b c0                	sub    eax,eax
+   2ace5:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+   2ace7:	f7 d1                	not    ecx
+   2ace9:	2b f9                	sub    edi,ecx
+   2aceb:	8b c1                	mov    eax,ecx
+   2aced:	8b f7                	mov    esi,edi
+   2acef:	8b 5c 24 14          	mov    ebx,DWORD PTR [esp+0x14]
+   2acf3:	8b fb                	mov    edi,ebx
+   2acf5:	c1 e9 02             	shr    ecx,0x2
+   2acf8:	f3 a5                	rep movs DWORD PTR es:[edi],DWORD PTR ds:[esi]
+   2acfa:	8b c8                	mov    ecx,eax
+   2acfc:	83 e1 03             	and    ecx,0x3
+   2acff:	f3 a4                	rep movs BYTE PTR es:[edi],BYTE PTR ds:[esi]
+   2ad01:	80 3b 00             	cmp    BYTE PTR [ebx],0x0
+   2ad04:	74 0a                	je     0x2ad10
+   2ad06:	8b c3                	mov    eax,ebx
+   2ad08:	43                   	inc    ebx
+   2ad09:	80 3b 00             	cmp    BYTE PTR [ebx],0x0
+   2ad0c:	75 f8                	jne    0x2ad06
+   2ad0e:	eb 04                	jmp    0x2ad14
+   2ad10:	8b 44 24 0c          	mov    eax,DWORD PTR [esp+0xc]
+   2ad14:	c6 40 01 00          	mov    BYTE PTR [eax+0x1],0x0
+   2ad18:	8a 48 00             	mov    cl,BYTE PTR [eax+0x0]
+   2ad1b:	80 f9 74             	cmp    cl,0x74
+   2ad1e:	75 0d                	jne    0x2ad2d
+   2ad20:	fe c2                	inc    dl
+   2ad22:	80 fa 7a             	cmp    dl,0x7a
+   2ad25:	7e 02                	jle    0x2ad29
+   2ad27:	b2 61                	mov    dl,0x61
+   2ad29:	3a d1                	cmp    dl,cl
+   2ad2b:	74 f3                	je     0x2ad20
+   2ad2d:	88 10                	mov    BYTE PTR [eax],dl
+   2ad2f:	5f                   	pop    edi
+   2ad30:	5e                   	pop    esi
+   2ad31:	5b                   	pop    ebx
+   2ad32:	83 c4 04             	add    esp,0x4
+   2ad35:	c2 04 00             	ret    0x4

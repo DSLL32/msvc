@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "scope": "Focused allowlist negatives from the genuinely observed browser temporary.",
+  "checks": [
+    {
+      "test": "control",
+      "result": "verified",
+      "outputs": [
+        "irex",
+        "irsy",
+        "irin",
+        "irgl",
+        "irdb",
+        "registry.sbr",
+        "registry.sbt"
+      ]
+    },
+    {
+      "test": "stale-proof",
+      "result": "held",
+      "reason": "transient discovery evidence changed"
+    },
+    {
+      "test": "wrong-name",
+      "result": "held",
+      "reason": "transient name absent from actual discovery"
+    },
+    {
+      "test": "duplicate-output",
+      "result": "held",
+      "reason": "duplicate declared output"
+    },
+    {
+      "test": "directory-escape",
+      "result": "held",
+      "reason": "transient name absent from actual discovery"
+    },
+    {
+      "test": "missing-proof",
+      "result": "held",
+      "reason": "'evidence'"
+    }
+  ],
+  "checker_sha256": "8950094ebb0382177bfbad77b24e80816c90d6b5fdc326bb533f40746bf52eb1",
+  "helper_sha256": "eee4567e48bf6da2883e68dcde669a2a746333b31ae213162bfba71effada07e",
+  "discovery_sha256": "50f1678d5412d54a6c5dc4f8f344b041adfe12a77716f538ace38e6f65074431",
+  "configuration_sha256": "9195069a36ba9eee50339f8b0672b7f8ba5a0dd45a4a817ea2d360f19dd24bed",
+  "elapsed_seconds": 0.006362218409776688,
+  "original_invocations": 0
+}
