@@ -1,0 +1,40 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0004b520 <.text+0x34520>:
+   4b520:	83 ec 0c             	sub    esp,0xc
+   4b523:	53                   	push   ebx
+   4b524:	56                   	push   esi
+   4b525:	57                   	push   edi
+   4b526:	55                   	push   ebp
+   4b527:	8b 7c 24 20          	mov    edi,DWORD PTR [esp+0x20]
+   4b52b:	8b 5f 0c             	mov    ebx,DWORD PTR [edi+0xc]
+   4b52e:	8d 44 24 10          	lea    eax,[esp+0x10]
+   4b532:	53                   	push   ebx
+   4b533:	50                   	push   eax
+   4b534:	6a 00                	push   0x0
+   4b536:	53                   	push   ebx
+   4b537:	e8 d4 05 00 00       	call   0x4bb10
+   4b53c:	50                   	push   eax
+   4b53d:	e8 7e 07 00 00       	call   0x4bcc0
+   4b542:	8b f0                	mov    esi,eax
+   4b544:	8d 44 24 10          	lea    eax,[esp+0x10]
+   4b548:	53                   	push   ebx
+   4b549:	50                   	push   eax
+   4b54a:	6a 01                	push   0x1
+   4b54c:	53                   	push   ebx
+   4b54d:	e8 be 05 00 00       	call   0x4bb10
+   4b552:	50                   	push   eax
+   4b553:	e8 68 07 00 00       	call   0x4bcc0
+   4b558:	89 44 24 18          	mov    DWORD PTR [esp+0x18],eax
+   4b55c:	8d 44 24 10          	lea    eax,[esp+0x10]
+   4b560:	53                   	push   ebx
+   4b561:	50                   	push   eax
+   4b562:	6a 01                	push   0x1
+   4b564:	53                   	push   ebx
+   4b565:	e8 a6 05 00 00       	call   0x4bb10
+   4b56a:	50                   	push   eax
+   4b56b:	e8 b0 07 00 00       	call   0x4bd20

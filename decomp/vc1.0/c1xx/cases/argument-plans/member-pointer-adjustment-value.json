@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "function": "_member_pointer_adjustment_value@8",
+  "native_entry": "member_pointer_adjustment_value",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_storage": "(unsigned)storage",
+    "raw_expression": "(unsigned)expression"
+  },
+  "formals": [
+    {
+      "name": "storage",
+      "stack_index": 0,
+      "native_field": "raw_storage",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 243056,
+        "original_owner_function": "_compare_multiple_method_pointer@16",
+        "native_owner_function": "compare_multiple_method_pointer",
+        "native_owner_field": "caller_storage",
+        "native_owner_local": "storage",
+        "identity": "Actual accepted comparison retains left expression EBX; component1 returns actual storageEAX, PUSH EAX4b56a/CALL4b56b/return4b570 with prior pushed EBX. Native real immediate caller storage and left locals bind the same roles."
+      }
+    },
+    {
+      "name": "expression",
+      "stack_index": 1,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebx",
+        "original_caller_rva": 243056,
+        "original_owner_function": "_compare_multiple_method_pointer@16",
+        "native_owner_function": "compare_multiple_method_pointer",
+        "native_owner_field": "caller_expression",
+        "native_owner_local": "left",
+        "identity": "Actual accepted comparison retains left expression EBX; component1 returns actual storageEAX, PUSH EAX4b56a/CALL4b56b/return4b570 with prior pushed EBX. Native real immediate caller storage and left locals bind the same roles."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "eax,ebx",
+  "ownership_caller_extent": [
+    308512,
+    308592
+  ],
+  "native_caller_locals": {
+    "caller_storage": {
+      "frame": 1,
+      "function": "compare_multiple_method_pointer",
+      "local": "storage"
+    },
+    "caller_expression": {
+      "frame": 1,
+      "function": "compare_multiple_method_pointer",
+      "local": "left"
+    }
+  },
+  "abi_analysis": {
+    "original_extent": [
+      310560,
+      310625
+    ],
+    "argument_bytes": 8,
+    "convention": "stdcall8 IrToken* EAX RET8",
+    "proof": "Whole65B savesESI4, storage/expression adjustedESP+8/+12, everyRET8. No hidden/register/x87/flag input. Existing inheritance model(expression.type):1 returns make_integer_constant0;2..4 call named std12 member_pointer_integer_field(storage,expression,0), otherwiseNULL. New callee4bdf0..4be4f95B full raw formal/RET12 proof; left trap/no credit. Current accepted comparison caller EBX actualleft expression and component1 result EAX storage, PUSH retainedEBX4b560 before componentcall; PUSH EAX4b56a/CALL4b56b/return4b570. Native actual storage/left locals bind pointers, saved initialized by prior actual component0, no input padding invention. No newdata/CRT/guard."
+  }
+}

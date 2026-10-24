@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_member_pointer_adjustment_value@8",
+    "start": 310560,
+    "end": 310625
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_defined_debug/1244-member_pointer_adjustment_value-8/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_make_integer_constant@4",
+    "_member_pointer_inheritance_model@4",
+    "_member_pointer_integer_field@12"
+  ],
+  "next_frontier": "_member_pointer_integer_field@12",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8425820283591747,
+  "total_operation_seconds": 5.11356789432466,
+  "original_capture_seconds": 1.769552101381123
+}

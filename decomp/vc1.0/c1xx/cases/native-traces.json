@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "bac9d39bcedcbf000f09487c601e9a85dbc4730acf6cb1bd206842a70b93073e",
+    "functions.json": "b556f062acd11346efdca1e8ce6aea90a1f28ab8e42d9f6bc88d988228796fa3",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "3e2aa5cefb5e118d3f35f3a86f5da176f5f8e44fcc4c0276d31c82d55a05f193",
-    "cases/canonical-map.txt": "acafe4ed0c7d3f98158f8985db4144ece2e27c342b9dfb2d2b95ed064f0fbc32",
+    "cases/original-entry-references.json": "39506e4e13447bf47ec19c937ca6efd898d690447c59b2511d917271a0974c7a",
+    "cases/canonical-map.txt": "b3a158f269ae1ab49096d9115a323f81637b9f461b9385296e41d08a97cc9fa6",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -64,9 +64,9 @@
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-receipt.json": "c9cbd20af4610da8f8c35487c1cb632113d35461981bd76aa2f7d60e10400717",
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-events.txt": "a7247c160287c63539d241bef68d979d6d6a4b4649e77c3b542cb394ffce4b8e",
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-entries.plan": "95e3224e0362e24a6ef5b495984403fa23be74272e90e204349cda7924f7f5d6",
-    "cases/frontiers/state_machine_defined_debug/1243-compare_multiple_method_pointer-16/entry-reference/original-receipt.json": "fe2e311b636fb212427799313f2a60e2a4d71db71d31f4fa49ba75f6abbe50e9",
-    "cases/frontiers/state_machine_defined_debug/1243-compare_multiple_method_pointer-16/entry-reference/original-events.txt": "858b8de9386381b57771d172b07288509e2edccf53fafc8ecbb516590b3fe562",
-    "cases/frontiers/state_machine_defined_debug/1243-compare_multiple_method_pointer-16/entry-reference/original-entries.plan": "34a686f2cc0ed14a179d1f27f0c8e02d14411bd6d50135fcceaf22d01742dd5f"
+    "cases/frontiers/state_machine_defined_debug/1244-member_pointer_adjustment_value-8/entry-reference/original-receipt.json": "105146378d17a730c83142052dfd66cdf63eb44eacdaef4ad5fa556a1f5557ef",
+    "cases/frontiers/state_machine_defined_debug/1244-member_pointer_adjustment_value-8/entry-reference/original-events.txt": "adae4afc0aaad328fd2b3d343287093d8d2f47a7c6b038bd857e70972c22ba4d",
+    "cases/frontiers/state_machine_defined_debug/1244-member_pointer_adjustment_value-8/entry-reference/original-entries.plan": "5b50439fa05eed0a059ec082e6f8261d18321bec326e99ff7bf2783b30bc9896"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -3919,7 +3919,7 @@
     },
     "member_pointer_adjustment_value": {
       "logical": "_member_pointer_adjustment_value@8",
-      "source": "src/stubs.c"
+      "source": "src/member-pointers.c"
     },
     "member_pointer_cast_compatible": {
       "logical": "_member_pointer_cast_compatible@12",
@@ -3948,6 +3948,10 @@
     "member_pointer_inheritance_model": {
       "logical": "_member_pointer_inheritance_model@4",
       "source": "src/member-pointers.c"
+    },
+    "member_pointer_integer_field": {
+      "logical": "_member_pointer_integer_field@12",
+      "source": "src/stubs.c"
     },
     "member_pointer_is_aggregate": {
       "logical": "_member_pointer_is_aggregate@4",
@@ -7137,7 +7141,8 @@
     "recognize_compact_method_function",
     "member_pointer_function_value",
     "dispatch_member_pointer_comparison",
-    "compare_multiple_method_pointer"
+    "compare_multiple_method_pointer",
+    "member_pointer_adjustment_value"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -12402,7 +12407,7 @@
     },
     "state_machine_defined_debug": {
       "first": 1232,
-      "last": 1244,
+      "last": 1245,
       "seen": [
         "main",
         "message_text",
@@ -13545,12 +13550,13 @@
         "member_pointer_function_value",
         "dispatch_member_pointer_comparison",
         "compare_multiple_method_pointer",
-        "member_pointer_adjustment_value"
+        "member_pointer_adjustment_value",
+        "member_pointer_integer_field"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_member_pointer_adjustment_value@8",
-        "native": "member_pointer_adjustment_value",
+        "logical": "_member_pointer_integer_field@12",
+        "native": "member_pointer_integer_field",
         "signal": 5
       }
     }

@@ -1248,7 +1248,8 @@
     "_recognize_compact_method_function@8",
     "_member_pointer_function_value@8",
     "_dispatch_member_pointer_comparison@8",
-    "_compare_multiple_method_pointer@16"
+    "_compare_multiple_method_pointer@16",
+    "_member_pointer_adjustment_value@8"
   ],
   "driver": [
     {
@@ -8775,7 +8776,7 @@
     {
       "name": "_member_pointer_adjustment_value@8",
       "start": 310560,
-      "end": 310561
+      "end": 310625
     },
     {
       "name": "_adjust_member_pointer_displacement@8",
@@ -8786,6 +8787,11 @@
       "name": "_can_reuse_member_pointer_storage@4",
       "start": 310256,
       "end": 310311
+    },
+    {
+      "name": "_member_pointer_integer_field@12",
+      "start": 310768,
+      "end": 310769
     }
   ],
   "cases": {
@@ -9276,8 +9282,8 @@
           "original": 576700
         }
       ],
-      "terminal": "_member_pointer_adjustment_value@8",
-      "terminal_evidence": "cases/frontiers/state_machine_defined_debug/1243-compare_multiple_method_pointer-16/original-events.txt",
+      "terminal": "_member_pointer_integer_field@12",
+      "terminal_evidence": "cases/frontiers/state_machine_defined_debug/1244-member_pointer_adjustment_value-8/original-events.txt",
       "original_seed": "cases/state_machine_defined_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/frontier-extension.json",
@@ -9291,7 +9297,8 @@
         "cases/frontiers/state_machine_defined_debug/1240-recognize_compact_method_function-8/frontier-extension.json",
         "cases/frontiers/state_machine_defined_debug/1241-member_pointer_function_value-8/frontier-extension.json",
         "cases/frontiers/state_machine_defined_debug/1242-dispatch_member_pointer_comparison-8/frontier-extension.json",
-        "cases/frontiers/state_machine_defined_debug/1243-compare_multiple_method_pointer-16/frontier-extension.json"
+        "cases/frontiers/state_machine_defined_debug/1243-compare_multiple_method_pointer-16/frontier-extension.json",
+        "cases/frontiers/state_machine_defined_debug/1244-member_pointer_adjustment_value-8/frontier-extension.json"
       ]
     }
   },

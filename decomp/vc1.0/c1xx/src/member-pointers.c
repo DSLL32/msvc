@@ -21,6 +21,8 @@ int __stdcall can_reuse_member_pointer_storage(IrToken *expression);
 int __stdcall recognize_compact_method_function(IrToken *expression, IrToken **function);
 IrToken *__stdcall member_pointer_function_value(IrToken *storage, IrToken *expression);
 IrToken *__stdcall member_pointer_adjustment_value(IrToken *storage, IrToken *expression);
+IrToken *__stdcall member_pointer_integer_field(IrToken *storage, IrToken *expression,
+    unsigned component);
 IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int displacement);
 IrToken *__stdcall member_pointer_component(IrToken *expression, int component, IrToken **saved);
 IrToken *__stdcall preserve_null_data_member_conversion(IrToken *converted,
@@ -808,4 +810,17 @@ IrToken *__stdcall compare_multiple_method_pointer(IrToken *expression,
     result_type = result->type;
     zero = make_integer_constant(0);
     return new_ir_expression(0x40, zero, result, result_type);
+}
+
+/* Original 0x4bd20..0x4bd60, stdcall8. Single inheritance has
+   no stored this-adjustment; the larger representations use integer field zero. */
+IrToken *__stdcall member_pointer_adjustment_value(IrToken *storage,
+    IrToken *expression)
+{
+    switch (member_pointer_inheritance_model(expression->type)) {
+    case 1: return make_integer_constant(0);
+    case 2: case 3: case 4:
+        return member_pointer_integer_field(storage, expression, 0);
+    default: return 0;
+    }
 }
