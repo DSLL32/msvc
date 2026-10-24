@@ -127,11 +127,12 @@ static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
     if (ownership_register) {
         char *register_name;
         DWORD value;
-        unsigned selected = (ownership_register == 7 || ownership_register == 13 || ownership_register == 15) ? 4 :
+        unsigned selected = (ownership_register == 7 || ownership_register == 13 || ownership_register == 15 || ownership_register == 17) ? 4 :
             ((ownership_register == 9 || ownership_register == 12) ? 3 :
              ((ownership_register == 10 || ownership_register == 11 || ownership_register == 14) ? 1 : ownership_register));
         for (;;) {
             switch (selected) {
+            case 16: register_name = "ecx"; value = context_read ? context.Ecx : 0; break;
             case 8: register_name = "edx"; value = context_read ? context.Edx : 0; break;
             case 6: register_name = "esp"; value = context_read ? context.Esp : 0; break;
             case 5: register_name = "ebp"; value = context_read ? context.Ebp : 0; break;
@@ -143,6 +144,8 @@ static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
             if (context_read) sprintf(line, "ownership-anchor %s %08lx\n", register_name, value);
             else sprintf(line, "ownership-anchor %s unreadable\n", register_name);
             WriteFile(log, line, strlen(line), &written, 0);
+            if (ownership_register == 17 && selected == 4) { selected = 2; continue; }
+            if (ownership_register == 17 && selected == 2) { selected = 16; continue; }
             if (ownership_register == 15 && selected == 4) { selected = 5; continue; }
             if (ownership_register == 14 && selected == 1) { selected = 5; continue; }
             if (ownership_register == 13 && selected == 4) { selected = 2; continue; }
@@ -198,7 +201,8 @@ int main(int argc, char **argv)
         else return 2;
     }
     if (ownership_option) {
-        if (!strcmp(ownership_option, "eax,ebp")) ownership_register = 15;
+        if (!strcmp(ownership_option, "eax,ebx,ecx")) ownership_register = 17;
+        else if (!strcmp(ownership_option, "eax,ebp")) ownership_register = 15;
         else if (!strcmp(ownership_option, "esi,ebp")) ownership_register = 14;
         else if (!strcmp(ownership_option, "eax,ebx")) ownership_register = 13;
         else if (!strcmp(ownership_option, "edi,esi,eax")) ownership_register = 12;

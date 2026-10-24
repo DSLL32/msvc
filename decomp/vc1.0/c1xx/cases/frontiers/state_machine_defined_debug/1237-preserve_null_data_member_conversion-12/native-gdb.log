@@ -1,0 +1,17 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565593b4 in refill_source_or_error () at src/stubs.c:218
+218	void refill_source_or_error(void) { __asm { int 3 } }
+#0  0x565593b4 in refill_source_or_error () at src/stubs.c:218
+#1  0x565c20c6 in recover_special_character () at src/lexer.c:893
+#2  0x565c5998 in read_lexical_token () at src/lexer.c:598
+#3  0x565c3375 in scan_token () at src/lexer.c:228
+#4  0x565caf7b in resolve_identifier_token (name=0x56629d5a "Shifted") at src/qualified-names.c:165
+#5  0x565c367e in resolve_typename_token (input=0x0) at src/lexer.c:750
+#6  0x565c28ba in read_parser_token () at src/lexer.c:83
+#7  0x565bacd9 in parse_translation_unit () at src/parser.c:85
+#8  0x5655e0bf in compile_translation_unit () at src/frontend.c:73
+#9  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#10 0x56558894 in main (argc=1, argv=0xffffd814, environment=0xffffd81c) at src/c1xx.c:20

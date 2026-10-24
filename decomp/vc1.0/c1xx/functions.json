@@ -1241,7 +1241,8 @@
     "_convert_compact_method_pointer@24",
     "_make_multiple_inheritance_method_pointer@12",
     "_member_pointer_component@12",
-    "_can_reuse_member_pointer_storage@4"
+    "_can_reuse_member_pointer_storage@4",
+    "_preserve_null_data_member_conversion@12"
   ],
   "driver": [
     {
@@ -8753,7 +8754,7 @@
     {
       "name": "_preserve_null_data_member_conversion@12",
       "start": 312016,
-      "end": 312017
+      "end": 312086
     },
     {
       "name": "_recognize_compact_method_function@8",
@@ -9269,15 +9270,16 @@
           "original": 576700
         }
       ],
-      "terminal": "_preserve_null_data_member_conversion@12",
-      "terminal_evidence": "cases/frontiers/state_machine_defined_debug/1236-can_reuse_member_pointer_storage-4/original-events.txt",
+      "terminal": "_refill_source_or_error",
+      "terminal_evidence": "cases/frontiers/state_machine_defined_debug/1237-preserve_null_data_member_conversion-12/original-events.txt",
       "original_seed": "cases/state_machine_defined_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/frontier-extension.json",
         "cases/frontiers/state_machine_defined_debug/1233-convert_compact_method_pointer-24/frontier-extension.json",
         "cases/frontiers/state_machine_defined_debug/1234-make_multiple_inheritance_method_pointer-12/frontier-extension.json",
         "cases/frontiers/state_machine_defined_debug/1235-member_pointer_component-12/frontier-extension.json",
-        "cases/frontiers/state_machine_defined_debug/1236-can_reuse_member_pointer_storage-4/frontier-extension.json"
+        "cases/frontiers/state_machine_defined_debug/1236-can_reuse_member_pointer_storage-4/frontier-extension.json",
+        "cases/frontiers/state_machine_defined_debug/1237-preserve_null_data_member_conversion-12/frontier-extension.json"
       ]
     }
   },

@@ -1,0 +1,119 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_preserve_null_data_member_conversion@12",
+  "case": "state_machine_defined_debug",
+  "accepted_before": 1237,
+  "configuration_sha256": "8438cd396cab397db87e28b1b895090389d8b13ee781e3eb23e2d72a4da4e5fc",
+  "native_entry": "preserve_null_data_member_conversion",
+  "declared_formal_count": 3,
+  "formals": [
+    {
+      "name": "converted",
+      "stack_index": 0,
+      "native_field": "raw_converted",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 245589,
+        "original_owner_function": "_convert_compact_data_member_pointer@24",
+        "native_owner_function": "convert_compact_data_member_pointer",
+        "native_owner_field": "caller_converted",
+        "native_owner_local": "converted",
+        "identity": "Actual accepted data conversion retains result EAX/original EBX and loads source expression.type into ECX4bf4a, pushes ECX/EBX/EAX4bf4d..4bf4f, CALL4bf50/return4bf55. Native actual immediate caller converted/original/expression.type owns each pointer.",
+        "original_owner_value": 8451568,
+        "native_owner_value": 1449488536
+      },
+      "original_raw": 8451568,
+      "native_raw": 1449488536,
+      "result": "match"
+    },
+    {
+      "name": "original",
+      "stack_index": 1,
+      "native_field": "raw_original",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebx",
+        "original_caller_rva": 245589,
+        "original_owner_function": "_convert_compact_data_member_pointer@24",
+        "native_owner_function": "convert_compact_data_member_pointer",
+        "native_owner_field": "caller_original",
+        "native_owner_local": "original",
+        "identity": "Actual accepted data conversion retains result EAX/original EBX and loads source expression.type into ECX4bf4a, pushes ECX/EBX/EAX4bf4d..4bf4f, CALL4bf50/return4bf55. Native actual immediate caller converted/original/expression.type owns each pointer.",
+        "original_owner_value": 8451508,
+        "native_owner_value": 1449488476
+      },
+      "original_raw": 8451508,
+      "native_raw": 1449488476,
+      "result": "match"
+    },
+    {
+      "name": "source",
+      "stack_index": 2,
+      "native_field": "raw_source",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ecx",
+        "original_caller_rva": 245589,
+        "original_owner_function": "_convert_compact_data_member_pointer@24",
+        "native_owner_function": "convert_compact_data_member_pointer",
+        "native_owner_field": "caller_source",
+        "native_owner_local": "expression",
+        "identity": "Actual accepted data conversion retains result EAX/original EBX and loads source expression.type into ECX4bf4a, pushes ECX/EBX/EAX4bf4d..4bf4f, CALL4bf50/return4bf55. Native actual immediate caller converted/original/expression.type owns each pointer.",
+        "native_owner_fields": [
+          "type"
+        ],
+        "original_owner_value": 8311904,
+        "native_owner_value": 1449342048
+      },
+      "original_raw": 8311904,
+      "native_raw": 1449342048,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      312016,
+      312086
+    ],
+    "argument_bytes": 12,
+    "convention": "stdcall12 IrToken* EAX RET12",
+    "proof": "Whole70B savesESI/EDI8; converted/original/source adjustedESP+12/+16/+20, RET12. No hidden/register/x87/flag input. Actual source helper constructs source null, new_ir44 compares original against it with existing type0064; target null uses converted.type, left-typed3f alternatives and right-typed5f conditional. All5 distinct callees accepted, no new data/CRT/guard. Actual caller retains converted EAX after make_member_at_offset4bf45, original storage EBX4bf2d; loads expression.type ECX4bf4a, PUSH ECX/EBX/EAX4bf4d..4bf4f/CALL4bf50/return4bf55. Fresh same CONTEXT EAX/EBX/ECX are pointer owners, not callee register inputs.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "9b97446dc3667260dd63a24b6b2933bc2e34b31fbf5040bc4e17ae9fb14a3a08",
+  "capture_timing": {
+    "original_capture_seconds": 0.9165358683094382,
+    "native_capture_seconds": 0.18085735384374857,
+    "total_operation_seconds": 1.3521804446354508
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "3322038ce4114689d2334bc7af5ff0d894392f41d61f9da70eb470c1f994c2fb",
+    "native-commands.gdb": "9ad7fdbb891ee9863fe72940bddb746712ea3a8ca7f8d6017f9ca3b90290de73",
+    "native-gdb.log": "bc48f26bfd014c5bf907989a344235c953ffbd64e19c48c8cb6cd1cd92fc3f02",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "f5d6155282015066ea7cd901f619d59bf95c9ae5a5dd5943fc71622ed3823875",
+    "original-configuration.json": "8438cd396cab397db87e28b1b895090389d8b13ee781e3eb23e2d72a4da4e5fc",
+    "original-disassembly.txt": "900e3b0d2b1ad05421fbb325e210968ba9a6c67f45d9004a368678bcb42f4be2",
+    "original-entries.plan": "dbfe09c48326aaa9587263d9dd22915243453fa7184678756e215403ab02739c",
+    "original-events.txt": "007b2dd5970ad161fc00ef9cbf7dc52c953a09d0984f5cb10cd6fb031fc29dd6",
+    "original-ownership-caller-disassembly.txt": "8d3c76ea123f10a585009bc82252bb23700155fcf1dfab026364b57c132413e3",
+    "original-receipt.json": "334f5f6c0a40a45b91a4eb98438313f86a8db35af323d3e8126111396030b1a7",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "157fd641ad4ee1ecb105a7c9bd6a88a3db19309fad418d395e59a9a1f6108654"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

@@ -702,3 +702,16 @@ int __stdcall can_reuse_member_pointer_storage(IrToken *expression)
     return expression->kind == 0x46 && expression_can_be_repeated(expression) &&
         modifiable_lvalue(expression, 0) != 0;
 }
+
+/* Original 0x4c2d0..0x4c315, stdcall12. A base adjustment must
+   preserve the source representation's reserved null data-member value. */
+IrToken *__stdcall preserve_null_data_member_conversion(IrToken *converted,
+    IrToken *original, CType *source)
+{
+    IrToken *null_value, *condition, *alternatives;
+    null_value = make_null_simple_data_pointer(source);
+    condition = new_ir_expression(0x44, original, null_value, type_0064);
+    null_value = make_null_member_pointer(converted->type);
+    alternatives = new_left_typed_expression(0x3f, null_value, converted);
+    return new_right_typed_expression(0x5f, condition, alternatives);
+}

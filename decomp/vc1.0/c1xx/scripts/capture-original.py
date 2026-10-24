@@ -32,7 +32,7 @@ def main():
     parser.add_argument('--pending-accepted', type=Path, help='explicit proposed prefix additions for a runtime boundary chain')
     parser.add_argument('--argument-words', type=int, choices=(4, 6), default=4,
         help='explicit raw stack-word count for a proved current ABI; default remains four')
-    parser.add_argument('--ownership-register', choices=('esi', 'ebx', 'edi', 'eax', 'ebp', 'esp', 'eax,esp', 'edx', 'edi,esi', 'esi,ebx,ebp', 'esi,eax', 'edi,esi,eax', 'eax,ebx', 'esi,ebp', 'eax,ebp'),
+    parser.add_argument('--ownership-register', choices=('esi', 'ebx', 'edi', 'eax', 'ebp', 'esp', 'eax,esp', 'edx', 'edi,esi', 'esi,ebx,ebp', 'esi,eax', 'edi,esi,eax', 'eax,ebx', 'esi,ebp', 'eax,ebp', 'eax,ebx,ecx'),
         help='explicit caller-owned allocation anchor; not an extra callee ABI input')
     parser.add_argument('--x87-control', action='store_true', help='observe startup control/status/tags only, without reading x87 operands')
     parser.add_argument('--x87-single', action='store_true', help='observe only the reached store tail actual ST0 operand')

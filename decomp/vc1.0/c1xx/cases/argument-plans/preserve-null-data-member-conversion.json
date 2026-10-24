@@ -1,0 +1,100 @@
+{
+  "schema": 1,
+  "function": "_preserve_null_data_member_conversion@12",
+  "native_entry": "preserve_null_data_member_conversion",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_converted": "(unsigned)converted",
+    "raw_original": "(unsigned)original",
+    "raw_source": "(unsigned)source"
+  },
+  "formals": [
+    {
+      "name": "converted",
+      "stack_index": 0,
+      "native_field": "raw_converted",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 245589,
+        "original_owner_function": "_convert_compact_data_member_pointer@24",
+        "native_owner_function": "convert_compact_data_member_pointer",
+        "native_owner_field": "caller_converted",
+        "native_owner_local": "converted",
+        "identity": "Actual accepted data conversion retains result EAX/original EBX and loads source expression.type into ECX4bf4a, pushes ECX/EBX/EAX4bf4d..4bf4f, CALL4bf50/return4bf55. Native actual immediate caller converted/original/expression.type owns each pointer."
+      }
+    },
+    {
+      "name": "original",
+      "stack_index": 1,
+      "native_field": "raw_original",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebx",
+        "original_caller_rva": 245589,
+        "original_owner_function": "_convert_compact_data_member_pointer@24",
+        "native_owner_function": "convert_compact_data_member_pointer",
+        "native_owner_field": "caller_original",
+        "native_owner_local": "original",
+        "identity": "Actual accepted data conversion retains result EAX/original EBX and loads source expression.type into ECX4bf4a, pushes ECX/EBX/EAX4bf4d..4bf4f, CALL4bf50/return4bf55. Native actual immediate caller converted/original/expression.type owns each pointer."
+      }
+    },
+    {
+      "name": "source",
+      "stack_index": 2,
+      "native_field": "raw_source",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ecx",
+        "original_caller_rva": 245589,
+        "original_owner_function": "_convert_compact_data_member_pointer@24",
+        "native_owner_function": "convert_compact_data_member_pointer",
+        "native_owner_field": "caller_source",
+        "native_owner_local": "expression",
+        "identity": "Actual accepted data conversion retains result EAX/original EBX and loads source expression.type into ECX4bf4a, pushes ECX/EBX/EAX4bf4d..4bf4f, CALL4bf50/return4bf55. Native actual immediate caller converted/original/expression.type owns each pointer.",
+        "native_owner_fields": [
+          "type"
+        ]
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "eax,ebx,ecx",
+  "ownership_caller_extent": [
+    311008,
+    311125
+  ],
+  "native_caller_locals": {
+    "caller_converted": {
+      "frame": 1,
+      "function": "convert_compact_data_member_pointer",
+      "local": "converted",
+      "fields": []
+    },
+    "caller_original": {
+      "frame": 1,
+      "function": "convert_compact_data_member_pointer",
+      "local": "original",
+      "fields": []
+    },
+    "caller_source": {
+      "frame": 1,
+      "function": "convert_compact_data_member_pointer",
+      "local": "expression",
+      "fields": [
+        "type"
+      ]
+    }
+  },
+  "abi_analysis": {
+    "original_extent": [
+      312016,
+      312086
+    ],
+    "argument_bytes": 12,
+    "convention": "stdcall12 IrToken* EAX RET12",
+    "proof": "Whole70B savesESI/EDI8; converted/original/source adjustedESP+12/+16/+20, RET12. No hidden/register/x87/flag input. Actual source helper constructs source null, new_ir44 compares original against it with existing type0064; target null uses converted.type, left-typed3f alternatives and right-typed5f conditional. All5 distinct callees accepted, no new data/CRT/guard. Actual caller retains converted EAX after make_member_at_offset4bf45, original storage EBX4bf2d; loads expression.type ECX4bf4a, PUSH ECX/EBX/EAX4bf4d..4bf4f/CALL4bf50/return4bf55. Fresh same CONTEXT EAX/EBX/ECX are pointer owners, not callee register inputs."
+  }
+}
