@@ -119,3 +119,22 @@ PreprocessorValue *parse_preprocessor_bitwise_and(void)
     }
     return left;
 }
+
+PreprocessorValue *parse_preprocessor_relational(void);
+
+/* Original 0x188b0..0x188f3. This parser accepts one equality
+   comparison, retaining the original single-comparison grammar. */
+PreprocessorValue *parse_preprocessor_equality(void)
+{
+    PreprocessorValue *left, *right;
+    left = parse_preprocessor_relational();
+    if (accept_preprocessor_token(OP_EQUAL)) {
+        right = parse_preprocessor_relational();
+        return evaluate_preprocessor_binary(OP_EQUAL, left, right);
+    }
+    if (accept_preprocessor_token(OP_NOT_EQUAL)) {
+        right = parse_preprocessor_relational();
+        return evaluate_preprocessor_binary(OP_NOT_EQUAL, left, right);
+    }
+    return left;
+}

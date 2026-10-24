@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "_parse_preprocessor_equality",
+  "native_entry": "parse_preprocessor_equality",
+  "argument_words": 4,
+  "native_expressions": {},
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      100528,
+      100596
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl no formals PreprocessorValue*EAX, savedESI, RET0",
+    "proof": "Whole68B mandatory relational cdecl0pointer result\u2192ESI. Accept std4BYTE44 thenoptional55; on firstmatched operator parseone right relational result, binary std12(BYTEoperation,left,right), returnpointer; otherwise returnleft. Exactly onecomparison, no inventedchainloop. Firstequal branch prepositionsleftstackword before rightparser call; complete relational body has no stackformals, so that word is not an extra ABI input. No own global/incomingstack/register/flags/x87 input/newdata/CRT. Three distinct outgoingcallees with independently complete127B relational (singleoptional <,>,<=,>= inthatorder), sharedaccept57B/scannertail195B andbinary865B+43DWORDstd12, pendingstubbed."
+  }
+}

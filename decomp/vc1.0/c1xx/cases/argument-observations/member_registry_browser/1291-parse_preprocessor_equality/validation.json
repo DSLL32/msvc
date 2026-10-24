@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_parse_preprocessor_equality",
+  "case": "member_registry_browser",
+  "accepted_before": 1291,
+  "configuration_sha256": "11174bcd3307367c58dfdb037576360c365cd040b8975b329b4618055a396421",
+  "native_entry": "parse_preprocessor_equality",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      100528,
+      100596
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl no formals PreprocessorValue*EAX, savedESI, RET0",
+    "proof": "Whole68B mandatory relational cdecl0pointer result\u2192ESI. Accept std4BYTE44 thenoptional55; on firstmatched operator parseone right relational result, binary std12(BYTEoperation,left,right), returnpointer; otherwise returnleft. Exactly onecomparison, no inventedchainloop. Firstequal branch prepositionsleftstackword before rightparser call; complete relational body has no stackformals, so that word is not an extra ABI input. No own global/incomingstack/register/flags/x87 input/newdata/CRT. Three distinct outgoingcallees with independently complete127B relational (singleoptional <,>,<=,>= inthatorder), sharedaccept57B/scannertail195B andbinary865B+43DWORDstd12, pendingstubbed.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "9d225e3f48a30e59176b92fb4ce6fea399e7493e001d2df981bddb058f6866eb",
+  "capture_timing": {
+    "original_capture_seconds": 1.6186725478619337,
+    "native_capture_seconds": 0.1830789754167199,
+    "total_operation_seconds": 2.0551681108772755
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "a494bf189db9c1d2e35b2734e7cc8df391768f8c9da1e9e882bf0a7fc7c16be7",
+    "native-commands.gdb": "167e3dab67f384257f3db2df54a5557b29acb579fc685bbdb984a1d40cbd918b",
+    "native-gdb.log": "cc00df6ab20c4f47be0dc0fefd858531deae18435090e5e62154f69d5a1d155b",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "7dc223d8c13e812e7493afd373af1b458d8c4c2850d71998b54bb02f2d328959",
+    "original-configuration.json": "11174bcd3307367c58dfdb037576360c365cd040b8975b329b4618055a396421",
+    "original-disassembly.txt": "4f8f97f5dfff7e855c9d6b3f9a0ed3b8415b5873fe10b6a001031e37ee4ef914",
+    "original-events.txt": "5294e1b98454450bf2f2ff7ffd9f359aa9ec8abab99e64f50372186ad73167ce",
+    "original-receipt.json": "3d84049430d9cccc7a2b6e03536426a858c73eaa0e8566455b5161d82653c433",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "33074ff7fb70382060283f0d14653022e0ceb88dd00945028bca3b9b399de2a7"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

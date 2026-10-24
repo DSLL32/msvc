@@ -1,0 +1,23 @@
+Breakpoint 1 at 0x2ac67: file src/preprocessor-expressions.c, line 130.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, parse_preprocessor_equality () at src/preprocessor-expressions.c:130
+130	    left = parse_preprocessor_relational();
+#0  parse_preprocessor_equality () at src/preprocessor-expressions.c:130
+#1  0x5657fc0b in parse_preprocessor_bitwise_and () at src/preprocessor-expressions.c:115
+#2  0x5657fb9b in parse_preprocessor_bitwise_xor () at src/preprocessor-expressions.c:101
+#3  0x5657fb2b in parse_preprocessor_bitwise_or () at src/preprocessor-expressions.c:87
+#4  0x5657fa94 in parse_preprocessor_logical_and () at src/preprocessor-expressions.c:71
+#5  0x5657f9f4 in parse_preprocessor_logical_or () at src/preprocessor-expressions.c:53
+#6  0x5657f93b in parse_preprocessor_conditional () at src/preprocessor-expressions.c:33
+#7  0x5657f85c in evaluate_preprocessor_expression () at src/preprocessor-expressions.c:17
+#8  0x5659b0bb in preprocess_directive () at src/directives.c:292
+#9  0x565c9339 in begin_source_line () at src/lexer.c:663
+#10 0x565c8483 in read_lexical_token () at src/lexer.c:470
+#11 0x565c68c5 in scan_token () at src/lexer.c:228
+#12 0x565c5da5 in read_parser_token () at src/lexer.c:69
+#13 0x565be229 in parse_translation_unit () at src/parser.c:85
+#14 0x5655df6f in compile_translation_unit () at src/frontend.c:73
+#15 0x565588c6 in guarded_compile () at src/c1xx.c:28
+#16 0x56558894 in main (argc=1, argv=0xffffd784, environment=0xffffd78c) at src/c1xx.c:20

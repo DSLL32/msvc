@@ -600,4 +600,5 @@ PreprocessorValue *__stdcall evaluate_preprocessor_binary(unsigned char operatio
 
 
 
-PreprocessorValue *parse_preprocessor_equality(void) { __asm { int 3 } return 0; }
+
+PreprocessorValue *parse_preprocessor_relational(void) { __asm { int 3 } return 0; }
