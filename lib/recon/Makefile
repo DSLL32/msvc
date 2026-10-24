@@ -554,3 +554,10 @@ build/mbctolower-surface: tests/mbctolower-surface.c $(SOURCES) $(HEADERS) | bui
 	$(CC) $(CPPFLAGS) $(CFLAGS) tests/mbctolower-surface.c $(SOURCES) -o $@
 mbctolower-surface-check: build/mbctolower-surface
 	$(PYTHON) tests/check-mbctolower-surface.py build/mbctolower-surface
+
+.PHONY: mbctolower-byte-check
+build/mbctolower-byte-probe: tests/mbctolower-byte-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+mbctolower-byte-check: build/mbctolower-byte-probe
+	test -n "$(MBCTOLOWER_REFERENCE)"
+	$(PYTHON) tests/check-mbctolower-byte.py build/mbctolower-byte-probe "$(MBCTOLOWER_REFERENCE)"

@@ -2250,9 +2250,36 @@ WEAK unsigned char *recon_mbsstr(const unsigned char *text,const unsigned char *
      * borrowed from text, including text itself for an empty needle. */
     return (unsigned char *)strstr((const char *)text,(const char *)needle);
 }
-/* Typed unvisited code-unit mapping boundary; no host tolower fallback. */
+/* Canonical byte-domain CP1252 mapping after the independently observed
+ * isolated LC_CTYPE and SBCS selection. Wide values retain their boundary. */
 WEAK unsigned int __cdecl recon_mbctolower(unsigned int character)
-{ (void)character; recon_unsupported("unreviewed _mbctolower"); return 0; }
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if(character>255 || ctype_selection.bound!=1 || ctype_selection.calls!=1 ||
+       ctype_selection.mb_calls!=1 || !locale_profile_applied ||
+       !locale_ctype_510 || recon_pctype!=locale_ctype_510+1 ||
+       recon_mb_codepage!=1252 || recon_mb_codepage_gate ||
+       recon_lc_codepage!=1252 || recon_mb_cur_max!=1 ||
+       !ctype_selection.result || strcmp(ctype_selection.result,"English_United States.1252") ||
+       memcmp(character_flags,initial_ctype_510,sizeof(character_flags)))
+        recon_unsupported("unreviewed _mbctolower state/domain");
+    ascii_encountered_locale_scope();
+    /* The whole canonical <=255 leaf only reads byte flags/case mapping;
+     * integer operations preserve incoming errors and floating-point state. */
+    if((character>='A' && character<='Z') ||
+       (character>=192 && character<=214) ||
+       (character>=216 && character<=222)) return character+32;
+    switch(character) {
+    case 138:return 154;
+    case 140:return 156;
+    case 142:return 158;
+    case 159:return 255;
+    default:return character;
+    }
+#else
+    (void)character;recon_unsupported("unreviewed _mbctolower profile");return 0;
+#endif
+}
 WEAK unsigned char *recon_mbsupr(unsigned char *text)
 { (void)text; recon_unsupported("unreviewed _mbsupr"); return NULL; }
 WEAK unsigned char *recon_mbspbrk(const unsigned char *text,const unsigned char *accept)

@@ -1,0 +1,279 @@
+{
+  "scope": "MSVCRT510 bound isolated LC_CTYPE + once SBCS selection byte-domain CP1252 semantic lowercase; full exact tables/owner/scalars; no combined/default/wide support; arbitrary errors/full FP preserved by integer-only hot leaf",
+  "original_ownership_limit": "observed initialized spans and lifetime; serialized result64 zero-padding is observer transport after bounded NUL read, not original heap extent",
+  "no_new_binder_or_inventory": true,
+  "originals": [
+    {
+      "reference": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-path-fold-001",
+      "receipt_sha256": "8be7252b2181a2133ca2a8d161e30b1aec235f686f09671080170d7d8df77322",
+      "checker": "/root/msvc2/decomp/vc5.10/c1/scripts/path_fold_original.py",
+      "checker_sha256": "7d8c7d414e2b544292798b4b60d946f72659833e990c7da3f1101d96d8f10d15",
+      "calls": 256,
+      "seconds": 0.4623206425458193,
+      "all_results_match_semantic_groups": true
+    },
+    {
+      "reference": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-path-fold-restore-001",
+      "receipt_sha256": "73ded0bc972d05a4672481f86328a37a3116ae51b59134c8a270c21f90c09f52",
+      "checker": "/root/msvc2/decomp/vc5.10/c1/scripts/path_fold_original.py",
+      "checker_sha256": "7d8c7d414e2b544292798b4b60d946f72659833e990c7da3f1101d96d8f10d15",
+      "calls": 255,
+      "seconds": 0.46577329095453024,
+      "all_results_match_semantic_groups": true
+    },
+    {
+      "reference": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-original-2",
+      "receipt_sha256": "407c8063150937f6fb78aa13ddea9bbfa3059843b04782a5218b618bd2480efd",
+      "checker": "/root/msvc2/decomp/vc5.10/c1xx/scripts/path_fold_original.py",
+      "checker_sha256": "a7ad5ad510b0de163620e53ff92e65abec2d1ac589ba031fed4c47c60240459f",
+      "calls": 256,
+      "seconds": 1.7080397671088576,
+      "all_results_match_semantic_groups": true
+    },
+    {
+      "reference": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-original-1",
+      "receipt_sha256": "efa1b836f576e9d876c4024ace9376194d4e4b131fc3dcb1aeaf2ed6d6efbb85",
+      "checker": "/root/msvc2/decomp/vc5.10/c1xx/scripts/path_fold_original.py",
+      "checker_sha256": "a7ad5ad510b0de163620e53ff92e65abec2d1ac589ba031fed4c47c60240459f",
+      "calls": 255,
+      "seconds": 1.6644711513072252,
+      "all_results_match_semantic_groups": true
+    }
+  ],
+  "canonical_leaf": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/canonical-byte-domain-leaf.bin",
+    "sha256": "e8a7a6e0e1d45c788a89da612415781669af3234d4b2f6cd652c3d169f6e0fc3",
+    "RVA": "a5d3..a609",
+    "bytes": 54,
+    "claim": "whole <=255 path only reads tables/stack/registers; no calls/FP/error access, no nonstack stores"
+  },
+  "receipt": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/receipt.json",
+    "sha256": "17a05fb711639e0a053aefa7e3e3ae136ce6f610382df178c2d558fc05c3c399"
+  },
+  "sources": [
+    {
+      "path": "/root/msvc2/lib/recon/src/crt.c",
+      "sha256": "ee55a842081fcee814bc344fb662ba7eca0d0da40ceeea7dd470a2d2570d6030"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/mbctolower-byte-probe.c",
+      "sha256": "c729c3cc4ab2e1ad261a339b31f350b2e9fae29d9a5b9d33e5cd83b0c7cc6f16"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/check-mbctolower-byte.py",
+      "sha256": "30e1d552339b97a56de55e089f8dcc0245335c424a52b34db8f7e33e958fabe9"
+    }
+  ],
+  "executables": [
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/gcc-510",
+      "sha256": "a3d826850db87f138047a73e2dbd1165f1cdd3130cfc1c818d02973186d12733",
+      "build_seconds": 1.4038259154185653,
+      "checks": [
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/sources/tests/check-mbctolower-byte.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/gcc-510",
+            "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-path-fold-001"
+          ],
+          "seconds": 0.46577966678887606,
+          "stdout": "256 actual rows x empty/live/sentinel +20 denials PASS\n"
+        },
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/sources/tests/check-mbctolower-byte.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/gcc-510",
+            "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-path-fold-restore-001"
+          ],
+          "seconds": 0.4645753977820277,
+          "stdout": "255 actual rows x empty/live/sentinel +20 denials PASS\n"
+        },
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/sources/tests/check-mbctolower-byte.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/gcc-510",
+            "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-original-2"
+          ],
+          "seconds": 1.2479049917310476,
+          "stdout": "256 actual rows x empty/live/sentinel +20 denials PASS\n"
+        },
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/sources/tests/check-mbctolower-byte.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/gcc-510",
+            "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-original-1"
+          ],
+          "seconds": 1.2875643074512482,
+          "stdout": "255 actual rows x empty/live/sentinel +20 denials PASS\n"
+        }
+      ]
+    },
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/clang-510",
+      "sha256": "00a81ddca9934ba16e70b2120aa43a212fe8492eeaff01987a073c21ba17cb36",
+      "build_seconds": 1.51403624471277,
+      "checks": [
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/sources/tests/check-mbctolower-byte.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/clang-510",
+            "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-path-fold-001"
+          ],
+          "seconds": 0.46205549594014883,
+          "stdout": "256 actual rows x empty/live/sentinel +20 denials PASS\n"
+        },
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/sources/tests/check-mbctolower-byte.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/clang-510",
+            "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-path-fold-restore-001"
+          ],
+          "seconds": 0.45580712985247374,
+          "stdout": "255 actual rows x empty/live/sentinel +20 denials PASS\n"
+        },
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/sources/tests/check-mbctolower-byte.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/clang-510",
+            "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-original-2"
+          ],
+          "seconds": 1.2712092567235231,
+          "stdout": "256 actual rows x empty/live/sentinel +20 denials PASS\n"
+        },
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/sources/tests/check-mbctolower-byte.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/clang-510",
+            "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-original-1"
+          ],
+          "seconds": 1.229680573567748,
+          "stdout": "255 actual rows x empty/live/sentinel +20 denials PASS\n"
+        }
+      ]
+    },
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/gcc-default",
+      "sha256": "8687b7d3da26e68ec8fc24c3f3992c38b1e317eab1625a68278a97e73fdb7e72",
+      "build_seconds": 1.3059631772339344,
+      "checks": [
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/sources/tests/check-mbctolower-byte.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/gcc-default",
+            "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-path-fold-001",
+            "default"
+          ],
+          "seconds": 0.4531398070976138,
+          "stdout": "default23 denials PASS\n"
+        },
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/sources/tests/check-mbctolower-byte.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/gcc-default",
+            "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-path-fold-restore-001",
+            "default"
+          ],
+          "seconds": 0.46248437836766243,
+          "stdout": "default23 denials PASS\n"
+        },
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/sources/tests/check-mbctolower-byte.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/gcc-default",
+            "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-original-2",
+            "default"
+          ],
+          "seconds": 1.2483221525326371,
+          "stdout": "default23 denials PASS\n"
+        },
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/sources/tests/check-mbctolower-byte.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/gcc-default",
+            "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-original-1",
+            "default"
+          ],
+          "seconds": 1.2798753213137388,
+          "stdout": "default23 denials PASS\n"
+        }
+      ]
+    },
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/clang-default",
+      "sha256": "3b18fc2a4e1492eeb2fe7f7e212f4f9916261d3b87f79db3d8cd066bef298be1",
+      "build_seconds": 1.4411197807639837,
+      "checks": [
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/sources/tests/check-mbctolower-byte.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/clang-default",
+            "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-path-fold-001",
+            "default"
+          ],
+          "seconds": 0.4521572729572654,
+          "stdout": "default23 denials PASS\n"
+        },
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/sources/tests/check-mbctolower-byte.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/clang-default",
+            "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-path-fold-restore-001",
+            "default"
+          ],
+          "seconds": 0.4586462127044797,
+          "stdout": "default23 denials PASS\n"
+        },
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/sources/tests/check-mbctolower-byte.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/clang-default",
+            "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-original-2",
+            "default"
+          ],
+          "seconds": 1.2689201654866338,
+          "stdout": "default23 denials PASS\n"
+        },
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/sources/tests/check-mbctolower-byte.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/clang-default",
+            "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-original-1",
+            "default"
+          ],
+          "seconds": 1.2437538988888264,
+          "stdout": "default23 denials PASS\n"
+        }
+      ]
+    }
+  ],
+  "affected_checks": {
+    "command": "make -j4 -C lib/recon check mbctolower-surface-check locale-ascii-check locale-profile-check",
+    "seconds": 2.5209779919999997,
+    "log": "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-byte/affected-checks.log",
+    "sha256": "dedd7c66d5117e632fcfc8102a1874012d1dd1a12f1fa9252665fa45f89110e8",
+    "result": "PASS: default core, six unbound unsigned input denials,68624 ASCII rows+23 denials, old combined table/identity/errors+14 denials/default"
+  },
+  "remaining": "Own C1/C1XX actual native normal/restore adoption against their retained original captures before application acceptance; no shared publication hold.",
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/mbctolower-byte-parent-review.json",
+    "sha256": "e40902f7cce0e6251e22a96785b4d781ef800fcc042339cf165ccfbe86d5ead7",
+    "result": "APPROVED; independently reran all16 frozen GCC/Clang profile/default x own normal/restore checkers in14.122s; exact source/hash/wholeleaf guards reviewed"
+  }
+}
