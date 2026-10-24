@@ -1535,6 +1535,7 @@ int main(int argc, char **argv)
                 }
                 if(!dump_recursive_inputs(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,&context,words))return 67;
                 if(!dump_numeric_input(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,words))return 68;
+                if(!dump_precompiled_input(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,words))return 68;
                 if(!dump_progress_input(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,words))return 54;
                 if(!dump_symbol_references(child.hProcess,log))return 53;
                 if(!dump_symbol_blocks(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress))return 48;

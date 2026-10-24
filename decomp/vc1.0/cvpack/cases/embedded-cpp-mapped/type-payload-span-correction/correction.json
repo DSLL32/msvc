@@ -1,0 +1,49 @@
+{
+  "scope": "Historical size labels included4-byte separately consumed signature; all actually compared bytes were inside exact payload. Raw historical files/labels untouched. Forward observers now report subsection size-4. No replay/recapture.",
+  "observations": [
+    {
+      "proof": "cases/embedded-cpp-mapped/evidence/0157-read_mapped_file/proof.json",
+      "proof_sha256": "6d26dc657dc2fa05b12110646711012b7f20f80e41dbd3451a6b5498769c7a39",
+      "field": "/entry/typed_owner/original/input",
+      "offset": 492,
+      "compared_bytes": 20,
+      "historical_defined_label": 1956,
+      "actual_payload_defined": 1952,
+      "inside_actual_payload": true
+    },
+    {
+      "proof": "cases/embedded-cpp-mapped/evidence/0157-read_mapped_file/proof.json",
+      "proof_sha256": "6d26dc657dc2fa05b12110646711012b7f20f80e41dbd3451a6b5498769c7a39",
+      "field": "/entry/typed_owner/native/input",
+      "offset": 492,
+      "compared_bytes": 20,
+      "historical_defined_label": 1956,
+      "actual_payload_defined": 1952,
+      "inside_actual_payload": true
+    },
+    {
+      "proof": "cases/embedded-cpp-mapped/evidence/0159-add_derived_type/proof.json",
+      "proof_sha256": "99db261dbf535d68b1e441f67b66b4e9b0913ca7696d014737f1afc59b1851ac",
+      "field": "/leaf/original",
+      "offset": 1776,
+      "compared_bytes": 2,
+      "historical_defined_label": 1956,
+      "actual_payload_defined": 1952,
+      "inside_actual_payload": true
+    },
+    {
+      "proof": "cases/embedded-cpp-mapped/evidence/0159-add_derived_type/proof.json",
+      "proof_sha256": "99db261dbf535d68b1e441f67b66b4e9b0913ca7696d014737f1afc59b1851ac",
+      "field": "/leaf/native",
+      "offset": 1776,
+      "compared_bytes": 2,
+      "historical_defined_label": 1956,
+      "actual_payload_defined": 1952,
+      "inside_actual_payload": true
+    }
+  ],
+  "affected_boundary_negative": {
+    "old_label_would_admit": true,
+    "corrected_payload_rejects": true
+  }
+}

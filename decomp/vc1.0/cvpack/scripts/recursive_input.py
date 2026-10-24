@@ -40,3 +40,12 @@ def compare_numeric(events,words,actual):
         assert r['input']+4<=r['argument']and r['argument']+2<=r['input']+r['defined']<=r['input']+r['requested']and r['size']==2 and len(bytes.fromhex(r['bytes']))==2
     assert old['argument']-old['input']==new['argument']-new['input'],'numeric input module-relative identity differs'
     return dict(original=old,native=new,scope='Actual two-byte numeric selector inside the fully read current module-type subsection. Only the selector consumed on this reached LONG path is compared; no undefined capacity tail or speculative numeric payload reads.')
+
+
+def compare_precompiled(events,words,actual):
+    old=parse(events,'precompiled-type-input',['module','input','capacity','defined','directory','source','argument','size','bytes'],('input','argument'));new=actual['typed']
+    assert words[0]==0x1a0e3 and old['argument']==words[1]and new['argument']==actual['address'],'precompiled input actual caller/ABI differs'
+    assert all(old[k]==new[k]for k in('module','capacity','defined','directory','source','size','bytes')),'precompiled input initialized payload differs'
+    for r in(old,new):
+        raw=bytes.fromhex(r['bytes']);assert r['argument']==r['input']+2 and len(raw)==r['size']==int.from_bytes(raw[:2],'little')+2 and 14<=r['size']<=min(1024,r['defined'])<=r['capacity']and raw[2:4]==b'\x13\0','precompiled record outside initialized first block'
+    return dict(original=old,native=new,scope='Actual first LF_PRECOMP record in the current module first-block payload. The separately consumed DWORD signature is excluded from the initialized payload size; no unread block capacity or later record/heap equality claim.')

@@ -2306,3 +2306,11 @@ void save_precompiled(ModuleInfo *module)
     }
     module_flags = 0;
 }
+
+/* Original [0001f140,0001f16b): application allocation-failure wrapper. */
+void *checked_realloc(void *block, unsigned long size)
+{
+    void *result = realloc(block, size);
+    if (!result) fatal_error(13, NULL, NULL);
+    return result;
+}

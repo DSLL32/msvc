@@ -35,7 +35,7 @@ static int dump_recursive_inputs(HANDLE child,HANDLE log,DWORD frontier,CONTEXT 
     for(i=0;i<entries;++i) {
         if(!recursive_read(child,directory+i*12,entry,12))return 0;
         if((entry[0]&0xffff)==0x121 && (entry[0]>>16)==number) {
-            if(span)return 0;span=entry[2];offset=entry[1];subsection=i;
+            if(span || entry[2]<4)return 0;span=entry[2]-4;offset=entry[1];subsection=i;
         }
     }
     if(!span || requested>=0xffe8 || span>requested || record<input+4 || record-input>span-4 ||
@@ -95,7 +95,7 @@ static int dump_numeric_input(HANDLE child,HANDLE log,DWORD frontier,DWORD *word
     for(i=0;i<entries;++i) {
         if(!recursive_read(child,directory+i*12,entry,12))return 0;
         if((entry[0]&0xffff)==0x121 && (entry[0]>>16)==number) {
-            if(span)return 0;span=entry[2];offset=entry[1];selected=i;
+            if(span)return 0;if(entry[2]<4)return 0;span=entry[2]-4;offset=entry[1];selected=i;
         }
     }
     if(!span || span>requested || requested>=0xffe8 || words[1]<input+4 ||
@@ -103,4 +103,32 @@ static int dump_numeric_input(HANDLE child,HANDLE log,DWORD frontier,DWORD *word
     used=sprintf(object_line,"numeric-type-input module %lu input %08lx requested %lu defined %lu directory %lu source %lu argument %08lx size 2 bytes ",
         (DWORD)number,input,requested,span,selected,offset,words[1]);
     return recursive_line(log,used,tag,2);
+}
+
+/* LF_PRECOMP leaf within the actual first initialized type-block payload. */
+static int dump_precompiled_input(HANDLE child,HANDLE log,DWORD frontier,DWORD *words)
+{
+    DWORD module,directory,entries,input,requested,blocks,block0,entry[3],span=0,offset=0,selected=0,i,capacity,size;
+    WORD number,length;BYTE record[1024];int used;
+    if(frontier!=0x1a2e0)return 1;
+    if(words[0]!=0x1a0e3 || !recursive_read(child,0x33050,&module,4) || !module ||
+       !recursive_read(child,module,&number,2) || !recursive_read(child,0x33018,&directory,4) ||
+       !recursive_read(child,0x3329c,&entries,4) || entries>4096 || !recursive_read(child,0x33064,&input,4) ||
+       !recursive_read(child,0x33078,&requested,4) || !recursive_read(child,0x3308c,&blocks,4) ||
+       !blocks || !recursive_read(child,blocks,&block0,4) || block0!=input)return 0;
+    for(i=0;i<entries;++i) {
+        if(!recursive_read(child,directory+i*12,entry,12))return 0;
+        if((entry[0]&0xffff)==0x121 && (entry[0]>>16)==number) {
+            if(span || entry[2]<4)return 0;span=entry[2]-4;offset=entry[1];selected=i;
+        }
+    }
+    capacity=requested<0xffe8?requested:0xffe8;
+    if(!span || span>capacity || words[1]!=input+2 ||
+       !recursive_read(child,input,&length,2))return 0;
+    size=(DWORD)length+2;
+    if(size<14 || size>sizeof(record) || size>span || !recursive_read(child,input,record,size) ||
+       *(WORD *)(record+2)!=0x13)return 0;
+    used=sprintf(object_line,"precompiled-type-input module %lu input %08lx capacity %lu defined %lu directory %lu source %lu argument %08lx size %lu bytes ",
+        (DWORD)number,input,capacity,span,selected,offset,words[1],size);
+    return recursive_line(log,used,record,size);
 }

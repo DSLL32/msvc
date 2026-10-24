@@ -14,7 +14,7 @@ def capture():
     source=int(entry['data']);module=int(gdb.parse_and_eval('current_module[0].module'));directory=gdb.parse_and_eval('directory_entries');entries=int(gdb.parse_and_eval('directory_entry_count'))
     matches=[(i,directory[i])for i in range(entries)if int(directory[i]['subsection'])==0x121 and int(directory[i]['module'])==module]
     assert len(matches)==1;directory_index,section=matches[0]
-    base=int(gdb.parse_and_eval('global_type_data'));requested=int(gdb.parse_and_eval('global_symbol_size'));span=int(section['size'])
+    base=int(gdb.parse_and_eval('global_type_data'));requested=int(gdb.parse_and_eval('global_symbol_size'));span=int(section['size'])-4
     assert int(gdb.parse_and_eval('global_symbol_blocks[0]'))==base and 0<span<=requested<0xffe8 and base+4<=source<=base+span-4
     length=int.from_bytes(raw(source,2),'little')+2;assert 4<=length<=4096 and length<=base+span-source
     local_data=dict(module=module,input=base,requested=requested,defined=span,directory=directory_index,offset=int(section['location']['offset']),record=source,bytes=raw(source,length).hex())
@@ -50,6 +50,19 @@ def numeric_input(address,size):
     base=int(gdb.parse_and_eval('global_type_data'));requested=int(gdb.parse_and_eval('global_symbol_size'));module=int(gdb.parse_and_eval('current_module[0].module'))
     directory=gdb.parse_and_eval('directory_entries');entries=int(gdb.parse_and_eval('directory_entry_count'))
     matches=[(i,directory[i])for i in range(entries)if int(directory[i]['subsection'])==0x121 and int(directory[i]['module'])==module]
-    assert len(matches)==1;index,entry=matches[0];span=int(entry['size'])
+    assert len(matches)==1;index,entry=matches[0];span=int(entry['size'])-4
     assert int(gdb.parse_and_eval('global_symbol_blocks[0]'))==base and 0<span<=requested<0xffe8 and base+4<=address<=base+span-size
     return dict(module=module,input=base,requested=requested,defined=span,directory=index,source=int(entry['location']['offset']),argument=address,size=size,bytes=bytes(gdb.selected_inferior().read_memory(address,size)).hex())
+
+
+def precompiled_input(address):
+    f=gdb.newest_frame();caller=f.older()
+    assert f.name()=='load_precompiled_types'and caller.name()=='read_new_global_types'and int(caller.read_var('record'))+2==address
+    base=int(gdb.parse_and_eval('global_type_data'));capacity=min(int(gdb.parse_and_eval('global_symbol_size')),0xffe8);module=int(gdb.parse_and_eval('current_module[0].module'))
+    assert int(gdb.parse_and_eval('global_symbol_block'))==0 and int(gdb.parse_and_eval('global_symbol_blocks[0]'))==base and address==base+2
+    directory=gdb.parse_and_eval('directory_entries');entries=int(gdb.parse_and_eval('directory_entry_count'))
+    matches=[(i,directory[i])for i in range(entries)if int(directory[i]['subsection'])==0x121 and int(directory[i]['module'])==module]
+    assert len(matches)==1;index,entry=matches[0];span=int(entry['size'])-4;assert 0<span<=capacity
+    raw=lambda size:bytes(gdb.selected_inferior().read_memory(base,size))
+    size=int.from_bytes(raw(2),'little')+2;assert 14<=size<=min(1024,span);data=raw(size);assert data[2:4]==b'\x13\0'
+    return dict(module=module,input=base,capacity=capacity,defined=span,directory=index,source=int(entry['location']['offset']),argument=address,size=size,bytes=data.hex())
