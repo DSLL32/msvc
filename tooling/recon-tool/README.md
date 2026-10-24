@@ -346,3 +346,15 @@ identical existing receipt. Tiny modules without the receipt API use POSIX statu
 A returned DIRECT boolean always means assertion success/failure; genuine
 non-returning target exits compare the capture's expected status, including
 `0x8000`. A false boolean cannot be made successful by expecting exit one.
+
+Rebuilt images with reviewed historical CRT source overrides may opt into
+`--override-registry PROJECT/.build/functions.json --override-map PROJECT/build/tool.map
+--override-object PROJECT/build/obj/src/runtime.c.obj`. Only explicit registry
+`category: runtime` names qualify. The tool verifies MAP base/timestamp, unique
+selected-object ownership, actual compiled code bytes and REL32 destinations.
+Qualified addresses resolve exact named public callees (including same-object
+public definitions preempted by the linker); static targets remain strict.
+Overrides add no runtime records or reconstruction credit. Other shipped-body
+checks remain unchanged. Use `RECON_RUNTIME_OVERRIDE_OBJECTS` and
+`RECON_RUNTIME_OVERRIDE_MAP` in the binary Makefile; registry defaults to
+`RECON_REGISTRY`, and shared rules track all three inputs.

@@ -27,6 +27,15 @@ pub struct Options {
     /// Reviewed original-only bindings, checked against all declared hashes.
     #[arg(long)]
     pub bindings: Option<PathBuf>,
+    /// Projected registry; only explicit historical category=runtime entries qualify.
+    #[arg(long, requires = "override_objects")]
+    pub override_registry: Option<PathBuf>,
+    /// Rebuilt MSVC MAP identifying selected object ownership.
+    #[arg(long, requires = "override_objects")]
+    pub override_map: Option<PathBuf>,
+    /// Compiled historical CRT overrides, used only to resolve callee identities.
+    #[arg(long = "override-object", requires_all = ["override_registry", "override_map"])]
+    pub override_objects: Vec<PathBuf>,
 }
 
 fn bytes(data: &[u8], offset: usize, count: usize) -> Result<&[u8]> {
@@ -511,10 +520,261 @@ fn collect(
     }
     Ok(())
 }
-fn prune(pe: &Pe, candidates: &mut Vec<Candidate>) -> Result<()> {
+// MAP ownership and exact compiled-object bytes qualify ONLY explicit historical
+// CRT identities. They never add source overrides to the shipped runtime index.
+#[derive(Clone)]
+struct MapSymbol {
+    address: u32,
+    object: String,
+}
+struct LinkMap {
+    symbols: HashMap<String, Vec<MapSymbol>>,
+}
+impl LinkMap {
+    fn parse(text: &str, pe: &Pe) -> Result<Self> {
+        let mut base = None;
+        let mut timestamp = None;
+        let mut publics = false;
+        let mut symbols: HashMap<String, Vec<MapSymbol>> = HashMap::new();
+        for line in text.lines().map(str::trim) {
+            if let Some(value) = line.strip_prefix("Timestamp is ") {
+                ensure!(timestamp.is_none(), "duplicate MAP timestamp");
+                timestamp = Some(u32::from_str_radix(
+                    value
+                        .split_whitespace()
+                        .next()
+                        .context("MAP timestamp missing")?,
+                    16,
+                )?);
+            }
+            if let Some(value) = line.strip_prefix("Preferred load address is ") {
+                ensure!(base.is_none(), "duplicate MAP image base");
+                base = Some(u32::from_str_radix(value.trim(), 16)?);
+            }
+            if line.contains("Publics by Value") {
+                publics = true;
+                continue;
+            }
+            if !publics {
+                continue;
+            }
+            let fields: Vec<_> = line.split_whitespace().collect();
+            if fields.len() >= 4
+                && fields[0].split_once(':').is_some_and(|(section, offset)| {
+                    !section.is_empty()
+                        && !offset.is_empty()
+                        && section
+                            .bytes()
+                            .chain(offset.bytes())
+                            .all(|b| b.is_ascii_hexdigit())
+                })
+            {
+                let address =
+                    u32::from_str_radix(fields[2], 16).context("invalid MAP public address")?;
+                let owner = fields
+                    .get(if fields[3] == "f" { 4 } else { 3 })
+                    .context("MAP function lacks object owner")?;
+                symbols
+                    .entry(fields[1].to_owned())
+                    .or_default()
+                    .push(MapSymbol {
+                        address,
+                        object: (*owner).to_owned(),
+                    });
+            }
+        }
+        ensure!(base == Some(pe.base), "override MAP image base differs");
+        ensure!(
+            timestamp == Some(dword(&pe.data, pe.optional - 16)?),
+            "override MAP timestamp differs from image"
+        );
+        Ok(Self { symbols })
+    }
+    fn symbol(&self, name: &str) -> Result<&MapSymbol> {
+        let entries = self
+            .symbols
+            .get(name)
+            .with_context(|| format!("override MAP lacks symbol {name}"))?;
+        ensure!(entries.len() == 1, "ambiguous override MAP symbol {name}");
+        Ok(&entries[0])
+    }
+}
+fn validate_override(
+    pe: &Pe,
+    map: &LinkMap,
+    section: &Section,
+    symbol: &Symbol,
+    end: usize,
+) -> Result<u32> {
+    let start = map.symbol(&symbol.name)?.address;
+    let begin = usize::try_from(symbol.value)?;
+    ensure!(end > begin, "empty override function {}", symbol.name);
+    let mut fragment = section.clone();
+    fragment.data = bytes(&section.data, begin, end - begin)?.to_vec();
+    fragment.relocs = section
+        .relocs
+        .iter()
+        .filter(|r| begin <= r.offset && r.offset < end)
+        .map(|r| {
+            let mut r = r.clone();
+            r.offset -= begin;
+            r
+        })
+        .collect();
+    let rva = start
+        .checked_sub(pe.base)
+        .context("override below image base")?;
+    ensure!(
+        pe.sections.iter().any(|s| s.flags & 0x20 != 0
+            && rva >= s.rva
+            && (rva as u64 + fragment.data.len() as u64)
+                <= s.rva as u64 + s.raw_size.min(s.virtual_size) as u64),
+        "override {} is outside initialized code",
+        symbol.name
+    );
+    let body = pe.read(start, fragment.data.len())?;
+    ensure!(
+        matches(body, &fragment)? == [0],
+        "compiled override body differs for {}",
+        symbol.name
+    );
+    let imports = pe.imports()?;
+    for reloc in &fragment.relocs {
+        if reloc.kind != 20 {
+            continue;
+        }
+        let displacement = i32::from_le_bytes(bytes(body, reloc.offset, 4)?.try_into()?) as i64;
+        let addend = i32::from_le_bytes(bytes(&fragment.data, reloc.offset, 4)?.try_into()?) as i64;
+        let actual = start as i64 + reloc.offset as i64 + 4 + displacement - addend;
+        let target = &reloc.target;
+        let expected = if target.section == section.index {
+            start as i64 - symbol.value + target.value
+        } else if target.section == 0 && target.name.starts_with('_') && target.name.contains('@') {
+            let name = target.name[1..].rsplit_once('@').unwrap().0;
+            *imports
+                .get(name)
+                .with_context(|| format!("override import {name} missing"))? as i64
+        } else {
+            map.symbol(&target.name)?.address as i64
+        };
+        ensure!(
+            actual == expected,
+            "compiled override REL32 differs for {} -> {}",
+            symbol.name,
+            target.name
+        );
+    }
+    Ok(start)
+}
+fn override_targets(pe: &Pe, options: &Options) -> Result<HashMap<String, HashSet<u32>>> {
+    if options.override_objects.is_empty() {
+        return Ok(HashMap::new());
+    }
+    let registry: serde_json::Value = serde_json::from_slice(&fs::read(
+        options
+            .override_registry
+            .as_ref()
+            .context("override registry required")?,
+    )?)?;
+    let rows = registry
+        .get("driver")
+        .and_then(serde_json::Value::as_array)
+        .context("override registry lacks driver array")?;
+    let mut eligible = HashSet::new();
+    for row in rows {
+        if row.get("category").and_then(serde_json::Value::as_str) == Some("runtime") {
+            let name = row
+                .get("name")
+                .and_then(serde_json::Value::as_str)
+                .context("runtime registry entry lacks name")?;
+            ensure!(
+                eligible.insert(name.to_owned()),
+                "duplicate runtime override registry name {name}"
+            );
+        }
+    }
+    let map = LinkMap::parse(
+        &fs::read_to_string(
+            options
+                .override_map
+                .as_ref()
+                .context("override MAP required")?,
+        )?,
+        pe,
+    )?;
+    let mut selected = HashSet::new();
+    let mut targets = HashMap::new();
+    for path in &options.override_objects {
+        let name = path
+            .file_name()
+            .and_then(|v| v.to_str())
+            .context("override object filename is not UTF8")?;
+        ensure!(
+            selected.insert(name.to_ascii_lowercase()),
+            "ambiguous selected override object name {name}"
+        );
+        let object = Coff::parse(&fs::read(path)?)
+            .with_context(|| format!("override object {}", path.display()))?;
+        let mut count = 0;
+        for section in object.sections.iter().filter(|s| s.flags & 0x20 != 0) {
+            let mut functions: Vec<_> = object
+                .symbols
+                .iter()
+                .flatten()
+                .filter(|s| s.section == section.index && s.kind == 0x20)
+                .collect();
+            functions.sort_by_key(|s| s.value);
+            for (i, symbol) in functions.iter().enumerate() {
+                if symbol.storage != 2 {
+                    continue;
+                }
+                ensure!(
+                    eligible.contains(&symbol.name),
+                    "selected override {} is not an explicit runtime registry entry",
+                    symbol.name
+                );
+                let owner = map.symbol(&symbol.name)?;
+                ensure!(
+                    owner.object.eq_ignore_ascii_case(name) && !owner.object.contains(':'),
+                    "override MAP owner differs for {}: {}",
+                    symbol.name,
+                    owner.object
+                );
+                let end = if i + 1 < functions.len() {
+                    usize::try_from(functions[i + 1].value)?
+                } else {
+                    section.data.len()
+                };
+                let address = validate_override(pe, &map, section, symbol, end)?;
+                ensure!(
+                    targets
+                        .insert(symbol.name.clone(), HashSet::from([address]))
+                        .is_none(),
+                    "duplicate selected override symbol {}",
+                    symbol.name
+                );
+                count += 1;
+            }
+        }
+        ensure!(
+            count > 0,
+            "selected object {name} has no historical runtime overrides"
+        );
+    }
+    Ok(targets)
+}
+
+fn prune(
+    pe: &Pe,
+    candidates: &mut Vec<Candidate>,
+    overrides: &HashMap<String, HashSet<u32>>,
+) -> Result<()> {
     let imports = pe.imports()?;
     loop {
-        let mut known: HashMap<&str, HashSet<u32>> = HashMap::new();
+        let mut known: HashMap<&str, HashSet<u32>> = overrides
+            .iter()
+            .map(|(name, addresses)| (name.as_str(), addresses.clone()))
+            .collect();
         for c in candidates.iter() {
             for r in &c.records {
                 known.entry(&r.name).or_default().insert(r.start);
@@ -538,7 +798,11 @@ fn prune(pe: &Pe, candidates: &mut Vec<Candidate>) -> Result<()> {
                 let expected = actual - addend;
                 let name = &reloc.target.name;
                 if reloc.target.section == c.section.index {
-                    valid = expected == c.start as i64 + reloc.target.value;
+                    valid = expected == c.start as i64 + reloc.target.value
+                        || reloc.target.storage == 2
+                            && overrides.get(name).is_some_and(|targets| {
+                                targets.iter().any(|&target| expected == target as i64)
+                            });
                 } else if reloc.target.section == 0 {
                     if name.starts_with('_') && name.contains('@') {
                         let name = name[1..].rsplit_once('@').unwrap().0;
@@ -664,8 +928,8 @@ pub fn identify(options: Options) -> Result<()> {
         "toolchain {} does not exist",
         options.toolchain
     );
-    let mut library_paths = options.libraries;
-    let mut object_paths = options.objects;
+    let mut library_paths = options.libraries.clone();
+    let mut object_paths = options.objects.clone();
     if library_paths.is_empty() && object_paths.is_empty() {
         ensure!(
             options.toolchain == "1.0-nt",
@@ -723,7 +987,8 @@ pub fn identify(options: Options) -> Result<()> {
             &mut candidates,
         )?;
     }
-    prune(&pe, &mut candidates)?;
+    let overrides = override_targets(&pe, &options)?;
+    prune(&pe, &mut candidates, &overrides)?;
     let mut records: Vec<_> = candidates.into_iter().flat_map(|c| c.records).collect();
     for i in 0..records.len() {
         if records[i].name == "_strcat" {
@@ -767,6 +1032,65 @@ mod tests {
             library: "test.lib".into(),
             shared: vec![],
         }
+    }
+    #[test]
+    fn malformed_and_ambiguous_map_owners_are_rejected() {
+        let pe = Pe {
+            data: vec![0; 128],
+            base: 0x1000,
+            optional: 16,
+            sections: vec![],
+        };
+        let header = "Timestamp is 00000000\nPreferred load address is 00001000\nAddress Publics by Value Rva+Base Lib:Object\n";
+        assert!(LinkMap::parse(&format!("{header}0001:00000000 _x 00001000 f\n"), &pe).is_err());
+        let row = "0001:00000000 _x 00001000 f runtime.obj\n";
+        let map = LinkMap::parse(&format!("{header}{row}{row}"), &pe).unwrap();
+        assert!(map.symbol("_x").is_err());
+    }
+    #[test]
+    fn reviewed_override_preempts_only_a_named_public_definition() {
+        let mut data = vec![0; 256];
+        data[129..133].copy_from_slice(&43i32.to_le_bytes());
+        let pe = Pe {
+            data,
+            base: 0x1000,
+            optional: 0,
+            sections: vec![PeSection {
+                name: ".text".into(),
+                rva: 0,
+                raw_size: 128,
+                offset: 128,
+                virtual_size: 128,
+                flags: 0x20,
+            }],
+        };
+        let mut callee = symbol("__sopen", 1);
+        callee.value = 0x20;
+        let make = |callee| Candidate {
+            section: Section {
+                data: vec![0xe8, 0, 0, 0, 0],
+                relocs: vec![Relocation {
+                    offset: 1,
+                    target: callee,
+                    kind: 20,
+                }],
+                index: 1,
+                flags: 0x20,
+            },
+            start: 0x1000,
+            records: vec![record("__open", 0x1000)],
+        };
+        let overrides = HashMap::from([("__sopen".into(), HashSet::from([0x1030]))]);
+        let mut candidates = vec![make(callee.clone())];
+        prune(&pe, &mut candidates, &HashMap::new()).unwrap();
+        assert!(candidates.is_empty());
+        candidates = vec![make(callee.clone())];
+        prune(&pe, &mut candidates, &overrides).unwrap();
+        assert_eq!(candidates.len(), 1);
+        callee.storage = 3;
+        candidates = vec![make(callee)];
+        prune(&pe, &mut candidates, &overrides).unwrap();
+        assert!(candidates.is_empty());
     }
     #[test]
     fn masked_matching_preserves_overlaps_and_non_relocation_bytes() {
@@ -829,7 +1153,7 @@ mod tests {
             candidate("_callee", 0x1010, Some("_Missing@0")),
             candidate("_callee", 0x1020, None),
         ];
-        prune(&pe, &mut candidates).unwrap();
+        prune(&pe, &mut candidates, &HashMap::new()).unwrap();
         assert_eq!(candidates.len(), 1);
         assert_eq!(candidates[0].start, 0x1020);
     }
