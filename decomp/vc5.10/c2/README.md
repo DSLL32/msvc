@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 75 application functions (16079 bytes) and five CRT
+Current reconstruction has 76 application functions (16215 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at the first typed directive callback with actualLIBC input,
-after inserting three COFF slots and creating the directive/FPO sections. Four import thunks (24 bytes) and contextual text tables
-(616 bytes) remain separate. The 16517 source bytes are 2.882% of 573183 `.text`
+currently stops at the four-argument directive writer with-defaultlib:,LIBC,
+NULL suffix and quote mode0. Four import thunks (24 bytes) and contextual text tables
+(656 bytes) remain separate. The 16653 source bytes are 2.905% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -341,3 +341,18 @@ guards took2.815s, separately from8 fresh/145 reused protocol checks. Exact
 raw/static validation, approval scope and timing are in0080. Root released
 the temporary capture lock after all shared-hFile readers were corrected;
 future captures run concurrently with explicit-offset/full-size/hash guards.
+
+Source81 reconstructs the136-byte directive handler, now named
+emit_output_directive with its historical logical callback ID retained by
+explicit actual MAP/native aliases. Its ten-row40-byte text dispatch table
+is separately owned/data-credited. A finite compiled-data certificate checks
+every row, prefix/banner literal, quote flag, actual payload+8 load, scalar
+writer and named child call; common Rust still owns all graph/RET/extent
+discovery. The string-writer tail callee has exact60-byte/RET0 evidence only
+for pending ABI transport; it stays an application masked trap with zero
+body credit. The fresh frontier checks all four actual writer formals,
+-defaultlib:/LIBC, NULL suffix, quote0, and borrowed caller payload identity.
+Eleven input controls took13.169s;12 switch/boundary controls took0.587s;6fresh/
+147reused protocol checks took6.839s. An initially irrelevant unusedEAX
+negative was corrected to actualEDX, with the failed source retained. Full
+build/capture/audit/fixture accounting is in0081.

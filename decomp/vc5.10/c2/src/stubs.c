@@ -532,10 +532,6 @@ void output_callback_44a79d()
     __asm { int 3 }
 }
 
-void __fastcall output_callback_453e02(C2OutputDirective *directive)
-{
-    __asm { int 3 }
-}
 
 void output_callback_4541f3()
 {
@@ -603,3 +599,6 @@ void restore_incremental_output(void) { __asm { int 3 } }
 unsigned __fastcall add_incremental_symbol(C2CoffRecord *record) { __asm { int 3 } return 0; }
 unsigned __fastcall reserve_incremental_symbols(unsigned count, unsigned short section, int reuse) { __asm { int 3 } return 0; }
 void grow_coff_symbol_buffer(void) { __asm { int 3 } }
+
+void __fastcall emit_incremental_string(char *value) { __asm { int 3 } }
+void __fastcall write_coff_directive(char *prefix, char *value, char *suffix, int quoted) { __asm { int 3 } }

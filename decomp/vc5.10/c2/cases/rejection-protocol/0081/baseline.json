@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "source_checkpoint": "cases/acceptance/0081-emit-directive",
+  "control_result": "cases/acceptance/0081-emit-directive/rejections.json",
+  "control_result_sha256": "505c6b2e5df5c0f2f66306ef3d2eb48498354cbfd9dd6525b9d30b8766508b56",
+  "checker_contracts": {
+    "scripts/capture-original.py": "6c78f08127f40524baade9201c41c8cc14f2d02ade9e3101ed7c090de1456b6a",
+    "scripts/accept.py": "80d8bc0f759f92ef0069241cd6c800adfb38b15032eb1cfb5d87c6c063a07a2d",
+    "scripts/intrinsic_evidence.py": "89e13fbff12ec278801984bd7360b54b392cc50e332d9f449c7f8b9032ab0034",
+    "scripts/check-pending-metadata.py": "f497374b1e272e5162f1e4a1685edb78bef525ff5d060d519a9d8c4312810d25",
+    "scripts/build-index.py": "18c93002890b7c335c74d9f0c6220b383c8b0fe684d9ca90ffb9da6bea6f9ddd",
+    "scripts/directive_data.py": "2c95048869e1a3e368e62b57d62d6cd12eb9aca6cdcf42b6cd30568a9fad75b2",
+    "scripts/debug-run.c": "6cd2c7fb25ee4cb8a17840944945400aff7f8c416bc7b0ec35b4042153f89359",
+    "scripts/data_evidence.py": "bff361add0b1def3f83f5e5c13a82dd6fba7ad1ea90a9ac432c06558cbeca793",
+    "scripts/reaudit-capture.py": "47db322d4f96cad39e15681be42151d6b974d95fde39007623bdb68bcacb361e",
+    "scripts/writer_evidence.py": "1c5d32e095baaa2f9546cb49130f7c28be21b115f3274e486d5a6b540f1a8fbd",
+    "scripts/state.py": "7f5e869a7e139e12ffad9d6968c36a87f45c688e6d047bfc8a71bfbf18ef04d6",
+    "scripts/pending_metadata.py": "4fb55fa9f12620145ccaf5142b9b65c355f2fd8c6e9824e0037e763ff4413634",
+    "scripts/audit.py": "b65efd1fa4753ff1007af3c6915bd9372dbc5a8d479fcfa2a14d2b05eec6b12c",
+    "scripts/check-rejections.py": "4caa2632d6d99796af69a8b50bab8d9d7a2d1a13c4f7223c54e849497cf8a3a8",
+    "scripts/case_inputs.py": "13ab2ee944896ade6b46c2b2d226fd63233ea9d3191931b1d8a84ddbfaa48aa9",
+    "scripts/capture-native.py": "e08c1855ea1cccbea69f6c1644f004b7706ca4691c35bcb343dc9aff439912fb",
+    "scripts/compare.py": "fa23c991158dd2f7874f8a48d35197834cf1e0e54253e27e085ce344ad437e76",
+    "scripts/native-proof.py": "91fd879644eb159a173dade958a2f78d47ca25738ad3e3452be43757a33d7102",
+    "scripts/globals_state.py": "256d171108ba314dbd32ad78c8c5362d44663981d3fb8aa23b819ac6796a6589",
+    "scripts/callback_evidence.py": "d07868cc378d8b494b5da6084e7b309d017bf5b9c467b4580e0fcdacd0b2e219",
+    "scripts/import_evidence.py": "00d384d41f63d7d7058d399fdaef731f097f7d9b695f3526549d672cc9556d72"
+  },
+  "source_directory": "sources",
+  "source_manifest": "source-manifest.json",
+  "source_manifest_sha256": "65f0db95b6d01a7da6be890fabbb71d0706ca359363c7aeebdf6f97c122409a3",
+  "proof_inputs": {
+    "original_receipt": "4ef4e784f25558b87e0d5b7a20a322eb7652f7df4b3d142ebb9dbefe7d0510ae",
+    "native_receipt": "1e832e36496428ee1ca9eb267f3e88e6719fec71a034617f33bc22760ed5b4a3"
+  },
+  "scope": "153 generic predicates:6 fresh/147 reused;11 actualfour-formal/rawargument negatives +12 actualcompiledswitch/source/metadata negatives. Ordinary exact21checker sources (newfinite directive_data), not graphdiscovery. Old20 compileguards explicitly reused under unchanged slot types. Selected callback gets ordinary bodycredit;22other callbacks pending."
+}

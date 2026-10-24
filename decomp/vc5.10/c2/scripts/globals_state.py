@@ -41,6 +41,7 @@ COFF_GLOBALS = {
     'coff_free_blocks_508': (0x497ce8,4), 'coff_free_blocks_308': (0x497f5c,4),
     'coff_pending_499690': (0x499690,4),
     'coff_symbol_total': (0x497d4c,4), 'coff_next_symbol': (0x497d54,4),
+    'coff_directive_option': (0x497dac,4),
     'coff_reserved_symbols': (0x497d5c,4), 'coff_previous_source': (0x497f68,4),
 }
 ROOTS.update({key:(value[0],key)for key,value in COFF_GLOBALS.items()})

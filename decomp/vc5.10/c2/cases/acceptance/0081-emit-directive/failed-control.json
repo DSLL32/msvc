@@ -1,0 +1,8 @@
+{
+  "status": "Failed negative campaign retained; production original/nativepair valid",
+  "failure": "coff-directive-output mutation accepted: original actual value pointer differs",
+  "source_sha256": "e06df1c1181388c7ceb987c5865ce675074c26853ddb0509103746cde4dd9f2a",
+  "actual_mutation": "Changed only unused EAX text from3 to03, leaving actual EDX value pointer untouched. Correct acceptance of that unclaimed observation exposed a test bug, not target divergence. Final test changes actual EDX toNULL and rejects.",
+  "final_controls": "output-controls.json",
+  "seconds": "First failed campaign not separately timed; excluded from final successful control elapsed, no target replay."
+}

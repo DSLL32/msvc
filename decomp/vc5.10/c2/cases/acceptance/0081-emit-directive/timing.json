@@ -1,0 +1,62 @@
+{
+  "builds": [
+    {
+      "kind": "original",
+      "seconds": 7.024954538792372,
+      "status": 0
+    },
+    {
+      "kind": "native",
+      "seconds": 2.7540145441889763,
+      "status": 0
+    },
+    {
+      "kind": "helper",
+      "seconds": 2.3190159127116203,
+      "status": 0
+    }
+  ],
+  "original_capture": {
+    "setup": 0.8971681976690888,
+    "execution": 1.664038311690092,
+    "total": 2.6092922762036324
+  },
+  "native_capture": {
+    "execution": 0.4717091200873256,
+    "total": 0.6024504965171218
+  },
+  "audit_seconds": 0.8024447457864881,
+  "protocol_controls": {
+    "fresh": 6,
+    "reused": 147,
+    "seconds": 6.839146993122995
+  },
+  "four_argument_controls": {
+    "fresh": 11,
+    "seconds": 13.16947915405035
+  },
+  "switch_and_boundary_controls": {
+    "fresh": 12,
+    "seconds": 0.5871516009792686
+  },
+  "fixture": {
+    "case": "unsupported-help-diagnostic",
+    "status": "PASS",
+    "application_entries": 19,
+    "stdout_bytes": 0,
+    "stderr_bytes": 51,
+    "seconds": {
+      "setup": 0.010500072501599789,
+      "execution": 0.0019863229244947433,
+      "checks": 0.00021003000438213348,
+      "total": 0.01317797601222992
+    },
+    "transport": "native ELF32 only; frozen original reference"
+  },
+  "prior_compile_guard_reuse": {
+    "path": "cases/acceptance/0080-directive-dispatch/compile-guard.json",
+    "sha256": "9ea0f5fdd61bdf6a9c5b50c9da65f1f0e8c9a5940bd7b222b116e388aa98536e",
+    "review": "All20 slot structure types/sizeof4/layout and directslot syntax unchanged; only known selectedtarget signature/name/body and newpendingcallee declarations evolve. Current original/native builds and exact19pending guards remain checked; unreviewed/direct newtarget invocation negatives refreshed."
+  },
+  "preserved_failures": "UnusedEAX mutation test bug retained failed-control.json/source; corrected actualEDX negative passes. No extra target run for checker-only correction."
+}

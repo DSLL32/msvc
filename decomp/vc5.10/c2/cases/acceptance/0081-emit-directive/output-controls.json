@@ -1,0 +1,145 @@
+{
+  "positive": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/emit81-original/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/emit81-original/graph-audit.json",
+    "matched": "@write_coff_directive@16",
+    "original": "0x453eab",
+    "native": "write_coff_directive",
+    "argument_state": "globals-complete",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "write_coff_directive",
+      "symbol_start": "0x6800",
+      "symbol_size": 100,
+      "static_pc": "0x6847",
+      "int3_sites": [
+        "0x6846"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit",
+      "_c2_register_onexit",
+      "@c2_read_environment@4",
+      "_c2_copy_arguments",
+      "_c2_initialize_options",
+      "_c2_next_argument",
+      "@c2_match_option@16",
+      "@c2_apply_option@12",
+      "@parse_option_integer@4",
+      "@c2_validate_alignment@4",
+      "@c2_open_intermediate@16",
+      "_c2_read_header",
+      "_c2_read_il_byte",
+      "_c2_read_il_word",
+      "_c2_read_il_long",
+      "_c2_reset_symbol_table",
+      "_c2_create_type_table",
+      "@c2_allocate_node@8",
+      "@c2_node_size@4",
+      "@c2_pool_allocate@8",
+      "_c2_initialize_constants",
+      "_c2_real_from_int",
+      "_store_extended",
+      "_c2_initialize_opcodes",
+      "_c2_initialize_machine",
+      "_c2_initialize_trees",
+      "@create_section@12",
+      "@insert_symbol@8",
+      "@append_section@4",
+      "@initialize_section_defaults@4",
+      "_c2_initialize_codegen",
+      "@read_symbols@4",
+      "@read_symbol@4",
+      "_input_varuint",
+      "@input_string@8",
+      "@intern_symbol_name@12",
+      "@arena_strdup@8",
+      "@record_filename@4",
+      "@copy_symbol_type@4",
+      "_input_type",
+      "_input_compact_signed",
+      "_input_compact_short",
+      "@update_symbol_storage@4",
+      "@lookup_global_symbol@4",
+      "_next_symbol_serial",
+      "@put_symbol@8",
+      "_c2_initialize_registers",
+      "@read_initializer_records@4",
+      "_c2_initialize_optimizer",
+      "_initialize_backend",
+      "_initialize_pass_functions",
+      "_default_runtime_library",
+      "@add_output_directive@8",
+      "_initialize_object_output",
+      "@initialize_coff_output@4",
+      "@new_output_table@4",
+      "_writer_callback_41eb8a",
+      "_initialize_coff_lists",
+      "@new_output_list@8",
+      "_new_output_chunk",
+      "@add_output_source@4",
+      "@add_coff_symbol@4",
+      "_write_output_directives",
+      "_output_callback_453e02"
+    ],
+    "candidates": [
+      "_output_callback_453e02"
+    ],
+    "acceptance": false
+  },
+  "count": 11,
+  "rejected": [
+    {
+      "control": "prefix formal omitted",
+      "reason": "actual prefix/value/suffix/quoted formals differ"
+    },
+    {
+      "control": "quoted formal omitted",
+      "reason": "actual prefix/value/suffix/quoted formals differ"
+    },
+    {
+      "control": "suffix formal wrong type",
+      "reason": "actual prefix/value/suffix/quoted formals differ"
+    },
+    {
+      "control": "actual directive prefix differs",
+      "reason": "actual prefix/value/suffix/quoted formals differ"
+    },
+    {
+      "control": "actual directive value differs",
+      "reason": "actual prefix/value/suffix/quoted formals differ"
+    },
+    {
+      "control": "actual suffix no longer NULL",
+      "reason": "actual prefix/value/suffix/quoted formals differ"
+    },
+    {
+      "control": "actual quote mode differs",
+      "reason": "actual prefix/value/suffix/quoted formals differ"
+    },
+    {
+      "control": "actual value loses caller payload alias",
+      "reason": "actual prefix/value/suffix/quoted formals differ"
+    },
+    {
+      "control": "original actual value pointer differs",
+      "reason": ""
+    },
+    {
+      "control": "original suffix stack argument differs",
+      "reason": ""
+    },
+    {
+      "control": "original quote stack argument differs",
+      "reason": ""
+    }
+  ],
+  "seconds": 13.16947915405035,
+  "original_receipt_sha256": "4ef4e784f25558b87e0d5b7a20a322eb7652f7df4b3d142ebb9dbefe7d0510ae",
+  "native_receipt_sha256": "1e832e36496428ee1ca9eb267f3e88e6719fec71a034617f33bc22760ed5b4a3",
+  "checker_sha256": "4fecc4f4f86761453c8d145b8e9046c8cd5d39d6819f509ece683fd83b7216aa"
+}

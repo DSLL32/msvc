@@ -82,7 +82,7 @@ void initialize_pass_functions(void)
         output_slot_497f60.target = output_callback_442d33;
         output_slot_497dfc.target = output_callback_4541f3;
         output_slot_497f50.target = output_callback_44a79d;
-        output_slot_49971c.target = output_callback_453e02;
+        output_slot_49971c.target = emit_output_directive;
         output_slot_497cec.target = output_callback_41fa04;
     }
     if (c2_default_library) {
@@ -131,4 +131,36 @@ void write_output_directives(void)
     C2OutputDirective *directive;
     for (directive = output_directives; directive; directive = directive->next)
         output_slot_49971c.target(directive);
+}
+
+int coff_directive_option;
+
+void __fastcall emit_output_directive(C2OutputDirective *directive)
+{
+    switch (directive->kind) {
+    case 1:
+        emit_incremental_string("Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 11.00");
+        break;
+    case 3:
+        write_coff_directive("-?comment:", directive->value, NULL, 1);
+        break;
+    case 4:
+        write_coff_directive("-defaultlib:", directive->value, NULL, 0);
+        break;
+    case 6:
+        emit_incremental_string(directive->value);
+        break;
+    case 7:
+        coff_directive_option = 1;
+        break;
+    case 9:
+        write_coff_directive("-nodefaultlib:", directive->value, NULL, 0);
+        break;
+    case 10:
+        write_coff_directive("", directive->value, NULL, 0);
+        break;
+    default:
+        c2_report_internal("E:\\utc\\src\\\\P2\\coff.c", 1514);
+        break;
+    }
 }

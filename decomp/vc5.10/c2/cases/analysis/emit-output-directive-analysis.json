@@ -1,0 +1,53 @@
+{
+  "function": "_output_callback_453e02",
+  "native": "emit_output_directive",
+  "symbol": "@emit_output_directive@4",
+  "hot": [
+    4537858,
+    4537914
+  ],
+  "cold": [
+    4672832,
+    4672912
+  ],
+  "code_bytes": 136,
+  "text_data": [
+    4537916,
+    4537956
+  ],
+  "data_bytes": 40,
+  "abi": "fastcall C2OutputDirective*directiveECX; ignoresresultRET0 as observed caller, tailinheritance from exact unaccepted app extents only",
+  "scope": "Same reviewed slot49971c ABI/17noopaliases; selectedtarget now ordinarywholefunctioncandidate,22other callbacktargets stillmasked namedINT3 no bodycredit. Whole logicalidentity unchanged, realMAP/native names are meaningful emit_output_directive.",
+  "cases": {
+    "1": "Emit compiler banner to pending incremental string writer",
+    "3": "-?comment: value NULL quoted1",
+    "4": "-defaultlib: value NULL quoted0",
+    "6": "Emit supplied value to pending incremental string writer",
+    "7": "Write1 to original497dac predicate; further meaning/consumer layout not claimed",
+    "9": "-nodefaultlib: value NULL quoted0",
+    "10": "empty prefix value NULL quoted0",
+    "default": "Report coff.c line1514 including holes2/5/8 and out-of-range kinds"
+  },
+  "pending_children": [
+    {
+      "logical": "@emit_incremental_string@4",
+      "extent": [
+        4739971,
+        4740031
+      ],
+      "status": "application-unaccepted/maskedINT3; exact60B RET0 transport for inherited tailABI only, zero body/coverage credit"
+    },
+    {
+      "logical": "@write_coff_directive@16",
+      "entry": 4538027,
+      "abi": "fastcall prefixECX/valueEDX +stack suffix/quoted, RET8",
+      "status": "Actual next formal boundary, body remains genuineINT3"
+    }
+  ],
+  "content_proof": "scripts/directive_data.py: ten exact original/rebuilt branchtargets; percase primitive payload loads, exact literals/flags/scalar destination and named child target independent from common graph. No CFGwalker.",
+  "source_sha256": "50cb083a2289eb1fe25f7f98c204f9ed5c02baaa0a0af0e27637145a80fd5c60",
+  "header_sha256": "ac2fb5d099f4f3f1945225bf12ef8e33be17525307f387bb5061739f1c434c02",
+  "disassembly_sha256": "feb39caf49cba4d48a01aa9347453b1cbbe26612d5a1023d060dadf2ac4673c5",
+  "table_checker_sha256": "2c95048869e1a3e368e62b57d62d6cd12eb9aca6cdcf42b6cd30568a9fad75b2",
+  "historical_boundary_sha256": "382e89af4857ad65f809f17937da005a54be7097b9021cade438fa1e8ee6d7a9"
+}

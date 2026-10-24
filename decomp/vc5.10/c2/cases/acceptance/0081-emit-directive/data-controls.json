@@ -1,0 +1,60 @@
+{
+  "status": "PASS",
+  "count": 12,
+  "rejected": [
+    {
+      "control": "table case3 redirected to existing case4",
+      "reason": "directive jump-table content differs"
+    },
+    {
+      "control": "table default hole redirected to existing case1",
+      "reason": "directive jump-table content differs"
+    },
+    {
+      "control": "case3 quoted flag silently cleared",
+      "reason": ""
+    },
+    {
+      "control": "case4 quoted flag silently set",
+      "reason": ""
+    },
+    {
+      "control": "case3 payload read shifted to kind",
+      "reason": "directive value must come from actual input payload+8"
+    },
+    {
+      "control": "case4 prefix changed to valid nodefaultlib string",
+      "reason": "directive literal differs"
+    },
+    {
+      "control": "case7 writes neighboring object",
+      "reason": ""
+    },
+    {
+      "control": "default source-line argument changed",
+      "reason": ""
+    },
+    {
+      "control": "named write child changed to real string child",
+      "reason": "directive named child differs"
+    },
+    {
+      "control": "new typed target direct escape",
+      "reason": "pending target invocation/escape requires actual ABI review"
+    },
+    {
+      "control": "other pending slot member invoked",
+      "reason": "pending callback use/escape requires reviewed actual callable ABI"
+    },
+    {
+      "control": "unrelated shared noop globally accepted ABI",
+      "reason": "only selected target body qualified"
+    }
+  ],
+  "seconds": 0.5871516009792686,
+  "checker_sha256": "c6344e92785fcd6ee6f168dcfea1bdd84097e5a6a3b6734ff5220685fb616a1d",
+  "data_checker_sha256": "2c95048869e1a3e368e62b57d62d6cd12eb9aca6cdcf42b6cd30568a9fad75b2",
+  "original_receipt_sha256": "4ef4e784f25558b87e0d5b7a20a322eb7652f7df4b3d142ebb9dbefe7d0510ae",
+  "rebuilt_sha256": "3bcdaea67bfd7ca455b657f9eacd9275bc3c721e916897fe2b81bf6de0e7bf1a",
+  "scope": "All modified cases change actual targeted bytes/source/metadata; common Rust graphs deliberately not rewritten or replaced. Original toolchain files untouched."
+}

@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "Root-approved narrow physical ABI cast; concrete promotion review still pending",
+  "status": "Source81 ordinary wholefunction trial for same directive ABI; source80 immutable raw/approval retained separately",
   "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
   "historical_identity_boundary_sha256": "382e89af4857ad65f809f17937da005a54be7097b9021cade438fa1e8ee6d7a9",
   "slot": {
@@ -103,16 +103,17 @@
     "offset": 73,
     "bytes": "ffd0",
     "length": 2,
-    "elf_sha256": "6fd9f9acc0f9a5a91a5c826ac617fd5b3fffbdab273a4c4b20dea76e3afda6a3"
+    "elf_sha256": "0b6c9dc44d23d42e81a021fd717ca03e5ae729075e52762a622941042210f0b4"
   },
   "actual_source": {
     "slot_type": "C2DirectiveCallback",
     "function_pointer": "C2OutputDirectiveWriter",
-    "target_symbol": "@output_callback_453e02@4",
+    "target_symbol": "@emit_output_directive@4",
     "cast": "(C2OutputDirectiveWriter) output_callback_41eb89",
     "source": "src/output-callbacks.c",
     "header": "src/output-callbacks.h",
-    "source_sha256": "afbdfc01e2c7384f54eb0894ac7d43416172756991a4c70cf716dbfa1e1cf6c3",
-    "header_sha256": "9076a74fabcf95be28dd03b7a0cb7eb67cb871f4404531d5899f6a13a4a14f77"
+    "source_sha256": "50cb083a2289eb1fe25f7f98c204f9ed5c02baaa0a0af0e27637145a80fd5c60",
+    "header_sha256": "ac2fb5d099f4f3f1945225bf12ef8e33be17525307f387bb5061739f1c434c02",
+    "target_native": "emit_output_directive"
   }
 }

@@ -904,14 +904,6 @@
     "evidence": null
   },
   {
-    "name": "_output_callback_453e02",
-    "start": 4537858,
-    "end": 4537859,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_output_callback_4541f3",
     "start": 4538867,
     "end": 4538868,
@@ -1075,6 +1067,26 @@
     "name": "_grow_coff_symbol_buffer",
     "start": 4580199,
     "end": 4580200,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@emit_incremental_string@4",
+    "start": 4739971,
+    "end": 4740031,
+    "pending_extent": false,
+    "kind": "unaccepted-application-tail-target",
+    "evidence": null,
+    "classification": "application",
+    "accepted": false,
+    "extent_evidence": "cases/analysis/emit-output-directive-disassembly.txt: complete60B485383..4853bf wholebody normalRET0; app stillmasked/unaccepted/namedINT3 no bodycredit",
+    "provenance": "Original extent/RET evidence only; source remains INT3, no unmask or source-coverage credit"
+  },
+  {
+    "name": "@write_coff_directive@16",
+    "start": 4538027,
+    "end": 4538028,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

@@ -33,18 +33,25 @@ def verify(config,graph):
         assert contract['target_sha256']==sha(TARGET.read_bytes())
         assert contract['historical_identity_boundary_sha256']==config['output_callback_boundary_sha256']
         assert contract['slot']==next(r for r in value['slots']if r['original']==0x49971c)
-    definitions={r['name']:r for r in config['stubs']}
+    definitions={r['name']:r for r in config['driver']+config['stubs']}
 
+    typed_body=False
     for r in value['targets']:
         item=definitions[r['logical']]
-        assert item['start']==r['original'] and item['end']==r['original']+1
-        assert item['native']==r['native'] and item['kind']=='application'
-        assert item['pending_extent']
+        assert item['start']==r['original'] and item['kind']=='application'
         if contract and r['logical']=='_output_callback_453e02':
-            assert not item['pending_signature'] and item['symbol']=='@output_callback_453e02@4'
+            assert not item['pending_signature']
+            assert item['symbol']==contract['actual_source']['target_symbol']
+            assert item['native']==contract['actual_source']['target_native']
             assert 'C2OutputDirective*directiveECX' in item['abi']
-        else:assert item['pending_signature']
-        assert r['logical'] not in config['accepted']+config['trial']
+            typed_body=r['logical']in config['accepted']+config['trial']
+            if typed_body:
+                assert not item['pending_extent'] and r['logical']in graph['functions'],'typed callback body requires its ordinary wholefunction audit'
+            else:assert item['end']==r['original']+1 and item['pending_extent']
+        else:
+            assert item['native']==r['native'] and item['end']==r['original']+1
+            assert item['pending_extent'] and item['pending_signature']
+            assert r['logical']not in config['accepted']+config['trial']
     maps={m[1]:int(m[2],16)for m in re.finditer(r'^\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})',(BINARY/'build/c2.map').read_text(),re.M)}
     original,rebuilt=reader(TARGET),reader(BINARY/'build/c2.exe')
     assert len({maps['_'+r['native']]for r in value['slots']})==20
@@ -68,7 +75,7 @@ def verify(config,graph):
     # This finite source guard protects the pending field namespace. It is
     # deliberately not a C parser, graph walker or substitute for Rust audits.
     source=(BINARY/'src/output-callbacks.c').read_text()
-    stores=re.findall(r'\b(output_slot_[0-9a-f]+)\.target\s*=\s*((?:\(C2OutputDirectiveWriter\) )?output_callback_[0-9a-f]+)\s*;',source)
+    stores=re.findall(r'\b(output_slot_[0-9a-f]+)\.target\s*=\s*((?:\(C2OutputDirectiveWriter\) )?[A-Za-z_][A-Za-z_0-9]*)\s*;',source)
     if contract:
         assert ('output_slot_49971c','(C2OutputDirectiveWriter) output_callback_41eb89')in stores
         stores=[(slot,target.replace('(C2OutputDirectiveWriter) ',''))for slot,target in stores]
@@ -80,12 +87,14 @@ def verify(config,graph):
 }'''
         assert source.count(exact)==1 and source.count('output_slot_49971c.target(directive);')==1,'typed consumer ownership/body changed'
         stub=(BINARY/'src/stubs.c').read_text()
-        assert 'void __fastcall output_callback_453e02(C2OutputDirective *directive)\n{\n    __asm { int 3 }\n}'in stub,'typed target must still be a genuine named INT3'
+        if not typed_body:
+            assert ('void __fastcall '+definitions['_output_callback_453e02']['native']+'(C2OutputDirective *directive)\n{\n    __asm { int 3 }\n}')in stub,'typed target must still be a genuine named INT3'
 
-    expected={(r['native'],target)for r in value['slots']for target in r['native_targets']}
+    aliases={r['native']:definitions[r['logical']]['native']for r in value['targets']}
+    expected={(r['native'],aliases[target])for r in value['slots']for target in r['native_targets']}
     assert set(stores)==expected,'callback store alternatives missing or invented'
     names=[r['native']for r in value['slots']]
-    targets=[r['native']for r in value['targets']]
+    targets=[definitions[r['logical']]['native']for r in value['targets']]
     for path in (BINARY/'src').glob('*'):
         if path.suffix not in ('.c','.h'):continue
         for line in path.read_text().splitlines():
@@ -105,13 +114,15 @@ def verify(config,graph):
             if target:
                 assert len(target)==1
                 name=target[0]
-                typed=contract and name=='output_callback_453e02'
+                typed=contract and name==definitions['_output_callback_453e02']['native']
                 declaration='void __fastcall '+name+'(C2OutputDirective *directive)'if typed else'void '+name+'()'
                 noop_cast=contract and name=='output_callback_41eb89'and line.strip()=='output_slot_49971c.target = (C2OutputDirectiveWriter) output_callback_41eb89;'
-                assert noop_cast or(path.name=='output-callbacks.c'and re.fullmatch(r'output_slot_[0-9a-f]+\.target = '+name+r';',line.strip()))or(path.name=='output-callbacks.h'and line.strip()==declaration+';')or(path.name=='stubs.c'and line.strip()==declaration),'pending target invocation/escape requires actual ABI review'
-    return {'kind':'finite callback identities; only reviewed directive slot callable, zero callback body credit'if contract else'stores-only pending function-address identities; zero callback body/ABI credit',
+                assert noop_cast or(path.name=='output-callbacks.c'and re.fullmatch(r'output_slot_[0-9a-f]+\.target = '+name+r';',line.strip()))or(path.name=='output-callbacks.h'and line.strip()==declaration+';')or(path.name=='stubs.c'and line.strip()==declaration)or(typed and typed_body and path.name=='output-callbacks.c'and line.strip()==declaration),'pending target invocation/escape requires actual ABI review'
+    from directive_data import verify as verify_directive_data
+    directive_data=verify_directive_data(BINARY,config,graph)
+    return {'directive_data':directive_data,'kind':'finite callback identities; only reviewed directive slot callable; its body credit requires separate wholefunction audit'if contract else'stores-only pending function-address identities; zero callback body/ABI credit',
             'directive_contract_sha256':config.get('directive_callback_contract_sha256'),
             'boundary_sha256':config['output_callback_boundary_sha256'],
             'original_references':owned['references'],'original_calls':owned['calls'],
             'slots':[{'original':r['original'],'rebuilt':maps['_'+r['native']],'native':r['native'],'initial':0,'alternatives':r['alternatives']}for r in value['slots']],
-            'targets':[{'logical':r['logical'],'original':r['original'],'rebuilt':maps[definitions[r['logical']].get('symbol',r['logical'])],'native':r['native'],'signature':('fastcall C2OutputDirective*ECX RET0; body pending'if contract and r['logical']=='_output_callback_453e02'else'UNRESOLVED; exact noarg RET0 view only at49971c'if contract and r['logical']=='_output_callback_41eb89'else'UNRESOLVED; invocation forbidden')}for r in value['targets']]}
+            'targets':[{'logical':r['logical'],'original':r['original'],'rebuilt':maps[definitions[r['logical']].get('symbol',r['logical'])],'native':definitions[r['logical']]['native'],'signature':(('fastcall C2OutputDirective*ECX RET0; body separately audited'if typed_body else'fastcall C2OutputDirective*ECX RET0; body pending')if contract and r['logical']=='_output_callback_453e02'else'UNRESOLVED; exact noarg RET0 view only at49971c'if contract and r['logical']=='_output_callback_41eb89'else'UNRESOLVED; invocation forbidden')}for r in value['targets']]}
