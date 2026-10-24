@@ -34,7 +34,9 @@ struct OutputLibrary {
 struct OutputModule {
     DWORD reserved00;
     char *name;
-    BYTE reserved08[92];
+    BYTE reserved08[44];
+    DWORD input_tag, timestamp, file_size;
+    BYTE reserved40[36];
     OutputLibrary *library;
     BYTE reserved68[52];
 };

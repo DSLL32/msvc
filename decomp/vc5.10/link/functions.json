@@ -107,7 +107,8 @@
     "_seek_file@16",
     "_seek_mapped_file@16",
     "_read_big_endian_dword@4",
-    "_byte_swap_dword@4"
+    "_byte_swap_dword@4",
+    "_read_object_file@12"
   ],
   "driver": [
     {
@@ -2750,10 +2751,10 @@
     {
       "name": "_read_object_file@12",
       "start": 4495328,
-      "end": 4495329,
-      "pending_extent": true,
+      "end": 4495568,
+      "pending_extent": false,
       "source": "src/input.c",
-      "status": "stub",
+      "status": "implemented",
       "native_symbol": "read_object_file",
       "abi": "stdcall OutputModule*(InputArgument*,LinkContext*,OutputLibrary*); RET12; actual inputs observed when reached"
     },
@@ -2806,6 +2807,56 @@
       "native_symbol": "byte_swap_dword",
       "status": "implemented",
       "abi": "stdcall DWORD(DWORD value); one full physical DWORD input,RET4,no hidden inputs; actual value observed when reached"
+    },
+    {
+      "name": "_check_input_machine@8",
+      "start": 4261168,
+      "end": 4261169,
+      "pending_extent": true,
+      "source": "src/input.c",
+      "native_symbol": "check_input_machine",
+      "status": "stub",
+      "abi": "stdcall void(LinkContext *,InputArgument *); RET8; no hidden inputs; complete71B pending analysis"
+    },
+    {
+      "name": "_initialize_machine@4",
+      "start": 4494896,
+      "end": 4494897,
+      "pending_extent": true,
+      "source": "src/input.c",
+      "native_symbol": "initialize_machine",
+      "status": "stub",
+      "abi": "stdcall void(LinkContext *); RET4; complete376B pending analysis"
+    },
+    {
+      "name": "_read_coff_header@16",
+      "start": 4591808,
+      "end": 4591809,
+      "pending_extent": true,
+      "source": "src/input.c",
+      "native_symbol": "read_coff_header",
+      "status": "stub",
+      "abi": "stdcall BYTE(int,IMAGE_FILE_HEADER *,void *,BYTE *); RET16; complete273B pending analysis"
+    },
+    {
+      "name": "_create_input_module@48",
+      "start": 4254208,
+      "end": 4254209,
+      "pending_extent": true,
+      "source": "src/input.c",
+      "native_symbol": "create_input_module",
+      "status": "stub",
+      "abi": "stdcall OutputModule *(const char *,const char *,const void *,IMAGE_FILE_HEADER *,OutputLibrary *,BYTE *,BYTE,DWORD,IMAGE_SECTION_HEADER *,BYTE *,void *,DWORD); RET48; third+last roles provisional"
+    },
+    {
+      "name": "_allocate_module_section_headers@4",
+      "start": 4599536,
+      "end": 4599537,
+      "pending_extent": true,
+      "source": "src/input.c",
+      "native_symbol": "allocate_module_section_headers",
+      "status": "stub",
+      "abi": "stdcall void(OutputModule *); RET4; complete32B pending analysis"
     }
   ],
   "text_data": [

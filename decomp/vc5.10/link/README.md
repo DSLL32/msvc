@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 90 application
-functions (34,002 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 91 application
+functions (34,242 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `read_object_file`; hello-win32 has not completed.
+next frontier is `check_input_machine`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -522,3 +522,15 @@ those controls take 3.790 s. Earlier controller campaigns remain historical
 evidence with explicit checker deltas, and were not rerun or relabeled.
 Original/native/audit times are 1.992/0.897/0.571 s; native help is 67.98 ms,
 including 3.780 ms execution. Evidence is in `frontiers/90-byte-swap-review`.
+
+The complete 240-byte object-reader wrapper is accepted through its first
+machine check. The original/native child receives the same logical context and
+input-argument pointers, with no hidden receiver. All five later children remain
+named traps. Three encountered DWORD module fields retain the 156-byte layout,
+with name/library offsets unchanged; the one-byte machine-initialization flag
+is named from its actual store and consuming gate. Both builds and 104 full/
+97 strict graph bodies pass. All 26 affected controls ran freshly in 2.880 s;
+prior campaigns stay historical with explicit checker/source deltas. Original/
+native/audit times are 1.526/0.864/0.592 s. Native help is 65.93 ms including
+3.962 ms execution. Evidence is in `frontiers/91-object-reader-review`; the
+71-byte next helper has zero accepted body credit.

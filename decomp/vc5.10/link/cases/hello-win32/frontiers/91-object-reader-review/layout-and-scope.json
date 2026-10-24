@@ -1,0 +1,19 @@
+{
+  "module_layout": {
+    "bytes": 156,
+    "unchanged_name": 4,
+    "unchanged_library": 100,
+    "new_DWORD_fields": {
+      "input_tag": 52,
+      "timestamp": 56,
+      "file_size": 60
+    }
+  },
+  "old_header_snapshot": "cases/hello-win32/frontiers/90-byte-swap-review/native/source/project/full-link.h",
+  "old_header_sha256": "d096de0f8a7889e877f6a98593155912c9a0a8fdf2b94e03acd9aeaa456e223e",
+  "new_header_sha256": "59f26c621c988421d1c4912662cf115611700cd3c77c113a49a97a809e4a4259",
+  "header_diff": "--- 90/full-link.h\n+++ 91/full-link.h\n@@ -34,7 +34,9 @@\n struct OutputModule {\n     DWORD reserved00;\n     char *name;\n-    BYTE reserved08[92];\n+    BYTE reserved08[44];\n+    DWORD input_tag, timestamp, file_size;\n+    BYTE reserved40[36];\n     OutputLibrary *library;\n     BYTE reserved68[52];\n };\n",
+  "scope": "Current first child executes before machine initialization/header read/module creation. Full current context/argument/library, sixteen records and views remain unchanged. New local header/created/error slots are not pointed to by current helper and no invented live ranges are added.",
+  "mode": "Original BYTE47f030 store1 at44979c belongs to machine initialization; earlier object_read_mode name retained in frozen90 source and logical metadata, live actual symbol now machine_initialized. Exact1B native symbol and zero current value checked.",
+  "pending_children": "check_input_machine71B/initialize_machine376B/read_coff_header273B/create_input_module972B/allocate_module_section_headers32B read-only analysis, all named traps and zero body credit."
+}

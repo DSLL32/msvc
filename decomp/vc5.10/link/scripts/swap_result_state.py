@@ -21,7 +21,7 @@ def native_reader_contract(path,digest):
     assert raw[230:235]==b'\xe8'+struct.pack('<i',symbols['is_mac_resource_file'][0]-address-235)
     assert raw[235:240]==b'\x83\xec\x04\x3c\x00' # Caller consumes only AL.
     assert raw[306:311]==b'\xe8'+struct.pack('<i',symbols['read_object_file'][0]-address-311)
-    mode,size,kind=symbols['object_read_mode'];assert(size,kind)==(1,'B')
+    mode,size,kind=symbols['machine_initialized'];assert(size,kind)==(1,'B')
     return 48,mode
 
 
@@ -54,13 +54,17 @@ def compare(original,state,trap,events,directory,entry,mac,output):
     assert proof['formals']==['InputArgument *argument','LinkContext *context','OutputLibrary *library']and proof['hidden_inputs']==[]
     reader,=[e for e in events if e['event']=='read_input_entry'];args=reader['formals']
     formals=[args[0],args[2],args[1]]
-    assert trap['esp']==reader['stack_pointer']-28 and trap['stack'][:4]==[0x44997b]+formals
+    if state['function']=='read_object_file':
+        assert trap['esp']==reader['stack_pointer']-28 and trap['stack'][:4]==[0x44997b]+formals
+        assert trap['frontier_inputs']==dict(formals=formals,hidden_register_inputs=[])
+    else:
+        object_entry,=[e for e in events if e['event']=='object_read_entry']
+        assert object_entry==dict(event='object_read_entry',stack_pointer=reader['stack_pointer']-28,formals=formals,hidden_inputs=[])
     assert trap['object_read_formals']==dict(formals=formals,hidden_inputs=[])
-    assert trap['frontier_inputs']==dict(formals=formals,hidden_register_inputs=[])
     frame,mode=native_reader_contract(str(directory/'compiled/native-LINK.EXE'),receipt['native_sha256'])
     nreader=state['read_input_entry'];args=nreader['formals'];nformals=[args[0],args[2],args[1]]
     assert state['object_reader_entry']==dict(stack_pointer=nreader['stack_pointer']-frame,formals=nformals,hidden_inputs=[])
-    assert state['frontier_inputs']==dict(formals=nformals,hidden_register_inputs=[])
+    if state['function']=='read_object_file':assert state['frontier_inputs']==dict(formals=nformals,hidden_register_inputs=[])
     # Existing complete argument/library/context contracts own all three live
     # pointees; historical classifier/read locals are no longer live ranges.
     data,=[s for s in pe.sections if s['name']=='.data']
@@ -68,3 +72,7 @@ def compare(original,state,trap,events,directory,entry,mac,output):
     assert pe.read(0x4497f5,5).hex()=='a030f04700'
     assert (original/'object-read-mode.bin').read_bytes()==bytes(1)
     assert state['object_read_mode']==dict(address=mode,bytes=1,value=0)
+
+    if state['function']=='check_input_machine':
+        from input_machine_state import compare as compare_machine
+        compare_machine(original,state,trap,events,directory)
