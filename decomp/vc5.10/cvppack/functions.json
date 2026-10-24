@@ -104,7 +104,8 @@
     "release_widen",
     "enter_symbol_scope",
     "write_debug_directory",
-    "free_type_tables"
+    "free_type_tables",
+    "finalize_derived_types"
   ],
   "functions": [
     {
@@ -377,7 +378,8 @@
       "original": 4256000,
       "status": "stub",
       "extent": null,
-      "ret": 0
+      "ret": 0,
+      "parameters": []
     },
     {
       "name": "flush_packed_file",
@@ -3497,10 +3499,30 @@
       "symbol": "_finalize_derived_types",
       "native_symbol": "finalize_derived_types",
       "original": 4251488,
+      "status": "accepted",
+      "extent": [
+        4251488,
+        4252064
+      ],
+      "ret": 0,
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0099-finalize-derived-types/promotion.json"
+    },
+    {
+      "name": "allocate_type_buffer",
+      "symbol": "_allocate_type_buffer",
+      "native_symbol": "allocate_type_buffer",
+      "original": 4258528,
       "status": "stub",
       "extent": null,
       "ret": 0,
-      "parameters": []
+      "parameters": [
+        {
+          "name": "size",
+          "kind": "integer",
+          "slot": 1
+        }
+      ]
     }
   ],
   "support_unmasked": [
@@ -3752,9 +3774,10 @@
   "observe_widen_release": true,
   "observe_main_frees": true,
   "main_free_policy": {
-    "path": "cases/hello-debug-dll/derived-finalize-lifetimes.json",
-    "sha256": "74a2672618570797db99305e8a8b885068337a9e8351b917c45ec0b2ecc65893"
+    "path": "cases/hello-debug-dll/type-table-cleanup-lifetimes.json",
+    "sha256": "d2a4118447365726ad3189cd8e46a342c0a247be0af2ab418d23c9d6cb2aea56"
   },
   "observe_widen_frees": true,
-  "observe_derived_finalize_entry": true
+  "observe_derived_finalize_entry": false,
+  "observe_type_table_frees": true
 }

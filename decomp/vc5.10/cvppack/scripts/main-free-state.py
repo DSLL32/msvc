@@ -11,16 +11,21 @@ CAPACITIES=['module_capacity','type_segment_bytes','symbol_capacity','line_capac
 def validate(config,data,original,native,image_aliases,image_sizes,reads):
     before=original.get('main_free_calls',[]);after=native.get('main_free_calls',[])
     if not before and not after:return {},dict(calls=0,retired_allocations=0)
-    scratch=bool(config.get('observe_widen_frees'));count=7 if scratch else 5
+    scratch=bool(config.get('observe_widen_frees'));tables=bool(config.get('observe_type_table_frees'));count=12 if tables else 7 if scratch else 5
     names=NAMES+(['pack_buffer','pack_fixups'] if scratch else [])
     sites=SITES+([0x40523d,0x405249] if scratch else [])
     capacities=CAPACITIES+(['pack_buffer_size','pack_fixup_count'] if scratch else [])
+    if tables:
+        names+=['type_hash_buckets','type_table_primary','type_table_secondary','type_table_pending','type_records']
+        sites+=[0x40b152,0x40b15e,0x40b16a,0x40b175,0x40b181]
+        capacities += [None,None,None,None,'type_record_capacity']
     assert config.get('observe_main_frees') and len(before)==len(after)==count,'main free lifetime inventory differs'
     binary=Path(__file__).resolve().parents[1];binding=config['main_free_policy'];path=binary/binding['path']
     assert hashlib.sha256(path.read_bytes()).hexdigest()==binding['sha256'],'changed main free policy'
     policy=json.loads(path.read_text())
     derived=bool(config.get('observe_derived_finalize_entry'))
-    frontier=dict(name='finalize_derived_types',original=0x40df60,return_pc=0x40b146) if derived else dict(name='free_type_tables',original=0x40b140,return_pc=0x404763) if scratch else dict(name='write_debug_directory',original=0x405230,return_pc=0x40475e)
+    frontier=dict(name='print_statistics',original=0x40f100,return_pc=0x404771) if tables else dict(name='finalize_derived_types',original=0x40df60,return_pc=0x40b146) if derived else dict(name='free_type_tables',original=0x40b140,return_pc=0x404763) if scratch else dict(name='write_debug_directory',original=0x405230,return_pc=0x40475e)
+    assert bool(policy.get('type_table_cleanup'))==tables,'unreviewed table cleanup consumer policy'
     assert bool(policy.get('type_finalize_entry'))==derived,'unreviewed type cleanup entry policy'
     assert bool(policy.get('widen_scratch_cleanup'))==scratch and policy['target_sha256']==config['target']['sha256'] and policy['allowed_frontiers']==[frontier],'unreviewed main free consumer policy'
     assert original['address']==frontier['original'] and original['stack'][0]==frontier['return_pc'] and native['frontier_caller']==('free_type_tables' if derived else 'cvpack_main'),'unmodeled target consumer after main free'
@@ -32,12 +37,13 @@ def validate(config,data,original,native,image_aliases,image_sizes,reads):
         name=names[index];address=value(name);other=actual(name)
         assert left['site']==sites[index] and right['index']==index and right['name']==name,'main free actual sequence/source differs'
         assert left['address']==address and right['address']==other,'main free source-global argument differs'
-        size=value(capacities[index]) if address else 0
+        size=(1536 if index==7 else 16384 if index in (8,9,10) else value(capacities[index])) if address else 0
         if index==1:size=min(size,0xffe8)
         if index==6:size*=8
+        if index==11:size*=32
         assert left['size']==right['size']==size and len(left['before'])==len(bytes.fromhex(right['before']))==size,'main free incomplete pre-free capacity'
         assert left['entry_esp']==left['exit_esp'] and left['stack_argument']==address,'main free original cdecl stack/return differs'
-        assert right['exit_esp']==right['entry_esp']+4 and right['returned'] is True and right['owner']==('cvpack_main' if index<5 else 'free_widen_buffers'),'main free native cdecl return differs'
+        assert right['exit_esp']==right['entry_esp']+4 and right['returned'] is True and right['owner']==('cvpack_main' if index<5 else 'free_widen_buffers' if index<7 else 'free_type_tables'),'main free native cdecl return differs'
         assert left['entry_last_error']==left['exit_last_error']==right['entry_last_error']==right['exit_last_error']==0,'main free observable LastError differs'
         assert left['provider']==original['module_bases']['msvcrt.dll']+policy['free_rva'],'main free actual canonical provider differs'
         for root in names:
@@ -51,7 +57,7 @@ def validate(config,data,original,native,image_aliases,image_sizes,reads):
         for row in original['file_reads']:
             if address<=row['buffer']<address+size:
                 ranges.append((row['buffer']-address,row['buffer']-address+row['returned']))
-        if index>=5:
+        if index in (5,6):
             scale=1 if index==5 else 8;field=0 if index==5 else 1
             written_prefixes=[]
             for emit,actual_emit in zip(original['widen_emit_calls'],native['widen_emit_calls']):
@@ -64,7 +70,17 @@ def validate(config,data,original,native,image_aliases,image_sizes,reads):
                 written_prefixes.append(description[field]*scale)
             assert written_prefixes,'scratch free has no same-generation initialized emit writes'
             ranges=[(0,max(written_prefixes))]
-        assert ranges,'main free lacks initialized input provenance'
+        if index>=7:
+            assert value('derived_type_count')==0 and not value('type_pdb') and not value('type_pdb_types'),'unmodeled derived/PDB cleanup path'
+            cleared=[row for row in original['cleared_allocations'] if row['address']==address]
+            assert len(cleared)==1 and cleared[0]['size']==size,'retired table lacks complete initialized allocation provenance'
+            # Pointer-bearing tables are compared by the existing typed table
+            # validator on their full PRE-free bytes, separately from current
+            # memory. Byte-only cleared tables have no relocated fields here.
+            if index in (7,10):
+                assert not any(left['before']) and not any(bytes.fromhex(right['before'])),'unmodeled nonzero cleanup table'
+                ranges=[(0,size)]
+        assert ranges or index in (8,9,11),'main free lacks initialized input provenance'
         merged=[]
         for first,last in sorted(ranges):
             if merged and first<=merged[-1][1]:merged[-1]=(merged[-1][0],max(last,merged[-1][1]))
@@ -84,6 +100,7 @@ def validate(config,data,original,native,image_aliases,image_sizes,reads):
     aliases=[]
     allowed={'line_data','symbol_data','type_data','module_data','module_symbol_records','symbol_input'}
     if scratch:allowed.update(('pack_buffer','pack_fixups'))
+    if tables:allowed.update(('type_hash_buckets','type_table_primary','type_table_secondary','type_table_pending','type_records'))
     for row in data:
         if row['kind']!='pointer':continue
         address=value(row['name']);other=actual(row['name'])
@@ -98,4 +115,4 @@ def validate(config,data,original,native,image_aliases,image_sizes,reads):
     # from captured PRE-free bytes, never from released allocator storage.
     assert value('line_data')==int.from_bytes(original['memory'][value('type_segments')][:4],'little'),'retired segment table alias differs'
     return retired,dict(calls=count,retired_allocations=len(retired),initialized_pre_free_bytes_checked=initialized,
-        source_pointer_aliases=aliases,retired_payload_current_state_compared=False,allowed_frontier=frontier['name'],policy_sha256=binding['sha256'])
+        source_pointer_aliases=aliases,retired_payload_current_state_compared=False,historical_typed_table_bytes_pending=(16384*2+value('type_record_capacity')*32) if tables else 0,allowed_frontier=frontier['name'],policy_sha256=binding['sha256'])

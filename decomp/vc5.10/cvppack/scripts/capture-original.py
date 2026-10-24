@@ -117,6 +117,8 @@ def main():
         env['VC510_CVPACK_PROBES']+=',404726:main-free-call,404728:main-free-return,404731:main-free-call,404733:main-free-return,40473d:main-free-call,40473f:main-free-return,404749:main-free-call,40474b:main-free-return,404754:main-free-call,404756:main-free-return'
     if config.get('observe_widen_frees'):
         env['VC510_CVPACK_PROBES']+=',40523d:widen-free-entry,40523f:widen-free-exit,405249:widen-free-entry,40524b:widen-free-exit'
+    if config.get('observe_type_table_frees'):
+        env['VC510_CVPACK_PROBES']+=',40b152:type-free-entry,40b154:type-free-return,40b15e:type-free-entry,40b160:type-free-return,40b16a:type-free-entry,40b16c:type-free-return,40b175:type-free-entry,40b177:type-free-return,40b181:type-free-entry,40b183:type-free-return'
     env['VC510_CVPACK_BLOBS']=','.join('%x:%d:%d:%d:%x:%d:%d'%(item['original'],item['blob'].get('size',0),
         item['blob'].get('pointers',[dict(offset=0xffffffff)])[0]['offset'],
         item['blob'].get('pointers',[dict(size=0)])[0].get('size',0),

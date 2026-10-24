@@ -1,0 +1,122 @@
+{
+  "schema": 1,
+  "candidate": "finalize_derived_types",
+  "source_extent": [
+    4251488,
+    4252064
+  ],
+  "accepted_functions": 99,
+  "application_extent_bytes": 29188,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 46.58006447288628,
+  "qualification": "Application extents / whole text including CRT/unknown/padding; not non-CRT or branch coverage.",
+  "associated_switch_bytes_total": 784,
+  "associated_callback_bytes_total": 324,
+  "support": {
+    "crt_bodies": 4,
+    "crt_extent_bytes": 400,
+    "import_thunks": 5,
+    "import_extent_bytes": 30
+  },
+  "source_review": [
+    "Whole576B readable routine builds reverse-index LF1204 derived lists, interns/deduplicates them, patches owning class derived-index fields and handles the global index limit. Graph/ABI/import checks cover the complete body. Current realcase has zero derived entries; nonzero path remains unexecuted and allocate_type_buffer is a named unaccepted trap.",
+    "Twelve actual frees retire11 allocations. Five new fully cleared table capacities434688B are retained only as prefree inputs.39854 byte-compared plus416768 typed tablebytes total456622 initializedbytes;336records/60recursive/298internednodes and13dangling source aliases checked.",
+    "No released roots are reinstalled as current memory. Only saved prefree heads identify separately live child nodes. Current-memory overlap guards include before-base crossing requests; actualGDB rejected one such released-table read, and extracted originalobserverC rejects both crossing endpoints without child reads.",
+    "Finite original main/type-cleanup/zero-derived intervals and currentcount/PDBNULL guards stop at print_statistics40f100. That historical label is misleading: nextbody builds combined source-file index; source rename deferred until its reconstruction."
+  ],
+  "next_frontier": "print_statistics (historical alias; actual combined source-file index builder)",
+  "fresh_pair": true,
+  "fresh_negative_count": 23,
+  "fresh_controls": {
+    "path": "type-table-checks.json",
+    "sha256": "ae5a8d0c4f6226cd05829ca4b40cfb593ac02f0e0aa3736d8fc476842cd3d062"
+  },
+  "parent_review": {
+    "path": "parent-review.json",
+    "sha256": "5e48aa04fa5413d95fbac8ffa6e3cc90588df3fb9eae4c30eb798198e881d620"
+  },
+  "finite_lifetime_packet": {
+    "path": "table-lifetime-review.json",
+    "sha256": "19e8b034ee2d2aa5bae4d6e553db5d92260ae6a74529d116a73a33d3e6859070"
+  },
+  "reused_controls": {
+    "type_cleanup": {
+      "path": "cases/hello-debug-dll/evidence/0098-free-type-tables-frontier/type-cleanup-checks.json",
+      "sha256": "a3b7259a8611e592dd1d08ae04f663b25634dbe694f2645050f05770b42fe4b4",
+      "scope": "Earlier7free/generation/PDB125/protocol controls;23 fresh affected table/ABI/overlap tests here."
+    },
+    "cleanup": {
+      "path": "cases/hello-debug-dll/evidence/0097-free-widen-buffers/cleanup-checks.json",
+      "sha256": "d5af13522fb1047c3106fe4b8160327f5a04b6f3c5d6b5d30884339069afd683",
+      "scope": "Unchanged7free prefix/generation/capacity and14controls; fresh8 newcaller/return/global/PDBdenial controls."
+    },
+    "main_free": {
+      "path": "cases/hello-debug-dll/evidence/0096-enter-symbol-scope-lifetimes/lifetime-checks-v2.json",
+      "sha256": "13558d4b04e21f853854b95246d44c763d595f8823a5ed016139f2a08417cd68",
+      "scope": "20 prior interval-overlap/lifetime/source controls and2 scope unit branches; new scratch paths receive14 fresh controls."
+    },
+    "release": {
+      "path": "cases/hello-debug-dll/evidence/0095-release-widen-retained/release-checks-v2.json",
+      "sha256": "acfa6ab091d680e3c093f30c9e336430cbdd62d61576a76c2d8a1349d9c2aaf7",
+      "scope": "28 reviewed Release/projection/lifetime controls; unchanged Release/provider code."
+    },
+    "provider": {
+      "path": "cases/hello-debug-dll/checkpoint50-controls/widen-provider.json",
+      "sha256": "8242fe40cb36423d7bc17016c85d34f6440d2329aacf6c1d9489ad0fb6f8c45c",
+      "provider_source_sha256": "5e5076d9ac9f8200f3e1b1152c8696e489802b325e51f94aeecb481498098399",
+      "scope": "21-lifetime positive and23 semantic negatives; unchanged implementation5e5076d9... ."
+    },
+    "protocol": {
+      "path": "cases/hello-debug-dll/evidence/0095-release-widen-retained/function-review.json",
+      "sha256": "2e67256935669ea74b7cccc1ccec7f981e891debea64fff94d7c21ac1b973f5d",
+      "scope": "Prior protocol/help/ABI controls remain hash-bound there; new main-free/state/scope paths receive20 fresh controls plus2 scope branches."
+    }
+  },
+  "original_receipt_sha256": "7d6b2d0c3df258e8931e1c5b08af2fdf2c5819704a8c20d17868902aaff49877",
+  "native_receipt_sha256": "4f5ad9ed0133d73a247b242b63d240628573844dea23485f9135cdc0773731c5",
+  "audit": {
+    "path": "original/audit.json",
+    "sha256": "f690e1869484e91d598a1dfddffec43d5585cb8137b2bb5a602f53efd4bf9f29"
+  },
+  "seconds": {
+    "stages": {
+      "original_build": 1.900595004670322,
+      "native_build": 0.04551265388727188,
+      "graph_tool_build": 0.04904830548912287,
+      "original_capture": 21.793466916307807,
+      "native_capture": 2.3058965411037207,
+      "pair_check": 2.32628723513335
+    },
+    "original_capture": {
+      "setup": 1.3191672945395112,
+      "capture_lock_wait": 2.464069187641144,
+      "execution": 17.432279612869024,
+      "total": 21.484330458566546
+    },
+    "native_capture": {
+      "direct_execution": 0.019120892509818077,
+      "gdb_execution": 2.0992424143478274,
+      "total": 2.2279222048819065
+    },
+    "static_audit": 1.267459255643189,
+    "controls": 24.236150068230927,
+    "help_fixture": {
+      "preparation": 0.003038136288523674,
+      "execution": 0.004090027883648872,
+      "checks": 0.003434041514992714,
+      "total": 0.017066726461052895
+    },
+    "debug_fixture": {
+      "preparation": 0.002560586668550968,
+      "execution": 2.4430370274931192,
+      "checks": 0.0046335244551301,
+      "total": 3.865555386058986
+    }
+  },
+  "build_qualification": "Initial standalone source original/native builds passed; elapsed not serialized. Trial timings reflect later incremental builds including updated debugger.",
+  "transport": {
+    "path": "transport-build.json",
+    "sha256": "9d46e8e4f5788d9b1bb6f989f080627fd7174d76cb73ff4824ecc18455eb7437"
+  },
+  "corrections": "Current originalobserver crossing fallback hardened after unchanged valid contained4B/32B raw observations. Explicit-offset actualhFile correction compiled/staticreviewed for next ordinary capture; no replaysolelytransport. Initial negativeGDB scratch-copy probe accidentally retained postrun extended input; corrected preparation restores canonicalcached input before targeted guard attempt. Full23-control suite passed before promotion."
+}

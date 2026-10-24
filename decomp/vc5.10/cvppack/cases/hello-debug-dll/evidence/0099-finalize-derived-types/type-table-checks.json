@@ -1,0 +1,205 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "fresh_negative_count": 23,
+  "rejected": [
+    {
+      "name": "missing-final-table-free",
+      "diagnostic": "main free lifetime inventory differs"
+    },
+    {
+      "name": "wrong-table-free-owner",
+      "diagnostic": "main free native cdecl return differs"
+    },
+    {
+      "name": "wrong-table-free-argument",
+      "diagnostic": "main free source-global argument differs"
+    },
+    {
+      "name": "wrong-table-return-stack",
+      "diagnostic": "main free native cdecl return differs"
+    },
+    {
+      "name": "truncated-prefree-record-capacity",
+      "diagnostic": "main free incomplete pre-free capacity"
+    },
+    {
+      "name": "changed-cleared-byte-table-7",
+      "diagnostic": "unmodeled nonzero cleanup table"
+    },
+    {
+      "name": "changed-cleared-byte-table-10",
+      "diagnostic": "unmodeled nonzero cleanup table"
+    },
+    {
+      "name": "changed-initialized-record-scalar",
+      "diagnostic": "initialized type record fields differ"
+    },
+    {
+      "name": "changed-unused-cleared-record",
+      "diagnostic": "unused type record capacity is not cleared"
+    },
+    {
+      "name": "changed-historical-head-8",
+      "diagnostic": "recursive-type node NULL/identity/chain differs"
+    },
+    {
+      "name": "changed-historical-head-9",
+      "diagnostic": "interned-type node NULL/identity/chain differs"
+    },
+    {
+      "name": "wrong-historical-free-identity",
+      "diagnostic": "native historical table traversal identity differs"
+    },
+    {
+      "name": "crossing-current-table-7",
+      "diagnostic": "released payload was captured as current state"
+    },
+    {
+      "name": "crossing-current-table-8",
+      "diagnostic": "released payload was captured as current state"
+    },
+    {
+      "name": "crossing-current-table-9",
+      "diagnostic": "released payload was captured as current state"
+    },
+    {
+      "name": "crossing-current-table-10",
+      "diagnostic": "released payload was captured as current state"
+    },
+    {
+      "name": "crossing-current-table-11",
+      "diagnostic": "released payload was captured as current state"
+    },
+    {
+      "name": "crossing-current-table-string",
+      "diagnostic": "released payload was captured as current string state"
+    },
+    {
+      "name": "unknown-postcleanup-caller",
+      "diagnostic": "unmodeled target consumer after main free"
+    },
+    {
+      "name": "crossing-original-current-table",
+      "diagnostic": "released payload was captured as current state"
+    },
+    {
+      "name": "actual-GDB-crossing-released-table-read",
+      "diagnostic": "current-state observer tried to dereference released payload",
+      "seconds": 2.162079312838614
+    },
+    {
+      "name": "original-observer-crossing-before-base",
+      "diagnostic": "return0,nochildread"
+    },
+    {
+      "name": "original-observer-crossing-after-end",
+      "diagnostic": "return0,nochildread"
+    }
+  ],
+  "observer_range_positive": {
+    "saved_contained_bytes": true,
+    "wholly_disjoint_child_read": true,
+    "extracted_body_sha256": "022212023acd93de1d5cbe82455250ecee1f8ce51ad251a9ac2775f33e451792"
+  },
+  "baseline": {
+    "calls": 12,
+    "retired_allocations": 11,
+    "initialized_pre_free_bytes_checked": 39854,
+    "source_pointer_aliases": [
+      {
+        "name": "line_data",
+        "owner": "line_data",
+        "offset": 0
+      },
+      {
+        "name": "symbol_data",
+        "owner": "symbol_data",
+        "offset": 0
+      },
+      {
+        "name": "type_data",
+        "owner": "type_data",
+        "offset": 0
+      },
+      {
+        "name": "module_data",
+        "owner": "module_data",
+        "offset": 0
+      },
+      {
+        "name": "type_table_primary",
+        "owner": "type_table_primary",
+        "offset": 0
+      },
+      {
+        "name": "type_table_secondary",
+        "owner": "type_table_secondary",
+        "offset": 0
+      },
+      {
+        "name": "type_table_pending",
+        "owner": "type_table_pending",
+        "offset": 0
+      },
+      {
+        "name": "type_hash_buckets",
+        "owner": "type_hash_buckets",
+        "offset": 0
+      },
+      {
+        "name": "pack_buffer",
+        "owner": "pack_buffer",
+        "offset": 0
+      },
+      {
+        "name": "pack_fixups",
+        "owner": "pack_fixups",
+        "offset": 0
+      },
+      {
+        "name": "type_records",
+        "owner": "type_records",
+        "offset": 0
+      },
+      {
+        "name": "module_symbol_records",
+        "owner": "type_data",
+        "offset": 0
+      },
+      {
+        "name": "symbol_input",
+        "owner": "type_data",
+        "offset": 99
+      }
+    ],
+    "retired_payload_current_state_compared": false,
+    "allowed_frontier": "print_statistics",
+    "policy_sha256": "d2a4118447365726ad3189cd8e46a342c0a247be0af2ab418d23c9d6cb2aea56",
+    "historical_typed_table_bytes_checked": 416768,
+    "historical_table_proof_roles": [
+      "type_hash_buckets",
+      "type_records",
+      "type_table_pending",
+      "type_table_primary",
+      "type_table_secondary"
+    ]
+  },
+  "typed_records_checked": 336,
+  "recursive_nodes_checked": 60,
+  "interned_nodes_checked": 298,
+  "source_sha256": "a113b8c3c85e33e5c797c9a6fe123dca540f0afa84c879a25696ccbd5cf993d6",
+  "lifetime_validator_sha256": "d57a866f8ba49216a13bfe076c7ac9c7ba37ce75fd3582b6a779a89baeb48d95",
+  "decoder_sha256": "73414c3bfce27a4ca31025900c2d590de78e0d4f12929fa48311dcc9c21d50e6",
+  "observer_sha256": "261d7139ce9e938e8e4536bb2ee34c4cb49707334302ca3873d59d23880c5928",
+  "checker_sha256": "27055bf940f860cf79fc448242ca6f30a3040d262fe3ff9c89550ff3ed3d452f",
+  "original_receipt_sha256": "7d6b2d0c3df258e8931e1c5b08af2fdf2c5819704a8c20d17868902aaff49877",
+  "native_receipt_sha256": "4f5ad9ed0133d73a247b242b63d240628573844dea23485f9135cdc0773731c5",
+  "audit_sha256": "f690e1869484e91d598a1dfddffec43d5585cb8137b2bb5a602f53efd4bf9f29",
+  "reused": {
+    "path": "cases/hello-debug-dll/evidence/0098-free-type-tables-frontier/type-cleanup-checks.json",
+    "sha256": "a3b7259a8611e592dd1d08ae04f663b25634dbe694f2645050f05770b42fe4b4",
+    "scope": "Earlier7free paths, bound provider, PDB125 and protocol controls unchanged; fresh table/pointer-field/overlap/guard controls here."
+  },
+  "seconds": 24.236150068230927
+}

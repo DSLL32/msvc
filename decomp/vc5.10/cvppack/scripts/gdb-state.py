@@ -191,19 +191,22 @@ def install(configuration):
             def __init__(self):super().__init__('recon_free',internal=True)
             def stop(self):
                 frame=gdb.newest_frame();owner=frame.older()
-                if owner is None or owner.name() not in ('cvpack_main','free_widen_buffers'):return False
+                if owner is None or owner.name() not in ('cvpack_main','free_widen_buffers','free_type_tables'):return False
                 names=['debug_directory','line_data','symbol_data','type_data','module_data']
                 capacities=['module_capacity','type_segment_bytes','symbol_capacity','line_capacity','type_capacity']
                 if config.get('observe_widen_frees'):
                     names+=['pack_buffer','pack_fixups'];capacities+=['pack_buffer_size','pack_fixup_count']
+                if config.get('observe_type_table_frees'):
+                    names+=['type_hash_buckets','type_table_primary','type_table_secondary','type_table_pending','type_records']
+                    capacities+=['1536','16384','16384','16384','type_record_capacity*32']
                 index=len(main_free_calls);assert index<len(names),'unexpected additional main free'
                 name=names[index];address=int(frame.read_var('pointer'))
-                assert owner.name()==('cvpack_main' if index<5 else 'free_widen_buffers'),'cleanup free owner/order differs'
+                assert owner.name()==('cvpack_main' if index<5 else 'free_widen_buffers' if index<7 else 'free_type_tables'),'cleanup free owner/order differs'
                 assert address==int(gdb.parse_and_eval(name)),'main free argument is not its actual source global'
                 size=int(gdb.parse_and_eval(capacities[index])) if address else 0
                 if index==1:size=min(size,0xffe8)
                 if index==6:size*=8
-                assert 0<=size<=65536,'main free exceeds observed allocation bound'
+                assert 0<=size<=1048576,'main free exceeds observed allocation bound'
                 inferior=gdb.selected_inferior();call=dict(name=name,index=index,address=address,size=size,
                     before=bytes(inferior.read_memory(address,size)).hex() if address else '',
                     entry_esp=int(gdb.parse_and_eval('$ebp'))+4,
@@ -413,6 +416,13 @@ def capture(configuration,data_file,output):
             assert not any(row.get('returned') and row['address'] and max(int(address),row['address'])<min(int(address)+int(size),row['address']+row['size']) for row in main_free_calls), 'current-state observer tried to dereference released payload'
             return actual_inferior.read_memory(address,size)
     inferior=CurrentMemory()
+    def historical_table(address,size,name):
+        if not released(address):return bytes(inferior.read_memory(address,size))
+        assert config.get('observe_type_table_frees') and name in ('type_table_primary','type_table_secondary','type_records'),'unmodeled historical table role'
+        calls=[row for row in main_free_calls if row['address']==address and row['returned']]
+        assert len(calls)==1 and calls[0]['name']==name and calls[0]['size']==size,'historical table free identity differs'
+        state.setdefault('historical_type_tables',[]).append(dict(name=name,free_index=calls[0]['index'],size=size))
+        return bytes.fromhex(calls[0]['before'])
     state=dict(function=frame.name(),pc=int(gdb.parse_and_eval('$pc')),signal=gdb.execute('info program',to_string=True))
     state['frontier_caller']=frame.older().name() if frame.older() is not None else None
     state['global_addresses']={item['name']:int(gdb.parse_and_eval('&('+item.get('native_expression',item['name'])+')')) for item in data}
@@ -784,7 +794,8 @@ def capture(configuration,data_file,output):
         if item.get('recursive_types'):
             root=int.from_bytes(bytes.fromhex(state['globals'][item['name']]),'little')
             if root:
-                heads=bytes(inferior.read_memory(root,16384));memory[str(root)]=heads.hex();seen=set()
+                heads=historical_table(root,16384,item['name']);seen=set()
+                if not released(root):memory[str(root)]=heads.hex()
                 for offset in range(0,16384,4):
                     head=int.from_bytes(heads[offset:offset+4],'little')
                     while head:
@@ -794,7 +805,8 @@ def capture(configuration,data_file,output):
         if item.get('interned_types'):
             root=int.from_bytes(bytes.fromhex(state['globals'][item['name']]),'little')
             if root:
-                heads=bytes(inferior.read_memory(root,16384));memory[str(root)]=heads.hex();seen=set()
+                heads=historical_table(root,16384,item['name']);seen=set()
+                if not released(root):memory[str(root)]=heads.hex()
                 for offset in range(0,16384,4):
                     head=int.from_bytes(heads[offset:offset+4],'little')
                     while head:
@@ -828,7 +840,8 @@ def capture(configuration,data_file,output):
             if address:
                 size=int(gdb.parse_and_eval('type_record_capacity'))*32
                 assert 0<size<=1048576
-                records=bytes(inferior.read_memory(address,size));memory[str(address)]=records.hex()
+                records=historical_table(address,size,item['name'])
+                if not released(address):memory[str(address)]=records.hex()
                 count=int(gdb.parse_and_eval('type_record_count'))
                 for index in range(count):
                     record=records[index*32:index*32+32]

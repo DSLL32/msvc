@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "target_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+  "crt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "free_rva": 5002,
+  "main_interval_sha256": "f372573ff139b690a2af587239f0eec022cf12937403ef459c9ff9f77b8e010c",
+  "allowed_frontiers": [
+    {
+      "name": "print_statistics",
+      "original": 4256000,
+      "return_pc": 4212593
+    }
+  ],
+  "scope": "Exactly12actual publicCRT frees; five new initialized tables retained only as full prefree typed inputs. Real no-derived/noPDB path, bounded main through print_statistics. Unknown consumers/derived/PDB paths held.",
+  "widen_scratch_cleanup": true,
+  "scratch_interval_sha256": "858a7436d3fee1bcef9d748fa1ed4e27d0b0c6f6786b9d89d3db138139860235",
+  "type_finalize_entry": false,
+  "type_cleanup_prefix_sha256": "2ffb570c5c072e3bf312c6678e3069a55604c5510e36190a09b8e50e5eeac337",
+  "type_table_cleanup": true,
+  "type_cleanup_sha256": "309c3ce465de074f24e6106e1b81fc2939423264e1a2daf6ef22d67c4b206726",
+  "derived_zero_path": [
+    {
+      "start": 4251488,
+      "end": 4251530,
+      "sha256": "be3aa2ce19ee0c4fec58fe2f91dac8ce4bbb5e0c517444a3b046848895c8dafa"
+    },
+    {
+      "start": 4252056,
+      "end": 4252064,
+      "sha256": "c68af83daf82cda28381036706e8e26699ef5243e6869e42ea6c73dbf0a10799"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "packet_sha256": "19e8b034ee2d2aa5bae4d6e553db5d92260ae6a74529d116a73a33d3e6859070",
+  "independent_positive_sha256": "abbe27c32b770936084059836866527e4d58e9afe1409f729f1dc4da22f2746d",
+  "whole_source_bytes": 576,
+  "free_calls": 12,
+  "retired_allocations": 11,
+  "initialized_byte_compared": 39854,
+  "historical_typed_bytes": 416768,
+  "initialized_total": 456622,
+  "source_global_identity_aliases": 13,
+  "qualification": "Actual zero-derived-list/noPDB path only; exact cleared prefree ownership, separate historical typed tables/live child nodes, current memory full-overlap exclusions, finite return-to-next-stub interval; unknown later consumer remains held. Original helper guard-only refinement and explicit offsets reviewed statically, no original rerun required."
+}

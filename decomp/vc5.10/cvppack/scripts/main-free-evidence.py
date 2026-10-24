@@ -14,14 +14,15 @@ def prove(config):
     assert sha(target)==policy['target_sha256']
     scratch=bool(config.get('observe_widen_frees'))
     assert scratch==bool(policy.get('widen_scratch_cleanup'))
-    end=0x404763 if scratch else 0x40475e
+    tables=bool(config.get('observe_type_table_frees'));assert bool(policy.get('type_table_cleanup'))==tables
+    end=0x404771 if tables else 0x404763 if scratch else 0x40475e
     raw=pe.read(0x404719,end-0x404719)
     assert hashlib.sha256(raw).hexdigest()==policy['main_interval_sha256']
     decoder=Cs(CS_ARCH_X86,CS_MODE_32);decoder.detail=True;instructions=list(decoder.disasm(raw,0x404719))
-    assert sum(i.size for i in instructions)==len(raw) and instructions[-1].address==(0x40475e if scratch else 0x404759) and instructions[-1].op_str==('0x40b140' if scratch else '0x405230')
-    calls=[i for i in instructions if i.mnemonic=='call'];assert [i.address for i in calls]==[0x404726,0x404731,0x40473d,0x404749,0x404754,0x404759]+([0x40475e] if scratch else [])
-    allowed={0x415658,0x4161ac,0x41567c,0x415aa4,0x415674,0x415678}
-    assert all(i.mnemonic in ('mov','push','call','add') for i in instructions),'unproved cleanup control flow'
+    assert sum(i.size for i in instructions)==len(raw) and instructions[-1].address==(0x40476c if tables else 0x40475e if scratch else 0x404759) and instructions[-1].op_str==('0x40f100' if tables else '0x40b140' if scratch else '0x405230')
+    calls=[i for i in instructions if i.mnemonic=='call'];assert [i.address for i in calls]==[0x404726,0x404731,0x40473d,0x404749,0x404754,0x404759]+([0x40475e] if scratch else [])+([0x40476c] if tables else [])
+    allowed={0x415658,0x4161ac,0x41567c,0x415aa4,0x415674,0x415678}|({0x4154c2} if tables else set())
+    assert all(i.mnemonic in (('mov','push','call','add','cmp','je') if tables else ('mov','push','call','add')) for i in instructions),'unproved cleanup control flow'
     for i in instructions:
         for operand in i.operands:
             if operand.type==X86_OP_MEM:
@@ -48,11 +49,31 @@ def prove(config):
         prefix=pe.read(0x40b140,6)
         assert prefix==bytes.fromhex('56e81a2e0000') and hashlib.sha256(prefix).hexdigest()==policy['type_cleanup_prefix_sha256'],'unproved type cleanup continuation'
         type_prefix=dict(extent=[0x40b140,0x40b146],sha256=policy['type_cleanup_prefix_sha256'],no_released_payload_consumer=True,callee=0x40df60)
+    type_cleanup=None
+    if tables:
+        body=pe.read(0x40b140,135)
+        assert hashlib.sha256(body).hexdigest()==policy['type_cleanup_sha256']
+        decoded=list(decoder.disasm(body,0x40b140))
+        assert sum(i.size for i in decoded)==135 and decoded[-1].mnemonic=='ret'
+        assert [i.address for i in decoded if i.mnemonic=='call']==[0x40b141,0x40b152,0x40b15e,0x40b16a,0x40b175,0x40b181,0x40b199,0x40b1ae]
+        allowed={0x41530c,0x4161ac,0x412ce0,0x412ce8,0x412cfc,0x4132c4,0x4132bc,0x4132d0,0x4132b8,0x416270,0x41625c}
+        for instruction in decoded:
+            for operand in instruction.operands:
+                if operand.type==X86_OP_MEM:
+                    memory=operand.mem
+                    assert not memory.base and not memory.index and memory.disp in allowed,'type cleanup dereferences released payload'
+        paths=[]
+        for row in policy['derived_zero_path']:
+            raw=pe.read(row['start'],row['end']-row['start']);assert hashlib.sha256(raw).hexdigest()==row['sha256']
+            paths.append(row)
+        assert [(r['start'],r['end']) for r in paths]==[(0x40df60,0x40df8a),(0x40e198,0x40e1a0)]
+        assert pe.read(0x40df74,8)==bytes.fromhex('66833d8032410000') and pe.read(0x40df84,6)==bytes.fromhex('0f860e020000'),'derived zero-count branch differs'
+        type_cleanup=dict(extent=[0x40b140,0x40b1c7],sha256=policy['type_cleanup_sha256'],free_sites=[0x40b152,0x40b15e,0x40b16a,0x40b175,0x40b181],derived_zero_path=paths,requires_zero=['derived_type_count','type_pdb','type_pdb_types'],no_released_payload_consumer=True)
     provider=ROOT/'toolchains/5.10/bin/MSVCRT.DLL';crt=PE(provider)
     assert sha(provider)==policy['crt_sha256']
     evidence=BINARY/'cases/hello-debug-dll/import-preservation.json'
     witness=json.loads(evidence.read_text());assert witness['qualified_import']==dict(dll='msvcrt.dll',name='free')
     assert witness['provider']['sha256']==sha(provider) and witness['provider']['function'][0]==crt.base+policy['free_rva']
     provider_start,provider_end=witness['provider']['function'];assert hashlib.sha256(crt.read(provider_start,provider_end-provider_start)).hexdigest()==witness['provider']['function_sha256']
-    return dict(policy_sha256=sha(path),main_interval=[0x404719,end],main_interval_sha256=policy['main_interval_sha256'],no_released_payload_consumer=True,scratch_cleanup=scratch_proof,type_cleanup_prefix=type_prefix,
+    return dict(policy_sha256=sha(path),main_interval=[0x404719,end],main_interval_sha256=policy['main_interval_sha256'],no_released_payload_consumer=True,scratch_cleanup=scratch_proof,type_cleanup_prefix=type_prefix,type_table_cleanup=type_cleanup,
         crt_sha256=sha(provider),free_rva=policy['free_rva'],ordinary_crt_witness_sha256=sha(evidence),validator_sha256=sha(BINARY/'scripts/main-free-evidence.py'),state_validator_sha256=sha(BINARY/'scripts/main-free-state.py'))

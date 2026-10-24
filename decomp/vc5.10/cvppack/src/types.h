@@ -126,4 +126,5 @@ void *allocate_cleared(unsigned size);
 void *allocate_bytes(unsigned size);
 void initialize_arena(TypeArena *arena, unsigned capacity);
 void finalize_derived_types(void);
+unsigned char *allocate_type_buffer(unsigned size);
 #endif

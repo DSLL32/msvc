@@ -220,6 +220,28 @@ def compare(config,data,events,native,artifacts=None,views=None):
     original = decode(events)
     record = next(r for r in config['functions'] if r['original']==original['address'])
     assert native['function'] == record['native_symbol']
+    historical_tables_used=set()
+    def table_bytes(address,other=None):
+        # Explicit historical PRE-free table inputs, not a current-memory view.
+        # Current namespaces remain unchanged and overlap absence is checked by
+        # the lifetime validator. Only exact captured table allocations qualify.
+        names=('type_hash_buckets','type_table_primary','type_table_secondary','type_table_pending','type_records')
+        ended=[row for row in original.get('main_free_calls',[]) if row['address']==address and 'exit_esp' in row]
+        if ended:
+            assert config.get('observe_type_table_frees') and len(ended)==1,'unmodeled historical table lifetime'
+            before=ended[0];index=original['main_free_calls'].index(before)
+            assert 7<=index<12 and names[index-7] in {row['name'] for row in data if int.from_bytes(original['memory'][row['original']],'little')==address},'historical table allocation/source differs'
+            actual=native['main_free_calls'][index]
+            assert actual['returned'] and actual['name']==names[index-7] and actual['index']==index,'historical table actual free missing'
+            assert len(before['before'])==len(bytes.fromhex(actual['before']))==before['size']==actual['size'],'historical table full initialized capacity missing'
+            historical_tables_used.add(names[index-7])
+            if other is not None:
+                assert actual['address']==other,'historical table paired allocation differs'
+                return before['before'],bytes.fromhex(actual['before'])
+            return before['before']
+        left=original['memory'][address]
+        if other is None:return left
+        return left,bytes.fromhex(native['memory'][str(other)])
     factories=original['widen_factory_calls']
     if config.get('observe_widen_factory'):
         assert len(factories)==len(native.get('widen_factory_calls',[]))<=21,'factory lifetime inventory differs'
@@ -408,7 +430,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
                 row=next(row for row in data if row['name']==name)
                 return int.from_bytes(original['memory'][row['original']],'little')
             base=int.from_bytes(original['memory'][observed('type_segments')][:4],'little');segment=original['memory'][base]
-            count=observed('type_record_count');records=original['memory'][observed('type_records')]
+            count=observed('type_record_count');records=table_bytes(observed('type_records'))
             assert 0<=count<=32768 and len(records)>=count*32,'invalid type-name owner inventory'
             indices=[]
             for i in range(count):
@@ -865,7 +887,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
         assert 4<=length<=row['used']-offset,'arena argument exceeds initialized record extent'
         index=parameters[spec['index_parameter']]
         assert 0x1000<=index<global_integer('next_global_type'),'arena argument index out of range'
-        records=original['memory'][global_integer('type_records')];count=global_integer('type_record_count')
+        records=table_bytes(global_integer('type_records'));count=global_integer('type_record_count')
         indices=[i for i in range(count) if int.from_bytes(records[i*32:i*32+4],'little')==address and int.from_bytes(records[i*32+4:i*32+8],'little')==index]
         assert indices,'arena argument has no mapped local-record owner'
         root=next(item['original'] for item in data if item['name']=='global_type_blocks')
@@ -897,11 +919,11 @@ def compare(config,data,events,native,artifacts=None,views=None):
                 address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
                 if pair(address,other):
                     assert image_aliases[address]==other and image_sizes[address]==16384,'recursive-type bucket allocation differs'
-                    left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
+                    left,right=table_bytes(address,other)
                     assert len(left)==len(right)==16384,'incomplete recursive-type bucket observation'
                     counts=original['memory'][global_integer('type_table_primary_counts')]
                     assert len(counts)==8192,'incomplete recursive-type bucket counts'
-                    records=original['memory'][global_integer('type_records')];visited=set()
+                    records=table_bytes(global_integer('type_records'));visited=set()
                     for offset in range(0,16384,4):
                         source=int.from_bytes(left[offset:offset+4],'little');destination=int.from_bytes(right[offset:offset+4],'little');count=0
                         while source or destination:
@@ -926,7 +948,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
                 address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
                 if pair(address,other):
                     assert image_aliases[address]==other and image_sizes[address]==16384,'interned-type bucket allocation differs'
-                    left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
+                    left,right=table_bytes(address,other)
                     assert len(left)==len(right)==16384,'incomplete interned-type bucket observation'
                     visited=set();counts_address=global_integer('type_table_secondary_counts')
                     counts=original['memory'][counts_address]
@@ -1007,7 +1029,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
                     capacity=global_integer('type_record_capacity');count=global_integer('type_record_count')
                     assert 0<=count<=capacity<=32768, 'type record count/capacity differs'
                     assert image_aliases[address]==other and image_sizes[address]==capacity*32, 'type record table allocation differs'
-                    left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
+                    left,right=table_bytes(address,other)
                     assert len(left)==len(right)==capacity*32, 'incomplete initialized type record table'
                     table=global_integer('type_segments');base=int.from_bytes(original['memory'][table][:4],'little')
                     segment=historical_segment(base);destination=image_aliases[base]
@@ -1158,7 +1180,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
                 address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
                 if address in allocation_aliases:assert allocation_aliases[address]==other,'subsection output/global allocation alias differs'
                 if pair(address,other):
-                    spec=item['blob'];left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
+                    spec=item['blob'];left,right=table_bytes(address,other)
                     size=spec.get('size')
                     if size is None:
                         count_item=next(row for row in data if row['name']==spec['count'])
@@ -1297,4 +1319,10 @@ def compare(config,data,events,native,artifacts=None,views=None):
                 offset=result-root
                 assert 0<=offset<count*32 and offset%32==0 and actual_result==other+offset,'global-type lookup returned record identity differs'
             lookup_calls_checked+=1
+    if config.get('observe_type_table_frees'):
+        assert historical_tables_used=={'type_hash_buckets','type_table_primary','type_table_secondary','type_table_pending','type_records'},'historical initialized table inventory differs'
+        assert native.get('historical_type_tables')==[dict(name=name,free_index=index,size=16384 if index<11 else global_integer('type_record_capacity')*32) for name,index in [('type_table_primary',8),('type_table_secondary',9),('type_records',11)]],'native historical table traversal identity differs'
+        assert typed_records_checked==global_integer('type_record_count') and recursive_type_nodes_checked and interned_type_nodes_checked,'historical typed table validation incomplete'
+        free_lifetimes['historical_typed_table_bytes_checked']=free_lifetimes.pop('historical_typed_table_bytes_pending')
+        free_lifetimes['historical_table_proof_roles']=sorted(historical_tables_used)
     return dict(parameters=parameters,caller_state=caller_state,main_free_lifetimes=free_lifetimes,globals=globals_checked,lookup_type_calls_checked=lookup_calls_checked,type_compare_calls_checked=type_compare_calls_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,reference_symbol_nodes_checked=reference_symbol_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)

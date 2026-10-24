@@ -38,7 +38,8 @@ static DWORD widen_release_object;
 static DWORD symbol_output_base, symbol_output_capacity;
 static DWORD symbol_output_addresses[128], symbol_output_sizes[128], symbol_output_count;
 static DWORD lookup_frames[64][3], lookup_depth;
-static DWORD main_free_addresses[7], main_free_sizes[7], main_free_count;
+static DWORD main_free_addresses[12], main_free_sizes[12], main_free_count;
+static unsigned char *main_free_before[12];
 static DWORD pending_main_free, pending_main_size, pending_main_site;
 static int read_bytes(HANDLE process, DWORD address, void *data, DWORD size);
 
@@ -106,6 +107,23 @@ static int read_bytes(HANDLE process, DWORD address, void *data, DWORD size)
 {
     DWORD actual;
     return ReadProcessMemory(process, (void *)address, data, size, &actual) && actual == size;
+}
+
+/* Saved PRE-free typed roots may identify still-live child nodes. This observer
+ * never fetches a released table from the child or logs it as current memory. */
+static int historical_type_table(HANDLE process, DWORD address, void *data, DWORD size)
+{
+    DWORD i;
+    for (i = 7; i < main_free_count; ++i) if (main_free_addresses[i] &&
+        address < main_free_addresses[i] + main_free_sizes[i] &&
+        main_free_addresses[i] < address + size) {
+        if (address < main_free_addresses[i] ||
+            size > main_free_sizes[i] - (address - main_free_addresses[i]) ||
+            !main_free_before[i]) return 0;
+        memcpy(data, main_free_before[i] + address - main_free_addresses[i], size);
+        return 1;
+    }
+    return read_bytes(process, address, data, size);
 }
 
 static int write_bytes(HANDLE process, DWORD address, const void *data, DWORD size)
@@ -342,7 +360,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
             unsigned char record[32];
             memory(log, process, value, count * 32);
             for (entry = 0; entry < count; ++entry) {
-                if (!read_bytes(process, value + entry * 32, record, 32)) {
+                if (!historical_type_table(process, value + entry * 32, record, 32)) {
                     fprintf(log, "blob-observation-failed\n"); return;
                 }
                 if (!(record[29] & 1)) continue;
@@ -379,7 +397,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         if (!read_bytes(process, 0x412cf0 + table * 4, &value, 4) || !value) continue;
         memory(log, process, value, 4096 * 4);
         for (bucket = 0; bucket < 4096; ++bucket) {
-            if (!read_bytes(process, value + bucket * 4, &node, 4)) continue;
+            if (!historical_type_table(process, value + bucket * 4, &node, 4)) continue;
             visited = 0;
             while (node && visited++ < 128) {
                 if (!read_bytes(process, node + 16, &length, 2) || length > 1024 ||
@@ -419,7 +437,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
             DWORD bucket, node, fields[3], visited = 0;
             memory(log, process, value, 16384);
             for (bucket = 0; bucket < 4096; ++bucket) {
-                if (!read_bytes(process, value + bucket * 4, &node, 4)) {
+                if (!historical_type_table(process, value + bucket * 4, &node, 4)) {
                     fprintf(log, "blob-observation-failed\n"); return;
                 }
                 while (node) {
@@ -437,7 +455,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         DWORD bucket, node, fields[3], seen[4096], visited = 0, k;
         memory(log, process, value, 16384);
         for (bucket = 0; bucket < 4096; ++bucket) {
-            if (!read_bytes(process, value + bucket * 4, &node, 4)) {
+            if (!historical_type_table(process, value + bucket * 4, &node, 4)) {
                 fprintf(log, "blob-observation-failed\n"); return;
             }
             while (node) {
@@ -461,7 +479,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         if (!read_bytes(process, 0x412cd8 + cache * 4, &value, 4) || !value) continue;
         memory(log, process, value, 512 * 4);
         for (bucket = 0; bucket < 512; ++bucket) {
-            if (!read_bytes(process, value + bucket * 4, &node, 4)) {
+            if (!historical_type_table(process, value + bucket * 4, &node, 4)) {
                 fprintf(log, "blob-observation-failed\n"); break;
             }
             while (node) {
@@ -626,11 +644,24 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
             fputc('\n', log);
         }
     } else if (entry == 0x40874e) fprintf(log, "type-compare-return %lu\n", context->Eax != 0);
-    if (entry == 0x404726 || entry == 0x404731 || entry == 0x40473d || entry == 0x404749 || entry == 0x404754 || entry == 0x40523d || entry == 0x405249) {
+    if (entry == 0x404726 || entry == 0x404731 || entry == 0x40473d || entry == 0x404749 || entry == 0x404754 || entry == 0x40523d || entry == 0x405249 || entry == 0x40b152 || entry == 0x40b15e || entry == 0x40b16a || entry == 0x40b175 || entry == 0x40b181) {
         DWORD capacities[7] = { 0x415638, 0x415680, 0x415644, 0x415650, 0x415668, 0x412570, 0x412574 };
-        if (main_free_count >= 7 || !read_bytes(process, context->Esp, &pending_main_free, 4) ||
-            !read_bytes(process, capacities[main_free_count], &pending_main_size, 4)) {
+        if (main_free_count >= 12 || !read_bytes(process, context->Esp, &pending_main_free, 4) ||
+            (main_free_count < 7 && !read_bytes(process, capacities[main_free_count], &pending_main_size, 4))) {
             fprintf(log, "main-free-observation-failed\n"); return;
+        }
+        if (main_free_count >= 7) {
+            pending_main_size = main_free_count == 7 ? 1536 : 16384;
+            if (main_free_count == 11) {
+                if (!read_bytes(process, 0x4132e0, &pending_main_size, 4) || pending_main_size > 32768) {
+                    fprintf(log, "main-free-observation-failed\n"); return;
+                }
+                pending_main_size *= 32;
+            }
+            main_free_before[main_free_count] = malloc(pending_main_size);
+            if (!main_free_before[main_free_count] || !read_bytes(process, pending_main_free, main_free_before[main_free_count], pending_main_size)) {
+                fprintf(log, "main-free-observation-failed\n"); return;
+            }
         }
         if (!pending_main_free) pending_main_size = 0;
         if (main_free_count == 1 && pending_main_size > 0xffe8) pending_main_size = 0xffe8;
@@ -638,8 +669,8 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         pending_main_site = entry;
         fprintf(log, "main-free-call %08lx %08lx %lu %08lx\n", entry, pending_main_free, pending_main_size, context->Esi);
         if (pending_main_free) memory(log, process, pending_main_free, pending_main_size);
-    } else if (entry == 0x404728 || entry == 0x404733 || entry == 0x40473f || entry == 0x40474b || entry == 0x404756 || entry == 0x40523f || entry == 0x40524b) {
-        if (main_free_count >= 7 || pending_main_site + 2 != entry) {
+    } else if (entry == 0x404728 || entry == 0x404733 || entry == 0x40473f || entry == 0x40474b || entry == 0x404756 || entry == 0x40523f || entry == 0x40524b || entry == 0x40b154 || entry == 0x40b160 || entry == 0x40b16c || entry == 0x40b177 || entry == 0x40b183) {
+        if (main_free_count >= 12 || pending_main_site + 2 != entry) {
             fprintf(log, "main-free-observation-failed\n"); return;
         }
         fprintf(log, "main-free-return %08lx %08lx\n", pending_main_site, pending_main_free);
@@ -655,7 +686,8 @@ static int module(FILE *log, HANDLE process, LOAD_DLL_DEBUG_INFO *info, const ch
     IMAGE_DOS_HEADER dos;
     IMAGE_NT_HEADERS nt;
     IMAGE_EXPORT_DIRECTORY exports;
-    DWORD base, name_address, bytes, total;
+    DWORD base, name_address, bytes, total, size, high, request;
+    OVERLAPPED position;
     char name[128];
     unsigned char block[4096];
     HANDLE output;
@@ -677,17 +709,27 @@ static int module(FILE *log, HANDLE process, LOAD_DLL_DEBUG_INFO *info, const ch
         provider = getenv("VC510_CVPACK_PDB_PROVIDER");
     }
     if (!info->hFile || info->hFile == INVALID_HANDLE_VALUE) return 0;
-    if (SetFilePointer(info->hFile, 0, NULL, FILE_BEGIN) == 0xffffffffUL && GetLastError()) return 0;
+    size = GetFileSize(info->hFile, &high);
+    if (high || !size || size == 0xffffffffUL) return 0;
     output = CreateFileA(provider, GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
     if (output == INVALID_HANDLE_VALUE) return 0;
     total = 0;
-    for (;;) {
-        if (!ReadFile(info->hFile, block, sizeof(block), &bytes, NULL)) { CloseHandle(output); return 0; }
-        if (!bytes) break;
+    while (total < size) {
+        request = size - total;
+        if (request > sizeof(block)) request = sizeof(block);
+        memset(&position, 0, sizeof(position));
+        position.Offset = total;
+        bytes = 0;
+        if (!ReadFile(info->hFile, block, request, &bytes, &position) || bytes != request) {
+            CloseHandle(output); return 0;
+        }
         if (!WriteFile(output, block, bytes, &name_address, NULL) || name_address != bytes) {
             CloseHandle(output); return 0;
         }
         total += bytes;
+    }
+    if (total != size || GetFileSize(info->hFile, &high) != size || high) {
+        CloseHandle(output); return 0;
     }
     CloseHandle(output);
     fprintf(log, "provider-bytes %lu\n", total);
