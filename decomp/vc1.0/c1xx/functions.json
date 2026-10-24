@@ -1230,7 +1230,8 @@
     "_defer_object_definition@4",
     "_append_default_call_argument@8",
     "_convert_member_pointer_representation@16",
-    "_convert_compact_data_member_pointer@24"
+    "_convert_compact_data_member_pointer@24",
+    "_equal_data_member_null_representation@8"
   ],
   "driver": [
     {
@@ -8732,7 +8733,7 @@
     {
       "name": "_equal_data_member_null_representation@8",
       "start": 308240,
-      "end": 308241
+      "end": 308276
     },
     {
       "name": "_member_pointer_component@12",
@@ -8943,7 +8944,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_equal_data_member_null_representation@8",
+      "terminal": "_resolve_overloaded_arrow@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8966,7 +8967,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1225-convert_compact_data_member_pointer-24/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1226-equal_data_member_null_representation-8/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -9197,7 +9198,8 @@
         "cases/frontiers/state_machine_debug/1222-defer_object_definition-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1223-append_default_call_argument-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1224-convert_member_pointer_representation-16/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1225-convert_compact_data_member_pointer-24/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1225-convert_compact_data_member_pointer-24/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1226-equal_data_member_null_representation-8/frontier-extension.json"
       ]
     }
   },

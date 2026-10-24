@@ -585,3 +585,12 @@ IrToken *__stdcall convert_compact_data_member_pointer(IrToken *expression,
     converted = make_member_at_offset(converted, displacement, type);
     return preserve_null_data_member_conversion(converted, original, expression->type);
 }
+
+/* Original 0x4b410..0x4b433, stdcall8. Both predicates return
+   zero or one; equal null encodings allow the ordinary cast path. */
+int __stdcall equal_data_member_null_representation(CType *target, CType *source)
+{
+    int source_zero = data_member_pointer_uses_zero_null(source);
+    int target_zero = data_member_pointer_uses_zero_null(target);
+    return source_zero == target_zero;
+}

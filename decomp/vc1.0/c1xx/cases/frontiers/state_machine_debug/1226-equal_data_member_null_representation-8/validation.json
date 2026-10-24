@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_equal_data_member_null_representation@8",
+    "start": 308240,
+    "end": 308276
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1226-equal_data_member_null_representation-8/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_data_member_pointer_uses_zero_null@4"
+  ],
+  "next_frontier": "_resolve_overloaded_arrow@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8115100376307964,
+  "total_operation_seconds": 4.568540772423148,
+  "original_capture_seconds": 1.2180485101416707
+}

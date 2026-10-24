@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "function": "_equal_data_member_null_representation@8",
+  "native_entry": "equal_data_member_null_representation",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_target": "(unsigned)target",
+    "raw_source": "(unsigned)source"
+  },
+  "formals": [
+    {
+      "name": "target",
+      "stack_index": 0,
+      "native_field": "raw_target",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebp",
+        "original_caller_rva": 245505,
+        "original_owner_function": "_convert_compact_data_member_pointer@24",
+        "native_owner_function": "convert_compact_data_member_pointer",
+        "native_owner_field": "caller_target",
+        "native_owner_local": "type",
+        "identity": "Actual accepted caller loads expression.type into EAX at4bef3 and target type into EBP at4bef6, pushes EAX/EBP at4befa/4befb, CALL4befc returns4bf01. These context values are actual pointer ownership anchors, not additional callee ABI formals."
+      }
+    },
+    {
+      "name": "source",
+      "stack_index": 1,
+      "native_field": "raw_source",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 245505,
+        "original_owner_function": "_convert_compact_data_member_pointer@24",
+        "native_owner_function": "convert_compact_data_member_pointer",
+        "native_owner_field": "caller_source",
+        "native_owner_local": "expression",
+        "identity": "Actual accepted caller loads expression.type into EAX at4bef3 and target type into EBP at4bef6, pushes EAX/EBP at4befa/4befb, CALL4befc returns4bf01. These context values are actual pointer ownership anchors, not additional callee ABI formals.",
+        "native_owner_fields": [
+          "type"
+        ]
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "eax,ebp",
+  "ownership_caller_extent": [
+    311008,
+    311041
+  ],
+  "native_caller_locals": {
+    "caller_target": {
+      "frame": 1,
+      "function": "convert_compact_data_member_pointer",
+      "local": "type",
+      "fields": []
+    },
+    "caller_source": {
+      "frame": 1,
+      "function": "convert_compact_data_member_pointer",
+      "local": "expression",
+      "fields": [
+        "type"
+      ]
+    }
+  },
+  "abi_analysis": {
+    "original_extent": [
+      308240,
+      308276
+    ],
+    "argument_bytes": 8,
+    "convention": "stdcall8 BOOL return EAX",
+    "proof": "Whole 36B saves ESI, reads source adjusted ESP+12 before target ESP+8; RET8. Calls only data_member_pointer_uses_zero_null, source then target. Each returns defined BOOL0/1; unsigned difference<1 is their equality. No hidden/register/x87/flags input, no new data or CRT body."
+  }
+}
