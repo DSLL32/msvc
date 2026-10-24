@@ -103,6 +103,7 @@ def main():
         ('target',0x672d0,1,'logo-pending.bin'),
         ('target',0x670c4,32,'input-diagnostic-name.bin'),
         ('target',0x7eef8,4,'current-input-file.bin'),
+        ('target',0x7eed8,4,'archive-member-offset.bin'),
         ('target',0x7f190,1,'incremental-reuse.bin'),
         ('target',0x7f198,4,'incremental-status-code.bin'),
         ('target',0x94888,12,'logo-text.bin'),

@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "candidate": "_is_archive@8",
+  "original_extent_bytes": 185,
+  "promotion": "held briefly for new typed local-array/DWARF witness review",
+  "accepted_before": 82,
+  "expected_next": "_mapped_read@12",
+  "scope": "Actual3stack formals record14/own8Boutput/bytes8, nohidden; original localESPentry-8, native actualfrozen DWARF signature variable +verifiedEBP prologue. Full135B pending mapped-reader output/write-only proof only, no body credit. Existing two-file/library/context state unchanged.",
+  "literal": "Exactly8 signature bytes unmasked, unusedNUL+padding remainCC; source literal stays atmemcmp point ofuse.",
+  "timing": {
+    "original_capture": 1.3429432604461908,
+    "native_capture": 0.8107155645266175,
+    "audit": 0.5683820955455303,
+    "controls": {
+      "positive": 0.42636142298579216,
+      "negative_checks": 9.133240243420005,
+      "total": 9.559606656432152
+    }
+  },
+  "negative_controls": {
+    "fresh": 236,
+    "reused": 0,
+    "generator_sha256": "fb1b9ddff9c1498145bcd08b075a040e3af716d9251fa938f67a013ac06180da"
+  },
+  "graphs": {
+    "full": 96,
+    "strict": 89
+  }
+}

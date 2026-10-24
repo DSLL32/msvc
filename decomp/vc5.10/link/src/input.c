@@ -1,4 +1,5 @@
 #include <windows.h>
+#include <string.h>
 #include "link.h"
 #include "pass-one.h"
 #include "full-link-functions.h"
@@ -7,6 +8,36 @@
 
 int current_input_file;
 DWORD incremental_status_code;
+DWORD archive_member_offset;
+extern BYTE file_access_statistics;
+
+/* Only the buffered position field is consumed by this input classifier. */
+typedef struct InputBufferedPosition { DWORD reserved[3],position; } InputBufferedPosition;
+
+#pragma intrinsic(memcmp)
+BYTE __stdcall is_archive(const char *name,int file)
+{
+    char signature[8];
+    FileRecord *record;
+    unsigned bytes;
+    DWORD position;
+    if (file_access_statistics) record_file_access();
+    record=file_slots[file];
+    if (record->flags & 8) bytes=mapped_read(record,signature,8);
+    else bytes=buffered_read(record,signature,8);
+    if (bytes!=8) {
+        if (file_access_statistics) record_file_access();
+        record=file_slots[file];
+        position=(record->flags & 8)?record->file_size:
+            ((InputBufferedPosition *)record->base)->position;
+        link_fatal(name,1107,position);
+    }
+    if (!memcmp(signature,"!<arch>\n",8)) {
+        archive_member_offset=8;
+        return 1;
+    }
+    return 0;
+}
 
 OutputModule *__stdcall read_input_argument(InputArgument *argument,OutputLibrary *library,LinkContext *context)
 {

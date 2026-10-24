@@ -1,0 +1,14 @@
+{
+  "positive": true,
+  "rejected": [
+    "unmasked unusedNUL",
+    "ninth owned literal byte",
+    "missing compared signature byte",
+    "coherent copied original output"
+  ],
+  "elapsed_seconds": 0.1918947333469987,
+  "checker_sha256": "930d27172ddae8fc1d7a90bf6a4246babd2ae11881f1777025d756e854dadd8b",
+  "original_receipt_sha256": "3e4043fd23414fc19aa008dbc345cf2f5394adde432c5f30d9d394ec15a0127a",
+  "native_receipt_sha256": "89dfae9c59824b52b84944f536975a9d02ecff45916bc7f2de17c3a4e6fa15f9",
+  "scope": "Read-only in-memory controls; no raw evidence mutation or target execution."
+}

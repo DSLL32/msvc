@@ -58,7 +58,7 @@ if args.frontier in MEMORY_READY:
     negative('lost argv alias',lambda s:s['frontier_arguments'].__setitem__('argv_address',0))
     negative('missing VC5 FILE buffer flag',lambda s:s.__setitem__('crt_stdout_bytes',(bytes.fromhex(s['crt_stdout_bytes'])[:12]+struct.pack('<I',10)+bytes.fromhex(s['crt_stdout_bytes'])[16:]).hex()))
     negative('broken FILE buffer alias',lambda s:s.__setitem__('crt_stdout_bytes',('00000000'+s['crt_stdout_bytes'][8:])))
-    negative('broken file-record link',lambda s:s['file_records'].__setitem__(14 if args.frontier in ('_open_mapped_file@16','_initialize_file_mapping@12','_create_library@12','_find_library@12','_initialize_library_enumerator@8','_next_library@4','LinkContext::LoadInputArgument','_read_input_argument@12','_is_archive@8')else 15,s['file_records'][14 if args.frontier in ('_open_mapped_file@16','_initialize_file_mapping@12','_create_library@12','_find_library@12','_initialize_library_enumerator@8','_next_library@4','LinkContext::LoadInputArgument','_read_input_argument@12','_is_archive@8')else 15][:72]+'00000000'))
+    negative('broken file-record link',lambda s:s['file_records'].__setitem__(14 if args.frontier in ('_open_mapped_file@16','_initialize_file_mapping@12','_create_library@12','_find_library@12','_initialize_library_enumerator@8','_next_library@4','LinkContext::LoadInputArgument','_read_input_argument@12','_is_archive@8','_mapped_read@12')else 15,s['file_records'][14 if args.frontier in ('_open_mapped_file@16','_initialize_file_mapping@12','_create_library@12','_find_library@12','_initialize_library_enumerator@8','_next_library@4','LinkContext::LoadInputArgument','_read_input_argument@12','_is_archive@8','_mapped_read@12')else 15][:72]+'00000000'))
     negative('wrong file record count',lambda s:s['file_globals'].__setitem__('file_record_count',15))
 if args.frontier in MEMORY_READY-{'_run_linker@8','_initialize_repro'}:
     negative('unexpected repro directory',lambda s:s.__setitem__('repro_directory',1))
@@ -268,7 +268,7 @@ if args.frontier=='_release_memory@4':
     negative('wrong first parsed switch',lambda s:s.__setitem__('parsed_switch','00'*15))
     negative('changed context allocation state',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('wrong nologo effect',lambda s:s.__setitem__('logo_pending',1))
-if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8','_open_argument_file@12','_acquire_file_record@16','_find_cached_file@4','_get_available_file_record','_move_file_record@24','_open_mapped_file@16','_initialize_file_mapping@12','_create_library@12','_find_library@12','_initialize_library_enumerator@8','_next_library@4','LinkContext::LoadInputArgument','_read_input_argument@12','_is_archive@8'):
+if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8','_open_argument_file@12','_acquire_file_record@16','_find_cached_file@4','_get_available_file_record','_move_file_record@24','_open_mapped_file@16','_initialize_file_mapping@12','_create_library@12','_find_library@12','_initialize_library_enumerator@8','_next_library@4','LinkContext::LoadInputArgument','_read_input_argument@12','_is_archive@8','_mapped_read@12'):
     negative('missing real free',lambda s:s['free_calls'].pop())
     negative('wrong freed allocation',lambda s:s['free_calls'][0].__setitem__('argument',0))
     negative('wrong freed bytes',lambda s:s['free_calls'][1].__setitem__('before','00'))
@@ -291,7 +291,7 @@ if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE
     negative('changed context own data',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('lost live filename list',lambda s:s['argument_lists']['link_files']['nodes'].pop())
     negative('wrong search result',lambda s:s['library_search_calls'][0].__setitem__('result',1))
-if args.frontier in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8','_open_argument_file@12','_acquire_file_record@16','_find_cached_file@4','_get_available_file_record','_move_file_record@24','_open_mapped_file@16','_initialize_file_mapping@12','_create_library@12','_find_library@12','_initialize_library_enumerator@8','_next_library@4','LinkContext::LoadInputArgument','_read_input_argument@12','_is_archive@8'):
+if args.frontier in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8','_open_argument_file@12','_acquire_file_record@16','_find_cached_file@4','_get_available_file_record','_move_file_record@24','_open_mapped_file@16','_initialize_file_mapping@12','_create_library@12','_find_library@12','_initialize_library_enumerator@8','_next_library@4','LinkContext::LoadInputArgument','_read_input_argument@12','_is_archive@8','_mapped_read@12'):
     negative('wrong raw thiscall ECX',lambda s:s['full_link_entry'].__setitem__('this',0))
     negative('lost full-link this formal',lambda s:s['full_link_formals'].__setitem__('this',0))
     negative('wrong full-link out pointer',lambda s:s['full_link_formals'].__setitem__('pack_requested',0))
@@ -395,7 +395,7 @@ if args.frontier in ('_duplicate_link_string@4','_initialize_contribution_pools'
     negative('wrong library virtual extent',lambda s:s['virtual_alloc_calls'][5]['arguments'].__setitem__(1,8192))
     negative('new allocation not initially zero',lambda s:s['virtual_alloc_calls'][4].__setitem__('initial','01'+s['virtual_alloc_calls'][4]['initial'][2:]))
 if args.frontier in ('_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4'):
-    if args.frontier in ('_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8','_open_argument_file@12','_acquire_file_record@16','_find_cached_file@4','_get_available_file_record','_move_file_record@24','_open_mapped_file@16','_initialize_file_mapping@12','_create_library@12','_find_library@12','_initialize_library_enumerator@8','_next_library@4','LinkContext::LoadInputArgument','_read_input_argument@12','_is_archive@8'):
+    if args.frontier in ('_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8','_open_argument_file@12','_acquire_file_record@16','_find_cached_file@4','_get_available_file_record','_move_file_record@24','_open_mapped_file@16','_initialize_file_mapping@12','_create_library@12','_find_library@12','_initialize_library_enumerator@8','_next_library@4','LinkContext::LoadInputArgument','_read_input_argument@12','_is_archive@8','_mapped_read@12'):
         negative('lost group enumerator output formal',lambda s:s['group_enumerator_formals'].__setitem__('enumerator',0))
         negative('lost group enumerator stack-local owner',lambda s:s['group_enumerator_formals'].__setitem__('owner_local',0))
         negative('wrong actual group enumerator section',lambda s:s['group_enumerator_formals'].__setitem__('section',0))
@@ -747,7 +747,7 @@ if args.frontier in ('LinkContext::PassOne','_check_output_input_collision@8','_
     negative('wrong group arena virtual protection',lambda s:s['virtual_alloc_calls'][9]['arguments'].__setitem__(3,0x40))
     negative('group arena not initially zero',lambda s:s['virtual_alloc_calls'][9].__setitem__('initial','01'+s['virtual_alloc_calls'][9]['initial'][2:]))
 
-if args.frontier in ('_read_input_argument@12','_is_archive@8'):
+if args.frontier in ('_read_input_argument@12','_is_archive@8','_mapped_read@12'):
     for field in ('this','stack_pointer'):
         negative('input loader actual '+field,lambda s,k=field:s['load_input_entry'].__setitem__(k,0))
     for i in range(2 if args.frontier=='_is_archive@8'else 3):
@@ -801,12 +801,29 @@ if args.frontier in ('_read_input_argument@12','_is_archive@8'):
     negative('reader lost library malloc bytes',lambda s:s['command_line_library'].__setitem__('module_array',''))
     negative('reader library array false ownership',lambda s:s['library_array_allocation'].__setitem__('result',0))
 
-if args.frontier=='_is_archive@8':
+if args.frontier in ('_is_archive@8','_mapped_read@12'):
     negative('archive physical name alias',lambda s:s['archive_entry']['formals'].__setitem__(0,0))
     negative('archive physical file index',lambda s:s['archive_entry']['formals'].__setitem__(1,15))
     negative('archive actual entry stack',lambda s:s['archive_entry'].__setitem__('stack_pointer',0))
     negative('archive invented hidden input',lambda s:s['archive_entry']['hidden_inputs'].append('ecx'))
     negative('archive lost physical input',lambda s:s['archive_entry']['formals'].pop())
+
+if args.frontier=='_mapped_read@12':
+    for i in range(3):
+        negative('mapped read physical formal '+str(i),lambda s,j=i:s['mapped_read_entry']['formals'].__setitem__(j,0))
+    negative('mapped read invented hidden input',lambda s:s['mapped_read_entry']['hidden_inputs'].append('eax'))
+    negative('mapped read lost output storage',lambda s:s['archive_output'].__setitem__('address',0))
+    negative('mapped read wrong buffer size',lambda s:s['archive_output'].__setitem__('bytes',4))
+    negative('mapped read wrong local size',lambda s:s['archive_output'].__setitem__('owner_local_bytes',4))
+    negative('mapped read wrong local owner',lambda s:s['archive_output'].__setitem__('owner_local_address',0))
+    negative('mapped read truncated own incoming bytes',lambda s:s['archive_output'].__setitem__('before',s['archive_output']['before'][:-2]))
+    negative('mapped read read-before-write role',lambda s:s['archive_output'].__setitem__('initial_value_contract','incoming input bytes'))
+    negative('archive offset premature mutation',lambda s:s.__setitem__('archive_member_offset',8))
+    negative('archive statistics branch changed',lambda s:s.__setitem__('archive_statistics_enabled',1))
+    def copied_signature(s):
+        s['archive_output']['address']+=4;s['archive_output']['owner_local_address']+=4
+        s['mapped_read_entry']['formals'][1]+=4;s['frontier_inputs']['formals'][1]+=4
+    negative('mapped read coherent copied output array',copied_signature)
 
 args.report.write_text(json.dumps(dict(frontier=args.frontier,positive=True,negative_count=len(checks),rejected=checks,elapsed_seconds=dict(positive=positive_elapsed,negative_checks=time.perf_counter()-negative_started,total=time.perf_counter()-started)),indent=2)+'\n')
 print('Typed boundary passes; %d semantic negatives rejected.'%len(checks))

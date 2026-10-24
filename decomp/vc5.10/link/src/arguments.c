@@ -200,7 +200,6 @@ unsigned char __stdcall search_library_paths(const char *name,char *found)
     }
     return 0;
 }
-unsigned char __stdcall is_archive(const char *name,int file) { __asm { int 3 } return 0; }
 void __stdcall close_argument_file(int file,int flags) { __asm { int 3 } }
 InputArgument *__stdcall append_argument_record(InputArguments *,const char *,const char *);
 InputArgument *__stdcall append_argument(InputArguments *list,const char *text)

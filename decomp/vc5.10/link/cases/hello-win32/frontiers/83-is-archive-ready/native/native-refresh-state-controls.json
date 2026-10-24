@@ -1,0 +1,51 @@
+{
+  "original": "/root/.ai-tmp/msvc2/vc5.10/link/hello-win32-masked-zn74b3wo",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/link/native-2xjdp2rb",
+  "positive": true,
+  "fresh_affected_negative_count": 6,
+  "rejected": [
+    "mapped formal",
+    "coherent copied output",
+    "archive word changed",
+    "readonly view ownership",
+    "repeat cleanup",
+    "short output array"
+  ],
+  "reused_control_count": 236,
+  "prior_receipt_sha256": "0714a6e0701f2a5bb203739099a4600a04a4df562896ce6aedf9d3a39d7b1adb",
+  "premise_sha256": {
+    "scripts/accept.py": "a6451da853f238aeb310f076233a6771fbe970d90c530856449665363bd4d965",
+    "scripts/boundary_state.py": "28de9d78ff7c239f27cd1ae7e28d2e7063a62c124d14d7d0c5743db2cb830dc7",
+    "scripts/hello_boundary.py": "013715a2ecc0b64b6020882846deac9a078b40ead8eb9097d274fe54e9f78766",
+    "scripts/observers.py": "44cad4676cebe94cea674e1b9ec129b4992b2977f73cdb9b8d1b9bab3a7771b1",
+    "scripts/context_heap.py": "36a07d6ae5f7855781393bb213d129afae4e80d2e1132deb1ca2e69d045f08e3",
+    "scripts/section_state.py": "ce088cda439ae70b4d89bbb79885282c5981ebe6d3844cbc22a19e69922f442f",
+    "scripts/group_state.py": "bf7e26c428e09994b86094a42d2cc6e8f23a9c3ff59e811aa7550db09b168890",
+    "scripts/collision_state.py": "2fc82db8fc9b680dccf387c6c724971edf730a7687efa17f20c1d00f2e8cec19",
+    "scripts/file_open_state.py": "5111b2dc9437bb24233951fb7e2867297d0c5eeae32002422d586fd443363d73",
+    "scripts/file_move_state.py": "1d3fc9b83ab58111a14d11df92263f3f264163de06cefb529683238eeb7152f8",
+    "scripts/file_mapping_state.py": "210afabf4a0c8c4f8af1947109c66cfeb9ff73fc9ba5e2746802ef9ad36b5a83",
+    "scripts/mapping_completion_state.py": "fb8a8ea7831853524587d870fc7fd8bb0b328e7bc4bc5f4711194407ae0e1c5a",
+    "scripts/library_creation_state.py": "5252c850b4edb85ec8bf6286e3fc942525d4eba717a957550ce3b1261b163fde",
+    "scripts/input_open_state.py": "fc24f2a68d11639892a70b14580942988c0cfd7db8b80acede2629cb5d9eed98",
+    "scripts/archive_state.py": "930d27172ddae8fc1d7a90bf6a4246babd2ae11881f1777025d756e854dadd8b",
+    "scripts/mapped_input_contract.py": "681d5f6d02c86a80a1ed7e1e80c624f97d2317d052d7724708680c39ca2167e1",
+    "cases/hello-win32/input-loader-contract.json": "3f9d243a7295a3222dd908a34b57c52646114666c479639a835329bfdf084042",
+    "cases/hello-win32/input-reader-contract.json": "913b8d67ed3b58d9613baae6ad77ed4f67fc476d5e67c161e678652833e12b68",
+    "cases/hello-win32/archive-signature-literal.json": "ddabea84461ad445b85a90c78bdf5a36bfd0923fd2f806058dd6793eebc0d982",
+    "cases/hello-win32/mapped-read-output-contract.json": "bd7b21b40f6ba2a12f7f0f1e048981f69d313f261561ba28a6370d5319b3969d",
+    "scripts/member_pointers.py": "bbd773c89dc73685884ea25df72472315ade3b4804bdc59adfdda5252e3cfab9",
+    "scripts/full-link-preservation.py": "120aeca79d08ed28362b276edbc0f06b52612c6d07e96b952f3005f7b19f7684",
+    "scripts/pass-one-preservation.py": "a5847e31eb8e2a459ba9f49a60a8ca20f7f89a5d8b48d3826f4dd040572e0c6d",
+    "scripts/collision-preservation.py": "05f4f03d33c0d4744887dd8c74fde1a1db795fbc66726b7e65f439e5dfbfb161",
+    "scripts/mapping-preservation.py": "84e866a964f69fe83a97467fd10c92a1cda05309d74d2fac75c8d4f3b2d7627b",
+    "scripts/library-finder-preservation.py": "2347eb025c417804b06aec84990db26b4886a800e245fae5a33128a5c9d8f8a3",
+    "scripts/check-boundary.py": "fb1b9ddff9c1498145bcd08b075a040e3af716d9251fa938f67a013ac06180da"
+  },
+  "shared_ready": "c2a12ca40",
+  "elapsed_seconds": {
+    "positive": 0.4081751052290201,
+    "affected_negative_checks": 0.33171461429446936
+  },
+  "reuse": "Exactly unchanged checker/contract/generator premises; native-only shared SetFilePointer/default-preserving link refresh. Prior236 campaign retained unmodified."
+}

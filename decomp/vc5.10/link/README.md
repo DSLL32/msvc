@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 82 application
-functions (33,092 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 83 application
+functions (33,277 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `is_archive`; hello-win32 has not completed.
+next frontier is `mapped_read`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -482,3 +482,16 @@ two-file views/records and complete context still match. Native help takes
 argument/library DWORD is named `input_tag` without inferring a higher-level
 meaning. Evidence and timing are under `frontiers/82-read-input`; archive, Mac
 resource and object-reader callees remain named traps.
+
+The 185-byte archive predicate is accepted through its first mapped read.
+All three actual arguments are observed: input record 14, its caller-owned
+eight-byte output array and count 8. Native output identity is bound to the
+frozen ELF's DWARF local and real EBP prologue; own uninitialized bytes are
+retained without cross-equating them. The mask changes only 184 nonentry
+instruction bytes and eight signature bytes; its next four bytes stay INT3.
+Both builds, 96 full/89 strict graph bodies, 236 fresh state negatives and four
+ownership controls pass. Shared-source refresh preserves the old proof and adds
+a fresh positive/six affected negatives under unchanged predicate hashes.
+Independent review and final READYc2a12 binding are in
+`frontiers/83-is-archive-{review,ready}`. Native help is 67.65 ms including
+4.082 ms execution. The pending mapped-reader body has no accepted code credit.

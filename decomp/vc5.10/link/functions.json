@@ -99,7 +99,8 @@
     "_initialize_library_enumerator@8",
     "_next_library@4",
     "LinkContext::LoadInputArgument",
-    "_read_input_argument@12"
+    "_read_input_argument@12",
+    "_is_archive@8"
   ],
   "driver": [
     {
@@ -710,11 +711,12 @@
     {
       "name": "_is_archive@8",
       "start": 4574528,
-      "end": 4574529,
-      "pending_extent": true,
-      "source": "src/arguments.c",
-      "status": "stub",
-      "native_symbol": "is_archive"
+      "end": 4574713,
+      "pending_extent": false,
+      "source": "src/input.c",
+      "status": "implemented",
+      "native_symbol": "is_archive",
+      "abi": "stdcall BYTE(const char* name,int file); RET8; result consumed only in AL; no hidden inputs"
     },
     {
       "name": "_close_argument_file@8",
@@ -4933,6 +4935,14 @@
       "reason": "FullLink actual PassOne phase string, excluding alignment padding",
       "sha256": "4aae86b139c1cb318218065518d8f1820e8541cb5f55117889b7c4cfdc44e42c",
       "evidence": "cases/hello-win32/pass-one-phase-literal.json"
+    },
+    {
+      "start": 4206184,
+      "end": 4206192,
+      "accepted": true,
+      "reason": "is_archive encountered exactly8 compared signature bytes, excluding unused trailingNUL",
+      "sha256": "f0a17a43c74d2fe5474fa2fd29c8f14799e777d7d75a2cc4d11c20a6e7b161c5",
+      "evidence": "cases/hello-win32/archive-signature-literal.json"
     }
   ],
   "cases": {

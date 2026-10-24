@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x08058325 in mapped_read (file=0x809ea60, buffer=0xffffcfbf, bytes=8) at src/full-link-stubs.cpp:9
+9	extern "C" unsigned __stdcall mapped_read(FileRecord *file,void *buffer,unsigned bytes) { __asm { int 3 } return 0; }
