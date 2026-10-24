@@ -3,8 +3,8 @@
 Shared Rust `recon-tool` is implemented under `tooling/recon-tool/`: native
 execution/tests, GDB debugging, capture pack/unpack, registry projection, and
 explicit PE original capture. VC1.0 C1XX has migrated to eight numbered cases.
-Original capture has smoke-test coverage; it has not yet driven a real C1XX
-function-reconstruction step.
+Its first C1XX reconstruction trial accepted five application functions using
+fresh original/native comparisons; all eight cached cases and existing units pass.
 
 A capture is a saved invocation's inputs and expected results. Original-capture
 smoke tests validate the shared harness; they are not reconstruction cases.
@@ -341,6 +341,8 @@ it does not claim matching original/native instruction offsets.
 and implemented App code plus owned text data, then stops at the next unknown
 App INT3. Final oracles and partial observations remain separate. The tool reports
 actual order/terminal but never promotes functions or rewrites case source.
+Progress discovery permits a previously expected App frontier to be marked
+implemented; ordinary native replay still requires an unimplemented frontier.
 
 DLL capture supplies `--host HOST.exe`; typed Win32 host glue loads the path in
 `RECON_ORIGINAL_DLL` and invokes exports. The broker identifies that exact loaded
