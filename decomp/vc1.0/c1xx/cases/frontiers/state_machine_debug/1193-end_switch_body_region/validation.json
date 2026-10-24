@@ -1,0 +1,21 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_end_switch_body_region",
+    "start": 263504,
+    "end": 263606
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1193-end_switch_body_region/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_append_frontend_record@8",
+    "_emit_nonnull_expression_statement@4",
+    "_process_expression_records@4",
+    "_remove_last_frontend_record"
+  ],
+  "next_frontier": "_end_for_statement",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8040774594992399,
+  "total_operation_seconds": 4.174812627024949,
+  "original_capture_seconds": 0.9163891607895494
+}

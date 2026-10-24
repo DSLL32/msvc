@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "4838618bc64d0451e8f0dc4efd1ff4999db4c1e5ee6f578ccfba4242a12b7414",
+    "functions.json": "f01354d29749d4ef49f68a65c605ec49deb65d124d4583a90522d9e25e517314",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "653bade9e00ad9c66aebf773c548250e2c0e0679165b6137a7d99ba6976a475c",
-    "cases/canonical-map.txt": "4fb128cf00a169d6f2bd36207971846d4f8afe6f58754e17d2951d3f82b08f85",
+    "cases/original-entry-references.json": "36867212bed035b8d82642ab47822d658a55cbbaffcf4a7a56663fb7da48232a",
+    "cases/canonical-map.txt": "149af6fd4751559a16a21ff7d964353709e16dcdd872573ec5c3aae1035c4039",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -61,9 +61,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1192-end_switch_statement/entry-reference/original-receipt.json": "a182721a5190f516ae7c253655162111fcb02735fd8d7ad812fe02b30817fca0",
-    "cases/frontiers/state_machine_debug/1192-end_switch_statement/entry-reference/original-events.txt": "77814d8a2d15dd7b10c8a022e51151dd7139f13c27b912a6ec927f75fc2cd5a1",
-    "cases/frontiers/state_machine_debug/1192-end_switch_statement/entry-reference/original-entries.plan": "f677a10b458459eb2f42c65fe55b3fff30b928e14ee38e51cfe3d2fef423db23"
+    "cases/frontiers/state_machine_debug/1193-end_switch_body_region/entry-reference/original-receipt.json": "7856f55c543f32c102087e3c6ea34a649b0e1b661e3081ccccedd853c3cdbc01",
+    "cases/frontiers/state_machine_debug/1193-end_switch_body_region/entry-reference/original-events.txt": "ef01edca2f774b9b0cb17ebb9937604cac5e09180cd3fb5d2f4961a81fc7c9a4",
+    "cases/frontiers/state_machine_debug/1193-end_switch_body_region/entry-reference/original-entries.plan": "eb1f606f4db948ea7418d0e1255813fbd0c0937ed181305a3be1c641c5cf5fca"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -2032,7 +2032,7 @@
     },
     "end_switch_body_region": {
       "logical": "_end_switch_body_region",
-      "source": "src/stubs.c"
+      "source": "src/frontend-records.c"
     },
     "end_switch_condition_region": {
       "logical": "_end_switch_condition_region",
@@ -6891,7 +6891,8 @@
     "new_label",
     "record_goto",
     "write_switch_dispatch",
-    "end_switch_statement"
+    "end_switch_statement",
+    "end_switch_body_region"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -11014,7 +11015,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1193,
+      "last": 1194,
       "seen": [
         "main",
         "message_text",
@@ -12106,12 +12107,13 @@
         "record_goto",
         "write_switch_dispatch",
         "end_switch_statement",
-        "end_switch_body_region"
+        "end_switch_body_region",
+        "end_for_statement"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_end_switch_body_region",
-        "native": "end_switch_body_region",
+        "logical": "_end_for_statement",
+        "native": "end_for_statement",
         "signal": 5
       }
     }

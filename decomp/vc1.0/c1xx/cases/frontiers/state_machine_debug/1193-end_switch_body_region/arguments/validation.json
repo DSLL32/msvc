@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_end_switch_body_region",
+  "case": "state_machine_debug",
+  "accepted_before": 1193,
+  "configuration_sha256": "c1d79f8bfe0da548128fc8dd1ebf70d92f90be442bbb40e198fb3f9cb18f0db3",
+  "native_entry": "end_switch_body_region",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      263504,
+      263606
+    ],
+    "argument_bytes": 0,
+    "convention": "cdeclvoid",
+    "proof": "Whole102B SUB16/no savedGPR/plainRET atboth exits. No incomingstack,GPR,x87orCPUflagsformals. Emptytailkindlow6==30 removeslastandreturns; otherwisefullydefined16Bkind31/all15remainingbyteszero append, thenprocess_expression_records(0) result passedtoexistingnonnull emitter. No suppressionguard added atthisentry; accepted end_switch_statement gatesitsowncall. No newdata/unknowninput/helpervertex.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "6012fea771a800cb38ced6f8bc8f0096ef168bd748c92b30c8085d1095a8ec99",
+  "capture_timing": {
+    "original_capture_seconds": 0.86674621142447,
+    "native_capture_seconds": 0.17644574586302042,
+    "total_operation_seconds": 1.2960902508348227
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "74423d623815fdb166ce6d9b3f787cea4820be4627efb8ff6449723536294608",
+    "native-commands.gdb": "9e8bce15db5733a6e99c68d554718decd85147942cad986c3d2ad185bbfabb19",
+    "native-gdb.log": "0a1f9994c3a4c795f266f0cb5f550199f46c2056256ae5f6c379845eeb26bb50",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "6dee928d053f3d38daf75778990e0bee2c7f853e6681f4a9cdc3005cf5a307f8",
+    "original-configuration.json": "c1d79f8bfe0da548128fc8dd1ebf70d92f90be442bbb40e198fb3f9cb18f0db3",
+    "original-disassembly.txt": "7fbd8ddd2cd73c72864e728047875da80a48b37567fa32fb23faa57b19dd4d18",
+    "original-events.txt": "644a3cfc05bd0e656d5a5584867394b2a6fbf0037be2d1a665f1aed909295d4a",
+    "original-receipt.json": "1e3e1ad37825e517a01a51da40b99a4dc4c018ca56ea8d4d70093c28eedc3f6c",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "d3d35dc4d8e4b58ef2c71bad784aa5749cf0df6be959b4e694981556f9fc2083"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

@@ -168,7 +168,6 @@ void end_seh_except(void) { __asm { int 3 } }
 void end_seh_filter(void) { __asm { int 3 } }
 void end_seh_finally(void) { __asm { int 3 } }
 void end_seh_try(void) { __asm { int 3 } }
-void end_switch_body_region(void) { __asm { int 3 } }
 int __stdcall compare_names_ignore_case(const char *left, const char *right) { __asm { int 3 } return 0; }
 
 void finish_qc_loop(void) { __asm { int 3 } }

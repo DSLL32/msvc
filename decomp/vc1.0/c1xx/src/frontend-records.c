@@ -1353,3 +1353,22 @@ void end_switch_statement(void)
         }
     }
 }
+
+/* Original 0x40550..0x405b5. Complete a nonempty switch body's
+   pending evaluation; an empty opening delimiter simply disappears. */
+void end_switch_body_region(void)
+{
+    FrontendRecord record;
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 0x30) {
+        remove_last_frontend_record();
+        return;
+    }
+    record.kind = 0x31;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+    emit_nonnull_expression_statement(process_expression_records(0));
+}
