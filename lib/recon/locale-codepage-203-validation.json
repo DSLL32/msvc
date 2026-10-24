@@ -60,5 +60,78 @@
     }
   ],
   "affected_checks": "defaultnative and unbound codepage surface pass",
-  "remaining": "Actual own C1XX native adoption required; no other codepage semantics enabled"
+  "remaining": "Own normal/restore203 adoption complete; later _mbctolower mapping remains unclaimed/typed125-only.",
+  "actual_C1XX_adoption": {
+    "accepted_checkpoint": "3358f6b5d",
+    "shared_source_commit": "88b264783",
+    "packet": {
+      "path": "decomp/vc5.10/c1xx/cases/minimal/scanner-trial.json",
+      "sha256": "5ed481b32d43ac87bcb4bacbe4342b8186e15f69591aa498fa4df95e73784f57"
+    },
+    "proofs": {
+      "normal": {
+        "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-multibyte-original-1",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-multibyte-native-1",
+        "original_receipt_sha256": "d34beb0e96bee39de0d943b9113b5264f2fb6443295c1b54b14ed4f634b00337",
+        "native_receipt_sha256": "1fe12b99a7c9e7253af32ef087f305d395f8767b1d3d571c03caa534d0fd8300",
+        "native_ELF_sha256": "5610a0eba6407dc28bfb204280af3b039a263bcf002b015b817f9792197a66e5",
+        "native_compiled_source_record_sha256": "04edbe78145a947448384c5eb0ee34790395e31f5c6a72df83be0484c0cdf6e8"
+      },
+      "restore": {
+        "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-multibyte-restore-original-1",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-multibyte-restore-native-1",
+        "original_receipt_sha256": "afd0d332ccb5f3c84565fdb4bc31475bb8c56c337d16fbf3e005140a9dd8ead0",
+        "native_receipt_sha256": "07b9f1efc28963f43e04c91c4484660222f8ebd7564f634019f9911ddb494aaf",
+        "native_ELF_sha256": "5610a0eba6407dc28bfb204280af3b039a263bcf002b015b817f9792197a66e5",
+        "native_compiled_source_record_sha256": "04edbe78145a947448384c5eb0ee34790395e31f5c6a72df83be0484c0cdf6e8"
+      }
+    },
+    "public_boundary": {
+      "publication": "88b264783",
+      "reference": "d34beb0e96bee39de0d943b9113b5264f2fb6443295c1b54b14ed4f634b00337",
+      "exact_error_tuple": [
+        0,
+        0,
+        203
+      ],
+      "MBcp": [
+        0,
+        1252
+      ],
+      "MBgate": [
+        0,
+        0
+      ],
+      "MBmax": [
+        1,
+        1
+      ],
+      "once_only_call_inventory": [
+        0,
+        1
+      ],
+      "canonical_provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "application_credit": 0,
+      "preserved": "full MB/current-and-old ctype/result, target live/saved/BSS, ordered private CRT/Invoke vectors, errors, complete architectural x87; original raw112FP unchanged"
+    },
+    "affected_evidence": {
+      "multibyte-original-validation-1.json": {
+        "path": "cases/minimal/evidence/multibyte-original-validation-1.json",
+        "sha256": "d8b21969c0f8fc7a95d3f67ecc57a7a5c17984fb0f9bbe24c2845de58e99920c"
+      },
+      "scanner-normal-controls-1.json": {
+        "path": "cases/minimal/evidence/scanner-normal-controls-1.json",
+        "sha256": "eaa2e5dac964d55dc7257e32b8c025b2e51a7bceb2de0c15e50e3861371a79d1"
+      },
+      "scanner-restore-controls-1.json": {
+        "path": "cases/minimal/evidence/scanner-restore-controls-1.json",
+        "sha256": "10347f5940501ed4fc78a1937a9eb40ff30c9857f0af58d80f2e8be880820c3c"
+      }
+    },
+    "distinct_lifecycle": {
+      "identity": "/root/.ai-tmp/msvc2/vc5.10/c1xx/multibyte-incidental-lifecycle-build/identity.json",
+      "sha256": "bba767a236cf5784c96276de6b3b4d2db36cf23c94a07900cc7053788b5a5a75",
+      "scope": "Distinct incidental typed-only _mbctolower WIP build, subsequently published unchanged a6e94f33f. Never relabeled as88 function-pair ELF."
+    }
+  }
 }
