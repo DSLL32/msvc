@@ -83,7 +83,8 @@
     "rc_parse_shift",
     "rc_parse_additive",
     "rc_parse_multiplicative",
-    "rc_parse_unary"
+    "rc_parse_unary",
+    "rc_accept_expression_token"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

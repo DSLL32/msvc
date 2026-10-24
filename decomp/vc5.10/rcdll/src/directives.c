@@ -420,3 +420,40 @@ int __cdecl rc_parse_unary(void)
         return -rc_parse_primary();
     return rc_parse_primary();
 }
+
+/* Numeric value prefetched by the constant-expression token matcher. */
+int rc_expression_value;
+
+int __stdcall rc_accept_expression_token(unsigned char token)
+{
+    unsigned char kind;
+    RcIntegerToken *value;
+
+    if(rc_expression_token!=1){
+        if(rc_expression_token!=token)return 0;
+        rc_expression_token=1;
+        return 1;
+    }
+    kind=rc_next_token();
+    switch(kind){
+    case 0:
+        return 0;
+    case 2:
+        rc_expression_value=rc_evaluate_defined(rc_token_value);
+        break;
+    case 94:
+        value=rc_token_value;
+        if((value->type->flags&15)>5){
+            strcpy(rc_error_text,rc_message(1017));
+            rc_input_fatal(1017);
+        }else rc_expression_value=value->value;
+        break;
+    default:
+        if(rc_token_kind==token)return 1;
+        rc_expression_token=rc_token_kind;
+        return 0;
+    }
+    if(token==7)return 1;
+    rc_expression_token=7;
+    return 0;
+}

@@ -84,7 +84,8 @@
     "rc_parse_shift",
     "rc_parse_additive",
     "rc_parse_multiplicative",
-    "rc_parse_unary"
+    "rc_parse_unary",
+    "rc_accept_expression_token"
   ],
   "functions": [
     {
@@ -1514,8 +1515,7 @@
       "end": "0x7093",
       "abi": "stdcall",
       "stack_bytes": 4,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_parse_logical_and",
@@ -1603,6 +1603,15 @@
       "end": "0x30c1",
       "abi": "cdecl",
       "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_evaluate_defined",
+      "start": "0x6df3",
+      "end": "0x6fce",
+      "abi": "stdcall",
+      "stack_bytes": 4,
       "kind": "application",
       "stub": true
     }

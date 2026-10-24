@@ -1,0 +1,332 @@
+{
+  "function": "rc_accept_expression_token",
+  "original_start": "0x6fce",
+  "original_end": "0x7093",
+  "original_code_bytes": 197,
+  "abi": "stdcall, BYTE-consumed token in physical4B slot, int return, RET4",
+  "accepted_application_functions": 80,
+  "accepted_application_bytes": 22262,
+  "provisional_application_denominator": 66295,
+  "provisional_coverage_percent": 33.580209668904146,
+  "denominator_scope": "Provisional299-function inventory accepted physical application extents, not branch coverage; startup555/import12/compiler47 bytes separate.",
+  "case": "resources-rich-trailing-space",
+  "raw_original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/expression-match-original-01",
+  "raw_native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/expression-match-native-01",
+  "original_seconds": 2.1692934203892946,
+  "native_gdb_seconds": 1.7881314409896731,
+  "builds": [
+    {
+      "targets": [
+        "original",
+        "build/debug-original.exe"
+      ],
+      "status": 0,
+      "seconds": 7.302368339151144
+    },
+    {
+      "targets": [
+        "native"
+      ],
+      "status": 0,
+      "seconds": 2.736472323536873
+    }
+  ],
+  "stable_shared_input_hashes": "/root/.ai-tmp/msvc2/vc5.10/rcdll/analysis/expression-match-build/stable-shared-inputs.json",
+  "shared_publication": "READYa6e94f33f",
+  "audit_seconds": 0.1628546379506588,
+  "audit_engine_sha256": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24",
+  "acceptance_record": "cases/resources-rich-trailing-space/acceptance-0082.json",
+  "audit_record": "cases/resources-rich-trailing-space/audit-0082.json",
+  "condition_evaluation": {
+    "formals": [],
+    "return_pending": true,
+    "parentheses": 0,
+    "token_kind": 1,
+    "counter_original_rva": "0x18e7c",
+    "token_original_rva": "0x149dc",
+    "lexer_token_original_rva": "0x144f4",
+    "distinct_token_storage": true,
+    "token_bytes": 1,
+    "next_formals": [
+      {
+        "name": "name",
+        "formal_bytes": 4,
+        "physical_slot_bytes": 4,
+        "alias": "rc_macro_name",
+        "initialized_input_bytes": 16,
+        "text": "defined"
+      }
+    ],
+    "next_hidden_inputs": {
+      "saved_output": 1,
+      "output_active": 0,
+      "in_expression": 1,
+      "in_directive": 1,
+      "identifier": "defined",
+      "identifier_hash": 239,
+      "nesting": 1
+    },
+    "scope": "Matcher55 prefetches an identifier through the corrected ordinary lexer branch and reaches the real defined-operator helper. Actual UTF16 input defined+NUL, pointer alias, caller/source4678/left-parenthesis40, saved matcher BYTE55/full4B slot, distinct token storage and expression-value DWORD18e78 are bound. No defined-helper result, matcher return or expression result claimed."
+  },
+  "expression_match": {
+    "token_consumed_bits": 8,
+    "token": 55,
+    "physical_slot_raw": "37000000",
+    "lexer_kind": 2,
+    "original_lexer_kind_derivation": "Actual return70.73 is the helper call reached only by matcher case2; raw EAX0 here is the dispatch subtraction result, not a claimed lexer-return register.",
+    "source_offset": 4678,
+    "current_word": 40,
+    "identifier_length": 8,
+    "identifier_hash": 239,
+    "next_name_bytes": 16,
+    "expression_value_original_rva": "0x18e78",
+    "expression_value_native_address": 1448663760,
+    "expression_value": 0,
+    "return_pending": true
+  },
+  "next_frontier": {
+    "function": "rc_evaluate_defined",
+    "original_start": "0x6df3",
+    "original_end": "0x6fce",
+    "original_code_bytes": 475,
+    "formal": "const WCHAR *name",
+    "physical_slot_bytes": 4,
+    "initialized_input": "defined+NUL",
+    "input_bytes": 16,
+    "name_alias": "rc_macro_name",
+    "source_offset": 4678,
+    "current_word": 40
+  },
+  "pair_record": "/root/.ai-tmp/msvc2/vc5.10/rcdll/expression-match-pair-01.json",
+  "pair_sha256": "44c6b49a98f28a7acc3300c5d740e7dea020d2be3fa59e2ca84ea524135b9271",
+  "fresh_negative_controls": [
+    "wrong-initialized-parenthesis-counter",
+    "wrong-initialized-token",
+    "expression-lexer-storage-alias",
+    "expression-token-wrong-width",
+    "invented-expression-formal",
+    "wrong-expression-parser-caller",
+    "wrong-original-counter-store",
+    "wrong-original-token-store",
+    "wrong-next-source-word",
+    "wrong-active-directive",
+    "retired-parser-local-added",
+    "wrong-defined-name-alias",
+    "wrong-defined-input",
+    "wrong-defined-formal-width",
+    "wrong-saved-matcher-token",
+    "wrong-saved-matcher-slot",
+    "wrong-prefetched-lexer-kind",
+    "same-zero-expression-value-alias",
+    "wrong-expression-value-width",
+    "wrong-pending-expression-value"
+  ],
+  "scope_controls": [
+    {
+      "name": "wrong-initialized-parenthesis-counter",
+      "predicate_function": "_include_search_checkpoint",
+      "predicate_line": 2083,
+      "semantic_rejection": true
+    },
+    {
+      "name": "wrong-initialized-token",
+      "predicate_function": "_include_search_checkpoint",
+      "predicate_line": 2083,
+      "semantic_rejection": true
+    },
+    {
+      "name": "expression-lexer-storage-alias",
+      "predicate_function": "_include_search_checkpoint",
+      "predicate_line": 2084,
+      "semantic_rejection": true
+    },
+    {
+      "name": "expression-token-wrong-width",
+      "predicate_function": "_include_search_checkpoint",
+      "predicate_line": 2084,
+      "semantic_rejection": true
+    },
+    {
+      "name": "invented-expression-formal",
+      "predicate_function": "_include_search_checkpoint",
+      "predicate_line": 2083,
+      "semantic_rejection": true
+    },
+    {
+      "name": "wrong-expression-parser-caller",
+      "predicate_function": "_include_search_checkpoint",
+      "predicate_line": 2083,
+      "semantic_rejection": true
+    },
+    {
+      "name": "wrong-original-counter-store",
+      "predicate_function": "_include_search_checkpoint",
+      "predicate_line": 2103,
+      "semantic_rejection": true
+    },
+    {
+      "name": "wrong-original-token-store",
+      "predicate_function": "_include_search_checkpoint",
+      "predicate_line": 2103,
+      "semantic_rejection": true
+    },
+    {
+      "name": "wrong-next-source-word",
+      "predicate_function": "_include_search_checkpoint",
+      "predicate_line": 1873,
+      "semantic_rejection": true
+    },
+    {
+      "name": "wrong-active-directive",
+      "predicate_function": "_include_search_checkpoint",
+      "predicate_line": 2041,
+      "semantic_rejection": true
+    },
+    {
+      "name": "retired-parser-local-added",
+      "predicate_function": "_include_search_checkpoint",
+      "predicate_line": 2048,
+      "semantic_rejection": true
+    },
+    {
+      "name": "wrong-defined-name-alias",
+      "predicate_function": "_include_search_checkpoint",
+      "predicate_line": 1867,
+      "semantic_rejection": true
+    },
+    {
+      "name": "wrong-defined-input",
+      "predicate_function": "_include_search_checkpoint",
+      "predicate_line": 2125,
+      "semantic_rejection": true
+    },
+    {
+      "name": "wrong-defined-formal-width",
+      "predicate_function": "_include_search_checkpoint",
+      "predicate_line": 2123,
+      "semantic_rejection": true
+    },
+    {
+      "name": "wrong-saved-matcher-token",
+      "predicate_function": "_include_search_checkpoint",
+      "predicate_line": 2126,
+      "semantic_rejection": true
+    },
+    {
+      "name": "wrong-saved-matcher-slot",
+      "predicate_function": "_include_search_checkpoint",
+      "predicate_line": 2127,
+      "semantic_rejection": true
+    },
+    {
+      "name": "wrong-prefetched-lexer-kind",
+      "predicate_function": "_include_search_checkpoint",
+      "predicate_line": 2128,
+      "semantic_rejection": true
+    },
+    {
+      "name": "same-zero-expression-value-alias",
+      "predicate_function": "_include_search_checkpoint",
+      "predicate_line": 2130,
+      "semantic_rejection": true
+    },
+    {
+      "name": "wrong-expression-value-width",
+      "predicate_function": "_include_search_checkpoint",
+      "predicate_line": 2129,
+      "semantic_rejection": true
+    },
+    {
+      "name": "wrong-pending-expression-value",
+      "predicate_function": "_include_search_checkpoint",
+      "predicate_line": 2131,
+      "semantic_rejection": true
+    }
+  ],
+  "fresh_gate_seconds": 10.967794830910861,
+  "reused_controls": {
+    "record": "cases/resources-rich-trailing-space/unary-verification.json",
+    "sha256": "a9ea1a2a91dde35651920c89d02e9f46056de11c7048ed8ec6c50a1cd3544ec4",
+    "checker_and_contract_versions": {
+      "decomp/vc5.10/rcdll/scripts/accept.py": "0f4de82a4370e51592398ff59c5f3a008f05a33a2d4db1b4c71daf3fc32caee5",
+      "decomp/vc5.10/rcdll/scripts/audit.py": "10ca68f41c5bd1c3183a101d5a1f33de15c4c88209ead1966d9f4a554e852d60",
+      "decomp/vc5.10/rcdll/scripts/cache-rich-reference.py": "2164ca862a64c1708c7a13f6c7b0330df90c383149e067b218b45871dec3511c",
+      "decomp/vc5.10/rcdll/scripts/capture-native.py": "cf6f89f16ae5e0e871c014b5261ddfb4de9ca169601f7774448512829e30f649",
+      "decomp/vc5.10/rcdll/scripts/capture-original.py": "92f627b0b5f7f557b7339d7039b7ab94a2dd7f1db24a8d5a81a07ef4d15955c1",
+      "decomp/vc5.10/rcdll/scripts/capture-source-line-format.py": "c24b391d7d050556e6e89fd4c4ff2ed62f135637e1c0201d968233138dd1d832",
+      "decomp/vc5.10/rcdll/scripts/capture-wcschr.py": "3a003289498306857eb66733873f83ba9976289a847c83c22f47bc4b15886c85",
+      "decomp/vc5.10/rcdll/scripts/check-abi.py": "83f3fffa968c62999e0272c64bf9d15a3c9626d45b93e3cb6cd9af61513b4201",
+      "decomp/vc5.10/rcdll/scripts/check-character-controls.py": "655fd611ea139f09752876eea98de9c259bdceac7f39346e305948115838f6a4",
+      "decomp/vc5.10/rcdll/scripts/check-characters.py": "77f3d3612ac0df0e50a9fd480a52ebaa05ead70e1b0f2c98ad6733c1a99ad5e1",
+      "decomp/vc5.10/rcdll/scripts/check-class-boundary.py": "8e30608c439487f18c266da24bbbe0495b83a2e1d3840c7bd844671b5f6b546f",
+      "decomp/vc5.10/rcdll/scripts/check-compiler-support.py": "59a4cebd7a658aa9870cfbb612bf50d919ad9f48f3d022c778c2dcd7f5bc101c",
+      "decomp/vc5.10/rcdll/scripts/check-completion.py": "c98946e5f142082737ce5bb72e47fdc6ad48430c77b55c5a2f8f93a6f121daf9",
+      "decomp/vc5.10/rcdll/scripts/check-copy-seh-controls.py": "7dd3931d60dbfd18ede91fb4d8bd820571b0da16f21ffed61b158bdf8063887f",
+      "decomp/vc5.10/rcdll/scripts/check-copy-seh.py": "b3375c3e687672316cda1131b177b214ef728f99d9762d601f50efed1be59a8d",
+      "decomp/vc5.10/rcdll/scripts/check-directive-table.py": "533dd63c3f8ebabb8f7822065f945fa33e5272f66ce781b96f428b940d793847",
+      "decomp/vc5.10/rcdll/scripts/check-dispatcher-switch-controls.py": "909ca7d5ab62bff4ee49ba5b3c470a771b8d939845e768c0e2b0eda983d49480",
+      "decomp/vc5.10/rcdll/scripts/check-dispatcher-switch.py": "f91d78cd25495a160d4ba45b421990894bfa3a967745513774b51fd6f893fb53",
+      "decomp/vc5.10/rcdll/scripts/check-expression-storage.py": "2c7021703b1139aa97bdfe1642879612aecc57cc9d2dc0eef26bacafdd1a4ddf",
+      "decomp/vc5.10/rcdll/scripts/check-initial.py": "f1e69f898368b7b2df6d68fbc7ee0d47f5babec355b9863a13f436335e0a0824",
+      "decomp/vc5.10/rcdll/scripts/check-number-word-correction.py": "12a887daf408815a98b8ad0f3d239f2fe7f021a8d82ca8df8c239ca636c8e765",
+      "decomp/vc5.10/rcdll/scripts/check-plan.py": "34e66d1d7356daad243123672a2ceea8d15f4ea5a57d7bd2fe15d94a6d46320e",
+      "decomp/vc5.10/rcdll/scripts/check-rich-pair.py": "268e50634f397a070c718e26f704bfe1e32147e7be732aa5a3a77928411443d3",
+      "decomp/vc5.10/rcdll/scripts/check-string-storage.py": "037bb530777ce2df02b09617aaad047c15c429e2e69005f4900a37e4d4b50ff0",
+      "decomp/vc5.10/rcdll/scripts/check-token-info.py": "38f149a2be01b60dfd3ac3c25c0490550b14fa52c21276d9e57ee0d8b044d38e",
+      "decomp/vc5.10/rcdll/scripts/check-trial.py": "ea46359d73d9134a047c512e0419b6f512ef9e95dadba97e61e16b51e707f0a5",
+      "decomp/vc5.10/rcdll/scripts/compiler-frame-gdb.py": "0f2ea9470f79ff73c626dc93fd7c54d506a46d799827d739af2efac3c98f882d",
+      "decomp/vc5.10/rcdll/scripts/expression-token-gdb.py": "31e35e1b2c08f57316030894d168a96ee933e3a752ef2c33d6dfb6bf89109c41",
+      "decomp/vc5.10/rcdll/scripts/fixtures.py": "8039adf2390603d111d5aef75952a4959193a3b491f94e00ccf851f33cdd8847",
+      "decomp/vc5.10/rcdll/scripts/native-gdb.py": "76d8622dc977ee156b1c4b93534616c6464635baff9d694aa8228460fcd2713f",
+      "decomp/vc5.10/rcdll/scripts/native-observers.py": "843042f184969d732a831fbc688b365e4731bb1b6a0aee6cb1898450cc576182",
+      "decomp/vc5.10/rcdll/scripts/native-preprocess.py": "d42091dedba1a257b27719be525fa4eb9103410eb04fd8b19387de631f54941d",
+      "decomp/vc5.10/rcdll/scripts/pe_inventory.py": "fb06b8d3138d32e185ad86bb5e2d3dc775bd0a304387537f8a97ae967a2c1869",
+      "decomp/vc5.10/rcdll/scripts/prepare-resources.py": "b32f452aa2534efabb780923d34675f6514c8e933ac2993896a415fb37bd24b7",
+      "decomp/vc5.10/rcdll/scripts/protocol.py": "e15721e68e82ad6f39d9406aceae38cfd751ee8371bcbaa59fc08855adca4670",
+      "decomp/vc5.10/rcdll/scripts/rich_protocol.py": "990d5b9fb598ded9ab714d6df8c9d7d49ee6df914078887c9ee7dd57863a6473",
+      "decomp/vc5.10/rcdll/scripts/source-snapshot.py": "a09bc2f8719f3fd7ab69549d1ebc421cb8ca68726935057ac13eca0a432951ff",
+      "decomp/vc5.10/rcdll/scripts/wine-tool.py": "8bbce5c4f84dfc5eb820df7a502103009f26a89e86308bfa2eeb00d1b7e467bf",
+      "decomp/vc5.10/rcdll/data.json": "fa5c8a453d0eff8e1396f1ac6e346548b31fc4b44b4cdb8a5a43c3e48f82fbed"
+    },
+    "reason": "Unchanged macro ownership, numeric serialization, source-derived line marker, FILE/source/SEH/transport negatives retain exact prior proof hashes. Current raw positive proof repeats those states; fresh negatives cover the two wrapper stores and next parser caller/formals/live input."
+  },
+  "native_help_fixture": {
+    "logical_name_aliases": {
+      "rcdll_main": "DllMain",
+      "recon_dll_entry": "_DllMainCRTStartup",
+      "rcdll_crt_init": "_CRT_INIT",
+      "rc_main": "main",
+      "rcdll_command_main": "main"
+    },
+    "case": "help",
+    "status": "pass",
+    "stdout_bytes": 589,
+    "application_entries": 9,
+    "seconds": {
+      "setup": 0.004165377467870712,
+      "execution": 0.0026747221127152443,
+      "checks": 0.0011367835104465485,
+      "total": 0.008622349239885807
+    },
+    "native_sha256": "7a68edc788ee236159de96c954f354414df0c5a9a5559b69ba0b9d00a4327457",
+    "reference_manifest_sha256": "387c741bdb3fa4d388da034d339b5d21e872667d27934bb570e03d448db05524"
+  },
+  "abi_check": {
+    "status": "pass",
+    "exports": {
+      "Handler": 1,
+      "RC": 2
+    },
+    "entry_symbol": "__DllMainCRTStartup@12",
+    "application_entry_symbol": "_DllMain@12",
+    "tls": false,
+    "message_ids": [
+      10001,
+      20001
+    ],
+    "message_language": 1033,
+    "rebuilt_sha256": "f7a741706e7260896ce86ed1bdb9ee8bfde6bf9622bc8460e4744e407387c241"
+  },
+  "correction_record": "cases/resources-rich-trailing-space/lexer-storage-correction.json",
+  "scope": "Matcher prefetches identifier through corrected expansion flag. Actual next helper pointer/string/caller/physical saved token and zero pending expression DWORD captured; original lexer kind2 derives from the reached unique case2 call edge, not current EAX0. No defined-operator/matcher return or arithmetic result claimed."
+}

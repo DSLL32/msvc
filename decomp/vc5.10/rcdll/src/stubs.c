@@ -237,7 +237,7 @@ WCHAR *__stdcall rc_copy_replacement_quoted(WCHAR *cursor,WCHAR delimiter)
     return NULL;
 }
 
-int __stdcall rc_accept_expression_token(unsigned char token)
+int __stdcall rc_evaluate_defined(const WCHAR *name)
 {
     __asm int 3
     return 0;
