@@ -1,0 +1,304 @@
+{
+  "timing": {
+    "pipeline": {
+      "seconds": 3.01434606872499,
+      "returncode": 0,
+      "command": [
+        "R:\\decomp\\vc1.0\\c2\\build\\capture-cl.exe",
+        "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+        "11000",
+        "S:\\vc1.0\\c2\\omf-comdat-capture-lbpcyq5i\\raw",
+        "S:\\vc1.0\\c2\\packets",
+        "/nologo /c /O2 /Ob0 /Gy /G5 /Z7 packets.c",
+        "packets.obj",
+        "-"
+      ]
+    },
+    "standalone": {
+      "seconds": 1.743584937416017,
+      "returncode": 0,
+      "command": [
+        "R:\\decomp\\vc1.0\\c2\\build\\debug-run.exe",
+        "R:\\toolchains\\1.0-nt\\bin\\C23232.EXE",
+        "",
+        "S:\\vc1.0\\c2\\omf-comdat-capture-lbpcyq5i\\fixture\\capture\\standalone.stdout",
+        "S:\\vc1.0\\c2\\omf-comdat-capture-lbpcyq5i\\fixture\\capture\\standalone.stderr",
+        "S:\\vc1.0\\c2\\omf-comdat-capture-lbpcyq5i\\fixture\\capture\\standalone.events",
+        "S:\\vc1.0\\c2\\packets"
+      ]
+    },
+    "repeat": {
+      "seconds": 1.6986691523343325,
+      "returncode": 0,
+      "command": [
+        "R:\\decomp\\vc1.0\\c2\\build\\debug-run.exe",
+        "R:\\toolchains\\1.0-nt\\bin\\C23232.EXE",
+        "",
+        "S:\\vc1.0\\c2\\omf-comdat-capture-lbpcyq5i\\fixture\\capture\\repeat.stdout",
+        "S:\\vc1.0\\c2\\omf-comdat-capture-lbpcyq5i\\fixture\\capture\\repeat.stderr",
+        "S:\\vc1.0\\c2\\omf-comdat-capture-lbpcyq5i\\fixture\\capture\\repeat.events",
+        "S:\\vc1.0\\c2\\packets"
+      ]
+    },
+    "parse-state": {
+      "seconds": 1.9791981978341937,
+      "returncode": 0,
+      "command": [
+        "R:\\decomp\\vc1.0\\c2\\build\\reference-stdio-observer.exe",
+        "R:\\toolchains\\1.0-nt\\bin\\C23232.EXE",
+        "",
+        "S:\\vc1.0\\c2\\omf-comdat-capture-lbpcyq5i\\fixture\\capture\\omf-entry.stdout",
+        "S:\\vc1.0\\c2\\omf-comdat-capture-lbpcyq5i\\fixture\\capture\\omf-entry.stderr",
+        "S:\\vc1.0\\c2\\omf-comdat-capture-lbpcyq5i\\fixture\\capture\\omf-entry.events",
+        "S:\\vc1.0\\c2\\packets"
+      ]
+    }
+  },
+  "total_seconds": 8.551497649401426,
+  "omf_records": [
+    {
+      "offset": 0,
+      "type": "0x80",
+      "bytes": 14
+    },
+    {
+      "offset": 14,
+      "type": "0x88",
+      "bytes": 10
+    },
+    {
+      "offset": 24,
+      "type": "0x88",
+      "bytes": 14
+    },
+    {
+      "offset": 38,
+      "type": "0x88",
+      "bytes": 10
+    },
+    {
+      "offset": 48,
+      "type": "0x88",
+      "bytes": 9
+    },
+    {
+      "offset": 57,
+      "type": "0x88",
+      "bytes": 9
+    },
+    {
+      "offset": 66,
+      "type": "0x96",
+      "bytes": 104
+    },
+    {
+      "offset": 170,
+      "type": "0x99",
+      "bytes": 12
+    },
+    {
+      "offset": 182,
+      "type": "0x99",
+      "bytes": 12
+    },
+    {
+      "offset": 194,
+      "type": "0x99",
+      "bytes": 12
+    },
+    {
+      "offset": 206,
+      "type": "0x99",
+      "bytes": 12
+    },
+    {
+      "offset": 218,
+      "type": "0x99",
+      "bytes": 12
+    },
+    {
+      "offset": 230,
+      "type": "0x99",
+      "bytes": 12
+    },
+    {
+      "offset": 242,
+      "type": "0x99",
+      "bytes": 12
+    },
+    {
+      "offset": 254,
+      "type": "0x9a",
+      "bytes": 5
+    },
+    {
+      "offset": 259,
+      "type": "0x9d",
+      "bytes": 14
+    },
+    {
+      "offset": 273,
+      "type": "0xb0",
+      "bytes": 64
+    },
+    {
+      "offset": 337,
+      "type": "0xa1",
+      "bytes": 33
+    },
+    {
+      "offset": 370,
+      "type": "0xa1",
+      "bytes": 17
+    },
+    {
+      "offset": 387,
+      "type": "0xa3",
+      "bytes": 18
+    },
+    {
+      "offset": 405,
+      "type": "0xca",
+      "bytes": 17
+    },
+    {
+      "offset": 422,
+      "type": "0xbc",
+      "bytes": 6
+    },
+    {
+      "offset": 428,
+      "type": "0xa1",
+      "bytes": 13
+    },
+    {
+      "offset": 441,
+      "type": "0x80",
+      "bytes": 14
+    },
+    {
+      "offset": 455,
+      "type": "0xc3",
+      "bytes": 144
+    },
+    {
+      "offset": 599,
+      "type": "0x9d",
+      "bytes": 30
+    },
+    {
+      "offset": 629,
+      "type": "0x8c",
+      "bytes": 22
+    },
+    {
+      "offset": 651,
+      "type": "0xa1",
+      "bytes": 126
+    },
+    {
+      "offset": 777,
+      "type": "0x9d",
+      "bytes": 8
+    },
+    {
+      "offset": 785,
+      "type": "0xc5",
+      "bytes": 60
+    },
+    {
+      "offset": 845,
+      "type": "0xca",
+      "bytes": 16
+    },
+    {
+      "offset": 861,
+      "type": "0xbc",
+      "bytes": 6
+    },
+    {
+      "offset": 867,
+      "type": "0xc3",
+      "bytes": 80
+    },
+    {
+      "offset": 947,
+      "type": "0x9d",
+      "bytes": 16
+    },
+    {
+      "offset": 963,
+      "type": "0xbc",
+      "bytes": 6
+    },
+    {
+      "offset": 969,
+      "type": "0xa1",
+      "bytes": 125
+    },
+    {
+      "offset": 1094,
+      "type": "0x9d",
+      "bytes": 8
+    },
+    {
+      "offset": 1102,
+      "type": "0xc5",
+      "bytes": 42
+    },
+    {
+      "offset": 1144,
+      "type": "0xc3",
+      "bytes": 128
+    },
+    {
+      "offset": 1272,
+      "type": "0x9d",
+      "bytes": 24
+    },
+    {
+      "offset": 1296,
+      "type": "0xa1",
+      "bytes": 344
+    },
+    {
+      "offset": 1640,
+      "type": "0x9d",
+      "bytes": 30
+    },
+    {
+      "offset": 1670,
+      "type": "0xa3",
+      "bytes": 18
+    },
+    {
+      "offset": 1688,
+      "type": "0xa1",
+      "bytes": 209
+    },
+    {
+      "offset": 1897,
+      "type": "0xc5",
+      "bytes": 60
+    },
+    {
+      "offset": 1957,
+      "type": "0x8a",
+      "bytes": 5
+    }
+  ],
+  "actual_record_families": {
+    "COMDAT": 3,
+    "CEXTDEF": 3,
+    "LINSYM": 3,
+    "COMDEF": 1,
+    "LIDATA": 2
+  },
+  "artifacts": [
+    "packets.obj"
+  ],
+  "normalization": "None; all OMF records/checksums/debug bytes exact across independent untouched original standalone runs",
+  "actual_state": "Untouched original C2 reaches omf_open_module with coff_object=0; no writes/injected calls by state observer",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\packets"
+}

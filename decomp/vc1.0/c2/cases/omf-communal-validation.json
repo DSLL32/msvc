@@ -1,0 +1,7122 @@
+{
+  "actual_abi": true,
+  "rejected": [
+    "missing pointer",
+    "wrong ECX",
+    "wrong owner",
+    "wrong external counter",
+    "wrong size",
+    "wrong type",
+    "missing name bytes",
+    "invented old output input"
+  ],
+  "states": 192,
+  "cases": [
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            1
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "1a3d6afd88e15caef275674fe6390fe65cab428f9418f76dbe5e75e3a0961f38"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 68,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 68,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 68,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 4107,
+        "size": 4294967295,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            4107
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 68,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            68
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            2147483648
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "display"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "cd97835269d2ab5ce0983974afe0aa9b1e734606ac146be506a097cd3e736c04"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "string"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -1
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            70000
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "type": 32768,
+        "size": 4294967295,
+        "mutation": "size"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            176,
+            0
+          ],
+          [
+            "display",
+            4294967295
+          ],
+          [
+            "string"
+          ],
+          [
+            "index",
+            -32768
+          ],
+          [
+            "size",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "988dd59c078242e0892138c8f6f3502dd650db3f7b89cb4da9ecb9851b1b2745"
+      }
+    }
+  ],
+  "seconds": 3.401100041344762,
+  "scope": "Whole85B original/canonical COMDEF writer. Child order/tag, counter loaded after begin, output assignment/counter wrap, signed type reload after name children, raw62/cursor/count after index, size reload after index, caller-saved clobbers, all128 symbol/1004 record/6 text bytes and callee-saved/RET0 checked. Synthetic patterned old output is overwrite guard, never actual input dump/seed. Child encoding mocked: no actual child semantics/completed artifact claim."
+}

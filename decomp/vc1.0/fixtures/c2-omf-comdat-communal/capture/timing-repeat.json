@@ -1,0 +1,13 @@
+{
+  "seconds": 1.6986691523343325,
+  "returncode": 0,
+  "command": [
+    "R:\\decomp\\vc1.0\\c2\\build\\debug-run.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\C23232.EXE",
+    "",
+    "S:\\vc1.0\\c2\\omf-comdat-capture-lbpcyq5i\\fixture\\capture\\repeat.stdout",
+    "S:\\vc1.0\\c2\\omf-comdat-capture-lbpcyq5i\\fixture\\capture\\repeat.stderr",
+    "S:\\vc1.0\\c2\\omf-comdat-capture-lbpcyq5i\\fixture\\capture\\repeat.events",
+    "S:\\vc1.0\\c2\\packets"
+  ]
+}

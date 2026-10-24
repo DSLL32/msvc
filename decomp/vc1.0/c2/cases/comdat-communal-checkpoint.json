@@ -1,0 +1,269 @@
+{
+  "status": "COMDEF85B accepted at1301; complete new OMF object pending",
+  "case": "comdat",
+  "checkpoint": 1301,
+  "new_function": {
+    "name": "@omf_emit_communal@4",
+    "start": 437904,
+    "end": 437989,
+    "abi": {
+      "convention": "fastcall",
+      "parameters": [
+        {
+          "name": "symbol",
+          "location": "ECX",
+          "type": "SymbolHeader pointer"
+        }
+      ],
+      "hidden_inputs": [],
+      "callee_stack_cleanup": 0,
+      "entry_observation": "cases/omf-communal-abi/validation.json",
+      "scope": "Original6ae90..6aee5 receives sole ECX Symbol pointer and mutable unsigned next-external global85078. It assigns Symbol.field14 after beginB0/NULL then invokes name provider, counted-string append, signed type index, literal62 and size encoder. No hidden incoming stack/register/flags/x87/output pointer, RET0. Actual closed global_scope owner/name-provider kind/field0d/flags/attributes/name and actual mutable next-external, size DWORD and signed type WORD observed; old Symbol.field14 write-only output not inspected, dumped or seeded."
+    }
+  },
+  "extent_delta": 85,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1301,
+    "accepted_code_bytes": 344978,
+    "original_code_bytes": 399693,
+    "percentage": 86.31074349563289,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 644
+  },
+  "original_baseline": {
+    "actual_CL_flags": [
+      "/nologo",
+      "/c",
+      "/O2",
+      "/Ob0",
+      "/Gy",
+      "/G5",
+      "/Z7",
+      "packets.c"
+    ],
+    "derived_backend": "Exact captured C2 environment plus supported -omf only; CL did not emit -omf.",
+    "manifest": "../fixtures/c2-omf-comdat-communal/manifest.json",
+    "manifest_sha256": "0b6c374b507b4499a8664aea856c2f5986fa4292ce4c572f31f40cae011654bd",
+    "object": {
+      "path": "expected/packets.obj",
+      "bytes": 1962,
+      "sha256": "2dcb42c74d07c84c7aa7f25a1724dd70b43ea06b1dca747a5e257ff544557783",
+      "output_name": "packets.obj",
+      "ignored_fields": [],
+      "normalized_sha256": "2dcb42c74d07c84c7aa7f25a1724dd70b43ea06b1dca747a5e257ff544557783"
+    },
+    "actual_record_counts": {
+      "COMDAT": 3,
+      "CEXTDEF": 3,
+      "LINSYM": 3,
+      "COMDEF": 1,
+      "LIDATA": 2
+    },
+    "source_unchanged": true
+  },
+  "actual_abi": "cases/omf-communal-abi/validation.json",
+  "focused_controls": "cases/omf-communal-validation.json",
+  "artifact_negatives": "cases/comdat-artifact-validation.json",
+  "fresh_before": "cases/comdat-original-1300.json",
+  "fresh_after": "cases/comdat-original-1301.json",
+  "native_after": "cases/comdat-original-1301-native.json",
+  "native_suite": "cases/native-all-validation.json",
+  "native_case_count": 16,
+  "next_frontier": "@omf_write_communal_size@8 at6c600",
+  "timings": {
+    "comdat-capture-helper-build": {
+      "command": [
+        "make",
+        "-j4",
+        "build/capture-cl.exe",
+        "build/debug-run.exe",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 3.8151970859616995,
+      "returncode": 0,
+      "log_sha256": "d88803a8fa0fa0e8d61271b8de5d427bf50101efcc99e8ce662007ba02be55b8"
+    },
+    "comdat-original-capture": {
+      "command": [
+        "python3",
+        "scripts/capture-omf-comdat.py"
+      ],
+      "seconds": 8.621607672423124,
+      "returncode": 0,
+      "log_sha256": "b11f092827f71fa3ee4de567116914a22e325ebac5ef610a75039c1959d6af4e"
+    },
+    "comdat-first-original": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "comdat",
+        "--receipt",
+        "cases/comdat-original-1300.json"
+      ],
+      "seconds": 2.0067223217338324,
+      "returncode": 0,
+      "log_sha256": "5bd70b6cd0ad168eb549f2c251b92d3b64fdd58ff2106adecdfdceca538f1a6c"
+    },
+    "comdat-first-native": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "comdat",
+        "--reference",
+        "cases/comdat-original-1300.json"
+      ],
+      "seconds": 0.23551258444786072,
+      "returncode": 0,
+      "log_sha256": "cefc182b7d23f0f0cc5668ab1ba22c0e6f69074c7c862750fecb40e380e43fb7"
+    },
+    "comdat-cache-begin": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--begin-profile",
+        "comdat",
+        "--reference",
+        "cases/comdat-original-1300.json"
+      ],
+      "seconds": 0.3434228366240859,
+      "returncode": 0,
+      "log_sha256": "c969a3fc01f603a758ec55bfc1df7df41ab210c7861ce7dcd206488f017929ce"
+    },
+    "comdat-communal-observer-build": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 3.2032895060256124,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "comdat-communal-entry": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-communal-entry.py"
+      ],
+      "seconds": 2.0279453629627824,
+      "returncode": 0,
+      "log_sha256": "fe010eae263a4239307cc8e393d6c8fffd50797efcf55eabfb3b28add885aa98"
+    },
+    "comdat-1301-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 2.891801491379738,
+      "returncode": 0,
+      "log_sha256": "723f31441d6ba698bf70857a04b20e629593633bdda77d775a099b516550bf5d"
+    },
+    "comdat-1301-controls": {
+      "command": [
+        "python3",
+        "scripts/check-omf-communal.py"
+      ],
+      "seconds": 3.517293150536716,
+      "returncode": 0,
+      "log_sha256": "c285b8ac96bae70cf9d1aeced735fe5794e5dcede243533a5af8860dba060a90"
+    },
+    "comdat-1301-warnings": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 0.9675711775198579,
+      "returncode": 0,
+      "log_sha256": "f2de634f630ac3ffa106bdf818b24c79949835b5ea0673a7e65ca4d57b346330"
+    },
+    "comdat-1301-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 26.91219644062221,
+      "returncode": 0,
+      "log_sha256": "0717c8fa22c25482fad0670ad979dc7c3295b182985dafc392269b11995eb012"
+    },
+    "comdat-1301-original": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "comdat",
+        "--receipt",
+        "cases/comdat-original-1301.json"
+      ],
+      "seconds": 1.6537020662799478,
+      "returncode": 0,
+      "log_sha256": "e0d39024bfb4f20f585a88e49cbce8673dcbc2940f757a6a404a573d2d8e92bf"
+    },
+    "comdat-1301-native": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "comdat",
+        "--reference",
+        "cases/comdat-original-1301.json"
+      ],
+      "seconds": 0.240688132122159,
+      "returncode": 0,
+      "log_sha256": "70c689893d0c7cfe7654100227174a5286e249d896104885a127e6ab0bc88404"
+    },
+    "comdat-1301-cache": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/comdat-original-1300.json",
+        "--extend-after",
+        "cases/comdat-original-1301.json"
+      ],
+      "seconds": 0.3405683944001794,
+      "returncode": 0,
+      "log_sha256": "9e624c0cb2668c850b916c1cc78cb83098694f33c6633c572adbeb0ba571eafb"
+    },
+    "comdat-1301-fixtures": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 0.8715652078390121,
+      "returncode": 0,
+      "log_sha256": "ce1eb56c201954259a6ebd90cf7b6f902890736778e18cd7f55a604a12726056"
+    },
+    "comdat-artifact-controls": {
+      "command": [
+        "python3",
+        "scripts/check-comdat-artifacts.py"
+      ],
+      "seconds": 0.07569374237209558,
+      "returncode": 0,
+      "log_sha256": "18bafc724ed9ab346a870e414922eda4b1832976af79320c3060a6ebf58c8849"
+    }
+  },
+  "timing_notes": "Labels retain all measured executions including the capture helper standalone repeat already completed; no further baseline reruns. Future one untouched baseline per workflow unless observed instability. Analysis/edit time unmeasured; audit26.912s is full ordinary audit+coverage, not Rust graph alone. Child semantics mocked only in focused control model; fresh run supplies actual prefix/flow, complete object still pending."
+}

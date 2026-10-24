@@ -1304,7 +1304,8 @@
     "@omf_output_offset@8",
     "@write_codeview_global_data@4",
     "_omf_finish_module",
-    "_omf_write_module_end"
+    "_omf_write_module_end",
+    "@omf_emit_communal@4"
   ],
   "driver": [
     {
@@ -9331,8 +9332,21 @@
     {
       "name": "@omf_emit_communal@4",
       "start": 437904,
-      "end": 437905,
-      "provisional": true
+      "end": 437989,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "SymbolHeader pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-communal-abi/validation.json",
+        "scope": "Original6ae90..6aee5 receives sole ECX Symbol pointer and mutable unsigned next-external global85078. It assigns Symbol.field14 after beginB0/NULL then invokes name provider, counted-string append, signed type index, literal62 and size encoder. No hidden incoming stack/register/flags/x87/output pointer, RET0. Actual closed global_scope owner/name-provider kind/field0d/flags/attributes/name and actual mutable next-external, size DWORD and signed type WORD observed; old Symbol.field14 write-only output not inspected, dumped or seeded."
+      }
     },
     {
       "name": "@omf_emit_weak_external@4",
@@ -9517,6 +9531,12 @@
         "entry_observation": "cases/omf-modend-abi/validation.json",
         "scope": "Original6aad0..6aaea sets EDX0/ECX8a before begin_record, then uses only returned EAXrecord/cursor/count and returns RET0. No incoming register/stack/flags/x87/global/output pointer data consumed. Actual original caller return6aaac/native omf_finish_module observed; record is future child result, not an incoming snapshot or fabricated pointer."
       }
+    },
+    {
+      "name": "@omf_write_communal_size@8",
+      "start": 443904,
+      "end": 443905,
+      "provisional": true
     }
   ],
   "cases": {
@@ -9610,6 +9630,12 @@
       "accepted_from": 1251,
       "fixture_manifest": "../fixtures/c2-omf-typed-debug/manifest.json",
       "fixture_manifest_sha256": "23d816b9638b58c44cb1045109412b9270c1925c62f99ea69438685881ea5e13"
+    },
+    "comdat": {
+      "arguments": "",
+      "accepted_from": 1300,
+      "fixture_manifest": "../fixtures/c2-omf-comdat-communal/manifest.json",
+      "fixture_manifest_sha256": "0b6c374b507b4499a8664aea856c2f5986fa4292ce4c572f31f40cae011654bd"
     }
   },
   "crt_defaults": {

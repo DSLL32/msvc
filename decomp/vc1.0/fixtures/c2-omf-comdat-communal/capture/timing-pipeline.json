@@ -1,0 +1,14 @@
+{
+  "seconds": 3.01434606872499,
+  "returncode": 0,
+  "command": [
+    "R:\\decomp\\vc1.0\\c2\\build\\capture-cl.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "11000",
+    "S:\\vc1.0\\c2\\omf-comdat-capture-lbpcyq5i\\raw",
+    "S:\\vc1.0\\c2\\packets",
+    "/nologo /c /O2 /Ob0 /Gy /G5 /Z7 packets.c",
+    "packets.obj",
+    "-"
+  ]
+}

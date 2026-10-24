@@ -840,6 +840,6 @@
       }
     }
   ],
-  "seconds": 1.0606190524995327,
+  "seconds": 1.1465549282729626,
   "scope": "Whole96-byte original/canonical string writer: NULL/empty/short/255/oversize mutable strings, warn-before-truncate state, exact255th-byte mutation, same source pointer, counted length byte, count overflow/cursor/caller cleanup and unchanged spare bytes. Warning/byte-writer children mocked; long-string branch is bounded control evidence, actual case only omftypes.c. Full input pointer/source/record/header/3-prefix identity proof is independent."
 }

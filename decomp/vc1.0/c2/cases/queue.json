@@ -1,5 +1,5 @@
 {
-  "active": "omf-typed-debug",
+  "active": "omf-comdat-communal",
   "queued": [
     {
       "case": "hello-win32",
@@ -305,6 +305,15 @@
       "fixture_manifest": "../fixtures/c2-omf-typed-debug/manifest.json",
       "description": "Derived standalone original C2 -omf invocation, not emitted by CL; five actual original frontend IR/source dependencies, exact2594-byte OMF object with no normalization.",
       "capture_evidence": "../fixtures/c2-omf-typed-debug/capture/independent.json"
+    },
+    {
+      "case": "omf-comdat-communal",
+      "after": "omf-typed-debug",
+      "phase": "c2",
+      "status": "active",
+      "fixture_manifest": "../fixtures/c2-omf-comdat-communal/manifest.json",
+      "accepted_from": 1300,
+      "description": "Actual original CL /O2 /Ob0 /Gy /G5 /Z7 transport, derived standalone -omf; genuine COMDAT/CEXTDEF/LINSYM/COMDEF/LIDATA."
     }
   ],
   "completed": [
@@ -434,8 +443,14 @@
       "evidence": "cases/omf-completion-checkpoint.json"
     }
   ],
-  "status": "All15 approved cases complete at1300; next substantial single case requires root review/authorization.",
-  "next_case_proposals": [],
+  "status": "Active approved derived standalone COMDAT/communal OMF case; first communal writer accepted, size encoder pending.",
+  "next_case_proposals": [
+    {
+      "case": "omf-comdat-communal",
+      "status": "approved; original valid COMDAT3/CEXTDEF3/LINSYM3/COMDEF1/LIDATA2",
+      "proposal": "cases/proposals/omf-comdat-communal.json"
+    }
+  ],
   "current_runtime_frontier": null,
   "historical_proposals": [
     {
@@ -497,8 +512,8 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": null,
-  "current_checkpoint": 1300,
+  "current_application_frontier": "@omf_write_communal_size@8",
+  "current_checkpoint": 1301,
   "current_hold": null,
   "resolved_input_hold": {
     "field": "object_file->_bufsiz",

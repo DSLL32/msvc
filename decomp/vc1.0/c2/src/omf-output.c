@@ -31,6 +31,7 @@ void __fastcall omf_emit_local_external(SymbolHeader *symbol);
 void __fastcall omf_emit_comdat_external(SymbolHeader *symbol);
 unsigned __fastcall omf_local_name_index(char *name);
 void __fastcall omf_emit_communal(SymbolHeader *symbol);
+void __fastcall omf_write_communal_size(OmfRecord *record, int size);
 void __fastcall omf_emit_weak_external(FunctionSymbol *symbol);
 OmfFixup *omf_allocate_fixup(void);
 void __fastcall omf_add_fixup(SymbolHeader *symbol, unsigned char type, unsigned displacement, int relative);
@@ -1310,4 +1311,22 @@ void omf_write_module_end(void)
     ++record->count;
     *cursor++ = 0;
     record->cursor = cursor;
+}
+
+/* Original [0006ae90,0006aee5). COMDEF shares the external index domain.
+   Reload type after the name callbacks, and size after the index callback. */
+void __fastcall omf_emit_communal(SymbolHeader *symbol)
+{
+    OmfRecord *record = omf_begin_record(0xb0, NULL);
+    unsigned index = omf_next_external;
+    unsigned char *cursor;
+    symbol->field14 = index;
+    omf_next_external = index + 1;
+    omf_append_string(record, symbol_display_name(symbol));
+    omf_write_index(record, (short)((BackendSymbol *)symbol)->field20);
+    cursor = record->cursor;
+    ++record->count;
+    *cursor++ = 0x62;
+    record->cursor = cursor;
+    omf_write_communal_size(record, symbol->value);
 }

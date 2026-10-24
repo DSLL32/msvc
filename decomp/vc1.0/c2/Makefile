@@ -24,6 +24,7 @@ build/runtime.json: build/c2.exe scripts/identify-runtime.py scripts/binary.py s
 check replay: native-trace-check
 	$(PYTHON) scripts/check-artifacts.py
 	$(PYTHON) scripts/check-omf-artifacts.py
+	$(PYTHON) scripts/check-comdat-artifacts.py
 
 frontier: native-trace
 	$(PYTHON) scripts/check-native.py --profile minimal
@@ -82,6 +83,7 @@ audit: build/runtime.json runtime.json $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-omf-fixup-allocator.py --abi-only
 	$(PYTHON) scripts/check-output-noop-begin.py --abi-only
 	$(PYTHON) scripts/check-omf-local-external.py --abi-only
+	$(PYTHON) scripts/check-omf-communal.py --abi-only
 	$(PYTHON) scripts/check-omf-filename.py --abi-only
 	$(PYTHON) scripts/check-omf-fixup-writer.py --abi-only
 	$(PYTHON) scripts/check-omf-fixup-entry.py --abi-only
@@ -155,6 +157,7 @@ audit-negatives: $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-omf-fixup-allocator.py --abi-only
 	$(PYTHON) scripts/check-output-noop-begin.py --abi-only
 	$(PYTHON) scripts/check-omf-local-external.py --abi-only
+	$(PYTHON) scripts/check-omf-communal.py --abi-only
 	$(PYTHON) scripts/check-omf-filename.py --abi-only
 	$(PYTHON) scripts/check-omf-fixup-writer.py --abi-only
 	$(PYTHON) scripts/check-omf-fixup-entry.py --abi-only
@@ -202,6 +205,7 @@ audit-data: build/c2.exe native build/native/check-codeview-string build/native/
 	$(PYTHON) scripts/check-omf-fixup-allocator.py
 	$(PYTHON) scripts/check-output-noop-begin.py
 	$(PYTHON) scripts/check-omf-local-external.py
+	$(PYTHON) scripts/check-omf-communal.py
 	$(PYTHON) scripts/check-omf-filename.py
 	$(PYTHON) scripts/check-omf-fixup-writer.py
 	$(PYTHON) scripts/check-omf-fixup-entry.py

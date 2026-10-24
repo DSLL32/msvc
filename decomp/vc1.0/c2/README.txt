@@ -910,3 +910,15 @@ execution.005937s/check.001161s,15-case wrapper.848s. Full measured attempts,
 splits/oracle references/limits: cases/omf-completion-checkpoint.json. The earlier
 default-group divergence and true8-byte storage repair remain preserved, with
 no record-length/checksum compensation.
+
+Approved COMDAT/communal case captured with unchanged originalCL /O2 /Ob0 /Gy
+/G5 /Z7 source/options; exact original C2 transport plus supported standalone
+-omf yields1962B packets.obj, no normalization. Actual COMDAT/CEXTDEF/LINSYM/
+COMDEF/LIDATA counts3/3/3/1/2; CL itself did not emit -omf. At1301 the85B
+COMDEF writer has actual soleECX symbol/owned name/type4107/size68/counter1
+proof,192 full original/canonical controls and8 ABI negatives. Fresh original/
+native advance to named communal-size encoder6c600;15 completed cases and
+new16th expected frontier pass. Full ordinary audit26.912s, build2.892s,
+controls3.517s, fresh original1.654s/native.241s, native suite wrapper.872s.
+See cases/comdat-communal-checkpoint.json for complete capture/repeat timings
+and limits; exact completed object pending, no child semantic coverage claim.

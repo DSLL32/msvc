@@ -1,0 +1,12 @@
+enter @omf_emit_communal@4 eax 00000003 args 007b2ad8
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
+omf_external symbol 007b2ad8 bucket 26 index 0 member 007b2ad8 next_external 1
+omf_external_header_hex 01000009
+omf_external_identifier_hex 9a000000
+omf_external_attributes_hex a6010100
+omf_external_name_hex 5f7061636b65745f736d616c6c00
+omf_communal_value_hex 44000000
+omf_communal_type_hex 0b10
+entry_end
