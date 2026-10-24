@@ -109,7 +109,6 @@ void convert_local_data16(void) { __asm { int 3 } }
 
 void convert_global_data16(void) { __asm { int 3 } }
 
-void convert_local_data32(void) { __asm { int 3 } }
 
 
 

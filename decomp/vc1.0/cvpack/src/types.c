@@ -2192,3 +2192,15 @@ void convert_constant_symbol(void)
     *type = convert_new_type(*type);
     if (!symbol_scope_depth) intern_global(symbol_input, hash_public);
 }
+
+/* Original [000256b0,000256e5): local 32-bit data symbol type. */
+void convert_local_data32(void)
+{
+    unsigned short *type;
+    if (suppressed_symbol_depth) {
+        *(unsigned short *)(symbol_input+2) = 8;
+        if (suppressed_symbol_depth) return;
+    }
+    type = (unsigned short *)(symbol_input+10);
+    *type = convert_new_type(*type);
+}
