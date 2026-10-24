@@ -165,6 +165,8 @@ void recon_crt_bind_os_environment(const WCHAR *,size_t,const char *);
 #ifdef RECON_SHIM_IMPL
 void recon_crt_validate_spawn_profile(void);
 void recon_crt_validate_spawn_cp0_profile(void);
+/* Read-only inventory of the existing configured native clock sequence. */
+uint64_t recon_local_clock_call_count(void);
 #endif
 
 void recon_set_app_type(int);

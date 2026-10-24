@@ -939,3 +939,10 @@ x87 environment. Allocator configuration remains part of the explicit native
 fixture host profile: bind its exact libc/settings and verify actual target
 namespace exclusion and the complete case result. Unconfigured startup is
 unchanged.
+
+Native hosts built with RECON_SHIM_IMPL can read
+recon_local_clock_call_count(): the existing configured-clock sequence count
+starts at zero and advances at each configured _ftime call. Its existing resets
+on configuration change or leaving configured mode remain in _ftime. Fixtures
+bind the clock once and assert their own exact call inventory at the appropriate
+frontier/completion; the generic clock remains unconstrained.

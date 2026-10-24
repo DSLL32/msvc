@@ -516,3 +516,9 @@ build/startup-host-control-default: tests/startup-host-control-probe.c $(SOURCES
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 startup-host-control-check: build/startup-host-control-probe build/startup-host-control-default
 	$(PYTHON) tests/check-startup-host-control.py build/startup-host-control-probe build/startup-host-control-default
+
+.PHONY: local-clock-count-check
+build/local-clock-count-probe: tests/local-clock-count-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+local-clock-count-check: build/local-clock-count-probe
+	$(PYTHON) tests/check-local-clock-count.py build/local-clock-count-probe

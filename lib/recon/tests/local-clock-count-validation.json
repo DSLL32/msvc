@@ -1,0 +1,56 @@
+{
+  "scope": "Host-only read-only uint64 accessor over existing configured clock counter; no setter, limit, reset or clock/default behavior change.",
+  "host_api": "uint64_t recon_local_clock_call_count(void), declared only for RECON_SHIM_IMPL native hosts",
+  "proof": "/root/.ai-tmp/msvc2/recon-maintenance/local-clock-count/receipt.json",
+  "actual_packet": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/clock-implementation-review/manifest.json",
+    "sha256": "1aca8ae86288cf68f0ced4923ee003102b7f0440f6b88c7dee3522fd137b36dd"
+  },
+  "actual_packet_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/clock-implementation-parent-review.json",
+    "sha256": "6d9ca394c32b8b31b6980e6f600140fc38a5b87f20a1fc14301de916955a995d"
+  },
+  "probes": [
+    {
+      "name": "gcc-default",
+      "sha256": "24721ae2a43ba9b9b3e912370fdb9bfcc28391c58ba1166dd496f1c2cbd8149e",
+      "seconds": 1.4860380748286843,
+      "passed": true
+    },
+    {
+      "name": "gcc-510",
+      "sha256": "6e50921db10c4aa47808de2d274865b94bfc448255d5a41d87ea5e9cb93c94e6",
+      "seconds": 1.565484082326293,
+      "passed": true
+    },
+    {
+      "name": "clang-default",
+      "sha256": "a59db8e8ab540f2d263ee86dc43c0eb686e53146a6db6186d2189657bfcaf592",
+      "seconds": 1.6695974143221974,
+      "passed": true
+    },
+    {
+      "name": "clang-510",
+      "sha256": "8cc1a2b10daeab3ab805c454a62a64e28b56c2a1d6fd1d8a03377f2c7b3e0543",
+      "seconds": 1.688867655582726,
+      "passed": true
+    }
+  ],
+  "compatibility": [
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/local-clock-count/gcc-context",
+      "sha256": "3c30d1a8988aed8c3a27f9c707c91176c188d9fab7ae2694c51a3563387b14e3",
+      "passed": true
+    },
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/local-clock-count/clang-context",
+      "sha256": "0ec1c088cd059b4d305f90e8dc204ffa9d229462e3c434a36fcb6e3bdd22e14c",
+      "passed": true
+    }
+  ],
+  "limitations": "Counts the existing configured sequence only; no setter, call limit, reset or default change. CL host/GDB owns exactly1/2 actual inventory and fresh masked timer acceptance. Original Greenwich/nativePST labels are explicitly unmatched under reviewed unused-consumer scope; no timezone patch/seeding.",
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/local-clock-count/orchestrator-review.json",
+    "sha256": "b171e30d61085266b042ad03dd49baf3f6cf9e0e59d92cbbdbd69b11a8546fd5"
+  }
+}

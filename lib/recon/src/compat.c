@@ -204,6 +204,9 @@ unsigned recon_controlfp(unsigned value, unsigned mask)
 static char *local_clock_configuration;
 static uint64_t local_clock_calls;
 
+uint64_t recon_local_clock_call_count(void)
+{ return local_clock_calls; }
+
 static unsigned clock_field(const char **cursor, int separator)
 {
     const char *start = *cursor;
