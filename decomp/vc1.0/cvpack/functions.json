@@ -7918,13 +7918,16 @@
       "native": "close_mapped_file",
       "symbol": "_close_mapped_file",
       "original": 175200,
-      "source": "src/stubs.c",
+      "source": "src/files.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        175200,
+        175323
+      ],
       "abi": "int close_mapped_file(FileSlot *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/embedded-cpp-mapped/evidence/0166-close_mapped_file/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -9175,6 +9178,12 @@
       "case": "embedded-cpp-mapped",
       "kind": "application",
       "sequence": 165
+    },
+    {
+      "function": "close_mapped_file",
+      "case": "embedded-cpp-mapped",
+      "kind": "application",
+      "sequence": 166
     }
   ],
   "support_unmasked": [
@@ -9875,7 +9884,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "ad8f11e533fce3112a68bef7475473e8a12d61291d02c076f518c8f63538cfa9"
+    "evidence_sha256": "a2c95f0d342718e50efa22759edc99115315701eea946d1da8fcb2e0aa8a12eb"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -9899,7 +9908,7 @@
   },
   "partial_read_observations": {
     "evidence": "cases/abi/partial-public-read.json",
-    "evidence_sha256": "39d2bf18e08c9433011e8a3580ad4490874234f7c5e8cbe253d7ce3f3f373ed7"
+    "evidence_sha256": "73b614cc9b0bffc4e878983800418a08a9fef48259fb8497cbda9d445f36b782"
   },
   "module_buffer_publication": {
     "evidence": "cases/abi/module-buffer-publication.json",
@@ -9951,7 +9960,7 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "7bee7b639e1166261b3e352a036b89985aa67ef5d27435b013ddc31be84bfa11"
+    "sha256": "88b7a11de5179a0c32d7d3e42641cbb0c51ea506abd7edca33faeeeadb214563"
   },
   "freebuf_boundary": {
     "case": "hello-debug-dll",

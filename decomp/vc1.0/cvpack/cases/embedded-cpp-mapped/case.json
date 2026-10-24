@@ -16,9 +16,17 @@
     }
   ],
   "current": {
-    "terminal": "trap",
-    "logical": "close_mapped_file",
-    "native_function": "close_mapped_file",
+    "terminal": "exit",
+    "exit": 0,
+    "artifacts": [
+      {
+        "name": "embedded-cpp.dll",
+        "bytes": 2097152,
+        "sha256": "f2eb22dde08839863cc7262d11d0735cbbfa35db947ee46c533e0fd4aca77c60"
+      }
+    ],
+    "stdout": "reference/stdout",
+    "stderr": "reference/stderr",
     "application_trace": [
       "main",
       "parse_options",
@@ -155,23 +163,11 @@
       "close_file",
       "close_mapped_file"
     ],
-    "stdout": "frontier.stdout",
-    "stderr": "frontier.stderr",
     "proof_mode": "entry-flow",
-    "observed_globals": [
-      "suppressed_symbol_depth",
-      "symbol_scope_depth"
-    ],
-    "observed_walks": [],
-    "artifacts": [
-      {
-        "name": "embedded-cpp.dll",
-        "bytes": 2097152,
-        "sha256": "f2eb22dde08839863cc7262d11d0735cbbfa35db947ee46c533e0fd4aca77c60"
-      }
-    ]
+    "observed_globals": [],
+    "observed_walks": []
   },
-  "status": "active",
+  "status": "complete",
   "complete_reference": {
     "terminal": "exit",
     "exit": 0,
@@ -193,5 +189,6 @@
   "native_host_allocator": {
     "profile": "cases/embedded-cpp-mapped/native-host-allocator/profile.json",
     "sha256": "972c09dd9881ee687c82e32b5bd3689cb9ed48c9cdc116dcd0c08728b6cf710b"
-  }
+  },
+  "completion": "cases/embedded-cpp-mapped/evidence/0166-close_mapped_file/proof.json"
 }

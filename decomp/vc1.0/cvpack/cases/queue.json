@@ -27,7 +27,8 @@
         "/mapio",
         "embedded-cpp.dll"
       ],
-      "status": "active"
+      "status": "complete",
+      "completion": "cases/embedded-cpp-mapped/evidence/0166-close_mapped_file/proof.json"
     }
   ]
 }

@@ -638,3 +638,24 @@ int truncate_mapped_file(FileSlot *slot, long size)
     slot->length = size;
     return truncated < 1 ? -1 : 1;
 }
+
+/* Original [0002ac60,0002acdb): close the file, leaving the mapping handle. */
+int close_mapped_file(FileSlot *slot)
+{
+    int result;
+    mapping_unmap(slot->contents.view);
+    if (slot->flags & 2) {
+        SetFilePointer(slot->source.handle, slot->length, NULL, FILE_BEGIN);
+        SetEndOfFile(slot->source.handle);
+    }
+    result = CloseHandle(slot->source.handle);
+    slot->source.handle = NULL;
+    slot->storage.mapping = NULL;
+    slot->contents.view = NULL;
+    slot->cursor.position = 0;
+    slot->allocated = 0;
+    slot->flags = 0;
+    free(slot->name);
+    slot->name = NULL;
+    return result;
+}
