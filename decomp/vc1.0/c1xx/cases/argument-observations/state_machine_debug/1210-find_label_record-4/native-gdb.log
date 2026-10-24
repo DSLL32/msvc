@@ -1,0 +1,15 @@
+Breakpoint 1 at 0x2a8c5: file src/record-processing.c, line 502.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, find_label_record (label=0x566558c0) at src/record-processing.c:502
+502	    LabelFrontendRecord *record = (LabelFrontendRecord *)ir_label_records;
+#0  find_label_record (label=0x566558c0) at src/record-processing.c:502
+#1  0x5657fde2 in finish_goto_cleanups () at src/record-processing.c:348
+#2  0x5657fad0 in finish_function_records () at src/record-processing.c:287
+#3  0x565adb6f in leave_compound_scope () at src/statement-scopes.c:130
+#4  0x565ad6f6 in end_compound_statement () at src/statement-scopes.c:115
+#5  0x565bd2b5 in parse_translation_unit () at src/parser-statement-actions.inc:14
+#6  0x5655df2f in compile_translation_unit () at src/frontend.c:73
+#7  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#8  0x56558894 in main (argc=1, argv=0xffffd7b4, environment=0xffffd7bc) at src/c1xx.c:20

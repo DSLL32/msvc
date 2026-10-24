@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "function": "_find_label_record@4",
+  "native_entry": "find_label_record",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_label": "(unsigned)label"
+  },
+  "formals": [
+    {
+      "name": "label",
+      "stack_index": 0,
+      "native_field": "raw_label",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 204753,
+        "original_owner_function": "_finish_goto_cleanups",
+        "native_owner_function": "finish_goto_cleanups",
+        "native_owner_field": "caller_label",
+        "native_owner_local": "jump",
+        "native_owner_fields": [
+          "label"
+        ],
+        "identity": "Accepted finish_goto_cleanups iteratesrealGotoFrontendRecord*jump inESI; MOV EAX,[ESI+16]41fc8/PUSH EAX41fcb/CALL41fcc/return41fd1. Native actual immediatecaller jump.label field owns same logical target symbol."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "eax",
+  "ownership_caller_extent": [
+    270256,
+    270289
+  ],
+  "native_caller_locals": {
+    "caller_label": {
+      "frame": 1,
+      "function": "finish_goto_cleanups",
+      "local": "jump",
+      "fields": [
+        "label"
+      ]
+    }
+  },
+  "abi_analysis": {
+    "original_extent": [
+      270368,
+      270399
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 FrontendRecord* returnEAX",
+    "proof": "Whole31B noframe/savedregs; labelentryESP+4loadedonlywhenglobalchainnonNULL; RET4. No incomingGPR/x87/CPUflagsformal. Existingir_label_records0xa0a28 startschain; compareactualpointerlabelpayload+16 andadvancenext_label+20 untilmatchorNULL. Established24BLabelFrontendRecord offsets/asserts, no inventednamestringcompare/extraallocation/recordpreviouswalk. Actualargumentfromfreshcallerjump.label EAX/nativeactualfield. No newdata/CRTbody."
+  }
+}

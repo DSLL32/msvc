@@ -494,3 +494,13 @@ FrontendRecord *__stdcall skip_previous_declaration_records(FrontendRecord *from
         from = from->previous;
     return from;
 }
+
+/* Original 0x42020..0x4203e, stdcall4. Labels have a separate
+   definition chain, independent of their neighboring statement records. */
+FrontendRecord *__stdcall find_label_record(CppSymbol *label)
+{
+    LabelFrontendRecord *record = (LabelFrontendRecord *)ir_label_records;
+    while (record && record->label != label)
+        record = record->next_label;
+    return (FrontendRecord *)record;
+}

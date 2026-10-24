@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_find_label_record@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1210,
+  "configuration_sha256": "ef607753d8757596b069b0b11863c30ae17a10aa0553240e811b46abc58dd2c2",
+  "native_entry": "find_label_record",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "label",
+      "stack_index": 0,
+      "native_field": "raw_label",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 204753,
+        "original_owner_function": "_finish_goto_cleanups",
+        "native_owner_function": "finish_goto_cleanups",
+        "native_owner_field": "caller_label",
+        "native_owner_local": "jump",
+        "native_owner_fields": [
+          "label"
+        ],
+        "identity": "Accepted finish_goto_cleanups iteratesrealGotoFrontendRecord*jump inESI; MOV EAX,[ESI+16]41fc8/PUSH EAX41fcb/CALL41fcc/return41fd1. Native actual immediatecaller jump.label field owns same logical target symbol.",
+        "original_owner_value": 8453720,
+        "native_owner_value": 1449482432
+      },
+      "original_raw": 8453720,
+      "native_raw": 1449482432,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      270368,
+      270399
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 FrontendRecord* returnEAX",
+    "proof": "Whole31B noframe/savedregs; labelentryESP+4loadedonlywhenglobalchainnonNULL; RET4. No incomingGPR/x87/CPUflagsformal. Existingir_label_records0xa0a28 startschain; compareactualpointerlabelpayload+16 andadvancenext_label+20 untilmatchorNULL. Established24BLabelFrontendRecord offsets/asserts, no inventednamestringcompare/extraallocation/recordpreviouswalk. Actualargumentfromfreshcallerjump.label EAX/nativeactualfield. No newdata/CRTbody.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "8e6fcc3f924239ae26c861728a8ebaaa1f53558c12c4444d322080c6e2f156b9",
+  "capture_timing": {
+    "original_capture_seconds": 0.8664317475631833,
+    "native_capture_seconds": 0.17492360156029463,
+    "total_operation_seconds": 1.2992901634424925
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "e57ad3af0b3ea248d3a9ace09b19fa13fe4b572e2a4a78606727d2b9011a2246",
+    "native-commands.gdb": "db099e9bd1a837cf902435be59378a3f015383e0ea93639898320bcb9415e0a4",
+    "native-gdb.log": "396311ed83353133c9d9829bdc98f57155b40ab2eb253708851fd13996e7315a",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "ac5e412cfe35f234140b6ee8eb237bfe090079fb161e44c05a647f0d61f020de",
+    "original-configuration.json": "ef607753d8757596b069b0b11863c30ae17a10aa0553240e811b46abc58dd2c2",
+    "original-disassembly.txt": "727d0c9dc2277429594f66b28b1dd414081e602f740940e004d55e6fb8659f9b",
+    "original-entries.plan": "2cfba88027392e2ebe7d98634ad98ed1db241bbe8c4e4d534819aa004f08462c",
+    "original-events.txt": "d10c2a9aaef3e586d320e365287fa841d8bed10c11990e6cefb9be2eae6fcab6",
+    "original-ownership-caller-disassembly.txt": "7a2c8532098459b6bde553ee3c01a88c7e0646e79067245eada91e63c6ebafb1",
+    "original-receipt.json": "60049d8586684a831c1d98ba09789a717a4c2351f313411439e7a86e4213923d",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "98918cd63e6b496a71ce94d499ffdcbd356de0a05f07e1aa8e3b46c5c3992cf2"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}
