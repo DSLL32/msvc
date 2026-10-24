@@ -222,6 +222,7 @@ void __cdecl initialize_default_pools(void);
 unsigned __cdecl arena_reservation_bytes(CompilerArenaDescriptor *);
 extern CompilerArenaDescriptor c1_arena_descriptors[6];
 void __cdecl parse_command_line(int, char **);
+void __cdecl initialize_include_aliases(void);
 int __cdecl compile_translation_unit(void);
 #ifdef __cplusplus
 }

@@ -1,0 +1,64 @@
+{
+  "kind": "sole53B include-alias root initializer; minimal compilation incomplete",
+  "promotion": true,
+  "application_candidate": {
+    "name": "_initialize_include_aliases",
+    "chunks": [
+      [
+        77302,
+        77340
+      ],
+      [
+        198577,
+        198592
+      ]
+    ],
+    "code_bytes": 53
+  },
+  "frontier": {
+    "name": "initialize_checksums",
+    "rva": 77340,
+    "formals": [],
+    "caller": "parse_command_line",
+    "original_return_rva": 76646
+  },
+  "contract": "arena0 cursor advances4 and publishes old cursor; existing zero head preserved without clear; node layout UNMODELED; cold commit unvisited",
+  "capture_inputs": {
+    "original": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-include-alias-002",
+      "receipt_sha256": "09f6f42b35fc4f43df1adbc60dfd6088196eb321d43a84c956fa837687ce1fc8"
+    },
+    "native": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-include-alias-002",
+      "receipt_sha256": "7598c27c15c38f93efbd637d08844ec0a2447a738141992a070404144884871d"
+    }
+  },
+  "fresh_controls": {
+    "alias": 31,
+    "core_protocol": 18
+  },
+  "reused_controls": [
+    {
+      "path": "cases/minimal/evidence/command-line-clear-aux/option-controls.json",
+      "sha256": "1c3e72808f288ff89cd243bf290006ac96f945450e6624db440f40008c1ca7eb",
+      "rerun": false,
+      "reason": "Unchanged prior parser grammar/default/reset negative premise; fresh pair revalidates positive prefix."
+    },
+    {
+      "path": "cases/minimal/evidence/command-line-clear-aux/graph-controls.json",
+      "sha256": "652a3b8c467d9aa6af92da15c971b15f6a7d2852860aa9067f53313a27535b9f",
+      "rerun": false,
+      "reason": "Unchanged prior parser grammar/default/reset negative premise; fresh pair revalidates positive prefix."
+    }
+  ],
+  "checker_hashes": {
+    "scripts/command_line_state.py": "f00de70e2808047aeff55975cee3d79671aa01d14b85ac03e6dbb9214959ecd4",
+    "scripts/alias_init_probe.py": "2ae8db207438b3924a40ca5a038e8d9d60ce9538e99cef36e0842209e00a7c66",
+    "scripts/compiler_state.py": "ae3668487d294a79c37feb713b7c8ca5c1d10f5e8a097afcf3034a970478f975",
+    "scripts/check-alias-init-negative.py": "3fbcec03e986c8a02bd5352cdc3cb04cf6e936328097a63186def80190439755",
+    "scripts/check-trial.py": "2e68ea0a73e83131285fd29705a60f45c75d737f6aa689d90e8c80cef87ba432",
+    "scripts/check-trial-negative.py": "a50aa7c08daccaba8b97f0ef115bc0ed72a3e75cdd74d3f1b9874c9698f86c0f"
+  },
+  "known_initialized_bytes": 1836,
+  "unmodeled_initialized_bytes": 4712
+}

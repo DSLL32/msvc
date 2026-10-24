@@ -28,5 +28,5 @@
     "minimalin",
     "minimalsy"
   ],
-  "status": "67 application +2 historic CRT source functions accepted; complete command-line parser reaches include-alias initializer12df6; minimal compilation incomplete"
+  "status": "68 application +2 historic CRT source functions accepted; include-alias root initializer reaches initialize_checksums12e1c; minimal compilation incomplete"
 }

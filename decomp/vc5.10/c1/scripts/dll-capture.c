@@ -70,6 +70,8 @@ static int scaler_probe;
 static DWORD arena_allocation_esp, arena_allocation_error;
 static Range pool_observers[14];
 static int pool_cycle_probe;
+static int include_alias_probe;
+static int hfile_offset_probe;
 static DWORD pool_commit_address, pool_commit_bytes, pool_commit_esp, pool_commit_error;
 static DWORD system_before_esp, system_before_error;
 
@@ -112,24 +114,101 @@ static void remote_string(DWORD address, char *text, DWORD capacity)
     fail("long module name");
 }
 
+/* Keep the actual debug-event HANDLE. Duplicating it would retain its shared
+ * file position; reopening a pathname would lose loaded-file identity. */
+static BOOL read_file_at(HANDLE file, DWORD offset, void *buffer, DWORD bytes,
+                         DWORD *received, DWORD *error)
+{
+    OVERLAPPED position;
+    BOOL status;
+    memset(&position, 0, sizeof(position));
+    position.Offset = offset;
+    *received = 0;
+    status = ReadFile(file, buffer, bytes, received, &position);
+    *error = GetLastError();
+    return status;
+}
+
+/* Owned original-only transport probe, before target code can run. It forces
+ * the SAME actual debug HANDLE's current position to disagree with each
+ * request and records real completion, byte counts, EOF and pointer effects. */
+static void probe_hfile_offsets(HANDLE loaded, const char *reference)
+{
+    HANDLE expected;
+    BYTE actual[32], wanted[32];
+    DWORD size, offsets[5], i, wrong, before, after, a, b, error;
+    BOOL status;
+    expected = CreateFileA(reference, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+    if (expected == INVALID_HANDLE_VALUE) fail("probe expected handle");
+    size = GetFileSize(loaded, NULL);
+    if (size == 0xffffffffUL || size < 65568) fail("probe actual file size");
+    SetFilePointer(loaded, 8192, NULL, FILE_BEGIN);
+    if (!ReadFile(loaded, actual, 32, &a, NULL) || a != 32 ||
+        !ReadFile(expected, wanted, 32, &b, NULL) || b != 32) fail("probe implicit read");
+    fprintf(events, "hfile-implicit actual-offset=00002000 requested-reference=00000000 bytes=%lu matches=%d\n",
+            a, !memcmp(actual, wanted, 32));
+    if (!memcmp(actual, wanted, 32)) fail("probe implicit control was not discriminating");
+    offsets[0] = 0; offsets[1] = 8192; offsets[2] = 65536;
+    offsets[3] = size - 13; offsets[4] = size;
+    for (i = 0; i < 5; ++i) {
+        wrong = offsets[i] ? 0 : 8192;
+        if (SetFilePointer(loaded, wrong, NULL, FILE_BEGIN) != wrong ||
+            SetFilePointer(expected, offsets[i], NULL, FILE_BEGIN) != offsets[i]) fail("probe seek");
+        before = SetFilePointer(loaded, 0, NULL, FILE_CURRENT);
+        SetLastError(0x6abc);
+        status = read_file_at(loaded, offsets[i], actual, 32, &a, &error);
+        after = SetFilePointer(loaded, 0, NULL, FILE_CURRENT);
+        if (!ReadFile(expected, wanted, 32, &b, NULL) || a > 32) fail("probe expected bytes");
+        fprintf(events, "hfile-explicit index=%lu offset=%08lx before=%08lx after=%08lx requested=32 status=%d error=%lu bytes=%lu matches=%d\n",
+                i, offsets[i], before, after, status, error, a,
+                a == b && (!a || !memcmp(actual, wanted, a)));
+        if ((!status && (error != ERROR_HANDLE_EOF || a)) || a != b ||
+            (a && memcmp(actual, wanted, a))) fail("probe explicit actual bytes");
+        {
+            FILE *raw;
+            char name[64];
+            sprintf(name, "hfile-sample-%lu.bin", i);
+            raw = fopen(name, "wb");
+            if (!raw || fwrite(actual, 1, a, raw) != a) fail("probe record bytes");
+            fclose(raw);
+        }
+    }
+    CloseHandle(expected);
+}
+
 static int same_file(HANDLE loaded, const char *reference, const char *output)
 {
     HANDLE expected, saved;
     BYTE actual[8192], wanted[8192];
-    DWORD a, b, wrote;
+    DWORD a, b, wrote, offset = 0, error, bytes, size, expected_size, high;
     int same = 1;
     expected = CreateFileA(reference, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
     if (expected == INVALID_HANDLE_VALUE) fail("open expected file");
+    size = GetFileSize(loaded, &high);
+    if (high || !size || size == 0xffffffffUL) fail("actual identity size");
+    expected_size = GetFileSize(expected, &high);
+    if (high || expected_size == 0xffffffffUL) fail("expected identity size");
+    if (size != expected_size) same = 0;
     saved = CreateFileA(output, GENERIC_WRITE, 0, NULL, CREATE_NEW, 0, NULL);
     if (saved == INVALID_HANDLE_VALUE) fail("save loaded file");
-    if (SetFilePointer(loaded, 0, NULL, FILE_BEGIN) == 0xffffffffUL) fail("rewind loaded file");
-    do {
-        if (!ReadFile(loaded, actual, sizeof(actual), &a, NULL) ||
-            !ReadFile(expected, wanted, sizeof(wanted), &b, NULL)) fail("read file identity");
-        if (a != b || (a && memcmp(actual, wanted, a))) same = 0;
+    while (offset < size) {
+        bytes = size - offset;
+        if (bytes > sizeof(actual)) bytes = sizeof(actual);
+        if (!read_file_at(loaded, offset, actual, bytes, &a, &error) || a != bytes)
+            fail("read actual file identity");
+        if (!ReadFile(expected, wanted, bytes, &b, NULL)) fail("read expected identity");
+        if (a != b) same = 0;
+        else if (a && memcmp(actual, wanted, a)) same = 0;
         if (!WriteFile(saved, actual, a, &wrote, NULL) || wrote != a) fail("save identity");
-    } while (a || b);
+        if (offset > 0xffffffffUL - a) fail("file identity offset overflow");
+        offset += a;
+    }
+    if (offset != size || GetFileSize(loaded, &high) != size || high)
+        fail("actual identity length changed");
+    if (GetFileSize(expected, &high) != expected_size || high)
+        fail("expected identity length changed");
     CloseHandle(saved); CloseHandle(expected);
+    fprintf(events, "file-identity output=%s actual-bytes=%lu explicit-offset=1 equal=%d\n", output, offset, same);
     return same;
 }
 
@@ -158,7 +237,12 @@ static void module_loaded(DWORD address, HANDLE file)
         crt_base = address;
     }
     if (!_stricmp(name, "kernel32.dll")) {
+        if (hfile_offset_probe) probe_hfile_offsets(file, "C:\\windows\\system32\\kernel32.dll");
         if (!file || !same_file(file, "C:\\windows\\system32\\kernel32.dll", "loaded-kernel32.bin")) fail("KERNEL32 loaded file identity");
+        if (hfile_offset_probe) {
+            fprintf(events, "hfile-probe-complete target-loaded=%d explicit-offset-identity=1\n", target_seen);
+            fflush(events); TerminateProcess(child, 125); ExitProcess(125);
+        }
     }
     if (!_stricmp(name, "kernelbase.dll")) {
         if (!file || !same_file(file, "C:\\windows\\system32\\kernelbase.dll", "loaded-kernelbase.bin")) fail("KernelBase loaded file identity");
@@ -331,6 +415,16 @@ static void prepare_mask(void)
             }
             if (fscanf(probe, "%lx", &rva) != EOF) fail("extra pool observer metadata");
             fclose(probe); pool_cycle_probe = 1;
+        }
+    }
+    {
+        FILE *probe = fopen("include-alias-observers.txt", "r");
+        DWORD entry, frontier, pointer, bytes;
+        if (probe) {
+            if (fscanf(probe, "%lx %lx %lx %lx", &entry, &frontier, &pointer, &bytes) != 4 ||
+                entry != 0x12df6 || frontier != 0x12e1c || pointer != 0x5e414 || bytes != 4)
+                fail("include alias observer metadata");
+            fclose(probe); include_alias_probe = 1;
         }
     }
     save_remote_state("compiler-callbacks", 0, base + 0x69000, 34 * 4);
@@ -871,6 +965,19 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
         if (!address || bytes != 0x10000) fail("final pool committed extent");
         save_remote_state("pool-final-committed", 0, address, bytes);
     }
+    if (include_alias_probe && address == base + 0x12e1c) {
+        DWORD allocation, bytes, root, head;
+        readmem(base + 0x58fb8, &allocation, 4);
+        readmem(base + 0x58fbc, &bytes, 4);
+        readmem(base + 0x5e414, &root, 4);
+        if (!allocation || bytes != 0x10000 || root < allocation ||
+            root - allocation > bytes - 4) fail("include alias root ownership");
+        readmem(root, &head, 4);
+        save_remote_state("include-alias-root", 0, root, 4);
+        save_remote_state("include-alias-committed", 0, allocation, bytes);
+        fprintf(events, "include-aliases seq=%u root=%08lx head=%08lx allocation=%08lx bytes=%08lx\n",
+                sequence, root, head, allocation, bytes);
+    }
     save_state();
     if (address == base + 0x126fc) {
         unsigned i;
@@ -1034,6 +1141,10 @@ int main(int argc, char **argv)
     if (argc == 3 && !strcmp(argv[1], "--host")) return host(argv[2], 0);
     if (argc == 3 && !strcmp(argv[1], "--host-minimal")) return host(argv[2], 1);
     if ((argc != 6 && argc != 7) || strcmp(argv[1], "--debug")) return 2;
+    {
+        FILE *probe = fopen("hfile-offset-probe.txt", "r");
+        if (probe) { fclose(probe); hfile_offset_probe = 1; }
+    }
     if (argc == 7 && strcmp(argv[6], "minimal") && strcmp(argv[6], "minimal-restore")) return 2;
     restore_probe = argc == 7 && !strcmp(argv[6], "minimal-restore");
     if (restore_probe) {

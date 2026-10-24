@@ -4888,7 +4888,7 @@
         23897
       ]
     ],
-    "hard_frontier_rva": 77302,
+    "hard_frontier_rva": 77340,
     "policy": "reviewed specific internal transfer; tail remains UNMODELED and cannot be semantically consumed before a named trap"
   },
   "pdb_signature": {
@@ -5376,7 +5376,7 @@
     "initialized_offset": 64,
     "bss_offset": 996,
     "persistent_current_pdb_rva": 376936,
-    "unknown_semantic_consumer_frontier": 77302,
+    "unknown_semantic_consumer_frontier": 77340,
     "option_rule_rva": 404344,
     "option_rule_count": 85,
     "z_rule_rva": 404200,
@@ -5384,5 +5384,14 @@
     "rule_stride": 12,
     "warning_defaults_rva": 405904,
     "warning_default_count": 11
+  },
+  "include_aliases": {
+    "original_pointer_rva": 386068,
+    "native_field": "c1_data.options.include_aliases",
+    "root_bytes": 4,
+    "head_offset": 0,
+    "allocation": "current arena0 cursor, four already committed/defined bytes",
+    "contents": "Existing zero head preserved; helper does not initialize memory",
+    "unknown_node_layout": true
   }
 }

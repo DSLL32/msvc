@@ -496,6 +496,16 @@
       "start_rva": 197931,
       "end_rva": 198577,
       "entry": 0
+    },
+    {
+      "start_rva": 77302,
+      "end_rva": 77340,
+      "entry": 1
+    },
+    {
+      "start_rva": 198577,
+      "end_rva": 198592,
+      "entry": 0
     }
   ],
   "functions": [
@@ -1509,6 +1519,23 @@
         ]
       ],
       "source": "src/command-line.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_include_aliases",
+      "native_symbol": "initialize_include_aliases",
+      "role": "application",
+      "chunks": [
+        [
+          77302,
+          77340
+        ],
+        [
+          198577,
+          198592
+        ]
+      ],
+      "source": "src/arenas.cpp",
       "status": "candidate"
     }
   ],
@@ -1531,14 +1558,14 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 77302,
-    "native_symbol": "initialize_include_aliases",
+    "rva": 77340,
+    "native_symbol": "initialize_checksums",
     "kind": "command-line-helper",
     "calling_convention": "cdecl",
     "native_args": [],
     "caller": {
       "native_symbol": "parse_command_line",
-      "return_rva": 76641
+      "return_rva": 76646
     }
   },
   "imports": [
@@ -1823,7 +1850,7 @@
       "scope": "owned snapshot interior sentinels and labeled nonzero ints before BSS clear; never dereferenced"
     }
   },
-  "staging_role": "sole1331B command-line parser to genuine include-alias initializer trap; full contextual option destinations/defaults and snapshot/reset projection; locale/MSPDB calls remain unvisited",
+  "staging_role": "sole53B include-alias arena allocation/global publication; full existing committed prefix remains unchanged; next checksum initializer named trap",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -1977,5 +2004,13 @@
     "entry_rva": 76617,
     "first_helper_rva": 77302,
     "first_return_rva": 76641
+  },
+  "include_alias_observers": {
+    "entry_rva": 77302,
+    "frontier_rva": 77340,
+    "original_pointer_rva": 386068,
+    "root_bytes": 4,
+    "cursor_increment": 4,
+    "zero_origin": "earlier actual64KiB MEM_COMMIT; no new clear or data source"
   }
 }

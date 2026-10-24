@@ -13,7 +13,7 @@ def expected_fields(fields):
  model=fields['command_line']
  assert model==dict(initialized_known_bytes=INITIALIZED_SIZE,initialized_unknown_bytes=6548-INITIALIZED_SIZE,
   native_initialized_size=INITIALIZED_SIZE,native_bss_size=BSS_SIZE,initialized_offset=64,bss_offset=996,
-  persistent_current_pdb_rva=0x5c068,unknown_semantic_consumer_frontier=0x12df6,
+  persistent_current_pdb_rva=0x5c068,unknown_semantic_consumer_frontier=fields['value_copy']['hard_frontier_rva'],
   option_rule_rva=0x62b78,option_rule_count=85,z_rule_rva=0x62ae8,z_rule_count=12,
   rule_stride=12,warning_defaults_rva=0x63190,warning_default_count=11)
  for key,rows in [('modeled_initialized',DATA),('modeled_bss',BSS)]:
@@ -58,6 +58,7 @@ def validate_tables(original,current,module):
 
 def validate_projection(original,native,fields,state,sequence,module,candidate,probe):
  expected_fields(fields)
+ assert fields['command_line']['unknown_semantic_consumer_frontier']==candidate.get('projection_actual_frontier',candidate['expected_frontier']['rva'])
  current=state['compiler_state']['option_state'];strings=current['default_strings']
  assert current['layout']==dict(initialized=DATA_OFFSETS,bss=BSS_OFFSETS,initialized_size=INITIALIZED_SIZE,bss_size=BSS_SIZE)
  bases=state['compiler_state']['live_addresses']
@@ -136,6 +137,50 @@ def validate_parser(original,native,entry,state,entry_sequence,sequence,module,c
   assert(original/('%s-%03d.bin'%(region,entry_sequence))).read_bytes()==(original/('%s-%03d.bin'%(region,sequence))).read_bytes()
  from scaler_state import semantic,original_fp
  assert semantic(entry['fp'])==semantic(state['command_line_fp'])==semantic(original_fp(original,entry_sequence))==semantic(original_fp(original,sequence))
+ for key,value in entry['crt_state'].items():assert state[key]==value
+
+def validate_alias_initializer(original,native,fields,parser_entry,state,parser_sequence,sequence,module,candidate):
+ expected=candidate['expected_frontier']
+ assert expected==dict(rva=0x12e1c,native_symbol='initialize_checksums',kind='command-line-helper',calling_convention='cdecl',native_args=[],caller=dict(native_symbol='parse_command_line',return_rva=0x12b66))
+ assert fields['include_aliases']==dict(original_pointer_rva=0x5e414,native_field='c1_data.options.include_aliases',root_bytes=4,head_offset=0,allocation='current arena0 cursor, four already committed/defined bytes',contents='Existing zero head preserved; helper does not initialize memory',unknown_node_layout=True)
+ assert(original/'include-alias-observers.txt').read_text()=='12df6 12e1c 5e414 4\n'
+ events=(original/'events.txt').read_text();rows=re.findall(r'^trap seq=(\d+) rva=00012df6 esp=([0-9a-f]+).*stack=([0-9a-f,]+)$',events,re.M);assert len(rows)==1
+ at=int(rows[0][0]);assert parser_sequence<at<sequence
+ entries=json.loads((native/'alias-initializer-entries.json').read_text());assert len(entries)==1
+ entry=copy.deepcopy(entries[0]);entry.update(entry['crt_state']);entry['command_line_fp']=entry['fp']
+ assert entry['pc']==symbols(captured_native_binary(native))['initialize_include_aliases'][0] and entry['boundary_rva']==0x12df6
+ assert entry['return']==entry['caller']['pc']
+ earlier=copy.deepcopy(candidate);earlier['expected_frontier']=dict(rva=0x12df6,native_symbol='initialize_include_aliases',kind='command-line-helper',calling_convention='cdecl',native_args=[],caller=dict(native_symbol='parse_command_line',return_rva=0x12b61))
+ validate_parser(original,native,parser_entry,entry,parser_sequence,at,module,earlier)
+ before=entry['compiler_state'];arena=before['bss']['arenas'][0];root=arena['cursor'];assert root==arena['base']+9*4096 and root+4<=arena['committed_limit']==arena['base']+0x10000
+ wanted=copy.deepcopy(before);wanted['bss']['arenas'][0]['cursor']=root+4;wanted['option_state']['initialized']['include_aliases']=root
+ assert state['compiler_state']==wanted and state['alias_root']==dict(address=root,head=0,size=4)
+ assert state['args']=={} and state['formal_inventory']==[] and state['caller']['symbol']=='parse_command_line'and state['caller']['args']==parser_entry['args']
+ binary=captured_native_binary(native);call(binary,state['caller']['pc'],symbols(binary)['initialize_checksums'][0])
+ final=re.findall(r'^trap seq=%d rva=00012e1c esp=([0-9a-f]+).*stack=([0-9a-f,]+)$'%sequence,events,re.M);assert len(final)==1
+ assert int(final[0][0],16)==int(rows[0][1],16) and int(final[0][1].split(',')[0],16)==module+0x12b66
+ assert state['alias_esp']==entry['esp']
+ physical=state['alias_checksum_entry']
+ assert physical==dict(pc=symbols(binary)['initialize_checksums'][0],symbol='initialize_checksums',esp=state['alias_esp'],formal_inventory=[],preserved=state['alias_preserved'])
+ def preserved(seq):
+  result=re.findall(r'^pool-registers seq=%d ebx=([0-9a-f]+) esi=([0-9a-f]+) edi=([0-9a-f]+) ebp=([0-9a-f]+)$'%seq,events,re.M);assert len(result)==1;return result[0]
+ assert preserved(at)==preserved(sequence) and state['alias_preserved']==entry['preserved']
+ old_bss=bytearray((original/('compiler-bss-%03d.bin'%at)).read_bytes());old_root=struct.unpack_from('<I',old_bss,0x8fb0)[0]
+ struct.pack_into('<I',old_bss,0x8fb0,old_root+4);assert(original/('compiler-bss-%03d.bin'%sequence)).read_bytes()==bytes(old_bss)
+ old_data=bytearray((original/('compiler-data-%03d.bin'%at)).read_bytes());assert struct.unpack_from('<I',old_data,0x414)[0]==0
+ struct.pack_into('<I',old_data,0x414,old_root);assert(original/('compiler-data-%03d.bin'%sequence)).read_bytes()==bytes(old_data)
+ for region in ('compiler-snapshot','state'):assert(original/('%s-%03d.bin'%(region,at))).read_bytes()==(original/('%s-%03d.bin'%(region,sequence))).read_bytes()
+ recorded=re.findall(r'^include-aliases seq=%d root=([0-9a-f]+) head=([0-9a-f]+) allocation=([0-9a-f]+) bytes=([0-9a-f]+)$'%sequence,events,re.M);assert len(recorded)==1
+ old_base=struct.unpack_from('<I',old_bss,0x8fb8)[0]
+ assert [int(value,16)for value in recorded[0]]==[old_root,0,old_base,0x10000] and old_root==old_base+9*4096
+ for side in (original,native):
+  assert(side/'include-alias-root-000.bin').read_bytes()==bytes(4)
+  assert(side/'include-alias-committed-000.bin').read_bytes()==(side/'pool-final-committed-000.bin').read_bytes()==bytes(0x10000)
+ raw=(original/'relocated-text.bin').read_bytes()
+ assert raw[0x12df6-0x1000:0x12e1c-0x1000]==bytes.fromhex('a1')+struct.pack('<I',module+0x58fb0)+bytes.fromhex('8b0d')+struct.pack('<I',module+0x58fb4)+bytes.fromhex('568bf083c0043bc1a3')+struct.pack('<I',module+0x58fb0)+bytes.fromhex('0f879dd901008935')+struct.pack('<I',module+0x5e414)+bytes.fromhex('5ec3')
+ assert raw[0x12b61-0x1000:0x12b66-0x1000]==bytes.fromhex('e8b6020000')
+ from scaler_state import semantic,original_fp
+ assert semantic(entry['fp'])==semantic(state['command_line_fp'])==semantic(original_fp(original,at))==semantic(original_fp(original,sequence))
  for key,value in entry['crt_state'].items():assert state[key]==value
 
 def check_preservation_static(project,root):

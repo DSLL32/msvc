@@ -28,7 +28,10 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
   prefix['projection_actual_frontier']=expected['rva']
   prefix['expected_frontier']=dict(rva=0x12b49,native_symbol='parse_command_line',kind='command-line-entry',calling_convention='cdecl',native_args=['argc','argv'],caller=dict(native_symbol='c1_main',return_rva=0x127fe))
   validate(original,native,entry,at,module,prefix,prefix['expected_frontier'],probe)
-  command_line_state.validate_parser(original,native,entry,state,at,sequence,module,candidate)
+  if expected['rva']==0x12df6:
+   command_line_state.validate_parser(original,native,entry,state,at,sequence,module,candidate)
+  else:
+   command_line_state.validate_alias_initializer(original,native,json.loads((PROJECT/candidate['field_map']).read_text()),entry,state,at,sequence,module,candidate)
   return
  fields=json.loads((PROJECT/candidate['field_map']).read_text())
  for key,region in [('modeled_initialized',fields['original_initialized_region_rva']),('modeled_bss',fields['original_bss_region_rva'])]:

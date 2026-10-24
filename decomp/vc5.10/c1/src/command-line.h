@@ -4,7 +4,11 @@
 
 struct CompilerVector;
 struct CompilerPacking;
-struct CompilerIncludeAliases;
+struct CompilerIncludeAlias;
+/* The list root contains one link; node names/layout are recovered separately. */
+typedef struct CompilerIncludeAliases {
+    struct CompilerIncludeAlias *head;
+} CompilerIncludeAliases;
 
 /* These options belong to the initialized compiler-state snapshot. Names
  * follow their switch spelling where the wider option domain is not known. */

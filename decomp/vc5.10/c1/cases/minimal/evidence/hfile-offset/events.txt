@@ -1,0 +1,10 @@
+module name=ntdll.dll actual=7bcf0000 preferred=7bcf0000 entry=0000f760
+module name=KERNEL32.dll actual=7bb70000 preferred=7bb70000 entry=00013e60
+hfile-implicit actual-offset=00002000 requested-reference=00000000 bytes=32 matches=0
+hfile-explicit index=0 offset=00000000 before=00002000 after=00000020 requested=32 status=1 error=27324 bytes=32 matches=1
+hfile-explicit index=1 offset=00002000 before=00000000 after=00002020 requested=32 status=1 error=27324 bytes=32 matches=1
+hfile-explicit index=2 offset=00010000 before=00000000 after=00010020 requested=32 status=1 error=27324 bytes=32 matches=1
+hfile-explicit index=3 offset=001ea6e6 before=00000000 after=001ea6f3 requested=32 status=1 error=27324 bytes=13 matches=1
+hfile-explicit index=4 offset=001ea6f3 before=00000000 after=001ea6f3 requested=32 status=0 error=38 bytes=0 matches=1
+file-identity output=loaded-kernel32.bin actual-bytes=2008819 explicit-offset=1 equal=1
+hfile-probe-complete target-loaded=0 explicit-offset-identity=1

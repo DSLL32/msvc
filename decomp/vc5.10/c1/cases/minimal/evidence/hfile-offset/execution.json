@@ -1,0 +1,17 @@
+{
+  "kind": "transport-only probe execution, NOT acceptance",
+  "command": [
+    "wine",
+    "S:\\vc5.10\\c1\\hfile-offset-probe-002\\dll-capture.exe",
+    "--debug",
+    "R:\\toolchains\\5.10\\bin\\C1.DLL",
+    "R:\\toolchains\\5.10\\bin\\MSVCRT.DLL",
+    "masked",
+    "ranges.txt",
+    "minimal"
+  ],
+  "exit": 125,
+  "seconds": 0.4044612841680646,
+  "lock_wait_seconds": 0.00011513661593198776,
+  "helper_sha256": "ae8ec2c56e47e08b08eb03cb464ebf94b6861da76d7cc37caa0e4508c93ca788"
+}

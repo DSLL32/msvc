@@ -199,6 +199,11 @@ CompilerAllocation('allocate_compiler_memory')
 end
 """
         allocation_probe=allocation_probe.replace('allocations=[]', 'def capture_modeled():\n    return '+modeled_expression+'\nallocations=[]')
+        if candidate.get('include_alias_observers'):
+            from alias_init_probe import definitions,final_observation
+            allocation_probe=allocation_probe.replace('\nend\n','\n'+definitions(binary,output)+'end\n')
+            save_line="open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json')
+            commands=commands.replace(save_line,final_observation(output)+save_line)
         if field_map.get("pools"):
             symbol = field_map["pools"][0]["native_linkage_symbol"]
             table = subprocess.check_output(["nm", "-S", "--defined-only", str(binary)], text=True)
@@ -962,7 +967,7 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
     import shutil
     for script in ('command_line_probe.py','command_line_fields.py'):
         shutil.copy2(PROJECT/'scripts'/script,output/script)
-    command_line_setup="python\nimport sys\nsys.path.insert(0,%r)\nfrom command_line_probe import capture as capture_command_line_state,seed_restore as seed_command_line_restore,invocation as capture_invocation\nend\n"%str(output)
+    command_line_setup="python\nimport sys\nsys.path.insert(0,%r)\nfrom command_line_probe import capture as capture_command_line_state,seed_restore as seed_command_line_restore,invocation as capture_invocation,crt_state as capture_command_line_crt_state\nend\n"%str(output)
     commands=command_line_setup+commands
     if field_map.get('command_line'):
         save_line="open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json')

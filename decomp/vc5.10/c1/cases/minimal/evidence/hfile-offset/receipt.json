@@ -1,0 +1,139 @@
+{
+  "schema": 1,
+  "kind": "original-only actual-hFile explicit-offset transport probe; NO TARGET ACCEPTANCE",
+  "command": [
+    "wine",
+    "S:\\vc5.10\\c1\\hfile-offset-probe-002\\dll-capture.exe",
+    "--debug",
+    "R:\\toolchains\\5.10\\bin\\C1.DLL",
+    "R:\\toolchains\\5.10\\bin\\MSVCRT.DLL",
+    "masked",
+    "ranges.txt",
+    "minimal"
+  ],
+  "exit": 125,
+  "seconds": 0.4044612841680646,
+  "lock_wait_seconds": 0.00011513661593198776,
+  "actual_hfile_kernel32": {
+    "bytes": 2008819,
+    "sha256": "6a080ecb2d0e74c64750c3a7105ca55350867fc904e9f568f190907fd2f4d733"
+  },
+  "helper_sha256": "ae8ec2c56e47e08b08eb03cb464ebf94b6861da76d7cc37caa0e4508c93ca788",
+  "target_executed": false,
+  "probe": [
+    {
+      "offset": 0,
+      "position_before": 8192,
+      "position_after": 32,
+      "requested": 32,
+      "returned": 32,
+      "status": 1,
+      "last_error": 27324
+    },
+    {
+      "offset": 8192,
+      "position_before": 0,
+      "position_after": 8224,
+      "requested": 32,
+      "returned": 32,
+      "status": 1,
+      "last_error": 27324
+    },
+    {
+      "offset": 65536,
+      "position_before": 0,
+      "position_after": 65568,
+      "requested": 32,
+      "returned": 32,
+      "status": 1,
+      "last_error": 27324
+    },
+    {
+      "offset": 2008806,
+      "position_before": 0,
+      "position_after": 2008819,
+      "requested": 32,
+      "returned": 13,
+      "status": 1,
+      "last_error": 27324
+    },
+    {
+      "offset": 2008819,
+      "position_before": 0,
+      "position_after": 2008819,
+      "requested": 32,
+      "returned": 0,
+      "status": 0,
+      "last_error": 38
+    }
+  ],
+  "conclusions": [
+    "Actual debug hFile reads complete synchronously without ERROR_IO_PENDING",
+    "OVERLAPPED.Offset is honored despite deliberately wrong current file pointer",
+    "The synchronous file pointer DOES update; do not claim pointer immutability",
+    "Partial-tail and EOF returned counts/status are observed, not assumed",
+    "The complete actual same-hFile output has canonical size/SHA; no reopen or duplicate supplies actual bytes"
+  ],
+  "artifacts": {
+    "hfile-sample-2.bin": {
+      "bytes": 32,
+      "sha256": "e88be53911cb1a3e56843ec0c1bdcc507b1fe058e54908f659c9328390671ae7"
+    },
+    "MSVCRT.DLL": {
+      "bytes": 277776,
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    "dll-capture.exe": {
+      "bytes": 40960,
+      "sha256": "ae8ec2c56e47e08b08eb03cb464ebf94b6861da76d7cc37caa0e4508c93ca788"
+    },
+    "events.txt": {
+      "bytes": 996,
+      "sha256": "b983cfd5bc6ece09babf0b2ac25a434acfbb8393a9aa38912374be26ac249c84"
+    },
+    "hfile-sample-3.bin": {
+      "bytes": 13,
+      "sha256": "af289cca2a973ee7e679f37474dce894846072e881b35e089b195f1e39e1d01e"
+    },
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "hfile-sample-4.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "source-snapshot.json": {
+      "bytes": 793,
+      "sha256": "3d29d38d6e9085d34b105d08db76db9eff9e094d9319d8a33f23ea282728b2d0"
+    },
+    "loaded-kernel32.bin": {
+      "bytes": 2008819,
+      "sha256": "6a080ecb2d0e74c64750c3a7105ca55350867fc904e9f568f190907fd2f4d733"
+    },
+    "hfile-offset-probe.txt": {
+      "bytes": 51,
+      "sha256": "a5e14919911b189de0e58f567f348da35ee8cab79643004f413a9a43c3ce806e"
+    },
+    "stdout.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "ranges.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "hfile-sample-0.bin": {
+      "bytes": 32,
+      "sha256": "34b9348ecccb09747637e5bdaa744e48362a9e684b260766e49868f2e50cecab"
+    },
+    "hfile-sample-1.bin": {
+      "bytes": 32,
+      "sha256": "1e33ff2f6fa3a525ae5c8eaafdc392a698f5751ecad4e3cd832f74d690559991"
+    },
+    "execution.json": {
+      "bytes": 487,
+      "sha256": "9ca060362ba5a175f0d66609f6168cdd90619cf5304e690df0d67e38b2d43453"
+    }
+  }
+}

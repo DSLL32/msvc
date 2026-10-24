@@ -1,0 +1,12 @@
+{
+  "kind": "actual HOST CRT vectors; separate from Invoke11 and Linux host controls",
+  "original_directory": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-include-alias-clear-aux-002",
+  "original_receipt_sha256": "f3571c8ff99d59133e1ce8d6f91db6586a12d3a6b77b0117e9cc065c7fe913c0",
+  "files": {
+    "original-crt-argv.bin": "f3ab9f756026f88f22ce3ea324f4431af905649aae789d206d48a1799d0d6d63",
+    "original-crt-environment.bin": "ec8a3f94a1a5d916ef7f3da4a657ddbda0fbf871d557ef29b8233fddcb1bbbe2"
+  },
+  "host_argc": 3,
+  "environment_count": 78,
+  "pass_argc": 11
+}

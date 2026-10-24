@@ -12,6 +12,11 @@ def invocation():
  args={name:int(frame.read_var(name).cast(gdb.lookup_type('unsigned int')))for name in ('argc','argv','mode')}
  vector=frame.read_var('argv')
  return dict(symbol=frame.name(),args=args,argv=[vector[i].string()for i in range(args['argc'])],argv_pointers=[int(vector[i].cast(gdb.lookup_type('unsigned int')))for i in range(args['argc'])],argv_terminator=int(vector[args['argc']].cast(gdb.lookup_type('unsigned int'))))
+def crt_state():
+ return dict(win32_last_error=int(gdb.parse_and_eval('last_error')),x87_control=int(gdb.parse_and_eval('$fctrl')),
+  crt_attached=int(gdb.parse_and_eval('c1_crt_attached')),raw_dllmain=address('c1_raw_dllmain'),
+  onexit_begin=address('c1_onexit_begin'),onexit_end=address('c1_onexit_end'),onexit_first=address('*c1_onexit_begin'),
+  crt_adjust_fdiv=int(gdb.parse_and_eval('c1_crt_adjust_fdiv')),dll_instance=address('c1_dll_instance'),module_token=address('c1_host_module'))
 def read_fields(expression,rows):
  # This compact native object consists entirely of encountered semantic fields.
  # The original noncontiguous storage is decoded separately from retained raw.

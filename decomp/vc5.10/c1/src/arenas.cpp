@@ -10,6 +10,18 @@ CompilerArenaDescriptor c1_arena_descriptors[6] = {
     { 5, 0x500000,  0x8000,  0x18, 4 }
 };
 
+/* C linkage is the original caller ABI. C++ expresses its genuine thiscall
+ * CommitExtent edge. The allocated root is not cleared here: its zero link
+ * comes from the earlier committed arena pages. */
+void __cdecl initialize_include_aliases(void)
+{
+    BYTE *root = c1_bss.arenas[0].cursor;
+    c1_bss.arenas[0].cursor += sizeof(CompilerIncludeAliases);
+    if (c1_bss.arenas[0].cursor > c1_bss.arenas[0].committed_limit)
+        c1_bss.arenas[0].CommitExtent();
+    c1_data.options.include_aliases = (CompilerIncludeAliases *)root;
+}
+
 /* Early reservations precede the remaining five descriptor-controlled arenas. */
 void __cdecl initialize_compiler_arenas(void)
 {
