@@ -1,5 +1,6 @@
 use crate::{
     abi::{self, Loaded},
+    debug,
     fixture::{self, Action, Fixture},
 };
 use anyhow::{Context, Result, bail};
@@ -89,6 +90,7 @@ fn code(status: i32) -> String {
 #[derive(Serialize, Deserialize)]
 pub struct Report {
     pub case: String,
+    pub workspace: String,
     pub pass: bool,
     pub terminal: String,
     pub first_entry_order: Vec<u32>,
@@ -301,6 +303,8 @@ unsafe fn executor(
     stdin: RawFd,
     trace: RawFd,
     tests: bool,
+    debug: &debug::Options,
+    supervisor: i32,
 ) -> Result<()> {
     let setup_start = Instant::now();
     unsafe {
@@ -359,10 +363,23 @@ unsafe fn executor(
             root.join("executor-setup-ms"),
             setup_start.elapsed().as_secs_f64().to_string(),
         )?;
+        if let Some(name) = &debug.selected_test {
+            if !loaded.info.tests.contains(name) {
+                bail!("unknown unit test {name:?}")
+            }
+        }
         for (index, t) in unsafe { abi::items(loaded.case.tests, loaded.case.test_count) }?
             .iter()
             .enumerate()
         {
+            let name = unsafe { abi::string(t.name) }?;
+            if debug
+                .selected_test
+                .as_ref()
+                .is_some_and(|selected| selected != &name)
+            {
+                continue;
+            }
             let pass = if t.fork != 0 {
                 let test_root = root.join(format!("test-{index}"));
                 let dir = workspace_cwd(f, &test_root)?;
@@ -379,6 +396,7 @@ unsafe fn executor(
                         }
                     }
                     std::env::set_current_dir(&dir)?;
+                    debug::checkpoint(debug, root, supervisor)?;
                     let result = unsafe { t.exec.unwrap()() };
                     unsafe {
                         libc::fflush(std::ptr::null_mut());
@@ -388,6 +406,7 @@ unsafe fn executor(
                 let status = wait(pid)?;
                 libc::WIFEXITED(status) && libc::WEXITSTATUS(status) == 0
             } else {
+                debug::checkpoint(debug, root, supervisor)?;
                 unsafe { t.exec.unwrap()() != 0 }
             };
             if !pass {
@@ -432,6 +451,7 @@ unsafe fn executor(
             setup_start.elapsed().as_secs_f64().to_string(),
         )?;
         unsafe { enable(1) };
+        debug::checkpoint(debug, root, supervisor)?;
         let exit = if loaded.case.execution == 0 {
             let strings: Vec<_> = f
                 .args
@@ -467,7 +487,7 @@ unsafe fn executor(
         libc::_exit(0);
     }
 }
-fn supervise(case_path: &Path, f: &Fixture, tests: bool) -> Result<Report> {
+fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options) -> Result<Report> {
     signals();
     let start = Instant::now();
     let root = create_workspace()?;
@@ -495,6 +515,7 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool) -> Result<Report> {
         let trace = open_stream(&root.join("trace"))?;
         let setup_ms = start.elapsed().as_secs_f64() * 1000.;
         let run = Instant::now();
+        let supervisor = unsafe { libc::getpid() };
         let pid = fork()?;
         if pid == 0 {
             drop(writer.take());
@@ -507,6 +528,8 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool) -> Result<Report> {
                     input.as_raw_fd(),
                     trace.as_raw_fd(),
                     tests,
+                    debug,
+                    supervisor,
                 )
             };
             if let Err(e) = result {
@@ -527,7 +550,16 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool) -> Result<Report> {
         let mut executor_status = None;
         let mut timed_out = false;
         let mut errors = vec![];
+        let mut debugger_started = false;
         loop {
+            if debug.enabled && !debugger_started && root.join("debug-ready").exists() {
+                debugger_started = true;
+                if let Err(e) = debug::session(debug, &root, || SIGNAL.load(Ordering::Relaxed) != 0)
+                {
+                    errors.push(format!("{e:#}"));
+                    kill_descendants();
+                }
+            }
             if let Some(w) = writer.as_mut() {
                 while offset < pending.len() {
                     match w.write(&pending[offset..]) {
@@ -575,7 +607,7 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool) -> Result<Report> {
             {
                 writer.take();
             }
-            if run.elapsed().as_millis() > f.timeout_ms as u128
+            if (!debug.enabled && run.elapsed().as_millis() > f.timeout_ms as u128)
                 || SIGNAL.load(Ordering::Relaxed) != 0
             {
                 if !timed_out {
@@ -683,6 +715,7 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool) -> Result<Report> {
         }
         Ok(Report {
             case: info.case,
+            workspace: root.display().to_string(),
             pass: errors.is_empty(),
             terminal: code(status),
             first_entry_order: order,
@@ -744,7 +777,12 @@ pub fn inspect(path: &Path) -> Result<abi::Info> {
     }
     Ok(serde_json::from_value(value)?)
 }
-pub fn run(path: &Path, fixture: Option<&Path>, tests: bool) -> Result<Report> {
+pub fn run(
+    path: &Path,
+    fixture: Option<&Path>,
+    tests: bool,
+    debug: &debug::Options,
+) -> Result<Report> {
     signals();
     let path = path.canonicalize()?;
     let f = match fixture {
@@ -760,7 +798,7 @@ pub fn run(path: &Path, fixture: Option<&Path>, tests: bool) -> Result<Report> {
     let pid = fork()?;
     if pid == 0 {
         drop(reader);
-        let result = supervise(&path, &f, tests);
+        let result = supervise(&path, &f, tests, debug);
         let value = match result {
             Ok(r) => serde_json::to_value(r)?,
             Err(e) => serde_json::json!({"error":format!("{e:#}")}),

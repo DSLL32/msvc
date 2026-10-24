@@ -17,7 +17,8 @@ typedef struct ReconFunction {
     uint32_t entry_rva;
     const ReconExtent *code; uint32_t code_count;
     const ReconExtent *text_data; uint32_t text_data_count;
-    uint32_t definition, implementation;
+    uint32_t definition;
+    uint32_t implementation; /* App only; omit/zero for Unknown/Import/CRT. */
     const char *native_symbol; /* ELF symbol, including static or mangled names. */
     const char *import_dll, *import_name;
     uint32_t import_ordinal;

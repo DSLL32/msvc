@@ -1,4 +1,5 @@
 mod abi;
+mod debug;
 mod fixture;
 mod native;
 use anyhow::{Context, Result};
@@ -35,6 +36,10 @@ enum Command {
         io: Option<PathBuf>,
         #[arg(long)]
         report: Option<PathBuf>,
+        #[arg(long)]
+        gdb: bool,
+        #[arg(long)]
+        gdb_script: Option<PathBuf>,
     },
     /// Run optional unit tests from the initialized setup fork checkpoint.
     Test {
@@ -44,6 +49,12 @@ enum Command {
         io: Option<PathBuf>,
         #[arg(long)]
         report: Option<PathBuf>,
+        #[arg(long)]
+        gdb: bool,
+        #[arg(long)]
+        gdb_script: Option<PathBuf>,
+        #[arg(long = "test")]
+        selected_test: Option<String>,
     },
     /// Author and inspect versioned uncompressed I/O fixtures.
     Io {
@@ -104,7 +115,9 @@ fn execute() -> Result<()> {
             v["accepted"] = serde_json::to_value(
                 info.functions
                     .iter()
-                    .filter(|f| f.implementation == 1)
+                    .filter(|f| {
+                        f.definition == 4 && f.implementation == 1 || matches!(f.definition, 1..=3)
+                    })
                     .map(|f| &f.name)
                     .collect::<Vec<_>>(),
             )?;
@@ -152,11 +165,53 @@ fn execute() -> Result<()> {
             }
         },
         command => {
-            let (cases, io, report, tests) = match command {
-                Command::Run { cases, io, report } => (cases, io, report, false),
-                Command::Test { cases, io, report } => (cases, io, report, true),
+            let (cases, io, report, tests, mut debug) = match command {
+                Command::Run {
+                    cases,
+                    io,
+                    report,
+                    gdb,
+                    gdb_script,
+                } => (
+                    cases,
+                    io,
+                    report,
+                    false,
+                    debug::Options {
+                        enabled: gdb,
+                        script: gdb_script,
+                        selected_test: None,
+                    },
+                ),
+                Command::Test {
+                    cases,
+                    io,
+                    report,
+                    gdb,
+                    gdb_script,
+                    selected_test,
+                } => (
+                    cases,
+                    io,
+                    report,
+                    true,
+                    debug::Options {
+                        enabled: gdb,
+                        script: gdb_script,
+                        selected_test,
+                    },
+                ),
                 _ => unreachable!(),
             };
+            debug.prepare()?;
+            anyhow::ensure!(
+                !debug.enabled || cases.len() == 1,
+                "debug mode requires one case"
+            );
+            anyhow::ensure!(
+                !debug.enabled || !tests || debug.selected_test.is_some(),
+                "debugging tests requires --test NAME"
+            );
             anyhow::ensure!(io.is_none() || cases.len() == 1, "--io requires one case");
             let mut results = vec![];
             for case in cases {
@@ -172,7 +227,7 @@ fn execute() -> Result<()> {
                 let fixture = io
                     .as_deref()
                     .or_else(|| inferred.as_deref().filter(|p| p.exists()));
-                let result = native::run(&path, fixture, tests)
+                let result = native::run(&path, fixture, tests, &debug)
                     .with_context(|| format!("case {}", path.display()))?;
                 println!(
                     "{} {} {} ({:.3} ms; setup {:.3}, execution {:.3}, checks {:.3})",

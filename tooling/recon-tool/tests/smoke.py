@@ -17,7 +17,7 @@ for case in sorted(CASES.iterdir()):
 scratch_root = Path.home() / '.ai-tmp'
 scratch_root.mkdir(exist_ok=True)
 scratch = Path(tempfile.mkdtemp(prefix='recon-tool-test-', dir=scratch_root))
-before = set(Path('/tmp/recon').glob('run-*')) if Path('/tmp/recon').exists() else set()
+
 try:
     def run(name, number, fixture, *, passed=True):
         source = scratch / (name + '.json')
@@ -30,7 +30,9 @@ try:
         subprocess.run([TOOL, 'io', 'pack', source, roundtrip], check=True)
         assert packed.read_bytes() == roundtrip.read_bytes()
         case = next(CASES.glob(number + '-*'))
-        result = subprocess.run([TOOL, 'run', case, '--io', packed])
+        report=scratch/(name+'-report.json')
+        result = subprocess.run([TOOL, 'run', case, '--io', packed, '--report',report])
+        assert not Path(json.loads(report.read_text())[0]['workspace']).exists(),name+' workspace leaked'
         assert (result.returncode == 0) == passed, name
 
     run('io', '0000', dict(args=['fixture'], stdin='text:hello\n',
@@ -48,16 +50,26 @@ try:
     run('direct', '0005', dict(stdout='text:', stderr='text:', exit_code=0, reject_unexpected_files=True))
     run('wrong-output', '0000', dict(args=['fixture'], stdin='text:x\n', stdout='text:WRONG'), passed=False)
     run('missing-is-not-empty', '0005', dict(output_files=[dict(path='missing', data='hex:')]), passed=False)
-    assert set(Path('/tmp/recon').glob('run-*')) == before, 'workspace leaked'
     # A signal sent only to the CLI must reach its cleanup supervisor promptly.
     source=scratch/'cancel.json';source.write_text(json.dumps(dict(args=['fixture','timeout'],timeout_ms=30000)))
     packed=scratch/'cancel.bin';subprocess.run([TOOL,'io','pack',source,packed],check=True)
-    child=subprocess.Popen([TOOL,'run',CASES/'0003-timeout','--io',packed])
+    report=scratch/'cancel-report.json'
+    child=subprocess.Popen([TOOL,'run',CASES/'0003-timeout','--io',packed,'--report',report])
     import time
     time.sleep(.05)
     child.terminate()
     assert child.wait(timeout=2) != 0
-    assert set(Path('/tmp/recon').glob('run-*')) == before, 'cancel workspace leaked'
+    assert not Path(json.loads(report.read_text())[0]['workspace']).exists(), 'cancel workspace leaked'
+    if shutil.which('gdb'):
+        for test in [False,True]:
+            script=scratch/('unit.gdb' if test else 'main.gdb')
+            symbol='fixture_add' if test else 'fixture_main'
+            script.write_text('break '+symbol+'\ncontinue\nprintf "RECON_GDB_HIT\\n"\ncontinue\n')
+            args=[TOOL,'test' if test else 'run',CASES/'0000-io','--gdb-script',script]
+            if test:args+=['--test','add']
+            else:args+=['--io',scratch/'io.bin']
+            result=subprocess.run(args,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,check=True)
+            assert 'RECON_GDB_HIT' in result.stdout and 'PASS' in result.stdout
     print('shared native smoke checks passed')
 finally:
     shutil.rmtree(scratch)

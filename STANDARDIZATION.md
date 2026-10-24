@@ -2,8 +2,8 @@
 
 Shared Rust `recon-tool` design and implementation status. Native execution,
 unit tests, fixture pack/unpack and registry projection are implemented under
-`tooling/recon-tool/`; C1XX migration is in progress. Native GDB debugging and
-explicit original capture remain implementation work.
+`tooling/recon-tool/`; C1XX migration is in progress. Native GDB debugging is implemented; explicit original capture remains
+implementation work.
 
 The tool is the entry point for native frontier discovery, case replay and
 optional unit tests. It also orchestrates explicit original captures under
@@ -84,6 +84,12 @@ definition:
 Use fixed-width RVAs for original addresses. A function can have discontiguous
 hot/cold extents; its entry is explicit. Record aliases consistently. These
 records guide original code masking/unmasking and native entry identification.
+Keep extent arrays inline with their function records in `binary.c`, rather
+than a separate numbered declaration for every function's code/data extents.
+The implementation flag applies only to application reconstruction. Leave it
+zero for CRT, imports and unknown entries; their classification determines the
+runtime boundary, not an implementation flag. Historical CRT qualifications
+remain separate from application reconstruction credit.
 
 Only application functions are reconstruction targets. Keep unknown functions
 unclassified until their role is established; an accepted CRT/library entry
@@ -256,3 +262,15 @@ entries to the existing shared tracer, and omits each case's explicit seed set.
 There is no module ELF resolver or Win32/CRT behavior change in the tracing layer.
 Native replay remains Wine-free. Explicit original capture is subsequent work,
 not implemented by this native checkpoint.
+
+Native debug CLI: `run CASE --gdb`, or `test CASE --test NAME --gdb`. Batch
+`--gdb-script PATH` implicitly enables debugging. GDB attaches to the selected
+invocation after setup, with the supervisor specifically authorized for ptrace.
+The supervisor's GDB child inherits that permission; no global ptrace change is
+needed. Normal case deadlines are disabled during explicit debugging. Quitting
+GDB terminates any remaining selected invocation, then normal descendant reaping
+and workspace cleanup finish. Debugger streams are separate from target streams.
+
+Function implementation status applies only to App records. CRT/import/unknown
+records leave it zero. Identified runtime/import boundary availability follows
+classification and verified extents, independently of App implementation status.

@@ -27,3 +27,4 @@ $(CASE_BUILD)/%.cpp.o: %.cpp
 	@mkdir -p $(@D)
 	$(NATIVE_CXX) $(CASE_CPPFLAGS) $(CASE_CFLAGS) -MMD -MP -c $< -o $@
 -include $(CASE_OBJECTS:.o=.d)
+$(CASE_OBJECTS): Makefile $(RECON_TOOL_DIR)/case.mk

@@ -99,3 +99,25 @@ applies at an expected current frontier. Final expectations are retained intact.
 Run `python3 tests/smoke.py` for the focused native integration tests. Explicit
 original Wine capture and debugger transport are the next implementation stage;
 they are not provided by this native checkpoint.
+
+## Debugging
+
+`run CASE --gdb` attaches GDB after library loading/setup and before invocation.
+`test CASE --test NAME --gdb` selects the actual test process, preserving its
+normal fork setting. `--gdb-script /absolute/script.gdb` uses batch GDB (and
+implicitly enables debugging); scripts can set named application breakpoints,
+continue, inspect state and continue to the normal terminal. Interactive GDB
+gets its own foreground terminal group, so Ctrl+C belongs to the debugger.
+
+The target permits ptrace only by its supervisor and that supervisor's descendants.
+No global ptrace setting or `PR_SET_PTRACER_ANY` is used. The supervisor retains
+workspace ownership and disables the ordinary case deadline in debug mode. GDB
+output stays separate from asserted target stdout/stderr. Quitting/detaching ends
+the session and terminates any still-running selected invocation; it does not
+leave a stopped child behind. As usual, target exit/frontier assertions determine
+whether the case passed. Debug timing includes the time spent in GDB.
+
+Include `recon-tool.mk` in the binary Makefile and make checks depend on
+`$(RECON_TOOL)` to build the release runner incrementally. `build-quiet.sh` retains
+successful Cargo output in scratch and prints diagnostics only when building
+fails. It never launches Wine.

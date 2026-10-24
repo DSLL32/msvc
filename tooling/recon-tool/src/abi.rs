@@ -156,6 +156,12 @@ impl Loaded {
             if f.definition > 4 || f.implementation > 1 || !rvas.insert(f.entry_rva) {
                 bail!("invalid/duplicate function RVA {:x}", f.entry_rva)
             }
+            if f.definition != 4 && f.implementation != 0 {
+                bail!(
+                    "implementation status applies only to App functions: {:x}",
+                    f.entry_rva
+                )
+            }
             let native_symbol = if f.native_symbol.is_null() {
                 None
             } else {

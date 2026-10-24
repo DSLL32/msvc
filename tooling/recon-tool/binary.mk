@@ -33,3 +33,4 @@ $(call support-object,$(1)): $(1)
 endef
 $(foreach s,$(BINARY_SUPPORT_SOURCES),$(eval $(call support-rule,$(s))))
 -include $(BINARY_OBJECTS:.o=.d) $(BINARY_SUPPORT_OBJECTS:.o=.d)
+$(BINARY_OBJECTS) $(BINARY_SUPPORT_OBJECTS): Makefile $(RECON_TOOL_DIR)/binary.mk
