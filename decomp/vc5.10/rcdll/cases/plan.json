@@ -75,7 +75,8 @@
     "rc_parse_conditional_expression",
     "rc_parse_logical_or",
     "rc_parse_logical_and",
-    "rc_parse_bitwise_or"
+    "rc_parse_bitwise_or",
+    "rc_parse_bitwise_xor"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",
