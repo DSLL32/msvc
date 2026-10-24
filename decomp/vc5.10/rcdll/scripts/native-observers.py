@@ -281,6 +281,8 @@ class MacroCopyEntered(gdb.Breakpoint):
         contract=None
         global_name=int(gdb.parse_and_eval('&rc_macro_name'))
         if global_name<=pointer and pointer+2*length<=global_name+1024:contract='initialized-global-name'
+        string_buffer=int(gdb.parse_and_eval('&rc_string_buffer'));string_size=gdb.parse_and_eval('rc_string_buffer').type.sizeof
+        if string_buffer<=pointer and pointer+2*length<=string_buffer+string_size:contract='initialized-global-string-buffer'
         heap=gdb.parse_and_eval('native_heaps')
         while int(heap):
             block=heap.dereference()['blocks']
@@ -739,3 +741,21 @@ class MacroSpaceEntered(gdb.Breakpoint):
         frame=gdb.newest_frame();cursor=frame.read_var('cursor');entry=dict(cursor=int(cursor),formal_bytes=cursor.type.sizeof,entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name())
         macro_space_checks.append(entry);save_macro_space_checks();MacroSpaceReturned(frame,entry);return False
 MacroSpaceEntered('rc_check_macro_space',internal=True);save_macro_space_checks()
+
+parameter_lookups=[]
+def save_parameter_lookups():(path.parent/'parameter-lookups.json').write_text(json.dumps(parameter_lookups,indent=2)+'\n')
+class ParameterLookupReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(self.return_value),return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,name_after=bytes(gdb.selected_inferior().read_memory(self.entry['pointer'],len(bytes.fromhex(self.entry['bytes'])))).hex())
+        save_parameter_lookups();return False
+class ParameterLookupEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();name=frame.read_var('name');raw=bytearray()
+        for offset in range(2045):
+            word=bytes(gdb.selected_inferior().read_memory(int(name)+2*offset,2));raw.extend(word)
+            if word==b'\0\0':break
+        else:raise AssertionError('unterminated parameter lookup name')
+        entry=dict(pointer=int(name),formal_bytes=name.type.sizeof,bytes=raw.hex(),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name(),parameter_count=int(gdb.parse_and_eval('rc_macro_parameter_count')),buffer=int(gdb.parse_and_eval('&rc_string_buffer')))
+        parameter_lookups.append(entry);save_parameter_lookups();ParameterLookupReturned(frame,entry);return False
+ParameterLookupEntered('rc_find_macro_parameter',internal=True);save_parameter_lookups()

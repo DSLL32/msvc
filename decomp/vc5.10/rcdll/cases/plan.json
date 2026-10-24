@@ -69,7 +69,8 @@
     "rc_push_condition",
     "rc_parse_define",
     "rc_read_macro_replacement",
-    "rc_check_macro_space"
+    "rc_check_macro_space",
+    "rc_find_macro_parameter"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

@@ -11,6 +11,19 @@ def wide_bytes(pointer):
         if word==b'\0\0':return result.hex()
     raise AssertionError('unterminated preprocessor string')
 
+def macro_owned_bytes(pointer):
+    heap=gdb.parse_and_eval('native_heaps')
+    while int(heap):
+        block=heap.dereference()['blocks']
+        while int(block):
+            row=block.dereference()
+            if int(row['payload'])+8==pointer:
+                size=int(row['requested_size']);assert 8<size<=65536
+                return bytes(gdb.selected_inferior().read_memory(int(row['payload']),size)).hex()
+            block=row['next']
+        heap=heap.dereference()['next']
+    raise AssertionError('macro text has no live requested owner')
+
 def capture_preprocessor(path):
     specification=json.loads(path.read_text());state={}
     for row in specification['globals']:
@@ -46,6 +59,6 @@ def capture_preprocessor(path):
                 parameters=int(value['parameters']),flags=int(value['flags']),reserved=int(value['reserved']),
                 record=bytes(gdb.selected_inferior().read_memory(int(node)-8,24)).hex(),
                 name_block=bytes(gdb.selected_inferior().read_memory(name-8,len(bytes.fromhex(name_bytes))+10)).hex(),
-                text_block=bytes(gdb.selected_inferior().read_memory(text-8,16)).hex()if text else None))
+                text_block=macro_owned_bytes(text)if text else None))
             node=value['next']
     return dict(macros=macros,schema_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),globals=state,tables=tables)

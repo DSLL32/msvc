@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Explicit original-only DLL capture. Never imported by a native fixture."""
 import argparse
-import fcntl
 import hashlib
 import importlib.util
 import json
@@ -95,16 +94,16 @@ def main():
     command=['wine',str(out/'debug-original.exe'),a.mode,tools.windows(out/'RC.EXE'),'ranges.txt']
     if child_cwd:command += ['case-args.txt',child_cwd]
     with (out/'stdout.bin').open('wb') as stdout,(out/'stderr.bin').open('wb') as stderr:
-        with (Path.home()/'.ai-tmp/msvc2-original-capture.lock').open('a')as capture_lock:
-            waiting=time.perf_counter();fcntl.flock(capture_lock,fcntl.LOCK_EX);capture_wait=time.perf_counter()-waiting
-            started=time.perf_counter()
-            try:
-                result=subprocess.run(command,cwd=out,env=env,stdin=subprocess.DEVNULL,stdout=stdout,stderr=stderr,timeout=a.timeout)
-                status=result.returncode;timed_out=False
-            except subprocess.TimeoutExpired:
-                status=None;timed_out=True
-            elapsed=time.perf_counter()-started
+        capture_wait=0
+        started=time.perf_counter()
+        try:
+            result=subprocess.run(command,cwd=out,env=env,stdin=subprocess.DEVNULL,stdout=stdout,stderr=stderr,timeout=a.timeout)
+            status=result.returncode;timed_out=False
+        except subprocess.TimeoutExpired:
+            status=None;timed_out=True
+        elapsed=time.perf_counter()-started
     report=dict(preflight=dict(tls=False,entry_guard_nonrelocated=True,relocation_sites=len(relocation_sites),loader_data_ranges=[['0x1000','0x114c'],['0x12e2c','0x13371']],import_cycle_scope='target has only canonical MSVCRT and Wine system KERNEL32/USER32 imports; canonical MSVCRT imports no RCDLL'),case=a.case,args=case_args,child_cwd=child_cwd,environment={key:env[key]for key in ['INCLUDE','LIB','WINEPATH']},mode=a.mode,command=command,status=status,timed_out=timed_out,elapsed_seconds=elapsed,wineprefix=env['WINEPREFIX'],wine_override=env['WINEDLLOVERRIDES'],argv0=tools.windows(out/'RC.EXE'),target_sha256=sha(tc/'RCDLL.DLL'),crt_expected_sha256=SHA_CRT,candidate_sha256=sha(HERE/'functions.json'),debugger_sha256=sha(out/'debug-original.exe'),files={})
+    report['capture_serialized']=False
     report['capture_lock_wait_seconds']=capture_wait
     report['observation_limits']=dict(zip(['heap','free','character'],limits));report['api_census']=a.api_census
     report['path_error_probe']=a.path_errors

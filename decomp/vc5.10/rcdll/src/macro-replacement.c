@@ -1,4 +1,5 @@
 #include <string.h>
+#include <wchar.h>
 #include "command.h"
 #include "directives.h"
 #include <recon.h>
@@ -124,4 +125,15 @@ void __stdcall rc_check_macro_space(WCHAR *cursor)
         rc_format(rc_error_text,2048,rc_error_template,rc_macro_name);
         rc_input_fatal(1011);
     }
+}
+
+int __stdcall rc_find_macro_parameter(const WCHAR *name)
+{
+    const WCHAR *parameter=rc_string_buffer;
+    int index;
+    for(index=1;index<=rc_macro_parameter_count;++index){
+        if(!wcscmp(name,parameter+1))return index;
+        parameter=(const WCHAR *)((const char *)parameter+*(const short *)parameter);
+    }
+    return -1;
 }

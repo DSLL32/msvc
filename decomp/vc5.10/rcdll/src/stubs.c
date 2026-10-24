@@ -231,12 +231,6 @@ void __cdecl rc_parse_macro_parameters(void)
 }
 
 
-int __stdcall rc_find_macro_parameter(const WCHAR *name)
-{
-    __asm int 3
-    return 0;
-}
-
 WCHAR *__stdcall rc_copy_replacement_quoted(WCHAR *cursor,WCHAR delimiter)
 {
     __asm int 3

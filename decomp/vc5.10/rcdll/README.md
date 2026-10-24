@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Sixty-five application functions (21,123 original code bytes), two embedded CRT functions
+Sixty-six application functions (21,187 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_find_macro_parameter`.
+currently matches at the next named trap, `rc_evaluate_condition`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -568,3 +568,16 @@ records fourteen affected controls. Original module dumping now reads each
 actual debug-event hFile with explicit OVERLAPPED offsets and exact bounded
 chunks; target/CRT/driver full hashes match. Offset/short/missing/size mutants
 reject. This was verified in the ordinary fresh pair, with no extra probe.
+
+Macro parameter lookup is accepted (64 bytes). Count0 returns-1/ret4 without
+reading the parameter table; all three SDK object-like definitions complete.
+The exact26-byte WINVER text owner contains the initialized numeric replacement
+and serialization marker. [Verification](cases/resources-rich-trailing-space/parameter-lookup-verification.json)
+records sixteen affected controls and the next no-formal `#if` evaluator at SDK
+line71, including source/cursor, macro buckets and conditional state. Output
+contains the source-derived `#line 23` marker; an erroneous expectation was
+corrected without editing raw captures, and a matching wrong marker on both
+sides is rejected. Native02 adopts the published host-only shared clock getter;
+unchanged original01 is reused. Capture execution is concurrent again after
+the shared explicit-offset transport release. Parameter-table traversal and
+conditional evaluation remain pending; native help passes in12.35ms total.
