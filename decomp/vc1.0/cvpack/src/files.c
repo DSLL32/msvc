@@ -488,3 +488,17 @@ int truncate_buffered_file(FileSlot *slot, long size)
     slot->length = size;
     return _chsize(slot->source.descriptor, size);
 }
+
+int close_file(int handle, unsigned char release)
+{
+    FileSlot *slot = file_slots[handle];
+    if (!release && !(slot->flags & 2)) {
+        ++closed_file_count;
+        move_file_slot(slot, &active_files, NULL, &closed_files, &closed_files_tail, 1);
+        cache_closed_file(slot);
+        return 0;
+    }
+    move_file_slot(slot, &active_files, NULL, &free_files, NULL, 0);
+    if (slot->flags & 8) return close_mapped_file(slot);
+    return release_file_slot(slot);
+}

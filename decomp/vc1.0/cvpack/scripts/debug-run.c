@@ -895,7 +895,7 @@ static int dump_output_buffers(HANDLE child, HANDLE log, DWORD entry, DWORD *wor
             for (i = 0; i < size; ++i) used += sprintf(object_line+used, "%02x", original_bytes[i]);
             object_line[used++] = '\n';
             if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
-            if ((entry == 0x2a450 || entry == 0x29c50) && slot == 1 && size == 40 && input) {
+            if ((entry == 0x2a450 || entry == 0x29c50 || entry == 0x29f50) && slot == 1 && size == 40 && input) {
                 DWORD table, limit, handle, actual;
                 handle = *(DWORD *)(original_bytes+8);
                 if (!ReadProcessMemory(child, (void *)0x33000, &table, 4, &bytes) || bytes != 4 ||

@@ -10,7 +10,8 @@ void warning(int code, const char *first, const char *second) { __asm { int 3 } 
 int release_file_slot(FileSlot *slot) { __asm { int 3 } return 0; }
 int open_mapped_file(FileSlot *slot, int mode, unsigned char created)
 { __asm { int 3 } return 0; }
-int close_file(int handle, unsigned char release) { __asm { int 3 } return 0; }
+void cache_closed_file(FileSlot *slot) { __asm { int 3 } }
+int close_mapped_file(FileSlot *slot) { __asm { int 3 } return -1; }
 
 void *type_scratch(unsigned long size) { __asm { int 3 } return NULL; }
 

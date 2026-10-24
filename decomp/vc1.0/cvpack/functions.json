@@ -282,13 +282,16 @@
       "native": "close_file",
       "symbol": "_close_file",
       "original": 171728,
-      "source": "src/stubs.c",
+      "source": "src/files.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        171728,
+        171854
+      ],
       "abi": "int close_file(int,unsigned char)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0148-close_file/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -304,7 +307,21 @@
           "kind": "integer",
           "bits": 8
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "initialize_type_tables",
@@ -741,7 +758,13 @@
       "evidence": null,
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [
+        {
+          "name": "slot",
+          "slot": 1,
+          "kind": "file-slot"
+        }
+      ]
     },
     {
       "name": "seek_buffered_file",
@@ -7702,6 +7725,50 @@
           "bits": 32
         }
       ]
+    },
+    {
+      "name": "cache_closed_file",
+      "native": "cache_closed_file",
+      "symbol": "_cache_closed_file",
+      "original": 172032,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void cache_closed_file(FileSlot *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "slot",
+          "slot": 1,
+          "kind": "file-slot"
+        }
+      ]
+    },
+    {
+      "name": "close_mapped_file",
+      "native": "close_mapped_file",
+      "symbol": "_close_mapped_file",
+      "original": 175200,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int close_mapped_file(FileSlot *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "slot",
+          "slot": 1,
+          "kind": "file-slot"
+        }
+      ]
     }
   ],
   "review": {
@@ -8610,6 +8677,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 147
+    },
+    {
+      "function": "close_file",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 148
     }
   ],
   "support_unmasked": [
@@ -9232,7 +9305,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "c6d285cc936c1343ae803373ecfcbc2d129121ad7be63e0ebfb66c2bded50e61"
+    "evidence_sha256": "676a6dcfc74d6a25059d606faf7b31a40e5b1fe95e694591f8befbeff2e2811d"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -9256,7 +9329,7 @@
   },
   "partial_read_observations": {
     "evidence": "cases/abi/partial-public-read.json",
-    "evidence_sha256": "41c49f22e6cf5afb52ec9cfc247b11a442dcaa0ef9e53b7ec6119ed0f3e8a106"
+    "evidence_sha256": "cba83f3f0ef11e55e45aa58742b601b08a821b8208633d1e678c7cf59d64cd43"
   },
   "module_buffer_publication": {
     "evidence": "cases/abi/module-buffer-publication.json",
@@ -9308,6 +9381,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "a824e26407f6df482213e6b6ae4747c30897d6ae4ebf7c323e6ccb3af010c2dd"
+    "sha256": "5139540ff763bab6ebb34fc9b49be36f87a35b7d7b385efab228000ed9d73e8d"
   }
 }
