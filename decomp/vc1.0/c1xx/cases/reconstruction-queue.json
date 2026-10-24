@@ -32,7 +32,7 @@
     "At each substantial case boundary, review newer verified committed lib/recon fixes with its maintainer and deliberately refresh the shared-build pin where applicable"
   ],
   "completion": "Six complete frontend cases; frozen state_machine_debug remains explicitly unsupported beyond retained flush boundary",
-  "next_case": "Propose substantial single remaining-application case for root review before original baseline",
+  "next_case": "member_registry_browser (concrete proposal pending root review; no baseline yet)",
   "completed": [
     {
       "case": "cpp_basic",
@@ -108,5 +108,11 @@
     "topic": "GPA unknown-name fail-closed policy and successful WriteFile errno/LastError preservation",
     "status": "Reviewed with shared maintainer and pinned at new_delete completion; all5 complete cached native fixtures and canonical/data/grammar audits pass, no original recapture for refresh",
     "verification": "evidence/allocation-completion/receipt.json"
+  },
+  "shared_pin_boundary_review": {
+    "maintainer": "/root/recon_lib_maintenance",
+    "retained": "bf7d2cbfdbe1a071c1cd79d4c8ec46b8b8f23ccc",
+    "status": "At defined-successor completion maintainer confirms no newly observed default-profile gap forces refresh; keep immutable source/ELF and startup53 proof, later FILE/ctype/error fixes tracked without relabelling prior evidence",
+    "live_ready_when_reviewed": "0e8a3d3fc"
   }
 }
