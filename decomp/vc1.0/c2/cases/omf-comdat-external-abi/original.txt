@@ -1,0 +1,7 @@
+enter @omf_emit_comdat_external@4 eax 00000011 args 007b16d8
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
+omf_comdat_external symbol 007b16d8 identifier 161 bucket 33 index 0 member 007b16d8 next_external 4 return_address 0006ac65
+omf_comdat_target target_id 183 target_bucket 55 target_index 0 target 007b2754 target_identifier 183 object_section 00000011
+entry_end

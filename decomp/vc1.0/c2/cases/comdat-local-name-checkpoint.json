@@ -1,0 +1,169 @@
+{
+  "checkpoint": 1306,
+  "status": "49B local-name wrapper accepted; next COMDAT external6ae00",
+  "new_function": {
+    "name": "@omf_local_name_index@4",
+    "start": 437840,
+    "end": 437889,
+    "abi": {
+      "convention": "fastcall",
+      "parameters": [
+        {
+          "name": "name",
+          "location": "ECX",
+          "type": "char pointer"
+        }
+      ],
+      "hidden_inputs": [],
+      "callee_stack_cleanup": 0,
+      "entry_observation": "cases/omf-local-name-abi/validation.json",
+      "scope": "Original6ae50..6ae81 consumes soleECX name, RET0; local unsigned index is written by accepted interner before return on either branch. No other incoming register/stack/flags/x87/global/out pointer. Name aliases owned symbol_display_name256B workspace, actual NUL bytes and original caller/native omf_mark_symbol observed. Uninitialized local index bytes are write-only child output, never read/dumped/seeded."
+    }
+  },
+  "extent_delta": 49,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1306,
+    "accepted_code_bytes": 346704,
+    "original_code_bytes": 399693,
+    "percentage": 86.7425749262559,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 648
+  },
+  "actual_abi": "cases/omf-local-name-abi/validation.json",
+  "focused_controls": "cases/omf-local-name-validation.json",
+  "fresh_before": "cases/comdat-original-1305.json",
+  "fresh_after": "cases/comdat-original-1306.json",
+  "native_after": "cases/comdat-original-1306-native.json",
+  "native_suite": "cases/native-all-validation.json",
+  "timings": {
+    "comdat-local-name-observer-build": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 3.227592956274748,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "comdat-local-name-entry": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-local-name-entry.py"
+      ],
+      "seconds": 2.165843444876373,
+      "returncode": 0,
+      "log_sha256": "dc39e0829a6e6e1e149ac7b37c398b1e83674935887f9a58ea1445aacd48e44d"
+    },
+    "comdat-1306-build": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 2.9976684637367725,
+      "returncode": 0,
+      "log_sha256": "e9e8cc18ee7074dd06baf817b3306a23bd72107780df008a3cbc77aef2fcd1a8"
+    },
+    "comdat-1306-controls": {
+      "command": [
+        "python3",
+        "scripts/check-omf-local-name.py"
+      ],
+      "seconds": 1.533476710319519,
+      "returncode": 0,
+      "log_sha256": "6ebff0a1c6bc05144cf6dadf67043497a1c6eb8456ba9a4bc8f16bf1fc22fad0"
+    },
+    "comdat-1306-warnings": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 1.5070026125758886,
+      "returncode": 0,
+      "log_sha256": "6afd650520707a27d9a89d2f11a308192737a27291daeea26e14a6c9910a0494"
+    },
+    "comdat-1306-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 28.562160381115973,
+      "returncode": 0,
+      "log_sha256": "54c3306459b97db9070dd49552f0346ff3651bee1c1afd103b0dee5f25b681d1"
+    },
+    "comdat-1306-original": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "comdat",
+        "--receipt",
+        "cases/comdat-original-1306.json"
+      ],
+      "seconds": 1.8602359918877482,
+      "returncode": 0,
+      "log_sha256": "ad99b68817ba007380a2cd54ff9bab486cb245804e77fede540e98cbb3b1da06"
+    },
+    "comdat-1306-native": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "comdat",
+        "--reference",
+        "cases/comdat-original-1306.json"
+      ],
+      "seconds": 0.2306466968730092,
+      "returncode": 0,
+      "log_sha256": "6ab3a33a5b5532c32febf0d7210cc31ed71ca5258e91b1dffc5fcbad4512feb5"
+    },
+    "comdat-1306-cache": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/comdat-original-1305.json",
+        "--extend-after",
+        "cases/comdat-original-1306.json"
+      ],
+      "seconds": 0.3432889562100172,
+      "returncode": 0,
+      "log_sha256": "9e624c0cb2668c850b916c1cc78cb83098694f33c6633c572adbeb0ba571eafb"
+    },
+    "comdat-1306-fixtures": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 1.0248514097183943,
+      "returncode": 0,
+      "log_sha256": "045348b13b906ee9ca84527d94f661028c0b35c071f570fe38731de7b30aba6d"
+    }
+  },
+  "scope": "72 whole original/canonical controls/6 ABI rejects. Actual _packet_step NUL name aliases symbol-name workspace; escaped local index is future write-only child result, never dumped/seeded. ExactCA/NULL record type vs ordinary LNAMES96 retained, same child graph and return after append. Original/W3/audits/fresh pair/native16cases pass; complete1962B object pending. Analysis/edit time unmeasured."
+}

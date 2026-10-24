@@ -952,3 +952,11 @@ New source list caused one full41.012s build; focused controls14.706s,
 ordinary audit28.596s, fresh original1.200s/native.220s, suite1.019s.
 Next local OMF name6ae50; exact final object pending. Split receipt:
 cases/comdat-zero-extension-checkpoint.json.
+
+At1307 local-name wrapper49B and CEXTDEF writer66B are accepted. Actual
+_packet_step name aliases the compiler workspace, then sourceid161 resolves
+closed segmentid183/nameindex17/counter4.72/64 whole original/canonical
+controls and6/7 ABI negatives, original/W3/audits/fresh pair/native16cases
+pass. No outputfield14 or uninitialized localindex input snapshots. Next
+COMDAT selection mapper6c2f0. Exact1962B object pending; split receipts in
+cases/comdat-local-name-checkpoint.json and comdat-external-checkpoint.json.

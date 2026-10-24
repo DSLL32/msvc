@@ -1,0 +1,181 @@
+{
+  "checkpoint": 1307,
+  "status": "66B CEXTDEF writer accepted; next COMDAT selection6c2f0",
+  "new_function": {
+    "name": "@omf_emit_comdat_external@4",
+    "start": 437760,
+    "end": 437826,
+    "abi": {
+      "convention": "fastcall",
+      "parameters": [
+        {
+          "name": "symbol",
+          "location": "ECX",
+          "type": "SymbolHeader pointer"
+        }
+      ],
+      "hidden_inputs": [],
+      "callee_stack_cleanup": 0,
+      "entry_observation": "cases/omf-comdat-external-abi/validation.json",
+      "scope": "Original6ae00..6ae42 consumes soleECXsymbol, RET0; after beginBC/NULL loads mutable next-external85078, overwrites symbol.field14, advancescounter, looks up symbol.field18 identifier and passes returned Segment.object_section56 to index writer, appendszero. No other incoming register/stack/flags/x87/out pointer. Actual symbol/segment identities and closed global hash lookup target/nameindex/counter observed. Old outputfield14 never read/dumped/seeded; names/unused descriptors omitted."
+    }
+  },
+  "extent_delta": 66,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1307,
+    "accepted_code_bytes": 346770,
+    "original_code_bytes": 399693,
+    "percentage": 86.7590875997328,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 648
+  },
+  "actual_abi": "cases/omf-comdat-external-abi/validation.json",
+  "focused_controls": "cases/omf-comdat-external-validation.json",
+  "fresh_before": "cases/comdat-original-1306.json",
+  "fresh_after": "cases/comdat-original-1307.json",
+  "native_after": "cases/comdat-original-1307-native.json",
+  "native_suite": "cases/native-all-validation.json",
+  "timings": {
+    "comdat-external-observer-build": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 3.779562291689217,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "comdat-external-observer-build-bounded": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 2.692606925033033,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "comdat-external-entry": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-comdat-external-entry.py"
+      ],
+      "seconds": 1.3961853049695492,
+      "returncode": 0,
+      "log_sha256": "9c51aae66100455cb93d20b036994a6c06a8742cdb38ed1e1b54c98378437193"
+    },
+    "comdat-1307-build": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 3.286544531583786,
+      "returncode": 0,
+      "log_sha256": "e9e8cc18ee7074dd06baf817b3306a23bd72107780df008a3cbc77aef2fcd1a8"
+    },
+    "comdat-1307-controls": {
+      "command": [
+        "python3",
+        "scripts/check-omf-comdat-external.py"
+      ],
+      "seconds": 1.383676527068019,
+      "returncode": 0,
+      "log_sha256": "c208fcffb6a62673d11d5c2bce1f9ab488e2f974333c2058f1cde1cf844a5648"
+    },
+    "comdat-1307-warnings": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 2.337499630637467,
+      "returncode": 0,
+      "log_sha256": "794c2af4abf11d219703c6457384909fc37c1fabfd50244d2ce51225f816fea4"
+    },
+    "comdat-1307-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 29.122855628840625,
+      "returncode": 0,
+      "log_sha256": "7edf86f1ab6d07eaf1b3ce37d9e23247f47988f1b308e7fda1c71df7645e12cb"
+    },
+    "comdat-1307-original": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "comdat",
+        "--receipt",
+        "cases/comdat-original-1307.json"
+      ],
+      "seconds": 1.9179160306230187,
+      "returncode": 0,
+      "log_sha256": "66839d7003e25a3ecd3d0974b7dcd379e306d8842222bcc3481dbadcc5f49465"
+    },
+    "comdat-1307-native": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "comdat",
+        "--reference",
+        "cases/comdat-original-1307.json"
+      ],
+      "seconds": 0.22066542971879244,
+      "returncode": 0,
+      "log_sha256": "6a87e15eee112658b03c436cc01635e7b86da84f00547a378b06205413e86fe7"
+    },
+    "comdat-1307-cache": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/comdat-original-1306.json",
+        "--extend-after",
+        "cases/comdat-original-1307.json"
+      ],
+      "seconds": 0.34540595952421427,
+      "returncode": 0,
+      "log_sha256": "9e624c0cb2668c850b916c1cc78cb83098694f33c6633c572adbeb0ba571eafb"
+    },
+    "comdat-1307-fixtures": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 1.0058165322989225,
+      "returncode": 0,
+      "log_sha256": "ff85d2626f0a01677588a865e071a72d03ed228c2984700b0af9b3d6d84bd651"
+    }
+  },
+  "scope": "64 full original/canonical controls/7 ABI rejects. Actual global sourceid161/segmentid183/nameindex17/counter4 observed with closed source/lookup identities; old outputfield14 omitted. Full postchild loads, externalcounter wrap,raw0type and caller-saved preservation. One observer build repeated before any capture after splitting a prospective298B worst-case printf across two bounded256B lines; no baseline repeated. Original/W3/audits/fresh pair/native16cases pass, exact1962B completed object pending. Analysis/edit time unmeasured."
+}

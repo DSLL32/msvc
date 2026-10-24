@@ -465,6 +465,22 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         /* Only the count/cursor are consumed; old destination bytes are write-only. */
         dump_bytes(process,"omf_pad_count_cursor_hex",record+12,8);
     }
+    if(!strcmp(call->name,"@omf_emit_comdat_external@4")) {
+        DWORD symbol=call->args[0],id=read_word(process,symbol+28),target_id=read_word(process,symbol+24);
+        DWORD source_bucket=id&63,source_index=0,target_bucket=target_id&63,target_index=0;
+        DWORD member=read_word(process,image_base+0x6c158+source_bucket*4),target;
+        while(member&&member!=symbol&&++source_index<1024)member=read_word(process,member);
+        if(member!=symbol||source_index==1024)exit(318);
+        target=read_word(process,image_base+0x6c158+target_bucket*4);
+        while(target&&read_word(process,target+28)!=target_id&&++target_index<1024)target=read_word(process,target);
+        if(!target||target_index==1024)exit(319);
+        sprintf(line,"omf_comdat_external symbol %08lx identifier %lu bucket %lu index %lu member %08lx next_external %lu return_address %08lx\n",symbol,id,source_bucket,source_index,member,read_word(process,image_base+0x75078),call->return_address);log_line(line);
+        sprintf(line,"omf_comdat_target target_id %lu target_bucket %lu target_index %lu target %08lx target_identifier %lu object_section %08lx\n",target_id,target_bucket,target_index,target,read_word(process,target+28),read_word(process,target+56));log_line(line);
+    }
+    if(!strcmp(call->name,"@omf_local_name_index@4")) {
+        sprintf(line,"omf_local_name pointer %08lx workspace %08lx return_address %08lx\n",call->args[0],image_base+0x6e3b0,call->return_address);log_line(line);
+        dump_bytes(process,"omf_local_name_hex",call->args[0],string_bytes(process,call->args[0]));
+    }
     if(!strcmp(call->name,"@expand_zero_extension@4")) {
         DWORD instruction=call->args[0],node=read_word(process,image_base+0x6b940),index=0;
         DWORD next=read_word(process,instruction),kind=read_word(process,instruction+24)&15;

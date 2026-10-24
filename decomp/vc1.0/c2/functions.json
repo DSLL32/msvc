@@ -1309,7 +1309,9 @@
     "@omf_write_communal_size@8",
     "@omf_write_iterated_data@16",
     "_record_debug_register_locations",
-    "@expand_zero_extension@4"
+    "@expand_zero_extension@4",
+    "@omf_local_name_index@4",
+    "@omf_emit_comdat_external@4"
   ],
   "driver": [
     {
@@ -9344,14 +9346,40 @@
     {
       "name": "@omf_emit_comdat_external@4",
       "start": 437760,
-      "end": 437761,
-      "provisional": true
+      "end": 437826,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "SymbolHeader pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-comdat-external-abi/validation.json",
+        "scope": "Original6ae00..6ae42 consumes soleECXsymbol, RET0; after beginBC/NULL loads mutable next-external85078, overwrites symbol.field14, advancescounter, looks up symbol.field18 identifier and passes returned Segment.object_section56 to index writer, appendszero. No other incoming register/stack/flags/x87/out pointer. Actual symbol/segment identities and closed global hash lookup target/nameindex/counter observed. Old outputfield14 never read/dumped/seeded; names/unused descriptors omitted."
+      }
     },
     {
       "name": "@omf_local_name_index@4",
       "start": 437840,
-      "end": 437841,
-      "provisional": true
+      "end": 437889,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "name",
+            "location": "ECX",
+            "type": "char pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-local-name-abi/validation.json",
+        "scope": "Original6ae50..6ae81 consumes soleECX name, RET0; local unsigned index is written by accepted interner before return on either branch. No other incoming register/stack/flags/x87/global/out pointer. Name aliases owned symbol_display_name256B workspace, actual NUL bytes and original caller/native omf_mark_symbol observed. Uninitialized local index bytes are write-only child output, never read/dumped/seeded."
+      }
     },
     {
       "name": "@omf_emit_communal@4",

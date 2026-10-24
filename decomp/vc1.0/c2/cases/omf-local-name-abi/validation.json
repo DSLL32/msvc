@@ -1,0 +1,33 @@
+{
+  "matched": true,
+  "function": "@omf_local_name_index@4",
+  "original_va": "0x6ae50",
+  "formals": [
+    {
+      "name": "name",
+      "location": "ECX",
+      "type": "char pointer",
+      "original": 517040,
+      "native": 1449243268
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "no_hidden_inputs_proof": "Original6ae50..6ae81 consumes soleECX name, RET0; local unsigned index is written by accepted interner before return on either branch. No other incoming register/stack/flags/x87/global/out pointer. Name aliases owned symbol_display_name256B workspace, actual NUL bytes and original caller/native omf_mark_symbol observed. Uninitialized local index bytes are write-only child output, never read/dumped/seeded.",
+  "original": {
+    "pointer": 517040,
+    "workspace": 517040,
+    "return_address": 437339,
+    "name_hex": "5f7061636b65745f7374657000"
+  },
+  "native": {
+    "pointer": 1449243268,
+    "workspace": 1449243268,
+    "name_hex": "5f7061636b65745f7374657000",
+    "caller": "omf_mark_symbol"
+  },
+  "original_execution_seconds": 1.6907051857560873,
+  "native_debug_seconds": 0.14756076503545046,
+  "total_seconds": 2.0900137713178992,
+  "scope": "Actual name pointer/workspace/NUL content only; interner table/state are child inputs not fabricated wrapper global reads. Cold reuse/emit branches and final artifact pending."
+}

@@ -1388,3 +1388,31 @@ void __fastcall omf_write_iterated_data(Segment *segment, int repeat,
     omf_append_bytes(record, data, bytes);
     if (shift) omf_append_bytes(record, data, bytes);
 }
+
+/* Original [0006ae50,0006ae81). Local names use LLNAMES rather than
+   LNAMES; the interner owns the returned index on both lookup paths. */
+unsigned __fastcall omf_local_name_index(char *name)
+{
+    unsigned index;
+    if (!omf_intern_name(name, &index))
+        omf_append_string(omf_begin_record(0xca, NULL), name);
+    return index;
+}
+
+/* Original [0006ae00,0006ae42). CEXTDEF refers to the segment's local
+   name index, while retaining the same mutable external-index domain. */
+void __fastcall omf_emit_comdat_external(SymbolHeader *symbol)
+{
+    OmfRecord *record = omf_begin_record(0xbc, NULL);
+    Segment *segment;
+    unsigned index = omf_next_external;
+    unsigned char *cursor;
+    symbol->field14 = index;
+    omf_next_external = index + 1;
+    segment = (Segment *)lookup_global_symbol(symbol->field18.identifier);
+    omf_write_index(record, segment->object_section);
+    cursor = record->cursor;
+    ++record->count;
+    *cursor++ = 0;
+    record->cursor = cursor;
+}

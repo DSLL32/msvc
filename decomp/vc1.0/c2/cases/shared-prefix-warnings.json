@@ -1,10 +1,10 @@
 {
   "modules": [
     {
-      "module": "zero-extension",
-      "seconds": 1.2085519591346383,
+      "module": "omf-output",
+      "seconds": 2.2883186684921384,
       "returncode": 0
     }
   ],
-  "seconds": 1.2087527737021446
+  "seconds": 2.2885347604751587
 }

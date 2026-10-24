@@ -1,0 +1,1873 @@
+{
+  "actual_abi": true,
+  "rejected": [
+    "missing formal",
+    "wrong ECX",
+    "wrong source owner",
+    "wrong lookup ID",
+    "wrong name index",
+    "wrong counter",
+    "invented old output"
+  ],
+  "states": 64,
+  "cases": [
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "index": 17,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "index": 17,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "index": 17,
+        "mutation": "lookup"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "index": 17,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "index": 2147483648,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "index": 2147483648,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "index": 2147483648,
+        "mutation": "lookup"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 0,
+        "index": 2147483648,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "index": 17,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "index": 17,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "index": 17,
+        "mutation": "lookup"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "index": 17,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "index": 2147483648,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "index": 2147483648,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "index": 2147483648,
+        "mutation": "lookup"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 0,
+        "old_output": 2779096485,
+        "index": 2147483648,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "index": 17,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "index": 17,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "index": 17,
+        "mutation": "lookup"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "index": 17,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "index": 2147483648,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "index": 2147483648,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "index": 2147483648,
+        "mutation": "lookup"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 0,
+        "index": 2147483648,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "index": 17,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "index": 17,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "index": 17,
+        "mutation": "lookup"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "index": 17,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "index": 2147483648,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "index": 2147483648,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "index": 2147483648,
+        "mutation": "lookup"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            4294967295
+          ]
+        ],
+        "index": 1,
+        "next_external": 2,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 1,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "index": 2147483648,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 1,
+        "next_external": 7,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "index": 17,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "index": 17,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "index": 17,
+        "mutation": "lookup"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "index": 17,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "index": 2147483648,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "index": 2147483648,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "index": 2147483648,
+        "mutation": "lookup"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 0,
+        "index": 2147483648,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "index": 17,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "index": 17,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "index": 17,
+        "mutation": "lookup"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "index": 17,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "index": 2147483648,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "index": 2147483648,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "index": 2147483648,
+        "mutation": "lookup"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 0,
+        "old_output": 2779096485,
+        "index": 2147483648,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "8d5a7aa91bfbe7722f0ad9b5c442e1f0747da89263b2c66c8a91da4c6f31757f"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "index": 17,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "index": 17,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "index": 17,
+        "mutation": "lookup"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "index": 17,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "index": 2147483648,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "index": 2147483648,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "index": 2147483648,
+        "mutation": "lookup"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 0,
+        "index": 2147483648,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "index": 17,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "index": 17,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "index": 17,
+        "mutation": "lookup"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "index": 17,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            17
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "index": 2147483648,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "index": 2147483648,
+        "mutation": "begin"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 2147483648,
+        "next_external": 2147483649,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "index": 2147483648,
+        "mutation": "lookup"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            4294967295
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 0,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    },
+    {
+      "inputs": {
+        "counter": 4294967295,
+        "count": 4294967295,
+        "old_output": 2779096485,
+        "index": 2147483648,
+        "mutation": "index"
+      },
+      "result": {
+        "events": [
+          [
+            "begin",
+            188,
+            0
+          ],
+          [
+            "lookup",
+            183
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "index": 4294967295,
+        "next_external": 7,
+        "record_sha256": "1b5625297d9534184d148f5898685f46a0f7018610e7bf57506f279bb9330ea6"
+      }
+    }
+  ],
+  "seconds": 1.2717260280624032,
+  "scope": "Whole66B original/canonical CEXTDEF. Counter loaded afterbegin/assignmentbeforelookup, symbol ID reload afterbegin, target.object_section reload afterlookup, full unsignedDWORD forwarded to index child, count/cursor reload afterindex, rawzero type, wraps/caller-savedclobbers/128symbol+72segment+1004recordbytes/callee-saved/RET0. Child semantics mocked; actual sourceid161/segmentid183/nameindex17/counter4 observed, no original output-field input dump/seed or complete artifact claim."
+}

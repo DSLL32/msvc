@@ -61,6 +61,8 @@ audit: build/runtime.json runtime.json $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-omf-directive.py --abi-only
 	$(PYTHON) scripts/check-omf-comment.py --abi-only
 	$(PYTHON) scripts/check-omf-name-index.py --abi-only
+	$(PYTHON) scripts/check-omf-local-name.py --abi-only
+	$(PYTHON) scripts/check-omf-comdat-external.py --abi-only
 	$(PYTHON) scripts/check-omf-interner.py --abi-only
 	$(PYTHON) scripts/check-omf-segment.py --abi-only
 	$(PYTHON) scripts/check-omf-alignment.py --abi-only
@@ -139,6 +141,8 @@ audit-negatives: $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-omf-directive.py --abi-only
 	$(PYTHON) scripts/check-omf-comment.py --abi-only
 	$(PYTHON) scripts/check-omf-name-index.py --abi-only
+	$(PYTHON) scripts/check-omf-local-name.py --abi-only
+	$(PYTHON) scripts/check-omf-comdat-external.py --abi-only
 	$(PYTHON) scripts/check-omf-interner.py --abi-only
 	$(PYTHON) scripts/check-omf-segment.py --abi-only
 	$(PYTHON) scripts/check-omf-alignment.py --abi-only
@@ -184,6 +188,8 @@ audit-data: build/c2.exe native build/native/check-codeview-string build/native/
 	$(PYTHON) scripts/check-omf-comment.py
 	$(PYTHON) scripts/check-omf-bytes.py
 	$(PYTHON) scripts/check-omf-name-index.py
+	$(PYTHON) scripts/check-omf-local-name.py
+	$(PYTHON) scripts/check-omf-comdat-external.py
 	$(PYTHON) scripts/check-omf-wire.py
 	$(PYTHON) scripts/check-omf-begin.py
 	$(PYTHON) scripts/check-omf-find.py

@@ -1,0 +1,8 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x3f47: file src/stubs.c, line 105.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, omf_emit_comdat_external (symbol=0x566387b0) at src/stubs.c:105
+105	void __fastcall omf_emit_comdat_external(SymbolHeader *symbol) { __asm int 3 }
+C2_COMDAT_EXTERNAL {"symbol": 1449363376, "identifier": 161, "bucket": 33, "index": 0, "member": 1449363376, "target_id": 183, "target_bucket": 55, "target_index": 0, "target": 1449367620, "target_identifier": 183, "object_section": 17, "next_external": 4, "caller": "omf_mark_symbol"}
