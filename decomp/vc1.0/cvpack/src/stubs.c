@@ -119,5 +119,3 @@ void __fastcall queue_type_match(unsigned short type, TypeCacheEntry *named) { _
 void merge_field_list(unsigned char *record, TypeRecord *entry) { __asm { int 3 } }
 
 void release_type_data(TypeRecord *entry) { __asm { int 3 } }
-
-ModuleInfo *find_precompiled_module(const unsigned char *name) { __asm { int 3 } return NULL; }

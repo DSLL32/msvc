@@ -173,6 +173,9 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
         recursive_input=compare_recursive_input(events,words,state['parameters'])
     for item in frontier['parameters']if frontier else []:
         if item['kind']=='integer':parameters[item['name']]=compare_integer(item,frontier['parameters'],words,state['parameters'])
+        elif item['kind']=='module-symbol-prefix':
+            from recursive_input import compare_symbol_prefix
+            parameters[item['name']]=compare_symbol_prefix(events,words,state['parameters'][item['name']])
         elif item['kind']=='module-type-record':
             from recursive_input import compare_precompiled
             parameters[item['name']]=compare_precompiled(events,words,state['parameters'][item['name']])

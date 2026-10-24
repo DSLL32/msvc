@@ -312,6 +312,8 @@ static int finish_sopen(HANDLE child, HANDLE log, HANDLE thread)
 
 #include "freebuf-observer.h"
 #include "mapped-slot-observer.h"
+static DWORD symbol_prefix_enabled,symbol_prefix_count;
+static DWORD symbol_prefix_allocations[64][3];
 #include "recursive-input-observer.h"
 
 static int dump_file_descriptor(HANDLE child, HANDLE log, DWORD root, DWORD index)
@@ -413,7 +415,7 @@ static int restore_runtime(HANDLE child, HANDLE original, HANDLE log,
             for (j=0;j<3;++j) if (address<=sites[j] && sites[j]<address+length)
                 if (!WriteProcessMemory(child,(void *)sites[j],&trap,1,&bytes) || bytes!=1) return -1;
         }
-        if (read_site_count && address<=0x2504e && 0x2504e<address+length)
+        if ((read_site_count || symbol_prefix_enabled) && address<=0x2504e && 0x2504e<address+length)
             if (!WriteProcessMemory(child,(void *)0x2504e,&trap,1,&bytes) || bytes!=1) return -1;
         if (read_site_count && address<=0x199d7 && 0x199d7<address+length)
             if (!WriteProcessMemory(child,(void *)0x199d7,&trap,1,&bytes) || bytes!=1) return -1;
@@ -717,10 +719,22 @@ static int observe_symbol_allocation(HANDLE child,HANDLE log,HANDLE thread,DWORD
     CONTEXT context;DWORD words[13],bytes,written,i,header[3],number;int used;
     unsigned char instruction=0x89;
     memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL;
-    if(symbol_base || symbol_step || !GetThreadContext(thread,&context) || context.Eip!=0x2504f ||
+    if((!symbol_prefix_enabled && symbol_base) || symbol_step || !GetThreadContext(thread,&context) || context.Eip!=0x2504f ||
        !ReadProcessMemory(child,(void *)context.Esp,words,sizeof(words),&bytes) || bytes!=sizeof(words) ||
        !ReadProcessMemory(child,(void *)words[9],header,12,&bytes) || bytes!=12 ||
        !ReadProcessMemory(child,(void *)words[10],&number,2,&bytes) || bytes!=2) return 0;
+    if(symbol_prefix_enabled) {
+        DWORD padding=0,skipped=0;
+        if(symbol_prefix_count==64 || !context.Eax || !words[0] || words[0]>sizeof(walk_bytes) ||
+           !recursive_read(child,words[11],&padding,2) || !recursive_read(child,words[12],&skipped,2) ||
+           words[0]!=header[2]+padding-skipped || (header[0]&0xffff)!=0x124)return 0;
+        symbol_prefix_allocations[symbol_prefix_count][0]=context.Eax;
+        symbol_prefix_allocations[symbol_prefix_count][1]=words[0];
+        symbol_prefix_allocations[symbol_prefix_count++][2]=words[10];
+        used=sprintf(object_line,"packed-symbol-allocation module %lu owner %08lx input %08lx requested %lu source_size %lu padding %lu skipped %lu\n",
+            number&0xffff,words[10],context.Eax,words[0],header[2],padding,skipped);
+        goto restore_symbol_allocation;
+    }
     symbol_size=words[0];symbol_base=context.Eax;symbol_input_base=words[8];symbol_entry=words[9];symbol_module=words[10];
     if(!ReadProcessMemory(child,(void *)words[11],&symbol_padding,2,&bytes) || bytes!=2 ||
        !ReadProcessMemory(child,(void *)words[12],&symbol_skipped,2,&bytes) || bytes!=2) return 0;
@@ -732,6 +746,7 @@ static int observe_symbol_allocation(HANDLE child,HANDLE log,HANDLE thread,DWORD
          symbol_base,symbol_size,symbol_input_base,symbol_entry,symbol_module,number,symbol_padding,symbol_skipped,context.Esp);
     for(i=0;i<symbol_size;++i)used+=sprintf(object_line+used,"%02x",symbol_before[i]);
     object_line[used++]='\n';
+restore_symbol_allocation:
     if(!WriteFile(log,object_line,used,&written,0) || written!=(DWORD)used ||
        !WriteProcessMemory(child,(void *)0x2504e,&instruction,1,&bytes) || bytes!=1) return 0;
     FlushInstructionCache(child,(void *)0x2504e,1);
@@ -1232,6 +1247,7 @@ int main(int argc, char **argv)
     packed_arena_enabled = GetEnvironmentVariableA("CVPACK_CAPTURE_PACKED_ARENA", program, sizeof(program)) != 0;
     recursive_arena_enabled = GetEnvironmentVariableA("CVPACK_CAPTURE_RECURSIVE_ARENA", program, sizeof(program)) != 0;
     resolver_enabled = GetEnvironmentVariableA("CVPACK_CAPTURE_RESOLVER", program, sizeof(program)) != 0;
+    symbol_prefix_enabled = GetEnvironmentVariableA("CVPACK_CAPTURE_SYMBOL_PREFIX", program, sizeof(program)) != 0;
     buffer_enabled = GetEnvironmentVariableA("CVPACK_CAPTURE_BUFFER", program, sizeof(program)) != 0;
     if (GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_GUARD", program, sizeof(program))) {
         if (sscanf(program, "%lx:%lx:%lx", &sopen_start, &sopen_end, &sopen_offset) != 3 ||
@@ -1536,6 +1552,7 @@ int main(int argc, char **argv)
                 if(!dump_recursive_inputs(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,&context,words))return 67;
                 if(!dump_numeric_input(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,words))return 68;
                 if(!dump_precompiled_input(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,words))return 68;
+                if(!dump_symbol_prefix(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,&context,words))return 69;
                 if(!dump_progress_input(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,words))return 54;
                 if(!dump_symbol_references(child.hProcess,log))return 53;
                 if(!dump_symbol_blocks(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress))return 48;

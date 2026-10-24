@@ -2358,3 +2358,26 @@ void load_precompiled_types(const unsigned char *record)
     precompiled_type_count = local_type_count;
     previous_precompiled_module = module;
 }
+
+/* Original [0001abf0,0001ac77): match the counted PCH object name. */
+ModuleInfo *find_precompiled_module(const unsigned char *name)
+{
+    ModuleInfo *module;
+    char filename[260];
+    for (module = module_list; module; module = module->next) {
+        if (module->object_name && *module->object_name == *name) {
+#ifdef RECON_NATIVE_TEST
+            /* The original sign-extends the count; unsupported negative sizes. */
+            if ((signed char)*name < 0) __asm { int 3 }
+#endif
+            if (!_strnicmp((const char *)name+1, (const char *)module->object_name+1,
+                           (signed char)*name)) return module;
+        }
+    }
+#ifdef RECON_NATIVE_TEST
+    if ((signed char)*name < 0) __asm { int 3 }
+#endif
+    strncpy(filename, (const char *)name+1, (signed char)*name);
+    filename[(signed char)*name] = 0;
+    fatal_error(29, filename, NULL);
+}

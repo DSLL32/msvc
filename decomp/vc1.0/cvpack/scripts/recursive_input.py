@@ -49,3 +49,14 @@ def compare_precompiled(events,words,actual):
     for r in(old,new):
         raw=bytes.fromhex(r['bytes']);assert r['argument']==r['input']+offset and len(raw)==r['size']==int.from_bytes(raw[:2],'little')+2 and 14<=r['size']<=min(1024,r['defined'])<=r['capacity']and raw[2:4]==b'\x13\0','precompiled record outside initialized first block'
     return dict(original=old,native=new,scope='Actual first LF_PRECOMP record in the current module first-block payload. The separately consumed DWORD signature is excluded from the initialized payload size; no unread block capacity or later record/heap equality claim.')
+
+
+def compare_symbol_prefix(events,words,actual):
+    old=parse(events,'packed-symbol-input',['directory','subtype','module','owner','input','requested','defined','bytes'],('owner','input'));new=actual['typed']
+    assert words[0]==0x20d27 and old['input']==words[1]and new['input']==actual['address'],'symbol prefix actual caller/ABI differs'
+    assert all(old[k]==new[k]for k in('directory','subtype','module','requested','defined','bytes')),'actual published symbol prefix differs'
+    allocations=[line.split()for line in events.splitlines()if line.startswith('packed-symbol-allocation ')]
+    matches=[r for r in allocations if int(r[6],16)==old['input']and int(r[4],16)==old['owner']];assert len(matches)==1,'missing actual symbol allocation lifetime'
+    allocation=matches[0];assert int(allocation[8])==old['requested']==int(allocation[10])+int(allocation[12])-int(allocation[14]),'original symbol allocation request differs'
+    for r in(old,new):assert r['subtype']==0x125 and 0<r['defined']<=r['requested']<=524288 and len(bytes.fromhex(r['bytes']))==r['defined']==(words[2]&0xffff)
+    return dict(original=old,native=new,original_allocation=allocation,scope='Actual first buffered-write source: live selected directory125 entry and module.symbols publication, real malloc request/return, exact defined packed symbol prefix. No uninitialized allocation tail or wider module heap equality claimed.')

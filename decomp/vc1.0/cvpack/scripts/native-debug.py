@@ -764,3 +764,27 @@ def mapped_current_source(slot):
     position=int(next(line.split()[1]for line in Path('/proc/%d/fdinfo/%d'%(pid,fd)).read_text().splitlines()if line.startswith('pos:')))
     assert stat.S_ISREG(actual.st_mode)and (actual.st_dev,actual.st_ino)==(expected.st_dev,expected.st_ino)
     return dict(handle=handle,physical_size=actual.st_size,position=position,owned=True)
+
+
+def install_symbol_prefix_allocations():
+    source=Path(__file__).resolve().parents[1]/'src/types.c';lines=source.read_text().splitlines();start=next(i for i,l in enumerate(lines)if l.startswith('void pack_new_types('));line=next(i+1 for i in range(start,len(lines))if lines[i].strip()=='if (!buffer) fatal_error(14, NULL, NULL);')
+    gdb.cvpack_symbol_prefix_allocations=[]
+    class PublishedAllocation(gdb.Breakpoint):
+        def stop(self):
+            f=gdb.newest_frame();assert f.name()=='pack_new_types'
+            gdb.cvpack_symbol_prefix_allocations.append(dict(input=int(f.read_var('buffer')),requested=int(f.read_var('output_size')),owner=int(f.read_var('module'))))
+            return False
+    PublishedAllocation(str(source)+':'+str(line),internal=True)
+
+
+def symbol_prefix_input(frame,address,size):
+    caller=frame.older();assert frame.name()=='write_output'and caller.name()=='write_subsection'
+    index=int(caller.read_var('index'));entries=gdb.parse_and_eval('directory_entries');count=int(gdb.parse_and_eval('directory_entry_count'));assert 0<=index<count
+    entry=entries[index];number=int(entry['module']);assert int(entry['subsection'])==0x125 and int(entry['location']['data'])==address and int(entry['size'])==size
+    module=gdb.parse_and_eval('module_list');steps=0
+    while int(module)and int(module['module'])!=number:
+        module=module['next'];steps+=1;assert steps<256
+    assert int(module)and int(module['symbols'])==address and int(module['symbol_size'])==size
+    allocations=[r for r in gdb.cvpack_symbol_prefix_allocations if r['input']==address and r['owner']==int(module)];assert len(allocations)==1
+    requested=allocations[0]['requested'];assert 0<size<=requested<=524288
+    return dict(directory=index,subtype=0x125,module=number,owner=int(module),input=address,requested=requested,defined=size,bytes=bytes(gdb.selected_inferior().read_memory(address,size)).hex())

@@ -132,3 +132,29 @@ static int dump_precompiled_input(HANDLE child,HANDLE log,DWORD frontier,DWORD *
         (DWORD)number,input,capacity,span,selected,offset,words[1],size);
     return recursive_line(log,used,record,size);
 }
+
+/* Actual published symbol prefix consumed by write_subsection's buffered writer. */
+static int dump_symbol_prefix(HANDLE child,HANDLE log,DWORD frontier,CONTEXT *context,DWORD *words)
+{
+    DWORD directory,count,index,entry[3],module,fields[12],size,requested=0,i,steps=0;int used;
+    if(frontier!=0x280f0)return 1;
+    if(!symbol_prefix_enabled || words[0]!=0x20d27 || context->Ebx%12 ||
+       !recursive_read(child,0x33018,&directory,4) || !recursive_read(child,0x3329c,&count,4))return 0;
+    index=context->Ebx/12;size=words[2]&0xffff;
+    if(index>=count || !recursive_read(child,directory+index*12,entry,12) ||
+       (entry[0]&0xffff)!=0x125 || entry[1]!=words[1] || entry[2]!=size || !size ||
+       !recursive_read(child,0x37890,&module,4))return 0;
+    while(module) {
+        if(++steps>256 || !recursive_read(child,module,fields,48))return 0;
+        if((fields[0]&0xffff)==(entry[0]>>16))break;
+        module=fields[11];
+    }
+    if(!module || fields[5]!=words[1] || fields[6]!=size)return 0;
+    for(i=0;i<symbol_prefix_count;++i)if(symbol_prefix_allocations[i][0]==words[1] && symbol_prefix_allocations[i][2]==module) {
+        if(requested)return 0;requested=symbol_prefix_allocations[i][1];
+    }
+    if(!requested || size>requested || size>sizeof(walk_bytes) || !recursive_read(child,words[1],walk_bytes,size))return 0;
+    used=sprintf(object_line,"packed-symbol-input directory %lu subtype %lu module %lu owner %08lx input %08lx requested %lu defined %lu bytes ",
+        index,entry[0]&0xffff,entry[0]>>16,module,words[1],requested,size);
+    return recursive_line(log,used,walk_bytes,size);
+}

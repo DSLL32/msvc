@@ -100,7 +100,7 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
         '  value=current.read_var(symbol); kind=value.type.strip_typedefs().code\n'
         '  if kind==gdb.TYPE_CODE_PTR:\n'
         '   parameters[symbol.name]=dict(null=int(value)==0,address=int(value))\n'
-        '   output=any(d["name"]==symbol.name and d["kind"]in("stack-output","allocation-output","counted-string","local-type-record","published-type-record","module-type-slice","module-type-record")for d in next(r for r in '+repr(config['functions'])+' if r["native"]==current.name()).get("parameters",[]))\n'
+        '   output=any(d["name"]==symbol.name and d["kind"]in("stack-output","allocation-output","counted-string","local-type-record","published-type-record","module-type-slice","module-type-record","module-symbol-prefix")for d in next(r for r in '+repr(config['functions'])+' if r["native"]==current.name()).get("parameters",[]))\n'
         '   if not output and int(value) and value.type.strip_typedefs().target().strip_typedefs().code==gdb.TYPE_CODE_INT and value.type.strip_typedefs().target().strip_typedefs().sizeof==1: parameters[symbol.name]["string"]=value.string(encoding="latin1").encode("latin1").hex()\n'
         '   for item in '+repr(data)+':\n'
         '    address=int(gdb.parse_and_eval("&"+item["name"]))\n'
@@ -195,6 +195,7 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
         ' if description["kind"]=="module-type-slice":\n'
         '  argument=parameters[description["name"]];argument["typed"]=runpy.run_path('+repr(str(BINARY/'scripts/recursive-input-debug.py'))+')["numeric_input"](argument["address"],description["bytes"])\n'
         ' if description["kind"]=="module-type-record": argument=parameters[description["name"]];argument["typed"]=runpy.run_path('+repr(str(BINARY/'scripts/recursive-input-debug.py'))+')["precompiled_input"](argument["address"])\n'
+        ' if description["kind"]=="module-symbol-prefix": argument=parameters[description["name"]];argument["typed"]=runpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["symbol_prefix_input"](current,argument["address"],parameters["size"])\n'
         'if frontier["name"]=="compare_recursive_type":\n'
         ' typed=runpy.run_path('+repr(str(BINARY/'scripts/recursive-input-debug.py'))+')["capture"]()\n'
         ' for name,value in typed.items(): parameters[name]["typed"]=value\n'
@@ -317,7 +318,7 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
     if expected.get('proof_mode')=='entry-flow'and expected['terminal']=='trap'and not(reference_completion or scalar_completion):
         marker='set argv[0] = recon_pgmptr\n';text=script.read_text();prefix=text[:text.index(marker)+len(marker)]
         frontier=next(r for r in config['functions']if r['native']==expected['native_function'])
-        assert all(r['kind']in('integer','stack-output','stack-input','allocation-output','counted-string','directory-key','directory-output','global-owner','function','symbol-sort-key','file-slot','mapped-image','local-type-record','published-type-record','module-type-slice','module-type-record')or(r['kind']=='pointer'and r.get('null_only'))for r in frontier['parameters']),'new frontier requires concrete typed pointer observation'
+        assert all(r['kind']in('integer','stack-output','stack-input','allocation-output','counted-string','directory-key','directory-output','global-owner','function','symbol-sort-key','file-slot','mapped-image','local-type-record','published-type-record','module-type-slice','module-type-record','module-symbol-prefix')or(r['kind']=='pointer'and r.get('null_only'))for r in frontier['parameters']),'new frontier requires concrete typed pointer observation'
         observed=[r for r in data if r['name']in expected.get('observed_globals',[])]
         assert len(observed)==len(expected.get('observed_globals',[])),'unknown observed global'
         prefix+='python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_sopen_observer"]('+repr(str(directory/'crt-returns.json'))+','+repr(str(directory/'debug-work'))+','+repr(policies)+')\nend\ncontinue\npython\nimport json\nf=gdb.newest_frame();frames=[];frame=f\nwhile frame:frames.append(frame.name());frame=frame.older()\n'
@@ -362,6 +363,9 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
         observer='python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_mapped_open_observer"]('+repr(str(directory/'mapped-open.json'))+')\nend\n'
         observer+='python\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_mapping_observer"]('+repr(str(directory/'mapping-returns.json'))+')\nend\n'
         assert marker in text;script.write_text(text.replace(marker,marker+observer,1))
+    if name=='pch-cpp-shared-types'and expected.get('native_function')=='write_output':
+        text=script.read_text();marker='set argv[0] = recon_pgmptr\n'
+        script.write_text(text.replace(marker,marker+'python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_symbol_prefix_allocations"]()\nend\n',1))
     env = os.environ.copy()
     for variable in list(env):
         if variable.startswith(('WINE','RECON_','MALLOC_')) or variable=='GLIBC_TUNABLES' or variable in ('CL','_CL_','LINK','_LINK_','MSC_CMD_FLAGS','_MSC_IDE_FLAGS','LINK32_DB'):

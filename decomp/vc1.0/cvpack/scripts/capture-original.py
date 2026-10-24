@@ -132,6 +132,7 @@ def main():
             env['CVPACK_CAPTURE_SOPEN_PDB_NAME']=seam['guard']['name']
             env['CVPACK_CAPTURE_SOPEN_PDB_INPUT']=tool.windows(ROOT/seam['input']['path'])
     if args.case=='embedded-cpp-mapped':env['CVPACK_CAPTURE_MAPPED_SLOT']='embedded-cpp.dll'
+    if args.case=='pch-cpp-shared-types'and record['current'].get('native_function')=='write_output':env['CVPACK_CAPTURE_SYMBOL_PREFIX']='1'
     from freebuf import validate as validate_freebuf
     freebuf_policy=validate_freebuf(config,original)
     if freebuf_policy and args.case==freebuf_policy['case']:env['CVPACK_CAPTURE_FREEBUF']='1'
