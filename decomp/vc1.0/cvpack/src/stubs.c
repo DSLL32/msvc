@@ -40,7 +40,7 @@ Page *remove_lru_page(void) { __asm { int 3 } return NULL; }
 
 
 int write_mapped_file(FileSlot *slot,const void *buffer,unsigned long size) { __asm { int 3 } return -1; }
-int truncate_buffered_file(FileSlot *slot,long size) { __asm { int 3 } return -1; }
+
 int truncate_mapped_file(FileSlot *slot,long size) { __asm { int 3 } return -1; }
 void read_old_directory(void) { __asm { int 3 } }
 void read_packed_modules(void) { __asm { int 3 } }

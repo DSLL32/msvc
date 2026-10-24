@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "truncate_buffered_file",
-    "native_function": "truncate_buffered_file",
+    "logical": "close_file",
+    "native_function": "close_file",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -164,7 +164,8 @@
       "write_file",
       "write_buffered_file",
       "truncate_file",
-      "truncate_buffered_file"
+      "truncate_buffered_file",
+      "close_file"
     ],
     "proof_mode": "entry-flow",
     "heap_scope": "Root streamlined routine loop: actual next entry/formals plus reached PE header globals; old module3 proof97 retained. No later symbol-heap equality claim.",
@@ -196,8 +197,8 @@
     "artifacts": [
       {
         "name": "hello-debug.dll",
-        "bytes": 2097152,
-        "sha256": "4efcb9e11d30e1188fee6f813105cccf4c120d973a028efe48d728c1a4c361e8"
+        "bytes": 71800,
+        "sha256": "9923281e32ce38e6a8d5bb3222eca7ce8588df97c0ce5d1a34b47564716bfd0d"
       }
     ]
   },

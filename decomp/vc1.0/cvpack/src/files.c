@@ -466,3 +466,25 @@ int truncate_file(int handle, long size)
     if (slot->flags & 8) return truncate_mapped_file(slot, size);
     return truncate_buffered_file(slot, size);
 }
+
+int truncate_buffered_file(FileSlot *slot, long size)
+{
+    long index, count;
+    Page *page;
+    if (slot->length >= size) {
+        count = slot->allocated >> 12;
+        if (slot->cursor.page->position > size) seek_buffered_file(slot, 0, 2);
+        index = size >> 12;
+        page = slot->storage.pages[index];
+        if (page && page != (Page *)1) page->dirty_end = size;
+        for (++index; index < count; ++index) {
+            page = slot->storage.pages[index];
+            if (page && page != (Page *)1) release_page(page);
+        }
+    } else {
+        while (slot->allocated < size) grow_page_table(slot);
+    }
+    slot->contents.capacity = size;
+    slot->length = size;
+    return _chsize(slot->source.descriptor, size);
+}
