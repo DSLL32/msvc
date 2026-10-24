@@ -93,9 +93,10 @@
     "_initialize_lowercase_table",
     "_read_env_arguments",
     "_new_option_vector",
-    "_next_argument"
+    "_next_argument",
+    "_match_option"
   ],
-  "trial": "_match_option",
+  "trial": null,
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -886,5 +887,5 @@
       "kind": "text_data"
     }
   ],
-  "stage": "whole430B matcher under reconstruction; own normalCPP rawCRC adoption pending; original unchanged34B leaf history remains restore-only"
+  "stage": "_match_option accepted; next frontier _apply_option_action"
 }

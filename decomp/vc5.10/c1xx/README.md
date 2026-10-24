@@ -379,3 +379,14 @@ functions/5923B plus historical CRT451B/imports12B total6386/751216 whole code
 bytes. The root-approved shared integer SigForPbCb CRC is published; its own CPP
 adoption belongs to the next ordinary normal matcher run. The separately
 prepared API-only capture was never executed and is retained as withdrawn history.
+
+The430-byte matcher is now accepted after independent normal/restore review.
+Its complete punctuation grammar and separate74-byte switch data pass strict
+audits; actual rule31 (`-il$`) reaches the three-formal action trap with borrowed
+Invoke argv[2]. The new diagnostic argument pointer joins default/nonzero reset
+proofs. Own ordinary CPP/3 CRC returns a3b219d4 on both sides, including the
+provider's physical third-slot mutation, while full state/ABI/owner checks pass.
+See `cases/minimal/OPTION-MATCHER.md`/`matcher-trial.json`;66 affected controls
+reject and immutable history revalidation invokes no binaries. Current88 APP
+functions/6353B plus historical CRT451B/import12B total6816/751216 whole code
+bytes; switch data74B has no code credit. The next option action remains a trap.

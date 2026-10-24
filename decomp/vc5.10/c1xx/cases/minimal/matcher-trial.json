@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "full430B source; both current strict paired validations and66 affected controls PASS; held for independent final review, NOT ACCEPTED",
+  "status": "ACCEPTED _match_option after independent final review and successful normal promotion; restore remains explicitly auxiliary",
   "function": "_match_option",
   "source": "src/option-matcher.c",
   "source_sha256": "cf095643f325bf03e33609ec6f3be29802b3cc97abb8bfaa67cf9c09c0cb551b",
@@ -208,5 +208,18 @@
     "native_link": 1.5842287950217724,
     "normal_controls": 7.202597248367965,
     "restore_controls": 5.342207156121731
+  },
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/matcher-parent-review.json",
+    "sha256": "56b6e0e42ea43ee0d234f1b61b4d19ce489ca4d9cc188dae2fbd8c755752900a",
+    "reviewed_stable_commit": "adde4aa60"
+  },
+  "promotion": {
+    "command": "python3 scripts/accept.py /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-matcher-original-1 /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-matcher-native-4",
+    "exit_status": 0,
+    "accepted_count": 92,
+    "promoted_functions": [
+      "_match_option"
+    ]
   }
 }

@@ -1,4 +1,4 @@
-# Option matcher candidate
+# Option matcher
 
 The complete `match_option` candidate owns 408 primary bytes at
 `3944a..395e2` and 22 cold bytes at `72573..72589`. Its seven-way jump table
@@ -49,7 +49,11 @@ exact published0e8/b534 compiled snapshots despite unrelated shared changes.
 current strict audit receipts and38 normal plus28 restore affected controls.
 The native1/2 analysis attempts and native3 preparation rejection remain under
 their original paths; observation-only corrections reused unchanged original1.
-No function is accepted until the pending independent final review is released.
+Independent final review passed and the normal promotion command completed with
+accepted_count92. The matcher is accepted; the action and suffix helpers remain
+unaccepted. Current88 application functions/6353 codebytes plus historical
+CRT451B/import12B total6816/751216 whole code-section bytes. This denominator
+includes CRT and is not a non-CRT coverage figure.
 Revalidate the two frozen roles without executing either binary:
 
 ```

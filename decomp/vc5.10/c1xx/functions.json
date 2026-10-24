@@ -96,7 +96,8 @@
     "_initialize_lowercase_table",
     "_read_env_arguments",
     "_new_option_vector",
-    "_next_argument"
+    "_next_argument",
+    "_match_option"
   ],
   "driver": [
     {
@@ -5450,6 +5451,111 @@
         "original_seconds": 36.28143716510385,
         "native_seconds": 11.308623291552067
       }
+    },
+    {
+      "name": "_match_option",
+      "classification": "application source",
+      "source": "src/option-matcher.c",
+      "source_sha256": "cf095643f325bf03e33609ec6f3be29802b3cc97abb8bfaa67cf9c09c0cb551b",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-matcher-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-matcher-native-4",
+      "original_receipt_sha256": "b7db6db365f924f559597ac1831582bd90d4497e443a0537f4d733ebf0f58f9a",
+      "native_receipt_sha256": "8a16c30b2b05e6a626947da0dd0794c0a7d7d19b3bdcb09e08465f9b683957d0",
+      "trial_sha256": "ca97366579ba157914876a680badc64825cd9db27a0df7152e466dc238771984",
+      "audit_sha256": "597937059e38106aaed66c4675f560fa2159c243ff7848d3a1c9bb991f544a47",
+      "code_chunks": [
+        [
+          234570,
+          234978
+        ],
+        [
+          468339,
+          468361
+        ]
+      ],
+      "comparison": {
+        "matcher_boundary": {
+          "frontier": "_apply_option_action",
+          "code_bytes": 430,
+          "table_data_bytes": 74,
+          "table_code_credit": 0,
+          "new_BSS_semantic_bytes": 4,
+          "argument": "borrowed Invoke[1] -il",
+          "value": "borrowed Invoke[2]",
+          "argc_before": 25,
+          "argc_after": 24,
+          "rule_index": 31,
+          "rule_action": 34,
+          "signature": {
+            "input_hex": "435050",
+            "defined_literal_hex": "43505000",
+            "count": 3,
+            "seed": 4294967295,
+            "result": 2746358228,
+            "result_hex": "a3b219d4",
+            "provider_code_bytes": 53,
+            "provider_table_bytes": 1024,
+            "private_stack": "all3 slots observed pre/post, third equals result on both; caller ADD12 before any slot read/escape, only EAX consumed",
+            "provider_application_credit": 0
+          },
+          "prefix": {
+            "frontier": "_match_option",
+            "code_bytes": 34,
+            "executed_case": "actual normal/restore accepted-prefix iterator checkpoint",
+            "normal_case": "ordinary matcher continuation; no additional iterator acceptance",
+            "argc_before": 26,
+            "argc_after": 25,
+            "argv_advance_bytes": 4,
+            "result": "borrowed Invoke argv[1] -il NUL",
+            "matcher_formals": 4,
+            "vector_prefix": {
+              "frontier": "public:mspdb50!SigForPbCb",
+              "code_bytes": 116,
+              "calls": 3,
+              "object_bytes": 36,
+              "pointer_storage_bytes": 480,
+              "commit_bytes": 32768,
+              "provider_executed": false,
+              "provider_return_claimed": false
+            }
+          },
+          "unmodeled_initialized_bytes": 6031
+        },
+        "trial": "_match_option",
+        "frontier": "_apply_option_action",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 2797,
+        "native_bss_size": 2828,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 6031,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 40.00898806657642,
+        "native_seconds": 10.970648397691548
+      },
+      "shared_text_data": [
+        [
+          234984,
+          235058
+        ]
+      ],
+      "shared_text_data_code_credit": 0
     }
   ],
   "imports": [
