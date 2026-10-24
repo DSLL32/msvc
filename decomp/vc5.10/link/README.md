@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 94 application
-functions (34,995 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 95 application
+functions (35,236 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `validate_delay_load_options`; hello-win32 has not completed.
+next frontier is `initialize_x86_backend`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -570,3 +570,15 @@ leaves eight following function-padding bytes trapped. Both builds, 107 full/
 3.580 s. Original/native/audit times are 2.531/0.919/0.621 s. Native help takes
 67.59 ms, including 3.738 ms execution. Evidence and the preserved inherited
 seek-count rejection are in `frontiers/94-initialize-machine-review`.
+
+The complete 241-byte delay-load validator is accepted. With the actual empty
+12-byte library list it returns normally without changing the full context or
+initialized support BYTE; every cold compatibility/diagnostic branch remains
+in the reconstructed source. The next x86 backend receives two actual pointer
+inputs, with its one-byte output tied to the initializer's live DWARF local.
+Void return EAX values are retained separately. Both builds and 108 full/
+101 strict graph bodies pass. Twenty-four fresh affected controls include
+whole-context, RET4, output ownership, hidden-input and exact literal-padding
+checks. Their time and all original/native/audit/fixture times are recorded in
+`frontiers/95-delay-validator-review/accounting.json`. No earlier broad campaign
+was rerun. The pending backend's 133 bytes have no accepted credit.

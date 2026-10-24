@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x08050162 in initialize_x86_backend (context=0x80a1bc0, incremental_supported=0xffffcf57 "") at src/machine.c:72
+72	void __stdcall initialize_x86_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }

@@ -29,6 +29,7 @@ void __stdcall convert_omf_input(InputArgument *,WORD *);
 void __stdcall convert_input_object(LinkContext *,InputArgument *,WORD *);
 void __stdcall initialize_machine(LinkContext *);
 void __stdcall validate_delay_load_options(LinkContext *);
+const char *__stdcall get_machine_name(LinkContext *,unsigned);
 void __stdcall initialize_x86_backend(LinkContext *,BYTE *);
 void __stdcall initialize_mips_backend(LinkContext *,BYTE *);
 void __stdcall initialize_alpha_backend(LinkContext *,BYTE *);

@@ -11,8 +11,8 @@
       },
       "rebuilt": {
         "roots": [
-          4251486,
-          4251507
+          4251774,
+          4251795
         ],
         "text_data": []
       }
@@ -88,7 +88,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -104,7 +104,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -120,7 +120,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -136,7 +136,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -148,7 +148,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -160,7 +160,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -172,7 +172,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -184,7 +184,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -196,7 +196,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -208,7 +208,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -220,7 +220,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -232,7 +232,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -244,7 +244,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -256,7 +256,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -268,7 +268,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -280,7 +280,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -292,7 +292,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -304,7 +304,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -316,7 +316,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -328,7 +328,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -340,7 +340,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -352,7 +352,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -364,7 +364,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -376,7 +376,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -388,7 +388,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -400,7 +400,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -412,7 +412,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -424,7 +424,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -436,7 +436,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -448,7 +448,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -460,7 +460,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       },
       {
@@ -472,7 +472,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-import-preservation.json",
-          "sha256": "62fd5fe6a5644809b4b0da41b6b415487aad739e53bf86191ce3907b3fb96747"
+          "sha256": "2f997835fa5f35ead01b494edf3a190b30849e7329849151481941462d92b871"
         }
       }
     ],
@@ -484,15 +484,15 @@
           "slot": 4714192
         },
         "rebuilt": {
-          "site": 4245521,
-          "slot": 4265000
+          "site": 4245809,
+          "slot": 4265064
         },
         "preserves": [
           "edi"
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-closed-slot.json",
-          "sha256": "da1d8ec58da3d57e0300ea98e2a75f3b50f9d6df9feb5c26e960cfdbe3d38a1a"
+          "sha256": "31537f3d7b25f14368eee984995d0a205bc8f7c598072611a66f237f37562285"
         }
       }
     ]

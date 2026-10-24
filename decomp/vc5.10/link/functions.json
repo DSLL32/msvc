@@ -111,7 +111,8 @@
     "_read_object_file@12",
     "_check_input_machine@8",
     "_detect_input_machine@8",
-    "_initialize_machine@4"
+    "_initialize_machine@4",
+    "_validate_delay_load_options@4"
   ],
   "driver": [
     {
@@ -2905,12 +2906,12 @@
     {
       "name": "_validate_delay_load_options@4",
       "start": 4323760,
-      "end": 4323761,
-      "pending_extent": true,
+      "end": 4324001,
+      "pending_extent": false,
       "source": "src/machine.c",
       "native_symbol": "validate_delay_load_options",
-      "status": "stub",
-      "abi": "stdcall void(LinkContext *context); RET4; no hidden receiver; all actual formals/outputs must be captured if reached"
+      "status": "implemented",
+      "abi": "stdcall void(LinkContext *context); one pointer slot, twoRET4 paths,no hidden inputs; complete241B delay-load compatibility validator"
     },
     {
       "name": "_initialize_x86_backend@8",
@@ -2981,6 +2982,16 @@
       "native_symbol": "initialize_arm_backend",
       "status": "stub",
       "abi": "stdcall void(LinkContext *context,BYTE *incremental_supported); RET8; no hidden receiver; all actual formals/outputs must be captured if reached"
+    },
+    {
+      "name": "_get_machine_name@8",
+      "start": 4574720,
+      "end": 4574721,
+      "pending_extent": true,
+      "source": "src/machine.c",
+      "native_symbol": "get_machine_name",
+      "status": "stub",
+      "abi": "stdcall const char *(LinkContext *context,unsigned machine); two fullDWORD inputs,RET8,no hidden inputs; full178B pendinganalysis; actual values required if reached"
     }
   ],
   "text_data": [
@@ -5183,6 +5194,22 @@
       "reason": "initialize_machine contextual IX86 diagnostic literal, exact NUL-terminated5B",
       "sha256": "dc241773430a2f418ed2c59da67b47cf99262fdc82622efcb9aca6a1778ab37a",
       "evidence": "actualPUSH4019d4 at449649 beforewarning4068; literal at point of use"
+    },
+    {
+      "start": 4207636,
+      "end": 4207646,
+      "accepted": true,
+      "reason": "validate_delay_load_options contextual literal b'DELAYLOAD\\x00'",
+      "sha256": "75f6e355104293d65980419634b3efe264e40a428d0f335bdcc850ec32643ba1",
+      "evidence": "Complete original41f9b0..41faa1 PUSH/MOV argument xrefs; source literal at point of use; no padding"
+    },
+    {
+      "start": 4207628,
+      "end": 4207635,
+      "accepted": true,
+      "reason": "validate_delay_load_options contextual literal b'DRIVER\\x00'",
+      "sha256": "44d5a5387ffcd29a88911743781ab2aca7677f112980fedcb00dc850da8d4574",
+      "evidence": "Complete original41f9b0..41faa1 PUSH/MOV argument xrefs; source literal at point of use; no padding"
     }
   ],
   "cases": {

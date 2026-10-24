@@ -39,15 +39,19 @@ def compare(original,state,trap,events,directory):
     obj,=[e for e in events if e['event']=='object_read_entry'];context=obj['formals'][1]
     entry,=[e for e in events if e['event']=='initialize_machine_entry'];stack=entry['stack_pointer']
     assert entry==dict(event='initialize_machine_entry',stack_pointer=obj['stack_pointer']-40,formals=[context],hidden_inputs=[])
-    assert trap['esp']==stack-20 and trap['stack'][:2]==[0x449669,context]
+    if state['function']=='validate_delay_load_options':
+        assert trap['esp']==stack-20 and trap['stack'][:2]==[0x449669,context]
+    else:
+        delay,=[e for e in events if e['event']=='validate_delay_entry']
+        assert delay==dict(event='validate_delay_entry',stack_pointer=stack-20,formals=[context],hidden_inputs=[])
     assert trap['initialize_machine_formals']==dict(formals=[context],hidden_inputs=[])
     assert trap['validate_delay_formals']==dict(formals=[context],hidden_inputs=[])
-    assert trap['frontier_inputs']==dict(formals=[context],hidden_register_inputs=[])
+    if state['function']=='validate_delay_load_options':assert trap['frontier_inputs']==dict(formals=[context],hidden_register_inputs=[])
     receipt=json.loads((directory/'receipt.json').read_text());frame,offset=native_contract(str(directory/'compiled/native-LINK.EXE'),receipt['native_sha256'])
     nentry=state['initialize_machine_entry'];nstack=nentry['stack_pointer'];ncontext=state['object_reader_entry']['formals'][1]
     assert nentry['formals']==[ncontext]and nentry['hidden_inputs']==[]
     assert state['validate_delay_entry']==dict(stack_pointer=nstack-frame,formals=[ncontext],hidden_inputs=[])
-    assert state['frontier_inputs']==dict(formals=[ncontext],hidden_register_inputs=[])
+    if state['function']=='validate_delay_load_options':assert state['frontier_inputs']==dict(formals=[ncontext],hidden_register_inputs=[])
     assert state['incremental_support_output']==dict(address=nstack+offset,bytes=1,value=0)
     assert (original/'incremental-supported.bin').read_bytes()==b'\0'
     assert pe.read(0x44963d,5).hex()=='c644240b00' # Actual initialized entryESP-1 BYTE.
@@ -68,3 +72,7 @@ def compare(original,state,trap,events,directory):
     assert [[i.address,int(i.op_str,0)]for i in instructions if i.mnemonic=='ret']==proof['returns']==[[0x41fa0d,4],[0x41fa9e,4]]
     assert proof['formals']==['LinkContext *context']and proof['hidden_inputs']==[]
     assert body[:8].hex()=='a1900848005685c0' # Reads list count; ECX is not an input.
+
+    if state['function']=='initialize_x86_backend':
+        from delay_validator_state import compare as compare_delay
+        compare_delay(original,state,trap,events,directory)

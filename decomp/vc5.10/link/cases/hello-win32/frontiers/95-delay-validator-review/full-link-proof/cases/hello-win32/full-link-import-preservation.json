@@ -1,0 +1,2884 @@
+{
+  "schema": 1,
+  "abi_basis": {
+    "url": "https://learn.microsoft.com/en-us/cpp/cpp/argument-passing-and-naming-conventions?view=msvc-170",
+    "rule": "Microsoft x86 compiler-generated prologues and epilogues preserve used EBX, ESI and EDI. Apply only to these explicitly named, inspected ordinary Win32 callees.",
+    "qualification": "No custom/naked/register-clobber ABI is registered. Unknown targets must kill cached facts. RET cleanup remains independently checked."
+  },
+  "original_sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+  "canonical_provider": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "bytes": 277776,
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "actual_loaded_receipt": "/root/.ai-tmp/msvc2/vc5.10/link/masked-drdwkhmv/receipt.json",
+    "actual_loaded_receipt_sha256": "4acc6424bce0f5b3b123ebcf4c71c2a140517c6afc7e7cd895626fb0b92b4b02",
+    "owned_receipt": "cases/help/options-provider/receipt.json",
+    "owned_hfile_copies": [
+      {
+        "path": "cases/help/options-provider/module-006.bin",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    ]
+  },
+  "scope": "FullLink cached imports only; finite concrete callee save/restore witnesses, with common Rust CFG/dataflow and exact per-site completeness.",
+  "imports": [
+    {
+      "identity": "msvcrt.dll!sprintf",
+      "provider_export": {
+        "ordinal": 688,
+        "rva": 15981
+      },
+      "entry_bytes": "83ec208b4424248b4c24288944240889",
+      "abi": "Explicit shipped SDK x86 __cdecl ordinary normal-return ABI; preserves the stated needed nonvolatile registers. Actual canonical provider export/entry/hFile bound independently.",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDIO.H",
+          "line": 375,
+          "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+          "declaration": "_CRTIMP int __cdecl sprintf(char *, const char *, ...);"
+        }
+      ],
+      "preserves": [
+        "esi"
+      ]
+    },
+    {
+      "identity": "msvcrt.dll!fprintf",
+      "provider_export": {
+        "ordinal": 598,
+        "rva": 38474
+      },
+      "entry_bytes": "53568b74240c5756e841ccffff83c404",
+      "abi": "Explicit shipped SDK x86 __cdecl ordinary normal-return ABI; preserves the stated needed nonvolatile registers. Actual canonical provider export/entry/hFile bound independently.",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDIO.H",
+          "line": 342,
+          "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+          "declaration": "_CRTIMP int __cdecl fprintf(FILE *, const char *, ...);"
+        }
+      ],
+      "preserves": [
+        "ebx",
+        "edi"
+      ]
+    },
+    {
+      "identity": "msvcrt.dll!fflush",
+      "provider_export": {
+        "ordinal": 589,
+        "rva": 25340
+      },
+      "entry_bytes": "568b74240885f60f84357a00005756e8",
+      "abi": "Explicit shipped SDK x86 __cdecl ordinary normal-return ABI; preserves the stated needed nonvolatile registers. Actual canonical provider export/entry/hFile bound independently.",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDIO.H",
+          "line": 328,
+          "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+          "declaration": "_CRTIMP int __cdecl fflush(FILE *);"
+        }
+      ],
+      "preserves": [
+        "ebx",
+        "edi"
+      ]
+    }
+  ],
+  "function_contracts": [
+    {
+      "name": "_finish_alpha_branches",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4233424,
+          "end": 4233734,
+          "sha256": "24e59a569ef903b575d97a70a8fb1108f0435434f6341d500175aeb4d4a8f254"
+        }
+      ],
+      "standard_abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4233432,
+              "bytes": "57",
+              "instruction": "push edi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4233433,
+              "bytes": "33ff",
+              "instruction": "xor edi, edi"
+            },
+            {
+              "address": 4233695,
+              "bytes": "83c714",
+              "instruction": "add edi, 0x14"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4233729,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4233733,
+                "bytes": "c3",
+                "instruction": "ret "
+              },
+              "nearby_restores": [
+                {
+                  "address": 4233729,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "_finish_alpha_branches",
+        "classification": "named trapping boundary",
+        "bytes": "558bec535657cc5f5e5b5dc3",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "_close_argument_file@8",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4242704,
+          "end": 4242844,
+          "sha256": "5f477835811b066653737ce03e9188572ba25da250f82e2d87c2e7c679971ef5"
+        }
+      ],
+      "standard_abi": "",
+      "preservation": {
+        "edi": {
+          "saves": [],
+          "own_writes": [],
+          "restores": [],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4242793,
+                "bytes": "c20800",
+                "instruction": "ret 8"
+              },
+              "nearby_restores": []
+            },
+            {
+              "return_instruction": {
+                "address": 4242832,
+                "bytes": "c20800",
+                "instruction": "ret 8"
+              },
+              "nearby_restores": []
+            },
+            {
+              "return_instruction": {
+                "address": 4242841,
+                "bytes": "c20800",
+                "instruction": "ret 8"
+              },
+              "nearby_restores": []
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "_close_argument_file@8",
+        "classification": "named trapping boundary",
+        "bytes": "558bec535657cc5f5e5b5dc20800",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "_seek_file@16",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4243504,
+          "end": 4243580,
+          "sha256": "533ee6b4ef59b34aaacdb6c885b5b70c7043ea6029adf2955883c9e39ddc6420"
+        }
+      ],
+      "standard_abi": "stdcall LONG(int file,long offset,int origin,DWORD *error); return EAX consumed by original get_file_length; callee RET16, no hidden inputs",
+      "preservation": {
+        "edi": {
+          "saves": [],
+          "own_writes": [],
+          "restores": [],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4243558,
+                "bytes": "c21000",
+                "instruction": "ret 0x10"
+              },
+              "nearby_restores": []
+            },
+            {
+              "return_instruction": {
+                "address": 4243577,
+                "bytes": "c21000",
+                "instruction": "ret 0x10"
+              },
+              "nearby_restores": []
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "_seek_file@16",
+        "classification": "reconstructed application body",
+        "bytes": "558bec5133c0a07c15410085c07405e85eac00008b4d088b15e81841008b048a8945fc8b4dfc8b510483e20885d274178b4514508b4d10518b550c528b45fc50e8e4060000eb118b4d10518b550c528b45fc50e8060000008be55dc21000",
+        "own_writes": [],
+        "complete_bytes": 94,
+        "returns": [
+          {
+            "offset": 91,
+            "cleanup": 16
+          }
+        ],
+        "qualification": "Complete94B compiler counterpart established by common strict paired CFG/instruction export. No own EDI writes; soleRET16, all direct local branches close inside full body. Source/proper normal-call ABIs preserve EDI; no call target inference."
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "_create_contribution@28",
+      "preserves": [
+        "esi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4253776,
+          "end": 4254044,
+          "sha256": "8376cb8df56319b2e66c27326528378e6b79f849e47858a7b95b33aad78be973"
+        }
+      ],
+      "standard_abi": "stdcall Contribution *(const char *name,DWORD bytes,DWORD flags,DWORD section_flags,OutputModule *module,SectionList *sections,LinkContext *context); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "esi": {
+          "saves": [
+            {
+              "address": 4253778,
+              "bytes": "56",
+              "instruction": "push esi"
+            },
+            {
+              "address": 4253855,
+              "bytes": "56",
+              "instruction": "push esi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4253832,
+              "bytes": "8b742424",
+              "instruction": "mov esi, dword ptr [esp + 0x24]"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4254025,
+              "bytes": "5e",
+              "instruction": "pop esi"
+            },
+            {
+              "address": 4254038,
+              "bytes": "5e",
+              "instruction": "pop esi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4254028,
+                "bytes": "c21c00",
+                "instruction": "ret 0x1c"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4254025,
+                  "bytes": "5e",
+                  "instruction": "pop esi"
+                }
+              ]
+            },
+            {
+              "return_instruction": {
+                "address": 4254041,
+                "bytes": "c21c00",
+                "instruction": "ret 0x1c"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4254025,
+                  "bytes": "5e",
+                  "instruction": "pop esi"
+                },
+                {
+                  "address": 4254038,
+                  "bytes": "5e",
+                  "instruction": "pop esi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "_create_contribution@28",
+        "classification": "named trapping boundary",
+        "bytes": "558bec535657cc33c05f5e5b5dc21c00",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "_close_pdb",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4281648,
+          "end": 4281753,
+          "sha256": "631ab6fb7b506839b657cd791691c020430dcb673cee7e67d2ad949f102a290a"
+        }
+      ],
+      "standard_abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [],
+          "own_writes": [],
+          "restores": [],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4281689,
+                "bytes": "c3",
+                "instruction": "ret "
+              },
+              "nearby_restores": []
+            },
+            {
+              "return_instruction": {
+                "address": 4281752,
+                "bytes": "c3",
+                "instruction": "ret "
+              },
+              "nearby_restores": []
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "_close_pdb",
+        "classification": "named trapping boundary",
+        "bytes": "558bec535657cc5f5e5b5dc3",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "_commit_pdb",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4281760,
+          "end": 4281859,
+          "sha256": "66e0982f63e0a59e56f25dcb44c63dd30fcb5a77196baf2970b4fea15f0f9221"
+        }
+      ],
+      "standard_abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [],
+          "own_writes": [],
+          "restores": [],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4281858,
+                "bytes": "c3",
+                "instruction": "ret "
+              },
+              "nearby_restores": []
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "_commit_pdb",
+        "classification": "named trapping boundary",
+        "bytes": "558bec535657cc5f5e5b5dc3",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "_link_fatal",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4391472,
+          "end": 4391497,
+          "sha256": "0759b3c610be061d746b754241d1e81d0bebb376d90d59032fb2e3134e64c255"
+        }
+      ],
+      "standard_abi": "",
+      "preservation": {
+        "edi": {
+          "saves": [],
+          "own_writes": [],
+          "restores": [],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4391496,
+                "bytes": "c3",
+                "instruction": "ret "
+              },
+              "nearby_restores": []
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "_link_fatal",
+        "classification": "named trapping boundary",
+        "bytes": "558bec535657cc5f5e5b5dc3",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "_count_hash_symbols@4",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4395552,
+          "end": 4395562,
+          "sha256": "688381b35e2008a7fd7b33f9da2c5ccb883831e156d091e6e795e95df034eca5"
+        }
+      ],
+      "standard_abi": "stdcall unsigned(HashState *table); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [],
+          "own_writes": [],
+          "restores": [],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4395559,
+                "bytes": "c20400",
+                "instruction": "ret 4"
+              },
+              "nearby_restores": []
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "_count_hash_symbols@4",
+        "classification": "named trapping boundary",
+        "bytes": "558bec535657cc33c05f5e5b5dc20400",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "_adjust_incremental_symbols@4",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4412176,
+          "end": 4412234,
+          "sha256": "fe3ac15871bb85dc90bfb8adb8021923a20154ff5db539e2b9e96d001a3325e4"
+        }
+      ],
+      "standard_abi": "stdcall void(LinkContext *context); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4412185,
+              "bytes": "57",
+              "instruction": "push edi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4412202,
+              "bytes": "8b7908",
+              "instruction": "mov edi, dword ptr [ecx + 8]"
+            },
+            {
+              "address": 4412217,
+              "bytes": "2bfe",
+              "instruction": "sub edi, esi"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4412230,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4412231,
+                "bytes": "c20400",
+                "instruction": "ret 4"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4412230,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "_adjust_incremental_symbols@4",
+        "classification": "named trapping boundary",
+        "bytes": "558bec535657cc5f5e5b5dc20400",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "_write_mac_incremental_table@8",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4425280,
+          "end": 4425608,
+          "sha256": "aa08c0db4a70d7eb55aabe8783871793b7731c30d7fd1ab4043c78782893fc7a"
+        }
+      ],
+      "standard_abi": "stdcall void(LinkContext *context,DWORD offset); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4425303,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4425409,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4425490,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4425561,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4425577,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4425595,
+              "bytes": "57",
+              "instruction": "push edi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4425318,
+              "bytes": "8bf8",
+              "instruction": "mov edi, eax"
+            },
+            {
+              "address": 4425337,
+              "bytes": "8bf8",
+              "instruction": "mov edi, eax"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4425496,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            },
+            {
+              "address": 4425583,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            },
+            {
+              "address": 4425601,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4425500,
+                "bytes": "c20800",
+                "instruction": "ret 8"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4425496,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            },
+            {
+              "return_instruction": {
+                "address": 4425587,
+                "bytes": "c20800",
+                "instruction": "ret 8"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4425583,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            },
+            {
+              "return_instruction": {
+                "address": 4425605,
+                "bytes": "c20800",
+                "instruction": "ret 8"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4425583,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                },
+                {
+                  "address": 4425601,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "_write_mac_incremental_table@8",
+        "classification": "named trapping boundary",
+        "bytes": "558bec535657cc5f5e5b5dc20800",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "_finish_image_layout@8",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4451568,
+          "end": 4451980,
+          "sha256": "7481a78b04b61b026c263b58ee93408e70e832fc3265663056d9b16211a2e78b"
+        }
+      ],
+      "standard_abi": "stdcall void(LinkContext *context,void *padding); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4451627,
+              "bytes": "57",
+              "instruction": "push edi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4451714,
+              "bytes": "8b7b68",
+              "instruction": "mov edi, dword ptr [ebx + 0x68]"
+            },
+            {
+              "address": 4451766,
+              "bytes": "8b3d54f14700",
+              "instruction": "mov edi, dword ptr [0x47f154]"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4451969,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4451977,
+                "bytes": "c20800",
+                "instruction": "ret 8"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4451969,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "_finish_image_layout@8",
+        "classification": "named trapping boundary",
+        "bytes": "558bec535657cc5f5e5b5dc20800",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "LinkContext::FinishNativeSections",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4461808,
+          "end": 4462087,
+          "sha256": "3fee3714fa6d44337d3d6ca9d240feeef4951d50afbaae8615904141f6c72a3b"
+        }
+      ],
+      "standard_abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4461822,
+              "bytes": "57",
+              "instruction": "push edi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4461823,
+              "bytes": "8bf9",
+              "instruction": "mov edi, ecx"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4461941,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            },
+            {
+              "address": 4461974,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            },
+            {
+              "address": 4462081,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4461946,
+                "bytes": "c3",
+                "instruction": "ret "
+              },
+              "nearby_restores": [
+                {
+                  "address": 4461941,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            },
+            {
+              "return_instruction": {
+                "address": 4461979,
+                "bytes": "c3",
+                "instruction": "ret "
+              },
+              "nearby_restores": [
+                {
+                  "address": 4461974,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            },
+            {
+              "return_instruction": {
+                "address": 4462086,
+                "bytes": "c3",
+                "instruction": "ret "
+              },
+              "nearby_restores": [
+                {
+                  "address": 4462081,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "?FinishNativeSections@LinkContext@@QAEXXZ",
+        "classification": "named trapping boundary",
+        "bytes": "558bec51535657894dfccc5f5e5b8be55dc3",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "_emit_symbol_class@8",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4462096,
+          "end": 4462166,
+          "sha256": "05465a3671784a74c263d6a63a8b31f57bda683e3af62d81061140e6be626651"
+        }
+      ],
+      "standard_abi": "stdcall BYTE(BYTE symbol_class,LinkOptions *options); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [],
+          "own_writes": [],
+          "restores": [],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4462157,
+                "bytes": "c20800",
+                "instruction": "ret 8"
+              },
+              "nearby_restores": []
+            },
+            {
+              "return_instruction": {
+                "address": 4462163,
+                "bytes": "c20800",
+                "instruction": "ret 8"
+              },
+              "nearby_restores": []
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "_emit_symbol_class@8",
+        "classification": "named trapping boundary",
+        "bytes": "558bec535657cc32c05f5e5b5dc20800",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "LinkContext::WriteRelocationSymbols",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4462448,
+          "end": 4462913,
+          "sha256": "4cd4367ced0667ff757ce43d50e0ad6c235103b852a959d03aa9111c249fc002"
+        }
+      ],
+      "standard_abi": "thiscall void(this; DWORD first_count,void **first,DWORD second_count,void **second); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4462451,
+              "bytes": "57",
+              "instruction": "push edi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4462452,
+              "bytes": "8b7c2418",
+              "instruction": "mov edi, dword ptr [esp + 0x18]"
+            },
+            {
+              "address": 4462646,
+              "bytes": "8b7c2420",
+              "instruction": "mov edi, dword ptr [esp + 0x20]"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4462906,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4462910,
+                "bytes": "c21000",
+                "instruction": "ret 0x10"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4462906,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "?WriteRelocationSymbols@LinkContext@@QAEXKPAPAXK0@Z",
+        "classification": "named trapping boundary",
+        "bytes": "558bec51535657894dfccc5f5e5b8be55dc21000",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "LinkContext::WriteLocalImports",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4462928,
+          "end": 4463546,
+          "sha256": "ab9081e2b8acec31bee18ce410ee25e1cf3438d8d11ca2c30273473132c2de92"
+        }
+      ],
+      "standard_abi": "thiscall void(this; Contribution *contribution,IncludeSymbol **aliases); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4462937,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4462984,
+              "bytes": "57",
+              "instruction": "push edi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4462938,
+              "bytes": "8bf9",
+              "instruction": "mov edi, ecx"
+            },
+            {
+              "address": 4463048,
+              "bytes": "8b7c2414",
+              "instruction": "mov edi, dword ptr [esp + 0x14]"
+            },
+            {
+              "address": 4463102,
+              "bytes": "8b3d54f14700",
+              "instruction": "mov edi, dword ptr [0x47f154]"
+            },
+            {
+              "address": 4463204,
+              "bytes": "8b7814",
+              "instruction": "mov edi, dword ptr [eax + 0x14]"
+            },
+            {
+              "address": 4463238,
+              "bytes": "8b7f10",
+              "instruction": "mov edi, dword ptr [edi + 0x10]"
+            },
+            {
+              "address": 4463335,
+              "bytes": "8b7904",
+              "instruction": "mov edi, dword ptr [ecx + 4]"
+            },
+            {
+              "address": 4463497,
+              "bytes": "8b7c2428",
+              "instruction": "mov edi, dword ptr [esp + 0x28]"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4463537,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4463543,
+                "bytes": "c20800",
+                "instruction": "ret 8"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4463537,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "?WriteLocalImports@LinkContext@@QAEXPAUContribution@@PAPAUIncludeSymbol@@@Z",
+        "classification": "named trapping boundary",
+        "bytes": "558bec51535657894dfccc5f5e5b8be55dc20800",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "_write_coff_symbols@8",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4463552,
+          "end": 4464160,
+          "sha256": "38269bd9621b67f4e7c884e82d1adb893c132edc0d99e7368aa9a5dc11598d5d"
+        }
+      ],
+      "standard_abi": "stdcall void(LinkContext *context,DWORD image_rva); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4463565,
+              "bytes": "57",
+              "instruction": "push edi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4463733,
+              "bytes": "8bf8",
+              "instruction": "mov edi, eax"
+            },
+            {
+              "address": 4463755,
+              "bytes": "8b7d00",
+              "instruction": "mov edi, dword ptr [ebp]"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4464150,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4464157,
+                "bytes": "c20800",
+                "instruction": "ret 8"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4464150,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "_write_coff_symbols@8",
+        "classification": "named trapping boundary",
+        "bytes": "558bec535657cc5f5e5b5dc20800",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "LinkContext::EmitDebugDirectories",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4464160,
+          "end": 4467661,
+          "sha256": "1f5ae2b9b8533b6c830d4f48f4ab7eada4bf5aa60b9a5042bd814281839a44c3"
+        }
+      ],
+      "standard_abi": "thiscall void(this; DWORD start,DWORD original_offset,DWORD lines,DWORD end,DWORD line_offset); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4464168,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4464865,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4464993,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4465289,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4465564,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4465827,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4466027,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4466581,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4466737,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4466846,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4466901,
+              "bytes": "57",
+              "instruction": "push edi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4464223,
+              "bytes": "8b7918",
+              "instruction": "mov edi, dword ptr [ecx + 0x18]"
+            },
+            {
+              "address": 4464458,
+              "bytes": "8bfa",
+              "instruction": "mov edi, edx"
+            },
+            {
+              "address": 4464473,
+              "bytes": "f3ab",
+              "instruction": "rep stosd dword ptr es:[edi], eax"
+            },
+            {
+              "address": 4464480,
+              "bytes": "f3aa",
+              "instruction": "rep stosb byte ptr es:[edi], al"
+            },
+            {
+              "address": 4464482,
+              "bytes": "8b3da4ef4700",
+              "instruction": "mov edi, dword ptr [0x47efa4]"
+            },
+            {
+              "address": 4464493,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4464497,
+              "bytes": "2bf9",
+              "instruction": "sub edi, ecx"
+            },
+            {
+              "address": 4464503,
+              "bytes": "8bfa",
+              "instruction": "mov edi, edx"
+            },
+            {
+              "address": 4464508,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4464515,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4464556,
+              "bytes": "8b3d54f14700",
+              "instruction": "mov edi, dword ptr [0x47f154]"
+            },
+            {
+              "address": 4464842,
+              "bytes": "8b7814",
+              "instruction": "mov edi, dword ptr [eax + 0x14]"
+            },
+            {
+              "address": 4464976,
+              "bytes": "8b7a14",
+              "instruction": "mov edi, dword ptr [edx + 0x14]"
+            },
+            {
+              "address": 4465199,
+              "bytes": "8b3d6cef4700",
+              "instruction": "mov edi, dword ptr [0x47ef6c]"
+            },
+            {
+              "address": 4465297,
+              "bytes": "8bfe",
+              "instruction": "mov edi, esi"
+            },
+            {
+              "address": 4465524,
+              "bytes": "8bfa",
+              "instruction": "mov edi, edx"
+            },
+            {
+              "address": 4465528,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4465544,
+              "bytes": "8bfa",
+              "instruction": "mov edi, edx"
+            },
+            {
+              "address": 4465824,
+              "bytes": "33ff",
+              "instruction": "xor edi, edi"
+            },
+            {
+              "address": 4465868,
+              "bytes": "33ff",
+              "instruction": "xor edi, edi"
+            },
+            {
+              "address": 4466705,
+              "bytes": "8b7c242c",
+              "instruction": "mov edi, dword ptr [esp + 0x2c]"
+            },
+            {
+              "address": 4466822,
+              "bytes": "8b7c242c",
+              "instruction": "mov edi, dword ptr [esp + 0x2c]"
+            },
+            {
+              "address": 4466876,
+              "bytes": "33ff",
+              "instruction": "xor edi, edi"
+            },
+            {
+              "address": 4467179,
+              "bytes": "8d7c241c",
+              "instruction": "lea edi, [esp + 0x1c]"
+            },
+            {
+              "address": 4467183,
+              "bytes": "f3ab",
+              "instruction": "rep stosd dword ptr es:[edi], eax"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4467630,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            },
+            {
+              "address": 4467651,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4467637,
+                "bytes": "c21400",
+                "instruction": "ret 0x14"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4467630,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            },
+            {
+              "return_instruction": {
+                "address": 4467658,
+                "bytes": "c21400",
+                "instruction": "ret 0x14"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4467630,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                },
+                {
+                  "address": 4467651,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "?EmitDebugDirectories@LinkContext@@QAEXKKKKK@Z",
+        "classification": "named trapping boundary",
+        "bytes": "558bec51535657894dfccc5f5e5b8be55dc21400",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "LinkContext::FinishImage",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4467792,
+          "end": 4468553,
+          "sha256": "d6a34b662c604077320426cb934470fcf5a748b3c2326c01312c0adb125730f2"
+        }
+      ],
+      "standard_abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4467800,
+              "bytes": "57",
+              "instruction": "push edi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4468128,
+              "bytes": "8b7a10",
+              "instruction": "mov edi, dword ptr [edx + 0x10]"
+            },
+            {
+              "address": 4468349,
+              "bytes": "bf00400000",
+              "instruction": "mov edi, 0x4000"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4468547,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4468552,
+                "bytes": "c3",
+                "instruction": "ret "
+              },
+              "nearby_restores": [
+                {
+                  "address": 4468547,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "?FinishImage@LinkContext@@QAEXXZ",
+        "classification": "named trapping boundary",
+        "bytes": "558bec51535657894dfccc5f5e5b8be55dc3",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "LinkContext::PassTwo",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4512896,
+          "end": 4513975,
+          "sha256": "388437d29d129b452dc654e4a6e6636a7eaa9451d9079380d11e29b78caf05df"
+        }
+      ],
+      "standard_abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4512911,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4513564,
+              "bytes": "57",
+              "instruction": "push edi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4513372,
+              "bytes": "8b3de0ee4700",
+              "instruction": "mov edi, dword ptr [0x47eee0]"
+            },
+            {
+              "address": 4513440,
+              "bytes": "8b7f04",
+              "instruction": "mov edi, dword ptr [edi + 4]"
+            },
+            {
+              "address": 4513482,
+              "bytes": "8b7c241c",
+              "instruction": "mov edi, dword ptr [esp + 0x1c]"
+            },
+            {
+              "address": 4513512,
+              "bytes": "8b7c241c",
+              "instruction": "mov edi, dword ptr [esp + 0x1c]"
+            },
+            {
+              "address": 4513745,
+              "bytes": "8b7e04",
+              "instruction": "mov edi, dword ptr [esi + 4]"
+            },
+            {
+              "address": 4513850,
+              "bytes": "8b3d5cf14700",
+              "instruction": "mov edi, dword ptr [0x47f15c]"
+            },
+            {
+              "address": 4513866,
+              "bytes": "8b7814",
+              "instruction": "mov edi, dword ptr [eax + 0x14]"
+            },
+            {
+              "address": 4513885,
+              "bytes": "8b7904",
+              "instruction": "mov edi, dword ptr [ecx + 4]"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4513954,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            },
+            {
+              "address": 4513967,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4513961,
+                "bytes": "c3",
+                "instruction": "ret "
+              },
+              "nearby_restores": [
+                {
+                  "address": 4513954,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            },
+            {
+              "return_instruction": {
+                "address": 4513974,
+                "bytes": "c3",
+                "instruction": "ret "
+              },
+              "nearby_restores": [
+                {
+                  "address": 4513954,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                },
+                {
+                  "address": 4513967,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "?PassTwo@LinkContext@@QAEXXZ",
+        "classification": "named trapping boundary",
+        "bytes": "558bec51535657894dfccc5f5e5b8be55dc3",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "_release_memory@4",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4521520,
+          "end": 4521537,
+          "sha256": "8463b7ff74b6aa36856824d166f7b4f21aefe28aea22c3459f0b03908d8ab182"
+        }
+      ],
+      "standard_abi": "",
+      "preservation": {
+        "edi": {
+          "saves": [],
+          "own_writes": [],
+          "restores": [],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4521534,
+                "bytes": "c20400",
+                "instruction": "ret 4"
+              },
+              "nearby_restores": []
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "_release_memory@4",
+        "classification": "accepted free wrapper",
+        "bytes": "558bec8b450850ff154cf0400083c4045dc20400",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "_finish_mac_entry_point@8",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4532640,
+          "end": 4534488,
+          "sha256": "39a71b8807072e6f1143c563045183ba409a704e1b679f2e9391d9476d1dd817"
+        }
+      ],
+      "standard_abi": "stdcall void(StringNode *entry,LinkContext *context); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4532646,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4532795,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4532894,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4532989,
+              "bytes": "57",
+              "instruction": "push edi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4532647,
+              "bytes": "8b7c2430",
+              "instruction": "mov edi, dword ptr [esp + 0x30]"
+            },
+            {
+              "address": 4533183,
+              "bytes": "8bfb",
+              "instruction": "mov edi, ebx"
+            },
+            {
+              "address": 4533187,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4533194,
+              "bytes": "8b3d54f14700",
+              "instruction": "mov edi, dword ptr [0x47f154]"
+            },
+            {
+              "address": 4533361,
+              "bytes": "8b3db0464900",
+              "instruction": "mov edi, dword ptr [0x4946b0]"
+            },
+            {
+              "address": 4533670,
+              "bytes": "8b7f0c",
+              "instruction": "mov edi, dword ptr [edi + 0xc]"
+            },
+            {
+              "address": 4533681,
+              "bytes": "8b3db0464900",
+              "instruction": "mov edi, dword ptr [0x4946b0]"
+            },
+            {
+              "address": 4533834,
+              "bytes": "8b3de8f04700",
+              "instruction": "mov edi, dword ptr [0x47f0e8]"
+            },
+            {
+              "address": 4533959,
+              "bytes": "8b7f14",
+              "instruction": "mov edi, dword ptr [edi + 0x14]"
+            },
+            {
+              "address": 4534146,
+              "bytes": "33ff",
+              "instruction": "xor edi, edi"
+            },
+            {
+              "address": 4534189,
+              "bytes": "47",
+              "instruction": "inc edi"
+            },
+            {
+              "address": 4534213,
+              "bytes": "33ff",
+              "instruction": "xor edi, edi"
+            },
+            {
+              "address": 4534251,
+              "bytes": "47",
+              "instruction": "inc edi"
+            },
+            {
+              "address": 4534270,
+              "bytes": "33ff",
+              "instruction": "xor edi, edi"
+            },
+            {
+              "address": 4534308,
+              "bytes": "47",
+              "instruction": "inc edi"
+            },
+            {
+              "address": 4534324,
+              "bytes": "33ff",
+              "instruction": "xor edi, edi"
+            },
+            {
+              "address": 4534362,
+              "bytes": "47",
+              "instruction": "inc edi"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4534468,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4534485,
+                "bytes": "c20800",
+                "instruction": "ret 8"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4534468,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "_finish_mac_entry_point@8",
+        "classification": "named trapping boundary",
+        "bytes": "558bec535657cc5f5e5b5dc20800",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "_finish_mac_headers@4",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4549552,
+          "end": 4550187,
+          "sha256": "3602dcbe2fb7a9c57ab2605c30d14ddecc1b46ee37474b49477f564c1a066ed4"
+        }
+      ],
+      "standard_abi": "stdcall void(LinkContext *context); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4549557,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4549950,
+              "bytes": "57",
+              "instruction": "push edi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4549558,
+              "bytes": "8b7c2430",
+              "instruction": "mov edi, dword ptr [esp + 0x30]"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4550178,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4550184,
+                "bytes": "c20400",
+                "instruction": "ret 4"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4550178,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "_finish_mac_headers@4",
+        "classification": "named trapping boundary",
+        "bytes": "558bec535657cc5f5e5b5dc20400",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "LinkAuxiliaryData::FinishOutput",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4559008,
+          "end": 4559427,
+          "sha256": "b283fa314630c4473a8719d9a0058186a4339134a39463e586f53ea2bccb3d49"
+        }
+      ],
+      "standard_abi": "thiscall void(this; LinkContext *context); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4559018,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4559363,
+              "bytes": "57",
+              "instruction": "push edi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4559122,
+              "bytes": "8b7804",
+              "instruction": "mov edi, dword ptr [eax + 4]"
+            },
+            {
+              "address": 4559176,
+              "bytes": "8b7c2418",
+              "instruction": "mov edi, dword ptr [esp + 0x18]"
+            },
+            {
+              "address": 4559205,
+              "bytes": "03fa",
+              "instruction": "add edi, edx"
+            },
+            {
+              "address": 4559211,
+              "bytes": "8b38",
+              "instruction": "mov edi, dword ptr [eax]"
+            },
+            {
+              "address": 4559320,
+              "bytes": "8b7808",
+              "instruction": "mov edi, dword ptr [eax + 8]"
+            },
+            {
+              "address": 4559323,
+              "bytes": "0faff9",
+              "instruction": "imul edi, ecx"
+            },
+            {
+              "address": 4559346,
+              "bytes": "03f9",
+              "instruction": "add edi, ecx"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4559417,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4559424,
+                "bytes": "c20400",
+                "instruction": "ret 4"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4559417,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "?FinishOutput@LinkAuxiliaryData@@QAEXPAULinkContext@@@Z",
+        "classification": "named trapping boundary",
+        "bytes": "558bec51535657894dfccc5f5e5b8be55dc20400",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "LinkContext::PeWriteHeaders",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4562288,
+          "end": 4562845,
+          "sha256": "6faeafb2a153b0267bda6b41026146295140ca470e14babc4eb2e1259c9e8874"
+        }
+      ],
+      "standard_abi": "",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4562298,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4562486,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4562744,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4562814,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4562829,
+              "bytes": "57",
+              "instruction": "push edi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4562466,
+              "bytes": "33ff",
+              "instruction": "xor edi, edi"
+            },
+            {
+              "address": 4562468,
+              "bytes": "668b7e40",
+              "instruction": "mov di, word ptr [esi + 0x40]"
+            },
+            {
+              "address": 4562729,
+              "bytes": "8b7c2454",
+              "instruction": "mov edi, dword ptr [esp + 0x54]"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4562507,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            },
+            {
+              "address": 4562528,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            },
+            {
+              "address": 4562835,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4562514,
+                "bytes": "c20400",
+                "instruction": "ret 4"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4562507,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            },
+            {
+              "return_instruction": {
+                "address": 4562535,
+                "bytes": "c20400",
+                "instruction": "ret 4"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4562507,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                },
+                {
+                  "address": 4562528,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            },
+            {
+              "return_instruction": {
+                "address": 4562842,
+                "bytes": "c20400",
+                "instruction": "ret 4"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4562835,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "?PeWriteHeaders@LinkContext@@QAEXH@Z",
+        "classification": "named trapping boundary",
+        "bytes": "558bec51535657894dfccc5f5e5b8be55dc20400",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "_finish_ppc_branches",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4563152,
+          "end": 4563439,
+          "sha256": "2c7292519ab6d0201618ebbdf5ef21b10a5e4da87777497eb1c5e6fc368dee18"
+        }
+      ],
+      "standard_abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4563173,
+              "bytes": "57",
+              "instruction": "push edi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4563190,
+              "bytes": "8b780c",
+              "instruction": "mov edi, dword ptr [eax + 0xc]"
+            },
+            {
+              "address": 4563297,
+              "bytes": "8b3d54f14700",
+              "instruction": "mov edi, dword ptr [0x47f154]"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4563422,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4563438,
+                "bytes": "c3",
+                "instruction": "ret "
+              },
+              "nearby_restores": [
+                {
+                  "address": 4563422,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "_finish_ppc_branches",
+        "classification": "named trapping boundary",
+        "bytes": "558bec535657cc5f5e5b5dc3",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "_clear_argument_list@4",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4574464,
+          "end": 4574523,
+          "sha256": "e357fd88110ac13e7a770b7c0db9fccdccb4d5b676aecded43b63bb22e6e3e5f"
+        }
+      ],
+      "standard_abi": "stdcall void(InputArguments *arguments); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4574464,
+              "bytes": "57",
+              "instruction": "push edi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4574465,
+              "bytes": "8b7c2408",
+              "instruction": "mov edi, dword ptr [esp + 8]"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4574519,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4574520,
+                "bytes": "c20400",
+                "instruction": "ret 4"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4574519,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "_clear_argument_list@4",
+        "classification": "named trapping boundary",
+        "bytes": "558bec535657cc5f5e5b5dc20400",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "LinkContext::UpdateChecksum",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4593920,
+          "end": 4594127,
+          "sha256": "fe47e13c5a18501ac2f38f6c813400e4a414215ee2c95687876d3c5ec3da6e00"
+        }
+      ],
+      "standard_abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4593929,
+              "bytes": "57",
+              "instruction": "push edi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4593930,
+              "bytes": "8bf9",
+              "instruction": "mov edi, ecx"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4594066,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            },
+            {
+              "address": 4594108,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            },
+            {
+              "address": 4594118,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4594071,
+                "bytes": "c3",
+                "instruction": "ret "
+              },
+              "nearby_restores": [
+                {
+                  "address": 4594066,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            },
+            {
+              "return_instruction": {
+                "address": 4594113,
+                "bytes": "c3",
+                "instruction": "ret "
+              },
+              "nearby_restores": [
+                {
+                  "address": 4594108,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            },
+            {
+              "return_instruction": {
+                "address": 4594126,
+                "bytes": "c3",
+                "instruction": "ret "
+              },
+              "nearby_restores": [
+                {
+                  "address": 4594108,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                },
+                {
+                  "address": 4594118,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "?UpdateChecksum@LinkContext@@QAEXXZ",
+        "classification": "named trapping boundary",
+        "bytes": "558bec51535657894dfccc5f5e5b8be55dc3",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "_finish_symbol_tables",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4594512,
+          "end": 4594554,
+          "sha256": "6900778646bd90e8f33b6fc0df5c955b35ceedab94ccc6e863c06215df64f80a"
+        }
+      ],
+      "standard_abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [],
+          "own_writes": [],
+          "restores": [],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4594553,
+                "bytes": "c3",
+                "instruction": "ret "
+              },
+              "nearby_restores": []
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "_finish_symbol_tables",
+        "classification": "named trapping boundary",
+        "bytes": "558bec535657cc5f5e5b5dc3",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "_attach_comdat@12",
+      "preserves": [
+        "esi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4599632,
+          "end": 4599773,
+          "sha256": "8a8dfdbac3e478178edcd7462dd3570c95cd905e8814b8b6013f4d6d78a3432b"
+        }
+      ],
+      "standard_abi": "stdcall void(Contribution *contribution,const char *name,BYTE linker_defined); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "esi": {
+          "saves": [
+            {
+              "address": 4599633,
+              "bytes": "56",
+              "instruction": "push esi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4599651,
+              "bytes": "8bf0",
+              "instruction": "mov esi, eax"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4599768,
+              "bytes": "5e",
+              "instruction": "pop esi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4599770,
+                "bytes": "c20c00",
+                "instruction": "ret 0xc"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4599768,
+                  "bytes": "5e",
+                  "instruction": "pop esi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "_attach_comdat@12",
+        "classification": "named trapping boundary",
+        "bytes": "558bec535657cc5f5e5b5dc20c00",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    },
+    {
+      "name": "LinkContext::VxdWriteHeaders",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4605040,
+          "end": 4607060,
+          "sha256": "747ad78e43ca3c7a80b6a1d35d83ed7b4ae705a14280fe91fa3b64b0682aec36"
+        }
+      ],
+      "standard_abi": "",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4605055,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4605355,
+              "bytes": "57",
+              "instruction": "push edi"
+            },
+            {
+              "address": 4606397,
+              "bytes": "57",
+              "instruction": "push edi"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4605219,
+              "bytes": "8d3c28",
+              "instruction": "lea edi, [eax + ebp]"
+            },
+            {
+              "address": 4605224,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4605324,
+              "bytes": "8d3c28",
+              "instruction": "lea edi, [eax + ebp]"
+            },
+            {
+              "address": 4605506,
+              "bytes": "8b3b",
+              "instruction": "mov edi, dword ptr [ebx]"
+            },
+            {
+              "address": 4605513,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4605523,
+              "bytes": "8b3b",
+              "instruction": "mov edi, dword ptr [ebx]"
+            },
+            {
+              "address": 4605532,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4605536,
+              "bytes": "2bf9",
+              "instruction": "sub edi, ecx"
+            },
+            {
+              "address": 4605544,
+              "bytes": "8bfd",
+              "instruction": "mov edi, ebp"
+            },
+            {
+              "address": 4605550,
+              "bytes": "f3a5",
+              "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+            },
+            {
+              "address": 4605557,
+              "bytes": "f3a4",
+              "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+            },
+            {
+              "address": 4605577,
+              "bytes": "8bfd",
+              "instruction": "mov edi, ebp"
+            },
+            {
+              "address": 4605588,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4605618,
+              "bytes": "8bf8",
+              "instruction": "mov edi, eax"
+            },
+            {
+              "address": 4605723,
+              "bytes": "8d3c8d00000000",
+              "instruction": "lea edi, [ecx*4]"
+            },
+            {
+              "address": 4605913,
+              "bytes": "8b7c2428",
+              "instruction": "mov edi, dword ptr [esp + 0x28]"
+            },
+            {
+              "address": 4606356,
+              "bytes": "8bfa",
+              "instruction": "mov edi, edx"
+            },
+            {
+              "address": 4606360,
+              "bytes": "f2ae",
+              "instruction": "repne scasb al, byte ptr es:[edi]"
+            },
+            {
+              "address": 4606376,
+              "bytes": "8bfa",
+              "instruction": "mov edi, edx"
+            },
+            {
+              "address": 4606436,
+              "bytes": "8b7c2428",
+              "instruction": "mov edi, dword ptr [esp + 0x28]"
+            },
+            {
+              "address": 4607047,
+              "bytes": "8b7c2428",
+              "instruction": "mov edi, dword ptr [esp + 0x28]"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4607016,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            },
+            {
+              "address": 4607034,
+              "bytes": "5f",
+              "instruction": "pop edi"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4607026,
+                "bytes": "c20400",
+                "instruction": "ret 4"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4607016,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            },
+            {
+              "return_instruction": {
+                "address": 4607044,
+                "bytes": "c20400",
+                "instruction": "ret 4"
+              },
+              "nearby_restores": [
+                {
+                  "address": 4607016,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                },
+                {
+                  "address": 4607034,
+                  "bytes": "5f",
+                  "instruction": "pop edi"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rebuilt": {
+        "symbol": "?VxdWriteHeaders@LinkContext@@QAEXH@Z",
+        "classification": "named trapping boundary",
+        "bytes": "558bec51535657894dfccc5f5e5b8be55dc20400",
+        "own_writes": []
+      },
+      "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
+    }
+  ],
+  "get_tick_count_contract": {
+    "identity": "kernel32.dll!GetTickCount",
+    "hfile": {
+      "path": "cases/hello-win32/full-link-provider/module-002.bin",
+      "bytes": 2008819,
+      "sha256": "6a080ecb2d0e74c64750c3a7105ca55350867fc904e9f568f190907fd2f4d733",
+      "receipt": "cases/hello-win32/full-link-provider/receipt.json",
+      "receipt_sha256": "3d6ec68edd63f6464e81f373d8204bf98d30f39689e6108ba214b145fdce65ea",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/link/hello-win32-masked-qqori5v9",
+      "module_index": 2,
+      "module_base": 2071986176,
+      "export_dll_name": "KERNEL32.dll"
+    },
+    "provider_export": {
+      "ordinal": 775,
+      "rva": 107760
+    },
+    "entry_bytes": "8bff558beca12003fe7f5dc3",
+    "preserves": [
+      "ebx",
+      "edi"
+    ],
+    "inspection": "Actual hFile export body: mov edi,edi; push ebp; mov ebp,esp; mov eax,[7ffe0320]; pop ebp; ret. No EBX/EDI value change, calls, or alternate normal return. mov edi,edi is identity, not a clobber.",
+    "declaration": {
+      "path": "toolchains/5.10/include/WINBASE.H",
+      "line_begin": 2864,
+      "line_end": 2869,
+      "sha256": "6188fc8c8bfa385c3c67fd9ff912f50f00d32d885f2133dd76ed6e18485c9ad5",
+      "text": "WINBASEAPI\nDWORD\nWINAPI\nGetTickCount(\n    VOID\n    );"
+    },
+    "qualification": "Actual loaded kernel32 hFile and named export independently bound; explicit SDK WINAPI declaration. Target IAT identity is separately verified; no preservation inferred for arbitrary Wine APIs."
+  },
+  "edi_live_interval": {
+    "load": 4474046,
+    "last_call": 4475157,
+    "calls": [
+      {
+        "site": 4474092,
+        "operand": "edi"
+      },
+      {
+        "site": 4474145,
+        "operand": "edi"
+      },
+      {
+        "site": 4474157,
+        "operand": "DWORD PTR ds:0x40123c"
+      },
+      {
+        "site": 4474178,
+        "operand": "0x44dc80",
+        "target": 4512896,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474195,
+        "operand": "0x441950",
+        "target": 4462928,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474232,
+        "operand": "0x441770",
+        "target": 4462448,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474251,
+        "operand": "0x4590a0",
+        "target": 4559008,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474267,
+        "operand": "0x4414f0",
+        "target": 4461808,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474302,
+        "operand": "0x438640",
+        "target": 4425280,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474317,
+        "operand": "0x456bb0",
+        "target": 4549552,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474330,
+        "operand": "0x4529a0",
+        "target": 4532640,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474340,
+        "operand": "0x45cd00",
+        "target": 4574464,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474350,
+        "operand": "0x45cd00",
+        "target": 4574464,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474360,
+        "operand": "0x45cd00",
+        "target": 4574464,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474414,
+        "operand": "0x40c030",
+        "target": 4243504,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474425,
+        "operand": "0x441bc0",
+        "target": 4463552,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474475,
+        "operand": "0x441e20",
+        "target": 4464160,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474486,
+        "operand": "0x43ecf0",
+        "target": 4451568,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474492,
+        "operand": "0x44fe30",
+        "target": 4521520,
+        "known_logical_name": "_release_memory@4"
+      },
+      {
+        "site": 4474657,
+        "operand": "0x442c50",
+        "target": 4467792,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474773,
+        "operand": "DWORD PTR ds:0x47eed0"
+      },
+      {
+        "site": 4474788,
+        "operand": "0x4098d0",
+        "target": 4233424,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474802,
+        "operand": "0x45a0d0",
+        "target": 4563152,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474829,
+        "operand": "0x430230",
+        "target": 4391472,
+        "known_logical_name": "_link_fatal"
+      },
+      {
+        "site": 4474854,
+        "operand": "0x461900",
+        "target": 4593920,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474877,
+        "operand": "0x431220",
+        "target": 4395552,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474895,
+        "operand": "0x441610",
+        "target": 4462096,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474907,
+        "operand": "0x441610",
+        "target": 4462096,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474926,
+        "operand": "0x435310",
+        "target": 4412176,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474931,
+        "operand": "0x461b50",
+        "target": 4594512,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474945,
+        "operand": "0x40bd10",
+        "target": 4242704,
+        "known_logical_name": "_close_argument_file@8"
+      },
+      {
+        "site": 4474959,
+        "operand": "0x4155a0",
+        "target": 4281760,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474964,
+        "operand": "0x415530",
+        "target": 4281648,
+        "known_logical_name": null
+      },
+      {
+        "site": 4474981,
+        "operand": "ebx"
+      },
+      {
+        "site": 4475022,
+        "operand": "edi"
+      },
+      {
+        "site": 4475076,
+        "operand": "edi"
+      },
+      {
+        "site": 4475088,
+        "operand": "DWORD PTR ds:0x40123c"
+      },
+      {
+        "site": 4475097,
+        "operand": "ebx"
+      }
+    ]
+  }
+}

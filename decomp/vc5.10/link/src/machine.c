@@ -4,6 +4,7 @@
 #include "options.h"
 #include "pass-one.h"
 #include "sections.h"
+#include "full-link-functions.h"
 #include <recon.h>
 
 extern BYTE incremental_enabled;
@@ -48,7 +49,26 @@ void __stdcall initialize_machine(LinkContext *context)
     machine_initialized=1;
 }
 
-void __stdcall validate_delay_load_options(LinkContext *context) { __asm { int 3 } }
+void __stdcall validate_delay_load_options(LinkContext *context)
+{
+    const char *incompatible;
+    if (!delay_libraries.count) return;
+    if (context->file_header.Machine!=0x14c && context->file_header.Machine!=0x184) {
+        clear_argument_list(&delay_libraries);
+        link_warning(NULL,4062,"DELAYLOAD",get_machine_name(context,context->file_header.Machine));
+        return;
+    }
+    if (context->options.retain_relocations || context->options.rom ||
+        context->is_vxd==1 || context->optional_header.Subsystem==7) {
+        clear_argument_list(&delay_libraries);
+        if (context->options.retain_relocations) incompatible="DRIVER";
+        else if (context->options.rom) incompatible="ROM";
+        else if (context->is_vxd==1) incompatible="VXD";
+        else incompatible="SUBSYSTEM:POSIX";
+        link_warning(NULL,4075,"DELAYLOAD",incompatible);
+    }
+}
+const char *__stdcall get_machine_name(LinkContext *context,unsigned machine) { __asm { int 3 } return NULL; }
 void __stdcall initialize_x86_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }
 void __stdcall initialize_mips_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }
 void __stdcall initialize_alpha_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }

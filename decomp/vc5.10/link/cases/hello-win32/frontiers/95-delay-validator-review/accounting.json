@@ -1,0 +1,26 @@
+{
+  "candidate": "_validate_delay_load_options@4",
+  "application_functions": 95,
+  "application_extent_bytes": 35236,
+  "support_functions": 13,
+  "support_extent_bytes": 522,
+  "original_capture_seconds": 2.8878105571493506,
+  "native_capture_seconds": 0.8821510151028633,
+  "audit_seconds": 0.6218164972960949,
+  "fresh_affected_controls": 24,
+  "fresh_control_times": {
+    "positive": 1.6362016731873155,
+    "negatives_and_scope_positive": 2.30011953599751,
+    "total": 3.936324952170253
+  },
+  "native_help_fixture": {
+    "setup": 0.06298871338367462,
+    "execution": 0.0037940610200166702,
+    "checks": 0.0003788415342569351,
+    "total": 0.07046429626643658
+  },
+  "historical_controls": "Previous raw/checkers/campaigns retained; current stage-only checker deltas explicitly bound; no broad rerun or byte-identical-premise reuse claim.",
+  "shared_ready": "4021ad738 crt7defa7a2/headerf2b44b6d; no retry",
+  "retained_failed_control_run": "First generator omitted ValueError from expected ownership rejection for an overlapping expanded literal; generator fixed, exact same immutable captures retested. No accepted mutation.",
+  "build": "make-j4 native/original/runtime/currenthelper; separate buildtime not measured"
+}
