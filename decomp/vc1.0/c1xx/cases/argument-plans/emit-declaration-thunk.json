@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "function": "_emit_declaration_thunk@8",
+  "native_entry": "emit_declaration_thunk",
+  "argument_words": 4,
+  "ownership_register": "eax",
+  "ownership_caller_extent": [
+    318816,
+    318891
+  ],
+  "native_caller_locals": {
+    "caller_description": {
+      "frame": 1,
+      "function": "finish_declarations",
+      "local": "iterator",
+      "fields": [
+        "key"
+      ]
+    },
+    "caller_function": {
+      "frame": 1,
+      "function": "finish_declarations",
+      "local": "iterator",
+      "fields": [
+        "value"
+      ]
+    }
+  },
+  "native_expressions": {
+    "raw_description": "(unsigned)description",
+    "raw_function": "(unsigned)function"
+  },
+  "formals": [
+    {
+      "name": "description",
+      "stack_index": 0,
+      "native_field": "raw_description",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 253337,
+        "original_owner_function": "_finish_declarations",
+        "native_owner_function": "finish_declarations",
+        "native_owner_field": "caller_description",
+        "native_owner_local": "iterator",
+        "native_owner_fields": [
+          "key"
+        ],
+        "identity": "Accepted next_hash_entry writes actual iterator.key+12. Caller PUSH value4dd8e then load adjustedESP+16 (iterator.key+12) intoEAX4dd8f/PUSH4dd93/CALL4dd94. Fresh EAX binds real native caller iterator.key; key is the existing copied12B MemberPointerThunkKey with initialized displacement+8."
+      }
+    },
+    {
+      "name": "function",
+      "stack_index": 1,
+      "native_field": "raw_function",
+      "binding": {
+        "kind": "forwarded-declaration-thunk",
+        "original_owner_function": "_finish_declarations",
+        "original_caller_rva": 253337,
+        "iterator_bytes": 20,
+        "value_offset": 16,
+        "load_instruction": 318858,
+        "push_instruction": 318862,
+        "call_instruction": 318868,
+        "native_owner_field": "caller_function",
+        "pointee_credit": "none from forwarding alone",
+        "identity": "Pinned accepted next_hash_entry writes entry.value+4 to iterator.value+16. Immediate caller loadESP+16/PUSH4dd8e forwards that initialized value; fresh original arg1 and actual native iterator.value bind its role, not additional pointee state."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      318896,
+      319031
+    ],
+    "argument_bytes": 8,
+    "convention": "stdcall8 void RET8",
+    "proof": "Whole135B saveESI4; description/function adjustedESP+8/+12; RET8. begin_function_output1, clear active_parameter_symbols8c400,write53NULL. new_left_typed_expression76(symbol_reference(function),NULL), emit; append_expression(NULL,make_integer_constant(description.displacement+8),2); new_left_typed_expressiona8(make_integer_constant3,arguments),emit. write47NULL then54 integer0; record_function_definition(function). Eight distinct accepted callees, no newdata/CRT/guard. Earlier retained PUSH0 and PUSH2 supply outerhelper thirdformals, not extra symbol_reference/make_integer_constant ABI inputs. Existing permanent12B MemberPointerThunkKey producer/copy initializes displacement; no generic pointee dump. No hidden/register/x87/flags input. VA base10000: callerVA4dd99=RVA3dd99; next_hash_entry actual field writer4eeb2..4eebc and caller's20B iterator offsets pinned."
+  }
+}

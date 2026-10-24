@@ -300,6 +300,26 @@ void finish_declarations(void)
     }
 }
 
+/* Original 0x4ddb0..0x4de36. Emit a retained declaration thunk and
+   its fixed calling description into the ordinary function streams. */
+void __stdcall emit_declaration_thunk(MemberPointerThunkKey *description,
+    CppSymbol *function)
+{
+    IrToken *entry, *arguments, *body;
+    begin_function_output(1);
+    active_parameter_symbols = 0;
+    write_ir_record(0x53, 0);
+    entry = new_left_typed_expression(0x76, symbol_reference(function), 0);
+    emit_expression_tree(entry);
+    arguments = append_expression(0,
+        make_integer_constant(description->displacement), 2);
+    body = new_left_typed_expression(0xa8, make_integer_constant(3), arguments);
+    emit_expression_tree(body);
+    write_ir_record(0x47, 0);
+    write_ir_record(0x54, make_integer_constant(0));
+    record_function_definition(function);
+}
+
 HashTable *deferred_type_tables; /* original 0x9f33c */
 
 /* Original 0x4d820..0x4d86a. Materialize retained type-related tables

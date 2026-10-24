@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "b4d29de56d7717676155aa755c6652704ce0cb03c4e527dbfd7c6c0e34de7150",
+    "functions.json": "76ff48bb933765b31e500d8cf044194818da725d101272ed9c33e11b18a2a0b7",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "ac61fc1478806a48c84f1c3ff303f6e73bb9d938248886209947b95fc3541935",
-    "cases/canonical-map.txt": "bd2334979154ebdcc0a04099d20a0997e47201b96af81825d480659639a9232a",
+    "cases/original-entry-references.json": "0fea751d75cfcfb5e978bbf41308db5b73fd687ac7f8f0ad5a55653d7dcbe3a7",
+    "cases/canonical-map.txt": "0f8579a2cd13b780fc71459923e4efb90fa919cc9b4008e97132aa52a65833b7",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -64,9 +64,9 @@
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-receipt.json": "c9cbd20af4610da8f8c35487c1cb632113d35461981bd76aa2f7d60e10400717",
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-events.txt": "a7247c160287c63539d241bef68d979d6d6a4b4649e77c3b542cb394ffce4b8e",
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-entries.plan": "95e3224e0362e24a6ef5b495984403fa23be74272e90e204349cda7924f7f5d6",
-    "cases/frontiers/state_machine_defined_debug/1250-next_hash_entry-4/entry-reference/original-receipt.json": "01dc88c9136849bda1693da6ae7c2514de3bd07010466c2eceb3e590c3d2e9e4",
-    "cases/frontiers/state_machine_defined_debug/1250-next_hash_entry-4/entry-reference/original-events.txt": "4567edced8df7094c600dc77d9189644c8ecff332f41c3e28c99270d51e3b500",
-    "cases/frontiers/state_machine_defined_debug/1250-next_hash_entry-4/entry-reference/original-entries.plan": "3a49ce8bf5db461a302a1c00307da128944e31c9608a5bc674a18d8f64c295b0"
+    "cases/frontiers/state_machine_defined_debug/1251-emit_declaration_thunk-8/entry-reference/original-receipt.json": "3c9dd10bbde4ff25d42dbec871214990ea4a14405f9c119d5316543ccf831d92",
+    "cases/frontiers/state_machine_defined_debug/1251-emit_declaration_thunk-8/entry-reference/original-events.txt": "00af4d61033dc7c09ee7cb3ddc70bcfdbc8a9bd3a80ad671894b72f30695ee6c",
+    "cases/frontiers/state_machine_defined_debug/1251-emit_declaration_thunk-8/entry-reference/original-entries.plan": "8eb6be59741723d96d42b85196a9a95ea9ace8c3d184f92a9ed177a244e2d720"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1843,7 +1843,7 @@
     },
     "emit_declaration_thunk": {
       "logical": "_emit_declaration_thunk@8",
-      "source": "src/stubs.c"
+      "source": "src/function-finalization.c"
     },
     "emit_default_ctor_closure_body": {
       "logical": "_emit_default_ctor_closure_body@4",
@@ -7152,7 +7152,8 @@
     "lower_multiple_inheritance_member_call",
     "make_adjusted_member_call",
     "begin_hash_iteration",
-    "next_hash_entry"
+    "next_hash_entry",
+    "emit_declaration_thunk"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -12417,7 +12418,7 @@
     },
     "state_machine_defined_debug": {
       "first": 1232,
-      "last": 1251,
+      "last": 1252,
       "seen": [
         "main",
         "message_text",
@@ -13567,12 +13568,13 @@
         "make_adjusted_member_call",
         "begin_hash_iteration",
         "next_hash_entry",
-        "emit_declaration_thunk"
+        "emit_declaration_thunk",
+        "mangle_vcall_model"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_emit_declaration_thunk@8",
-        "native": "emit_declaration_thunk",
+        "logical": "_mangle_vcall_model@8",
+        "native": "mangle_vcall_model",
         "signal": 5
       }
     }

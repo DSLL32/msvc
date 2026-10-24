@@ -2,6 +2,7 @@
 #define FUNCTION_FINALIZATION_H
 #include "function-definitions.h"
 #include "work-list.h"
+#include "member-pointers.h"
 #include <recon.h>
 void __stdcall finish_function_body(int recovering);
 void reset_function_symbol_tables(void);
@@ -36,7 +37,7 @@ WorkList *__stdcall pending_function_cleanup(unsigned char kind);
 void chain_initializer_function(void);
 void __stdcall register_initializer_function(CppSymbol *function);
 extern HashTable *declaration_thunks;
-void __stdcall emit_declaration_thunk(void *description, CppSymbol *function);
+void __stdcall emit_declaration_thunk(MemberPointerThunkKey *description, CppSymbol *function);
 extern HashTable *deferred_type_tables;
 void __stdcall emit_deferred_type_table(void *description, CppSymbol *symbol);
 extern CppSymbol *segment_symbols;

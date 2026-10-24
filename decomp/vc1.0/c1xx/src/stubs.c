@@ -68,7 +68,6 @@ int resume_pch_source_input(void) { __asm { int 3 } return 0; }
 unsigned __stdcall source_file_timestamp(char *filename) { __asm { int 3 } return 0; }
 int __stdcall search_source_include(char *filename) { __asm { int 3 } return 0; }
 void __stdcall record_pch_open_include(char *filename) { __asm { int 3 } }
-void __stdcall emit_declaration_thunk(void *description, CppSymbol *function) { __asm { int 3 } }
 void __stdcall emit_deferred_type_table(void *description, CppSymbol *symbol) { __asm { int 3 } }
 void finish_debug_info(void) { __asm { int 3 } }
 void generate_inline_queries(void) { __asm { int 3 } }
