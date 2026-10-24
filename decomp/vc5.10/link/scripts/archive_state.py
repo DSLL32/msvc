@@ -89,7 +89,7 @@ def compare(original,state,trap,events,native_directory,oslots,nslots):
     lists={e['name']:e for e in events if e['event']=='argument_list'}
     assert entry==dict(event='archive_entry',stack_pointer=reader['stack_pointer']-24,
         formals=[lists['link_files']['nodes'][0]['words'][0],14],hidden_inputs=[])
-    completed=state['function']in ('is_mac_resource_file','get_file_length','seek_file','seek_mapped_file','read_big_endian_dword','byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header')
+    completed=state['function']in ('is_mac_resource_file','get_file_length','seek_file','seek_mapped_file','read_big_endian_dword','byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header','create_input_module')
     if not completed:
         assert trap['archive_entry_stack']==entry['stack_pointer']
         assert trap['esp']==entry['stack_pointer']-32 and trap['stack'][0]==0x45cd7a
@@ -169,12 +169,15 @@ def compare_completed(original,state,trap,events,directory,reader,entry,formals,
         source=(directory/'source/project'/filename).read_bytes()
         assert hashlib.sha256(source).hexdigest()==receipt['source_files']['src/'+filename]
         assert b'BYTE __stdcall is_archive('in source
-    if state['function']in ('read_big_endian_dword','byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header'):
+    if state['function']in ('read_big_endian_dword','byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header','create_input_module'):
         from mapped_seek_state import compare as compare_seeks
         compare_seeks(original,state,trap,events,directory,reader,formals[0],read['formals'][0])
         if state['function']=='initialize_x86_backend':
             init,=[e for e in events if e['event']=='initialize_machine_entry']
             return dict(original_base=init['stack_pointer']-1,native_base=state['x86_incremental_support_output']['address'],bytes=1)
+        if state['function']=='create_input_module':
+            obj,=[e for e in events if e['event']=='object_read_entry']
+            return [dict(original_base=obj['stack_pointer']-20,native_base=state['coff_header_output']['address'],bytes=20),dict(original_base=obj['stack_pointer']+4,native_base=state['input_module_created_output']['address'],bytes=1)]
         if state['function']=='read_coff_header':
             obj,=[e for e in events if e['event']=='object_read_entry']
             return dict(original_base=obj['stack_pointer']-20,native_base=state['coff_header_output']['address'],bytes=20)
@@ -183,7 +186,7 @@ def compare_completed(original,state,trap,events,directory,reader,entry,formals,
         assert trap['esp']==reader['stack_pointer']-20 and trap['stack'][:2]==[0x44994e,14]
         assert trap['mac_resource_formals']==dict(formals=[14],hidden_inputs=[])
     else:
-        assert state['function']in ('get_file_length','seek_file','seek_mapped_file','read_big_endian_dword','byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header')
+        assert state['function']in ('get_file_length','seek_file','seek_mapped_file','read_big_endian_dword','byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header','create_input_module')
         current,=[e for e in events if e['event']=='mac_resource_entry']
         assert current==dict(event='mac_resource_entry',stack_pointer=reader['stack_pointer']-20,formals=[14],hidden_inputs=[])
         if state['function']=='get_file_length':
@@ -235,7 +238,7 @@ def compare_completed(original,state,trap,events,directory,reader,entry,formals,
         assert pe.read(0x44e629,5)==b'\xe8'+struct.pack('<i',0x40c080-0x44e62e)
     assert state['mac_resource_entry']==dict(stack_pointer=state['read_input_entry']['stack_pointer']-48,
         formals=[14],hidden_inputs=[])
-    if state['function']not in ('seek_file','seek_mapped_file','read_big_endian_dword','byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header'):
+    if state['function']not in ('seek_file','seek_mapped_file','read_big_endian_dword','byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header','create_input_module'):
         assert trap['frontier_inputs']==state['frontier_inputs']==dict(formals=[14],hidden_register_inputs=[])
     else:
         seek=json.loads((binary/'cases/hello-win32/seek-file-input-contract.json').read_text())

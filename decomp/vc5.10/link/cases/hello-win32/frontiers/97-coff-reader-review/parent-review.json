@@ -1,0 +1,29 @@
+{
+  "review": "Independent LINK97 COFF reader and next twelve-formal ownership boundary",
+  "manifest_sha256": "640b09ab2cf39747251b940ef47751a1b04bbf05f873c890823eae7efd0ce9e9",
+  "verified_manifest_files": 930,
+  "independent_bind_capture_original_native_and_verify_frontier": true,
+  "elapsed_seconds": 2.253,
+  "lifetime_contract_sha256": "8349188258ba281db3eafccfa49c5fa8244e2d40baf17ca0d8348039b62e76f5",
+  "validation_sha256": "550c6c9b26d04496173772d208efc13b6f0395f933265d11bd638e74181da7de",
+  "original_receipt_sha256": "ec502712ab8cf6068df5952cf4a19cb8cf7ee305a38aa32b04ecbe0a44d9a777",
+  "native_receipt_sha256": "d88ef183999f3d7d525bdbb1d2eb63598c31e5272c5d812e1ac0f0cd77de10a6",
+  "reviewed": [
+    "Readable273B source and exact ownership4610c0..4611d1",
+    "Actual complete20B COFF header equals master input; mapped read returns20/RET12, cursor20",
+    "Reader BYTE0/RET16 and caller ignores result; raw upperEAX retained without equality claim",
+    "All12 next physical formals and no hidden register inputs",
+    "Original created output reuses prior argument stackslot only after argument retainedESI; own native uninitialized BYTE distinct and not crosscompared",
+    "Pending972B constructor exact twoRET48 sites and first BYTEstore40ea3a; priorchild receives other arguments, no created-pointer escape",
+    "Header20B and createdBYTE are the only newly live ranges; prior returned locals historical",
+    "Qualified fatal publicexit chain supports source position0 only on unconsumed alternateNULL path; no false noreturn annotation"
+  ],
+  "affected_controls_recorded": 51,
+  "release": "Promote97 and continue actual constructor case; pending constructor remains masked, no body credit.",
+  "counts_if_promoted": {
+    "app_functions": 97,
+    "app_code_bytes": 35642,
+    "support_functions": 13,
+    "support_code_bytes": 522
+  }
+}

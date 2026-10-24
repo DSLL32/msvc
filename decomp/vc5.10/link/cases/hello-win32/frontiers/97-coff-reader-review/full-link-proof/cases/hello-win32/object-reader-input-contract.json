@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "address": 4495328,
+  "bytes": 240,
+  "body_sha256": "146ea82938d69260788addaa1ff36ad65e8286ea5b81e9baa0759ddcb50b679d",
+  "formals": [
+    "InputArgument *argument",
+    "LinkContext *context",
+    "OutputLibrary *library"
+  ],
+  "hidden_inputs": [],
+  "returns": [
+    [
+      4495509,
+      12
+    ],
+    [
+      4495565,
+      12
+    ]
+  ],
+  "scope": "Complete readonly pending240B ABI/input proof, named RET12 trap; no body credit.",
+  "encountered_global": {
+    "address": 4714544,
+    "bytes": 1,
+    "native_symbol": "object_read_mode",
+    "meaning": "Observed BYTE gate before early object handling; detailed mode semantics not inferred."
+  }
+}

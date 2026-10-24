@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "address": 4515264,
+  "bytes": 86,
+  "body_sha256": "6eed595a8d170f812134c173c0a4c8099ac02c847ed70be24b14ca8cbaf7582b",
+  "former_analysis": {
+    "path": "cases/hello-win32/big-endian-input-contract.json",
+    "sha256": "6dedfee3abb3c76562c44a97e8f9652fb85ad2fc1ac2f3873ef4875f81cfda6f",
+    "scope": "Historical pending86B input88 proof immutable; not standalone body acceptance"
+  },
+  "formals": [
+    "int file"
+  ],
+  "hidden_inputs": [],
+  "returns": [
+    [
+      4515322,
+      4
+    ],
+    [
+      4515347,
+      4
+    ]
+  ],
+  "source": "src/input.c read_big_endian_dword; optional statistics, file_slots lookup, mapped/buffered read of DWORD then named byte-swap callee. No incoming output bytes consumed.",
+  "actual_case": "Actual mapped-read normal RET12/result4 initializes all four bytes4c010700, advances cursor0\u21924, then byte_swap_dword receives fullDWORD0x0007014c. Mac local historical upper renamed error with this ordinary build."
+}

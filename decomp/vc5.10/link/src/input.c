@@ -120,7 +120,39 @@ OutputModule *__stdcall read_object_file(InputArgument *argument,LinkContext *co
         allocate_module_section_headers(module);
     return module;
 }
-BYTE __stdcall read_coff_header(int file,IMAGE_FILE_HEADER *header,void *alternate_header,BYTE *alternate) { __asm { int 3 } return 0; }
+BYTE __stdcall read_coff_header(int file,IMAGE_FILE_HEADER *header,void *alternate_header,BYTE *alternate)
+{
+    DWORD position=0,error;
+    BYTE is_import;
+    FileRecord *record;
+    if (alternate) {
+        if (file_access_statistics) record_file_access();
+        record=file_slots[file];
+        position=(record->flags & 8)?record->file_size:
+            ((InputBufferedPosition *)record->base)->position;
+    }
+    /* With no alternate output, position is unused before fatal1213 exits.
+       Keep its source value initialized; the original spare EDI held header. */
+    if (file_access_statistics) record_file_access();
+    record=file_slots[file];
+    if (record->flags & 8) mapped_read(record,header,sizeof(*header));
+    else buffered_read(record,header,sizeof(*header));
+    is_import=header->Machine==0 && header->NumberOfSections==0xffff;
+    if (is_import) {
+        if (!alternate) link_fatal(NULL,1213);
+        error=0;
+        seek_file(current_input_file,position,0,&error);
+        if (file_access_statistics) record_file_access();
+        record=file_slots[current_input_file];
+        if (record->flags & 8) mapped_read(record,alternate_header,20);
+        else buffered_read(record,alternate_header,20);
+        validate_import_object_header(alternate_header);
+        is_import=1;
+    }
+    if (alternate) *alternate=is_import;
+    return is_import;
+}
+void __stdcall validate_import_object_header(void *header) { __asm { int 3 } }
 OutputModule *__stdcall create_input_module(const char *original_name,const char *name,const void *identity,IMAGE_FILE_HEADER *header,OutputLibrary *library,BYTE *created,BYTE copy_sections,DWORD section_offset,IMAGE_SECTION_HEADER *sections,BYTE *section_flags,void *optional_data,DWORD auxiliary) { __asm { int 3 } return NULL; }
 void __stdcall allocate_module_section_headers(OutputModule *module) { __asm { int 3 } }
 void __stdcall load_object_module(LinkContext *context,void *parent,OutputModule *module,WORD flags)

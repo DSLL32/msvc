@@ -113,7 +113,8 @@
     "_detect_input_machine@8",
     "_initialize_machine@4",
     "_validate_delay_load_options@4",
-    "_initialize_x86_backend@8"
+    "_initialize_x86_backend@8",
+    "_read_coff_header@16"
   ],
   "driver": [
     {
@@ -2836,12 +2837,12 @@
     {
       "name": "_read_coff_header@16",
       "start": 4591808,
-      "end": 4591809,
-      "pending_extent": true,
+      "end": 4592081,
+      "pending_extent": false,
       "source": "src/input.c",
       "native_symbol": "read_coff_header",
-      "status": "stub",
-      "abi": "stdcall BYTE(int,IMAGE_FILE_HEADER *,void *,BYTE *); RET16; complete273B pending analysis"
+      "status": "implemented",
+      "abi": "stdcall BYTE(int,IMAGE_FILE_HEADER*,void *alternate_header,BYTE *alternate); fourphysicalslots,RET16,nohidden; complete273B normal/import-header reader, no added shortread guard"
     },
     {
       "name": "_create_input_module@48",
@@ -3013,6 +3014,16 @@
       "native_symbol": "process_x86_relocations",
       "status": "stub",
       "abi": "Pending installed callback: actualRET28 supports7 physicalDWORDslots; sourcepointerformal roles provisional; actual inputs/hiddenregisters unobserved, typedinvocation promotion HOLD until complete consumer/ABI proof; zero bodycredit"
+    },
+    {
+      "name": "_validate_import_object_header@4",
+      "start": 4591680,
+      "end": 4591681,
+      "source": "src/input.c",
+      "native_symbol": "validate_import_object_header",
+      "status": "stub",
+      "pending_extent": true,
+      "abi": "stdcall void(void *header); onepointer,RET4,nohidden; complete113B pendinganalysis, actualinputsrequiredif reached, zero bodycredit"
     }
   ],
   "text_data": [

@@ -78,7 +78,7 @@ def compare(original,state,trap,events,directory):
     inner,=[e for e in events if e['event']=='mapped_seek_call'and e['index']==5];iret,=[e for e in events if e['event']=='mapped_seek_return'and e['index']==5]
     assert inner==dict(event='mapped_seek_call',index=5,site=0x40c061,entry_stack=stack-72,formals=[record,0,0,error],hidden_inputs=[])
     assert iret==dict(event='mapped_seek_return',index=5,site=0x40c066,entry_stack=stack-72,formals=[record,0,0,error],hidden_inputs=[],return_stack=stack-52,result=0)
-    raw=(original/'file-record-14.bin').read_bytes();nraw=bytes.fromhex(state['file_records'][14]);assert struct.unpack_from('<I',raw,28)[0]==struct.unpack_from('<I',nraw,28)[0]==0
+    raw=with_cursor((original/'file-record-14.bin').read_bytes(),0);nraw=with_cursor(bytes.fromhex(state['file_records'][14]),0)
     for prefix in('seek','mapped-seek'):
         for phase,cursor in [('before',4),('after',0)]:
             assert (original/('%s-5-record-%s.bin'%(prefix,phase))).read_bytes()==with_cursor(raw,cursor)
@@ -87,16 +87,21 @@ def compare(original,state,trap,events,directory):
     assert state['seek_file_calls'][5]==dict(stack_pointer=nstack-frame,formals=[14,0,0,nerror],hidden_inputs=[],caller='read_object_file',record=nrecord,record_before=with_cursor(nraw,4).hex(),output=noutput,normal_return=True,return_stack=nstack-frame+20,result=0,record_after=nraw.hex(),error_after='00000000')
     assert state['mapped_seek_calls'][5]==dict(stack_pointer=nstack-frame-48,formals=[nrecord,0,0,nerror],hidden_inputs=[],record_before=with_cursor(nraw,4).hex(),error_before='00000000',normal_return=True,return_stack=nstack-frame-28,result=0,record_after=nraw.hex(),error_after='00000000')
     header=stack-20;nheader=nstack+offsets['header']
-    assert trap['esp']==stack-52 and trap['stack'][:5]==[0x449834,14,header,0,0]
+    if state['function']=='read_coff_header':
+        assert trap['esp']==stack-52 and trap['stack'][:5]==[0x449834,14,header,0,0]
+        assert trap['stack'][15]==0 and context # Former contextargument slot now errorDWORD.
     assert trap['coff_header_formals']==dict(formals=[14,header,0,0],hidden_inputs=[])
-    assert trap['frontier_inputs']==dict(formals=[14,header,0,0],hidden_register_inputs=[])
-    assert trap['stack'][15]==0 and context # Physical former argument slot now own errorDWORD.
+    if state['function']=='read_coff_header':assert trap['frontier_inputs']==dict(formals=[14,header,0,0],hidden_register_inputs=[])
     assert len((original/'coff-header-before.bin').read_bytes())==20
     assert state['coff_header_entry']==dict(stack_pointer=nstack-frame,formals=[14,nheader,0,0],hidden_inputs=[])
-    assert state['frontier_inputs']==dict(formals=[14,nheader,0,0],hidden_register_inputs=[])
+    if state['function']=='read_coff_header':assert state['frontier_inputs']==dict(formals=[14,nheader,0,0],hidden_register_inputs=[])
     out=state['coff_header_output'];assert out==dict(address=nheader,bytes=20,owner_local_address=nheader,owner_local_bytes=20,before=out['before'],initial_value_contract='uninitialized IMAGE_FILE_HEADER output; incoming bytes not compared')
     assert len(bytes.fromhex(out['before']))==20 and nerror+4<=nheader
     proof=json.loads((root/'cases/hello-win32/coff-header-input-contract.json').read_text());body=pe.read(0x4610c0,273)
     assert hashlib.sha256(body).hexdigest()==proof['body_sha256']
     assert proof['formals']==['int file','IMAGE_FILE_HEADER *header','void *alternate_header','BYTE *alternate']and proof['hidden_inputs']==[]and proof['returns']==[[0x4611ce,16]]
     # The initializer's returned BYTE owner is historical, not a current range.
+
+    if state['function']=='create_input_module':
+        from coff_reader_state import compare as compare_coff
+        compare_coff(original,state,trap,events,directory)

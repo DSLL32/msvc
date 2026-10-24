@@ -1,0 +1,19 @@
+{
+  "reader": {
+    "bytes": 273,
+    "output": "All20B masterCOFFheader 4c0107008896db6a6f0400002500000000000000; independentactualreadRET12/result20; current40B recordcursor20",
+    "returns": "ActualreaderRET16+20, BYTEfalse0; originalALzeroing and both sourceBYTE signatures bound. Actualcallerignoresreturn. EachfullrawEAXretained, upperbitsnotcompared.",
+    "cold_scope": "All alternate/importdiagnostic branches recovered, no addedshortreadguard. Readonlyqualifiedpublicexit chain makes defaultsourceposition0 unconsumed whenalternateNULL; graph/declaration ordinaryvoid unchanged."
+  },
+  "next_constructor": {
+    "address": 4254208,
+    "readonly_bytes": 972,
+    "physical_formals": 12,
+    "hidden_inputs": [],
+    "values": "original_name,name,NULLidentity,header20,knowncommandlinelibrary,createdBYTE,0,20,NULLsections,NULLsectionflags,NULLoptional,0auxiliary",
+    "header_owner": "Original objectentryESP-20/nativeDWARFentry-36, complete20B nowdefined",
+    "created_owner": "Original objectentryESP+4 formerInputArgumentpointer stackslot after ESI saved it; actualbeforeBYTE0x50 equals pointer lowBYTE. Native DWARF BYTEcreated entry-45 has ownuninitializedbeforeff. No crossbeforevalue comparison.",
+    "output_scope": "CalleeexplicitBYTEstore40ea3a beforefirstpointeeuse and no priorchildreceivescreatedpointer; pendingbody notaccepted/no credit."
+  },
+  "ranges": "Only currentheader20B+created1B appended; earlier reader/error/initlocals remain history. Completeargumentnode/library/context pointees stay owned by inheritedtyped contracts."
+}

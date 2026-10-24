@@ -1,0 +1,123 @@
+{
+  "schema": 1,
+  "functions": {
+    "_mainCRTStartup": {
+      "original": {
+        "roots": [
+          4608910,
+          4608931
+        ],
+        "text_data": []
+      },
+      "rebuilt": {
+        "roots": [
+          4252334,
+          4252355
+        ],
+        "text_data": []
+      }
+    },
+    "_main": {
+      "original": {
+        "roots": [
+          4251873,
+          4251918
+        ],
+        "text_data": []
+      },
+      "rebuilt": {
+        "roots": [
+          4206874,
+          4206938
+        ],
+        "text_data": []
+      }
+    },
+    "_print_logo": {
+      "original": {
+        "text_data": [
+          [
+            4593260,
+            4593280
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": []
+      }
+    },
+    "_find_library@12": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true
+      }
+    }
+  },
+  "callback_tables": [
+    {
+      "label": "application constructors",
+      "original": [
+        4616192,
+        4616212
+      ],
+      "rebuilt_begin": "___xc_a",
+      "rebuilt_end": "___xc_z",
+      "require_accepted": false
+    },
+    {
+      "label": "C initializers",
+      "original": [
+        4616216,
+        4616220
+      ],
+      "rebuilt_begin": "___xi_a",
+      "rebuilt_end": "___xi_z",
+      "require_accepted": false
+    }
+  ],
+  "register_imports": {
+    "preservation_contracts": [
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "_splitpath"
+          }
+        },
+        "preserves": [
+          "ebx"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/library-finder-import-preservation.json",
+          "sha256": "f667b14d4c1e4b90ca28f702c6e10e68da7c270bfeb230ce3be805c6bec882d9"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "_mbsicmp"
+          }
+        },
+        "preserves": [
+          "ebx"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/library-finder-import-preservation.json",
+          "sha256": "f667b14d4c1e4b90ca28f702c6e10e68da7c270bfeb230ce3be805c6bec882d9"
+        }
+      },
+      {
+        "target": {
+          "function": "_next_library@4"
+        },
+        "preserves": [
+          "ebx"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/library-finder-import-preservation.json",
+          "sha256": "f667b14d4c1e4b90ca28f702c6e10e68da7c270bfeb230ce3be805c6bec882d9"
+        }
+      }
+    ]
+  }
+}

@@ -49,6 +49,7 @@ BYTE __stdcall classify_x86_relocation(Contribution *,WORD,DWORD,BYTE);
 void __stdcall process_x86_relocations(Contribution *,void *,DWORD,void *,void *,LinkContext *,DWORD);
 extern InputArguments delay_libraries;
 BYTE __stdcall read_coff_header(int,IMAGE_FILE_HEADER *,void *,BYTE *);
+void __stdcall validate_import_object_header(void *);
 OutputModule *__stdcall create_input_module(const char *,const char *,const void *,IMAGE_FILE_HEADER *,OutputLibrary *,BYTE *,BYTE,DWORD,IMAGE_SECTION_HEADER *,BYTE *,void *,DWORD);
 void __stdcall allocate_module_section_headers(OutputModule *);
 void __stdcall load_object_module(LinkContext *,void *,OutputModule *,WORD);

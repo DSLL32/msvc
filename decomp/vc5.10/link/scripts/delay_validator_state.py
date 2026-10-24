@@ -61,6 +61,6 @@ def compare(original,state,trap,events,directory):
     assert proof['output']==dict(pointer_formal=1,bytes=1,store=dict(address=0x4318e3,raw='c60201'))
     assert pe.read(0x449683,6).hex()=='8d4c240b5156' # The original initialized BYTE's address, then context.
 
-    if state['function']=='read_coff_header':
+    if state['function']in ('read_coff_header','create_input_module'):
         from x86_backend_state import compare as compare_backend
         compare_backend(original,state,trap,events,directory)
