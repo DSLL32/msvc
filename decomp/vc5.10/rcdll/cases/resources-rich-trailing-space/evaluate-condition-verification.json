@@ -67,7 +67,7 @@
       "wrong-active-directive",
       "retired-parser-local-added"
     ],
-    "seconds": 5.5127172190696,
+    "seconds": 5.571267520077527,
     "reused": {
       "record": "cases/resources-rich-trailing-space/parameter-lookup-verification.json",
       "sha256": "de37c1296e6a716ee0e6420b39118290b5d00c365b4cfe38e97742b719b80a38",
@@ -112,7 +112,66 @@
       },
       "reason": "Unchanged macro ownership, numeric serialization, source-derived line marker, FILE/source/SEH/transport negatives retain exact prior proof hashes. Current raw positive proof repeats those states; fresh negatives cover the two wrapper stores and next parser caller/formals/live input."
     },
-    "semantic_original_mutation_pin": "For these original event mutants only, native case-reference original receipt hash is refreshed coherently, so rejection reaches typed event/global state predicates. Every mutation must change bytes."
+    "semantic_original_mutation_pin": "For these original event mutants only, native case-reference original receipt hash is refreshed coherently, so rejection reaches typed event/global state predicates. Every mutation must change bytes.",
+    "predicate_locations": [
+      {
+        "name": "wrong-initialized-parenthesis-counter",
+        "predicate_function": "_include_search_checkpoint",
+        "predicate_line": 2072,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-initialized-token",
+        "predicate_function": "_include_search_checkpoint",
+        "predicate_line": 2072,
+        "semantic_rejection": true
+      },
+      {
+        "name": "invented-expression-formal",
+        "predicate_function": "_include_search_checkpoint",
+        "predicate_line": 2072,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-expression-parser-caller",
+        "predicate_function": "_include_search_checkpoint",
+        "predicate_line": 2072,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-original-counter-store",
+        "predicate_function": "_include_search_checkpoint",
+        "predicate_line": 2073,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-original-token-store",
+        "predicate_function": "_include_search_checkpoint",
+        "predicate_line": 2073,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-next-source-word",
+        "predicate_function": "_include_search_checkpoint",
+        "predicate_line": 1870,
+        "semantic_rejection": true
+      },
+      {
+        "name": "wrong-active-directive",
+        "predicate_function": "_include_search_checkpoint",
+        "predicate_line": 2032,
+        "semantic_rejection": true
+      },
+      {
+        "name": "retired-parser-local-added",
+        "predicate_function": "_include_search_checkpoint",
+        "predicate_line": 2038,
+        "semantic_rejection": true
+      }
+    ],
+    "checker_sha256": "4b994bcb4e4bed9a8113df108d4d6b5cc1321b3a3876120693cca305bf31543e",
+    "predicate_recheck_raw": "/root/.ai-tmp/msvc2/vc5.10/rcdll/evaluate-pair-06.json",
+    "configuration_method": "Temporarily select exact retained trial configuration for native checker-only revalidation; restore promoted live configuration in finally block. Original/native raw and receipts unchanged."
   },
   "native_help_fixture": {
     "logical_name_aliases": {
