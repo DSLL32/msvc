@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "function": "_record_goto@8",
+  "native_entry": "record_goto",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_label": "(unsigned)label",
+    "raw_known": "(unsigned)known"
+  },
+  "formals": [
+    {
+      "name": "label",
+      "stack_index": 0,
+      "native_field": "raw_label",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 102172,
+        "original_owner_function": "_parse_translation_unit",
+        "native_owner_function": "parse_translation_unit",
+        "native_owner_field": "caller_label",
+        "native_owner_local": "symbol",
+        "identity": "Actual parser stores find/new label result inreal baselineESP+20. AfterPUSHknown0/1, MOV EAX,[ESP+24]28f12 reloadsthatlabel/PUSH28f16/CALL28f17/return28f1c. Native actual symbol local is the target label owner, not a static name or frozen address."
+      }
+    },
+    {
+      "name": "known",
+      "stack_index": 1,
+      "native_field": "raw_known",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      264416,
+      264683
+    ],
+    "argument_bytes": 8,
+    "convention": "stdcall8 void",
+    "proof": "Whole267B SUB48/saveEBXESIEDI12: label adjustedESP+64,known+68; allRET8. No incomingGPR/x87/CPUflagsinput beyondstandardABI. Suppression/terminatingtail9,11,36..39 returnbeforegotocount increment. known!=0 invokes existing31Bfind_label_record42020..4203f stdcall4/nootherformals thenfallsforwardifnotfound. Knownpathfullyinitialized20Bkind36/symbolpayload append thenprocess0/emitreturn. Forwardpathfullyinitialized28Bkind37 withtarget+16,new_branch_label47 at+20,previousgotohead+24, append28/updateglobalhead/writeIR3a cleanupref. Actualallocatorappend28 provesexistingGotoFrontendRecord fullsize, no newfields/data/CRTbody/helpervertex."
+  },
+  "ownership_register": "eax",
+  "ownership_caller_extent": [
+    167663,
+    167708
+  ],
+  "native_caller_locals": {
+    "caller_label": {
+      "frame": 1,
+      "function": "parse_translation_unit",
+      "local": "symbol"
+    }
+  }
+}

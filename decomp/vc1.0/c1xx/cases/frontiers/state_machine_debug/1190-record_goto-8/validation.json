@@ -1,0 +1,23 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_record_goto@8",
+    "start": 264416,
+    "end": 264683
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1190-record_goto-8/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_append_frontend_record@8",
+    "_emit_nonnull_expression_statement@4",
+    "_find_label_record@4",
+    "_new_branch_label@4",
+    "_process_expression_records@4",
+    "_write_ir_record@8"
+  ],
+  "next_frontier": "_write_switch_dispatch",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8412675149738789,
+  "total_operation_seconds": 4.190022080205381,
+  "original_capture_seconds": 0.916617319919169
+}

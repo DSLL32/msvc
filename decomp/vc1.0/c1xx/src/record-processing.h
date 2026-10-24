@@ -25,14 +25,15 @@ typedef char LabelFrontendRecordLabelOffsetMustBe16[
     (offsetof(LabelFrontendRecord, label) == 16) ? 1 : -1];
 typedef char LabelFrontendRecordNextOffsetMustBe20[
     (offsetof(LabelFrontendRecord, next_label) == 20) ? 1 : -1];
-/* Encountered prefix of a goto record; its allocator's full size has not
-   yet been established. The goto chain is separate from the record list. */
+/* The twenty-eight-byte forward-goto record retains a cleanup label
+   and a separate goto-chain link in addition to its target symbol. */
 typedef struct GotoFrontendRecord {
     FrontendRecord header;
     CppSymbol *label;
     IrToken *cleanup_label;
     struct GotoFrontendRecord *next_goto;
 } GotoFrontendRecord;
+typedef char GotoFrontendRecordSizeMustBe28[(sizeof(GotoFrontendRecord) == 28) ? 1 : -1];
 typedef char GotoFrontendRecordLabelOffsetMustBe16[
     (offsetof(GotoFrontendRecord, label) == 16) ? 1 : -1];
 typedef char GotoFrontendRecordNextOffsetMustBe24[

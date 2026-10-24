@@ -1212,3 +1212,41 @@ void record_default_label(void)
 {
     record_case_label(0);
 }
+
+/* Original 0x408e0..0x409ea, stdcall8. A known label can emit its
+   cleanup now; a forward goto retains a separate cleanup-label record. */
+void __stdcall record_goto(CppSymbol *label, int known)
+{
+    SymbolFrontendRecord direct;
+    GotoFrontendRecord forward;
+    unsigned char kind;
+    if (ir_records_suppressed) return;
+    kind = ir_record_tail->kind & 0x3f;
+    if (kind == 9 || kind == 11 || (kind >= 0x36 && kind <= 0x39)) return;
+    ++ir_goto_count;
+    if (known && !find_label_record(label)) known = 0;
+    if (known) {
+        direct.header.kind = 0x36;
+        direct.header.flags = 0;
+        direct.header.field02 = 0;
+        direct.header.sequence = 0;
+        direct.header.next = 0;
+        direct.header.previous = 0;
+        direct.symbol = label;
+        append_frontend_record(&direct.header, sizeof(direct));
+        emit_nonnull_expression_statement(process_expression_records(0));
+        return;
+    }
+    forward.header.kind = 0x37;
+    forward.header.flags = 0;
+    forward.header.field02 = 0;
+    forward.header.sequence = 0;
+    forward.header.next = 0;
+    forward.header.previous = 0;
+    forward.label = label;
+    forward.cleanup_label = new_branch_label(0x47);
+    forward.next_goto = (GotoFrontendRecord *)ir_goto_records;
+    append_frontend_record(&forward.header, sizeof(forward));
+    ir_goto_records = ir_record_tail;
+    write_ir_record(0x3a, forward.cleanup_label);
+}
