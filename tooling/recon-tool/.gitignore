@@ -1,3 +1,5 @@
 /target/
 /tests/fixture/.build/
 /tests/fixture/cases/*/.build/
+/.build/
+__pycache__/

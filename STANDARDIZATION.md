@@ -1,14 +1,18 @@
 # Reconstruction harness standardization
 
-Shared Rust `recon-tool` design and implementation status. Native execution,
-unit tests, fixture pack/unpack and registry projection are implemented under
-`tooling/recon-tool/`; C1XX migration is in progress. Native GDB debugging is implemented; explicit original capture remains
-implementation work.
+Shared Rust `recon-tool` is implemented under `tooling/recon-tool/`: native
+execution/tests, GDB debugging, capture pack/unpack, registry projection, and
+explicit PE original capture. VC1.0 C1XX has migrated to eight numbered cases.
+
+A capture is a saved invocation's inputs and expected results. Original-capture
+smoke tests validate the shared harness; they are not reconstruction cases.
 
 The tool is the entry point for native frontier discovery, case replay and
 optional unit tests. It also orchestrates explicit original captures under
 Wine, including direct-function probes. Normal regression runs use saved
 references and never silently execute Wine or refresh the oracle.
+An original capture is a reference run saving observable outputs, exit status
+and first-entry order for later native comparison.
 
 ## Layout and builds
 
@@ -22,7 +26,7 @@ decomp/{project}/{binary}/
         0000-example/
             case.c              # exports case_descriptor; case.cpp also possible
             case.h              # optional case-specific declarations
-            io.bin              # applicable input/reference data, uncompressed
+            capture.bin              # applicable input/reference data, uncompressed
             direct.c            # direct-function setup, invocation and assertions
             tests.c             # optional, narrow behavior tests
             Makefile            # includes shared build rules
@@ -33,7 +37,7 @@ After migration, case directories contain only the applicable files shown
 above. No nested directories except generated, untracked `.build/` output;
 no Markdown, text reports, logs, manifests or evidence trees. Put diagnostic
 artifacts in scratch space, outside the case. Keep descriptions in the case
-descriptor and fixture data in `io.bin`. Migration removes superseded material
+descriptor and fixture data in `capture.bin`. Migration removes superseded material
 from the working tree; its existing Git history remains available.
 The `cases/` root contains only the numbered case directories. Preserve distinct
 invocations and necessary narrow tests from historical material, but do not
@@ -130,7 +134,7 @@ be required to produce final outputs before the missing code is reconstructed.
 
 ## Inputs and assertions
 
-`io.bin` is an uncompressed, versioned binary fixture. Applicable fields include
+`capture.bin` is an uncompressed, versioned binary fixture. Applicable fields include
 arguments, stdin, expected stdout/stderr, input files and metadata, expected
 output paths/hashes, environment, exit code and synchronized input events such
 as Ctrl+C. Distinguish missing values/files from present-but-empty ones. Check
@@ -138,7 +142,7 @@ unexpected and deleted outputs where relevant. Normalize only specifically
 identified nondeterministic fields, such as established clock fields.
 
 The `recon-tool` implementer owns the wire format. Provide clap subcommands to
-construct and deconstruct `io.bin`, preserving arbitrary bytes and the
+construct and deconstruct `capture.bin`, preserving arbitrary bytes and the
 distinction between absent and empty values. Authoring files and unpacked
 contents belong outside the committed case directory.
 
@@ -229,10 +233,9 @@ auxiliary observers, repeated historical state checks and per-function review
 documents. Preserve historical evidence in Git history; migrated case folders
 must follow the scoped layout above rather than retaining legacy evidence.
 
-Still to specify: exact descriptor/wire formats, entry-adapter and direct-call
-interfaces, event synchronization, test fork checkpoints and Wine capture
-process supervision. This document does not itself change the Wine prefix,
-resume workers or authorize migration work.
+Concrete interfaces and supported limits are documented in the tool README and
+shared headers. The repository prefix now includes fixed T: → /tmp/recon/.
+Reconstruction work remains separately controlled by the orchestrator.
 
 ## Implemented native interface
 
@@ -241,7 +244,7 @@ The first implementation lives in `tooling/recon-tool/`; its shared C ABI is
 builds prepare the common library before parallel case submakes; those submakes
 use `RECON_SKIP_BINARY_BUILD=1`. C-only libraries do not require libstdc++.
 
-The CLI provides `run`, `test`, `inspect`, `registry-export`, and `io pack/unpack`.
+The CLI provides `run`, `test`, `inspect`, `registry-export`, and `capture pack/unpack`.
 `registry-export` generates the existing graph auditor's config from `binary.c`,
 optionally merging separate non-function policy data. It does not duplicate the
 function registry or replace the graph engine. JSON authoring files and generated
@@ -264,8 +267,8 @@ offsets and other external resources still need explicit test handling.
 The tool resolves native ELF symbols once per module, supplies address/name
 entries to the existing shared tracer, and omits each case's explicit seed set.
 There is no module ELF resolver or Win32/CRT behavior change in the tracing layer.
-Native replay remains Wine-free. Explicit original capture is subsequent work,
-not implemented by this native checkpoint.
+Native replay remains Wine-free. Explicit original capture uses the shared
+Win32 debugger broker; ordinary tests never invoke it.
 
 Native debug CLI: `run CASE --gdb`, or `test CASE --test NAME --gdb`. Batch
 `--gdb-script PATH` implicitly enables debugging. GDB attaches to the selected
@@ -278,3 +281,40 @@ and workspace cleanup finish. Debugger streams are separate from target streams.
 Function implementation status applies only to App records. CRT/import/unknown
 records leave it zero. Identified runtime/import boundary availability follows
 classification and verified extents, independently of App implementation status.
+
+## Current capture and frontier behavior
+
+Each ordinary IO case requires `capture.bin`; even a no-input case can pack `{}`.
+DIRECT cases and standalone unit tests may omit it when self-contained. Arguments
+include argv[0]; an empty list defaults to `[binary_descriptor.name]` on both sides.
+`stdin_kind` explicitly selects regular `file` (default) or `pipe`; stdin delivery
+and close events require pipe. Native signal-only events can use either.
+
+Native frontier reports observe SIGTRAP's actual PC and INT3 cause, resolve the
+owning ELF function range, and compare its original entry RVA. This checks
+function ownership rather than assuming the last first-entry function trapped;
+it does not claim matching original/native instruction offsets.
+
+`original build-helper --repo REPO` explicitly builds the common Win32 helper.
+`original capture CASE --output capture.bin` saves an untouched original oracle;
+`--progress` masks code sections and restores classified CRT/import boundaries
+and implemented App code plus owned text data, then stops at the next unknown
+App INT3. Final oracles and partial observations remain separate. The tool reports
+actual order/terminal but never promotes functions or rewrites case source.
+
+DLL capture supplies `--host HOST.exe`; typed Win32 host glue loads the path in
+`RECON_ORIGINAL_DLL` and invokes exports. The broker identifies that exact loaded
+file and its actual module base/entry. Direct glue exports optional
+`case_original_direct(ReconOriginal*)`, using shared memory/call/debug primitives
+and narrow emitted expected-result files inside the capture payload.
+
+The original backend supports PE32 i386 images; CF payloads/Watcom gateway capture
+remain separate. Direct calls use ECX/EDX and stack words for ordinary MSVC ABIs,
+not arbitrary register conventions such as Watcom watcall.
+
+Current original transport is single-threaded, ANSI/ASCII-path/argument based,
+and uses regular-file stdin. It rejects pipe/timed-console events and generic
+output-environment capture rather than silently changing them. Native replay can
+still exercise saved interactive cases. DLLs without an entry point and repeated
+target-module reload are unsupported. SIGKILL of a supervisor can leave a folder;
+its `.owner` marker and saved workspace path support explicit manual cleanup.

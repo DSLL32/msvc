@@ -1,7 +1,12 @@
+#[cfg(not(target_arch = "x86"))]
+compile_error!("recon-tool must be built for i686-unknown-linux-gnu");
 mod abi;
 mod debug;
 mod fixture;
 mod native;
+mod original;
+mod original_image;
+mod trap;
 use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
 use std::{fs, path::PathBuf};
@@ -32,7 +37,7 @@ enum Command {
     Run {
         #[arg(required = true)]
         cases: Vec<PathBuf>,
-        #[arg(long)]
+        #[arg(long = "capture")]
         io: Option<PathBuf>,
         #[arg(long)]
         report: Option<PathBuf>,
@@ -45,7 +50,7 @@ enum Command {
     Test {
         #[arg(required = true)]
         cases: Vec<PathBuf>,
-        #[arg(long)]
+        #[arg(long = "capture")]
         io: Option<PathBuf>,
         #[arg(long)]
         report: Option<PathBuf>,
@@ -56,14 +61,27 @@ enum Command {
         #[arg(long = "test")]
         selected_test: Option<String>,
     },
-    /// Author and inspect versioned uncompressed I/O fixtures.
-    Io {
+    /// Explicit original-only Wine helper/capture commands.
+    Original {
         #[command(subcommand)]
-        command: IoCommand,
+        command: OriginalCommand,
+    },
+    /// Author and inspect versioned uncompressed I/O fixtures.
+    Capture {
+        #[command(subcommand)]
+        command: CaptureCommand,
     },
 }
 #[derive(Subcommand)]
-enum IoCommand {
+enum OriginalCommand {
+    Capture(original::Capture),
+    BuildHelper {
+        #[arg(long, default_value = ".")]
+        repo: PathBuf,
+    },
+}
+#[derive(Subcommand)]
+enum CaptureCommand {
     Pack {
         json: PathBuf,
         output: PathBuf,
@@ -149,12 +167,18 @@ fn execute() -> Result<()> {
                 print!("{text}")
             }
         }
-        Command::Io { command } => match command {
-            IoCommand::Pack { json, output } => {
+        Command::Original { command } => match command {
+            OriginalCommand::Capture(options) => original::capture(options)?,
+            OriginalCommand::BuildHelper { repo } => {
+                println!("{}", original::build_helper(&repo)?.display())
+            }
+        },
+        Command::Capture { command } => match command {
+            CaptureCommand::Pack { json, output } => {
                 let f: fixture::Fixture = serde_json::from_slice(&fs::read(json)?)?;
                 fixture::write(&output, &f)?;
             }
-            IoCommand::Unpack { input, output } => {
+            CaptureCommand::Unpack { input, output } => {
                 let f = fixture::read(&input)?;
                 let s = serde_json::to_string_pretty(&f)? + "\n";
                 if let Some(p) = output {
@@ -212,7 +236,10 @@ fn execute() -> Result<()> {
                 !debug.enabled || !tests || debug.selected_test.is_some(),
                 "debugging tests requires --test NAME"
             );
-            anyhow::ensure!(io.is_none() || cases.len() == 1, "--io requires one case");
+            anyhow::ensure!(
+                io.is_none() || cases.len() == 1,
+                "--capture requires one case"
+            );
             let mut results = vec![];
             for case in cases {
                 let path = if case.is_dir() {
@@ -223,7 +250,7 @@ fn execute() -> Result<()> {
                 let inferred = path
                     .parent()
                     .and_then(|p| p.parent())
-                    .map(|p| p.join("io.bin"));
+                    .map(|p| p.join("capture.bin"));
                 let fixture = io
                     .as_deref()
                     .or_else(|| inferred.as_deref().filter(|p| p.exists()));

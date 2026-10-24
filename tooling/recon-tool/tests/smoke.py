@@ -19,19 +19,21 @@ scratch_root.mkdir(exist_ok=True)
 scratch = Path(tempfile.mkdtemp(prefix='recon-tool-test-', dir=scratch_root))
 
 try:
+    missing=subprocess.run([TOOL,'run',CASES/'0000-io'],stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True)
+    assert missing.returncode!=0 and 'requires capture.bin' in missing.stdout
     def run(name, number, fixture, *, passed=True):
         source = scratch / (name + '.json')
-        packed = scratch / (name + '.bin')
+        packed = scratch / (name + '-capture.bin')
         source.write_text(json.dumps(fixture))
-        subprocess.run([TOOL, 'io', 'pack', source, packed], check=True)
-        unpacked = subprocess.check_output([TOOL, 'io', 'unpack', packed])
+        subprocess.run([TOOL, 'capture', 'pack', source, packed], check=True)
+        unpacked = subprocess.check_output([TOOL, 'capture', 'unpack', packed])
         source.write_bytes(unpacked)
         roundtrip = scratch / (name + '-roundtrip.bin')
-        subprocess.run([TOOL, 'io', 'pack', source, roundtrip], check=True)
+        subprocess.run([TOOL, 'capture', 'pack', source, roundtrip], check=True)
         assert packed.read_bytes() == roundtrip.read_bytes()
         case = next(CASES.glob(number + '-*'))
         report=scratch/(name+'-report.json')
-        result = subprocess.run([TOOL, 'run', case, '--io', packed, '--report',report])
+        result = subprocess.run([TOOL, 'run', case, '--capture', packed, '--report',report])
         assert not Path(json.loads(report.read_text())[0]['workspace']).exists(),name+' workspace leaked'
         assert (result.returncode == 0) == passed, name
 
@@ -44,20 +46,23 @@ try:
     run('orphan', '0002', dict(args=['fixture', 'orphan'], stdout='text:', stderr='text:',
         output_files=[dict(path='grandchild.txt', data='text:done')], reject_unexpected_files=True))
     run('timeout', '0003', dict(args=['fixture', 'timeout'], timeout_ms=40), passed=False)
-    run('event', '0004', dict(args=['fixture', 'event'], stdout='text:ready\ngot:hello\n',
+    run('event', '0004', dict(args=['fixture', 'event'], stdin_kind='pipe', stdout='text:ready\ngot:hello\n',
         stderr='text:', events=[dict(stdout_contains='text:ready\n',
         action=dict(kind='stdin', data='text:hello\n')), dict(after_ms=0, action=dict(kind='close_stdin'))]))
     run('direct', '0005', dict(stdout='text:', stderr='text:', exit_code=0, reject_unexpected_files=True))
     run('atexit','0006',dict(args=['fixture','atexit'],stdout='text:bye\n',stderr='text:',exit_code=0,
         env={'RECON_EXIT_VALUE':'before'},output_env={'RECON_EXIT_VALUE':'after'},
         output_files=[dict(path='exit.txt',data='text:closed')],reject_unexpected_files=True))
+    run('default-argv','0004',dict(env={'RECON_CHECK_ARGV':'1'},stdout='text:argc=1 argv0=fixture\n',stderr='text:',exit_code=0))
+    run('wrong-frontier','0007',dict(args=['fixture','backtrap']),passed=False)
+    run('direct-false','0005',dict(env={'RECON_DIRECT_FAIL':'1'},exit_code=1),passed=False)
     run('wrong-output', '0000', dict(args=['fixture'], stdin='text:x\n', stdout='text:WRONG'), passed=False)
     run('missing-is-not-empty', '0005', dict(output_files=[dict(path='missing', data='hex:')]), passed=False)
     # A signal sent only to the CLI must reach its cleanup supervisor promptly.
     source=scratch/'cancel.json';source.write_text(json.dumps(dict(args=['fixture','timeout'],timeout_ms=30000)))
-    packed=scratch/'cancel.bin';subprocess.run([TOOL,'io','pack',source,packed],check=True)
+    packed=scratch/'cancel.bin';subprocess.run([TOOL,'capture','pack',source,packed],check=True)
     report=scratch/'cancel-report.json'
-    child=subprocess.Popen([TOOL,'run',CASES/'0003-timeout','--io',packed,'--report',report])
+    child=subprocess.Popen([TOOL,'run',CASES/'0003-timeout','--capture',packed,'--report',report])
     import time
     time.sleep(.05)
     child.terminate()
@@ -70,11 +75,11 @@ try:
             script.write_text('break '+symbol+'\ncontinue\nprintf "RECON_GDB_HIT\\n"\ncontinue\n')
             args=[TOOL,'test' if test else 'run',CASES/'0000-io','--gdb-script',script]
             if test:args+=['--test','add']
-            else:args+=['--io',scratch/'io.bin']
+            else:args+=['--capture',scratch/'io-capture.bin']
             result=subprocess.run(args,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,check=True)
             assert 'RECON_GDB_HIT' in result.stdout and 'PASS' in result.stdout
         script=scratch/'events.gdb';script.write_text('continue\n')
-        result=subprocess.run([TOOL,'run',CASES/'0004-event','--io',scratch/'event.bin','--gdb-script',script],stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=5,check=True)
+        result=subprocess.run([TOOL,'run',CASES/'0004-event','--capture',scratch/'event-capture.bin','--gdb-script',script],stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=5,check=True)
         assert 'PASS' in result.stdout
     print('shared native smoke checks passed')
 finally:

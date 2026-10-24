@@ -120,6 +120,13 @@ pub struct Partial {
     #[serde(default)]
     pub reject_unexpected_files: bool,
 }
+#[derive(Clone, Copy, Serialize, Deserialize, Debug, Default, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum StdinKind {
+    #[default]
+    File,
+    Pipe,
+}
 #[derive(Clone, Serialize, Deserialize, Debug)]
 #[serde(deny_unknown_fields)]
 pub struct Fixture {
@@ -129,6 +136,8 @@ pub struct Fixture {
     pub args: Vec<String>,
     #[serde(default)]
     pub stdin: Option<Bytes>,
+    #[serde(default)]
+    pub stdin_kind: StdinKind,
     #[serde(default)]
     pub stdout: Option<Bytes>,
     #[serde(default)]
@@ -255,6 +264,11 @@ impl Fixture {
         }
         let mut closed = false;
         for e in &self.events {
+            if matches!(e.action, Action::Stdin { .. } | Action::CloseStdin)
+                && self.stdin_kind != StdinKind::Pipe
+            {
+                bail!("stdin/close_stdin events require stdin_kind: pipe")
+            }
             if matches!(e.action, Action::Stdin { .. }) && closed {
                 bail!("stdin event follows close_stdin")
             }
@@ -276,11 +290,11 @@ impl Fixture {
 pub fn read(path: &Path) -> Result<Fixture> {
     let b = fs::read(path).with_context(|| format!("read {}", path.display()))?;
     if b.len() < 20 || &b[..8] != MAGIC || u32::from_le_bytes(b[8..12].try_into()?) != 1 {
-        bail!("invalid io.bin header")
+        bail!("invalid capture.bin header")
     }
     let len = u64::from_le_bytes(b[12..20].try_into()?);
     if len != b.len() as u64 - 20 {
-        bail!("io.bin length mismatch")
+        bail!("capture.bin length mismatch")
     }
     let mut cursor = std::io::Cursor::new(&b[20..]);
     let f: Fixture = ciborium::from_reader(&mut cursor)?;

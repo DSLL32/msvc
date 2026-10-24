@@ -2,6 +2,7 @@ use crate::{
     abi::{self, Loaded},
     debug,
     fixture::{self, Action, Fixture},
+    trap,
 };
 use anyhow::{Context, Result, bail};
 use serde::{Deserialize, Serialize};
@@ -115,6 +116,8 @@ pub struct Report {
     pub terminal: String,
     pub first_entry_order: Vec<u32>,
     pub tests: bool,
+    pub trap_rva: Option<u32>,
+    pub trap_site: Option<u32>,
     pub elapsed_ms: f64,
     pub setup_ms: f64,
     pub execution_ms: f64,
@@ -339,6 +342,8 @@ unsafe fn executor(
     }
     let stdout = open_stream(&root.join("stdout"))?;
     let stderr = open_stream(&root.join("stderr"))?;
+    let trap_file = open_stream(&root.join("trap"))?;
+    trap::install(trap_file.as_raw_fd())?;
     dup(stdin, 0)?;
     dup(stdout.as_raw_fd(), 1)?;
     dup(stderr.as_raw_fd(), 2)?;
@@ -450,18 +455,33 @@ unsafe fn executor(
         }
         type Initialize = unsafe extern "C" fn(*const TraceEntry, usize, i32);
         let initialize = unsafe { loaded.library.get::<Initialize>(b"recon_trace_configure\0") }
-            .context("libbinary.so must supply module-aware recon_trace_configure")?;
+            .context("libbinary.so must supply shared recon_trace_configure")?;
         let symbols = loaded.symbols()?;
+        let ranges: Vec<_> = symbols
+            .iter()
+            .map(|(f, address, size)| {
+                Ok(trap::Range {
+                    start: u32::try_from(*address)?,
+                    end: u32::try_from(
+                        address
+                            .checked_add(*size)
+                            .context("native symbol range overflow")?,
+                    )?,
+                    rva: f.rva,
+                })
+            })
+            .collect::<Result<_>>()?;
+        fs::write(root.join("native-ranges"), serde_json::to_vec(&ranges)?)?;
         let strings: Vec<CString> = symbols
             .iter()
-            .filter(|(func, _)| !loaded.info.first_entry_seen.contains(&func.rva))
-            .map(|(f, _)| CString::new(f.native_symbol.as_ref().unwrap().as_str()).unwrap())
+            .filter(|(func, _, _)| !loaded.info.first_entry_seen.contains(&func.rva))
+            .map(|(f, _, _)| CString::new(f.native_symbol.as_ref().unwrap().as_str()).unwrap())
             .collect();
         let pointers: Vec<_> = strings.iter().map(|s| s.as_ptr()).collect();
         let addresses: Vec<_> = symbols
             .iter()
-            .filter(|(func, _)| !loaded.info.first_entry_seen.contains(&func.rva))
-            .map(|(_, address)| *address)
+            .filter(|(func, _, _)| !loaded.info.first_entry_seen.contains(&func.rva))
+            .map(|(_, address, _)| *address)
             .collect();
         let entries: Vec<_> = addresses
             .iter()
@@ -481,8 +501,12 @@ unsafe fn executor(
         unsafe { enable(1) };
         debug::checkpoint(debug, root, supervisor)?;
         let exit = if loaded.case.execution == 0 {
-            let strings: Vec<_> = f
-                .args
+            let effective_args = if f.args.is_empty() {
+                vec![loaded.info.binary.clone()]
+            } else {
+                f.args.clone()
+            };
+            let strings: Vec<_> = effective_args
                 .iter()
                 .map(|a| CString::new(a.as_str()))
                 .collect::<std::result::Result<_, _>>()?;
@@ -522,16 +546,25 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
         dependencies(f)?;
         let cwd = workspace_cwd(f, &root)?;
         materialize(f, &cwd)?;
-        let mut pipe = [0; 2];
-        if unsafe { libc::pipe2(pipe.as_mut_ptr(), libc::O_CLOEXEC) } < 0 {
-            bail!("pipe: {}", std::io::Error::last_os_error())
-        }
-        let input = unsafe { File::from_raw_fd(pipe[0]) };
-        let mut writer = Some(unsafe { File::from_raw_fd(pipe[1]) });
-        let flags = unsafe { libc::fcntl(pipe[1], libc::F_GETFL) };
-        unsafe {
-            libc::fcntl(pipe[1], libc::F_SETFL, flags | libc::O_NONBLOCK);
-        }
+        let (input, mut writer) = if f.stdin_kind == fixture::StdinKind::Pipe {
+            let mut pipe = [0; 2];
+            if unsafe { libc::pipe2(pipe.as_mut_ptr(), libc::O_CLOEXEC) } < 0 {
+                bail!("stdin pipe: {}", std::io::Error::last_os_error())
+            }
+            let input = unsafe { File::from_raw_fd(pipe[0]) };
+            let writer = unsafe { File::from_raw_fd(pipe[1]) };
+            let flags = unsafe { libc::fcntl(pipe[1], libc::F_GETFL) };
+            if unsafe { libc::fcntl(pipe[1], libc::F_SETFL, flags | libc::O_NONBLOCK) } < 0 {
+                bail!("nonblocking stdin pipe")
+            }
+            (input, Some(writer))
+        } else {
+            fs::write(
+                root.join("stdin"),
+                f.stdin.as_ref().map_or(&[][..], |data| data.0.as_slice()),
+            )?;
+            (File::open(root.join("stdin"))?, None)
+        };
         let trace = open_stream(&root.join("trace"))?;
         let setup_ms = start.elapsed().as_secs_f64() * 1000.;
         let run = Instant::now();
@@ -564,7 +597,11 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
         }
         drop(input);
         let mut close_requested = false;
-        let mut pending = f.stdin.as_ref().map_or(vec![], |b| b.0.clone());
+        let mut pending = if f.stdin_kind == fixture::StdinKind::Pipe {
+            f.stdin.as_ref().map_or(vec![], |b| b.0.clone())
+        } else {
+            vec![]
+        };
         let mut offset = 0;
         let mut fired = vec![false; f.events.len()];
         let mut executor_status = None;
@@ -708,6 +745,8 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
                 errors.push(format!("trace contains unknown function {name:?}"))
             }
         }
+        let mut trap_rva = None;
+        let mut trap_site = None;
         if !tests {
             if order != info.first_entry_order {
                 errors.push(format!(
@@ -716,11 +755,34 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
                 ))
             }
             let terminal_ok = if info.terminal == 0 {
-                libc::WIFEXITED(status) && libc::WEXITSTATUS(status) == f.exit_code.unwrap_or(0)
+                libc::WIFEXITED(status)
+                    && libc::WEXITSTATUS(status)
+                        == if info.execution == 1 {
+                            0
+                        } else {
+                            f.exit_code.unwrap_or(0)
+                        }
             } else {
-                libc::WIFSIGNALED(status)
-                    && libc::WTERMSIG(status) == libc::SIGTRAP
-                    && order.last() == Some(&info.frontier_rva)
+                if libc::WIFSIGNALED(status) && libc::WTERMSIG(status) == libc::SIGTRAP {
+                    match trap::owner(&root) {
+                        Ok((rva, site)) => {
+                            trap_rva = Some(rva);
+                            trap_site = Some(site);
+                            if rva != info.frontier_rva {
+                                errors.push(format!("native INT3 at {site:08x} belongs to RVA {rva:x}, expected frontier {:x}",info.frontier_rva));
+                                false
+                            } else {
+                                true
+                            }
+                        }
+                        Err(e) => {
+                            errors.push(format!("{e:#}"));
+                            false
+                        }
+                    }
+                } else {
+                    false
+                }
             };
             if !terminal_ok {
                 errors.push(format!("unexpected terminal {}", code(status)))
@@ -753,6 +815,8 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
             terminal: code(status),
             first_entry_order: order,
             tests,
+            trap_rva,
+            trap_site,
             elapsed_ms: start.elapsed().as_secs_f64() * 1000.,
             setup_ms,
             execution_ms,
@@ -820,7 +884,14 @@ pub fn run(
     let path = path.canonicalize()?;
     let f = match fixture {
         Some(p) => fixture::read(p)?,
-        None => Fixture::default(),
+        None => {
+            if !tests && inspect(&path)?.execution == 0 {
+                bail!(
+                    "IO case requires capture.bin; pack a minimal fixture or supply --capture PATH"
+                )
+            }
+            Fixture::default()
+        }
     };
     let mut pipe = [0; 2];
     if unsafe { libc::pipe2(pipe.as_mut_ptr(), libc::O_CLOEXEC) } < 0 {

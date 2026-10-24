@@ -9,11 +9,11 @@ a matching 32-bit C++ toolchain.
 ```sh
 target/i686-unknown-linux-gnu/debug/recon-tool run ../../decomp/PROJECT/BINARY/cases/0000-example
 target/i686-unknown-linux-gnu/debug/recon-tool test ../../decomp/PROJECT/BINARY/cases/0000-example
-target/i686-unknown-linux-gnu/debug/recon-tool io pack ~/.ai-tmp/case.json /path/to/case/io.bin
-target/i686-unknown-linux-gnu/debug/recon-tool io unpack /path/to/case/io.bin
+target/i686-unknown-linux-gnu/debug/recon-tool capture pack ~/.ai-tmp/case.json /path/to/case/capture.bin
+target/i686-unknown-linux-gnu/debug/recon-tool capture unpack /path/to/case/capture.bin
 ```
 
-`run`/`test` accept multiple case directories or `case.so` paths. `--io` overrides
+`run`/`test` accept multiple case directories or `case.so` paths. `--capture` overrides
 the inferred fixture for a single case. `--report` writes timing/results outside
 the ephemeral workspace; keep authoring JSON and reports outside case folders.
 `inspect CASE.so` prints descriptors. `registry-export CASE --image-base 65536
@@ -47,7 +47,7 @@ before checking outputs and deleting its owned workspace. Timeouts also kill
 descendants that moved to another process group. SIGKILL of the supervisor itself
 cannot guarantee cleanup.
 
-## io.bin version 1
+## capture.bin version 1
 
 Eight-byte `RECONIO\0`, little-endian u32 version, little-endian u64 payload
 length, then uncompressed CBOR. No trailing bytes are accepted. The payload's
@@ -89,16 +89,16 @@ Events are ordered. Each has optional `after_ms`, optional `stdout_contains`
 (both conditions must hold if present), and an `action` object:
 `{"kind":"stdin","data":"text:..."}`, `{"kind":"close_stdin"}`, or
 `{"kind":"signal","signal":2}`. Close waits for queued bytes to be written.
-Signals go to the executor process group. These are Linux signals, not yet a
+Set `stdin_kind:"pipe"` for stdin/close events. Signals go to the executor process group. These are Linux signals, not yet a
 claim of arbitrary Win32 console-event equivalence.
 
 Top-level expected outputs describe successful completion. Optional `partial`
 has its own stdout/stderr/output_files/output_env/reject_unexpected_files and
 applies at an expected current frontier. Final expectations are retained intact.
 
-Run `python3 tests/smoke.py` for the focused native integration tests. Explicit
-original Wine capture and debugger transport are the next implementation stage;
-they are not provided by this native checkpoint.
+Run `python3 tests/smoke.py` for focused native integration tests. Ordinary IO
+runs require an inferred or explicit capture.bin, even if it only contains `{}`;
+DIRECT and unit-only runs may omit the file when self-contained.
 
 ## Debugging
 
@@ -121,3 +121,74 @@ Include `recon-tool.mk` in the binary Makefile and make checks depend on
 `$(RECON_TOOL)` to build the release runner incrementally. `build-quiet.sh` retains
 successful Cargo output in scratch and prints diagnostics only when building
 fails. It never launches Wine.
+
+## Explicit original capture
+
+```sh
+recon-tool original build-helper --repo /root/msvc2
+recon-tool original capture /path/to/case --repo /root/msvc2 \
+    --capture ~/.ai-tmp/inputs.bin --output /path/to/case/capture.bin \
+    --report ~/.ai-tmp/original-result.json
+```
+
+The helper is compiled with the existing VC1.0 original compiler. Its sources and
+build outputs live under this tool; no Python program is needed per binary/case.
+`capture` verifies the original SHA256 and entry against binary_descriptor. The
+optional `--program` selects that verified original path explicitly. Existing
+output files are not overwritten without `--replace`. Capturing is always an
+explicit command, never a side effect of run/test.
+
+Ordinary capture executes the untouched original and records exact stdout/stderr,
+exit status, changed/new/deleted files (hashes), and application first-entry RVAs.
+`--progress` creates a temporary masked copy, restoring classified CRT/import
+boundaries and implemented App code/owned text data. It records a named pending
+App INT3 and partial observations while preserving the final oracle. It does not
+execute that pending body or automatically update function acceptance/case source.
+Reports include actual order and terminal so the reconstructor can deliberately
+update expectations after matching both sides.
+
+For DLLs, `--host PATH.exe` supplies typed Win32 invocation glue. The host reads
+`RECON_ORIGINAL_DLL`, loads that path, calls exports with the case arguments and
+performs normal detach. The broker matches the loaded DLL's file identity, then
+uses its actual module base and entry RVA; host code is outside the App trace.
+The same host can be reused across cases for that DLL interface.
+
+Direct cases optionally export `case_original_direct(ReconOriginal*)` from
+direct.c; see `include/recon-original.h`. Shared primitives read/write remote
+objects, allocate/release memory, run to a real setup boundary, and call a typed
+entry using explicit ECX/EDX/stack words. A call returns real entry/return GPR and
+Win32 floating-save bytes; case assertions stay narrow. `emit` saves named result
+bytes as input-file records inside capture.bin for native direct assertions.
+Direct results do not establish public invocation reachability or full-process
+behavior. The caller context is restored after each deliberate helper call.
+
+Explicit captures are serialized in the shared prefix. A requested logical S:/T:
+cwd is reserved only if absent and deleted afterwards; existing directories are
+never overwritten. Without one, capture uses its unique temporary directory.
+Use a stable logical cwd whenever it is observable, as for debug records. R:/S:/T:
+are never remapped per case. Original-capture references/reports are saved outside
+the owned ephemeral directory before it is removed.
+
+The original backend supports PE32 i386 images. CF payloads and the Watcom gateway
+remain in their existing separate capture tooling. Direct calls support ordinary
+MSVC ECX/EDX/stack conventions, not arbitrary register ABIs such as Watcom watcall.
+
+Current limits: original pipe stdin, timed/console events, generic output_env
+observation, new target threads, zero-entry DLLs and repeated target-module reload
+are rejected/unsupported. ANSI transport requires ASCII paths, arguments and
+explicit environment strings; arbitrary file/stream bytes are preserved. Native
+replay supports saved pipe/events and returned-adapter output_env observations.
+Arguments are a complete argv vector, defaulting to `[binary_descriptor.name]`.
+`stdin_kind` is `file` by default; set `pipe` for stdin/close events. Normal IO
+completion uses libc exit with application tracing active through atexit callbacks.
+
+The native SIGTRAP observer records the actual PC/cause, verifies INT3, and resolves
+its owning App ELF range to the original RVA. It does not infer the frontier from
+the last entry trace or claim instruction-offset equivalence. Reports expose
+trap_rva/trap_site. Non-App `implementation` fields must be zero; classified
+CRT/import boundary availability is independent of App implementation flags.
+
+`python3 tests/original.py` is an explicitly Wine-using harness test. It checks an
+authored EXE invocation, a narrow direct object probe, a DLL through a supplied
+Win32 host, and masked progress, then runs each saved result natively. It does not
+replay historical reconstruction evidence or alter existing cases.

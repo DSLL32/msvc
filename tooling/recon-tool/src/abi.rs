@@ -247,19 +247,19 @@ impl Loaded {
             base: dl.dli_fbase as usize,
         })
     }
-    pub fn symbols(&self) -> Result<Vec<(FunctionInfo, usize)>> {
+    pub fn symbols(&self) -> Result<Vec<(FunctionInfo, usize, usize)>> {
         let bytes = std::fs::read(&self.info.module)?;
         let elf = object::File::parse(bytes.as_slice())?;
         if elf.architecture() != object::Architecture::I386 {
             bail!("binary module is not i386")
         }
-        let mut index = std::collections::HashMap::<&str, Vec<u64>>::new();
+        let mut index = std::collections::HashMap::<&str, Vec<(u64, u64)>>::new();
         for symbol in elf.symbols() {
             if symbol.is_definition() && symbol.kind() == object::SymbolKind::Text {
                 index
                     .entry(symbol.name()?)
                     .or_default()
-                    .push(symbol.address());
+                    .push((symbol.address(), symbol.size()));
             }
         }
         let mut out = vec![];
@@ -269,7 +269,11 @@ impl Loaded {
             if matches.len() != 1 {
                 bail!("native symbol {name:?} has {} definitions", matches.len())
             }
-            out.push((f.clone(), self.base + matches[0] as usize));
+            out.push((
+                f.clone(),
+                self.base + matches[0].0 as usize,
+                matches[0].1 as usize,
+            ));
         }
         Ok(out)
     }
