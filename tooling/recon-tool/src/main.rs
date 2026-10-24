@@ -257,7 +257,7 @@ fn execute() -> Result<()> {
                 let result = native::run(&path, fixture, tests, &debug)
                     .with_context(|| format!("case {}", path.display()))?;
                 println!(
-                    "{} {} {} ({:.3} ms; setup {:.3}, execution {:.3}, checks {:.3})",
+                    "{} {} {} ({:.3} ms; setup {:.3} ms, execution {:.3} ms, checks {:.3} ms)",
                     if result.pass { "PASS" } else { "FAIL" },
                     result.case,
                     result.terminal,

@@ -81,9 +81,9 @@ special output files are rejected. Relative fixture paths cannot contain `..`.
 its private drive root (for example S); T always maps to this run's private root.
 The physical cwd uses the canonical path suffix. Explicit `readonly_dependencies`
 contain host absolute `path` and `sha256`, verified before and after execution;
-these are inputs, not undisclosed implicit references. `output_env` checks values
-inside an adapter that returns; a target calling `exit` cannot supply this
-observation automatically.
+these are inputs, not undisclosed implicit references. Native `output_env`
+observations run during normal process exit, after application exit callbacks.
+Abrupt termination such as `_exit` bypasses that observation.
 
 Events are ordered. Each has optional `after_ms`, optional `stdout_contains`
 (both conditions must hold if present), and an `action` object:
