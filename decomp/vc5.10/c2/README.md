@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 72 application functions (15769 bytes) and five CRT
+Current reconstruction has 73 application functions (15991 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at source-record initialization after the24-byte list and508-byte
-chunk have been linked. Four import thunks (24 bytes) and contextual text tables
-(616 bytes) remain separate. The 16207 source bytes are 2.828% of 573183 `.text`
+currently stops at the COFF symbol writer after constructing the source-file
+record and its borrowed-name payload. Four import thunks (24 bytes) and contextual text tables
+(616 bytes) remain separate. The 16429 source bytes are 2.866% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -300,3 +300,14 @@ provenance without payload/layout credit; the separate malloc buffer stays
 unread. Fourteen focused controls and the refreshed/reused protocol controls
 pass with separate timings in0077. Future original debugger execution uses the
 shared capture flock; builds/native fixtures remain outside it.
+
+Source78 reconstructs the222-byte source-file symbol initializer, including
+both cold incremental paths. The encountered records are12-byte tagged nodes
+and8-byte filename/link payloads; normal/incremental symbol writers and slot
+reservation remain distinct typed masked traps. Original strlen is compiled
+as the observed intrinsic. A fresh pair proves the actual record pointer and
+caller filename formals, full initialized arena state, and source aliases before
+the first symbol insertion. Fifteen focused controls passed in16.107s;7 refreshed/
+146 reused protocol controls took7.767s. Original execution2.445s follows a
+separately measured0.000067s shared-lock wait; native capture and build/audit costs
+are separate in0078.

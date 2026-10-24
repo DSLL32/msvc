@@ -1064,9 +1064,25 @@
     "evidence": null
   },
   {
-    "name": "@add_output_source@4",
-    "start": 4531949,
-    "end": 4531950,
+    "name": "@add_coff_symbol@4",
+    "start": 4320227,
+    "end": 4320228,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@add_incremental_symbol@4",
+    "start": 4740287,
+    "end": 4740288,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@reserve_incremental_symbols@12",
+    "start": 4740034,
+    "end": 4740035,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

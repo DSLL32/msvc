@@ -406,11 +406,11 @@ def compare(original,native,validation=None):
         image=(original/'unmodeled-original-data.bin').read_bytes();block=(original/'pool-block.bin').read_bytes()
         preserved=receipts[0]['unmodeled_original_data'];assert len(image)==preserved['bytes']==67328 and sha(image)==preserved['sha256']
         snapshots=receipts[0]['globals_complete_hashes']
-        assert set(snapshots)==({'unmodeled-original-data.bin','pool-block.bin','header-streams.bin'} | ({'writer-pool.bin','output-file.bin'}if expected.get('frontier_contract')in ('object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input')else set()) | ({'directive-pool.bin'}if expected.get('frontier_contract')in ('output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input')else set()) | ({'initializer-buffer.bin'} if expected.get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input')else set()) | ({'backend-streams.bin'}if expected.get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input')else set()) | ({'output-directive-value.bin'}if expected.get('frontier_contract')=='output-directive-input'else set()))
+        assert set(snapshots)==({'unmodeled-original-data.bin','pool-block.bin','header-streams.bin'} | ({'writer-pool.bin','output-file.bin'}if expected.get('frontier_contract')in ('object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input')else set()) | ({'directive-pool.bin'}if expected.get('frontier_contract')in ('output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input')else set()) | ({'initializer-buffer.bin'} if expected.get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input')else set()) | ({'backend-streams.bin'}if expected.get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input')else set()) | ({'output-directive-value.bin'}if expected.get('frontier_contract')=='output-directive-input'else set()))
         for name,digest in snapshots.items():assert sha((original/name).read_bytes())==digest,'complete raw snapshot changed'
         head=struct.unpack_from('<I',image,0x48e020-0x48e000)[0]
-        writer=expected.get('frontier_contract')in ('object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input')
-        directives=expected.get('frontier_contract')in ('output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input')
+        writer=expected.get('frontier_contract')in ('object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input')
+        directives=expected.get('frontier_contract')in ('output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input')
         directive_head=struct.unpack_from('<I',image,0x48e02c-0x48e000)[0] if directives else 0
         directive_block=(original/'directive-pool.bin').read_bytes()if directives else b''
         if directives:assert len(directive_block)==4096
@@ -433,7 +433,7 @@ def compare(original,native,validation=None):
             if directive_head<=address and address+size<=directive_head+4096:return directive_block[address-directive_head:address-directive_head+size]
             assert 0x48e000<=address and address+size<=0x49e700,'unmodeled external data access'
             return image[address-0x48e000:address-0x48e000+size]
-        wanted=json.loads(json.dumps(complete_globals(read,{name:item[0]for name,item in ROOTS.items()},directives=directives,writer=writer,coff=expected.get('frontier_contract')in ('coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input'),initialized_output=expected.get('frontier_contract')in ('coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input'),list_pending=expected.get('frontier_contract')=='coff-chunk-input',list_constructed=expected.get('frontier_contract')=='coff-source-input')))
+        wanted=json.loads(json.dumps(complete_globals(read,{name:item[0]for name,item in ROOTS.items()},directives=directives,writer=writer,coff=expected.get('frontier_contract')in ('coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input'),initialized_output=expected.get('frontier_contract')in ('coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input'),list_pending=expected.get('frontier_contract')=='coff-chunk-input',list_constructed=expected.get('frontier_contract')in ('coff-source-input','coff-symbol-input'),source_pending=expected.get('frontier_contract')=='coff-symbol-input')))
         native_complete=dict(state['globals_complete']);streams=native_complete.pop('streams');wanted['formals']=[];wanted['opaque_context_anchor_alias']=True
         if expected.get('frontier_contract')=='initializer-input':
             wanted['formals']=[{'name':'input','type':'ShimFILE *'}];wanted['input_file']={'index':3,'main_alias':True}
@@ -442,6 +442,7 @@ def compare(original,native,validation=None):
         if expected.get('frontier_contract')in ('coff-lists-input','coff-chunk-input'):wanted['formals']=[]
         if expected.get('frontier_contract')=='coff-list-input':wanted['formals']=[{'name':'kind','type':'int'},{'name':'context','type':'void *'}]
         if expected.get('frontier_contract')=='coff-source-input':wanted['formals']=[{'name':'name','type':'char *'}]
+        if expected.get('frontier_contract')=='coff-symbol-input':wanted['formals']=[{'name':'record','type':'C2CoffRecord *'}]
         if expected.get('frontier_contract')=='output-directive-input':
             wanted['formals']=[{'name':'kind','type':'int'},{'name':'value','type':'char *'}]
         assert native_complete==wanted,'completed global symbols/sections/queue/arena or actualformals differ'
@@ -458,11 +459,11 @@ def compare(original,native,validation=None):
         source_streams=(original/'header-streams.bin').read_bytes();assert len(source_streams)==64
         input_words=struct.unpack('<8I',source_streams[:32]);closed_words=struct.unpack('<8I',source_streams[32:])
         native_input=bytes.fromhex(streams['input_bytes']);native_closed=struct.unpack('<8I',bytes.fromhex(streams['closed_globals_bytes']))
-        if expected.get('frontier_contract')not in ('backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input'):
+        if expected.get('frontier_contract')not in ('backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input'):
             assert closed_words==(0,0,0,0,4,0,4096,0)and native_closed==closed_words,'canonical closed global FILE layout differs'
         assert streams['input_index']==3 and streams['globals_index']==4
         active=struct.unpack('<I',read(0x490b80,4))[0]
-        if expected.get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input'):
+        if expected.get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input'):
             opened=(original/'backend-streams.bin').read_bytes();assert len(opened)==64
             actual=re.findall(r'^backend-inputs-open expression=([0-9a-f]+) symbols=([0-9a-f]+) iob=([0-9a-f]+)$',segment,re.M);assert len(actual)==1
             expression,symbols,iob=[int(value,16)for value in actual[0]]
@@ -473,7 +474,7 @@ def compare(original,native,validation=None):
             assert source_streams[32:]==opened[:32]and native_closed==struct.unpack('<8I',opened[:32])
             assert struct.unpack('<8I',opened[:32])==(0,0,0,1,4,0,4096,0)
             assert struct.unpack('<8I',opened[32:])==(0,0,0,1,5,0,0,0)
-        if expected.get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input'):
+        if expected.get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input'):
             native_words=struct.unpack('<8I',native_input)
             for words in (input_words,native_words):
                 assert words[2] and words[0]==words[2] and words[1]==0 and words[3:]==(25,3,0,4096,0),'postEOF canonical FILE layout differs'
@@ -486,7 +487,7 @@ def compare(original,native,validation=None):
             assert input_words==(0,0,0,1,3,0,0,0)and native_input==source_streams[:32],'main IL stream was unexpectedly consumed'
             assert streams['active_globals_alias'] is True
             assert active==struct.unpack('<I',read(0x497fd4,4))[0],'target active stream no longer aliases closed globals FILE'
-    if expected.get('frontier_contract')in ('output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input'):
+    if expected.get('frontier_contract')in ('output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input'):
         from callback_evidence import model as callback_model
         import struct
         boundary=callback_model(config)
@@ -508,7 +509,7 @@ def compare(original,native,validation=None):
         assert read_word(0x497c74)==1
         raw=re.findall(r'^C2-OUTPUT-SETUP (.*)$',(native/'gdb.stdout').read_text(),re.M)
         assert len(raw)==1 and json.loads(raw[0])==observed,'missing actual callback GDB observation'
-    if expected.get('frontier_contract')in ('object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input'):
+    if expected.get('frontier_contract')in ('object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input'):
         from writer_evidence import verify as verify_writer
         value=verify_writer(config,graph)
         writer_evidence=report_file.parent/'writer-evidence.json'
@@ -518,7 +519,7 @@ def compare(original,native,validation=None):
         actual=re.findall(r'^object-writer-input writer=([0-9a-f]+) caller=([0-9a-f]+) file=([0-9a-f]+) iob=([0-9a-f]+)$',segment,re.M)
         assert len(actual)==1
         argument,caller,file,iob=[int(v,16)for v in actual[0]]
-        assert (argument==caller==writer_head+8 if expected.get('frontier_contract')in ('object-writer-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input')else argument==(300 if expected.get('frontier_contract')=='coff-table-input'else 32)and caller==writer_head+8) and file==iob+6*32
+        assert (argument==caller==writer_head+8 if expected.get('frontier_contract')in ('object-writer-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input')else argument==(300 if expected.get('frontier_contract')=='coff-table-input'else 32)and caller==writer_head+8) and file==iob+6*32
         assert file==struct.unpack_from('<I',writer_block,20)[0]
         expected_file=struct.pack('<8I',0,0,0,2,6,0,0,0)
         assert (original/'output-file.bin').read_bytes()==expected_file
@@ -542,6 +543,10 @@ def compare(original,native,validation=None):
         if expected.get('frontier_contract')=='coff-source-input':
             wanted.update(formals=[{'name':'name','type':'char *'}],name='numeric-control-flow.c',name_global_alias=True,name_pool_offset=40)
             assert re.findall(r'^coff-source-input name=([0-9a-f]+)$',segment,re.M)==[('%08x'%(writer_head+40))]
+        if expected.get('frontier_contract')=='coff-symbol-input':
+            wanted.update(formals=[{'name':'record','type':'C2CoffRecord *'}],record_offset=1852,caller_name='numeric-control-flow.c',caller_name_global_alias=True,caller_formals=[{'name':'name','type':'char *'}])
+            assert re.findall(r'^coff-symbol-input record=([0-9a-f]+)$',segment,re.M)==[('%08x'%(writer_head+1852))]
+            assert re.findall(r'^observe-stack ([^\n]+)$',segment,re.M)[0].split()[0]=='0045274b'
         assert state['object_writer']==wanted
         raw=re.findall(r'^C2-OBJECT-WRITER (.*)$',(native/'gdb.stdout').read_text(),re.M)
         assert len(raw)==1 and json.loads(raw[0])==wanted

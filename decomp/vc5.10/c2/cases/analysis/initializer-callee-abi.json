@@ -2,7 +2,7 @@
   "schema": 1,
   "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
   "canonical_crt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
-  "rebuilt_sha256": "12345438ac7009c478c00136db6114ae334372f2d5b0c67aa03d1908db9cf58c",
+  "rebuilt_sha256": "9441f05786c2a978f742d350f5f507176d7a6af013147c1dd7ca06c4042cb4ad",
   "callee_preservation": [
     {
       "function": "@new_initializer@4",
@@ -43,7 +43,7 @@
       "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation.",
       "original_body_accepted": true,
       "source_symbol": "input_varuint",
-      "rebuilt_entry": 4205407
+      "rebuilt_entry": 4205455
     },
     {
       "function": "_input_compact_signed",
@@ -61,7 +61,7 @@
       "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation.",
       "original_body_accepted": true,
       "source_symbol": "input_compact_signed",
-      "rebuilt_entry": 4206406
+      "rebuilt_entry": 4206454
     },
     {
       "function": "@read_initializer_values@4",
@@ -166,7 +166,7 @@
       "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation.",
       "original_body_accepted": true,
       "source_symbol": "c2_read_il_byte",
-      "rebuilt_entry": 4204736
+      "rebuilt_entry": 4204784
     },
     {
       "function": "@input_string@8",
@@ -189,7 +189,7 @@
       "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation.",
       "original_body_accepted": true,
       "source_symbol": "input_string",
-      "rebuilt_entry": 4206234
+      "rebuilt_entry": 4206282
     },
     {
       "function": "@lookup_source_file@8",
@@ -250,7 +250,7 @@
       "review": "Recursive callee saves incoming EBP at4523dc before loading its own free intoEBP; all returning switch cases rejoin common POPEBP45246f/RET452474. Independent rebuilt standard frame restores viaLEAVE-equivalent/POPEBP/RET.",
       "original_body_accepted": false,
       "source_symbol": "read_initializer_records",
-      "rebuilt_entry": 4207336
+      "rebuilt_entry": 4207384
     },
     {
       "function": "@c2_pool_allocate@8",
@@ -273,7 +273,7 @@
       "review": "Complete accepted allocator saves incomingEDI at401011. Both normal exits restore it at401033/RET401036 and4010d4/RET4010d9. Cold allocation-failure fragment rejoins401049/4010a9; explicit memset/REP writes only data derived from allocated/free blocks, never the savedEDI stack slot.",
       "original_body_accepted": true,
       "source_symbol": "c2_pool_allocate",
-      "rebuilt_entry": 4210256
+      "rebuilt_entry": 4210304
     },
     {
       "function": "_query_incremental_stream_size",
@@ -363,7 +363,7 @@
       "review": "Complete33B writes only six globalDWORDs with EAX; no ESI write/call/stack escape; RET453de6.",
       "original_body_accepted": false,
       "source_symbol": "initialize_coff_lists",
-      "rebuilt_entry": 4222782
+      "rebuilt_entry": 4222830
     },
     {
       "function": "@new_output_list@8",
@@ -381,7 +381,7 @@
       "review": "Complete52B saves ESI41eb97 before all work/nested calls; common POPESI41ebc7 and RET41ebc9. No saved-register slot address escapes; ordinary child calls cannot alter caller saved slot. Second DWORD refined from zero-only context label to integer count-only flag using actual0/1 callers and fullDWORD consumer equality; ESI save/restore, original range and RET0 unchanged.",
       "original_body_accepted": false,
       "source_symbol": "new_output_list",
-      "rebuilt_entry": 4222847
+      "rebuilt_entry": 4222895
     },
     {
       "function": "_read_incremental_output",

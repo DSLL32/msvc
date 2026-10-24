@@ -1,4 +1,5 @@
 #include "coff-output.h"
+#include <string.h>
 #include <recon.h>
 
 extern char *c2_output_name, *c2_source_name;
@@ -187,4 +188,41 @@ C2OutputChunk *new_output_chunk(void)
         return chunk;
     }
     return output_allocate(508);
+}
+
+unsigned coff_reserved_symbols;
+C2CoffSource *coff_previous_source;
+
+void __fastcall add_output_source(char *name)
+{
+    C2CoffRecord *record, *auxiliary;
+    C2CoffSource *source;
+    unsigned count, index;
+
+    record = output_allocate(sizeof(*record));
+    record->kind = 1;
+    source = output_allocate(sizeof(*source));
+    record->value.source = source;
+    source->name = name;
+    source->next_source = 0;
+    count = strlen(name) / 18 + 1;
+    if (c2_internal_listing) {
+        if (!coff_reserved_symbols)
+            reserve_incremental_symbols(count + 1, 0, 0);
+    }
+    if (c2_internal_listing)
+        index = add_incremental_symbol(record);
+    else
+        index = add_coff_symbol(record);
+    if (coff_previous_source)
+        coff_previous_source->next_source = index;
+    coff_previous_source = source;
+    auxiliary = output_allocate(sizeof(*auxiliary));
+    auxiliary->kind = 5;
+    while (count--) {
+        if (c2_internal_listing)
+            add_incremental_symbol(auxiliary);
+        else
+            add_coff_symbol(auxiliary);
+    }
 }

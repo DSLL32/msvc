@@ -1,0 +1,149 @@
+{
+  "review": "Analysis-only exact byte comparison over manually reviewed fixed lifetimes. Every changed byte is one listed same-MAP/same-IAT/equal-literal/same-named-relative-call DWORD operand. All other bytes/holders/calls/cleanup/relative branches remain exact. CommonRust independently owns all graph checks.",
+  "old_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/chunk77-original",
+  "old_rebuilt_sha256": "12345438ac7009c478c00136db6114ae334372f2d5b0c67aa03d1908db9cf58c",
+  "new_rebuilt_sha256": "9441f05786c2a978f742d350f5f507176d7a6af013147c1dd7ca06c4042cb4ad",
+  "analysis_script_sha256": "59c1bb12c8383d2a2f45e90c816452a671b5d18dcbb75e5486ae042a7d62d552",
+  "rows": [
+    {
+      "function": "_c2_initialize_options",
+      "symbol": "strpbrk",
+      "interval": [
+        212,
+        312
+      ],
+      "changes": [],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "_initialize_messages",
+      "symbol": "_strdup",
+      "interval": [
+        42,
+        191
+      ],
+      "changes": [],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "_emit_diagnostic",
+      "symbol": "fwrite",
+      "interval": [
+        462,
+        540
+      ],
+      "changes": [],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "_c2_cleanup",
+      "symbol": "remove",
+      "interval": [
+        38,
+        154
+      ],
+      "changes": [],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "_c2_cleanup",
+      "symbol": "fclose",
+      "interval": [
+        46,
+        154
+      ],
+      "changes": [],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "@parse_option_integer@4",
+      "symbol": "_isctype",
+      "interval": [
+        15,
+        98
+      ],
+      "changes": [],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "@parse_option_integer@4",
+      "symbol": "_errno",
+      "interval": [
+        98,
+        140
+      ],
+      "changes": [],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "_c2_read_il_word",
+      "symbol": "_filbuf",
+      "interval": [
+        6,
+        198
+      ],
+      "changes": [],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "_c2_read_il_long",
+      "symbol": "_filbuf",
+      "interval": [
+        6,
+        377
+      ],
+      "changes": [],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "_input_varuint",
+      "symbol": "_filbuf",
+      "interval": [
+        6,
+        827
+      ],
+      "changes": [],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "@input_string@8",
+      "symbol": "_filbuf",
+      "interval": [
+        27,
+        145
+      ],
+      "changes": [],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "_input_compact_signed",
+      "symbol": "_filbuf",
+      "interval": [
+        6,
+        489
+      ],
+      "changes": [],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "_input_compact_short",
+      "symbol": "_filbuf",
+      "interval": [
+        6,
+        315
+      ],
+      "changes": [],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "@read_initializer_records@4",
+      "symbol": "free",
+      "interval": [
+        306,
+        319
+      ],
+      "changes": [],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    }
+  ]
+}

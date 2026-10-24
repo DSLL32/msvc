@@ -87,7 +87,8 @@
     "_writer_callback_41eb8a",
     "_initialize_coff_lists",
     "@new_output_list@8",
-    "_new_output_chunk"
+    "_new_output_chunk",
+    "@add_output_source@4"
   ],
   "driver": [
     {
@@ -9470,6 +9471,199 @@
           4626557
         ]
       ]
+    },
+    {
+      "name": "@add_output_source@4",
+      "native": "add_output_source",
+      "start": 4531949,
+      "end": 4532119,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "fastcall char*nameECX callerignoresresult RET0",
+      "evidence": "cases/analysis/output-source-analysis.json",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "coff-source-input",
+      "code_chunks": [
+        [
+          4670520,
+          4670578
+        ]
+      ]
     }
   ],
   "stubs": [
@@ -10792,14 +10986,14 @@
       "evidence": "Actual caller register/stack/return uses; genuine pendingINT3, no bodycredit."
     },
     {
-      "name": "@add_output_source@4",
-      "native": "add_output_source",
-      "start": 4531949,
-      "end": 4531950,
+      "name": "@add_coff_symbol@4",
+      "native": "add_coff_symbol",
+      "start": 4320227,
+      "end": 4320228,
       "pending_extent": true,
       "kind": "application",
-      "abi": "fastcall char*nameECX callerignoresresult RET0",
-      "evidence": "Actual caller register/stack/return uses; genuine pendingINT3, no bodycredit.",
+      "abi": "fastcall record pointerECX, unsigned indexEAX, RET0",
+      "evidence": "Actual caller/provider register/stack/return uses. True named pendingINT3, zero body credit.",
       "state_policy": "globals-complete",
       "state": [
         {
@@ -10976,8 +11170,384 @@
       "expected_argv": [
         "-G5"
       ],
-      "frontier_contract": "coff-source-input",
-      "state_model_sha256": "940cd904fd2d4ca0f3bd59037263569086dfa0f2e9aeb50fce98955b6bc1ef52"
+      "frontier_contract": "coff-symbol-input",
+      "state_model_sha256": "9b241acd80f9a7620c6df2fbdf93668d13a4ab6c79d64018589a01494235599a"
+    },
+    {
+      "name": "@add_incremental_symbol@4",
+      "native": "add_incremental_symbol",
+      "start": 4740287,
+      "end": 4740288,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall record pointerECX, unsigned indexEAX, RET0",
+      "evidence": "Actual caller/provider register/stack/return uses. True named pendingINT3, zero body credit.",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "coff-symbol-input",
+      "state_model_sha256": "9b241acd80f9a7620c6df2fbdf93668d13a4ab6c79d64018589a01494235599a"
+    },
+    {
+      "name": "@reserve_incremental_symbols@12",
+      "native": "reserve_incremental_symbols",
+      "start": 4740034,
+      "end": 4740035,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall unsignedcountECX ushortsectionDX intreuse[ESP+4], unsignedindexEAX, RET4",
+      "evidence": "Actual caller/provider register/stack/return uses. True named pendingINT3, zero body credit.",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "coff-symbol-input",
+      "state_model_sha256": "9b241acd80f9a7620c6df2fbdf93668d13a4ab6c79d64018589a01494235599a"
     }
   ],
   "text_data": [
@@ -11234,7 +11804,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11246,7 +11816,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11258,7 +11828,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11270,7 +11840,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11282,7 +11852,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11294,7 +11864,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11306,7 +11876,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11318,7 +11888,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11330,7 +11900,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11342,7 +11912,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11356,7 +11926,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11368,7 +11938,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11383,7 +11953,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11395,7 +11965,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11407,7 +11977,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11419,7 +11989,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11431,7 +12001,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11443,7 +12013,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11458,7 +12028,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11473,7 +12043,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11485,7 +12055,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11497,7 +12067,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11509,7 +12079,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       },
       {
@@ -11524,7 +12094,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "12daf43f77d74e81863f12d56f4419d480c442330323f2e37568ca3ae3601de6"
+          "sha256": "32a1dbfdb2c320babc49cff5a80befebbb8298a79136c23decb39f17759f7046"
         }
       }
     ]

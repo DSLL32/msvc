@@ -10,6 +10,20 @@ typedef struct C2OutputStorage C2OutputStorage;
 typedef struct C2OutputChunk C2OutputChunk;
 typedef struct C2OutputBlock508 C2OutputBlock508;
 typedef struct C2OutputBlock308 C2OutputBlock308;
+typedef struct C2CoffSource C2CoffSource;
+typedef struct C2CoffRecord C2CoffRecord;
+struct C2CoffSource {
+    char *name;
+    unsigned next_source;
+};
+struct C2CoffRecord {
+    unsigned kind;
+    unsigned pending04;
+    union { C2CoffSource *source; } value;
+};
+typedef char C2CoffRecordSizeCheck[sizeof(C2CoffRecord) == 12 ? 1 : -1];
+typedef char C2CoffRecordValueCheck[offsetof(C2CoffRecord, value) == 8 ? 1 : -1];
+typedef char C2CoffSourceSizeCheck[sizeof(C2CoffSource) == 8 ? 1 : -1];
 
 typedef struct C2OutputPage {
     struct C2OutputPage *next;
@@ -94,6 +108,11 @@ C2OutputList *__fastcall new_output_list(int buffered, int count_only);
 int read_incremental_output(void);
 void restore_incremental_output(void);
 void __fastcall add_output_source(char *name);
+unsigned __fastcall add_coff_symbol(C2CoffRecord *record);
+unsigned __fastcall add_incremental_symbol(C2CoffRecord *record);
+unsigned __fastcall reserve_incremental_symbols(unsigned count, unsigned short section, int reuse);
+extern unsigned coff_reserved_symbols;
+extern C2CoffSource *coff_previous_source;
 unsigned query_incremental_stream_size(void);
 unsigned __fastcall read_incremental_stream(void *buffer, unsigned bytes);
 unsigned char read_incremental_byte(void);
