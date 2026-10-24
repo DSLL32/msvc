@@ -523,8 +523,8 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "@prepare_inline_function@4",
-  "current_checkpoint": 1318,
+  "current_application_frontier": "_reset_exception_scope_stack",
+  "current_checkpoint": 1319,
   "resolved_input_hold": {
     "field": "object_file->_bufsiz",
     "correction": "shared cabec0d10",
@@ -573,5 +573,5 @@
     }
   ],
   "last_completed": "omf-comdat-communal",
-  "next_action": "Recover soleFunction pointer and four contextual reset owners, reconstruct69B SEH preparation wrapper; keep adjacent reset/helper/transform as named traps. Prior1616B envelope spans separate functions, no coverage promise."
+  "next_action": "Observe no-formal reset entry/caller then reconstruct exact11B scope-stack-depth reset; collect/rewrite remain independent named traps."
 }

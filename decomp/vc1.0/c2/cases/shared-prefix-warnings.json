@@ -1,10 +1,10 @@
 {
   "modules": [
     {
-      "module": "physical-allocation",
-      "seconds": 1.7536983555182815,
+      "module": "exception-scope",
+      "seconds": 1.4763734489679337,
       "returncode": 0
     }
   ],
-  "seconds": 1.753916198387742
+  "seconds": 1.4765733275562525
 }

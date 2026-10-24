@@ -1,0 +1,12 @@
+{
+  "logical": "_reset_exception_scope_stack",
+  "matched": true,
+  "executable_sha256": "461d7dcabce2c652be7820e05ec27b31d855cb5e7e29edeaac620f24b520a362",
+  "config_sha256": "6772a863b5ef69b134ac33b31ac9ee0a0688d59bcaf61473a5c60c25e5150113",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\sehpacket",
+  "setup_seconds": 0.008051908574998379,
+  "execution_seconds": 0.14391796942800283,
+  "seconds": 0.16323266457766294,
+  "log_sha256": "cfc8fa65190be47ed821a7506b44de58bfb77f922832c9f2fa2904bcb7a5dedd",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/seh-gdb-s9yhwezp"
+}

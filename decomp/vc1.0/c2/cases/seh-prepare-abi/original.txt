@@ -1,0 +1,6 @@
+enter @prepare_inline_function@4 eax 007b16ec args 007bfa3c
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
+seh_prepare function 007bfa3c current 007bfa3c parent 007bfa3c return_address 0004c3a8
+entry_end

@@ -1103,3 +1103,16 @@ logs. Corrected build 4.561s, full controls 18.821s, audit/coverage 33.844s;
 fixture wrapper 1.056s. Next SEH preparation wrapper is only 69 bytes: the
 earlier 1616-byte analysis envelope contains several separate functions, each
 still trapped. Receipt: cases/seh-frame-allow-checkpoint.json.
+
+At 1319 the 69-byte SEH preparation wrapper is accepted; its established
+provisional logical name prepare_inline_function is retained. The original
+1616-byte envelope is several functions, never one accepted extent. The sole
+opaque Function matches its caller/current-function identity; no payload or
+old reset-cell inputs exist. Four typed contextual owners are distinct, and
+90 whole original/canonical controls verify zeroing, reset/collect/reset/rewrite
+order, saved pointer, child mutations, partial stops and RET0/nonvolatile.
+The actual case stops at the separate 11-byte reset helper; collect/rewrite
+remain named traps. Original /W3, audits, fresh pair and all 17 cached expected
+terminals pass. Build 12.341s includes native header fanout, controls 1.824s,
+audit/coverage 33.588s, fixture wrapper 1.023s. Explicit source/ELF identity,
+corrected extents and split timing: cases/seh-prepare-checkpoint.json.

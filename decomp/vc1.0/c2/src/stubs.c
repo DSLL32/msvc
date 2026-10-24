@@ -15,6 +15,7 @@
 #include "work-expressions.h"
 #include "region-motion.h"
 #include "flow-edges.h"
+#include "exception-scope.h"
 #include "work-optimizer.h"
 /* Unreached graph vertices trap deliberately for the paired reconstruction workflow. */
 #include "options.h"
@@ -49,7 +50,6 @@ void float_to_extended(const float *number, Extended *result) { __asm int 3 }
 char *__fastcall undecorate_function_name(char *name) { __asm int 3 }
 void __cdecl ide_message(int code, ...) { __asm int 3 }
 void __fastcall set_warning_override(short number, signed char level) { __asm int 3 }
-void __fastcall prepare_inline_function(Function *function) { __asm int 3 }
 Node *__fastcall simplify_short_circuit(Node *node, Node *parent) { __asm int 3 }
 Node *__fastcall lift_left_sequence(Node *node) { __asm int 3 }
 Node *__fastcall lift_right_sequence(Node *node) { __asm int 3 }
@@ -300,3 +300,6 @@ int __fastcall can_reuse_float_branch_target(MachineInstruction *target) { __asm
 int inherit_float_motion_uses(void) { __asm int 3 }
 
 int __cdecl multiplication_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
+void __cdecl reset_exception_scope_stack(void) { __asm int 3 }
+void __fastcall collect_exception_scopes(Function *function) { __asm int 3 }
+void __fastcall rewrite_exception_expressions(Function *function) { __asm int 3 }

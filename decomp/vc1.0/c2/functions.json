@@ -1322,7 +1322,8 @@
     "@collect_assembly_reference@8",
     "@normalize_assembly_flow_symbol@8",
     "@reference_assembly_flow_symbol@8",
-    "@function_allows_frame_register@4"
+    "@function_allows_frame_register@4",
+    "@prepare_inline_function@4"
   ],
   "driver": [
     {
@@ -1662,8 +1663,21 @@
     {
       "name": "@prepare_inline_function@4",
       "start": 415456,
-      "end": 415457,
-      "provisional": true
+      "end": 415525,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "function",
+            "location": "ECX",
+            "type": "opaque Function pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/seh-prepare-abi/validation.json",
+        "scope": "Original656e0..65725 consumes onlyECX as opaque Function pointer, retaining inESI around calls; writes four entire DWORD globals7b9a4/7b9a0/7b998/7b99c tozero inthatorder, no prior-cell or Function-field reads. Calls65af0(noargs),65b00(function),65af0(noargs),65730(function), RET0, nonvolESI restored. No otherincomingregister/stack/flags/x87/outpointer. Actual pointer equals callerEBX/current_function; native caller compile_functions local function matches. Original caller4c3a8 immediately reloadsECXforcanonicalization, doesnotconsumeEAX. Legacy provisionalname saysinline but node8d..90/ExceptionScope path provesSEH handling."
+      }
     },
     {
       "name": "@canonicalize_function@4",
@@ -9857,6 +9871,24 @@
         "entry_observation": "cases/collect-assembly-reference-abi/validation.json",
         "scope": "Original126B callback consumes kindbyte atSymbolHeader+12 and Node** context/head with conditional list left/reference/rightsymbol pointer identity. Actualkind1/headNULL, symbol aliases cached visitor slot and current64-bucket scope memberidentifier160/index0; context matches parent-owned outputhead. Kind3/4 skip, invalidkind diagnostic4bf retained, EAX0/RET0. No SymbolHeader other payload read/dump, no context/list seeding."
       }
+    },
+    {
+      "name": "_reset_exception_scope_stack",
+      "start": 416496,
+      "end": 416497,
+      "provisional": true
+    },
+    {
+      "name": "@collect_exception_scopes@4",
+      "start": 416512,
+      "end": 416513,
+      "provisional": true
+    },
+    {
+      "name": "@rewrite_exception_expressions@4",
+      "start": 415536,
+      "end": 415537,
+      "provisional": true
     }
   ],
   "cases": {

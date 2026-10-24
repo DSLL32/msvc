@@ -1,0 +1,4094 @@
+{
+  "actual_abi": true,
+  "rejected": [
+    "missing formal",
+    "wrong register",
+    "wrong pointee contract",
+    "lost current alias",
+    "lost caller alias",
+    "unknown hidden input",
+    "wrong cleanup",
+    "invented return contract"
+  ],
+  "states": 90,
+  "cases": [
+    {
+      "initial": 0,
+      "children_mutate_cells": false,
+      "function_pointer": 0,
+      "stop_after_child_index": 0,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": false,
+      "function_pointer": 0,
+      "stop_after_child_index": 1,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": false,
+      "function_pointer": 0,
+      "stop_after_child_index": 2,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": false,
+      "function_pointer": 0,
+      "stop_after_child_index": 3,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": false,
+      "function_pointer": 0,
+      "stop_after_child_index": 4,
+      "result": {
+        "terminal": "return",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": false,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 0,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": false,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 1,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": false,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 2,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": false,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 3,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": false,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 4,
+      "result": {
+        "terminal": "return",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": false,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 0,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": false,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 1,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": false,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 2,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": false,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 3,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": false,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 4,
+      "result": {
+        "terminal": "return",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": true,
+      "function_pointer": 0,
+      "stop_after_child_index": 0,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": true,
+      "function_pointer": 0,
+      "stop_after_child_index": 1,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ]
+        ],
+        "cells": [
+          16909060,
+          18023189,
+          19137318,
+          20251447
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": true,
+      "function_pointer": 0,
+      "stop_after_child_index": 2,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ]
+        ],
+        "cells": [
+          33818120,
+          34932249,
+          36046378,
+          37160507
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": true,
+      "function_pointer": 0,
+      "stop_after_child_index": 3,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              50727180,
+              51841309,
+              52955438,
+              54069567
+            ]
+          ]
+        ],
+        "cells": [
+          50727180,
+          51841309,
+          52955438,
+          54069567
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": true,
+      "function_pointer": 0,
+      "stop_after_child_index": 4,
+      "result": {
+        "terminal": "return",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              50727180,
+              51841309,
+              52955438,
+              54069567
+            ]
+          ]
+        ],
+        "cells": [
+          67636240,
+          68750369,
+          69864498,
+          70978627
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": true,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 0,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": true,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 1,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ]
+        ],
+        "cells": [
+          16909060,
+          18023189,
+          19137318,
+          20251447
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": true,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 2,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ]
+        ],
+        "cells": [
+          33818120,
+          34932249,
+          36046378,
+          37160507
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": true,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 3,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              50727180,
+              51841309,
+              52955438,
+              54069567
+            ]
+          ]
+        ],
+        "cells": [
+          50727180,
+          51841309,
+          52955438,
+          54069567
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": true,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 4,
+      "result": {
+        "terminal": "return",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              50727180,
+              51841309,
+              52955438,
+              54069567
+            ]
+          ]
+        ],
+        "cells": [
+          67636240,
+          68750369,
+          69864498,
+          70978627
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": true,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 0,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": true,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 1,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ]
+        ],
+        "cells": [
+          16909060,
+          18023189,
+          19137318,
+          20251447
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": true,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 2,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ]
+        ],
+        "cells": [
+          33818120,
+          34932249,
+          36046378,
+          37160507
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": true,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 3,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              50727180,
+              51841309,
+              52955438,
+              54069567
+            ]
+          ]
+        ],
+        "cells": [
+          50727180,
+          51841309,
+          52955438,
+          54069567
+        ]
+      }
+    },
+    {
+      "initial": 0,
+      "children_mutate_cells": true,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 4,
+      "result": {
+        "terminal": "return",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              50727180,
+              51841309,
+              52955438,
+              54069567
+            ]
+          ]
+        ],
+        "cells": [
+          67636240,
+          68750369,
+          69864498,
+          70978627
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": false,
+      "function_pointer": 0,
+      "stop_after_child_index": 0,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": false,
+      "function_pointer": 0,
+      "stop_after_child_index": 1,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": false,
+      "function_pointer": 0,
+      "stop_after_child_index": 2,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": false,
+      "function_pointer": 0,
+      "stop_after_child_index": 3,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": false,
+      "function_pointer": 0,
+      "stop_after_child_index": 4,
+      "result": {
+        "terminal": "return",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": false,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 0,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": false,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 1,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": false,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 2,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": false,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 3,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": false,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 4,
+      "result": {
+        "terminal": "return",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": false,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 0,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": false,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 1,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": false,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 2,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": false,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 3,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": false,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 4,
+      "result": {
+        "terminal": "return",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": true,
+      "function_pointer": 0,
+      "stop_after_child_index": 0,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": true,
+      "function_pointer": 0,
+      "stop_after_child_index": 1,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ]
+        ],
+        "cells": [
+          16909060,
+          18023189,
+          19137318,
+          20251447
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": true,
+      "function_pointer": 0,
+      "stop_after_child_index": 2,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ]
+        ],
+        "cells": [
+          33818120,
+          34932249,
+          36046378,
+          37160507
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": true,
+      "function_pointer": 0,
+      "stop_after_child_index": 3,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              50727180,
+              51841309,
+              52955438,
+              54069567
+            ]
+          ]
+        ],
+        "cells": [
+          50727180,
+          51841309,
+          52955438,
+          54069567
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": true,
+      "function_pointer": 0,
+      "stop_after_child_index": 4,
+      "result": {
+        "terminal": "return",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              50727180,
+              51841309,
+              52955438,
+              54069567
+            ]
+          ]
+        ],
+        "cells": [
+          67636240,
+          68750369,
+          69864498,
+          70978627
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": true,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 0,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": true,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 1,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ]
+        ],
+        "cells": [
+          16909060,
+          18023189,
+          19137318,
+          20251447
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": true,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 2,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ]
+        ],
+        "cells": [
+          33818120,
+          34932249,
+          36046378,
+          37160507
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": true,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 3,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              50727180,
+              51841309,
+              52955438,
+              54069567
+            ]
+          ]
+        ],
+        "cells": [
+          50727180,
+          51841309,
+          52955438,
+          54069567
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": true,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 4,
+      "result": {
+        "terminal": "return",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              50727180,
+              51841309,
+              52955438,
+              54069567
+            ]
+          ]
+        ],
+        "cells": [
+          67636240,
+          68750369,
+          69864498,
+          70978627
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": true,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 0,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": true,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 1,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ]
+        ],
+        "cells": [
+          16909060,
+          18023189,
+          19137318,
+          20251447
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": true,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 2,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ]
+        ],
+        "cells": [
+          33818120,
+          34932249,
+          36046378,
+          37160507
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": true,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 3,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              50727180,
+              51841309,
+              52955438,
+              54069567
+            ]
+          ]
+        ],
+        "cells": [
+          50727180,
+          51841309,
+          52955438,
+          54069567
+        ]
+      }
+    },
+    {
+      "initial": 4294967295,
+      "children_mutate_cells": true,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 4,
+      "result": {
+        "terminal": "return",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              50727180,
+              51841309,
+              52955438,
+              54069567
+            ]
+          ]
+        ],
+        "cells": [
+          67636240,
+          68750369,
+          69864498,
+          70978627
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": false,
+      "function_pointer": 0,
+      "stop_after_child_index": 0,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": false,
+      "function_pointer": 0,
+      "stop_after_child_index": 1,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": false,
+      "function_pointer": 0,
+      "stop_after_child_index": 2,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": false,
+      "function_pointer": 0,
+      "stop_after_child_index": 3,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": false,
+      "function_pointer": 0,
+      "stop_after_child_index": 4,
+      "result": {
+        "terminal": "return",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": false,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 0,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": false,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 1,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": false,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 2,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": false,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 3,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": false,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 4,
+      "result": {
+        "terminal": "return",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": false,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 0,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": false,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 1,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": false,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 2,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": false,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 3,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": false,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 4,
+      "result": {
+        "terminal": "return",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": true,
+      "function_pointer": 0,
+      "stop_after_child_index": 0,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": true,
+      "function_pointer": 0,
+      "stop_after_child_index": 1,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ]
+        ],
+        "cells": [
+          16909060,
+          18023189,
+          19137318,
+          20251447
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": true,
+      "function_pointer": 0,
+      "stop_after_child_index": 2,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ]
+        ],
+        "cells": [
+          33818120,
+          34932249,
+          36046378,
+          37160507
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": true,
+      "function_pointer": 0,
+      "stop_after_child_index": 3,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              50727180,
+              51841309,
+              52955438,
+              54069567
+            ]
+          ]
+        ],
+        "cells": [
+          50727180,
+          51841309,
+          52955438,
+          54069567
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": true,
+      "function_pointer": 0,
+      "stop_after_child_index": 4,
+      "result": {
+        "terminal": "return",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              50727180,
+              51841309,
+              52955438,
+              54069567
+            ]
+          ]
+        ],
+        "cells": [
+          67636240,
+          68750369,
+          69864498,
+          70978627
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": true,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 0,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": true,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 1,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ]
+        ],
+        "cells": [
+          16909060,
+          18023189,
+          19137318,
+          20251447
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": true,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 2,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ]
+        ],
+        "cells": [
+          33818120,
+          34932249,
+          36046378,
+          37160507
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": true,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 3,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              50727180,
+              51841309,
+              52955438,
+              54069567
+            ]
+          ]
+        ],
+        "cells": [
+          50727180,
+          51841309,
+          52955438,
+          54069567
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": true,
+      "function_pointer": 3735928559,
+      "stop_after_child_index": 4,
+      "result": {
+        "terminal": "return",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              50727180,
+              51841309,
+              52955438,
+              54069567
+            ]
+          ]
+        ],
+        "cells": [
+          67636240,
+          68750369,
+          69864498,
+          70978627
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": true,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 0,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "cells": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": true,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 1,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ]
+        ],
+        "cells": [
+          16909060,
+          18023189,
+          19137318,
+          20251447
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": true,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 2,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ]
+        ],
+        "cells": [
+          33818120,
+          34932249,
+          36046378,
+          37160507
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": true,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 3,
+      "result": {
+        "terminal": "child-stop",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              50727180,
+              51841309,
+              52955438,
+              54069567
+            ]
+          ]
+        ],
+        "cells": [
+          50727180,
+          51841309,
+          52955438,
+          54069567
+        ]
+      }
+    },
+    {
+      "initial": 826366246,
+      "children_mutate_cells": true,
+      "function_pointer": 4194304,
+      "stop_after_child_index": 4,
+      "result": {
+        "terminal": "return",
+        "events": [
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            "@collect_exception_scopes@4",
+            "same Function",
+            [
+              16909060,
+              18023189,
+              19137318,
+              20251447
+            ]
+          ],
+          [
+            "_reset_exception_scope_stack",
+            "no formal",
+            [
+              33818120,
+              34932249,
+              36046378,
+              37160507
+            ]
+          ],
+          [
+            "@rewrite_exception_expressions@4",
+            "same Function",
+            [
+              50727180,
+              51841309,
+              52955438,
+              54069567
+            ]
+          ]
+        ],
+        "cells": [
+          67636240,
+          68750369,
+          69864498,
+          70978627
+        ]
+      }
+    }
+  ],
+  "seconds": 1.7057146187871695,
+  "typed_owners": [
+    {
+      "name": "_next_exception_scope_identifier",
+      "original": "0x7b9a4",
+      "canonical": "0x94c8c",
+      "bytes": 4
+    },
+    {
+      "name": "_exception_finally_depth",
+      "original": "0x7b9a0",
+      "canonical": "0x94c90",
+      "bytes": 4
+    },
+    {
+      "name": "_prepared_exception_scopes",
+      "original": "0x7b998",
+      "canonical": "0x94c98",
+      "bytes": 4
+    },
+    {
+      "name": "_exception_return_label",
+      "original": "0x7b99c",
+      "canonical": "0x94c94",
+      "bytes": 4
+    }
+  ],
+  "scope": "Whole69B original/canonical wrapper, all4 contextual cells cleared before first child, four distinct storage identities, reset/collect/reset/rewrite exact order, original opaqueFunction retained across all caller-saved clobbers. Child mutations remain visible at each later call and final return; first/second-reset and collect/rewrite stops preserve honest partial-body scope. RET0/nonvolatile at normal return; voidEAX unused, no invented value claim. NULL/unmappedFunction tests prove no parent dereference with mocked children, not supported actual backend inputs. First actual case traps at independent reset; no childbody or1616B envelope credit."
+}
