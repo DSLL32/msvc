@@ -107,7 +107,7 @@ void __fastcall omf_emit_comdat_external(SymbolHeader *symbol) { __asm int 3 }
 unsigned __fastcall omf_local_name_index(char *name) { __asm int 3 }
 void __fastcall omf_emit_communal(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall omf_emit_weak_external(FunctionSymbol *symbol) { __asm int 3 }
-void omf_write_fixups(void) { __asm int 3 }
+void __fastcall omf_write_fixup(OmfFixup *fixup) { __asm int 3 }
 
 unsigned char __fastcall omf_comdat_selection(unsigned char selection) { __asm int 3 }
 

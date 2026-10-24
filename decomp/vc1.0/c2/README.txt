@@ -782,3 +782,12 @@ header RET0. Failure3.481s retained; corrected ordinary audit22.226s. Physical
 tail/call return frames are not input identity.343709/399693 extent bytes;
 app/support325409B/1174functions exclude5 historical CRT. Full object pending.
 Timings/limits: cases/omf-filename-checkpoint.json.
+
+Checkpoint1290 adds55-byte signed pending-fixup traversal with dynamic bound
+reload after each child. Actual count4/typed pool identity matched; entry fields
+not consumed/dumped/seeded.105 full controls/7 ABI rejects cover zero/negative
+reset,1..250 valid traversal, child count changes and stride24; memory hooks
+reject pool-field accesses. Original/W3/ordinary audits/fresh pair and15 native
+cases pass(14 complete), next named serializer6c680.343764/399693 extent bytes;
+app/support325464B/1175functions exclude5 historical CRT. Audit23.551s, focused
+controls separate; full object still pending. cases/omf-fixup-writer-checkpoint.json.

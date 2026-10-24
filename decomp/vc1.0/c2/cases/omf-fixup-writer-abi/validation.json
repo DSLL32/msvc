@@ -1,0 +1,23 @@
+{
+  "matched": true,
+  "function": "_omf_write_fixups",
+  "original_va": "0x6c400",
+  "formals": [],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "no_hidden_inputs_proof": "Original6c400..6c437 reads only signed count85094 and fixed pool79154; no ECX/EDX/stack/flags/x87/out pointer input, RET0. Each child receives next24-byte pool pointer; child-bound reload after each callback. Pool fields are not read by writer, so no entry bytes captured/seeded. Actual count/caller recorded separately",
+  "original": {
+    "count": 4,
+    "pool": 495956,
+    "return_address": 443371
+  },
+  "native": {
+    "count": 4,
+    "pool": 1449239932,
+    "caller": "omf_flush_record"
+  },
+  "original_execution_seconds": 1.670974680222571,
+  "native_debug_seconds": 0.14324156194925308,
+  "total_seconds": 2.0659113554283977,
+  "scope": "No-formal ABI, actual count and fixed pool identity only; no opaque entry dump or unsupported positive index. Full body/canonical/fresh matching pending."
+}

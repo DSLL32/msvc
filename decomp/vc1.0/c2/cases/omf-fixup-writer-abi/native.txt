@@ -1,0 +1,8 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x4003: file src/stubs.c, line 110.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, omf_write_fixups () at src/stubs.c:110
+110	void omf_write_fixups(void) { __asm int 3 }
+C2_WRITER {"count": 4, "pool": 1449239932, "caller": "omf_flush_record"}

@@ -295,6 +295,11 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
             read_word(process,image_base+0x6e8a4),read_word(process,image_base+0x6e8a8),flags,symbol_flags,call->return_address);log_line(line);
         /* All formals are unused by RET8; no pointee payload is read. */
     }
+    if(!strcmp(call->name,"_omf_write_fixups")) {
+        sprintf(line,"omf_fixup_writer count %ld pool %08lx return_address %08lx\n",
+            (long)read_word(process,image_base+0x75094),image_base+0x69154,call->return_address);log_line(line);
+        /* Writer consumes count and pool identity, not entry fields. */
+    }
     if(!strcmp(call->name,"_omf_allocate_fixup")) {
         sprintf(line,"omf_fixup_allocator count %ld return_address %08lx\n",
             (long)read_word(process,image_base+0x75094),call->return_address);log_line(line);

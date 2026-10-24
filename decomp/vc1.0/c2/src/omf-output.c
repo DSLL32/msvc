@@ -1170,3 +1170,17 @@ void __fastcall omf_output_debug_pair(char *filename)
 {
     omf_write_module_header(filename);
 }
+
+/* Original [0006c400,0006c437). Callback may change the pending count,
+   so reload the signed loop bound after each individually serialized entry. */
+void omf_write_fixups(void)
+{
+    int index;
+    OmfFixup *fixup;
+    if (omf_fixup_count) {
+        for (index = 0, fixup = omf_fixups; index < omf_fixup_count;
+             ++index, ++fixup)
+            omf_write_fixup(fixup);
+        omf_fixup_count = 0;
+    }
+}

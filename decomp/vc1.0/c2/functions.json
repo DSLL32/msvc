@@ -1293,7 +1293,8 @@
     "_omf_allocate_fixup",
     "@output_noop_function@16",
     "@omf_emit_local_external@4",
-    "@omf_output_debug_pair@4"
+    "@omf_output_debug_pair@4",
+    "_omf_write_fixups"
   ],
   "driver": [
     {
@@ -9051,8 +9052,15 @@
     {
       "name": "_omf_write_fixups",
       "start": 443392,
-      "end": 443393,
-      "provisional": true
+      "end": 443447,
+      "abi": {
+        "convention": "cdecl",
+        "parameters": [],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-fixup-writer-abi/validation.json",
+        "scope": "Whole6c400..6c437 no-formal RET0, only signed counter85094 and fixed250x24 pool79154. No incoming register/flags/x87/output pointer. Actual count4/pool identity and caller omf_flush_record/originalreturn6c3eb observed; fields are passed to child but not read by writer and not dumped. Signed bound reloaded after each child, all nonzero paths reset count0."
+      }
     },
     {
       "name": "@omf_write_comment@8",
@@ -9322,6 +9330,12 @@
         "entry_observation": "cases/omf-fixup-allocator-abi/validation.json",
         "scope": "Original6bd10..6bd46 overwrites ECX from global signed fixup_count before using it; no ECX/EDX/stack/formal/flags/x87/out pointer input, RET0. Actual count0 and caller omf_add_fixup/originalreturn6b99c observed. Returned pool entry is output, contents not read by allocator and never captured/seeded as input."
       }
+    },
+    {
+      "name": "@omf_write_fixup@4",
+      "start": 444032,
+      "end": 444033,
+      "provisional": true
     }
   ],
   "cases": {

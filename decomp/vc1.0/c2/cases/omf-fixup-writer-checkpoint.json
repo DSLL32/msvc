@@ -1,0 +1,175 @@
+{
+  "checkpoint": 1290,
+  "previous_checkpoint": 1289,
+  "new_application": [
+    {
+      "name": "_omf_write_fixups",
+      "start": 443392,
+      "end": 443447,
+      "abi": {
+        "convention": "cdecl",
+        "parameters": [],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-fixup-writer-abi/validation.json",
+        "scope": "Whole6c400..6c437 no-formal RET0, only signed counter85094 and fixed250x24 pool79154. No incoming register/flags/x87/output pointer. Actual count4/pool identity and caller omf_flush_record/originalreturn6c3eb observed; fields are passed to child but not read by writer and not dumped. Signed bound reloaded after each child, all nonzero paths reset count0."
+      }
+    }
+  ],
+  "new_extent_bytes": 55,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1290,
+    "accepted_code_bytes": 343764,
+    "original_code_bytes": 399693,
+    "percentage": 86.00701038046701,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 636
+  },
+  "application_graph_rows": 1180,
+  "reconstructed_application_support_functions": 1175,
+  "existing_handwritten_crt_bodies": 5,
+  "application_support_code_extent_bytes": 325464,
+  "code_denominator_bytes": 399693,
+  "next_frontier": "@omf_write_fixup@4",
+  "next_original_va": "0x6c680",
+  "case_results": {
+    "total": 15,
+    "complete": 14,
+    "omf_named_trap": "@omf_write_fixup@4"
+  },
+  "controls": [
+    "cases/omf-fixup-writer-validation.json"
+  ],
+  "timings": {
+    "omf1290-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 23.551092515699565,
+      "returncode": 0,
+      "log_sha256": "06f67b1a52904289fdc2d8021475a932be029b43963513a382031b96c705ed93"
+    },
+    "omf1290-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 11.822679284960032,
+      "returncode": 0,
+      "log_sha256": "5252eb8a3e1c114d4d7df58a9e71fc2426f9cb34db830995269eccf90e2e8a9a"
+    },
+    "omf1290-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1289.json",
+        "--extend-after",
+        "cases/omf-original-1290.json"
+      ],
+      "seconds": 0.32302316557615995,
+      "returncode": 0,
+      "log_sha256": "36cb1379d9dea49b8f95052ada2a03f0ada94c8f2e52956690d30b216e6df239"
+    },
+    "omf1290-controls-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-fixup-writer.py"
+      ],
+      "seconds": 2.8847219105809927,
+      "returncode": 0,
+      "log_sha256": "3a000c8815f6658954de35b72bc464b024c77adab9c071e8ca5f4f850871d89e"
+    },
+    "omf1290-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-fixup-writer-entry.py"
+      ],
+      "seconds": 2.141543592326343,
+      "returncode": 0,
+      "log_sha256": "5ad88877258c92e962e0cede5ed2a0fd8f63e362950158bbc76a05052e143452"
+    },
+    "omf1290-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 0.8288177400827408,
+      "returncode": 0,
+      "log_sha256": "afb01bf3b1012162601c85a84079801cf5d6cd66248434944a999e07ef21a05e"
+    },
+    "omf1290-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1290.json"
+      ],
+      "seconds": 0.2219804022461176,
+      "returncode": 0,
+      "log_sha256": "44cdc96141d1323bfa41edb82ef1ebf73c263a01b2c3f0d4290d2176ed00a0e7"
+    },
+    "omf1290-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 1.7923832815140486,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "omf1290-original-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1290.json"
+      ],
+      "seconds": 1.0764720104634762,
+      "returncode": 0,
+      "log_sha256": "4df5ab12de645b9afcd0688fe56a3c52dd5899b8d5af0554f33ea20422c60655"
+    },
+    "omf1290-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 1.1149861197918653,
+      "returncode": 0,
+      "log_sha256": "0257d3579843356d3a3a1f9cd9c04fd4b316888b10f3fbfaef47a62f96382442"
+    }
+  },
+  "audit_original_compile_commands": 0,
+  "limits": [
+    "Whole55-byte pending-fixup writer, no formal/hidden input; actual signed count4 and typed fixed pool identity matched at omf_flush_record/originalreturn6c3eb. Writer passes pointers but reads no entry fields, so no opaque pool dump or old-data seed. Child serializer remains explicitly named fastcall trap with sole pointer, not accepted.",
+    "105 original/canonical controls/7 actual ABI negatives cover signed count0/-1/INTMIN and1/4/249/250, dynamic first-child bound0/1/-1/extend<=250, incoming caller-register poisons, stride24, reset and exact RET0/saved-register/stack guards. Memory hooks reject any writer access to pool fields. Positive>250 remains outside known producer/array bounds, no invented branch. Child behavior mocked, no cold child output claim.",
+    "Canonical/W3, ordinary graph/extents/RET/ABI/storage, fresh masked-original/native serializer frontier and15 cached native cases pass(14 complete). New full grid runs separately, ordinary lightweight mode retains structural proof/negatives. Build11.823s,/W31.115s,audit23.551s,reference1.076s,native.222s,fixtures.829s wrappers; split phases retained, analysis/edit unmeasured. Full exact OMF object pending."
+  ]
+}
