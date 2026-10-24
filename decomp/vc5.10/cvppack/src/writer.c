@@ -9,6 +9,8 @@ unsigned output_capacity, output_used;
 unsigned char *output_buffer;
 int output_file;
 unsigned total_packed_source_bytes, packed_file_length;
+unsigned output_padding_size;
+unsigned char output_padding[4] = { 0 };
 
 /* Output-buffer setup [004100e0,00410135). */
 void begin_buffered_output(int file)
@@ -35,6 +37,26 @@ void begin_buffered_output(int file)
         (result_) = 1; \
     } else (result_) = buffered_write(input_, count_); \
 } while (0)
+
+/* Copy one packed subsection, then align it to a DWORD boundary.
+ * [004068a0,004069da), ordinary cdecl directory-index argument. */
+void write_subsection(unsigned index)
+{
+    unsigned char *source;
+    unsigned short written;
+    if (directory_entries[index].size) {
+        source = directory_entries[index].data;
+        if (!source) fatal_error(1001, NULL, NULL);
+        BUFFER_WRITE(source, directory_entries[index].size, written);
+        if (!written) fatal_error(1008, NULL, NULL);
+    }
+    directory_entries[index].offset = image_read_mode - codeview_file_offset;
+    output_padding_size = 4 - (directory_entries[index].size & 3);
+    if (output_padding_size != 4) {
+        BUFFER_WRITE(output_padding, output_padding_size, written);
+        if (!written) fatal_error(1008, NULL, NULL);
+    }
+}
 
 /* Sort module records first, then unsigned module/subsection order.
  * [004063f0,0040645b), ordinary cdecl comparator. */

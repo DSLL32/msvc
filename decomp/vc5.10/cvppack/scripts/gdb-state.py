@@ -28,6 +28,7 @@ source_index_allocations=[]
 source_family_allocations=[]
 source_family_frees=[]
 output_buffer_allocations=[]
+subsection_calls=[]
 output_directory_before={}
 output_directory_sort={}
 output_directory_complete={}
@@ -284,6 +285,30 @@ def install(configuration):
                     sort_environments['before']=sort_environment();DirectorySortReturned(gdb.newest_frame(),internal=True)
                 return False
         DirectorySort()
+
+    if config.get('observe_subsection_output'):
+        def preserved_registers():return [int(gdb.parse_and_eval('$'+name))&0xffffffff for name in ('ebx','esi','edi','ebp')]
+        class SubsectionReturned(gdb.FinishBreakpoint):
+            def __init__(self,record):
+                self.record=record;super().__init__(gdb.newest_frame(),internal=True)
+            def stop(self):
+                index=self.record['index'];root=int(gdb.parse_and_eval('directory_entries'))
+                self.record.update(exit_esp=int(gdb.parse_and_eval('$esp')),after_used=int(gdb.parse_and_eval('output_used')),padding=int(gdb.parse_and_eval('output_padding_size')),after_row=bytes(gdb.selected_inferior().read_memory(root+12*index,12)).hex(),after_nonvolatile=preserved_registers())
+                return False
+        class SubsectionEntered(gdb.Breakpoint):
+            def __init__(self):super().__init__('*write_subsection',internal=True)
+            def stop(self):
+                frame=gdb.newest_frame();parent=frame.older();assert parent is not None and parent.name()=='flush_packed_file' and len(subsection_calls)<58,'subsection actual caller/inventory differs'
+                block=frame.block()
+                while block is not None and block.function is None:block=block.superblock
+                formals={symbol.name:symbol.type.strip_typedefs() for symbol in block if symbol.is_argument}
+                assert set(formals)=={'index'} and formals['index'].code==gdb.TYPE_CODE_INT and formals['index'].sizeof==4,'subsection actual DWARF ABI differs'
+                stack=int(gdb.parse_and_eval('$esp'));words=struct.unpack('<2I',bytes(gdb.selected_inferior().read_memory(stack,8)));index=words[1];assert index==len(subsection_calls),'subsection actual index sequence differs'
+                root=int(gdb.parse_and_eval('directory_entries'));row=bytes(gdb.selected_inferior().read_memory(root+12*index,12));kind,module,pointer,size=struct.unpack('<HHII',row)
+                assert 0<=size<=65512 and not any(item['address'] and size and max(pointer,item['address'])<min(pointer+size,item['address']+item['size']) for item in main_free_calls+source_family_frees),'subsection source overlaps a retired generation'
+                record=dict(sequence=len(subsection_calls),index=index,entry_esp=stack,return_pc=words[0],before_used=int(gdb.parse_and_eval('output_used')),before_row=row.hex(),input_address=pointer,input=bytes(gdb.selected_inferior().read_memory(pointer,size)).hex(),before_nonvolatile=preserved_registers(),formal_inventory={'index':str(formals['index'])})
+                subsection_calls.append(record);SubsectionReturned(record);return False
+        SubsectionEntered()
 
     if config.get('observe_source_index_complete'):
         class SourceFreeReturned(gdb.FinishBreakpoint):
@@ -596,6 +621,10 @@ def capture(configuration,data_file,output):
             assert 0<=size<=65536
             parameters[item['name']]=dict(global_name=names[0],size=size,bytes=bytes(inferior.read_memory(int(value),size)).hex())
             if item.get('offset'):parameters[item['name']]['offset']=item['offset']
+        elif item['kind']=='directory-output-pointer':
+            root=int(gdb.parse_and_eval(item['root']));count=int(gdb.parse_and_eval(item['count']));address=int(value);width=item['element_size']
+            assert address==root+count*width and 0<=count and (count+1)*width<=directory_allocation['size'],'output directory argument lacks actual spare owner/extent'
+            parameters[item['name']]=dict(root=item['root'],index=count,extent=width)
         elif item['kind']=='blob-element-pointer':
             root=int(gdb.parse_and_eval(item['root']));count=int(gdb.parse_and_eval(item['count']));address=int(value)
             assert root<=address<root+count*item['element_size'] and (address-root)%item['element_size']==0,'argument is not a directory element'
@@ -792,6 +821,7 @@ def capture(configuration,data_file,output):
     state['source_family_allocations']=source_family_allocations
     state['source_family_frees']=source_family_frees
     state['output_buffer_allocations']=output_buffer_allocations
+    state['subsection_calls']=subsection_calls
     state['directory_before_writer']=output_directory_before
     state['directory_sort_input']=output_directory_sort
     state['directory_sort_complete']=output_directory_complete
@@ -807,7 +837,7 @@ def capture(configuration,data_file,output):
     state['widen_emit_calls']=widen_emit_calls
     if config.get('observe_output_buffer_init'):
         address=int(gdb.parse_and_eval('output_buffer'));capacity=int(gdb.parse_and_eval('output_capacity'));used=int(gdb.parse_and_eval('output_used'));file=int(gdb.parse_and_eval('output_file'))
-        assert address and used==8 and used<=capacity and output_buffer_allocations and output_buffer_allocations[-1]['address']==address and output_buffer_allocations[-1]['size']==capacity,'output buffer initialized-prefix observation differs'
+        assert address and used==(5056 if config.get('observe_subsection_output') else 8) and used<=capacity and output_buffer_allocations and output_buffer_allocations[-1]['address']==address and output_buffer_allocations[-1]['size']==capacity,'output buffer initialized-prefix observation differs'
         state['output_buffer_state']=dict(address=address,capacity=capacity,used=used,file=file,bytes=bytes(actual_inferior.read_memory(address,used)).hex(),environment=sort_environment())
     state['widen_query_calls']=widen_query_calls
     state['widen_factory_calls']=widen_factory_calls

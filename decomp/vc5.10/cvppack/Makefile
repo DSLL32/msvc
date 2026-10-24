@@ -56,7 +56,7 @@ build/native/driver.o: scripts/native-driver.c $(NATIVE_HEADERS) Makefile | buil
 build/native/CVPACK: $(NATIVE_OBJECTS) build/native/driver.o build/native/widen-factory-host.o $(NATIVE_SHIMS) $(NATIVE_HEADERS) $(NATIVE_HOST) $(NATIVE_HOST_HEADERS)
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) build/native/driver.o build/native/widen-factory-host.o $(NATIVE_HOST) $(NATIVE_SHIMS) -o $@
 
-build/debug-run.obj: scripts/debug-run.c scripts/sort-observer.inc scripts/output-buffer-observer.inc | build
+build/debug-run.obj: scripts/debug-run.c scripts/sort-observer.inc scripts/output-buffer-observer.inc scripts/subsection-observer.inc | build
 	$(TOOL) CL.EXE /nologo /c /MD /Od /W3 /Fo$@ $<
 
 build/debug-run.exe: build/debug-run.obj

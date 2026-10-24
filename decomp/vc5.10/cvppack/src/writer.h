@@ -12,6 +12,8 @@ extern unsigned output_capacity, output_used;
 extern unsigned char *output_buffer;
 extern int output_file;
 extern unsigned total_packed_source_bytes, packed_file_length;
+extern unsigned output_padding_size;
+extern unsigned char output_padding[4];
 void begin_buffered_output(int file);
 unsigned short buffered_write(const void *data, unsigned size);
 unsigned short end_buffered_output(void);

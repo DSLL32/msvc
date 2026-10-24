@@ -79,7 +79,7 @@ def decode(events):
             all_strings[int(location,16)]=raw
     for call in file_calls:call['pathname']=all_strings[call.pop('pointer')]
 
-    widen_factory_calls=[];widen_query_calls=[];widen_emit_calls=[];widen_release_calls=[];widen_sequence=[];main_free_calls=[];source_index_allocations=[];source_index_module=None;source_family_allocations=[];source_family_frees=[];source_family_output=None;directory_before_writer={};directory_sort_input={};directory_sort_complete={};sort_calls=[];sort_environments={};sort_crt_abi=None;sort_wrapper={};output_buffer_allocations=[];output_buffer_state={};probe_observed={};widen_read_count=0;module_bases={};error=None;probe_regs=None;probe_stack=None
+    widen_factory_calls=[];widen_query_calls=[];widen_emit_calls=[];widen_release_calls=[];widen_sequence=[];main_free_calls=[];source_index_allocations=[];source_index_module=None;source_family_allocations=[];source_family_frees=[];source_family_output=None;directory_before_writer={};directory_sort_input={};directory_sort_complete={};sort_calls=[];sort_environments={};sort_crt_abi=None;sort_wrapper={};output_buffer_allocations=[];output_buffer_state={};subsection_calls=[];probe_observed={};widen_read_count=0;module_bases={};error=None;probe_regs=None;probe_stack=None
     for ordinal,line in enumerate(lines):
         if line.startswith('file-read-call '):widen_read_count+=1
         if line.startswith('module '):
@@ -91,6 +91,20 @@ def decode(events):
             _,probe_address,contents=line.split()
             probe_observed[int(probe_address,16)]=bytes.fromhex(contents)
             if int(probe_address,16)==probe_regs[-1]:probe_stack=bytes.fromhex(contents)
+        elif line.startswith('subsection-call ') and ' eax ' not in line:
+            _,sequence,esp,pc,index,used,payload=line.split();assert int(sequence)==len(subsection_calls) and (not subsection_calls or 'after_row' in subsection_calls[-1]),'subsection call sequence differs'
+            subsection_calls.append(dict(sequence=int(sequence),entry_esp=int(esp,16),return_pc=int(pc,16),index=int(index),before_used=int(used),before_row=bytes.fromhex(payload)))
+        elif line.startswith('subsection-input '):
+            _,sequence,location,payload=line.split();assert subsection_calls and int(sequence)==subsection_calls[-1]['sequence'] and 'input' not in subsection_calls[-1],'subsection source inventory differs'
+            subsection_calls[-1].update(input_address=int(location,16),input=bytes.fromhex(payload))
+        elif line.startswith('subsection-return ') and ' eax ' not in line:
+            _,sequence,esp,pc,used,padding,payload=line.split();assert subsection_calls and int(sequence)==subsection_calls[-1]['sequence'] and 'after_row' not in subsection_calls[-1],'subsection return sequence differs'
+            subsection_calls[-1].update(exit_esp=int(esp,16),return_pc_after=int(pc,16),after_used=int(used),padding=int(padding),after_row=bytes.fromhex(payload))
+        elif line.startswith(('subsection-registers-before ','subsection-registers-after ')):
+            fields=line.split();assert subsection_calls and int(fields[1])==subsection_calls[-1]['sequence'],'subsection register sequence differs'
+            key='before_nonvolatile' if fields[0].endswith('before') else 'after_nonvolatile';assert key not in subsection_calls[-1],'duplicate subsection registers'
+            subsection_calls[-1][key]=[int(value,16) for value in fields[2:]]
+        elif line=='subsection-observation-failed':raise AssertionError('incomplete subsection call/source/return observation')
         elif line.startswith('output-buffer-allocation-call '):
             _,sequence,esp,size,provider,file,parent=line.split();assert int(sequence)==len(output_buffer_allocations) and (not output_buffer_allocations or 'address' in output_buffer_allocations[-1]),'buffer allocation sequence differs'
             output_buffer_allocations.append(dict(sequence=int(sequence),entry_esp=int(esp,16),size=int(size),provider=int(provider,16),file=int(file),parent_return=int(parent,16)))
@@ -301,7 +315,7 @@ def decode(events):
     assert registers and len(registers) == 8
     stack = memory[registers[-1]]
     assert len(stack) == 128
-    return dict(address=address,memory=memory,strings=strings,output_buffer_allocations=output_buffer_allocations,output_buffer_state=output_buffer_state,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,widen_release_calls=widen_release_calls,widen_sequence=widen_sequence,main_free_calls=main_free_calls,source_index_allocations=source_index_allocations,source_index_module=source_index_module,source_family_allocations=source_family_allocations,source_family_frees=source_family_frees,source_family_output=source_family_output,directory_before_writer=directory_before_writer,directory_sort_input=directory_sort_input,directory_sort_complete=directory_sort_complete,sort_calls=sort_calls,sort_environments=sort_environments,sort_crt_abi=sort_crt_abi,sort_wrapper=sort_wrapper,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
+    return dict(address=address,memory=memory,strings=strings,output_buffer_allocations=output_buffer_allocations,output_buffer_state=output_buffer_state,subsection_calls=subsection_calls,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,widen_release_calls=widen_release_calls,widen_sequence=widen_sequence,main_free_calls=main_free_calls,source_index_allocations=source_index_allocations,source_index_module=source_index_module,source_family_allocations=source_family_allocations,source_family_frees=source_family_frees,source_family_output=source_family_output,directory_before_writer=directory_before_writer,directory_sort_input=directory_sort_input,directory_sort_complete=directory_sort_complete,sort_calls=sort_calls,sort_environments=sort_environments,sort_crt_abi=sort_crt_abi,sort_wrapper=sort_wrapper,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
                 registers=dict(zip(('eax','ebx','ecx','edx','esi','edi','ebp','esp'),registers)),esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations,cleared_allocations=cleared_allocations)
 
 
@@ -493,6 +507,10 @@ def compare(config,data,events,native,artifacts=None,views=None):
             assert len(original['memory'][value])==size
             parameters[item['name']]=dict(global_name=names[0],size=size,bytes=original['memory'][value].hex())
             if item.get('offset'):parameters[item['name']]['offset']=item['offset']
+        elif item['kind']=='directory-output-pointer':
+            row=next(row for row in data if row['name']==item['root']);root=int.from_bytes(original['memory'][row['original']],'little');row=next(row for row in data if row['name']==item['count']);count=int.from_bytes(original['memory'][row['original']],'little');width=item['element_size']
+            assert value==root+count*width and 0<=count and (count+1)*width<=original['directory_allocation']['size'],'output directory argument lacks actual spare owner/extent'
+            parameters[item['name']]=dict(root=item['root'],index=count,extent=width)
         elif item['kind']=='blob-element-pointer':
             row=next(row for row in data if row['name']==item['root']);root=int.from_bytes(original['memory'][row['original']],'little')
             row=next(row for row in data if row['name']==item['count']);count=int.from_bytes(original['memory'][row['original']],'little')
@@ -1408,6 +1426,11 @@ def compare(config,data,events,native,artifacts=None,views=None):
         spec=importlib.util.spec_from_file_location('output_buffer_state',Path(__file__).with_name('output-buffer-state.py'))
         output_buffer=importlib.util.module_from_spec(spec);spec.loader.exec_module(output_buffer)
         output_buffer_proof=output_buffer.validate(config,data,original,native)
+    subsection_proof=None
+    if config.get('observe_subsection_output'):
+        spec=importlib.util.spec_from_file_location('subsection_output',Path(__file__).with_name('subsection-output-state.py'))
+        subsection=importlib.util.module_from_spec(spec);spec.loader.exec_module(subsection)
+        subsection_proof=subsection.validate(config,data,original,native)
     native_parameters=dict(native['parameters'])
     for item,value in object_parameters:
         actual=native_parameters[item['name']]
@@ -1457,4 +1480,4 @@ def compare(config,data,events,native,artifacts=None,views=None):
         assert typed_records_checked==global_integer('type_record_count') and recursive_type_nodes_checked and interned_type_nodes_checked,'historical typed table validation incomplete'
         free_lifetimes['historical_typed_table_bytes_checked']=free_lifetimes.pop('historical_typed_table_bytes_pending')
         free_lifetimes['historical_table_proof_roles']=sorted(historical_tables_used)
-    return dict(parameters=parameters,caller_state=caller_state,output_buffer=output_buffer_proof,output_directory=output_directory_proof,source_index_context=source_index_proof,main_free_lifetimes=free_lifetimes,globals=globals_checked,lookup_type_calls_checked=lookup_calls_checked,type_compare_calls_checked=type_compare_calls_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,reference_symbol_nodes_checked=reference_symbol_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)
+    return dict(parameters=parameters,caller_state=caller_state,output_buffer=output_buffer_proof,subsection_output=subsection_proof,output_directory=output_directory_proof,source_index_context=source_index_proof,main_free_lifetimes=free_lifetimes,globals=globals_checked,lookup_type_calls_checked=lookup_calls_checked,type_compare_calls_checked=type_compare_calls_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,reference_symbol_nodes_checked=reference_symbol_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)

@@ -20,7 +20,7 @@ def validate(config,data,original,native,objects):
     assert left['callback']==0x4063f0 and right['callback']==native['function_addresses']['compare_packed_directory_entries'],'output directory actual typed comparator identity differs'
     complete_sort=bool(config.get('observe_complete_directory_sort'))
     if complete_sort:
-        expected=(0x4068a0,0x406c17) if config.get('observe_output_buffer_init') else (0x4100e0,0x406b84)
+        expected=(0x40d600,0x406c5a) if config.get('observe_subsection_output') else (0x4068a0,0x406c17) if config.get('observe_output_buffer_init') else (0x4100e0,0x406b84)
         assert (original['address'],original['stack'][0])==expected and native['frontier_caller']=='flush_packed_file','complete sort unknown next consumer'
     else:assert original['stack'][0]==original['module_bases']['msvcrt.dll']+0x2551e and native['frontier_caller']=='recon_qsort','output directory actual canonical qsort callback site differs'
     expected=[];actual=[];roles=[];seen=set();info=integer('module_list')
@@ -41,7 +41,8 @@ def validate(config,data,original,native,objects):
     assert len(before_sort)==len(after_sort)==840,'output directory complete initialized sort input missing'
     assert before_sort[:696]==b''.join(expected) and after_sort[:696]==b''.join(actual),'output directory rebuilt rows differ from actual live module inputs'
     assert before_sort[696:]==old['bytes'][696:] and after_sort[696:]==bytes.fromhex(new['bytes'])[696:],'output directory writer changed retained initialized tail'
-    current=original['memory'][root];current_native=bytes.fromhex(native['memory'][str(other)])
+    current=original['directory_sort_complete']['bytes'] if config.get('observe_subsection_output') else original['memory'][root]
+    current_native=bytes.fromhex(native['directory_sort_complete']['bytes'] if config.get('observe_subsection_output') else native['memory'][str(other)])
     assert len(current)==len(current_native)==840,'output directory current initialized capacity incomplete'
     def permutation(payload,expected):
         assert len(payload)==696

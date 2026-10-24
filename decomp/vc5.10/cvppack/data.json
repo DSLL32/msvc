@@ -1279,5 +1279,17 @@
     "original": 4271420,
     "size": 4,
     "kind": "integer"
+  },
+  {
+    "name": "output_padding_size",
+    "original": 4281160,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "output_padding",
+    "original": 4269440,
+    "size": 4,
+    "kind": "bytes"
   }
 ]

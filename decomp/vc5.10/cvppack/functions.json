@@ -110,7 +110,8 @@
     "append_source_name",
     "flush_packed_file",
     "compare_packed_directory_entries",
-    "begin_buffered_output"
+    "begin_buffered_output",
+    "write_subsection"
   ],
   "functions": [
     {
@@ -3646,8 +3647,11 @@
       "symbol": "_write_subsection",
       "native_symbol": "write_subsection",
       "original": 4221088,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4221088,
+        4221402
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -3655,7 +3659,8 @@
           "slot": 1,
           "kind": "integer"
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0105-write-subsections/promotion.json"
     },
     {
       "name": "write_publics",
@@ -3664,7 +3669,23 @@
       "original": 4249088,
       "status": "stub",
       "extent": null,
-      "ret": 0
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "entry",
+          "slot": 1,
+          "kind": "directory-output-pointer",
+          "root": "directory_entries",
+          "count": "directory_count",
+          "element_size": 12,
+          "native_pointee_width": 12
+        },
+        {
+          "name": "offset",
+          "slot": 2,
+          "kind": "integer"
+        }
+      ]
     },
     {
       "name": "write_globals",
@@ -3961,8 +3982,8 @@
   "observe_widen_release": true,
   "observe_main_frees": true,
   "main_free_policy": {
-    "path": "cases/hello-debug-dll/buffer-init-lifetimes.json",
-    "sha256": "9f2aac85526691b0638f65cc36506306f56a58bf370ac185b514c36cb3e79814"
+    "path": "cases/hello-debug-dll/subsection-output-lifetimes.json",
+    "sha256": "79ebb01691ae7070f2255e3d0b94a207020304539ecb996690e1fc9feec74825"
   },
   "observe_widen_frees": true,
   "observe_derived_finalize_entry": false,
@@ -3971,5 +3992,6 @@
   "observe_source_index_complete": true,
   "observe_output_directory": true,
   "observe_complete_directory_sort": true,
-  "observe_output_buffer_init": true
+  "observe_output_buffer_init": true,
+  "observe_subsection_output": true
 }

@@ -27,14 +27,19 @@ failed:
 static void output_buffer_state(FILE *log, HANDLE process, CONTEXT *context)
 {
     DWORD fields[4], i;
-    unsigned char bytes[8];
+    unsigned char *bytes;
+    DWORD expected = subsection_mode ? 5056 : 8;
     if (buffer_pending || !buffer_attempts || !read_bytes(process, 0x412d34, fields, sizeof(fields)) ||
-        fields[3] != 8 || !fields[1] || fields[0] < fields[3] ||
-        !read_bytes(process, fields[1], bytes, sizeof(bytes))) {
+        fields[3] != expected || !fields[1] || fields[0] < fields[3] ||
+        fields[3] > 65512) {
         fprintf(log, "output-buffer-observation-failed\n"); return;
     }
+    bytes = malloc(fields[3]);
+    if (!bytes || !read_bytes(process, fields[1], bytes, fields[3])) {
+        free(bytes); fprintf(log, "output-buffer-observation-failed\n"); return;
+    }
     fprintf(log, "output-buffer-state %08lx %lu %lu %lu ", fields[1], fields[0], fields[3], fields[2]);
-    for (i = 0; i < sizeof(bytes); ++i) fprintf(log, "%02x", bytes[i]);
-    fputc('\n', log);
+    for (i = 0; i < fields[3]; ++i) fprintf(log, "%02x", bytes[i]);
+    fputc('\n', log); free(bytes);
     sort_environment(log, process, context, "buffer-frontier");
 }

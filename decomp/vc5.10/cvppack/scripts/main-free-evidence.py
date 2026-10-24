@@ -97,15 +97,21 @@ def prove(config):
         assert policy.get('output_directory') is True
         prefix=policy['writer_prefix'];complete_sort=bool(config.get('observe_complete_directory_sort'));assert bool(policy.get('complete_directory_sort'))==complete_sort
         buffer_init=bool(config.get('observe_output_buffer_init'));assert bool(policy.get('output_buffer_init'))==buffer_init
-        assert (prefix['start'],prefix['end'])==(0x4069e0,0x406c17 if buffer_init else 0x406b84 if complete_sort else 0x406b3a)
+        subsections=bool(config.get('observe_subsection_output'));assert bool(policy.get('subsection_output'))==subsections
+        assert (prefix['start'],prefix['end'])==(0x4069e0,0x406c5a if subsections else 0x406c17 if buffer_init else 0x406b84 if complete_sort else 0x406b3a)
         body=pe.read(prefix['start'],prefix['end']-prefix['start']);assert hashlib.sha256(body).hexdigest()==prefix['sha256']
         decoded=list(decoder.disasm(body,prefix['start']));assert sum(i.size for i in decoded)==len(body)
-        assert [i.address for i in decoded if i.mnemonic=='call']==[0x406b11,0x406b1a,0x406b34]+([0x406b5a,0x406b70,0x406b7f] if complete_sort else [])+([0x406bcc,0x406be2,0x406bf0,0x406c12] if buffer_init else [])
+        assert [i.address for i in decoded if i.mnemonic=='call']==[0x406b11,0x406b1a,0x406b34]+([0x406b5a,0x406b70,0x406b7f] if complete_sort else [])+([0x406bcc,0x406be2,0x406bf0,0x406c12] if buffer_init else [])+([0x406c20,0x406c55] if subsections else [])
         for instruction in decoded:
             for operand in instruction.operands:
                 if operand.type==X86_OP_MEM and not operand.mem.base and not operand.mem.index:
                     assert operand.mem.disp in ({0x415368,0x415640,0x4153b8,0x415388,0x415628,0x4161e0,0x4161f4,0x415654,0x412124}|({0x412d34,0x412d38,0x412d40,0x412138,0x41213c,0x415660} if buffer_init else set())),'writer prefix consumes retired root'
         source_prefix['writer_prefix']=prefix
+        if subsections:
+            row=policy['subsection_writer'];assert (row['start'],row['end'])==(0x4068a0,0x4069da)
+            assert hashlib.sha256(pe.read(row['start'],314)).hexdigest()==row['sha256']
+            source_prefix['subsection_writer']=row
+            source_prefix['subsection_validator_sha256']=sha(BINARY/'scripts/subsection-output-state.py')
         if buffer_init:
             row=policy['buffer_initializer'];assert (row['start'],row['end'])==(0x4100e0,0x410135)
             assert hashlib.sha256(pe.read(row['start'],85)).hexdigest()==row['sha256']
