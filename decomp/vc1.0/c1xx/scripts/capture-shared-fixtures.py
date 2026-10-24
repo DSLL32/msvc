@@ -25,11 +25,13 @@ SPECS = {
     'stack-lifetime': ('c1xx-stack-lifetime', 'lifetime.cpp'),
     'new-delete': ('c1xx-new-delete', 'allocation.cpp'),
     'state-machine-debug': ('c1xx-state-machine-debug', 'state-machine.cpp'),
+    'state-machine-defined-debug': ('c1xx-state-machine-defined-debug', 'state-machine.cpp'),
 }
 
 
 CASE_FLAGS = {
     'state-machine-debug': '/Od /G5 /Z7',
+    'state-machine-defined-debug': '/Od /G5 /Z7',
 }
 
 def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -113,10 +115,14 @@ def main():
     for slug in args.case or SPECS:
         folder, filename = SPECS[slug]
         driver_flags = '/nologo ' + CASE_FLAGS.get(slug, '/Od') + ' '
-        ir_extensions = ('ex','sy','in','gl') + (('db',) if slug == 'state-machine-debug' else ())
+        ir_extensions = ('ex','sy','in','gl') + (('db',) if '/Z7' in driver_flags else ())
         source_fixture = BINARY.parent/'fixtures'/folder
         source = source_fixture/'c1'/filename
-        original_manifest = json.loads((source_fixture/'manifest.json').read_text())
+        template = source_fixture/'manifest.json'
+        if slug == 'state-machine-defined-debug':
+            source = BINARY/'cases/proposals/state-machine-defined-debug/state-machine.cpp'
+            template = BINARY.parent/'fixtures/c1xx-state-machine-debug/manifest.json'
+        original_manifest = json.loads(template.read_text())
         stage = stages/('c1xx-'+slug); stage.mkdir(exist_ok=False)
         for name in ('c1','c2','link','expected','dependencies','capture','validation'): (stage/name).mkdir()
         shutil.copyfile(source, stage/'c1'/filename)

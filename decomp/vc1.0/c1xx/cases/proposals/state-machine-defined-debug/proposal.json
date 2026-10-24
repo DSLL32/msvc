@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "Concrete5318B successor source reviewed and approved by root; original baseline pending",
+  "status": "Original full pipeline/runtime passed and matching five-buffer/fourteen-state native seed frozen",
   "case": "state_machine_defined_debug",
   "source": "cases/proposals/state-machine-defined-debug/state-machine.cpp",
   "source_sha256": "706784046de178ea63d8db17e4fd9aa20277d7ac7702253700d66dc9408536d6",
@@ -67,5 +67,17 @@
       "reach": "Candidate from actual remaining member-pointer/case-finalization paths; no promised reach or count before original validation."
     }
   ],
-  "validation": "Untouched original full CL/frontend/C2/LINK/runtime first; retain failed syntax drafts if necessary, freeze complete streams/dependencies before native seeding/reconstruction."
+  "validation": "Untouched original full CL/frontend/C2/LINK/runtime first; retain failed syntax drafts if necessary, freeze complete streams/dependencies before native seeding/reconstruction.",
+  "original_validation": "../fixtures/c1xx-state-machine-defined-debug/validation.json",
+  "original_baseline_inventory": "../fixtures/c1xx-state-machine-defined-debug/original-baseline-inventory.json",
+  "actual_intermediates": [
+    "irex",
+    "irsy",
+    "irin",
+    "irgl",
+    "irdb"
+  ],
+  "validated_source_unchanged": true,
+  "seed": "cases/state_machine_defined_debug-seed/validation.json",
+  "actual_first_frontier": "_equal_tail_word_pairs"
 }

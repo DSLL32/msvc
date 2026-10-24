@@ -7,6 +7,8 @@ Complete cases: cpp_basic, virtual_diamond, copy_assignment, stack_lifetime, new
 Frozen state_machine_debug retains its last verified boundary at
 _flush_current_function@4 (original VA0x48560); its full closing path is
 unsupported natively, as documented below. The flush body is unaccepted.
+Active state_machine_defined_debug starts at _equal_tail_word_pairs, with
+original/native seed equality across five buffers and fourteen state words.
 All unimplemented callees remain meaningful named INT3 stubs.
 The user selected preservation of scope entry's original Win32 uninitialized
 token bug, with an explicit native-only INT3 when cached parser lookahead would
@@ -72,6 +74,8 @@ unaccepted flush candidate are retained under evidence/empty-output-scope. This 
 an additional native limitation, not malformed-only input or a completed case.
 No source initialization, output normalization or new function credit is claimed.
 All five selected C++ cases are complete, including new/delete/operators.
+The distinct defined-debug successor keeps the scalar cache and adds substantial
+multiple-base member-pointer conversions, round trips and virtual calls.
 cases/reconstruction-queue.json records completion and subsequent case review.
 
 Accepted original extents cover 305503 / 476418 code-section bytes (64.124991%).

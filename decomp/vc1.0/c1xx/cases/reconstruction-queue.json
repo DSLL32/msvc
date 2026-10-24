@@ -29,6 +29,15 @@
       "proposal": "cases/proposals/state-machine-debug/proposal.json",
       "last_verified_boundary": "_flush_current_function@4",
       "limitation": "evidence/empty-output-scope/receipt.json"
+    },
+    {
+      "case": "state_machine_defined_debug",
+      "family": "Defined state machine plus multiple-base member pointers and embedded debug",
+      "intent": "Distinct approved successor; scalar cache avoids unsupported synthetic local-static cleanup, real method/data pointer adjustments, round trips, null/unequal/virtual checks",
+      "fixture": "../fixtures/c1xx-state-machine-defined-debug",
+      "status": "original full pipeline validated, matching native seed, active reconstruction",
+      "proposal": "cases/proposals/state-machine-defined-debug/proposal.json",
+      "seed": "cases/state_machine_defined_debug-seed/validation.json"
     }
   ],
   "requirements": [
@@ -38,8 +47,8 @@
     "Do not assume newer C++ language features",
     "At each substantial case boundary, review newer verified committed lib/recon fixes with its maintainer and deliberately refresh the shared-build pin where applicable"
   ],
-  "completion": "Five selected cases complete; frozen state_machine_debug has a proven valid-input unsupported native closing path, last accepted boundary retained",
-  "next_case": "state_machine_debug",
+  "completion": "Five selected cases complete; frozen state_machine_debug explicitly unsupported beyond retained boundary; distinct approved state_machine_defined_debug active",
+  "next_case": "state_machine_defined_debug",
   "completed": [
     {
       "case": "cpp_basic",

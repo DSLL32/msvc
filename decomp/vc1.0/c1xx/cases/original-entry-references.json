@@ -46,5 +46,13 @@
     "events_sha256": "a7247c160287c63539d241bef68d979d6d6a4b4649e77c3b542cb394ffce4b8e",
     "plan": "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-entries.plan",
     "plan_sha256": "95e3224e0362e24a6ef5b495984403fa23be74272e90e204349cda7924f7f5d6"
+  },
+  "state_machine_defined_debug": {
+    "receipt": "cases/state_machine_defined_debug-seed/entry-reference/original-receipt.json",
+    "receipt_sha256": "e1d24354f2748dcbe67f3a08b92744314162b66487f9a729a1300d5e6c314a05",
+    "events": "cases/state_machine_defined_debug-seed/entry-reference/original-events.txt",
+    "events_sha256": "9b82060bcaf3722620b91046528f43ad9ae195bab11723664ef74700e94c1f5a",
+    "plan": "cases/state_machine_defined_debug-seed/entry-reference/original-entries.plan",
+    "plan_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   }
 }

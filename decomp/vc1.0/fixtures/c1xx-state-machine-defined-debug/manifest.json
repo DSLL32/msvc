@@ -1,0 +1,90 @@
+{
+  "toolchain": "1.0-nt",
+  "phases": {
+    "c1": {
+      "target": "toolchains/1.0-nt/bin/C1XX3232.EXE",
+      "sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+      "arguments": [],
+      "working_directory": "c1",
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775",
+          "bytes": 57919
+        }
+      ],
+      "captured_application": "R:\\toolchains\\1.0-nt\\bin\\c1xx3232.exe",
+      "captured_command_line": "R:\\toolchains\\1.0-nt\\bin\\c1xx3232.exe",
+      "captured_MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il S:\\vc1.0\\c1xx\\state-machine-defined-debug-driver\\002008 -f state-machine.cpp -W 1 -Ze -Zp8 -Gs -Fostate-machine.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Ob0 -Ot -D_M_IX86=500 -G4 -Z7 -I R:\\toolchains\\1.0-nt\\include ",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f state-machine.cpp -W 1 -Ze -Zp8 -Gs -Fostate-machine.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Ob0 -Ot -D_M_IX86=500 -G4 -Z7 -I {include} "
+      },
+      "command_line_template": "{bin}\\c1xx3232.exe",
+      "canonical_working_directory": "S:\\vc1.0\\c1xx\\state-machine-defined-debug",
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "inputs": [
+        {
+          "path": "c1/state-machine.cpp",
+          "bytes": 5318,
+          "sha256": "706784046de178ea63d8db17e4fd9aa20277d7ac7702253700d66dc9408536d6"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "c2/irex",
+          "bytes": 7410,
+          "sha256": "92f86b27b5ade86c31315a2cec6f9d25061de389b4c1c471a19acd23e15e4b45",
+          "output_name": "irex"
+        },
+        {
+          "path": "c2/irsy",
+          "bytes": 2496,
+          "sha256": "2968c5afac69714f0149183b221f31004d623d319933117a0b822c6299bacb7c",
+          "output_name": "irsy"
+        },
+        {
+          "path": "c2/irin",
+          "bytes": 212,
+          "sha256": "f9fc4d621242821a6cf7db3ddcb974737e8ed1970443ffe228eef1f5d5e10ba1",
+          "output_name": "irin"
+        },
+        {
+          "path": "c2/irgl",
+          "bytes": 2090,
+          "sha256": "8f8568e8061ac771c1e485ed1134d161d713b90c21dbeba832b4deab78977216",
+          "output_name": "irgl"
+        },
+        {
+          "path": "c2/irdb",
+          "bytes": 2301,
+          "sha256": "fa0d6c1e3e346d9f2413dbb834c8b313f49427056304ced3db74f491637a47f1",
+          "output_name": "irdb"
+        }
+      ]
+    }
+  },
+  "case": "CL.EXE /nologo /Od /G5 /Z7 state-machine.cpp",
+  "capture": {
+    "method": "Fresh original CL CreateProcessA breakpoint; shared fixed R:/S: prefix",
+    "CL_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+    "arguments": "/nologo /Od /G5 /Z7 state-machine.cpp",
+    "downstream_capture_arguments": "/nologo /Od /G5 /Z7 state-machine.cpp",
+    "source_sha256": "706784046de178ea63d8db17e4fd9aa20277d7ac7702253700d66dc9408536d6",
+    "inherited_working_directory": "S:\\vc1.0\\c1xx\\state-machine-defined-debug-driver",
+    "child_current_directory_parameter": null,
+    "raw_boundary_files": "/root/.ai-tmp/msvc2/vc1.0/c1xx/fixture-stage-sbgisvlc/c1xx-state-machine-defined-debug/capture/driver",
+    "stdin": "closed",
+    "compiler_environment_keys": [
+      "MSC_CMD_FLAGS"
+    ],
+    "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+    "fixed_drives": {
+      "R:": "/root/msvc2",
+      "S:": "/root/.ai-tmp/msvc2"
+    },
+    "timing_receipt": "original-driver-receipt.json"
+  },
+  "cache_scope": "Frontend cached inputs/outputs only; full original baseline manifest and scratch path/hash inventory retained separately."
+}

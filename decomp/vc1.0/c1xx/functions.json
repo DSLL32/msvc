@@ -9211,6 +9211,37 @@
         "cases/frontiers/state_machine_debug/1230-emit_pending_function_cleanup/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/frontier-extension.json"
       ]
+    },
+    "state_machine_defined_debug": {
+      "fixture": "../fixtures/c1xx-state-machine-defined-debug",
+      "native_reference": "cases/native-state-machine-defined-debug",
+      "frontiers": "cases/frontiers/state_machine_defined_debug",
+      "accepted_from": 1232,
+      "buffered_streams": [
+        {
+          "name": "_expression_file",
+          "original": 577508
+        },
+        {
+          "name": "_symbol_file",
+          "original": 577512
+        },
+        {
+          "name": "_line_file",
+          "original": 577516
+        },
+        {
+          "name": "_global_file",
+          "original": 577520
+        },
+        {
+          "name": "_debug_file",
+          "original": 576700
+        }
+      ],
+      "terminal": "_equal_tail_word_pairs",
+      "terminal_evidence": "cases/state_machine_defined_debug-seed/original-events.txt",
+      "original_seed": "cases/state_machine_defined_debug-seed"
     }
   },
   "runtime_data": [

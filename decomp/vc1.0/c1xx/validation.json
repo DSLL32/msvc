@@ -3,14 +3,14 @@
   "driver_functions": 1127,
   "older_crt_functions": 7,
   "reconstructed_source_functions": 1134,
-  "current_frontier": "_flush_current_function@4",
-  "original_frontier_va": "0x48560",
+  "current_frontier": "_equal_tail_word_pairs",
+  "original_frontier_va": "0x4dfb0",
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_flush_current_function@4",
-    "original_va": "0x48560"
+    "current_frontier": "_equal_tail_word_pairs",
+    "original_va": "0x4dfb0"
   },
   "current_native_application_entries": 225,
   "active_queue": [
@@ -364,9 +364,9 @@
     ]
   },
   "complete_frontend_case": false,
-  "active_case": "state_machine_debug",
-  "status": "state_machine_debug reconstruction in progress",
-  "latest_verification": "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/validation.json",
+  "active_case": "state_machine_defined_debug",
+  "status": "state_machine_defined_debug reconstruction in progress",
+  "latest_verification": "cases/state_machine_defined_debug-seed/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -393,9 +393,14 @@
       "latest_verification": "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/validation.json"
     },
     "state_machine_debug": {
-      "status": "partial",
+      "status": "unsupported native empty-scope output path beyond last accepted boundary",
       "frontier": "_flush_current_function@4",
-      "latest_verification": "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/validation.json"
+      "latest_verification": "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/validation.json",
+      "limitation": "evidence/empty-output-scope/receipt.json"
+    },
+    "state_machine_defined_debug": {
+      "status": "partial",
+      "frontier": "_equal_tail_word_pairs"
     }
   },
   "next_operation": "Continue _flush_current_function@4 reconstruction",
