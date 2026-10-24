@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_accept_preprocessor_token@4",
+  "case": "member_registry_browser",
+  "accepted_before": 1297,
+  "configuration_sha256": "65fd7a23df1164d2a796156ead488f67c6215b70a17b57b641509f2c1b21666c",
+  "native_entry": "accept_preprocessor_token",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "token",
+      "stack_index": 0,
+      "native_field": "raw_token",
+      "binding": {
+        "kind": "scalar",
+        "bits": 8
+      },
+      "original_raw": 69,
+      "native_raw": 69,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      98624,
+      98681
+    ],
+    "argument_bytes": 4,
+    "convention": "frameless stdcall4 BYTEformal/int EAX RET4 or sameABI scannertail",
+    "proof": "Whole57B firsttests globaltoken1(end)\u21920, token93(fetch)\u2192conditionaltail18180, else compares actualentryESP+4 LOWBYTE againstglobalcachedtoken and onmatch sets93/returns1, mismatch0. Original18157 JEtail keepsactual4Barg/RETaddress for separate195B scanner std4BYTE/int; no othercallee/hiddenincomingregister/flags/x87 values. Actual firstformal45 from acceptedunary directPUSH45/CALL18140 (return18a97) freshlyread lower8 bits, no invented fullDWORDsemantic. Globaltoken established93 by accepted evaluate wrapper before this firstprobe; not an extra ABIformal. No newdata/CRT; pending scanner remainsnamedINT3.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "655e065369fd8edc05f44146a5a50c93b167dc13a57f13084b5c24492cfa5619",
+  "capture_timing": {
+    "original_capture_seconds": 2.0199594106525183,
+    "native_capture_seconds": 0.1875499216839671,
+    "total_operation_seconds": 2.444150143302977
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "66b16e58cc528321096a524ced3e4cdac3b015cab79129ee60dc348a7495194d",
+    "native-commands.gdb": "525723c15123a66e35ea99f267415469c4c97fcf32f758e5d148895189d67cde",
+    "native-gdb.log": "2553415fb37baed6fc34b291d8a6078ca1dafd16d4d15e48109c39c2bfb80489",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "03adddb9fec8cf8a51b89b707d266b0fb9a1c5e098335317c1a1dae5158d9f8d",
+    "original-configuration.json": "65fd7a23df1164d2a796156ead488f67c6215b70a17b57b641509f2c1b21666c",
+    "original-disassembly.txt": "2ba425dbf93f7692e675b13bb2ec2e7fe408fee71ac2e26ff3d793dcf9428a69",
+    "original-events.txt": "0757a8cda2c18b22b39ecb0c7ffee2e80bc11d29eeb12665cb63cd345eaa24ca",
+    "original-receipt.json": "cfd38c0963df80478492317cb53c76cd611fabb71f51c621cdada65913d52d30",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "5f9268127c016c76c8eaaca649ee28a3751d9baf84412cf698fe32da72f285b2"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

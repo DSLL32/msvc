@@ -592,7 +592,6 @@ CppSymbol *__stdcall static_member_from_alias(CppSymbol *symbol) { __asm { int 3
 void __stdcall set_browser_access(unsigned short *attributes, unsigned char access) { __asm { int 3 } }
 
 
-int __stdcall accept_preprocessor_token(unsigned char token) { __asm { int 3 } return 0; }
 int __stdcall scan_preprocessor_token(unsigned char token) { __asm { int 3 } return 0; }
 
 PreprocessorValue *__stdcall evaluate_preprocessor_binary(unsigned char operation, PreprocessorValue *left, PreprocessorValue *right) { __asm { int 3 } return 0; }

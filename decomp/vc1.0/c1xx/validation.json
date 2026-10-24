@@ -1,18 +1,18 @@
 {
-  "accepted_frontiers": 1297,
-  "driver_functions": 1191,
+  "accepted_frontiers": 1298,
+  "driver_functions": 1192,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 1198,
-  "current_frontier": "_accept_preprocessor_token@4",
-  "original_frontier_va": "0x18140",
+  "reconstructed_source_functions": 1199,
+  "current_frontier": "_scan_preprocessor_token@4",
+  "original_frontier_va": "0x18180",
   "graceful_pause": {
-    "requested": false,
-    "paused": false,
-    "complete": false,
-    "current_frontier": "_accept_preprocessor_token@4",
-    "original_va": "0x18140"
+    "requested": true,
+    "paused": true,
+    "complete": true,
+    "current_frontier": "_scan_preprocessor_token@4",
+    "original_va": "0x18180"
   },
-  "current_native_application_entries": 40,
+  "current_native_application_entries": 41,
   "active_queue": [
     "finish cpp_basic",
     "inheritance and virtual dispatch",
@@ -20,12 +20,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 314392,
+    "accepted_code_bytes": 314449,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 65.99078960072877,
-    "accepted_frontiers": 1297,
-    "source_functions": 1198,
-    "accepted_source_text_and_switch_bytes": 298843,
+    "accepted_code_percent": 66.00275388419414,
+    "accepted_frontiers": 1298,
+    "source_functions": 1199,
+    "accepted_source_text_and_switch_bytes": 298900,
     "section_ranges": [
       [
         94208,
@@ -244,12 +244,12 @@
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 314392,
+    "accepted_code_bytes": 314449,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 65.99078960072877,
-    "accepted_frontiers": 1297,
-    "source_functions": 1198,
-    "accepted_source_text_and_switch_bytes": 298843,
+    "accepted_code_percent": 66.00275388419414,
+    "accepted_frontiers": 1298,
+    "source_functions": 1199,
+    "accepted_source_text_and_switch_bytes": 298900,
     "section_ranges": [
       [
         94208,
@@ -469,8 +469,8 @@
   },
   "complete_frontend_case": false,
   "active_case": "member_registry_browser",
-  "status": "member_registry_browser reconstruction in progress",
-  "latest_verification": "cases/frontiers/member_registry_browser/1296-parse_preprocessor_unary/validation.json",
+  "status": "paused administrative WIP checkpoint; pending token-helper advancement not finally reviewed",
+  "latest_verification": "cases/frontiers/member_registry_browser/1297-accept_preprocessor_token-4/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -509,11 +509,11 @@
     },
     "member_registry_browser": {
       "status": "partial",
-      "frontier": "_accept_preprocessor_token@4",
-      "latest_verification": "cases/frontiers/member_registry_browser/1296-parse_preprocessor_unary/validation.json"
+      "frontier": "_scan_preprocessor_token@4",
+      "latest_verification": "cases/frontiers/member_registry_browser/1297-accept_preprocessor_token-4/validation.json"
     }
   },
-  "next_operation": "Continue _accept_preprocessor_token@4 reconstruction",
+  "next_operation": "Await explicit resume; review pending accept_preprocessor_token advancement against last verified 3c751d03a",
   "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json",
   "native_limitations": [
     {
@@ -740,5 +740,15 @@
       "commit": "bf7d2cbfdbe1a071c1cd79d4c8ec46b8b8f23ccc",
       "scope": "Native startup input correction at genuine main, no application call/entry/graph change or reconstruction credit"
     }
-  ]
+  ],
+  "administrative_checkpoint": {
+    "reconstruction_paused": true,
+    "last_reviewed_verified_commit": "3c751d03a",
+    "last_reviewed_accepted_frontiers": 1297,
+    "last_reviewed_application_source_functions": 1191,
+    "historical_crt_source_functions": 7,
+    "pending_unreviewed_frontiers": 1298,
+    "pending_function": "_accept_preprocessor_token@4",
+    "note": "Generated advancement metadata and existing raw observations are preserved as WIP; this administrative commit provides no new verification. No build, original capture, audit or fixture run was performed for it."
+  }
 }

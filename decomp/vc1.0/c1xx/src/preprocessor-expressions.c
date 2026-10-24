@@ -262,3 +262,18 @@ PreprocessorValue *parse_preprocessor_unary(void)
     }
     return parse_preprocessor_primary();
 }
+
+int __stdcall scan_preprocessor_token(unsigned char token);
+
+/* Original 0x18140..0x18178. The fetch sentinel tail-enters the
+   scanner with the same four-byte argument and cleanup contract. */
+int __stdcall accept_preprocessor_token(unsigned char token)
+{
+    if (preprocessor_expression_token == 1) return 0;
+    if (preprocessor_expression_token == 0x93) return scan_preprocessor_token(token);
+    if (token == preprocessor_expression_token) {
+        preprocessor_expression_token = 0x93;
+        return 1;
+    }
+    return 0;
+}
