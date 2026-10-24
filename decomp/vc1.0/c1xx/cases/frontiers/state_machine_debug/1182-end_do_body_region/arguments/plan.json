@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "_end_do_body_region",
+  "native_entry": "end_do_body_region",
+  "argument_words": 4,
+  "native_expressions": {},
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      260864,
+      260966
+    ],
+    "argument_bytes": 0,
+    "convention": "cdeclvoid",
+    "proof": "Whole102B SUB16/no savedGPR/plainRET atboth exits. No incomingstack,GPR,x87orCPUflagsformal. Emptytailkindlow6==20 removeslastrecord andreturns; otherwiseconstructfullydefined16Bkind21/all15remainingbyteszero andappend, thenprocess_expression_records(0) resultispassedtoexisting emit_nonnull_expression_statement. No extra suppressionguard atthisentry, no newdata/helpervertex/unknowninput."
+  }
+}

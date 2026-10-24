@@ -1083,3 +1083,22 @@ void begin_do_condition(void)
     record.previous = 0;
     append_frontend_record(&record, sizeof(record));
 }
+
+/* Original 0x3fb00..0x3fb65. Collapse an empty do-body region,
+   or close its evaluation sequence and emit the remaining expression. */
+void end_do_body_region(void)
+{
+    FrontendRecord record;
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 0x20) {
+        remove_last_frontend_record();
+        return;
+    }
+    record.kind = 0x21;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+    emit_nonnull_expression_statement(process_expression_records(0));
+}
