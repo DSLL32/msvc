@@ -56,11 +56,26 @@ typedef struct ConstantFrontendRecord {
 } ConstantFrontendRecord;
 typedef char ConstantFrontendRecordSizeMustBe20[(sizeof(ConstantFrontendRecord) == 20) ? 1 : -1];
 typedef char ConstantFrontendValueOffsetMustBe16[(offsetof(ConstantFrontendRecord, value) == 16) ? 1 : -1];
+/* Case and default records share the next-label link; only a case
+   carries the constant value after that common twenty-byte prefix. */
+typedef struct SwitchLabelFrontendRecord {
+    FrontendRecord header;
+    struct SwitchLabelFrontendRecord *next_label;
+} SwitchLabelFrontendRecord;
+typedef struct CaseFrontendRecord {
+    SwitchLabelFrontendRecord label;
+    unsigned value;
+} CaseFrontendRecord;
+typedef char SwitchLabelFrontendRecordSizeMustBe20[(sizeof(SwitchLabelFrontendRecord) == 20) ? 1 : -1];
+typedef char SwitchLabelNextOffsetMustBe16[(offsetof(SwitchLabelFrontendRecord, next_label) == 16) ? 1 : -1];
+typedef char CaseFrontendRecordSizeMustBe24[(sizeof(CaseFrontendRecord) == 24) ? 1 : -1];
+typedef char CaseFrontendValueOffsetMustBe20[(offsetof(CaseFrontendRecord, value) == 20) ? 1 : -1];
 /* A switch retains its enclosing switch and later case/type bookkeeping. */
 typedef struct SwitchFrontendRecord {
     FrontendRecord header;
     FrontendRecord *outer_switch;
-    unsigned field14, constant_condition;
+    SwitchLabelFrontendRecord *case_records;
+    unsigned constant_condition;
     CppSymbol *enum_tag;
 } SwitchFrontendRecord;
 typedef char SwitchFrontendRecordSizeMustBe32[(sizeof(SwitchFrontendRecord) == 32) ? 1 : -1];

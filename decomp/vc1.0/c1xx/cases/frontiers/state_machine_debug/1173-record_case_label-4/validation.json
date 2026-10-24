@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_record_case_label@4",
+    "start": 263168,
+    "end": 263477
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1173-record_case_label-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "__setjmp",
+    "_append_frontend_record@8",
+    "_check_switch_case_initialization@4"
+  ],
+  "next_frontier": "_check_switch_case_initialization@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8340437924489379,
+  "total_operation_seconds": 5.245694316923618,
+  "original_capture_seconds": 1.9196087792515755
+}

@@ -13,6 +13,7 @@ void begin_for_increment_region(void);
 void end_for_increment_region(void);
 void begin_switch_condition_region(void);
 void end_switch_condition_region(void);
+void __stdcall check_switch_case_initialization(int is_case);
 
 FrontendRecord *ir_record_head; /* original 0xa0a00 */
 FrontendRecord *ir_record_tail; /* original 0xa0a04 */
@@ -896,7 +897,7 @@ void begin_switch_condition(void)
     record.header.next = 0;
     record.header.previous = 0;
     record.outer_switch = 0;
-    record.field14 = 0;
+    record.case_records = 0;
     record.constant_condition = 0;
     record.enum_tag = 0;
     if (ir_records_suppressed) return;
@@ -966,4 +967,51 @@ void end_switch_condition_region(void)
     record.next = 0;
     record.previous = 0;
     append_frontend_record(&record, sizeof(record));
+}
+
+/* Original 0x40400..0x40534, stdcall4. Retain case/default source
+   records in their switch's reverse label list, with existing error recovery. */
+void __stdcall record_case_label(IrToken *expression)
+{
+    jmp_buf recovery;
+    SwitchLabelFrontendRecord default_record, *label;
+    CaseFrontendRecord case_record;
+    SwitchFrontendRecord *opening;
+    if (syntax_diagnostic_count && !ir_record_error_context) {
+        if (ir_records_suppressed) return;
+        ir_record_error_context = recovery;
+        if (setjmp(recovery)) {
+            ir_record_error_context = 0;
+            return;
+        }
+    }
+    check_switch_case_initialization(expression != 0);
+    if (!expression) {
+        default_record.header.kind = 0x34;
+        default_record.header.flags = 0;
+        default_record.header.field02 = 0;
+        default_record.header.sequence = 0;
+        default_record.header.next = 0;
+        default_record.header.previous = 0;
+        default_record.next_label = 0;
+        if (ir_switch_records) ir_switch_records->kind |= 0x40;
+        append_frontend_record(&default_record.header, sizeof(default_record));
+    } else {
+        case_record.label.header.kind = 0x33;
+        case_record.label.header.flags = 0;
+        case_record.label.header.field02 = 0;
+        case_record.label.header.sequence = 0;
+        case_record.label.header.next = 0;
+        case_record.label.header.previous = 0;
+        case_record.label.next_label = 0;
+        case_record.value = expression->value.integer;
+        append_frontend_record(&case_record.label.header, sizeof(case_record));
+    }
+    if (ir_switch_records) {
+        opening = (SwitchFrontendRecord *)ir_switch_records;
+        label = (SwitchLabelFrontendRecord *)ir_record_tail;
+        label->next_label = opening->case_records;
+        opening->case_records = label;
+    }
+    if (ir_record_error_context == recovery) ir_record_error_context = 0;
 }

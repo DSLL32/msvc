@@ -119,7 +119,7 @@ void __stdcall report_parameter_error(unsigned code, CppSymbol *symbol, unsigned
 
 /* Complete yacc semantic callees, still unaccepted. */
 
-void __stdcall record_case_label(IrToken *expression) { __asm { int 3 } }
+void __stdcall check_switch_case_initialization(int is_case) { __asm { int 3 } }
 void __stdcall browser_base_class(BaseClassLink *base) { __asm { int 3 } }
 void __stdcall add_qualified_base(unsigned access, int is_virtual, QualifiedDeclarator *name) { __asm { int 3 } }
 
