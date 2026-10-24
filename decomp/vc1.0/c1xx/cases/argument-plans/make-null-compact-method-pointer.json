@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "function": "_make_null_compact_method_pointer@4",
+  "native_entry": "make_null_compact_method_pointer",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_type": "(unsigned)type"
+  },
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 242348,
+        "original_owner_function": "_make_null_member_pointer@4",
+        "native_owner_function": "make_null_member_pointer",
+        "native_owner_field": "caller_type",
+        "native_owner_local": "type",
+        "identity": "Accepted caller keeps actualCType input inEDI4b262 acrossinheritancemodel; model1/2 nondata path PUSH EDI4b29a/CALL4b2a7/return4b2ac. Native realimmediatecaller typeformal owns same logical type; no heapaddress frozen."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "edi",
+  "ownership_caller_extent": [
+    307808,
+    307884
+  ],
+  "native_caller_locals": {
+    "caller_type": {
+      "frame": 1,
+      "function": "make_null_member_pointer",
+      "local": "type"
+    }
+  },
+  "abi_analysis": {
+    "original_extent": [
+      307952,
+      307982
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 IrToken* returnEAX",
+    "proof": "Whole30B PUSHESI4,typeadjustedESP+8,RET4. No incomingGPR/x87/CPUflagsformal. Originalfirstmake_integer_constant0adjustment; thenmake_null_member_function(type)4b310..4b32d29B reviewedoneCTypeformal/RET4returnsnullintegernodewithretargetedfunctionpointertype, leftnamedtrap. Existingmake_compact_method_pointer(type,function,adjustment) actualPUSHorder retainedviaexplicitlocals. No newdata/CRTbody."
+  }
+}

@@ -1,0 +1,38 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0004b260 <.text+0x34260>:
+   4b260:	56                   	push   esi
+   4b261:	57                   	push   edi
+   4b262:	8b 7c 24 0c          	mov    edi,DWORD PTR [esp+0xc]
+   4b266:	57                   	push   edi
+   4b267:	8b 47 04             	mov    eax,DWORD PTR [edi+0x4]
+   4b26a:	66 8b 00             	mov    ax,WORD PTR [eax]
+   4b26d:	66 25 10 00          	and    ax,0x10
+   4b271:	66 3d 01 00          	cmp    ax,0x1
+   4b275:	1b f6                	sbb    esi,esi
+   4b277:	46                   	inc    esi
+   4b278:	e8 93 eb ff ff       	call   0x49e10
+   4b27d:	83 f8 01             	cmp    eax,0x1
+   4b280:	7c 0f                	jl     0x4b291
+   4b282:	83 f8 02             	cmp    eax,0x2
+   4b285:	7e 11                	jle    0x4b298
+   4b287:	83 f8 03             	cmp    eax,0x3
+   4b28a:	74 25                	je     0x4b2b1
+   4b28c:	83 f8 04             	cmp    eax,0x4
+   4b28f:	74 39                	je     0x4b2ca
+   4b291:	2b c0                	sub    eax,eax
+   4b293:	5f                   	pop    edi
+   4b294:	5e                   	pop    esi
+   4b295:	c2 04 00             	ret    0x4
+   4b298:	0b f6                	or     esi,esi
+   4b29a:	57                   	push   edi
+   4b29b:	74 0a                	je     0x4b2a7
+   4b29d:	e8 8e 00 00 00       	call   0x4b330
+   4b2a2:	5f                   	pop    edi
+   4b2a3:	5e                   	pop    esi
+   4b2a4:	c2 04 00             	ret    0x4
+   4b2a7:	e8 44 00 00 00       	call   0x4b2f0

@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_make_null_compact_method_pointer@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1204,
+  "configuration_sha256": "4ee832afaa5eb4bf99bfdff28acd921ec323004434cb9ac3a34bc4c0ed380082",
+  "native_entry": "make_null_compact_method_pointer",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 242348,
+        "original_owner_function": "_make_null_member_pointer@4",
+        "native_owner_function": "make_null_member_pointer",
+        "native_owner_field": "caller_type",
+        "native_owner_local": "type",
+        "identity": "Accepted caller keeps actualCType input inEDI4b262 acrossinheritancemodel; model1/2 nondata path PUSH EDI4b29a/CALL4b2a7/return4b2ac. Native realimmediatecaller typeformal owns same logical type; no heapaddress frozen.",
+        "original_owner_value": 8311564,
+        "native_owner_value": 1449333516
+      },
+      "original_raw": 8311564,
+      "native_raw": 1449333516,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      307952,
+      307982
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 IrToken* returnEAX",
+    "proof": "Whole30B PUSHESI4,typeadjustedESP+8,RET4. No incomingGPR/x87/CPUflagsformal. Originalfirstmake_integer_constant0adjustment; thenmake_null_member_function(type)4b310..4b32d29B reviewedoneCTypeformal/RET4returnsnullintegernodewithretargetedfunctionpointertype, leftnamedtrap. Existingmake_compact_method_pointer(type,function,adjustment) actualPUSHorder retainedviaexplicitlocals. No newdata/CRTbody.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "95a0067873a846a9790aa46307539eb1593e19278cb95d4cc2f2a68d1db668b7",
+  "capture_timing": {
+    "original_capture_seconds": 1.7689518006518483,
+    "native_capture_seconds": 0.18818005174398422,
+    "total_operation_seconds": 2.2427535112947226
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "bd5eac31350afc06c72a5b83da747a2c179540094c5d28f4d503b64b2b2c4478",
+    "native-commands.gdb": "23dc8ae9b064764b323a875500e5f8aec8df51c2fbeca264ae2b6afda09e4955",
+    "native-gdb.log": "e3c5c8a5a96fdb534c9db02d2039eb6b51292000a10a99807dc21a7c050cc513",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "5c63f295fb4ab6948445ab6c9841fbd053091aa8cb7f5d8e1805811936711f7b",
+    "original-configuration.json": "4ee832afaa5eb4bf99bfdff28acd921ec323004434cb9ac3a34bc4c0ed380082",
+    "original-disassembly.txt": "66ccc3fe23bd358b9c59854067324724b5d3689bd356bb2afc2c84c3e9cec438",
+    "original-entries.plan": "070e5cbe749ef98a9177e3a1a8a1397f53078ddd555375b1e83bdae12af62a8c",
+    "original-events.txt": "13160fbf2ac16171f32a7ab441bfdfaf61e58456f074ea341d5dbd550ebcc40d",
+    "original-ownership-caller-disassembly.txt": "e8531571c08fce81e2ace21526039d16ea636da5148e90f075e9958d1b68566b",
+    "original-receipt.json": "05175b60d9d6e6f88867d088b47befa53cb631149896a9e8c1edb9fdeeb3bccb",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "cd0427f09d232dc3294001927cf0d7993b09dce4b07f1c36dcdeee41fa163aa0"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

@@ -43,6 +43,7 @@ IrToken *__stdcall lower_virtual_inheritance_member_call(IrToken *object,
 IrToken *__stdcall lower_general_inheritance_member_call(IrToken *object,
     IrToken *member, CType *type, IrToken **prefix);
 
+IrToken *__stdcall make_null_member_function(CType *type);
 IrToken *__stdcall make_null_compact_method_pointer(CType *type);
 IrToken *__stdcall make_null_simple_data_pointer(CType *type);
 IrToken *__stdcall make_null_virtual_data_pointer(CType *type);
@@ -449,4 +450,13 @@ IrToken *__stdcall make_null_member_pointer(CType *type)
     default:
         return 0;
     }
+}
+
+/* Original 0x4b2f0..0x4b30d, stdcall4. Create the adjustment before
+   the function-address zero, retaining the original allocation order. */
+IrToken *__stdcall make_null_compact_method_pointer(CType *type)
+{
+    IrToken *adjustment = make_integer_constant(0);
+    IrToken *function = make_null_member_function(type);
+    return make_compact_method_pointer(type, function, adjustment);
 }

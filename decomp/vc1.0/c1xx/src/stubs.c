@@ -598,9 +598,10 @@ IrToken *__stdcall compare_general_data_pointer(IrToken *expression, unsigned ch
 IrToken *__stdcall compare_virtual_method_pointer(IrToken *expression, unsigned char comparison, unsigned char combine, unsigned char null_combine) { __asm { int 3 } return 0; }
 IrToken *__stdcall compare_general_method_pointer(IrToken *expression, unsigned char comparison, unsigned char combine, unsigned char null_combine) { __asm { int 3 } return 0; }
 
-IrToken *__stdcall make_null_compact_method_pointer(CType *type) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_null_simple_data_pointer(CType *type) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_null_virtual_data_pointer(CType *type) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_null_general_data_pointer(CType *type) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_null_virtual_method_pointer(CType *type) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_null_general_method_pointer(CType *type) { __asm { int 3 } return 0; }
+
+IrToken *__stdcall make_null_member_function(CType *type) { __asm { int 3 } return 0; }

@@ -40,11 +40,11 @@
     "plan_sha256": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e"
   },
   "state_machine_debug": {
-    "receipt": "cases/frontiers/state_machine_debug/1203-make_null_member_pointer-4/entry-reference/original-receipt.json",
-    "receipt_sha256": "ac40021e8243d35da7ec25e06d15a07359802104f1ff89c9d4583c54fb02a283",
-    "events": "cases/frontiers/state_machine_debug/1203-make_null_member_pointer-4/entry-reference/original-events.txt",
-    "events_sha256": "8b457137dc4d3fc37035cf3c067e0544665f250362070966de79a30153a0e2b8",
-    "plan": "cases/frontiers/state_machine_debug/1203-make_null_member_pointer-4/entry-reference/original-entries.plan",
-    "plan_sha256": "5b8bf6fab3737c84fed3b7de6af028f37d45d70cc00b7937d4d9802cbfc1f76e"
+    "receipt": "cases/frontiers/state_machine_debug/1204-make_null_compact_method_pointer-4/entry-reference/original-receipt.json",
+    "receipt_sha256": "eb38eddf9b75bd66d820162fea6c260043a7567b37126497e8d4c582bdcdca03",
+    "events": "cases/frontiers/state_machine_debug/1204-make_null_compact_method_pointer-4/entry-reference/original-events.txt",
+    "events_sha256": "0c3ebec519670721ca9917dcbd904b43f326fc4b3d5fe2d5210e949548d8ba16",
+    "plan": "cases/frontiers/state_machine_debug/1204-make_null_compact_method_pointer-4/entry-reference/original-entries.plan",
+    "plan_sha256": "275675a09cf7cc80b0974f48616437f4c0d3dc1f19852292adf0f97f79ad0841"
   }
 }
