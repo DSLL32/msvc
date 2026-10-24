@@ -48,9 +48,10 @@ COFF_GLOBALS = {
 }
 ROOTS.update({key:(value[0],key)for key,value in COFF_GLOBALS.items()})
 ROOTS['coff_reuse_sections']=(0x49e6e0,'coff_reuse_sections')
+ROOTS['coff_section_buckets']=(0x497d00,'coff_section_buckets')
 
 
-def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False, list_constructed=False, source_pending=False, symbols_complete=False, append_pending=False, append_complete=False, section_symbols_pending=False, section_symbols_complete=False, storage_complete=False):
+def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False, list_constructed=False, source_pending=False, symbols_complete=False, append_pending=False, append_complete=False, section_symbols_pending=False, section_symbols_complete=False, storage_complete=False, section_recorded=False):
     def u32(address): return struct.unpack('<I', read(address, 4))[0]
     pool_words = struct.unpack('<12I', read(addresses['pools'], 48))
     head, cursor, remaining = pool_words[:3]
@@ -193,7 +194,7 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
         assert later_pools[:6] == (0,) * 6, 'unencountered pools5/6 changed'
         writer_head, writer_cursor, writer_remaining = later_pools[6:]
         assert writer_head and writer_head not in (head, directive_head)
-        expected_cursor=(3348 if storage_complete else 3340 if section_symbols_complete else 3316 if section_symbols_pending else 1908 if append_pending or append_complete else 1884 if symbols_complete else 1872 if source_pending else 1852 if list_constructed else 1344 if list_pending else 1320)if initialized_output else 64
+        expected_cursor=(3356 if section_recorded else 3348 if storage_complete else 3340 if section_symbols_complete else 3316 if section_symbols_pending else 1908 if append_pending or append_complete else 1884 if symbols_complete else 1872 if source_pending else 1852 if list_constructed else 1344 if list_pending else 1320)if initialized_output else 64
         expected_remaining=4096-expected_cursor
         assert writer_cursor == writer_head + expected_cursor and writer_remaining == expected_remaining
         data = bytearray(read(writer_head, 4096))
@@ -322,6 +323,9 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
             if storage_complete:
                 assert struct.unpack_from('<II',data,3340)==(0,writer_head+1908),'storage entry next/data alias differs'
                 struct.pack_into('<I',data,3344,0x60000774)
+            if section_recorded:
+                assert struct.unpack_from('<II',data,3348)==(0,head+1892),'new section hash-link next/section pointer differ'
+                struct.pack_into('<I',data,3352,0x10000764)
             result['writer']['pool_bytes']=data.hex()
             result['coff_allocations']['inserted_section']={'offset':1884,'bytes':24,'data_null':not section_symbols_pending,'name':name_text,'name_section_alias':True,'characteristics':0xa00,'base_offset':0,'index':1,'flags':11 if storage_complete else 8,'selection':0,'pending21':'allocator zeroing only; uninterpreted','association':0}
             result['coff_allocations']['table_state']={'count':1,'used':1,'capacity':300,'first_offset':96,'last_offset':96,'first_item_offset':1884,'remaining_items':'allocator zeroing only'}
@@ -337,5 +341,11 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
         if storage_complete:
             result['coff_allocations']['storage_state']={'offset':1304,'bytes':16,'first_offset':3340,'last_offset':3340,'count':1,'next_index':1}
             result['coff_allocations']['storage_entry']={'offset':3340,'bytes':8,'next_null':True,'data_offset':1908}
+        bucket_words=struct.unpack('<16I',read(addresses['coff_section_buckets'],64))
+        expected_buckets=tuple(writer_head+3348 if section_recorded and i==7 else 0 for i in range(16))
+        assert bucket_words==expected_buckets,'complete16-entry section bucket ownership differs'
+        result['coff_section_buckets']=[3348 if section_recorded and i==7 else None for i in range(16)]
+        if section_recorded:
+            result['coff_allocations']['section_link']={'offset':3348,'bytes':8,'next_null':True,'section_offset':1892,'serial':151,'bucket':7}
         result['coff'] = copied
     return result

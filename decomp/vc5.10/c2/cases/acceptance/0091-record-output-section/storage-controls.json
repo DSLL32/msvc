@@ -1,0 +1,33 @@
+{
+  "count": 4,
+  "rejected": [
+    {
+      "path": "/root/msvc2/toolchains/5.10/bin/C2.EXE",
+      "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+      "address": "0x49e6e0",
+      "entries": 8,
+      "rejected": "virtual zero tail shortened below last pointer byte"
+    },
+    {
+      "path": "/root/msvc2/toolchains/5.10/bin/C2.EXE",
+      "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+      "address": "0x497d00",
+      "entries": 16,
+      "rejected": "defined file bytes changed from zero"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/c2/build/c2.exe",
+      "target_sha256": "769dc1c4c28576a2aa61934ef2ab01a17d32a235c01fbb095b91e57b1cf519b3",
+      "address": "0x40c0a0",
+      "entries": 16,
+      "rejected": "virtual zero tail shortened below last pointer byte"
+    },
+    {
+      "rejected": "unjustified nine-entry bound"
+    }
+  ],
+  "seconds": 0.01460964698344469,
+  "checker_sha256": "ecfc8a6e392b225bee54cccd854d29ee8677fcd94f40eb65fa9162658e1259b9",
+  "predicate_sha256": "9bd2f12e77ae9a1a20611a18dd657e0afd17ba7b66d33af1aa2408b1092a8c0b",
+  "scope": "Only actual eight-entry reuse array and sixteen-entry section buckets; target/realMAP addresses plus compiletime64B declaration remain separate owner evidence."
+}

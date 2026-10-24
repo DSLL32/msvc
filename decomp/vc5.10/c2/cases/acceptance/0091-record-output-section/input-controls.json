@@ -1,0 +1,184 @@
+{
+  "positive": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/record91-final-original/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/record91-final-original/graph-audit.json",
+    "matched": "@select_coff_section@4",
+    "original": "0x41f1a0",
+    "native": "select_coff_section",
+    "argument_state": "globals-complete",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "select_coff_section",
+      "symbol_start": "0x6870",
+      "symbol_size": 92,
+      "static_pc": "0x68ab",
+      "int3_sites": [
+        "0x68aa"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit",
+      "_c2_register_onexit",
+      "@c2_read_environment@4",
+      "_c2_copy_arguments",
+      "_c2_initialize_options",
+      "_c2_next_argument",
+      "@c2_match_option@16",
+      "@c2_apply_option@12",
+      "@parse_option_integer@4",
+      "@c2_validate_alignment@4",
+      "@c2_open_intermediate@16",
+      "_c2_read_header",
+      "_c2_read_il_byte",
+      "_c2_read_il_word",
+      "_c2_read_il_long",
+      "_c2_reset_symbol_table",
+      "_c2_create_type_table",
+      "@c2_allocate_node@8",
+      "@c2_node_size@4",
+      "@c2_pool_allocate@8",
+      "_c2_initialize_constants",
+      "_c2_real_from_int",
+      "_store_extended",
+      "_c2_initialize_opcodes",
+      "_c2_initialize_machine",
+      "_c2_initialize_trees",
+      "@create_section@12",
+      "@insert_symbol@8",
+      "@append_section@4",
+      "@initialize_section_defaults@4",
+      "_c2_initialize_codegen",
+      "@read_symbols@4",
+      "@read_symbol@4",
+      "_input_varuint",
+      "@input_string@8",
+      "@intern_symbol_name@12",
+      "@arena_strdup@8",
+      "@record_filename@4",
+      "@copy_symbol_type@4",
+      "_input_type",
+      "_input_compact_signed",
+      "_input_compact_short",
+      "@update_symbol_storage@4",
+      "@lookup_global_symbol@4",
+      "_next_symbol_serial",
+      "@put_symbol@8",
+      "_c2_initialize_registers",
+      "@read_initializer_records@4",
+      "_c2_initialize_optimizer",
+      "_initialize_backend",
+      "_initialize_pass_functions",
+      "_default_runtime_library",
+      "@add_output_directive@8",
+      "_initialize_object_output",
+      "@initialize_coff_output@4",
+      "@new_output_table@4",
+      "_writer_callback_41eb8a",
+      "_initialize_coff_lists",
+      "@new_output_list@8",
+      "_new_output_chunk",
+      "@add_output_source@4",
+      "@add_coff_symbol@4",
+      "_write_output_directives",
+      "_output_callback_453e02",
+      "@write_coff_directive@16",
+      "_output_callback_41ec20",
+      "@create_coff_section@4",
+      "@add_coff_section@16",
+      "@append_output_table@8",
+      "@initialize_coff_section@8",
+      "@lookup_output_table@8",
+      "@initialize_coff_symbols@4",
+      "@register_coff_storage@4",
+      "@record_output_section@4"
+    ],
+    "candidates": [
+      "@record_output_section@4"
+    ],
+    "acceptance": false
+  },
+  "count": 18,
+  "rejected": [
+    {
+      "control": "selector formal omitted",
+      "reason": "actual selector ushort formal/index/section alias differs"
+    },
+    {
+      "control": "selector formal widened",
+      "reason": "actual selector ushort formal/index/section alias differs"
+    },
+    {
+      "control": "global projection retains prior section pointer",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "writer projection retains prior section pointer",
+      "reason": ""
+    },
+    {
+      "control": "selector index differs",
+      "reason": "actual selector ushort formal/index/section alias differs"
+    },
+    {
+      "control": "selector loses caller index alias",
+      "reason": "actual selector ushort formal/index/section alias differs"
+    },
+    {
+      "control": "selector loses owned section index alias",
+      "reason": "actual selector ushort formal/index/section alias differs"
+    },
+    {
+      "control": "context invents departed creator frame",
+      "reason": "direct section formal/owned record/global/stored identity differs"
+    },
+    {
+      "control": "complete bucket inventory shortened",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "active bucket owner omitted",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "untouched bucket gains a link",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "link section owner differs",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "link hash serial differs",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "original active bucket pointer omitted",
+      "reason": "complete16-entry section bucket ownership differs"
+    },
+    {
+      "control": "original untouched bucket overwritten",
+      "reason": "complete16-entry section bucket ownership differs"
+    },
+    {
+      "control": "original link section pointer omitted",
+      "reason": "new section hash-link next/section pointer differ"
+    },
+    {
+      "control": "original link next overwritten",
+      "reason": "new section hash-link next/section pointer differ"
+    },
+    {
+      "control": "actual selector CX zero",
+      "reason": ""
+    }
+  ],
+  "seconds": 20.805418741889298,
+  "checker_sha256": "15f5cdf7a2e120f898f7e0f050d63f273e04dadd3cc70b0334a47741344846e8",
+  "original_receipt_sha256": "783254a0e53299da707d7930b89075a7fdcbc29a347b8ade5c996b1d0727f4be",
+  "native_receipt_sha256": "ea8760f225a12ed192e9b33d837025f61d9e8db331e632ac8a1526de4dd8571c",
+  "scope": "Actualushort selector/CX and live selectorindex/ownedsection aliases after creatorreturn; all16bucket identities andnew8B linkbackpointer/serial/hash. Compiledwriteorder inspected separately; unknownsectionpayloads notinvented."
+}

@@ -626,10 +626,6 @@ unsigned char __fastcall coff_selection_code(unsigned char selection)
     __asm { int 3 }
     return 0;
 }
-void __fastcall record_output_section(C2Section *section)
-{
-    __asm { int 3 }
-}
 void __fastcall mark_debug_section(unsigned section)
 {
     __asm { int 3 }

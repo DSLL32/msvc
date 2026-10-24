@@ -622,3 +622,17 @@ inserted:
     ++storage->count;
     return ++storage->next_index;
 }
+
+C2OutputSectionLink *coff_section_buckets[16];
+
+void __fastcall record_output_section(C2Section *section)
+{
+    C2OutputSectionLink *link, *previous;
+    unsigned bucket;
+    link = c2_pool_allocate(7, sizeof(*link));
+    link->section = section;
+    bucket = section->symbol.serial & 15;
+    previous = coff_section_buckets[bucket];
+    coff_section_buckets[bucket] = link;
+    link->next = previous;
+}

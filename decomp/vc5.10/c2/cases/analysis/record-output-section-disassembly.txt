@@ -1,0 +1,20 @@
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0041f173 <.text+0x1e173>:
+  41f173:	56                   	push   esi
+  41f174:	8b f1                	mov    esi,ecx
+  41f176:	ba 08 00 00 00       	mov    edx,0x8
+  41f17b:	b9 07 00 00 00       	mov    ecx,0x7
+  41f180:	e8 7b 1e fe ff       	call   0x401000
+  41f185:	8b 4e 28             	mov    ecx,DWORD PTR [esi+0x28]
+  41f188:	89 70 04             	mov    DWORD PTR [eax+0x4],esi
+  41f18b:	83 e1 0f             	and    ecx,0xf
+  41f18e:	5e                   	pop    esi
+  41f18f:	8b 14 8d 00 7d 49 00 	mov    edx,DWORD PTR [ecx*4+0x497d00]
+  41f196:	89 04 8d 00 7d 49 00 	mov    DWORD PTR [ecx*4+0x497d00],eax
+  41f19d:	89 10                	mov    DWORD PTR [eax],edx
+  41f19f:	c3                   	ret

@@ -44,6 +44,9 @@ def verify(config,graph):
     if '@add_coff_section@16'in config['accepted']:
         verify_reuse_array(TARGET,0x49e6e0)
         verify_reuse_array(BINARY/'build/c2.exe',maps['_coff_reuse_sections'])
+    if '@record_output_section@4'in config['accepted']:
+        verify_reuse_array(TARGET,0x497d00,16)
+        verify_reuse_array(BINARY/'build/c2.exe',maps['_coff_section_buckets'],16)
     fields={r['name']:r for r in value['record']['fields']if r['name'].startswith('output_')}
     assert {r['offset']for r in fields.values()}=={16,20,24}
     if typed:
@@ -92,11 +95,13 @@ def verify(config,graph):
         'original_graph':value['original_graph']}
 
 
-def verify_reuse_array(path,address):
-    """Eight contextual pointers, either explicit zero bytes or PE loader tail."""
+def verify_reuse_array(path,address,count=8):
+    """Explicit typed eight/sixteen-pointer arrays: exact file zero or loader tail."""
+    assert count in (8,16)
+    length=count*4
     import struct
     try:
-        assert reader(path)(address,32)==bytes(32)
+        assert reader(path)(address,length)==bytes(length)
         return
     except AssertionError:
         data=path.read_bytes();header=struct.unpack_from('<I',data,60)[0];opt=header+24
@@ -104,5 +109,5 @@ def verify_reuse_array(path,address):
         tails=[]
         for i in range(struct.unpack_from('<H',data,header+6)[0]):
             virtual,rva,raw=struct.unpack_from('<III',data,section+i*40+8)
-            if base+rva+raw<=address and address+32<=base+rva+virtual:tails.append([base+rva+raw,base+rva+virtual])
+            if base+rva+raw<=address and address+length<=base+rva+virtual:tails.append([base+rva+raw,base+rva+virtual])
         assert len(tails)==1,'reuse array is neither file-zeroed nor in a proven PE zero-filled tail'

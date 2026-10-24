@@ -1132,14 +1132,6 @@
     "evidence": null
   },
   {
-    "name": "@record_output_section@4",
-    "start": 4321651,
-    "end": 4321652,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@mark_debug_section@4",
     "start": 4746574,
     "end": 4746575,

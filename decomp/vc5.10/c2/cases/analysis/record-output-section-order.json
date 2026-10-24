@@ -1,0 +1,37 @@
+{
+  "scope": "Finite inspected write-order evidence, not graph discovery. Actual Win32/native emitted stores preserve original bucket-before-link.next order; compiled source and raw trial remain independently bound.",
+  "rows": [
+    {
+      "side": "original",
+      "path": "/root/msvc2/toolchains/5.10/bin/C2.EXE",
+      "binary_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+      "global_store": 4321686,
+      "global_bytes": "89048d007d4900",
+      "next_store": 4321693,
+      "next_bytes": "8910",
+      "array": 4816128
+    },
+    {
+      "side": "Win32",
+      "path": "build/c2.exe",
+      "binary_sha256": "769dc1c4c28576a2aa61934ef2ab01a17d32a235c01fbb095b91e57b1cf519b3",
+      "global_store": 4227454,
+      "global_bytes": "890c85a0c04000",
+      "next_store": 4227467,
+      "next_bytes": "8902",
+      "array": 4243616
+    },
+    {
+      "side": "native",
+      "path": "build/native/c2",
+      "binary_sha256": "a6eb3c9be8927377d50658350a6f674418e53c51f6318bcb41b5eb9cb4183b41",
+      "global_store": 64532,
+      "global_bytes": "898c837c430000",
+      "next_store": 64545,
+      "next_bytes": "8908",
+      "array": 250736
+    }
+  ],
+  "source_sha256": "ffa98fea7fb2b492cda0a0480d56a91392edef89ef59613753d94e150b2f0834",
+  "listing_sha256": "5d837abc163822a0bb7cf6eb14077d9e648b74186dfde071a44faefe8176b767"
+}

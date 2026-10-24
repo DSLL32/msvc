@@ -8,6 +8,13 @@ typedef struct C2OutputTable C2OutputTable;
 typedef struct C2OutputList C2OutputList;
 typedef struct C2OutputStorage C2OutputStorage;
 typedef struct C2OutputChunk C2OutputChunk;
+typedef struct C2OutputSectionLink {
+    struct C2OutputSectionLink *next;
+    C2Section *section;
+} C2OutputSectionLink;
+extern C2OutputSectionLink *coff_section_buckets[16];
+typedef char C2OutputSectionLinkSizeCheck[sizeof(C2OutputSectionLink) == 8 ? 1 : -1];
+typedef char C2OutputSectionBucketsSizeCheck[sizeof(coff_section_buckets) == 64 ? 1 : -1];
 typedef struct C2OutputStorageEntry {
     struct C2OutputStorageEntry *next;
     struct C2CoffSectionData *data;

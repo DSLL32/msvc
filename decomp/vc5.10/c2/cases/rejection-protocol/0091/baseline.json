@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "source_checkpoint": "cases/acceptance/0091-record-output-section",
+  "control_result": "cases/acceptance/0091-record-output-section/rejections.json",
+  "control_result_sha256": "66803273cd7a5b447300eae608fdcd33bbd04071d5bc76f011110203eb446977",
+  "checker_contracts": {
+    "scripts/capture-original.py": "de969a60b361f319f774104972cb9489fe638e522de6d819af28420a7f9ceca1",
+    "scripts/accept.py": "c4210ef41eba6b4d80fdbb827192980426b80e0c4fff3d3f0125e7fba9e12135",
+    "scripts/intrinsic_evidence.py": "89e13fbff12ec278801984bd7360b54b392cc50e332d9f449c7f8b9032ab0034",
+    "scripts/check-pending-metadata.py": "f497374b1e272e5162f1e4a1685edb78bef525ff5d060d519a9d8c4312810d25",
+    "scripts/build-index.py": "f840c9bc5fac0d00451f3ae50d0318bd5f87be6aa082e27df6f6d32e1e14b4af",
+    "scripts/directive_data.py": "2c95048869e1a3e368e62b57d62d6cd12eb9aca6cdcf42b6cd30568a9fad75b2",
+    "scripts/debug-run.c": "5cba7e02506409445e9c502006e09547efdcc356945417cd4c68ad5e06f09b4a",
+    "scripts/data_evidence.py": "82fca8de8b8eb5f82e3e72d9952b210e57e4942bab9813b8c35cc1e4bf03f20d",
+    "scripts/reaudit-capture.py": "47db322d4f96cad39e15681be42151d6b974d95fde39007623bdb68bcacb361e",
+    "scripts/writer_evidence.py": "9bd2f12e77ae9a1a20611a18dd657e0afd17ba7b66d33af1aa2408b1092a8c0b",
+    "scripts/state.py": "7f5e869a7e139e12ffad9d6968c36a87f45c688e6d047bfc8a71bfbf18ef04d6",
+    "scripts/pending_metadata.py": "4fb55fa9f12620145ccaf5142b9b65c355f2fd8c6e9824e0037e763ff4413634",
+    "scripts/audit.py": "b65efd1fa4753ff1007af3c6915bd9372dbc5a8d479fcfa2a14d2b05eec6b12c",
+    "scripts/check-rejections.py": "4caa2632d6d99796af69a8b50bab8d9d7a2d1a13c4f7223c54e849497cf8a3a8",
+    "scripts/case_inputs.py": "13ab2ee944896ade6b46c2b2d226fd63233ea9d3191931b1d8a84ddbfaa48aa9",
+    "scripts/capture-native.py": "0d3a5c8490965b146ae8b82043150a11f31941dbdf0dc30c136dd1d6c1e4555a",
+    "scripts/compare.py": "45c2084b24f3af1099fc3a2c23ebc6cb338bba4292bd51be8d81417814b4c1aa",
+    "scripts/native-proof.py": "ad5ccd30409d17c411f4a176c56364b19385246fd677ba772bdaa508838097c4",
+    "scripts/globals_state.py": "0c183d1413e0e3c44515601d179b69e7cf20934cac850a225a8f72c987abb74a",
+    "scripts/callback_evidence.py": "90b4adc1dbea3abe55e2c1838f1a5215f6ecb8472b3f8d4ca0b98a0b5be00ab8",
+    "scripts/import_evidence.py": "984f1e009012498711297665bda6531e16e27854331c9d3947c6811dfbb6a590",
+    "scripts/coff_section_data.py": "6f92e827cf37effc4fff8d11bd2304f8b6f5439c786dcb229ac54e9ec8d383c7"
+  },
+  "source_directory": "sources",
+  "source_manifest": "source-manifest.json",
+  "source_manifest_sha256": "9875b629ffb54d50893518c6cb15870d81ca534f8ff6d98fb380f8157b11187b",
+  "proof_inputs": {
+    "original_receipt": "783254a0e53299da707d7930b89075a7fdcbc29a347b8ade5c996b1d0727f4be",
+    "native_receipt": "ea8760f225a12ed192e9b33d837025f61d9e8db331e632ac8a1526de4dd8571c"
+  },
+  "scope": "153genericpredicates6fresh/147reused;18actualtypedfrontier/initializeddata/alias controls fresh. Same22completeownedchecker sources; no newprovider/ABIpolicy."
+}
