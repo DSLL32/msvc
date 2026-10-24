@@ -8,7 +8,50 @@
   "canonical_proof": "MSVCRT e390 provider ordinal694/RVA2daf2..2db73,129B SHA4b31452c3fe0fd48872e745a17d11582cbb0ca160b359dae9cbf3e791aee444b. All mismatches normalize unsigned comparison, equality0; no calls/stores/locale/errors/FP.",
   "native_checks": "GCC/Clang default510 four frozenprobes;65536 unsignedpairs+3072prefix/alignmentcases+capturedcallback+guardpage+inputsentinels/errors/full108FP x empty/live. Explicit5103NULL/default4explicitAPI denials. Corecheck passed.",
   "qualification": "Original initialized strings observed without allocationtail claims. Only first actualcallback, not full qsortschedule. Local nativebuffer tails/guardpages independently tested. First checker LF/CRLF mismatch retained/correctedcheckeronly; production unchanged.",
-  "actual_CL_adoption": "Pending reviewed-publication pin and native-only ordinary comparison against unchanged original; no API-only original campaign required.",
+  "actual_CL_adoption": {
+    "commit": "389716673",
+    "owned_manifest": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/milestones/option-comparator/manifest.json",
+      "sha256": "58ad04bf26dc244f0a598c8f21591f2e76a1b37a4f99d4dc18d7f7f9250c472e",
+      "records_verified": 2959
+    },
+    "promotion": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/milestones/option-comparator/promotion.json",
+      "sha256": "980f44118b938628fa8402ae3b3101b52967440726859af7f2b8e45675543d40"
+    },
+    "parent_review": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-response/integration-parent-review.json",
+      "sha256": "9b01237a493034b9d45e855319a9ab10e1e45968a616d7379fb28ea75431c966"
+    },
+    "pair": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/milestones/option-comparator/scratch/comparator-4/pair.json",
+      "sha256": "12c7cc23523862f5aea30664cbe63a305c205d6709c657e66fee404c52700a09"
+    },
+    "compiled_build": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/milestones/option-comparator/scratch/comparator-4-native/native-build.json",
+      "sha256": "6fe91405de347e21ed932a2a3b53ebe55b8b231dabb8fdc34362d6326eae73ab",
+      "native_ELF_sha256": "775e060c77bf2d0da4844409e154a2f33948b0aa125850a00fb1bc25b48b470d",
+      "source_contents_verified": 35
+    },
+    "native_response": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/milestones/option-comparator/scratch/comparator-4-native/mre-response.json",
+      "sha256": "3cb777c921e9faeccaaa4282ef4538922af22bc07f3dfd51a770ffee566cea6b"
+    },
+    "actual_callback": {
+      "strings_hex": [
+        "2d5a6500",
+        "2d47733430393600"
+      ],
+      "result": 1,
+      "cdecl_argument_bytes": 8,
+      "shared_public_target": "recon_strcmp",
+      "errors": "2/2/0 preserved",
+      "original_fullFP_and_native_architecturalFP": "unchanged, retained ownrawformats",
+      "whole_public_state": "strict matched through actual comparator return and next jobs_from_deferred(NULL) frontier"
+    },
+    "qualification": "Firstnative pre-wrapper callback alreadyreturned1; no libc magnitude mismatch claim. Only firstactual comparison, not completeqsortschedule. Separate fourthMRE NULLPendingWork/BOOL1 has owned caseproviderproof; normal Release/Close remain unsupported. Retained5a8 ELF/source distinct from later9bf.",
+    "checks": "Metadata-only ownedmanifest/buildsource/receipt identities; no rebuild/native execution/original replay"
+  },
   "independent_review": {
     "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-response/strcmp-parent-review.json",
     "sha256": "bc294856d93863fb04c73a91d5cb1a3f27762d58ec2495e6dcd8bb343008ea9a",
