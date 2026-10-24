@@ -2937,3 +2937,65 @@ def inactive_reference_reuse(original,native):
     assert note['original_source_sha256']==sha(original/'compiled-source.json')and note['rebuilt_source_sha256']==sha(HERE/'build/original-source.json')
     assert note['masked_text_sha256']==sha(original/'masked-text.bin')and note['relocated_text_sha256']==sha(original/'relocated-text.bin')
     return note
+
+
+def skipped_directive_trial(original,native):
+    """Actual eleven no-argument scanner invocations and the next splice boundary."""
+    config=read_configuration(original/'functions.json')
+    assert config['trial_function']=='rc_read_skipped_directive'and len(config['accepted'])==92
+    old,new,proof=checkpoint(original,native,'rc_splice_line',('rc_input_temporary','rc_output_temporary'))
+    text=(original/'events.txt').read_text();raw=(original/'globals.bin').read_bytes();args=new['arguments'];state=args['skip_inactive'];g=args['preprocessor']['globals']
+    assert state['formals']==[]and state['caller']=='rc_read_nonspace'
+    assert args['splice_line']==dict(formals=[],caller='rc_read_nonspace',reader_character=dict(value=92,bytes=2),previous_word=92,current_word=10)
+    assert old['words'][0]==0x71c32aeb and old['registers']['esi']&65535==92
+    relocated=(original/'relocated-text.bin').read_bytes()
+    assert relocated[0x11ae6:0x11aeb]==bytes.fromhex('e811000000') # Real read_nonspace CALL splice.
+    assert relocated[0x11aeb:0x11aed]==bytes.fromhex('85c0') # Caller consumes full int result, still pending.
+    for row in json.loads((native/'preprocess-data.json').read_text())['globals']:
+        if row['kind']in ['integer','byte-buffer']:
+            rva=int(row['original_rva'],16);assert raw[rva-0x14000:rva-0x14000+row['bytes']].hex()==g[row['name']]['bytes'],row['name']
+    assert args['preprocessor']['macros']==[]
+    frame_old=struct.unpack('<9I',raw_bytes(text,'skip-source-frame'));frame_new=struct.unpack('<9I',bytes.fromhex(state['source_frame']))
+    assert tuple(frame_old[i]for i in [0,2,6,7,8])==tuple(frame_new[i]for i in [0,2,6,7,8])==(4098,73,4098,1,0)
+    assert state['source_depth']==int.from_bytes(raw[0xa10:0xa14],'little')==2
+    assert state['source_owner_bytes']==8206 and frame_new[5]==state['source_buffer']
+    source=raw_bytes(text,'skip-source-block');assert len(source)==8206 and source[:8]==bytes(8)and source.hex()==state['source_payload']
+    blocks=[row for row in new['heap_identity']['blocks']if row['payload']+8==state['source_buffer']];assert len(blocks)==1;block=blocks[0]
+    assert block['bytes']==8206 and block['flags']==9 and block['owner']==new['heap_identity']['handle']and block['contents']==state['source_payload']
+    cursor=int.from_bytes(raw[0x4120:0x4124],'little');offset=cursor-frame_old[5]
+    assert offset==state['cursor']-frame_new[5]==3056
+    assert source[8+offset-2:8+offset+2]==bytes.fromhex('5c000a00')
+    filename=raw_bytes(text,'skip-source-filename');assert filename.hex()==state['filename']and filename.decode('utf-16le')=='R:\\toolchains\\5.10\\include/winresrc.h\0'
+    assert Path(state['file_host_path']).resolve()==(ROOT/'toolchains/5.10/include/WINRESRC.H').resolve()
+    a=struct.unpack('<8I',raw_bytes(text,'skip-source-file'));b=struct.unpack('<8I',bytes.fromhex(g['rc_source_file']['file_state']))
+    assert a[1:2]+a[3:]==b[1:2]+b[3:]==(510,9,7,0,4096,0)and a[0]-a[2]==b[0]-b[2]==2
+    assert raw_bytes(text,'skip-source-buffer')[:512]==bytes.fromhex(g['rc_source_file']['file_buffer'])[:512]
+    assert re.findall(r'^skip-source-position (\d+)$',text,re.M)==re.findall(r'^pos:\s*(\d+)$',state['file_fdinfo'],re.M)==['21000']
+    a=struct.unpack('<8I',raw_bytes(text,'cpp-output-file'));b=struct.unpack('<8I',bytes.fromhex(g['rc_cpp_output_file']['file_state']));defined=a[0]-a[2]
+    assert a[1:2]+a[3:]==b[1:2]+b[3:]and defined==b[0]-b[2]==626
+    assert raw_bytes(text,'cpp-output-buffer')==bytes.fromhex(g['rc_cpp_output_file']['file_buffer'])[:defined]
+    assert re.findall(r'^cpp-output-position (\d+)$',text,re.M)==['4096']
+    rows=args['skipped_directives'];assert rows==json.loads((native/'skipped-directives.json').read_text())and len(rows)==11
+    entries=re.findall(r'^skipped-read-entry index=(\d+) caller=([0-9a-f]+) esp=([0-9a-f]+) cursor=([0-9a-f]+) line=(\d+)$',text,re.M)
+    returns=re.findall(r'^skipped-read-return index=(\d+) result=(\d+) raw=([0-9a-f]+) esp=([0-9a-f]+) cursor=([0-9a-f]+) line=(\d+)$',text,re.M)
+    assert len(entries)==len(returns)==len(rows)
+    for i,(entry,result,row)in enumerate(zip(entries,returns,rows)):
+        assert int(entry[0])==int(result[0])==i and entry[1]=='71c26aee'
+        assert row['formals']==[]and row['caller']=='rc_skip_inactive'
+        assert int(entry[3],16)-frame_old[5]==row['source_before']-frame_new[5]
+        assert int(result[4],16)-frame_old[5]==row['source_after']-frame_new[5]
+        assert int(entry[4])==row['line_before']and int(result[5])==row['line_after']==row['line_before']+1
+        assert int(result[1])==int(result[2],16)&255==row['result']==row['raw_eax']&255
+        assert row['result']in [3,6]
+        assert int(result[3],16)==int(entry[2],16)+4 and row['return_esp']==row['entry_esp']+4
+        assert raw_bytes(text,'skipped-read-name-%d'%i).hex()==row['name']
+        name=bytes.fromhex(row['name']).decode('utf-16le').split('\0',1)[0]
+        assert name==('endif'if row['result']==3 else'define')
+    assert [row['result']for row in rows]==[6,3,6,3,6,3,6,3,6,6,3]
+    kind=next(row for row in args['integer_kinds']if row['function']=='rc_based_integer_kind')
+    scope=args['observer_scope'];assert scope==json.loads((native/'observer-scope.json').read_text())and scope['trigger']==kind
+    assert kind['value']==1024 and kind['result']==7 and 'SkippedDirectiveEntered'not in scope['retired_breakpoints']
+    assert new['crt_errors']==dict(errno=2,last_error=0)and proof['application_trace'][-1]=='rc_read_skipped_directive'
+    prior=HERE/'cases/resources-rich-trailing-space/inactive-skip-verification.json'
+    proof.update(trial='rc_read_skipped_directive',scanner=dict(invocations=11,argument_bytes=0,result_bits=8,cleanup=0,results=[row['result']for row in rows],source_cursor_and_line=True,full_name_bytes=1024,raw_upper_return_bits='retained, unclaimed; original caller consumes AL'),next_formals=[],next_hidden_inputs='No formal/register inputs for pending rc_splice_line; actual source cursor points at LF10 after consumed backslash92, current frame and source/file/output/control globals are bound.',source=dict(depth=2,owned_bytes=8206,cursor_offset=offset,current_word=10,previous_word=92,FILE_position=21000,FILE_defined_bytes=512,FILE_uninitialized_tail_bytes=3584),output=dict(flushed_bytes=4096,defined_buffer_bytes=defined),observer_scope=scope,reused_controls=dict(record=str(prior.relative_to(HERE)),sha256=sha(prior),checker_and_contract_versions=json.loads(prior.read_text())['validation_versions'],reason='Unchanged initial lifecycle, transport, SEH and source ownership controls reused; scanner per-call state and current splice frontier are fresh. Later auxiliary macro/allocation equivalence remains explicitly unobserved.'),limits='Rich case and splice implementation pending. No current macro dictionary or uninitialized FILE tail comparison; pending quoted helper not executed. No per-call FP/error measurement invented; final frontier state/errors and original function graph/ABI audits retained.')
+    return proof

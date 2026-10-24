@@ -609,3 +609,32 @@ int __stdcall rc_skip_inactive(int mode)
         if(directive==0||directive==4||directive==5)++depth;
     }
 }
+
+unsigned char __cdecl rc_read_skipped_directive(void)
+{
+    WCHAR character;
+    unsigned short token;
+
+    character=rc_read_nonspace();
+    for(;;){
+classify:
+        token=rc_character_token(character);
+        if(token==5){
+            ++rc_preparing_line;
+            if(rc_cpp_active)
+                rc_write_preprocessed(L"\r\n",4,1,rc_cpp_output_file);
+            character=rc_read_nonspace();
+            if(character!=L'#')goto classify;
+            character=rc_read_nonspace();
+            if(rc_character_token(character)==40){
+                rc_read_identifier(character);
+                return rc_directive_code(rc_macro_name);
+            }
+            goto classify;
+        }
+        if(token==3){
+            if(rc_resume_input()==16)++rc_source_cursor;
+        }else if(token>6&&token<=8)rc_skip_inactive_quoted(character);
+        character=rc_read_nonspace();
+    }
+}

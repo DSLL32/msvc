@@ -253,8 +253,8 @@ void __stdcall rc_emit_macro_reference(RcMacro *macro)
     __asm int 3
 }
 
-unsigned char __cdecl rc_read_skipped_directive(void)
+
+void __stdcall rc_skip_inactive_quoted(WCHAR delimiter)
 {
     __asm int 3
-    return 0;
 }

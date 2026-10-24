@@ -95,7 +95,8 @@
     "rc_resume_input",
     "rc_finish_macro_frame",
     "rc_based_integer_kind",
-    "rc_skip_inactive"
+    "rc_skip_inactive",
+    "rc_read_skipped_directive"
   ],
   "functions": [
     {
@@ -1747,6 +1748,14 @@
       "end": "0x6df3",
       "abi": "cdecl",
       "stack_bytes": 0,
+      "kind": "application"
+    },
+    {
+      "name": "rc_skip_inactive_quoted",
+      "start": "0x6cbc",
+      "end": "0x6d53",
+      "abi": "stdcall",
+      "stack_bytes": 4,
       "kind": "application",
       "stub": true
     }

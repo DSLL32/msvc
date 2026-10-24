@@ -526,11 +526,11 @@ class DecimalIntegerKindReturned(gdb.FinishBreakpoint):
         self.entry.update(result=int(gdb.parse_and_eval('$eax'))&255,raw_eax=int(gdb.parse_and_eval('$eax'))&0xffffffff,return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff)
         save_integer_kinds()
         selected=json.loads(Path(os.environ['RCDLL_NATIVE_CONFIG']).read_text())
-        if selected.get('trial_function')in ['rc_based_integer_kind','rc_skip_inactive']and self.entry['function']=='rc_based_integer_kind'and self.entry['value']==1024:
+        if selected.get('trial_function')in ['rc_based_integer_kind','rc_skip_inactive','rc_read_skipped_directive']and self.entry['function']=='rc_based_integer_kind'and self.entry['value']==1024:
             assert self.entry['result']==7 and self.entry['return_esp']==self.entry['entry_esp']+8
             retired=[]
             for breakpoint in gdb.breakpoints():
-                if breakpoint.enabled:
+                if breakpoint.enabled and type(breakpoint).__name__!='SkippedDirectiveEntered':
                     retired.append(type(breakpoint).__name__);breakpoint.enabled=False
             (path.parent/'observer-scope.json').write_text(json.dumps(dict(trigger=self.entry,retired_breakpoints=retired,scope='Only completed initial-prefix observers retained; subsequent legacy auxiliary activity unobserved. Full application entry instrumentation, production guards and genuine pending INT3 stops remain active. Fresh current source/output/formals are inspected at the actual frontier; macros dictionary is not collected or claimed at that boundary.'),indent=2)+'\n')
         return False
@@ -910,3 +910,18 @@ class ExpandedNumberEntered(gdb.Breakpoint):
         frame=gdb.newest_frame();formal=frame.read_var('first');sp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff
         expanded_number_calls.append(dict(formals=[dict(name='first',value=int(formal),bytes=formal.type.sizeof,physical_slot_bytes=4,slot=bytes(gdb.selected_inferior().read_memory(sp+4,4)).hex())],entry_esp=sp,caller=frame.older().name(),source=int(gdb.parse_and_eval('rc_source_cursor')),number=int(gdb.parse_and_eval('rc_number_buffer')),work=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_string_buffer')),4090)).hex()));save_expanded_number_calls();return False
 ExpandedNumberEntered('rc_read_number',internal=True);save_expanded_number_calls()
+
+
+skipped_directives=[]
+def save_skipped_directives():(path.parent/'skipped-directives.json').write_text(json.dumps(skipped_directives,indent=2)+'\n')
+class SkippedDirectiveReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(gdb.parse_and_eval('$eax'))&255,raw_eax=int(gdb.parse_and_eval('$eax'))&0xffffffff,return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,source_after=int(gdb.parse_and_eval('rc_source_cursor')),line_after=int(gdb.parse_and_eval('rc_preparing_line')),name=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_macro_name')),1024)).hex())
+        save_skipped_directives();return False
+class SkippedDirectiveEntered(gdb.Breakpoint):
+    def stop(self):
+        assert len(skipped_directives)<8192
+        frame=gdb.newest_frame();entry=dict(formals=[],caller=frame.older().name(),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,source_before=int(gdb.parse_and_eval('rc_source_cursor')),line_before=int(gdb.parse_and_eval('rc_preparing_line')))
+        skipped_directives.append(entry);save_skipped_directives();SkippedDirectiveReturned(frame,entry);return False
+SkippedDirectiveEntered('rc_read_skipped_directive',internal=True);save_skipped_directives()

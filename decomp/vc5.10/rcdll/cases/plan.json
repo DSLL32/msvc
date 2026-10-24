@@ -94,7 +94,8 @@
     "rc_resume_input",
     "rc_finish_macro_frame",
     "rc_based_integer_kind",
-    "rc_skip_inactive"
+    "rc_skip_inactive",
+    "rc_read_skipped_directive"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

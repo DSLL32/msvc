@@ -175,17 +175,28 @@ def capture():
             arguments['macro_expand']['formals']=[]
             arguments['based_kind']=dict(formals=[dict(name='value',value=int(value),bytes=value.type.sizeof)],caller=parent.name(),begin=int(parent.read_var('begin')),cursor=int(parent.read_var('cursor')),radix=int(parent.read_var('radix')),token=int(parent.read_var('token')),token_bytes=parent.read_var('token').type.sizeof,owner=int(array.address),object_bytes=array.type.sizeof,initialized_bytes=4,payload=bytes(gdb.selected_inferior().read_memory(int(array.address),array.type.sizeof)).hex(),parent_lexer=parent.older().name(),lexer_character=int(parent.older().read_var('character')),lexer_dispatch=int(parent.older().read_var('dispatch')),character_token=int(gdb.parse_and_eval('rc_character_tokens[48]')),character_token_address=int(gdb.parse_and_eval('&rc_character_tokens[48]')),character_token_bytes=gdb.parse_and_eval('rc_character_tokens[48]').type.sizeof,macro_name=int(gdb.parse_and_eval('&rc_macro_name')),macro_name_bytes=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_macro_name')),1024)).hex(),current_source_word=int(gdb.parse_and_eval('*rc_source_cursor')))
             for key,observer_file in [('macro_finish_calls','macro-finish-calls.json'),('resume_calls','resume-calls.json'),('macro_expansion_calls','macro-expansion-calls.json'),('expanded_number_calls','expanded-number-calls.json'),('integer_conversions','integer-conversions.json'),('digit_values','digit-values.json'),('macro_push_calls','macro-push-calls.json'),('macro_select_calls','macro-select-calls.json'),('active_number_calls','active-number-calls.json')]:arguments[key]=json.loads((output.parent/observer_file).read_text())
-        if name in ['rc_skip_inactive','rc_read_skipped_directive']:
+        if name in ['rc_skip_inactive','rc_read_skipped_directive','rc_skip_inactive_quoted','rc_splice_line']:
             from importlib.machinery import SourceFileLoader
             inspect=SourceFileLoader('skip_preprocess',str(Path(os.environ['RCDLL_NATIVE_SCRIPT']).parent/'native-preprocess.py')).load_module()
             arguments['preprocessor']=inspect.capture_preprocessor(config_path.parent/'preprocess-data.json',include_macros=False)
-            skip_frame=frame if name=='rc_skip_inactive'else frame.older()
-            level=skip_frame.read_var('level'if name=='rc_skip_inactive'else'mode');depth=int(gdb.parse_and_eval('rc_source_depth'));source=gdb.parse_and_eval('rc_source_frames[%d]'%depth);buffer=int(source['buffer']);file=source['file'].dereference();descriptor=int(file['_file']);handle=int(gdb.parse_and_eval('recon_osfhnd[%d]'%descriptor))-1
-            arguments['skip_inactive']=dict(formals=[dict(name='level',value=int(level),bytes=level.type.sizeof)],caller=frame.older().name(),source_depth=depth,source_frame=bytes(gdb.selected_inferior().read_memory(int(source.address),36)).hex(),source_buffer=buffer,source_owner_bytes=8206,source_payload=bytes(gdb.selected_inferior().read_memory(buffer-8,8206)).hex(),cursor=int(gdb.parse_and_eval('rc_source_cursor')),filename=inspect.wide_bytes(int(gdb.parse_and_eval('rc_filename'))),file_fdinfo=Path('/proc/%d/fdinfo/%d'%(gdb.selected_inferior().pid,handle)).read_text(),file_host_path=os.readlink('/proc/%d/fd/%d'%(gdb.selected_inferior().pid,handle)))
-            if name=='rc_read_skipped_directive':
+            skip_frame=frame
+            while skip_frame and skip_frame.name()!='rc_skip_inactive':skip_frame=skip_frame.older()
+            assert skip_frame or name=='rc_splice_line'
+            level=skip_frame.read_var('level'if name=='rc_skip_inactive'else'mode')if skip_frame else None;depth=int(gdb.parse_and_eval('rc_source_depth'));source=gdb.parse_and_eval('rc_source_frames[%d]'%depth);buffer=int(source['buffer']);file=source['file'].dereference();descriptor=int(file['_file']);handle=int(gdb.parse_and_eval('recon_osfhnd[%d]'%descriptor))-1
+            arguments['skip_inactive']=dict(formals=[dict(name='level',value=int(level),bytes=level.type.sizeof)]if level is not None else [],caller=frame.older().name(),source_depth=depth,source_frame=bytes(gdb.selected_inferior().read_memory(int(source.address),36)).hex(),source_buffer=buffer,source_owner_bytes=8206,source_payload=bytes(gdb.selected_inferior().read_memory(buffer-8,8206)).hex(),cursor=int(gdb.parse_and_eval('rc_source_cursor')),filename=inspect.wide_bytes(int(gdb.parse_and_eval('rc_filename'))),file_fdinfo=Path('/proc/%d/fdinfo/%d'%(gdb.selected_inferior().pid,handle)).read_text(),file_host_path=os.readlink('/proc/%d/fd/%d'%(gdb.selected_inferior().pid,handle)))
+            if name in ['rc_read_skipped_directive','rc_skip_inactive_quoted']:
                 arguments['skip_inactive']['formals']=[];arguments['skip_inactive']['parent_mode']=dict(value=int(level),bytes=level.type.sizeof)
                 arguments['skip_inactive']['parent_depth']=dict(value=int(skip_frame.read_var('depth')),bytes=skip_frame.read_var('depth').type.sizeof)
                 arguments['skip_inactive']['parent_branch']=dict(value=int(skip_frame.read_var('branch')),bytes=skip_frame.read_var('branch').type.sizeof)
+            if name=='rc_skip_inactive_quoted':
+                delimiter=frame.read_var('delimiter');slot=int(gdb.parse_and_eval('$ebp'))+8;reader=frame.older()
+                arguments['skip_inactive']['formals']=[dict(name='delimiter',value=int(delimiter),bytes=delimiter.type.sizeof,physical_slot_bytes=4,physical_slot=bytes(gdb.selected_inferior().read_memory(slot,4)).hex(),physical_slot_address=slot,formal_address=int(delimiter.address))]
+                arguments['skip_inactive']['reader_character']=dict(value=int(reader.read_var('character')),bytes=reader.read_var('character').type.sizeof)
+                arguments['skip_inactive']['reader_token']=dict(value=int(reader.read_var('token')),bytes=reader.read_var('token').type.sizeof)
+            if name=='rc_splice_line':
+                reader=frame.older();arguments['skip_inactive']['formals']=[]
+                arguments['splice_line']=dict(formals=[],caller=reader.name(),reader_character=dict(value=int(reader.read_var('character')),bytes=reader.read_var('character').type.sizeof),previous_word=int(gdb.parse_and_eval('rc_source_cursor[-1]')),current_word=int(gdb.parse_and_eval('*rc_source_cursor')))
+            arguments['skipped_directives']=json.loads((output.parent/'skipped-directives.json').read_text())
             arguments['integer_kinds']=json.loads((output.parent/'integer-kinds.json').read_text())
             arguments['observer_scope']=json.loads((output.parent/'observer-scope.json').read_text())
         if name=='rc_search_include_directories':
