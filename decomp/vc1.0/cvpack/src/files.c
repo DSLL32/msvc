@@ -600,3 +600,14 @@ long seek_mapped_file(FileSlot *slot, long offset, int origin)
         grow_mapping(slot, slot->cursor.position);
     return slot->cursor.position;
 }
+
+/* Original [0002abb0,0002abf6): memcpy is intrinsic in the original body. */
+#pragma intrinsic(memcpy)
+int read_mapped_file(FileSlot *slot, void *buffer, unsigned long size)
+{
+    if ((long)(slot->cursor.position + size) > slot->allocated)
+        grow_mapping(slot, slot->cursor.position + size);
+    memcpy(buffer, slot->contents.view + slot->cursor.position, size);
+    slot->cursor.position += size;
+    return size;
+}

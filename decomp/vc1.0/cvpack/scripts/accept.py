@@ -151,8 +151,15 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
         assert registers,'missing original ABI register state'
         words.update({k:int(v,16)for k,v in zip(registers[1].split()[::2],registers[1].split()[1::2])})
     assert set(state['parameters'])=={r['name']for r in frontier['parameters']}if frontier else not state['parameters'],'new frontier ABI observation incomplete'
+    recursive_input=None
+    if frontier and frontier['name']=='compare_recursive_type':
+        from recursive_input import compare as compare_recursive_input
+        recursive_input=compare_recursive_input(events,words,state['parameters'])
     for item in frontier['parameters']if frontier else []:
         if item['kind']=='integer':parameters[item['name']]=compare_integer(item,frontier['parameters'],words,state['parameters'])
+        elif item['kind']in('local-type-record','published-type-record'):
+            assert recursive_input is not None,'unproved recursive comparison input'
+            parameters[item['name']]=dict(typed_owner=recursive_input,role=item['kind'])
         elif item['kind']=='symbol-sort-key':parameters[item['name']]=compare_symbol_sort_key(item,words,state['parameters'][item['name']],events)
         elif item['kind']=='function':
             callback=next(r for r in config['functions']if r['name']==item['target']);actual=state['parameters'][item['name']]

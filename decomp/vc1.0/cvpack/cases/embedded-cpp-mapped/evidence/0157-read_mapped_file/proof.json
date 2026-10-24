@@ -1,0 +1,345 @@
+{
+  "function": "read_mapped_file",
+  "sequence": 157,
+  "case": "embedded-cpp-mapped",
+  "extent": [
+    175024,
+    175094
+  ],
+  "original_frontier": 124800,
+  "native_frontier": "compare_recursive_type",
+  "application_entries": [
+    "main",
+    "parse_options",
+    "files_initialize",
+    "new_page",
+    "new_file_slot",
+    "open_file",
+    "find_cached_file",
+    "acquire_file_slot",
+    "move_file_slot",
+    "open_mapped_file",
+    "map_file",
+    "initialize_type_tables",
+    "checked_zero",
+    "initialize_buffer",
+    "checked_alloc",
+    "read_image_debug",
+    "seek_file",
+    "seek_mapped_file",
+    "read_file",
+    "read_mapped_file",
+    "tell_file",
+    "read_cv_signature",
+    "read_new_directory",
+    "compare_directory",
+    "initialize_modules",
+    "read_subsection",
+    "find_module",
+    "pack_module",
+    "read_module",
+    "read_publics",
+    "pack_public_symbols",
+    "convert_old_type",
+    "map_primitive",
+    "intern_public",
+    "hash_public",
+    "allocate_symbol",
+    "read_global_types",
+    "read_new_global_types",
+    "reset_local_types",
+    "reset_type_hash",
+    "read_types",
+    "convert_new_type",
+    "index_new_types",
+    "reserve_extra_type",
+    "has_extra_type",
+    "pack_new_types",
+    "write_search_symbol",
+    "convert_object_name",
+    "convert_procedure32",
+    "address_in_module",
+    "compact_new_type",
+    "find_named_type",
+    "find_global_type",
+    "store_type",
+    "hash_type",
+    "save_type",
+    "append_buffer",
+    "compact_type_list",
+    "compact_pointer",
+    "add_recursive_offset",
+    "intern_type",
+    "hash_recursive_type",
+    "hash_referenced_type",
+    "commit_recursive_type",
+    "publish_recursive_type",
+    "publish_packed_type",
+    "record_derived_types",
+    "finish_recursive_types",
+    "convert_bp_relative32",
+    "end_symbol_block",
+    "compare_recursive_type"
+  ],
+  "matched_frontier_parameters": {
+    "entry": {
+      "null": false,
+      "address": 4154831816,
+      "typed": {
+        "local": {
+          "table": 4154830864,
+          "capacity": 12000,
+          "count": 124,
+          "first": 4096,
+          "type": 4130,
+          "entry": 4154831816,
+          "bytes": "0c6ae1570000000002004d0006080000000000000000000040040000"
+        },
+        "input": {
+          "module": 2,
+          "input": 1474390048,
+          "requested": 1960,
+          "defined": 1956,
+          "directory": 3,
+          "offset": 3695,
+          "record": 1474390540,
+          "bytes": "1200090003001a101d100b000100031000000000"
+        }
+      }
+    },
+    "type": 4130,
+    "record": {
+      "null": false,
+      "address": 1474405792,
+      "typed": {
+        "published": {
+          "index": 4100,
+          "next": 4125,
+          "page": 1474403680,
+          "record": 1474405792,
+          "block": 1474405744,
+          "data": 1474405760,
+          "used": 424,
+          "capacity": 32512,
+          "bytes": "120009000300051009100b000100031000000000"
+        },
+        "hash": {
+          "bucket": 77,
+          "head": 1474438352,
+          "count": 1,
+          "position": 0,
+          "cursor": 1474438592,
+          "available": 1004,
+          "arena": 1474438352,
+          "node": 1474438352,
+          "bytes": "a0a5e1570410000000000000"
+        }
+      }
+    },
+    "index": 4100
+  },
+  "typed_frontier_parameters": {
+    "entry": {
+      "typed_owner": {
+        "original": {
+          "local": {
+            "table": 7940188,
+            "capacity": 12000,
+            "count": 124,
+            "first": 4096,
+            "type": 4130,
+            "entry": 7941140,
+            "bytes": "a80279000000000002004d0006080000000000000000000040040000"
+          },
+          "input": {
+            "module": 2,
+            "input": 7930044,
+            "requested": 1960,
+            "defined": 1956,
+            "directory": 3,
+            "offset": 3695,
+            "record": 7930536,
+            "bytes": "1200090003001a101d100b000100031000000000"
+          },
+          "published": {
+            "index": 4100,
+            "next": 4125,
+            "page": 8279592,
+            "record": 8281692,
+            "block": 8281644,
+            "data": 8281660,
+            "used": 424,
+            "capacity": 32512,
+            "bytes": "120009000300051009100b000100031000000000"
+          },
+          "hash": {
+            "bucket": 77,
+            "head": 8314240,
+            "count": 1,
+            "position": 0,
+            "cursor": 8314480,
+            "available": 1004,
+            "arena": 8314240,
+            "node": 8314240,
+            "bytes": "5c5e7e000410000000000000"
+          }
+        },
+        "native": {
+          "local": {
+            "table": 4154830864,
+            "capacity": 12000,
+            "count": 124,
+            "first": 4096,
+            "type": 4130,
+            "entry": 4154831816,
+            "bytes": "0c6ae1570000000002004d0006080000000000000000000040040000"
+          },
+          "input": {
+            "module": 2,
+            "input": 1474390048,
+            "requested": 1960,
+            "defined": 1956,
+            "directory": 3,
+            "offset": 3695,
+            "record": 1474390540,
+            "bytes": "1200090003001a101d100b000100031000000000"
+          },
+          "published": {
+            "index": 4100,
+            "next": 4125,
+            "page": 1474403680,
+            "record": 1474405792,
+            "block": 1474405744,
+            "data": 1474405760,
+            "used": 424,
+            "capacity": 32512,
+            "bytes": "120009000300051009100b000100031000000000"
+          },
+          "hash": {
+            "bucket": 77,
+            "head": 1474438352,
+            "count": 1,
+            "position": 0,
+            "cursor": 1474438592,
+            "available": 1004,
+            "arena": 1474438352,
+            "node": 1474438352,
+            "bytes": "a0a5e1570410000000000000"
+          }
+        },
+        "scope": "Actual local-table entry and defined module-type bytes; published global type/page/buffer and recursive hash-node identity. Raw pointer values retained; 2 reserved node bytes and unconsumed next link receive no equality credit. Expanded recursive arrays pending."
+      },
+      "role": "local-type-record"
+    },
+    "type": null,
+    "record": {
+      "typed_owner": {
+        "original": {
+          "local": {
+            "table": 7940188,
+            "capacity": 12000,
+            "count": 124,
+            "first": 4096,
+            "type": 4130,
+            "entry": 7941140,
+            "bytes": "a80279000000000002004d0006080000000000000000000040040000"
+          },
+          "input": {
+            "module": 2,
+            "input": 7930044,
+            "requested": 1960,
+            "defined": 1956,
+            "directory": 3,
+            "offset": 3695,
+            "record": 7930536,
+            "bytes": "1200090003001a101d100b000100031000000000"
+          },
+          "published": {
+            "index": 4100,
+            "next": 4125,
+            "page": 8279592,
+            "record": 8281692,
+            "block": 8281644,
+            "data": 8281660,
+            "used": 424,
+            "capacity": 32512,
+            "bytes": "120009000300051009100b000100031000000000"
+          },
+          "hash": {
+            "bucket": 77,
+            "head": 8314240,
+            "count": 1,
+            "position": 0,
+            "cursor": 8314480,
+            "available": 1004,
+            "arena": 8314240,
+            "node": 8314240,
+            "bytes": "5c5e7e000410000000000000"
+          }
+        },
+        "native": {
+          "local": {
+            "table": 4154830864,
+            "capacity": 12000,
+            "count": 124,
+            "first": 4096,
+            "type": 4130,
+            "entry": 4154831816,
+            "bytes": "0c6ae1570000000002004d0006080000000000000000000040040000"
+          },
+          "input": {
+            "module": 2,
+            "input": 1474390048,
+            "requested": 1960,
+            "defined": 1956,
+            "directory": 3,
+            "offset": 3695,
+            "record": 1474390540,
+            "bytes": "1200090003001a101d100b000100031000000000"
+          },
+          "published": {
+            "index": 4100,
+            "next": 4125,
+            "page": 1474403680,
+            "record": 1474405792,
+            "block": 1474405744,
+            "data": 1474405760,
+            "used": 424,
+            "capacity": 32512,
+            "bytes": "120009000300051009100b000100031000000000"
+          },
+          "hash": {
+            "bucket": 77,
+            "head": 1474438352,
+            "count": 1,
+            "position": 0,
+            "cursor": 1474438592,
+            "available": 1004,
+            "arena": 1474438352,
+            "node": 1474438352,
+            "bytes": "a0a5e1570410000000000000"
+          }
+        },
+        "scope": "Actual local-table entry and defined module-type bytes; published global type/page/buffer and recursive hash-node identity. Raw pointer values retained; 2 reserved node bytes and unconsumed next link receive no equality credit. Expanded recursive arrays pending."
+      },
+      "role": "published-type-record"
+    },
+    "index": null
+  },
+  "matched_application_globals": {},
+  "observed_objects": {},
+  "conditional_CRT_support": [],
+  "freebuf_noop_boundary": null,
+  "runtime_unmasked": [],
+  "seconds": {
+    "setup": 0.24120125081390142,
+    "execution": 0.016140224412083626,
+    "debugging": 0.6946620531380177,
+    "checks": 0.02454492449760437,
+    "total": 0.9765542298555374
+  },
+  "classification": "routine-whole-function-and-genuine-next-entry",
+  "later_module_heap_equality": false,
+  "prior_module3": "cases/hello-debug-dll/evidence/0097-create_symbol_reference/proof.json",
+  "scope": "Root streamlined normal loop; actual formal/selected consumed globals checked, old full module3 contracts retained; additional state probes only for concrete ambiguities/mismatches"
+}

@@ -47,7 +47,7 @@ void read_packed_modules(void) { __asm { int 3 } }
 
 void grow_mapping(FileSlot *slot, long size) { __asm { int 3 } }
 
-int read_mapped_file(FileSlot *slot, void *buffer, unsigned long size) { __asm { int 3 } return -1; }
+
 
 void read_old_module(unsigned long directory,ModuleInfo * module) { __asm { int 3 } }
 

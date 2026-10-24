@@ -100,7 +100,7 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
         '  value=current.read_var(symbol); kind=value.type.strip_typedefs().code\n'
         '  if kind==gdb.TYPE_CODE_PTR:\n'
         '   parameters[symbol.name]=dict(null=int(value)==0,address=int(value))\n'
-        '   output=any(d["name"]==symbol.name and d["kind"]in("stack-output","allocation-output","counted-string")for d in next(r for r in '+repr(config['functions'])+' if r["native"]==current.name()).get("parameters",[]))\n'
+        '   output=any(d["name"]==symbol.name and d["kind"]in("stack-output","allocation-output","counted-string","local-type-record","published-type-record")for d in next(r for r in '+repr(config['functions'])+' if r["native"]==current.name()).get("parameters",[]))\n'
         '   if not output and int(value) and value.type.strip_typedefs().target().strip_typedefs().code==gdb.TYPE_CODE_INT and value.type.strip_typedefs().target().strip_typedefs().sizeof==1: parameters[symbol.name]["string"]=value.string(encoding="latin1").encode("latin1").hex()\n'
         '   for item in '+repr(data)+':\n'
         '    address=int(gdb.parse_and_eval("&"+item["name"]))\n'
@@ -185,6 +185,9 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
         ' if not base or stride!=8 or not base<=pointer<base+count*8 or (pointer-base)%8: raise RuntimeError("symbol key outside current qsort array")\n'
         ' raw=bytes(gdb.selected_inferior().read_memory(pointer,8));node=int.from_bytes(raw[:4],"little");key=int.from_bytes(bytes(gdb.selected_inferior().read_memory(node+12,4)),"little")\n'
         ' argument["array"]=dict(base=base,count=count,index=(pointer-base)//8,stride=8);argument["bytes"]=raw.hex();argument["symbol"]=dict(address=node,offset=key)\n'
+        'if frontier["name"]=="compare_recursive_type":\n'
+        ' typed=runpy.run_path('+repr(str(BINARY/'scripts/recursive-input-debug.py'))+')["capture"]()\n'
+        ' for name,value in typed.items(): parameters[name]["typed"]=value\n'
         'for description in frontier.get("parameters",[]):\n'
         ' if description["kind"]!="transient-pointer": continue\n'
         ' proof=json.load(open('+repr(str(BINARY))+'+"/"+description["evidence"]))\n'
@@ -304,7 +307,7 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
     if expected.get('proof_mode')=='entry-flow'and expected['terminal']=='trap'and not(reference_completion or scalar_completion):
         marker='set argv[0] = recon_pgmptr\n';text=script.read_text();prefix=text[:text.index(marker)+len(marker)]
         frontier=next(r for r in config['functions']if r['native']==expected['native_function'])
-        assert all(r['kind']in('integer','stack-output','stack-input','allocation-output','counted-string','directory-key','directory-output','global-owner','function','symbol-sort-key','file-slot','mapped-image')or(r['kind']=='pointer'and r.get('null_only'))for r in frontier['parameters']),'new frontier requires concrete typed pointer observation'
+        assert all(r['kind']in('integer','stack-output','stack-input','allocation-output','counted-string','directory-key','directory-output','global-owner','function','symbol-sort-key','file-slot','mapped-image','local-type-record','published-type-record')or(r['kind']=='pointer'and r.get('null_only'))for r in frontier['parameters']),'new frontier requires concrete typed pointer observation'
         observed=[r for r in data if r['name']in expected.get('observed_globals',[])]
         assert len(observed)==len(expected.get('observed_globals',[])),'unknown observed global'
         prefix+='python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_sopen_observer"]('+repr(str(directory/'crt-returns.json'))+','+repr(str(directory/'debug-work'))+','+repr(policies)+')\nend\ncontinue\npython\nimport json\nf=gdb.newest_frame();frames=[];frame=f\nwhile frame:frames.append(frame.name());frame=frame.older()\n'

@@ -312,6 +312,7 @@ static int finish_sopen(HANDLE child, HANDLE log, HANDLE thread)
 
 #include "freebuf-observer.h"
 #include "mapped-slot-observer.h"
+#include "recursive-input-observer.h"
 
 static int dump_file_descriptor(HANDLE child, HANDLE log, DWORD root, DWORD index)
 {
@@ -1531,6 +1532,7 @@ int main(int argc, char **argv)
                         }
                     }
                 }
+                if(!dump_recursive_inputs(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,&context,words))return 67;
                 if(!dump_progress_input(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,words))return 54;
                 if(!dump_symbol_references(child.hProcess,log))return 53;
                 if(!dump_symbol_blocks(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress))return 48;
