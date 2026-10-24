@@ -7,7 +7,7 @@ HEADERS = $(wildcard src/*.h) $(RECON)/include/recon.h
 OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES))
 NATIVE_CC ?= clang
 NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g
-NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
+NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONSUME_GLIBC_TUNABLES -I$(RECON)/include -I$(RECON)/native
 NATIVE_HEADERS = $(HEADERS) $(wildcard $(RECON)/native/*.h $(RECON)/include/*.h)
 NATIVE_OBJECTS = $(patsubst src/%.c,build/native/%.o,$(SOURCES))
 NATIVE_SHIMS = $(wildcard $(RECON)/src/*.c)

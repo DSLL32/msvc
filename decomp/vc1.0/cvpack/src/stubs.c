@@ -17,7 +17,7 @@ void *type_scratch(unsigned long size) { __asm { int 3 } return NULL; }
 
 
 unsigned short write_output(const void *buffer,unsigned short size) { __asm { int 3 } return 0; }
-unsigned short flush_output(int handle) { __asm { int 3 } return 0; }
+unsigned short flush_output(void) { __asm { int 3 } return 0; }
 
 
 
@@ -26,7 +26,7 @@ unsigned short flush_output(int handle) { __asm { int 3 } return 0; }
 
 
 
-void build_type_offsets(void) { __asm { int 3 } }
+
 unsigned long write_old_packed_types(void) { __asm { int 3 } return 0; }
 
 int update_image_checksum(const char *name, unsigned long length, unsigned char read_only)

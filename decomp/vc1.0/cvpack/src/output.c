@@ -155,7 +155,7 @@ void write_packed_debug(void)
     debug_size = tell_file(input_file)-cv_file_offset+output_used+8;
     OUTPUT_BYTES(packed_signature.signature, 4);
     OUTPUT_BYTES(&debug_size, 4);
-    if (!flush_output(input_file)) fatal_error(20, NULL, NULL);
+    if (!flush_output()) fatal_error(20, NULL, NULL);
     packed_file_size = tell_file(input_file);
     if (is_pe_image) {
         if (seek_file(input_file, section_header_offset, 0) == -1 ||
@@ -698,5 +698,28 @@ unsigned long write_packed_types(void)
     output_padding = 4-(total&3);
     if (output_padding != 4) OUTPUT_BYTES(output_zeroes, output_padding);
     return total;
+}
+
+/* Replace the type-record pointers with offsets into the emitted stream. */
+void build_type_offsets(void)
+{
+    unsigned short index = 0, page_used = 0, length;
+    unsigned long offset = 0, record_size, aligned;
+    unsigned char **slot;
+
+    while (index < (unsigned short)(next_type_index-0x1000)) {
+        slot = &type_pages[index/512][index%512];
+        length = (unsigned short)(*(unsigned short *)*slot+2);
+        record_size = length;
+        aligned = record_size+3-((record_size-1)&3);
+        if ((unsigned long)page_used+aligned > 0xc000) {
+            offset += 0xc000-page_used;
+            page_used = 0;
+        }
+        *slot = (unsigned char *)offset;
+        offset += aligned;
+        page_used = (unsigned short)(page_used+(unsigned short)aligned);
+        ++index;
+    }
 }
 #undef OUTPUT_BYTES

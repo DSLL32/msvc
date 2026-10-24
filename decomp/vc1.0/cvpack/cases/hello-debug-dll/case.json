@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "build_type_offsets",
-    "native_function": "build_type_offsets",
+    "logical": "flush_output",
+    "native_function": "flush_output",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -159,7 +159,8 @@
       "write_global_symbols",
       "write_static_symbols",
       "write_packed_types",
-      "build_type_offsets"
+      "build_type_offsets",
+      "flush_output"
     ],
     "proof_mode": "entry-flow",
     "heap_scope": "Root streamlined routine loop: actual next entry/formals plus reached PE header globals; old module3 proof97 retained. No later symbol-heap equality claim.",
@@ -199,5 +200,9 @@
     "stdout": "",
     "stderr": "",
     "normalization": []
+  },
+  "native_host_allocator": {
+    "profile": "cases/hello-debug-dll/native-host-allocator/profile.json",
+    "sha256": "6e17996420ce95dbb1a079a3741f4b9854fba856be5d4132706bdfc4dcb9aaa1"
   }
 }

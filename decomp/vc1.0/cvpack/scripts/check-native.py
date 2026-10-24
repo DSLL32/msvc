@@ -298,12 +298,29 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
     if scalar_completion:
         import runpy
         runpy.run_path(str(BINARY/"scripts/scalar-block-debug.py"))["write"](script,directory,policies)
+    allocator = record.get('native_host_allocator')
+    host_profile = None
+    if allocator:
+        profile_path=BINARY/allocator['profile']
+        assert sha(profile_path)==allocator['sha256'],'stale native host allocator profile'
+        host_profile=json.loads(profile_path.read_text())
+        assert host_profile['schema']==1 and host_profile['startup_define']=='RECON_NATIVE_STARTUP_CONSUME_GLIBC_TUNABLES'
+        assert sha(Path(host_profile['libc']['path']))==host_profile['libc']['sha256'],'host allocator libc changed'
+        for path,digest in host_profile['observation'].items():assert sha(BINARY/path)==digest,'host allocation observation changed'
+        assert host_profile['environment']=={'GLIBC_TUNABLES':'glibc.malloc.tcache_count=0:glibc.malloc.mmap_threshold=0:glibc.malloc.trim_threshold=0'},'unknown host allocator settings'
+    if host_profile and debug:
+        # Read the live target-visible environment after startup consumed the
+        # host-only loader control. No inferior function call or heap probe.
+        marker='set argv[0] = recon_pgmptr\n'
+        observer='python\nimport json\nvector=gdb.parse_and_eval("(char **)environ");entries=[]\nfor i in range(16384):\n p=vector[i]\n if not int(p): break\n value=p.string(encoding="latin1");assert len(value)<=4096;entries.append(value)\nelse: raise RuntimeError("unterminated target environment")\nassert not any(v.startswith(("GLIBC_TUNABLES=","MALLOC_"))for v in entries),"host allocator control leaked to target environment"\nassert int(gdb.parse_and_eval("recon_crt_arguments_bound"))==0,"unexpected target CRT namespace"\njson.dump(dict(host_controls_absent=True,unbound_CRT_uses_host_vector=True),open('+repr(str(directory/'host-environment.json'))+',"w"))\nend\n'
+        text=script.read_text();assert marker in text;script.write_text(text.replace(marker,marker+observer,1))
     env = os.environ.copy()
     for variable in list(env):
-        if variable.startswith(('WINE','RECON_')) or variable in ('CL','_CL_','LINK','_LINK_','MSC_CMD_FLAGS','_MSC_IDE_FLAGS','LINK32_DB'):
+        if variable.startswith(('WINE','RECON_','MALLOC_')) or variable=='GLIBC_TUNABLES' or variable in ('CL','_CL_','LINK','_LINK_','MSC_CMD_FLAGS','_MSC_IDE_FLAGS','LINK32_DB'):
             env.pop(variable)
     env.update(LC_ALL='C',TZ='PST8PDT',RECON_PROGRAM_PATH=canonical,PATH='',
                LIB='Z:'+str(ROOT/'toolchains/1.0-nt/lib').replace('/','\\'))
+    if host_profile: env.update(host_profile['environment'])
     from inputs import environment as input_environment,verify as verify_inputs
     input_environment(record,work,env)
     symbols=directory/'trace-filter'
@@ -379,9 +396,11 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
     assert sha(snapshot)==sha(BINARY/'functions.json'),'configuration changed during native run'
     assert sha(executable)==executable_hash,'native executable changed during run'
     check_policy_snapshot(directory,policy_hash)
+    if allocator: assert sha(BINARY/allocator['profile'])==allocator['sha256'],'host allocator profile changed during run'
     return dict(case=name,terminal=expected['terminal'],status=child.returncode,function=expected.get('native_function'),
         executable_sha256=executable_hash,configuration_sha256=sha(snapshot),original_sha256=config['target']['sha256'],
         conditional_support_sha256=policy_hash,
+        native_host_allocator=dict(profile_sha256=allocator["sha256"],launch=host_profile)if host_profile else None,
         process_boundary=processes.receipt(),
         seconds=dict(setup=setup,execution=execution,debugging=debugging,
                      checks=time.perf_counter()-check,total=time.perf_counter()-start))

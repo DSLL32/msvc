@@ -21,21 +21,35 @@ def validate_native_fields(before,after):
 
 def validate(original,config,current,native,native_receipt,sidecar):
     sidecar=Path(sidecar);root=sidecar.parent;p=json.loads(sidecar.read_text())
-    assert p['schema']==1 and p['kind']=='native-read-source-line-rebind'
+    assert p['schema']==1 and p['kind']in('native-read-source-line-rebind','cvpack142-host-driver-hash-only')
     for name,digest in p['files'].items():assert sha(root/name)==digest,'rebind immutable proof changed'
     raw=json.loads((original/'receipt.json').read_text());old=json.loads((original/'configuration.json').read_text())
     assert sha(original/'receipt.json')==p['original_receipt_sha256'],'rebind original receipt changed'
     assert sha(original/'configuration.json')==raw['configuration_sha256']==p['old_configuration_sha256'],'rebind original snapshot changed'
     assert sha(current)==p['new_configuration_sha256']==native_receipt['configuration_sha256']==sha(native/'configuration.json'),'rebind stale native/current snapshot'
     assert json.loads((native/'configuration.json').read_text())==config,'rebind native snapshot contents differ'
-    expected=copy.deepcopy(old);expected['read_observations']['evidence_sha256']=config['read_observations']['evidence_sha256']
+    expected=copy.deepcopy(old)
+    if p['kind']=='cvpack142-host-driver-hash-only':
+        # One approved derivation: host launch support changed, original run did not.
+        before=json.loads((root/'old-native-driver-proof.json').read_text());after=json.loads((root/'new-native-driver-proof.json').read_text())
+        oldhash='e13a9ccacf0405b8e5e683b491f18e04d921e9e2b9554f506ed6e614d7c2f60d'
+        newhash='3e978ff1b9bb3cba2a3ec1ac5fecd2e706fbb53161eb091fc4ba1ac8f9397b05'
+        assert p['native_driver_hashes']==[oldhash,newhash] and before['sources']['scripts/check-native.py']==oldhash and after['sources']['scripts/check-native.py']==newhash==sha(BINARY/'scripts/check-native.py'),'unapproved native driver derivation'
+        changed=copy.deepcopy(before);changed['sources']['scripts/check-native.py']=newhash
+        assert changed==after,'host derivation changes scalar observation policy'
+        assert sha(root/'old-native-driver-proof.json')==old['scalar_block_observations']['sha256']
+        assert sha(root/'new-native-driver-proof.json')==config['scalar_block_observations']['sha256']==sha(BINARY/config['scalar_block_observations']['path'])
+        expected['scalar_block_observations']['sha256']=config['scalar_block_observations']['sha256']
+        assert raw['entry_progress_only'] and raw['candidates']==['build_type_offsets'],'host derivation restricted to actual142 entry flow'
+    else:
+        expected['read_observations']['evidence_sha256']=config['read_observations']['evidence_sha256']
+        before=json.loads((root/'old-read-proof.json').read_text());after=json.loads((root/'new-read-proof.json').read_text())
+        assert sha(root/'old-read-proof.json')==old['read_observations']['evidence_sha256']
+        assert sha(root/'new-read-proof.json')==config['read_observations']['evidence_sha256']==sha(BINARY/config['read_observations']['evidence'])
+        validate_native_fields(before,after)
+        assert sha(BINARY/after['source'])==after['source_sha256']
+        for path,digest in after.get('additional_sources',{}).items():assert sha(BINARY/path)==digest,'rebind native source changed'
     assert expected==config and old!=config,'rebind unrelated configuration change'
-    before=json.loads((root/'old-read-proof.json').read_text());after=json.loads((root/'new-read-proof.json').read_text())
-    assert sha(root/'old-read-proof.json')==old['read_observations']['evidence_sha256']
-    assert sha(root/'new-read-proof.json')==config['read_observations']['evidence_sha256']==sha(BINARY/config['read_observations']['evidence'])
-    validate_native_fields(before,after)
-    assert sha(BINARY/after['source'])==after['source_sha256']
-    for path,digest in after.get('additional_sources',{}).items():assert sha(BINARY/path)==digest,'rebind native source changed'
     for path,digest in p['current_files'].items():assert sha(BINARY/path)==digest,'rebind current dependency changed'
     assert sha(BINARY/'build/debug-run.exe')==raw['debugger_sha256']==p['controller_sha256'],'rebind original controller changed'
     assert sha(original/'CVPACK.EXE')==raw['executable_sha256']==p['masked_sha256'],'rebind original mask changed'
@@ -51,7 +65,7 @@ def validate(original,config,current,native,native_receipt,sidecar):
     with tempfile.TemporaryDirectory(dir=Path.home()/'.ai-tmp/vc1.0-cvpack',prefix='rebind-mask-')as d:
         path=Path(d)/'image';mask(config,pe,path,raw['candidates']);image=bytearray(path.read_bytes())
         for r in application:image[pe.offset(r['original'])]=0xcc
-        for r in after['sites']:
+        for r in (after['sites']if p['kind']=='native-read-source-line-rebind'else []):
             image[pe.offset(r['call'])]=0xcc;image[pe.offset(r['returned'])]=0xcc
         assert bytes(image)==(original/'CVPACK.EXE').read_bytes(),'rebind regenerated masked image differs'
     case=json.loads((BINARY/'cases'/raw['case']/'case.json').read_text())

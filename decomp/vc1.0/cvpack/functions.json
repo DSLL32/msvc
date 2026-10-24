@@ -6787,11 +6787,12 @@
       "kind": "application",
       "status": "stub",
       "extent": null,
-      "abi": "unsigned short flush_output(int)",
+      "abi": "unsigned short flush_output(void)",
       "stack_cleanup": 0,
       "evidence": null,
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "parameters": []
     },
     {
       "name": "write_subsection",
@@ -7442,16 +7443,33 @@
       "native": "build_type_offsets",
       "symbol": "_build_type_offsets",
       "original": 111168,
-      "source": "src/stubs.c",
+      "source": "src/output.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        111168,
+        111362
+      ],
       "abi": "void build_type_offsets(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0142-build_type_offsets/proof.json",
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     }
   ],
   "review": {
@@ -8324,6 +8342,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 141
+    },
+    {
+      "function": "build_type_offsets",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 142
     }
   ],
   "support_unmasked": [
@@ -8934,7 +8958,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "a429f86b27f6dc4714ec110447b2cdfb3fe70e8bdcac72b4cd39335270a62d87"
+    "evidence_sha256": "87b53440431745a63f689d8cae6cc48687c0207e90f73f61835441fa6a7537c0"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -9010,6 +9034,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "a558b81eeb34555a27758178eccf4ab2aee1a44c718f2cf6906e7e3091ab7955"
+    "sha256": "0d6d657eef74542050d38561902091a45a734823b6731d635186fdcea043c803"
   }
 }

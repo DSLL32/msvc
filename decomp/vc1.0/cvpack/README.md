@@ -8,13 +8,12 @@ The PE/COFF analysis reader was reused from LINK; no sibling files are changed.
 `make -j4 native check` builds/runs native i386 fixtures. `make -j4 all audit`
 also verifies original-compiler compilability. Debug with GDB against
 `build/native/CVPACK.EXE`. `/help` is complete: exact 219-byte stdout, exit 1 and
-empty stderr. Ninety-seven application functions are accepted. The second orchestrator review
-passed at fifty; reconstruction continues autonomously. The independent DLL case
-currently stops at the real `begin_symbol_block` stub in input module10. CRT startup has a
-separate exact-library and observed-state proof and is counted separately.
-`audit` checks complete original/compiler CFGs and callees, RET cleanup, SEH
-roots, contextual initial data, library relocations, and targeted rejection checks, including ownership, snapshots, conditional ABI words and
-case-specific guarded CRT variants.
+empty stderr. The independent DLL case is progressing through packed output;
+`functions.json` and the ordered case evidence are the authoritative counts and
+current frontier. The orchestrator's ten- and fifty-function reviews passed.
+CRT startup and case-specific runtime variants remain separate from application
+coverage. `audit` checks complete original/compiler CFGs and callees, RET cleanup,
+SEH roots, contextual data, ownership and library relocation identities.
 
 `scripts/capture-original.py --case help --output ~/.ai-tmp/...` is an explicit
 original-only operation after `make build/debug-run.exe`. It creates an entirely
@@ -176,3 +175,12 @@ files and receipts remain historical evidence only. Use original-compiler
 compilation, static graph/ABI/data audits and ordinary cached native
 trace/status/artifact fixtures. Add only small targeted checks for actual
 changes or mismatches. This supersedes all earlier replay-cadence notes.
+
+The DLL case uses an explicit native host allocator profile in
+`cases/hello-debug-dll/native-host-allocator/`. Its exact glibc and launch tunables
+are bound in native receipts; startup removes the host control before target
+`main`. The relevant 508-byte source index allocation was observed as mapped,
+zero before stores, with its two unwritten alignment bytes unchanged. This is a
+concrete host configuration, not a malloc initialization guarantee. The failed
+default-allocator comparison is retained; full output comparisons stay exact.
+Routine fixtures do not install allocation observers.

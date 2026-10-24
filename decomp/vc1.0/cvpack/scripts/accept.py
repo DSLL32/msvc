@@ -117,6 +117,12 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
     assert receipt['terminal']=='trap'and receipt['status']==-5 and captured['helper_status']==0,'not corresponding genuine traps'
     events=(original/'events').read_text();traps=re.findall(r'^exception ([0-9a-f]+) va ([0-9a-f]+) ',events,re.M);assert len(traps)==1 and traps[0][0]=='80000003'and 'exit 99\n'in events,'unknown original terminal'
     apps={r['original']:r for r in config['functions']};frontier=apps[int(traps[0][1],16)];assert frontier['status']=='stub'and frontier['native']==current['native_function'],'original next entry is not cached next stub'
+    allocator=record.get('native_host_allocator')
+    if allocator:
+        profile=BINARY/allocator['profile'];assert sha(profile)==allocator['sha256'],'stale host allocator profile'
+        expected_profile=json.loads(profile.read_text());assert receipt.get('native_host_allocator')==dict(profile_sha256=allocator['sha256'],launch=expected_profile),'native host allocator receipt differs'
+        assert sha(Path(expected_profile['libc']['path']))==expected_profile['libc']['sha256'],'native host libc changed'
+        assert json.loads((work/'host-environment.json').read_text())==dict(host_controls_absent=True,unbound_CRT_uses_host_vector=True),'host allocator controls visible to target'
     state=json.loads((work/'gdb.json').read_text());assert state['signal']==5 and state['frames'][0]==frontier['native']and state['later_heap_equality']is False,'native next named trap differs'
     words={int(a):int(b,16)for a,b in re.findall(r'^stack (\d+) ([0-9a-f]+)$',events,re.M)};parameters={}
     registers=re.search(r'^registers (.*)$',events,re.M);assert registers,'missing original ABI register state'
@@ -171,9 +177,10 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
     subprocess.run(['python3',str(BINARY/'scripts/audit.py')],check=True)
     if args.check_only:print('Fresh whole-function entry-flow proof passes:',args.function);return
     sequence=len(config['accepted_order'])+1;directory=BINARY/'cases'/args.case/'evidence'/('%04d-%s'%(sequence,args.function));directory.mkdir(exist_ok=False)
-    for label,source,names in(('original',original,('events','receipt.json','configuration.json','runtime-support.json','runtime-plan','stdout','stderr')),('native',work,('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','configuration.json','runtime-support.json','crt-returns.json','stdout','stderr'))):
+    for label,source,names in(('original',original,('events','receipt.json','configuration.json','runtime-support.json','runtime-plan','stdout','stderr')),('native',work,('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','configuration.json','runtime-support.json','crt-returns.json','host-environment.json','stdout','stderr'))):
         for name in names:
             if(source/name).exists():shutil.copyfile(source/name,directory/(label+'-'+name))
+    if args.original_rebind:shutil.copytree(args.original_rebind.parent,directory/'native-only-rebind')
     shutil.copyfile(native/'receipt.json',directory/'native-receipt.json');path=str((directory/'proof.json').relative_to(BINARY));prior={(r['start'],r['end'])for r in config.get('support_unmasked',[])}
     for r in support:
         if(r['start'],r['end'])not in prior:config.setdefault('support_unmasked',[]).append(dict(r,evidence=path))
