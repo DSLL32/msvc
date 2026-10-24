@@ -506,7 +506,6 @@ IrToken *__stdcall make_once_virtual_base_pointer(IrToken *object, CType *type, 
 unsigned char *__stdcall copy_bytes_forward(unsigned char *destination, const unsigned char *source, unsigned bytes) { __asm { int 3 } return 0; }
 ExpressionReference *__stdcall clone_expression_references(ExpressionReference *references, int arena) { __asm { int 3 } return 0; }
 unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *derived) { __asm { int 3 } return 0; }
-IrToken *__stdcall make_null_member_pointer(CType *type) { __asm { int 3 } return 0; }
 int __stdcall qualified_path_has_virtual_base(QualifiedDeclarator *path) { __asm { int 3 } return 0; }
 IrToken *__stdcall resolve_overloaded_arrow(IrToken *object) { __asm { int 3 } return 0; }
 OverloadCandidate *__stdcall report_operator_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
@@ -598,3 +597,10 @@ IrToken *__stdcall compare_virtual_data_pointer(IrToken *expression, unsigned ch
 IrToken *__stdcall compare_general_data_pointer(IrToken *expression, unsigned char comparison, unsigned char combine, unsigned char null_combine) { __asm { int 3 } return 0; }
 IrToken *__stdcall compare_virtual_method_pointer(IrToken *expression, unsigned char comparison, unsigned char combine, unsigned char null_combine) { __asm { int 3 } return 0; }
 IrToken *__stdcall compare_general_method_pointer(IrToken *expression, unsigned char comparison, unsigned char combine, unsigned char null_combine) { __asm { int 3 } return 0; }
+
+IrToken *__stdcall make_null_compact_method_pointer(CType *type) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_null_simple_data_pointer(CType *type) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_null_virtual_data_pointer(CType *type) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_null_general_data_pointer(CType *type) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_null_virtual_method_pointer(CType *type) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_null_general_method_pointer(CType *type) { __asm { int 3 } return 0; }

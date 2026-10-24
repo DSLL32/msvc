@@ -1207,7 +1207,8 @@
     "_walk_goto_cleanup@16",
     "_skip_previous_declaration_records@4",
     "_new_symbol_reference@12",
-    "_compare_member_pointer_expression@4"
+    "_compare_member_pointer_expression@4",
+    "_make_null_member_pointer@4"
   ],
   "driver": [
     {
@@ -7046,7 +7047,7 @@
     {
       "name": "_make_null_member_pointer@4",
       "start": 307808,
-      "end": 307809
+      "end": 307939
     },
     {
       "name": "_convert_reference_initializer@8",
@@ -8560,6 +8561,36 @@
       "name": "_compare_general_method_pointer@16",
       "start": 309584,
       "end": 309585
+    },
+    {
+      "name": "_make_null_compact_method_pointer@4",
+      "start": 307952,
+      "end": 307953
+    },
+    {
+      "name": "_make_null_simple_data_pointer@4",
+      "start": 308016,
+      "end": 308017
+    },
+    {
+      "name": "_make_null_virtual_data_pointer@4",
+      "start": 308080,
+      "end": 308081
+    },
+    {
+      "name": "_make_null_general_data_pointer@4",
+      "start": 308112,
+      "end": 308113
+    },
+    {
+      "name": "_make_null_virtual_method_pointer@4",
+      "start": 308144,
+      "end": 308145
+    },
+    {
+      "name": "_make_null_general_method_pointer@4",
+      "start": 308192,
+      "end": 308193
     }
   ],
   "cases": {
@@ -8760,7 +8791,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_make_null_member_pointer@4",
+      "terminal": "_make_null_compact_method_pointer@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8783,7 +8814,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1202-compare_member_pointer_expression-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1203-make_null_member_pointer-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8991,7 +9022,8 @@
         "cases/frontiers/state_machine_debug/1199-walk_goto_cleanup-16/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1200-skip_previous_declaration_records-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1201-new_symbol_reference-12/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1202-compare_member_pointer_expression-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1202-compare_member_pointer_expression-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1203-make_null_member_pointer-4/frontier-extension.json"
       ]
     }
   },

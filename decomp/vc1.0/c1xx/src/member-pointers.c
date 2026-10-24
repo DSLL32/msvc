@@ -43,6 +43,13 @@ IrToken *__stdcall lower_virtual_inheritance_member_call(IrToken *object,
 IrToken *__stdcall lower_general_inheritance_member_call(IrToken *object,
     IrToken *member, CType *type, IrToken **prefix);
 
+IrToken *__stdcall make_null_compact_method_pointer(CType *type);
+IrToken *__stdcall make_null_simple_data_pointer(CType *type);
+IrToken *__stdcall make_null_virtual_data_pointer(CType *type);
+IrToken *__stdcall make_null_general_data_pointer(CType *type);
+IrToken *__stdcall make_null_virtual_method_pointer(CType *type);
+IrToken *__stdcall make_null_general_method_pointer(CType *type);
+
 int __stdcall tag_has_base_relation(CppSymbol *derived, CppSymbol *base);
 int __stdcall equal_member_function_parameters(FunctionParameters *source,
     FunctionParameters *target);
@@ -418,6 +425,27 @@ IrToken *__stdcall compare_member_pointer_expression(IrToken *expression)
     case 4:
         return dispatch_member_pointer_comparison(expression,
             data_member ? compare_general_data_pointer : compare_general_method_pointer);
+    default:
+        return 0;
+    }
+}
+
+/* Original 0x4b260..0x4b2e2, stdcall4. Null representations depend
+   on both the inheritance model and whether this is a data member. */
+IrToken *__stdcall make_null_member_pointer(CType *type)
+{
+    unsigned data_member = (type->related->flags & 0x10) != 0;
+    switch (member_pointer_inheritance_model(type)) {
+    case 1:
+    case 2:
+        return data_member ? make_null_simple_data_pointer(type) :
+            make_null_compact_method_pointer(type);
+    case 3:
+        return data_member ? make_null_virtual_data_pointer(type) :
+            make_null_virtual_method_pointer(type);
+    case 4:
+        return data_member ? make_null_general_data_pointer(type) :
+            make_null_general_method_pointer(type);
     default:
         return 0;
     }
