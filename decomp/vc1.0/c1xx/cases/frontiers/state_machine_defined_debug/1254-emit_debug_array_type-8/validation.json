@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_emit_debug_array_type@8",
+    "start": 451984,
+    "end": 452052
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_defined_debug/1254-emit_debug_array_type-8/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_emit_debug_type_record@4",
+    "_encode_debug_unsigned@8",
+    "_type_size@4"
+  ],
+  "next_frontier": "_emit_debug_bit_field@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8486950462684035,
+  "total_operation_seconds": 4.217252875678241,
+  "original_capture_seconds": 0.71594322565943
+}

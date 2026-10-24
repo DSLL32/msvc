@@ -7,6 +7,7 @@
 #include "cpp-context.h"
 #include "class-finalization.h"
 #include "call-expressions.h"
+#include "global-ir.h"
 #include <recon.h>
 
 DebugTypeRecord *debug_types; /* original 0x8ccb0 */
@@ -120,6 +121,20 @@ unsigned debug_calling_convention(unsigned short attributes)
     case 0x70: return 11;
     }
     return 15;
+}
+
+/* Original 0x6e590..0x6e5d3. Array leaves carry the element type,
+   the fixed index type and a numeric byte size followed by an empty name. */
+void __stdcall emit_debug_array_type(CType *type, unsigned short base_index)
+{
+    unsigned char *leaf = debug_record_buffer + 2;
+    unsigned length;
+    *(unsigned short *)leaf = 3;
+    *(unsigned short *)(leaf + 2) = base_index;
+    *(unsigned short *)(leaf + 4) = 0x11;
+    length = encode_debug_unsigned(leaf + 6, type_size(type));
+    leaf[length + 6] = 0;
+    emit_debug_type_record(length + 7);
 }
 
 /* Original 0x6fd90..0x6fde9, stdcall12. A nonmember function leaf
