@@ -111,7 +111,7 @@ int __stdcall rc_skip_inactive(int level)
     return 0;
 }
 
-int __cdecl rc_evaluate_condition(void)
+int __cdecl rc_parse_conditional_expression(void)
 {
     __asm int 3
     return 0;

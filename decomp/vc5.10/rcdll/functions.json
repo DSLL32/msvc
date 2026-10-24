@@ -71,7 +71,8 @@
     "rc_parse_define",
     "rc_read_macro_replacement",
     "rc_check_macro_space",
-    "rc_find_macro_parameter"
+    "rc_find_macro_parameter",
+    "rc_evaluate_condition"
   ],
   "functions": [
     {
@@ -1114,7 +1115,12 @@
       "abi": "cdecl",
       "stack_bytes": 0,
       "kind": "application",
-      "stub": true
+      "text_data": [
+        [
+          "0x1224",
+          "0x122c"
+        ]
+      ]
     },
     {
       "name": "rc_parse_define",
@@ -1471,6 +1477,15 @@
       "end": "0x52fa",
       "abi": "stdcall",
       "stack_bytes": 8,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_parse_conditional_expression",
+      "start": "0x2d83",
+      "end": "0x2dc6",
+      "abi": "cdecl",
+      "stack_bytes": 0,
       "kind": "application",
       "stub": true
     }

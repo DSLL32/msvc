@@ -253,3 +253,31 @@ discard:
     rc_skip_line();
     rc_in_directive=0;
 }
+
+/* Balance is reset before each preprocessing constant expression. */
+int rc_expression_parentheses;
+
+int __cdecl rc_evaluate_condition(void)
+{
+    int value;
+    rc_expression_parentheses=0;
+    rc_token_kind=1;
+    value=rc_parse_conditional_expression();
+    if(rc_token_kind==121){
+        if(!rc_expression_parentheses--){
+            rc_error_template=rc_message(1012);
+            rc_format(rc_error_text,2048,rc_error_template,L"(");
+            rc_input_fatal(1012);
+        }
+    }else if(rc_token_kind!=1){
+        rc_error_template=rc_message(4067);
+        rc_format(rc_error_text,2048,rc_error_template,L"#if/#elif");
+        rc_input_warning(4067);
+    }
+    if(rc_expression_parentheses>0){
+        rc_error_template=rc_message(4012);
+        rc_format(rc_error_text,2048,rc_error_template,L")");
+        rc_input_fatal(4012);
+    }
+    return value;
+}

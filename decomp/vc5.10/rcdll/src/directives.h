@@ -36,6 +36,8 @@ void __stdcall rc_expect_end(const WCHAR *);
 int __stdcall rc_skip_inactive(int);
 int __cdecl rc_push_condition(void);
 int __cdecl rc_evaluate_condition(void);
+int __cdecl rc_parse_conditional_expression(void);
+extern int rc_expression_parentheses;
 void __cdecl rc_parse_define(void);
 void __cdecl rc_parse_macro_parameters(void);
 unsigned __cdecl rc_read_macro_replacement(void);

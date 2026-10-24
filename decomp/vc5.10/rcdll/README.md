@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Sixty-six application functions (21,187 original code bytes), two embedded CRT functions
+Sixty-seven application functions (21,382 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_evaluate_condition`.
+currently matches at the next named trap, `rc_parse_conditional_expression`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -581,3 +581,11 @@ sides is rejected. Native02 adopts the published host-only shared clock getter;
 unchanged original01 is reused. Capture execution is concurrent again after
 the shared explicit-offset transport release. Parameter-table traversal and
 conditional evaluation remain pending; native help passes in12.35ms total.
+
+The conditional evaluator wrapper is accepted (195 bytes): it resets the actual
+parenthesis counter0 and token1, then reaches the no-formal conditional parser
+without consuming another source word. [Verification](cases/resources-rich-trailing-space/evaluate-condition-verification.json)
+records nine affected controls, exact caller and hidden state, both builds and
+cached native help. New original-event negatives refresh their dependent receipt
+pin and must change bytes, so semantic checks cannot pass through unrelated
+receipt rejection. Diagnostic branches and expression results remain unvisited.
