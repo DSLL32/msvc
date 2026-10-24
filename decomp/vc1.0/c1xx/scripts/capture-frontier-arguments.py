@@ -209,6 +209,9 @@ def main():
         else:
             raise AssertionError('unsupported logical argument binding: '+item['name'])
         item['result'] = 'uncredited-unused' if binding['kind'] in ('unused-conversion-text','unused-compact-data-path','unused-compact-method-path') else 'match'
+    if name=='_member_pointer_component@12':
+        from member_component_output import validate as validate_member_component_output
+        validate_member_component_output(name, plan['formals'], checkpoint, words)
     if name=='_create_generated_object@8':
         validate_generated_linkage_owner(name, anchors, checkpoint)
     if name=='_walk_goto_cleanup@16':

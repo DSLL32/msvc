@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "function": "_member_pointer_component@12",
+  "native_entry": "member_pointer_component",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_expression": "(unsigned)expression",
+    "raw_component": "(unsigned)component",
+    "raw_saved": "(unsigned)saved"
+  },
+  "formals": [
+    {
+      "name": "expression",
+      "stack_index": 0,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 245543,
+        "original_owner_function": "_convert_compact_data_member_pointer@24",
+        "native_owner_function": "convert_compact_data_member_pointer",
+        "native_owner_field": "caller_expression",
+        "native_owner_local": "expression",
+        "identity": "Actual accepted data conversion retains expression ESI; LEA EAX,[ESP+16]4bf1a gives actual saved local, PUSH EAX/0/ESI then CALL4bf22/return4bf27. Native immediate expression formal and real saved local bind owners; saved prestate is unwritten and not read for component0."
+      }
+    },
+    {
+      "name": "component",
+      "stack_index": 1,
+      "native_field": "raw_component",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      }
+    },
+    {
+      "name": "saved",
+      "stack_index": 2,
+      "native_field": "raw_saved",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 245543,
+        "original_owner_function": "_convert_compact_data_member_pointer@24",
+        "native_owner_function": "convert_compact_data_member_pointer",
+        "native_owner_field": "caller_saved",
+        "native_owner_local": "saved",
+        "identity": "Actual accepted data conversion retains expression ESI; LEA EAX,[ESP+16]4bf1a gives actual saved local, PUSH EAX/0/ESI then CALL4bf22/return4bf27. Native immediate expression formal and real saved local bind owners; saved prestate is unwritten and not read for component0.",
+        "native_owner_address": true,
+        "address_only": true,
+        "output_only": true
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "esi,eax",
+  "ownership_caller_extent": [
+    311008,
+    311079
+  ],
+  "native_caller_locals": {
+    "caller_expression": {
+      "frame": 1,
+      "function": "convert_compact_data_member_pointer",
+      "local": "expression"
+    },
+    "caller_saved": {
+      "frame": 1,
+      "function": "convert_compact_data_member_pointer",
+      "local": "saved",
+      "address_only": true,
+      "address_of": true
+    }
+  },
+  "abi_analysis": {
+    "original_extent": [
+      310032,
+      310244
+    ],
+    "argument_bytes": 12,
+    "convention": "stdcall12 IrToken* EAX RET12",
+    "proof": "Whole212B savesESI4; expression/component/saved adjustedESP+8/+12/+16, everyRET12. No hidden/register/x87/flag input. Actual scalar component0 makes saved an output-only caller local: every read of *saved follows a writer4bb40 or4bbbc. Reuse recognizer new named55B4bbf0..4bc27 stdcall4 BOOL(expr), left stub; true path modifiable_lvalue(selected value,0) writes saved then clone, preserving optional comma-left; false allocates initialized temporary/index/browser checks then assignment3d. Nonzero component branch clones prior-written *saved; current acceptance makes no claim about an arbitrary unwritten nonzero prestate. Exact caller LEA EAX4bf1a to actualsaved local; PUSH EAX/0/ESI4bf1e..21/CALL4bf22/return4bf27. Native saved local address only, no invented initialization/pointee comparison. All other callees accepted, no new data/CRT/guard."
+  }
+}

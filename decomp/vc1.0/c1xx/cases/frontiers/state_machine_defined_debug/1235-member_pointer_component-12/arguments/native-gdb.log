@@ -1,0 +1,21 @@
+Breakpoint 1 at 0x54bef: file src/member-pointers.c, line 676.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, member_pointer_component (expression=0x56656fb4, component=0, saved=0xffffd34c) at src/member-pointers.c:676
+676	    if (component) return clone_expression(*saved, 0);
+#0  member_pointer_component (expression=0x56656fb4, component=0, saved=0xffffd34c) at src/member-pointers.c:676
+#1  0x565a80dd in convert_compact_data_member_pointer (expression=0x56656fb4, type=0x56634928, path=0x56657040, forward=1, displacement=8, virtual_base=0x0) at src/member-pointers.c:591
+#2  0x565a9b57 in convert_member_pointer_representation (expression=0x56656fb4, type=0x56634928, path=0x56640888, forward=1) at src/member-pointers.c:577
+#3  0x565a4c67 in convert_member_pointer_initializer (type=0x56634928, expression=0x56656fb4) at src/numeric-conversion.c:199
+#4  0x565a4d37 in convert_scalar_initializer (operation=1 '\001', type=0x56634928, expression=0x56656fb4) at src/numeric-conversion.c:216
+#5  0x565a5944 in convert_derived_initializer (type=0x56634928, expression=0x56656fb4) at src/numeric-conversion.c:353
+#6  0x5658893c in convert_initializer (operation=126 '~', type=0x56634928, expression=0x56656fb4) at src/constructor-initializers.c:707
+#7  0x565886b7 in initialize_lvalue (target=0x56656fc8, value=0x56656fb4) at src/constructor-initializers.c:419
+#8  0x5659482b in emit_initializer_assignment (target=0x56656fc8, value=0x56656fb4) at src/object-initializers.c:425
+#9  0x56594273 in initialize_object_value (symbol=0x56640844, value=0x56656fb4) at src/object-initializers.c:307
+#10 0x5659400e in initialize_object (symbol=0x56640844, value=0x56656fb4) at src/object-initializers.c:259
+#11 0x565bc98a in parse_translation_unit () at src/parser-declaration-actions.inc:327
+#12 0x5655e0ff in compile_translation_unit () at src/frontend.c:73
+#13 0x565588c6 in guarded_compile () at src/c1xx.c:28
+#14 0x56558894 in main (argc=1, argv=0xffffd784, environment=0xffffd78c) at src/c1xx.c:20

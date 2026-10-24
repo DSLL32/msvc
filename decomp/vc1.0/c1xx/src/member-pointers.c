@@ -17,6 +17,7 @@
 #include <recon.h>
 
 int __stdcall equal_data_member_null_representation(CType *target, CType *source);
+int __stdcall can_reuse_member_pointer_storage(IrToken *expression);
 int __stdcall recognize_compact_method_function(IrToken *expression, IrToken **function);
 IrToken *__stdcall member_pointer_function_value(IrToken *storage, IrToken *expression);
 IrToken *__stdcall member_pointer_adjustment_value(IrToken *storage, IrToken *expression);
@@ -662,4 +663,33 @@ IrToken *__stdcall make_multiple_inheritance_method_pointer(CType *type,
     sequence = new_right_typed_expression(0x40, first, second);
     return new_right_typed_expression(0x40, sequence,
         indirect_storage_expression(temporary));
+}
+
+/* Original 0x4bb10..0x4bbe3, stdcall12. Component zero captures
+   reusable storage or assigns a temporary; subsequent components clone it. */
+IrToken *__stdcall member_pointer_component(IrToken *expression, int component,
+    IrToken **saved)
+{
+    IrToken *value;
+    CType *type;
+    unsigned index;
+    if (component) return clone_expression(*saved, 0);
+    if (can_reuse_member_pointer_storage(expression)) {
+        value = expression->kind == 0x40 ? expression->tail.right : expression;
+        value = modifiable_lvalue(value, 0);
+        *saved = value;
+        if (expression->kind == 0x40) {
+            type = value->type;
+            value = clone_expression(value, 0);
+            return new_ir_expression(0x40, expression->value.pointer, value, type);
+        }
+        return clone_expression(*saved, 0);
+    }
+    if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename)
+        browser_symbol_rollover();
+    index = next_symbol_index++;
+    *saved = new_temporary_reference(index, expression->type);
+    value = clone_expression(*saved, 0);
+    return new_left_typed_expression(0x3d, value, expression);
 }

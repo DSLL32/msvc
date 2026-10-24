@@ -225,6 +225,9 @@ def main():
         else:
             raise AssertionError('unbound actual argument holds acceptance: '+formal['name'])
     assert argument_proof.get('uncredited_unused_inputs', []) == [formal['name'] for formal in argument_proof['formals'] if formal['binding']['kind'] in ('unused-conversion-text','unused-compact-data-path','unused-compact-method-path')], 'uncredited unused input list differs'
+    if args.candidate=='_member_pointer_component@12':
+        from member_component_output import validate as validate_member_component_output
+        validate_member_component_output(args.candidate, argument_proof['formals'], entry_native, words)
     if args.candidate=='_create_generated_object@8':
         validate_generated_linkage_owner(args.candidate, anchors, entry_native)
     if args.candidate=='_walk_goto_cleanup@16':

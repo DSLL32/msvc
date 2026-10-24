@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "4d60035653648b3b9ccaefb22ae38acbc0945def29332f451925c113516ca7a8",
+    "functions.json": "14ec8b38e0a9e6ecfde25817b4d8f257ad379a48592139d229af128ab16d95ff",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "54afd9adf0f80a3a5db6cd03f02fb2ec1383dcc5ea4a0d01e532579fc9f5d285",
-    "cases/canonical-map.txt": "2c63ddb708dc5305a0ae66a3ad496f4959076d012bca137c8a88a0730b5988c6",
+    "cases/original-entry-references.json": "4ca66530afcd03e5c815fe5c998e3090b7fb89a19e2bee06236339daf50b7a8c",
+    "cases/canonical-map.txt": "9a4f602c5795e8d28bd1427243ae6b1b458d3c12085a871aecbe3f3f68e18d4e",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -64,9 +64,9 @@
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-receipt.json": "c9cbd20af4610da8f8c35487c1cb632113d35461981bd76aa2f7d60e10400717",
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-events.txt": "a7247c160287c63539d241bef68d979d6d6a4b4649e77c3b542cb394ffce4b8e",
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-entries.plan": "95e3224e0362e24a6ef5b495984403fa23be74272e90e204349cda7924f7f5d6",
-    "cases/frontiers/state_machine_defined_debug/1234-make_multiple_inheritance_method_pointer-12/entry-reference/original-receipt.json": "f75608c59e61d608399f79decc4ee43ac78f0cb8b03cd61c8fe1b00876b43645",
-    "cases/frontiers/state_machine_defined_debug/1234-make_multiple_inheritance_method_pointer-12/entry-reference/original-events.txt": "9fa9dfcae7f03ba146467dcb58485f00fd5a3918f7f8b7dc59fe9d24c99b6308",
-    "cases/frontiers/state_machine_defined_debug/1234-make_multiple_inheritance_method_pointer-12/entry-reference/original-entries.plan": "b89ab7d7ef1d8203ff86c1cab9fddd707b918813b621d77026efd6fff389b84f"
+    "cases/frontiers/state_machine_defined_debug/1235-member_pointer_component-12/entry-reference/original-receipt.json": "d5d70117437f62a41d7e2e45cbcf6bb8a4d68a2b195fb6c7e6e2867208eb3267",
+    "cases/frontiers/state_machine_defined_debug/1235-member_pointer_component-12/entry-reference/original-events.txt": "55c49442d6adbaadcd444b078cc408fd8de11baa00b454116049098feefb4c60",
+    "cases/frontiers/state_machine_defined_debug/1235-member_pointer_component-12/entry-reference/original-entries.plan": "b1a80a859d4ed5f735d1c4771443479fdd1b59d2409ab5effb503357f386e77c"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -744,6 +744,10 @@
     "can_initialize": {
       "logical": "_can_initialize@8",
       "source": "src/constructor-initializers.c"
+    },
+    "can_reuse_member_pointer_storage": {
+      "logical": "_can_reuse_member_pointer_storage@4",
+      "source": "src/stubs.c"
     },
     "cancel_temporary_cleanup": {
       "logical": "_cancel_temporary_cleanup@4",
@@ -3927,7 +3931,7 @@
     },
     "member_pointer_component": {
       "logical": "_member_pointer_component@12",
-      "source": "src/stubs.c"
+      "source": "src/member-pointers.c"
     },
     "member_pointer_expression": {
       "logical": "_member_pointer_expression@4",
@@ -7124,7 +7128,8 @@
     "begin_initializer_function",
     "equal_tail_word_pairs",
     "convert_compact_method_pointer",
-    "make_multiple_inheritance_method_pointer"
+    "make_multiple_inheritance_method_pointer",
+    "member_pointer_component"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -12389,7 +12394,7 @@
     },
     "state_machine_defined_debug": {
       "first": 1232,
-      "last": 1235,
+      "last": 1236,
       "seen": [
         "main",
         "message_text",
@@ -13523,12 +13528,13 @@
         "equal_tail_word_pairs",
         "convert_compact_method_pointer",
         "make_multiple_inheritance_method_pointer",
-        "member_pointer_component"
+        "member_pointer_component",
+        "can_reuse_member_pointer_storage"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_member_pointer_component@12",
-        "native": "member_pointer_component",
+        "logical": "_can_reuse_member_pointer_storage@4",
+        "native": "can_reuse_member_pointer_storage",
         "signal": 5
       }
     }
