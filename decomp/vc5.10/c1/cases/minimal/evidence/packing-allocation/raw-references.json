@@ -1,0 +1,16 @@
+{
+  "original": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-packing-allocation-normal-001",
+    "receipt_sha256": "94cc2f44e6b793995788601688b160983bab287b2252fa8120c8b0474fa52c22",
+    "candidate_sha256": "ed693d4b968d9f11f5b87000232573b12db6bf9fe3a4a3c4e121a21efe4b2a66",
+    "functions_sha256": "496bd1d225b062c1ea2cb91d0818361f6c5c4f8a38d8c7224878a915b4d2e2d3",
+    "source_manifest_sha256": "ea87d993c58a8427c7af5675231efd38853da2851020d2f5630cc52f6a4ce513"
+  },
+  "native": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-packing-allocation-normal-001",
+    "receipt_sha256": "f76da285f262c345a7a1f53c2e0e44ff53d439e7f32c7a10245c35faf473ad82",
+    "candidate_sha256": "ed693d4b968d9f11f5b87000232573b12db6bf9fe3a4a3c4e121a21efe4b2a66",
+    "functions_sha256": "496bd1d225b062c1ea2cb91d0818361f6c5c4f8a38d8c7224878a915b4d2e2d3",
+    "source_manifest_sha256": "19e78ba5c186f49d9848bf90c795aaf7f53696492bd8b5281e4e6213136b961b"
+  }
+}

@@ -87,7 +87,8 @@
     "_parse_option_integer",
     "_resolve_option_path",
     "_normalize_path",
-    "_initialize_packing"
+    "_initialize_packing",
+    "_allocate_packing_memory"
   ],
   "driver": [
     {
@@ -834,6 +835,18 @@
         [
           274926328,
           274926338
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_allocate_packing_memory",
+      "start": 274805961,
+      "end": 274806004,
+      "code_chunks": [
+        [
+          274926338,
+          274926353
         ]
       ],
       "role": "application"

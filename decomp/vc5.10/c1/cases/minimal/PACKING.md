@@ -26,3 +26,18 @@ Totals:80 application functions/6891 code bytes,451 separate CRT support bytes,
 bytes and16 literal-tail bytes remain UNMODELED. The old restore input remains
 held before its unknown resolver read. `packing-initializer-review.json` binds
 the ordinary proof files and retained raw/helper/source/ELF identities.
+
+The separate allocator is now accepted:43 hot bytes134c9..134f4 and15 cold
+bytes30b02..30b11. It advances arena0 by the unsigned four-byte-rounded request,
+calls the existing commit member only if necessary, and returns the old cursor.
+Actual request8 fits the prior64KiB commit. All8 newly owned bytes are observed
+unchanged zero on entry, return and next member entry; the allocator itself does
+not clear memory. The caller publishes that exact pointer and reaches the real
+`CompilerPacking::Push` with ECX receiver and no stack arguments.
+
+The full original/native pair takes13.545/10.238s, full validation9.826s,
+original/native builds1.495/2.143s and audit0.053s.40 focused allocation/return/
+receiver controls pass2.343s. Prior unchanged protocol controls are retained
+with historical hashes and are not claimed as rerun. No global data fields are
+added. Totals are81 application functions/6949 code bytes, separate451 CRT,
+12 import and161 text-data bytes. Evidence: `packing-allocation-review.json`.

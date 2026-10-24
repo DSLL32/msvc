@@ -10,7 +10,7 @@ scanner, path-fold, NULL environment parsing and three vector allocations are
 complete. Argument iteration, option matching and the373-byte action handler
 now process the full captured option loop, numeric values, and the normal-only
 PDB path resolver/normalizer through actual _fullpath. The next genuine trap is
-allocate_packing_memory(8), inside the accepted packing initializer. The old restore case remains held before its opaque resolver
+CompilerPacking::Push, after its owned eight-byte allocation. The old restore case remains held before its opaque resolver
 input. All repeated MSPDB signature calls match the original.
 The actual
 setlocale and _setmbcp calls match the own canonical SBCS1252 reference,
@@ -28,10 +28,10 @@ remains incomplete; the lifecycle fixture is a separate completed case.
 The83-byte path-fold initializer is also accepted; see
 `cases/minimal/PATH-FOLD.md` for its complete API/state proof.
 
-Accepted ownership is80 application functions /6891 original code bytes plus161
+Accepted ownership is81 application functions /6949 original code bytes plus161
 owned switch-table bytes,2 CRT support
-functions /451 bytes and two6-byte import thunks:7515 of the `.text` virtual
-extent's322288 bytes (2.3318%). That denominator includes CRT and unclassified
+functions /451 bytes and two6-byte import thunks:7573 of the `.text` virtual
+extent's322288 bytes (2.3498%). That denominator includes CRT and unclassified
 code; it is not non-CRT coverage. The original17-DWORD PCH-context initializer
 and its tail wrapper were explicitly accepted as one ordered JOINT two-function
 closure after separate non-promotable prospective input evidence.
@@ -524,3 +524,7 @@ their explicit ownership limits. See `cases/minimal/PATH-NORMALIZER.md`.
 The70-byte packing initializer is accepted through its first allocator call,
 before any new object access or target-state write. All24 new boundary controls
 and44 affected prefix controls pass. See `cases/minimal/PACKING.md`.
+
+The58-byte packing allocator is accepted through its actual return and the
+published eight-byte member receiver. Whole state and40 focused mutations pass;
+see `cases/minimal/PACKING.md`.
