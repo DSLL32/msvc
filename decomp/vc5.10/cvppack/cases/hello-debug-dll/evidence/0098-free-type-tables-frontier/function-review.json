@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "candidate": "free_type_tables",
+  "source_extent": [
+    4239680,
+    4239815
+  ],
+  "accepted_functions": 98,
+  "application_extent_bytes": 28612,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 45.66084708435735,
+  "qualification": "Application extents / whole text including CRT/unknown/padding; not non-CRT or branch coverage.",
+  "associated_switch_bytes_total": 784,
+  "associated_callback_bytes_total": 324,
+  "support": {
+    "crt_bodies": 4,
+    "crt_extent_bytes": 400,
+    "import_thunks": 5,
+    "import_extent_bytes": 30
+  },
+  "source_review": [
+    "Whole135B cdecl function calls finalize_derived_types, frees five table roots, conditionally closes opaque Types/PDB handles and ORs actual32-bit results. Only first6B prologue/call executes before the fresh named child frontier; later frees and PDB paths remain unexecuted.",
+    "Exactly prior7frees/21934 initialized prefree bytes and all live/dangling aliases are checked. Finite no-consumer proof extends only PUSHESI/CALL child6B; no blanket freedtable waiver.",
+    "Actual caller PUSH/ADDESP4/EAX32 evidence and canonical named exports/wrapper9B prove the static TypesClose/PDBClose declaration shape. NativeHOST125 denial adapters are outside target graph; no PDB success semantics/internal coverage. Shared maintainer confirmed no declaration/symbol conflict.",
+    "New native host input is in complete compiled-source snapshot. Original/firstnative manifests retained honestly; supplemental native-only recapture binds the complete host source with identical original execution inputs."
+  ],
+  "next_frontier": "finalize_derived_types",
+  "fresh_pair": true,
+  "fresh_negative_count": 8,
+  "fresh_controls": {
+    "path": "type-cleanup-checks.json",
+    "sha256": "a3b7259a8611e592dd1d08ae04f663b25634dbe694f2645050f05770b42fe4b4"
+  },
+  "reused_controls": {
+    "cleanup": {
+      "path": "cases/hello-debug-dll/evidence/0097-free-widen-buffers/cleanup-checks.json",
+      "sha256": "d5af13522fb1047c3106fe4b8160327f5a04b6f3c5d6b5d30884339069afd683",
+      "scope": "Unchanged7free prefix/generation/capacity and14controls; fresh8 newcaller/return/global/PDBdenial controls."
+    },
+    "main_free": {
+      "path": "cases/hello-debug-dll/evidence/0096-enter-symbol-scope-lifetimes/lifetime-checks-v2.json",
+      "sha256": "13558d4b04e21f853854b95246d44c763d595f8823a5ed016139f2a08417cd68",
+      "scope": "20 prior interval-overlap/lifetime/source controls and2 scope unit branches; new scratch paths receive14 fresh controls."
+    },
+    "release": {
+      "path": "cases/hello-debug-dll/evidence/0095-release-widen-retained/release-checks-v2.json",
+      "sha256": "acfa6ab091d680e3c093f30c9e336430cbdd62d61576a76c2d8a1349d9c2aaf7",
+      "scope": "28 reviewed Release/projection/lifetime controls; unchanged Release/provider code."
+    },
+    "provider": {
+      "path": "cases/hello-debug-dll/checkpoint50-controls/widen-provider.json",
+      "sha256": "8242fe40cb36423d7bc17016c85d34f6440d2329aacf6c1d9489ad0fb6f8c45c",
+      "provider_source_sha256": "5e5076d9ac9f8200f3e1b1152c8696e489802b325e51f94aeecb481498098399",
+      "scope": "21-lifetime positive and23 semantic negatives; unchanged implementation5e5076d9... ."
+    },
+    "protocol": {
+      "path": "cases/hello-debug-dll/evidence/0095-release-widen-retained/function-review.json",
+      "sha256": "2e67256935669ea74b7cccc1ccec7f981e891debea64fff94d7c21ac1b973f5d",
+      "scope": "Prior protocol/help/ABI controls remain hash-bound there; new main-free/state/scope paths receive20 fresh controls plus2 scope branches."
+    }
+  },
+  "original_receipt_sha256": "a2ce62e676a6c2708aa551d51a8e3321933208365c523e88407ecae8d39fb377",
+  "native_receipt_sha256": "5610c32480494336bd1177e4591c2ea29ed350721307df19294c227a8b8d934e",
+  "audit": {
+    "path": "current-audit/audit.json",
+    "sha256": "e87913a47b54034e2e9ee842e42d7bc9000cdafeacec8da285f08a47a9a1d258"
+  },
+  "pdb_imports": {
+    "path": "cases/hello-debug-dll/pdb-close-imports.json",
+    "sha256": "52a39b367c14b6500493a89f343e1b884d6427dcf21231c9b4bdd8a1f2da3946"
+  },
+  "seconds": {
+    "stages": {
+      "original_build": 0.040978279896080494,
+      "native_build": 0.03960676398128271,
+      "graph_tool_build": 0.03926816675812006,
+      "original_capture": 23.18747360445559,
+      "native_capture": 2.300025009550154,
+      "pair_check": 2.4022160097956657
+    },
+    "initial_builds": {
+      "original_build": 7.709927903488278,
+      "native_build": 2.809779110364616,
+      "graph_tool_build": 0.040350920520722866,
+      "original_capture": 1.0520068015903234
+    },
+    "original_capture": {
+      "setup": 1.3005584944039583,
+      "execution": 21.371169602498412,
+      "total": 22.913685944862664
+    },
+    "native_complete_provenance": {
+      "direct_execution": 0.01947614084929228,
+      "gdb_execution": 2.2430153051391244,
+      "total": 2.366754845716059
+    },
+    "static_audit": 1.224436947144568,
+    "controls": 8.93056846037507,
+    "host_denial_probe_build": 1.6387998247519135,
+    "help_fixture": {
+      "preparation": 0.0024849725887179375,
+      "execution": 0.006407568231225014,
+      "checks": 0.0029476992785930634,
+      "total": 0.017270979471504688
+    },
+    "debug_fixture": {
+      "preparation": 0.0026519177481532097,
+      "execution": 2.488661978393793,
+      "checks": 0.004755317233502865,
+      "total": 3.8967289458960295
+    }
+  },
+  "corrections": [
+    "0098-free-type-tables contains only original/native builds and failed static factory-onlydef gate; no original run or promotion. Extended explicit named-import witnesses resolve gate before genuine capture.",
+    "native/ contains original samebinary typed state but source manifest lacked new host adapter. native-complete-provenance/ is actual fresh native-only capture with complete snapshot; original raw preserved."
+  ]
+}

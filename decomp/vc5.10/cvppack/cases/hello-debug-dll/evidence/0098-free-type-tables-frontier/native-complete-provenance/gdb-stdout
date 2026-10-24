@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5661eecf in finalize_derived_types () at src/stubs.c:9
+9	void finalize_derived_types(void) { __asm { int 3 } }

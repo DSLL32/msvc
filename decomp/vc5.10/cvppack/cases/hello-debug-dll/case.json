@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0097-free-widen-buffers/original",
-  "reference_receipt_sha256": "b587e3ccc8068c3f82430760ab56005edb15ef2b0acff79862ac87c627863ed6",
+  "reference": "cases/hello-debug-dll/evidence/0098-free-type-tables-frontier/original",
+  "reference_receipt_sha256": "a2ce62e676a6c2708aa551d51a8e3321933208365c523e88407ecae8d39fb377",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -103,6 +103,7 @@
     "release_widen",
     "enter_symbol_scope",
     "free_widen_buffers",
-    "free_type_tables"
+    "free_type_tables",
+    "finalize_derived_types"
   ]
 }

@@ -1,0 +1,5 @@
+{
+  "promoted": false,
+  "original_executed": false,
+  "reason": "Static audit required explicit added TypesClose/PDBClose definition/witnesses; preserved failed setup; final pair in sibling0098-free-type-tables-frontier"
+}

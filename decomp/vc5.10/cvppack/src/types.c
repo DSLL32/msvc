@@ -1,5 +1,6 @@
 /* Type-packing tables and their original initialization [0040aff0,0040b13d). */
 #include "types.h"
+#include "pdb.h"
 #include <recon.h>
 
 unsigned char *type_table_primary, *type_table_primary_counts;
@@ -79,4 +80,21 @@ unsigned __fastcall map_type_index(unsigned index)
     unsigned result = compact_type_index(index);
     flush_type_stack();
     return result;
+}
+
+/* Release type-packing tables and any opened PDB interfaces [0040b140,0040b1c7). */
+void *type_pdb, *type_pdb_types;
+int type_pdb_close_status;
+void free_type_tables(void)
+{
+    finalize_derived_types();
+    free(type_hash_buckets);
+    free(type_table_primary);
+    free(type_table_secondary);
+    free(type_table_pending);
+    free(type_records);
+    if (type_pdb) {
+        if (type_pdb_types) type_pdb_close_status = TypesClose(type_pdb_types);
+        type_pdb_close_status |= PDBClose(type_pdb);
+    }
 }

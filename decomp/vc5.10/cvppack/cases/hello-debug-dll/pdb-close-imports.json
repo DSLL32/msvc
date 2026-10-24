@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "target_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+  "provider_sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+  "functions": [
+    {
+      "name": "TypesClose",
+      "ordinal": 144,
+      "rva": 5113,
+      "wrapper_bytes": "8b4c24048b01ff6020",
+      "vtable_slot": 32,
+      "target_call": 4239769,
+      "target_interval": [
+        4239759,
+        4239783
+      ],
+      "target_bytes": "a1d032410085c0740f50ff157062410083c404a3b8324100",
+      "abi": "cdecl opaque pointer stackarg4, EAX32 consumed, callerADDESP4",
+      "runtime": "UNREACHED: current real case pointersNULL; native host adapter denies125"
+    },
+    {
+      "name": "PDBClose",
+      "ordinal": 107,
+      "rva": 4561,
+      "wrapper_bytes": "8b4c24048b01ff6028",
+      "vtable_slot": 40,
+      "target_call": 4239790,
+      "target_interval": [
+        4239783,
+        4239813
+      ],
+      "target_bytes": "8b15bc32410052ff155c6241008b0db832410083c4040bc8890db8324100",
+      "abi": "cdecl opaque pointer stackarg4, EAX32 consumed, callerADDESP4",
+      "runtime": "UNREACHED: current real case pointersNULL; native host adapter denies125"
+    }
+  ],
+  "scope": "Static public import ABI only; no provider behavior or PDB-private fields reconstructed."
+}

@@ -122,6 +122,8 @@ def prepare(checked,destination,available=None):
         metadata['functions']['@add_type_reference@8']=dict(register_imports=dict(require_all_register_calls_resolved=True))
     if any(row['symbol']=='_free_widen_buffers' for row in checked):
         metadata['functions']['_free_widen_buffers']=dict(register_imports=dict(require_all_register_calls_resolved=True))
+    if any(row['name']=='free_type_tables' for row in checked):
+        metadata['functions']['_free_type_tables']=dict(register_imports=dict(require_all_register_calls_resolved=True))
     metadata['functions']['_main']=dict(register_imports=dict(require_all_register_calls_resolved=False))
     if any(row['name']=='pack_module' for row in checked):
         path=BINARY/'build/pack.obj';obj=COFF(path.read_bytes())

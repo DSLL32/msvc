@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "rejected": [
+    {
+      "name": "old-main-caller-policy",
+      "diagnostic": "unmodeled target consumer after main free"
+    },
+    {
+      "name": "changed-type_pdb",
+      "diagnostic": "('non-NULL pointer needs an evidenced role', 'type_pdb')"
+    },
+    {
+      "name": "changed-type_pdb_types",
+      "diagnostic": "('non-NULL pointer needs an evidenced role', 'type_pdb_types')"
+    },
+    {
+      "name": "changed-type_pdb_close_status",
+      "diagnostic": "('application global differs', 'type_pdb_close_status', '00000000', '01000000')"
+    },
+    {
+      "name": "wrong-original-child-return",
+      "diagnostic": "unmodeled target consumer after main free"
+    },
+    {
+      "name": "missing-prior-scratch-return",
+      "diagnostic": "emitted scratch lifetime lacks actual free return"
+    }
+  ],
+  "fresh_negative_count": 8,
+  "pdb_denials": [
+    {
+      "name": "TypesClose",
+      "status": 125,
+      "stderr": "recon: unsupported native operation: CVPACK unobserved MSPDB TypesClose\n",
+      "seconds": 0.0015431158244609833
+    },
+    {
+      "name": "PDBClose",
+      "status": 125,
+      "stderr": "recon: unsupported native operation: CVPACK unobserved MSPDB PDBClose\n",
+      "seconds": 0.0009895917028188705
+    }
+  ],
+  "host_probe_build_seconds": 1.6387998247519135,
+  "baseline": {
+    "calls": 7,
+    "retired_allocations": 6,
+    "initialized_pre_free_bytes_checked": 21934,
+    "source_pointer_aliases": [
+      {
+        "name": "line_data",
+        "owner": "line_data",
+        "offset": 0
+      },
+      {
+        "name": "symbol_data",
+        "owner": "symbol_data",
+        "offset": 0
+      },
+      {
+        "name": "type_data",
+        "owner": "type_data",
+        "offset": 0
+      },
+      {
+        "name": "module_data",
+        "owner": "module_data",
+        "offset": 0
+      },
+      {
+        "name": "pack_buffer",
+        "owner": "pack_buffer",
+        "offset": 0
+      },
+      {
+        "name": "pack_fixups",
+        "owner": "pack_fixups",
+        "offset": 0
+      },
+      {
+        "name": "module_symbol_records",
+        "owner": "type_data",
+        "offset": 0
+      },
+      {
+        "name": "symbol_input",
+        "owner": "type_data",
+        "offset": 99
+      }
+    ],
+    "retired_payload_current_state_compared": false,
+    "allowed_frontier": "finalize_derived_types",
+    "policy_sha256": "74a2672618570797db99305e8a8b885068337a9e8351b917c45ec0b2ecc65893"
+  },
+  "source_sha256": "9da6fbe8e32fbc856dc346f4a7d23fffd83a2bc39442d1127c88f56036e6fe7e",
+  "host_denial_sha256": "39ca6ba43288e3b1a185749e6e4d84751295cad5a6b53392a743a7ca43bc8a4b",
+  "pdb_abi_witness_sha256": "52a39b367c14b6500493a89f343e1b884d6427dcf21231c9b4bdd8a1f2da3946",
+  "checker_sha256": "a50c382334aa4b09a7381b31f58f0992d6e69c8190fb046c8222fcb210440961",
+  "decoder_sha256": "20d32ff5166645648116474c63084f0f1f96901c7b466137310ef4621fcbd5c0",
+  "lifetime_validator_sha256": "ab41a8a1df8ab6f33d924dbb02c1705fad04b3706050675e257943bec56a4dfd",
+  "original_receipt_sha256": "a2ce62e676a6c2708aa551d51a8e3321933208365c523e88407ecae8d39fb377",
+  "native_receipt_sha256": "5610c32480494336bd1177e4591c2ea29ed350721307df19294c227a8b8d934e",
+  "audit_sha256": "e87913a47b54034e2e9ee842e42d7bc9000cdafeacec8da285f08a47a9a1d258",
+  "reused": {
+    "path": "cases/hello-debug-dll/evidence/0097-free-widen-buffers/cleanup-checks.json",
+    "sha256": "d5af13522fb1047c3106fe4b8160327f5a04b6f3c5d6b5d30884339069afd683",
+    "scope": "Unchanged7free/generation/capacity checks; fresh controls cover new frontier/caller/globals and unobserved PDB calls."
+  },
+  "seconds": 8.93056846037507
+}

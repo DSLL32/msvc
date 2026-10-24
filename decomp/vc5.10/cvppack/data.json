@@ -1193,5 +1193,23 @@
     "original": 4272772,
     "size": 4,
     "kind": "integer"
+  },
+  {
+    "name": "type_pdb",
+    "original": 4272828,
+    "size": 4,
+    "kind": "pointer"
+  },
+  {
+    "name": "type_pdb_types",
+    "original": 4272848,
+    "size": 4,
+    "kind": "pointer"
+  },
+  {
+    "name": "type_pdb_close_status",
+    "original": 4272824,
+    "size": 4,
+    "kind": "integer"
   }
 ]

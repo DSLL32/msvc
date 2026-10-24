@@ -6,10 +6,10 @@ Target: `toolchains/5.10/bin/CVPACK.EXE`; the requested folder spelling is
 
 `/help` is complete: status 1, 193 stdout bytes, no stderr, six application
 entries. The genuine embedded-CodeView `hello-debug-dll` case is in progress at
-type-table cleanup (`free_type_tables`),
-after all 21 Widen lifetimes. There are 97 accepted application functions /
-28,477 extent bytes, plus 784 associated switch-data
-bytes. This is 45.45% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
+derived-type finalization (`finalize_derived_types`),
+after all 21 Widen lifetimes. There are 98 accepted application functions /
+28,612 extent bytes, plus 784 associated switch-data
+bytes. This is 45.66% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
 it is neither non-CRT nor executed-branch coverage. Four CRT bodies (400 bytes)
 and five import thunks (30 bytes) remain separate support.
 
@@ -88,6 +88,6 @@ Scratch cleanup uses the meaningful source name `free_widen_buffers`; the histor
 Each accepted function's `evidence/*/function-review.json` or `validation.json`
 records fresh/reused controls and separate build/capture/check/fixture times.
 Historical raw is never relabeled; incomplete and superseded trials retain their
-status. Current native help runs in roughly 17 ms; the partial debug fixture is
+status. Guarded `TypesClose`/`PDBClose` imports have actual named-export/caller ABI witnesses; native host adapters deny125 until those paths are observed. No PDB behavior is credited. Current native help runs in roughly 17 ms; the partial debug fixture is
 about 3.7 s including GDB. Completion will use native entry traces, exact streams,
 status and the cached NB11 master without launching Wine.

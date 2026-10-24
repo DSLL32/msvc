@@ -8,7 +8,7 @@ from state import BINARY, ROOT, sha
 def inputs():
     files=list((BINARY/'src').glob('*.[ch]'))+list((BINARY/'src').glob('*.rc'))
     files.extend([BINARY/'Makefile',BINARY/'scripts/debug-run.c',BINARY/'scripts/native-driver.c',BINARY/'scripts/native-resources.py',ROOT/'lib/recon/resources.py'])
-    files.extend(BINARY/name for name in ('scripts/native-widen.c','scripts/native-widen-abi.h','scripts/native-widen.py'))
+    files.extend(BINARY/name for name in ('scripts/native-widen.c','scripts/native-widen-abi.h','scripts/native-widen.py','scripts/native-pdb.c'))
     files.extend((BINARY/'src').glob('*.cpp'))
     files.extend((BINARY/'src').glob('*.def'))
     files.append(BINARY/'scripts/native-widen-factory.cpp')

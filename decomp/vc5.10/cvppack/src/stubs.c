@@ -6,7 +6,7 @@
 #include "widen.h"
 #include <recon.h>
 
-void free_type_tables(void) { __asm { int 3 } }
+void finalize_derived_types(void) { __asm { int 3 } }
 void print_statistics(void) { __asm { int 3 } }
 void flush_packed_file(void) { __asm { int 3 } }
 unsigned int get_file_size(int file) { __asm { int 3 } return 0; }

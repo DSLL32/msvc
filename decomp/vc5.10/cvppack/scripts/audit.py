@@ -176,13 +176,33 @@ def run(config_path, candidates=(), output=None, reuse_original=None, reuse_nati
             exports.append(dict(name=name,ordinal=ordinal_base+slot,entry=module.base+u32(module.read(module.base+functions_table+slot*4,4),0)))
         assert len(exports)==1 and exports[0]['ordinal']==13,'factory actual export differs'
         definition=BINARY/'src/mspdb50.def'
-        assert definition.read_text()=='LIBRARY MSPDB50.DLL\nEXPORTS\n    '+name+'\n','factory import definition differs'
+        base_definition='LIBRARY MSPDB50.DLL\nEXPORTS\n    '+name+'\n'
+        assert definition.read_text() in (base_definition,base_definition+'    TypesClose\n    PDBClose\n'),'factory import definition differs'
+        close_imports=[]
+        if definition.read_text()!=base_definition:
+            close_path=BINARY/'cases/hello-debug-dll/pdb-close-imports.json'
+            close=json.loads(close_path.read_text())
+            assert close['target_sha256']==sha(ROOT/config['target']['path']) and close['provider_sha256']==sha(provider)
+            target_pe=PE(ROOT/config['target']['path'])
+            for row in close['functions']:
+                matches=[]
+                for index in range(count):
+                    if module.string(module.base+u32(module.read(module.base+names_table+index*4,4),0))!=row['name']:continue
+                    slot=u16(module.read(module.base+ordinals_table+index*2,2),0)
+                    matches.append((ordinal_base+slot,u32(module.read(module.base+functions_table+slot*4,4),0)))
+                assert matches==[(row['ordinal'],row['rva'])],'PDB actual named export differs'
+                assert module.read(module.base+row['rva'],9)==bytes.fromhex(row['wrapper_bytes'])==bytes.fromhex('8b4c24048b01ff60')+bytes([row['vtable_slot']]),'PDB cdecl pointer wrapper differs'
+                first,last=row['target_interval']
+                assert target_pe.read(first,last-first)==bytes.fromhex(row['target_bytes']),'PDB caller ABI/result witness differs'
+                close_imports.append(dict(name=row['name'],ordinal=row['ordinal'],rva=row['rva'],evidence_sha256=sha(close_path),runtime_reached=False))
+            assert [row['name'] for row in close_imports]==['TypesClose','PDBClose']
+
         obj=COFF((BINARY/'build/widen.obj').read_bytes())
         bodies=[s['name'] for s in obj.symbols.values() if s.get('type')==0x20 and s['section']>0]
         assert bodies==['_create_widen','_query_widen','_emit_widen','_release_widen'],'extra target C++ function vertices'
         imports=[s['name'] for s in obj.symbols.values() if s['name'].startswith('__imp_')]
         assert imports==['__imp_'+name],'factory target import symbol differs'
-        factory_import=dict(provider_sha256=sha(provider),export=exports[0],definition_sha256=sha(definition),object_sha256=sha(BINARY/'build/widen.obj'),target_functions=bodies)
+        factory_import=dict(unreached_close_imports=close_imports,provider_sha256=sha(provider),export=exports[0],definition_sha256=sha(definition),object_sha256=sha(BINARY/'build/widen.obj'),target_functions=bodies)
     free_lifetimes=None
     if config.get('observe_main_frees'):
         import importlib.util

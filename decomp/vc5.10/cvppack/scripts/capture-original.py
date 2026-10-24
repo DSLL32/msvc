@@ -125,9 +125,17 @@ def main():
     env['VC510_CVPACK_ARGUMENTS'] = ','.join('%x:%d:%s:%d:%d' % (record['original'],item['slot'],
         'S' if item['kind']=='string' else 'P' if item['kind']=='integer-pointer' else 'B' if 'buffer_count_slot' in item else 'C' if item['kind']=='global-buffer' else 'D' if item['kind']=='local-record' else 'F' if item['kind']=='caller-local-pointer' else 'A',item.get('buffer_count_slot',item.get('count_slot',item.get('entry_slot',item.get('width',0)))),item.get('count_offset',0xffffffff)) for record in config['functions']
         for item in record.get('parameters',[]) if item['kind'] in ('string','argv','integer-pointer') or 'buffer_count_slot' in item or item['kind'] in ('global-buffer','local-record') or (item['kind']=='caller-local-pointer' and item.get('initialized')))
-    result = subprocess.run(command, env=env, stdin=subprocess.DEVNULL,
-                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60, check=False)
-    elapsed = time.perf_counter() - execute
+    # Shared-prefix debugger execution is temporarily serialized repository-wide.
+    # Compiler builds/setup and every native fixture stay outside this lock.
+    import fcntl
+    lock_begin=time.perf_counter()
+    with (Path.home()/'.ai-tmp/msvc2-original-capture.lock').open('a') as capture_lock:
+        fcntl.flock(capture_lock.fileno(),fcntl.LOCK_EX)
+        capture_lock_wait=time.perf_counter()-lock_begin
+        execute=time.perf_counter()
+        result = subprocess.run(command, env=env, stdin=subprocess.DEVNULL,
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60, check=False)
+        elapsed = time.perf_counter() - execute
     (output / 'host-stdout').write_bytes(result.stdout)
     (output / 'host-stderr').write_bytes(result.stderr)
     assert result.returncode == 0, ('original debugger failure', result.returncode, result.stderr)
@@ -163,7 +171,7 @@ def main():
         compiled_sources_sha256=sha(output/'compiled-sources.json'),
         outputs=[dict(name=name, bytes=(output / name).stat().st_size, sha256=sha(output / name))
                  for name in ('stdout', 'stderr', 'events', 'audit.json', 'graph-config.json', 'graph-runtime.json','case-definition.json')]+artifact_records,
-        seconds=dict(setup=setup, execution=elapsed, total=time.perf_counter()-start))
+        seconds=dict(setup=setup, capture_lock_wait=capture_lock_wait, execution=elapsed, total=time.perf_counter()-start))
     if case['name']=='hello-debug-dll':
         actual=work/'loaded-mspdb50.dll'
         assert sha(actual)=='cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33'
