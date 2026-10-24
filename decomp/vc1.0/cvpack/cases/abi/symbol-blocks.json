@@ -25,7 +25,7 @@
   "record_tail": 2,
   "ownership": "whole actual blocks; nodes are contained fields",
   "sources": {
-    "src/modules.c": "dd9a326cadc3f18666230d5096f9745124a870fa37e6c38998977baa60e5d37b",
+    "src/modules.c": "074e617dad13afb4d38498ea3bc8c8284edaa6fa031e718cb3433eff6f284bec",
     "src/image.h": "98fa2fadb7c4529fffb5490ff253f2a74ff86944fe4affeb77416353747bb02e"
   },
   "native_allocation_line": 298,

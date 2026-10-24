@@ -895,6 +895,14 @@ static int dump_output_buffers(HANDLE child, HANDLE log, DWORD entry, DWORD *wor
             if (slot>15 && slot!=256) return 0;
             pointer=slot==256?context->Edx:words[slot];
             observed = original_bytes; mapped = size == 0xffffffff;
+            if (size == 0xfffffffe) {
+                DWORD root, capacity, directory[3];
+                if ((entry != 0x183c0 && entry != 0x18430) || slot != 1 || !input ||
+                    !ReadProcessMemory(child, (void *)0x33058, &root, 4, &bytes) || bytes != 4 || root != pointer ||
+                    !ReadProcessMemory(child, (void *)0x33080, &capacity, 4, &bytes) || bytes != 4 || !capacity || capacity > 1024 ||
+                    !ReadProcessMemory(child, (void *)words[2], directory, 12, &bytes) || bytes != 12 || directory[2] > capacity) return 0;
+                size = directory[2];
+            }
             if (mapped) {
                 if (entry == 0x2be60) {
                     if (words[0] != 0x2bfce || slot != 1 || !input || pointer != context->Ebx) return 0;

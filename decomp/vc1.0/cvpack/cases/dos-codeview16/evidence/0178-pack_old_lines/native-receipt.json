@@ -1,0 +1,24 @@
+[
+  {
+    "case": "dos-codeview16",
+    "terminal": "exit",
+    "status": 0,
+    "function": null,
+    "executable_sha256": "8847f33f4532a37630575314327210cd615ffbd8904f67a31f076f44b36fe544",
+    "configuration_sha256": "059d4b8bce3bb45d15e0d97831e28f25fabfd34876da171bdd9fb20165e3283f",
+    "original_sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+    "conditional_support_sha256": "18a3eef197bad7c5ca73b211919500eab3c357c8a45451a534340ecee9a68de2",
+    "native_host_allocator": null,
+    "process_boundary": {
+      "requests": [],
+      "errors": []
+    },
+    "seconds": {
+      "setup": 0.30261427257210016,
+      "execution": 0.015603266656398773,
+      "debugging": 0.21808839216828346,
+      "checks": 0.007650056853890419,
+      "total": 0.5439627440646291
+    }
+  }
+]

@@ -15,7 +15,7 @@
     "src/image.c": "24317f37706b277c40b92fb1963a414dbc84c31e0c6a9ef77022128ab99ad9a4",
     "src/image.h": "98fa2fadb7c4529fffb5490ff253f2a74ff86944fe4affeb77416353747bb02e",
     "src/main.c": "4fca840733d7a800e500b46f51294c3ac999ddd1ecfcc54f2b36eee0da7f65bc",
-    "src/modules.c": "dd9a326cadc3f18666230d5096f9745124a870fa37e6c38998977baa60e5d37b",
+    "src/modules.c": "074e617dad13afb4d38498ea3bc8c8284edaa6fa031e718cb3433eff6f284bec",
     "src/options.c": "09d36a0bbb3ddc97a6a749250f2881d5a1967bdb5c34d4cd7b6f1178d31d2c34",
     "src/output.c": "92f6f63b738fdb68702dd52d6020ee2fec7732eb514638f6b4c988fb8ca19d13",
     "src/output.h": "25130e78fd5a3a7fcda769edb011b69c9ad0143d7c38dfc83e8f3bd6a12bfa41",
@@ -23,8 +23,8 @@
     "src/pdb.h": "4985c836921a7bc48a27baf3647ffc9b967c49c17ec63b75d31ecc8934068e73",
     "src/strip.c": "ccb0eb975ad67fdbb7633ea4db4f773d691e88f9d87080ac95ea04e71365e6f9",
     "src/strip.h": "8110c284b1697c03fa2c7c4f9030d31625cff4726cbf7edb2d33987a5fdd01eb",
-    "src/stubs.c": "c3453c7f4e06546f50b81b7172d08e3f26810465e5c23119513b9864b707b1a5",
-    "src/types.c": "7200ec3e8adea3ea3a2135791923a04f720c061ec5aa8c4b7f3ab7874bdb4e4f",
+    "src/stubs.c": "5c0389dfb71b561d909f8cc106a0b77556c58f400a31666ff0e340ecf3052759",
+    "src/types.c": "ff1e4f441dcb8366461a41e026da3aca82eb470ea3916160ed0b7e8cdcf7cf70",
     "src/types.h": "d8f17d9fe8dd9fa00515acc4326cf4ee38d5bc1eb61769a0045948c0ba7b83a4"
   },
   "allocations": [

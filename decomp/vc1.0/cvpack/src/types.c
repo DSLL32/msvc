@@ -2381,3 +2381,51 @@ ModuleInfo *find_precompiled_module(const unsigned char *name)
     filename[(signed char)*name] = 0;
     fatal_error(29, filename, NULL);
 }
+
+void convert_global_data16(void)
+{
+    unsigned short *type;
+    if (suppressed_symbol_depth) {
+        *(unsigned short *)(symbol_input+2) = 8;
+        if (suppressed_symbol_depth) return;
+    }
+    type = (unsigned short *)(symbol_input+8);
+    *type = convert_new_type(*type);
+    intern_global(symbol_input, hash_public);
+}
+
+void convert_local_data16(void)
+{
+    unsigned short *type;
+    if (suppressed_symbol_depth) {
+        *(unsigned short *)(symbol_input+2) = 8;
+        if (suppressed_symbol_depth) return;
+    }
+    type = (unsigned short *)(symbol_input+8);
+    *type = convert_new_type(*type);
+}
+
+void convert_procedure16(void)
+{
+    unsigned char *type;
+    ++symbol_scope_depth;
+    if (!address_in_module(current_module, *(unsigned short *)(symbol_input+0x18),
+                           *(unsigned short *)(symbol_input+0x16))) {
+        ++suppressed_symbol_depth;
+        *(unsigned short *)(symbol_input+2) = 8;
+        return;
+    }
+    type = symbol_input+0x1a;
+    *(unsigned short *)type = convert_new_type(*(unsigned short *)type);
+}
+
+void convert_bp_relative16(void)
+{
+    unsigned char *type;
+    if (suppressed_symbol_depth) {
+        *(unsigned short *)(symbol_input+2) = 8;
+        if (suppressed_symbol_depth) return;
+    }
+    type = symbol_input+6;
+    *(unsigned short *)type = convert_new_type(*(unsigned short *)type);
+}

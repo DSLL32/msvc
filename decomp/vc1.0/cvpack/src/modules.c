@@ -570,5 +570,22 @@ void read_source_module(unsigned long directory, const CvDirectoryEntry *entry)
     if (read_file(input_file, module_data, entry->size) != entry->size)
         fatal_error(17, "Source Module", module_name(current_module));
     cv_read_offset += entry->size;
-    line_directory = directory;
+    old_line_directory = directory;
+}
+
+#pragma intrinsic(memcpy)
+void pack_old_lines(void *lines, CvDirectoryEntry *entry, ModuleInfo *module)
+{
+    unsigned char *buffer;
+#ifdef RECON_NATIVE_TEST
+    /* The original truncates malloc size but copies the full DWORD size. */
+    if (entry->size > 0xffff) __asm { int 3 }
+#endif
+    buffer = malloc((unsigned short)entry->size);
+    if (!buffer) fatal_error(14, NULL, NULL);
+    if (!buffer) fatal_error(14, NULL, NULL);
+    memcpy(buffer, lines, entry->size);
+    entry->location.data = buffer;
+    module->line_size = entry->size;
+    module->lines = buffer;
 }

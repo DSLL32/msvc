@@ -72,7 +72,7 @@ void pack_old_types(void * types,CvDirectoryEntry * entry,void * module_record,M
 
 void pack_new_lines(void * lines,CvDirectoryEntry * entry,ModuleInfo * module) { __asm { int 3 } }
 
-void pack_old_lines(void * lines,CvDirectoryEntry * entry,ModuleInfo * module) { __asm { int 3 } }
+
 
 
 unsigned short __fastcall compact_old_type(unsigned short type) { __asm { int 3 } return 0; }
@@ -89,7 +89,6 @@ TypeServerRecord *__stdcall type_server_record_init(TypeServerRecord *node, Type
 
 
 
-void convert_bp_relative16(void) { __asm { int 3 } }
 
 
 
@@ -97,14 +96,15 @@ void convert_bp_relative16(void) { __asm { int 3 } }
 
 
 
-void convert_local_data16(void) { __asm { int 3 } }
-
-void convert_global_data16(void) { __asm { int 3 } }
 
 
 
 
-void convert_procedure16(void) { __asm { int 3 } }
+
+
+
+
+
 
 
 

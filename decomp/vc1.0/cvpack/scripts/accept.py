@@ -75,6 +75,20 @@ def compare_global_owner(item,words,actual,events):
         assert root==words[item['slot']]!=0 and capacity==256 and count==128 and words[2]==3072,'first derived table growth differs'
         assert actual['owner']==dict(root='derived_types',address=actual['address'],requested_size=1536,context=dict(capacity=capacity,count=count,stride=12))and not actual['null'],'native derived table owner differs'
         return dict(original_address=root,native_address=actual['address'],owner='derived_types',requested_size=1536,new_requested_size=3072,capacity=capacity,count=count,scope='Actual first128-to256 derived table growth. initialize_type_tables checked_zero(128*12) publishes this root; no prior checked_realloc can return while its entry is masked. add_derived_type updates capacity before this exact call. Wrapper consumes ownership and size, not nested list payloads; no general heap proof.')
+    if item['root']=='module_data':
+        assert item['original_root']==0x33058 and item['size_global']=='module_capacity','unknown line buffer owner'
+        def scalar(address):
+            rows=re.findall(r'^memory %08x ([0-9a-f]+)$'%address,events,re.M);assert len(rows)==1 and len(bytes.fromhex(rows[0]))==4
+            return int.from_bytes(bytes.fromhex(rows[0]),'little')
+        root,capacity=scalar(0x33058),scalar(0x33080)
+        assert words[0] in (0x17b4c,0x17b1c) and root==words[item['slot']]!=0 and 0<capacity<=1024,'line buffer/caller/capacity differs'
+        entries=re.findall(r'^input-buffer %08x ([0-9a-f]+)$'%words[2],events,re.M);assert len(entries)==1
+        entry=bytes.fromhex(entries[0]);assert len(entry)==12
+        size=int.from_bytes(entry[8:12],'little');offset=int.from_bytes(entry[4:8],'little')
+        assert 0<size<=capacity and actual['owner']==dict(root='module_data',address=actual['address'],requested_size=capacity)and not actual['null'],'native line buffer owner/extent differs'
+        rows=re.findall(r'^input-buffer %08x ([0-9a-f]+)$'%root,events,re.M);assert len(rows)==1
+        payload=bytes.fromhex(rows[0]);assert len(payload)==size and rows[0]==actual['bytes'],'line buffer defined input differs'
+        return dict(original_address=root,native_address=actual['address'],owner='module_data',requested_size=capacity,defined_prefix=size,source_offset=offset,sha256=__import__('hashlib').sha256(payload).hexdigest(),scope='read_image_debug malloc(module_capacity) publication; read_source_module read_file defines exactly directory.size, consumed bytes independently equal; no allocation tail credit')
     if item['root']=='current_module':
         assert(item['original_root'],item['requested_size'],item['input_bytes'])==(0x33050,48,48),'unknown current module contract'
         roots=re.findall(r'^memory 00033050 ([0-9a-f]+)$',events,re.M);raws=re.findall(r'^input-buffer %08x ([0-9a-f]+)$'%words[item['slot']],events,re.M)
@@ -107,6 +121,7 @@ def compare_directory_key(item,words,actual,events):
     matches=re.findall(r'^%s-buffer %08x ([0-9a-f]+)$'%('output'if output else 'input',pointer),events,re.M)
     assert len(matches)==1,'missing actual directory sort key'
     old=bytes.fromhex(matches[0]);new=bytes.fromhex(actual['bytes']);assert len(old)==len(new)==12 and(output or old[:4]==new[:4]),'directory sort fields differ'
+    if item.get('whole_entry'):assert old==new,'consumed directory fields differ'
     return dict(original_address=pointer,native_address=actual['address'],index=array['index'],count=count,compared_fields=[]if output else [0,4],original_raw=old.hex(),native_raw=new.hex(),scope='Next-cell output identity only; raw prebytes no equality credit'if output else 'Comparator consumes subsection/module WORDs only; payload pointer/size retained raw without equality claim')
 
 def compare_counted_name(item,words,actual,events):

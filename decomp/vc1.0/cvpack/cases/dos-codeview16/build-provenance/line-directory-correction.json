@@ -1,0 +1,21 @@
+{
+  "function": "read_source_module",
+  "original_store": {
+    "address": "0x17fc0",
+    "bytes": "a33c3b0300",
+    "target": "0x33b3c",
+    "symbol": "old_line_directory"
+  },
+  "previous_source_target": "line_directory at0x33b40",
+  "corrected_target": "old_line_directory at0x33b3c",
+  "why_previous_frontier_did_not_observe": "Earlier fresh pairs stopped at16bit symbol converters before pack_module consumed the directory global. Static follow-on review found actual store operand.",
+  "historical_raw": "preserved unchanged; no all-prefix/historical pipeline",
+  "forward_validation": "Current original compiler/global symbol binding and fresh normal frontier pair.",
+  "canonical_binding": {
+    "old_line_directory": "0x2bedc",
+    "line_directory": "0x2bee0",
+    "store": "0x1650a",
+    "bytes": "a3dcbe0200",
+    "instruction": "dword ptr [0x2bedc], eax"
+  }
+}

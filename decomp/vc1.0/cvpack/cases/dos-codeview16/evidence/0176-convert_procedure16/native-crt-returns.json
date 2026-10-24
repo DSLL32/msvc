@@ -1,0 +1,29 @@
+[
+  {
+    "name": "dos-cv.exe",
+    "mode": 32770,
+    "share": 64,
+    "permission": 438,
+    "createfile": {
+      "name": "dos-cv.exe",
+      "access": 3221225472,
+      "share": 3,
+      "disposition": 3,
+      "attrs": 128,
+      "inherit": false
+    },
+    "return": {
+      "descriptor": 3,
+      "errno": 0,
+      "last_error": 0,
+      "osfile": 1,
+      "type": 1,
+      "position": 0,
+      "owned": true,
+      "host_descriptor": 3,
+      "access_mode": 2,
+      "input_matches": true,
+      "input_sha256": "5dd0e8f3fc09ad257ea86b7dcaf2112b50d0d939c8f2a249f8f78bf3f7633c47"
+    }
+  }
+]

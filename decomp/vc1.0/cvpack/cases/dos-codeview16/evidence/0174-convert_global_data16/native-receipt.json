@@ -1,0 +1,24 @@
+[
+  {
+    "case": "dos-codeview16",
+    "terminal": "trap",
+    "status": -5,
+    "function": "convert_local_data16",
+    "executable_sha256": "cf27753a748065d6b1ed31a49fd25402edb55ff77173917437b1561ee09772a4",
+    "configuration_sha256": "cdd1fcf17899cd601bb4c050823a89218c3f32b207b32f00d9967ab1585e69c3",
+    "original_sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+    "conditional_support_sha256": "18a3eef197bad7c5ca73b211919500eab3c357c8a45451a534340ecee9a68de2",
+    "native_host_allocator": null,
+    "process_boundary": {
+      "requests": [],
+      "errors": []
+    },
+    "seconds": {
+      "setup": 0.2812053943052888,
+      "execution": 0.016173209063708782,
+      "debugging": 0.6082594385370612,
+      "checks": 0.007064717821776867,
+      "total": 0.9127091132104397
+    }
+  }
+]

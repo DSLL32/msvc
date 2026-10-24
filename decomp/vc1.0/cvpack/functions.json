@@ -2516,35 +2516,52 @@
       "native": "pack_old_lines",
       "symbol": "_pack_old_lines",
       "original": 99264,
-      "source": "src/stubs.c",
+      "source": "src/modules.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        99264,
+        99369
+      ],
       "abi": "void pack_old_lines(void *,CvDirectoryEntry *,ModuleInfo *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/dos-codeview16/evidence/0178-pack_old_lines/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
         {
           "name": "lines",
           "slot": 1,
-          "kind": "pointer",
-          "bits": 32
+          "kind": "global-owner",
+          "root": "module_data",
+          "original_root": 208984,
+          "size_global": "module_capacity"
         },
         {
           "name": "entry",
           "slot": 2,
-          "kind": "pointer",
-          "bits": 32
+          "kind": "directory-key",
+          "whole_entry": true
         },
         {
           "name": "module",
           "slot": 3,
-          "kind": "pointer",
-          "bits": 32
+          "kind": "global-owner",
+          "root": "current_module",
+          "original_root": 208976,
+          "requested_size": 48,
+          "input_bytes": 48
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "dos-codeview16": [
+          {
+            "name": "dos-cv.exe",
+            "mode": 32770,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "convert_old_type",
@@ -3967,16 +3984,28 @@
       "native": "convert_bp_relative16",
       "symbol": "_convert_bp_relative16",
       "original": 152752,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        152752,
+        152805
+      ],
       "abi": "void convert_bp_relative16(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/dos-codeview16/evidence/0177-convert_bp_relative16/proof.json",
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [],
+      "required_conditional_calls_by_case": {
+        "dos-codeview16": [
+          {
+            "name": "dos-cv.exe",
+            "mode": 32770,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "convert_bp_relative32",
@@ -4111,32 +4140,56 @@
       "native": "convert_local_data16",
       "symbol": "_convert_local_data16",
       "original": 153120,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        153120,
+        153173
+      ],
       "abi": "void convert_local_data16(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/dos-codeview16/evidence/0175-convert_local_data16/proof.json",
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [],
+      "required_conditional_calls_by_case": {
+        "dos-codeview16": [
+          {
+            "name": "dos-cv.exe",
+            "mode": 32770,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "convert_global_data16",
       "native": "convert_global_data16",
       "symbol": "_convert_global_data16",
       "original": 153184,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        153184,
+        153253
+      ],
       "abi": "void convert_global_data16(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/dos-codeview16/evidence/0174-convert_global_data16/proof.json",
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [],
+      "required_conditional_calls_by_case": {
+        "dos-codeview16": [
+          {
+            "name": "dos-cv.exe",
+            "mode": 32770,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "convert_local_data32",
@@ -4199,16 +4252,28 @@
       "native": "convert_procedure16",
       "symbol": "_convert_procedure16",
       "original": 153408,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        153408,
+        153501
+      ],
       "abi": "void convert_procedure16(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/dos-codeview16/evidence/0176-convert_procedure16/proof.json",
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [],
+      "required_conditional_calls_by_case": {
+        "dos-codeview16": [
+          {
+            "name": "dos-cv.exe",
+            "mode": 32770,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "convert_procedure32",
@@ -9300,6 +9365,36 @@
       "case": "dos-codeview16",
       "kind": "application",
       "sequence": 173
+    },
+    {
+      "function": "convert_global_data16",
+      "case": "dos-codeview16",
+      "kind": "application",
+      "sequence": 174
+    },
+    {
+      "function": "convert_local_data16",
+      "case": "dos-codeview16",
+      "kind": "application",
+      "sequence": 175
+    },
+    {
+      "function": "convert_procedure16",
+      "case": "dos-codeview16",
+      "kind": "application",
+      "sequence": 176
+    },
+    {
+      "function": "convert_bp_relative16",
+      "case": "dos-codeview16",
+      "kind": "application",
+      "sequence": 177
+    },
+    {
+      "function": "pack_old_lines",
+      "case": "dos-codeview16",
+      "kind": "application",
+      "sequence": 178
     }
   ],
   "support_unmasked": [
@@ -10002,15 +10097,15 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "149e2815d4d62a765f383e95e7d70a2356ec513796082aa6b28a6f62352cf711"
+    "evidence_sha256": "c1c9e45908d1e84cd417625682c167729c2a083b9329f518750e7a038215e9a6"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "096b6a729a3c52631b6c76d189a8d2cc47495f2feb59fb2d750f249acc4b42c7"
+    "evidence_sha256": "31c500a95c0bc5365c67749a02a5b62e65aa674dd215afa2b0830a19800e174d"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
-    "evidence_sha256": "833086211ef98408ddaec6015415755ca96dc3fc9396eb68de34da0804c5487d"
+    "evidence_sha256": "feb0b1c3187323ab5f4f0ff1fce40f1c62ba1c7ff3ed0b91e6ca3f62dec326bd"
   },
   "external_inputs": {
     "evidence": "cases/abi/pdb-input.json",
@@ -10030,59 +10125,59 @@
   },
   "partial_read_observations": {
     "evidence": "cases/abi/partial-public-read.json",
-    "evidence_sha256": "8d99080eadd41feb96f6a1b4394518b4235e00de50f59900c042ba0f515ae8b2"
+    "evidence_sha256": "ca82a024a65ae544cf2eaa673494d44bafeacf4d4e17d3eabb32c774e27cf9a6"
   },
   "module_buffer_publication": {
     "evidence": "cases/abi/module-buffer-publication.json",
-    "evidence_sha256": "8d1e0eceaa99540b4b51831be6ec3aba95bafd994342b36c8b826a2f7e882753"
+    "evidence_sha256": "8a957e6c644573a620065720285bff5e299ff888dd3d4434faf5f35f753cbd51"
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "2a760955e4dd3dbf7d67e748741717358ec08a7968985e3046ce65398486afd4"
+    "evidence_sha256": "729d025565fe7d995eb37b5e450361d5dbc98c2d80e36528b6034e1b2975d6be"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "5c7fe3ae77ce4a22b6ff9cb41df1e933a64eff0ceb1300bb814ce6cccc240fc9"
+    "evidence_sha256": "d4958545d56cccfcc4980eaf3d5e9fd5381434c515a21f9a56537f5cc62e0335"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
-    "evidence_sha256": "c981457adac93befd47643b98477f61ec77bf8aacab461593c47aa6a49e867b4"
+    "evidence_sha256": "5e9bba86c9a1123b615e5922e77d18771b5260230c8d0d772d240973c9e17b06"
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "c772b0a5127d4413f2ce2bec6fd40dc1f99801af607c79722930113f76d960fc"
+    "evidence_sha256": "646ed6b61022672ca684507f1350e81c8046dc70400e328035d98db4e4d415d7"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
-    "evidence_sha256": "88d7260babd6af4b9f712ec3d4fdab18313cb61f4066f780d5070b10e5b90c4f"
+    "evidence_sha256": "97a781e1228fa0ee52b2e12aa3c4919b74ca6d87960183af06ccf095e2359a7e"
   },
   "resolver_return_observations": {
     "evidence": "cases/abi/resolver-returns.json",
-    "evidence_sha256": "b5ad9fce8429fe82e4c088df6791612b272ad8c63882052ec91470a8288e942b"
+    "evidence_sha256": "0283273817eed5775726c5c92ab404e6f56df0d55e6c6b0ae6cfc82d33aa85ed"
   },
   "recursive_arena_observations": {
     "evidence": "cases/abi/recursive-arena.json",
-    "evidence_sha256": "63a4f286a31f705bbaf51d74645fa4741599f9d13aff4833d561b8fa9255cdd3"
+    "evidence_sha256": "65268f2992e202964f23f213db67c14df13ec3a84c5ffa9f7d29b6a1f5412529"
   },
   "packed_arena_observations": {
     "evidence": "cases/abi/packed-arena.json",
-    "evidence_sha256": "10b017b950f6702d5d57c14125f60a4b2cb6dd379fa7faf6cf4dc2f34820adf0"
+    "evidence_sha256": "4dc89ad86f70749ff4e76063eb7a3eb3a1b953e8ea170c1e8ce6a0cb0d6898ba"
   },
   "symbol_block_observations": {
     "evidence": "cases/abi/symbol-blocks.json",
-    "evidence_sha256": "0f4f6629ccf1f3e287bbda6ea797bcc1093e2a5aa3c4e0593874f830d6601688"
+    "evidence_sha256": "8925ba5615b872eadbf34f9b5d850ce5a896a2da706ae2dd00ebc069a4ca7c48"
   },
   "module_address_observations": {
     "evidence": "cases/abi/module-address.json",
-    "evidence_sha256": "b1dbe17e8f309f37847f2ee63141f95fbc64995b47f09759e87e3e871efda527"
+    "evidence_sha256": "345240eba79d7bcf804096e87fe9dc2c1bfc6a99306e08b8fd55d0b1c89bad8b"
   },
   "symbol_reference_observations": {
     "evidence": "cases/abi/symbol-references.json",
-    "evidence_sha256": "6c373072303ceff62f0caebbe591dc579f5835d8de76599355250c3fb85d3aa6"
+    "evidence_sha256": "e63f433ad91a78bbc952fc0e8cec23ad1a84cc7730df6b12f06338f38c50c3d1"
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "fc4ffe2d1770eb0d30f2f1fdc4d895d97a75db6198fcfa61aa358685a84d7b9e"
+    "sha256": "02592300a4980e0a192f15bbdcb4fa6f2335f5d0f58c5e5e06275bcd10ef5491"
   },
   "freebuf_boundary": {
     "case": "hello-debug-dll",

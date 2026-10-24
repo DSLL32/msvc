@@ -50,7 +50,8 @@
         "/verbose",
         "dos-cv.exe"
       ],
-      "status": "active"
+      "status": "complete",
+      "completion": "cases/dos-codeview16/evidence/0178-pack_old_lines/proof.json"
     }
   ]
 }
