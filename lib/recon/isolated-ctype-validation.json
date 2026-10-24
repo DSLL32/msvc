@@ -73,5 +73,44 @@
   },
   "affected_checks": "Default native check, typed codepage surface and68624 post1252ASCII rows+23denials pass.",
   "ownership": "Original proof is initialized514Bctype and complete NUL-terminated result plus mapped writable distinct identities/lifetime; no original heap extents inferred. Native independent malloc objects have explicit owned extents; old static ctype and static MB identities retained.",
-  "remaining": "Actual C1XX native adoption required before application acceptance. C1 Last0 and _setmbcp transition are separate, not enabled here."
+  "remaining": "Isolated C1XX actual adoption complete. Independent C1 Last0/SBCS followup is published separately in b9863419d and still requires own actual adoption.",
+  "actual_C1XX_adoption": {
+    "accepted_checkpoint": "9452b9f2d",
+    "shared_source_commit": "f96537bfe",
+    "packet": {
+      "path": "decomp/vc5.10/c1xx/cases/minimal/checksum-trial.json",
+      "sha256": "0542d7e2befa5bcb5ae4ef244b43326af3cee4d43b138b52c346fa0303a237cd"
+    },
+    "proofs": {
+      "normal": {
+        "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-checksum-locale-original-1",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-checksum-locale-native-2",
+        "original_receipt_sha256": "ebdbb204d8af623e8e00defcad03832006960fa7f4c88ec22317b76c0c638568",
+        "native_receipt_sha256": "f3aa5cfd71d51cc11abe339fb686bd6778c561eac001333ca340f0cebd4e966e",
+        "native_ELF_sha256": "118fcc1e4be3588bbaf04f66b32e0869299e9e0a92ffd7553451f94c1128cd06",
+        "native_compiled_source_record_sha256": "e0aaabd2d8312dea57c501447bdd83ccf0f255996656d76482a782753b26eda7"
+      },
+      "restore": {
+        "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-checksum-restore-original-1",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-checksum-restore-native-1",
+        "original_receipt_sha256": "70ed317f52d12bea6697f80ae71b0fcbc4a12be48220a1a6bfc13c4ec5455e08",
+        "native_receipt_sha256": "7df868dde2fb4d9da336d666c9c7af0535c078b3a72ceb430ef18fa8aaf6a7ec",
+        "native_ELF_sha256": "118fcc1e4be3588bbaf04f66b32e0869299e9e0a92ffd7553451f94c1128cd06",
+        "native_compiled_source_record_sha256": "e0aaabd2d8312dea57c501447bdd83ccf0f255996656d76482a782753b26eda7"
+      }
+    },
+    "controls": {
+      "original_locale": 13,
+      "native_checksum_and_API": 22,
+      "controller_identity_and_mode": 3,
+      "seconds": 51.955201629549265
+    },
+    "scope": "Actual normal/restore own locale tables/scalars/owners/errors0/0/203/architecturalFP/privatevectors and next39394 match, original full112FP preserved. Earlier denied-profile attempt retained. No unvisitedFILE or next_setmbcp success claimed.",
+    "parent_reviews": {
+      "checksum-controller-parent-review.json": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/checksum-controller-parent-review.json",
+        "sha256": "93705addf847a18c497f9b1d7bb6de19e4e6673ce24c4f4876a5013b073dfee1"
+      }
+    }
+  }
 }
