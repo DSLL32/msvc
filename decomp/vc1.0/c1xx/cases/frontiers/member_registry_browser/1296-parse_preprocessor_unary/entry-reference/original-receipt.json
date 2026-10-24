@@ -1,0 +1,142 @@
+{
+  "case": "member_registry_browser",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 1296,
+  "terminal": "_accept_preprocessor_token@4",
+  "candidate": "_parse_preprocessor_unary",
+  "pending_accepted": [],
+  "configuration_sha256": "eb9a62a2e4c2cd846e4ecadcb8a5925fcbf448777700f5e94c1e49fcd2e6fec3",
+  "capture_seconds": 1.6173602435737848,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irdb": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "registry.h": {
+      "bytes": 703,
+      "sha256": "a16309303b88af7f9a4a7ad68f6fbcacbc75ed975b9d277a29f9baa6ca38e649"
+    },
+    "registry.sbt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    "registry.cpp": {
+      "bytes": 6998,
+      "sha256": "79744fca0c987fcf884632130d2000185580b0acd358647058f76151e62b8158"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\member-registry-browser-driver",
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "observer_sha256": "b2fb8bfb0f5e6517b3d24996e25c0fbb12e74eb4feb26993f0216508550fff32",
+  "first_entry_projection": {
+    "accepted_first": 1257,
+    "accepted_last": 1297,
+    "accepted_prefix_sha256": "82b8b40a595baba620af06099998c987268a21fb425314cf4e6d3bb99eafbd21",
+    "expected": [
+      "_begin_browser_output",
+      "_format_browser_temporary_name@4",
+      "_begin_browser_records",
+      "_queue_browser_record@8",
+      "_append_browser_record@12",
+      "_fill_browser_record@8",
+      "_first_browser_record",
+      "_second_browser_record",
+      "_browser_record_from_end@4",
+      "_browser_macro@4",
+      "_fill_browser_macro@8",
+      "_pop_first_browser_record",
+      "_emit_browser_record@4",
+      "_serialize_browser_record@8",
+      "_browser_working_directory",
+      "_write_ir_string",
+      "_browser_open_file",
+      "_fill_browser_filename",
+      "_duplicate_browser_text",
+      "_browser_declaration@4",
+      "_fill_browser_declaration@8",
+      "_fill_browser_symbol@8",
+      "_search_source_include@4",
+      "_read_macro_replacement",
+      "_read_macro_parameters",
+      "_find_macro_parameter@4",
+      "_evaluate_preprocessor_expression",
+      "_parse_preprocessor_conditional",
+      "_parse_preprocessor_logical_or",
+      "_parse_preprocessor_logical_and",
+      "_parse_preprocessor_bitwise_or",
+      "_parse_preprocessor_bitwise_xor",
+      "_parse_preprocessor_bitwise_and",
+      "_parse_preprocessor_equality",
+      "_parse_preprocessor_relational",
+      "_parse_preprocessor_shift",
+      "_parse_preprocessor_additive",
+      "_parse_preprocessor_multiplicative",
+      "_parse_preprocessor_unary"
+    ],
+    "observed": [
+      "_begin_browser_output",
+      "_format_browser_temporary_name@4",
+      "_begin_browser_records",
+      "_queue_browser_record@8",
+      "_append_browser_record@12",
+      "_fill_browser_record@8",
+      "_first_browser_record",
+      "_second_browser_record",
+      "_browser_record_from_end@4",
+      "_browser_macro@4",
+      "_fill_browser_macro@8",
+      "_pop_first_browser_record",
+      "_emit_browser_record@4",
+      "_serialize_browser_record@8",
+      "_browser_working_directory",
+      "_write_ir_string",
+      "_browser_open_file",
+      "_fill_browser_filename",
+      "_duplicate_browser_text",
+      "_browser_declaration@4",
+      "_fill_browser_declaration@8",
+      "_fill_browser_symbol@8",
+      "_search_source_include@4",
+      "_read_macro_replacement",
+      "_read_macro_parameters",
+      "_find_macro_parameter@4",
+      "_evaluate_preprocessor_expression",
+      "_parse_preprocessor_conditional",
+      "_parse_preprocessor_logical_or",
+      "_parse_preprocessor_logical_and",
+      "_parse_preprocessor_bitwise_or",
+      "_parse_preprocessor_bitwise_xor",
+      "_parse_preprocessor_bitwise_and",
+      "_parse_preprocessor_equality",
+      "_parse_preprocessor_relational",
+      "_parse_preprocessor_shift",
+      "_parse_preprocessor_additive",
+      "_parse_preprocessor_multiplicative",
+      "_parse_preprocessor_unary"
+    ],
+    "events_sha256": "14d5055b6c56cfaeddb4734065b447cb5c39340bb4a3ddf71f1ebed4a02c4291",
+    "plan_sha256": "8f5ba8748cec09cfb4e5b215923a8ba6e3cd8518b114120306b8e625f09692c9"
+  }
+}

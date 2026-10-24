@@ -1,0 +1,28 @@
+Breakpoint 1 at 0x2b157: file src/preprocessor-expressions.c, line 247.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, parse_preprocessor_unary () at src/preprocessor-expressions.c:247
+247	    if (accept_preprocessor_token(OP_NOT)) {
+#0  parse_preprocessor_unary () at src/preprocessor-expressions.c:247
+#1  0x5658005b in parse_preprocessor_multiplicative () at src/preprocessor-expressions.c:220
+#2  0x5657ff4b in parse_preprocessor_additive () at src/preprocessor-expressions.c:193
+#3  0x5657fe8b in parse_preprocessor_shift () at src/preprocessor-expressions.c:174
+#4  0x5657fd3b in parse_preprocessor_relational () at src/preprocessor-expressions.c:148
+#5  0x5657fc7b in parse_preprocessor_equality () at src/preprocessor-expressions.c:130
+#6  0x5657fc0b in parse_preprocessor_bitwise_and () at src/preprocessor-expressions.c:115
+#7  0x5657fb9b in parse_preprocessor_bitwise_xor () at src/preprocessor-expressions.c:101
+#8  0x5657fb2b in parse_preprocessor_bitwise_or () at src/preprocessor-expressions.c:87
+#9  0x5657fa94 in parse_preprocessor_logical_and () at src/preprocessor-expressions.c:71
+#10 0x5657f9f4 in parse_preprocessor_logical_or () at src/preprocessor-expressions.c:53
+#11 0x5657f93b in parse_preprocessor_conditional () at src/preprocessor-expressions.c:33
+#12 0x5657f85c in evaluate_preprocessor_expression () at src/preprocessor-expressions.c:17
+#13 0x5659b64b in preprocess_directive () at src/directives.c:292
+#14 0x565c98c9 in begin_source_line () at src/lexer.c:663
+#15 0x565c8a13 in read_lexical_token () at src/lexer.c:470
+#16 0x565c6e55 in scan_token () at src/lexer.c:228
+#17 0x565c6335 in read_parser_token () at src/lexer.c:69
+#18 0x565be7b9 in parse_translation_unit () at src/parser.c:85
+#19 0x5655df6f in compile_translation_unit () at src/frontend.c:73
+#20 0x565588c6 in guarded_compile () at src/c1xx.c:28
+#21 0x56558894 in main (argc=1, argv=0xffffd784, environment=0xffffd78c) at src/c1xx.c:20

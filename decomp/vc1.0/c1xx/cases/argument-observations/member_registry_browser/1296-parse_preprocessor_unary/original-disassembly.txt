@@ -1,0 +1,51 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00018a90 <.text+0x1a90>:
+   18a90:	6a 45                	push   0x45
+   18a92:	e8 a9 f6 ff ff       	call   0x18140
+   18a97:	0b c0                	or     eax,eax
+   18a99:	74 15                	je     0x18ab0
+   18a9b:	6a 00                	push   0x0
+   18a9d:	e8 ee ff ff ff       	call   0x18a90
+   18aa2:	50                   	push   eax
+   18aa3:	6a 45                	push   0x45
+   18aa5:	e8 a6 f7 ff ff       	call   0x18250
+   18aaa:	c3                   	ret
+   18aab:	05 00 00 00 00       	add    eax,0x0
+   18ab0:	6a 62                	push   0x62
+   18ab2:	e8 89 f6 ff ff       	call   0x18140
+   18ab7:	0b c0                	or     eax,eax
+   18ab9:	74 15                	je     0x18ad0
+   18abb:	6a 00                	push   0x0
+   18abd:	e8 ce ff ff ff       	call   0x18a90
+   18ac2:	50                   	push   eax
+   18ac3:	6a 62                	push   0x62
+   18ac5:	e8 86 f7 ff ff       	call   0x18250
+   18aca:	c3                   	ret
+   18acb:	05 00 00 00 00       	add    eax,0x0
+   18ad0:	6a 5a                	push   0x5a
+   18ad2:	e8 69 f6 ff ff       	call   0x18140
+   18ad7:	0b c0                	or     eax,eax
+   18ad9:	74 15                	je     0x18af0
+   18adb:	6a 00                	push   0x0
+   18add:	e8 ae ff ff ff       	call   0x18a90
+   18ae2:	50                   	push   eax
+   18ae3:	68 91 00 00 00       	push   0x91
+   18ae8:	e8 63 f7 ff ff       	call   0x18250
+   18aed:	c3                   	ret
+   18aee:	8b ff                	mov    edi,edi
+   18af0:	6a 4f                	push   0x4f
+   18af2:	e8 49 f6 ff ff       	call   0x18140
+   18af7:	0b c0                	or     eax,eax
+   18af9:	74 10                	je     0x18b0b
+   18afb:	6a 00                	push   0x0
+   18afd:	e8 8e ff ff ff       	call   0x18a90
+   18b02:	50                   	push   eax
+   18b03:	6a 63                	push   0x63
+   18b05:	e8 46 f7 ff ff       	call   0x18250
+   18b0a:	c3                   	ret
+   18b0b:	e9 00 00 00 00       	jmp    0x18b10

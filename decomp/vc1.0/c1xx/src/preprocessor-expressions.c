@@ -237,3 +237,28 @@ PreprocessorValue *parse_preprocessor_multiplicative(void)
         return left;
     }
 }
+
+PreprocessorValue *parse_preprocessor_primary(void);
+
+/* Original 0x18a90..0x18b0f, ending with the tail transfer to primary. */
+PreprocessorValue *parse_preprocessor_unary(void)
+{
+    PreprocessorValue *value;
+    if (accept_preprocessor_token(OP_NOT)) {
+        value = parse_preprocessor_unary();
+        return evaluate_preprocessor_binary(OP_NOT, value, 0);
+    }
+    if (accept_preprocessor_token(OP_COMPLEMENT)) {
+        value = parse_preprocessor_unary();
+        return evaluate_preprocessor_binary(OP_COMPLEMENT, value, 0);
+    }
+    if (accept_preprocessor_token(OP_ADD)) {
+        value = parse_preprocessor_unary();
+        return evaluate_preprocessor_binary(OP_UNARY_PLUS, value, 0);
+    }
+    if (accept_preprocessor_token(OP_SUBTRACT)) {
+        value = parse_preprocessor_unary();
+        return evaluate_preprocessor_binary(OP_NEGATE, value, 0);
+    }
+    return parse_preprocessor_primary();
+}
