@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_read_macro_parameters",
+  "case": "member_registry_browser",
+  "accepted_before": 1282,
+  "configuration_sha256": "3a268cebc039d9a2b5c132ab7f584ef3cb05944ee68138d878ab4c5da1025d0a",
+  "native_entry": "read_macro_parameters",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      128976,
+      129285
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl no formals void RET0, SUB4/saved EBX/ESI/EDI",
+    "proof": "Complete309B function initializes name/cursor from macro_replacement_text+1; local character byte is written by next_directive_character before every read. No incoming stack/register/flags/x87 input. Existing unsigned character class/flag arrays indexed BYTE; Six callees next_directive_character/report_syntax_error/find_macro_parameter std4int/fill_source_buffer/macro_expansion_error std4void/consume_line_escape. Punctuation duplicate/empty handling retains original partial parameter record semantics; NUL refill/backslash continuation retains source cursor side effects. Count/length-byte writes and replacement cursor advance only on nonduplicate accepted parameter. No new data/CRT/helper implementation. Whole97B find helper and26B macro_expansion_error independently analyzed/retained named stubs.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "5cdc0cfde89ea23a63d03a0ca8f2d59b4827ffe29dadf14e1177b1c0f124c182",
+  "capture_timing": {
+    "original_capture_seconds": 1.8698479430750012,
+    "native_capture_seconds": 0.18222149927169085,
+    "total_operation_seconds": 2.323441100306809
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "ef463fc6e020bb723b180ad32f8ba48174f63c245b0cd74bb31f1371cf9bee41",
+    "native-commands.gdb": "7f6bf8c90f182cff2e3cef14fa033d6a6b9e8b55cd92b529b995301b75cd8689",
+    "native-gdb.log": "aacf95ccaccf57536dfa7bad409f6197169acfdd30178287d11901be1e95803f",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "16607c4cf774bcf2b99edabd94b4c13be48874563831cf117d4055f982fbd8eb",
+    "original-configuration.json": "3a268cebc039d9a2b5c132ab7f584ef3cb05944ee68138d878ab4c5da1025d0a",
+    "original-disassembly.txt": "8d726bd22442c35c11690af797fd5074631394e169d8776529a7c7c706b77118",
+    "original-events.txt": "d67c228c8fafe7dd347b3e1981b9183917a7f0efc6cb9c41c30f710034409d8a",
+    "original-receipt.json": "594bb57fa791663d024f295e4f253b4aa8afc8e3c8a04b11e98bb3b99c88105d",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "a4a414ed82e52e41b08f5c90ae6df40e74afe3e0715ed706492897226812cfbf"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

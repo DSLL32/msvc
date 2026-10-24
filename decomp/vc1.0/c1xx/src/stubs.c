@@ -477,7 +477,6 @@ OverloadCandidate *__stdcall report_operator_overload_failure(OverloadSearch *se
 
 int evaluate_preprocessor_expression(void) { __asm { int 3 } return 0; }
 void undefine_source_macro(void) { __asm { int 3 } }
-void read_macro_parameters(void) { __asm { int 3 } }
 void process_pragma(void) { __asm { int 3 } }
 void capture_directive_text(void) { __asm { int 3 } }
 void __stdcall skip_directive_literal(unsigned char delimiter) { __asm { int 3 } }

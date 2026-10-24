@@ -1286,7 +1286,8 @@
     "_fill_browser_declaration@8",
     "_fill_browser_symbol@8",
     "_search_source_include@4",
-    "_read_macro_replacement"
+    "_read_macro_replacement",
+    "_read_macro_parameters"
   ],
   "driver": [
     {
@@ -7817,7 +7818,7 @@
     {
       "name": "_read_macro_parameters",
       "start": 128976,
-      "end": 128977
+      "end": 129285
     },
     {
       "name": "_read_macro_replacement",
@@ -7887,7 +7888,7 @@
     {
       "name": "_macro_expansion_error@4",
       "start": 135536,
-      "end": 135537
+      "end": 135562
     },
     {
       "name": "_current_source_timestamp",
@@ -9539,8 +9540,8 @@
           "original": 585720
         }
       ],
-      "terminal": "_read_macro_parameters",
-      "terminal_evidence": "cases/frontiers/member_registry_browser/1281-read_macro_replacement/original-events.txt",
+      "terminal": "_find_macro_parameter@4",
+      "terminal_evidence": "cases/frontiers/member_registry_browser/1282-read_macro_parameters/original-events.txt",
       "original_seed": "cases/member_registry_browser-seed",
       "frontier_extensions": [
         "cases/frontiers/member_registry_browser/1257-begin_browser_output/frontier-extension.json",
@@ -9567,7 +9568,8 @@
         "cases/frontiers/member_registry_browser/1278-fill_browser_declaration-8/frontier-extension.json",
         "cases/frontiers/member_registry_browser/1279-fill_browser_symbol-8/frontier-extension.json",
         "cases/frontiers/member_registry_browser/1280-search_source_include-4/frontier-extension.json",
-        "cases/frontiers/member_registry_browser/1281-read_macro_replacement/frontier-extension.json"
+        "cases/frontiers/member_registry_browser/1281-read_macro_replacement/frontier-extension.json",
+        "cases/frontiers/member_registry_browser/1282-read_macro_parameters/frontier-extension.json"
       ],
       "transient_outputs": [
         {

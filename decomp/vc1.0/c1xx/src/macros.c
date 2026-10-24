@@ -458,3 +458,50 @@ copy_character:
     character = (unsigned char)*source_text_cursor++;
     goto scan_character;
 }
+
+/* Original 0x1f7d0..0x1f904. Formal names are stored as a byte-sized
+   record length followed by the spelling and its terminating NUL. */
+void read_macro_parameters(void)
+{
+    char *name, *cursor;
+    unsigned char character, classification;
+new_parameter:
+    cursor = macro_replacement_text + 1;
+    name = cursor;
+next_character:
+    character = next_directive_character();
+    classification = character_class[character];
+    if (classification == CC_COMMA || classification == CC_RIGHT_PAREN) {
+        if ((unsigned)name < (unsigned)cursor) {
+            if (find_macro_parameter(name) >= 1) report_syntax_error(9, name);
+            else {
+                *macro_replacement_text = (unsigned char)(cursor - macro_replacement_text);
+                macro_replacement_text = cursor;
+                ++macro_formal_count;
+            }
+        } else if (classification == CC_COMMA || macro_formal_count > 0)
+            report_syntax_error(10, (unsigned)character);
+        if (character_class[character] == CC_RIGHT_PAREN) return;
+        goto new_parameter;
+    }
+    if (classification != CC_IDENTIFIER && classification != CC_WIDE_PREFIX) {
+        report_syntax_error(10, (unsigned)character);
+        goto next_character;
+    }
+    if (name != cursor) report_syntax_error(10, (unsigned)character);
+    *cursor++ = character;
+read_identifier:
+    character = (unsigned char)*source_text_cursor++;
+    while (character_flags[character] & CF_IDENTIFIER) {
+        *cursor++ = character;
+        character = (unsigned char)*source_text_cursor++;
+    }
+    if (!character) {
+        if (fill_source_buffer()) macro_expansion_error(4);
+        goto read_identifier;
+    }
+    if (character == '\\' && consume_line_escape()) goto read_identifier;
+    --source_text_cursor;
+    *cursor++ = 0;
+    goto next_character;
+}
