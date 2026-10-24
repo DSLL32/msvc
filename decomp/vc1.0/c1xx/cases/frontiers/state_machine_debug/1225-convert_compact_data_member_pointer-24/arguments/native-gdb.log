@@ -1,0 +1,20 @@
+Breakpoint 1 at 0x52cc8: file src/member-pointers.c, line 581.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, convert_compact_data_member_pointer (expression=0x5663f8ec, type=0x566327f0, path=0x5663f978, forward=1, displacement=0, virtual_base=0x0) at src/member-pointers.c:581
+581	    if (!displacement && equal_data_member_null_representation(type, expression->type))
+#0  convert_compact_data_member_pointer (expression=0x5663f8ec, type=0x566327f0, path=0x5663f978, forward=1, displacement=0, virtual_base=0x0) at src/member-pointers.c:581
+#1  0x565a9517 in convert_member_pointer_representation (expression=0x5663f8ec, type=0x566327f0, path=0x56655ae0, forward=1) at src/member-pointers.c:569
+#2  0x565a4ab7 in convert_member_pointer_initializer (type=0x566327f0, expression=0x5663f8ec) at src/numeric-conversion.c:199
+#3  0x565a4b87 in convert_scalar_initializer (operation=1 '\001', type=0x566327f0, expression=0x5663f8ec) at src/numeric-conversion.c:216
+#4  0x565a5794 in convert_derived_initializer (type=0x566327f0, expression=0x5663f8ec) at src/numeric-conversion.c:353
+#5  0x5658878c in convert_initializer (operation=126 '~', type=0x566327f0, expression=0x5663f8ec) at src/constructor-initializers.c:707
+#6  0x56588507 in initialize_lvalue (target=0x5663f900, value=0x5663f8ec) at src/constructor-initializers.c:419
+#7  0x5659467b in emit_initializer_assignment (target=0x5663f900, value=0x5663f8ec) at src/object-initializers.c:425
+#8  0x565940c3 in initialize_object_value (symbol=0x56655a9c, value=0x5663f8ec) at src/object-initializers.c:307
+#9  0x56593e5e in initialize_object (symbol=0x56655a9c, value=0x5663f8ec) at src/object-initializers.c:259
+#10 0x565bbdca in parse_translation_unit () at src/parser-declaration-actions.inc:327
+#11 0x5655e18f in compile_translation_unit () at src/frontend.c:73
+#12 0x565588c6 in guarded_compile () at src/c1xx.c:28
+#13 0x56558894 in main (argc=1, argv=0xffffd794, environment=0xffffd79c) at src/c1xx.c:20

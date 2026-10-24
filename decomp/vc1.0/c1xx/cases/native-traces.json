@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "f96b45dcfe460adf937b092f8a6dcbfbf32bd20354e6d840728b8f8d9144e38f",
+    "functions.json": "6a07ac3c18960a95734f77ed0401ebbf8b0299ed8d92b608e6ac6a0993e6234f",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "29cd234f12042f3b316d645bee156a14c0de4d9b20db6483b26d41b92bf73818",
-    "cases/canonical-map.txt": "17c7ce2e97815f6266553cce73629d8bc479cc385cea1115e91e1efbfa15b2ef",
+    "cases/original-entry-references.json": "75ea7059949e70b650b16350a0a3c51fb4a6bf46c9977da00421c1f46fbe803a",
+    "cases/canonical-map.txt": "77cceb8550a593915664ef665eab8a2cb9823af73de59536c108ac26a0051948",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -61,9 +61,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1224-convert_member_pointer_representation-16/entry-reference/original-receipt.json": "cbf65b525d01aaa6af182752495052c9977d8cb19c75668498171e9a7f3d883b",
-    "cases/frontiers/state_machine_debug/1224-convert_member_pointer_representation-16/entry-reference/original-events.txt": "49b62d2eaa7b67bf2abe5ca8c2f79d44c4fc1b804e7101c10dad1da12a2bc12d",
-    "cases/frontiers/state_machine_debug/1224-convert_member_pointer_representation-16/entry-reference/original-entries.plan": "f076e6bfa3296bbe98518bed0462fd25eaa5debdb9778b5c96a1f6aa04608583"
+    "cases/frontiers/state_machine_debug/1225-convert_compact_data_member_pointer-24/entry-reference/original-receipt.json": "c524a3f63c0b8c0c3db8ffe798013c711540390a11e68839320727e6705a9d8b",
+    "cases/frontiers/state_machine_debug/1225-convert_compact_data_member_pointer-24/entry-reference/original-events.txt": "557dde0f82cc08bd5c4138a1c24b95589c3c6f567fbf95554b379f61531b7fbd",
+    "cases/frontiers/state_machine_debug/1225-convert_compact_data_member_pointer-24/entry-reference/original-entries.plan": "bd61eb0e5dc00a257841e8ff1b9ca8ba082ea672b0c1dcada380bfaa878ad91e"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1236,7 +1236,7 @@
     },
     "convert_compact_data_member_pointer": {
       "logical": "_convert_compact_data_member_pointer@24",
-      "source": "src/stubs.c"
+      "source": "src/member-pointers.c"
     },
     "convert_compact_method_pointer": {
       "logical": "_convert_compact_method_pointer@24",
@@ -2181,6 +2181,10 @@
     "enumerator_expression": {
       "logical": "_enumerator_expression@4",
       "source": "src/enumerators.c"
+    },
+    "equal_data_member_null_representation": {
+      "logical": "_equal_data_member_null_representation@8",
+      "source": "src/stubs.c"
     },
     "equal_declaration_indices": {
       "logical": "_equal_declaration_indices",
@@ -3910,6 +3914,10 @@
       "logical": "_member_pointer_class_kind@4",
       "source": "src/tags.c"
     },
+    "member_pointer_component": {
+      "logical": "_member_pointer_component@12",
+      "source": "src/stubs.c"
+    },
     "member_pointer_expression": {
       "logical": "_member_pointer_expression@4",
       "source": "src/member-pointers.c"
@@ -4448,6 +4456,10 @@
     },
     "preprocess_translation_unit": {
       "logical": "_preprocess_translation_unit",
+      "source": "src/stubs.c"
+    },
+    "preserve_null_data_member_conversion": {
+      "logical": "_preserve_null_data_member_conversion@12",
       "source": "src/stubs.c"
     },
     "primary_virtual_base_table": {
@@ -7083,7 +7095,8 @@
     "emit_atexit_registration",
     "defer_object_definition",
     "append_default_call_argument",
-    "convert_member_pointer_representation"
+    "convert_member_pointer_representation",
+    "convert_compact_data_member_pointer"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -11206,7 +11219,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1225,
+      "last": 1226,
       "seen": [
         "main",
         "message_text",
@@ -12330,12 +12343,13 @@
         "defer_object_definition",
         "append_default_call_argument",
         "convert_member_pointer_representation",
-        "convert_compact_data_member_pointer"
+        "convert_compact_data_member_pointer",
+        "equal_data_member_null_representation"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_convert_compact_data_member_pointer@24",
-        "native": "convert_compact_data_member_pointer",
+        "logical": "_equal_data_member_null_representation@8",
+        "native": "equal_data_member_null_representation",
         "signal": 5
       }
     }

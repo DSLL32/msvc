@@ -7,10 +7,16 @@
 #include "constructor-initializers.h"
 #include "parameters.h"
 #include "member-pointers.h"
+#include "member-expressions.h"
 #include "hash-table.h"
 #include "function-finalization.h"
 #include "global-ir.h"
 #include <recon.h>
+
+int __stdcall equal_data_member_null_representation(CType *target, CType *source);
+IrToken *__stdcall member_pointer_component(IrToken *expression, int component, IrToken **saved);
+IrToken *__stdcall preserve_null_data_member_conversion(IrToken *converted,
+    IrToken *original, CType *source);
 
 typedef IrToken *(__stdcall *MemberPointerConversion)(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
 IrToken *__stdcall convert_compact_method_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
@@ -562,4 +568,20 @@ IrToken *__stdcall convert_member_pointer_representation(IrToken *expression,
     if (!forward) displacement = (int)(0U - (unsigned)displacement);
     return member_pointer_conversions[data_member][source_model - 1][target_model - 1](
         expression, type, binding, forward, displacement, virtual_base);
+}
+
+/* Original 0x4bee0..0x4bf5e, stdcall24. Only the value, target
+   type and displacement participate; the shared dispatch contract retains
+   the unused path, direction and virtual-base words. */
+IrToken *__stdcall convert_compact_data_member_pointer(IrToken *expression,
+    CType *type, QualifierBinding *path, int forward, int displacement,
+    BaseClassLink *virtual_base)
+{
+    IrToken *saved, *original, *converted;
+    if (!displacement && equal_data_member_null_representation(type, expression->type))
+        return new_cast_expression(type, expression);
+    original = indirect_storage_expression(member_pointer_component(expression, 0, &saved));
+    converted = indirect_storage_expression(member_pointer_component(expression, 1, &saved));
+    converted = make_member_at_offset(converted, displacement, type);
+    return preserve_null_data_member_conversion(converted, original, expression->type);
 }

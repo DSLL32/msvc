@@ -1,0 +1,21 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655ac8b in equal_data_member_null_representation (target=0x566327f0, source=0x56632460) at src/stubs.c:611
+611	int __stdcall equal_data_member_null_representation(CType *target, CType *source) { __asm { int 3 } return 0; }
+#0  0x5655ac8b in equal_data_member_null_representation (target=0x566327f0, source=0x56632460) at src/stubs.c:611
+#1  0x565a7ce6 in convert_compact_data_member_pointer (expression=0x5663f84c, type=0x566327f0, path=0x5663f8d8, forward=1, displacement=0, virtual_base=0x0) at src/member-pointers.c:581
+#2  0x565a9517 in convert_member_pointer_representation (expression=0x5663f84c, type=0x566327f0, path=0x56655a40, forward=1) at src/member-pointers.c:569
+#3  0x565a4ab7 in convert_member_pointer_initializer (type=0x566327f0, expression=0x5663f84c) at src/numeric-conversion.c:199
+#4  0x565a4b87 in convert_scalar_initializer (operation=1 '\001', type=0x566327f0, expression=0x5663f84c) at src/numeric-conversion.c:216
+#5  0x565a5794 in convert_derived_initializer (type=0x566327f0, expression=0x5663f84c) at src/numeric-conversion.c:353
+#6  0x5658878c in convert_initializer (operation=126 '~', type=0x566327f0, expression=0x5663f84c) at src/constructor-initializers.c:707
+#7  0x56588507 in initialize_lvalue (target=0x5663f860, value=0x5663f84c) at src/constructor-initializers.c:419
+#8  0x5659467b in emit_initializer_assignment (target=0x5663f860, value=0x5663f84c) at src/object-initializers.c:425
+#9  0x565940c3 in initialize_object_value (symbol=0x566559fc, value=0x5663f84c) at src/object-initializers.c:307
+#10 0x56593e5e in initialize_object (symbol=0x566559fc, value=0x5663f84c) at src/object-initializers.c:259
+#11 0x565bbdca in parse_translation_unit () at src/parser-declaration-actions.inc:327
+#12 0x5655e18f in compile_translation_unit () at src/frontend.c:73
+#13 0x565588c6 in guarded_compile () at src/c1xx.c:28
+#14 0x56558894 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20

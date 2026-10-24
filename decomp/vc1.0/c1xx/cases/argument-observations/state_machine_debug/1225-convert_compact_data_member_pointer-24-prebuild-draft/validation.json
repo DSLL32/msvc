@@ -1,0 +1,161 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_convert_compact_data_member_pointer@24",
+  "case": "state_machine_debug",
+  "accepted_before": 1225,
+  "configuration_sha256": "8602686c6ed24f6d90f10e5abc5c46287781d2c283f77cb3e673fe43ad6442d1",
+  "native_entry": "convert_compact_data_member_pointer",
+  "declared_formal_count": 6,
+  "formals": [
+    {
+      "name": "expression",
+      "stack_index": 0,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 245461,
+        "original_owner_function": "_convert_member_pointer_representation@16",
+        "native_owner_function": "convert_member_pointer_representation",
+        "native_owner_field": "caller_expression",
+        "native_owner_local": "expression",
+        "identity": "Actual accepted representationdispatcher retainsrealexpressionESI/targettypeEDI fromitsformals; pushes6actualcallbackwords4beb6..4bec3 thenindirectCALL4bece/return4bed5. Native realimmediatecaller expression/type formals bind these consumed pointers; unusedpathgainsnoidentitycredit.",
+        "original_owner_value": 8364804,
+        "native_owner_value": 1449392364
+      },
+      "original_raw": 8364804,
+      "native_raw": 1449392364,
+      "result": "match"
+    },
+    {
+      "name": "type",
+      "stack_index": 1,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 245461,
+        "original_owner_function": "_convert_member_pointer_representation@16",
+        "native_owner_function": "convert_member_pointer_representation",
+        "native_owner_field": "caller_type",
+        "native_owner_local": "type",
+        "identity": "Actual accepted representationdispatcher retainsrealexpressionESI/targettypeEDI fromitsformals; pushes6actualcallbackwords4beb6..4bec3 thenindirectCALL4bece/return4bed5. Native realimmediatecaller expression/type formals bind these consumed pointers; unusedpathgainsnoidentitycredit.",
+        "original_owner_value": 8312816,
+        "native_owner_value": 1449338864
+      },
+      "original_raw": 8312816,
+      "native_raw": 1449338864,
+      "result": "match"
+    },
+    {
+      "name": "path",
+      "stack_index": 2,
+      "native_field": "raw_path",
+      "binding": {
+        "kind": "unused-compact-data-path",
+        "body_extent": [
+          311008,
+          311135
+        ],
+        "consumed_stack_indices": [
+          0,
+          1,
+          4
+        ],
+        "table": "_member_pointer_conversions",
+        "callback_slots": [
+          16,
+          17,
+          20,
+          21
+        ],
+        "identity": "Whole127B reads onlyoriginalformal0expression/formal1type/formal4displacement. Formal2path/formal3direction/formal5virtualbase are neverread/forwarded byanybranch. Pathraworiginal/nativewords are retained separately, no crossprocesspointeridentity/pointeeinitialization/equalityclaimed. Exactfunction/tablealiasdomainonly; notgeneralunusedinputexemption."
+      },
+      "original_raw": 8364944,
+      "native_raw": 1449392504,
+      "result": "uncredited-unused"
+    },
+    {
+      "name": "forward",
+      "stack_index": 3,
+      "native_field": "raw_forward",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      },
+      "original_raw": 1,
+      "native_raw": 1,
+      "result": "match"
+    },
+    {
+      "name": "displacement",
+      "stack_index": 4,
+      "native_field": "raw_displacement",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      },
+      "original_raw": 0,
+      "native_raw": 0,
+      "result": "match"
+    },
+    {
+      "name": "virtual_base",
+      "stack_index": 5,
+      "native_field": "raw_virtual_base",
+      "binding": {
+        "kind": "null-pointer"
+      },
+      "original_raw": 0,
+      "native_raw": 0,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      311008,
+      311135
+    ],
+    "argument_bytes": 24,
+    "convention": "stdcall24 IrToken* returnEAX",
+    "proof": "Whole127B SUB4/saveEBXESIEDIEBP16; expressionadjustedESP+24/type+28/path+32/forward+36/displacement+40/virtualbase+44, allRET24. No incomingGPR/x87/CPUflagsformal. Actualreads onlyexpression/type/displacement; unusedpath/direction/vbase NEVERreadorforwarded inwholebody. Allsixrawstackwords/nativeformalsretained; pathidentityexplicituncredited, actualdefinedforward32andNULLvirtualbasecompared anyway. Ifdisplacement0 andnewnamed36B equal_data_member_null_representation4b410..4b434(stdcall8types,targetsource), existingnew_cast_expression(type,expr). Otherwise newnamed212B member_pointer_component4bb10..4bbe4 stdcall12(expr,component,savedslot), component0writesactualsavedbeforecomponent1reads; existingindirect_storage_expression bothresults, make_member_at_offset(converted,disp,type), newnamed70B preserve_null_data_member_conversion4c2d0..4c316 stdcall12(converted,original,sourceType). Threecalleesleftnamedtraps/nocredit. Precise32tablealiases16/17/20/21only; no newselector/CRT/data/guard.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "80ee9b792712f15227cebb24034701db7a6545cd28fad0228d63bff50dbdba55",
+  "capture_timing": {
+    "original_capture_seconds": 1.9195146523416042,
+    "native_capture_seconds": 0.1929343193769455,
+    "total_operation_seconds": 2.4055425878614187
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "2f97324049111a5056301bf79fb8fd5976642e67ea03c7f159ef7125cb5b9c99",
+    "native-commands.gdb": "0d0c3d39d421e1b61d47a5bfabcccb7cce77cce5423ebf8f246aa1d0a021865a",
+    "native-gdb.log": "178a415bc707839db9cab83352c46b6f89a1a0ffade137394475002133a5b395",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "6e41905b5495d61c5d101fa105bf5ec0ad638decc672f860511bf689a8737850",
+    "original-configuration.json": "8602686c6ed24f6d90f10e5abc5c46287781d2c283f77cb3e673fe43ad6442d1",
+    "original-disassembly.txt": "df96a345aa7b46c59201df1cde13417974b9e4fc0ba06f02b2cd2ba40ba11a5b",
+    "original-entries.plan": "032188df031f9ed815257ad635145baafeae13e50d04f693df18789fb3707459",
+    "original-events.txt": "0fdfd0f8183c913adaaa04472f26822fe1bd7dd5f4ac4bb05f4b0ed85329a255",
+    "original-ownership-caller-disassembly.txt": "aad059fcda6f5ff28dd7673d6cc45ea6ce4edb43a72101af3fe88503555db1f4",
+    "original-receipt.json": "52128c69c8ddb830e615e685ea40e7c1ba27e8f143b8c844a3922e2d62d6f0a2",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "fe66c7b29c5989244b98f1e86cf069985d4834d00b761a4ef7398235e692720b"
+  },
+  "uncredited_unused_inputs": [
+    "path"
+  ],
+  "argument_observation": {
+    "requested_words": 6,
+    "actual_words": 6,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

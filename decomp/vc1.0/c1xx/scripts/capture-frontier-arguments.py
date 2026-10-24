@@ -13,6 +13,7 @@ import argparse
 from parser_context_owner import validate as validate_parser_context_owner
 from virtual_table_owner import validate as validate_virtual_table_owner, validate_iterator as validate_virtual_iterator
 from unused_conversion_text import validate as validate_unused_conversion_text
+from unused_compact_data_path import validate as validate_unused_compact_data_path
 import hashlib
 import importlib.util
 import json
@@ -96,6 +97,8 @@ def main():
         elif binding['kind'] == 'extended-stack-value':
             from extended_arguments import validate as validate_extended_argument
             item['by_value_words']=validate_extended_argument(name,item,checkpoint,words)
+        elif binding['kind'] == 'unused-compact-data-path':
+            validate_unused_compact_data_path(name, item, checkpoint, words, config)
         elif binding['kind'] == 'unused-conversion-text':
             validate_unused_conversion_text(name, item, anchors, checkpoint, words)
         elif binding['kind'] == 'class-first-virtual-table':
@@ -199,7 +202,7 @@ def main():
             assert binding['original_word']==binding['native_word']
         else:
             raise AssertionError('unsupported logical argument binding: '+item['name'])
-        item['result'] = 'uncredited-unused' if binding['kind']=='unused-conversion-text' else 'match'
+        item['result'] = 'uncredited-unused' if binding['kind'] in ('unused-conversion-text','unused-compact-data-path') else 'match'
     if name=='_create_generated_object@8':
         validate_generated_linkage_owner(name, anchors, checkpoint)
     if name=='_walk_goto_cleanup@16':

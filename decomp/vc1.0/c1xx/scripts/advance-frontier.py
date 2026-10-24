@@ -12,6 +12,7 @@ import argparse
 from parser_context_owner import validate as validate_parser_context_owner
 from virtual_table_owner import validate as validate_virtual_table_owner, validate_iterator as validate_virtual_iterator
 from unused_conversion_text import validate as validate_unused_conversion_text
+from unused_compact_data_path import validate as validate_unused_compact_data_path
 import hashlib
 import importlib.util
 import json
@@ -114,6 +115,8 @@ def main():
         elif binding['kind']=='extended-stack-value':
             from extended_arguments import validate as validate_extended_argument
             assert formal['by_value_words']==validate_extended_argument(args.candidate,formal,entry_native,words)
+        elif binding['kind']=='unused-compact-data-path':
+            assert formal['result']==validate_unused_compact_data_path(args.candidate, formal, entry_native, words, config)
         elif binding['kind']=='unused-conversion-text':
             assert formal['result']==validate_unused_conversion_text(args.candidate, formal, anchors, entry_native, words)
         elif binding['kind']=='class-first-virtual-table':
@@ -215,7 +218,7 @@ def main():
             assert binding['original_word']==word['value']==binding['native_word']==entry_native[binding['native_word_field']]
         else:
             raise AssertionError('unbound actual argument holds acceptance: '+formal['name'])
-    assert argument_proof.get('uncredited_unused_inputs', []) == [formal['name'] for formal in argument_proof['formals'] if formal['binding']['kind']=='unused-conversion-text'], 'uncredited unused input list differs'
+    assert argument_proof.get('uncredited_unused_inputs', []) == [formal['name'] for formal in argument_proof['formals'] if formal['binding']['kind'] in ('unused-conversion-text','unused-compact-data-path')], 'uncredited unused input list differs'
     if args.candidate=='_create_generated_object@8':
         validate_generated_linkage_owner(args.candidate, anchors, entry_native)
     if args.candidate=='_walk_goto_cleanup@16':
