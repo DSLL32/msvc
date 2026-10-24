@@ -70,6 +70,20 @@ def prepare(checked,destination,available=None):
         metadata['functions']['_reset_type_name_cache']=dict(register_imports=dict(require_all_register_calls_resolved=True))
         proof['extended_free_preservation_evidence_sha256']=sha(extended)
 
+    if any(row['name']=='print_statistics' for row in checked):
+        path=BINARY/'cases/hello-debug-dll/source-index-free-import.json';source_free=json.loads(path.read_text())
+        assert source_free['preserves']==['esi','ebp','edi'],'source-index free preservation scope differs'
+        assert source_free['base_ebp_evidence_sha256']==sha(BINARY/source_free['base_ebp_evidence'])
+        assert source_free['provider']['sha256']==sha(provider) and source_free['provider']['function_sha256']==preservation['provider']['function_sha256']
+        assert sha(ROOT/source_free['sdk']['path'])==source_free['sdk']['sha256']
+        original=PE(ROOT/preservation['target']['path']);target=source_free['target']
+        assert hashlib.sha256(original.read(target['extent'][0],target['extent'][1]-target['extent'][0])).hexdigest()==target['sha256']
+        assert original.read(target['load'],6)==bytes.fromhex(target['load_bytes'])==bytes.fromhex('8b3dac614100')
+        assert all(original.read(site,2)==bytes.fromhex('ffd7') for site in target['sites'])
+        metadata['register_imports']['preservation_contracts'][0].update(preserves=source_free['preserves'],evidence=dict(path=str(path.relative_to(BINARY)),sha256=sha(path)))
+        metadata['functions']['_build_source_file_index']=dict(register_imports=dict(require_all_register_calls_resolved=True))
+        proof['source_index_free_preservation_evidence_sha256']=sha(path)
+
     additional=BINARY/'cases/hello-debug-dll/cached-import-contracts.json'
     contracts=json.loads(additional.read_text())
     target=PE(ROOT/preservation['target']['path'])
@@ -221,7 +235,17 @@ def check_import_sites(graph):
         imported={site:name for site,name in scratch['rebuilt']['direct_import_calls'].items() if name==identity}
         assert len(imported)==2,'scratch rebuilt two free calls missing'
         scratch_sites=dict(original=[0x40523d,0x405249],rebuilt=sorted(map(int,imported)))
-    result=dict(scratch_cleanup_free_sites=scratch_sites,evidence_sha256=sha(evidence),original_free_sites=witness['target']['sites'],
+    source_index_sites=None
+    if '_build_source_file_index' in graph['functions']:
+        source=graph['functions']['_build_source_file_index']['register_imports']
+        expected={str(site):identity for site in (0x40f3ce,0x40f3e7)}
+        assert source['original']['resolved_register_calls']==expected,'source-index cached free sites differ'
+        assert source['original']['unresolved_register_calls']==source['original']['other_unresolved_calls']==[],'source-index original unknown calls'
+        assert source['rebuilt']['resolved_register_calls']=={} and source['rebuilt']['unresolved_register_calls']==source['rebuilt']['other_unresolved_calls']==[],'source-index rebuilt unknown calls'
+        imported={site:name for site,name in source['rebuilt']['direct_import_calls'].items() if name==identity}
+        assert len(imported)==2,'source-index rebuilt two frees missing'
+        source_index_sites=dict(original=[0x40f3ce,0x40f3e7],rebuilt=sorted(map(int,imported)))
+    result=dict(source_index_free_sites=source_index_sites,scratch_cleanup_free_sites=scratch_sites,evidence_sha256=sha(evidence),original_free_sites=witness['target']['sites'],
         original_checksum_callback=witness['dynamic_callback']['site'],rebuilt_free_sites=sorted(map(int,calls)),
         rebuilt_checksum_callback=callback,
         scope='Per-site report checks; no secondary CFG or import inference.')

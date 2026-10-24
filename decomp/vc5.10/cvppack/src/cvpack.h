@@ -26,7 +26,7 @@ void initialize_module_pack(void);
 int pack_module(unsigned short module);
 void free_widen_buffers(void);
 void free_type_tables(void);
-void print_statistics(void);
+void build_source_file_index(void);
 void flush_packed_file(void);
 unsigned int get_file_size(int file);
 void *map_file_region(int file, unsigned int offset, unsigned int size);

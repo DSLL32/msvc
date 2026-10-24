@@ -3,6 +3,7 @@ import json
 import re
 import struct
 import hashlib
+from pathlib import Path
 
 
 def decode(events):
@@ -78,7 +79,7 @@ def decode(events):
             all_strings[int(location,16)]=raw
     for call in file_calls:call['pathname']=all_strings[call.pop('pointer')]
 
-    widen_factory_calls=[];widen_query_calls=[];widen_emit_calls=[];widen_release_calls=[];widen_sequence=[];main_free_calls=[];probe_observed={};widen_read_count=0;module_bases={};error=None;probe_regs=None;probe_stack=None
+    widen_factory_calls=[];widen_query_calls=[];widen_emit_calls=[];widen_release_calls=[];widen_sequence=[];main_free_calls=[];source_index_allocations=[];source_index_module=None;probe_observed={};widen_read_count=0;module_bases={};error=None;probe_regs=None;probe_stack=None
     for ordinal,line in enumerate(lines):
         if line.startswith('file-read-call '):widen_read_count+=1
         if line.startswith('module '):
@@ -90,6 +91,16 @@ def decode(events):
             _,probe_address,contents=line.split()
             probe_observed[int(probe_address,16)]=bytes.fromhex(contents)
             if int(probe_address,16)==probe_regs[-1]:probe_stack=bytes.fromhex(contents)
+        elif line.startswith('source-index-allocation-call '):
+            _,size,ended=line.split();assert int(ended)==len(main_free_calls)==12 and all('exit_esp' in row for row in main_free_calls),'source-index allocation before actual old free returns'
+            source_index_allocations.append(dict(size=int(size),after_frees=int(ended)))
+        elif line.startswith('source-index-allocation-return '):
+            assert source_index_allocations and 'address' not in source_index_allocations[-1]
+            source_index_allocations[-1]['address']=int(line.split()[1],16)
+        elif line.startswith('source-index-module '):
+            _,module_address,payload=line.split();assert source_index_module is None
+            source_index_module=dict(address=int(module_address,16),bytes=bytes.fromhex(payload))
+        elif line=='source-index-observation-failed':raise AssertionError('incomplete source-index generation observation')
         elif re.fullmatch(r'main-free-call [0-9a-f]{8} [0-9a-f]{8} [0-9]+ [0-9a-f]{8}',line):
             _,site,location,size,provider=line.split();location=int(location,16);size=int(size)
             assert probe_stack is not None,'main free actual stack missing'
@@ -212,7 +223,7 @@ def decode(events):
     assert registers and len(registers) == 8
     stack = memory[registers[-1]]
     assert len(stack) == 128
-    return dict(address=address,memory=memory,strings=strings,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,widen_release_calls=widen_release_calls,widen_sequence=widen_sequence,main_free_calls=main_free_calls,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
+    return dict(address=address,memory=memory,strings=strings,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,widen_release_calls=widen_release_calls,widen_sequence=widen_sequence,main_free_calls=main_free_calls,source_index_allocations=source_index_allocations,source_index_module=source_index_module,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
                 registers=dict(zip(('eax','ebx','ecx','edx','esi','edi','ebp','esp'),registers)),esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations,cleared_allocations=cleared_allocations)
 
 
@@ -481,6 +492,11 @@ def compare(config,data,events,native,artifacts=None,views=None):
             after=native['widen_factory_calls'][0];argument=native['widen_object_arguments'][item['name']]
             assert after['object']==argument['address'] and after['output_argument']==argument['output_slot'],'opaque native factory output/argument alias differs'
             parameters[item['name']]=dict(provider='MSPDB50.DLL',instance=1,state=item.get('state','created'),owner=item['owner'],local=item['local'])
+        elif item['kind']=='source-file-name':
+            import importlib.util
+            spec=importlib.util.spec_from_file_location('source_index_state',Path(__file__).with_name('source-index-state.py'))
+            source_index_state=importlib.util.module_from_spec(spec);spec.loader.exec_module(source_index_state)
+            parameters[item['name']]=source_index_state.name_argument(original,data,value)
         elif item['kind']=='caller-local-pointer':
             assert original['stack'][0]==item['owner_return'] and value==original['esp']+item['original_delta'],'original output argument caller-local identity differs'
             parameters[item['name']]=dict(owner=item['owner'],local=item['local'],width=item['width'])
@@ -653,7 +669,11 @@ def compare(config,data,events,native,artifacts=None,views=None):
         assert left['address'] not in image_aliases and right['address'] not in image_aliases.values(),'live image allocation identity reused'
         image_aliases[left['address']]=right['address'];image_sizes[left['address']]=left['size']
     assert len(original['checked_allocations'])==len(native.get('checked_allocations',[])),'checked allocator request inventory differs'
-    for left,right in zip(original['checked_allocations'],native.get('checked_allocations',[])):
+    for ordinal,(left,right) in enumerate(zip(original['checked_allocations'],native.get('checked_allocations',[]))):
+        if config.get('observe_source_index_entry') and ordinal==len(original['checked_allocations'])-1:
+            old=original['source_index_allocations'];new=native['source_index_allocations']
+            assert len(old)==len(new)==1 and left['address']==old[0]['address'] and left['size']==old[0]['size'] and right==new[0] and right['after_frees']==old[0]['after_frees']==12,'source-index allocator generation ledger differs'
+            continue
         assert left['size']==right['size'] and left['address'] and right['address'],'checked allocator request/result differs'
         assert left['address'] not in image_aliases and right['address'] not in image_aliases.values(),'live checked allocation identity reused'
         image_aliases[left['address']]=right['address'];image_sizes[left['address']]=left['size']
@@ -665,7 +685,6 @@ def compare(config,data,events,native,artifacts=None,views=None):
     retired={};free_lifetimes=dict(calls=0,retired_allocations=0)
     if config.get('observe_main_frees'):
         import importlib.util
-        from pathlib import Path
         spec=importlib.util.spec_from_file_location('main_free_state',Path(__file__).with_name('main-free-state.py'))
         free_state=importlib.util.module_from_spec(spec);spec.loader.exec_module(free_state)
         retired,free_lifetimes=free_state.validate(config,data,original,native,image_aliases,image_sizes,reads)
@@ -1276,6 +1295,9 @@ def compare(config,data,events,native,artifacts=None,views=None):
         else:
             assert raw == actual, ('application global differs',item['name'],raw.hex(),actual.hex())
         globals_checked.append(item['name'])
+    source_index_proof=None
+    if config.get('observe_source_index_entry'):
+        source_index_proof=source_index_state.validate(config,data,original,native,image_aliases,image_sizes,aliases,allocation_aliases)
     native_parameters=dict(native['parameters'])
     for item,value in object_parameters:
         actual=native_parameters[item['name']]
@@ -1325,4 +1347,4 @@ def compare(config,data,events,native,artifacts=None,views=None):
         assert typed_records_checked==global_integer('type_record_count') and recursive_type_nodes_checked and interned_type_nodes_checked,'historical typed table validation incomplete'
         free_lifetimes['historical_typed_table_bytes_checked']=free_lifetimes.pop('historical_typed_table_bytes_pending')
         free_lifetimes['historical_table_proof_roles']=sorted(historical_tables_used)
-    return dict(parameters=parameters,caller_state=caller_state,main_free_lifetimes=free_lifetimes,globals=globals_checked,lookup_type_calls_checked=lookup_calls_checked,type_compare_calls_checked=type_compare_calls_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,reference_symbol_nodes_checked=reference_symbol_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)
+    return dict(parameters=parameters,caller_state=caller_state,source_index_context=source_index_proof,main_free_lifetimes=free_lifetimes,globals=globals_checked,lookup_type_calls_checked=lookup_calls_checked,type_compare_calls_checked=type_compare_calls_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,reference_symbol_nodes_checked=reference_symbol_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)

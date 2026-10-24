@@ -40,6 +40,7 @@ static DWORD symbol_output_addresses[128], symbol_output_sizes[128], symbol_outp
 static DWORD lookup_frames[64][3], lookup_depth;
 static DWORD main_free_addresses[12], main_free_sizes[12], main_free_count;
 static unsigned char *main_free_before[12];
+static DWORD source_index_size, source_index_address;
 static DWORD pending_main_free, pending_main_size, pending_main_site;
 static int read_bytes(HANDLE process, DWORD address, void *data, DWORD size);
 
@@ -677,6 +678,33 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         main_free_addresses[main_free_count] = pending_main_free;
         main_free_sizes[main_free_count++] = pending_main_size;
         pending_main_site = 0;
+    }
+    if (entry == 0x40f183) {
+        if (main_free_count != 12 || !read_bytes(process, context->Esp, &source_index_size, 4) || source_index_size < 8 || source_index_size > 262148) {
+            fprintf(log, "source-index-observation-failed\n"); return;
+        }
+        fprintf(log, "source-index-allocation-call %lu %lu\n", source_index_size, main_free_count);
+    } else if (entry == 0x40f188) {
+        source_index_address = context->Eax;
+        fprintf(log, "source-index-allocation-return %08lx\n", source_index_address);
+    }
+    if (entry == 0x40f0d0 && full_graphs) {
+        DWORD caller[20], k;
+        unsigned char *bytes;
+        if (!source_index_address || !read_bytes(process, context->Esp, caller, sizeof(caller)) ||
+            caller[0] != 0x40f1d7 || caller[11] != source_index_address) {
+            fprintf(log, "source-index-observation-failed\n"); return;
+        }
+        bytes = malloc(source_index_size);
+        if (!bytes || !read_bytes(process, source_index_address, bytes, source_index_size)) {
+            free(bytes); fprintf(log, "source-index-observation-failed\n"); return;
+        }
+        /* New generation, kept separate even if its address reuses a retired
+         * region. Old source-root observations remain historical only. */
+        fprintf(log, "source-index-module %08lx ", source_index_address);
+        for (k = 0; k < source_index_size; ++k) fprintf(log, "%02x", bytes[k]);
+        fputc('\n', log);
+        free(bytes);
     }
     widen_state(log, process, context, entry);
 }

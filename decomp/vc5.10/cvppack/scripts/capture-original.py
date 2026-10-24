@@ -119,6 +119,8 @@ def main():
         env['VC510_CVPACK_PROBES']+=',40523d:widen-free-entry,40523f:widen-free-exit,405249:widen-free-entry,40524b:widen-free-exit'
     if config.get('observe_type_table_frees'):
         env['VC510_CVPACK_PROBES']+=',40b152:type-free-entry,40b154:type-free-return,40b15e:type-free-entry,40b160:type-free-return,40b16a:type-free-entry,40b16c:type-free-return,40b175:type-free-entry,40b177:type-free-return,40b181:type-free-entry,40b183:type-free-return'
+    if config.get('observe_source_index_entry'):
+        env['VC510_CVPACK_PROBES']+=',40f183:source-index-allocation-entry,40f188:source-index-allocation-result'
     env['VC510_CVPACK_BLOBS']=','.join('%x:%d:%d:%d:%x:%d:%d'%(item['original'],item['blob'].get('size',0),
         item['blob'].get('pointers',[dict(offset=0xffffffff)])[0]['offset'],
         item['blob'].get('pointers',[dict(size=0)])[0].get('size',0),
@@ -127,17 +129,12 @@ def main():
     env['VC510_CVPACK_ARGUMENTS'] = ','.join('%x:%d:%s:%d:%d' % (record['original'],item['slot'],
         'S' if item['kind']=='string' else 'P' if item['kind']=='integer-pointer' else 'B' if 'buffer_count_slot' in item else 'C' if item['kind']=='global-buffer' else 'D' if item['kind']=='local-record' else 'F' if item['kind']=='caller-local-pointer' else 'A',item.get('buffer_count_slot',item.get('count_slot',item.get('entry_slot',item.get('width',0)))),item.get('count_offset',0xffffffff)) for record in config['functions']
         for item in record.get('parameters',[]) if item['kind'] in ('string','argv','integer-pointer') or 'buffer_count_slot' in item or item['kind'] in ('global-buffer','local-record') or (item['kind']=='caller-local-pointer' and item.get('initialized')))
-    # Shared-prefix debugger execution is temporarily serialized repository-wide.
-    # Compiler builds/setup and every native fixture stay outside this lock.
-    import fcntl
-    lock_begin=time.perf_counter()
-    with (Path.home()/'.ai-tmp/msvc2-original-capture.lock').open('a') as capture_lock:
-        fcntl.flock(capture_lock.fileno(),fcntl.LOCK_EX)
-        capture_lock_wait=time.perf_counter()-lock_begin
-        execute=time.perf_counter()
-        result = subprocess.run(command, env=env, stdin=subprocess.DEVNULL,
-                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60, check=False)
-        elapsed = time.perf_counter() - execute
+    # The actualhFile reader uses explicit offsets; ordinary captures may run
+    # concurrently after the reviewed transport correction.
+    execute=time.perf_counter()
+    result = subprocess.run(command, env=env, stdin=subprocess.DEVNULL,
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60, check=False)
+    elapsed = time.perf_counter() - execute
     (output / 'host-stdout').write_bytes(result.stdout)
     (output / 'host-stderr').write_bytes(result.stderr)
     assert result.returncode == 0, ('original debugger failure', result.returncode, result.stderr)
@@ -173,7 +170,7 @@ def main():
         compiled_sources_sha256=sha(output/'compiled-sources.json'),
         outputs=[dict(name=name, bytes=(output / name).stat().st_size, sha256=sha(output / name))
                  for name in ('stdout', 'stderr', 'events', 'audit.json', 'graph-config.json', 'graph-runtime.json','case-definition.json')]+artifact_records,
-        seconds=dict(setup=setup, capture_lock_wait=capture_lock_wait, execution=elapsed, total=time.perf_counter()-start))
+        seconds=dict(setup=setup, execution=elapsed, total=time.perf_counter()-start))
     if case['name']=='hello-debug-dll':
         actual=work/'loaded-mspdb50.dll'
         assert sha(actual)=='cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33'

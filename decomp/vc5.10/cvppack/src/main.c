@@ -39,7 +39,7 @@ int main(int argc, char **argv, char **environment)
         free(module_data);
         free_widen_buffers();
         free_type_tables();
-        if (current_module_has_types) print_statistics();
+        if (current_module_has_types) build_source_file_index();
         flush_packed_file();
         if (checksum_required) {
             image_help = LoadLibraryA("imagehlp");

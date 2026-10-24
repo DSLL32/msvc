@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "target_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+  "qualified_import": {
+    "dll": "msvcrt.dll",
+    "name": "free"
+  },
+  "preserves": [
+    "esi",
+    "ebp",
+    "edi"
+  ],
+  "base_evidence": "cases/hello-debug-dll/import-preservation.json",
+  "base_evidence_sha256": "1d11f8e059eef48acbc20f9fc2a4c46c8918e6c895ade42d78497f422e51c5e3",
+  "provider": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "function": [
+      2013270922,
+      2013271026
+    ],
+    "function_sha256": "1dc8cd36ef31619df6f9029a7b50f9eeab99039632c8e15e4396b7ea09412a85"
+  },
+  "sdk": {
+    "path": "toolchains/5.10/include/STDLIB.H",
+    "sha256": "3949b5b83fa854ef497e905db2c4c3e2d95f09a440c440836fd716eec9132cfb",
+    "declaration_line": 424,
+    "abi": "void __cdecl free(void *)"
+  },
+  "target": {
+    "function": "_build_source_file_index",
+    "extent": [
+      4256000,
+      4256762
+    ],
+    "sha256": "06f0b3605b8e159c2f99332ab6e80322f8cc68729fe037e43e1d1948500e31ea",
+    "iat": 4284844,
+    "load": 4256704,
+    "load_bytes": "8b3dac614100",
+    "sites": [
+      4256718,
+      4256743
+    ],
+    "register": "edi"
+  },
+  "proof": "Canonical free normal-return wrapper writes no EDI; its internal ordinaryC and typed HeapFree calls follow callee-save ABI. Same bound canonicalprovider/SDK witness as prior ESI/EBP; newEDI bit is required only for the two genuine cachedfree loops. No CRT-internals/app credit or callback assumption.",
+  "scope": "Whole source-index builder graph, including currently unreached temporary cleanup; removeEDI to demonstrate required cache proof.",
+  "base_ebp_evidence": "cases/hello-debug-dll/type-name-cache-import.json",
+  "base_ebp_evidence_sha256": "b1e354b472f35821fbbb75f8493e171cc19507dc91ea7c4c74dc7ae07d3b114f"
+}

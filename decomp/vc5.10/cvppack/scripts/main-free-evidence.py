@@ -69,11 +69,21 @@ def prove(config):
         assert [(r['start'],r['end']) for r in paths]==[(0x40df60,0x40df8a),(0x40e198,0x40e1a0)]
         assert pe.read(0x40df74,8)==bytes.fromhex('66833d8032410000') and pe.read(0x40df84,6)==bytes.fromhex('0f860e020000'),'derived zero-count branch differs'
         type_cleanup=dict(extent=[0x40b140,0x40b1c7],sha256=policy['type_cleanup_sha256'],free_sites=[0x40b152,0x40b15e,0x40b16a,0x40b175,0x40b181],derived_zero_path=paths,requires_zero=['derived_type_count','type_pdb','type_pdb_types'],no_released_payload_consumer=True)
+    source_prefix=None
+    source_index=bool(config.get('observe_source_index_entry'))
+    assert bool(policy.get('source_index_entry'))==source_index
+    if source_index:
+        prefix=policy['source_index_prefix'];assert (prefix['start'],prefix['end'])==(0x40f100,0x40f1d7)
+        raw=pe.read(prefix['start'],prefix['end']-prefix['start']);assert hashlib.sha256(raw).hexdigest()==prefix['sha256']
+        decoded=list(decoder.disasm(raw,prefix['start']))
+        assert sum(i.size for i in decoded)==len(raw) and [i.address for i in decoded if i.mnemonic=='call']==[0x40f183,0x40f1d2]
+        assert decoded[-1].mnemonic=='call' and decoded[-1].op_str=='0x40f0d0'
+        source_prefix=dict(**prefix,source_root='ModuleInfo.source_lines/size',new_generation_owner='build_source_file_index',dynamic_operands_validator='scripts/source-index-state.py',dynamic_operands_validator_sha256=sha(BINARY/'scripts/source-index-state.py'))
     provider=ROOT/'toolchains/5.10/bin/MSVCRT.DLL';crt=PE(provider)
     assert sha(provider)==policy['crt_sha256']
     evidence=BINARY/'cases/hello-debug-dll/import-preservation.json'
     witness=json.loads(evidence.read_text());assert witness['qualified_import']==dict(dll='msvcrt.dll',name='free')
     assert witness['provider']['sha256']==sha(provider) and witness['provider']['function'][0]==crt.base+policy['free_rva']
     provider_start,provider_end=witness['provider']['function'];assert hashlib.sha256(crt.read(provider_start,provider_end-provider_start)).hexdigest()==witness['provider']['function_sha256']
-    return dict(policy_sha256=sha(path),main_interval=[0x404719,end],main_interval_sha256=policy['main_interval_sha256'],no_released_payload_consumer=True,scratch_cleanup=scratch_proof,type_cleanup_prefix=type_prefix,type_table_cleanup=type_cleanup,
+    return dict(policy_sha256=sha(path),main_interval=[0x404719,end],main_interval_sha256=policy['main_interval_sha256'],no_released_payload_consumer=True,scratch_cleanup=scratch_proof,type_cleanup_prefix=type_prefix,type_table_cleanup=type_cleanup,source_index_prefix=source_prefix,
         crt_sha256=sha(provider),free_rva=policy['free_rva'],ordinary_crt_witness_sha256=sha(evidence),validator_sha256=sha(BINARY/'scripts/main-free-evidence.py'),state_validator_sha256=sha(BINARY/'scripts/main-free-state.py'))

@@ -105,7 +105,8 @@
     "enter_symbol_scope",
     "write_debug_directory",
     "free_type_tables",
-    "finalize_derived_types"
+    "finalize_derived_types",
+    "print_statistics"
   ],
   "functions": [
     {
@@ -373,13 +374,19 @@
     },
     {
       "name": "print_statistics",
-      "symbol": "_print_statistics",
-      "native_symbol": "print_statistics",
+      "symbol": "_build_source_file_index",
+      "native_symbol": "build_source_file_index",
       "original": 4256000,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4256000,
+        4256762
+      ],
       "ret": 0,
-      "parameters": []
+      "parameters": [],
+      "source_name": "build_source_file_index",
+      "scope": "Historical provisional logical ID retained; original routine combines source-file indexes, not statistics.",
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0100-source-file-index/promotion.json"
     },
     {
       "name": "flush_packed_file",
@@ -3523,6 +3530,40 @@
           "slot": 1
         }
       ]
+    },
+    {
+      "name": "append_source_name",
+      "symbol": "_append_source_name",
+      "native_symbol": "append_source_name",
+      "original": 4255952,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "name",
+          "kind": "source-file-name",
+          "slot": 1,
+          "native_pointee_width": 1
+        },
+        {
+          "name": "tail",
+          "kind": "caller-local-pointer",
+          "slot": 2,
+          "owner": "build_source_file_index",
+          "local": "names",
+          "width": 16,
+          "owner_return": 4256215,
+          "original_delta": 64,
+          "initialized": true
+        },
+        {
+          "name": "offset",
+          "kind": "integer",
+          "slot": 3
+        }
+      ],
+      "scope": "First encountered call: stack names sentinel. Later heap tail contexts require fresh observed widening."
     }
   ],
   "support_unmasked": [
@@ -3774,10 +3815,11 @@
   "observe_widen_release": true,
   "observe_main_frees": true,
   "main_free_policy": {
-    "path": "cases/hello-debug-dll/type-table-cleanup-lifetimes.json",
-    "sha256": "d2a4118447365726ad3189cd8e46a342c0a247be0af2ab418d23c9d6cb2aea56"
+    "path": "cases/hello-debug-dll/source-index-lifetimes.json",
+    "sha256": "7144262b9b1d658a4a6b61711eebacdbcc2b0c4f9bbc739c8c9648ac5b82edd8"
   },
   "observe_widen_frees": true,
   "observe_derived_finalize_entry": false,
-  "observe_type_table_frees": true
+  "observe_type_table_frees": true,
+  "observe_source_index_entry": true
 }

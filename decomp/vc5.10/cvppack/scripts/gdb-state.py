@@ -22,6 +22,7 @@ widen_emit_calls=[]
 widen_release_calls=[]
 widen_sequence=[]
 main_free_calls=[]
+source_index_allocations=[]
 lookup_calls=[]
 lookup_stack=[]
 type_compare_calls=[]
@@ -162,6 +163,11 @@ def install(configuration):
                 record=dict(size=size);cleared_allocations.append(record)
             elif owner.name()=='allocate_bytes':
                 record=dict(size=size);checked_allocations.append(record)
+                caller=owner.older()
+                if config.get('observe_source_index_entry') and caller is not None and caller.name()=='build_source_file_index':
+                    assert len(main_free_calls)==12 and all(row.get('returned') for row in main_free_calls),'source-index allocation before prior free returns'
+                    record.update(owner='build_source_file_index',after_frees=12)
+                    source_index_allocations.append(record)
             elif owner.name()=='rewrite_module_symbols':
                 entry=owner.read_var('entry');info=owner.read_var('info')
                 record=dict(size=size,owner=owner.name(),source=dict(
@@ -569,6 +575,27 @@ def capture(configuration,data_file,output):
             assert int(gdb.parse_and_eval("'native-widen.c'::stage"))==item.get('native_stage',1) and int(gdb.parse_and_eval("'native-widen.c'::cursor"))==0,'opaque object provider lifetime/state differs'
             state.setdefault('widen_object_arguments',{})[item['name']]=dict(address=int(value),output_slot=int(owner.read_var(item['local']).address))
             parameters[item['name']]=dict(provider='MSPDB50.DLL',instance=1,state=item.get('state','created'),owner=item['owner'],local=item['local'])
+        elif item['kind']=='source-file-name':
+            owner=frame.older();assert owner is not None and owner.name()=='build_source_file_index'
+            info=owner.read_var('info');assert info.type.target().sizeof==48
+            module=info.dereference();root=int(module['source_lines']);size=int(module['source_lines_size'])
+            payload=bytes(inferior.read_memory(root,size));count=int.from_bytes(payload[:2],'little');matches=[]
+            assert 4+count*4<=size,'source-file offset array exceeds source module'
+            for index in range(count):
+                offset=int.from_bytes(payload[4+index*4:8+index*4],'little');assert offset+4<=size
+                segments=int.from_bytes(payload[offset:offset+2],'little');offset+=4+segments*12
+                assert offset<size and offset+1+payload[offset]<=size,'counted source name exceeds live module'
+                if root+offset==int(value):matches.append((index,offset,payload[offset:offset+1+payload[offset]]))
+            assert len(matches)==1,'source-name argument lacks exact live module owner'
+            index,offset,text=matches[0];parameters[item['name']]=dict(module=int(module['module']),file_index=index,source_offset=offset,bytes=text.hex())
+            block=int(owner.read_var('module_tail'));alloc=[row for row in source_index_allocations if row.get('address')==block]
+            assert len(alloc)==1 and alloc[0]['owner']=='build_source_file_index' and alloc[0]['after_frees']==12,'new source-index block lacks actual allocation generation'
+            assert alloc[0]['size']==8+count*4 and owner.read_var('modules').type.sizeof==8 and owner.read_var('names').type.sizeof==16
+            state['source_index_context']=dict(module_address=int(info),source_address=root,source_size=size,block_address=block,block_size=alloc[0]['size'],
+                block_bytes=bytes(actual_inferior.read_memory(block,alloc[0]['size'])).hex(),generation=dict(owner=alloc[0]['owner'],after_frees=alloc[0]['after_frees']),
+                module_sentinel_address=int(owner.read_var('modules').address),module_sentinel_bytes=bytes(inferior.read_memory(owner.read_var('modules').address,8)).hex(),
+                names_sentinel_address=int(owner.read_var('names').address),offset_cursor=int(owner.read_var('offsets')),file_index=int(owner.read_var('file_index')),
+                total_files=int(owner.read_var('total_files')),name_bytes=int(owner.read_var('name_bytes')))
         elif item['kind']=='caller-local-pointer':
             owner=frame.older()
             while owner is not None and owner.name()!=item['owner']:owner=owner.older()
@@ -635,6 +662,7 @@ def capture(configuration,data_file,output):
     state['file_reads']=file_reads
     state['directory_allocation']=directory_allocation
     state['main_free_calls']=main_free_calls
+    state['source_index_allocations']=source_index_allocations
     state['widen_sequence']=widen_sequence
     state['widen_release_calls']=widen_release_calls
     state['widen_emit_calls']=widen_emit_calls

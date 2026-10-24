@@ -1,0 +1,96 @@
+{
+  "status": "approved narrow source-index new-owner boundary",
+  "packet": {
+    "path": "/root/msvc2/decomp/vc5.10/cvppack/cases/hello-debug-dll/evidence/0100-source-file-index/source-index-review.json",
+    "sha256": "d4ba8535ebc79555772e653635d352dd443fd3939ca13f9e89db9258ea63a387"
+  },
+  "verified_records": [
+    {
+      "path": "src/source-index.c",
+      "sha256": "7a377e5b6da8dc46a37acd12266c3d3687eaffa938da949d34be901dc8b89b45"
+    },
+    {
+      "path": "src/source-index.h",
+      "sha256": "ff2b917ba42df5ac5215d82d95aafb49bd2ed86b5e950059de9281b6bcb98023"
+    },
+    {
+      "path": "src/main.c",
+      "sha256": "76ceb2fb69e01e8775fa1ce5978aa5428f33b272a85f4dde07dcd48b18910f4f"
+    },
+    {
+      "path": "src/stubs.c",
+      "sha256": "f0505f7502aa02ea98a41daa1cc1aaff5efd30178a7464a4676c063538cba320"
+    },
+    {
+      "path": "scripts/source-index-state.py",
+      "sha256": "78668ccd74f7f39794bab5729de11612f8301f57bc10ecb6f2e6795661ecc6ee"
+    },
+    {
+      "path": "scripts/raw-state.py",
+      "sha256": "112d8ee7dceb0657c30fa1ef611443b3aef66e0d54dec3465e4538f04f104718"
+    },
+    {
+      "path": "scripts/main-free-state.py",
+      "sha256": "3255ebd890808dbd93dacfcab266c80013f9e59e7690e51dd1fe2e184d5cba0f"
+    },
+    {
+      "path": "scripts/main-free-evidence.py",
+      "sha256": "2fb202d73716a55fd90bf19829a7e38640ad020a4ab1f276dcbd4a0fc3ce5f38"
+    },
+    {
+      "path": "scripts/gdb-state.py",
+      "sha256": "17d82c0a2887d01080f6c3cb8419b7dbeac16ff97fd0c301e65b86274c0c042b"
+    },
+    {
+      "path": "scripts/debug-run.c",
+      "sha256": "c869e9b028d92ff4bb5fa5863559cb32f687e2d4a699d1117741dad284e35fc3"
+    },
+    {
+      "path": "scripts/switch-data.py",
+      "sha256": "7b325bcff10a89486d97779d3300cbf76e76c5bc6ddbbba5d58f7240ea4bfc0b"
+    },
+    {
+      "path": "cases/hello-debug-dll/evidence/0100-source-file-index/source-entry-checks.json",
+      "sha256": "8ccaadff98aec3f843dda207dad9aa9f0f74ac595113154c2d4e12ff3e3b9ffc"
+    },
+    {
+      "path": "cases/hello-debug-dll/source-index-free-import.json",
+      "sha256": "b9339b4635a082cf753ab18fc853be319821253fd6db0b52bbaa061eb0601426"
+    },
+    {
+      "path": "cases/hello-debug-dll/evidence/0100-source-file-index/original/receipt.json",
+      "sha256": "3d6175374bc34a7cc221bc4d80609fad648be59ee8a824323870af176f24b472"
+    },
+    {
+      "path": "cases/hello-debug-dll/evidence/0100-source-file-index/native/receipt.json",
+      "sha256": "313654cfa471dba701a388bba87d3ec49f03d6b442981edffc0ed2e26a0a2536"
+    },
+    {
+      "path": "cases/hello-debug-dll/evidence/0100-source-file-index/hardened-audit/audit.json",
+      "sha256": "752e3e06fd450059d50705f289e975d2175f696ed45c97aa451f24ff9e2b5a85"
+    },
+    {
+      "path": "cases/hello-debug-dll/evidence/0100-source-file-index/hardened-check-only.json",
+      "sha256": "256b0978d2f9b3e98e5c8981150b333ea1789e62584587d21d0ac1c7c72fbbea"
+    }
+  ],
+  "independent_current_check": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cvppack100-parent-check.json",
+    "sha256": "256b0978d2f9b3e98e5c8981150b333ea1789e62584587d21d0ac1c7c72fbbea"
+  },
+  "source_review": [
+    "Readable whole762B builder and typed headers",
+    "Actual post12free malloc12 owner, initialized8B compared, own unwritten4B and sentinelWORD uncredited",
+    "Old1536B table historical only; generic full-overlap denial unchanged",
+    "Independent original215B prefix disassembly confirms live ModuleInfo/source/stack/newowner only before masked append_source_name; complete762B absolute operand inventory reviewed",
+    "Canonical free104B provider hash verified/disassembled, no EDI writes; ordinary CRT/HeapFree normal-return ABI finite EDI contract, cached free bit-removal rejection retained",
+    "Fresh20 affected negatives including actual DWARF wrongpointee and namespace/lifetime failures inspected"
+  ],
+  "limits": [
+    "No stale-root/new-owner pointer-equality claim",
+    "No old allocation revival/dereference or unwritten-byte equality",
+    "No append_source_name body or future unknown consumer coverage; any stale-root read/compare/free/escape reopens boundary",
+    "Library provider bytes receive zero application credit"
+  ],
+  "root_policy": "Approved new owner even if allocator reuses retired numeric base; independent concrete release delegated"
+}
