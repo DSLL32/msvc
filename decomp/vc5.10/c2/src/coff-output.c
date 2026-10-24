@@ -676,3 +676,8 @@ unsigned __fastcall query_coff_position(unsigned short section)
     position = output_list_position(entry->data->output);
     return position + entry->base_offset;
 }
+
+unsigned __fastcall output_list_position(C2OutputList *list)
+{
+    return list->used_bytes + list->completed_bytes;
+}

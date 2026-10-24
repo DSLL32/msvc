@@ -620,9 +620,3 @@ void __fastcall mark_debug_section(unsigned section)
 {
     __asm { int 3 }
 }
-
-unsigned __fastcall output_list_position(C2OutputList *list)
-{
-    __asm { int 3 }
-    return 0;
-}

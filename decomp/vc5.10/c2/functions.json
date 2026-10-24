@@ -103,7 +103,8 @@
     "@register_coff_storage@4",
     "@record_output_section@4",
     "@select_coff_section@4",
-    "@query_coff_position@4"
+    "@query_coff_position@4",
+    "@output_list_position@4"
   ],
   "driver": [
     {
@@ -11285,6 +11286,19 @@
         ]
       ],
       "source": "src/coff-output.c"
+    },
+    {
+      "name": "@output_list_position@4",
+      "native": "output_list_position",
+      "symbol": "@output_list_position@4",
+      "start": 4321895,
+      "end": 4321904,
+      "pending_extent": false,
+      "pending_signature": false,
+      "kind": "application",
+      "abi": "fastcall C2OutputList*listECX; unsignedEAX,RET0",
+      "evidence": "cases/analysis/output-list-position-analysis.json",
+      "source": "src/coff-output.c"
     }
   ],
   "stubs": [
@@ -13160,77 +13174,7 @@
       "pending_extent": true,
       "kind": "application",
       "abi": "fastcall constvoid*dataECX unsignedbytesEDX callerignoresresultRET0",
-      "evidence": "Actual source82 caller/provider ABI observations; genuine pendingINT3 no bodycredit"
-    },
-    {
-      "name": "@write_output_byte@4",
-      "native": "write_output_byte",
-      "start": 4538195,
-      "end": 4538196,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall unsignedcharvalueCL callerignoresresultRET0",
-      "evidence": "Actual source82 caller/provider ABI observations; genuine pendingINT3 no bodycredit"
-    },
-    {
-      "name": "@write_output_fill@8",
-      "native": "write_output_fill",
-      "symbol": "@write_output_fill@8",
-      "start": 4538588,
-      "end": 4538589,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall unsignedcharvalueCL,unsignedcountEDX; returnignoredRET0",
-      "pending_signature": false,
-      "evidence": "cases/analysis/select-output-section-analysis.json"
-    },
-    {
-      "name": "@add_associative_coff_section@24",
-      "native": "add_associative_coff_section",
-      "symbol": "@add_associative_coff_section@24",
-      "start": 4325496,
-      "end": 4325497,
-      "pending_extent": true,
-      "kind": "application",
-      "pending_signature": false,
-      "abi": "fastcall char*nameECX,unsignedflagsEDX,stackbyteselection,ushortassociation,intflag8,intreuse; unsignedshortAX,RET16",
-      "evidence": "cases/analysis/create-coff-section-analysis.json"
-    },
-    {
-      "name": "@coff_selection_code@4",
-      "native": "coff_selection_code",
-      "symbol": "@coff_selection_code@4",
-      "start": 4325425,
-      "end": 4325426,
-      "pending_extent": true,
-      "kind": "application",
-      "pending_signature": false,
-      "abi": "fastcall byteselectionCL,byteresultAL,RET0",
-      "evidence": "cases/analysis/create-coff-section-analysis.json"
-    },
-    {
-      "name": "@mark_debug_section@4",
-      "native": "mark_debug_section",
-      "symbol": "@mark_debug_section@4",
-      "start": 4746574,
-      "end": 4746575,
-      "pending_extent": true,
-      "kind": "application",
-      "pending_signature": false,
-      "abi": "fastcall unsignedsectionECX; callerignoresresultRET0",
-      "evidence": "cases/analysis/create-coff-section-analysis.json"
-    },
-    {
-      "name": "@output_list_position@4",
-      "native": "output_list_position",
-      "symbol": "@output_list_position@4",
-      "start": 4321895,
-      "end": 4321896,
-      "pending_extent": true,
-      "pending_signature": false,
-      "kind": "application",
-      "abi": "fastcall C2OutputList*listECX; unsignedEAX,RET0",
-      "evidence": "cases/analysis/query-coff-position-analysis.json",
+      "evidence": "Actual source82 caller/provider ABI observations; genuine pendingINT3 no bodycredit",
       "state_policy": "globals-complete",
       "state": [
         {
@@ -13409,7 +13353,66 @@
         "-G5"
       ],
       "frontier_contract": "coff-section-input",
-      "section_caller": "query_coff_position"
+      "section_caller": "output_list_position",
+      "pending_signature": false
+    },
+    {
+      "name": "@write_output_byte@4",
+      "native": "write_output_byte",
+      "start": 4538195,
+      "end": 4538196,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall unsignedcharvalueCL callerignoresresultRET0",
+      "evidence": "Actual source82 caller/provider ABI observations; genuine pendingINT3 no bodycredit"
+    },
+    {
+      "name": "@write_output_fill@8",
+      "native": "write_output_fill",
+      "symbol": "@write_output_fill@8",
+      "start": 4538588,
+      "end": 4538589,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall unsignedcharvalueCL,unsignedcountEDX; returnignoredRET0",
+      "pending_signature": false,
+      "evidence": "cases/analysis/select-output-section-analysis.json"
+    },
+    {
+      "name": "@add_associative_coff_section@24",
+      "native": "add_associative_coff_section",
+      "symbol": "@add_associative_coff_section@24",
+      "start": 4325496,
+      "end": 4325497,
+      "pending_extent": true,
+      "kind": "application",
+      "pending_signature": false,
+      "abi": "fastcall char*nameECX,unsignedflagsEDX,stackbyteselection,ushortassociation,intflag8,intreuse; unsignedshortAX,RET16",
+      "evidence": "cases/analysis/create-coff-section-analysis.json"
+    },
+    {
+      "name": "@coff_selection_code@4",
+      "native": "coff_selection_code",
+      "symbol": "@coff_selection_code@4",
+      "start": 4325425,
+      "end": 4325426,
+      "pending_extent": true,
+      "kind": "application",
+      "pending_signature": false,
+      "abi": "fastcall byteselectionCL,byteresultAL,RET0",
+      "evidence": "cases/analysis/create-coff-section-analysis.json"
+    },
+    {
+      "name": "@mark_debug_section@4",
+      "native": "mark_debug_section",
+      "symbol": "@mark_debug_section@4",
+      "start": 4746574,
+      "end": 4746575,
+      "pending_extent": true,
+      "kind": "application",
+      "pending_signature": false,
+      "abi": "fastcall unsignedsectionECX; callerignoresresultRET0",
+      "evidence": "cases/analysis/create-coff-section-analysis.json"
     }
   ],
   "text_data": [
@@ -13690,7 +13693,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13702,7 +13705,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13714,7 +13717,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13726,7 +13729,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13738,7 +13741,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13750,7 +13753,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13762,7 +13765,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13774,7 +13777,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13786,7 +13789,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13798,7 +13801,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13812,7 +13815,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13824,7 +13827,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13839,7 +13842,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13851,7 +13854,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13863,7 +13866,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13875,7 +13878,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13887,7 +13890,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13899,7 +13902,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13914,7 +13917,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13929,7 +13932,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13941,7 +13944,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13953,7 +13956,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13965,7 +13968,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {
@@ -13980,7 +13983,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
+          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
         }
       },
       {

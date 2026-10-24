@@ -1,0 +1,55 @@
+{
+  "builds": [
+    {
+      "kind": "original",
+      "seconds": 1.6306380378082395,
+      "status": 0
+    },
+    {
+      "kind": "native",
+      "seconds": 2.070408101193607,
+      "status": 0
+    },
+    {
+      "kind": "helper",
+      "seconds": 1.116420367732644,
+      "status": 0
+    }
+  ],
+  "original_capture": {
+    "setup": 0.9747042134404182,
+    "execution": 2.814221555367112,
+    "total": 3.8386662006378174
+  },
+  "native_capture": {
+    "execution": 0.5038059260696173,
+    "total": 0.6438452964648604
+  },
+  "audit_seconds": 0.881938710808754,
+  "protocol_controls": {
+    "fresh": 6,
+    "reused": 147,
+    "seconds": 7.354714969173074
+  },
+  "fresh_affected_controls": {
+    "input": {
+      "fresh": 14,
+      "seconds": 16.796845856122673
+    }
+  },
+  "fixture": {
+    "case": "unsupported-help-diagnostic",
+    "status": "PASS",
+    "application_entries": 19,
+    "stdout_bytes": 0,
+    "stderr_bytes": 51,
+    "seconds": {
+      "setup": 0.01043852511793375,
+      "execution": 0.002928648144006729,
+      "checks": 0.00020429212599992752,
+      "total": 0.014022305607795715
+    },
+    "transport": "native ELF32 only; frozen original reference"
+  },
+  "failures": "No failed original/native execution or setup for this candidate."
+}
