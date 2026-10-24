@@ -1,0 +1,35 @@
+{
+  "exit": 0,
+  "output_bytes": 30936,
+  "output_sha256": "0f2a10fc13e80ac14306b8d92542767576fa92b0e1b2f54306c0c514cde840dd",
+  "filename_index": {
+    "modules": 45,
+    "files": 2,
+    "size": 216,
+    "defined_size": 216,
+    "padding": 0,
+    "names": [
+      "pdb-two.cpp",
+      "pdb-one.cpp"
+    ]
+  },
+  "provider_order": "actual stdout reads pdb-two.pdb then pdb-one.pdb",
+  "ancillary_inputs": [
+    {
+      "windows": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-two.pdb",
+      "bytes": 672,
+      "sha256": "e42334635559ecff40cd6c60411fe7e1cb4e629a4176a975985107d9c13cdeed"
+    },
+    {
+      "windows": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-one.pdb",
+      "bytes": 672,
+      "sha256": "a23d691226cfede8fdf08bd944fe57628fd02797982ae78c9e34fce1040d6956"
+    }
+  ],
+  "baseline_seconds": {
+    "setup": 0.4116104654967785,
+    "execution": 0.9103947393596172,
+    "total": 1.347853078506887
+  },
+  "default_allocator": true
+}

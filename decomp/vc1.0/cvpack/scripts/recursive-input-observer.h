@@ -199,3 +199,24 @@ static int dump_module_name_input(HANDLE child,HANDLE log,DWORD frontier,DWORD *
     used=sprintf(object_line,"module-name-record module %08lx directory %lu record %08lx size %lu bytes ",root,index,header[3],header[4]);
     return recursive_line(log,used,data,header[4]);
 }
+
+/* Close consumes allocation identities and arena next links, not payload data. */
+static int dump_type_server_close_input(HANDLE child,HANDLE log,DWORD frontier,DWORD *words)
+{
+    DWORD root,parent[29],block[3],address,index,family;int used;
+    if(frontier!=0x2bbe8)return 1;
+    if(words[0]!=0x1a687 || !recursive_read(child,0x373d0,&root,4) || root!=words[1] ||
+       !recursive_read(child,root,parent,sizeof(parent)))return 0;
+    used=sprintf(object_line,"pdb-close-parent %08lx ",root);
+    if(!recursive_line(log,used,(BYTE *)parent,sizeof(parent)))return 0;
+    for(family=0;family<2;++family) {
+        address=parent[family?21:18];index=0;
+        while(address) {
+            if(index==8 || !recursive_read(child,address,block,sizeof(block)))return 0;
+            used=sprintf(object_line,"pdb-close-block %lu %lu %08lx ",family,index,address);
+            if(!recursive_line(log,used,(BYTE *)block,sizeof(block)))return 0;
+            address=block[2];++index;
+        }
+    }
+    return 1;
+}

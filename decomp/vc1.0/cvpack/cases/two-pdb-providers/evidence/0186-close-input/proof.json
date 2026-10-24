@@ -1,0 +1,98 @@
+{
+  "original": {
+    "address": 8273040,
+    "bytes": "4d6963726f736f667420432f432b2b2070726f6772616d20646174616261736520312e30300d0a1a4a4700005c0d0e004f33dc6a0100000000101e1060020000283d7e0000000000083d7e00a43d7e0060020000183d7e00183d7e0000000000a43d7e00ffffffff000000000000000001000000",
+    "chains": [
+      [
+        {
+          "address": 8273160,
+          "bytes": "00000000143d7e00a43d7e00"
+        },
+        {
+          "address": 8273316,
+          "bytes": "0000000010407e0000000000"
+        }
+      ],
+      [
+        {
+          "address": 8273176,
+          "bytes": "00000000243d7e0000000000"
+        }
+      ]
+    ]
+  },
+  "native": {
+    "address": 1461449712,
+    "bytes": "4d6963726f736f667420432f432b2b2070726f6772616d20646174616261736520312e30300d0a1a4a4700005c0d0e004f33dc6a0100000000101e106002000090f41b570000000070f41b5710f51b576002000080f41b5780f41b570000000010f51b57ffffffff000000000000000001000000",
+    "chains": [
+      [
+        {
+          "address": 1461449840,
+          "bytes": "000000007cf41b5710f51b57"
+        },
+        {
+          "address": 1461450000,
+          "bytes": "000000007cf71b5700000000"
+        }
+      ],
+      [
+        {
+          "address": 1461449856,
+          "bytes": "000000008cf41b5700000000"
+        }
+      ]
+    ]
+  },
+  "matched": {
+    "parent_bytes": 116,
+    "offsets_requested": 120,
+    "type_block_requested": [
+      12,
+      8204
+    ],
+    "index_block_requested": 12,
+    "descriptor": -1,
+    "hash_null": true,
+    "chains": [
+      [
+        {
+          "owner": "types0",
+          "available": 0,
+          "cursor_offset": 12,
+          "next": 1
+        },
+        {
+          "owner": "types1",
+          "available": 0,
+          "cursor_offset": 620,
+          "next": null
+        }
+      ],
+      [
+        {
+          "owner": "index0",
+          "available": 0,
+          "cursor_offset": 12,
+          "next": null
+        }
+      ]
+    ]
+  },
+  "scope": "Actual current_type_server116B and allocation provenance from constructor/read_records publication. Only descriptor/free owners and fully defined12B arena next headers consumed by close; offsets payload/type-data/tails not read or compared, parent incremental108 retained raw without equality claim.",
+  "targeted_controls": [
+    "wrong-owner",
+    "missing-block",
+    "wrong-next"
+  ],
+  "allocation_provenance": {
+    "parent": "Original constructor2b968..2ba39 malloc116 publishes current_type_server; original/canonical fullfunction CFG/ABI already audited.",
+    "offsets": "read_records2b14c..2b405 malloc((last_type-1000)*4), actual last_type101e=>120, stored server+64.",
+    "blocks": "Constructor malloc12 heads; read_records capacity=(608+1fff)&~fff=8192 then malloc8204 and publishes type_storage.first->next. Actual header pointers/current caller and next chains are bound; close reads only next header before free. No nearby allocator inference/usable size or payload-tail credit."
+  },
+  "source_sha256": {
+    "scripts/pdb-close.py": "5db7ac95bd0a67c4d04beed5fab789f004a3e920d3a78a5a2b52ebcf33b826dc",
+    "scripts/recursive-input-observer.h": "753c2f729499094dd5302ffb30ec28e1127e8c00e50c53037053bf52040b397b",
+    "src/pdb.c": "138d0d5a929ca27aa86e5835482bd5e36c9e13f70e661ecf4497b98f7c2f75d2",
+    "src/pdb.h": "4985c836921a7bc48a27baf3647ffc9b967c49c17ec63b75d31ecc8934068e73"
+  }
+}

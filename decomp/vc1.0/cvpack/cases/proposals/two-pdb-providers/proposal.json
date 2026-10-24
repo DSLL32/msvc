@@ -1,5 +1,5 @@
 {
-  "status": "proposed-awaiting-root-review",
+  "status": "complete-actual-provider-switching",
   "case": "two-pdb-providers",
   "purpose": "Exercise genuine linked type-provider switching and destruction, retaining two independently produced PDB inputs rather than only a single initial provider.",
   "producer": "Two genuine original C++ TUs pdb-one.cpp and pdb-two.cpp, each11-byte name so counted basename pair totals24B/aligned. /Od /Zi /G3 with distinct supported /Fdpdb-one.pdb and /Fdpdb-two.pdb. Each TU exports a used function on its own recursive struct/class with arrays, enum/member pointers and shared compatible declarations. LINK established /dll /debug:full /debugtype:cv /nopack. No PCH or debug-byte editing.",
@@ -31,5 +31,6 @@
     "whole_text_bytes": 111678,
     "named_stubs": 21,
     "non_CRT_denominator": null
-  }
+  },
+  "actual": "One genuine producer2.305s, module2->3 provider switch verified;183Bclose reconstructed. BothPDBs672B immutable, leafage0/headerage1 signatures authenticate. Original/native exact30936B master and148entries. No variants or numerical-signature resampling."
 }

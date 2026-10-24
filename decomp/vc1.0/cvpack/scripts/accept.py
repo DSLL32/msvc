@@ -59,6 +59,10 @@ MAPPED_SUM_CALL_SHA = 'f5bec23e49b7c82f2cef2282daeca681f3872289a2126ead84cee7d5f
 MAPPED_CHECKSUM_CALL_SHA = '3c19940d38e1d8221942b4f8665c685f0882bc982dc98bfa56199a231c55f32e'
 
 def compare_global_owner(item,words,actual,events):
+    if item['root']=='current_type_server':
+        assert item.get('close_input') and (item['original_root'],item['requested_size'])==(0x373d0,116),'unknown close parent contract'
+        from runpy import run_path
+        return run_path(str(BINARY/'scripts/pdb-close.py'))['compare'](events,actual)
     if item['root']=='output_buffer':
         assert (item['original_root'],item['size_global'])==(0x335c0,'output_capacity'),'unknown output allocation root'
         scalar=lambda address:int.from_bytes(bytes.fromhex(re.findall(r'^memory %08x ([0-9a-f]+)$'%address,events,re.M)[0]),'little')

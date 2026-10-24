@@ -3213,22 +3213,48 @@
       "native": "type_server_close",
       "symbol": "_type_server_close",
       "original": 179176,
-      "source": "src/stubs.c",
+      "source": "src/pdb-close.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        179176,
+        179359
+      ],
       "abi": "int type_server_close(TypeServer *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/two-pdb-providers/evidence/0187-type_server_close/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
         {
           "name": "server",
           "slot": 1,
-          "kind": "pointer"
+          "kind": "global-owner",
+          "root": "current_type_server",
+          "original_root": 226256,
+          "requested_size": 116,
+          "close_input": true
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "two-pdb-providers": [
+          {
+            "name": "providers.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-two.pdb",
+            "mode": 32768,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-one.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "type_server_signature",
@@ -9577,6 +9603,12 @@
       "case": "buffered-multitu-cache",
       "kind": "application",
       "sequence": 186
+    },
+    {
+      "function": "type_server_close",
+      "case": "two-pdb-providers",
+      "kind": "application",
+      "sequence": 187
     }
   ],
   "support_unmasked": [
@@ -10289,7 +10321,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "b86e03cd33a312649c5eaaed885578133b16e702dafd43320083d396e20c7553"
+    "evidence_sha256": "5ff2a68d9ea872c3b669d0bef71c1efa64e66478041cf107aaf7d9680d5548f0"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -10365,7 +10397,7 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "e8e3b4e40927b91faaaf3e398b3736b0607332088749fa204f29fb54ea9ae6a0"
+    "sha256": "3926d98ac58abd72acce47471a857cfa5d2e302a1a058f2da01a254d69d4e073"
   },
   "freebuf_boundary": {
     "case": "hello-debug-dll",
@@ -10384,5 +10416,11 @@
     "classification": "case-specific-guarded-CRT-no-op",
     "application_coverage": false,
     "unconditionally_unmask": false
+  },
+  "external_inputs_by_case": {
+    "two-pdb-providers": {
+      "evidence": "cases/two-pdb-providers/build-provenance/pdb-inputs.json",
+      "evidence_sha256": "61e812aa4c1fc3187352f52e91f5f731b362b62b4af7e82cd578f9a83d3fdd87"
+    }
   }
 }

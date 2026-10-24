@@ -1,0 +1,38 @@
+{
+  "functions": [
+    {
+      "sequence": 187,
+      "name": "type_server_close",
+      "extent_bytes": 183
+    }
+  ],
+  "gain_bytes": 183,
+  "accepted_application_functions": 187,
+  "accepted_extent_bytes": 56759,
+  "whole_text_bytes": 111678,
+  "non_CRT_denominator": null,
+  "artifact": [
+    {
+      "name": "providers.dll",
+      "bytes": 30936,
+      "sha256": "0f2a10fc13e80ac14306b8d92542767576fa92b0e1b2f54306c0c514cde840dd"
+    }
+  ],
+  "providers": "Actual original LF_TYPESERVER module2 pdb-two thenmodule3 pdb-one, distinct full files/names, same timestamp signature6adc334f, leafage0/headerage1 retained.",
+  "source_index": {
+    "bytes": 216,
+    "defined": 216,
+    "padding": 0
+  },
+  "entry_ownership": "Fresh current_type_server116B/offsets120B/typeblocks12+8204/indexblock12 next-link input proof; no payload/tail or undefinedincremental equality credit.",
+  "native_limitation": "NULL server nativeINT3 before original NULL descriptor dereference; machine record cases/native-limitations.json",
+  "fixture_cases": 10,
+  "fixture_seconds": {
+    "setup": 5.335828687995672,
+    "execution": 0.24726656265556812,
+    "debugging": 0,
+    "checks": 0.1313619650900364,
+    "total": 5.714490620419383
+  },
+  "scope": "Default allocator, exact full30936B master/148entries/status/streams. Three ordered successful8002/8000 existing-file variants remain separate zeroCRT/appcredit support; maintainer review passed. No historical pipeline."
+}

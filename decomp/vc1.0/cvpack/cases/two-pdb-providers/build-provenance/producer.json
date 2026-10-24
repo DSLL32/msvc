@@ -1,0 +1,18 @@
+{
+  "elapsed_seconds": 2.304996384307742,
+  "files": {
+    "pdb-two.pdb": {
+      "bytes": 672,
+      "sha256": "e42334635559ecff40cd6c60411fe7e1cb4e629a4176a975985107d9c13cdeed"
+    },
+    "providers.dll": {
+      "bytes": 2097152,
+      "sha256": "5c19f7114edc70a6c18362a96a0feef7283876f4764862e6f3d084b82188c620"
+    },
+    "pdb-one.pdb": {
+      "bytes": 672,
+      "sha256": "a23d691226cfede8fdf08bd944fe57628fd02797982ae78c9e34fce1040d6956"
+    }
+  },
+  "status": "producer only; actual LF_TYPESERVER linkage gate pending"
+}

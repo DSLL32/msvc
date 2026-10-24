@@ -4,7 +4,7 @@ from pathlib import Path,PureWindowsPath
 from state import BINARY,ROOT,load,sha
 
 def specification(record):
-    config,_=load();entry=config.get('external_inputs')
+    config,_=load();entry=config.get('external_inputs_by_case',{}).get(record['name'],config.get('external_inputs'))
     if not entry:return None
     path=BINARY/entry['evidence']
     assert sha(path)==entry['evidence_sha256'],'stale ancillary input proof'

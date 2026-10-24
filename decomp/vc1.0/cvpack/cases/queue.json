@@ -122,6 +122,17 @@
       ],
       "status": "complete",
       "completion": "cases/buffered-multitu-cache/evidence/0186-remove_lru_page/proof.json"
+    },
+    {
+      "name": "two-pdb-providers",
+      "argv": [
+        "/nologo",
+        "/cvnew",
+        "/verbose",
+        "providers.dll"
+      ],
+      "status": "complete",
+      "completion": "cases/two-pdb-providers/evidence/0187-type_server_close/proof.json"
     }
   ]
 }

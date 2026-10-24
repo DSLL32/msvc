@@ -19,11 +19,12 @@
     "src/options.c": "09d36a0bbb3ddc97a6a749250f2881d5a1967bdb5c34d4cd7b6f1178d31d2c34",
     "src/output.c": "92f6f63b738fdb68702dd52d6020ee2fec7732eb514638f6b4c988fb8ca19d13",
     "src/output.h": "25130e78fd5a3a7fcda769edb011b69c9ad0143d7c38dfc83e8f3bd6a12bfa41",
+    "src/pdb-close.c": "39a840fa59f0b7eb7d07f7f47f17360f74dc1e74de760c93be6d11a2b2783d03",
     "src/pdb.c": "138d0d5a929ca27aa86e5835482bd5e36c9e13f70e661ecf4497b98f7c2f75d2",
     "src/pdb.h": "4985c836921a7bc48a27baf3647ffc9b967c49c17ec63b75d31ecc8934068e73",
     "src/strip.c": "ccb0eb975ad67fdbb7633ea4db4f773d691e88f9d87080ac95ea04e71365e6f9",
     "src/strip.h": "8110c284b1697c03fa2c7c4f9030d31625cff4726cbf7edb2d33987a5fdd01eb",
-    "src/stubs.c": "9816316e91a98d9c26b2265a7b7aea39f3218b0baf6dcd1cc00c071ece87b2b8",
+    "src/stubs.c": "17a53fc3cdddf0d260f542aa11abd19c7beac3b0e13e72e23090e553a8f1bda7",
     "src/types.c": "c793c9e497255e5b3b33995185bde050366d1b869888e710a24c03125f3f57a2",
     "src/types.h": "3a8ae1a4f3b47395fa6aa75b66266c4c17b5df4bb5c14270456191984bbf7f4a"
   },

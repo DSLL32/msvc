@@ -1,0 +1,303 @@
+{
+  "policy": [
+    {
+      "name": "__sopen",
+      "classification": "reviewed-case-specific-CRT-variant",
+      "case": "two-pdb-providers",
+      "application_coverage": false,
+      "unconditionally_unmask": false,
+      "target_sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+      "start": 187568,
+      "end": 188576,
+      "body_sha256": "b7fdcb2af4a8c2dc7acb300de553cec15ecc7fa126d0aed46ad2e8c359c7fb12",
+      "evidence": "cases/runtime-variants/sopen-analysis.json",
+      "evidence_sha256": "b0c1dcc543dc7ba8b08da658bb99db579e00105352cde002a9ec850b4c138040",
+      "guard": {
+        "mode": 32770,
+        "share": 64,
+        "name": "providers.dll",
+        "every_invocation": true
+      },
+      "input": {
+        "path": "decomp/vc1.0/cvpack/cases/two-pdb-providers/input/providers.dll",
+        "name": "providers.dll",
+        "bytes": 2097152,
+        "sha256": "5c19f7114edc70a6c18362a96a0feef7283876f4764862e6f3d084b82188c620"
+      },
+      "policy_approval": "Root approved exact ordered [providersDLL8002,PDBtwo8000,PDBone8000]/share40 successful existingbinary paths. Same1008B variant; everycall phase/name/fullinput/CreateFile/return/error proof, raw inactivepermission and originalinheritTRUE/nativeFALSE nochild qualification. Other modes/files/repetition/order denied; no exactCRT or appcredit.",
+      "access": 3221225472,
+      "guard_version": 2,
+      "phase": 1
+    },
+    {
+      "name": "__sopen",
+      "classification": "reviewed-case-specific-CRT-variant",
+      "case": "two-pdb-providers",
+      "application_coverage": false,
+      "unconditionally_unmask": false,
+      "target_sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+      "start": 187568,
+      "end": 188576,
+      "body_sha256": "b7fdcb2af4a8c2dc7acb300de553cec15ecc7fa126d0aed46ad2e8c359c7fb12",
+      "evidence": "cases/runtime-variants/sopen-analysis.json",
+      "evidence_sha256": "b0c1dcc543dc7ba8b08da658bb99db579e00105352cde002a9ec850b4c138040",
+      "guard": {
+        "mode": 32768,
+        "share": 64,
+        "name": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-two.pdb",
+        "every_invocation": true
+      },
+      "input": {
+        "path": "decomp/vc1.0/cvpack/cases/two-pdb-providers/input/pdb-two.pdb",
+        "name": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-two.pdb",
+        "bytes": 672,
+        "sha256": "e42334635559ecff40cd6c60411fe7e1cb4e629a4176a975985107d9c13cdeed"
+      },
+      "policy_approval": "Root approved exact ordered [providersDLL8002,PDBtwo8000,PDBone8000]/share40 successful existingbinary paths. Same1008B variant; everycall phase/name/fullinput/CreateFile/return/error proof, raw inactivepermission and originalinheritTRUE/nativeFALSE nochild qualification. Other modes/files/repetition/order denied; no exactCRT or appcredit.",
+      "access": 2147483648,
+      "guard_version": 2,
+      "phase": 2
+    },
+    {
+      "name": "__sopen",
+      "classification": "reviewed-case-specific-CRT-variant",
+      "case": "two-pdb-providers",
+      "application_coverage": false,
+      "unconditionally_unmask": false,
+      "target_sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+      "start": 187568,
+      "end": 188576,
+      "body_sha256": "b7fdcb2af4a8c2dc7acb300de553cec15ecc7fa126d0aed46ad2e8c359c7fb12",
+      "evidence": "cases/runtime-variants/sopen-analysis.json",
+      "evidence_sha256": "b0c1dcc543dc7ba8b08da658bb99db579e00105352cde002a9ec850b4c138040",
+      "guard": {
+        "mode": 32768,
+        "share": 64,
+        "name": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-one.pdb",
+        "every_invocation": true
+      },
+      "input": {
+        "path": "decomp/vc1.0/cvpack/cases/two-pdb-providers/input/pdb-one.pdb",
+        "name": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-one.pdb",
+        "bytes": 672,
+        "sha256": "a23d691226cfede8fdf08bd944fe57628fd02797982ae78c9e34fce1040d6956"
+      },
+      "policy_approval": "Root approved exact ordered [providersDLL8002,PDBtwo8000,PDBone8000]/share40 successful existingbinary paths. Same1008B variant; everycall phase/name/fullinput/CreateFile/return/error proof, raw inactivepermission and originalinheritTRUE/nativeFALSE nochild qualification. Other modes/files/repetition/order denied; no exactCRT or appcredit.",
+      "access": 2147483648,
+      "guard_version": 2,
+      "phase": 3
+    }
+  ],
+  "required_inventory": [
+    {
+      "name": "providers.dll",
+      "mode": 32770,
+      "share": 64
+    },
+    {
+      "name": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-two.pdb",
+      "mode": 32768,
+      "share": 64
+    },
+    {
+      "name": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-one.pdb",
+      "mode": 32768,
+      "share": 64
+    }
+  ],
+  "conditional_CRT_support": [
+    {
+      "original": {
+        "mode": 32770,
+        "share": 64,
+        "name": "providers.dll",
+        "permission": 0,
+        "createfile": {
+          "access": 3221225472,
+          "share": 3,
+          "disposition": 3,
+          "attrs": 128,
+          "inherit": true,
+          "name": "providers.dll"
+        },
+        "return": {
+          "descriptor": 3,
+          "errno": 0,
+          "osfile": 1,
+          "type": 1,
+          "position": 0,
+          "owned": true,
+          "input_matches": true,
+          "last_error": 0
+        }
+      },
+      "native": {
+        "name": "providers.dll",
+        "mode": 32770,
+        "share": 64,
+        "permission": 438,
+        "createfile": {
+          "name": "providers.dll",
+          "access": 3221225472,
+          "share": 3,
+          "disposition": 3,
+          "attrs": 128,
+          "inherit": false
+        },
+        "return": {
+          "descriptor": 3,
+          "errno": 0,
+          "last_error": 0,
+          "osfile": 1,
+          "type": 1,
+          "position": 0,
+          "owned": true,
+          "host_descriptor": 3,
+          "access_mode": 2,
+          "input_matches": true,
+          "input_sha256": "5c19f7114edc70a6c18362a96a0feef7283876f4764862e6f3d084b82188c620"
+        }
+      },
+      "permission": "inactive with exact binary existing modes8000/8002; both raw words retained",
+      "descriptor_identity": "logical CRT fd; host HANDLE/fd mapped to full owned case input",
+      "inheritance": "originalTRUE/nativeFALSE is retained; approved singleprocess/nochild scope only"
+    },
+    {
+      "original": {
+        "mode": 32768,
+        "share": 64,
+        "name": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-two.pdb",
+        "permission": 8273124,
+        "createfile": {
+          "access": 2147483648,
+          "share": 3,
+          "disposition": 3,
+          "attrs": 128,
+          "inherit": true,
+          "name": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-two.pdb"
+        },
+        "return": {
+          "descriptor": 4,
+          "errno": 0,
+          "osfile": 1,
+          "type": 1,
+          "position": 0,
+          "owned": true,
+          "input_matches": true,
+          "last_error": 0
+        }
+      },
+      "native": {
+        "name": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-two.pdb",
+        "mode": 32768,
+        "share": 64,
+        "permission": 438,
+        "createfile": {
+          "name": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-two.pdb",
+          "access": 2147483648,
+          "share": 3,
+          "disposition": 3,
+          "attrs": 128,
+          "inherit": false
+        },
+        "return": {
+          "descriptor": 4,
+          "errno": 0,
+          "last_error": 0,
+          "osfile": 1,
+          "type": 1,
+          "position": 0,
+          "owned": true,
+          "host_descriptor": 5,
+          "access_mode": 0,
+          "input_matches": true,
+          "input_sha256": "e42334635559ecff40cd6c60411fe7e1cb4e629a4176a975985107d9c13cdeed"
+        }
+      },
+      "permission": "inactive with exact binary existing modes8000/8002; both raw words retained",
+      "descriptor_identity": "logical CRT fd; host HANDLE/fd mapped to full owned case input",
+      "inheritance": "originalTRUE/nativeFALSE is retained; approved singleprocess/nochild scope only"
+    },
+    {
+      "original": {
+        "mode": 32768,
+        "share": 64,
+        "name": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-one.pdb",
+        "permission": 8345544,
+        "createfile": {
+          "access": 2147483648,
+          "share": 3,
+          "disposition": 3,
+          "attrs": 128,
+          "inherit": true,
+          "name": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-one.pdb"
+        },
+        "return": {
+          "descriptor": 4,
+          "errno": 0,
+          "osfile": 1,
+          "type": 1,
+          "position": 0,
+          "owned": true,
+          "input_matches": true,
+          "last_error": 0
+        }
+      },
+      "native": {
+        "name": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-one.pdb",
+        "mode": 32768,
+        "share": 64,
+        "permission": 438,
+        "createfile": {
+          "name": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-one.pdb",
+          "access": 2147483648,
+          "share": 3,
+          "disposition": 3,
+          "attrs": 128,
+          "inherit": false
+        },
+        "return": {
+          "descriptor": 4,
+          "errno": 0,
+          "last_error": 0,
+          "osfile": 1,
+          "type": 1,
+          "position": 0,
+          "owned": true,
+          "host_descriptor": 5,
+          "access_mode": 0,
+          "input_matches": true,
+          "input_sha256": "a23d691226cfede8fdf08bd944fe57628fd02797982ae78c9e34fce1040d6956"
+        }
+      },
+      "permission": "inactive with exact binary existing modes8000/8002; both raw words retained",
+      "descriptor_identity": "logical CRT fd; host HANDLE/fd mapped to full owned case input",
+      "inheritance": "originalTRUE/nativeFALSE is retained; approved singleprocess/nochild scope only"
+    }
+  ],
+  "targeted_controls": [
+    "wrong-mode",
+    "wrong-share",
+    "missing-all",
+    "missing-last",
+    "reordered",
+    "altered-namespace-PDB",
+    "missing-namespace-PDB"
+  ],
+  "source_hashes": {
+    "scripts/seams.py": "d567e8a6a437216898c7daa3ffaf9b67d92d1911d06af1ce6f292964a7dfb7ee",
+    "scripts/debug-run.c": "a58152630e638d4e52f6d093d2612f08517222cedc28bb54b9dc66c85b17ca56",
+    "scripts/capture-original.py": "65b80dcb65ede538e6ea53f72dff3defc1abdf56d6944b8fed7a43e1f3c479d7",
+    "scripts/inputs.py": "96abdea151288378236f6ed78cddcc31f42c4767346b49c3d7216acbce579724",
+    "runtime-support.json": "2c5b3ee974a494f8be03651421cd277e2110e2de7a83f92a6cb637e9607643ea"
+  },
+  "original_raw": "/root/.ai-tmp/vc1.0-cvpack/0187-original",
+  "native_raw": "/root/.ai-tmp/vc1.0-cvpack/0187-native/two-pdb-providers",
+  "scope": "Three actual successful existing binary calls only; per-entry mode/name/fullbytes/phase guards, actual rearm/CreateFile/fd/error/ownership proof. Raw inactive permissions retained, nochild inheritance qualifier unchanged; no new modes or exactCRT/app credit.",
+  "last_missing_control": "Removed ONLY third originalCRT observation group and thirdnative row on both sides; mandatorythreecall inventory rejects.",
+  "maintainer_review": {
+    "status": "PASS",
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/cvpack-two-pdb-open/review.json",
+    "sha256": "78457d94fc1f03561e0e2e843d4cd8f33c9c2f1dddd305584cfc7aec25567e1b"
+  }
+}

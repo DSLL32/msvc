@@ -11,6 +11,15 @@
       "defined_entry_proof": "cases/buffered-multitu-cache/evidence/0186-entry-owners/proof.json",
       "current_selected_owner": 14,
       "current_flags": 5
+    },
+    {
+      "function": "type_server_close",
+      "source": "src/pdb-close.c",
+      "condition": "NULL server argument",
+      "native_behavior": "Explicit INT3 before original NULL descriptor dereference",
+      "Win32_behavior": "Original descriptor read before later NULL test retained",
+      "validated_current_case": "two-pdb-providers",
+      "defined_entry_proof": "cases/two-pdb-providers/evidence/0186-close-input/proof.json"
     }
   ]
 }

@@ -22,9 +22,23 @@ def check_policy_snapshot(directory,expected,path=None):
 def validate(config,pe,runtime,record):
     assert record['classification']=='reviewed-case-specific-CRT-variant'
     assert record['application_coverage'] is False and record['unconditionally_unmask'] is False
-    assert record['case']in('hello-debug-dll','dos-codeview16','legacy-nb02-rejected','buffered-multitu-cache') and record['name']=='__sopen'
+    assert record['case']in('hello-debug-dll','dos-codeview16','legacy-nb02-rejected','buffered-multitu-cache','two-pdb-providers') and record['name']=='__sopen'
     guard=record['guard']
-    if record['case']=='buffered-multitu-cache':
+    if record['case']=='two-pdb-providers':
+        entry=config['external_inputs_by_case']['two-pdb-providers'];path=BINARY/entry['evidence']
+        assert sha(path)==entry['evidence_sha256'],'stale two-PDB input proof'
+        proof=json.loads(path.read_text());phase=record['phase']
+        assert phase in(1,2,3),'unapproved provider phase'
+        if phase==1:
+            assert guard==dict(mode=0x8002,share=0x40,name='providers.dll',every_invocation=True)
+            assert record['input']==dict(path='decomp/vc1.0/cvpack/cases/two-pdb-providers/input/providers.dll',name='providers.dll',bytes=2097152,sha256='5c19f7114edc70a6c18362a96a0feef7283876f4764862e6f3d084b82188c620')
+            access=0xc0000000
+        else:
+            item=proof['inputs'][phase-2]
+            assert guard==dict(mode=0x8000,share=0x40,name=item['windows'],every_invocation=True)
+            assert record['input']==dict(path='decomp/vc1.0/cvpack/'+item['owned'],name=item['windows'],bytes=item['bytes'],sha256=item['sha256'])
+            access=0x80000000
+    elif record['case']=='buffered-multitu-cache':
         assert guard==dict(mode=0x8002,share=0x40,name='cache.dll',every_invocation=True)
         assert record['phase']==1 and record['input']==dict(path='decomp/vc1.0/cvpack/cases/buffered-multitu-cache/input/cache.dll',name='cache.dll',bytes=2097152,sha256='a27d31c7f1da90e7f28c1d5b06cc538d1bfa92f5b421447e0ff493246e93f4b3'),'unapproved multi-TU input/phase'
         access=0xc0000000
@@ -80,6 +94,7 @@ def approved(config,pe,runtime,case=None):
     assert [r['phase']for r in result if r['case']=='dos-codeview16']==[1],'conditional DOS phase inventory/order differs'
     assert [r['phase']for r in result if r['case']=='legacy-nb02-rejected']==[1],'conditional NB02 phase inventory/order differs'
     assert [r['phase']for r in result if r['case']=='buffered-multitu-cache']==[1],'conditional multi-TU phase inventory differs'
+    assert [r['phase']for r in result if r['case']=='two-pdb-providers']==[1,2,3],'conditional two-PDB phase inventory differs'
     return [r for r in result if case is None or r['case']==case]
 
 

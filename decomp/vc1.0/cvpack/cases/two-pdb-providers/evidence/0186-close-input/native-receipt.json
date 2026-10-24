@@ -1,0 +1,25 @@
+[
+  {
+    "case": "two-pdb-providers",
+    "terminal": "trap",
+    "status": -5,
+    "function": "type_server_close",
+    "target_environment": {},
+    "executable_sha256": "d9dbd5a7a44e3c82d1580ffd1bf102c93d24e188f3b6792a32a0c33a2782848a",
+    "configuration_sha256": "a786adce30faf24ea0375c838b1bb971063bd77009b34e8744e1614ece82805d",
+    "original_sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+    "conditional_support_sha256": "2c5b3ee974a494f8be03651421cd277e2110e2de7a83f92a6cb637e9607643ea",
+    "native_host_allocator": null,
+    "process_boundary": {
+      "requests": [],
+      "errors": []
+    },
+    "seconds": {
+      "setup": 0.5755375353619456,
+      "execution": 0.016750828363001347,
+      "debugging": 0.7163973152637482,
+      "checks": 0.01578036043792963,
+      "total": 1.3244717782363296
+    }
+  }
+]

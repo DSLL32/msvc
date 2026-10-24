@@ -79,6 +79,8 @@ static DWORD sopen_saved_tf, sopen_create_step, sopen_create_tf, sopen_create_se
 static DWORD child_teb, sopen_access, last_sopen_fd, sopen_completed;
 static char sopen_reopen_master[1024];
 static char sopen_pdb_name[260], sopen_pdb_master[1024];
+static char sopen_pdb_next_name[260], sopen_pdb_next_master[1024];
+static const char *sopen_requested_name;
 static const char *sopen_active_input, *sopen_active_master;
 
 static unsigned char sopen_return_byte;
@@ -141,6 +143,8 @@ static int begin_sopen(HANDLE child, HANDLE original, HANDLE log, HANDLE thread)
     if (sopen_limit && sopen_completed >= sopen_limit) return denied_sopen(log, "phase-limit");
     if (!strcmp(name, sopen_name)) {
         if (words[2] != 0x8002) return denied_sopen(log, "mode");
+        if (sopen_pdb_next_name[0] && sopen_completed != 0) return denied_sopen(log, "phase");
+        sopen_requested_name = sopen_name;
         sopen_active_input = sopen_input;
         if (sopen_reopen_master[0] && sopen_completed != 0 && sopen_completed != 2) return denied_sopen(log, "phase");
         sopen_active_master = sopen_completed == 2 && sopen_reopen_master[0] ? sopen_reopen_master : sopen_master;
@@ -148,8 +152,16 @@ static int begin_sopen(HANDLE child, HANDLE original, HANDLE log, HANDLE thread)
     } else if (sopen_pdb_name[0] && !strcmp(name, sopen_pdb_name)) {
         if (words[2] != 0x8000) return denied_sopen(log, "mode");
         if (sopen_reopen_master[0] && sopen_completed != 1) return denied_sopen(log, "phase");
+        if (sopen_pdb_next_name[0] && sopen_completed != 1) return denied_sopen(log, "phase");
+        sopen_requested_name = sopen_pdb_name;
         sopen_active_input = sopen_pdb_name;
         sopen_active_master = sopen_pdb_master;
+        sopen_access = GENERIC_READ;
+    } else if (sopen_pdb_next_name[0] && !strcmp(name, sopen_pdb_next_name)) {
+        if (words[2] != 0x8000 || sopen_completed != 2) return denied_sopen(log, "next-PDB-phase-mode");
+        sopen_requested_name = sopen_pdb_next_name;
+        sopen_active_input = sopen_pdb_next_name;
+        sopen_active_master = sopen_pdb_next_master;
         sopen_access = GENERIC_READ;
     } else return denied_sopen(log, "name");
     if (words[3] != 0x40) return denied_sopen(log, "share");
@@ -220,7 +232,7 @@ static int begin_sopen_create(HANDLE child, HANDLE log, HANDLE thread)
             return denied_sopen(log, "create-name");
         if (!name[i]) break;
     }
-    if (i == sizeof(name) || strcmp(name, sopen_access == GENERIC_READ ? sopen_pdb_name : sopen_name) ||
+    if (i == sizeof(name) || strcmp(name, sopen_requested_name) ||
         args[1] != sopen_access || args[2] != 3 || args[4] != OPEN_EXISTING ||
         args[5] != FILE_ATTRIBUTE_NORMAL || args[6] ||
         !ReadProcessMemory(child, (void *)args[3], security, 12, &bytes) || bytes != 12 ||
@@ -1263,10 +1275,15 @@ int main(int argc, char **argv)
         if (sscanf(program, "%lx:%lx:%lx", &sopen_start, &sopen_end, &sopen_offset) != 3 ||
             sopen_start != 0x2dcb0 || sopen_end != 0x2e0a0 ||
             !GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_NAME", sopen_name, sizeof(sopen_name)) ||
-            (strcmp(sopen_name, "hello-debug.dll") && strcmp(sopen_name, "dos-cv.exe") && strcmp(sopen_name, "cfig386.dbg") && strcmp(sopen_name, "cache.dll")) ||
+            (strcmp(sopen_name, "hello-debug.dll") && strcmp(sopen_name, "dos-cv.exe") && strcmp(sopen_name, "cfig386.dbg") && strcmp(sopen_name, "cache.dll") && strcmp(sopen_name, "providers.dll")) ||
             !GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_INPUT", sopen_master, sizeof(sopen_master)) ||
             strlen(argv[6])+strlen(sopen_name)+2 >= sizeof(sopen_input)) return 14;
         if (!strcmp(sopen_name, "dos-cv.exe") || !strcmp(sopen_name, "cfig386.dbg") || !strcmp(sopen_name, "cache.dll")) sopen_limit = 1;
+        if (!strcmp(sopen_name, "providers.dll")) {
+            sopen_limit = 3;
+            if (!GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_PDB_NEXT_NAME", sopen_pdb_next_name, sizeof(sopen_pdb_next_name)) ||
+                !GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_PDB_NEXT_INPUT", sopen_pdb_next_master, sizeof(sopen_pdb_next_master))) return 14;
+        }
         sprintf(sopen_input, "%s\\%s", argv[6], sopen_name);
         GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_REOPEN_INPUT", sopen_reopen_master, sizeof(sopen_reopen_master));
         if (GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_PDB_NAME", sopen_pdb_name, sizeof(sopen_pdb_name))) {
@@ -1568,6 +1585,7 @@ int main(int argc, char **argv)
                 }
                 if(!dump_recursive_inputs(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,&context,words))return 67;
                 if(!dump_type_recycle_owner(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,&context,words))return 67;
+                if(!dump_type_server_close_input(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,words))return 67;
                 if(!dump_module_name_input(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,words))return 67;
                 if(!dump_numeric_input(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,words))return 68;
                 if(!dump_precompiled_input(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,words))return 68;

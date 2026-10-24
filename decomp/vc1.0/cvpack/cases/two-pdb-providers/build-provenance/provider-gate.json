@@ -1,0 +1,34 @@
+{
+  "primary_sha256": "5c19f7114edc70a6c18362a96a0feef7283876f4764862e6f3d084b82188c620",
+  "codeview": "NB05",
+  "processing_order": [
+    {
+      "module": 2,
+      "subsection": "0x121",
+      "offset": 21611,
+      "bytes": 72,
+      "raw": "01000000420016004f33dc6a00000000365a3a5c726f6f745c2e61692d746d705c7663312e302d63767061636b5c74776f2d7064622d6275696c645c7064622d74776f2e706462f1",
+      "windows": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-two.pdb",
+      "signature": "6adc334f",
+      "record_age": 0,
+      "db_age": 1,
+      "pdb_sha256": "e42334635559ecff40cd6c60411fe7e1cb4e629a4176a975985107d9c13cdeed"
+    },
+    {
+      "module": 3,
+      "subsection": "0x121",
+      "offset": 21539,
+      "bytes": 72,
+      "raw": "01000000420016004f33dc6a00000000365a3a5c726f6f745c2e61692d746d705c7663312e302d63767061636b5c74776f2d7064622d6275696c645c7064622d6f6e652e706462f1",
+      "windows": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-one.pdb",
+      "signature": "6adc334f",
+      "record_age": 0,
+      "db_age": 1,
+      "pdb_sha256": "a23d691226cfede8fdf08bd944fe57628fd02797982ae78c9e34fce1040d6956"
+    }
+  ],
+  "signature_note": "Both original compiles occurred in the same second, yielding same timestamp-based signature; independently authenticated full PDBs/names differ. No signature resampling.",
+  "transition": "module2 pdb-two -> module3 pdb-one; distinct names force explicit current-provider close before second open.",
+  "status": "PASS root confirmed independent actual name/signature pairs; unequal timestamp numbers not required",
+  "age_validation": "import_type_server requires exact signature and header_age>=record_age; actual1>=0 retained, not equality or rewritten records."
+}

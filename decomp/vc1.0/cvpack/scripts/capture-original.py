@@ -123,14 +123,15 @@ def main():
     for seam in seam_records:
         assert not args.unmasked,'conditional support is masked-capture only'
         env['CVPACK_CAPTURE_SOPEN_GUARD']='%x:%x:%x'%(seam['start'],seam['end'],original.offset(seam['start']))
-        if seam['phase']==3:
+        if seam['phase']==3 and seam['guard']['mode']==0x8002:
             env['CVPACK_CAPTURE_SOPEN_REOPEN_INPUT']=tool.windows(ROOT/seam['input']['path'])
         elif seam['guard']['mode']==0x8002:
             env['CVPACK_CAPTURE_SOPEN_NAME']=seam['guard']['name']
             env['CVPACK_CAPTURE_SOPEN_INPUT']=tool.windows(ROOT/seam['input']['path'])
         else:
-            env['CVPACK_CAPTURE_SOPEN_PDB_NAME']=seam['guard']['name']
-            env['CVPACK_CAPTURE_SOPEN_PDB_INPUT']=tool.windows(ROOT/seam['input']['path'])
+            suffix='_NEXT' if seam['phase']==3 else ''
+            env['CVPACK_CAPTURE_SOPEN_PDB'+suffix+'_NAME']=seam['guard']['name']
+            env['CVPACK_CAPTURE_SOPEN_PDB'+suffix+'_INPUT']=tool.windows(ROOT/seam['input']['path'])
     if args.case=='embedded-cpp-mapped':env['CVPACK_CAPTURE_MAPPED_SLOT']='embedded-cpp.dll'
     if args.case=='pch-cpp-shared-types'and record['current'].get('native_function')=='write_output':env['CVPACK_CAPTURE_SYMBOL_PREFIX']='1'
     from freebuf import validate as validate_freebuf

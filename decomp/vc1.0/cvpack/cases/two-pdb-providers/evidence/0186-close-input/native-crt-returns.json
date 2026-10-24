@@ -1,0 +1,56 @@
+[
+  {
+    "name": "providers.dll",
+    "mode": 32770,
+    "share": 64,
+    "permission": 438,
+    "createfile": {
+      "name": "providers.dll",
+      "access": 3221225472,
+      "share": 3,
+      "disposition": 3,
+      "attrs": 128,
+      "inherit": false
+    },
+    "return": {
+      "descriptor": 3,
+      "errno": 0,
+      "last_error": 0,
+      "osfile": 1,
+      "type": 1,
+      "position": 0,
+      "owned": true,
+      "host_descriptor": 3,
+      "access_mode": 2,
+      "input_matches": true,
+      "input_sha256": "5c19f7114edc70a6c18362a96a0feef7283876f4764862e6f3d084b82188c620"
+    }
+  },
+  {
+    "name": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-two.pdb",
+    "mode": 32768,
+    "share": 64,
+    "permission": 438,
+    "createfile": {
+      "name": "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\two-pdb-build\\pdb-two.pdb",
+      "access": 2147483648,
+      "share": 3,
+      "disposition": 3,
+      "attrs": 128,
+      "inherit": false
+    },
+    "return": {
+      "descriptor": 4,
+      "errno": 0,
+      "last_error": 0,
+      "osfile": 1,
+      "type": 1,
+      "position": 0,
+      "owned": true,
+      "host_descriptor": 5,
+      "access_mode": 0,
+      "input_matches": true,
+      "input_sha256": "e42334635559ecff40cd6c60411fe7e1cb4e629a4176a975985107d9c13cdeed"
+    }
+  }
+]
