@@ -663,3 +663,16 @@ discriminator. Retained actual raw0 now explicitly checked, no raw evidence
 changed. Original/W3/full audits and15 native cases pass (14 complete), next
 relocation6afc0.341761/399693 accepted extent bytes; app/support323461B/1164
 functions exclude5 historical CRT bodies. Timings/scope: omf-external-checkpoint.json.
+
+Checkpoint1280 adds489-byte relocation dispatcher plus32-byte8-slot switch.
+71 original/canonical whole-body controls and10 actual ABI negatives pass,
+including cached kind/flags, post-child operand reloads, exact child ABIs,
+LE32 fixup, signed remainder with ONE zero byte, sentinel and zero-local.
+Actual3 formals/caller aliases and owned38-byte type6 datum/repeat1 match.
+Existing absolute-reference callback6b2c0 reused after duplicate preflight
+rejection; initial WIP build/static-check failure retained distinctly. Child
+semantics remain mocked in controls, no oversized-copy/fatal-return claims.
+Original/W3/full audits/fresh pair and15 native cases pass (14 complete), next
+byte-array6b3d0.342282/399693 accepted extent bytes; app/support323982B and1165
+functions exclude5 historical CRT bodies. Audit57.156s includes126 canonical
+recompiles, not audit-only. Timings/scope: omf-relocation-checkpoint.json.

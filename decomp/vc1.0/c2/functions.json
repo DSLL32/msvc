@@ -1283,7 +1283,8 @@
     "@omf_reserve_bytes@8",
     "@omf_mark_symbol@4",
     "@omf_emit_public@8",
-    "@omf_emit_external@4"
+    "@omf_emit_external@4",
+    "@omf_output_relocation@12"
   ],
   "driver": [
     {
@@ -2312,7 +2313,7 @@
       "provisional": true
     },
     {
-      "name": "_omf_output_bytes",
+      "name": "@omf_output_bytes@8",
       "start": 438976,
       "end": 438977,
       "provisional": true
@@ -2338,8 +2339,37 @@
     {
       "name": "@omf_output_relocation@12",
       "start": 438208,
-      "end": 438209,
-      "provisional": true
+      "end": 438697,
+      "shared": [
+        [
+          438700,
+          438732
+        ]
+      ],
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "initializer",
+            "location": "ECX",
+            "type": "Initializer pointer"
+          },
+          {
+            "name": "symbol",
+            "location": "EDX",
+            "type": "SymbolHeader pointer"
+          },
+          {
+            "name": "segment",
+            "location": "entryESP+4",
+            "type": "Segment pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 4,
+        "entry_observation": "cases/omf-relocation-abi/validation.json",
+        "scope": "All3 actual formals alias original emit_initializer EDI/EBX/EBP at call693f2/return693f8 and native exact caller locals; Symbol formal unused but observed. First kind1/type6/width38/repeat1 owns38-byte string, data Segment/combine2/position0; only active union bytes captured, no uninitialized tails. RET4, no hidden register/flags/x87/output pointer."
+      }
     },
     {
       "name": "@omf_output_record@4",
@@ -9081,6 +9111,24 @@
       "name": "@omf_emit_weak_external@4",
       "start": 437440,
       "end": 437441,
+      "provisional": true
+    },
+    {
+      "name": "@omf_write_byte_array@16",
+      "start": 439248,
+      "end": 439249,
+      "provisional": true
+    },
+    {
+      "name": "@omf_write_iterated_data@16",
+      "start": 438736,
+      "end": 438737,
+      "provisional": true
+    },
+    {
+      "name": "@omf_write_datum@8",
+      "start": 438992,
+      "end": 438993,
       "provisional": true
     }
   ],

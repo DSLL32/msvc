@@ -93,7 +93,7 @@ void initialize_output_callbacks(void)
     output_callbacks.select_segment = omf_select_segment;
     output_callbacks.data = omf_output_data;
     output_callbacks.segment_reference = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_value;
-    output_callbacks.absolute_reference = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_bytes;
+    output_callbacks.absolute_reference = omf_output_bytes;
     output_callbacks.address = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
     output_callbacks.relative_reference = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_offset;
     output_callbacks.size = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_size;

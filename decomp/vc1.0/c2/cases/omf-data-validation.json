@@ -301,6 +301,6 @@
       ]
     }
   ],
-  "seconds": 0.4671085076406598,
+  "seconds": 0.4132888028398156,
   "scope": "Whole36-byte original/canonical callback: source/count survive reserve call, returned slot overrides child-mutated global, global published before append, full countbits/RET4 append child and RET0 caller ABI/callee-saved verified.16 controls mock both children; countffffffff tests request forwarding only, no huge-copy execution claim. Actual initialized4-byte signature caller-local/current28 used record bytes/aliases observed; raw-register GDB signed-address failure retained, native-only correction reused original."
 }

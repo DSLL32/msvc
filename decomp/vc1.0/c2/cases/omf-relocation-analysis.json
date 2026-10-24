@@ -1,0 +1,86 @@
+{
+  "status": "Accepted checkpoint1280 after whole-body controls, canonical/W3/full audits and fresh original/native match to byte-array6b3d0",
+  "baseline": 1279,
+  "function": "@omf_output_relocation@12",
+  "extent": [
+    438208,
+    438697
+  ],
+  "body_bytes": 489,
+  "body_sha256": "12220453abe5697853c7a8b0e48c47d18c309d487a97b62e97fe48fbe41d0ff0",
+  "shared_switch": {
+    "extent": [
+      438700,
+      438732
+    ],
+    "bytes": 32,
+    "sha256": "b44d7732e4e65a04057c161546ede3807182dae539327728cc29e93c2f79a6aa",
+    "targets": [
+      "0x6b059",
+      "0x6b0b0",
+      "0x6b19d",
+      "0x6b147",
+      "0x6b19d",
+      "0x6b044",
+      "0x6b044",
+      "0x6b170"
+    ]
+  },
+  "abi": {
+    "ecx": "Initializer pointer",
+    "edx": "SymbolHeader pointer, unused by original body",
+    "stack4": "Segment pointer",
+    "ret": 4,
+    "return_value": "unsigned bytes; initial FFFFFFFF sentinel"
+  },
+  "caller_proof": {
+    "caller": "emit_initializer69360..69415",
+    "call": "693f2 indirect",
+    "return_address": "693f8",
+    "initializer_owner": "EDI loop variable",
+    "symbol_owner": "EBX saved lookup result",
+    "segment_owner": "EBP current segment"
+  },
+  "cases": {
+    "1": "type6: signed width * unsigned repeat low32 -> byte-array child; other signed repeat>1 -> iterated-data child; else scalar datum child result. Record preselection only old repeat1/type!=6, reload branch fields after child.",
+    "2": "signed flags byte result; lookup referenced identifier; variable offset, function0, label4->0 else diagnostic1c8, other kind diagnostic1da then undefined local if fatal returns; LE32 prefix then fixup(-4,reference).",
+    "3,5": "after ordinary begin selection, return FFFFFFFF unchanged",
+    "4": "signed32 (context_offset+count)%signed byte divisor, return remainder bits; if nonzero append exactly ONE zero byte",
+    "8": "signed argument<20 pad child; else initialized local DWORD0 -> iterated-data(segment,argument,1,&zero)",
+    "other": "begin preselection occurs first, then genuine diagnostic1fe, initial sentinel retained if fatal returns"
+  },
+  "preamble": "cache original kind; begin a1/c3 based Segment.combine7 unless kind1 repeat!=1 or datum.type6, or kind8 signed argument>=20. record startsNULL.",
+  "children": [
+    {
+      "name": "omf_write_byte_array",
+      "va": "6b3d0",
+      "abi": "fastcall Segment*,unsigned bytes,unsigned repeat,void* data; RET8"
+    },
+    {
+      "name": "omf_write_iterated_data",
+      "va": "6b1d0",
+      "abi": "fastcall Segment*,int repeat,unsigned width,void*data;RET8"
+    },
+    {
+      "name": "omf_write_datum",
+      "va": "6b2d0",
+      "abi": "fastcall OmfRecord*,Initializer*;RET0 unsigned width"
+    },
+    {
+      "name": "omf_output_bytes",
+      "va": "6b2c0",
+      "abi": "existing absolute_reference callback refined fastcall unsigned displacement,SymbolHeader*;RET0"
+    },
+    {
+      "name": "omf_pad_record",
+      "va": "6b2a0",
+      "abi": "existing typed trap fastcall OmfRecord*,unsigned;RET0"
+    }
+  ],
+  "limits": [
+    "489-byte source and32-byte switch accepted at1280; child byte-array/iterated/datum/pad/fixup functions remain trapping until independently reached.",
+    "No range guard, array cap, zero-divisor fallback or correction to one-byte alignment write. Undefined/invalid raw-IR paths are not successful cases.",
+    "Observe actual three formals and consumed initializer ranges/returned lookup kind/context before whole-body acceptance. No uninitialized union/tail snapshots."
+  ],
+  "preflight_hold": "Attempted child6b2c0 duplicate metadata rejected before writing config; existing _omf_output_bytes callback reused/refined fastcall8 instead of inventing second function. First39.834s build was WIP with unregistered helper, not graph validation or acceptance."
+}

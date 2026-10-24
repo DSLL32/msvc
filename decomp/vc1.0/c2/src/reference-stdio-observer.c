@@ -28,6 +28,12 @@ static DWORD read_word(HANDLE process,DWORD address)
     if(!ReadProcessMemory(process,(void*)address,&value,4,&got)||got!=4)exit(241);
     return value;
 }
+static DWORD read_byte(HANDLE process,DWORD address)
+{
+    unsigned char value;DWORD got;
+    if(!ReadProcessMemory(process,(void*)address,&value,1,&got)||got!=1)exit(295);
+    return value;
+}
 static void write_byte(HANDLE process,DWORD address,unsigned char value)
 {
     DWORD wrote;
@@ -270,6 +276,37 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         dump_bytes(process,"omf_name_buckets_hex",image_base+0x6b890,16*4);
         /* The caller's four-byte index local is write-only at this boundary.
            Its prior uninitialized bytes are neither read nor compared. */
+    }
+    if(!strcmp(call->name,"@omf_output_relocation@12")) {
+        DWORD node=call->args[0],symbol=call->args[1],segment=call->args[2];
+        DWORD kind=read_word(process,node),id,member,bucket,index,name;
+        long width,type;DWORD source;
+        sprintf(line,"omf_relocation initializer %08lx symbol %08lx segment %08lx entry_sp %08lx return_address %08lx loop_owner %08lx symbol_owner %08lx segment_owner %08lx combine %lu position %lu\n",
+            node,symbol,segment,context->Esp,call->return_address,context->Edi,context->Ebx,context->Ebp,
+            read_byte(process,segment+53),read_word(process,segment+4));log_line(line);
+        sprintf(line,"omf_segment_owners code %08lx data %08lx constant %08lx bss %08lx debug_symbols %08lx debug_types %08lx\n",
+            read_word(process,image_base+0x6b8d4),read_word(process,image_base+0x6b8d8),read_word(process,image_base+0x6b8dc),read_word(process,image_base+0x6b8d0),read_word(process,image_base+0x6914c),read_word(process,image_base+0x6b8e0));log_line(line);
+        dump_bytes(process,"omf_initializer_kind_hex",node,4);
+        if(kind==1) {
+            type=(short)read_word(process,node+8);width=(short)(read_word(process,node+8)>>16);
+            if(width<0||width>4096||(type!=6&&width>12))exit(293);
+            dump_bytes(process,"omf_initializer_datum_hex",node+8,4);
+            dump_bytes(process,"omf_initializer_repeat_hex",node+24,4);
+            source=type==6?read_word(process,node+12):node+12;
+            sprintf(line,"omf_initializer_data_pointer %08lx\n",source);log_line(line);
+            dump_bytes(process,"omf_initializer_data_hex",source,width);
+        } else if(kind==2) {
+            dump_bytes(process,"omf_initializer_relocation_hex",node+8,9);
+            id=read_word(process,node+8);bucket=id&63;index=0;
+            member=read_word(process,image_base+0x6c158+4*bucket);
+            while(member&&read_word(process,member+28)!=id&&index<1024){member=read_word(process,member);++index;}
+            if(!member||index==1024)exit(294);
+            kind=(signed char)read_byte(process,member+12);name=read_word(process,member+16);
+            sprintf(line,"omf_initializer_reference pointer %08lx identifier %lu kind %ld label_kind %ld bucket %lu index %lu member %08lx\n",
+                member,id,kind,kind==3?(long)read_byte(process,member+48):-1L,bucket,index,member);log_line(line);
+            dump_bytes(process,"omf_initializer_reference_name_hex",name,string_bytes(process,name));
+        } else if(kind==4)dump_bytes(process,"omf_initializer_alignment_hex",node+8,1);
+        else if(kind==8)dump_bytes(process,"omf_initializer_padding_hex",node+8,4);
     }
     if(!strcmp(call->name,"@omf_emit_external@4")) {
         DWORD symbol=call->args[0],identifier=read_word(process,symbol+28);

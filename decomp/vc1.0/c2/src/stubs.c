@@ -97,11 +97,16 @@ __declspec(naked) void omf_output_symbol(void) { RECON_TRACE_NAKED_ENTRY(omf_out
 __declspec(naked) void omf_output_debug_pair(void) { RECON_TRACE_NAKED_ENTRY(omf_output_debug_pair) __asm int 3 }
 __declspec(naked) void omf_output_debug_record(void) { RECON_TRACE_NAKED_ENTRY(omf_output_debug_record) __asm int 3 }
 __declspec(naked) void omf_output_value(void) { RECON_TRACE_NAKED_ENTRY(omf_output_value) __asm int 3 }
-__declspec(naked) void omf_output_bytes(void) { RECON_TRACE_NAKED_ENTRY(omf_output_bytes) __asm int 3 }
+void __fastcall omf_output_bytes(unsigned displacement, SymbolHeader *symbol) { __asm int 3 }
 __declspec(naked) void omf_output_offset(void) { RECON_TRACE_NAKED_ENTRY(omf_output_offset) __asm int 3 }
 __declspec(naked) void omf_output_size(void) { RECON_TRACE_NAKED_ENTRY(omf_output_size) __asm int 3 }
 __declspec(naked) void omf_finish_module(void) { RECON_TRACE_NAKED_ENTRY(omf_finish_module) __asm int 3 }
-unsigned __fastcall omf_output_relocation(Initializer *initializer, SymbolHeader *symbol, Segment *segment) { __asm int 3 }
+void __fastcall omf_write_byte_array(Segment *segment, unsigned bytes, unsigned repeat,
+    void *data) { __asm int 3 }
+void __fastcall omf_write_iterated_data(Segment *segment, int repeat, unsigned bytes,
+    void *data) { __asm int 3 }
+unsigned __fastcall omf_write_datum(OmfRecord *record, Initializer *initializer) { __asm int 3 }
+
 
 
 void __fastcall omf_emit_local_external(SymbolHeader *symbol) { __asm int 3 }

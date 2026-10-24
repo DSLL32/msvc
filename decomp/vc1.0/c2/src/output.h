@@ -77,7 +77,7 @@ void __fastcall omf_output_data(void *data, unsigned bytes);
 void omf_output_debug_pair(void);
 void omf_output_debug_record(void);
 void omf_output_value(void);
-void omf_output_bytes(void);
+void __fastcall omf_output_bytes(unsigned displacement, SymbolHeader *symbol);
 void omf_output_offset(void);
 void omf_output_size(void);
 void omf_finish_module(void);

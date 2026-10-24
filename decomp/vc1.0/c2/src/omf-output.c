@@ -32,6 +32,9 @@ void __fastcall omf_emit_comdat_external(SymbolHeader *symbol);
 unsigned __fastcall omf_local_name_index(char *name);
 void __fastcall omf_emit_communal(SymbolHeader *symbol);
 void __fastcall omf_emit_weak_external(FunctionSymbol *symbol);
+void __fastcall omf_write_byte_array(Segment *segment, unsigned bytes, unsigned repeat, void *data);
+void __fastcall omf_write_iterated_data(Segment *segment, int repeat, unsigned bytes, void *data);
+unsigned __fastcall omf_write_datum(OmfRecord *record, Initializer *initializer);
 /* Original name interner: hash first five signed bytes into16 buckets.
    Nodes allocated at6c5ad have name/index/next at0/4/8 and size12. */
 typedef struct OmfName {
@@ -813,4 +816,84 @@ void __fastcall omf_emit_external(SymbolHeader *symbol)
     ++record->count;
     *cursor++ = 0;
     record->cursor = cursor;
+}
+
+/* Original [0006afc0,0006b1a9), eight dispatch DWORDs [6b1ac,6b1cc).
+   Keep the entry kind across record lookup, but reload the active operands
+   afterwards. Symbol is an unused formal in the original callback ABI. */
+unsigned __fastcall omf_output_relocation(Initializer *initializer,
+    SymbolHeader *symbol, Segment *segment)
+{
+    int kind = initializer->kind, width, divisor, remainder;
+    unsigned bytes = (unsigned)-1, repeat, value, count, zero;
+    OmfRecord *record = NULL;
+    SymbolHeader *referenced;
+    unsigned char *cursor;
+    (void)symbol;
+    if ((kind != 1 || initializer->repeat == 1) &&
+        (kind != 1 || initializer->content.datum.type != 6) &&
+        (kind != 8 || initializer->content.argument < 20))
+        record = omf_begin_record(segment->combine == 7 ? 0xc3 : 0xa1, segment);
+    switch (kind) {
+    case 1:
+        if (initializer->content.datum.type == 6) {
+            width = initializer->content.datum.bytes;
+            repeat = initializer->repeat;
+            bytes = (unsigned)width * repeat;
+            omf_write_byte_array(segment, (unsigned)width, repeat,
+                initializer->content.datum.value.bytes);
+        } else if ((int)initializer->repeat > 1) {
+            repeat = initializer->repeat;
+            width = initializer->content.datum.bytes;
+            bytes = (unsigned)width * repeat;
+            omf_write_iterated_data(segment, (int)repeat, (unsigned)width,
+                &initializer->content.datum.value);
+        } else bytes = omf_write_datum(record, initializer);
+        break;
+    case 2:
+        bytes = (unsigned)(int)(signed char)initializer->content.relocation.flags;
+        referenced = lookup_global_symbol(initializer->content.relocation.symbol_id);
+        if (referenced->kind == 1) value = initializer->content.relocation.offset;
+        else if (referenced->kind == 3) {
+            if (((LabelSymbol *)referenced)->label_kind != 4)
+                compiler_internal_error("@(#)omf.c:1.10", 0x1c8);
+            value = 0;
+        } else if (referenced->kind == 4) value = 0;
+        else compiler_internal_error("@(#)omf.c:1.10", 0x1da);
+        count = record->count + 1;
+        cursor = record->cursor;
+        record->count = count; *cursor++ = (unsigned char)value; record->cursor = cursor;
+        record->count = ++count; *cursor++ = (unsigned char)(value >> 8); record->cursor = cursor;
+        record->count = ++count; *cursor++ = (unsigned char)(value >> 16); record->cursor = cursor;
+        record->count = ++count; *cursor++ = (unsigned char)(value >> 24); record->cursor = cursor;
+        omf_output_bytes((unsigned)-4, referenced);
+        break;
+    case 3:
+    case 5:
+        break;
+    case 4:
+        count = record->count;
+        divisor = (signed char)initializer->content.byte_argument;
+        remainder = (int)(record->context_offset + count) % divisor;
+        bytes = (unsigned)remainder;
+        if (remainder) {
+            record->count = count + 1;
+            cursor = record->cursor;
+            *cursor++ = 0;
+            record->cursor = cursor;
+        }
+        break;
+    case 8:
+        bytes = initializer->content.argument;
+        if ((int)bytes < 20) omf_pad_record(record, bytes);
+        else {
+            zero = 0;
+            omf_write_iterated_data(segment, (int)bytes, 1, &zero);
+        }
+        break;
+    default:
+        compiler_internal_error("@(#)omf.c:1.10", 0x1fe);
+        break;
+    }
+    return bytes;
 }

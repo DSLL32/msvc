@@ -122,6 +122,6 @@
       }
     }
   ],
-  "seconds": 0.5647282414138317,
+  "seconds": 0.37453550565987825,
   "scope": "Whole31-byte original/canonical selector: byte subtract7/compare1 means exactly combine7, a1/c3 context args, returned record overwrites child-mutated current pointer, all Segment72/pool4016 bytes and callee-saved/RET0 unchanged.16 bounded controls mock begin only; actual debug_symbols_segment combine0 observed, raw failed parser assumption2 retained without recapture. Callback now has typed fastcall4 ABI; historical old-name evidence preserved."
 }

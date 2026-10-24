@@ -1,0 +1,2684 @@
+{
+  "actual_abi": true,
+  "rejected": [
+    "missing unused Symbol formal",
+    "wrong Segment stack slot",
+    "wrong RET cleanup",
+    "wrong initializer owner",
+    "wrong unused Symbol owner",
+    "wrong Segment owner",
+    "wrong combine",
+    "missing active bytes",
+    "wrong repeat",
+    "unproved hidden local input"
+  ],
+  "states": 71,
+  "cases": [
+    {
+      "inputs": {
+        "kind": 1,
+        "type": 1,
+        "width": 1,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 305419896,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "datum",
+            "record"
+          ]
+        ],
+        "node_sha256": "414b9e933e1613319adc7f3dbbec96f795a57987cae19540de9b9065f3c4c722",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 1,
+        "type": 1,
+        "width": 2,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 305419896,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "datum",
+            "record"
+          ]
+        ],
+        "node_sha256": "565210685864c6673addf46cb1ca4448dc5e47ace71d80c7cc56309aebd4a33c",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 1,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 305419896,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "datum",
+            "record"
+          ]
+        ],
+        "node_sha256": "8fb583042d1762667b694f979ad529cd11abb823503c017af6f1884ae4c52104",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 1,
+        "type": 1,
+        "width": 8,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 305419896,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "datum",
+            "record"
+          ]
+        ],
+        "node_sha256": "df8a896f248bb36945e648bce66fe77ba360c0f3dd9fcaca3c60c33c4f0c49b9",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 1,
+        "type": 1,
+        "width": 10,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 305419896,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "datum",
+            "record"
+          ]
+        ],
+        "node_sha256": "b1a427acf5a348e23a95541f127da861130dffe6bd99ca1ee4f87b7290c07fb5",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 1,
+        "type": 5,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 305419896,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "datum",
+            "record"
+          ]
+        ],
+        "node_sha256": "ba70f2aeaefffcc1b511b0e4da0077894e35d07b49cf06664bb043cb92df9278",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 1,
+        "type": 1,
+        "width": 2,
+        "repeat": 2,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4,
+        "events": [
+          [
+            "iterated",
+            2,
+            2,
+            "inline-value"
+          ]
+        ],
+        "node_sha256": "feef5866dc066750fccb475c7f15798756204f1d24ed981d1269389ecae90a80",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 1,
+        "type": 1,
+        "width": 10,
+        "repeat": 3,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 30,
+        "events": [
+          [
+            "iterated",
+            3,
+            10,
+            "inline-value"
+          ]
+        ],
+        "node_sha256": "a646f0c2191f60eb2a32c21cce4293718e5b8e0320fd98d0dc1f11d75c546059",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 1,
+        "type": 6,
+        "width": 38,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 38,
+        "events": [
+          [
+            "byte-array",
+            38,
+            1,
+            "owned-data"
+          ]
+        ],
+        "node_sha256": "61263dc6d8a57eb9a4b43b9147068c8ad9b937abf06e18b1e9383be28194d31e",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 1,
+        "type": 6,
+        "width": 3,
+        "repeat": 2,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 6,
+        "events": [
+          [
+            "byte-array",
+            3,
+            2,
+            "owned-data"
+          ]
+        ],
+        "node_sha256": "3f4b710515305dd67158826ee1f14b353a4dff2979996eccd76f3fb6421519f1",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 1,
+        "type": 6,
+        "width": 3,
+        "repeat": 0,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 0,
+        "events": [
+          [
+            "byte-array",
+            3,
+            0,
+            "owned-data"
+          ]
+        ],
+        "node_sha256": "ff13765708053fabe7dd03aaca7091148f87974d9ca1e47cf0b94c5872942c4d",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 1,
+        "type": 6,
+        "width": -1,
+        "repeat": 2,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967294,
+        "events": [
+          [
+            "byte-array",
+            -1,
+            2,
+            "owned-data"
+          ]
+        ],
+        "node_sha256": "1f2e0c4e3c069bb20f411275e39020948b16fe00515bcc40f2af85917468ee09",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 1,
+        "type": 1,
+        "width": 4,
+        "repeat": 0,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 305419896,
+        "events": [
+          [
+            "datum",
+            "NULL"
+          ]
+        ],
+        "node_sha256": "a4405604fd15517b4308f5ada8c16b954ffc3d8a477ad330aa890a9bf4a19b4c",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 1,
+        "type": 1,
+        "width": 4,
+        "repeat": 4294967295,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 305419896,
+        "events": [
+          [
+            "datum",
+            "NULL"
+          ]
+        ],
+        "node_sha256": "e8edf3887b6e91bc9cee14c50fc107b87b88d04dfc9fc8db3f29070a6bd27c4f",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 1,
+        "type": 1,
+        "width": 4,
+        "repeat": 2147483648,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 305419896,
+        "events": [
+          [
+            "datum",
+            "NULL"
+          ]
+        ],
+        "node_sha256": "63e527cc9d7f56bf1d10fa24e6ae028b33d114463662c46f7dedc767ef91eab9",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 1,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "begin-byte-array"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 6,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "byte-array",
+            3,
+            2,
+            "owned-data"
+          ]
+        ],
+        "node_sha256": "da04d1cd755a3b2faa75c5891a669a3274899158faeab2f6415e4f8e9597f341",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 1,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "begin-iterated"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "iterated",
+            2,
+            2,
+            "inline-value"
+          ]
+        ],
+        "node_sha256": "49ff4920e331ca0d7506bf1d9bb539b8851c93b7e28b9e37ebd8a7398c0c3928",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 1,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            2309737967
+          ]
+        ],
+        "node_sha256": "4c0650d302d0b8292a9be5edd66044ccbc9c148a45d5f4cce5fbe7b9133d890b",
+        "record_sha256": "8d4308da9397dccc55f45616e876418463bcde041b1925c3c01cd2ad8d48e7ec"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 4294967295,
+        "position": 0,
+        "referenced_kind": 1,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            2309737967
+          ]
+        ],
+        "node_sha256": "4c0650d302d0b8292a9be5edd66044ccbc9c148a45d5f4cce5fbe7b9133d890b",
+        "record_sha256": "9cda925b899068f95c16caad9f40d487614e0506b4de23117c052de78820b401"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 7,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 1,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4,
+        "events": [
+          [
+            "begin",
+            195
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            2309737967
+          ]
+        ],
+        "node_sha256": "4c0650d302d0b8292a9be5edd66044ccbc9c148a45d5f4cce5fbe7b9133d890b",
+        "record_sha256": "8d4308da9397dccc55f45616e876418463bcde041b1925c3c01cd2ad8d48e7ec"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 7,
+        "count": 4294967295,
+        "position": 0,
+        "referenced_kind": 1,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4,
+        "events": [
+          [
+            "begin",
+            195
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            2309737967
+          ]
+        ],
+        "node_sha256": "4c0650d302d0b8292a9be5edd66044ccbc9c148a45d5f4cce5fbe7b9133d890b",
+        "record_sha256": "9cda925b899068f95c16caad9f40d487614e0506b4de23117c052de78820b401"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": -1,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 1,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967295,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            2309737967
+          ]
+        ],
+        "node_sha256": "a703796a6b6dd7170a19b31520e2e7b5839707d038ed2c621f0f440a3cb11c67",
+        "record_sha256": "8d4308da9397dccc55f45616e876418463bcde041b1925c3c01cd2ad8d48e7ec"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": -1,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 4294967295,
+        "position": 0,
+        "referenced_kind": 1,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967295,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            2309737967
+          ]
+        ],
+        "node_sha256": "a703796a6b6dd7170a19b31520e2e7b5839707d038ed2c621f0f440a3cb11c67",
+        "record_sha256": "9cda925b899068f95c16caad9f40d487614e0506b4de23117c052de78820b401"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": -1,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 7,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 1,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967295,
+        "events": [
+          [
+            "begin",
+            195
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            2309737967
+          ]
+        ],
+        "node_sha256": "a703796a6b6dd7170a19b31520e2e7b5839707d038ed2c621f0f440a3cb11c67",
+        "record_sha256": "8d4308da9397dccc55f45616e876418463bcde041b1925c3c01cd2ad8d48e7ec"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": -1,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 7,
+        "count": 4294967295,
+        "position": 0,
+        "referenced_kind": 1,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967295,
+        "events": [
+          [
+            "begin",
+            195
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            2309737967
+          ]
+        ],
+        "node_sha256": "a703796a6b6dd7170a19b31520e2e7b5839707d038ed2c621f0f440a3cb11c67",
+        "record_sha256": "9cda925b899068f95c16caad9f40d487614e0506b4de23117c052de78820b401"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 3,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            0
+          ]
+        ],
+        "node_sha256": "4c0650d302d0b8292a9be5edd66044ccbc9c148a45d5f4cce5fbe7b9133d890b",
+        "record_sha256": "819b67ebe69b8e09a229a727393881ca358069af64bd51224027d292f4cba004"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 4294967295,
+        "position": 0,
+        "referenced_kind": 3,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            0
+          ]
+        ],
+        "node_sha256": "4c0650d302d0b8292a9be5edd66044ccbc9c148a45d5f4cce5fbe7b9133d890b",
+        "record_sha256": "c6b3bf81e5fd807bb57e5cd873681fa4bcf9597fd9a043407a33ad996180bf09"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 7,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 3,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4,
+        "events": [
+          [
+            "begin",
+            195
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            0
+          ]
+        ],
+        "node_sha256": "4c0650d302d0b8292a9be5edd66044ccbc9c148a45d5f4cce5fbe7b9133d890b",
+        "record_sha256": "819b67ebe69b8e09a229a727393881ca358069af64bd51224027d292f4cba004"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 7,
+        "count": 4294967295,
+        "position": 0,
+        "referenced_kind": 3,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4,
+        "events": [
+          [
+            "begin",
+            195
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            0
+          ]
+        ],
+        "node_sha256": "4c0650d302d0b8292a9be5edd66044ccbc9c148a45d5f4cce5fbe7b9133d890b",
+        "record_sha256": "c6b3bf81e5fd807bb57e5cd873681fa4bcf9597fd9a043407a33ad996180bf09"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": -1,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 3,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967295,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            0
+          ]
+        ],
+        "node_sha256": "a703796a6b6dd7170a19b31520e2e7b5839707d038ed2c621f0f440a3cb11c67",
+        "record_sha256": "819b67ebe69b8e09a229a727393881ca358069af64bd51224027d292f4cba004"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": -1,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 4294967295,
+        "position": 0,
+        "referenced_kind": 3,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967295,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            0
+          ]
+        ],
+        "node_sha256": "a703796a6b6dd7170a19b31520e2e7b5839707d038ed2c621f0f440a3cb11c67",
+        "record_sha256": "c6b3bf81e5fd807bb57e5cd873681fa4bcf9597fd9a043407a33ad996180bf09"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": -1,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 7,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 3,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967295,
+        "events": [
+          [
+            "begin",
+            195
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            0
+          ]
+        ],
+        "node_sha256": "a703796a6b6dd7170a19b31520e2e7b5839707d038ed2c621f0f440a3cb11c67",
+        "record_sha256": "819b67ebe69b8e09a229a727393881ca358069af64bd51224027d292f4cba004"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": -1,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 7,
+        "count": 4294967295,
+        "position": 0,
+        "referenced_kind": 3,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967295,
+        "events": [
+          [
+            "begin",
+            195
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            0
+          ]
+        ],
+        "node_sha256": "a703796a6b6dd7170a19b31520e2e7b5839707d038ed2c621f0f440a3cb11c67",
+        "record_sha256": "c6b3bf81e5fd807bb57e5cd873681fa4bcf9597fd9a043407a33ad996180bf09"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            0
+          ]
+        ],
+        "node_sha256": "4c0650d302d0b8292a9be5edd66044ccbc9c148a45d5f4cce5fbe7b9133d890b",
+        "record_sha256": "819b67ebe69b8e09a229a727393881ca358069af64bd51224027d292f4cba004"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 4294967295,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            0
+          ]
+        ],
+        "node_sha256": "4c0650d302d0b8292a9be5edd66044ccbc9c148a45d5f4cce5fbe7b9133d890b",
+        "record_sha256": "c6b3bf81e5fd807bb57e5cd873681fa4bcf9597fd9a043407a33ad996180bf09"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 7,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4,
+        "events": [
+          [
+            "begin",
+            195
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            0
+          ]
+        ],
+        "node_sha256": "4c0650d302d0b8292a9be5edd66044ccbc9c148a45d5f4cce5fbe7b9133d890b",
+        "record_sha256": "819b67ebe69b8e09a229a727393881ca358069af64bd51224027d292f4cba004"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 7,
+        "count": 4294967295,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4,
+        "events": [
+          [
+            "begin",
+            195
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            0
+          ]
+        ],
+        "node_sha256": "4c0650d302d0b8292a9be5edd66044ccbc9c148a45d5f4cce5fbe7b9133d890b",
+        "record_sha256": "c6b3bf81e5fd807bb57e5cd873681fa4bcf9597fd9a043407a33ad996180bf09"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": -1,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967295,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            0
+          ]
+        ],
+        "node_sha256": "a703796a6b6dd7170a19b31520e2e7b5839707d038ed2c621f0f440a3cb11c67",
+        "record_sha256": "819b67ebe69b8e09a229a727393881ca358069af64bd51224027d292f4cba004"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": -1,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 4294967295,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967295,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            0
+          ]
+        ],
+        "node_sha256": "a703796a6b6dd7170a19b31520e2e7b5839707d038ed2c621f0f440a3cb11c67",
+        "record_sha256": "c6b3bf81e5fd807bb57e5cd873681fa4bcf9597fd9a043407a33ad996180bf09"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": -1,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 7,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967295,
+        "events": [
+          [
+            "begin",
+            195
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            0
+          ]
+        ],
+        "node_sha256": "a703796a6b6dd7170a19b31520e2e7b5839707d038ed2c621f0f440a3cb11c67",
+        "record_sha256": "819b67ebe69b8e09a229a727393881ca358069af64bd51224027d292f4cba004"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": -1,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 7,
+        "count": 4294967295,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967295,
+        "events": [
+          [
+            "begin",
+            195
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            0
+          ]
+        ],
+        "node_sha256": "a703796a6b6dd7170a19b31520e2e7b5839707d038ed2c621f0f440a3cb11c67",
+        "record_sha256": "c6b3bf81e5fd807bb57e5cd873681fa4bcf9597fd9a043407a33ad996180bf09"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "lookup"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            270544960
+          ]
+        ],
+        "node_sha256": "7e78fdcec5704795170c4dce5aa50002c6844a86850cd25f488b05ef609c9967",
+        "record_sha256": "28efcdc3fd12c4d367e9871d741aea2a98913155a88932eb0a19db888984103f"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "begin-reference"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967168,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "lookup",
+            8
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            0
+          ]
+        ],
+        "node_sha256": "2487b2619adb93051b7917e0a925c892b314004d85f9b56d0be8ecf84fb25642",
+        "record_sha256": "819b67ebe69b8e09a229a727393881ca358069af64bd51224027d292f4cba004"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 3,
+        "label_kind": 0,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "error",
+        "returned": null,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "error",
+            456
+          ]
+        ],
+        "node_sha256": "4c0650d302d0b8292a9be5edd66044ccbc9c148a45d5f4cce5fbe7b9133d890b",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 7,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "error",
+        "returned": null,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "error",
+            474
+          ]
+        ],
+        "node_sha256": "4c0650d302d0b8292a9be5edd66044ccbc9c148a45d5f4cce5fbe7b9133d890b",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 4,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 0,
+        "events": [
+          [
+            "begin",
+            161
+          ]
+        ],
+        "node_sha256": "f9cc47b9eef6c070e0e5047987ea0db9034472e11b75c208cd046620638deab4",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 4,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 1,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 1,
+        "events": [
+          [
+            "begin",
+            161
+          ]
+        ],
+        "node_sha256": "f9cc47b9eef6c070e0e5047987ea0db9034472e11b75c208cd046620638deab4",
+        "record_sha256": "e03744e39f60d553bc50f1d604ce66719445179306c65a4124f04ce9ec8ce4ce"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 4,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 4,
+        "padding": 1,
+        "combine": 2,
+        "count": 3,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 3,
+        "events": [
+          [
+            "begin",
+            161
+          ]
+        ],
+        "node_sha256": "aa73a9bbbbc705a9d94da47d694514217e4a16a80082d4cc4b2665bf6d7c176c",
+        "record_sha256": "ae66215fce9e2421fc92491fc05a14ba8a8083493c00169b10d282f950785816"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 4,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 8,
+        "padding": 1,
+        "combine": 2,
+        "count": 7,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 7,
+        "events": [
+          [
+            "begin",
+            161
+          ]
+        ],
+        "node_sha256": "bd12b2745a602c28ce47e3c3626d29959332180523c265cab561db11d36d7c75",
+        "record_sha256": "3614fb4d738d6855091f1c03cd443b78f65da778a688af3d88448913cd1f71e1"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 4,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": -2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 4294967293,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967295,
+        "events": [
+          [
+            "begin",
+            161
+          ]
+        ],
+        "node_sha256": "57716760ce9c839bb61e9b4a39b193b61cdf36a33327d68cd6408dd9668d25ce",
+        "record_sha256": "246ee850993186e8c61cd5476d39615a2f4f76291be5dcd43b17977da1125dd7"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 4,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 4,
+        "padding": 1,
+        "combine": 2,
+        "count": 2,
+        "position": 2147483647,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967293,
+        "events": [
+          [
+            "begin",
+            161
+          ]
+        ],
+        "node_sha256": "aa73a9bbbbc705a9d94da47d694514217e4a16a80082d4cc4b2665bf6d7c176c",
+        "record_sha256": "d1c70910efc7211f6560ba5e2accbf9c708a5da7da2b62647d177f0cf9559b96"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 4,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": -128,
+        "padding": 1,
+        "combine": 2,
+        "count": 10,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 10,
+        "events": [
+          [
+            "begin",
+            161
+          ]
+        ],
+        "node_sha256": "b1696615d5f733637b90056acf75cbb98dc4b1a3e2a7ea0a2ce9af23803224aa",
+        "record_sha256": "7026f70a377f1235a493c95f1d424a31fcae9d152e3bfe85def4f3c818cff1c3"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 4,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 4294967295,
+        "position": 4294967295,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 0,
+        "events": [
+          [
+            "begin",
+            161
+          ]
+        ],
+        "node_sha256": "f9cc47b9eef6c070e0e5047987ea0db9034472e11b75c208cd046620638deab4",
+        "record_sha256": "bed800526e7ec136f574bca82004cf9a15c434d35fc1a58b4dba709f4e566c1c"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 4,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "begin-alignment"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967295,
+        "events": [
+          [
+            "begin",
+            161
+          ]
+        ],
+        "node_sha256": "35f05039bd40f4854f272194b4af14d14042f5219cdbb0ec90f109fdbf3bdca1",
+        "record_sha256": "246ee850993186e8c61cd5476d39615a2f4f76291be5dcd43b17977da1125dd7"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 8,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 0,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 0,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "pad",
+            0
+          ]
+        ],
+        "node_sha256": "538ae87e85704d0e382178801514574c8c60646ef2a8cf1c15bee31b46ed361d",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 8,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 1,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "pad",
+            1
+          ]
+        ],
+        "node_sha256": "6e7884435c6dc92f45ae58936ecda8e4b9fd3599de1245c15f72b422566ea1aa",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 8,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 19,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 19,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "pad",
+            19
+          ]
+        ],
+        "node_sha256": "00185534cc30659da0f970435b048b8a244caeb8d233894e7307f0d1746ba99f",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 8,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 20,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 20,
+        "events": [
+          [
+            "iterated",
+            20,
+            1,
+            "initialized-zero4"
+          ]
+        ],
+        "node_sha256": "acb03ea7410d31aa5d84b89e31cdf81312c09ca46a1d958707edc24a6bd684ea",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 8,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 21,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 21,
+        "events": [
+          [
+            "iterated",
+            21,
+            1,
+            "initialized-zero4"
+          ]
+        ],
+        "node_sha256": "b52b918b630e63ada2a9d787e635fac54134894d5108020c5dabd0a7fd972ab7",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 8,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 2147483647,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 2147483647,
+        "events": [
+          [
+            "iterated",
+            2147483647,
+            1,
+            "initialized-zero4"
+          ]
+        ],
+        "node_sha256": "db8aeaa17b75b85e9d180a1aeffe3def993a8f4b327f3e2264403cbd0a52f81f",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 8,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": -1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967295,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "pad",
+            -1
+          ]
+        ],
+        "node_sha256": "29bed931d90d75d7ab06c794d3c8eda439d43eab5a52d3f3c4130d8137d66661",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 8,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 19,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "begin-padding"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 25,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "iterated",
+            25,
+            1,
+            "initialized-zero4"
+          ]
+        ],
+        "node_sha256": "8c99f766c8006181a8ef0c701faa8faade2e509d0fe696c0e8f75574cfb01c0e",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 3,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967295,
+        "events": [
+          [
+            "begin",
+            161
+          ]
+        ],
+        "node_sha256": "78b63adde4b88df232056b15f98104850c95aef7ca0f45da9eec64625a3fa632",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 5,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967295,
+        "events": [
+          [
+            "begin",
+            161
+          ]
+        ],
+        "node_sha256": "4c60e17690a8221c1f9d454c06dc2afc75782ebbde60d3db8299744807da799a",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 0,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "error",
+        "returned": null,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "error",
+            510
+          ]
+        ],
+        "node_sha256": "f87d9ef8fba37a42ec1491217e8066f03c732af4622681a415c5a2e251951905",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 6,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "error",
+        "returned": null,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "error",
+            510
+          ]
+        ],
+        "node_sha256": "a5fcd00e3f68992b4717a2590355aa2325ffc906657b4402a036e570690206ab",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 7,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "error",
+        "returned": null,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "error",
+            510
+          ]
+        ],
+        "node_sha256": "9b7c60a4d86d3c0143ee5ac19e9155c7354355a8846210d47c87049dadd9d230",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 9,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "error",
+        "returned": null,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "error",
+            510
+          ]
+        ],
+        "node_sha256": "d2b8c5f74077263fa30a2889f11309674e3753fa6ca6c74d8e5c6e767e462fe2",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": -1,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "error",
+        "returned": null,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "error",
+            510
+          ]
+        ],
+        "node_sha256": "817e8c8af8f65cfeb4e8cf80235a993ce803bce7f0d44a6cca3e48d226b94098",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 3,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 4,
+        "label_kind": 4,
+        "unused_symbol": 3735928559,
+        "scalar_result": 305419896,
+        "mutation": "begin-tag"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4294967295,
+        "events": [
+          [
+            "begin",
+            161
+          ]
+        ],
+        "node_sha256": "d2b8c5f74077263fa30a2889f11309674e3753fa6ca6c74d8e5c6e767e462fe2",
+        "record_sha256": "98ed77415e6822aa4d43d27761b5c5d461f90b548523f6b5b95805fca8c29196"
+      }
+    },
+    {
+      "inputs": {
+        "kind": 2,
+        "type": 1,
+        "width": 4,
+        "repeat": 1,
+        "addend": 2309737967,
+        "flag": 4,
+        "divisor": 2,
+        "padding": 1,
+        "combine": 2,
+        "count": 0,
+        "position": 0,
+        "referenced_kind": 1,
+        "label_kind": 4,
+        "unused_symbol": 0,
+        "scalar_result": 305419896,
+        "mutation": "none"
+      },
+      "result": {
+        "terminal": "return",
+        "returned": 4,
+        "events": [
+          [
+            "begin",
+            161
+          ],
+          [
+            "lookup",
+            7
+          ],
+          [
+            "fixup",
+            -4,
+            "reference",
+            2309737967
+          ]
+        ],
+        "node_sha256": "4c0650d302d0b8292a9be5edd66044ccbc9c148a45d5f4cce5fbe7b9133d890b",
+        "record_sha256": "8d4308da9397dccc55f45616e876418463bcde041b1925c3c01cd2ad8d48e7ec"
+      }
+    }
+  ],
+  "dispatch_targets": [
+    "0x6b059",
+    "0x6b0b0",
+    "0x6b19d",
+    "0x6b147",
+    "0x6b19d",
+    "0x6b044",
+    "0x6b044",
+    "0x6b170"
+  ],
+  "seconds": 1.140706212259829,
+  "scope": "Whole489-byte original/canonical dispatcher plus32-byte8-slot bounds/target proof; all kinds1..8/outside, preselection conditions, cached kind/post-begin operand reloads, signed short multiplication low32, repeated/byte/scalar exact child ABI, lookup flags cached before mutation and addend/kind reloaded, LE32/fixup(-4), signed remainder ONE-byte padding behavior and FFFFFFFF sentinel, initialized zero4 local under poison guards, RET4/callee-saved and all owned node/Segment/reference/data/record bytes checked. Children mocked; zero/negative/huge repeat/width/padding cases are request-shape/arithmetic controls only, no physical oversized copy success or valid frontend claim. Invalid divisor0/INT_MIN%-1 not executed or guarded; invalid tags/references/labels stop actual1fe/1da/1c8 diagnostics, no returning-fatal/local seed claim. Actual first type6/38B/repeat1 and3 caller-owned formals observed separately, unused Symbol formal still captured."
+}
