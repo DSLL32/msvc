@@ -520,3 +520,42 @@ int __stdcall scan_macro_name(unsigned char first)
     }
     return valid;
 }
+
+/* Original 0x20dd0..0x20e38. Joined formals use their original text;
+   isolated formals select the expanded copy following the original spans. */
+char *__stdcall select_macro_argument(int *mode)
+{
+    MacroExpansionFrame *frame = &macro_expansion_frames[macro_expansion_active];
+    MacroArgument *argument = (MacroArgument *)frame->argument_start;
+    unsigned char index = (unsigned char)*source_text_cursor++;
+    int following;
+    if ((signed char)frame->argument_state < (signed char)index) return 0;
+    following = macro_identifier_follows();
+    if (!*mode && !following)
+        index += macro_expansion_frames[macro_expansion_active].argument_state;
+    *mode = following;
+    while (--index) argument = (MacroArgument *)((char *)argument + argument->bytes);
+    return argument->text;
+}
+
+/* Original 0x20d90..0x20dcb. Peek without consuming the next byte. */
+int macro_identifier_follows(void)
+{
+    unsigned char character = (unsigned char)*source_text_cursor++;
+    int result = character_class[character] == CC_MACRO_PARAMETER ||
+        (character_flags[character] & CF_IDENTIFIER) != 0;
+    --source_text_cursor;
+    return result;
+}
+
+/* Original 0x20c10..0x20c55. Append replacement bytes without their
+   terminating NUL, keeping the scanner's five-byte reserve. */
+void __stdcall emit_macro_text(char *text)
+{
+    if (!text) return;
+    while (*text) {
+        if (macro_work_buffer + macro_work_bytes - 5 <= macro_work_midpoint)
+            macro_expansion_error(56);
+        *macro_work_midpoint++ = *text++;
+    }
+}

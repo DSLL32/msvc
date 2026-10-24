@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1336 historical frontiers/1230 App bodies.
+ * Current reviewed boundary:1346 historical frontiers/1240 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -472,10 +472,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_scan_macro_identifier",
         .entry_rva = 0xdf10,
-        .code = (const ReconExtent[]) { { 0xdf10, 0xdf11 } },
+        .code = (const ReconExtent[]) { { 0xdf10, 0xe0e1 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "scan_macro_identifier",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_intern_identifier@4",
@@ -806,10 +807,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_emit_macro_text@4",
         .entry_rva = 0x10c10,
-        .code = (const ReconExtent[]) { { 0x10c10, 0x10c11 } },
+        .code = (const ReconExtent[]) { { 0x10c10, 0x10c56 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_macro_text",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_push_macro_expansion@4",
@@ -3377,10 +3379,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_emit_class_array_initialization@24",
         .entry_rva = 0x25cd0,
-        .code = (const ReconExtent[]) { { 0x25cd0, 0x25cd1 } },
+        .code = (const ReconExtent[]) { { 0x25cd0, 0x25f87 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_class_array_initialization",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_emit_constructor_initializers@8",
@@ -6788,10 +6791,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_make_virtual_method_pointer@16",
         .entry_rva = 0x3a3a0,
-        .code = (const ReconExtent[]) { { 0x3a3a0, 0x3a3a1 } },
+        .code = (const ReconExtent[]) { { 0x3a3a0, 0x3a422 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "make_virtual_method_pointer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_make_general_method_pointer@20",
@@ -8438,10 +8442,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_hash_declaration_index",
         .entry_rva = 0x444e0,
-        .code = (const ReconExtent[]) { { 0x444e0, 0x444e1 } },
+        .code = (const ReconExtent[]) { { 0x444e0, 0x444e8 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "hash_declaration_index",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_equal_declaration_indices",
@@ -8454,10 +8459,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_defer_nested_tag@8",
         .entry_rva = 0x44510,
-        .code = (const ReconExtent[]) { { 0x44510, 0x44511 } },
+        .code = (const ReconExtent[]) { { 0x44510, 0x44543 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "defer_nested_tag",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_next_member_context@4",
@@ -13593,10 +13599,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_class_virtual_base_pointer_offset@4",
         .entry_rva = 0x6bee0,
-        .code = (const ReconExtent[]) { { 0x6bee0, 0x6bee1 } },
+        .code = (const ReconExtent[]) { { 0x6bee0, 0x6bf10 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "class_virtual_base_pointer_offset",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_virtual_base_access_level@8",
@@ -16091,10 +16098,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_select_macro_argument@4",
         .entry_rva = 0x10dd0,
-        .code = (const ReconExtent[]) { { 0x10dd0, 0x10dd1 } },
+        .code = (const ReconExtent[]) { { 0x10dd0, 0x10e39 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "select_macro_argument",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_activate_macro_argument@4",
@@ -16103,6 +16111,24 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "activate_macro_argument",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_macro_identifier_follows",
+        .entry_rva = 0x10d90,
+        .code = (const ReconExtent[]) { { 0x10d90, 0x10dcc } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "macro_identifier_follows",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_build_virtual_method_pointer@16",
+        .entry_rva = 0x3a430,
+        .code = (const ReconExtent[]) { { 0x3a430, 0x3a56d } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "build_virtual_method_pointer",
         .implementation = RECON_IMPLEMENTED,
     },
 };

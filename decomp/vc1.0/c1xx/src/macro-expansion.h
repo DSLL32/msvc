@@ -21,6 +21,7 @@ void __stdcall emit_macro_text(char *text);
 int __stdcall scan_macro_name(unsigned char first);
 char *read_macro_parameter(void);
 char *__stdcall select_macro_argument(int *mode);
+int macro_identifier_follows(void);
 char *__stdcall copy_macro_literal(char *cursor, char *limit, unsigned char delimiter);
 int __stdcall check_defined_macro(char *name);
 void __stdcall macro_expansion_error(unsigned code);

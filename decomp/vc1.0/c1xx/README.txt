@@ -2,16 +2,16 @@ C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
 PARTIAL reconstruction; member_registry_browser completion is active.
-Current verified boundary: 1336 historical frontiers / 1230 application source
+Current verified boundary: 1346 historical frontiers / 1240 application source
 functions plus seven unchanged historical CRT source functions. The current
-case stops at select_macro_argument RVA0x10dd0 after79 first entries beyond its seed.
-Thirty-four further whole bodies are accepted since the five-function trial, including
+case stops at make_null_virtual_method_pointer RVA0x3b3b0 after89 first entries beyond its seed.
+Forty-four further whole bodies are accepted since the five-function trial, including
 the5326-byte pragma dispatcher and its35-entry text switch. Discovered pragma
 helpers remain typed, named unimplemented stubs with entry-only extents.
 
 Fresh shared original/native pairs match actual entry order, owning INT3 frontier,
 streams and applicable partial-file assertions. Original builds, inherited
-function-graph/ABI checks, eight cached cases and14 existing unit groups pass.
+function-graph/ABI checks, eight cached cases and15 unit groups pass.
 The final six-artifact oracle is unchanged; the partial case has not completed.
 No other binary or reconstruction case is being advanced.
 
@@ -84,14 +84,14 @@ original model2-to3 member-pointer conversion lost adjustment8 and its runtime
 equality check failed. It is not silently promoted to a passing case; v2 avoids
 those conversions. Its source/failure is preserved in that tagged history.
 
-The optional tests retain ten native unsupported-path guards, ten original-backed
+The optional tests retain eleven native unsupported-path guards, ten original-backed
 multiply returns, and small type/name/overload controls. Old point-in-time observer
 mutation campaigns and callee-mock acceptance harnesses are superseded; they are
 not claims that all historical GDB injections remain fixtures.
 
 Boundaries
 ----------
-Seventeen exact native limitations remain in policy-data.json and source. They
+Eighteen exact native limitations remain in policy-data.json and source. They
 include original unwritten locals (lookahead, empty include/name, null overload
 iterators, debug-query/output scope and missing-colon false result), unknown
 internal type/member-pointer domains and the unmodeled browser category prefix.
@@ -105,3 +105,8 @@ The older decimal parser uses the approved compatible shipped-library binding,
 not a new body or application credit. runtime-compatible.json binds unchanged
 original/library/member identities, established ABI/callees and bounded conversion
 contract to the historical proof. Later reached mismatches must hold, not relax it.
+
+Virtual-method-pointer construction preserves the original ignored failed
+virtual-base query in Win32. Native builds trap only on that false-query branch
+before its unwritten entryESP-4 output is consumed; a narrow real-query
+success/failure and trap test passes. Public reachability remains unknown.

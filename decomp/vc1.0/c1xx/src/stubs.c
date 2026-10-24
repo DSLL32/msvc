@@ -209,10 +209,7 @@ void chain_initializer_function(void) { __asm { int 3 } }
 void __stdcall register_initializer_function(CppSymbol *function) { __asm { int 3 } }
 void __stdcall copy_quoted_literal(unsigned char delimiter) { __asm { int 3 } }
 unsigned char __stdcall scan_assembler_number(unsigned char first_character) { __asm { int 3 } return 0; }
-int scan_macro_identifier(void) { __asm { int 3 } return 0; }
-char *__stdcall select_macro_argument(int *mode) { __asm { int 3 } return 0; }
 void __stdcall emit_macro_string(unsigned char delimiter, char *text) { __asm { int 3 } }
-void __stdcall emit_macro_text(char *text) { __asm { int 3 } }
 char *read_macro_parameter(void) { __asm { int 3 } return 0; }
 char *__stdcall copy_macro_literal(char *cursor, char *limit, unsigned char delimiter) { __asm { int 3 } return 0; }
 void __stdcall macro_expansion_error(unsigned code) { __asm { int 3 } }
@@ -229,7 +226,6 @@ CType *__stdcall copy_unfinished_type(CType *type) { __asm { int 3 } return 0; }
 
 void __stdcall flush_current_function(int retain) { __asm { int 3 } }
 CppSymbol *__stdcall find_tag_in_chain(char *name, CppSymbol *first) { __asm { int 3 } return 0; }
-void __stdcall defer_nested_tag(CppSymbol *owner, CppSymbol *tag) { __asm { int 3 } }
 
 
 CppSymbol *__stdcall find_tag_declaration(CppSymbol *symbol) { __asm { int 3 } return 0; }
@@ -382,7 +378,6 @@ int __stdcall emit_string_intrinsic(IrToken *expression) { __asm { int 3 } retur
 
 void __stdcall emit_default_ctor_closure_body(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall emit_array_copy_initialization(CppSymbol *member, unsigned displacement, IrToken *initializers, unsigned short attributes) { __asm { int 3 } }
-void __stdcall emit_class_array_initialization(CppSymbol *member, CppSymbol *tag, IrToken *initializers, unsigned displacement, int copying, unsigned short attributes) { __asm { int 3 } }
 void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols) { __asm { int 3 } }
 unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *source, unsigned char flags, OverloadCandidate *context) { __asm { int 3 } return 0; }
 int __stdcall has_pointer_or_member_pointer_shape(CType *type) { __asm { int 3 } return 0; }
@@ -443,7 +438,6 @@ unsigned char __stdcall classify_unsigned_integer(unsigned value) { __asm { int 
 char *__stdcall mangle_enum_representation(char *cursor, CType *unused_type) { __asm { int 3 } return 0; }
 
 
-unsigned __cdecl hash_declaration_index(void *key) { __asm { int 3 } return 0; }
 unsigned __cdecl hash_resolved_declaration(void *key) { __asm { int 3 } return 0; }
 unsigned __cdecl hash_word_triplet(void *key) { __asm { int 3 } return 0; }
 unsigned __cdecl hash_word_pair(void *key) { __asm { int 3 } return 0; }
@@ -522,8 +516,6 @@ void __stdcall record_typedef_alias(CppSymbol *symbol, CppSymbol *alias) { __asm
 
 void __stdcall set_default_inheritance_model(int model) { __asm { int 3 } }
 CppSymbol * __stdcall enclosing_qualifier_class(QualifierBinding *binding) { __asm { int 3 } return 0; }
-unsigned __stdcall class_virtual_base_pointer_offset(CppSymbol *tag) { __asm { int 3 } return 0; }
-IrToken * __stdcall make_virtual_method_pointer(CType *type, IrToken *function, IrToken *adjustment, BaseClassLink *virtual_base) { __asm { int 3 } return 0; }
 IrToken * __stdcall make_general_method_pointer(CType *type, IrToken *function, IrToken *adjustment, int vbptr_offset, IrToken *vbtable_offset) { __asm { int 3 } return 0; }
 IrToken * __stdcall make_virtual_data_member_pointer(CType *type, IrToken *offset, IrToken *virtual_offset) { __asm { int 3 } return 0; }
 IrToken * __stdcall make_general_data_member_pointer(CType *type, IrToken *offset, int vbptr_offset, IrToken *vbtable_offset) { __asm { int 3 } return 0; }

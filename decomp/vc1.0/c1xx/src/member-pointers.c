@@ -14,6 +14,7 @@
 #include "hash-table.h"
 #include "function-finalization.h"
 #include "global-ir.h"
+#include "virtual-table-output.h"
 #include <recon.h>
 
 int __stdcall equal_data_member_null_representation(CType *target, CType *source);
@@ -78,6 +79,8 @@ IrToken *__stdcall make_compact_method_pointer(CType *type, IrToken *function,
     IrToken *adjustment);
 IrToken *__stdcall make_virtual_method_pointer(CType *type, IrToken *function,
     IrToken *adjustment, BaseClassLink *virtual_base);
+IrToken *__stdcall build_virtual_method_pointer(CType *type, IrToken *function,
+    IrToken *adjustment, IrToken *table_offset);
 IrToken *__stdcall make_general_method_pointer(CType *type, IrToken *function,
     IrToken *adjustment, int vbptr_offset, IrToken *vbtable_offset);
 IrToken *__stdcall make_virtual_data_member_pointer(CType *type, IrToken *offset,
@@ -873,4 +876,80 @@ IrToken *__stdcall member_pointer_integer_field(IrToken *storage,
     position = make_integer_constant(offset);
     return indirect_storage_expression(new_ir_expression(0x5c, storage,
         position, integer_type));
+}
+
+/* Original 0x4a3a0..0x4a421. The virtual model stores function, this
+   adjustment and vbtable displacement; its vbptr offset belongs to the class. */
+IrToken *__stdcall make_virtual_method_pointer(CType *type, IrToken *function,
+    IrToken *adjustment, BaseClassLink *virtual_base)
+{
+    CppSymbol *base, *owner;
+    unsigned table_offset, displacement;
+    IrToken *offset;
+    if (virtual_base) {
+        base = cpp_context_stack->items[virtual_base->context_index];
+        owner = member_pointer_owner_class(type);
+#ifdef RECON_NATIVE_TEST
+        /* Original false query leaves entryESP-4 unwritten before4a3d5. */
+        if (!query_virtual_base_pointer(base, owner, 0, &table_offset, 0)) { __asm { int 3 } }
+#else
+        query_virtual_base_pointer(base, owner, 0, &table_offset, 0);
+#endif
+        offset = make_integer_constant(table_offset);
+    } else {
+        displacement = adjustment->value.integer;
+        owner = member_pointer_owner_class(type);
+        displacement -= class_virtual_base_pointer_offset(owner);
+        adjustment = make_integer_constant(displacement);
+        offset = make_integer_constant(0);
+    }
+    return build_virtual_method_pointer(type, function, adjustment, offset);
+}
+
+/* Original 0x7bee0..0x7bf0f. The first vbtable's object location and
+   its first entry together locate the class's virtual-base pointer. */
+unsigned __stdcall class_virtual_base_pointer_offset(CppSymbol *tag)
+{
+    VirtualTable *table = first_vector_item(tag->detail.class_info->virtual_base_tables);
+    unsigned offset = virtual_table_object_offset(table);
+    return offset + virtual_base_table_entry_offset((VirtualBaseEntry *)table->entries, tag, table);
+}
+
+/* Original 0x4a430..0x4a56c, stdcall16. Materialize the virtual model's
+   three fields in a temporary, then return its aggregate value. */
+IrToken *__stdcall build_virtual_method_pointer(CType *type, IrToken *function,
+    IrToken *adjustment, IrToken *table_offset)
+{
+    unsigned index, function_bytes, table_displacement;
+    CType *function_type, *pointer_type, *integer_type;
+    IrToken *temporary, *offset, *storage, *first, *second, *third, *sequence;
+    if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename)
+        browser_symbol_rollover();
+    index = next_symbol_index++;
+    function_type = drop_first_type_shape(type);
+    pointer_type = make_qualified_type(function_type, 3,
+        function_type->related->attributes & 0x0f77, 0);
+    function_bytes = pointer_kind_size(function_type->related->attributes & 0x0f77);
+    integer_type = builtin_integer_type();
+    table_displacement = function_bytes + (integer_type->flags & 15);
+    temporary = new_temporary_reference(index, type);
+    offset = make_integer_constant(0);
+    storage = clone_expression(temporary, 0);
+    first = new_ir_expression(0x5c, storage, offset, pointer_type);
+    first = new_left_typed_expression(0x3d, first, function);
+    integer_type = builtin_integer_type();
+    offset = make_integer_constant(function_bytes);
+    storage = clone_expression(temporary, 0);
+    second = new_ir_expression(0x5c, storage, offset, integer_type);
+    second = new_left_typed_expression(0x3d, second, adjustment);
+    integer_type = builtin_integer_type();
+    offset = make_integer_constant(table_displacement);
+    storage = clone_expression(temporary, 0);
+    third = new_ir_expression(0x5c, storage, offset, integer_type);
+    third = new_left_typed_expression(0x3d, third, table_offset);
+    sequence = new_right_typed_expression(0x40, first, second);
+    sequence = new_right_typed_expression(0x40, sequence, third);
+    return new_right_typed_expression(0x40, sequence,
+        indirect_storage_expression(temporary));
 }

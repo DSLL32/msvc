@@ -1,4 +1,5 @@
 #include <recon-tool.h>
+extern const ReconTest browser_tests[1];
 extern int main(int, char **, char **);
 static int invoke(int argc, char **argv) { return main(argc, argv, (char **)0); }
 
@@ -82,6 +83,16 @@ static const uint32_t order[] = {
     0x10d30, /* activate_macro_argument */
     0x10e40, /* scan_macro_name */
     0x10dd0, /* select_macro_argument */
+    0x10d90, /* macro_identifier_follows */
+    0x10c10, /* emit_macro_text */
+    0xdf10, /* scan_macro_identifier */
+    0x44510, /* defer_nested_tag */
+    0x444e0, /* hash_declaration_index */
+    0x25cd0, /* emit_class_array_initialization */
+    0x3a3a0, /* make_virtual_method_pointer */
+    0x6bee0, /* class_virtual_base_pointer_offset */
+    0x3a430, /* build_virtual_method_pointer */
+    0x3b3b0, /* make_null_virtual_method_pointer */
 };
 static const uint32_t seen[] = {
     0x59630, /* main */
@@ -1242,6 +1253,6 @@ RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "member_registry_browser",
     "Partial browser case; pragma packing, macro arguments and browser records validated; trace compares unseeded encounters with explicit per-case seed",
     order, RECON_COUNT(order), seen, RECON_COUNT(seen),
-    RECON_IO, RECON_FRONTIER, 0x10dd0,
-    NULL, invoke, NULL, NULL, 0
+    RECON_IO, RECON_FRONTIER, 0x3b3b0,
+    NULL, invoke, NULL, browser_tests, 1
 };

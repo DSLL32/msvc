@@ -236,3 +236,10 @@ int __cdecl equal_tail_word_pairs(void *left, void *right)
     MemberPointerThunkKey *a = left, *b = right;
     return a->displacement == b->displacement && a->kind == b->kind;
 }
+
+/* Original 0x544e0..0x544e7. Separate callback identity for nested
+   declarations, whose stable key is the ordinary symbol index. */
+unsigned __cdecl hash_declaration_index(void *key)
+{
+    return ((CppSymbol *)key)->index;
+}

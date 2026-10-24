@@ -1573,3 +1573,89 @@ void __stdcall emit_vector_deleting_destructor_body(CppSymbol *tag)
     begin_return_expression();
     emit_return_statement(object, 2);
 }
+
+/* Original 0x35cd0..0x35f86, stdcall24. Flatten member-array bounds,
+   consume explicit initializers and emit a pointer/count loop for the rest.
+   The source temporary is used only on the copy-construction branch. */
+void __stdcall emit_class_array_initialization(CppSymbol *member, CppSymbol *tag,
+    IrToken *initializers, unsigned displacement, int copying, unsigned short attributes)
+{
+    TypeShape *shape = member->type->related, *dimension;
+    unsigned outer_bound = (unsigned)shape->data.array_bound;
+    unsigned inner_count = 1, explicit_count = 0, remaining;
+    unsigned element_bytes = (unsigned)symbol_element_size(member);
+    IrToken *node, *next, *counter, *destination, *source;
+    IrToken *constant, *object, *value, *arguments, *label;
+    CType *pointer_type;
+    if (!copying) {
+        if (!initializers && (tag->detail.class_info->flags2 & 1)) return;
+    } else if (tag->detail.class_info->flags2 & 2) {
+        emit_array_copy_initialization(member, displacement, initializers, attributes);
+        return;
+    }
+    for (dimension = shape->related; dimension; dimension = dimension->related)
+        inner_count *= (unsigned)dimension->data.array_bound;
+    for (node = initializers; node; node = node->tail.right) ++explicit_count;
+    if (copying) remaining = outer_bound * inner_count;
+    else if (!outer_bound) {
+        remaining = explicit_count;
+        if (remaining > inner_count)
+            remaining -= ((remaining - inner_count) / inner_count) * inner_count;
+    } else {
+        remaining = outer_bound * inner_count;
+        if (explicit_count > remaining) {
+            report_syntax_error(78);
+            remaining = 0;
+        } else remaining -= explicit_count;
+    }
+    if (!copying && initializers) {
+        node = initializers->linkage.list_head;
+        initializers->linkage.list_head = 0;
+        do {
+            next = node->linkage.list_head;
+            node->linkage.list_head = node;
+            object = make_subobject_pointer(tag, attributes, displacement);
+            make_constructor_call(tag, object, node, 1, 1);
+            displacement += element_bytes;
+            node = next;
+            if (node) node->tail.right = 0;
+        } while (node);
+    }
+    if (!remaining) return;
+    counter = resolve_symbol_expression(create_generated_object(4, type_4064_first));
+    constant = make_integer_constant(remaining);
+    emit_expression_statement(builtin_binary_expression(OP_ASSIGN, counter, constant));
+    pointer_type = make_class_pointer_type(tag, 0);
+    destination = resolve_symbol_expression(create_generated_object(4, pointer_type));
+    pointer_type = destination->type;
+    constant = make_integer_constant(displacement);
+    object = adjusted_this_expression(0);
+    value = new_ir_expression(OP_ADD, object, constant, pointer_type);
+    emit_expression_statement(builtin_binary_expression(OP_ASSIGN, destination, value));
+    if (copying) {
+        pointer_type = make_class_pointer_type(tag, 0);
+        source = resolve_symbol_expression(create_generated_object(4, pointer_type));
+        value = convert_initializer(1, source->type, initializers->value.pointer);
+        emit_expression_statement(builtin_binary_expression(OP_ASSIGN, source, value));
+    }
+    label = new_branch_label(5);
+    emit_label(label);
+    arguments = 0;
+    if (copying) {
+        value = builtin_unary_expression(OP_DEREFERENCE, source);
+        arguments = append_expression(0, value, 2);
+    }
+    object = clone_expression(destination, 0);
+    make_constructor_call(tag, object, arguments, 1, 1);
+    constant = make_integer_constant(1);
+    emit_expression_statement(builtin_binary_expression(OP_ADD_ASSIGN, destination, constant));
+    if (copying) {
+        constant = make_integer_constant(1);
+        emit_expression_statement(builtin_binary_expression(OP_ADD_ASSIGN, source, constant));
+    }
+    constant = make_integer_constant(1);
+    emit_expression_statement(builtin_binary_expression(OP_POST_DECREMENT, counter, constant));
+    constant = make_integer_constant(0);
+    value = builtin_binary_expression(OP_GREATER, counter, constant);
+    emit_condition_to_label(value, label, 1);
+}

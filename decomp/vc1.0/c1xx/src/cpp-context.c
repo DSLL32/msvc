@@ -25,3 +25,12 @@ struct CppSymbol *__stdcall next_member_context(struct CppSymbol *context)
         return find_hash_value(member_context_links, context);
     return 0;
 }
+
+/* Original 0x54510..0x54542. A nested tag maps back to its owning
+   class through the existing member-context chain. */
+void __stdcall defer_nested_tag(struct CppSymbol *owner, struct CppSymbol *tag)
+{
+    if (!member_context_links)
+        member_context_links = new_hash_table(16, 0, 6, 5);
+    set_hash_value(member_context_links, tag, owner);
+}
