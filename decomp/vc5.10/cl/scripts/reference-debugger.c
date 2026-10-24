@@ -8,7 +8,8 @@ static HANDLE child;
 static FILE *events;
 static char directory[MAX_PATH];
 static DWORD target_base,target_size;
-static DWORD event_number;
+static DWORD event_number,debuggee_process_id,debug_event_pid,debug_event_tid;
+static int debug_event_active;
 static DWORD crt_base;
 static int observe_resources;
 static FILE *resource_events;
@@ -270,6 +271,7 @@ static void frontier_requests(DWORD address, DWORD *stack)
 }
 #include "dependency-observer.inc"
 #include "clock-observer.inc"
+#include "mre-file-observer.inc"
 #include "mre-observer.inc"
 
 static void module(DWORD base,HANDLE file)
@@ -337,6 +339,7 @@ int main(int argc,char **argv)
     int stop_at_trap;
     if (argc!=6) return 2;
     observe_resources=atoi(argv[5]);
+    if (strlen(argv[3])>=sizeof(directory)) return 178;
     strcpy(directory,argv[3]);
     output_path(path,"pass-state-observer.txt");snapshot=fopen(path,"rb");
     if (snapshot) {
@@ -400,8 +403,10 @@ int main(int argc,char **argv)
     for (;;) {
         if (!WaitForDebugEvent(&event,30000)) return 6;
         ++event_number;status=DBG_CONTINUE;
+        debug_event_pid=event.dwProcessId;debug_event_tid=event.dwThreadId;
+        debug_event_active=event.dwDebugEventCode==EXCEPTION_DEBUG_EVENT;
         if (event.dwDebugEventCode==CREATE_PROCESS_DEBUG_EVENT) {
-            child=event.u.CreateProcessInfo.hProcess;
+            child=event.u.CreateProcessInfo.hProcess;debuggee_process_id=event.dwProcessId;
             target_base=(DWORD)event.u.CreateProcessInfo.lpBaseOfImage;
             target_size=0x4c00;
             threads[threads_count]=event.u.CreateProcessInfo.hThread;
@@ -414,9 +419,9 @@ int main(int argc,char **argv)
                 target_base,(DWORD)event.u.CreateProcessInfo.lpStartAddress);
             save_file(event.u.CreateProcessInfo.hFile,"loaded-target.bin");
             if (event.u.CreateProcessInfo.hFile) CloseHandle(event.u.CreateProcessInfo.hFile);
-            if (observe_mre && !mre_analysis_observer) {
+            if (observe_mre && (!mre_analysis_observer || mre_response_observer)) {
                 BYTE call[6];DWORD slot;
-                for (i=0;i<sizeof(mre_sites)/sizeof(mre_sites[0]);++i) {
+                for (i=mre_response_observer?3:0;i<sizeof(mre_sites)/sizeof(mre_sites[0]);++i) {
                     memory(target_base+mre_sites[i],call,sizeof(call));
                     if (call[0]==0xcc) continue;
                     memcpy(&slot,call+2,4);
@@ -485,7 +490,7 @@ int main(int argc,char **argv)
                 if (address==target_base+access_sites[i]) access_site=i;
                 if (access_pending==(int)i && address==target_base+access_sites[i]+(i==1 || i==2 ? 2 : 6)) { access_site=i;access_return=1; }
             }
-            if (observe_mre && !mre_analysis_observer) for (i=0;i<sizeof(mre_sites)/sizeof(mre_sites[0]);++i)
+            if (observe_mre && (!mre_analysis_observer || mre_response_observer)) for (i=mre_response_observer?3:0;i<sizeof(mre_sites)/sizeof(mre_sites[0]);++i)
                 if (address==target_base+mre_sites[i]) mre_site=1;
             for (i=0;i<entry_count;++i)
                 if (!entry_guards[i].seen && target_base+entry_guards[i].rva==address) guard=entry_guards+i;
@@ -527,7 +532,7 @@ int main(int argc,char **argv)
                 if (!thread) return 172;
                 memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL|CONTEXT_FLOATING_POINT;
                 if (!GetThreadContext(thread,&context)) return 173;
-                mre_observation_trap(point,address,teb,event.dwThreadId,&context,input,out,err);
+                mre_observation_trap(point,address,teb,event.dwThreadId,&context,thread,input,out,err);
                 if (!mre_analysis_stopped)
                     if (!SetThreadContext(thread,&context)) return 174;
             } else if (code==EXCEPTION_BREAKPOINT && clock_point(address)>=0) {
@@ -711,6 +716,7 @@ int main(int argc,char **argv)
                     dependency_state("frontier",teb,event.dwThreadId,&context,input,out,err);
                     dependency_argv=saved_argv;
                 }
+                mre_observation_frontier(address,teb,event.dwThreadId,&context,input,out,err);
                 if (address!=target_base+0x1743 && address!=target_base+0x58e0)
                     frontier_requests(address,stack);
                 TerminateProcess(child,0x7001);
@@ -733,8 +739,9 @@ int main(int argc,char **argv)
             }
             fclose(events);fclose(trace);if (mktemp_events) fclose(mktemp_events);if (resource_events) fclose(resource_events);CloseHandle(out);CloseHandle(err);CloseHandle(input);
             ContinueDebugEvent(event.dwProcessId,event.dwThreadId,status);
-            return (mre_analysis_observer && event.u.ExitProcess.dwExitCode==0x7004) || event.u.ExitProcess.dwExitCode==0x7001 || (dependency_analysis && !dependency_response && event.u.ExitProcess.dwExitCode==0x7003) ? 0:event.u.ExitProcess.dwExitCode;
+            return (mre_analysis_observer && !mre_response_observer && event.u.ExitProcess.dwExitCode==0x7004) || event.u.ExitProcess.dwExitCode==0x7001 || (dependency_analysis && !dependency_response && event.u.ExitProcess.dwExitCode==0x7003) ? 0:event.u.ExitProcess.dwExitCode;
         }
+        debug_event_active=0;
         ContinueDebugEvent(event.dwProcessId,event.dwThreadId,status);
     }
 }

@@ -1,0 +1,23 @@
+{
+  "kind": "Independent read-only original MRE prefix review; no app acceptance or native provider success",
+  "review_manifest": "/root/.ai-tmp/msvc2/vc5.10/cl/mre-object-preuse/prefix-review-v2.json",
+  "review_manifest_sha256": "79a9a8f8a1414fd059d8e0ca3cd3dc9bb17ea462b51f5b13890716c5d7137dd0",
+  "verified_files": 50,
+  "exact_raw_decoding_matches_owned_packet": true,
+  "decoder_seconds": 0.35733112040907145,
+  "packet_sha256": "87bb815753fcd92f716ec154b0cbff03ab7735d7f0d1f30d443e1d813ecbb67c",
+  "checks": [
+    "Authenticated target/mask/provider/helper/case/input closure",
+    "Three real stdcall imports: exact formals, ESP cleanup24/8/4 and EBX/ESI/EDI/EBP preservation",
+    "Ten complete snapshots and three independent25600-byte copies with actual-handle/metadata identity and child postcopy preservation",
+    "Actual fd3 lowio0x11/RDWR/position1024, CP0/fulltables/env/FILE/stdaliases/errors/FP through real option_signature frontier",
+    "Four fresh nonvolatile mutation controls;41 unchanged controls explicitly reused"
+  ],
+  "qualification": [
+    "Open result1 consumed; Query/Init EAX ignored, no semantic return inference",
+    "Engine/driver opaque identity only, no object extent/content claim",
+    "Windows FileId handles agree independently of POSIX inode identity; no Windows data-read sharing claim",
+    "Native typed provider and shared isolated open/noinherit behavior remain unimplemented; no successful native pair or new app credit",
+    "Later MRE lifecycle/calls/file effects remain unknown and fail closed"
+  ]
+}

@@ -13,7 +13,7 @@ BOOL WINAPI MREFOpenByName(Mre **owner,const char *path,int *error,char *message
     (void)owner;(void)path;(void)error;(void)message;(void)reproducible;(void)write;
     unavailable();return FALSE;
 }
-BOOL WINAPI MREQueryMreDrv(Mre *owner,MreDriver **driver)
+DWORD WINAPI MREQueryMreDrv(Mre *owner,MreDriver **driver)
 {
     (void)owner;(void)driver;unavailable();return FALSE;
 }

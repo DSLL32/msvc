@@ -1,0 +1,10 @@
+{
+  "kind": "observation-only; not acceptance",
+  "symbol": "option_signature",
+  "address": 4208954,
+  "return_address": 4208114,
+  "formals": {
+    "state": 4232664
+  },
+  "file_copies": 3
+}

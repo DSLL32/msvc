@@ -345,3 +345,13 @@ selector remain named traps. Native MRE success is held for the exact IDB file,
 descriptor/noinherit and lifetime contract. Source-C analysis and the earlier
 no-MRE dry run remain distinct. This checkpoint adds no application credit;
 all 13 previous native fixtures pass in 3.24 seconds after the source corrections.
+
+The separate object-only MRE case now records Open/Query/Init through the genuine
+option-signature trap, including complete intermediate IDB bytes and preserved
+child state. The metadata-only Windows identity check and independent Linux
+NOATIME content copy are explicit observer contracts; Windows file IDs are never
+compared numerically to Linux inodes. Four failed transports remain retained.
+The reviewed prefix took 3.856 seconds; its native provider is awaiting genuine
+shared descriptor/noinherit support. No function has been accepted for this
+checkpoint: application coverage remains 104/112 functions, 17609/18545 bytes
+(94.95%); CRT/import support is separate.

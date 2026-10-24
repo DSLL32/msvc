@@ -52,6 +52,7 @@ def reconstruction_capture(capture):
             assert capture.get('files',{}).get(name)=={'sha256':hashlib.sha256(marker).hexdigest(),'bytes':len(marker)}, 'missing or different masked clock request'
         assert capture['command'][-2]=='1','clock response original was not a masked trial'
     assert not capture.get('mre_analysis'),'MRE prefix analysis cannot be fresh acceptance'
+    assert not capture.get('mre_response'),'MRE response acceptance is held pending typed provider/native state implementation'
     assert capture.get('baseline') is False and not capture.get('dependency_analysis') and not capture.get('clock_analysis'), 'analysis/reference baseline cannot be used as fresh reconstruction acceptance'
     assert capture['controller_error'] is None and capture['helper_status'] in (0,capture.get('expected_status',0)&255), 'original capture did not succeed'
     if capture.get('link_response'):

@@ -58,12 +58,28 @@ def mre_analysis_mode(baseline,case,analysis,complete,response,link_response,clo
     return 'CL_MRE_PREFIX_ANALYSIS_V2\n'
 
 
-def capture(label,config_path,baseline=False,case_name='help',dependency_analysis=False,dependency_complete=False,dependency_response=False,link_response=False,clock_analysis=False,clock_response=False,mre_analysis=False):
+def mre_response_mode(config,baseline,case,others,enabled):
+    if not enabled:return None
+    assert not baseline and case=='mre-object'and not any(others), 'MRE response requires distinct masked object-only prefix'
+    assert '_prepare_jobs'in config['accepted'] and '_execute_pass'in config['accepted'], 'MRE response cannot restore unaccepted caller sites'
+    assert '_option_signature'not in config['accepted'], 'Initial MRE transport capture is limited to the real signature frontier'
+    return 'CL_MRE_PREFIX_RESPONSE_V2\n'
+
+
+def mre_copy_phase(line,completed,enabled):
+    assert enabled and type(completed)is int and 0<=completed<3, 'unexpected original file-copy request'
+    phase='mre-%d-after'%(completed+1)
+    assert line in(('MRE_FILE '+phase+'\n').encode(),('MRE_FILE '+phase+'\r\n').encode()), 'unexpected original file-copy request'
+    return phase
+
+
+def capture(label,config_path,baseline=False,case_name='help',dependency_analysis=False,dependency_complete=False,dependency_response=False,link_response=False,clock_analysis=False,clock_response=False,mre_analysis=False,mre_response=False):
     assert not dependency_analysis or (baseline and case_name=='minimal-c'),'dependency analysis requires explicit original-only minimal-C baseline'
     assert not dependency_complete or dependency_analysis,'complete dependency observation requires explicit analysis mode'
     start=time.perf_counter()
     config=json.loads(config_path.read_text())
-    mre_mode=mre_analysis_mode(baseline,case_name,dependency_analysis,dependency_complete,dependency_response,link_response,clock_analysis,clock_response,mre_analysis)
+    response_marker=mre_response_mode(config,baseline,case_name,(dependency_analysis,dependency_complete,dependency_response,link_response,clock_analysis,clock_response,mre_analysis),mre_response)
+    mre_mode=response_marker or mre_analysis_mode(baseline,case_name,dependency_analysis,dependency_complete,dependency_response,link_response,clock_analysis,clock_response,mre_analysis)
     mode=clock_response_mode(config,baseline,case_name,dependency_analysis,dependency_complete,dependency_response,link_response,clock_analysis,clock_response) or clock_analysis_mode(baseline,case_name,dependency_analysis,dependency_complete,dependency_response,link_response,clock_analysis) or link_mode(config,baseline,case_name,dependency_analysis,dependency_complete,dependency_response,link_response) or dependency_mode(config,baseline,case_name,dependency_analysis,dependency_complete,dependency_response)
     target=ROOT/config['target']['path']
     assert sha(target.read_bytes())==config['target']['sha256']
@@ -112,8 +128,10 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
     shutil.copyfile(HERE/'export-reader.h',directory/'export-reader.h')
     shutil.copyfile(HERE/'clock-observer.inc',directory/'clock-observer.inc')
     shutil.copyfile(HERE/'mre-observer.inc',directory/'mre-observer.inc')
+    shutil.copyfile(HERE/'mre-file-observer.inc',directory/'mre-file-observer.inc')
     controller_source=store_blob(Path(__file__).read_bytes())
     helper_source=store_blob((HERE/'reference-debugger.c').read_bytes())
+    transport_source=store_blob((HERE/'mre_file.py').read_bytes())if mre_response else None
     env=wt.environment();env.update(TMP='.',TEMP='.')
     command=['/usr/bin/wine',wt.windows(directory/'reference-debugger.exe'),
         wt.windows(directory/'CL.EXE'),subprocess.list2cmdline(case['arguments']),wt.windows(directory),'0' if baseline else '1',
@@ -134,15 +152,32 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
     first=b'';controller_error=None
     try:
         selector=selectors.DefaultSelector();selector.register(process.stdout,selectors.EVENT_READ)
-        assert selector.select(45),'bounded original capture produced no debugger response'
-        first=process.stdout.readline()
-        if first.startswith(b'TRAP '):
-            from frontier_state import capture_original
-            address=int(first.split()[1],16)
-            stack=struct.unpack_from('<16I',(directory/'context.bin').read_bytes(),204)
-            capture_original(directory,address,stack,process)
-            process.stdin.write(b'DONE\n');process.stdin.flush()
-        stdout,stderr=process.communicate(timeout=45)
+        deadline=time.monotonic()+45;file_copies=0
+        while True:
+            remaining=deadline-time.monotonic()
+            assert remaining>0 and selector.select(remaining),'bounded original capture produced no debugger response'
+            line=process.stdout.readline();first+=line
+            if line.startswith(b'MRE_FILE '):
+                phase=mre_copy_phase(line,file_copies,mre_response)
+                from mre_file import copy_stopped_file,publish_ack
+                copied=copy_stopped_file(directory,phase)
+                publish_ack(directory,phase,copied);file_copies+=1
+                continue
+            if line.startswith(b'TRAP '):
+                address=int(line.split()[1],16)
+                stack=struct.unpack_from('<16I',(directory/'context.bin').read_bytes(),204)
+                if mre_response:
+                    assert address==0x40393a and stack[0]==0x4035f2 and file_copies==3,'MRE response did not reach its genuine initial frontier'
+                    # Observation-only while the typed native provider is held.
+                    # Complete formal/hidden driver, option, scratch, CRT and
+                    # file state is in the addressed C observer records.
+                    (directory/'mre-frontier.json').write_text(json.dumps({'kind':'observation-only; not acceptance','symbol':'option_signature','address':address,'return_address':stack[0],'formals':{'state':stack[1]},'file_copies':file_copies},indent=2)+'\n')
+                else:
+                    from frontier_state import capture_original
+                    capture_original(directory,address,stack,process)
+                process.stdin.write(b'DONE\n');process.stdin.flush()
+            break
+        stdout,stderr=process.communicate(timeout=max(.1,deadline-time.monotonic()))
     except Exception as error:
         controller_error=repr(error)
         try:
@@ -156,8 +191,8 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
     (directory/'helper.stdout').write_bytes(result.stdout)
     (directory/'helper.stderr').write_bytes(result.stderr)
     loaded=directory/'loaded-msvcrt.bin'
-    captured_paths=directory.rglob('*')if (dependency_response or link_response or clock_analysis or clock_response or mre_analysis) else directory.iterdir()
-    receipt={'schema':1,'controller_error':controller_error,**case,'baseline':baseline,'dependency_analysis':dependency_analysis,'dependency_complete':dependency_complete,'dependency_response':dependency_response,'link_response':link_response,'clock_analysis':clock_analysis,'clock_response':clock_response,'mre_analysis':mre_analysis,
+    captured_paths=directory.rglob('*')if (dependency_response or link_response or clock_analysis or clock_response or mre_analysis or mre_response) else directory.iterdir()
+    receipt={'schema':1,'controller_error':controller_error,**case,'baseline':baseline,'dependency_analysis':dependency_analysis,'dependency_complete':dependency_complete,'dependency_response':dependency_response,'link_response':link_response,'clock_analysis':clock_analysis,'clock_response':clock_response,'mre_analysis':mre_analysis,'mre_response':mre_response,
         'target_sha256':sha(target.read_bytes()),'config_sha256':sha(config_path.read_bytes()),
         'original_mask_sha256':sha(image),'helper_status':result.returncode,
         'loaded_msvcrt_sha256':sha(loaded.read_bytes()) if loaded.exists() else None,
@@ -165,8 +200,8 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
         'helper_sha256':sha((directory/'reference-debugger.exe').read_bytes()),'helper_build':helper_build,
         **paired,'build_dependency_hashes':dependency_hashes,
         'helper_source_sha256':sha((HERE/'reference-debugger.c').read_bytes()),
-        'helper_sources':{name:sha((HERE/name).read_bytes())for name in ('reference-debugger.c','dependency-observer.inc','clock-observer.inc','mre-observer.inc','export-reader.h')},
-        'controller_source':controller_source,'helper_source':helper_source,
+        'helper_sources':{name:sha((HERE/name).read_bytes())for name in ('reference-debugger.c','dependency-observer.inc','clock-observer.inc','mre-observer.inc','mre-file-observer.inc','export-reader.h')},
+        'controller_source':controller_source,'helper_source':helper_source,'mre_transport_source':transport_source,
         'command':command,'environment':{k:env[k] for k in ('WINEPREFIX','WINEDLLOVERRIDES','INCLUDE','LIB','WINEPATH','TMP','TEMP')},
         'timing':{'setup_seconds':setup,'reference_execution_seconds':run_time},
         'files':{p.relative_to(directory).as_posix():{'sha256':sha(p.read_bytes()),'bytes':p.stat().st_size} for p in captured_paths if p.is_file()}}
@@ -201,4 +236,5 @@ if __name__=='__main__':
     parser.add_argument('--clock-analysis',action='store_true',help='Explicit unmasked LINK-clock analysis only; never reconstruction acceptance')
     parser.add_argument('--clock-response',action='store_true',help='Observe actual clock and LINK effects in a masked timing trial; success remains closed until typed comparison')
     parser.add_argument('--mre-analysis',action='store_true',help='Bounded unmasked Open/Query/Init analysis only, stopping before option-signature logic')
-    args=parser.parse_args();capture(args.label,args.config,args.baseline,args.case,args.dependency_analysis,args.dependency_complete,args.dependency_response,args.link_response,args.clock_analysis,args.clock_response,args.mre_analysis)
+    parser.add_argument('--mre-response',action='store_true',help='Observe initial masked object-only MRE prefix and intermediate IDB files; native acceptance remains held')
+    args=parser.parse_args();capture(args.label,args.config,args.baseline,args.case,args.dependency_analysis,args.dependency_complete,args.dependency_response,args.link_response,args.clock_analysis,args.clock_response,args.mre_analysis,args.mre_response)

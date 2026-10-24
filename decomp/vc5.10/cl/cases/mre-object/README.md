@@ -1,0 +1,3 @@
+The object-only `/Gm /Zi /c` case reaches three MSPDB calls and the masked `option_signature` entry. The compiler warns that `test.obj` is ignored; CL invokes no frontend or backend before this frontier.
+
+`prefix-packet.json` derives the actual Open/Query/Init arguments and state from owned raw evidence. Each return has an independently copied 25600-byte IDB with Windows identity/cursor and child-state preservation checks. Metadata-only path handles make no data-sharing claim. Four failed transport attempts remain separately retained. Native MRE success and later lifecycle effects remain disabled pending review and shared descriptor support. No application coverage was added.

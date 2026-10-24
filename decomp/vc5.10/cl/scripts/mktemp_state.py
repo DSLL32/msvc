@@ -92,6 +92,13 @@ def original(directory):
     if (directory/'mre-observer.inc').exists():
         assert capture['helper_sources']['mre-observer.inc']==sha((directory/'mre-observer.inc').read_bytes())
         controls.add('mre-observer.inc')
+    if (directory/'mre-file-observer.inc').exists():
+        assert capture['helper_sources']['mre-file-observer.inc']==sha((directory/'mre-file-observer.inc').read_bytes())
+        controls.add('mre-file-observer.inc')
+    if capture.get('mre_response'):
+        assert capture['case']=='mre-object'and capture['baseline']is False and not any(capture.get(k)for k in ('dependency_analysis','dependency_complete','dependency_response','link_response','clock_analysis','clock_response','mre_analysis'))
+        assert (directory/'mre-observer.txt').read_bytes()==b'CL_MRE_PREFIX_RESPONSE_V2\n'
+        controls.add('mre-observer.txt')
     if capture.get('mre_analysis'):
         assert capture['case']=='mre-prefix'and capture['baseline']is True and not any(capture.get(k)for k in ('dependency_analysis','dependency_complete','dependency_response','link_response','clock_analysis','clock_response'))
         assert (directory/'mre-observer.txt').read_bytes()==b'CL_MRE_PREFIX_ANALYSIS_V2\n'

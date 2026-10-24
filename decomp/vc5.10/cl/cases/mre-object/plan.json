@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "state": "pre-use-review; no native MRE success",
+  "arguments": [
+    "/nologo",
+    "/Gm",
+    "/Zi",
+    "/c",
+    "/DVALUE=7",
+    "/Fdcase.pdb",
+    "test.obj"
+  ],
+  "input": {
+    "path": "cases/minimal-c/reference/test.obj",
+    "bytes": 275,
+    "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+  },
+  "expected_initial_frontier": {
+    "name": "option_signature",
+    "address": "0x40393a",
+    "formal": "Driver *state; actual formal pointer and bounded44-byte driver/linked options recorded",
+    "hidden_state": "actual shared option_buffer1024B at0x4091b8, linked input/option identities, CRT/OS/errors/FILE/lowio/FP state"
+  },
+  "dependency_scope": "Only three observed original Open/Query/Init calls; all later MRE calls and execute_pass are guarded. No frontend absence or complete MRE success assumed.",
+  "file_transport": {
+    "phase_inventory": [
+      "mre-1-after",
+      "mre-2-after",
+      "mre-3-after"
+    ],
+    "source": "Exact owned fixed S: capture directory plus actual case.idb argument and matched actual child CWD",
+    "thread_stop": "Synchronous inside outstanding EXCEPTION_DEBUG_EVENT, before ContinueDebugEvent; pid/tid guard; all debuggee threads suspended",
+    "windows": "Query-only duplicate of actual fd3; independently opened METADATA-ONLY desiredAccess0 path handle full FileInfo equality, actual descriptor read/write granted access observed separately; no Windows data-sharing claim, reads or shared cursor movement",
+    "linux": "Independent O_NOATIME|O_NOFOLLOW open of anchored owned case.idb; complete bounded regular bytes; unchanged fstat/stat identity/size/all timestamps; record independent POSIX identity without comparing it numerically to Windows FileId",
+    "preservation": "C repeats both Windows FileInfo/lowio/position/thread CONTEXT checks and a full target CRT/OS/FILE/error/FP snapshot after exact bounded request acknowledgement",
+    "limits": "At most3 copies,16MiB each;8s Linux read budget,10s C acknowledgement,45s complete controller deadline; sharing/identity/NOATIME/metadata failures deny, raw preserved",
+    "acknowledgement": "Original-only per-phase atomic exclusive ack file under owned observer/: exact32-byte current request+phase NUL, created after full bytes and host receipt, C strict bounded binary/EOF check under10s deadline; no stdin peek or fallback."
+  },
+  "native_hold": [
+    "Actual new object-only complete input/provider/error/entry profile not yet observed",
+    "Per-return intermediate file bytes and fd/path relationship need actual capture",
+    "Genuine fd3 binary/noinherit/access/sharing/lifetime effects need shared owner contract; no manual lowio flags",
+    "Later MRE query/release/close still unobserved; no final output substitutes for intermediate bytes"
+  ],
+  "prior_source_case": "mre-prefix remains separately hash-bound analysis; no oracle reused",
+  "acceptance": "mre_response unconditionally rejected until typed provider/native comparator implemented and reviewed"
+}

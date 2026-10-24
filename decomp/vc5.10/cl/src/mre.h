@@ -8,7 +8,8 @@
 typedef struct Mre Mre;
 typedef struct MreDriver MreDriver;
 DECLSPEC_IMPORT BOOL WINAPI MREFOpenByName(Mre **, const char *, int *, char *, BOOL, BOOL);
-DECLSPEC_IMPORT BOOL WINAPI MREQueryMreDrv(Mre *, MreDriver **);
+/* EAX is ignored by CL; DWORD records only the observed ABI width. */
+DECLSPEC_IMPORT DWORD WINAPI MREQueryMreDrv(Mre *, MreDriver **);
 /* CL ignores this wrapper's EAX; its semantic result type is not yet known. */
 DECLSPEC_IMPORT void WINAPI MREDrvOneTimeInit(MreDriver *);
 DECLSPEC_IMPORT BOOL WINAPI MREDrvFFilesOutOfDate(MreDriver *, void *);

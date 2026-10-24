@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "kind": "Static dependency evidence plus actual failed observer; not native provider success",
+  "repository_inputs": [
+    {
+      "path": "toolchains/5.10/bin/MSPDB50.DLL",
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+      "bytes": 167424
+    },
+    {
+      "path": "toolchains/5.10/bin/MSVCRT.DLL",
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "bytes": 277776
+    },
+    {
+      "path": "toolchains/5.10/lib/MSVCRT.LIB",
+      "sha256": "e0a55e77c6005cacc86783688dd5d372bee6dda9c994493edbe583cd2b367be2",
+      "bytes": 510000
+    },
+    {
+      "path": "toolchains/5.10/include/FCNTL.H",
+      "sha256": "f4b2a9dd59c4412f9484a5fa0e09184c122f1dce20dc725c376020033107ea48",
+      "bytes": 2210
+    },
+    {
+      "path": "toolchains/5.10/include/SHARE.H",
+      "sha256": "95a989c600660b796cb935922fd91b5372c7361b5491420d2b6a7c359030bd51",
+      "bytes": 790
+    },
+    {
+      "path": "toolchains/5.10/include/IO.H",
+      "sha256": "88310202efd592194da73c57f44902b2ce1857c064bd9db55a9001e0cc33175f",
+      "bytes": 7680
+    },
+    {
+      "path": "toolchains/5.10/include/WINERROR.H",
+      "sha256": "12f4e29dfae84a93524fab97e8ad685b6e849a1b75e8a6e39bf7d6b8d5667208",
+      "bytes": 193146
+    }
+  ],
+  "qualified_import": {
+    "IAT": 271737332,
+    "dll": "msvcrt.dll",
+    "name": "_sopen",
+    "declaration": "int __cdecl _sopen(const char *, int, int, ...);"
+  },
+  "static_create_path": {
+    "start": 271636433,
+    "end": 271636470,
+    "bytes_hex": "68800100006a10c1e605688281000003f0ff7508f3a5ff15f461321083c410898318d00000",
+    "sha256": "3f0372688f9a6d6018c624ab9fe1ad5d7a94cbed279631d6429fc48feb51f9f8",
+    "callsite": 271636455,
+    "argument_order": [
+      "path from[ebp+8]",
+      "flags0x8182",
+      "share0x10",
+      "permission0x180"
+    ],
+    "flags": {
+      "_O_RDWR": 2,
+      "_O_CREAT": 256,
+      "_O_NOINHERIT": 128,
+      "_O_BINARY": 32768
+    },
+    "share": {
+      "_SH_DENYRW": 16
+    },
+    "qualification": "Exact provided dependency instructions; this internal callsite was not dynamically observed, so no stronger dynamic call-path claim."
+  },
+  "actual_observer": {
+    "capture": "analysis/sharing-denied-2/original/capture.json",
+    "capture_sha256": "da9c657a0ca8d51cebc1916a3bc50735a46d241764f06d69129c96b8f5bb1ff7",
+    "raw_path_open_dwords": [
+      4294967295,
+      32,
+      0,
+      0
+    ],
+    "interpretation": "Independent GENERIC_READ path open returned INVALID_HANDLE_VALUE and ERROR_SHARING_VIOLATION32. No intermediate contents copied; no fallback."
+  }
+}
