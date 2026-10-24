@@ -57,8 +57,8 @@
   ],
   "accepted_callers": {
     "initialize_function_records": [
-      "4286d2 ECX1 CALL401863 return4286dc",
-      "4286df ECX1 CALL401863 return4286e9"
+      "4286b5 MOV ECX,1;4286d7 CALL401863 return4286dc",
+      "4286dc MOV ECX,1;4286e6 CALL401863 return4286eb"
     ]
   },
   "source_files": {
@@ -71,5 +71,6 @@
     "kind_CL": 4,
     "return": 4359927,
     "no_EDX_stack_hidden_formal": true
-  }
+  },
+  "annotation_provenance": "Corrected earlier descriptive address typos at genuine111trial; frozen110 model/raw retained unchanged, exact corrected code bytes in110 abi-packet."
 }

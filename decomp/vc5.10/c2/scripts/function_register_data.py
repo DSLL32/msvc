@@ -50,7 +50,7 @@ def compare_pools(original,native,config,expected,state,native_proof,proof):
             for base,data in blocks.items():
                 if base<=address and address+size<=base+4096:return data[address-base:address-base+size]
             raise AssertionError('function pool snapshot read outside owned span')
-        bases,value=register_pool_state(read,order[0],count,expected.get('register_sets',0))
+        bases,value=register_pool_state(read,order[0],count,expected.get('register_sets',0),expected.get('function_register_nodes',0))
         assert value==state['globals_complete']['function_pools'],'actual function pool bytes differ from typed GDB view'
         oldest=bases[0];raw=bytearray(blocks[oldest]);wanted=bytes.fromhex(state['globals_complete']['directives']['pool_bytes'])
         assert raw[:8]==struct.pack('<II',0,4088)
@@ -71,6 +71,15 @@ def compare_pools(original,native,config,expected,state,native_proof,proof):
     assert state['function_pool_state']==wanted
     observations=re.findall(r'^C2-FUNCTION-POOL-STATE (.*)$',(native/'gdb.stdout').read_text(),re.M)
     assert len(observations)==1 and json.loads(observations[0])==wanted
+    if expected.get('register_add_input'):
+        bases=list(reversed(evidence[1][0]));actual={'set':bases[-1]+2592,'number':0,'formals':[{'name':'set','type':'C2RegisterSet *'},{'name':'number','type':'unsigned int'}],'caller':'new_function_register','set_tracked_alias':True,'set_offset':2592,'number_row_alias':True,'row_pointer':bases[1]+20}
+        assert state['register_add_input']==actual,'register-set actual ECX/EDX formals/owner aliases differ'
+        observations=re.findall(r'^C2-REGISTER-ADD-INPUT (.*)$',(native/'gdb.stdout').read_text(),re.M)
+        assert len(observations)==1 and json.loads(observations[0])==actual
+        events=(original/'events.txt').read_text().rsplit('observe 0040189f ',1);assert len(events)==2
+        original_bases=list(reversed(evidence[0][0]));wanted='register-add-input set=%08x number=0 row=%08x'%(original_bases[-1]+2592,original_bases[1]+20)
+        assert re.findall(r'^register-add-input .*$',events[1],re.M)==[wanted]
+        return evidence[0][1]
     if expected.get('register_node_input'):
         wanted={'kind':4,'formals':[{'name':'kind','type':'unsigned char'}],'caller':'initialize_function_records'}
         assert state['register_node_input']==wanted,'function-register actual CL formal differs'

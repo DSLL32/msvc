@@ -65,3 +65,64 @@ C2RegisterBlock *new_register_block(void)
     last_function_register_block = block;
     return block;
 }
+
+C2FunctionRegister *__fastcall new_function_register(unsigned char kind)
+{
+    C2FunctionRegister *reg;
+    C2RegisterBlock *block;
+    unsigned number;
+
+    switch (kind) {
+    case 3:
+    case 6:
+        if (free_plain_register_nodes) {
+            reg = free_plain_register_nodes;
+            free_plain_register_nodes = reg->next_free;
+            number = reg->number;
+            memset(reg, 0, sizeof(C2FunctionRegister));
+            reg->number = number;
+            return reg;
+        }
+        block = plain_register_block;
+        if (block->cursor >= block->end)
+            plain_register_block = block = new_register_block();
+        reg = block->cursor++;
+        return reg;
+    case 4:
+    case 5:
+        if (free_tracked_register_nodes) {
+            reg = free_tracked_register_nodes;
+            free_tracked_register_nodes = reg->next_free;
+            number = reg->number;
+            memset(reg, 0, sizeof(C2FunctionRegister));
+            reg->number = number;
+        } else {
+            block = tracked_register_block;
+            if (block->cursor >= block->end)
+                tracked_register_block = block = new_register_block();
+            reg = block->cursor++;
+        }
+        add_register_to_set(tracked_register_set, reg->number);
+        return reg;
+    case 7:
+    case 8:
+        block = secondary_register_block;
+        if (block->cursor >= block->end)
+            secondary_register_block = block = new_register_block();
+        reg = block->cursor++;
+        add_register_to_set(secondary_register_set, reg->number);
+        return reg;
+    case 15:
+        block = extra_register_block;
+        if (!block || block->cursor >= block->end)
+            extra_register_block = block = new_register_block();
+        reg = block->cursor++;
+        return reg;
+    default:
+        block = default_register_block;
+        if (block->cursor >= block->end)
+            default_register_block = block = new_register_block();
+        reg = block->cursor++;
+        return reg;
+    }
+}

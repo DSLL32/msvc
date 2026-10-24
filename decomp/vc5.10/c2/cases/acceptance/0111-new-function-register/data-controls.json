@@ -1,0 +1,29 @@
+{
+  "count": 5,
+  "controls": [
+    {
+      "control": "original kind4 class",
+      "reason": "register factory class data changed"
+    },
+    {
+      "control": "original jump target",
+      "reason": "register factory actual code target identity differs"
+    },
+    {
+      "control": "rebuilt kind4 class",
+      "reason": "register factory class data changed"
+    },
+    {
+      "control": "rebuilt jump target",
+      "reason": "register factory actual code target identity differs"
+    },
+    {
+      "control": "field offset",
+      "reason": "register factory source/field owner changed"
+    }
+  ],
+  "seconds": 0.09214160684496164,
+  "checker_sha256": "dd4dc0d1ac4afd9bbd55718d1b7caa1077d7d63ce83b314f30c59d76b51ecb22",
+  "validator_sha256": "2238fcc13d16c1fdafc051f1d8fdd48beca485bcce69dc080dbb0e0eaccb736c",
+  "scope": "Actual source/data validator on isolated exact PE/MAP/source/model copies. Original transport identity rebound only to reach content checks; actual target/raw untouched. Case meanings and code identities remain independently bound."
+}

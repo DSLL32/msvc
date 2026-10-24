@@ -63,8 +63,9 @@ ROOTS.update(REGISTER_ROOTS)
 ROOTS['free_register_set_head']=(0x48e124,'free_register_sets[1]')
 
 
-def register_pool_state(read, head, count, sets=0):
+def register_pool_state(read, head, count, sets=0, nodes=0):
     """Known allocator-written spans plus encountered register-block fields."""
+    assert nodes in (0,1)
     assert sets in (0,2)
     assert count == 4, 'new natural register allocation shape needs explicit proof'
     chain=[]; current=head
@@ -78,7 +79,7 @@ def register_pool_state(read, head, count, sets=0):
     identity=lambda index:0x50000000+index*0x10000
     for index,base in enumerate(bases[1:],1):
         raw=bytearray(read(base,4096));expected=bytearray(4096)
-        pointers={0:(bases[index-1],identity(index-1)),8:(bases[index+1]+8 if index<count else 0,identity(index+1)+8 if index<count else 0),12:(base+20,identity(index)+20),16:(base+2580,identity(index)+2580)}
+        pointers={0:(bases[index-1],identity(index-1)),8:(bases[index+1]+8 if index<count else 0,identity(index+1)+8 if index<count else 0),12:(base+20+(80*nodes if index==1 else 0),identity(index)+20+(80*nodes if index==1 else 0)),16:(base+2580,identity(index)+2580)}
         for offset,(actual,logical)in pointers.items():
             assert struct.unpack_from('<I',raw,offset)[0]==actual, 'register block/pool header identity differs'
             struct.pack_into('<I',raw,offset,logical);struct.pack_into('<I',expected,offset,logical)
@@ -94,7 +95,7 @@ def register_pool_state(read, head, count, sets=0):
     return bases,{'arena_count':count+1,'register_blocks':count,'blocks':blocks,'byte_scope':'Each exact4096B arena: real allocator writes two headerDWORDs and zeroes4088B. Only encountered pointer/header/number fields are interpreted; other zero bytes have allocator-writer provenance, no semantic/default/layout credit.'}
 
 
-def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False, list_constructed=False, source_pending=False, symbols_complete=False, append_pending=False, append_complete=False, section_symbols_pending=False, section_symbols_complete=False, storage_complete=False, section_recorded=False, section_selected=False, output_bytes_written=False, output_directives_complete=False, function_selected=False, register_directory=False, register_blocks=0, register_sets=0):
+def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False, list_constructed=False, source_pending=False, symbols_complete=False, append_pending=False, append_complete=False, section_symbols_pending=False, section_symbols_complete=False, storage_complete=False, section_recorded=False, section_selected=False, output_bytes_written=False, output_directives_complete=False, function_selected=False, register_directory=False, register_blocks=0, register_sets=0, register_nodes=0):
     payload=b'-defaultlib:LIBC -defaultlib:OLDNAMES 'if output_directives_complete else b'-defaultlib:LIBC'if output_bytes_written else b''
     written=len(payload);writes=6 if output_directives_complete else 2 if output_bytes_written else 0
     def u32(address): return struct.unpack('<I', read(address, 4))[0]
@@ -225,7 +226,7 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
         directive_head, directive_cursor, directive_remaining = pool_words[3:6]
         assert directive_head and directive_head != head
         if register_blocks:
-            pool_bases,pool_state=register_pool_state(read,directive_head,register_blocks,register_sets)
+            pool_bases,pool_state=register_pool_state(read,directive_head,register_blocks,register_sets,register_nodes)
             assert all(base!=head for base in pool_bases)
             assert directive_cursor==pool_bases[-1]+2580+12*register_sets and directive_remaining==1516-12*register_sets
             directive_head=pool_bases[0]

@@ -1212,17 +1212,17 @@
     "evidence": null
   },
   {
-    "name": "@new_function_register@4",
-    "start": 4201624,
-    "end": 4201625,
+    "name": "@clear_register_set@4",
+    "start": 4200807,
+    "end": 4200808,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null
   },
   {
-    "name": "@clear_register_set@4",
-    "start": 4200807,
-    "end": 4200808,
+    "name": "@add_register_to_set@8",
+    "start": 4200607,
+    "end": 4200608,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

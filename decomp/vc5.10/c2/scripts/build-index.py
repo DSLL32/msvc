@@ -69,6 +69,17 @@ def main():
                 'evidence':{'original_scope_table':hex(table),'rebuilt_scope_table':hex(rebuilt_table),
                             'source':'explicit -1 enclosing scope, filter and handler roots from actual compiled PE scope tables'}}
     for record in config['driver']:
+        if record.get('rebuilt_register_factory_data_offsets'):
+            assert record['name']=='@new_function_register@4'
+            function=metadata['functions'].setdefault(record['name'],{})
+            function.setdefault('original',{})['text_data']=record['shared']
+            start=symbols[record['name']]
+            intervals=[[start+a,start+b]for a,b in record['rebuilt_register_factory_data_offsets']]
+            assert [b-a for a,b in intervals]==[24,13]
+            assert read(intervals[0][0]-1,1)==b'\xc3'
+            assert all(start<=target<intervals[0][0]for target in struct.unpack('<6I',read(intervals[0][0],24)))
+            assert max(read(intervals[1][0],13))==5
+            function.setdefault('rebuilt',{})['text_data']=intervals
         if record.get('rebuilt_name_dispatch_offsets'):
             assert record['name']=='@intern_symbol_name@12'
             function=metadata['functions'].setdefault(record['name'],{})

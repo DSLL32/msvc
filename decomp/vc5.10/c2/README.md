@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 105 application functions (21410 bytes) and five CRT
+Current reconstruction has 106 application functions (21801 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at new_function_register(4), after two register-set and four register-block constructors for selected _mix_unsigned
+currently stops at add_register_to_set(tracked_register_set, 0), after the first tracked register allocation for selected _mix_unsigned
 and the 38-byte directive payload/counters matched. Four import thunks (24 bytes) and contextual text tables
-(812 bytes) remain separate. The 21848 source bytes are 3.812% of 573183 `.text`
+(853 bytes) remain separate. The 22239 source bytes are 3.880% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -22,7 +22,7 @@ case, and `cases/acceptance/` retains each subsequent promotion in order.
 checks the Win32 reconstruction with the shipped compiler and `/MD` runtime.
 `make audit` uses the common Rust CFG/RET/ownership/extent tool with explicit
 paths. `make -j4 fixtures` runs only the native executable against frozen streams and
-19 original application entries. Current measurements: 2.1 ms execution, 13.9 ms
+19 original application entries. Current measurements: 3.0 ms execution, 15.1 ms
 including fixture setup/checks. New capture helpers retain their actual executable
 and immutable compiled inputs; newer captures also retain ELF/PE/MAP and
 static-index snapshots in scratch for independent review. Earlier raw evidence
@@ -483,3 +483,5 @@ Source108 reconstructs initialize_function_records (179 original bytes). The act
 Source109 reconstructs new_register_block:139Bhot+86Bcold=225B. Four genuine calls produce four2572B blocks (12Bheader+32x80Brows), numbers0..127, linked blocks and directory entries; the five exact4096B pool1 arenas are checked under real accepted allocator zero-writer provenance. No semantic meaning/default/layout credit for remaining row bytes. Whole common graph/RET/import/extent audit passes; original /Oi preserves intrinsic memcpy. Cold capacitygrowth remains naturally unvisited, while actual-source auxiliary capacity1->2->4/nonzero-pending-byte/unsigned-wrap tests pass13controls.70 actual production-data/raw/ELF/fastcall controls avoid repeated staticaudits,5 finite source/escape guards pass,6 generic fresh/147 reused. Fresh original/native reach genuine new_register_set(poolECX1), whose body stays masked/zero credit; original future freehead slot48e124 is analysis only, no invented native table storage.
 
 Source110 reconstructs the60B register-set constructor. Both natural12Bheaders and five full allocator-defined arenas match at genuine new_function_register(CL4). Only encountered free-head slot1(4B) is modeled; native guards reject unknownslots before access, pool12 remains valid original input. Auxiliary nonzero reuse/padding/highbyte/slot0 and finite consumer/escape controls are retained.
+
+Source111 reconstructs the391B whole register-node factory, with41B original switch/class data separate. All256kind meanings match canonical tables despite different target/class encodings. Natural kind4 advances trackedrow cursor80 and matches actualsetECX/numberEDX0 at named add_register_to_set INT3. Reuse/capacity/extraNULL and nonzero untouched-row checks remain auxiliary; pending74B helper masked andzero credit.

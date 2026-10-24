@@ -12,11 +12,14 @@ typedef struct C2FunctionRegister {
     unsigned char kind;
     unsigned char pending05[23];
     unsigned number;
-    unsigned char pending32[48];
+    unsigned char pending32[8];
+    struct C2FunctionRegister *next_free;
+    unsigned char pending44[36];
 } C2FunctionRegister;
 typedef char C2FunctionRegisterSizeCheck[sizeof(C2FunctionRegister) == 80 ? 1 : -1];
 typedef char C2FunctionRegisterKindCheck[offsetof(C2FunctionRegister,kind) == 4 ? 1 : -1];
 typedef char C2FunctionRegisterNumberCheck[offsetof(C2FunctionRegister,number) == 28 ? 1 : -1];
+typedef char C2FunctionRegisterFreeCheck[offsetof(C2FunctionRegister,next_free) == 40 ? 1 : -1];
 struct C2RegisterBlock {
     C2RegisterBlock *next;
     C2FunctionRegister *cursor, *end;
@@ -38,4 +41,5 @@ C2RegisterBlock *new_register_block(void);
 C2RegisterSet *__fastcall new_register_set(int pool);
 C2FunctionRegister *__fastcall new_function_register(unsigned char kind);
 void __fastcall clear_register_set(C2RegisterSet *set);
+void __fastcall add_register_to_set(C2RegisterSet *set, unsigned number);
 #endif

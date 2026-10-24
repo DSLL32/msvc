@@ -1,0 +1,77 @@
+{
+  "builds": {
+    "native": {
+      "seconds": 3.0907965591177344,
+      "status": 0,
+      "log": "/root/.ai-tmp/msvc2/vc5.10/c2/node111-native-build.log"
+    },
+    "build/debug-run.exe": {
+      "seconds": 1.884632126428187,
+      "status": 0,
+      "log": "/root/.ai-tmp/msvc2/vc5.10/c2/node111-build-debug-run.exe-build.log"
+    },
+    "original_incremental_check": {
+      "seconds": 0.008980078622698784,
+      "status": 0,
+      "log": "/root/.ai-tmp/msvc2/vc5.10/c2/node111-original-build.log"
+    },
+    "original": {
+      "seconds": 7.359843701,
+      "measurement": "Owned provenance start/finish file timestamps covering the actual original compile/link+provenance interval; initial top-level shell timing was not recorded. Subsequent make original incremental check measured separately.",
+      "start_path": "build/original/input-start.json",
+      "finish_path": "build/original/input-provenance.json",
+      "start_mtime_ns": 1792824976665288283,
+      "finish_mtime_ns": 1792824984025131984,
+      "status": 0,
+      "log_retention": "Initial compile log was overwritten by later incremental-check output; do not treat current node111-original-build.log as the full build log. Actual source snapshots/binary/provenance and start/finish timestamps retained."
+    }
+  },
+  "original_capture": {
+    "setup": 1.260255335830152,
+    "execution": 3.2527849450707436,
+    "total": 4.563017318025231
+  },
+  "native_capture": {
+    "execution": 0.5737575860694051,
+    "total": 0.8364387126639485
+  },
+  "audit_seconds": 1.1319228075444698,
+  "protocol_controls": {
+    "fresh": 6,
+    "reused": 147,
+    "seconds": 9.135283103212714
+  },
+  "fresh_affected_controls": {
+    "input": {
+      "fresh": 87,
+      "seconds": 2.086076050065458
+    },
+    "boundary": {
+      "fresh": 12,
+      "seconds": 4.561532690189779
+    },
+    "data": {
+      "fresh": 5,
+      "seconds": 0.09214160684496164
+    },
+    "source": {
+      "fresh": 5,
+      "seconds": 0.03437388502061367
+    }
+  },
+  "fixture": {
+    "case": "unsupported-help-diagnostic",
+    "status": "PASS",
+    "application_entries": 19,
+    "stdout_bytes": 0,
+    "stderr_bytes": 51,
+    "seconds": {
+      "setup": 0.011408773250877857,
+      "execution": 0.0030407989397644997,
+      "checks": 0.00021744705736637115,
+      "total": 0.0151404719799757
+    },
+    "transport": "native ELF32 only; frozen original reference"
+  },
+  "failures": "No failed original/native capture or candidate comparison. Auxiliary first compile failed only because observer main(void) conflicted with target main(int,char**,char**); fixed observer signature, actualfactory unchanged, then all12 controls pass. Original build elapsed from retained owned provenance start/finish mtimes7.359843701s; initial build output log overwritten by later incremental check, explicitly disclosed in build accounting. No reporting-only rebuild/replay."
+}

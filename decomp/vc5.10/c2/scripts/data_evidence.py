@@ -52,6 +52,8 @@ def verify(config):
     registers=verify_registers(config)
     from register_set_data import verify as verify_register_sets
     verify_register_sets(config)
+    from register_node_data import verify as verify_register_nodes
+    verify_register_nodes(config)
     from function_register_data import verify as verify_function_registers
     function_registers=verify_function_registers(config)
     value=model(config)

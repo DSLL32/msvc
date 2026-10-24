@@ -15,7 +15,9 @@ def verify(config):
     for path in (BINARY/'src').rglob('*'):
         if path.suffix not in ('.c','.h')or str(path.relative_to(BINARY))in allowed:continue
         text=path.read_text()
-        if path.name=='stubs.c':text=re.sub(r'^void __fastcall clear_register_set\(C2RegisterSet \*set\)$','',text,flags=re.M)
+        if path.name=='stubs.c':
+            text=re.sub(r'^void __fastcall clear_register_set\(C2RegisterSet \*set\)$','',text,flags=re.M)
+            text=re.sub(r'^void __fastcall add_register_to_set\(C2RegisterSet \*set, unsigned number\)$','',text,flags=re.M)
         assert not re.search(tokens,text),'unmodeled register-set consumer/index/escape'
     # Existing caller bytes are separately frozen by the block model; enforce its finite calls too.
     calls=re.findall(r'new_register_set\(([^)]*)\)',(BINARY/'src/function-records.c').read_text())

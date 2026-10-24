@@ -120,7 +120,8 @@
     "_reset_register_marks",
     "_initialize_function_records",
     "_new_register_block",
-    "@new_register_set@4"
+    "@new_register_set@4",
+    "@new_function_register@4"
   ],
   "driver": [
     {
@@ -12454,7 +12455,7 @@
       "abi": "cdecl(void), pointerEAX,RET0",
       "evidence": "cases/analysis/register-block-analysis.json139Bhot+86Bcold; four naturalcalls produce4pool1arenas and directorylinks. Capacitygrowth statically reconstructed, notnaturallyexecuted.",
       "register_block_model": "cases/analysis/register-block-analysis.json",
-      "register_block_model_sha256": "9c03941491411d05297fd5cbf4d7dbcfc6ff4d89dff6de332fd45f4ee5c1521d"
+      "register_block_model_sha256": "415e325abc769126f414f650568b8c4d8f0a9e73446fa44cdd0786c213e497fb"
     },
     {
       "name": "@new_register_set@4",
@@ -12466,7 +12467,41 @@
       "evidence": "cases/analysis/register-set-analysis.json whole60Bbody/header/free-head identity/conditional data projection; original pool12 valid unmodeled native data",
       "source": "src/register-sets.c",
       "register_set_model": "cases/analysis/register-set-analysis.json",
-      "register_set_model_sha256": "7af021baffebb5edcca774e5a6187739bd48de35df6b4d0da21fa4cbd22deea5"
+      "register_set_model_sha256": "75f2c4a59232432f8ea90c243ee81841d922d4502a10e146d795ea4a05430a15"
+    },
+    {
+      "name": "@new_function_register@4",
+      "native": "new_function_register",
+      "start": 4201624,
+      "kind": "application",
+      "abi": "fastcall unsignedchar kindCL,pointerEAX,RET0; no EDX formal",
+      "end": 4202000,
+      "code_chunks": [
+        [
+          4610059,
+          4610074
+        ]
+      ],
+      "shared": [
+        [
+          4202000,
+          4202041
+        ]
+      ],
+      "source": "src/function-records.c",
+      "evidence": "cases/analysis/register-node-analysis.json whole376Bhot+15Bcold391B;41B dispatch/classdata separate; namedpending add_register_to_set.",
+      "rebuilt_register_factory_data_offsets": [
+        [
+          579,
+          603
+        ],
+        [
+          603,
+          616
+        ]
+      ],
+      "register_node_model": "cases/analysis/register-node-analysis.json",
+      "register_node_model_sha256": "a646bf588a8055962795b2d1770188dc263d4655a542571f1ef14b0cd775422e"
     }
   ],
   "stubs": [
@@ -14537,14 +14572,17 @@
       "evidence": "cases/analysis/begin-function-input-disassembly.txt completeboundedcallee noarg prologue/RET0; genuine namedmaskedINT3, no bodycredit."
     },
     {
-      "name": "@new_function_register@4",
-      "native": "new_function_register",
-      "start": 4201624,
-      "end": 4201625,
+      "name": "@clear_register_set@4",
+      "native": "clear_register_set",
+      "start": 4200807,
+      "end": 4200808,
       "kind": "application",
       "pending_extent": true,
-      "abi": "fastcall unsignedchar kindCL,pointerEAX,RET0; no EDX formal",
-      "evidence": "cases/analysis/function-records-analysis.json actual wholecallee/caller ABI; namedmaskedINT3, no bodycredit.",
+      "abi": "fastcall C2RegisterSet*ECX,void,RET0",
+      "evidence": "cases/analysis/function-records-analysis.json actual wholecallee/caller ABI; namedmaskedINT3, no bodycredit."
+    },
+    {
+      "kind": "application",
       "state_policy": "globals-complete",
       "state": [
         {
@@ -14723,18 +14761,16 @@
       "function_register_directory": true,
       "function_register_blocks": 4,
       "register_sets": 2,
-      "register_node_input": true,
-      "state_model_sha256": "4b28a133803c93035093ce6088dc9d04bfaced1844c7488fd7264c9a06b883e4"
-    },
-    {
-      "name": "@clear_register_set@4",
-      "native": "clear_register_set",
-      "start": 4200807,
-      "end": 4200808,
-      "kind": "application",
+      "state_model_sha256": "950a61136444da1c43a8aa1d9abbedfb229663d7e3660f1f653e5de728fe20c3",
+      "name": "@add_register_to_set@8",
+      "native": "add_register_to_set",
+      "start": 4200607,
+      "end": 4200608,
       "pending_extent": true,
-      "abi": "fastcall C2RegisterSet*ECX,void,RET0",
-      "evidence": "cases/analysis/function-records-analysis.json actual wholecallee/caller ABI; namedmaskedINT3, no bodycredit."
+      "abi": "fastcall C2RegisterSet*ECX, unsigned numberEDX,voidcurrentresultignored,RET0",
+      "evidence": "cases/analysis/register-node-analysis.json wholeactual74B helper/all3 factorycalls; genuine namedmasked INT3, no bodycredit. IncomingECXset/EDXnumber; entryESI overwritten, no hiddeninput.",
+      "register_add_input": true,
+      "function_register_nodes": 1
     }
   ],
   "text_data": [
@@ -14932,6 +14968,22 @@
       "start": 4323828,
       "end": 4323844,
       "evidence": "cases/analysis/prepare-global-records-analysis.json: exact encountered initializerkind switch data, no codecredit"
+    },
+    {
+      "name": "function_register_dispatch",
+      "start": 4202000,
+      "end": 4202028,
+      "kind": "jump-table",
+      "owner": "@new_function_register@4",
+      "evidence": "7actualDWORDcase targets; bounded sourcekind byte classmap."
+    },
+    {
+      "name": "function_register_classmap",
+      "start": 4202028,
+      "end": 4202041,
+      "kind": "byte-map",
+      "owner": "@new_function_register@4",
+      "evidence": "13actualunsigned-kind3..15 class selector bytes."
     }
   ],
   "support": [
@@ -15050,7 +15102,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15062,7 +15114,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15074,7 +15126,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15086,7 +15138,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15098,7 +15150,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15110,7 +15162,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15122,7 +15174,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15134,7 +15186,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15146,7 +15198,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15158,7 +15210,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15172,7 +15224,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15184,7 +15236,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15199,7 +15251,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15211,7 +15263,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15223,7 +15275,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15235,7 +15287,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15247,7 +15299,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15259,7 +15311,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15274,7 +15326,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15289,7 +15341,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15301,7 +15353,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15313,7 +15365,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15325,7 +15377,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {
@@ -15340,7 +15392,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "72caca296b01c8cd34b6cc2601cb620139f70b427b540c73bb54cd3f33974d68"
+          "sha256": "fd03e0dcdb1a00b6186992c286df4e80a9c1494ddb4af26b17e06917fe53cb3c"
         }
       },
       {

@@ -680,12 +680,12 @@ void reset_function_listing(void)
     __asm { int 3 }
 }
 
-C2FunctionRegister *__fastcall new_function_register(unsigned char kind)
+void __fastcall clear_register_set(C2RegisterSet *set)
 {
     __asm { int 3 }
-    return NULL;
 }
-void __fastcall clear_register_set(C2RegisterSet *set)
+
+void __fastcall add_register_to_set(C2RegisterSet *set, unsigned number)
 {
     __asm { int 3 }
 }
