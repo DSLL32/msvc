@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_browser_record_from_end@4",
+  "case": "member_registry_browser",
+  "accepted_before": 1265,
+  "configuration_sha256": "44ffbee02d6304945d3ed94581c41b58e183a579b729ef0f6d015f00bbbc6da1",
+  "native_entry": "browser_record_from_end",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "index",
+      "stack_index": 0,
+      "native_field": "raw_index",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      },
+      "original_raw": 0,
+      "native_raw": 0,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      179680,
+      179737
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 pointer EAX, RET4",
+    "proof": "Whole57B savesESI4; actualindex atadjustedESP+8=entryESP+4. Loadcount94b3c, compute count-index+head94b40-1; signedindex+1>count returnsNULL else one signedslot>=32 subtraction then24stride ring94b44. BothRET4. No calls/payload/newdata/hiddenregister/x87/flagsinputs. Currentqueue firstsuppliesindex0 thenindex1, normalcount1: returnsheadslot thenNULL; no negative-index guard/modulo/domain repair invented.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "cf67b8d4fbaed76cd0ca2889ad9f7bd39e2795843ec6796dc98460d13461718c",
+  "capture_timing": {
+    "original_capture_seconds": 1.5181316686794162,
+    "native_capture_seconds": 0.17569250240921974,
+    "total_operation_seconds": 1.9325797678902745
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "645e20c7be3dbbf3ca13f72f9bd059a40c1d3b8c1578fc5f1f1412dddbebd9a9",
+    "native-commands.gdb": "0024f6b065e60df9a716bbbc1173675e66531cd02b9d2b0b15ad5deadd45f9fb",
+    "native-gdb.log": "be827ea42e76fef36ce4b2103791a98ec3a0e1a3f9802733645fb8ce8ef7aea1",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "2a279d918f23422bf79c9eeea55cc6770659d7881c2df6b35e4bfedba8f4073b",
+    "original-configuration.json": "44ffbee02d6304945d3ed94581c41b58e183a579b729ef0f6d015f00bbbc6da1",
+    "original-disassembly.txt": "ca8ebaf75093f4b4ff35fa72de05a4bfae6e5271befe83b46ef2ec7a67eb68b9",
+    "original-events.txt": "9c9de37002a15b089339cc1ff2231ec3d718ba70840c6ee9e52aa4f06c9260f1",
+    "original-receipt.json": "b13784f70709fb17358591442cf80ac2ffd42501d41ea71c290c1c3c839b1e7b",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "c5c515e59b1a22177ecd8ceecdd090feb35b60e421641c92d7359aeffe1805d4"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

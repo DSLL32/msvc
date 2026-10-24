@@ -138,3 +138,12 @@ BrowserRecordHeader *second_browser_record(void)
     if (index >= 32) index -= 32;
     return &browser_records[index].header;
 }
+
+/* Original 0x2bde0..0x2be18. Index zero denotes the newest record. */
+BrowserRecordHeader *__stdcall browser_record_from_end(int index)
+{
+    int slot = browser_record_head + browser_record_count - index - 1;
+    if (index + 1 > browser_record_count) return 0;
+    if (slot >= 32) slot -= 32;
+    return &browser_records[slot].header;
+}

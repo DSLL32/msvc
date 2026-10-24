@@ -1,14 +1,14 @@
 {
   "case": "member_registry_browser",
-  "scope": "1265 accepted frontiers; explicit original-backed current partial frontend terminal",
-  "reference_receipt": "cases/frontiers/member_registry_browser/1264-second_browser_record/original-receipt.json",
-  "reference_receipt_sha256": "accb01c4bc5188b03663dc312415c41ff8e14511aea86295956484152e9f68c7",
+  "scope": "1266 accepted frontiers; explicit original-backed current partial frontend terminal",
+  "reference_receipt": "cases/frontiers/member_registry_browser/1265-browser_record_from_end-4/original-receipt.json",
+  "reference_receipt_sha256": "6dd40ee237694edfafc7f98b46b9dc21435e6fd324ae7c34afc68c32a51a60a9",
   "reference_original_image_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
   "canonical_map": "canonical-map.txt",
-  "canonical_map_sha256": "09f8a713ebb0235fe4d8527195d325708d3bb1a8b284a01e34077e9a33abb83a",
+  "canonical_map_sha256": "af3e9f02be3c6bb4fe6ee9d55130abcaa7137aae7406a369a830c9627d1ecb65",
   "terminal": {
     "kind": "frontier",
-    "logical": "_browser_record_from_end@4",
+    "logical": "_browser_macro@4",
     "native_signal": 5,
     "original_exception": "80000003"
   },
@@ -16,13 +16,38 @@
   "expected_stderr": "",
   "outputs": [
     {
+      "path": "irex",
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    {
+      "path": "irsy",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "irin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "irgl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "irdb",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
       "path": "registry.sbt",
       "bytes": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     }
   ],
   "normalization": "none; captured visible bytes, not unflushed CRT buffers",
-  "capture_seconds": 0.7659822842106223,
+  "capture_seconds": 1.5172471972182393,
   "dependencies": [
     {
       "path": "toolchains/1.0-nt/bin/C1.ERR",
@@ -35,23 +60,23 @@
   "phase_output_presence": [
     {
       "path": "irex",
-      "present": false
+      "present": true
     },
     {
       "path": "irsy",
-      "present": false
+      "present": true
     },
     {
       "path": "irin",
-      "present": false
+      "present": true
     },
     {
       "path": "irgl",
-      "present": false
+      "present": true
     },
     {
       "path": "irdb",
-      "present": false
+      "present": true
     },
     {
       "path": "registry.sbr",
@@ -63,6 +88,31 @@
     }
   ],
   "visible_files": [
+    {
+      "path": "irdb",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "irex",
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    {
+      "path": "irgl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "irin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "irsy",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
     {
       "path": "registry.cpp",
       "bytes": 6998,

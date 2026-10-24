@@ -1,0 +1,13 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56558ad7 in browser_macro (definition=0x56631c8c) at src/stubs.c:84
+84	void __stdcall browser_macro(MacroDefinition *definition) { __asm { int 3 } }
+#0  0x56558ad7 in browser_macro (definition=0x56631c8c) at src/stubs.c:84
+#1  0x56575958 in define_macro (replacement=0x0, bytes=0, parameter_count=-3) at src/macros.c:280
+#2  0x56575234 in define_command_line_macros (definitions=0x5663a908) at src/macros.c:109
+#3  0x5655f385 in initialize_frontend () at src/initialization.c:241
+#4  0x5655dc4c in compile_translation_unit () at src/frontend.c:22
+#5  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#6  0x56558894 in main (argc=1, argv=0xffffd804, environment=0xffffd80c) at src/c1xx.c:20
