@@ -115,7 +115,8 @@
     "_write_pending_debug_symbols",
     "_write_assembly_symbols",
     "@write_codeview_records@4",
-    "@write_assembly_records@4"
+    "@write_assembly_records@4",
+    "_begin_function_input"
   ],
   "driver": [
     {
@@ -12400,6 +12401,21 @@
       "kind": "application",
       "abi": "voidfastcall(C2DebugLink*recordsECX),RET0",
       "evidence": "cases/analysis/assembly-records-analysis.json:16Bhot+40Bcold, actualassemblyflag and genuine lookup/initializeremit calls. Bothchildren remain namedmaskedINT3, zero bodycredit."
+    },
+    {
+      "name": "_begin_function_input",
+      "native": "begin_function_input",
+      "start": 4359680,
+      "end": 4359746,
+      "code_chunks": [
+        [
+          4636673,
+          4636683
+        ]
+      ],
+      "kind": "application",
+      "abi": "voidcdecl(void),RET0",
+      "evidence": "cases/analysis/begin-function-input-analysis.json whole66Bhot+10Bcold; four genuine noarg children, existing globals plus realDWORD lowbyte clear, no register table/data/body credit."
     }
   ],
   "stubs": [
@@ -12713,192 +12729,6 @@
       "kind": "application",
       "abi": "cdecl void; void result; RET0",
       "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
-    },
-    {
-      "name": "_begin_function_input",
-      "native": "begin_function_input",
-      "start": 4359680,
-      "end": 4359681,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl void; void result; RET0",
-      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit.",
-      "state_policy": "globals-complete",
-      "state": [
-        {
-          "original": "0x499708",
-          "native": "(unsigned long)c2_onexit_end"
-        },
-        {
-          "original": "0x4996d4",
-          "native": "(unsigned long)c2_onexit_begin"
-        },
-        {
-          "original": "0x49975c",
-          "native": "c2_fmode"
-        },
-        {
-          "original": "0x4980d4",
-          "native": "c2_commode"
-        },
-        {
-          "original": "0x499718",
-          "native": "c2_adjust_fdiv"
-        },
-        {
-          "original": "0x499694",
-          "native": "c2_default_math_error"
-        },
-        {
-          "original": "0x4980d0",
-          "native": "c2_new_mode"
-        },
-        {
-          "original": "0x4980cc",
-          "native": "c2_wildcards"
-        },
-        {
-          "original": "0x7803fa88",
-          "native": "recon_fmode"
-        },
-        {
-          "original": "0x7803fa94",
-          "native": "recon_commode"
-        },
-        {
-          "original": "0x7803f928",
-          "native": "recon_adjust_fdiv"
-        },
-        {
-          "original": "0x7803fa90",
-          "native": "recon_crt_app_type"
-        },
-        {
-          "original": "0x7803f198",
-          "native": "recon_crt_newmode"
-        },
-        {
-          "original": "0x490b7c",
-          "native": "c2_il_extended_header"
-        },
-        {
-          "original": "0x4972f8",
-          "native": "c2_il_source_table"
-        },
-        {
-          "original": "0x497df8",
-          "native": "c2_il_symbol_count"
-        },
-        {
-          "original": "0x491050",
-          "native": "c2_il_initial_symbol_count"
-        },
-        {
-          "original": "0x497f6c",
-          "native": "c2_il_target_size"
-        },
-        {
-          "original": "0x497de8",
-          "native": "c2_il_eight_byte_target"
-        },
-        {
-          "original": "0x48fb68",
-          "native": "(unsigned long)global_scope.previous"
-        },
-        {
-          "original": "0x491040",
-          "native": "c2_node_bytes[0]"
-        },
-        {
-          "original": "0x491044",
-          "native": "c2_node_bytes[1]"
-        },
-        {
-          "original": "0x491048",
-          "native": "c2_node_bytes[2]"
-        },
-        {
-          "original": "0x49104c",
-          "native": "c2_node_bytes[3]"
-        },
-        {
-          "original": "0x491074",
-          "native": "selected_save_register_mask"
-        },
-        {
-          "original": "0x495f34",
-          "native": "call_clobbered_register_mask"
-        },
-        {
-          "original": "0x49745c",
-          "native": "stack_alignment"
-        },
-        {
-          "original": "0x4973e8",
-          "native": "(unsigned long)current_debug_scope"
-        },
-        {
-          "original": "0x490b84",
-          "native": "(unsigned long)current_symbol_list_scope"
-        },
-        {
-          "original": "0x4972fc",
-          "native": "(unsigned long)global_special_symbols"
-        },
-        {
-          "original": "0x49d634",
-          "native": "current_source_file"
-        },
-        {
-          "original": "0x49739c",
-          "native": "last_section_serial"
-        },
-        {
-          "original": "0x4973b0",
-          "native": "il_option_flags"
-        },
-        {
-          "original": "0x4973a0",
-          "native": "(unsigned long)auxiliary_prefix"
-        },
-        {
-          "original": "0x497390",
-          "native": "(unsigned long)aux_expression_file"
-        },
-        {
-          "original": "0x497380",
-          "native": "(unsigned long)aux_symbol_file"
-        },
-        {
-          "original": "0x497c6c",
-          "native": "c2_constant_strings"
-        },
-        {
-          "original": "0x4973c0",
-          "native": "c2_omit_frame_pointer"
-        },
-        {
-          "original": "0x490b78",
-          "native": "(unsigned long)c2_internal_listing"
-        },
-        {
-          "original": "0x4973f8",
-          "native": "(unsigned long)default_storage_section"
-        },
-        {
-          "original": "0x490b70",
-          "native": "(unsigned long)local_symbol_table"
-        }
-      ],
-      "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "36e0e71605e0b7fc6f889e7d75784c39b4bdd30c2a78f6bde1db7cbcfa2bbb5c",
-      "expected_argc": 0,
-      "expected_argv": [
-        "-G5"
-      ],
-      "frontier_contract": "coff-output-ready",
-      "section_caller": "write_assembly_records",
-      "controller_selected_function": true
     },
     {
       "name": "@read_function@4",
@@ -14026,7 +13856,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "36e0e71605e0b7fc6f889e7d75784c39b4bdd30c2a78f6bde1db7cbcfa2bbb5c"
+      "state_model_sha256": "b4a6d5a2d64d8b8d69b02fae7173baa07101844d5b690db9680eb96d42a7e0dd"
     },
     {
       "name": "@reserve_incremental_symbols@12",
@@ -14214,7 +14044,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "36e0e71605e0b7fc6f889e7d75784c39b4bdd30c2a78f6bde1db7cbcfa2bbb5c"
+      "state_model_sha256": "b4a6d5a2d64d8b8d69b02fae7173baa07101844d5b690db9680eb96d42a7e0dd"
     },
     {
       "name": "_grow_coff_symbol_buffer",
@@ -14409,7 +14239,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "36e0e71605e0b7fc6f889e7d75784c39b4bdd30c2a78f6bde1db7cbcfa2bbb5c",
+      "state_model_sha256": "b4a6d5a2d64d8b8d69b02fae7173baa07101844d5b690db9680eb96d42a7e0dd",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -14634,6 +14464,222 @@
       "kind": "application",
       "abi": "voidfastcall existingC2InitRecord*recordECX RET0; savedEBX/EBP/ESI/EDI; complete250B boundedABIanalysis only, no bodycredit",
       "evidence": "cases/analysis/assembly-records-analysis.json exactcaller+boundedcallee ABI; genuine masked INT3/no bodycredit."
+    },
+    {
+      "name": "_reset_register_marks",
+      "native": "reset_register_marks",
+      "start": 4359746,
+      "end": 4359747,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "voidcdecl(void),RET0",
+      "evidence": "cases/analysis/begin-function-input-disassembly.txt completeboundedcallee noarg prologue/RET0; genuine namedmaskedINT3, no bodycredit.",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "state_model_sha256": "b4a6d5a2d64d8b8d69b02fae7173baa07101844d5b690db9680eb96d42a7e0dd",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "coff-output-ready",
+      "controller_selected_function": true,
+      "section_caller": "begin_function_input"
+    },
+    {
+      "name": "_initialize_function_records",
+      "native": "initialize_function_records",
+      "start": 4359770,
+      "end": 4359771,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "voidcdecl(void),RET0",
+      "evidence": "cases/analysis/begin-function-input-disassembly.txt completeboundedcallee noarg prologue/RET0; genuine namedmaskedINT3, no bodycredit."
+    },
+    {
+      "name": "_clear_function_input_state",
+      "native": "clear_function_input_state",
+      "start": 4359949,
+      "end": 4359950,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "voidcdecl(void),RET0",
+      "evidence": "cases/analysis/begin-function-input-disassembly.txt completeboundedcallee noarg prologue/RET0; genuine namedmaskedINT3, no bodycredit."
+    },
+    {
+      "name": "_reset_function_listing",
+      "native": "reset_function_listing",
+      "start": 4738794,
+      "end": 4738795,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "voidcdecl(void),RET0",
+      "evidence": "cases/analysis/begin-function-input-disassembly.txt completeboundedcallee noarg prologue/RET0; genuine namedmaskedINT3, no bodycredit."
     }
   ],
   "text_data": [
@@ -14949,7 +14995,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -14961,7 +15007,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -14973,7 +15019,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -14985,7 +15031,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -14997,7 +15043,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -15009,7 +15055,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -15021,7 +15067,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -15033,7 +15079,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -15045,7 +15091,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -15057,7 +15103,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -15071,7 +15117,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -15083,7 +15129,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -15098,7 +15144,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -15110,7 +15156,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -15122,7 +15168,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -15134,7 +15180,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -15146,7 +15192,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -15158,7 +15204,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -15173,7 +15219,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -15188,7 +15234,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -15200,7 +15246,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -15212,7 +15258,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -15224,7 +15270,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {
@@ -15239,7 +15285,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
+          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
         }
       },
       {

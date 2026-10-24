@@ -94,6 +94,9 @@ def verify(config):
                 (0x48e008,'function_pass_state',2),(0x48e0dc,'function_pass_result',4),
                 (0x491064,'code_generation_state',4),(0x49106c,'generate_prologue',4),(0x491068,'generate_frame',4)]:
             assert reader(TARGET)(address,size)==reader(BINARY/'build/c2.exe')(maps['_'+name],size),'controller initial typed field differs'
+    if '_begin_function_input'in config['accepted']+config['trial']:
+        for at,name in [(0x490be4,'function_input_flags'),(0x48fb3c,'function_analysis_available')]:
+            assert reader(TARGET)(at,4)==reader(BINARY/'build/c2.exe')(maps['_'+name],4)==bytes(4),'function setup scalar initial storage/width differs'
     if '@lookup_global_symbol@4'in config['accepted']:
         assert reader(TARGET)(0x490b70,4)==bytes(4)and reader(BINARY/'build/c2.exe')(maps['_local_symbol_table'],4)==bytes(4),'global lookup optional existing local table initial pointer differs'
     if '@record_filename@4'in config['accepted']:

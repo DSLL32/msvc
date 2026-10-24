@@ -276,14 +276,6 @@
     "evidence": null
   },
   {
-    "name": "_begin_function_input",
-    "start": 4359680,
-    "end": 4359681,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@read_function@4",
     "start": 4358376,
     "end": 4358377,
@@ -1199,6 +1191,38 @@
     "name": "@write_assembly_initializer@4",
     "start": 4759895,
     "end": 4759896,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_reset_register_marks",
+    "start": 4359746,
+    "end": 4359747,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_initialize_function_records",
+    "start": 4359770,
+    "end": 4359771,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_clear_function_input_state",
+    "start": 4359949,
+    "end": 4359950,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_reset_function_listing",
+    "start": 4738794,
+    "end": 4738795,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

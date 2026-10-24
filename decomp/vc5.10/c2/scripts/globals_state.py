@@ -10,6 +10,8 @@ ROOTS = {
     'pools': (0x48e020, 'c2_pools'), 'free_blocks': (0x48e000, 'c2_free_blocks'),
     'types': (0x497fd8, 'c2_types'), 'scope': (0x48fb68, 'global_scope'),
     'section_head': (0x497dd0, 'section_head'), 'section_tail': (0x497db8, 'section_tail'),
+    'current_function':(0x48fb48,'current_function'),'code_generation_state':(0x491064,'code_generation_state'),
+    'function_input_flags':(0x490be4,'function_input_flags'),'function_analysis_available':(0x48fb3c,'function_analysis_available'),
     'selected_symbol':(0x495f1c,'current_symbol'),'volatile_limit':(0x499734,'volatile_pass_limit'),
     'filenames': (0x4973b8, 'filenames'), 'pending': (0x4973d4, 'pending_functions'),
     'insertion': (0x4973f0, 'pending_insertion'), 'context': (0x497f58, 'section_context'),
@@ -182,6 +184,8 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
         assert u32(head+548+106)==0x2a and u32(head+548+102)==head+776,'selected function consumedflag/next ownership differs'
         assert u32(addresses['volatile_limit'])==128,'controller volatile pass limit differs'
         result['function_selection']={'offset':548,'serial':85,'additional_flags':0x2a,'pending_root_offset':776,'volatile_limit':128}
+        result['function_setup']={key:u32(addresses[key])for key in ['current_function','code_generation_state','function_input_flags','function_analysis_available']}
+        assert result['function_setup']==dict(current_function=0,code_generation_state=0,function_input_flags=0,function_analysis_available=0),'setup writes occurred before the actual first reset-child trap'
     if directives:
         directive_head, directive_cursor, directive_remaining = pool_words[3:6]
         assert directive_head and directive_head != head

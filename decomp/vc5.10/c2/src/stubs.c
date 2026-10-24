@@ -141,10 +141,6 @@ void finish_deferred_function(void)
     __asm { int 3 }
 }
 
-void begin_function_input(void)
-{
-    __asm { int 3 }
-}
 
 C2Function *__fastcall read_function(C2FunctionSymbol *symbol)
 {
@@ -667,6 +663,26 @@ C2InitRecord *__fastcall lookup_initializer(unsigned serial)
 }
 
 void __fastcall write_assembly_initializer(C2InitRecord *record)
+{
+    __asm { int 3 }
+}
+
+void reset_register_marks(void)
+{
+    __asm { int 3 }
+}
+
+void initialize_function_records(void)
+{
+    __asm { int 3 }
+}
+
+void clear_function_input_state(void)
+{
+    __asm { int 3 }
+}
+
+void reset_function_listing(void)
 {
     __asm { int 3 }
 }

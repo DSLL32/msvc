@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Actual noarg input frontier and explicit controller function-selection state."""
+"""Actual noarg function-setup frontier and explicit controller/initialization state."""
 import argparse,json,re,shutil,tempfile,time
 from pathlib import Path
 from compare import compare
@@ -36,11 +36,19 @@ def main():
         ('original consumed flag changed',lambda r:original(r,'pool-block.bin',548+106)),
         ('original selected owner event changed',lambda r:event(r,r'^(function-input selected=)[0-9a-f]+',r'\g<1>00000000')),
         ('original actual controller flags changed',lambda r:event(r,r'^(function-input .* flags=)[0-9a-f]+',r'\g<1>00000028'))]
+    cases += [('native current-function unexpectedly initialized',lambda r:native(r,'globals_complete',lambda v:v['function_setup'].__setitem__('current_function',1))),
+        ('native code-generation state written too early',lambda r:native(r,'globals_complete',lambda v:v['function_setup'].__setitem__('code_generation_state',1))),
+        ('native DWORD input flag differs',lambda r:native(r,'globals_complete',lambda v:v['function_setup'].__setitem__('function_input_flags',0x100))),
+        ('native analysis flag differs',lambda r:native(r,'globals_complete',lambda v:v['function_setup'].__setitem__('function_analysis_available',1))),
+        ('original current-function differs',lambda r:original(r,'unmodeled-original-data.bin',0x48fb48-0x48e000)),
+        ('original code-generation state written early',lambda r:original(r,'unmodeled-original-data.bin',0x491064-0x48e000)),
+        ('original DWORD flag high byte differs',lambda r:original(r,'unmodeled-original-data.bin',0x490be5-0x48e000)),
+        ('original analysis flag differs',lambda r:original(r,'unmodeled-original-data.bin',0x48fb3c-0x48e000))]
     with tempfile.TemporaryDirectory(prefix='function-input-controls-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c2')as folder:
         for i,(name,change)in enumerate(cases):
             root=Path(folder)/str(i);shutil.copytree(a.original,root/'o');shutil.copytree(a.native,root/'n');change(root)
             try:compare(root/'o',root/'n')
             except(AssertionError,KeyError,ValueError)as e:passed.append({'control':name,'reason':str(e)})
             else:raise AssertionError('function selection mutation accepted: '+name)
-    write(a.output,{'positive':positive,'count':len(passed),'rejected':passed,'seconds':time.monotonic()-start,'checker_sha256':sha(Path(__file__).read_bytes()),'original_receipt_sha256':sha((a.original/'receipt.json').read_bytes()),'native_receipt_sha256':sha((a.native/'receipt.json').read_bytes()),'scope':'Actual noarg begin_function_input and noarg compile_functions caller. Realcontroller selects mix_unsigned85, flags28->2a, retains next/pendingtail776, setsvolatilelimit128. Full4096defined arena, pointer aliases and output state compared; selected symbol is modeled by logical arena offset, never raw cross-process address equality.'})
+    write(a.output,{'positive':positive,'count':len(passed),'rejected':passed,'seconds':time.monotonic()-start,'checker_sha256':sha(Path(__file__).read_bytes()),'original_receipt_sha256':sha((a.original/'receipt.json').read_bytes()),'native_receipt_sha256':sha((a.native/'receipt.json').read_bytes()),'scope':'Actual noarg reset_register_marks and noarg begin_function_input caller; actual firstchild precedes all setupwrites. Four setup DWORD fields exactlyzero, including allbytes of flagstorage. Realcontroller selects mix_unsigned85, flags28->2a, retains next/pendingtail776, setsvolatilelimit128. Full4096defined arena, pointer aliases and output state compared; selected symbol is modeled by logical arena offset, never raw cross-process address equality.'})
 if __name__=='__main__':main()

@@ -1,0 +1,118 @@
+{
+  "candidate": {
+    "logical": "_begin_function_input",
+    "primary": [
+      4359680,
+      4359746
+    ],
+    "cold": [
+      [
+        4636673,
+        4636683
+      ]
+    ],
+    "bytes": 76,
+    "ABI": "voidcdecl(void),RET0",
+    "source_plan": "Three noargcalls, knowncode_generation_state491064=1; DWORDfunction_input_flags490be4 lowbyteclear only; knowncurrent_function48fb48=NULL; optional listingreset484eea; analysisflag48fb3c=0. Firstchildtrap beforewrites; no registertable/bodycredit.",
+    "primary_sha256": "9d8d8960d97ef40fc08e8dd4e99f48dc7690a73e1151954d9f7518693551a5e3",
+    "cold_sha256": "80be2c16aef4f76b2b53ab33d3fb6c204971f811dd20d22c731c06c3a9c74ead"
+  },
+  "next": {
+    "entry": 4359746,
+    "name": "reset_register_marks",
+    "ABI": "voidcdecl(void),RET0",
+    "bytes": 24,
+    "body": "actual75stride80records flagbyte offset13; no tableowned bywrapper106"
+  },
+  "disassembly_sha256": "0c9e3877f593881d5806c9b12d7bd085e6a3d05bb620b316c3f5cdcfa4f3ce6d",
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "storage": [
+    {
+      "original": 4788324,
+      "native": "code_generation_state",
+      "bytes": 4,
+      "existing": true,
+      "write": 1
+    },
+    {
+      "original": 4787172,
+      "native": "function_input_flags",
+      "bytes": 4,
+      "existing": false,
+      "write": "lowbyte only, upperthree preserved",
+      "DWORD_writer": 4343590
+    },
+    {
+      "original": 4782920,
+      "native": "current_function",
+      "bytes": 4,
+      "existing": true,
+      "write": null
+    },
+    {
+      "original": 4782908,
+      "native": "function_analysis_available",
+      "bytes": 4,
+      "existing": false,
+      "write": 0
+    }
+  ],
+  "children": [
+    {
+      "name": "_reset_register_marks",
+      "native": "reset_register_marks",
+      "entry": 4359746,
+      "ABI": "voidcdecl(void),RET0",
+      "analysis": [
+        4359746,
+        4359770
+      ],
+      "sha256": "fdc35d28704675ba26b5f21ff9dd919da5ea6b670d9d58eeaaa0a394b4c29d38",
+      "normal_RET0": [
+        4359769
+      ]
+    },
+    {
+      "name": "_initialize_function_records",
+      "native": "initialize_function_records",
+      "entry": 4359770,
+      "ABI": "voidcdecl(void),RET0",
+      "analysis": [
+        4359770,
+        4359949
+      ],
+      "sha256": "7bc38f1dd0aa83bf7bcb127fe6c9cf2af3377e738971cc858ec0a5d17ea4a3de",
+      "normal_RET0": [
+        4359948
+      ]
+    },
+    {
+      "name": "_clear_function_input_state",
+      "native": "clear_function_input_state",
+      "entry": 4359949,
+      "ABI": "voidcdecl(void),RET0",
+      "analysis": [
+        4359949,
+        4359966
+      ],
+      "sha256": "2a0be82f1f675fe3b5b732c334d3abae6682b0ead13e7702f30c9250c6c100a0",
+      "normal_RET0": [
+        4359965
+      ]
+    },
+    {
+      "name": "_reset_function_listing",
+      "native": "reset_function_listing",
+      "entry": 4738794,
+      "ABI": "voidcdecl(void),RET0",
+      "analysis": [
+        4738794,
+        4738805
+      ],
+      "sha256": "c62c73421900d512ccddbd54da8c8ac58dd38a51c9aa3cd786a145cf9e8467ac",
+      "normal_RET0": [
+        4738804
+      ]
+    }
+  ]
+}
