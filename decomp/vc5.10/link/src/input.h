@@ -15,6 +15,7 @@ extern int current_input_file;
 /* Distinct from the BYTE incremental_failed flag used by run_linker. */
 extern DWORD incremental_status_code;
 extern DWORD archive_member_offset;
+extern BYTE object_read_mode;
 OutputModule *__stdcall read_input_argument(InputArgument *,OutputLibrary *,LinkContext *);
 BYTE __stdcall is_archive(const char *,int);
 void __stdcall read_library_index(OutputLibrary *,LinkContext *);

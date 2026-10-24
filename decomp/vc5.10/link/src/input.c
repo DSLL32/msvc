@@ -9,6 +9,7 @@
 int current_input_file;
 DWORD incremental_status_code;
 DWORD archive_member_offset;
+BYTE object_read_mode;
 extern BYTE file_access_statistics;
 
 /* Only the buffered position field is consumed by this input classifier. */
@@ -86,7 +87,15 @@ DWORD __stdcall read_big_endian_dword(int file)
     buffered_read(record,&value,4);
     return byte_swap_dword(value);
 }
-DWORD __stdcall byte_swap_dword(DWORD value) { __asm { int 3 } return 0; }
+DWORD __stdcall byte_swap_dword(DWORD value)
+{
+    union { DWORD value; BYTE byte[4]; } result;
+    result.byte[0]=(BYTE)(value>>24);
+    result.byte[1]=(BYTE)(value>>16);
+    result.byte[2]=(BYTE)(value>>8);
+    result.byte[3]=(BYTE)value;
+    return result.value;
+}
 OutputModule *__stdcall read_object_file(InputArgument *argument,LinkContext *context,OutputLibrary *library) { __asm { int 3 } return NULL; }
 void __stdcall load_object_module(LinkContext *context,void *parent,OutputModule *module,WORD flags)
 {

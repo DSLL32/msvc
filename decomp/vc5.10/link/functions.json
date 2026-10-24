@@ -106,7 +106,8 @@
     "_get_file_length@4",
     "_seek_file@16",
     "_seek_mapped_file@16",
-    "_read_big_endian_dword@4"
+    "_read_big_endian_dword@4",
+    "_byte_swap_dword@4"
   ],
   "driver": [
     {
@@ -2799,11 +2800,11 @@
     {
       "name": "_byte_swap_dword@4",
       "start": 4577424,
-      "end": 4577425,
-      "pending_extent": true,
+      "end": 4577461,
+      "pending_extent": false,
       "source": "src/input.c",
       "native_symbol": "byte_swap_dword",
-      "status": "stub",
+      "status": "implemented",
       "abi": "stdcall DWORD(DWORD value); one full physical DWORD input,RET4,no hidden inputs; actual value observed when reached"
     }
   ],

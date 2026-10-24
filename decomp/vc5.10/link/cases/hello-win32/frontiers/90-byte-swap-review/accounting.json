@@ -1,0 +1,32 @@
+{
+  "candidate": "_byte_swap_dword@4",
+  "application_functions_if_promoted": 90,
+  "application_extent_bytes_if_promoted": 34002,
+  "support_functions": 13,
+  "support_extent_bytes": 522,
+  "original_capture_seconds": 1.9920168677344918,
+  "native_capture_seconds": 0.8971345815807581,
+  "audit_seconds": 0.5705959452316165,
+  "audit_including_setup_seconds": 1.0767970932647586,
+  "full_graph_bodies": 103,
+  "strict_graph_bodies": 96,
+  "fresh_affected_controls": 52,
+  "fresh_controls_elapsed": {
+    "positive": 1.022719595581293,
+    "negatives_and_scope_positives": 2.766828722320497,
+    "total": 3.789551696740091
+  },
+  "scope_positives": [
+    "own Mac BYTE return upperEAX is ignored by actual consumingcaller",
+    "own uninitialized DWORD incoming bytes not semanticinputs"
+  ],
+  "historical_campaigns": "Prior265/143/33 state campaigns retained under89 packet, not rerun/relabeled; checker delta and scope explicit in inherited-checker-delta.json. Existing import/provider/slot protocol proof packets remain hash-bound.",
+  "native_help_fixture": {
+    "setup": 0.060621085576713085,
+    "execution": 0.0037802085280418396,
+    "checks": 0.0003738114610314369,
+    "total": 0.06798313651233912
+  },
+  "build": "make-j4 original/native/runtime completed; not separately measured",
+  "shared_ready": "c11fa6763 exactcrt390ea919/header2d9b3215; no source-only retry this function."
+}

@@ -55,7 +55,7 @@ def compare(original,state,trap,events,directory,reader,original_record,native_r
         assert trap['esp']==mac['stack_pointer']-24 and trap['stack'][:2]==[0x44e65e,14]
         assert trap['big_endian_formals']==dict(formals=[14],hidden_inputs=[])
         assert trap['frontier_inputs']==state['frontier_inputs']==dict(formals=[14],hidden_register_inputs=[])
-    else:assert state['function']=='byte_swap_dword'
+    else:assert state['function']in ('byte_swap_dword','read_object_file')
     nmac=state['mac_resource_entry'];nlength=state['file_length_entry'];receipt=json.loads((directory/'receipt.json').read_text())
     elf=str(directory/'compiled/native-LINK.EXE');digest=receipt['native_sha256']
     frame=native_classifier_contract(elf,digest)
@@ -80,7 +80,7 @@ def compare(original,state,trap,events,directory,reader,original_record,native_r
     positions=[8,8,2262,8,0];arguments=[(0,1),(0,2),(8,0),(0,0)];results=[8,2262,8,0]
     roles=['get_file_length.current_error','get_file_length.end_error','get_file_length.end_error','is_mac_resource_file.error']
     oraw=(original/'file-record-14.bin').read_bytes();nraw=bytes.fromhex(state['file_records'][14])
-    assert struct.unpack_from('<I',oraw,28)[0]==struct.unpack_from('<I',nraw,28)[0]==(4 if state['function']=='byte_swap_dword'else 0)
+    assert struct.unpack_from('<I',oraw,28)[0]==struct.unpack_from('<I',nraw,28)[0]==(4 if state['function']in ('byte_swap_dword','read_object_file')else 0)
     for i,((offset,origin),result)in enumerate(zip(arguments,results)):
         oformals=[14,offset,origin,oerrors[i]];nformals=[14,offset,origin,nerrors[i]]
         omapped=[original_record,offset,origin,oerrors[i]];nmapped=[native_record,offset,origin,nerrors[i]]
@@ -108,6 +108,6 @@ def compare(original,state,trap,events,directory,reader,original_record,native_r
     # All error observations above were made at their genuine inner call/return.
     # get_file_length has returned: its locals are historical, never live ranges.
 
-    if state['function']=='byte_swap_dword':
+    if state['function']in ('byte_swap_dword','read_object_file'):
         from big_endian_state import compare as compare_read
         compare_read(original,state,trap,events,directory,original_record,native_record)

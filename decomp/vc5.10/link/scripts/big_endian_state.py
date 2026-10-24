@@ -51,9 +51,13 @@ def compare(original,state,trap,events,directory,original_record,native_record):
     output=data[:4];value=struct.unpack('<I',output)[0]
     assert (original/'big-endian-read-0-after.bin').read_bytes()==output
     assert (original/'big-endian-read-0-record-after.bin').read_bytes()==(original/'file-record-14.bin').read_bytes()
-    assert trap['esp']==entry['stack_pointer']-12 and trap['stack'][:2]==[0x44e5f9,value]
-    assert trap['swap_dword_formals']==dict(formals=[value],hidden_inputs=[])
-    assert trap['frontier_inputs']==state['frontier_inputs']==dict(formals=[value],hidden_register_inputs=[])
+    if state['function']=='byte_swap_dword':
+        assert trap['esp']==entry['stack_pointer']-12 and trap['stack'][:2]==[0x44e5f9,value]
+        assert trap['swap_dword_formals']==dict(formals=[value],hidden_inputs=[])
+        assert trap['frontier_inputs']==state['frontier_inputs']==dict(formals=[value],hidden_register_inputs=[])
+    else:
+        swap,=[e for e in events if e['event']=='byte_swap_entry']
+        assert swap==dict(event='byte_swap_entry',stack_pointer=entry['stack_pointer']-12,formals=[value],hidden_inputs=[])
     receipt=json.loads((directory/'receipt.json').read_text());offset,frame=native_contract(str(directory/'compiled/native-LINK.EXE'),receipt['native_sha256'])
     nentry=state['big_endian_entry'];nlocal=nentry['stack_pointer']+offset
     nread=state['big_endian_read_entry'];before=state['big_endian_output']
@@ -66,3 +70,7 @@ def compare(original,state,trap,events,directory,original_record,native_record):
     assert struct.unpack_from('<I',bytes.fromhex(state['file_records'][14]),28)[0]==4
     # The DWORD is passed by value to the current pending helper. Earlier output
     # locals remain return-time history, with no extra live pointer input range.
+
+    if state['function']=='read_object_file':
+        from swap_result_state import compare as compare_result
+        compare_result(original,state,trap,events,directory,entry,mac,output)

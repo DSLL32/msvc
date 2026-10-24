@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 89 application
-functions (33,965 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 90 application
+functions (34,002 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `byte_swap_dword`; hello-win32 has not completed.
+next frontier is `read_object_file`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -509,3 +509,16 @@ and hash-reuses 408 unchanged controls. Original/current-native/audit times are
 2.783/0.894/0.607 s; cached native help is 74.47 ms including 3.737 ms execution.
 Independent review, raw failure, exact shared READY c11 binding and accounting
 are under `frontiers/89-big-endian-review`. Hello-win32 remains incomplete.
+
+The 37-byte DWORD byte-swap helper is accepted. Both actual DWORD returns are
+0x4c010700; the Mac classifier's BYTE false result is checked against its caller's
+TEST AL while each full EAX remains in raw evidence. The next object reader has
+three actual pointer inputs, with complete existing argument/context/library
+ownership and its encountered one-byte mode flag. Its 240-byte pending body
+remains a named trap with no accepted credit. Logical masking changes exactly
+37 helper bytes and leaves the following eleven padding bytes trapped.
+Both builds, 103 full/96 strict graph bodies and 52 affected controls pass;
+those controls take 3.790 s. Earlier controller campaigns remain historical
+evidence with explicit checker deltas, and were not rerun or relabeled.
+Original/native/audit times are 1.992/0.897/0.571 s; native help is 67.98 ms,
+including 3.780 ms execution. Evidence is in `frontiers/90-byte-swap-review`.
