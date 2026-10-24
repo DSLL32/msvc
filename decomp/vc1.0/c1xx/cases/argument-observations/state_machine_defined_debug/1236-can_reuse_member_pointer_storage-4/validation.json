@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_can_reuse_member_pointer_storage@4",
+  "case": "state_machine_defined_debug",
+  "accepted_before": 1236,
+  "configuration_sha256": "121503ebc1e100131882681c51a80d9b48c1d4bf5c70cda00abc17004d451bc8",
+  "native_entry": "can_reuse_member_pointer_storage",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "expression",
+      "stack_index": 0,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 244518,
+        "original_owner_function": "_member_pointer_component@12",
+        "native_owner_function": "member_pointer_component",
+        "native_owner_field": "caller_expression",
+        "native_owner_local": "expression",
+        "identity": "Accepted component0 caller loads expression formal into ESI4bb1c, pushes ESI4bb20/CALL4bb21/return4bb26; native immediate caller expression formal owns the actual argument.",
+        "original_owner_value": 8451356,
+        "native_owner_value": 1449488324
+      },
+      "original_raw": 8451356,
+      "native_raw": 1449488324,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      310256,
+      310311
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 BOOL EAX RET4",
+    "proof": "Whole55B savesESI4, expression adjustedESP+8, bothRET4; no hidden/register/x87/flag input. If kind40 select existing right+16; require kind46, then accepted expression_can_be_repeated, then modifiable_lvalue(expr,0), returning BOOL1 iff all succeed. No invented NULL fallback; actual valid IR owner inherited from accepted component caller. Both callees accepted, no new data/CRT/guard.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "2e3816cd8524fe0b8e3fe8c85bb8c647b92a80b41d34eeb487b4a4340f0452ce",
+  "capture_timing": {
+    "original_capture_seconds": 1.568635038100183,
+    "native_capture_seconds": 0.18692416697740555,
+    "total_operation_seconds": 2.027271111495793
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "01595484779db03aa4deba5ab9c7ffb5435b392020ea60549b3bc80380aa0081",
+    "native-commands.gdb": "374a51423ee5b87b5aec1a4772a5ccdc0033e16fda0486d59992d604ffa1faac",
+    "native-gdb.log": "a3128c3c4b9626d53b697730ff7d47d09ff0849882e2b1b2748b8cf79433d350",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "80e5f0130548825cbb6737a24ffa5631211b9eb57e7ecc93a5ee92eec814b208",
+    "original-configuration.json": "121503ebc1e100131882681c51a80d9b48c1d4bf5c70cda00abc17004d451bc8",
+    "original-disassembly.txt": "97b2e2834ed804ee1eb15cb0ae5c6c7ba3f25ab975fd834c102cac3578ee70f9",
+    "original-entries.plan": "8e6567cf99e36ae5bdefa08a572278d2d5121e2fa29acf37578749a5fa70f59b",
+    "original-events.txt": "9934a8a6f2b1f1dd29f012b56e1f8887639ca4bf0f59f4b00bfca4649b4a2870",
+    "original-ownership-caller-disassembly.txt": "c82f70b9ebffabe193b990593e05b446678ebaf498ce2f247129a25fbfde5b0f",
+    "original-receipt.json": "47efa08646fde1d039da5bfe748d7269d138418d93e5420144c0f619e2aceb31",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "804acdd577946fe478875408a5f71dc3863b9ea848d6a6012423a164cdeb991d"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

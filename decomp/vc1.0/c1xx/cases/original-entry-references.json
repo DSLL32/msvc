@@ -48,11 +48,11 @@
     "plan_sha256": "95e3224e0362e24a6ef5b495984403fa23be74272e90e204349cda7924f7f5d6"
   },
   "state_machine_defined_debug": {
-    "receipt": "cases/frontiers/state_machine_defined_debug/1235-member_pointer_component-12/entry-reference/original-receipt.json",
-    "receipt_sha256": "d5d70117437f62a41d7e2e45cbcf6bb8a4d68a2b195fb6c7e6e2867208eb3267",
-    "events": "cases/frontiers/state_machine_defined_debug/1235-member_pointer_component-12/entry-reference/original-events.txt",
-    "events_sha256": "55c49442d6adbaadcd444b078cc408fd8de11baa00b454116049098feefb4c60",
-    "plan": "cases/frontiers/state_machine_defined_debug/1235-member_pointer_component-12/entry-reference/original-entries.plan",
-    "plan_sha256": "b1a80a859d4ed5f735d1c4771443479fdd1b59d2409ab5effb503357f386e77c"
+    "receipt": "cases/frontiers/state_machine_defined_debug/1236-can_reuse_member_pointer_storage-4/entry-reference/original-receipt.json",
+    "receipt_sha256": "0af23e76454cf48aed4343e1c34d063bba0e47d956e338f1d06b953466b8d616",
+    "events": "cases/frontiers/state_machine_defined_debug/1236-can_reuse_member_pointer_storage-4/entry-reference/original-events.txt",
+    "events_sha256": "6e0d1cf71222a1b20a343df38c141b5de0d21779944be6da24fd12071b3c2437",
+    "plan": "cases/frontiers/state_machine_defined_debug/1236-can_reuse_member_pointer_storage-4/entry-reference/original-entries.plan",
+    "plan_sha256": "63cd91feb2c978a5498a4dd4ec5dcd0bbad615c25b4f68bf780dab489a70517a"
   }
 }

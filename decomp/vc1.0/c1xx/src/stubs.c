@@ -605,4 +605,3 @@ int __stdcall recognize_compact_method_function(IrToken *expression, IrToken **f
 IrToken *__stdcall member_pointer_function_value(IrToken *storage, IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall member_pointer_adjustment_value(IrToken *storage, IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int displacement) { __asm { int 3 } return 0; }
-int __stdcall can_reuse_member_pointer_storage(IrToken *expression) { __asm { int 3 } return 0; }

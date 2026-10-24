@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "function": "_can_reuse_member_pointer_storage@4",
+  "native_entry": "can_reuse_member_pointer_storage",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_expression": "(unsigned)expression"
+  },
+  "formals": [
+    {
+      "name": "expression",
+      "stack_index": 0,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 244518,
+        "original_owner_function": "_member_pointer_component@12",
+        "native_owner_function": "member_pointer_component",
+        "native_owner_field": "caller_expression",
+        "native_owner_local": "expression",
+        "identity": "Accepted component0 caller loads expression formal into ESI4bb1c, pushes ESI4bb20/CALL4bb21/return4bb26; native immediate caller expression formal owns the actual argument."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "esi",
+  "ownership_caller_extent": [
+    310032,
+    310054
+  ],
+  "native_caller_locals": {
+    "caller_expression": {
+      "frame": 1,
+      "function": "member_pointer_component",
+      "local": "expression"
+    }
+  },
+  "abi_analysis": {
+    "original_extent": [
+      310256,
+      310311
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 BOOL EAX RET4",
+    "proof": "Whole55B savesESI4, expression adjustedESP+8, bothRET4; no hidden/register/x87/flag input. If kind40 select existing right+16; require kind46, then accepted expression_can_be_repeated, then modifiable_lvalue(expr,0), returning BOOL1 iff all succeed. No invented NULL fallback; actual valid IR owner inherited from accepted component caller. Both callees accepted, no new data/CRT/guard."
+  }
+}

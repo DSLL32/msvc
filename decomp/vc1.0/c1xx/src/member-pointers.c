@@ -693,3 +693,12 @@ IrToken *__stdcall member_pointer_component(IrToken *expression, int component,
     value = clone_expression(*saved, 0);
     return new_left_typed_expression(0x3d, value, expression);
 }
+
+/* Original 0x4bbf0..0x4bc26, stdcall4. A trailing storage
+   expression can be reused only when repetition and lvalue probes agree. */
+int __stdcall can_reuse_member_pointer_storage(IrToken *expression)
+{
+    if (expression->kind == 0x40) expression = expression->tail.right;
+    return expression->kind == 0x46 && expression_can_be_repeated(expression) &&
+        modifiable_lvalue(expression, 0) != 0;
+}
