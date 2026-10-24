@@ -38,3 +38,10 @@ void __stdcall format_browser_temporary_name(char *filename)
     }
     *last = suffix;
 }
+
+/* Original 0x2c3f0..0x2c3f9. Begin a browser stream through its
+   ordinary queued-record interface. */
+void begin_browser_records(void)
+{
+    queue_browser_record(0, 0);
+}

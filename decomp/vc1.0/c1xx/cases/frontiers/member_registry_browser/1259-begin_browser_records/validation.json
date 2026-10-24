@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_begin_browser_records",
+    "start": 181232,
+    "end": 181242
+  },
+  "actual_argument_proof": "cases/frontiers/member_registry_browser/1259-begin_browser_records/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_queue_browser_record@8"
+  ],
+  "next_frontier": "_queue_browser_record@8",
+  "pending_buffers": 6,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8599494034424424,
+  "total_operation_seconds": 4.168175547383726,
+  "original_capture_seconds": 0.8659646306186914
+}

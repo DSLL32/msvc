@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_begin_browser_records",
+  "case": "member_registry_browser",
+  "accepted_before": 1259,
+  "configuration_sha256": "7f5bd800771afc08f88504c028a2cdc4927b7a4d4c4f2bb592578f0a473546aa",
+  "native_entry": "begin_browser_records",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      181232,
+      181242
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl void/noformals RET0",
+    "proof": "Whole10B frameless PUSH0subject/PUSH0kind/CALL2bf10 RET0. Queuehelper stdcall8 pops bothwords; no caller extra cleanup or consumed residualEAX. New154B helper2bf10..2bfac fully ABI analyzed:saveEBXESIEDI12, kindBYTE entryESP+4 andsubjectDWORDentryESP+8, bothRET8; incoming registers/flags not ABIinputs. It first appends(kind,subject,source_line_number8cc98), thenpeeks queuehead/tail andpriorrecords andcoalesces/drains; remains namedstub/no implementation/data credit. No othercallees/data/CRT/guard or hidden/x87 input.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "37e54c1e6cffa32754059686566256f041a6a29aba906f283a6b1b5c70a8a9b0",
+  "capture_timing": {
+    "original_capture_seconds": 1.0166630474850535,
+    "native_capture_seconds": 0.17403191979974508,
+    "total_operation_seconds": 1.450293350033462
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "bf33a44a0a5efe09842eea98e2d165d0c64b29338d455e1bd206342bf93de645",
+    "native-commands.gdb": "02162c4bc75959a9e909115ff620bf010daa07b0da424041c233062eba0db8e7",
+    "native-gdb.log": "675d5fd52e9aa54078cc169e0ab421a53693ff2831ef2929bbada0a1a3ad7b21",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "643c2a9f342b96c2662fe86b38ed31072dd33fb1de3322792b5da60ee49a0999",
+    "original-configuration.json": "7f5bd800771afc08f88504c028a2cdc4927b7a4d4c4f2bb592578f0a473546aa",
+    "original-disassembly.txt": "1f87412a64a57967e9a5bc8bca17dac45aa2bba9419eadb86314b3868c79a35b",
+    "original-events.txt": "938c8135b587b0dcf9a663328b3287c65eda941c1e4029750f228cd8037eeab7",
+    "original-receipt.json": "4a56d2507234bf16ee704bfc9c11e45eac052dd60da1bc7803805eab980ce631",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "7c2ac1745c948f0411bb0a5ef6268d082b08f1e730b74d111e891fff22a03e9b"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}
