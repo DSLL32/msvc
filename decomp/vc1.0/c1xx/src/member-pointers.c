@@ -22,6 +22,12 @@ int __stdcall can_reuse_member_pointer_storage(IrToken *expression);
 int __stdcall recognize_compact_method_function(IrToken *expression, IrToken **function);
 IrToken *__stdcall member_pointer_function_value(IrToken *storage, IrToken *expression);
 IrToken *__stdcall member_pointer_adjustment_value(IrToken *storage, IrToken *expression);
+IrToken *__stdcall member_pointer_virtual_offset_value(IrToken *storage, IrToken *expression);
+IrToken *__stdcall member_pointer_vbptr_offset_value(IrToken *storage, IrToken *expression);
+IrToken *__stdcall member_pointer_general_virtual_offset_value(IrToken *storage, IrToken *expression);
+IrToken *__stdcall virtual_data_member_offset(IrToken *storage, IrToken *expression);
+IrToken *__stdcall virtual_data_table_offset(IrToken *storage, IrToken *expression);
+IrToken *__stdcall data_member_integer_field(IrToken *storage, unsigned component);
 IrToken *__stdcall member_pointer_integer_field(IrToken *storage, IrToken *expression,
     unsigned component);
 IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int displacement);
@@ -846,6 +852,132 @@ IrToken *__stdcall compare_multiple_method_pointer(IrToken *expression,
     return new_ir_expression(0x40, zero, result, result_type);
 }
 
+/* Original 0x4b620..0x4b6d0, stdcall16. A virtual data member
+   pointer consists of the member offset and vbtable displacement. The final
+   null_combine formal is retained in the ABI but is not read or forwarded. */
+IrToken *__stdcall compare_virtual_data_pointer(IrToken *expression,
+    unsigned char comparison, unsigned char combine, unsigned char null_combine)
+{
+    IrToken *left = expression->value.pointer, *right, *saved, *storage;
+    IrToken *left_offset, *left_virtual, *right_offset, *right_virtual;
+    IrToken *offset_test, *virtual_test, *result, *zero;
+    storage = member_pointer_component(left, 0, &saved);
+    left_offset = virtual_data_member_offset(storage, left);
+    storage = member_pointer_component(left, 1, &saved);
+    left_virtual = virtual_data_table_offset(storage, left);
+    right = expression->tail.right;
+    storage = member_pointer_component(right, 0, &saved);
+    right_offset = virtual_data_member_offset(storage, right);
+    storage = member_pointer_component(right, 1, &saved);
+    right_virtual = virtual_data_table_offset(storage, right);
+    offset_test = new_ir_expression(comparison, left_offset, right_offset, type_0064);
+    virtual_test = new_ir_expression(comparison, left_virtual, right_virtual, type_0064);
+    result = new_left_typed_expression(combine, offset_test, virtual_test);
+    zero = make_integer_constant(0);
+    return new_right_typed_expression(0x40, zero, result);
+}
+
+/* Original 0x4b7f0..0x4b94c, stdcall16. Null function pointers
+   compare independently of this and virtual-base adjustments. */
+IrToken *__stdcall compare_virtual_method_pointer(IrToken *expression,
+    unsigned char comparison, unsigned char combine, unsigned char null_combine)
+{
+    IrToken *left = expression->value.pointer, *right, *saved, *storage;
+    IrToken *left_function, *left_repeated, *left_adjustment, *left_virtual;
+    IrToken *right_function, *right_adjustment, *right_virtual, *null_function;
+    IrToken *function_test, *null_test, *adjustment_test, *virtual_test, *result, *zero;
+    storage = member_pointer_component(left, 0, &saved);
+    left_function = member_pointer_function_value(storage, left);
+    storage = member_pointer_component(left, 1, &saved);
+    left_repeated = member_pointer_function_value(storage, left);
+    storage = member_pointer_component(left, 1, &saved);
+    left_adjustment = member_pointer_adjustment_value(storage, left);
+    storage = member_pointer_component(left, 1, &saved);
+    left_virtual = member_pointer_virtual_offset_value(storage, left);
+    null_function = make_null_member_function(left->type);
+    right = expression->tail.right;
+    storage = member_pointer_component(right, 0, &saved);
+    right_function = member_pointer_function_value(storage, right);
+    storage = member_pointer_component(right, 1, &saved);
+    right_adjustment = member_pointer_adjustment_value(storage, right);
+    storage = member_pointer_component(right, 1, &saved);
+    /* Original4b89e deliberately supplies the left expression's type basis. */
+    right_virtual = member_pointer_virtual_offset_value(storage, left);
+    function_test = new_ir_expression(comparison, left_function, right_function, type_0064);
+    null_test = new_ir_expression(comparison, left_repeated, null_function, type_0064);
+    adjustment_test = new_ir_expression(comparison, left_adjustment, right_adjustment, type_0064);
+    virtual_test = new_ir_expression(comparison, left_virtual, right_virtual, type_0064);
+    result = new_ir_expression(combine, adjustment_test, virtual_test, type_0064);
+    result = new_left_typed_expression(null_combine, null_test, result);
+    result = new_left_typed_expression(combine, function_test, result);
+    zero = make_integer_constant(0);
+    return new_right_typed_expression(0x40, zero, result);
+}
+
+/* Original 0x4b950..0x4bb0a, stdcall16. General method pointers
+   compare function, this adjustment, vbptr location and vbtable displacement. */
+IrToken *__stdcall compare_general_method_pointer(IrToken *expression,
+    unsigned char comparison, unsigned char combine, unsigned char null_combine)
+{
+    IrToken *left = expression->value.pointer, *right, *saved, *storage;
+    IrToken *left_function, *left_repeated, *left_adjustment, *left_vbptr, *left_virtual;
+    IrToken *right_function, *right_adjustment, *right_vbptr, *right_virtual, *null_function;
+    IrToken *function_test, *null_test, *adjustment_test, *vbptr_test, *virtual_test;
+    IrToken *result, *zero;
+    storage = member_pointer_component(left, 0, &saved);
+    left_function = member_pointer_function_value(storage, left);
+    storage = member_pointer_component(left, 1, &saved);
+    left_repeated = member_pointer_function_value(storage, left);
+    storage = member_pointer_component(left, 1, &saved);
+    left_adjustment = member_pointer_adjustment_value(storage, left);
+    storage = member_pointer_component(left, 1, &saved);
+    left_vbptr = member_pointer_vbptr_offset_value(storage, left);
+    storage = member_pointer_component(left, 1, &saved);
+    left_virtual = member_pointer_general_virtual_offset_value(storage, left);
+    null_function = make_null_member_function(left->type);
+    right = expression->tail.right;
+    storage = member_pointer_component(right, 0, &saved);
+    right_function = member_pointer_function_value(storage, right);
+    storage = member_pointer_component(right, 1, &saved);
+    right_adjustment = member_pointer_adjustment_value(storage, right);
+    storage = member_pointer_component(right, 1, &saved);
+    /* Both original4ba16/4ba2e use the left expression's field type basis. */
+    right_vbptr = member_pointer_vbptr_offset_value(storage, left);
+    storage = member_pointer_component(right, 1, &saved);
+    right_virtual = member_pointer_general_virtual_offset_value(storage, left);
+    function_test = new_ir_expression(comparison, left_function, right_function, type_0064);
+    null_test = new_ir_expression(comparison, left_repeated, null_function, type_0064);
+    adjustment_test = new_ir_expression(comparison, left_adjustment, right_adjustment, type_0064);
+    vbptr_test = new_ir_expression(comparison, left_vbptr, right_vbptr, type_0064);
+    virtual_test = new_ir_expression(comparison, left_virtual, right_virtual, type_0064);
+    result = new_ir_expression(combine, adjustment_test, vbptr_test, type_0064);
+    result = new_ir_expression(combine, result, virtual_test, type_0064);
+    result = new_left_typed_expression(null_combine, null_test, result);
+    result = new_left_typed_expression(combine, function_test, result);
+    zero = make_integer_constant(0);
+    return new_right_typed_expression(0x40, zero, result);
+}
+
+/* Original 0x4bc30..0x4bc3e, stdcall8. The second expression
+   formal is unused; data-member offsets use the target int representation. */
+IrToken *__stdcall virtual_data_member_offset(IrToken *storage, IrToken *expression)
+{
+    return data_member_integer_field(storage, 0);
+}
+
+/* Original 0x4bc80..0x4bcb3, stdcall8. Data-member aggregate
+   fields start at byte zero and use the target integer width. */
+IrToken *__stdcall data_member_integer_field(IrToken *storage, unsigned component)
+{
+    CType *integer_type = builtin_integer_type();
+    unsigned offset = (integer_type->flags & 15) * component;
+    IrToken *position;
+    integer_type = builtin_integer_type();
+    position = make_integer_constant(offset);
+    return indirect_storage_expression(new_ir_expression(0x5c, storage,
+        position, integer_type));
+}
+
 /* Original 0x4bd20..0x4bd60, stdcall8. Single inheritance has
    no stored this-adjustment; the larger representations use integer field zero. */
 IrToken *__stdcall member_pointer_adjustment_value(IrToken *storage,
@@ -857,6 +989,30 @@ IrToken *__stdcall member_pointer_adjustment_value(IrToken *storage,
         return member_pointer_integer_field(storage, expression, 0);
     default: return 0;
     }
+}
+
+/* Original 0x4bd70..0x4bd83, stdcall8. The virtual model's
+   second integer field is its vbtable displacement. */
+IrToken *__stdcall member_pointer_virtual_offset_value(IrToken *storage,
+    IrToken *expression)
+{
+    return member_pointer_integer_field(storage, expression, 1);
+}
+
+/* Original 0x4bdb0..0x4bdc3, stdcall8. General method
+   representation integer field one holds the vbptr offset. */
+IrToken *__stdcall member_pointer_vbptr_offset_value(IrToken *storage,
+    IrToken *expression)
+{
+    return member_pointer_integer_field(storage, expression, 1);
+}
+
+/* Original 0x4bdd0..0x4bde3, stdcall8. General method
+   representation integer field two holds the vbtable displacement. */
+IrToken *__stdcall member_pointer_general_virtual_offset_value(IrToken *storage,
+    IrToken *expression)
+{
+    return member_pointer_integer_field(storage, expression, 2);
 }
 
 /* Original 0x4bdf0..0x4be4e, stdcall12. Integer representation
@@ -1059,4 +1215,52 @@ IrToken *__stdcall make_null_virtual_data_pointer(CType *type)
     IrToken *virtual_offset = make_integer_constant(-1);
     IrToken *offset = make_integer_constant(0);
     return make_virtual_data_member_pointer(type, offset, virtual_offset);
+}
+
+/* Original 0x4a7e0..0x4a901, stdcall16. General data-member pointers
+   store displacement, vbptr displacement and vbtable displacement. */
+IrToken *__stdcall make_general_data_member_pointer(CType *type, IrToken *offset,
+    int vbptr_offset, IrToken *vbtable_offset)
+{
+    unsigned index, pointer_displacement, table_displacement;
+    CType *integer_type;
+    IrToken *temporary, *constant, *storage, *first, *second, *third, *sequence;
+    if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename)
+        browser_symbol_rollover();
+    index = next_symbol_index++;
+    integer_type = builtin_integer_type();
+    pointer_displacement = integer_type->flags & 15;
+    integer_type = builtin_integer_type();
+    table_displacement = 2 * (integer_type->flags & 15);
+    temporary = new_temporary_reference(index, type);
+    integer_type = builtin_integer_type();
+    constant = make_integer_constant(0);
+    storage = clone_expression(temporary, 0);
+    first = new_ir_expression(0x5c, storage, constant, integer_type);
+    first = new_left_typed_expression(0x3d, first, offset);
+    integer_type = builtin_integer_type();
+    constant = make_integer_constant(pointer_displacement);
+    storage = clone_expression(temporary, 0);
+    second = new_ir_expression(0x5c, storage, constant, integer_type);
+    constant = make_integer_constant(vbptr_offset);
+    second = new_left_typed_expression(0x3d, second, constant);
+    integer_type = builtin_integer_type();
+    constant = make_integer_constant(table_displacement);
+    storage = clone_expression(temporary, 0);
+    third = new_ir_expression(0x5c, storage, constant, integer_type);
+    third = new_left_typed_expression(0x3d, third, vbtable_offset);
+    sequence = new_right_typed_expression(0x40, first, second);
+    sequence = new_right_typed_expression(0x40, sequence, third);
+    return new_right_typed_expression(0x40, sequence,
+        indirect_storage_expression(temporary));
+}
+
+/* Original 0x4b390..0x4b3ae. The general null data-member pointer
+   retains the -1 vbtable sentinel and both zero displacement fields. */
+IrToken *__stdcall make_null_general_data_pointer(CType *type)
+{
+    IrToken *virtual_offset = make_integer_constant(-1);
+    IrToken *offset = make_integer_constant(0);
+    return make_general_data_member_pointer(type, offset, 0, virtual_offset);
 }

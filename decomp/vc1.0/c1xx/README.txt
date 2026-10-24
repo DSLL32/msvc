@@ -2,10 +2,10 @@ C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
 PARTIAL reconstruction; member_registry_browser completion is active.
-Current verified boundary: 1352 historical frontiers / 1246 application source
+Current verified boundary: 1362 historical frontiers / 1256 application source
 functions plus seven unchanged historical CRT source functions. The current
-case stops at make_general_data_member_pointer RVA0x3a7e0 after95 first entries beyond its seed.
-Fifty further whole bodies are accepted since the five-function trial, including
+case stops at virtual_data_table_offset RVA0x3bc40 after105 first entries beyond its seed.
+Sixty further whole bodies are accepted since the five-function trial, including
 the5326-byte pragma dispatcher and its35-entry text switch. Discovered pragma
 helpers remain typed, named unimplemented stubs with entry-only extents.
 

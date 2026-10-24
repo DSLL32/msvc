@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1352 historical frontiers/1246 App bodies.
+ * Current reviewed boundary:1362 historical frontiers/1256 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -6819,10 +6819,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_make_general_data_member_pointer@16",
         .entry_rva = 0x3a7e0,
-        .code = (const ReconExtent[]) { { 0x3a7e0, 0x3a7e1 } },
+        .code = (const ReconExtent[]) { { 0x3a7e0, 0x3a902 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "make_general_data_member_pointer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_apply_member_pointer@4",
@@ -6967,10 +6968,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_make_null_general_data_pointer@4",
         .entry_rva = 0x3b390,
-        .code = (const ReconExtent[]) { { 0x3b390, 0x3b391 } },
+        .code = (const ReconExtent[]) { { 0x3b390, 0x3b3af } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "make_null_general_data_pointer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_make_null_virtual_method_pointer@4",
@@ -7029,10 +7031,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_compare_virtual_data_pointer@16",
         .entry_rva = 0x3b620,
-        .code = (const ReconExtent[]) { { 0x3b620, 0x3b621 } },
+        .code = (const ReconExtent[]) { { 0x3b620, 0x3b6d1 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "compare_virtual_data_pointer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_compare_general_data_pointer@16",
@@ -7045,18 +7048,20 @@ static const ReconFunction functions[] = {
     {
         .name = "_compare_virtual_method_pointer@16",
         .entry_rva = 0x3b7f0,
-        .code = (const ReconExtent[]) { { 0x3b7f0, 0x3b7f1 } },
+        .code = (const ReconExtent[]) { { 0x3b7f0, 0x3b94d } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "compare_virtual_method_pointer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_compare_general_method_pointer@16",
         .entry_rva = 0x3b950,
-        .code = (const ReconExtent[]) { { 0x3b950, 0x3b951 } },
+        .code = (const ReconExtent[]) { { 0x3b950, 0x3bb0b } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "compare_general_method_pointer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_member_pointer_component@12",
@@ -7074,6 +7079,32 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "can_reuse_member_pointer_storage",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_virtual_data_member_offset@8",
+        .entry_rva = 0x3bc30,
+        .code = (const ReconExtent[]) { { 0x3bc30, 0x3bc3f } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "virtual_data_member_offset",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_virtual_data_table_offset@8",
+        .entry_rva = 0x3bc40,
+        .code = (const ReconExtent[]) { { 0x3bc40, 0x3bc41 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "virtual_data_table_offset",
+    },
+    {
+        .name = "_data_member_integer_field@8",
+        .entry_rva = 0x3bc80,
+        .code = (const ReconExtent[]) { { 0x3bc80, 0x3bcb4 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "data_member_integer_field",
         .implementation = RECON_IMPLEMENTED,
     },
     {
@@ -7101,6 +7132,33 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "member_pointer_adjustment_value",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_member_pointer_virtual_offset_value@8",
+        .entry_rva = 0x3bd70,
+        .code = (const ReconExtent[]) { { 0x3bd70, 0x3bd84 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "member_pointer_virtual_offset_value",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_member_pointer_vbptr_offset_value@8",
+        .entry_rva = 0x3bdb0,
+        .code = (const ReconExtent[]) { { 0x3bdb0, 0x3bdc4 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "member_pointer_vbptr_offset_value",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_member_pointer_general_virtual_offset_value@8",
+        .entry_rva = 0x3bdd0,
+        .code = (const ReconExtent[]) { { 0x3bdd0, 0x3bde4 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "member_pointer_general_virtual_offset_value",
         .implementation = RECON_IMPLEMENTED,
     },
     {
