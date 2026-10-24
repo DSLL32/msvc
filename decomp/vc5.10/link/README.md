@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 88 application
-functions (33,879 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 89 application
+functions (33,965 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `read_big_endian_dword`; hello-win32 has not completed.
+next frontier is `byte_swap_dword`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -495,3 +495,17 @@ a fresh positive/six affected negatives under unchanged predicate hashes.
 Independent review and final READYc2a12 binding are in
 `frontiers/83-is-archive-{review,ready}`. Native help is 67.65 ms including
 4.082 ms execution. The pending mapped-reader body has no accepted code credit.
+
+The 86-byte big-endian reader is accepted through the real DWORD byte-swap
+helper. Its mapped read initializes all four bytes in a distinct caller local,
+returns 4 with RET12 and advances the complete input record to cursor4. The
+original reuses retired error-local storage; historical observations retain
+their own lifetimes. Uninitialized incoming local bytes are retained individually
+and never cross-equated. All actual pending helper inputs are explicit: one
+full DWORD 0x0007014c and no hidden arguments; its 37-byte body remains trapped.
+Both builds and 102 full/95 strict graph bodies pass. Initial 441 fresh controls
+took 25.911 s; a shared-CRT-only native refresh adds 33 affected controls in 3.230 s
+and hash-reuses 408 unchanged controls. Original/current-native/audit times are
+2.783/0.894/0.607 s; cached native help is 74.47 ms including 3.737 ms execution.
+Independent review, raw failure, exact shared READY c11 binding and accounting
+are under `frontiers/89-big-endian-review`. Hello-win32 remains incomplete.

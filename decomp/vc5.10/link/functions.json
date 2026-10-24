@@ -105,7 +105,8 @@
     "_is_mac_resource_file@4",
     "_get_file_length@4",
     "_seek_file@16",
-    "_seek_mapped_file@16"
+    "_seek_mapped_file@16",
+    "_read_big_endian_dword@4"
   ],
   "driver": [
     {
@@ -2778,9 +2779,9 @@
     {
       "name": "_read_big_endian_dword@4",
       "start": 4515264,
-      "end": 4515265,
-      "pending_extent": true,
-      "status": "stub",
+      "end": 4515350,
+      "pending_extent": false,
+      "status": "implemented",
       "source": "src/input.c",
       "native_symbol": "read_big_endian_dword",
       "abi": "stdcall DWORD(int file); one physical DWORD input, RET4, no hidden inputs; observed when reached"
@@ -2794,6 +2795,16 @@
       "pending_extent": true,
       "native_symbol": "seek_buffered_file",
       "abi": "stdcall LONG(FileRecord*,LONG offset,int origin); three physical DWORD inputs,RET12,no hidden inputs; observe actual values when reached"
+    },
+    {
+      "name": "_byte_swap_dword@4",
+      "start": 4577424,
+      "end": 4577425,
+      "pending_extent": true,
+      "source": "src/input.c",
+      "native_symbol": "byte_swap_dword",
+      "status": "stub",
+      "abi": "stdcall DWORD(DWORD value); one full physical DWORD input,RET4,no hidden inputs; actual value observed when reached"
     }
   ],
   "text_data": [

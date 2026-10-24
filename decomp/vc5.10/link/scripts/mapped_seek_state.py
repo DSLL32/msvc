@@ -51,9 +51,11 @@ def compare(original,state,trap,events,directory,reader,original_record,native_r
     length,=[e for e in events if e['event']=='file_length_entry']
     assert mac==dict(event='mac_resource_entry',stack_pointer=reader['stack_pointer']-20,formals=[14],hidden_inputs=[])
     assert length==dict(event='file_length_entry',stack_pointer=mac['stack_pointer']-24,formals=[14],hidden_inputs=[])
-    assert trap['esp']==mac['stack_pointer']-24 and trap['stack'][:2]==[0x44e65e,14]
-    assert trap['big_endian_formals']==dict(formals=[14],hidden_inputs=[])
-    assert trap['frontier_inputs']==state['frontier_inputs']==dict(formals=[14],hidden_register_inputs=[])
+    if state['function']=='read_big_endian_dword':
+        assert trap['esp']==mac['stack_pointer']-24 and trap['stack'][:2]==[0x44e65e,14]
+        assert trap['big_endian_formals']==dict(formals=[14],hidden_inputs=[])
+        assert trap['frontier_inputs']==state['frontier_inputs']==dict(formals=[14],hidden_register_inputs=[])
+    else:assert state['function']=='byte_swap_dword'
     nmac=state['mac_resource_entry'];nlength=state['file_length_entry'];receipt=json.loads((directory/'receipt.json').read_text())
     elf=str(directory/'compiled/native-LINK.EXE');digest=receipt['native_sha256']
     frame=native_classifier_contract(elf,digest)
@@ -61,11 +63,11 @@ def compare(original,state,trap,events,directory,reader,original_record,native_r
     assert nlength==dict(stack_pointer=nmac['stack_pointer']-frame,formals=[14],hidden_inputs=[])
     assert state['big_endian_entry']==dict(stack_pointer=nmac['stack_pointer']-frame,formals=[14],hidden_inputs=[])
     offsets=local_offsets(elf,digest,'get_file_length',('current_error','end_error'))
-    mac_offsets=local_offsets(elf,digest,'is_mac_resource_file',('upper',))
-    assert offsets==dict(current_error=-16,end_error=-20)and mac_offsets==dict(upper=-16)
+    mac_offsets=local_offsets(elf,digest,'is_mac_resource_file',('error',))
+    assert offsets==dict(current_error=-16,end_error=-20)and mac_offsets==dict(error=-16)
     _,length_frame=native_length_output_contract(elf,digest);bridge=native_seek_bridge_contract(elf,digest)
     oerrors=[length['stack_pointer']-4,length['stack_pointer']+4,length['stack_pointer']+4,mac['stack_pointer']+4]
-    nerrors=[nlength['stack_pointer']+offsets['current_error'],nlength['stack_pointer']+offsets['end_error'],nlength['stack_pointer']+offsets['end_error'],nmac['stack_pointer']+mac_offsets['upper']]
+    nerrors=[nlength['stack_pointer']+offsets['current_error'],nlength['stack_pointer']+offsets['end_error'],nlength['stack_pointer']+offsets['end_error'],nmac['stack_pointer']+mac_offsets['error']]
     for pointers in(oerrors,nerrors):
         assert pointers[1]==pointers[2]
         distinct=sorted(set(pointers));assert len(distinct)==3 and all(a+4<=b for a,b in zip(distinct,distinct[1:]))
@@ -76,9 +78,9 @@ def compare(original,state,trap,events,directory,reader,original_record,native_r
     assert len(calls)==len(returns)==len(mapped)==len(mapped_returns)==len(state['seek_file_calls'])==len(state['mapped_seek_calls'])==4
     sites=[0x40c0a8,0x40c0c1,0x40c0dd,0x44e653];continuations=[0x40c0ad,0x40c0c6,0x40c0e2,0x44e658]
     positions=[8,8,2262,8,0];arguments=[(0,1),(0,2),(8,0),(0,0)];results=[8,2262,8,0]
-    roles=['get_file_length.current_error','get_file_length.end_error','get_file_length.end_error','is_mac_resource_file.upper']
+    roles=['get_file_length.current_error','get_file_length.end_error','get_file_length.end_error','is_mac_resource_file.error']
     oraw=(original/'file-record-14.bin').read_bytes();nraw=bytes.fromhex(state['file_records'][14])
-    assert struct.unpack_from('<I',oraw,28)[0]==struct.unpack_from('<I',nraw,28)[0]==0
+    assert struct.unpack_from('<I',oraw,28)[0]==struct.unpack_from('<I',nraw,28)[0]==(4 if state['function']=='byte_swap_dword'else 0)
     for i,((offset,origin),result)in enumerate(zip(arguments,results)):
         oformals=[14,offset,origin,oerrors[i]];nformals=[14,offset,origin,nerrors[i]]
         omapped=[original_record,offset,origin,oerrors[i]];nmapped=[native_record,offset,origin,nerrors[i]]
@@ -105,3 +107,7 @@ def compare(original,state,trap,events,directory,reader,original_record,native_r
     assert state['file_length_returns'][0]==dict(nlength,normal_return=True,return_stack=nlength['stack_pointer']+8,result=2262,record_after=with_cursor(nraw,8).hex())
     # All error observations above were made at their genuine inner call/return.
     # get_file_length has returned: its locals are historical, never live ranges.
+
+    if state['function']=='byte_swap_dword':
+        from big_endian_state import compare as compare_read
+        compare_read(original,state,trap,events,directory,original_record,native_record)

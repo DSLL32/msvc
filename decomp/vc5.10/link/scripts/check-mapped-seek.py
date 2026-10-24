@@ -13,7 +13,8 @@ parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--original',required=True,type=Path)
 parser.add_argument('--native',required=True,type=Path)
 parser.add_argument('--report',required=True,type=Path)
-args=parser.parse_args();frontier='_read_big_endian_dword@4'
+parser.add_argument('--frontier',default='_read_big_endian_dword@4',choices=['_read_big_endian_dword@4','_byte_swap_dword@4'])
+args=parser.parse_args();frontier=args.frontier
 events=[json.loads(line)for line in(args.original/'events.jsonl').read_text().splitlines()]
 trap,=[e for e in events if e['event']=='trap'];native=json.loads((args.native/'state.json').read_text());checks=[]
 start=time.perf_counter();compare(frontier,args.original,args.native,trap,native);positive=time.perf_counter()-start

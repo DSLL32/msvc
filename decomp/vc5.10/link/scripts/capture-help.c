@@ -27,6 +27,8 @@ static DWORD seek_file_entry_stack,seek_file_entry_arguments[4];
 static DWORD seek_call_stack,seek_call_arguments[4],seek_call_record,seek_call_count;
 static DWORD mapped_seek_stack,mapped_seek_arguments[4],mapped_seek_count;
 static DWORD length_call_stack,length_call_argument;
+static DWORD big_endian_entry_stack,big_endian_argument;
+static DWORD big_endian_read_stack,big_endian_read_arguments[3],big_endian_read_count;
 static DWORD archive_read_stack,archive_read_arguments[3],archive_read_count;
 static DWORD archive_predicate_stack,archive_predicate_arguments[2];
 static DWORD library_create_entry_stack,library_create_arguments[3];
@@ -261,7 +263,7 @@ static int snapshot_file_records(const char *phase)
 static int snapshot(DWORD address)
 {
     CONTEXT context;
-    int input_read_boundary=address==base+0x498d0||address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030||address==base+0xca10||address==base+0x4e5c0;
+    int input_read_boundary=address==base+0x498d0||address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030||address==base+0xca10||address==base+0x4e5c0||address==base+0x5d890;
     DWORD got, stack[32];
     unsigned index, argument_index;
     unsigned char bytes[65536];
@@ -379,7 +381,7 @@ static int snapshot(DWORD address)
             if(address!=base+0x4b860 && address!=base+0x49a50)fprintf(events,"\"hidden_register_inputs\":[],");
             fprintf(events,"\"formals\":[");
             if(address==base+0xc030||address==base+0xca10)fprintf(events,"%lu,%lu,%lu,%lu",stack[1],stack[2],stack[3],stack[4]);
-            else if(address==base+0x4e620||address==base+0xc080||address==base+0x4e5c0)fprintf(events,"%lu",stack[1]);
+            else if(address==base+0x4e620||address==base+0xc080||address==base+0x4e5c0||address==base+0x5d890)fprintf(events,"%lu",stack[1]);
             else if(address==base+0xcab0)fprintf(events,"%lu,%lu,%lu",stack[1],stack[2],stack[3]);
             else if(address==base+0x5cd40)fprintf(events,"%lu,%lu",stack[1],stack[2]);
             else if(input_read_boundary)fprintf(events,"%lu,%lu,%lu",stack[1],stack[2],stack[3]);
@@ -577,14 +579,14 @@ static int snapshot(DWORD address)
         fprintf(events,",\"library_enum_input\":{\"address\":%lu,\"bytes\":16,\"formals\":[%lu,%lu],\"hidden_inputs\":[]}",library_enum_arguments[0],library_enum_arguments[0],library_enum_arguments[1]);
     }
     if((address==base+0x49a50 || input_read_boundary)) {
-        DWORD library=(address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030||address==base+0xca10||address==base+0x4e5c0)?read_input_arguments[1]:stack[2],array,current;
+        DWORD library=(address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030||address==base+0xca10||address==base+0x4e5c0||address==base+0x5d890)?read_input_arguments[1]:stack[2],array,current;
         if(!ReadProcessMemory(process,(void *)(library+4),&array,4,&got)||got!=4||
            !ReadProcessMemory(process,(void *)(base+0x7f0a8),&current,4,&got)||got!=4||
            !save_memory(library,68,"command-line-library.bin")||!save_memory(array,20,"command-line-library-array.bin"))return 0;
         fprintf(events,",\"load_input_formals\":{\"this\":%lu,\"formals\":[%lu,%lu],\"other_hidden_inputs\":[]},\"command_line_library\":{\"address\":%lu,\"modules\":%lu,\"global_slot\":%lu,\"current\":%lu},\"library_enum_input\":{\"address\":%lu,\"bytes\":16,\"formals\":[%lu,%lu],\"hidden_inputs\":[]}",(input_read_boundary?load_input_receiver:context.Ecx),(input_read_boundary?load_input_arguments[0]:stack[1]),(input_read_boundary?load_input_arguments[1]:stack[2]),library,array,base+0x7f0a8,current,library_enum_arguments[0],library_enum_arguments[0],library_enum_arguments[1]);
     }
     if(input_read_boundary) {
-        DWORD *actual=(address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030||address==base+0xca10||address==base+0x4e5c0)?read_input_arguments:stack+1;
+        DWORD *actual=(address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030||address==base+0xca10||address==base+0x4e5c0||address==base+0x5d890)?read_input_arguments:stack+1;
         fprintf(events,",\"read_input_formals\":{\"formals\":[%lu,%lu,%lu],\"hidden_inputs\":[]}",actual[0],actual[1],actual[2]);
     }
     if(address==base+0xcab0) {
@@ -607,6 +609,9 @@ static int snapshot(DWORD address)
     }
     if(address==base+0x4e5c0) {
         fprintf(events,",\"big_endian_formals\":{\"formals\":[%lu],\"hidden_inputs\":[]}",stack[1]);
+    }
+    if(address==base+0x5d890) {
+        fprintf(events,",\"swap_dword_formals\":{\"formals\":[%lu],\"hidden_inputs\":[]}",stack[1]);
     }
     if(parser_allocation)fprintf(events,",\"parsed_switch_pointer\":%lu",parser_allocation);
     if(duplicate_result)fprintf(events,",\"duplicate_pointer\":%lu",duplicate_result);
@@ -918,6 +923,23 @@ int main(int argc, char **argv)
                         fprintf(events,"}\n");
                         if(!rearm_observer(before?"observe:collision_compare_return":"observe:collision_compare_call")){failed=6;break;}
                         if(!before)++collision_compare_count;
+                    } else if(!strcmp(entries[index].name,"observe:big_endian_read_call")) {
+                        DWORD got;char name[128];big_endian_read_stack=context.Esp-4;
+                        if(!ReadProcessMemory(process,(void *)context.Esp,big_endian_read_arguments,12,&got)||got!=12||big_endian_read_arguments[2]!=4){failed=6;break;}
+                        sprintf(name,"big-endian-read-%u-before.bin",big_endian_read_count);
+                        if(!save_memory(big_endian_read_arguments[1],4,name)){failed=6;break;}
+                        fprintf(events,"{\"event\":\"big_endian_read_call\",\"index\":%lu,\"entry_stack\":%lu,\"formals\":[%lu,%lu,%lu],\"hidden_inputs\":[]}\n",big_endian_read_count,big_endian_read_stack,big_endian_read_arguments[0],big_endian_read_arguments[1],big_endian_read_arguments[2]);
+                        if(!rearm_observer("observe:big_endian_read_return")){failed=6;break;}
+                    } else if(!strcmp(entries[index].name,"observe:big_endian_read_return")) {
+                        char name[128];
+                        if(context.Esp!=big_endian_read_stack+16){failed=6;break;}
+                        sprintf(name,"big-endian-read-%u-after.bin",big_endian_read_count);
+                        if(!save_memory(big_endian_read_arguments[1],4,name)){failed=6;break;}
+                        sprintf(name,"big-endian-read-%u-record-after.bin",big_endian_read_count);
+                        if(!save_memory(big_endian_read_arguments[0],40,name)){failed=6;break;}
+                        fprintf(events,"{\"event\":\"big_endian_read_return\",\"index\":%lu,\"entry_stack\":%lu,\"return_stack\":%lu,\"result\":%lu}\n",big_endian_read_count,big_endian_read_stack,context.Esp,context.Eax);
+                        ++big_endian_read_count;
+                        if(!rearm_observer("observe:big_endian_read_call")){failed=6;break;}
                     } else if(!strncmp(entries[index].name,"observe:seek_",13)) {
                         DWORD got,slots;char name[128],rearm[128];unsigned j;
                         int before=strstr(entries[index].name,"_call")!=NULL;
@@ -1446,6 +1468,11 @@ int main(int argc, char **argv)
                                 failed=6;break;
                             }
                             if(!save_memory(base+0x670c4,32,"input-diagnostic-before.bin")){failed=6;break;}
+                        }
+                        if(!strcmp(entries[index].name,"_read_big_endian_dword@4")) {
+                            DWORD got;big_endian_entry_stack=context.Esp;
+                            if(!ReadProcessMemory(process,(void *)(context.Esp+4),&big_endian_argument,4,&got)||got!=4){failed=6;break;}
+                            fprintf(events,"{\"event\":\"big_endian_entry\",\"stack_pointer\":%lu,\"formals\":[%lu],\"hidden_inputs\":[]}\n",context.Esp,big_endian_argument);
                         }
                         if(!strcmp(entries[index].name,"_seek_file@16")) {
                             DWORD got;seek_file_entry_stack=context.Esp;

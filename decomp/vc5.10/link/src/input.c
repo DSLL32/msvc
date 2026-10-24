@@ -63,9 +63,9 @@ void __stdcall read_library_index(OutputLibrary *library,LinkContext *context) {
 BYTE __stdcall is_mac_resource_file(int file)
 {
     LONG length=get_file_length(file);
-    DWORD upper=0,map_offset,data_length,map_length;
+    DWORD error=0,map_offset,data_length,map_length;
     if (length<256) return 0;
-    seek_file(file,0,0,&upper);
+    seek_file(file,0,0,&error);
     if (read_big_endian_dword(file)!=256) return 0;
     map_offset=read_big_endian_dword(file);
     data_length=read_big_endian_dword(file);
@@ -73,7 +73,20 @@ BYTE __stdcall is_mac_resource_file(int file)
     if (map_offset!=data_length+256) return 0;
     return (DWORD)length==map_length+256+data_length;
 }
-DWORD __stdcall read_big_endian_dword(int file) { __asm { int 3 } return 0; }
+DWORD __stdcall read_big_endian_dword(int file)
+{
+    DWORD value;
+    FileRecord *record;
+    if (file_access_statistics) record_file_access();
+    record=file_slots[file];
+    if (record->flags & 8) {
+        mapped_read(record,&value,4);
+        return byte_swap_dword(value);
+    }
+    buffered_read(record,&value,4);
+    return byte_swap_dword(value);
+}
+DWORD __stdcall byte_swap_dword(DWORD value) { __asm { int 3 } return 0; }
 OutputModule *__stdcall read_object_file(InputArgument *argument,LinkContext *context,OutputLibrary *library) { __asm { int 3 } return NULL; }
 void __stdcall load_object_module(LinkContext *context,void *parent,OutputModule *module,WORD flags)
 {

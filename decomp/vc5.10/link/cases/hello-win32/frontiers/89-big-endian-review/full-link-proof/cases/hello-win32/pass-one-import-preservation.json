@@ -1,0 +1,255 @@
+{
+  "schema": 1,
+  "original_sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+  "canonical_provider": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "bytes": 277776,
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "actual_loaded_receipt": "/root/.ai-tmp/msvc2/vc5.10/link/masked-drdwkhmv/receipt.json",
+    "actual_loaded_receipt_sha256": "4acc6424bce0f5b3b123ebcf4c71c2a140517c6afc7e7cd895626fb0b92b4b02",
+    "owned_receipt": "cases/help/options-provider/receipt.json",
+    "owned_hfile_copies": [
+      {
+        "path": "cases/help/options-provider/module-006.bin",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    ]
+  },
+  "abi_basis": "Shipped VC5.10 STDIO.H __cdecl fputc and exact actual canonical MSVCRT provider export; ordinary x86 normal returns preserve ESI.",
+  "imports": [
+    {
+      "identity": "msvcrt.dll!fputc",
+      "provider_export": {
+        "ordinal": 599,
+        "rva": 27343
+      },
+      "entry_bytes": "568b74240c5756e8bdf7ffff8b460483",
+      "abi": "x86 __cdecl; ESI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDIO.H",
+          "line": 343,
+          "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+          "declaration": "_CRTIMP int __cdecl fputc(int, FILE *);"
+        }
+      ],
+      "qualification": "Public CRT ABI boundary only; no CRT reconstruction or application coverage credit."
+    }
+  ],
+  "owner": "LinkContext::PassOne",
+  "original_register_sites": [
+    4504718,
+    4504747
+  ],
+  "original_direct_sites": [
+    4503677
+  ],
+  "function_contract": {
+    "name": "_link_message",
+    "preserves": [
+      "esi"
+    ],
+    "classification": "Ordinary x86 cdecl function boundary; no application acceptance",
+    "original_witnesses": [
+      {
+        "name": "link_message",
+        "begin": 4391600,
+        "end": 4391620,
+        "sha256": "58b85b5390f24b8a5342a78fd6de52bd5ea8f2609adfdd0e40eed1618a617cb8",
+        "esi_writes": [],
+        "normal_returns": [
+          {
+            "site": 4391619,
+            "bytes": "c3",
+            "instruction": "ret "
+          }
+        ],
+        "anchors": [
+          {
+            "site": 4391614,
+            "bytes": "e85dfdffff",
+            "instruction": "call 0x430020"
+          },
+          {
+            "site": 4391619,
+            "bytes": "c3",
+            "instruction": "ret "
+          }
+        ]
+      },
+      {
+        "name": "emit_diagnostic",
+        "begin": 4390944,
+        "end": 4391154,
+        "sha256": "91a1229f20818588ffa22da7df357d954147e942f5a2d72718ebca630ff3f0b6",
+        "esi_writes": [
+          {
+            "site": 4391006,
+            "bytes": "8b742418",
+            "instruction": "mov esi, dword ptr [esp + 0x18]"
+          },
+          {
+            "site": 4391148,
+            "bytes": "5e",
+            "instruction": "pop esi"
+          }
+        ],
+        "normal_returns": [
+          {
+            "site": 4391151,
+            "bytes": "c21000",
+            "instruction": "ret 0x10"
+          }
+        ],
+        "anchors": [
+          {
+            "site": 4390950,
+            "bytes": "e875ffffff",
+            "instruction": "call 0x42ffa0"
+          },
+          {
+            "site": 4390957,
+            "bytes": "0f85bb000000",
+            "instruction": "jne 0x4300ee"
+          },
+          {
+            "site": 4390969,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          {
+            "site": 4391042,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          {
+            "site": 4391148,
+            "bytes": "5e",
+            "instruction": "pop esi"
+          },
+          {
+            "site": 4391151,
+            "bytes": "c21000",
+            "instruction": "ret 0x10"
+          }
+        ]
+      },
+      {
+        "name": "message_is_suppressed",
+        "begin": 4390816,
+        "end": 4390890,
+        "sha256": "2aab9a30994efbdeb5be9cd3a1ad96ef229e9bd17149678bb9bae09fe8d88a21",
+        "esi_writes": [
+          {
+            "site": 4390831,
+            "bytes": "5e",
+            "instruction": "pop esi"
+          },
+          {
+            "site": 4390849,
+            "bytes": "8bf0",
+            "instruction": "mov esi, eax"
+          },
+          {
+            "site": 4390851,
+            "bytes": "81e6ffff0000",
+            "instruction": "and esi, 0xffff"
+          },
+          {
+            "site": 4390874,
+            "bytes": "5e",
+            "instruction": "pop esi"
+          },
+          {
+            "site": 4390880,
+            "bytes": "5e",
+            "instruction": "pop esi"
+          },
+          {
+            "site": 4390886,
+            "bytes": "5e",
+            "instruction": "pop esi"
+          }
+        ],
+        "normal_returns": [
+          {
+            "site": 4390832,
+            "bytes": "c20400",
+            "instruction": "ret 4"
+          },
+          {
+            "site": 4390875,
+            "bytes": "c20400",
+            "instruction": "ret 4"
+          },
+          {
+            "site": 4390881,
+            "bytes": "c20400",
+            "instruction": "ret 4"
+          },
+          {
+            "site": 4390887,
+            "bytes": "c20400",
+            "instruction": "ret 4"
+          }
+        ],
+        "anchors": [
+          {
+            "site": 4390820,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          {
+            "site": 4390831,
+            "bytes": "5e",
+            "instruction": "pop esi"
+          },
+          {
+            "site": 4390832,
+            "bytes": "c20400",
+            "instruction": "ret 4"
+          },
+          {
+            "site": 4390874,
+            "bytes": "5e",
+            "instruction": "pop esi"
+          },
+          {
+            "site": 4390875,
+            "bytes": "c20400",
+            "instruction": "ret 4"
+          },
+          {
+            "site": 4390880,
+            "bytes": "5e",
+            "instruction": "pop esi"
+          },
+          {
+            "site": 4390881,
+            "bytes": "c20400",
+            "instruction": "ret 4"
+          },
+          {
+            "site": 4390886,
+            "bytes": "5e",
+            "instruction": "pop esi"
+          },
+          {
+            "site": 4390887,
+            "bytes": "c20400",
+            "instruction": "ret 4"
+          }
+        ]
+      }
+    ],
+    "rebuilt": {
+      "symbol": "_link_message",
+      "bytes": "558bec535657cc5f5e5b5dc3",
+      "classification": "named trapping boundary",
+      "ret": ""
+    }
+  },
+  "scope": "Exactly fputcESI and link_messageESI required after import load44bc82. Wrapper does not writeESI, calls emit_diagnostic; latter first calls suppressionfilter which saves/restoresESI on all4normalreturns, then either earlyreturns without ESIwrite or savesESI before its only ownwrite and restores at main normalexit. No callback contract or target seeding.",
+  "qualification": "Finite304B application diagnostic-chain ABI witness only. No recursively expanded CRT internals and no new handwritten CRT bodies."
+}

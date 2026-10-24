@@ -62,6 +62,8 @@ def plan(accepted,case="help"):
     if '_mapped_read@12'in accepted:result.extend([(0x5cd75,'observe:archive_read_call'),(0x5cd7a,'observe:archive_read_return'),(0x498e0,'observe:archive_predicate_call'),(0x498e5,'observe:archive_predicate_return')])
     if '_seek_mapped_file@16'in accepted:
         result.extend([(0xc0a8,'observe:seek_current_call'),(0xc0ad,'observe:seek_current_return'),(0xc0c1,'observe:seek_end_call'),(0xc0c6,'observe:seek_end_return'),(0xc0dd,'observe:seek_restore_call'),(0xc0e2,'observe:seek_restore_return'),(0x4e653,'observe:seek_reset_call'),(0x4e658,'observe:seek_reset_return'),(0xc061,'observe:mapped_seek_call'),(0xc066,'observe:mapped_seek_return'),(0x4e629,'observe:file_length_call'),(0x4e62e,'observe:file_length_return')])
+    if '_read_big_endian_dword@4'in accepted:
+        result.extend([(0x4e5ea,'observe:big_endian_read_call'),(0x4e5ef,'observe:big_endian_read_return')])
     if '_close_timing' in accepted:result.append((0x44eb6,'observe:timing_end'))
     for suffix,address in [('4',0x431e30),('8',0x431dc0),('12',0x424eb0)]:
         if '_free_buffer'+suffix in accepted:result += [(address+10-0x400000,'observe:delete_call_'+suffix),(address+15-0x400000,'observe:delete_return_'+suffix)]

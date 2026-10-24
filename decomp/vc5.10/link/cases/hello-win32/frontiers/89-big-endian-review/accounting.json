@@ -1,0 +1,42 @@
+{
+  "candidate": "_read_big_endian_dword@4",
+  "application_functions_if_promoted": 89,
+  "application_extent_bytes_if_promoted": 33965,
+  "support_functions": 13,
+  "support_extent_bytes": 522,
+  "original_capture_seconds": 2.7833906011655927,
+  "initial_native_seconds": 0.8611552603542805,
+  "current_native_seconds": 0.894261478446424,
+  "audit_seconds": 0.6074230307713151,
+  "audit_including_setup_seconds": 1.1235350063070655,
+  "full_graph_bodies": 102,
+  "strict_graph_bodies": 95,
+  "initial_fresh_controls": {
+    "base": 265,
+    "seek": 143,
+    "dword": 33,
+    "seconds": 25.911009756848216
+  },
+  "refresh_fresh_controls": {
+    "dword": 33,
+    "seconds": 3.229986259713769,
+    "arbitrary_own_uninitialized_before_positive": true
+  },
+  "refresh_reused_controls": {
+    "base_and_seek": 408,
+    "premise_receipt": "big-endian-refresh-provenance.json"
+  },
+  "shared_ready": {
+    "commit": "c11fa6763",
+    "crt_sha256": "390ea919dafdf5ffa2e6b5aa06de54fd464771b4b552b161febf4747d5cc1cbd",
+    "header_sha256": "2d9b3215967d79d405d4f620d6ffe10fc35048584d6b20f5e4259f84df15aa61",
+    "qualification": "Frozen coherent WIP bytes were independently reviewed and published unchanged; no publication-only original/native execution."
+  },
+  "native_help_fixture": {
+    "setup": 0.06663557607680559,
+    "execution": 0.0037367548793554306,
+    "checks": 0.00039851199835538864,
+    "total": 0.07446979824453592
+  },
+  "build_time": "Build completed with make -j4 native original build/runtime.json; not separately timed."
+}
