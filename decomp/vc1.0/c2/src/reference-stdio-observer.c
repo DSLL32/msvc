@@ -271,6 +271,24 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         /* The caller's four-byte index local is write-only at this boundary.
            Its prior uninitialized bytes are neither read nor compared. */
     }
+    if(!strcmp(call->name,"@omf_reserve_bytes@8")) {
+        DWORD current=read_word(process,image_base+0x6b88c);
+        DWORD record=call->args[0],used=read_word(process,record+16)-record;
+        if(used<20||used>1004)exit(289);
+        sprintf(line,"omf_record pointer %08lx current %08lx base %08lx bytes %lu debug_owner %08lx\n",
+            record,current,image_base+0x6a8dc,used,read_word(process,image_base+0x6914c));log_line(line);
+        dump_bytes(process,"omf_record_hex",record,used);
+    }
+    if(!strcmp(call->name,"@omf_output_data@8")) {
+        DWORD current=read_word(process,image_base+0x6b88c);
+        DWORD used=read_word(process,current+16)-current;
+        if(call->args[1]!=4||used<20||used>1004)exit(288);
+        sprintf(line,"omf_data source %08lx count %lu entry_sp %08lx return_address %08lx current %08lx base %08lx debug_owner %08lx used %lu\n",
+            call->args[0],call->args[1],context->Esp,call->return_address,
+            current,image_base+0x6a8dc,read_word(process,image_base+0x6914c),used);log_line(line);
+        dump_bytes(process,"omf_data_hex",call->args[0],4);
+        dump_bytes(process,"omf_data_record_hex",current,used);
+    }
     if(!strcmp(call->name,"@omf_select_segment@4")) {
         sprintf(line,"omf_select segment %08lx owner %08lx\n",
             call->args[0],read_word(process,image_base+0x6914c));log_line(line);

@@ -1278,7 +1278,9 @@
     "@omf_write_index@8",
     "@omf_write_group_definition@8",
     "@omf_define_fixup_thread@16",
-    "@omf_select_segment@4"
+    "@omf_select_segment@4",
+    "@omf_output_data@8",
+    "@omf_reserve_bytes@8"
   ],
   "driver": [
     {
@@ -2265,10 +2267,28 @@
       }
     },
     {
-      "name": "_omf_output_data",
+      "name": "@omf_output_data@8",
       "start": 440000,
-      "end": 440001,
-      "provisional": true
+      "end": 440036,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "data",
+            "location": "ECX",
+            "type": "void pointer"
+          },
+          {
+            "name": "bytes",
+            "location": "EDX",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-data-native-abi/validation.json",
+        "scope": "Actual data is initialized signature1 in caller4-byte local (original entryESP+4/return69cf6, native write_codeview_signature &signature/sizeof4), bytes4. Current A1 slot0/debug context/count0/cursor28 observed; no hidden stack/register/flags/x87 input, RET0."
+      }
     },
     {
       "name": "_omf_output_debug_pair",
@@ -8948,6 +8968,30 @@
         "callee_stack_cleanup": 0,
         "entry_observation": "cases/omf-intern-name-abi/validation.json",
         "scope": "Actual nonnull empty string,4-byte write-only output aliases caller index local,16 null typed buckets and PE next-name1 observed. Output prior uninitialized bytes are not input or seed; every return writes output."
+      }
+    },
+    {
+      "name": "@omf_reserve_bytes@8",
+      "start": 440048,
+      "end": 440077,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "record",
+            "location": "ECX",
+            "type": "OmfRecord pointer"
+          },
+          {
+            "name": "bytes",
+            "location": "EDX",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-reserve-abi/validation.json",
+        "scope": "Actual record aliases current A1 slot0/debug context/count0/cursor+28 and bytecount4 observed; signed32 remaining/count compare, RET0, no hidden stack/register/flags/x87 input. Raw28 owned bytes retained, no uninitialized tail reads."
       }
     }
   ],

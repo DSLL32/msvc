@@ -614,3 +614,15 @@ full/default models pass once on the same snapshot:10.372s total vs1.648s for
 structural modes. Full adjusted audit+coverage20.055s vs prior30.058s, graph-only
 split unmeasured; no source build in those batches. See ordinary-audit-model-
 modes.json. Prior group-control prose corrected64->32; raw results always32.
+
+Checkpoint1276 adds36-byte data callback and29-byte record-space helper. Actual
+source is the initialized4-byte signature caller-local (original entryESP+4,
+native &signature/sizeof4); current A1 slot0/count0/cursor28/debug context match.
+16 forwarding and50 signed-capacity original/canonical controls plus8+6 actual
+ABI rejects pass. Equality renews; original signed32 predicates and full child
+return pointer preserved. Actual970>4 skips renewal, cold branch controlled
+separately. Raw GDB signed-pointer observation failure retained; corrected
+native-only observer reuses original, no recapture. Original/W3/ordinary full
+audits and15 native cases pass (14 complete), next mark-symbol6ab20.341084/
+399693 accepted extent bytes; app/support322784B and1161functions exclude5
+historical CRT bodies. Split timings/limits: cases/omf-data-reserve-checkpoint.json.

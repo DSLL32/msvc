@@ -1,6 +1,7 @@
 /* Original output callback constructor [00068dc0,00069100). */
 #include "output.h"
 #include "options.h"
+#include <recon.h>
 extern int dos_object, coff_object, codeview_debug, line_debug;
 extern int default_library, ansi_mode, floating_frontend;
 OutputCallbacks output_callbacks;
@@ -90,7 +91,7 @@ void initialize_output_callbacks(void)
     output_callbacks.function = (void (__fastcall *)(FunctionSymbol *))output_noop_symbol;
     output_callbacks.begin_function = (void (__fastcall *)(FunctionSymbol *, char *, int, unsigned))output_noop_function;
     output_callbacks.select_segment = omf_select_segment;
-    output_callbacks.data = (void (__fastcall *)(void *, unsigned))omf_output_data;
+    output_callbacks.data = omf_output_data;
     output_callbacks.segment_reference = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_value;
     output_callbacks.absolute_reference = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_bytes;
     output_callbacks.address = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;

@@ -1,0 +1,672 @@
+{
+  "actual_abi": true,
+  "rejected": [
+    "missing bytecount",
+    "wrong count",
+    "wrong record owner",
+    "wrong debug owner",
+    "missing defined descriptor",
+    "invented hidden arg"
+  ],
+  "states": 50,
+  "cases": [
+    {
+      "cursor_offset": 28,
+      "count": 0,
+      "child_returned_other": false,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 28,
+      "count": 0,
+      "child_returned_other": true,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 28,
+      "count": 1,
+      "child_returned_other": false,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 28,
+      "count": 1,
+      "child_returned_other": true,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 28,
+      "count": 4,
+      "child_returned_other": false,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 28,
+      "count": 4,
+      "child_returned_other": true,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 28,
+      "count": 2147483648,
+      "child_returned_other": false,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 28,
+      "count": 2147483648,
+      "child_returned_other": true,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 28,
+      "count": 4294967295,
+      "child_returned_other": false,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 28,
+      "count": 4294967295,
+      "child_returned_other": true,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 997,
+      "count": 0,
+      "child_returned_other": false,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 997,
+      "count": 0,
+      "child_returned_other": true,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 997,
+      "count": 1,
+      "child_returned_other": false,
+      "result": {
+        "renew": true,
+        "returned_offset": 0,
+        "events": [
+          [
+            "initialize",
+            161,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 997,
+      "count": 1,
+      "child_returned_other": true,
+      "result": {
+        "renew": true,
+        "returned_offset": 1004,
+        "events": [
+          [
+            "initialize",
+            195,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 997,
+      "count": 4,
+      "child_returned_other": false,
+      "result": {
+        "renew": true,
+        "returned_offset": 0,
+        "events": [
+          [
+            "initialize",
+            161,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 997,
+      "count": 4,
+      "child_returned_other": true,
+      "result": {
+        "renew": true,
+        "returned_offset": 1004,
+        "events": [
+          [
+            "initialize",
+            195,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 997,
+      "count": 2147483648,
+      "child_returned_other": false,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 997,
+      "count": 2147483648,
+      "child_returned_other": true,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 997,
+      "count": 4294967295,
+      "child_returned_other": false,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 997,
+      "count": 4294967295,
+      "child_returned_other": true,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 998,
+      "count": 0,
+      "child_returned_other": false,
+      "result": {
+        "renew": true,
+        "returned_offset": 0,
+        "events": [
+          [
+            "initialize",
+            161,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 998,
+      "count": 0,
+      "child_returned_other": true,
+      "result": {
+        "renew": true,
+        "returned_offset": 1004,
+        "events": [
+          [
+            "initialize",
+            195,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 998,
+      "count": 1,
+      "child_returned_other": false,
+      "result": {
+        "renew": true,
+        "returned_offset": 0,
+        "events": [
+          [
+            "initialize",
+            161,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 998,
+      "count": 1,
+      "child_returned_other": true,
+      "result": {
+        "renew": true,
+        "returned_offset": 1004,
+        "events": [
+          [
+            "initialize",
+            195,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 998,
+      "count": 4,
+      "child_returned_other": false,
+      "result": {
+        "renew": true,
+        "returned_offset": 0,
+        "events": [
+          [
+            "initialize",
+            161,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 998,
+      "count": 4,
+      "child_returned_other": true,
+      "result": {
+        "renew": true,
+        "returned_offset": 1004,
+        "events": [
+          [
+            "initialize",
+            195,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 998,
+      "count": 2147483648,
+      "child_returned_other": false,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 998,
+      "count": 2147483648,
+      "child_returned_other": true,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 998,
+      "count": 4294967295,
+      "child_returned_other": false,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 998,
+      "count": 4294967295,
+      "child_returned_other": true,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 999,
+      "count": 0,
+      "child_returned_other": false,
+      "result": {
+        "renew": true,
+        "returned_offset": 0,
+        "events": [
+          [
+            "initialize",
+            161,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 999,
+      "count": 0,
+      "child_returned_other": true,
+      "result": {
+        "renew": true,
+        "returned_offset": 1004,
+        "events": [
+          [
+            "initialize",
+            195,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 999,
+      "count": 1,
+      "child_returned_other": false,
+      "result": {
+        "renew": true,
+        "returned_offset": 0,
+        "events": [
+          [
+            "initialize",
+            161,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 999,
+      "count": 1,
+      "child_returned_other": true,
+      "result": {
+        "renew": true,
+        "returned_offset": 1004,
+        "events": [
+          [
+            "initialize",
+            195,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 999,
+      "count": 4,
+      "child_returned_other": false,
+      "result": {
+        "renew": true,
+        "returned_offset": 0,
+        "events": [
+          [
+            "initialize",
+            161,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 999,
+      "count": 4,
+      "child_returned_other": true,
+      "result": {
+        "renew": true,
+        "returned_offset": 1004,
+        "events": [
+          [
+            "initialize",
+            195,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 999,
+      "count": 2147483648,
+      "child_returned_other": false,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 999,
+      "count": 2147483648,
+      "child_returned_other": true,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 999,
+      "count": 4294967295,
+      "child_returned_other": false,
+      "result": {
+        "renew": true,
+        "returned_offset": 0,
+        "events": [
+          [
+            "initialize",
+            161,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 999,
+      "count": 4294967295,
+      "child_returned_other": true,
+      "result": {
+        "renew": true,
+        "returned_offset": 1004,
+        "events": [
+          [
+            "initialize",
+            195,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 1004,
+      "count": 0,
+      "child_returned_other": false,
+      "result": {
+        "renew": true,
+        "returned_offset": 0,
+        "events": [
+          [
+            "initialize",
+            161,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 1004,
+      "count": 0,
+      "child_returned_other": true,
+      "result": {
+        "renew": true,
+        "returned_offset": 1004,
+        "events": [
+          [
+            "initialize",
+            195,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 1004,
+      "count": 1,
+      "child_returned_other": false,
+      "result": {
+        "renew": true,
+        "returned_offset": 0,
+        "events": [
+          [
+            "initialize",
+            161,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 1004,
+      "count": 1,
+      "child_returned_other": true,
+      "result": {
+        "renew": true,
+        "returned_offset": 1004,
+        "events": [
+          [
+            "initialize",
+            195,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 1004,
+      "count": 4,
+      "child_returned_other": false,
+      "result": {
+        "renew": true,
+        "returned_offset": 0,
+        "events": [
+          [
+            "initialize",
+            161,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 1004,
+      "count": 4,
+      "child_returned_other": true,
+      "result": {
+        "renew": true,
+        "returned_offset": 1004,
+        "events": [
+          [
+            "initialize",
+            195,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 1004,
+      "count": 2147483648,
+      "child_returned_other": false,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 1004,
+      "count": 2147483648,
+      "child_returned_other": true,
+      "result": {
+        "renew": false,
+        "returned_offset": 0,
+        "events": []
+      }
+    },
+    {
+      "cursor_offset": 1004,
+      "count": 4294967295,
+      "child_returned_other": false,
+      "result": {
+        "renew": true,
+        "returned_offset": 0,
+        "events": [
+          [
+            "initialize",
+            161,
+            "context"
+          ]
+        ]
+      }
+    },
+    {
+      "cursor_offset": 1004,
+      "count": 4294967295,
+      "child_returned_other": true,
+      "result": {
+        "renew": true,
+        "returned_offset": 1004,
+        "events": [
+          [
+            "initialize",
+            195,
+            "context"
+          ]
+        ]
+      }
+    }
+  ],
+  "seconds": 1.0392359867691994,
+  "scope": "Whole29-byte original/canonical helper: signed32 capacity and count, strict greater preserves/equality renews, zero/negative remaining/count, exact type/context/RET4 initializer arguments and child EAX forwarding versus original record, callee-saved/RET0 and all1004 record bytes unchanged.50 controls mock initializer; out-of-capacity cursor values are arithmetic-only descriptors, no payload dereference/copy or frontend-validity claim. Actual970remaining/count4 preserves record and is independently observed with owned28-byte prefix/context alias."
+}

@@ -1,0 +1,5 @@
+python3 scripts/dependencies.py
+python3 scripts/wine-tool.py --init
+python3 scripts/wine-tool.py CL.EXE /nologo /I../../../lib/recon/include /c /Od /G3 /Fobuild/reference-stdio-observer.obj src/reference-stdio-observer.c
+src/reference-stdio-observer.c
+python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /out:build/reference-stdio-observer.exe build/reference-stdio-observer.obj

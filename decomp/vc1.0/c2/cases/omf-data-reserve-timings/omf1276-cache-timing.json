@@ -1,0 +1,13 @@
+{
+  "command": [
+    "python3",
+    "scripts/native-traces.py",
+    "--extend-before",
+    "cases/omf-original-1275.json",
+    "--extend-after",
+    "cases/omf-original-1276.json"
+  ],
+  "seconds": 0.3278639605268836,
+  "returncode": 0,
+  "log_sha256": "8c05f38c7a347d88a12e83a0607f6b878de7de101d1474770465808f9eac4d1e"
+}

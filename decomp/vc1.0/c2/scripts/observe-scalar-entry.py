@@ -38,8 +38,9 @@ for row in phase['inputs']:shutil.copyfile(fixture/row['path'],work/Path(row['pa
 env.update(PATH=os.defpath,LC_ALL='C',TZ='UTC',MSC_CMD_FLAGS=phase['environment']['MSC_CMD_FLAGS'].format(bin=windows(idx.wt.TC/'bin')),RECON_PROGRAM_PATH=windows(idx.wt.TC/'bin/C23232.EXE'))
 snapshot="import gdb,json; s=gdb.parse_and_eval('recon_iob[1]'); used=int(s['_ptr'])-int(s['_base'])if int(s['_base'])else 0; values=[int(gdb.parse_and_eval(p))for p in PARAMETERS]; print('C2_SCALARS '+json.dumps(dict(values=values,omf_pool=dict(base=int(gdb.parse_and_eval('&omf_records[0]')),current=int(gdb.parse_and_eval('omf_current_record')),headers=[bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&omf_records[0]'))+1004*i,20)).hex()for i in range(4)]),coff_object=int(gdb.parse_and_eval('coff_object')),column=int(gdb.parse_and_eval('listing_column')),cw=int(gdb.parse_and_eval('$fctrl'))&65535,sw=int(gdb.parse_and_eval('$fstat'))&65535,stdout=dict(flags=int(s['_flag']),count=int(s['_cnt']),fd=int(s['_file']),size=int(s['_bufsiz']),null=int(not int(s['_ptr'])and not int(s['_base'])),used=used,buffer_hex=bytes(gdb.selected_inferior().read_memory(int(s['_base']),used)).hex()if used else ''))))"
 snapshot=snapshot.replace('PARAMETERS',repr([p[0]for p in parameters]));command=['gdb','-q','--batch','-ex','set pagination off','-ex','break '+re.sub(r'@\d+$','',name[1:]),'-ex','run > native-inferior.stdout','-ex','python '+snapshot,str(Path('build/native/C23232.EXE').resolve())]
-if name in ['_omf_flush_records','@omf_flush_record@4','@omf_write_record@4','@omf_write_index@8']:
+if name in ['_omf_flush_records','@omf_flush_record@4','@omf_write_record@4','@omf_write_index@8','@omf_reserve_bytes@8']:
  extra="import gdb,json; p=int(gdb.parse_and_eval('omf_current_record')); read=lambda a,n:bytes(gdb.selected_inferior().read_memory(a,n)); import struct; end=struct.unpack('<I',read(p+16,4))[0]; assert 20<=end-p<=1004; print('C2_RECORD '+json.dumps(dict(pointer=p,current=p,base=int(gdb.parse_and_eval('&omf_records[0]')),bytes=end-p,hex=read(p,end-p).hex())))"
+ if name=='@omf_reserve_bytes@8':extra=extra.replace('dict(pointer=p,','dict(debug_owner=int(gdb.parse_and_eval("debug_symbols_segment")),pointer=p,')
  command[-1:-1]=['-ex','python '+extra]
  if name=='@omf_write_record@4':
   obj="import gdb,json,os; s=gdb.parse_and_eval('*object_file'); fd=int(s['_file']); host=int(gdb.parse_and_eval('recon_osfhnd[%d]'%fd))-1; path='/proc/%d/fd/%d'%(gdb.selected_inferior().pid,host); assert os.readlink(path).endswith('/omftypes.obj'); info=open('/proc/%d/fdinfo/%d'%(gdb.selected_inferior().pid,host)).read(); pos=int(next(l.split()[1]for l in info.splitlines()if l.startswith('pos:'))); used=int(s['_ptr'])-int(s['_base'])if int(s['_base'])else 0; print('C2_OBJECT '+json.dumps(dict(stream=int(gdb.parse_and_eval('object_file')),flags=int(s['_flag']),count=int(s['_cnt']),fd=fd,size=int(s['_bufsiz']),null=int(not int(s['_ptr'])and not int(s['_base'])),used=used,position=pos,osfile=int(gdb.parse_and_eval('recon_osfile[%d]'%fd)),file_bytes=os.stat(path).st_size,buffer_hex=bytes(gdb.selected_inferior().read_memory(int(s['_base']),used)).hex()if used else '')))"
@@ -63,13 +64,14 @@ elif name in ['@omf_flush_record_type@4','@omf_find_record@8','@omf_allocate_rec
     other=native['omf_pool'];assert pool['current']==pool['base']and other['current']==other['base']and pool['stride']==1004 and pool['count']==4
     assert pool['headers']==other['headers']==[bytes(20).hex()]*4
     pool_input=dict(original=pool,native=other,scope='Actual first helper has four BSS-zero20-byte headers and current record aliases slot0; no payload read/dump or arbitrary reuse-state claim.')
-elif name in ['_omf_flush_records','@omf_flush_record@4','@omf_write_record@4','@omf_write_index@8']:
+elif name in ['_omf_flush_records','@omf_flush_record@4','@omf_write_record@4','@omf_write_index@8','@omf_reserve_bytes@8']:
     assert len(lines)==(9 if name=='@omf_write_record@4'else 7)
     parts=lines[4].split();record={parts[n]:int(parts[n+1],10 if parts[n]=='bytes'else 16)for n in range(1,len(parts),2)};record['hex']=lines[5].removeprefix('omf_record_hex ');other=json.loads(re.search('C2_RECORD (.*)',log)[1])
     for r in [record,other]:
-        expected_bytes=28 if name=='@omf_write_index@8'else 34
+        expected_bytes=28 if name in ['@omf_write_index@8','@omf_reserve_bytes@8']else 34
         expected_header=(153,0,0,5,r['pointer']+28)if name=='@omf_write_index@8'else(128,0,0,11,r['pointer']+34)
         expected_payload=b'\x99\x55\0\xa9'+bytes(4)if name=='@omf_write_index@8'else b'\x80\0\0\x0aomftypes.c'
+        if name=='@omf_reserve_bytes@8':expected_header=(161,r['debug_owner'],0,0,r['pointer']+28);expected_payload=b'\xa1\x0b\0\x05'+bytes(4)
         assert r['pointer']==r['current']==r['base']and r['bytes']==expected_bytes
         raw=bytes.fromhex(r['hex']);assert len(raw)==expected_bytes and struct.unpack('<5I',raw[:20])==expected_header and raw[20:]==expected_payload
     record_input=dict(original=record,native=other,scope='Actual current slot0 defined header/used payload only; cursor and owner aliases retained. No uninitialized tail dump or arbitrary record claim.')

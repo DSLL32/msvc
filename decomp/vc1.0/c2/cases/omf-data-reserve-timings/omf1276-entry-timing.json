@@ -1,0 +1,21 @@
+{
+  "command": [
+    "python3",
+    "scripts/observe-scalar-entry.py",
+    "--profile",
+    "omf",
+    "--function",
+    "@omf_reserve_bytes@8",
+    "--parameter",
+    "record:omf_record_current32",
+    "--parameter",
+    "bytes:unsigned32",
+    "--receipt",
+    "cases/omf-reserve-abi",
+    "--no-hidden-inputs-proof",
+    "ECX record/EDX unsigned bytecount4; consumes cursor/type/context when renewing, signed32 remaining-vs-count comparison in original. Current A1 slot0/debug owner/count0/context-offset0/cursor+28 and all28 owned used bytes observed, no uninitialized output tail read. RET0, no hidden register/stack/flags/x87 inputs. Returned OmfRecord pointer supplied directly or by initialize child."
+  ],
+  "seconds": 1.3494406957179308,
+  "returncode": 0,
+  "log_sha256": "c094e50d1b2b309da3a2fb42166b5a2059644ab0f00775e811b7267fa7942cbf"
+}

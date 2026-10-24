@@ -21,6 +21,7 @@ unsigned __fastcall omf_alignment(unsigned alignment);
 void __fastcall omf_append_bytes(OmfRecord *record, char *bytes, unsigned count);
 void __fastcall omf_write_record(OmfRecord *record);
 void omf_write_fixups(void);
+OmfRecord *__fastcall omf_reserve_bytes(OmfRecord *record, unsigned bytes);
 void __fastcall omf_write_comment(unsigned char kind, char *text);
 int __fastcall omf_intern_name(char *name, unsigned *index);
 /* Original name interner: hash first five signed bytes into16 buckets.
@@ -680,4 +681,21 @@ unsigned __fastcall omf_define_fixup_thread(unsigned char flags, unsigned char m
 void __fastcall omf_select_segment(Segment *segment)
 {
     omf_current_record = omf_begin_record(segment->combine == 7 ? 0xc3 : 0xa1, segment);
+}
+
+/* Original [0006b6c0,0006b6e4). Keep the source/count through record
+   renewal and publish the returned slot before appending the bytes. */
+void __fastcall omf_output_data(void *data, unsigned bytes)
+{
+    omf_current_record = omf_reserve_bytes(omf_current_record, bytes);
+    omf_append_bytes(omf_current_record, data, bytes);
+}
+
+/* Original [0006b6f0,0006b70d). Equality also renews the record; both sides
+   of the capacity comparison use their original signed32 interpretation. */
+OmfRecord *__fastcall omf_reserve_bytes(OmfRecord *record, unsigned bytes)
+{
+    if ((long)((unsigned)record - (unsigned)record->cursor + 998) <= (int)bytes)
+        return omf_initialize_record(record, record->type, record->context);
+    return record;
 }

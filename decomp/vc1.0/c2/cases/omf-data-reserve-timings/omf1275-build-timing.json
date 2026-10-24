@@ -1,0 +1,13 @@
+{
+  "command": [
+    "make",
+    "-j4",
+    "native",
+    "native-trace",
+    "build/c2.exe",
+    "build/runtime.json"
+  ],
+  "seconds": 15.9352901969105,
+  "returncode": 0,
+  "log_sha256": "c27cadc2f531385d3f96d0fe46ac7c706d42339b8e10f92ecf4b2e30be33eadb"
+}

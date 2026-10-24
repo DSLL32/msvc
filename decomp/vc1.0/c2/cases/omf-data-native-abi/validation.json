@@ -1,0 +1,57 @@
+{
+  "original_reference": {
+    "directory": "cases/omf-data-abi",
+    "binding_sha256": "d7d9e0cc6d71974f7c1473836e70281227f7e6a605c42ba1e981c6f4265145fa"
+  },
+  "matched": true,
+  "function": "@omf_output_data@8",
+  "original_name_before_abi": "_omf_output_data",
+  "original_va": "0x6b6c0",
+  "formals": [
+    {
+      "name": "data",
+      "location": "ECX",
+      "type": "void pointer",
+      "original": 2752172,
+      "native": 4294957856
+    },
+    {
+      "name": "bytes",
+      "location": "EDX",
+      "type": "unsigned32",
+      "value": 4
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "no_hidden_inputs_proof": "Original6b6c0..6b6e4 saves ECX data/EDX count before reading omf_current_record and calling reserve/append. RET0, no hidden stack/register/flags/x87 input. Actual4-byte signature source aliases original entryESP+4 with return69cf6 from caller69cd0; native frame write_codeview_signature &signature/sizeof4. All source bytes/current record fields and context ownership observed; destination uninitialized tail not read.",
+  "original": {
+    "source": 2752172,
+    "count": 4,
+    "entry_sp": 2752168,
+    "return_address": 433398,
+    "current": 501980,
+    "base": 501980,
+    "debug_owner": 8066184,
+    "used": 28,
+    "source_hex": "01000000",
+    "record_hex": "a100000088147b000000000000000000f8a80700a10b000500000000"
+  },
+  "native": {
+    "source": 4294957856,
+    "count": 4,
+    "owner": 4294957856,
+    "owner_size": 4,
+    "caller": "write_codeview_signature",
+    "current": 1449227612,
+    "base": 1449227612,
+    "debug_owner": 1449338208,
+    "used": 28,
+    "source_hex": "01000000",
+    "record_hex": "a100000060256356000000000000000078756156a10b000500000000"
+  },
+  "original_execution_seconds": null,
+  "native_debug_seconds": 0.1466209413483739,
+  "total_seconds": 0.16914866026490927,
+  "scope": "First callback input is caller-local initialized unsigned signature1, current A1 slot0 with debug context/count0/offset0/cursor28. Raw GPRs observed before typed reconstruction.28 owned record bytes compare after context/cursor pointer normalization; no uninitialized tail snapshot/seed or child capacity behavior claim."
+}

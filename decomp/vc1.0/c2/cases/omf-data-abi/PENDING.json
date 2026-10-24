@@ -1,0 +1,5 @@
+{
+  "reason": "GDB exposes raw ECX as signed32; actual stack source pointer above80000000 became negative for read_memory. Original capture valid, native failed before dumping source. Fix unsigned register interpretation and reuse immutable original with a new native receipt; no target change.",
+  "retry": "cases/omf-data-native-abi",
+  "timing": "omf1275-entry-timing.json"
+}

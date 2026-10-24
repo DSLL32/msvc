@@ -424,7 +424,7 @@
       "evidence": "cases/dbglist-completion-checkpoint.json"
     }
   ],
-  "status": "Derived OMF case at1274: segment selector reconstructed; matching original/native data callback6b6c0.14 prior cases complete.",
+  "status": "Derived OMF case at1276: data forwarding/reservation reconstructed; matching original/native mark-symbol6ab20.14 prior cases complete.",
   "next_case_proposals": [],
   "current_runtime_frontier": null,
   "historical_proposals": [
@@ -487,8 +487,8 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "_omf_output_data",
-  "current_checkpoint": 1274,
+  "current_application_frontier": "_omf_mark_symbol",
+  "current_checkpoint": 1276,
   "current_hold": null,
   "resolved_input_hold": {
     "field": "object_file->_bufsiz",
