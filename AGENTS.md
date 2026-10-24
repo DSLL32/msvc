@@ -3,7 +3,8 @@
 Use ~/.ai-tmp for scratch space, creating folders under here as required.
 For original builds/reference captures, use the shared repo Wine prefix
 `~/.ai-tmp/vc1.0-capture/wine` (win32). Its fixed drives are `R:` → repo root
-(`/root/msvc2`) and `S:` → shared scratch (`~/.ai-tmp/msvc2`). Use separate
+(`/root/msvc2`), `S:` → shared scratch (`~/.ai-tmp/msvc2`), and `T:` →
+ephemeral case workspaces (`/tmp/recon`). Use separate
 binary/case subdirectories; do not remap these drives or stop the shared server.
 Prefer relative case paths; use stable absolute paths only when behavior requires
 them. Fixtures remain native-only. Use the shared prefix for all binaries; do not
