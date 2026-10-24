@@ -611,7 +611,7 @@ IrToken *__stdcall convert_compact_method_pointer(IrToken *expression,
 {
     unsigned target_model = member_pointer_inheritance_model(type);
     unsigned source_model = member_pointer_inheritance_model(expression->type);
-    IrToken *function, *saved, *adjustment;
+    IrToken *function, *saved, *adjustment, *storage;
     if (!displacement && source_model == target_model) {
         expression->type = type;
         return expression;
@@ -620,9 +620,10 @@ IrToken *__stdcall convert_compact_method_pointer(IrToken *expression,
         return make_compact_method_pointer(type, expression,
             make_integer_constant(displacement));
     if (target_model == 1) {
-        if (!recognize_compact_method_function(expression, &function))
-            function = member_pointer_function_value(
-                builtin_unary_expression(OP_BIT_AND, expression), expression);
+        if (!recognize_compact_method_function(expression, &function)) {
+            storage = builtin_unary_expression(OP_BIT_AND, expression);
+            function = member_pointer_function_value(storage, expression);
+        }
         return make_compact_method_pointer(type, function, 0);
     }
     function = member_pointer_function_value(
@@ -753,4 +754,14 @@ int __stdcall recognize_compact_method_function(IrToken *expression,
         return 0;
     result = expression->tail.right;
     return result->kind == 0x46 && ((IrToken *)result->value.pointer)->kind == 0xa7;
+}
+
+/* Original 0x4bcc0..0x4bcea, stdcall8. The function address is
+   the first field of the member-pointer storage, viewed as a callable pointer. */
+IrToken *__stdcall member_pointer_function_value(IrToken *storage,
+    IrToken *expression)
+{
+    CType *type = member_pointer_function_type(expression->type);
+    IrToken *offset = make_integer_constant(0);
+    return indirect_storage_expression(new_ir_expression(0x5c, storage, offset, type));
 }

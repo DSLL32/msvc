@@ -598,6 +598,5 @@ IrToken *__stdcall convert_general_to_compact_data_pointer(IrToken *expression, 
 IrToken *__stdcall convert_general_to_virtual_data_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base) { __asm { int 3 } return 0; }
 IrToken *__stdcall convert_general_data_member_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base) { __asm { int 3 } return 0; }
 
-IrToken *__stdcall member_pointer_function_value(IrToken *storage, IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall member_pointer_adjustment_value(IrToken *storage, IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int displacement) { __asm { int 3 } return 0; }

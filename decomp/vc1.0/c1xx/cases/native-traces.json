@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "1766decd014bb1af67a0863ed3f013fa3ff02ef2f0970786c4f71885fb1ef1b6",
+    "functions.json": "3471bf585a3a163b7981ffa0c8c75f5c303b65beb3823e92e8434d27c4869fb0",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "5f0bd891f21e7070dbe1d2d791073c495abbcf674c4201ca528031744a9ec017",
-    "cases/canonical-map.txt": "df137b2664ff5de5b7e374ae32344e4c070591acb1adc7e456309e623e5e9e62",
+    "cases/original-entry-references.json": "9b96411d20cf1cf513bafbdc715a72fe073f0ef9be85f4d00df49eb3d27e11bd",
+    "cases/canonical-map.txt": "065321e5937e5702973bf63ab08d208f8ca378b28e1c1cce36ec71032c8cb13c",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -64,9 +64,9 @@
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-receipt.json": "c9cbd20af4610da8f8c35487c1cb632113d35461981bd76aa2f7d60e10400717",
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-events.txt": "a7247c160287c63539d241bef68d979d6d6a4b4649e77c3b542cb394ffce4b8e",
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-entries.plan": "95e3224e0362e24a6ef5b495984403fa23be74272e90e204349cda7924f7f5d6",
-    "cases/frontiers/state_machine_defined_debug/1240-recognize_compact_method_function-8/entry-reference/original-receipt.json": "90aabbd64870e7a3915756bf9d5d85058f9ea7a596358486e496baff5dac5609",
-    "cases/frontiers/state_machine_defined_debug/1240-recognize_compact_method_function-8/entry-reference/original-events.txt": "c5c56d5adfed8e8b998116a3a1f0688e0b9bcd51e81d8bb392d567d739f59d0a",
-    "cases/frontiers/state_machine_defined_debug/1240-recognize_compact_method_function-8/entry-reference/original-entries.plan": "9a79d9f9fad54d11b714d4240c2697f088becad24a64200f1ed034bf5c71c344"
+    "cases/frontiers/state_machine_defined_debug/1241-member_pointer_function_value-8/entry-reference/original-receipt.json": "c7afdd7c648fa0427f83fd0344426f0fd5866a052e168d78b1b10958dc99b447",
+    "cases/frontiers/state_machine_defined_debug/1241-member_pointer_function_value-8/entry-reference/original-events.txt": "0094d743fdaef69b39833d8cd9c8b734203d8b4520c18ce0d732e17df4a66b14",
+    "cases/frontiers/state_machine_defined_debug/1241-member_pointer_function_value-8/entry-reference/original-entries.plan": "edc00df282058cd92da6105dcda02300fd8421e20cc364fd68d8a0a960f3940f"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -3943,7 +3943,7 @@
     },
     "member_pointer_function_value": {
       "logical": "_member_pointer_function_value@8",
-      "source": "src/stubs.c"
+      "source": "src/member-pointers.c"
     },
     "member_pointer_inheritance_model": {
       "logical": "_member_pointer_inheritance_model@4",
@@ -7134,7 +7134,8 @@
     "preserve_null_data_member_conversion",
     "refill_source_or_error",
     "member_pointer_cast_compatible",
-    "recognize_compact_method_function"
+    "recognize_compact_method_function",
+    "member_pointer_function_value"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -12399,7 +12400,7 @@
     },
     "state_machine_defined_debug": {
       "first": 1232,
-      "last": 1241,
+      "last": 1242,
       "seen": [
         "main",
         "message_text",
@@ -13539,12 +13540,13 @@
         "refill_source_or_error",
         "member_pointer_cast_compatible",
         "recognize_compact_method_function",
-        "member_pointer_function_value"
+        "member_pointer_function_value",
+        "dispatch_member_pointer_comparison"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_member_pointer_function_value@8",
-        "native": "member_pointer_function_value",
+        "logical": "_dispatch_member_pointer_comparison@8",
+        "native": "dispatch_member_pointer_comparison",
         "signal": 5
       }
     }
