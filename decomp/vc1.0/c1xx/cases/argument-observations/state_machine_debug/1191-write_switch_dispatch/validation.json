@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_write_switch_dispatch",
+  "case": "state_machine_debug",
+  "accepted_before": 1191,
+  "configuration_sha256": "a4eec3e28d60ac5d3506547776476b16d71e97046908d06b22e906e0f7ebb063",
+  "native_entry": "write_switch_dispatch",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      330304,
+      330439
+    ],
+    "argument_bytes": 0,
+    "convention": "cdeclvoid",
+    "proof": "Whole135B/plainRET/noincomingstack,GPR,x87orCPUflagsformal. Existing new_left_typed_expression(op8f,control_labels.label,default_labels.label) receivesactualorderedcase-list payload; dispatch.type explicitlycopiedfromcontroltoken.type. Actualcontrolsymbol=value.pointer getsflags4 andexistingauxiliary.reference.scope_depth+36 assignedactual declaration_mode8c13c byte. current_label_symbol selectsactual defaultlabel symbol whenpresent, elsebreaklabel symbol. Emitactualdispatchthenemitbreaklabel. Existingtypedfields/globals/callees only; no newstorage/normalization/ABItransport.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "5538ac6ebad1add42d96c25b46f3aadab23a6ba6bbe594f9a79a75ac4c8b5d0f",
+  "capture_timing": {
+    "original_capture_seconds": 1.3174768006429076,
+    "native_capture_seconds": 0.17797239124774933,
+    "total_operation_seconds": 1.7702820394188166
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "adc0db4a808dee051f1a90439a8274a107d1805ef4a3218f96a11a2beeb59a61",
+    "native-commands.gdb": "2ee01e8fffa66c9d8f83555d3e23019e5f452b3d9bbfebc82938b9ffaf3b1b81",
+    "native-gdb.log": "a1cb9e409f7f4f1ccd13bdb4a1bdf4696dde41e65fcec09a49b1b1c73af9d86e",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "c09a1c6f7a0d43db06dbd7b0bb40754f8fe67811812a7f43fb3ef703a937ac9d",
+    "original-configuration.json": "a4eec3e28d60ac5d3506547776476b16d71e97046908d06b22e906e0f7ebb063",
+    "original-disassembly.txt": "ed7b43edf197787ccc76a30d3ef56b1980fdc17e6fef06168143102adef80750",
+    "original-events.txt": "5ad01df3425fe83064895064d31d6577e0bca1148adf47b2438c77fdbe8b6e8a",
+    "original-receipt.json": "a0bc0fe89eda1ad7874a385b0b8be4f7d1aa1823185dfee7972e5cd9e6d9c3eb",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "dc11c22496ad3645d0931f240595bd7b1f2e1f331ca54d9063a8ee8b67f032c4"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

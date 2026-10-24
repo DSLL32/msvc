@@ -207,3 +207,21 @@ void prepare_do_body(void)
     push_loop_label(&break_labels, 6);
     emit_label(control_labels->label);
 }
+
+/* Original 0x50a40..0x50ac6, cdecl. Serialize the ordered case list
+   with its controlling label, default target and lexical scope depth. */
+void write_switch_dispatch(void)
+{
+    IrToken *dispatch;
+    CppSymbol *control;
+    dispatch = new_left_typed_expression(0x8f, control_labels->label,
+        default_labels->label);
+    dispatch->type = control_labels->label->type;
+    control = (CppSymbol *)control_labels->label->value.pointer;
+    control->flags |= 4;
+    control->auxiliary.reference.scope_depth = declaration_mode;
+    current_label_symbol = (CppSymbol *)(switch_labels->label ?
+        switch_labels->label : break_labels->label)->value.pointer;
+    emit_expression_tree(dispatch);
+    emit_label(break_labels->label);
+}

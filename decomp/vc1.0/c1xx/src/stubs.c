@@ -209,7 +209,6 @@ unsigned short __stdcall validate_bit_field_bound(unsigned short flags, char *na
 unsigned short __stdcall validate_extended_bound(unsigned short flags, char *name) { __asm { int 3 } return 0; }
 unsigned short __stdcall validate_integer_bit_field_type(unsigned short flags) { __asm { int 3 } return 0; }
 void __stdcall validate_pure_specifier(IrToken *expression) { __asm { int 3 } }
-void write_switch_dispatch(void) { __asm { int 3 } }
 void __stdcall report_inserted_token(int actual, int expected) { __asm { int 3 } }
 ParserValue __stdcall recovery_token_value(int token) { ParserValue value; __asm { int 3 } return value; }
 void __stdcall report_parser_error(char *text) { __asm { int 3 } }

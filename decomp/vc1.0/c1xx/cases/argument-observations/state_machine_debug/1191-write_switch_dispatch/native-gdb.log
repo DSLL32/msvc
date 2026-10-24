@@ -1,0 +1,11 @@
+Breakpoint 1 at 0x30e07: file src/loop-output.c, line 217.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, write_switch_dispatch () at src/loop-output.c:217
+217	    dispatch = new_left_typed_expression(0x8f, control_labels->label,
+#0  write_switch_dispatch () at src/loop-output.c:217
+#1  0x565bc76d in parse_translation_unit () at src/parser-statement-actions.inc:142
+#2  0x5655debf in compile_translation_unit () at src/frontend.c:73
+#3  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#4  0x56558894 in main (argc=1, argv=0xffffd7b4, environment=0xffffd7bc) at src/c1xx.c:20
