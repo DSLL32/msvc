@@ -3,7 +3,7 @@ import struct
 import gdb
 
 
-def install(ns):
+def install(ns,config):
     state=dict(sorts=[],callbacks=[],stream_calls=[],frees=[],allocations=[],initialization={})
     def registers():return [int(gdb.parse_and_eval('$'+name))&0xffffffff for name in ('ebx','esi','edi','ebp')]
     def memory(address,size):return bytes(gdb.selected_inferior().read_memory(address,size)).hex()
@@ -26,6 +26,20 @@ def install(ns):
             esp=int(gdb.parse_and_eval('$esp'));args=struct.unpack('<4I',bytes(gdb.selected_inferior().read_memory(esp+4,16)))
             row=dict(index=len(state['sorts']),entry_esp=esp,args=list(args),owner=caller.name(),before_owned=owned(),callback_begin=len(state['callbacks']),before=environment());state['sorts'].append(row);SortReturned(row);return False
     SortEntered()
+    if config.get('observe_first_hash_output_block'):
+        class FirstReturned(gdb.FinishBreakpoint):
+            def __init__(self,row):self.row=row;super().__init__(gdb.newest_frame(),internal=True)
+            def stop(self):
+                row=self.row;row.update(result=int(self.return_value),exit_esp=int(gdb.parse_and_eval('$esp')),after_nonvolatile=registers(),after_arena=memory(row['argument'],24));row['block']=memory(row['result'],12);return False
+        class FirstEntered(gdb.Breakpoint):
+            def __init__(self):super().__init__('*first_hash_output_block',internal=True)
+            def stop(self):
+                frame=gdb.newest_frame();assert frame.older().name()=='write_publics' and 'first_block' not in state
+                types=formals(frame);assert set(types)=={'stream'} and types['stream'].code==gdb.TYPE_CODE_PTR and types['stream'].sizeof==4 and types['stream'].target().sizeof==24
+                esp=int(gdb.parse_and_eval('$esp'));ret,arg=struct.unpack('<2I',bytes(gdb.selected_inferior().read_memory(esp,8)));owner=frame.older();local=owner.read_var('names');assert int(local.address)==arg and local.type.sizeof==24
+                row=dict(entry_esp=esp,return_pc=ret,argument=arg,before_arena=memory(arg,24),before_nonvolatile=registers(),owner=owner.name(),local='names',formal_type=str(types['stream']));state['first_block']=row;FirstReturned(row);return False
+        FirstEntered()
+
     class CallbackReturned(gdb.FinishBreakpoint):
         def __init__(self,row):self.row=row;super().__init__(gdb.newest_frame(),internal=True)
         def stop(self):self.row.update(result=int(self.return_value),exit_esp=int(gdb.parse_and_eval('$esp')),after=environment());return False

@@ -1,0 +1,129 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "fresh_negative_count": 25,
+  "rejected": [
+    {
+      "name": "wrong-original-caller-return",
+      "diagnostic": "first block actual caller/formal identity differs"
+    },
+    {
+      "name": "wrong-native-caller-owner",
+      "diagnostic": "first block actual caller/formal identity differs"
+    },
+    {
+      "name": "wrong-native-local-arena",
+      "diagnostic": "first block actual caller/formal identity differs"
+    },
+    {
+      "name": "wrong-native-actual-input-formal",
+      "diagnostic": "first block actual caller/formal identity differs"
+    },
+    {
+      "name": "wrong-input-arena-identity",
+      "diagnostic": "first block live arena/input preservation differs"
+    },
+    {
+      "name": "changed-original-after-input",
+      "diagnostic": "first block live arena/input preservation differs"
+    },
+    {
+      "name": "changed-native-after-input",
+      "diagnostic": "first block live arena/input preservation differs"
+    },
+    {
+      "name": "wrong-returned-live-block",
+      "diagnostic": "first block actual result/block identity differs"
+    },
+    {
+      "name": "changed-returned-block-bytes",
+      "diagnostic": "first block actual result/block identity differs"
+    },
+    {
+      "name": "changed-EDI-on-return",
+      "diagnostic": "first block nonvolatile ABI differs"
+    },
+    {
+      "name": "wrong-original-RET-cleanup",
+      "diagnostic": "first block original cdecl return differs"
+    },
+    {
+      "name": "wrong-original-caller-result",
+      "diagnostic": "first block original cdecl return differs"
+    },
+    {
+      "name": "wrong-native-RET-cleanup",
+      "diagnostic": "first block native cdecl return differs"
+    },
+    {
+      "name": "wrong-actual-inline-copy_esp",
+      "diagnostic": "first block actual inline copy boundary differs"
+    },
+    {
+      "name": "wrong-actual-inline-copy_block",
+      "diagnostic": "first block actual inline copy boundary differs"
+    },
+    {
+      "name": "wrong-actual-inline-copy_source_end",
+      "diagnostic": "first block actual inline copy boundary differs"
+    },
+    {
+      "name": "wrong-actual-inline-copy_destination_end",
+      "diagnostic": "first block actual inline copy boundary differs"
+    },
+    {
+      "name": "wrong-next-original-block-alias",
+      "diagnostic": "first block next actual live block argument differs"
+    },
+    {
+      "name": "wrong-next-original-block-contents",
+      "diagnostic": "first block next actual live block argument differs"
+    },
+    {
+      "name": "missing-actual-next-formal",
+      "diagnostic": "first block next formal ABI differs"
+    },
+    {
+      "name": "wrong-actual-next-pointee-width",
+      "diagnostic": "first block next formal ABI differs"
+    },
+    {
+      "name": "wrong-next-current-local-owner",
+      "diagnostic": "first block next local-pointer value/contents differ"
+    },
+    {
+      "name": "wrong-native-return-instruction",
+      "diagnostic": "first block native return PC is not its genuine caller"
+    },
+    {
+      "name": "actual-raw-result-block-mutation",
+      "diagnostic": "first block actual result/block identity differs"
+    },
+    {
+      "name": "changed-last-newly-copied-output-byte",
+      "diagnostic": "complete address actual complete packed-output extent differs"
+    }
+  ],
+  "positive": {
+    "cdecl_arguments": 1,
+    "ret_cleanup": 0,
+    "initialized_arena_bytes": 24,
+    "initialized_block_bytes": 12,
+    "initialized_names_bytes_copied": 564,
+    "source_and_result_preserved": true,
+    "actual_next_frontier": 4260048,
+    "own_unwritten_names_tail_bytes_uncompared": 3532
+  },
+  "seconds": 11.63104074075818,
+  "checker_sha256": "eae532dc23b666320cbd80e1a4c0c5cc2f5e0fd73fd63f8b2b4915f995f0be48",
+  "validator_sha256": "7bb85804c48cd0d09b53d69e72f3d884d5220430f905b2b88f0c26814b8384a9",
+  "decoder_sha256": "660a74b83ef6a60acbac685afedc6ed8f8b1a13cf40fbfe9b29d41f356371eec",
+  "original_receipt_sha256": "681769ddb68334148ad177bf6d6e90a1f53acedeca52d9d306ee6478ea4e12b3",
+  "native_receipt_sha256": "f7547f6161519ada59df10239528defaee0ede5fc27859fa140701bb7bbf13a9",
+  "reused_prior_controls": {
+    "path": "cases/hello-debug-dll/evidence/0111-address-comparator-output/complete-address-checks.json",
+    "sha256": "fb2c92630ea8b3349da010c80fe119e1ceb2e5c95342436ecc107249a48df144",
+    "count": 77,
+    "qualification": "Prior complete-sort/address-stream/lifetime predicates retain exact111 branch;112 adds helper branch and expected names copy, same raw bounded first-callback prefix predicates run fresh. Historical77receipt/source snapshots retained, not relabeled as fresh. Current helper/formal/copy controls are new."
+  }
+}

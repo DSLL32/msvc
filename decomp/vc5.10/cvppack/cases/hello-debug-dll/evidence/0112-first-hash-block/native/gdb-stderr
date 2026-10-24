@@ -1,0 +1,3 @@
+Python Exception <class 'AssertionError'>: current-state observer tried to dereference released payload
+/root/msvc2/decomp/vc5.10/cvppack/cases/hello-debug-dll/evidence/0112-first-hash-block/native/commands.gdb:14: Error in sourced command file:
+Error occurred in Python: current-state observer tried to dereference released payload

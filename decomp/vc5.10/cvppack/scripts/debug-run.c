@@ -19,7 +19,7 @@ static unsigned probe_count = 6;
 static int invalid_probe_configuration;
 static DWORD active_teb, active_thread_id, loaded_crt_base;
 static HANDLE active_thread;
-static int complete_sort_mode, output_buffer_mode, subsection_mode, public_writer_mode, public_padding_mode, name_hash_mode, name_hash_complete_mode, address_hash_mode, address_hash_complete_mode;
+static int complete_sort_mode, output_buffer_mode, subsection_mode, public_writer_mode, public_padding_mode, name_hash_mode, name_hash_complete_mode, address_hash_mode, address_hash_complete_mode, first_hash_block_mode;
 static int probes_enabled, pending_probe = -1;
 static DWORD watched_address[256], watched_size[256], watch_count;
 static DWORD argument_entry[64], argument_slot[64], argument_count;
@@ -66,6 +66,7 @@ static void configure(void)
     name_hash_complete_mode = getenv("VC510_CVPACK_NAME_HASH_COMPLETE") != NULL;
     address_hash_mode = getenv("VC510_CVPACK_ADDRESS_HASH") != NULL;
     address_hash_complete_mode = getenv("VC510_CVPACK_ADDRESS_HASH_COMPLETE") != NULL;
+    first_hash_block_mode = getenv("VC510_CVPACK_FIRST_HASH_BLOCK") != NULL;
     value = getenv("VC510_CVPACK_DATA");
     while (value && *value && watch_count < 256) {
         if (sscanf(value, "%lx:%lu", &watched_address[watch_count], &watched_size[watch_count]) != 2) break;
@@ -354,6 +355,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
     }
     if(address_hash_complete_mode && entry!=0x40ef4b && entry!=0x40edc0) {
         ah_complete(log,process,context,entry);
+        if(entry==0x4100c7 || entry==0x40d7d9 || entry==0x40d846 || (first_hash_block_mode && entry==0x4100c0)) return;
         if(entry==0x40ef4d || entry==0x40edc4 || entry==0x40edd6 || entry==0x40ef6b || entry==0x40ef70 ||
             entry==0x40ef7b || entry==0x40ef80 || entry==0x40ef86 || entry==0x40ef8b || entry==0x40efa5 || entry==0x40efaa ||
             entry==0x40efda || entry==0x40efdf || entry==0x40efe4 || entry==0x40efe9 || entry==0x40f01e || entry==0x40f023 ||
@@ -785,7 +787,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         fprintf(log, "source-family-free-return %08lx %08lx\n", entry, context->Esp);
         ++source_family_frees;
     }
-    if (full_graphs && (entry == 0x4069e0 || (output_directory_mode && entry == 0x4063f0) || (complete_sort_mode && entry == 0x4100e0) || (output_buffer_mode && entry == 0x4068a0) || (subsection_mode && entry == 0x40d600) || (public_writer_mode && entry == 0x40f960) || (public_padding_mode && entry == 0x40e920) || (name_hash_mode && entry == 0x410010) || (name_hash_complete_mode && entry == 0x40ede0) || (address_hash_mode && entry == 0x40edc0) || (address_hash_complete_mode && entry == 0x4100c0))) {
+    if (full_graphs && (entry == 0x4069e0 || (output_directory_mode && entry == 0x4063f0) || (complete_sort_mode && entry == 0x4100e0) || (output_buffer_mode && entry == 0x4068a0) || (subsection_mode && entry == 0x40d600) || (public_writer_mode && entry == 0x40f960) || (public_padding_mode && entry == 0x40e920) || (name_hash_mode && entry == 0x410010) || (name_hash_complete_mode && entry == 0x40ede0) || (address_hash_mode && entry == 0x40edc0) || (address_hash_complete_mode && entry == (first_hash_block_mode ? 0x4100d0 : 0x4100c0)))) {
         DWORD pointer, size, k;
         unsigned char *bytes;
         if (source_family_count != 3 || source_family_frees != 2 ||
@@ -799,7 +801,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         for (k = 0; k < size; ++k) fprintf(log, "%02x", bytes[k]);
         fputc('\n', log); free(bytes);
     }
-    if (full_graphs && output_buffer_mode && (entry == 0x4068a0 || (subsection_mode && entry == 0x40d600) || (public_writer_mode && entry == 0x40f960) || (public_padding_mode && entry == 0x40e920) || (name_hash_mode && entry == 0x410010) || (name_hash_complete_mode && entry == 0x40ede0) || (address_hash_mode && entry == 0x40edc0) || (address_hash_complete_mode && entry == 0x4100c0))) output_buffer_state(log, process, context);
+    if (full_graphs && output_buffer_mode && (entry == 0x4068a0 || (subsection_mode && entry == 0x40d600) || (public_writer_mode && entry == 0x40f960) || (public_padding_mode && entry == 0x40e920) || (name_hash_mode && entry == 0x410010) || (name_hash_complete_mode && entry == 0x40ede0) || (address_hash_mode && entry == 0x40edc0) || (address_hash_complete_mode && entry == (first_hash_block_mode ? 0x4100d0 : 0x4100c0)))) output_buffer_state(log, process, context);
     if (entry == 0x40f183) {
         if (main_free_count != 12 || !read_bytes(process, context->Esp, &source_index_size, 4) || source_index_size < 8 || source_index_size > 262148) {
             fprintf(log, "source-index-observation-failed\n"); return;

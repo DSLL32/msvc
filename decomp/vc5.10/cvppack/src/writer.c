@@ -492,3 +492,9 @@ void flush_packed_file(void)
         write_cached_file(input_file, &directory_offset, 4) != 4) fatal_error(1008, NULL, NULL);
 }
 #undef BUFFER_WRITE
+
+/* [004100c0,004100c8), cdecl accessor; alignment gap excluded. */
+TypeArenaBlock *first_hash_output_block(TypeArena *stream)
+{
+    return stream->first;
+}

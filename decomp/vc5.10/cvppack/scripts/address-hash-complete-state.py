@@ -14,12 +14,13 @@ def prove(config):
     binding=config['address_hash_complete_policy'];path=BINARY/binding['path'];assert sha(path)==binding['sha256'],'changed complete address hash policy'
     policy=json.loads(path.read_text());assert policy['target_sha256']==config['target']['sha256'];pe=PE(ROOT/config['target']['path']);decoder=Cs(CS_ARCH_X86,CS_MODE_32);decoder.detail=True
     extents=[(0x40edc0,0x40edd7,set()),(0x40ede0,0x40f0c6,{0x4161f4,0x4161ac}),(0x40d68f,0x40d7d9,{0x412d34,0x412d38,0x412d40,0x412cf4})]
+    if config.get('observe_first_hash_output_block'):extents += [(0x4100c0,0x4100c8,set()),(0x40d7d9,0x40d84c,{0x412d34,0x412d38,0x412d40})]
     assert len(policy['integer_intervals'])==len(extents)
     for row,(start,end,allowed) in zip(policy['integer_intervals'],extents):
         assert row['extent']==[start,end];body=pe.read(start,end-start);assert hashlib.sha256(body).hexdigest()==row['sha256'];code=list(decoder.disasm(body,start));assert sum(i.size for i in code)==len(body)
         assert not any(i.mnemonic.startswith(('f','v','xsave','xrstor')) for i in code),'complete address hash raw FP consumer'
         assert all(o.mem.disp in allowed for i in code for o in i.operands if o.type==X86_OP_MEM and not o.mem.base and not o.mem.index),'complete address hash old root consumer'
-    return dict(policy_sha256=sha(path),integer_intervals=policy['integer_intervals'],validator_sha256=sha(Path(__file__)),actual_final_frontier=0x4100c0,scope='finite complete three sorts, address serialization, four frees and public-buffer continuation to real names-block stub; no future consumers')
+    return dict(policy_sha256=sha(path),integer_intervals=policy['integer_intervals'],validator_sha256=sha(Path(__file__)),actual_final_frontier=0x4100d0 if config.get('observe_first_hash_output_block') else 0x4100c0,scope='finite complete three sorts, address serialization, four frees and public-buffer continuation to real names-block stub; no future consumers')
 
 
 def decode(events):
@@ -27,7 +28,19 @@ def decode(events):
     for line in events.splitlines():
         if ' eax ' in line:continue
         fields=line.split()
-        if line.startswith('address-sort-call '):
+        if line.startswith('first-block-'):
+            row=result.setdefault('first_block',{})
+            if fields[0]=='first-block-entry':
+                assert 'entry_esp' not in row;_,esp,ret,arg,*regs=fields;row.update(entry_esp=int(esp,16),return_pc=int(ret,16),argument=int(arg,16),before_nonvolatile=[int(v,16)for v in regs])
+            elif fields[0]=='first-block-return':
+                assert 'result' not in row;_,esp,value,*regs=fields;row.update(exit_esp=int(esp,16),result=int(value,16),after_nonvolatile=[int(v,16)for v in regs])
+            elif fields[0]=='first-block-caller-return':
+                assert 'caller_esp' not in row;row.update(caller_esp=int(fields[1],16),caller_result=int(fields[2],16))
+            elif fields[0]=='first-block-copy-complete':
+                assert 'copy_esp' not in row;row.update(copy_esp=int(fields[1],16),copy_block=int(fields[2],16),copy_source_end=int(fields[3],16),copy_destination_end=int(fields[4],16))
+            else:
+                key={'first-block-input':'before_arena','first-block-after-input':'after_arena','first-block-result':'block'}[fields[0]];assert key not in row and len(bytes.fromhex(fields[3]))==int(fields[2]);row[key]=bytes.fromhex(fields[3]);row[key+'_address']=int(fields[1],16)
+        elif line.startswith('address-sort-call '):
             _,index,esp,root,count,width,callback,provider=fields;assert int(index)==len(result['sorts'])
             result['sorts'].append(dict(index=int(index),entry_esp=int(esp,16),args=[int(root,16),int(count),int(width),int(callback,16)],provider=int(provider,16),callback_begin=len(result['callbacks'])))
         elif line.startswith('address-sort-return '):
@@ -163,7 +176,9 @@ def validate(config,data,events,native,artifacts,views,compare,rawdecode):
 
 
 def validate_current(config,data,original,native,historical,previous,old,new,prefix,phase_proof,policy):
-    assert original['address']==0x4100c0 and original['stack'][0]==0x40d7d9 and native['function']=='first_hash_output_block' and native['frontier_caller']=='write_publics','complete address hash real next frontier differs'
+    names_copied=config.get('observe_first_hash_output_block',False)
+    used=7752 if names_copied else 7188
+    assert original['address']==(0x4100d0 if names_copied else 0x4100c0) and original['stack'][0]==(0x40d84c if names_copied else 0x40d7d9) and native['function']==('next_hash_output_block' if names_copied else 'first_hash_output_block') and native['frontier_caller']=='write_publics','complete address hash real next frontier differs'
     assert len(old['sorts'])==len(new['sorts'])==3 and old['callbacks'] and len(old['callbacks'])==len(new['callbacks'])<=4096,'complete address sort inventory differs'
     rows={row['name']:row for row in data}
     def root(state,name):return int.from_bytes(state['memory'][rows[name]['original']],'little')
@@ -315,8 +330,12 @@ def validate_current(config,data,original,native,historical,previous,old,new,pre
         assert current['block_address']==roots[0] and contents('block')==struct.pack('<3I',540,roots[1],0) and current['payload_address']==roots[1] and contents('payload')==output,'complete address current initialized block/output differs'
     # The actual final names argument still aliases the earlier LIVE name
     # arena; the four retired arrays and all unwritten capacities stay private.
-    assert original['stack'][1]==historical['name_hash_entry']['stack'][4] and original['memory'][original['stack'][1]]==historical['name_hash_complete']['arena'],'complete address current names argument identity/fields differ'
-    assert native['observed_argument_types']==[dict(name='stream',kind='pointer',width=4,native_type='TypeArena *',pointee_width=24)] and native['parameters']==dict(stream=dict(owner='write_publics',local='names',width=24,bytes=previous['name_hash_complete']['arena'])),'complete address next actual names formal/alias differs'
+    helper_proof=None
+    if names_copied:
+        helper_proof=first_block(config,original,native,historical,previous,old,new)
+    else:
+        assert original['stack'][1]==historical['name_hash_entry']['stack'][4] and original['memory'][original['stack'][1]]==historical['name_hash_complete']['arena'],'complete address current names argument identity/fields differ'
+        assert native['observed_argument_types']==[dict(name='stream',kind='pointer',width=4,native_type='TypeArena *',pointee_width=24)] and native['parameters']==dict(stream=dict(owner='write_publics',local='names',width=24,bytes=previous['name_hash_complete']['arena'])),'complete address next actual names formal/alias differs'
     assert native['name_hash_complete']==previous['name_hash_complete'],'complete address changed current live names generation'
     for state,roots,live,hexadecimal in [(original,old_roots,output_roots,False),(native,new_roots,native_output_roots,True)]:
         for base,size in list(zip(roots,(36,216,232,64)))+list(zip(live,(12,4096))):
@@ -328,7 +347,7 @@ def validate_current(config,data,original,native,historical,previous,old,new,pre
     # buffered-write count. This includes all identity-only old dangling roots.
     for row in data:
         name=row['name'];before=historical['memory'][row['original']];after=original['memory'][row['original']]
-        if name=='output_used':assert int.from_bytes(after,'little')==actual(native,name)==7188
+        if name=='output_used':assert int.from_bytes(after,'little')==actual(native,name)==used
         else:assert after==before and native['globals'][name]==previous['globals'][name],'complete address unexpected changed global: '+name
     old_table=root(historical,'type_table_global');new_table=actual(previous,'type_table_global')
     assert original['memory'][old_table]==historical['memory'][old_table] and native['memory'][str(new_table)]==previous['memory'][str(new_table)],'complete address changed current live public buckets'
@@ -341,12 +360,36 @@ def validate_current(config,data,original,native,historical,previous,old,new,pre
             contents=historical['memory'][pointer];records.append(contents[16:]);pointer=int.from_bytes(contents[:4],'little')
     assert len(records)==65 and sum(map(len,records))==2116,'complete address public record serialization input differs'
     expected=historical['output_buffer_state']['bytes']+header+b''.join(records);assert len(expected)==7188
+    if names_copied:expected+=historical['name_hash_complete']['payload'];assert len(expected)==7752
     out=original['output_buffer_state'];other=native['output_buffer_state']
-    assert out['bytes']==bytes.fromhex(other['bytes'])==expected and out['used']==other['used']==7188 and out['capacity']==other['capacity']==65512 and out['file']==other['file']==15 and out['address']==historical['output_buffer_state']['address'] and other['address']==previous['output_buffer_state']['address'],'complete address actual complete packed-output extent differs'
+    assert out['bytes']==bytes.fromhex(other['bytes'])==expected and out['used']==other['used']==used and out['capacity']==other['capacity']==65512 and out['file']==other['file']==15 and out['address']==historical['output_buffer_state']['address'] and other['address']==previous['output_buffer_state']['address'],'complete address actual complete packed-output extent differs'
     directory=bytearray(historical['memory'][root(historical,'directory_entries')]);struct.pack_into('<HHII',directory,58*12,0x12a,0xffff,5056,3236)
     native_directory=bytearray(bytes.fromhex(previous['memory'][str(actual(previous,'directory_entries'))]));struct.pack_into('<HHII',native_directory,58*12,0x12a,0xffff,5056,3236)
     assert original['memory'][root(original,'directory_entries')]==directory and bytes.fromhex(native['memory'][str(actual(native,'directory_entries'))])==native_directory,'complete address actual public directory row/tail differs'
     assert native['public_writer_frame']['header']==header.hex() and native['public_writer_frame']['uninitialized_streams']==[] and native['public_writer_frame']['uninitialized_stream_bytes_uncompared']==0,'complete address current initialized public header/stream schema differs'
     environment(old['frontier_environment'],baseline,False);environment(native['output_buffer_state']['environment'],native_baseline,True);environment(out['environment'],baseline,False)
     mapped_store_proof=mapping_writes(data,original,native,historical,previous,old,new)
-    return dict(prefix=prefix,fresh_historical_phase=phase_proof,parameters=native['parameters'],policy=policy,mapped_input_store_proof=mapped_store_proof,address_hash_complete=dict(sorts=3,callback_counts=[r['callback_end']-r['callback_begin']for r in old['sorts']],callbacks=len(old['callbacks']),all_callback_inputs_results_ABI_sequence=True,fully_initialized_temporary_bytes=548,actual_stream_calls=139,initialized_address_stream_bytes=540,own_unwritten_address_tail_bytes_uncompared=3556,temporary_free_calls=4,retired_payload_reinstalled=False,actual_new_live_owners=2,new_live_capacity_bytes=4108,initialized_new_live_bytes=552,initialized_packed_output_bytes=7188,own_unwritten_packed_output_bytes_uncompared=58324,current_directory_entry=58,current_names_generation_retained=True,original_mapping_scope='once-captured first-phase view lifetime retained through pinned no-mapping-API/no-mapped-input-write continuation; no final fresh original view-byte claim',each_own_full_raw_FP_errors_preserved=True,next_consumer='first_hash_output_block(current names24)'))
+    return dict(prefix=prefix,fresh_historical_phase=phase_proof,parameters=native['parameters'],policy=policy,mapped_input_store_proof=mapped_store_proof,first_block=helper_proof,address_hash_complete=dict(sorts=3,callback_counts=[r['callback_end']-r['callback_begin']for r in old['sorts']],callbacks=len(old['callbacks']),all_callback_inputs_results_ABI_sequence=True,fully_initialized_temporary_bytes=548,actual_stream_calls=139,initialized_address_stream_bytes=540,own_unwritten_address_tail_bytes_uncompared=3556,temporary_free_calls=4,retired_payload_reinstalled=False,actual_new_live_owners=2,new_live_capacity_bytes=4108,initialized_new_live_bytes=552,initialized_packed_output_bytes=used,own_unwritten_packed_output_bytes_uncompared=65512-used,current_directory_entry=58,current_names_generation_retained=True,original_mapping_scope='once-captured first-phase view lifetime retained through pinned no-mapping-API/no-mapped-input-write continuation; no final fresh original view-byte claim',each_own_full_raw_FP_errors_preserved=True,next_consumer='next_hash_output_block(current names block12)' if names_copied else 'first_hash_output_block(current names24)'))
+
+
+def first_block(config,original,native,historical,previous,old,new):
+    a=old['first_block'];b=new['first_block'];left=historical['name_hash_complete'];right=previous['name_hash_complete']
+    assert a['return_pc']==0x40d7d9 and b['return_pc'] and b['owner']=='write_publics' and b['local']=='names' and b['formal_type']=='TypeArena *','first block actual caller/formal identity differs'
+    for row,known,hexadecimal in [(a,left,False),(b,right,True)]:
+        raw=lambda key:bytes.fromhex(row[key])if hexadecimal else row[key]
+        value=lambda key:bytes.fromhex(known[key])if hexadecimal else known[key]
+        assert row['argument']==known['arena_address'] and raw('before_arena')==raw('after_arena')==value('arena'),'first block live arena/input preservation differs'
+        assert row['result']==known['block_address'] and raw('block')==value('block'),'first block actual result/block identity differs'
+        assert row['before_nonvolatile']==row['after_nonvolatile'] and len(row['before_nonvolatile'])==4,'first block nonvolatile ABI differs'
+    assert a['entry_esp']==a['exit_esp'] and a['caller_esp']==a['entry_esp']+4 and a['caller_result']==a['result'],'first block original cdecl return differs'
+    assert b['exit_esp']==b['entry_esp']+4,'first block native cdecl return differs'
+    assert a['copy_esp']==a['entry_esp']+8 and a['copy_block']==left['block_address'] and a['copy_source_end']==left['payload_address']+564 and a['copy_destination_end']==original['output_buffer_state']['address']+7752,'first block actual inline copy boundary differs'
+    assert original['stack'][1]==left['block_address'] and original['memory'][left['block_address']]==left['block'],'first block next actual live block argument differs'
+    assert native['observed_argument_types']==[dict(name='block',kind='pointer',width=4,native_type='TypeArenaBlock *',pointee_width=12)],'first block next formal ABI differs'
+    assert native['parameters']==dict(block=dict(owner='write_publics',local='block',width=12,bytes=right['block'])),'first block next local-pointer value/contents differ'
+    # Native return PCs are independently bound to the actual caller CALL.
+    from capstone import Cs,CS_ARCH_X86,CS_MODE_32
+    start,body=native_symbol('write_publics');helper,_=native_symbol('first_hash_output_block');bias=native['function_addresses']['write_publics']-start
+    calls={i.address+i.size for i in Cs(CS_ARCH_X86,CS_MODE_32).disasm(body,start) if i.mnemonic=='call' and i.op_str==hex(helper)}
+    assert b['return_pc']-bias in calls,'first block native return PC is not its genuine caller'
+    return dict(cdecl_arguments=1,ret_cleanup=0,initialized_arena_bytes=24,initialized_block_bytes=12,initialized_names_bytes_copied=564,source_and_result_preserved=True,actual_next_frontier=0x4100d0,own_unwritten_names_tail_bytes_uncompared=3532)

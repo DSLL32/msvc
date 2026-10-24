@@ -1,0 +1,20 @@
+#!/usr/bin/env python3
+"""Bounded first-block accessor/ABI/copy and offline decoder review packet."""
+import json
+from pathlib import Path
+from state import BINARY,sha
+p=BINARY/'cases/hello-debug-dll/evidence/0112-first-hash-block'
+def ref(path):return dict(path=str(path.relative_to(BINARY)),sha256=sha(path))
+files=['src/writer.c','src/stubs.c','src/types.h','scripts/raw-state.py','scripts/main-free-evidence.py','scripts/address-hash-complete-state.py','scripts/address-hash-complete-observer.inc','scripts/address-hash-complete-gdb.py','scripts/gdb-state.py','scripts/debug-run.c','scripts/capture-original.py','scripts/output-buffer-observer.inc','scripts/check-first-hash-block-state.py','cases/hello-debug-dll/first-hash-block-lifetimes.json']
+files += [str((p/name).relative_to(BINARY))for name in ['original/configuration.json','original/receipt.json','original/compiled-sources.json','native-generation/receipt.json','native-generation/compiled-sources.json','native-generation/state.json','final-audit/audit.json','pair-check-final.log','first-block-checks.json','decode-reuse/review.json','decode-reuse/semantic-equality.json']]
+assert (p/'original/compiled-sources.json').read_bytes()==(p/'native-generation/compiled-sources.json').read_bytes()
+r=dict(schema=1,candidate='first_hash_output_block',extent=[0x4100c0,0x4100c8],extent_bytes=8,excluded_gap_bytes=8,source_review=[
+'Whole original MOVarg/MOVfirst/RET0 is a readable cdecl1 accessor returning stream->first; no helpers, data, CRT source or assembly added.',
+'Original entry/RET/caller-return observations bind actual names24, unchanged full arena, returned live block12, stack/4nonvolatile registers and real caller return40d7d9. Native physical entry and genuine FinishBreakpoint independently bind actual pointer formal, owned local and full return/input state. Exact native ELF CALL instruction proves its return role.',
+'Native final formal independently inventories actual TypeArenaBlock* width4/pointee12. The argument equals write_publics.block pointer VALUE, actual names.first and freshly observed name-hash cleared allocation event3 size12. This precisely typed live generation may reuse older retired addresses; generic CurrentMemory guard remains intact for unknown roles. Observer failures are retained, then native-only recapture reuses unchanged actual original/compiled content/PE/ELF. No allocator/runtime adjustment.',
+'Actual original copy-complete PC40d846 observes exact block, source end+564 and destination+7752/stack. Production controller derives all copied564 name bytes from fresh earlier live names payload and requires complete actual original/native7752B output, globals/row58 and both live arenas unchanged. Own tails, historical arrays and old dangling roots retain prior finite limits.',
+'Two additional pinned integer-only extents8B+115B prove no raw FP/retired-global/mapping consumer through real next_hash_output_block namesblock frontier. The write-buffer/fatal branches remain unvisited; no new dependency contract or source shaping.',
+'Full112 static graph/import/refs/ownership/extents and strict111RET retains only existing Release residual.25 new affected production-predicate controls pass. Prior77 sort/stream/lifetime controls remain historical/hash-bound with unchanged111 branch and fresh ordinary prefix/state positive.',
+'One invocation-local decoder optimization removes the identical271611-line historical-phase decode AFTER fully validated comparison. Entire public result bytes remain identical; private misuse/wrongphase/premature/current/different-object/fresh semantic-equality controls pass. Current static sidecar pins raw decoder identity. No execution/capture/fixture was performed for this optimization.'
+],actual_state=json.loads((p/'pair-check-final.log').read_text())['typed_state']['first_block'],final_output_bytes=7752,native_only=True,files=[ref(BINARY/f)for f in files])
+(p/'first-block-review.json').write_text(json.dumps(r,indent=2)+'\n');print(sha(p/'first-block-review.json'))

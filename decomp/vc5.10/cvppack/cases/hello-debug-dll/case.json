@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0111-address-comparator-output/original",
-  "reference_receipt_sha256": "2c42767aba3904d985f186b8b25136ec0c7547c1abf10def8d34ea5a0e2b1186",
+  "reference": "cases/hello-debug-dll/evidence/0112-first-hash-block/original",
+  "reference_receipt_sha256": "681769ddb68334148ad177bf6d6e90a1f53acedeca52d9d306ee6478ea4e12b3",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -117,6 +117,7 @@
     "fill_type_arena",
     "build_symbol_address_hash",
     "compare_symbol_address",
-    "first_hash_output_block"
+    "first_hash_output_block",
+    "next_hash_output_block"
   ]
 }

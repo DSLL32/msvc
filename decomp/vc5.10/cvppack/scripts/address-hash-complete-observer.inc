@@ -1,6 +1,7 @@
 /* Original debugger only: complete address sort/stream/lifetime observations. */
 static DWORD ah_sort_count, ah_callback_count, ah_inflight, ah_callback_esp, ah_callback_return;
 static DWORD ah_stream_pending, ah_stream_arena, ah_free_pending;
+static DWORD first_block_esp, first_block_argument;
 static void ah_environment(FILE *log,HANDLE process,CONTEXT *context,const char *phase)
 {
     address_sort_environment_mode=1;
@@ -13,7 +14,21 @@ static void ah_complete(FILE *log,HANDLE process,CONTEXT *context,DWORD site)
     int copy=site==0x40ef7b || site==0x40efa5 || site==0x40efda || site==0x40f01e || site==0x40f030;
     int fill=site==0x40ef86 || site==0x40efe4;
     int returned=site==0x40ef80 || site==0x40efaa || site==0x40efdf || site==0x40f023 || site==0x40f035 || site==0x40ef8b || site==0x40efe9;
-    if(site==0x40ef4b) {
+    if(first_hash_block_mode && site==0x4100c0) {
+        if(first_block_argument || !read_bytes(process,context->Esp,args,8)) goto failed;
+        first_block_esp=context->Esp;first_block_argument=args[1];
+        fprintf(log,"first-block-entry %08lx %08lx %08lx %08lx %08lx %08lx %08lx\n",context->Esp,args[0],args[1],context->Ebx,context->Esi,context->Edi,context->Ebp);
+        namehash_hex(log,process,"first-block-input",args[1],24);
+    } else if(first_hash_block_mode && site==0x4100c7) {
+        if(!first_block_argument || context->Esp!=first_block_esp) goto failed;
+        fprintf(log,"first-block-return %08lx %08lx %08lx %08lx %08lx %08lx\n",context->Esp,context->Eax,context->Ebx,context->Esi,context->Edi,context->Ebp);
+        namehash_hex(log,process,"first-block-after-input",first_block_argument,24);
+        namehash_hex(log,process,"first-block-result",context->Eax,12);
+    } else if(first_hash_block_mode && site==0x40d7d9) {
+        fprintf(log,"first-block-caller-return %08lx %08lx\n",context->Esp,context->Eax);
+    } else if(first_hash_block_mode && site==0x40d846) {
+        fprintf(log,"first-block-copy-complete %08lx %08lx %08lx %08lx\n",context->Esp,context->Ebx,context->Esi,context->Edi);
+    } else if(site==0x40ef4b) {
         if(ah_sort_count>=3 || ah_inflight || !read_bytes(process,context->Esp,args,16)) goto failed;
         fprintf(log,"address-sort-call %lu %08lx %08lx %lu %lu %08lx %08lx\n",ah_sort_count,context->Esp,args[0],args[1],args[2],args[3],context->Ebx);
         address_hash_owned(log,process,ah_sort_count==0?"sort0-before":ah_sort_count==1?"sort1-before":"sort2-before");
@@ -65,7 +80,7 @@ static void ah_complete(FILE *log,HANDLE process,CONTEXT *context,DWORD site)
     } else if(site==0x40f09d || site==0x40f0bb) {
         if(!ah_free_pending || site!=ah_free_pending+2) goto failed;
         fprintf(log,"address-temp-free-return %08lx %08lx %08lx %08lx %08lx %08lx\n",site,context->Esp,context->Ebx,context->Esi,context->Edi,context->Ebp);ah_free_pending=0;++ah_free_count;
-    } else if(site==0x4100c0) {
+    } else if(site==(first_hash_block_mode?0x4100d0:0x4100c0)) {
         if(ah_free_count!=4 || ah_stream_pending || ah_free_pending || !read_bytes(process,ah_stream_arena,words,24)) goto failed;
         namehash_hex(log,process,"address-complete-arena",ah_stream_arena,24);
         if(words[1]!=1 || !read_bytes(process,words[2],args,12) || args[0]!=540) goto failed;

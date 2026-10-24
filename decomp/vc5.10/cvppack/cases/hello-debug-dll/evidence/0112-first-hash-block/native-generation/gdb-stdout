@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x566175c2 in next_hash_output_block (block=0x57f9a020) at src/stubs.c:72
+72	TypeArenaBlock *next_hash_output_block(TypeArenaBlock *block) { __asm { int 3 } return NULL; }

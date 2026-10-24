@@ -390,12 +390,31 @@ def decode(events):
                 registers=dict(zip(('eax','ebx','ecx','edx','esi','edi','ebp','esp'),registers)),esp=registers[-1],stack=struct.unpack('<%dI'%(len(stack)//4),stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations,cleared_allocations=cleared_allocations)
 
 
-def compare(config,data,events,native,artifacts=None,views=None):
+def _phase_comparison():
+    # Invocation-local only: no supplied decoded object and no global cache.
+    validated_phase=None
+    validated_original=None
+    def compare_phase(config,data,events,native,artifacts=None,views=None):
+        nonlocal validated_phase,validated_original
+        result,original=compare(config,data,events,native,artifacts,views,_return_original=True)
+        validated_phase=events
+        validated_original=original
+        return result
+    def decode_phase(events):
+        if validated_phase is not None and events is validated_phase:return validated_original
+        return decode(events)
+    return compare_phase,decode_phase
+
+
+def compare(config,data,events,native,artifacts=None,views=None,*,_return_original=False):
+    assert type(_return_original) is bool,'private phase-return flag must be boolean'
+    assert not (_return_original and config.get('observe_address_hash_complete')),'private phase return cannot enter complete mode'
     import importlib.util
     if config.get('observe_address_hash_complete'):
         spec=importlib.util.spec_from_file_location('complete_address_hash_state',Path(__file__).with_name('address-hash-complete-state.py'))
         complete=importlib.util.module_from_spec(spec);spec.loader.exec_module(complete)
-        return complete.validate(config,data,events,native,artifacts,views,compare,decode)
+        compare_phase,decode_phase=_phase_comparison()
+        return complete.validate(config,data,events,native,artifacts,views,compare_phase,decode_phase)
     original = decode(events)
     record = next(r for r in config['functions'] if r['original']==original['address'])
     assert native['function'] == record['native_symbol']
@@ -1595,4 +1614,6 @@ def compare(config,data,events,native,artifacts=None,views=None):
         assert typed_records_checked==global_integer('type_record_count') and recursive_type_nodes_checked and interned_type_nodes_checked,'historical typed table validation incomplete'
         free_lifetimes['historical_typed_table_bytes_checked']=free_lifetimes.pop('historical_typed_table_bytes_pending')
         free_lifetimes['historical_table_proof_roles']=sorted(historical_tables_used)
-    return dict(parameters=parameters,caller_state=caller_state,output_buffer=output_buffer_proof,subsection_output=subsection_proof,public_writer=public_writer_proof,public_padding=public_padding_proof,name_hash=name_hash_proof,address_hash=address_hash_proof,output_directory=output_directory_proof,source_index_context=source_index_proof,main_free_lifetimes=free_lifetimes,globals=globals_checked,lookup_type_calls_checked=lookup_calls_checked,type_compare_calls_checked=type_compare_calls_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,reference_symbol_nodes_checked=reference_symbol_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)
+    result=dict(parameters=parameters,caller_state=caller_state,output_buffer=output_buffer_proof,subsection_output=subsection_proof,public_writer=public_writer_proof,public_padding=public_padding_proof,name_hash=name_hash_proof,address_hash=address_hash_proof,output_directory=output_directory_proof,source_index_context=source_index_proof,main_free_lifetimes=free_lifetimes,globals=globals_checked,lookup_type_calls_checked=lookup_calls_checked,type_compare_calls_checked=type_compare_calls_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,reference_symbol_nodes_checked=reference_symbol_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)
+
+    return (result,original) if _return_original else result

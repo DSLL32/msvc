@@ -117,7 +117,8 @@
     "build_symbol_name_hash",
     "fill_type_arena",
     "build_symbol_address_hash",
-    "compare_symbol_address"
+    "compare_symbol_address",
+    "first_hash_output_block"
   ],
   "functions": [
     {
@@ -3917,8 +3918,11 @@
       "symbol": "_first_hash_output_block",
       "native_symbol": "first_hash_output_block",
       "original": 4260032,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4260032,
+        4260040
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -3931,7 +3935,8 @@
           "native_pointee_width": 24,
           "owner": "write_publics"
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0112-first-hash-block/promotion.json"
     },
     {
       "name": "next_hash_output_block",
@@ -3941,7 +3946,19 @@
       "status": "stub",
       "extent": null,
       "ret": 0,
-      "parameters": []
+      "parameters": [
+        {
+          "name": "block",
+          "slot": 1,
+          "kind": "caller-local-pointer",
+          "owner": "write_publics",
+          "local": "block",
+          "width": 12,
+          "pointer_value": true,
+          "initialized": true,
+          "native_pointee_width": 12
+        }
+      ]
     },
     {
       "name": "fill_type_arena",
@@ -4274,7 +4291,8 @@
   "observe_address_hash": true,
   "observe_address_hash_complete": true,
   "address_hash_complete_policy": {
-    "path": "cases/hello-debug-dll/address-hash-complete-lifetimes.json",
-    "sha256": "52d45d2c9a58a07a137c187774505da9c8b7feb6deac299ec71cf3b22a17fb4b"
-  }
+    "path": "cases/hello-debug-dll/first-hash-block-lifetimes.json",
+    "sha256": "216cbfeffdb51b90e583455f3729386f6bc877321488a96701d28c71e61eddd6"
+  },
+  "observe_first_hash_output_block": true
 }

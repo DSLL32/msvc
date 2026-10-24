@@ -384,7 +384,7 @@ def install(configuration):
                     # retained independently; no comparator expression ran yet.
                     assert address_hash_first_snapshot and gdb.newest_frame().older().name()=='recon_qsort'
                     directory=Path(configuration).parent
-                    phase=dict(config,observe_address_hash_complete=False)
+                    phase=dict(config,observe_address_hash_complete=False,observe_first_hash_output_block=False)
                     phase_path=directory/'first-address-callback-config.json'
                     phase_path.write_text(json.dumps(phase,indent=2)+'\n')
                     capture(str(phase_path),str(directory/'data.json'),str(directory/'first-address-callback-state.json'))
@@ -395,7 +395,7 @@ def install(configuration):
             global address_hash_complete_state,address_hash_complete_module
             spec=importlib.util.spec_from_file_location('frozen_address_hash_complete_gdb',Path(configuration).parent/'address-hash-complete-gdb.py')
             address_hash_complete_module=importlib.util.module_from_spec(spec);spec.loader.exec_module(address_hash_complete_module)
-            address_hash_complete_state=address_hash_complete_module.install(globals())
+            address_hash_complete_state=address_hash_complete_module.install(globals(),config)
 
     if config.get('observe_name_hash'):
         class NameHashEntered(gdb.Breakpoint):
@@ -990,11 +990,14 @@ def capture(configuration,data_file,output):
             assert owner is not None
             local=owner.read_var(item['local']);address=int(value)
             if item.get('field'):local=local[item['field']]
-            assert int(local.address)==address and local.type.sizeof==item['width'],'output argument caller-local identity differs'
+            if item.get('pointer_value'):
+                kind=local.type.strip_typedefs();assert kind.code==gdb.TYPE_CODE_PTR and kind.sizeof==4 and kind.target().sizeof==item['width'] and int(local)==address,'block argument caller-local pointer value differs'
+                assert item['local']=='block' and item['width']==12 and len(name_hash_allocations)==5 and address==int(owner.read_var('names')['first'])==name_hash_allocations[3]['address'] and name_hash_allocations[3]['size']==12,'block argument lacks actual live names allocation generation'
+            else:assert int(local.address)==address and local.type.sizeof==item['width'],'output argument caller-local identity differs'
             parameters[item['name']]=dict(owner=item['owner'],local=item['local'],width=item['width'])
             if item.get('field'):parameters[item['name']]['field']=item['field']
             if item.get('initialized'):
-                raw=bytes(inferior.read_memory(address,item['width']))
+                raw=bytes((actual_inferior if item.get('pointer_value') else inferior).read_memory(address,item['width']))
                 if item.get('arena_output'):
                     words=list(struct.unpack('<6I',raw));assert len(name_hash_allocations)==5 and words[2]==words[5]==name_hash_allocations[3]['address'] and words[3]==name_hash_allocations[4]['address']+2,'arena output argument actual new-owner aliases differ'
                     parameters[item['name']]['description']=dict(capacity=words[0],blocks=words[1],remaining=words[4],last='namehash-output-block',first='namehash-output-block',cursor_owner='namehash-output-payload',cursor_offset=2)
@@ -1123,7 +1126,7 @@ def capture(configuration,data_file,output):
     state['widen_emit_calls']=widen_emit_calls
     if config.get('observe_output_buffer_init'):
         address=int(gdb.parse_and_eval('output_buffer'));capacity=int(gdb.parse_and_eval('output_capacity'));used=int(gdb.parse_and_eval('output_used'));file=int(gdb.parse_and_eval('output_file'))
-        assert address and used==(7188 if config.get('observe_address_hash_complete') else 5056 if config.get('observe_subsection_output') else 8) and used<=capacity and output_buffer_allocations and output_buffer_allocations[-1]['address']==address and output_buffer_allocations[-1]['size']==capacity,'output buffer initialized-prefix observation differs'
+        assert address and used==(7752 if config.get('observe_first_hash_output_block') else 7188 if config.get('observe_address_hash_complete') else 5056 if config.get('observe_subsection_output') else 8) and used<=capacity and output_buffer_allocations and output_buffer_allocations[-1]['address']==address and output_buffer_allocations[-1]['size']==capacity,'output buffer initialized-prefix observation differs'
         state['output_buffer_state']=dict(address=address,capacity=capacity,used=used,file=file,bytes=bytes(actual_inferior.read_memory(address,used)).hex(),environment=sort_environment())
     state['widen_query_calls']=widen_query_calls
     state['widen_factory_calls']=widen_factory_calls

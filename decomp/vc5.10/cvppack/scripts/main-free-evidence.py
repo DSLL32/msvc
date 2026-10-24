@@ -171,6 +171,7 @@ def prove(config):
         spec=importlib.util.spec_from_file_location('complete_address_hash',BINARY/'scripts/address-hash-complete-state.py')
         complete_address_hash=importlib.util.module_from_spec(spec);spec.loader.exec_module(complete_address_hash)
         source_prefix['address_hash_complete']=complete_address_hash.prove(config)
+        source_prefix['raw_decoder_sha256']=sha(BINARY/'scripts/raw-state.py')
     provider=ROOT/'toolchains/5.10/bin/MSVCRT.DLL';crt=PE(provider)
     assert sha(provider)==policy['crt_sha256']
     evidence=BINARY/'cases/hello-debug-dll/import-preservation.json'
