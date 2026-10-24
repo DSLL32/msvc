@@ -1,0 +1,181 @@
+{
+  "checkpoint": 1288,
+  "previous_checkpoint": 1287,
+  "new_application": [
+    {
+      "name": "@omf_emit_local_external@4",
+      "start": 437696,
+      "end": 437760,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "SymbolHeader pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-local-external-abi/validation.json",
+        "scope": "Original6adc0..6ae00 receives sole ECX Symbol pointer and mutable unsigned next-external global85078. It assigns Symbol.field14 after beginB4/NULL then invokes name provider, counted-string append and zero type byte. No hidden incoming stack/register/flags/x87/output pointer, RET0. Actual closed global_scope owner/name-provider kind/field0d/flags/attributes/name and actual mutable next-external observed; old Symbol.field14 write-only output not inspected, dumped or seeded."
+      }
+    }
+  ],
+  "new_extent_bytes": 64,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1288,
+    "accepted_code_bytes": 343704,
+    "original_code_bytes": 399693,
+    "percentage": 85.99199885912438,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 634
+  },
+  "application_graph_rows": 1178,
+  "reconstructed_application_support_functions": 1173,
+  "existing_handwritten_crt_bodies": 5,
+  "application_support_code_extent_bytes": 325404,
+  "code_denominator_bytes": 399693,
+  "next_frontier": "_omf_output_debug_pair",
+  "next_original_va": "0x6b730",
+  "case_results": {
+    "total": 15,
+    "complete": 14,
+    "omf_named_trap": "_omf_output_debug_pair"
+  },
+  "controls": [
+    "cases/omf-local-external-validation.json"
+  ],
+  "timings": {
+    "omf1288-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 21.90785636473447,
+      "returncode": 0,
+      "log_sha256": "6467d19dddb3b0d304c0d8cb7384d9d53cce027e7934917f2f6dc880c8dac49c"
+    },
+    "omf1288-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 2.8683547200635076,
+      "returncode": 0,
+      "log_sha256": "16d2232925393ceda375e20211ae9156a70f863d81b5cfca926369ae2654d17d"
+    },
+    "omf1288-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1287.json",
+        "--extend-after",
+        "cases/omf-original-1288.json"
+      ],
+      "seconds": 0.33595228753983974,
+      "returncode": 0,
+      "log_sha256": "243f1d944bfc4c0e3f6527bef806e9f9bc91956abf697cfb89e9548590a44633"
+    },
+    "omf1288-controls-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-local-external.py"
+      ],
+      "seconds": 1.1017487226054072,
+      "returncode": 0,
+      "log_sha256": "4bd467205246b8fc23aca35bf5efbe1e4345e719f2874a0ef80949dffe6069d9"
+    },
+    "omf1288-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-local-external-entry.py"
+      ],
+      "seconds": 1.980572709813714,
+      "returncode": 0,
+      "log_sha256": "d4555553637e2eaeaff2834607b43c44a1f8bd871f203b13803b96395b90f172"
+    },
+    "omf1288-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 0.9123688405379653,
+      "returncode": 0,
+      "log_sha256": "6d586978b42e79becab018da1a0f1144fdfd43969b5ae67c9ed6f1501defb496"
+    },
+    "omf1288-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1288.json"
+      ],
+      "seconds": 0.22641401272267103,
+      "returncode": 0,
+      "log_sha256": "8624f10d9eb0aae600157c0a693325b8e9bf8986c2999db8baedf5ac6a49d39a"
+    },
+    "omf1288-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 3.849193942733109,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "omf1288-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1288.json"
+      ],
+      "seconds": 1.8058861047029495,
+      "returncode": 0,
+      "log_sha256": "48caf2d099809856235a48351d4eab1bbefccd1481aec9702dadc4b2d9fda952"
+    },
+    "omf1288-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 1.5572594366967678,
+      "returncode": 0,
+      "log_sha256": "c383cbd9591c54688ecbc22a8fbdea279ad1d167c379e39b6bb3415f281e1b64"
+    }
+  },
+  "audit_original_compile_commands": 0,
+  "limits": [
+    "Whole64-byte LEXTDEF body,32 original/canonical controls/7 actual ABI negatives. Distinct function emitsB4/NULL and shares existing original85078 external index counter; no invented second counter/initializer or extra helper edge. Counter reloaded after begin, symbol index store before increment/name provider; wrap/child counter and record mutations preserved, exact zero type byte and RET0/full owned guards.",
+    "Actual _omf_adjust kind4/name_class0/flags1/id124/attrs6031,closed bucket60/member0 and mutable next-external2 match. Original counter initializer1 remains unchanged; actual2 is observed state, not seeded or invented initialization. Symbol.field14 is write-only output and old bytes are not captured/read/seeded; synthetic old-word patterns are overwrite guards only. Name-provider contextual fields/full name observed, no irrelevant object tails.",
+    "Original/W3/ordinary graph/extents/RET/ABI/storage/native guard audits, new focused32 full controls, fresh original/native match to debug filename wrapper6b730 and15 cached native cases pass(14 complete). Historical model grids remain explicit; new structural path retains all ABI mutants/counter identity. Build2.868s,/W31.557s,audit21.908s,reference1.806s,native.226s,fixtures.912s wrappers; split phases in receipts, analysis/edit unmeasured. Full exact OMF output still pending."
+  ]
+}

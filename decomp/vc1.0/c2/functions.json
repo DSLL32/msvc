@@ -1291,7 +1291,8 @@
     "@omf_output_bytes@8",
     "@omf_add_fixup@16",
     "_omf_allocate_fixup",
-    "@output_noop_function@16"
+    "@output_noop_function@16",
+    "@omf_emit_local_external@4"
   ],
   "driver": [
     {
@@ -9157,8 +9158,21 @@
     {
       "name": "@omf_emit_local_external@4",
       "start": 437696,
-      "end": 437697,
-      "provisional": true
+      "end": 437760,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "SymbolHeader pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-local-external-abi/validation.json",
+        "scope": "Original6adc0..6ae00 receives sole ECX Symbol pointer and mutable unsigned next-external global85078. It assigns Symbol.field14 after beginB4/NULL then invokes name provider, counted-string append and zero type byte. No hidden incoming stack/register/flags/x87/output pointer, RET0. Actual closed global_scope owner/name-provider kind/field0d/flags/attributes/name and actual mutable next-external observed; old Symbol.field14 write-only output not inspected, dumped or seeded."
+      }
     },
     {
       "name": "@omf_emit_comdat_external@4",

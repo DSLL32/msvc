@@ -762,3 +762,13 @@ native cases pass(14 complete), next local-external6adc0.343640/399693 extent
 bytes; app/support325340B/1172functions exclude5 historical CRT. New full
 controls separate from historical structural audit21.257s. Timings/scope:
 cases/output-noop-begin-checkpoint.json.
+
+Checkpoint1288 adds64-byte LEXTDEF emitter,32 full original/canonical
+controls/7 actual ABI rejects. Actual _omf_adjust/id124/flags1/attrs6031 and
+mutable external counter2 match, sharing existing85078 domain; original initial1
+unchanged, no invented init/counter/helper. Old Symbol.field14 output not read
+or seeded; contextual name-provider fields/owned name only. Original/W3/ordinary
+audits/new focused controls/fresh pair and15 native cases pass(14 complete),
+next debug filename wrapper6b730.343704/399693 extent bytes; app/support325404B/
+1173functions exclude5 historical CRT. Audit21.908s, historical full grids stay
+explicit. Timings/scope: cases/omf-local-external-checkpoint.json.

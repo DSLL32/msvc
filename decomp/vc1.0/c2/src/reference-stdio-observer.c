@@ -387,7 +387,7 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         } else if(kind==4)dump_bytes(process,"omf_initializer_alignment_hex",node+8,1);
         else if(kind==8)dump_bytes(process,"omf_initializer_padding_hex",node+8,4);
     }
-    if(!strcmp(call->name,"@omf_emit_external@4")) {
+    if(!strcmp(call->name,"@omf_emit_external@4")||!strcmp(call->name,"@omf_emit_local_external@4")) {
         DWORD symbol=call->args[0],identifier=read_word(process,symbol+28);
         DWORD name=read_word(process,symbol+16),bucket=identifier&63,index=0;
         DWORD member=read_word(process,image_base+0x6c158+4*bucket);

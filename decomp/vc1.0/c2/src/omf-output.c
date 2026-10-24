@@ -1146,3 +1146,20 @@ OmfFixup *omf_allocate_fixup(void)
     omf_fixup_count = index + 1;
     return fixup;
 }
+
+/* Original [0006adc0,0006ae00). LEXTDEF shares the external index domain,
+   but its distinct entry/call graph is retained. Old field14 is write-only. */
+void __fastcall omf_emit_local_external(SymbolHeader *symbol)
+{
+    OmfRecord *record = omf_begin_record(0xb4, NULL);
+    unsigned index;
+    unsigned char *cursor;
+    index = omf_next_external;
+    symbol->field14 = index;
+    omf_next_external = index + 1;
+    omf_append_string(record, symbol_display_name(symbol));
+    cursor = record->cursor;
+    ++record->count;
+    *cursor++ = 0;
+    record->cursor = cursor;
+}
