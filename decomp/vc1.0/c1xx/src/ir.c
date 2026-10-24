@@ -8,6 +8,8 @@
 #include "binary-expressions.h"
 #include <recon.h>
 
+int __stdcall compare_names_ignore_case(const char *left, const char *right);
+
 CppSymbol *function_symbol; /* original 0x8c140 */
 CppSymbol *current_label_symbol; /* original 0x91384 */
 int function_call_seen; /* original 0x9fc04; shared with global serialization */
@@ -491,4 +493,18 @@ void __stdcall emit_condition_to_label(IrToken *condition, IrToken *label, int s
     }
     emit_expression_tree(condition);
     write_ir_record(sense ? 0x39 : 0x38, label);
+}
+
+/* Original 0x3b430..0x3b48f, stdcall4. Ordinary labels use interned
+   spelling identity; marked labels also permit the legacy case-folded match. */
+CppSymbol *__stdcall find_label(char *name)
+{
+    CppSymbol *label;
+    if (error_count) return 0;
+    for (label = label_symbols; label; label = label->next) {
+        if (label->name == name) return label;
+        if (!label->detail.value && (label->attributes & 0x1000) &&
+            !compare_names_ignore_case(name, label->name)) return label;
+    }
+    return 0;
 }

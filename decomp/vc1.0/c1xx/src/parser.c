@@ -70,7 +70,7 @@ int parse_translation_unit(void)
     QualifierBinding *binding;
     ArenaPool *pool;
     unsigned flags, attributes;
-    char *parser_name;
+    char *parser_name, *goto_name;
     for (;;) {
 push_state:
         if (++depth > 220) {

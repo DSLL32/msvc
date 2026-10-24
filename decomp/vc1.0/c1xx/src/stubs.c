@@ -169,7 +169,7 @@ void end_seh_filter(void) { __asm { int 3 } }
 void end_seh_finally(void) { __asm { int 3 } }
 void end_seh_try(void) { __asm { int 3 } }
 void end_switch_statement(void) { __asm { int 3 } }
-CppSymbol *__stdcall find_label(char *name) { __asm { int 3 } return 0; }
+int __stdcall compare_names_ignore_case(const char *left, const char *right) { __asm { int 3 } return 0; }
 
 void finish_qc_loop(void) { __asm { int 3 } }
 void increment_expression_record_depth(void) { __asm { int 3 } }

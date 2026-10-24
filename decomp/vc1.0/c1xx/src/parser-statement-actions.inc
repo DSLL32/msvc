@@ -185,7 +185,8 @@
             break;
         case 221:
             if (normalized_Ol && options.configuration.option_qc) record_qc_jump(0);
-            symbol = find_label(right[-1].name);
+            goto_name = right[-1].name;
+            symbol = find_label(goto_name);
             i = symbol != 0;
             if (!symbol) {
                 symbol = new_label(right[-1].name);

@@ -1,0 +1,11 @@
+Breakpoint 1 at 0xf779: file src/ir.c, line 503.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, find_label (name=0x56625cda "finished") at src/ir.c:503
+503	    if (error_count) return 0;
+#0  find_label (name=0x56625cda "finished") at src/ir.c:503
+#1  0x565bc776 in parse_translation_unit () at src/parser-statement-actions.inc:189
+#2  0x5655deff in compile_translation_unit () at src/frontend.c:73
+#3  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#4  0x56558894 in main (argc=1, argv=0xffffd7c4, environment=0xffffd7cc) at src/c1xx.c:20
