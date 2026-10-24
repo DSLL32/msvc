@@ -382,3 +382,16 @@ int __cdecl rc_parse_shift(void)
         value<<=rc_parse_additive();
     return value;
 }
+
+int __cdecl rc_parse_additive(void)
+{
+    int value;
+    value=rc_parse_multiplicative();
+    for(;;){
+        if(rc_accept_expression_token(76))
+            value+=rc_parse_multiplicative();
+        else if(rc_accept_expression_token(65))
+            value-=rc_parse_multiplicative();
+        else return value;
+    }
+}

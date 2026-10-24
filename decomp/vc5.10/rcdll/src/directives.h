@@ -46,6 +46,7 @@ int __cdecl rc_parse_equality(void);
 int __cdecl rc_parse_relational(void);
 int __cdecl rc_parse_shift(void);
 int __cdecl rc_parse_additive(void);
+int __cdecl rc_parse_multiplicative(void);
 int __stdcall rc_accept_expression_token(unsigned char token);
 extern int rc_expression_parentheses;
 extern unsigned char rc_expression_token;

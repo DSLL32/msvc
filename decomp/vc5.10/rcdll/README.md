@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Seventy-six application functions (21,863 original code bytes), two embedded CRT functions
+Seventy-seven application functions (21,915 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_parse_additive`.
+currently matches at the next named trap, `rc_parse_multiplicative`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -652,3 +652,9 @@ introduces distinct storage, binds exact original/rebuilt readers and writers,
 and proves noncoincident reset sentinels in original and production native runs.
 Wrong-read/write mutants reject. Historical raw and receipts remain unchanged
 and are explicitly limited; the correction adds no code or data extent credit.
+
+Additive parsing is reconstructed (52 bytes), reaching the actual multiplicative
+child before arithmetic operands/results. [Verification](cases/resources-rich-trailing-space/additive-verification.json)
+records eleven affected semantic negatives, current distinct lookahead/lexer
+symbols and widths, both builds, graph/ABI checks and cached native help.
+The coherent shared snapshot was accepted only after identical-byte publication.
