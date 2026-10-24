@@ -1,0 +1,18 @@
+Breakpoint 1 at 0x5559f: file src/member-pointers.c, line 833.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, member_pointer_integer_field (storage=0x566359f4, expression=0x56658864, component=0) at src/member-pointers.c:833
+833	    TypeShape *shape = expression->type->related;
+#0  member_pointer_integer_field (storage=0x566359f4, expression=0x56658864, component=0) at src/member-pointers.c:833
+#1  0x565aa47f in member_pointer_adjustment_value (storage=0x566359f4, expression=0x56658864) at src/member-pointers.c:823
+#2  0x565a987d in compare_multiple_method_pointer (expression=0x566588a0, comparison=68 'D', combine=59 ';', null_combine=88 'X') at src/member-pointers.c:798
+#3  0x565a974c in dispatch_member_pointer_comparison (expression=0x566588a0, compare=0x565a97a0 <compare_multiple_method_pointer>) at src/member-pointers.c:777
+#4  0x565a9676 in compare_member_pointer_expression (expression=0x566588a0) at src/member-pointers.c:477
+#5  0x56583327 in convert_binary_operands (expression=0x566588a0) at src/binary-expressions.c:461
+#6  0x56581bd7 in builtin_binary_expression (operation=68 'D', left=0x56658864, right=0x5665888c) at src/binary-expressions.c:145
+#7  0x56585265 in binary_expression (operation=68 'D', left=0x56658864, right=0x5665888c) at src/binary-expressions.c:865
+#8  0x565c0d53 in parse_translation_unit () at src/parser-expression-actions.inc:90
+#9  0x5655dfef in compile_translation_unit () at src/frontend.c:73
+#10 0x565588c6 in guarded_compile () at src/c1xx.c:28
+#11 0x56558894 in main (argc=1, argv=0xffffd784, environment=0xffffd78c) at src/c1xx.c:20

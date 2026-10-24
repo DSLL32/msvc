@@ -824,3 +824,22 @@ IrToken *__stdcall member_pointer_adjustment_value(IrToken *storage,
     default: return 0;
     }
 }
+
+/* Original 0x4bdf0..0x4be4e, stdcall12. Integer representation
+   fields follow the function address and are spaced by the target int width. */
+IrToken *__stdcall member_pointer_integer_field(IrToken *storage,
+    IrToken *expression, unsigned component)
+{
+    TypeShape *shape = expression->type->related;
+    CType *integer_type;
+    unsigned offset;
+    IrToken *position;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    offset = pointer_kind_size(shape->related->attributes & 0x0f77);
+    integer_type = builtin_integer_type();
+    offset += (integer_type->flags & 15) * component;
+    integer_type = builtin_integer_type();
+    position = make_integer_constant(offset);
+    return indirect_storage_expression(new_ir_expression(0x5c, storage,
+        position, integer_type));
+}

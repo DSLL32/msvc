@@ -1,18 +1,18 @@
 {
-  "accepted_frontiers": 1245,
-  "driver_functions": 1140,
+  "accepted_frontiers": 1246,
+  "driver_functions": 1141,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 1147,
-  "current_frontier": "_member_pointer_integer_field@12",
-  "original_frontier_va": "0x4bdf0",
+  "reconstructed_source_functions": 1148,
+  "current_frontier": "_check_conversion_qualifiers@16",
+  "original_frontier_va": "0x60f00",
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_member_pointer_integer_field@12",
-    "original_va": "0x4bdf0"
+    "current_frontier": "_check_conversion_qualifiers@16",
+    "original_va": "0x60f00"
   },
-  "current_native_application_entries": 14,
+  "current_native_application_entries": 15,
   "active_queue": [
     "finish cpp_basic",
     "inheritance and virtual dispatch",
@@ -20,12 +20,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 307189,
+    "accepted_code_bytes": 307284,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 64.47888199018509,
-    "accepted_frontiers": 1245,
-    "source_functions": 1147,
-    "accepted_source_text_and_switch_bytes": 291672,
+    "accepted_code_percent": 64.49882246262736,
+    "accepted_frontiers": 1246,
+    "source_functions": 1148,
+    "accepted_source_text_and_switch_bytes": 291767,
     "section_ranges": [
       [
         94208,
@@ -188,16 +188,29 @@
         "authorization": "Parent approved established precise original-bug policy after independent whole-body frame/def-use check",
         "evidence": "evidence/floating-binary-fold/analysis.json",
         "coverage_note": "The byte at adjustedESP+11 has no writer in whole728Bbody; result and conversion output spans do not overlap it. Public reachability UNKNOWN; no undefined-kind or original stack equivalence claim."
+      },
+      {
+        "function": "_finish_function_output",
+        "original": [
+          350912,
+          351070
+        ],
+        "condition": "!options.prototypes_only and closed_scopes==NULL after finish_label_symbols; native guard follows both genuine records13",
+        "behavior": "exact native-only INT3 before original55b06 unwritten entryESP-4 DWORD read",
+        "win32": "original-style uninitialized scope pointer retained",
+        "authorization": "Parent approved established original-UB policy after concrete valid-input original/native divergence and exact whole-body owner/read proof",
+        "evidence": "evidence/empty-output-scope/receipt.json",
+        "coverage_note": "Public valid-input reach is proven by frozen state_machine_debug synthetic local-static cleanup. Original symbol buffer1802B vs unguarded native1801B omitted06; guarded native1634B matches original prefix before06. Unaccepted flush candidate remains a patch/stub boundary; no original stale-stack equivalence or current-case completion claim."
       }
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 307189,
+    "accepted_code_bytes": 307284,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 64.47888199018509,
-    "accepted_frontiers": 1245,
-    "source_functions": 1147,
-    "accepted_source_text_and_switch_bytes": 291672,
+    "accepted_code_percent": 64.49882246262736,
+    "accepted_frontiers": 1246,
+    "source_functions": 1148,
+    "accepted_source_text_and_switch_bytes": 291767,
     "section_ranges": [
       [
         94208,
@@ -360,13 +373,26 @@
         "authorization": "Parent approved established precise original-bug policy after independent whole-body frame/def-use check",
         "evidence": "evidence/floating-binary-fold/analysis.json",
         "coverage_note": "The byte at adjustedESP+11 has no writer in whole728Bbody; result and conversion output spans do not overlap it. Public reachability UNKNOWN; no undefined-kind or original stack equivalence claim."
+      },
+      {
+        "function": "_finish_function_output",
+        "original": [
+          350912,
+          351070
+        ],
+        "condition": "!options.prototypes_only and closed_scopes==NULL after finish_label_symbols; native guard follows both genuine records13",
+        "behavior": "exact native-only INT3 before original55b06 unwritten entryESP-4 DWORD read",
+        "win32": "original-style uninitialized scope pointer retained",
+        "authorization": "Parent approved established original-UB policy after concrete valid-input original/native divergence and exact whole-body owner/read proof",
+        "evidence": "evidence/empty-output-scope/receipt.json",
+        "coverage_note": "Public valid-input reach is proven by frozen state_machine_debug synthetic local-static cleanup. Original symbol buffer1802B vs unguarded native1801B omitted06; guarded native1634B matches original prefix before06. Unaccepted flush candidate remains a patch/stub boundary; no original stale-stack equivalence or current-case completion claim."
       }
     ]
   },
   "complete_frontend_case": false,
   "active_case": "state_machine_defined_debug",
   "status": "state_machine_defined_debug reconstruction in progress",
-  "latest_verification": "cases/frontiers/state_machine_defined_debug/1244-member_pointer_adjustment_value-8/validation.json",
+  "latest_verification": "cases/frontiers/state_machine_defined_debug/1245-member_pointer_integer_field-12/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -400,11 +426,11 @@
     },
     "state_machine_defined_debug": {
       "status": "partial",
-      "frontier": "_member_pointer_integer_field@12",
-      "latest_verification": "cases/frontiers/state_machine_defined_debug/1244-member_pointer_adjustment_value-8/validation.json"
+      "frontier": "_check_conversion_qualifiers@16",
+      "latest_verification": "cases/frontiers/state_machine_defined_debug/1245-member_pointer_integer_field-12/validation.json"
     }
   },
-  "next_operation": "Continue _member_pointer_integer_field@12 reconstruction",
+  "next_operation": "Continue _check_conversion_qualifiers@16 reconstruction",
   "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json",
   "native_limitations": [
     {
@@ -562,6 +588,19 @@
       "authorization": "Parent approved established precise original-bug policy after independent whole-body frame/def-use check",
       "evidence": "evidence/floating-binary-fold/analysis.json",
       "coverage_note": "The byte at adjustedESP+11 has no writer in whole728Bbody; result and conversion output spans do not overlap it. Public reachability UNKNOWN; no undefined-kind or original stack equivalence claim."
+    },
+    {
+      "function": "_finish_function_output",
+      "original": [
+        350912,
+        351070
+      ],
+      "condition": "!options.prototypes_only and closed_scopes==NULL after finish_label_symbols; native guard follows both genuine records13",
+      "behavior": "exact native-only INT3 before original55b06 unwritten entryESP-4 DWORD read",
+      "win32": "original-style uninitialized scope pointer retained",
+      "authorization": "Parent approved established original-UB policy after concrete valid-input original/native divergence and exact whole-body owner/read proof",
+      "evidence": "evidence/empty-output-scope/receipt.json",
+      "coverage_note": "Public valid-input reach is proven by frozen state_machine_debug synthetic local-static cleanup. Original symbol buffer1802B vs unguarded native1801B omitted06; guarded native1634B matches original prefix before06. Unaccepted flush candidate remains a patch/stub boundary; no original stale-stack equivalence or current-case completion claim."
     }
   ],
   "shared_pin_refresh": {

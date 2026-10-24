@@ -1249,7 +1249,8 @@
     "_member_pointer_function_value@8",
     "_dispatch_member_pointer_comparison@8",
     "_compare_multiple_method_pointer@16",
-    "_member_pointer_adjustment_value@8"
+    "_member_pointer_adjustment_value@8",
+    "_member_pointer_integer_field@12"
   ],
   "driver": [
     {
@@ -8791,7 +8792,7 @@
     {
       "name": "_member_pointer_integer_field@12",
       "start": 310768,
-      "end": 310769
+      "end": 310863
     }
   ],
   "cases": {
@@ -9282,8 +9283,8 @@
           "original": 576700
         }
       ],
-      "terminal": "_member_pointer_integer_field@12",
-      "terminal_evidence": "cases/frontiers/state_machine_defined_debug/1244-member_pointer_adjustment_value-8/original-events.txt",
+      "terminal": "_check_conversion_qualifiers@16",
+      "terminal_evidence": "cases/frontiers/state_machine_defined_debug/1245-member_pointer_integer_field-12/original-events.txt",
       "original_seed": "cases/state_machine_defined_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/frontier-extension.json",
@@ -9298,7 +9299,8 @@
         "cases/frontiers/state_machine_defined_debug/1241-member_pointer_function_value-8/frontier-extension.json",
         "cases/frontiers/state_machine_defined_debug/1242-dispatch_member_pointer_comparison-8/frontier-extension.json",
         "cases/frontiers/state_machine_defined_debug/1243-compare_multiple_method_pointer-16/frontier-extension.json",
-        "cases/frontiers/state_machine_defined_debug/1244-member_pointer_adjustment_value-8/frontier-extension.json"
+        "cases/frontiers/state_machine_defined_debug/1244-member_pointer_adjustment_value-8/frontier-extension.json",
+        "cases/frontiers/state_machine_defined_debug/1245-member_pointer_integer_field-12/frontier-extension.json"
       ]
     }
   },
@@ -12190,6 +12192,19 @@
       "authorization": "Parent approved established precise original-bug policy after independent whole-body frame/def-use check",
       "evidence": "evidence/floating-binary-fold/analysis.json",
       "coverage_note": "The byte at adjustedESP+11 has no writer in whole728Bbody; result and conversion output spans do not overlap it. Public reachability UNKNOWN; no undefined-kind or original stack equivalence claim."
+    },
+    {
+      "function": "_finish_function_output",
+      "original": [
+        350912,
+        351070
+      ],
+      "condition": "!options.prototypes_only and closed_scopes==NULL after finish_label_symbols; native guard follows both genuine records13",
+      "behavior": "exact native-only INT3 before original55b06 unwritten entryESP-4 DWORD read",
+      "win32": "original-style uninitialized scope pointer retained",
+      "authorization": "Parent approved established original-UB policy after concrete valid-input original/native divergence and exact whole-body owner/read proof",
+      "evidence": "evidence/empty-output-scope/receipt.json",
+      "coverage_note": "Public valid-input reach is proven by frozen state_machine_debug synthetic local-static cleanup. Original symbol buffer1802B vs unguarded native1801B omitted06; guarded native1634B matches original prefix before06. Unaccepted flush candidate remains a patch/stub boundary; no original stale-stack equivalence or current-case completion claim."
     }
   ]
 }

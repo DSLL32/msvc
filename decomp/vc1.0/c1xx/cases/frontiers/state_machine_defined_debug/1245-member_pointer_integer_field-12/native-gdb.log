@@ -1,0 +1,17 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56559a53 in check_conversion_qualifiers (operation=68 'D', target=16, source=113, first_layer=1) at src/stubs.c:394
+394	int __stdcall check_conversion_qualifiers(unsigned char operation, unsigned short target, unsigned short source, int first_layer) { __asm { int 3 } return 0; }
+#0  0x56559a53 in check_conversion_qualifiers (operation=68 'D', target=16, source=113, first_layer=1) at src/stubs.c:394
+#1  0x565848b0 in check_type_conversion_warning (operation=68 'D', target=0x56635868, source=0x56635a34) at src/binary-expressions.c:670
+#2  0x56583fff in check_conversion_warning (operation=68 'D', target=0x56635868, value=0x56658c2c) at src/binary-expressions.c:531
+#3  0x56583f74 in warn_pointer_conversion (operation=68 'D', left=0x56658acc, right=0x56658c2c) at src/binary-expressions.c:516
+#4  0x565832f6 in convert_binary_operands (expression=0x56658c40) at src/binary-expressions.c:459
+#5  0x56581bd7 in builtin_binary_expression (operation=68 'D', left=0x56658acc, right=0x56658c2c) at src/binary-expressions.c:145
+#6  0x56585265 in binary_expression (operation=68 'D', left=0x56658acc, right=0x56658c2c) at src/binary-expressions.c:865
+#7  0x565c0d53 in parse_translation_unit () at src/parser-expression-actions.inc:90
+#8  0x5655dfef in compile_translation_unit () at src/frontend.c:73
+#9  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#10 0x56558894 in main (argc=1, argv=0xffffd814, environment=0xffffd81c) at src/c1xx.c:20

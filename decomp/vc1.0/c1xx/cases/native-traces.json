@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "b556f062acd11346efdca1e8ce6aea90a1f28ab8e42d9f6bc88d988228796fa3",
+    "functions.json": "f46f0bda20ae4652c6253f1f58cf81426a7890c91ba1798e026dd212aa027660",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "39506e4e13447bf47ec19c937ca6efd898d690447c59b2511d917271a0974c7a",
-    "cases/canonical-map.txt": "b3a158f269ae1ab49096d9115a323f81637b9f461b9385296e41d08a97cc9fa6",
+    "cases/original-entry-references.json": "64bb641a0dd350b4650196d5d0122320097705e76f99387a91167e098dc713db",
+    "cases/canonical-map.txt": "5b3af41483562a4d3c3124100c994bc9975070a153060b3605133a59afcfb135",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -64,9 +64,9 @@
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-receipt.json": "c9cbd20af4610da8f8c35487c1cb632113d35461981bd76aa2f7d60e10400717",
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-events.txt": "a7247c160287c63539d241bef68d979d6d6a4b4649e77c3b542cb394ffce4b8e",
     "cases/frontiers/state_machine_debug/1231-begin_initializer_function-4/entry-reference/original-entries.plan": "95e3224e0362e24a6ef5b495984403fa23be74272e90e204349cda7924f7f5d6",
-    "cases/frontiers/state_machine_defined_debug/1244-member_pointer_adjustment_value-8/entry-reference/original-receipt.json": "105146378d17a730c83142052dfd66cdf63eb44eacdaef4ad5fa556a1f5557ef",
-    "cases/frontiers/state_machine_defined_debug/1244-member_pointer_adjustment_value-8/entry-reference/original-events.txt": "adae4afc0aaad328fd2b3d343287093d8d2f47a7c6b038bd857e70972c22ba4d",
-    "cases/frontiers/state_machine_defined_debug/1244-member_pointer_adjustment_value-8/entry-reference/original-entries.plan": "5b50439fa05eed0a059ec082e6f8261d18321bec326e99ff7bf2783b30bc9896"
+    "cases/frontiers/state_machine_defined_debug/1245-member_pointer_integer_field-12/entry-reference/original-receipt.json": "b6fd27955dc85ed979f79a170e21cbf2cde45f43adae2bdcde05e87c69532017",
+    "cases/frontiers/state_machine_defined_debug/1245-member_pointer_integer_field-12/entry-reference/original-events.txt": "9d71ef40effaad4e652154f63b42eba7f16d0bd4f93d3d3ef6458098b72d3533",
+    "cases/frontiers/state_machine_defined_debug/1245-member_pointer_integer_field-12/entry-reference/original-entries.plan": "6ddbe80cba64da0ca2e06e5a311d4d032e9aa75705cfc8e8b7af711d87c4bfa2"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -3951,7 +3951,7 @@
     },
     "member_pointer_integer_field": {
       "logical": "_member_pointer_integer_field@12",
-      "source": "src/stubs.c"
+      "source": "src/member-pointers.c"
     },
     "member_pointer_is_aggregate": {
       "logical": "_member_pointer_is_aggregate@4",
@@ -7142,7 +7142,8 @@
     "member_pointer_function_value",
     "dispatch_member_pointer_comparison",
     "compare_multiple_method_pointer",
-    "member_pointer_adjustment_value"
+    "member_pointer_adjustment_value",
+    "member_pointer_integer_field"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -12407,7 +12408,7 @@
     },
     "state_machine_defined_debug": {
       "first": 1232,
-      "last": 1245,
+      "last": 1246,
       "seen": [
         "main",
         "message_text",
@@ -13551,12 +13552,13 @@
         "dispatch_member_pointer_comparison",
         "compare_multiple_method_pointer",
         "member_pointer_adjustment_value",
-        "member_pointer_integer_field"
+        "member_pointer_integer_field",
+        "check_conversion_qualifiers"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_member_pointer_integer_field@12",
-        "native": "member_pointer_integer_field",
+        "logical": "_check_conversion_qualifiers@16",
+        "native": "check_conversion_qualifiers",
         "signal": 5
       }
     }

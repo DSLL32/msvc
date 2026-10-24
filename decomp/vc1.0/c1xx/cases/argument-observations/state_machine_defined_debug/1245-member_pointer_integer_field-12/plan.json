@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "function": "_member_pointer_integer_field@12",
+  "native_entry": "member_pointer_integer_field",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_storage": "(unsigned)storage",
+    "raw_expression": "(unsigned)expression",
+    "raw_component": "(unsigned)component"
+  },
+  "formals": [
+    {
+      "name": "storage",
+      "stack_index": 0,
+      "native_field": "raw_storage",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 245085,
+        "original_owner_function": "_member_pointer_adjustment_value@8",
+        "native_owner_function": "member_pointer_adjustment_value",
+        "native_owner_field": "caller_storage",
+        "native_owner_local": "storage",
+        "identity": "Accepted adjustment helper holds expressionESI and loads actual storageformalEAX4bd52, pushes ESI4bd56/EAX4bd57 with component0 already pushed, CALL4bd58/return4bd5d. Native actual immediate caller formals bind both owners."
+      }
+    },
+    {
+      "name": "expression",
+      "stack_index": 1,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 245085,
+        "original_owner_function": "_member_pointer_adjustment_value@8",
+        "native_owner_function": "member_pointer_adjustment_value",
+        "native_owner_field": "caller_expression",
+        "native_owner_local": "expression",
+        "identity": "Accepted adjustment helper holds expressionESI and loads actual storageformalEAX4bd52, pushes ESI4bd56/EAX4bd57 with component0 already pushed, CALL4bd58/return4bd5d. Native actual immediate caller formals bind both owners."
+      }
+    },
+    {
+      "name": "component",
+      "stack_index": 2,
+      "native_field": "raw_component",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "esi,eax",
+  "ownership_caller_extent": [
+    310560,
+    310621
+  ],
+  "native_caller_locals": {
+    "caller_storage": {
+      "frame": 1,
+      "function": "member_pointer_adjustment_value",
+      "local": "storage"
+    },
+    "caller_expression": {
+      "frame": 1,
+      "function": "member_pointer_adjustment_value",
+      "local": "expression"
+    }
+  },
+  "abi_analysis": {
+    "original_extent": [
+      310768,
+      310863
+    ],
+    "argument_bytes": 12,
+    "convention": "stdcall12 IrToken* EAX RET12",
+    "proof": "Whole95B savesESI4; storage/expression/component adjustedESP+8/+12/+16; RET12. No hidden/register/x87/flag input. Inline source type-related shape optional reference strip (flags&77==0), then next shape attrs&f77 feed accepted pointer_kind_size. Add low32 target-int-width*component using unsigned arithmetic to preserve original IMUL/ADD bits. Actual two builtin_integer_type calls preserve ordering; make_integer_constant offset, new_ir5c(storage,offset,inttype), indirect_storage_expression. No invented NULLshape fallback/padding or extra call to shape-strip helper; five distinct callees accepted. Actual owner caller keeps exprESI, reloads storageEAX4bd52, PUSH0/ESI/EAX4bd50..57/CALL4bd58/return4bd5d. No newdata/CRT/guard."
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_member_pointer_integer_field@12",
+  "case": "state_machine_defined_debug",
+  "accepted_before": 1245,
+  "configuration_sha256": "c39dc1ff7142965f1ba5bedb8a994d693d9e217d90e2c1a539a8bbebe98353f5",
+  "native_entry": "member_pointer_integer_field",
+  "declared_formal_count": 3,
+  "formals": [
+    {
+      "name": "storage",
+      "stack_index": 0,
+      "native_field": "raw_storage",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 245085,
+        "original_owner_function": "_member_pointer_adjustment_value@8",
+        "native_owner_function": "member_pointer_adjustment_value",
+        "native_owner_field": "caller_storage",
+        "native_owner_local": "storage",
+        "identity": "Accepted adjustment helper holds expressionESI and loads actual storageformalEAX4bd52, pushes ESI4bd56/EAX4bd57 with component0 already pushed, CALL4bd58/return4bd5d. Native actual immediate caller formals bind both owners.",
+        "original_owner_value": 8317428,
+        "native_owner_value": 1449351668
+      },
+      "original_raw": 8317428,
+      "native_raw": 1449351668,
+      "result": "match"
+    },
+    {
+      "name": "expression",
+      "stack_index": 1,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 245085,
+        "original_owner_function": "_member_pointer_adjustment_value@8",
+        "native_owner_function": "member_pointer_adjustment_value",
+        "native_owner_field": "caller_expression",
+        "native_owner_local": "expression",
+        "identity": "Accepted adjustment helper holds expressionESI and loads actual storageformalEAX4bd52, pushes ESI4bd56/EAX4bd57 with component0 already pushed, CALL4bd58/return4bd5d. Native actual immediate caller formals bind both owners.",
+        "original_owner_value": 8453580,
+        "native_owner_value": 1449494628
+      },
+      "original_raw": 8453580,
+      "native_raw": 1449494628,
+      "result": "match"
+    },
+    {
+      "name": "component",
+      "stack_index": 2,
+      "native_field": "raw_component",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      },
+      "original_raw": 0,
+      "native_raw": 0,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      310768,
+      310863
+    ],
+    "argument_bytes": 12,
+    "convention": "stdcall12 IrToken* EAX RET12",
+    "proof": "Whole95B savesESI4; storage/expression/component adjustedESP+8/+12/+16; RET12. No hidden/register/x87/flag input. Inline source type-related shape optional reference strip (flags&77==0), then next shape attrs&f77 feed accepted pointer_kind_size. Add low32 target-int-width*component using unsigned arithmetic to preserve original IMUL/ADD bits. Actual two builtin_integer_type calls preserve ordering; make_integer_constant offset, new_ir5c(storage,offset,inttype), indirect_storage_expression. No invented NULLshape fallback/padding or extra call to shape-strip helper; five distinct callees accepted. Actual owner caller keeps exprESI, reloads storageEAX4bd52, PUSH0/ESI/EAX4bd50..57/CALL4bd58/return4bd5d. No newdata/CRT/guard.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "f82c15ac8e4f06762ac15fabc62ddb55e1c3bdb2591903204ae948f560d286a5",
+  "capture_timing": {
+    "original_capture_seconds": 0.966377429664135,
+    "native_capture_seconds": 0.18615877348929644,
+    "total_operation_seconds": 1.409518958069384
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "9de4ced5e356fd98c11054eed7b297b9d798d0da88527af99b5b6fdaf172d731",
+    "native-commands.gdb": "a21115c5e0e0f14210053cf7f92e7b8c89cb0dea532bd5a3d9e227b35881fb74",
+    "native-gdb.log": "53268214e5531a64b829dbfc22108d12f7b655ba688810d1b51f698619928538",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "c7aca67d0ce89b7a226602f3ab2d826263b75267a49c004b873c37ec67a3c2e7",
+    "original-configuration.json": "c39dc1ff7142965f1ba5bedb8a994d693d9e217d90e2c1a539a8bbebe98353f5",
+    "original-disassembly.txt": "6dfb1d08bdb2557c28f9498360829177eae1a5b6bb3c50fdf180b87eee47507b",
+    "original-entries.plan": "cda63429bd143eeeea055f77eb67c5cfdc39298b5a122fb4ab43484b4edc0d23",
+    "original-events.txt": "12edefa61b93cfa48b93bcd5b238933ac8b4efc13cd9572afeff76ebda0eb4c6",
+    "original-ownership-caller-disassembly.txt": "250aea42be4c1b86701a56a603e8f4ebb14518e89a7272a9dcb5d69698a2cf65",
+    "original-receipt.json": "bbb7dcac99a365deac1eb65fc6aa8e829cbb6e531f20f631d200cae14f1c693b",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "90c1907a8a6f7c28f79f27fb1e7f079114387465e9b56ae5b49485f140984277"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}
