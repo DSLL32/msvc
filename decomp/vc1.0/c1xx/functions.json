@@ -1225,7 +1225,8 @@
     "_create_generated_object@8",
     "_symbol_alias@4",
     "_finish_local_static_initialization@4",
-    "_make_missing_function_declaration"
+    "_make_missing_function_declaration",
+    "_emit_atexit_registration@4"
   ],
   "driver": [
     {
@@ -8632,7 +8633,7 @@
     {
       "name": "_emit_atexit_registration@4",
       "start": 213424,
-      "end": 213425
+      "end": 213570
     }
   ],
   "cases": {
@@ -8833,7 +8834,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_emit_atexit_registration@4",
+      "terminal": "_defer_object_definition@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8856,7 +8857,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1220-make_missing_function_declaration/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1221-emit_atexit_registration-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -9082,7 +9083,8 @@
         "cases/frontiers/state_machine_debug/1217-create_generated_object-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1218-symbol_alias-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1219-finish_local_static_initialization-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1220-make_missing_function_declaration/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1220-make_missing_function_declaration/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1221-emit_atexit_registration-4/frontier-extension.json"
       ]
     }
   },
@@ -11672,6 +11674,18 @@
         {
           "name": "_type_0000",
           "original": 651928,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_atexit_function",
+      "original": 621540,
+      "fields": [
+        {
+          "name": "_atexit_function",
+          "original": 621540,
           "bytes": 4
         }
       ]

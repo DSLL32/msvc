@@ -439,3 +439,26 @@ CppSymbol *__stdcall symbol_alias(CppSymbol *symbol)
 {
     return find_hash_value(function_symbol_aliases, symbol);
 }
+
+CppSymbol *atexit_function; /* original 0x97be4: compiler-created declaration */
+
+/* Original 0x341b0..0x34241, stdcall4. Emit a call registering the
+   generated cleanup function; the compiler itself never calls atexit here. */
+void __stdcall emit_atexit_registration(CppSymbol *function)
+{
+    IrToken *argument, *arguments, *callee, *call;
+    if (!atexit_function) {
+        atexit_function = new_symbol(name_atexit, 0);
+        atexit_function->kind = 7;
+        atexit_function->type = make_function_type(0x11, type_0064);
+        atexit_function->cpp.parts.token = 1;
+        atexit_function->declaration_flags =
+            (atexit_function->declaration_flags & ~0x100) | 0x200;
+    }
+    argument = builtin_unary_expression(0x3a, symbol_reference(function));
+    arguments = append_expression(0, argument, 2);
+    callee = symbol_reference(atexit_function);
+    call = new_left_typed_expression(0x7a, callee, arguments);
+    call->type = type_0064;
+    emit_expression_statement(call);
+}

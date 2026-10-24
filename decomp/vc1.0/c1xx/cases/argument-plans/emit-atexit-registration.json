@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "function": "_emit_atexit_registration@4",
+  "native_entry": "emit_atexit_registration",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_function": "(unsigned)function"
+  },
+  "formals": [
+    {
+      "name": "function",
+      "stack_index": 0,
+      "native_field": "raw_function",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 230370,
+        "original_owner_function": "_finish_local_static_initialization@4",
+        "native_owner_function": "finish_local_static_initialization",
+        "native_owner_field": "caller_function",
+        "native_owner_local": "function",
+        "identity": "Accepted staticcompletion retainsactualgeneratedfunctionEDI from34350result4837d; optionalinlinenamerewritepreservesEDI; PUSH EDI483dc/CALL483dd/return483e2. Native actual immediatecaller functionlocal owns samegenerateddeclaration."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "edi",
+  "ownership_caller_extent": [
+    295800,
+    295906
+  ],
+  "native_caller_locals": {
+    "caller_function": {
+      "frame": 1,
+      "function": "finish_local_static_initialization",
+      "local": "function"
+    }
+  },
+  "abi_analysis": {
+    "original_extent": [
+      213424,
+      213570
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 void",
+    "proof": "Whole146B noframe/savedregs; actualfunctionentryESP+4 readat34200; RET4. No incomingGPR/x87/CPUflagsformal. Reachedsingle4Batexit_functionglobal@97be4 initiallyNULL, allreferencesconfinedthisbody; lazilynew_symbol(name_atexit,0), kind7/typeexistingmake_function_type11/type0064/cpp.token1/declflags200clearing100. Existingexpressionbuilders symbol_referenceactualfunction thenbuiltin_unary3a, append_expression(NULL,arg,2), symbol_referenceactualatexitdeclaration, new_left_typed_expression7a, result.type0064, emit_expression_statement. CompilergeneratesIR, no hostatexitcall/shim. ActualEDI/nativecallerfunction bound; normalencounteredglobaldefault/dataaliasaudit,no bulkdata/CRTbody."
+  }
+}

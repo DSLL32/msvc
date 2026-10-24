@@ -1,0 +1,15 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56558c87 in defer_object_definition (symbol=0x56632604) at src/stubs.c:106
+106	void __stdcall defer_object_definition(CppSymbol *symbol) { __asm { int 3 } }
+#0  0x56558c87 in defer_object_definition (symbol=0x56632604) at src/stubs.c:106
+#1  0x5659351d in finish_local_static_initialization (symbol=0x566556e0) at src/object-initializers.c:550
+#2  0x565931a2 in initialize_class_object (symbol=0x566556e0, value=0x5663f1c4) at src/object-initializers.c:117
+#3  0x56593bd1 in initialize_object_value (symbol=0x566556e0, value=0x5663f1c4) at src/object-initializers.c:281
+#4  0x56593b1e in initialize_object (symbol=0x566556e0, value=0x5663f1c4) at src/object-initializers.c:259
+#5  0x565bb576 in parse_translation_unit () at src/parser-declaration-actions.inc:317
+#6  0x5655de4f in compile_translation_unit () at src/frontend.c:73
+#7  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#8  0x56558894 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20

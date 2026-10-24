@@ -1,0 +1,43 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00048378 <.text+0x31378>:
+   48378:	e8 d3 bf fe ff       	call   0x34350
+   4837d:	8b f8                	mov    edi,eax
+   4837f:	83 3d 40 c1 08 00 00 	cmp    DWORD PTR ds:0x8c140,0x0
+   48386:	74 54                	je     0x483dc
+   48388:	a1 40 c1 08 00       	mov    eax,ds:0x8c140
+   4838d:	f6 40 1b 01          	test   BYTE PTR [eax+0x1b],0x1
+   48391:	74 49                	je     0x483dc
+   48393:	8a 40 1a             	mov    al,BYTE PTR [eax+0x1a]
+   48396:	24 07                	and    al,0x7
+   48398:	3c 03                	cmp    al,0x3
+   4839a:	75 0b                	jne    0x483a7
+   4839c:	a1 40 c1 08 00       	mov    eax,ds:0x8c140
+   483a1:	f6 40 03 04          	test   BYTE PTR [eax+0x3],0x4
+   483a5:	74 35                	je     0x483dc
+   483a7:	57                   	push   edi
+   483a8:	56                   	push   esi
+   483a9:	e8 52 db 00 00       	call   0x55f00
+   483ae:	50                   	push   eax
+   483af:	e8 5c de 00 00       	call   0x56210
+   483b4:	89 47 08             	mov    DWORD PTR [edi+0x8],eax
+   483b7:	8a 47 03             	mov    al,BYTE PTR [edi+0x3]
+   483ba:	24 fe                	and    al,0xfe
+   483bc:	0c 02                	or     al,0x2
+   483be:	88 47 03             	mov    BYTE PTR [edi+0x3],al
+   483c1:	8a 47 1a             	mov    al,BYTE PTR [edi+0x1a]
+   483c4:	24 f9                	and    al,0xf9
+   483c6:	0c 01                	or     al,0x1
+   483c8:	88 47 1a             	mov    BYTE PTR [edi+0x1a],al
+   483cb:	0c 40                	or     al,0x40
+   483cd:	88 47 1a             	mov    BYTE PTR [edi+0x1a],al
+   483d0:	57                   	push   edi
+   483d1:	a1 c8 f2 09 00       	mov    eax,ds:0x9f2c8
+   483d6:	50                   	push   eax
+   483d7:	e8 f4 c6 00 00       	call   0x54ad0
+   483dc:	57                   	push   edi
+   483dd:	e8 ce bd fe ff       	call   0x341b0
