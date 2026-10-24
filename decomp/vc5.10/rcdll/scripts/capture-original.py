@@ -19,8 +19,10 @@ def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 def main():
     p=argparse.ArgumentParser();p.add_argument('--mode',choices=['baseline','masked'],required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--timeout',type=float,default=45);p.add_argument('--case',choices=['help','resources-rich','resources-rich-trailing-space'],default='help')
     p.add_argument('--heap-observations',type=int,default=1);p.add_argument('--free-observations',type=int,default=0);p.add_argument('--character-observations',type=int,default=0);p.add_argument('--api-census',action='store_true')
-    p.add_argument('--path-errors',action='store_true');p.add_argument('--expression-probe',action='store_true')
+    p.add_argument('--focus-after-based',action='store_true');p.add_argument('--path-errors',action='store_true');p.add_argument('--expression-probe',action='store_true')
     a=p.parse_args();out=a.output.resolve()
+    if a.focus_after_based and (a.mode!='masked' or a.case!='resources-rich-trailing-space'):
+        p.error('focused prefix requires masked resources-rich-trailing-space')
     limits=[a.heap_observations,a.free_observations,a.character_observations]
     if a.api_census:limits=[8192,8192,8192]
     if not all(0<=value<=8192 for value in limits):p.error('observer limits must be 0..8192')
@@ -68,6 +70,7 @@ def main():
     (out/'candidate.json').write_text(json.dumps(candidate(),indent=2)+'\n')
     (out/'validation-versions.json').write_text(json.dumps(validation_versions(),indent=2)+'\n')
     config=json.loads((HERE/'functions.json').read_text())
+    if a.focus_after_based and config.get('trial_function')!='rc_skip_line_comment':p.error('focused-prefix trial must be rc_skip_line_comment')
     ranges=[]
     for f in config['functions']:
         if f['name'] in config['accepted']+[config.get('trial_function')]:
@@ -95,6 +98,7 @@ def main():
     else:env.pop('RCDLL_CAPTURE_EXPRESSION_STORE_PROBE',None)
     command=['wine',str(out/'debug-original.exe'),a.mode,tools.windows(out/'RC.EXE'),'ranges.txt']
     if child_cwd:command += ['case-args.txt',child_cwd]
+    if a.focus_after_based:command += ['--focus-after-based']
     with (out/'stdout.bin').open('wb') as stdout,(out/'stderr.bin').open('wb') as stderr:
         capture_wait=0
         started=time.perf_counter()
@@ -108,6 +112,7 @@ def main():
     report['capture_serialized']=False
     report['capture_lock_wait_seconds']=capture_wait
     report['observation_limits']=dict(zip(['heap','free','character'],limits));report['api_census']=a.api_census
+    report['focused_prefix_after_based_kind']=a.focus_after_based
     report['path_error_probe']=a.path_errors
     report['expression_store_probe']=a.expression_probe
     for name in ['helper-compiled-source.json','case-args.txt','environment-utf16.bin','compiled-source.json','candidate.json','functions.json','ranges.txt','validation-versions.json','stdout.bin','stderr.bin','events.txt','relocated-text.bin','masked-text.bin','globals.bin','completion-globals.bin','loaded-target.bin','loaded-crt.bin','loaded-driver.bin']:

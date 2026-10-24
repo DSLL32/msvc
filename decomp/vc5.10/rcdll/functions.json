@@ -98,7 +98,8 @@
     "rc_skip_inactive",
     "rc_read_skipped_directive",
     "rc_splice_line",
-    "rc_macro_text_differs"
+    "rc_macro_text_differs",
+    "rc_skip_line_comment"
   ],
   "functions": [
     {
@@ -1461,8 +1462,7 @@
       "end": "0x7100",
       "abi": "cdecl",
       "stack_bytes": 0,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_parse_macro_parameters",

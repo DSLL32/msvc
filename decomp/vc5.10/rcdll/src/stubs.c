@@ -187,10 +187,6 @@ unsigned char __stdcall rc_unsigned_integer_kind(unsigned value)
 
 
 
-void __cdecl rc_skip_line_comment(void)
-{
-    __asm int 3
-}
 
 void __cdecl rc_parse_macro_parameters(void)
 {

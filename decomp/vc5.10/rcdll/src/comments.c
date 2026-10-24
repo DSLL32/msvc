@@ -36,3 +36,19 @@ read_after_star:
         }
     }
 }
+
+void __cdecl rc_skip_line_comment(void)
+{
+    WCHAR character;
+    unsigned short token;
+
+    for(;;){
+        character=*rc_source_cursor++;
+        token=rc_character_token(character);
+        if(token==3)rc_resume_input();
+        else if(token==5){
+            --rc_source_cursor;
+            return;
+        }
+    }
+}
