@@ -523,8 +523,8 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "@reference_assembly_flow_symbol@8",
-  "current_checkpoint": 1316,
+  "current_application_frontier": "@function_allows_frame_register@4",
+  "current_checkpoint": 1317,
   "resolved_input_hold": {
     "field": "object_file->_bufsiz",
     "correction": "shared cabec0d10",
@@ -573,5 +573,5 @@
     }
   ],
   "last_completed": "omf-comdat-communal",
-  "next_action": "Observe assembly flow-reference callback formals and reconstruct its whole28B body; continue SEH case."
+  "next_action": "Recover actual function work/block/instruction inputs and whole385B frame-register allowance scan; continue same SEH case."
 }

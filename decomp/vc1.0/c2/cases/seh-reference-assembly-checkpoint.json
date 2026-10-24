@@ -1,0 +1,208 @@
+{
+  "checkpoint": 1317,
+  "status": "Whole28B assembly flow-reference callback accepted on published45f7 build; same SEH case incomplete.",
+  "function": {
+    "name": "@reference_assembly_flow_symbol@8",
+    "start": "0x5afb0",
+    "end": "0x5afcc",
+    "bytes": 28,
+    "source": "src/flow-edges.c"
+  },
+  "actual_abi": "cases/reference-assembly-abi/validation.json",
+  "controls": "cases/reference-assembly-validation.json",
+  "fresh_before": "cases/seh-original-1316.json",
+  "fresh_after": "cases/seh-original-1317.json",
+  "native_after": "cases/seh-original-1317-native.json",
+  "native_suite": "cases/native-all-validation.json",
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1317,
+    "accepted_code_bytes": 347665,
+    "original_code_bytes": 399693,
+    "percentage": 86.98300945976037,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 658
+  },
+  "timings": {
+    "seh-1317-native": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "seh",
+        "--reference",
+        "cases/seh-original-1317.json"
+      ],
+      "seconds": 0.24117638356983662,
+      "returncode": 0,
+      "log_sha256": "981fb0dedee1707bc8ce4528f213d2582dc2a57e460d57ce3ecc7fce5ffbc6ad"
+    },
+    "seh-1317-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 32.41273233201355,
+      "returncode": 0,
+      "log_sha256": "42a82f00b00938b2fde8cc4b88fc2ace8395b39614c15ba6a533fcd3f8f43a55"
+    },
+    "seh-1317-controls": {
+      "command": [
+        "python3",
+        "scripts/check-reference-assembly.py"
+      ],
+      "seconds": 1.7277774261310697,
+      "returncode": 0,
+      "log_sha256": "86277570fdc6351bccb0c304a9835103a2d7471803a7854bc29f33eefde438ec"
+    },
+    "seh-1317-fixtures": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 3.1369105260819197,
+      "returncode": 0,
+      "log_sha256": "42f685a8899774dcd58ae8afe87868731bfb1a7199e290a25c0e9072e3ae95a1"
+    },
+    "seh-1317-original": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "seh",
+        "--receipt",
+        "cases/seh-original-1317.json"
+      ],
+      "seconds": 1.0449302941560745,
+      "returncode": 0,
+      "log_sha256": "9e0bef92b82bfae421f812468b31d2634d19d49612da76f1ddb78adfe95aed40"
+    },
+    "seh-1317-cache": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/seh-original-1316.json",
+        "--extend-after",
+        "cases/seh-original-1317.json"
+      ],
+      "seconds": 0.38123550452291965,
+      "returncode": 0,
+      "log_sha256": "f76cf70b8103a6ae6383113a98cfbfa6ab1fa85fa6be2abfe68b4515469b9b7a"
+    },
+    "seh-1317-build": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 35.242024429142475,
+      "returncode": 0,
+      "log_sha256": "17cf9100bb201b96778936768bb0955bbe41e170188b9c1e1dd441461163b94c"
+    },
+    "seh-1317-warnings": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "flow-edges"
+      ],
+      "seconds": 1.1747925831004977,
+      "returncode": 0,
+      "log_sha256": "c3cad1189012d0f19a13dd122c39ff0ed95bac8d17d113948cf07f6821e9b189"
+    },
+    "seh-reference-assembly-observer-build": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 2.5073751844465733,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "seh-reference-assembly-entry": {
+      "command": [
+        "python3",
+        "scripts/observe-reference-assembly-entry.py"
+      ],
+      "seconds": 1.89743925165385,
+      "returncode": 0,
+      "log_sha256": "ba766d07091c230ecc3fa0b5911adf66585197000da0efa7763331ee1192ea89"
+    }
+  },
+  "fixture_timing": {
+    "profile": "seh",
+    "terminal": "@function_allows_frame_register@4",
+    "returncode": -5,
+    "application_entries": 7,
+    "seeded_entries": 1196,
+    "output": null,
+    "setup_seconds": 0.015353201888501644,
+    "execution_seconds": 0.005692027509212494,
+    "check_seconds": 0.0007597822695970535,
+    "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-23dfr48k/seh"
+  },
+  "build_inputs": "cases/seh-1317-build-inputs.json",
+  "scope": "90 whole original/canonical controls and8 ABI rejects. Kind0/1/3/4/255 gate, exact lookup symbol and source-context/returned work forwarding, postlookup changes and caller-saved poison, EAX0 despite connectresult, RET0/nonvolatile/everyotherbyte. Context/target invalid andalias values are mocked-child forwarding controls only, not real connect input support. Actual firstkind1 skips both children; both formals/caller-slot/current-scope identity match with no WorkItem/FlowLabel payload dump. No newguard/data/helper.",
+  "shared_binding": {
+    "actual_new_app_build_and_fresh_native": "Published45f7a2ace, exact249-file source input set unchanged through build, PE/native/trace hashes in build-inputs. Input observer earlier immutable604 ELF explicitly bound separately.",
+    "cached_trace_suite": "Actual17-case pass ran on coherent candidatecrt dbe8eeed/header8fbaf/win32d556, later published unchanged READY574227e0e09ab9b2aee5d295ecfa185143a9615d. Holdreleased; no recapture or rerun. Preserve actual45f7 freshmatching and earlier604 inputobserver ELF identities separately.",
+    "candidate_snapshot": "/root/.ai-tmp/msvc2/vc1.0/c2/seh-1317-native-candidate",
+    "candidate_snapshot_hashes": {
+      "trace.EXE": "5b0fa64af1ee112e6033173bb4cc332190c220fb07e0c6b5ed4c9a6352f9d67c",
+      "crt.c": "dbe8eeed27ae67a9485981f9df1726642c60234fbfc562635c9a4ba112db4dc9"
+    },
+    "candidate_shared_hashes": {
+      "lib/recon/include/recon.h": "8fbaf0e450def645e76f7076522d0234e825aea17411bb599789e6cfe6668fcc",
+      "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+      "lib/recon/include/win32.h": "2f632c34d9af7f726aa0a1a0eb5605c812ab91b205048d0f07e31c4e5174dbd3",
+      "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+      "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+      "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+      "lib/recon/native/float.h": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42",
+      "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+      "lib/recon/native/locale.h": "a4bcba0ad40ff971717170453d1725d8b4452ddfd8411d1a8ed309809d55a13c",
+      "lib/recon/native/malloc.h": "2eb86ea79987793bde23d2016e7d52ad7d5c6a5818a5812f53a072d980934f21",
+      "lib/recon/native/mbctype.h": "4207df36c7093b86502916601050bef8538d5d32a615498e22144d23500c7b7f",
+      "lib/recon/native/mbstring.h": "9f9b8f200a6e7559a4cda5d5ef61f339cc8f4be7076ae44347ea9ce2903021d3",
+      "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+      "lib/recon/native/setjmp.h": "1063e154c5b2277afe91cad791706358b5cc5163b3374e2f2367b8cfd4e7c7a4",
+      "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+      "lib/recon/native/signal.h": "ba3d6621f3f863b022f6aa9f5d6125a584d594a9f3d79ad172a6ae3f8c12a150",
+      "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+      "lib/recon/spawn.py": "1291d343a241e08970d399145196be11a983254b509b3422615895deffda43b4",
+      "lib/recon/src/compat.c": "13d89c42120816762c64ecf591044f899ba3e6e3fd5d27d1d6218adacb8e10ec",
+      "lib/recon/src/crt.c": "dbe8eeed27ae67a9485981f9df1726642c60234fbfc562635c9a4ba112db4dc9",
+      "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "lib/recon/src/entry.c": "33f47565b8fd09dcbdf5254cd47bb895de22eaf8c073668a1f2abf2bfe942db0",
+      "lib/recon/src/process.c": "885ae0c197f2f64933598b3d1435af156086f63c664a04b5b99cbae52d89a42d",
+      "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "lib/recon/src/win32.c": "d556539a11591642adb8f4c4651d6c5adc134405c02356391982dc55970c7551"
+    }
+  },
+  "next_frontier": "@function_allows_frame_register@4",
+  "case_completion": false,
+  "timing_limits": "Build35.242s combines full shared-header-triggered canonical/native rebuild, trace update and runtime index; not isolated compile timing. Fullcontrols1.728s/W3 1.175s; ordinary audit+coverage32.413s (Rust-only unmeasured); freshoriginal1.045s/native.241s. Checkwrapper3.137s includes sharedcrt final relink, actual17case1.173578s/setup.171211s/negatives.025936s. Analysis not continuously measured."
+}

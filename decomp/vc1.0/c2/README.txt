@@ -1048,23 +1048,44 @@ all 17 native cases pass; the actual callback still traps, so substitution and
 callback-body execution remain unclaimed. Build3.012s, controls7.982s,
 audit/coverage31.672s, suite1.052s; cases/seh-machine-symbol-checkpoint.json.
 
-At1315 the whole126-byte collection callback is accepted. Actual kind1 symbol
-and initially NULL parent-owned head have matching register/caller/storage
-identity.216 whole original/canonical controls and8 ABI rejects cover pointer
-duplicates, kind bypasses, diagnostic and constructor calls, and head reload
-after constructors. Other paths are controlled rather than claimed executed.
-Original /W3, ordinary audits and all17 native cases pass. A stale parent audit
-assertion was corrected to allow the now-accepted callback, retaining its failed
-30.625s log. Shared header changes caused full canonical/trace rebuilds inside
-the64.515s audit and7.262s check batches; actual fixture loop took .689s. Normal
-native-only refresh5.960s. Next normalization49B remains a named trap. Full
-evidence/timing: cases/seh-collect-reference-checkpoint.json.
+At 1315 the whole 126-byte collection callback is accepted. The actual kind-1
+symbol and initially NULL parent-owned head have matching register, caller and
+storage identities. The 216 whole original/canonical controls and eight ABI
+rejects cover pointer duplicates, kind bypasses, diagnostic and constructor
+calls, and the head reload after constructors. Other paths are controlled
+rather than claimed executed. Original /W3, ordinary audits and all 17 native
+cases pass. A stale parent audit assertion was corrected to allow the accepted
+callback, retaining its failed 30.625s log. Shared header changes caused full
+canonical/trace rebuilds inside the 64.515s audit and 7.262s check batches;
+the actual fixture loop took .689s. Normal native-only refresh took 5.960s.
+Full evidence/timing: cases/seh-collect-reference-checkpoint.json.
 
-At1316 the whole49-byte assembly-label normalization callback is accepted.
-Actual kind1/cached symbol-slot identity and unusedNULL context match.720
-whole original/canonical controls cover label redirects, self/alias references,
-full identifiers, wrapping counts and postlookup mutations; first actual entry
-skips that label branch. Original /W3, audits and17 native cases pass. Next
-28-byte flow-reference callback remains named trap. Build4.843s, controls
-6.586s, audit/coverage32.098s, original1.350s/native.274s. Receipt and limits:
-cases/seh-normalize-assembly-checkpoint.json.
+At 1316 the whole 49-byte assembly-label normalization callback is accepted.
+The actual kind-1 symbol/cached slot identity and unused NULL context match.
+The 360 whole original/canonical controls cover label redirects, self/alias
+references, full identifiers, wrapping counts and post-lookup mutations; the
+first actual entry skips that label branch. Original /W3 and ordinary audits
+pass. Function input and fresh frontier evidence use the exact earlier native
+ELF with published shared revision 604a9954c. A later shared perror candidate
+triggered a trace rebuild during check; its 17-case pass is candidate-only,
+later published unchanged as READY 45f7a2ace, with exact ELF/source hashes
+preserved separately. No original recapture or suite rerun for publication.
+The next 28-byte flow-reference callback remains a named trap. Build took
+4.843s, controls 6.586s, audit/coverage 32.098s, original 1.350s/native .274s.
+The 7.263s check includes a full trace rebuild; actual fixture loop .706s.
+Receipt, source bindings and limits: cases/seh-normalize-assembly-checkpoint.json.
+
+At 1317 the whole 28-byte assembly flow-reference callback is accepted. Both
+actual register formals match: a scope-owned kind-1 symbol/cached caller slot
+and the opaque current work-block context. Ninety whole original/canonical
+controls cover the kind gate, exact lookup/connect forwarding, retained context,
+post-lookup target changes and full zero return despite child clobbers. The
+first actual entry skips the label path. Original /W3, audits and all 17 native
+cases pass. Build inputs/ELFs are explicitly bound: new-function matching used
+published 45f7 sources; the later fixture relink used unchanged candidate bytes
+subsequently published as 574227e0e. Earlier input observation used the recorded
+604 ELF. Publication required no recapture or rerun. Build 35.242s includes
+a shared-header dependency rebuild; controls 1.728s, audit/coverage 32.413s.
+Check 3.137s includes shared CRT relink; actual fixture loop 1.174s. Next is
+the 385-byte inline-assembly frame-register allowance scan. Full evidence:
+cases/seh-reference-assembly-checkpoint.json.

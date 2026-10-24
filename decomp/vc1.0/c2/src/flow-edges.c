@@ -290,3 +290,13 @@ unsigned __fastcall normalize_assembly_flow_symbol(SymbolHeader *symbol, void *c
     }
     return 0;
 }
+
+/* Original [0005afb0,0005afcc). An assembly label operand contributes an
+   ordinary edge from the current work block to its resolved label block.
+   Other symbol kinds do not contribute an edge or a replacement identifier. */
+unsigned __fastcall reference_assembly_flow_symbol(SymbolHeader *symbol, void *context)
+{
+    if (symbol->kind == 3)
+        connect_flow_blocks((WorkItem *)context, lookup_flow_label(symbol)->work);
+    return 0;
+}

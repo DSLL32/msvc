@@ -21,6 +21,6 @@
     "trailing data",
     "bad checksum"
   ],
-  "seconds": 0.00786511693149805,
+  "seconds": 0.00792852882295847,
   "scope": "Exact whole OMF bytes/checksums, no COFF timestamp exemption, all5 IR inputs+source hash and artifact absence. Shape parser is a bounded container/checksum check, not an OMF semantic implementation."
 }

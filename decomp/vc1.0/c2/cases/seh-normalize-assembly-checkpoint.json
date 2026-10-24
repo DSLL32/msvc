@@ -165,7 +165,6 @@
     "check_seconds": 0.0006813108921051025,
     "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-xl61vdte/seh"
   },
-  "shared_ready": "604a9954c499f815bde73ccfafc42303d66a2e91",
   "shared_hashes": {
     "lib/recon/include/recon.h": "8fbaf0e450def645e76f7076522d0234e825aea17411bb599789e6cfe6668fcc",
     "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
@@ -193,8 +192,23 @@
     "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
     "lib/recon/src/win32.c": "d556539a11591642adb8f4c4651d6c5adc134405c02356391982dc55970c7551"
   },
-  "scope": "720 whole original/canonical controls and8 ABI rejects; kinds0/1/3/4/255, self and redirected canonical entries including same symbol pointer, referenceDWORD wrapping, identifierzero/highbit, postlookup source mutations and caller-saved clobbers, ignoredNULL/unmappedcontext, RET0/nonvolatile/every other byte. Actual firstkind1 skips lookup/transformation; only whole controls claim kind3 behavior. Both actualformals/caller cached slot/current-scope ownership match. No new data/helper/guard.",
-  "timing_limits": "Build4.843s combined canonical/native/trace/runtime; observerbuild2.345s, actual observation1.651s; controls6.586s, /W3 2.690s; ordinary audit+coverage32.098s (Rust-only unmeasured); original1.350s/native.274s. Fixture wrapper recorded separately; analysis not continuously measured.",
+  "scope": "360 whole original/canonical controls and8 ABI rejects; kinds0/1/3/4/255, self and redirected canonical entries including same symbol pointer, referenceDWORD wrapping, identifierzero/highbit, postlookup source mutations and caller-saved clobbers, ignoredNULL/unmappedcontext, RET0/nonvolatile/every other byte. Actual firstkind1 skips lookup/transformation; only whole controls claim kind3 behavior. Both actualformals/caller cached slot/current-scope ownership match. No new data/helper/guard.",
+  "timing_limits": "Build4.843s combined canonical/native/trace/runtime; observerbuild2.345s, actual observation1.651s; controls6.586s, /W3 2.690s; ordinary audit+coverage32.098s (Rust-only unmeasured); original1.350s/native.274s. Fixture wrapper recorded separately; analysis not continuously measured. Final7.263s wrapper includes full trace rebuild after coherent but not READY shared perror WIP; actual17-case .705781s/setup .170316s/negative .026276s. Earlier native matching used published stable binary.",
   "next_frontier": "@reference_assembly_flow_symbol@8",
-  "case_completion": false
+  "case_completion": false,
+  "shared_binding": {
+    "actual_abi_and_fresh_native": "Earlier immutable published604a9954 native binary; before shared perror WIP update.",
+    "cached_trace_suite": "Actual suite ran against coherent candidate bytes later published unchanged as READY45f7a2ace; retain its earlier execution identity and604 proof separately.",
+    "snapshot": "/root/.ai-tmp/msvc2/vc1.0/c2/seh-1316-shared-perror-candidate",
+    "snapshot_hashes": {
+      "trace.EXE": "95f65fdb2bf0662b9b9740e10a9f51ccc8d63e196274b2f5b3ccf7c4fc924a20",
+      "win32.c": "d556539a11591642adb8f4c4651d6c5adc134405c02356391982dc55970c7551",
+      "crt.c": "5a44889f853cc85c769386ee30b9979896d54a40d781321bd6aaa0299ba8d64a",
+      "recon.h": "8fbaf0e450def645e76f7076522d0234e825aea17411bb599789e6cfe6668fcc",
+      "normal.EXE": "d90e2560958e73c5628d0403e0cb1de90235a63a3a71d99025a7cd99e78ddedf"
+    },
+    "publication_hold": "Released by maintainer READY45f7a2ace, exact candidate bytes unchanged. No rerun or original recapture.",
+    "actual_abi_and_fresh_native_executable_sha256": "d90e2560958e73c5628d0403e0cb1de90235a63a3a71d99025a7cd99e78ddedf",
+    "note": "Original raw evidence unchanged; prior app proof remains on604 ELF, later suite bytes now published45f7a2ace."
+  }
 }

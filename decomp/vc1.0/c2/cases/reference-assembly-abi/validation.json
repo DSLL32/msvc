@@ -1,0 +1,57 @@
+{
+  "matched": true,
+  "function": "@reference_assembly_flow_symbol@8",
+  "formals": [
+    {
+      "name": "symbol",
+      "location": "ECX",
+      "type": "SymbolHeader pointer",
+      "original": 8061848,
+      "native": 1449372936
+    },
+    {
+      "name": "context",
+      "location": "EDX",
+      "type": "WorkItem pointer callback context",
+      "original": 8087416,
+      "native": 1449385140
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "return_contract": "full EAX zero",
+  "no_hidden_inputs_proof": "Original5afb0..5afcc consumes SymbolHeader.kind byte+12 inECX and retains EDXcontext in callee-savedESI; kind3 invokes lookup_flow_label(symbol), takes returned FlowLabel.work+8, then connect_flow_blocks(context,work). Other kinds skip both children. EAX0/RET0. No incoming other register/stack/flags/x87 operands. Context is WorkItem from original prepare_flow_blocks5a700 pushESI to visitor; actual same opaque pointer in caller contextstack, not dereferenced by callback. Current-scope identifier is ownership provenance, not another body input.",
+  "original": {
+    "symbol": 8061848,
+    "kind": 1,
+    "context": 8087416,
+    "parent_slot": 8061928,
+    "parent_symbol": 8061848,
+    "parent_context": 8087416,
+    "return_address": 162171,
+    "scope": 8124580,
+    "identifier": 160,
+    "member": 8061848,
+    "index": 0
+  },
+  "native": {
+    "symbol": 1449372936,
+    "kind": 1,
+    "context": 1449385140,
+    "parent_slot": 1449373016,
+    "parent_symbol": 1449372936,
+    "parent_context": 1449385140,
+    "scope": 1449392420,
+    "identifier": 160,
+    "member": 1449372936,
+    "index": 0,
+    "caller": "visit_machine_symbols"
+  },
+  "original_execution_seconds": 1.4174406873062253,
+  "native_debug_seconds": 0.13701662700623274,
+  "total_seconds": 1.808478757739067,
+  "native_executable_sha256": "d90e2560958e73c5628d0403e0cb1de90235a63a3a71d99025a7cd99e78ddedf",
+  "native_shared_source_revision": "604a9954c499f815bde73ccfafc42303d66a2e91",
+  "native_source_scope": "Immutable normal ELF built05:48:32 before05:49:32 shared perror candidate change; source publication is not inferred from live current sources.",
+  "scope": "Both actual callback register formals, caller cached symbol-slot and current-scope ownership, nonNULL opaqueWorkItem context aliases visitor stackformal. Kind1/identifier160, so first entry skips label lookup/edge insertion. No WorkItem/FlowLabel payload snapshot or hidden global seed; whole controls cover takenkind3 path."
+}

@@ -475,7 +475,8 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         sprintf(line,"alignment8_segment pointer %08lx member %08lx identifier %lu index %lu alignment %lu combine %lu position %lu object_section %lu\n",segment,member,id,index,read_word(process,segment+48),read_byte(process,segment+53),read_word(process,segment+4),read_word(process,segment+56));log_line(line);
         dump_bytes(process,"alignment8_segment_name_hex",read_word(process,segment+16),string_bytes(process,read_word(process,segment+16)));
     }
-    if(!strcmp(call->name,"@normalize_assembly_flow_symbol@8")) {
+    if(!strcmp(call->name,"@normalize_assembly_flow_symbol@8")||
+       !strcmp(call->name,"@reference_assembly_flow_symbol@8")) {
         DWORD symbol=call->args[0],identifier=read_word(process,symbol+28);
         DWORD scope=read_word(process,image_base+0x6c150),member,index=0;
         member=read_word(process,scope+4+4*(identifier&63));

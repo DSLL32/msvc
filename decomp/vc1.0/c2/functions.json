@@ -1320,7 +1320,8 @@
     "@extract_assembly_labels@4",
     "@visit_machine_symbols@12",
     "@collect_assembly_reference@8",
-    "@normalize_assembly_flow_symbol@8"
+    "@normalize_assembly_flow_symbol@8",
+    "@reference_assembly_flow_symbol@8"
   ],
   "driver": [
     {
@@ -5108,8 +5109,26 @@
     {
       "name": "@reference_assembly_flow_symbol@8",
       "start": 372656,
-      "end": 372657,
-      "provisional": true
+      "end": 372684,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "SymbolHeader pointer"
+          },
+          {
+            "name": "context",
+            "location": "EDX",
+            "type": "WorkItem pointer callback context"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/reference-assembly-abi/validation.json",
+        "scope": "Original5afb0..5afcc consumes SymbolHeader.kind byte+12 inECX and retains EDXcontext in callee-savedESI; kind3 invokes lookup_flow_label(symbol), takes returned FlowLabel.work+8, then connect_flow_blocks(context,work). Other kinds skip both children. EAX0/RET0. No incoming other register/stack/flags/x87 operands. Context is WorkItem from original prepare_flow_blocks5a700 pushESI to visitor; actual same opaque pointer in caller contextstack, not dereferenced by callback. Current-scope identifier is ownership provenance, not another body input. Actualkind1/cached caller slot and nonNULLWorkItemcontext match; no pointed payload dump. Takenlabel path covered by separate whole controls."
+      }
     },
     {
       "name": "@lookup_exception_scope@8",

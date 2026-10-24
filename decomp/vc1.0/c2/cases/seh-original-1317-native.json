@@ -1,0 +1,12 @@
+{
+  "logical": "@function_allows_frame_register@4",
+  "matched": true,
+  "executable_sha256": "ad4120f624dc55eff72e87db0ddf2b1349137bcc96fc2fca6478c70e8bf4e11f",
+  "config_sha256": "9af141cf57b73dda15b9c9157a714cacc119a8b886b7a9d33f0c476fdb117fa7",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\sehpacket",
+  "setup_seconds": 0.008625097572803497,
+  "execution_seconds": 0.1409557955339551,
+  "seconds": 0.1672022771090269,
+  "log_sha256": "e4a7976aee0c38e8c695fa1daae769da5a4eb8ce1310a7301a9c9ebbf3429d62",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/seh-gdb-34qp41fe"
+}

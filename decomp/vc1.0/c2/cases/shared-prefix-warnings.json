@@ -2,14 +2,9 @@
   "modules": [
     {
       "module": "flow-edges",
-      "seconds": 1.2919816672801971,
-      "returncode": 0
-    },
-    {
-      "module": "inline-assembly",
-      "seconds": 1.3499396331608295,
+      "seconds": 1.1268839640542865,
       "returncode": 0
     }
   ],
-  "seconds": 2.6422195667400956
+  "seconds": 1.1270753517746925
 }
